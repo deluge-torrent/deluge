@@ -1,0 +1,42 @@
+#!/usr/bin/env python2.4
+#
+# deluge
+# Copyright (C) Zach Tibbitts 2006 <zach@collegegeek.org>
+# Copyright (C) Alon Zakai    2006 <kripkensteiner@gmail.com>
+# 
+# This class provides a simple commandline tool to connect
+# to a currently running Deluge session.  It allows the 
+# user to both pass arguments to that session and query
+# information from it.
+#
+# Deluge is free software.
+# 
+# You may redistribute it and/or modify it under the terms of the
+# GNU General Public License, as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option)
+# any later version.
+# 
+# deluge is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with deluge.  If not, write to:
+# 	The Free Software Foundation, Inc.,
+# 	51 Franklin Street, Fifth Floor
+# 	Boston, MA  02110-1301, USA.
+
+from optparse import OptionParser
+
+
+parser = OptionParser(usage="%prog [options] [arguments]", version="Deluge 0.5")
+parser.add_option("-a", "--addtorrent", dest="torrent", 
+		help="add a torrent file to deluge", metavar="TORRENT")
+parser.add_option("-d", "--dir", dest="directory", 
+		help="specify download directory", metavar="DIR")
+parser.add_option("-g", "--globaldir", dest="global", 
+		help="specify a global download directory", metavar="DIR")
+
+(options, args) = parser.parse_args()
+
