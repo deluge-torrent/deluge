@@ -20,6 +20,7 @@ class DelugeGTK:
 		self.window = self.wtree.get_widget("main_window")
 		if(self.window):
 			self.window.connect("destroy", gtk.main_quit)
+		self.window.set_title(dcommon.PROGRAM_NAME + " " + dcommon.PROGRAM_VERSION)
 		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		actions = 	{
 					## File Menu
