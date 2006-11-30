@@ -1,13 +1,10 @@
 #!/usr/bin/env python2.4
 #
-# deluge-tools
+# deluge
 # Copyright (C) Zach Tibbitts 2006 <zach@collegegeek.org>
 # Copyright (C) Alon Zakai    2006 <kripkensteiner@gmail.com>
 # 
-# This class provides a simple commandline tool to connect
-# to a currently running Deluge session.  It allows the 
-# user to both pass arguments to that session and query
-# information from it.
+# 
 #
 # Deluge is free software.
 # 
@@ -16,7 +13,7 @@
 # Foundation; either version 2 of the License, or (at your option)
 # any later version.
 # 
-# deluge-tools is distributed in the hope that it will be useful,
+# deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
@@ -29,14 +26,14 @@
 
 from optparse import OptionParser
 
-
-parser = OptionParser(usage="%prog [options] [arguments]", version="%prog 0.5")
-parser.add_option("-a", "--addtorrent", dest="torrent", 
-		help="add a torrent file to deluge", metavar="TORRENT")
-parser.add_option("-d", "--dir", dest="directory", 
-		help="specify download directory", metavar="DIR")
-parser.add_option("-g", "--globaldir", dest="global", 
-		help="specify a global download directory", metavar="DIR")
+parser = OptionParser(usage="%prog [options] [actions]", version="%prog 0.5")
+parser.add_option("--tray", dest="tray", help="start Deluge hidden in system tray",
+						metavar="TRAY", action="store_true")
 
 (options, args) = parser.parse_args()
+
+if options.tray:
+	print "Deluge will start in the system tray if available"
+
+
 
