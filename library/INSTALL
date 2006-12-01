@@ -1,0 +1,32 @@
+================================= 
+Installation of python-libtorrent
+=================================
+
+Compile:         python setup.py build
+Compile&install: sudo python setup.py install
+
+Dependencies to compile (written as Ubuntu packages): python, libboost-filesystem1.33.1, libboost-date-time1.33.1, libboost-program-options1.33.1, libboost-regex1.33.1, libboost-thread1.33.1, libc6-dev, zlib1g-dev
+
+May also depend on (not sure): python-dev, and -dev packages for all boost libs
+
+Note: Makefile.libtorrent-only.* are the makefiles from libtorrent, copies as it. They don't refer to python-libtorrent, and probably won't work in the current directory structure. However, they may help people know what dependencies etc. are needed
+
+Note: If you find mistakes here, please notify me on the project page,
+http://code.google.com/p/python-libtorrent
+
+Note: skolnick reports that the following are needed on Debian Etch:
+apt-get install python
+apt-get install libboost-filesystem1.33.1
+apt-get install libboost-date-time1.33.1
+apt-get install libboost-program-options1.33.1
+apt-get install libboost-regex1.33.1
+apt-get install libboost-thread1.33.1
+apt-get install libc6-dev
+apt-get install zlib1g-dev
+apt-get install libboost-thread-dev
+apt-get install libboost-date-time-dev
+apt-get install libboost-filesystem-dev
+apt-get install libboost-program-options-dev
+apt-get install libboost-serialization-dev
+apt-get install python-dev
+apt-get install libboost-regex-dev

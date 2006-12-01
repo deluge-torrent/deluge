@@ -1,0 +1,30 @@
+=================
+python-libtorrent
+=================
+
+The simplest way to use this project is to install the .deb file,
+which appears in the "debs" subfolder. This was tested under
+Ubuntu 6.06 (Dapper), but may work in other Debian-based systems.
+
+Otherwise, you may compile the code with the script 'makeit'. The
+script 'installit' will install the package, so you can import it as
+a module under python.
+
+After installation of python-libtorrent, you can install and run
+Deluge, http://code.google.com/p/deluge-torrent/
+
+As a simpler test, you can check whether python-libtorrent works by
+by running
+
+python test.py
+
+This does a simple torrent download. Note that the torrent is for
+the Ubuntu 6.06 release, and was available as of 15.9.2006. You
+may need to replace the torrent with another.
+
+If successful, you will see test.py print the torrent status
+to the screen each second. Notice in particular the download speed
+and amount downloaded so far, to see if things are working.
+
+Note: You may need to change the port used, depending on your system.
+
