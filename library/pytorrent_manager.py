@@ -49,6 +49,9 @@ class preferences:
 	def __init__:
 		self.max_connections = 60 # Etc. etc. etc.
 
+		# Prepare queue (queue is pickled, just like everything else)
+		self.queue = [] # queue[x] is the unique_ID of the x-th queue position. Simple.
+
 class manager:
 	def __init__(self, pref_filename):
 		print "Init"
@@ -62,9 +65,6 @@ class manager:
 			pkl_file.close()
 		except IOError:
 			self.preferences = new preferences()
-
-		# Prepare queue
-		self.queue = [] # queue[x] is the unique_ID of the x-th queue position. Simple.
 
 		# How does the queue get updated? Use biology
 
