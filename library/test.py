@@ -12,7 +12,7 @@
 import pytorrent
 from   time    import sleep
 
-pytorrent.init()
+pytorrent.init("PT", 0, 5, 0, 0, "pytorrent")
 
 myTorrent = pytorrent.addTorrent("ubuntu.torrent")
 

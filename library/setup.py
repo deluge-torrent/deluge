@@ -28,7 +28,7 @@ print "========================================="
 
 from distutils.core import setup, Extension
 
-module1 = Extension('torrent',
+module1 = Extension('pytorrent',
                     include_dirs = ['./include', './include/libtorrent',
 												'/usr/include/python' + pythonVersion],
                     libraries = ['boost_filesystem', 'boost_date_time',
