@@ -1,5 +1,5 @@
 =================
-python-libtorrent
+pytorrent
 =================
 
 The simplest way to use this project is to install the .deb file,
@@ -10,10 +10,10 @@ Otherwise, you may compile the code with the script 'makeit'. The
 script 'installit' will install the package, so you can import it as
 a module under python.
 
-After installation of python-libtorrent, you can install and run
-Deluge, http://code.google.com/p/deluge-torrent/
+After installation of torrent, you can install and run
+Deluge, http://www.deluge-torrent.com/
 
-As a simpler test, you can check whether python-libtorrent works by
+As a simpler test, you can check whether pytorrent works by
 by running
 
 python test.py
