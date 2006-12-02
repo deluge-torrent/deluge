@@ -42,4 +42,34 @@
 #
 
 import pytorrent
+import os
+import pickle
 
+class preferences:
+	def __init__:
+		self.max_connections = 60 # Etc. etc. etc.
+
+class manager:
+	def __init__(self, pref_filename):
+		print "Init"
+
+		self.pref_filename = pref_filename
+
+		# Unpickle the preferences
+		try:
+			pkl_file = open(pref_filename, 'rb')
+			self.preferences = pickle.load(pkl_file)
+			pkl_file.close()
+		except IOError:
+			self.preferences = new preferences()
+
+		# Prepare queue
+		self.queue = [] # queue[x] is the unique_ID of the x-th queue position. Simple.
+
+		# How does the queue get updated? Use biology
+
+	def quit(self):
+		# Pickle the preferences
+		output = open(self.pref_filename, 'wb')
+		pickle.dump(self.preferences, output)
+		output.close()
