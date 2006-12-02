@@ -84,11 +84,6 @@ using namespace libtorrent;
 
 #define DHT_ROUTER_PORT 6881
 
-#define ERROR_INVALID_ENCODING  -10
-#define ERROR_FILESYSTEM        -20
-#define ERROR_DUPLICATE_TORRENT -30
-#define ERROR_INVALID_TORRENT   -40
-
 
 //-----------------
 // TYPES
@@ -122,13 +117,18 @@ torrents_t       *M_torrents        = NULL;
 
 
 //------------------------
-// Exception type & macro
+// Exception types & macro
 //------------------------
 
 static PyObject *PyTorrentError;
 
-#define PYTORRENT_RAISE_PTR(c) { printf("Raising error: %s\r\n", c); PyErr_SetString(PyTorrentError, c); return NULL; }
-#define PYTORRENT_RAISE_INT(c) { printf("Raising error: %s\r\n", c); PyErr_SetString(PyTorrentError, c); return -1; }
+static PyObject *InvalidEncodingError;
+static PyObject *FilesystemError;
+static PyObject *DuplicateTorrentError;
+static PyObject *InvalidTorrentError;
+
+#define PYTORRENT_RAISE_PTR(e,s) { printf("Raising error: %s\r\n", s); PyErr_SetString(e, s); return NULL; }
+#define PYTORRENT_RAISE_INT(e,s) { printf("Raising error: %s\r\n", s); PyErr_SetString(e, s); return -1; }
 
 
 //---------------------
@@ -158,7 +158,7 @@ long get_torrent_index(torrent_handle &handle)
 			return i;
 		}
 
-	PYTORRENT_RAISE_INT("Handle not found.");
+	PYTORRENT_RAISE_INT(PyTorrentError, "Handle not found.");
 }
 
 long get_index_from_unique_ID(long unique_ID)
@@ -169,7 +169,7 @@ long get_index_from_unique_ID(long unique_ID)
 		if ((*M_torrents)[i].unique_ID == unique_ID)
 			return i;
 
-	PYTORRENT_RAISE_INT("No such unique_ID.");
+	PYTORRENT_RAISE_INT(PyTorrentError, "No such unique_ID.");
 }
 
 long internal_add_torrent(std::string const&             torrent_name,
@@ -179,7 +179,9 @@ long internal_add_torrent(std::string const&             torrent_name,
 {
 	std::ifstream in(torrent_name.c_str(), std::ios_base::binary);
 	in.unsetf(std::ios_base::skipws);
-	entry e = bdecode(std::istream_iterator<char>(in), std::istream_iterator<char>());
+	entry e;
+	e = bdecode(std::istream_iterator<char>(in), std::istream_iterator<char>());
+
 	torrent_info t(e);
 
 	entry resume_data;
@@ -191,15 +193,15 @@ long internal_add_torrent(std::string const&             torrent_name,
 		resumeFile.unsetf(std::ios_base::skipws);
 		resume_data = bdecode(std::istream_iterator<char>(resumeFile),
 									 std::istream_iterator<char>());
-	}
-	catch (invalid_encoding&) {}
-	catch (boost::filesystem::filesystem_error&) {}
+	} catch (invalid_encoding&) {}
+	  catch (boost::filesystem::filesystem_error&) {}
 
 	// Create new torrent object
 
 	torrent_t new_torrent;
 
 	torrent_handle h = M_ses->add_torrent(t, save_path, resume_data, compact_mode, 16 * 1024);
+
 //	h.set_max_connections(60); // at some point we should use this
 	h.set_max_uploads(-1);
 	h.set_ratio(preferred_ratio);
@@ -333,7 +335,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 	M_ses->set_settings(*M_settings);
 	M_ses->set_severity_level(alert::debug);
 
-	M_constants = Py_BuildValue("{s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i}",
+	M_constants = Py_BuildValue("{s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i}",
 								"EVENT_NULL",								EVENT_NULL,
 								"EVENT_FINISHED",							EVENT_FINISHED,
 								"EVENT_PEER_ERROR",						EVENT_PEER_ERROR,
@@ -351,11 +353,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 								"STATE_DOWNLOADING",						STATE_DOWNLOADING,
 								"STATE_FINISHED",							STATE_FINISHED,
 								"STATE_SEEDING",							STATE_SEEDING,
-								"STATE_ALLOCATING",						STATE_ALLOCATING,
-								"ERROR_INVALID_ENCODING",				ERROR_INVALID_ENCODING,
-								"ERROR_INVALID_TORRENT",				ERROR_INVALID_TORRENT,
-								"ERROR_FILESYSTEM",						ERROR_FILESYSTEM,
-								"ERROR_DUPLICATE_TORRENT",				ERROR_DUPLICATE_TORRENT);
+								"STATE_ALLOCATING",						STATE_ALLOCATING);
 
 	Py_INCREF(Py_None); return Py_None;
 };
@@ -469,24 +467,20 @@ static PyObject *torrent_add_torrent(PyObject *self, PyObject *args)
 
 	try
 	{
-		return Py_BuildValue("i", internal_add_torrent(name, 0, compact, save_dir_2));
+		long ret = internal_add_torrent(name, 0, compact, save_dir_2);
+		if (PyErr_Occurred())
+			return NULL;
+		else
+			return Py_BuildValue("i", ret);
 	}
 	catch (invalid_encoding&)
-	{
-		return Py_BuildValue("i", ERROR_INVALID_ENCODING);
-	}
+	{	PYTORRENT_RAISE_PTR(InvalidEncodingError, ""); }
 	catch (invalid_torrent_file&)
-	{
-		return Py_BuildValue("i", ERROR_INVALID_TORRENT);
-	}
+	{	PYTORRENT_RAISE_PTR(InvalidTorrentError, ""); }
 	catch (boost::filesystem::filesystem_error&)
-	{
-		return Py_BuildValue("i", ERROR_FILESYSTEM);
-	}
+	{	PYTORRENT_RAISE_PTR(FilesystemError, ""); }
 	catch (duplicate_torrent&)
-	{
-		return Py_BuildValue("i", ERROR_DUPLICATE_TORRENT);
-	}
+	{	PYTORRENT_RAISE_PTR(DuplicateTorrentError, ""); }
 }
 
 static PyObject *torrent_remove_torrent(PyObject *self, PyObject *args)
@@ -1099,8 +1093,9 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 		return Py_BuildValue("l", 1);
 	} catch (std::exception& e)
 	{
-		std::cerr << e.what() << "\n";
-		return Py_BuildValue("l", 0);
+//		std::cerr << e.what() << "\n";
+//		return Py_BuildValue("l", 0);
+		PYTORRENT_RAISE_PTR(PyTorrentError, e.what());
 	}
 }
 
@@ -1190,7 +1185,20 @@ initpytorrent(void)
 	PyObject *m, *d;
 
 	m = Py_InitModule("pytorrent", pytorrent_methods);
-	d = PyModule_GetDict(m);
+
 	PyTorrentError = PyErr_NewException("pytorrent.Error", NULL, NULL);
-	PyDict_SetItemString(d, "error", PyTorrentError);
+
+	InvalidEncodingError  = PyErr_NewException("pytorrent.InvalidEncodingError",  NULL, NULL);
+	FilesystemError       = PyErr_NewException("pytorrent.FilesystemError",       NULL, NULL);
+	DuplicateTorrentError = PyErr_NewException("pytorrent.DuplicateTorrentError", NULL, NULL);
+	InvalidTorrentError   = PyErr_NewException("pytorrent.InvalidTorrentError",   NULL, NULL);
+
+	d = PyModule_GetDict(m);
+
+	PyDict_SetItemString(d, "PyTorrentError", PyTorrentError);
+
+	PyDict_SetItemString(d, "InvalidEncodingError",  InvalidEncodingError);
+	PyDict_SetItemString(d, "FilesystemError",       FilesystemError);
+	PyDict_SetItemString(d, "DuplicateTorrentError", DuplicateTorrentError);
+	PyDict_SetItemString(d, "InvalidTorrentError",   InvalidTorrentError);
 };

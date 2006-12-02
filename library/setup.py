@@ -1,5 +1,5 @@
 # 
-# Copyright © 2006 Alon Zakai ('Kripken') <kripkensteiner@gmail.com>
+# Copyright (c) 2006 Alon Zakai ('Kripken') <kripkensteiner@gmail.com>
 #
 # 2006-15-9
 #
