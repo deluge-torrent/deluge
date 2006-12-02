@@ -69,6 +69,6 @@ module1 = Extension('pytorrent',
 										 './kademlia/traversal_algorithm.cpp'])
 
 setup (name = 'pytorrent',
-       version = '0.3.1',
+       version = '0.5.0',
        description = 'Wrapper code for libtorrent C++ torrent library (Sourceforge, not Rakshasa)',
        ext_modules = [module1])
