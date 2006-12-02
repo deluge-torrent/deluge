@@ -1,6 +1,0 @@
-Saturday, November, 04, 2006 11:38 AM: Unable to open state.txt, using defaults.
-Saturday, November, 04, 2006 11:38 AM: Cannot find preset.txt, using only standard E tuning
-Saturday, November, 04, 2006 11:38 AM: Cannot find file APSmall.bmp
-Saturday, November, 04, 2006 11:38 AM: Unable to open state.txt, using defaults.
-Saturday, November, 04, 2006 11:38 AM: Cannot find preset.txt, using only standard E tuning
-Saturday, November, 04, 2006 11:38 AM: Cannot find file APSmall.bmp

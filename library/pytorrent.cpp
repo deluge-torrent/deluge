@@ -294,7 +294,7 @@ long count_DHT_peers(entry &state)
 
 static PyObject *torrent_init(PyObject *self, PyObject *args)
 {
-	printf("python-libtorrent, using libtorrent %s. Compiled with NDEBUG value: %d\r\n",
+	printf("pytorrent, using libtorrent %s. Compiled with NDEBUG value: %d\r\n",
 			 LIBTORRENT_VERSION,
 			 NDEBUG);
 

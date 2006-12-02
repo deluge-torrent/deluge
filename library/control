@@ -1,4 +1,4 @@
-Package: python-libtorrent
+Package: pytorrent
 Version: 0.2.99-1-i386
 Section: base
 Priority: optional
@@ -6,4 +6,4 @@ Architecture: all
 Depends: python, libboost-filesystem1.33.1, libboost-date-time1.33.1, libboost-program-options1.33.1, libboost-regex1.33.1, libboost-thread1.33.1, libc6-dev, zlib1g-dev
 Maintainer: A. Zakai ('Kripken') <kripkensteiner@gmail.com>
 Description: A Python wrapper for the (Sourceforge, not Rakshasa!) libtorrent C++ library.
- URL: http://code.google.com/p/python-libtorrent/
+ URL: http://www.deluge-torrent.org

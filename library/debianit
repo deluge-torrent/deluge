@@ -2,5 +2,5 @@
 mkdir ./debian/usr/lib/python2.4/site-packages/
 mkdir debs
 cp ./build/lib.linux-i686-2.4/* ./debian/usr/lib/python2.4/site-packages/
-dpkg-deb --build debian ./debs/python-libtorrent_0.3.2_i386.deb
+dpkg-deb --build debian ./debs/pytorrent_0.3.2_i386.deb
 #svn add ./debs/*.deb

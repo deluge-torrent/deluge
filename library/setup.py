@@ -23,7 +23,7 @@ import platform
 pythonVersion = platform.python_version()[0:3]
 
 print "========================================="
-print "Creating python-libtorrent for Python " + pythonVersion
+print "Creating pytorrent for Python " + pythonVersion
 print "========================================="
 
 from distutils.core import setup, Extension
@@ -46,7 +46,7 @@ module1 = Extension('torrent',
  										 'peer_connection.cpp',
 						             'piece_picker.cpp',     
 										 'policy.cpp',           
-										 'python-libtorrent.cpp',
+										 'pytorrent.cpp',
 					                'session.cpp',   
 					                'session_impl.cpp',
                                'sha1.cpp',
@@ -68,7 +68,7 @@ module1 = Extension('torrent',
 										 './kademlia/rpc_manager.cpp',
 										 './kademlia/traversal_algorithm.cpp'])
 
-setup (name = 'Python-libtorrent',
+setup (name = 'pytorrent',
        version = '0.3.1',
        description = 'Wrapper code for libtorrent C++ torrent library (Sourceforge, not Rakshasa)',
        ext_modules = [module1])
