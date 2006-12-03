@@ -9,16 +9,18 @@
 #*/
 
 
-import pytorrent_core
+import pytorrent
 from   time    import sleep
 
-pytorrent_core.init("PT", 0, 5, 0, 0, "pytorrent - testing only")
+manager = pytorrent.manager("PT", "0500", "pytorrent - testing only", "test_state.dat")
 
-myTorrent = pytorrent_core.add_torrent("ubuntu.torrent", ".", True)
+my_torrent = manager.add_torrent("ubuntu.torrent", ".", True)
+
+print "Unique ID:", my_torrent
 
 while True:
 	print "STATE:"
-	print pytorrent_core.get_state(myTorrent)
+	print manager.get_state(my_torrent)
 	print ""
 
-	sleep(1)
+	sleep(2)

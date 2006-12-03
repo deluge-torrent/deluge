@@ -213,28 +213,11 @@ long internal_add_torrent(std::string const&             torrent_name,
 	return (new_torrent.unique_ID);
 }
 
-void internal_remove_torrent(long index, std::string const& torrent_name)
+void internal_remove_torrent(long index)
 {
 	assert(index < M_torrents->size());
 
 	torrent_handle& h = M_torrents->at(index).handle;
-
-	// For valid torrents, save fastresume data
-	if (h.is_valid() && h.has_metadata())
-	{
-		h.pause();
-
-		entry data = h.write_resume_data();
-
-		std::stringstream s;
-		s << torrent_name << ".fastresume";
-
-		boost::filesystem::ofstream out(s.str(), std::ios_base::binary);
-
-		out.unsetf(std::ios_base::skipws);
-
-		bencode(std::ostream_iterator<char>(out), data);
-	}
 
 	M_ses->remove_torrent(h);
 
@@ -358,6 +341,37 @@ static PyObject *torrent_quit(PyObject *self, PyObject *args)
 	Py_INCREF(Py_None); return Py_None;
 };
 
+static PyObject *torrent_save_fastresume(PyObject *self, PyObject *args)
+{
+	python_long unique_ID;
+	const char *torrent_name;
+	if (!PyArg_ParseTuple(args, "is", &unique_ID, &torrent_name))
+		return NULL;
+
+	long index = get_index_from_unique_ID(unique_ID);
+	if (PyErr_Occurred())
+		return NULL;
+
+	torrent_handle& h = M_torrents->at(index).handle;
+	// For valid torrents, save fastresume data
+	if (h.is_valid() && h.has_metadata())
+	{
+		h.pause();
+
+		entry data = h.write_resume_data();
+
+		std::stringstream s;
+		s << torrent_name << ".fastresume";
+
+		boost::filesystem::ofstream out(s.str(), std::ios_base::binary);
+
+		out.unsetf(std::ios_base::skipws);
+
+		bencode(std::ostream_iterator<char>(out), data);
+	} else
+		PYTORRENTCORE_RAISE_PTR(PyTorrentCoreError, "Invalid handle or no metadata for fastresume.");
+}
+
 static PyObject *torrent_set_max_half_open(PyObject *self, PyObject *args)
 {
 	python_long arg;
@@ -469,15 +483,14 @@ static PyObject *torrent_add_torrent(PyObject *self, PyObject *args)
 static PyObject *torrent_remove_torrent(PyObject *self, PyObject *args)
 {
 	python_long unique_ID;
-	const char *name;
-	if (!PyArg_ParseTuple(args, "is", &unique_ID, &name))
+	if (!PyArg_ParseTuple(args, "i", &unique_ID))
 		return NULL;
 
 	long index = get_index_from_unique_ID(unique_ID);
 	if (PyErr_Occurred())
 		return NULL;
 
-	internal_remove_torrent(index, name);
+	internal_remove_torrent(index);
 
 	Py_INCREF(Py_None); return Py_None;
 }
@@ -500,6 +513,32 @@ static PyObject *torrent_reannounce(PyObject *self, PyObject *args)
 	M_torrents->at(index).handle.force_reannounce();
 
 	Py_INCREF(Py_None); return Py_None;
+}
+
+static PyObject *torrent_is_seeding(PyObject *self, PyObject *args)
+{
+	python_long unique_ID;
+	if (!PyArg_ParseTuple(args, "i", &unique_ID))
+		return NULL;
+
+	long index = get_index_from_unique_ID(unique_ID);
+	if (PyErr_Occurred())
+		return NULL;
+
+	return Py_BuildValue("i", M_torrents->at(index).handle.is_seed());
+}
+
+static PyObject *torrent_is_paused(PyObject *self, PyObject *args)
+{
+	python_long unique_ID;
+	if (!PyArg_ParseTuple(args, "i", &unique_ID))
+		return NULL;
+
+	long index = get_index_from_unique_ID(unique_ID);
+	if (PyErr_Occurred())
+		return NULL;
+
+	return Py_BuildValue("i", M_torrents->at(index).handle.is_paused());
 }
 
 static PyObject *torrent_pause(PyObject *self, PyObject *args)
@@ -532,7 +571,7 @@ static PyObject *torrent_resume(PyObject *self, PyObject *args)
 	Py_INCREF(Py_None); return Py_None;
 }
 
-static PyObject *torrent_get_name(PyObject *self, PyObject *args)
+static PyObject *torrent_get_torrent_info(PyObject *self, PyObject *args)
 {
 	python_long unique_ID;
 	if (!PyArg_ParseTuple(args, "i", &unique_ID))
@@ -542,7 +581,12 @@ static PyObject *torrent_get_name(PyObject *self, PyObject *args)
 	if (PyErr_Occurred())
 		return NULL;
 
-	return Py_BuildValue("s", M_torrents->at(index).handle.get_torrent_info().name().c_str());
+	torrent_t &t = M_torrents->at(index);
+
+	return Py_BuildValue("{s:s,s:l}",
+					"name",			t.handle.get_torrent_info().name().c_str(),
+					"num_files", 	t.handle.get_torrent_info().num_files()
+								);
 }
 
 static PyObject *torrent_get_state(PyObject *self, PyObject *args)
@@ -843,6 +887,99 @@ static PyObject *torrent_get_peer_info(PyObject *self, PyObject *args)
 	return ret;
 };
 
+static PyObject *torrent_get_file_info(PyObject *self, PyObject *args)
+{
+	python_long unique_ID;
+	if (!PyArg_ParseTuple(args, "i", &unique_ID))
+		return NULL;
+
+	long index = get_index_from_unique_ID(unique_ID);
+	if (PyErr_Occurred())
+		return NULL;
+
+	std::vector<PyObject *> temp_files;
+
+	PyObject *file_info;
+
+	std::vector<float> progresses;
+
+	torrent_t &t = M_torrents->at(index);
+	t.handle.file_progress(progresses);
+
+	torrent_info::file_iterator start =
+		t.handle.get_torrent_info().begin_files();
+	torrent_info::file_iterator end   =
+		t.handle.get_torrent_info().end_files();
+
+	long fileIndex = 0;
+
+	for(torrent_info::file_iterator i = start; i != end; ++i)
+	{
+		file_entry const &currFile = (*i);
+
+		file_info = Py_BuildValue(
+								"{s:s,s:d,s:d,s:f}",
+								"path",				currFile.path.string().c_str(),
+								"offset", 			double(currFile.offset),
+								"size", 				double(currFile.size),
+								"progress",			progresses[i - start]*100.0
+										);
+
+		fileIndex++;
+
+		temp_files.push_back(file_info);
+	};
+
+	PyObject *ret = PyTuple_New(temp_files.size());
+	
+	for (unsigned long i = 0; i < temp_files.size(); i++)
+		PyTuple_SetItem(ret, i, temp_files[i]);
+
+	return ret;
+};
+
+static PyObject *torrent_set_filter_out(PyObject *self, PyObject *args)
+{
+	python_long unique_ID;
+	PyObject *filter_out_object;
+	if (!PyArg_ParseTuple(args, "iO", &unique_ID, &filter_out_object))
+		return NULL;
+
+	long index = get_index_from_unique_ID(unique_ID);
+	if (PyErr_Occurred())
+		return NULL;
+
+	torrent_t &t = M_torrents->at(index);
+	long num_files = t.handle.get_torrent_info().num_files();
+	assert(PyList_Size(filter_out_object) ==  num_files);
+
+	filter_out_t filter_out(num_files);
+
+	for (long i = 0; i < num_files; i++)
+	{
+		filter_out.at(i) =
+			PyInt_AsLong(PyList_GetItem(filter_out_object, i));
+	};
+
+	t.handle.filter_files(filter_out);
+
+	Py_INCREF(Py_None); return Py_None;
+}
+
+/*static PyObject *torrent_get_unique_IDs(PyObject *self, PyObject *args)
+{
+	PyObject *ret = PyTuple_New(M_torrents.size());
+	PyObject *temp;
+
+	for (unsigned long i = 0; i < M_torrents.size(); i++)
+	{
+		temp = Py_BuildValue("i", M_torrents->at(i).unique_ID)
+
+		PyTuple_SetItem(ret, i, temp);
+	};
+
+	return ret;
+};*/
 
 
 static PyObject *torrent_constants(PyObject *self, PyObject *args)
@@ -1054,6 +1191,7 @@ static PyObject *torrent_apply_IP_filter(PyObject *self, PyObject *args)
 static PyMethodDef pytorrent_core_methods[] = {
 	{"init",                    torrent_init,   						 METH_VARARGS, 	 "."},
 	{"quit",                    torrent_quit,   						 METH_VARARGS, 	 "."},
+	{"save_fastresume",		 	 torrent_save_fastresume,			 METH_VARARGS, 	 "."},
 	{"set_max_half_open",		 torrent_set_max_half_open,		 METH_VARARGS, 	 "."},
 	{"set_download_rate_limit", torrent_set_download_rate_limit, METH_VARARGS,		 "."},
 	{"set_upload_rate_limit",   torrent_set_upload_rate_limit,   METH_VARARGS,		 "."},
@@ -1066,15 +1204,17 @@ static PyMethodDef pytorrent_core_methods[] = {
 	{"remove_torrent",          torrent_remove_torrent,          METH_VARARGS,		 "."},
 	{"get_num_torrents",        torrent_get_num_torrents,        METH_VARARGS,		 "."},
 	{"reannounce",              torrent_reannounce,              METH_VARARGS, 	 "."},
+	{"is_paused",               torrent_is_paused,               METH_VARARGS, 	 "."},
 	{"pause",                   torrent_pause,                   METH_VARARGS, 	 "."},
 	{"resume",                  torrent_resume,                  METH_VARARGS,		 "."},
-	{"get_name",                torrent_get_name,                METH_VARARGS,		 "."},
+	{"get_torrent_info",        torrent_get_torrent_info,        METH_VARARGS,		 "."},
 	{"get_state",               torrent_get_state,               METH_VARARGS, 	 "."},
 	{"pop_event",               torrent_pop_event,               METH_VARARGS, 	 "."},
 	{"get_session_info",  		 torrent_get_session_info, 		 METH_VARARGS,		 "."},
 	{"get_peer_info",				 torrent_get_peer_info, 			 METH_VARARGS, 	 "."},
-//	{"get_file_info",				 torrent_get_file_info, 			 METH_VARARGS, 	 "."},
-//	{"set_filter_out",			 torrent_set_filter_out, 			 METH_VARARGS, 	 "."},
+/*	{"get_unique_IDs",			 torrent_get_unique_IDs, 			 METH_VARARGS, 	 "."},*/
+	{"get_file_info",				 torrent_get_file_info, 			 METH_VARARGS, 	 "."},
+	{"set_filter_out",			 torrent_set_filter_out, 			 METH_VARARGS, 	 "."},
 	{"constants",					 torrent_constants, 				    METH_VARARGS,		 "."},
 	{"start_DHT",					 torrent_start_DHT, 				    METH_VARARGS,		 "."},
 	{"stop_DHT",					 torrent_stop_DHT, 					 METH_VARARGS,		 "."},
