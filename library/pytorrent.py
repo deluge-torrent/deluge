@@ -30,6 +30,10 @@ import pickle
 import time
 
 
+# Constants
+
+TORRENTS_SUBDIR = "torrentfiles"
+
 # Information for a single torrent
 
 class torrent:
@@ -65,10 +69,10 @@ class persistent_state:
 		self.max_connections     = 80
 
 		self.use_DHT             = True
-		self.base_dir            = "~/Temp"
-		self.torrents_subdir     + "torrentfiles"
 		self.max_active_torrents = 1
 		self.auto_seed_ratio     = -1
+
+		self.temp = 0
 
 		# Prepare queue (queue is pickled, just like everything else)
 		self.queue = [] # queue[x] is the unique_ID of the x-th queue position. Simple.
@@ -80,12 +84,13 @@ class persistent_state:
 # The manager for the torrent system
 
 class manager:
-	def __init__(self, client_ID, version, user_agent, state_filename):
+	def __init__(self, client_ID, version, user_agent, base_dir, state_filename):
 		self.state_filename = state_filename
+		self.base_dir = base_dir
 
 		# Ensure directories exist
-		if not self.torrents_subdir in os.listdir(self.base_dir):
-			os.mkdir(self.base_dir + "/" + self.torrents_subdir)
+		if not TORRENTS_SUBDIR in os.listdir(self.base_dir):
+			os.mkdir(self.base_dir + "/" + TORRENTS_SUBDIR)
 
 		# Start up the core
 		assert(len(version) == 4)
@@ -101,8 +106,8 @@ class manager:
 
 		# Unpickle the state, or create a new one
 		try:
-			pkl_file = open(state_filename, 'rb')
-			self.state = pickle.load(pkl_file)
+			pkl_file = open(self.base_dir + "/" + self.state_filename, 'rb')
+			self.state = pickle.load(pkl_file) #xxx LOCALIZE to base_dir!
 			pkl_file.close()
 
 			# Sync with the core: tell core about torrents, and get unique_IDs
@@ -112,7 +117,7 @@ class manager:
 
 	def quit(self):
 		# Pickle the state
-		output = open(self.state_filename, 'wb')
+		output = open(self.base_dir + "/" + self.state_filename, 'wb')
 		pickle.dump(self.state, output)
 		output.close()
 
@@ -120,7 +125,7 @@ class manager:
 		self.save_fastresume_data()
 
 		# Shutdown torrent core
-		pytorrent.quit()
+		pytorrent_core.quit()
 
 	def add_torrent(self, filename, save_dir, compact):
 		print "add_torrent"
@@ -198,7 +203,7 @@ class manager:
 		return self.unique_IDs[unique_ID].user_paused
 
 	def is_paused(self, unique_ID):
-		return pytorrent_core.is_paused(unique_ID])
+		return pytorrent_core.is_paused(unique_ID)
 
 	# Enforce the queue: pause/unpause as needed, based on queue and user_pausing
 	# This should be called after changes to relevant parameters (user_pausing, or
@@ -218,16 +223,16 @@ class manager:
 		# Pause and resume torrents
 		for index in range(len(self.state.queue)):
 			unique_ID = self.state.queue[index]
-			if (index < self.state.max_active_torrents or self.state_max_active_torrents == -1)
-				and self.is_paused(unique_ID)
+			if (index < self.state.max_active_torrents or self.state_max_active_torrents == -1) \
+				and self.is_paused(unique_ID)                                                    \
 				and not self.is_user_paused(unique_ID):
 				pytorrent_core.resume(unique_ID)
-			elif not self.is_paused(unique_ID) and
+			elif not self.is_paused(unique_ID) and \
 					(index >= self.state.max_active_torrents or self.is_user_paused(unique_ID)):
 				pytorrent_core.pause(unique_ID)
 
 	def calc_ratio(self, unique_ID, torrent_state):
-		up = float(torrent_state['total_upload'] + self.unique_IDs[unique_ID].uploaded_memory
+		up = float(torrent_state['total_upload'] + self.unique_IDs[unique_ID].uploaded_memory)
 		down = float(torrent_state["total_done"])
 					
 		try:
@@ -250,9 +255,9 @@ class manager:
 
 		time.sleep(0.01) # Ensure we use a unique time for the new filename
 		new_name      = str(time.time()) + ".torrent"
-		full_new_name = self.state.base_dir + "/" + self.torrents_subdir + newName
+		full_new_name = self.base_dir + "/" + TORRENTS_SUBDIR + "/" + new_name
 
-		if new_name in os.listdir(self.state.base_dir + "/" + self.torrents_subdir):
+		if new_name in os.listdir(self.base_dir + "/" + TORRENTS_SUBDIR):
 			raise PyTorrentCoreError("Could not cache torrent file locally, failed: " + new_name)
 
 		shutil.copy(filename, full_new_name)

@@ -368,6 +368,8 @@ static PyObject *torrent_save_fastresume(PyObject *self, PyObject *args)
 		out.unsetf(std::ios_base::skipws);
 
 		bencode(std::ostream_iterator<char>(out), data);
+
+		Py_INCREF(Py_None); return Py_None;
 	} else
 		PYTORRENTCORE_RAISE_PTR(PyTorrentCoreError, "Invalid handle or no metadata for fastresume.");
 }
@@ -1205,6 +1207,7 @@ static PyMethodDef pytorrent_core_methods[] = {
 	{"get_num_torrents",        torrent_get_num_torrents,        METH_VARARGS,		 "."},
 	{"reannounce",              torrent_reannounce,              METH_VARARGS, 	 "."},
 	{"is_paused",               torrent_is_paused,               METH_VARARGS, 	 "."},
+	{"is_seeding",              torrent_is_seeding,              METH_VARARGS, 	 "."},
 	{"pause",                   torrent_pause,                   METH_VARARGS, 	 "."},
 	{"resume",                  torrent_resume,                  METH_VARARGS,		 "."},
 	{"get_torrent_info",        torrent_get_torrent_info,        METH_VARARGS,		 "."},
