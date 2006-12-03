@@ -9,16 +9,16 @@
 #*/
 
 
-import pytorrent
+import pytorrent_core
 from   time    import sleep
 
-pytorrent.init("PT", 0, 5, 0, 0, "pytorrent - testing only")
+pytorrent_core.init("PT", 0, 5, 0, 0, "pytorrent - testing only")
 
-myTorrent = pytorrent.add_torrent("ubuntu.torrent", ".", True)
+myTorrent = pytorrent_core.add_torrent("ubuntu.torrent", ".", True)
 
 while True:
 	print "STATE:"
-	print pytorrent.get_state(myTorrent)
+	print pytorrent_core.get_state(myTorrent)
 	print ""
 
 	sleep(1)

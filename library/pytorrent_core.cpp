@@ -96,8 +96,6 @@ typedef std::string		  torrent_name_t;
 struct torrent_t {
 	torrent_handle handle;
 	unique_ID_t    unique_ID;
-	filter_out_t   filter_out;
-	torrent_name_t name;
 };
 
 typedef std::vector<torrent_t> torrents_t;
@@ -120,15 +118,15 @@ torrents_t       *M_torrents        = NULL;
 // Exception types & macro
 //------------------------
 
-static PyObject *PyTorrentError;
+static PyObject *PyTorrentCoreError;
 
 static PyObject *InvalidEncodingError;
 static PyObject *FilesystemError;
 static PyObject *DuplicateTorrentError;
 static PyObject *InvalidTorrentError;
 
-#define PYTORRENT_RAISE_PTR(e,s) { printf("Raising error: %s\r\n", s); PyErr_SetString(e, s); return NULL; }
-#define PYTORRENT_RAISE_INT(e,s) { printf("Raising error: %s\r\n", s); PyErr_SetString(e, s); return -1; }
+#define PYTORRENTCORE_RAISE_PTR(e,s) { printf("Raising error: %s\r\n", s); PyErr_SetString(e, s); return NULL; }
+#define PYTORRENTCORE_RAISE_INT(e,s) { printf("Raising error: %s\r\n", s); PyErr_SetString(e, s); return -1; }
 
 
 //---------------------
@@ -158,7 +156,7 @@ long get_torrent_index(torrent_handle &handle)
 			return i;
 		}
 
-	PYTORRENT_RAISE_INT(PyTorrentError, "Handle not found.");
+	PYTORRENTCORE_RAISE_INT(PyTorrentCoreError, "Handle not found.");
 }
 
 long get_index_from_unique_ID(long unique_ID)
@@ -169,7 +167,7 @@ long get_index_from_unique_ID(long unique_ID)
 		if ((*M_torrents)[i].unique_ID == unique_ID)
 			return i;
 
-	PYTORRENT_RAISE_INT(PyTorrentError, "No such unique_ID.");
+	PYTORRENTCORE_RAISE_INT(PyTorrentCoreError, "No such unique_ID.");
 }
 
 long internal_add_torrent(std::string const&             torrent_name,
@@ -210,21 +208,12 @@ long internal_add_torrent(std::string const&             torrent_name,
 	new_torrent.unique_ID = M_unique_counter;
 	M_unique_counter++;
 
-	long num_files = h.get_torrent_info().num_files();
-
-	new_torrent.filter_out.reserve(num_files);
-
-	for (long i = 0; i < num_files; i++)
-		new_torrent.filter_out[i] = 0;
-
-	new_torrent.name = torrent_name;
-
 	M_torrents->push_back(new_torrent);
 
 	return (new_torrent.unique_ID);
 }
 
-void internal_remove_torrent(long index)
+void internal_remove_torrent(long index, std::string const& torrent_name)
 {
 	assert(index < M_torrents->size());
 
@@ -238,7 +227,7 @@ void internal_remove_torrent(long index)
 		entry data = h.write_resume_data();
 
 		std::stringstream s;
-		s << M_torrents->at(index).name << ".fastresume";
+		s << torrent_name << ".fastresume";
 
 		boost::filesystem::ofstream out(s.str(), std::ios_base::binary);
 
@@ -305,7 +294,7 @@ long count_DHT_peers(entry &state)
 
 static PyObject *torrent_init(PyObject *self, PyObject *args)
 {
-	printf("pytorrent, using libtorrent %s. Compiled with NDEBUG value: %d\r\n",
+	printf("pytorrent_core, using libtorrent %s. Compiled with NDEBUG value: %d\r\n",
 			 LIBTORRENT_VERSION,
 			 NDEBUG);
 
@@ -360,12 +349,6 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
 static PyObject *torrent_quit(PyObject *self, PyObject *args)
 {
-	long Num = M_torrents->size();
-
-	// Shut down torrents gracefully
-	for (long i = 0; i < Num; i++)
-		internal_remove_torrent(0);
-
 	delete M_ses; // SLOWPOKE because of waiting for the trackers before shutting down
 	delete M_settings;
 	delete M_torrents;
@@ -474,26 +457,27 @@ static PyObject *torrent_add_torrent(PyObject *self, PyObject *args)
 			return Py_BuildValue("i", ret);
 	}
 	catch (invalid_encoding&)
-	{	PYTORRENT_RAISE_PTR(InvalidEncodingError, ""); }
+	{	PYTORRENTCORE_RAISE_PTR(InvalidEncodingError, ""); }
 	catch (invalid_torrent_file&)
-	{	PYTORRENT_RAISE_PTR(InvalidTorrentError, ""); }
+	{	PYTORRENTCORE_RAISE_PTR(InvalidTorrentError, ""); }
 	catch (boost::filesystem::filesystem_error&)
-	{	PYTORRENT_RAISE_PTR(FilesystemError, ""); }
+	{	PYTORRENTCORE_RAISE_PTR(FilesystemError, ""); }
 	catch (duplicate_torrent&)
-	{	PYTORRENT_RAISE_PTR(DuplicateTorrentError, ""); }
+	{	PYTORRENTCORE_RAISE_PTR(DuplicateTorrentError, ""); }
 }
 
 static PyObject *torrent_remove_torrent(PyObject *self, PyObject *args)
 {
 	python_long unique_ID;
-	if (!PyArg_ParseTuple(args, "i", &unique_ID))
+	const char *name;
+	if (!PyArg_ParseTuple(args, "is", &unique_ID, &name))
 		return NULL;
 
 	long index = get_index_from_unique_ID(unique_ID);
 	if (PyErr_Occurred())
 		return NULL;
 
-	internal_remove_torrent(index);
+	internal_remove_torrent(index, name);
 
 	Py_INCREF(Py_None); return Py_None;
 }
@@ -859,85 +843,7 @@ static PyObject *torrent_get_peer_info(PyObject *self, PyObject *args)
 	return ret;
 };
 
-static PyObject *torrent_get_file_info(PyObject *self, PyObject *args)
-{
-	python_long unique_ID;
-	if (!PyArg_ParseTuple(args, "i", &unique_ID))
-		return NULL;
 
-	long index = get_index_from_unique_ID(unique_ID);
-	if (PyErr_Occurred())
-		return NULL;
-
-	std::vector<PyObject *> temp_files;
-
-	PyObject *file_info;
-
-	std::vector<float> progresses;
-
-	torrent_t &t = M_torrents->at(index);
-	t.handle.file_progress(progresses);
-
-	torrent_info::file_iterator start =
-		t.handle.get_torrent_info().begin_files();
-	torrent_info::file_iterator end   =
-		t.handle.get_torrent_info().end_files();
-
-	long fileIndex = 0;
-
-	filter_out_t &filter_out = t.filter_out;
-
-	for(torrent_info::file_iterator i = start; i != end; ++i)
-	{
-		file_entry const &currFile = (*i);
-
-		file_info = Py_BuildValue(
-								"{s:s,s:d,s:d,s:f,s:i}",
-								"path",				currFile.path.string().c_str(),
-								"offset", 			double(currFile.offset),
-								"size", 				double(currFile.size),
-								"progress",			progresses[i - start]*100.0,
-								"filtered_out",	long(filter_out.at(fileIndex))
-										);
-
-		fileIndex++;
-
-		temp_files.push_back(file_info);
-	};
-
-	PyObject *ret = PyTuple_New(temp_files.size());
-	
-	for (unsigned long i = 0; i < temp_files.size(); i++)
-		PyTuple_SetItem(ret, i, temp_files[i]);
-
-	return ret;
-};
-
-static PyObject *torrent_set_filter_out(PyObject *self, PyObject *args)
-{
-	python_long unique_ID;
-	PyObject *filter_out_object;
-	if (!PyArg_ParseTuple(args, "iO", &unique_ID, &filter_out_object))
-		return NULL;
-
-	long index = get_index_from_unique_ID(unique_ID);
-	if (PyErr_Occurred())
-		return NULL;
-
-	torrent_t &t = M_torrents->at(index);
-	long num_files = t.handle.get_torrent_info().num_files();
-	assert(PyList_Size(filter_out_object) ==  num_files);
-
-	for (long i = 0; i < num_files; i++)
-	{
-		t.filter_out.at(i) =
-			PyInt_AsLong(PyList_GetItem(filter_out_object, i));
-	};
-
-	t.handle.filter_files(t.filter_out);
-
-	Py_INCREF(Py_None); return Py_None;
-}
 
 static PyObject *torrent_constants(PyObject *self, PyObject *args)
 {
@@ -1095,7 +1001,7 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 	{
 //		std::cerr << e.what() << "\n";
 //		return Py_BuildValue("l", 0);
-		PYTORRENT_RAISE_PTR(PyTorrentError, e.what());
+		PYTORRENTCORE_RAISE_PTR(PyTorrentCoreError, e.what());
 	}
 }
 
@@ -1145,7 +1051,7 @@ static PyObject *torrent_apply_IP_filter(PyObject *self, PyObject *args)
 // Python Module data
 //====================
 
-static PyMethodDef pytorrent_methods[] = {
+static PyMethodDef pytorrent_core_methods[] = {
 	{"init",                    torrent_init,   						 METH_VARARGS, 	 "."},
 	{"quit",                    torrent_quit,   						 METH_VARARGS, 	 "."},
 	{"set_max_half_open",		 torrent_set_max_half_open,		 METH_VARARGS, 	 "."},
@@ -1167,8 +1073,8 @@ static PyMethodDef pytorrent_methods[] = {
 	{"pop_event",               torrent_pop_event,               METH_VARARGS, 	 "."},
 	{"get_session_info",  		 torrent_get_session_info, 		 METH_VARARGS,		 "."},
 	{"get_peer_info",				 torrent_get_peer_info, 			 METH_VARARGS, 	 "."},
-	{"get_file_info",				 torrent_get_file_info, 			 METH_VARARGS, 	 "."},
-	{"set_filter_out",			 torrent_set_filter_out, 			 METH_VARARGS, 	 "."},
+//	{"get_file_info",				 torrent_get_file_info, 			 METH_VARARGS, 	 "."},
+//	{"set_filter_out",			 torrent_set_filter_out, 			 METH_VARARGS, 	 "."},
 	{"constants",					 torrent_constants, 				    METH_VARARGS,		 "."},
 	{"start_DHT",					 torrent_start_DHT, 				    METH_VARARGS,		 "."},
 	{"stop_DHT",					 torrent_stop_DHT, 					 METH_VARARGS,		 "."},
@@ -1180,22 +1086,22 @@ static PyMethodDef pytorrent_methods[] = {
 
 
 PyMODINIT_FUNC
-initpytorrent(void)
+initpytorrent_core(void)
 {
 	PyObject *m, *d;
 
-	m = Py_InitModule("pytorrent", pytorrent_methods);
+	m = Py_InitModule("pytorrent_core", pytorrent_core_methods);
 
-	PyTorrentError = PyErr_NewException("pytorrent.Error", NULL, NULL);
+	PyTorrentCoreError = PyErr_NewException("pytorrent_core.Error", NULL, NULL);
 
-	InvalidEncodingError  = PyErr_NewException("pytorrent.InvalidEncodingError",  NULL, NULL);
-	FilesystemError       = PyErr_NewException("pytorrent.FilesystemError",       NULL, NULL);
-	DuplicateTorrentError = PyErr_NewException("pytorrent.DuplicateTorrentError", NULL, NULL);
-	InvalidTorrentError   = PyErr_NewException("pytorrent.InvalidTorrentError",   NULL, NULL);
+	InvalidEncodingError  = PyErr_NewException("pytorrent_core.InvalidEncodingError",  NULL, NULL);
+	FilesystemError       = PyErr_NewException("pytorrent_core.FilesystemError",       NULL, NULL);
+	DuplicateTorrentError = PyErr_NewException("pytorrent_core.DuplicateTorrentError", NULL, NULL);
+	InvalidTorrentError   = PyErr_NewException("pytorrent_core.InvalidTorrentError",   NULL, NULL);
 
 	d = PyModule_GetDict(m);
 
-	PyDict_SetItemString(d, "PyTorrentError", PyTorrentError);
+	PyDict_SetItemString(d, "PyTorrentCoreError", PyTorrentCoreError);
 
 	PyDict_SetItemString(d, "InvalidEncodingError",  InvalidEncodingError);
 	PyDict_SetItemString(d, "FilesystemError",       FilesystemError);

@@ -23,12 +23,12 @@ import platform
 pythonVersion = platform.python_version()[0:3]
 
 print "========================================="
-print "Creating pytorrent for Python " + pythonVersion
+print "Creating pytorrent_core for Python " + pythonVersion
 print "========================================="
 
 from distutils.core import setup, Extension
 
-module1 = Extension('pytorrent',
+module1 = Extension('pytorrent_core',
                     include_dirs = ['./include', './include/libtorrent',
 												'/usr/include/python' + pythonVersion],
                     libraries = ['boost_filesystem', 'boost_date_time',
@@ -46,7 +46,7 @@ module1 = Extension('pytorrent',
  										 'peer_connection.cpp',
 						             'piece_picker.cpp',     
 										 'policy.cpp',           
-										 'pytorrent.cpp',
+										 'pytorrent_core.cpp',
 					                'session.cpp',   
 					                'session_impl.cpp',
                                'sha1.cpp',
@@ -68,7 +68,7 @@ module1 = Extension('pytorrent',
 										 './kademlia/rpc_manager.cpp',
 										 './kademlia/traversal_algorithm.cpp'])
 
-setup (name = 'pytorrent',
+setup (name = 'pytorrent_core',
        version = '0.5.0',
        description = 'Wrapper code for libtorrent C++ torrent library (Sourceforge, not Rakshasa)',
        ext_modules = [module1])

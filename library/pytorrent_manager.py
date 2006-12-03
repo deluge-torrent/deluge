@@ -41,35 +41,147 @@
 # 8. Remove torrent's data (in deluge.py)
 #
 
-import pytorrent
+import pytorrent_core
 import os
 import pickle
 
-class preferences:
+class torrent:
+	def __init__(self, filename, save_dir, compact):
+		self.filename = filename
+		self.save_dir = save_dir
+		self.compact  = compact
+
+
+
+static PyObject *torrent_get_file_info(PyObject *self, PyObject *args)
+{
+	python_long unique_ID;
+	if (!PyArg_ParseTuple(args, "i", &unique_ID))
+		return NULL;
+
+	long index = get_index_from_unique_ID(unique_ID);
+	if (PyErr_Occurred())
+		return NULL;
+
+	std::vector<PyObject *> temp_files;
+
+	PyObject *file_info;
+
+	std::vector<float> progresses;
+
+	torrent_t &t = M_torrents->at(index);
+	t.handle.file_progress(progresses);
+
+	torrent_info::file_iterator start =
+		t.handle.get_torrent_info().begin_files();
+	torrent_info::file_iterator end   =
+		t.handle.get_torrent_info().end_files();
+
+	long fileIndex = 0;
+
+	filter_out_t &filter_out = t.filter_out;
+
+	for(torrent_info::file_iterator i = start; i != end; ++i)
+	{
+		file_entry const &currFile = (*i);
+
+		file_info = Py_BuildValue(
+								"{s:s,s:d,s:d,s:f,s:i}",
+								"path",				currFile.path.string().c_str(),
+								"offset", 			double(currFile.offset),
+								"size", 				double(currFile.size),
+								"progress",			progresses[i - start]*100.0,
+								"filtered_out",	long(filter_out.at(fileIndex))
+										);
+
+		fileIndex++;
+
+		temp_files.push_back(file_info);
+	};
+
+	PyObject *ret = PyTuple_New(temp_files.size());
+	
+	for (unsigned long i = 0; i < temp_files.size(); i++)
+		PyTuple_SetItem(ret, i, temp_files[i]);
+
+	return ret;
+};
+
+static PyObject *torrent_set_filter_out(PyObject *self, PyObject *args)
+{
+	python_long unique_ID;
+	PyObject *filter_out_object;
+	if (!PyArg_ParseTuple(args, "iO", &unique_ID, &filter_out_object))
+		return NULL;
+
+	long index = get_index_from_unique_ID(unique_ID);
+	if (PyErr_Occurred())
+		return NULL;
+
+	torrent_t &t = M_torrents->at(index);
+	long num_files = t.handle.get_torrent_info().num_files();
+	assert(PyList_Size(filter_out_object) ==  num_files);
+
+	for (long i = 0; i < num_files; i++)
+	{
+		t.filter_out.at(i) =
+			PyInt_AsLong(PyList_GetItem(filter_out_object, i));
+	};
+
+	t.handle.filter_files(t.filter_out);
+
+	Py_INCREF(Py_None); return Py_None;
+}
+
+
+	// Shut down torrents gracefully
+	for (long i = 0; i < Num; i++)
+		internal_remove_torrent(0);
+
+
+struct torrent_t {
+	torrent_handle handle;
+	unique_ID_t    unique_ID;
+	filter_out_t   filter_out;
+	torrent_name_t name;
+};
+
+typedef std::vector<torrent_t> torrents_t;
+typedef torrents_t::iterator   torrents_t_iterator;
+
+class state:
 	def __init__:
 		self.max_connections = 60 # Etc. etc. etc.
 
 		# Prepare queue (queue is pickled, just like everything else)
 		self.queue = [] # queue[x] is the unique_ID of the x-th queue position. Simple.
 
+		# Torrents
+		self.torrents = []
+		self.unique_IDs = {}
+
 class manager:
-	def __init__(self, pref_filename):
+	def __init__(self, state_filename):
 		print "Init"
 
-		self.pref_filename = pref_filename
+		self.state_filename = state_filename
 
-		# Unpickle the preferences
+		# Unpickle the state
 		try:
-			pkl_file = open(pref_filename, 'rb')
-			self.preferences = pickle.load(pkl_file)
+			pkl_file = open(state_filename, 'rb')
+			self.state = pickle.load(pkl_file)
 			pkl_file.close()
 		except IOError:
-			self.preferences = new preferences()
+			self.state = new state()
 
 		# How does the queue get updated? Use biology
 
+
+	def add_torrent(self, filename, save_dir, compact)
+		unique_ID = pytorrent_core.add_torrent(filename, save_dir, compact)
+
 	def quit(self):
-		# Pickle the preferences
-		output = open(self.pref_filename, 'wb')
-		pickle.dump(self.preferences, output)
+		# Pickle the state
+		output = open(self.state_filename, 'wb')
+		pickle.dump(self.state, output)
 		output.close()
