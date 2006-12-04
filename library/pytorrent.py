@@ -33,6 +33,22 @@ import time
 # Constants
 
 TORRENTS_SUBDIR = "torrentfiles"
+STATE_FILENAME  = "persistent.state"
+PREFS_FILENAME  = "prefs.state"
+DHT_FILENAME    = "dht.state"
+
+DEFAULT_PREFS = {
+#	"max_half_open"       : -1,
+#	"max_uploads"         : -1 # Per torrent, read the libtorrent docs
+	"listen_on"           : [6881,9999],
+	"max_connections"     : 80,
+	"use_DHT"             : True,
+	"max_active_torrents" : -1,
+	"auto_seed_ratio"     : -1,
+	"max_download_rate"   : -1,
+	"max_upload_rate"     : -1
+						}
+
 
 # Information for a single torrent
 
@@ -45,10 +61,6 @@ class torrent:
 		self.user_paused     = False # start out unpaused
 		self.uploaded_memory = 0
 
-
-## SAve pause state in here, or in libtorrent...?
-
-
 		self.filter_out = []
 
 		self.delete_me = False # set this to true, to delete it on next sync
@@ -58,34 +70,17 @@ class torrent:
 
 class persistent_state:
 	def __init__(self):
-		# Basic preferences (use a dictionary, so adding new ones is easy
-		self.preferences = {}
-
-		self.max_half_open       = -1
-		self.download_rate_limit = -1
-		self.upload_rate_limit   = -1
-		self.listen_on           = [6881,9999]
-		self.max_uploads         = -1 # Per torrent, read the libtorrent docs
-		self.max_connections     = 80
-
-		self.use_DHT             = True
-		self.max_active_torrents = 1
-		self.auto_seed_ratio     = -1
-
-		self.temp = 0
+		# Torrents
+		self.torrents = []
 
 		# Prepare queue (queue is pickled, just like everything else)
 		self.queue = [] # queue[x] is the unique_ID of the x-th queue position. Simple.
-
-		# Torrents
-		self.torrents = []
 
 
 # The manager for the torrent system
 
 class manager:
-	def __init__(self, client_ID, version, user_agent, base_dir, state_filename):
-		self.state_filename = state_filename
+	def __init__(self, client_ID, version, user_agent, base_dir):
 		self.base_dir = base_dir
 
 		# Ensure directories exist
@@ -104,10 +99,24 @@ class manager:
 		# Unique IDs are NOT in the state, since they are temporary for each session
 		self.unique_IDs = {} # unique_ID -> a torrent object
 
+		# Unpickle the preferences, or create a new one
+		try:
+			pkl_file = open(self.base_dir + "/" + PREFS_FILENAME, 'rb')
+			self.prefs = pickle.load(pkl_file)
+			pkl_file.close()
+		except IOError:
+			self.prefs = DEFAULT_PREFS
+
+		self.apply_prefs()
+
+		# Apply DHT, if needed
+		if self.get_pref('use_DHT'):
+			pytorrent_core.start_DHT(self.base_dir + "/" + DHT_FILENAME)
+
 		# Unpickle the state, or create a new one
 		try:
-			pkl_file = open(self.base_dir + "/" + self.state_filename, 'rb')
-			self.state = pickle.load(pkl_file) #xxx LOCALIZE to base_dir!
+			pkl_file = open(self.base_dir + "/" + STATE_FILENAME, 'rb')
+			self.state = pickle.load(pkl_file)
 			pkl_file.close()
 
 			# Sync with the core: tell core about torrents, and get unique_IDs
@@ -116,16 +125,47 @@ class manager:
 			self.state = persistent_state()
 
 	def quit(self):
+		# Pickle the prefs
+		output = open(self.base_dir + "/" + PREFS_FILENAME, 'wb')
+		pickle.dump(self.prefs, output)
+		output.close()
+
 		# Pickle the state
-		output = open(self.base_dir + "/" + self.state_filename, 'wb')
+		output = open(self.base_dir + "/" + STATE_FILENAME, 'wb')
 		pickle.dump(self.state, output)
 		output.close()
 
 		# Save fastresume data
 		self.save_fastresume_data()
 
+		# Stop DHT, if needed
+		if self.get_pref('use_DHT'):
+			pytorrent_core.stop_DHT(self.base_dir + "/" + DHT_FILENAME)
+
 		# Shutdown torrent core
 		pytorrent_core.quit()
+
+	def get_pref(self, key):
+		# If we have a value, return, else fallback on default_prefs, else raise an error
+		# the fallback is useful if the source has newer prefs than the existing pref state,
+		# which was created by an old version of the source
+		if key in self.prefs.keys():
+			return self.prefs[key]
+		elif key in DEFAULT_PREFS:
+			self.prefs[key] = DEFAULT_PREFS[key]
+			return self.prefs[key]
+		else:
+			raise PyTorrentCoreError("Asked for a pref that doesn't exist: " + key)
+
+	def apply_prefs(self):
+		pytorrent_core.set_download_rate_limit(self.get_pref('max_download_rate')*1024)
+
+		pytorrent_core.set_upload_rate_limit(self.get_pref('max_upload_rate')*1024)
+
+		pytorrent_core.set_listen_on(self.get_pref('listen_on')[0],
+											  self.get_pref('listen_on')[1])
+
+		pytorrent_core.set_max_connections(self.get_pref('max_connections')*1024)
 
 	def add_torrent(self, filename, save_dir, compact):
 		print "add_torrent"

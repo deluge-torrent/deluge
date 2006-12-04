@@ -14,8 +14,7 @@ from   time    import sleep
 import os
 
 manager = pytorrent.manager("PT", "0500", "pytorrent - testing only",
-									 os.path.expanduser("~") + "/Temp",
-									 "test_state.dat")
+									 os.path.expanduser("~") + "/Temp")
 
 #my_torrent = manager.add_torrent("ubuntu.torrent", ".", True)
 
