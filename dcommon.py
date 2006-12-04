@@ -6,7 +6,7 @@
 
 import sys, os, webbrowser
 
-PROGRAM_NAME = "Deluge Torrent"
+PROGRAM_NAME = "Deluge"
 PROGRAM_VERSION = "0.5"
 DELUGE_DIR = os.path.abspath(os.path.dirname(sys.argv[0]))
 GLADE_DIR = DELUGE_DIR + "/glade"

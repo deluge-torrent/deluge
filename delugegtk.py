@@ -27,6 +27,9 @@ class DelugeGTK:
 					"new_torrent": self.new_torrent,
 					"add_torrent": self.add_torrent,
 					"pref_clicked": self.show_preferences_dialog,
+					"plugins_clicked": self.show_plugins_dialog,
+					## Torrent Menu
+					"show_info": self.show_info_pane,
 					## Help Menu
 					"show_about_dialog": self.show_about_dialog,
 					}
@@ -43,6 +46,7 @@ class DelugeGTK:
 				dcommon.get_pixmap("deluge256.png")))
 		## Create the preferences dialog
 		self.prf = self.wtree.get_widget("pref_dialog")
+		self.prf.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		
 		
 	
@@ -52,15 +56,31 @@ class DelugeGTK:
 	def add_torrent(self, obj):
 		pass
 		
+	def show_preferences_dialog(self, obj):
+		self.prf.show_all()
+		self.wtree.get_widget("pref_notebook").set_current_page(0)
+		self.prf.run()
+		self.prf.hide_all()
+
+	def show_plugins_dialog(self, obj):
+		self.prf.show_all()
+		self.wtree.get_widget("pref_notebook").set_current_page(2)
+		self.prf.run()
+		self.prf.hide_all()
+
+	def show_info_pane(self, obj):
+		if(obj.get_active()):
+			self.wtree.get_widget("torrent_info").show()
+		else:
+			self.wtree.get_widget("torrent_info").hide()
+		
+				
+		
 	def show_about_dialog(self, obj):
 		self.abt.show_all()
 		self.abt.run()
 		self.abt.hide_all()
-		
-	def show_preferences_dialog(self, obj):
-		self.prf.show_all()
-		self.prf.run()
-		self.prf.hide_all()
+
 		
 
 if __name__ == "__main__":
