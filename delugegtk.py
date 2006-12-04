@@ -26,6 +26,7 @@ class DelugeGTK:
 					## File Menu
 					"new_torrent": self.new_torrent,
 					"add_torrent": self.add_torrent,
+					"pref_clicked": self.show_preferences_dialog,
 					## Help Menu
 					"show_about_dialog": self.show_about_dialog,
 					}
@@ -40,6 +41,8 @@ class DelugeGTK:
 		self.abt.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		self.abt.set_logo(gtk.gdk.pixbuf_new_from_file(
 				dcommon.get_pixmap("deluge256.png")))
+		## Create the preferences dialog
+		self.prf = self.wtree.get_widget("pref_dialog")
 		
 		
 	
@@ -53,6 +56,11 @@ class DelugeGTK:
 		self.abt.show_all()
 		self.abt.run()
 		self.abt.hide_all()
+		
+	def show_preferences_dialog(self, obj):
+		self.prf.show_all()
+		self.prf.run()
+		self.prf.hide_all()
 		
 
 if __name__ == "__main__":
