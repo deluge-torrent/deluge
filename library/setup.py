@@ -24,7 +24,7 @@ command = sys.argv[1]
 assert(command in ['build', 'install'])
 
 removals = ['-g', '-DNDEBUG', '-O2', '-Wstrict-prototypes']
-addition = "-DNDEBUG -Os"
+addition = "-DNDEBUG -O2" # Oddly, -O2 gives smaller .o's than -Os
 
 import platform
 
@@ -36,7 +36,7 @@ print "========================================="
 
 import os
 
-p = os.popen("python setup.py --dry-run build")
+p = os.popen("python setup_naive.py --dry-run build")
 data = p.readlines()
 p.close()
 
@@ -58,8 +58,8 @@ for line in data:
 # Now redo it, for real. Nothing should occur, except for installation, if requested
 print "Finalizing..."
 
-p = os.popen("python setup.py " + command)
+p = os.popen("python setup_naive.py " + command)
 data = p.readlines()
 p.close()
 
-print "".join(data)
+#print "".join(data) # Errors from the pipe are shown before we print... not good
