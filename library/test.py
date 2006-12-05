@@ -26,9 +26,11 @@ print "PREFS:", manager.prefs
 
 try:
 	while True:
-		print "STATE:", manager.get_num_torrents()
-		for j in range(manager.get_num_torrents()):
-			print manager.get_state(j)
+		print "STATE:", manager.get_state()
+		print "# torrents:", manager.get_num_torrents()
+		for unique_ID in manager.get_unique_IDs():
+			print unique_ID, manager.get_torrent_state(unique_ID)
+		manager.handle_events()
 		print ""
 		sleep(2)
 except KeyboardInterrupt:

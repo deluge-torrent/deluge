@@ -369,6 +369,8 @@ static PyObject *torrent_save_fastresume(PyObject *self, PyObject *args)
 
 		bencode(std::ostream_iterator<char>(out), data);
 
+		h.resume();
+
 		Py_INCREF(Py_None); return Py_None;
 	} else
 		PYTORRENTCORE_RAISE_PTR(PyTorrentCoreError, "Invalid handle or no metadata for fastresume.");
@@ -515,32 +517,6 @@ static PyObject *torrent_reannounce(PyObject *self, PyObject *args)
 	M_torrents->at(index).handle.force_reannounce();
 
 	Py_INCREF(Py_None); return Py_None;
-}
-
-static PyObject *torrent_is_seeding(PyObject *self, PyObject *args)
-{
-	python_long unique_ID;
-	if (!PyArg_ParseTuple(args, "i", &unique_ID))
-		return NULL;
-
-	long index = get_index_from_unique_ID(unique_ID);
-	if (PyErr_Occurred())
-		return NULL;
-
-	return Py_BuildValue("i", M_torrents->at(index).handle.is_seed());
-}
-
-static PyObject *torrent_is_paused(PyObject *self, PyObject *args)
-{
-	python_long unique_ID;
-	if (!PyArg_ParseTuple(args, "i", &unique_ID))
-		return NULL;
-
-	long index = get_index_from_unique_ID(unique_ID);
-	if (PyErr_Occurred())
-		return NULL;
-
-	return Py_BuildValue("i", M_torrents->at(index).handle.is_paused());
 }
 
 static PyObject *torrent_pause(PyObject *self, PyObject *args)
@@ -779,7 +755,7 @@ static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
 										"event_type",  		EVENT_TRACKER,
 										"unique_ID",
 											M_torrents->at(index).unique_ID,
-										"trackerStatus",	"Bad response (status code=?)",
+										"tracker_status",	"Bad response (status code=?)",
 										"message",    		a->msg().c_str()                 );
 		else
 		{ Py_INCREF(Py_None); return Py_None; }
@@ -1206,8 +1182,6 @@ static PyMethodDef pytorrent_core_methods[] = {
 	{"remove_torrent",          torrent_remove_torrent,          METH_VARARGS,		 "."},
 	{"get_num_torrents",        torrent_get_num_torrents,        METH_VARARGS,		 "."},
 	{"reannounce",              torrent_reannounce,              METH_VARARGS, 	 "."},
-	{"is_paused",               torrent_is_paused,               METH_VARARGS, 	 "."},
-	{"is_seeding",              torrent_is_seeding,              METH_VARARGS, 	 "."},
 	{"pause",                   torrent_pause,                   METH_VARARGS, 	 "."},
 	{"resume",                  torrent_resume,                  METH_VARARGS,		 "."},
 	{"get_torrent_info",        torrent_get_torrent_info,        METH_VARARGS,		 "."},

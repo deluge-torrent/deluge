@@ -109,6 +109,8 @@ class manager:
 								  int(version[3]),
 								  user_agent)
 
+		self.constants = pytorrent_core.constants()
+
 		# Unique IDs are NOT in the state, since they are temporary for each session
 		self.unique_IDs = {} # unique_ID -> a torrent object
 
@@ -183,6 +185,7 @@ class manager:
 		self.prefs[key] = value
 
 	def apply_prefs(self):
+		print "Applying preferences"
 		pytorrent_core.set_download_rate_limit(self.get_pref('max_download_rate')*1024)
 
 		pytorrent_core.set_upload_rate_limit(self.get_pref('max_upload_rate')*1024)
@@ -230,8 +233,16 @@ class manager:
 		for unique_ID in self.unique_IDs:
 			pytorrent_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
 
-	# Efficient get_state: use a saved state, if it hasn't expired yet
-	def get_state(self, unique_ID, efficiently = False):
+	def get_state(self):
+		ret = pytorrent_core.get_session_info()
+		ret['is_listening'] = pytorrent_core.is_listening()
+		ret['port']         = pytorrent_core.listening_port()
+		if self.get_pref('use_DHT'):
+			ret['DHT_nodes'] = pytorrent_core.get_DHT_info()
+		return ret
+
+	# Efficient: use a saved state, if it hasn't expired yet
+	def get_torrent_state(self, unique_ID, efficiently = False):
 		if efficiently:
 			try:
 				if time.time() < self.saved_torrent_states_timestamp[unique_ID] + \
@@ -244,6 +255,10 @@ class manager:
 		self.saved_torrent_states[unique_ID] = pytorrent_core.get_state(unique_ID)
 
 		return self.saved_torrent_states[unique_ID]
+
+	def mark_state_dirty(self, unique_ID):
+		del self.saved_torrent_states[unique_ID]
+		del self.saved_torrent_states_timestamp[unique_ID]
 
 	def queue_up(self, unique_ID):
 		curr_index = self.get_queue_index(unique_ID)
@@ -267,7 +282,7 @@ class manager:
 
 	def clear_completed(self):
 		for unique_ID in self.unique_IDs:
-			torrent_state = self.get_state(unique_ID, True)
+			torrent_state = self.get_torrent_state(unique_ID, True)
 			if torrent_state['progress'] == 100.0:
 				self.remove_torrent_ns(unique_ID)
 
@@ -280,6 +295,9 @@ class manager:
 	def is_user_paused(self, unique_ID):
 		return self.unique_IDs[unique_ID].user_paused
 
+	def get_unique_IDs(self):
+		return self.unique_IDs.keys()
+
 	# Enforce the queue: pause/unpause as needed, based on queue and user_pausing
 	# This should be called after changes to relevant parameters (user_pausing, or
 	# altering max_active_torrents), or just from time to time
@@ -289,8 +307,8 @@ class manager:
 
 		if self.auto_seed_ratio != -1:
 			for unique_ID in self.unique_IDs:
-				if pytorrent_core.is_seeding(unique_ID):
-					torrent_state = self.get_state(unique_ID, True)
+				if self.get_torrent_state(unique_ID, True)['is_seed']:
+					torrent_state = self.get_torrent_state(unique_ID, True)
 					ratio = self.calc_ratio(unique_ID, torrent_state)
 					if ratio >= self.auto_seed_ratio:
 						self.queue_bottom(unique_ID)
@@ -299,10 +317,10 @@ class manager:
 		for index in range(len(self.state.queue)):
 			unique_ID = self.state.queue[index]
 			if (index < self.state.max_active_torrents or self.state_max_active_torrents == -1) \
-				and pytorrent_core.is_paused(unique_ID)                                          \
+				and self.get_torrent_state(unique_ID, True)['is_paused']                         \
 				and not self.is_user_paused(unique_ID):
 				pytorrent_core.resume(unique_ID)
-			elif not pytorrent_core.is_paused(unique_ID) and \
+			elif not self.get_torrent_state(unique_ID, True)['is_paused'] and \
 					(index >= self.state.max_active_torrents or self.is_user_paused(unique_ID)):
 				pytorrent_core.pause(unique_ID)
 
@@ -319,6 +337,45 @@ class manager:
 
 	def get_num_torrents(self):
 		return pytorrent_core.get_num_torrents()
+
+	def handle_events(self):
+		event = pytorrent_core.pop_event()
+
+		while event is not None:
+			print "EVENT: ", event
+
+			if event['event_type'] is self.constants['EVENT_FINISHED']:
+				# If we are autoseeding, then we need to apply the queue
+				if self.auto_seed_ratio == -1:
+					self.mark_state_dirty(event['unique_ID']) # So the queuing will be to new data
+					self.apply_queue()
+
+			elif event['event_type'] is self.constants['EVENT_PEER_ERROR']:
+#				self.parent.addMessage(_("Peer Error") + ": " + str(event), "I") # Debug only!
+				pass
+			elif event['event_type'] is self.constants['EVENT_INVALID_REQUEST']:
+				print 'self.parent.addMessage(_("Invalid request") + ": " + str(event), "W") # Maybe "I"?'
+			elif event['event_type'] is self.constants['EVENT_FILE_ERROR']:
+#				dc.debugmsg("File error! " + str(event))
+				print 'self.parent.addMessage(_("File error") + "! " + str(event), "F")'
+			elif event['event_type'] is self.constants['EVENT_HASH_FAILED_ERROR']:
+				print 'self.parent.addMessage(_("Hash failed") + ": " + str(event), "I")'
+			elif event['event_type'] is self.constants['EVENT_PEER_BAN_ERROR']:
+				print 'self.parent.addMessage(_("Peer banned") + ": " + str(event), "I")'
+			elif event['event_type'] is self.constants['EVENT_FASTRESUME_REJECTED_ERROR']:
+#				dc.debugmsg("Fastresume rejected: " + str(event))
+				print 'self.parent.addMessage(_("Fastresume rejected") + ": " + str(event), "W")'
+			elif event['event_type'] is self.constants['EVENT_TRACKER']:
+				print event['tracker_status'], event['message']
+			elif event['event_type'] is self.constants['EVENT_OTHER']:
+				print 'self.parent.addMessage(_("Event") + ": " + str(event), "W")'
+			else:
+#				dc.debugmsg("Internal error, undefined event type")
+#				dc.debugmsg("No such event error. Raw data: " + str(event))
+				print 'self.parent.addMessage(_("Event") + ": " + str(event), "C")'
+
+			event = pytorrent_core.pop_event()
+
 
 	####################
 	# Internal functions
