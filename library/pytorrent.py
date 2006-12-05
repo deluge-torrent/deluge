@@ -85,7 +85,7 @@ class torrent_info:
 		self.user_paused          = False # start out unpaused
 		self.uploaded_memory      = 0
 
-		self.filter_out = []
+		self.file_filter = []
 
 		self.delete_me = False # set this to true, to delete it on next sync
 
@@ -125,7 +125,7 @@ class manager:
 		self.constants = pytorrent_core.constants()
 
 		# Unique IDs are NOT in the state, since they are temporary for each session
-		self.unique_IDs = {} # unique_ID -> a torrent object, i.e. persistent data
+		self.unique_IDs = {} # unique_ID -> a torrent_info object, i.e. persistent data
 
 		# Saved torrent core_states. We do not poll the core in a costly manner, necessarily
 		self.saved_torrent_core_states = {} # unique_ID -> torrent_state
@@ -163,6 +163,9 @@ class manager:
 
 				# Sync with the core: tell core about torrents, and get unique_IDs
 				self.sync()
+
+				# Apply all the file filters, right after adding the torrents
+				self.apply_all_file_filters()
 			except IOError:
 				self.state = persistent_state()
 		else:
@@ -359,6 +362,30 @@ class manager:
 			event = pytorrent_core.pop_event()
 
 		return ret
+
+	# Filtering functions
+
+	def set_file_filter(self, unique_ID, file_filter):
+		assert(len(file_filter) == self.get_torrent_core_state(unique_ID, True))
+
+		self.unique_IDs[unique_ID].file_filter = file_filter[:]
+
+		pytorrent_core.set_filter_out(file_filter)
+
+	def get_file_filter(self, unique_ID):
+		try:
+			return self.unique_IDs[unique_ID].file_filter[:]
+		except AttributeError:
+			return None
+
+	# Call this when a session starts, to apply existing filters
+	def apply_all_file_filters(self):
+		for unique_ID in unique_IDs.keys():
+			try:
+				self.set_file_filter(self.unique_IDs[unique_ID].file_filter)
+			except AttributeError:
+				pass
+
 
 	# Miscellaneous minor functions
 

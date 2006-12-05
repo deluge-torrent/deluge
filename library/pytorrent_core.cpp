@@ -549,24 +549,6 @@ static PyObject *torrent_resume(PyObject *self, PyObject *args)
 	Py_INCREF(Py_None); return Py_None;
 }
 
-static PyObject *torrent_get_torrent_info(PyObject *self, PyObject *args)
-{
-	python_long unique_ID;
-	if (!PyArg_ParseTuple(args, "i", &unique_ID))
-		return NULL;
-
-	long index = get_index_from_unique_ID(unique_ID);
-	if (PyErr_Occurred())
-		return NULL;
-
-	torrent_t &t = M_torrents->at(index);
-
-	return Py_BuildValue("{s:s,s:l}",
-					"name",			t.handle.get_torrent_info().name().c_str(),
-					"num_files", 	t.handle.get_torrent_info().num_files()
-								);
-}
-
 static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
 {
 	python_long unique_ID;
@@ -593,7 +575,9 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
 		else
 			total_peers++;
 
-	return Py_BuildValue("{s:l,s:l,s:l,s:f,s:f,s:d,s:f,s:l,s:l,s:s,s:s,s:f,s:d,s:l,s:l,s:l,s:d,s:l,s:l,s:l,s:l,s:l,s:l,s:d,s:d,s:l,s:l}",
+	return Py_BuildValue("{s:s,s:l,s:l,s:l,s:l,s:f,s:f,s:d,s:f,s:l,s:l,s:s,s:s,s:f,s:d,s:l,s:l,s:l,s:d,s:l,s:l,s:l,s:l,s:l,s:l,s:d,s:d,s:l,s:l}",
+					"name",					t.handle.get_torrent_info().name().c_str(),
+					"num_files", 			 t.handle.get_torrent_info().num_files()
 					"state",					 s.state,
 					"num_peers", 			 s.num_peers,
 					"num_seeds", 			 s.num_seeds,
@@ -1184,7 +1168,6 @@ static PyMethodDef pytorrent_core_methods[] = {
 	{"reannounce",              torrent_reannounce,              METH_VARARGS, 	 "."},
 	{"pause",                   torrent_pause,                   METH_VARARGS, 	 "."},
 	{"resume",                  torrent_resume,                  METH_VARARGS,		 "."},
-	{"get_torrent_info",        torrent_get_torrent_info,        METH_VARARGS,		 "."},
 	{"get_torrent_state",       torrent_get_torrent_state,               METH_VARARGS, 	 "."},
 	{"pop_event",               torrent_pop_event,               METH_VARARGS, 	 "."},
 	{"get_session_info",  		 torrent_get_session_info, 		 METH_VARARGS,		 "."},
