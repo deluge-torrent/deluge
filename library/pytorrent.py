@@ -376,7 +376,7 @@ class manager:
 	# Filtering functions
 
 	def set_file_filter(self, unique_ID, file_filter):
-		assert(len(file_filter) == self.get_torrent_core_state(unique_ID, True))
+		assert(len(file_filter) == self.get_torrent_core_state(unique_ID, True)['num_files'])
 
 		self.unique_IDs[unique_ID].file_filter = file_filter[:]
 
@@ -388,14 +388,13 @@ class manager:
 		except AttributeError:
 			return None
 
-	# Call this when a session starts, to apply existing filters
+	# Called when a session starts, to apply existing filters
 	def apply_all_file_filters(self):
 		for unique_ID in self.unique_IDs.keys():
 			try:
 				self.set_file_filter(self.unique_IDs[unique_ID].file_filter)
 			except AttributeError:
 				pass
-
 
 	# Miscellaneous minor functions
 
@@ -536,4 +535,3 @@ class manager:
 			ret = -1
 
 		return ret
-
