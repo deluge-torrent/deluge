@@ -16,7 +16,7 @@ import os
 manager = pytorrent.manager("PT", "0500", "pytorrent - testing only",
 									 os.path.expanduser("~") + "/Temp")
 
-#manager.prefs['max_active_torrents'] = 1
+manager.set_pref('max_upload_rate', 6*1024)
 
 #my_torrent = manager.add_torrent("xubuntu-6.10-desktop-i386.iso.torrent", ".", True)
 

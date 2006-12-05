@@ -184,11 +184,13 @@ class manager:
 
 		self.prefs[key] = value
 
+		self.apply_prefs()
+
 	def apply_prefs(self):
 		print "Applying preferences"
-		pytorrent_core.set_download_rate_limit(self.get_pref('max_download_rate')*1024)
+		pytorrent_core.set_download_rate_limit(self.get_pref('max_download_rate'))
 
-		pytorrent_core.set_upload_rate_limit(self.get_pref('max_upload_rate')*1024)
+		pytorrent_core.set_upload_rate_limit(self.get_pref('max_upload_rate'))
 
 		pytorrent_core.set_listen_on(self.get_pref('listen_on')[0],
 											  self.get_pref('listen_on')[1])
@@ -342,7 +344,7 @@ class manager:
 		event = pytorrent_core.pop_event()
 
 		while event is not None:
-			print "EVENT: ", event
+#			print "EVENT: ", event
 
 			if event['event_type'] is self.constants['EVENT_FINISHED']:
 				# If we are autoseeding, then we need to apply the queue
