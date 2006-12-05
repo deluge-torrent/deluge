@@ -18,7 +18,7 @@ manager = pytorrent.manager("PT", "0500", "pytorrent - testing only",
 
 #manager.prefs['max_active_torrents'] = 1
 
-my_torrent = manager.add_torrent("xubuntu-6.10-desktop-i386.iso.torrent", ".", True)
+#my_torrent = manager.add_torrent("xubuntu-6.10-desktop-i386.iso.torrent", ".", True)
 
 #print "Unique ID:", my_torrent
 
