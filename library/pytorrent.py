@@ -25,6 +25,13 @@
 #   pytorrent should be visible, and only it should be imported, in the client.
 #
 
+# Documentation:
+#	Torrents have 3 structures:
+#		1. torrent_info - persistent data, like name, upload speed cap, etc.
+#		2. core_torrent_state - transient state data from the core. This may take
+#				time to calculate, so we do if efficiently
+#		3. supp_torrent_state - supplementary torrent data, from pytorrent
+
 
 import pytorrent_core
 import os, shutil
@@ -63,16 +70,16 @@ class PyTorrentError(Exception):
 		return repr(self.value)
 
 
-# Information for a single torrent
+# Persistent information for a single torrent
 
-class torrent:
+class torrent_info:
 	def __init__(self, filename, save_dir, compact):
 		self.filename  = filename
 		self.save_dir  = save_dir
 		self.compact   = compact
 
-		self.user_paused     = False # start out unpaused
-		self.uploaded_memory = 0
+		self.user_paused          = False # start out unpaused
+		self.uploaded_memory      = 0
 
 		self.filter_out = []
 
@@ -112,11 +119,14 @@ class manager:
 		self.constants = pytorrent_core.constants()
 
 		# Unique IDs are NOT in the state, since they are temporary for each session
-		self.unique_IDs = {} # unique_ID -> a torrent object
+		self.unique_IDs = {} # unique_ID -> a torrent object, i.e. persistent data
 
-		# Saved torrent states. We do not poll the core in a costly manner, necessarily
-		self.saved_torrent_states = {} # unique_ID -> torrent_state
-		self.saved_torrent_states_timestamp = {} # time of creation
+		# Saved torrent core_states. We do not poll the core in a costly manner, necessarily
+		self.saved_torrent_core_states = {} # unique_ID -> torrent_state
+		self.saved_torrent_core_states_timestamp = {} # time of creation
+
+		# supplementary torrent states
+		self.supp_torrent_states = {} # unique_ID->dict of data
 
 		# Unpickle the preferences, or create a new one
 		try:
@@ -164,6 +174,15 @@ class manager:
 
 		# Shutdown torrent core
 		pytorrent_core.quit()
+
+	# This is the EXTERNAL function, for the GUI. It returns the core_state + supp_state
+	def get_torrent_state(self, unique_ID):
+		ret = self.get_torrent_core_state(unique_ID, True).copy()
+
+		if self.get_supp_torrent_state(unique_ID) is not None:
+			ret.update(self.get_supp_torrent_state(unique_ID))
+
+		return ret
 
 	def get_pref(self, key):
 		# If we have a value, return, else fallback on default_prefs, else raise an error
@@ -243,25 +262,6 @@ class manager:
 			ret['DHT_nodes'] = pytorrent_core.get_DHT_info()
 		return ret
 
-	# Efficient: use a saved state, if it hasn't expired yet
-	def get_torrent_state(self, unique_ID, efficiently = False):
-		if efficiently:
-			try:
-				if time.time() < self.saved_torrent_states_timestamp[unique_ID] + \
-										TORRENT_STATE_EXPIRATION:
-					return self.saved_torrent_states[unique_ID]
-			except KeyError:
-				pass
-
-		self.saved_torrent_states_timestamp[unique_ID] = time.time()
-		self.saved_torrent_states[unique_ID] = pytorrent_core.get_state(unique_ID)
-
-		return self.saved_torrent_states[unique_ID]
-
-	def mark_state_dirty(self, unique_ID):
-		del self.saved_torrent_states[unique_ID]
-		del self.saved_torrent_states_timestamp[unique_ID]
-
 	def queue_up(self, unique_ID):
 		curr_index = self.get_queue_index(unique_ID)
 		if curr_index > 0:
@@ -284,7 +284,7 @@ class manager:
 
 	def clear_completed(self):
 		for unique_ID in self.unique_IDs:
-			torrent_state = self.get_torrent_state(unique_ID, True)
+			torrent_state = self.get_torrent_core_state(unique_ID)
 			if torrent_state['progress'] == 100.0:
 				self.remove_torrent_ns(unique_ID)
 
@@ -304,13 +304,13 @@ class manager:
 	# This should be called after changes to relevant parameters (user_pausing, or
 	# altering max_active_torrents), or just from time to time
 	# ___ALL queuing code should be in this function, and ONLY here___
-	def apply_queue(self):
+	def apply_queue(self, efficient = True):
 		# Handle autoseeding - downqueue as needed
 
 		if self.auto_seed_ratio != -1:
 			for unique_ID in self.unique_IDs:
-				if self.get_torrent_state(unique_ID, True)['is_seed']:
-					torrent_state = self.get_torrent_state(unique_ID, True)
+				if self.get_torrent_core_state(unique_ID, efficient)['is_seed']:
+					torrent_state = self.get_torrent_core_state(unique_ID, efficient)
 					ratio = self.calc_ratio(unique_ID, torrent_state)
 					if ratio >= self.auto_seed_ratio:
 						self.queue_bottom(unique_ID)
@@ -319,10 +319,10 @@ class manager:
 		for index in range(len(self.state.queue)):
 			unique_ID = self.state.queue[index]
 			if (index < self.state.max_active_torrents or self.state_max_active_torrents == -1) \
-				and self.get_torrent_state(unique_ID, True)['is_paused']                         \
+				and self.get_torrent_core_state(unique_ID, efficient)['is_paused']               \
 				and not self.is_user_paused(unique_ID):
 				pytorrent_core.resume(unique_ID)
-			elif not self.get_torrent_state(unique_ID, True)['is_paused'] and \
+			elif not self.get_torrent_core_state(unique_ID, efficient)['is_paused'] and \
 					(index >= self.state.max_active_torrents or self.is_user_paused(unique_ID)):
 				pytorrent_core.pause(unique_ID)
 
@@ -340,48 +340,68 @@ class manager:
 	def get_num_torrents(self):
 		return pytorrent_core.get_num_torrents()
 
+	# Handle them for the backend's purposes, but still send them up in case the client
+	# wants to do something - show messages, for example
 	def handle_events(self):
+		ret = []
+
 		event = pytorrent_core.pop_event()
 
 		while event is not None:
 #			print "EVENT: ", event
 
+			ret.append(event)
+
 			if event['event_type'] is self.constants['EVENT_FINISHED']:
 				# If we are autoseeding, then we need to apply the queue
 				if self.auto_seed_ratio == -1:
-					self.mark_state_dirty(event['unique_ID']) # So the queuing will be to new data
-					self.apply_queue()
-
-			elif event['event_type'] is self.constants['EVENT_PEER_ERROR']:
-#				self.parent.addMessage(_("Peer Error") + ": " + str(event), "I") # Debug only!
-				pass
-			elif event['event_type'] is self.constants['EVENT_INVALID_REQUEST']:
-				print 'self.parent.addMessage(_("Invalid request") + ": " + str(event), "W") # Maybe "I"?'
-			elif event['event_type'] is self.constants['EVENT_FILE_ERROR']:
-#				dc.debugmsg("File error! " + str(event))
-				print 'self.parent.addMessage(_("File error") + "! " + str(event), "F")'
-			elif event['event_type'] is self.constants['EVENT_HASH_FAILED_ERROR']:
-				print 'self.parent.addMessage(_("Hash failed") + ": " + str(event), "I")'
-			elif event['event_type'] is self.constants['EVENT_PEER_BAN_ERROR']:
-				print 'self.parent.addMessage(_("Peer banned") + ": " + str(event), "I")'
-			elif event['event_type'] is self.constants['EVENT_FASTRESUME_REJECTED_ERROR']:
-#				dc.debugmsg("Fastresume rejected: " + str(event))
-				print 'self.parent.addMessage(_("Fastresume rejected") + ": " + str(event), "W")'
+					self.apply_queue(efficient = False) # To work on current data
 			elif event['event_type'] is self.constants['EVENT_TRACKER']:
-				print event['tracker_status'], event['message']
-			elif event['event_type'] is self.constants['EVENT_OTHER']:
-				print 'self.parent.addMessage(_("Event") + ": " + str(event), "W")'
-			else:
-#				dc.debugmsg("Internal error, undefined event type")
-#				dc.debugmsg("No such event error. Raw data: " + str(event))
-				print 'self.parent.addMessage(_("Event") + ": " + str(event), "C")'
+				self.set_supp_torrent_state_val( event['unique_ID'],
+															"tracker_status",
+															event['tracker_status'])
+				self.set_supp_torrent_state_val( event['unique_ID'],
+															"tracker_message",
+															event['message'])
 
 			event = pytorrent_core.pop_event()
+
+		return ret
 
 
 	####################
 	# Internal functions
 	####################
+
+	# Efficient: use a saved state, if it hasn't expired yet
+	def get_torrent_core_state(self, unique_ID, efficiently=True):
+		if efficiently:
+			try:
+				if time.time() < self.saved_torrent_core_states_timestamp[unique_ID] + \
+										TORRENT_STATE_EXPIRATION:
+					return self.saved_torrent_core_states[unique_ID]
+			except KeyError:
+				pass
+
+		self.saved_torrent_core_states_timestamp[unique_ID] = time.time()
+		self.saved_torrent_core_states[unique_ID] = pytorrent_core.get_torrent_state(unique_ID)
+
+		return self.saved_torrent_core_states[unique_ID]
+
+	def get_supp_torrent_state(self, unique_ID):
+		try:
+			return self.supp_torrent_states[unique_ID]
+		except KeyError:
+			return None
+
+	def set_supp_torrent_state_val(self, unique_ID, key, val):
+		try:
+			if self.supp_torrent_states[unique_ID] is None:
+				self.supp_torrent_states[unique_ID] = {}
+		except KeyError:
+			self.supp_torrent_states[unique_ID] = {}
+
+		self.supp_torrent_states[unique_ID][key] = val
 
 	# Non-syncing functions. Used when we loop over such events, and sync manually at the end
 
@@ -399,7 +419,7 @@ class manager:
 		shutil.copy(filename, full_new_name)
 
 		# Create torrent object
-		new_torrent = torrent(full_new_name, save_dir, compact)
+		new_torrent = torrent_info(full_new_name, save_dir, compact)
 		self.state.torrents.append(new_torrent)
 
 	def remove_torrent_ns(self, unique_ID):

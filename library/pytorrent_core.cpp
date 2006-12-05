@@ -567,7 +567,7 @@ static PyObject *torrent_get_torrent_info(PyObject *self, PyObject *args)
 								);
 }
 
-static PyObject *torrent_get_state(PyObject *self, PyObject *args)
+static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
 {
 	python_long unique_ID;
 	if (!PyArg_ParseTuple(args, "i", &unique_ID))
@@ -971,7 +971,7 @@ static PyObject *torrent_start_DHT(PyObject *self, PyObject *args)
 	if (!PyArg_ParseTuple(args, "s", &DHT_path))
 		return NULL;
 
-	printf("Loading DHT state from %s\r\n", DHT_path);
+//	printf("Loading DHT state from %s\r\n", DHT_path);
 
 	boost::filesystem::path tempPath(DHT_path, empty_name_check);
 	boost::filesystem::ifstream DHT_state_file(tempPath, std::ios_base::binary);
@@ -982,10 +982,10 @@ static PyObject *torrent_start_DHT(PyObject *self, PyObject *args)
 		DHT_state = bdecode(std::istream_iterator<char>(DHT_state_file),
 								  std::istream_iterator<char>());
 		M_ses->start_dht(DHT_state);
-		printf("DHT state recovered.\r\n");
+//		printf("DHT state recovered.\r\n");
 
-		// Print out the state data from the FILE (not the session!)
-		printf("Number of DHT peers in recovered state: %ld\r\n", count_DHT_peers(DHT_state));
+//		// Print out the state data from the FILE (not the session!)
+//		printf("Number of DHT peers in recovered state: %ld\r\n", count_DHT_peers(DHT_state));
 
 	} catch (std::exception&) {
 		printf("No DHT file to resume\r\n");
@@ -1008,14 +1008,14 @@ static PyObject *torrent_stop_DHT(PyObject *self, PyObject *args)
 	if (!PyArg_ParseTuple(args, "s", &DHT_path))
 		return NULL;
 
-	printf("Saving DHT state to %s\r\n", DHT_path);
+//	printf("Saving DHT state to %s\r\n", DHT_path);
 
 	boost::filesystem::path tempPath = boost::filesystem::path(DHT_path, empty_name_check);
 
 	try {
 		entry DHT_state = M_ses->dht_state();
 
-		printf("Number of DHT peers in state, saving: %ld\r\n", count_DHT_peers(DHT_state));
+//		printf("Number of DHT peers in state, saving: %ld\r\n", count_DHT_peers(DHT_state));
 
 		boost::filesystem::ofstream out(tempPath, std::ios_base::binary);
 		out.unsetf(std::ios_base::skipws);
@@ -1185,7 +1185,7 @@ static PyMethodDef pytorrent_core_methods[] = {
 	{"pause",                   torrent_pause,                   METH_VARARGS, 	 "."},
 	{"resume",                  torrent_resume,                  METH_VARARGS,		 "."},
 	{"get_torrent_info",        torrent_get_torrent_info,        METH_VARARGS,		 "."},
-	{"get_state",               torrent_get_state,               METH_VARARGS, 	 "."},
+	{"get_torrent_state",       torrent_get_torrent_state,               METH_VARARGS, 	 "."},
 	{"pop_event",               torrent_pop_event,               METH_VARARGS, 	 "."},
 	{"get_session_info",  		 torrent_get_session_info, 		 METH_VARARGS,		 "."},
 	{"get_peer_info",				 torrent_get_peer_info, 			 METH_VARARGS, 	 "."},
