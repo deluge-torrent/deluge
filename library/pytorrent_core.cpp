@@ -413,11 +413,12 @@ static PyObject *torrent_set_upload_rate_limit(PyObject *self, PyObject *args)
 
 static PyObject *torrent_set_listen_on(PyObject *self, PyObject *args)
 {
-	python_long port_start, port_end;
-	if (!PyArg_ParseTuple(args, "ii", &port_start, &port_end))
+	PyObject *port_vec;
+	if (!PyArg_ParseTuple(args, "O", &port_vec))
 		return NULL;
 
-	M_ses->listen_on(std::make_pair(port_start, port_end), "");
+	M_ses->listen_on(std::make_pair( PyInt_AsLong(PyList_GetItem(port_vec, 0)),
+												PyInt_AsLong(PyList_GetItem(port_vec, 1))), "");
 
 	Py_INCREF(Py_None); return Py_None;
 }
@@ -576,8 +577,8 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
 			total_peers++;
 
 	return Py_BuildValue("{s:s,s:l,s:l,s:l,s:l,s:f,s:f,s:d,s:f,s:l,s:l,s:s,s:s,s:f,s:d,s:l,s:l,s:l,s:d,s:l,s:l,s:l,s:l,s:l,s:l,s:d,s:d,s:l,s:l}",
-					"name",					t.handle.get_torrent_info().name().c_str(),
-					"num_files", 			 t.handle.get_torrent_info().num_files()
+					"name",					 t.handle.get_torrent_info().name().c_str(),
+					"num_files", 			 t.handle.get_torrent_info().num_files(),
 					"state",					 s.state,
 					"num_peers", 			 s.num_peers,
 					"num_seeds", 			 s.num_seeds,

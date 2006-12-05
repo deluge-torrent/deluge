@@ -53,8 +53,8 @@ DHT_FILENAME    = "dht.state"
 
 TORRENT_STATE_EXPIRATION = 1 # seconds, like the output of time.time()
 
-DEFAULT_PREFS = {
 #	"max_half_open"       : -1,
+DEFAULT_PREFS = {
 	"max_uploads"         : 2, # a.k.a. upload slots
 	"listen_on"           : [6881,9999],
 	"max_connections"     : 80,
@@ -64,6 +64,18 @@ DEFAULT_PREFS = {
 	"max_download_rate"   : -1,
 	"max_upload_rate"     : -1
 						}
+
+PREF_FUNCTIONS = {
+	"max_uploads"         : pytorrent_core.set_max_uploads,
+	"listen_on"           : pytorrent_core.set_listen_on,
+	"max_connections"     : pytorrent_core.set_max_connections,
+	"use_DHT"             : None, # not a normal pref in that is is applied only on start
+	"max_active_torrents" : None, # no need for a function, applied constantly
+	"auto_seed_ratio"     : None, # no need for a function, applied constantly
+	"max_download_rate"   : pytorrent_core.set_download_rate_limit,
+	"max_upload_rate"     : pytorrent_core.set_upload_rate_limit
+						}
+
 
 # Exception
 
@@ -228,7 +240,9 @@ class manager:
 
 		self.prefs[key] = value
 
-		self.apply_prefs()
+		# Apply the pref, if applicable
+		if PREF_FUNCTIONS[key] is not None:
+			PREF_FUNCTIONS[key](value)
 
 	# Torrent addition and removal functions
 
@@ -514,16 +528,11 @@ class manager:
 
 	def apply_prefs(self):
 		print "Applying preferences"
-		pytorrent_core.set_download_rate_limit(self.get_pref('max_download_rate'))
+		assert(len(PREF_FUNCTIONS) == len(DEFAULT_PREFS))
 
-		pytorrent_core.set_upload_rate_limit(self.get_pref('max_upload_rate'))
-
-		pytorrent_core.set_listen_on(self.get_pref('listen_on')[0],
-											  self.get_pref('listen_on')[1])
-
-		pytorrent_core.set_max_connections(self.get_pref('max_connections'))
-
-		pytorrent_core.set_max_uploads(self.get_pref('max_uploads'))
+		for pref in PREF_FUNCTIONS.keys():
+			if PREF_FUNCTIONS[pref] is not None:
+				PREF_FUNCTIONS[pref](self.get_pref(pref))
 
 	def calc_ratio(self, unique_ID, torrent_state):
 		up = float(torrent_state['total_upload'] + self.unique_IDs[unique_ID].uploaded_memory)
