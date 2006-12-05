@@ -17,12 +17,16 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #
 
-# Deluge Library, a.k.a. pytorrent:
+# Deluge Library, a.k.a. pytorrent, previously known as python-libtorrent:
 #
-#   Deluge is a client. pytorrent is a Python library for torrenting, that includes
+#   pytorrent is a Python library for torrenting, that includes
 #   pytorrent.py, which is Python code, and pytorrent_core, which is also a Python
 #   module, but written in C++, and includes the libtorrent torrent library. Only
 #   pytorrent should be visible, and only it should be imported, in the client.
+#   pytorrent_core contains mainly libtorrent-interfacing code, and a few other things
+#   that make most sense to write at that level. pytorrent.py contains all other
+#   torrent-system management: queueing, configuration management, persistent
+#   list of torrents, etc.
 #
 
 # Documentation:
@@ -190,6 +194,8 @@ class manager:
 		print "Quitting the core..."
 		pytorrent_core.quit()
 
+	# Preference management functions
+
 	def get_pref(self, key):
 		# If we have a value, return, else fallback on default_prefs, else raise an error
 		# the fallback is useful if the source has newer prefs than the existing pref state,
@@ -210,6 +216,8 @@ class manager:
 		self.prefs[key] = value
 
 		self.apply_prefs()
+
+	# Torrent addition and removal functions
 
 	def add_torrent(self, filename, save_dir, compact):
 		self.add_torrent_ns(filename, save_dir, compact)
@@ -247,6 +255,8 @@ class manager:
 		for unique_ID in self.unique_IDs:
 			pytorrent_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
 
+	# State retrieval functions
+
 	def get_state(self):
 		ret = pytorrent_core.get_session_info()
 		ret['is_listening'] = pytorrent_core.is_listening()
@@ -263,6 +273,8 @@ class manager:
 			ret.update(self.get_supp_torrent_state(unique_ID))
 
 		return ret
+
+	# Queueing functions
 
 	def queue_up(self, unique_ID):
 		curr_index = self.get_queue_index(unique_ID)
@@ -292,19 +304,6 @@ class manager:
 
 		self.sync()
 
-	def set_user_pause(self, unique_ID, new_value):
-		self.unique_IDs[unique_ID].user_paused = new_value
-		self.apply_queue()
-
-	def is_user_paused(self, unique_ID):
-		return self.unique_IDs[unique_ID].user_paused
-
-	def get_num_torrents(self):
-		return pytorrent_core.get_num_torrents()
-
-	def get_unique_IDs(self):
-		return self.unique_IDs.keys()
-
 	# Enforce the queue: pause/unpause as needed, based on queue and user_pausing
 	# This should be called after changes to relevant parameters (user_pausing, or
 	# altering max_active_torrents), or just from time to time
@@ -331,9 +330,11 @@ class manager:
 					(index >= self.state.max_active_torrents or self.is_user_paused(unique_ID)):
 				pytorrent_core.pause(unique_ID)
 
-	# Handle them for the backend's purposes, but still send them up in case the client
-	# wants to do something - show messages, for example
+	# Event handling
+
 	def handle_events(self):
+		# Handle them for the backend's purposes, but still send them up in case the client
+		# wants to do something - show messages, for example
 		ret = []
 
 		event = pytorrent_core.pop_event()
@@ -358,6 +359,21 @@ class manager:
 			event = pytorrent_core.pop_event()
 
 		return ret
+
+	# Miscellaneous minor functions
+
+	def set_user_pause(self, unique_ID, new_value):
+		self.unique_IDs[unique_ID].user_paused = new_value
+		self.apply_queue()
+
+	def is_user_paused(self, unique_ID):
+		return self.unique_IDs[unique_ID].user_paused
+
+	def get_num_torrents(self):
+		return pytorrent_core.get_num_torrents()
+
+	def get_unique_IDs(self):
+		return self.unique_IDs.keys()
 
 
 	####################
