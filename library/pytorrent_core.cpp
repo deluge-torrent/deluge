@@ -1168,7 +1168,7 @@ static PyMethodDef pytorrent_core_methods[] = {
 	{"reannounce",              torrent_reannounce,              METH_VARARGS, 	 "."},
 	{"pause",                   torrent_pause,                   METH_VARARGS, 	 "."},
 	{"resume",                  torrent_resume,                  METH_VARARGS,		 "."},
-	{"get_torrent_state",       torrent_get_torrent_state,               METH_VARARGS, 	 "."},
+	{"get_torrent_state",       torrent_get_torrent_state,       METH_VARARGS, 	 "."},
 	{"pop_event",               torrent_pop_event,               METH_VARARGS, 	 "."},
 	{"get_session_info",  		 torrent_get_session_info, 		 METH_VARARGS,		 "."},
 	{"get_peer_info",				 torrent_get_peer_info, 			 METH_VARARGS, 	 "."},

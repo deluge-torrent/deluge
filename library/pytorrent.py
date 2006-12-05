@@ -82,8 +82,8 @@ class torrent_info:
 		self.save_dir  = save_dir
 		self.compact   = compact
 
-		self.user_paused          = False # start out unpaused
-		self.uploaded_memory      = 0
+		self.user_paused     = False # start out unpaused
+		self.uploaded_memory = 0
 
 		self.file_filter = []
 
@@ -172,6 +172,9 @@ class manager:
 			self.state = persistent_state()
 
 	def quit(self):
+		# Analyze data needed for pickling, etc.
+		self.pre_quitting()
+
 		# Pickle the prefs
 		print "Pickling prefs..."
 		output = open(self.base_dir + "/" + PREFS_FILENAME, 'wb')
@@ -196,6 +199,13 @@ class manager:
 		# Shutdown torrent core
 		print "Quitting the core..."
 		pytorrent_core.quit()
+
+	def pre_quitting(self):
+		# Save the uploaded data from this session to the existing upload memory
+		for unique_ID in self.unique_IDs.keys():
+			self.unique_IDs[unique_ID].uploaded_memory = \
+					self.unique_IDs[unique_ID].uploaded_memory + \
+					self.get_torrent_core_state(unique_ID, False)['total_upload'] # Purposefully ineffi.
 
 	# Preference management functions
 
@@ -380,7 +390,7 @@ class manager:
 
 	# Call this when a session starts, to apply existing filters
 	def apply_all_file_filters(self):
-		for unique_ID in unique_IDs.keys():
+		for unique_ID in self.unique_IDs.keys():
 			try:
 				self.set_file_filter(self.unique_IDs[unique_ID].file_filter)
 			except AttributeError:
