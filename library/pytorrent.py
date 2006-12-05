@@ -100,7 +100,9 @@ class persistent_state:
 # The manager for the torrent system
 
 class manager:
-	def __init__(self, client_ID, version, user_agent, base_dir):
+	# blank_slate mode ignores the two pickle files and DHT state file, i.e. you start
+	# completely fresh. When quitting, the old files will be overwritten
+	def __init__(self, client_ID, version, user_agent, base_dir, blank_slate=False):
 		self.base_dir = base_dir
 
 		# Ensure directories exist
@@ -129,60 +131,64 @@ class manager:
 		self.supp_torrent_states = {} # unique_ID->dict of data
 
 		# Unpickle the preferences, or create a new one
-		try:
-			pkl_file = open(self.base_dir + "/" + PREFS_FILENAME, 'rb')
-			self.prefs = pickle.load(pkl_file)
-			pkl_file.close()
-		except IOError:
-			self.prefs = DEFAULT_PREFS
+		self.prefs = DEFAULT_PREFS
+		if not blank_slate:
+			try:
+				pkl_file = open(self.base_dir + "/" + PREFS_FILENAME, 'rb')
+				self.prefs = pickle.load(pkl_file)
+				pkl_file.close()
+			except IOError:
+				pass
 
 		# Apply preferences. Note that this is before any torrents are added
 		self.apply_prefs()
 
 		# Apply DHT, if needed. Note that this is before any torrents are added
 		if self.get_pref('use_DHT'):
-			pytorrent_core.start_DHT(self.base_dir + "/" + DHT_FILENAME)
+			if not blank_slate:
+				pytorrent_core.start_DHT(self.base_dir + "/" + DHT_FILENAME)
+			else:
+				pytorrent_core.start_DHT("")
 
 		# Unpickle the state, or create a new one
-		try:
-			pkl_file = open(self.base_dir + "/" + STATE_FILENAME, 'rb')
-			self.state = pickle.load(pkl_file)
-			pkl_file.close()
+		if not blank_slate:
+			try:
+				pkl_file = open(self.base_dir + "/" + STATE_FILENAME, 'rb')
+				self.state = pickle.load(pkl_file)
+				pkl_file.close()
 
-			# Sync with the core: tell core about torrents, and get unique_IDs
-			self.sync()
-		except IOError:
+				# Sync with the core: tell core about torrents, and get unique_IDs
+				self.sync()
+			except IOError:
+				self.state = persistent_state()
+		else:
 			self.state = persistent_state()
 
 	def quit(self):
 		# Pickle the prefs
+		print "Pickling prefs..."
 		output = open(self.base_dir + "/" + PREFS_FILENAME, 'wb')
 		pickle.dump(self.prefs, output)
 		output.close()
 
 		# Pickle the state
+		print "Pickling state..."
 		output = open(self.base_dir + "/" + STATE_FILENAME, 'wb')
 		pickle.dump(self.state, output)
 		output.close()
 
 		# Save fastresume data
+		print "Saving fastresume data..."
 		self.save_fastresume_data()
 
 		# Stop DHT, if needed
 		if self.get_pref('use_DHT'):
+			print "Stopping DHT..."
 			pytorrent_core.stop_DHT(self.base_dir + "/" + DHT_FILENAME)
 
 		# Shutdown torrent core
+		print "Quitting the core..."
 		pytorrent_core.quit()
-
-	# This is the EXTERNAL function, for the GUI. It returns the core_state + supp_state
-	def get_torrent_state(self, unique_ID):
-		ret = self.get_torrent_core_state(unique_ID, True).copy()
-
-		if self.get_supp_torrent_state(unique_ID) is not None:
-			ret.update(self.get_supp_torrent_state(unique_ID))
-
-		return ret
 
 	def get_pref(self, key):
 		# If we have a value, return, else fallback on default_prefs, else raise an error
@@ -204,19 +210,6 @@ class manager:
 		self.prefs[key] = value
 
 		self.apply_prefs()
-
-	def apply_prefs(self):
-		print "Applying preferences"
-		pytorrent_core.set_download_rate_limit(self.get_pref('max_download_rate'))
-
-		pytorrent_core.set_upload_rate_limit(self.get_pref('max_upload_rate'))
-
-		pytorrent_core.set_listen_on(self.get_pref('listen_on')[0],
-											  self.get_pref('listen_on')[1])
-
-		pytorrent_core.set_max_connections(self.get_pref('max_connections'))
-
-		pytorrent_core.set_max_uploads(self.get_pref('max_uploads'))
 
 	def add_torrent(self, filename, save_dir, compact):
 		self.add_torrent_ns(filename, save_dir, compact)
@@ -262,6 +255,15 @@ class manager:
 			ret['DHT_nodes'] = pytorrent_core.get_DHT_info()
 		return ret
 
+	# This is the EXTERNAL function, for the GUI. It returns the core_state + supp_state
+	def get_torrent_state(self, unique_ID):
+		ret = self.get_torrent_core_state(unique_ID, True).copy()
+
+		if self.get_supp_torrent_state(unique_ID) is not None:
+			ret.update(self.get_supp_torrent_state(unique_ID))
+
+		return ret
+
 	def queue_up(self, unique_ID):
 		curr_index = self.get_queue_index(unique_ID)
 		if curr_index > 0:
@@ -297,6 +299,9 @@ class manager:
 	def is_user_paused(self, unique_ID):
 		return self.unique_IDs[unique_ID].user_paused
 
+	def get_num_torrents(self):
+		return pytorrent_core.get_num_torrents()
+
 	def get_unique_IDs(self):
 		return self.unique_IDs.keys()
 
@@ -325,20 +330,6 @@ class manager:
 			elif not self.get_torrent_core_state(unique_ID, efficient)['is_paused'] and \
 					(index >= self.state.max_active_torrents or self.is_user_paused(unique_ID)):
 				pytorrent_core.pause(unique_ID)
-
-	def calc_ratio(self, unique_ID, torrent_state):
-		up = float(torrent_state['total_upload'] + self.unique_IDs[unique_ID].uploaded_memory)
-		down = float(torrent_state["total_done"])
-					
-		try:
-			ret = float(up/down)
-		except:
-			ret = -1
-
-		return ret
-
-	def get_num_torrents(self):
-		return pytorrent_core.get_num_torrents()
 
 	# Handle them for the backend's purposes, but still send them up in case the client
 	# wants to do something - show messages, for example
@@ -407,14 +398,12 @@ class manager:
 
 	def add_torrent_ns(self, filename, save_dir, compact):
 		# Cache torrent file
-		(temp, torrent_file_short) = os.path.split(filename)
+		(temp, filename_short) = os.path.split(filename)
 
-		time.sleep(0.01) # Ensure we use a unique time for the new filename
-		new_name      = str(time.time()) + ".torrent"
-		full_new_name = self.base_dir + "/" + TORRENTS_SUBDIR + "/" + new_name
+		if filename_short in os.listdir(self.base_dir + "/" + TORRENTS_SUBDIR):
+			raise PyTorrentError("Duplicate Torrent, it appears: " + filename_short)
 
-		if new_name in os.listdir(self.base_dir + "/" + TORRENTS_SUBDIR):
-			raise PyTorrentError("Could not cache torrent file locally, failed: " + new_name)
+		full_new_name = self.base_dir + "/" + TORRENTS_SUBDIR + "/" + filename_short
 
 		shutil.copy(filename, full_new_name)
 
@@ -470,3 +459,28 @@ class manager:
 
 	def get_queue_index(self, unique_ID):
 		return self.state.queue.index(unique_ID)
+
+	def apply_prefs(self):
+		print "Applying preferences"
+		pytorrent_core.set_download_rate_limit(self.get_pref('max_download_rate'))
+
+		pytorrent_core.set_upload_rate_limit(self.get_pref('max_upload_rate'))
+
+		pytorrent_core.set_listen_on(self.get_pref('listen_on')[0],
+											  self.get_pref('listen_on')[1])
+
+		pytorrent_core.set_max_connections(self.get_pref('max_connections'))
+
+		pytorrent_core.set_max_uploads(self.get_pref('max_uploads'))
+
+	def calc_ratio(self, unique_ID, torrent_state):
+		up = float(torrent_state['total_upload'] + self.unique_IDs[unique_ID].uploaded_memory)
+		down = float(torrent_state["total_done"])
+					
+		try:
+			ret = float(up/down)
+		except:
+			ret = -1
+
+		return ret
+
