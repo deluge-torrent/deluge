@@ -1,6 +1,6 @@
 # 
-# Copyright (C) 2006 Zach Tibbitts <zach@collegegeek.org>
 # Copyright (C) 2006 Alon Zakai ('Kripken') <kripkensteiner@gmail.com>
+# Copyright (C) 2006 Zach Tibbitts <zach@collegegeek.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,11 +17,13 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #
 
-# pytorrent-manager: backend/non-gui routines, that are not part of the core
-# pytorrent module. pytorrent itself is mainly an interface to libtorrent,
-# with some arrangements of exception classes for Python, etc.; also, some
-# additional code that fits in well at the C++ level of libtorrent. All other
-# backend routines should be in pytorrent-manager.
+# Deluge Library, a.k.a. pytorrent:
+#
+#   Deluge is a client. pytorrent is a Python library for torrenting, that includes
+#   pytorrent.py, which is Python code, and pytorrent_core, which is also a Python
+#   module, but written in C++, and includes the libtorrent torrent library. Only
+#   pytorrent should be visible, and only it should be imported, in the client.
+#
 
 
 import pytorrent_core
@@ -33,13 +35,16 @@ import time
 # Constants
 
 TORRENTS_SUBDIR = "torrentfiles"
+
 STATE_FILENAME  = "persistent.state"
 PREFS_FILENAME  = "prefs.state"
 DHT_FILENAME    = "dht.state"
 
+TORRENT_STATE_EXPIRATION = 1 # seconds, like the output of time.time()
+
 DEFAULT_PREFS = {
 #	"max_half_open"       : -1,
-#	"max_uploads"         : -1 # Per torrent, read the libtorrent docs
+	"max_uploads"         : 2, # a.k.a. upload slots
 	"listen_on"           : [6881,9999],
 	"max_connections"     : 80,
 	"use_DHT"             : True,
@@ -48,6 +53,14 @@ DEFAULT_PREFS = {
 	"max_download_rate"   : -1,
 	"max_upload_rate"     : -1
 						}
+
+# Exception
+
+class PyTorrentError(Exception):
+	def __init__(self, value):
+		self.value = value
+	def __str__(self):
+		return repr(self.value)
 
 
 # Information for a single torrent
@@ -99,6 +112,10 @@ class manager:
 		# Unique IDs are NOT in the state, since they are temporary for each session
 		self.unique_IDs = {} # unique_ID -> a torrent object
 
+		# Saved torrent states. We do not poll the core in a costly manner, necessarily
+		self.saved_torrent_states = {} # unique_ID -> torrent_state
+		self.saved_torrent_states_timestamp = {} # time of creation
+
 		# Unpickle the preferences, or create a new one
 		try:
 			pkl_file = open(self.base_dir + "/" + PREFS_FILENAME, 'rb')
@@ -107,9 +124,10 @@ class manager:
 		except IOError:
 			self.prefs = DEFAULT_PREFS
 
+		# Apply preferences. Note that this is before any torrents are added
 		self.apply_prefs()
 
-		# Apply DHT, if needed
+		# Apply DHT, if needed. Note that this is before any torrents are added
 		if self.get_pref('use_DHT'):
 			pytorrent_core.start_DHT(self.base_dir + "/" + DHT_FILENAME)
 
@@ -155,7 +173,14 @@ class manager:
 			self.prefs[key] = DEFAULT_PREFS[key]
 			return self.prefs[key]
 		else:
-			raise PyTorrentCoreError("Asked for a pref that doesn't exist: " + key)
+			raise PyTorrentError("Asked for a pref that doesn't exist: " + key)
+
+	def set_pref(self, key, value):
+		# Make sure this is a valid key
+		if key not in DEFAULT_PREFS.keys():
+			raise PyTorrentError("Asked to change a pref that isn't valid: " + key)
+
+		self.prefs[key] = value
 
 	def apply_prefs(self):
 		pytorrent_core.set_download_rate_limit(self.get_pref('max_download_rate')*1024)
@@ -165,10 +190,11 @@ class manager:
 		pytorrent_core.set_listen_on(self.get_pref('listen_on')[0],
 											  self.get_pref('listen_on')[1])
 
-		pytorrent_core.set_max_connections(self.get_pref('max_connections')*1024)
+		pytorrent_core.set_max_connections(self.get_pref('max_connections'))
+
+		pytorrent_core.set_max_uploads(self.get_pref('max_uploads'))
 
 	def add_torrent(self, filename, save_dir, compact):
-		print "add_torrent"
 		self.add_torrent_ns(filename, save_dir, compact)
 		return self.sync() # Syncing will create a new torrent in the core, and return it's ID
 
@@ -204,8 +230,20 @@ class manager:
 		for unique_ID in self.unique_IDs:
 			pytorrent_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
 
-	def get_state(self, unique_ID):
-		return pytorrent_core.get_state(unique_ID)
+	# Efficient get_state: use a saved state, if it hasn't expired yet
+	def get_state(self, unique_ID, efficiently = False):
+		if efficiently:
+			try:
+				if time.time() < self.saved_torrent_states_timestamp[unique_ID] + \
+										TORRENT_STATE_EXPIRATION:
+					return self.saved_torrent_states[unique_ID]
+			except KeyError:
+				pass
+
+		self.saved_torrent_states_timestamp[unique_ID] = time.time()
+		self.saved_torrent_states[unique_ID] = pytorrent_core.get_state(unique_ID)
+
+		return self.saved_torrent_states[unique_ID]
 
 	def queue_up(self, unique_ID):
 		curr_index = self.get_queue_index(unique_ID)
@@ -229,7 +267,7 @@ class manager:
 
 	def clear_completed(self):
 		for unique_ID in self.unique_IDs:
-			torrent_state = pytorrent_core.get_state(unique_ID)
+			torrent_state = self.get_state(unique_ID, True)
 			if torrent_state['progress'] == 100.0:
 				self.remove_torrent_ns(unique_ID)
 
@@ -242,9 +280,6 @@ class manager:
 	def is_user_paused(self, unique_ID):
 		return self.unique_IDs[unique_ID].user_paused
 
-	def is_paused(self, unique_ID):
-		return pytorrent_core.is_paused(unique_ID)
-
 	# Enforce the queue: pause/unpause as needed, based on queue and user_pausing
 	# This should be called after changes to relevant parameters (user_pausing, or
 	# altering max_active_torrents), or just from time to time
@@ -255,7 +290,7 @@ class manager:
 		if self.auto_seed_ratio != -1:
 			for unique_ID in self.unique_IDs:
 				if pytorrent_core.is_seeding(unique_ID):
-					torrent_state = pytorrent_core.get_state(unique_ID)
+					torrent_state = self.get_state(unique_ID, True)
 					ratio = self.calc_ratio(unique_ID, torrent_state)
 					if ratio >= self.auto_seed_ratio:
 						self.queue_bottom(unique_ID)
@@ -264,10 +299,10 @@ class manager:
 		for index in range(len(self.state.queue)):
 			unique_ID = self.state.queue[index]
 			if (index < self.state.max_active_torrents or self.state_max_active_torrents == -1) \
-				and self.is_paused(unique_ID)                                                    \
+				and pytorrent_core.is_paused(unique_ID)                                          \
 				and not self.is_user_paused(unique_ID):
 				pytorrent_core.resume(unique_ID)
-			elif not self.is_paused(unique_ID) and \
+			elif not pytorrent_core.is_paused(unique_ID) and \
 					(index >= self.state.max_active_torrents or self.is_user_paused(unique_ID)):
 				pytorrent_core.pause(unique_ID)
 
@@ -282,6 +317,8 @@ class manager:
 
 		return ret
 
+	def get_num_torrents(self):
+		return pytorrent_core.get_num_torrents()
 
 	####################
 	# Internal functions
@@ -298,7 +335,7 @@ class manager:
 		full_new_name = self.base_dir + "/" + TORRENTS_SUBDIR + "/" + new_name
 
 		if new_name in os.listdir(self.base_dir + "/" + TORRENTS_SUBDIR):
-			raise PyTorrentCoreError("Could not cache torrent file locally, failed: " + new_name)
+			raise PyTorrentError("Could not cache torrent file locally, failed: " + new_name)
 
 		shutil.copy(filename, full_new_name)
 
@@ -314,8 +351,6 @@ class manager:
 	# Also all self-syncing is done here (various lists)
 
 	def sync(self):
-		print "sync"
-
 		ret = None # We return new added unique ID(s), or None
 
 		# Add torrents to core and unique_IDs
@@ -323,11 +358,11 @@ class manager:
 
 		for torrent in self.state.torrents:
 			if torrent not in torrents_with_unique_ID:
-				print "Adding torrent to core:", torrent.filename, torrent.save_dir, torrent.compact
+#				print "Adding torrent to core:", torrent.filename, torrent.save_dir, torrent.compact
 				unique_ID = pytorrent_core.add_torrent(torrent.filename,
 																	torrent.save_dir,
 																	torrent.compact)
-				print "Got unique ID:", unique_ID
+#				print "Got unique ID:", unique_ID
 				ret = unique_ID
 				self.unique_IDs[unique_ID] = torrent
 

@@ -16,15 +16,20 @@ import os
 manager = pytorrent.manager("PT", "0500", "pytorrent - testing only",
 									 os.path.expanduser("~") + "/Temp")
 
+#manager.prefs['max_active_torrents'] = 1
+
 #my_torrent = manager.add_torrent("ubuntu.torrent", ".", True)
 
 #print "Unique ID:", my_torrent
 
-for i in range(2):
-	print "STATE:"
-	print manager.get_state(0)#my_torrent)
-	print ""
+print "PREFS:", manager.prefs
 
-	sleep(2)
-
-manager.quit()
+try:
+	while True:
+		print "STATE:", manager.get_num_torrents()
+		for j in range(manager.get_num_torrents()):
+			print manager.get_state(j)
+		print ""
+		sleep(2)
+except KeyboardInterrupt:
+	manager.quit()

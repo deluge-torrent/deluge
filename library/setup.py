@@ -22,10 +22,6 @@ import platform
 
 pythonVersion = platform.python_version()[0:3]
 
-print "========================================="
-print "Creating pytorrent_core for Python " + pythonVersion
-print "========================================="
-
 from distutils.core import setup, Extension
 
 module1 = Extension('pytorrent_core',
@@ -34,6 +30,8 @@ module1 = Extension('pytorrent_core',
                     libraries = ['boost_filesystem', 'boost_date_time',
 											'boost_program_options', 'boost_regex',
 											'boost_serialization', 'boost_thread', 'z', 'pthread'],
+                    extra_compile_args = ["-Wno-missing-braces"],
+#                    extra_link_args = [""],
                     sources = ['alert.cpp',
 										 'allocate_resources.cpp',
 										 'bt_peer_connection.cpp',
@@ -68,7 +66,10 @@ module1 = Extension('pytorrent_core',
 										 './kademlia/rpc_manager.cpp',
 										 './kademlia/traversal_algorithm.cpp'])
 
-setup (name = 'pytorrent_core',
-       version = '0.5.0',
-       description = 'Wrapper code for libtorrent C++ torrent library (Sourceforge, not Rakshasa)',
-       ext_modules = [module1])
+setup(name = 'pytorrent_core',
+      version = '0.5.0',
+      description = 'A module for the bittorrent protocol. Built using (Sourgeforge, not Rakshasha) libtorrent.',
+		author="Alon Zakai ('Kripken'), Zach Tibbitts",
+		author_email="kripkensteiner@gmail.com",
+		url="http://www.deluge-torrent.org",
+      ext_modules = [module1])
