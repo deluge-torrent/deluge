@@ -77,13 +77,25 @@ PREF_FUNCTIONS = {
 						}
 
 
-# Exception
+# Exceptions
 
 class PyTorrentError(Exception):
 	def __init__(self, value):
 		self.value = value
 	def __str__(self):
 		return repr(self.value)
+
+class InvalidEncodingError(PyTorrentError):
+	pass
+
+class FilesystemError(PyTorrentError):
+	pass
+
+class DuplicateTorrentError(PyTorrentError):
+	pass
+
+class InvalidTorrentError(PyTorrentError):
+	pass
 
 
 # Persistent information for a single torrent
@@ -124,6 +136,13 @@ class manager:
 		# Ensure directories exist
 		if not TORRENTS_SUBDIR in os.listdir(self.base_dir):
 			os.mkdir(self.base_dir + "/" + TORRENTS_SUBDIR)
+
+		# Pre-initialize the core's data structures
+		pytorrent_core.pre_init(PyTorrentError,
+                              InvalidEncodingError,
+                              FilesystemError,
+                              DuplicateTorrentError,
+                              InvalidTorrentError)
 
 		# Start up the core
 		assert(len(version) == 4)
