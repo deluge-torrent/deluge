@@ -26,13 +26,6 @@
 // The DHT capability requires UDP. We need to check that this port is in fact
 // open, just like the normal TCP port for bittorrent.
 //
-// Wait for answers about what to do with the router.*torrent.com's...
-//
-//------------------
-
-
-//-----------------
-// INCLUDES
 //-----------------
 
 #include <Python.h>
@@ -988,12 +981,12 @@ static PyObject *torrent_start_DHT(PyObject *self, PyObject *args)
 		M_ses->start_dht();
 	}
 
-//	M_ses->add_dht_router(std::make_pair(std::string("router.bittorrent.com"), 
-//												DHT_ROUTER_PORT));
-//	M_ses->add_dht_router(std::make_pair(std::string("router.utorrent.com"), 
-//												DHT_ROUTER_PORT));
-////	M_ses->add_dht_router(std::make_pair(std::string("router.bitcomet.com"), 
-////												DHT_ROUTER_PORT));
+	M_ses->add_dht_router(std::make_pair(std::string("router.bittorrent.com"), 
+												DHT_ROUTER_PORT));
+	M_ses->add_dht_router(std::make_pair(std::string("router.utorrent.com"), 
+												DHT_ROUTER_PORT));
+	M_ses->add_dht_router(std::make_pair(std::string("router.bitcomet.com"), 
+												DHT_ROUTER_PORT));
 
 	Py_INCREF(Py_None); return Py_None;
 }
