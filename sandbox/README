@@ -1,0 +1,8 @@
+
+README:
+
+This directory is for hypothetical ideas for snippets of code,
+etc that may be included into the software at some point.
+
+setup.py will ignore this directory, and so nothing in here 
+will be included in tarball or package releases.
