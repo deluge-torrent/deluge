@@ -2,29 +2,19 @@
 pytorrent
 =================
 
-The simplest way to use this project is to install the .deb file,
-which appears in the "debs" subfolder. This was tested under
-Ubuntu 6.06 (Dapper), but may work in other Debian-based systems.
+You may compile the code with the script 'makeit'. The
+script 'installit' will install the pytorrent_core package
+to the central package store, so that it can be imported inside
+pytorrent.py (which is required).
 
-Otherwise, you may compile the code with the script 'makeit'. The
-script 'installit' will install the package, so you can import it as
-a module under python.
+Currently the scripts do NOT copy pytorrent.py to the central
+package store, as Deluge imports pytorrent.py by "import
+library.pytorrent"
 
-After installation of torrent, you can install and run
-Deluge, http://www.deluge-torrent.com/
-
-As a simpler test, you can check whether pytorrent works by
-by running
+You can check whether pytorrent works by running
 
 python test.py
 
-This does a simple torrent download. Note that the torrent is for
-the Ubuntu 6.06 release, and was available as of 15.9.2006. You
-may need to replace the torrent with another.
-
-If successful, you will see test.py print the torrent status
-to the screen each second. Notice in particular the download speed
-and amount downloaded so far, to see if things are working.
-
-Note: You may need to change the port used, depending on your system.
-
+This does a simple torrent download. Note that the torrent file
+used for this test may have expired, so you may need to use a
+current one.
