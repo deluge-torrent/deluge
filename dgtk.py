@@ -21,6 +21,7 @@
 # 	Boston, MA  02110-1301, USA.
 
 import dcommon
+import gettext
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -30,18 +31,31 @@ import gtk.glade
 ## Right now this only supports PyGTK's native 
 ## tray library.  I will add egg support into
 ## this class at a later time.
-class TrayIcon(gtk.StatusIcon):
+class TrayIcon:
 	def __init__(self, parent):
-		gtk.StatusIcon.__init__(self)
 		self.parent = parent
-		#self.gladefile = dcommon.get_glade("dgtkpopups.glade")
-		self.set_from_file(dcommon.get_pixmap("deluge32.png"))
-		self.set_tooltip("Deluge Bittorrent Client")
+		self.tray = gtk.StatusIcon()
+		## uncomment later
+		##self.gladefile = dcommon.get_glade("dgtkpopups.glade")
+		self.tray.set_from_file(dcommon.get_pixmap("deluge32.png"))
+		self.tray.set_tooltip("Deluge Bittorrent Client")
 		
 
-class AboutDialog(gtk.AboutDialog):
+class AboutDialog:
 	def __init__(self):
-		pass
+		gtk.about_dialog_set_url_hook(dcommon.open_url_in_browser)
+		self.abt = gtk.AboutDialog()
+		self.abt.set_name(dcommon.PROGRAM_NAME)
+		self.abt.set_version(dcommon.PROGRAM_VERSION)
+		self.abt.set_website("http://deluge-torrent.org")
+		self.abt.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		self.abt.set_logo(gtk.gdk.pixbuf_new_from_file(
+				dcommon.get_pixmap("deluge256.png")))
+	
+	def show(self, arg=None):
+		self.abt.show_all()
+		self.abt.run()
+		self.abt.hide_all()
 
 class DelugeColumn(gtk.TreeViewColumn):
 	def __init__(self, title=None, renderer=None):

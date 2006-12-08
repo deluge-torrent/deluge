@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.4
+#!/usr/bin/env python2.5
 #
 # delugegtk.py
 #
@@ -22,7 +22,7 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
 
-import deluge, dcommon, dgtk
+import dcommon, dgtk
 
 import sys, os, gettext
 import pygtk
@@ -40,6 +40,17 @@ class DelugeGTK:
 			self.window.connect("destroy", gtk.main_quit)
 		self.window.set_title(dcommon.PROGRAM_NAME + " " + dcommon.PROGRAM_VERSION)
 		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+
+		## Create the system tray icon
+		self.tray = dgtk.TrayIcon(self)
+		
+		## Create the about dialog
+		self.abt = dgtk.AboutDialog()
+		
+		## Create the preferences dialog
+		self.prf = self.wtree.get_widget("pref_dialog")
+		self.prf.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		
 		actions = 	{
 					## File Menu
 					"new_torrent": self.new_torrent,
@@ -49,31 +60,28 @@ class DelugeGTK:
 					## Torrent Menu
 					"show_info": self.show_info_pane,
 					## Help Menu
-					"show_about_dialog": self.show_about_dialog,
+					"show_about_dialog": self.abt.show,
 					}
 		self.wtree.signal_autoconnect(actions)
 		
-		## Create the system tray icon
-		self.tray = dgtk.TrayIcon(self)
-		
-		## Create the about dialog
-		gtk.about_dialog_set_url_hook(dcommon.open_url_in_browser)
-		self.abt = gtk.AboutDialog()
-		self.abt.set_name(dcommon.PROGRAM_NAME)
-		self.abt.set_version(dcommon.PROGRAM_VERSION)
-		self.abt.set_website("http://deluge-torrent.org")
-		self.abt.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
-		self.abt.set_logo(gtk.gdk.pixbuf_new_from_file(
-				dcommon.get_pixmap("deluge256.png")))
-		## Create the preferences dialog
-		self.prf = self.wtree.get_widget("pref_dialog")
-		self.prf.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+
 		
 		## Create the torrent listview
 		self.torrent_view = self.wtree.get_widget("torrent_view")
 		self.torrent_list = gtk.ListStore(str)
 		self.torrent_view.set_model(self.torrent_list)
 		
+		
+		## Still a lot of work to be done here,
+		## this column is here as an example of how 
+		## to create and add columns.  Perhaps I
+		## should create some sort of ColumnsManager
+		## object in dgtk to keep the code cleaner
+		## and also confine column code to one place.
+		## I'm worrying about columns way too much
+		## because that was one of the main places
+		## Deluge's code (up to 0.4) got way out of
+		## hand.
 		self.name_column = dgtk.TextColumn("Name")
 		self.torrent_view.append_column(self.name_column)
 		
@@ -106,9 +114,7 @@ class DelugeGTK:
 				
 		
 	def show_about_dialog(self, obj):
-		self.abt.show_all()
-		self.abt.run()
-		self.abt.hide_all()
+		self.abt.show()
 
 		
 
