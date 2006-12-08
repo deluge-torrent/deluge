@@ -395,12 +395,26 @@ class manager:
 				if self.auto_seed_ratio == -1:
 					self.apply_queue(efficient = False) # To work on current data
 			elif event['event_type'] is self.constants['EVENT_TRACKER']:
-				self.set_supp_torrent_state_val( event['unique_ID'],
-															"tracker_status",
-															event['tracker_status'])
-				self.set_supp_torrent_state_val( event['unique_ID'],
-															"tracker_message",
-															event['message'])
+				unique_ID = event['unique_ID']
+				status    = event['tracker_status']
+				message   = event['message']
+				tracker   = message[message.find('"')+1:message.rfind('"')]
+
+				self.set_supp_torrent_state_val(unique_ID,			
+				                                "tracker_status",
+				                                (tracker, status))
+
+				old_state = self.get_supp_torrent_state(unique_ID)
+				try:
+					new = old_state['tracker_messages']
+				except KeyError:
+					new = {}
+
+				new[tracker] = message
+
+				self.set_supp_torrent_state_val(unique_ID,
+				                                "tracker_messages",
+				                                new)
 
 			event = pytorrent_core.pop_event()
 
