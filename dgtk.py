@@ -19,6 +19,10 @@
 # 	The Free Software Foundation, Inc.,
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
+#
+#
+# Similar to dcommon, this contains any common functions
+# related to gtk
 
 import dcommon
 import gettext
@@ -56,12 +60,32 @@ class AboutDialog:
 		self.abt.show_all()
 		self.abt.run()
 		self.abt.hide_all()
-
-class DelugeColumn(gtk.TreeViewColumn):
-	def __init__(self, title=None, renderer=None):
-		gtk.TreeViewColumn.__init__(self, title, renderer)
+		
+class PreferencesDialog:
+	def __init__(self):
+		self.gladefile = dcommon.get_glade_file("dgtkpref.glade")
+		self.wtree = gtk.glade.XML(self.gladefile)
+		self.prf = self.wtree.get_widget("pref_dialog")
+		self.notebook = self.wtree.get_widget("pref_notebook")
+		self.prf.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 	
-	def set_value(self, arg):
+	def show_pref(self, arg=None):
+		self.prf.show_all()
+		self.notebook.set_current_page(0)
+		self.prf.run()
+		self.prf.hide_all()
+	
+	def show_plugins(self, arg=None):
+		self.prf.show_all()
+		self.notebook.set_current_page(2)
+		self.prf.run()
+		self.prf.hide_all()
+		
+class TextColumn(gtk.TreeViewColumn):
+	def __init__(self, title):
+		gtk.TreeViewColumn.__init__(self, title, gtk.CellRendererText())
+	
+	def set_value(self, string):
 		pass
 	
 	def show(self):
@@ -69,24 +93,29 @@ class DelugeColumn(gtk.TreeViewColumn):
 	
 	def hide(self):
 		self.set_visible(False)
-		
-class TextColumn(DelugeColumn):
-	def __init__(self, title=None):
-		DelugeColumn.__init__(self, title, gtk.CellRendererText())
-	
-	def set_value(self, string):
-		pass
 
-class ToggleColumn(DelugeColumn):
-	def __init__(self, title=None):
-		DelugeColumn.__init__(self, title, gtk.CellRendererToggle())
+class ToggleColumn(gtk.TreeViewColumn):
+	def __init__(self, title):
+		gtk.TreeViewColumn.__init__(self, title, gtk.CellRendererToggle())
 	
 	def set_value(self, value):
 		pass
+	
+	def show(self):
+		self.set_visible(True)
+	
+	def hide(self):
+		self.set_visible(False)
 
-class ProgressColumn(DelugeColumn):
-	def __init__(self, title=None):
-		DelugeColumn.__init__(self, title, gtk.CellRendererProgress())
+class ProgressColumn(gtk.TreeViewColumn):
+	def __init__(self, title):
+		gtk.TreeViewColumn.__init__(self, title, gtk.CellRendererProgress())
 	
 	def set_value(self, progress):
 		pass
+	
+	def show(self):
+		self.set_visible(True)
+	
+	def hide(self):
+		self.set_visible(False)

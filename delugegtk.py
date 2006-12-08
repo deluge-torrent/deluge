@@ -48,15 +48,14 @@ class DelugeGTK:
 		self.abt = dgtk.AboutDialog()
 		
 		## Create the preferences dialog
-		self.prf = self.wtree.get_widget("pref_dialog")
-		self.prf.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		self.prf = dgtk.PreferencesDialog()
 		
 		actions = 	{
 					## File Menu
 					"new_torrent": self.new_torrent,
 					"add_torrent": self.add_torrent,
-					"pref_clicked": self.show_preferences_dialog,
-					"plugins_clicked": self.show_plugins_dialog,
+					"pref_clicked": self.prf.show_pref,
+					"plugins_clicked": self.prf.show_plugins,
 					## Torrent Menu
 					"show_info": self.show_info_pane,
 					## Help Menu
@@ -82,8 +81,13 @@ class DelugeGTK:
 		## because that was one of the main places
 		## Deluge's code (up to 0.4) got way out of
 		## hand.
+		
 		self.name_column = dgtk.TextColumn("Name")
 		self.torrent_view.append_column(self.name_column)
+		self.progress_column = dgtk.ProgressColumn("Progress")
+		self.torrent_view.append_column(self.progress_column)
+		self.check_column = dgtk.ToggleColumn("Enabled")
+		self.torrent_view.append_column(self.check_column)
 		
 		
 	
@@ -92,18 +96,6 @@ class DelugeGTK:
 		
 	def add_torrent(self, obj):
 		pass
-		
-	def show_preferences_dialog(self, obj):
-		self.prf.show_all()
-		self.wtree.get_widget("pref_notebook").set_current_page(0)
-		self.prf.run()
-		self.prf.hide_all()
-
-	def show_plugins_dialog(self, obj):
-		self.prf.show_all()
-		self.wtree.get_widget("pref_notebook").set_current_page(2)
-		self.prf.run()
-		self.prf.hide_all()
 
 	def show_info_pane(self, obj):
 		if(obj.get_active()):
@@ -111,13 +103,7 @@ class DelugeGTK:
 		else:
 			self.wtree.get_widget("torrent_info").hide()
 		
-				
-		
-	def show_about_dialog(self, obj):
-		self.abt.show()
-
-		
-
+## For testing purposes, create a copy of the interface
 if __name__ == "__main__":
 	dgtk = DelugeGTK()
 	gtk.main()
