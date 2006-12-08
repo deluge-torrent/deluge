@@ -51,7 +51,7 @@ STATE_FILENAME  = "persistent.state"
 PREFS_FILENAME  = "prefs.state"
 DHT_FILENAME    = "dht.state"
 
-TORRENT_STATE_EXPIRATION = 1 # seconds, like the output of time.time()
+CACHED_DATA_EXPIRATION = 1 # seconds, like the output of time.time()
 
 #	"max_half_open"       : -1,
 DEFAULT_PREFS = {
@@ -98,6 +98,24 @@ class InvalidTorrentError(PyTorrentError):
 	pass
 
 
+# A cached data item
+
+class cached_data:
+	def __init__(self, get_method, key):
+		self.get_method = get_method
+		self.key        = key
+
+		self.timestamp = -1
+
+	def get(self, efficiently=True):
+		if self.timestamp == -1 or time.time() > self.timestamp + CACHED_DATA_EXPIRATION or \
+		   not efficiently:
+			self.data = self.get_method(key)
+			self.timestamp = time.time()
+
+		return self.data
+
+		
 # Persistent information for a single torrent
 
 class torrent_info:
@@ -159,11 +177,13 @@ class manager:
 		self.unique_IDs = {} # unique_ID -> a torrent_info object, i.e. persistent data
 
 		# Saved torrent core_states. We do not poll the core in a costly manner, necessarily
-		self.saved_torrent_core_states = {} # unique_ID -> torrent_state
-		self.saved_torrent_core_states_timestamp = {} # time of creation
+		self.saved_core_torrent_states = {} # unique_ID -> torrent_state
 
 		# supplementary torrent states
 		self.supp_torrent_states = {} # unique_ID->dict of data
+
+		# Saved torrent core_states. We do not poll the core in a costly manner, necessarily
+		self.saved_core_torrent_peer_infos = {} # unique_ID -> torrent_state
 
 		# Unpickle the preferences, or create a new one
 		self.prefs = DEFAULT_PREFS
@@ -236,7 +256,7 @@ class manager:
 		for unique_ID in self.unique_IDs.keys():
 			self.unique_IDs[unique_ID].uploaded_memory = \
 					self.unique_IDs[unique_ID].uploaded_memory + \
-					self.get_torrent_core_state(unique_ID, False)['total_upload'] # Purposefully ineffi.
+					self.get_core_torrent_state(unique_ID, False)['total_upload'] # Purposefully ineffi.
 
 	# Preference management functions
 
@@ -305,20 +325,33 @@ class manager:
 
 	def get_state(self):
 		ret = pytorrent_core.get_session_info()
+
+		# Get additional data from our level
 		ret['is_listening'] = pytorrent_core.is_listening()
 		ret['port']         = pytorrent_core.listening_port()
 		if self.get_pref('use_DHT'):
 			ret['DHT_nodes'] = pytorrent_core.get_DHT_info()
+
 		return ret
 
 	# This is the EXTERNAL function, for the GUI. It returns the core_state + supp_state
-	def get_torrent_state(self, unique_ID):
-		ret = self.get_torrent_core_state(unique_ID, True).copy()
+	def get_torrent_state(self, unique_ID, full=False):
+		ret = self.get_core_torrent_state(unique_ID, True).copy()
 
+		# Add the pytorrent-level things to the pytorrent_core data
 		if self.get_supp_torrent_state(unique_ID) is not None:
 			ret.update(self.get_supp_torrent_state(unique_ID))
 
+		# If asked, we calculate the time-costly information as well
+		if full:
+			ret['availability'] = self.calc_availability(unique_ID)
+			ret['swarm speed']  = self.calc_swarm_speed(unique_ID)
+
 		return ret
+
+	def get_torrent_peer_info(self, unique_ID):
+		# Perhaps at some time we may add info here
+		return get_core_torrent_peer_info(unique_ID)
 
 	# Queueing functions
 
@@ -344,7 +377,7 @@ class manager:
 
 	def clear_completed(self):
 		for unique_ID in self.unique_IDs:
-			torrent_state = self.get_torrent_core_state(unique_ID)
+			torrent_state = self.get_core_torrent_state(unique_ID)
 			if torrent_state['progress'] == 100.0:
 				self.remove_torrent_ns(unique_ID)
 
@@ -359,8 +392,8 @@ class manager:
 
 		if self.auto_seed_ratio != -1:
 			for unique_ID in self.unique_IDs:
-				if self.get_torrent_core_state(unique_ID, efficient)['is_seed']:
-					torrent_state = self.get_torrent_core_state(unique_ID, efficient)
+				if self.get_core_torrent_state(unique_ID, efficient)['is_seed']:
+					torrent_state = self.get_core_torrent_state(unique_ID, efficient)
 					ratio = self.calc_ratio(unique_ID, torrent_state)
 					if ratio >= self.auto_seed_ratio:
 						self.queue_bottom(unique_ID)
@@ -369,10 +402,10 @@ class manager:
 		for index in range(len(self.state.queue)):
 			unique_ID = self.state.queue[index]
 			if (index < self.state.max_active_torrents or self.state_max_active_torrents == -1) \
-				and self.get_torrent_core_state(unique_ID, efficient)['is_paused']               \
+				and self.get_core_torrent_state(unique_ID, efficient)['is_paused']               \
 				and not self.is_user_paused(unique_ID):
 				pytorrent_core.resume(unique_ID)
-			elif not self.get_torrent_core_state(unique_ID, efficient)['is_paused'] and \
+			elif not self.get_core_torrent_state(unique_ID, efficient)['is_paused'] and \
 					(index >= self.state.max_active_torrents or self.is_user_paused(unique_ID)):
 				pytorrent_core.pause(unique_ID)
 
@@ -423,7 +456,7 @@ class manager:
 	# Filtering functions
 
 	def set_file_filter(self, unique_ID, file_filter):
-		assert(len(file_filter) == self.get_torrent_core_state(unique_ID, True)['num_files'])
+		assert(len(file_filter) == self.get_core_torrent_state(unique_ID, True)['num_files'])
 
 		self.unique_IDs[unique_ID].file_filter = file_filter[:]
 
@@ -464,19 +497,12 @@ class manager:
 	####################
 
 	# Efficient: use a saved state, if it hasn't expired yet
-	def get_torrent_core_state(self, unique_ID, efficiently=True):
-		if efficiently:
-			try:
-				if time.time() < self.saved_torrent_core_states_timestamp[unique_ID] + \
-										TORRENT_STATE_EXPIRATION:
-					return self.saved_torrent_core_states[unique_ID]
-			except KeyError:
-				pass
+	def get_core_torrent_state(self, unique_ID, efficiently=True):
+		if unique_ID not in self.saved_torrent_states.keys()
+			self.saved_torrent_states[unique_ID] = cached_data(pytorrent_core.get_torrent_state,
+			                                                   unique_ID)
 
-		self.saved_torrent_core_states_timestamp[unique_ID] = time.time()
-		self.saved_torrent_core_states[unique_ID] = pytorrent_core.get_torrent_state(unique_ID)
-
-		return self.saved_torrent_core_states[unique_ID]
+		return self.saved_torrent_states[unique_ID].get(efficiently)
 
 	def get_supp_torrent_state(self, unique_ID):
 		try:
@@ -492,6 +518,13 @@ class manager:
 			self.supp_torrent_states[unique_ID] = {}
 
 		self.supp_torrent_states[unique_ID][key] = val
+
+	def get_core_torrent_peer_info(self, unique_ID, efficiently=True):
+		if unique_ID not in self.saved_torrent_peer_infos.keys()
+			self.saved_torrent_peer_infos[unique_ID] = cached_data(pytorrent_core.get_peer_info,
+			                                                       unique_ID)
+
+		return self.saved_torrent_peer_infos[unique_ID].get(efficiently)
 
 	# Non-syncing functions. Used when we loop over such events, and sync manually at the end
 
@@ -567,6 +600,8 @@ class manager:
 			if PREF_FUNCTIONS[pref] is not None:
 				PREF_FUNCTIONS[pref](self.get_pref(pref))
 
+	# Calculations
+
 	def calc_ratio(self, unique_ID, torrent_state):
 		up = float(torrent_state['total_upload'] + self.unique_IDs[unique_ID].uploaded_memory)
 		down = float(torrent_state["total_done"])
@@ -577,3 +612,7 @@ class manager:
 			ret = -1
 
 		return ret
+
+	def calc_availability(self, unique_ID):
+
+	def calc_swarm_speed(self, unique_ID):
