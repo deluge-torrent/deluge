@@ -1,10 +1,28 @@
 #!/usr/bin/env python2.4
 #
-# Deluge common class
-# For functions and variables that
-#  need to be accessed globally.
+# delugegtk.py
+#
+# Copyright (C) Zach Tibbitts 2006 <zach@collegegeek.org>
+# 
+# Deluge is free software.
+# 
+# You may redistribute it and/or modify it under the terms of the
+# GNU General Public License, as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option)
+# any later version.
+# 
+# delugegtk.py is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with main.py.  If not, write to:
+# 	The Free Software Foundation, Inc.,
+# 	51 Franklin Street, Fifth Floor
+# 	Boston, MA  02110-1301, USA.
 
-import deluge, dcommon
+import deluge, dcommon, dgtk
 
 import sys, os, gettext
 import pygtk
@@ -35,6 +53,9 @@ class DelugeGTK:
 					}
 		self.wtree.signal_autoconnect(actions)
 		
+		## Create the system tray icon
+		self.tray = dgtk.TrayIcon(self)
+		
 		## Create the about dialog
 		gtk.about_dialog_set_url_hook(dcommon.open_url_in_browser)
 		self.abt = gtk.AboutDialog()
@@ -47,6 +68,14 @@ class DelugeGTK:
 		## Create the preferences dialog
 		self.prf = self.wtree.get_widget("pref_dialog")
 		self.prf.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		
+		## Create the torrent listview
+		self.torrent_view = self.wtree.get_widget("torrent_view")
+		self.torrent_list = gtk.ListStore(str)
+		self.torrent_view.set_model(self.torrent_list)
+		
+		self.name_column = dgtk.TextColumn("Name")
+		self.torrent_view.append_column(self.name_column)
 		
 		
 	
