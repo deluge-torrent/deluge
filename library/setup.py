@@ -54,6 +54,8 @@ for line in data:
 		p.close()
 
 		print ""
+#	else:
+#		print "NOT DOING: ", line
 
 # Now redo it, for real. Nothing should occur, except for installation, if requested
 print "Finalizing..."

@@ -110,7 +110,7 @@ class cached_data:
 	def get(self, efficiently=True):
 		if self.timestamp == -1 or time.time() > self.timestamp + CACHED_DATA_EXPIRATION or \
 		   not efficiently:
-			self.data = self.get_method(key)
+			self.data = self.get_method(self.key)
 			self.timestamp = time.time()
 
 		return self.data
@@ -126,8 +126,6 @@ class torrent_info:
 
 		self.user_paused     = False # start out unpaused
 		self.uploaded_memory = 0
-
-		self.file_filter = []
 
 		self.delete_me = False # set this to true, to delete it on next sync
 
@@ -472,7 +470,7 @@ class manager:
 	def apply_all_file_filters(self):
 		for unique_ID in self.unique_IDs.keys():
 			try:
-				self.set_file_filter(self.unique_IDs[unique_ID].file_filter)
+				self.set_file_filter(unique_ID, self.unique_IDs[unique_ID].file_filter)
 			except AttributeError:
 				pass
 
@@ -498,11 +496,11 @@ class manager:
 
 	# Efficient: use a saved state, if it hasn't expired yet
 	def get_core_torrent_state(self, unique_ID, efficiently=True):
-		if unique_ID not in self.saved_torrent_states.keys()
-			self.saved_torrent_states[unique_ID] = cached_data(pytorrent_core.get_torrent_state,
+		if unique_ID not in self.saved_core_torrent_states.keys():
+			self.saved_core_torrent_states[unique_ID] = cached_data(pytorrent_core.get_torrent_state,
 			                                                   unique_ID)
 
-		return self.saved_torrent_states[unique_ID].get(efficiently)
+		return self.saved_core_torrent_states[unique_ID].get(efficiently)
 
 	def get_supp_torrent_state(self, unique_ID):
 		try:
@@ -520,7 +518,7 @@ class manager:
 		self.supp_torrent_states[unique_ID][key] = val
 
 	def get_core_torrent_peer_info(self, unique_ID, efficiently=True):
-		if unique_ID not in self.saved_torrent_peer_infos.keys()
+		if unique_ID not in self.saved_torrent_peer_infos.keys():
 			self.saved_torrent_peer_infos[unique_ID] = cached_data(pytorrent_core.get_peer_info,
 			                                                       unique_ID)
 
@@ -614,5 +612,7 @@ class manager:
 		return ret
 
 	def calc_availability(self, unique_ID):
+		pass
 
 	def calc_swarm_speed(self, unique_ID):
+		pass

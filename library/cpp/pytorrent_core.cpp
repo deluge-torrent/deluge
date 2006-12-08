@@ -281,7 +281,7 @@ static PyObject *torrent_pre_init(PyObject *self, PyObject *args)
 
 static PyObject *torrent_init(PyObject *self, PyObject *args)
 {
-	printf("pytorrent_core, using libtorrent %s. Compiled with NDEBUG value: %d\r\n",
+	printf("pytorrent_core; using libtorrent %s. Compiled with NDEBUG value: %d\r\n",
 			 LIBTORRENT_VERSION,
 			 NDEBUG);
 
@@ -336,11 +336,16 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
 static PyObject *torrent_quit(PyObject *self, PyObject *args)
 {
+	printf("core: shutting down session...\r\n");
 	delete M_ses; // SLOWPOKE because of waiting for the trackers before shutting down
+	printf("core: removing settings...\r\n");
 	delete M_settings;
+	printf("core: removing torrents...\r\n");
 	delete M_torrents;
 
 	Py_DECREF(M_constants);
+
+	printf("core shut down.\r\n");
 
 	Py_INCREF(Py_None); return Py_None;
 };
@@ -813,22 +818,22 @@ static PyObject *torrent_get_peer_info(PyObject *self, PyObject *args)
 	M_torrents->at(index).handle.get_peer_info(peers);
 
 	PyObject *peer_info;
-
 	PyObject *ret = PyTuple_New(peers.size());
+	PyObject *curr_piece, *py_pieces;
 
 	for (unsigned long i = 0; i < peers.size(); i++)
 	{
 		std::vector<bool> &pieces      = peers[i].pieces;
 		unsigned long      pieces_had  = 0;
 
-		PyObject *py_pieces = PyTuple_New(pieces.size());
+		py_pieces = PyTuple_New(pieces.size());
 
 		for (unsigned long piece = 0; piece < pieces.size(); piece++)
 		{
 			if (pieces[piece])
 				pieces_had++;
 
-			curr_piece = Py_BuildValue("i", pieces[piece]);
+			curr_piece = Py_BuildValue("i", long(pieces[piece]));
 			PyTuple_SetItem(py_pieces, piece, curr_piece);
 		}
 

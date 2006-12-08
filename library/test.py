@@ -14,7 +14,7 @@ from   time    import sleep
 import os
 
 manager = pytorrent.manager("PT", "0500", "pytorrent - testing only",
-									 os.path.expanduser("~") + "/Temp")#, blank_slate=True)
+									 os.path.expanduser("~") + "/Temp")# blank_slate=True)
 
 #manager.set_pref('max_upload_rate', 6*1024)
 
