@@ -337,7 +337,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 static PyObject *torrent_quit(PyObject *self, PyObject *args)
 {
 	printf("core: shutting down session...\r\n");
-	delete M_ses; // SLOWPOKE because of waiting for the trackers before shutting down
+	delete M_ses; // 100% CPU...
 	printf("core: removing settings...\r\n");
 	delete M_settings;
 	printf("core: removing torrents...\r\n");

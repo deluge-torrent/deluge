@@ -332,17 +332,12 @@ class manager:
 		return ret
 
 	# This is the EXTERNAL function, for the GUI. It returns the core_state + supp_state
-	def get_torrent_state(self, unique_ID, full=False):
+	def get_torrent_state(self, unique_ID):
 		ret = self.get_core_torrent_state(unique_ID, True).copy()
 
 		# Add the flood-level things to the flood_core data
 		if self.get_supp_torrent_state(unique_ID) is not None:
 			ret.update(self.get_supp_torrent_state(unique_ID))
-
-		# If asked, we calculate the time-costly information as well
-		if full:
-			ret['availability'] = self.calc_availability(unique_ID)
-			ret['swarm speed']  = self.calc_swarm_speed(unique_ID)
 
 		return ret
 
@@ -472,6 +467,32 @@ class manager:
 				self.set_file_filter(unique_ID, self.unique_IDs[unique_ID].file_filter)
 			except AttributeError:
 				pass
+
+	# Advanced statistics
+
+	# Availability - how many complete copies are among our peers
+	def calc_availability(self, unique_ID):
+		peer_info = self.get_core_torrent_peer_info(unique_ID)
+
+		if len(peer_info) == 0:
+			return 0
+
+		num_pieces = len(peer_info[0].pieces)
+
+		freqs = [0]*num_pieces
+
+		for peer in peer_info:
+			for piece in num_pieces:
+				freqs[piece] = freqs[piece] + peer['pieces'][piece]
+
+		minimum = min(freqs)
+#		frac = freqs.count(minimum + 1) # Does this mean something?
+
+		return minimum
+
+	# Swarm speed - try to guess the speed of the entire swarm
+	def calc_swarm_speed(self, unique_ID):
+		pass
 
 	# Miscellaneous minor functions
 
@@ -609,9 +630,3 @@ class manager:
 			ret = -1
 
 		return ret
-
-	def calc_availability(self, unique_ID):
-		pass
-
-	def calc_swarm_speed(self, unique_ID):
-		pass
