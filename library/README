@@ -1,17 +1,17 @@
 =================
-pytorrent
+Flood
 =================
 
 You may compile the code with the script 'makeit'. The
-script 'installit' will install the pytorrent_core package
+script 'installit' will install the flood_core package
 to the central package store, so that it can be imported inside
-pytorrent.py (which is required).
+flood.py (which is required).
 
-Currently the scripts do NOT copy pytorrent.py to the central
-package store, as Deluge imports pytorrent.py by "import
-library.pytorrent"
+Currently the scripts do NOT copy flood.py to the central
+package store, as Deluge imports flood.py by "import
+library.flood"
 
-You can check whether pytorrent works by running
+You can check whether flood works by running
 
 python test.py
 

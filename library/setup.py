@@ -30,9 +30,9 @@ import platform
 
 pythonVersion = platform.python_version()[0:3]
 
-print "========================================="
-print "Creating pytorrent_core for Python " + pythonVersion
-print "========================================="
+print "====================================="
+print "Creating flood_core for Python " + pythonVersion
+print "====================================="
 
 import os
 

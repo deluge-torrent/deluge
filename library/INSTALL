@@ -1,5 +1,5 @@
 ================================= 
-Installation of pytorrent
+Installation of Flood
 =================================
 
 Compile:         python setup.py build
@@ -11,7 +11,7 @@ Dependencies to compile (written as Ubuntu packages): python, libboost-filesyste
 
 May also depend on (not sure): python-dev, and -dev packages for all boost libs
 
-Makefile.libtorrent-only.* are the makefiles from libtorrent, copied as it. They don't refer to pytorrent, and probably won't work in the current directory structure. However, they may help people know what dependencies etc. are needed
+Makefile.libtorrent-only.* are the makefiles from libtorrent, copied as it. They don't refer to Flood, and probably won't work in the current directory structure. However, they may help people know what dependencies etc. are needed
 
 If you find mistakes here, please notify me on the project page, www.deluge-torrent.org. Thank you.
 

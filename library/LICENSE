@@ -18,5 +18,6 @@
  *
  * NOTE:The libtorrent code is copyrighted by Arvid Norberg; see the notice in
  * the libtorrent files. However, to ensure no misunderstanding: the entire project
- * as a whole is licenced, as mentioned above, under the GPL.
+ * as a whole is licenced, as mentioned above, under the GPL. Only laziness has
+ * prevented every single notice there from being changed from BSD to GPL.
  */

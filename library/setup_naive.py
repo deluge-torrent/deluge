@@ -24,7 +24,7 @@ pythonVersion = platform.python_version()[0:3]
 
 from distutils.core import setup, Extension
 
-module1 = Extension('pytorrent_core',
+module1 = Extension('flood_core',
                     include_dirs = ['./include', './include/libtorrent',
 												'/usr/include/python' + pythonVersion],
                     libraries = ['boost_filesystem', 'boost_date_time',
@@ -44,7 +44,7 @@ module1 = Extension('pytorrent_core',
  										 'cpp/peer_connection.cpp',
 						             'cpp/piece_picker.cpp',     
 										 'cpp/policy.cpp',           
-										 'cpp/pytorrent_core.cpp',
+										 'cpp/flood_core.cpp',
 					                'cpp/session.cpp',   
 					                'cpp/session_impl.cpp',
                                'cpp/sha1.cpp',
@@ -66,9 +66,9 @@ module1 = Extension('pytorrent_core',
 										 'cpp/kademlia/rpc_manager.cpp',
 										 'cpp/kademlia/traversal_algorithm.cpp'])
 
-setup(name = 'pytorrent_core',
+setup(name = 'flood_core',
       version = '0.5.0',
-      description = 'A module for the bittorrent protocol. Built using (Sourgeforge, not Rakshasha) libtorrent.',
+      description = "A module for the bittorrent protocol. Built using Rasterbar's libtorrent.",
 		author="Alon Zakai ('Kripken'), Zach Tibbitts",
 		author_email="kripkensteiner@gmail.com",
 		url="http://www.deluge-torrent.org",
