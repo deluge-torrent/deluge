@@ -468,31 +468,18 @@ class manager:
 			except AttributeError:
 				pass
 
-	# Advanced statistics
+	# Advanced statistics - these may be SLOW. The client should call these only
+	# when needed, and perhaps only once in a long while (they are mostly just
+	# approximations anyhow
 
-	# Availability - how many complete copies are among our peers
 	def calc_availability(self, unique_ID):
-		peer_info = self.get_core_torrent_peer_info(unique_ID)
+		return flood_stats.calc_availability(self.get_core_torrent_peer_info(unique_ID))
 
-		if len(peer_info) == 0:
-			return 0
-
-		num_pieces = len(peer_info[0].pieces)
-
-		freqs = [0]*num_pieces
-
-		for peer in peer_info:
-			for piece in num_pieces:
-				freqs[piece] = freqs[piece] + peer['pieces'][piece]
-
-		minimum = min(freqs)
-#		frac = freqs.count(minimum + 1) # Does this mean something?
-
-		return minimum
-
-	# Swarm speed - try to guess the speed of the entire swarm
 	def calc_swarm_speed(self, unique_ID):
-		pass
+		pieces_per_sec = flood_stats.calc_swarm_speed(self.get_core_torrent_peer_info(unique_ID))
+		piece_length   = self.get_core_torrent_state(unique_ID, efficiently=True)
+
+		return pieces_per_sec * piece_length
 
 	# Miscellaneous minor functions
 
