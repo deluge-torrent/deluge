@@ -57,7 +57,6 @@ class DelugeGTK:
 					"pref_clicked": self.prf.show_pref,
 					"plugins_clicked": self.prf.show_plugins,
 					## Torrent Menu
-					"show_info": self.show_info_pane,
 					## Help Menu
 					"show_about_dialog": self.abt.show,
 					}
@@ -97,11 +96,6 @@ class DelugeGTK:
 	def add_torrent(self, obj):
 		pass
 
-	def show_info_pane(self, obj):
-		if(obj.get_active()):
-			self.wtree.get_widget("torrent_info").show()
-		else:
-			self.wtree.get_widget("torrent_info").hide()
 		
 ## For testing purposes, create a copy of the interface
 if __name__ == "__main__":
