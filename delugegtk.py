@@ -54,6 +54,7 @@ class DelugeGTK:
 					## File Menu
 					"new_torrent": self.new_torrent,
 					"add_torrent": self.add_torrent,
+					## Edit Menu
 					"pref_clicked": self.prf.show_pref,
 					"plugins_clicked": self.prf.show_plugins,
 					## Torrent Menu
@@ -66,8 +67,8 @@ class DelugeGTK:
 		
 		## Create the torrent listview
 		self.torrent_view = self.wtree.get_widget("torrent_view")
-		self.torrent_list = gtk.ListStore(str)
-		self.torrent_view.set_model(self.torrent_list)
+		self.store = gtk.ListStore(str)
+		self.torrent_view.set_model(self.store)
 		
 		
 		## Still a lot of work to be done here,
@@ -81,11 +82,11 @@ class DelugeGTK:
 		## Deluge's code (up to 0.4) got way out of
 		## hand.
 		
-		self.name_column = dgtk.TextColumn("Name")
+		self.name_column = dgtk.TextColumn("Name", 0)
 		self.torrent_view.append_column(self.name_column)
-		self.progress_column = dgtk.ProgressColumn("Progress")
+		self.progress_column = dgtk.ProgressColumn("Progress", 1)
 		self.torrent_view.append_column(self.progress_column)
-		self.check_column = dgtk.ToggleColumn("Enabled")
+		self.check_column = dgtk.ToggleColumn("Enabled", 2)
 		self.torrent_view.append_column(self.check_column)
 		
 		
