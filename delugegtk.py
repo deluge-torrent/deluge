@@ -36,6 +36,7 @@ class DelugeGTK:
 		self.gladefile = dcommon.get_glade_file("delugegtk.glade")
 		self.wtree = gtk.glade.XML(self.gladefile)
 		self.window = self.wtree.get_widget("main_window")
+		self.toolbar = self.wtree.get_widget("tb_middle")
 		if(self.window):
 			self.window.connect("destroy", gtk.main_quit)
 		self.window.set_title(dcommon.PROGRAM_NAME + " " + dcommon.PROGRAM_VERSION)
@@ -54,6 +55,7 @@ class DelugeGTK:
 					## File Menu
 					"new_torrent": self.new_torrent,
 					"add_torrent": self.add_torrent,
+					"menu_quit": self.quit,
 					## Edit Menu
 					"pref_clicked": self.prf.show_pref,
 					"plugins_clicked": self.prf.show_plugins,
@@ -63,12 +65,11 @@ class DelugeGTK:
 					}
 		self.wtree.signal_autoconnect(actions)
 		
-
-		
 		## Create the torrent listview
-		self.torrent_view = self.wtree.get_widget("torrent_view")
-		self.store = gtk.ListStore(str)
-		self.torrent_view.set_model(self.store)
+		self.view = self.wtree.get_widget("torrent_view")
+		# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
+		self.store = gtk.ListStore(int, int, str, str, int, str, str, str, str, str, str, str)
+		self.view.set_model(self.store)
 		
 		
 		## Still a lot of work to be done here,
@@ -82,23 +83,43 @@ class DelugeGTK:
 		## Deluge's code (up to 0.4) got way out of
 		## hand.
 		
-		self.name_column = dgtk.TextColumn("Name", 0)
-		self.torrent_view.append_column(self.name_column)
-		self.progress_column = dgtk.ProgressColumn("Progress", 1)
-		self.torrent_view.append_column(self.progress_column)
-		self.check_column = dgtk.ToggleColumn("Enabled", 2)
-		self.torrent_view.append_column(self.check_column)
+		self.queue_column 	= 	dgtk.add_text_column(self.view, "#", 1)
+		self.name_column 	=	dgtk.add_text_column(self.view, "Name", 2)
+		self.size_column 	=	dgtk.add_text_column(self.view, "Size", 3)
+		self.status_column 	= 	dgtk.add_progress_column(self.view, "Status", 4, 5)
+		self.seed_column 	=	dgtk.add_text_column(self.view, "Seeders", 6)
+		self.peer_column 	=	dgtk.add_text_column(self.view, "Peers", 7)
+		self.dl_column 		=	dgtk.add_text_column(self.view, "Download", 8)
+		self.ul_column 		=	dgtk.add_text_column(self.view, "Upload", 9)
+		self.eta_column 	=	dgtk.add_text_column(self.view, "Time Remaining", 10)
+		self.share_column 	= 	dgtk.add_text_column(self.view, "Share Ratio", 11)
 		
-		
+		## Interface created
 	
-	def new_torrent(self, obj):
+	def start(self):
 		pass
 		
-	def add_torrent(self, obj):
+	def new_torrent(self, obj=None):
+		pass
+		
+	def add_torrent(self, obj=None):
+		pass
+		
+	def quit(self, obj=None):
+		self.window.destroy()
+	
+	## Call via a timer to update the interface
+	def update(self):
 		pass
 
 		
 ## For testing purposes, create a copy of the interface
 if __name__ == "__main__":
-	dgtk = DelugeGTK()
+	d = DelugeGTK()
+	## Add an example line
+	
+	## Test the interface by adding a few fake torrents
+	d.store.append([0,1,"Deluge Torrent","700MB",50,"Downloading","10 (50)", "15 (30)", "50 KB/s", "10 KB/s", "2 h", "100%"])
+	d.store.append([1,2,"Sample Torrent","350MB",75,"Queued","10 (20)","20 (20)","0 KB/s", "0 KB/s", "und", "0%"])
+	
 	gtk.main()

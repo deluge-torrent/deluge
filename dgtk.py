@@ -40,10 +40,56 @@ class TrayIcon:
 		self.parent = parent
 		self.tray = gtk.StatusIcon()
 		## uncomment later
-		##self.gladefile = dcommon.get_glade("dgtkpopups.glade")
+		##self.gladefile = dcommon.get_glade_file("dgtkpopups.glade")
 		self.tray.set_from_file(dcommon.get_pixmap("deluge32.png"))
 		self.tray.set_tooltip("Deluge Bittorrent Client")
+
+class TorrentPopup:
+	def __init__(self, parent):
+		self.parent = parent
+		self.gladefile = dcommon.get_glade_file("dgtkpopups.glade")
+		self.wtree = gtk.glade.XML(self.gladefile)
+		self.menu = self.wtree.get_widget("torrent_popup")
+		dic = {
+				"size_toggle": self.size,
+				"status_toggle": self.status,
+				"seeders_toggle": self.seeders,
+				"peers_toggle": self.peers,
+				"dl_toggle": self.dl,
+				"ul_toggle": self.ul,
+				"eta_toggle": self.eta,
+				"share_toggle": self.share
+				
+				}
+		self.wtree.signal_autoconnect(dic)
+	
+	def popup(self):
+		pass
 		
+	## Toggle functions
+	def size(self, obj):
+		pass
+	
+	def status(self, obj):
+		pass
+	
+	def seeders(self, obj):
+		pass
+	
+	def peers(self, obj):
+		pass
+	
+	def dl(self, obj):
+		pass
+	
+	def ul(self, obj):
+		pass
+	
+	def eta(self, obj):
+		pass
+	
+	def share(self, obj):
+		pass
 
 class AboutDialog:
 	def __init__(self):
@@ -87,42 +133,19 @@ class PreferencesDialog:
 ## a more organized form of the old add_column method, which will properly
 ## create and add the column and in addition, return that column to the
 ## calling function.
-		
-class TextColumn(gtk.TreeViewColumn):
-	def __init__(self, title, cid):
-		gtk.TreeViewColumn.__init__(self, title, gtk.CellRendererText())
-	
-	def show(self):
-		self.set_visible(True)
-	
-	def hide(self):
-		self.set_visible(False)
 
-class ToggleColumn(gtk.TreeViewColumn):
-	def __init__(self, title, cid):
-		self.renderer = gtk.CellRendererToggle()
-		gtk.TreeViewColumn.__init__(self, title, self.renderer, value=cid)
-		self.set_resizable(True)
-		self.set_sort_column_id(cid)
-		self.set_expand(False)
-		#renderer.connect("toggled", toggledSignal, cid)
+def add_text_column(view, header, cid):
+	render = gtk.CellRendererText()
+	column = gtk.TreeViewColumn(header, render, text=cid)
+	column.set_resizable(True)
+	column.set_expand(False)
+	view.append_column(column)
+	return column
 
-	def show(self):
-		self.set_visible(True)
-	
-	def hide(self):
-		self.set_visible(False)
-
-class ProgressColumn(gtk.TreeViewColumn):
-	def __init__(self, title, cid):
-		self.renderer = gtk.CellRendererProgress()
-		gtk.TreeViewColumn.__init__(self, title, self.renderer, value=cid)
-		self.set_resizable(True)
-		self.set_sort_column_id(cid)
-		self.set_expand(True)
-	
-	def show(self):
-		self.set_visible(True)
-	
-	def hide(self):
-		self.set_visible(False)
+def add_progress_column(view, header, pid, mid):
+	render = gtk.CellRendererProgress()
+	column = gtk.TreeViewColumn(header, render, value=pid, text=mid)
+	column.set_resizable(True)
+	column.set_expand(True)
+	view.append_column(column)
+	return column
