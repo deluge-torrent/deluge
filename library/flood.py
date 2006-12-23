@@ -339,6 +339,9 @@ class manager:
 		if self.get_supp_torrent_state(unique_ID) is not None:
 			ret.update(self.get_supp_torrent_state(unique_ID))
 
+		# Get queue position
+		ret['queue_pos'] = self.queue.index(unique_ID)
+
 		return ret
 
 	def get_torrent_peer_info(self, unique_ID):
