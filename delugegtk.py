@@ -70,6 +70,7 @@ class DelugeGTK:
 		# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
 		self.store = gtk.ListStore(int, int, str, str, int, str, str, str, str, str, str, str)
 		self.view.set_model(self.store)
+		self.view.set_rules_hint(True)
 		
 		
 		## Still a lot of work to be done here,
