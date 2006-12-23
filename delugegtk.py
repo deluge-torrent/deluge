@@ -92,7 +92,7 @@ class DelugeGTK:
 		self.peer_column 	=	dgtk.add_text_column(self.view, "Peers", 7)
 		self.dl_column 		=	dgtk.add_text_column(self.view, "Download", 8)
 		self.ul_column 		=	dgtk.add_text_column(self.view, "Upload", 9)
-		self.eta_column 	=	dgtk.add_text_column(self.view, "Time Remaining", 10)
+		self.eta_column 	=	dgtk.add_text_column(self.view, "ETA", 10)
 		self.share_column 	= 	dgtk.add_text_column(self.view, "Share Ratio", 11)
 		
 		## Interface created
@@ -122,5 +122,9 @@ if __name__ == "__main__":
 	## Test the interface by adding a few fake torrents
 	d.store.append([0,1,"Deluge Torrent","700MB",50,"Downloading","10 (50)", "15 (30)", "50 KB/s", "10 KB/s", "2 h", "100%"])
 	d.store.append([1,2,"Sample Torrent","350MB",75,"Queued","10 (20)","20 (20)","0 KB/s", "0 KB/s", "und", "0%"])
+	d.store.append([2,3,"Deluge Torrent","700MB",55,"Downloading","10 (50)", "15 (30)", "50 KB/s", "10 KB/s", "2 h", "300%"])
+	d.store.append([3,4,"Sample Torrent","350MB",65,"Queued","10 (20)","20 (20)","0 KB/s", "0 KB/s", "und", "10%"])
+	d.store.append([4,5,"Deluge Torrent","700MB",50,"Downloading","10 (50)", "15 (30)", "50 KB/s", "10 KB/s", "2 h", "120%"])
+	d.store.append([5,6,"Sample Torrent","350MB",95,"Queued","10 (20)","20 (20)","0 KB/s", "0 KB/s", "und", "110%"])
 	
 	gtk.main()
