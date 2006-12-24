@@ -127,12 +127,7 @@ class PreferencesDialog:
 		self.prf.run()
 		self.prf.hide_all()
 	
-## Columns still need work, but should be easy now that I've worked out
-## liststores and treeviews.
-## Most likely will get rid of Objects for columns, and instead revert to
-## a more organized form of the old add_column method, which will properly
-## create and add the column and in addition, return that column to the
-## calling function.
+## Functions to create columns
 
 def add_text_column(view, header, cid):
 	render = gtk.CellRendererText()
@@ -146,6 +141,17 @@ def add_progress_column(view, header, pid, mid):
 	render = gtk.CellRendererProgress()
 	column = gtk.TreeViewColumn(header, render, value=pid, text=mid)
 	column.set_resizable(True)
-	column.set_expand(True)
+	column.set_expand(False)
 	view.append_column(column)
+	return column
+
+def add_toggle_column(view, header, cid, toggled_signal=None):
+	render = gtk.CellRendererToggle()
+	render.set_property('activatable', True)
+	column = gtk.TreeViewColumn(header, render, active=cid)
+	column.set_resizable(True)
+	column.set_expand(False)
+	view.append_column(column)
+	if toggled_signal is not None:
+		render.connect("toggled", toggled_signal, cid)
 	return column

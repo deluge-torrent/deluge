@@ -73,16 +73,7 @@ class DelugeGTK:
 		self.view.set_rules_hint(True)
 		
 		
-		## Still a lot of work to be done here,
-		## this column is here as an example of how 
-		## to create and add columns.  Perhaps I
-		## should create some sort of ColumnsManager
-		## object in dgtk to keep the code cleaner
-		## and also confine column code to one place.
-		## I'm worrying about columns way too much
-		## because that was one of the main places
-		## Deluge's code (up to 0.4) got way out of
-		## hand.
+		## Initializes the columns for the torrent_view
 		
 		self.queue_column 	= 	dgtk.add_text_column(self.view, "#", 1)
 		self.name_column 	=	dgtk.add_text_column(self.view, "Name", 2)
@@ -94,6 +85,32 @@ class DelugeGTK:
 		self.ul_column 		=	dgtk.add_text_column(self.view, "Upload", 9)
 		self.eta_column 	=	dgtk.add_text_column(self.view, "ETA", 10)
 		self.share_column 	= 	dgtk.add_text_column(self.view, "Share Ratio", 11)
+		
+		self.status_column.set_expand(True)
+		
+		self.file_view = self.wtree.get_widget("file_view")
+		self.file_store = gtk.ListStore(str, bool)
+		self.file_view.set_model(self.file_store)
+		
+		self.filename_column 	=	dgtk.add_text_column(self.file_view, "Filename", 0)
+		self.filetoggle_column 	=	dgtk.add_toggle_column(self.file_view, "DL?", 0)
+
+		self.filename_column.set_expand(True)
+		
+		self.peer_view = self.wtree.get_widget("peer_view")
+		self.peer_store = gtk.ListStore(str, str, str, str, str)
+		self.peer_view.set_model(self.peer_store)
+		
+		self.peer_ip_column			=	dgtk.add_text_column(self.peer_view, "IP Address", 0)
+		self.peer_client_column		=	dgtk.add_text_column(self.peer_view, "Client", 1)
+		## Note: change this column to use a progress column before 0.5 is released
+		self.peer_complete_column	=	dgtk.add_text_column(self.peer_view, "Percent Complete", 2)
+		self.peer_download_column	=	dgtk.add_text_column(self.peer_view, "Download Rate", 3)
+		self.peer_upload_column		=	dgtk.add_text_column(self.peer_view, "Upload Rate", 4)
+		
+		
+		
+		
 		
 		## Interface created
 	
@@ -116,15 +133,24 @@ class DelugeGTK:
 		
 ## For testing purposes, create a copy of the interface
 if __name__ == "__main__":
-	d = DelugeGTK()
-	## Add an example line
+	deluge = DelugeGTK()
 	
 	## Test the interface by adding a few fake torrents
-	d.store.append([0,1,"Deluge Torrent","700MB",50,"Downloading","10 (50)", "15 (30)", "50 KB/s", "10 KB/s", "2 h", "100%"])
-	d.store.append([1,2,"Sample Torrent","350MB",75,"Queued","10 (20)","20 (20)","0 KB/s", "0 KB/s", "und", "0%"])
-	d.store.append([2,3,"Deluge Torrent","700MB",55,"Downloading","10 (50)", "15 (30)", "50 KB/s", "10 KB/s", "2 h", "300%"])
-	d.store.append([3,4,"Sample Torrent","350MB",65,"Queued","10 (20)","20 (20)","0 KB/s", "0 KB/s", "und", "10%"])
-	d.store.append([4,5,"Deluge Torrent","700MB",50,"Downloading","10 (50)", "15 (30)", "50 KB/s", "10 KB/s", "2 h", "120%"])
-	d.store.append([5,6,"Sample Torrent","350MB",95,"Queued","10 (20)","20 (20)","0 KB/s", "0 KB/s", "und", "110%"])
+	deluge.store.append([0,1,"Deluge Torrent","700MB",50,"Downloading","10 (50)", "15 (30)", "50 KB/s", "10 KB/s", "2 h", "100%"])
+	deluge.store.append([1,2,"Sample Torrent","350MB",75,"Queued","10 (20)","20 (20)","0 KB/s", "0 KB/s", "und", "0%"])
+	deluge.store.append([2,3,"Deluge Torrent","700MB",55,"Downloading","10 (50)", "15 (30)", "50 KB/s", "10 KB/s", "2 h", "300%"])
+	deluge.store.append([3,4,"Sample Torrent","350MB",65,"Queued","10 (20)","20 (20)","0 KB/s", "0 KB/s", "und", "10%"])
+	deluge.store.append([4,5,"Deluge Torrent","700MB",50,"Downloading","10 (50)", "15 (30)", "50 KB/s", "10 KB/s", "2 h", "120%"])
+	deluge.store.append([5,6,"Sample Torrent","350MB",95,"Queued","10 (20)","20 (20)","0 KB/s", "0 KB/s", "und", "110%"])
+	
+	deluge.file_store.append(["Sample_Filename.ext", True])
+	deluge.file_store.append(["Second_Filename.ext", True])
+	
+	deluge.peer_store.append(["192.168.0.1", "Deluge 0.3.1", "100%", "30 KB/s", "0 KB/s"])
+	deluge.peer_store.append(["192.168.0.2", "Deluge 0.4.0", "76%", "13 KB/s", "0 KB/s"])
+	deluge.peer_store.append(["192.168.0.3", "Deluge 0.3.0", "74%", "12 KB/s", "3 KB/s"])
+	deluge.peer_store.append(["192.168.0.4", "Deluge 0.3.99.2", "50%", "9 KB/s", "0 KB/s"])
+	deluge.peer_store.append(["192.168.0.5", "Deluge 0.4.0", "90%", "0 KB/s", "20 KB/s"])
+	## Done with sample lines
 	
 	gtk.main()
