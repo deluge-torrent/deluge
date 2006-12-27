@@ -340,7 +340,7 @@ class manager:
 			ret.update(self.get_supp_torrent_state(unique_ID))
 
 		# Get queue position
-		ret['queue_pos'] = self.queue.index(unique_ID)
+		ret['queue_pos'] = self.state.queue.index(unique_ID)
 
 		return ret
 
