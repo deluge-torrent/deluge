@@ -286,7 +286,9 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 			 NDEBUG);
 
 	// Tell Boost that we are on *NIX, so bloody '.'s are ok inside a directory name!
-	boost::filesystem::path::default_name_check(empty_name_check);
+	try {
+		boost::filesystem::path::default_name_check(empty_name_check);
+	} catch (boost::filesystem::filesystem_error&) {} // Already been done, if re-initing
 
 	char *client_ID, *user_agent;
 	python_long v1,v2,v3,v4;
@@ -336,12 +338,12 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
 static PyObject *torrent_quit(PyObject *self, PyObject *args)
 {
+	printf("core: removing torrents...\r\n");
+	delete M_torrents;
 	printf("core: shutting down session...\r\n");
 	delete M_ses; // 100% CPU...
 	printf("core: removing settings...\r\n");
 	delete M_settings;
-	printf("core: removing torrents...\r\n");
-	delete M_torrents;
 
 	Py_DECREF(M_constants);
 
