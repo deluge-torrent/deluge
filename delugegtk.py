@@ -97,6 +97,8 @@ class DelugeGTK:
 
 		self.filename_column.set_expand(True)
 		
+		## Should probably use rules-hint for other treevies as well
+		
 		self.peer_view = self.wtree.get_widget("peer_view")
 		self.peer_store = gtk.ListStore(str, str, str, str, str)
 		self.peer_view.set_model(self.peer_store)
