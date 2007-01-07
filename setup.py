@@ -73,8 +73,8 @@ setup(name="Deluge", fullname="Deluge Bittorrent Client", version="0.5.0",
 	url="http://deluge-torrent.org",
 	license="GPLv2",
 	scripts=["scripts/deluge"],
-	py_modules=["dcommon", "delugegtk", "flood","library/flood_stats"],
+	py_modules=["dcommon", "delugegtk", "flood","flood_stats"],
 	packages=["library"],
 	data_files=[("glade", ["glade/delugegtk.glade"])],
-	##ext_modules=[flood_core]
+ext_modules=[flood_core]
 	)
