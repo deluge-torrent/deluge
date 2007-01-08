@@ -1,28 +1,25 @@
 # dgtk.py
 #
 # Copyright (C) Zach Tibbitts 2006 <zach@collegegeek.org>
-# 
-# Deluge is free software.
-# 
-# You may redistribute it and/or modify it under the terms of the
-# GNU General Public License, as published by the Free Software
-# Foundation; either version 2 of the License, or (at your option)
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
 # any later version.
 # 
-# dgtk.py is distributed in the hope that it will be useful,
+# This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 # 
 # You should have received a copy of the GNU General Public License
-# along with main.py.  If not, write to:
+# along with this program.  If not, write to:
 # 	The Free Software Foundation, Inc.,
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
-#
-#
+
 # Similar to dcommon, this contains any common functions
-# related to gtk
+# related to gtk that are needed by the client
 
 import dcommon
 import gettext

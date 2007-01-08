@@ -1,4 +1,5 @@
-# dcommon.py
+#
+# delugeplugins.py
 #
 # Copyright (C) Zach Tibbitts 2006 <zach@collegegeek.org>
 #
@@ -18,22 +19,6 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
 
-import sys, os, webbrowser
-
-PROGRAM_NAME = "Deluge"
-PROGRAM_VERSION = "0.5.0"
-DELUGE_DIR = os.path.abspath(os.path.dirname(sys.argv[0]))
-GLADE_DIR = DELUGE_DIR + "/glade"
-PIXMAP_DIR = DELUGE_DIR + "/pixmaps"
-
-def get_glade_file(fname):
-	return GLADE_DIR + "/" + fname
-
-def get_pixmap(fname):
-	return PIXMAP_DIR + "/" + fname
-	
-def open_url_in_browser(dialog, link):
-	try:
-		webbrowser.open(link)
-	except webbrowser.Error:
-		print "Error: no webbrowser found"
+class PluginManager:
+	def __init__(self):
+		pass

@@ -2,8 +2,6 @@
 # 
 # Copyright (c) 2006 Zach Tibbitts ('zachtib') <zach@collegegeek.org>
 #
-# 2006-15-9
-#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2, or (at your option)
@@ -13,11 +11,12 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-#
+# 
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-#
+# along with this program.  If not, write to:
+# 	The Free Software Foundation, Inc.,
+# 	51 Franklin Street, Fifth Floor
+# 	Boston, MA  02110-1301, USA.
 
 import platform, os
 
@@ -70,11 +69,13 @@ deluge_core = Extension('deluge_core',
 
 setup(name="deluge", fullname="Deluge Bittorrent Client", version="0.5.0",
 	author="Zach Tibbitts, Alon Zakai",
+	author_email="zach@collegegeek.org, kripkensteiner@gmail.com",
 	description="A bittorrent client written in PyGTK",
 	url="http://deluge-torrent.org",
 	license="GPLv2",
 	scripts=["scripts/deluge"],
-	py_modules=["deluge", "deluge_stats", "delugegtk", "dgtk", "dcommon"],
-	data_files=[("share/glade", ["glade/delugegtk.glade", "glade/dgtkpopups.glade", "glade/dgtkpref.glade"])],
+	py_modules=["deluge", "deluge_stats", "delugegtk", "dgtk", "dcommon", "delugeplugins"],
+	data_files=[("share/deluge/glade", ["glade/delugegtk.glade", "glade/dgtkpopups.glade", "glade/dgtkpref.glade"]),
+				("share/deluge/pixmaps", ["pixmaps/deluge32.png","pixmaps/deluge128.png"])],
 	ext_modules=[deluge_core]
 	)

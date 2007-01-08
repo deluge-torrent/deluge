@@ -10,11 +10,12 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-#
+# 
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-#
+# along with this program.  If not, write to:
+# 	The Free Software Foundation, Inc.,
+# 	51 Franklin Street, Fifth Floor
+# 	Boston, MA  02110-1301, USA.
 
 import time
 
@@ -64,7 +65,7 @@ def calc_swarm_speed(peer_info):
 				if delta >= 0:
 					new_pieces  = new_pieces + delta
 				else:
-					print "Flood.stat.calc_swarm_speed: Bad Delta: ", delta, old_peer_IPs[new_IP].pieces, new_peer_IPs[new_IP].pieces
+					print "Deluge.stat.calc_swarm_speed: Bad Delta: ", delta, old_peer_IPs[new_IP].pieces, new_peer_IPs[new_IP].pieces
 
 	# Calculate final value
 	time_delta = time.time() - old_peer_info_timestamp

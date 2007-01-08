@@ -10,20 +10,21 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-#
+# 
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-#
+# along with this program.  If not, write to:
+# 	The Free Software Foundation, Inc.,
+# 	51 Franklin Street, Fifth Floor
+# 	Boston, MA  02110-1301, USA.
 
-# Deluge Library, a.k.a. Flood, previously known as python-libtorrent:
+# Deluge Library, previously known as python-libtorrent:
 #
-#   Flood is a Python library for torrenting, that includes
-#   Flood, which is Python code, and Flood_core, which is also a Python
+#   Deluge is a Python library for torrenting, that includes
+#   Deluge, which is Python code, and Deluge_core, which is also a Python
 #   module, but written in C++, and includes the libtorrent torrent library. Only
-#   Flood should be visible, and only it should be imported, in the client.
-#   Flood_core contains mainly libtorrent-interfacing code, and a few other things
-#   that make most sense to write at that level. Flood contains all other
+#   Deluge should be visible, and only it should be imported, in the client.
+#   Deluge_core contains mainly libtorrent-interfacing code, and a few other things
+#   that make most sense to write at that level. Deluge contains all other
 #   torrent-system management: queueing, configuration management, persistent
 #   list of torrents, etc.
 #
@@ -33,10 +34,10 @@
 #		1. torrent_info - persistent data, like name, upload speed cap, etc.
 #		2. core_torrent_state - transient state data from the core. This may take
 #				time to calculate, so we do if efficiently
-#		3. supp_torrent_state - supplementary torrent data, from Flood
+#		3. supp_torrent_state - supplementary torrent data, from Deluge
 
 
-import flood_core
+import deluge_core
 import os, shutil
 import pickle
 import time
@@ -65,35 +66,35 @@ DEFAULT_PREFS = {
 						}
 
 PREF_FUNCTIONS = {
-	"max_uploads"         : flood_core.set_max_uploads,
-	"listen_on"           : flood_core.set_listen_on,
-	"max_connections"     : flood_core.set_max_connections,
+	"max_uploads"         : deluge_core.set_max_uploads,
+	"listen_on"           : deluge_core.set_listen_on,
+	"max_connections"     : deluge_core.set_max_connections,
 	"use_DHT"             : None, # not a normal pref in that is is applied only on start
 	"max_active_torrents" : None, # no need for a function, applied constantly
 	"auto_seed_ratio"     : None, # no need for a function, applied constantly
-	"max_download_rate"   : flood_core.set_download_rate_limit,
-	"max_upload_rate"     : flood_core.set_upload_rate_limit
+	"max_download_rate"   : deluge_core.set_download_rate_limit,
+	"max_upload_rate"     : deluge_core.set_upload_rate_limit
 						}
 
 
 # Exceptions
 
-class FloodError(Exception):
+class DelugeError(Exception):
 	def __init__(self, value):
 		self.value = value
 	def __str__(self):
 		return repr(self.value)
 
-class InvalidEncodingError(FloodError):
+class InvalidEncodingError(DelugeError):
 	pass
 
-class FilesystemError(FloodError):
+class FilesystemError(DelugeError):
 	pass
 
-class DuplicateTorrentError(FloodError):
+class DuplicateTorrentError(DelugeError):
 	pass
 
-class InvalidTorrentError(FloodError):
+class InvalidTorrentError(DelugeError):
 	pass
 
 
@@ -153,7 +154,7 @@ class manager:
 			os.mkdir(self.base_dir + "/" + TORRENTS_SUBDIR)
 
 		# Pre-initialize the core's data structures
-		flood_core.pre_init(FloodError,
+		deluge_core.pre_init(DelugeError,
                           InvalidEncodingError,
                           FilesystemError,
                           DuplicateTorrentError,
@@ -161,14 +162,14 @@ class manager:
 
 		# Start up the core
 		assert(len(version) == 4)
-		flood_core.init(client_ID,
+		deluge_core.init(client_ID,
 							 int(version[0]),
 							 int(version[1]),
 							 int(version[2]),
 							 int(version[3]),
 							 user_agent)
 
-		self.constants = flood_core.constants()
+		self.constants = deluge_core.constants()
 
 		# Unique IDs are NOT in the state, since they are temporary for each session
 		self.unique_IDs = {} # unique_ID -> a torrent_info object, i.e. persistent data
@@ -198,9 +199,9 @@ class manager:
 		# Apply DHT, if needed. Note that this is before any torrents are added
 		if self.get_pref('use_DHT'):
 			if not blank_slate:
-				flood_core.start_DHT(self.base_dir + "/" + DHT_FILENAME)
+				deluge_core.start_DHT(self.base_dir + "/" + DHT_FILENAME)
 			else:
-				flood_core.start_DHT("")
+				deluge_core.start_DHT("")
 
 		# Unpickle the state, or create a new one
 		if not blank_slate:
@@ -242,11 +243,11 @@ class manager:
 		# Stop DHT, if needed
 		if self.get_pref('use_DHT'):
 			print "Stopping DHT..."
-			flood_core.stop_DHT(self.base_dir + "/" + DHT_FILENAME)
+			deluge_core.stop_DHT(self.base_dir + "/" + DHT_FILENAME)
 
 		# Shutdown torrent core
 		print "Quitting the core..."
-		flood_core.quit()
+		deluge_core.quit()
 
 	def pre_quitting(self):
 		# Save the uploaded data from this session to the existing upload memory
@@ -267,12 +268,12 @@ class manager:
 			self.prefs[key] = DEFAULT_PREFS[key]
 			return self.prefs[key]
 		else:
-			raise FloodError("Asked for a pref that doesn't exist: " + key)
+			raise DelugeError("Asked for a pref that doesn't exist: " + key)
 
 	def set_pref(self, key, value):
 		# Make sure this is a valid key
 		if key not in DEFAULT_PREFS.keys():
-			raise FloodError("Asked to change a pref that isn't valid: " + key)
+			raise DelugeError("Asked to change a pref that isn't valid: " + key)
 
 		self.prefs[key] = value
 
@@ -289,7 +290,7 @@ class manager:
 	def remove_torrent(self, unique_ID, data_also):
 		# Save some data before we remove the torrent, needed later in this func
 		temp = self.unique_IDs[unique_ID]
-		temp_fileinfo = flood_core.get_fileinfo(unique_ID)
+		temp_fileinfo = deluge_core.get_fileinfo(unique_ID)
 
 		self.remove_torrent_ns(unique_ID)
 		self.sync()
@@ -316,18 +317,18 @@ class manager:
 	# A separate function, because people may want to call it from time to time
 	def save_fastresume_data(self):
 		for unique_ID in self.unique_IDs:
-			flood_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
+			deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
 
 	# State retrieval functions
 
 	def get_state(self):
-		ret = flood_core.get_session_info()
+		ret = deluge_core.get_session_info()
 
 		# Get additional data from our level
-		ret['is_listening'] = flood_core.is_listening()
-		ret['port']         = flood_core.listening_port()
+		ret['is_listening'] = deluge_core.is_listening()
+		ret['port']         = deluge_core.listening_port()
 		if self.get_pref('use_DHT'):
-			ret['DHT_nodes'] = flood_core.get_DHT_info()
+			ret['DHT_nodes'] = deluge_core.get_DHT_info()
 
 		return ret
 
@@ -335,7 +336,7 @@ class manager:
 	def get_torrent_state(self, unique_ID):
 		ret = self.get_core_torrent_state(unique_ID, True).copy()
 
-		# Add the flood-level things to the flood_core data
+		# Add the deluge-level things to the deluge_core data
 		if self.get_supp_torrent_state(unique_ID) is not None:
 			ret.update(self.get_supp_torrent_state(unique_ID))
 
@@ -399,10 +400,10 @@ class manager:
 			if (index < self.state.max_active_torrents or self.state_max_active_torrents == -1) \
 				and self.get_core_torrent_state(unique_ID, efficient)['is_paused']               \
 				and not self.is_user_paused(unique_ID):
-				flood_core.resume(unique_ID)
+				deluge_core.resume(unique_ID)
 			elif not self.get_core_torrent_state(unique_ID, efficient)['is_paused'] and \
 					(index >= self.state.max_active_torrents or self.is_user_paused(unique_ID)):
-				flood_core.pause(unique_ID)
+				deluge_core.pause(unique_ID)
 
 	# Event handling
 
@@ -411,7 +412,7 @@ class manager:
 		# wants to do something - show messages, for example
 		ret = []
 
-		event = flood_core.pop_event()
+		event = deluge_core.pop_event()
 
 		while event is not None:
 #			print "EVENT: ", event
@@ -444,7 +445,7 @@ class manager:
 				                                "tracker_messages",
 				                                new)
 
-			event = flood_core.pop_event()
+			event = deluge_core.pop_event()
 
 		return ret
 
@@ -455,7 +456,7 @@ class manager:
 
 		self.unique_IDs[unique_ID].file_filter = file_filter[:]
 
-		flood_core.set_filter_out(file_filter)
+		deluge_core.set_filter_out(file_filter)
 
 	def get_file_filter(self, unique_ID):
 		try:
@@ -476,10 +477,10 @@ class manager:
 	# approximations anyhow
 
 	def calc_availability(self, unique_ID):
-		return flood_stats.calc_availability(self.get_core_torrent_peer_info(unique_ID))
+		return deluge_stats.calc_availability(self.get_core_torrent_peer_info(unique_ID))
 
 	def calc_swarm_speed(self, unique_ID):
-		pieces_per_sec = flood_stats.calc_swarm_speed(self.get_core_torrent_peer_info(unique_ID))
+		pieces_per_sec = deluge_stats.calc_swarm_speed(self.get_core_torrent_peer_info(unique_ID))
 		piece_length   = self.get_core_torrent_state(unique_ID, efficiently=True)
 
 		return pieces_per_sec * piece_length
@@ -494,7 +495,7 @@ class manager:
 		return self.unique_IDs[unique_ID].user_paused
 
 	def get_num_torrents(self):
-		return flood_core.get_num_torrents()
+		return deluge_core.get_num_torrents()
 
 	def get_unique_IDs(self):
 		return self.unique_IDs.keys()
@@ -507,7 +508,7 @@ class manager:
 	# Efficient: use a saved state, if it hasn't expired yet
 	def get_core_torrent_state(self, unique_ID, efficiently=True):
 		if unique_ID not in self.saved_core_torrent_states.keys():
-			self.saved_core_torrent_states[unique_ID] = cached_data(flood_core.get_torrent_state,
+			self.saved_core_torrent_states[unique_ID] = cached_data(deluge_core.get_torrent_state,
 			                                                   unique_ID)
 
 		return self.saved_core_torrent_states[unique_ID].get(efficiently)
@@ -529,7 +530,7 @@ class manager:
 
 	def get_core_torrent_peer_info(self, unique_ID, efficiently=True):
 		if unique_ID not in self.saved_torrent_peer_infos.keys():
-			self.saved_torrent_peer_infos[unique_ID] = cached_data(flood_core.get_peer_info,
+			self.saved_torrent_peer_infos[unique_ID] = cached_data(deluge_core.get_peer_info,
 			                                                       unique_ID)
 
 		return self.saved_torrent_peer_infos[unique_ID].get(efficiently)
@@ -541,7 +542,7 @@ class manager:
 		(temp, filename_short) = os.path.split(filename)
 
 		if filename_short in os.listdir(self.base_dir + "/" + TORRENTS_SUBDIR):
-			raise FloodError("Duplicate Torrent, it appears: " + filename_short)
+			raise DelugeError("Duplicate Torrent, it appears: " + filename_short)
 
 		full_new_name = self.base_dir + "/" + TORRENTS_SUBDIR + "/" + filename_short
 
@@ -567,7 +568,7 @@ class manager:
 		for torrent in self.state.torrents:
 			if torrent not in torrents_with_unique_ID:
 #				print "Adding torrent to core:", torrent.filename, torrent.save_dir, torrent.compact
-				unique_ID = flood_core.add_torrent(torrent.filename,
+				unique_ID = deluge_core.add_torrent(torrent.filename,
 																	torrent.save_dir,
 																	torrent.compact)
 #				print "Got unique ID:", unique_ID
@@ -578,7 +579,7 @@ class manager:
 		to_delete = []
 		for torrent in self.state.torrents:
 			if torrent.delete_me:
-				flood_core.remove_torrent(torrent.unique_ID, torrent.filename)
+				deluge_core.remove_torrent(torrent.unique_ID, torrent.filename)
 				to_delete.append(torrent.unique_ID)
 
 		for unique_ID in to_delete:
@@ -593,7 +594,7 @@ class manager:
 
 		assert(len(self.unique_IDs) == len(self.state.torrents))
 		assert(len(self.unique_IDs) == len(self.state.queue))
-		assert(len(self.unique_IDs) == flood_core.get_num_torrents())
+		assert(len(self.unique_IDs) == deluge_core.get_num_torrents())
 
 		return ret
 
