@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # 
 # Copyright (c) 2006 Zach Tibbitts ('zachtib') <zach@collegegeek.org>
 #
@@ -24,7 +25,7 @@ pythonVersion = platform.python_version()[0:3]
 
 from distutils.core import setup, Extension
 
-flood_core = Extension('flood_core',
+deluge_core = Extension('deluge_core',
                     include_dirs = ['./include', './include/libtorrent',
 												'/usr/include/python' + pythonVersion],
                     libraries = ['boost_filesystem', 'boost_date_time',
@@ -44,7 +45,7 @@ flood_core = Extension('flood_core',
  										 'cpp/peer_connection.cpp',
 						             'cpp/piece_picker.cpp',     
 										 'cpp/policy.cpp',           
-										 'cpp/flood_core.cpp',
+										 'cpp/deluge_core.cpp',
 					                'cpp/session.cpp',   
 					                'cpp/session_impl.cpp',
                                'cpp/sha1.cpp',
@@ -67,13 +68,13 @@ flood_core = Extension('flood_core',
 										 'cpp/kademlia/traversal_algorithm.cpp'])
 
 
-setup(name="Deluge", fullname="Deluge Bittorrent Client", version="0.5.0",
+setup(name="deluge", fullname="Deluge Bittorrent Client", version="0.5.0",
 	author="Zach Tibbitts, Alon Zakai",
 	description="A bittorrent client written in PyGTK",
 	url="http://deluge-torrent.org",
 	license="GPLv2",
 	scripts=["scripts/deluge"],
-	py_modules=["dcommon", "delugegtk", "dgtk", "flood","flood_stats"],
-	data_files=[("share/glade", ["glade/delugegtk.glade"])],
-	ext_modules=[flood_core]
+	py_modules=["deluge", "deluge_stats", "delugegtk", "dgtk", "dcommon"],
+	data_files=[("share/glade", ["glade/delugegtk.glade", "glade/dgtkpopups.glade", "glade/dgtkpref.glade"])],
+	ext_modules=[deluge_core]
 	)
