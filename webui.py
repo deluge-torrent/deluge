@@ -22,7 +22,7 @@ import time
 import BaseHTTPServer
 import sys, os
 
-import flood
+import deluge
 
 
 # Constants
@@ -38,7 +38,7 @@ class WebUICore:
 		self.running = False
 
 	def start(self):
-		self.manager = flood.manager("DE", "0511", "Deluge WebUI",
+		self.manager = deluge.manager("DE", "0511", "Deluge WebUI",
 		                                 os.path.expanduser("~") + "/Temp")#, blank_slate=True)
 		self.running = True
 

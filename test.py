@@ -9,11 +9,11 @@
 #*/
 
 
-import flood
+import deluge
 from   time    import sleep
 import os
 
-manager = flood.manager("FL", "0500", "flood - testing only",
+manager = deluge.manager("FL", "0500", "deluge - testing only",
 									 os.path.expanduser("~") + "/Temp")# blank_slate=True)
 
 #manager.set_pref('max_upload_rate', 6*1024)
