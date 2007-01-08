@@ -1,5 +1,5 @@
 # 
-# Copyright © 2006 Zach Tibbitts ('zachtib') <zach@collegegeek.org>
+# Copyright (c) 2006 Zach Tibbitts ('zachtib') <zach@collegegeek.org>
 #
 # 2006-15-9
 #
@@ -73,8 +73,7 @@ setup(name="Deluge", fullname="Deluge Bittorrent Client", version="0.5.0",
 	url="http://deluge-torrent.org",
 	license="GPLv2",
 	scripts=["scripts/deluge"],
-	py_modules=["dcommon", "delugegtk", "flood","flood_stats"],
-	packages=["library"],
-	data_files=[("glade", ["glade/delugegtk.glade"])],
-ext_modules=[flood_core]
+	py_modules=["dcommon", "delugegtk", "dgtk", "flood","flood_stats"],
+	data_files=[("share/glade", ["glade/delugegtk.glade"])],
+	ext_modules=[flood_core]
 	)
