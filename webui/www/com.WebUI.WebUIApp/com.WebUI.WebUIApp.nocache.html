@@ -1,0 +1,118 @@
+<html>
+<head><script>
+var $wnd = parent;
+var $doc = $wnd.document;
+var $moduleName = null;
+
+
+window["provider$user.agent"] = function() {
+  var ua = navigator.userAgent.toLowerCase();
+  if (ua.indexOf('opera') != -1) {
+    return 'opera';
+  }
+   else if (ua.indexOf('webkit') != -1) {
+    return 'safari';
+  }
+   else if (ua.indexOf('msie 6.0') != -1 || ua.indexOf('msie 7.0') != -1) {
+    return 'ie6';
+  }
+   else if (ua.indexOf('gecko') != -1) {
+    var result = /rv:([0-9]+)\.([0-9]+)/.exec(ua);
+    if (result && result.length == 3) {
+      var version = parseInt(result[1]) * 10 + parseInt(result[2]);
+      if (version >= 18)
+        return 'gecko1_8';
+    }
+    return 'gecko';
+  }
+  return 'unknown';
+}
+;
+
+window["values$user.agent"] = {
+"gecko": 0, 
+"gecko1_8": 1, 
+"ie6": 2, 
+"opera": 3, 
+"safari": 4
+};
+
+window["prop$user.agent"] = function() {
+  var v = window["provider$user.agent"]();
+  var ok = window["values$user.agent"];
+  if (v in ok)
+    return v;
+  var a = new Array(5);
+  for (var k in ok)
+    a[ok[k]] = k;
+  $wnd.__gwt_onBadProperty("com.WebUI.WebUIApp", "user.agent", a, v);
+  if (arguments.length > 0) throw null; else return null;
+};
+
+function O(a,v) {
+  var answer = O.answers;
+  var i = -1;
+  var n = a.length - 1;
+  while (++i < n) {
+    if (!(a[i] in answer)) {
+      answer[a[i]] = [];
+    }
+    answer = answer[a[i]];
+  }
+  answer[a[n]] = v;
+}
+O.answers = [];
+
+
+function selectScript() {
+  try {
+    var F;
+    var I = ["true", (F=window["prop$user.agent"],F(1))];
+
+    O(["true","safari"],"10953E833A2B9B18DAA93BB081DC8A7D");
+    O(["true","ie6"],"11D20AAC454AFEE8A60D7380D38B0693");
+    O(["true","gecko"],"6A33FFDB2E9418B40D144BFD01370A52");
+    O(["true","gecko1_8"],"6A33FFDB2E9418B40D144BFD01370A52");
+    O(["true","opera"],"C7527B531338C30501EFDC3455BB151E");
+
+    var strongName = O.answers[I[0]][I[1]];
+    var query = location.search;
+    query = query.substring(0, query.indexOf('&'));
+    var newUrl = strongName + '.cache.html' + query;
+    location.replace(newUrl);
+  } catch (e) {
+    // intentionally silent on property failure
+  }
+}
+
+function injectExternalFiles() {
+  var mcb = $wnd.__gwt_tryGetModuleControlBlock(location.search);
+  if (!mcb) return;
+  var base = mcb.getBaseURL();
+  mcb.addStyles([
+    base+'WebUI.css'
+    ]);
+  mcb.addScripts([
+
+    ]);
+}
+
+function onLoad() {
+  if (!$wnd.__gwt_isHosted) return;
+  injectExternalFiles();
+  if (!$wnd.__gwt_isHosted()) {
+    selectScript();
+  }
+  else {
+    var mcb = $wnd.__gwt_tryGetModuleControlBlock(location.search);
+    if (mcb) {
+      $moduleName = mcb.getName();
+      mcb.compilationLoaded(window);
+    }
+  }
+}
+</script></head>
+<body onload='onLoad()'>
+<font face='arial' size='-1'>This script is part of module</font> <code>com.WebUI.WebUIApp</code>
+</body>
+</html>

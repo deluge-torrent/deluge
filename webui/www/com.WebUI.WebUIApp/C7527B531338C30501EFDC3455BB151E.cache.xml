@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cache-entry>
+	<rebind-decision in="com.google.gwt.user.client.ui.impl.TextBoxImpl" out="com.google.gwt.user.client.ui.impl.TextBoxImpl"/>
+	<rebind-decision in="com.WebUI.client.WebUIApp" out="com.WebUI.client.WebUIApp"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.impl.FormPanelImpl" out="com.google.gwt.user.client.ui.impl.FormPanelImplOpera"/>
+	<rebind-decision in="com.google.gwt.user.client.impl.HistoryImpl" out="com.google.gwt.user.client.impl.HistoryImplStandard"/>
+	<rebind-decision in="com.google.gwt.user.client.impl.DOMImpl" out="com.google.gwt.user.client.impl.DOMImplOpera"/>
+	<rebind-decision in="com.google.gwt.user.client.impl.HTTPRequestImpl" out="com.google.gwt.user.client.impl.HTTPRequestImpl"/>
+	<rebind-decision in="com.google.gwt.user.client.ui.impl.PopupImpl" out="com.google.gwt.user.client.ui.impl.PopupImpl"/>
+</cache-entry>
