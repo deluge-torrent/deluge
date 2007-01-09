@@ -30,7 +30,7 @@ import gtk.glade
 
 
 ## Right now this only supports PyGTK's native 
-## tray library.  I will add egg support into
+## tray library.  I may add egg support into
 ## this class at a later time.
 class TrayIcon:
 	def __init__(self, parent):
@@ -111,6 +111,13 @@ class PreferencesDialog:
 		self.prf = self.wtree.get_widget("pref_dialog")
 		self.notebook = self.wtree.get_widget("pref_notebook")
 		self.prf.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		
+		self.plugin_view = self.wtree.get_widget("plugin_view")
+		self.plugin_store = gtk.ListStore(str, 'gboolean')
+		self.plugin_view.set_model(self.plugin_store)
+		self.plugin_name_column = add_text_column(self.plugin_view, "Plugin", 0)
+		self.plugin_name_column.set_expand(True)
+		self.plugin_toggle_column = add_toggle_column(self.plugin_view, "Enable", 1)
 	
 	def show_pref(self, arg=None):
 		self.prf.show_all()

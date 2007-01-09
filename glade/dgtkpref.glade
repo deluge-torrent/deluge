@@ -6,6 +6,8 @@
     <property name="width_request">480</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Preferences Dialog</property>
+    <property name="default_width">583</property>
+    <property name="default_height">431</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
@@ -105,8 +107,8 @@
                                 </child>
                                 <child>
                                   <widget class="GtkFileChooserButton" id="filechooserbutton1">
-                                    <property name="action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
                                     <property name="visible">True</property>
+                                    <property name="action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -135,7 +137,6 @@
                         <child>
                           <widget class="GtkExpander" id="expander2">
                             <property name="visible">True</property>
-                            <property name="expanded">True</property>
                             <child>
                               <widget class="GtkTable" id="table4">
                                 <property name="visible">True</property>
@@ -183,7 +184,6 @@ their share ratio reaches:</property>
                         <child>
                           <widget class="GtkExpander" id="expander3">
                             <property name="visible">True</property>
-                            <property name="expanded">True</property>
                             <child>
                               <widget class="GtkCheckButton" id="checkbutton2">
                                 <property name="visible">True</property>
@@ -462,7 +462,7 @@ their share ratio reaches:</property>
                 <property name="n_rows">2</property>
                 <property name="n_columns">2</property>
                 <child>
-                  <widget class="GtkTextView" id="textview1">
+                  <widget class="GtkTextView" id="plugin_text">
                     <property name="visible">True</property>
                     <property name="editable">False</property>
                     <property name="wrap_mode">GTK_WRAP_WORD</property>
@@ -481,7 +481,9 @@ their share ratio reaches:</property>
                     <child>
                       <widget class="GtkButton" id="button1">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">button</property>
+                        <child>
+                          <placeholder/>
+                        </child>
                       </widget>
                     </child>
                     <child>
@@ -513,7 +515,7 @@ their share ratio reaches:</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkTreeView" id="treeview1">
+                  <widget class="GtkTreeView" id="plugin_view">
                     <property name="visible">True</property>
                   </widget>
                   <packing>
