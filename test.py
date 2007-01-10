@@ -13,14 +13,14 @@ import deluge
 from   time    import sleep
 import os
 
-manager = deluge.manager("FL", "0500", "deluge - testing only",
+manager = deluge.manager("DL", "0500", "deluge - testing only",
 									 os.path.expanduser("~") + "/Temp")# blank_slate=True)
 
 #manager.set_pref('max_upload_rate', 6*1024)
 
-#my_torrent = manager.add_torrent("xubuntu-6.10-desktop-i386.iso.torrent", ".", True)
+my_torrent = manager.add_torrent("ubuntu.iso.torrent", ".", True)
 
-#print "Unique ID:", my_torrent
+print "Unique ID:", my_torrent
 
 print "PREFS:", manager.prefs
 

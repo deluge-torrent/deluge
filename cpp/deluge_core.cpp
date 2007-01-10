@@ -111,7 +111,7 @@ torrents_t       *M_torrents        = NULL;
 // Exception types & macro
 //------------------------
 
-static PyObject *FloodError            = NULL;
+static PyObject *DelugeError            = NULL;
 static PyObject *InvalidEncodingError  = NULL;
 static PyObject *FilesystemError       = NULL;
 static PyObject *DuplicateTorrentError = NULL;
@@ -148,7 +148,7 @@ long get_torrent_index(torrent_handle &handle)
 			return i;
 		}
 
-	RAISE_INT(FloodError, "Handle not found.");
+	RAISE_INT(DelugeError, "Handle not found.");
 }
 
 long get_index_from_unique_ID(long unique_ID)
@@ -159,7 +159,7 @@ long get_index_from_unique_ID(long unique_ID)
 		if ((*M_torrents)[i].unique_ID == unique_ID)
 			return i;
 
-	RAISE_INT(FloodError, "No such unique_ID.");
+	RAISE_INT(DelugeError, "No such unique_ID.");
 }
 
 long internal_add_torrent(std::string const&             torrent_name,
@@ -269,7 +269,7 @@ long count_DHT_peers(entry &state)
 
 static PyObject *torrent_pre_init(PyObject *self, PyObject *args)
 {
-	if (!PyArg_ParseTuple(args, "OOOOO", &FloodError,
+	if (!PyArg_ParseTuple(args, "OOOOO", &DelugeError,
                                         &InvalidEncodingError,
                                         &FilesystemError,
                                         &DuplicateTorrentError,
@@ -281,7 +281,7 @@ static PyObject *torrent_pre_init(PyObject *self, PyObject *args)
 
 static PyObject *torrent_init(PyObject *self, PyObject *args)
 {
-	printf("flood_core; using libtorrent %s. Compiled with NDEBUG value: %d\r\n",
+	printf("deluge_core; using libtorrent %s. Compiled with NDEBUG value: %d\r\n",
 			 LIBTORRENT_VERSION,
 			 NDEBUG);
 
@@ -382,7 +382,7 @@ static PyObject *torrent_save_fastresume(PyObject *self, PyObject *args)
 
 		Py_INCREF(Py_None); return Py_None;
 	} else
-		RAISE_PTR(FloodError, "Invalid handle or no metadata for fastresume.");
+		RAISE_PTR(DelugeError, "Invalid handle or no metadata for fastresume.");
 }
 
 static PyObject *torrent_set_max_half_open(PyObject *self, PyObject *args)
@@ -1118,7 +1118,7 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 	{
 //		std::cerr << e.what() << "\n";
 //		return Py_BuildValue("l", 0);
-		RAISE_PTR(FloodError, e.what());
+		RAISE_PTR(DelugeError, e.what());
 	}
 }
 
@@ -1168,7 +1168,7 @@ static PyObject *torrent_apply_IP_filter(PyObject *self, PyObject *args)
 // Python Module data
 //====================
 
-static PyMethodDef flood_core_methods[] = {
+static PyMethodDef deluge_core_methods[] = {
 	{"pre_init",                torrent_pre_init,   				 METH_VARARGS, 	 "."},
 	{"init",                    torrent_init,   						 METH_VARARGS, 	 "."},
 	{"quit",                    torrent_quit,   						 METH_VARARGS, 	 "."},
@@ -1205,7 +1205,7 @@ static PyMethodDef flood_core_methods[] = {
 
 
 PyMODINIT_FUNC
-initflood_core(void)
+initdeluge_core(void)
 {
-	Py_InitModule("flood_core", flood_core_methods);
+	Py_InitModule("deluge_core", deluge_core_methods);
 };

@@ -30,7 +30,7 @@
 #
 
 # Documentation:
-#	Torrents have 3 structures:
+#	Torrents have 3 structures: 	
 #		1. torrent_info - persistent data, like name, upload speed cap, etc.
 #		2. core_torrent_state - transient state data from the core. This may take
 #				time to calculate, so we do if efficiently
