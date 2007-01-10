@@ -421,7 +421,7 @@ class manager:
 
 			if event['event_type'] is self.constants['EVENT_FINISHED']:
 				# If we are autoseeding, then we need to apply the queue
-				if self.auto_seed_ratio == -1:
+				if self.get_pref('auto_seed_ratio') == -1:
 					self.apply_queue(efficient = False) # To work on current data
 			elif event['event_type'] is self.constants['EVENT_TRACKER']:
 				unique_ID = event['unique_ID']
