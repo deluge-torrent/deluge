@@ -130,7 +130,23 @@ class PreferencesDialog:
 		self.notebook.set_current_page(2)
 		self.prf.run()
 		self.prf.hide_all()
+
+
+## A simple file open dialog.  I'm going to improve it later,
+## this is a quick implementation for testing.
+def show_file_open_dialog():
+	chooser = gtk.FileChooserDialog("Open", None, gtk.FILE_CHOOSER_ACTION_OPEN,
+			buttons=(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
+	response = chooser.run()
+	if response == gtk.RESPONSE_OK:
+		result = chooser.get_filename()
+	else:
+		result = None
+	chooser.destroy()
+	return result
 	
+
+
 ## Functions to create columns
 
 def add_text_column(view, header, cid):

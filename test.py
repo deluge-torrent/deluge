@@ -13,14 +13,14 @@ import deluge
 from   time    import sleep
 import os
 
-manager = deluge.manager("DL", "0500", "deluge - testing only",
+manager = deluge.Manager("DL", "0500", "deluge - testing only",
 									 os.path.expanduser("~") + "/Temp")# blank_slate=True)
 
 #manager.set_pref('max_upload_rate', 6*1024)
 
-my_torrent = manager.add_torrent("ubuntu.iso.torrent", ".", True)
+##my_torrent = manager.add_torrent("ubuntu.iso.torrent", ".", True)
 
-print "Unique ID:", my_torrent
+##print "Unique ID:", my_torrent
 
 print "PREFS:", manager.prefs
 
@@ -29,7 +29,9 @@ try:
 		print "STATE:", manager.get_state()
 		print "# torrents:", manager.get_num_torrents()
 		for unique_ID in manager.get_unique_IDs():
-			print unique_ID, manager.get_torrent_state(unique_ID)
+			state =  manager.get_torrent_state(unique_ID)
+			for key in state.keys():
+				print key, state[key]
 		manager.handle_events()
 		print ""
 		sleep(2)

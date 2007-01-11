@@ -29,10 +29,18 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 import gtk.glade
+import gobject
+
+import xdg, xdg.BaseDirectory
 
 
 class DelugeGTK:
 	def __init__(self):
+		#Start the Deluge Manager:
+		self.manager = deluge.Manager("DL", "0500", "Deluge 0.5.0",
+			 os.path.expanduser("~") + "/Temp")
+			 #xdg.BaseDirectory.save_config_path("deluge-svn"))
+		#Set up the interface:
 		self.gladefile = dcommon.get_glade_file("delugegtk.glade")
 		self.wtree = gtk.glade.XML(self.gladefile)
 		self.window = self.wtree.get_widget("main_window")
@@ -109,50 +117,57 @@ class DelugeGTK:
 		self.peer_complete_column	=	dgtk.add_text_column(self.peer_view, "Percent Complete", 2)
 		self.peer_download_column	=	dgtk.add_text_column(self.peer_view, "Download Rate", 3)
 		self.peer_upload_column		=	dgtk.add_text_column(self.peer_view, "Upload Rate", 4)
-		
-		
-		
-		
-		
-		## Interface created
 	
+		## Interface created
+		
+		## add torrents in manager to interface
+		for uid in self.manager.get_unique_IDs():
+			self.store.append(self.get_list_from_uid(uid))
+		
+		
+	## Start the timer that updates the interface
 	def start(self):
-		pass
+		gobject.timeout_add(1000, self.update)
+
+	## Call via a timer to update the interface
+	def update(self):
+		itr = self.store.get_iter_first()
+		
+		while itr is not None:
+			uid = self.store.get_value(itr, 0)
+			tlist = self.get_list_from_uid(uid)
+			for i in range(12):
+				self.store.set_value(itr, i, tlist[i])
+			itr = self.store.iter_next(itr)
+		return True
+	
+	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
+	def get_list_from_uid(self, unique_id):
+		state = self.manager.get_torrent_state(unique_id)
+		return [unique_id, state['queue_pos'], state['name'], state['total_size'], 
+				int(state['progress'] * 100), deluge.STATE_MESSAGES[state['state']], state['total_seeds'], 
+				state['total_peers'], state['download_rate'], state['upload_rate'], 
+				"NULL", "NULL"]
 		
 	def new_torrent(self, obj=None):
 		pass
 		
 	def add_torrent(self, obj=None):
-		pass
+		torrent = dgtk.show_file_open_dialog()
+		if torrent is not None:
+			uid = self.manager.add_torrent(torrent, ".", True)
+			self.store.append(self.get_list_from_uid(uid))
 		
 	def quit(self, obj=None):
+		self.manager.quit()
 		self.window.destroy()
 	
-	## Call via a timer to update the interface
-	def update(self):
-		pass
+
 
 		
 ## For testing purposes, create a copy of the interface
 if __name__ == "__main__":
-	deluge = DelugeGTK()
-	
-	## Test the interface by adding a few fake torrents
-	deluge.store.append([0,1,"Deluge Torrent","700MB",50,"Downloading","10 (50)", "15 (30)", "50 KB/s", "10 KB/s", "2 h", "100%"])
-	deluge.store.append([1,2,"Sample Torrent","350MB",75,"Queued","10 (20)","20 (20)","0 KB/s", "0 KB/s", "und", "0%"])
-	deluge.store.append([2,3,"Deluge Torrent","700MB",55,"Downloading","10 (50)", "15 (30)", "50 KB/s", "10 KB/s", "2 h", "300%"])
-	deluge.store.append([3,4,"Sample Torrent","350MB",65,"Queued","10 (20)","20 (20)","0 KB/s", "0 KB/s", "und", "10%"])
-	deluge.store.append([4,5,"Deluge Torrent","700MB",50,"Downloading","10 (50)", "15 (30)", "50 KB/s", "10 KB/s", "2 h", "120%"])
-	deluge.store.append([5,6,"Sample Torrent","350MB",95,"Queued","10 (20)","20 (20)","0 KB/s", "0 KB/s", "und", "110%"])
-	
-	deluge.file_store.append(["Sample_Filename.ext", True])
-	deluge.file_store.append(["Second_Filename.ext", True])
-	
-	deluge.peer_store.append(["192.168.0.1", "Deluge 0.3.1", "100%", "30 KB/s", "0 KB/s"])
-	deluge.peer_store.append(["192.168.0.2", "Deluge 0.4.0", "76%", "13 KB/s", "0 KB/s"])
-	deluge.peer_store.append(["192.168.0.3", "Deluge 0.3.0", "74%", "12 KB/s", "3 KB/s"])
-	deluge.peer_store.append(["192.168.0.4", "Deluge 0.3.99.2", "50%", "9 KB/s", "0 KB/s"])
-	deluge.peer_store.append(["192.168.0.5", "Deluge 0.4.0", "90%", "0 KB/s", "20 KB/s"])
-	## Done with sample lines
+	interface = DelugeGTK()
+	interface.start()
 	
 	gtk.main()

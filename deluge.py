@@ -75,6 +75,15 @@ PREF_FUNCTIONS = {
 	"max_download_rate"   : deluge_core.set_download_rate_limit,
 	"max_upload_rate"     : deluge_core.set_upload_rate_limit
 						}
+STATE_MESSAGES = (	"Queued",
+					"Checking",
+					"Connecting",
+					"Downloading Metadata",
+					"Downloading",
+					"Finished",
+					"Seeding",
+					"Allocating"
+					)
 
 
 # Exceptions
@@ -143,7 +152,7 @@ class persistent_state:
 
 # The manager for the torrent system
 
-class manager:
+class Manager:
 	# blank_slate mode ignores the two pickle files and DHT state file, i.e. you start
 	# completely fresh. When quitting, the old files will be overwritten
 	def __init__(self, client_ID, version, user_agent, base_dir, blank_slate=False):
