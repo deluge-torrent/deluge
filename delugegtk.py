@@ -122,7 +122,26 @@ class DelugeGTK:
 		self.peer_complete_column	=	dgtk.add_text_column(self.peer_view, "Percent Complete", 2)
 		self.peer_download_column	=	dgtk.add_text_column(self.peer_view, "Download Rate", 3)
 		self.peer_upload_column		=	dgtk.add_text_column(self.peer_view, "Upload Rate", 4)
-	
+		
+		#Torrent Summary tab
+		self.text_summary_title                   = self.wtree.get_widget("summary_title")
+		self.text_summary_total_size              = self.wtree.get_widget("summary_total_size")
+		self.text_summary_pieces                  = self.wtree.get_widget("summary_pieces")
+		self.text_summary_total_downloaded        = self.wtree.get_widget("summary_total_downloaded")
+		self.text_summary_total_uploaded          = self.wtree.get_widget("summary_total_uploaded")
+		self.text_summary_download_rate			  = self.wtree.get_widget("summary_download_rate")
+		self.text_summary_upload_rate			  = self.wtree.get_widget("summary_upload_rate")
+		self.text_summary_percentage_done         = self.wtree.get_widget("summary_percentage_done")
+		self.text_summary_share_ratio             = self.wtree.get_widget("summary_share_ratio")
+		self.text_summary_downloaded_this_session = self.wtree.get_widget("summary_downloaded_this_session")
+		self.text_summary_uplodaded_this_session  = self.wtree.get_widget("summary_uploaded_this_session")
+		self.text_summary_tracker                 = self.wtree.get_widget("summary_tracker")
+		self.text_summary_tracker_response        = self.wtree.get_widget("summary_tracker_response")
+		self.text_summary_tacker_status           = self.wtree.get_widget("summary_tracker_status")
+		self.text_summary_next_announce           = self.wtree.get_widget("summary_next_announce")
+		self.text_summary_compact_allocation      = self.wtree.get_widget("summary_compact_allocation")
+		self.text_summary_eta					  = self.wtree.get_widget("summary_eta")
+		
 		## Interface created
 		
 		## add torrents in manager to interface
@@ -141,6 +160,10 @@ class DelugeGTK:
 			tab = self.wtree.get_widget("torrent_info").get_current_page()
 		except AttributeError:
 			return False
+		# If no torrent is selected, select the first torrent:
+		(temp, selection) = self.view.get_selection().get_selected()
+		if selection is None:
+			self.view.get_selection().select_path("0")
 		if tab == 0: #Torrent List
 			itr = self.store.get_iter_first()
 			while itr is not None:
@@ -156,15 +179,47 @@ class DelugeGTK:
 					if not self.store.iter_is_valid(itr):
 						itr = None
 		elif tab == 1: #Details Pane
-			pass
+			state = self.manager.get_torrent_state(self.get_selected_torrent())
+			self.text_summary_title.set_text(str(state["name"]))
+			self.text_summary_total_size.set_text(str(state["total_size"]))
+			self.text_summary_pieces.set_text(str(state["pieces"]))
+			self.text_summary_total_downloaded.set_text(str(state["total_download"]))
+			self.text_summary_total_uploaded.set_text(str(state["total_upload"]))
+			self.text_summary_download_rate.set_text(str(state["download_rate"]))
+			self.text_summary_upload_rate.set_text(str(state["upload_rate"]))
+			self.text_summary_percentage_done.set_text(str(state["progress"]))
+			self.text_summary_share_ratio.set_text(str(self.calc_share_ratio(state)))
+			#self.text_summary_downloaded_this_session.set_text(str(state[""]))
+			#self.text_summary_uplodaded_this_session.set_text(str(state[""]))
+			self.text_summary_tracker.set_text(str(state["tracker"]))
+			#self.text_summary_tracker_response.set_text(str(state[""]))
+			self.text_summary_tacker_status.set_text(str(state["tracker_ok"]))
+			self.text_summary_next_announce.set_text(str(state["next_announce"]))
+			#self.text_summary_compact_allocation.set_text(str(state[""]))
+			#self.text_summary_eta.set_text(str(state[""]))
 		elif tab == 2: #Peers List
-			pass
+			uid = self.get_selected_torrent()
+			self.peer_store.clear()
+			peer_data = self.manager.get_torrent_peer_info(uid)
+			for peer in peer_data:
+				# ip client percent dl ul
+				self.peer_store.append([peer["ip"], peer["client"], peer["peer_has"], 
+						peer["download_speed"], peer["upload_speed"]])
 		elif tab == 3: #File List
 			pass
 		else:
 			pass
 
 		return True
+	
+	def calc_share_ratio(self, torrent_state):
+		if torrent_state["total_upload"] == 0:
+			return 0
+		elif torrent_state["total_download"] == 0:
+			return "infinite"
+		else:
+			ratio = float(torrent_state["total_upload"]) / float(torrent_state["total_download"])
+			return ratio
 	
 	def get_selected_torrent(self):
 		return self.store.get_value(self.view.get_selection().get_selected()[1], 0)

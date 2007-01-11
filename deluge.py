@@ -362,7 +362,7 @@ class Manager:
 
 	def get_torrent_peer_info(self, unique_ID):
 		# Perhaps at some time we may add info here
-		return get_core_torrent_peer_info(unique_ID)
+		return self.get_core_torrent_peer_info(unique_ID)
 
 	# Queueing functions
 
@@ -544,11 +544,11 @@ class Manager:
 		self.supp_torrent_states[unique_ID][key] = val
 
 	def get_core_torrent_peer_info(self, unique_ID, efficiently=True):
-		if unique_ID not in self.saved_torrent_peer_infos.keys():
-			self.saved_torrent_peer_infos[unique_ID] = cached_data(deluge_core.get_peer_info,
+		if unique_ID not in self.saved_core_torrent_peer_infos.keys():
+			self.saved_core_torrent_peer_infos[unique_ID] = cached_data(deluge_core.get_peer_info,
 			                                                       unique_ID)
 
-		return self.saved_torrent_peer_infos[unique_ID].get(efficiently)
+		return self.saved_core_torrent_peer_infos[unique_ID].get(efficiently)
 
 	# Non-syncing functions. Used when we loop over such events, and sync manually at the end
 
