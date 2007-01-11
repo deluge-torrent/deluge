@@ -18,6 +18,22 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
 
+
+## Modify the build arguments
+from distutils import sysconfig
+
+removals = ['-g', '-DNDEBUG', '-O2', '-Wstrict-prototypes']
+additions = ['-DNDEBUG', '-O2']
+
+cv = sysconfig.get_config_vars()
+for removal in removals:
+	cv["OPT"] = cv["OPT"].replace(" " + removal + " ", " ")
+for addition in additions:
+	cv["OPT"] = cv["OPT"] + " " + addition
+
+
+
+
 import platform, os
 
 pythonVersion = platform.python_version()[0:3]
@@ -31,7 +47,6 @@ deluge_core = Extension('deluge_core',
 											'boost_program_options', 'boost_regex',
 											'boost_serialization', 'boost_thread', 'z', 'pthread'],
                     extra_compile_args = ["-Wno-missing-braces"],
-#                    extra_link_args = [""],
                     sources = ['cpp/alert.cpp',
 										 'cpp/allocate_resources.cpp',
 										 'cpp/bt_peer_connection.cpp',
@@ -39,23 +54,23 @@ deluge_core = Extension('deluge_core',
 										 'cpp/escape_string.cpp',
 										 'cpp/file.cpp',
 										 'cpp/http_tracker_connection.cpp',
-					                'cpp/identify_client.cpp',
+					                	 'cpp/identify_client.cpp',
 										 'cpp/ip_filter.cpp',
  										 'cpp/peer_connection.cpp',
-						             'cpp/piece_picker.cpp',     
+						             	 'cpp/piece_picker.cpp',     
 										 'cpp/policy.cpp',           
 										 'cpp/deluge_core.cpp',
-					                'cpp/session.cpp',   
-					                'cpp/session_impl.cpp',
-                               'cpp/sha1.cpp',
-									    'cpp/stat.cpp',
-									    'cpp/storage.cpp',
-								       'cpp/torrent.cpp',
+					                	 'cpp/session.cpp',   
+					                	 'cpp/session_impl.cpp',
+                               			 'cpp/sha1.cpp',
+									     'cpp/stat.cpp',
+									     'cpp/storage.cpp',
+								       	 'cpp/torrent.cpp',
 										 'cpp/torrent_handle.cpp',
 										 'cpp/torrent_info.cpp',
 										 'cpp/tracker_manager.cpp',
 										 'cpp/udp_tracker_connection.cpp',
-					                'cpp/web_peer_connection.cpp',
+					                	 'cpp/web_peer_connection.cpp',
 										 'cpp/kademlia/closest_nodes.cpp',
 										 'cpp/kademlia/dht_tracker.cpp',
 										 'cpp/kademlia/find_data.cpp',
