@@ -106,6 +106,8 @@ class DuplicateTorrentError(DelugeError):
 class InvalidTorrentError(DelugeError):
 	pass
 
+class InvalidUniqueIDError(DelugeError):
+	pass
 
 # A cached data item
 
@@ -343,6 +345,10 @@ class Manager:
 
 	# This is the EXTERNAL function, for the GUI. It returns the core_state + supp_state
 	def get_torrent_state(self, unique_ID):
+		# Check to see if unique_ID exists:
+		if self.state.queue.count(unique_ID) == 0:
+			raise InvalidUniqueIDError("Asked for a torrent that doesn't exist")
+		 
 		ret = self.get_core_torrent_state(unique_ID, True).copy()
 
 		# Add the deluge-level things to the deluge_core data
@@ -590,7 +596,7 @@ class Manager:
 				ret = unique_ID
 				self.unique_IDs[unique_ID] = torrent
 		
-		print torrents_with_unique_ID
+#		print torrents_with_unique_ID
 		# Remove torrents from core, unique_IDs and queue
 		to_delete = []
 		for unique_ID in self.unique_IDs.keys():

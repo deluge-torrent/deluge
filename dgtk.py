@@ -41,24 +41,7 @@ class TrayIcon:
 		self.tray.set_from_file(dcommon.get_pixmap("deluge32.png"))
 		self.tray.set_tooltip("Deluge Bittorrent Client")
 
-class TorrentPopup:
-	def __init__(self, parent):
-		self.parent = parent
-		self.gladefile = dcommon.get_glade_file("dgtkpopups.glade")
-		self.wtree = gtk.glade.XML(self.gladefile)
-		self.menu = self.wtree.get_widget("torrent_popup")
-		dic = {
-				"size_toggle": self.size,
-				"status_toggle": self.status,
-				"seeders_toggle": self.seeders,
-				"peers_toggle": self.peers,
-				"dl_toggle": self.dl,
-				"ul_toggle": self.ul,
-				"eta_toggle": self.eta,
-				"share_toggle": self.share
-				
-				}
-		self.wtree.signal_autoconnect(dic)
+
 	
 	def popup(self):
 		pass
@@ -152,6 +135,7 @@ def show_file_open_dialog():
 def add_text_column(view, header, cid):
 	render = gtk.CellRendererText()
 	column = gtk.TreeViewColumn(header, render, text=cid)
+	column.set_clickable(True)
 	column.set_resizable(True)
 	column.set_expand(False)
 	view.append_column(column)
@@ -160,6 +144,7 @@ def add_text_column(view, header, cid):
 def add_progress_column(view, header, pid, mid):
 	render = gtk.CellRendererProgress()
 	column = gtk.TreeViewColumn(header, render, value=pid, text=mid)
+	column.set_clickable(True)
 	column.set_resizable(True)
 	column.set_expand(False)
 	view.append_column(column)
@@ -169,6 +154,7 @@ def add_toggle_column(view, header, cid, toggled_signal=None):
 	render = gtk.CellRendererToggle()
 	render.set_property('activatable', True)
 	column = gtk.TreeViewColumn(header, render, active=cid)
+	column.set_clickable(True)
 	column.set_resizable(True)
 	column.set_expand(False)
 	view.append_column(column)

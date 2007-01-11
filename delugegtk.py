@@ -20,24 +20,18 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
 
-import deluge
-
-import dcommon, dgtk
-
 import sys, os, gettext
+import deluge, dcommon, dgtk
 import pygtk
 pygtk.require('2.0')
-import gtk
-import gtk.glade
-import gobject
-
+import gtk, gtk.glade, gobject
 import xdg, xdg.BaseDirectory
 
 
 class DelugeGTK:
 	def __init__(self):
 		#Start the Deluge Manager:
-		self.manager = deluge.Manager("DL", "0500", "Deluge 0.5.0",
+		self.manager = deluge.Manager("DE", "0500", "Deluge 0.5.0",
 			 os.path.expanduser("~") + "/Temp")
 			 #xdg.BaseDirectory.save_config_path("deluge-svn"))
 		#Set up the interface:
@@ -46,7 +40,7 @@ class DelugeGTK:
 		self.window = self.wtree.get_widget("main_window")
 		self.toolbar = self.wtree.get_widget("tb_middle")
 		if(self.window):
-			self.window.connect("destroy", gtk.main_quit)
+			self.window.connect("destroy", self.quit)
 		self.window.set_title(dcommon.PROGRAM_NAME + " " + dcommon.PROGRAM_VERSION)
 		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 
@@ -68,9 +62,19 @@ class DelugeGTK:
 					## Edit Menu
 					"pref_clicked": self.prf.show_pref,
 					"plugins_clicked": self.prf.show_plugins,
-					## Torrent Menu
+					## View Menu
+					"size_toggle": self.size_toggle,
+					"status_toggle": self.status_toggle,
+					"seeders_toggle": self.seeders_toggle,
+					"peers_toggle": self.peers_toggle,
+					"dl_toggle": self.dl_toggle,
+					"ul_toggle": self.ul_toggle,
+					"eta_toggle": self.eta_toggle,
+					"share_toggle": self.share_toggle,
 					## Help Menu
 					"show_about_dialog": self.abt.show,
+					## Other events
+					"torrentrow_click": self.torrentview_clicked,
 					}
 		self.wtree.signal_autoconnect(actions)
 		
@@ -123,7 +127,7 @@ class DelugeGTK:
 		
 		## add torrents in manager to interface
 		for uid in self.manager.get_unique_IDs():
-			self.store.append(self.get_list_from_uid(uid))
+			self.store.append(self.get_list_from_unique_id(uid))
 		
 		
 	## Start the timer that updates the interface
@@ -132,34 +136,41 @@ class DelugeGTK:
 
 	## Call via a timer to update the interface
 	def update(self):
-		itr = self.store.get_iter_first()
-		while itr is not None:
-			uid = self.store.get_value(itr, 0)
-			try:
-				state = self.manager.get_torrent_state(uid)
-			except deluge.DelugeError:
-				print "Removing Torrent"
-				self.store.remove(itr)
+		# Make sure that the interface still exists
+		try:
 			tab = self.wtree.get_widget("torrent_info").get_current_page()
-			if tab == 0: #Torrent List
-				tlist = self.get_list_from_uid(uid)
-				for i in range(12):
-					self.store.set_value(itr, i, tlist[i])
-				itr = self.store.iter_next(itr)
-			elif tab == 1: #Details Pane
-				pass
-			elif tab == 2: #Peers List
-				pass
-			elif tab == 3: #File List
-				pass
-			
+		except AttributeError:
+			return False
+		if tab == 0: #Torrent List
+			itr = self.store.get_iter_first()
+			while itr is not None:
+				uid = self.store.get_value(itr, 0)
+				try:
+					state = self.manager.get_torrent_state(uid)
+					tlist = self.get_list_from_unique_id(uid)
+					for i in range(12):
+						self.store.set_value(itr, i, tlist[i])
+					itr = self.store.iter_next(itr)
+				except deluge.InvalidUniqueIDError:
+					self.store.remove(itr)
+					if not self.store.iter_is_valid(itr):
+						itr = None
+		elif tab == 1: #Details Pane
+			pass
+		elif tab == 2: #Peers List
+			pass
+		elif tab == 3: #File List
+			pass
+		else:
+			pass
+
 		return True
 	
 	def get_selected_torrent(self):
 		return self.store.get_value(self.view.get_selection().get_selected()[1], 0)
 	
 	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
-	def get_list_from_uid(self, unique_id):
+	def get_list_from_unique_id(self, unique_id):
 		state = self.manager.get_torrent_state(unique_id)
 		queue = int(state['queue_pos']) + 1 
 		name = state['name']
@@ -182,14 +193,43 @@ class DelugeGTK:
 		torrent = dgtk.show_file_open_dialog()
 		if torrent is not None:
 			uid = self.manager.add_torrent(torrent, ".", True)
-			self.store.append(self.get_list_from_uid(uid))
+			self.store.append(self.get_list_from_unique_id(uid))
 	
 	def remove_torrent(self, obj=None):
 		self.manager.remove_torrent(self.get_selected_torrent(), False)
 		
+	def torrentview_clicked(self, widget, event):
+		pass
+		
+	def size_toggle(self, obj):
+		self.size_column.set_visible(obj.get_active())
+			
+	
+	def status_toggle(self, obj):
+		self.status_column.set_visible(obj.get_active())
+	
+	def seeders_toggle(self, obj):
+		self.seed_column.set_visible(obj.get_active())
+	
+	def peers_toggle(self, obj):
+		self.peer_column.set_visible(obj.get_active())
+	
+	def dl_toggle(self, obj):
+		self.dl_column.set_visible(obj.get_active())
+	
+	def ul_toggle(self, obj):
+		self.ul_column.set_visible(obj.get_active())
+	
+	def eta_toggle(self, obj):
+		self.eta_column.set_visible(obj.get_active())
+	
+	def share_toggle(self, obj):
+		self.share_column.set_visible(obj.get_active())
+		
 	def quit(self, obj=None):
 		self.manager.quit()
-		self.window.destroy()
+		gtk.main_quit()
+		
 	
 
 
@@ -198,5 +238,4 @@ class DelugeGTK:
 if __name__ == "__main__":
 	interface = DelugeGTK()
 	interface.start()
-	
 	gtk.main()
