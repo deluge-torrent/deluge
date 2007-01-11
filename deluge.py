@@ -550,12 +550,6 @@ class Manager:
 		# Cache torrent file
 		(temp, filename_short) = os.path.split(filename)
 
-		# Remove torrents from core, unique_IDs and queue
-		to_delete = []
-		for torrent in self.state.torrents:
-			if torrent.delete_me:
-				deluge_core.remove_torrent(torrent.unique_ID, torrent.filename)
-				to_delete.append(torrent.unique_ID)
 		if filename_short in os.listdir(self.base_dir + "/" + TORRENTS_SUBDIR):
 			raise DelugeError("Duplicate Torrent, it appears: " + filename_short)
 
