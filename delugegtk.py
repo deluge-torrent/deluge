@@ -63,6 +63,7 @@ class DelugeGTK:
 					## File Menu
 					"new_torrent": self.new_torrent,
 					"add_torrent": self.add_torrent,
+					"remove_torrent" : self.remove_torrent,
 					"menu_quit": self.quit,
 					## Edit Menu
 					"pref_clicked": self.prf.show_pref,
@@ -132,22 +133,47 @@ class DelugeGTK:
 	## Call via a timer to update the interface
 	def update(self):
 		itr = self.store.get_iter_first()
-		
 		while itr is not None:
 			uid = self.store.get_value(itr, 0)
-			tlist = self.get_list_from_uid(uid)
-			for i in range(12):
-				self.store.set_value(itr, i, tlist[i])
-			itr = self.store.iter_next(itr)
+			try:
+				state = self.manager.get_torrent_state(uid)
+			except deluge.DelugeError:
+				print "Removing Torrent"
+				self.store.remove(itr)
+			tab = self.wtree.get_widget("torrent_info").get_current_page()
+			if tab == 0: #Torrent List
+				tlist = self.get_list_from_uid(uid)
+				for i in range(12):
+					self.store.set_value(itr, i, tlist[i])
+				itr = self.store.iter_next(itr)
+			elif tab == 1: #Details Pane
+				pass
+			elif tab == 2: #Peers List
+				pass
+			elif tab == 3: #File List
+				pass
+			
 		return True
+	
+	def get_selected_torrent(self):
+		return self.store.get_value(self.view.get_selection().get_selected()[1], 0)
 	
 	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
 	def get_list_from_uid(self, unique_id):
 		state = self.manager.get_torrent_state(unique_id)
-		return [unique_id, state['queue_pos'], state['name'], state['total_size'], 
-				int(state['progress'] * 100), deluge.STATE_MESSAGES[state['state']], state['total_seeds'], 
-				state['total_peers'], state['download_rate'], state['upload_rate'], 
-				"NULL", "NULL"]
+		queue = int(state['queue_pos']) + 1 
+		name = state['name']
+		size = state['total_size']
+		progress = int(state['progress'] * 100)
+		message = deluge.STATE_MESSAGES[state['state']]
+		seeds = str(state['num_seeds']) + " (" + str(state['total_seeds']) + ")"
+		peers = str(state['num_peers']) + " (" + str(state['total_peers']) + ")"
+		dlrate = state['download_rate']
+		ulrate = state['upload_rate']
+		eta = "NULL"
+		share = "NULL"
+		return [unique_id, queue, name, size, progress, message,
+				seeds, peers, dlrate, ulrate, eta, share]
 		
 	def new_torrent(self, obj=None):
 		pass
@@ -157,6 +183,9 @@ class DelugeGTK:
 		if torrent is not None:
 			uid = self.manager.add_torrent(torrent, ".", True)
 			self.store.append(self.get_list_from_uid(uid))
+	
+	def remove_torrent(self, obj=None):
+		self.manager.remove_torrent(self.get_selected_torrent(), False)
 		
 	def quit(self, obj=None):
 		self.manager.quit()

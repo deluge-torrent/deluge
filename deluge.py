@@ -299,7 +299,7 @@ class Manager:
 	def remove_torrent(self, unique_ID, data_also):
 		# Save some data before we remove the torrent, needed later in this func
 		temp = self.unique_IDs[unique_ID]
-		temp_fileinfo = deluge_core.get_fileinfo(unique_ID)
+		temp_fileinfo = deluge_core.get_file_info(unique_ID)
 
 		self.remove_torrent_ns(unique_ID)
 		self.sync()
@@ -550,6 +550,12 @@ class Manager:
 		# Cache torrent file
 		(temp, filename_short) = os.path.split(filename)
 
+		# Remove torrents from core, unique_IDs and queue
+		to_delete = []
+		for torrent in self.state.torrents:
+			if torrent.delete_me:
+				deluge_core.remove_torrent(torrent.unique_ID, torrent.filename)
+				to_delete.append(torrent.unique_ID)
 		if filename_short in os.listdir(self.base_dir + "/" + TORRENTS_SUBDIR):
 			raise DelugeError("Duplicate Torrent, it appears: " + filename_short)
 
@@ -563,11 +569,17 @@ class Manager:
 
 	def remove_torrent_ns(self, unique_ID):
 		self.unique_IDs[unique_ID].delete_me = True
+		
 
 	# Sync the state.torrents and unique_IDs lists with the core
 	# ___ALL syncing code with the core is here, and ONLY here___
 	# Also all self-syncing is done here (various lists)
 
+	##
+	## I had to make some changes here to get things to work properly
+	## Some of these changes may be hack-ish, so look at them and make
+	## sure nothing is wrong.
+	##
 	def sync(self):
 		ret = None # We return new added unique ID(s), or None
 
@@ -583,13 +595,16 @@ class Manager:
 #				print "Got unique ID:", unique_ID
 				ret = unique_ID
 				self.unique_IDs[unique_ID] = torrent
-
+		
+		print torrents_with_unique_ID
 		# Remove torrents from core, unique_IDs and queue
 		to_delete = []
 		for torrent in self.state.torrents:
+			print torrent
 			if torrent.delete_me:
-				deluge_core.remove_torrent(torrent.unique_ID, torrent.filename)
-				to_delete.append(torrent.unique_ID)
+				unique_ID = torrents_with_unique_ID.index(torrent)
+				deluge_core.remove_torrent(unique_ID)
+				to_delete.append(unique_ID)
 
 		for unique_ID in to_delete:
 			self.state.torrents.remove(self.unique_IDs[unique_ID])
