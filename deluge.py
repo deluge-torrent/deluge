@@ -584,8 +584,8 @@ class Manager:
 			if torrent not in torrents_with_unique_ID:
 #				print "Adding torrent to core:", torrent.filename, torrent.save_dir, torrent.compact
 				unique_ID = deluge_core.add_torrent(torrent.filename,
-																	torrent.save_dir,
-																	torrent.compact)
+				                                    torrent.save_dir,
+				                                    torrent.compact)
 #				print "Got unique ID:", unique_ID
 				ret = unique_ID
 				self.unique_IDs[unique_ID] = torrent
@@ -593,10 +593,9 @@ class Manager:
 		print torrents_with_unique_ID
 		# Remove torrents from core, unique_IDs and queue
 		to_delete = []
-		for torrent in self.state.torrents:
-			print torrent
-			if torrent.delete_me:
-				unique_ID = torrents_with_unique_ID.index(torrent)
+		for unique_ID in self.unique_IDs.keys():
+#			print torrent
+			if self.unique_IDs[unique_ID].delete_me:
 				deluge_core.remove_torrent(unique_ID)
 				to_delete.append(unique_ID)
 
@@ -606,7 +605,7 @@ class Manager:
 			del self.unique_IDs[unique_ID]
 
 		# Add torrents to queue - at the end, of course
-		for unique_ID in self.unique_IDs:
+		for unique_ID in self.unique_IDs.keys():
 			if unique_ID not in self.state.queue:
 				self.state.queue.append(unique_ID)
 
