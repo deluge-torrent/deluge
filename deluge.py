@@ -601,7 +601,7 @@ class Manager:
 
 		for unique_ID in to_delete:
 			self.state.torrents.remove(self.unique_IDs[unique_ID])
-			self.state.queue.remove(self.unique_IDs[unique_ID])
+			self.state.queue.remove(unique_ID)
 			del self.unique_IDs[unique_ID]
 
 		# Add torrents to queue - at the end, of course
