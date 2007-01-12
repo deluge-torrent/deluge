@@ -77,6 +77,8 @@ class AboutDialog:
 		self.abt = gtk.AboutDialog()
 		self.abt.set_name(dcommon.PROGRAM_NAME)
 		self.abt.set_version(dcommon.PROGRAM_VERSION)
+		self.abt.set_authors(["Zach Tibbits", "A. Zakai"])
+		self.abt.set_artists(["Andrew Wedderburn"])
 		self.abt.set_website("http://deluge-torrent.org")
 		self.abt.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		self.abt.set_logo(gtk.gdk.pixbuf_new_from_file(
