@@ -20,16 +20,23 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
 
-import sys, os, gettext
+import sys, os, os.path, gettext
 import deluge, dcommon, dgtk
 import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade, gobject
 import xdg, xdg.BaseDirectory
+import dbus, dbus.service
+if getattr(dbus, 'version', (0,0,0)) >= (0,41,0):
+	import dbus.glib 
 
 
-class DelugeGTK:
-	def __init__(self):
+class DelugeGTK(dbus.service.Object):
+	def __init__(self, bus_name=dbus.service.BusName('org.deluge_torrent.Deluge',
+			bus=dbus.SessionBus()),	object_path='/org/deluge_torrent/DelugeObject'):
+		dbus.service.Object.__init__(self, bus_name, object_path)
+		self.is_running = False
+		self.torrent_file_queue = []
 		#Start the Deluge Manager:
 		self.manager = deluge.Manager("DE", "0500", "Deluge 0.5.0",
 			 os.path.expanduser("~") + "/Temp")
@@ -38,6 +45,7 @@ class DelugeGTK:
 		self.gladefile = dcommon.get_glade_file("delugegtk.glade")
 		self.wtree = gtk.glade.XML(self.gladefile)
 		self.window = self.wtree.get_widget("main_window")
+		self.window.hide()
 		self.toolbar = self.wtree.get_widget("tb_middle")
 		if(self.window):
 			self.window.connect("destroy", self.quit)
@@ -53,11 +61,11 @@ class DelugeGTK:
 		## Create the preferences dialog
 		self.prf = dgtk.PreferencesDialog()
 		
-		actions = 	{
+		self.wtree.signal_autoconnect({
 					## File Menu
-					"new_torrent": self.new_torrent,
-					"add_torrent": self.add_torrent,
-					"remove_torrent" : self.remove_torrent,
+					"new_torrent": self.new_torrent_clicked,
+					"add_torrent": self.add_torrent_clicked,
+					"remove_torrent" : self.remove_torrent_clicked,
 					"menu_quit": self.quit,
 					## Edit Menu
 					"pref_clicked": self.prf.show_pref,
@@ -73,10 +81,11 @@ class DelugeGTK:
 					"share_toggle": self.share_toggle,
 					## Help Menu
 					"show_about_dialog": self.abt.show,
+					## Toolbar
+					"update_tracker": self.update_tracker,
 					## Other events
 					"torrentrow_click": self.torrentview_clicked,
-					}
-		self.wtree.signal_autoconnect(actions)
+					})
 		
 		## Create the torrent listview
 		self.view = self.wtree.get_widget("torrent_view")
@@ -87,7 +96,8 @@ class DelugeGTK:
 		
 		
 		## Initializes the columns for the torrent_view
-		
+#		Just found out there are built-in pygtk methods with similar functionality
+#		to these, perhaps I should look into using those.
 		self.queue_column 	= 	dgtk.add_text_column(self.view, "#", 1)
 		self.name_column 	=	dgtk.add_text_column(self.view, "Name", 2)
 		self.size_column 	=	dgtk.add_text_column(self.view, "Size", 3)
@@ -124,6 +134,7 @@ class DelugeGTK:
 		self.peer_upload_column		=	dgtk.add_text_column(self.peer_view, "Upload Rate", 4)
 		
 		#Torrent Summary tab
+		# Look into glade's widget prefix function
 		self.text_summary_title                   = self.wtree.get_widget("summary_title")
 		self.text_summary_total_size              = self.wtree.get_widget("summary_total_size")
 		self.text_summary_pieces                  = self.wtree.get_widget("summary_pieces")
@@ -143,15 +154,47 @@ class DelugeGTK:
 		self.text_summary_eta					  = self.wtree.get_widget("summary_eta")
 		
 		## Interface created
-		
-		## add torrents in manager to interface
-		for uid in self.manager.get_unique_IDs():
+	
+	## external_add_torrent should only be called from outside the class	
+	@dbus.service.method('org.deluge_torrent.DelugeInterface')
+	def external_add_torrent(self, torrent_file):
+		print "Ding!"
+		print "Got torrent externally:", os.path.basename(torrent_file)
+		print "\tNow, what to do with it?"
+		if self.is_running:
+			print "\t\tthe client seems to already be running, i'll try and add the torrent"
+			uid = self.manager.add_torrent(torrent_file, ".", True)
 			self.store.append(self.get_list_from_unique_id(uid))
+		else:
+			print "\t\tthe client hasn't started yet, I'll queue the torrent"
+			self.torrent_file_queue.append(torrent_file)
 		
 		
 	## Start the timer that updates the interface
-	def start(self):
+	def start(self, hidden=False):
+		if not hidden:
+			self.window.show()
+		# go through torrent files to add
+		#dummy preferences values:
+		use_default_download_location = True
+		default_download_location = "."
+		for torrent_file in self.torrent_file_queue:
+			print "adding torrent", torrent_file
+			try:
+				self.manager.add_torrent(torrent_file, ".", True)
+			except deluge.DelugeError:
+				print "duplicate torrent found, ignoring", torrent_file
+		## add torrents in manager to interface
+		for uid in self.manager.get_unique_IDs():
+			self.store.append(self.get_list_from_unique_id(uid))
 		gobject.timeout_add(1000, self.update)
+		try:
+			self.is_running = True
+			gtk.main()
+		except KeyboardInterrupt:
+			self.manager.quit()
+			
+	
 
 	## Call via a timer to update the interface
 	def update(self):
@@ -241,17 +284,20 @@ class DelugeGTK:
 		return [unique_id, queue, name, size, progress, message,
 				seeds, peers, dlrate, ulrate, eta, share]
 		
-	def new_torrent(self, obj=None):
+	def new_torrent_clicked(self, obj=None):
 		pass
 		
-	def add_torrent(self, obj=None):
+	def add_torrent_clicked(self, obj=None):
 		torrent = dgtk.show_file_open_dialog()
 		if torrent is not None:
 			uid = self.manager.add_torrent(torrent, ".", True)
 			self.store.append(self.get_list_from_unique_id(uid))
 	
-	def remove_torrent(self, obj=None):
+	def remove_torrent_clicked(self, obj=None):
 		self.manager.remove_torrent(self.get_selected_torrent(), False)
+		
+	def update_tracker(self, obj=None):
+		self.manager.update_tracker(get_selected_torrent())
 		
 	def torrentview_clicked(self, widget, event):
 		pass
@@ -293,4 +339,3 @@ class DelugeGTK:
 if __name__ == "__main__":
 	interface = DelugeGTK()
 	interface.start()
-	gtk.main()
