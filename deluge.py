@@ -515,6 +515,9 @@ class Manager:
 	def get_unique_IDs(self):
 		return self.unique_IDs.keys()
 
+	def update_tracker(self, unique_ID):
+		deluge_core.reannounce(unique_ID)
+
 
 	####################
 	# Internal functions
