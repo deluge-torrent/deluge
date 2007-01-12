@@ -1,0 +1,6 @@
+include LICENCE
+include README
+recursive-include glade/ *.glade
+recursive-include include/ *.hpp *.ipp
+recursive-include pixmaps/ *.png *.svg *.xpm
+recursive-include plugins/ *
