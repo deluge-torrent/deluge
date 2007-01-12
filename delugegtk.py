@@ -71,6 +71,7 @@ class DelugeGTK(dbus.service.Object):
 					"pref_clicked": self.prf.show_pref,
 					"plugins_clicked": self.prf.show_plugins,
 					## View Menu
+					"infopane_toggle": self.infopane_toggle,
 					"size_toggle": self.size_toggle,
 					"status_toggle": self.status_toggle,
 					"seeders_toggle": self.seeders_toggle,
@@ -207,21 +208,23 @@ class DelugeGTK(dbus.service.Object):
 		(temp, selection) = self.view.get_selection().get_selected()
 		if selection is None:
 			self.view.get_selection().select_path("0")
-		if tab == 0: #Torrent List
-			itr = self.store.get_iter_first()
-			while itr is not None:
-				uid = self.store.get_value(itr, 0)
-				try:
-					state = self.manager.get_torrent_state(uid)
-					tlist = self.get_list_from_unique_id(uid)
-					for i in range(12):
-						self.store.set_value(itr, i, tlist[i])
-					itr = self.store.iter_next(itr)
-				except deluge.InvalidUniqueIDError:
-					self.store.remove(itr)
-					if not self.store.iter_is_valid(itr):
-						itr = None
-		elif tab == 1: #Details Pane
+		#Torrent List
+		itr = self.store.get_iter_first()
+		if itr is None:
+			return True
+		while itr is not None:
+			uid = self.store.get_value(itr, 0)
+			try:
+				state = self.manager.get_torrent_state(uid)
+				tlist = self.get_list_from_unique_id(uid)
+				for i in range(12):
+					self.store.set_value(itr, i, tlist[i])
+				itr = self.store.iter_next(itr)
+			except deluge.InvalidUniqueIDError:
+				self.store.remove(itr)
+				if not self.store.iter_is_valid(itr):
+					itr = None
+		if tab == 0: #Details Pane
 			state = self.manager.get_torrent_state(self.get_selected_torrent())
 			self.text_summary_title.set_text(str(state["name"]))
 			self.text_summary_total_size.set_text(str(state["total_size"]))
@@ -240,7 +243,7 @@ class DelugeGTK(dbus.service.Object):
 			self.text_summary_next_announce.set_text(str(state["next_announce"]))
 			#self.text_summary_compact_allocation.set_text(str(state[""]))
 			#self.text_summary_eta.set_text(str(state[""]))
-		elif tab == 2: #Peers List
+		elif tab == 1: #Peers List
 			uid = self.get_selected_torrent()
 			self.peer_store.clear()
 			peer_data = self.manager.get_torrent_peer_info(uid)
@@ -248,7 +251,7 @@ class DelugeGTK(dbus.service.Object):
 				# ip client percent dl ul
 				self.peer_store.append([peer["ip"], peer["client"], peer["peer_has"], 
 						peer["download_speed"], peer["upload_speed"]])
-		elif tab == 3: #File List
+		elif tab == 2: #File List
 			pass
 		else:
 			pass
@@ -301,6 +304,12 @@ class DelugeGTK(dbus.service.Object):
 		
 	def torrentview_clicked(self, widget, event):
 		pass
+	
+	def infopane_toggle(self, widget):
+		if widget.get_active():
+			self.wtree.get_widget("torrent_info").show()
+		else:
+			self.wtree.get_widget("torrent_info").hide()
 		
 	def size_toggle(self, obj):
 		self.size_column.set_visible(obj.get_active())
