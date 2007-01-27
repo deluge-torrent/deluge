@@ -100,6 +100,8 @@ class InvalidEncodingError(DelugeError):
 class FilesystemError(DelugeError):
 	pass
 
+# Note: this may be raised both from deluge-core.cpp and deluge.py, for
+# different reasons, both related to duplicate torrents
 class DuplicateTorrentError(DelugeError):
 	pass
 
@@ -329,6 +331,19 @@ class Manager:
 	def save_fastresume_data(self):
 		for unique_ID in self.unique_IDs:
 			deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
+
+	# Load all NEW torrents in a directory. The GUI can call this every minute or so,
+	# if one wants a directory to be 'watched' (personally, I think it should only be
+	# done on user command).
+	def autoload_directory(self, directory, save_dir, compact):
+		for filename in os.listdir(directory):
+			if filename[-len(".torrent"):].lower() == ".torrent":
+				try:
+					self.add_torrent_ns(self, filename, save_dir, compact)
+				except DuplicateTorrentError:
+					pass
+
+		self.sync()
 
 	# State retrieval functions
 
@@ -560,7 +575,7 @@ class Manager:
 		(temp, filename_short) = os.path.split(filename)
 
 		if filename_short in os.listdir(self.base_dir + "/" + TORRENTS_SUBDIR):
-			raise DelugeError("Duplicate Torrent, it appears: " + filename_short)
+			raise DuplicateTorrentError("Duplicate Torrent, it appears: " + filename_short)
 
 		full_new_name = self.base_dir + "/" + TORRENTS_SUBDIR + "/" + filename_short
 
