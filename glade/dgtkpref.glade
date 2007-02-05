@@ -246,6 +246,7 @@ their share ratio reaches:</property>
                         <child>
                           <widget class="GtkExpander" id="expander5">
                             <property name="visible">True</property>
+                            <property name="expanded">True</property>
                             <child>
                               <widget class="GtkTable" id="table6">
                                 <property name="visible">True</property>
@@ -347,22 +348,51 @@ their share ratio reaches:</property>
                         <child>
                           <widget class="GtkExpander" id="expander4">
                             <property name="visible">True</property>
+                            <property name="expanded">True</property>
                             <child>
                               <widget class="GtkTable" id="table7">
                                 <property name="visible">True</property>
                                 <property name="n_rows">4</property>
                                 <property name="n_columns">2</property>
                                 <child>
-                                  <placeholder/>
+                                  <widget class="GtkLabel" id="label4">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Maximum Upload Rate:</property>
+                                  </widget>
                                 </child>
                                 <child>
-                                  <placeholder/>
+                                  <widget class="GtkLabel" id="label3">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Maximum number of Uploads:</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                  </packing>
                                 </child>
                                 <child>
-                                  <placeholder/>
+                                  <widget class="GtkLabel" id="label2">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Maximum Download Rate:</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
+                                  </packing>
                                 </child>
                                 <child>
-                                  <placeholder/>
+                                  <widget class="GtkLabel" id="label1">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Maximum number of Downloads:</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="top_attach">3</property>
+                                    <property name="bottom_attach">4</property>
+                                  </packing>
                                 </child>
                                 <child>
                                   <widget class="GtkSpinButton" id="spinbutton7">
@@ -481,27 +511,18 @@ their share ratio reaches:</property>
                     <child>
                       <widget class="GtkButton" id="button1">
                         <property name="visible">True</property>
-                        <child>
-                          <placeholder/>
-                        </child>
+                        <property name="label" translatable="yes">gtk-preferences</property>
+                        <property name="use_stock">True</property>
                       </widget>
                     </child>
                     <child>
                       <widget class="GtkButton" id="button2">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">button</property>
+                        <property name="label" translatable="yes">gtk-apply</property>
+                        <property name="use_stock">True</property>
                       </widget>
                       <packing>
                         <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkButton" id="button3">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">button</property>
-                      </widget>
-                      <packing>
-                        <property name="position">2</property>
                       </packing>
                     </child>
                   </widget>

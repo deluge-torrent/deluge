@@ -21,7 +21,7 @@
 import sys, os, webbrowser
 
 PROGRAM_NAME = "Deluge"
-PROGRAM_VERSION = "0.5.0"
+PROGRAM_VERSION = "0.4.9.0"
 DELUGE_DIR = os.path.abspath(os.path.dirname(sys.argv[0]))
 GLADE_DIR = DELUGE_DIR + "/glade"
 PIXMAP_DIR = DELUGE_DIR + "/pixmaps"
