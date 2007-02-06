@@ -1,5 +1,6 @@
-include LICENCE
+include LICENSE
 include README
+include INSTALL
 recursive-include glade/ *.glade
 recursive-include include/ *.hpp *.ipp
 recursive-include pixmaps/ *.png *.svg *.xpm

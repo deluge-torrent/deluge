@@ -31,9 +31,6 @@ for removal in removals:
 for addition in additions:
 	cv["OPT"] = cv["OPT"] + " " + addition
 
-
-
-
 import platform, os
 
 pythonVersion = platform.python_version()[0:3]
@@ -82,15 +79,16 @@ deluge_core = Extension('deluge_core',
 										 'cpp/kademlia/traversal_algorithm.cpp'])
 
 
-setup(name="deluge", fullname="Deluge Bittorrent Client", version="0.5.0",
+setup(name="deluge", fullname="Deluge BitTorrent Client", version="0.5.0",
 	author="Zach Tibbitts, Alon Zakai",
 	author_email="zach@collegegeek.org, kripkensteiner@gmail.com",
 	description="A bittorrent client written in PyGTK",
 	url="http://deluge-torrent.org",
 	license="GPLv2",
 	scripts=["scripts/deluge"],
-	py_modules=["deluge", "deluge_stats", "delugegtk", "dgtk", "dcommon", "delugeplugins"],
-	data_files=[("share/deluge/glade", ["glade/delugegtk.glade", "glade/dgtkpopups.glade", "glade/dgtkpref.glade"]),
-				("share/deluge/pixmaps", ["pixmaps/deluge32.png","pixmaps/deluge128.png"])],
+	packages=['deluge'],
+	package_dir = {'deluge': 'src'},
+	package_data={'deluge': ['glade/*.glade']},
+	ext_package='deluge',
 	ext_modules=[deluge_core]
 	)
