@@ -254,7 +254,7 @@ class DelugeGTK(dbus.service.Object):
 			peer_data = self.manager.get_torrent_peer_info(uid)
 			for peer in peer_data:
 				# ip client percent dl ul
-				self.peer_store.append([peer["ip"], peer["client"], peer["peer_has"], 
+				self.peer_store.append([peer["ip"], unicode(peer["client"], 'Latin-1'), peer["peer_has"], 
 						peer["download_speed"], peer["upload_speed"]])
 		elif tab == 2: #File List
 			pass
