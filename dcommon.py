@@ -26,6 +26,35 @@ DELUGE_DIR = os.path.abspath(os.path.dirname(sys.argv[0]))
 GLADE_DIR = DELUGE_DIR + "/glade"
 PIXMAP_DIR = DELUGE_DIR + "/pixmaps"
 
+class DelugePreferences:
+	def __init__(self):
+		self.pref = {}
+	
+	def set(self, key, value):
+		self.pref[key] = value
+	
+	def get(self, key):
+		return self.pref[key]
+	
+	def load_from_file(self, filename):
+		f = open(filename, mode='r')
+		for line in f:
+			(key, value) = line.split("=")
+			key = key.strip(" \n")
+			value = value.strip(" \n")
+			self.pref[key] = value
+		f.close()
+	
+	def save_to_file(self, filename):
+		f = open(filename, mode='w')
+		for key in self.pref.keys():
+			f.write(key)
+			f.write(' = ')
+			f.write(self.pref[key])
+			f.write('\n')
+		f.flush()
+		f.close()
+
 def get_glade_file(fname):
 	return GLADE_DIR + "/" + fname
 
