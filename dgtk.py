@@ -40,36 +40,38 @@ class TrayIcon:
 		##self.gladefile = dcommon.get_glade_file("dgtkpopups.glade")
 		self.tray.set_from_file(dcommon.get_pixmap("deluge32.png"))
 		self.tray.set_tooltip("Deluge Bittorrent Client")
-
-
 	
 	def popup(self):
 		pass
-		
-	## Toggle functions
-	def size(self, obj):
-		pass
+
+class DelugePreferences:
+	def __init__(self):
+		self.pref = {}
 	
-	def status(self, obj):
-		pass
+	def set(self, key, value):
+		self.pref[key] = value
 	
-	def seeders(self, obj):
-		pass
+	def get(self, key):
+		return self.pref[key]
 	
-	def peers(self, obj):
-		pass
+	def load_from_file(self, filename):
+		f = open(filename, mode='r')
+		for line in f:
+			(key, value) = line.split("=")
+			key = key.strip(" \n")
+			value = value.strip(" \n")
+			self.pref[key] = value
+		f.close()
 	
-	def dl(self, obj):
-		pass
-	
-	def ul(self, obj):
-		pass
-	
-	def eta(self, obj):
-		pass
-	
-	def share(self, obj):
-		pass
+	def save_to_file(self, filename):
+		f = open(filename, mode='w')
+		for key in self.pref.keys():
+			f.write(key)
+			f.write(' = ')
+			f.write(self.pref[key])
+			f.write('\n')
+		f.flush()
+		f.close()
 
 class AboutDialog:
 	def __init__(self):
