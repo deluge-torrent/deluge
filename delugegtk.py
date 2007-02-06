@@ -143,13 +143,15 @@ class DelugeGTK(dbus.service.Object):
 		self.text_summary_total_uploaded          = self.wtree.get_widget("summary_total_uploaded")
 		self.text_summary_download_rate			  = self.wtree.get_widget("summary_download_rate")
 		self.text_summary_upload_rate			  = self.wtree.get_widget("summary_upload_rate")
+		self.text_summary_seeders				  = self.wtree.get_widget("summary_seeders")
+		self.text_summary_peers					  = self.wtree.get_widget("summary_peers")
 		self.text_summary_percentage_done         = self.wtree.get_widget("summary_percentage_done")
 		self.text_summary_share_ratio             = self.wtree.get_widget("summary_share_ratio")
 		self.text_summary_downloaded_this_session = self.wtree.get_widget("summary_downloaded_this_session")
 		self.text_summary_uplodaded_this_session  = self.wtree.get_widget("summary_uploaded_this_session")
 		self.text_summary_tracker                 = self.wtree.get_widget("summary_tracker")
 		self.text_summary_tracker_response        = self.wtree.get_widget("summary_tracker_response")
-		self.text_summary_tacker_status           = self.wtree.get_widget("summary_tracker_status")
+		self.text_summary_tracker_status          = self.wtree.get_widget("summary_tracker_status")
 		self.text_summary_next_announce           = self.wtree.get_widget("summary_next_announce")
 		self.text_summary_compact_allocation      = self.wtree.get_widget("summary_compact_allocation")
 		self.text_summary_eta					  = self.wtree.get_widget("summary_eta")
@@ -224,22 +226,25 @@ class DelugeGTK(dbus.service.Object):
 				self.store.remove(itr)
 				if not self.store.iter_is_valid(itr):
 					itr = None
-		if tab == 0: #Details Pane
+		if tab == 0: #Details Paneself.text_summary_seeders				  = self.wtree.get_widget("summary_seeders")
+		
 			state = self.manager.get_torrent_state(self.get_selected_torrent())
 			self.text_summary_title.set_text(str(state["name"]))
-			self.text_summary_total_size.set_text(str(state["total_size"]))
+			self.text_summary_total_size.set_text(dcommon.fsize(state["total_size"]))
 			self.text_summary_pieces.set_text(str(state["pieces"]))
-			self.text_summary_total_downloaded.set_text(str(state["total_download"]))
-			self.text_summary_total_uploaded.set_text(str(state["total_upload"]))
-			self.text_summary_download_rate.set_text(str(state["download_rate"]))
-			self.text_summary_upload_rate.set_text(str(state["upload_rate"]))
-			self.text_summary_percentage_done.set_text(str(state["progress"]))
-			self.text_summary_share_ratio.set_text(str(self.calc_share_ratio(state)))
+			self.text_summary_total_downloaded.set_text(dcommon.fsize(state["total_download"]))
+			self.text_summary_total_uploaded.set_text(dcommon.fsize(state["total_upload"]))
+			self.text_summary_download_rate.set_text(dcommon.frate(state["download_rate"]))
+			self.text_summary_upload_rate.set_text(dcommon.frate(state["upload_rate"]))
+			self.text_summary_seeders.set_text(dcommon.fseed(state))
+			self.text_summary_peers.set_text(dcommon.fpeer(state))
+			self.text_summary_percentage_done.set_text(dcommon.fpcnt(state["progress"]))
+			self.text_summary_share_ratio.set_text(self.calc_share_ratio(state))
 			#self.text_summary_downloaded_this_session.set_text(str(state[""]))
 			#self.text_summary_uplodaded_this_session.set_text(str(state[""]))
 			self.text_summary_tracker.set_text(str(state["tracker"]))
 			#self.text_summary_tracker_response.set_text(str(state[""]))
-			self.text_summary_tacker_status.set_text(str(state["tracker_ok"]))
+			self.text_summary_tracker_status.set_text(str(state["tracker_ok"]))
 			self.text_summary_next_announce.set_text(str(state["next_announce"]))
 			#self.text_summary_compact_allocation.set_text(str(state[""]))
 			#self.text_summary_eta.set_text(str(state[""]))
@@ -260,12 +265,12 @@ class DelugeGTK(dbus.service.Object):
 	
 	def calc_share_ratio(self, torrent_state):
 		if torrent_state["total_upload"] == 0:
-			return 0
+			return "0"
 		elif torrent_state["total_download"] == 0:
-			return "infinite"
+			return "Undefined"
 		else:
 			ratio = float(torrent_state["total_upload"]) / float(torrent_state["total_download"])
-			return ratio
+			return dcommon.fpcnt(ratio)
 	
 	def get_selected_torrent(self):
 		return self.store.get_value(self.view.get_selection().get_selected()[1], 0)
@@ -275,15 +280,15 @@ class DelugeGTK(dbus.service.Object):
 		state = self.manager.get_torrent_state(unique_id)
 		queue = int(state['queue_pos']) + 1 
 		name = state['name']
-		size = state['total_size']
-		progress = int(state['progress'] * 100)
+		size = dcommon.fsize(state['total_size'])
+		progress =state['progress']
 		message = deluge.STATE_MESSAGES[state['state']]
-		seeds = str(state['num_seeds']) + " (" + str(state['total_seeds']) + ")"
-		peers = str(state['num_peers']) + " (" + str(state['total_peers']) + ")"
-		dlrate = state['download_rate']
-		ulrate = state['upload_rate']
+		seeds = dcommon.fseed(state)
+		peers = dcommon.fpeer(state)
+		dlrate = dcommon.frate(state['download_rate'])
+		ulrate = dcommon.frate(state['upload_rate'])
 		eta = "NULL"
-		share = "NULL"
+		share = self.calc_share_ratio(state)
 		return [unique_id, queue, name, size, progress, message,
 				seeds, peers, dlrate, ulrate, eta, share]
 		
@@ -339,7 +344,6 @@ class DelugeGTK(dbus.service.Object):
 	def quit(self, obj=None):
 		self.manager.quit()
 		gtk.main_quit()
-		
 	
 
 

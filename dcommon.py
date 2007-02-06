@@ -55,6 +55,34 @@ class DelugePreferences:
 		f.flush()
 		f.close()
 
+# Returns formatted string describing filesize
+# fsize_b should be in bytes
+# Returned value will be in either KB, MB, or GB
+def fsize(fsize_b):
+	fsize_kb = float (fsize_b / 1024.0)
+	if fsize_kb < 1000:
+		return '%.1f KB'%fsize_kb
+	fsize_mb = float (fsize_kb / 1024.0)
+	if fsize_mb < 1000:
+		return '%.1f MB'%fsize_mb
+	fsize_gb = float (fsize_mb / 1024.0)
+	return '%.1f GB'%fsize_gb
+
+# Returns a formatted string representing a percentage
+def fpcnt(dec):
+	return '%.2f%%'%(dec * 100)
+
+# Returns a formatted string representing transfer rate
+def frate(bps):
+	return '%s/s'%(fsize(bps))
+
+def fseed(state):
+	return str(str(state['num_seeds']) + " (" + str(state['total_seeds']) + ")")
+	
+def fpeer(state):
+	return str(str(state['num_peers']) + " (" + str(state['total_peers']) + ")")
+
+
 def get_glade_file(fname):
 	return GLADE_DIR + "/" + fname
 
