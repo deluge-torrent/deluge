@@ -37,10 +37,20 @@ class DelugeGTK(dbus.service.Object):
 		dbus.service.Object.__init__(self, bus_name, object_path)
 		self.is_running = False
 		self.torrent_file_queue = []
+		#Load up a config file:
+		self.conf_file = xdg.BaseDirectory.save_config_path("deluge-svn") + '/deluge.conf'
+		if os.path.isdir(self.conf_file):
+			print 'Weird, the file I was trying to write to, %s, is an existing directory'%(self.conf_file)
+			sys.exit(0)
+		if not os.path.isfile(self.conf_file):
+			f = open(self.conf_file, mode='w')
+			f.flush()
+			f.close()
+		self.pref = dcommon.DelugePreferences()
+		self.pref.load_from_file(self.conf_file)
 		#Start the Deluge Manager:
-		self.manager = deluge.Manager("DE", "0500", "Deluge 0.5.0",
-			 os.path.expanduser("~") + "/Temp")
-			 #xdg.BaseDirectory.save_config_path("deluge-svn"))
+		self.manager = deluge.Manager("DE", "0490", "Deluge 0.4.9",
+			 xdg.BaseDirectory.save_config_path("deluge-svn"))
 		#Set up the interface:
 		self.gladefile = dcommon.get_glade_file("delugegtk.glade")
 		self.wtree = gtk.glade.XML(self.gladefile)
@@ -68,8 +78,8 @@ class DelugeGTK(dbus.service.Object):
 					"remove_torrent" : self.remove_torrent_clicked,
 					"menu_quit": self.quit,
 					## Edit Menu
-					"pref_clicked": self.prf.show_pref,
-					"plugins_clicked": self.prf.show_plugins,
+					"pref_clicked": self.show_pref,
+					"plugins_clicked": self.show_plugins,
 					## View Menu
 					"infopane_toggle": self.infopane_toggle,
 					"size_toggle": self.size_toggle,
@@ -83,7 +93,11 @@ class DelugeGTK(dbus.service.Object):
 					## Help Menu
 					"show_about_dialog": self.abt.show,
 					## Toolbar
+					"recheck_files": self.recheck_files,
 					"update_tracker": self.update_tracker,
+					"clear_finished": self.clear_finished,
+					"queue_up": self.q_torrent_up,
+					"queue_down": self.q_torrent_down,
 					## Other events
 					"torrentrow_click": self.torrentview_clicked,
 					})
@@ -91,7 +105,7 @@ class DelugeGTK(dbus.service.Object):
 		## Create the torrent listview
 		self.view = self.wtree.get_widget("torrent_view")
 		# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
-		self.store = gtk.ListStore(int, int, str, str, int, str, str, str, str, str, str, str)
+		self.store = gtk.ListStore(int, int, str, str, float, str, str, str, str, str, str, str)
 		self.view.set_model(self.store)
 		self.view.set_rules_hint(True)
 		
@@ -157,6 +171,7 @@ class DelugeGTK(dbus.service.Object):
 		self.text_summary_eta					  = self.wtree.get_widget("summary_eta")
 		
 		## Interface created
+		self.apply_prefs()
 	
 	## external_add_torrent should only be called from outside the class	
 	@dbus.service.method('org.deluge_torrent.DelugeInterface')
@@ -196,8 +211,34 @@ class DelugeGTK(dbus.service.Object):
 			gtk.main()
 		except KeyboardInterrupt:
 			self.manager.quit()
+	
+	def show_pref(self, o=None):
+		self.pref = self.prf.show_dlg(self.pref)
+	
+	def show_plugins(self, o=None):
+		pass
+	
+	def apply_prefs(self):
+		for k in self.pref.keys():
+			print k, self.pref.get(k)
 			
 	
+	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
+	def get_list_from_unique_id(self, unique_id):
+		state = self.manager.get_torrent_state(unique_id)
+		queue = int(state['queue_pos']) + 1 
+		name = state['name']
+		size = dcommon.fsize(state['total_size'])
+		progress = float(state['progress'] * 100)
+		message = deluge.STATE_MESSAGES[state['state']]
+		seeds = dcommon.fseed(state)
+		peers = dcommon.fpeer(state)
+		dlrate = dcommon.frate(state['download_rate'])
+		ulrate = dcommon.frate(state['upload_rate'])
+		eta = "NULL"
+		share = self.calc_share_ratio(unique_id, state)
+		return [unique_id, queue, name, size, progress, message,
+				seeds, peers, dlrate, ulrate, eta, share]
 
 	## Call via a timer to update the interface
 	def update(self):
@@ -239,7 +280,7 @@ class DelugeGTK(dbus.service.Object):
 			self.text_summary_seeders.set_text(dcommon.fseed(state))
 			self.text_summary_peers.set_text(dcommon.fpeer(state))
 			self.text_summary_percentage_done.set_text(dcommon.fpcnt(state["progress"]))
-			self.text_summary_share_ratio.set_text(self.calc_share_ratio(state))
+			self.text_summary_share_ratio.set_text(self.calc_share_ratio(self.get_selected_torrent(), state))
 			#self.text_summary_downloaded_this_session.set_text(str(state[""]))
 			#self.text_summary_uplodaded_this_session.set_text(str(state[""]))
 			self.text_summary_tracker.set_text(str(state["tracker"]))
@@ -263,34 +304,16 @@ class DelugeGTK(dbus.service.Object):
 
 		return True
 	
-	def calc_share_ratio(self, torrent_state):
-		if torrent_state["total_upload"] == 0:
-			return "0"
-		elif torrent_state["total_download"] == 0:
-			return "Undefined"
-		else:
-			ratio = float(torrent_state["total_upload"]) / float(torrent_state["total_download"])
-			return dcommon.fpcnt(ratio)
+	def calc_share_ratio(self, unique_id, torrent_state):
+		r = self.manager.calc_ratio(unique_id, torrent_state)
+		return '%.2f'%(r)
 	
 	def get_selected_torrent(self):
-		return self.store.get_value(self.view.get_selection().get_selected()[1], 0)
-	
-	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
-	def get_list_from_unique_id(self, unique_id):
-		state = self.manager.get_torrent_state(unique_id)
-		queue = int(state['queue_pos']) + 1 
-		name = state['name']
-		size = dcommon.fsize(state['total_size'])
-		progress =state['progress']
-		message = deluge.STATE_MESSAGES[state['state']]
-		seeds = dcommon.fseed(state)
-		peers = dcommon.fpeer(state)
-		dlrate = dcommon.frate(state['download_rate'])
-		ulrate = dcommon.frate(state['upload_rate'])
-		eta = "NULL"
-		share = self.calc_share_ratio(state)
-		return [unique_id, queue, name, size, progress, message,
-				seeds, peers, dlrate, ulrate, eta, share]
+		try:
+			return self.store.get_value(self.view.get_selection().get_selected()[1], 0)
+		except TypeError:
+			return None
+
 		
 	def new_torrent_clicked(self, obj=None):
 		pass
@@ -302,11 +325,31 @@ class DelugeGTK(dbus.service.Object):
 			self.store.append(self.get_list_from_unique_id(uid))
 	
 	def remove_torrent_clicked(self, obj=None):
-		self.manager.remove_torrent(self.get_selected_torrent(), False)
+		torrent = self.get_selected_torrent()
+		if torrent is not None:
+			self.manager.remove_torrent(torrent, False)
 		
+	def recheck_files(self, obj=None):
+		pass
+
 	def update_tracker(self, obj=None):
-		self.manager.update_tracker(get_selected_torrent())
-		
+		torrent = self.get_selected_torrent()
+		if torrent is not None:
+			self.manager.update_tracker(torrent)
+	
+	def clear_finished(self, obj=None):
+		self.manager.clear_completed()
+	
+	def q_torrent_up(self, obj=None):
+		torrent = self.get_selected_torrent()
+		if torrent is not None:
+			self.manager.queue_up(torrent)
+	
+	def q_torrent_down(self, obj=None):
+		torrent = self.get_selected_torrent()
+		if torrent is not None:
+			self.manager.queue_up(torrent)
+
 	def torrentview_clicked(self, widget, event):
 		pass
 	

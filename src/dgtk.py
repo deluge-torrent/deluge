@@ -63,33 +63,51 @@ class AboutDialog:
 		self.abt.show_all()
 		self.abt.run()
 		self.abt.hide_all()
-		
+
+
+## TODO: Merge this class (and possibly others) into the main interface class
 class PreferencesDialog:
 	def __init__(self):
 		self.gladefile = dcommon.get_glade_file("dgtkpref.glade")
 		self.wtree = gtk.glade.XML(self.gladefile)
-		self.prf = self.wtree.get_widget("pref_dialog")
+		self.dlg = self.wtree.get_widget("pref_dialog")
 		self.notebook = self.wtree.get_widget("pref_notebook")
-		self.prf.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		self.dlg.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		
-		self.plugin_view = self.wtree.get_widget("plugin_view")
-		self.plugin_store = gtk.ListStore(str, 'gboolean')
-		self.plugin_view.set_model(self.plugin_store)
-		self.plugin_name_column = add_text_column(self.plugin_view, "Plugin", 0)
-		self.plugin_name_column.set_expand(True)
-		self.plugin_toggle_column = add_toggle_column(self.plugin_view, "Enable", 1)
+		#self.plugin_view = self.wtree.get_widget("plugin_view")
+		#self.plugin_store = gtk.ListStore(str, 'gboolean')
+		#self.plugin_view.set_model(self.plugin_store)
+		#self.plugin_name_column = add_text_column(self.plugin_view, "Plugin", 0)
+		#self.plugin_name_column.set_expand(True)
+		#self.plugin_toggle_column = add_toggle_column(self.plugin_view, "Enable", 1)
+		
+		self.wtree.signal_autoconnect({"tray_toggle": self.tray_toggle,
+										})
 	
-	def show_pref(self, arg=None):
-		self.prf.show_all()
-		self.notebook.set_current_page(0)
-		self.prf.run()
-		self.prf.hide_all()
+	def tray_toggle(self, obj):
+		if obj.get_active():
+			self.wtree.get_widget("chk_min_on_close").set_sensitive(True)
+		else:
+			self.wtree.get_widget("chk_min_on_close").set_sensitive(False)
 	
-	def show_plugins(self, arg=None):
-		self.prf.show_all()
-		self.notebook.set_current_page(2)
-		self.prf.run()
-		self.prf.hide_all()
+	def set_pref(self, pref_file):
+		pass
+		
+	def get_pref(self, pref_file):
+		pass
+		
+	def show_dlg(self, conf=None, page=0):
+		self.dlg.show_all()
+		self.notebook.set_current_page(page)
+		# Set existing options
+		self.set_pref(conf)
+		
+		self.dlg.run()
+		self.dlg.hide_all()
+
+class PluginsDialog:
+	def __init__(self):
+		pass
 
 
 ## A simple file open dialog.  I'm going to improve it later,

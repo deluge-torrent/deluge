@@ -18,7 +18,7 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
 
-import sys, os, webbrowser
+import sys, os, os.path, webbrowser
 
 PROGRAM_NAME = "Deluge"
 PROGRAM_VERSION = "0.4.9.0"
@@ -35,6 +35,9 @@ class DelugePreferences:
 	
 	def get(self, key):
 		return self.pref[key]
+	
+	def keys(self):
+		return self.pref.keys()
 	
 	def load_from_file(self, filename):
 		f = open(filename, mode='r')
