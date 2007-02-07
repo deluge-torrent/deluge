@@ -1,7 +1,7 @@
 include LICENSE
 include README
 include INSTALL
-recursive-include glade/ *.glade
+recursive-include src/glade/ *.glade
+recursive-include src/pixmaps/ *.png *.svg *.xpm
 recursive-include include/ *.hpp *.ipp
-recursive-include pixmaps/ *.png *.svg *.xpm
 recursive-include plugins/ *
