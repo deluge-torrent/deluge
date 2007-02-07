@@ -23,11 +23,11 @@ do
 	cp $file working/
 done
 echo "  Copying data to working directory:  "
-for file in $(echo glade/*)
+for file in $(echo src/glade/*)
 do
 	cp $file working/glade/
 done
-for file in $(echo pixmaps/*)
+for file in $(echo src/pixmaps/*)
 do
 	cp $file working/pixmaps/
 done
