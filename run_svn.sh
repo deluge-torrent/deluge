@@ -11,25 +11,25 @@
 if [ -d ./working/ ]
 then
 	echo "  Removing old files:  "
-	rm -rvf working
+	rm -rf working
 fi
 echo "  Creating new working directory:  "
-mkdir -v working/ working/glade/ working/pixmaps/
+mkdir working/ working/glade/ working/pixmaps/
 echo "  Updating to latest SVN version:  "
 svn update
 echo "  Copy source to working directory:  "
 for file in $(echo src/*)
 do
-	cp -v $file working/
+	cp $file working/
 done
 echo "  Copying data to working directory:  "
 for file in $(echo glade/*)
 do
-	cp -v $file working/glade/
+	cp $file working/glade/
 done
 for file in $(echo pixmaps/*)
 do
-	cp -v $file working/pixmaps/
+	cp $file working/pixmaps/
 done
 echo "  Building Deluge-SVN:  "
 python setup.py build
@@ -38,7 +38,7 @@ for file in $(echo build/*)
 do
 	if [ -e $file/deluge/deluge_core.so ]
 	then
-		cp -v $file/deluge/deluge_core.so working/
+		cp $file/deluge/deluge_core.so working/
 	fi
 done
 echo "  Launching Deluge-SVN:  "
