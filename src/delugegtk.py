@@ -117,8 +117,8 @@ class DelugeGTK(dbus.service.Object):
 		self.abt.set_artists(["Andrew Wedderburn"])
 		self.abt.set_website("http://deluge-torrent.org")
 		self.abt.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
-		#self.abt.set_logo(gtk.gdk.pixbuf_new_from_file(
-		#		dcommon.get_pixmap("deluge256.png")))
+		self.abt.set_logo(gtk.gdk.pixbuf_new_from_file(
+				dcommon.get_pixmap("deluge32.png")))
 	
 	def build_pref_dialog(self):
 		self.prf_glade = gtk.glade.XML(dcommon.get_glade_file("dgtkpref.glade"))
@@ -136,7 +136,7 @@ class DelugeGTK(dbus.service.Object):
 		self.store = gtk.ListStore(int, int, str, str, float, str, str, str, str, str, str, str)
 		self.view.set_model(self.store)
 		self.view.set_rules_hint(True)
-		
+		self.view.set_reorderable(True)
 		
 		## Initializes the columns for the torrent_view
 		#Just found out there are built-in pygtk methods with similar functionality
