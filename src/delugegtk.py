@@ -52,25 +52,32 @@ class DelugeGTK(dbus.service.Object):
 		self.manager = deluge.Manager("DE", "0490", "Deluge 0.4.9",
 			 xdg.BaseDirectory.save_config_path("deluge-svn"))
 		#Set up the interface:
-		self.gladefile = dcommon.get_glade_file("delugegtk.glade")
-		self.wtree = gtk.glade.XML(self.gladefile)
+		self.wtree = gtk.glade.XML(dcommon.get_glade_file("delugegtk.glade"))
 		self.window = self.wtree.get_widget("main_window")
 		self.window.hide()
 		self.toolbar = self.wtree.get_widget("tb_middle")
 		if(self.window):
 			self.window.connect("destroy", self.quit)
-		self.window.set_title(dcommon.PROGRAM_NAME + " " + dcommon.PROGRAM_VERSION)
+		self.window.set_title('%s %s'%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION))
 		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 
 		## Create the system tray icon
 		self.tray = dgtk.TrayIcon(self)
 		
-		## Create the about dialog
-		self.abt = dgtk.AboutDialog()
+		## Construct the Interface
+		self.build_about_dialog()
+		self.build_pref_dialog()
+		self.build_plugin_dialog()
+		self.build_torrent_table()
+		self.build_summary_tab()
+		self.build_file_tab()
+		self.build_peer_tab()
 		
-		## Create the preferences dialog
-		self.prf = dgtk.PreferencesDialog()
+		self.connect_signals()
 		
+		self.apply_prefs()
+	
+	def connect_signals(self):
 		self.wtree.signal_autoconnect({
 					## File Menu
 					"new_torrent": self.new_torrent_clicked,
@@ -78,8 +85,8 @@ class DelugeGTK(dbus.service.Object):
 					"remove_torrent" : self.remove_torrent_clicked,
 					"menu_quit": self.quit,
 					## Edit Menu
-					"pref_clicked": self.show_pref,
-					"plugins_clicked": self.show_plugins,
+					"pref_clicked": self.show_pref_dialog,
+					"plugins_clicked": self.show_plugin_dialog,
 					## View Menu
 					"infopane_toggle": self.infopane_toggle,
 					"size_toggle": self.size_toggle,
@@ -91,9 +98,8 @@ class DelugeGTK(dbus.service.Object):
 					"eta_toggle": self.eta_toggle,
 					"share_toggle": self.share_toggle,
 					## Help Menu
-					"show_about_dialog": self.abt.show,
+					"show_about_dialog": self.show_about_dialog,
 					## Toolbar
-					"recheck_files": self.recheck_files,
 					"update_tracker": self.update_tracker,
 					"clear_finished": self.clear_finished,
 					"queue_up": self.q_torrent_up,
@@ -101,7 +107,29 @@ class DelugeGTK(dbus.service.Object):
 					## Other events
 					"torrentrow_click": self.torrentview_clicked,
 					})
-		
+	
+	def build_about_dialog(self):
+		gtk.about_dialog_set_url_hook(dcommon.open_url_in_browser)
+		self.abt = gtk.AboutDialog()
+		self.abt.set_name(dcommon.PROGRAM_NAME)
+		self.abt.set_version(dcommon.PROGRAM_VERSION)
+		self.abt.set_authors(["Zach Tibbits", "A. Zakai"])
+		self.abt.set_artists(["Andrew Wedderburn"])
+		self.abt.set_website("http://deluge-torrent.org")
+		self.abt.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		#self.abt.set_logo(gtk.gdk.pixbuf_new_from_file(
+		#		dcommon.get_pixmap("deluge256.png")))
+	
+	def build_pref_dialog(self):
+		self.prf_glade = gtk.glade.XML(dcommon.get_glade_file("dgtkpref.glade"))
+		self.prf = self.prf_glade.get_widget("pref_dialog")
+		self.prf.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		self.prf_glade.signal_autoconnect({"tray_toggle": self.tray_toggle,})
+
+	def build_plugin_dialog(self):
+		pass
+
+	def build_torrent_table(self):
 		## Create the torrent listview
 		self.view = self.wtree.get_widget("torrent_view")
 		# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
@@ -111,8 +139,8 @@ class DelugeGTK(dbus.service.Object):
 		
 		
 		## Initializes the columns for the torrent_view
-#		Just found out there are built-in pygtk methods with similar functionality
-#		to these, perhaps I should look into using those.
+		#Just found out there are built-in pygtk methods with similar functionality
+		#to these, perhaps I should look into using those.
 		self.queue_column 	= 	dgtk.add_text_column(self.view, "#", 1)
 		self.name_column 	=	dgtk.add_text_column(self.view, "Name", 2)
 		self.size_column 	=	dgtk.add_text_column(self.view, "Size", 3)
@@ -125,29 +153,9 @@ class DelugeGTK(dbus.service.Object):
 		self.share_column 	= 	dgtk.add_text_column(self.view, "Share Ratio", 11)
 		
 		self.status_column.set_expand(True)
-		
-		self.file_view = self.wtree.get_widget("file_view")
-		self.file_store = gtk.ListStore(str, bool)
-		self.file_view.set_model(self.file_store)
-		
-		self.filename_column 	=	dgtk.add_text_column(self.file_view, "Filename", 0)
-		self.filetoggle_column 	=	dgtk.add_toggle_column(self.file_view, "DL?", 0)
 
-		self.filename_column.set_expand(True)
-		
-		## Should probably use rules-hint for other treevies as well
-		
-		self.peer_view = self.wtree.get_widget("peer_view")
-		self.peer_store = gtk.ListStore(str, str, str, str, str)
-		self.peer_view.set_model(self.peer_store)
-		
-		self.peer_ip_column			=	dgtk.add_text_column(self.peer_view, "IP Address", 0)
-		self.peer_client_column		=	dgtk.add_text_column(self.peer_view, "Client", 1)
-		## Note: change this column to use a progress column before 0.5 is released
-		self.peer_complete_column	=	dgtk.add_text_column(self.peer_view, "Percent Complete", 2)
-		self.peer_download_column	=	dgtk.add_text_column(self.peer_view, "Download Rate", 3)
-		self.peer_upload_column		=	dgtk.add_text_column(self.peer_view, "Upload Rate", 4)
-		
+	
+	def build_summary_tab(self):
 		#Torrent Summary tab
 		# Look into glade's widget prefix function
 		self.text_summary_title                   = self.wtree.get_widget("summary_title")
@@ -169,9 +177,55 @@ class DelugeGTK(dbus.service.Object):
 		self.text_summary_next_announce           = self.wtree.get_widget("summary_next_announce")
 		self.text_summary_compact_allocation      = self.wtree.get_widget("summary_compact_allocation")
 		self.text_summary_eta					  = self.wtree.get_widget("summary_eta")
+
+	def build_peer_tab(self):
+		self.peer_view = self.wtree.get_widget("peer_view")
+		self.peer_store = gtk.ListStore(str, str, str, str, str)
+		self.peer_view.set_model(self.peer_store)
 		
-		## Interface created
+		self.peer_ip_column			=	dgtk.add_text_column(self.peer_view, "IP Address", 0)
+		self.peer_client_column		=	dgtk.add_text_column(self.peer_view, "Client", 1)
+		## Note: (maybe) change this column to use a progress column before 0.5 is released
+		self.peer_complete_column	=	dgtk.add_text_column(self.peer_view, "Percent Complete", 2)
+		self.peer_download_column	=	dgtk.add_text_column(self.peer_view, "Download Rate", 3)
+		self.peer_upload_column		=	dgtk.add_text_column(self.peer_view, "Upload Rate", 4)
+
+
+	def build_file_tab(self):
+		self.file_view = self.wtree.get_widget("file_view")
+		self.file_store = gtk.ListStore(str, bool)
+		self.file_view.set_model(self.file_store)
+		
+		self.filename_column 	=	dgtk.add_text_column(self.file_view, "Filename", 0)
+		self.filetoggle_column 	=	dgtk.add_toggle_column(self.file_view, "DL?", 0)
+
+		self.filename_column.set_expand(True)
+
+
+
+
+
+	def show_about_dialog(self, arg=None):
+		self.abt.show_all()
+		self.abt.run()
+		self.abt.hide_all()
+	
+	def show_pref_dialog(self, arg=None):
+		self.prf.show_all()		
+		self.prf.run()
+		self.prf.hide_all()
 		self.apply_prefs()
+	
+	def show_plugin_dialog(self, arg=None):
+		pass
+
+	def tray_toggle(self, obj):
+		if obj.get_active():
+			self.wtree.get_widget("chk_min_on_close").set_sensitive(True)
+		else:
+			self.wtree.get_widget("chk_min_on_close").set_sensitive(False)
+
+	
 	
 	## external_add_torrent should only be called from outside the class	
 	@dbus.service.method('org.deluge_torrent.DelugeInterface')
@@ -328,9 +382,6 @@ class DelugeGTK(dbus.service.Object):
 		torrent = self.get_selected_torrent()
 		if torrent is not None:
 			self.manager.remove_torrent(torrent, False)
-		
-	def recheck_files(self, obj=None):
-		pass
 
 	def update_tracker(self, obj=None):
 		torrent = self.get_selected_torrent()
