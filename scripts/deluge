@@ -50,8 +50,8 @@ interface = None
 
 if not "org.deluge_torrent.Deluge" in dbus_objects:
 	print "no existing Deluge session"
-	import delugegtk
-	interface = delugegtk.DelugeGTK()
+	import deluge, deluge.delugegtk
+	interface = deluge.delugegtk.DelugeGTK()
 	for arg in args:
 		apath =  os.path.abspath(arg)
 		if apath.endswith(".torrent"):

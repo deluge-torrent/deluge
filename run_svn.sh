@@ -8,6 +8,10 @@
 # a working copy of Deluge-SVN
 #
 
+echo "For now, you'll have to install Deluge to run it"
+exit
+
+
 if [ -d ./working/ ]
 then
 	echo "  Removing old files:  "
