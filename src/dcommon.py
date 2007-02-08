@@ -23,8 +23,9 @@ import sys, os, os.path, webbrowser
 PROGRAM_NAME = "Deluge"
 PROGRAM_VERSION = "0.4.9.0"
 DELUGE_DIR = os.path.abspath(os.path.dirname(sys.argv[0]))
-GLADE_DIR = DELUGE_DIR + "/glade"
-PIXMAP_DIR = DELUGE_DIR + "/pixmaps"
+PREFIX = sys.prefix
+GLADE_DIR = PREFIX + "/share/deluge/glade"
+PIXMAP_DIR = PREFIX + "/share/deluge/pixmaps"
 
 class DelugePreferences:
 	def __init__(self):

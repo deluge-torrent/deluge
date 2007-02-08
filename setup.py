@@ -88,7 +88,8 @@ setup(name="deluge", fullname="Deluge BitTorrent Client", version="0.5.0",
 	scripts=["scripts/deluge"],
 	packages=['deluge'],
 	package_dir = {'deluge': 'src'},
-	package_data={'deluge': ['glade/*.glade', 'pixmaps/*.png']},
+	data_files=[("share/deluge/glade", ["glade/delugegtk.glade", "glade/dgtkpopups.glade", "glade/dgtkpref.glade"]),
+                                ("share/deluge/pixmaps", ["pixmaps/deluge32.png","pixmaps/deluge128.png"])],
 	ext_package='deluge',
 	ext_modules=[deluge_core]
 	)
