@@ -230,7 +230,7 @@ class DelugeGTK(dbus.service.Object):
 		name = state['name']
 		size = dcommon.fsize(state['total_size'])
 		progress = float(state['progress'] * 100)
-		message = deluge.STATE_MESSAGES[state['state']]
+		message = '%s %d%%'%(deluge.STATE_MESSAGES[state['state']], int(state['progress'] * 100))
 		seeds = dcommon.fseed(state)
 		peers = dcommon.fpeer(state)
 		dlrate = dcommon.frate(state['download_rate'])
