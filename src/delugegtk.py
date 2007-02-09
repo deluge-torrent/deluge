@@ -211,9 +211,46 @@ class DelugeGTK(dbus.service.Object):
 		self.abt.hide_all()
 	
 	def show_pref_dialog(self, arg=None):
+		#Try to get current settings from pref, if an error occurs, the default settings will be used:
+		try:
+			# Page 1
+			self.prf_glade.get_widget("chk_use_tray").set_active(self.pref.get("enable_system_tray", bool))
+			self.prf_glade.get_widget("chk_min_on_close").set_active(self.pref.get("close_to_tray", bool))
+			self.prf_glade.get_widget("radio_ask_save").set_active(self.pref.get("ask_download_dir_each_torrent", bool))
+			self.prf_glade.get_widget("download_path_button").set_filename(self.pref.get("default_download_path", str))
+			self.prf_glade.get_widget("chk_autoseed").set_active(self.pref.get("auto_end_seeding", bool))
+			self.prf_glade.get_widget("ratio_spinner").set_value(self.pref.get("end_seed_ratio", float))
+			self.prf_glade.get_widget("chk_compact").set_active(self.pref.get("use_compact_storage", bool))
+			# Page 2
+			self.prf_glade.get_widget("spin_port_min").set_value(self.pref.get("tcp_port_range_lower", int))
+			self.prf_glade.get_widget("spin_port_max").set_value(self.pref.get("tcp_port_range_upper", int))
+			self.prf_glade.get_widget("spin_max_upload").set_value(self.pref.get("max_upload_rate", int))
+			self.prf_glade.get_widget("spin_num_upload").set_value(self.pref.get("max_number_uploads", int))
+			self.prf_glade.get_widget("spin_max_download").set_value(self.pref.get("max_download_rate", int))
+			self.prf_glade.get_widget("spin_num_download").set_value(self.pref.get("max_number_downloads", int))
+		except KeyError:
+			pass
 		self.prf.show_all()		
-		self.prf.run()
+		result = self.prf.run()
 		self.prf.hide_all()
+		print result
+		if result == 1:
+			self.pref.set("enable_system_tray", self.prf_glade.get_widget("chk_use_tray").get_active())
+			self.pref.set("close_to_tray", self.prf_glade.get_widget("chk_min_on_close").get_active())
+			self.pref.set("ask_download_dir_each_torrent", self.prf_glade.get_widget("radio_ask_save").get_active())
+			self.pref.set("default_download_path", self.prf_glade.get_widget("download_path_button").get_filename())
+			self.pref.set("auto_end_seeding", self.prf_glade.get_widget("chk_autoseed").get_active())
+			self.pref.set("end_seed_ratio", self.prf_glade.get_widget("ratio_spinner").get_value())
+			self.pref.set("use_compact_storage", self.prf_glade.get_widget("chk_compact").get_active())
+			
+			self.pref.set("tcp_port_range_lower", self.prf_glade.get_widget("spin_port_min").get_value())
+			self.pref.set("tcp_port_range_upper", self.prf_glade.get_widget("spin_port_max").get_value())
+			self.pref.set("max_upload_rate", self.prf_glade.get_widget("spin_max_upload").get_value())
+			self.pref.set("max_number_uploads", self.prf_glade.get_widget("spin_num_upload").get_value())
+			self.pref.set("max_download_rate", self.prf_glade.get_widget("spin_max_download").get_value())
+			self.pref.set("max_number_downloads", self.prf_glade.get_widget("spin_num_download").get_value())
+			
+			self.pref.save_to_file(self.conf_file)
 		self.apply_prefs()
 	
 	def show_plugin_dialog(self, arg=None):
@@ -221,9 +258,9 @@ class DelugeGTK(dbus.service.Object):
 
 	def tray_toggle(self, obj):
 		if obj.get_active():
-			self.wtree.get_widget("chk_min_on_close").set_sensitive(True)
+			self.prf_glade.get_widget("chk_min_on_close").set_sensitive(True)
 		else:
-			self.wtree.get_widget("chk_min_on_close").set_sensitive(False)
+			self.prf_glade.get_widget("chk_min_on_close").set_sensitive(False)
 
 	
 	
@@ -321,9 +358,11 @@ class DelugeGTK(dbus.service.Object):
 				self.store.remove(itr)
 				if not self.store.iter_is_valid(itr):
 					itr = None
-		if tab == 0: #Details Paneself.text_summary_seeders				  = self.wtree.get_widget("summary_seeders")
-		
-			state = self.manager.get_torrent_state(self.get_selected_torrent())
+		if tab == 0: #Details Pane	
+			try:		
+				state = self.manager.get_torrent_state(self.get_selected_torrent())
+			except deluge.InvalidUniqueIDError:
+				return True
 			self.text_summary_title.set_text(str(state["name"]))
 			self.text_summary_total_size.set_text(dcommon.fsize(state["total_size"]))
 			self.text_summary_pieces.set_text(str(state["pieces"]))

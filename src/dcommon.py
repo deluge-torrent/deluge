@@ -34,8 +34,29 @@ class DelugePreferences:
 	def set(self, key, value):
 		self.pref[key] = value
 	
-	def get(self, key):
-		return self.pref[key]
+	def get(self, key, kind=None):
+		result = self.pref[key]
+		if kind == None:
+			return result
+		elif kind == bool:
+			# Python interprets bool("False") as True, so we must compensate for this
+			if isinstance(result, str):
+				return (result.lower() == "true")
+			elif isinstance(result, int):
+				return not (result == 0)
+			else:
+				return False
+		elif kind == str:
+			return str(result)
+		elif kind == int:
+			try:
+				return int(result)
+			except ValueError:
+				return int(float(result))
+		elif kind == float:
+			return float(result)
+		else:
+			return result
 	
 	def keys(self):
 		return self.pref.keys()
@@ -43,18 +64,23 @@ class DelugePreferences:
 	def load_from_file(self, filename):
 		f = open(filename, mode='r')
 		for line in f:
-			(key, value) = line.split("=")
-			key = key.strip(" \n")
-			value = value.strip(" \n")
-			self.pref[key] = value
+			try:
+				(key, value) = line.split("=")
+				key = key.strip(" \n")
+				value = value.strip(" \n")
+				self.pref[key] = value
+				print 'Read option %s with a value of %s'%(key, value)
+			except ValueError:
+				print "Empty Line"
 		f.close()
 	
 	def save_to_file(self, filename):
 		f = open(filename, mode='w')
+		f.write('#%s preferences file\n\n'%PROGRAM_NAME)
 		for key in self.pref.keys():
 			f.write(key)
 			f.write(' = ')
-			f.write(self.pref[key])
+			f.write(str(self.pref[key]))
 			f.write('\n')
 		f.flush()
 		f.close()

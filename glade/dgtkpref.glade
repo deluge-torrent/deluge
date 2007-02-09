@@ -45,17 +45,6 @@
                                   <placeholder/>
                                 </child>
                                 <child>
-                                  <widget class="GtkCheckButton" id="chk_use_tray">
-                                    <property name="visible">True</property>
-                                    <property name="label" translatable="yes">Enable system tray icon</property>
-                                    <property name="draw_indicator">True</property>
-                                    <signal name="toggled" handler="tray_toggle"/>
-                                  </widget>
-                                  <packing>
-                                    <property name="right_attach">2</property>
-                                  </packing>
-                                </child>
-                                <child>
                                   <widget class="GtkCheckButton" id="chk_min_on_close">
                                     <property name="visible">True</property>
                                     <property name="label" translatable="yes">Minimize to tray on close</property>
@@ -66,6 +55,18 @@
                                     <property name="top_attach">1</property>
                                     <property name="bottom_attach">2</property>
                                     <property name="x_padding">12</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkCheckButton" id="chk_use_tray">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes">Enable system tray icon</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                    <signal name="toggled" handler="tray_toggle"/>
+                                  </widget>
+                                  <packing>
+                                    <property name="right_attach">2</property>
                                   </packing>
                                 </child>
                               </widget>
@@ -94,15 +95,13 @@
                                 <property name="n_rows">2</property>
                                 <property name="n_columns">2</property>
                                 <child>
-                                  <widget class="GtkFileChooserButton" id="filechooserbutton1">
-                                    <property name="action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
+                                  <widget class="GtkRadioButton" id="radio_ask_save">
                                     <property name="visible">True</property>
+                                    <property name="label" translatable="yes">Ask me where to save each download</property>
+                                    <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
-                                    <property name="left_attach">1</property>
                                     <property name="right_attach">2</property>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -118,13 +117,15 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkRadioButton" id="radio_ask_save">
+                                  <widget class="GtkFileChooserButton" id="download_path_button">
                                     <property name="visible">True</property>
-                                    <property name="label" translatable="yes">Ask me where to save each download</property>
-                                    <property name="draw_indicator">True</property>
+                                    <property name="action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
                                   </widget>
                                   <packing>
+                                    <property name="left_attach">1</property>
                                     <property name="right_attach">2</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
                                   </packing>
                                 </child>
                               </widget>
@@ -154,6 +155,14 @@
                                 <property name="n_rows">1</property>
                                 <property name="n_columns">2</property>
                                 <child>
+                                  <widget class="GtkCheckButton" id="chk_autoseed">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes">Stop seeding torrents when
+their share ratio reaches:</property>
+                                    <property name="draw_indicator">True</property>
+                                  </widget>
+                                </child>
+                                <child>
                                   <widget class="GtkSpinButton" id="ratio_spinner">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -166,14 +175,6 @@
                                     <property name="left_attach">1</property>
                                     <property name="right_attach">2</property>
                                   </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkCheckButton" id="chk_autoseed">
-                                    <property name="visible">True</property>
-                                    <property name="label" translatable="yes">Stop seeding torrents when
-their share ratio reaches:</property>
-                                    <property name="draw_indicator">True</property>
-                                  </widget>
                                 </child>
                               </widget>
                             </child>
@@ -268,51 +269,13 @@ their share ratio reaches:</property>
                                   <placeholder/>
                                 </child>
                                 <child>
-                                  <widget class="GtkLabel" id="label25">
+                                  <widget class="GtkButton" id="btn_test_port">
                                     <property name="visible">True</property>
-                                    <property name="label" translatable="yes">Try from:</property>
-                                  </widget>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="label26">
-                                    <property name="visible">True</property>
-                                    <property name="label" translatable="yes">to:</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkSpinButton" id="spin_port_min">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="adjustment">0 0 100 1 10 10</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkSpinButton" id="spin_port_max">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="adjustment">0 0 100 1 10 10</property>
+                                    <property name="label" translatable="yes">Test Port</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">3</property>
                                     <property name="right_attach">4</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="label27">
-                                    <property name="visible">True</property>
-                                    <property name="label" translatable="yes">Active port:</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
                                     <property name="top_attach">1</property>
                                     <property name="bottom_attach">2</property>
                                   </packing>
@@ -330,16 +293,54 @@ their share ratio reaches:</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkButton" id="btn_test_port">
+                                  <widget class="GtkLabel" id="label27">
                                     <property name="visible">True</property>
-                                    <property name="label" translatable="yes">Test Port</property>
+                                    <property name="label" translatable="yes">Active port:</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkSpinButton" id="spin_port_max">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="adjustment">0 0 100 1 10 10</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">3</property>
                                     <property name="right_attach">4</property>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
                                   </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkSpinButton" id="spin_port_min">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="adjustment">0 0 100 1 10 10</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label26">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes">to:</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label25">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes">Try from:</property>
+                                  </widget>
                                 </child>
                               </widget>
                             </child>
@@ -367,20 +368,47 @@ their share ratio reaches:</property>
                                 <property name="n_rows">4</property>
                                 <property name="n_columns">2</property>
                                 <child>
-                                  <widget class="GtkSpinButton" id="spinbutton4">
+                                  <widget class="GtkLabel" id="label4">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="adjustment">0 0 100 1 10 10</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Maximum Upload Rate:</property>
+                                  </widget>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label3">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Maximum number of Uploads:</property>
                                   </widget>
                                   <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label2">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Maximum Download Rate:</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label1">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Maximum number of Downloads:</property>
+                                  </widget>
+                                  <packing>
                                     <property name="top_attach">3</property>
                                     <property name="bottom_attach">4</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkSpinButton" id="spin_num_download">
+                                  <widget class="GtkSpinButton" id="spin_max_upload">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="adjustment">0 0 100 1 10 10</property>
@@ -388,8 +416,6 @@ their share ratio reaches:</property>
                                   <packing>
                                     <property name="left_attach">1</property>
                                     <property name="right_attach">2</property>
-                                    <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -406,7 +432,7 @@ their share ratio reaches:</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkSpinButton" id="spin_max_upload">
+                                  <widget class="GtkSpinButton" id="spin_max_download">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="adjustment">0 0 100 1 10 10</property>
@@ -414,47 +440,22 @@ their share ratio reaches:</property>
                                   <packing>
                                     <property name="left_attach">1</property>
                                     <property name="right_attach">2</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="label1">
-                                    <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Maximum number of Downloads:</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="top_attach">3</property>
-                                    <property name="bottom_attach">4</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="label2">
-                                    <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Maximum Download Rate:</property>
-                                  </widget>
-                                  <packing>
                                     <property name="top_attach">2</property>
                                     <property name="bottom_attach">3</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkLabel" id="label3">
+                                  <widget class="GtkSpinButton" id="spin_num_download">
                                     <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Maximum number of Uploads:</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="adjustment">0 0 100 1 10 10</property>
                                   </widget>
                                   <packing>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">3</property>
+                                    <property name="bottom_attach">4</property>
                                   </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="label4">
-                                    <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Maximum Upload Rate:</property>
-                                  </widget>
                                 </child>
                               </widget>
                             </child>
@@ -520,6 +521,7 @@ their share ratio reaches:</property>
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">gtk-ok</property>
                 <property name="use_stock">True</property>
+                <property name="response_id">1</property>
               </widget>
               <packing>
                 <property name="position">1</property>
@@ -555,16 +557,11 @@ their share ratio reaches:</property>
                 <property name="n_rows">2</property>
                 <property name="n_columns">2</property>
                 <child>
-                  <widget class="GtkTextView" id="plugin_text1">
+                  <widget class="GtkTreeView" id="plugin_view1">
                     <property name="visible">True</property>
-                    <property name="editable">False</property>
-                    <property name="wrap_mode">GTK_WRAP_WORD</property>
                   </widget>
                   <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="x_padding">10</property>
-                    <property name="y_padding">10</property>
+                    <property name="bottom_attach">2</property>
                   </packing>
                 </child>
                 <child>
@@ -599,11 +596,16 @@ their share ratio reaches:</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkTreeView" id="plugin_view1">
+                  <widget class="GtkTextView" id="plugin_text1">
                     <property name="visible">True</property>
+                    <property name="editable">False</property>
+                    <property name="wrap_mode">GTK_WRAP_WORD</property>
                   </widget>
                   <packing>
-                    <property name="bottom_attach">2</property>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="x_padding">10</property>
+                    <property name="y_padding">10</property>
                   </packing>
                 </child>
               </widget>
