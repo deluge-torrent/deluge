@@ -212,7 +212,7 @@ class DelugeGTK(dbus.service.Object):
 		self.pref.set("end_seed_ratio", 1.0)
 		self.pref.set("use_compact_storage", False)
 		
-		self.pref.set("tcp_port_range_lower", 6880)
+		self.pref.set("tcp_port_range_lower", 6881)
 		self.pref.set("tcp_port_range_upper", 6889)
 		self.pref.set("max_upload_rate", 0)
 		self.pref.set("max_number_uploads", 0)
