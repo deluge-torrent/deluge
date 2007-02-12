@@ -18,6 +18,8 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
 
+import platform, os, glob
+from distutils.core import setup, Extension
 
 ## Modify the build arguments
 from distutils import sysconfig
@@ -25,17 +27,19 @@ from distutils import sysconfig
 removals = ['-g', '-DNDEBUG', '-O2', '-Wstrict-prototypes']
 additions = ['-DNDEBUG', '-O2']
 
-cv = sysconfig.get_config_vars()
-for removal in removals:
-	cv["OPT"] = cv["OPT"].replace(" " + removal + " ", " ")
-for addition in additions:
-	cv["OPT"] = cv["OPT"] + " " + addition
+cv_opt = sysconfig.get_config_vars()["OPT"]
 
-import platform, os
+for removal in removals:
+	cv_opt = cv_opt.replace(removal, " ")
+for addition in additions:
+	cv_opt = cv_opt + " " + addition
+
+sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
+
+
 
 pythonVersion = platform.python_version()[0:3]
 
-from distutils.core import setup, Extension
 
 deluge_core = Extension('deluge_core',
                     include_dirs = ['./libtorrent', './libtorrent/include', './libtorrent/include/libtorrent',
@@ -78,6 +82,11 @@ deluge_core = Extension('deluge_core',
 										 'libtorrent/src/kademlia/rpc_manager.cpp',
 										 'libtorrent/src/kademlia/traversal_algorithm.cpp'])
 
+data = [('share/deluge/glade',  glob.glob('glade/*.glade')),
+        ('share/deluge/pixmaps', glob.glob('pixmaps/*.png'))]
+
+for plugin in glob.glob('plugins/*'):
+	data.append( ('share/deluge/' + plugin, glob.glob(plugin + '/*')) )
 
 setup(name="deluge", fullname="Deluge BitTorrent Client", version="0.5.0",
 	author="Zach Tibbitts, Alon Zakai",
@@ -88,9 +97,7 @@ setup(name="deluge", fullname="Deluge BitTorrent Client", version="0.5.0",
 	scripts=["scripts/deluge"],
 	packages=['deluge'],
 	package_dir = {'deluge': 'src'},
-	data_files=[("share/deluge/glade", ["glade/delugegtk.glade", "glade/dgtkpopups.glade", "glade/dgtkpref.glade"]),
-                                ("share/deluge/pixmaps", ["pixmaps/deluge32.png",
-                                	"pixmaps/deluge128.png", "pixmaps/deluge256.png"])],
+	data_files=data,
     ext_package='deluge',
 	ext_modules=[deluge_core]
 	)
