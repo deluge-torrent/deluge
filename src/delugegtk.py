@@ -20,7 +20,7 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
 
-import sys, os, os.path, gettext
+import sys, os, os.path, gettext, urllib
 import deluge, dcommon, dgtk
 import pygtk
 pygtk.require('2.0')
@@ -48,6 +48,7 @@ class DelugeGTK(dbus.service.Object):
 			f.flush()
 			f.close()
 		self.pref = dcommon.DelugePreferences()
+		self.load_default_settings()
 		self.pref.load_from_file(self.conf_file)
 		#Start the Deluge Manager:
 		self.manager = deluge.Manager("DE", "0490", "Deluge 0.4.9",
@@ -202,6 +203,21 @@ class DelugeGTK(dbus.service.Object):
 
 		self.filename_column.set_expand(True)
 
+	def load_default_settings(self):
+		self.pref.set("enable_system_tray", True)
+		self.pref.set("close_to_tray", False)
+		self.pref.set("use_default_dir", False)
+		self.pref.set("default_download_path", os.path.expandvars('$HOME'))
+		self.pref.set("auto_end_seeding", False)
+		self.pref.set("end_seed_ratio", 1.0)
+		self.pref.set("use_compact_storage", False)
+		
+		self.pref.set("tcp_port_range_lower", 6880)
+		self.pref.set("tcp_port_range_upper", 6889)
+		self.pref.set("max_upload_rate", 0)
+		self.pref.set("max_number_uploads", 0)
+		self.pref.set("max_download_rate", 0)
+		self.pref.set("max_number_downloads", 0)
 
 
 
@@ -217,7 +233,11 @@ class DelugeGTK(dbus.service.Object):
 			# Page 1
 			self.prf_glade.get_widget("chk_use_tray").set_active(self.pref.get("enable_system_tray", bool))
 			self.prf_glade.get_widget("chk_min_on_close").set_active(self.pref.get("close_to_tray", bool))
-			self.prf_glade.get_widget("radio_ask_save").set_active(self.pref.get("ask_download_dir_each_torrent", bool))
+			if(self.pref.get("use_default_dir", bool)):
+				self.prf_glade.get_widget("radio_save_all_to").set_active(True)
+			else:
+				self.prf_glade.get_widget("radio_ask_save").set_active(True)
+			
 			self.prf_glade.get_widget("download_path_button").set_filename(self.pref.get("default_download_path", str))
 			self.prf_glade.get_widget("chk_autoseed").set_active(self.pref.get("auto_end_seeding", bool))
 			self.prf_glade.get_widget("ratio_spinner").set_value(self.pref.get("end_seed_ratio", float))
@@ -238,7 +258,7 @@ class DelugeGTK(dbus.service.Object):
 		if result == 1:
 			self.pref.set("enable_system_tray", self.prf_glade.get_widget("chk_use_tray").get_active())
 			self.pref.set("close_to_tray", self.prf_glade.get_widget("chk_min_on_close").get_active())
-			self.pref.set("ask_download_dir_each_torrent", self.prf_glade.get_widget("radio_ask_save").get_active())
+			self.pref.set("use_default_dir", self.prf_glade.get_widget("radio_save_all_to").get_active())
 			self.pref.set("default_download_path", self.prf_glade.get_widget("download_path_button").get_filename())
 			self.pref.set("auto_end_seeding", self.prf_glade.get_widget("chk_autoseed").get_active())
 			self.pref.set("end_seed_ratio", self.prf_glade.get_widget("ratio_spinner").get_value())
@@ -409,17 +429,43 @@ class DelugeGTK(dbus.service.Object):
 			return None
 
 		
-	def new_torrent_clicked(self, obj=None):
-		pass
+	def interactive_add_torrent(self, torrent):
+		if self.pref.get('use_default_dir', bool):
+			path = self.pref.get('default_download_path')
+		else:
+			path = dgtk.show_directory_chooser_dialog(self.window)
+			if path is None:
+				return
+		unique_id = self.manager.add_torrent(torrent, path, True)
+		self.store.append(self.get_list_from_unique_id(unique_id))
+		
+		
 		
 	def add_torrent_clicked(self, obj=None):
 		torrent = dgtk.show_file_open_dialog()
 		if torrent is not None:
-			uid = self.manager.add_torrent(torrent, ".", True)
-			self.store.append(self.get_list_from_unique_id(uid))
+			self.interactive_add_torrent(torrent)
 	
 	def add_torrent_url_clicked(self, obj=None):
-		pass
+		dlg = gtk.Dialog(title="Add torrent from URL", parent=self.window,
+			buttons=(gtk.STOCK_CANCEL, 0, gtk.STOCK_OK, 1))
+		dlg.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		
+		label = gtk.Label("Enter the URL of the .torrent to download")
+		entry = gtk.Entry()
+		dlg.vbox.pack_start(label)
+		dlg.vbox.pack_start(entry)
+		dlg.show_all()
+		result = dlg.run()
+		url = entry.get_text()
+		dlg.destroy()
+		
+		if result == 1:
+			opener = urllib.URLopener()
+			filename, headers = opener.retrieve(url)
+			if filename.endswith(".torrent") or headers["content-type"]=="application/x=bittorrent":
+				self.interactive_add_torrent(filename)
+		
 	
 	def remove_torrent_clicked(self, obj=None):
 		torrent = self.get_selected_torrent()

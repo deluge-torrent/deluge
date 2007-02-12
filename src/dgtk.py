@@ -66,6 +66,15 @@ def show_file_open_dialog(parent=None):
 	chooser.destroy()
 	return result
 
+def show_directory_chooser_dialog(parent=None):
+	chooser = gtk.FileChooserDialog("Choose a download directory", parent, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+				buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
+	if chooser.run() == gtk.RESPONSE_OK:
+		result = chooser.get_filename()
+	else:
+		result = None
+	chooser.destroy()
+	return result
 
 ## Functions to create columns
 
