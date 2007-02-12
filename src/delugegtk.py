@@ -30,6 +30,7 @@ import dbus, dbus.service
 if getattr(dbus, 'version', (0,0,0)) >= (0,41,0):
 	import dbus.glib 
 
+_ = gettext.gettext
 
 class DelugeGTK(dbus.service.Object):
 	def __init__(self, bus_name=dbus.service.BusName('org.deluge_torrent.Deluge',
@@ -80,8 +81,8 @@ class DelugeGTK(dbus.service.Object):
 	def connect_signals(self):
 		self.wtree.signal_autoconnect({
 					## File Menu
-					"new_torrent": self.new_torrent_clicked,
 					"add_torrent": self.add_torrent_clicked,
+					"add_torrent_url": self.add_torrent_url_clicked,
 					"remove_torrent" : self.remove_torrent_clicked,
 					"menu_quit": self.quit,
 					## Edit Menu
@@ -417,10 +418,33 @@ class DelugeGTK(dbus.service.Object):
 			uid = self.manager.add_torrent(torrent, ".", True)
 			self.store.append(self.get_list_from_unique_id(uid))
 	
+	def add_torrent_url_clicked(self, obj=None):
+		pass
+	
 	def remove_torrent_clicked(self, obj=None):
 		torrent = self.get_selected_torrent()
 		if torrent is not None:
-			self.manager.remove_torrent(torrent, False)
+			glade     = gtk.glade.XML(dcommon.get_glade_file("dgtkpopups.glade"))
+			asker     = glade.get_widget("remove_torrent_dlg")
+
+			warning   =  glade.get_widget("warning")
+			warning.set_text(" ")
+
+			data_also  =  glade.get_widget("data_also")
+			data_also.connect("toggled", self.remove_toggle_warning, warning)
+
+			response = asker.run()
+			asker.destroy()
+			if response == 1:
+				self.manager.remove_torrent(torrent, data_also.get_active())
+
+
+	def remove_toggle_warning(self, args, warning):
+		if not args.get_active():
+			warning.set_text(" ")
+		else:
+			warning.set_markup("<i>" + "Warning - all downloaded files for this torrent will be deleted!" + "</i>")
+		return False
 
 	def update_tracker(self, obj=None):
 		torrent = self.get_selected_torrent()

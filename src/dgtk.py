@@ -44,11 +44,20 @@ class TrayIcon:
 	def popup(self):
 		pass
 
-## A simple file open dialog.  I'm going to improve it later,
-## this is a quick implementation for testing.
-def show_file_open_dialog():
-	chooser = gtk.FileChooserDialog("Open", None, gtk.FILE_CHOOSER_ACTION_OPEN,
+## Browse for .torrent files
+def show_file_open_dialog(parent=None):
+	chooser = gtk.FileChooserDialog("Choose a .torrent file", parent, gtk.FILE_CHOOSER_ACTION_OPEN,
 			buttons=(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
+	
+	f0 = gtk.FileFilter()
+	f0.set_name(".torrent files")
+	f0.add_pattern("*." + "torrent")
+	chooser.add_filter(f0)
+	f1 = gtk.FileFilter()
+	f1.set_name("All files")
+	f1.add_pattern("*")
+	chooser.add_filter(f1)
+	
 	response = chooser.run()
 	if response == gtk.RESPONSE_OK:
 		result = chooser.get_filename()
@@ -56,7 +65,6 @@ def show_file_open_dialog():
 		result = None
 	chooser.destroy()
 	return result
-	
 
 
 ## Functions to create columns
