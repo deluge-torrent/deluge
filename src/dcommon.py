@@ -22,10 +22,11 @@ import sys, os, os.path, webbrowser
 
 PROGRAM_NAME = "Deluge"
 PROGRAM_VERSION = "0.4.9.0"
-DELUGE_DIR = os.path.abspath(os.path.dirname(sys.argv[0]))
-PREFIX = sys.prefix
-GLADE_DIR = PREFIX + "/share/deluge/glade"
-PIXMAP_DIR = PREFIX + "/share/deluge/pixmaps"
+
+GLADE_DIR  = sys.prefix + '/share/deluge/glade'
+PIXMAP_DIR = sys.prefix + '/share/deluge/pixmaps'
+PLUGIN_DIR = sys.prefix + '/share/deluge/plugins'
+
 
 class DelugePreferences:
 	def __init__(self):
@@ -69,9 +70,8 @@ class DelugePreferences:
 				key = key.strip(" \n")
 				value = value.strip(" \n")
 				self.pref[key] = value
-				print 'Read option %s with a value of %s'%(key, value)
 			except ValueError:
-				print "Empty Line"
+				pass
 		f.close()
 	
 	def save_to_file(self, filename):

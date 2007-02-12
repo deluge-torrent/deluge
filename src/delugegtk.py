@@ -387,7 +387,7 @@ class DelugeGTK(dbus.service.Object):
 				state = self.manager.get_torrent_state(self.get_selected_torrent())
 			except deluge.InvalidUniqueIDError:
 				return True
-			self.text_summary_title.set_text(str(state["name"]))
+			self.wtree.get_widget("progressbar").set_text('%s %s'%(str(state["name"]), dcommon.fpcnt(state["progress"])))
 			self.text_summary_total_size.set_text(dcommon.fsize(state["total_size"]))
 			self.text_summary_pieces.set_text(str(state["pieces"]))
 			self.text_summary_total_downloaded.set_text(dcommon.fsize(state["total_download"]))
@@ -396,7 +396,7 @@ class DelugeGTK(dbus.service.Object):
 			self.text_summary_upload_rate.set_text(dcommon.frate(state["upload_rate"]))
 			self.text_summary_seeders.set_text(dcommon.fseed(state))
 			self.text_summary_peers.set_text(dcommon.fpeer(state))
-			self.text_summary_percentage_done.set_text(dcommon.fpcnt(state["progress"]))
+			self.wtree.get_widget("progressbar").set_fraction(float(state['progress']))
 			self.text_summary_share_ratio.set_text(self.calc_share_ratio(self.get_selected_torrent(), state))
 			#self.text_summary_downloaded_this_session.set_text(str(state[""]))
 			#self.text_summary_uplodaded_this_session.set_text(str(state[""]))

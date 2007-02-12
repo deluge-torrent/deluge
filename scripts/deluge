@@ -34,12 +34,6 @@ parser.add_option("--tray", dest="tray", help="start Deluge hidden in system tra
 
 (options, args) = parser.parse_args()
 
-if options.tray:
-	print "Deluge will start in the system tray if available"
-	
-print options
-print args
-
 import dbus
 
 bus = dbus.SessionBus()
