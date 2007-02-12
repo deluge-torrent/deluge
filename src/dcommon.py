@@ -85,6 +85,15 @@ class DelugePreferences:
 		f.flush()
 		f.close()
 
+def estimate_eta(state):
+	try:
+		return ftime(get_eta(state["total_size"], state["total_download"], state["download_rate"]))
+	except ZeroDivisionError:
+		return "Infinity"
+	
+def get_eta(size, done, rate):
+	return int( (size - done) / rate )
+
 # Returns formatted string describing filesize
 # fsize_b should be in bytes
 # Returned value will be in either KB, MB, or GB
@@ -111,6 +120,27 @@ def fseed(state):
 	
 def fpeer(state):
 	return str(str(state['num_peers']) + " (" + str(state['total_peers']) + ")")
+	
+def ftime(seconds):
+	if seconds < 60:
+		return '%ds'%(seconds)
+	minutes = int(seconds/60)
+	seconds = seconds % 60
+	if minutes < 60:
+		return '%dm %ds'%(minutes, seconds)
+	hours = int(minutes/60)
+	minutes = minutes % 60
+	if hours < 24:
+		return '%dh %dm'%(hours, minutes)
+	days = int(hours/24)
+	hours = hours % 24
+	if days < 7:
+		return '%dd %dh'%(days, hours)
+	weeks = int(days/7)
+	days = days % 7
+	if weeks < 10:
+		return '%dw %dd'%(weeks, days)
+	return 'unknown'
 
 
 def get_glade_file(fname):

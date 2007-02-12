@@ -347,7 +347,7 @@ class DelugeGTK(dbus.service.Object):
 		peers = dcommon.fpeer(state)
 		dlrate = dcommon.frate(state['download_rate'])
 		ulrate = dcommon.frate(state['upload_rate'])
-		eta = "NULL"
+		eta = dcommon.estimate_eta(state)
 		share = self.calc_share_ratio(unique_id, state)
 		return [unique_id, queue, name, size, progress, message,
 				seeds, peers, dlrate, ulrate, eta, share]
@@ -402,7 +402,7 @@ class DelugeGTK(dbus.service.Object):
 			self.text_summary_tracker_status.set_text(str(state["tracker_ok"]))
 			self.text_summary_next_announce.set_text(str(state["next_announce"]))
 			#self.text_summary_compact_allocation.set_text(str(state[""]))
-			#self.text_summary_eta.set_text(str(state[""]))
+			self.text_summary_eta.set_text(dcommon.estimate_eta(state))
 		elif tab == 1: #Peers List
 			uid = self.get_selected_torrent()
 			self.peer_store.clear()
