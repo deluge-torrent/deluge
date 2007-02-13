@@ -633,6 +633,10 @@ class Manager:
 				self.state.queue.append(unique_ID)
 
 		assert(len(self.unique_IDs) == len(self.state.torrents))
+
+		print self.unique_IDs, self.state.queue
+		print len(self.unique_IDs), len(self.state.queue)
+
 		assert(len(self.unique_IDs) == len(self.state.queue))
 		assert(len(self.unique_IDs) == deluge_core.get_num_torrents())
 
