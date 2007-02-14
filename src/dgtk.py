@@ -91,5 +91,5 @@ def add_toggle_column(view, header, cid, toggled_signal=None):
 	column.set_expand(False)
 	view.append_column(column)
 	if toggled_signal is not None:
-		render.connect("toggled", toggled_signal, cid)
+		render.connect("toggled", toggled_signal)
 	return column

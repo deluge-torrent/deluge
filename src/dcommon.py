@@ -19,9 +19,12 @@
 # 	Boston, MA  02110-1301, USA.
 
 import sys, os, os.path, webbrowser
+import xdg, xdg.BaseDirectory
 
 PROGRAM_NAME = "Deluge"
 PROGRAM_VERSION = "0.4.9.0"
+
+CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge-svn')
 
 GLADE_DIR  = sys.prefix + '/share/deluge/glade'
 PIXMAP_DIR = sys.prefix + '/share/deluge/pixmaps'

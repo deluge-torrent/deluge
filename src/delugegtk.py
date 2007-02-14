@@ -21,7 +21,7 @@
 # 	Boston, MA  02110-1301, USA.
 
 import sys, os, os.path, gettext, urllib
-import deluge, dcommon, dgtk
+import deluge, dcommon, dgtk, delugeplugins
 import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade, gobject
@@ -33,13 +33,27 @@ if getattr(dbus, 'version', (0,0,0)) >= (0,41,0):
 _ = gettext.gettext
 
 class DelugeGTK(dbus.service.Object):
+	## external_add_torrent should only be called from outside the class	
+	@dbus.service.method('org.deluge_torrent.DelugeInterface')
+	def external_add_torrent(self, torrent_file):
+		print "Ding!"
+		print "Got torrent externally:", os.path.basename(torrent_file)
+		print "\tNow, what to do with it?"
+		if self.is_running:
+			print "\t\tthe client seems to already be running, i'll try and add the torrent"
+			uid = self.manager.add_torrent(torrent_file, ".", True)
+			self.store.append(self.get_list_from_unique_id(uid))
+		else:
+			print "\t\tthe client hasn't started yet, I'll queue the torrent"
+			self.torrent_file_queue.append(torrent_file)
+
 	def __init__(self, bus_name=dbus.service.BusName('org.deluge_torrent.Deluge',
 			bus=dbus.SessionBus()),	object_path='/org/deluge_torrent/DelugeObject'):
 		dbus.service.Object.__init__(self, bus_name, object_path)
 		self.is_running = False
 		self.torrent_file_queue = []
 		#Load up a config file:
-		self.conf_file = xdg.BaseDirectory.save_config_path("deluge-svn") + '/deluge.conf'
+		self.conf_file = dcommon.CONFIG_DIR + '/deluge.conf'
 		if os.path.isdir(self.conf_file):
 			print 'Weird, the file I was trying to write to, %s, is an existing directory'%(self.conf_file)
 			sys.exit(0)
@@ -51,8 +65,7 @@ class DelugeGTK(dbus.service.Object):
 		self.load_default_settings()
 		self.pref.load_from_file(self.conf_file)
 		#Start the Deluge Manager:
-		self.manager = deluge.Manager("DE", "0490", "Deluge 0.4.9",
-			 xdg.BaseDirectory.save_config_path("deluge-svn"))
+		self.manager = deluge.Manager("DE", "0490", "Deluge 0.4.9", dcommon.CONFIG_DIR)
 		#Set up the interface:
 		self.wtree = gtk.glade.XML(dcommon.get_glade_file("delugegtk.glade"))
 		self.window = self.wtree.get_widget("main_window")
@@ -63,11 +76,16 @@ class DelugeGTK(dbus.service.Object):
 		self.window.set_title('%s %s'%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION))
 		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		
+		self.plugins = delugeplugins.PluginManager(self.manager, self)
+		self.plugins.add_plugin_dir(dcommon.PLUGIN_DIR)
+		if os.path.isdir(dcommon.CONFIG_DIR + '/plugins'):
+			self.plugins.add_plugin_dir(dcommon.CONFIG_DIR + '/plugins')
+		self.plugins.scan_for_plugins()
+		
 		## Construct the Interface
 		self.build_tray_icon()
 		self.build_about_dialog()
 		self.build_pref_dialog()
-		self.build_plugin_dialog()
 		self.build_torrent_table()
 		self.build_summary_tab()
 		self.build_file_tab()
@@ -164,9 +182,14 @@ class DelugeGTK(dbus.service.Object):
 		self.prf = self.prf_glade.get_widget("pref_dialog")
 		self.prf.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		self.prf_glade.signal_autoconnect({"tray_toggle": self.tray_toggle,})
-
-	def build_plugin_dialog(self):
-		pass
+		self.plugin_dlg = self.prf_glade.get_widget("plugin_dialog")
+		self.plugin_dlg.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		self.plugin_view = self.prf_glade.get_widget("plugin_view")
+		self.plugin_store = gtk.ListStore(str, bool)
+		self.plugin_view.set_model(self.plugin_store)
+		dgtk.add_text_column(self.plugin_view, "Name", 0)
+		dgtk.add_toggle_column(self.plugin_view, "Enabled", 1, toggled_signal=self.plugin_toggled)
+		
 
 	def build_torrent_table(self):
 		## Create the torrent listview
@@ -312,8 +335,26 @@ class DelugeGTK(dbus.service.Object):
 		self.apply_prefs()
 	
 	def show_plugin_dialog(self, arg=None):
-		pass
-
+		self.plugin_store.clear()
+		for plugin in self.plugins.get_available_plugins():
+			self.plugin_store.append( (plugin, False) )
+		self.plugin_dlg.show()
+		self.plugin_dlg.run()
+		self.plugin_dlg.hide()
+		
+	def plugin_toggled(self, renderer, path):
+		plugin_iter = self.plugin_store.get_iter_from_string(path)
+		plugin_name = self.plugin_store.get_value(plugin_iter, 0)
+		plugin_value = not self.plugin_store.get_value(plugin_iter, 1)
+		self.plugin_store.set_value(plugin_iter, 1, plugin_value)
+		print "Plugin:", plugin_name, renderer.get_active()
+		if plugin_value:
+			self.plugins.enable_plugin(plugin_name)
+		else:
+			self.plugins.disable_plugin(plugin_name)
+		
+		
+		
 	def tray_toggle(self, obj):
 		if obj.get_active():
 			self.prf_glade.get_widget("chk_min_on_close").set_sensitive(True)
@@ -321,22 +362,28 @@ class DelugeGTK(dbus.service.Object):
 			self.prf_glade.get_widget("chk_min_on_close").set_sensitive(False)
 
 	
+	def apply_prefs(self):
+		pass
+			
 	
-	## external_add_torrent should only be called from outside the class	
-	@dbus.service.method('org.deluge_torrent.DelugeInterface')
-	def external_add_torrent(self, torrent_file):
-		print "Ding!"
-		print "Got torrent externally:", os.path.basename(torrent_file)
-		print "\tNow, what to do with it?"
-		if self.is_running:
-			print "\t\tthe client seems to already be running, i'll try and add the torrent"
-			uid = self.manager.add_torrent(torrent_file, ".", True)
-			self.store.append(self.get_list_from_unique_id(uid))
-		else:
-			print "\t\tthe client hasn't started yet, I'll queue the torrent"
-			self.torrent_file_queue.append(torrent_file)
-		
-		
+	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
+	def get_list_from_unique_id(self, unique_id):
+		state = self.manager.get_torrent_state(unique_id)
+		queue = int(state['queue_pos']) + 1 
+		name = state['name']
+		size = dcommon.fsize(state['total_size'])
+		progress = float(state['progress'] * 100)
+		message = '%s %d%%'%(deluge.STATE_MESSAGES[state['state']], int(state['progress'] * 100))
+		seeds = dcommon.fseed(state)
+		peers = dcommon.fpeer(state)
+		dlrate = dcommon.frate(state['download_rate'])
+		ulrate = dcommon.frate(state['upload_rate'])
+		eta = dcommon.estimate_eta(state)
+		share = self.calc_share_ratio(unique_id, state)
+		return [unique_id, queue, name, size, progress, message,
+				seeds, peers, dlrate, ulrate, eta, share]	
+	
+
 	## Start the timer that updates the interface
 	def start(self, hidden=False):
 		if not hidden:
@@ -360,34 +407,7 @@ class DelugeGTK(dbus.service.Object):
 			gtk.main()
 		except KeyboardInterrupt:
 			self.manager.quit()
-	
-	def show_pref(self, o=None):
-		self.pref = self.prf.show_dlg(self.pref)
-	
-	def show_plugins(self, o=None):
-		pass
-	
-	def apply_prefs(self):
-		for k in self.pref.keys():
-			print k, self.pref.get(k)
-			
-	
-	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
-	def get_list_from_unique_id(self, unique_id):
-		state = self.manager.get_torrent_state(unique_id)
-		queue = int(state['queue_pos']) + 1 
-		name = state['name']
-		size = dcommon.fsize(state['total_size'])
-		progress = float(state['progress'] * 100)
-		message = '%s %d%%'%(deluge.STATE_MESSAGES[state['state']], int(state['progress'] * 100))
-		seeds = dcommon.fseed(state)
-		peers = dcommon.fpeer(state)
-		dlrate = dcommon.frate(state['download_rate'])
-		ulrate = dcommon.frate(state['upload_rate'])
-		eta = dcommon.estimate_eta(state)
-		share = self.calc_share_ratio(unique_id, state)
-		return [unique_id, queue, name, size, progress, message,
-				seeds, peers, dlrate, ulrate, eta, share]
+
 
 	## Call via a timer to update the interface
 	def update(self):
@@ -396,6 +416,9 @@ class DelugeGTK(dbus.service.Object):
 			tab = self.wtree.get_widget("torrent_info").get_current_page()
 		except AttributeError:
 			return False
+
+		self.plugins.update_active_plugins()
+
 		# If no torrent is selected, select the first torrent:
 		(temp, selection) = self.view.get_selection().get_selected()
 		if selection is None:
@@ -404,6 +427,7 @@ class DelugeGTK(dbus.service.Object):
 		itr = self.store.get_iter_first()
 		if itr is None:
 			return True
+
 		while itr is not None:
 			uid = self.store.get_value(itr, 0)
 			try:
@@ -418,6 +442,8 @@ class DelugeGTK(dbus.service.Object):
 					itr = None
 		
 		self.saved_peer_info = None
+		
+
 		
 		if tab == 0: #Details Pane	
 			try:		

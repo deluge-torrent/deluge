@@ -23,9 +23,12 @@
 import os
 
 class PluginManager:
-	def __init__(self):
+	def __init__(self, deluge_core, deluge_interface):
 		self.plugin_dirs = []
-		self.plugins = {}
+		self.available_plugins = {}
+		self.enabled_plugins = {}
+		self.core = deluge_core
+		self.interface = deluge_interface
 	
 	def add_plugin_dir(self, directory):
 		self.plugin_dirs.append(directory)
@@ -33,11 +36,30 @@ class PluginManager:
 	def scan_for_plugins(self):
 		register_plugin = self.register_plugin
 		for folder in self.plugin_dirs:
-			print "Looking in", folder
 			plugin_folders = os.listdir(folder)
 			for plugin in plugin_folders:
-				if os.path.isfile(folder + plugin + "/plugin.py"):
-					execfile(folder + plugin + "/plugin.py")
+				if os.path.isfile(folder + "/" + plugin + "/plugin.py"):
+					execfile(folder + "/" + plugin + "/plugin.py")
+	
+	def get_available_plugins(self):
+		return self.available_plugins.keys()
+	
+	def get_plugin(self, name):
+		return self.available_plugins[name]
+	
+	def enable_plugin(self, name):
+		self.enabled_plugins[name] = self.available_plugins[name]['class'](self.core, self.interface)
+
+	def get_enabled_plugins(self):
+		return self.enabled_plugins.keys()
+
+	def disable_plugin(self, name):
+		self.enabled_plugins[name].unload()
+		self.enabled_plugins.pop(name)
+	
+	def update_active_plugins(self):
+		for name in self.enabled_plugins.keys():
+			self.enabled_plugins[name].update()
 	
 	def register_plugin(self,
 						name,
@@ -49,7 +71,15 @@ class PluginManager:
 						requires=None,
 						interface=None,
 						required_plugins=None):
-		self.plugins[name] = (plugin_class, version, description, config, default, requires, interface, required_plugins)
+		self.available_plugins[name] = {'class': plugin_class, 
+										'version': version, 
+										'description': description, 
+										'config': config, 
+										'default': default, 
+										'requires': requires, 
+										'interface': interface, 
+										'req plugins': required_plugins
+										}
 
 ## Few lines of code to test functionality
 if __name__ == "__main__":
