@@ -62,11 +62,9 @@ class DelugeGTK(dbus.service.Object):
 			self.window.connect("destroy", self.quit)
 		self.window.set_title('%s %s'%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION))
 		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
-
-		## Create the system tray icon
-		self.tray = dgtk.TrayIcon(self)
 		
 		## Construct the Interface
+		self.build_tray_icon()
 		self.build_about_dialog()
 		self.build_pref_dialog()
 		self.build_plugin_dialog()
@@ -110,6 +108,45 @@ class DelugeGTK(dbus.service.Object):
 					"torrentrow_click": self.torrentview_clicked,
 					})
 	
+	def build_tray_icon(self):
+		self.tray = gtk.StatusIcon()
+		self.tray.set_from_file(dcommon.get_pixmap("deluge32.png"))
+		self.tray.set_tooltip("Deluge BitTorrent Client")
+		tray_glade = gtk.glade.XML(dcommon.get_glade_file("dgtkpopups.glade"))
+		self.tray_menu = tray_glade.get_widget("tray_menu")
+		dic = {	"show_hide_window": self.force_show_hide,
+				"add_torrent":  self.add_torrent_clicked,
+				"clear_finished": self.clear_finished,
+				"preferences": self.show_pref_dialog,
+				"plugins": self.show_plugin_dialog,
+				"quit": self.quit,
+				}
+		tray_glade.signal_autoconnect(dic)
+		self.tray.connect("popup-menu", self.tray_popup, None)
+		self.tray.connect("activate", self.tray_clicked, None)
+		
+	def tray_popup(self, status_icon, button, activate_time, arg0=None):
+		self.tray_menu.popup(None, None, gtk.status_icon_position_menu,
+			button, activate_time, self.tray)
+	
+	def tray_clicked(self, status_icon=None, arg=None):
+		if self.window.get_property("visible"):
+			if self.window.is_active():
+				self.window.hide()
+			else:
+				self.window.present()
+		else:
+			self.window.show()
+	
+	def force_show_hide(self, arg=None):
+		if self.window.get_property("visible"):
+			self.window.hide()
+		else:
+			self.window.show()
+	
+	
+			
+	
 	def build_about_dialog(self):
 		gtk.about_dialog_set_url_hook(dcommon.open_url_in_browser)
 		self.abt = gtk.AboutDialog()
@@ -151,8 +188,8 @@ class DelugeGTK(dbus.service.Object):
 		self.peer_column 	=	dgtk.add_text_column(self.view, "Peers", 7)
 		self.dl_column 		=	dgtk.add_text_column(self.view, "Download", 8)
 		self.ul_column 		=	dgtk.add_text_column(self.view, "Upload", 9)
-		self.eta_column 	=	dgtk.add_text_column(self.view, "ETA", 10)
-		self.share_column 	= 	dgtk.add_text_column(self.view, "Share Ratio", 11)
+		self.eta_column 	=	dgtk.add_text_column(self.view, "Time Remaining", 10)
+		self.share_column 	= 	dgtk.add_text_column(self.view, "Ratio", 11)
 		
 		self.status_column.set_expand(True)
 

@@ -28,22 +28,6 @@ pygtk.require('2.0')
 import gtk
 import gtk.glade
 
-
-## Right now this only supports PyGTK's native 
-## tray library.  I may add egg support into
-## this class at a later time.
-class TrayIcon:
-	def __init__(self, parent):
-		self.parent = parent
-		self.tray = gtk.StatusIcon()
-		## uncomment later
-		##self.gladefile = dcommon.get_glade_file("dgtkpopups.glade")
-		self.tray.set_from_file(dcommon.get_pixmap("deluge32.png"))
-		self.tray.set_tooltip("Deluge Bittorrent Client")
-	
-	def popup(self):
-		pass
-
 ## Browse for .torrent files
 def show_file_open_dialog(parent=None):
 	chooser = gtk.FileChooserDialog("Choose a .torrent file", parent, gtk.FILE_CHOOSER_ACTION_OPEN,
