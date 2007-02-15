@@ -201,9 +201,11 @@ class DelugeGTK(dbus.service.Object):
 		plugin = self.plugins.get_plugin(name)
 		version = plugin['version']
 		config = plugin['config']
+		description = plugin['description']
 		self.prf_glade.get_widget("plugin_conf").set_sensitive(config)
-			
-		self.prf_glade.get_widget("plugin_text").get_buffer().set_text("%s\n%s"%(name, version))
+		self.prf_glade.get_widget("plugin_text").get_buffer(
+			).set_text("%s\nVersion: %s\n\n%s"%
+			(name, version, description))
 		return True
 
 	def plugin_toggled(self, renderer, path):
