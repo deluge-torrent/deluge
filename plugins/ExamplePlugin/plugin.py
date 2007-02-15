@@ -1,7 +1,8 @@
 #!/usr/bin/python
 
 class plugin_Example:
-	def __init__(self, deluge_core, deluge_interface):
+	def __init__(self, path, deluge_core, deluge_interface):
+		self.path = path
 		self.core = deluge_core
 		self.interface = deluge_interface
 		print "Example Plugin loaded"

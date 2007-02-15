@@ -39,6 +39,7 @@ class PluginManager:
 			plugin_folders = os.listdir(folder)
 			for plugin in plugin_folders:
 				if os.path.isfile(folder + "/" + plugin + "/plugin.py"):
+					self.path = folder + "/" + plugin
 					execfile(folder + "/" + plugin + "/plugin.py")
 	
 	def get_available_plugins(self):
@@ -48,7 +49,8 @@ class PluginManager:
 		return self.available_plugins[name]
 	
 	def enable_plugin(self, name):
-		self.enabled_plugins[name] = self.available_plugins[name]['class'](self.core, self.interface)
+		self.enabled_plugins[name] = self.available_plugins[name]['class'](
+					self.available_plugins[name]['path'], self.core, self.interface)
 
 	def get_enabled_plugins(self):
 		return self.enabled_plugins.keys()
@@ -56,6 +58,10 @@ class PluginManager:
 	def disable_plugin(self, name):
 		self.enabled_plugins[name].unload()
 		self.enabled_plugins.pop(name)
+		
+	def configure_plugin(self, name):
+		print "configuring", name
+		self.enabled_plugins[name].configure()
 	
 	def update_active_plugins(self):
 		for name in self.enabled_plugins.keys():
@@ -78,8 +84,8 @@ class PluginManager:
 										'default': default, 
 										'requires': requires, 
 										'interface': interface, 
-										'req plugins': required_plugins
-										}
+										'req plugins': required_plugins,
+										'path': self.path}
 
 ## Few lines of code to test functionality
 if __name__ == "__main__":

@@ -65,11 +65,14 @@ class DelugePreferences:
 	def keys(self):
 		return self.pref.keys()
 	
+	def clear(self):
+		self.pref.clear()
+	
 	def load_from_file(self, filename):
 		f = open(filename, mode='r')
 		for line in f:
 			try:
-				(key, value) = line.split("=")
+				(key, value) = line.split("=", 1)
 				key = key.strip(" \n")
 				value = value.strip(" \n")
 				self.pref[key] = value

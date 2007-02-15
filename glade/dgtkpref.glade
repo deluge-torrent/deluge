@@ -656,6 +656,7 @@ their share ratio reaches:</property>
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">gtk-preferences</property>
                         <property name="use_stock">True</property>
+                        <signal name="clicked" handler="plugin_pref"/>
                       </widget>
                     </child>
                     <child>

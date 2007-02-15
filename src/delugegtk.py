@@ -189,7 +189,23 @@ class DelugeGTK(dbus.service.Object):
 		self.plugin_view.set_model(self.plugin_store)
 		dgtk.add_text_column(self.plugin_view, "Name", 0)
 		dgtk.add_toggle_column(self.plugin_view, "Enabled", 1, toggled_signal=self.plugin_toggled)
-		
+		self.prf_glade.signal_autoconnect({'plugin_pref': self.plugin_pref})
+
+	def plugin_toggled(self, renderer, path):
+		plugin_iter = self.plugin_store.get_iter_from_string(path)
+		plugin_name = self.plugin_store.get_value(plugin_iter, 0)
+		plugin_value = not self.plugin_store.get_value(plugin_iter, 1)
+		self.plugin_store.set_value(plugin_iter, 1, plugin_value)
+		if plugin_value:
+			self.plugins.enable_plugin(plugin_name)
+		else:
+			self.plugins.disable_plugin(plugin_name)
+				
+	def plugin_pref(self, widget=None):
+		print "foobar"
+		(model, plugin_iter) = self.plugin_view.get_selection().get_selected()
+		plugin_name = self.plugin_store.get_value(plugin_iter, 0)
+		self.plugins.configure_plugin(plugin_name)
 
 	def build_torrent_table(self):
 		## Create the torrent listview
@@ -337,21 +353,15 @@ class DelugeGTK(dbus.service.Object):
 	def show_plugin_dialog(self, arg=None):
 		self.plugin_store.clear()
 		for plugin in self.plugins.get_available_plugins():
-			self.plugin_store.append( (plugin, False) )
+			if plugin in self.plugins.get_enabled_plugins():
+				self.plugin_store.append( (plugin, True) )
+			else:
+				self.plugin_store.append( (plugin, False) )
 		self.plugin_dlg.show()
 		self.plugin_dlg.run()
 		self.plugin_dlg.hide()
 		
-	def plugin_toggled(self, renderer, path):
-		plugin_iter = self.plugin_store.get_iter_from_string(path)
-		plugin_name = self.plugin_store.get_value(plugin_iter, 0)
-		plugin_value = not self.plugin_store.get_value(plugin_iter, 1)
-		self.plugin_store.set_value(plugin_iter, 1, plugin_value)
-		print "Plugin:", plugin_name, renderer.get_active()
-		if plugin_value:
-			self.plugins.enable_plugin(plugin_name)
-		else:
-			self.plugins.disable_plugin(plugin_name)
+
 		
 		
 		
