@@ -78,7 +78,7 @@ class DelugeGTK(dbus.service.Object):
 		self.window.hide()
 		self.toolbar = self.wtree.get_widget("tb_middle")
 		if(self.window):
-			self.window.connect("destroy", self.quit)
+			self.window.connect("destroy", self.close_clicked)
 		self.window.set_title('%s %s'%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION))
 		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		
@@ -97,6 +97,11 @@ class DelugeGTK(dbus.service.Object):
 		
 		self.apply_prefs()
 		
+		try:
+			self.load_window_settings()
+		except KeyError:
+			pass
+		
 		enable_plugins = self.pref.get('enabled_plugins').split(';')
 		print enable_plugins
 		for plugin in enable_plugins:
@@ -111,7 +116,7 @@ class DelugeGTK(dbus.service.Object):
 					"add_torrent": self.add_torrent_clicked,
 					"add_torrent_url": self.add_torrent_url_clicked,
 					"remove_torrent" : self.remove_torrent_clicked,
-					"menu_quit": self.quit,
+					"menu_quit": self.close_clicked,
 					## Edit Menu
 					"pref_clicked": self.show_pref_dialog,
 					"plugins_clicked": self.show_plugin_dialog,
@@ -147,7 +152,7 @@ class DelugeGTK(dbus.service.Object):
 				"clear_finished": self.clear_finished,
 				"preferences": self.show_pref_dialog,
 				"plugins": self.show_plugin_dialog,
-				"quit": self.quit,
+				"quit": self.close_clicked,
 				}
 		tray_glade.signal_autoconnect(dic)
 		self.tray.connect("popup-menu", self.tray_popup, None)
@@ -707,12 +712,35 @@ class DelugeGTK(dbus.service.Object):
 	def share_toggle(self, obj):
 		self.share_column.set_visible(obj.get_active())
 		
-	def quit(self, obj=None):
+	def close_clicked(self, obj=None):
 		self.shutdown()
+		
+	def load_window_settings(self):
+		self.wtree.get_widget("chk_infopane").set_active(self.pref.get("show_infopane", bool))
+		self.wtree.get_widget("chk_size").set_active(self.pref.get("show_size", bool))
+		self.wtree.get_widget("chk_status").set_active(self.pref.get("show_status", bool))
+		self.wtree.get_widget("chk_seed").set_active(self.pref.get("show_seeders", bool))
+		self.wtree.get_widget("chk_peer").set_active(self.pref.get("show_peers", bool))
+		self.wtree.get_widget("chk_download").set_active(self.pref.get("show_dl", bool))
+		self.wtree.get_widget("chk_upload").set_active(self.pref.get("show_ul", bool))
+		self.wtree.get_widget("chk_eta").set_active(self.pref.get("show_eta", bool))
+		self.wtree.get_widget("chk_ratio").set_active(self.pref.get("show_share", bool))
+	
+	def save_window_settings(self):
+		self.pref.set("show_infopane", self.wtree.get_widget("chk_infopane").get_active())
+		self.pref.set("show_size", self.size_column.get_visible())
+		self.pref.set("show_status", self.status_column.get_visible())
+		self.pref.set("show_seeders", self.seed_column.get_visible())
+		self.pref.set("show_peers", self.peer_column.get_visible())
+		self.pref.set("show_dl", self.dl_column.get_visible())
+		self.pref.set("show_ul", self.ul_column.get_visible())
+		self.pref.set("show_eta", self.eta_column.get_visible())
+		self.pref.set("show_share", self.share_column.get_visible())
 	
 	def shutdown(self):
 		enabled_plugins = ';'.join(self.plugins.get_enabled_plugins())
 		self.pref.set('enabled_plugins', enabled_plugins)
+		self.save_window_settings()
 		self.pref.save_to_file(self.conf_file)
 		self.plugins.shutdown_all_plugins()
 		self.manager.quit()
