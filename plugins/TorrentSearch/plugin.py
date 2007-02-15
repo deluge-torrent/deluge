@@ -28,8 +28,6 @@ class plugin_Search:
 				"text_changed"	: self.text_changed }
 		glade.signal_autoconnect(dic)
 		self.view.get_selection().set_select_function(self.row_clicked)
-		
-		
 		### Note: All other plugins should use self.interface.toolbar
 		### when adding items to the toolbar
 		self.se = ''
@@ -91,10 +89,9 @@ class plugin_Search:
 	
 	def configure(self, widget=None):
 		import dcommon, gtk, gtk.glade
-		
 		self.dlg.show_all()
 		model = self.view.get_model()
-		model.clear
+		model.clear()
 		for name in self.engines.keys():
 			self.view.get_model().append( (name, self.engines.get(name)) )
 		self.button_add.set_sensitive(0)
@@ -107,8 +104,8 @@ class plugin_Search:
 			while the_iter is not None:
 				self.engines.set(model.get_value(the_iter, 0), model.get_value(the_iter, 1))
 				the_iter = model.iter_next(the_iter)
-		else:
-			pass
+			self.engines.save_to_file(self.conf_file)
+		self.populate_search_menu()
 		
 
 	

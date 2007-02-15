@@ -187,9 +187,24 @@ class DelugeGTK(dbus.service.Object):
 		self.plugin_view = self.prf_glade.get_widget("plugin_view")
 		self.plugin_store = gtk.ListStore(str, bool)
 		self.plugin_view.set_model(self.plugin_store)
-		dgtk.add_text_column(self.plugin_view, "Name", 0)
+		self.plugin_view.get_selection().set_select_function(self.plugin_clicked, full=True
+		)
+		name_col = dgtk.add_text_column(self.plugin_view, "Name", 0)
+		name_col.set_expand(True)
 		dgtk.add_toggle_column(self.plugin_view, "Enabled", 1, toggled_signal=self.plugin_toggled)
 		self.prf_glade.signal_autoconnect({'plugin_pref': self.plugin_pref})
+	
+	def plugin_clicked(self, selection, model, path, is_selected):
+		if is_selected:
+			return True
+		name = model.get_value(model.get_iter(path), 0)
+		plugin = self.plugins.get_plugin(name)
+		version = plugin['version']
+		config = plugin['config']
+		self.prf_glade.get_widget("plugin_conf").set_sensitive(config)
+			
+		self.prf_glade.get_widget("plugin_text").get_buffer().set_text("%s\n%s"%(name, version))
+		return True
 
 	def plugin_toggled(self, renderer, path):
 		plugin_iter = self.plugin_store.get_iter_from_string(path)
@@ -202,7 +217,6 @@ class DelugeGTK(dbus.service.Object):
 			self.plugins.disable_plugin(plugin_name)
 				
 	def plugin_pref(self, widget=None):
-		print "foobar"
 		(model, plugin_iter) = self.plugin_view.get_selection().get_selected()
 		plugin_name = self.plugin_store.get_value(plugin_iter, 0)
 		self.plugins.configure_plugin(plugin_name)

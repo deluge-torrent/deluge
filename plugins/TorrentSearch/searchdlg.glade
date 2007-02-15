@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.1.4 on Wed Feb 14 19:36:16 2007 by zach@notapowerbook-->
+<!--Generated with glade3 3.1.4 on Thu Feb 15 12:48:42 2007 by zach@notapowerbook-->
 <glade-interface>
   <widget class="GtkDialog" id="search_dialog">
     <property name="border_width">5</property>
@@ -16,6 +16,103 @@
             <property name="visible">True</property>
             <property name="n_rows">4</property>
             <property name="n_columns">4</property>
+            <child>
+              <widget class="GtkButton" id="button_addsearch">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">gtk-add</property>
+                <property name="use_stock">True</property>
+                <signal name="pressed" handler="add_clicked"/>
+                <signal name="activate" handler="add_clicked"/>
+              </widget>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkScrolledWindow" id="scrolledwindow1">
+                <property name="visible">True</property>
+                <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+                <child>
+                  <widget class="GtkTreeView" id="search_view">
+                    <property name="visible">True</property>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="right_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkEntry" id="field_name">
+                <property name="visible">True</property>
+                <signal name="changed" handler="text_changed"/>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkEntry" id="field_search">
+                <property name="visible">True</property>
+                <signal name="changed" handler="text_changed"/>
+              </widget>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">4</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label1">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Name:</property>
+              </widget>
+              <packing>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkLabel" id="label2">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">URL:</property>
+              </widget>
+              <packing>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkButton" id="button_delsearch">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">gtk-remove</property>
+                <property name="use_stock">True</property>
+                <signal name="clicked" handler="del_clicked"/>
+              </widget>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="right_attach">4</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
             <child>
               <widget class="GtkExpander" id="expander1">
                 <property name="visible">True</property>
@@ -44,103 +141,6 @@ URL: http://www.google.com/search?q=${query}</property>
                 <property name="right_attach">4</property>
                 <property name="top_attach">3</property>
                 <property name="bottom_attach">4</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkButton" id="button_delsearch">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">gtk-remove</property>
-                <property name="use_stock">True</property>
-                <signal name="clicked" handler="del_clicked"/>
-              </widget>
-              <packing>
-                <property name="left_attach">3</property>
-                <property name="right_attach">4</property>
-                <property name="top_attach">1</property>
-                <property name="bottom_attach">2</property>
-                <property name="x_options">GTK_FILL</property>
-                <property name="y_options">GTK_FILL</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkLabel" id="label2">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">URL:</property>
-              </widget>
-              <packing>
-                <property name="top_attach">2</property>
-                <property name="bottom_attach">3</property>
-                <property name="x_options">GTK_FILL</property>
-                <property name="y_options">GTK_FILL</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkLabel" id="label1">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">Name:</property>
-              </widget>
-              <packing>
-                <property name="top_attach">1</property>
-                <property name="bottom_attach">2</property>
-                <property name="x_options">GTK_FILL</property>
-                <property name="y_options">GTK_FILL</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkEntry" id="field_search">
-                <property name="visible">True</property>
-                <signal name="changed" handler="text_changed"/>
-              </widget>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">4</property>
-                <property name="top_attach">2</property>
-                <property name="bottom_attach">3</property>
-                <property name="y_options">GTK_FILL</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkEntry" id="field_name">
-                <property name="visible">True</property>
-                <signal name="changed" handler="text_changed"/>
-              </widget>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-                <property name="top_attach">1</property>
-                <property name="bottom_attach">2</property>
-                <property name="y_options">GTK_FILL</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkScrolledWindow" id="scrolledwindow1">
-                <property name="visible">True</property>
-                <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                <child>
-                  <widget class="GtkTreeView" id="search_view">
-                    <property name="visible">True</property>
-                  </widget>
-                </child>
-              </widget>
-              <packing>
-                <property name="right_attach">4</property>
-              </packing>
-            </child>
-            <child>
-              <widget class="GtkButton" id="button_addsearch">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">gtk-add</property>
-                <property name="use_stock">True</property>
-                <signal name="pressed" handler="add_clicked"/>
-                <signal name="activate" handler="add_clicked"/>
-              </widget>
-              <packing>
-                <property name="left_attach">2</property>
-                <property name="right_attach">3</property>
-                <property name="top_attach">1</property>
-                <property name="bottom_attach">2</property>
-                <property name="x_options">GTK_FILL</property>
-                <property name="y_options">GTK_FILL</property>
               </packing>
             </child>
           </widget>
