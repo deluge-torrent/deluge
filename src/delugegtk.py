@@ -61,11 +61,17 @@ class DelugeGTK(dbus.service.Object):
 			f = open(self.conf_file, mode='w')
 			f.flush()
 			f.close()
+		#Start the Deluge Manager:
+		self.manager = deluge.Manager("DE", "0490", "Deluge 0.4.90", dcommon.CONFIG_DIR)
+		
+		self.plugins = delugeplugins.PluginManager(self.manager, self)
+		self.plugins.add_plugin_dir(dcommon.PLUGIN_DIR)
+		if os.path.isdir(dcommon.CONFIG_DIR + '/plugins'):
+			self.plugins.add_plugin_dir(dcommon.CONFIG_DIR + '/plugins')
+		self.plugins.scan_for_plugins()
 		self.pref = dcommon.DelugePreferences()
 		self.load_default_settings()
 		self.pref.load_from_file(self.conf_file)
-		#Start the Deluge Manager:
-		self.manager = deluge.Manager("DE", "0490", "Deluge 0.4.90", dcommon.CONFIG_DIR)
 		#Set up the interface:
 		self.wtree = gtk.glade.XML(dcommon.get_glade_file("delugegtk.glade"))
 		self.window = self.wtree.get_widget("main_window")
@@ -76,11 +82,7 @@ class DelugeGTK(dbus.service.Object):
 		self.window.set_title('%s %s'%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION))
 		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		
-		self.plugins = delugeplugins.PluginManager(self.manager, self)
-		self.plugins.add_plugin_dir(dcommon.PLUGIN_DIR)
-		if os.path.isdir(dcommon.CONFIG_DIR + '/plugins'):
-			self.plugins.add_plugin_dir(dcommon.CONFIG_DIR + '/plugins')
-		self.plugins.scan_for_plugins()
+		
 		
 		## Construct the Interface
 		self.build_tray_icon()
@@ -94,6 +96,14 @@ class DelugeGTK(dbus.service.Object):
 		self.connect_signals()
 		
 		self.apply_prefs()
+		
+		enable_plugins = self.pref.get('enabled_plugins').split(';')
+		print enable_plugins
+		for plugin in enable_plugins:
+			try:
+				self.plugins.enable_plugin(plugin)
+			except KeyError:
+				pass
 	
 	def connect_signals(self):
 		self.wtree.signal_autoconnect({
@@ -315,6 +325,11 @@ class DelugeGTK(dbus.service.Object):
 		self.pref.set("max_number_uploads", 0)
 		self.pref.set("max_download_rate", 0)
 		self.pref.set("max_number_downloads", 0)
+		default_plugins = []
+		for name in self.plugins.get_available_plugins():
+			if self.plugins.get_plugin(name)['default']:
+				default_plugins.append(name)
+		self.pref.set("enabled_plugins", ';'.join(default_plugins))
 
 
 
@@ -696,6 +711,9 @@ class DelugeGTK(dbus.service.Object):
 		self.shutdown()
 	
 	def shutdown(self):
+		enabled_plugins = ';'.join(self.plugins.get_enabled_plugins())
+		self.pref.set('enabled_plugins', enabled_plugins)
+		self.pref.save_to_file(self.conf_file)
 		self.plugins.shutdown_all_plugins()
 		self.manager.quit()
 		gtk.main_quit()

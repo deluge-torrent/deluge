@@ -60,7 +60,6 @@ class PluginManager:
 		self.enabled_plugins.pop(name)
 		
 	def configure_plugin(self, name):
-		print "configuring", name
 		self.enabled_plugins[name].configure()
 	
 	def update_active_plugins(self):

@@ -36,20 +36,18 @@ class plugin_Example: # The plugin's class
 		self.button.connect("clicked", self.clicked) # Connect the signal handler for the button
 		self.toolbar.add(self.button) # Add button to toolbar
 		self.button.show_all() # Show the button
-		
-		
-		print "Example Plugin loaded"
 	
 	
 	## unload is called when the plugin is removed or Deluge is shut down
 	def unload(self):
 		self.toolbar.remove(self.button) # Remove the button from the toolbar
 		self.config.save_to_file(self.config_file)
-		print "Example Plugin unloaded"
 	
 	## update will be called every UPDATE_INTERVAL (usually about 1 second)
 	def update(self):
-		print "Example Plugin has been updated"
+		# As this plugin doesn't need to do anything every interval, this
+		# function will remain empty
+		pass
 
 	## This will be only called if your plugin is configurable
 	def configure(self):
