@@ -622,7 +622,7 @@ their share ratio reaches:</property>
   <widget class="GtkDialog" id="plugin_dialog">
     <property name="width_request">480</property>
     <property name="border_width">5</property>
-    <property name="title" translatable="yes">Preferences Dialog</property>
+    <property name="title" translatable="yes">Plugin Manager</property>
     <property name="default_width">583</property>
     <property name="default_height">431</property>
     <property name="has_separator">False</property>
@@ -634,6 +634,7 @@ their share ratio reaches:</property>
         <child>
           <widget class="GtkNotebook" id="pref_notebook1">
             <property name="visible">True</property>
+            <property name="show_tabs">False</property>
             <child>
               <widget class="GtkTable" id="plugins_options1">
                 <property name="visible">True</property>
@@ -658,16 +659,6 @@ their share ratio reaches:</property>
                         <property name="use_stock">True</property>
                         <signal name="clicked" handler="plugin_pref"/>
                       </widget>
-                    </child>
-                    <child>
-                      <widget class="GtkButton" id="button8">
-                        <property name="visible">True</property>
-                        <property name="label" translatable="yes">gtk-apply</property>
-                        <property name="use_stock">True</property>
-                      </widget>
-                      <packing>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                   </widget>
                   <packing>
@@ -719,17 +710,11 @@ their share ratio reaches:</property>
             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK</property>
             <property name="layout_style">GTK_BUTTONBOX_END</property>
             <child>
-              <placeholder/>
-            </child>
-            <child>
               <widget class="GtkButton" id="button10">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">gtk-close</property>
                 <property name="use_stock">True</property>
               </widget>
-              <packing>
-                <property name="position">1</property>
-              </packing>
             </child>
           </widget>
           <packing>

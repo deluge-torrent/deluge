@@ -28,7 +28,7 @@ from optparse import OptionParser
 import sys
 import os, os.path
 
-parser = OptionParser(usage="%prog [options] [actions]", version="%prog 0.5.0")
+parser = OptionParser(usage="%prog [options] [actions]", version="%prog 0.4.90.0")
 parser.add_option("--tray", dest="tray", help="start Deluge hidden in system tray",
 						metavar="TRAY", action="store_true")
 

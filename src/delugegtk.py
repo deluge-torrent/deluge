@@ -65,7 +65,7 @@ class DelugeGTK(dbus.service.Object):
 		self.load_default_settings()
 		self.pref.load_from_file(self.conf_file)
 		#Start the Deluge Manager:
-		self.manager = deluge.Manager("DE", "0490", "Deluge 0.4.9", dcommon.CONFIG_DIR)
+		self.manager = deluge.Manager("DE", "0490", "Deluge 0.4.90", dcommon.CONFIG_DIR)
 		#Set up the interface:
 		self.wtree = gtk.glade.XML(dcommon.get_glade_file("delugegtk.glade"))
 		self.window = self.wtree.get_widget("main_window")
