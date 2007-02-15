@@ -116,6 +116,7 @@ class plugin_Search:
 		pass
 		
 	def torrent_search(self, widget=None):
+		import dcommon
 		print "Searching with engine", self.se
 		url = self.engines.get(self.se)
 		entry = self.search_entry.get_text()
@@ -127,6 +128,7 @@ class plugin_Search:
 		url = url.replace('${query}', entry)
 		print 'URL =', url
 		print 'Entry =', entry
+		dcommon.open_url_in_browser(url)
 		
 	def populate_search_menu(self):
 		import gtk
