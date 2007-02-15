@@ -67,16 +67,13 @@ class PluginManager:
 		for name in self.enabled_plugins.keys():
 			self.enabled_plugins[name].update()
 	
-	def register_plugin(self,
-						name,
-						plugin_class,
-						version,
-						description,
-						config=False,
-						default=False,
-						requires=None,
-						interface=None,
-						required_plugins=None):
+	def shutdown_all_plugins(self):
+		for name in self.enabled_plugins.keys():
+			self.enabled_plugins[name].unload()
+		self.enabled_plugins.clear()
+	
+	def register_plugin(self, name, plugin_class, version, description, config=False,
+		default=False, requires=None, interface=None, required_plugins=None):
 		self.available_plugins[name] = {'class': plugin_class, 
 										'version': version, 
 										'description': description, 

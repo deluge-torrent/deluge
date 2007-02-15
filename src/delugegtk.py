@@ -202,7 +202,10 @@ class DelugeGTK(dbus.service.Object):
 		version = plugin['version']
 		config = plugin['config']
 		description = plugin['description']
-		self.prf_glade.get_widget("plugin_conf").set_sensitive(config)
+		if name in self.plugins.get_enabled_plugins():
+			self.prf_glade.get_widget("plugin_conf").set_sensitive(config)
+		else:
+			self.prf_glade.get_widget("plugin_conf").set_sensitive(False)
 		self.prf_glade.get_widget("plugin_text").get_buffer(
 			).set_text("%s\nVersion: %s\n\n%s"%
 			(name, version, description))
@@ -215,6 +218,8 @@ class DelugeGTK(dbus.service.Object):
 		self.plugin_store.set_value(plugin_iter, 1, plugin_value)
 		if plugin_value:
 			self.plugins.enable_plugin(plugin_name)
+			self.prf_glade.get_widget("plugin_conf").set_sensitive(
+				self.plugins.get_plugin(plugin_name)['config'])
 		else:
 			self.plugins.disable_plugin(plugin_name)
 				
@@ -373,6 +378,8 @@ class DelugeGTK(dbus.service.Object):
 				self.plugin_store.append( (plugin, True) )
 			else:
 				self.plugin_store.append( (plugin, False) )
+		self.prf_glade.get_widget("plugin_text").get_buffer().set_text("")
+		self.prf_glade.get_widget("plugin_conf").set_sensitive(False)
 		self.plugin_dlg.show()
 		self.plugin_dlg.run()
 		self.plugin_dlg.hide()
@@ -686,6 +693,10 @@ class DelugeGTK(dbus.service.Object):
 		self.share_column.set_visible(obj.get_active())
 		
 	def quit(self, obj=None):
+		self.shutdown()
+	
+	def shutdown(self):
+		self.plugins.shutdown_all_plugins()
 		self.manager.quit()
 		gtk.main_quit()
 	

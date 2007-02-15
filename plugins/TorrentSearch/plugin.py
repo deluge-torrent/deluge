@@ -1,4 +1,4 @@
-#!/usr/bin/python
+
 
 class plugin_Search:
 	def __init__(self, path, deluge_core, deluge_interface):
