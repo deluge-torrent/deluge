@@ -1,0 +1,11 @@
+glade/delugegtk.glade
+glade/dgtkpopups.glade
+glade/dgtkpref.glade
+src/dcommon.py
+src/deluge.py
+src/deluge_core.cpp
+src/delugegtk.py
+src/delugeplugins.py
+src/deluge_stats.py
+src/dgtk.py
+src/pref.py

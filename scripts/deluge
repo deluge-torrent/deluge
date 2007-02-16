@@ -47,7 +47,6 @@ if not "org.deluge_torrent.Deluge" in dbus_objects:
 	import deluge, deluge.delugegtk
 	import gettext
 	gettext.install('deluge')
-	print _('message')
 	
 	interface = deluge.delugegtk.DelugeGTK()
 	for arg in args:
