@@ -36,12 +36,11 @@ class DelugeGTK(dbus.service.Object):
 	def external_add_torrent(self, torrent_file):
 		print "Ding!"
 		print "Got torrent externally:", os.path.basename(torrent_file)
-		print "Here's the raw output:", torrent_file
+		print "Here's the raw data:", torrent_file
 		print "\tNow, what to do with it?"
 		if self.is_running:
 			print "\t\tthe client seems to already be running, i'll try and add the torrent"
-			uid = self.manager.add_torrent(torrent_file, ".", True)
-			self.store.append(self.get_list_from_unique_id(uid))
+			uid = self.interactive_add_torrent(torrent_file)
 		else:
 			print "\t\tthe client hasn't started yet, I'll queue the torrent"
 			self.torrent_file_queue.append(torrent_file)
@@ -452,7 +451,7 @@ class DelugeGTK(dbus.service.Object):
 		for torrent_file in self.torrent_file_queue:
 			print "adding torrent", torrent_file
 			try:
-				interactive_add_torrent(torrent_file)
+				self.interactive_add_torrent(torrent_file, append=False)
 			except deluge.DelugeError:
 				print "duplicate torrent found, ignoring", torrent_file
 		## add torrents in manager to interface
@@ -615,7 +614,7 @@ class DelugeGTK(dbus.service.Object):
 				
 
 		
-	def interactive_add_torrent(self, torrent):
+	def interactive_add_torrent(self, torrent, append=True):
 		if self.pref.get('use_default_dir', bool):
 			path = self.pref.get('default_download_path')
 		else:
@@ -623,7 +622,8 @@ class DelugeGTK(dbus.service.Object):
 			if path is None:
 				return
 		unique_id = self.manager.add_torrent(torrent, path, True)
-		self.store.append(self.get_list_from_unique_id(unique_id))
+		if append:
+			self.store.append(self.get_list_from_unique_id(unique_id))
 		
 		
 		
@@ -753,7 +753,7 @@ class DelugeGTK(dbus.service.Object):
 		self.pref.set("show_share", self.share_column.get_visible())
 
 	def close(self, widget, event):
-		if self.pref.get("close_to_tray", bool):
+		if self.pref.get("close_to_tray", bool) and self.pref.get("enable_system_tray", bool):
 			self.window.hide()
 			return True
 		else:
