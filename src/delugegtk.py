@@ -367,9 +367,9 @@ class DelugeGTK(dbus.service.Object):
 			self.prf_glade.get_widget("spin_num_download").set_value(self.pref.get("max_number_downloads", int))
 		except KeyError:
 			pass
-		self.prf.show_all()		
+		self.prf.show()		
 		result = self.prf.run()
-		self.prf.hide_all()
+		self.prf.hide()
 		print result
 		if result == 1:
 			self.pref.set("enable_system_tray", self.prf_glade.get_widget("chk_use_tray").get_active())
