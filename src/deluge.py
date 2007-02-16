@@ -40,7 +40,11 @@ import deluge_core
 import os, shutil
 import pickle
 import time
+import gettext
 
+try: _
+except NameError:
+	def _(s): return s
 
 # Constants
 
