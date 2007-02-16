@@ -36,6 +36,7 @@ class DelugeGTK(dbus.service.Object):
 	def external_add_torrent(self, torrent_file):
 		print "Ding!"
 		print "Got torrent externally:", os.path.basename(torrent_file)
+		print "Here's the raw output:", torrent_file
 		print "\tNow, what to do with it?"
 		if self.is_running:
 			print "\t\tthe client seems to already be running, i'll try and add the torrent"
@@ -76,7 +77,7 @@ class DelugeGTK(dbus.service.Object):
 		self.window.hide()
 		self.toolbar = self.wtree.get_widget("tb_middle")
 		self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL,[('text/uri-list', 0, 80)], gtk.gdk.ACTION_COPY)
-		self.window.connect("destroy", self.close_clicked)
+		self.window.connect("delete_event", self.close)
 		self.window.connect("drag_data_received", self.on_drag_data)
 		self.window.set_title('%s %s'%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION))
 		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
@@ -116,7 +117,7 @@ class DelugeGTK(dbus.service.Object):
 					"add_torrent": self.add_torrent_clicked,
 					"add_torrent_url": self.add_torrent_url_clicked,
 					"remove_torrent" : self.remove_torrent_clicked,
-					"menu_quit": self.close_clicked,
+					"menu_quit": self.quit,
 					## Edit Menu
 					"pref_clicked": self.show_pref_dialog,
 					"plugins_clicked": self.show_plugin_dialog,
@@ -152,7 +153,7 @@ class DelugeGTK(dbus.service.Object):
 				"clear_finished": self.clear_finished,
 				"preferences": self.show_pref_dialog,
 				"plugins": self.show_plugin_dialog,
-				"quit": self.close_clicked,
+				"quit": self.quit,
 				}
 		tray_glade.signal_autoconnect(dic)
 		self.tray.connect("popup-menu", self.tray_popup, None)
@@ -729,9 +730,6 @@ class DelugeGTK(dbus.service.Object):
 	def share_toggle(self, obj):
 		self.share_column.set_visible(obj.get_active())
 		
-	def close_clicked(self, obj=None):
-		self.shutdown()
-		
 	def load_window_settings(self):
 		self.wtree.get_widget("chk_infopane").set_active(self.pref.get("show_infopane", bool))
 		self.wtree.get_widget("chk_size").set_active(self.pref.get("show_size", bool))
@@ -753,6 +751,16 @@ class DelugeGTK(dbus.service.Object):
 		self.pref.set("show_ul", self.ul_column.get_visible())
 		self.pref.set("show_eta", self.eta_column.get_visible())
 		self.pref.set("show_share", self.share_column.get_visible())
+
+	def close(self, widget, event):
+		if self.pref.get("close_to_tray", bool):
+			self.window.hide()
+			return True
+		else:
+			self.quit()
+		
+	def quit(self, widget=None):
+		self.shutdown()
 	
 	def shutdown(self):
 		enabled_plugins = ';'.join(self.plugins.get_enabled_plugins())
