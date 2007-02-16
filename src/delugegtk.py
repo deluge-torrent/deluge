@@ -30,8 +30,6 @@ import dbus, dbus.service
 if getattr(dbus, 'version', (0,0,0)) >= (0,41,0):
 	import dbus.glib 
 
-_ = gettext.gettext
-
 class DelugeGTK(dbus.service.Object):
 	## external_add_torrent should only be called from outside the class	
 	@dbus.service.method('org.deluge_torrent.DelugeInterface')
@@ -77,8 +75,9 @@ class DelugeGTK(dbus.service.Object):
 		self.window = self.wtree.get_widget("main_window")
 		self.window.hide()
 		self.toolbar = self.wtree.get_widget("tb_middle")
-		if(self.window):
-			self.window.connect("destroy", self.close_clicked)
+		self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL,[('text/uri-list', 0, 80)], gtk.gdk.ACTION_COPY)
+		self.window.connect("destroy", self.close_clicked)
+		self.window.connect("drag_data_received", self.on_drag_data)
 		self.window.set_title('%s %s'%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION))
 		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		
@@ -595,6 +594,20 @@ class DelugeGTK(dbus.service.Object):
 			return self.store.get_value(self.view.get_selection().get_selected()[1], 0)
 		except TypeError:
 			return None
+	
+	def on_drag_data(self, widget, drag_context, x, y, selection_data, info, timestamp):
+		uri_split = selection_data.data.strip().split()
+		for uri in uri_split:
+			path = urllib.url2pathname(uri).strip('\r\n\x00')
+			if path.startswith('file:\\\\\\'):
+				path = path[8:]
+			elif path.startswith('file://'):
+				path = path[7:]
+			elif path.startswith('file:'):
+				path = path[5:]
+			if path.endswith('.torrent'):
+				self.interactive_add_torrent(path)
+				
 
 		
 	def interactive_add_torrent(self, torrent):
