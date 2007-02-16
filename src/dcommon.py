@@ -95,7 +95,7 @@ def estimate_eta(state):
 	try:
 		return ftime(get_eta(state["total_size"], state["total_download"], state["download_rate"]))
 	except ZeroDivisionError:
-		return "Infinity"
+		return _("Infinity")
 	
 def get_eta(size, done, rate):
 	return int( (size - done) / rate )
@@ -159,4 +159,4 @@ def open_url_in_browser(link, foobar=None):
 	try:
 		webbrowser.open(link)
 	except webbrowser.Error:
-		print "Error: no webbrowser found"
+		print _("Error: no webbrowser found")

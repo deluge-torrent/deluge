@@ -30,15 +30,15 @@ import gtk.glade
 
 ## Browse for .torrent files
 def show_file_open_dialog(parent=None):
-	chooser = gtk.FileChooserDialog("Choose a .torrent file", parent, gtk.FILE_CHOOSER_ACTION_OPEN,
+	chooser = gtk.FileChooserDialog(_("Choose a .torrent file"), parent, gtk.FILE_CHOOSER_ACTION_OPEN,
 			buttons=(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
 	
 	f0 = gtk.FileFilter()
-	f0.set_name(".torrent files")
+	f0.set_name(_("Torrent files"))
 	f0.add_pattern("*." + "torrent")
 	chooser.add_filter(f0)
 	f1 = gtk.FileFilter()
-	f1.set_name("All files")
+	f1.set_name(_("All files"))
 	f1.add_pattern("*")
 	chooser.add_filter(f1)
 	
@@ -51,7 +51,7 @@ def show_file_open_dialog(parent=None):
 	return result
 
 def show_directory_chooser_dialog(parent=None):
-	chooser = gtk.FileChooserDialog("Choose a download directory", parent, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+	chooser = gtk.FileChooserDialog(_("Choose a download directory"), parent, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
 				buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
 	if chooser.run() == gtk.RESPONSE_OK:
 		result = chooser.get_filename()

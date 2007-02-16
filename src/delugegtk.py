@@ -203,9 +203,9 @@ class DelugeGTK(dbus.service.Object):
 		self.plugin_view.set_model(self.plugin_store)
 		self.plugin_view.get_selection().set_select_function(self.plugin_clicked, full=True
 		)
-		name_col = dgtk.add_text_column(self.plugin_view, "Name", 0)
+		name_col = dgtk.add_text_column(self.plugin_view, _("Plugin"), 0)
 		name_col.set_expand(True)
-		dgtk.add_toggle_column(self.plugin_view, "Enabled", 1, toggled_signal=self.plugin_toggled)
+		dgtk.add_toggle_column(self.plugin_view, _("Enabled"), 1, toggled_signal=self.plugin_toggled)
 		self.prf_glade.signal_autoconnect({'plugin_pref': self.plugin_pref})
 	
 	def plugin_clicked(self, selection, model, path, is_selected):
@@ -255,15 +255,15 @@ class DelugeGTK(dbus.service.Object):
 		#Just found out there are built-in pygtk methods with similar functionality
 		#to these, perhaps I should look into using those.
 		self.queue_column 	= 	dgtk.add_text_column(self.view, "#", 1)
-		self.name_column 	=	dgtk.add_text_column(self.view, "Name", 2)
-		self.size_column 	=	dgtk.add_text_column(self.view, "Size", 3)
-		self.status_column 	= 	dgtk.add_progress_column(self.view, "Status", 4, 5)
-		self.seed_column 	=	dgtk.add_text_column(self.view, "Seeders", 6)
-		self.peer_column 	=	dgtk.add_text_column(self.view, "Peers", 7)
-		self.dl_column 		=	dgtk.add_text_column(self.view, "Download", 8)
-		self.ul_column 		=	dgtk.add_text_column(self.view, "Upload", 9)
-		self.eta_column 	=	dgtk.add_text_column(self.view, "Time Remaining", 10)
-		self.share_column 	= 	dgtk.add_text_column(self.view, "Ratio", 11)
+		self.name_column 	=	dgtk.add_text_column(self.view, _("Name"), 2)
+		self.size_column 	=	dgtk.add_text_column(self.view, _("Size"), 3)
+		self.status_column 	= 	dgtk.add_progress_column(self.view, _("Status"), 4, 5)
+		self.seed_column 	=	dgtk.add_text_column(self.view, _("Seeders"), 6)
+		self.peer_column 	=	dgtk.add_text_column(self.view, _("Peers"), 7)
+		self.dl_column 		=	dgtk.add_text_column(self.view, _("Download"), 8)
+		self.ul_column 		=	dgtk.add_text_column(self.view, _("Upload"), 9)
+		self.eta_column 	=	dgtk.add_text_column(self.view, _("Time Remaining"), 10)
+		self.share_column 	= 	dgtk.add_text_column(self.view, _("Ratio"), 11)
 		
 		self.status_column.set_expand(True)
 
@@ -296,12 +296,11 @@ class DelugeGTK(dbus.service.Object):
 		self.peer_store = gtk.ListStore(str, str, str, str, str)
 		self.peer_view.set_model(self.peer_store)
 		
-		self.peer_ip_column			=	dgtk.add_text_column(self.peer_view, "IP Address", 0)
-		self.peer_client_column		=	dgtk.add_text_column(self.peer_view, "Client", 1)
-		## Note: (maybe) change this column to use a progress column before 0.5 is released
-		self.peer_complete_column	=	dgtk.add_text_column(self.peer_view, "Percent Complete", 2)
-		self.peer_download_column	=	dgtk.add_text_column(self.peer_view, "Download Rate", 3)
-		self.peer_upload_column		=	dgtk.add_text_column(self.peer_view, "Upload Rate", 4)
+		self.peer_ip_column			=	dgtk.add_text_column(self.peer_view, _("IP Address"), 0)
+		self.peer_client_column		=	dgtk.add_text_column(self.peer_view, _("Client"), 1)
+		self.peer_complete_column	=	dgtk.add_text_column(self.peer_view, _("Percent Complete"), 2)
+		self.peer_download_column	=	dgtk.add_text_column(self.peer_view, _("Download Rate"), 3)
+		self.peer_upload_column		=	dgtk.add_text_column(self.peer_view, _("Upload Rate"), 4)
 
 
 	def build_file_tab(self):
@@ -309,8 +308,8 @@ class DelugeGTK(dbus.service.Object):
 		self.file_store = gtk.ListStore(str, bool)
 		self.file_view.set_model(self.file_store)
 		
-		self.filename_column 	=	dgtk.add_text_column(self.file_view, "Filename", 0)
-		self.filetoggle_column 	=	dgtk.add_toggle_column(self.file_view, "DL?", 0)
+		self.filename_column 	=	dgtk.add_text_column(self.file_view, _("Filename"), 0)
+		self.filetoggle_column 	=	dgtk.add_toggle_column(self.file_view, _("Download"), 0)
 
 		self.filename_column.set_expand(True)
 
@@ -447,7 +446,7 @@ class DelugeGTK(dbus.service.Object):
 		for torrent_file in self.torrent_file_queue:
 			print "adding torrent", torrent_file
 			try:
-				self.manager.add_torrent(torrent_file, ".", True)
+				interactive_add_torrent(torrent_file)
 			except deluge.DelugeError:
 				print "duplicate torrent found, ignoring", torrent_file
 		## add torrents in manager to interface
@@ -628,11 +627,11 @@ class DelugeGTK(dbus.service.Object):
 			self.interactive_add_torrent(torrent)
 	
 	def add_torrent_url_clicked(self, obj=None):
-		dlg = gtk.Dialog(title="Add torrent from URL", parent=self.window,
+		dlg = gtk.Dialog(title=_("Add torrent from URL"), parent=self.window,
 			buttons=(gtk.STOCK_CANCEL, 0, gtk.STOCK_OK, 1))
 		dlg.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		
-		label = gtk.Label("Enter the URL of the .torrent to download")
+		label = gtk.Label(_("Enter the URL of the .torrent to download"))
 		entry = gtk.Entry()
 		dlg.vbox.pack_start(label)
 		dlg.vbox.pack_start(entry)
@@ -670,7 +669,7 @@ class DelugeGTK(dbus.service.Object):
 		if not args.get_active():
 			warning.set_text(" ")
 		else:
-			warning.set_markup("<i>" + "Warning - all downloaded files for this torrent will be deleted!" + "</i>")
+			warning.set_markup("<i>" + _("Warning - all downloaded files for this torrent will be deleted!") + "</i>")
 		return False
 
 	def update_tracker(self, obj=None):

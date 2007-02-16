@@ -74,14 +74,14 @@ PREF_FUNCTIONS = {
 	"max_download_rate"   : deluge_core.set_download_rate_limit,
 	"max_upload_rate"     : deluge_core.set_upload_rate_limit
 						}
-STATE_MESSAGES = (	"Queued",
-					"Checking",
-					"Connecting",
-					"Downloading Metadata",
-					"Downloading",
-					"Finished",
-					"Seeding",
-					"Allocating"
+STATE_MESSAGES = (	_("Queued"),
+					_("Checking"),
+					_("Connecting"),
+					_("Downloading Metadata"),
+					_("Downloading"),
+					_("Finished"),
+					_("Seeding"),
+					_("Allocating")
 					)
 
 
