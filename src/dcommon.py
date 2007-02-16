@@ -21,6 +21,8 @@
 import sys, os, os.path, webbrowser
 import xdg, xdg.BaseDirectory
 
+import gettext
+
 PROGRAM_NAME = "Deluge"
 PROGRAM_VERSION = "0.4.90.0"
 
@@ -50,15 +52,17 @@ class DelugePreferences:
 				return not (result == 0)
 			else:
 				return False
-		elif kind == str:
-			return str(result)
 		elif kind == int:
 			try:
 				return int(result)
 			except ValueError:
 				return int(float(result))
+			except:
+				return 0
 		elif kind == float:
 			return float(result)
+		elif kind == str:
+			return str(result)
 		else:
 			return result
 	

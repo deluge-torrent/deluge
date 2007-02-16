@@ -94,7 +94,7 @@ class DelugeGTK(dbus.service.Object):
 		
 		self.connect_signals()
 		
-		self.apply_prefs()
+
 		
 		try:
 			self.load_window_settings()
@@ -108,6 +108,7 @@ class DelugeGTK(dbus.service.Object):
 				self.plugins.enable_plugin(plugin)
 			except KeyError:
 				pass
+		self.apply_prefs()
 	
 	def connect_signals(self):
 		self.wtree.signal_autoconnect({
@@ -414,7 +415,11 @@ class DelugeGTK(dbus.service.Object):
 
 	
 	def apply_prefs(self):
-		pass
+		self.tray.set_visible(self.pref.get("enable_system_tray", bool))
+		self.manager.set_pref("listen_on", [self.pref.get("tcp_port_range_lower", int), self.pref.get("tcp_port_range_upper", int)])
+		self.manager.set_pref("max_uploads", self.pref.get("max_number_uploads", int))
+		self.manager.set_pref("max_download_rate", self.pref.get("max_download_rate", int))
+		self.manager.set_pref("max_connections", self.pref.get("max_number_downloads", int))
 			
 	
 	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
