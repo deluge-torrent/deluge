@@ -39,6 +39,9 @@ class Preferences:
 	def __setitem__(self, key, value):
 		self.mapping[key] = value
 	
+	def __delitem__(self, key):
+		del self.mapping[key]
+	
 	def __len__(self):
 		return len(self.mapping)
 	

@@ -57,7 +57,6 @@ class plugin_Search:
 		self.search_item.show_all()
 		self.menu_button.show_all()
 		self.menu.show_all()
-		print "Torrent Search Initialized"
 	
 	def unload(self):
 		self.engines.save_to_file(self.conf_file)

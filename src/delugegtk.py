@@ -101,7 +101,7 @@ class DelugeGTK(dbus.service.Object):
 		except KeyError:
 			pass
 		
-		enable_plugins = self.pref.get('enabled_plugins').split(';')
+		enable_plugins = self.pref.get('enabled_plugins').split(':')
 		print enable_plugins
 		for plugin in enable_plugins:
 			try:
@@ -137,8 +137,6 @@ class DelugeGTK(dbus.service.Object):
 					"clear_finished": self.clear_finished,
 					"queue_up": self.q_torrent_up,
 					"queue_down": self.q_torrent_down,
-					## Other events
-					"torrentrow_click": self.torrentview_clicked,
 					})
 	
 	def build_tray_icon(self):
@@ -202,8 +200,7 @@ class DelugeGTK(dbus.service.Object):
 		self.plugin_view = self.prf_glade.get_widget("plugin_view")
 		self.plugin_store = gtk.ListStore(str, bool)
 		self.plugin_view.set_model(self.plugin_store)
-		self.plugin_view.get_selection().set_select_function(self.plugin_clicked, full=True
-		)
+		self.plugin_view.get_selection().set_select_function(self.plugin_clicked, full=True)
 		name_col = dgtk.add_text_column(self.plugin_view, _("Plugin"), 0)
 		name_col.set_expand(True)
 		dgtk.add_toggle_column(self.plugin_view, _("Enabled"), 1, toggled_signal=self.plugin_toggled)
@@ -253,8 +250,6 @@ class DelugeGTK(dbus.service.Object):
 		self.view.set_reorderable(True)
 		
 		## Initializes the columns for the torrent_view
-		#Just found out there are built-in pygtk methods with similar functionality
-		#to these, perhaps I should look into using those.
 		self.queue_column 	= 	dgtk.add_text_column(self.view, "#", 1)
 		self.name_column 	=	dgtk.add_text_column(self.view, _("Name"), 2)
 		self.size_column 	=	dgtk.add_text_column(self.view, _("Size"), 3)
@@ -267,7 +262,29 @@ class DelugeGTK(dbus.service.Object):
 		self.share_column 	= 	dgtk.add_text_column(self.view, _("Ratio"), 11)
 		
 		self.status_column.set_expand(True)
+		
+		self.view.get_selection().set_select_function(self.torrent_clicked, full=True)
 
+	def torrent_clicked(self, selection, model, path, is_selected):
+		if is_selected:
+			# Torrent is already selected, we don't need to do anything
+			return True
+		unique_id = model.get_value(model.get_iter(path), 0)
+		state = self.manager.get_torrent_state(unique_id)
+		# A new torrent has been selected, need to update parts of interface
+		self.text_summary_total_size.set_text(dcommon.fsize(state["total_size"]))
+		self.text_summary_pieces.set_text(str(state["pieces"]))
+		self.text_summary_tracker.set_text(str(state["tracker"]))
+		#self.text_summary_compact_allocation.set_text(str(state[""]))
+		# Now for the File tab
+		self.file_store.clear()
+		all_files = self.manager.get_torrent_file_info(unique_id)
+		for f in all_files:
+			self.file_store.append([f['path'], dcommon.fsize(f['size']), 
+					f['offset'], '%.2f%%'%f['progress'], True])
+		
+		return True
+		
 	
 	def build_summary_tab(self):
 		#Torrent Summary tab
@@ -306,13 +323,16 @@ class DelugeGTK(dbus.service.Object):
 
 	def build_file_tab(self):
 		self.file_view = self.wtree.get_widget("file_view")
-		self.file_store = gtk.ListStore(str, bool)
+		self.file_store = gtk.ListStore(str, str, str, str, bool)
 		self.file_view.set_model(self.file_store)
 		
-		self.filename_column 	=	dgtk.add_text_column(self.file_view, _("Filename"), 0)
-		self.filetoggle_column 	=	dgtk.add_toggle_column(self.file_view, _("Download"), 0)
+		filename_col = dgtk.add_text_column(self.file_view, _("Filename"), 0)
+		dgtk.add_text_column(self.file_view, _("Size"), 1)
+		dgtk.add_text_column(self.file_view, _("Offset"), 2)
+		dgtk.add_text_column(self.file_view, _("Progress"), 3)
+		dgtk.add_toggle_column(self.file_view, _("Download"), 4)
 
-		self.filename_column.set_expand(True)
+		filename_col.set_expand(True)
 
 	def load_default_settings(self):
 		self.pref.set("enable_system_tray", True)
@@ -402,9 +422,6 @@ class DelugeGTK(dbus.service.Object):
 		self.plugin_dlg.show()
 		self.plugin_dlg.run()
 		self.plugin_dlg.hide()
-		
-
-		
 		
 		
 	def tray_toggle(self, obj):
@@ -695,9 +712,6 @@ class DelugeGTK(dbus.service.Object):
 		torrent = self.get_selected_torrent()
 		if torrent is not None:
 			self.manager.queue_up(torrent)
-
-	def torrentview_clicked(self, widget, event):
-		pass
 	
 	def infopane_toggle(self, widget):
 		if widget.get_active():
@@ -763,7 +777,7 @@ class DelugeGTK(dbus.service.Object):
 		self.shutdown()
 	
 	def shutdown(self):
-		enabled_plugins = ';'.join(self.plugins.get_enabled_plugins())
+		enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
 		self.pref.set('enabled_plugins', enabled_plugins)
 		self.save_window_settings()
 		self.pref.save_to_file(self.conf_file)

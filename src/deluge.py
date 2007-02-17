@@ -194,6 +194,10 @@ class Manager:
 
 		# Saved torrent core_states. We do not poll the core in a costly manner, necessarily
 		self.saved_core_torrent_peer_infos = {} # unique_ID -> torrent_state
+		
+		# Saved torrent core_states. We do not poll the core in a costly manner, necessarily
+		self.saved_core_torrent_file_infos = {} # unique_ID -> torrent_state
+		
 
 		# Unpickle the preferences, or create a new one
 		self.prefs = DEFAULT_PREFS
@@ -377,6 +381,9 @@ class Manager:
 	def get_torrent_peer_info(self, unique_ID):
 		# Perhaps at some time we may add info here
 		return self.get_core_torrent_peer_info(unique_ID)
+	
+	def get_torrent_file_info(self, unique_ID):
+		return self.get_core_torrent_file_info(unique_ID)
 
 	# Queueing functions
 
@@ -562,10 +569,15 @@ class Manager:
 
 	def get_core_torrent_peer_info(self, unique_ID, efficiently=True):
 		if unique_ID not in self.saved_core_torrent_peer_infos.keys():
-			self.saved_core_torrent_peer_infos[unique_ID] = cached_data(deluge_core.get_peer_info,
-			                                                       unique_ID)
+			self.saved_core_torrent_peer_infos[unique_ID] = cached_data(deluge_core.get_peer_info, unique_ID)
 
 		return self.saved_core_torrent_peer_infos[unique_ID].get(efficiently)
+	
+	def get_core_torrent_file_info(self, unique_ID, efficiently=True):
+		if unique_ID not in self.saved_core_torrent_file_infos.keys():
+			self.saved_core_torrent_file_infos[unique_ID] = cached_data(deluge_core.get_file_info, unique_ID)
+		
+		return self.saved_core_torrent_file_infos[unique_ID].get(efficiently)
 
 	# Non-syncing functions. Used when we loop over such events, and sync manually at the end
 
