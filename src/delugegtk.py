@@ -345,10 +345,10 @@ class DelugeGTK(dbus.service.Object):
 		
 		self.pref.set("tcp_port_range_lower", 6881)
 		self.pref.set("tcp_port_range_upper", 6889)
-		self.pref.set("max_upload_rate", 0)
-		self.pref.set("max_number_uploads", 0)
-		self.pref.set("max_download_rate", 0)
-		self.pref.set("max_number_downloads", 0)
+		self.pref.set("max_upload_rate", -1)
+		self.pref.set("max_number_uploads", -1)
+		self.pref.set("max_download_rate", -1)
+		self.pref.set("max_number_downloads", -1)
 		default_plugins = []
 		for name in self.plugins.get_available_plugins():
 			if self.plugins.get_plugin(name)['default']:
@@ -543,10 +543,26 @@ class DelugeGTK(dbus.service.Object):
 			#self.text_summary_compact_allocation.set_text(str(state[""]))
 			self.text_summary_eta.set_text(dcommon.estimate_eta(state))
 		elif tab == 1: #Peers List
+			def biographer(model, path, iter, dictionary):
+				assert(model.get_value(iter, 0) not in dictionary.keys())
+				dictionary[model.get_value(iter, 0)] = model.get_string_from_iter(iter)
+			
+			class remover_data:
+				def __init__(self, new_ips):
+					self.new_ips = new_ips
+					self.removed = False
+			
+			def remover(model, path, iter, data):
+				if model.get_value(iter, 0) not in data.new_ips:
+					model.remove(iter)
+					data.removed = True
+					return True
+				else:
+					return False
+
 			unique_id = self.get_selected_torrent()
 			
-			if self.saved_peer_info is None:
-				self.saved_peer_info = self.manager.get_torrent_peer_info(unique_id)
+			self.saved_peer_info = self.manager.get_torrent_peer_info(unique_id)
 			
 			
 			new_peer_info = self.saved_peer_info
@@ -557,47 +573,30 @@ class DelugeGTK(dbus.service.Object):
 				if not new_peer_info[index]['client'] == "":
 					assert(new_peer_info[index]['ip'] not in new_ips.keys())
 					new_ips[new_peer_info[index]['ip']] = index
-					
-					def biographer(model, path, iter, dictionary):
-						assert(model.get_value(iter, 0) not in dictionary.keys())
-						dictionary[model.get_value(iter, 0)] = model.get_string_from_iter(iter)
-					
-					class remover_data:
-						def __init__(self, new_ips):
-							self.new_ips = new_ips
-							self.removed = False
-					
-					def remover(model, path, iter, data):
-						if model.get_value(iter, 0) not in data.new_ips:
-							model.remove(iter)
-							data.removed = True
-							return True
-						else:
-							return False
-					
-					while True:
-						data = remover_data(new_ips.keys())
-						self.peer_store.foreach(remover, data)
-						if not data.removed:
-							break
-					
-					curr_ips = {}
-					
-					self.peer_store.foreach(biographer, curr_ips)
-					
-					assert(self.peer_store.iter_n_children(None) == len(curr_ips.keys()))
-					
-					for peer in new_peer_info:
-						if peer['ip'] in curr_ips.keys():
-							self.peer_store.set(self.peer_store.get_iter_from_string(curr_ips[peer['ip']]),
-													1,	unicode(peer['client'], 'Latin-1'),
-													2,	peer['peer_has'],
-													3,	peer['download_speed'],
-													4,	peer['upload_speed'])
-					for peer in new_peer_info:
-						if peer['ip'] not in curr_ips.keys() and peer['client'] is not "":
-							self.peer_store.append([peer["ip"], unicode(peer["client"], 'Latin-1'), peer["peer_has"], 
-								peer["download_speed"], peer["upload_speed"]])
+			
+			while True:
+				data = remover_data(new_ips.keys())
+				self.peer_store.foreach(remover, data)
+				if not data.removed:
+					break
+			
+			curr_ips = {}
+			
+			self.peer_store.foreach(biographer, curr_ips)
+			
+			assert(self.peer_store.iter_n_children(None) == len(curr_ips.keys()))
+			
+			for peer in new_peer_info:
+				if peer['ip'] in curr_ips.keys():
+					self.peer_store.set(self.peer_store.get_iter_from_string(curr_ips[peer['ip']]),
+											1,	unicode(peer['client'], 'Latin-1'),
+											2,	peer['peer_has'],
+											3,	peer['download_speed'],
+											4,	peer['upload_speed'])
+			for peer in new_peer_info:
+				if peer['ip'] not in curr_ips.keys() and peer['client'] is not "":
+					self.peer_store.append([peer["ip"], unicode(peer["client"], 'Latin-1'), peer["peer_has"], 
+						peer["download_speed"], peer["upload_speed"]])
 								
 		elif tab == 2: #File List
 			pass
