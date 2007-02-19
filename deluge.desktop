@@ -1,9 +1,9 @@
-[Desktop-Entry]
+[Desktop Entry]
 Encoding=UTF-8
 Name=Deluge BitTorrent Client
-Comment=BitTorrent client in Python/PyGTK
-Exec=deluge
-Icon=deluge.xpm
+Comment=Bittorrent client written in Python/PyGTK
+Exec=deluge-torrent
+Icon=deluge-torrent.xpm
 Terminal=false
 Type=Application
 Categories=Application;Network

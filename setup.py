@@ -80,7 +80,9 @@ deluge_core = Extension('deluge_core',
 										 'libtorrent/src/kademlia/traversal_algorithm.cpp'])
 
 data = [('share/deluge/glade',  glob.glob('glade/*.glade')),
-        ('share/deluge/pixmaps', glob.glob('pixmaps/*.png'))]
+        ('share/deluge/pixmaps', glob.glob('pixmaps/*.png')),
+        ('share/applications' , ['deluge.desktop']),
+        ('share/pixmaps' , ['deluge.xpm'])]
 
 for plugin in glob.glob('plugins/*'):
 	data.append( ('share/deluge/' + plugin, glob.glob(plugin + '/*')) )
