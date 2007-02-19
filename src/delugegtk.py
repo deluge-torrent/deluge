@@ -60,7 +60,7 @@ class DelugeGTK(dbus.service.Object):
 			f.flush()
 			f.close()
 		#Start the Deluge Manager:
-		self.manager = deluge.Manager("DE", "0490", "Deluge 0.4.90", dcommon.CONFIG_DIR)
+		self.manager = deluge.Manager("DE", "0490", "Deluge 0.4.90.1", dcommon.CONFIG_DIR)
 		
 		self.plugins = delugeplugins.PluginManager(self.manager, self)
 		self.plugins.add_plugin_dir(dcommon.PLUGIN_DIR)

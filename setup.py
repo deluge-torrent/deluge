@@ -96,7 +96,7 @@ data = [('share/deluge/glade',  glob.glob('glade/*.glade')),
 for plugin in glob.glob('plugins/*'):
 	data.append( ('share/deluge/' + plugin, glob.glob(plugin + '/*')) )
 
-setup(name="deluge", fullname="Deluge BitTorrent Client", version="0.4.90.0",
+setup(name="deluge", fullname="Deluge BitTorrent Client", version="0.4.90.1",
 	author="Zach Tibbitts, Alon Zakai",
 	author_email="zach@collegegeek.org, kripkensteiner@gmail.com",
 	description="A bittorrent client written in PyGTK",
