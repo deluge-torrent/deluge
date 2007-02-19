@@ -1,7 +1,8 @@
 include LICENSE
 include README
+include deluge.desktop
+include deluge.xpm
 recursive-include libtorrent/ *
 recursive-include glade/ *.glade
-recursive-include pixmaps/ *.png *.svg *.xpm
-recursive-include include/ *.hpp *.ipp
+recursive-include pixmaps/ *.png
 recursive-include plugins/ *

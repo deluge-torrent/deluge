@@ -29,7 +29,7 @@ pythonVersion = platform.python_version()[0:3]
 removals = ['-g', '-DNDEBUG', '-O2', '-Wstrict-prototypes']
 additions = ['-DNDEBUG', '-O2']
 
-if pythonVersion == '2.4':
+if pythonVersion == '2.5':
 	cv_opt = sysconfig.get_config_vars()["CFLAGS"]
 	for removal in removals:
 		cv_opt = cv_opt.replace(removal, " ")
