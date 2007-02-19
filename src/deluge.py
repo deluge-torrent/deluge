@@ -492,7 +492,7 @@ class Manager:
 
 		self.unique_IDs[unique_ID].file_filter = file_filter[:]
 
-		deluge_core.set_filter_out(file_filter)
+		deluge_core.set_filter_out(unique_ID, file_filter)
 
 	def get_file_filter(self, unique_ID):
 		try:

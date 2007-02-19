@@ -330,9 +330,23 @@ class DelugeGTK(dbus.service.Object):
 		dgtk.add_text_column(self.file_view, _("Size"), 1)
 		dgtk.add_text_column(self.file_view, _("Offset"), 2)
 		dgtk.add_text_column(self.file_view, _("Progress"), 3)
-		dgtk.add_toggle_column(self.file_view, _("Download"), 4)
+		dgtk.add_toggle_column(self.file_view, _("Download"), 4, toggled_signal=self.file_toggled)
 
 		filename_col.set_expand(True)
+	
+	def file_toggled(self, renderer, path):
+		file_iter = self.file_store.get_iter_from_string(path)
+		value = not renderer.get_active()
+		self.file_store.set_value(file_iter, 4, value)
+		print "old",self.manager.get_file_filter(self.get_selected_torrent())
+		file_filter = []
+		itr = self.file_store.get_iter_first()
+		while itr is not None:
+			file_filter.append(self.file_store.get_value(itr, 4))
+			itr = self.file_store.iter_next(itr)
+		print file_filter
+		self.manager.set_file_filter(self.get_selected_torrent(), file_filter)
+		
 
 	def load_default_settings(self):
 		self.pref.set("enable_system_tray", True)
