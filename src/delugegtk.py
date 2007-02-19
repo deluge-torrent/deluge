@@ -651,7 +651,7 @@ class DelugeGTK(dbus.service.Object):
 			path = dgtk.show_directory_chooser_dialog(self.window)
 			if path is None:
 				return
-		unique_id = self.manager.add_torrent(torrent, path, True)
+		unique_id = self.manager.add_torrent(torrent, path, self.pref.get('use_compact_storage', bool))
 		if append:
 			self.store.append(self.get_list_from_unique_id(unique_id))
 		
