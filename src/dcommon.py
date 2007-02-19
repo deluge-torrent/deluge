@@ -26,7 +26,7 @@ import gettext
 PROGRAM_NAME = "Deluge"
 PROGRAM_VERSION = "0.4.90.0"
 
-CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge-svn')
+CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
 
 GLADE_DIR  = sys.prefix + '/share/deluge/glade'
 PIXMAP_DIR = sys.prefix + '/share/deluge/pixmaps'
