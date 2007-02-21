@@ -181,7 +181,7 @@ class DelugeGTK(dbus.service.Object):
 	
 	def build_about_dialog(self):
 		gtk.about_dialog_set_url_hook(dcommon.open_url_in_browser)
-		self.abt = gtk.AboutDialog()
+		self.abt = gtk.glade.XML(dcommon.get_glade_file("dgtkpopups.glade")).get_widget("aboutdialog")
 		self.abt.set_name(dcommon.PROGRAM_NAME)
 		self.abt.set_version(dcommon.PROGRAM_VERSION)
 		self.abt.set_authors(["Zach Tibbits", "A. Zakai"])
@@ -687,6 +687,8 @@ class DelugeGTK(dbus.service.Object):
 		if torrent is not None:
 			glade     = gtk.glade.XML(dcommon.get_glade_file("dgtkpopups.glade"))
 			asker     = glade.get_widget("remove_torrent_dlg")
+			
+			asker.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 
 			warning   =  glade.get_widget("warning")
 			warning.set_text(" ")

@@ -42,6 +42,8 @@ def show_file_open_dialog(parent=None):
 	f1.add_pattern("*")
 	chooser.add_filter(f1)
 	
+	chooser.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+	
 	response = chooser.run()
 	if response == gtk.RESPONSE_OK:
 		result = chooser.get_filename()
@@ -53,6 +55,7 @@ def show_file_open_dialog(parent=None):
 def show_directory_chooser_dialog(parent=None):
 	chooser = gtk.FileChooserDialog(_("Choose a download directory"), parent, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
 				buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
+	chooser.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 	if chooser.run() == gtk.RESPONSE_OK:
 		result = chooser.get_filename()
 	else:
