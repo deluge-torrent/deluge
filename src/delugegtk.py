@@ -156,6 +156,7 @@ class DelugeGTK:
 					"clear_finished": self.clear_finished,
 					"queue_up": self.q_torrent_up,
 					"queue_down": self.q_torrent_down,
+					"queue_bottom": self.q_to_bottom,
 					})
 	
 	def build_tray_icon(self):
@@ -781,6 +782,11 @@ class DelugeGTK:
 		torrent = self.get_selected_torrent()
 		if torrent is not None:
 			self.manager.queue_up(torrent)
+
+	def q_to_bottom(self, widget):
+		torrent = self.get_selected_torrent()
+		if torrent is not None:
+			self.manager.queue_bottom(torrent)
 	
 	def toolbar_toggle(self, widget):
 		if widget.get_active():

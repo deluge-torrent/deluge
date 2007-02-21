@@ -633,7 +633,7 @@
                     <child>
                       <widget class="GtkImageMenuItem" id="menu_removetorrent">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Remove selected Torrent</property>
+                        <property name="label" translatable="yes">Remove Torrent</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="remove_torrent"/>
                       </widget>
@@ -679,6 +679,58 @@
                         <property name="label" translatable="yes">_Manage Plugins</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="plugins_clicked"/>
+                      </widget>
+                    </child>
+                  </widget>
+                </child>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkMenuItem" id="menuitem3">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Torrent</property>
+                <property name="use_underline">True</property>
+                <child>
+                  <widget class="GtkMenu" id="menu4">
+                    <property name="visible">True</property>
+                    <child>
+                      <widget class="GtkMenuItem" id="menuitem5">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Clear Completed</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="clear_finished"/>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkMenuItem" id="menuitem6">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Update Tracker</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="update_tracker"/>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkMenuItem" id="menuitem7">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Queue Up</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="queue_up"/>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkMenuItem" id="menuitem8">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Queue Down</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="queue_down"/>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkMenuItem" id="menuitem10">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Queue to Bottom</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="queue_bottom"/>
                       </widget>
                     </child>
                   </widget>
