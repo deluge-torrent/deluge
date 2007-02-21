@@ -139,6 +139,7 @@ class DelugeGTK:
 					"pref_clicked": self.show_pref_dialog,
 					"plugins_clicked": self.show_plugin_dialog,
 					## View Menu
+					"toolbar_toggle": self.toolbar_toggle,
 					"infopane_toggle": self.infopane_toggle,
 					"size_toggle": self.size_toggle,
 					"status_toggle": self.status_toggle,
@@ -781,6 +782,16 @@ class DelugeGTK:
 		if torrent is not None:
 			self.manager.queue_up(torrent)
 	
+	def toolbar_toggle(self, widget):
+		if widget.get_active():
+			self.wtree.get_widget("tb_left").show()
+			self.wtree.get_widget("tb_middle").show()
+			self.wtree.get_widget("tb_right").show()
+		else:
+			self.wtree.get_widget("tb_left").hide()
+			self.wtree.get_widget("tb_middle").hide()
+			self.wtree.get_widget("tb_right").hide()
+	
 	def infopane_toggle(self, widget):
 		if widget.get_active():
 			self.wtree.get_widget("torrent_info").show()
@@ -814,6 +825,7 @@ class DelugeGTK:
 		
 	def load_window_settings(self):
 		self.wtree.get_widget("chk_infopane").set_active(self.config.get("show_infopane", bool))
+		self.wtree.get_widget("chk_toolbar").set_active(self.config.get("show_toolbar", bool))
 		self.wtree.get_widget("chk_size").set_active(self.config.get("show_size", bool))
 		self.wtree.get_widget("chk_status").set_active(self.config.get("show_status", bool))
 		self.wtree.get_widget("chk_seed").set_active(self.config.get("show_seeders", bool))
@@ -825,6 +837,7 @@ class DelugeGTK:
 	
 	def save_window_settings(self):
 		self.config.set("show_infopane", self.wtree.get_widget("chk_infopane").get_active())
+		self.config.set("show_toolbar", self.wtree.get_widget("chk_toolbar").get_active())
 		self.config.set("show_size", self.size_column.get_visible())
 		self.config.set("show_status", self.status_column.get_visible())
 		self.config.set("show_seeders", self.seed_column.get_visible())

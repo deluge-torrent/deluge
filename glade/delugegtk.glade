@@ -5,8 +5,6 @@
   <widget class="GtkWindow" id="main_window">
     <property name="visible">True</property>
     <property name="title">Deluge</property>
-    <property name="default_width">650</property>
-    <property name="default_height">639</property>
     <signal name="destroy" handler="quit"/>
     <signal name="destroy_event" handler="quit"/>
     <signal name="delete_event" handler="delete"/>
@@ -18,7 +16,6 @@
         <child>
           <widget class="GtkVPaned" id="vpaned1">
             <property name="visible">True</property>
-            <property name="position">190</property>
             <property name="position_set">True</property>
             <child>
               <widget class="GtkScrolledWindow" id="scrolledwindow1">
@@ -697,9 +694,18 @@
                   <widget class="GtkMenu" id="menu1">
                     <property name="visible">True</property>
                     <child>
+                      <widget class="GtkCheckMenuItem" id="chk_toolbar">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">Toolbar</property>
+                        <property name="use_underline">True</property>
+                        <property name="active">True</property>
+                        <signal name="toggled" handler="toolbar_toggle"/>
+                      </widget>
+                    </child>
+                    <child>
                       <widget class="GtkCheckMenuItem" id="chk_infopane">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">Show Details Pane</property>
+                        <property name="label" translatable="yes">Details</property>
                         <property name="use_underline">True</property>
                         <property name="active">True</property>
                         <signal name="toggled" handler="infopane_toggle"/>
