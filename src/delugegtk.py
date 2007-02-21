@@ -28,10 +28,24 @@ pygtk.require('2.0')
 import gtk, gtk.glade, gobject
 import xdg, xdg.BaseDirectory
 import dbus, dbus.service
-if getattr(dbus, 'version', (0,0,0)) >= (0,41,0):
-	import dbus.glib 
+dbus_version = getattr(dbus, 'version', (0,0,0))
+if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
+	dbus.SessionBus()
+	import dbus.glib
+elif dbus_version >= (0,80,0):
+	from dbus.mainloop.glib import DBusGMainLoop
+	DBusGMainLoop(set_as_default=True)
+	dbus.SessionBus()
+else:
+	pass
 
-class DelugeGTK(dbus.service.Object):
+class DelugeDBus(dbus.service.Object):
+	def __init__(self, interface, object_path='/org/deluge_torrent/DelugeObject'):
+		self.interface = interface
+		self.bus = dbus.SessionBus()
+		bus_name = dbus.service.BusName("org.deluge_torrent.Deluge", bus=self.bus)
+		dbus.service.Object.__init__(self, bus_name, object_path)
+
 	## external_add_torrent should only be called from outside the class	
 	@dbus.service.method('org.deluge_torrent.DelugeInterface')
 	def external_add_torrent(self, torrent_file):
@@ -39,17 +53,20 @@ class DelugeGTK(dbus.service.Object):
 		print "Got torrent externally:", os.path.basename(torrent_file)
 		print "Here's the raw data:", torrent_file
 		print "\tNow, what to do with it?"
-		if self.is_running:
+		if self.interface.is_running:
 			print "\t\tthe client seems to already be running, i'll try and add the torrent"
-			uid = self.interactive_add_torrent(torrent_file)
+			uid = self.interface.interactive_add_torrent(torrent_file)
 		else:
 			print "\t\tthe client hasn't started yet, I'll queue the torrent"
-			self.torrent_file_queue.append(torrent_file)
+			self.interface.torrent_file_queue.append(torrent_file)
 
-	def __init__(self, bus_name=dbus.service.BusName('org.deluge_torrent.Deluge',
-			bus=dbus.SessionBus()),	object_path='/org/deluge_torrent/DelugeObject'):
-		dbus.service.Object.__init__(self, bus_name, object_path)
+	
+
+class DelugeGTK:
+
+	def __init__(self):
 		self.is_running = False
+		self.dbus_object = DelugeDBus(self)
 		self.torrent_file_queue = []
 		#Load up a config file:
 		self.conf_file = dcommon.CONFIG_DIR + '/deluge.conf'
