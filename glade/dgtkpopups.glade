@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.1.5 on Tue Feb 20 20:31:43 2007 by zach@notapowerbook-->
+<!--Generated with glade3 3.1.5 on Wed Feb 21 13:25:40 2007 by zach@notapowerbook-->
 <glade-interface>
   <widget class="GtkMenu" id="torrent_popup">
     <property name="visible">True</property>
@@ -79,7 +79,10 @@
   </widget>
   <widget class="GtkDialog" id="remove_torrent_dlg">
     <property name="title" translatable="yes">Remove Torrent</property>
+    <property name="destroy_with_parent">True</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="skip_pager_hint">True</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox3">
