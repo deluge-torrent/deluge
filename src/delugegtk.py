@@ -297,9 +297,15 @@ class DelugeGTK:
 		# Now for the File tab
 		self.file_store.clear()
 		all_files = self.manager.get_torrent_file_info(unique_id)
+		file_filter = self.manager.get_file_filter(unique_id)
+		if file_filter is None:
+			file_filter = [True] * len(all_files)
+		assert(len(all_files) == len(file_filter))
+		i=0
 		for f in all_files:
-			self.file_store.append([f['path'], dcommon.fsize(f['size']), 
-					f['offset'], '%.2f%%'%f['progress'], True])
+			self.file_store.append([file_filter[i], f['path'], dcommon.fsize(f['size']), 
+					f['offset'], '%.2f%%'%f['progress']])
+			i=i+1
 		
 		return True
 		
@@ -341,26 +347,26 @@ class DelugeGTK:
 
 	def build_file_tab(self):
 		self.file_view = self.wtree.get_widget("file_view")
-		self.file_store = gtk.ListStore(str, str, str, str, bool)
+		self.file_store = gtk.ListStore(bool, str, str, str, str)
 		self.file_view.set_model(self.file_store)
 		
-		filename_col = dgtk.add_text_column(self.file_view, _("Filename"), 0)
-		dgtk.add_text_column(self.file_view, _("Size"), 1)
-		dgtk.add_text_column(self.file_view, _("Offset"), 2)
-		dgtk.add_text_column(self.file_view, _("Progress"), 3)
-		dgtk.add_toggle_column(self.file_view, _("Download"), 4)
-
-		filename_col.set_expand(True)
+		dgtk.add_toggle_column(self.file_view, _("Download"), 0, toggled_signal=self.file_toggled)
+		dgtk.add_text_column(self.file_view, _("Filename"), 1).set_expand(True)
+		dgtk.add_text_column(self.file_view, _("Size"), 2)
+		dgtk.add_text_column(self.file_view, _("Offset"), 3)
+		dgtk.add_text_column(self.file_view, _("Progress"), 4)
+		
 	
 	def file_toggled(self, renderer, path):
 		file_iter = self.file_store.get_iter_from_string(path)
 		value = not renderer.get_active()
-		self.file_store.set_value(file_iter, 4, value)
+		self.file_store.set_value(file_iter, 0, value)
 		file_filter = []
 		itr = self.file_store.get_iter_first()
 		while itr is not None:
-			file_filter.append(self.file_store.get_value(itr, 4))
+			file_filter.append(self.file_store.get_value(itr, 0))
 			itr = self.file_store.iter_next(itr)
+		print file_filter
 		self.manager.set_file_filter(self.get_selected_torrent(), file_filter)
 		
 
