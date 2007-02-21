@@ -47,7 +47,7 @@ class DelugeDBus(dbus.service.Object):
 		dbus.service.Object.__init__(self, bus_name, object_path)
 
 	## external_add_torrent should only be called from outside the class	
-	@dbus.service.method('org.deluge_torrent.DelugeInterface')
+	@dbus.service.method('org.deluge_torrent.Deluge')
 	def external_add_torrent(self, torrent_file):
 		print "Ding!"
 		print "Got torrent externally:", os.path.basename(torrent_file)
@@ -98,7 +98,7 @@ class DelugeGTK:
 		self.window.connect("drag_data_received", self.on_drag_data)
 		self.window.set_title('%s %s'%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION))
 		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
-		
+		self.statusbar = self.wtree.get_widget("statusbar")
 		
 		
 		## Construct the Interface
@@ -510,8 +510,7 @@ class DelugeGTK:
 			gtk.main()
 		except KeyboardInterrupt:
 			self.manager.quit()
-
-
+	
 	## Call via a timer to update the interface
 	def update(self):
 		# Make sure that the interface still exists
@@ -519,8 +518,39 @@ class DelugeGTK:
 			tab = self.wtree.get_widget("torrent_info").get_current_page()
 		except AttributeError:
 			return False
+		
+		# Update Statusbar and Tray Tips
+		print "###CORE STATE INFO###"
+		core_state = self.manager.get_state()
+		for k in core_state.keys():
+			print k, '=', core_state[k]
+		connections = core_state['num_peers']
+		dlrate = dcommon.frate(core_state['download_rate'])
+		ulrate = dcommon.frate(core_state['upload_rate'])
+		
+		self.statusbar_temp_msg = '%s: %s   %s: %s   %s: %s'%(
+			_('Connections'), connections, _('Download'), 
+			dlrate, _('Upload'), ulrate)
+		
+		if 'DHT_nodes' in core_state.keys():
+			dht_peers = core_state['DHT_nodes']
+			if dht_peers == -1:
+				dht_peers = '?'
+			else:
+				dht_peers = str(dht_peers)
+			self.statusbar_temp_msg = self.statusbar_temp_msg + '   [DHT: %s]'%(dht_peers)
+		
 
+		
+
+		#Update any active plugins
 		self.plugins.update_active_plugins()
+		
+		# Put the generated message into the statusbar
+		# This gives plugins a chance to write to the 
+		# statusbar if they want
+		self.statusbar.pop(1)
+		self.statusbar.push(1, self.statusbar_temp_msg)
 
 		# If no torrent is selected, select the first torrent:
 		(temp, selection) = self.torrent_view.get_selection().get_selected()

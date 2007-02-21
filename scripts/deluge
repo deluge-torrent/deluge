@@ -61,7 +61,7 @@ else:
 	print "create proxy object"
 	proxy = bus.get_object('org.deluge_torrent.Deluge', '/org/deluge_torrent/DelugeObject')
 	print "create iface"
-	deluge_iface = dbus.Interface(proxy, 'org.deluge_torrent.DelugeInterface')
+	deluge_iface = dbus.Interface(proxy, 'org.deluge_torrent.Deluge')
 	print "send to iface"
 	for arg in args:
 		apath =  os.path.abspath(arg)
