@@ -471,11 +471,17 @@ class DelugeGTK:
 
 	
 	def apply_prefs(self):
+		ulrate = self.config.get("max_upload_rate", int, default=-1)
+		dlrate = self.config.get("max_download_rate", int, default=-1)
+		if not (ulrate == -1):
+			ulrate *= 1024
+		if not (dlrate == -1):
+			ulrate *= 1024
 		self.tray.set_visible(self.config.get("enable_system_tray", bool))
 		self.manager.set_pref("listen_on", [self.config.get("tcp_port_range_lower", int), self.config.get("tcp_port_range_upper", int)])
+		self.manager.set_pref("max_upload_rate", ulrate)
+		self.manager.set_pref("max_download_rate", dlrate)
 		self.manager.set_pref("max_uploads", self.config.get("max_number_uploads", int))
-		self.manager.set_pref("max_upload_rate", 1024 * self.config.get("max_upload_rate", int))
-		self.manager.set_pref("max_download_rate", 1024 * self.config.get("max_download_rate", int))
 		self.manager.set_pref("max_connections", self.config.get("max_number_downloads", int))
 			
 	
