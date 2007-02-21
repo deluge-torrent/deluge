@@ -417,7 +417,7 @@ class DelugeGTK:
 			self.prf_glade.get_widget("ratio_spinner").set_value(self.config.get("end_seed_ratio", float))
 			self.prf_glade.get_widget("chk_compact").set_active(self.config.get("use_compact_storage", bool))
 			# Page 2
-			self.prf_glade.get_widget("active_port_label").set_text(self.manager.get_state()['port'])
+			self.prf_glade.get_widget("active_port_label").set_text(str(self.manager.get_state()['port']))
 			self.prf_glade.get_widget("spin_port_min").set_value(self.config.get("tcp_port_range_lower", int))
 			self.prf_glade.get_widget("spin_port_max").set_value(self.config.get("tcp_port_range_upper", int))
 			self.prf_glade.get_widget("spin_max_upload").set_value(self.config.get("max_upload_rate", int))
