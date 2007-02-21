@@ -79,14 +79,12 @@ class DelugeGTK:
 			f.close()
 		#Start the Deluge Manager:
 		self.manager = deluge.Manager("DE", "0490", "Deluge 0.4.90.1", dcommon.CONFIG_DIR)
-		
 		self.plugins = delugeplugins.PluginManager(self.manager, self)
 		self.plugins.add_plugin_dir(dcommon.PLUGIN_DIR)
 		if os.path.isdir(dcommon.CONFIG_DIR + '/plugins'):
 			self.plugins.add_plugin_dir(dcommon.CONFIG_DIR + '/plugins')
 		self.plugins.scan_for_plugins()
 		self.config = pref.Preferences()
-		self.load_default_settings()
 		self.config.load_from_file(self.conf_file)
 		#Set up the interface:
 		self.wtree = gtk.glade.XML(dcommon.get_glade_file("delugegtk.glade"))
@@ -119,7 +117,7 @@ class DelugeGTK:
 		except KeyError:
 			pass
 		
-		enable_plugins = self.config.get('enabled_plugins').split(':')
+		enable_plugins = self.config.get('enabled_plugins', str, default="").split(':')
 		print enable_plugins
 		for plugin in enable_plugins:
 			try:
@@ -371,31 +369,6 @@ class DelugeGTK:
 		print file_filter
 		self.manager.set_file_filter(self.get_selected_torrent(), file_filter)
 		
-
-	def load_default_settings(self):
-		self.config.set("enable_system_tray", True)
-		self.config.set("close_to_tray", False)
-		self.config.set("use_default_dir", False)
-		self.config.set("default_download_path", os.path.expandvars('$HOME'))
-		self.config.set("auto_end_seeding", False)
-		self.config.set("end_seed_ratio", 1.0)
-		self.config.set("use_compact_storage", False)
-		
-		self.config.set("tcp_port_range_lower", 6881)
-		self.config.set("tcp_port_range_upper", 6889)
-		self.config.set("max_upload_rate", -1)
-		self.config.set("max_number_uploads", -1)
-		self.config.set("max_download_rate", -1)
-		self.config.set("max_number_downloads", -1)
-		default_plugins = []
-		for name in self.plugins.get_available_plugins():
-			if self.plugins.get_plugin(name)['default']:
-				default_plugins.append(name)
-		self.config.set("enabled_plugins", ';'.join(default_plugins))
-
-
-
-
 	def show_about_dialog(self, arg=None):
 		self.abt.show_all()
 		self.abt.run()
@@ -405,25 +378,25 @@ class DelugeGTK:
 		#Try to get current settings from pref, if an error occurs, the default settings will be used:
 		try:
 			# Page 1
-			self.prf_glade.get_widget("chk_use_tray").set_active(self.config.get("enable_system_tray", bool))
-			self.prf_glade.get_widget("chk_min_on_close").set_active(self.config.get("close_to_tray", bool))
-			if(self.config.get("use_default_dir", bool)):
+			self.prf_glade.get_widget("chk_use_tray").set_active(self.config.get("enable_system_tray", bool, default=True))
+			self.prf_glade.get_widget("chk_min_on_close").set_active(self.config.get("close_to_tray", bool, default=False))
+			if(self.config.get("use_default_dir", bool, False)):
 				self.prf_glade.get_widget("radio_save_all_to").set_active(True)
 			else:
 				self.prf_glade.get_widget("radio_ask_save").set_active(True)
-			
-			self.prf_glade.get_widget("download_path_button").set_filename(self.config.get("default_download_path", str))
-			self.prf_glade.get_widget("chk_autoseed").set_active(self.config.get("auto_end_seeding", bool))
-			self.prf_glade.get_widget("ratio_spinner").set_value(self.config.get("end_seed_ratio", float))
-			self.prf_glade.get_widget("chk_compact").set_active(self.config.get("use_compact_storage", bool))
+			self.prf_glade.get_widget("download_path_button").set_filename(self.config.get("default_download_path", 
+																	str, default=os.path.expandvars('$HOME')))
+			self.prf_glade.get_widget("chk_autoseed").set_active(self.config.get("auto_end_seeding", bool, default=False))
+			self.prf_glade.get_widget("ratio_spinner").set_value(self.config.get("end_seed_ratio", float, default=0.0))
+			self.prf_glade.get_widget("chk_compact").set_active(self.config.get("use_compact_storage", bool, default=False))
 			# Page 2
 			self.prf_glade.get_widget("active_port_label").set_text(str(self.manager.get_state()['port']))
-			self.prf_glade.get_widget("spin_port_min").set_value(self.config.get("tcp_port_range_lower", int))
-			self.prf_glade.get_widget("spin_port_max").set_value(self.config.get("tcp_port_range_upper", int))
-			self.prf_glade.get_widget("spin_max_upload").set_value(self.config.get("max_upload_rate", int))
-			self.prf_glade.get_widget("spin_num_upload").set_value(self.config.get("max_number_uploads", int))
-			self.prf_glade.get_widget("spin_max_download").set_value(self.config.get("max_download_rate", int))
-			self.prf_glade.get_widget("spin_num_download").set_value(self.config.get("max_number_downloads", int))
+			self.prf_glade.get_widget("spin_port_min").set_value(self.config.get("tcp_port_range_lower", int, default=6881))
+			self.prf_glade.get_widget("spin_port_max").set_value(self.config.get("tcp_port_range_upper", int, default=6889))
+			self.prf_glade.get_widget("spin_max_upload").set_value(self.config.get("max_upload_rate", int, default=-1))
+			self.prf_glade.get_widget("spin_num_upload").set_value(self.config.get("max_number_uploads", int, default=-1))
+			self.prf_glade.get_widget("spin_max_download").set_value(self.config.get("max_download_rate", int, default=-1))
+			self.prf_glade.get_widget("spin_num_download").set_value(self.config.get("max_number_downloads", int, default=-1))
 		except KeyError:
 			pass
 		self.prf.show()		
@@ -477,12 +450,14 @@ class DelugeGTK:
 			ulrate *= 1024
 		if not (dlrate == -1):
 			ulrate *= 1024
-		self.tray.set_visible(self.config.get("enable_system_tray", bool))
-		self.manager.set_pref("listen_on", [self.config.get("tcp_port_range_lower", int), self.config.get("tcp_port_range_upper", int)])
+		ports = [self.config.get("tcp_port_range_lower", int, default=6881), 
+					self.config.get("tcp_port_range_upper", int, default=6889)]
+		self.tray.set_visible(self.config.get("enable_system_tray", bool, default=True))
+		self.manager.set_pref("listen_on", ports)
 		self.manager.set_pref("max_upload_rate", ulrate)
 		self.manager.set_pref("max_download_rate", dlrate)
-		self.manager.set_pref("max_uploads", self.config.get("max_number_uploads", int))
-		self.manager.set_pref("max_connections", self.config.get("max_number_downloads", int))
+		self.manager.set_pref("max_uploads", self.config.get("max_number_uploads", int, default=-1))
+		self.manager.set_pref("max_connections", self.config.get("max_number_downloads", int, default=-1))
 			
 	
 	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
@@ -707,13 +682,13 @@ class DelugeGTK:
 
 		
 	def interactive_add_torrent(self, torrent, append=True):
-		if self.config.get('use_default_dir', bool):
-			path = self.config.get('default_download_path')
+		if self.config.get('use_default_dir', bool, default=False):
+			path = self.config.get('default_download_path', default=os.path.expandvars('$HOME'))
 		else:
 			path = dgtk.show_directory_chooser_dialog(self.window)
 			if path is None:
 				return
-		unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage', bool))
+		unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))
 		if append:
 			self.torrent_model.append(self.get_list_from_unique_id(unique_id))
 		
@@ -837,16 +812,16 @@ class DelugeGTK:
 		self.share_column.set_visible(obj.get_active())
 		
 	def load_window_settings(self):
-		self.wtree.get_widget("chk_infopane").set_active(self.config.get("show_infopane", bool))
-		self.wtree.get_widget("chk_toolbar").set_active(self.config.get("show_toolbar", bool))
-		self.wtree.get_widget("chk_size").set_active(self.config.get("show_size", bool))
-		self.wtree.get_widget("chk_status").set_active(self.config.get("show_status", bool))
-		self.wtree.get_widget("chk_seed").set_active(self.config.get("show_seeders", bool))
-		self.wtree.get_widget("chk_peer").set_active(self.config.get("show_peers", bool))
-		self.wtree.get_widget("chk_download").set_active(self.config.get("show_dl", bool))
-		self.wtree.get_widget("chk_upload").set_active(self.config.get("show_ul", bool))
-		self.wtree.get_widget("chk_eta").set_active(self.config.get("show_eta", bool))
-		self.wtree.get_widget("chk_ratio").set_active(self.config.get("show_share", bool))
+		self.wtree.get_widget("chk_infopane").set_active(self.config.get("show_infopane", bool, default=True))
+		self.wtree.get_widget("chk_toolbar").set_active(self.config.get("show_toolbar", bool, default=True))
+		self.wtree.get_widget("chk_size").set_active(self.config.get("show_size", bool, default=True))
+		self.wtree.get_widget("chk_status").set_active(self.config.get("show_status", bool, default=True))
+		self.wtree.get_widget("chk_seed").set_active(self.config.get("show_seeders", bool, default=True))
+		self.wtree.get_widget("chk_peer").set_active(self.config.get("show_peers", bool, default=True))
+		self.wtree.get_widget("chk_download").set_active(self.config.get("show_dl", bool, default=True))
+		self.wtree.get_widget("chk_upload").set_active(self.config.get("show_ul", bool, default=True))
+		self.wtree.get_widget("chk_eta").set_active(self.config.get("show_eta", bool, default=True))
+		self.wtree.get_widget("chk_ratio").set_active(self.config.get("show_share", bool, default=True))
 	
 	def save_window_settings(self):
 		self.config.set("show_infopane", self.wtree.get_widget("chk_infopane").get_active())
@@ -861,7 +836,7 @@ class DelugeGTK:
 		self.config.set("show_share", self.share_column.get_visible())
 
 	def close(self, widget, event):
-		if self.config.get("close_to_tray", bool) and self.config.get("enable_system_tray", bool):
+		if self.config.get("close_to_tray", bool, default=False) and self.config.get("enable_system_tray", bool, default=True):
 			self.window.hide()
 			return True
 		else:
