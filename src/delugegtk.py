@@ -538,8 +538,11 @@ class DelugeGTK:
 				dht_peers = str(dht_peers)
 			self.statusbar_temp_msg = self.statusbar_temp_msg + '   [DHT: %s]'%(dht_peers)
 		
-
+		msg = _("Deluge Bittorrent Client") + "\n" + \
+			_("Connections") + ": " + str(connections) + "\n" + _("Download") + ": " + \
+			dlrate + "\n" + _("Upload") + ": " + ulrate
 		
+		self.tray.set_tooltip(msg)		
 
 		#Update any active plugins
 		self.plugins.update_active_plugins()
