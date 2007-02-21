@@ -643,6 +643,14 @@ class Manager:
 		for unique_ID in self.unique_IDs.keys():
 			if unique_ID not in self.state.queue:
 				self.state.queue.append(unique_ID)
+        # run through queue, remove those that no longer exists
+		to_delete = []
+		for queue_item in self.state.queue:
+			print "queue_item", queue_item
+			if queue_item not in self.unique_IDs.keys():
+				to_delete.append(queue_item)
+		for del_item in to_delete:
+			self.state.queue.remove(del_item)
 
 		assert(len(self.unique_IDs) == len(self.state.torrents))
 
