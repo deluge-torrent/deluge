@@ -2,7 +2,7 @@
 
 class plugin_Search:
 	def __init__(self, path, deluge_core, deluge_interface):
-		import dcommon, gtk, gtk.glade, dgtk
+		import dcommon, gtk, gtk.glade, dgtk, pref
 		self.core = deluge_core
 		self.interface = deluge_interface
 		self.conf_file = dcommon.CONFIG_DIR + "/search.conf"
@@ -32,8 +32,7 @@ class plugin_Search:
 		### when adding items to the toolbar
 		self.se = ''
 		self.toolbar = self.interface.wtree.get_widget("tb_right") 
-		self.engines = dcommon.DelugePreferences()
-		self.engines.load_from_file(self.conf_file)
+		self.engines = pref.Preferences(self.conf_file)
 		self.search_entry = gtk.Entry()
 		self.search_item = gtk.ToolItem()
 		self.search_item.add(self.search_entry)
