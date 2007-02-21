@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# 
 # Copyright (c) 2006 Zach Tibbitts ('zachtib') <zach@collegegeek.org>
 #
 # This program is free software; you can redistribute it and/or modify
