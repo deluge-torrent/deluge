@@ -21,7 +21,8 @@
 # 	Boston, MA  02110-1301, USA.
 
 import sys, os, os.path, gettext, urllib
-import deluge, dcommon, dgtk, delugeplugins
+import deluge, dcommon, dgtk
+import delugeplugins, pref
 import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade, gobject
@@ -67,9 +68,9 @@ class DelugeGTK(dbus.service.Object):
 		if os.path.isdir(dcommon.CONFIG_DIR + '/plugins'):
 			self.plugins.add_plugin_dir(dcommon.CONFIG_DIR + '/plugins')
 		self.plugins.scan_for_plugins()
-		self.pref = dcommon.DelugePreferences()
+		self.config = pref.Preferences()
 		self.load_default_settings()
-		self.pref.load_from_file(self.conf_file)
+		self.config.load_from_file(self.conf_file)
 		#Set up the interface:
 		self.wtree = gtk.glade.XML(dcommon.get_glade_file("delugegtk.glade"))
 		self.window = self.wtree.get_widget("main_window")
@@ -101,7 +102,7 @@ class DelugeGTK(dbus.service.Object):
 		except KeyError:
 			pass
 		
-		enable_plugins = self.pref.get('enabled_plugins').split(':')
+		enable_plugins = self.config.get('enabled_plugins').split(':')
 		print enable_plugins
 		for plugin in enable_plugins:
 			try:
@@ -242,28 +243,28 @@ class DelugeGTK(dbus.service.Object):
 
 	def build_torrent_table(self):
 		## Create the torrent listview
-		self.view = self.wtree.get_widget("torrent_view")
+		self.torrent_view = self.wtree.get_widget("torrent_view")
 		# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
-		self.store = gtk.ListStore(int, int, str, str, float, str, str, str, str, str, str, str)
-		self.view.set_model(self.store)
-		self.view.set_rules_hint(True)
-		self.view.set_reorderable(True)
+		self.torrent_model = gtk.ListStore(int, int, str, str, float, str, str, str, str, str, str, str)
+		self.torrent_view.set_model(self.torrent_model)
+		self.torrent_view.set_rules_hint(True)
+		self.torrent_view.set_reorderable(True)
 		
 		## Initializes the columns for the torrent_view
-		self.queue_column 	= 	dgtk.add_text_column(self.view, "#", 1)
-		self.name_column 	=	dgtk.add_text_column(self.view, _("Name"), 2)
-		self.size_column 	=	dgtk.add_text_column(self.view, _("Size"), 3)
-		self.status_column 	= 	dgtk.add_progress_column(self.view, _("Status"), 4, 5)
-		self.seed_column 	=	dgtk.add_text_column(self.view, _("Seeders"), 6)
-		self.peer_column 	=	dgtk.add_text_column(self.view, _("Peers"), 7)
-		self.dl_column 		=	dgtk.add_text_column(self.view, _("Download"), 8)
-		self.ul_column 		=	dgtk.add_text_column(self.view, _("Upload"), 9)
-		self.eta_column 	=	dgtk.add_text_column(self.view, _("Time Remaining"), 10)
-		self.share_column 	= 	dgtk.add_text_column(self.view, _("Ratio"), 11)
+		self.queue_column 	= 	dgtk.add_text_column(self.torrent_view, "#", 1)
+		self.name_column 	=	dgtk.add_text_column(self.torrent_view, _("Name"), 2)
+		self.size_column 	=	dgtk.add_text_column(self.torrent_view, _("Size"), 3)
+		self.status_column 	= 	dgtk.add_progress_column(self.torrent_view, _("Status"), 4, 5)
+		self.seed_column 	=	dgtk.add_text_column(self.torrent_view, _("Seeders"), 6)
+		self.peer_column 	=	dgtk.add_text_column(self.torrent_view, _("Peers"), 7)
+		self.dl_column 		=	dgtk.add_text_column(self.torrent_view, _("Download"), 8)
+		self.ul_column 		=	dgtk.add_text_column(self.torrent_view, _("Upload"), 9)
+		self.eta_column 	=	dgtk.add_text_column(self.torrent_view, _("Time Remaining"), 10)
+		self.share_column 	= 	dgtk.add_text_column(self.torrent_view, _("Ratio"), 11)
 		
 		self.status_column.set_expand(True)
 		
-		self.view.get_selection().set_select_function(self.torrent_clicked, full=True)
+		self.torrent_view.get_selection().set_select_function(self.torrent_clicked, full=True)
 
 	def torrent_clicked(self, selection, model, path, is_selected):
 		if is_selected:
@@ -347,25 +348,25 @@ class DelugeGTK(dbus.service.Object):
 		
 
 	def load_default_settings(self):
-		self.pref.set("enable_system_tray", True)
-		self.pref.set("close_to_tray", False)
-		self.pref.set("use_default_dir", False)
-		self.pref.set("default_download_path", os.path.expandvars('$HOME'))
-		self.pref.set("auto_end_seeding", False)
-		self.pref.set("end_seed_ratio", 1.0)
-		self.pref.set("use_compact_storage", False)
+		self.config.set("enable_system_tray", True)
+		self.config.set("close_to_tray", False)
+		self.config.set("use_default_dir", False)
+		self.config.set("default_download_path", os.path.expandvars('$HOME'))
+		self.config.set("auto_end_seeding", False)
+		self.config.set("end_seed_ratio", 1.0)
+		self.config.set("use_compact_storage", False)
 		
-		self.pref.set("tcp_port_range_lower", 6881)
-		self.pref.set("tcp_port_range_upper", 6889)
-		self.pref.set("max_upload_rate", -1)
-		self.pref.set("max_number_uploads", -1)
-		self.pref.set("max_download_rate", -1)
-		self.pref.set("max_number_downloads", -1)
+		self.config.set("tcp_port_range_lower", 6881)
+		self.config.set("tcp_port_range_upper", 6889)
+		self.config.set("max_upload_rate", -1)
+		self.config.set("max_number_uploads", -1)
+		self.config.set("max_download_rate", -1)
+		self.config.set("max_number_downloads", -1)
 		default_plugins = []
 		for name in self.plugins.get_available_plugins():
 			if self.plugins.get_plugin(name)['default']:
 				default_plugins.append(name)
-		self.pref.set("enabled_plugins", ';'.join(default_plugins))
+		self.config.set("enabled_plugins", ';'.join(default_plugins))
 
 
 
@@ -379,24 +380,24 @@ class DelugeGTK(dbus.service.Object):
 		#Try to get current settings from pref, if an error occurs, the default settings will be used:
 		try:
 			# Page 1
-			self.prf_glade.get_widget("chk_use_tray").set_active(self.pref.get("enable_system_tray", bool))
-			self.prf_glade.get_widget("chk_min_on_close").set_active(self.pref.get("close_to_tray", bool))
-			if(self.pref.get("use_default_dir", bool)):
+			self.prf_glade.get_widget("chk_use_tray").set_active(self.config.get("enable_system_tray", bool))
+			self.prf_glade.get_widget("chk_min_on_close").set_active(self.config.get("close_to_tray", bool))
+			if(self.config.get("use_default_dir", bool)):
 				self.prf_glade.get_widget("radio_save_all_to").set_active(True)
 			else:
 				self.prf_glade.get_widget("radio_ask_save").set_active(True)
 			
-			self.prf_glade.get_widget("download_path_button").set_filename(self.pref.get("default_download_path", str))
-			self.prf_glade.get_widget("chk_autoseed").set_active(self.pref.get("auto_end_seeding", bool))
-			self.prf_glade.get_widget("ratio_spinner").set_value(self.pref.get("end_seed_ratio", float))
-			self.prf_glade.get_widget("chk_compact").set_active(self.pref.get("use_compact_storage", bool))
+			self.prf_glade.get_widget("download_path_button").set_filename(self.config.get("default_download_path", str))
+			self.prf_glade.get_widget("chk_autoseed").set_active(self.config.get("auto_end_seeding", bool))
+			self.prf_glade.get_widget("ratio_spinner").set_value(self.config.get("end_seed_ratio", float))
+			self.prf_glade.get_widget("chk_compact").set_active(self.config.get("use_compact_storage", bool))
 			# Page 2
-			self.prf_glade.get_widget("spin_port_min").set_value(self.pref.get("tcp_port_range_lower", int))
-			self.prf_glade.get_widget("spin_port_max").set_value(self.pref.get("tcp_port_range_upper", int))
-			self.prf_glade.get_widget("spin_max_upload").set_value(self.pref.get("max_upload_rate", int))
-			self.prf_glade.get_widget("spin_num_upload").set_value(self.pref.get("max_number_uploads", int))
-			self.prf_glade.get_widget("spin_max_download").set_value(self.pref.get("max_download_rate", int))
-			self.prf_glade.get_widget("spin_num_download").set_value(self.pref.get("max_number_downloads", int))
+			self.prf_glade.get_widget("spin_port_min").set_value(self.config.get("tcp_port_range_lower", int))
+			self.prf_glade.get_widget("spin_port_max").set_value(self.config.get("tcp_port_range_upper", int))
+			self.prf_glade.get_widget("spin_max_upload").set_value(self.config.get("max_upload_rate", int))
+			self.prf_glade.get_widget("spin_num_upload").set_value(self.config.get("max_number_uploads", int))
+			self.prf_glade.get_widget("spin_max_download").set_value(self.config.get("max_download_rate", int))
+			self.prf_glade.get_widget("spin_num_download").set_value(self.config.get("max_number_downloads", int))
 		except KeyError:
 			pass
 		self.prf.show()		
@@ -404,22 +405,22 @@ class DelugeGTK(dbus.service.Object):
 		self.prf.hide()
 		print result
 		if result == 1:
-			self.pref.set("enable_system_tray", self.prf_glade.get_widget("chk_use_tray").get_active())
-			self.pref.set("close_to_tray", self.prf_glade.get_widget("chk_min_on_close").get_active())
-			self.pref.set("use_default_dir", self.prf_glade.get_widget("radio_save_all_to").get_active())
-			self.pref.set("default_download_path", self.prf_glade.get_widget("download_path_button").get_filename())
-			self.pref.set("auto_end_seeding", self.prf_glade.get_widget("chk_autoseed").get_active())
-			self.pref.set("end_seed_ratio", self.prf_glade.get_widget("ratio_spinner").get_value())
-			self.pref.set("use_compact_storage", self.prf_glade.get_widget("chk_compact").get_active())
+			self.config.set("enable_system_tray", self.prf_glade.get_widget("chk_use_tray").get_active())
+			self.config.set("close_to_tray", self.prf_glade.get_widget("chk_min_on_close").get_active())
+			self.config.set("use_default_dir", self.prf_glade.get_widget("radio_save_all_to").get_active())
+			self.config.set("default_download_path", self.prf_glade.get_widget("download_path_button").get_filename())
+			self.config.set("auto_end_seeding", self.prf_glade.get_widget("chk_autoseed").get_active())
+			self.config.set("end_seed_ratio", self.prf_glade.get_widget("ratio_spinner").get_value())
+			self.config.set("use_compact_storage", self.prf_glade.get_widget("chk_compact").get_active())
 			
-			self.pref.set("tcp_port_range_lower", self.prf_glade.get_widget("spin_port_min").get_value())
-			self.pref.set("tcp_port_range_upper", self.prf_glade.get_widget("spin_port_max").get_value())
-			self.pref.set("max_upload_rate", self.prf_glade.get_widget("spin_max_upload").get_value())
-			self.pref.set("max_number_uploads", self.prf_glade.get_widget("spin_num_upload").get_value())
-			self.pref.set("max_download_rate", self.prf_glade.get_widget("spin_max_download").get_value())
-			self.pref.set("max_number_downloads", self.prf_glade.get_widget("spin_num_download").get_value())
+			self.config.set("tcp_port_range_lower", self.prf_glade.get_widget("spin_port_min").get_value())
+			self.config.set("tcp_port_range_upper", self.prf_glade.get_widget("spin_port_max").get_value())
+			self.config.set("max_upload_rate", self.prf_glade.get_widget("spin_max_upload").get_value())
+			self.config.set("max_number_uploads", self.prf_glade.get_widget("spin_num_upload").get_value())
+			self.config.set("max_download_rate", self.prf_glade.get_widget("spin_max_download").get_value())
+			self.config.set("max_number_downloads", self.prf_glade.get_widget("spin_num_download").get_value())
 			
-			self.pref.save_to_file(self.conf_file)
+			self.config.save_to_file(self.conf_file)
 		self.apply_prefs()
 	
 	def show_plugin_dialog(self, arg=None):
@@ -444,11 +445,11 @@ class DelugeGTK(dbus.service.Object):
 
 	
 	def apply_prefs(self):
-		self.tray.set_visible(self.pref.get("enable_system_tray", bool))
-		self.manager.set_pref("listen_on", [self.pref.get("tcp_port_range_lower", int), self.pref.get("tcp_port_range_upper", int)])
-		self.manager.set_pref("max_uploads", self.pref.get("max_number_uploads", int))
-		self.manager.set_pref("max_download_rate", self.pref.get("max_download_rate", int))
-		self.manager.set_pref("max_connections", self.pref.get("max_number_downloads", int))
+		self.tray.set_visible(self.config.get("enable_system_tray", bool))
+		self.manager.set_pref("listen_on", [self.config.get("tcp_port_range_lower", int), self.config.get("tcp_port_range_upper", int)])
+		self.manager.set_pref("max_uploads", self.config.get("max_number_uploads", int))
+		self.manager.set_pref("max_download_rate", self.config.get("max_download_rate", int))
+		self.manager.set_pref("max_connections", self.config.get("max_number_downloads", int))
 			
 	
 	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
@@ -485,7 +486,7 @@ class DelugeGTK(dbus.service.Object):
 				print "duplicate torrent found, ignoring", torrent_file
 		## add torrents in manager to interface
 		for uid in self.manager.get_unique_IDs():
-			self.store.append(self.get_list_from_unique_id(uid))
+			self.torrent_model.append(self.get_list_from_unique_id(uid))
 		gobject.timeout_add(1000, self.update)
 		try:
 			self.is_running = True
@@ -505,25 +506,25 @@ class DelugeGTK(dbus.service.Object):
 		self.plugins.update_active_plugins()
 
 		# If no torrent is selected, select the first torrent:
-		(temp, selection) = self.view.get_selection().get_selected()
+		(temp, selection) = self.torrent_view.get_selection().get_selected()
 		if selection is None:
-			self.view.get_selection().select_path("0")
+			self.torrent_view.get_selection().select_path("0")
 		#Torrent List
-		itr = self.store.get_iter_first()
+		itr = self.torrent_model.get_iter_first()
 		if itr is None:
 			return True
 
 		while itr is not None:
-			uid = self.store.get_value(itr, 0)
+			uid = self.torrent_model.get_value(itr, 0)
 			try:
 				state = self.manager.get_torrent_state(uid)
 				tlist = self.get_list_from_unique_id(uid)
 				for i in range(12):
-					self.store.set_value(itr, i, tlist[i])
-				itr = self.store.iter_next(itr)
+					self.torrent_model.set_value(itr, i, tlist[i])
+				itr = self.torrent_model.iter_next(itr)
 			except deluge.InvalidUniqueIDError:
-				self.store.remove(itr)
-				if not self.store.iter_is_valid(itr):
+				self.torrent_model.remove(itr)
+				if not self.torrent_model.iter_is_valid(itr):
 					itr = None
 		
 		self.saved_peer_info = None
@@ -623,7 +624,7 @@ class DelugeGTK(dbus.service.Object):
 	
 	def get_selected_torrent(self):
 		try:
-			return self.store.get_value(self.view.get_selection().get_selected()[1], 0)
+			return self.torrent_model.get_value(self.torrent_view.get_selection().get_selected()[1], 0)
 		except TypeError:
 			return None
 	
@@ -643,15 +644,15 @@ class DelugeGTK(dbus.service.Object):
 
 		
 	def interactive_add_torrent(self, torrent, append=True):
-		if self.pref.get('use_default_dir', bool):
-			path = self.pref.get('default_download_path')
+		if self.config.get('use_default_dir', bool):
+			path = self.config.get('default_download_path')
 		else:
 			path = dgtk.show_directory_chooser_dialog(self.window)
 			if path is None:
 				return
-		unique_id = self.manager.add_torrent(torrent, path, self.pref.get('use_compact_storage', bool))
+		unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage', bool))
 		if append:
-			self.store.append(self.get_list_from_unique_id(unique_id))
+			self.torrent_model.append(self.get_list_from_unique_id(unique_id))
 		
 		
 		
@@ -756,29 +757,29 @@ class DelugeGTK(dbus.service.Object):
 		self.share_column.set_visible(obj.get_active())
 		
 	def load_window_settings(self):
-		self.wtree.get_widget("chk_infopane").set_active(self.pref.get("show_infopane", bool))
-		self.wtree.get_widget("chk_size").set_active(self.pref.get("show_size", bool))
-		self.wtree.get_widget("chk_status").set_active(self.pref.get("show_status", bool))
-		self.wtree.get_widget("chk_seed").set_active(self.pref.get("show_seeders", bool))
-		self.wtree.get_widget("chk_peer").set_active(self.pref.get("show_peers", bool))
-		self.wtree.get_widget("chk_download").set_active(self.pref.get("show_dl", bool))
-		self.wtree.get_widget("chk_upload").set_active(self.pref.get("show_ul", bool))
-		self.wtree.get_widget("chk_eta").set_active(self.pref.get("show_eta", bool))
-		self.wtree.get_widget("chk_ratio").set_active(self.pref.get("show_share", bool))
+		self.wtree.get_widget("chk_infopane").set_active(self.config.get("show_infopane", bool))
+		self.wtree.get_widget("chk_size").set_active(self.config.get("show_size", bool))
+		self.wtree.get_widget("chk_status").set_active(self.config.get("show_status", bool))
+		self.wtree.get_widget("chk_seed").set_active(self.config.get("show_seeders", bool))
+		self.wtree.get_widget("chk_peer").set_active(self.config.get("show_peers", bool))
+		self.wtree.get_widget("chk_download").set_active(self.config.get("show_dl", bool))
+		self.wtree.get_widget("chk_upload").set_active(self.config.get("show_ul", bool))
+		self.wtree.get_widget("chk_eta").set_active(self.config.get("show_eta", bool))
+		self.wtree.get_widget("chk_ratio").set_active(self.config.get("show_share", bool))
 	
 	def save_window_settings(self):
-		self.pref.set("show_infopane", self.wtree.get_widget("chk_infopane").get_active())
-		self.pref.set("show_size", self.size_column.get_visible())
-		self.pref.set("show_status", self.status_column.get_visible())
-		self.pref.set("show_seeders", self.seed_column.get_visible())
-		self.pref.set("show_peers", self.peer_column.get_visible())
-		self.pref.set("show_dl", self.dl_column.get_visible())
-		self.pref.set("show_ul", self.ul_column.get_visible())
-		self.pref.set("show_eta", self.eta_column.get_visible())
-		self.pref.set("show_share", self.share_column.get_visible())
+		self.config.set("show_infopane", self.wtree.get_widget("chk_infopane").get_active())
+		self.config.set("show_size", self.size_column.get_visible())
+		self.config.set("show_status", self.status_column.get_visible())
+		self.config.set("show_seeders", self.seed_column.get_visible())
+		self.config.set("show_peers", self.peer_column.get_visible())
+		self.config.set("show_dl", self.dl_column.get_visible())
+		self.config.set("show_ul", self.ul_column.get_visible())
+		self.config.set("show_eta", self.eta_column.get_visible())
+		self.config.set("show_share", self.share_column.get_visible())
 
 	def close(self, widget, event):
-		if self.pref.get("close_to_tray", bool) and self.pref.get("enable_system_tray", bool):
+		if self.config.get("close_to_tray", bool) and self.config.get("enable_system_tray", bool):
 			self.window.hide()
 			return True
 		else:
@@ -789,9 +790,9 @@ class DelugeGTK(dbus.service.Object):
 	
 	def shutdown(self):
 		enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
-		self.pref.set('enabled_plugins', enabled_plugins)
+		self.config.set('enabled_plugins', enabled_plugins)
 		self.save_window_settings()
-		self.pref.save_to_file(self.conf_file)
+		self.config.save_to_file(self.conf_file)
 		self.plugins.shutdown_all_plugins()
 		self.manager.quit()
 		gtk.main_quit()

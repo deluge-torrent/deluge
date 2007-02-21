@@ -32,69 +32,6 @@ GLADE_DIR  = sys.prefix + '/share/deluge/glade'
 PIXMAP_DIR = sys.prefix + '/share/deluge/pixmaps'
 PLUGIN_DIR = sys.prefix + '/share/deluge/plugins'
 
-
-class DelugePreferences:
-	def __init__(self):
-		self.pref = {}
-	
-	def set(self, key, value):
-		self.pref[key] = value
-	
-	def get(self, key, kind=None):
-		result = self.pref[key]
-		if kind == None:
-			return result
-		elif kind == bool:
-			# Python interprets bool("False") as True, so we must compensate for this
-			if isinstance(result, str):
-				return (result.lower() == "true")
-			elif isinstance(result, int):
-				return not (result == 0)
-			else:
-				return False
-		elif kind == int:
-			try:
-				return int(result)
-			except ValueError:
-				return int(float(result))
-			except:
-				return 0
-		elif kind == float:
-			return float(result)
-		elif kind == str:
-			return str(result)
-		else:
-			return result
-	
-	def keys(self):
-		return self.pref.keys()
-	
-	def clear(self):
-		self.pref.clear()
-	
-	def load_from_file(self, filename):
-		f = open(filename, mode='r')
-		for line in f:
-			try:
-				(key, value) = line.split("=", 1)
-				key = key.strip(" \n")
-				value = value.strip(" \n")
-				self.pref[key] = value
-			except ValueError:
-				pass
-		f.close()
-	
-	def save_to_file(self, filename):
-		f = open(filename, mode='w')
-		f.write('#%s preferences file\n\n'%PROGRAM_NAME)
-		for key in self.pref.keys():
-			f.write(key)
-			f.write(' = ')
-			f.write(str(self.pref[key]))
-			f.write('\n')
-		f.flush()
-		f.close()
-
 def estimate_eta(state):
 	try:
 		return ftime(get_eta(state["total_size"], state["total_download"], state["download_rate"]))
