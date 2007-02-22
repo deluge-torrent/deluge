@@ -35,10 +35,22 @@ parser.add_option("--tray", dest="tray", help="start Deluge hidden in system tra
 (options, args) = parser.parse_args()
 
 import dbus
+dbus_version = getattr(dbus, 'version', (0,0,0))
+if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
+	import dbus.glib
+elif dbus_version >= (0,80,0):
+	from dbus.mainloop.glib import DBusGMainLoop
+	DBusGMainLoop(set_as_default=True)
+else:
+	pass
+
 
 bus = dbus.SessionBus()
 
+
 dbus_objects = dbus.Interface(bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus'), 'org.freedesktop.DBus').ListNames()
+
+print dbus_objects
 
 interface = None
 
