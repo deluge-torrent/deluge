@@ -379,7 +379,9 @@ class DelugeGTK:
 																	str, default=os.path.expandvars('$HOME')))
 			self.prf_glade.get_widget("chk_autoseed").set_active(self.config.get("auto_end_seeding", bool, default=False))
 			self.prf_glade.get_widget("ratio_spinner").set_value(self.config.get("end_seed_ratio", float, default=0.0))
-			self.prf_glade.get_widget("chk_compact").set_active(self.config.get("use_compact_storage", bool, default=False))
+			# self.prf_glade.get_widget("chk_compact").set_active(self.config.get("use_compact_storage", bool, default=False))
+			self.prf_glade.get_widget("chk_compact").set_active(False)
+			self.prf_glade.get_widget("chk_compact").set_sensitive(False)
 			# Page 2
 			self.prf_glade.get_widget("active_port_label").set_text(str(self.manager.get_state()['port']))
 			self.prf_glade.get_widget("spin_port_min").set_value(self.config.get("tcp_port_range_lower", int, default=6881))
