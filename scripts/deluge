@@ -47,19 +47,9 @@ else:
 
 bus = dbus.SessionBus()
 
-existing_session = False
-
 dbus_objects = dbus.Interface(bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus'), 'org.freedesktop.DBus').ListNames()
 
-print dbus_objects
-
 interface = None
-
-if dbus_version < (0,80,0) and "org.deluge_torrent.Deluge" in dbus_objects:
-	existing_session = True
-elif dbus_version >= (0,80,0):
-	for item in dbus_objects:
-		print item
 
 if not "org.deluge_torrent.Deluge" in dbus_objects:
 	print "no existing Deluge session"
