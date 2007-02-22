@@ -165,6 +165,7 @@ class DelugeGTK:
 		self.tray.connect("activate", self.tray_clicked, None)
 		
 	def tray_popup(self, status_icon, button, activate_time, arg0=None):
+		print "Tray Clicked"
 		self.tray_menu.popup(None, None, gtk.status_icon_position_menu,
 			button, activate_time, self.tray)
 	
@@ -289,11 +290,11 @@ class DelugeGTK:
 		all_files = self.manager.get_torrent_file_info(unique_id)
 		file_filter = self.manager.get_file_filter(unique_id)
 		if file_filter is None:
-			file_filter = [True] * len(all_files)
+			file_filter = [False] * len(all_files)
 		assert(len(all_files) == len(file_filter))
 		i=0
 		for f in all_files:
-			self.file_store.append([file_filter[i], f['path'], dcommon.fsize(f['size']), 
+			self.file_store.append([not file_filter[i], f['path'], dcommon.fsize(f['size']), 
 					f['offset'], '%.2f%%'%f['progress']])
 			i=i+1
 		
