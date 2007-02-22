@@ -166,8 +166,7 @@ class DelugeGTK:
 		
 	def tray_popup(self, status_icon, button, activate_time, arg0=None):
 		print "Tray Clicked"
-		self.tray_menu.popup(None, None, gtk.status_icon_position_menu,
-			button, activate_time, self.tray)
+		self.tray_menu.popup(None, None, gtk.status_icon_position_menu, button, activate_time, self.tray)
 	
 	def tray_clicked(self, status_icon=None, arg=None):
 		if self.window.get_property("visible"):
