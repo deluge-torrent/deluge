@@ -641,13 +641,16 @@ class DelugeGTK:
 				if peer['ip'] in curr_ips.keys():
 					self.peer_store.set(self.peer_store.get_iter_from_string(curr_ips[peer['ip']]),
 											1,	unicode(peer['client'], 'Latin-1'),
-											2,	peer['peer_has'],
-											3,	peer['download_speed'],
-											4,	peer['upload_speed'])
+											2,	'%.2f%%'%peer["peer_has"],
+											3,	dcommon.frate(peer["download_speed"]),
+											4,	dcommon.frate(peer["upload_speed"]))
 			for peer in new_peer_info:
 				if peer['ip'] not in curr_ips.keys() and peer['client'] is not "":
-					self.peer_store.append([peer["ip"], unicode(peer["client"], 'Latin-1'), peer["peer_has"], 
-						peer["download_speed"], peer["upload_speed"]])
+					self.peer_store.append([peer["ip"], 
+											unicode(peer["client"], 'Latin-1'), 
+											'%.2f%%'%peer["peer_has"], 
+											dcommon.frate(peer["download_speed"]), 
+											dcommon.frate(peer["upload_speed"])])
 								
 		elif tab == 2: #File List
 			pass
