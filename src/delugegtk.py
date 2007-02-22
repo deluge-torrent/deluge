@@ -21,7 +21,7 @@
 # 	Boston, MA  02110-1301, USA.
 
 import sys, os, os.path, gettext, urllib
-import deluge, dcommon, dgtk
+import deluge, dcommon, dgtk, ipc_manager
 import delugeplugins, pref
 import pygtk
 pygtk.require('2.0')
@@ -39,34 +39,12 @@ elif dbus_version >= (0,80,0):
 else:
 	pass
 
-class DelugeDBus(dbus.service.Object):
-	def __init__(self, interface, object_path='/org/deluge_torrent/DelugeObject'):
-		self.interface = interface
-		self.bus = dbus.SessionBus()
-		bus_name = dbus.service.BusName("org.deluge_torrent.Deluge", bus=self.bus)
-		dbus.service.Object.__init__(self, bus_name, object_path)
-
-	## external_add_torrent should only be called from outside the class	
-	@dbus.service.method('org.deluge_torrent.Deluge')
-	def external_add_torrent(self, torrent_file):
-		print "Ding!"
-		print "Got torrent externally:", os.path.basename(torrent_file)
-		print "Here's the raw data:", torrent_file
-		print "\tNow, what to do with it?"
-		if self.interface.is_running:
-			print "\t\tthe client seems to already be running, i'll try and add the torrent"
-			uid = self.interface.interactive_add_torrent(torrent_file)
-		else:
-			print "\t\tthe client hasn't started yet, I'll queue the torrent"
-			self.interface.torrent_file_queue.append(torrent_file)
-
-	
 
 class DelugeGTK:
 
 	def __init__(self):
 		self.is_running = False
-		self.dbus_object = DelugeDBus(self)
+		self.ipc_manager = ipc_manager.Manager(self)
 		self.torrent_file_queue = []
 		#Load up a config file:
 		self.conf_file = dcommon.CONFIG_DIR + '/deluge.conf'
@@ -125,6 +103,18 @@ class DelugeGTK:
 			except KeyError:
 				pass
 		self.apply_prefs()
+
+	def external_add_torrent(self, torrent_file):
+		print "Ding!"
+		print "Got torrent externally:", os.path.basename(torrent_file)
+		print "Here's the raw data:", torrent_file
+		print "\tNow, what to do with it?"
+		if self.is_running:
+			print "\t\tthe client seems to already be running, i'll try and add the torrent"
+			uid = self.interactive_add_torrent(torrent_file)
+		else:
+			print "\t\tthe client hasn't started yet, I'll queue the torrent"
+			self.torrent_file_queue.append(torrent_file)
 	
 	def connect_signals(self):
 		self.wtree.signal_autoconnect({
