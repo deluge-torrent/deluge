@@ -1,3 +1,0 @@
-#!/bin/sh
-APPDIR=`dirname $0`;
-java  -cp "$APPDIR/src:$APPDIR/bin:/home/alon/Temp/gwt-linux-1.2.22/gwt-user.jar:/home/alon/Temp/gwt-linux-1.2.22/gwt-dev-linux.jar" com.google.gwt.dev.GWTShell -out "$APPDIR/www" "$@" com.WebUI.WebUIApp/WebUIApp.html;
