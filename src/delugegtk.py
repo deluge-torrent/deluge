@@ -315,7 +315,7 @@ class DelugeGTK:
 		self.text_summary_percentage_done         = self.wtree.get_widget("summary_percentage_done")
 		self.text_summary_share_ratio             = self.wtree.get_widget("summary_share_ratio")
 		self.text_summary_downloaded_this_session = self.wtree.get_widget("summary_downloaded_this_session")
-		self.text_summary_uplodaded_this_session  = self.wtree.get_widget("summary_uploaded_this_session")
+		self.text_summary_uploaded_this_session	  = self.wtree.get_widget("summary_uploaded_this_session")
 		self.text_summary_tracker                 = self.wtree.get_widget("summary_tracker")
 		self.text_summary_tracker_response        = self.wtree.get_widget("summary_tracker_response")
 		self.text_summary_tracker_status          = self.wtree.get_widget("summary_tracker_status")
@@ -354,7 +354,7 @@ class DelugeGTK:
 		file_filter = []
 		itr = self.file_store.get_iter_first()
 		while itr is not None:
-			file_filter.append(self.file_store.get_value(itr, 0))
+			file_filter.append(not self.file_store.get_value(itr, 0))
 			itr = self.file_store.iter_next(itr)
 		print file_filter
 		self.manager.set_file_filter(self.get_selected_torrent(), file_filter)
@@ -564,19 +564,22 @@ class DelugeGTK:
 				state = self.manager.get_torrent_state(self.get_selected_torrent())
 			except deluge.InvalidUniqueIDError:
 				return True
+			print "\n\n\n\n"
+			for key in state.keys():
+				print key, state[key]
 			self.wtree.get_widget("progressbar").set_text('%s %s'%(str(state["name"]), dcommon.fpcnt(state["progress"])))
 			self.text_summary_total_size.set_text(dcommon.fsize(state["total_size"]))
 			self.text_summary_pieces.set_text(str(state["pieces"]))
-			self.text_summary_total_downloaded.set_text(dcommon.fsize(state["total_download"]))
-			self.text_summary_total_uploaded.set_text(dcommon.fsize(state["total_upload"]))
+			self.text_summary_total_downloaded.set_text(dcommon.fsize(state["total_done"]))
+			#self.text_summary_total_uploaded.set_text()
 			self.text_summary_download_rate.set_text(dcommon.frate(state["download_rate"]))
 			self.text_summary_upload_rate.set_text(dcommon.frate(state["upload_rate"]))
 			self.text_summary_seeders.set_text(dcommon.fseed(state))
 			self.text_summary_peers.set_text(dcommon.fpeer(state))
 			self.wtree.get_widget("progressbar").set_fraction(float(state['progress']))
 			self.text_summary_share_ratio.set_text(self.calc_share_ratio(self.get_selected_torrent(), state))
-			#self.text_summary_downloaded_this_session.set_text(str(state[""]))
-			#self.text_summary_uplodaded_this_session.set_text(str(state[""]))
+			self.text_summary_downloaded_this_session.set_text(dcommon.fsize(state["total_download"]))
+			self.text_summary_uploaded_this_session.set_text(dcommon.fsize(state["total_upload"]))
 			self.text_summary_tracker.set_text(str(state["tracker"]))
 			#self.text_summary_tracker_response.set_text(str(state[""]))
 			self.text_summary_tracker_status.set_text(str(state["tracker_ok"]))
@@ -836,6 +839,7 @@ class DelugeGTK:
 			self.quit()
 		
 	def quit(self, widget=None):
+		self.window.hide()
 		self.shutdown()
 	
 	def shutdown(self):
