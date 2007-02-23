@@ -188,7 +188,7 @@ class DelugeGTK:
 	
 	def build_about_dialog(self):
 		gtk.about_dialog_set_url_hook(dcommon.open_url_in_browser)
-		self.abt = gtk.glade.XML(dcommon.get_glade_file("dgtkpopups.glade")).get_widget("aboutdialog")
+		self.abt = gtk.glade.XML(dcommon.get_glade_file("aboutdialog.glade")).get_widget("aboutdialog")
 		self.abt.set_name(dcommon.PROGRAM_NAME)
 		self.abt.set_version(dcommon.PROGRAM_VERSION)
 		self.abt.set_authors(["Zach Tibbits", "A. Zakai"])
