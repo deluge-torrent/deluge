@@ -761,7 +761,7 @@ class DelugeGTK:
 	def q_torrent_down(self, obj=None):
 		torrent = self.get_selected_torrent()
 		if torrent is not None:
-			self.manager.queue_up(torrent)
+			self.manager.queue_down(torrent)
 
 	def q_to_bottom(self, widget):
 		torrent = self.get_selected_torrent()
