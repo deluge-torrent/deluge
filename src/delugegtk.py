@@ -736,6 +736,30 @@ class DelugeGTK:
 			asker.destroy()
 			if response == 1:
 				self.manager.remove_torrent(torrent, data_also.get_active())
+				self.clear_details_pane()
+	
+	def clear_details_pane(self):
+		self.wtree.get_widget("progressbar").set_text("")
+		self.text_summary_total_size.set_text("")
+		self.text_summary_pieces.set_text("")
+		self.text_summary_total_downloaded.set_text("")
+		self.text_summary_total_uploaded.set_text("")
+		self.text_summary_download_rate.set_text("")
+		self.text_summary_upload_rate.set_text("")
+		self.text_summary_seeders.set_text("")
+		self.text_summary_peers.set_text("")
+		self.wtree.get_widget("progressbar").set_fraction(0.0)
+		self.text_summary_share_ratio.set_text("")
+		self.text_summary_downloaded_this_session.set_text("")
+		self.text_summary_uploaded_this_session.set_text("")
+		self.text_summary_tracker.set_text("")
+		self.text_summary_tracker_response.set_text("")
+		self.text_summary_tracker_status.set_text("")
+		self.text_summary_next_announce.set_text("")
+		self.text_summary_compact_allocation.set_text("")
+		self.text_summary_eta.set_text("")
+		self.peer_store.clear()
+		self.file_store.clear()
 
 
 	def remove_toggle_warning(self, args, warning):
@@ -757,7 +781,7 @@ class DelugeGTK:
 		torrent = self.get_selected_torrent()
 		if torrent is not None:
 			self.manager.queue_up(torrent)
-	
+				
 	def q_torrent_down(self, obj=None):
 		torrent = self.get_selected_torrent()
 		if torrent is not None:
@@ -767,7 +791,7 @@ class DelugeGTK:
 		torrent = self.get_selected_torrent()
 		if torrent is not None:
 			self.manager.queue_bottom(torrent)
-	
+				
 	def toolbar_toggle(self, widget):
 		if widget.get_active():
 			self.wtree.get_widget("tb_left").show()
