@@ -196,7 +196,7 @@ class DelugeGTK:
 		self.abt.set_website("http://deluge-torrent.org")
 		self.abt.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		self.abt.set_logo(gtk.gdk.pixbuf_new_from_file(
-				dcommon.get_pixmap("deluge32.png")))
+				dcommon.get_pixmap("deluge-about.png")))
 	
 	def build_pref_dialog(self):
 		self.prf_glade = gtk.glade.XML(dcommon.get_glade_file("dgtkpref.glade"))
