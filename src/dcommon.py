@@ -28,9 +28,11 @@ PROGRAM_VERSION = "0.4.90.2"
 
 CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
 
-GLADE_DIR  = sys.prefix + '/share/deluge/glade'
-PIXMAP_DIR = sys.prefix + '/share/deluge/pixmaps'
-PLUGIN_DIR = sys.prefix + '/share/deluge/plugins'
+# the necessary substitutions are made at installation time
+INSTALL_PREFIX = '@datadir@'
+GLADE_DIR  = INSTALL_PREFIX + '/share/deluge/glade'
+PIXMAP_DIR = INSTALL_PREFIX + '/share/deluge/pixmaps'
+PLUGIN_DIR = INSTALL_PREFIX + '/share/deluge/plugins'
 
 def estimate_eta(state):
 	try:
