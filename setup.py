@@ -104,6 +104,6 @@ setup(name="deluge", fullname="Deluge BitTorrent Client", version="0.4.90.2",
 	packages=['deluge'],
 	package_dir = {'deluge': 'src'},
 	data_files=data,
-    ext_package='deluge',
+    	ext_package='deluge',
 	ext_modules=[deluge_core]
 	)
