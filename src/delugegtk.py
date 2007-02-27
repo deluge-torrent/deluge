@@ -165,6 +165,7 @@ class DelugeGTK:
 		self.tray_menu.append(item_clear)
 		self.tray_menu.append(item_pref)
 		self.tray_menu.append(item_plug)
+		self.tray_menu.append(gtk.SeparatorMenuItem())
 		self.tray_menu.append(item_quit)
 		
 		self.tray_menu.show_all()
