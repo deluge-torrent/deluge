@@ -138,27 +138,45 @@ class DelugeGTK:
 					})
 	
 	def build_tray_icon(self):
-		self.tray = gtk.StatusIcon()
-		self.tray.set_from_file(dcommon.get_pixmap("deluge32.png"))
-		self.tray.set_tooltip("Deluge BitTorrent Client")
-		tray_glade = gtk.glade.XML(dcommon.get_glade_file("dgtkpopups.glade"))
-		self.tray_menu = tray_glade.get_widget("tray_menu")
-		dic = {	"show_hide_window": self.force_show_hide,
-				"add_torrent":  self.add_torrent_clicked,
-				"clear_finished": self.clear_finished,
-				"preferences": self.show_pref_dialog,
-				"plugins": self.show_plugin_dialog,
-				"quit": self.quit,
-				}
-		tray_glade.signal_autoconnect(dic)
-		self.tray.connect("popup-menu", self.tray_popup, None)
-		self.tray.connect("activate", self.tray_clicked, None)
+		self.tray_icon = gtk.status_icon_new_from_file(dcommon.get_pixmap("deluge32.png"))
+		self.tray_menu = gtk.Menu()
 		
-	def tray_popup(self, status_icon, button, activate_time, arg0=None):
-		print "Tray Clicked"
-		self.tray_menu.popup(None, None, gtk.status_icon_position_menu, button, activate_time, self.tray)
+		item_show  = gtk.MenuItem(_("Show / Hide Window"))
+		item_add   = gtk.ImageMenuItem(_("Add Torrent"))
+		item_clear = gtk.ImageMenuItem(_("Clear Finished"))
+		item_pref  = gtk.ImageMenuItem(gtk.STOCK_PREFERENCES)
+		item_plug  = gtk.ImageMenuItem(_("Plugins"))
+		item_quit  = gtk.ImageMenuItem(gtk.STOCK_QUIT)
+		
+		item_add.set_image(gtk.image_new_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_MENU))
+		item_clear.set_image(gtk.image_new_from_stock(gtk.STOCK_CLEAR, gtk.ICON_SIZE_MENU))
+		item_plug.set_image(gtk.image_new_from_stock(gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU))
+		
+		
+		item_show.connect("activate", self.force_show_hide)
+		item_add.connect("activate", self.add_torrent_clicked)
+		item_clear.connect("activate", self.clear_finished)
+		item_pref.connect("activate", self.show_pref_dialog)
+		item_plug.connect("activate", self.show_plugin_dialog)
+		item_quit.connect("activate", self.quit)
+		
+		self.tray_menu.append(item_show)
+		self.tray_menu.append(item_add)
+		self.tray_menu.append(item_clear)
+		self.tray_menu.append(item_pref)
+		self.tray_menu.append(item_plug)
+		self.tray_menu.append(item_quit)
+		
+		self.tray_menu.show_all()
+		
+		self.tray_icon.connect("activate", self.tray_clicked)
+		self.tray_icon.connect("popup-menu", self.tray_popup)
+		
+	def tray_popup(self, status_icon, button, activate_time):
+		self.tray_menu.popup(None, None, gtk.status_icon_position_menu, 
+			button, activate_time, status_icon)
 	
-	def tray_clicked(self, status_icon=None, arg=None):
+	def tray_clicked(self, status_icon):
 		if self.window.get_property("visible"):
 			if self.window.is_active():
 				self.window.hide()
@@ -468,7 +486,7 @@ class DelugeGTK:
 			ulrate *= 1024
 		ports = [self.config.get("tcp_port_range_lower", int, default=6881), 
 					self.config.get("tcp_port_range_upper", int, default=6889)]
-		self.tray.set_visible(self.config.get("enable_system_tray", bool, default=True))
+		self.tray_icon.set_visible(self.config.get("enable_system_tray", bool, default=True))
 		self.manager.set_pref("listen_on", ports)
 		self.manager.set_pref("max_upload_rate", ulrate)
 		self.manager.set_pref("max_download_rate", dlrate)
@@ -548,7 +566,7 @@ class DelugeGTK:
 			_("Connections") + ": " + str(connections) + "\n" + _("Download") + ": " + \
 			dlrate + "\n" + _("Upload") + ": " + ulrate
 		
-		self.tray.set_tooltip(msg)		
+		self.tray_icon.set_tooltip(msg)		
 
 		#Update any active plugins
 		self.plugins.update_active_plugins()
@@ -802,6 +820,7 @@ class DelugeGTK:
 			self.manager.update_tracker(torrent)
 	
 	def clear_finished(self, obj=None):
+		print "Clearing Completed Torrents"
 		self.manager.clear_completed()
 	
 	def q_torrent_up(self, obj=None):
