@@ -16,7 +16,6 @@
         <child>
           <widget class="GtkToolbar" id="tb_left">
             <property name="visible">True</property>
-            <property name="toolbar_style">GTK_TOOLBAR_BOTH_HORIZ</property>
             <property name="show_arrow">False</property>
             <child>
               <widget class="GtkToolButton" id="toolbutton_add">
@@ -58,13 +57,22 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkToolButton" id="toolbutton_update">
+              <widget class="GtkSeparatorToolItem" id="separatortoolitem1">
                 <property name="visible">True</property>
-                <property name="tooltip" translatable="yes">Update Tracker</property>
-                <property name="label">Update Tracker</property>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="toolbutton_pause">
+                <property name="visible">True</property>
+                <property name="tooltip" translatable="yes">Start / Pause</property>
+                <property name="label">Start / Pause</property>
                 <property name="use_underline">True</property>
-                <property name="stock_id">gtk-refresh</property>
-                <signal name="clicked" handler="update_tracker"/>
+                <property name="stock_id">gtk-media-play</property>
+                <signal name="clicked" handler="start_pause"/>
               </widget>
               <packing>
                 <property name="expand">False</property>

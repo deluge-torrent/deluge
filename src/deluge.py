@@ -421,25 +421,28 @@ class Manager:
 	# ___ALL queuing code should be in this function, and ONLY here___
 	def apply_queue(self, efficient = True):
 		# Handle autoseeding - downqueue as needed
+		try:
+			if self.auto_seed_ratio != -1:
+				for unique_ID in self.unique_IDs:
+					if self.get_core_torrent_state(unique_ID, efficient)['is_seed']:
+						torrent_state = self.get_core_torrent_state(unique_ID, efficient)
+						ratio = self.calc_ratio(unique_ID, torrent_state)
+						if ratio >= self.auto_seed_ratio:
+							self.queue_bottom(unique_ID)
 
-		if self.auto_seed_ratio != -1:
-			for unique_ID in self.unique_IDs:
-				if self.get_core_torrent_state(unique_ID, efficient)['is_seed']:
-					torrent_state = self.get_core_torrent_state(unique_ID, efficient)
-					ratio = self.calc_ratio(unique_ID, torrent_state)
-					if ratio >= self.auto_seed_ratio:
-						self.queue_bottom(unique_ID)
 
-		# Pause and resume torrents
-		for index in range(len(self.state.queue)):
-			unique_ID = self.state.queue[index]
-			if (index < self.state.max_active_torrents or self.state_max_active_torrents == -1) \
-				and self.get_core_torrent_state(unique_ID, efficient)['is_paused']               \
-				and not self.is_user_paused(unique_ID):
-				deluge_core.resume(unique_ID)
-			elif not self.get_core_torrent_state(unique_ID, efficient)['is_paused'] and \
-					(index >= self.state.max_active_torrents or self.is_user_paused(unique_ID)):
-				deluge_core.pause(unique_ID)
+			# Pause and resume torrents
+			for index in range(len(self.state.queue)):
+				unique_ID = self.state.queue[index]
+				if (index < self.state.max_active_torrents or self.state_max_active_torrents == -1) \
+					and self.get_core_torrent_state(unique_ID, efficient)['is_paused']               \
+					and not self.is_user_paused(unique_ID):
+					deluge_core.resume(unique_ID)
+				elif not self.get_core_torrent_state(unique_ID, efficient)['is_paused'] and \
+						(index >= self.state.max_active_torrents or self.is_user_paused(unique_ID)):
+					deluge_core.pause(unique_ID)
+		except AttributeError:
+			pass
 
 	# Event handling
 

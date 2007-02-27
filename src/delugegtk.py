@@ -140,6 +140,7 @@ class DelugeGTK:
 					## Help Menu
 					"show_about_dialog": self.show_about_dialog,
 					## Toolbar
+					"start_pause": self.start_pause,
 					"update_tracker": self.update_tracker,
 					"clear_finished": self.clear_finished,
 					"queue_up": self.q_torrent_up,
@@ -328,6 +329,11 @@ class DelugeGTK:
 			return True
 		else:
 			return False
+	
+	def start_pause(self, widget):
+		print "Pause btn clicked"
+		unique_id = self.get_selected_torrent()
+		self.manager.set_user_pause(unique_id, not self.manager.is_user_paused(unique_id))
 	
 	def build_summary_tab(self):
 		#Torrent Summary tab
@@ -585,6 +591,11 @@ class DelugeGTK:
 				self.torrent_model.remove(itr)
 				if not self.torrent_model.iter_is_valid(itr):
 					itr = None
+		
+		if self.manager.is_user_paused(self.get_selected_torrent()):
+			self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PLAY)
+		else:
+			self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PAUSE)
 		
 		self.saved_peer_info = None
 		
