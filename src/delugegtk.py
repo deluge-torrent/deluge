@@ -251,11 +251,20 @@ class DelugeGTK:
 	def build_torrent_table(self):
 		## Create the torrent listview
 		self.torrent_view = self.wtree.get_widget("torrent_view")
+		self.torrent_glade = gtk.glade.XML(dcommon.get_glade_file("torrent_menu.glade"))
+		self.torrent_menu = self.torrent_glade.get_widget("torrent_menu")		
+		self.torrent_glade.signal_autoconnect({"update_tracker": self.update_tracker,
+					"clear_finished": self.clear_finished,
+					"queue_up": self.q_torrent_up,
+					"queue_down": self.q_torrent_down,
+					"queue_bottom": self.q_to_bottom,
+					})
 		# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
 		self.torrent_model = gtk.ListStore(int, int, str, str, float, str, str, str, str, str, str, str)
 		self.torrent_view.set_model(self.torrent_model)
 		self.torrent_view.set_rules_hint(True)
 		self.torrent_view.set_reorderable(True)
+
 		
 		## Initializes the columns for the torrent_view
 		self.queue_column 	= 	dgtk.add_text_column(self.torrent_view, "#", 1)
@@ -272,7 +281,8 @@ class DelugeGTK:
 		self.status_column.set_expand(True)
 		
 		self.torrent_view.get_selection().set_select_function(self.torrent_clicked, full=True)
-
+		self.torrent_view.connect("button-press-event", self.torrent_view_clicked)
+		
 	def torrent_clicked(self, selection, model, path, is_selected):
 		if is_selected:
 			# Torrent is already selected, we don't need to do anything
@@ -298,7 +308,26 @@ class DelugeGTK:
 			i=i+1
 		
 		return True
-		
+	
+	def torrent_view_clicked(self, widget, event):
+		print widget
+		print event
+		if event.button == 3:
+			x = int(event.x)
+			y = int(event.y)
+			data = self.torrent_view.get_path_at_pos(x, y)
+			if data is None:
+				return True
+			path, col, cellx, celly = data
+			self.torrent_view.grab_focus()
+			self.torrent_view.set_cursor(path, col, 0)
+			unique_id = self.get_selected_torrent()
+			
+			self.torrent_menu.popup(None, None, None, event.button, event.time)
+			
+			return True
+		else:
+			return False
 	
 	def build_summary_tab(self):
 		#Torrent Summary tab
@@ -566,9 +595,6 @@ class DelugeGTK:
 				state = self.manager.get_torrent_state(self.get_selected_torrent())
 			except deluge.InvalidUniqueIDError:
 				return True
-			print "\n\n\n\n"
-			for key in state.keys():
-				print key, state[key]
 			self.wtree.get_widget("progressbar").set_text('%s %s'%(str(state["name"]), dcommon.fpcnt(state["progress"])))
 			self.text_summary_total_size.set_text(dcommon.fsize(state["total_size"]))
 			self.text_summary_pieces.set_text(str(state["pieces"]))
