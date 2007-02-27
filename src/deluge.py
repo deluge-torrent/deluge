@@ -421,12 +421,12 @@ class Manager:
 	# ___ALL queuing code should be in this function, and ONLY here___
 	def apply_queue(self, efficient = True):
 		# Handle autoseeding - downqueue as needed
-		if self.auto_seed_ratio != -1:
+		if self.get_pref('auto_seed_ratio') != -1:
 			for unique_ID in self.unique_IDs:
 				if self.get_core_torrent_state(unique_ID, efficient)['is_seed']:
 					torrent_state = self.get_core_torrent_state(unique_ID, efficient)
 					ratio = self.calc_ratio(unique_ID, torrent_state)
-					if ratio >= self.auto_seed_ratio:
+					if ratio >= self.get_pref('auto_seed_ratio'):
 						self.queue_bottom(unique_ID)
 
 
