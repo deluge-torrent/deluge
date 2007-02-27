@@ -27,17 +27,6 @@ import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade, gobject
 import xdg, xdg.BaseDirectory
-import dbus, dbus.service
-dbus_version = getattr(dbus, 'version', (0,0,0))
-if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
-	dbus.SessionBus()
-	import dbus.glib
-elif dbus_version >= (0,80,0):
-	from dbus.mainloop.glib import DBusGMainLoop
-	DBusGMainLoop(set_as_default=True)
-	dbus.SessionBus()
-else:
-	pass
 
 
 class DelugeGTK:
@@ -591,12 +580,13 @@ class DelugeGTK:
 				self.torrent_model.remove(itr)
 				if not self.torrent_model.iter_is_valid(itr):
 					itr = None
-		
-		if self.manager.is_user_paused(self.get_selected_torrent()):
-			self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PLAY)
-		else:
-			self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PAUSE)
-		
+		try:
+			if self.manager.is_user_paused(self.get_selected_torrent()):
+				self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PLAY)
+			else:
+				self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PAUSE)
+		except KeyError:
+			pass	
 		self.saved_peer_info = None
 		
 
