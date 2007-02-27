@@ -433,12 +433,12 @@ class Manager:
 		# Pause and resume torrents
 		for index in range(len(self.state.queue)):
 			unique_ID = self.state.queue[index]
-			if (index < self.state.max_active_torrents or self.state_max_active_torrents == -1) \
+			if (index < self.get_pref('max_active_torrents') or self.get_pref('max_active_torrents') == -1) \
 				and self.get_core_torrent_state(unique_ID, efficient)['is_paused']               \
 				and not self.is_user_paused(unique_ID):
 				deluge_core.resume(unique_ID)
 			elif not self.get_core_torrent_state(unique_ID, efficient)['is_paused'] and \
-					(index >= self.state.max_active_torrents or self.is_user_paused(unique_ID)):
+					(index >= self.get_pref('max_active_torrents') or self.is_user_paused(unique_ID)):
 				deluge_core.pause(unique_ID)
 
 	# Event handling
