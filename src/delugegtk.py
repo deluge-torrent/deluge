@@ -92,6 +92,7 @@ class DelugeGTK:
 			except KeyError:
 				pass
 		self.apply_prefs()
+		self.load_window_geometry()
 
 	def external_add_torrent(self, torrent_file):
 		print "Ding!"
@@ -854,7 +855,8 @@ class DelugeGTK:
 		if widget.get_active():
 			self.wtree.get_widget("torrent_info").show()
 		else:
-			self.wtree.get_widget("torrent_info").hide()
+			self.wx = self.config.get('window_x_pos', int, default=0)
+		tree.get_widget("torrent_info").hide()
 		
 	def size_toggle(self, obj):
 		self.size_column.set_visible(obj.get_active())
@@ -904,15 +906,34 @@ class DelugeGTK:
 		self.config.set("show_ul", self.ul_column.get_visible())
 		self.config.set("show_eta", self.eta_column.get_visible())
 		self.config.set("show_share", self.share_column.get_visible())
+	
+	def save_window_geometry(self):
+		x, y = self.window.get_position()
+		w, h = self.window.get_size()
+		self.config.set('window_x_pos', x)
+		self.config.set('window_y_pos', y)
+		self.config.set('window_width', w)
+		self.config.set('window_height',h)
+		
+	def load_window_geometry(self):
+		x = self.config.get('window_x_pos', int, default=0)
+		y = self.config.get('window_y_pos', int, default=0)
+		w = self.config.get('window_width', int, default=640)
+		h = self.config.get('window_height',int, default=480)
+		self.window.move(x, y)
+		self.window.resize(w, h)
+		
 
 	def close(self, widget, event):
 		if self.config.get("close_to_tray", bool, default=False) and self.config.get("enable_system_tray", bool, default=True):
+			self.save_window_geometry()
 			self.window.hide()
 			return True
 		else:
 			self.quit()
 		
 	def quit(self, widget=None):
+		self.save_window_geometry()
 		self.window.hide()
 		self.shutdown()
 	
