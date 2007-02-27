@@ -250,6 +250,7 @@ class DelugeGTK:
 				self.plugins.get_plugin(plugin_name)['config'])
 		else:
 			self.plugins.disable_plugin(plugin_name)
+			self.prf_glade.get_widget("plugin_conf").set_sensitive(False)
 				
 	def plugin_pref(self, widget=None):
 		(model, plugin_iter) = self.plugin_view.get_selection().get_selected()
