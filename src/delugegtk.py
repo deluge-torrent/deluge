@@ -625,7 +625,6 @@ class DelugeGTK:
 				state = self.manager.get_torrent_state(uid)
 				tlist = self.get_list_from_unique_id(uid)
 				for i in range(len(tlist)):
-					print i, type(tlist[i]), tlist[i]
 					try:
 						self.torrent_model.set_value(itr, i, tlist[i])
 					except:
@@ -889,8 +888,7 @@ class DelugeGTK:
 		if widget.get_active():
 			self.wtree.get_widget("torrent_info").show()
 		else:
-			self.wx = self.config.get('window_x_pos', int, default=0)
-		tree.get_widget("torrent_info").hide()
+			self.wtree.get_widget("torrent_info").hide()
 		
 	def size_toggle(self, obj):
 		self.size_column.set_visible(obj.get_active())
