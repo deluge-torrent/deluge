@@ -271,23 +271,44 @@ class DelugeGTK:
 					"queue_bottom": self.q_to_bottom,
 					})
 		# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
-		self.torrent_model = gtk.ListStore(int, int, str, str, float, str, str, str, str, str, str, str)
+		self.torrent_model = gtk.ListStore(int, int, str, str, float, str, int, int, int, int, int, int, int, float)
 		self.torrent_view.set_model(self.torrent_model)
 		self.torrent_view.set_rules_hint(True)
 		self.torrent_view.set_reorderable(True)
-
+		
+		def size(column, cell, model, iter, data):
+			size = long(model.get_value(iter, data))
+			size_str = dcommon.fsize(size)
+			cell.set_property('text', size_str)
+			
+		def rate(column, cell, model, iter, data):
+			rate = int(model.get_value(iter, data))
+			rate_str = dcommon.frate(rate)
+			cell.set_property('text', rate_str)
+		
+		def peer(column, cell, model, iter, data):
+			c1, c2 = data
+			a = int(model.get_value(iter, c1))
+			b = int(model.get_value(iter, c2))
+			cell.set_property('text', '%d (%d)'%(a, b))
+		
+		def time(column, cell, model, iter, data):
+			time = int(model.get_value(iter, data))
+			time_str = dcommon.ftime(time)
+			cell.set_property('text', time_str)
+			
 		
 		## Initializes the columns for the torrent_view
 		self.queue_column 	= 	dgtk.add_text_column(self.torrent_view, "#", 1)
 		self.name_column 	=	dgtk.add_text_column(self.torrent_view, _("Name"), 2)
-		self.size_column 	=	dgtk.add_text_column(self.torrent_view, _("Size"), 3)
+		self.size_column 	=	dgtk.add_func_column(self.torrent_view, _("Size"), size, 3)
 		self.status_column 	= 	dgtk.add_progress_column(self.torrent_view, _("Status"), 4, 5)
-		self.seed_column 	=	dgtk.add_text_column(self.torrent_view, _("Seeders"), 6)
-		self.peer_column 	=	dgtk.add_text_column(self.torrent_view, _("Peers"), 7)
-		self.dl_column 		=	dgtk.add_text_column(self.torrent_view, _("Download"), 8)
-		self.ul_column 		=	dgtk.add_text_column(self.torrent_view, _("Upload"), 9)
-		self.eta_column 	=	dgtk.add_text_column(self.torrent_view, _("Time Remaining"), 10)
-		self.share_column 	= 	dgtk.add_text_column(self.torrent_view, _("Ratio"), 11)
+		self.seed_column 	=	dgtk.add_func_column(self.torrent_view, _("Seeders"), peer, (6, 7))
+		self.peer_column 	=	dgtk.add_func_column(self.torrent_view, _("Peers"), peer, (8, 9))
+		self.dl_column 		=	dgtk.add_func_column(self.torrent_view, _("Download"), rate, 10)
+		self.ul_column 		=	dgtk.add_func_column(self.torrent_view, _("Upload"), rate, 11)
+		self.eta_column 	=	dgtk.add_func_column(self.torrent_view, _("Time Remaining"), time, 12)
+		self.share_column 	= 	dgtk.add_text_column(self.torrent_view, _("Ratio"), 13)
 		
 		self.status_column.set_expand(True)
 		
@@ -500,19 +521,27 @@ class DelugeGTK:
 	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
 	def get_list_from_unique_id(self, unique_id):
 		state = self.manager.get_torrent_state(unique_id)
+		
 		queue = int(state['queue_pos']) + 1 
 		name = state['name']
-		size = dcommon.fsize(state['total_size'])
+		size = long(state['total_size'])
 		progress = float(state['progress'] * 100)
 		message = '%s %d%%'%(deluge.STATE_MESSAGES[state['state']], int(state['progress'] * 100))
-		seeds = dcommon.fseed(state)
-		peers = dcommon.fpeer(state)
-		dlrate = dcommon.frate(state['download_rate'])
-		ulrate = dcommon.frate(state['upload_rate'])
-		eta = dcommon.estimate_eta(state)
-		share = self.calc_share_ratio(unique_id, state)
-		return [unique_id, queue, name, size, progress, message,
-				seeds, peers, dlrate, ulrate, eta, share]	
+		seeds = int(state['num_seeds'])
+		seeds_t = int(state['total_seeds'])
+		peers = int(state['num_peers'])
+		peers_t = int(state['total_peers'])
+		dlrate = int(state['download_rate'])
+		ulrate = int(state['upload_rate'])
+		try:
+			eta = dcommon.get_eta(state["total_size"], state["total_download"], state["download_rate"])
+		except ZeroDivisionError:
+			eta = -1
+		share = float(self.calc_share_ratio(unique_id, state))
+		rlist =  [int(unique_id), int(queue), str(name), long(size), float(progress), str(message),
+				int(seeds), int(seeds_t), int(peers), int(peers_t), int(dlrate), int(ulrate), int(eta), float(share)]	
+
+		return rlist
 	
 
 	## Start the timer that updates the interface
@@ -530,6 +559,7 @@ class DelugeGTK:
 			except deluge.DelugeError:
 				print "duplicate torrent found, ignoring", torrent_file
 		## add torrents in manager to interface
+		# self.torrent_model.append([0, 1, "Hello, World", 2048, 50.0, "Hi", 1, 2, 1, 2, 2048, 2048, 120, 1.0])
 		for uid in self.manager.get_unique_IDs():
 			self.torrent_model.append(self.get_list_from_unique_id(uid))
 		gobject.timeout_add(1000, self.update)
@@ -594,8 +624,12 @@ class DelugeGTK:
 			try:
 				state = self.manager.get_torrent_state(uid)
 				tlist = self.get_list_from_unique_id(uid)
-				for i in range(12):
-					self.torrent_model.set_value(itr, i, tlist[i])
+				for i in range(len(tlist)):
+					print i, type(tlist[i]), tlist[i]
+					try:
+						self.torrent_model.set_value(itr, i, tlist[i])
+					except:
+						print "ERR", i, type(tlist[i])
 				itr = self.torrent_model.iter_next(itr)
 			except deluge.InvalidUniqueIDError:
 				self.torrent_model.remove(itr)
@@ -627,7 +661,7 @@ class DelugeGTK:
 			self.text_summary_seeders.set_text(dcommon.fseed(state))
 			self.text_summary_peers.set_text(dcommon.fpeer(state))
 			self.wtree.get_widget("progressbar").set_fraction(float(state['progress']))
-			self.text_summary_share_ratio.set_text(self.calc_share_ratio(self.get_selected_torrent(), state))
+			self.text_summary_share_ratio.set_text(str(self.calc_share_ratio(self.get_selected_torrent(), state)))
 			self.text_summary_downloaded_this_session.set_text(dcommon.fsize(state["total_download"]))
 			self.text_summary_uploaded_this_session.set_text(dcommon.fsize(state["total_upload"]))
 			self.text_summary_tracker.set_text(str(state["tracker"]))
@@ -703,8 +737,8 @@ class DelugeGTK:
 		return True
 	
 	def calc_share_ratio(self, unique_id, torrent_state):
-		r = self.manager.calc_ratio(unique_id, torrent_state)
-		return '%.2f'%(r)
+		r = float(self.manager.calc_ratio(unique_id, torrent_state))
+		return r
 	
 	def get_selected_torrent(self):
 		try:

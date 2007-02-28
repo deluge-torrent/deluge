@@ -67,6 +67,28 @@ def show_directory_chooser_dialog(parent=None):
 
 ## Functions to create columns
 
+def add_func_column(view, header, func, data, sortid=None):
+	column = gtk.TreeViewColumn(header)
+	render = gtk.CellRendererText()
+	column.pack_start(render, True)
+	column.set_cell_data_func(render, func, data)
+	if sortid is not None:
+		column.set_clickable(True)
+		column.set_sort_column_id(sortid)
+	else:
+		try:
+			if len(data) == 1:
+				column.set_clickable(True)
+				column.set_sort_column_id(data[0])
+		except TypeError:
+			column.set_clickable(True)
+			column.set_sort_column_id(data)
+	column.set_resizable(True)
+	column.set_expand(False)
+	view.append_column(column)
+	return column
+	
+
 def add_text_column(view, header, cid):
 	render = gtk.CellRendererText()
 	column = gtk.TreeViewColumn(header, render, text=cid)
