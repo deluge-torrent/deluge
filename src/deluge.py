@@ -410,7 +410,7 @@ class Manager:
 	def clear_completed(self):
 		for unique_ID in self.unique_IDs:
 			torrent_state = self.get_core_torrent_state(unique_ID)
-			if torrent_state['progress'] == 100.0:
+			if torrent_state['progress'] == 1.0:
 				self.remove_torrent_ns(unique_ID)
 
 		self.sync()
