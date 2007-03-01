@@ -271,7 +271,7 @@ class DelugeGTK:
 					"queue_bottom": self.q_to_bottom,
 					})
 		# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
-		self.torrent_model = gtk.ListStore(int, int, str, str, float, str, int, int, int, int, int, int, int, float)
+		self.torrent_model = gtk.ListStore(int, int, str, str, float, str, int, int, int, int, int, int, str, float)
 		self.torrent_view.set_model(self.torrent_model)
 		self.torrent_view.set_rules_hint(True)
 		self.torrent_view.set_reorderable(True)
@@ -311,6 +311,8 @@ class DelugeGTK:
 		self.share_column 	= 	dgtk.add_text_column(self.torrent_view, _("Ratio"), 13)
 		
 		self.status_column.set_expand(True)
+		self.seed_column.set_sort_column_id(6)
+		self.peer_column.set_sort_column_id(8)
 		
 		self.torrent_view.get_selection().set_select_function(self.torrent_clicked, full=True)
 		self.torrent_view.connect("button-press-event", self.torrent_view_clicked)
@@ -628,7 +630,7 @@ class DelugeGTK:
 					try:
 						self.torrent_model.set_value(itr, i, tlist[i])
 					except:
-						print "ERR", i, type(tlist[i])
+						print "ERR", i, type(tlist[i]), tlist[i]
 				itr = self.torrent_model.iter_next(itr)
 			except deluge.InvalidUniqueIDError:
 				self.torrent_model.remove(itr)
