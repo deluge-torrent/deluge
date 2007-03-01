@@ -392,7 +392,10 @@ class DelugeGTK:
 	def start_pause(self, widget):
 		print "Pause btn clicked"
 		unique_id = self.get_selected_torrent()
-		self.manager.set_user_pause(unique_id, not self.manager.is_user_paused(unique_id))
+		try:
+			self.manager.set_user_pause(unique_id, not self.manager.is_user_paused(unique_id))
+		except KeyError:
+			pass
 	
 	def build_summary_tab(self):
 		#Torrent Summary tab
