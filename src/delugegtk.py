@@ -551,7 +551,7 @@ class DelugeGTK:
 		if not (ulrate == -1):
 			ulrate *= 1024
 		if not (dlrate == -1):
-			ulrate *= 1024
+			dlrate *= 1024
 		ports = [self.config.get("tcp_port_range_lower", int, default=6881), 
 					self.config.get("tcp_port_range_upper", int, default=6889)]
 		self.tray_icon.set_visible(self.config.get("enable_system_tray", bool, default=True))
