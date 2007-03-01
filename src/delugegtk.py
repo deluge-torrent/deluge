@@ -63,6 +63,7 @@ class DelugeGTK:
 		self.window.connect("drag_data_received", self.on_drag_data)
 		self.window.set_title('%s %s'%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION))
 		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		self.notebook = self.wtree.get_widget("torrent_info")
 		self.statusbar = self.wtree.get_widget("statusbar")
 		
 		
