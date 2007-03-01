@@ -554,12 +554,17 @@ class DelugeGTK:
 			dlrate *= 1024
 		ports = [self.config.get("tcp_port_range_lower", int, default=6881), 
 					self.config.get("tcp_port_range_upper", int, default=6889)]
+		if self.config.get("auto_end_seeding", bool, default=False):
+			auto_seed_ratio = self.config.get("end_seed_ratio", float, default=1.0)
+		else:
+			auto_seed_ratio = -1
 		self.tray_icon.set_visible(self.config.get("enable_system_tray", bool, default=True))
 		self.manager.set_pref("listen_on", ports)
 		self.manager.set_pref("max_upload_rate", ulrate)
 		self.manager.set_pref("max_download_rate", dlrate)
 		self.manager.set_pref("max_uploads", self.config.get("max_number_uploads", int, default=-1))
 		self.manager.set_pref("max_connections", self.config.get("max_number_downloads", int, default=-1))
+		self.manager.set_pref("auto_seed_ratio", auto_seed_ratio)
 			
 	
 	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
