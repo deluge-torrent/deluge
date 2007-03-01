@@ -67,7 +67,15 @@ class DelugeGTK:
 		
 		
 		## Construct the Interface
-		self.build_tray_icon()
+		try:
+			self.build_tray_icon()
+		except AttributeError:
+			#python-pygtk is < 2.9
+			self.tray_icon = dgtk.StupidTray()
+			self.has_tray = False
+		else:
+			self.has_tray = True
+		
 		self.build_about_dialog()
 		self.build_pref_dialog()
 		self.build_torrent_table()
@@ -76,8 +84,6 @@ class DelugeGTK:
 		self.build_peer_tab()
 		
 		self.connect_signals()
-		
-
 		
 		try:
 			self.load_window_settings()
@@ -153,7 +159,6 @@ class DelugeGTK:
 		item_clear.set_image(gtk.image_new_from_stock(gtk.STOCK_CLEAR, gtk.ICON_SIZE_MENU))
 		item_plug.set_image(gtk.image_new_from_stock(gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU))
 		
-		
 		item_show.connect("activate", self.force_show_hide)
 		item_add.connect("activate", self.add_torrent_clicked)
 		item_clear.connect("activate", self.clear_finished)
@@ -192,9 +197,6 @@ class DelugeGTK:
 			self.window.hide()
 		else:
 			self.window.show()
-	
-	
-			
 	
 	def build_about_dialog(self):
 		gtk.about_dialog_set_url_hook(dcommon.open_url_in_browser)
@@ -959,7 +961,7 @@ class DelugeGTK:
 		
 
 	def close(self, widget, event):
-		if self.config.get("close_to_tray", bool, default=False) and self.config.get("enable_system_tray", bool, default=True):
+		if self.config.get("close_to_tray", bool, default=False) and self.config.get("enable_system_tray", bool, default=True) and self.has_tray:
 			self.save_window_geometry()
 			self.window.hide()
 			return True

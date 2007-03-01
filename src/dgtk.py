@@ -28,6 +28,16 @@ pygtk.require('2.0')
 import gtk
 import gtk.glade
 
+# This is a dummy tray object to allow Deluge to run on PyGTK < 2.9
+class StupidTray:
+	def __init__(self):
+		pass
+	def set_visible(self, value):
+		pass
+	def set_tooltip(self, value):
+		pass
+
+
 ## Browse for .torrent files
 def show_file_open_dialog(parent=None):
 	chooser = gtk.FileChooserDialog(_("Choose a .torrent file"), parent, gtk.FILE_CHOOSER_ACTION_OPEN,
