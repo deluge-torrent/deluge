@@ -157,7 +157,7 @@ class DelugeGTK:
 		
 		item_add.set_image(gtk.image_new_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_MENU))
 		item_clear.set_image(gtk.image_new_from_stock(gtk.STOCK_CLEAR, gtk.ICON_SIZE_MENU))
-		item_plug.set_image(gtk.image_new_from_stock(gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU))
+		item_plug.set_image(gtk.image_new_from_stock(gtk.STOCK_DISCONNECT, gtk.ICON_SIZE_MENU))
 		
 		item_show.connect("activate", self.force_show_hide)
 		item_add.connect("activate", self.add_torrent_clicked)
@@ -169,6 +169,7 @@ class DelugeGTK:
 		self.tray_menu.append(item_show)
 		self.tray_menu.append(item_add)
 		self.tray_menu.append(item_clear)
+		self.tray_menu.append(gtk.SeparatorMenuItem())
 		self.tray_menu.append(item_pref)
 		self.tray_menu.append(item_plug)
 		self.tray_menu.append(gtk.SeparatorMenuItem())
