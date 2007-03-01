@@ -37,7 +37,16 @@ class StupidTray:
 	def set_tooltip(self, value):
 		pass
 
-
+# Show a popup message dialog
+def show_popup_warning(window, message):
+	warner = gtk.MessageDialog(parent = window,
+					flags  = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+					buttons= gtk.BUTTONS_OK,
+					message_format=message,
+					type   = gtk.MESSAGE_WARNING)
+	warner.run()
+	warner.destroy()
+	
 ## Browse for .torrent files
 def show_file_open_dialog(parent=None):
 	chooser = gtk.FileChooserDialog(_("Choose a .torrent file"), parent, gtk.FILE_CHOOSER_ACTION_OPEN,
