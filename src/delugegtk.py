@@ -327,6 +327,19 @@ class DelugeGTK:
 		self.seed_column.set_sort_column_id(6)
 		self.peer_column.set_sort_column_id(8)
 		
+		def long_sort(model, iter1, iter2, data):
+			value1 = long(model.get_value(iter1, data))
+			value2 = long(model.get_value(iter2, data))
+			if value1 < value2:
+				return -1
+			elif value1 > value2:
+				return 1
+			else:
+				return 0
+		
+		self.torrent_model.set_sort_func(3, long_sort, 3)
+		self.torrent_model.set_sort_func(12, long_sort, 12)
+		
 		self.torrent_view.get_selection().set_select_function(self.torrent_clicked, full=True)
 		self.torrent_view.connect("button-press-event", self.torrent_view_clicked)
 		
