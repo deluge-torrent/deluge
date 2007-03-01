@@ -36,12 +36,12 @@ PLUGIN_DIR = INSTALL_PREFIX + '/share/deluge/plugins'
 
 def estimate_eta(state):
 	try:
-		return ftime(get_eta(state["total_size"], state["total_download"], state["download_rate"]))
+		return ftime(get_eta(state["total_size"], state["total_done"], state["download_rate"]))
 	except ZeroDivisionError:
 		return _("Infinity")
 	
 def get_eta(size, done, rate):
-	return int( (size - done) / rate )
+	return long( (size - done) / rate )
 
 # Returns formatted string describing filesize
 # fsize_b should be in bytes
