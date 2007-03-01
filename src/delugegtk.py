@@ -307,7 +307,7 @@ class DelugeGTK:
 		
 		def time(column, cell, model, iter, data):
 			time = int(model.get_value(iter, data))
-			if time <= 0
+			if time <= 0:
 				cell.set_property('text', '-')
 				return
 			time_str = dcommon.ftime(time)
@@ -444,7 +444,7 @@ class DelugeGTK:
 		dgtk.add_text_column(self.file_view, _("Filename"), 1).set_expand(True)
 		dgtk.add_text_column(self.file_view, _("Size"), 2)
 		dgtk.add_text_column(self.file_view, _("Offset"), 3)
-		dgtk.add_text_column(self.file_view, _("Progress"), 4)
+		# dgtk.add_text_column(self.file_view, _("Progress"), 4)
 		
 	
 	def file_toggled(self, renderer, path):
