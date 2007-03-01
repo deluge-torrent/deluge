@@ -13,10 +13,10 @@ class plugin_Example: # The plugin's class
 		self.interface = deluge_interface
 		# Classes must be imported as they are needed from within
 		# the plugin's functions
-		import dcommon, gtk, gtk.glade, dgtk
+		import dcommon, gtk, gtk.glade, dgtk, pref
 		# Create an options file and try to load existing Values
 		self.config_file = dcommon.CONFIG_DIR + "/example.conf"
-		self.config = dcommon.DelugePreferences()
+		self.config = pref.Preferences()
 		try:
 			self.config.load_from_file(self.config_file)
 		except IOError:
