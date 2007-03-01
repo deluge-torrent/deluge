@@ -307,6 +307,9 @@ class DelugeGTK:
 		
 		def time(column, cell, model, iter, data):
 			time = int(model.get_value(iter, data))
+			if time <= 0
+				cell.set_property('text', '-')
+				return
 			time_str = dcommon.ftime(time)
 			cell.set_property('text', time_str)
 			
