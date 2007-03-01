@@ -221,11 +221,20 @@ class DelugeGTK:
 		self.plugin_view = self.prf_glade.get_widget("plugin_view")
 		self.plugin_store = gtk.ListStore(str, bool)
 		self.plugin_view.set_model(self.plugin_store)
-		self.plugin_view.get_selection().set_select_function(self.plugin_clicked, full=True)
+		try:
+			self.plugin_view.get_selection().set_select_function(self.plugin_clicked, full=True)
+		except TypeError:
+			self.plugin_view.get_selection().set_select_function(self.old_pi_click, data=('foo'))
 		name_col = dgtk.add_text_column(self.plugin_view, _("Plugin"), 0)
 		name_col.set_expand(True)
 		dgtk.add_toggle_column(self.plugin_view, _("Enabled"), 1, toggled_signal=self.plugin_toggled)
 		self.prf_glade.signal_autoconnect({'plugin_pref': self.plugin_pref})
+	
+	def old_pi_click(self, path, data):
+		print path
+		print data
+		return self.plugin_clicked(self.plugin_view.get_selection(), self.plugin_store,
+				path, False)
 	
 	def plugin_clicked(self, selection, model, path, is_selected):
 		if is_selected:
