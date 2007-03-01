@@ -45,7 +45,17 @@ class DelugeGTK:
 			f.flush()
 			f.close()
 		#Start the Deluge Manager:
-		self.manager = deluge.Manager("DE", "0490", "Deluge 0.4.90.1", dcommon.CONFIG_DIR)
+		p = "DE"
+		v = "0490"
+		s = "Deluge 0.4.90.2"
+		try:
+			self.manager = deluge.Manager(p, v, s, dcommon.CONFIG_DIR)
+		except AssertionError:
+			# If something goes wrong while restoring the session, then load
+			# a blank state rather than crash and exit
+			self.manager = deluge.Manager(p, v, s, dcommon.CONFIG_DIR, blank_slate=True)
+			self.something_screwed_up = True
+		else: self.something_screwed_up = False
 		self.plugins = delugeplugins.PluginManager(self.manager, self)
 		self.plugins.add_plugin_dir(dcommon.PLUGIN_DIR)
 		if os.path.isdir(dcommon.CONFIG_DIR + '/plugins'):
@@ -610,6 +620,11 @@ class DelugeGTK:
 			tab = self.wtree.get_widget("torrent_info").get_current_page()
 		except AttributeError:
 			return False
+		
+		if self.something_screwed_up:
+			dgtk.show_popup_warning(self.window, "For some reason, the previous state could not be loaded, " + \
+				"so a blank state has been loaded for you.")
+			self.something_screwed_up = False
 		
 		# Update Statusbar and Tray Tips
 		core_state = self.manager.get_state()
