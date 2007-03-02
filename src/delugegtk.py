@@ -694,8 +694,7 @@ class DelugeGTK:
 			else:
 				self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PAUSE)
 		except KeyError:
-			pass	
-		self.saved_peer_info = None
+			pass
 		
 
 		
@@ -743,10 +742,7 @@ class DelugeGTK:
 
 			unique_id = self.get_selected_torrent()
 			
-			self.saved_peer_info = self.manager.get_torrent_peer_info(unique_id)
-			
-			
-			new_peer_info = self.saved_peer_info
+			new_peer_info = self.manager.get_torrent_peer_info(unique_id)
 			
 			new_ips = {}
 			
@@ -781,6 +777,14 @@ class DelugeGTK:
 											'%.2f%%'%peer["peer_has"], 
 											dcommon.frate(peer["download_speed"]), 
 											dcommon.frate(peer["upload_speed"])])
+			#print new_ips
+			#print curr_ips
+			#print new_peer_info
+			del new_peer_info
+			del new_ips
+			del curr_ips
+			
+			
 								
 		elif tab == 2: #File List
 			pass
