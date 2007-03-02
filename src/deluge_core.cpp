@@ -861,6 +861,9 @@ static PyObject *torrent_get_peer_info(PyObject *self, PyObject *args)
 				"pieces",						py_pieces
 					);
 
+		Py_DECREF(py_pieces); // Assuming the previous line does NOT steal the ref, then this is
+		                      // needed!
+
 		PyTuple_SetItem(ret, i, peer_info);
 	};
 
