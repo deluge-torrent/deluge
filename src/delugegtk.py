@@ -350,9 +350,14 @@ class DelugeGTK:
 		
 		self.torrent_model.set_sort_func(3, long_sort, 3)
 		self.torrent_model.set_sort_func(12, long_sort, 12)
-		
-		self.torrent_view.get_selection().set_select_function(self.torrent_clicked, full=True)
+		try:
+			self.torrent_view.get_selection().set_select_function(self.torrent_clicked, full=True)
+		except TypeError:
+			self.torrent_view.get_selection().set_select_function(self.old_t_click)
 		self.torrent_view.connect("button-press-event", self.torrent_view_clicked)
+
+	def old_t_click(self, path):
+		return self.torrent_clicked(self.torrent_view.get_selection(), self.torrent_model, path, False)
 		
 	def torrent_clicked(self, selection, model, path, is_selected):
 		if is_selected:
