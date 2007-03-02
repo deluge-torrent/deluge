@@ -24,7 +24,7 @@ import xdg, xdg.BaseDirectory
 import gettext
 
 PROGRAM_NAME = "Deluge"
-PROGRAM_VERSION = "0.4.90.2"
+PROGRAM_VERSION = "0.4.90.3"
 
 CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
 

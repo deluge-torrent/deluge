@@ -47,7 +47,7 @@ class DelugeGTK:
 		#Start the Deluge Manager:
 		p = "DE"
 		v = "0490"
-		s = "Deluge 0.4.90.2"
+		s = "%s %s"%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION)
 		try:
 			self.manager = deluge.Manager(p, v, s, dcommon.CONFIG_DIR)
 		except AssertionError:

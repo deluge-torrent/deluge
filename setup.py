@@ -19,10 +19,29 @@
 import platform, os, glob
 from distutils.core import setup, Extension
 
-## Modify the build arguments
+
 from distutils import sysconfig
 
 pythonVersion = platform.python_version()[0:3]
+
+
+
+#
+# NOTE: The following "hack" removes the -g and -Wstrict-prototypes
+# build options from the command that will compile the C++ module,
+# deluge_core.  While we understand that you aren't generally
+# encouraged to do this, we have done so for the following reasons:
+# 1) The -g compiler option produces debugging information about
+#	the compiled module.  However, this option increases the 
+#	size of deluge_core.so from ~1.9MB to 13.6MB and slows down
+#	the program's execution without offering any benefits 
+#	whatsoever.
+# 2) -Wstrict-prototypes is not a valid C++ build option, and the
+#	compiler will throw a number of warnings at compile time.
+#	While this does not really impact anything, it makes it
+#	seem as if something is going wrong with the compile, and
+#	it has been removed to prevent confusion.
+#
 
 removals = ['-g', '-DNDEBUG', '-O2', '-Wstrict-prototypes']
 additions = ['-DNDEBUG', '-O2']
@@ -44,13 +63,26 @@ else:
 
 
 
-
+#
+# NOTE: The Rasterbar Libtorrent source code is in the libtorrent/ directory
+# inside of Deluge's source tarball.  On several occasions, it has been 
+# pointed out to us that we should build against the system's installed 
+# libtorrent rather than our internal copy, and a few people even submitted
+# patches to do just that. However, as of now, this version
+# of libtorrent is not available in Debian, and as a result, Ubuntu. Once
+# libtorrent-rasterbar is available in the repositories of these distributions,
+# we will probably begin to build against a system libtorrent, but at the
+# moment, we are including the source code to make packaging on Debian and
+# Ubuntu possible.
+#
 deluge_core = Extension('deluge_core',
-                    include_dirs = ['./libtorrent', './libtorrent/include', './libtorrent/include/libtorrent',
-												'/usr/include/python' + pythonVersion],
+                    include_dirs = ['./libtorrent', './libtorrent/include', 
+                    			'./libtorrent/include/libtorrent', 
+                    			'/usr/include/python' + pythonVersion],
                     libraries = ['boost_filesystem', 'boost_date_time',
-											'boost_program_options', 'boost_regex',
-											'boost_serialization', 'boost_thread', 'z', 'pthread'],
+					'boost_program_options', 'boost_regex',
+					'boost_serialization', 'boost_thread', 
+					'z', 'pthread'],
                     extra_compile_args = ["-Wno-missing-braces"],
                     sources = ['src/deluge_core.cpp',
 					'libtorrent/src/alert.cpp',
@@ -155,7 +187,7 @@ cmdclass = {
 }
 
 
-setup(name="deluge", fullname="Deluge BitTorrent Client", version="0.4.90.2",
+setup(name="deluge", fullname="Deluge BitTorrent Client", version="0.4.90.3",
 	author="Zach Tibbitts, Alon Zakai",
 	author_email="zach@collegegeek.org, kripkensteiner@gmail.com",
 	description="A bittorrent client written in PyGTK",
