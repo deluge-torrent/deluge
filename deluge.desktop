@@ -9,4 +9,4 @@ Terminal=false
 Type=Application
 Categories=Application;Network
 StartupNotify=true
-GenericName[en_US]=
+MimeType=application/x-bittorrent;
