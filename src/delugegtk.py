@@ -33,7 +33,10 @@ class DelugeGTK:
 	def __init__(self):
 		APP = 'deluge'
 		DIR = os.path.join(dcommon.INSTALL_PREFIX, 'share', 'locale')
-		locale.setlocale(locale.LC_ALL, '')
+		gtk.glade.bindtextdomain(APP, DIR)
+		gtk.glade.textdomain(APP)
+		locale.bindtextdomain(APP, DIR)
+		locale.textdomain(APP)
 		gettext.bindtextdomain(APP, DIR)
 		gettext.textdomain(APP)
 		gettext.install(APP, DIR)
