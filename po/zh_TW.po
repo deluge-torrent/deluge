@@ -1,0 +1,903 @@
+# Chinese (Taiwan) translation for deluge
+# Copyright (c) 2006 Rosetta Contributors and Canonical Ltd 2006
+# This file is distributed under the same license as the deluge package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2006.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Deluge VERSION\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2007-02-27 16:14-0500\n"
+"PO-Revision-Date: 2006-12-28 15:00+0000\n"
+"Last-Translator: cwchien <e.cwchien@gmail.com>\n"
+"Language-Team: Cheng-Wei Chien <e.cwchien@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Rosetta-Export-Date: 2007-03-02 21:38+0000\n"
+"X-Generator: Pootle 0.10.1\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: TAIWAN\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: glade/delugegtk.glade:23 glade/delugegtk.glade:156 src/delugegtk.py:145
+msgid "Add Torrent"
+msgstr "新增種子"
+
+#: glade/delugegtk.glade:36 glade/delugegtk.glade:180
+#: glade/dgtkpopups.glade:81
+msgid "Remove Torrent"
+msgstr "移除種子"
+
+#: glade/delugegtk.glade:49
+msgid "Clear Finished Torrents"
+msgstr "清除已完成的種子"
+
+#: glade/delugegtk.glade:71
+msgid "Start / Pause"
+msgstr ""
+
+#: glade/delugegtk.glade:84
+msgid "Queue Torrent Up"
+msgstr "佇列中種子上移"
+
+#: glade/delugegtk.glade:97
+msgid "Queue Torrent Down"
+msgstr "佇列中種子下移"
+
+#: glade/delugegtk.glade:149
+msgid "_File"
+msgstr "檔案 (_F)"
+
+#: glade/delugegtk.glade:172
+msgid "Add Torrent from URL"
+msgstr ""
+
+#: glade/delugegtk.glade:194
+msgid "Clear Completed"
+msgstr ""
+
+#: glade/delugegtk.glade:228
+msgid "_Edit"
+msgstr "編輯 (_E)"
+
+#: glade/delugegtk.glade:245
+msgid "_Manage Plugins"
+msgstr "管理插件 (_M)"
+
+#: glade/delugegtk.glade:265
+msgid "_View"
+msgstr ""
+
+#: glade/delugegtk.glade:273
+msgid "Toolbar"
+msgstr ""
+
+#: glade/delugegtk.glade:282 glade/delugegtk.glade:919
+msgid "Details"
+msgstr ""
+
+#: glade/delugegtk.glade:291
+msgid "Columns"
+msgstr ""
+
+#: glade/delugegtk.glade:299 glade/dgtkpopups.glade:10 src/delugegtk.py:280
+#: src/delugegtk.py:387
+msgid "Size"
+msgstr "大小"
+
+#: glade/delugegtk.glade:308 glade/dgtkpopups.glade:19 src/delugegtk.py:281
+msgid "Status"
+msgstr ""
+
+#: glade/delugegtk.glade:317 glade/dgtkpopups.glade:28 src/delugegtk.py:282
+msgid "Seeders"
+msgstr "種子數"
+
+#: glade/delugegtk.glade:326 glade/delugegtk.glade:946
+#: glade/dgtkpopups.glade:37 src/delugegtk.py:283
+msgid "Peers"
+msgstr "用戶數"
+
+#: glade/delugegtk.glade:335 src/delugegtk.py:284 src/delugegtk.py:385
+#: src/delugegtk.py:554 src/delugegtk.py:566
+msgid "Download"
+msgstr "下載"
+
+#: glade/delugegtk.glade:344 src/delugegtk.py:285 src/delugegtk.py:555
+#: src/delugegtk.py:567
+msgid "Upload"
+msgstr "上傳"
+
+#: glade/delugegtk.glade:353 glade/dgtkpopups.glade:64 src/delugegtk.py:286
+msgid "Time Remaining"
+msgstr ""
+
+#: glade/delugegtk.glade:362 glade/dgtkpopups.glade:73
+msgid "Share Ratio"
+msgstr "分享比率"
+
+#: glade/delugegtk.glade:379
+msgid "_Help"
+msgstr "說明 (_H)"
+
+#: glade/delugegtk.glade:500
+msgid "<b>Upload Rate:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:526
+msgid "<b>Download Rate:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:550
+msgid "<b>Use compact storage allocation:</b>"
+msgstr "<b>使用壓縮儲存：</b>"
+
+#: glade/delugegtk.glade:610
+msgid "<b>Uploaded This Session:</b>"
+msgstr "<b>這次作業階段共上傳：</b>"
+
+#: glade/delugegtk.glade:624
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>分享率：</b>"
+
+#: glade/delugegtk.glade:662
+msgid "<b>Total Uploaded:</b>"
+msgstr "<b>總共上傳：</b>"
+
+#: glade/delugegtk.glade:676
+msgid "<b>Pieces:</b>"
+msgstr "<b>區塊：</b>"
+
+#: glade/delugegtk.glade:702
+msgid "<b>Next Announce:</b>"
+msgstr "<b>下次發佈：</b>"
+
+#: glade/delugegtk.glade:728
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>伺服器狀態：</b>"
+
+#: glade/delugegtk.glade:740
+msgid "<b>Tracker Response:</b>"
+msgstr "<b>伺服器回應：</b>"
+
+#: glade/delugegtk.glade:752
+msgid "<b>Tracker:</b>"
+msgstr "<b>伺服器：</b>"
+
+#: glade/delugegtk.glade:800
+msgid "<b>Downloaded this session:</b>"
+msgstr "<b>這次作業階段共下載：</b>"
+
+#: glade/delugegtk.glade:812
+msgid "<b>Total Downloaded:</b>"
+msgstr "<b>總共下載：</b>"
+
+#: glade/delugegtk.glade:824
+msgid "<b>Total Size:</b>"
+msgstr "<b>總大小：</b>"
+
+#: glade/delugegtk.glade:836
+msgid "<b>Seeders:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:848
+msgid "<b>Peers:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:886
+msgid "<b>Estimated Time Remaining:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:975
+msgid "Files"
+msgstr ""
+
+#: glade/dgtkpopups.glade:46
+msgid "Download Speed"
+msgstr ""
+
+#: glade/dgtkpopups.glade:55
+msgid "Upload Speed"
+msgstr ""
+
+#: glade/dgtkpopups.glade:97
+msgid ""
+"<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
+msgstr "<b>您確定要從 Deluge 中移除所選的種子(們)？</b>"
+
+#: glade/dgtkpopups.glade:107
+msgid "Delete downloaded files"
+msgstr "刪除已下載的檔案"
+
+#: glade/dgtkpopups.glade:167
+msgid "Show/Hide"
+msgstr ""
+
+#: glade/dgtkpopups.glade:175
+msgid "Add a Torrent..."
+msgstr ""
+
+#: glade/dgtkpopups.glade:191 src/delugegtk.py:146
+msgid "Clear Finished"
+msgstr "清除已完成的"
+
+#: glade/dgtkpopups.glade:212 glade/dgtkpref.glade:675
+msgid "gtk-preferences"
+msgstr "偏好設定"
+
+#: glade/dgtkpopups.glade:221 glade/dgtkpref.glade:700 src/delugegtk.py:148
+msgid "Plugins"
+msgstr ""
+
+#: glade/dgtkpopups.glade:242
+msgid "gtk-quit"
+msgstr ""
+
+#: glade/dgtkpref.glade:8
+msgid "Preferences Dialog"
+msgstr ""
+
+#: glade/dgtkpref.glade:53
+msgid "Enable system tray icon"
+msgstr ""
+
+#: glade/dgtkpref.glade:65
+msgid "Minimize to tray on close"
+msgstr ""
+
+#: glade/dgtkpref.glade:80
+msgid "Options"
+msgstr ""
+
+#: glade/dgtkpref.glade:115
+msgid "Save all downloads to:"
+msgstr "儲存所有下載至："
+
+#: glade/dgtkpref.glade:127
+msgid "Ask me where to save each download"
+msgstr ""
+
+#: glade/dgtkpref.glade:139
+msgid "Save Location"
+msgstr ""
+
+#: glade/dgtkpref.glade:180
+msgid ""
+"Stop seeding torrents when\n"
+"their share ratio reaches:"
+msgstr ""
+
+#: glade/dgtkpref.glade:190
+msgid "Seeding"
+msgstr "正在作種"
+
+#: glade/dgtkpref.glade:209
+msgid "Use compact storage allocation"
+msgstr ""
+
+#: glade/dgtkpref.glade:216
+msgid "Storage"
+msgstr ""
+
+#: glade/dgtkpref.glade:246
+msgid "General"
+msgstr ""
+
+#: glade/dgtkpref.glade:280
+msgid "Try from:"
+msgstr "測試從："
+
+#: glade/dgtkpref.glade:286
+msgid "to:"
+msgstr ""
+
+#: glade/dgtkpref.glade:320
+msgid "Active port:"
+msgstr "啟用的埠："
+
+#: glade/dgtkpref.glade:332
+msgid "0000"
+msgstr ""
+
+#: glade/dgtkpref.glade:344
+msgid "Test Port"
+msgstr "測試連接埠"
+
+#: glade/dgtkpref.glade:358
+msgid "TCP Port"
+msgstr ""
+
+#: glade/dgtkpref.glade:381
+msgid "<i>(-1 is unlimited)</i>"
+msgstr ""
+
+#: glade/dgtkpref.glade:391 glade/dgtkpref.glade:416
+msgid "KB/s"
+msgstr ""
+
+#: glade/dgtkpref.glade:506
+msgid "Maximum number of Downloads:"
+msgstr "最大同時下載數："
+
+#: glade/dgtkpref.glade:517
+msgid "Maximum Download Rate:"
+msgstr "最大下載頻寬："
+
+#: glade/dgtkpref.glade:528
+msgid "Upload Slots"
+msgstr ""
+
+#: glade/dgtkpref.glade:539
+msgid "Maximum Upload Rate:"
+msgstr "最大上傳頻寬："
+
+#: glade/dgtkpref.glade:551
+msgid "Bandwidth "
+msgstr ""
+
+#: glade/dgtkpref.glade:579
+msgid "Network"
+msgstr "網路"
+
+#: glade/dgtkpref.glade:601
+msgid "gtk-cancel"
+msgstr "取消"
+
+#: glade/dgtkpref.glade:608
+msgid "gtk-ok"
+msgstr "確定"
+
+#: glade/dgtkpref.glade:628
+msgid "Plugin Manager"
+msgstr "插件管理員"
+
+#: glade/dgtkpref.glade:721
+msgid "gtk-close"
+msgstr ""
+
+#: src/dcommon.py:41
+msgid "Infinity"
+msgstr ""
+
+#: src/dcommon.py:105
+msgid "Error: no webbrowser found"
+msgstr ""
+
+#: src/delugegtk.py:144
+msgid "Show / Hide Window"
+msgstr ""
+
+#: src/delugegtk.py:220
+msgid "Plugin"
+msgstr ""
+
+#: src/delugegtk.py:222
+msgid "Enabled"
+msgstr ""
+
+#: src/delugegtk.py:279
+msgid "Name"
+msgstr "名稱"
+
+#: src/delugegtk.py:287
+msgid "Ratio"
+msgstr ""
+
+#: src/delugegtk.py:373
+msgid "IP Address"
+msgstr ""
+
+#: src/delugegtk.py:374
+msgid "Client"
+msgstr "用戶端"
+
+#: src/delugegtk.py:375
+msgid "Percent Complete"
+msgstr ""
+
+#: src/delugegtk.py:376
+msgid "Download Rate"
+msgstr ""
+
+#: src/delugegtk.py:377
+msgid "Upload Rate"
+msgstr ""
+
+#: src/delugegtk.py:386
+msgid "Filename"
+msgstr ""
+
+#: src/delugegtk.py:388
+msgid "Offset"
+msgstr ""
+
+#: src/delugegtk.py:389
+msgid "Progress"
+msgstr ""
+
+#: src/delugegtk.py:554 src/delugegtk.py:566
+msgid "Connections"
+msgstr "連接數"
+
+#: src/delugegtk.py:565
+msgid "Deluge Bittorrent Client"
+msgstr "Deluge BT 用戶端"
+
+#: src/delugegtk.py:746
+msgid "Add torrent from URL"
+msgstr ""
+
+#: src/delugegtk.py:750
+msgid "Enter the URL of the .torrent to download"
+msgstr ""
+
+#: src/delugegtk.py:814
+msgid "Warning - all downloaded files for this torrent will be deleted!"
+msgstr "警告 - 此種子下載的所有檔案將被刪除！"
+
+#: src/dgtk.py:33
+msgid "Choose a .torrent file"
+msgstr ""
+
+#: src/dgtk.py:37
+msgid "Torrent files"
+msgstr ""
+
+#: src/dgtk.py:41
+msgid "All files"
+msgstr "所有檔案"
+
+#: src/dgtk.py:57
+msgid "Choose a download directory"
+msgstr ""
+
+#~ msgid "D/L"
+#~ msgstr "下載"
+
+#~ msgid "U/L"
+#~ msgstr "上傳"
+
+#~ msgid "ETA"
+#~ msgstr "預計完成時間"
+
+#~ msgid "Share %"
+#~ msgstr "分享率"
+
+#~ msgid "path"
+#~ msgstr "路徑"
+
+#~ msgid "size"
+#~ msgstr "大小"
+
+#~ msgid "offset"
+#~ msgstr "前置量"
+
+#~ msgid "download?"
+#~ msgstr "確定要下載？"
+
+#~ msgid "IP"
+#~ msgstr "IP 位址"
+
+#~ msgid "Are you sure you want to quit Deluge?"
+#~ msgstr "您確定要結束 Deluge？"
+
+#~ msgid "You have "
+#~ msgstr "您有 "
+
+#~ msgid " active torrent"
+#~ msgstr " 下載中的種子"
+
+#~ msgid "s"
+#~ msgstr "們"
+
+#~ msgid ". Pressing 'Yes' will close Deluge and stop all torrent activity."
+#~ msgstr "。點選 '確定' 將結束 Deluge 並停止所有下載。"
+
+#~ msgid "Loaded torrents from previous session"
+#~ msgstr "已從上個作業階段載入種子"
+
+#~ msgid "No torrent is selected"
+#~ msgstr "尚未選擇種子"
+
+#~ msgid "Connections:"
+#~ msgstr "連接數："
+
+#~ msgid "Download:"
+#~ msgstr "下載："
+
+#~ msgid "Upload:"
+#~ msgstr "上傳："
+
+#~ msgid "Enter the URL of the .torrent file to open:"
+#~ msgstr "請輸入要開啟的種子檔網址："
+
+#~ msgid "Select Torrent"
+#~ msgstr "請選擇種子"
+
+#~ msgid "Unknown"
+#~ msgstr "未知"
+
+#~ msgid "infinity"
+#~ msgstr "無限"
+
+#~ msgid "1 second"
+#~ msgstr "1 秒鐘"
+
+#~ msgid "seconds"
+#~ msgstr "秒"
+
+#~ msgid "1 minute"
+#~ msgstr "1 分鐘"
+
+#~ msgid "minutes"
+#~ msgstr "分"
+
+#~ msgid "1 hour"
+#~ msgstr "1 小時"
+
+#~ msgid "hours"
+#~ msgstr "時"
+
+#~ msgid "1 day"
+#~ msgstr "1 日"
+
+#~ msgid "days"
+#~ msgstr "日"
+
+#~ msgid "1 week"
+#~ msgstr "1 週"
+
+#~ msgid "weeks"
+#~ msgstr "週"
+
+#~ msgid "No plugin is selected"
+#~ msgstr "尚未選擇插件"
+
+#~ msgid "You must activate a plugin before configuring it"
+#~ msgstr "您必須先啟用該插件才能設定它"
+
+#~ msgid "no information is listed for this plugin"
+#~ msgstr "沒有此插件的資訊"
+
+#~ msgid "The torrent file does not contain valid information."
+#~ msgstr "種子檔資訊是無效的。"
+
+#~ msgid "The torrent file does not contain all necessary valid information."
+#~ msgstr "種子檔資訊部份是無效的。"
+
+#~ msgid "A filesystem error occurred when trying to open the torrent file."
+#~ msgstr "試著開啟此種子檔時發生檔案系統錯誤。"
+
+#~ msgid "The selected torrent is already present in the system."
+#~ msgstr "所選的種子已在系統中。"
+
+#~ msgid "N-A"
+#~ msgstr "N-A"
+
+#~ msgid "Yes"
+#~ msgstr "確定"
+
+#~ msgid "No"
+#~ msgstr "取消"
+
+#~ msgid " is updating its tracker"
+#~ msgstr " 正在更新它的伺服器"
+
+#~ msgid "Paused"
+#~ msgstr "已暫停"
+
+#~ msgid "Queued"
+#~ msgstr "已排入佇列"
+
+#~ msgid "Waiting to check"
+#~ msgstr "等待測試"
+
+#~ msgid "Checking"
+#~ msgstr "正在測試"
+
+#~ msgid "Downloading (T?)"
+#~ msgstr "正在連線 (T？)"
+
+#~ msgid "Downloading Meta"
+#~ msgstr "下載資訊"
+
+#~ msgid "Downloading"
+#~ msgstr "正在下載"
+
+#~ msgid "Finished"
+#~ msgstr "已完成"
+
+#~ msgid "Allocating"
+#~ msgstr "正在分配空間"
+
+#~ msgid "N/A"
+#~ msgstr "N/A"
+
+#~ msgid "INF"
+#~ msgstr "INF"
+
+#~ msgid "Invalid request"
+#~ msgstr "無效的要求"
+
+#~ msgid "File error"
+#~ msgstr "檔案錯誤"
+
+#~ msgid "Hash failed"
+#~ msgstr "雜湊失敗"
+
+#~ msgid "Peer banned"
+#~ msgstr "已列入黑名單的端點"
+
+#~ msgid "Fastresume rejected"
+#~ msgstr "快速恢復遭駁回"
+
+#~ msgid "Event"
+#~ msgstr "事件"
+
+#~ msgid "translator-credits"
+#~ msgstr "如對翻譯有任何意見，請送一封電子郵件給以下地址，會盡快回覆您：Cheng-Wei Chien <e.cwchien@gmail.com>"
+
+#~ msgid "Mark 'Do Not Download'"
+#~ msgstr "標記為 '不下載'"
+
+#~ msgid "Mark 'Download'"
+#~ msgstr "標記為 '下載'"
+
+#~ msgid "<b>Name:</b>"
+#~ msgstr "<b>名稱：</b>"
+
+#~ msgid "<b>Percentage Done:</b>"
+#~ msgstr "<b>完成率：</b>"
+
+#~ msgid "Add a Torrent from File..."
+#~ msgstr "從檔案新增種子 ..."
+
+#~ msgid "Add a Torrent from URL..."
+#~ msgstr "從網址新增種子 ..."
+
+#~ msgid "Deluge Support _Forums"
+#~ msgstr "Deluge 支援論壇 (_F)"
+
+#~ msgid "Force Pause/Resume Torrent"
+#~ msgstr "強制 暫停/恢復 下載"
+
+#~ msgid "New Torrent..."
+#~ msgstr "新增種子 ..."
+
+#~ msgid "Open the online support forums in your web browser"
+#~ msgstr "在瀏覽器內開啟線上支援論壇"
+
+#~ msgid "Queue Torrent to Bottom"
+#~ msgstr "將種子排入佇列末端"
+
+#~ msgid "Remove selected Torrent"
+#~ msgstr "移除所選的種子"
+
+#~ msgid "Show/Hide the Details Pane"
+#~ msgstr "顯示/隱藏詳細訊息面板"
+
+#~ msgid "Translate This Application..."
+#~ msgstr "翻譯這個應用程式..."
+
+#~ msgid "Update Tracker"
+#~ msgstr "更新伺服器"
+
+#~ msgid "_Update Tracker"
+#~ msgstr "更新伺服器 (_U)"
+
+#~ msgid "gtk-about"
+#~ msgstr "關於"
+
+#~ msgid "<b>Advanced Network Options:</b>"
+#~ msgstr "<b>進階網路選項：</b>"
+
+#~ msgid "<b>Bandwidth (KB/s):</b>"
+#~ msgstr "<b>頻寬 (KB/s)：</b>"
+
+#~ msgid "<b>Save Location:</b>"
+#~ msgstr "<b>儲存位置：</b>"
+
+#~ msgid "<b>Sharing:</b>"
+#~ msgstr "<b>分享：</b>"
+
+#~ msgid "<b>Storage:</b>"
+#~ msgstr "<b>大小：</b>"
+
+#~ msgid "<b>TCP Port:</b>"
+#~ msgstr "<b>TCP 埠：</b>"
+
+#~ msgid "Automatically stop seeding torrents when their share ratio reaches:"
+#~ msgstr "當分享率達到這數值時自動停止作種："
+
+#~ msgid "Bandwidth"
+#~ msgstr "頻寬"
+
+#~ msgid "Deluge Preferences"
+#~ msgstr "Deluge 偏好設定"
+
+#~ msgid "Downloads"
+#~ msgstr "下載"
+
+#~ msgid "Mainline DHT"
+#~ msgstr "連接 DHT (分散式雜湊表) 網絡"
+
+#~ msgid "Maximum number of Uploads:"
+#~ msgstr "最大同時上傳數："
+
+#~ msgid "Maximum number of connections:"
+#~ msgstr "最大容許連接數："
+
+#~ msgid "Other"
+#~ msgstr "其他"
+
+#~ msgid "Select a save location for each download"
+#~ msgstr "為每個下載選擇儲存位置"
+
+#~ msgid "To:"
+#~ msgstr "到："
+
+#~ msgid "Use compact storage allocation (save space)"
+#~ msgstr "使用壓縮儲存 (節省空間)"
+
+#~ msgid ""
+#~ "Warning - any change to these settings will only come into effect after a "
+#~ "restart!"
+#~ msgstr "警告 - 對這些設定做的任何改變將在重新啟動後生效！"
+
+#~ msgid "Force Pause"
+#~ msgstr "強制暫停"
+
+#~ msgid "Remove"
+#~ msgstr "移除"
+
+#~ msgid "Resume"
+#~ msgstr "恢復"
+
+#~ msgid "Add a Torrent"
+#~ msgstr "新增種子"
+
+#~ msgid "Update Trackers"
+#~ msgstr "更新伺服器"
+
+#~ msgid "There is suspicious activity in"
+#~ msgstr "發現可疑的活動於"
+
+#~ msgid "The torrent may be poisoned by the RIAA/MPAA. Found"
+#~ msgstr "此種子檔可能被植入 RIAA/MPAA。發現"
+
+#~ msgid "at prevalence"
+#~ msgstr "於向外連線時"
+
+#~ msgid "Shutting down Deluge immediately."
+#~ msgstr "正在緊急關閉 Deluge。"
+
+#~ msgid "Shutting down Deluge immediately (CPU overload)."
+#~ msgstr "正在緊急關閉 Deluge (CPU 負載過高)。"
+
+#~ msgid "CPU usage warning: more than"
+#~ msgstr "CPU 使用率警告：超過"
+
+#~ msgid "CPU usage for"
+#~ msgstr "CPU 使用率於"
+
+#, no-c-format
+#~ msgid ""
+#~ "CPU % must persist for following time (seconds) before either of the above:"
+#~ msgstr "上述事件啟動前，CPU 使用率必須持續顯示多少時間 (秒) ："
+
+#~ msgid "CPU Monitor Configuration"
+#~ msgstr "CPU 監控設定"
+
+#, no-c-format
+#~ msgid "Fatal CPU % (Deluge will be shut down):"
+#~ msgstr "危險的 CPU 使用率 (Deluge 即將關閉)："
+
+#, no-c-format
+#~ msgid "Warning CPU % (notification only):"
+#~ msgstr "警告的 CPU 使用率 (僅顯示通知)："
+
+#~ msgid "No incoming connections"
+#~ msgstr "沒有可下載的連線"
+
+#~ msgid ""
+#~ "No incoming connections: you may be behind a firewall or router. Perhaps you "
+#~ "need to forward the relevant ports."
+#~ msgstr "沒有可下載的連線：您的主機可能在防火牆或路由器後面。或許您必須延伸相關連接埠。"
+
+#~ msgid "Health: OK"
+#~ msgstr "健康度：良好"
+
+#~ msgid ""
+#~ "PopupNotifier: not all necessary dependencies are installed. To install "
+#~ "them, on Ubuntu run: apt-get python-notify notification-daemon"
+#~ msgstr ""
+#~ "彈出式通知：必須的相依套件未全部安裝。若要安裝，於 Ubuntu 上執行：sudo apt-get install python-notify "
+#~ "notification-daemon"
+
+#~ msgid ""
+#~ "PopupNotifier: Cannot initialize pynotify, no notifications will be shown."
+#~ msgstr "彈出式通知：無法初始化 pynotify，將不會顯示任何通知。"
+
+#~ msgid "Informative - can be easily ignored"
+#~ msgstr "通知訊息 - 忽略無妨"
+
+#~ msgid "Warning - may be of interest"
+#~ msgstr "警告訊息 - 需要注意"
+
+#~ msgid "Critical - should never be ignored"
+#~ msgstr "緊急訊息 - 不可忽略"
+
+#~ msgid "Fatal - normal operation will probably not continue"
+#~ msgstr "危險訊息 - 可能無法繼續正常運作"
+
+#~ msgid ""
+#~ "Notifications of the following Severity Level and above will be displayed:"
+#~ msgstr "危急程度高於此級的通知將會顯示："
+
+#~ msgid "Popup Notifier Configuration"
+#~ msgstr "彈出式通知設定"
+
+#~ msgid "Popup Notification"
+#~ msgstr "彈出式通知"
+
+#~ msgid "Retrieving blocklist from server"
+#~ msgstr "從伺服器取得黑名單"
+
+#~ msgid "Applying SafeDeluge blocklist"
+#~ msgstr "套用安全模式 Deluge 的黑名單"
+
+#~ msgid "SafeDeluge Configuration"
+#~ msgstr "安全模式 Deluge 設定"
+
+#~ msgid "Use custom blocklist URL:"
+#~ msgstr "使用自訂的黑名單網址："
+
+#~ msgid "Use default blocklist URL"
+#~ msgstr "使用預設的黑名單網址"
+
+#~ msgid "Search string"
+#~ msgstr "搜尋字串"
+
+#, no-c-format
+#~ msgid ""
+#~ "Add a new search engine by entering a Name and a URL.  For Name, enter the "
+#~ "name of the search engine to be used.  For URL, enter the url of the seach "
+#~ "page.  The user's search query will be added to the end of the url, or "
+#~ "replace any instances of %%query%% in the URL.\n"
+#~ "For example, a Google search would be:\n"
+#~ "Name: Google\n"
+#~ "URL: http://www.google.com/search?hl=en"
+#~ msgstr ""
+#~ "輸入一組名稱和網址即可新增搜尋引擎。前者為搜尋引擎的名稱。後者則是搜尋頁面的網址。使用者的搜尋字串會被加到網址的末端，或是取代其中的 %%query%% "
+#~ "字樣。\n"
+#~ "例如：新增 Google 搜尋將會是：\n"
+#~ "名稱：Google\n"
+#~ "網址：http://www.google.com/search?hl=en"
+
+#~ msgid "Help"
+#~ msgstr "說明"
+
+#~ msgid "Manage Search Plugins"
+#~ msgstr "管理搜尋插件"
+
+#~ msgid "Name:"
+#~ msgstr "名稱："
+
+#~ msgid "URL:"
+#~ msgstr "網址："
+
+#~ msgid "gtk-add"
+#~ msgstr "新增"
+
+#~ msgid "gtk-remove"
+#~ msgstr "移除"
+
+#~ msgid "Connections: "
+#~ msgstr "連接數： "
+
+#~ msgid "Download Speed:"
+#~ msgstr "下載速度："
+
+#~ msgid "Upload Speed:"
+#~ msgstr "上傳速度："

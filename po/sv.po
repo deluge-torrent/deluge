@@ -1,0 +1,736 @@
+# translation of PACKAGE.
+# Copyright (C) 2006 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# <>, 2006.
+# , fuzzy
+# <>, 2006.
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: deluge\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-02-27 16:14-0500\n"
+"PO-Revision-Date: 2007-02-25 16:40+0000\n"
+"Last-Translator: freddeg <freddeg@gmail.com>\n"
+"Language-Team: Swedish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Rosetta-Export-Date: 2007-03-02 21:38+0000\n"
+
+#: glade/delugegtk.glade:23 glade/delugegtk.glade:156 src/delugegtk.py:145
+msgid "Add Torrent"
+msgstr "Lägg till Torrent"
+
+#: glade/delugegtk.glade:36 glade/delugegtk.glade:180
+#: glade/dgtkpopups.glade:81
+msgid "Remove Torrent"
+msgstr "Ta bort Torrent"
+
+#: glade/delugegtk.glade:49
+msgid "Clear Finished Torrents"
+msgstr "Ta bort färdiga Torrent-filer"
+
+#: glade/delugegtk.glade:71
+msgid "Start / Pause"
+msgstr ""
+
+#: glade/delugegtk.glade:84
+msgid "Queue Torrent Up"
+msgstr "Flytta Torrent uppåt i kön"
+
+#: glade/delugegtk.glade:97
+msgid "Queue Torrent Down"
+msgstr "Flytta Torrent nedåt i kön"
+
+#: glade/delugegtk.glade:149
+msgid "_File"
+msgstr "_Arkiv"
+
+#: glade/delugegtk.glade:172
+#, fuzzy
+msgid "Add Torrent from URL"
+msgstr "Lägg till Torrent från URL"
+
+#: glade/delugegtk.glade:194
+msgid "Clear Completed"
+msgstr "Rensa Färdiga"
+
+#: glade/delugegtk.glade:228
+msgid "_Edit"
+msgstr "_Redigera"
+
+#: glade/delugegtk.glade:245
+msgid "_Manage Plugins"
+msgstr "_Hantera plugins"
+
+#: glade/delugegtk.glade:265
+msgid "_View"
+msgstr ""
+
+#: glade/delugegtk.glade:273
+msgid "Toolbar"
+msgstr "Verktygsfält"
+
+#: glade/delugegtk.glade:282 glade/delugegtk.glade:919
+msgid "Details"
+msgstr "Detaljer"
+
+#: glade/delugegtk.glade:291
+msgid "Columns"
+msgstr "Kolumner"
+
+#: glade/delugegtk.glade:299 glade/dgtkpopups.glade:10 src/delugegtk.py:280
+#: src/delugegtk.py:387
+msgid "Size"
+msgstr "Storlek"
+
+#: glade/delugegtk.glade:308 glade/dgtkpopups.glade:19 src/delugegtk.py:281
+msgid "Status"
+msgstr "Status"
+
+#: glade/delugegtk.glade:317 glade/dgtkpopups.glade:28 src/delugegtk.py:282
+msgid "Seeders"
+msgstr "Seedare"
+
+#: glade/delugegtk.glade:326 glade/delugegtk.glade:946
+#: glade/dgtkpopups.glade:37 src/delugegtk.py:283
+msgid "Peers"
+msgstr "Jämlikar"
+
+#: glade/delugegtk.glade:335 src/delugegtk.py:284 src/delugegtk.py:385
+#: src/delugegtk.py:554 src/delugegtk.py:566
+msgid "Download"
+msgstr "Nedladdning"
+
+#: glade/delugegtk.glade:344 src/delugegtk.py:285 src/delugegtk.py:555
+#: src/delugegtk.py:567
+msgid "Upload"
+msgstr "Uppladdning"
+
+#: glade/delugegtk.glade:353 glade/dgtkpopups.glade:64 src/delugegtk.py:286
+msgid "Time Remaining"
+msgstr "Återstående tid"
+
+#: glade/delugegtk.glade:362 glade/dgtkpopups.glade:73
+msgid "Share Ratio"
+msgstr "Delningsproportion"
+
+#: glade/delugegtk.glade:379
+msgid "_Help"
+msgstr "_Hjälp"
+
+#: glade/delugegtk.glade:500
+msgid "<b>Upload Rate:</b>"
+msgstr "Uppladdningsgräns"
+
+#: glade/delugegtk.glade:526
+msgid "<b>Download Rate:</b>"
+msgstr "Nedladdningsgräns"
+
+#: glade/delugegtk.glade:550
+msgid "<b>Use compact storage allocation:</b>"
+msgstr "<b>Använd kompakt lagrings allokering:</b>"
+
+#: glade/delugegtk.glade:610
+msgid "<b>Uploaded This Session:</b>"
+msgstr "<b>Uppladdar denna session:</b>"
+
+#: glade/delugegtk.glade:624
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Delningsgrad:</b>"
+
+#: glade/delugegtk.glade:662
+msgid "<b>Total Uploaded:</b>"
+msgstr "<b>Uppladdat totalt:</b>"
+
+#: glade/delugegtk.glade:676
+msgid "<b>Pieces:</b>"
+msgstr "<b>Delar:</b>"
+
+#: glade/delugegtk.glade:702
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Nästa meddelande:</b>"
+
+#: glade/delugegtk.glade:728
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Sökar status:</b>"
+
+#: glade/delugegtk.glade:740
+msgid "<b>Tracker Response:</b>"
+msgstr "<b>Sökar respons:</b>"
+
+#: glade/delugegtk.glade:752
+msgid "<b>Tracker:</b>"
+msgstr "<b>Sökare:</b>"
+
+#: glade/delugegtk.glade:800
+msgid "<b>Downloaded this session:</b>"
+msgstr "<b>Nerladdat denna gång:</b>"
+
+#: glade/delugegtk.glade:812
+msgid "<b>Total Downloaded:</b>"
+msgstr "<b>Nerladdat totalt:</b>"
+
+#: glade/delugegtk.glade:824
+msgid "<b>Total Size:</b>"
+msgstr "<b>Storlek totalt:</b>"
+
+#: glade/delugegtk.glade:836
+msgid "<b>Seeders:</b>"
+msgstr "Seeders"
+
+#: glade/delugegtk.glade:848
+msgid "<b>Peers:</b>"
+msgstr "Peers"
+
+#: glade/delugegtk.glade:886
+msgid "<b>Estimated Time Remaining:</b>"
+msgstr "Beräknad Tid Kvar"
+
+#: glade/delugegtk.glade:975
+msgid "Files"
+msgstr "Filer"
+
+#: glade/dgtkpopups.glade:46
+msgid "Download Speed"
+msgstr "Nedladdnings Hastighet"
+
+#: glade/dgtkpopups.glade:55
+msgid "Upload Speed"
+msgstr "Uppladdnings Hastighet"
+
+#: glade/dgtkpopups.glade:97
+msgid ""
+"<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
+msgstr "<b>Är du säker att du vill ta bort valda torrent(s) från Deluge?</b>"
+
+#: glade/dgtkpopups.glade:107
+msgid "Delete downloaded files"
+msgstr "Radera nerladdade filer"
+
+#: glade/dgtkpopups.glade:167
+msgid "Show/Hide"
+msgstr "Visa/Dölj"
+
+#: glade/dgtkpopups.glade:175
+msgid "Add a Torrent..."
+msgstr "Lägg till en Torrent..."
+
+#: glade/dgtkpopups.glade:191 src/delugegtk.py:146
+msgid "Clear Finished"
+msgstr "Ta bort färdiga"
+
+#: glade/dgtkpopups.glade:212 glade/dgtkpref.glade:675
+msgid "gtk-preferences"
+msgstr "gtk-preferences"
+
+#: glade/dgtkpopups.glade:221 glade/dgtkpref.glade:700 src/delugegtk.py:148
+msgid "Plugins"
+msgstr "Plugin"
+
+#: glade/dgtkpopups.glade:242
+msgid "gtk-quit"
+msgstr ""
+
+#: glade/dgtkpref.glade:8
+msgid "Preferences Dialog"
+msgstr "Inställningsdialogrutan"
+
+#: glade/dgtkpref.glade:53
+msgid "Enable system tray icon"
+msgstr ""
+
+#: glade/dgtkpref.glade:65
+msgid "Minimize to tray on close"
+msgstr ""
+
+#: glade/dgtkpref.glade:80
+msgid "Options"
+msgstr "Inställningar:"
+
+#: glade/dgtkpref.glade:115
+msgid "Save all downloads to:"
+msgstr "Spara alla nedladdningar till:"
+
+#: glade/dgtkpref.glade:127
+msgid "Ask me where to save each download"
+msgstr ""
+
+#: glade/dgtkpref.glade:139
+msgid "Save Location"
+msgstr ""
+
+#: glade/dgtkpref.glade:180
+msgid ""
+"Stop seeding torrents when\n"
+"their share ratio reaches:"
+msgstr ""
+
+#: glade/dgtkpref.glade:190
+msgid "Seeding"
+msgstr "Seedar"
+
+#: glade/dgtkpref.glade:209
+msgid "Use compact storage allocation"
+msgstr ""
+
+#: glade/dgtkpref.glade:216
+msgid "Storage"
+msgstr ""
+
+#: glade/dgtkpref.glade:246
+msgid "General"
+msgstr ""
+
+#: glade/dgtkpref.glade:280
+msgid "Try from:"
+msgstr "Försök från:"
+
+#: glade/dgtkpref.glade:286
+msgid "to:"
+msgstr ""
+
+#: glade/dgtkpref.glade:320
+msgid "Active port:"
+msgstr "Aktiv port"
+
+#: glade/dgtkpref.glade:332
+msgid "0000"
+msgstr ""
+
+#: glade/dgtkpref.glade:344
+msgid "Test Port"
+msgstr "Testa port"
+
+#: glade/dgtkpref.glade:358
+msgid "TCP Port"
+msgstr ""
+
+#: glade/dgtkpref.glade:381
+msgid "<i>(-1 is unlimited)</i>"
+msgstr ""
+
+#: glade/dgtkpref.glade:391 glade/dgtkpref.glade:416
+msgid "KB/s"
+msgstr ""
+
+#: glade/dgtkpref.glade:506
+msgid "Maximum number of Downloads:"
+msgstr "Högsta antalet nedladdningar:"
+
+#: glade/dgtkpref.glade:517
+msgid "Maximum Download Rate:"
+msgstr "Högsta nedladdningshastighet:"
+
+#: glade/dgtkpref.glade:528
+msgid "Upload Slots"
+msgstr ""
+
+#: glade/dgtkpref.glade:539
+msgid "Maximum Upload Rate:"
+msgstr "Högsta uppladdningshastighet:"
+
+#: glade/dgtkpref.glade:551
+msgid "Bandwidth "
+msgstr ""
+
+#: glade/dgtkpref.glade:579
+msgid "Network"
+msgstr "Nätverk"
+
+#: glade/dgtkpref.glade:601
+msgid "gtk-cancel"
+msgstr "gtk-cancel"
+
+#: glade/dgtkpref.glade:608
+msgid "gtk-ok"
+msgstr "gtk-ok"
+
+#: glade/dgtkpref.glade:628
+msgid "Plugin Manager"
+msgstr "Plugin hanterare"
+
+#: glade/dgtkpref.glade:721
+msgid "gtk-close"
+msgstr ""
+
+#: src/dcommon.py:41
+msgid "Infinity"
+msgstr ""
+
+#: src/dcommon.py:105
+msgid "Error: no webbrowser found"
+msgstr ""
+
+#: src/delugegtk.py:144
+msgid "Show / Hide Window"
+msgstr ""
+
+#: src/delugegtk.py:220
+msgid "Plugin"
+msgstr ""
+
+#: src/delugegtk.py:222
+msgid "Enabled"
+msgstr ""
+
+#: src/delugegtk.py:279
+msgid "Name"
+msgstr "Namn"
+
+#: src/delugegtk.py:287
+msgid "Ratio"
+msgstr ""
+
+#: src/delugegtk.py:373
+msgid "IP Address"
+msgstr "IP-adress"
+
+#: src/delugegtk.py:374
+msgid "Client"
+msgstr "Klient"
+
+#: src/delugegtk.py:375
+msgid "Percent Complete"
+msgstr "Procent färdig"
+
+#: src/delugegtk.py:376
+msgid "Download Rate"
+msgstr ""
+
+#: src/delugegtk.py:377
+msgid "Upload Rate"
+msgstr ""
+
+#: src/delugegtk.py:386
+msgid "Filename"
+msgstr "Filnamn"
+
+#: src/delugegtk.py:388
+msgid "Offset"
+msgstr ""
+
+#: src/delugegtk.py:389
+msgid "Progress"
+msgstr ""
+
+#: src/delugegtk.py:554 src/delugegtk.py:566
+msgid "Connections"
+msgstr "Anslutningar"
+
+#: src/delugegtk.py:565
+msgid "Deluge Bittorrent Client"
+msgstr "Deluge BitTorrent-klient"
+
+#: src/delugegtk.py:746
+msgid "Add torrent from URL"
+msgstr "Lägg till torrent från URL"
+
+#: src/delugegtk.py:750
+msgid "Enter the URL of the .torrent to download"
+msgstr "Lägg till URL från torrent som skall Nedladdas"
+
+#: src/delugegtk.py:814
+msgid "Warning - all downloaded files for this torrent will be deleted!"
+msgstr ""
+"Varning - alla nerladdade filer för denna torrent kommer att raderas!"
+
+#: src/dgtk.py:33
+msgid "Choose a .torrent file"
+msgstr "Välj en .torrent fil"
+
+#: src/dgtk.py:37
+msgid "Torrent files"
+msgstr "Torrent fil"
+
+#: src/dgtk.py:41
+msgid "All files"
+msgstr "Alla filer"
+
+#: src/dgtk.py:57
+msgid "Choose a download directory"
+msgstr "Välj kattalog för nedladdning"
+
+#~ msgid "D/L"
+#~ msgstr "Nedladdning"
+
+#~ msgid "U/L"
+#~ msgstr "Uppladdning"
+
+#~ msgid "ETA"
+#~ msgstr "Uppskattad tid kvar"
+
+#~ msgid "Share %"
+#~ msgstr "Delning %"
+
+#~ msgid "path"
+#~ msgstr "Plats"
+
+#~ msgid "size"
+#~ msgstr "Storlek"
+
+#~ msgid "offset"
+#~ msgstr "Offset"
+
+#~ msgid "download?"
+#~ msgstr "Ladda ned?"
+
+#~ msgid "IP"
+#~ msgstr "IP-adress"
+
+#~ msgid "[none incoming]"
+#~ msgstr "[inga inkommande]"
+
+#~ msgid "Connections: "
+#~ msgstr "Anslutningar: "
+
+#~ msgid "Download Speed:"
+#~ msgstr "Nedladdningshastighet:"
+
+#~ msgid "Upload Speed:"
+#~ msgstr "Uppladdningshastighet:"
+
+#~ msgid ""
+#~ "Shutting down torrent engine (may take time to notify trackers we are "
+#~ "leaving)..."
+#~ msgstr ""
+#~ "Stänger ner programmet (det kan ta ett tag att avsluta alla anslutningar)"
+
+#~ msgid "Select Torrent"
+#~ msgstr "Välj Torrent"
+
+#~ msgid "Unknown"
+#~ msgstr "Okänd"
+
+#~ msgid "infinity"
+#~ msgstr "Oändligt"
+
+#~ msgid "1 second"
+#~ msgstr "1 sekund"
+
+#~ msgid "seconds"
+#~ msgstr "sekunder"
+
+#~ msgid "1 minute"
+#~ msgstr "1 minut"
+
+#~ msgid "minutes"
+#~ msgstr "minuter"
+
+#~ msgid "1 hour"
+#~ msgstr "1 timma"
+
+#~ msgid "hours"
+#~ msgstr "timmar"
+
+#~ msgid "1 day"
+#~ msgstr "1 dag"
+
+#~ msgid "days"
+#~ msgstr "dagar"
+
+#~ msgid "1 week"
+#~ msgstr "1 vecka"
+
+#~ msgid "weeks"
+#~ msgstr "veckor"
+
+#~ msgid "Search string"
+#~ msgstr "Söksträng"
+
+#~ msgid "Application Name"
+#~ msgstr "Applikationsnamn"
+
+#~ msgid "translator-credits"
+#~ msgstr "Petter Viklund"
+
+#~ msgid "Add a Torrent"
+#~ msgstr "Lägg till Torrent"
+
+#~ msgid "Deluge Support _Forums"
+#~ msgstr "Deluga support_forum"
+
+#~ msgid "Force Pause/Resume Torrent"
+#~ msgstr "Pausa/Fortsätt Torrentnedladdning"
+
+#~ msgid "Manage engines"
+#~ msgstr "Hantera motorer"
+
+#~ msgid "Open the online support forums in your web browser"
+#~ msgstr "Öppna online-supportforum i webbläsare"
+
+#~ msgid "Search..."
+#~ msgstr "Sök..."
+
+#~ msgid "Select a bittorrent search engine"
+#~ msgstr "Välj BitTorrent-sökmotor"
+
+#~ msgid "Show/Hide the Details Pane"
+#~ msgstr "Visa/Dölj detaljpanelen"
+
+#~ msgid "Translate This Application..."
+#~ msgstr "Översätt det här programmet"
+
+#~ msgid "Update Tracker"
+#~ msgstr "Uppdatera Tracker"
+
+#~ msgid "_Update Tracker"
+#~ msgstr "_Uppdatera Tracker"
+
+#~ msgid "<b>Bandwidth (KB/s):</b>"
+#~ msgstr "<b>Bandbredd (KB/s):</b>"
+
+#~ msgid "<b>Save Location:</b>"
+#~ msgstr "<b>Spara sökväg:</b>"
+
+#~ msgid "<b>Sharing:</b>"
+#~ msgstr "<b>Delning:</b>"
+
+#~ msgid "<b>TCP Port Range:</b>"
+#~ msgstr "<b>Spännvid för TCP-portar:</b>"
+
+#~ msgid "Automatically stop seeding torrents when their share ratio reaches:"
+#~ msgstr "Sluta seeda Torrent när delningsproportionen når:"
+
+#~ msgid "Deluge Preferences"
+#~ msgstr "Deluge-inställningar"
+
+#~ msgid "From:"
+#~ msgstr "Från:"
+
+#~ msgid "Maximum number of Uploads:"
+#~ msgstr "Högsta antalet uppladdningar:"
+
+#~ msgid "Select a save location for each download"
+#~ msgstr "Välj sparsökväg för varje nedladdning"
+
+#~ msgid "To:"
+#~ msgstr "Till:"
+
+#, no-c-format
+#~ msgid ""
+#~ "Add a new search engine by entering a Name and a URL.  For Name, enter the "
+#~ "name of the search engine to be used.  For URL, enter the url of the seach "
+#~ "page.  The user's search query will be added to the end of the url, or "
+#~ "replace any instances of %%query%% in the URL.\n"
+#~ "For example, a Google search would be:\n"
+#~ "Name: Google\n"
+#~ "URL: http://www.google.com/search?hl=en"
+#~ msgstr ""
+#~ "Skriv in sökmotorns Namn samt en Länk till den. Länken skall peka på "
+#~ "sökmotorns söksida. Din sökförfrågan läggs sedan till i slutet av "
+#~ "Länkadressen, eller ersätter %%query%% i den om detta hittas.\n"
+#~ "Här är ett exempel på hur det skulle se om man vill använda sig av Googles "
+#~ "sökmotor:\n"
+#~ "Namn: Google\n"
+#~ "Länk: http://www.google.com/search?hl=se"
+
+#~ msgid "Help"
+#~ msgstr "Hjälp"
+
+#~ msgid "Manage Search Plugins"
+#~ msgstr "Hantera sök-insticksmoduler"
+
+#~ msgid "Name:"
+#~ msgstr "Namn:"
+
+#~ msgid "URL:"
+#~ msgstr "Adress:"
+
+#~ msgid "gtk-add"
+#~ msgstr "gtk-add"
+
+#~ msgid "gtk-remove"
+#~ msgstr "gtk-remove"
+
+#~ msgid "Force Pause"
+#~ msgstr "Tvinga paus"
+
+#~ msgid "Update Trackers"
+#~ msgstr "Uppdatera Trackrar"
+
+#~ msgid "Total Size"
+#~ msgstr "Sammanlagd storlek"
+
+#~ msgid "Pieces"
+#~ msgstr "Delar"
+
+#~ msgid "Total Downloaded"
+#~ msgstr "Sammanlagt nedladdat"
+
+#~ msgid "Total Uploaded"
+#~ msgstr "Sammanlagt uppladdat"
+
+#~ msgid "Percentage Done"
+#~ msgstr "Procentandel klar"
+
+#~ msgid "Downloaded This Session"
+#~ msgstr "Nedladdat vid detta tillfälle"
+
+#~ msgid "Uploaded This Session"
+#~ msgstr "Uppladdat vid detta tillfälle"
+
+#~ msgid "Tracker"
+#~ msgstr "Tracker"
+
+#~ msgid "Tracker Response"
+#~ msgstr "Trackersvar"
+
+#~ msgid "Tracker Status"
+#~ msgstr "Trackerstatus"
+
+#~ msgid "Next Announce"
+#~ msgstr "Nästa annonsering"
+
+#~ msgid "Paused"
+#~ msgstr "Pausad"
+
+#~ msgid "Queued"
+#~ msgstr "Köad"
+
+#~ msgid "Waiting to check"
+#~ msgstr "Väntar på att kontrollera"
+
+#~ msgid "Checking"
+#~ msgstr "Kontrollerar"
+
+#~ msgid "Downloading (T?)"
+#~ msgstr "Laddar ned (T?)"
+
+#~ msgid "Downloading Meta"
+#~ msgstr "Laddar ned meta"
+
+#~ msgid "Downloading"
+#~ msgstr "Laddar ned"
+
+#~ msgid "Finished"
+#~ msgstr "Färdig"
+
+#~ msgid "Allocating"
+#~ msgstr "Allokerar"
+
+#~ msgid "N/A"
+#~ msgstr "Ej tillgänglig"
+
+#~ msgid "INF"
+#~ msgstr "INF"
+
+#~ msgid "Invalid request"
+#~ msgstr "Ogiltig begäran"
+
+#~ msgid "File error"
+#~ msgstr "Filfel"
+
+#~ msgid "Hash failed"
+#~ msgstr "Hash misslyckades"
+
+#~ msgid "Peer banned"
+#~ msgstr "Jämlike bannlyst"
+
+#~ msgid "Fastresume rejected"
+#~ msgstr "Snabbstart avslagen"
+
+#~ msgid "Event"
+#~ msgstr "Händelse"

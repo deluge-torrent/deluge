@@ -1,0 +1,471 @@
+# French translation for deluge
+# Copyright (c) 2006 Rosetta Contributors and Canonical Ltd 2006
+# This file is distributed under the same license as the deluge package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2006.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: deluge\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2007-02-27 16:14-0500\n"
+"PO-Revision-Date: 2007-03-01 14:49+0000\n"
+"Last-Translator: Frédéric Perrin <fredericperrin@wanadoo.fr>\n"
+"Language-Team: French <fr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Rosetta-Export-Date: 2007-03-02 21:38+0000\n"
+
+#: glade/delugegtk.glade:23 glade/delugegtk.glade:156 src/delugegtk.py:145
+msgid "Add Torrent"
+msgstr "Ajouter torrent"
+
+#: glade/delugegtk.glade:36 glade/delugegtk.glade:180
+#: glade/dgtkpopups.glade:81
+msgid "Remove Torrent"
+msgstr "Supprimer Torrent"
+
+#: glade/delugegtk.glade:49
+msgid "Clear Finished Torrents"
+msgstr "Effacer les torrents terminés"
+
+#: glade/delugegtk.glade:71
+msgid "Start / Pause"
+msgstr ""
+
+#: glade/delugegtk.glade:84
+msgid "Queue Torrent Up"
+msgstr "Déplacer le torrent vers le haut"
+
+#: glade/delugegtk.glade:97
+msgid "Queue Torrent Down"
+msgstr "Déplacer le torrent vers le bas"
+
+#: glade/delugegtk.glade:149
+msgid "_File"
+msgstr "_Fichier"
+
+#: glade/delugegtk.glade:172
+msgid "Add Torrent from URL"
+msgstr "Ajouter un torrent depuis l'URL"
+
+#: glade/delugegtk.glade:194
+msgid "Clear Completed"
+msgstr "Nettoyage terminé"
+
+#: glade/delugegtk.glade:228
+msgid "_Edit"
+msgstr "É_dition"
+
+#: glade/delugegtk.glade:245
+msgid "_Manage Plugins"
+msgstr "_Gestion des Plugins"
+
+#: glade/delugegtk.glade:265
+msgid "_View"
+msgstr "Affichage"
+
+#: glade/delugegtk.glade:273
+msgid "Toolbar"
+msgstr "Barre d'outils"
+
+#: glade/delugegtk.glade:282 glade/delugegtk.glade:919
+msgid "Details"
+msgstr "<b>Détails</b>"
+
+#: glade/delugegtk.glade:291
+msgid "Columns"
+msgstr "Colonnes"
+
+#: glade/delugegtk.glade:299 glade/dgtkpopups.glade:10 src/delugegtk.py:280
+#: src/delugegtk.py:387
+msgid "Size"
+msgstr "Taille"
+
+#: glade/delugegtk.glade:308 glade/dgtkpopups.glade:19 src/delugegtk.py:281
+msgid "Status"
+msgstr ""
+"Statut\n"
+"#-#-#-#-#  qtwengophone_fr.po (PACKAGE VERSION)  #-#-#-#-#\n"
+"Statut\n"
+"#-#-#-#-#  qtwengophone_fr.po (PACKAGE VERSION)  #-#-#-#-#\n"
+"Statut\n"
+"#-#-#-#-#  qtwengophone_fr.po (PACKAGE VERSION)  #-#-#-#-#\n"
+"Status\n"
+"#-#-#-#-#  qtwengophone_fr.po (PACKAGE VERSION)  #-#-#-#-#\n"
+"Statut\n"
+"#-#-#-#-#  qtwengophone_fr.po (PACKAGE VERSION)  #-#-#-#-#\n"
+"Statut\n"
+"#-#-#-#-#  qtwengophone_fr.po (PACKAGE VERSION)  #-#-#-#-#\n"
+"Status"
+
+#: glade/delugegtk.glade:317 glade/dgtkpopups.glade:28 src/delugegtk.py:282
+msgid "Seeders"
+msgstr "Seeders"
+
+#: glade/delugegtk.glade:326 glade/delugegtk.glade:946
+#: glade/dgtkpopups.glade:37 src/delugegtk.py:283
+msgid "Peers"
+msgstr "Peers"
+
+#: glade/delugegtk.glade:335 src/delugegtk.py:284 src/delugegtk.py:385
+#: src/delugegtk.py:554 src/delugegtk.py:566
+msgid "Download"
+msgstr "Réception"
+
+#: glade/delugegtk.glade:344 src/delugegtk.py:285 src/delugegtk.py:555
+#: src/delugegtk.py:567
+msgid "Upload"
+msgstr "Émission"
+
+#: glade/delugegtk.glade:353 glade/dgtkpopups.glade:64 src/delugegtk.py:286
+msgid "Time Remaining"
+msgstr "Temps restant"
+
+#: glade/delugegtk.glade:362 glade/dgtkpopups.glade:73
+msgid "Share Ratio"
+msgstr "Taux de partage"
+
+#: glade/delugegtk.glade:379
+msgid "_Help"
+msgstr "Aide (_h)"
+
+#: glade/delugegtk.glade:500
+msgid "<b>Upload Rate:</b>"
+msgstr "<b>Vitesse d'envoi :</b>"
+
+#: glade/delugegtk.glade:526
+msgid "<b>Download Rate:</b>"
+msgstr "<b>Vitesse de réception :</b>"
+
+#: glade/delugegtk.glade:550
+msgid "<b>Use compact storage allocation:</b>"
+msgstr "<b>Utiliser l'allocation de stockage compacte:</b>"
+
+#: glade/delugegtk.glade:610
+msgid "<b>Uploaded This Session:</b>"
+msgstr "<b>Partagé durant cette session:</b>"
+
+#: glade/delugegtk.glade:624
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Ratio de partage:</b>"
+
+#: glade/delugegtk.glade:662
+msgid "<b>Total Uploaded:</b>"
+msgstr "<b>Partage total:</b>"
+
+#: glade/delugegtk.glade:676
+msgid "<b>Pieces:</b>"
+msgstr "<b>Pièces:</b>"
+
+#: glade/delugegtk.glade:702
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Prochaine Annonce:</b>"
+
+#: glade/delugegtk.glade:728
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Status du Tracker:</b>"
+
+#: glade/delugegtk.glade:740
+msgid "<b>Tracker Response:</b>"
+msgstr "<b>Réponse du Tracker:</b>"
+
+#: glade/delugegtk.glade:752
+msgid "<b>Tracker:</b>"
+msgstr "<b>Tracker:</b>"
+
+#: glade/delugegtk.glade:800
+msgid "<b>Downloaded this session:</b>"
+msgstr "<b>Telechargé lors de cette session:</b>"
+
+#: glade/delugegtk.glade:812
+msgid "<b>Total Downloaded:</b>"
+msgstr "<b>Total Téléchargé:</b>"
+
+#: glade/delugegtk.glade:824
+msgid "<b>Total Size:</b>"
+msgstr "<b>Taille totale:</b>"
+
+#: glade/delugegtk.glade:836
+msgid "<b>Seeders:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:848
+msgid "<b>Peers:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:886
+msgid "<b>Estimated Time Remaining:</b>"
+msgstr "<b>Temps restant estimé :</b>"
+
+#: glade/delugegtk.glade:975
+msgid "Files"
+msgstr "Fichiers"
+
+#: glade/dgtkpopups.glade:46
+msgid "Download Speed"
+msgstr "Vitesse de téléchargement"
+
+#: glade/dgtkpopups.glade:55
+msgid "Upload Speed"
+msgstr ""
+
+#: glade/dgtkpopups.glade:97
+msgid ""
+"<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
+msgstr ""
+"<b>Etes-vous sûr de vouloir supprimer le(s) torrent(s) séléctionné(s) de "
+"Deluge ?</b>"
+
+#: glade/dgtkpopups.glade:107
+msgid "Delete downloaded files"
+msgstr "Supprimer les fichiers telechargés"
+
+#: glade/dgtkpopups.glade:167
+msgid "Show/Hide"
+msgstr "Montrer/Cacher"
+
+#: glade/dgtkpopups.glade:175
+msgid "Add a Torrent..."
+msgstr "Ajouter un Torrent..."
+
+#: glade/dgtkpopups.glade:191 src/delugegtk.py:146
+msgid "Clear Finished"
+msgstr "Effacer terminés"
+
+#: glade/dgtkpopups.glade:212 glade/dgtkpref.glade:675
+msgid "gtk-preferences"
+msgstr "gtk-préferences"
+
+#: glade/dgtkpopups.glade:221 glade/dgtkpref.glade:700 src/delugegtk.py:148
+msgid "Plugins"
+msgstr "Plug-ins"
+
+#: glade/dgtkpopups.glade:242
+msgid "gtk-quit"
+msgstr ""
+
+#: glade/dgtkpref.glade:8
+msgid "Preferences Dialog"
+msgstr "Préférences..."
+
+#: glade/dgtkpref.glade:53
+msgid "Enable system tray icon"
+msgstr "Activer l'icône dans la barre des tâches"
+
+#: glade/dgtkpref.glade:65
+msgid "Minimize to tray on close"
+msgstr "Iconifier dans la barre des tâches à la fermeture"
+
+#: glade/dgtkpref.glade:80
+msgid "Options"
+msgstr "Options"
+
+#: glade/dgtkpref.glade:115
+msgid "Save all downloads to:"
+msgstr "Sauvegarder tous les téléchargement dans:"
+
+#: glade/dgtkpref.glade:127
+msgid "Ask me where to save each download"
+msgstr "Demander oú enregistrer chaque téléchargement"
+
+#: glade/dgtkpref.glade:139
+msgid "Save Location"
+msgstr "Emplacement d'enregistrement"
+
+#: glade/dgtkpref.glade:180
+msgid ""
+"Stop seeding torrents when\n"
+"their share ratio reaches:"
+msgstr ""
+
+#: glade/dgtkpref.glade:190
+msgid "Seeding"
+msgstr "Partage"
+
+#: glade/dgtkpref.glade:209
+msgid "Use compact storage allocation"
+msgstr ""
+
+#: glade/dgtkpref.glade:216
+msgid "Storage"
+msgstr ""
+
+#: glade/dgtkpref.glade:246
+msgid "General"
+msgstr ""
+
+#: glade/dgtkpref.glade:280
+msgid "Try from:"
+msgstr "Essayer depuis:"
+
+#: glade/dgtkpref.glade:286
+msgid "to:"
+msgstr ""
+
+#: glade/dgtkpref.glade:320
+msgid "Active port:"
+msgstr "Port Actif:"
+
+#: glade/dgtkpref.glade:332
+msgid "0000"
+msgstr "0000"
+
+#: glade/dgtkpref.glade:344
+msgid "Test Port"
+msgstr "Test du Port"
+
+#: glade/dgtkpref.glade:358
+msgid "TCP Port"
+msgstr "Port TCP"
+
+#: glade/dgtkpref.glade:381
+#, fuzzy
+msgid "<i>(-1 is unlimited)</i>"
+msgstr "<i>(sans limite : -1)</i>"
+
+#: glade/dgtkpref.glade:391 glade/dgtkpref.glade:416
+#, fuzzy
+msgid "KB/s"
+msgstr "ko/s"
+
+#: glade/dgtkpref.glade:506
+msgid "Maximum number of Downloads:"
+msgstr "Nombre maximum de Téléchargements"
+
+#: glade/dgtkpref.glade:517
+#, fuzzy
+msgid "Maximum Download Rate:"
+msgstr "Vitesse maximale de réception:"
+
+#: glade/dgtkpref.glade:528
+msgid "Upload Slots"
+msgstr ""
+
+#: glade/dgtkpref.glade:539
+#, fuzzy
+msgid "Maximum Upload Rate:"
+msgstr "Vitesse maximale d'émission:"
+
+#: glade/dgtkpref.glade:551
+msgid "Bandwidth "
+msgstr "Bande passante "
+
+#: glade/dgtkpref.glade:579
+msgid "Network"
+msgstr "Réseau"
+
+#: glade/dgtkpref.glade:601
+msgid "gtk-cancel"
+msgstr "gtk-cancel"
+
+#: glade/dgtkpref.glade:608
+msgid "gtk-ok"
+msgstr "gtk-ok"
+
+#: glade/dgtkpref.glade:628
+msgid "Plugin Manager"
+msgstr "Gestionnaire de Plugins"
+
+#: glade/dgtkpref.glade:721
+#, fuzzy
+msgid "gtk-close"
+msgstr "fermeture-gtk"
+
+#: src/dcommon.py:41
+msgid "Infinity"
+msgstr "Infini"
+
+#: src/dcommon.py:105
+msgid "Error: no webbrowser found"
+msgstr "Erreur: aucun navigateur détecté"
+
+#: src/delugegtk.py:144
+msgid "Show / Hide Window"
+msgstr "Afficher / masquer la fenêtre"
+
+#: src/delugegtk.py:220
+msgid "Plugin"
+msgstr "Greffons"
+
+#: src/delugegtk.py:222
+msgid "Enabled"
+msgstr "Activé"
+
+#: src/delugegtk.py:279
+msgid "Name"
+msgstr "Nom"
+
+#: src/delugegtk.py:287
+msgid "Ratio"
+msgstr "Ratio"
+
+#: src/delugegtk.py:373
+msgid "IP Address"
+msgstr "Adresse IP"
+
+#: src/delugegtk.py:374
+msgid "Client"
+msgstr "Client"
+
+#: src/delugegtk.py:375
+msgid "Percent Complete"
+msgstr "Pourcentage complété"
+
+#: src/delugegtk.py:376
+msgid "Download Rate"
+msgstr "Vitesse de réception"
+
+#: src/delugegtk.py:377
+msgid "Upload Rate"
+msgstr "Vitesse d'envoi"
+
+#: src/delugegtk.py:386
+msgid "Filename"
+msgstr "Nom de Fichier"
+
+#: src/delugegtk.py:388
+msgid "Offset"
+msgstr ""
+
+#: src/delugegtk.py:389
+msgid "Progress"
+msgstr ""
+
+#: src/delugegtk.py:554 src/delugegtk.py:566
+msgid "Connections"
+msgstr "Connexions"
+
+#: src/delugegtk.py:565
+msgid "Deluge Bittorrent Client"
+msgstr "Deluge - Client Bittorrent"
+
+#: src/delugegtk.py:746
+msgid "Add torrent from URL"
+msgstr ""
+
+#: src/delugegtk.py:750
+msgid "Enter the URL of the .torrent to download"
+msgstr ""
+
+#: src/delugegtk.py:814
+msgid "Warning - all downloaded files for this torrent will be deleted!"
+msgstr ""
+"Attention - Tous les fichiers téléchargés pour ce torrent seront supprimés !"
+
+#: src/dgtk.py:33
+msgid "Choose a .torrent file"
+msgstr ""
+
+#: src/dgtk.py:37
+msgid "Torrent files"
+msgstr ""
+
+#: src/dgtk.py:41
+msgid "All files"
+msgstr "Tous les fichiers"
+
+#: src/dgtk.py:57
+msgid "Choose a download directory"
+msgstr "Choisissez un repertoire de téléchargement"
