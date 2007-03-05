@@ -699,13 +699,13 @@ class DelugeGTK:
 		except KeyError:
 			pass
 		
+		try:		
+			state = self.manager.get_torrent_state(self.get_selected_torrent())
+		except deluge.InvalidUniqueIDError:
+			return True
 
 		
 		if tab == 0: #Details Pane	
-			try:		
-				state = self.manager.get_torrent_state(self.get_selected_torrent())
-			except deluge.InvalidUniqueIDError:
-				return True
 			self.wtree.get_widget("progressbar").set_text('%s %s'%(str(state["name"]), dcommon.fpcnt(state["progress"])))
 			self.text_summary_total_size.set_text(dcommon.fsize(state["total_size"]))
 			self.text_summary_pieces.set_text(str(state["pieces"]))
