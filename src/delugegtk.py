@@ -52,7 +52,7 @@ class DelugeGTK:
 			f.close()
 		#Start the Deluge Manager:
 		p = "DE"
-		v = "0490"
+		v = "0500"
 		s = "%s %s"%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION)
 		try:
 			self.manager = deluge.Manager(p, v, s, dcommon.CONFIG_DIR)

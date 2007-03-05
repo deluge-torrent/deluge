@@ -29,6 +29,9 @@ import msgfmt
 pythonVersion = platform.python_version()[0:3]
 
 
+APP_VERSION = "0.4.99.0"
+
+
 
 #
 # NOTE: The following "hack" removes the -g and -Wstrict-prototypes
@@ -241,7 +244,7 @@ data = [('share/deluge/glade',  glob.glob('glade/*.glade')),
 for plugin in glob.glob('plugins/*'):
 	data.append( ('share/deluge/' + plugin, glob.glob(plugin + '/*')) )
 
-setup(name="deluge", fullname="Deluge BitTorrent Client", version="0.4.90.3",
+setup(name="deluge", fullname="Deluge BitTorrent Client", version=APP_VERSION,
 	author="Zach Tibbitts, Alon Zakai",
 	author_email="zach@collegegeek.org, kripkensteiner@gmail.com",
 	description="A bittorrent client written in PyGTK",
