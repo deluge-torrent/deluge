@@ -20,18 +20,24 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
 
-import sys, os, os.path, gettext, urllib
+import sys, os, os.path, urllib
 import deluge, dcommon, dgtk, ipc_manager
 import delugeplugins, pref
 import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade, gobject
 import xdg, xdg.BaseDirectory
-
+import gettext, locale
 
 class DelugeGTK:
-
 	def __init__(self):
+		APP = 'deluge'
+		DIR = os.path.join(dcommon.INSTALL_PREFIX, 'share', 'locale')
+		# locale.setlocale(locale.LC_ALL, '')
+		gettext.bindtextdomain(APP, DIR)
+		gettext.textdomain(APP)
+		gettext.install(APP, DIR)
+		
 		self.is_running = False
 		self.ipc_manager = ipc_manager.Manager(self)
 		self.torrent_file_queue = []
@@ -64,7 +70,7 @@ class DelugeGTK:
 		self.config = pref.Preferences()
 		self.config.load_from_file(self.conf_file)
 		#Set up the interface:
-		self.wtree = gtk.glade.XML(dcommon.get_glade_file("delugegtk.glade"))
+		self.wtree = gtk.glade.XML(dcommon.get_glade_file("delugegtk.glade"), domain=APP)
 		self.window = self.wtree.get_widget("main_window")
 		self.window.hide()
 		self.toolbar = self.wtree.get_widget("tb_middle")
@@ -75,6 +81,8 @@ class DelugeGTK:
 		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		self.notebook = self.wtree.get_widget("torrent_info")
 		self.statusbar = self.wtree.get_widget("statusbar")
+		
+
 		
 		
 		## Construct the Interface
@@ -223,7 +231,7 @@ class DelugeGTK:
 				dcommon.get_pixmap("deluge-about.png")))
 	
 	def build_pref_dialog(self):
-		self.prf_glade = gtk.glade.XML(dcommon.get_glade_file("dgtkpref.glade"))
+		self.prf_glade = gtk.glade.XML(dcommon.get_glade_file("dgtkpref.glade"), domain='deluge')
 		self.prf = self.prf_glade.get_widget("pref_dialog")
 		self.prf.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		self.prf_glade.signal_autoconnect({"tray_toggle": self.tray_toggle,})
@@ -283,7 +291,7 @@ class DelugeGTK:
 	def build_torrent_table(self):
 		## Create the torrent listview
 		self.torrent_view = self.wtree.get_widget("torrent_view")
-		self.torrent_glade = gtk.glade.XML(dcommon.get_glade_file("torrent_menu.glade"))
+		self.torrent_glade = gtk.glade.XML(dcommon.get_glade_file("torrent_menu.glade"), domain='deluge')
 		self.torrent_menu = self.torrent_glade.get_widget("torrent_menu")		
 		self.torrent_glade.signal_autoconnect({"update_tracker": self.update_tracker,
 					"clear_finished": self.clear_finished,
@@ -863,7 +871,7 @@ class DelugeGTK:
 	def remove_torrent_clicked(self, obj=None):
 		torrent = self.get_selected_torrent()
 		if torrent is not None:
-			glade     = gtk.glade.XML(dcommon.get_glade_file("dgtkpopups.glade"))
+			glade     = gtk.glade.XML(dcommon.get_glade_file("dgtkpopups.glade"), domain='deluge')
 			asker     = glade.get_widget("remove_torrent_dlg")
 			
 			asker.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))

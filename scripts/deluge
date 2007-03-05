@@ -27,7 +27,7 @@
 from optparse import OptionParser
 import sys
 import os, os.path
-import gettext
+import gettext, locale
 import deluge, deluge.dcommon, deluge.delugegtk
 try:
 	import dbus
@@ -49,7 +49,6 @@ parser.add_option("--tray", dest="tray", help="start Deluge hidden in system tra
 
 (options, args) = parser.parse_args()
 
-gettext.install('deluge', localedir=os.path.join(deluge.dcommon.INSTALL_PREFIX, 'share', 'locale'))
 
 if dbus_imported:
 	bus = dbus.SessionBus()
