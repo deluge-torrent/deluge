@@ -437,8 +437,10 @@ class Manager:
 				and self.get_core_torrent_state(unique_ID, efficient)['is_paused']               \
 				and not self.is_user_paused(unique_ID):
 				deluge_core.resume(unique_ID)
-			elif not self.get_core_torrent_state(unique_ID, efficient)['is_paused'] and \
-					(index >= self.get_pref('max_active_torrents') or self.is_user_paused(unique_ID)):
+			elif (not self.get_core_torrent_state(unique_ID, efficient)['is_paused']) and \
+				  ( (index >= self.get_pref('max_active_torrents') and \
+			        self.get_pref('max_active_torrents') != -1        ) or \
+			       self.is_user_paused(unique_ID)):
 				deluge_core.pause(unique_ID)
 
 	# Event handling
