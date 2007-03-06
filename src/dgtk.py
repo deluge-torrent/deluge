@@ -46,10 +46,30 @@ def show_popup_warning(window, message):
 					type   = gtk.MESSAGE_WARNING)
 	warner.run()
 	warner.destroy()
-	
+
+def show_popup_question(window, message):
+	asker = gtk.MessageDialog(parent = window, 
+					flags  = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+					buttons = gtk.BUTTONS_YES_NO,
+					message_format=message,
+					type=gtk.MESSAGE_QUESTION)
+	result = asker.run()
+	asker.destroy()
+	if result == gtk.RESPONSE_YES:
+		return True
+	elif result == gtk.RESPONSE_NO:
+		return False
+	elif result == gtk.RESPONSE_DELETE_EVENT:
+		return False
+	else:
+		return False
+
+
 ## Browse for .torrent files
-def show_file_open_dialog(parent=None):
-	chooser = gtk.FileChooserDialog(_("Choose a .torrent file"), parent, gtk.FILE_CHOOSER_ACTION_OPEN,
+def show_file_open_dialog(parent=None, title=None):
+	if title is None:
+		title = _("Choose a .torrent file")
+	chooser = gtk.FileChooserDialog(title, parent, gtk.FILE_CHOOSER_ACTION_OPEN,
 			buttons=(gtk.STOCK_CANCEL,gtk.RESPONSE_CANCEL,gtk.STOCK_OPEN,gtk.RESPONSE_OK))
 	
 	f0 = gtk.FileFilter()
@@ -72,8 +92,10 @@ def show_file_open_dialog(parent=None):
 	chooser.destroy()
 	return result
 
-def show_directory_chooser_dialog(parent=None):
-	chooser = gtk.FileChooserDialog(_("Choose a download directory"), parent, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
+def show_directory_chooser_dialog(parent=None, title=None):
+	if title is None:
+		title = _("Choose a download directory")
+	chooser = gtk.FileChooserDialog(title, parent, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
 				buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
 	chooser.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 	chooser.set_property("skip-taskbar-hint", True)

@@ -325,6 +325,20 @@ class Manager:
 				except OSError:
 					pass # No file just means it wasn't downloaded, we can continue
 
+	# A function to try and reload a torrent from a previous session. This is
+	# used in the event that Deluge crashes and a blank state is loaded.
+	def add_old_torrent(self, filename, save_dir, compact):
+		if not filename in os.listdir(self.base_dir + "/" + TORRENTS_SUBDIR):
+			raise InvalidTorrentError(_("File was not found") + ": " + filename)
+
+		full_new_name = self.base_dir + "/" + TORRENTS_SUBDIR + "/" + filename
+
+		# Create torrent object
+		new_torrent = torrent_info(full_new_name, save_dir, compact)
+		self.state.torrents.append(new_torrent)
+		
+		return self.sync()
+
 	# A separate function, because people may want to call it from time to time
 	def save_fastresume_data(self):
 		for unique_ID in self.unique_IDs:

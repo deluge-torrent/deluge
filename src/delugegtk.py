@@ -58,11 +58,12 @@ class DelugeGTK:
 		s = "%s %s"%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION)
 		try:
 			self.manager = deluge.Manager(p, v, s, dcommon.CONFIG_DIR)
-		except AssertionError:
+		except:
 			# If something goes wrong while restoring the session, then load
 			# a blank state rather than crash and exit
 			self.manager = deluge.Manager(p, v, s, dcommon.CONFIG_DIR, blank_slate=True)
 			self.something_screwed_up = True
+		
 		else: self.something_screwed_up = False
 		self.plugins = delugeplugins.PluginManager(self.manager, self)
 		self.plugins.add_plugin_dir(dcommon.PLUGIN_DIR)
@@ -640,8 +641,22 @@ class DelugeGTK:
 			return False
 		
 		if self.something_screwed_up:
-			dgtk.show_popup_warning(self.window, "For some reason, the previous state could not be loaded, " + \
-				"so a blank state has been loaded for you.")
+			dgtk.show_popup_warning(self.window, 
+				_("For some reason, the previous state could not be loaded, so a blank state has been loaded for you."))
+			restore_torrents = dgtk.show_popup_question(self.window,
+				_("Would you like to attempt to reload the previous session's downloads?"))
+			if restore_torrents:
+				torrent_subdir = self.manager.base_dir + "/" + deluge.TORRENTS_SUBDIR
+				for torrent in os.listdir(torrent_subdir):
+					if torrent.endswith('.torrent'):
+						if self.config.get('use_default_dir', bool, default=False):
+							path = self.config.get('default_download_path', default=os.path.expandvars('$HOME'))
+						else:
+							path = dgtk.show_directory_chooser_dialog(self.window, 
+								_("Choose the download directory for") + " " + torrent)
+						if path is not None:
+							unique_id = self.manager.add_old_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))
+							self.torrent_model.append(self.get_list_from_unique_id(unique_id))
 			self.something_screwed_up = False
 		
 		# Update Statusbar and Tray Tips
