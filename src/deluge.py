@@ -231,6 +231,9 @@ class Manager:
 
 				# Apply all the file filters, right after adding the torrents
 				self.apply_all_file_filters()
+
+				# Apply the queue at this time, after all is loaded and ready
+				self.apply_queue()
 			except IOError:
 				self.state = persistent_state()
 		else:
