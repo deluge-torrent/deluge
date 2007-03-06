@@ -632,18 +632,17 @@ class Manager:
 				to_delete.append(unique_ID)
 
 		for unique_ID in to_delete:
-			temp = self.unique_IDs[unique_ID]
 			self.state.torrents.remove(self.unique_IDs[unique_ID])
 			self.state.queue.remove(unique_ID)
-			del self.unique_IDs[unique_ID]
 			# Remove .torrent and  .fastresume
-			os.remove(temp.filename)
+			os.remove(self.unique_IDs[unique_ID].filename)
 			try:
 				# Must be after removal of the torrent, because that saves a new .fastresume
-				os.remove(temp.filename + ".fastresume")
+				os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
 			except OSError:
 				pass # Perhaps there never was one to begin with
-
+			del self.unique_IDs[unique_ID]
+			
 		# Add torrents to queue - at the end, of course
 		for unique_ID in self.unique_IDs.keys():
 			if unique_ID not in self.state.queue:
