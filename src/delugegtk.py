@@ -334,6 +334,14 @@ class DelugeGTK:
 				time_str = dcommon.ftime(time)
 			cell.set_property('text', time_str)
 			
+		def ratio(column, cell, model, iter, data):
+			ratio = float(model.get_value(iter, data))
+			if ratio == -1:
+				ratio_str = _("Unknown")
+			else:
+				ratio_str = "%.2f"%ratio
+			cell.set_property('text', ratio_str)
+			
 		
 		## Initializes the columns for the torrent_view
 		self.queue_column 	= 	dgtk.add_text_column(self.torrent_view, "#", 1)
@@ -345,7 +353,7 @@ class DelugeGTK:
 		self.dl_column 		=	dgtk.add_func_column(self.torrent_view, _("Download"), rate, 10)
 		self.ul_column 		=	dgtk.add_func_column(self.torrent_view, _("Upload"), rate, 11)
 		self.eta_column 	=	dgtk.add_func_column(self.torrent_view, _("Time Remaining"), time, 12)
-		self.share_column 	= 	dgtk.add_text_column(self.torrent_view, _("Ratio"), 13)
+		self.share_column 	= 	dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, 13)
 		
 		self.status_column.set_expand(True)
 		self.seed_column.set_sort_column_id(6)
