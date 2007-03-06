@@ -2,6 +2,7 @@ include LICENSE
 include README
 include deluge.desktop
 include deluge.xpm
+include msgfmt.py
 recursive-include libtorrent/ *
 recursive-include glade/ *.glade
 recursive-include pixmaps/ *.png
