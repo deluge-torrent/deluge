@@ -581,7 +581,20 @@ class DelugeGTK:
 		self.manager.set_pref("max_uploads", self.config.get("max_number_uploads", int, default=-1))
 		self.manager.set_pref("max_connections", self.config.get("max_number_downloads", int, default=-1))
 		self.manager.set_pref("auto_seed_ratio", auto_seed_ratio)
-			
+	
+	# '%s %d%%'%(deluge.STATE_MESSAGES[state['state']], int(state['progress'] * 100))
+	def get_message_from_state(self, torrent_state):
+		state = torrent_state['state']
+		is_paused = torrent_state['is_paused']
+		progress = torrent_state['progress']
+		progress = '%d%%'%int(progress * 100)
+		if is_paused:
+			message = 'Paused %s'%progress
+		else:
+			message = deluge.STATE_MESSAGES[state]
+			if state in (1, 3, 4, 7):
+				message = '%s %s'%(message, progress)
+		return message
 	
 	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
 	def get_list_from_unique_id(self, unique_id):
@@ -591,7 +604,7 @@ class DelugeGTK:
 		name = state['name']
 		size = long(state['total_size'])
 		progress = float(state['progress'] * 100)
-		message = '%s %d%%'%(deluge.STATE_MESSAGES[state['state']], int(state['progress'] * 100))
+		message = self.get_message_from_state(state)
 		seeds = int(state['num_seeds'])
 		seeds_t = int(state['total_seeds'])
 		peers = int(state['num_peers'])
