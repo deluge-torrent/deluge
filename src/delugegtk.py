@@ -326,10 +326,12 @@ class DelugeGTK:
 		
 		def time(column, cell, model, iter, data):
 			time = int(model.get_value(iter, data))
-			if time <= 0:
-				cell.set_property('text', '-')
-				return
-			time_str = dcommon.ftime(time)
+			if time < 0:
+				time_str = _("Infinity")
+			elif time == 0:
+				time_str = "-"
+			else:
+				time_str = dcommon.ftime(time)
 			cell.set_property('text', time_str)
 			
 		
@@ -597,7 +599,7 @@ class DelugeGTK:
 		dlrate = int(state['download_rate'])
 		ulrate = int(state['upload_rate'])
 		try:
-			eta = dcommon.get_eta(state["total_size"], state["total_download"], state["download_rate"])
+			eta = dcommon.get_eta(state["total_size"], state["total_done"], state["download_rate"])
 		except ZeroDivisionError:
 			eta = -1
 		share = float(self.calc_share_ratio(unique_id, state))
