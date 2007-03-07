@@ -29,7 +29,7 @@ import msgfmt
 pythonVersion = platform.python_version()[0:3]
 
 
-APP_VERSION = "0.4.99.0"
+APP_VERSION = "0.4.99.1"
 
 
 
