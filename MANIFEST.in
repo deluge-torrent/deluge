@@ -7,4 +7,4 @@ recursive-include libtorrent/ *
 recursive-include glade/ *.glade
 recursive-include pixmaps/ *.png
 recursive-include plugins/ *
-recursive-include po/ *.po, *.pot, POTFILES.in
+recursive-include po/ *
