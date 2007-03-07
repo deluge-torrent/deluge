@@ -80,7 +80,7 @@ class DelugeGTK:
 		self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL,[('text/uri-list', 0, 80)], gtk.gdk.ACTION_COPY)
 		self.window.connect("delete_event", self.close)
 		self.window.connect("drag_data_received", self.on_drag_data)
-		self.window.set_title('%s %s'%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION))
+		self.window.set_title(dcommon.PROGRAM_NAME)
 		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		self.notebook = self.wtree.get_widget("torrent_info")
 		self.statusbar = self.wtree.get_widget("statusbar")
