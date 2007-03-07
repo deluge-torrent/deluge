@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-02-27 16:14-0500\n"
-"PO-Revision-Date: 2007-03-01 18:10+0000\n"
+"PO-Revision-Date: 2007-03-04 06:02+0000\n"
 "Last-Translator: sanafrato <webmaster@minawa.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Rosetta-Export-Date: 2007-03-02 21:38+0000\n"
+"X-Rosetta-Export-Date: 2007-03-06 00:48+0000\n"
 
 #: glade/delugegtk.glade:23 glade/delugegtk.glade:156 src/delugegtk.py:145
 msgid "Add Torrent"
@@ -28,7 +28,7 @@ msgstr "Torrentを削除"
 
 #: glade/delugegtk.glade:49
 msgid "Clear Finished Torrents"
-msgstr "終了したTorrentsをクリア"
+msgstr "終了したTorrentをクリア"
 
 #: glade/delugegtk.glade:71
 msgid "Start / Pause"
@@ -44,7 +44,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:149
 msgid "_File"
-msgstr "ファイル"
+msgstr "_ファイル"
 
 #: glade/delugegtk.glade:172
 msgid "Add Torrent from URL"
@@ -56,15 +56,15 @@ msgstr "完全にクリア"
 
 #: glade/delugegtk.glade:228
 msgid "_Edit"
-msgstr "編集"
+msgstr "_編集"
 
 #: glade/delugegtk.glade:245
 msgid "_Manage Plugins"
-msgstr "プラグイン管理"
+msgstr "_プラグイン管理"
 
 #: glade/delugegtk.glade:265
 msgid "_View"
-msgstr "ビュー"
+msgstr "_ビュー"
 
 #: glade/delugegtk.glade:273
 msgid "Toolbar"
@@ -85,11 +85,11 @@ msgstr "サイズ"
 
 #: glade/delugegtk.glade:308 glade/dgtkpopups.glade:19 src/delugegtk.py:281
 msgid "Status"
-msgstr "状況"
+msgstr "状態"
 
 #: glade/delugegtk.glade:317 glade/dgtkpopups.glade:28 src/delugegtk.py:282
 msgid "Seeders"
-msgstr ""
+msgstr "シーダー"
 
 #: glade/delugegtk.glade:326 glade/delugegtk.glade:946
 #: glade/dgtkpopups.glade:37 src/delugegtk.py:283
@@ -116,7 +116,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:379
 msgid "_Help"
-msgstr "ヘルプ"
+msgstr "_ヘルプ"
 
 #: glade/delugegtk.glade:500
 msgid "<b>Upload Rate:</b>"
@@ -144,7 +144,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:676
 msgid "<b>Pieces:</b>"
-msgstr ""
+msgstr "<b>ピース数:</b>"
 
 #: glade/delugegtk.glade:702
 msgid "<b>Next Announce:</b>"
@@ -160,7 +160,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:752
 msgid "<b>Tracker:</b>"
-msgstr ""
+msgstr "<b>トラッカー:</b>"
 
 #: glade/delugegtk.glade:800
 msgid "<b>Downloaded this session:</b>"
@@ -176,11 +176,11 @@ msgstr ""
 
 #: glade/delugegtk.glade:836
 msgid "<b>Seeders:</b>"
-msgstr ""
+msgstr "<b>シーダー:</b>"
 
 #: glade/delugegtk.glade:848
 msgid "<b>Peers:</b>"
-msgstr ""
+msgstr "<b>ピア:</b>"
 
 #: glade/delugegtk.glade:886
 msgid "<b>Estimated Time Remaining:</b>"
@@ -213,7 +213,7 @@ msgstr "表示/非表示"
 
 #: glade/dgtkpopups.glade:175
 msgid "Add a Torrent..."
-msgstr "Torrentを追加"
+msgstr "Torrentを追加..."
 
 #: glade/dgtkpopups.glade:191 src/delugegtk.py:146
 msgid "Clear Finished"
@@ -267,7 +267,7 @@ msgstr ""
 
 #: glade/dgtkpref.glade:190
 msgid "Seeding"
-msgstr ""
+msgstr "シード中"
 
 #: glade/dgtkpref.glade:209
 msgid "Use compact storage allocation"
@@ -287,7 +287,7 @@ msgstr ""
 
 #: glade/dgtkpref.glade:286
 msgid "to:"
-msgstr ""
+msgstr "to:"
 
 #: glade/dgtkpref.glade:320
 msgid "Active port:"
@@ -347,7 +347,7 @@ msgstr ""
 
 #: glade/dgtkpref.glade:628
 msgid "Plugin Manager"
-msgstr ""
+msgstr "プラグインマネージャー"
 
 #: glade/dgtkpref.glade:721
 msgid "gtk-close"
@@ -355,11 +355,11 @@ msgstr ""
 
 #: src/dcommon.py:41
 msgid "Infinity"
-msgstr ""
+msgstr "∞"
 
 #: src/dcommon.py:105
 msgid "Error: no webbrowser found"
-msgstr ""
+msgstr "エラー: ウェブブラウザーが見つかりません"
 
 #: src/delugegtk.py:144
 msgid "Show / Hide Window"
@@ -375,7 +375,7 @@ msgstr ""
 
 #: src/delugegtk.py:279
 msgid "Name"
-msgstr ""
+msgstr "名前"
 
 #: src/delugegtk.py:287
 msgid "Ratio"
@@ -403,7 +403,7 @@ msgstr ""
 
 #: src/delugegtk.py:386
 msgid "Filename"
-msgstr ""
+msgstr "ファイル名"
 
 #: src/delugegtk.py:388
 msgid "Offset"
@@ -423,7 +423,7 @@ msgstr "Deluge Bittorrent Client"
 
 #: src/delugegtk.py:746
 msgid "Add torrent from URL"
-msgstr "URLからtorrentを追加"
+msgstr "URLからTorrentを追加"
 
 #: src/delugegtk.py:750
 msgid "Enter the URL of the .torrent to download"
@@ -435,16 +435,16 @@ msgstr ""
 
 #: src/dgtk.py:33
 msgid "Choose a .torrent file"
-msgstr ".torrent ファイルを選択"
+msgstr ".torrentファイルを選択"
 
 #: src/dgtk.py:37
 msgid "Torrent files"
-msgstr "Torrent ファイル"
+msgstr "Torrentファイル"
 
 #: src/dgtk.py:41
 msgid "All files"
-msgstr "全てのファイル"
+msgstr "すべてのファイル"
 
 #: src/dgtk.py:57
 msgid "Choose a download directory"
-msgstr ""
+msgstr "保存先を選択"

@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-02-27 16:14-0500\n"
-"PO-Revision-Date: 2007-02-23 11:48+0000\n"
-"Last-Translator: Hietaranta MK <markus.hietaranta@gmail.com>\n"
+"PO-Revision-Date: 2007-03-05 17:00+0000\n"
+"Last-Translator: Tuomo Sipola <tuomosipola@gmail.com>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Rosetta-Export-Date: 2007-03-02 21:38+0000\n"
+"X-Rosetta-Export-Date: 2007-03-06 00:48+0000\n"
 
 #: glade/delugegtk.glade:23 glade/delugegtk.glade:156 src/delugegtk.py:145
 msgid "Add Torrent"
@@ -32,7 +32,7 @@ msgstr "Poista valmiit torrentit"
 
 #: glade/delugegtk.glade:71
 msgid "Start / Pause"
-msgstr ""
+msgstr "Aloita / Lopeta"
 
 #: glade/delugegtk.glade:84
 msgid "Queue Torrent Up"
@@ -365,7 +365,7 @@ msgstr "Virhe: Internet-selainta ei löydy"
 
 #: src/delugegtk.py:144
 msgid "Show / Hide Window"
-msgstr ""
+msgstr "Näytä / Piilota"
 
 #: src/delugegtk.py:220
 msgid "Plugin"
