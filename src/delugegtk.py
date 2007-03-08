@@ -879,7 +879,21 @@ class DelugeGTK:
 			path = dgtk.show_directory_chooser_dialog(self.window)
 			if path is None:
 				return
-		unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))
+		try:
+			unique_id = self.manager.add_torrent(torrent, path, False)
+			# unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))
+		except deluge.InsufficientFreeSpaceError, err:
+			print "Got an Error,", err
+			if self.is_running: # make sure the gui is running and alert the user.
+				nice_need = dcommon.fsize(err.needed_space)
+				nice_free = dcommon.fsize(err.free_space)
+				message = _("There is not enough free disk space to complete your download.") + "\n" \
+					+ _("Space available on disk:") + "   " + nice_free + "\n" \
+					+ _("Total size of download:") + "   " + nice_need
+				dgtk.show_popup_warning(self.window, message)
+				
+			return
+			
 		if append:
 			self.torrent_model.append(self.get_list_from_unique_id(unique_id))
 		
