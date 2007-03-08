@@ -34,7 +34,7 @@ VERSION		= "0.4.99.1"
 AUTHOR		= "Zach Tibbitts, Alon Zakai"
 EMAIL		= "zach@collegegeek.org, kripkensteiner@gmail.com"
 DESCRIPTION	= "A bittorrent client written in PyGTK"
-URL			= "http://
+URL			= "http://deluge-torrent.org"
 LICENSE		= "GPLv2"
 
 # NOTE: The following "hack" removes the -g and -Wstrict-prototypes
