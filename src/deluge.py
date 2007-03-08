@@ -711,7 +711,7 @@ class Manager:
 		if no_space:
 			self.apply_queue()
 
-		return ret, no_space
+		return (ret, no_space)
 
 	def get_queue_index(self, unique_ID):
 		return self.state.queue.index(unique_ID)

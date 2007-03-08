@@ -877,8 +877,9 @@ class DelugeGTK:
 		(unique_id, paused) = self.manager.add_torrent(torrent, path, False)
 #		nice_need = dcommon.fsize(err.needed_space)
 #		nice_free = dcommon.fsize(err.free_space)
-		dgtk.show_popup_warning(self.window, _("There is not enough free space to complete this download.") + \
-			_("Please ensure you have enough space available, then unpause the download."))			
+		if paused:
+			dgtk.show_popup_warning(self.window, _("There is not enough free space to complete this download.") + \
+				_("Please ensure you have enough space available, then unpause the download."))			
 			
 		if append:
 			self.torrent_model.append(self.get_list_from_unique_id(unique_id))
