@@ -98,7 +98,7 @@ def get_glade_file(fname):
 def get_pixmap(fname):
 	return PIXMAP_DIR + "/" + fname
 	
-def open_url_in_browser(link, foobar=None):
+def open_url_in_browser(dialog, link):
 	try:
 		webbrowser.open(link)
 	except webbrowser.Error:
