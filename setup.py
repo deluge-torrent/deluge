@@ -28,12 +28,15 @@ import msgfmt
 
 pythonVersion = platform.python_version()[0:3]
 
+NAME		= "deluge"
+FULLNAME	= "Deluge BitTorrent Client"
+VERSION		= "0.4.99.1"
+AUTHOR		= "Zach Tibbitts, Alon Zakai"
+EMAIL		= "zach@collegegeek.org, kripkensteiner@gmail.com"
+DESCRIPTION	= "A bittorrent client written in PyGTK"
+URL			= "http://
+LICENSE		= "GPLv2"
 
-APP_VERSION = "0.4.99.1"
-
-
-
-#
 # NOTE: The following "hack" removes the -g and -Wstrict-prototypes
 # build options from the command that will compile the C++ module,
 # deluge_core.  While we understand that you aren't generally
@@ -48,7 +51,6 @@ APP_VERSION = "0.4.99.1"
 #	While this does not really impact anything, it makes it
 #	seem as if something is going wrong with the compile, and
 #	it has been removed to prevent confusion.
-#
 
 removals = ['-g', '-DNDEBUG', '-O2', '-Wstrict-prototypes']
 additions = ['-DNDEBUG', '-O2']
@@ -68,9 +70,6 @@ else:
 		cv_opt = cv_opt + " " + addition
 	sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
 
-
-
-#
 # NOTE: The Rasterbar Libtorrent source code is in the libtorrent/ directory
 # inside of Deluge's source tarball.  On several occasions, it has been 
 # pointed out to us that we should build against the system's installed 
@@ -81,7 +80,7 @@ else:
 # we will probably begin to build against a system libtorrent, but at the
 # moment, we are including the source code to make packaging on Debian and
 # Ubuntu possible.
-#
+
 deluge_core = Extension('deluge_core',
                     include_dirs = ['./libtorrent', './libtorrent/include', 
                     			'./libtorrent/include/libtorrent', 
@@ -125,36 +124,32 @@ deluge_core = Extension('deluge_core',
 						'libtorrent/src/kademlia/rpc_manager.cpp',
 						'libtorrent/src/kademlia/traversal_algorithm.cpp'])
 
-
-
 # Thanks to Iain Nicol for code to save the location for installed prefix
 # At runtime, we need to know where we installed the data to.
-
 
 class write_data_install_path(cmd.Command):
 	description = 'saves the data installation path for access at runtime'
 	
 	def initialize_options(self):
-		self.data_install_dir = None
+		self.prefix = None
 		self.lib_build_dir = None
 
 	def finalize_options(self):
 		self.set_undefined_options('install',
-			('install_data', 'data_install_dir')
-		)		
+			('prefix', 'prefix')
+		)
 		self.set_undefined_options('build',
 			('build_lib', 'lib_build_dir')
 		)
 
 	def run(self):
-		print self.data_install_dir
 		conf_filename = os.path.join(self.lib_build_dir,
 			'deluge', 'dcommon.py')
 
 		conf_file = open(conf_filename, 'r')
 		data = conf_file.read()
 		conf_file.close()
-		data = data.replace('@datadir@', self.data_install_dir)
+		data = data.replace('@datadir@', self.prefix)
 
 		conf_file = open(conf_filename, 'w')
 		conf_file.write(data)
@@ -225,8 +220,6 @@ class install_data(_install_data):
 			self.data_files.append( (lang_dir, [lang_file]) )
 		_install_data.run(self)
 
-
-
 cmdclass = {
 	'build': build,
 	'install': install,
@@ -244,12 +237,9 @@ data = [('share/deluge/glade',  glob.glob('glade/*.glade')),
 for plugin in glob.glob('plugins/*'):
 	data.append( ('share/deluge/' + plugin, glob.glob(plugin + '/*')) )
 
-setup(name="deluge", fullname="Deluge BitTorrent Client", version=APP_VERSION,
-	author="Zach Tibbitts, Alon Zakai",
-	author_email="zach@collegegeek.org, kripkensteiner@gmail.com",
-	description="A bittorrent client written in PyGTK",
-	url="http://deluge-torrent.org",
-	license="GPLv2",
+setup(name=NAME, fullname=FULLNAME, version=APP_VERSION,
+	author=AUTHOR, author_email=EMAIL, description=DESCRIPTION,
+	url=URL, license=LICENSE,
 	scripts=["scripts/deluge"],
 	packages=['deluge'],
 	package_dir = {'deluge': 'src'},
