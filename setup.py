@@ -237,7 +237,7 @@ data = [('share/deluge/glade',  glob.glob('glade/*.glade')),
 for plugin in glob.glob('plugins/*'):
 	data.append( ('share/deluge/' + plugin, glob.glob(plugin + '/*')) )
 
-setup(name=NAME, fullname=FULLNAME, version=APP_VERSION,
+setup(name=NAME, fullname=FULLNAME, version=VERSION,
 	author=AUTHOR, author_email=EMAIL, description=DESCRIPTION,
 	url=URL, license=LICENSE,
 	scripts=["scripts/deluge"],
