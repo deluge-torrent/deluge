@@ -599,9 +599,12 @@ class DelugeGTK:
 		if is_paused:
 			message = 'Paused %s'%progress
 		else:
-			message = deluge.STATE_MESSAGES[state]
-			if state in (1, 3, 4, 7):
-				message = '%s %s'%(message, progress)
+			try:
+				message = deluge.STATE_MESSAGES[state]
+				if state in (1, 3, 4, 7):
+					message = '%s %s'%(message, progress)
+			except IndexError:
+				message = ''
 		return message
 	
 	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
