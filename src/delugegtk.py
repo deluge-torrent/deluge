@@ -675,14 +675,7 @@ class DelugeGTK:
 				torrent_subdir = self.manager.base_dir + "/" + deluge.TORRENTS_SUBDIR
 				for torrent in os.listdir(torrent_subdir):
 					if torrent.endswith('.torrent'):
-						if self.config.get('use_default_dir', bool, default=False):
-							path = self.config.get('default_download_path', default=os.path.expandvars('$HOME'))
-						else:
-							path = dgtk.show_directory_chooser_dialog(self.window, 
-								_("Choose the download directory for") + " " + torrent)
-						if path is not None:
-							unique_id = self.manager.add_old_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))
-							self.torrent_model.append(self.get_list_from_unique_id(unique_id))
+						self.interactive_add_torrent(torrent)
 			self.something_screwed_up = False
 		
 		# Update Statusbar and Tray Tips
@@ -879,20 +872,13 @@ class DelugeGTK:
 			path = dgtk.show_directory_chooser_dialog(self.window)
 			if path is None:
 				return
-		try:
-			unique_id = self.manager.add_torrent(torrent, path, False)
-			# unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))
-		except deluge.InsufficientFreeSpaceError, err:
-			print "Got an Error,", err
-			if self.is_running: # make sure the gui is running and alert the user.
-				nice_need = dcommon.fsize(err.needed_space)
-				nice_free = dcommon.fsize(err.free_space)
-				message = _("There is not enough free disk space to complete your download.") + "\n" \
-					+ _("Space available on disk:") + "   " + nice_free + "\n" \
-					+ _("Total size of download:") + "   " + nice_need
-				dgtk.show_popup_warning(self.window, message)
-				
-			return
+
+#		unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))				
+		(unique_id, paused) = self.manager.add_torrent(torrent, path, False)
+#		nice_need = dcommon.fsize(err.needed_space)
+#		nice_free = dcommon.fsize(err.free_space)
+		dgtk.show_popup_warning(self.window, _("There is not enough free space to complete this download.") + \
+			_("Please ensure you have enough space available, then unpause the download."))			
 			
 		if append:
 			self.torrent_model.append(self.get_list_from_unique_id(unique_id))

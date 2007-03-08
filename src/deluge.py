@@ -637,6 +637,7 @@ class Manager:
 	##
 	def sync(self):
 		ret = None # We return new added unique ID(s), or None
+		no_space = False
 
 		# Add torrents to core and unique_IDs
 		torrents_with_unique_ID = self.unique_IDs.values()
@@ -653,18 +654,14 @@ class Manager:
 				avail = self.calc_free_space(torrent.save_dir)
 				print "Torrent Size", size
 				print "Available Space", avail
-				size = avail + 1 #debug!
+#				size = avail + 1 #debug!
 				if size > avail: # Not enough free space
-					deluge_core.remove_torrent(unique_ID) #Remove the torrent
-					self.state.torrents.remove(torrent)
-					#self.state.queue.remove(unique_ID)
-					os.remove(torrent.filename)
-					try:
-						# Must be after removal of the torrent, because that saves a new .fastresume
-						os.remove(torrent.filename + ".fastresume")
-					except OSError:
-						pass # Perhaps there never was one to begin with
-					raise InsufficientFreeSpaceError(avail, size)
+					torrent.user_paused = True
+					no_space = True
+#					deluge_core.remove_torrent(unique_ID) #Remove the torrent
+#					self.state.torrents.remove(torrent)
+#					os.remove(torrent.filename)
+#					raise InsufficientFreeSpaceError(avail, size)
 				ret = unique_ID
 				self.unique_IDs[unique_ID] = torrent
 
@@ -710,8 +707,11 @@ class Manager:
 
 		assert(len(self.unique_IDs) == len(self.state.queue))
 		assert(len(self.unique_IDs) == deluge_core.get_num_torrents())
+		
+		if no_space:
+			self.apply_queue()
 
-		return ret
+		return ret, no_space
 
 	def get_queue_index(self, unique_ID):
 		return self.state.queue.index(unique_ID)
