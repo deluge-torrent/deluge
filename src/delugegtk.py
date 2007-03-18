@@ -261,6 +261,7 @@ class DelugeGTK:
 			return True
 		name = model.get_value(model.get_iter(path), 0)
 		plugin = self.plugins.get_plugin(name)
+		author = plugin['author']
 		version = plugin['version']
 		config = plugin['config']
 		description = plugin['description']
@@ -269,8 +270,8 @@ class DelugeGTK:
 		else:
 			self.prf_glade.get_widget("plugin_conf").set_sensitive(False)
 		self.prf_glade.get_widget("plugin_text").get_buffer(
-			).set_text("%s\nVersion: %s\n\n%s"%
-			(name, version, description))
+			).set_text("%s\nBy: %s\nVersion: %s\n\n%s"%
+			(name, author, version, description))
 		return True
 
 	def plugin_toggled(self, renderer, path):

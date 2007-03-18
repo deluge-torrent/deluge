@@ -14,6 +14,6 @@ class plugin_Hello:
 
 register_plugin("Hello World",
 				plugin_Hello,
+				"Zach Tibbitts",
 				"1.0",
-				'Displays "Hello, World"',
-				requires="0.5.0")
+				'Displays "Hello, World"')

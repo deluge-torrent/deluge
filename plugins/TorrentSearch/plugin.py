@@ -154,10 +154,8 @@ class plugin_Search:
 
 register_plugin("Torrent Search",
 				plugin_Search,
+				"Zach Tibbitts",
 				"0.5",
 				"A searchbar for torrent search engines",
-				config=True,
-				default=False,
-				requires="0.5.0",
-				interface="gtk",
-				required_plugins=None)
+				config=True
+				)

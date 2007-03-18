@@ -71,16 +71,12 @@ class PluginManager:
 			self.enabled_plugins[name].unload()
 		self.enabled_plugins.clear()
 	
-	def register_plugin(self, name, plugin_class, version, description, config=False,
-		default=False, requires=None, interface=None, required_plugins=None):
+	def register_plugin(self, name, plugin_class, author, version, description, config=False):
 		self.available_plugins[name] = {'class': plugin_class, 
+										'author': author,
 										'version': version, 
 										'description': description, 
 										'config': config, 
-										'default': default, 
-										'requires': requires, 
-										'interface': interface, 
-										'req plugins': required_plugins,
 										'path': self.path}
 
 ## Few lines of code to test functionality

@@ -32,11 +32,8 @@ class plugin_NetworkHealth:
 ### Register plugin with Deluge
 register_plugin("Network Health Monitor",		# The name of the plugin
 				plugin_NetworkHealth,			# The plugin's class
+				"Alon Zakai, Zach Tibbitts", # Authors
 				"0.2",				# The plugin's version number
 				"Network Health Monitor plugin\n\nWritten by Kripkenstein",	# A description of the plugin
-				config=False,			# If the plugin can be configured
-				default=False,			# If the plugin should be loaded by default
-				requires="0.5.0",		# Required version of Deluge
-				interface="gtk",		# Required Deluge interface
-				required_plugins=None	# Any plugins that must be loaded before this
+				config=False			# If the plugin can be configured\
 				)

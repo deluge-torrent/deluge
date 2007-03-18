@@ -20,7 +20,7 @@ class plugin_NetGraph:
 
 		self.parentNotebook = self.parent.notebook
 #		print "Parent NOTEBOOK:", self.parentNotebook
-		self.parentNotebook.append_page(self.topWidget, gtk.Label("NetGraph"))
+		self.parentNotebook.append_page(self.topWidget, gtk.Label("Graph"))
 #		print "My INDEX in parentNoteBook:", self.index
 
 		self.image.show()
@@ -162,11 +162,8 @@ class plugin_NetGraph:
 
 register_plugin("Network Activity Graph",		# The name of the plugin
 				plugin_NetGraph,			# The plugin's class
+				"Alon Zakai, Zach Tibbitts", # Authors
 				"0.2",				# The plugin's version number
 				"Network Activity Graph plugin\n\nWritten by Kripkenstein",	# A description of the plugin
 				config=False,			# If the plugin can be configured
-				default=False,			# If the plugin should be loaded by default
-				requires="0.5.0",		# Required version of Deluge
-				interface="gtk",		# Required Deluge interface
-				required_plugins=None	# Any plugins that must be loaded before this
 				)
