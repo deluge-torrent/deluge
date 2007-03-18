@@ -94,11 +94,8 @@ class plugin_Example: # The plugin's class
 
 register_plugin("Example Plugin",		# The name of the plugin
 				plugin_Example,			# The plugin's class
+				"Zach Tibbitts", 		# The author's Name
 				"0.5.0",				# The plugin's version number
 				"An example plugin",	# A description of the plugin
 				config=True,			# If the plugin can be configured
-				default=False,			# If the plugin should be loaded by default
-				requires="0.5.0",		# Required version of Deluge
-				interface="gtk",		# Required Deluge interface
-				required_plugins=None	# Any plugins that must be loaded before this
 				)

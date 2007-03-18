@@ -37,7 +37,7 @@
 #		3. supp_torrent_state - supplementary torrent data, from Deluge
 
 import deluge_core
-import os, shutil
+import os, shutil, statvfs
 import pickle
 import time
 import gettext
@@ -109,6 +109,13 @@ class InvalidTorrentError(DelugeError):
 
 class InvalidUniqueIDError(DelugeError):
 	pass
+
+class InsufficientFreeSpaceError(DelugeError):
+	def __init__(self, free_space, needed_space):
+		self.free_space = free_space
+		self.needed_space = needed_space
+	def __str__(self):
+		return "%d %d bytes needed"%(self.free_space, self.needed_space)
 
 # A cached data item
 
@@ -299,7 +306,7 @@ class Manager:
 		# Apply the pref, if applicable
 		if PREF_FUNCTIONS[key] is not None:
 			PREF_FUNCTIONS[key](value)
-
+		
 	# Torrent addition and removal functions
 
 	def add_torrent(self, filename, save_dir, compact):
@@ -590,14 +597,22 @@ class Manager:
 		
 		return self.saved_core_torrent_file_infos[unique_ID].get(efficiently)
 
+	# Functions for checking if enough space is available
+	
+	def calc_free_space(self, directory):
+		dir_stats = os.statvfs(directory)
+		block_size = dir_stats[statvfs.F_BSIZE]
+		avail_blocks = dir_stats[statvfs.F_BAVAIL]
+		return long(block_size * avail_blocks)
+
 	# Non-syncing functions. Used when we loop over such events, and sync manually at the end
 
 	def add_torrent_ns(self, filename, save_dir, compact):
 		# Cache torrent file
 		(temp, filename_short) = os.path.split(filename)
 
-		if filename_short in os.listdir(self.base_dir + "/" + TORRENTS_SUBDIR):
-			raise DuplicateTorrentError("Duplicate Torrent, it appears: " + filename_short)
+		# if filename_short in os.listdir(self.base_dir + "/" + TORRENTS_SUBDIR):
+		# 	raise DuplicateTorrentError("Duplicate Torrent, it appears: " + filename_short)
 
 		full_new_name = self.base_dir + "/" + TORRENTS_SUBDIR + "/" + filename_short
 
@@ -622,6 +637,7 @@ class Manager:
 	##
 	def sync(self):
 		ret = None # We return new added unique ID(s), or None
+		no_space = False
 
 		# Add torrents to core and unique_IDs
 		torrents_with_unique_ID = self.unique_IDs.values()
@@ -633,8 +649,22 @@ class Manager:
 				                                    torrent.save_dir,
 				                                    torrent.compact)
 #				print "Got unique ID:", unique_ID
+				# Now to check and see if there is enough free space for the download
+				size = deluge_core.get_torrent_state(unique_ID)["total_size"]
+				avail = self.calc_free_space(torrent.save_dir)
+				print "Torrent Size", size
+				print "Available Space", avail
+#				size = avail + 1 #debug!
+				if size > avail: # Not enough free space
+					torrent.user_paused = True
+					no_space = True
+#					deluge_core.remove_torrent(unique_ID) #Remove the torrent
+#					self.state.torrents.remove(torrent)
+#					os.remove(torrent.filename)
+#					raise InsufficientFreeSpaceError(avail, size)
 				ret = unique_ID
 				self.unique_IDs[unique_ID] = torrent
+
 		
 #		print torrents_with_unique_ID
 		# Remove torrents from core, unique_IDs and queue
@@ -677,8 +707,11 @@ class Manager:
 
 		assert(len(self.unique_IDs) == len(self.state.queue))
 		assert(len(self.unique_IDs) == deluge_core.get_num_torrents())
+		
+		if no_space:
+			self.apply_queue()
 
-		return ret
+		return (ret, no_space)
 
 	def get_queue_index(self, unique_ID):
 		return self.state.queue.index(unique_ID)
@@ -703,3 +736,5 @@ class Manager:
 			ret = -1
 
 		return ret
+	
+

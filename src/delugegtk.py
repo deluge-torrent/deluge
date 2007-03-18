@@ -261,6 +261,7 @@ class DelugeGTK:
 			return True
 		name = model.get_value(model.get_iter(path), 0)
 		plugin = self.plugins.get_plugin(name)
+		author = plugin['author']
 		version = plugin['version']
 		config = plugin['config']
 		description = plugin['description']
@@ -269,8 +270,8 @@ class DelugeGTK:
 		else:
 			self.prf_glade.get_widget("plugin_conf").set_sensitive(False)
 		self.prf_glade.get_widget("plugin_text").get_buffer(
-			).set_text("%s\nVersion: %s\n\n%s"%
-			(name, version, description))
+			).set_text("%s\nBy: %s\nVersion: %s\n\n%s"%
+			(name, author, version, description))
 		return True
 
 	def plugin_toggled(self, renderer, path):
@@ -675,14 +676,7 @@ class DelugeGTK:
 				torrent_subdir = self.manager.base_dir + "/" + deluge.TORRENTS_SUBDIR
 				for torrent in os.listdir(torrent_subdir):
 					if torrent.endswith('.torrent'):
-						if self.config.get('use_default_dir', bool, default=False):
-							path = self.config.get('default_download_path', default=os.path.expandvars('$HOME'))
-						else:
-							path = dgtk.show_directory_chooser_dialog(self.window, 
-								_("Choose the download directory for") + " " + torrent)
-						if path is not None:
-							unique_id = self.manager.add_old_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))
-							self.torrent_model.append(self.get_list_from_unique_id(unique_id))
+						self.interactive_add_torrent(torrent)
 			self.something_screwed_up = False
 		
 		# Update Statusbar and Tray Tips
@@ -879,7 +873,15 @@ class DelugeGTK:
 			path = dgtk.show_directory_chooser_dialog(self.window)
 			if path is None:
 				return
-		unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))
+
+#		unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))				
+		(unique_id, paused) = self.manager.add_torrent(torrent, path, False)
+#		nice_need = dcommon.fsize(err.needed_space)
+#		nice_free = dcommon.fsize(err.free_space)
+		if paused:
+			dgtk.show_popup_warning(self.window, _("There is not enough free space to complete this download.") + \
+				_("Please ensure you have enough space available, then unpause the download."))			
+			
 		if append:
 			self.torrent_model.append(self.get_list_from_unique_id(unique_id))
 		

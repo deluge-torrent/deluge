@@ -8,195 +8,196 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-02-27 16:14-0500\n"
-"PO-Revision-Date: 2007-03-03 22:41+0000\n"
-"Last-Translator: Spyros Theodoritsis <madmetal75@gmail.com>\n"
+"POT-Creation-Date: 2007-03-06 16:19-0500\n"
+"PO-Revision-Date: 2007-03-11 20:52+0000\n"
+"Last-Translator: Athanasios Lefteris <alefteris@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Rosetta-Export-Date: 2007-03-06 00:48+0000\n"
+"X-Rosetta-Export-Date: 2007-03-18 15:58+0000\n"
 
-#: glade/delugegtk.glade:23 glade/delugegtk.glade:156 src/delugegtk.py:145
+#: glade/delugegtk.glade:93
+msgid "<b>Estimated Time Remaining:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:131
+msgid "<b>Peers:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:145
+msgid "<b>Seeders:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:157
+msgid "<b>Total Size:</b>"
+msgstr "<b>Συνολικό Μέγεθος</b>"
+
+#: glade/delugegtk.glade:169
+msgid "<b>Total Downloaded:</b>"
+msgstr "<b>Σύνολο κατεβασμένων</b>"
+
+#: glade/delugegtk.glade:181
+msgid "<b>Downloaded this session:</b>"
+msgstr "<b>Κατέβηκαν αυτή την συνεδρία:</b>"
+
+#: glade/delugegtk.glade:229
+msgid "<b>Tracker:</b>"
+msgstr "<b>Ιχνηλάτης</b>"
+
+#: glade/delugegtk.glade:241
+msgid "<b>Tracker Response:</b>"
+msgstr "<b>Απάντηση Ιχνηλάτη</b>"
+
+#: glade/delugegtk.glade:253
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Κατάσταση Ιχνηλάτη</b>"
+
+#: glade/delugegtk.glade:277
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Επόμενη ανακοίνωση</b>"
+
+#: glade/delugegtk.glade:303
+msgid "<b>Pieces:</b>"
+msgstr "<b>Κομμάτια</b>"
+
+#: glade/delugegtk.glade:317
+msgid "<b>Total Uploaded:</b>"
+msgstr "<b>Σύνολο Απεσταλμένων</b>"
+
+#: glade/delugegtk.glade:355
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Αναλογία</b>"
+
+#: glade/delugegtk.glade:369
+msgid "<b>Uploaded This Session:</b>"
+msgstr "<b>Απεσταλμένα αυτή την συνεδρία</b>"
+
+#: glade/delugegtk.glade:431
+msgid "<b>Use compact storage allocation:</b>"
+msgstr "<b>Χρήση \"compact storage allocation\"</b>"
+
+#: glade/delugegtk.glade:455
+msgid "<b>Download Rate:</b>"
+msgstr "<b>Ρυθμός κατεβάσματος</b>"
+
+#: glade/delugegtk.glade:479
+msgid "<b>Upload Rate:</b>"
+msgstr "<b>Ρυθμός ανεβάσματος</b>"
+
+#: glade/delugegtk.glade:522 glade/delugegtk.glade:746
+msgid "Details"
+msgstr "Λεπτομέρειες"
+
+#: glade/delugegtk.glade:549 glade/delugegtk.glade:790
+#: glade/dgtkpopups.glade:37 src/delugegtk.py:352
+msgid "Peers"
+msgstr "Συνδέσεις"
+
+#: glade/delugegtk.glade:578
+msgid "Files"
+msgstr "Αρχεία"
+
+#: glade/delugegtk.glade:613
+msgid "_File"
+msgstr "_Αρχείο"
+
+#: glade/delugegtk.glade:620 glade/delugegtk.glade:901 src/delugegtk.py:174
 msgid "Add Torrent"
 msgstr "Προσθήκη Torrent"
 
-#: glade/delugegtk.glade:36 glade/delugegtk.glade:180
+#: glade/delugegtk.glade:636
+msgid "Add Torrent from URL"
+msgstr "Προσθήκη torrent από URL"
+
+#: glade/delugegtk.glade:644 glade/delugegtk.glade:914
 #: glade/dgtkpopups.glade:81
 msgid "Remove Torrent"
 msgstr "Αφαίρεση torrent"
 
-#: glade/delugegtk.glade:49
-msgid "Clear Finished Torrents"
-msgstr "Καθάρισε τα ολοκληρωμένα torrents"
-
-#: glade/delugegtk.glade:71
-msgid "Start / Pause"
-msgstr "Έναρξη / Παύση"
-
-#: glade/delugegtk.glade:84
-msgid "Queue Torrent Up"
-msgstr "Μετακινήστε το torrent ψηλότερα στην σειρά αναμονής"
-
-#: glade/delugegtk.glade:97
-msgid "Queue Torrent Down"
-msgstr "Μετακινήστε το torrent χαμηλότερα στην σειρά αναμονής"
-
-#: glade/delugegtk.glade:149
-msgid "_File"
-msgstr "_Αρχείο"
-
-#: glade/delugegtk.glade:172
-msgid "Add Torrent from URL"
-msgstr "Προσθήκη torrent από URL"
-
-#: glade/delugegtk.glade:194
+#: glade/delugegtk.glade:658
 msgid "Clear Completed"
 msgstr "Καθαρισμός ολοκληρώθηκε"
 
-#: glade/delugegtk.glade:228
+#: glade/delugegtk.glade:692
 msgid "_Edit"
 msgstr "_Επεξεργασία"
 
-#: glade/delugegtk.glade:245
-msgid "_Manage Plugins"
-msgstr "Διαχείρισει προσθέτων"
+#: glade/delugegtk.glade:709 glade/dgtkpopups.glade:221
+#: glade/dgtkpref.glade:697 src/delugegtk.py:177
+msgid "Plugins"
+msgstr "Plugins"
 
-#: glade/delugegtk.glade:265
+#: glade/delugegtk.glade:729
 msgid "_View"
 msgstr "_Προβολή"
 
-#: glade/delugegtk.glade:273
+#: glade/delugegtk.glade:737
 msgid "Toolbar"
 msgstr "Γραμμή εργαλείων"
 
-#: glade/delugegtk.glade:282 glade/delugegtk.glade:919
-msgid "Details"
-msgstr "Λεπτομέρειες"
-
-#: glade/delugegtk.glade:291
+#: glade/delugegtk.glade:755
 msgid "Columns"
 msgstr "Στήλες"
 
-#: glade/delugegtk.glade:299 glade/dgtkpopups.glade:10 src/delugegtk.py:280
-#: src/delugegtk.py:387
+#: glade/delugegtk.glade:763 glade/dgtkpopups.glade:10 src/delugegtk.py:349
+#: src/delugegtk.py:479
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: glade/delugegtk.glade:308 glade/dgtkpopups.glade:19 src/delugegtk.py:281
+#: glade/delugegtk.glade:772 glade/dgtkpopups.glade:19 src/delugegtk.py:350
 msgid "Status"
 msgstr "Κατάσταση"
 
-#: glade/delugegtk.glade:317 glade/dgtkpopups.glade:28 src/delugegtk.py:282
+#: glade/delugegtk.glade:781 glade/dgtkpopups.glade:28 src/delugegtk.py:351
 msgid "Seeders"
 msgstr "Γόνοι"
 
-#: glade/delugegtk.glade:326 glade/delugegtk.glade:946
-#: glade/dgtkpopups.glade:37 src/delugegtk.py:283
-msgid "Peers"
-msgstr "Συνδέσεις"
-
-#: glade/delugegtk.glade:335 src/delugegtk.py:284 src/delugegtk.py:385
-#: src/delugegtk.py:554 src/delugegtk.py:566
+#: glade/delugegtk.glade:799 src/delugegtk.py:353 src/delugegtk.py:477
+#: src/delugegtk.py:692 src/delugegtk.py:704
 msgid "Download"
 msgstr "Λαμβάνεται"
 
-#: glade/delugegtk.glade:344 src/delugegtk.py:285 src/delugegtk.py:555
-#: src/delugegtk.py:567
+#: glade/delugegtk.glade:808 src/delugegtk.py:354 src/delugegtk.py:693
+#: src/delugegtk.py:705
 msgid "Upload"
 msgstr "Αποστέλεται"
 
-#: glade/delugegtk.glade:353 glade/dgtkpopups.glade:64 src/delugegtk.py:286
+#: glade/delugegtk.glade:817 glade/dgtkpopups.glade:64 src/delugegtk.py:355
 msgid "Time Remaining"
 msgstr "Χρόνος που απομένει"
 
-#: glade/delugegtk.glade:362 glade/dgtkpopups.glade:73
+#: glade/delugegtk.glade:826 glade/dgtkpopups.glade:73
 msgid "Share Ratio"
 msgstr ""
 
-#: glade/delugegtk.glade:379
+#: glade/delugegtk.glade:843
 msgid "_Help"
 msgstr "_Βοήθεια"
 
-#: glade/delugegtk.glade:500
-msgid "<b>Upload Rate:</b>"
-msgstr ""
+#: glade/delugegtk.glade:927
+msgid "Clear Finished Torrents"
+msgstr "Καθαρισμός ολοκληρωμένων torrents"
 
-#: glade/delugegtk.glade:526
-msgid "<b>Download Rate:</b>"
-msgstr ""
+#: glade/delugegtk.glade:949
+msgid "Start / Pause"
+msgstr "Έναρξη / Παύση"
 
-#: glade/delugegtk.glade:550
-msgid "<b>Use compact storage allocation:</b>"
-msgstr "<b>Χρήση \"compact storage allocation\"</b>"
-
-#: glade/delugegtk.glade:610
-msgid "<b>Uploaded This Session:</b>"
-msgstr "<b>Απεσταλμένα αυτή την συνεδρία</b>"
-
-#: glade/delugegtk.glade:624
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>Αναλογία</b>"
-
-#: glade/delugegtk.glade:662
-msgid "<b>Total Uploaded:</b>"
-msgstr "<b>Σύνολο Απεσταλμένων</b>"
-
-#: glade/delugegtk.glade:676
-msgid "<b>Pieces:</b>"
-msgstr "<b>Κομμάτια</b>"
-
-#: glade/delugegtk.glade:702
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Επόμενη ανακοίνωση</b>"
-
-#: glade/delugegtk.glade:728
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>Κατάσταση Ιχνηλάτη</b>"
-
-#: glade/delugegtk.glade:740
-msgid "<b>Tracker Response:</b>"
-msgstr "<b>Απάντηση Ιχνηλάτη</b>"
-
-#: glade/delugegtk.glade:752
-msgid "<b>Tracker:</b>"
-msgstr "<b>Ιχνηλάτης</b>"
-
-#: glade/delugegtk.glade:800
-msgid "<b>Downloaded this session:</b>"
-msgstr "<b>Κατέβηκαν αυτή την συνεδρία:</b>"
-
-#: glade/delugegtk.glade:812
-msgid "<b>Total Downloaded:</b>"
-msgstr "<b>Σύνολο κατεβασμένων</b>"
-
-#: glade/delugegtk.glade:824
-msgid "<b>Total Size:</b>"
-msgstr "<b>Συνολικό Μέγεθος</b>"
-
-#: glade/delugegtk.glade:836
-msgid "<b>Seeders:</b>"
-msgstr ""
-
-#: glade/delugegtk.glade:848
-msgid "<b>Peers:</b>"
-msgstr ""
-
-#: glade/delugegtk.glade:886
-msgid "<b>Estimated Time Remaining:</b>"
-msgstr ""
+#: glade/delugegtk.glade:962
+msgid "Queue Torrent Up"
+msgstr "Μετακινήστε το torrent ψηλότερα στην σειρά αναμονής"
 
 #: glade/delugegtk.glade:975
-msgid "Files"
-msgstr "Αρχεία"
+msgid "Queue Torrent Down"
+msgstr "Μετακινήστε το torrent χαμηλότερα στην σειρά αναμονής"
 
 #: glade/dgtkpopups.glade:46
 msgid "Download Speed"
-msgstr ""
+msgstr "Ταχύτητα κατεβάσματος"
 
 #: glade/dgtkpopups.glade:55
 msgid "Upload Speed"
-msgstr ""
+msgstr "Ταχύτητα ανεβάσματος"
 
 #: glade/dgtkpopups.glade:97
 msgid ""
@@ -217,25 +218,21 @@ msgstr "Εμφάνιση/Απόκρυψη"
 msgid "Add a Torrent..."
 msgstr "Προσθήκη Torrent..."
 
-#: glade/dgtkpopups.glade:191 src/delugegtk.py:146
+#: glade/dgtkpopups.glade:191 src/delugegtk.py:175
 msgid "Clear Finished"
 msgstr "Καθάρισε τα ολοκληρωμένα"
 
-#: glade/dgtkpopups.glade:212 glade/dgtkpref.glade:675
+#: glade/dgtkpopups.glade:212 glade/dgtkpref.glade:672
 msgid "gtk-preferences"
 msgstr "προτιμίσεις-gtk"
 
-#: glade/dgtkpopups.glade:221 glade/dgtkpref.glade:700 src/delugegtk.py:148
-msgid "Plugins"
-msgstr "Plugins"
-
 #: glade/dgtkpopups.glade:242
 msgid "gtk-quit"
-msgstr ""
+msgstr "gtk-quit"
 
 #: glade/dgtkpref.glade:8
 msgid "Preferences Dialog"
-msgstr ""
+msgstr "Διάλογος προτιμήσεων"
 
 #: glade/dgtkpref.glade:53
 msgid "Enable system tray icon"
@@ -248,7 +245,7 @@ msgstr "Ελαχιστοποίηση στην μπάρα κατά την έξο�
 
 #: glade/dgtkpref.glade:80
 msgid "Options"
-msgstr ""
+msgstr "Επιλογές"
 
 #: glade/dgtkpref.glade:115
 msgid "Save all downloads to:"
@@ -283,7 +280,7 @@ msgstr "Αποθήκευση"
 
 #: glade/dgtkpref.glade:246
 msgid "General"
-msgstr ""
+msgstr "Γενικά"
 
 #: glade/dgtkpref.glade:280
 msgid "Try from:"
@@ -299,65 +296,65 @@ msgstr "Ενεργή θύρα:"
 
 #: glade/dgtkpref.glade:332
 msgid "0000"
-msgstr ""
+msgstr "0000"
 
-#: glade/dgtkpref.glade:344
+#: glade/dgtkpref.glade:343
 msgid "Test Port"
 msgstr "Αναφορά τέστ"
 
-#: glade/dgtkpref.glade:358
+#: glade/dgtkpref.glade:357
 msgid "TCP Port"
 msgstr "Θύρα TCP"
 
-#: glade/dgtkpref.glade:381
+#: glade/dgtkpref.glade:380
 msgid "<i>(-1 is unlimited)</i>"
 msgstr ""
 
-#: glade/dgtkpref.glade:391 glade/dgtkpref.glade:416
+#: glade/dgtkpref.glade:390 glade/dgtkpref.glade:511
 msgid "KB/s"
 msgstr "KB/δευτ."
 
-#: glade/dgtkpref.glade:506
-msgid "Maximum number of Downloads:"
-msgstr "Μέγιστος αριθμός Λήψεων:"
-
-#: glade/dgtkpref.glade:517
+#: glade/dgtkpref.glade:436
 msgid "Maximum Download Rate:"
 msgstr "Μέγιστη ταχύτητα Λήψης:"
 
-#: glade/dgtkpref.glade:528
+#: glade/dgtkpref.glade:447
 msgid "Upload Slots"
 msgstr ""
 
-#: glade/dgtkpref.glade:539
+#: glade/dgtkpref.glade:458
+msgid "Maximum Connections"
+msgstr ""
+
+#: glade/dgtkpref.glade:485
 msgid "Maximum Upload Rate:"
 msgstr "Μέγιστη ταχύτητα Αποστολής:"
 
-#: glade/dgtkpref.glade:551
+#: glade/dgtkpref.glade:548
 msgid "Bandwidth "
-msgstr ""
+msgstr "Eύρος μπάντας "
 
-#: glade/dgtkpref.glade:579
+#: glade/dgtkpref.glade:576
 msgid "Network"
 msgstr "Δίκτυο"
 
-#: glade/dgtkpref.glade:601
+#: glade/dgtkpref.glade:598
 msgid "gtk-cancel"
 msgstr "gtk-άκυρο"
 
-#: glade/dgtkpref.glade:608
+#: glade/dgtkpref.glade:605
 msgid "gtk-ok"
 msgstr "gtk-ΟΚ"
 
-#: glade/dgtkpref.glade:628
+#: glade/dgtkpref.glade:625
 msgid "Plugin Manager"
 msgstr "Διαχειριστής Προσθέτων"
 
-#: glade/dgtkpref.glade:721
+#: glade/dgtkpref.glade:718
 msgid "gtk-close"
-msgstr ""
+msgstr "gtk-close"
 
-#: src/dcommon.py:41
+#: src/dcommon.py:41 src/delugegtk.py:330
 msgid "Infinity"
 msgstr "Άπειρο"
 
@@ -365,90 +362,108 @@ msgstr "Άπειρο"
 msgid "Error: no webbrowser found"
 msgstr "Σφάλμα : δεν βρέθηκε browser"
 
-#: src/delugegtk.py:144
+#: src/deluge.py:332
+msgid "File was not found"
+msgstr ""
+
+#: src/delugegtk.py:173
 msgid "Show / Hide Window"
 msgstr "Εμφάνιση / Απόκρυψη Παραθύρου"
 
-#: src/delugegtk.py:220
+#: src/delugegtk.py:250
 msgid "Plugin"
-msgstr ""
+msgstr "Πρόσθετη λειτουργία"
 
-#: src/delugegtk.py:222
+#: src/delugegtk.py:252
 msgid "Enabled"
 msgstr "Ενεργοποιήθηκε"
 
-#: src/delugegtk.py:279
+#: src/delugegtk.py:340
+msgid "Unknown"
+msgstr "Άγνωστο"
+
+#: src/delugegtk.py:348
 msgid "Name"
 msgstr "Όνομα"
 
-#: src/delugegtk.py:287
+#: src/delugegtk.py:356
 msgid "Ratio"
 msgstr "Αναλογία"
 
-#: src/delugegtk.py:373
+#: src/delugegtk.py:465
 msgid "IP Address"
 msgstr "Διεύθυνση IP"
 
-#: src/delugegtk.py:374
+#: src/delugegtk.py:466
 msgid "Client"
 msgstr "Πελάτης"
 
-#: src/delugegtk.py:375
+#: src/delugegtk.py:467
 msgid "Percent Complete"
 msgstr "Ποσοστό ολοκλήρωσης"
 
-#: src/delugegtk.py:376
+#: src/delugegtk.py:468
 msgid "Download Rate"
-msgstr ""
+msgstr "Ρυθμός κατεβάσματος"
 
-#: src/delugegtk.py:377
+#: src/delugegtk.py:469
 msgid "Upload Rate"
-msgstr ""
+msgstr "Ρυθμός ανεβάσματος"
 
-#: src/delugegtk.py:386
+#: src/delugegtk.py:478
 msgid "Filename"
 msgstr "'Ονομα αρχείου"
 
-#: src/delugegtk.py:388
+#: src/delugegtk.py:480
 msgid "Offset"
+msgstr "Μετατόπιση"
+
+#: src/delugegtk.py:668
+msgid ""
+"For some reason, the previous state could not be loaded, so a blank state "
+"has been loaded for you."
 msgstr ""
 
-#: src/delugegtk.py:389
-msgid "Progress"
-msgstr "Πρόοδος"
+#: src/delugegtk.py:670
+msgid "Would you like to attempt to reload the previous session's downloads?"
+msgstr ""
 
-#: src/delugegtk.py:554 src/delugegtk.py:566
+#: src/delugegtk.py:679
+msgid "Choose the download directory for"
+msgstr ""
+
+#: src/delugegtk.py:692 src/delugegtk.py:704
 msgid "Connections"
 msgstr "Συνδέσεις"
 
-#: src/delugegtk.py:565
+#: src/delugegtk.py:703
 msgid "Deluge Bittorrent Client"
 msgstr "Deluge Πελάτης Bittorrent"
 
-#: src/delugegtk.py:746
+#: src/delugegtk.py:891
 msgid "Add torrent from URL"
-msgstr ""
+msgstr "Προσθήκη torrent από URL"
 
-#: src/delugegtk.py:750
+#: src/delugegtk.py:895
 msgid "Enter the URL of the .torrent to download"
-msgstr ""
+msgstr "Εισάγετε το URL του .torrent για κατέβασμα"
 
-#: src/delugegtk.py:814
+#: src/delugegtk.py:959
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr "Προσοχή - όλα τα κατεβασμένα αρχεία αυτού του torrent θα διαγραφούν!"
 
-#: src/dgtk.py:33
+#: src/dgtk.py:71
 msgid "Choose a .torrent file"
-msgstr ""
+msgstr "Επιλογή αρχείου .torrent"
 
-#: src/dgtk.py:37
+#: src/dgtk.py:76
 msgid "Torrent files"
 msgstr "Αρχεία torrent"
 
-#: src/dgtk.py:41
+#: src/dgtk.py:80
 msgid "All files"
 msgstr "Όλα τα αρχεία"
 
-#: src/dgtk.py:57
+#: src/dgtk.py:97
 msgid "Choose a download directory"
-msgstr ""
+msgstr "Επιλογή καταλόγου κατεβάσματος"
