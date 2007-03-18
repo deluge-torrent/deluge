@@ -8,187 +8,188 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-02-27 16:14-0500\n"
+"POT-Creation-Date: 2007-03-06 16:19-0500\n"
 "PO-Revision-Date: 2006-11-17 19:49+0000\n"
 "Last-Translator: kripkenstein <kripkensteiner@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Rosetta-Export-Date: 2007-03-02 21:38+0000\n"
+"X-Rosetta-Export-Date: 2007-03-18 15:58+0000\n"
 
-#: glade/delugegtk.glade:23 glade/delugegtk.glade:156 src/delugegtk.py:145
+#: glade/delugegtk.glade:93
+msgid "<b>Estimated Time Remaining:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:131
+msgid "<b>Peers:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:145
+msgid "<b>Seeders:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:157
+msgid "<b>Total Size:</b>"
+msgstr "גודל כולל:"
+
+#: glade/delugegtk.glade:169
+msgid "<b>Total Downloaded:</b>"
+msgstr "סה\"כ הורד:"
+
+#: glade/delugegtk.glade:181
+msgid "<b>Downloaded this session:</b>"
+msgstr "הורד בהרצה הנוכחית:"
+
+#: glade/delugegtk.glade:229
+msgid "<b>Tracker:</b>"
+msgstr "טראקר:"
+
+#: glade/delugegtk.glade:241
+msgid "<b>Tracker Response:</b>"
+msgstr "תגובת טראקר:"
+
+#: glade/delugegtk.glade:253
+msgid "<b>Tracker Status:</b>"
+msgstr "מצב טראקר:"
+
+#: glade/delugegtk.glade:277
+msgid "<b>Next Announce:</b>"
+msgstr "קריאה באה:"
+
+#: glade/delugegtk.glade:303
+msgid "<b>Pieces:</b>"
+msgstr "חתיכות:"
+
+#: glade/delugegtk.glade:317
+msgid "<b>Total Uploaded:</b>"
+msgstr "סה\"כ הועלה:"
+
+#: glade/delugegtk.glade:355
+msgid "<b>Share Ratio:</b>"
+msgstr "אחוז שיתוף:"
+
+#: glade/delugegtk.glade:369
+msgid "<b>Uploaded This Session:</b>"
+msgstr "הועלה בהרצה הנוכחית:"
+
+#: glade/delugegtk.glade:431
+msgid "<b>Use compact storage allocation:</b>"
+msgstr "משתמש באחסון קומפקטי:"
+
+#: glade/delugegtk.glade:455
+msgid "<b>Download Rate:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:479
+msgid "<b>Upload Rate:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:522 glade/delugegtk.glade:746
+msgid "Details"
+msgstr ""
+
+#: glade/delugegtk.glade:549 glade/delugegtk.glade:790
+#: glade/dgtkpopups.glade:37 src/delugegtk.py:352
+msgid "Peers"
+msgstr "פירים (peers)"
+
+#: glade/delugegtk.glade:578
+msgid "Files"
+msgstr ""
+
+#: glade/delugegtk.glade:613
+msgid "_File"
+msgstr "קובץ"
+
+#: glade/delugegtk.glade:620 glade/delugegtk.glade:901 src/delugegtk.py:174
 msgid "Add Torrent"
 msgstr "הוסף טורנט"
 
-#: glade/delugegtk.glade:36 glade/delugegtk.glade:180
+#: glade/delugegtk.glade:636
+msgid "Add Torrent from URL"
+msgstr ""
+
+#: glade/delugegtk.glade:644 glade/delugegtk.glade:914
 #: glade/dgtkpopups.glade:81
 msgid "Remove Torrent"
 msgstr "הסר טוררנט"
 
-#: glade/delugegtk.glade:49
-msgid "Clear Finished Torrents"
-msgstr "הסר טורנטים שסיימו"
-
-#: glade/delugegtk.glade:71
-msgid "Start / Pause"
-msgstr ""
-
-#: glade/delugegtk.glade:84
-msgid "Queue Torrent Up"
-msgstr "העלה עדיפות"
-
-#: glade/delugegtk.glade:97
-msgid "Queue Torrent Down"
-msgstr "הורד עדיפות"
-
-#: glade/delugegtk.glade:149
-msgid "_File"
-msgstr "קובץ"
-
-#: glade/delugegtk.glade:172
-msgid "Add Torrent from URL"
-msgstr ""
-
-#: glade/delugegtk.glade:194
+#: glade/delugegtk.glade:658
 msgid "Clear Completed"
 msgstr ""
 
-#: glade/delugegtk.glade:228
+#: glade/delugegtk.glade:692
 msgid "_Edit"
 msgstr "עריכה"
 
-#: glade/delugegtk.glade:245
-msgid "_Manage Plugins"
-msgstr "נהל פלאגאינים"
+#: glade/delugegtk.glade:709 glade/dgtkpopups.glade:221
+#: glade/dgtkpref.glade:697 src/delugegtk.py:177
+msgid "Plugins"
+msgstr ""
 
-#: glade/delugegtk.glade:265
+#: glade/delugegtk.glade:729
 msgid "_View"
 msgstr ""
 
-#: glade/delugegtk.glade:273
+#: glade/delugegtk.glade:737
 msgid "Toolbar"
 msgstr ""
 
-#: glade/delugegtk.glade:282 glade/delugegtk.glade:919
-msgid "Details"
-msgstr ""
-
-#: glade/delugegtk.glade:291
+#: glade/delugegtk.glade:755
 msgid "Columns"
 msgstr ""
 
-#: glade/delugegtk.glade:299 glade/dgtkpopups.glade:10 src/delugegtk.py:280
-#: src/delugegtk.py:387
+#: glade/delugegtk.glade:763 glade/dgtkpopups.glade:10 src/delugegtk.py:349
+#: src/delugegtk.py:479
 msgid "Size"
 msgstr "גודל"
 
-#: glade/delugegtk.glade:308 glade/dgtkpopups.glade:19 src/delugegtk.py:281
+#: glade/delugegtk.glade:772 glade/dgtkpopups.glade:19 src/delugegtk.py:350
 msgid "Status"
 msgstr ""
 
-#: glade/delugegtk.glade:317 glade/dgtkpopups.glade:28 src/delugegtk.py:282
+#: glade/delugegtk.glade:781 glade/dgtkpopups.glade:28 src/delugegtk.py:351
 msgid "Seeders"
 msgstr "סידרים (seeders)"
 
-#: glade/delugegtk.glade:326 glade/delugegtk.glade:946
-#: glade/dgtkpopups.glade:37 src/delugegtk.py:283
-msgid "Peers"
-msgstr "פירים (peers)"
-
-#: glade/delugegtk.glade:335 src/delugegtk.py:284 src/delugegtk.py:385
-#: src/delugegtk.py:554 src/delugegtk.py:566
+#: glade/delugegtk.glade:799 src/delugegtk.py:353 src/delugegtk.py:477
+#: src/delugegtk.py:692 src/delugegtk.py:704
 msgid "Download"
 msgstr "הורדה"
 
-#: glade/delugegtk.glade:344 src/delugegtk.py:285 src/delugegtk.py:555
-#: src/delugegtk.py:567
+#: glade/delugegtk.glade:808 src/delugegtk.py:354 src/delugegtk.py:693
+#: src/delugegtk.py:705
 msgid "Upload"
 msgstr "העלאה"
 
-#: glade/delugegtk.glade:353 glade/dgtkpopups.glade:64 src/delugegtk.py:286
+#: glade/delugegtk.glade:817 glade/dgtkpopups.glade:64 src/delugegtk.py:355
 msgid "Time Remaining"
 msgstr ""
 
-#: glade/delugegtk.glade:362 glade/dgtkpopups.glade:73
+#: glade/delugegtk.glade:826 glade/dgtkpopups.glade:73
 msgid "Share Ratio"
 msgstr "אחוז שיתוף"
 
-#: glade/delugegtk.glade:379
+#: glade/delugegtk.glade:843
 msgid "_Help"
 msgstr "עזרה"
 
-#: glade/delugegtk.glade:500
-msgid "<b>Upload Rate:</b>"
+#: glade/delugegtk.glade:927
+msgid "Clear Finished Torrents"
+msgstr "הסר טורנטים שסיימו"
+
+#: glade/delugegtk.glade:949
+msgid "Start / Pause"
 msgstr ""
 
-#: glade/delugegtk.glade:526
-msgid "<b>Download Rate:</b>"
-msgstr ""
-
-#: glade/delugegtk.glade:550
-msgid "<b>Use compact storage allocation:</b>"
-msgstr "משתמש באחסון קומפקטי:"
-
-#: glade/delugegtk.glade:610
-msgid "<b>Uploaded This Session:</b>"
-msgstr "הועלה בהרצה הנוכחית:"
-
-#: glade/delugegtk.glade:624
-msgid "<b>Share Ratio:</b>"
-msgstr "אחוז שיתוף:"
-
-#: glade/delugegtk.glade:662
-msgid "<b>Total Uploaded:</b>"
-msgstr "סה\"כ הועלה:"
-
-#: glade/delugegtk.glade:676
-msgid "<b>Pieces:</b>"
-msgstr "חתיכות:"
-
-#: glade/delugegtk.glade:702
-msgid "<b>Next Announce:</b>"
-msgstr "קריאה באה:"
-
-#: glade/delugegtk.glade:728
-msgid "<b>Tracker Status:</b>"
-msgstr "מצב טראקר:"
-
-#: glade/delugegtk.glade:740
-msgid "<b>Tracker Response:</b>"
-msgstr "תגובת טראקר:"
-
-#: glade/delugegtk.glade:752
-msgid "<b>Tracker:</b>"
-msgstr "טראקר:"
-
-#: glade/delugegtk.glade:800
-msgid "<b>Downloaded this session:</b>"
-msgstr "הורד בהרצה הנוכחית:"
-
-#: glade/delugegtk.glade:812
-msgid "<b>Total Downloaded:</b>"
-msgstr "סה\"כ הורד:"
-
-#: glade/delugegtk.glade:824
-msgid "<b>Total Size:</b>"
-msgstr "גודל כולל:"
-
-#: glade/delugegtk.glade:836
-msgid "<b>Seeders:</b>"
-msgstr ""
-
-#: glade/delugegtk.glade:848
-msgid "<b>Peers:</b>"
-msgstr ""
-
-#: glade/delugegtk.glade:886
-msgid "<b>Estimated Time Remaining:</b>"
-msgstr ""
+#: glade/delugegtk.glade:962
+msgid "Queue Torrent Up"
+msgstr "העלה עדיפות"
 
 #: glade/delugegtk.glade:975
-msgid "Files"
-msgstr ""
+msgid "Queue Torrent Down"
+msgstr "הורד עדיפות"
 
 #: glade/dgtkpopups.glade:46
 msgid "Download Speed"
@@ -215,17 +216,13 @@ msgstr ""
 msgid "Add a Torrent..."
 msgstr ""
 
-#: glade/dgtkpopups.glade:191 src/delugegtk.py:146
+#: glade/dgtkpopups.glade:191 src/delugegtk.py:175
 msgid "Clear Finished"
 msgstr "הסר טורנטים שסיימו"
 
-#: glade/dgtkpopups.glade:212 glade/dgtkpref.glade:675
+#: glade/dgtkpopups.glade:212 glade/dgtkpref.glade:672
 msgid "gtk-preferences"
 msgstr "gtk-preferences"
-
-#: glade/dgtkpopups.glade:221 glade/dgtkpref.glade:700 src/delugegtk.py:148
-msgid "Plugins"
-msgstr ""
 
 #: glade/dgtkpopups.glade:242
 msgid "gtk-quit"
@@ -297,63 +294,63 @@ msgstr "פורט פעיל:"
 msgid "0000"
 msgstr ""
 
-#: glade/dgtkpref.glade:344
+#: glade/dgtkpref.glade:343
 msgid "Test Port"
 msgstr "בדוק פורט"
 
-#: glade/dgtkpref.glade:358
+#: glade/dgtkpref.glade:357
 msgid "TCP Port"
 msgstr ""
 
-#: glade/dgtkpref.glade:381
+#: glade/dgtkpref.glade:380
 msgid "<i>(-1 is unlimited)</i>"
 msgstr ""
 
-#: glade/dgtkpref.glade:391 glade/dgtkpref.glade:416
+#: glade/dgtkpref.glade:390 glade/dgtkpref.glade:511
 msgid "KB/s"
 msgstr ""
 
-#: glade/dgtkpref.glade:506
-msgid "Maximum number of Downloads:"
-msgstr "מספר מירבי של הורדות:"
-
-#: glade/dgtkpref.glade:517
+#: glade/dgtkpref.glade:436
 msgid "Maximum Download Rate:"
 msgstr "קצב הורדה מקסימלי:"
 
-#: glade/dgtkpref.glade:528
+#: glade/dgtkpref.glade:447
 msgid "Upload Slots"
 msgstr ""
 
-#: glade/dgtkpref.glade:539
+#: glade/dgtkpref.glade:458
+msgid "Maximum Connections"
+msgstr ""
+
+#: glade/dgtkpref.glade:485
 msgid "Maximum Upload Rate:"
 msgstr "קצב העלאה מקסימלי:"
 
-#: glade/dgtkpref.glade:551
+#: glade/dgtkpref.glade:548
 msgid "Bandwidth "
 msgstr ""
 
-#: glade/dgtkpref.glade:579
+#: glade/dgtkpref.glade:576
 msgid "Network"
 msgstr "רשת"
 
-#: glade/dgtkpref.glade:601
+#: glade/dgtkpref.glade:598
 msgid "gtk-cancel"
 msgstr "gtk-cancel"
 
-#: glade/dgtkpref.glade:608
+#: glade/dgtkpref.glade:605
 msgid "gtk-ok"
 msgstr "gtk-ok"
 
-#: glade/dgtkpref.glade:628
+#: glade/dgtkpref.glade:625
 msgid "Plugin Manager"
 msgstr "מנהל פלאגאינים"
 
-#: glade/dgtkpref.glade:721
+#: glade/dgtkpref.glade:718
 msgid "gtk-close"
 msgstr ""
 
-#: src/dcommon.py:41
+#: src/dcommon.py:41 src/delugegtk.py:330
 msgid "Infinity"
 msgstr ""
 
@@ -361,90 +358,108 @@ msgstr ""
 msgid "Error: no webbrowser found"
 msgstr ""
 
-#: src/delugegtk.py:144
+#: src/deluge.py:332
+msgid "File was not found"
+msgstr ""
+
+#: src/delugegtk.py:173
 msgid "Show / Hide Window"
 msgstr ""
 
-#: src/delugegtk.py:220
+#: src/delugegtk.py:250
 msgid "Plugin"
 msgstr ""
 
-#: src/delugegtk.py:222
+#: src/delugegtk.py:252
 msgid "Enabled"
 msgstr ""
 
-#: src/delugegtk.py:279
+#: src/delugegtk.py:340
+msgid "Unknown"
+msgstr "לא ידוע"
+
+#: src/delugegtk.py:348
 msgid "Name"
 msgstr "שם"
 
-#: src/delugegtk.py:287
+#: src/delugegtk.py:356
 msgid "Ratio"
 msgstr ""
 
-#: src/delugegtk.py:373
+#: src/delugegtk.py:465
 msgid "IP Address"
 msgstr ""
 
-#: src/delugegtk.py:374
+#: src/delugegtk.py:466
 msgid "Client"
 msgstr "תוכנה"
 
-#: src/delugegtk.py:375
+#: src/delugegtk.py:467
 msgid "Percent Complete"
 msgstr ""
 
-#: src/delugegtk.py:376
+#: src/delugegtk.py:468
 msgid "Download Rate"
 msgstr ""
 
-#: src/delugegtk.py:377
+#: src/delugegtk.py:469
 msgid "Upload Rate"
 msgstr ""
 
-#: src/delugegtk.py:386
+#: src/delugegtk.py:478
 msgid "Filename"
 msgstr ""
 
-#: src/delugegtk.py:388
+#: src/delugegtk.py:480
 msgid "Offset"
 msgstr ""
 
-#: src/delugegtk.py:389
-msgid "Progress"
+#: src/delugegtk.py:668
+msgid ""
+"For some reason, the previous state could not be loaded, so a blank state "
+"has been loaded for you."
 msgstr ""
 
-#: src/delugegtk.py:554 src/delugegtk.py:566
+#: src/delugegtk.py:670
+msgid "Would you like to attempt to reload the previous session's downloads?"
+msgstr ""
+
+#: src/delugegtk.py:679
+msgid "Choose the download directory for"
+msgstr ""
+
+#: src/delugegtk.py:692 src/delugegtk.py:704
 msgid "Connections"
 msgstr "חיבורים"
 
-#: src/delugegtk.py:565
+#: src/delugegtk.py:703
 msgid "Deluge Bittorrent Client"
 msgstr "Deluge - תוכנת ביטטוררנט"
 
-#: src/delugegtk.py:746
+#: src/delugegtk.py:891
 msgid "Add torrent from URL"
 msgstr ""
 
-#: src/delugegtk.py:750
+#: src/delugegtk.py:895
 msgid "Enter the URL of the .torrent to download"
 msgstr ""
 
-#: src/delugegtk.py:814
+#: src/delugegtk.py:959
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr "אזהרה - כל הקבצים שהורדו בשביל הטורנט הזה ימחקו!"
 
-#: src/dgtk.py:33
+#: src/dgtk.py:71
 msgid "Choose a .torrent file"
 msgstr ""
 
-#: src/dgtk.py:37
+#: src/dgtk.py:76
 msgid "Torrent files"
 msgstr ""
 
-#: src/dgtk.py:41
+#: src/dgtk.py:80
 msgid "All files"
 msgstr "כל הקבצים"
 
-#: src/dgtk.py:57
+#: src/dgtk.py:97
 msgid "Choose a download directory"
 msgstr ""
