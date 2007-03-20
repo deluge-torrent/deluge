@@ -124,6 +124,18 @@ deluge_core = Extension('deluge_core',
 						'libtorrent/src/kademlia/rpc_manager.cpp',
 						'libtorrent/src/kademlia/traversal_algorithm.cpp'])
 
+upnp = Extension('upnp', 
+				include_dirs = ['./miniupnpc'],
+				sources=['src/python-upnp.c',
+							'miniupnpc/igd_desc_parse.c',
+							'miniupnpc/minisoap.c',
+							'miniupnpc/miniupnpc.c',
+							'miniupnpc/miniwget.c',
+							'miniupnpc/minixml.c',
+							'miniupnpc/minixmlvalid.c',
+							'miniupnpc/upnpcommands.c',
+							'miniupnpc/upnpreplyparse.c'])
+
 # Thanks to Iain Nicol for code to save the location for installed prefix
 # At runtime, we need to know where we installed the data to.
 
@@ -245,6 +257,6 @@ setup(name=NAME, fullname=FULLNAME, version=VERSION,
 	package_dir = {'deluge': 'src'},
 	data_files=data,
 	ext_package='deluge',
-	ext_modules=[deluge_core],
+	ext_modules=[deluge_core, upnp],
 	cmdclass=cmdclass
 	)
