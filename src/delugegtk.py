@@ -56,15 +56,16 @@ class DelugeGTK:
 		p = "DE"
 		v = "0500"
 		s = "%s %s"%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION)
-		try:
-			self.manager = deluge.Manager(p, v, s, dcommon.CONFIG_DIR)
-		except:
-			# If something goes wrong while restoring the session, then load
-			# a blank state rather than crash and exit
-			self.manager = deluge.Manager(p, v, s, dcommon.CONFIG_DIR, blank_slate=True)
-			self.something_screwed_up = True
-		
-		else: self.something_screwed_up = False
+		#try:
+		#	self.manager = deluge.Manager(p, v, s, dcommon.CONFIG_DIR)
+		#except:
+		#	# If something goes wrong while restoring the session, then load
+		#	# a blank state rather than crash and exit
+		#	self.manager = deluge.Manager(p, v, s, dcommon.CONFIG_DIR, blank_slate=True)
+		#	self.something_screwed_up = True
+		self.manager = deluge.Manager(p, v, s, dcommon.CONFIG_DIR)
+		self.something_screwed_up = False
+		#else: self.something_screwed_up = False
 		self.plugins = delugeplugins.PluginManager(self.manager, self)
 		self.plugins.add_plugin_dir(dcommon.PLUGIN_DIR)
 		if os.path.isdir(dcommon.CONFIG_DIR + '/plugins'):
