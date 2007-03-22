@@ -44,7 +44,7 @@ class DelugeGTK:
 		self.ipc_manager = ipc_manager.Manager(self)
 		self.torrent_file_queue = []
 		#Load up a config file:
-		self.conf_file = dcommon.CONFIG_DIR + '/deluge.conf'
+		self.conf_file = os.path.join(dcommon.CONFIG_DIR, 'deluge.conf')
 		if os.path.isdir(self.conf_file):
 			print 'Weird, the file I was trying to write to, %s, is an existing directory'%(self.conf_file)
 			sys.exit(0)
@@ -68,8 +68,8 @@ class DelugeGTK:
 		#else: self.something_screwed_up = False
 		self.plugins = delugeplugins.PluginManager(self.manager, self)
 		self.plugins.add_plugin_dir(dcommon.PLUGIN_DIR)
-		if os.path.isdir(dcommon.CONFIG_DIR + '/plugins'):
-			self.plugins.add_plugin_dir(dcommon.CONFIG_DIR + '/plugins')
+		if os.path.isdir(os.path.join(dcommon.CONFIG_DIR , 'plugins')):
+			self.plugins.add_plugin_dir(os.path.join(dcommon.CONFIG_DIR, 'plugins'))
 		self.plugins.scan_for_plugins()
 		self.config = pref.Preferences()
 		self.config.load_from_file(self.conf_file)
@@ -673,7 +673,7 @@ class DelugeGTK:
 			restore_torrents = dgtk.show_popup_question(self.window,
 				_("Would you like to attempt to reload the previous session's downloads?"))
 			if restore_torrents:
-				torrent_subdir = self.manager.base_dir + "/" + deluge.TORRENTS_SUBDIR
+				torrent_subdir = os.path.join(self.manager.base_dir, deluge.TORRENTS_SUBDIR)
 				for torrent in os.listdir(torrent_subdir):
 					if torrent.endswith('.torrent'):
 						self.interactive_add_torrent(torrent)

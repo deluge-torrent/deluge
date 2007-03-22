@@ -38,9 +38,9 @@ class PluginManager:
 		for folder in self.plugin_dirs:
 			plugin_folders = os.listdir(folder)
 			for plugin in plugin_folders:
-				if os.path.isfile(folder + "/" + plugin + "/plugin.py"):
-					self.path = folder + "/" + plugin
-					execfile(folder + "/" + plugin + "/plugin.py")
+				if os.path.isfile(os.path.join(folder, plugin, "plugin.py")):
+					self.path = os.path.join(folder, plugin)
+					execfile(os.path.join(folder, plugin, "plugin.py"))
 	
 	def get_available_plugins(self):
 		return self.available_plugins.keys()

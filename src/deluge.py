@@ -37,7 +37,7 @@
 #		3. supp_torrent_state - supplementary torrent data, from Deluge
 
 import deluge_core
-import os, shutil, statvfs
+import os, os.path, shutil, statvfs
 import pickle
 import time
 import gettext
@@ -170,7 +170,7 @@ class Manager:
 
 		# Ensure directories exist
 		if not TORRENTS_SUBDIR in os.listdir(self.base_dir):
-			os.mkdir(self.base_dir + "/" + TORRENTS_SUBDIR)
+			os.mkdir(os.path.join(self.base_dir, TORRENTS_SUBDIR))
 
 		# Pre-initialize the core's data structures
 		deluge_core.pre_init(DelugeError,
@@ -210,7 +210,7 @@ class Manager:
 		self.prefs = DEFAULT_PREFS
 		if not blank_slate:
 			try:
-				pkl_file = open(self.base_dir + "/" + PREFS_FILENAME, 'rb')
+				pkl_file = open(os.path.join(self.base_dir, PREFS_FILENAME), 'rb')
 				self.prefs = pickle.load(pkl_file)
 				pkl_file.close()
 			except IOError:
@@ -222,14 +222,14 @@ class Manager:
 		# Apply DHT, if needed. Note that this is before any torrents are added
 		if self.get_pref('use_DHT'):
 			if not blank_slate:
-				deluge_core.start_DHT(self.base_dir + "/" + DHT_FILENAME)
+				deluge_core.start_DHT(os.path.join(self.base_dir, DHT_FILENAME))
 			else:
 				deluge_core.start_DHT("")
 
 		# Unpickle the state, or create a new one
 		if not blank_slate:
 			try:
-				pkl_file = open(self.base_dir + "/" + STATE_FILENAME, 'rb')
+				pkl_file = open(os.path.join(self.base_dir, STATE_FILENAME), 'rb')
 				self.state = pickle.load(pkl_file)
 				pkl_file.close()
 
@@ -252,13 +252,13 @@ class Manager:
 
 		# Pickle the prefs
 		print "Pickling prefs..."
-		output = open(self.base_dir + "/" + PREFS_FILENAME, 'wb')
+		output = open(os.path.join(self.base_dir, PREFS_FILENAME), 'wb')
 		pickle.dump(self.prefs, output)
 		output.close()
 
 		# Pickle the state
 		print "Pickling state..."
-		output = open(self.base_dir + "/" + STATE_FILENAME, 'wb')
+		output = open(os.path.join(self.base_dir, STATE_FILENAME), 'wb')
 		pickle.dump(self.state, output)
 		output.close()
 
@@ -269,7 +269,7 @@ class Manager:
 		# Stop DHT, if needed
 		if self.get_pref('use_DHT'):
 			print "Stopping DHT..."
-			deluge_core.stop_DHT(self.base_dir + "/" + DHT_FILENAME)
+			deluge_core.stop_DHT(os.path.join(self.base_dir, DHT_FILENAME))
 
 		# Shutdown torrent core
 		print "Quitting the core..."
@@ -328,17 +328,17 @@ class Manager:
 			for filedata in temp_fileinfo:
 				filename = filedata['path']
 				try:
-					os.remove(temp.save_dir + "/" + filename)
+					os.remove(os.path.join(temp.save_dir, filename))
 				except OSError:
 					pass # No file just means it wasn't downloaded, we can continue
 
 	# A function to try and reload a torrent from a previous session. This is
 	# used in the event that Deluge crashes and a blank state is loaded.
 	def add_old_torrent(self, filename, save_dir, compact):
-		if not filename in os.listdir(self.base_dir + "/" + TORRENTS_SUBDIR):
+		if not filename in os.listdir(os.path.join(self.base_dir, TORRENTS_SUBDIR)):
 			raise InvalidTorrentError(_("File was not found") + ": " + filename)
 
-		full_new_name = self.base_dir + "/" + TORRENTS_SUBDIR + "/" + filename
+		full_new_name = os.path.join(self.base_dir, TORRENTS_SUBDIR, filename)
 
 		# Create torrent object
 		new_torrent = torrent_info(full_new_name, save_dir, compact)
@@ -353,7 +353,7 @@ class Manager:
 
 	# Load all NEW torrents in a directory. The GUI can call this every minute or so,
 	# if one wants a directory to be 'watched' (personally, I think it should only be
-	# done on user command).
+	# done on user command).os.path.join(
 	def autoload_directory(self, directory, save_dir, compact):
 		for filename in os.listdir(directory):
 			if filename[-len(".torrent"):].lower() == ".torrent":
@@ -614,7 +614,7 @@ class Manager:
 		# if filename_short in os.listdir(self.base_dir + "/" + TORRENTS_SUBDIR):
 		# 	raise DuplicateTorrentError("Duplicate Torrent, it appears: " + filename_short)
 
-		full_new_name = self.base_dir + "/" + TORRENTS_SUBDIR + "/" + filename_short
+		full_new_name = os.path.join(self.base_dir, TORRENTS_SUBDIR, filename_short)
 
 		shutil.copy(filename, full_new_name)
 

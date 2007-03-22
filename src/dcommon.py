@@ -30,9 +30,9 @@ CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
 
 # the necessary substitutions are made at installation time
 INSTALL_PREFIX = '@datadir@'
-GLADE_DIR  = INSTALL_PREFIX + '/share/deluge/glade'
-PIXMAP_DIR = INSTALL_PREFIX + '/share/deluge/pixmaps'
-PLUGIN_DIR = INSTALL_PREFIX + '/share/deluge/plugins'
+GLADE_DIR  = os.path.join(INSTALL_PREFIX, 'share', 'deluge', 'glade')
+PIXMAP_DIR = os.path.join(INSTALL_PREFIX, 'share', 'deluge', 'pixmaps')
+PLUGIN_DIR = os.path.join(INSTALL_PREFIX, 'share', 'deluge', 'plugins')
 
 def estimate_eta(state):
 	try:
@@ -93,10 +93,10 @@ def ftime(seconds):
 
 
 def get_glade_file(fname):
-	return GLADE_DIR + "/" + fname
+	return os.path.join(GLADE_DIR, fname)
 
 def get_pixmap(fname):
-	return PIXMAP_DIR + "/" + fname
+	return os.path.join(PIXMAP_DIR, fname)
 	
 def open_url_in_browser(dialog, link):
 	try:
