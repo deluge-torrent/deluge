@@ -259,4 +259,4 @@ setup(name=NAME, fullname=FULLNAME, version=VERSION,
 	ext_package='deluge',
 	ext_modules=[deluge_core, upnp],
 	cmdclass=cmdclass
-	)
+)

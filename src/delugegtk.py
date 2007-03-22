@@ -235,13 +235,14 @@ class DelugeGTK:
 				dcommon.get_pixmap("deluge-about.png")))
 	
 	def build_pref_dialog(self):
-		self.prf_glade = gtk.glade.XML(dcommon.get_glade_file("dgtkpref.glade"), domain='deluge')
+		self.prf_glade = gtk.glade.XML(dcommon.get_glade_file("preferences_dialog.glade"), domain='deluge')
+		self.plg_glade = gtk.glade.XML(dcommon.get_glade_file("plugin_dialog.glade"), domain='deluge')
 		self.prf = self.prf_glade.get_widget("pref_dialog")
 		self.prf.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
 		self.prf_glade.signal_autoconnect({"tray_toggle": self.tray_toggle,})
-		self.plugin_dlg = self.prf_glade.get_widget("plugin_dialog")
+		self.plugin_dlg = self.plg_glade.get_widget("plugin_dialog")
 		self.plugin_dlg.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
-		self.plugin_view = self.prf_glade.get_widget("plugin_view")
+		self.plugin_view = self.plg_glade.get_widget("plugin_view")
 		self.plugin_store = gtk.ListStore(str, bool)
 		self.plugin_view.set_model(self.plugin_store)
 		try:
@@ -514,9 +515,7 @@ class DelugeGTK:
 																	str, default=os.path.expandvars('$HOME')))
 			self.prf_glade.get_widget("chk_autoseed").set_active(self.config.get("auto_end_seeding", bool, default=False))
 			self.prf_glade.get_widget("ratio_spinner").set_value(self.config.get("end_seed_ratio", float, default=0.0))
-			# self.prf_glade.get_widget("chk_compact").set_active(self.config.get("use_compact_storage", bool, default=False))
-			self.prf_glade.get_widget("chk_compact").set_active(False)
-			self.prf_glade.get_widget("chk_compact").set_sensitive(False)
+			self.prf_glade.get_widget("chk_compact").set_active(self.config.get("use_compact_storage", bool, default=False))
 			# Page 2
 			self.prf_glade.get_widget("active_port_label").set_text(str(self.manager.get_state()['port']))
 			self.prf_glade.get_widget("spin_port_min").set_value(self.config.get("tcp_port_range_lower", int, default=6881))
