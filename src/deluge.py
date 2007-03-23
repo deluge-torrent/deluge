@@ -658,10 +658,10 @@ class Manager:
 				if size > avail: # Not enough free space
 					torrent.user_paused = True
 					no_space = True
-#					deluge_core.remove_torrent(unique_ID) #Remove the torrent
-#					self.state.torrents.remove(torrent)
-#					os.remove(torrent.filename)
-#					raise InsufficientFreeSpaceError(avail, size)
+					deluge_core.remove_torrent(unique_ID) #Remove the torrent
+					self.state.torrents.remove(torrent)
+					os.remove(torrent.filename)
+					raise InsufficientFreeSpaceError(avail, size)
 				ret = unique_ID
 				self.unique_IDs[unique_ID] = torrent
 
@@ -711,7 +711,7 @@ class Manager:
 		if no_space:
 			self.apply_queue()
 
-		return (ret, no_space)
+		return ret
 
 	def get_queue_index(self, unique_ID):
 		return self.state.queue.index(unique_ID)
