@@ -252,7 +252,7 @@ class DelugeGTK:
 		name_col = dgtk.add_text_column(self.plugin_view, _("Plugin"), 0)
 		name_col.set_expand(True)
 		dgtk.add_toggle_column(self.plugin_view, _("Enabled"), 1, toggled_signal=self.plugin_toggled)
-		self.prf_glade.signal_autoconnect({'plugin_pref': self.plugin_pref})
+		self.plg_glade.signal_autoconnect({'plugin_pref': self.plugin_pref})
 	
 	def old_pi_click(self, path):
 		return self.plugin_clicked(self.plugin_view.get_selection(), self.plugin_store,
@@ -268,10 +268,10 @@ class DelugeGTK:
 		config = plugin['config']
 		description = plugin['description']
 		if name in self.plugins.get_enabled_plugins():
-			self.prf_glade.get_widget("plugin_conf").set_sensitive(config)
+			self.plg_glade.get_widget("plugin_conf").set_sensitive(config)
 		else:
-			self.prf_glade.get_widget("plugin_conf").set_sensitive(False)
-		self.prf_glade.get_widget("plugin_text").get_buffer(
+			self.plg_glade.get_widget("plugin_conf").set_sensitive(False)
+		self.plg_glade.get_widget("plugin_text").get_buffer(
 			).set_text("%s\nBy: %s\nVersion: %s\n\n%s"%
 			(name, author, version, description))
 		return True
@@ -283,11 +283,11 @@ class DelugeGTK:
 		self.plugin_store.set_value(plugin_iter, 1, plugin_value)
 		if plugin_value:
 			self.plugins.enable_plugin(plugin_name)
-			self.prf_glade.get_widget("plugin_conf").set_sensitive(
+			self.plg_glade.get_widget("plugin_conf").set_sensitive(
 				self.plugins.get_plugin(plugin_name)['config'])
 		else:
 			self.plugins.disable_plugin(plugin_name)
-			self.prf_glade.get_widget("plugin_conf").set_sensitive(False)
+			self.plg_glade.get_widget("plugin_conf").set_sensitive(False)
 				
 	def plugin_pref(self, widget=None):
 		(model, plugin_iter) = self.plugin_view.get_selection().get_selected()
@@ -556,8 +556,8 @@ class DelugeGTK:
 				self.plugin_store.append( (plugin, True) )
 			else:
 				self.plugin_store.append( (plugin, False) )
-		self.prf_glade.get_widget("plugin_text").get_buffer().set_text("")
-		self.prf_glade.get_widget("plugin_conf").set_sensitive(False)
+		self.plg_glade.get_widget("plugin_text").get_buffer().set_text("")
+		self.plg_glade.get_widget("plugin_conf").set_sensitive(False)
 		self.plugin_dlg.show()
 		self.plugin_dlg.run()
 		self.plugin_dlg.hide()
