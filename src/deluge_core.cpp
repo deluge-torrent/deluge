@@ -491,7 +491,7 @@ static PyObject *torrent_add_torrent(PyObject *self, PyObject *args)
 	catch (boost::filesystem::filesystem_error&)
 	{	RAISE_PTR(FilesystemError, ""); }
 	catch (duplicate_torrent&)
-	{	RAISE_PTR(DuplicateTorrentError, ""); }
+	{	RAISE_PTR(DuplicateTorrentError, "libtorrent reports this is a duplicate torrent"); }
 }
 
 static PyObject *torrent_remove_torrent(PyObject *self, PyObject *args)
