@@ -99,8 +99,10 @@ class PluginDlg:
 		name_col = dgtk.add_text_column(self.view, _("Plugin"), 0)
 		name_col.set_expand(True)
 		dgtk.add_toggle_column(self.view, _("Enabled"), 1, toggled_signal=self.plugin_toggled)
+		self.glade.signal_autoconnect({'plugin_pref': self.plugin_pref})
 		self.parent = parent
 		self.plugins = plugins
+		
 
 	def show(self):
 		self.store.clear()
