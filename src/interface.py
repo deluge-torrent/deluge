@@ -380,6 +380,13 @@ class DelugeGTK:
 			self.torrent_view.grab_focus()
 			self.torrent_view.set_cursor(path, col, 0)
 			unique_id = self.get_selected_torrent()
+			widget = self.torrent_glade.get_widget("menu_pause")
+			if(self.manager.is_user_paused(self.get_selected_torrent())):
+				widget.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PLAY, gtk.ICON_SIZE_MENU))
+				widget.get_children()[0].set_text(_("Start"))
+			else:
+				widget.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PAUSE, gtk.ICON_SIZE_MENU))
+				widget.get_children()[0].set_text(_("Pause"))
 			
 			self.torrent_menu.popup(None, None, None, event.button, event.time)
 			
