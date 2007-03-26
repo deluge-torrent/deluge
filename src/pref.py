@@ -23,11 +23,14 @@
 # object.  However, this class provides a few extra features on top of
 # the built in class that Deluge can take advantage of.
 class Preferences:
-	def __init__(self, filename=None):
+	def __init__(self, filename=None, defaults=None):
 		self.mapping = {}
 		self.config_file = filename
 		if self.config_file is not None:
 			self.load_from_file(self.config_file)
+		if defaults is not None:
+			for key in defaults.keys():
+				self.mapping.setdefault(key, defaults[key])
 	
 	# Allows you to access an item in a Preferences objecy by calling
 	# instance[key] rather than instance.get(key).  However, this will
@@ -54,7 +57,9 @@ class Preferences:
 		if filename is None:
 			filename = self.config_file
 		f = open(filename, mode='w')
-		for key in self.mapping.keys():
+		keys = self.mapping.keys()
+		keys.sort()
+		for key in keys:
 			f.write(key)
 			f.write(' = ')
 			f.write(str(self.mapping[key]))

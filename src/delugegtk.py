@@ -29,6 +29,37 @@ import gtk, gtk.glade, gobject
 import xdg, xdg.BaseDirectory
 import gettext, locale
 
+DEFAULT_PREFS = {
+					"auto_end_seeding" : False,
+					"close_to_tray" : False,
+					"default_download_path" : "",
+					"enable_system_tray" : True,
+					"enabled_plugins" : "",
+					"end_seed_ratio" : 0.0,
+					"max_download_rate" : -1.0,
+					"max_number_downloads" : -1.0,
+					"max_number_uploads" : -1.0,
+					"max_upload_rate" : -1.0,
+					"show_dl" : True,
+					"show_eta" : True,
+					"show_infopane" : True,
+					"show_peers" : True,
+					"show_seeders" : True,
+					"show_share" : True,
+					"show_size" : True,
+					"show_status" : True,
+					"show_toolbar" : True,
+					"show_ul" : True,
+					"tcp_port_range_lower" : 6881,
+					"tcp_port_range_upper" : 6889,
+					"use_compact_storage" : False,
+					"use_default_dir" : False,
+					"window_height" : 480,
+					"window_width" : 640,
+					"window_x_pos" : 0,
+					"window_y_pos" : 0,
+				}
+
 class DelugeGTK:
 	def __init__(self):
 		APP = 'deluge'
@@ -71,8 +102,7 @@ class DelugeGTK:
 		if os.path.isdir(os.path.join(dcommon.CONFIG_DIR , 'plugins')):
 			self.plugins.add_plugin_dir(os.path.join(dcommon.CONFIG_DIR, 'plugins'))
 		self.plugins.scan_for_plugins()
-		self.config = pref.Preferences()
-		self.config.load_from_file(self.conf_file)
+		self.config = pref.Preferences(self.conf_file, DEFAULT_PREFS)
 		#Set up the interface:
 		self.wtree = gtk.glade.XML(dcommon.get_glade_file("delugegtk.glade"), domain=APP)
 		self.window = self.wtree.get_widget("main_window")
