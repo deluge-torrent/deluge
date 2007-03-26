@@ -665,7 +665,7 @@ class DelugeGTK:
 			self.text_summary_peers.set_text(dcommon.fpeer(state))
 			self.wtree.get_widget("progressbar").set_fraction(float(state['progress']))
 			self.wtree.get_widget("progressbar").set_text(dcommon.fpcnt(state["progress"]))
-			self.text_summary_share_ratio.set_text(str(self.calc_share_ratio(self.get_selected_torrent(), state)))
+			self.text_summary_share_ratio.set_text('%.3f'%(self.calc_share_ratio(self.get_selected_torrent(), state)))
 			self.text_summary_downloaded_this_session.set_text(dcommon.fsize(state["total_download"]))
 			self.text_summary_uploaded_this_session.set_text(dcommon.fsize(state["total_upload"]))
 			self.text_summary_tracker.set_text(str(state["tracker"]))
