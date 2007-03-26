@@ -28,7 +28,7 @@ from optparse import OptionParser
 import sys
 import os, os.path
 import gettext, locale
-import deluge, deluge.dcommon, deluge.delugegtk
+import deluge, deluge.dcommon, deluge.interface
 try:
 	import dbus
 	dbus_version = getattr(dbus, 'version', (0,0,0))
@@ -60,7 +60,7 @@ if dbus_imported:
 	if not "org.deluge_torrent.Deluge" in dbus_objects:
 		print "no existing Deluge session"		
 		
-		interface = deluge.delugegtk.DelugeGTK()
+		interface = deluge.interface.DelugeGTK()
 		for arg in args:
 			apath =  os.path.abspath(arg)
 			if apath.endswith(".torrent"):
@@ -84,7 +84,7 @@ if dbus_imported:
 else:
 	print "no existing Deluge session"
 	
-	interface = deluge.delugegtk.DelugeGTK()
+	interface = deluge.interface.DelugeGTK()
 	for arg in args:
 		apath = os.path.abspath(arg)
 		if apath.endswith(".torrent"):

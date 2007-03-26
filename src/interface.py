@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# delugegtk.py
+# interface.py
 #
 # Copyright (C) Zach Tibbitts 2006 <zach@collegegeek.org>
 #
@@ -21,7 +21,7 @@
 # 	Boston, MA  02110-1301, USA.
 
 import sys, os, os.path, urllib
-import deluge, dcommon, dgtk, ipc_manager, dialogs
+import core, dcommon, dgtk, ipc_manager, dialogs
 import delugeplugins, pref
 import pygtk
 pygtk.require('2.0')
@@ -88,13 +88,13 @@ class DelugeGTK:
 		v = "0500"
 		s = "%s %s"%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION)
 		#try:
-		#	self.manager = deluge.Manager(p, v, s, dcommon.CONFIG_DIR)
+		#	self.manager = core.Manager(p, v, s, dcommon.CONFIG_DIR)
 		#except:
 		#	# If something goes wrong while restoring the session, then load
 		#	# a blank state rather than crash and exit
-		#	self.manager = deluge.Manager(p, v, s, dcommon.CONFIG_DIR, blank_slate=True)
+		#	self.manager = core.Manager(p, v, s, dcommon.CONFIG_DIR, blank_slate=True)
 		#	self.something_screwed_up = True
-		self.manager = deluge.Manager(p, v, s, dcommon.CONFIG_DIR)
+		self.manager = core.Manager(p, v, s, dcommon.CONFIG_DIR)
 		self.something_screwed_up = False
 		#else: self.something_screwed_up = False
 		self.plugins = delugeplugins.PluginManager(self.manager, self)
@@ -486,7 +486,7 @@ class DelugeGTK:
 		self.manager.set_pref("max_connections", self.config.get("max_number_downloads", int, default=-1))
 		self.manager.set_pref("auto_seed_ratio", auto_seed_ratio)
 	
-	# '%s %d%%'%(deluge.STATE_MESSAGES[state['state']], int(state['progress'] * 100))
+	# '%s %d%%'%(core.STATE_MESSAGES[state['state']], int(state['progress'] * 100))
 	def get_message_from_state(self, torrent_state):
 		state = torrent_state['state']
 		is_paused = torrent_state['is_paused']
@@ -496,7 +496,7 @@ class DelugeGTK:
 			message = 'Paused %s'%progress
 		else:
 			try:
-				message = deluge.STATE_MESSAGES[state]
+				message = core.STATE_MESSAGES[state]
 				if state in (1, 3, 4, 7):
 					message = '%s %s'%(message, progress)
 			except IndexError:
@@ -541,7 +541,7 @@ class DelugeGTK:
 			print "adding torrent", torrent_file
 			try:
 				self.interactive_add_torrent(torrent_file, append=False)
-			except deluge.DelugeError:
+			except core.DelugeError:
 				print "duplicate torrent found, ignoring", torrent_file
 		## add torrents in manager to interface
 		# self.torrent_model.append([0, 1, "Hello, World", 2048, 50.0, "Hi", 1, 2, 1, 2, 2048, 2048, 120, 1.0])
@@ -568,7 +568,7 @@ class DelugeGTK:
 			restore_torrents = dialogs.show_popup_question(self.window,
 				_("Would you like to attempt to reload the previous session's downloads?"))
 			if restore_torrents:
-				torrent_subdir = os.path.join(self.manager.base_dir, deluge.TORRENTS_SUBDIR)
+				torrent_subdir = os.path.join(self.manager.base_dir, core.TORRENTS_SUBDIR)
 				for torrent in os.listdir(torrent_subdir):
 					if torrent.endswith('.torrent'):
 						self.interactive_add_torrent(torrent)
@@ -627,7 +627,7 @@ class DelugeGTK:
 					except:
 						print "ERR", i, type(tlist[i]), tlist[i]
 				itr = self.torrent_model.iter_next(itr)
-			except deluge.InvalidUniqueIDError:
+			except core.InvalidUniqueIDError:
 				self.torrent_model.remove(itr)
 				if not self.torrent_model.iter_is_valid(itr):
 					itr = None
@@ -641,7 +641,7 @@ class DelugeGTK:
 		
 		try:		
 			state = self.manager.get_torrent_state(self.get_selected_torrent())
-		except deluge.InvalidUniqueIDError:
+		except core.InvalidUniqueIDError:
 			return True
 
 		
@@ -772,7 +772,7 @@ class DelugeGTK:
 	
 		try:
 			unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))
-		except deluge.InsufficientFreeSpaceError, err:	
+		except core.InsufficientFreeSpaceError, err:	
 			nice_need = dcommon.fsize(err.needed_space)
 			nice_free = dcommon.fsize(err.free_space)
 			
