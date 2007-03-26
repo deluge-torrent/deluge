@@ -84,19 +84,9 @@ class DelugeGTK:
 			f.flush()
 			f.close()
 		#Start the Deluge Manager:
-		p = "DE"
-		v = "0500"
-		s = "%s %s"%(common.PROGRAM_NAME, common.PROGRAM_VERSION)
-		#try:
-		#	self.manager = core.Manager(p, v, s, common.CONFIG_DIR)
-		#except:
-		#	# If something goes wrong while restoring the session, then load
-		#	# a blank state rather than crash and exit
-		#	self.manager = core.Manager(p, v, s, common.CONFIG_DIR, blank_slate=True)
-		#	self.something_screwed_up = True
-		self.manager = core.Manager(p, v, s, common.CONFIG_DIR)
+		self.manager = core.Manager(common.CLIENT_CODE, common.CLIENT_VERSION, 
+			'%s %s'%(common.PROGRAM_NAME, common.PROGRAM_VERSION), common.CONFIG_DIR)
 		self.something_screwed_up = False
-		#else: self.something_screwed_up = False
 		self.plugins = plugins.PluginManager(self.manager, self)
 		self.plugins.add_plugin_dir(common.PLUGIN_DIR)
 		if os.path.isdir(os.path.join(common.CONFIG_DIR , 'plugins')):
