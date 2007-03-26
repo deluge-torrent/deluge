@@ -22,7 +22,7 @@
 
 import sys, os, os.path, urllib
 import core, dcommon, dgtk, ipc_manager, dialogs
-import delugeplugins, pref
+import plugin, pref
 import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade, gobject
@@ -97,7 +97,7 @@ class DelugeGTK:
 		self.manager = core.Manager(p, v, s, dcommon.CONFIG_DIR)
 		self.something_screwed_up = False
 		#else: self.something_screwed_up = False
-		self.plugins = delugeplugins.PluginManager(self.manager, self)
+		self.plugins = plugin.PluginManager(self.manager, self)
 		self.plugins.add_plugin_dir(dcommon.PLUGIN_DIR)
 		if os.path.isdir(os.path.join(dcommon.CONFIG_DIR , 'plugins')):
 			self.plugins.add_plugin_dir(os.path.join(dcommon.CONFIG_DIR, 'plugins'))
