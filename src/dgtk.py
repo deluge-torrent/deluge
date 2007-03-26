@@ -18,10 +18,10 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
 
-# Similar to dcommon, this contains any common functions
+# Similar to common, this contains any common functions
 # related to gtk that are needed by the client
 
-import dcommon
+import common
 import gettext
 import pygtk
 pygtk.require('2.0')

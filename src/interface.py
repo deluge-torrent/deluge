@@ -21,7 +21,7 @@
 # 	Boston, MA  02110-1301, USA.
 
 import sys, os, os.path, urllib
-import core, dcommon, dgtk, ipc_manager, dialogs
+import core, common, dgtk, ipc_manager, dialogs
 import plugins, pref
 import pygtk
 pygtk.require('2.0')
@@ -63,7 +63,7 @@ DEFAULT_PREFS = {
 class DelugeGTK:
 	def __init__(self):
 		APP = 'deluge'
-		DIR = os.path.join(dcommon.INSTALL_PREFIX, 'share', 'locale')
+		DIR = os.path.join(common.INSTALL_PREFIX, 'share', 'locale')
 		locale.setlocale(locale.LC_ALL, '')
 		locale.bindtextdomain(APP, DIR)
 		locale.textdomain(APP)
@@ -75,7 +75,7 @@ class DelugeGTK:
 		self.ipc_manager = ipc_manager.Manager(self)
 		self.torrent_file_queue = []
 		#Load up a config file:
-		self.conf_file = os.path.join(dcommon.CONFIG_DIR, 'deluge.conf')
+		self.conf_file = os.path.join(common.CONFIG_DIR, 'deluge.conf')
 		if os.path.isdir(self.conf_file):
 			print 'Weird, the file I was trying to write to, %s, is an existing directory'%(self.conf_file)
 			sys.exit(0)
@@ -86,33 +86,33 @@ class DelugeGTK:
 		#Start the Deluge Manager:
 		p = "DE"
 		v = "0500"
-		s = "%s %s"%(dcommon.PROGRAM_NAME, dcommon.PROGRAM_VERSION)
+		s = "%s %s"%(common.PROGRAM_NAME, common.PROGRAM_VERSION)
 		#try:
-		#	self.manager = core.Manager(p, v, s, dcommon.CONFIG_DIR)
+		#	self.manager = core.Manager(p, v, s, common.CONFIG_DIR)
 		#except:
 		#	# If something goes wrong while restoring the session, then load
 		#	# a blank state rather than crash and exit
-		#	self.manager = core.Manager(p, v, s, dcommon.CONFIG_DIR, blank_slate=True)
+		#	self.manager = core.Manager(p, v, s, common.CONFIG_DIR, blank_slate=True)
 		#	self.something_screwed_up = True
-		self.manager = core.Manager(p, v, s, dcommon.CONFIG_DIR)
+		self.manager = core.Manager(p, v, s, common.CONFIG_DIR)
 		self.something_screwed_up = False
 		#else: self.something_screwed_up = False
 		self.plugins = plugins.PluginManager(self.manager, self)
-		self.plugins.add_plugin_dir(dcommon.PLUGIN_DIR)
-		if os.path.isdir(os.path.join(dcommon.CONFIG_DIR , 'plugins')):
-			self.plugins.add_plugin_dir(os.path.join(dcommon.CONFIG_DIR, 'plugins'))
+		self.plugins.add_plugin_dir(common.PLUGIN_DIR)
+		if os.path.isdir(os.path.join(common.CONFIG_DIR , 'plugins')):
+			self.plugins.add_plugin_dir(os.path.join(common.CONFIG_DIR, 'plugins'))
 		self.plugins.scan_for_plugins()
 		self.config = pref.Preferences(self.conf_file, DEFAULT_PREFS)
 		#Set up the interface:
-		self.wtree = gtk.glade.XML(dcommon.get_glade_file("delugegtk.glade"), domain=APP)
+		self.wtree = gtk.glade.XML(common.get_glade_file("delugegtk.glade"), domain=APP)
 		self.window = self.wtree.get_widget("main_window")
 		self.window.hide()
 		self.toolbar = self.wtree.get_widget("tb_middle")
 		self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL,[('text/uri-list', 0, 80)], gtk.gdk.ACTION_COPY)
 		self.window.connect("delete_event", self.close)
 		self.window.connect("drag_data_received", self.on_drag_data)
-		self.window.set_title(dcommon.PROGRAM_NAME)
-		self.window.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		self.window.set_title(common.PROGRAM_NAME)
+		self.window.set_icon_from_file(common.get_pixmap("deluge32.png"))
 		self.notebook = self.wtree.get_widget("torrent_info")
 		self.statusbar = self.wtree.get_widget("statusbar")
 		
@@ -198,7 +198,7 @@ class DelugeGTK:
 					})
 	
 	def build_tray_icon(self):
-		self.tray_icon = gtk.status_icon_new_from_file(dcommon.get_pixmap("deluge32.png"))
+		self.tray_icon = gtk.status_icon_new_from_file(common.get_pixmap("deluge32.png"))
 		self.tray_menu = gtk.Menu()
 		
 		item_show  = gtk.MenuItem(_("Show / Hide Window"))
@@ -255,7 +255,7 @@ class DelugeGTK:
 	def build_torrent_table(self):
 		## Create the torrent listview
 		self.torrent_view = self.wtree.get_widget("torrent_view")
-		self.torrent_glade = gtk.glade.XML(dcommon.get_glade_file("torrent_menu.glade"), domain='deluge')
+		self.torrent_glade = gtk.glade.XML(common.get_glade_file("torrent_menu.glade"), domain='deluge')
 		self.torrent_menu = self.torrent_glade.get_widget("torrent_menu")		
 		self.torrent_glade.signal_autoconnect({ "start_pause": self.start_pause,
 												"update_tracker": self.update_tracker,
@@ -272,12 +272,12 @@ class DelugeGTK:
 		
 		def size(column, cell, model, iter, data):
 			size = long(model.get_value(iter, data))
-			size_str = dcommon.fsize(size)
+			size_str = common.fsize(size)
 			cell.set_property('text', size_str)
 			
 		def rate(column, cell, model, iter, data):
 			rate = int(model.get_value(iter, data))
-			rate_str = dcommon.frate(rate)
+			rate_str = common.frate(rate)
 			cell.set_property('text', rate_str)
 		
 		def peer(column, cell, model, iter, data):
@@ -293,7 +293,7 @@ class DelugeGTK:
 			elif time == 0:
 				time_str = "-"
 			else:
-				time_str = dcommon.ftime(time)
+				time_str = common.ftime(time)
 			cell.set_property('text', time_str)
 			
 		def ratio(column, cell, model, iter, data):
@@ -349,7 +349,7 @@ class DelugeGTK:
 		unique_id = model.get_value(model.get_iter(path), 0)
 		state = self.manager.get_torrent_state(unique_id)
 		# A new torrent has been selected, need to update parts of interface
-		self.text_summary_total_size.set_text(dcommon.fsize(state["total_size"]))
+		self.text_summary_total_size.set_text(common.fsize(state["total_size"]))
 		self.text_summary_pieces.set_text(str(state["pieces"]))
 		self.text_summary_tracker.set_text(str(state["tracker"]))
 		#self.text_summary_compact_allocation.set_text(str(state[""]))
@@ -362,7 +362,7 @@ class DelugeGTK:
 		assert(len(all_files) == len(file_filter))
 		i=0
 		for f in all_files:
-			self.file_store.append([not file_filter[i], f['path'], dcommon.fsize(f['size']), 
+			self.file_store.append([not file_filter[i], f['path'], common.fsize(f['size']), 
 					f['offset'], '%.2f%%'%f['progress']])
 			i=i+1
 		
@@ -527,7 +527,7 @@ class DelugeGTK:
 		dlrate = int(state['download_rate'])
 		ulrate = int(state['upload_rate'])
 		try:
-			eta = dcommon.get_eta(state["total_size"], state["total_done"], state["download_rate"])
+			eta = common.get_eta(state["total_size"], state["total_done"], state["download_rate"])
 		except ZeroDivisionError:
 			eta = -1
 		share = float(self.calc_share_ratio(unique_id, state))
@@ -585,8 +585,8 @@ class DelugeGTK:
 		# Update Statusbar and Tray Tips
 		core_state = self.manager.get_state()
 		connections = core_state['num_peers']
-		dlrate = dcommon.frate(core_state['download_rate'])
-		ulrate = dcommon.frate(core_state['upload_rate'])
+		dlrate = common.frate(core_state['download_rate'])
+		ulrate = common.frate(core_state['upload_rate'])
 		
 		self.statusbar_temp_msg = '%s: %s   %s: %s   %s: %s'%(
 			_('Connections'), connections, _('Download'), 
@@ -655,25 +655,25 @@ class DelugeGTK:
 		
 		if tab == 0: #Details Pane	
 			self.wtree.get_widget("summary_name").set_text(state['name'])
-			self.text_summary_total_size.set_text(dcommon.fsize(state["total_size"]))
+			self.text_summary_total_size.set_text(common.fsize(state["total_size"]))
 			self.text_summary_pieces.set_text(str(state["pieces"]))
-			self.text_summary_total_downloaded.set_text(dcommon.fsize(state["total_done"]))
+			self.text_summary_total_downloaded.set_text(common.fsize(state["total_done"]))
 			#self.text_summary_total_uploaded.set_text()
-			self.text_summary_download_rate.set_text(dcommon.frate(state["download_rate"]))
-			self.text_summary_upload_rate.set_text(dcommon.frate(state["upload_rate"]))
-			self.text_summary_seeders.set_text(dcommon.fseed(state))
-			self.text_summary_peers.set_text(dcommon.fpeer(state))
+			self.text_summary_download_rate.set_text(common.frate(state["download_rate"]))
+			self.text_summary_upload_rate.set_text(common.frate(state["upload_rate"]))
+			self.text_summary_seeders.set_text(common.fseed(state))
+			self.text_summary_peers.set_text(common.fpeer(state))
 			self.wtree.get_widget("progressbar").set_fraction(float(state['progress']))
-			self.wtree.get_widget("progressbar").set_text(dcommon.fpcnt(state["progress"]))
+			self.wtree.get_widget("progressbar").set_text(common.fpcnt(state["progress"]))
 			self.text_summary_share_ratio.set_text('%.3f'%(self.calc_share_ratio(self.get_selected_torrent(), state)))
-			self.text_summary_downloaded_this_session.set_text(dcommon.fsize(state["total_download"]))
-			self.text_summary_uploaded_this_session.set_text(dcommon.fsize(state["total_upload"]))
+			self.text_summary_downloaded_this_session.set_text(common.fsize(state["total_download"]))
+			self.text_summary_uploaded_this_session.set_text(common.fsize(state["total_upload"]))
 			self.text_summary_tracker.set_text(str(state["tracker"]))
 			#self.text_summary_tracker_response.set_text(str(state[""]))
 			self.text_summary_tracker_status.set_text(str(state["tracker_ok"]))
 			self.text_summary_next_announce.set_text(str(state["next_announce"]))
 			#self.text_summary_compact_allocation.set_text(str(state[""]))
-			self.text_summary_eta.set_text(dcommon.estimate_eta(state))
+			self.text_summary_eta.set_text(common.estimate_eta(state))
 		elif tab == 1: #Peers List
 			def biographer(model, path, iter, dictionary):
 				assert(model.get_value(iter, 0) not in dictionary.keys())
@@ -720,15 +720,15 @@ class DelugeGTK:
 					self.peer_store.set(self.peer_store.get_iter_from_string(curr_ips[peer['ip']]),
 											1,	unicode(peer['client'], 'Latin-1'),
 											2,	'%.2f%%'%peer["peer_has"],
-											3,	dcommon.frate(peer["download_speed"]),
-											4,	dcommon.frate(peer["upload_speed"]))
+											3,	common.frate(peer["download_speed"]),
+											4,	common.frate(peer["upload_speed"]))
 			for peer in new_peer_info:
 				if peer['ip'] not in curr_ips.keys() and peer['client'] is not "":
 					self.peer_store.append([peer["ip"], 
 											unicode(peer["client"], 'Latin-1'), 
 											'%.2f%%'%peer["peer_has"], 
-											dcommon.frate(peer["download_speed"]), 
-											dcommon.frate(peer["upload_speed"])])
+											common.frate(peer["download_speed"]), 
+											common.frate(peer["upload_speed"])])
 			#print new_ips
 			#print curr_ips
 			#print new_peer_info
@@ -781,8 +781,8 @@ class DelugeGTK:
 		try:
 			unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))
 		except core.InsufficientFreeSpaceError, err:	
-			nice_need = dcommon.fsize(err.needed_space)
-			nice_free = dcommon.fsize(err.free_space)
+			nice_need = common.fsize(err.needed_space)
+			nice_free = common.fsize(err.free_space)
 			
 			
 		if append:
@@ -798,7 +798,7 @@ class DelugeGTK:
 	def add_torrent_url_clicked(self, obj=None):
 		dlg = gtk.Dialog(title=_("Add torrent from URL"), parent=self.window,
 			buttons=(gtk.STOCK_CANCEL, 0, gtk.STOCK_OK, 1))
-		dlg.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		dlg.set_icon_from_file(common.get_pixmap("deluge32.png"))
 		
 		label = gtk.Label(_("Enter the URL of the .torrent to download"))
 		entry = gtk.Entry()
@@ -819,10 +819,10 @@ class DelugeGTK:
 	def remove_torrent_clicked(self, obj=None):
 		torrent = self.get_selected_torrent()
 		if torrent is not None:
-			glade     = gtk.glade.XML(dcommon.get_glade_file("dgtkpopups.glade"), domain='deluge')
+			glade     = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"), domain='deluge')
 			asker     = glade.get_widget("remove_torrent_dlg")
 			
-			asker.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+			asker.set_icon_from_file(common.get_pixmap("deluge32.png"))
 
 			warning   =  glade.get_widget("warning")
 			warning.set_text(" ")

@@ -156,7 +156,7 @@ class write_data_install_path(cmd.Command):
 
 	def run(self):
 		conf_filename = os.path.join(self.lib_build_dir,
-			'deluge', 'dcommon.py')
+			'deluge', 'common.py')
 
 		conf_file = open(conf_filename, 'r')
 		data = conf_file.read()
@@ -180,8 +180,8 @@ class unwrite_data_install_path(cmd.Command):
 
 	def run(self):
 		dest = os.path.join(self.lib_build_dir,
-			'deluge', 'dcommon.py')
-		shutil.copyfile('src/dcommon.py', dest)
+			'deluge', 'common.py')
+		shutil.copyfile('src/common.py', dest)
 
 class build_trans(cmd.Command):
 	description = 'Compile .po files into .mo files'

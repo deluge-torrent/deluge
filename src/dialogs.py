@@ -18,7 +18,7 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
 
-import dcommon, dgtk
+import common, dgtk
 import gtk, gtk.glade
 import os, os.path
 
@@ -26,9 +26,9 @@ import os, os.path
 
 class PreferencesDlg:
 	def __init__(self, parent, preferences):
-		self.glade = gtk.glade.XML(dcommon.get_glade_file("preferences_dialog.glade"), domain='deluge')
+		self.glade = gtk.glade.XML(common.get_glade_file("preferences_dialog.glade"), domain='deluge')
 		self.dialog = self.glade.get_widget("pref_dialog")
-		self.dialog.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
 		self.glade.signal_autoconnect({
 										'tray_toggle': self.tray_toggle,
 									  })
@@ -37,23 +37,34 @@ class PreferencesDlg:
 		
 	def show(self):
 		# Load settings into dialog
-		self.glade.get_widget("chk_use_tray").set_active(self.preferences.get("enable_system_tray", bool, default=True))
-		self.glade.get_widget("chk_min_on_close").set_active(self.preferences.get("close_to_tray", bool, default=False))
-		if(self.preferences.get("use_default_dir", bool, False)):
-			self.glade.get_widget("radio_save_all_to").set_active(True)
-		else:
-			self.glade.get_widget("radio_ask_save").set_active(True)
-		self.glade.get_widget("download_path_button").set_filename(self.preferences.get("default_download_path", str, default=os.path.expandvars('$HOME')))
-		self.glade.get_widget("chk_autoseed").set_active(self.preferences.get("auto_end_seeding", bool, default=False))
-		self.glade.get_widget("ratio_spinner").set_value(self.preferences.get("end_seed_ratio", float, default=0.0))
-		self.glade.get_widget("chk_compact").set_active(self.preferences.get("use_compact_storage", bool, default=False))
-		self.glade.get_widget("active_port_label").set_text(str(self.parent.manager.get_state()['port']))
-		self.glade.get_widget("spin_port_min").set_value(self.preferences.get("tcp_port_range_lower", int, default=6881))
-		self.glade.get_widget("spin_port_max").set_value(self.preferences.get("tcp_port_range_upper", int, default=6889))
-		self.glade.get_widget("spin_max_upload").set_value(self.preferences.get("max_upload_rate", int, default=-1))
-		self.glade.get_widget("spin_num_upload").set_value(self.preferences.get("max_number_uploads", int, default=-1))
-		self.glade.get_widget("spin_max_download").set_value(self.preferences.get("max_download_rate", int, default=-1))
-		self.glade.get_widget("spin_num_download").set_value(self.preferences.get("max_number_downloads", int, default=-1))
+		try:
+			self.glade.get_widget("chk_use_tray").set_active(self.preferences.get("enable_system_tray", bool, default=True))
+			self.glade.get_widget("chk_min_on_close").set_active(self.preferences.get("close_to_tray", bool, default=False))
+			if(self.preferences.get("use_default_dir", bool, False)):
+				self.glade.get_widget("radio_save_all_to").set_active(True)
+			else:
+				self.glade.get_widget("radio_ask_save").set_active(True)
+			self.glade.get_widget("download_path_button").set_filename(self.preferences.get("default_download_path", str, default=os.path.expandvars('$HOME')))
+			self.glade.get_widget("chk_autoseed").set_active(self.preferences.get("auto_end_seeding", bool, default=False))
+			self.glade.get_widget("ratio_spinner").set_value(self.preferences.get("end_seed_ratio", float, default=0.0))
+			self.glade.get_widget("chk_compact").set_active(self.preferences.get("use_compact_storage", bool, default=False))
+			self.glade.get_widget("active_port_label").set_text(str(self.parent.manager.get_state()['port']))
+			self.glade.get_widget("spin_port_min").set_value(self.preferences.get("tcp_port_range_lower", int, default=6881))
+			self.glade.get_widget("spin_port_max").set_value(self.preferences.get("tcp_port_range_upper", int, default=6889))
+			self.glade.get_widget("spin_max_upload").set_value(self.preferences.get("max_upload_rate", int, default=-1))
+			self.glade.get_widget("spin_num_upload").set_value(self.preferences.get("max_number_uploads", int, default=-1))
+			self.glade.get_widget("spin_max_download").set_value(self.preferences.get("max_download_rate", int, default=-1))
+			self.glade.get_widget("spin_num_download").set_value(self.preferences.get("max_number_downloads", int, default=-1))
+			
+			self.glade.get_widget("spin_torrents").set_value(self.preferences.get("max_number_torrents", int, default=-1))
+			self.glade.get_widget("chk_seedbottom").set_active(self.preferences.get("queue_seeds_to_bottom", bool, default=False))
+			self.glade.get_widget("chk_upnp").set_active(self.preferences.get("enable_upnp", bool, default=True))
+			self.glade.get_widget("chk_dht").set_active(self.preferences.get("enable_dht", bool, default=True))
+			self.glade.get_widget("spin_dht").set_value(self.preferences.get("dht_connections", int, default=80))
+			self.glade.get_widget("chk_pex").set_active(self.preferences.get("enable_pex", bool, default=True))
+			self.glade.get_widget("spin_gui").set_value(self.preferences.get("gui_update_interval", float, default=1.0))
+		except KeyError:
+			pass
 		# Now, show the dialog
 		self.dialog.show()
 		r = self.dialog.run()
@@ -73,7 +84,13 @@ class PreferencesDlg:
 			self.preferences.set("max_number_uploads", self.glade.get_widget("spin_num_upload").get_value())
 			self.preferences.set("max_download_rate", self.glade.get_widget("spin_max_download").get_value())
 			self.preferences.set("max_number_downloads", self.glade.get_widget("spin_num_download").get_value())
-			
+			self.preferences.set("max_number_torrents", self.glade.get_widget("spin_torrents").get_value())
+			self.preferences.set("queue_seeds_to_bottom", self.glade.get_widget("chk_seedbottom").get_active())
+			self.preferences.set("enable_upnp", self.glade.get_widget("chk_upnp").get_active())
+			self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
+			self.preferences.set("dht_connections", self.glade.get_widget("spin_dht").get_value())
+			self.preferences.set("enable_pex", self.glade.get_widget("chk_pex").get_active())
+			self.preferences.set("gui_update_interval", self.glade.get_widget("spin_gui").get_value())
 		
 	def tray_toggle(self, obj):
 		if obj.get_active():
@@ -86,9 +103,9 @@ class PreferencesDlg:
 
 class PluginDlg:
 	def __init__(self, parent, plugins):
-		self.glade = gtk.glade.XML(dcommon.get_glade_file("plugin_dialog.glade"), domain='deluge')
+		self.glade = gtk.glade.XML(common.get_glade_file("plugin_dialog.glade"), domain='deluge')
 		self.dialog = self.glade.get_widget("plugin_dialog")
-		self.dialog.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
 		self.view = self.glade.get_widget("plugin_view")
 		self.store = gtk.ListStore(str, bool)
 		self.view.set_model(self.store)
@@ -159,16 +176,16 @@ class PluginDlg:
 
 
 def show_about_dialog(parent=None):
-		gtk.about_dialog_set_url_hook(dcommon.open_url_in_browser)
-		abt = gtk.glade.XML(dcommon.get_glade_file("aboutdialog.glade")).get_widget("aboutdialog")
-		abt.set_name(dcommon.PROGRAM_NAME)
-		abt.set_version(dcommon.PROGRAM_VERSION)
+		gtk.about_dialog_set_url_hook(common.open_url_in_browser)
+		abt = gtk.glade.XML(common.get_glade_file("aboutdialog.glade")).get_widget("aboutdialog")
+		abt.set_name(common.PROGRAM_NAME)
+		abt.set_version(common.PROGRAM_VERSION)
 		abt.set_authors(["Zach Tibbits", "A. Zakai"])
 		abt.set_artists(["Andrew Wedderburn"])
 		abt.set_website("http://deluge-torrent.org")
-		abt.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		abt.set_icon_from_file(common.get_pixmap("deluge32.png"))
 		abt.set_logo(gtk.gdk.pixbuf_new_from_file(
-				dcommon.get_pixmap("deluge-about.png")))
+				common.get_pixmap("deluge-about.png")))
 		abt.show_all()
 		abt.run()
 		abt.hide_all()
@@ -216,7 +233,7 @@ def show_file_open_dialog(parent=None, title=None):
 	f1.add_pattern("*")
 	chooser.add_filter(f1)
 	
-	chooser.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+	chooser.set_icon_from_file(common.get_pixmap("deluge32.png"))
 	chooser.set_property("skip-taskbar-hint", True)
 		
 	response = chooser.run()
@@ -232,7 +249,7 @@ def show_directory_chooser_dialog(parent=None, title=None):
 		title = _("Choose a download directory")
 	chooser = gtk.FileChooserDialog(title, parent, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
 				buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
-	chooser.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+	chooser.set_icon_from_file(common.get_pixmap("deluge32.png"))
 	chooser.set_property("skip-taskbar-hint", True)
 	if chooser.run() == gtk.RESPONSE_OK:
 		result = chooser.get_filename()
