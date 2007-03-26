@@ -21,7 +21,7 @@
 # 	Boston, MA  02110-1301, USA.
 
 import sys, os, os.path, urllib
-import deluge, dcommon, dgtk, ipc_manager
+import deluge, dcommon, dgtk, ipc_manager, dialogs
 import delugeplugins, pref
 import pygtk
 pygtk.require('2.0')
@@ -99,8 +99,8 @@ class DelugeGTK:
 		else:
 			self.has_tray = True
 		
-		self.build_about_dialog()
-		self.build_pref_dialog()
+		self.preferences_dialog = dialogs.PreferencesDlg(self, self.config)
+		self.plugin_dialog = dialogs.PluginDlg(self, self.plugins)
 		self.build_torrent_table()
 		self.build_summary_tab()
 		self.build_file_tab()
@@ -221,78 +221,6 @@ class DelugeGTK:
 			self.window.hide()
 		else:
 			self.window.show()
-	
-	def build_about_dialog(self):
-		gtk.about_dialog_set_url_hook(dcommon.open_url_in_browser)
-		self.abt = gtk.glade.XML(dcommon.get_glade_file("aboutdialog.glade")).get_widget("aboutdialog")
-		self.abt.set_name(dcommon.PROGRAM_NAME)
-		self.abt.set_version(dcommon.PROGRAM_VERSION)
-		self.abt.set_authors(["Zach Tibbits", "A. Zakai"])
-		self.abt.set_artists(["Andrew Wedderburn"])
-		self.abt.set_website("http://deluge-torrent.org")
-		self.abt.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
-		self.abt.set_logo(gtk.gdk.pixbuf_new_from_file(
-				dcommon.get_pixmap("deluge-about.png")))
-	
-	def build_pref_dialog(self):
-		self.prf_glade = gtk.glade.XML(dcommon.get_glade_file("preferences_dialog.glade"), domain='deluge')
-		self.plg_glade = gtk.glade.XML(dcommon.get_glade_file("plugin_dialog.glade"), domain='deluge')
-		self.prf = self.prf_glade.get_widget("pref_dialog")
-		self.prf.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
-		self.prf_glade.signal_autoconnect({"tray_toggle": self.tray_toggle,})
-		self.plugin_dlg = self.plg_glade.get_widget("plugin_dialog")
-		self.plugin_dlg.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
-		self.plugin_view = self.plg_glade.get_widget("plugin_view")
-		self.plugin_store = gtk.ListStore(str, bool)
-		self.plugin_view.set_model(self.plugin_store)
-		try:
-			self.plugin_view.get_selection().set_select_function(self.plugin_clicked, full=True)
-		except TypeError:
-			self.plugin_view.get_selection().set_select_function(self.old_pi_click)
-		name_col = dgtk.add_text_column(self.plugin_view, _("Plugin"), 0)
-		name_col.set_expand(True)
-		dgtk.add_toggle_column(self.plugin_view, _("Enabled"), 1, toggled_signal=self.plugin_toggled)
-		self.plg_glade.signal_autoconnect({'plugin_pref': self.plugin_pref})
-	
-	def old_pi_click(self, path):
-		return self.plugin_clicked(self.plugin_view.get_selection(), self.plugin_store,
-				path, False)
-	
-	def plugin_clicked(self, selection, model, path, is_selected):
-		if is_selected:
-			return True
-		name = model.get_value(model.get_iter(path), 0)
-		plugin = self.plugins.get_plugin(name)
-		author = plugin['author']
-		version = plugin['version']
-		config = plugin['config']
-		description = plugin['description']
-		if name in self.plugins.get_enabled_plugins():
-			self.plg_glade.get_widget("plugin_conf").set_sensitive(config)
-		else:
-			self.plg_glade.get_widget("plugin_conf").set_sensitive(False)
-		self.plg_glade.get_widget("plugin_text").get_buffer(
-			).set_text("%s\nBy: %s\nVersion: %s\n\n%s"%
-			(name, author, version, description))
-		return True
-
-	def plugin_toggled(self, renderer, path):
-		plugin_iter = self.plugin_store.get_iter_from_string(path)
-		plugin_name = self.plugin_store.get_value(plugin_iter, 0)
-		plugin_value = not self.plugin_store.get_value(plugin_iter, 1)
-		self.plugin_store.set_value(plugin_iter, 1, plugin_value)
-		if plugin_value:
-			self.plugins.enable_plugin(plugin_name)
-			self.plg_glade.get_widget("plugin_conf").set_sensitive(
-				self.plugins.get_plugin(plugin_name)['config'])
-		else:
-			self.plugins.disable_plugin(plugin_name)
-			self.plg_glade.get_widget("plugin_conf").set_sensitive(False)
-				
-	def plugin_pref(self, widget=None):
-		(model, plugin_iter) = self.plugin_view.get_selection().get_selected()
-		plugin_name = self.plugin_store.get_value(plugin_iter, 0)
-		self.plugins.configure_plugin(plugin_name)
 
 	def build_torrent_table(self):
 		## Create the torrent listview
@@ -481,7 +409,7 @@ class DelugeGTK:
 		dgtk.add_text_column(self.file_view, _("Filename"), 1).set_expand(True)
 		dgtk.add_text_column(self.file_view, _("Size"), 2)
 		dgtk.add_text_column(self.file_view, _("Offset"), 3)
-		# dgtk.add_text_column(self.file_view, _("Progress"), 4)
+		dgtk.add_text_column(self.file_view, _("Progress"), 4)
 		
 	
 	def file_toggled(self, renderer, path):
@@ -497,78 +425,15 @@ class DelugeGTK:
 		self.manager.set_file_filter(self.get_selected_torrent(), file_filter)
 		
 	def show_about_dialog(self, arg=None):
-		self.abt.show_all()
-		self.abt.run()
-		self.abt.hide_all()
+		dialogs.show_about_dialog()
 	
 	def show_pref_dialog(self, arg=None):
-		#Try to get current settings from pref, if an error occurs, the default settings will be used:
-		try:
-			# Page 1
-			self.prf_glade.get_widget("chk_use_tray").set_active(self.config.get("enable_system_tray", bool, default=True))
-			self.prf_glade.get_widget("chk_min_on_close").set_active(self.config.get("close_to_tray", bool, default=False))
-			if(self.config.get("use_default_dir", bool, False)):
-				self.prf_glade.get_widget("radio_save_all_to").set_active(True)
-			else:
-				self.prf_glade.get_widget("radio_ask_save").set_active(True)
-			self.prf_glade.get_widget("download_path_button").set_filename(self.config.get("default_download_path", 
-																	str, default=os.path.expandvars('$HOME')))
-			self.prf_glade.get_widget("chk_autoseed").set_active(self.config.get("auto_end_seeding", bool, default=False))
-			self.prf_glade.get_widget("ratio_spinner").set_value(self.config.get("end_seed_ratio", float, default=0.0))
-			self.prf_glade.get_widget("chk_compact").set_active(self.config.get("use_compact_storage", bool, default=False))
-			# Page 2
-			self.prf_glade.get_widget("active_port_label").set_text(str(self.manager.get_state()['port']))
-			self.prf_glade.get_widget("spin_port_min").set_value(self.config.get("tcp_port_range_lower", int, default=6881))
-			self.prf_glade.get_widget("spin_port_max").set_value(self.config.get("tcp_port_range_upper", int, default=6889))
-			self.prf_glade.get_widget("spin_max_upload").set_value(self.config.get("max_upload_rate", int, default=-1))
-			self.prf_glade.get_widget("spin_num_upload").set_value(self.config.get("max_number_uploads", int, default=-1))
-			self.prf_glade.get_widget("spin_max_download").set_value(self.config.get("max_download_rate", int, default=-1))
-			self.prf_glade.get_widget("spin_num_download").set_value(self.config.get("max_number_downloads", int, default=-1))
-		except KeyError:
-			pass
-		self.prf.show()		
-		result = self.prf.run()
-		self.prf.hide()
-		print result
-		if result == 1:
-			self.config.set("enable_system_tray", self.prf_glade.get_widget("chk_use_tray").get_active())
-			self.config.set("close_to_tray", self.prf_glade.get_widget("chk_min_on_close").get_active())
-			self.config.set("use_default_dir", self.prf_glade.get_widget("radio_save_all_to").get_active())
-			self.config.set("default_download_path", self.prf_glade.get_widget("download_path_button").get_filename())
-			self.config.set("auto_end_seeding", self.prf_glade.get_widget("chk_autoseed").get_active())
-			self.config.set("end_seed_ratio", self.prf_glade.get_widget("ratio_spinner").get_value())
-			self.config.set("use_compact_storage", self.prf_glade.get_widget("chk_compact").get_active())
-			
-			self.config.set("tcp_port_range_lower", self.prf_glade.get_widget("spin_port_min").get_value())
-			self.config.set("tcp_port_range_upper", self.prf_glade.get_widget("spin_port_max").get_value())
-			self.config.set("max_upload_rate", self.prf_glade.get_widget("spin_max_upload").get_value())
-			self.config.set("max_number_uploads", self.prf_glade.get_widget("spin_num_upload").get_value())
-			self.config.set("max_download_rate", self.prf_glade.get_widget("spin_max_download").get_value())
-			self.config.set("max_number_downloads", self.prf_glade.get_widget("spin_num_download").get_value())
-			
-			self.config.save_to_file(self.conf_file)
+		self.preferences_dialog.show()
 		self.apply_prefs()
+		self.config.save_to_file()
 	
 	def show_plugin_dialog(self, arg=None):
-		self.plugin_store.clear()
-		for plugin in self.plugins.get_available_plugins():
-			if plugin in self.plugins.get_enabled_plugins():
-				self.plugin_store.append( (plugin, True) )
-			else:
-				self.plugin_store.append( (plugin, False) )
-		self.plg_glade.get_widget("plugin_text").get_buffer().set_text("")
-		self.plg_glade.get_widget("plugin_conf").set_sensitive(False)
-		self.plugin_dlg.show()
-		self.plugin_dlg.run()
-		self.plugin_dlg.hide()
-		
-		
-	def tray_toggle(self, obj):
-		if obj.get_active():
-			self.prf_glade.get_widget("chk_min_on_close").set_sensitive(True)
-		else:
-			self.prf_glade.get_widget("chk_min_on_close").set_sensitive(False)
-
+		self.plugin_dialog.show()
 	
 	def apply_prefs(self):
 		ulrate = self.config.get("max_upload_rate", int, default=-1)
@@ -668,9 +533,9 @@ class DelugeGTK:
 			return False
 		
 		if self.something_screwed_up:
-			dgtk.show_popup_warning(self.window, 
+			dialogs.show_popup_warning(self.window, 
 				_("For some reason, the previous state could not be loaded, so a blank state has been loaded for you."))
-			restore_torrents = dgtk.show_popup_question(self.window,
+			restore_torrents = dialogs.show_popup_question(self.window,
 				_("Would you like to attempt to reload the previous session's downloads?"))
 			if restore_torrents:
 				torrent_subdir = os.path.join(self.manager.base_dir, deluge.TORRENTS_SUBDIR)
@@ -871,7 +736,7 @@ class DelugeGTK:
 		if self.config.get('use_default_dir', bool, default=False):
 			path = self.config.get('default_download_path', default=os.path.expandvars('$HOME'))
 		else:
-			path = dgtk.show_directory_chooser_dialog(self.window)
+			path = dialogs.show_directory_chooser_dialog(self.window)
 			if path is None:
 				return
 	
@@ -888,7 +753,7 @@ class DelugeGTK:
 		
 		
 	def add_torrent_clicked(self, obj=None):
-		torrent = dgtk.show_file_open_dialog()
+		torrent = dialogs.show_file_open_dialog()
 		if torrent is not None:
 			self.interactive_add_torrent(torrent)
 	
