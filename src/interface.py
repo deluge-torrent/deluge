@@ -257,12 +257,13 @@ class DelugeGTK:
 		self.torrent_view = self.wtree.get_widget("torrent_view")
 		self.torrent_glade = gtk.glade.XML(dcommon.get_glade_file("torrent_menu.glade"), domain='deluge')
 		self.torrent_menu = self.torrent_glade.get_widget("torrent_menu")		
-		self.torrent_glade.signal_autoconnect({"update_tracker": self.update_tracker,
-					"clear_finished": self.clear_finished,
-					"queue_up": self.q_torrent_up,
-					"queue_down": self.q_torrent_down,
-					"queue_bottom": self.q_to_bottom,
-					})
+		self.torrent_glade.signal_autoconnect({ "start_pause": self.start_pause,
+												"update_tracker": self.update_tracker,
+												"clear_finished": self.clear_finished,
+												"queue_up": self.q_torrent_up,
+												"queue_down": self.q_torrent_down,
+												"queue_bottom": self.q_to_bottom,
+												})
 		# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
 		self.torrent_model = gtk.ListStore(int, int, str, str, float, str, int, int, int, int, int, int, str, float)
 		self.torrent_view.set_model(self.torrent_model)
