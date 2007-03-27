@@ -28,7 +28,7 @@ from optparse import OptionParser
 import sys
 import os, os.path
 import gettext, locale
-import deluge, deluge.dcommon, deluge.interface
+import deluge, deluge.common, deluge.interface
 try:
 	import dbus
 	dbus_version = getattr(dbus, 'version', (0,0,0))

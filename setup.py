@@ -86,23 +86,24 @@ if ARCH == "x64":
 #	seem as if something is going wrong with the compile, and
 #	it has been removed to prevent confusion.
 
-removals = ['-g', '-DNDEBUG', '-O2', '-Wstrict-prototypes']
-additions = ['-DNDEBUG', '-O2']
+if not OS == "win":
+	removals = ['-g', '-DNDEBUG', '-O2', '-Wstrict-prototypes']
+	additions = ['-DNDEBUG', '-O2']
 
-if python_version == '2.5':
-	cv_opt = sysconfig.get_config_vars()["CFLAGS"]
-	for removal in removals:
-		cv_opt = cv_opt.replace(removal, " ")
-	for addition in additions:
-		cv_opt = cv_opt + " " + addition
-	sysconfig.get_config_vars()["CFLAGS"] = ' '.join(cv_opt.split())
-else:
-	cv_opt = sysconfig.get_config_vars()["OPT"]
-	for removal in removals:
-		cv_opt = cv_opt.replace(removal, " ")
-	for addition in additions:
-		cv_opt = cv_opt + " " + addition
-	sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
+	if python_version == '2.5':
+		cv_opt = sysconfig.get_config_vars()["CFLAGS"]
+		for removal in removals:
+			cv_opt = cv_opt.replace(removal, " ")
+		for addition in additions:
+			cv_opt = cv_opt + " " + addition
+		sysconfig.get_config_vars()["CFLAGS"] = ' '.join(cv_opt.split())
+	else:
+		cv_opt = sysconfig.get_config_vars()["OPT"]
+		for removal in removals:
+			cv_opt = cv_opt.replace(removal, " ")
+		for addition in additions:
+			cv_opt = cv_opt + " " + addition
+		sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
 
 # NOTE: The Rasterbar Libtorrent source code is in the libtorrent/ directory
 # inside of Deluge's source tarball.  On several occasions, it has been 
