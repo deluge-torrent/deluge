@@ -43,7 +43,7 @@ except: dbus_imported = False
 else: dbus_imported = True
 
 
-parser = OptionParser(usage="%prog [options] [actions]", version=deluge.dcommon.PROGRAM_VERSION)
+parser = OptionParser(usage="%prog [options] [actions]", version=deluge.common.PROGRAM_VERSION)
 parser.add_option("--tray", dest="tray", help="start Deluge hidden in system tray",
 						metavar="TRAY", action="store_true")
 
