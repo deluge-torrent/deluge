@@ -658,8 +658,8 @@ class Manager:
 				size = deluge_core.get_torrent_state(unique_ID)["total_size"]
 				avail = self.calc_free_space(torrent.save_dir)
 				print "Torrent Size", size
-				print "Available Space", avail
-#				size = avail + 1 #debug!
+#				print "Available Space", avail
+				size = avail + 1 #debug!
 				if size > avail: # Not enough free space
 					torrent.user_paused = True
 					no_space = True

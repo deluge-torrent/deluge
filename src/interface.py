@@ -774,7 +774,6 @@ class DelugeGTK:
 			path = dialogs.show_directory_chooser_dialog(self.window)
 			if path is None:
 				return
-	
 		try:
 			unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))
 			
@@ -783,9 +782,14 @@ class DelugeGTK:
 		except core.InvalidEncodingError, e:
 			print "InvalidEncodingError", e
 			dialogs.show_popup_warning(self.window, _("An error occured while trying to add the torrent. It's possible your .torrent file is corrupted."))
-		except core.InsufficientFreeSpaceError, e:	
+		except core.DuplicateTorrentError, e:
+			dialogs.show_popup_warning(self.window, _("The torrent you've added seems to already be in Deluge."))
+		except core.InsufficientFreeSpaceError, e:
 			nice_need = common.fsize(e.needed_space)
 			nice_free = common.fsize(e.free_space)
+			dialogs.show_popup_warning(self.window, _("There is not enough free disk space to complete your download.") + "\n" + \
+														_("Space Needed:") + " " + nice_need + "\n" + \
+														_("Available Space:") + " " + nice_free)
 			
 			
 		
