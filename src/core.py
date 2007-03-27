@@ -649,7 +649,8 @@ class Manager:
 					unique_ID = deluge_core.add_torrent(torrent.filename,
 				                                    torrent.save_dir,
 				                                    torrent.compact)
-				except InvalidEncodingError, e:
+				except DelugeError, e:
+					print "Error:", e
 					self.state.torrents.remove(torrent)
 					raise e
 #				print "Got unique ID:", unique_ID
