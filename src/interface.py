@@ -777,13 +777,18 @@ class DelugeGTK:
 	
 		try:
 			unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))
-		except core.InsufficientFreeSpaceError, err:	
-			nice_need = common.fsize(err.needed_space)
-			nice_free = common.fsize(err.free_space)
+			
+			if append:
+				self.torrent_model.append(self.get_list_from_unique_id(unique_id))
+		except core.InvalidEncodingError, e:
+			print "InvalidEncodingError", e
+			dialogs.show_popup_warning(self.window, _("An error occured while trying to add the torrent. It's possible your .torrent file is corrupted."))
+		except core.InsufficientFreeSpaceError, e:	
+			nice_need = common.fsize(e.needed_space)
+			nice_free = common.fsize(e.free_space)
 			
 			
-		if append:
-			self.torrent_model.append(self.get_list_from_unique_id(unique_id))
+		
 		
 		
 		

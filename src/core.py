@@ -645,9 +645,13 @@ class Manager:
 		for torrent in self.state.torrents:
 			if torrent not in torrents_with_unique_ID:
 #				print "Adding torrent to core:", torrent.filename, torrent.save_dir, torrent.compact
-				unique_ID = deluge_core.add_torrent(torrent.filename,
+				try:
+					unique_ID = deluge_core.add_torrent(torrent.filename,
 				                                    torrent.save_dir,
 				                                    torrent.compact)
+				except InvalidEncodingError, e:
+					self.state.torrents.remove(torrent)
+					raise e
 #				print "Got unique ID:", unique_ID
 				# Now to check and see if there is enough free space for the download
 				size = deluge_core.get_torrent_state(unique_ID)["total_size"]
