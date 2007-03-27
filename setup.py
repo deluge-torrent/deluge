@@ -16,7 +16,36 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
 
-import platform, os, os.path, glob
+import os, platform
+print "Attempting to detect your system information"
+if platform.machine() == "i386" or platform.machine() == "i686":
+	print "32bit x86 system detected"
+	ARCH = "x86"
+elif platform.machine() == "x86_64":
+	print "64bit x86_64 system detected"
+	ARCH = "x64"
+elif platform.processor() == "powerpc":
+	print "PowerPC system detected"
+	ARCH = "ppc"
+else:
+	print "Couldn't detect CPU architecture"
+	ARCH = ""
+if platform.system() == "Linux":
+	print "Linux operating system detected"
+	OS = "linux"
+elif platform.system() == "Darwin" :
+	print "Darwin / OS X system detected"
+	OS = "osx"
+elif platform.system() == "Windows":
+	print "Windows system detected"
+	OS = "win"
+elif os.name == "posix":
+	print "Unix system detected"
+	OS = "nix"
+else:
+	print "Couldn't detect operating system"
+	OS = ""
+import os.path, glob
 from distutils.core import setup, Extension
 from distutils import sysconfig
 import shutil
@@ -26,7 +55,7 @@ from distutils.command.install_data import install_data as _install_data
 from distutils.command.build import build as _build
 import msgfmt
 
-pythonVersion = platform.python_version()[0:3]
+python_version = platform.python_version()[0:3]
 
 NAME		= "deluge"
 FULLNAME	= "Deluge BitTorrent Client"
@@ -36,6 +65,11 @@ EMAIL		= "zach@collegegeek.org, kripkensteiner@gmail.com"
 DESCRIPTION	= "A bittorrent client written in PyGTK"
 URL			= "http://deluge-torrent.org"
 LICENSE		= "GPLv2"
+
+EXTRA_COMPILE_ARGS = ["-Wno-missing-braces"]
+if ARCH == "x64":
+	EXTRA_COMPILE_ARGS.append("-DAMD64")
+
 
 # NOTE: The following "hack" removes the -g and -Wstrict-prototypes
 # build options from the command that will compile the C++ module,
@@ -55,7 +89,7 @@ LICENSE		= "GPLv2"
 removals = ['-g', '-DNDEBUG', '-O2', '-Wstrict-prototypes']
 additions = ['-DNDEBUG', '-O2']
 
-if pythonVersion == '2.5':
+if python_version == '2.5':
 	cv_opt = sysconfig.get_config_vars()["CFLAGS"]
 	for removal in removals:
 		cv_opt = cv_opt.replace(removal, " ")
@@ -84,12 +118,12 @@ else:
 deluge_core = Extension('deluge_core',
                     include_dirs = ['./libtorrent', './libtorrent/include', 
                     			'./libtorrent/include/libtorrent', 
-                    			'/usr/include/python' + pythonVersion],
+                    			'/usr/include/python' + python_version],
                     libraries = ['boost_filesystem', 'boost_date_time',
 					'boost_program_options', 'boost_regex',
 					'boost_serialization', 'boost_thread', 
 					'z', 'pthread'],
-                    extra_compile_args = ["-Wno-missing-braces"],
+                    extra_compile_args = EXTRA_COMPILE_ARGS,
                     sources = ['src/deluge_core.cpp',
 					'libtorrent/src/alert.cpp',
 					'libtorrent/src/allocate_resources.cpp',
