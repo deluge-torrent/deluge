@@ -814,7 +814,7 @@ class DelugeGTK:
 		if result == 1:
 			opener = urllib.URLopener()
 			filename, headers = opener.retrieve(url)
-			if filename.endswith(".torrent") or headers["content-type"]=="application/x=bittorrent":
+			if filename.endswith(".torrent") or headers["content-type"]=="application/x-bittorrent":
 				self.interactive_add_torrent(filename)
 		
 	
