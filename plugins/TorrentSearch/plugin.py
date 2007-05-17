@@ -2,10 +2,10 @@
 
 class plugin_Search:
 	def __init__(self, path, deluge_core, deluge_interface):
-		import dcommon, gtk, gtk.glade, dgtk, pref
+		import common, gtk, gtk.glade, dgtk, pref
 		self.core = deluge_core
 		self.interface = deluge_interface
-		self.conf_file = dcommon.CONFIG_DIR + "/search.conf"
+		self.conf_file = common.CONFIG_DIR + "/search.conf"
 		if not os.path.isfile(self.conf_file):
 			f = open(self.conf_file, mode='w')
 			f.flush()

@@ -114,9 +114,9 @@ class plugin_NetGraph:
 		meanDownSpeed = sum(self.savedDownSpeeds)/len(self.savedDownSpeeds)
 		shownSpeed    = max(meanUpSpeed, meanDownSpeed)
 		
-		import dcommon
+		import common
 
-		self.pangoLayout.set_text(dcommon.frate(shownSpeed))
+		self.pangoLayout.set_text(common.frate(shownSpeed))
 		self.networkPixmap.draw_layout(self.image.get_style().black_gc,
 												 4,
 												 int(self.height - 1 - (self.height*shownSpeed/maxSpeed)),
