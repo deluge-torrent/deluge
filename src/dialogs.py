@@ -183,6 +183,7 @@ def show_about_dialog(parent=None):
 		abt.set_authors(["Zach Tibbits", "A. Zakai"])
 		abt.set_artists(["Andrew Wedderburn"])
 		abt.set_website("http://deluge-torrent.org")
+		abt.set_website_label("http://deluge-torrent.org")
 		abt.set_icon_from_file(common.get_pixmap("deluge32.png"))
 		abt.set_logo(gtk.gdk.pixbuf_new_from_file(
 				common.get_pixmap("deluge-about.png")))

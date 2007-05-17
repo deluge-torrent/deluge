@@ -8,7 +8,7 @@
     <property name="skip_taskbar_hint">True</property>
     <property name="skip_pager_hint">True</property>
     <property name="has_separator">False</property>
-    <property name="website">http://deluge-torrent.org</property>
+    <property name="website"></property>
     <property name="authors"></property>
     <property name="documenters"></property>
     <property name="artists"></property>
