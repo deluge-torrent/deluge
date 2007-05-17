@@ -103,7 +103,6 @@ class DelugeGTK:
 		#Set up the interface:
 		self.wtree = gtk.glade.XML(common.get_glade_file("delugegtk.glade"), domain=APP)
 		self.window = self.wtree.get_widget("main_window")
-		self.window.hide()
 		self.toolbar = self.wtree.get_widget("tb_middle")
 		self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL,[('text/uri-list', 0, 80)], gtk.gdk.ACTION_COPY)
 		self.window.connect("delete_event", self.close)
