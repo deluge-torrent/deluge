@@ -196,7 +196,6 @@ class DelugeGTK:
 	def build_tray_icon(self):
 		self.tray_icon = gtk.status_icon_new_from_file(common.get_pixmap("deluge32.png"))
 		self.tray_menu = gtk.Menu()
-		
 		item_show  = gtk.MenuItem(_("Show / Hide Window"))
 		item_add   = gtk.ImageMenuItem(_("Add Torrent"))
 		item_clear = gtk.ImageMenuItem(_("Clear Finished"))
@@ -638,8 +637,11 @@ class DelugeGTK:
 		try:
 			if self.manager.is_user_paused(self.get_selected_torrent()):
 				self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PLAY)
+				self.wtree.get_widget("toolbutton_pause").set_label("Play")
 			else:
 				self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PAUSE)
+				self.wtree.get_widget("toolbutton_pause").set_label(_("Pause"))
+
 		except KeyError:
 			pass
 		
