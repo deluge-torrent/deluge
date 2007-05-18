@@ -1025,7 +1025,7 @@
               <widget class="GtkToolButton" id="toolbutton_pause">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Start / Pause</property>
-                <property name="label">Start / Pause</property>
+                <property name="label">Start</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-media-play</property>
                 <signal name="clicked" handler="start_pause"/>
