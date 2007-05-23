@@ -53,6 +53,8 @@
 #include "libtorrent/file_pool.hpp"
 #include "libtorrent/file.hpp"
 #include "libtorrent/torrent_info.hpp"
+#include "libtorrent/extensions/metadata_transfer.hpp"
+#include "libtorrent/extensions/ut_pex.hpp"
 
 using namespace boost::filesystem;
 using namespace libtorrent;
@@ -324,6 +326,9 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
 	M_ses->set_settings(*M_settings);
 	M_ses->set_severity_level(alert::debug);
+
+	M_ses->add_extension(&libtorrent::create_metadata_plugin);
+	M_ses->add_extension(&libtorrent::create_ut_pex_plugin);
 
 	M_constants = Py_BuildValue("{s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i}",
 								"EVENT_NULL",								EVENT_NULL,
