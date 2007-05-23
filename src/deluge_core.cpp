@@ -27,11 +27,20 @@
 // open, just like the normal TCP port for bittorrent.
 //
 //-----------------
+#include <iostream>
+#include <fstream>
+#include <exception>
+#include <iterator>
+#include <iomanip>
 
 #include <Python.h>
 
+#include <boost/format.hpp>
 #include <boost/filesystem/exception.hpp>
 #include <boost/filesystem/operations.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/fstream.hpp>
 
 #include "libtorrent/entry.hpp"
 #include "libtorrent/bencode.hpp"
@@ -41,7 +50,11 @@
 #include "libtorrent/storage.hpp"
 #include "libtorrent/hasher.hpp"
 #include "libtorrent/ip_filter.hpp"
+#include "libtorrent/file_pool.hpp"
+#include "libtorrent/file.hpp"
+#include "libtorrent/torrent_info.hpp"
 
+using namespace boost::filesystem;
 using namespace libtorrent;
 
 
@@ -167,6 +180,7 @@ long internal_add_torrent(std::string const&             torrent_name,
 								  bool                           compact_mode,
 								  boost::filesystem::path const& save_path)
 {
+
 	std::ifstream in(torrent_name.c_str(), std::ios_base::binary);
 	in.unsetf(std::ios_base::skipws);
 	entry e;
@@ -337,6 +351,8 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 static PyObject *torrent_quit(PyObject *self, PyObject *args)
 {
 	printf("core: shutting down session...\r\n");
+	M_settings->stop_tracker_timeout = 5;
+	M_ses->set_settings(*M_settings);
 	delete M_ses; // 100% CPU...
 	printf("core: removing settings...\r\n");
 	delete M_settings;
@@ -1081,13 +1097,13 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 	{
 		torrent_info t;
 		boost::filesystem::path full_path = complete(boost::filesystem::path(input));
-		boost::filesystem::ofstream out(complete(boost::filesystem::path(destination)),
-												  std::ios_base::binary);
+		boost::filesystem::ofstream out(complete(boost::filesystem::path(destination)), std::ios_base::binary);
 
+                file_pool fp;
 		internal_add_files(t, full_path.branch_path(), full_path.leaf());
 		t.set_piece_size(piece_size);
 
-		storage st(t, full_path.branch_path());
+                storage st(t, full_path.branch_path(), fp);
 
 		std::string stdTrackers(trackers);
 		unsigned long index = 0, next = stdTrackers.find("\n");
