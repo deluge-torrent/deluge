@@ -57,13 +57,13 @@ import msgfmt
 
 python_version = platform.python_version()[0:3]
 
-NAME			= "deluge"
-FULLNAME		= "Deluge BitTorrent Client"
+NAME		= "deluge"
+FULLNAME	= "Deluge BitTorrent Client"
 VERSION		= "0.5.0"
 AUTHOR		= "Zach Tibbitts, Alon Zakai, Marcos Pinto"
-EMAIL			= "zach@collegegeek.org, kripkensteiner@gmail.com, marcospinto@dipconsultants.com"
+EMAIL		= "zach@collegegeek.org, kripkensteiner@gmail.com, marcospinto@dipconsultants.com"
 DESCRIPTION	= "A bittorrent client written in PyGTK"
-URL			= "http://deluge-torrent.org"
+URL		= "http://deluge-torrent.org"
 LICENSE		= "GPLv2"
 
 EXTRA_COMPILE_ARGS = ["-Wno-missing-braces"]
@@ -87,6 +87,15 @@ if ARCH == "x64":
 #	it has been removed to prevent confusion.
 
 if not OS == "win":
+	
+	if os.WEXITSTATUS(os.system('grep -q "Debian GNU/Linux 4.0" /etc/issue')) == 0:
+		boosttype = 'nomt'
+	elif os.WEXITSTATUS(os.system('grep -q "Ubuntu 7.04" /etc/issue')) == 0:
+		boosttype = 'nomt'
+	elif os.WEXITSTATUS(os.system('grep -q "Ubuntu 6.06" /etc/issue')) == 0:
+		boosttype = 'nomt'
+	else:
+		boosttype = 'mt'
 	removals = ['-g', '-DNDEBUG', '-O2', '-Wstrict-prototypes']
 	additions = ['-DNDEBUG', '-O2']
 
@@ -104,6 +113,8 @@ if not OS == "win":
 		for addition in additions:
 			cv_opt = cv_opt + " " + addition
 		sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
+else:
+	librariestype = 'mt'
 
 # NOTE: The Rasterbar Libtorrent source code is in the libtorrent/ directory
 # inside of Deluge's source tarball.  On several occasions, it has been 
@@ -115,14 +126,24 @@ if not OS == "win":
 # we will probably begin to build against a system libtorrent, but at the
 # moment, we are including the source code to make packaging on Debian and
 # Ubuntu possible.
+if boosttype == "nomt":
+	librariestype = ['boost_filesystem', 'boost_date_time',
+			'boost_regex', 'boost_serialization',
+			'boost_thread', 
+			'z', 'pthread']
+	print 'Libraries nomt' 
+elif boosttype == "mt":
+	librariestype = ['boost_filesystem-mt', 'boost_date_time-mt',
+			'boost_regex-mt', 'boost_serialization-mt',
+			'boost_thread-mt', 
+			'z', 'pthread']
+	print 'Libraries mt'
 
 deluge_core = Extension('deluge_core',
                     include_dirs = ['./libtorrent', './libtorrent/include', 
                     			'./libtorrent/include/libtorrent', 
                     			'/usr/include/python' + python_version],
-                    libraries = ['boost_filesystem-mt', 'boost_date_time-mt',
-					'boost_regex-mt', 'boost_serialization-mt',
-					'boost_thread-mt', 'z', 'pthread'],
+		    libraries = librariestype,
                     extra_compile_args = EXTRA_COMPILE_ARGS,
                     sources = ['src/deluge_core.cpp',
 					'libtorrent/src/alert.cpp',
