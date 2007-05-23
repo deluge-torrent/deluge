@@ -72,11 +72,14 @@ namespace libtorrent
 		std::string const& protocol() const { return m_protocol; }
 		int status_code() const { return m_status_code; }
 		std::string message() const { return m_server_message; }
-		buffer::const_interval get_body();
+		buffer::const_interval get_body() const;
 		bool header_finished() const { return m_state == read_body; }
 		bool finished() const { return m_finished; }
 		boost::tuple<int, int> incoming(buffer::const_interval recv_buffer);
 		int body_start() const { return m_body_start_pos; }
+		int content_length() const { return m_content_length; }
+
+		void reset();
 	private:
 		int m_recv_pos;
 		int m_status_code;
@@ -84,7 +87,6 @@ namespace libtorrent
 		std::string m_server_message;
 
 		int m_content_length;
-		enum { plain, gzip } m_content_encoding;
 
 		enum { read_status, read_header, read_body } m_state;
 
@@ -111,12 +113,13 @@ namespace libtorrent
 	public:
 
 		http_tracker_connection(
-			demuxer& d
+			asio::strand& str
 			, tracker_manager& man
 			, tracker_request const& req
 			, std::string const& hostname
 			, unsigned short port
 			, std::string request
+			, address bind_infc
 			, boost::weak_ptr<request_callback> c
 			, session_settings const& stn
 			, std::string const& password = "");
@@ -132,10 +135,10 @@ namespace libtorrent
 			std::string const& hostname
 			, std::string const& request);
 
-		void name_lookup(asio::error const& error, tcp::resolver::iterator i);
-		void connected(asio::error const& error);
-		void sent(asio::error const& error);
-		void receive(asio::error const& error
+		void name_lookup(asio::error_code const& error, tcp::resolver::iterator i);
+		void connected(asio::error_code const& error);
+		void sent(asio::error_code const& error);
+		void receive(asio::error_code const& error
 			, std::size_t bytes_transferred);
 
 		virtual void on_timeout();
@@ -144,12 +147,9 @@ namespace libtorrent
 		peer_entry extract_peer_info(const entry& e);
 
 		tracker_manager& m_man;
-		enum { read_status, read_header, read_body } m_state;
+		http_parser m_parser;
 
-		enum { plain, gzip } m_content_encoding;
-		int m_content_length;
-		std::string m_location;
-
+		asio::strand& m_strand;
 		tcp::resolver m_name_lookup;
 		int m_port;
 		boost::shared_ptr<stream_socket> m_socket;
@@ -157,16 +157,9 @@ namespace libtorrent
 		std::vector<char> m_buffer;
 		std::string m_send_buffer;
 
-		std::string m_server_message;
-		std::string m_server_protocol;
-
 		session_settings const& m_settings;
 		std::string m_password;
-		int m_code;
 
-		// server string in http-reply
-		std::string m_server;
-		
 		bool m_timed_out;
 	};
 

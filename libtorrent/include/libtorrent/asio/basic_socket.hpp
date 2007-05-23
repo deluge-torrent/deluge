@@ -2,7 +2,7 @@
 // basic_socket.hpp
 // ~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -19,8 +19,8 @@
 
 #include "asio/basic_io_object.hpp"
 #include "asio/error.hpp"
-#include "asio/error_handler.hpp"
 #include "asio/socket_base.hpp"
+#include "asio/detail/throw_error.hpp"
 
 namespace asio {
 
@@ -29,21 +29,18 @@ namespace asio {
  * The basic_socket class template provides functionality that is common to both
  * stream-oriented and datagram-oriented sockets.
  *
- * @par Thread Safety:
+ * @par Thread Safety
  * @e Distinct @e objects: Safe.@n
  * @e Shared @e objects: Unsafe.
- *
- * @par Concepts:
- * Error_Source, IO_Object.
  */
-template <typename Protocol, typename Service>
+template <typename Protocol, typename SocketService>
 class basic_socket
-  : public basic_io_object<Service>,
+  : public basic_io_object<SocketService>,
     public socket_base
 {
 public:
   /// The native representation of a socket.
-  typedef typename Service::native_type native_type;
+  typedef typename SocketService::native_type native_type;
 
   /// The protocol type.
   typedef Protocol protocol_type;
@@ -51,11 +48,8 @@ public:
   /// The endpoint type.
   typedef typename Protocol::endpoint endpoint_type;
 
-  /// The type used for reporting errors.
-  typedef asio::error error_type;
-
   /// A basic_socket is always the lowest layer.
-  typedef basic_socket<Protocol, Service> lowest_layer_type;
+  typedef basic_socket<Protocol, SocketService> lowest_layer_type;
 
   /// Construct a basic_socket without opening it.
   /**
@@ -65,7 +59,7 @@ public:
    * dispatch handlers for any asynchronous operations performed on the socket.
    */
   explicit basic_socket(asio::io_service& io_service)
-    : basic_io_object<Service>(io_service)
+    : basic_io_object<SocketService>(io_service)
   {
   }
 
@@ -78,13 +72,15 @@ public:
    *
    * @param protocol An object specifying protocol parameters to be used.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    */
   basic_socket(asio::io_service& io_service,
       const protocol_type& protocol)
-    : basic_io_object<Service>(io_service)
+    : basic_io_object<SocketService>(io_service)
   {
-    this->service.open(this->implementation, protocol, throw_error());
+    asio::error_code ec;
+    this->service.open(this->implementation, protocol, ec);
+    asio::detail::throw_error(ec);
   }
 
   /// Construct a basic_socket, opening it and binding it to the given local
@@ -100,15 +96,17 @@ public:
    * @param endpoint An endpoint on the local machine to which the socket will
    * be bound.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    */
   basic_socket(asio::io_service& io_service,
       const endpoint_type& endpoint)
-    : basic_io_object<Service>(io_service)
+    : basic_io_object<SocketService>(io_service)
   {
-    this->service.open(this->implementation, endpoint.protocol(),
-        throw_error());
-    this->service.bind(this->implementation, endpoint, throw_error());
+    asio::error_code ec;
+    this->service.open(this->implementation, endpoint.protocol(), ec);
+    asio::detail::throw_error(ec);
+    this->service.bind(this->implementation, endpoint, ec);
+    asio::detail::throw_error(ec);
   }
 
   /// Construct a basic_socket on an existing native socket.
@@ -122,14 +120,15 @@ public:
    *
    * @param native_socket A native socket.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    */
   basic_socket(asio::io_service& io_service,
       const protocol_type& protocol, const native_type& native_socket)
-    : basic_io_object<Service>(io_service)
+    : basic_io_object<SocketService>(io_service)
   {
-    this->service.assign(this->implementation, protocol, native_socket,
-        throw_error());
+    asio::error_code ec;
+    this->service.assign(this->implementation, protocol, native_socket, ec);
+    asio::detail::throw_error(ec);
   }
 
   /// Get a reference to the lowest layer.
@@ -152,9 +151,9 @@ public:
    *
    * @param protocol An object specifying protocol parameters to be used.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    *
-   * @par Example:
+   * @par Example
    * @code
    * asio::ip::tcp::socket socket(io_service);
    * socket.open(asio::ip::tcp::v4());
@@ -162,7 +161,9 @@ public:
    */
   void open(const protocol_type& protocol = protocol_type())
   {
-    this->service.open(this->implementation, protocol, throw_error());
+    asio::error_code ec;
+    this->service.open(this->implementation, protocol, ec);
+    asio::detail::throw_error(ec);
   }
 
   /// Open the socket using the specified protocol.
@@ -171,28 +172,23 @@ public:
    *
    * @param protocol An object specifying which protocol is to be used.
    *
-   * @param error_handler A handler to be called when the operation completes,
-   * to indicate whether or not an error has occurred. Copies will be made of
-   * the handler as required. The function signature of the handler must be:
-   * @code void error_handler(
-   *   const asio::error& error // Result of operation
-   * ); @endcode
+   * @param ec Set to indicate what error occurred, if any.
    *
-   * @par Example:
+   * @par Example
    * @code
    * asio::ip::tcp::socket socket(io_service);
-   * asio::error error;
-   * socket.open(asio::ip::tcp::v4(), asio::assign_error(error));
-   * if (error)
+   * asio::error_code ec;
+   * socket.open(asio::ip::tcp::v4(), ec);
+   * if (ec)
    * {
    *   // An error occurred.
    * }
    * @endcode
    */
-  template <typename Error_Handler>
-  void open(const protocol_type& protocol, Error_Handler error_handler)
+  asio::error_code open(const protocol_type& protocol,
+      asio::error_code& ec)
   {
-    this->service.open(this->implementation, protocol, error_handler);
+    return this->service.open(this->implementation, protocol, ec);
   }
 
   /// Assign an existing native socket to the socket.
@@ -203,12 +199,13 @@ public:
    *
    * @param native_socket A native socket.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    */
   void assign(const protocol_type& protocol, const native_type& native_socket)
   {
-    this->service.assign(this->implementation, protocol, native_socket,
-        throw_error());
+    asio::error_code ec;
+    this->service.assign(this->implementation, protocol, native_socket, ec);
+    asio::detail::throw_error(ec);
   }
 
   /// Assign an existing native socket to the socket.
@@ -219,19 +216,19 @@ public:
    *
    * @param native_socket A native socket.
    *
-   * @param error_handler A handler to be called when the operation completes,
-   * to indicate whether or not an error has occurred. Copies will be made of
-   * the handler as required. The function signature of the handler must be:
-   * @code void error_handler(
-   *   const asio::error& error // Result of operation
-   * ); @endcode
+   * @param ec Set to indicate what error occurred, if any.
    */
-  template <typename Error_Handler>
-  void assign(const protocol_type& protocol, const native_type& native_socket,
-      Error_Handler error_handler)
+  asio::error_code assign(const protocol_type& protocol,
+      const native_type& native_socket, asio::error_code& ec)
   {
-    this->service.assign(this->implementation, protocol, native_socket,
-        error_handler);
+    return this->service.assign(this->implementation,
+        protocol, native_socket, ec);
+  }
+
+  /// Determine whether the socket is open.
+  bool is_open() const
+  {
+    return this->service.is_open(this->implementation);
   }
 
   /// Close the socket.
@@ -240,11 +237,13 @@ public:
    * or connect operations will be cancelled immediately, and will complete
    * with the asio::error::operation_aborted error.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    */
   void close()
   {
-    this->service.close(this->implementation, throw_error());
+    asio::error_code ec;
+    this->service.close(this->implementation, ec);
+    asio::detail::throw_error(ec);
   }
 
   /// Close the socket.
@@ -253,29 +252,23 @@ public:
    * or connect operations will be cancelled immediately, and will complete
    * with the asio::error::operation_aborted error.
    *
-   * @param error_handler A handler to be called when the operation completes,
-   * to indicate whether or not an error has occurred. Copies will be made of
-   * the handler as required. The function signature of the handler must be:
-   * @code void error_handler(
-   *   const asio::error& error // Result of operation
-   * ); @endcode
+   * @param ec Set to indicate what error occurred, if any.
    *
-   * @par Example:
+   * @par Example
    * @code
    * asio::ip::tcp::socket socket(io_service);
    * ...
-   * asio::error error;
-   * socket.close(asio::assign_error(error));
-   * if (error)
+   * asio::error_code ec;
+   * socket.close(ec);
+   * if (ec)
    * {
    *   // An error occurred.
    * }
    * @endcode
    */
-  template <typename Error_Handler>
-  void close(Error_Handler error_handler)
+  asio::error_code close(asio::error_code& ec)
   {
-    this->service.close(this->implementation, error_handler);
+    return this->service.close(this->implementation, ec);
   }
 
   /// Get the native socket representation.
@@ -295,11 +288,13 @@ public:
    * operations to finish immediately, and the handlers for cancelled operations
    * will be passed the asio::error::operation_aborted error.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    */
   void cancel()
   {
-    this->service.cancel(this->implementation, throw_error());
+    asio::error_code ec;
+    this->service.cancel(this->implementation, ec);
+    asio::detail::throw_error(ec);
   }
 
   /// Cancel all asynchronous operations associated with the socket.
@@ -308,17 +303,77 @@ public:
    * operations to finish immediately, and the handlers for cancelled operations
    * will be passed the asio::error::operation_aborted error.
    *
-   * @param error_handler A handler to be called when the operation completes,
-   * to indicate whether or not an error has occurred. Copies will be made of
-   * the handler as required. The function signature of the handler must be:
-   * @code void error_handler(
-   *   const asio::error& error // Result of operation
-   * ); @endcode
+   * @param ec Set to indicate what error occurred, if any.
    */
-  template <typename Error_Handler>
-  void cancel(Error_Handler error_handler)
+  asio::error_code cancel(asio::error_code& ec)
   {
-    this->service.cancel(this->implementation, error_handler);
+    return this->service.cancel(this->implementation, ec);
+  }
+
+  /// Determine whether the socket is at the out-of-band data mark.
+  /**
+   * This function is used to check whether the socket input is currently
+   * positioned at the out-of-band data mark.
+   *
+   * @return A bool indicating whether the socket is at the out-of-band data
+   * mark.
+   *
+   * @throws asio::system_error Thrown on failure.
+   */
+  bool at_mark() const
+  {
+    asio::error_code ec;
+    bool b = this->service.at_mark(this->implementation, ec);
+    asio::detail::throw_error(ec);
+    return b;
+  }
+
+  /// Determine whether the socket is at the out-of-band data mark.
+  /**
+   * This function is used to check whether the socket input is currently
+   * positioned at the out-of-band data mark.
+   *
+   * @param ec Set to indicate what error occurred, if any.
+   *
+   * @return A bool indicating whether the socket is at the out-of-band data
+   * mark.
+   */
+  bool at_mark(asio::error_code& ec) const
+  {
+    return this->service.at_mark(this->implementation, ec);
+  }
+
+  /// Determine the number of bytes available for reading.
+  /**
+   * This function is used to determine the number of bytes that may be read
+   * without blocking.
+   *
+   * @return The number of bytes that may be read without blocking, or 0 if an
+   * error occurs.
+   *
+   * @throws asio::system_error Thrown on failure.
+   */
+  std::size_t available() const
+  {
+    asio::error_code ec;
+    std::size_t s = this->service.available(this->implementation, ec);
+    asio::detail::throw_error(ec);
+    return s;
+  }
+
+  /// Determine the number of bytes available for reading.
+  /**
+   * This function is used to determine the number of bytes that may be read
+   * without blocking.
+   *
+   * @param ec Set to indicate what error occurred, if any.
+   *
+   * @return The number of bytes that may be read without blocking, or 0 if an
+   * error occurs.
+   */
+  std::size_t available(asio::error_code& ec) const
+  {
+    return this->service.available(this->implementation, ec);
   }
 
   /// Bind the socket to the given local endpoint.
@@ -329,9 +384,9 @@ public:
    * @param endpoint An endpoint on the local machine to which the socket will
    * be bound.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    *
-   * @par Example:
+   * @par Example
    * @code
    * asio::ip::tcp::socket socket(io_service);
    * socket.open(asio::ip::tcp::v4());
@@ -341,7 +396,9 @@ public:
    */
   void bind(const endpoint_type& endpoint)
   {
-    this->service.bind(this->implementation, endpoint, throw_error());
+    asio::error_code ec;
+    this->service.bind(this->implementation, endpoint, ec);
+    asio::detail::throw_error(ec);
   }
 
   /// Bind the socket to the given local endpoint.
@@ -352,31 +409,25 @@ public:
    * @param endpoint An endpoint on the local machine to which the socket will
    * be bound.
    *
-   * @param error_handler A handler to be called when the operation completes,
-   * to indicate whether or not an error has occurred. Copies will be made of
-   * the handler as required. The function signature of the handler must be:
-   * @code void error_handler(
-   *   const asio::error& error // Result of operation
-   * ); @endcode
+   * @param ec Set to indicate what error occurred, if any.
    *
-   * @par Example:
+   * @par Example
    * @code
    * asio::ip::tcp::socket socket(io_service);
    * socket.open(asio::ip::tcp::v4());
-   * asio::error error;
+   * asio::error_code ec;
    * socket.bind(asio::ip::tcp::endpoint(
-   *       asio::ip::tcp::v4(), 12345),
-   *     asio::assign_error(error));
-   * if (error)
+   *       asio::ip::tcp::v4(), 12345), ec);
+   * if (ec)
    * {
    *   // An error occurred.
    * }
    * @endcode
    */
-  template <typename Error_Handler>
-  void bind(const endpoint_type& endpoint, Error_Handler error_handler)
+  asio::error_code bind(const endpoint_type& endpoint,
+      asio::error_code& ec)
   {
-    this->service.bind(this->implementation, endpoint, error_handler);
+    return this->service.bind(this->implementation, endpoint, ec);
   }
 
   /// Connect the socket to the specified endpoint.
@@ -392,9 +443,9 @@ public:
    * @param peer_endpoint The remote endpoint to which the socket will be
    * connected.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    *
-   * @par Example:
+   * @par Example
    * @code
    * asio::ip::tcp::socket socket(io_service);
    * asio::ip::tcp::endpoint endpoint(
@@ -404,7 +455,14 @@ public:
    */
   void connect(const endpoint_type& peer_endpoint)
   {
-    this->service.connect(this->implementation, peer_endpoint, throw_error());
+    asio::error_code ec;
+    if (!is_open())
+    {
+      this->service.open(this->implementation, peer_endpoint.protocol(), ec);
+      asio::detail::throw_error(ec);
+    }
+    this->service.connect(this->implementation, peer_endpoint, ec);
+    asio::detail::throw_error(ec);
   }
 
   /// Connect the socket to the specified endpoint.
@@ -420,30 +478,34 @@ public:
    * @param peer_endpoint The remote endpoint to which the socket will be
    * connected.
    *
-   * @param error_handler A handler to be called when the operation completes,
-   * to indicate whether or not an error has occurred. Copies will be made of
-   * the handler as required. The function signature of the handler must be:
-   * @code void error_handler(
-   *   const asio::error& error // Result of operation
-   * ); @endcode
+   * @param ec Set to indicate what error occurred, if any.
    *
-   * @par Example:
+   * @par Example
    * @code
    * asio::ip::tcp::socket socket(io_service);
    * asio::ip::tcp::endpoint endpoint(
    *     asio::ip::address::from_string("1.2.3.4"), 12345);
-   * asio::error error;
-   * socket.connect(endpoint, asio::assign_error(error));
-   * if (error)
+   * asio::error_code ec;
+   * socket.connect(endpoint, ec);
+   * if (ec)
    * {
    *   // An error occurred.
    * }
    * @endcode
    */
-  template <typename Error_Handler>
-  void connect(const endpoint_type& peer_endpoint, Error_Handler error_handler)
+  asio::error_code connect(const endpoint_type& peer_endpoint,
+      asio::error_code& ec)
   {
-    this->service.connect(this->implementation, peer_endpoint, error_handler);
+    if (!is_open())
+    {
+      if (this->service.open(this->implementation,
+            peer_endpoint.protocol(), ec))
+      {
+        return ec;
+      }
+    }
+
+    return this->service.connect(this->implementation, peer_endpoint, ec);
   }
 
   /// Start an asynchronous connect.
@@ -462,16 +524,16 @@ public:
    * completes. Copies will be made of the handler as required. The function
    * signature of the handler must be:
    * @code void handler(
-   *   const asio::error& error // Result of operation
+   *   const asio::error_code& error // Result of operation
    * ); @endcode
    * Regardless of whether the asynchronous operation completes immediately or
    * not, the handler will not be invoked from within this function. Invocation
    * of the handler will be performed in a manner equivalent to using
    * asio::io_service::post().
    *
-   * @par Example:
+   * @par Example
    * @code
-   * void connect_handler(const asio::error& error)
+   * void connect_handler(const asio::error_code& error)
    * {
    *   if (!error)
    *   {
@@ -487,9 +549,20 @@ public:
    * socket.async_connect(endpoint, connect_handler);
    * @endcode
    */
-  template <typename Handler>
-  void async_connect(const endpoint_type& peer_endpoint, Handler handler)
+  template <typename ConnectHandler>
+  void async_connect(const endpoint_type& peer_endpoint, ConnectHandler handler)
   {
+    if (!is_open())
+    {
+      asio::error_code ec;
+      if (this->service.open(this->implementation,
+            peer_endpoint.protocol(), ec))
+      {
+        this->io_service().post(asio::detail::bind_handler(handler, ec));
+        return;
+      }
+    }
+
     this->service.async_connect(this->implementation, peer_endpoint, handler);
   }
 
@@ -499,9 +572,9 @@ public:
    *
    * @param option The new option value to be set on the socket.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    *
-   * @sa Socket_Option @n
+   * @sa SettableSocketOption @n
    * asio::socket_base::broadcast @n
    * asio::socket_base::do_not_route @n
    * asio::socket_base::keep_alive @n
@@ -518,7 +591,7 @@ public:
    * asio::ip::multicast::hops @n
    * asio::ip::tcp::no_delay
    *
-   * @par Example:
+   * @par Example
    * Setting the IPPROTO_TCP/TCP_NODELAY option:
    * @code
    * asio::ip::tcp::socket socket(io_service);
@@ -527,10 +600,12 @@ public:
    * socket.set_option(option);
    * @endcode
    */
-  template <typename Socket_Option>
-  void set_option(const Socket_Option& option)
+  template <typename SettableSocketOption>
+  void set_option(const SettableSocketOption& option)
   {
-    this->service.set_option(this->implementation, option, throw_error());
+    asio::error_code ec;
+    this->service.set_option(this->implementation, option, ec);
+    asio::detail::throw_error(ec);
   }
 
   /// Set an option on the socket.
@@ -539,14 +614,9 @@ public:
    *
    * @param option The new option value to be set on the socket.
    *
-   * @param error_handler A handler to be called when the operation completes,
-   * to indicate whether or not an error has occurred. Copies will be made of
-   * the handler as required. The function signature of the handler must be:
-   * @code void error_handler(
-   *   const asio::error& error // Result of operation
-   * ); @endcode
+   * @param ec Set to indicate what error occurred, if any.
    *
-   * @sa Socket_Option @n
+   * @sa SettableSocketOption @n
    * asio::socket_base::broadcast @n
    * asio::socket_base::do_not_route @n
    * asio::socket_base::keep_alive @n
@@ -563,24 +633,25 @@ public:
    * asio::ip::multicast::hops @n
    * asio::ip::tcp::no_delay
    *
-   * @par Example:
+   * @par Example
    * Setting the IPPROTO_TCP/TCP_NODELAY option:
    * @code
    * asio::ip::tcp::socket socket(io_service);
    * ...
    * asio::ip::tcp::no_delay option(true);
-   * asio::error error;
-   * socket.set_option(option, asio::assign_error(error));
-   * if (error)
+   * asio::error_code ec;
+   * socket.set_option(option, ec);
+   * if (ec)
    * {
    *   // An error occurred.
    * }
    * @endcode
    */
-  template <typename Socket_Option, typename Error_Handler>
-  void set_option(const Socket_Option& option, Error_Handler error_handler)
+  template <typename SettableSocketOption>
+  asio::error_code set_option(const SettableSocketOption& option,
+      asio::error_code& ec)
   {
-    this->service.set_option(this->implementation, option, error_handler);
+    return this->service.set_option(this->implementation, option, ec);
   }
 
   /// Get an option from the socket.
@@ -589,9 +660,9 @@ public:
    *
    * @param option The option value to be obtained from the socket.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    *
-   * @sa Socket_Option @n
+   * @sa GettableSocketOption @n
    * asio::socket_base::broadcast @n
    * asio::socket_base::do_not_route @n
    * asio::socket_base::keep_alive @n
@@ -608,7 +679,7 @@ public:
    * asio::ip::multicast::hops @n
    * asio::ip::tcp::no_delay
    *
-   * @par Example:
+   * @par Example
    * Getting the value of the SOL_SOCKET/SO_KEEPALIVE option:
    * @code
    * asio::ip::tcp::socket socket(io_service);
@@ -618,10 +689,12 @@ public:
    * bool is_set = option.get();
    * @endcode
    */
-  template <typename Socket_Option>
-  void get_option(Socket_Option& option) const
+  template <typename GettableSocketOption>
+  void get_option(GettableSocketOption& option) const
   {
-    this->service.get_option(this->implementation, option, throw_error());
+    asio::error_code ec;
+    this->service.get_option(this->implementation, option, ec);
+    asio::detail::throw_error(ec);
   }
 
   /// Get an option from the socket.
@@ -630,14 +703,9 @@ public:
    *
    * @param option The option value to be obtained from the socket.
    *
-   * @param error_handler A handler to be called when the operation completes,
-   * to indicate whether or not an error has occurred. Copies will be made of
-   * the handler as required. The function signature of the handler must be:
-   * @code void error_handler(
-   *   const asio::error& error // Result of operation
-   * ); @endcode
+   * @param ec Set to indicate what error occurred, if any.
    *
-   * @sa Socket_Option @n
+   * @sa GettableSocketOption @n
    * asio::socket_base::broadcast @n
    * asio::socket_base::do_not_route @n
    * asio::socket_base::keep_alive @n
@@ -654,25 +722,26 @@ public:
    * asio::ip::multicast::hops @n
    * asio::ip::tcp::no_delay
    *
-   * @par Example:
+   * @par Example
    * Getting the value of the SOL_SOCKET/SO_KEEPALIVE option:
    * @code
    * asio::ip::tcp::socket socket(io_service);
    * ...
    * asio::ip::tcp::socket::keep_alive option;
-   * asio::error error;
-   * socket.get_option(option, asio::assign_error(error));
-   * if (error)
+   * asio::error_code ec;
+   * socket.get_option(option, ec);
+   * if (ec)
    * {
    *   // An error occurred.
    * }
    * bool is_set = option.get();
    * @endcode
    */
-  template <typename Socket_Option, typename Error_Handler>
-  void get_option(Socket_Option& option, Error_Handler error_handler) const
+  template <typename GettableSocketOption>
+  asio::error_code get_option(GettableSocketOption& option,
+      asio::error_code& ec) const
   {
-    this->service.get_option(this->implementation, option, error_handler);
+    return this->service.get_option(this->implementation, option, ec);
   }
 
   /// Perform an IO control command on the socket.
@@ -681,13 +750,13 @@ public:
    *
    * @param command The IO control command to be performed on the socket.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    *
-   * @sa IO_Control_Command @n
+   * @sa IoControlCommand @n
    * asio::socket_base::bytes_readable @n
    * asio::socket_base::non_blocking_io
    *
-   * @par Example:
+   * @par Example
    * Getting the number of bytes ready to read:
    * @code
    * asio::ip::tcp::socket socket(io_service);
@@ -697,10 +766,12 @@ public:
    * std::size_t bytes_readable = command.get();
    * @endcode
    */
-  template <typename IO_Control_Command>
-  void io_control(IO_Control_Command& command)
+  template <typename IoControlCommand>
+  void io_control(IoControlCommand& command)
   {
-    this->service.io_control(this->implementation, command, throw_error());
+    asio::error_code ec;
+    this->service.io_control(this->implementation, command, ec);
+    asio::detail::throw_error(ec);
   }
 
   /// Perform an IO control command on the socket.
@@ -709,36 +780,32 @@ public:
    *
    * @param command The IO control command to be performed on the socket.
    *
-   * @param error_handler A handler to be called when the operation completes,
-   * to indicate whether or not an error has occurred. Copies will be made of
-   * the handler as required. The function signature of the handler must be:
-   * @code void error_handler(
-   *   const asio::error& error // Result of operation
-   * ); @endcode
+   * @param ec Set to indicate what error occurred, if any.
    *
-   * @sa IO_Control_Command @n
+   * @sa IoControlCommand @n
    * asio::socket_base::bytes_readable @n
    * asio::socket_base::non_blocking_io
    *
-   * @par Example:
+   * @par Example
    * Getting the number of bytes ready to read:
    * @code
    * asio::ip::tcp::socket socket(io_service);
    * ...
    * asio::ip::tcp::socket::bytes_readable command;
-   * asio::error error;
-   * socket.io_control(command, asio::assign_error(error));
-   * if (error)
+   * asio::error_code ec;
+   * socket.io_control(command, ec);
+   * if (ec)
    * {
    *   // An error occurred.
    * }
    * std::size_t bytes_readable = command.get();
    * @endcode
    */
-  template <typename IO_Control_Command, typename Error_Handler>
-  void io_control(IO_Control_Command& command, Error_Handler error_handler)
+  template <typename IoControlCommand>
+  asio::error_code io_control(IoControlCommand& command,
+      asio::error_code& ec)
   {
-    this->service.io_control(this->implementation, command, error_handler);
+    return this->service.io_control(this->implementation, command, ec);
   }
 
   /// Get the local endpoint of the socket.
@@ -747,9 +814,9 @@ public:
    *
    * @returns An object that represents the local endpoint of the socket.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    *
-   * @par Example:
+   * @par Example
    * @code
    * asio::ip::tcp::socket socket(io_service);
    * ...
@@ -758,41 +825,36 @@ public:
    */
   endpoint_type local_endpoint() const
   {
-    return this->service.local_endpoint(this->implementation, throw_error());
+    asio::error_code ec;
+    endpoint_type ep = this->service.local_endpoint(this->implementation, ec);
+    asio::detail::throw_error(ec);
+    return ep;
   }
 
   /// Get the local endpoint of the socket.
   /**
    * This function is used to obtain the locally bound endpoint of the socket.
    *
-   * @param error_handler A handler to be called when the operation completes,
-   * to indicate whether or not an error has occurred. Copies will be made of
-   * the handler as required. The function signature of the handler must be:
-   * @code void error_handler(
-   *   const asio::error& error // Result of operation
-   * ); @endcode
+   * @param ec Set to indicate what error occurred, if any.
    *
    * @returns An object that represents the local endpoint of the socket.
-   * Returns a default-constructed endpoint object if an error occurred and the
-   * error handler did not throw an exception.
+   * Returns a default-constructed endpoint object if an error occurred.
    *
-   * @par Example:
+   * @par Example
    * @code
    * asio::ip::tcp::socket socket(io_service);
    * ...
-   * asio::error error;
-   * asio::ip::tcp::endpoint endpoint
-   *   = socket.local_endpoint(asio::assign_error(error));
-   * if (error)
+   * asio::error_code ec;
+   * asio::ip::tcp::endpoint endpoint = socket.local_endpoint(ec);
+   * if (ec)
    * {
    *   // An error occurred.
    * }
    * @endcode
    */
-  template <typename Error_Handler>
-  endpoint_type local_endpoint(Error_Handler error_handler) const
+  endpoint_type local_endpoint(asio::error_code& ec) const
   {
-    return this->service.local_endpoint(this->implementation, error_handler);
+    return this->service.local_endpoint(this->implementation, ec);
   }
 
   /// Get the remote endpoint of the socket.
@@ -801,9 +863,9 @@ public:
    *
    * @returns An object that represents the remote endpoint of the socket.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    *
-   * @par Example:
+   * @par Example
    * @code
    * asio::ip::tcp::socket socket(io_service);
    * ...
@@ -812,41 +874,36 @@ public:
    */
   endpoint_type remote_endpoint() const
   {
-    return this->service.remote_endpoint(this->implementation, throw_error());
+    asio::error_code ec;
+    endpoint_type ep = this->service.remote_endpoint(this->implementation, ec);
+    asio::detail::throw_error(ec);
+    return ep;
   }
 
   /// Get the remote endpoint of the socket.
   /**
    * This function is used to obtain the remote endpoint of the socket.
    *
-   * @param error_handler A handler to be called when the operation completes,
-   * to indicate whether or not an error has occurred. Copies will be made of
-   * the handler as required. The function signature of the handler must be:
-   * @code void error_handler(
-   *   const asio::error& error // Result of operation
-   * ); @endcode
+   * @param ec Set to indicate what error occurred, if any.
    *
    * @returns An object that represents the remote endpoint of the socket.
-   * Returns a default-constructed endpoint object if an error occurred and the
-   * error handler did not throw an exception.
+   * Returns a default-constructed endpoint object if an error occurred.
    *
-   * @par Example:
+   * @par Example
    * @code
    * asio::ip::tcp::socket socket(io_service);
    * ...
-   * asio::error error;
-   * asio::ip::tcp::endpoint endpoint
-   *   = socket.remote_endpoint(asio::assign_error(error));
-   * if (error)
+   * asio::error_code ec;
+   * asio::ip::tcp::endpoint endpoint = socket.remote_endpoint(ec);
+   * if (ec)
    * {
    *   // An error occurred.
    * }
    * @endcode
    */
-  template <typename Error_Handler>
-  endpoint_type remote_endpoint(Error_Handler error_handler) const
+  endpoint_type remote_endpoint(asio::error_code& ec) const
   {
-    return this->service.remote_endpoint(this->implementation, error_handler);
+    return this->service.remote_endpoint(this->implementation, ec);
   }
 
   /// Disable sends or receives on the socket.
@@ -856,9 +913,9 @@ public:
    *
    * @param what Determines what types of operation will no longer be allowed.
    *
-   * @throws asio::error Thrown on failure.
+   * @throws asio::system_error Thrown on failure.
    *
-   * @par Example:
+   * @par Example
    * Shutting down the send side of the socket:
    * @code
    * asio::ip::tcp::socket socket(io_service);
@@ -868,7 +925,9 @@ public:
    */
   void shutdown(shutdown_type what)
   {
-    this->service.shutdown(this->implementation, what, throw_error());
+    asio::error_code ec;
+    this->service.shutdown(this->implementation, what, ec);
+    asio::detail::throw_error(ec);
   }
 
   /// Disable sends or receives on the socket.
@@ -878,31 +937,25 @@ public:
    *
    * @param what Determines what types of operation will no longer be allowed.
    *
-   * @param error_handler A handler to be called when the operation completes,
-   * to indicate whether or not an error has occurred. Copies will be made of
-   * the handler as required. The function signature of the handler must be:
-   * @code void error_handler(
-   *   const asio::error& error // Result of operation
-   * ); @endcode
+   * @param ec Set to indicate what error occurred, if any.
    *
-   * @par Example:
+   * @par Example
    * Shutting down the send side of the socket:
    * @code
    * asio::ip::tcp::socket socket(io_service);
    * ...
-   * asio::error error;
-   * socket.shutdown(asio::ip::tcp::socket::shutdown_send,
-   *     asio::assign_error(error));
-   * if (error)
+   * asio::error_code ec;
+   * socket.shutdown(asio::ip::tcp::socket::shutdown_send, ec);
+   * if (ec)
    * {
    *   // An error occurred.
    * }
    * @endcode
    */
-  template <typename Error_Handler>
-  void shutdown(shutdown_type what, Error_Handler error_handler)
+  asio::error_code shutdown(shutdown_type what,
+      asio::error_code& ec)
   {
-    this->service.shutdown(this->implementation, what, error_handler);
+    return this->service.shutdown(this->implementation, what, ec);
   }
 
 protected:

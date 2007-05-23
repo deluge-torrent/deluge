@@ -2,7 +2,7 @@
 // kqueue_reactor.hpp
 // ~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 // Copyright (c) 2005 Stefan Arentz (stefan at soze dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
@@ -33,14 +33,16 @@
 #include <boost/throw_exception.hpp>
 #include "asio/detail/pop_options.hpp"
 
+#include "asio/error.hpp"
 #include "asio/io_service.hpp"
-#include "asio/system_exception.hpp"
+#include "asio/system_error.hpp"
 #include "asio/detail/bind_handler.hpp"
 #include "asio/detail/mutex.hpp"
 #include "asio/detail/task_io_service.hpp"
 #include "asio/detail/thread.hpp"
 #include "asio/detail/reactor_op_queue.hpp"
 #include "asio/detail/select_interrupter.hpp"
+#include "asio/detail/service_base.hpp"
 #include "asio/detail/signal_blocker.hpp"
 #include "asio/detail/socket_types.hpp"
 #include "asio/detail/timer_queue.hpp"
@@ -55,12 +57,13 @@ namespace detail {
 
 template <bool Own_Thread>
 class kqueue_reactor
-  : public asio::io_service::service
+  : public asio::detail::service_base<kqueue_reactor<Own_Thread> >
 {
 public:
   // Constructor.
   kqueue_reactor(asio::io_service& io_service)
-    : asio::io_service::service(io_service),
+    : asio::detail::service_base<
+        kqueue_reactor<Own_Thread> >(io_service),
       mutex_(),
       kqueue_fd_(do_kqueue_create()),
       wait_in_progress_(false),
@@ -138,7 +141,7 @@ public:
       return;
 
     if (!read_op_queue_.has_operation(descriptor))
-      if (handler(0))
+      if (handler(asio::error_code()))
         return;
 
     if (read_op_queue_.enqueue_operation(descriptor, handler))
@@ -147,8 +150,8 @@ public:
       EV_SET(&event, descriptor, EVFILT_READ, EV_ADD, 0, 0, 0);
       if (::kevent(kqueue_fd_, &event, 1, 0, 0, 0) == -1)
       {
-        int error = errno;
-        read_op_queue_.dispatch_all_operations(descriptor, error);
+        asio::error_code ec(errno, asio::native_ecat);
+        read_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
   }
@@ -164,7 +167,7 @@ public:
       return;
 
     if (!write_op_queue_.has_operation(descriptor))
-      if (handler(0))
+      if (handler(asio::error_code()))
         return;
 
     if (write_op_queue_.enqueue_operation(descriptor, handler))
@@ -173,8 +176,8 @@ public:
       EV_SET(&event, descriptor, EVFILT_WRITE, EV_ADD, 0, 0, 0);
       if (::kevent(kqueue_fd_, &event, 1, 0, 0, 0) == -1)
       {
-        int error = errno;
-        write_op_queue_.dispatch_all_operations(descriptor, error);
+        asio::error_code ec(errno, asio::native_ecat);
+        write_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
   }
@@ -198,8 +201,8 @@ public:
         EV_SET(&event, descriptor, EVFILT_READ, EV_ADD, EV_OOBAND, 0, 0);
       if (::kevent(kqueue_fd_, &event, 1, 0, 0, 0) == -1)
       {
-        int error = errno;
-        except_op_queue_.dispatch_all_operations(descriptor, error);
+        asio::error_code ec(errno, asio::native_ecat);
+        except_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
   }
@@ -221,8 +224,8 @@ public:
       EV_SET(&event, descriptor, EVFILT_WRITE, EV_ADD, 0, 0, 0);
       if (::kevent(kqueue_fd_, &event, 1, 0, 0, 0) == -1)
       {
-        int error = errno;
-        write_op_queue_.dispatch_all_operations(descriptor, error);
+        asio::error_code ec(errno, asio::native_ecat);
+        write_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
 
@@ -235,9 +238,9 @@ public:
         EV_SET(&event, descriptor, EVFILT_READ, EV_ADD, EV_OOBAND, 0, 0);
       if (::kevent(kqueue_fd_, &event, 1, 0, 0, 0) == -1)
       {
-        int error = errno;
-        except_op_queue_.dispatch_all_operations(descriptor, error);
-        write_op_queue_.dispatch_all_operations(descriptor, error);
+        asio::error_code ec(errno, asio::native_ecat);
+        except_op_queue_.dispatch_all_operations(descriptor, ec);
+        write_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
   }
@@ -283,6 +286,21 @@ public:
   {
     asio::detail::mutex::scoped_lock lock(mutex_);
     timer_queues_.push_back(&timer_queue);
+  }
+
+  // Remove a timer queue from the reactor.
+  template <typename Time_Traits>
+  void remove_timer_queue(timer_queue<Time_Traits>& timer_queue)
+  {
+    asio::detail::mutex::scoped_lock lock(mutex_);
+    for (std::size_t i = 0; i < timer_queues_.size(); ++i)
+    {
+      if (timer_queues_[i] == &timer_queue)
+      {
+        timer_queues_.erase(timer_queues_.begin() + i);
+        return;
+      }
+    }
   }
 
   // Schedule a timer in the given timer queue to expire at the specified
@@ -378,21 +396,24 @@ private:
         bool more_except = false;
         if (events[i].flags & EV_ERROR)
         {
-          int error = events[i].data;
+          asio::error_code error(
+              events[i].data, asio::native_ecat);
           except_op_queue_.dispatch_all_operations(descriptor, error);
           read_op_queue_.dispatch_all_operations(descriptor, error);
         }
         else if (events[i].flags & EV_OOBAND)
         {
-          more_except = except_op_queue_.dispatch_operation(descriptor, 0);
+          asio::error_code error;
+          more_except = except_op_queue_.dispatch_operation(descriptor, error);
           if (events[i].data > 0)
-            more_reads = read_op_queue_.dispatch_operation(descriptor, 0);
+            more_reads = read_op_queue_.dispatch_operation(descriptor, error);
           else
             more_reads = read_op_queue_.has_operation(descriptor);
         }
         else
         {
-          more_reads = read_op_queue_.dispatch_operation(descriptor, 0);
+          asio::error_code error;
+          more_reads = read_op_queue_.dispatch_operation(descriptor, error);
           more_except = except_op_queue_.has_operation(descriptor);
         }
 
@@ -406,7 +427,7 @@ private:
           EV_SET(&event, descriptor, EVFILT_READ, EV_DELETE, 0, 0, 0);
         if (::kevent(kqueue_fd_, &event, 1, 0, 0, 0) == -1)
         {
-          int error = errno;
+          asio::error_code error(errno, asio::native_ecat);
           except_op_queue_.dispatch_all_operations(descriptor, error);
           read_op_queue_.dispatch_all_operations(descriptor, error);
         }
@@ -417,12 +438,14 @@ private:
         bool more_writes = false;
         if (events[i].flags & EV_ERROR)
         {
-          int error = events[i].data;
+          asio::error_code error(
+              events[i].data, asio::native_ecat);
           write_op_queue_.dispatch_all_operations(descriptor, error);
         }
         else
         {
-          more_writes = write_op_queue_.dispatch_operation(descriptor, 0);
+          asio::error_code error;
+          more_writes = write_op_queue_.dispatch_operation(descriptor, error);
         }
 
         // Update the descriptor in the kqueue.
@@ -433,7 +456,7 @@ private:
           EV_SET(&event, descriptor, EVFILT_WRITE, EV_DELETE, 0, 0, 0);
         if (::kevent(kqueue_fd_, &event, 1, 0, 0, 0) == -1)
         {
-          int error = errno;
+          asio::error_code error(errno, asio::native_ecat);
           write_op_queue_.dispatch_all_operations(descriptor, error);
         }
       }
@@ -489,8 +512,9 @@ private:
     int fd = kqueue();
     if (fd == -1)
     {
-      system_exception e("kqueue", errno);
-      boost::throw_exception(e);
+      boost::throw_exception(asio::system_error(
+            asio::error_code(errno, asio::native_ecat),
+            "kqueue"));
     }
     return fd;
   }
@@ -539,7 +563,7 @@ private:
 
   // Cancel all operations associated with the given descriptor. The do_cancel
   // function of the handler objects will be invoked. This function does not
-  // acquire the epoll_reactor's mutex.
+  // acquire the kqueue_reactor's mutex.
   void cancel_ops_unlocked(socket_type descriptor)
   {
     bool interrupt = read_op_queue_.cancel_operations(descriptor);
@@ -552,13 +576,13 @@ private:
   // Mutex to protect access to internal data.
   asio::detail::mutex mutex_;
 
-  // The epoll file descriptor.
+  // The kqueue file descriptor.
   int kqueue_fd_;
 
   // Whether the kqueue wait call is currently in progress
   bool wait_in_progress_;
 
-  // The interrupter is used to break a blocking epoll_wait call.
+  // The interrupter is used to break a blocking kevent call.
   select_interrupter interrupter_;
 
   // The queue of read operations.

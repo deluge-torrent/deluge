@@ -2,7 +2,7 @@
 // strand_service.hpp
 // ~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -30,13 +30,14 @@
 #include "asio/detail/handler_invoke_helpers.hpp"
 #include "asio/detail/mutex.hpp"
 #include "asio/detail/noncopyable.hpp"
+#include "asio/detail/service_base.hpp"
 
 namespace asio {
 namespace detail {
 
 // Default service implementation for a strand.
 class strand_service
-  : public asio::io_service::service
+  : public asio::detail::service_base<strand_service>
 {
 public:
   class handler_base;
@@ -241,12 +242,9 @@ public:
       return impl_->handler_storage_.address();
     }
 
-    template <typename Function>
-    friend void asio_handler_invoke(Function function,
-        invoke_current_handler*)
-    {
-      function();
-    }
+    // The asio_handler_invoke hook is not defined here since the default one
+    // provides the correct behaviour, and including it here breaks MSVC 7.1
+    // in some situations.
 
   private:
     strand_service& service_impl_;
@@ -354,7 +352,7 @@ public:
 
   // Construct a new strand service for the specified io_service.
   explicit strand_service(asio::io_service& io_service)
-    : asio::io_service::service(io_service),
+    : asio::detail::service_base<strand_service>(io_service),
       mutex_(),
       impl_list_(0)
   {
@@ -430,7 +428,7 @@ public:
         // This handler now has the lock, so can be dispatched immediately.
         impl->current_handler_ = ptr.get();
         lock.unlock();
-        io_service().dispatch(invoke_current_handler(*this, impl));
+        this->io_service().dispatch(invoke_current_handler(*this, impl));
         ptr.release();
       }
       else
@@ -470,7 +468,7 @@ public:
       // This handler now has the lock, so can be dispatched immediately.
       impl->current_handler_ = ptr.get();
       lock.unlock();
-      io_service().post(invoke_current_handler(*this, impl));
+      this->io_service().post(invoke_current_handler(*this, impl));
       ptr.release();
     }
     else

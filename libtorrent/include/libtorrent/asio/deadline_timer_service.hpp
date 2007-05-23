@@ -2,7 +2,7 @@
 // deadline_timer_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -28,18 +28,29 @@
 #include "asio/detail/epoll_reactor.hpp"
 #include "asio/detail/kqueue_reactor.hpp"
 #include "asio/detail/select_reactor.hpp"
+#include "asio/detail/service_base.hpp"
 
 namespace asio {
 
 /// Default service implementation for a timer.
-template <typename Time_Type,
-    typename Time_Traits = asio::time_traits<Time_Type> >
+template <typename TimeType,
+    typename TimeTraits = asio::time_traits<TimeType> >
 class deadline_timer_service
+#if defined(GENERATING_DOCUMENTATION)
   : public asio::io_service::service
+#else
+  : public asio::detail::service_base<
+      deadline_timer_service<TimeType, TimeTraits> >
+#endif
 {
 public:
+#if defined(GENERATING_DOCUMENTATION)
+  /// The unique service identifier.
+  static asio::io_service::id id;
+#endif
+
   /// The time traits type.
-  typedef Time_Traits traits_type;
+  typedef TimeTraits traits_type;
 
   /// The time type.
   typedef typename traits_type::time_type time_type;
@@ -73,7 +84,8 @@ public:
 
   /// Construct a new timer service for the specified io_service.
   explicit deadline_timer_service(asio::io_service& io_service)
-    : asio::io_service::service(io_service),
+    : asio::detail::service_base<
+        deadline_timer_service<TimeType, TimeTraits> >(io_service),
       service_impl_(asio::use_service<service_impl_type>(io_service))
   {
   }
@@ -96,9 +108,9 @@ public:
   }
 
   /// Cancel any asynchronous wait operations associated with the timer.
-  std::size_t cancel(implementation_type& impl)
+  std::size_t cancel(implementation_type& impl, asio::error_code& ec)
   {
-    return service_impl_.cancel(impl);
+    return service_impl_.cancel(impl, ec);
   }
 
   /// Get the expiry time for the timer as an absolute time.
@@ -109,9 +121,9 @@ public:
 
   /// Set the expiry time for the timer as an absolute time.
   std::size_t expires_at(implementation_type& impl,
-      const time_type& expiry_time)
+      const time_type& expiry_time, asio::error_code& ec)
   {
-    return service_impl_.expires_at(impl, expiry_time);
+    return service_impl_.expires_at(impl, expiry_time, ec);
   }
 
   /// Get the expiry time for the timer relative to now.
@@ -122,20 +134,20 @@ public:
 
   /// Set the expiry time for the timer relative to now.
   std::size_t expires_from_now(implementation_type& impl,
-      const duration_type& expiry_time)
+      const duration_type& expiry_time, asio::error_code& ec)
   {
-    return service_impl_.expires_from_now(impl, expiry_time);
+    return service_impl_.expires_from_now(impl, expiry_time, ec);
   }
 
   // Perform a blocking wait on the timer.
-  void wait(implementation_type& impl)
+  void wait(implementation_type& impl, asio::error_code& ec)
   {
-    service_impl_.wait(impl);
+    service_impl_.wait(impl, ec);
   }
 
   // Start an asynchronous wait on the timer.
-  template <typename Handler>
-  void async_wait(implementation_type& impl, Handler handler)
+  template <typename WaitHandler>
+  void async_wait(implementation_type& impl, WaitHandler handler)
   {
     service_impl_.async_wait(impl, handler);
   }

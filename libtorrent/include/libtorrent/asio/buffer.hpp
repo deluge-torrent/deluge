@@ -2,7 +2,7 @@
 // buffer.hpp
 // ~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -25,6 +25,20 @@
 #include <string>
 #include <vector>
 #include "asio/detail/pop_options.hpp"
+
+#if defined(BOOST_MSVC)
+# if defined(_HAS_ITERATOR_DEBUGGING)
+#  if !defined(ASIO_DISABLE_BUFFER_DEBUGGING)
+#   define ASIO_ENABLE_BUFFER_DEBUGGING
+#  endif // !defined(ASIO_DISABLE_BUFFER_DEBUGGING)
+# endif // defined(_HAS_ITERATOR_DEBUGGING)
+#endif // defined(BOOST_MSVC)
+
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+# include "asio/detail/push_options.hpp"
+# include <boost/function.hpp>
+# include "asio/detail/pop_options.hpp"
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
 
 namespace asio {
 
@@ -61,6 +75,21 @@ public:
   {
   }
 
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+  mutable_buffer(void* data, std::size_t size,
+      boost::function<void()> debug_check)
+    : data_(data),
+      size_(size),
+      debug_check_(debug_check)
+  {
+  }
+
+  const boost::function<void()>& get_debug_check() const
+  {
+    return debug_check_;
+  }
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
+
 private:
   friend void* asio::detail::buffer_cast_helper(
       const mutable_buffer& b);
@@ -69,12 +98,20 @@ private:
 
   void* data_;
   std::size_t size_;
+
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+  boost::function<void()> debug_check_;
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
 };
 
 namespace detail {
 
 inline void* buffer_cast_helper(const mutable_buffer& b)
 {
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+  if (b.debug_check_)
+    b.debug_check_();
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
   return b.data_;
 }
 
@@ -89,10 +126,10 @@ inline std::size_t buffer_size_helper(const mutable_buffer& b)
 /**
  * @relates mutable_buffer
  */
-template <typename Pointer_To_Pod_Type>
-inline Pointer_To_Pod_Type buffer_cast(const mutable_buffer& b)
+template <typename PointerToPodType>
+inline PointerToPodType buffer_cast(const mutable_buffer& b)
 {
-  return static_cast<Pointer_To_Pod_Type>(detail::buffer_cast_helper(b));
+  return static_cast<PointerToPodType>(detail::buffer_cast_helper(b));
 }
 
 /// Get the number of bytes in a non-modifiable buffer.
@@ -114,7 +151,11 @@ inline mutable_buffer operator+(const mutable_buffer& b, std::size_t start)
     return mutable_buffer();
   char* new_data = buffer_cast<char*>(b) + start;
   std::size_t new_size = buffer_size(b) - start;
-  return mutable_buffer(new_data, new_size);
+  return mutable_buffer(new_data, new_size
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+      , b.get_debug_check()
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
+      );
 }
 
 /// Create a new modifiable buffer that is offset from the start of another.
@@ -127,12 +168,16 @@ inline mutable_buffer operator+(std::size_t start, const mutable_buffer& b)
     return mutable_buffer();
   char* new_data = buffer_cast<char*>(b) + start;
   std::size_t new_size = buffer_size(b) - start;
-  return mutable_buffer(new_data, new_size);
+  return mutable_buffer(new_data, new_size
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+      , b.get_debug_check()
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
+      );
 }
 
 /// Adapts a single modifiable buffer so that it meets the requirements of the
-/// Mutable_Buffers concept.
-class mutable_buffer_container_1
+/// MutableBufferSequence concept.
+class mutable_buffers_1
   : public mutable_buffer
 {
 public:
@@ -143,7 +188,7 @@ public:
   typedef const mutable_buffer* const_iterator;
 
   /// Construct to represent a single modifiable buffer.
-  explicit mutable_buffer_container_1(const mutable_buffer& b)
+  explicit mutable_buffers_1(const mutable_buffer& b)
     : mutable_buffer(b)
   {
   }
@@ -188,8 +233,26 @@ public:
   const_buffer(const mutable_buffer& b)
     : data_(asio::detail::buffer_cast_helper(b)),
       size_(asio::detail::buffer_size_helper(b))
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+      , debug_check_(b.get_debug_check())
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
   {
   }
+
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+  const_buffer(const void* data, std::size_t size,
+      boost::function<void()> debug_check)
+    : data_(data),
+      size_(size),
+      debug_check_(debug_check)
+  {
+  }
+
+  const boost::function<void()>& get_debug_check() const
+  {
+    return debug_check_;
+  }
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
 
 private:
   friend const void* asio::detail::buffer_cast_helper(
@@ -199,12 +262,20 @@ private:
 
   const void* data_;
   std::size_t size_;
+
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+  boost::function<void()> debug_check_;
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
 };
 
 namespace detail {
 
 inline const void* buffer_cast_helper(const const_buffer& b)
 {
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+  if (b.debug_check_)
+    b.debug_check_();
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
   return b.data_;
 }
 
@@ -219,10 +290,10 @@ inline std::size_t buffer_size_helper(const const_buffer& b)
 /**
  * @relates const_buffer
  */
-template <typename Pointer_To_Pod_Type>
-inline Pointer_To_Pod_Type buffer_cast(const const_buffer& b)
+template <typename PointerToPodType>
+inline PointerToPodType buffer_cast(const const_buffer& b)
 {
-  return static_cast<Pointer_To_Pod_Type>(detail::buffer_cast_helper(b));
+  return static_cast<PointerToPodType>(detail::buffer_cast_helper(b));
 }
 
 /// Get the number of bytes in a non-modifiable buffer.
@@ -244,7 +315,11 @@ inline const_buffer operator+(const const_buffer& b, std::size_t start)
     return const_buffer();
   const char* new_data = buffer_cast<const char*>(b) + start;
   std::size_t new_size = buffer_size(b) - start;
-  return const_buffer(new_data, new_size);
+  return const_buffer(new_data, new_size
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+      , b.get_debug_check()
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
+      );
 }
 
 /// Create a new non-modifiable buffer that is offset from the start of another.
@@ -257,12 +332,16 @@ inline const_buffer operator+(std::size_t start, const const_buffer& b)
     return const_buffer();
   const char* new_data = buffer_cast<const char*>(b) + start;
   std::size_t new_size = buffer_size(b) - start;
-  return const_buffer(new_data, new_size);
+  return const_buffer(new_data, new_size
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+      , b.get_debug_check()
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
+      );
 }
 
 /// Adapts a single non-modifiable buffer so that it meets the requirements of
-/// the Const_Buffers concept.
-class const_buffer_container_1
+/// the ConstBufferSequence concept.
+class const_buffers_1
   : public const_buffer
 {
 public:
@@ -273,7 +352,7 @@ public:
   typedef const const_buffer* const_iterator;
 
   /// Construct to represent a single non-modifiable buffer.
-  explicit const_buffer_container_1(const const_buffer& b)
+  explicit const_buffers_1(const const_buffer& b)
     : const_buffer(b)
   {
   }
@@ -291,6 +370,30 @@ public:
   }
 };
 
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+namespace detail {
+
+template <typename Iterator>
+class buffer_debug_check
+{
+public:
+  buffer_debug_check(Iterator iter)
+    : iter_(iter)
+  {
+  }
+
+  void operator()()
+  {
+    *iter_;
+  }
+
+private:
+  Iterator iter_;
+};
+
+} // namespace detail
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
+
 /** @defgroup buffer asio::buffer
  *
  * @brief The asio::buffer function is used to create a buffer object to
@@ -302,9 +405,9 @@ public:
  * @code sock.write(asio::buffer(data, size)); @endcode
  *
  * In the above example, the return value of asio::buffer meets the
- * requirements of the Const_Buffers concept so that it may be directly passed
- * to the socket's write function. A buffer created for modifiable memory also
- * meets the requirements of the Mutable_Buffers concept.
+ * requirements of the ConstBufferSequence concept so that it may be directly
+ * passed to the socket's write function. A buffer created for modifiable
+ * memory also meets the requirements of the MutableBufferSequence concept.
  *
  * An individual buffer may be created from a builtin array, std::vector or
  * boost::array of POD elements. This helps prevent buffer overruns by
@@ -321,7 +424,7 @@ public:
  *
  * To read or write using multiple buffers (i.e. scatter-gather I/O), multiple
  * buffer objects may be assigned into a container that supports the
- * Mutable_Buffers (for read) or Const_Buffers (for write) concepts:
+ * MutableBufferSequence (for read) or ConstBufferSequence (for write) concepts:
  *
  * @code
  * char d1[128];
@@ -343,99 +446,107 @@ public:
 /*@{*/
 
 /// Create a new modifiable buffer from an existing buffer.
-inline mutable_buffer_container_1 buffer(const mutable_buffer& b)
+inline mutable_buffers_1 buffer(const mutable_buffer& b)
 {
-  return mutable_buffer_container_1(b);
+  return mutable_buffers_1(b);
 }
 
 /// Create a new modifiable buffer from an existing buffer.
-inline mutable_buffer_container_1 buffer(const mutable_buffer& b,
+inline mutable_buffers_1 buffer(const mutable_buffer& b,
     std::size_t max_size_in_bytes)
 {
-  return mutable_buffer_container_1(
+  return mutable_buffers_1(
       mutable_buffer(buffer_cast<void*>(b),
         buffer_size(b) < max_size_in_bytes
-        ? buffer_size(b) : max_size_in_bytes));
+        ? buffer_size(b) : max_size_in_bytes
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+        , b.get_debug_check()
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
+        ));
 }
 
 /// Create a new non-modifiable buffer from an existing buffer.
-inline const_buffer_container_1 buffer(const const_buffer& b)
+inline const_buffers_1 buffer(const const_buffer& b)
 {
-  return const_buffer_container_1(b);
+  return const_buffers_1(b);
 }
 
 /// Create a new non-modifiable buffer from an existing buffer.
-inline const_buffer_container_1 buffer(const const_buffer& b,
+inline const_buffers_1 buffer(const const_buffer& b,
     std::size_t max_size_in_bytes)
 {
-  return const_buffer_container_1(
+  return const_buffers_1(
       const_buffer(buffer_cast<const void*>(b),
         buffer_size(b) < max_size_in_bytes
-        ? buffer_size(b) : max_size_in_bytes));
+        ? buffer_size(b) : max_size_in_bytes
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+        , b.get_debug_check()
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
+        ));
 }
 
 /// Create a new modifiable buffer that represents the given memory range.
-inline mutable_buffer_container_1 buffer(void* data, std::size_t size_in_bytes)
+inline mutable_buffers_1 buffer(void* data, std::size_t size_in_bytes)
 {
-  return mutable_buffer_container_1(mutable_buffer(data, size_in_bytes));
+  return mutable_buffers_1(mutable_buffer(data, size_in_bytes));
 }
 
 /// Create a new non-modifiable buffer that represents the given memory range.
-inline const_buffer_container_1 buffer(const void* data,
+inline const_buffers_1 buffer(const void* data,
     std::size_t size_in_bytes)
 {
-  return const_buffer_container_1(const_buffer(data, size_in_bytes));
+  return const_buffers_1(const_buffer(data, size_in_bytes));
 }
 
 /// Create a new modifiable buffer that represents the given POD array.
-template <typename Pod_Type, std::size_t N>
-inline mutable_buffer_container_1 buffer(Pod_Type (&data)[N])
+template <typename PodType, std::size_t N>
+inline mutable_buffers_1 buffer(PodType (&data)[N])
 {
-  return mutable_buffer_container_1(mutable_buffer(data, N * sizeof(Pod_Type)));
+  return mutable_buffers_1(mutable_buffer(data, N * sizeof(PodType)));
 }
  
 /// Create a new modifiable buffer that represents the given POD array.
-template <typename Pod_Type, std::size_t N>
-inline mutable_buffer_container_1 buffer(Pod_Type (&data)[N],
+template <typename PodType, std::size_t N>
+inline mutable_buffers_1 buffer(PodType (&data)[N],
     std::size_t max_size_in_bytes)
 {
-  return mutable_buffer_container_1(
+  return mutable_buffers_1(
       mutable_buffer(data,
-        N * sizeof(Pod_Type) < max_size_in_bytes
-        ? N * sizeof(Pod_Type) : max_size_in_bytes));
+        N * sizeof(PodType) < max_size_in_bytes
+        ? N * sizeof(PodType) : max_size_in_bytes));
 }
  
 /// Create a new non-modifiable buffer that represents the given POD array.
-template <typename Pod_Type, std::size_t N>
-inline const_buffer_container_1 buffer(const Pod_Type (&data)[N])
+template <typename PodType, std::size_t N>
+inline const_buffers_1 buffer(const PodType (&data)[N])
 {
-  return const_buffer_container_1(const_buffer(data, N * sizeof(Pod_Type)));
+  return const_buffers_1(const_buffer(data, N * sizeof(PodType)));
 }
 
 /// Create a new non-modifiable buffer that represents the given POD array.
-template <typename Pod_Type, std::size_t N>
-inline const_buffer_container_1 buffer(const Pod_Type (&data)[N],
+template <typename PodType, std::size_t N>
+inline const_buffers_1 buffer(const PodType (&data)[N],
     std::size_t max_size_in_bytes)
 {
-  return const_buffer_container_1(
+  return const_buffers_1(
       const_buffer(data,
-        N * sizeof(Pod_Type) < max_size_in_bytes
-        ? N * sizeof(Pod_Type) : max_size_in_bytes));
+        N * sizeof(PodType) < max_size_in_bytes
+        ? N * sizeof(PodType) : max_size_in_bytes));
 }
 
-#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
 
 // Borland C++ thinks the overloads:
 //
-//   unspecified buffer(boost::array<Pod_Type, N>& array ...);
+//   unspecified buffer(boost::array<PodType, N>& array ...);
 //
 // and
 //
-//   unspecified buffer(boost::array<const Pod_Type, N>& array ...);
+//   unspecified buffer(boost::array<const PodType, N>& array ...);
 //
 // are ambiguous. This will be worked around by using a buffer_types traits
 // class that contains typedefs for the appropriate buffer and container
-// classes, based on whether Pod_Type is const or non-const.
+// classes, based on whether PodType is const or non-const.
 
 namespace detail {
 
@@ -446,109 +557,109 @@ template <>
 struct buffer_types_base<false>
 {
   typedef mutable_buffer buffer_type;
-  typedef mutable_buffer_container_1 container_type;
+  typedef mutable_buffers_1 container_type;
 };
 
 template <>
 struct buffer_types_base<true>
 {
   typedef const_buffer buffer_type;
-  typedef const_buffer_container_1 container_type;
+  typedef const_buffers_1 container_type;
 };
 
-template <typename Pod_Type>
+template <typename PodType>
 struct buffer_types
-  : public buffer_types_base<boost::is_const<Pod_Type>::value>
+  : public buffer_types_base<boost::is_const<PodType>::value>
 {
 };
 
 } // namespace detail
 
-template <typename Pod_Type, std::size_t N>
-inline typename detail::buffer_types<Pod_Type>::container_type
-buffer(boost::array<Pod_Type, N>& data)
+template <typename PodType, std::size_t N>
+inline typename detail::buffer_types<PodType>::container_type
+buffer(boost::array<PodType, N>& data)
 {
-  typedef typename asio::detail::buffer_types<Pod_Type>::buffer_type
+  typedef typename asio::detail::buffer_types<PodType>::buffer_type
     buffer_type;
-  typedef typename asio::detail::buffer_types<Pod_Type>::container_type
+  typedef typename asio::detail::buffer_types<PodType>::container_type
     container_type;
   return container_type(
-      buffer_type(data.c_array(), data.size() * sizeof(Pod_Type)));
+      buffer_type(data.c_array(), data.size() * sizeof(PodType)));
 }
 
-template <typename Pod_Type, std::size_t N>
-inline typename detail::buffer_types<Pod_Type>::container_type
-buffer(boost::array<Pod_Type, N>& data, std::size_t max_size_in_bytes)
+template <typename PodType, std::size_t N>
+inline typename detail::buffer_types<PodType>::container_type
+buffer(boost::array<PodType, N>& data, std::size_t max_size_in_bytes)
 {
-  typedef typename asio::detail::buffer_types<Pod_Type>::buffer_type
+  typedef typename asio::detail::buffer_types<PodType>::buffer_type
     buffer_type;
-  typedef typename asio::detail::buffer_types<Pod_Type>::container_type
+  typedef typename asio::detail::buffer_types<PodType>::container_type
     container_type;
   return container_type(
       buffer_type(data.c_array(),
-        data.size() * sizeof(Pod_Type) < max_size_in_bytes
-        ? data.size() * sizeof(Pod_Type) : max_size_in_bytes));
+        data.size() * sizeof(PodType) < max_size_in_bytes
+        ? data.size() * sizeof(PodType) : max_size_in_bytes));
 }
 
-#else // BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#else // BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
 
 /// Create a new modifiable buffer that represents the given POD array.
-template <typename Pod_Type, std::size_t N>
-inline mutable_buffer_container_1 buffer(boost::array<Pod_Type, N>& data)
+template <typename PodType, std::size_t N>
+inline mutable_buffers_1 buffer(boost::array<PodType, N>& data)
 {
-  return mutable_buffer_container_1(
-      mutable_buffer(data.c_array(), data.size() * sizeof(Pod_Type)));
+  return mutable_buffers_1(
+      mutable_buffer(data.c_array(), data.size() * sizeof(PodType)));
 }
 
 /// Create a new modifiable buffer that represents the given POD array.
-template <typename Pod_Type, std::size_t N>
-inline mutable_buffer_container_1 buffer(boost::array<Pod_Type, N>& data,
+template <typename PodType, std::size_t N>
+inline mutable_buffers_1 buffer(boost::array<PodType, N>& data,
     std::size_t max_size_in_bytes)
 {
-  return mutable_buffer_container_1(
+  return mutable_buffers_1(
       mutable_buffer(data.c_array(),
-        data.size() * sizeof(Pod_Type) < max_size_in_bytes
-        ? data.size() * sizeof(Pod_Type) : max_size_in_bytes));
+        data.size() * sizeof(PodType) < max_size_in_bytes
+        ? data.size() * sizeof(PodType) : max_size_in_bytes));
 }
 
 /// Create a new non-modifiable buffer that represents the given POD array.
-template <typename Pod_Type, std::size_t N>
-inline const_buffer_container_1 buffer(boost::array<const Pod_Type, N>& data)
+template <typename PodType, std::size_t N>
+inline const_buffers_1 buffer(boost::array<const PodType, N>& data)
 {
-  return const_buffer_container_1(
-      const_buffer(data.data(), data.size() * sizeof(Pod_Type)));
+  return const_buffers_1(
+      const_buffer(data.data(), data.size() * sizeof(PodType)));
 }
 
 /// Create a new non-modifiable buffer that represents the given POD array.
-template <typename Pod_Type, std::size_t N>
-inline const_buffer_container_1 buffer(boost::array<const Pod_Type, N>& data,
+template <typename PodType, std::size_t N>
+inline const_buffers_1 buffer(boost::array<const PodType, N>& data,
     std::size_t max_size_in_bytes)
 {
-  return const_buffer_container_1(
+  return const_buffers_1(
       const_buffer(data.data(),
-        data.size() * sizeof(Pod_Type) < max_size_in_bytes
-        ? data.size() * sizeof(Pod_Type) : max_size_in_bytes));
+        data.size() * sizeof(PodType) < max_size_in_bytes
+        ? data.size() * sizeof(PodType) : max_size_in_bytes));
 }
 
-#endif // BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
+#endif // BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
 
 /// Create a new non-modifiable buffer that represents the given POD array.
-template <typename Pod_Type, std::size_t N>
-inline const_buffer_container_1 buffer(const boost::array<Pod_Type, N>& data)
+template <typename PodType, std::size_t N>
+inline const_buffers_1 buffer(const boost::array<PodType, N>& data)
 {
-  return const_buffer_container_1(
-      const_buffer(data.data(), data.size() * sizeof(Pod_Type)));
+  return const_buffers_1(
+      const_buffer(data.data(), data.size() * sizeof(PodType)));
 }
 
 /// Create a new non-modifiable buffer that represents the given POD array.
-template <typename Pod_Type, std::size_t N>
-inline const_buffer_container_1 buffer(const boost::array<Pod_Type, N>& data,
+template <typename PodType, std::size_t N>
+inline const_buffers_1 buffer(const boost::array<PodType, N>& data,
     std::size_t max_size_in_bytes)
 {
-  return const_buffer_container_1(
+  return const_buffers_1(
       const_buffer(data.data(),
-        data.size() * sizeof(Pod_Type) < max_size_in_bytes
-        ? data.size() * sizeof(Pod_Type) : max_size_in_bytes));
+        data.size() * sizeof(PodType) < max_size_in_bytes
+        ? data.size() * sizeof(PodType) : max_size_in_bytes));
 }
 
 /// Create a new modifiable buffer that represents the given POD vector.
@@ -556,11 +667,17 @@ inline const_buffer_container_1 buffer(const boost::array<Pod_Type, N>& data,
  * @note The buffer is invalidated by any vector operation that would also
  * invalidate iterators.
  */
-template <typename Pod_Type, typename Allocator>
-inline mutable_buffer_container_1 buffer(std::vector<Pod_Type, Allocator>& data)
+template <typename PodType, typename Allocator>
+inline mutable_buffers_1 buffer(std::vector<PodType, Allocator>& data)
 {
-  return mutable_buffer_container_1(
-      mutable_buffer(&data[0], data.size() * sizeof(Pod_Type)));
+  return mutable_buffers_1(
+      mutable_buffer(&data[0], data.size() * sizeof(PodType)
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+        , detail::buffer_debug_check<
+            typename std::vector<PodType, Allocator>::iterator
+          >(data.begin())
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
+        ));
 }
 
 /// Create a new modifiable buffer that represents the given POD vector.
@@ -568,14 +685,20 @@ inline mutable_buffer_container_1 buffer(std::vector<Pod_Type, Allocator>& data)
  * @note The buffer is invalidated by any vector operation that would also
  * invalidate iterators.
  */
-template <typename Pod_Type, typename Allocator>
-inline mutable_buffer_container_1 buffer(std::vector<Pod_Type, Allocator>& data,
+template <typename PodType, typename Allocator>
+inline mutable_buffers_1 buffer(std::vector<PodType, Allocator>& data,
     std::size_t max_size_in_bytes)
 {
-  return mutable_buffer_container_1(
+  return mutable_buffers_1(
       mutable_buffer(&data[0],
-        data.size() * sizeof(Pod_Type) < max_size_in_bytes
-        ? data.size() * sizeof(Pod_Type) : max_size_in_bytes));
+        data.size() * sizeof(PodType) < max_size_in_bytes
+        ? data.size() * sizeof(PodType) : max_size_in_bytes
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+        , detail::buffer_debug_check<
+            typename std::vector<PodType, Allocator>::iterator
+          >(data.begin())
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
+        ));
 }
 
 /// Create a new non-modifiable buffer that represents the given POD vector.
@@ -583,12 +706,18 @@ inline mutable_buffer_container_1 buffer(std::vector<Pod_Type, Allocator>& data,
  * @note The buffer is invalidated by any vector operation that would also
  * invalidate iterators.
  */
-template <typename Pod_Type, typename Allocator>
-inline const_buffer_container_1 buffer(
-    const std::vector<Pod_Type, Allocator>& data)
+template <typename PodType, typename Allocator>
+inline const_buffers_1 buffer(
+    const std::vector<PodType, Allocator>& data)
 {
-  return const_buffer_container_1(
-      const_buffer(&data[0], data.size() * sizeof(Pod_Type)));
+  return const_buffers_1(
+      const_buffer(&data[0], data.size() * sizeof(PodType)
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+        , detail::buffer_debug_check<
+            typename std::vector<PodType, Allocator>::const_iterator
+          >(data.begin())
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
+        ));
 }
 
 /// Create a new non-modifiable buffer that represents the given POD vector.
@@ -596,14 +725,20 @@ inline const_buffer_container_1 buffer(
  * @note The buffer is invalidated by any vector operation that would also
  * invalidate iterators.
  */
-template <typename Pod_Type, typename Allocator>
-inline const_buffer_container_1 buffer(
-    const std::vector<Pod_Type, Allocator>& data, std::size_t max_size_in_bytes)
+template <typename PodType, typename Allocator>
+inline const_buffers_1 buffer(
+    const std::vector<PodType, Allocator>& data, std::size_t max_size_in_bytes)
 {
-  return const_buffer_container_1(
+  return const_buffers_1(
       const_buffer(&data[0],
-        data.size() * sizeof(Pod_Type) < max_size_in_bytes
-        ? data.size() * sizeof(Pod_Type) : max_size_in_bytes));
+        data.size() * sizeof(PodType) < max_size_in_bytes
+        ? data.size() * sizeof(PodType) : max_size_in_bytes
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+        , detail::buffer_debug_check<
+            typename std::vector<PodType, Allocator>::const_iterator
+          >(data.begin())
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
+        ));
 }
 
 /// Create a new non-modifiable buffer that represents the given string.
@@ -611,9 +746,13 @@ inline const_buffer_container_1 buffer(
  * @note The buffer is invalidated by any non-const operation called on the
  * given string object.
  */
-inline const_buffer_container_1 buffer(const std::string& data)
+inline const_buffers_1 buffer(const std::string& data)
 {
-  return const_buffer_container_1(const_buffer(data.data(), data.size()));
+  return const_buffers_1(const_buffer(data.data(), data.size()
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+        , detail::buffer_debug_check<std::string::const_iterator>(data.begin())
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
+        ));
 }
 
 /// Create a new non-modifiable buffer that represents the given string.
@@ -621,13 +760,17 @@ inline const_buffer_container_1 buffer(const std::string& data)
  * @note The buffer is invalidated by any non-const operation called on the
  * given string object.
  */
-inline const_buffer_container_1 buffer(const std::string& data,
+inline const_buffers_1 buffer(const std::string& data,
     std::size_t max_size_in_bytes)
 {
-  return const_buffer_container_1(
+  return const_buffers_1(
       const_buffer(data.data(),
         data.size() < max_size_in_bytes
-        ? data.size() : max_size_in_bytes));
+        ? data.size() : max_size_in_bytes
+#if defined(ASIO_ENABLE_BUFFER_DEBUGGING)
+        , detail::buffer_debug_check<std::string::const_iterator>(data.begin())
+#endif // ASIO_ENABLE_BUFFER_DEBUGGING
+        ));
 }
 
 /*@}*/

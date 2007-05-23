@@ -83,6 +83,16 @@ using libtorrent::aux::session_impl;
 namespace libtorrent
 {
 
+	namespace aux
+	{
+		filesystem_init::filesystem_init()
+		{
+			using namespace boost::filesystem;
+			if (path::default_name_check_writable())
+				path::default_name_check(no_check);
+		}
+	}
+
 	session::session(
 		fingerprint const& id
 		, std::pair<int, int> listen_port_range
@@ -90,9 +100,6 @@ namespace libtorrent
 		: m_impl(new session_impl(listen_port_range, id, listen_interface))
 	{
 		// turn off the filename checking in boost.filesystem
-		using namespace boost::filesystem;
-		if (path::default_name_check_writable())
-			path::default_name_check(no_check);
 		assert(listen_port_range.first > 0);
 		assert(listen_port_range.first < listen_port_range.second);
 #ifndef NDEBUG
@@ -123,9 +130,9 @@ namespace libtorrent
 			m_impl->abort();
 	}
 
-	void session::disable_extensions()
+	void session::add_extension(boost::function<boost::shared_ptr<torrent_plugin>(torrent*)> ext)
 	{
-		m_impl->disable_extensions();
+		m_impl->add_extension(ext);
 	}
 
 	void session::set_ip_filter(ip_filter const& f)
@@ -143,15 +150,16 @@ namespace libtorrent
 		m_impl->set_key(key);
 	}
 
-	void session::enable_extension(extension_index i)
-	{
-		m_impl->enable_extension(i);
-	}
-
 	std::vector<torrent_handle> session::get_torrents() const
 	{
 		return m_impl->get_torrents();
 	}
+	
+	torrent_handle session::find_torrent(sha1_hash const& info_hash) const
+	{
+		return m_impl->find_torrent_handle(info_hash);
+	}
+
 
 	// if the torrent already exists, this will throw duplicate_torrent
 	torrent_handle session::add_torrent(
@@ -168,12 +176,13 @@ namespace libtorrent
 	torrent_handle session::add_torrent(
 		char const* tracker_url
 		, sha1_hash const& info_hash
+		, char const* name
 		, boost::filesystem::path const& save_path
 		, entry const& e
 		, bool compact_mode
 		, int block_size)
 	{
-		return m_impl->add_torrent(tracker_url, info_hash, save_path, e
+		return m_impl->add_torrent(tracker_url, info_hash, name, save_path, e
 			, compact_mode, block_size);
 	}
 
@@ -263,6 +272,16 @@ namespace libtorrent
 		m_impl->set_max_half_open_connections(limit);
 	}
 
+	int session::upload_rate_limit() const
+	{
+		return m_impl->upload_rate_limit();
+	}
+
+	int session::download_rate_limit() const
+	{
+		return m_impl->download_rate_limit();
+	}
+
 	void session::set_upload_rate_limit(int bytes_per_second)
 	{
 		m_impl->set_upload_rate_limit(bytes_per_second);
@@ -271,6 +290,16 @@ namespace libtorrent
 	void session::set_download_rate_limit(int bytes_per_second)
 	{
 		m_impl->set_download_rate_limit(bytes_per_second);
+	}
+
+	int session::num_uploads() const
+	{
+		return m_impl->num_uploads();
+	}
+
+	int session::num_connections() const
+	{
+		return m_impl->num_connections();
 	}
 
 	std::auto_ptr<alert> session::pop_alert()

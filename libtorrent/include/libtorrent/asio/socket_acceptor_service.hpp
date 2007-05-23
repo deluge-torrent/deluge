@@ -2,7 +2,7 @@
 // socket_acceptor_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -18,10 +18,12 @@
 #include "asio/detail/push_options.hpp"
 
 #include "asio/basic_socket.hpp"
+#include "asio/error.hpp"
 #include "asio/io_service.hpp"
 #include "asio/detail/epoll_reactor.hpp"
 #include "asio/detail/kqueue_reactor.hpp"
 #include "asio/detail/select_reactor.hpp"
+#include "asio/detail/service_base.hpp"
 #include "asio/detail/reactive_socket_service.hpp"
 #include "asio/detail/win_iocp_socket_service.hpp"
 
@@ -30,9 +32,18 @@ namespace asio {
 /// Default service implementation for a socket acceptor.
 template <typename Protocol>
 class socket_acceptor_service
+#if defined(GENERATING_DOCUMENTATION)
   : public asio::io_service::service
+#else
+  : public asio::detail::service_base<socket_acceptor_service<Protocol> >
+#endif
 {
 public:
+#if defined(GENERATING_DOCUMENTATION)
+  /// The unique service identifier.
+  static asio::io_service::id id;
+#endif
+
   /// The protocol type.
   typedef Protocol protocol_type;
 
@@ -71,7 +82,8 @@ public:
 
   /// Construct a new socket acceptor service for the specified io_service.
   explicit socket_acceptor_service(asio::io_service& io_service)
-    : asio::io_service::service(io_service),
+    : asio::detail::service_base<
+        socket_acceptor_service<Protocol> >(io_service),
       service_impl_(asio::use_service<service_impl_type>(io_service))
   {
   }
@@ -94,50 +106,53 @@ public:
   }
 
   /// Open a new socket acceptor implementation.
-  template <typename Error_Handler>
-  void open(implementation_type& impl, const protocol_type& protocol,
-      Error_Handler error_handler)
+  asio::error_code open(implementation_type& impl,
+      const protocol_type& protocol, asio::error_code& ec)
   {
-    service_impl_.open(impl, protocol, error_handler);
+    return service_impl_.open(impl, protocol, ec);
   }
 
   /// Assign an existing native acceptor to a socket acceptor.
-  template <typename Error_Handler>
-  void assign(implementation_type& impl, const protocol_type& protocol,
-      const native_type& native_acceptor, Error_Handler error_handler)
+  asio::error_code assign(implementation_type& impl,
+      const protocol_type& protocol, const native_type& native_acceptor,
+      asio::error_code& ec)
   {
-    service_impl_.assign(impl, protocol, native_acceptor, error_handler);
+    return service_impl_.assign(impl, protocol, native_acceptor, ec);
+  }
+
+  /// Determine whether the acceptor is open.
+  bool is_open(const implementation_type& impl) const
+  {
+    return service_impl_.is_open(impl);
   }
 
   /// Cancel all asynchronous operations associated with the acceptor.
-  template <typename Error_Handler>
-  void cancel(implementation_type& impl, Error_Handler error_handler)
+  asio::error_code cancel(implementation_type& impl,
+      asio::error_code& ec)
   {
-    service_impl_.cancel(impl, error_handler);
+    return service_impl_.cancel(impl, ec);
   }
 
   /// Bind the socket acceptor to the specified local endpoint.
-  template <typename Error_Handler>
-  void bind(implementation_type& impl, const endpoint_type& endpoint,
-      Error_Handler error_handler)
+  asio::error_code bind(implementation_type& impl,
+      const endpoint_type& endpoint, asio::error_code& ec)
   {
-    service_impl_.bind(impl, endpoint, error_handler);
+    return service_impl_.bind(impl, endpoint, ec);
   }
 
   /// Place the socket acceptor into the state where it will listen for new
   /// connections.
-  template <typename Error_Handler>
-  void listen(implementation_type& impl, int backlog,
-      Error_Handler error_handler)
+  asio::error_code listen(implementation_type& impl, int backlog,
+      asio::error_code& ec)
   {
-    service_impl_.listen(impl, backlog, error_handler);
+    return service_impl_.listen(impl, backlog, ec);
   }
 
   /// Close a socket acceptor implementation.
-  template <typename Error_Handler>
-  void close(implementation_type& impl, Error_Handler error_handler)
+  asio::error_code close(implementation_type& impl,
+      asio::error_code& ec)
   {
-    service_impl_.close(impl, error_handler);
+    return service_impl_.close(impl, ec);
   }
 
   /// Get the native acceptor implementation.
@@ -147,64 +162,52 @@ public:
   }
 
   /// Set a socket option.
-  template <typename Option, typename Error_Handler>
-  void set_option(implementation_type& impl, const Option& option,
-      Error_Handler error_handler)
+  template <typename SettableSocketOption>
+  asio::error_code set_option(implementation_type& impl,
+      const SettableSocketOption& option, asio::error_code& ec)
   {
-    service_impl_.set_option(impl, option, error_handler);
+    return service_impl_.set_option(impl, option, ec);
   }
 
-  /// Set a socket option.
-  template <typename Option, typename Error_Handler>
-  void get_option(implementation_type& impl, Option& option,
-      Error_Handler error_handler)
+  /// Get a socket option.
+  template <typename GettableSocketOption>
+  asio::error_code get_option(const implementation_type& impl,
+      GettableSocketOption& option, asio::error_code& ec) const
   {
-    service_impl_.get_option(impl, option, error_handler);
+    return service_impl_.get_option(impl, option, ec);
+  }
+
+  /// Perform an IO control command on the socket.
+  template <typename IoControlCommand>
+  asio::error_code io_control(implementation_type& impl,
+      IoControlCommand& command, asio::error_code& ec)
+  {
+    return service_impl_.io_control(impl, command, ec);
   }
 
   /// Get the local endpoint.
-  template <typename Error_Handler>
   endpoint_type local_endpoint(const implementation_type& impl,
-      Error_Handler error_handler) const
+      asio::error_code& ec) const
   {
-    endpoint_type endpoint;
-    service_impl_.get_local_endpoint(impl, endpoint, error_handler);
-    return endpoint;
+    return service_impl_.local_endpoint(impl, ec);
   }
 
   /// Accept a new connection.
-  template <typename Socket_Service, typename Error_Handler>
-  void accept(implementation_type& impl,
-      basic_socket<protocol_type, Socket_Service>& peer,
-      Error_Handler error_handler)
+  template <typename SocketService>
+  asio::error_code accept(implementation_type& impl,
+      basic_socket<protocol_type, SocketService>& peer,
+      endpoint_type* peer_endpoint, asio::error_code& ec)
   {
-    service_impl_.accept(impl, peer, error_handler);
-  }
-
-  /// Accept a new connection.
-  template <typename Socket_Service, typename Error_Handler>
-  void accept_endpoint(implementation_type& impl,
-      basic_socket<protocol_type, Socket_Service>& peer,
-      endpoint_type& peer_endpoint, Error_Handler error_handler)
-  {
-    service_impl_.accept_endpoint(impl, peer, peer_endpoint, error_handler);
+    return service_impl_.accept(impl, peer, peer_endpoint, ec);
   }
 
   /// Start an asynchronous accept.
-  template <typename Socket_Service, typename Handler>
+  template <typename SocketService, typename AcceptHandler>
   void async_accept(implementation_type& impl,
-      basic_socket<protocol_type, Socket_Service>& peer, Handler handler)
+      basic_socket<protocol_type, SocketService>& peer,
+      endpoint_type* peer_endpoint, AcceptHandler handler)
   {
-    service_impl_.async_accept(impl, peer, handler);
-  }
-
-  /// Start an asynchronous accept.
-  template <typename Socket_Service, typename Handler>
-  void async_accept_endpoint(implementation_type& impl,
-      basic_socket<protocol_type, Socket_Service>& peer,
-      endpoint_type& peer_endpoint, Handler handler)
-  {
-    service_impl_.async_accept_endpoint(impl, peer, peer_endpoint, handler);
+    service_impl_.async_accept(impl, peer, peer_endpoint, handler);
   }
 
 private:

@@ -62,6 +62,9 @@ namespace libtorrent
 	{
 		assert(blocks_per_piece > 0);
 		assert(total_num_blocks >= 0);
+#ifndef NDEBUG
+		m_files_checked_called = false;
+#endif
 
 		// the piece index is stored in 20 bits, which limits the allowed
 		// number of pieces somewhat
@@ -87,6 +90,9 @@ namespace libtorrent
 		const std::vector<bool>& pieces
 		, const std::vector<downloading_piece>& unfinished)
 	{
+#ifndef NDEBUG
+		m_files_checked_called = true;
+#endif
 		// build a vector of all the pieces we don't have
 		std::vector<int> piece_list;
 		piece_list.reserve(std::count(pieces.begin(), pieces.end(), false));
@@ -135,6 +141,12 @@ namespace libtorrent
 				{
 					if (i->finished_blocks[j])
 						mark_as_finished(piece_block(i->index, j), peer);
+				}
+				if (is_piece_finished(i->index))
+				{
+					// TODO: handle this case by verifying the
+					// piece and either accept it or discard it
+					assert(false);
 				}
 			}
 		}
@@ -417,6 +429,7 @@ namespace libtorrent
 		assert(elem_index != piece_pos::we_have_index);
 		std::vector<std::vector<int> >& src_vec(pick_piece_info_vector(
 			downloading, filtered));
+		assert(m_files_checked_called);
 
 		assert((int)src_vec.size() > priority);
 		assert((int)src_vec[priority].size() > elem_index);
@@ -531,6 +544,7 @@ namespace libtorrent
 		assert(!filtered);
 		assert(priority >= 0);
 		assert(elem_index >= 0);
+		assert(m_files_checked_called);
 
 		std::vector<std::vector<int> >& src_vec(pick_piece_info_vector(downloading, filtered));
 
@@ -582,6 +596,7 @@ namespace libtorrent
 
 		assert(index >= 0);
 		assert(index < (int)m_piece_map.size());
+		assert(m_files_checked_called);
 
 		assert(m_piece_map[index].downloading == 1);
 
@@ -603,6 +618,7 @@ namespace libtorrent
 		TORRENT_PIECE_PICKER_INVARIANT_CHECK;
 		assert(i >= 0);
 		assert(i < (int)m_piece_map.size());
+		assert(m_files_checked_called);
 
 		int index = m_piece_map[i].index;
 		int prev_priority = m_piece_map[i].priority(m_sequenced_download_threshold);
@@ -630,6 +646,7 @@ namespace libtorrent
 	{
 		TORRENT_PIECE_PICKER_INVARIANT_CHECK;
 
+		assert(m_files_checked_called);
 		assert(i >= 0);
 		assert(i < (int)m_piece_map.size());
 
@@ -669,7 +686,6 @@ namespace libtorrent
 		{
 			--m_num_filtered;
 			++m_num_have_filtered;
-			return;
 		}
 		if (info_index == piece_pos::we_have_index) return;
 		remove(p.downloading, p.filtered, priority, info_index);
@@ -752,6 +768,7 @@ namespace libtorrent
 		TORRENT_PIECE_PICKER_INVARIANT_CHECK;
 		assert(num_blocks > 0);
 		assert(pieces.size() == m_piece_map.size());
+		assert(m_files_checked_called);
 
 		// free refers to pieces that are free to download, no one else
 		// is downloading them.
@@ -965,13 +982,18 @@ namespace libtorrent
 		assert(index < (int)m_piece_map.size());
 		assert(index >= 0);
 
-		if (m_piece_map[index].downloading == 0) return false;
+		if (m_piece_map[index].downloading == 0)
+		{
+			assert(std::find_if(m_downloads.begin(), m_downloads.end(), has_index(index))
+				== m_downloads.end());
+			return false;
+		}
 		std::vector<downloading_piece>::const_iterator i
 			= std::find_if(m_downloads.begin(), m_downloads.end(), has_index(index));
 		assert(i != m_downloads.end());
 		assert((int)i->finished_blocks.count() <= m_blocks_per_piece);
 		int max_blocks = blocks_in_piece(index);
-		if ((int)i->finished_blocks.count() != max_blocks) return false;
+		if ((int)i->finished_blocks.count() < max_blocks) return false;
 
 		assert((int)i->requested_blocks.count() == max_blocks);
 		return true;
@@ -1163,16 +1185,19 @@ namespace libtorrent
 
 		assert(block.block_index < blocks_in_piece(block.piece_index));
 #ifndef NDEBUG
-		if (i->requested_blocks[block.block_index] != 1)
+		if (i->requested_blocks[block.block_index] == false)
 		{
 			assert(false);
 		}
 #endif
 
 		// clear this block as being downloaded
-		i->requested_blocks[block.block_index] = 0;
+		i->requested_blocks[block.block_index] = false;
+		
+		// clear the downloader of this block
+		i->info[block.block_index].peer = tcp::endpoint();
 
-		// if there are no other blocks in this pieces
+		// if there are no other blocks in this piece
 		// that's being downloaded, remove it from the list
 		if (i->requested_blocks.count() == 0)
 		{

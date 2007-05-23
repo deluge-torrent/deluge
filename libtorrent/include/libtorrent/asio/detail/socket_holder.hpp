@@ -2,7 +2,7 @@
 // socket_holder.hpp
 // ~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -44,7 +44,10 @@ public:
   ~socket_holder()
   {
     if (socket_ != invalid_socket)
-      socket_ops::close(socket_);
+    {
+      asio::error_code ec;
+      socket_ops::close(socket_, ec);
+    }
   }
 
   // Get the underlying socket.
@@ -58,7 +61,8 @@ public:
   {
     if (socket_ != invalid_socket)
     {
-      socket_ops::close(socket_);
+      asio::error_code ec;
+      socket_ops::close(socket_, ec);
       socket_ = invalid_socket;
     }
   }

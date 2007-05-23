@@ -2,7 +2,7 @@
 // resolver_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -29,6 +29,7 @@
 #include "asio/detail/bind_handler.hpp"
 #include "asio/detail/mutex.hpp"
 #include "asio/detail/noncopyable.hpp"
+#include "asio/detail/service_base.hpp"
 #include "asio/detail/socket_ops.hpp"
 #include "asio/detail/socket_types.hpp"
 #include "asio/detail/thread.hpp"
@@ -38,7 +39,7 @@ namespace detail {
 
 template <typename Protocol>
 class resolver_service
-  : public asio::io_service::service
+  : public asio::detail::service_base<resolver_service<Protocol> >
 {
 private:
   // Helper class to perform exception-safe cleanup of addrinfo objects.
@@ -84,7 +85,8 @@ public:
 
   // Constructor.
   resolver_service(asio::io_service& io_service)
-    : asio::io_service::service(io_service),
+    : asio::detail::service_base<
+        resolver_service<Protocol> >(io_service),
       mutex_(),
       work_io_service_(new asio::io_service),
       work_(new asio::io_service::work(*work_io_service_)),
@@ -104,7 +106,7 @@ public:
     work_.reset();
     if (work_io_service_)
     {
-      work_io_service_->interrupt();
+      work_io_service_->stop();
       if (work_thread_)
       {
         work_thread_->join();
@@ -132,23 +134,21 @@ public:
   }
 
   // Resolve a query to a list of entries.
-  template <typename Error_Handler>
   iterator_type resolve(implementation_type&, const query_type& query,
-      Error_Handler error_handler)
+      asio::error_code& ec)
   {
     asio::detail::addrinfo_type* address_info = 0;
     std::string host_name = query.host_name();
     std::string service_name = query.service_name();
     asio::detail::addrinfo_type hints = query.hints();
 
-    int result = socket_ops::getaddrinfo(
-        host_name.length() ? host_name.c_str() : 0,
-        service_name.c_str(), &hints, &address_info);
+    socket_ops::getaddrinfo(host_name.length() ? host_name.c_str() : 0,
+        service_name.c_str(), &hints, &address_info, ec);
     auto_addrinfo auto_address_info(address_info);
 
-    error_handler(asio::error(result));
-    if (result != 0)
+    if (ec)
       return iterator_type();
+
     return iterator_type::create(address_info, host_name, service_name);
   }
 
@@ -173,8 +173,7 @@ public:
       {
         iterator_type iterator;
         io_service_.post(asio::detail::bind_handler(handler_,
-              asio::error(asio::error::operation_aborted),
-              iterator));
+              asio::error::operation_aborted, iterator));
         return;
       }
 
@@ -183,18 +182,17 @@ public:
       std::string host_name = query_.host_name();
       std::string service_name = query_.service_name();
       asio::detail::addrinfo_type hints = query_.hints();
-      int result = socket_ops::getaddrinfo(
-          host_name.length() ? host_name.c_str() : 0,
-          service_name.c_str(), &hints, &address_info);
+      asio::error_code ec;
+      socket_ops::getaddrinfo(host_name.length() ? host_name.c_str() : 0,
+          service_name.c_str(), &hints, &address_info, ec);
       auto_addrinfo auto_address_info(address_info);
 
       // Invoke the handler and pass the result.
-      asio::error e(result);
       iterator_type iterator;
-      if (result == 0)
+      if (!ec)
         iterator = iterator_type::create(address_info, host_name, service_name);
       io_service_.post(asio::detail::bind_handler(
-            handler_, e, iterator));
+            handler_, ec, iterator));
     }
 
   private:
@@ -215,32 +213,31 @@ public:
       start_work_thread();
       work_io_service_->post(
           resolve_query_handler<Handler>(
-            impl, query, io_service(), handler));
+            impl, query, this->io_service(), handler));
     }
   }
 
   // Resolve an endpoint to a list of entries.
-  template <typename Error_Handler>
   iterator_type resolve(implementation_type&,
-      const endpoint_type& endpoint, Error_Handler error_handler)
+      const endpoint_type& endpoint, asio::error_code& ec)
   {
     // First try resolving with the service name. If that fails try resolving
     // but allow the service to be returned as a number.
     char host_name[NI_MAXHOST];
     char service_name[NI_MAXSERV];
     int flags = endpoint.protocol().type() == SOCK_DGRAM ? NI_DGRAM : 0;
-    int result = socket_ops::getnameinfo(endpoint.data(), endpoint.size(),
-        host_name, NI_MAXHOST, service_name, NI_MAXSERV, flags);
-    if (result)
+    socket_ops::getnameinfo(endpoint.data(), endpoint.size(),
+        host_name, NI_MAXHOST, service_name, NI_MAXSERV, flags, ec);
+    if (ec)
     {
       flags |= NI_NUMERICSERV;
-      result = socket_ops::getnameinfo(endpoint.data(), endpoint.size(),
-          host_name, NI_MAXHOST, service_name, NI_MAXSERV, flags);
+      socket_ops::getnameinfo(endpoint.data(), endpoint.size(),
+          host_name, NI_MAXHOST, service_name, NI_MAXSERV, flags, ec);
     }
 
-    error_handler(asio::error(result));
-    if (result != 0)
+    if (ec)
       return iterator_type();
+
     return iterator_type::create(endpoint, host_name, service_name);
   }
 
@@ -266,8 +263,7 @@ public:
       {
         iterator_type iterator;
         io_service_.post(asio::detail::bind_handler(handler_,
-              asio::error(asio::error::operation_aborted),
-              iterator));
+              asio::error::operation_aborted, iterator));
         return;
       }
 
@@ -277,22 +273,22 @@ public:
       char host_name[NI_MAXHOST];
       char service_name[NI_MAXSERV];
       int flags = endpoint_.protocol().type() == SOCK_DGRAM ? NI_DGRAM : 0;
-      int result = socket_ops::getnameinfo(endpoint_.data(), endpoint_.size(),
-          host_name, NI_MAXHOST, service_name, NI_MAXSERV, flags);
-      if (result)
+      asio::error_code ec;
+      socket_ops::getnameinfo(endpoint_.data(), endpoint_.size(),
+          host_name, NI_MAXHOST, service_name, NI_MAXSERV, flags, ec);
+      if (ec)
       {
         flags |= NI_NUMERICSERV;
-        result = socket_ops::getnameinfo(endpoint_.data(), endpoint_.size(),
-            host_name, NI_MAXHOST, service_name, NI_MAXSERV, flags);
+        socket_ops::getnameinfo(endpoint_.data(), endpoint_.size(),
+            host_name, NI_MAXHOST, service_name, NI_MAXSERV, flags, ec);
       }
 
       // Invoke the handler and pass the result.
-      asio::error e(result);
       iterator_type iterator;
-      if (result == 0)
+      if (!ec)
         iterator = iterator_type::create(endpoint_, host_name, service_name);
       io_service_.post(asio::detail::bind_handler(
-            handler_, e, iterator));
+            handler_, ec, iterator));
     }
 
   private:
@@ -313,7 +309,7 @@ public:
       start_work_thread();
       work_io_service_->post(
           resolve_endpoint_handler<Handler>(
-            impl, endpoint, io_service(), handler));
+            impl, endpoint, this->io_service(), handler));
     }
   }
 

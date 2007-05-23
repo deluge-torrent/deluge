@@ -2,7 +2,7 @@
 // basic_socket_iostream.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -33,74 +33,42 @@
 #endif // !defined(ASIO_SOCKET_IOSTREAM_MAX_ARITY)
 
 // A macro that should expand to:
-//   template < typename T1, ..., typename Tn >
-//   explicit basic_socket_iostream( T1 x1, ..., Tn xn )
+//   template <typename T1, ..., typename Tn>
+//   explicit basic_socket_iostream(T1 x1, ..., Tn xn)
 //     : basic_iostream<char>(&this->boost::base_from_member<
-//         basic_socket_streambuf<Protocol, Service> >::member)
+//         basic_socket_streambuf<Protocol, StreamSocketService> >::member)
 //   {
-//     try
-//     {
-//       rdbuf()->connect ( x1, ..., xn );
-//     }
-//     catch (asio::error&)
-//     {
+//     if (rdbuf()->connect(x1, ..., xn) == 0)
 //       this->setstate(std::ios_base::failbit);
-//       if (this->exceptions() & std::ios_base::failbit)
-//         throw;
-//     }
 //   }
 // This macro should only persist within this file.
 
-#define ASIO_PRIVATE_CTR_DEF( z, n, data ) \
-  template < BOOST_PP_ENUM_PARAMS(n, typename T) > \
-  explicit basic_socket_iostream( BOOST_PP_ENUM_BINARY_PARAMS(n, T, x) ) \
+#define ASIO_PRIVATE_CTR_DEF(z, n, data) \
+  template <BOOST_PP_ENUM_PARAMS(n, typename T)> \
+  explicit basic_socket_iostream(BOOST_PP_ENUM_BINARY_PARAMS(n, T, x)) \
     : std::basic_iostream<char>(&this->boost::base_from_member< \
-        basic_socket_streambuf<Protocol, Service> >::member) \
+        basic_socket_streambuf<Protocol, StreamSocketService> >::member) \
   { \
-    try \
-    { \
-      rdbuf()->connect( BOOST_PP_ENUM_PARAMS(n, x) ); \
-    } \
-    catch (asio::error&) \
-    { \
+    if (rdbuf()->connect(BOOST_PP_ENUM_PARAMS(n, x)) == 0) \
       this->setstate(std::ios_base::failbit); \
-      if (this->exceptions() & std::ios_base::failbit) \
-        throw; \
-    } \
   } \
   /**/
 
 // A macro that should expand to:
-//   template < typename T1, ..., typename Tn >
-//   void connect( T1 x1, ..., Tn xn )
+//   template <typename T1, ..., typename Tn>
+//   void connect(T1 x1, ..., Tn xn)
 //   {
-//     try
-//     {
-//       rdbuf()->connect ( x1, ..., xn );
-//     }
-//     catch (asio::error&)
-//     {
+//     if (rdbuf()->connect(x1, ..., xn) == 0)
 //       this->setstate(std::ios_base::failbit);
-//       if (this->exceptions() & std::ios_base::failbit)
-//         throw;
-//     }
 //   }
 // This macro should only persist within this file.
 
-#define ASIO_PRIVATE_CONNECT_DEF( z, n, data ) \
-  template < BOOST_PP_ENUM_PARAMS(n, typename T) > \
-  void connect( BOOST_PP_ENUM_BINARY_PARAMS(n, T, x) ) \
+#define ASIO_PRIVATE_CONNECT_DEF(z, n, data) \
+  template <BOOST_PP_ENUM_PARAMS(n, typename T)> \
+  void connect(BOOST_PP_ENUM_BINARY_PARAMS(n, T, x)) \
   { \
-    try \
-    { \
-      rdbuf()->connect( BOOST_PP_ENUM_PARAMS(n, x) ); \
-    } \
-    catch (asio::error&) \
-    { \
+    if (rdbuf()->connect(BOOST_PP_ENUM_PARAMS(n, x)) == 0) \
       this->setstate(std::ios_base::failbit); \
-      if (this->exceptions() & std::ios_base::failbit) \
-        throw; \
-    } \
   } \
   /**/
 
@@ -108,16 +76,17 @@ namespace asio {
 
 /// Iostream interface for a socket.
 template <typename Protocol,
-    typename Service = stream_socket_service<Protocol> >
+    typename StreamSocketService = stream_socket_service<Protocol> >
 class basic_socket_iostream
-  : public boost::base_from_member<basic_socket_streambuf<Protocol, Service> >,
+  : public boost::base_from_member<
+      basic_socket_streambuf<Protocol, StreamSocketService> >,
     public std::basic_iostream<char>
 {
 public:
   /// Construct a basic_socket_iostream without establishing a connection.
   basic_socket_iostream()
     : std::basic_iostream<char>(&this->boost::base_from_member<
-        basic_socket_streambuf<Protocol, Service> >::member)
+        basic_socket_streambuf<Protocol, StreamSocketService> >::member)
   {
   }
 
@@ -154,15 +123,16 @@ public:
   /// Close the connection.
   void close()
   {
-    rdbuf()->close();
+    if (rdbuf()->close() == 0)
+      this->setstate(std::ios_base::failbit);
   }
 
   /// Return a pointer to the underlying streambuf.
-  basic_socket_streambuf<Protocol, Service>* rdbuf() const
+  basic_socket_streambuf<Protocol, StreamSocketService>* rdbuf() const
   {
-    return const_cast<basic_socket_streambuf<Protocol, Service>*>(
+    return const_cast<basic_socket_streambuf<Protocol, StreamSocketService>*>(
         &this->boost::base_from_member<
-          basic_socket_streambuf<Protocol, Service> >::member);
+          basic_socket_streambuf<Protocol, StreamSocketService> >::member);
   }
 };
 

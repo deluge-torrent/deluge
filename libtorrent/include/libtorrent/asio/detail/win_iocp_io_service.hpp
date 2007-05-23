@@ -2,7 +2,7 @@
 // win_iocp_io_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -27,10 +27,11 @@
 #include "asio/detail/pop_options.hpp"
 
 #include "asio/io_service.hpp"
-#include "asio/system_exception.hpp"
+#include "asio/system_error.hpp"
 #include "asio/detail/call_stack.hpp"
 #include "asio/detail/handler_alloc_helpers.hpp"
 #include "asio/detail/handler_invoke_helpers.hpp"
+#include "asio/detail/service_base.hpp"
 #include "asio/detail/socket_types.hpp"
 #include "asio/detail/win_iocp_operation.hpp"
 
@@ -38,7 +39,7 @@ namespace asio {
 namespace detail {
 
 class win_iocp_io_service
-  : public asio::io_service::service
+  : public asio::detail::service_base<win_iocp_io_service>
 {
 public:
   // Base class for all operations.
@@ -46,16 +47,24 @@ public:
 
   // Constructor.
   win_iocp_io_service(asio::io_service& io_service)
-    : asio::io_service::service(io_service),
-      iocp_(::CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0)),
+    : asio::detail::service_base<win_iocp_io_service>(io_service),
+      iocp_(),
       outstanding_work_(0),
-      interrupted_(0),
+      stopped_(0),
       shutdown_(0)
   {
+  }
+
+  void init(size_t concurrency_hint)
+  {
+    iocp_.handle = ::CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0,
+        static_cast<DWORD>((std::min<size_t>)(concurrency_hint, DWORD(~0))));
     if (!iocp_.handle)
     {
       DWORD last_error = ::GetLastError();
-      system_exception e("iocp", last_error);
+      asio::system_error e(
+          asio::error_code(last_error, asio::native_ecat),
+          "iocp");
       boost::throw_exception(e);
     }
   }
@@ -74,84 +83,98 @@ public:
       DWORD_PTR completion_key = 0;
 #endif
       LPOVERLAPPED overlapped = 0;
-      ::GetQueuedCompletionStatus(iocp_.handle,
+      ::SetLastError(0);
+      BOOL ok = ::GetQueuedCompletionStatus(iocp_.handle,
           &bytes_transferred, &completion_key, &overlapped, 0);
       DWORD last_error = ::GetLastError();
-      if (last_error == WAIT_TIMEOUT)
+      if (!ok && overlapped == 0 && last_error == WAIT_TIMEOUT)
         break;
       if (overlapped)
         static_cast<operation*>(overlapped)->destroy();
     }
   }
 
-  // Register a socket with the IO completion port.
-  void register_socket(socket_type sock)
+  // Register a handle with the IO completion port.
+  void register_handle(HANDLE handle)
   {
-    HANDLE sock_as_handle = reinterpret_cast<HANDLE>(sock);
-    ::CreateIoCompletionPort(sock_as_handle, iocp_.handle, 0, 0);
+    ::CreateIoCompletionPort(handle, iocp_.handle, 0, 0);
   }
 
-  // Run the event loop until interrupted or no more work.
-  size_t run()
+  // Run the event loop until stopped or no more work.
+  size_t run(asio::error_code& ec)
   {
     if (::InterlockedExchangeAdd(&outstanding_work_, 0) == 0)
+    {
+      ec = asio::error_code();
       return 0;
+    }
 
     call_stack<win_iocp_io_service>::context ctx(this);
 
     size_t n = 0;
-    while (do_one(true))
+    while (do_one(true, ec))
       if (n != (std::numeric_limits<size_t>::max)())
         ++n;
     return n;
   }
 
-  // Run until interrupted or one operation is performed.
-  size_t run_one()
+  // Run until stopped or one operation is performed.
+  size_t run_one(asio::error_code& ec)
   {
     if (::InterlockedExchangeAdd(&outstanding_work_, 0) == 0)
+    {
+      ec = asio::error_code();
       return 0;
+    }
 
     call_stack<win_iocp_io_service>::context ctx(this);
 
-    return do_one(true);
+    return do_one(true, ec);
   }
 
   // Poll for operations without blocking.
-  size_t poll()
+  size_t poll(asio::error_code& ec)
   {
     if (::InterlockedExchangeAdd(&outstanding_work_, 0) == 0)
+    {
+      ec = asio::error_code();
       return 0;
+    }
 
     call_stack<win_iocp_io_service>::context ctx(this);
 
     size_t n = 0;
-    while (do_one(false))
+    while (do_one(false, ec))
       if (n != (std::numeric_limits<size_t>::max)())
         ++n;
     return n;
   }
 
   // Poll for one operation without blocking.
-  size_t poll_one()
+  size_t poll_one(asio::error_code& ec)
   {
     if (::InterlockedExchangeAdd(&outstanding_work_, 0) == 0)
+    {
+      ec = asio::error_code();
       return 0;
+    }
 
     call_stack<win_iocp_io_service>::context ctx(this);
 
-    return do_one(false);
+    return do_one(false, ec);
   }
 
-  // Interrupt the event processing loop.
-  void interrupt()
+  // Stop the event processing loop.
+  void stop()
   {
-    if (::InterlockedExchange(&interrupted_, 1) == 0)
+    if (::InterlockedExchange(&stopped_, 1) == 0)
     {
       if (!::PostQueuedCompletionStatus(iocp_.handle, 0, 0, 0))
       {
         DWORD last_error = ::GetLastError();
-        system_exception e("pqcs", last_error);
+        asio::system_error e(
+            asio::error_code(last_error, asio::native_ecat),
+            "pqcs");
         boost::throw_exception(e);
       }
     }
@@ -160,7 +183,7 @@ public:
   // Reset in preparation for a subsequent run invocation.
   void reset()
   {
-    ::InterlockedExchange(&interrupted_, 0);
+    ::InterlockedExchange(&stopped_, 0);
   }
 
   // Notify that some work has started.
@@ -173,7 +196,7 @@ public:
   void work_finished()
   {
     if (::InterlockedDecrement(&outstanding_work_) == 0)
-      interrupt();
+      stop();
   }
 
   // Request invocation of the given handler.
@@ -204,7 +227,9 @@ public:
     if (!::PostQueuedCompletionStatus(iocp_.handle, 0, 0, ptr.get()))
     {
       DWORD last_error = ::GetLastError();
-      system_exception e("pqcs", last_error);
+      asio::system_error e(
+          asio::error_code(last_error, asio::native_ecat),
+          "pqcs");
       boost::throw_exception(e);
     }
 
@@ -221,7 +246,9 @@ public:
           bytes_transferred, op_last_error, op))
     {
       DWORD last_error = ::GetLastError();
-      system_exception e("pqcs", last_error);
+      asio::system_error e(
+          asio::error_code(last_error, asio::native_ecat),
+          "pqcs");
       boost::throw_exception(e);
     }
   }
@@ -230,7 +257,7 @@ private:
   // Dequeues at most one operation from the I/O completion port, and then
   // executes it. Returns the number of operations that were dequeued (i.e.
   // either 0 or 1).
-  size_t do_one(bool block)
+  size_t do_one(bool block, asio::error_code& ec)
   {
     for (;;)
     {
@@ -244,11 +271,16 @@ private:
       LPOVERLAPPED overlapped = 0;
       ::SetLastError(0);
       BOOL ok = ::GetQueuedCompletionStatus(iocp_.handle, &bytes_transferred,
-          &completion_key, &overlapped, block ? INFINITE : 0);
+          &completion_key, &overlapped, block ? 1000 : 0);
       DWORD last_error = ::GetLastError();
 
       if (!ok && overlapped == 0)
+      {
+        if (block && last_error == WAIT_TIMEOUT)
+          continue;
+        ec = asio::error_code();
         return 0;
+      }
 
       if (overlapped)
       {
@@ -266,22 +298,25 @@ private:
         operation* op = static_cast<operation*>(overlapped);
         op->do_completion(last_error, bytes_transferred);
 
+        ec = asio::error_code();
         return 1;
       }
       else
       {
-        // The interrupted_ flag is always checked to ensure that any leftover
+        // The stopped_ flag is always checked to ensure that any leftover
         // interrupts from a previous run invocation are ignored.
-        if (::InterlockedExchangeAdd(&interrupted_, 0) != 0)
+        if (::InterlockedExchangeAdd(&stopped_, 0) != 0)
         {
           // Wake up next thread that is blocked on GetQueuedCompletionStatus.
           if (!::PostQueuedCompletionStatus(iocp_.handle, 0, 0, 0))
           {
             DWORD last_error = ::GetLastError();
-            system_exception e("pqcs", last_error);
-            boost::throw_exception(e);
+            ec = asio::error_code(last_error,
+                asio::native_ecat);
+            return 0;
           }
 
+          ec = asio::error_code();
           return 0;
         }
       }
@@ -365,15 +400,15 @@ private:
   struct iocp_holder
   {
     HANDLE handle;
-    iocp_holder(HANDLE h) : handle(h) {}
-    ~iocp_holder() { ::CloseHandle(handle); }
+    iocp_holder() : handle(0) {}
+    ~iocp_holder() { if (handle) ::CloseHandle(handle); }
   } iocp_;
 
   // The count of unfinished work.
   long outstanding_work_;
 
-  // Flag to indicate whether the event loop has been interrupted.
-  long interrupted_;
+  // Flag to indicate whether the event loop has been stopped.
+  long stopped_;
 
   // Flag to indicate whether the service has been shut down.
   long shutdown_;

@@ -2,7 +2,7 @@
 // socket_types.hpp
 // ~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -100,6 +100,7 @@
 # include <net/if.h>
 # if defined(__sun)
 #  include <sys/filio.h>
+#  include <sys/sockio.h>
 # endif
 #endif
 #include "asio/detail/pop_options.hpp"
@@ -168,13 +169,6 @@ const int message_do_not_route = MSG_DONTROUTE;
 #endif
 const int custom_socket_option_level = 0xA5100000;
 const int enable_connection_aborted_option = 1;
-
-#if defined(_WIN64)
-std::size_t hash_value(SOCKET s)
-{
-  return static_cast<std::size_t>(s);
-}
-#endif // defined(_WIN64)
 
 } // namespace detail
 } // namespace asio

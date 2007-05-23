@@ -2,7 +2,7 @@
 // old_win_sdk_compat.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -24,9 +24,9 @@
 #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
 
 // Guess whether we are building against on old Platform SDK.
-#if !defined(IPPROTO_IPV6)
+#if !defined(IN6ADDR_ANY_INIT)
 #define ASIO_HAS_OLD_WIN_SDK 1
-#endif // !defined(IPPROTO_IPV6)
+#endif // !defined(IN6ADDR_ANY_INIT)
 
 #if defined(ASIO_HAS_OLD_WIN_SDK)
 
@@ -304,6 +304,11 @@ inline int IN6_IS_ADDR_MC_GLOBAL(const in6_addr_emulation* a)
 } // namespace asio
 
 #endif // defined(ASIO_HAS_OLD_WIN_SDK)
+
+// Even newer Platform SDKs that support IPv6 may not define IPV6_V6ONLY.
+#if !defined(IPV6_V6ONLY)
+# define IPV6_V6ONLY 27
+#endif
 
 #endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
 

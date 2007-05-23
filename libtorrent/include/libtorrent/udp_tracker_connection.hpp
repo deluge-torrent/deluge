@@ -66,11 +66,12 @@ namespace libtorrent
 	public:
 
 		udp_tracker_connection(
-			demuxer& d
+			asio::strand& str
 			, tracker_manager& man
 			, tracker_request const& req
 			, std::string const& hostname
 			, unsigned short port
+			, address bind_infc
 			, boost::weak_ptr<request_callback> c
 			, session_settings const& stn);
 
@@ -87,24 +88,24 @@ namespace libtorrent
 		boost::intrusive_ptr<udp_tracker_connection> self()
 		{ return boost::intrusive_ptr<udp_tracker_connection>(this); }
 
-		void name_lookup(asio::error const& error, tcp::resolver::iterator i);
-		void timeout(asio::error const& error);
+		void name_lookup(asio::error_code const& error, udp::resolver::iterator i);
+		void timeout(asio::error_code const& error);
 
 		void send_udp_connect();
-		void connect_response(asio::error const& error, std::size_t bytes_transferred);
+		void connect_response(asio::error_code const& error, std::size_t bytes_transferred);
 
 		void send_udp_announce();
-		void announce_response(asio::error const& error, std::size_t bytes_transferred);
+		void announce_response(asio::error_code const& error, std::size_t bytes_transferred);
 
 		void send_udp_scrape();
-		void scrape_response(asio::error const& error, std::size_t bytes_transferred);
+		void scrape_response(asio::error_code const& error, std::size_t bytes_transferred);
 
 		virtual void on_timeout();
 
 		tracker_manager& m_man;
 
-		tcp::resolver m_name_lookup;
-		int m_port;
+		asio::strand& m_strand;
+		udp::resolver m_name_lookup;
 		boost::shared_ptr<datagram_socket> m_socket;
 		udp::endpoint m_target;
 		udp::endpoint m_sender;

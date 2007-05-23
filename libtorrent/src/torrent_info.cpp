@@ -238,23 +238,25 @@ namespace libtorrent
 	// just the necessary to use it with piece manager
 	// used for torrents with no metadata
 	torrent_info::torrent_info(sha1_hash const& info_hash)
-		: m_piece_length(256 * 1024)
+		: m_piece_length(0)
 		, m_total_size(0)
 		, m_info_hash(info_hash)
 		, m_name()
 		, m_creation_date(second_clock::universal_time())
 		, m_multifile(false)
+		, m_private(false)
 		, m_extra_info(entry::dictionary_t)
 	{
 	}
 
 	torrent_info::torrent_info()
-		: m_piece_length(256 * 1024)
+		: m_piece_length(0)
 		, m_total_size(0)
 		, m_info_hash(0)
 		, m_name()
 		, m_creation_date(second_clock::universal_time())
 		, m_multifile(false)
+		, m_private(false)
 		, m_extra_info(entry::dictionary_t)
 	{
 	}
@@ -538,21 +540,23 @@ namespace libtorrent
 		file_entry e;
 		e.path = file;
 		e.size = size;
+		e.offset = m_files.empty() ? 0 : m_files.back().offset
+			+ m_files.back().size;
 		m_files.push_back(e);
 
 		m_total_size += size;
+		
+		if (m_piece_length == 0)
+			m_piece_length = 256 * 1024;
 
 		int num_pieces = static_cast<int>(
 			(m_total_size + m_piece_length - 1) / m_piece_length);
 		int old_num_pieces = static_cast<int>(m_piece_hash.size());
 
 		m_piece_hash.resize(num_pieces);
-		for (std::vector<sha1_hash>::iterator i = m_piece_hash.begin() + old_num_pieces;
-			i != m_piece_hash.end(); ++i)
-		{
-			i->clear();
-		}
-
+		if (num_pieces > old_num_pieces)
+			std::for_each(m_piece_hash.begin() + old_num_pieces
+				, m_piece_hash.end(), boost::bind(&sha1_hash::clear, _1));
 	}
 
 	void torrent_info::add_url_seed(std::string const& url)
@@ -591,16 +595,14 @@ namespace libtorrent
 			if (!info.find_key("files"))
 			{
 				entry& files = info["files"];
-				files = entry(entry::list_t);
 
 				for (std::vector<file_entry>::const_iterator i = m_files.begin();
 					i != m_files.end(); ++i)
 				{
-					files.list().push_back(entry(entry::dictionary_t));
+					files.list().push_back(entry());
 					entry& file_e = files.list().back();
 					file_e["length"] = i->size;
 					entry& path_e = file_e["path"];
-					path_e = entry(entry::list_t);
 
 					fs::path const* file_path;
 					if (i->orig_path) file_path = &(*i->orig_path);
@@ -619,7 +621,6 @@ namespace libtorrent
 
 		info["piece length"] = piece_length();
 		entry& pieces = info["pieces"];
-		pieces = entry(entry::string_t);
 
 		std::string& p = pieces.string();
 
@@ -641,14 +642,14 @@ namespace libtorrent
 
 		namespace fs = boost::filesystem;
 
-		entry dict(entry::dictionary_t);
-
 		if ((m_urls.empty() && m_nodes.empty()) || m_files.empty())
 		{
 			// TODO: throw something here
 			// throw
 			return entry();
 		}
+
+		entry dict;
 
 		if (m_private) dict["private"] = 1;
 
@@ -658,7 +659,6 @@ namespace libtorrent
 		if (!m_nodes.empty())
 		{
 			entry& nodes = dict["nodes"];
-			nodes = entry(entry::list_t);
 			entry::list_type& nodes_list = nodes.list();
 			for (nodes_t::const_iterator i = m_nodes.begin()
 				, end(m_nodes.end()); i != end; ++i)
@@ -708,7 +708,6 @@ namespace libtorrent
 			else
 			{
 				entry& list = dict["url-list"];
-				list = entry(entry::list_t);
 				for (std::vector<std::string>::const_iterator i
 					= m_url_seeds.begin(); i != m_url_seeds.end(); ++i)
 				{

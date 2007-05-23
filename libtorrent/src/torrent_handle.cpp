@@ -107,6 +107,9 @@ namespace libtorrent
 				if (t) return f(*t);
 			}
 
+			// throwing directly instead of calling
+			// the throw_invalid_handle() function
+			// avoids a warning in gcc
 			throw invalid_handle();
 		}
 	}
@@ -346,6 +349,13 @@ namespace libtorrent
 			, bind(&torrent::is_piece_filtered, _1, index));
 	}
 
+	std::string torrent_handle::name() const
+	{
+		INVARIANT_CHECK;
+		return call_member<std::string>(m_ses, m_chk, m_info_hash
+			, bind(&torrent::name, _1));
+	}
+
 	std::vector<bool> torrent_handle::filtered_pieces() const
 	{
 		INVARIANT_CHECK;
@@ -387,7 +397,7 @@ namespace libtorrent
 			, bind(&torrent::replace_trackers, _1, urls));
 	}
 
-	const torrent_info& torrent_handle::get_torrent_info() const
+	torrent_info const& torrent_handle::get_torrent_info() const
 	{
 		INVARIANT_CHECK;
 
@@ -445,57 +455,61 @@ namespace libtorrent
 		entry::list_type& slots = ret["slots"].list();
 		std::copy(piece_index.begin(), piece_index.end(), std::back_inserter(slots));
 
-		const piece_picker& p = t->picker();
-
-		const std::vector<piece_picker::downloading_piece>& q
-			= p.get_download_queue();
-
 		// blocks per piece
 		int num_blocks_per_piece =
 			static_cast<int>(t->torrent_file().piece_length()) / t->block_size();
 		ret["blocks per piece"] = num_blocks_per_piece;
 
-		// unfinished pieces
-		ret["unfinished"] = entry::list_type();
-		entry::list_type& up = ret["unfinished"].list();
-
-		// info for each unfinished piece
-		for (std::vector<piece_picker::downloading_piece>::const_iterator i
-			= q.begin(); i != q.end(); ++i)
+		// if this torrent is a seed, we won't have a piece picker
+		// and there will be no half-finished pieces.
+		if (!t->is_seed())
 		{
-			if (i->finished_blocks.count() == 0) continue;
+			const piece_picker& p = t->picker();
 
-			entry piece_struct(entry::dictionary_t);
+			const std::vector<piece_picker::downloading_piece>& q
+				= p.get_download_queue();
 
-			// the unfinished piece's index
-			piece_struct["piece"] = i->index;
+			// unfinished pieces
+			ret["unfinished"] = entry::list_type();
+			entry::list_type& up = ret["unfinished"].list();
 
-			std::string bitmask;
-			const int num_bitmask_bytes
-				= std::max(num_blocks_per_piece / 8, 1);
-
-			for (int j = 0; j < num_bitmask_bytes; ++j)
+			// info for each unfinished piece
+			for (std::vector<piece_picker::downloading_piece>::const_iterator i
+				= q.begin(); i != q.end(); ++i)
 			{
-				unsigned char v = 0;
-				for (int k = 0; k < 8; ++k)
-					v |= i->finished_blocks[j*8+k]?(1 << k):0;
-				bitmask.insert(bitmask.end(), v);
+				if (i->finished_blocks.count() == 0) continue;
+
+				entry piece_struct(entry::dictionary_t);
+
+				// the unfinished piece's index
+				piece_struct["piece"] = i->index;
+
+				std::string bitmask;
+				const int num_bitmask_bytes
+					= std::max(num_blocks_per_piece / 8, 1);
+
+				for (int j = 0; j < num_bitmask_bytes; ++j)
+				{
+					unsigned char v = 0;
+					for (int k = 0; k < 8; ++k)
+						v |= i->finished_blocks[j*8+k]?(1 << k):0;
+					bitmask.insert(bitmask.end(), v);
+				}
+				piece_struct["bitmask"] = bitmask;
+
+				assert(t->filesystem().slot_for_piece(i->index) >= 0);
+				unsigned long adler
+					= t->filesystem().piece_crc(
+						t->filesystem().slot_for_piece(i->index)
+						, t->block_size()
+						, i->finished_blocks);
+
+				piece_struct["adler32"] = adler;
+
+				// push the struct onto the unfinished-piece list
+				up.push_back(piece_struct);
 			}
-			piece_struct["bitmask"] = bitmask;
-
-			assert(t->filesystem().slot_for_piece(i->index) >= 0);
-			unsigned long adler
-				= t->filesystem().piece_crc(
-					t->filesystem().slot_for_piece(i->index)
-					, t->block_size()
-					, i->finished_blocks);
-
-			piece_struct["adler32"] = adler;
-
-			// push the struct onto the unfinished-piece list
-			up.push_back(piece_struct);
 		}
-
 		// write local peers
 
 		ret["peers"] = entry::list_type();
@@ -547,14 +561,6 @@ namespace libtorrent
 
 		return call_member<boost::filesystem::path>(m_ses, m_chk, m_info_hash
 			, bind(&torrent::save_path, _1));
-	}
-
-	std::vector<char> const& torrent_handle::metadata() const
-	{
-		INVARIANT_CHECK;
-
-		return call_member<std::vector<char> const&>(m_ses, m_chk, m_info_hash
-			, bind(&torrent::metadata, _1));
 	}
 
 	void torrent_handle::connect_peer(tcp::endpoint const& adr) const
@@ -626,6 +632,20 @@ namespace libtorrent
 			, bind(&torrent::set_ratio, _1, ratio));
 	}
 
+	void torrent_handle::resolve_countries(bool r)
+	{
+		INVARIANT_CHECK;
+		call_member<void>(m_ses, m_chk, m_info_hash
+			, bind(&torrent::resolve_countries, _1, r));
+	}
+
+	bool torrent_handle::resolve_countries() const
+	{
+		INVARIANT_CHECK;
+		return call_member<bool>(m_ses, m_chk, m_info_hash
+			, bind(&torrent::resolving_countries, _1));
+	}
+
 	void torrent_handle::get_peer_info(std::vector<peer_info>& v) const
 	{
 		INVARIANT_CHECK;
@@ -651,43 +671,9 @@ namespace libtorrent
 			peer_info& p = v.back();
 			
 			peer->get_peer_info(p);
+			if (t->resolving_countries())
+				t->resolve_peer_country(intrusive_ptr<peer_connection>(peer));
 		}
-	}
-  
-	bool torrent_handle::send_chat_message(tcp::endpoint ip, std::string message) const
-	{
-		if (m_ses == 0) throw_invalid_handle();
-
-		session_impl::mutex_t::scoped_lock l(m_ses->m_mutex);
-		boost::shared_ptr<torrent> t = m_ses->find_torrent(m_info_hash).lock();
-		if (!t) return false;
-
-		for (torrent::const_peer_iterator i = t->begin();
-			i != t->end(); ++i)
-		{
-			peer_connection* peer = i->second;
-
-			// peers that haven't finished the handshake should
-			// not be included in this list
-			if (peer->associated_torrent().expired()) continue;
-
-			tcp::endpoint sender = peer->get_socket()->remote_endpoint();
-			// loop until we find the required ip tcp::endpoint
-			if (ip != sender) continue;
-			
-			bt_peer_connection* p = dynamic_cast<bt_peer_connection*>(peer);
-			if (!p) return false;
-
-			// peers that don's support chat message extension
-			// should not be included either
-			if (!p->supports_extension(extended_chat_message))
-				return false;
-
-			// send the message 
-			p->write_chat_message(message);
-			return true;
-		}
-		return false;
 	}
 
 	void torrent_handle::get_download_queue(std::vector<partial_piece_info>& queue) const
@@ -702,6 +688,8 @@ namespace libtorrent
 		queue.clear();
 		if (!t) return;
 		if (!t->valid_metadata()) return;
+		// if we're a seed, the piece picker has been removed
+		if (t->is_seed()) return;
 
 		const piece_picker& p = t->picker();
 

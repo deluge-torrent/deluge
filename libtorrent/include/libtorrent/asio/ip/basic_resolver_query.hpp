@@ -2,7 +2,7 @@
 // basic_resolver_query.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -33,20 +33,17 @@ namespace ip {
  * The asio::ip::basic_resolver_query class template describes a query
  * that can be passed to a resolver.
  *
- * @par Thread Safety:
+ * @par Thread Safety
  * @e Distinct @e objects: Safe.@n
  * @e Shared @e objects: Unsafe.
- *
- * @par Concepts:
- * Endpoint.
  */
-template <typename Protocol>
+template <typename InternetProtocol>
 class basic_resolver_query
   : public resolver_query_base
 {
 public:
   /// The protocol type associated with the endpoint query.
-  typedef Protocol protocol_type;
+  typedef InternetProtocol protocol_type;
 
   /// Construct with specified service name for any protocol.
   basic_resolver_query(const std::string& service_name,
@@ -55,7 +52,7 @@ public:
       host_name_(),
       service_name_(service_name)
   {
-    typename Protocol::endpoint endpoint;
+    typename InternetProtocol::endpoint endpoint;
     hints_.ai_flags = flags;
     hints_.ai_family = PF_UNSPEC;
     hints_.ai_socktype = endpoint.protocol().type();
@@ -91,7 +88,7 @@ public:
       host_name_(host_name),
       service_name_(service_name)
   {
-    typename Protocol::endpoint endpoint;
+    typename InternetProtocol::endpoint endpoint;
     hints_.ai_flags = flags;
     hints_.ai_family = PF_UNSPEC;
     hints_.ai_socktype = endpoint.protocol().type();

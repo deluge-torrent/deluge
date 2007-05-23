@@ -126,26 +126,43 @@ namespace
 
 namespace libtorrent { namespace dht
 {
+
+	void intrusive_ptr_add_ref(dht_tracker const* c)
+	{
+		assert(c != 0);
+		assert(c->m_refs >= 0);
+		++c->m_refs;
+	}
+
+	void intrusive_ptr_release(dht_tracker const* c)
+	{
+		assert(c != 0);
+		assert(c->m_refs > 0);
+		if (--c->m_refs == 0)
+			delete c;
+	}
+
 #ifdef TORRENT_DHT_VERBOSE_LOGGING
 	TORRENT_DEFINE_LOG(dht_tracker)
 #endif
 
 	// class that puts the networking and the kademlia node in a single
 	// unit and connecting them together.
-	dht_tracker::dht_tracker(asio::io_service& d, dht_settings const& settings
+	dht_tracker::dht_tracker(asio::io_service& ios, dht_settings const& settings
 		, asio::ip::address listen_interface, entry const& bootstrap)
-		: m_demuxer(d)
-		, m_socket(m_demuxer, udp::endpoint(listen_interface, settings.service_port))
+		: m_strand(ios)
+		, m_socket(ios, udp::endpoint(listen_interface, settings.service_port))
 		, m_dht(bind(&dht_tracker::send_packet, this, _1), settings
 			, read_id(bootstrap))
 		, m_buffer(0)
 		, m_last_refresh(second_clock::universal_time() - hours(1))
-		, m_timer(m_demuxer)
-		, m_connection_timer(m_demuxer)
-		, m_refresh_timer(m_demuxer)
+		, m_timer(ios)
+		, m_connection_timer(ios)
+		, m_refresh_timer(ios)
 		, m_settings(settings)
 		, m_refresh_bucket(160)
-		, m_host_resolver(d)
+		, m_host_resolver(ios)
+		, m_refs(0)
 	{
 		using boost::bind;
 
@@ -164,6 +181,7 @@ namespace libtorrent { namespace dht
 		m_lt_message_input = 0;
 		m_mp_message_input = 0;
 		m_gr_message_input = 0;
+		m_mo_message_input = 0;
 		m_total_in_bytes = 0;
 		m_total_out_bytes = 0;
 		m_queries_out_bytes = 0;
@@ -187,47 +205,61 @@ namespace libtorrent { namespace dht
 			} catch (std::exception&) {}
 		}
 
-		m_dht.bootstrap(initial_nodes, bind(&dht_tracker::on_bootstrap, this));
-
 		m_socket.async_receive_from(asio::buffer(&m_in_buf[m_buffer][0]
 			, m_in_buf[m_buffer].size()), m_remote_endpoint[m_buffer]
-			, bind(&dht_tracker::on_receive, this, _1, _2));
+			, m_strand.wrap(bind(&dht_tracker::on_receive, self(), _1, _2)));
 		m_timer.expires_from_now(seconds(1));
-		m_timer.async_wait(bind(&dht_tracker::tick, this, _1));
+		m_timer.async_wait(m_strand.wrap(bind(&dht_tracker::tick, self(), _1)));
 
 		m_connection_timer.expires_from_now(seconds(10));
-		m_connection_timer.async_wait(bind(&dht_tracker::connection_timeout, this, _1));
+		m_connection_timer.async_wait(m_strand.wrap(
+			bind(&dht_tracker::connection_timeout, self(), _1)));
 
 		m_refresh_timer.expires_from_now(minutes(15));
-		m_refresh_timer.async_wait(bind(&dht_tracker::refresh_timeout, this, _1));
+		m_refresh_timer.async_wait(m_strand.wrap(bind(&dht_tracker::refresh_timeout, self(), _1)));
+
+		m_dht.bootstrap(initial_nodes, bind(&dht_tracker::on_bootstrap, self()));
+	}
+
+	void dht_tracker::stop()
+	{
+		m_timer.cancel();
+		m_connection_timer.cancel();
+		m_refresh_timer.cancel();
+		m_socket.close();
 	}
 
 	void dht_tracker::dht_status(session_status& s)
 	{
-		boost::tie(s.m_dht_nodes, s.m_dht_node_cache) = m_dht.size();
-		s.m_dht_torrents = m_dht.data_size();
+		boost::tie(s.dht_nodes, s.dht_node_cache) = m_dht.size();
+		s.dht_torrents = m_dht.data_size();
 	}
 
-	void dht_tracker::connection_timeout(asio::error const& e)
+	void dht_tracker::connection_timeout(asio::error_code const& e)
 		try
 	{
 		if (e) return;
 		time_duration d = m_dht.connection_timeout();
 		m_connection_timer.expires_from_now(d);
-		m_connection_timer.async_wait(bind(&dht_tracker::connection_timeout, this, _1));
+		m_connection_timer.async_wait(m_strand.wrap(bind(&dht_tracker::connection_timeout, self(), _1)));
 	}
-	catch (std::exception&)
+	catch (std::exception& exc)
 	{
+#ifndef NDEBUG
+		std::cerr << "exception-type: " << typeid(exc).name() << std::endl;
+		std::cerr << "what: " << exc.what() << std::endl;
 		assert(false);
+#endif
 	};
 
-	void dht_tracker::refresh_timeout(asio::error const& e)
+	void dht_tracker::refresh_timeout(asio::error_code const& e)
 		try
 	{
 		if (e) return;
 		time_duration d = m_dht.refresh_timeout();
 		m_refresh_timer.expires_from_now(d);
-		m_refresh_timer.async_wait(bind(&dht_tracker::refresh_timeout, this, _1));
+		m_refresh_timer.async_wait(m_strand.wrap(
+			bind(&dht_tracker::refresh_timeout, self(), _1)));
 	}
 	catch (std::exception&)
 	{
@@ -237,16 +269,17 @@ namespace libtorrent { namespace dht
 	void dht_tracker::rebind(asio::ip::address listen_interface, int listen_port)
 	{
 		m_socket.close();
-		m_socket.open(asio::ip::udp::v4());
-		m_socket.bind(udp::endpoint(listen_interface, listen_port));
+		udp::endpoint ep(listen_interface, listen_port);
+		m_socket.open(ep.protocol());
+		m_socket.bind(ep);
 	}
 
-	void dht_tracker::tick(asio::error const& e)
+	void dht_tracker::tick(asio::error_code const& e)
 		try
 	{
 		if (e) return;
 		m_timer.expires_from_now(minutes(tick_period));
-		m_timer.async_wait(bind(&dht_tracker::tick, this, _1));
+		m_timer.async_wait(m_strand.wrap(bind(&dht_tracker::tick, this, _1)));
 
 		m_dht.new_write_key();
 		
@@ -313,6 +346,7 @@ namespace libtorrent { namespace dht
 			<< "\t" << (m_lt_message_input / float(tick_period))
 			<< "\t" << (m_mp_message_input / float(tick_period))
 			<< "\t" << (m_gr_message_input / float(tick_period))
+			<< "\t" << (m_mo_message_input / float(tick_period))
 			<< "\t" << (m_total_in_bytes / float(tick_period*60))
 			<< "\t" << (m_total_out_bytes / float(tick_period*60))
 			<< "\t" << (m_queries_out_bytes / float(tick_period*60))
@@ -346,7 +380,7 @@ namespace libtorrent { namespace dht
 
 	// translate bittorrent kademlia message into the generice kademlia message
 	// used by the library
-	void dht_tracker::on_receive(asio::error const& error, size_t bytes_transferred)
+	void dht_tracker::on_receive(asio::error_code const& error, size_t bytes_transferred)
 		try
 	{
 		if (error == asio::error::operation_aborted) return;
@@ -355,7 +389,7 @@ namespace libtorrent { namespace dht
 		m_buffer = (m_buffer + 1) & 1;
 		m_socket.async_receive_from(asio::buffer(&m_in_buf[m_buffer][0]
 			, m_in_buf[m_buffer].size()), m_remote_endpoint[m_buffer]
-			, bind(&dht_tracker::on_receive, this, _1, _2));
+			, m_strand.wrap(bind(&dht_tracker::on_receive, self(), _1, _2)));
 
 		if (error) return;
 
@@ -412,6 +446,11 @@ namespace libtorrent { namespace dht
 					++m_gr_message_input;
 					TORRENT_LOG(dht_tracker) << "   client: GetRight";
 				}
+				else if (client.size() > 1 && std::equal(client.begin(), client.begin() + 2, "MO"))
+				{
+					++m_mo_message_input;
+					TORRENT_LOG(dht_tracker) << "   client: Mono Torrent";
+				}
 				else
 				{
 					TORRENT_LOG(dht_tracker) << "   client: generic";
@@ -438,10 +477,24 @@ namespace libtorrent { namespace dht
 				if (id.size() != 20) throw std::runtime_error("invalid size of id");
 				std::copy(id.begin(), id.end(), m.id.begin());
 
-				if (entry const* n = r.find_key("values"))				
+				if (entry const* n = r.find_key("values"))
 				{
 					m.peers.clear();
-					read_endpoint_list<tcp::endpoint>(n, m.peers);
+					if (n->list().size() == 1)
+					{
+						// assume it's mainline format
+						std::string const& peers = n->list().front().string();
+						std::string::const_iterator i = peers.begin();
+						std::string::const_iterator end = peers.end();
+
+						while (std::distance(i, end) >= 6)
+							m.peers.push_back(read_v4_endpoint<tcp::endpoint>(i));
+					}
+					else
+					{
+						// assume it's uTorrent/libtorrent format
+						read_endpoint_list<tcp::endpoint>(n, m.peers);
+					}
 #ifdef TORRENT_DHT_VERBOSE_LOGGING
 					TORRENT_LOG(dht_tracker) << "   peers: " << m.peers.size();
 #endif
@@ -648,11 +701,11 @@ namespace libtorrent { namespace dht
 	void dht_tracker::add_node(std::pair<std::string, int> const& node)
 	{
 		udp::resolver::query q(node.first, lexical_cast<std::string>(node.second));
-		m_host_resolver.async_resolve(q, bind(&dht_tracker::on_name_lookup
-			, this, _1, _2));
+		m_host_resolver.async_resolve(q, m_strand.wrap(
+			bind(&dht_tracker::on_name_lookup, self(), _1, _2)));
 	}
 
-	void dht_tracker::on_name_lookup(asio::error const& e
+	void dht_tracker::on_name_lookup(asio::error_code const& e
 		, udp::resolver::iterator host) try
 	{
 		if (e || host == udp::resolver::iterator()) return;
@@ -666,11 +719,11 @@ namespace libtorrent { namespace dht
 	void dht_tracker::add_router_node(std::pair<std::string, int> const& node)
 	{
 		udp::resolver::query q(node.first, lexical_cast<std::string>(node.second));
-		m_host_resolver.async_resolve(q, bind(&dht_tracker::on_router_name_lookup
-			, this, _1, _2));
+		m_host_resolver.async_resolve(q, m_strand.wrap(
+			bind(&dht_tracker::on_router_name_lookup, self(), _1, _2)));
 	}
 
-	void dht_tracker::on_router_name_lookup(asio::error const& e
+	void dht_tracker::on_router_name_lookup(asio::error_code const& e
 		, udp::resolver::iterator host) try
 	{
 		if (e || host == udp::resolver::iterator()) return;
@@ -855,7 +908,7 @@ namespace libtorrent { namespace dht
 				}
 				case messages::announce_peer:
 					a["port"] = m_settings.service_port;
-					a["info_hash"] = boost::lexical_cast<std::string>(m.info_hash);
+					a["info_hash"] = std::string(m.info_hash.begin(), m.info_hash.end());
 					a["token"] = m.write_token;
 #ifdef TORRENT_DHT_VERBOSE_LOGGING
 					TORRENT_LOG(dht_tracker) << "   port: "

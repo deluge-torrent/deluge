@@ -199,7 +199,7 @@ namespace libtorrent
 
 		void get_downloaders(std::vector<tcp::endpoint>& d, int index) const;
 
-		const std::vector<downloading_piece>& get_download_queue() const
+		std::vector<downloading_piece> const& get_download_queue() const
 		{ return m_downloads; }
 
 		boost::optional<tcp::endpoint> get_downloader(piece_block block) const;
@@ -337,6 +337,9 @@ namespace libtorrent
 		// the required popularity of a piece in order to download
 		// it in sequence instead of random order.
 		int m_sequenced_download_threshold;
+#ifndef NDEBUG
+		bool m_files_checked_called;
+#endif
 	};
 
 	inline int piece_picker::blocks_in_piece(int index) const

@@ -2,7 +2,7 @@
 // consuming_buffers.hpp
 // ~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -32,8 +32,7 @@ template <typename Buffer, typename Buffer_Iterator>
 class consuming_buffers_iterator
   : public boost::iterator_facade<
         consuming_buffers_iterator<Buffer, Buffer_Iterator>,
-        const Buffer,
-        boost::forward_traversal_tag>
+        const Buffer, boost::forward_traversal_tag>
 {
 public:
   // Default constructor creates an end iterator.
@@ -47,23 +46,32 @@ public:
   consuming_buffers_iterator(bool at_end, const Buffer& first,
       Buffer_Iterator begin_remainder, Buffer_Iterator end_remainder)
     : at_end_(at_end),
-      first_(first),
+      first_(buffer(first, max_size)),
       begin_remainder_(begin_remainder),
-      end_remainder_(end_remainder)
+      end_remainder_(end_remainder),
+      offset_(0)
   {
   }
 
 private:
   friend class boost::iterator_core_access;
 
+  enum { max_size = 65536 };
+
   void increment()
   {
     if (!at_end_)
     {
-      if (begin_remainder_ == end_remainder_)
+      if (begin_remainder_ == end_remainder_
+          || offset_ + buffer_size(first_) >= max_size)
+      {
         at_end_ = true;
+      }
       else
-        first_ = *begin_remainder_++;
+      {
+        offset_ += buffer_size(first_);
+        first_ = buffer(*begin_remainder_++, max_size - offset_);
+      }
     }
   }
 
@@ -88,6 +96,7 @@ private:
   Buffer first_;
   Buffer_Iterator begin_remainder_;
   Buffer_Iterator end_remainder_;
+  std::size_t offset_;
 };
 
 // A proxy for a sub-range in a list of buffers.

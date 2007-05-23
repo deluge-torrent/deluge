@@ -2,7 +2,7 @@
 // posix_mutex.hpp
 // ~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -28,7 +28,7 @@
 #include <pthread.h>
 #include "asio/detail/pop_options.hpp"
 
-#include "asio/system_exception.hpp"
+#include "asio/system_error.hpp"
 #include "asio/detail/noncopyable.hpp"
 #include "asio/detail/scoped_lock.hpp"
 
@@ -47,7 +47,9 @@ public:
     int error = ::pthread_mutex_init(&mutex_, 0);
     if (error != 0)
     {
-      system_exception e("mutex", error);
+      asio::system_error e(
+          asio::error_code(error, asio::native_ecat),
+          "mutex");
       boost::throw_exception(e);
     }
   }
@@ -64,7 +66,9 @@ public:
     int error = ::pthread_mutex_lock(&mutex_);
     if (error != 0)
     {
-      system_exception e("mutex", error);
+      asio::system_error e(
+          asio::error_code(error, asio::native_ecat),
+          "mutex");
       boost::throw_exception(e);
     }
   }
@@ -75,7 +79,9 @@ public:
     int error = ::pthread_mutex_unlock(&mutex_);
     if (error != 0)
     {
-      system_exception e("mutex", error);
+      asio::system_error e(
+          asio::error_code(error, asio::native_ecat),
+          "mutex");
       boost::throw_exception(e);
     }
   }

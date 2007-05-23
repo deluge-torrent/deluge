@@ -98,21 +98,23 @@ namespace libtorrent
 			, boost::weak_ptr<torrent> t
 			, boost::shared_ptr<stream_socket> s
 			, tcp::endpoint const& remote
+			, tcp::endpoint const& proxy
 			, std::string const& url);
 
 		~web_peer_connection();
 
 		// called from the main loop when this connection has any
 		// work to do.
-		void on_sent(asio::error const& error
+		void on_sent(asio::error_code const& error
 			, std::size_t bytes_transferred);
-		void on_receive(asio::error const& error
+		void on_receive(asio::error_code const& error
 			, std::size_t bytes_transferred);
 			
 		std::string const& url() const { return m_url; }
 		
 		virtual void get_peer_info(peer_info& p) const;
-		
+		virtual bool in_handshake() const;
+
 		// the following functions appends messages
 		// to the send buffer
 		void write_choke() {}

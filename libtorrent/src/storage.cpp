@@ -64,6 +64,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/peer_id.hpp"
 #include "libtorrent/file.hpp"
 #include "libtorrent/invariant_check.hpp"
+#include "libtorrent/file_pool.hpp"
 #include "libtorrent/aux_/session_impl.hpp"
 
 #ifndef NDEBUG
@@ -90,11 +91,13 @@ namespace libtorrent
 		catch (std::exception)
 		{
 			std::wstring ret;
-			for (const char* i = &*s.begin(); i < &*s.end(); ++i)
+			const char* end = &s[0] + s.size();
+			for (const char* i = &s[0]; i < end;)
 			{
-				wchar_t c;
-				c = '.';
-				std::mbtowc(&c, i, 1);
+				wchar_t c = '.';
+				int result = std::mbtowc(&c, i, end - i);
+				if (result > 0) i += result;
+				else ++i;
 				ret += c;
 			}
 			return ret;
@@ -218,135 +221,7 @@ namespace
 		log << s;
 		log.flush();
 	}
-/*
-	struct file_key
-	{
-		file_key(sha1_hash ih, path f): info_hash(ih), file_path(f) {}
-		file_key() {}
-		sha1_hash info_hash;
-		path file_path;
-		bool operator<(file_key const& fk) const
-		{
-			if (info_hash < fk.info_hash) return true;
-			if (fk.info_hash < info_hash) return false;
-			return file_path < fk.file_path;
-		}
-	};
-*/	
-	struct lru_file_entry
-	{
-		lru_file_entry(boost::shared_ptr<file> const& f)
-			: file_ptr(f)
-			, last_use(pt::second_clock::universal_time()) {}
-		mutable boost::shared_ptr<file> file_ptr;
-		path file_path;
-		void* key;
-		pt::ptime last_use;
-		file::open_mode mode;
-	};
 
-	struct file_pool
-	{
-		file_pool(int size): m_size(size) {}
-
-		boost::shared_ptr<file> open_file(void* st, path const& p, file::open_mode m)
-		{
-			assert(st != 0);
-			assert(p.is_complete());
-			typedef nth_index<file_set, 0>::type path_view;
-			path_view& pt = get<0>(m_files);
-			path_view::iterator i = pt.find(p);
-			if (i != pt.end())
-			{
-				lru_file_entry e = *i;
-				e.last_use = pt::second_clock::universal_time();
-
-				// if you hit this assert, you probably have more than one
-				// storage/torrent using the same file at the same time!
-				assert(e.key == st);
-
-				e.key = st;
-				if ((e.mode & m) != m)
-				{
-					// close the file before we open it with
-					// the new read/write privilages
-					i->file_ptr.reset();
-					assert(e.file_ptr.unique());
-					e.file_ptr.reset();
-					e.file_ptr.reset(new file(p, m));
-					e.mode = m;
-				}
-				pt.replace(i, e);
-				return e.file_ptr;
-			}
-			// the file is not in our cache
-			if ((int)m_files.size() >= m_size)
-			{
-				// the file cache is at its maximum size, close
-				// the least recently used (lru) file from it
-				typedef nth_index<file_set, 1>::type lru_view;
-				lru_view& lt = get<1>(m_files);
-				lru_view::iterator i = lt.begin();
-				// the first entry in this view is the least recently used
-/*				for (lru_view::iterator i = lt.begin(); i != lt.end(); ++i)
-				{
-					std::cerr << i->last_use << "\n";
-				}
-*/				assert(lt.size() == 1 || (i->last_use <= boost::next(i)->last_use));
-				lt.erase(i);
-			}
-			lru_file_entry e(boost::shared_ptr<file>(new file(p, m)));
-			e.mode = m;
-			e.key = st;
-			e.file_path = p;
-			pt.insert(e);
-			return e.file_ptr;
-		}
-
-		void release(void* st)
-		{
-			assert(st != 0);
-			using boost::tie;
-
-			typedef nth_index<file_set, 2>::type key_view;
-			key_view& kt = get<2>(m_files);
-
-			key_view::iterator start, end;
-			tie(start, end) = kt.equal_range(st);
-
-/*
-			std::cerr << "releasing files!\n";
-			for (path_view::iterator i = r.first; i != r.second; ++i)
-			{
-				std::cerr << i->key.file_path.native_file_string() << "\n";
-			}
-*/
-			kt.erase(start, end);
-/*
-			std::cerr << "files left: " << pt.size() << "\n";
-			for (path_view::iterator i = pt.begin(); i != pt.end(); ++i)
-			{
-				std::cerr << i->key.file_path.native_file_string() << "\n";
-			}
-*/
-		}
-
-	private:
-		int m_size;
-
-		typedef multi_index_container<
-			lru_file_entry, indexed_by<
-				ordered_unique<member<lru_file_entry, path
-					, &lru_file_entry::file_path> >
-				, ordered_non_unique<member<lru_file_entry, pt::ptime
-					, &lru_file_entry::last_use> >
-				, ordered_non_unique<member<lru_file_entry, void*
-					, &lru_file_entry::key> >
-				> 
-			> file_set;
-		
-		file_set m_files;
-	};
 }
 
 namespace libtorrent
@@ -469,9 +344,10 @@ namespace libtorrent
 	class storage::impl : public thread_safe_storage, boost::noncopyable
 	{
 	public:
-		impl(torrent_info const& info, path const& path)
+		impl(torrent_info const& info, path const& path, file_pool& fp)
 			: thread_safe_storage(info.num_pieces())
 			, info(info)
+			, files(fp)
 		{
 			save_path = complete(path);
 			assert(save_path.is_complete());
@@ -481,6 +357,7 @@ namespace libtorrent
 			: thread_safe_storage(x.info.num_pieces())
 			, info(x.info)
 			, save_path(x.save_path)
+			, files(x.files)
 		{}
 
 		~impl()
@@ -490,13 +367,15 @@ namespace libtorrent
 
 		torrent_info const& info;
 		path save_path;
-		static file_pool files;
+		// the file pool is typically stored in
+		// the session, to make all storage
+		// instances use the same pool
+		file_pool& files;
 	};
 
-	file_pool storage::impl::files(40);
-
-	storage::storage(torrent_info const& info, path const& path)
-		: m_pimpl(new impl(info, path))
+	storage::storage(torrent_info const& info, path const& path
+		, file_pool& fp)
+		: m_pimpl(new impl(info, path, fp))
 	{
 		assert(info.begin_files() != info.end_files());
 	}
@@ -538,29 +417,8 @@ namespace libtorrent
 
 		m_pimpl->files.release(m_pimpl.get());
 
-		if (m_pimpl->info.num_files() == 1)
-		{
-			path single_file = m_pimpl->info.begin_files()->path;
-			if (single_file.has_branch_path())
-			{
-#if defined(_WIN32) && defined(UNICODE)
-				std::wstring wsave_path(safe_convert((save_path / single_file.branch_path())
-					.native_directory_string()));
-				CreateDirectory(wsave_path.c_str(), 0);
-#else
-				create_directory(save_path / single_file.branch_path());
-#endif
-			}
-
-			old_path = m_pimpl->save_path / single_file;
-			new_path = save_path / m_pimpl->info.begin_files()->path;
-		}
-		else
-		{
-			assert(m_pimpl->info.num_files() > 1);
-			old_path = m_pimpl->save_path / m_pimpl->info.name();
-			new_path = save_path / m_pimpl->info.name();
-		}
+		old_path = m_pimpl->save_path / m_pimpl->info.name();
+		new_path = save_path / m_pimpl->info.name();
 
 		try
 		{
@@ -862,7 +720,8 @@ namespace libtorrent
 
 		impl(
 			torrent_info const& info
-			, path const& path);
+			, path const& path
+			, file_pool& fp);
 
 		bool check_fastresume(
 			aux::piece_checker_data& d
@@ -872,7 +731,7 @@ namespace libtorrent
 
 		std::pair<bool, float> check_files(
 			std::vector<bool>& pieces
-			, int& num_pieces);
+			, int& num_pieces, boost::recursive_mutex& mutex);
 
 		void release_files();
 
@@ -920,7 +779,8 @@ namespace libtorrent
 			, int current_slot
 			, std::vector<bool>& have_pieces
 			, int& num_pieces
-			, const std::multimap<sha1_hash, int>& hash_to_piece);
+			, const std::multimap<sha1_hash, int>& hash_to_piece
+			, boost::recursive_mutex& mutex);
 
 		int allocate_slot_for_piece(int piece_index);
 #ifndef NDEBUG
@@ -1011,8 +871,9 @@ namespace libtorrent
 
 	piece_manager::impl::impl(
 		torrent_info const& info
-		, path const& save_path)
-		: m_storage(info, save_path)
+		, path const& save_path
+		, file_pool& fp)
+		: m_storage(info, save_path, fp)
 		, m_compact_mode(false)
 		, m_fill_mode(true)
 		, m_info(info)
@@ -1024,8 +885,9 @@ namespace libtorrent
 
 	piece_manager::piece_manager(
 		torrent_info const& info
-		, path const& save_path)
-		: m_pimpl(new impl(info, save_path))
+		, path const& save_path
+		, file_pool& fp)
+		: m_pimpl(new impl(info, save_path, fp))
 	{
 	}
 
@@ -1215,9 +1077,10 @@ namespace libtorrent
 		, int current_slot
 		, std::vector<bool>& have_pieces
 		, int& num_pieces
-		, const std::multimap<sha1_hash, int>& hash_to_piece)
+		, const std::multimap<sha1_hash, int>& hash_to_piece
+		, boost::recursive_mutex& mutex)
 	{
-		INVARIANT_CHECK;
+//		INVARIANT_CHECK;
 
 		assert((int)have_pieces.size() == m_info.num_pieces());
 
@@ -1274,6 +1137,9 @@ namespace libtorrent
 			, current_slot) != matching_pieces.end())
 		{
 			const int piece_index = current_slot;
+
+			// lock because we're writing to have_pieces
+			boost::recursive_mutex::scoped_lock l(mutex);
 
 			if (have_pieces[piece_index])
 			{
@@ -1344,6 +1210,9 @@ namespace libtorrent
 
 		if (free_piece >= 0)
 		{
+			// lock because we're writing to have_pieces
+			boost::recursive_mutex::scoped_lock l(mutex);
+
 			assert(have_pieces[free_piece] == false);
 			assert(m_piece_to_slot[free_piece] == has_no_slot);
 			have_pieces[free_piece] = true;
@@ -1456,7 +1325,7 @@ namespace libtorrent
 	// file check is at. 0 is nothing done, and 1
 	// is finished
 	std::pair<bool, float> piece_manager::impl::check_files(
-		std::vector<bool>& pieces, int& num_pieces)
+		std::vector<bool>& pieces, int& num_pieces, boost::recursive_mutex& mutex)
 	{
 		assert(num_pieces == std::count(pieces.begin(), pieces.end(), true));
 
@@ -1547,7 +1416,8 @@ namespace libtorrent
 				, m_current_slot
 				, pieces
 				, num_pieces
-				, m_hash_to_piece);
+				, m_hash_to_piece
+				, mutex);
 
 			assert(num_pieces == std::count(pieces.begin(), pieces.end(), true));
 			assert(piece_index == unassigned || piece_index >= 0);
@@ -1816,9 +1686,10 @@ namespace libtorrent
 
 	std::pair<bool, float> piece_manager::check_files(
 		std::vector<bool>& pieces
-		, int& num_pieces)
+		, int& num_pieces
+		, boost::recursive_mutex& mutex)
 	{
-		return m_pimpl->check_files(pieces, num_pieces);
+		return m_pimpl->check_files(pieces, num_pieces, mutex);
 	}
 
 	int piece_manager::impl::allocate_slot_for_piece(int piece_index)
@@ -1827,7 +1698,7 @@ namespace libtorrent
 		boost::recursive_mutex::scoped_lock lock(m_mutex);
 		// ----------------------------------------------------------------------
 
-		//		INVARIANT_CHECK;
+//		INVARIANT_CHECK;
 
 		assert(piece_index >= 0);
 		assert(piece_index < (int)m_piece_to_slot.size());
@@ -1986,7 +1857,7 @@ namespace libtorrent
 		boost::recursive_mutex::scoped_lock lock(m_mutex);
 		// ----------------------------------------------------------------------
 
-		//		INVARIANT_CHECK;
+//		INVARIANT_CHECK;
 
 		assert(!m_unallocated_slots.empty());
 

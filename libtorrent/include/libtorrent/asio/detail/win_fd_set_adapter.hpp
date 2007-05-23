@@ -2,7 +2,7 @@
 // win_fd_set_adapter.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -28,6 +28,8 @@ namespace detail {
 class win_fd_set_adapter
 {
 public:
+  enum { win_fd_set_size = 1024 };
+
   win_fd_set_adapter()
     : max_descriptor_(invalid_socket)
   {
@@ -62,7 +64,6 @@ public:
 private:
   // This structure is defined to be compatible with the Windows API fd_set
   // structure, but without being dependent on the value of FD_SETSIZE.
-  enum { win_fd_set_size = 1024 };
   struct win_fd_set
   {
     u_int fd_count;

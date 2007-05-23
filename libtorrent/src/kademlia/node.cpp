@@ -210,7 +210,7 @@ void node_impl::new_write_key()
 	m_secret[0] = std::rand();
 }
 
-void node_impl::refresh_bucket(int bucket)
+void node_impl::refresh_bucket(int bucket) try
 {
 	assert(bucket >= 0 && bucket < 160);
 	
@@ -246,7 +246,7 @@ void node_impl::refresh_bucket(int bucket)
 		, m_table, start.begin(), start.end(), m_rpc, bind(&nop));
 	m_table.touch_bucket(bucket);
 }
-
+catch (std::exception&) {}
 
 void node_impl::incoming(msg const& m)
 {
@@ -278,6 +278,7 @@ namespace
 
 		void timeout() {}
 		void reply(msg const&) {}
+		void abort() {}
 
 	private:
 		sha1_hash m_info_hash;
@@ -311,6 +312,7 @@ namespace
 				new announce_observer(m_info_hash, m_listen_port, r.write_token)));
 			m_fun(r.peers, m_info_hash);
 		}
+		void abort() {}
 
 	private:
 		sha1_hash m_info_hash;
@@ -344,6 +346,7 @@ namespace
 		virtual void reply(msg const&) {}
 		virtual void timeout() {}
 		virtual void send(msg&) {}
+		virtual void abort() {}
 	};
 }
 
@@ -376,25 +379,30 @@ time_duration node_impl::refresh_timeout()
 	int refresh = -1;
 	ptime now = second_clock::universal_time();
 	ptime next = now + minutes(15);
-	for (int i = 0; i < 160; ++i)
+	try
 	{
-		ptime r = m_table.next_refresh(i);
-		if (r <= now)
+		for (int i = 0; i < 160; ++i)
 		{
-			if (refresh == -1) refresh = i;
+			ptime r = m_table.next_refresh(i);
+			if (r <= now)
+			{
+				if (refresh == -1) refresh = i;
+			}
+			else if (r < next)
+			{
+				next = r;
+			}
 		}
-		else if (r < next)
+		if (refresh != -1)
 		{
-			next = r;
+	#ifdef TORRENT_DHT_VERBOSE_LOGGING
+			TORRENT_LOG(node) << "refreshing bucket: " << refresh;
+	#endif
+			refresh_bucket(refresh);
 		}
 	}
-	if (refresh != -1)
-	{
-#ifdef TORRENT_DHT_VERBOSE_LOGGING
-		TORRENT_LOG(node) << "refreshing bucket: " << refresh;
-#endif
-		refresh_bucket(refresh);
-	}
+	catch (std::exception&) {}
+
 	if (next < now + seconds(5)) return seconds(5);
 	return next - now;
 }
@@ -402,26 +410,30 @@ time_duration node_impl::refresh_timeout()
 time_duration node_impl::connection_timeout()
 {
 	time_duration d = m_rpc.tick();
-
-	ptime now(second_clock::universal_time());
-	if (now - m_last_tracker_tick < minutes(10)) return d;
-	m_last_tracker_tick = now;
-	
-	// look through all peers and see if any have timed out
-	for (data_iterator i = begin_data(), end(end_data()); i != end;)
+	try
 	{
-		torrent_entry& t = i->second;
-		node_id const& key = i->first;
-		++i;
-		purge_peers(t.peers);
-
-		// if there are no more peers, remove the entry altogether
-		if (t.peers.empty())
+		ptime now(second_clock::universal_time());
+		if (now - m_last_tracker_tick < minutes(10)) return d;
+		m_last_tracker_tick = now;
+		
+		// look through all peers and see if any have timed out
+		for (data_iterator i = begin_data(), end(end_data()); i != end;)
 		{
-			table_t::iterator i = m_map.find(key);
-			if (i != m_map.end()) m_map.erase(i);
+			torrent_entry& t = i->second;
+			node_id const& key = i->first;
+			++i;
+			purge_peers(t.peers);
+
+			// if there are no more peers, remove the entry altogether
+			if (t.peers.empty())
+			{
+				table_t::iterator i = m_map.find(key);
+				if (i != m_map.end()) m_map.erase(i);
+			}
 		}
 	}
+	catch (std::exception&) {}
+
 	return d;
 }
 

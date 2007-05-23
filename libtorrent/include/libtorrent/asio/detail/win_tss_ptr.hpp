@@ -2,7 +2,7 @@
 // win_tss_ptr.hpp
 // ~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -23,7 +23,7 @@
 
 #if defined(BOOST_WINDOWS)
 
-#include "asio/system_exception.hpp"
+#include "asio/system_error.hpp"
 #include "asio/detail/noncopyable.hpp"
 #include "asio/detail/socket_types.hpp"
 
@@ -46,7 +46,9 @@ public:
     if (tss_key_ == TLS_OUT_OF_INDEXES)
     {
       DWORD last_error = ::GetLastError();
-      system_exception e("tss", last_error);
+      asio::system_error e(
+          asio::error_code(last_error, asio::native_ecat),
+          "tss");
       boost::throw_exception(e);
     }
   }

@@ -2,7 +2,7 @@
 // socket_option.hpp
 // ~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -44,21 +44,34 @@ public:
   }
 
   // Construct with a specific option value.
-  boolean(bool value)
-    : value_(value ? 1 : 0)
+  explicit boolean(bool v)
+    : value_(v ? 1 : 0)
   {
   }
 
   // Set the value of the boolean.
-  void set(bool value)
+  boolean& operator=(bool v)
   {
-    value_ = value ? 1 : 0;
+    value_ = v ? 1 : 0;
+    return *this;
   }
 
   // Get the current value of the boolean.
-  bool get() const
+  bool value() const
   {
-    return value_;
+    return !!value_;
+  }
+
+  // Convert to bool.
+  operator bool() const
+  {
+    return !!value_;
+  }
+
+  // Test for false.
+  bool operator!() const
+  {
+    return !value_;
   }
 
   // Get the level of the socket option.
@@ -100,35 +113,44 @@ public:
     return sizeof(value_);
   }
 
+  // Set the size of the boolean data.
+  template <typename Protocol>
+  void resize(const Protocol&, std::size_t s)
+  {
+    if (s != sizeof(value_))
+      throw std::length_error("boolean socket option resize");
+  }
+
 private:
   int value_;
 };
 
-// Helper template for implementing integer options.
+// Helper template for implementing unicast hops options.
 template <int IPv4_Level, int IPv4_Name, int IPv6_Level, int IPv6_Name>
-class integer
+class unicast_hops
 {
 public:
   // Default constructor.
-  integer()
+  unicast_hops()
     : value_(0)
   {
   }
 
   // Construct with a specific option value.
-  integer(int value)
-    : value_(value)
+  explicit unicast_hops(int v)
+    : value_(v)
   {
   }
 
-  // Set the value of the int option.
-  void set(int value)
+  // Set the value of the option.
+  unicast_hops& operator=(int v)
   {
-    value_ = value;
+    value_ = v;
+    return *this;
   }
 
-  // Get the current value of the int option.
-  int get() const
+  // Get the current value of the option.
+  int value() const
   {
     return value_;
   }
@@ -151,29 +173,147 @@ public:
     return IPv4_Name;
   }
 
-  // Get the address of the int data.
+  // Get the address of the data.
   template <typename Protocol>
   int* data(const Protocol&)
   {
     return &value_;
   }
 
-  // Get the address of the int data.
+  // Get the address of the data.
   template <typename Protocol>
   const int* data(const Protocol&) const
   {
     return &value_;
   }
 
-  // Get the size of the int data.
+  // Get the size of the data.
   template <typename Protocol>
   std::size_t size(const Protocol&) const
   {
     return sizeof(value_);
   }
 
+  // Set the size of the data.
+  template <typename Protocol>
+  void resize(const Protocol&, std::size_t s)
+  {
+    if (s != sizeof(value_))
+      throw std::length_error("unicast hops socket option resize");
+  }
+
 private:
   int value_;
+};
+
+// Helper template for implementing multicast hops options.
+template <int IPv4_Level, int IPv4_Name, int IPv6_Level, int IPv6_Name>
+class multicast_hops
+{
+public:
+  // Default constructor.
+  multicast_hops()
+    : ipv4_value_(0),
+      ipv6_value_(0)
+  {
+  }
+
+  // Construct with a specific option value.
+  explicit multicast_hops(int v)
+  {
+    if (v < 0 || v > 255)
+      throw std::out_of_range("multicast hops value out of range");
+    ipv4_value_ = static_cast<unsigned char>(v);
+    ipv6_value_ = v;
+  }
+
+  // Set the value of the option.
+  multicast_hops& operator=(int v)
+  {
+    if (v < 0 || v > 255)
+      throw std::out_of_range("multicast hops value out of range");
+    ipv4_value_ = static_cast<unsigned char>(v);
+    ipv6_value_ = v;
+    return *this;
+  }
+
+  // Get the current value of the option.
+  int value() const
+  {
+    return ipv6_value_;
+  }
+
+  // Get the level of the socket option.
+  template <typename Protocol>
+  int level(const Protocol& protocol) const
+  {
+    if (protocol.family() == PF_INET6)
+      return IPv6_Level;
+    return IPv4_Level;
+  }
+
+  // Get the name of the socket option.
+  template <typename Protocol>
+  int name(const Protocol& protocol) const
+  {
+    if (protocol.family() == PF_INET6)
+      return IPv6_Name;
+    return IPv4_Name;
+  }
+
+  // Get the address of the data.
+  template <typename Protocol>
+  void* data(const Protocol& protocol)
+  {
+    if (protocol.family() == PF_INET6)
+      return &ipv6_value_;
+    return &ipv4_value_;
+  }
+
+  // Get the address of the data.
+  template <typename Protocol>
+  const void* data(const Protocol& protocol) const
+  {
+    if (protocol.family() == PF_INET6)
+      return &ipv6_value_;
+    return &ipv4_value_;
+  }
+
+  // Get the size of the data.
+  template <typename Protocol>
+  std::size_t size(const Protocol& protocol) const
+  {
+    if (protocol.family() == PF_INET6)
+      return sizeof(ipv6_value_);
+    return sizeof(ipv4_value_);
+  }
+
+  // Set the size of the data.
+  template <typename Protocol>
+  void resize(const Protocol& protocol, std::size_t s)
+  {
+    if (protocol.family() == PF_INET6)
+    {
+      if (s != sizeof(ipv6_value_))
+        throw std::length_error("multicast hops socket option resize");
+      if (ipv6_value_ < 0)
+        ipv4_value_ = 0;
+      else if (ipv6_value_ > 255)
+        ipv4_value_ = 255;
+      else
+        ipv4_value_ = static_cast<unsigned char>(ipv6_value_);
+    }
+    else
+    {
+      if (s != sizeof(ipv4_value_))
+        throw std::length_error("multicast hops socket option resize");
+      ipv6_value_ = ipv4_value_;
+    }
+  }
+
+private:
+  unsigned char ipv4_value_;
+  int ipv6_value_;
 };
 
 // Helper template for implementing ip_mreq-based options.
@@ -197,7 +337,7 @@ public:
   }
 
   // Construct with multicast address only.
-  multicast_request(const asio::ip::address& multicast_address)
+  explicit multicast_request(const asio::ip::address& multicast_address)
   {
     if (multicast_address.is_v6())
     {
@@ -230,7 +370,8 @@ public:
   }
 
   // Construct with multicast address and IPv4 address specifying an interface.
-  multicast_request(const asio::ip::address_v4& multicast_address,
+  explicit multicast_request(
+      const asio::ip::address_v4& multicast_address,
       const asio::ip::address_v4& network_interface
         = asio::ip::address_v4::any())
   {
@@ -247,7 +388,8 @@ public:
   }
 
   // Construct with multicast address and IPv6 network interface index.
-  multicast_request(const asio::ip::address_v6& multicast_address,
+  explicit multicast_request(
+      const asio::ip::address_v6& multicast_address,
       unsigned long network_interface = 0)
   {
     ipv4_value_.imr_multiaddr.s_addr =
@@ -280,15 +422,6 @@ public:
     if (protocol.family() == PF_INET6)
       return IPv6_Name;
     return IPv4_Name;
-  }
-
-  // Get the address of the option data.
-  template <typename Protocol>
-  void* data(const Protocol& protocol)
-  {
-    if (protocol.family() == PF_INET6)
-      return &ipv6_value_;
-    return &ipv4_value_;
   }
 
   // Get the address of the option data.
@@ -329,7 +462,7 @@ public:
   }
 
   // Construct with IPv4 interface.
-  network_interface(const asio::ip::address_v4& ipv4_interface)
+  explicit network_interface(const asio::ip::address_v4& ipv4_interface)
   {
     ipv4_value_.s_addr =
       asio::detail::socket_ops::host_to_network_long(
@@ -338,7 +471,7 @@ public:
   }
 
   // Construct with IPv6 interface.
-  network_interface(unsigned long ipv6_interface)
+  explicit network_interface(unsigned long ipv6_interface)
   {
     ipv4_value_.s_addr =
       asio::detail::socket_ops::host_to_network_long(
@@ -362,15 +495,6 @@ public:
     if (protocol.family() == PF_INET6)
       return IPv6_Name;
     return IPv4_Name;
-  }
-
-  // Get the address of the option data.
-  template <typename Protocol>
-  void* data(const Protocol& protocol)
-  {
-    if (protocol.family() == PF_INET6)
-      return &ipv6_value_;
-    return &ipv4_value_;
   }
 
   // Get the address of the option data.

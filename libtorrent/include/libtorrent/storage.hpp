@@ -61,6 +61,7 @@ namespace libtorrent
 	}
 
 	class session;
+	struct file_pool;
 
 #if defined(_WIN32) && defined(UNICODE)
 
@@ -91,7 +92,8 @@ namespace libtorrent
 	public:
 		storage(
 			const torrent_info& info
-		  , const boost::filesystem::path& path);
+			, const boost::filesystem::path& path
+			, file_pool& fp);
 
 		void swap(storage&);
 
@@ -125,14 +127,15 @@ namespace libtorrent
 
 		piece_manager(
 			const torrent_info& info
-			, const boost::filesystem::path& path);
+			, const boost::filesystem::path& path
+			, file_pool& fp);
 
 		~piece_manager();
 
 		bool check_fastresume(aux::piece_checker_data& d
 			, std::vector<bool>& pieces, int& num_pieces, bool compact_mode);
 		std::pair<bool, float> check_files(std::vector<bool>& pieces
-			, int& num_pieces);
+			, int& num_pieces, boost::recursive_mutex& mutex);
 
 		void release_files();
 

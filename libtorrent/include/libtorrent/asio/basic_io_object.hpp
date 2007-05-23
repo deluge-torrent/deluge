@@ -2,7 +2,7 @@
 // basic_io_object.hpp
 // ~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -23,13 +23,13 @@
 namespace asio {
 
 /// Base class for all I/O objects.
-template <typename Service>
+template <typename IoObjectService>
 class basic_io_object
   : private noncopyable
 {
 public:
   /// The type of the service that will be used to provide I/O operations.
-  typedef Service service_type;
+  typedef IoObjectService service_type;
 
   /// The underlying implementation type of I/O object.
   typedef typename service_type::implementation_type implementation_type;
@@ -50,7 +50,7 @@ public:
 protected:
   /// Construct a basic_io_object.
   explicit basic_io_object(asio::io_service& io_service)
-    : service(asio::use_service<Service>(io_service))
+    : service(asio::use_service<IoObjectService>(io_service))
   {
     service.construct(implementation);
   }

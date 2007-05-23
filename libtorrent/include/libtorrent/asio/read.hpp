@@ -2,7 +2,7 @@
 // read.hpp
 // ~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -23,6 +23,7 @@
 #include "asio/detail/pop_options.hpp"
 
 #include "asio/basic_streambuf.hpp"
+#include "asio/error.hpp"
 
 namespace asio {
 
@@ -45,7 +46,7 @@ namespace asio {
  * read_some function.
  *
  * @param s The stream from which the data is to be read. The type must support
- * the Sync_Read_Stream concept.
+ * the SyncReadStream concept.
  *
  * @param buffers One or more buffers into which the data will be read. The sum
  * of the buffer sizes indicates the maximum number of bytes to read from the
@@ -53,9 +54,9 @@ namespace asio {
  *
  * @returns The number of bytes transferred.
  *
- * @throws Sync_Read_Stream::error_type Thrown on failure.
+ * @throws asio::system_error Thrown on failure.
  *
- * @par Example:
+ * @par Example
  * To read into a single data buffer use the @ref buffer function as follows:
  * @code asio::read(s, asio::buffer(data, size)); @endcode
  * See the @ref buffer documentation for information on reading into multiple
@@ -65,11 +66,10 @@ namespace asio {
  * @note This overload is equivalent to calling:
  * @code asio::read(
  *     s, buffers,
- *     asio::transfer_all(),
- *     asio::throw_error()); @endcode
+ *     asio::transfer_all()); @endcode
  */
-template <typename Sync_Read_Stream, typename Mutable_Buffers>
-std::size_t read(Sync_Read_Stream& s, const Mutable_Buffers& buffers);
+template <typename SyncReadStream, typename MutableBufferSequence>
+std::size_t read(SyncReadStream& s, const MutableBufferSequence& buffers);
 
 /// Attempt to read a certain amount of data from a stream before returning.
 /**
@@ -85,7 +85,7 @@ std::size_t read(Sync_Read_Stream& s, const Mutable_Buffers& buffers);
  * read_some function.
  *
  * @param s The stream from which the data is to be read. The type must support
- * the Sync_Read_Stream concept.
+ * the SyncReadStream concept.
  *
  * @param buffers One or more buffers into which the data will be read. The sum
  * of the buffer sizes indicates the maximum number of bytes to read from the
@@ -95,36 +95,31 @@ std::size_t read(Sync_Read_Stream& s, const Mutable_Buffers& buffers);
  * whether the read operation is complete. The signature of the function object
  * must be:
  * @code bool completion_condition(
- *   const Sync_Read_Stream::error_type& error, // Result of latest read_some
- *                                              // operation.
+ *   const asio::error_code& error, // Result of latest read_some
+ *                                           // operation.
  *
- *   std::size_t bytes_transferred              // Number of bytes transferred
- *                                              // so far.
+ *   std::size_t bytes_transferred           // Number of bytes transferred
+ *                                           // so far.
  * ); @endcode
  * A return value of true indicates that the read operation is complete. False
  * indicates that further calls to the stream's read_some function are required.
  *
  * @returns The number of bytes transferred.
  *
- * @throws Sync_Read_Stream::error_type Thrown on failure.
+ * @throws asio::system_error Thrown on failure.
  *
- * @par Example:
+ * @par Example
  * To read into a single data buffer use the @ref buffer function as follows:
  * @code asio::read(s, asio::buffer(data, size),
  *     asio::transfer_at_least(32)); @endcode
  * See the @ref buffer documentation for information on reading into multiple
  * buffers in one go, and how to use it with arrays, boost::array or
  * std::vector.
- *
- * @note This overload is equivalent to calling:
- * @code asio::read(
- *     s, buffers, completion_condition,
- *     asio::throw_error()); @endcode
  */
-template <typename Sync_Read_Stream, typename Mutable_Buffers,
-  typename Completion_Condition>
-std::size_t read(Sync_Read_Stream& s, const Mutable_Buffers& buffers,
-    Completion_Condition completion_condition);
+template <typename SyncReadStream, typename MutableBufferSequence,
+  typename CompletionCondition>
+std::size_t read(SyncReadStream& s, const MutableBufferSequence& buffers,
+    CompletionCondition completion_condition);
 
 /// Attempt to read a certain amount of data from a stream before returning.
 /**
@@ -140,7 +135,7 @@ std::size_t read(Sync_Read_Stream& s, const Mutable_Buffers& buffers,
  * read_some function.
  *
  * @param s The stream from which the data is to be read. The type must support
- * the Sync_Read_Stream concept.
+ * the SyncReadStream concept.
  *
  * @param buffers One or more buffers into which the data will be read. The sum
  * of the buffer sizes indicates the maximum number of bytes to read from the
@@ -150,32 +145,24 @@ std::size_t read(Sync_Read_Stream& s, const Mutable_Buffers& buffers,
  * whether the read operation is complete. The signature of the function object
  * must be:
  * @code bool completion_condition(
- *   const Sync_Read_Stream::error_type& error, // Result of latest read_some
- *                                              // operation.
+ *   const asio::error_code& error, // Result of latest read_some
+ *                                           // operation.
  *
- *   std::size_t bytes_transferred              // Number of bytes transferred
- *                                              // so far.
+ *   std::size_t bytes_transferred           // Number of bytes transferred
+ *                                           // so far.
  * ); @endcode
  * A return value of true indicates that the read operation is complete. False
  * indicates that further calls to the stream's read_some function are required.
  *
- * @param error_handler A handler to be called when the operation completes,
- * to indicate whether or not an error has occurred. Copies will be made of
- * the handler as required. The function signature of the handler must be:
- * @code void error_handler(
- *   const Sync_Read_Stream::error_type& error // Result of operation.
- * ); @endcode
- * The error handler is only called if the completion_condition indicates that
- * the operation is complete.
+ * @param ec Set to indicate what error occurred, if any.
  *
- * @returns The number of bytes read. If an error occurs, and the error handler
- * does not throw an exception, returns the total number of bytes successfully
- * transferred prior to the error.
+ * @returns The number of bytes read. If an error occurs, returns the total
+ * number of bytes successfully transferred prior to the error.
  */
-template <typename Sync_Read_Stream, typename Mutable_Buffers,
-    typename Completion_Condition, typename Error_Handler>
-std::size_t read(Sync_Read_Stream& s, const Mutable_Buffers& buffers,
-    Completion_Condition completion_condition, Error_Handler error_handler);
+template <typename SyncReadStream, typename MutableBufferSequence,
+    typename CompletionCondition>
+std::size_t read(SyncReadStream& s, const MutableBufferSequence& buffers,
+    CompletionCondition completion_condition, asio::error_code& ec);
 
 /// Attempt to read a certain amount of data from a stream before returning.
 /**
@@ -188,22 +175,21 @@ std::size_t read(Sync_Read_Stream& s, const Mutable_Buffers& buffers,
  * read_some function.
  *
  * @param s The stream from which the data is to be read. The type must support
- * the Sync_Read_Stream concept.
+ * the SyncReadStream concept.
  *
  * @param b The basic_streambuf object into which the data will be read.
  *
  * @returns The number of bytes transferred.
  *
- * @throws Sync_Read_Stream::error_type Thrown on failure.
+ * @throws asio::system_error Thrown on failure.
  *
  * @note This overload is equivalent to calling:
  * @code asio::read(
  *     s, b,
- *     asio::transfer_all(),
- *     asio::throw_error()); @endcode
+ *     asio::transfer_all()); @endcode
  */
-template <typename Sync_Read_Stream, typename Allocator>
-std::size_t read(Sync_Read_Stream& s, basic_streambuf<Allocator>& b);
+template <typename SyncReadStream, typename Allocator>
+std::size_t read(SyncReadStream& s, basic_streambuf<Allocator>& b);
 
 /// Attempt to read a certain amount of data from a stream before returning.
 /**
@@ -216,7 +202,7 @@ std::size_t read(Sync_Read_Stream& s, basic_streambuf<Allocator>& b);
  * read_some function.
  *
  * @param s The stream from which the data is to be read. The type must support
- * the Sync_Read_Stream concept.
+ * the SyncReadStream concept.
  *
  * @param b The basic_streambuf object into which the data will be read.
  *
@@ -224,28 +210,23 @@ std::size_t read(Sync_Read_Stream& s, basic_streambuf<Allocator>& b);
  * whether the read operation is complete. The signature of the function object
  * must be:
  * @code bool completion_condition(
- *   const Sync_Read_Stream::error_type& error, // Result of latest read_some
- *                                              // operation.
+ *   const asio::error_code& error, // Result of latest read_some
+ *                                           // operation.
  *
- *   std::size_t bytes_transferred              // Number of bytes transferred
- *                                              // so far.
+ *   std::size_t bytes_transferred           // Number of bytes transferred
+ *                                           // so far.
  * ); @endcode
  * A return value of true indicates that the read operation is complete. False
  * indicates that further calls to the stream's read_some function are required.
  *
  * @returns The number of bytes transferred.
  *
- * @throws Sync_Read_Stream::error_type Thrown on failure.
- *
- * @note This overload is equivalent to calling:
- * @code asio::read(
- *     s, b, completion_condition,
- *     asio::throw_error()); @endcode
+ * @throws asio::system_error Thrown on failure.
  */
-template <typename Sync_Read_Stream, typename Allocator,
-    typename Completion_Condition>
-std::size_t read(Sync_Read_Stream& s, basic_streambuf<Allocator>& b,
-    Completion_Condition completion_condition);
+template <typename SyncReadStream, typename Allocator,
+    typename CompletionCondition>
+std::size_t read(SyncReadStream& s, basic_streambuf<Allocator>& b,
+    CompletionCondition completion_condition);
 
 /// Attempt to read a certain amount of data from a stream before returning.
 /**
@@ -258,7 +239,7 @@ std::size_t read(Sync_Read_Stream& s, basic_streambuf<Allocator>& b,
  * read_some function.
  *
  * @param s The stream from which the data is to be read. The type must support
- * the Sync_Read_Stream concept.
+ * the SyncReadStream concept.
  *
  * @param b The basic_streambuf object into which the data will be read.
  *
@@ -266,32 +247,24 @@ std::size_t read(Sync_Read_Stream& s, basic_streambuf<Allocator>& b,
  * whether the read operation is complete. The signature of the function object
  * must be:
  * @code bool completion_condition(
- *   const Sync_Read_Stream::error_type& error, // Result of latest read_some
- *                                              // operation.
+ *   const asio::error_code& error, // Result of latest read_some
+ *                                           // operation.
  *
- *   std::size_t bytes_transferred              // Number of bytes transferred
- *                                              // so far.
+ *   std::size_t bytes_transferred           // Number of bytes transferred
+ *                                           // so far.
  * ); @endcode
  * A return value of true indicates that the read operation is complete. False
  * indicates that further calls to the stream's read_some function are required.
  *
- * @param error_handler A handler to be called when the operation completes,
- * to indicate whether or not an error has occurred. Copies will be made of
- * the handler as required. The function signature of the handler must be:
- * @code void error_handler(
- *   const Sync_Read_Stream::error_type& error // Result of operation.
- * ); @endcode
- * The error handler is only called if the completion_condition indicates that
- * the operation is complete.
+ * @param ec Set to indicate what error occurred, if any.
  *
- * @returns The number of bytes read. If an error occurs, and the error handler
- * does not throw an exception, returns the total number of bytes successfully
- * transferred prior to the error.
+ * @returns The number of bytes read. If an error occurs, returns the total
+ * number of bytes successfully transferred prior to the error.
  */
-template <typename Sync_Read_Stream, typename Allocator,
-    typename Completion_Condition, typename Error_Handler>
-std::size_t read(Sync_Read_Stream& s, basic_streambuf<Allocator>& b,
-    Completion_Condition completion_condition, Error_Handler error_handler);
+template <typename SyncReadStream, typename Allocator,
+    typename CompletionCondition>
+std::size_t read(SyncReadStream& s, basic_streambuf<Allocator>& b,
+    CompletionCondition completion_condition, asio::error_code& ec);
 
 /*@}*/
 /**
@@ -316,7 +289,7 @@ std::size_t read(Sync_Read_Stream& s, basic_streambuf<Allocator>& b,
  * async_read_some function.
  *
  * @param s The stream from which the data is to be read. The type must support
- * the Async_Read_Stream concept.
+ * the AsyncReadStream concept.
  *
  * @param buffers One or more buffers into which the data will be read. The sum
  * of the buffer sizes indicates the maximum number of bytes to read from the
@@ -328,21 +301,20 @@ std::size_t read(Sync_Read_Stream& s, basic_streambuf<Allocator>& b,
  * Copies will be made of the handler as required. The function signature of the
  * handler must be:
  * @code void handler(
- *   const Async_Read_Stream::error_type& error, // Result of operation.
+ *   const asio::error_code& error, // Result of operation.
  *
- *   std::size_t bytes_transferred               // Number of bytes copied into
- *                                               // the buffers. If an error
- *                                               // occurred, this will be the
- *                                               // number of bytes successfully
- *                                               // transferred prior to the
- *                                               // error.
+ *   std::size_t bytes_transferred           // Number of bytes copied into the
+ *                                           // buffers. If an error occurred,
+ *                                           // this will be the  number of
+ *                                           // bytes successfully transferred
+ *                                           // prior to the error.
  * ); @endcode
  * Regardless of whether the asynchronous operation completes immediately or
  * not, the handler will not be invoked from within this function. Invocation of
  * the handler will be performed in a manner equivalent to using
  * asio::io_service::post().
  *
- * @par Example:
+ * @par Example
  * To read into a single data buffer use the @ref buffer function as follows:
  * @code
  * asio::async_read(s, asio::buffer(data, size), handler);
@@ -357,10 +329,10 @@ std::size_t read(Sync_Read_Stream& s, basic_streambuf<Allocator>& b,
  *     asio::transfer_all(),
  *     handler); @endcode
  */
-template <typename Async_Read_Stream, typename Mutable_Buffers,
-    typename Handler>
-void async_read(Async_Read_Stream& s, const Mutable_Buffers& buffers,
-    Handler handler);
+template <typename AsyncReadStream, typename MutableBufferSequence,
+    typename ReadHandler>
+void async_read(AsyncReadStream& s, const MutableBufferSequence& buffers,
+    ReadHandler handler);
 
 /// Start an asynchronous operation to read a certain amount of data from a
 /// stream.
@@ -376,7 +348,7 @@ void async_read(Async_Read_Stream& s, const Mutable_Buffers& buffers,
  * @li The completion_condition function object returns true.
  *
  * @param s The stream from which the data is to be read. The type must support
- * the Async_Read_Stream concept.
+ * the AsyncReadStream concept.
  *
  * @param buffers One or more buffers into which the data will be read. The sum
  * of the buffer sizes indicates the maximum number of bytes to read from the
@@ -388,11 +360,11 @@ void async_read(Async_Read_Stream& s, const Mutable_Buffers& buffers,
  * whether the read operation is complete. The signature of the function object
  * must be:
  * @code bool completion_condition(
- *   const Async_Read_Stream::error_type& error, // Result of latest read_some
- *                                               // operation.
+ *   const asio::error_code& error, // Result of latest read_some
+ *                                           // operation.
  *
- *   std::size_t bytes_transferred               // Number of bytes transferred
- *                                               // so far.
+ *   std::size_t bytes_transferred           // Number of bytes transferred
+ *                                           // so far.
  * ); @endcode
  * A return value of true indicates that the read operation is complete. False
  * indicates that further calls to the stream's async_read_some function are
@@ -402,21 +374,20 @@ void async_read(Async_Read_Stream& s, const Mutable_Buffers& buffers,
  * Copies will be made of the handler as required. The function signature of the
  * handler must be:
  * @code void handler(
- *   const Async_Read_Stream::error_type& error, // Result of operation.
+ *   const asio::error_code& error, // Result of operation.
  *
- *   std::size_t bytes_transferred               // Number of bytes copied into
- *                                               // the buffers. If an error
- *                                               // occurred, this will be the
- *                                               // number of bytes successfully
- *                                               // transferred prior to the
- *                                               // error.
+ *   std::size_t bytes_transferred           // Number of bytes copied into the
+ *                                           // buffers. If an error occurred,
+ *                                           // this will be the  number of
+ *                                           // bytes successfully transferred
+ *                                           // prior to the error.
  * ); @endcode
  * Regardless of whether the asynchronous operation completes immediately or
  * not, the handler will not be invoked from within this function. Invocation of
  * the handler will be performed in a manner equivalent to using
  * asio::io_service::post().
  *
- * @par Example:
+ * @par Example
  * To read into a single data buffer use the @ref buffer function as follows:
  * @code asio::async_read(s,
  *     asio::buffer(data, size),
@@ -426,10 +397,10 @@ void async_read(Async_Read_Stream& s, const Mutable_Buffers& buffers,
  * buffers in one go, and how to use it with arrays, boost::array or
  * std::vector.
  */
-template <typename Async_Read_Stream, typename Mutable_Buffers,
-    typename Completion_Condition, typename Handler>
-void async_read(Async_Read_Stream& s, const Mutable_Buffers& buffers,
-    Completion_Condition completion_condition, Handler handler);
+template <typename AsyncReadStream, typename MutableBufferSequence,
+    typename CompletionCondition, typename ReadHandler>
+void async_read(AsyncReadStream& s, const MutableBufferSequence& buffers,
+    CompletionCondition completion_condition, ReadHandler handler);
 
 /// Start an asynchronous operation to read a certain amount of data from a
 /// stream.
@@ -441,11 +412,11 @@ void async_read(Async_Read_Stream& s, const Mutable_Buffers& buffers,
  *
  * @li An error occurred.
  *
- * @param s The stream from which the data is to be read. The type must support
- * the Async_Read_Stream concept.
- *
  * This operation is implemented in terms of one or more calls to the stream's
  * async_read_some function.
+ *
+ * @param s The stream from which the data is to be read. The type must support
+ * the AsyncReadStream concept.
  *
  * @param b A basic_streambuf object into which the data will be read. Ownership
  * of the streambuf is retained by the caller, which must guarantee that it
@@ -455,14 +426,13 @@ void async_read(Async_Read_Stream& s, const Mutable_Buffers& buffers,
  * Copies will be made of the handler as required. The function signature of the
  * handler must be:
  * @code void handler(
- *   const Async_Read_Stream::error_type& error, // Result of operation.
+ *   const asio::error_code& error, // Result of operation.
  *
- *   std::size_t bytes_transferred               // Number of bytes copied into
- *                                               // the buffers. If an error
- *                                               // occurred, this will be the
- *                                               // number of bytes successfully
- *                                               // transferred prior to the
- *                                               // error.
+ *   std::size_t bytes_transferred           // Number of bytes copied into the
+ *                                           // buffers. If an error occurred,
+ *                                           // this will be the  number of
+ *                                           // bytes successfully transferred
+ *                                           // prior to the error.
  * ); @endcode
  * Regardless of whether the asynchronous operation completes immediately or
  * not, the handler will not be invoked from within this function. Invocation of
@@ -475,9 +445,9 @@ void async_read(Async_Read_Stream& s, const Mutable_Buffers& buffers,
  *     asio::transfer_all(),
  *     handler); @endcode
  */
-template <typename Async_Read_Stream, typename Allocator, typename Handler>
-void async_read(Async_Read_Stream& s, basic_streambuf<Allocator>& b,
-    Handler handler);
+template <typename AsyncReadStream, typename Allocator, typename ReadHandler>
+void async_read(AsyncReadStream& s, basic_streambuf<Allocator>& b,
+    ReadHandler handler);
 
 /// Start an asynchronous operation to read a certain amount of data from a
 /// stream.
@@ -493,7 +463,7 @@ void async_read(Async_Read_Stream& s, basic_streambuf<Allocator>& b,
  * async_read_some function.
  *
  * @param s The stream from which the data is to be read. The type must support
- * the Async_Read_Stream concept.
+ * the AsyncReadStream concept.
  *
  * @param b A basic_streambuf object into which the data will be read. Ownership
  * of the streambuf is retained by the caller, which must guarantee that it
@@ -503,11 +473,11 @@ void async_read(Async_Read_Stream& s, basic_streambuf<Allocator>& b,
  * whether the read operation is complete. The signature of the function object
  * must be:
  * @code bool completion_condition(
- *   const Async_Read_Stream::error_type& error, // Result of latest read_some
- *                                               // operation.
+ *   const asio::error_code& error, // Result of latest read_some
+ *                                           // operation.
  *
- *   std::size_t bytes_transferred               // Number of bytes transferred
- *                                               // so far.
+ *   std::size_t bytes_transferred           // Number of bytes transferred
+ *                                           // so far.
  * ); @endcode
  * A return value of true indicates that the read operation is complete. False
  * indicates that further calls to the stream's async_read_some function are
@@ -517,24 +487,23 @@ void async_read(Async_Read_Stream& s, basic_streambuf<Allocator>& b,
  * Copies will be made of the handler as required. The function signature of the
  * handler must be:
  * @code void handler(
- *   const Async_Read_Stream::error_type& error, // Result of operation.
+ *   const asio::error_code& error, // Result of operation.
  *
- *   std::size_t bytes_transferred               // Number of bytes copied into
- *                                               // the buffers. If an error
- *                                               // occurred, this will be the
- *                                               // number of bytes successfully
- *                                               // transferred prior to the
- *                                               // error.
+ *   std::size_t bytes_transferred           // Number of bytes copied into the
+ *                                           // buffers. If an error occurred,
+ *                                           // this will be the  number of
+ *                                           // bytes successfully transferred
+ *                                           // prior to the error.
  * ); @endcode
  * Regardless of whether the asynchronous operation completes immediately or
  * not, the handler will not be invoked from within this function. Invocation of
  * the handler will be performed in a manner equivalent to using
  * asio::io_service::post().
  */
-template <typename Async_Read_Stream, typename Allocator,
-    typename Completion_Condition, typename Handler>
-void async_read(Async_Read_Stream& s, basic_streambuf<Allocator>& b,
-    Completion_Condition completion_condition, Handler handler);
+template <typename AsyncReadStream, typename Allocator,
+    typename CompletionCondition, typename ReadHandler>
+void async_read(AsyncReadStream& s, basic_streambuf<Allocator>& b,
+    CompletionCondition completion_condition, ReadHandler handler);
 
 /*@}*/
 

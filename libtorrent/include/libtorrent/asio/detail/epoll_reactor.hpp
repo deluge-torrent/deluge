@@ -2,7 +2,7 @@
 // epoll_reactor.hpp
 // ~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -30,8 +30,9 @@
 #include <boost/throw_exception.hpp>
 #include "asio/detail/pop_options.hpp"
 
+#include "asio/error.hpp"
 #include "asio/io_service.hpp"
-#include "asio/system_exception.hpp"
+#include "asio/system_error.hpp"
 #include "asio/detail/bind_handler.hpp"
 #include "asio/detail/hash_map.hpp"
 #include "asio/detail/mutex.hpp"
@@ -39,6 +40,7 @@
 #include "asio/detail/thread.hpp"
 #include "asio/detail/reactor_op_queue.hpp"
 #include "asio/detail/select_interrupter.hpp"
+#include "asio/detail/service_base.hpp"
 #include "asio/detail/signal_blocker.hpp"
 #include "asio/detail/socket_types.hpp"
 #include "asio/detail/timer_queue.hpp"
@@ -48,12 +50,12 @@ namespace detail {
 
 template <bool Own_Thread>
 class epoll_reactor
-  : public asio::io_service::service
+  : public asio::detail::service_base<epoll_reactor<Own_Thread> >
 {
 public:
   // Constructor.
   epoll_reactor(asio::io_service& io_service)
-    : asio::io_service::service(io_service),
+    : asio::detail::service_base<epoll_reactor<Own_Thread> >(io_service),
       mutex_(),
       epoll_fd_(do_epoll_create()),
       wait_in_progress_(false),
@@ -139,7 +141,7 @@ public:
       return;
 
     if (!read_op_queue_.has_operation(descriptor))
-      if (handler(0))
+      if (handler(asio::error_code()))
         return;
 
     if (read_op_queue_.enqueue_operation(descriptor, handler))
@@ -155,8 +157,8 @@ public:
       int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
       if (result != 0)
       {
-        int error = errno;
-        read_op_queue_.dispatch_all_operations(descriptor, error);
+        asio::error_code ec(errno, asio::native_ecat);
+        read_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
   }
@@ -172,7 +174,7 @@ public:
       return;
 
     if (!write_op_queue_.has_operation(descriptor))
-      if (handler(0))
+      if (handler(asio::error_code()))
         return;
 
     if (write_op_queue_.enqueue_operation(descriptor, handler))
@@ -188,8 +190,8 @@ public:
       int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
       if (result != 0)
       {
-        int error = errno;
-        write_op_queue_.dispatch_all_operations(descriptor, error);
+        asio::error_code ec(errno, asio::native_ecat);
+        write_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
   }
@@ -217,8 +219,8 @@ public:
       int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
       if (result != 0)
       {
-        int error = errno;
-        except_op_queue_.dispatch_all_operations(descriptor, error);
+        asio::error_code ec(errno, asio::native_ecat);
+        except_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
   }
@@ -248,9 +250,9 @@ public:
       int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
       if (result != 0)
       {
-        int error = errno;
-        write_op_queue_.dispatch_all_operations(descriptor, error);
-        except_op_queue_.dispatch_all_operations(descriptor, error);
+        asio::error_code ec(errno, asio::native_ecat);
+        write_op_queue_.dispatch_all_operations(descriptor, ec);
+        except_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
   }
@@ -294,6 +296,21 @@ public:
   {
     asio::detail::mutex::scoped_lock lock(mutex_);
     timer_queues_.push_back(&timer_queue);
+  }
+
+  // Remove a timer queue from the reactor.
+  template <typename Time_Traits>
+  void remove_timer_queue(timer_queue<Time_Traits>& timer_queue)
+  {
+    asio::detail::mutex::scoped_lock lock(mutex_);
+    for (std::size_t i = 0; i < timer_queues_.size(); ++i)
+    {
+      if (timer_queues_[i] == &timer_queue)
+      {
+        timer_queues_.erase(timer_queues_.begin() + i);
+        return;
+      }
+    }
   }
 
   // Schedule a timer in the given timer queue to expire at the specified
@@ -383,9 +400,10 @@ private:
       {
         if (events[i].events & (EPOLLERR | EPOLLHUP))
         {
-          except_op_queue_.dispatch_all_operations(descriptor, 0);
-          read_op_queue_.dispatch_all_operations(descriptor, 0);
-          write_op_queue_.dispatch_all_operations(descriptor, 0);
+          asio::error_code ec;
+          except_op_queue_.dispatch_all_operations(descriptor, ec);
+          read_op_queue_.dispatch_all_operations(descriptor, ec);
+          write_op_queue_.dispatch_all_operations(descriptor, ec);
 
           epoll_event ev = { 0, { 0 } };
           ev.events = 0;
@@ -397,21 +415,22 @@ private:
           bool more_reads = false;
           bool more_writes = false;
           bool more_except = false;
+          asio::error_code ec;
 
           // Exception operations must be processed first to ensure that any
           // out-of-band data is read before normal data.
           if (events[i].events & EPOLLPRI)
-            more_except = except_op_queue_.dispatch_operation(descriptor, 0);
+            more_except = except_op_queue_.dispatch_operation(descriptor, ec);
           else
             more_except = except_op_queue_.has_operation(descriptor);
 
           if (events[i].events & EPOLLIN)
-            more_reads = read_op_queue_.dispatch_operation(descriptor, 0);
+            more_reads = read_op_queue_.dispatch_operation(descriptor, ec);
           else
             more_reads = read_op_queue_.has_operation(descriptor);
 
           if (events[i].events & EPOLLOUT)
-            more_writes = write_op_queue_.dispatch_operation(descriptor, 0);
+            more_writes = write_op_queue_.dispatch_operation(descriptor, ec);
           else
             more_writes = write_op_queue_.has_operation(descriptor);
 
@@ -427,10 +446,10 @@ private:
           int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
           if (result != 0)
           {
-            int error = errno;
-            read_op_queue_.dispatch_all_operations(descriptor, error);
-            write_op_queue_.dispatch_all_operations(descriptor, error);
-            except_op_queue_.dispatch_all_operations(descriptor, error);
+            ec = asio::error_code(errno, asio::native_ecat);
+            read_op_queue_.dispatch_all_operations(descriptor, ec);
+            write_op_queue_.dispatch_all_operations(descriptor, ec);
+            except_op_queue_.dispatch_all_operations(descriptor, ec);
           }
         }
       }
@@ -488,8 +507,9 @@ private:
     int fd = epoll_create(epoll_size);
     if (fd == -1)
     {
-      system_exception e("epoll", errno);
-      boost::throw_exception(e);
+      boost::throw_exception(asio::system_error(
+            asio::error_code(errno, asio::native_ecat),
+            "epoll"));
     }
     return fd;
   }

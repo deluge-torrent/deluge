@@ -2,7 +2,7 @@
 // select_reactor.hpp
 // ~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -31,14 +31,15 @@
 #include "asio/detail/fd_set_adapter.hpp"
 #include "asio/detail/mutex.hpp"
 #include "asio/detail/noncopyable.hpp"
-#include "asio/detail/task_io_service.hpp"
-#include "asio/detail/thread.hpp"
 #include "asio/detail/reactor_op_queue.hpp"
 #include "asio/detail/select_interrupter.hpp"
 #include "asio/detail/select_reactor_fwd.hpp"
+#include "asio/detail/service_base.hpp"
 #include "asio/detail/signal_blocker.hpp"
 #include "asio/detail/socket_ops.hpp"
 #include "asio/detail/socket_types.hpp"
+#include "asio/detail/task_io_service.hpp"
+#include "asio/detail/thread.hpp"
 #include "asio/detail/timer_queue.hpp"
 
 namespace asio {
@@ -46,12 +47,13 @@ namespace detail {
 
 template <bool Own_Thread>
 class select_reactor
-  : public asio::io_service::service
+  : public asio::detail::service_base<select_reactor<Own_Thread> >
 {
 public:
   // Constructor.
   select_reactor(asio::io_service& io_service)
-    : asio::io_service::service(io_service),
+    : asio::detail::service_base<
+        select_reactor<Own_Thread> >(io_service),
       mutex_(),
       select_in_progress_(false),
       interrupter_(),
@@ -194,6 +196,21 @@ public:
     timer_queues_.push_back(&timer_queue);
   }
 
+  // Remove a timer queue from the reactor.
+  template <typename Time_Traits>
+  void remove_timer_queue(timer_queue<Time_Traits>& timer_queue)
+  {
+    asio::detail::mutex::scoped_lock lock(mutex_);
+    for (std::size_t i = 0; i < timer_queues_.size(); ++i)
+    {
+      if (timer_queues_[i] == &timer_queue)
+      {
+        timer_queues_.erase(timer_queues_.begin() + i);
+        return;
+      }
+    }
+  }
+
   // Schedule a timer in the given timer queue to expire at the specified
   // absolute time. The handler object will be invoked when the timer expires.
   template <typename Time_Traits, typename Handler>
@@ -275,8 +292,9 @@ private:
     timeval* tv = block ? get_timeout(tv_buf) : &tv_buf;
     select_in_progress_ = true;
     lock.unlock();
+    asio::error_code ec;
     int retval = socket_ops::select(static_cast<int>(max_fd + 1),
-        read_fds, write_fds, except_fds, tv);
+        read_fds, write_fds, except_fds, tv, ec);
     lock.lock();
     select_in_progress_ = false;
 
@@ -292,9 +310,12 @@ private:
     {
       // Exception operations must be processed first to ensure that any
       // out-of-band data is read before normal data.
-      except_op_queue_.dispatch_descriptors(except_fds, 0);
-      read_op_queue_.dispatch_descriptors(read_fds, 0);
-      write_op_queue_.dispatch_descriptors(write_fds, 0);
+      except_op_queue_.dispatch_descriptors(except_fds,
+          asio::error_code());
+      read_op_queue_.dispatch_descriptors(read_fds,
+          asio::error_code());
+      write_op_queue_.dispatch_descriptors(write_fds,
+          asio::error_code());
       except_op_queue_.dispatch_cancellations();
       read_op_queue_.dispatch_cancellations();
       write_op_queue_.dispatch_cancellations();

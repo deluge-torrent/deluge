@@ -73,38 +73,39 @@ namespace libtorrent
 {
 
 	udp_tracker_connection::udp_tracker_connection(
-		demuxer& d
+		asio::strand& str
 		, tracker_manager& man
 		, tracker_request const& req
 		, std::string const& hostname
 		, unsigned short port
+		, address bind_infc
 		, boost::weak_ptr<request_callback> c
 		, session_settings const& stn)
-		: tracker_connection(man, req, d, c)
+		: tracker_connection(man, req, str, bind_infc, c)
 		, m_man(man)
-		, m_name_lookup(d)
-		, m_port(port)
+		, m_strand(str)
+		, m_name_lookup(m_strand.io_service())
 		, m_transaction_id(0)
 		, m_connection_id(0)
 		, m_settings(stn)
 		, m_attempts(0)
 	{
-		m_socket.reset(new datagram_socket(d));
-		tcp::resolver::query q(hostname, "0");
+		udp::resolver::query q(hostname, boost::lexical_cast<std::string>(port));
 		m_name_lookup.async_resolve(q
-			, boost::bind(&udp_tracker_connection::name_lookup, self(), _1, _2));
+			, m_strand.wrap(boost::bind(
+			&udp_tracker_connection::name_lookup, self(), _1, _2)));
 		set_timeout(m_settings.tracker_completion_timeout
 			, m_settings.tracker_receive_timeout);
 	}
 
-	void udp_tracker_connection::name_lookup(asio::error const& error
-		, tcp::resolver::iterator i) try
+	void udp_tracker_connection::name_lookup(asio::error_code const& error
+		, udp::resolver::iterator i) try
 	{
 		if (error == asio::error::operation_aborted) return;
 		if (!m_socket) return; // the operation was aborted
-		if (error || i == tcp::resolver::iterator())
+		if (error || i == udp::resolver::iterator())
 		{
-			fail(-1, error.what());
+			fail(-1, error.message().c_str());
 			return;
 		}
 
@@ -112,10 +113,38 @@ namespace libtorrent
 		if (has_requester()) requester().debug_log("udp tracker name lookup successful");
 #endif
 		restart_read_timeout();
-		m_target = udp::endpoint(i->endpoint().address(), m_port);
-		if (has_requester()) requester().m_tracker_address
-			= tcp::endpoint(i->endpoint().address(), m_port);
-		m_socket->connect(m_target);
+		
+		// look for an address that has the same kind as the one
+		// we're listening on. To make sure the tracker get our
+		// correct listening address.
+		udp::resolver::iterator target = i;
+		udp::resolver::iterator end;
+		udp::endpoint target_address = *i;
+		for (; target != end && target->endpoint().address().is_v4()
+			!= bind_interface().is_v4(); ++target);
+		if (target == end)
+		{
+			assert(target_address.address().is_v4() != bind_interface().is_v4());
+			if (has_requester())
+			{
+				std::string tracker_address_type = target_address.address().is_v4() ? "IPv4" : "IPv6";
+				std::string bind_address_type = bind_interface().is_v4() ? "IPv4" : "IPv6";
+				requester().tracker_warning("the tracker only resolves to an "
+					+ tracker_address_type + " address, and you're listening on an "
+					+ bind_address_type + " socket. This may prevent you from receiving incoming connections.");
+			}
+		}
+		else
+		{
+			target_address = *target;
+		}
+		
+		if (has_requester()) requester().m_tracker_address = tcp::endpoint(target_address.address(), target_address.port());
+		m_target = target_address;
+		m_socket.reset(new datagram_socket(m_name_lookup.io_service()));
+		m_socket->open(target_address.protocol());
+		m_socket->bind(udp::endpoint(bind_interface(), 0));
+		m_socket->connect(target_address);
 		send_udp_connect();
 	}
 	catch (std::exception& e)
@@ -162,14 +191,14 @@ namespace libtorrent
 			, boost::bind(&udp_tracker_connection::connect_response, self(), _1, _2));
 	}
 
-	void udp_tracker_connection::connect_response(asio::error const& error
+	void udp_tracker_connection::connect_response(asio::error_code const& error
 		, std::size_t bytes_transferred) try
 	{
 		if (error == asio::error::operation_aborted) return;
 		if (!m_socket) return; // the operation was aborted
 		if (error)
 		{
-			fail(-1, error.what());
+			fail(-1, error.message().c_str());
 			return;
 		}
 
@@ -328,14 +357,14 @@ namespace libtorrent
 			, bind(&udp_tracker_connection::scrape_response, self(), _1, _2));
 	}
 
-	void udp_tracker_connection::announce_response(asio::error const& error
+	void udp_tracker_connection::announce_response(asio::error_code const& error
 		, std::size_t bytes_transferred) try
 	{
 		if (error == asio::error::operation_aborted) return;
 		if (!m_socket) return; // the operation was aborted
 		if (error)
 		{
-			fail(-1, error.what());
+			fail(-1, error.message().c_str());
 			return;
 		}
 
@@ -437,14 +466,14 @@ namespace libtorrent
 		fail(-1, e.what());
 	}; // msvc 7.1 seems to require this
 
-	void udp_tracker_connection::scrape_response(asio::error const& error
+	void udp_tracker_connection::scrape_response(asio::error_code const& error
 		, std::size_t bytes_transferred) try
 	{
 		if (error == asio::error::operation_aborted) return;
 		if (!m_socket) return; // the operation was aborted
 		if (error)
 		{
-			fail(-1, error.what());
+			fail(-1, error.message().c_str());
 			return;
 		}
 

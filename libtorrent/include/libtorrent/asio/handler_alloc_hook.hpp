@@ -2,7 +2,7 @@
 // handler_alloc_hook.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -42,7 +42,7 @@ namespace asio {
  * before the upcall to the handler is performed. This allows the same memory to
  * be reused for a subsequent asynchronous operation initiated by the handler.
  *
- * @par Example:
+ * @par Example
  * @code
  * class my_handler;
  *
@@ -78,7 +78,7 @@ inline void* asio_handler_allocate(std::size_t size, ...)
 inline void asio_handler_deallocate(void* pointer, std::size_t size, ...)
 {
   (void)(size);
-  return ::operator delete(pointer);
+  ::operator delete(pointer);
 }
 
 } // namespace asio

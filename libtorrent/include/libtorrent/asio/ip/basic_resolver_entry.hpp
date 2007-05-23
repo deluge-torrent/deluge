@@ -2,7 +2,7 @@
 // basic_resolver_entry.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -29,22 +29,19 @@ namespace ip {
  * The asio::ip::basic_resolver_entry class template describes an entry
  * as returned by a resolver.
  *
- * @par Thread Safety:
+ * @par Thread Safety
  * @e Distinct @e objects: Safe.@n
  * @e Shared @e objects: Unsafe.
- *
- * @par Concepts:
- * Endpoint.
  */
-template <typename Protocol>
+template <typename InternetProtocol>
 class basic_resolver_entry
 {
 public:
   /// The protocol type associated with the endpoint entry.
-  typedef Protocol protocol_type;
+  typedef InternetProtocol protocol_type;
 
   /// The endpoint type associated with the endpoint entry.
-  typedef typename Protocol::endpoint endpoint_type;
+  typedef typename InternetProtocol::endpoint endpoint_type;
 
   /// Default constructor.
   basic_resolver_entry()

@@ -82,6 +82,7 @@ namespace libtorrent
 	{
 		tracker_request()
 			: kind(announce_request)
+			, web_downloaded(0)
 			, event(none)
 			, key(0)
 			, num_want(0)
@@ -106,6 +107,7 @@ namespace libtorrent
 		size_type downloaded;
 		size_type uploaded;
 		size_type left;
+		size_type web_downloaded;
 		unsigned short listen_port;
 		event_t event;
 		std::string url;
@@ -156,7 +158,7 @@ namespace libtorrent
 		friend void intrusive_ptr_add_ref(timeout_handler const*);
 		friend void intrusive_ptr_release(timeout_handler const*);
 
-		timeout_handler(demuxer& d);
+		timeout_handler(asio::strand& str);
 
 		void set_timeout(int completion_timeout, int read_timeout);
 		void restart_read_timeout();
@@ -167,12 +169,12 @@ namespace libtorrent
 
 	private:
 	
-		void timeout_callback(asio::error const&);
+		void timeout_callback(asio::error_code const&);
 
 		boost::intrusive_ptr<timeout_handler> self()
 		{ return boost::intrusive_ptr<timeout_handler>(this); }
 
-		demuxer& m_demuxer;
+		asio::strand& m_strand;
 		// used for timeouts
 		// this is set when the request has been sent
 		boost::posix_time::ptime m_start_time;
@@ -194,7 +196,8 @@ namespace libtorrent
 	{
 		tracker_connection(tracker_manager& man
 			, tracker_request req
-			, demuxer& d
+			, asio::strand& str
+			, address bind_interface
 			, boost::weak_ptr<request_callback> r);
 
 		request_callback& requester();
@@ -206,10 +209,12 @@ namespace libtorrent
 		void fail(int code, char const* msg);
 		void fail_timeout();
 		void close();
+		address const& bind_interface() const { return m_bind_interface; }
 
 	protected:
 		boost::weak_ptr<request_callback> m_requester;
 	private:
+		address m_bind_interface;
 		tracker_manager& m_man;
 		const tracker_request m_req;
 	};
@@ -222,9 +227,10 @@ namespace libtorrent
 			: m_settings(s) {}
 
 		void queue_request(
-			demuxer& d
+			asio::strand& str
 			, tracker_request r
 			, std::string const& auth
+			, address bind_infc
 			, boost::weak_ptr<request_callback> c
 				= boost::weak_ptr<request_callback>());
 		void abort_all_requests();

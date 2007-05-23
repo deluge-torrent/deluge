@@ -2,7 +2,7 @@
 // udp.hpp
 // ~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -18,8 +18,8 @@
 #include "asio/detail/push_options.hpp"
 
 #include "asio/basic_datagram_socket.hpp"
-#include "asio/basic_resolver.hpp"
 #include "asio/ip/basic_endpoint.hpp"
+#include "asio/ip/basic_resolver.hpp"
 #include "asio/ip/basic_resolver_iterator.hpp"
 #include "asio/ip/basic_resolver_query.hpp"
 #include "asio/detail/socket_types.hpp"
@@ -31,12 +31,12 @@ namespace ip {
 /**
  * The asio::ip::udp class contains flags necessary for UDP sockets.
  *
- * @par Thread Safety:
+ * @par Thread Safety
  * @e Distinct @e objects: Safe.@n
  * @e Shared @e objects: Safe.
  *
  * @par Concepts:
- * Protocol.
+ * Protocol, InternetProtocol.
  */
 class udp
 {
@@ -85,6 +85,18 @@ public:
 
   /// The UDP resolver type.
   typedef basic_resolver<udp> resolver;
+
+  /// Compare two protocols for equality.
+  friend bool operator==(const udp& p1, const udp& p2)
+  {
+    return p1.family_ == p2.family_;
+  }
+
+  /// Compare two protocols for inequality.
+  friend bool operator!=(const udp& p1, const udp& p2)
+  {
+    return p1.family_ != p2.family_;
+  }
 
 private:
   // Construct with a specific family.

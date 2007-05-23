@@ -2,7 +2,7 @@
 // read_until.ipp
 // ~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -25,25 +25,28 @@
 #include "asio/detail/pop_options.hpp"
 
 #include "asio/buffer.hpp"
-#include "asio/error_handler.hpp"
 #include "asio/detail/bind_handler.hpp"
 #include "asio/detail/const_buffers_iterator.hpp"
 #include "asio/detail/handler_alloc_helpers.hpp"
 #include "asio/detail/handler_invoke_helpers.hpp"
+#include "asio/detail/throw_error.hpp"
 
 namespace asio {
 
-template <typename Sync_Read_Stream, typename Allocator>
-inline std::size_t read_until(Sync_Read_Stream& s,
+template <typename SyncReadStream, typename Allocator>
+inline std::size_t read_until(SyncReadStream& s,
     asio::basic_streambuf<Allocator>& b, char delim)
 {
-  return read_until(s, b, delim, throw_error());
+  asio::error_code ec;
+  std::size_t bytes_transferred = read_until(s, b, delim, ec);
+  asio::detail::throw_error(ec);
+  return bytes_transferred;
 }
 
-template <typename Sync_Read_Stream, typename Allocator, typename Error_Handler>
-std::size_t read_until(Sync_Read_Stream& s,
+template <typename SyncReadStream, typename Allocator>
+std::size_t read_until(SyncReadStream& s,
     asio::basic_streambuf<Allocator>& b, char delim,
-    Error_Handler error_handler)
+    asio::error_code& ec)
 {
   std::size_t next_search_start = 0;
   for (;;)
@@ -62,6 +65,7 @@ std::size_t read_until(Sync_Read_Stream& s,
     if (iter != end)
     {
       // Found a match. We're done.
+      ec = asio::error_code();
       return iter.position() + 1;
     }
     else
@@ -70,22 +74,30 @@ std::size_t read_until(Sync_Read_Stream& s,
       next_search_start = end.position();
     }
 
-    // Need more data.
-    typename Sync_Read_Stream::error_type error;
-    b.commit(s.read_some(b.prepare(512), asio::assign_error(error)));
-    if (error)
+    // Check if buffer is full.
+    if (b.size() == b.max_size())
     {
-      error_handler(error);
+      ec = error::not_found;
       return 0;
     }
+
+    // Need more data.
+    std::size_t bytes_available =
+      std::min<std::size_t>(512, b.max_size() - b.size());
+    b.commit(s.read_some(b.prepare(bytes_available), ec));
+    if (ec)
+      return 0;
   }
 }
 
-template <typename Sync_Read_Stream, typename Allocator>
-inline std::size_t read_until(Sync_Read_Stream& s,
+template <typename SyncReadStream, typename Allocator>
+inline std::size_t read_until(SyncReadStream& s,
     asio::basic_streambuf<Allocator>& b, const std::string& delim)
 {
-  return read_until(s, b, delim, throw_error());
+  asio::error_code ec;
+  std::size_t bytes_transferred = read_until(s, b, delim, ec);
+  asio::detail::throw_error(ec);
+  return bytes_transferred;
 }
 
 namespace detail
@@ -123,10 +135,10 @@ namespace detail
   }
 } // namespace detail
 
-template <typename Sync_Read_Stream, typename Allocator, typename Error_Handler>
-std::size_t read_until(Sync_Read_Stream& s,
+template <typename SyncReadStream, typename Allocator>
+std::size_t read_until(SyncReadStream& s,
     asio::basic_streambuf<Allocator>& b, const std::string& delim,
-    Error_Handler error_handler)
+    asio::error_code& ec)
 {
   std::size_t next_search_start = 0;
   for (;;)
@@ -148,6 +160,7 @@ std::size_t read_until(Sync_Read_Stream& s,
       if (result.second)
       {
         // Full match. We're done.
+        ec = asio::error_code();
         return result.first.position() + delim.length();
       }
       else
@@ -162,28 +175,36 @@ std::size_t read_until(Sync_Read_Stream& s,
       next_search_start = end.position();
     }
 
-    // Need more data.
-    typename Sync_Read_Stream::error_type error;
-    b.commit(s.read_some(b.prepare(512), asio::assign_error(error)));
-    if (error)
+    // Check if buffer is full.
+    if (b.size() == b.max_size())
     {
-      error_handler(error);
+      ec = error::not_found;
       return 0;
     }
+
+    // Need more data.
+    std::size_t bytes_available =
+      std::min<std::size_t>(512, b.max_size() - b.size());
+    b.commit(s.read_some(b.prepare(bytes_available), ec));
+    if (ec)
+      return 0;
   }
 }
 
-template <typename Sync_Read_Stream, typename Allocator>
-inline std::size_t read_until(Sync_Read_Stream& s,
+template <typename SyncReadStream, typename Allocator>
+inline std::size_t read_until(SyncReadStream& s,
     asio::basic_streambuf<Allocator>& b, const boost::regex& expr)
 {
-  return read_until(s, b, expr, throw_error());
+  asio::error_code ec;
+  std::size_t bytes_transferred = read_until(s, b, expr, ec);
+  asio::detail::throw_error(ec);
+  return bytes_transferred;
 }
 
-template <typename Sync_Read_Stream, typename Allocator, typename Error_Handler>
-std::size_t read_until(Sync_Read_Stream& s,
+template <typename SyncReadStream, typename Allocator>
+std::size_t read_until(SyncReadStream& s,
     asio::basic_streambuf<Allocator>& b, const boost::regex& expr,
-    Error_Handler error_handler)
+    asio::error_code& ec)
 {
   std::size_t next_search_start = 0;
   for (;;)
@@ -205,6 +226,7 @@ std::size_t read_until(Sync_Read_Stream& s,
       if (match_results[0].matched)
       {
         // Full match. We're done.
+        ec = asio::error_code();
         return match_results[0].second.position();
       }
       else
@@ -219,26 +241,31 @@ std::size_t read_until(Sync_Read_Stream& s,
       next_search_start = end.position();
     }
 
-    // Need more data.
-    typename Sync_Read_Stream::error_type error;
-    b.commit(s.read_some(b.prepare(512), asio::assign_error(error)));
-    if (error)
+    // Check if buffer is full.
+    if (b.size() == b.max_size())
     {
-      error_handler(error);
+      ec = error::not_found;
       return 0;
     }
+
+    // Need more data.
+    std::size_t bytes_available =
+      std::min<std::size_t>(512, b.max_size() - b.size());
+    b.commit(s.read_some(b.prepare(bytes_available), ec));
+    if (ec)
+      return 0;
   }
 }
 
 namespace detail
 {
-  template <typename Async_Read_Stream, typename Allocator, typename Handler>
+  template <typename AsyncReadStream, typename Allocator, typename ReadHandler>
   class read_until_delim_handler
   {
   public:
-    read_until_delim_handler(Async_Read_Stream& stream,
+    read_until_delim_handler(AsyncReadStream& stream,
         asio::basic_streambuf<Allocator>& streambuf, char delim,
-        std::size_t next_search_start, Handler handler)
+        std::size_t next_search_start, ReadHandler handler)
       : stream_(stream),
         streambuf_(streambuf),
         delim_(delim),
@@ -247,14 +274,14 @@ namespace detail
     {
     }
 
-    void operator()(const typename Async_Read_Stream::error_type& e,
+    void operator()(const asio::error_code& ec,
         std::size_t bytes_transferred)
     {
       // Check for errors.
-      if (e)
+      if (ec)
       {
         std::size_t bytes = 0;
-        handler_(e, bytes);
+        handler_(ec, bytes);
         return;
       }
 
@@ -276,55 +303,67 @@ namespace detail
       {
         // Found a match. We're done.
         std::size_t bytes = iter.position() + 1;
-        handler_(e, bytes);
+        handler_(ec, bytes);
         return;
       }
 
-      // No match. Start a new asynchronous read operation to obtain more data.
+      // No match. Check if buffer is full.
+      if (streambuf_.size() == streambuf_.max_size())
+      {
+        std::size_t bytes = 0;
+        handler_(error::not_found, bytes);
+        return;
+      }
+
+      // Next search can start with the new data.
       next_search_start_ = end.position();
-      stream_.async_read_some(streambuf_.prepare(512), *this);
+
+      // Start a new asynchronous read operation to obtain more data.
+      std::size_t bytes_available =
+        std::min<std::size_t>(512, streambuf_.max_size() - streambuf_.size());
+      stream_.async_read_some(streambuf_.prepare(bytes_available), *this);
     }
 
   //private:
-    Async_Read_Stream& stream_;
+    AsyncReadStream& stream_;
     asio::basic_streambuf<Allocator>& streambuf_;
     char delim_;
     std::size_t next_search_start_;
-    Handler handler_;
+    ReadHandler handler_;
   };
 
-  template <typename Async_Read_Stream, typename Allocator, typename Handler>
+  template <typename AsyncReadStream, typename Allocator, typename ReadHandler>
   inline void* asio_handler_allocate(std::size_t size,
-      read_until_delim_handler<Async_Read_Stream,
-        Allocator, Handler>* this_handler)
+      read_until_delim_handler<AsyncReadStream,
+        Allocator, ReadHandler>* this_handler)
   {
     return asio_handler_alloc_helpers::allocate(
         size, &this_handler->handler_);
   }
 
-  template <typename Async_Read_Stream, typename Allocator, typename Handler>
+  template <typename AsyncReadStream, typename Allocator, typename ReadHandler>
   inline void asio_handler_deallocate(void* pointer, std::size_t size,
-      read_until_delim_handler<Async_Read_Stream,
-        Allocator, Handler>* this_handler)
+      read_until_delim_handler<AsyncReadStream,
+        Allocator, ReadHandler>* this_handler)
   {
     asio_handler_alloc_helpers::deallocate(
         pointer, size, &this_handler->handler_);
   }
 
-  template <typename Function, typename Async_Read_Stream, typename Allocator,
-      typename Handler>
+  template <typename Function, typename AsyncReadStream, typename Allocator,
+      typename ReadHandler>
   inline void asio_handler_invoke(const Function& function,
-      read_until_delim_handler<Async_Read_Stream,
-        Allocator, Handler>* this_handler)
+      read_until_delim_handler<AsyncReadStream,
+        Allocator, ReadHandler>* this_handler)
   {
     asio_handler_invoke_helpers::invoke(
         function, &this_handler->handler_);
   }
 } // namespace detail
 
-template <typename Async_Read_Stream, typename Allocator, typename Handler>
-void async_read_until(Async_Read_Stream& s,
-    asio::basic_streambuf<Allocator>& b, char delim, Handler handler)
+template <typename AsyncReadStream, typename Allocator, typename ReadHandler>
+void async_read_until(AsyncReadStream& s,
+    asio::basic_streambuf<Allocator>& b, char delim, ReadHandler handler)
 {
   // Determine the range of the data to be searched.
   typedef typename asio::basic_streambuf<
@@ -340,28 +379,37 @@ void async_read_until(Async_Read_Stream& s,
   if (iter != end)
   {
     // Found a match. We're done.
-    typename Async_Read_Stream::error_type error;
+    asio::error_code ec;
     std::size_t bytes = iter.position() + 1;
-    s.io_service().post(detail::bind_handler(handler, error, bytes));
+    s.io_service().post(detail::bind_handler(handler, ec, bytes));
     return;
   }
 
-  // No match. Start a new asynchronous read operation to obtain more data.
-  s.async_read_some(b.prepare(512),
-      detail::read_until_delim_handler<Async_Read_Stream, Allocator, Handler>(
+  // No match. Check if buffer is full.
+  if (b.size() == b.max_size())
+  {
+    s.io_service().post(detail::bind_handler(handler, error::not_found, 0));
+    return;
+  }
+
+  // Start a new asynchronous read operation to obtain more data.
+  std::size_t bytes_available =
+    std::min<std::size_t>(512, b.max_size() - b.size());
+  s.async_read_some(b.prepare(bytes_available),
+      detail::read_until_delim_handler<AsyncReadStream, Allocator, ReadHandler>(
         s, b, delim, end.position(), handler));
 }
 
 namespace detail
 {
-  template <typename Async_Read_Stream, typename Allocator, typename Handler>
+  template <typename AsyncReadStream, typename Allocator, typename ReadHandler>
   class read_until_delim_string_handler
   {
   public:
-    read_until_delim_string_handler(Async_Read_Stream& stream,
+    read_until_delim_string_handler(AsyncReadStream& stream,
         asio::basic_streambuf<Allocator>& streambuf,
         const std::string& delim, std::size_t next_search_start,
-        Handler handler)
+        ReadHandler handler)
       : stream_(stream),
         streambuf_(streambuf),
         delim_(delim),
@@ -370,14 +418,14 @@ namespace detail
     {
     }
 
-    void operator()(const typename Async_Read_Stream::error_type& e,
+    void operator()(const asio::error_code& ec,
         std::size_t bytes_transferred)
     {
       // Check for errors.
-      if (e)
+      if (ec)
       {
         std::size_t bytes = 0;
-        handler_(e, bytes);
+        handler_(ec, bytes);
         return;
       }
 
@@ -402,7 +450,7 @@ namespace detail
         {
           // Full match. We're done.
           std::size_t bytes = result.first.position() + delim_.length();
-          handler_(e, bytes);
+          handler_(ec, bytes);
           return;
         }
         else
@@ -417,51 +465,61 @@ namespace detail
         next_search_start_ = end.position();
       }
 
-      // No match. Start a new asynchronous read operation to obtain more data.
-      stream_.async_read_some(streambuf_.prepare(512), *this);
+      // Check if buffer is full.
+      if (streambuf_.size() == streambuf_.max_size())
+      {
+        std::size_t bytes = 0;
+        handler_(error::not_found, bytes);
+        return;
+      }
+
+      // Start a new asynchronous read operation to obtain more data.
+      std::size_t bytes_available =
+        std::min<std::size_t>(512, streambuf_.max_size() - streambuf_.size());
+      stream_.async_read_some(streambuf_.prepare(bytes_available), *this);
     }
 
   //private:
-    Async_Read_Stream& stream_;
+    AsyncReadStream& stream_;
     asio::basic_streambuf<Allocator>& streambuf_;
     std::string delim_;
     std::size_t next_search_start_;
-    Handler handler_;
+    ReadHandler handler_;
   };
 
-  template <typename Async_Read_Stream, typename Allocator, typename Handler>
+  template <typename AsyncReadStream, typename Allocator, typename ReadHandler>
   inline void* asio_handler_allocate(std::size_t size,
-      read_until_delim_string_handler<Async_Read_Stream,
-        Allocator, Handler>* this_handler)
+      read_until_delim_string_handler<AsyncReadStream,
+        Allocator, ReadHandler>* this_handler)
   {
     return asio_handler_alloc_helpers::allocate(
         size, &this_handler->handler_);
   }
 
-  template <typename Async_Read_Stream, typename Allocator, typename Handler>
+  template <typename AsyncReadStream, typename Allocator, typename ReadHandler>
   inline void asio_handler_deallocate(void* pointer, std::size_t size,
-      read_until_delim_string_handler<Async_Read_Stream,
-        Allocator, Handler>* this_handler)
+      read_until_delim_string_handler<AsyncReadStream,
+        Allocator, ReadHandler>* this_handler)
   {
     asio_handler_alloc_helpers::deallocate(
         pointer, size, &this_handler->handler_);
   }
 
-  template <typename Function, typename Async_Read_Stream,
-      typename Allocator, typename Handler>
+  template <typename Function, typename AsyncReadStream,
+      typename Allocator, typename ReadHandler>
   inline void asio_handler_invoke(const Function& function,
-      read_until_delim_string_handler<Async_Read_Stream,
-        Allocator, Handler>* this_handler)
+      read_until_delim_string_handler<AsyncReadStream,
+        Allocator, ReadHandler>* this_handler)
   {
     asio_handler_invoke_helpers::invoke(
         function, &this_handler->handler_);
   }
 } // namespace detail
 
-template <typename Async_Read_Stream, typename Allocator, typename Handler>
-void async_read_until(Async_Read_Stream& s,
+template <typename AsyncReadStream, typename Allocator, typename ReadHandler>
+void async_read_until(AsyncReadStream& s,
     asio::basic_streambuf<Allocator>& b, const std::string& delim,
-    Handler handler)
+    ReadHandler handler)
 {
   // Determine the range of the data to be searched.
   typedef typename asio::basic_streambuf<
@@ -481,9 +539,9 @@ void async_read_until(Async_Read_Stream& s,
     if (result.second)
     {
       // Full match. We're done.
-      typename Async_Read_Stream::error_type error;
+      asio::error_code ec;
       std::size_t bytes = result.first.position() + delim.length();
-      s.io_service().post(detail::bind_handler(handler, error, bytes));
+      s.io_service().post(detail::bind_handler(handler, ec, bytes));
       return;
     }
     else
@@ -498,23 +556,32 @@ void async_read_until(Async_Read_Stream& s,
     next_search_start = end.position();
   }
 
-  // No match. Start a new asynchronous read operation to obtain more data.
-  s.async_read_some(b.prepare(512),
+  // Check if buffer is full.
+  if (b.size() == b.max_size())
+  {
+    s.io_service().post(detail::bind_handler(handler, error::not_found, 0));
+    return;
+  }
+
+  // Start a new asynchronous read operation to obtain more data.
+  std::size_t bytes_available =
+    std::min<std::size_t>(512, b.max_size() - b.size());
+  s.async_read_some(b.prepare(bytes_available),
       detail::read_until_delim_string_handler<
-        Async_Read_Stream, Allocator, Handler>(
+        AsyncReadStream, Allocator, ReadHandler>(
           s, b, delim, next_search_start, handler));
 }
 
 namespace detail
 {
-  template <typename Async_Read_Stream, typename Allocator, typename Handler>
+  template <typename AsyncReadStream, typename Allocator, typename ReadHandler>
   class read_until_expr_handler
   {
   public:
-    read_until_expr_handler(Async_Read_Stream& stream,
+    read_until_expr_handler(AsyncReadStream& stream,
         asio::basic_streambuf<Allocator>& streambuf,
         const boost::regex& expr, std::size_t next_search_start,
-        Handler handler)
+        ReadHandler handler)
       : stream_(stream),
         streambuf_(streambuf),
         expr_(expr),
@@ -523,14 +590,14 @@ namespace detail
     {
     }
 
-    void operator()(const typename Async_Read_Stream::error_type& e,
+    void operator()(const asio::error_code& ec,
         std::size_t bytes_transferred)
     {
       // Check for errors.
-      if (e)
+      if (ec)
       {
         std::size_t bytes = 0;
-        handler_(e, bytes);
+        handler_(ec, bytes);
         return;
       }
 
@@ -555,7 +622,7 @@ namespace detail
         {
           // Full match. We're done.
           std::size_t bytes = match_results[0].second.position();
-          handler_(e, bytes);
+          handler_(ec, bytes);
           return;
         }
         else
@@ -570,51 +637,61 @@ namespace detail
         next_search_start_ = end.position();
       }
 
-      // No match. Start a new asynchronous read operation to obtain more data.
-      stream_.async_read_some(streambuf_.prepare(512), *this);
+      // Check if buffer is full.
+      if (streambuf_.size() == streambuf_.max_size())
+      {
+        std::size_t bytes = 0;
+        handler_(error::not_found, bytes);
+        return;
+      }
+
+      // Start a new asynchronous read operation to obtain more data.
+      std::size_t bytes_available =
+        std::min<std::size_t>(512, streambuf_.max_size() - streambuf_.size());
+      stream_.async_read_some(streambuf_.prepare(bytes_available), *this);
     }
 
   //private:
-    Async_Read_Stream& stream_;
+    AsyncReadStream& stream_;
     asio::basic_streambuf<Allocator>& streambuf_;
     boost::regex expr_;
     std::size_t next_search_start_;
-    Handler handler_;
+    ReadHandler handler_;
   };
 
-  template <typename Async_Read_Stream, typename Allocator, typename Handler>
+  template <typename AsyncReadStream, typename Allocator, typename ReadHandler>
   inline void* asio_handler_allocate(std::size_t size,
-      read_until_expr_handler<Async_Read_Stream,
-        Allocator, Handler>* this_handler)
+      read_until_expr_handler<AsyncReadStream,
+        Allocator, ReadHandler>* this_handler)
   {
     return asio_handler_alloc_helpers::allocate(
         size, &this_handler->handler_);
   }
 
-  template <typename Async_Read_Stream, typename Allocator, typename Handler>
+  template <typename AsyncReadStream, typename Allocator, typename ReadHandler>
   inline void asio_handler_deallocate(void* pointer, std::size_t size,
-      read_until_expr_handler<Async_Read_Stream,
-        Allocator, Handler>* this_handler)
+      read_until_expr_handler<AsyncReadStream,
+        Allocator, ReadHandler>* this_handler)
   {
     asio_handler_alloc_helpers::deallocate(
         pointer, size, &this_handler->handler_);
   }
 
-  template <typename Function, typename Async_Read_Stream, typename Allocator,
-      typename Handler>
+  template <typename Function, typename AsyncReadStream, typename Allocator,
+      typename ReadHandler>
   inline void asio_handler_invoke(const Function& function,
-      read_until_expr_handler<Async_Read_Stream,
-        Allocator, Handler>* this_handler)
+      read_until_expr_handler<AsyncReadStream,
+        Allocator, ReadHandler>* this_handler)
   {
     asio_handler_invoke_helpers::invoke(
         function, &this_handler->handler_);
   }
 } // namespace detail
 
-template <typename Async_Read_Stream, typename Allocator, typename Handler>
-void async_read_until(Async_Read_Stream& s,
+template <typename AsyncReadStream, typename Allocator, typename ReadHandler>
+void async_read_until(AsyncReadStream& s,
     asio::basic_streambuf<Allocator>& b, const boost::regex& expr,
-    Handler handler)
+    ReadHandler handler)
 {
   // Determine the range of the data to be searched.
   typedef typename asio::basic_streambuf<
@@ -634,9 +711,9 @@ void async_read_until(Async_Read_Stream& s,
     if (match_results[0].matched)
     {
       // Full match. We're done.
-      typename Async_Read_Stream::error_type error;
+      asio::error_code ec;
       std::size_t bytes = match_results[0].second.position();
-      s.io_service().post(detail::bind_handler(handler, error, bytes));
+      s.io_service().post(detail::bind_handler(handler, ec, bytes));
       return;
     }
     else
@@ -651,9 +728,18 @@ void async_read_until(Async_Read_Stream& s,
     next_search_start = end.position();
   }
 
-  // No match. Start a new asynchronous read operation to obtain more data.
-  s.async_read_some(b.prepare(512),
-      detail::read_until_expr_handler<Async_Read_Stream, Allocator, Handler>(
+  // Check if buffer is full.
+  if (b.size() == b.max_size())
+  {
+    s.io_service().post(detail::bind_handler(handler, error::not_found, 0));
+    return;
+  }
+
+  // Start a new asynchronous read operation to obtain more data.
+  std::size_t bytes_available =
+    std::min<std::size_t>(512, b.max_size() - b.size());
+  s.async_read_some(b.prepare(bytes_available),
+      detail::read_until_expr_handler<AsyncReadStream, Allocator, ReadHandler>(
         s, b, expr, next_search_start, handler));
 }
 

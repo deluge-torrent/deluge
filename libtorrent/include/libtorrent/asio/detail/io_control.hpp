@@ -2,7 +2,7 @@
 // io_control.hpp
 // ~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -90,7 +90,7 @@ public:
 
   // Construct with a specific command value.
   bytes_readable(std::size_t value)
-    : value_(value)
+    : value_(static_cast<detail::ioctl_arg_type>(value))
   {
   }
 

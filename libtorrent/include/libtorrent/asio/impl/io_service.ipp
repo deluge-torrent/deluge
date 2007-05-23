@@ -2,7 +2,7 @@
 // io_service.ipp
 // ~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,43 +17,94 @@
 
 #include "asio/detail/push_options.hpp"
 
+#include "asio/detail/push_options.hpp"
+#include <limits>
+#include "asio/detail/pop_options.hpp"
+
 #include "asio/detail/epoll_reactor.hpp"
 #include "asio/detail/kqueue_reactor.hpp"
 #include "asio/detail/select_reactor.hpp"
+#include "asio/detail/service_registry.hpp"
 #include "asio/detail/task_io_service.hpp"
+#include "asio/detail/throw_error.hpp"
 #include "asio/detail/win_iocp_io_service.hpp"
 
 namespace asio {
 
 inline io_service::io_service()
-  : service_registry_(*this),
-    impl_(service_registry_.use_service<impl_type>())
+  : service_registry_(new asio::detail::service_registry(*this)),
+    impl_(service_registry_->use_service<impl_type>())
 {
+  impl_.init((std::numeric_limits<std::size_t>::max)());
 }
 
-inline size_t io_service::run()
+inline io_service::io_service(std::size_t concurrency_hint)
+  : service_registry_(new asio::detail::service_registry(*this)),
+    impl_(service_registry_->use_service<impl_type>())
 {
-  return impl_.run();
+  impl_.init(concurrency_hint);
 }
 
-inline size_t io_service::run_one()
+inline io_service::~io_service()
 {
-  return impl_.run_one();
+  delete service_registry_;
 }
 
-inline size_t io_service::poll()
+inline std::size_t io_service::run()
 {
-  return impl_.poll();
+  asio::error_code ec;
+  std::size_t s = impl_.run(ec);
+  asio::detail::throw_error(ec);
+  return s;
 }
 
-inline size_t io_service::poll_one()
+inline std::size_t io_service::run(asio::error_code& ec)
 {
-  return impl_.poll_one();
+  return impl_.run(ec);
 }
 
-inline void io_service::interrupt()
+inline std::size_t io_service::run_one()
 {
-  impl_.interrupt();
+  asio::error_code ec;
+  std::size_t s = impl_.run_one(ec);
+  asio::detail::throw_error(ec);
+  return s;
+}
+
+inline std::size_t io_service::run_one(asio::error_code& ec)
+{
+  return impl_.run_one(ec);
+}
+
+inline std::size_t io_service::poll()
+{
+  asio::error_code ec;
+  std::size_t s = impl_.poll(ec);
+  asio::detail::throw_error(ec);
+  return s;
+}
+
+inline std::size_t io_service::poll(asio::error_code& ec)
+{
+  return impl_.poll(ec);
+}
+
+inline std::size_t io_service::poll_one()
+{
+  asio::error_code ec;
+  std::size_t s = impl_.poll_one(ec);
+  asio::detail::throw_error(ec);
+  return s;
+}
+
+inline std::size_t io_service::poll_one(asio::error_code& ec)
+{
+  return impl_.poll_one(ec);
+}
+
+inline void io_service::stop()
+{
+  impl_.stop();
 }
 
 inline void io_service::reset()
@@ -125,22 +176,34 @@ inline asio::io_service& io_service::service::io_service()
 template <typename Service>
 inline Service& use_service(io_service& ios)
 {
-  return ios.service_registry_.template use_service<Service>();
+  // Check that Service meets the necessary type requirements.
+  (void)static_cast<io_service::service*>(static_cast<Service*>(0));
+  (void)static_cast<const io_service::id*>(&Service::id);
+
+  return ios.service_registry_->template use_service<Service>();
 }
 
 template <typename Service>
 void add_service(io_service& ios, Service* svc)
 {
+  // Check that Service meets the necessary type requirements.
+  (void)static_cast<io_service::service*>(static_cast<Service*>(0));
+  (void)static_cast<const io_service::id*>(&Service::id);
+
   if (&ios != &svc->io_service())
     boost::throw_exception(invalid_service_owner());
-  if (!ios.service_registry_.template add_service<Service>(svc))
+  if (!ios.service_registry_->template add_service<Service>(svc))
     boost::throw_exception(service_already_exists());
 }
 
 template <typename Service>
 bool has_service(io_service& ios)
 {
-  return ios.service_registry_.template has_service<Service>();
+  // Check that Service meets the necessary type requirements.
+  (void)static_cast<io_service::service*>(static_cast<Service*>(0));
+  (void)static_cast<const io_service::id*>(&Service::id);
+
+  return ios.service_registry_->template has_service<Service>();
 }
 
 } // namespace asio

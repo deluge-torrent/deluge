@@ -46,6 +46,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/entry.hpp"
 #include "libtorrent/bencode.hpp"
 #include "libtorrent/torrent.hpp"
+#include "libtorrent/peer_connection.hpp"
 
 using namespace libtorrent;
 using boost::tuples::make_tuple;
@@ -313,11 +314,11 @@ namespace libtorrent
 	}
 
 
-	timeout_handler::timeout_handler(demuxer& d)
-		: m_demuxer(d)
+	timeout_handler::timeout_handler(asio::strand& str)
+		: m_strand(str)
 		, m_start_time(second_clock::universal_time())
 		, m_read_time(second_clock::universal_time())
-		, m_timeout(d)
+		, m_timeout(str.io_service())
 		, m_completion_timeout(0)
 		, m_read_timeout(0)
 		, m_refs(0)
@@ -333,7 +334,8 @@ namespace libtorrent
 		m_timeout.expires_at(std::min(
 			m_read_time + seconds(m_read_timeout)
 			, m_start_time + seconds(m_completion_timeout)));
-		m_timeout.async_wait(bind(&timeout_handler::timeout_callback, self(), _1));
+		m_timeout.async_wait(m_strand.wrap(bind(
+			&timeout_handler::timeout_callback, self(), _1)));
 	}
 
 	void timeout_handler::restart_read_timeout()
@@ -347,7 +349,7 @@ namespace libtorrent
 		m_timeout.cancel();
 	}
 
-	void timeout_handler::timeout_callback(asio::error const& error) try
+	void timeout_handler::timeout_callback(asio::error_code const& error) try
 	{
 		if (error) return;
 		if (m_completion_timeout == 0) return;
@@ -368,7 +370,8 @@ namespace libtorrent
 		m_timeout.expires_at(std::min(
 			m_read_time + seconds(m_read_timeout)
 			, m_start_time + seconds(m_completion_timeout)));
-		m_timeout.async_wait(bind(&timeout_handler::timeout_callback, self(), _1));
+		m_timeout.async_wait(m_strand.wrap(
+			bind(&timeout_handler::timeout_callback, self(), _1)));
 	}
 	catch (std::exception& e)
 	{
@@ -378,10 +381,12 @@ namespace libtorrent
 	tracker_connection::tracker_connection(
 		tracker_manager& man
 		, tracker_request req
-		, demuxer& d
+		, asio::strand& str
+		, address bind_interface_
 		, boost::weak_ptr<request_callback> r)
-		: timeout_handler(d)
+		: timeout_handler(str)
 		, m_requester(r)
+		, m_bind_interface(bind_interface_)
 		, m_man(man)
 		, m_req(req)
 	{}
@@ -478,9 +483,10 @@ namespace libtorrent
 	}
 
 	void tracker_manager::queue_request(
-		demuxer& d
+		asio::strand& str
 		, tracker_request req
 		, std::string const& auth
+		, address bind_infc
 		, boost::weak_ptr<request_callback> c)
 	{
 		mutex_t::scoped_lock l(m_mutex);
@@ -503,12 +509,13 @@ namespace libtorrent
 			if (protocol == "http")
 			{
 				con = new http_tracker_connection(
-					d
+					str
 					, *this
 					, req
 					, hostname
 					, port
 					, request_string
+					, bind_infc
 					, c
 					, m_settings
 					, auth);
@@ -516,11 +523,12 @@ namespace libtorrent
 			else if (protocol == "udp")
 			{
 				con = new udp_tracker_connection(
-					d
+					str
 					, *this
 					, req
 					, hostname
 					, port
+					, bind_infc
 					, c
 					, m_settings);
 			}

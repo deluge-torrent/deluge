@@ -2,7 +2,7 @@
 // tcp.hpp
 // ~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,11 +17,11 @@
 
 #include "asio/detail/push_options.hpp"
 
-#include "asio/basic_resolver.hpp"
 #include "asio/basic_socket_acceptor.hpp"
 #include "asio/basic_socket_iostream.hpp"
 #include "asio/basic_stream_socket.hpp"
 #include "asio/ip/basic_endpoint.hpp"
+#include "asio/ip/basic_resolver.hpp"
 #include "asio/ip/basic_resolver_iterator.hpp"
 #include "asio/ip/basic_resolver_query.hpp"
 #include "asio/detail/socket_option.hpp"
@@ -34,12 +34,12 @@ namespace ip {
 /**
  * The asio::ip::tcp class contains flags necessary for TCP sockets.
  *
- * @par Thread Safety:
+ * @par Thread Safety
  * @e Distinct @e objects: Safe.@n
  * @e Shared @e objects: Safe.
  *
  * @par Concepts:
- * Protocol.
+ * Protocol, InternetProtocol.
  */
 class tcp
 {
@@ -99,23 +99,23 @@ public:
   /**
    * Implements the IPPROTO_TCP/TCP_NODELAY socket option.
    *
-   * @par Examples:
+   * @par Examples
    * Setting the option:
    * @code
-   * asio::ipv6::tcp::socket socket(io_service); 
+   * asio::ip::tcp::socket socket(io_service); 
    * ...
-   * asio::ipv6::tcp::no_delay option(true);
+   * asio::ip::tcp::no_delay option(true);
    * socket.set_option(option);
    * @endcode
    *
    * @par
    * Getting the current option value:
    * @code
-   * asio::ipv6::tcp::socket socket(io_service); 
+   * asio::ip::tcp::socket socket(io_service); 
    * ...
-   * asio::ipv6::tcp::no_delay option;
+   * asio::ip::tcp::no_delay option;
    * socket.get_option(option);
-   * bool is_set = option.get();
+   * bool is_set = option.value();
    * @endcode
    *
    * @par Concepts:
@@ -127,6 +127,18 @@ public:
   typedef asio::detail::socket_option::boolean<
     IPPROTO_TCP, TCP_NODELAY> no_delay;
 #endif
+
+  /// Compare two protocols for equality.
+  friend bool operator==(const tcp& p1, const tcp& p2)
+  {
+    return p1.family_ == p2.family_;
+  }
+
+  /// Compare two protocols for inequality.
+  friend bool operator!=(const tcp& p1, const tcp& p2)
+  {
+    return p1.family_ != p2.family_;
+  }
 
 private:
   // Construct with a specific family.

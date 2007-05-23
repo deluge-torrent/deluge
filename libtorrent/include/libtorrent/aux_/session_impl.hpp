@@ -75,6 +75,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/session_status.hpp"
 #include "libtorrent/session.hpp"
 #include "libtorrent/stat.hpp"
+#include "libtorrent/file_pool.hpp"
+#include "libtorrent/bandwidth_manager.hpp"
 
 namespace libtorrent
 {
@@ -148,6 +150,10 @@ namespace libtorrent
 			bool m_abort;
 		};
 
+#if defined(TORRENT_LOGGING) || defined(TORRENT_VERBOSE_LOGGING)
+		struct tracker_logger;
+#endif
+
 		// this is the link between the main thread and the
 		// thread started to run the main downloader loop
 		struct session_impl: boost::noncopyable
@@ -155,7 +161,7 @@ namespace libtorrent
 #ifndef NDEBUG
 			friend class ::libtorrent::peer_connection;
 #endif
-			friend class checker_impl;
+			friend struct checker_impl;
 			friend class invariant_access;
 			typedef std::map<boost::shared_ptr<stream_socket>
 				, boost::intrusive_ptr<peer_connection> >
@@ -170,13 +176,16 @@ namespace libtorrent
 				, char const* listen_interface = "0.0.0.0");
 			~session_impl();
 
+#ifndef TORRENT_DISABLE_EXTENSIONS
+			void add_extension(boost::function<boost::shared_ptr<torrent_plugin>(torrent*)> ext);
+#endif
 			void operator()();
 
 			void open_listen_port();
 
 			void async_accept();
 			void on_incoming_connection(boost::shared_ptr<stream_socket> const& s
-				, boost::weak_ptr<socket_acceptor> const& as, asio::error const& e);
+				, boost::weak_ptr<socket_acceptor> const& as, asio::error_code const& e);
 		
 			// must be locked to access the data
 			// in this struct
@@ -228,6 +237,7 @@ namespace libtorrent
 			torrent_handle add_torrent(
 				char const* tracker_url
 				, sha1_hash const& info_hash
+				, char const* name
 				, boost::filesystem::path const& save_path
 				, entry const& resume_data
 				, bool compact_mode
@@ -235,22 +245,22 @@ namespace libtorrent
 
 			void remove_torrent(torrent_handle const& h);
 
-			void disable_extensions();
-			void enable_extension(extension_index i);
-			bool extensions_enabled() const;
-			bool extension_enabled(int i) const
-			{ return m_extension_enabled[i]; }
-
 			std::vector<torrent_handle> get_torrents();
 			
 			void set_severity_level(alert::severity_t s);
 			std::auto_ptr<alert> pop_alert();
+
+			int upload_rate_limit() const;
+			int download_rate_limit() const;
+
 			void set_download_rate_limit(int bytes_per_second);
 			void set_upload_rate_limit(int bytes_per_second);
 			void set_max_half_open_connections(int limit);
 			void set_max_connections(int limit);
 			void set_max_uploads(int limit);
 
+			int num_uploads() const;
+			int num_connections() const;
 
 			session_status status() const;
 			void set_peer_id(peer_id const& id);
@@ -258,6 +268,9 @@ namespace libtorrent
 			unsigned short listen_port() const;
 			
 			void abort();
+			
+			torrent_handle find_torrent_handle(sha1_hash const& info_hash);
+
 			
 			// handles delayed alerts
 			alert_manager m_alerts;
@@ -267,7 +280,15 @@ namespace libtorrent
 			// this is where all active sockets are stored.
 			// the selector can sleep while there's no activity on
 			// them
-			demuxer m_selector;
+			io_service m_io_service;
+			asio::strand m_strand;
+
+			// the bandwidth manager is responsible for
+			// handing out bandwidth to connections that
+			// asks for it, it can also throttle the
+			// rate.
+			bandwidth_manager m_dl_bandwidth_manager;
+			bandwidth_manager m_ul_bandwidth_manager;
 
 			tracker_manager m_tracker_manager;
 			torrent_map m_torrents;
@@ -310,10 +331,6 @@ namespace libtorrent
 
 			boost::shared_ptr<socket_acceptor> m_listen_socket;
 
-			// the entries in this array maps the
-			// extension index (as specified in peer_connection)
-			bool m_extension_enabled[num_supported_extensions];
-
 			// the settings for the client
 			session_settings m_settings;
 
@@ -322,11 +339,6 @@ namespace libtorrent
 			// should exit
 			volatile bool m_abort;
 
-			// maximum upload rate given in
-			// bytes per second. -1 means
-			// unlimited
-			int m_upload_rate;
-			int m_download_rate;
 			int m_max_uploads;
 			int m_max_connections;
 			// the number of simultaneous half-open tcp
@@ -341,14 +353,17 @@ namespace libtorrent
 			// this is used to know if the client is behind
 			// NAT or not.
 			bool m_incoming_connection;
+			
+			// the file pool that all storages in this session's
+			// torrents uses. It sets a limit on the number of
+			// open files by this session.
+			file_pool m_files;
 
-			// does the actual disconnections
-			// that are queued up in m_disconnect_peer
-			void second_tick(asio::error const& e);
+			void second_tick(asio::error_code const& e);
 			boost::posix_time::ptime m_last_tick;
 
 #ifndef TORRENT_DISABLE_DHT
-			boost::scoped_ptr<dht::dht_tracker> m_dht;
+			boost::intrusive_ptr<dht::dht_tracker> m_dht;
 			dht_settings m_dht_settings;
 #endif
 			// the timer used to fire the second_tick
@@ -357,10 +372,27 @@ namespace libtorrent
 			void check_invariant(const char *place = 0);
 #endif
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-			boost::shared_ptr<logger> create_log(std::string const& name, bool append = true);
+			boost::shared_ptr<logger> create_log(std::string const& name
+				, int instance, bool append = true);
+			
+			// this list of tracker loggers serves as tracker_callbacks when
+			// shutting down. This list is just here to keep them alive during
+			// whe shutting down process
+			std::list<boost::shared_ptr<tracker_logger> > m_tracker_loggers;
+			
+			// logger used to write bandwidth usage statistics
+			boost::shared_ptr<logger> m_stats_logger;
+			int m_second_counter;
 		public:
 			boost::shared_ptr<logger> m_logger;
 		private:
+#endif
+
+#ifndef TORRENT_DISABLE_EXTENSIONS
+			typedef std::list<boost::function<boost::shared_ptr<
+				torrent_plugin>(torrent*)> > extension_list_t;
+
+			extension_list_t m_extensions;
 #endif
 
 			// data shared between the main thread
@@ -374,6 +406,61 @@ namespace libtorrent
 			// on all torrents before they start downloading
 			boost::scoped_ptr<boost::thread> m_checker_thread;
 		};
+		
+#if defined(TORRENT_LOGGING) || defined(TORRENT_VERBOSE_LOGGING)
+		struct tracker_logger : request_callback
+		{
+			tracker_logger(session_impl& ses): m_ses(ses) {}
+			void tracker_warning(std::string const& str)
+			{
+				debug_log("*** tracker warning: " + str);
+			}
+
+			void tracker_response(tracker_request const&
+				, std::vector<peer_entry>& peers
+				, int interval
+				, int complete
+				, int incomplete)
+			{
+				std::stringstream s;
+				s << "TRACKER RESPONSE:\n"
+					"interval: " << interval << "\n"
+					"peers:\n";
+				for (std::vector<peer_entry>::const_iterator i = peers.begin();
+					i != peers.end(); ++i)
+				{
+					s << "  " << std::setfill(' ') << std::setw(16) << i->ip
+						<< " " << std::setw(5) << std::dec << i->port << "  ";
+					if (!i->pid.is_all_zeros()) s << " " << i->pid;
+					s << "\n";
+				}
+				debug_log(s.str());
+			}
+
+			void tracker_request_timed_out(
+				tracker_request const&)
+			{
+				debug_log("*** tracker timed out");
+			}
+
+			void tracker_request_error(
+				tracker_request const&
+				, int response_code
+				, const std::string& str)
+			{
+				debug_log(std::string("*** tracker error: ")
+					+ boost::lexical_cast<std::string>(response_code) + ": "
+					+ str);
+			}
+			
+			void debug_log(const std::string& line)
+			{
+				(*m_ses.m_logger) << line << "\n";
+			}
+			session_impl& m_ses;
+		};
+#endif
+
 	}
 }
 

@@ -45,6 +45,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/invariant_check.hpp"
 #include "libtorrent/io.hpp"
 #include "libtorrent/version.hpp"
+#include "libtorrent/extensions.hpp"
 #include "libtorrent/aux_/session_impl.hpp"
 
 using namespace boost::posix_time;
@@ -54,11 +55,6 @@ using libtorrent::aux::session_impl;
 
 namespace libtorrent
 {
-
-	// the names of the extensions to look for in
-	// the extensions-message
-	const char* bt_peer_connection::extension_names[] =
-	{ "", "LT_chat", "LT_metadata", "LT_peer_exchange" };
 
 	const bt_peer_connection::message_handler
 	bt_peer_connection::m_message_handler[] =
@@ -83,30 +79,20 @@ namespace libtorrent
 		, boost::weak_ptr<torrent> tor
 		, shared_ptr<stream_socket> s
 		, tcp::endpoint const& remote)
-		: peer_connection(ses, tor, s, remote)
+		: peer_connection(ses, tor, s, remote, tcp::endpoint())
 		, m_state(read_protocol_length)
+#ifndef TORRENT_DISABLE_EXTENSIONS
 		, m_supports_extensions(false)
+#endif
 		, m_supports_dht_port(false)
-		, m_no_metadata(
-			boost::gregorian::date(1970, boost::date_time::Jan, 1)
-			, boost::posix_time::seconds(0))
-		, m_metadata_request(
-			boost::gregorian::date(1970, boost::date_time::Jan, 1)
-			, boost::posix_time::seconds(0))
-		, m_waiting_metadata_request(false)
-		, m_metadata_progress(0)
 #ifndef NDEBUG
+		, m_sent_bitfield(false)
 		, m_in_constructor(true)
 #endif
 	{
 #ifdef TORRENT_VERBOSE_LOGGING
 		(*m_logger) << "*** bt_peer_connection\n";
 #endif
-
-		// initialize the extension list to zero, since
-		// we don't know which extensions the other
-		// end supports yet
-		std::fill(m_extension_messages, m_extension_messages + num_supported_extensions, 0);
 
 		write_handshake();
 
@@ -133,28 +119,26 @@ namespace libtorrent
 		, boost::shared_ptr<stream_socket> s)
 		: peer_connection(ses, s)
 		, m_state(read_protocol_length)
+#ifndef TORRENT_DISABLE_EXTENSIONS
 		, m_supports_extensions(false)
+#endif
 		, m_supports_dht_port(false)
-		, m_no_metadata(
-			boost::gregorian::date(1970, boost::date_time::Jan, 1)
-			, boost::posix_time::seconds(0))
-		, m_metadata_request(
-			boost::gregorian::date(1970, boost::date_time::Jan, 1)
-			, boost::posix_time::seconds(0))
-		, m_waiting_metadata_request(false)
-		, m_metadata_progress(0)
 #ifndef NDEBUG
+		, m_sent_bitfield(false)
 		, m_in_constructor(true)
 #endif
 	{
-		// initialize the extension list to zero, since
-		// we don't know which extensions the other
-		// end supports yet
-		std::fill(m_extension_messages, m_extension_messages + num_supported_extensions, 0);
-
 		// we are not attached to any torrent yet.
 		// we have to wait for the handshake to see
 		// which torrent the connector want's to connect to
+
+
+		// upload bandwidth will only be given to connections
+		// that are part of a torrent. Since this is an incoming
+		// connection, we have to give it some initial bandwidth
+		// to send the handshake.
+		m_bandwidth_limit[download_channel].assign(80);
+		m_bandwidth_limit[upload_channel].assign(80);
 
 		// start in the state where we are trying to read the
 		// handshake from the other side
@@ -167,6 +151,13 @@ namespace libtorrent
 
 	bt_peer_connection::~bt_peer_connection()
 	{
+	}
+
+	void bt_peer_connection::on_metadata()
+	{
+		boost::shared_ptr<torrent> t = associated_torrent().lock();
+		assert(t);
+		write_bitfield(t->pieces());
 	}
 
 	void bt_peer_connection::write_dht_port(int listen_port)
@@ -191,19 +182,22 @@ namespace libtorrent
 		p.payload_up_speed = statistics().upload_payload_rate();
 		p.pid = pid();
 		p.ip = remote();
+		
+		p.country[0] = m_country[0];
+		p.country[1] = m_country[1];
 
 		p.total_download = statistics().total_payload_download();
 		p.total_upload = statistics().total_payload_upload();
 
-		if (m_ul_bandwidth_quota.given == std::numeric_limits<int>::max())
+		if (m_bandwidth_limit[upload_channel].throttle() == bandwidth_limit::inf)
 			p.upload_limit = -1;
 		else
-			p.upload_limit = m_ul_bandwidth_quota.given;
+			p.upload_limit = m_bandwidth_limit[upload_channel].throttle();
 
-		if (m_dl_bandwidth_quota.given == std::numeric_limits<int>::max())
+		if (m_bandwidth_limit[download_channel].throttle() == bandwidth_limit::inf)
 			p.download_limit = -1;
 		else
-			p.download_limit = m_dl_bandwidth_quota.given;
+			p.download_limit = m_bandwidth_limit[download_channel].throttle();
 
 		p.load_balancing = total_free_upload();
 
@@ -243,6 +237,11 @@ namespace libtorrent
 		p.client = m_client_version;
 		p.connection_type = peer_info::standard_bittorrent;
 	}
+	
+	bool bt_peer_connection::in_handshake() const
+	{
+		return m_state < read_packet_size;
+	}
 
 	void bt_peer_connection::write_handshake()
 	{
@@ -268,18 +267,17 @@ namespace libtorrent
 		i.begin += string_len;
 
 		// 8 zeroes
-		std::fill(
-			i.begin
-			, i.begin + 8
-			, 0);
+		std::fill(i.begin, i.begin + 8, 0);
 
 #ifndef TORRENT_DISABLE_DHT
 		// indicate that we support the DHT messages
 		*(i.begin + 7) = 0x01;
 #endif
-		
+
+#ifndef TORRENT_DISABLE_EXTENSIONS
 		// we support extensions
 		*(i.begin + 5) = 0x10;
+#endif
 
 		i.begin += 8;
 
@@ -312,7 +310,7 @@ namespace libtorrent
 		buffer::const_interval recv_buffer = receive_buffer();
 		// are we currently receiving a 'piece' message?
 		if (m_state != read_packet
-			|| (recv_buffer.end - recv_buffer.begin) < 9
+			|| recv_buffer.left() < 9
 			|| recv_buffer[0] != msg_piece)
 			return boost::optional<piece_block_progress>();
 
@@ -330,7 +328,7 @@ namespace libtorrent
 
 		p.piece_index = r.piece;
 		p.block_index = r.start / t->block_size();
-		p.bytes_downloaded = recv_buffer.end - recv_buffer.begin - 9;
+		p.bytes_downloaded = recv_buffer.left() - 9;
 		p.full_block_bytes = r.length;
 
 		return boost::optional<piece_block_progress>(p);
@@ -369,6 +367,14 @@ namespace libtorrent
 		m_statistics.received_bytes(0, received);
 		if (!packet_finished()) return;
 
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		for (extension_list_t::iterator i = m_extensions.begin()
+			, end(m_extensions.end()); i != end; ++i)
+		{
+			if ((*i)->on_choke()) return;
+		}
+#endif
+
 		incoming_choke();
 	}
 
@@ -385,6 +391,14 @@ namespace libtorrent
 			throw protocol_error("'unchoke' message size != 1");
 		m_statistics.received_bytes(0, received);
 		if (!packet_finished()) return;
+
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		for (extension_list_t::iterator i = m_extensions.begin()
+			, end(m_extensions.end()); i != end; ++i)
+		{
+			if ((*i)->on_unchoke()) return;
+		}
+#endif
 
 		incoming_unchoke();
 	}
@@ -403,6 +417,14 @@ namespace libtorrent
 		m_statistics.received_bytes(0, received);
 		if (!packet_finished()) return;
 
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		for (extension_list_t::iterator i = m_extensions.begin()
+			, end(m_extensions.end()); i != end; ++i)
+		{
+			if ((*i)->on_interested()) return;
+		}
+#endif
+
 		incoming_interested();
 	}
 
@@ -419,6 +441,14 @@ namespace libtorrent
 			throw protocol_error("'not interested' message size != 1");
 		m_statistics.received_bytes(0, received);
 		if (!packet_finished()) return;
+
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		for (extension_list_t::iterator i = m_extensions.begin()
+			, end(m_extensions.end()); i != end; ++i)
+		{
+			if ((*i)->on_not_interested()) return;
+		}
+#endif
 
 		incoming_not_interested();
 	}
@@ -441,6 +471,14 @@ namespace libtorrent
 
 		const char* ptr = recv_buffer.begin + 1;
 		int index = detail::read_int32(ptr);
+
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		for (extension_list_t::iterator i = m_extensions.begin()
+			, end(m_extensions.end()); i != end; ++i)
+		{
+			if ((*i)->on_have(index)) return;
+		}
+#endif
 
 		incoming_have(index);
 	}
@@ -482,6 +520,15 @@ namespace libtorrent
 		// (since it doesn't exist yet)
 		for (int i = 0; i < (int)bitfield.size(); ++i)
 			bitfield[i] = (recv_buffer[1 + (i>>3)] & (1 << (7 - (i&7)))) != 0;
+
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		for (extension_list_t::iterator i = m_extensions.begin()
+			, end(m_extensions.end()); i != end; ++i)
+		{
+			if ((*i)->on_bitfield(bitfield)) return;
+		}
+#endif
+
 		incoming_bitfield(bitfield);
 	}
 
@@ -507,6 +554,14 @@ namespace libtorrent
 		r.start = detail::read_int32(ptr);
 		r.length = detail::read_int32(ptr);
 		
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		for (extension_list_t::iterator i = m_extensions.begin()
+			, end(m_extensions.end()); i != end; ++i)
+		{
+			if ((*i)->on_request(r)) return;
+		}
+#endif
+
 		incoming_request(r);
 	}
 
@@ -551,6 +606,14 @@ namespace libtorrent
 		p.start = detail::read_int32(ptr);
 		p.length = packet_size() - 9;
 
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		for (extension_list_t::iterator i = m_extensions.begin()
+			, end(m_extensions.end()); i != end; ++i)
+		{
+			if ((*i)->on_piece(p, recv_buffer.begin + 9)) return;
+		}
+#endif
+
 		incoming_piece(p, recv_buffer.begin + 9);
 	}
 
@@ -575,6 +638,14 @@ namespace libtorrent
 		r.piece = detail::read_int32(ptr);
 		r.start = detail::read_int32(ptr);
 		r.length = detail::read_int32(ptr);
+
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		for (extension_list_t::iterator i = m_extensions.begin()
+			, end(m_extensions.end()); i != end; ++i)
+		{
+			if ((*i)->on_cancel(r)) return;
+		}
+#endif
 
 		incoming_cancel(r);
 	}
@@ -618,60 +689,34 @@ namespace libtorrent
 			throw protocol_error("'extended' message sent before proper handshake");
 
 		buffer::const_interval recv_buffer = receive_buffer();
-		if (recv_buffer.end - recv_buffer.begin < 2) return;
+		if (recv_buffer.left() < 2) return;
 
 		assert(*recv_buffer.begin == msg_extended);
 		++recv_buffer.begin;
 
 		int extended_id = detail::read_uint8(recv_buffer.begin);
 
-		if (extended_id > 0 && extended_id < num_supported_extensions
-			&& !m_ses.extension_enabled(extended_id))
-			throw protocol_error("'extended' message using disabled extension");
-
-		switch (extended_id)
+		if (extended_id == 0)
 		{
-		case extended_handshake:
-			on_extended_handshake(); break;
-		case extended_chat_message:
-			on_chat(); break;
-		case extended_metadata_message:
-			on_metadata(); break;
-		case extended_peer_exchange_message:
-			on_peer_exchange(); break;
-		default:
-			throw protocol_error("unknown extended message id: "
-				+ boost::lexical_cast<std::string>(extended_id));
-		};
+			on_extended_handshake();
+			return;
+		}
+
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		for (extension_list_t::iterator i = m_extensions.begin()
+			, end(m_extensions.end()); i != end; ++i)
+		{
+			if ((*i)->on_extended(packet_size() - 2, extended_id
+				, recv_buffer))
+				return;
+		}
+#endif
+
+		throw protocol_error("unknown extended message id: "
+			+ boost::lexical_cast<std::string>(extended_id));
 	}
 
-	void bt_peer_connection::write_chat_message(const std::string& msg)
-	{
-		INVARIANT_CHECK;
-
-		assert(msg.length() <= 1 * 1024);
-		if (!supports_extension(extended_chat_message)) return;
-
-		entry e(entry::dictionary_t);
-		e["msg"] = msg;
-
-		std::vector<char> message;
-		bencode(std::back_inserter(message), e);
-
-		buffer::interval i = allocate_send_buffer(message.size() + 6);
-
-		detail::write_uint32(1 + 1 + (int)message.size(), i.begin);
-		detail::write_uint8(msg_extended, i.begin);
-		detail::write_uint8(m_extension_messages[extended_chat_message], i.begin);
-
-		std::copy(message.begin(), message.end(), i.begin);
-		i.begin += message.size();
-		assert(i.begin == i.end);
-		setup_send();
-	}
-
-
-	void bt_peer_connection::on_extended_handshake() try
+	void bt_peer_connection::on_extended_handshake()
 	{
 		if (!packet_finished()) return;
 
@@ -679,8 +724,19 @@ namespace libtorrent
 		assert(t);
 
 		buffer::const_interval recv_buffer = receive_buffer();
-	
-		entry root = bdecode(recv_buffer.begin + 2, recv_buffer.end);
+
+		entry root;
+		try
+		{
+			root = bdecode(recv_buffer.begin + 2, recv_buffer.end);
+		}
+		catch (std::exception& exc)
+		{
+#ifdef TORRENT_VERBOSE_LOGGING
+			(*m_logger) << "invalid extended handshake: " << exc.what() << "\n";
+#endif
+			return;
+		}
 
 #ifdef TORRENT_VERBOSE_LOGGING
 		std::stringstream ext;
@@ -688,26 +744,18 @@ namespace libtorrent
 		(*m_logger) << "<== EXTENDED HANDSHAKE: \n" << ext.str();
 #endif
 
-		if (entry* msgs = root.find_key("m"))
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		for (extension_list_t::iterator i = m_extensions.begin()
+			, end(m_extensions.end()); i != end;)
 		{
-			if (msgs->type() == entry::dictionary_t)
-			{
-				// this must be the initial handshake message
-				// lets see if any of our extensions are supported
-				// if not, we will signal no extensions support to the upper layer
-				for (int i = 1; i < num_supported_extensions; ++i)
-				{
-					if (entry* f = msgs->find_key(extension_names[i]))
-					{
-						m_extension_messages[i] = (int)f->integer();
-					}
-					else
-					{
-						m_extension_messages[i] = 0;
-					}
-				}
-			}
+			// a false return value means that the extension
+			// isn't supported by the other end. So, it is removed.
+			if (!(*i)->on_extension_handshake(root))
+				i = m_extensions.erase(i);
+			else
+				++i;
 		}
+#endif
 
 		// there is supposed to be a remote listen port
 		if (entry* listen_port = root.find_key("p"))
@@ -736,154 +784,6 @@ namespace libtorrent
 				m_max_out_request_queue = 1;
 		}
 	}
-	catch (std::exception& exc)
-	{
-#ifdef TORRENT_VERBOSE_LOGGIGN
-		(*m_logger) << "invalid extended handshake: " << exc.what() << "\n";
-#endif
-	}
-
-	// -----------------------------
-	// ----------- CHAT ------------
-	// -----------------------------
-
-	void bt_peer_connection::on_chat()
-	{
-		if (packet_size() > 2 * 1024)
-			throw protocol_error("CHAT message larger than 2 kB");
-
-		if (!packet_finished()) return;
-
-		try
-		{
-			boost::shared_ptr<torrent> t = associated_torrent().lock();
-			assert(t);
-		
-			buffer::const_interval recv_buffer = receive_buffer();
-			entry d = bdecode(recv_buffer.begin + 2, recv_buffer.end);
-			const std::string& str = d["msg"].string();
-
-			if (t->alerts().should_post(alert::critical))
-			{
-				t->alerts().post_alert(
-					chat_message_alert(
-						t->get_handle()
-						, remote(), str));
-			}
-
-		}
-		catch (invalid_encoding&)
-		{
-			// TODO: post an alert about the invalid chat message
-			return;
-//			throw protocol_error("invalid bencoding in CHAT message");
-		}
-		catch (type_error&)
-		{
-			// TODO: post an alert about the invalid chat message
-			return;
-//			throw protocol_error("invalid types in bencoded CHAT message");
-		}
-		return;
-	}
-
-	// -----------------------------
-	// --------- METADATA ----------
-	// -----------------------------
-
-	void bt_peer_connection::on_metadata()
-	{
-		boost::shared_ptr<torrent> t = associated_torrent().lock();
-		assert(t);
-
-		if (packet_size() > 500 * 1024)
-			throw protocol_error("metadata message larger than 500 kB");
-
-		if (!packet_finished()) return;
-
-		buffer::const_interval recv_buffer = receive_buffer();
-		recv_buffer.begin += 2;
-		int type = detail::read_uint8(recv_buffer.begin);
-
-		switch (type)
-		{
-		case 0: // request
-			{
-				int start = detail::read_uint8(recv_buffer.begin);
-				int size = detail::read_uint8(recv_buffer.begin) + 1;
-
-				if (packet_size() != 5)
-				{
-					// invalid metadata request
-					throw protocol_error("invalid metadata request");
-				}
-
-				write_metadata(std::make_pair(start, size));
-			}
-			break;
-		case 1: // data
-			{
-				if (recv_buffer.end - recv_buffer.begin < 8) return;
-				int total_size = detail::read_int32(recv_buffer.begin);
-				int offset = detail::read_int32(recv_buffer.begin);
-				int data_size = packet_size() - 2 - 9;
-
-				if (total_size > 500 * 1024)
-					throw protocol_error("metadata size larger than 500 kB");
-				if (total_size <= 0)
-					throw protocol_error("invalid metadata size");
-				if (offset > total_size || offset < 0)
-					throw protocol_error("invalid metadata offset");
-				if (offset + data_size > total_size)
-					throw protocol_error("invalid metadata message");
-
-				t->metadata_progress(total_size
-					, recv_buffer.left() - m_metadata_progress);
-				m_metadata_progress = recv_buffer.left();
-				if (!packet_finished()) return;
-
-#ifdef TORRENT_VERBOSE_LOGGING
-				using namespace boost::posix_time;
-				(*m_logger) << to_simple_string(second_clock::universal_time())
-					<< " <== METADATA [ tot: " << total_size << " offset: "
-					<< offset << " size: " << data_size << " ]\n";
-#endif
-
-				m_waiting_metadata_request = false;
-				t->received_metadata(recv_buffer.begin, data_size
-					, offset, total_size);
-				m_metadata_progress = 0;
-			}
-			break;
-		case 2: // have no data
-			if (!packet_finished()) return;
-
-			m_no_metadata = second_clock::universal_time();
-			if (m_waiting_metadata_request)
-				t->cancel_metadata_request(m_last_metadata_request);
-			m_waiting_metadata_request = false;
-			break;
-		default:
-			throw protocol_error("unknown metadata extension message: "
-				+ boost::lexical_cast<std::string>(type));
-		}
-		
-	}
-
-	// -----------------------------
-	// ------ PEER EXCHANGE --------
-	// -----------------------------
-
-	void bt_peer_connection::on_peer_exchange()
-	{
-		
-	}
-
-	bool bt_peer_connection::has_metadata() const
-	{
-		using namespace boost::posix_time;
-		return second_clock::universal_time() - m_no_metadata > minutes(5);
-	}
 
 	bool bt_peer_connection::dispatch_message(int received)
 	{
@@ -901,6 +801,17 @@ namespace libtorrent
 			|| packet_type >= num_supported_messages
 			|| m_message_handler[packet_type] == 0)
 		{
+#ifndef TORRENT_DISABLE_EXTENSIONS
+			for (extension_list_t::iterator i = m_extensions.begin()
+				, end(m_extensions.end()); i != end; ++i)
+			{
+				if ((*i)->on_unknown_message(packet_size(), packet_type
+					, buffer::const_interval(recv_buffer.begin+1
+					, recv_buffer.end)))
+					return packet_finished();
+			}
+#endif
+
 			throw protocol_error("unknown message id: "
 				+ boost::lexical_cast<std::string>(packet_type)
 				+ " size: " + boost::lexical_cast<std::string>(packet_size()));
@@ -911,9 +822,7 @@ namespace libtorrent
 		// call the correct handler for this packet type
 		(this->*m_message_handler[packet_type])(received);
 
-		if (!packet_finished()) return false;
-
-		return true;
+		return packet_finished();
 	}
 
 	void bt_peer_connection::write_keepalive()
@@ -972,103 +881,14 @@ namespace libtorrent
 		setup_send();
 	}
 
-	void bt_peer_connection::write_metadata(std::pair<int, int> req)
-	{
-		assert(req.first >= 0);
-		assert(req.second > 0);
-		assert(req.second <= 256);
-		assert(req.first + req.second <= 256);
-		assert(!associated_torrent().expired());
-		INVARIANT_CHECK;
-
-		// abort if the peer doesn't support the metadata extension
-		if (!supports_extension(extended_metadata_message)) return;
-
-		boost::shared_ptr<torrent> t = associated_torrent().lock();
-		assert(t);
-
-		if (t->valid_metadata())
-		{
-			std::pair<int, int> offset
-				= req_to_offset(req, (int)t->metadata().size());
-
-			buffer::interval i = allocate_send_buffer(15 + offset.second);
-
-			// yes, we have metadata, send it
-			detail::write_uint32(11 + offset.second, i.begin);
-			detail::write_uint8(msg_extended, i.begin);
-			detail::write_uint8(m_extension_messages[extended_metadata_message]
-				, i.begin);
-			// means 'data packet'
-			detail::write_uint8(1, i.begin);
-			detail::write_uint32((int)t->metadata().size(), i.begin);
-			detail::write_uint32(offset.first, i.begin);
-			std::vector<char> const& metadata = t->metadata();
-			std::copy(metadata.begin() + offset.first
-				, metadata.begin() + offset.first + offset.second, i.begin);
-			i.begin += offset.second;
-			assert(i.begin == i.end);
-		}
-		else
-		{
-			buffer::interval i = allocate_send_buffer(4 + 3);
-			// we don't have the metadata, reply with
-			// don't have-message
-			detail::write_uint32(1 + 2, i.begin);
-			detail::write_uint8(msg_extended, i.begin);
-			detail::write_uint8(m_extension_messages[extended_metadata_message]
-				, i.begin);
-			// means 'have no data'
-			detail::write_uint8(2, i.begin);
-			assert(i.begin == i.end);
-		}
-		setup_send();
-	}
-
-	void bt_peer_connection::write_metadata_request(std::pair<int, int> req)
-	{
-		assert(req.first >= 0);
-		assert(req.second > 0);
-		assert(req.first + req.second <= 256);
-		assert(!associated_torrent().expired());
-		assert(!associated_torrent().lock()->valid_metadata());
-		INVARIANT_CHECK;
-
-		int start = req.first;
-		int size = req.second;
-
-		// abort if the peer doesn't support the metadata extension
-		if (!supports_extension(extended_metadata_message)) return;
-
-#ifdef TORRENT_VERBOSE_LOGGING
-		using namespace boost::posix_time;
-		(*m_logger) << to_simple_string(second_clock::universal_time())
-			<< " ==> METADATA_REQUEST [ start: " << req.first
-			<< " size: " << req.second << " ]\n";
-#endif
-
-		buffer::interval i = allocate_send_buffer(9);
-
-		detail::write_uint32(1 + 1 + 3, i.begin);
-		detail::write_uint8(msg_extended, i.begin);
-		detail::write_uint8(m_extension_messages[extended_metadata_message]
-			, i.begin);
-		// means 'request data'
-		detail::write_uint8(0, i.begin);
-		detail::write_uint8(start, i.begin);
-		detail::write_uint8(size - 1, i.begin);
-		assert(i.begin == i.end);
-		setup_send();
-	}
-
 	void bt_peer_connection::write_bitfield(std::vector<bool> const& bitfield)
 	{
 		INVARIANT_CHECK;
 
 		boost::shared_ptr<torrent> t = associated_torrent().lock();
 		assert(t);
-
-		if (t->num_pieces() == 0) return;
+		assert(m_sent_bitfield == false);
+		assert(t->valid_metadata());
 
 #ifdef TORRENT_VERBOSE_LOGGING
 		using namespace boost::posix_time;
@@ -1096,9 +916,13 @@ namespace libtorrent
 				i.begin[c >> 3] |= 1 << (7 - (c & 7));
 		}
 		assert(i.end - i.begin == ((int)bitfield.size() + 7) / 8);
+#ifndef NDEBUG
+		m_sent_bitfield = true;
+#endif
 		setup_send();
 	}
 
+#ifndef TORRENT_DISABLE_EXTENSIONS
 	void bt_peer_connection::write_extensions()
 	{
 		INVARIANT_CHECK;
@@ -1113,22 +937,26 @@ namespace libtorrent
 		entry handshake(entry::dictionary_t);
 		entry extension_list(entry::dictionary_t);
 
-		for (int i = 1; i < num_supported_extensions; ++i)
-		{
-			// if this specific extension is disabled
-			// just don't add it to the supported set
-			if (!m_ses.extension_enabled(i)) continue;
-			extension_list[extension_names[i]] = i;
-		}
-
 		handshake["m"] = extension_list;
-		handshake["p"] = m_ses.listen_port();
+
+		// only send the port in case we bade the connection
+		// on incoming connections the other end already knows
+		// our listen port
+		if (is_local()) handshake["p"] = m_ses.listen_port();
 		handshake["v"] = m_ses.settings().user_agent;
 		std::string remote_address;
 		std::back_insert_iterator<std::string> out(remote_address);
 		detail::write_address(remote().address(), out);
 		handshake["ip"] = remote_address;
 		handshake["reqq"] = m_ses.settings().max_allowed_in_request_queue;
+
+		// loop backwards, to make the first extension be the last
+		// to fill in the handshake (i.e. give the first extensions priority)
+		for (extension_list_t::reverse_iterator i = m_extensions.rbegin()
+			, end(m_extensions.rend()); i != end; ++i)
+		{
+			(*i)->add_handshake(handshake);
+		}
 
 		std::vector<char> msg;
 		bencode(std::back_inserter(msg), handshake);
@@ -1140,7 +968,7 @@ namespace libtorrent
 		detail::write_int32((int)msg.size() + 2, i.begin);
 		detail::write_uint8(msg_extended, i.begin);
 		// signal handshake message
-		detail::write_uint8(extended_handshake, i.begin);
+		detail::write_uint8(0, i.begin);
 
 		std::copy(msg.begin(), msg.end(), i.begin);
 		i.begin += msg.size();
@@ -1154,6 +982,7 @@ namespace libtorrent
 
 		setup_send();
 	}
+#endif
 
 	void bt_peer_connection::write_choke()
 	{
@@ -1227,12 +1056,33 @@ namespace libtorrent
 		setup_send();
 	}
 
+	namespace
+	{
+		struct match_peer_id
+		{
+			match_peer_id(peer_id const& id, peer_connection const* pc)
+				: m_id(id), m_pc(pc)
+			{ assert(pc); }
+
+			bool operator()(policy::peer const& p) const
+			{
+				return p.connection != m_pc
+					&& p.connection
+					&& p.connection->pid() == m_id
+					&& !p.connection->pid().is_all_zeros();
+			}
+
+			peer_id m_id;
+			peer_connection const* m_pc;
+		};
+	}
+
 	// --------------------------
 	// RECEIVE DATA
 	// --------------------------
 
 	// throws exception when the client should be disconnected
-	void bt_peer_connection::on_receive(const asio::error& error
+	void bt_peer_connection::on_receive(asio::error_code const& error
 		, std::size_t bytes_transferred)
 	{
 		INVARIANT_CHECK;
@@ -1278,8 +1128,9 @@ namespace libtorrent
 				, recv_buffer.end) << "'\n";
 #endif
 			const char protocol_string[] = "BitTorrent protocol";
-			if (!std::equal(recv_buffer.begin, recv_buffer.end
-				, protocol_string))
+			if (recv_buffer.end - recv_buffer.begin != 19
+				|| !std::equal(recv_buffer.begin, recv_buffer.end
+					, protocol_string))
 			{
 				const char cmd[] = "version";
 				if (recv_buffer.end - recv_buffer.begin == 7 && std::equal(
@@ -1311,7 +1162,6 @@ namespace libtorrent
 			m_statistics.received_bytes(0, bytes_transferred);
 			if (!packet_finished()) break;
 
-// MassaRoddel
 #ifdef TORRENT_VERBOSE_LOGGING	
 			for (int i=0; i < 8; ++i)
 			{
@@ -1325,13 +1175,15 @@ namespace libtorrent
 			if (recv_buffer[7] & 0x01)
 				(*m_logger) << "supports DHT port message\n";
 			if (recv_buffer[7] & 0x02)
-				(*m_logger) << "supports XBT peer exchange message\n";
+				(*m_logger) << "supports FAST extensions\n";
 			if (recv_buffer[5] & 0x10)
-				(*m_logger) << "supports LT/uT extensions\n";
+				(*m_logger) << "supports extensions protocol\n";
 #endif
 
-			if ((recv_buffer[5] & 0x10) && m_ses.extensions_enabled())
+#ifndef DISABLE_EXTENSIONS
+			if ((recv_buffer[5] & 0x10))
 				m_supports_extensions = true;
+#endif
 			if (recv_buffer[7] & 0x01)
 				m_supports_dht_port = true;
 
@@ -1349,12 +1201,11 @@ namespace libtorrent
 				t = associated_torrent().lock();
 				assert(t);
 
-				assert(t->get_policy().has_connection(this));
-
 				// yes, we found the torrent
 				// reply with our handshake
 				write_handshake();
-				write_bitfield(t->pieces());
+				if (t->valid_metadata())
+					write_bitfield(t->pieces());
 			}
 			else
 			{
@@ -1365,14 +1216,11 @@ namespace libtorrent
 #ifdef TORRENT_VERBOSE_LOGGING
 					(*m_logger) << " received invalid info_hash\n";
 #endif
-					throw std::runtime_error("invalid info-hash in handshake");
+					throw protocol_error("invalid info-hash in handshake");
 				}
 			}
 
-#ifndef TORRENT_DISABLE_DHT
-			if (m_supports_dht_port && m_ses.m_dht)
-				write_dht_port(m_ses.kad_settings().service_port);
-#endif
+			assert(t->get_policy().has_connection(this));
 
 			m_state = read_peer_id;
 			reset_recv_buffer(20);
@@ -1408,7 +1256,40 @@ namespace libtorrent
 			peer_id pid;
 			std::copy(recv_buffer.begin, recv_buffer.begin + 20, (char*)pid.begin());
 			set_pid(pid);
-			
+ 
+			if (t->settings().allow_multiple_connections_per_ip)
+			{
+				// now, let's see if this connection should be closed
+				policy& p = t->get_policy();
+				policy::iterator i = std::find_if(p.begin_peer(), p.end_peer()
+					, match_peer_id(pid, this));
+				if (i != p.end_peer())
+				{
+					assert(i->connection->pid() == pid);
+					// we found another connection with the same peer-id
+					// which connection should be closed in order to be
+					// sure that the other end closes the same connection?
+					// the peer with greatest peer-id is the one allowed to
+					// initiate connections. So, if our peer-id is greater than
+					// the others, we should close the incoming connection,
+					// if not, we should close the outgoing one.
+					if (pid < m_ses.get_peer_id() && is_local())
+					{
+						i->connection->disconnect();
+					}
+					else
+					{
+						throw protocol_error("duplicate peer-id, connection closed");
+					}
+				}
+				
+			}
+ 
+#ifndef TORRENT_DISABLE_DHT
+			if (m_supports_dht_port && m_ses.m_dht)
+				write_dht_port(m_ses.kad_settings().service_port);
+#endif
+
 			m_client_version = identify_client(pid);
 			boost::optional<fingerprint> f = client_fingerprint(pid);
 			if (f && std::equal(f->name, f->name + 2, "BC"))
@@ -1422,14 +1303,23 @@ namespace libtorrent
 			if (pid == m_ses.get_peer_id())
 				throw std::runtime_error("closing connection to ourself");
 
-			if (m_supports_extensions) write_extensions();
-/*
-			if (!m_active)
+#ifndef TORRENT_DISABLE_EXTENSIONS
+			for (extension_list_t::iterator i = m_extensions.begin()
+				, end(m_extensions.end()); i != end;)
 			{
-				m_attached_to_torrent = true;
-				assert(m_torrent->get_policy().has_connection(this));
+				if (!(*i)->on_handshake())
+				{
+					i = m_extensions.erase(i);
+				}
+				else
+				{
+					++i;
+				}
 			}
-*/
+
+			if (m_supports_extensions) write_extensions();
+#endif
+
 			m_state = read_packet_size;
 			reset_recv_buffer(4);
 		}
@@ -1487,7 +1377,7 @@ namespace libtorrent
 	// --------------------------
 
 	// throws exception when the client should be disconnected
-	void bt_peer_connection::on_sent(asio::error const& error
+	void bt_peer_connection::on_sent(asio::error_code const& error
 		, std::size_t bytes_transferred)
 	{
 		INVARIANT_CHECK;
@@ -1528,28 +1418,6 @@ namespace libtorrent
 		m_statistics.sent_bytes(amount_payload, bytes_transferred - amount_payload);
 	}
 
-
-	void bt_peer_connection::on_tick()
-	{
-		boost::shared_ptr<torrent> t = associated_torrent().lock();
-		if (!t) return;
-
-		// if we don't have any metadata, and this peer
-		// supports the request metadata extension
-		// and we aren't currently waiting for a request
-		// reply. Then, send a request for some metadata.
-		if (!t->valid_metadata()
-			&& supports_extension(extended_metadata_message)
-			&& !m_waiting_metadata_request
-			&& has_metadata())
-		{
-			m_last_metadata_request = t->metadata_request();
-			write_metadata_request(m_last_metadata_request);
-			m_waiting_metadata_request = true;
-			m_metadata_request = second_clock::universal_time();
-		}
-	}
-	
 #ifndef NDEBUG
 	void bt_peer_connection::check_invariant() const
 	{

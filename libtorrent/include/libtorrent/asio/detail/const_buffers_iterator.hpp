@@ -2,7 +2,7 @@
 // const_buffers_iterator.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2006 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -29,9 +29,9 @@ namespace asio {
 namespace detail {
 
 // A proxy iterator for a sub-range in a list of buffers.
-template <typename Const_Buffers>
+template <typename ConstBufferSequence>
 class const_buffers_iterator
-  : public boost::iterator_facade<const_buffers_iterator<Const_Buffers>,
+  : public boost::iterator_facade<const_buffers_iterator<ConstBufferSequence>,
         const char, boost::bidirectional_traversal_tag>
 {
 public:
@@ -41,7 +41,8 @@ public:
   }
 
   // Create an iterator for the specified position.
-  const_buffers_iterator(const Const_Buffers& buffers, std::size_t position)
+  const_buffers_iterator(const ConstBufferSequence& buffers,
+      std::size_t position)
     : begin_(buffers.begin()),
       current_(buffers.begin()),
       end_(buffers.end()),
@@ -107,7 +108,7 @@ private:
       return;
     }
 
-    typename Const_Buffers::const_iterator iter = current_;
+    typename ConstBufferSequence::const_iterator iter = current_;
     while (iter != begin_)
     {
       --iter;
@@ -136,9 +137,9 @@ private:
 
   asio::const_buffer current_buffer_;
   std::size_t current_buffer_position_;
-  typename Const_Buffers::const_iterator begin_;
-  typename Const_Buffers::const_iterator current_;
-  typename Const_Buffers::const_iterator end_;
+  typename ConstBufferSequence::const_iterator begin_;
+  typename ConstBufferSequence::const_iterator current_;
+  typename ConstBufferSequence::const_iterator end_;
   std::size_t position_;
 };
 

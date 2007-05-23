@@ -65,6 +65,102 @@ namespace
 {
 	using namespace libtorrent;
 
+	size_type collect_free_download(
+		torrent::peer_iterator start
+		, torrent::peer_iterator end)
+	{
+		size_type accumulator = 0;
+		for (torrent::peer_iterator i = start; i != end; ++i)
+		{
+			// if the peer is interested in us, it means it may
+			// want to trade it's surplus uploads for downloads itself
+			// (and we should not consider it free). If the share diff is
+			// negative, there's no free download to get from this peer.
+			size_type diff = i->second->share_diff();
+			assert(diff < std::numeric_limits<size_type>::max());
+			if (i->second->is_peer_interested() || diff <= 0)
+				continue;
+
+			assert(diff > 0);
+			i->second->add_free_upload(-diff);
+			accumulator += diff;
+			assert(accumulator > 0);
+		}
+		assert(accumulator >= 0);
+		return accumulator;
+	}
+
+
+	// returns the amount of free upload left after
+	// it has been distributed to the peers
+	size_type distribute_free_upload(
+		torrent::peer_iterator start
+		, torrent::peer_iterator end
+		, size_type free_upload)
+	{
+		if (free_upload <= 0) return free_upload;
+		int num_peers = 0;
+		size_type total_diff = 0;
+		for (torrent::peer_iterator i = start; i != end; ++i)
+		{
+			size_type d = i->second->share_diff();
+			assert(d < std::numeric_limits<size_type>::max());
+			total_diff += d;
+			if (!i->second->is_peer_interested() || i->second->share_diff() >= 0) continue;
+			++num_peers;
+		}
+
+		if (num_peers == 0) return free_upload;
+		size_type upload_share;
+		if (total_diff >= 0)
+		{
+			upload_share = std::min(free_upload, total_diff) / num_peers;
+		}
+		else
+		{
+			upload_share = (free_upload + total_diff) / num_peers;
+		}
+		if (upload_share < 0) return free_upload;
+
+		for (torrent::peer_iterator i = start; i != end; ++i)
+		{
+			peer_connection* p = i->second;
+			if (!p->is_peer_interested() || p->share_diff() >= 0) continue;
+			p->add_free_upload(upload_share);
+			free_upload -= upload_share;
+		}
+		return free_upload;
+	}
+
+	struct match_peer_ip
+	{
+		match_peer_ip(tcp::endpoint const& ip)
+			: m_ip(ip)
+		{}
+
+		bool operator()(policy::peer const& p) const
+		{ return p.ip.address() == m_ip.address(); }
+
+		tcp::endpoint m_ip;
+	};
+
+	struct match_peer_connection
+	{
+		match_peer_connection(peer_connection const& c)
+			: m_conn(c)
+		{}
+
+		bool operator()(policy::peer const& p) const
+		{ return p.connection == &m_conn; }
+
+		const peer_connection& m_conn;
+	};
+
+
+}
+
+namespace libtorrent
+{
 	// the case where ignore_peer is motivated is if two peers
 	// have only one piece that we don't have, and it's the
 	// same piece for both peers. Then they might get into an
@@ -72,12 +168,15 @@ namespace
 	void request_a_block(
 		torrent& t
 		, peer_connection& c
-		, std::vector<peer_connection*> ignore = std::vector<peer_connection*>())
+		, std::vector<peer_connection*> ignore)
 	{
+		assert(!t.is_seed());
+		assert(!c.has_peer_choked());
 		int num_requests = c.desired_queue_size()
 			- (int)c.download_queue().size()
 			- (int)c.request_queue().size();
 
+		assert(c.desired_queue_size() > 0);
 		// if our request queue is already full, we
 		// don't have to make any new requests yet
 		if (num_requests <= 0) return;
@@ -85,6 +184,21 @@ namespace
 		piece_picker& p = t.picker();
 		std::vector<piece_block> interesting_pieces;
 		interesting_pieces.reserve(100);
+
+		bool prefer_whole_pieces = c.prefer_whole_pieces();
+		if (!prefer_whole_pieces)
+		{
+			prefer_whole_pieces = c.statistics().download_payload_rate()
+				* t.settings().whole_pieces_threshold
+				> t.torrent_file().piece_length();
+		}
+	
+		// if we prefer whole pieces, the piece picker will pick at least
+		// the number of blocks we want, but it will try to make the picked
+		// blocks be from whole pieces, possibly by returning more blocks
+		// than we requested.
+		assert((c.proxy() == tcp::endpoint() && c.remote() == c.get_socket()->remote_endpoint())
+			|| c.proxy() == c.get_socket()->remote_endpoint());
 
 		// picks the interesting pieces from this peer
 		// the integer is the number of pieces that
@@ -94,17 +208,6 @@ namespace
 		// the last argument is if we should prefer whole pieces
 		// for this peer. If we're downloading one piece in 20 seconds
 		// then use this mode.
-		bool prefer_whole_pieces = c.statistics().download_payload_rate()
-			* t.settings().whole_pieces_threshold
-			> t.torrent_file().piece_length();
-	
-		// if we prefer whole pieces, the piece picker will pick at least
-		// the number of blocks we want, but it will try to make the picked
-		// blocks be from whole pieces, possibly by returning more blocks
-		// than we requested.
-#ifndef NDEBUG
-		assert(c.remote() == c.get_socket()->remote_endpoint());
-#endif
 		p.pick_pieces(c.get_bitfield(), interesting_pieces
 			, num_requests, prefer_whole_pieces, c.remote());
 
@@ -177,25 +280,35 @@ namespace
 				const std::deque<piece_block>& request_queue = i->second->request_queue();
 				const int queue_size = (int)i->second->download_queue().size()
 					+ (int)i->second->request_queue().size();
-				const float weight = queue_size == 0
+
+				bool in_request_queue = std::find_first_of(
+						busy_pieces.begin()
+						, busy_pieces.end()
+						, request_queue.begin()
+						, request_queue.end()) != busy_pieces.end();
+						
+				bool in_download_queue = std::find_first_of(
+						busy_pieces.begin()
+						, busy_pieces.end()
+						, download_queue.begin()
+						, download_queue.end()) != busy_pieces.end();
+
+				// if the block is in the request queue rather than the download queue
+				// (i.e. the request message hasn't been sent yet) lower the weight in
+				// order to prioritize it. Taking over a block in the request queue is
+				// free in terms of redundant download. A block that already has been
+				// requested is likely to be in transit already, and would in that case
+				// mean redundant data to receive.
+				const float weight = (queue_size == 0)
 					? std::numeric_limits<float>::max()
-					: i->second->statistics().download_payload_rate() / queue_size;
+					: i->second->statistics().download_payload_rate() / queue_size
+						* in_request_queue ? .1f : 1.f;
 
 				// if the peer's (i) weight is less than the lowest we've found so
 				// far (weight == priority) and it has blocks in its request-
 				// or download queue that we could request from this peer (c),
 				// replace the currently lowest ranking peer.
-				if (weight < min_weight
-					&& (std::find_first_of(
-						busy_pieces.begin()
-						, busy_pieces.end()
-						, request_queue.begin()
-						, request_queue.end()) != busy_pieces.end()
-					|| std::find_first_of(
-						busy_pieces.begin()
-						, busy_pieces.end()
-						, download_queue.begin()
-						, download_queue.end()) != busy_pieces.end()))
+				if (weight < min_weight && (in_request_queue || in_download_queue))
 				{
 					peer = i->second;
 					min_weight = weight;
@@ -229,14 +342,20 @@ namespace
 			}
 
 			piece_block block = *common_block;
-			peer->cancel_request(block);
-			c.add_request(block);
 
 			// the one we interrupted may need to request a new piece.
 			// make sure it doesn't take over a block from the peer
-			// that just took over its block
+			// that just took over its block (that would cause an
+			// infinite recursion)
+			peer->cancel_request(block);
+			c.add_request(block);
 			ignore.push_back(&c);
-			request_a_block(t, *peer, ignore);
+			if (!peer->has_peer_choked() && !t.is_seed())
+			{
+				request_a_block(t, *peer, ignore);
+				peer->send_block_requests();
+			}
+
 			num_requests--;
 
 			const int queue_size = (int)c.download_queue().size()
@@ -252,107 +371,8 @@ namespace
 		c.send_block_requests();
 	}
 
-
-	size_type collect_free_download(
-		torrent::peer_iterator start
-		, torrent::peer_iterator end)
-	{
-		size_type accumulator = 0;
-		for (torrent::peer_iterator i = start; i != end; ++i)
-		{
-			// if the peer is interested in us, it means it may
-			// want to trade it's surplus uploads for downloads itself
-			// (and we should not consider it free). If the share diff is
-			// negative, there's no free download to get from this peer.
-			size_type diff = i->second->share_diff();
-			assert(diff < std::numeric_limits<size_type>::max());
-			if (i->second->is_peer_interested() || diff <= 0)
-				continue;
-
-			assert(diff > 0);
-			i->second->add_free_upload(-diff);
-			accumulator += diff;
-			assert(accumulator > 0);
-		}
-		assert(accumulator >= 0);
-		return accumulator;
-	}
-
-
-	// returns the amount of free upload left after
-	// it has been distributed to the peers
-	size_type distribute_free_upload(
-		torrent::peer_iterator start
-		, torrent::peer_iterator end
-		, size_type free_upload)
-	{
-		if (free_upload <= 0) return free_upload;
-		int num_peers = 0;
-		size_type total_diff = 0;
-		for (torrent::peer_iterator i = start; i != end; ++i)
-		{
-			size_type d = i->second->share_diff();
-			assert(d < std::numeric_limits<size_type>::max());
-			total_diff += d;
-			if (!i->second->is_peer_interested() || i->second->share_diff() >= 0) continue;
-			++num_peers;
-		}
-
-		if (num_peers == 0) return free_upload;
-		size_type upload_share;
-		if (total_diff >= 0)
-		{
-			upload_share = std::min(free_upload, total_diff) / num_peers;
-		}
-		else
-		{
-			upload_share = (free_upload + total_diff) / num_peers;
-		}
-		if (upload_share < 0) return free_upload;
-
-		for (torrent::peer_iterator i = start; i != end; ++i)
-		{
-			peer_connection* p = i->second;
-			if (!p->is_peer_interested() || p->share_diff() >= 0) continue;
-			p->add_free_upload(upload_share);
-			free_upload -= upload_share;
-		}
-		return free_upload;
-	}
-
-	struct match_peer_ip
-	{
-		match_peer_ip(const tcp::endpoint& ip)
-			: m_ip(ip)
-		{}
-
-		bool operator()(const policy::peer& p) const
-		{ return p.ip.address() == m_ip.address(); }
-
-		tcp::endpoint m_ip;
-	};
-
-	struct match_peer_connection
-	{
-		match_peer_connection(const peer_connection& c)
-			: m_conn(c)
-		{}
-
-		bool operator()(const policy::peer& p) const
-		{ return p.connection == &m_conn; }
-
-		const peer_connection& m_conn;
-	};
-
-
-}
-
-namespace libtorrent
-{
 	policy::policy(torrent* t)
 		: m_torrent(t)
-//		, m_max_uploads(std::numeric_limits<int>::max())
-//		, m_max_connections(std::numeric_limits<int>::max())
 		, m_num_unchoked(0)
 		, m_available_free_upload(0)
 		, m_last_optimistic_disconnect(boost::gregorian::date(1970,boost::gregorian::Jan,1))
@@ -434,7 +454,6 @@ namespace libtorrent
 			if (c->share_diff() < -free_upload_amount
 				&& m_torrent->ratio() != 0) continue;
 			if (c->statistics().download_rate() < max_down_speed) continue;
-//			if (i->last_optimistically_unchoked > min_time) continue;
 
 			min_time = i->last_optimistically_unchoked;
 			max_down_speed = c->statistics().download_rate();
@@ -629,10 +648,6 @@ namespace libtorrent
 		if (m_torrent->is_paused()) return;
 
 		using namespace boost::posix_time;
-
-		// TODO: we must also remove peers that
-		// we failed to connect to from this list
-		// to avoid being part of a DDOS-attack
 
 		// remove old disconnected peers from the list
 		m_peers.erase(
@@ -868,30 +883,18 @@ namespace libtorrent
 	void policy::new_connection(peer_connection& c)
 	{
 		assert(!c.is_local());
-/*
-#ifndef NDEBUG
-		// avoid the invariant check to fail
-		peer p(tcp::endpoint("0.0.0.0", 0), peer::not_connectable);
-		p.connection = &c;
-		m_peers.push_back(p);
-#endif
-*/
+
 		INVARIANT_CHECK;
-/*
-#ifndef NDEBUG
-		// avoid the invariant check to fail
-		m_peers.erase(m_peers.end() - 1);
-#endif
-*/
+
 		// if the connection comes from the tracker,
 		// it's probably just a NAT-check. Ignore the
 		// num connections constraint then.
 
 		// TODO: only allow _one_ connection to use this
 		// override at a time
-#ifndef NDEBUG
-		assert(c.remote() == c.get_socket()->remote_endpoint());
-#endif
+		assert((c.proxy() == tcp::endpoint() && c.remote() == c.get_socket()->remote_endpoint())
+			|| c.proxy() == c.get_socket()->remote_endpoint());
+
 		if (m_torrent->num_peers() >= m_torrent->m_connections_quota.given
 			&& c.remote().address() != m_torrent->current_tracker().address())
 		{
@@ -905,11 +908,19 @@ namespace libtorrent
 		}
 #endif
 
-		std::vector<peer>::iterator i = std::find_if(
-			m_peers.begin()
-			, m_peers.end()
-			, match_peer_ip(c.remote()));
+		std::vector<peer>::iterator i;
 
+		if (m_torrent->settings().allow_multiple_connections_per_ip)
+		{
+			i = m_peers.end();
+		}
+		else
+		{
+			i = std::find_if(
+				m_peers.begin()
+				, m_peers.end()
+				, match_peer_ip(c.remote()));
+		}
 
 		if (i != m_peers.end())
 		{
@@ -918,6 +929,7 @@ namespace libtorrent
 
 			if (i->connection != 0)
 			{
+				assert(i->connection != &c);
 				// the new connection is a local (outgoing) connection
 				// or the current one is already connected
 				if (!i->connection->is_connecting() || c.is_local())
@@ -943,9 +955,9 @@ namespace libtorrent
 
 			// we don't have ny info about this peer.
 			// add a new entry
-#ifndef NDEBUG
-			assert(c.remote() == c.get_socket()->remote_endpoint());
-#endif
+			assert((c.proxy() == tcp::endpoint() && c.remote() == c.get_socket()->remote_endpoint())
+				|| c.proxy() == c.get_socket()->remote_endpoint());
+
 			peer p(c.remote(), peer::not_connectable);
 			m_peers.push_back(p);
 			i = m_peers.end()-1;
@@ -971,10 +983,19 @@ namespace libtorrent
 
 		try
 		{
-			std::vector<peer>::iterator i = std::find_if(
-				m_peers.begin()
-				, m_peers.end()
-				, match_peer_ip(remote));
+			std::vector<peer>::iterator i;
+			
+			if (m_torrent->settings().allow_multiple_connections_per_ip)
+			{
+				i = m_peers.end();
+			}
+			else
+			{
+				i = std::find_if(
+					m_peers.begin()
+					, m_peers.end()
+					, match_peer_ip(remote));
+			}
 			
 			bool just_added = false;
 			
@@ -1009,7 +1030,8 @@ namespace libtorrent
 
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
 					m_torrent->debug_log("already connected to peer: " + remote.address().to_string() + ":"
-						+ boost::lexical_cast<std::string>(remote.port()));
+						+ boost::lexical_cast<std::string>(remote.port()) + " "
+						+ boost::lexical_cast<std::string>(i->connection->pid()));
 #endif
 
 					assert(i->connection->associated_torrent().lock().get() == m_torrent);
@@ -1094,7 +1116,7 @@ namespace libtorrent
 		INVARIANT_CHECK;
 
 		// if the peer hasn't choked us, ask for another piece
-		if (!c.has_peer_choked())
+		if (!c.has_peer_choked() && !m_torrent->is_seed())
 			request_a_block(*m_torrent, c);
 	}
 
@@ -1313,13 +1335,13 @@ namespace libtorrent
 	bool policy::has_connection(const peer_connection* c)
 	{
 		assert(c);
-#ifndef NDEBUG
-		assert(c->remote() == c->get_socket()->remote_endpoint());
-#endif
+		assert((c->proxy() == tcp::endpoint() && c->remote() == c->get_socket()->remote_endpoint())
+			|| c->proxy() == c->get_socket()->remote_endpoint());
+
 		return std::find_if(
 			m_peers.begin()
 			, m_peers.end()
-			, match_peer_ip(c->remote())) != m_peers.end();
+			, match_peer_connection(*c)) != m_peers.end();
 	}
 
 	void policy::check_invariant() const
