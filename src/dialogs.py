@@ -61,7 +61,6 @@ class PreferencesDlg:
 			self.glade.get_widget("chk_upnp").set_active(self.preferences.get("enable_upnp", bool, default=True))
 			self.glade.get_widget("chk_dht").set_active(self.preferences.get("enable_dht", bool, default=True))
 			self.glade.get_widget("spin_dht").set_value(self.preferences.get("dht_connections", int, default=80))
-			self.glade.get_widget("chk_pex").set_active(self.preferences.get("enable_pex", bool, default=True))
 			self.glade.get_widget("spin_gui").set_value(self.preferences.get("gui_update_interval", float, default=1.0))
 		except KeyError:
 			pass
@@ -89,7 +88,6 @@ class PreferencesDlg:
 			self.preferences.set("enable_upnp", self.glade.get_widget("chk_upnp").get_active())
 			self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
 			self.preferences.set("dht_connections", self.glade.get_widget("spin_dht").get_value())
-			self.preferences.set("enable_pex", self.glade.get_widget("chk_pex").get_active())
 			self.preferences.set("gui_update_interval", self.glade.get_widget("spin_gui").get_value())
 		
 	def tray_toggle(self, obj):

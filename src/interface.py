@@ -35,7 +35,6 @@ DEFAULT_PREFS = {
 					"default_download_path" : "",
 					"dht_connections" : 80,
 					"enable_dht" : True,
-					"enable_pex" : True,
 					"enable_system_tray" : True,
 					"enable_upnp" : True,
 					"enabled_plugins" : "",
