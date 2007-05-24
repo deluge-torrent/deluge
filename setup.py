@@ -88,11 +88,7 @@ if ARCH == "x64":
 
 if not OS == "win":
 	
-	if os.WEXITSTATUS(os.system('grep -q "Debian GNU/Linux 4.0" /etc/issue')) == 0:
-		boosttype = 'nomt'
-	elif os.WEXITSTATUS(os.system('grep -q "Ubuntu 7.04" /etc/issue')) == 0:
-		boosttype = 'nomt'
-	elif os.WEXITSTATUS(os.system('grep -q "Ubuntu 6.06" /etc/issue')) == 0:
+	if os.WEXITSTATUS(os.system('grep -q "Debian GNU/Linux 4.0\|Ubuntu 7.04\|Ubuntu 6.06" /etc/issue')) == 0:
 		boosttype = 'nomt'
 	else:
 		boosttype = 'mt'
