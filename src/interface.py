@@ -32,6 +32,9 @@ import gettext, locale
 DEFAULT_PREFS = {
 					"auto_end_seeding" : False,
 					"close_to_tray" : False,
+					"lock_tray" : False,
+					"tray_passwd" : "",
+                                        "default_download_path" : "",
 					"default_download_path" : "",
 					"dht_connections" : 80,
 					"enable_dht" : True,
@@ -230,7 +233,41 @@ class DelugeGTK:
 	def tray_popup(self, status_icon, button, activate_time):
 		self.tray_menu.popup(None, None, gtk.status_icon_position_menu, 
 			button, activate_time, status_icon)
-	
+
+	def unlock_tray(self,comingnext):	
+		entered_pass = gtk.Entry(25)
+		entered_pass.set_activates_default(True)
+		entered_pass.set_width_chars(25)
+		entered_pass.set_visibility(False)
+		entered_pass.show()
+		tray_lock = gtk.Dialog(title=_("Deluge is locked"), parent=self.window,
+			buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
+		label = gtk.Label(_("Deluge is password protected.\nTo show the Deluge window, please enter your password"))
+		label.set_line_wrap(True)
+		label.set_justify(gtk.JUSTIFY_CENTER)
+		tray_lock.set_position(gtk.WIN_POS_CENTER_ALWAYS)
+		tray_lock.set_size_request(400, 200)
+		tray_lock.set_default_response(gtk.RESPONSE_ACCEPT)
+		tray_lock.vbox.pack_start(label)
+		tray_lock.vbox.pack_start(entered_pass)
+		tray_lock.show_all()
+		if tray_lock.run() == gtk.RESPONSE_ACCEPT:
+			if self.config.get("tray_passwd", default="") == entered_pass.get_text():
+				if comingnext == "mainwinshow":
+					self.window.show()
+				elif comingnext == "prefwinshow":
+			                self.preferences_dialog.show()
+			                self.apply_prefs()
+			                self.config.save_to_file()
+				elif comingnext == "quitus":
+		                        self.save_window_geometry()
+                		        self.window.hide()
+		                        self.shutdown()
+
+		tray_lock.destroy()
+		return True
+
+
 	def tray_clicked(self, status_icon):
 		if self.window.get_property("visible"):
 			if self.window.is_active():
@@ -238,13 +275,19 @@ class DelugeGTK:
 			else:
 				self.window.present()
 		else:
-			self.window.show()
+			if self.config.get("lock_tray", bool, default=False) == True:
+				self.unlock_tray("mainwinshow")
+			else:
+				self.window.show()
 	
 	def force_show_hide(self, arg=None):
 		if self.window.get_property("visible"):
 			self.window.hide()
 		else:
-			self.window.show()
+                        if self.config.get("lock_tray", bool, default=False) == True:
+				self.unlock_tray("mainwinshow")
+			else:
+				self.window.show()
 
 	def build_torrent_table(self):
 		## Create the torrent listview
@@ -460,9 +503,19 @@ class DelugeGTK:
 		dialogs.show_about_dialog()
 	
 	def show_pref_dialog(self, arg=None):
-		self.preferences_dialog.show()
-		self.apply_prefs()
-		self.config.save_to_file()
+                if self.window.get_property("visible"):
+			self.preferences_dialog.show()
+			self.apply_prefs()
+			self.config.save_to_file()
+
+                else:
+                        if self.config.get("lock_tray", bool, default=False) == True:
+                                self.unlock_tray("prefwinshow")
+                        else:
+                                self.preferences_dialog.show()
+                                self.apply_prefs()
+                                self.config.save_to_file()
+
 	
 	def show_plugin_dialog(self, arg=None):
 		self.plugin_dialog.show()
@@ -988,9 +1041,18 @@ class DelugeGTK:
 			self.quit()
 		
 	def quit(self, widget=None):
-		self.save_window_geometry()
-		self.window.hide()
-		self.shutdown()
+                if self.window.get_property("visible"):
+                	self.save_window_geometry()
+        	        self.window.hide()
+	                self.shutdown()
+
+                else:
+                        if self.config.get("lock_tray", bool, default=False) == True:
+                                self.unlock_tray("quitus")
+                        else:
+				self.save_window_geometry()
+				self.window.hide()
+				self.shutdown()
 	
 	def shutdown(self):
 		enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
@@ -1003,7 +1065,6 @@ class DelugeGTK:
 	
 
 
-		
 ## For testing purposes, create a copy of the interface
 if __name__ == "__main__":
 	interface = DelugeGTK()
