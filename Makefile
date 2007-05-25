@@ -12,4 +12,4 @@ install:
 	python setup.py install --prefix=$(PREFIX)
 
 clean:
-        python setup.py clean; rm -rf ./build
+	python setup.py clean; rm -rf ./build
