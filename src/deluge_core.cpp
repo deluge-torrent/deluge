@@ -60,9 +60,9 @@ using namespace boost::filesystem;
 using namespace libtorrent;
 
 
-//-----------------
+//----------------
 // CONSTANTS
-//-----------------
+//----------------
 
 #ifdef AMD64
 #define python_long int
