@@ -30,13 +30,13 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
+#include "libtorrent/pch.hpp"
+
 #include <fstream>
 #include <set>
 #include <numeric>
 #include <stdexcept>
 #include <boost/bind.hpp>
-#include <boost/date_time/posix_time/posix_time_types.hpp>
-#include <boost/date_time/posix_time/ptime.hpp>
 #include <boost/ref.hpp>
 #include <boost/optional.hpp>
 #include <boost/lexical_cast.hpp>
@@ -52,14 +52,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/io.hpp"
 #include "libtorrent/version.hpp"
 
-using boost::posix_time::ptime;
-using boost::posix_time::time_duration;
-using boost::posix_time::second_clock;
-using boost::posix_time::microsec_clock;
-using boost::posix_time::seconds;
-using boost::posix_time::minutes;
-using boost::posix_time::hours;
-using boost::posix_time::milliseconds;
 using boost::ref;
 using boost::lexical_cast;
 using libtorrent::dht::node_impl;
@@ -69,6 +61,11 @@ using libtorrent::dht::msg;
 using libtorrent::dht::packet_iterator;
 namespace messages = libtorrent::dht::messages;
 using namespace libtorrent::detail;
+
+enum
+{
+	key_refresh = 5 // generate a new write token key every 5 minutes
+};
 
 using asio::ip::udp;
 typedef asio::ip::address_v4 address;
@@ -155,7 +152,7 @@ namespace libtorrent { namespace dht
 		, m_dht(bind(&dht_tracker::send_packet, this, _1), settings
 			, read_id(bootstrap))
 		, m_buffer(0)
-		, m_last_refresh(second_clock::universal_time() - hours(1))
+		, m_last_new_key(time_now() - minutes(key_refresh))
 		, m_timer(ios)
 		, m_connection_timer(ios)
 		, m_refresh_timer(ios)
@@ -215,7 +212,7 @@ namespace libtorrent { namespace dht
 		m_connection_timer.async_wait(m_strand.wrap(
 			bind(&dht_tracker::connection_timeout, self(), _1)));
 
-		m_refresh_timer.expires_from_now(minutes(15));
+		m_refresh_timer.expires_from_now(seconds(5));
 		m_refresh_timer.async_wait(m_strand.wrap(bind(&dht_tracker::refresh_timeout, self(), _1)));
 
 		m_dht.bootstrap(initial_nodes, bind(&dht_tracker::on_bootstrap, self()));
@@ -233,6 +230,7 @@ namespace libtorrent { namespace dht
 	{
 		boost::tie(s.dht_nodes, s.dht_node_cache) = m_dht.size();
 		s.dht_torrents = m_dht.data_size();
+		s.dht_global_nodes = m_dht.num_global_nodes();
 	}
 
 	void dht_tracker::connection_timeout(asio::error_code const& e)
@@ -281,7 +279,15 @@ namespace libtorrent { namespace dht
 		m_timer.expires_from_now(minutes(tick_period));
 		m_timer.async_wait(m_strand.wrap(bind(&dht_tracker::tick, this, _1)));
 
-		m_dht.new_write_key();
+		ptime now = time_now();
+		if (now - m_last_new_key > minutes(key_refresh))
+		{
+			m_last_new_key = now;
+			m_dht.new_write_key();
+#ifdef TORRENT_DHT_VERBOSE_LOGGING
+			TORRENT_LOG(dht_tracker) << time_now_string() << " new write key";
+#endif
+		}
 		
 #ifdef TORRENT_DHT_VERBOSE_LOGGING
 		static bool first = true;
@@ -304,9 +310,7 @@ namespace libtorrent { namespace dht
 		if (first)
 		{
 			first = false;
-			using boost::posix_time::to_simple_string;
-			pc << "\n\n *****   starting log at " << to_simple_string(
-				second_clock::universal_time()) << "   *****\n\n"
+			pc << "\n\n *****   starting log at " << time_now_string() << "   *****\n\n"
 				<< "minute:active nodes:passive nodes"
 				":ping replies sent:ping queries recvd:ping"
 				":ping replies sent:ping queries recvd:ping"
@@ -409,9 +413,8 @@ namespace libtorrent { namespace dht
 				, m_in_buf[current_buffer].end());
 
 #ifdef TORRENT_DHT_VERBOSE_LOGGING
-			TORRENT_LOG(dht_tracker) << microsec_clock::universal_time()
-				<< " RECEIVED [" << m_remote_endpoint[current_buffer]
-				<< "]:";
+			TORRENT_LOG(dht_tracker) << time_now_string() << " RECEIVED ["
+				<< m_remote_endpoint[current_buffer] << "]:";
 #endif
 
 			libtorrent::dht::msg m;
@@ -453,7 +456,7 @@ namespace libtorrent { namespace dht
 				}
 				else
 				{
-					TORRENT_LOG(dht_tracker) << "   client: generic";
+					TORRENT_LOG(dht_tracker) << "   client: " << client;
 				}
 			}
 			catch (std::exception&)
@@ -625,9 +628,10 @@ namespace libtorrent { namespace dht
 				m.error_msg = list.back().string();
 				m.error_code = list.front().integer();
 #ifdef TORRENT_DHT_VERBOSE_LOGGING
-				TORRENT_LOG(dht_tracker) << "   error: " << m.error_code << " "
+				TORRENT_LOG(dht_tracker) << "   incoming error: " << m.error_code << " "
 					<< m.error_msg;
 #endif
+				throw std::runtime_error("DHT error message");
 			}
 			else
 			{
@@ -646,14 +650,17 @@ namespace libtorrent { namespace dht
 			}
 			TORRENT_LOG(dht_tracker) << e;
 #endif
-
+			assert(m.message_id != messages::error);
 			m_dht.incoming(m);
 		}
 		catch (std::exception& e)
 		{
 #ifdef TORRENT_DHT_VERBOSE_LOGGING
+			int current_buffer = (m_buffer + 1) & 1;
+			std::string msg(m_in_buf[current_buffer].begin()
+				, m_in_buf[current_buffer].begin() + bytes_transferred);
 			TORRENT_LOG(dht_tracker) << "invalid incoming packet: "
-				<< e.what();
+				<< e.what() << "\n" << msg << "\n";
 #endif
 		}
 	}
@@ -737,23 +744,66 @@ namespace libtorrent { namespace dht
 	void dht_tracker::on_bootstrap()
 	{}
 
+	namespace
+	{
+		void write_nodes_entry(entry& r, libtorrent::dht::msg const& m)
+		{
+			bool ipv6_nodes = false;
+			r["nodes"] = entry(entry::string_t);
+			entry& n = r["nodes"];
+			std::back_insert_iterator<std::string> out(n.string());
+			for (msg::nodes_t::const_iterator i = m.nodes.begin()
+				, end(m.nodes.end()); i != end; ++i)
+			{
+				if (!i->addr.address().is_v4())
+				{
+					ipv6_nodes = true;
+					continue;
+				}
+				std::copy(i->id.begin(), i->id.end(), out);
+				write_endpoint(i->addr, out);
+			}
+
+			if (ipv6_nodes)
+			{
+				r["nodes2"] = entry(entry::list_t);
+				entry& p = r["nodes2"];
+				std::string endpoint;
+				for (msg::nodes_t::const_iterator i = m.nodes.begin()
+					, end(m.nodes.end()); i != end; ++i)
+				{
+					if (!i->addr.address().is_v6()) continue;
+					endpoint.resize(18 + 20);
+					std::string::iterator out = endpoint.begin();
+					std::copy(i->id.begin(), i->id.end(), out);
+					out += 20;
+					write_endpoint(i->addr, out);
+					endpoint.resize(out - endpoint.begin());
+					p.list().push_back(entry(endpoint));
+				}
+			}
+#ifdef TORRENT_DHT_VERBOSE_LOGGING
+			TORRENT_LOG(dht_tracker) << "   nodes: " << m.nodes.size();
+#endif
+		}
+	}
+
 	void dht_tracker::send_packet(msg const& m)
+		try
 	{
 		using libtorrent::bencode;
 		using libtorrent::entry;
 		entry e(entry::dictionary_t);
+		assert(!m.transaction_id.empty() || m.message_id == messages::error);
 		e["t"] = m.transaction_id;
-		std::string version_str("LT  ");
-		std::string::iterator i = version_str.begin() + 2;
-		detail::write_uint8(LIBTORRENT_VERSION_MAJOR, i);
-		detail::write_uint8(LIBTORRENT_VERSION_MINOR, i);
-		e["v"] = version_str;
+		static char const version_str[] = {'L', 'T'
+			, LIBTORRENT_VERSION_MAJOR, LIBTORRENT_VERSION_MINOR};
+		e["v"] = std::string(version_str, version_str + 4);
 
 #ifdef TORRENT_DHT_VERBOSE_LOGGING
-		TORRENT_LOG(dht_tracker) << microsec_clock::universal_time()
+		TORRENT_LOG(dht_tracker) << time_now_string()
 			<< " SENDING [" << m.addr << "]:";
 		TORRENT_LOG(dht_tracker) << "   transaction: " << m.transaction_id;
-//		e.print(std::cerr);
 #endif
 
 		if (m.message_id == messages::error)
@@ -761,12 +811,13 @@ namespace libtorrent { namespace dht
 			assert(m.reply);
 			e["y"] = "e";
 			entry error_list(entry::list_t);
+			assert(m.error_code > 200 && m.error_code <= 204);
 			error_list.list().push_back(entry(m.error_code));
 			error_list.list().push_back(entry(m.error_msg));
 			e["e"] = error_list;
 #ifdef TORRENT_DHT_VERBOSE_LOGGING
-		TORRENT_LOG(dht_tracker) << "   error: " << m.error_code << " "
-			<< m.error_msg;
+			TORRENT_LOG(dht_tracker) << time_now_string()
+				<< "   outgoing error: " << m.error_code << " " << m.error_msg;
 #endif
 		}
 		else if (m.reply)
@@ -777,8 +828,8 @@ namespace libtorrent { namespace dht
 			r["id"] = std::string(m.id.begin(), m.id.end());
 
 #ifdef TORRENT_DHT_VERBOSE_LOGGING
-			TORRENT_LOG(dht_tracker) << "   reply: "
-				<< messages::ids[m.message_id];
+			TORRENT_LOG(dht_tracker) << time_now_string()
+				<< "   reply: " << messages::ids[m.message_id];
 #endif
 
 			if (m.write_token.type() != entry::undefined_t)
@@ -790,71 +841,27 @@ namespace libtorrent { namespace dht
 					break;
 				case messages::find_node:
 				{
-					bool ipv6_nodes = false;
-					r["nodes"] = entry(entry::string_t);
-					entry& n = r["nodes"];
-					std::back_insert_iterator<std::string> out(n.string());
-					for (msg::nodes_t::const_iterator i = m.nodes.begin()
-						, end(m.nodes.end()); i != end; ++i)
-					{
-						if (!i->addr.address().is_v4())
-						{
-							ipv6_nodes = true;
-							continue;
-						}
-						std::copy(i->id.begin(), i->id.end(), out);
-						write_endpoint(i->addr, out);
-					}
-
-					if (ipv6_nodes)
-					{
-						r["nodes2"] = entry(entry::list_t);
-						entry& p = r["nodes2"];
-						std::string endpoint;
-						endpoint.resize(6);
-						for (msg::nodes_t::const_iterator i = m.nodes.begin()
-							, end(m.nodes.end()); i != end; ++i)
-						{
-							std::string::iterator out = endpoint.begin();
-							std::copy(i->id.begin(), i->id.end(), out);
-							write_endpoint(i->addr, out);
-							p.list().push_back(entry(endpoint));
-						}
-					}
-#ifdef TORRENT_DHT_VERBOSE_LOGGING
-					TORRENT_LOG(dht_tracker) << "   nodes: " << m.nodes.size();
-#endif
+					write_nodes_entry(r, m);
 					break;
 				}
 				case messages::get_peers:
 				{
 					if (m.peers.empty())
 					{
-						r["nodes"] = entry(entry::string_t);
-						entry& n = r["nodes"];
-						std::back_insert_iterator<std::string> out(n.string());
-						for (msg::nodes_t::const_iterator i = m.nodes.begin()
-							, end(m.nodes.end()); i != end; ++i)
-						{
-							if (!i->addr.address().is_v4()) continue;
-							std::copy(i->id.begin(), i->id.end(), out);
-							write_endpoint(i->addr, out);
-						}
-#ifdef TORRENT_DHT_VERBOSE_LOGGING
-						TORRENT_LOG(dht_tracker) << "   nodes: " << m.nodes.size();
-#endif
+						write_nodes_entry(r, m);
 					}
 					else
 					{
 						r["values"] = entry(entry::list_t);
 						entry& p = r["values"];
 						std::string endpoint;
-						endpoint.resize(6);
 						for (msg::peers_t::const_iterator i = m.peers.begin()
 							, end(m.peers.end()); i != end; ++i)
 						{
+							endpoint.resize(18);
 							std::string::iterator out = endpoint.begin();
 							write_endpoint(*i, out);
+							endpoint.resize(out - endpoint.begin());
 							p.list().push_back(entry(endpoint));
 						}
 #ifdef TORRENT_DHT_VERBOSE_LOGGING
@@ -923,8 +930,10 @@ namespace libtorrent { namespace dht
 
 		m_send_buf.clear();
 		bencode(std::back_inserter(m_send_buf), e);
+		asio::error_code ec;
 		m_socket.send_to(asio::buffer(&m_send_buf[0]
-			, (int)m_send_buf.size()), m.addr);
+			, (int)m_send_buf.size()), m.addr, 0, ec);
+		if (ec) return;
 
 #ifdef TORRENT_DHT_VERBOSE_LOGGING
 		m_total_out_bytes += m_send_buf.size();
@@ -952,6 +961,13 @@ namespace libtorrent { namespace dht
 		pm.addr = m.addr;
 	
 		send_packet(pm);	
+	}
+	catch (std::exception&)
+	{
+		// m_send may fail with "no route to host"
+		// but it shouldn't throw since an error code
+		// is passed in instead
+		assert(false);
 	}
 
 }}

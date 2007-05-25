@@ -36,7 +36,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <vector>
 #include <deque>
 #include <boost/cstdint.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/iterator/iterator_categories.hpp>
@@ -50,8 +49,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <libtorrent/kademlia/node_id.hpp>
 #include <libtorrent/kademlia/node_entry.hpp>
 #include <libtorrent/session_settings.hpp>
-
-namespace pt = boost::posix_time;
+#include <libtorrent/size_type.hpp>
 
 namespace libtorrent { namespace dht
 {
@@ -60,7 +58,7 @@ using asio::ip::udp;
 
 //TORRENT_DECLARE_LOG(table);
 	
-typedef std::deque<node_entry> bucket_t;
+typedef std::vector<node_entry> bucket_t;
 
 // differences in the implementation from the description in
 // the paper:
@@ -104,7 +102,7 @@ namespace aux
 			, bucket_iterator_t end)
 			: m_bucket_iterator(begin)
 			, m_bucket_end(end)
-			, m_iterator(begin != end ? begin->first.begin() : bucket_t::iterator())
+			, m_iterator(begin != end ? begin->first.begin() : bucket_t::const_iterator())
 		{
 			if (m_bucket_iterator == m_bucket_end) return;
 			while (m_iterator == m_bucket_iterator->first.end())
@@ -177,7 +175,7 @@ public:
 	// if the given bucket is empty but there are nodes
 	// in a bucket closer to us, or if the bucket is non-empty and
 	// the time from the last activity is more than 15 minutes
-	boost::posix_time::ptime next_refresh(int bucket);
+	ptime next_refresh(int bucket);
 
 	// fills the vector with the count nodes from our buckets that
 	// are nearest to the given id.
@@ -204,17 +202,21 @@ public:
 	iterator end() const;
 
 	boost::tuple<int, int> size() const;
+	size_type num_global_nodes() const;
 	
 	// returns true if there are no working nodes
 	// in the routing table
 	bool need_bootstrap() const;
+	int num_active_buckets() const
+	{ return 160 - m_lowest_active_bucket + 1; }
 	
 	void replacement_cache(bucket_t& nodes) const;
-
+#ifdef TORRENT_DHT_VERBOSE_LOGGING
 	// used for debug and monitoring purposes. This will print out
 	// the state of the routing table to the given stream
 	void print_state(std::ostream& os) const;
-	
+#endif
+
 private:
 
 	// constant called k in paper
@@ -226,7 +228,7 @@ private:
 	typedef boost::array<std::pair<bucket_t, bucket_t>, 160> table_t;
 	table_t m_buckets;
 	// timestamps of the last activity in each bucket
-	typedef boost::array<boost::posix_time::ptime, 160> table_activity_t;
+	typedef boost::array<ptime, 160> table_activity_t;
 	table_activity_t m_bucket_activity;
 	node_id m_id; // our own node id
 	

@@ -30,6 +30,8 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
+#include "libtorrent/pch.hpp"
+
 #include <vector>
 #include <deque>
 #include <algorithm>
@@ -37,7 +39,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <numeric>
 #include <boost/cstdint.hpp>
 #include <boost/bind.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "libtorrent/kademlia/routing_table.hpp"
 #include "libtorrent/kademlia/node_id.hpp"
@@ -45,13 +46,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 using boost::bind;
 using boost::uint8_t;
-
-using boost::posix_time::second_clock;
-using boost::posix_time::minutes;
-using boost::posix_time::seconds;
-using boost::posix_time::hours;
-
-namespace pt = boost::posix_time;
 
 namespace libtorrent { namespace dht
 {
@@ -69,7 +63,8 @@ routing_table::routing_table(node_id const& id, int bucket_size
 	// distribute the refresh times for the buckets in an
 	// attempt do even out the network load
 	for (int i = 0; i < 160; ++i)
-		m_bucket_activity[i] = second_clock::universal_time() - seconds(15*60 - i*5);
+		m_bucket_activity[i] = time_now() - milliseconds(i*5625);
+	m_bucket_activity[0] = time_now() - minutes(15);
 }
 
 boost::tuple<int, int> routing_table::size() const
@@ -85,14 +80,34 @@ boost::tuple<int, int> routing_table::size() const
 	return boost::make_tuple(nodes, replacements);
 }
 
+size_type routing_table::num_global_nodes() const
+{
+	int first_full = m_lowest_active_bucket;
+	int num_nodes = 1; // we are one of the nodes
+	for (; first_full < 160
+		&& int(m_buckets[first_full].first.size()) < m_bucket_size;
+		++first_full)
+	{
+		num_nodes += m_buckets[first_full].first.size();
+	}
+
+	return (2 << (160 - first_full)) * num_nodes;
+}
+
+#ifdef TORRENT_DHT_VERBOSE_LOGGING
+
 void routing_table::print_state(std::ostream& os) const
 {
 	os << "kademlia routing table state\n"
 		<< "bucket_size: " << m_bucket_size << "\n"
+		<< "global node count: " << num_global_nodes() << "\n"
 		<< "node_id: " << m_id << "\n\n";
 
-	os << "number of nodes per bucket:\n"
-		"live\n";
+	os << "number of nodes per bucket:\n-- live ";
+	for (int i = 8; i < 160; ++i)
+		os << "-";
+	os << "\n";
+
 	for (int k = 0; k < 8; ++k)
 	{
 		for (table_t::const_iterator i = m_buckets.begin(), end(m_buckets.end());
@@ -117,17 +132,20 @@ void routing_table::print_state(std::ostream& os) const
 		}
 		os << "\n";
 	}
-	os << "cached\n-----------\n";
+	os << "-- cached ";
+	for (int i = 10; i < 160; ++i)
+		os << "-";
+	os << "\n\n";
 
 	os << "nodes:\n";
 	for (table_t::const_iterator i = m_buckets.begin(), end(m_buckets.end());
 		i != end; ++i)
 	{
 		int bucket_index = int(i - m_buckets.begin());
-		os << "bucket " << bucket_index << " "
-			<< to_simple_string(m_bucket_activity[bucket_index])
-			<< " " << (bucket_index >= m_lowest_active_bucket?"active":"inactive")
-			<< "\n";
+		os << "=== BUCKET = " << bucket_index
+			<< " = " << (bucket_index >= m_lowest_active_bucket?"active":"inactive")
+			<< " = " << total_seconds(time_now() - m_bucket_activity[bucket_index])
+			<< " s ago ===== \n";
 		for (bucket_t::const_iterator j = i->first.begin()
 			, end(i->first.end()); j != end; ++j)
 		{
@@ -137,19 +155,21 @@ void routing_table::print_state(std::ostream& os) const
 	}
 }
 
+#endif
+
 void routing_table::touch_bucket(int bucket)
 {
-	m_bucket_activity[bucket] = second_clock::universal_time();
+	m_bucket_activity[bucket] = time_now();
 }
 
-boost::posix_time::ptime routing_table::next_refresh(int bucket)
+ptime routing_table::next_refresh(int bucket)
 {
 	assert(bucket < 160);
 	assert(bucket >= 0);
 	// lower than or equal to since a refresh of bucket 0 will
 	// effectively refresh the lowest active bucket as well
-	if (bucket <= m_lowest_active_bucket && bucket > 0)
-		return second_clock::universal_time() + minutes(15);
+	if (bucket < m_lowest_active_bucket && bucket > 0)
+		return time_now() + minutes(15);
 	return m_bucket_activity[bucket] + minutes(15);
 }
 
@@ -177,11 +197,11 @@ bool routing_table::need_node(node_id const& id)
 	if ((int)rb.size() >= m_bucket_size) return false;
 	
 	// if the node already exists, we don't need it
-	if (std::find_if(b.begin(), b.end(), bind(std::equal_to<node_id>()
-		, bind(&node_entry::id, _1), id)) != b.end()) return false;
+	if (std::find_if(b.begin(), b.end(), bind(&node_entry::id, _1) == id)
+		!= b.end()) return false;
 
-	if (std::find_if(rb.begin(), rb.end(), bind(std::equal_to<node_id>()
-		, bind(&node_entry::id, _1), id)) != rb.end()) return false;
+	if (std::find_if(rb.begin(), rb.end(), bind(&node_entry::id, _1) == id)
+		!= rb.end()) return false;
 
 	return true;
 }
@@ -195,8 +215,7 @@ void routing_table::node_failed(node_id const& id)
 	bucket_t& rb = m_buckets[bucket_index].second;
 
 	bucket_t::iterator i = std::find_if(b.begin(), b.end()
-		, bind(std::equal_to<node_id>()
-		, bind(&node_entry::id, _1), id));
+		, bind(&node_entry::id, _1) == id);
 
 	if (i == b.end()) return;
 	
@@ -245,12 +264,11 @@ bool routing_table::node_seen(node_id const& id, udp::endpoint addr)
 	bucket_t& b = m_buckets[bucket_index].first;
 
 	bucket_t::iterator i = std::find_if(b.begin(), b.end()
-		, bind(std::equal_to<node_id>()
-		, bind(&node_entry::id, _1), id));
+		, bind(&node_entry::id, _1) == id);
 
 	bool ret = need_bootstrap();
 
-	m_bucket_activity[bucket_index] = second_clock::universal_time();
+	//m_bucket_activity[bucket_index] = time_now();
 
 	if (i != b.end())
 	{
@@ -274,6 +292,7 @@ bool routing_table::node_seen(node_id const& id, udp::endpoint addr)
 	// offline
 	if ((int)b.size() < m_bucket_size)
 	{
+		if (b.empty()) b.reserve(m_bucket_size);
 		b.push_back(node_entry(id, addr));
 		// if bucket index is 0, the node is ourselves
 		// don't updated m_lowest_active_bucket
@@ -293,9 +312,8 @@ bool routing_table::node_seen(node_id const& id, udp::endpoint addr)
 	// with nodes from that cache.
 
 	i = std::max_element(b.begin(), b.end()
-		, bind(std::less<int>()
-			, bind(&node_entry::fail_count, _1)
-			, bind(&node_entry::fail_count, _2)));
+		, bind(&node_entry::fail_count, _1)
+		< bind(&node_entry::fail_count, _2));
 
 	if (i != b.end() && i->fail_count > 0)
 	{
@@ -315,14 +333,14 @@ bool routing_table::node_seen(node_id const& id, udp::endpoint addr)
 	bucket_t& rb = m_buckets[bucket_index].second;
 
 	i = std::find_if(rb.begin(), rb.end()
-		, bind(std::equal_to<node_id>()
-		, bind(&node_entry::id, _1), id));
+		, bind(&node_entry::id, _1) == id);
 
 	// if the node is already in the replacement bucket
 	// just return.
 	if (i != rb.end()) return ret;
 	
 	if ((int)rb.size() > m_bucket_size) rb.erase(rb.begin());
+	if (rb.empty()) rb.reserve(m_bucket_size);
 	rb.push_back(node_entry(id, addr));
 //	TORRENT_LOG(table) << "inserting node in replacement cache: " << id << " " << addr;
 	return ret;
@@ -358,8 +376,7 @@ void routing_table::find_node(node_id const& target
 	if ((int)l.size() == count)
 	{
 		assert(std::count_if(l.begin(), l.end()
-			, boost::bind(std::not_equal_to<int>()
-				, boost::bind(&node_entry::fail_count, _1), 0)) == 0);
+			, boost::bind(&node_entry::fail_count, _1) != 0) == 0);
 		return;
 	}
 
@@ -391,8 +408,7 @@ void routing_table::find_node(node_id const& target
 		|| bucket_index == (int)m_buckets.size() - 1)
 	{
 		assert(std::count_if(l.begin(), l.end()
-			, boost::bind(std::not_equal_to<int>()
-				, boost::bind(&node_entry::fail_count, _1), 0)) == 0);
+			, boost::bind(&node_entry::fail_count, _1) != 0) == 0);
 		return;
 	}
 
@@ -406,8 +422,7 @@ void routing_table::find_node(node_id const& target
 		{
 			l.erase(l.begin() + count, l.end());
 			assert(std::count_if(l.begin(), l.end()
-				, boost::bind(std::not_equal_to<int>()
-					, boost::bind(&node_entry::fail_count, _1), 0)) == 0);
+				, boost::bind(&node_entry::fail_count, _1) != 0) == 0);
 			return;
 		}
 	}
@@ -416,8 +431,7 @@ void routing_table::find_node(node_id const& target
 	assert((int)l.size() <= count);
 
 	assert(std::count_if(l.begin(), l.end()
-		, boost::bind(std::not_equal_to<int>()
-			, boost::bind(&node_entry::fail_count, _1), 0)) == 0);
+		, boost::bind(&node_entry::fail_count, _1) != 0) == 0);
 }
 
 routing_table::iterator routing_table::begin() const
