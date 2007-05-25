@@ -124,15 +124,11 @@ else:
 # Ubuntu possible.
 if boosttype == "nomt":
 	librariestype = ['boost_filesystem', 'boost_date_time',
-			'boost_regex', 'boost_serialization',
-			'boost_thread', 
-			'z', 'pthread']
+			'boost_thread', 'z', 'pthread']
 	print 'Libraries nomt' 
 elif boosttype == "mt":
 	librariestype = ['boost_filesystem-mt', 'boost_date_time-mt',
-			'boost_regex-mt', 'boost_serialization-mt',
-			'boost_thread-mt', 
-			'z', 'pthread']
+			'boost_thread-mt', 'z', 'pthread']
 	print 'Libraries mt'
 
 deluge_core = Extension('deluge_core',

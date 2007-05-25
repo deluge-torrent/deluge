@@ -27,17 +27,10 @@
 // open, just like the normal TCP port for bittorrent.
 //
 //-----------------
-#include <iostream>
-#include <fstream>
-#include <exception>
-#include <iterator>
-#include <iomanip>
-
 #include <Python.h>
 
+#include <boost/filesystem/exception.hpp>
 #include <boost/filesystem/operations.hpp>
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/fstream.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "libtorrent/entry.hpp"
@@ -48,10 +41,8 @@
 #include "libtorrent/storage.hpp"
 #include "libtorrent/hasher.hpp"
 #include "libtorrent/ip_filter.hpp"
-#include "libtorrent/file_pool.hpp"
-#include "libtorrent/file.hpp"
-#include "libtorrent/torrent_info.hpp"
 #include "libtorrent/upnp.hpp"
+#include "libtorrent/file_pool.hpp"
 #include "libtorrent/natpmp.hpp"
 #include "libtorrent/extensions/metadata_transfer.hpp"
 #include "libtorrent/extensions/ut_pex.hpp"
