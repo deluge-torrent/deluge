@@ -51,6 +51,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 #include "libtorrent/torrent_info.hpp"
+#include "libtorrent/piece_picker.hpp"
 #include "libtorrent/config.hpp"
 
 namespace libtorrent
@@ -77,6 +78,7 @@ namespace libtorrent
 		torrent_info const& t
 		, boost::filesystem::path p
 		, std::vector<std::pair<size_type, std::time_t> > const& sizes
+		, bool compact_mode
 		, std::string* error = 0);
 
 	struct TORRENT_EXPORT file_allocation_failed: std::exception
@@ -87,39 +89,55 @@ namespace libtorrent
 		std::string m_msg;
 	};
 
-	class TORRENT_EXPORT storage
+	struct TORRENT_EXPORT storage_interface
 	{
-	public:
-		storage(
-			const torrent_info& info
-			, const boost::filesystem::path& path
-			, file_pool& fp);
-
-		void swap(storage&);
+		// create directories and set file sizes
+		// if allocate_files is true. 
+		// allocate_files is true if allocation mode
+		// is set to full and sparse files are supported
+		virtual void initialize(bool allocate_files) = 0;
 
 		// may throw file_error if storage for slot does not exist
-		size_type read(char* buf, int slot, int offset, int size);
+		virtual size_type read(char* buf, int slot, int offset, int size) = 0;
 
 		// may throw file_error if storage for slot hasn't been allocated
-		void write(const char* buf, int slot, int offset, int size);
+		virtual void write(const char* buf, int slot, int offset, int size) = 0;
 
-		bool move_storage(boost::filesystem::path save_path);
+		virtual bool move_storage(boost::filesystem::path save_path) = 0;
+
+		// verify storage dependent fast resume entries
+		virtual bool verify_resume_data(entry& rd, std::string& error) = 0;
+
+		// write storage dependent fast resume entries
+		virtual void write_resume_data(entry& rd) const = 0;
+
+		// moves (or copies) the content in src_slot to dst_slot
+		virtual void move_slot(int src_slot, int dst_slot) = 0;
+
+		// swaps the data in slot1 and slot2
+		virtual void swap_slots(int slot1, int slot2) = 0;
+
+		// swaps the puts the data in slot1 in slot2, the data in slot2
+		// in slot3 and the data in slot3 in slot1
+		virtual void swap_slots3(int slot1, int slot2, int slot3) = 0;
 
 		// this will close all open files that are opened for
 		// writing. This is called when a torrent has finished
 		// downloading.
-		void release_files();
-
-#ifndef NDEBUG
-		// overwrites some slots with the
-		// contents of others
-		void shuffle();
-#endif
-
-	private:
-		class impl;
-		boost::shared_ptr<impl> m_pimpl;
+		virtual void release_files() = 0;
+		virtual ~storage_interface() {}
 	};
+
+	typedef storage_interface* (&storage_constructor_type)(
+		torrent_info const&, boost::filesystem::path const&
+		, file_pool&);
+
+	TORRENT_EXPORT storage_interface* default_storage_constructor(torrent_info const& ti
+		, boost::filesystem::path const& path, file_pool& fp);
+
+	// returns true if the filesystem the path relies on supports
+	// sparse files or automatic zero filling of files.
+	TORRENT_EXPORT bool supports_sparse_files(boost::filesystem::path const& p);
 
 	class TORRENT_EXPORT piece_manager : boost::noncopyable
 	{
@@ -128,7 +146,8 @@ namespace libtorrent
 		piece_manager(
 			const torrent_info& info
 			, const boost::filesystem::path& path
-			, file_pool& fp);
+			, file_pool& fp
+			, storage_constructor_type sc);
 
 		~piece_manager();
 
@@ -139,14 +158,17 @@ namespace libtorrent
 
 		void release_files();
 
+		void write_resume_data(entry& rd) const;
+		bool verify_resume_data(entry& rd, std::string& error);
+
 		bool is_allocating() const;
-		void allocate_slots(int num_slots);
+		bool allocate_slots(int num_slots, bool abort_on_disk = false);
 		void mark_failed(int index);
 
 		unsigned long piece_crc(
 			int slot_index
 			, int block_size
-			, const std::bitset<256>& bitmask);
+			, piece_picker::block_info const* bi);
 		int slot_for_piece(int piece_index) const;
 
 		size_type read(
@@ -169,6 +191,8 @@ namespace libtorrent
 		// partially stored) there. -2 is the index
 		// of unassigned pieces and -1 is unallocated
 		void export_piece_map(std::vector<int>& pieces) const;
+
+		bool compact_allocation() const;
 
 	private:
 		class impl;

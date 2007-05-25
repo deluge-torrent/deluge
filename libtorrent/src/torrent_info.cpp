@@ -30,6 +30,8 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
+#include "libtorrent/pch.hpp"
+
 #include <ctime>
 #include <iostream>
 #include <fstream>
@@ -43,7 +45,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #include <boost/lexical_cast.hpp>
-#include <boost/date_time/gregorian/gregorian_types.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/next_prior.hpp>
 #include <boost/bind.hpp>
@@ -56,6 +57,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/bencode.hpp"
 #include "libtorrent/hasher.hpp"
 #include "libtorrent/entry.hpp"
+
+namespace pt = boost::posix_time;
+namespace gr = boost::gregorian;
 
 using namespace libtorrent;
 using namespace boost::filesystem;
@@ -213,15 +217,16 @@ namespace
 namespace libtorrent
 {
 
-	using namespace boost::gregorian;
-	using namespace boost::posix_time;
-
 	// standard constructor that parses a torrent file
 	torrent_info::torrent_info(const entry& torrent_file)
-		: m_creation_date(date(not_a_date_time))
+		: m_num_pieces(0)
+		, m_creation_date(pt::ptime(pt::not_a_date_time))
 		, m_multifile(false)
 		, m_private(false)
 		, m_extra_info(entry::dictionary_t)
+#ifndef NDEBUG
+		, m_half_metadata(false)
+#endif
 	{
 		try
 		{
@@ -240,24 +245,32 @@ namespace libtorrent
 	torrent_info::torrent_info(sha1_hash const& info_hash)
 		: m_piece_length(0)
 		, m_total_size(0)
+		, m_num_pieces(0)
 		, m_info_hash(info_hash)
 		, m_name()
-		, m_creation_date(second_clock::universal_time())
+		, m_creation_date(pt::second_clock::universal_time())
 		, m_multifile(false)
 		, m_private(false)
 		, m_extra_info(entry::dictionary_t)
+#ifndef NDEBUG
+		, m_half_metadata(false)
+#endif
 	{
 	}
 
 	torrent_info::torrent_info()
 		: m_piece_length(0)
 		, m_total_size(0)
+		, m_num_pieces(0)
 		, m_info_hash(0)
 		, m_name()
-		, m_creation_date(second_clock::universal_time())
+		, m_creation_date(pt::second_clock::universal_time())
 		, m_multifile(false)
 		, m_private(false)
 		, m_extra_info(entry::dictionary_t)
+#ifndef NDEBUG
+		, m_half_metadata(false)
+#endif
 	{
 	}
 
@@ -277,15 +290,15 @@ namespace libtorrent
 			}
 		}
 #endif
+		assert(!m_half_metadata);
 		m_piece_length = size;
 
-
-		int num_pieces = static_cast<int>(
+		m_num_pieces = static_cast<int>(
 			(m_total_size + m_piece_length - 1) / m_piece_length);
 		int old_num_pieces = static_cast<int>(m_piece_hash.size());
 
-		m_piece_hash.resize(num_pieces);
-		for (int i = old_num_pieces; i < num_pieces; ++i)
+		m_piece_hash.resize(m_num_pieces);
+		for (int i = old_num_pieces; i < m_num_pieces; ++i)
 		{
 			m_piece_hash[i].clear();
 		}
@@ -343,14 +356,14 @@ namespace libtorrent
 		// we want this division to round upwards, that's why we have the
 		// extra addition
 
-		int num_pieces = static_cast<int>((m_total_size + m_piece_length - 1) / m_piece_length);
-		m_piece_hash.resize(num_pieces);
+		m_num_pieces = static_cast<int>((m_total_size + m_piece_length - 1) / m_piece_length);
+		m_piece_hash.resize(m_num_pieces);
 		const std::string& hash_string = info["pieces"].string();
 
-		if ((int)hash_string.length() != num_pieces * 20)
+		if ((int)hash_string.length() != m_num_pieces * 20)
 			throw invalid_torrent_file();
 
-		for (int i = 0; i < num_pieces; ++i)
+		for (int i = 0; i < m_num_pieces; ++i)
 			std::copy(
 				hash_string.begin() + i*20
 				, hash_string.begin() + (i+1)*20
@@ -453,8 +466,8 @@ namespace libtorrent
 		// extract creation date
 		try
 		{
-			m_creation_date = ptime(date(1970, Jan, 1))
-				+ seconds(long(torrent_file["creation date"].integer()));
+			m_creation_date = pt::ptime(gr::date(1970, gr::Jan, 1))
+				+ pt::seconds(long(torrent_file["creation date"].integer()));
 		}
 		catch (type_error) {}
 
@@ -492,14 +505,14 @@ namespace libtorrent
 		parse_info_section(torrent_file["info"]);
 	}
 
-	boost::optional<ptime>
+	boost::optional<pt::ptime>
 	torrent_info::creation_date() const
 	{
-		if (m_creation_date != ptime(date(not_a_date_time)))
+		if (m_creation_date != pt::ptime(gr::date(pt::not_a_date_time)))
 		{
-			return boost::optional<ptime>(m_creation_date);
+			return boost::optional<pt::ptime>(m_creation_date);
 		}
-		return boost::optional<ptime>();
+		return boost::optional<pt::ptime>();
 	}
 
 	void torrent_info::add_tracker(std::string const& url, int tier)
@@ -549,12 +562,12 @@ namespace libtorrent
 		if (m_piece_length == 0)
 			m_piece_length = 256 * 1024;
 
-		int num_pieces = static_cast<int>(
+		m_num_pieces = static_cast<int>(
 			(m_total_size + m_piece_length - 1) / m_piece_length);
 		int old_num_pieces = static_cast<int>(m_piece_hash.size());
 
-		m_piece_hash.resize(num_pieces);
-		if (num_pieces > old_num_pieces)
+		m_piece_hash.resize(m_num_pieces);
+		if (m_num_pieces > old_num_pieces)
 			std::for_each(m_piece_hash.begin() + old_num_pieces
 				, m_piece_hash.end(), boost::bind(&sha1_hash::clear, _1));
 	}
@@ -637,9 +650,6 @@ namespace libtorrent
 	{
 		assert(m_piece_length > 0);
 
-		using namespace boost::gregorian;
-		using namespace boost::posix_time;
-
 		namespace fs = boost::filesystem;
 
 		if ((m_urls.empty() && m_nodes.empty()) || m_files.empty())
@@ -694,7 +704,7 @@ namespace libtorrent
 			dict["comment"] = m_comment;
 
 		dict["creation date"] =
-			(m_creation_date - ptime(date(1970, Jan, 1))).total_seconds();
+			(m_creation_date - pt::ptime(gr::date(1970, gr::Jan, 1))).total_seconds();
 
 		if (!m_created_by.empty())
 			dict["created by"] = m_created_by;
@@ -738,6 +748,18 @@ namespace libtorrent
 		assert(false);
 	}
 
+	void torrent_info::seed_free()
+	{
+		std::vector<std::string>().swap(m_url_seeds);
+		nodes_t().swap(m_nodes);
+		std::vector<sha1_hash>().swap(m_piece_hash);
+#ifndef NDEBUG
+		m_half_metadata = true;
+#endif
+	}
+
+// ------- start deprecation -------
+
 	void torrent_info::print(std::ostream& os) const
 	{
 		os << "trackers:\n";
@@ -748,8 +770,8 @@ namespace libtorrent
 		}
 		if (!m_comment.empty())
 			os << "comment: " << m_comment << "\n";
-		if (m_creation_date != ptime(date(not_a_date_time)))
-			os << "creation date: " << to_simple_string(m_creation_date) << "\n";
+//		if (m_creation_date != pt::ptime(gr::date(pt::not_a_date_time)))
+//			os << "creation date: " << to_simple_string(m_creation_date) << "\n";
 		os << "private: " << (m_private?"yes":"no") << "\n";
 		os << "number of pieces: " << num_pieces() << "\n";
 		os << "piece length: " << piece_length() << "\n";
@@ -757,6 +779,8 @@ namespace libtorrent
 		for (file_iterator i = begin_files(); i != end_files(); ++i)
 			os << "  " << std::setw(11) << i->size << "  " << i->path.string() << "\n";
 	}
+
+// ------- end deprecation -------
 
 	size_type torrent_info::piece_size(int index) const
 	{

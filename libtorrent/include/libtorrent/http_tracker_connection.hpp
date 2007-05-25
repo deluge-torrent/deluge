@@ -43,9 +43,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #include <boost/shared_ptr.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/tuple/tuple.hpp>
+#include <boost/lexical_cast.hpp>
 
 #ifdef _MSC_VER
 #pragma warning(pop)
@@ -59,6 +59,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/tracker_manager.hpp"
 #include "libtorrent/config.hpp"
 #include "libtorrent/buffer.hpp"
+#include "libtorrent/socket_type.hpp"
+#include "libtorrent/connection_queue.hpp"
 
 namespace libtorrent
 {
@@ -114,6 +116,7 @@ namespace libtorrent
 
 		http_tracker_connection(
 			asio::strand& str
+			, connection_queue& cc
 			, tracker_manager& man
 			, tracker_request const& req
 			, std::string const& hostname
@@ -122,6 +125,7 @@ namespace libtorrent
 			, address bind_infc
 			, boost::weak_ptr<request_callback> c
 			, session_settings const& stn
+			, proxy_settings const& ps
 			, std::string const& password = "");
 
 	private:
@@ -136,6 +140,7 @@ namespace libtorrent
 			, std::string const& request);
 
 		void name_lookup(asio::error_code const& error, tcp::resolver::iterator i);
+		void connect(int ticket, tcp::endpoint target_address);
 		void connected(asio::error_code const& error);
 		void sent(asio::error_code const& error);
 		void receive(asio::error_code const& error
@@ -152,15 +157,19 @@ namespace libtorrent
 		asio::strand& m_strand;
 		tcp::resolver m_name_lookup;
 		int m_port;
-		boost::shared_ptr<stream_socket> m_socket;
+		boost::shared_ptr<socket_type> m_socket;
 		int m_recv_pos;
 		std::vector<char> m_buffer;
 		std::string m_send_buffer;
 
 		session_settings const& m_settings;
+		proxy_settings const& m_proxy;
 		std::string m_password;
 
 		bool m_timed_out;
+
+		int m_connection_ticket;
+		connection_queue& m_cc;
 	};
 
 }

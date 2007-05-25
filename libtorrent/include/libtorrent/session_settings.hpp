@@ -34,16 +34,53 @@ POSSIBILITY OF SUCH DAMAGE.
 #define TORRENT_SESSION_SETTINGS_HPP_INCLUDED
 
 #include "libtorrent/version.hpp"
+#include "libtorrent/config.hpp"
 
 namespace libtorrent
 {
+
+	struct TORRENT_EXPORT proxy_settings
+	{
+		proxy_settings() : port(0), type(none) {}
+
+		std::string hostname;
+		int port;
+
+		std::string username;
+		std::string password;
+
+		enum proxy_type
+		{
+			// a plain tcp socket is used, and
+			// the other settings are ignored.
+			none,
+			// the hostname and port settings are
+			// used to connect to the proxy. No
+			// username or password is sent.
+			socks5,
+			// the hostname and port are used to
+			// connect to the proxy. the username
+			// and password are used to authenticate
+			// with the proxy server.
+			socks5_pw,
+			// the http proxy is only available for
+			// tracker and web seed traffic
+			// assumes anonymous access to proxy
+			http,
+			// http proxy with basic authentication
+			// uses username and password
+			http_pw
+		};
+		
+		proxy_type type;
+	
+	};
 
 	struct TORRENT_EXPORT session_settings
 	{
 		session_settings(std::string const& user_agent_ = "libtorrent/"
 			LIBTORRENT_VERSION)
-			: proxy_port(0)
-			, user_agent(user_agent_)
+			: user_agent(user_agent_)
 			, tracker_completion_timeout(60)
 			, tracker_receive_timeout(20)
 			, stop_tracker_timeout(10)
@@ -58,15 +95,14 @@ namespace libtorrent
 			, urlseed_pipeline_size(5)
 			, file_pool_size(40)
 			, allow_multiple_connections_per_ip(false)
+			, max_failcount(3)
+			, min_reconnect_time(60)
+			, peer_connect_timeout(10)
+			, ignore_limits_on_local_network(true)
 #ifndef TORRENT_DISABLE_DHT
 			, use_dht_as_fallback(true)
 #endif
 		{}
-
-		std::string proxy_ip;
-		int proxy_port;
-		std::string proxy_login;
-		std::string proxy_password;
 
 		// this is the user agent that will be sent to the tracker
 		// when doing requests. It is used to identify the client.
@@ -154,6 +190,23 @@ namespace libtorrent
 		// IP address. true will allow it.
 		bool allow_multiple_connections_per_ip;
 
+		// the number of times we can fail to connect to a peer
+		// before we stop retrying it.
+		int max_failcount;
+		
+		// the number of seconds to wait to reconnect to a peer.
+		// this time is multiplied with the failcount.
+		int min_reconnect_time;
+
+		// this is the timeout for a connection attempt. If
+		// the connect does not succeed within this time, the
+		// connection is dropped. The time is specified in seconds.
+		int peer_connect_timeout;
+
+		// if set to true, upload, download and unchoke limits
+		// are ignored for peers on the local network
+		bool ignore_limits_on_local_network;
+
 #ifndef TORRENT_DISABLE_DHT
 		// while this is true, the dht will note be used unless the
 		// tracker is online
@@ -167,7 +220,7 @@ namespace libtorrent
 		dht_settings()
 			: max_peers_reply(50)
 			, search_branching(5)
-			, service_port(6881)
+			, service_port(0)
 			, max_fail_count(20)
 		{}
 		
@@ -180,6 +233,7 @@ namespace libtorrent
 		int search_branching;
 		
 		// the listen port for the dht. This is a UDP port.
+		// zero means use the same as the tcp interface
 		int service_port;
 		
 		// the maximum number of times a node can fail

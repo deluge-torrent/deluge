@@ -61,6 +61,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/fingerprint.hpp"
 
 #include "libtorrent/resource_request.hpp"
+#include "libtorrent/storage.hpp"
 
 #ifdef _MSC_VER
 #	include <eh.h>
@@ -71,7 +72,7 @@ namespace libtorrent
 	struct torrent_plugin;
 	class torrent;
 	class ip_filter;
-
+	class connection_queue;
 
 	namespace aux
 	{
@@ -137,7 +138,8 @@ namespace libtorrent
 			, boost::filesystem::path const& save_path
 			, entry const& resume_data = entry()
 			, bool compact_mode = true
-			, int block_size = 16 * 1024);
+			, int block_size = 16 * 1024
+			, storage_constructor_type sc = default_storage_constructor);
 
 		// TODO: deprecated, this is for backwards compatibility only
 		torrent_handle add_torrent(
@@ -145,10 +147,11 @@ namespace libtorrent
 			, boost::filesystem::path const& save_path
 			, entry const& resume_data = entry()
 			, bool compact_mode = true
-			, int block_size = 16 * 1024)
+			, int block_size = 16 * 1024
+			, storage_constructor_type sc = default_storage_constructor)
 		{
 			return add_torrent(torrent_info(e), save_path, resume_data
-				, compact_mode, block_size);
+				, compact_mode, block_size, sc);
 		}
 
 		torrent_handle add_torrent(
@@ -158,7 +161,8 @@ namespace libtorrent
 			, boost::filesystem::path const& save_path
 			, entry const& resume_data = entry()
 			, bool compact_mode = true
-			, int block_size = 16 * 1024);
+			, int block_size = 16 * 1024
+			, storage_constructor_type sc = default_storage_constructor);
 
 		session_proxy abort() { return session_proxy(m_impl); }
 
@@ -174,9 +178,7 @@ namespace libtorrent
 #endif
 
 #ifndef TORRENT_DISABLE_EXTENSIONS
-
 		void add_extension(boost::function<boost::shared_ptr<torrent_plugin>(torrent*)> ext);
-
 #endif
 
 		void set_ip_filter(ip_filter const& f);
@@ -215,6 +217,19 @@ namespace libtorrent
 		void set_settings(session_settings const& s);
 		session_settings const& settings();
 
+		void set_peer_proxy(proxy_settings const& s);
+		void set_web_seed_proxy(proxy_settings const& s);
+		void set_tracker_proxy(proxy_settings const& s);
+
+		proxy_settings const& peer_proxy() const;
+		proxy_settings const& web_seed_proxy() const;
+		proxy_settings const& tracker_proxy() const;
+
+#ifndef TORRENT_DISABLE_DHT
+		void set_dht_proxy(proxy_settings const& s);
+		proxy_settings const& dht_proxy() const;
+#endif
+
 		int upload_rate_limit() const;
 		int download_rate_limit() const;
 
@@ -226,6 +241,8 @@ namespace libtorrent
 
 		std::auto_ptr<alert> pop_alert();
 		void set_severity_level(alert::severity_t s);
+
+		connection_queue& get_connection_queue();
 
 		// Resource management used for global limits.
 		resource_request m_ul_bandwidth_quota;

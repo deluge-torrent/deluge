@@ -30,6 +30,8 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
+#include "libtorrent/pch.hpp"
+
 #include <vector>
 #include <iostream>
 #include <cctype>
@@ -56,6 +58,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/bencode.hpp"
 #include "libtorrent/torrent.hpp"
 #include "libtorrent/io.hpp"
+#include "libtorrent/instantiate_connection.hpp"
 
 using namespace libtorrent;
 using boost::bind;
@@ -83,8 +86,6 @@ namespace
 	};
 
 }
-
-using namespace boost::posix_time;
 
 namespace
 {
@@ -170,20 +171,17 @@ namespace libtorrent
 				char const* line_end = newline;
 				if (pos != line_end && *(line_end - 1) == '\r') --line_end;
 				line.assign(pos, line_end);
+				++newline;
 				m_recv_pos += newline - pos;
 				boost::get<1>(ret) += newline - pos;
 				pos = newline;
 
-				std::string::size_type separator = line.find(": ");
+				std::string::size_type separator = line.find(':');
 				if (separator == std::string::npos)
 				{
 					// this means we got a blank line,
 					// the header is finished and the body
 					// starts.
-					++pos;
-					++m_recv_pos;
-					boost::get<1>(ret) += 1;
-					
 					m_state = read_body;
 					m_body_start_pos = m_recv_pos;
 					break;
@@ -191,7 +189,12 @@ namespace libtorrent
 
 				std::string name = line.substr(0, separator);
 				std::transform(name.begin(), name.end(), name.begin(), &to_lower);
-				std::string value = line.substr(separator + 2, std::string::npos);
+				++separator;
+				// skip whitespace
+				while (separator < line.size()
+					&& (line[separator] == ' ' || line[separator] == '\t'))
+					++separator;
+				std::string value = line.substr(separator, std::string::npos);
 				m_header.insert(std::make_pair(name, value));
 
 				if (name == "content-length")
@@ -217,9 +220,6 @@ namespace libtorrent
 					m_content_length = range_end - range_start + 1;
 				}
 
-				// TODO: make sure we don't step outside of the buffer
-				++pos;
-				++m_recv_pos;
 				assert(m_recv_pos <= (int)recv_buffer.left());
 				newline = std::find(pos, recv_buffer.end, '\n');
 			}
@@ -272,6 +272,7 @@ namespace libtorrent
 	
 	http_tracker_connection::http_tracker_connection(
 		asio::strand& str
+		, connection_queue& cc
 		, tracker_manager& man
 		, tracker_request const& req
 		, std::string const& hostname
@@ -280,6 +281,7 @@ namespace libtorrent
 		, address bind_infc
 		, boost::weak_ptr<request_callback> c
 		, session_settings const& stn
+		, proxy_settings const& ps
 		, std::string const& auth)
 		: tracker_connection(man, req, str, bind_infc, c)
 		, m_man(man)
@@ -289,19 +291,18 @@ namespace libtorrent
 		, m_recv_pos(0)
 		, m_buffer(http_buffer_size)
 		, m_settings(stn)
+		, m_proxy(ps)
 		, m_password(auth)
 		, m_timed_out(false)
+		, m_connection_ticket(-1)
+		, m_cc(cc)
 	{
-		const std::string* connect_to_host;
-		bool using_proxy = false;
-
 		m_send_buffer.assign("GET ");
 
 		// should we use the proxy?
-		if (!m_settings.proxy_ip.empty())
+		if (m_proxy.type == proxy_settings::http
+			|| m_proxy.type == proxy_settings::http_pw)
 		{
-			connect_to_host = &m_settings.proxy_ip;
-			using_proxy = true;
 			m_send_buffer += "http://";
 			m_send_buffer += hostname;
 			if (port != 80)
@@ -309,12 +310,6 @@ namespace libtorrent
 				m_send_buffer += ":";
 				m_send_buffer += boost::lexical_cast<std::string>(port);
 			}
-			m_port = m_settings.proxy_port != 0
-				? m_settings.proxy_port : 80 ;
-		}
-		else
-		{
-			connect_to_host = &hostname;
 		}
 
 		if (tracker_req().kind == tracker_request::scrape_request)
@@ -441,12 +436,12 @@ namespace libtorrent
 			m_send_buffer += ':';
 			m_send_buffer += boost::lexical_cast<std::string>(port);
 		}
-		if (using_proxy && !m_settings.proxy_login.empty())
+		if (m_proxy.type == proxy_settings::http_pw)
 		{
 			m_send_buffer += "\r\nProxy-Authorization: Basic ";
-			m_send_buffer += base64encode(m_settings.proxy_login + ":" + m_settings.proxy_password);
+			m_send_buffer += base64encode(m_proxy.username + ":" + m_proxy.password);
 		}
-		if (auth != "")
+		if (!auth.empty())
 		{
 			m_send_buffer += "\r\nAuthorization: Basic ";
 			m_send_buffer += base64encode(auth);
@@ -461,11 +456,11 @@ namespace libtorrent
 			info_hash_str << req.info_hash;
 			requester().debug_log("info_hash: "
 				+ boost::lexical_cast<std::string>(req.info_hash));
-			requester().debug_log("name lookup: " + *connect_to_host);
+			requester().debug_log("name lookup: " + hostname);
 		}
 #endif
 
-		tcp::resolver::query q(*connect_to_host
+		tcp::resolver::query q(hostname
 			, boost::lexical_cast<std::string>(m_port));
 		m_name_lookup.async_resolve(q, m_strand.wrap(
 			boost::bind(&http_tracker_connection::name_lookup, self(), _1, _2)));
@@ -478,6 +473,8 @@ namespace libtorrent
 		m_timed_out = true;
 		m_socket.reset();
 		m_name_lookup.cancel();
+		if (m_connection_ticket > -1) m_cc.done(m_connection_ticket);
+		m_connection_ticket = -1;
 		fail_timeout();
 	}
 
@@ -527,19 +524,37 @@ namespace libtorrent
 		}
 
 		if (has_requester()) requester().m_tracker_address = target_address;
-		m_socket.reset(new stream_socket(m_name_lookup.io_service()));
+		m_socket = instantiate_connection(m_name_lookup.io_service(), m_proxy);
+
+		if (m_proxy.type == proxy_settings::http
+			|| m_proxy.type == proxy_settings::http_pw)
+		{
+			// the tracker connection will talk immediately to
+			// the proxy, without requiring CONNECT support
+			m_socket->get<http_stream>().set_no_connect(true);
+		}
+
 		m_socket->open(target_address.protocol());
 		m_socket->bind(tcp::endpoint(bind_interface(), 0));
-		m_socket->async_connect(target_address, bind(&http_tracker_connection::connected, self(), _1));
+		m_cc.enqueue(bind(&http_tracker_connection::connect, self(), _1, target_address)
+			, bind(&http_tracker_connection::on_timeout, self())
+			, seconds(m_settings.tracker_receive_timeout));
 	}
 	catch (std::exception& e)
 	{
-		assert(false);
 		fail(-1, e.what());
 	};
 
+	void http_tracker_connection::connect(int ticket, tcp::endpoint target_address)
+	{
+		m_connection_ticket = ticket;
+		m_socket->async_connect(target_address, bind(&http_tracker_connection::connected, self(), _1));
+	}
+
 	void http_tracker_connection::connected(asio::error_code const& error) try
 	{
+		if (m_connection_ticket > -1) m_cc.done(m_connection_ticket);
+		m_connection_ticket = -1;
 		if (error == asio::error::operation_aborted) return;
 		if (m_timed_out) return;
 		if (error)
@@ -559,7 +574,6 @@ namespace libtorrent
 	}
 	catch (std::exception& e)
 	{
-		assert(false);
 		fail(-1, e.what());
 	}
 
@@ -584,7 +598,6 @@ namespace libtorrent
 	}
 	catch (std::exception& e)
 	{
-		assert(false);
 		fail(-1, e.what());
 	}; // msvc 7.1 seems to require this semi-colon
 
@@ -704,8 +717,15 @@ namespace libtorrent
 
 			req.url = location;
 
-			m_man.queue_request(m_strand, req
+			m_man.queue_request(m_strand, m_cc, req
 				, m_password, bind_interface(), m_requester);
+			close();
+			return;
+		}
+
+		if (m_parser.status_code() != 200)
+		{
+			fail(m_parser.status_code(), m_parser.message().c_str());
 			close();
 			return;
 		}

@@ -30,6 +30,8 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
+#include "libtorrent/pch.hpp"
+
 #include <ctime>
 #include <iostream>
 #include <fstream>
@@ -179,6 +181,13 @@ namespace libtorrent
 			, bind(&torrent::set_upload_limit, _1, limit));
 	}
 
+	int torrent_handle::upload_limit() const
+	{
+		INVARIANT_CHECK;
+		return call_member<int>(m_ses, m_chk, m_info_hash
+			, bind(&torrent::upload_limit, _1));
+	}
+
 	void torrent_handle::set_download_limit(int limit) const
 	{
 		INVARIANT_CHECK;
@@ -187,6 +196,13 @@ namespace libtorrent
 
 		call_member<void>(m_ses, m_chk, m_info_hash
 			, bind(&torrent::set_download_limit, _1, limit));
+	}
+
+	int torrent_handle::download_limit() const
+	{
+		INVARIANT_CHECK;
+		return call_member<int>(m_ses, m_chk, m_info_hash
+			, bind(&torrent::download_limit, _1));
 	}
 
 	bool torrent_handle::move_storage(
@@ -328,6 +344,57 @@ namespace libtorrent
 			, bind(&torrent::set_sequenced_download_threshold, _1, threshold));
 	}
 
+	std::string torrent_handle::name() const
+	{
+		INVARIANT_CHECK;
+		return call_member<std::string>(m_ses, m_chk, m_info_hash
+			, bind(&torrent::name, _1));
+	}
+
+
+	void torrent_handle::piece_priority(int index, int priority) const
+	{
+		INVARIANT_CHECK;
+	
+		call_member<void>(m_ses, m_chk, m_info_hash
+			, bind(&torrent::set_piece_priority, _1, index, priority));
+	}
+
+	int torrent_handle::piece_priority(int index) const
+	{
+		INVARIANT_CHECK;
+	
+		return call_member<int>(m_ses, m_chk, m_info_hash
+			, bind(&torrent::piece_priority, _1, index));
+	}
+
+	void torrent_handle::prioritize_pieces(std::vector<int> const& pieces) const
+	{
+		INVARIANT_CHECK;
+
+		call_member<void>(m_ses, m_chk, m_info_hash
+			, bind(&torrent::prioritize_pieces, _1, boost::cref(pieces)));
+	}
+
+	std::vector<int> torrent_handle::piece_priorities() const
+	{
+		INVARIANT_CHECK;
+		std::vector<int> ret;
+		call_member<void>(m_ses, m_chk, m_info_hash
+			, bind(&torrent::piece_priorities, _1, boost::ref(ret)));
+		return ret;
+	}
+
+	void torrent_handle::prioritize_files(std::vector<int> const& files) const
+	{
+		INVARIANT_CHECK;
+	
+		call_member<void>(m_ses, m_chk, m_info_hash
+			, bind(&torrent::prioritize_files, _1, boost::cref(files)));
+	}
+
+// ============ start deprecation ===============
+
 	void torrent_handle::filter_piece(int index, bool filter) const
 	{
 		INVARIANT_CHECK;
@@ -339,7 +406,7 @@ namespace libtorrent
 	{
 		INVARIANT_CHECK;
 		call_member<void>(m_ses, m_chk, m_info_hash
-			, bind(&torrent::filter_pieces, _1, pieces));
+			, bind(&torrent::filter_pieces, _1, boost::cref(pieces)));
 	}
 
 	bool torrent_handle::is_piece_filtered(int index) const
@@ -347,13 +414,6 @@ namespace libtorrent
 		INVARIANT_CHECK;
 		return call_member<bool>(m_ses, m_chk, m_info_hash
 			, bind(&torrent::is_piece_filtered, _1, index));
-	}
-
-	std::string torrent_handle::name() const
-	{
-		INVARIANT_CHECK;
-		return call_member<std::string>(m_ses, m_chk, m_info_hash
-			, bind(&torrent::name, _1));
 	}
 
 	std::vector<bool> torrent_handle::filtered_pieces() const
@@ -371,6 +431,9 @@ namespace libtorrent
 		call_member<void>(m_ses, m_chk, m_info_hash
 			, bind(&torrent::filter_files, _1, files));
 	}
+
+// ============ end deprecation ===============
+
 
 	std::vector<announce_entry> const& torrent_handle::trackers() const
 	{
@@ -448,6 +511,8 @@ namespace libtorrent
 		ret["file-format"] = "libtorrent resume file";
 		ret["file-version"] = 1;
 
+		ret["allocation"] = t->filesystem().compact_allocation()?"compact":"full";
+
 		const sha1_hash& info_hash = t->torrent_file().info_hash();
 		ret["info-hash"] = std::string((char*)info_hash.begin(), (char*)info_hash.end());
 
@@ -477,7 +542,7 @@ namespace libtorrent
 			for (std::vector<piece_picker::downloading_piece>::const_iterator i
 				= q.begin(); i != q.end(); ++i)
 			{
-				if (i->finished_blocks.count() == 0) continue;
+				if (i->finished == 0) continue;
 
 				entry piece_struct(entry::dictionary_t);
 
@@ -492,7 +557,7 @@ namespace libtorrent
 				{
 					unsigned char v = 0;
 					for (int k = 0; k < 8; ++k)
-						v |= i->finished_blocks[j*8+k]?(1 << k):0;
+						v |= i->info[j*8+k].finished?(1 << k):0;
 					bitmask.insert(bitmask.end(), v);
 				}
 				piece_struct["bitmask"] = bitmask;
@@ -502,7 +567,7 @@ namespace libtorrent
 					= t->filesystem().piece_crc(
 						t->filesystem().slot_for_piece(i->index)
 						, t->block_size()
-						, i->finished_blocks);
+						, i->info);
 
 				piece_struct["adler32"] = adler;
 
@@ -537,19 +602,7 @@ namespace libtorrent
 			peer_list.push_back(peer);
 		}
 
-		std::vector<std::pair<size_type, std::time_t> > file_sizes
-			= get_filesizes(t->torrent_file(), t->save_path());
-
-		ret["file sizes"] = entry::list_type();
-		entry::list_type& fl = ret["file sizes"].list();
-		for (std::vector<std::pair<size_type, std::time_t> >::iterator i
-			= file_sizes.begin(), end(file_sizes.end()); i != end; ++i)
-		{
-			entry::list_type p;
-			p.push_back(entry(i->first));
-			p.push_back(entry(i->second));
-			fl.push_back(entry(p));
-		}
+		t->filesystem().write_resume_data(ret);
 
 		return ret;
 	}
@@ -563,7 +616,7 @@ namespace libtorrent
 			, bind(&torrent::save_path, _1));
 	}
 
-	void torrent_handle::connect_peer(tcp::endpoint const& adr) const
+	void torrent_handle::connect_peer(tcp::endpoint const& adr, int source) const
 	{
 		INVARIANT_CHECK;
 
@@ -587,7 +640,7 @@ namespace libtorrent
 
 		peer_id id;
 		std::fill(id.begin(), id.end(), 0);
-		t->get_policy().peer_from_tracker(adr, id);
+		t->get_policy().peer_from_tracker(adr, id, source, 0);
 	}
 
 	void torrent_handle::force_reannounce(
@@ -601,9 +654,8 @@ namespace libtorrent
 		boost::shared_ptr<torrent> t = m_ses->find_torrent(m_info_hash).lock();
 		if (!t) throw_invalid_handle();
 
-		using boost::posix_time::second_clock;
-		t->force_tracker_request(second_clock::universal_time()
-			+ duration);
+		t->force_tracker_request(time_now()
+			+ seconds(duration.total_seconds()));
 	}
 
 	void torrent_handle::force_reannounce() const
@@ -632,6 +684,7 @@ namespace libtorrent
 			, bind(&torrent::set_ratio, _1, ratio));
 	}
 
+#ifndef TORRENT_DISABLE_RESOLVE_COUNTRIES
 	void torrent_handle::resolve_countries(bool r)
 	{
 		INVARIANT_CHECK;
@@ -645,6 +698,7 @@ namespace libtorrent
 		return call_member<bool>(m_ses, m_chk, m_info_hash
 			, bind(&torrent::resolving_countries, _1));
 	}
+#endif
 
 	void torrent_handle::get_peer_info(std::vector<peer_info>& v) const
 	{
@@ -671,8 +725,10 @@ namespace libtorrent
 			peer_info& p = v.back();
 			
 			peer->get_peer_info(p);
+#ifndef TORRENT_DISABLE_RESOLVE_COUNTRIES
 			if (t->resolving_countries())
 				t->resolve_peer_country(intrusive_ptr<peer_connection>(peer));
+#endif
 		}
 	}
 
@@ -700,15 +756,16 @@ namespace libtorrent
 			= q.begin(); i != q.end(); ++i)
 		{
 			partial_piece_info pi;
-			pi.finished_blocks = i->finished_blocks;
-			pi.requested_blocks = i->requested_blocks;
-			for (int j = 0; j < partial_piece_info::max_blocks_per_piece; ++j)
+			pi.piece_state = (partial_piece_info::state_t)i->state;
+			pi.blocks_in_piece = p.blocks_in_piece(i->index);
+			for (int j = 0; j < pi.blocks_in_piece; ++j)
 			{
 				pi.peer[j] = i->info[j].peer;
 				pi.num_downloads[j] = i->info[j].num_downloads;
+				pi.finished_blocks[j] = i->info[j].finished;
+				pi.requested_blocks[j] = i->info[j].requested;
 			}
 			pi.piece_index = i->index;
-			pi.blocks_in_piece = p.blocks_in_piece(i->index);
 			queue.push_back(pi);
 		}
 	}

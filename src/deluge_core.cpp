@@ -35,12 +35,10 @@
 
 #include <Python.h>
 
-#include <boost/format.hpp>
-#include <boost/filesystem/exception.hpp>
 #include <boost/filesystem/operations.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/fstream.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 #include "libtorrent/entry.hpp"
 #include "libtorrent/bencode.hpp"
@@ -53,6 +51,8 @@
 #include "libtorrent/file_pool.hpp"
 #include "libtorrent/file.hpp"
 #include "libtorrent/torrent_info.hpp"
+#include "libtorrent/upnp.hpp"
+#include "libtorrent/natpmp.hpp"
 #include "libtorrent/extensions/metadata_transfer.hpp"
 #include "libtorrent/extensions/ut_pex.hpp"
 
@@ -1090,6 +1090,11 @@ static PyObject *torrent_get_DHT_info(PyObject *self, PyObject *args)
 // The following function contains code by Christophe Dumez and Arvid Norberg
 static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 {
+        using namespace libtorrent;
+        using namespace boost::filesystem;
+
+        path::default_name_check(no_check);
+
 	char *destination, *comment, *creator_str, *input, *trackers;
 	python_long piece_size;
 	if (!PyArg_ParseTuple(args, "ssssis",
@@ -1104,11 +1109,12 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 		boost::filesystem::path full_path = complete(boost::filesystem::path(input));
 		boost::filesystem::ofstream out(complete(boost::filesystem::path(destination)), std::ios_base::binary);
 
-                file_pool fp;
 		internal_add_files(t, full_path.branch_path(), full_path.leaf());
 		t.set_piece_size(piece_size);
 
-                storage st(t, full_path.branch_path(), fp);
+                file_pool fp;
+                boost::scoped_ptr<storage_interface> st(
+                        default_storage_constructor(t, full_path.branch_path(), fp));
 
 		std::string stdTrackers(trackers);
 		unsigned long index = 0, next = stdTrackers.find("\n");
@@ -1127,7 +1133,7 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 		std::vector<char> buf(piece_size);
 		for (int i = 0; i < num; ++i)
 		{
-			st.read(&buf[0], i, 0, t.piece_size(i));
+			st->read(&buf[0], i, 0, t.piece_size(i));
 			hasher h(&buf[0], t.piece_size(i));
 			t.set_hash(i, h.final());
 		}

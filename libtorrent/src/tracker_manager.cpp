@@ -30,6 +30,8 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
+#include "libtorrent/pch.hpp"
+
 #include <vector>
 #include <iostream>
 #include <cctype>
@@ -79,11 +81,6 @@ namespace
 
 namespace libtorrent
 {
-	using boost::posix_time::second_clock;
-	using boost::posix_time::seconds;
-	using boost::posix_time::ptime;
-	using boost::posix_time::time_duration;
-
 	// returns -1 if gzip header is invalid or the header size in bytes
 	int gzip_header(const char* buf, int size)
 	{
@@ -316,8 +313,8 @@ namespace libtorrent
 
 	timeout_handler::timeout_handler(asio::strand& str)
 		: m_strand(str)
-		, m_start_time(second_clock::universal_time())
-		, m_read_time(second_clock::universal_time())
+		, m_start_time(time_now())
+		, m_read_time(time_now())
 		, m_timeout(str.io_service())
 		, m_completion_timeout(0)
 		, m_read_timeout(0)
@@ -328,8 +325,8 @@ namespace libtorrent
 	{
 		m_completion_timeout = completion_timeout;
 		m_read_timeout = read_timeout;
-		m_start_time = second_clock::universal_time();
-		m_read_time = second_clock::universal_time();
+		m_start_time = time_now();
+		m_read_time = time_now();
 
 		m_timeout.expires_at(std::min(
 			m_read_time + seconds(m_read_timeout)
@@ -340,7 +337,7 @@ namespace libtorrent
 
 	void timeout_handler::restart_read_timeout()
 	{
-		m_read_time = second_clock::universal_time();
+		m_read_time = time_now();
 	}
 
 	void timeout_handler::cancel()
@@ -354,14 +351,14 @@ namespace libtorrent
 		if (error) return;
 		if (m_completion_timeout == 0) return;
 		
-		ptime now(second_clock::universal_time());
+		ptime now(time_now());
 		time_duration receive_timeout = now - m_read_time;
 		time_duration completion_timeout = now - m_start_time;
 		
 		if (m_read_timeout
-			< receive_timeout.total_seconds()
+			< total_seconds(receive_timeout)
 			|| m_completion_timeout
-			< completion_timeout.total_seconds())
+			< total_seconds(completion_timeout))
 		{
 			on_timeout();
 			return;
@@ -427,11 +424,13 @@ namespace libtorrent
 
 		m_connections.erase(i);
 	}
-	
-	tuple<std::string, std::string, int, std::string>
+
+	// returns protocol, auth, hostname, port, path	
+	tuple<std::string, std::string, std::string, int, std::string>
 		parse_url_components(std::string url)
 	{
 		std::string hostname; // hostname only
+		std::string auth; // user:pass
 		std::string protocol; // should be http
 		int port = 80;
 
@@ -442,7 +441,7 @@ namespace libtorrent
 			++start;
 		std::string::iterator end
 			= std::find(url.begin(), url.end(), ':');
-		protocol = std::string(start, end);
+		protocol.assign(start, end);
 
 		if (end == url.end()) throw std::runtime_error("invalid url");
 		++end;
@@ -454,7 +453,20 @@ namespace libtorrent
 		++end;
 		start = end;
 
+		std::string::iterator at = std::find(start, url.end(), '@');
+		std::string::iterator colon = std::find(start, url.end(), ':');
 		end = std::find(start, url.end(), '/');
+
+		if (at != url.end()
+			&& colon != url.end()
+			&& colon < at
+			&& at < end)
+		{
+			auth.assign(start, at);
+			start = at;
+			++start;
+		}
+
 		std::string::iterator port_pos
 			= std::find(start, url.end(), ':');
 
@@ -478,12 +490,13 @@ namespace libtorrent
 		}
 
 		start = end;
-		return make_tuple(protocol, hostname, port
+		return make_tuple(protocol, auth, hostname, port
 			, std::string(start, url.end()));
 	}
 
 	void tracker_manager::queue_request(
 		asio::strand& str
+		, connection_queue& cc
 		, tracker_request req
 		, std::string const& auth
 		, address bind_infc
@@ -494,6 +507,10 @@ namespace libtorrent
 		if (req.event == tracker_request::stopped)
 			req.num_want = 0;
 
+		assert(!m_abort || req.event == tracker_request::stopped);
+		if (m_abort && req.event != tracker_request::stopped)
+			return;
+
 		try
 		{
 			std::string protocol;
@@ -501,7 +518,9 @@ namespace libtorrent
 			int port;
 			std::string request_string;
 
-			boost::tie(protocol, hostname, port, request_string)
+			using boost::tuples::ignore;
+			// TODO: should auth be used here?
+			boost::tie(protocol, ignore, hostname, port, request_string)
 				= parse_url_components(req.url);
 
 			boost::intrusive_ptr<tracker_connection> con;
@@ -510,6 +529,7 @@ namespace libtorrent
 			{
 				con = new http_tracker_connection(
 					str
+					, cc
 					, *this
 					, req
 					, hostname
@@ -518,6 +538,7 @@ namespace libtorrent
 					, bind_infc
 					, c
 					, m_settings
+					, m_proxy
 					, auth);
 			}
 			else if (protocol == "udp")
@@ -555,6 +576,7 @@ namespace libtorrent
 		// 'event=stopped'-requests)
 		mutex_t::scoped_lock l(m_mutex);
 
+		m_abort = true;
 		tracker_connections_t keep_connections;
 
 		for (tracker_connections_t::const_iterator i =

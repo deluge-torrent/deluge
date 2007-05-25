@@ -43,7 +43,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #include <boost/shared_ptr.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/cstdint.hpp>
 #include <boost/weak_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
@@ -61,6 +60,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/peer_id.hpp"
 #include "libtorrent/peer.hpp"
 #include "libtorrent/config.hpp"
+#include "libtorrent/time.hpp"
+#include "libtorrent/connection_queue.hpp"
 
 namespace libtorrent
 {
@@ -75,14 +76,13 @@ namespace libtorrent
 	// returns -1 if gzip header is invalid or the header size in bytes
 	TORRENT_EXPORT int gzip_header(const char* buf, int size);
 
-	TORRENT_EXPORT boost::tuple<std::string, std::string, int, std::string>
+	TORRENT_EXPORT boost::tuple<std::string, std::string, std::string, int, std::string>
 		parse_url_components(std::string url);
 
 	struct TORRENT_EXPORT tracker_request
 	{
 		tracker_request()
 			: kind(announce_request)
-			, web_downloaded(0)
 			, event(none)
 			, key(0)
 			, num_want(0)
@@ -107,7 +107,6 @@ namespace libtorrent
 		size_type downloaded;
 		size_type uploaded;
 		size_type left;
-		size_type web_downloaded;
 		unsigned short listen_port;
 		event_t event;
 		std::string url;
@@ -155,8 +154,8 @@ namespace libtorrent
 	struct TORRENT_EXPORT timeout_handler
 		: boost::noncopyable
 	{
-		friend void intrusive_ptr_add_ref(timeout_handler const*);
-		friend void intrusive_ptr_release(timeout_handler const*);
+		friend TORRENT_EXPORT void intrusive_ptr_add_ref(timeout_handler const*);
+		friend TORRENT_EXPORT void intrusive_ptr_release(timeout_handler const*);
 
 		timeout_handler(asio::strand& str);
 
@@ -177,11 +176,11 @@ namespace libtorrent
 		asio::strand& m_strand;
 		// used for timeouts
 		// this is set when the request has been sent
-		boost::posix_time::ptime m_start_time;
+		ptime m_start_time;
 		// this is set every time something is received
-		boost::posix_time::ptime m_read_time;
+		ptime m_read_time;
 		// the asio async operation
-		asio::deadline_timer m_timeout;
+		deadline_timer m_timeout;
 		
 		int m_completion_timeout;
 		int m_read_timeout;
@@ -223,11 +222,14 @@ namespace libtorrent
 	{
 	public:
 
-		tracker_manager(const session_settings& s)
-			: m_settings(s) {}
+		tracker_manager(session_settings const& s, proxy_settings const& ps)
+			: m_settings(s)
+			, m_proxy(ps)
+	  		, m_abort(false) {}
 
 		void queue_request(
 			asio::strand& str
+			, connection_queue& cc
 			, tracker_request r
 			, std::string const& auth
 			, address bind_infc
@@ -247,6 +249,8 @@ namespace libtorrent
 			tracker_connections_t;
 		tracker_connections_t m_connections;
 		session_settings const& m_settings;
+		proxy_settings const& m_proxy;
+		bool m_abort;
 	};
 }
 

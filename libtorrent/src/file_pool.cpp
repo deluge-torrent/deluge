@@ -30,6 +30,8 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
+#include "libtorrent/pch.hpp"
+
 #include "libtorrent/file_pool.hpp"
 
 #include <iostream>
@@ -43,6 +45,7 @@ namespace libtorrent
 	{
 		assert(st != 0);
 		assert(p.is_complete());
+		assert(m == file::in || m == (file::in | file::out));
 		boost::mutex::scoped_lock l(m_mutex);
 		typedef nth_index<file_set, 0>::type path_view;
 		path_view& pt = get<0>(m_files);
@@ -50,11 +53,15 @@ namespace libtorrent
 		if (i != pt.end())
 		{
 			lru_file_entry e = *i;
-			e.last_use = pt::second_clock::universal_time();
+			e.last_use = time_now();
 
-			// if you hit this assert, you probably have more than one
-			// storage/torrent using the same file at the same time!
-			assert(e.key == st);
+			if (e.key != st)
+			{
+				// this means that another instance of the storage
+				// is using the exact same file.
+				throw file_error("torrent uses the same file as another torrent "
+					"(" + p.string() + ")");
+			}
 
 			e.key = st;
 			if ((e.mode & m) != m)

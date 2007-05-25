@@ -49,7 +49,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <boost/weak_ptr.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/array.hpp>
-#include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/optional.hpp>
 #include <boost/cstdint.hpp>
 
@@ -96,10 +95,10 @@ namespace libtorrent
 		web_peer_connection(
 			aux::session_impl& ses
 			, boost::weak_ptr<torrent> t
-			, boost::shared_ptr<stream_socket> s
+			, boost::shared_ptr<socket_type> s
 			, tcp::endpoint const& remote
-			, tcp::endpoint const& proxy
-			, std::string const& url);
+			, std::string const& url
+			, policy::peer* peerinfo);
 
 		~web_peer_connection();
 
@@ -149,6 +148,7 @@ namespace libtorrent
 
 		std::string m_server_string;
 		http_parser m_parser;
+		std::string m_auth;
 		std::string m_host;
 		int m_port;
 		std::string m_path;
@@ -164,6 +164,14 @@ namespace libtorrent
 		std::vector<char> m_piece;
 		// the mapping of the data in the m_piece buffer
 		peer_request m_intermediate_piece;
+		
+		// the number of bytes into the receive buffer where
+		// current read cursor is.
+		int m_body_start;
+		// the number of bytes received in the current HTTP
+		// response. used to know where in the buffer the
+		// next response starts
+		int m_received_body;
 	};
 }
 

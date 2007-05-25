@@ -41,8 +41,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #pragma warning(push, 1)
 #endif
 
-#include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/date_time/gregorian/gregorian_types.hpp>
 #include <boost/optional.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/shared_ptr.hpp>
@@ -57,9 +55,12 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/size_type.hpp"
 #include "libtorrent/peer_request.hpp"
 #include "libtorrent/config.hpp"
+#include "libtorrent/time.hpp"
 
 namespace libtorrent
 {
+	namespace pt = boost::posix_time;
+	namespace gr = boost::gregorian;
 
 	struct TORRENT_EXPORT file_entry
 	{
@@ -114,7 +115,11 @@ namespace libtorrent
 		std::vector<file_slice> map_block(int piece, size_type offset, int size) const;
 		peer_request map_file(int file, size_type offset, int size) const;
 		
-		std::vector<std::string> const& url_seeds() const { return m_url_seeds; }
+		std::vector<std::string> const& url_seeds() const
+		{
+			assert(!m_half_metadata);
+			return m_url_seeds;
+		}
 
 		typedef std::vector<file_entry>::const_iterator file_iterator;
 		typedef std::vector<file_entry>::const_reverse_iterator reverse_file_iterator;
@@ -134,10 +139,14 @@ namespace libtorrent
 
 		size_type total_size() const { assert(m_piece_length > 0); return m_total_size; }
 		size_type piece_length() const { assert(m_piece_length > 0); return m_piece_length; }
-		int num_pieces() const { assert(m_piece_length > 0); return (int)m_piece_hash.size(); }
+		int num_pieces() const { assert(m_piece_length > 0); return m_num_pieces; }
 		const sha1_hash& info_hash() const { return m_info_hash; }
 		const std::string& name() const { assert(m_piece_length > 0); return m_name; }
+
+// ------- start deprecation -------
 		void print(std::ostream& os) const;
+// ------- end deprecation -------
+
 		bool is_valid() const { return m_piece_length > 0; }
 
 		bool priv() const { return m_private; }
@@ -151,11 +160,11 @@ namespace libtorrent
 		{
 			assert(index >= 0);
 			assert(index < (int)m_piece_hash.size());
+			assert(!m_half_metadata);
 			return m_piece_hash[index];
 		}
 
-		boost::optional<boost::posix_time::ptime>
-		creation_date() const;
+		boost::optional<pt::ptime> creation_date() const;
 
 		const std::string& creator() const
 		{ return m_created_by; }
@@ -167,11 +176,21 @@ namespace libtorrent
 		typedef std::vector<std::pair<std::string, int> > nodes_t;
 		
 		nodes_t const& nodes() const
-		{ return m_nodes; }
+		{
+			assert(!m_half_metadata);
+			return m_nodes;
+		}
 		
 		void add_node(std::pair<std::string, int> const& node);
 
 		void parse_info_section(entry const& e);
+
+		entry extra(char const* key) const
+		{ return m_extra_info[key]; }
+
+		// frees parts of the metadata that isn't
+		// used by seeds
+		void seed_free();
 
 	private:
 
@@ -198,6 +217,9 @@ namespace libtorrent
 		// the sum of all filesizes
 		size_type m_total_size;
 
+		// the number of pieces in the torrent
+		int m_num_pieces;
+
 		// the hash that identifies this torrent
 		// is mutable because it's calculated
 		// lazily
@@ -208,7 +230,7 @@ namespace libtorrent
 		// if a creation date is found in the torrent file
 		// this will be set to that, otherwise it'll be
 		// 1970, Jan 1
-		boost::posix_time::ptime m_creation_date;
+		pt::ptime m_creation_date;
 
 		// if a comment is found in the torrent file
 		// this will be set to that comment
@@ -234,6 +256,11 @@ namespace libtorrent
 		// reproduce the info-section when sending the metadata
 		// to peers.
 		entry m_extra_info;
+
+#ifndef NDEBUG
+		// this is set to true when seed_free() is called
+		bool m_half_metadata;
+#endif
 	};
 
 }
