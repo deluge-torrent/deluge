@@ -230,40 +230,6 @@ class DelugeGTK:
 	def tray_popup(self, status_icon, button, activate_time):
 		self.tray_menu.popup(None, None, gtk.status_icon_position_menu, 
 			button, activate_time, status_icon)
-
-        def unlock_tray(self,comingnext):
-                entered_pass = gtk.Entry(25)
-                entered_pass.set_activates_default(True)
-                entered_pass.set_width_chars(25)
-                entered_pass.set_visibility(False)
-                entered_pass.show()
-                tray_lock = gtk.Dialog(title=_("Deluge is locked"), parent=self.window,
-                        buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
-                label = gtk.Label(_("Deluge is password protected.\nTo show the Deluge window, please enter your password"))
-                label.set_line_wrap(True)
-                label.set_justify(gtk.JUSTIFY_CENTER)
-                tray_lock.set_position(gtk.WIN_POS_CENTER_ALWAYS)
-                tray_lock.set_size_request(400, 200)
-                tray_lock.set_default_response(gtk.RESPONSE_ACCEPT)
-                tray_lock.vbox.pack_start(label)
-                tray_lock.vbox.pack_start(entered_pass)
-                tray_lock.show_all()
-                if tray_lock.run() == gtk.RESPONSE_ACCEPT:
-                        if self.config.get("tray_passwd", default="") == entered_pass.get_text():
-                                if comingnext == "mainwinshow":
-                                        self.window.show()
-                                elif comingnext == "prefwinshow":
-                                        self.preferences_dialog.show()
-                                        self.apply_prefs()
-                                        self.config.save_to_file()
-                                elif comingnext == "quitus":
-                                        self.save_window_geometry()
-                                        self.window.hide()
-                                        self.shutdown()
- 
-                tray_lock.destroy()
-                return True
-
 	
 	def tray_clicked(self, status_icon):
 		if self.window.get_property("visible"):
@@ -272,19 +238,13 @@ class DelugeGTK:
 			else:
 				self.window.present()
 		else:
-                        if self.config.get("lock_tray", bool, default=False) == True:
-                                self.unlock_tray("mainwinshow")
-                        else:
-                                self.window.show()
+			self.window.show()
 	
 	def force_show_hide(self, arg=None):
 		if self.window.get_property("visible"):
 			self.window.hide()
 		else:
-                         if self.config.get("lock_tray", bool, default=False) == True:
-                                self.unlock_tray("mainwinshow")
-                         else:
-                                 self.window.show()
+			self.window.show()
 
 	def build_torrent_table(self):
 		## Create the torrent listview
@@ -394,13 +354,13 @@ class DelugeGTK:
 		if file_filter is None:
 			file_filter = [False] * len(all_files)
 		assert(len(all_files) == len(file_filter))
-                i=0
-                for f in all_files:
-                        self.file_store.append([not file_filter[i], f['path'], common.fsize(f['size']),
-                                        f['offset'], '%.2f%%'%f['progress']])
-                        i=i+1
-
-                return True
+		i=0
+		for f in all_files:
+			self.file_store.append([not file_filter[i], f['path'], common.fsize(f['size']), 
+					f['offset'], '%.2f%%'%f['progress']])
+			i=i+1
+		
+		return True
 	
 	def torrent_view_clicked(self, widget, event):
 		print widget
@@ -500,19 +460,10 @@ class DelugeGTK:
 		dialogs.show_about_dialog()
 	
 	def show_pref_dialog(self, arg=None):
-                 if self.window.get_property("visible"):
-                        self.preferences_dialog.show()
-                        self.apply_prefs()
-                        self.config.save_to_file()
- 
-                 else:
-                         if self.config.get("lock_tray", bool, default=False) == True:
-                                 self.unlock_tray("prefwinshow")
-                         else:
-                                 self.preferences_dialog.show()
-                                 self.apply_prefs()
-                                 self.config.save_to_file()
-
+		self.preferences_dialog.show()
+		self.apply_prefs()
+		self.config.save_to_file()
+	
 	def show_plugin_dialog(self, arg=None):
 		self.plugin_dialog.show()
 	
@@ -556,10 +507,10 @@ class DelugeGTK:
 	
 	# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
 	def get_list_from_unique_id(self, unique_id):
-                state = self.manager.get_torrent_state(unique_id)
-
-                queue = int(state['queue_pos']) + 1
-                name = state['name']
+		state = self.manager.get_torrent_state(unique_id)
+		
+		queue = int(state['queue_pos']) + 1 
+		name = state['name']
 		size = long(state['total_size'])
 		progress = float(state['progress'] * 100)
 		message = self.get_message_from_state(state)
@@ -636,15 +587,19 @@ class DelugeGTK:
 			dlrate, _('Upload'), ulrate)
 		
 		if 'DHT_nodes' in core_state.keys():
-                        dht_peers = str(dht_peers)
-                        self.statusbar_temp_msg = self.statusbar_temp_msg + '   [DHT: %s]'%(dht_peers)
-
-                msg = _("Deluge Bittorrent Client") + "\n" + \
-                        _("Connections") + ": " + str(connections) + "\n" + _("Download") + ": " + \
-                        dlrate + "\n" + _("Upload") + ": " + ulrate
-
-                self.tray_icon.set_tooltip(msg)
+			dht_peers = core_state['DHT_nodes']
+			if dht_peers == -1:
+				dht_peers = '?'
+			else:
+				dht_peers = str(dht_peers)
+			self.statusbar_temp_msg = self.statusbar_temp_msg + '   [DHT: %s]'%(dht_peers)
 		
+		msg = _("Deluge Bittorrent Client") + "\n" + \
+			_("Connections") + ": " + str(connections) + "\n" + _("Download") + ": " + \
+			dlrate + "\n" + _("Upload") + ": " + ulrate
+		
+		self.tray_icon.set_tooltip(msg)		
+
 		#Update any active plugins
 		self.plugins.update_active_plugins()
 		
@@ -832,9 +787,9 @@ class DelugeGTK:
 		except core.InsufficientFreeSpaceError, e:
 			nice_need = common.fsize(e.needed_space)
 			nice_free = common.fsize(e.free_space)
-                        dialogs.show_popup_warning(self.window, _("There is not enough free disk space to complete your download.") + "\n" + \
-                                                                                                                _("Space Needed:") + " " + nice_need + "\n" + \
-                                                                                                                _("Available Space:") + " " + nice_free)
+			dialogs.show_popup_warning(self.window, _("There is not enough free disk space to complete your download.") + "\n" + \
+														_("Space Needed:") + " " + nice_need + "\n" + \
+														_("Available Space:") + " " + nice_free)
 			
 			
 		
@@ -914,9 +869,9 @@ class DelugeGTK:
 	def remove_toggle_warning(self, args, warning):
 		if not args.get_active():
 			warning.set_text(" ")
-                else:
-                        warning.set_markup("<i>" + _("Warning - all downloaded files for this torrent will be deleted!") + "</i>")
-                return False
+		else:
+			warning.set_markup("<i>" + _("Warning - all downloaded files for this torrent will be deleted!") + "</i>")
+		return False
 
 	def update_tracker(self, obj=None):
 		torrent = self.get_selected_torrent()
@@ -1033,19 +988,9 @@ class DelugeGTK:
 			self.quit()
 		
 	def quit(self, widget=None):
-                 if self.window.get_property("visible"):
-                        self.save_window_geometry()
-                        self.window.hide()
-                        self.shutdown()
- 
-                 else:
-                         if self.config.get("lock_tray", bool, default=False) == True:
-                                 self.unlock_tray("quitus")
-                         else:
-                                self.save_window_geometry()
-                                self.window.hide()
-                                self.shutdown()
-
+		self.save_window_geometry()
+		self.window.hide()
+		self.shutdown()
 	
 	def shutdown(self):
 		enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
@@ -1056,7 +1001,11 @@ class DelugeGTK:
 		self.manager.quit()
 		gtk.main_quit()
 	
+
+
+		
 ## For testing purposes, create a copy of the interface
 if __name__ == "__main__":
 	interface = DelugeGTK()
 	interface.start()
+

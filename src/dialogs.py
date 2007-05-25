@@ -40,8 +40,6 @@ class PreferencesDlg:
 		try:
 			self.glade.get_widget("chk_use_tray").set_active(self.preferences.get("enable_system_tray", bool, default=True))
 			self.glade.get_widget("chk_min_on_close").set_active(self.preferences.get("close_to_tray", bool, default=False))
-                        self.glade.get_widget("chk_lock_tray").set_active(self.preferences.get("lock_tray", bool, default=False))
-                        self.glade.get_widget("txt_tray_passwd").set_text(self.preferences.get("tray_passwd", default=""))
 			if(self.preferences.get("use_default_dir", bool, False)):
 				self.glade.get_widget("radio_save_all_to").set_active(True)
 			else:
@@ -74,8 +72,6 @@ class PreferencesDlg:
 		if r == 1:
 			self.preferences.set("enable_system_tray", self.glade.get_widget("chk_use_tray").get_active())
 			self.preferences.set("close_to_tray", self.glade.get_widget("chk_min_on_close").get_active())
-                        self.preferences.set("lock_tray", self.glade.get_widget("chk_lock_tray").get_active())
-                        self.preferences.set("tray_passwd", self.glade.get_widget("txt_tray_passwd").get_text())
 			self.preferences.set("use_default_dir", self.glade.get_widget("radio_save_all_to").get_active())
 			self.preferences.set("default_download_path", self.glade.get_widget("download_path_button").get_filename())
 			self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())
@@ -260,3 +256,4 @@ def show_directory_chooser_dialog(parent=None, title=None):
 		result = None
 	chooser.destroy()
 	return result
+
