@@ -2,9 +2,7 @@
 # Makefile for Deluge
 #
 
-VERSION ?= 0.5.1
-
-PREFIX ?= /usr
+PREFIX = /usr
 
 
 all:
@@ -12,3 +10,6 @@ all:
 
 install:
 	python setup.py install --prefix=$(PREFIX)
+
+clean:
+        python setup.py clean; rm -rf ./build
