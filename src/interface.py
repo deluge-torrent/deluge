@@ -34,7 +34,6 @@ DEFAULT_PREFS = {
 					"close_to_tray" : False,
 					"lock_tray" : False,
 					"tray_passwd" : "",
-                                        "default_download_path" : "",
 					"default_download_path" : "",
 					"dht_connections" : 80,
 					"enable_dht" : True,

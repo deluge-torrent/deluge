@@ -57,7 +57,6 @@ class PreferencesDlg:
 			self.glade.get_widget("spin_num_upload").set_value(self.preferences.get("max_number_uploads", int, default=-1))
 			self.glade.get_widget("spin_max_download").set_value(self.preferences.get("max_download_rate", int, default=-1))
 			self.glade.get_widget("spin_num_download").set_value(self.preferences.get("max_number_downloads", int, default=-1))
-			
 			self.glade.get_widget("spin_torrents").set_value(self.preferences.get("max_number_torrents", int, default=-1))
 			self.glade.get_widget("chk_seedbottom").set_active(self.preferences.get("queue_seeds_to_bottom", bool, default=False))
 			self.glade.get_widget("chk_dht").set_active(self.preferences.get("enable_dht", bool, default=True))
