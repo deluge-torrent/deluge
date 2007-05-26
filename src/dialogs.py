@@ -60,7 +60,6 @@ class PreferencesDlg:
 			
 			self.glade.get_widget("spin_torrents").set_value(self.preferences.get("max_number_torrents", int, default=-1))
 			self.glade.get_widget("chk_seedbottom").set_active(self.preferences.get("queue_seeds_to_bottom", bool, default=False))
-			self.glade.get_widget("chk_upnp").set_active(self.preferences.get("enable_upnp", bool, default=True))
 			self.glade.get_widget("chk_dht").set_active(self.preferences.get("enable_dht", bool, default=True))
 			self.glade.get_widget("spin_dht").set_value(self.preferences.get("dht_connections", int, default=80))
 			self.glade.get_widget("spin_gui").set_value(self.preferences.get("gui_update_interval", float, default=1.0))
@@ -89,7 +88,6 @@ class PreferencesDlg:
 			self.preferences.set("max_number_downloads", self.glade.get_widget("spin_num_download").get_value())
 			self.preferences.set("max_number_torrents", self.glade.get_widget("spin_torrents").get_value())
 			self.preferences.set("queue_seeds_to_bottom", self.glade.get_widget("chk_seedbottom").get_active())
-			self.preferences.set("enable_upnp", self.glade.get_widget("chk_upnp").get_active())
 			self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
 			self.preferences.set("dht_connections", self.glade.get_widget("spin_dht").get_value())
 			self.preferences.set("gui_update_interval", self.glade.get_widget("spin_gui").get_value())

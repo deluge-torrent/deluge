@@ -39,7 +39,6 @@ DEFAULT_PREFS = {
 					"dht_connections" : 80,
 					"enable_dht" : True,
 					"enable_system_tray" : True,
-					"enable_upnp" : True,
 					"enabled_plugins" : "",
 					"end_seed_ratio" : 0.0,
 					"gui_update_interval" : 1.0,
