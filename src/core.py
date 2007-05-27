@@ -643,6 +643,10 @@ class Manager:
 		torrents_with_unique_ID = self.unique_IDs.values()
 
 		for torrent in self.state.torrents:
+			if not os.path.exists(torrent.filename):
+				print "Missing file: %s" % torrent.filename
+				self.state.torrents.remove(torrent)
+				continue
 			if torrent not in torrents_with_unique_ID:
 #				print "Adding torrent to core:", torrent.filename, torrent.save_dir, torrent.compact
 				try:
