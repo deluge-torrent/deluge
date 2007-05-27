@@ -12,7 +12,7 @@ class plugin_Search:
 			f.close()
 		glade = gtk.glade.XML(path + "/searchdlg.glade")
 		self.dlg = glade.get_widget("search_dialog")
-		self.dlg.set_icon_from_file(dcommon.get_pixmap("deluge32.png"))
+		self.dlg.set_icon_from_file(common.get_pixmap("deluge32.png"))
 		self.view = glade.get_widget("search_view")
 		model = gtk.ListStore(str, str)
 		self.view.set_model(model)
@@ -86,7 +86,7 @@ class plugin_Search:
 		return True
 	
 	def configure(self, widget=None):
-		import dcommon, gtk, gtk.glade
+		import common, gtk, gtk.glade
 		self.dlg.show_all()
 		model = self.view.get_model()
 		model.clear()
@@ -111,7 +111,7 @@ class plugin_Search:
 		pass
 		
 	def torrent_search(self, widget=None):
-		import dcommon
+		import common
 		print "Searching with engine", self.se
 		url = self.engines.get(self.se)
 		entry = self.search_entry.get_text()
@@ -123,7 +123,7 @@ class plugin_Search:
 		url = url.replace('${query}', entry)
 		print 'URL =', url
 		print 'Entry =', entry
-		dcommon.open_url_in_browser(None, url)
+		common.open_url_in_browser(None, url)
 		
 	def populate_search_menu(self):
 		import gtk
