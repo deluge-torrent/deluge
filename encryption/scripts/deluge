@@ -1,0 +1,94 @@
+#!/usr/bin/env python
+#
+# deluge
+# Copyright (C) Zach Tibbitts 2006 <zach@collegegeek.org>
+# Copyright (C) Alon Zakai    2006 <kripkensteiner@gmail.com>
+# 
+# 
+#
+# Deluge is free software.
+# 
+# You may redistribute it and/or modify it under the terms of the
+# GNU General Public License, as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option)
+# any later version.
+# 
+# deluge is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with deluge.  If not, write to:
+# 	The Free Software Foundation, Inc.,
+# 	51 Franklin Street, Fifth Floor
+# 	Boston, MA  02110-1301, USA.
+
+from optparse import OptionParser
+import sys
+import os, os.path
+import gettext, locale
+import deluge, deluge.common, deluge.interface
+try:
+	import dbus
+	dbus_version = getattr(dbus, 'version', (0,0,0))
+	if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
+		import dbus.glib
+	elif dbus_version >= (0,80,0):
+		from dbus.mainloop.glib import DBusGMainLoop
+		DBusGMainLoop(set_as_default=True)
+	else:
+		pass
+except: dbus_imported = False
+else: dbus_imported = True
+
+
+parser = OptionParser(usage="%prog [options] [actions]", version=deluge.common.PROGRAM_VERSION)
+parser.add_option("--tray", dest="tray", help="start Deluge hidden in system tray",
+						metavar="TRAY", action="store_true")
+
+(options, args) = parser.parse_args()
+
+
+if dbus_imported:
+	bus = dbus.SessionBus()
+
+	dbus_objects = dbus.Interface(bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus'), 'org.freedesktop.DBus').ListNames()
+
+	interface = None
+
+	if not "org.deluge_torrent.Deluge" in dbus_objects:
+		print "no existing Deluge session"		
+		
+		interface = deluge.interface.DelugeGTK()
+		for arg in args:
+			apath =  os.path.abspath(arg)
+			if apath.endswith(".torrent"):
+				interface.external_add_torrent(apath)
+			else:
+				print "Error,", arg, " does not seem to be a .torrent file"
+		interface.start(hidden=options.tray)
+	else:
+		## This connects to the deluge interface
+		print "create proxy object"
+		proxy = bus.get_object('org.deluge_torrent.Deluge', '/org/deluge_torrent/DelugeObject')
+		print "create iface"
+		deluge_iface = dbus.Interface(proxy, 'org.deluge_torrent.Deluge')
+		print "send to iface"
+		for arg in args:
+			apath =  os.path.abspath(arg)
+			if apath.endswith(".torrent"):
+				deluge_iface.external_add_torrent(apath)
+			else:
+				print "Error,", arg, " does not seem to be a .torrent file"
+else:
+	print "no existing Deluge session"
+	
+	interface = deluge.interface.DelugeGTK()
+	for arg in args:
+		apath = os.path.abspath(arg)
+		if apath.endswith(".torrent"):
+			interface.external_add_torrent(apath)
+		else:
+			print "Error,", arg, " does not seem to be a .torrent file"
+	interface.start(hidden=options.tray)
