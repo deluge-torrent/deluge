@@ -46,11 +46,6 @@
 #include "libtorrent/extensions/metadata_transfer.hpp"
 #include "libtorrent/extensions/ut_pex.hpp"
 
-extern "C"
-{
-#include "openssl/sha.h"
-#include "openssl/bn.h"
-}
 using namespace boost::filesystem;
 using namespace libtorrent;
 
