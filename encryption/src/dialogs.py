@@ -38,22 +38,22 @@ class PreferencesDlg:
 	def show(self):
 		# Load settings into dialog
 		try:
-			if(self.preferences.get("chk_encin_disabled", bool, True)):
+			if (self.preferences.get("chk_encin_disabled", bool, True)):
 				self.glade.get_widget("chk_encin_enabled").set_active(False)
 				self.glade.get_widget("chk_encin_enabled").set_active(False)
-			elif!(self.glade.get_widget("chk_encin_enabled", bool, False)):
+			elif not(self.glade.get_widget("chk_encin_enabled", bool, False)):
 				self.glade.get_widget("chk_encin_enabled").set_active(False)
 				self.glade.get_widget("chk_encin_enabled").set_active(False)
-			elif!(self.glade.get_widget("chk_encin_forced", bool, False)):
+			elif not(self.glade.get_widget("chk_encin_forced", bool, False)):
 				self.glade.get_widget("chk_encin_enabled").set_active(False)
 				self.glade.get_widget("chk_encin_enabled").set_active(False)
 			if(self.preferences.get("chk_encout_disabled", bool, True)):
 				self.glade.get_widget("chk_encout_enabled").set_active(False)
 				self.glade.get_widget("chk_encout_enabled").set_active(False)
-			elif!(self.glade.get_widget("chk_encout_enabled", bool, False)):
+			elif not(self.glade.get_widget("chk_encout_enabled", bool, False)):
 				self.glade.get_widget("chk_encout_enabled").set_active(False)
 				self.glade.get_widget("chk_encout_enabled").set_active(False)
-			elif!(self.glade.get_widget("chk_encout_forced", bool, False)):
+			elif not(self.glade.get_widget("chk_encout_forced", bool, False)):
 				self.glade.get_widget("chk_encout_enabled").set_active(False)
 				self.glade.get_widget("chk_encout_enabled").set_active(False)
 			
