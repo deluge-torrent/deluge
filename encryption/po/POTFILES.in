@@ -1,6 +1,5 @@
 glade/delugegtk.glade
 glade/dgtkpopups.glade
-glade/dgtkpref.glade
 glade/preferences_dialog.glade
 glade/torrent_menu.glade
 src/common.py

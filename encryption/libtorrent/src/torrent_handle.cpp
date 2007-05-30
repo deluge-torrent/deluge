@@ -351,6 +351,13 @@ namespace libtorrent
 			, bind(&torrent::name, _1));
 	}
 
+	void torrent_handle::piece_availability(std::vector<int>& avail) const
+	{
+		INVARIANT_CHECK;
+
+		call_member<void>(m_ses, m_chk, m_info_hash
+			, bind(&torrent::piece_availability, _1, boost::ref(avail)));
+	}
 
 	void torrent_handle::piece_priority(int index, int priority) const
 	{
