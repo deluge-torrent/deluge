@@ -1064,32 +1064,6 @@ class DelugeGTK:
 		self.manager.quit()
 		gtk.main_quit()
 
-	def encryption(self):
-		if(self.config.get("encout_disabled") == "True"):
-			out_policy = "disabled"	
-		elif(self.config.get("encout_enabled") == "True"):
-                        out_policy = "enabled"
-		elif(self.config.get("encout_forced") == "True"):
-                        out_policy = "forced"
-		if(self.config.get("encin_disabled") == "True"):
-			in_policy = "disabled"	
-		elif(self.config.get("encin_enabled") == "True"):
-                        in_policy = "enabled"
-		elif(self.config.get("encin_forced") == "True"):
-                        in_policy = "forced"
-		if(self.config.get("level_plaintext") == "True"):
-			level_policy = "plaintext"
-		elif(self.config.get("level_both") == "True"):
-			level_policy = "both"
-		elif(self.config.get("level_rc4") == "True"):
-			level_policy = "rc4"
-		if(self.config.get("prefer_rc4") == "True"):
-			prefer_rc4 = "True"
-		elif(self.config.get("prefer_rc4") == "False"):
-			prefer_rc4 = "False"
-                ret = self.pe_settings(out_policy, in_policy, level_policy, prefer_rc4)
-                return ret
-
 
 ## For testing purposes, create a copy of the interface
 if __name__ == "__main__":
