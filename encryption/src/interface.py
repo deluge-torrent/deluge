@@ -619,6 +619,8 @@ class DelugeGTK:
 	
 	## Call via a timer to update the interface
 	def update(self):
+		# Tell the core to handle messages (now, so we show their output on this tick) 
+		self.manager.handle_events() 
 		# Make sure that the interface still exists
 		try:
 			tab = self.wtree.get_widget("torrent_info").get_current_page()

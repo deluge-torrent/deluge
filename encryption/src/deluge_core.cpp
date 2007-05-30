@@ -611,15 +611,6 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
     std::vector<peer_info> peers;
     t.handle.get_peer_info(peers);
 
-    long total_seeds = 0;
-    long total_peers = 0;
-
-    for (unsigned long i = 0; i < peers.size(); i++)
-        if (peers[i].seed)
-            total_seeds++;
-    else
-        total_peers++;
-
     return Py_BuildValue("{s:s,s:l,s:l,s:l,s:l,s:f,s:f,s:d,s:f,s:l,s:l,s:s,s:s,s:f,s:d,s:l,s:l,s:l,s:d,s:l,s:l,s:l,s:l,s:l,s:l,s:d,s:d,s:l,s:l}",
         "name",          t.handle.get_torrent_info().name().c_str(),
         "num_files",         t.handle.get_torrent_info().num_files(),
@@ -642,8 +633,8 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
         "total_size",        double(i.total_size()),
         "piece_length",      long(i.piece_length()),
         "num_pieces",        long(i.num_pieces()),
-        "total_seeds",       total_seeds,
-        "total_peers",       total_peers,
+	"total_seeds",	s.num_complete != -1 ? s.num_complete: s.num_seeds, 
+	"total_peers",	s.num_incomplete != -1 ? s.num_incomplete : s.num_peers,
         "is_paused",         long(t.handle.is_paused()),
         "is_seed",       long(t.handle.is_seed()),
         "total_wanted",      double(s.total_wanted),
@@ -779,7 +770,7 @@ static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
             return NULL;
 
         if (handle_exists(handle))
-            return Py_BuildValue("{s:i,s:i,s:s,s:s}",
+		return Py_BuildValue("{s:i,s:i,s:s,s:i,s:s}",
                 "event_type",       EVENT_TRACKER,
                 "unique_ID",
                 M_torrents->at(index).unique_ID,
@@ -800,6 +791,7 @@ static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
                 "unique_ID",
                 M_torrents->at(index).unique_ID,
                 "tracker_status",   "Announce succeeded",
+		"num_peers", long(dynamic_cast<tracker_reply_alert*>(popped_alert)->num_peers),
                 "message",          a->msg().c_str());
         else
             { Py_INCREF(Py_None); return Py_None; }
