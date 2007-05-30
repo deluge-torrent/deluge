@@ -39,7 +39,7 @@ DEFAULT_PREFS = {
 					"level_plaintext" : False,
 					"level_both" : True,
 					"level_rc4" : False,
-					"prefer_rc4" : False,
+					"pref_rc4" : True,
 					"auto_end_seeding" : False,
 					"close_to_tray" : False,
 					"lock_tray" : False,
@@ -157,6 +157,29 @@ class DelugeGTK:
 			except KeyError:
 				pass
 		self.apply_prefs()
+                if(self.config.get("encout_disabled", str, default="False") == "True"):
+                        out_policy = "0"
+                elif(self.config.get("encout_enabled", str, default="True")):
+                        out_policy = "1"
+                elif(self.config.get("encout_forced", str, default="False") == "True"):
+                        out_policy = "2"
+                if(self.config.get("encin_disabled", str, default="False") == "True"):
+                        in_policy = "0"
+                elif(self.config.get("encin_enabled", str, default="True") == "True"):
+                        in_policy = "1"
+                elif(self.config.get("encin_forced", str, default="False") == "True"):
+                        in_policy = "2"
+                if(self.config.get("level_plaintext", str, default="False") == "True"):
+                        level_policy = "0"
+                elif(self.config.get("level_both", str, default="True") == "True"):
+                        level_policy = "1"
+                elif(self.config.get("level_rc4", str, default="False") == "True"):
+                        level_policy = "2"
+                if(self.config.get("pref_rc4", str, default="True") == "True"):
+                        prefrc4 = "1"
+                elif(self.config.get("pref_rc4", str, default="True") == "False"):
+                        prefrc4 = "0"
+                self.manager.pe_settings(out_policy, in_policy, level_policy, prefrc4)
 		self.load_window_geometry()
 
 	def external_add_torrent(self, torrent_file):

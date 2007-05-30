@@ -75,8 +75,7 @@ class PreferencesDlg:
 				self.glade.get_widget("chk_level_both").set_active(False)
 				self.glade.get_widget("chk_level_plaintext").set_active(False)
 
-			self.glade.get_widget("chk_prefer_rc4").set_active(self.preferences.get("prefer_rc4", bool, default=False))
-
+			self.glade.get_widget("chk_pref_rc4").set_active(self.preferences.get("pref_rc4", bool, default=True))
 			self.glade.get_widget("chk_use_tray").set_active(self.preferences.get("enable_system_tray", bool, default=True))
 			self.glade.get_widget("chk_min_on_close").set_active(self.preferences.get("close_to_tray", bool, default=False))
                         self.glade.get_widget("chk_lock_tray").set_active(self.preferences.get("lock_tray", bool, default=False))
@@ -116,7 +115,7 @@ class PreferencesDlg:
 		        self.preferences.set("level_plaintext", self.glade.get_widget("chk_level_plaintext").get_active())
                         self.preferences.set("level_rc4", self.glade.get_widget("chk_level_rc4").get_active())
                         self.preferences.set("level_both", self.glade.get_widget("chk_level_both").get_active())
-                        self.preferences.set("prefer_rc4", self.glade.get_widget("chk_prefer_rc4").get_active())
+                        self.preferences.set("pref_rc4", self.glade.get_widget("chk_pref_rc4").get_active())
 			self.preferences.set("system_tray", self.glade.get_widget("chk_use_tray").get_active())
 			self.preferences.set("close_to_tray", self.glade.get_widget("chk_min_on_close").get_active())
                         self.preferences.set("lock_tray", self.glade.get_widget("chk_lock_tray").get_active())

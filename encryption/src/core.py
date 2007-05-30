@@ -754,4 +754,3 @@ class Manager:
 
         def pe_settings(self, out_enc_policy, in_enc_policy, allowed_enc_level, prefer_rc4):
                 return deluge_core.pe_settings(out_enc_policy, in_enc_policy, allowed_enc_level, prefer_rc4)
-
