@@ -38,33 +38,45 @@ class PreferencesDlg:
 	def show(self):
 		# Load settings into dialog
 		try:
-			if (self.preferences.get("encin_disabled", bool, True)):
+			if(self.preferences.get("encin_disabled") == "True"):
+				self.glade.get_widget("chk_encin_disabled").set_active(True)
 				self.glade.get_widget("chk_encin_enabled").set_active(False)
 				self.glade.get_widget("chk_encin_forced").set_active(False)
-			elif not(self.preferences.get("encin_enabled", bool, False)):
+			elif(self.preferences.get("encin_enabled") == "True"):
+				self.glade.get_widget("chk_encin_enabled").set_active(True)
 				self.glade.get_widget("chk_encin_disabled").set_active(False)
 				self.glade.get_widget("chk_encin_forced").set_active(False)
-			elif not(self.preferences.get("chk_encin_forced", bool, False)):
+			elif(self.preferences.get("encin_forced") == "True"):
+				self.glade.get_widget("chk_encin_forced").set_active(True)
 				self.glade.get_widget("chk_encin_enabled").set_active(False)
 				self.glade.get_widget("chk_encin_disabled").set_active(False)
-			if(self.preferences.get("encout_disabled", bool, True)):
+			if(self.preferences.get("encout_disabled") == "True"):
+				self.glade.get_widget("chk_encout_disabled").set_active(True)
 				self.glade.get_widget("chk_encout_enabled").set_active(False)
 				self.glade.get_widget("chk_encout_forced").set_active(False)
-			elif not(self.preferences.get("encout_enabled", bool, False)):
+			elif(self.preferences.get("encout_enabled") == "True"):
+				self.glade.get_widget("chk_encout_enabled").set_active(True)
 				self.glade.get_widget("chk_encout_disabled").set_active(False)
 				self.glade.get_widget("chk_encout_forced").set_active(False)
-			elif not(self.preferences.get("encout_forced", bool, False)):
+			elif(self.preferences.get("encout_forced") == "True"):
+				self.glade.get_widget("chk_encout_forced").set_active(True)
 				self.glade.get_widget("chk_encout_enabled").set_active(False)
-			if(self.preferences.get("level_plaintext", bool, True)):
+				self.glade.get_widget("chk_encout_disabled").set_active(False)
+			if(self.preferences.get("level_plaintext") == "True"):
+				self.glade.get_widget("chk_level_plaintext").set_active(True)
 				self.glade.get_widget("chk_level_rc4").set_active(False)
 				self.glade.get_widget("chk_level_both").set_active(False)
-			elif not(self.preferences.get("level_both", bool, False)):
+			elif(self.preferences.get("level_both") == "True"):
+				self.glade.get_widget("chk_level_both").set_active(True)
 				self.glade.get_widget("chk_level_plaintext").set_active(False)
 				self.glade.get_widget("chk_level_rc4").set_active(False)
-			elif not(self.preferences.get("level_both", bool, False)):
-				self.glade.get_widget("chk_level_rc4").set_active(False)
+			elif(self.preferences.get("level_rc4") == "True"):
+				self.glade.get_widget("chk_level_rc4").set_active(True)
+				self.glade.get_widget("chk_level_both").set_active(False)
 				self.glade.get_widget("chk_level_plaintext").set_active(False)
-			self.glade.get_widget("chk_prefer_rc4").set_active(self.preferences.get("prefer_rc4", bool, default=True))
+
+			self.glade.get_widget("chk_prefer_rc4").set_active(self.preferences.get("prefer_rc4", bool, default=False))
+
 			self.glade.get_widget("chk_use_tray").set_active(self.preferences.get("enable_system_tray", bool, default=True))
 			self.glade.get_widget("chk_min_on_close").set_active(self.preferences.get("close_to_tray", bool, default=False))
                         self.glade.get_widget("chk_lock_tray").set_active(self.preferences.get("lock_tray", bool, default=False))
@@ -95,6 +107,16 @@ class PreferencesDlg:
 		self.dialog.hide()
 		# Now, get the settings from the dialog
 		if r == 1:
+                        self.preferences.set("encin_disabled", self.glade.get_widget("chk_encin_disabled").get_active())
+                        self.preferences.set("encin_enabled", self.glade.get_widget("chk_encin_enabled").get_active())
+                        self.preferences.set("encin_forced", self.glade.get_widget("chk_encin_forced").get_active())
+                        self.preferences.set("encout_disabled", self.glade.get_widget("chk_encout_disabled").get_active())
+                        self.preferences.set("encout_enabled", self.glade.get_widget("chk_encout_enabled").get_active())
+                        self.preferences.set("encout_forced", self.glade.get_widget("chk_encout_forced").get_active())
+		        self.preferences.set("level_plaintext", self.glade.get_widget("chk_level_plaintext").get_active())
+                        self.preferences.set("level_rc4", self.glade.get_widget("chk_level_rc4").get_active())
+                        self.preferences.set("level_both", self.glade.get_widget("chk_level_both").get_active())
+                        self.preferences.set("prefer_rc4", self.glade.get_widget("chk_prefer_rc4").get_active())
 			self.preferences.set("system_tray", self.glade.get_widget("chk_use_tray").get_active())
 			self.preferences.set("close_to_tray", self.glade.get_widget("chk_min_on_close").get_active())
                         self.preferences.set("lock_tray", self.glade.get_widget("chk_lock_tray").get_active())
