@@ -30,6 +30,16 @@ import xdg, xdg.BaseDirectory
 import gettext, locale
 
 DEFAULT_PREFS = {
+					"encin_disable" : False,
+					"encin_enable" : True,
+					"encin_force" : False,
+					"encout_disable" : False,
+					"encout_enable" : True,
+					"encout_force" : False,
+					"level_plaintext" : False,
+					"level_both" : True,
+					"level_rc4" : False,
+					"prefer_rc4" : False,
 					"auto_end_seeding" : False,
 					"close_to_tray" : False,
 					"lock_tray" : False,
@@ -706,7 +716,6 @@ class DelugeGTK:
 			self.text_summary_total_size.set_text(common.fsize(state["total_size"]))
 			self.text_summary_pieces.set_text(str(state["pieces"]))
 			self.text_summary_total_downloaded.set_text(common.fsize(state["total_done"]))
-			#self.text_summary_total_uploaded.set_text()
 			self.text_summary_download_rate.set_text(common.frate(state["download_rate"]))
 			self.text_summary_upload_rate.set_text(common.frate(state["upload_rate"]))
 			self.text_summary_seeders.set_text(common.fseed(state))
@@ -717,10 +726,8 @@ class DelugeGTK:
 			self.text_summary_downloaded_this_session.set_text(common.fsize(state["total_download"]))
 			self.text_summary_uploaded_this_session.set_text(common.fsize(state["total_upload"]))
 			self.text_summary_tracker.set_text(str(state["tracker"]))
-			#self.text_summary_tracker_response.set_text(str(state[""]))
 			self.text_summary_tracker_status.set_text(str(state["tracker_ok"]))
 			self.text_summary_next_announce.set_text(str(state["next_announce"]))
-			#self.text_summary_compact_allocation.set_text(str(state[""]))
 			self.text_summary_eta.set_text(common.estimate_eta(state))
 		elif tab == 1: #Peers List
 			def biographer(model, path, iter, dictionary):
@@ -843,10 +850,6 @@ class DelugeGTK:
 														_("Available Space:") + " " + nice_free)
 			
 			
-		
-		
-		
-		
 	def add_torrent_clicked(self, obj=None):
 		torrent = dialogs.show_file_open_dialog()
 		if torrent is not None:
@@ -1060,7 +1063,32 @@ class DelugeGTK:
 		self.plugins.shutdown_all_plugins()
 		self.manager.quit()
 		gtk.main_quit()
-	
+
+	def encryption(self):
+		if(self.config.get("encout_disabled") == "True"):
+			out_policy = "disabled"	
+		elif(self.config.get("encout_enabled") == "True"):
+                        out_policy = "enabled"
+		elif(self.config.get("encout_forced") == "True"):
+                        out_policy = "forced"
+		if(self.config.get("encin_disabled") == "True"):
+			in_policy = "disabled"	
+		elif(self.config.get("encin_enabled") == "True"):
+                        in_policy = "enabled"
+		elif(self.config.get("encin_forced") == "True"):
+                        in_policy = "forced"
+		if(self.config.get("level_plaintext") == "True"):
+			level_policy = "plaintext"
+		elif(self.config.get("level_both") == "True"):
+			level_policy = "both"
+		elif(self.config.get("level_rc4") == "True"):
+			level_policy = "rc4"
+		if(self.config.get("prefer_rc4") == "True"):
+			prefer_rc4 = "True"
+		elif(self.config.get("prefer_rc4") == "False"):
+			prefer_rc4 = "False"
+                ret = self.pe_settings(out_policy, in_policy, level_policy, prefer_rc4)
+                return ret
 
 
 ## For testing purposes, create a copy of the interface
