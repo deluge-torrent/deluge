@@ -1226,7 +1226,7 @@ static PyObject *torrent_pe_settings(PyObject *self, PyObject *args)
 	        "out_enc_policy", int(s.out_enc_policy),
 	        "in_enc_policy", int(s.in_enc_policy),
 	        "allowed_enc_level", int(s.allowed_enc_level),
-	        "prefer_rc4", bool(s.prefer_rc4));
+	        "prefer_rc4", int(s.prefer_rc4));
 }
 
 //====================
