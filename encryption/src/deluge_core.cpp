@@ -1221,12 +1221,12 @@ static PyObject *torrent_apply_IP_filter(PyObject *self, PyObject *args)
 
 static PyObject *torrent_pe_settings(PyObject *self, PyObject *args)
 {
-	pe_settings	p = pe_settings();
-	return Py_BuildValue("{p:l,p:l,p:l,p:l}",
-	        "out_enc_policy", char(p.out_enc_policy),
-	        "in_enc_policy", char(p.in_enc_policy),
-	        "allowed_enc_level", char(p.allowed_enc_level),
-	        "prefer_rc4", bool(p.prefer_rc4));
+	pe_settings	s = pe_settings();
+	return Py_BuildValue("{s:i,s:i,s:i,s:i}",
+	        "out_enc_policy", int(s.out_enc_policy),
+	        "in_enc_policy", int(s.in_enc_policy),
+	        "allowed_enc_level", int(s.allowed_enc_level),
+	        "prefer_rc4", bool(s.prefer_rc4));
 }
 
 //====================

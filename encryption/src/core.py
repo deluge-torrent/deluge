@@ -36,7 +36,7 @@
 #				time to calculate, so we do if efficiently
 #		3. supp_torrent_state - supplementary torrent data, from Deluge
 
-import deluge_core, common, pref
+import deluge_core
 import os, os.path, shutil, statvfs
 import pickle
 import time
@@ -118,6 +118,7 @@ class InsufficientFreeSpaceError(DelugeError):
 		return "%d %d bytes needed"%(self.free_space, self.needed_space)
 
 # A cached data item
+
 class cached_data:
 	def __init__(self, get_method, key):
 		self.get_method = get_method
@@ -166,16 +167,6 @@ class Manager:
 	# completely fresh. When quitting, the old files will be overwritten
 	def __init__(self, client_ID, version, user_agent, base_dir, blank_slate=False):
 		self.base_dir = base_dir
-		self.conf_file = os.path.join(common.CONFIG_DIR, 'deluge.conf')
-		if os.path.isdir(self.conf_file):
-			print 'Weird, the file I was trying to write to, %s, is an existing directory'%(self.conf_file)
-		        sys.exit(0)
-		if not os.path.isfile(self.conf_file):
-			f = open(self.conf_file, mode='w')
-			f.flush()
-		        f.close()
-		self.config = pref.Preferences(self.conf_file)
-
 
 		# Ensure directories exist
 		if not TORRENTS_SUBDIR in os.listdir(self.base_dir):
@@ -227,34 +218,6 @@ class Manager:
 
 		# Apply preferences. Note that this is before any torrents are added
 		self.apply_prefs()
-
-		#encryption
-
-                if(self.config.get("encout_disabled") == "True"):
-                        out_policy = "0"
-                elif(self.config.get("encout_enabled") == "True"):
-                        out_policy = "1"
-                elif(self.config.get("encout_forced") == "True"):
-                        out_policy = "2"
-                if(self.config.get("encin_disabled") == "True"):
-                        in_policy = "0"
-                elif(self.config.get("encin_enabled") == "True"):
-                        in_policy = "1"
-                elif(self.config.get("encin_forced") == "True"):
-                        in_policy = "2"
-                if(self.config.get("level_plaintext") == "True"):
-                        level_policy = "0"
-                elif(self.config.get("level_both") == "True"):
-                        level_policy = "1"
-                elif(self.config.get("level_rc4") == "True"):
-                        level_policy = "2"
-                if(self.config.get("prefer_rc4") == "True"):
-                        prefer_rc4 = "1"
-                elif(self.config.get("prefer_rc4") == "False"):
-                        prefer_rc4 = "0"
-                ret = self.pe_settings(out_policy, in_policy, level_policy, prefer_rc4)
-                return ret
-
 
 		# Apply DHT, if needed. Note that this is before any torrents are added
 		if self.get_pref('use_DHT'):
@@ -785,8 +748,10 @@ class Manager:
 	
 
 	def create_torrent(self, filename, source_directory, trackers, comments=None,
-				pieces=256, author="Deluge"):
+					pieces=256, author="Deluge"):
+		
 		return deluge_core.create_torrent(filename, source_directory, trackers, comments, pieces, author)
 
-	def pe_settings(self, out_enc_policy, in_enc_policy, allowed_enc_level, prefer_rc4):
-		return deluge_core.pe_settings(out_enc_policy, in_enc_policy, allowed_enc_level, prefer_rc4)
+        def pe_settings(self, out_enc_policy, in_enc_policy, allowed_enc_level, prefer_rc4):
+                return deluge_core.pe_settings(out_enc_policy, in_enc_policy, allowed_enc_level, prefer_rc4)
+
