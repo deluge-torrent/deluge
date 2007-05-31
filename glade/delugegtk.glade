@@ -126,6 +126,7 @@
                             <child>
                               <widget class="GtkLabel" id="summary_eta">
                                 <property name="visible">True</property>
+                                <property name="xalign">0</property>
                               </widget>
                               <packing>
                                 <property name="left_attach">3</property>
@@ -892,7 +893,7 @@
                             <child>
                               <widget class="GtkCheckMenuItem" id="chk_eta">
                                 <property name="visible">True</property>
-                                <property name="label" translatable="yes">ETA</property>
+                                <property name="label" translatable="yes">Time Remaining</property>
                                 <property name="use_underline">True</property>
                                 <property name="active">True</property>
                                 <signal name="toggled" handler="eta_toggle"/>

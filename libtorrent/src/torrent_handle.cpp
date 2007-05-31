@@ -563,6 +563,7 @@ namespace libtorrent
 				for (int j = 0; j < num_bitmask_bytes; ++j)
 				{
 					unsigned char v = 0;
+					int bits = std::min(num_blocks_per_piece - j*8, 8);
 					for (int k = 0; k < 8; ++k)
 						v |= i->info[j*8+k].finished?(1 << k):0;
 					bitmask.insert(bitmask.end(), v);
