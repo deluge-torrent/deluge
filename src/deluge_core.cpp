@@ -611,45 +611,34 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
     std::vector<peer_info> peers;
     t.handle.get_peer_info(peers);
 
-    long total_seeds = 0;
-    long total_peers = 0;
-
-    for (unsigned long i = 0; i < peers.size(); i++)
-        if (peers[i].seed)
-            total_seeds++;
-    else
-        total_peers++;
-
-    return Py_BuildValue("{s:s,s:l,s:l,s:l,s:l,s:f,s:f,s:d,s:f,s:l,s:l,s:s,s:s,s:f,s:d,s:l,s:l,s:l,s:d,s:l,s:l,s:l,s:l,s:l,s:l,s:d,s:d,s:l,s:l}",
-        "name",          t.handle.get_torrent_info().name().c_str(),
-        "num_files",         t.handle.get_torrent_info().num_files(),
-        "state",         s.state,
-        "num_peers",         s.num_peers,
-        "num_seeds",         s.num_seeds,
-        "distributed_copies",    s.distributed_copies,
-        "download_rate",     s.download_rate,
-        "total_download",    double(s.total_download),
-        "upload_rate",       s.upload_rate,
-        "total_upload",      long(s.total_upload),
-        "tracker_ok",        !s.current_tracker.empty(),
-        "next_announce",     boost::posix_time::to_simple_string(s.next_announce).c_str(),
-        "tracker",       s.current_tracker.c_str(),
-        "progress",      float(s.progress),
-        "total_done",        double(s.total_done),
-        "pieces",        long(s.pieces),
-        "pieces_done",       long(s.num_pieces),
-        "block_size",        long(s.block_size),
-        "total_size",        double(i.total_size()),
-        "piece_length",      long(i.piece_length()),
-        "num_pieces",        long(i.num_pieces()),
-        "total_seeds",       total_seeds,
-        "total_peers",       total_peers,
-        "is_paused",         long(t.handle.is_paused()),
-        "is_seed",       long(t.handle.is_seed()),
-        "total_wanted",      double(s.total_wanted),
-        "total_wanted_done",     double(s.total_wanted_done),
-        "num_complete",      long(s.num_complete),
-        "num_incomplete",    long(s.num_incomplete));
+    return Py_BuildValue("{s:s,s:l,s:l,s:l,s:l,s:f,s:f,s:d,s:f,s:l,s:l,s:s,s:s,s:f,s:d,s:l,s:l,s:l,s:d,s:l,s:l,s:l,s:l,s:l,s:l,s:d,s:d}",
+        "name",               t.handle.get_torrent_info().name().c_str(),
+        "num_files",          t.handle.get_torrent_info().num_files(),
+        "state",              s.state,
+        "num_peers",          s.num_peers,
+        "num_seeds",          s.num_seeds,
+        "distributed_copies", s.distributed_copies,
+        "download_rate",      s.download_rate,
+        "total_download",     double(s.total_download),
+        "upload_rate",        s.upload_rate,
+        "total_upload",       long(s.total_upload),
+        "tracker_ok",         !s.current_tracker.empty(),
+        "next_announce",      boost::posix_time::to_simple_string(s.next_announce).c_str(),
+        "tracker",            s.current_tracker.c_str(),
+        "progress",           float(s.progress),
+        "total_done",         double(s.total_done),
+        "pieces",             long(s.pieces),
+        "pieces_done",        long(s.num_pieces),
+        "block_size",         long(s.block_size),
+        "total_size",         double(i.total_size()),
+        "piece_length",       long(i.piece_length()),
+        "num_pieces",         long(i.num_pieces()),
+        "total_peers",        long(s.num_incomplete != -1? s.num_incomplete : s.num_peers),
+        "total_seeds",        long(s.num_complete   != -1? s.num_complete   : s.num_seeds),
+        "is_paused",          long(t.handle.is_paused()),
+        "is_seed",            long(t.handle.is_seed()),
+        "total_wanted",       double(s.total_wanted),
+        "total_wanted_done",  double(s.total_wanted_done));
 };
 
 static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
