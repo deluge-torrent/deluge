@@ -157,6 +157,7 @@ class DelugeGTK:
 			except KeyError:
 				pass
 		self.apply_prefs()
+		self.load_window_geometry()
                 if(self.config.get("encout_disabled", str, default="False") == "True"):
                         out_policy = "0"
                 elif(self.config.get("encout_enabled", str, default="True")):
@@ -180,7 +181,6 @@ class DelugeGTK:
                 elif(self.config.get("pref_rc4", str, default="True") == "False"):
                         prefrc4 = "0"
                 self.manager.pe_settings(out_policy, in_policy, level_policy, prefrc4)
-		self.load_window_geometry()
 
 	def external_add_torrent(self, torrent_file):
 		print "Ding!"
