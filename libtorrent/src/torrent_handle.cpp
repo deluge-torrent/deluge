@@ -566,6 +566,7 @@ namespace libtorrent
 					for (int k = 0; k < 8; ++k)
 						v |= i->info[j*8+k].finished?(1 << k):0;
 					bitmask.insert(bitmask.end(), v);
+					assert(bits == 8 || j == num_bitmask_bytes - 1);
 				}
 				piece_struct["bitmask"] = bitmask;
 
