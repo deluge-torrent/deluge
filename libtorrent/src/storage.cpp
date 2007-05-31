@@ -1612,11 +1612,15 @@ namespace libtorrent
 			{
 				m_unallocated_slots.push_back(i);
 			}
-
-			if (m_compact_mode || m_unallocated_slots.empty())
+			if (m_unallocated_slots.empty())
 			{
 				m_state = state_finished;
 				return true;
+			}
+			if (m_compact_mode)
+			{
+				m_state = state_create_files;
+				return false;
 			}
 		}
 
@@ -1662,15 +1666,9 @@ namespace libtorrent
 
 		if (m_state == state_allocating)
 		{
-			if (m_compact_mode)
+			if (m_compact_mode || m_unallocated_slots.empty())
 			{
-				m_state = state_finished;
-				return std::make_pair(true, 1.f);
-			}
-		
-			if (m_unallocated_slots.empty())
-			{
-				m_state = state_finished;
+				m_state = state_create_files;
 				return std::make_pair(true, 1.f);
 			}
 
