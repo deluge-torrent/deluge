@@ -197,7 +197,7 @@ namespace
 		, {"XT", "XanTorrent"}
 		, {"XX", "Xtorrent"}
 		, {"ZT", "ZipTorrent"}
-		, {"lt", "rTorrent"}
+		, {"lt", "libTorrent (libtorrent.rakshasa.no/}"}
 		, {"pX", "pHoeniX"}
 		, {"qB", "qBittorrent"}
 	};
@@ -349,4 +349,3 @@ namespace libtorrent
 	}
 
 }
-

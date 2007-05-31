@@ -345,4 +345,3 @@ namespace libtorrent
 	}
 
 }
-

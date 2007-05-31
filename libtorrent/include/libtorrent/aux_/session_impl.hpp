@@ -217,6 +217,11 @@ namespace libtorrent
 			entry dht_state() const;
 #endif
 
+#ifndef TORRENT_DISABLE_ENCRYPTION
+			void set_pe_settings(pe_settings const& settings);
+			pe_settings const& get_pe_settings() const { return m_pe_settings; }
+#endif
+
 			// called when a port mapping is successful, or a router returns
 			// a failure to map a port
 			void on_port_mapping(int tcp_port, int udp_port, std::string const& errmsg);
@@ -417,6 +422,11 @@ namespace libtorrent
 			// but for the udp port used by the DHT.
 			int m_external_udp_port;
 #endif
+
+#ifndef TORRENT_DISABLE_ENCRYPTION
+			pe_settings m_pe_settings;
+#endif
+
 			natpmp m_natpmp;
 			upnp m_upnp;
 			lsd m_lsd;

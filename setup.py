@@ -124,11 +124,11 @@ else:
 # Ubuntu possible.
 if boosttype == "nomt":
 	librariestype = ['boost_filesystem', 'boost_date_time',
-			'boost_thread', 'z', 'pthread']
+			'boost_thread', 'z', 'pthread', 'ssl']
 	print 'Libraries nomt' 
 elif boosttype == "mt":
 	librariestype = ['boost_filesystem-mt', 'boost_date_time-mt',
-			'boost_thread-mt', 'z', 'pthread']
+			'boost_thread-mt', 'z', 'pthread', 'ssl']
 	print 'Libraries mt'
 
 deluge_core = Extension('deluge_core',
@@ -157,6 +157,7 @@ deluge_core = Extension('deluge_core',
 					'libtorrent/src/lsd.cpp',
 					'libtorrent/src/metadata_transfer.cpp',
 					'libtorrent/src/natpmp.cpp',
+					'libtorrent/src/pe_crypto.cpp',
 					'libtorrent/src/peer_connection.cpp',
 					'libtorrent/src/piece_picker.cpp',     
 					'libtorrent/src/policy.cpp',       

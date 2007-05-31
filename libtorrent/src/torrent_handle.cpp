@@ -351,7 +351,6 @@ namespace libtorrent
 			, bind(&torrent::name, _1));
 	}
 
-
 	void torrent_handle::piece_availability(std::vector<int>& avail) const
 	{
 		INVARIANT_CHECK;
@@ -779,5 +778,4 @@ namespace libtorrent
 	}
 
 }
-
 

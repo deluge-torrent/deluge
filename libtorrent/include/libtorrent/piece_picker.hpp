@@ -414,4 +414,3 @@ namespace libtorrent
 
 #endif // TORRENT_PIECE_PICKER_HPP_INCLUDED
 
-

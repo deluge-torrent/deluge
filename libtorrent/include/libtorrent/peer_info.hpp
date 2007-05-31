@@ -57,6 +57,10 @@ namespace libtorrent
 			queued = 0x100,
 			on_parole = 0x200,
 			seed = 0x400
+#ifndef TORRENT_DISABLE_ENCRYPTION
+			, rc4_encrypted = 0x200,
+			plaintext_encrypted = 0x400
+#endif
 		};
 
 		unsigned int flags;

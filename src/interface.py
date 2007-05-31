@@ -30,6 +30,16 @@ import xdg, xdg.BaseDirectory
 import gettext, locale
 
 DEFAULT_PREFS = {
+					"encin_disable" : False,
+					"encin_enable" : True,
+					"encin_force" : False,
+					"encout_disable" : False,
+					"encout_enable" : True,
+					"encout_force" : False,
+					"level_plaintext" : False,
+					"level_both" : True,
+					"level_rc4" : False,
+					"pref_rc4" : True,
 					"auto_end_seeding" : False,
 					"close_to_tray" : False,
 					"lock_tray" : False,
@@ -148,6 +158,29 @@ class DelugeGTK:
 				pass
 		self.apply_prefs()
 		self.load_window_geometry()
+                if(self.config.get("encout_disabled", str, default="False") == "True"):
+                        out_policy = "0"
+                elif(self.config.get("encout_enabled", str, default="True")):
+                        out_policy = "1"
+                elif(self.config.get("encout_forced", str, default="False") == "True"):
+                        out_policy = "2"
+                if(self.config.get("encin_disabled", str, default="False") == "True"):
+                        in_policy = "0"
+                elif(self.config.get("encin_enabled", str, default="True") == "True"):
+                        in_policy = "1"
+                elif(self.config.get("encin_forced", str, default="False") == "True"):
+                        in_policy = "2"
+                if(self.config.get("level_plaintext", str, default="False") == "True"):
+                        level_policy = "0"
+                elif(self.config.get("level_both", str, default="True") == "True"):
+                        level_policy = "1"
+                elif(self.config.get("level_rc4", str, default="False") == "True"):
+                        level_policy = "2"
+                if(self.config.get("pref_rc4", str, default="True") == "True"):
+                        prefrc4 = "1"
+                elif(self.config.get("pref_rc4", str, default="True") == "False"):
+                        prefrc4 = "0"
+                self.manager.pe_settings(out_policy, in_policy, level_policy, prefrc4)
 
 	def external_add_torrent(self, torrent_file):
 		print "Ding!"
@@ -609,9 +642,6 @@ class DelugeGTK:
 	
 	## Call via a timer to update the interface
 	def update(self):
-		# Tell the core to handle messages (now, so we show their output on this tick)
-		self.manager.handle_events()
-
 		# Make sure that the interface still exists
 		try:
 			tab = self.wtree.get_widget("torrent_info").get_current_page()
@@ -709,7 +739,6 @@ class DelugeGTK:
 			self.text_summary_total_size.set_text(common.fsize(state["total_size"]))
 			self.text_summary_pieces.set_text(str(state["pieces"]))
 			self.text_summary_total_downloaded.set_text(common.fsize(state["total_done"]))
-			#self.text_summary_total_uploaded.set_text()
 			self.text_summary_download_rate.set_text(common.frate(state["download_rate"]))
 			self.text_summary_upload_rate.set_text(common.frate(state["upload_rate"]))
 			self.text_summary_seeders.set_text(common.fseed(state))
@@ -720,10 +749,8 @@ class DelugeGTK:
 			self.text_summary_downloaded_this_session.set_text(common.fsize(state["total_download"]))
 			self.text_summary_uploaded_this_session.set_text(common.fsize(state["total_upload"]))
 			self.text_summary_tracker.set_text(str(state["tracker"]))
-			#self.text_summary_tracker_response.set_text(str(state[""]))
 			self.text_summary_tracker_status.set_text(str(state["tracker_ok"]))
 			self.text_summary_next_announce.set_text(str(state["next_announce"]))
-			#self.text_summary_compact_allocation.set_text(str(state[""]))
 			self.text_summary_eta.set_text(common.estimate_eta(state))
 		elif tab == 1: #Peers List
 			def biographer(model, path, iter, dictionary):
@@ -846,10 +873,6 @@ class DelugeGTK:
 														_("Available Space:") + " " + nice_free)
 			
 			
-		
-		
-		
-		
 	def add_torrent_clicked(self, obj=None):
 		torrent = dialogs.show_file_open_dialog()
 		if torrent is not None:
@@ -1063,7 +1086,6 @@ class DelugeGTK:
 		self.plugins.shutdown_all_plugins()
 		self.manager.quit()
 		gtk.main_quit()
-	
 
 
 ## For testing purposes, create a copy of the interface

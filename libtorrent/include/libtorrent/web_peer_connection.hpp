@@ -177,4 +177,3 @@ namespace libtorrent
 
 #endif // TORRENT_WEB_PEER_CONNECTION_HPP_INCLUDED
 
-

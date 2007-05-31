@@ -1006,7 +1006,10 @@ namespace libtorrent
 				// the iterator is invalid
 				// because of the push_back()
 				i = boost::prior(m_peers.end());
-				if (flags & 0x02) p.seed = true;
+#ifndef TORRENT_DISABLE_ENCRYPTION
+				p.pe_support = (flags & 0x01);
+#endif
+				p.seed = (flags & 0x02);
 
 				// try to send a DHT ping to this peer
 				// as well, to figure out if it supports
@@ -1034,7 +1037,7 @@ namespace libtorrent
 				if (i->failcount > 0 && src != peer_info::dht)
 					--i->failcount;
 
-				if (flags & 0x02) i->seed = true;
+				i->seed = (flags & 0x02);
 
 				if (i->connection)
 				{
@@ -1393,6 +1396,9 @@ namespace libtorrent
 	policy::peer::peer(const tcp::endpoint& ip_, peer::connection_type t, int src)
 		: ip(ip_)
 		, type(t)
+#ifndef TORRENT_DISABLE_ENCRYPTION
+		, pe_support(true)
+#endif
 		, failcount(0)
 		, hashfails(0)
 		, seed(false)
@@ -1435,5 +1441,4 @@ namespace libtorrent
 		}
 	}
 }
-
 
