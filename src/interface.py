@@ -431,8 +431,10 @@ class DelugeGTK:
 		i=0
 		for f in all_files:
                         if f['progress'] < 10:
+                                progress = '00''%.2f%%'%f['progress']
+                        elif f['progress'] >= 10 and f['progress'] < 100:
                                 progress = '0''%.2f%%'%f['progress']
-                        else:
+                        elif f['progress'] == 100:
                                 progress = '%.2f%%'%f['progress']
                         self.file_store.append([not file_filter[i], f['path'], common.fsize(f['size']),
                                         f['offset'], progress])
@@ -801,8 +803,10 @@ class DelugeGTK:
 				if peer['ip'] in curr_ips.keys():
 
 		                        if peer["peer_has"] < 10:
-                		                peer_has = '0''%.2f%%'%peer["peer_has"]
-		                        else:
+                		                peer_has = '00''%.2f%%'%peer["peer_has"]
+		                        elif peer["peer_has"] >= 10 and peer["peer_has"] < 100:
+                		                peer_has = '0''%.2f%%'%peer["peer_has"]			
+		                        elif peer["peer_has"] == 100:
 		                                peer_has = '%.2f%%'%peer["peer_has"]
 
 					self.peer_store.set(self.peer_store.get_iter_from_string(curr_ips[peer['ip']]),
@@ -812,10 +816,12 @@ class DelugeGTK:
 											4,	common.frate(peer["upload_speed"]))
 			for peer in new_peer_info:
 				if peer['ip'] not in curr_ips.keys() and peer['client'] is not "":
-		                        if peer["peer_has"] < 10:
-                		                peer_has = '0''%.2f'%peer["peer_has"]
-		                        else:
-		                                peer_has = '%.2f'%peer["peer_has"]
+                                        if peer["peer_has"] < 10:
+                                                peer_has = '00''%.2f%%'%peer["peer_has"]
+                                        elif peer["peer_has"] >= 10 and peer["peer_has"] < 100:
+                                                peer_has = '0''%.2f%%'%peer["peer_has"]
+                                        elif peer["peer_has"] == 100:
+                                                peer_has = '%.2f%%'%peer["peer_has"]
 
 					self.peer_store.append([peer["ip"], 
 											unicode(peer["client"], 'Latin-1'), 
@@ -936,7 +942,7 @@ class DelugeGTK:
 	
 	def clear_details_pane(self):
 		self.wtree.get_widget("progressbar").set_text("")
-		self.text_summary_title.set_text("")
+		self.wtree.get_widget("summary_name").set_text("")
 		self.text_summary_total_size.set_text("")
 		self.text_summary_pieces.set_text("")
 		self.text_summary_total_downloaded.set_text("")
