@@ -921,6 +921,7 @@ class DelugeGTK:
 	
 	def clear_details_pane(self):
 		self.wtree.get_widget("progressbar").set_text("")
+		self.text_summary_title.set_text("")
 		self.text_summary_total_size.set_text("")
 		self.text_summary_pieces.set_text("")
 		self.text_summary_total_downloaded.set_text("")
