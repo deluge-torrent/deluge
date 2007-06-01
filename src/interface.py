@@ -431,10 +431,9 @@ class DelugeGTK:
 		i=0
 		for f in all_files:
                         if f['progress'] <= 9:
-                                progress = '0''%.2f'%f['progress']
+                                progress = '0''%.2f%%'%f['progress']
                         else:
-                                progress = '%.2f'%f['progress']
-                        print "progress is %s" %progress
+                                progress = '%.2f%%'%f['progress']
                         self.file_store.append([not file_filter[i], f['path'], common.fsize(f['size']),
                                         f['offset'], progress])
                         i=i+1
@@ -504,7 +503,7 @@ class DelugeGTK:
 		self.peer_store = gtk.ListStore(str, str, str, str, str)
 		self.peer_view.set_model(self.peer_store)
 		
-		self.peer_ip_column			=	dgtk.add_text_column(self.peer_view, _("IP Address"), 0)
+		self.peer_ip_column		=	dgtk.add_text_column(self.peer_view, _("IP Address"), 0)
 		self.peer_client_column		=	dgtk.add_text_column(self.peer_view, _("Client"), 1)
 		self.peer_complete_column	=	dgtk.add_text_column(self.peer_view, _("Percent Complete"), 2)
 		self.peer_download_column	=	dgtk.add_text_column(self.peer_view, _("Download Rate"), 3)
@@ -800,16 +799,27 @@ class DelugeGTK:
 			
 			for peer in new_peer_info:
 				if peer['ip'] in curr_ips.keys():
+
+		                        if peer["peer_has"] <= 9:
+                		                peer_has = '0''%.2f%%'%peer["peer_has"]
+		                        else:
+		                                peer_has = '%.2f%%'%peer["peer_has"]
+
 					self.peer_store.set(self.peer_store.get_iter_from_string(curr_ips[peer['ip']]),
 											1,	unicode(peer['client'], 'Latin-1'),
-											2,	'%.2f%%'%peer["peer_has"],
+											2,	peer_has,
 											3,	common.frate(peer["download_speed"]),
 											4,	common.frate(peer["upload_speed"]))
 			for peer in new_peer_info:
 				if peer['ip'] not in curr_ips.keys() and peer['client'] is not "":
+		                        if peer["peer_has"] <= 9:
+                		                peer_has = '0''%.2f'%peer["peer_has"]
+		                        else:
+		                                peer_has = '%.2f'%peer["peer_has"]
+
 					self.peer_store.append([peer["ip"], 
 											unicode(peer["client"], 'Latin-1'), 
-											'%.2f%%'%peer["peer_has"], 
+											peer_has, 
 											common.frate(peer["download_speed"]), 
 											common.frate(peer["upload_speed"])])
 			#print new_ips
