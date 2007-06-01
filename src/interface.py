@@ -430,7 +430,7 @@ class DelugeGTK:
 		assert(len(all_files) == len(file_filter))
 		i=0
 		for f in all_files:
-                        if f['progress'] <= 9:
+                        if f['progress'] < 10:
                                 progress = '0''%.2f%%'%f['progress']
                         else:
                                 progress = '%.2f%%'%f['progress']
@@ -800,7 +800,7 @@ class DelugeGTK:
 			for peer in new_peer_info:
 				if peer['ip'] in curr_ips.keys():
 
-		                        if peer["peer_has"] <= 9:
+		                        if peer["peer_has"] < 10:
                 		                peer_has = '0''%.2f%%'%peer["peer_has"]
 		                        else:
 		                                peer_has = '%.2f%%'%peer["peer_has"]
@@ -812,7 +812,7 @@ class DelugeGTK:
 											4,	common.frate(peer["upload_speed"]))
 			for peer in new_peer_info:
 				if peer['ip'] not in curr_ips.keys() and peer['client'] is not "":
-		                        if peer["peer_has"] <= 9:
+		                        if peer["peer_has"] < 10:
                 		                peer_has = '0''%.2f'%peer["peer_has"]
 		                        else:
 		                                peer_has = '%.2f'%peer["peer_has"]
