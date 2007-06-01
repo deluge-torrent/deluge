@@ -314,7 +314,6 @@ class Manager:
 		return self.sync() # Syncing will create a new torrent in the core, and return it's ID
 
 	def remove_torrent(self, unique_ID, data_also):
-		# Save some data before we remove the torrent, needed later in this func
 		temp = self.unique_IDs[unique_ID]
 		temp_fileinfo = deluge_core.get_file_info(unique_ID)
 
@@ -331,6 +330,8 @@ class Manager:
 					os.remove(os.path.join(temp.save_dir, filename))
 				except OSError:
 					pass # No file just means it wasn't downloaded, we can continue
+			#clean up empty dir
+			os.rmdir(os.path.dirname(os.path.join(temp.save_dir, filename)))
 
 	# A function to try and reload a torrent from a previous session. This is
 	# used in the event that Deluge crashes and a blank state is loaded.
