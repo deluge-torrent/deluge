@@ -430,9 +430,14 @@ class DelugeGTK:
 		assert(len(all_files) == len(file_filter))
 		i=0
 		for f in all_files:
-			self.file_store.append([not file_filter[i], f['path'], common.fsize(f['size']), 
-					f['offset'], '%.2f%%'%f['progress']])
-			i=i+1
+                        if f['progress'] <= 9:
+                                progress = '0''%.2f'%f['progress']
+                        else:
+                                progress = '%.2f'%f['progress']
+                        print "progress is %s" %progress
+                        self.file_store.append([not file_filter[i], f['path'], common.fsize(f['size']),
+                                        f['offset'], progress])
+                        i=i+1
 		
 		return True
 	
