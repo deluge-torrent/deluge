@@ -309,7 +309,7 @@ namespace libtorrent
 #endif
 			}
 			catch (std::exception&) {}
-			if ((compact_mode && size != s->first)
+			if (size != s->first
 				|| (!compact_mode && size < s->first))
 			{
 				if (error) *error = "filesize mismatch for file '"
@@ -319,7 +319,7 @@ namespace libtorrent
 					+ " bytes";
 				return false;
 			}
-			if ((compact_mode && time != s->second)
+			if (time != s->second
 				|| (!compact_mode && time < s->second))
 			{
 				if (error) *error = "timestamp mismatch for file '"
@@ -412,7 +412,6 @@ namespace libtorrent
 
 	void storage::initialize(bool allocate_files)
 	{
-		std::cerr << "storage initialize" << std::endl;
 		// first, create all missing directories
 		path last_path;
 		for (torrent_info::file_iterator file_iter = m_info.begin_files(),
@@ -437,7 +436,6 @@ namespace libtorrent
 			// the directory exits.
 			if (file_iter->size == 0)
 			{
-				std::cerr << "creating empty file: " << file_iter->path.string() << std::endl;
 				file(m_save_path / file_iter->path, file::out);
 				continue;
 			}
@@ -886,13 +884,13 @@ namespace libtorrent
 
 			if (left_to_write > 0)
 			{
-#ifndef NDEBUG
+			#ifndef NDEBUG
 				if (write_bytes > 0) ++counter;
-#endif
+			#endif
 				++file_iter;
 
 				assert(file_iter != m_info.end_files());
-				path p = m_save_path / file_iter->path;
+ 				path p = m_save_path / file_iter->path;
 				file_offset = 0;
 				out = m_files.open_file(
 					this, p, file::out | file::in);
@@ -1614,43 +1612,22 @@ namespace libtorrent
 			{
 				m_unallocated_slots.push_back(i);
 			}
-			if (m_compact_mode || m_unallocated_slots.empty())
+
+			if (!m_compact_mode && !m_unallocated_slots.empty())
 			{
-				m_state = state_create_files;
-				std::cerr << "storage: -> create_files" << std::endl;
+				m_state = state_allocating;
 				return false;
+			}
+			else
+			{
+				m_state = state_finished;
+				return true;
 			}
 		}
 
-		m_current_slot = 0;
-		m_state = state_full_check;
-		std::cerr << "storage: -> full_check" << std::endl;
+		m_state = state_create_files;
 		return false;
 	}
-
-/*
-	state chart:
-
-	check_fastresume()
-
-		|        |
-		|        v
-		|  +------------+
-		|  | full_check |
-		|  +------------+
-		|        |
-		|        v
-		|  +------------+   +--------------+
-		|  | allocating |-->| create_files |
-		|  +------------+   +--------------+
-		|        |                 |
-		|        v                 |
-		|     +----------+         |
-		+---->| finished |<--------+
-				+----------+
-
-*/
-
 
 	// performs the full check and full allocation
 	// (if necessary). returns true if finished and
@@ -1665,19 +1642,16 @@ namespace libtorrent
 
 		if (m_state == state_allocating)
 		{
-			if (m_compact_mode || m_unallocated_slots.empty())
+			if (m_compact_mode)
 			{
-				m_state = state_create_files;
-				return std::make_pair(false, 1.f);
+				m_state = state_finished;
+				return std::make_pair(true, 1.f);
 			}
-
-			if (int(m_unallocated_slots.size()) == m_info.num_pieces()
-				&& !m_fill_mode)
+		
+			if (m_unallocated_slots.empty())
 			{
-				// if there is not a single file on disk, just
-				// create the files
-				m_state = state_create_files;
-				return std::make_pair(false, 1.f);
+				m_state = state_finished;
+				return std::make_pair(true, 1.f);
 			}
 
 			// if we're not in compact mode, make sure the
@@ -1708,19 +1682,10 @@ namespace libtorrent
 		{
 			m_storage->initialize(!m_fill_mode && !m_compact_mode);
 
-			if (!m_unallocated_slots.empty() && !m_compact_mode)
-			{
-				assert(!m_fill_mode);
-				assert(!m_compact_mode);
-				std::vector<int>().swap(m_unallocated_slots);
-				std::fill(m_slot_to_piece.begin(), m_slot_to_piece.end(), int(unassigned));
-				m_free_slots.resize(m_info.num_pieces());
-				for (int i = 0; i < m_info.num_pieces(); ++i)
-					m_free_slots[i] = i;
-			}
-
-			m_state = state_finished;
-			return std::make_pair(true, 1.f);
+			m_current_slot = 0;
+			m_state = state_full_check;
+			m_piece_data.resize(int(m_info.piece_length()));
+			return std::make_pair(false, 0.f);
 		}
 
 		assert(m_state == state_full_check);
@@ -1732,7 +1697,6 @@ namespace libtorrent
 		try
 		{
 
-			m_piece_data.resize(int(m_info.piece_length()));
 			int piece_size = int(m_info.piece_size(m_current_slot));
 			int num_read = m_storage->read(&m_piece_data[0]
 				, m_current_slot, 0, piece_size);

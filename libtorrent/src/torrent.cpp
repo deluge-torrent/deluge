@@ -981,20 +981,7 @@ namespace libtorrent
 		return m_username + ":" + m_password;
 	}
 
-	void torrent::piece_availability(std::vector<int>& avail) const
-	{
-		INVARIANT_CHECK;
 
-		assert(valid_metadata());
-		if (is_seed())
-		{
-			avail.clear();
-			return;
-		}
-
-		m_picker->get_availability(avail);
-	}
- 
 
 	void torrent::set_piece_priority(int index, int priority)
 	{
@@ -1819,8 +1806,7 @@ namespace libtorrent
 	bool torrent::want_more_peers() const
 	{
 		return int(m_connections.size()) < m_connections_quota.given
-			&& m_ses.m_half_open.free_slots()
-			&& !m_paused;;
+			&& m_ses.m_half_open.free_slots();
 	}
 
 	void torrent::disconnect_all()

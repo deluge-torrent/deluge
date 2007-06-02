@@ -1,9 +1,15 @@
-#ifndef TORRENT_HTTP_STREAM_HPP_INCLUDED
-#define TORRENT_HTTP_STREAM_HPP_INCLUDED
-#include "libtorrent/proxy_base.hpp"
+#include "libtorrent/io.hpp"
+#include "libtorrent/socket.hpp"
+#include <boost/bind.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/function.hpp>
+#include <asio/read.hpp>
+#include <asio/write.hpp>
+
 
 namespace libtorrent {
-class http_stream : public proxy_base
+
+class http_stream : boost::noncopyable
 {
 public:
 
@@ -12,17 +18,126 @@ public:
 	typedef stream_socket::protocol_type protocol_type;
 
 	explicit http_stream(asio::io_service& io_service)
-		: proxy_base(io_service)
+		: m_sock(io_service)
+		, m_resolver(io_service)
 		, m_no_connect(false)
 	{}
 
 	void set_no_connect(bool c) { m_no_connect = c; }
+
+	void set_proxy(std::string hostname, int port)
+	{
+		m_hostname = hostname;
+		m_port = port;
+	}
 
 	void set_username(std::string const& user
 		, std::string const& password)
 	{
 		m_user = user;
 		m_password = password;
+	}
+
+	template <class Mutable_Buffers, class Handler>
+	void async_read_some(Mutable_Buffers const& buffers, Handler const& handler)
+	{
+		m_sock.async_read_some(buffers, handler);
+	}
+
+	template <class Mutable_Buffers>
+	std::size_t read_some(Mutable_Buffers const& buffers, asio::error_code& ec)
+	{
+		return m_sock.read_some(buffers, ec);
+	}
+
+	template <class Mutable_Buffers>
+	std::size_t read_some(Mutable_Buffers const& buffers)
+	{
+		return m_sock.read_some(buffers);
+	}
+
+	template <class IO_Control_Command>
+	void io_control(IO_Control_Command& ioc)
+	{
+		m_sock.io_control(ioc);
+	}
+
+	template <class IO_Control_Command>
+	void io_control(IO_Control_Command& ioc, asio::error_code& ec)
+	{
+		m_sock.io_control(ioc, ec);
+	}
+
+	template <class Const_Buffers, class Handler>
+	void async_write_some(Const_Buffers const& buffers, Handler const& handler)
+	{
+		m_sock.async_write_some(buffers, handler);
+	}
+
+	void bind(endpoint_type const& endpoint)
+	{
+		m_sock.bind(endpoint);
+	}
+
+	template <class Error_Handler>
+	void bind(endpoint_type const& endpoint, Error_Handler const& error_handler)
+	{
+		m_sock.bind(endpoint, error_handler);
+	}
+
+	void open(protocol_type const& p)
+	{
+		m_sock.open(p);
+	}
+
+	template <class Error_Handler>
+	void open(protocol_type const& p, Error_Handler const& error_handler)
+	{
+		m_sock.open(p, error_handler);
+	}
+
+	void close()
+	{
+		m_remote_endpoint = endpoint_type();
+		m_sock.close();
+	}
+
+	template <class Error_Handler>
+	void close(Error_Handler const& error_handler)
+	{
+		m_sock.close(error_handler);
+	}
+
+	endpoint_type remote_endpoint()
+	{
+		return m_remote_endpoint;
+	}
+
+	template <class Error_Handler>
+	endpoint_type remote_endpoint(Error_Handler const& error_handler)
+	{
+		return m_remote_endpoint;
+	}
+
+	endpoint_type local_endpoint()
+	{
+		return m_sock.local_endpoint();
+	}
+
+	template <class Error_Handler>
+	endpoint_type local_endpoint(Error_Handler const& error_handler)
+	{
+		return m_sock.local_endpoint(error_handler);
+	}
+
+	asio::io_service& io_service()
+	{
+		return m_sock.io_service();
+	}
+
+	lowest_layer_type& lowest_layer()
+	{
+		return m_sock.lowest_layer();
 	}
 
 	typedef boost::function<void(asio::error_code const&)> handler_type;
@@ -56,12 +171,19 @@ private:
 	void handshake1(asio::error_code const& e, boost::shared_ptr<handler_type> h);
 	void handshake2(asio::error_code const& e, boost::shared_ptr<handler_type> h);
 
+	stream_socket m_sock;
+	// the http proxy
+	std::string m_hostname;
+	int m_port;
 	// send and receive buffer
 	std::vector<char> m_buffer;
 	// proxy authentication
 	std::string m_user;
 	std::string m_password;
 
+	endpoint_type m_remote_endpoint;
+
+	tcp::resolver m_resolver;
 	// this is true if the connection is HTTP based and
 	// want to talk directly to the proxy
 	bool m_no_connect;
@@ -69,4 +191,3 @@ private:
 
 }
 
-#endif
