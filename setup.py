@@ -93,7 +93,7 @@ if not OS == "win":
 	else:
 		boosttype = 'mt'
 	removals = ['-g', '-DNDEBUG', '-O2', '-Wstrict-prototypes']
-        additions = ['-DNDEBUG', '-O2', '-DTORRENT_DHT_VERBOSE_LOGGING=', '-DHAVE_INCLUDE_LIBTORRENT_ASIO_SSL_STREAM_HPP=1', '-DSTDC_HEADERS=1','-DTORRENT_VERBOSE_LOGGING=']
+        additions = ['-DNDEBUG', '-O2']
 
 	if python_version == '2.5':
 		cv_opt = sysconfig.get_config_vars()["CFLAGS"]
