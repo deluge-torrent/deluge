@@ -59,7 +59,7 @@ python_version = platform.python_version()[0:3]
 
 NAME		= "deluge"
 FULLNAME	= "Deluge BitTorrent Client"
-VERSION		= "0.5.0.90.1"
+VERSION		= "0.5.0.90.2"
 AUTHOR		= "Zach Tibbitts, Alon Zakai, Marcos Pinto"
 EMAIL		= "zach@collegegeek.org, kripkensteiner@gmail.com, marcospinto@dipconsultants.com"
 DESCRIPTION	= "A bittorrent client written in PyGTK"
