@@ -39,6 +39,9 @@ elif platform.system() == "Darwin" :
 elif platform.system() == "Windows":
 	print "Windows system detected"
 	OS = "win"
+elif platform.system() == "FreeBSD":
+	print "FreeBSD system detected"
+	OS = "freebsd"
 elif os.name == "posix":
 	print "Unix system detected"
 	OS = "nix"
@@ -88,10 +91,15 @@ if ARCH == "x64":
 
 if not OS == "win":
 	
-	if os.WEXITSTATUS(os.system('grep -q "Debian GNU/Linux 4.0\|Ubuntu 7.04\|Ubuntu 6.06\|Fedora Core release 6" /etc/issue')) == 0:
+	if OS == "linux":
+		if os.WEXITSTATUS(os.system('grep -q "Debian GNU/Linux 4.0\|Ubuntu 7.04\|Ubuntu 6.06\|Fedora Core release 6" /etc/issue')) == 0:
+			boosttype = 'nomt'
+	elif OS == "freebsd":
 		boosttype = 'nomt'
 	else:
 		boosttype = 'mt'
+
+	
 	removals = ['-g', '-DNDEBUG', '-O2', '-Wstrict-prototypes']
         additions = ['-DNDEBUG', '-O2']
 
