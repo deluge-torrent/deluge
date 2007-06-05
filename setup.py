@@ -117,7 +117,7 @@ if not OS == "win":
 			cv_opt = cv_opt + " " + addition
 		sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
 else:
-	librariestype = 'mt'
+	boosttype = 'mt'
 
 # NOTE: The Rasterbar Libtorrent source code is in the libtorrent/ directory
 # inside of Deluge's source tarball.  On several occasions, it has been 
