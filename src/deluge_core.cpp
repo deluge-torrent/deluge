@@ -611,12 +611,20 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
     std::vector<peer_info> peers;
     t.handle.get_peer_info(peers);
 
+    long connected_seeds = 0;
+    for (unsigned long i = 0; i < peers.size(); i++)
+        if ( peers[i].seed && !(peers[i].flags&
+                                (peer_info::handshake|peer_info::connecting|peer_info::queued)) )
+            connected_seeds++;
+
+    long connected_peers = s.num_peers - connected_seeds;
+
     return Py_BuildValue("{s:s,s:l,s:l,s:l,s:l,s:f,s:f,s:d,s:f,s:l,s:l,s:s,s:s,s:f,s:d,s:l,s:l,s:l,s:d,s:l,s:l,s:l,s:l,s:l,s:l,s:d,s:d}",
         "name",               t.handle.get_torrent_info().name().c_str(),
         "num_files",          t.handle.get_torrent_info().num_files(),
         "state",              s.state,
-        "num_peers",          s.num_peers,
-        "num_seeds",          s.num_seeds,
+        "num_peers",          connected_peers,
+        "num_seeds",          connected_seeds,
         "distributed_copies", s.distributed_copies,
         "download_rate",      s.download_rate,
         "total_download",     double(s.total_download),
@@ -633,8 +641,8 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
         "total_size",         double(i.total_size()),
         "piece_length",       long(i.piece_length()),
         "num_pieces",         long(i.num_pieces()),
-        "total_peers",        long(s.num_incomplete != -1? s.num_incomplete : s.num_peers),
-        "total_seeds",        long(s.num_complete   != -1? s.num_complete   : s.num_seeds),
+        "total_peers",        long(s.num_incomplete != -1? s.num_incomplete : connected_peers),
+        "total_seeds",        long(s.num_complete   != -1? s.num_complete   : connected_seeds),
         "is_paused",          long(t.handle.is_paused()),
         "is_seed",            long(t.handle.is_seed()),
         "total_wanted",       double(s.total_wanted),
