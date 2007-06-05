@@ -378,7 +378,7 @@ class DelugeGTK:
 		self.name_column 	=	dgtk.add_text_column(self.torrent_view, _("Name"), 2)
 		self.size_column 	=	dgtk.add_func_column(self.torrent_view, _("Size"), size, 3)
 		self.status_column 	= 	dgtk.add_progress_column(self.torrent_view, _("Status"), 4, 5)
-		self.seed_column 	=	dgtk.add_func_column(self.torrent_view, _("Seeders"), peer, (6, 7))
+		self.seed_column 	=	dgtk.add_func_column(self.torrent_view, _("Seeders"), seed, (6, 7))
 		self.peer_column 	=	dgtk.add_func_column(self.torrent_view, _("Peers"), peer, (8, 9))
 		self.dl_column 		=	dgtk.add_func_column(self.torrent_view, _("Download"), rate, 10)
 		self.ul_column 		=	dgtk.add_func_column(self.torrent_view, _("Upload"), rate, 11)

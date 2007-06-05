@@ -36,12 +36,12 @@ if platform.system() == "Linux":
 elif platform.system() == "Darwin" :
 	print "Darwin / OS X system detected"
 	OS = "osx"
+elif platform.system() == "FreeBSD" :
+	print "FreeBSD operating system detected"
+	OS = "freebsd"
 elif platform.system() == "Windows":
 	print "Windows system detected"
 	OS = "win"
-elif platform.system() == "FreeBSD":
-	print "FreeBSD system detected"
-	OS = "freebsd"
 elif os.name == "posix":
 	print "Unix system detected"
 	OS = "nix"
@@ -90,16 +90,15 @@ if ARCH == "x64":
 #	it has been removed to prevent confusion.
 
 if not OS == "win":
-	
 	if OS == "linux":
 		if os.WEXITSTATUS(os.system('grep -q "Debian GNU/Linux 4.0\|Ubuntu 7.04\|Ubuntu 6.06\|Fedora Core release 6" /etc/issue')) == 0:
 			boosttype = 'nomt'
+		else:
+			boosttype = 'mt'
 	elif OS == "freebsd":
 		boosttype = 'nomt'
 	else:
 		boosttype = 'mt'
-
-	
 	removals = ['-g', '-DNDEBUG', '-O2', '-Wstrict-prototypes']
         additions = ['-DNDEBUG', '-O2']
 
@@ -317,3 +316,4 @@ setup(name=NAME, fullname=FULLNAME, version=VERSION,
 	ext_modules=[deluge_core],
 	cmdclass=cmdclass
 )
+
