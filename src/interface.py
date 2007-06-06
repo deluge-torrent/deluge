@@ -30,15 +30,9 @@ import xdg, xdg.BaseDirectory
 import gettext, locale
 
 DEFAULT_PREFS = {
-					"encin_disable" : False,
-					"encin_enable" : True,
-					"encin_force" : False,
-					"encout_disable" : False,
-					"encout_enable" : True,
-					"encout_force" : False,
-					"level_plaintext" : False,
-					"level_both" : True,
-					"level_rc4" : False,
+					"encin_state" : common.EncState.enabled,
+					"encout_state" : common.EncState.enabled,
+					"enclevel_type" : common.EncLevel.both,
 					"pref_rc4" : True,
 					"auto_end_seeding" : False,
 					"close_to_tray" : False,
@@ -158,29 +152,7 @@ class DelugeGTK:
 				pass
 		self.apply_prefs()
 		self.load_window_geometry()
-                if(self.config.get("encout_disabled", str, default="False") == "True"):
-                        out_policy = "0"
-                elif(self.config.get("encout_enabled", str, default="True")):
-                        out_policy = "1"
-                elif(self.config.get("encout_forced", str, default="False") == "True"):
-                        out_policy = "2"
-                if(self.config.get("encin_disabled", str, default="False") == "True"):
-                        in_policy = "0"
-                elif(self.config.get("encin_enabled", str, default="True") == "True"):
-                        in_policy = "1"
-                elif(self.config.get("encin_forced", str, default="False") == "True"):
-                        in_policy = "2"
-                if(self.config.get("level_plaintext", str, default="False") == "True"):
-                        level_policy = "0"
-                elif(self.config.get("level_both", str, default="True") == "True"):
-                        level_policy = "1"
-                elif(self.config.get("level_rc4", str, default="False") == "True"):
-                        level_policy = "2"
-                if(self.config.get("pref_rc4", str, default="True") == "True"):
-                        prefrc4 = "1"
-                elif(self.config.get("pref_rc4", str, default="True") == "False"):
-                        prefrc4 = "0"
-                self.manager.pe_settings(out_policy, in_policy, level_policy, prefrc4)
+		self.manager.pe_settings(self.config.get("encout_state", int, default=common.EncState.enabled), self.config.get("encin_state", int, default=common.EncState.enabled), self.config.get("enclevel_type", int, default=common.EncLevel.both), self.config.get("pref_rc4", bool, default=True))
 
 	def external_add_torrent(self, torrent_file):
 		print "Ding!"

@@ -38,43 +38,9 @@ class PreferencesDlg:
 	def show(self):
 		# Load settings into dialog
 		try:
-			if(self.preferences.get("encin_disabled") == "True"):
-				self.glade.get_widget("chk_encin_disabled").set_active(True)
-				self.glade.get_widget("chk_encin_enabled").set_active(False)
-				self.glade.get_widget("chk_encin_forced").set_active(False)
-			elif(self.preferences.get("encin_enabled") == "True"):
-				self.glade.get_widget("chk_encin_enabled").set_active(True)
-				self.glade.get_widget("chk_encin_disabled").set_active(False)
-				self.glade.get_widget("chk_encin_forced").set_active(False)
-			elif(self.preferences.get("encin_forced") == "True"):
-				self.glade.get_widget("chk_encin_forced").set_active(True)
-				self.glade.get_widget("chk_encin_enabled").set_active(False)
-				self.glade.get_widget("chk_encin_disabled").set_active(False)
-			if(self.preferences.get("encout_disabled") == "True"):
-				self.glade.get_widget("chk_encout_disabled").set_active(True)
-				self.glade.get_widget("chk_encout_enabled").set_active(False)
-				self.glade.get_widget("chk_encout_forced").set_active(False)
-			elif(self.preferences.get("encout_enabled") == "True"):
-				self.glade.get_widget("chk_encout_enabled").set_active(True)
-				self.glade.get_widget("chk_encout_disabled").set_active(False)
-				self.glade.get_widget("chk_encout_forced").set_active(False)
-			elif(self.preferences.get("encout_forced") == "True"):
-				self.glade.get_widget("chk_encout_forced").set_active(True)
-				self.glade.get_widget("chk_encout_enabled").set_active(False)
-				self.glade.get_widget("chk_encout_disabled").set_active(False)
-			if(self.preferences.get("level_plaintext") == "True"):
-				self.glade.get_widget("chk_level_plaintext").set_active(True)
-				self.glade.get_widget("chk_level_rc4").set_active(False)
-				self.glade.get_widget("chk_level_both").set_active(False)
-			elif(self.preferences.get("level_both") == "True"):
-				self.glade.get_widget("chk_level_both").set_active(True)
-				self.glade.get_widget("chk_level_plaintext").set_active(False)
-				self.glade.get_widget("chk_level_rc4").set_active(False)
-			elif(self.preferences.get("level_rc4") == "True"):
-				self.glade.get_widget("chk_level_rc4").set_active(True)
-				self.glade.get_widget("chk_level_both").set_active(False)
-				self.glade.get_widget("chk_level_plaintext").set_active(False)
-
+			self.glade.get_widget("combo_encin").set_active(self.preferences.get("encin_state", int, default=common.EncState.enabled))
+			self.glade.get_widget("combo_encout").set_active(self.preferences.get("encout_state", int, default=common.EncState.enabled))
+			self.glade.get_widget("combo_enclevel").set_active(self.preferences.get("enclevel_type", int, default=common.EncLevel.both))
 			self.glade.get_widget("chk_pref_rc4").set_active(self.preferences.get("pref_rc4", bool, default=True))
 			self.glade.get_widget("chk_use_tray").set_active(self.preferences.get("enable_system_tray", bool, default=True))
 			self.glade.get_widget("chk_min_on_close").set_active(self.preferences.get("close_to_tray", bool, default=False))
@@ -84,6 +50,7 @@ class PreferencesDlg:
 				self.glade.get_widget("radio_save_all_to").set_active(True)
 			else:
 				self.glade.get_widget("radio_ask_save").set_active(True)
+				
 			self.glade.get_widget("download_path_button").set_filename(self.preferences.get("default_download_path", str, default=os.path.expandvars('$HOME')))
 			self.glade.get_widget("chk_compact").set_active(self.preferences.get("use_compact_storage", bool, default=False))
 			self.glade.get_widget("active_port_label").set_text(str(self.parent.manager.get_state()['port']))
@@ -106,20 +73,14 @@ class PreferencesDlg:
 		self.dialog.hide()
 		# Now, get the settings from the dialog
 		if r == 1:
-                        self.preferences.set("encin_disabled", self.glade.get_widget("chk_encin_disabled").get_active())
-                        self.preferences.set("encin_enabled", self.glade.get_widget("chk_encin_enabled").get_active())
-                        self.preferences.set("encin_forced", self.glade.get_widget("chk_encin_forced").get_active())
-                        self.preferences.set("encout_disabled", self.glade.get_widget("chk_encout_disabled").get_active())
-                        self.preferences.set("encout_enabled", self.glade.get_widget("chk_encout_enabled").get_active())
-                        self.preferences.set("encout_forced", self.glade.get_widget("chk_encout_forced").get_active())
-		        self.preferences.set("level_plaintext", self.glade.get_widget("chk_level_plaintext").get_active())
-                        self.preferences.set("level_rc4", self.glade.get_widget("chk_level_rc4").get_active())
-                        self.preferences.set("level_both", self.glade.get_widget("chk_level_both").get_active())
-                        self.preferences.set("pref_rc4", self.glade.get_widget("chk_pref_rc4").get_active())
+			self.preferences.set("encin_state", self.glade.get_widget("combo_encin").get_active())
+			self.preferences.set("encout_state", self.glade.get_widget("combo_encout").get_active())
+			self.preferences.set("encout_level", self.glade.get_widget("combo_enclevel").get_active())
+			self.preferences.set("pref_rc4", self.glade.get_widget("chk_pref_rc4").get_active())
 			self.preferences.set("system_tray", self.glade.get_widget("chk_use_tray").get_active())
 			self.preferences.set("close_to_tray", self.glade.get_widget("chk_min_on_close").get_active())
-                        self.preferences.set("lock_tray", self.glade.get_widget("chk_lock_tray").get_active())
-                        self.preferences.set("tray_passwd", self.glade.get_widget("txt_tray_passwd").get_text())
+			self.preferences.set("lock_tray", self.glade.get_widget("chk_lock_tray").get_active())
+			self.preferences.set("tray_passwd", self.glade.get_widget("txt_tray_passwd").get_text())
 			self.preferences.set("use_default_dir", self.glade.get_widget("radio_save_all_to").get_active())
 			self.preferences.set("default_download_path", self.glade.get_widget("download_path_button").get_filename())
 			self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())

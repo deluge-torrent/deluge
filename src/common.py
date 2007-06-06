@@ -106,3 +106,10 @@ def open_url_in_browser(dialog, link):
 		webbrowser.open(link)
 	except webbrowser.Error:
 		print _("Error: no webbrowser found")
+		
+# Encryption States
+class EncState:
+	enabled, disabled, forced = range(3)
+	
+class EncLevel:
+	plaintext, both, rc4 = range(3)
