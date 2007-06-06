@@ -1007,9 +1007,9 @@ namespace libtorrent
 				// because of the push_back()
 				i = boost::prior(m_peers.end());
 #ifndef TORRENT_DISABLE_ENCRYPTION
-				p.pe_support = (flags & 0x01);
+				if (flags & 0x01) p.pe_support = true;
 #endif
-				p.seed = (flags & 0x02);
+				if (flags & 0x02) i->seed = true;
 
 				// try to send a DHT ping to this peer
 				// as well, to figure out if it supports
@@ -1037,7 +1037,7 @@ namespace libtorrent
 				if (i->failcount > 0 && src != peer_info::dht)
 					--i->failcount;
 
-				i->seed = (flags & 0x02);
+				if (flags & 0x02) i->seed = true;
 
 				if (i->connection)
 				{
