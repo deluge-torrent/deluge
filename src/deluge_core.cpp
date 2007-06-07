@@ -1221,7 +1221,6 @@ static PyObject *torrent_apply_IP_filter(PyObject *self, PyObject *args)
 
 static PyObject *torrent_pe_settings(PyObject *self, PyObject *args)
 {
-	pe_settings	s = pe_settings();
 	M_pe_settings = new pe_settings();
 	libtorrent::pe_settings::enc_policy out, in, prefer;
 	libtorrent::pe_settings::enc_level	level;
