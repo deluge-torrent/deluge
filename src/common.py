@@ -109,7 +109,7 @@ def open_url_in_browser(dialog, link):
 		
 # Encryption States
 class EncState:
-	enabled, disabled, forced = range(3)
+	forced, enabled, disabled = range(3)
 	
 class EncLevel:
-	plaintext, both, rc4 = range(3)
+	plaintext, rc4, both = range(3)
