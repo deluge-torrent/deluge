@@ -778,7 +778,7 @@
                                 <child>
                                   <widget class="GtkLabel" id="label17">
                                     <property name="visible">True</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Network Extras&lt;/b&gt;</property>
+                                    <property name="label" translatable="yes">&lt;b&gt;Network Extras&lt;/b&gt; - Always on</property>
                                     <property name="use_markup">True</property>
                                   </widget>
                                   <packing>
