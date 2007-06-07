@@ -104,6 +104,7 @@ typedef torrents_t::iterator   torrents_t_iterator;
 
 long          M_unique_counter  = 0;
 session_settings *M_settings        = NULL;
+pe_settings	*M_pe_settings = NULL;
 session          *M_ses         = NULL;
 PyObject         *M_constants       = NULL;
 ip_filter    *M_the_filter      = NULL;
@@ -1221,11 +1222,16 @@ static PyObject *torrent_apply_IP_filter(PyObject *self, PyObject *args)
 static PyObject *torrent_pe_settings(PyObject *self, PyObject *args)
 {
 	pe_settings	s = pe_settings();
-	return Py_BuildValue("{s:i,s:i,s:i,s:i}",
-	        "out_enc_policy", int(s.out_enc_policy),
-	        "in_enc_policy", int(s.in_enc_policy),
-	        "allowed_enc_level", int(s.allowed_enc_level),
-	        "prefer_rc4", int(s.prefer_rc4));
+	M_pe_settings = new pe_settings();
+	M_pe_settings->out_enc_policy = s.out_enc_policy;
+	printf("out policy is %d\r\n", s.out_enc_policy); 
+	M_pe_settings->in_enc_policy = s.in_enc_policy;
+	printf("in policy is %d\r\n", s.in_enc_policy) ;
+	M_pe_settings->allowed_enc_level = s.allowed_enc_level;
+	printf("level is %d\r\n", s.allowed_enc_level);
+	M_pe_settings->prefer_rc4 = int(s.prefer_rc4);
+	printf("prefer rc4 is %d\r\n", s.prefer_rc4);
+	M_ses->set_pe_settings(*M_pe_settings);
 }
 
 //====================
