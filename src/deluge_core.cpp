@@ -1232,6 +1232,11 @@ static PyObject *torrent_pe_settings(PyObject *self, PyObject *args)
 	M_pe_settings->prefer_rc4 = int(s.prefer_rc4);
 	printf("prefer rc4 is %d\r\n", s.prefer_rc4);
 	M_ses->set_pe_settings(*M_pe_settings);
+	return Py_BuildValue("{s:i,s:i,s:i,s:i}",
+	        "out_enc_policy", int(s.out_enc_policy),
+	        "in_enc_policy", int(s.in_enc_policy),
+	        "allowed_enc_level", int(s.allowed_enc_level),
+	        "prefer_rc4", int(s.prefer_rc4));
 }
 
 //====================
