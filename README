@@ -21,9 +21,7 @@ libboost-dev
 libboost-thread-dev
 libboost-date-time-dev
 libboost-filesystem-dev
-libboost-serialization-dev
-libboost-program-options-dev
-libboost-regex-dev
+libssl-dev
 zlib1g-dev
 
 But the names of the packages may vary
