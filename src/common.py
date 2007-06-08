@@ -39,7 +39,7 @@ PLUGIN_DIR = os.path.join(INSTALL_PREFIX, 'share', 'deluge', 'plugins')
 
 def estimate_eta(state):
 	try:
-		return ftime(get_eta(state["total_size"], state["total_done"], state["download_rate"]))
+		return ftime(get_eta(state["total_size"], state["total_payload_download"], state["download_rate"]))
 	except ZeroDivisionError:
 		return _("Infinity")
 	
