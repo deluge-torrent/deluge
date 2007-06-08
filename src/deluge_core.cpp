@@ -620,7 +620,7 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
 
     long connected_peers = s.num_peers - connected_seeds;
 
-    return Py_BuildValue("{s:s,s:l,s:l,s:l,s:l,s:f,s:f,s:i,s:f,s:i,s:l,s:s,s:s,s:f,s:i,s:i,s:l,s:l,s:l,s:d,s:l,s:l,s:l,s:l,s:l,s:l,s:d,s:d,s:d}",
+    return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:f,s:L,s:L,s:b,s:s,s:s,s:f,s:L,s:L,s:l,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
         "name",               t.handle.get_torrent_info().name().c_str(),
         "num_files",          t.handle.get_torrent_info().num_files(),
         "state",              s.state,
@@ -628,28 +628,28 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
         "num_seeds",          connected_seeds,
         "distributed_copies", s.distributed_copies,
         "download_rate",      s.download_rate,
-        "total_download",     int(s.total_download),
         "upload_rate",        s.upload_rate,
-        "total_upload",       int(s.total_upload),
+        "total_download",     s.total_download,
+        "total_upload",       s.total_upload,
         "tracker_ok",         !s.current_tracker.empty(),
         "next_announce",      boost::posix_time::to_simple_string(s.next_announce).c_str(),
         "tracker",            s.current_tracker.c_str(),
-        "progress",           float(s.progress),
-        "total_payload_download", int(s.total_payload_download),
-        "total_payload_upload", int(s.total_payload_upload),
-        "pieces",             long(s.pieces),
-        "pieces_done",        long(s.num_pieces),
-        "block_size",         long(s.block_size),
-        "total_size",         double(i.total_size()),
-        "piece_length",       long(i.piece_length()),
-        "num_pieces",         long(i.num_pieces()),
+        "progress",           s.progress,
+        "total_payload_download", s.total_payload_download,
+        "total_payload_upload", s.total_payload_upload,
+        "pieces",             long(s.pieces), // this is really a std::vector<bool>*
+        "pieces_done",        s.num_pieces,
+        "block_size",         s.block_size,
+        "total_size",         i.total_size(),
+        "piece_length",       i.piece_length(),
+        "num_pieces",         i.num_pieces(),
         "total_peers",        long(s.num_incomplete != -1? s.num_incomplete : connected_peers),
         "total_seeds",        long(s.num_complete   != -1? s.num_complete   : connected_seeds),
-        "is_paused",          long(t.handle.is_paused()),
-        "is_seed",            long(t.handle.is_seed()),
-        "total_done",	      double(s.total_done),
-        "total_wanted",       double(s.total_wanted),
-        "total_wanted_done",  double(s.total_wanted_done));
+        "is_paused",          t.handle.is_paused(),
+        "is_seed",            t.handle.is_seed(),
+        "total_done",	     		s.total_done,
+        "total_wanted",       s.total_wanted,
+        "total_wanted_done",  s.total_wanted_done);
 };
 
 static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
