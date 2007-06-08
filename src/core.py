@@ -696,6 +696,11 @@ class Manager:
 		
 		if no_space:
 			self.apply_queue()
+		# Pickle the state so if we experience a crash, the latest state is available
+		print "Pickling state..."
+		output = open(os.path.join(self.base_dir, STATE_FILENAME), 'wb')
+		pickle.dump(self.state, output)
+		output.close()
 
 		return ret
 
