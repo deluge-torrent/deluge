@@ -723,7 +723,7 @@ class Manager:
 		try:
 			ret = float(up/down)
 		except:
-			ret = -1
+			ret = 0
 
 		return ret
 	
