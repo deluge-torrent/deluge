@@ -14,6 +14,7 @@ First, make sure you have the proper bulid
 dependencies installed.  On a normal Debian
 or Ubuntu system, those dependencies are:
 
+g++
 python-all-dev
 python-all
 python-support
