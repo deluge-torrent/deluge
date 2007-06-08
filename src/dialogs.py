@@ -101,7 +101,7 @@ class PreferencesDlg:
 
 	def TestPort(self, widget):
 		activep = str(self.parent.manager.get_state()['port'])
-		common.open_url_in_browser(self.dialog,'http://www.dipconsultants.com/testport.php?port=%s' %activep)
+		common.open_url_in_browser(self.dialog,'http://www.deluge-torrent.org/test-port.php?port=%s' %activep)
 
 		
 	def tray_toggle(self, obj):
