@@ -31,6 +31,7 @@ class PreferencesDlg:
 		self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
 		self.glade.signal_autoconnect({
 										'tray_toggle': self.tray_toggle,
+										'on_btn_testport_clicked': self.TestPort,
 									  })
 		self.parent = parent
 		self.preferences = preferences
@@ -97,6 +98,11 @@ class PreferencesDlg:
 			self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
 			self.preferences.set("dht_connections", self.glade.get_widget("spin_dht").get_value())
 			self.preferences.set("gui_update_interval", self.glade.get_widget("spin_gui").get_value())
+
+	def TestPort(self, widget):
+		activep = str(self.parent.manager.get_state()['port'])
+		common.open_url_in_browser(self.dialog,'http://www.dipconsultants.com/testport.php?port=%s' %activep)
+
 		
 	def tray_toggle(self, obj):
 		if obj.get_active():
