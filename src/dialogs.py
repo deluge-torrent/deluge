@@ -76,7 +76,7 @@ class PreferencesDlg:
 		if r == 1:
 			self.preferences.set("encin_state", self.glade.get_widget("combo_encin").get_active())
 			self.preferences.set("encout_state", self.glade.get_widget("combo_encout").get_active())
-			self.preferences.set("encout_level", self.glade.get_widget("combo_enclevel").get_active())
+			self.preferences.set("enclevel_type", self.glade.get_widget("combo_enclevel").get_active())
 			self.preferences.set("pref_rc4", self.glade.get_widget("chk_pref_rc4").get_active())
 			self.preferences.set("system_tray", self.glade.get_widget("chk_use_tray").get_active())
 			self.preferences.set("close_to_tray", self.glade.get_widget("chk_min_on_close").get_active())
