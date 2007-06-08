@@ -381,7 +381,7 @@ class DelugeGTK:
 		state = self.manager.get_torrent_state(unique_id)
 		# A new torrent has been selected, need to update parts of interface
 		self.text_summary_total_size.set_text(common.fsize(state["total_size"]))
-		self.text_summary_pieces.set_text(str(state["pieces"]))
+		self.text_summary_pieces.set_text(str(state["num_pieces"]))
 		self.text_summary_tracker.set_text(str(state["tracker"]))
 		#self.text_summary_compact_allocation.set_text(str(state[""]))
 		# Now for the File tab
@@ -574,7 +574,7 @@ class DelugeGTK:
 		dlrate = int(state['download_rate'])
 		ulrate = int(state['upload_rate'])
 		try:
-			eta = common.get_eta(state["total_size"], state["total_payload_download"], state["download_rate"])
+			eta = common.get_eta(state["total_size"], state["total_download"], state["download_rate"])
 		except ZeroDivisionError:
 			eta = -1
 		share = float(self.calc_share_ratio(unique_id, state))
@@ -706,7 +706,7 @@ class DelugeGTK:
 		if tab == 0: #Details Pane	
 			self.wtree.get_widget("summary_name").set_text(state['name'])
 			self.text_summary_total_size.set_text(common.fsize(state["total_size"]))
-			self.text_summary_pieces.set_text(str(state["pieces"]))
+			self.text_summary_pieces.set_text(str(state["num_pieces"]))
 			self.text_summary_total_downloaded.set_text(common.fsize(state["total_payload_download"]))
 			self.text_summary_total_uploaded.set_text(common.fsize(state["total_payload_upload"]))
 			self.text_summary_download_rate.set_text(common.frate(state["download_rate"]))
