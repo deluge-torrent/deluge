@@ -77,7 +77,6 @@ DEFAULT_PREFS = {
 class Preferences:
 	def __init__(self, filename=None, defaults=None):
 		self.mapping = DEFAULT_PREFS
-		print self.mapping.keys()
 		self.config_file = filename
 		if self.config_file is not None:
 			self.load(self.config_file)
