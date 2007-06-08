@@ -85,15 +85,6 @@ class DelugeGTK:
 		self.is_running = False
 		self.ipc_manager = ipc_manager.Manager(self)
 		self.torrent_file_queue = []
-		#Load up a config file:
-		self.conf_file = os.path.join(common.CONFIG_DIR, 'deluge.conf')
-		if os.path.isdir(self.conf_file):
-			print 'Weird, the file I was trying to write to, %s, is an existing directory'%(self.conf_file)
-			sys.exit(0)
-		if not os.path.isfile(self.conf_file):
-			f = open(self.conf_file, mode='w')
-			f.flush()
-			f.close()
 		#Start the Deluge Manager:
 		self.manager = core.Manager(common.CLIENT_CODE, common.CLIENT_VERSION, 
 			'%s %s'%(common.PROGRAM_NAME, common.PROGRAM_VERSION), common.CONFIG_DIR)
@@ -103,7 +94,7 @@ class DelugeGTK:
 		if os.path.isdir(os.path.join(common.CONFIG_DIR , 'plugins')):
 			self.plugins.add_plugin_dir(os.path.join(common.CONFIG_DIR, 'plugins'))
 		self.plugins.scan_for_plugins()
-		self.config = pref.Preferences(self.conf_file, DEFAULT_PREFS)
+		self.config = self.manager.get_config()
 		#Set up the interface:
 		self.wtree = gtk.glade.XML(common.get_glade_file("delugegtk.glade"), domain=APP)
 		self.window = self.wtree.get_widget("main_window")
@@ -515,7 +506,7 @@ class DelugeGTK:
                 if self.window.get_property("visible"):
 			self.preferences_dialog.show()
 			self.apply_prefs()
-			self.config.save_to_file()
+			self.config.save()
 
                 else:
                         if self.config.get("lock_tray", bool, default=False) == True:
@@ -544,8 +535,8 @@ class DelugeGTK:
 			auto_seed_ratio = -1
 		self.tray_icon.set_visible(self.config.get("enable_system_tray", bool, default=True))
 		self.manager.set_pref("listen_on", ports)
-		self.manager.set_pref("max_upload_rate", ulrate)
-		self.manager.set_pref("max_download_rate", dlrate)
+		self.manager.set_pref("max_upload_rate_bps", ulrate)
+		self.manager.set_pref("max_download_rate_bps", dlrate)
 		self.manager.set_pref("max_uploads", self.config.get("max_number_uploads", int, default=-1))
 		self.manager.set_pref("max_connections", self.config.get("max_number_downloads", int, default=-1))
 		self.manager.set_pref("auto_seed_ratio", auto_seed_ratio)
@@ -1076,7 +1067,7 @@ class DelugeGTK:
 		enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
 		self.config.set('enabled_plugins', enabled_plugins)
 		self.save_window_settings()
-		self.config.save_to_file(self.conf_file)
+		self.config.save()
 		self.plugins.shutdown_all_plugins()
 		self.manager.quit()
 		gtk.main_quit()

@@ -22,12 +22,65 @@
 # Preferences is basically a wrapper around a simple Python dictionary
 # object.  However, this class provides a few extra features on top of
 # the built in class that Deluge can take advantage of.
+
+import pickle
+import common
+
+DEFAULT_PREFS = {
+	"encin_state" : common.EncState.enabled,
+	"encout_state" : common.EncState.enabled,
+	"enclevel_type" : common.EncLevel.both,
+	"pref_rc4" : True,
+	"auto_end_seeding" : False,
+	"auto_seed_ratio" : -1,
+	"close_to_tray" : False,
+	"lock_tray" : False,
+	"tray_passwd" : "",
+	"default_download_path" : "",
+	"dht_connections" : 80,
+	"enable_dht" : True,
+	"enable_system_tray" : True,
+	"enabled_plugins" : "",
+	"end_seed_ratio" : 0.0,
+	"gui_update_interval" : 1.0,
+	"listen_on" : [6881,9999],
+	"max_active_torrents" : -1,
+	"max_connections" : 80,
+	"max_download_rate" : -1.0,
+	"max_download_rate_bps": -1.0,
+	"max_number_downloads" : -1.0,
+	"max_number_torrents" : -1.0,
+	"max_number_uploads" : -1.0,
+	"max_upload_rate" : -1.0,
+	"max_upload_rate_bps" : -1.0,
+	"max_uploads"         : 2,
+	"queue_seeds_to_bottom" : False,
+	"show_dl" : True,
+	"show_eta" : True,
+	"show_infopane" : True,
+	"show_peers" : True,
+	"show_seeders" : True,
+	"show_share" : True,
+	"show_size" : True,
+	"show_status" : True,
+	"show_toolbar" : True,
+	"show_ul" : True,
+	"tcp_port_range_lower" : 6881,
+	"tcp_port_range_upper" : 6889,
+	"use_compact_storage" : False,
+	"use_default_dir" : False,
+	"window_height" : 480,
+	"window_width" : 640,
+	"window_x_pos" : 0,
+	"window_y_pos" : 0,
+}
 class Preferences:
 	def __init__(self, filename=None, defaults=None):
-		self.mapping = {}
+		self.mapping = DEFAULT_PREFS
+		print self.mapping.keys()
 		self.config_file = filename
 		if self.config_file is not None:
-			self.load_from_file(self.config_file)
+			self.load(self.config_file)
 		if defaults is not None:
 			for key in defaults.keys():
 				self.mapping.setdefault(key, defaults[key])
@@ -53,38 +106,32 @@ class Preferences:
 	def keys(self): return self.mapping.keys()
 	def values(self): return self.mapping.values()
 	
-	def save_to_file(self, filename=None):
+	def save(self, filename=None):
 		if filename is None:
 			filename = self.config_file
-		f = open(filename, mode='w')
-		keys = self.mapping.keys()
-		keys.sort()
-		for key in keys:
-			f.write(key)
-			f.write(' = ')
-			f.write(str(self.mapping[key]))
-			f.write('\n')
-		f.flush()
-		f.close()
-		self.config_file = filename
-	
-	def load_from_file(self, filename=None):
+		try:
+			pkl_file = open(filename, 'wb')
+			pickle.dump(self.mapping, pkl_file)
+			pkl_file.close()
+		except IOError:
+			pass
+
+	def load(self, filename=None):
 		if filename is None:
 			filename = self.config_file
-		f = open(filename, mode='r')
-		for line in f:
-			try:
-				(key, value) = line.split('=', 1)
-				key = key.strip(' \n')
-				value = value.strip(' \n')
-				self.mapping[key] = value
-			except ValueError:
-				pass
-		f.close()
-		self.config_file = filename
+		try:
+			pkl_file = open(filename, 'rb')
+			self.dump = pickle.load(pkl_file)
+			self.mapping.update(self.dump)
+			pkl_file.close()
+		except IOError:
+			pass
+		except EOFError:
+			pkl_file.close()
+			pass
 	
 	def set(self, key, value):
-		self.mapping[key] = value	
+		self.mapping[key] = value
 	
 	def get(self, key, kind=None, default=None):
 		if not key in self.mapping.keys():

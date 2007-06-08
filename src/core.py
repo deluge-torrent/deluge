@@ -41,6 +41,7 @@ import os, os.path, shutil, statvfs
 import pickle
 import time
 import gettext
+import pref
 
 # Constants
 
@@ -52,28 +53,17 @@ DHT_FILENAME    = "dht.state"
 
 CACHED_DATA_EXPIRATION = 1 # seconds, like the output of time.time()
 
-#	"max_half_open"       : -1,
-DEFAULT_PREFS = {
-	"max_uploads"         : 2, # a.k.a. upload slots
-	"listen_on"           : [6881,9999],
-	"max_connections"     : 80,
-	"use_DHT"             : True,
-	"max_active_torrents" : -1,
-	"auto_seed_ratio"     : -1,
-	"max_download_rate"   : -1,
-	"max_upload_rate"     : -1
-						}
-
 PREF_FUNCTIONS = {
 	"max_uploads"         : deluge_core.set_max_uploads,
 	"listen_on"           : deluge_core.set_listen_on,
 	"max_connections"     : deluge_core.set_max_connections,
-	"use_DHT"             : None, # not a normal pref in that is is applied only on start
+	"enable_dht"          : None, # not a normal pref in that is is applied only on start
 	"max_active_torrents" : None, # no need for a function, applied constantly
 	"auto_seed_ratio"     : None, # no need for a function, applied constantly
-	"max_download_rate"   : deluge_core.set_download_rate_limit,
-	"max_upload_rate"     : deluge_core.set_upload_rate_limit
-						}
+	"max_download_rate_bps"   : deluge_core.set_download_rate_limit,
+	"max_upload_rate_bps"     : deluge_core.set_upload_rate_limit
+}
+
 STATE_MESSAGES = (	"Queued",
 					"Checking",
 					"Connecting",
@@ -83,7 +73,6 @@ STATE_MESSAGES = (	"Queued",
 					"Seeding",
 					"Allocating"
 					)
-
 
 # Exceptions
 
@@ -206,21 +195,14 @@ class Manager:
 		self.saved_core_torrent_file_infos = {} # unique_ID -> torrent_state
 		
 
-		# Unpickle the preferences, or create a new one
-		self.prefs = DEFAULT_PREFS
-		if not blank_slate:
-			try:
-				pkl_file = open(os.path.join(self.base_dir, PREFS_FILENAME), 'rb')
-				self.prefs = pickle.load(pkl_file)
-				pkl_file.close()
-			except IOError:
-				pass
+		# Load the preferences
+		self.config = pref.Preferences(os.path.join(self.base_dir, PREFS_FILENAME))
 
 		# Apply preferences. Note that this is before any torrents are added
 		self.apply_prefs()
 
 		# Apply DHT, if needed. Note that this is before any torrents are added
-		if self.get_pref('use_DHT'):
+		if self.get_pref('enable_dht'):
 			if not blank_slate:
 				deluge_core.start_DHT(os.path.join(self.base_dir, DHT_FILENAME))
 			else:
@@ -251,10 +233,8 @@ class Manager:
 		self.pre_quitting()
 
 		# Pickle the prefs
-		print "Pickling prefs..."
-		output = open(os.path.join(self.base_dir, PREFS_FILENAME), 'wb')
-		pickle.dump(self.prefs, output)
-		output.close()
+		print "Saving prefs..."
+		self.config.save()
 
 		# Pickle the state
 		print "Pickling state..."
@@ -267,7 +247,7 @@ class Manager:
 		self.save_fastresume_data()
 
 		# Stop DHT, if needed
-		if self.get_pref('use_DHT'):
+		if self.get_pref('enable_dht'):
 			print "Stopping DHT..."
 			deluge_core.stop_DHT(os.path.join(self.base_dir, DHT_FILENAME))
 
@@ -284,24 +264,20 @@ class Manager:
 
 	# Preference management functions
 
+	def get_config(self):
+		# This returns the preference object
+		return self.config
+		
 	def get_pref(self, key):
-		# If we have a value, return, else fallback on default_prefs, else raise an error
-		# the fallback is useful if the source has newer prefs than the existing pref state,
-		# which was created by an old version of the source
-		if key in self.prefs.keys():
-			return self.prefs[key]
-		elif key in DEFAULT_PREFS:
-			self.prefs[key] = DEFAULT_PREFS[key]
-			return self.prefs[key]
-		else:
-			raise DelugeError("Asked for a pref that doesn't exist: " + key)
+		# Get the value from the preferences object
+		return self.config.get(key)
 
 	def set_pref(self, key, value):
 		# Make sure this is a valid key
-		if key not in DEFAULT_PREFS.keys():
+		if key not in pref.DEFAULT_PREFS.keys():
 			raise DelugeError("Asked to change a pref that isn't valid: " + key)
 
-		self.prefs[key] = value
+		self.config.set(key, value)
 
 		# Apply the pref, if applicable
 		if PREF_FUNCTIONS[key] is not None:
@@ -373,7 +349,7 @@ class Manager:
 		# Get additional data from our level
 		ret['is_listening'] = deluge_core.is_listening()
 		ret['port']         = deluge_core.listening_port()
-		if self.get_pref('use_DHT'):
+		if self.get_pref('enable_dht'):
 			ret['DHT_nodes'] = deluge_core.get_DHT_info()
 
 		return ret
@@ -728,7 +704,6 @@ class Manager:
 
 	def apply_prefs(self):
 		print "Applying preferences"
-		assert(len(PREF_FUNCTIONS) == len(DEFAULT_PREFS))
 
 		for pref in PREF_FUNCTIONS.keys():
 			if PREF_FUNCTIONS[pref] is not None:
