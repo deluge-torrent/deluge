@@ -574,7 +574,7 @@ class DelugeGTK:
 		dlrate = int(state['download_rate'])
 		ulrate = int(state['upload_rate'])
 		try:
-			eta = common.get_eta(state["total_size"], state["total_done"], state["download_rate"])
+			eta = common.get_eta(state["total_size"], state["total_payload_download"], state["download_rate"])
 		except ZeroDivisionError:
 			eta = -1
 		share = float(self.calc_share_ratio(unique_id, state))
@@ -707,7 +707,8 @@ class DelugeGTK:
 			self.wtree.get_widget("summary_name").set_text(state['name'])
 			self.text_summary_total_size.set_text(common.fsize(state["total_size"]))
 			self.text_summary_pieces.set_text(str(state["pieces"]))
-			self.text_summary_total_downloaded.set_text(common.fsize(state["total_done"]))
+			self.text_summary_total_downloaded.set_text(common.fsize(state["total_payload_download"]))
+			self.text_summary_total_uploaded.set_text(common.fsize(state["total_payload_upload"]))
 			self.text_summary_download_rate.set_text(common.frate(state["download_rate"]))
 			self.text_summary_upload_rate.set_text(common.frate(state["upload_rate"]))
 			self.text_summary_seeders.set_text(common.fseed(state))
