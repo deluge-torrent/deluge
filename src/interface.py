@@ -446,10 +446,10 @@ class DelugeGTK:
 		self.text_summary_pieces                  = self.wtree.get_widget("summary_pieces")
 		self.text_summary_total_downloaded        = self.wtree.get_widget("summary_total_downloaded")
 		self.text_summary_total_uploaded          = self.wtree.get_widget("summary_total_uploaded")
-		self.text_summary_download_rate			  = self.wtree.get_widget("summary_download_rate")
-		self.text_summary_upload_rate			  = self.wtree.get_widget("summary_upload_rate")
-		self.text_summary_seeders				  = self.wtree.get_widget("summary_seeders")
-		self.text_summary_peers					  = self.wtree.get_widget("summary_peers")
+		self.text_summary_download_rate		  = self.wtree.get_widget("summary_download_rate")
+		self.text_summary_upload_rate		  = self.wtree.get_widget("summary_upload_rate")
+		self.text_summary_seeders		  = self.wtree.get_widget("summary_seeders")
+		self.text_summary_peers			  = self.wtree.get_widget("summary_peers")
 		self.text_summary_percentage_done         = self.wtree.get_widget("summary_percentage_done")
 		self.text_summary_share_ratio             = self.wtree.get_widget("summary_share_ratio")
 		self.text_summary_downloaded_this_session = self.wtree.get_widget("summary_downloaded_this_session")
@@ -459,7 +459,7 @@ class DelugeGTK:
 		self.text_summary_tracker_status          = self.wtree.get_widget("summary_tracker_status")
 		self.text_summary_next_announce           = self.wtree.get_widget("summary_next_announce")
 		self.text_summary_compact_allocation      = self.wtree.get_widget("summary_compact_allocation")
-		self.text_summary_eta					  = self.wtree.get_widget("summary_eta")
+		self.text_summary_eta			  = self.wtree.get_widget("summary_eta")
 
 	def build_peer_tab(self):
 		self.peer_view = self.wtree.get_widget("peer_view")
