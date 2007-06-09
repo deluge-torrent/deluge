@@ -876,11 +876,35 @@ class DelugeGTK:
 		dlg.destroy()
 		
 		if result == 1:
-			opener = urllib.URLopener()
-			filename, headers = opener.retrieve(url)
-			if filename.endswith(".torrent") or headers["content-type"]=="application/x-bittorrent":
-				self.interactive_add_torrent(filename)
-		
+			add_torrent_url(url)
+
+	def external_add_url(self, url):
+		print "Got URL externally:", url
+		if self.is_running:
+			print "\t\tthe client seems to already be running, i'll try and add the URL"
+			self.add_torrent_url(url)
+		else:
+			print "\t\tthe client hasn't started yet, I'll queue the URL torrent file"
+			self.queue_torrent_url(url)
+
+	def add_torrent_url(self, url):
+		filename, headers = self.fetch_url(url)
+		if filename:
+			self.interactive_add_torrent(filename)
+
+	def queue_torrent_url(self, url):
+		filename, headers = self.fetch_url(url)
+		if filename:
+			self.torrent_file_queue.append(filename)
+
+	def fetch_url(self, url):
+		filename, headers = urllib.urlretrieve(url)
+		if filename.endswith(".torrent") or headers["content-type"]=="application/x-bittorrent":
+			return filename, headers
+		else:
+			print "URL doesn't appear to be a valid torrent file:", url
+			return None, None
+			
 	
 	def remove_torrent_clicked(self, obj=None):
 		torrent = self.get_selected_torrent()

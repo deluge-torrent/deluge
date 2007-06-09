@@ -50,6 +50,9 @@ if dbus_imported:
 		@dbus.service.method('org.deluge_torrent.Deluge')
 		def external_add_torrent(self, torrent_file):
 			self.interface.external_add_torrent(torrent_file)
+		@dbus.service.method('org.deluge_torrent.Deluge')
+		def external_add_url(self, url):
+			self.interface.external_add_url(url)
 else:
 	# This is a fallback class in case dbus is not available
 	class Manager:
@@ -57,4 +60,6 @@ else:
 			self.interface = interface
 		
 		def external_add_torrent(self, torrent_file):
+			print "I can't do anything with this."
+		def external_add_url(self, url):
 			print "I can't do anything with this."
