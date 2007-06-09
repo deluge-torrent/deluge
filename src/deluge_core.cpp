@@ -613,7 +613,8 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
 
     long connected_seeds = 0;
     for (unsigned long i = 0; i < peers.size(); i++)
-	if (peers[i].flags&(peer_info::seed)) connected_seeds++;
+	if (peers[i].flags&(peer_info::seed) && !(peers[i].flags&(peer_info::handshake|peer_info::connecting|peer_info::queued)))
+		connected_seeds++;
 
     long connected_peers = s.num_peers - connected_seeds;
 
