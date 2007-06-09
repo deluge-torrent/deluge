@@ -612,11 +612,13 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
     t.handle.get_peer_info(peers);
 
     long connected_seeds = 0;
-    for (unsigned long i = 0; i < peers.size(); i++)
-			if ((peers[i].flags&(peer_info::seed)) && !(peers[i].flags&(peer_info::handshake|peer_info::connecting|peer_info::queued))) 
-			connected_seeds++;
-		
-    long connected_peers = peers.size() - connected_seeds;
+    long connected_peers = 0;
+    for (unsigned long i = 0; i < peers.size(); i++) {
+			if ((peers[i].flags&(peer_info::seed)) && !(peers[i].flags&(peer_info::handshake|peer_info::connecting|peer_info::queued)))
+				connected_seeds++;
+			if (!(peers[i].flags&(peer_info::handshake|peer_info::connecting|peer_info::queued|peer_info::seed)))
+				connected_peers++;
+		}
 
     return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:f,s:L,s:L,s:b,s:s,s:s,s:f,s:L,s:L,s:l,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
         "name",               t.handle.get_torrent_info().name().c_str(),
@@ -872,29 +874,29 @@ static PyObject *torrent_get_peer_info(PyObject *self, PyObject *args)
         }
 
         peer_info = Py_BuildValue(
-            "{s:f,s:d,s:f,s:d,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:s,s:i,s:s,s:f,s:O,s:i,s:i}",
-            "download_speed",        float(peers[i].down_speed),
-            "total_download",        double(peers[i].total_download),
-            "upload_speed",          float(peers[i].up_speed),
-            "total_upload",          double(peers[i].total_upload),
-            "download_queue_length", long(peers[i].download_queue_length),
-            "upload_queue_length",   long(peers[i].upload_queue_length),
-            "is_interesting",        long((peers[i].flags & peer_info::interesting) != 0),
-            "is_choked",             long((peers[i].flags & peer_info::choked) != 0),
-            "is_remote_interested",  long((peers[i].flags & peer_info::remote_interested) != 0),
-            "is_remote_choked",      long((peers[i].flags & peer_info::remote_choked) != 0),
-            "supports_extensions",   long((peers[i].flags & peer_info::supports_extensions)!= 0),
-            "is_local_connection",   long((peers[i].flags & peer_info::local_connection) != 0),
-            "is_awaiting_handshake", long((peers[i].flags & peer_info::handshake) != 0),
-            "is_connecting",         long((peers[i].flags & peer_info::connecting) != 0),
-            "is_queued",             long((peers[i].flags & peer_info::queued) != 0),
+            "{s:f,s:L,s:f,s:L,s:i,s:i,s:b,s:b,s:b,s:b,s:b,s:b,s:b,s:b,s:b,s:s,s:b,s:s,s:f,s:O,s:b,s:b}",
+            "download_speed",        peers[i].down_speed,
+            "total_download",        peers[i].total_download,
+            "upload_speed",          peers[i].up_speed,
+            "total_upload",          peers[i].total_upload,
+            "download_queue_length", peers[i].download_queue_length,
+            "upload_queue_length",   peers[i].upload_queue_length,
+            "is_interesting",        ((peers[i].flags & peer_info::interesting) != 0),
+            "is_choked",             ((peers[i].flags & peer_info::choked) != 0),
+            "is_remote_interested",  ((peers[i].flags & peer_info::remote_interested) != 0),
+            "is_remote_choked",      ((peers[i].flags & peer_info::remote_choked) != 0),
+            "supports_extensions",   ((peers[i].flags & peer_info::supports_extensions) != 0),
+            "is_local_connection",   ((peers[i].flags & peer_info::local_connection) != 0),
+            "is_awaiting_handshake", ((peers[i].flags & peer_info::handshake) != 0),
+            "is_connecting",         ((peers[i].flags & peer_info::connecting) != 0),
+            "is_queued",             ((peers[i].flags & peer_info::queued) != 0),
             "client",                peers[i].client.c_str(),
-            "is_seed",               long(peers[i].seed),
+            "is_seed",               ((peers[i].flags & peer_info::seed) != 0),
             "ip",                    peers[i].ip.address().to_string().c_str(),
             "peer_has",              float(float(pieces_had)*100.0/pieces.size()),
             "pieces",                py_pieces,
-            "rc4_encrypted",         long((peers[i].flags & peer_info::rc4_encrypted) != 0),
-            "plaintext_encrypted",   long((peers[i].flags & peer_info::plaintext_encrypted) != 0)
+            "rc4_encrypted",         ((peers[i].flags & peer_info::rc4_encrypted) != 0),
+            "plaintext_encrypted",   ((peers[i].flags & peer_info::plaintext_encrypted) != 0)
             );
 
         Py_DECREF(py_pieces);    // Assuming the previous line does NOT steal the ref, then this is
