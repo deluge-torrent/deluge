@@ -75,14 +75,18 @@ DEFAULT_PREFS = {
 	"window_y_pos" : 0,
 }
 class Preferences:
-	def __init__(self, filename=None, defaults=None):
-		self.mapping = DEFAULT_PREFS
-		self.config_file = filename
-		if self.config_file is not None:
-			self.load(self.config_file)
+	def __init__(self, filename=None, global_defaults=True, defaults=None):
+		self.mapping = {}
 		if defaults is not None:
 			for key in defaults.keys():
 				self.mapping.setdefault(key, defaults[key])
+		
+		if global_defaults is True:
+			self.mapping = DEFAULT_PREFS
+				
+		self.config_file = filename
+		if self.config_file is not None:
+			self.load(self.config_file)
 	
 	# Allows you to access an item in a Preferences objecy by calling
 	# instance[key] rather than instance.get(key).  However, this will
