@@ -136,7 +136,7 @@ class DelugeGTK:
 			pass
 		
 		enable_plugins = self.config.get('enabled_plugins', str, default="").split(':')
-		print enable_plugins
+			
 		for plugin in enable_plugins:
 			try:
 				self.plugins.enable_plugin(plugin)
@@ -405,8 +405,8 @@ class DelugeGTK:
 		return True
 	
 	def torrent_view_clicked(self, widget, event):
-		print widget
-		print event
+#		print widget
+#		print event
 		if event.button == 3:
 			x = int(event.x)
 			y = int(event.y)
@@ -511,7 +511,6 @@ class DelugeGTK:
 		while itr is not None:
 			file_filter.append(not self.file_store.get_value(itr, 0))
 			itr = self.file_store.iter_next(itr)
-		print file_filter
 		self.manager.set_file_filter(self.get_selected_torrent(), file_filter)
 		
 	def show_about_dialog(self, arg=None):

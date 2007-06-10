@@ -644,7 +644,7 @@ class Manager:
 				# Now to check and see if there is enough free space for the download
 				size = deluge_core.get_torrent_state(unique_ID)["total_size"]
 				avail = self.calc_free_space(torrent.save_dir)
-				print "Torrent Size", size
+#				print "Torrent Size", size
 #				print "Available Space", avail
 #				size = avail + 1 #debug!
 				if size > avail: # Not enough free space
@@ -686,16 +686,12 @@ class Manager:
         # run through queue, remove those that no longer exists
 		to_delete = []
 		for queue_item in self.state.queue:
-			print "queue_item", queue_item
 			if queue_item not in self.unique_IDs.keys():
 				to_delete.append(queue_item)
 		for del_item in to_delete:
 			self.state.queue.remove(del_item)
 
 		assert(len(self.unique_IDs) == len(self.state.torrents))
-
-		print "Debug 1", self.unique_IDs, self.state.queue
-		print "Debug 2", len(self.unique_IDs), len(self.state.queue)
 
 		assert(len(self.unique_IDs) == len(self.state.queue))
 		assert(len(self.unique_IDs) == deluge_core.get_num_torrents())

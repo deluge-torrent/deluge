@@ -136,7 +136,7 @@ class PluginDlg:
 	def show(self):
 		self.store.clear()
 		for plugin in self.plugins.get_available_plugins():
-			print plugin
+			#print plugin
 			if plugin in self.plugins.get_enabled_plugins():
 				self.store.append( (plugin, True) )
 			else:

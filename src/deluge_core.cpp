@@ -1239,15 +1239,14 @@ static PyObject *torrent_pe_settings(PyObject *self, PyObject *args)
 	libtorrent::pe_settings::enc_level	level;
 	
 	PyArg_ParseTuple(args, "iiii", &out, &in, &level, &prefer);
+	
 	M_pe_settings->out_enc_policy = out;
-	printf("out policy is %d\r\n", M_pe_settings->out_enc_policy); 
 	M_pe_settings->in_enc_policy = in;
-	printf("in policy is %d\r\n", M_pe_settings->in_enc_policy) ;
 	M_pe_settings->allowed_enc_level = level;
-	printf("level is %d\r\n", M_pe_settings->allowed_enc_level);
 	M_pe_settings->prefer_rc4 = prefer;
-	printf("prefer rc4 is %d\r\n", M_pe_settings->prefer_rc4);
+
 	M_ses->set_pe_settings(*M_pe_settings);
+	
 	return Py_None;
 }
 
