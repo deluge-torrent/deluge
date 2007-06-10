@@ -593,7 +593,13 @@ class Manager:
 
 		full_new_name = os.path.join(self.base_dir, TORRENTS_SUBDIR, filename_short)
 
-		shutil.copy(filename, full_new_name)
+		try:
+			shutil.copy(filename, full_new_name)
+		except Exception, e:
+			if str(e).find('are the same file'):
+				pass
+			else:
+				raise
 
 		# Create torrent object
 		new_torrent = torrent_info(full_new_name, save_dir, compact)
