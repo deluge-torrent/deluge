@@ -478,6 +478,9 @@ class DelugeGTK:
 		self.file_view = self.wtree.get_widget("file_view")
 		self.file_store = gtk.ListStore(bool, str, str, str, str)
 		self.file_view.set_model(self.file_store)
+		self.file_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
+		self.file_view.get_selection().set_select_function(self.file_clicked)
+		self.file_selected = []
 		
 		dgtk.add_toggle_column(self.file_view, _("Download"), 0, toggled_signal=self.file_toggled)
 		dgtk.add_text_column(self.file_view, _("Filename"), 1).set_expand(True)
@@ -485,11 +488,24 @@ class DelugeGTK:
 		dgtk.add_text_column(self.file_view, _("Offset"), 3)
 		dgtk.add_text_column(self.file_view, _("Progress"), 4)
 		
+	def file_clicked(self, path):
+		if path in self.file_selected:
+			self.file_selected.remove(path)
+			return False
+		return True
+		
+	def file_toggle_selected(self, treemodel, path, selected_iter, value):
+		self.file_store.set_value(selected_iter, 0, value)
+		self.file_selected.append(path)
 	
 	def file_toggled(self, renderer, path):
 		file_iter = self.file_store.get_iter_from_string(path)
 		value = not renderer.get_active()
-		self.file_store.set_value(file_iter, 0, value)
+		selection = self.file_view.get_selection()
+		if selection.iter_is_selected(file_iter):
+			selection.selected_foreach(self.file_toggle_selected, value)
+		else:
+			self.file_store.set_value(file_iter, 0, value)
 		file_filter = []
 		itr = self.file_store.get_iter_first()
 		while itr is not None:
