@@ -301,6 +301,8 @@ class DelugeGTK:
 		self.torrent_view.set_model(self.torrent_model)
 		self.torrent_view.set_rules_hint(True)
 		self.torrent_view.set_reorderable(True)
+		self.torrent_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
+		self.torrent_selected = None
 		
 		def size(column, cell, model, iter, data):
 			size = long(model.get_value(iter, data))
@@ -368,6 +370,7 @@ class DelugeGTK:
 		except TypeError:
 			self.torrent_view.get_selection().set_select_function(self.old_t_click)
 		self.torrent_view.connect("button-press-event", self.torrent_view_clicked)
+		self.right_click = False
 
 	def old_t_click(self, path):
 		return self.torrent_clicked(self.torrent_view.get_selection(), self.torrent_model, path, False)
@@ -375,7 +378,7 @@ class DelugeGTK:
 	def torrent_clicked(self, selection, model, path, is_selected):
 		if is_selected:
 			# Torrent is already selected, we don't need to do anything
-			return True
+			return not self.right_click
 		unique_id = model.get_value(model.get_iter(path), 0)
 		state = self.manager.get_torrent_state(unique_id)
 		# A new torrent has been selected, need to update parts of interface
@@ -414,11 +417,12 @@ class DelugeGTK:
 			if data is None:
 				return True
 			path, col, cellx, celly = data
+			self.right_click = self.torrent_view.get_selection().path_is_selected(path)
 			self.torrent_view.grab_focus()
 			self.torrent_view.set_cursor(path, col, 0)
-			unique_id = self.get_selected_torrent()
+			#unique_id = self.get_selected_torrent()
 			widget = self.torrent_glade.get_widget("menu_pause")
-			if(self.manager.is_user_paused(self.get_selected_torrent())):
+			if(self.manager.is_user_paused(self.torrent_model.get_value(self.torrent_model.get_iter(path), 0))):
 				widget.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PLAY, gtk.ICON_SIZE_MENU))
 				widget.get_children()[0].set_text(_("Start"))
 			else:
@@ -429,13 +433,15 @@ class DelugeGTK:
 			
 			return True
 		else:
+			self.right_click = False
 			return False
 	
 	def start_pause(self, widget):
 		print "Pause btn clicked"
-		unique_id = self.get_selected_torrent()
+		unique_ids = self.get_selected_torrent_rows()
 		try:
-			self.manager.set_user_pause(unique_id, not self.manager.is_user_paused(unique_id))
+			for uid in unique_ids:
+				self.manager.set_user_pause(uid, not self.manager.is_user_paused(uid))
 		except KeyError:
 			pass
 	
@@ -677,8 +683,7 @@ class DelugeGTK:
 		self.statusbar.push(1, self.statusbar_temp_msg)
 
 		# If no torrent is selected, select the first torrent:
-		(temp, selection) = self.torrent_view.get_selection().get_selected()
-		if selection is None:
+		if self.torrent_selected is None:
 			self.torrent_view.get_selection().select_path("0")
 		#Torrent List
 		itr = self.torrent_model.get_iter_first()
@@ -826,10 +831,25 @@ class DelugeGTK:
 		r = float(self.manager.calc_ratio(unique_id, torrent_state))
 		return r
 	
+	# Return the id of the last single selected torrent
 	def get_selected_torrent(self):
 		try:
-			return self.torrent_model.get_value(self.torrent_view.get_selection().get_selected()[1], 0)
-		except TypeError:
+			if self.torrent_view.get_selection().count_selected_rows() == 1:
+				self.torrent_selected = self.torrent_view.get_selection().get_selected_rows()[1][0]
+			return self.torrent_model.get_value(self.torrent_model.get_iter(self.torrent_selected), 0)
+		except ValueError:
+			return None
+			
+	# Return a list of ids of the selected torrents
+	def get_selected_torrent_rows(self):
+		selected_ids = []
+		selected_paths = self.torrent_view.get_selection().get_selected_rows()[1]
+		
+		try:
+			for path in selected_paths:
+				selected_ids.append(self.torrent_model.get_value(self.torrent_model.get_iter(path), 0))
+			return selected_ids
+		except ValueError:
 			return None
 	
 	def on_drag_data(self, widget, drag_context, x, y, selection_data, info, timestamp):
@@ -935,24 +955,33 @@ class DelugeGTK:
 			
 	
 	def remove_torrent_clicked(self, obj=None):
-		torrent = self.get_selected_torrent()
-		if torrent is not None:
-			glade     = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"), domain='deluge')
-			asker     = glade.get_widget("remove_torrent_dlg")
-			
-			asker.set_icon_from_file(common.get_pixmap("deluge32.png"))
+		torrent_list = self.get_selected_torrent_rows()
+		
+		glade     = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"), domain='deluge')
+		asker     = glade.get_widget("remove_torrent_dlg")
+		
+		asker.set_icon_from_file(common.get_pixmap("deluge32.png"))
 
-			warning   =  glade.get_widget("warning")
-			warning.set_text(" ")
+		warning   =  glade.get_widget("warning")
+		warning.set_text(" ")
 
-			data_also  =  glade.get_widget("data_also")
-			data_also.connect("toggled", self.remove_toggle_warning, warning)
+		data_also  =  glade.get_widget("data_also")
+		data_also.connect("toggled", self.remove_toggle_warning, warning)
 
-			response = asker.run()
-			asker.destroy()
-			if response == 1:
-				self.manager.remove_torrent(torrent, data_also.get_active())
-				self.clear_details_pane()
+		response = asker.run()
+		asker.destroy()
+		if response == 1:		
+			for torrent in torrent_list:
+				if torrent is not None:
+					if torrent == self.get_selected_torrent():
+						first = self.torrent_model.get_iter_first()
+						if first:
+							self.torrent_view.get_selection().select_path("0")
+						else:
+							self.torrent_selected = None
+
+					self.manager.remove_torrent(torrent, data_also.get_active())
+					self.clear_details_pane()
 	
 	def clear_details_pane(self):
 		self.wtree.get_widget("progressbar").set_text("")
