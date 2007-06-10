@@ -54,12 +54,12 @@ def get_eta(size, done, rate):
 def fsize(fsize_b):
 	fsize_kb = float (fsize_b / 1024.0)
 	if fsize_kb < 1000:
-		return '%.1f KB'%fsize_kb
+		return '%.1f KiB'%fsize_kb
 	fsize_mb = float (fsize_kb / 1024.0)
 	if fsize_mb < 1000:
-		return '%.1f MB'%fsize_mb
+		return '%.1f MiB'%fsize_mb
 	fsize_gb = float (fsize_mb / 1024.0)
-	return '%.1f GB'%fsize_gb
+	return '%.1f GiB'%fsize_gb
 
 # Returns a formatted string representing a percentage
 def fpcnt(dec):
