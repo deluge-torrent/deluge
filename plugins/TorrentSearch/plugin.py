@@ -32,7 +32,7 @@ class plugin_Search:
 		### when adding items to the toolbar
 		self.se = ''
 		self.toolbar = self.interface.wtree.get_widget("tb_right") 
-		self.engines = pref.Preferences(self.conf_file)
+		self.engines = pref.Preferences(self.conf_file, False)
 		self.search_entry = gtk.Entry()
 		self.search_item = gtk.ToolItem()
 		self.search_item.add(self.search_entry)
@@ -58,7 +58,7 @@ class plugin_Search:
 		self.menu.show_all()
 	
 	def unload(self):
-		self.engines.save_to_file(self.conf_file)
+		self.engines.save(self.conf_file)
 		self.toolbar.remove(self.search_item)
 		self.toolbar.remove(self.menu_button)
 	
@@ -102,7 +102,7 @@ class plugin_Search:
 			while the_iter is not None:
 				self.engines.set(model.get_value(the_iter, 0), model.get_value(the_iter, 1))
 				the_iter = model.iter_next(the_iter)
-			self.engines.save_to_file(self.conf_file)
+			self.engines.save(self.conf_file)
 		self.populate_search_menu()
 		
 
