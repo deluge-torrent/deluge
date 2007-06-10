@@ -99,7 +99,8 @@ class DelugeGTK:
 		self.wtree = gtk.glade.XML(common.get_glade_file("delugegtk.glade"), domain=APP)
 		self.window = self.wtree.get_widget("main_window")
 		self.toolbar = self.wtree.get_widget("tb_middle")
-		self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL,[('text/uri-list', 0, 80)], gtk.gdk.ACTION_COPY)
+		self.targets = [ ( "text/uri-list", 0, 1 ), ( "text/x-moz-url", 0, 2 ) ] 
+		self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, self.targets, gtk.gdk.ACTION_COPY)
 		self.window.connect("delete_event", self.close)
 		self.window.connect("drag_data_received", self.on_drag_data)
 		self.window.set_title(common.PROGRAM_NAME)
@@ -817,19 +818,16 @@ class DelugeGTK:
 			return None
 	
 	def on_drag_data(self, widget, drag_context, x, y, selection_data, info, timestamp):
-		uri_split = selection_data.data.strip().split()
-		for uri in uri_split:
-			path = urllib.url2pathname(uri).strip('\r\n\x00')
-			if path.startswith('file:\\\\\\'):
-				path = path[8:]
-			elif path.startswith('file://'):
-				path = path[7:]
-			elif path.startswith('file:'):
-				path = path[5:]
-			if path.endswith('.torrent'):
-				self.interactive_add_torrent(path)
-				
+		uri_split = [ urllib.url2pathname(temp).replace("\0", "").strip() for temp in selection_data.data.split('\n') ]
 
+		if info == 1:
+			for path in uri_split:
+				if path.endswith('.torrent'):
+					path.replace("file://", "")
+					self.interactive_add_torrent(path)
+		elif info == 2:
+			if uri_split[0].startswith('http://'):
+				self.get_torrent_from_url(uri_split[0])
 		
 	def interactive_add_torrent(self, torrent, append=True):
 		if self.config.get('use_default_dir', bool, default=False):
@@ -860,6 +858,21 @@ class DelugeGTK:
 		torrent = dialogs.show_file_open_dialog()
 		if torrent is not None:
 			self.interactive_add_torrent(torrent)
+
+	def get_torrent_from_url(self, url):
+		url_error = False
+		try:
+			opener = urllib.URLopener()
+			filename, headers = opener.retrieve(url)
+			if filename.endswith(".torrent") or headers["content-type"].startswith("application/x-bittorrent"):
+				self.interactive_add_torrent(filename)
+			else:
+				url_error = True
+		except:
+			url_error = True
+
+		if url_error:
+			dialogs.show_popup_warning(self.window, _("An error occured while trying to add the torrent. Either Deluge is unable to download the .torrent file or it is corrupted."))
 	
 	def add_torrent_url_clicked(self, obj=None):
 		dlg = gtk.Dialog(title=_("Add torrent from URL"), parent=self.window,
@@ -876,7 +889,7 @@ class DelugeGTK:
 		dlg.destroy()
 		
 		if result == 1:
-			add_torrent_url(url)
+			self.get_torrent_from_url(url)
 
 	def external_add_url(self, url):
 		print "Got URL externally:", url
