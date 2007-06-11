@@ -55,3 +55,9 @@ Notes:
  things. The solution is to either add symlinks 
  from the short names to those with "-mt", or to 
  alter setup.py to look for the "-mt" versions.
+ 
+2) After upgrading your Deluge installation, it 
+ may fail to start.  If this happens to you, you
+ need to remove your ~/.config/deluge directory
+ to allow Deluge to rebuild it's configuration
+ file.
