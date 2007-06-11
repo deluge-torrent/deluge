@@ -514,45 +514,37 @@ class DelugeGTK:
 		dialogs.show_about_dialog()
 	
 	def show_pref_dialog(self, arg=None):
-                if self.window.get_property("visible"):
+		if self.window.get_property("visible"):
 			self.preferences_dialog.show()
 			self.apply_prefs()
 			self.config.save()
 
-                else:
-                        if self.config.get("lock_tray", bool, default=False) == True:
-                                self.unlock_tray("prefwinshow")
-                        else:
-                                self.preferences_dialog.show()
-                                self.apply_prefs()
-                                self.config.save_to_file()
-
+		else:
+			if self.config.get("lock_tray", bool, default=False) == True:
+				self.unlock_tray("prefwinshow")
+			else:
+				self.preferences_dialog.show()
+				self.apply_prefs()
+				self.config.save_to_file()
 	
 	def show_plugin_dialog(self, arg=None):
 		self.plugin_dialog.show()
 	
 	def apply_prefs(self):
-		ulrate = self.config.get("max_upload_rate", int, default=-1)
-		dlrate = self.config.get("max_download_rate", int, default=-1)
-		if not (ulrate == -1):
-			ulrate *= 1024
-		if not (dlrate == -1):
-			dlrate *= 1024
-		ports = [self.config.get("tcp_port_range_lower", int, default=6881), 
-					self.config.get("tcp_port_range_upper", int, default=6889)]
-		if self.config.get("auto_end_seeding", bool, default=False):
-			auto_seed_ratio = self.config.get("end_seed_ratio", float, default=1.0)
-		else:
-			auto_seed_ratio = -1
+		# Show tray icon if necessary
 		self.tray_icon.set_visible(self.config.get("enable_system_tray", bool, default=True))
-		self.manager.set_pref("listen_on", ports)
-		self.manager.set_pref("max_upload_rate_bps", ulrate)
-		self.manager.set_pref("max_download_rate_bps", dlrate)
-		self.manager.set_pref("max_uploads", self.config.get("max_number_uploads", int, default=-1))
-		self.manager.set_pref("max_connections", self.config.get("max_number_downloads", int, default=-1))
-		self.manager.set_pref("auto_seed_ratio", auto_seed_ratio)
-	
-	# '%s %d%%'%(core.STATE_MESSAGES[state['state']], int(state['progress'] * 100))
+		
+		# Update the max_*_rate_bps prefs
+		ulrate = self.config.get("max_upload_rate", int, default=-1) * 1024
+		dlrate = self.config.get("max_download_rate", int, default=-1) * 1024
+		if not (ulrate < 0):
+			self.config.set("max_upload_rate_bps", ulrate)
+		if not (dlrate < 0):
+			self.config.set("max_download_rate_bps", dlrate)
+		
+		# Apply the preferences in the core
+		self.manager.apply_prefs()
+
 	def get_message_from_state(self, torrent_state):
 		state = torrent_state['state']
 		is_paused = torrent_state['is_paused']
