@@ -426,17 +426,24 @@ class DelugeGTK:
 		self.text_summary_compact_allocation      = self.wtree.get_widget("summary_compact_allocation")
 		self.text_summary_eta			  = self.wtree.get_widget("summary_eta")
 
+
+
 	def build_peer_tab(self):
+
+		def percent(column, cell, model, iter, data):
+			percent = float(model.get_value(iter, data))
+			percent_str = "%.2f%%"%percent
+			cell.set_property("text", percent_str)
+
 		self.peer_view = self.wtree.get_widget("peer_view")
-		self.peer_store = gtk.ListStore(str, str, str, str, str)
+		self.peer_store = gtk.ListStore(str, str, float, str, str)
 		self.peer_view.set_model(self.peer_store)
 		
 		self.peer_ip_column		=	dgtk.add_text_column(self.peer_view, _("IP Address"), 0)
 		self.peer_client_column		=	dgtk.add_text_column(self.peer_view, _("Client"), 1)
-		self.peer_complete_column	=	dgtk.add_text_column(self.peer_view, _("Percent Complete"), 2)
+		self.peer_complete_column	=	dgtk.add_func_column(self.peer_view, _("Percent Complete"), percent, 2)
 		self.peer_download_column	=	dgtk.add_text_column(self.peer_view, _("Download Rate"), 3)
 		self.peer_upload_column		=	dgtk.add_text_column(self.peer_view, _("Upload Rate"), 4)
-
 
 	def build_file_tab(self):
 		self.file_view = self.wtree.get_widget("file_view")
@@ -742,40 +749,22 @@ class DelugeGTK:
 			
 			for peer in new_peer_info:
 				if peer['ip'] in curr_ips.keys():
-
-		                        if peer["peer_has"] < 10:
-                		                peer_has = '00''%.2f%%'%peer["peer_has"]
-		                        elif peer["peer_has"] >= 10 and peer["peer_has"] < 100:
-                		                peer_has = '0''%.2f%%'%peer["peer_has"]			
-		                        elif peer["peer_has"] == 100:
-		                                peer_has = '%.2f%%'%peer["peer_has"]
-
 					self.peer_store.set(self.peer_store.get_iter_from_string(curr_ips[peer['ip']]),
 											1,	unicode(peer['client'], 'Latin-1'),
-											2,	peer_has,
+											2,	round(peer["peer_has"],2),
 											3,	common.frate(peer["download_speed"]),
 											4,	common.frate(peer["upload_speed"]))
-			for peer in new_peer_info:
-				if peer['ip'] not in curr_ips.keys() and peer['client'] is not "":
-                                        if peer["peer_has"] < 10:
-                                                peer_has = '00''%.2f%%'%peer["peer_has"]
-                                        elif peer["peer_has"] >= 10 and peer["peer_has"] < 100:
-                                                peer_has = '0''%.2f%%'%peer["peer_has"]
-                                        elif peer["peer_has"] == 100:
-                                                peer_has = '%.2f%%'%peer["peer_has"]
 
-					self.peer_store.append([peer["ip"], 
-											unicode(peer["client"], 'Latin-1'), 
-											peer_has, 
-											common.frate(peer["download_speed"]), 
-											common.frate(peer["upload_speed"])])
-			#print new_ips
-			#print curr_ips
-			#print new_peer_info
+				if peer['ip'] not in curr_ips.keys() and peer['client'] is not "":
+					self.peer_store.append([peer["ip"],	
+													unicode(peer["client"], 'Latin-1'), 
+													round(peer["peer_has"],2), 
+													common.frate(peer["download_speed"]), 
+													common.frate(peer["upload_speed"])])
+
 			del new_peer_info
 			del new_ips
 			del curr_ips
-			
 			
 								
 		elif tab == 2: #File List
