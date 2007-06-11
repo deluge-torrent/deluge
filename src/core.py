@@ -194,19 +194,17 @@ class Manager:
 		# Saved torrent core_states. We do not poll the core in a costly manner, necessarily
 		self.saved_core_torrent_file_infos = {} # unique_ID -> torrent_state
 		
+		# Keeps track of DHT running state
+		self.dht_running = False
 
 		# Load the preferences
 		self.config = pref.Preferences(os.path.join(self.base_dir, PREFS_FILENAME))
 
+		# Set the enable_dht PREF_FUNCTION
+		PREF_FUNCTIONS["enable_dht"] = self.set_DHT
+		
 		# Apply preferences. Note that this is before any torrents are added
 		self.apply_prefs()
-
-		# Apply DHT, if needed. Note that this is before any torrents are added
-		if self.get_pref('enable_dht'):
-			if not blank_slate:
-				deluge_core.start_DHT(os.path.join(self.base_dir, DHT_FILENAME))
-			else:
-				deluge_core.start_DHT("")
 
 		# Unpickle the state, or create a new one
 		if not blank_slate:
@@ -247,9 +245,7 @@ class Manager:
 		self.save_fastresume_data()
 
 		# Stop DHT, if needed
-		if self.get_pref('enable_dht'):
-			print "Stopping DHT..."
-			deluge_core.stop_DHT(os.path.join(self.base_dir, DHT_FILENAME))
+		self.set_DHT(False)
 
 		# Shutdown torrent core
 		print "Quitting the core..."
@@ -349,7 +345,7 @@ class Manager:
 		# Get additional data from our level
 		ret['is_listening'] = deluge_core.is_listening()
 		ret['port']         = deluge_core.listening_port()
-		if self.get_pref('enable_dht'):
+		if self.dht_running == True:
 			ret['DHT_nodes'] = deluge_core.get_DHT_info()
 
 		return ret
@@ -715,6 +711,16 @@ class Manager:
 		for pref in PREF_FUNCTIONS.keys():
 			if PREF_FUNCTIONS[pref] is not None:
 				PREF_FUNCTIONS[pref](self.get_pref(pref))
+
+	def set_DHT(self, start=False):
+		if start == True:
+			print "Starting DHT..."
+			deluge_core.start_DHT(os.path.join(self.base_dir, DHT_FILENAME))
+			self.dht_running = True
+		elif start == False and self.dht_running == True:
+			print "Stopping DHT..."
+			deluge_core.stop_DHT(os.path.join(self.base_dir, DHT_FILENAME))
+			self.dht_running = False
 
 	# Calculations
 

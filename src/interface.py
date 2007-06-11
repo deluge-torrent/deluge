@@ -525,7 +525,7 @@ class DelugeGTK:
 			else:
 				self.preferences_dialog.show()
 				self.apply_prefs()
-				self.config.save_to_file()
+				self.config.save()
 	
 	def show_plugin_dialog(self, arg=None):
 		self.plugin_dialog.show()
