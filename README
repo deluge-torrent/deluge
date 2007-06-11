@@ -55,5 +55,3 @@ Notes:
  things. The solution is to either add symlinks 
  from the short names to those with "-mt", or to 
  alter setup.py to look for the "-mt" versions.
- 
- #Why aren't hooks working?
