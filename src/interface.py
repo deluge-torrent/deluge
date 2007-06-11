@@ -403,6 +403,7 @@ class DelugeGTK:
 		except KeyError:
 			pass
 	
+
 	def build_summary_tab(self):
 		#Torrent Summary tab
 		# Look into glade's widget prefix function
@@ -447,29 +448,54 @@ class DelugeGTK:
 
 	def build_file_tab(self):
 		self.file_view = self.wtree.get_widget("file_view")
+		self.file_glade = gtk.glade.XML(common.get_glade_file("file_tab_menu.glade"), domain='deluge')
+		self.file_menu = self.file_glade.get_widget("file_tab_menu")		
+		self.file_glade.signal_autoconnect({ 	"select_all": self.file_select_all,
+							"unselect_all": self.file_unselect_all,
+							"check_selected": self.file_check_selected,
+							"uncheck_selected": self.file_uncheck_selected,
+							})
 		self.file_store = gtk.ListStore(bool, str, str, str, str)
 		self.file_view.set_model(self.file_store)
 		self.file_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
 		self.file_view.get_selection().set_select_function(self.file_clicked)
 		self.file_selected = []
+		self.file_view.connect("button-press-event", self.file_view_clicked)
 		
 		dgtk.add_toggle_column(self.file_view, _("Download"), 0, toggled_signal=self.file_toggled)
 		dgtk.add_text_column(self.file_view, _("Filename"), 1).set_expand(True)
 		dgtk.add_text_column(self.file_view, _("Size"), 2)
 		dgtk.add_text_column(self.file_view, _("Offset"), 3)
 		dgtk.add_text_column(self.file_view, _("Progress"), 4).set_visible(False)
+	
+	def file_select_all(self, widget):
+		self.file_view.get_selection().select_all()
+		
+	def file_unselect_all(self, widget):
+		self.file_view.get_selection().unselect_all()
+	
+	def file_check_selected(self, widget):
+		self.file_view.get_selection().selected_foreach(self.file_toggle_selected, True)
+	
+	def file_uncheck_selected(self, widget):
+		self.file_view.get_selection().selected_foreach(self.file_toggle_selected, False)
 		
 	def file_clicked(self, path):
-		if path in self.file_selected:
-			self.file_selected.remove(path)
-			return False
-		return True
+		return not self.file_selected
+		
+	def file_view_clicked(self, widget, event):
+		if event.button == 3:
+			self.file_menu.popup(None, None, None, event.button, event.time)
+			return True
+		else:
+			self.file_selected = False			
+ 			return False
 		
 	def file_toggle_selected(self, treemodel, path, selected_iter, value):
 		self.file_store.set_value(selected_iter, 0, value)
-		self.file_selected.append(path)
 	
 	def file_toggled(self, renderer, path):
+		self.file_selected = True
 		file_iter = self.file_store.get_iter_from_string(path)
 		value = not renderer.get_active()
 		selection = self.file_view.get_selection()
