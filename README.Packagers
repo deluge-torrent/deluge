@@ -1,0 +1,10 @@
+
+NOTE: Deluge 0.5.1 uses an unstable build of libtorrent.  This
+build differs from a clean libtorrent source checkout and has 
+been hacked in order to get it to work properly with Deluge.
+As a result, Deluge will likely not build properly against a
+vanilla libtorrent 0.12 installation or a nightly build of
+libtorrent 0.13.  It is recommended that you build against our
+included libtorrent.
+
+ - zachtib
