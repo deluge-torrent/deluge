@@ -450,7 +450,7 @@ class DelugeGTK:
 		dgtk.add_text_column(self.file_view, _("Filename"), 1).set_expand(True)
 		dgtk.add_text_column(self.file_view, _("Size"), 2)
 		dgtk.add_text_column(self.file_view, _("Offset"), 3)
-		dgtk.add_text_column(self.file_view, _("Progress"), 4)
+		dgtk.add_text_column(self.file_view, _("Progress"), 4).set_visible(False)
 		
 	def file_clicked(self, path):
 		if path in self.file_selected:
