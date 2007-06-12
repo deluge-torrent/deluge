@@ -56,7 +56,7 @@ def start_deluge():
 	print "Starting new Deluge session..."
 	interface = deluge.interface.DelugeGTK()
 	add_args(interface)
-	interface.start(hidden=options.tray)
+	interface.start()
 
 
 def add_args(interface):
