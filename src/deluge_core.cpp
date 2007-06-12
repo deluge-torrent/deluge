@@ -1191,43 +1191,33 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 }
 
 
-static PyObject *torrent_apply_IP_filter(PyObject *self, PyObject *args)
+static PyObject *torrent_reset_IP_filter(PyObject *self, PyObject *args)
 {
-    PyObject *ranges;
-    if (!PyArg_ParseTuple(args, "O", &ranges))
-        return NULL;
-
-    long num_ranges = PyList_Size(ranges);
-
-    //	printf("Number of ranges: %ld\r\n", num_ranges);
-    //	Py_INCREF(Py_None); return Py_None;
-
     // Remove existing filter, if there is one
     if (M_the_filter != NULL)
         delete M_the_filter;
 
     M_the_filter = new ip_filter();
 
-    address_v4 from, to;
-    PyObject *curr;
-
-    //	printf("Can I 10.10.10.10? %d\r\n", the_filter->access(address_v4::from_string("10.10.10.10")));
-
-    for (long i = 0; i < num_ranges; i++)
-    {
-        curr = PyList_GetItem(ranges, i);
-        //		PyObject_Print(curr, stdout, 0);
-        from = address_v4::from_string(PyString_AsString(PyList_GetItem(curr, 0)));
-        to   = address_v4::from_string(PyString_AsString(PyList_GetItem(curr, 1)));
-        //		printf("Filtering: %s - %s\r\n", from.to_string().c_str(), to.to_string().c_str());
-        M_the_filter->add_rule(from, to, ip_filter::blocked);
-    };
-
-    //	printf("Can I 10.10.10.10? %d\r\n", the_filter->access(address_v4::from_string("10.10.10.10")));
-
     M_ses->set_ip_filter(*M_the_filter);
 
-    //	printf("Can I 10.10.10.10? %d\r\n", the_filter->access(address_v4::from_string("10.10.10.10")));
+    Py_INCREF(Py_None); return Py_None;
+}
+
+
+static PyObject *torrent_add_range_to_IP_filter(PyObject *self, PyObject *args)
+    {
+    if (M_the_filter == NULL) {
+        RAISE_PTR(DelugeError, "No filter defined, use reset_IP_filter");
+    }
+
+    char *start, *end;
+    if (!PyArg_ParseTuple(args, "ss", &start, &end))
+        return NULL;
+
+    address_v4 inet_start = address_v4::from_string(start);
+    address_v4 inet_end = address_v4::from_string(end);
+    M_the_filter->add_rule(inet_start, inet_end, ip_filter::blocked);
 
     Py_INCREF(Py_None); return Py_None;
 }
@@ -1286,7 +1276,8 @@ static PyMethodDef deluge_core_methods[] =
     {"stop_DHT",            torrent_stop_DHT,           METH_VARARGS,   "."},
     {"get_DHT_info",        torrent_get_DHT_info,       METH_VARARGS,   "."},
     {"create_torrent",      torrent_create_torrent,         METH_VARARGS,   "."},
-    {"apply_IP_filter",     torrent_apply_IP_filter,        METH_VARARGS,   "."},
+    {"reset_IP_filter",     torrent_reset_IP_filter,        METH_VARARGS,   "."},
+    {"add_range_to_IP_filter", torrent_add_range_to_IP_filter,    METH_VARARGS,   "."},
     {NULL}
 };
 

@@ -7,12 +7,6 @@ class plugin_NetworkHealth:
 		self.counter = 30
 		self.maxCount = self.counter
 	
-	def config(self):
-		pass
-		
-	def unload(self):
-		pass
-		
 	def update(self):
 		session_info = self.core.get_state()
 		if not session_info['has_incoming_connections'] and \
@@ -28,12 +22,3 @@ class plugin_NetworkHealth:
 			self.counter = self.maxCount
 
 		self.parent.statusbar_temp_msg = self.parent.statusbar_temp_msg + '   ' + message
-
-### Register plugin with Deluge
-register_plugin("Network Health Monitor",		# The name of the plugin
-				plugin_NetworkHealth,			# The plugin's class
-				"Alon Zakai, Zach Tibbitts", # Authors
-				"0.2",				# The plugin's version number
-				"Network Health Monitor plugin\n\nWritten by Kripkenstein",	# A description of the plugin
-				config=False			# If the plugin can be configured\
-				)

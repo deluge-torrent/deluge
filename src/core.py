@@ -742,3 +742,11 @@ class Manager:
 
 	def pe_settings(self, out_enc_policy, in_enc_policy, allowed_enc_level, prefer_rc4):
 		return deluge_core.pe_settings(out_enc_policy, in_enc_policy, allowed_enc_level, prefer_rc4)
+
+	# Creates/resets the IP filter list
+	def reset_ip_filter(self):
+		return deluge_core.reset_IP_filter()
+
+	# Adds an IP range (as two dotted quad strings) to the filter 
+	def add_range_to_ip_filter(self, start, end):
+		return deluge_core.add_range_to_IP_filter(start, end)
