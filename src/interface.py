@@ -350,7 +350,14 @@ class DelugeGTK:
 		assert(len(all_files) == len(file_filter))
 		i=0
 		for f in all_files:
-                        self.file_store.append([not file_filter[i], f['path'], common.fsize(f['size']), f['offset']])
+                        if f['progress'] < 10:
+                                progress = '00''%.2f%%'%f['progress']
+                        elif f['progress'] >= 10 and f['progress'] < 100:
+                                progress = '0''%.2f%%'%f['progress']
+                        elif f['progress'] == 100:
+                                progress = '%.2f%%'%f['progress']
+                        self.file_store.append([not file_filter[i], f['path'], common.fsize(f['size']),
+                                        f['offset'], progress])
                         i=i+1
 		
 		return True
@@ -456,6 +463,7 @@ class DelugeGTK:
 		dgtk.add_text_column(self.file_view, _("Filename"), 1).set_expand(True)
 		dgtk.add_text_column(self.file_view, _("Size"), 2)
 		dgtk.add_text_column(self.file_view, _("Offset"), 3)
+		dgtk.add_text_column(self.file_view, _("Progress"), 4).set_visible(False) 
 	
 	def file_select_all(self, widget):
 		self.file_view.get_selection().select_all()
