@@ -1053,7 +1053,7 @@ class DelugeGTK:
 		self.config.set("show_ul", self.ul_column.get_visible())
 		self.config.set("show_eta", self.eta_column.get_visible())
 		self.config.set("show_share", self.share_column.get_visible())
-		self.config.set("window_pane_position", self.config.get("window_height") - self.vpane.get_position())
+		self.config.set("window_pane_position", self.config.get("window_height") - self.wtree.get_widget("vpaned1").get_position())
 	
 	def window_configure_event(self, widget, event):
 		if self.config.get("window_maximized") == False:
