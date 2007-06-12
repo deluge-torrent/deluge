@@ -154,11 +154,11 @@ class PluginDlg:
 			return True
 		name = model.get_value(model.get_iter(path), 0)
 		plugin = self.plugins.get_plugin(name)
-		author = plugin['author']
-		version = plugin['version']
-		config = plugin['config']
-		description = plugin['description']
+		author = plugin.plugin_author
+		version = plugin.plugin_version
+		description = plugin.plugin_description
 		if name in self.plugins.get_enabled_plugins():
+			config = self.plugins.configurable_plugin(name)
 			self.glade.get_widget("plugin_conf").set_sensitive(config)
 		else:
 			self.glade.get_widget("plugin_conf").set_sensitive(False)
@@ -174,8 +174,8 @@ class PluginDlg:
 		self.store.set_value(plugin_iter, 1, plugin_value)
 		if plugin_value:
 			self.plugins.enable_plugin(plugin_name)
-			self.glade.get_widget("plugin_conf").set_sensitive(
-				self.plugins.get_plugin(plugin_name)['config'])
+			config = self.plugins.configurable_plugin(plugin_name)
+			self.glade.get_widget("plugin_conf").set_sensitive(config)
 		else:
 			self.plugins.disable_plugin(plugin_name)
 			self.glade.get_widget("plugin_conf").set_sensitive(False)

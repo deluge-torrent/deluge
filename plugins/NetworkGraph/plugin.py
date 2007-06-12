@@ -50,9 +50,6 @@ class plugin_NetGraph:
 				self.parentNotebook.remove_page(page)
 				break
 
-	def configure(self):
-		pass
-
 	def update(self):
 		import gtk
 		session_info = self.core.get_state()
@@ -158,12 +155,3 @@ class plugin_NetGraph:
 			self.ctx.stroke()
 
 
-### Register plugin with Deluge
-
-register_plugin("Network Activity Graph",		# The name of the plugin
-				plugin_NetGraph,			# The plugin's class
-				"Alon Zakai, Zach Tibbitts", # Authors
-				"0.2",				# The plugin's version number
-				"Network Activity Graph plugin\n\nWritten by Kripkenstein",	# A description of the plugin
-				config=False,			# If the plugin can be configured
-				)

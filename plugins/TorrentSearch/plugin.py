@@ -151,11 +151,3 @@ class plugin_Search:
 		self.menu_button.set_label("Search " + engine_string)
 		self.se = engine_string
 	
-
-register_plugin("Torrent Search",
-				plugin_Search,
-				"Zach Tibbitts",
-				"0.5",
-				"A searchbar for torrent search engines",
-				config=True
-				)

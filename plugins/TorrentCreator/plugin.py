@@ -91,5 +91,3 @@ class plugin_tcreator:
 		ret = self.core.create_torrent(self.dest, src_dir, trackers, comments, size, author)
 		return ret
 
-register_plugin("Deluge Torrent Creator", plugin_tcreator, "regulate", "0.1", "A torrent creator plugin", config=False)
-

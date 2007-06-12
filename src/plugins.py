@@ -20,7 +20,7 @@
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
 
-import os
+import os, sys, imp
 
 class PluginManager:
 	def __init__(self, deluge_core, deluge_interface):
@@ -32,15 +32,26 @@ class PluginManager:
 	
 	def add_plugin_dir(self, directory):
 		self.plugin_dirs.append(directory)
+		sys.path.append(directory)
 		
+	# Scans all defined plugin dirs for Deluge plugins.  The resulting
+	# module object is store with the defined name.
 	def scan_for_plugins(self):
-		register_plugin = self.register_plugin
 		for folder in self.plugin_dirs:
-			plugin_folders = os.listdir(folder)
-			for plugin in plugin_folders:
-				if os.path.isfile(os.path.join(folder, plugin, "plugin.py")):
-					self.path = os.path.join(folder, plugin)
-					execfile(os.path.join(folder, plugin, "plugin.py"))
+			print "Scanning plugin dir",folder
+			for modname in os.listdir(folder):
+				path = folder+'/'+modname
+				if '__init__.py' in os.listdir(path):
+					# Import the found module. Note that the last
+					# parameter is important otherwise only the base
+					# modules (ie. 'plugins') is imported.  This appears
+					# to be by design.
+					print "Loading module",modname
+					mod = __import__(modname, globals(), locals(), [''])
+					if 'deluge_init' in dir(mod):
+						print "Initialising plugin",modname
+						mod.deluge_init(path)
+						self.available_plugins[mod.plugin_name] = mod
 	
 	def get_available_plugins(self):
 		return self.available_plugins.keys()
@@ -49,35 +60,38 @@ class PluginManager:
 		return self.available_plugins[name]
 	
 	def enable_plugin(self, name):
-		self.enabled_plugins[name] = self.available_plugins[name]['class'](
-					self.available_plugins[name]['path'], self.core, self.interface)
+		plugin =  self.available_plugins[name]
+		self.enabled_plugins[name] = plugin.enable(self.core, self.interface)
 
 	def get_enabled_plugins(self):
 		return self.enabled_plugins.keys()
 
 	def disable_plugin(self, name):
-		self.enabled_plugins[name].unload()
+		plugin = self.enabled_plugins[name]
+		if 'unload' in dir(plugin):
+			plugin.unload()
 		self.enabled_plugins.pop(name)
 		
+	def configurable_plugin(self, name):
+		if name in self.enabled_plugins:
+			return 'configure' in dir(self.enabled_plugins[name])
+		else:
+			return False
+
 	def configure_plugin(self, name):
 		self.enabled_plugins[name].configure()
 	
 	def update_active_plugins(self):
 		for name in self.enabled_plugins.keys():
-			self.enabled_plugins[name].update()
+			plugin = self.enabled_plugins[name]
+			if 'update' in dir(plugin):
+				plugin.update()
 	
 	def shutdown_all_plugins(self):
 		for name in self.enabled_plugins.keys():
-			self.enabled_plugins[name].unload()
+			self.disable_plugin(name)
 		self.enabled_plugins.clear()
 	
-	def register_plugin(self, name, plugin_class, author, version, description, config=False):
-		self.available_plugins[name] = {'class': plugin_class, 
-										'author': author,
-										'version': version, 
-										'description': description, 
-										'config': config, 
-										'path': self.path}
 
 ## Few lines of code to test functionality
 if __name__ == "__main__":
