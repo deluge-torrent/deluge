@@ -101,7 +101,7 @@ if ARCH == "x64":
 
 if not OS == "win":
 	if OS == "linux":
-		if os.WEXITSTATUS(os.system('grep -iq "Debian GNU/Linux 4.0\|Ubuntu 7.04\|Ubuntu 6.06\|Fedora Core release 6\|openSUSE 10.2\|Mandriva Linux release 2007.1" /etc/issue')) == 0:
+		if os.WEXITSTATUS(os.system('grep -iq "Debian GNU/Linux 4.0\|Ubuntu 7.04\|Ubuntu 6.06\|Fedora Core release 6\|openSUSE 10.2\|Mandriva Linux release 2007.1\|Fedora release 7" /etc/issue')) == 0:
 			boosttype = 'nomt'
 		else:
 			boosttype = 'mt'
