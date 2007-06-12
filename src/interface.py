@@ -352,8 +352,7 @@ class DelugeGTK:
 		assert(len(all_files) == len(file_filter))
 		i=0
 		for f in all_files:
-                        self.file_store.append([not file_filter[i], f['path'], common.fsize(f['size']),
-                                        f['offset'])
+                        self.file_store.append([not file_filter[i], f['path'], common.fsize(f['size']), f['offset']])
                         i=i+1
 		
 		return True
