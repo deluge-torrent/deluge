@@ -32,7 +32,6 @@
                 </child>
               </widget>
               <packing>
-                <property name="resize">False</property>
                 <property name="shrink">False</property>
               </packing>
             </child>

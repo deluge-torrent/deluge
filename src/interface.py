@@ -66,7 +66,7 @@ class DelugeGTK:
 		self.window.set_icon_from_file(common.get_pixmap("deluge32.png"))
 		self.notebook = self.wtree.get_widget("torrent_info")
 		self.statusbar = self.wtree.get_widget("statusbar")
-
+		
 		## Construct the Interface
 		try:
 			self.build_tray_icon()
@@ -1040,6 +1040,7 @@ class DelugeGTK:
 		self.wtree.get_widget("chk_upload").set_active(self.config.get("show_ul", bool, default=True))
 		self.wtree.get_widget("chk_eta").set_active(self.config.get("show_eta", bool, default=True))
 		self.wtree.get_widget("chk_ratio").set_active(self.config.get("show_share", bool, default=True))
+		self.wtree.get_widget("vpaned1").set_position(self.config.get("window_height") - self.config.get("window_pane_position"))
 	
 	def save_window_settings(self):
 		self.config.set("show_infopane", self.wtree.get_widget("chk_infopane").get_active())
@@ -1052,6 +1053,7 @@ class DelugeGTK:
 		self.config.set("show_ul", self.ul_column.get_visible())
 		self.config.set("show_eta", self.eta_column.get_visible())
 		self.config.set("show_share", self.share_column.get_visible())
+		self.config.set("window_pane_position", self.config.get("window_height") - self.vpane.get_position())
 	
 	def window_configure_event(self, widget, event):
 		if self.config.get("window_maximized") == False:

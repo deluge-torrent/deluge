@@ -27,23 +27,21 @@ import pickle
 import common
 
 DEFAULT_PREFS = {
-	"encin_state" : common.EncState.enabled,
-	"encout_state" : common.EncState.enabled,
-	"enclevel_type" : common.EncLevel.both,
-	"pref_rc4" : True,
 	"auto_end_seeding" : False,
 	"auto_seed_ratio" : -1,
 	"close_to_tray" : False,
-	"lock_tray" : False,
-	"tray_passwd" : "",
 	"default_download_path" : "",
 	"dht_connections" : 80,
 	"enable_dht" : True,
 	"enable_system_tray" : True,
 	"enabled_plugins" : "",
+	"encin_state" : common.EncState.enabled,
+	"encout_state" : common.EncState.enabled,
+	"enclevel_type" : common.EncLevel.both,
 	"end_seed_ratio" : 0.0,
 	"gui_update_interval" : 1.0,
 	"listen_on" : [6881,6889],
+	"lock_tray" : False,
 	"max_active_torrents" : -1,
 	"max_connections" : 80,
 	"max_download_rate" : -1.0,
@@ -53,7 +51,8 @@ DEFAULT_PREFS = {
 	"max_number_uploads" : -1.0,
 	"max_upload_rate" : -1.0,
 	"max_upload_rate_bps" : -1.0,
-	"max_uploads"         : 2,
+	"max_uploads" : 2,
+	"pref_rc4" : True,
 	"queue_seeds_to_bottom" : False,
 	"show_dl" : True,
 	"show_eta" : True,
@@ -65,13 +64,15 @@ DEFAULT_PREFS = {
 	"show_status" : True,
 	"show_toolbar" : True,
 	"show_ul" : True,
+	"tray_passwd" : "",
 	"use_compact_storage" : False,
 	"use_default_dir" : False,
 	"window_height" : 480,
+	"window_maximized" : False,
+	"window_pane_position" : -1,
 	"window_width" : 640,
 	"window_x_pos" : 0,
-	"window_y_pos" : 0,
-	"window_maximized" : False
+	"window_y_pos" : 0
 }
 class Preferences:
 	def __init__(self, filename=None, global_defaults=True, defaults=None):
