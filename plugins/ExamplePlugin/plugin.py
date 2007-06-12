@@ -1,7 +1,5 @@
 # An example plugin for use with Deluge
 
-import deluge.common, deluge.pref, gtk, gtk.glade
-
 # This plugin is intended to be used with Deluge's default GTK interface
 class plugin_Example: # The plugin's class
 	## Your plugin's contructor should follow this format
@@ -13,12 +11,14 @@ class plugin_Example: # The plugin's class
 		self.path = path
 		self.core = deluge_core
 		self.interface = deluge_interface
-
+		# Classes must be imported as they are needed from within
+		# the plugin's functions
+		import common, gtk, gtk.glade, dgtk, pref
 		# Create an options file and try to load existing Values
-		self.config_file = deluge.common.CONFIG_DIR + "/example.conf"
-		self.config = deluge.pref.Preferences()
+		self.config_file = common.CONFIG_DIR + "/example.conf"
+		self.config = pref.Preferences()
 		try:
-			self.config.load(self.config_file)
+			self.config.load_from_file(self.config_file)
 		except IOError:
 			# File does not exist
 			pass
@@ -41,7 +41,7 @@ class plugin_Example: # The plugin's class
 	## unload is called when the plugin is removed or Deluge is shut down
 	def unload(self):
 		self.toolbar.remove(self.button) # Remove the button from the toolbar
-		self.config.save(self.config_file)
+		self.config.save_to_file(self.config_file)
 	
 	## update will be called every UPDATE_INTERVAL (usually about 1 second)
 	def update(self):
@@ -71,6 +71,7 @@ class plugin_Example: # The plugin's class
 	## This will be called whenever self.button is clicked
 	def clicked(self, button):
 		# Build a dialog from scratch rather than from a glade file
+		import gtk
 		dialog = gtk.Dialog(title="Example Plugin", parent=self.interface.window,
 				buttons=(gtk.STOCK_OK, 0))
 		dialog.set_icon_from_file(self.path + "/example-plugin.png")
@@ -90,3 +91,11 @@ class plugin_Example: # The plugin's class
 		dialog.hide()
 		dialog.destroy()
 	
+
+register_plugin("Example Plugin",		# The name of the plugin
+				plugin_Example,			# The plugin's class
+				"Zach Tibbitts", 		# The author's Name
+				"0.5.0",				# The plugin's version number
+				"An example plugin",	# A description of the plugin
+				config=True,			# If the plugin can be configured
+				)
