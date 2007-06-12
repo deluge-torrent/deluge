@@ -15,6 +15,16 @@
 # 	The Free Software Foundation, Inc.,
 # 	51 Franklin Street, Fifth Floor
 # 	Boston, MA  02110-1301, USA.
+#
+#  In addition, as a special exception, the copyright holders give
+#  permission to link the code of portions of this program with the OpenSSL
+#  library.
+#  You must obey the GNU General Public License in all respects for all of
+#  the code used other than OpenSSL. If you modify file(s) with this
+#  exception, you may extend this exception to your version of the file(s),
+#  but you are not obligated to do so. If you do not wish to do so, delete
+#  this exception statement from your version. If you delete this exception
+#  statement from all source files in the program, then also delete it here.
 
 import os, platform
 print "Attempting to detect your system information"
@@ -62,7 +72,7 @@ python_version = platform.python_version()[0:3]
 
 NAME		= "deluge"
 FULLNAME	= "Deluge BitTorrent Client"
-VERSION		= "0.5.1"
+VERSION		= "0.5.1.1"
 AUTHOR		= "Zach Tibbitts, Alon Zakai, Marcos Pinto"
 EMAIL		= "zach@collegegeek.org, kripkensteiner@gmail.com, marcospinto@dipconsultants.com"
 DESCRIPTION	= "A bittorrent client written in PyGTK"
@@ -91,8 +101,11 @@ if ARCH == "x64":
 
 if not OS == "win":
 	if OS == "linux":
-		if os.WEXITSTATUS(os.system('grep -iq "Debian GNU/Linux 4.0\|Ubuntu 7.04\|Ubuntu 6.06\|Fedora Core release 6\|openSUSE 10.2\|Mandriva Linux release 2007.1" /etc/issue')) == 0:
-			boosttype = 'nomt'
+		if os.WEXITSTATUS(os.system('grep -iq "Debian GNU/Linux 4.0\|Ubuntu 7.04\|Ubuntu 6.06\|Fedora Core release 6\|openSUSE 10.2\|Mandriva Linux release 2007.1" /etc/issue')) == 0
+			if os.path.exists('/usr/lib/libboost_filesystem-mt.so'):
+				boosttype = 'mt'
+			else:
+				boosttype = 'nomt'
 		else:
 			boosttype = 'mt'
 	elif OS == "freebsd":
