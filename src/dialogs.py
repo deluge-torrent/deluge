@@ -43,6 +43,7 @@ class PreferencesDlg:
 										'tray_toggle': self.tray_toggle,
 										'on_btn_testport_clicked': self.TestPort,
 									  })
+		self.dialog.connect("configure-event", self.window_configure_event)
 		self.parent = parent
 		self.preferences = preferences
 		
@@ -76,6 +77,12 @@ class PreferencesDlg:
 			self.glade.get_widget("chk_dht").set_active(self.preferences.get("enable_dht", bool, default=True))
 			self.glade.get_widget("spin_dht").set_value(self.preferences.get("dht_connections", int, default=80))
 			self.glade.get_widget("spin_gui").set_value(self.preferences.get("gui_update_interval", float, default=1.0))
+			
+			# Load geometry settings for window
+			self.dialog.resize(self.preferences.get("pref_window_width"), self.preferences.get("pref_window_height"))
+			if self.preferences.get("pref_window_x_pos") > 0 or self.preferences.get("pref_window_y_pos") > 0:
+				self.dialog.move(self.preferences.get("pref_window_x_pos"), self.preferences.get("pref_window_y_pos"))
+			
 		except KeyError:
 			pass
 		# Now, show the dialog
@@ -118,7 +125,12 @@ class PreferencesDlg:
 			self.glade.get_widget("chk_min_on_close").set_sensitive(True)
 		else:
 			self.glade.get_widget("chk_min_on_close").set_sensitive(False)
-
+	
+	def window_configure_event(self, widget, event):
+		self.preferences.set("pref_window_x_pos", event.x)
+		self.preferences.set("pref_window_y_pos", event.y)
+		self.preferences.set("pref_window_width", event.width)
+		self.preferences.set("pref_window_height", event.height)
 		
 
 

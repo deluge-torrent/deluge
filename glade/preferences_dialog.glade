@@ -7,7 +7,6 @@
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Deluge Preferences</property>
     <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
-    <property name="default_height">550</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="skip_pager_hint">True</property>
@@ -54,6 +53,7 @@
                                         <property name="visible">True</property>
                                         <property name="label" translatable="yes">Ask where to save each download</property>
                                         <property name="use_underline">True</property>
+                                        <property name="response_id">0</property>
                                         <property name="draw_indicator">True</property>
                                       </widget>
                                     </child>
@@ -66,6 +66,7 @@
                                             <property name="visible">True</property>
                                             <property name="label" translatable="yes">Save all downloads to:</property>
                                             <property name="use_underline">True</property>
+                                            <property name="response_id">0</property>
                                             <property name="draw_indicator">True</property>
                                             <property name="group">radio_ask_save</property>
                                           </widget>
@@ -188,6 +189,7 @@
                                     <property name="tooltip" translatable="yes">Compact allocation will only allocate as much storage as it needs to keep the pieces downloaded so far.</property>
                                     <property name="label" translatable="yes">Use compact storage allocation</property>
                                     <property name="use_underline">True</property>
+                                    <property name="response_id">0</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                 </child>
@@ -230,6 +232,7 @@
                                         <property name="can_focus">True</property>
                                         <property name="label" translatable="yes">Queue torrents to bottom when they begin seeding</property>
                                         <property name="use_underline">True</property>
+                                        <property name="response_id">0</property>
                                         <property name="draw_indicator">True</property>
                                       </widget>
                                     </child>
@@ -242,6 +245,7 @@
                                             <property name="visible">True</property>
                                             <property name="label" translatable="yes">Stop seeding torrents when their share ratio reaches:</property>
                                             <property name="use_underline">True</property>
+                                            <property name="response_id">0</property>
                                             <property name="draw_indicator">True</property>
                                           </widget>
                                           <packing>
@@ -618,6 +622,7 @@
                                             <property name="receives_default">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                             <property name="label" translatable="yes">Test Active Port</property>
+                                            <property name="response_id">0</property>
                                             <signal name="clicked" handler="on_btn_testport_clicked"/>
                                           </widget>
                                           <packing>
@@ -673,6 +678,7 @@
                                         <property name="tooltip" translatable="yes">Distributed hash table may improve the amount of active connections.</property>
                                         <property name="label" translatable="yes">Enable Mainline DHT</property>
                                         <property name="use_underline">True</property>
+                                        <property name="response_id">0</property>
                                         <property name="draw_indicator">True</property>
                                       </widget>
                                     </child>
@@ -751,6 +757,7 @@
                                             <property name="sensitive">False</property>
                                             <property name="label" translatable="yes">UPnP</property>
                                             <property name="use_underline">True</property>
+                                            <property name="response_id">0</property>
                                             <property name="active">True</property>
                                             <property name="draw_indicator">True</property>
                                           </widget>
@@ -764,6 +771,7 @@
                                             <property name="sensitive">False</property>
                                             <property name="label" translatable="yes">NAT-PMP</property>
                                             <property name="use_underline">True</property>
+                                            <property name="response_id">0</property>
                                             <property name="active">True</property>
                                             <property name="draw_indicator">True</property>
                                           </widget>
@@ -778,6 +786,7 @@
                                             <property name="sensitive">False</property>
                                             <property name="label" translatable="yes">UT PeX</property>
                                             <property name="use_underline">True</property>
+                                            <property name="response_id">0</property>
                                             <property name="active">True</property>
                                             <property name="draw_indicator">True</property>
                                           </widget>
@@ -885,6 +894,7 @@ Forced</property>
                                             <property name="can_focus">True</property>
                                             <property name="label" translatable="yes">Prefer to encrypt the entire stream</property>
                                             <property name="use_underline">True</property>
+                                            <property name="response_id">0</property>
                                             <property name="draw_indicator">True</property>
                                           </widget>
                                           <packing>
@@ -999,6 +1009,7 @@ Full Stream</property>
                                         <property name="visible">True</property>
                                         <property name="label" translatable="yes">Enable system tray icon</property>
                                         <property name="use_underline">True</property>
+                                        <property name="response_id">0</property>
                                         <property name="active">True</property>
                                         <property name="draw_indicator">True</property>
                                       </widget>
@@ -1012,6 +1023,7 @@ Full Stream</property>
                                             <property name="visible">True</property>
                                             <property name="label" translatable="yes">Minimize to tray on close</property>
                                             <property name="use_underline">True</property>
+                                            <property name="response_id">0</property>
                                             <property name="draw_indicator">True</property>
                                           </widget>
                                         </child>
@@ -1033,6 +1045,7 @@ Full Stream</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="label" translatable="yes">Password protect system tray</property>
                                                 <property name="use_underline">True</property>
+                                                <property name="response_id">0</property>
                                                 <property name="draw_indicator">True</property>
                                               </widget>
                                             </child>
@@ -1061,7 +1074,6 @@ Full Stream</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                     <property name="visibility">False</property>
-                                                    <property name="invisible_char">*</property>
                                                     <property name="width_chars">16</property>
                                                   </widget>
                                                   <packing>
@@ -1200,6 +1212,7 @@ Full Stream</property>
                 <property name="visible">True</property>
                 <property name="label">gtk-cancel</property>
                 <property name="use_stock">True</property>
+                <property name="response_id">0</property>
               </widget>
             </child>
             <child>
