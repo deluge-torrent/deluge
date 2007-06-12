@@ -60,14 +60,13 @@ class DelugeGTK:
 		self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL,[('text/uri-list', 0, 80)], gtk.gdk.ACTION_COPY) 
 		self.window.connect("delete_event", self.close)
 		self.window.connect("drag_data_received", self.on_drag_data)
+		self.window.connect("window-state-event", self.window_state_event)
+		self.window.connect("configure-event", self.window_configure_event)
 		self.window.set_title(common.PROGRAM_NAME)
 		self.window.set_icon_from_file(common.get_pixmap("deluge32.png"))
 		self.notebook = self.wtree.get_widget("torrent_info")
 		self.statusbar = self.wtree.get_widget("statusbar")
-		
 
-		
-		
 		## Construct the Interface
 		try:
 			self.build_tray_icon()
@@ -212,7 +211,6 @@ class DelugeGTK:
 			                self.apply_prefs()
 			                self.config.save_to_file()
 				elif comingnext == "quitus":
-		                        self.save_window_geometry()
                 		        self.window.hide()
 		                        self.shutdown()
 
@@ -579,8 +577,9 @@ class DelugeGTK:
 	
 
 	## Start the timer that updates the interface
-	def start(self, hidden=False):
-		if not hidden:
+	def start(self):
+		if not (self.window.flags() & gtk.VISIBLE):
+			print "Showing window"
 			self.window.show()
 		# go through torrent files to add
 		#dummy preferences values:
@@ -1046,42 +1045,46 @@ class DelugeGTK:
 		self.config.set("show_eta", self.eta_column.get_visible())
 		self.config.set("show_share", self.share_column.get_visible())
 	
-	def save_window_geometry(self):
-		x, y = self.window.get_position()
-		w, h = self.window.get_size()
-		self.config.set('window_x_pos', x)
-		self.config.set('window_y_pos', y)
-		self.config.set('window_width', w)
-		self.config.set('window_height',h)
-		
+	def window_configure_event(self, widget, event):
+		if self.config.get("window_maximized") == False:
+			self.config.set("window_x_pos", event.x)
+			self.config.set("window_y_pos", event.y)
+			self.config.set("window_width", event.width)
+			self.config.set("window_height", event.height)
+
+	def window_state_event(self, widget, event):
+		if event.changed_mask & gtk.gdk.WINDOW_STATE_MAXIMIZED:
+			if event.new_window_state & gtk.gdk.WINDOW_STATE_MAXIMIZED:
+				self.config.set("window_maximized", True)
+			else:
+				self.config.set("window_maximized", False)
+		return False
+
 	def load_window_geometry(self):
-		x = self.config.get('window_x_pos', int, default=0)
-		y = self.config.get('window_y_pos', int, default=0)
-		w = self.config.get('window_width', int, default=640)
-		h = self.config.get('window_height',int, default=480)
+		x = self.config.get('window_x_pos')
+		y = self.config.get('window_y_pos')
+		w = self.config.get('window_width')
+		h = self.config.get('window_height')
 		self.window.move(x, y)
 		self.window.resize(w, h)
-		
+		if self.config.get("window_maximized") == True:
+			self.window.maximize()
 
 	def close(self, widget, event):
 		if self.config.get("close_to_tray", bool, default=False) and self.config.get("enable_system_tray", bool, default=True) and self.has_tray:
-			self.save_window_geometry()
 			self.window.hide()
 			return True
 		else:
 			self.quit()
 		
 	def quit(self, widget=None):
-                if self.window.get_property("visible"):
-                	self.save_window_geometry()
-        	        self.window.hide()
-	                self.shutdown()
-
-                else:
-                        if self.config.get("lock_tray", bool, default=False) == True:
-                                self.unlock_tray("quitus")
-                        else:
-				self.save_window_geometry()
+		if self.window.get_property("visible"):
+			self.window.hide()
+			self.shutdown()
+		else:
+			if self.config.get("lock_tray", bool, default=False) == True:
+				self.unlock_tray("quitus")
+			else:
 				self.window.hide()
 				self.shutdown()
 	

@@ -71,6 +71,7 @@ DEFAULT_PREFS = {
 	"window_width" : 640,
 	"window_x_pos" : 0,
 	"window_y_pos" : 0,
+	"window_maximized" : False
 }
 class Preferences:
 	def __init__(self, filename=None, global_defaults=True, defaults=None):
