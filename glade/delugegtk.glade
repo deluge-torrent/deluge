@@ -1000,7 +1000,6 @@
         <child>
           <widget class="GtkToolbar" id="tb_right">
             <property name="visible">True</property>
-            <property name="toolbar_style">GTK_TOOLBAR_BOTH_HORIZ</property>
             <property name="show_arrow">False</property>
           </widget>
           <packing>
@@ -1015,20 +1014,19 @@
         <child>
           <widget class="GtkToolbar" id="tb_middle">
             <property name="visible">True</property>
-            <property name="toolbar_style">GTK_TOOLBAR_BOTH_HORIZ</property>
           </widget>
           <packing>
             <property name="left_attach">1</property>
             <property name="right_attach">2</property>
             <property name="top_attach">1</property>
             <property name="bottom_attach">2</property>
+            <property name="x_options">GTK_FILL</property>
             <property name="y_options">GTK_FILL</property>
           </packing>
         </child>
         <child>
           <widget class="GtkToolbar" id="tb_left">
             <property name="visible">True</property>
-            <property name="toolbar_style">GTK_TOOLBAR_BOTH</property>
             <property name="show_arrow">False</property>
             <child>
               <widget class="GtkToolButton" id="toolbutton_add">
