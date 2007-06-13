@@ -599,8 +599,14 @@ namespace libtorrent { namespace detail
 		for (session_impl::connection_map::iterator i
 			= m_connections.begin(); i != m_connections.end();)
 		{
-			tcp::endpoint sender = i->first->remote_endpoint();
-			if (m_ip_filter.access(sender.address()) & ip_filter::blocked)
+			tcp::endpoint sender;
+			try {
+				sender = i->first->remote_endpoint();
+			} catch (asio::system_error& e) {
+				i++;
+				continue;
+			}
+ 			if (m_ip_filter.access(sender.address()) & ip_filter::blocked)
 			{
 #if defined(TORRENT_VERBOSE_LOGGING)
 				(*i->second->m_logger) << "*** CONNECTION FILTERED\n";
