@@ -796,10 +796,11 @@ class DelugeGTK:
 
                         new_file_info = self.manager.get_torrent_file_info(unique_id)
 
-			iter = self.file_store.get_iter_root()
+			iter = self.file_store.get_iter_first()
 			for file in new_file_info:
-				self.file_store.set_value(iter, 4, round(file['progress'],2))
-	                        iter = self.file_store.iter_next(iter)
+				if iter != None:
+					self.file_store.set_value(iter, 4, round(file['progress'],2))
+		                        iter = self.file_store.iter_next(iter)
 
 	                return True
 
