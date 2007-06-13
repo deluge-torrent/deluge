@@ -38,7 +38,7 @@ import common
 
 DEFAULT_PREFS = {
 	"auto_end_seeding" : False,
-	"auto_seed_ratio" : -1,
+	"auto_seed_ratio" : 0,
 	"close_to_tray" : False,
 	"default_download_path" : "",
 	"dht_connections" : 80,
