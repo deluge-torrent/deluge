@@ -941,6 +941,7 @@ class DelugeGTK:
 		warning   =  glade.get_widget("warning")
 		warning.set_text(" ")
 
+		torrent_also = glade.get_widget("torrent_also")
 		data_also  =  glade.get_widget("data_also")
 		data_also.connect("toggled", self.remove_toggle_warning, warning)
 
@@ -956,7 +957,7 @@ class DelugeGTK:
 						else:
 							self.torrent_selected = None
 
-					self.manager.remove_torrent(torrent, data_also.get_active())
+					self.manager.remove_torrent(torrent, data_also.get_active(), torrent_also.get_active())
 					self.clear_details_pane()
 	
 	def clear_details_pane(self):

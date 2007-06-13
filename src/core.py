@@ -295,13 +295,17 @@ class Manager:
 		self.add_torrent_ns(filename, save_dir, compact)
 		return self.sync() # Syncing will create a new torrent in the core, and return it's ID
 
-	def remove_torrent(self, unique_ID, data_also):
+	def remove_torrent(self, unique_ID, data_also, torrent_also):
 		temp = self.unique_IDs[unique_ID]
 		temp_fileinfo = deluge_core.get_file_info(unique_ID)
 
 		self.remove_torrent_ns(unique_ID)
 		self.sync()
 
+		# Remove .torrent file if asked to do so
+		if torrent_also:
+			os.remove(temp.filename)
+			
 		# Remove data, if asked to do so
 		if data_also:
 			# Must be done AFTER the torrent is removed
@@ -676,8 +680,7 @@ class Manager:
 		for unique_ID in to_delete:
 			self.state.torrents.remove(self.unique_IDs[unique_ID])
 			self.state.queue.remove(unique_ID)
-			# Remove .torrent and  .fastresume
-			os.remove(self.unique_IDs[unique_ID].filename)
+			# Remove .fastresume
 			try:
 				# Must be after removal of the torrent, because that saves a new .fastresume
 				os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
