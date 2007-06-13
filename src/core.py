@@ -420,7 +420,7 @@ class Manager:
 	# ___ALL queuing code should be in this function, and ONLY here___
 	def apply_queue(self, efficient = True):
 		# Handle autoseeding - downqueue as needed
-		if self.get_pref('auto_seed_ratio') >= 0:
+		if self.get_pref('auto_seed_ratio') > 0:
 			for unique_ID in self.unique_IDs:
 				if self.get_core_torrent_state(unique_ID, efficient)['is_seed']:
 					torrent_state = self.get_core_torrent_state(unique_ID, efficient)
