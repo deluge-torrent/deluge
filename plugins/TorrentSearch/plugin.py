@@ -3,22 +3,22 @@
 class plugin_Search:
 	def __init__(self, path, deluge_core, deluge_interface):
 		import gtk, gtk.glade, os
-		from deluge import common, dgtk, pref
+		import deluge.common, deluge.dgtk, deluge.pref
 		self.core = deluge_core
 		self.interface = deluge_interface
-		self.conf_file = common.CONFIG_DIR + "/search.conf"
+		self.conf_file = deluge.common.CONFIG_DIR + "/search.conf"
 		if not os.path.isfile(self.conf_file):
 			f = open(self.conf_file, mode='w')
 			f.flush()
 			f.close()
 		glade = gtk.glade.XML(path + "/searchdlg.glade")
 		self.dlg = glade.get_widget("search_dialog")
-		self.dlg.set_icon_from_file(common.get_pixmap("deluge32.png"))
+		self.dlg.set_icon_from_file(deluge.common.get_pixmap("deluge32.png"))
 		self.view = glade.get_widget("search_view")
 		model = gtk.ListStore(str, str)
 		self.view.set_model(model)
-		dgtk.add_text_column(self.view, "Name", 0)
-		dgtk.add_text_column(self.view, "Search String", 1)
+		deluge.dgtk.add_text_column(self.view, "Name", 0)
+		deluge.dgtk.add_text_column(self.view, "Search String", 1)
 		self.field_name = glade.get_widget("field_name")		
 		self.field_search = glade.get_widget("field_search")
 		self.button_add = glade.get_widget("button_addsearch")
@@ -33,7 +33,7 @@ class plugin_Search:
 		### when adding items to the toolbar
 		self.se = ''
 		self.toolbar = self.interface.wtree.get_widget("tb_right") 
-		self.engines = pref.Preferences(self.conf_file, False)
+		self.engines = deluge.pref.Preferences(self.conf_file, False)
 		self.search_entry = gtk.Entry()
 		self.search_item = gtk.ToolItem()
 		self.search_item.add(self.search_entry)
