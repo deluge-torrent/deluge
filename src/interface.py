@@ -799,8 +799,9 @@ class DelugeGTK:
 			iter = self.file_store.get_iter_first()
 			for file in new_file_info:
 				if iter != None:
-					self.file_store.set_value(iter, 4, round(file['progress'],2))
-		                        iter = self.file_store.iter_next(iter)
+					if round(self.file_store.get_value(iter, 4),2) != round(file['progress'],2):
+						self.file_store.set_value(iter, 4, round(file['progress'],2))
+			                        iter = self.file_store.iter_next(iter)
 
 	                return True
 
