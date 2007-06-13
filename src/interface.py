@@ -360,8 +360,14 @@ class DelugeGTK:
 		assert(len(all_files) == len(file_filter))
 		i=0
 		for f in all_files:
+                        if f['progress'] < 10:
+                                progress = '00''%.2f%%'%f['progress']
+                        elif f['progress'] >= 10 and f['progress'] < 100:
+                                progress = '0''%.2f%%'%f['progress']
+                        elif f['progress'] == 100:
+                                progress = '%.2f%%'%f['progress']
                         self.file_store.append([not file_filter[i], f['path'], common.fsize(f['size']),
-                                        f['offset'], round(f['progress'],2)])
+                                        f['offset'], progress])
                         i=i+1
 		
 		return True
@@ -429,15 +435,16 @@ class DelugeGTK:
 		self.text_summary_eta			  = self.wtree.get_widget("summary_eta")
 
 
+
 	def build_peer_tab(self):
 
-		self.peer_view = self.wtree.get_widget("peer_view")
-		self.peer_store = gtk.ListStore(str, str, float, str, str)
 		def percent(column, cell, model, iter, data):
 			percent = float(model.get_value(iter, data))
 			percent_str = "%.2f%%"%percent
 			cell.set_property("text", percent_str)
 
+		self.peer_view = self.wtree.get_widget("peer_view")
+		self.peer_store = gtk.ListStore(str, str, float, str, str)
 		self.peer_view.set_model(self.peer_store)
 		
 		self.peer_ip_column		=	dgtk.add_text_column(self.peer_view, _("IP Address"), 0)
@@ -447,12 +454,6 @@ class DelugeGTK:
 		self.peer_upload_column		=	dgtk.add_text_column(self.peer_view, _("Upload Rate"), 4)
 
 	def build_file_tab(self):
-		def percent(column, cell, model, iter, data):
-			percent = float(model.get_value(iter, data))
-			percent_str = "%.2f%%"%percent
-			cell.set_property("text", percent_str)
-
-
 		self.file_view = self.wtree.get_widget("file_view")
 		self.file_glade = gtk.glade.XML(common.get_glade_file("file_tab_menu.glade"), domain='deluge')
 		self.file_menu = self.file_glade.get_widget("file_tab_menu")		
@@ -461,7 +462,7 @@ class DelugeGTK:
 							"check_selected": self.file_check_selected,
 							"uncheck_selected": self.file_uncheck_selected,
 							})
-		self.file_store = gtk.ListStore(bool, str, str, str, float)
+		self.file_store = gtk.ListStore(bool, str, str, str, str)
 		self.file_view.set_model(self.file_store)
 		self.file_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
 		self.file_view.get_selection().set_select_function(self.file_clicked)
@@ -472,7 +473,7 @@ class DelugeGTK:
 		dgtk.add_text_column(self.file_view, _("Filename"), 1).set_expand(True)
 		dgtk.add_text_column(self.file_view, _("Size"), 2)
 		dgtk.add_text_column(self.file_view, _("Offset"), 3)
-		dgtk.add_func_column(self.file_view, _("Progress"), percent, 4) 
+		dgtk.add_text_column(self.file_view, _("Progress"), 4).set_visible(False) 
 	
 	def file_select_all(self, widget):
 		self.file_view.get_selection().select_all()
@@ -790,26 +791,8 @@ class DelugeGTK:
 			del curr_ips
 			
 								
-		elif tab == 2: #file tab
-
-                        unique_id = self.get_selected_torrent()
-
-                        new_file_info = self.manager.get_torrent_file_info(unique_id)
-
-                        new_files = {}
-
-                        for index in range(len(new_file_info)):
-                                if not new_file_info[index]['path'] == "":
-                                        assert(new_file_info[index]['path'] not in new_files.keys())
-                                        new_files[new_file_info[index]['path']] = index
-
-			iter = self.file_store.get_iter_root()
-			for file in new_file_info:
-				self.file_store.set_value(iter, 4, round(new_file_info[index]['progress'],2))
-	                        iter = self.file_store.iter_next(iter)
-
-	                return True
-
+		elif tab == 2: #File List
+			pass
 		else:
 			pass
 
