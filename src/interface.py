@@ -516,6 +516,15 @@ class DelugeGTK:
 			itr = self.file_store.iter_next(itr)
 		self.manager.set_file_filter(self.get_selected_torrent(), file_filter)
 		
+	def file_get_iter_from_name(self, name):
+		iter = self.file_store.get_iter_first()
+		while iter:
+			if self.file_store.get_value(iter, 1) == name:
+				return iter
+			iter = self.file_store.iter_next(iter)
+			
+		return None
+		
 	def show_about_dialog(self, arg=None):
 		dialogs.show_about_dialog()
 	
@@ -796,19 +805,17 @@ class DelugeGTK:
 
                         new_file_info = self.manager.get_torrent_file_info(unique_id)
 
-			iter = self.file_store.get_iter_first()
 			for file in new_file_info:
-				if iter != None:
-					if round(self.file_store.get_value(iter, 4),2) != round(file['progress'],2):
-						self.file_store.set_value(iter, 4, round(file['progress'],2))
-			                        iter = self.file_store.iter_next(iter)
+				iter = self.file_get_iter_from_name(file['path'])
+				if (iter != None) and (round(self.file_store.get_value(iter, 4),2) != round(file['progress'],2)):
+					self.file_store.set_value(iter, 4, round(file['progress'],2))
 
 	                return True
 
 		else:
 			pass
 
-		return True
+		return True		
 	
 	def calc_share_ratio(self, unique_id, torrent_state):
 		r = float(self.manager.calc_ratio(unique_id, torrent_state))
