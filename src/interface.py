@@ -796,13 +796,6 @@ class DelugeGTK:
 
                         new_file_info = self.manager.get_torrent_file_info(unique_id)
 
-                        new_files = {}
-
-                        for index in range(len(new_file_info)):
-                                if not new_file_info[index]['path'] == "":
-                                        assert(new_file_info[index]['path'] not in new_files.keys())
-                                        new_files[new_file_info[index]['path']] = index
-
 			iter = self.file_store.get_iter_root()
 			for file in new_file_info:
 				self.file_store.set_value(iter, 4, round(file['progress'],2))
