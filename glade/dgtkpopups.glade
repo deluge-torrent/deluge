@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.1.5 on Thu Feb 22 19:15:41 2007 by zach@notapowerbook-->
+<!--Generated with glade3 3.2.2 on Wed Jun 13 13:49:33 2007 by andrew@fractal-->
 <glade-interface>
   <widget class="GtkMenu" id="torrent_popup">
     <property name="visible">True</property>
@@ -90,41 +90,102 @@
         <child>
           <widget class="GtkVBox" id="vbox1">
             <property name="visible">True</property>
+            <property name="spacing">10</property>
             <child>
-              <widget class="GtkLabel" id="label1">
+              <widget class="GtkHBox" id="hbox1">
                 <property name="visible">True</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">&lt;b&gt;Are you sure you want to remove the selected torrent(s) from Deluge?&lt;/b&gt;</property>
-                <property name="use_markup">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="spacing">3</property>
+                <child>
+                  <widget class="GtkImage" id="image1">
+                    <property name="visible">True</property>
+                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                    <property name="stock">gtk-dialog-warning</property>
+                    <property name="icon_size">6</property>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="padding">5</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkLabel" id="label1">
+                    <property name="visible">True</property>
+                    <property name="xalign">0</property>
+                    <property name="label" translatable="yes">&lt;span size="large"&gt;&lt;b&gt;Are you sure you want to remove the selected torrent(s) from Deluge?&lt;/b&gt;&lt;/span&gt;</property>
+                    <property name="use_markup">True</property>
+                    <property name="wrap">True</property>
+                  </widget>
+                  <packing>
+                    <property name="padding">10</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
               </widget>
               <packing>
-                <property name="padding">10</property>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="padding">5</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkCheckButton" id="data_also">
+              <widget class="GtkAlignment" id="alignment1">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Delete downloaded files</property>
-                <property name="draw_indicator">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="left_padding">20</property>
+                <child>
+                  <widget class="GtkCheckButton" id="data_also">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Delete downloaded files</property>
+                    <property name="response_id">0</property>
+                    <property name="draw_indicator">True</property>
+                  </widget>
+                </child>
               </widget>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkAlignment" id="alignment2">
+                <property name="visible">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="bottom_padding">5</property>
+                <property name="left_padding">20</property>
+                <child>
+                  <widget class="GtkCheckButton" id="torrent_also">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                    <property name="label" translatable="yes">Delete .torrent file</property>
+                    <property name="response_id">0</property>
+                    <property name="draw_indicator">True</property>
+                  </widget>
+                </child>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child>
               <widget class="GtkLabel" id="warning">
                 <property name="visible">True</property>
-                <property name="use_markup">True</property>
-                <property name="justify">GTK_JUSTIFY_CENTER</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
               </widget>
               <packing>
-                <property name="position">2</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </widget>
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
+            <property name="padding">5</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -137,6 +198,7 @@
                 <property name="visible">True</property>
                 <property name="label">gtk-no</property>
                 <property name="use_stock">True</property>
+                <property name="response_id">0</property>
               </widget>
             </child>
             <child>
