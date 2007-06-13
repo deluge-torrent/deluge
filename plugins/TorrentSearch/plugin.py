@@ -2,7 +2,8 @@
 
 class plugin_Search:
 	def __init__(self, path, deluge_core, deluge_interface):
-		import common, gtk, gtk.glade, dgtk, pref
+		import gtk, gtk.glade, os
+		from deluge import common, dgtk, pref
 		self.core = deluge_core
 		self.interface = deluge_interface
 		self.conf_file = common.CONFIG_DIR + "/search.conf"
@@ -86,7 +87,8 @@ class plugin_Search:
 		return True
 	
 	def configure(self, widget=None):
-		import common, gtk, gtk.glade
+		import gtk, gtk.glade
+		from deluge import common
 		self.dlg.show_all()
 		model = self.view.get_model()
 		model.clear()
@@ -111,7 +113,7 @@ class plugin_Search:
 		pass
 		
 	def torrent_search(self, widget=None):
-		import common
+		from deluge import common
 		print "Searching with engine", self.se
 		url = self.engines.get(self.se)
 		entry = self.search_entry.get_text()
