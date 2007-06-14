@@ -319,12 +319,11 @@ class Manager:
 						shutil.rmtree(os.path.dirname(os.path.join(temp.save_dir, filename)))
 					except OSError: # Perhaps it wasn't downloaded
 						pass
-				else:
-					# This is just a file
-					try:
-						os.remove(os.path.join(temp.save_dir, filename))
-					except OSError:
-						pass # No file just means it wasn't downloaded, we can continue
+				# Perhaps this is just a file, try to remove it
+				try:
+					os.remove(os.path.join(temp.save_dir, filename))
+				except OSError:
+					pass # No file just means it wasn't downloaded, we can continue
 
 ### UNNEEDED, fixed already above
 #			# Clean up empty dir
