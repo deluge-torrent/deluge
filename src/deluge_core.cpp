@@ -633,10 +633,9 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
 			if (!(peers[i].flags&(peer_info::handshake|peer_info::connecting|peer_info::queued|peer_info::seed)))
 				connected_peers++;
 				
-			if ((peers[i].flags&(peer_info::seed)))
-				total_seeds++;
-			else
-				total_peers++;
+			total_seeds = s.num_complete != -1? s.num_complete : 0;
+			
+			total_peers = s.num_incomplete != -1? s.num_incomplete : 0;
 		}
 
     return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:f,s:L,s:L,s:b,s:s,s:s,s:f,s:L,s:L,s:l,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
@@ -662,13 +661,11 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
         "total_size",         i.total_size(),
         "piece_length",       i.piece_length(),
         "num_pieces",         i.num_pieces(),
-//        "total_peers",        long(s.num_incomplete != -1? s.num_incomplete : connected_peers),
-//        "total_seeds",        long(s.num_complete   != -1? s.num_complete   : connected_seeds),
-				"total_peers",				total_peers,
-				"total_seeds",				total_seeds,
+	"total_peers",        total_peers,
+	"total_seeds",	      total_seeds,
         "is_paused",          t.handle.is_paused(),
         "is_seed",            t.handle.is_seed(),
-        "total_done",	     		s.total_done,
+        "total_done",	      s.total_done,
         "total_wanted",       s.total_wanted,
         "total_wanted_done",  s.total_wanted_done);
 };
