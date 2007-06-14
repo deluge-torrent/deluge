@@ -63,3 +63,5 @@ Notes:
  need to remove your ~/.config/deluge directory
  to allow Deluge to rebuild it's configuration
  file.
+
+Foo
