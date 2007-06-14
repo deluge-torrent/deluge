@@ -76,7 +76,6 @@ class PreferencesDlg:
 			self.glade.get_widget("chk_autoseed").set_active(self.preferences.get("auto_end_seeding", bool, default=False))
 			self.glade.get_widget("ratio_spinner").set_value(self.preferences.get("auto_seed_ratio", int, default=-1))
 			self.glade.get_widget("chk_dht").set_active(self.preferences.get("enable_dht", bool, default=True))
-			self.glade.get_widget("spin_dht").set_value(self.preferences.get("dht_connections", int, default=80))
 			self.glade.get_widget("spin_gui").set_value(self.preferences.get("gui_update_interval", float, default=1.0))
 			
 		except KeyError:
@@ -110,7 +109,6 @@ class PreferencesDlg:
 			self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())
 			self.preferences.set("auto_seed_ratio", self.glade.get_widget("ratio_spinner").get_value())
 			self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
-			self.preferences.set("dht_connections", self.glade.get_widget("spin_dht").get_value())
 			self.preferences.set("gui_update_interval", self.glade.get_widget("spin_gui").get_value())
 
 	def TestPort(self, widget):

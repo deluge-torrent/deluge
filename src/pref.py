@@ -41,7 +41,6 @@ DEFAULT_PREFS = {
 	"auto_seed_ratio" : 0,
 	"close_to_tray" : False,
 	"default_download_path" : "",
-	"dht_connections" : 80,
 	"enable_dht" : True,
 	"enable_system_tray" : True,
 	"enabled_plugins" : "",
