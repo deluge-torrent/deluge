@@ -34,10 +34,10 @@ import xdg, xdg.BaseDirectory
 import gettext
 
 PROGRAM_NAME = "Deluge"
-PROGRAM_VERSION = "0.5.2.0"
+PROGRAM_VERSION = "0.5.2"
 
 CLIENT_CODE = "DE"
-CLIENT_VERSION = "".join(PROGRAM_VERSION.split('.'))
+CLIENT_VERSION = "".join(PROGRAM_VERSION.split('.'))+"0"*(4 - len(PROGRAM_VERSION.split('.')))
 
 CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
 
