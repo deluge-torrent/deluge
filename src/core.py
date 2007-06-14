@@ -312,12 +312,26 @@ class Manager:
 			# Note: can this be to the trash?
 			for filedata in temp_fileinfo:
 				filename = filedata['path']
-				try:
-					os.remove(os.path.join(temp.save_dir, filename))
-				except OSError:
-					pass # No file just means it wasn't downloaded, we can continue
-			#clean up empty dir
-			os.removedirs(os.path.dirname(os.path.join(temp.save_dir, filename)))
+				if filename.find(os.sep) != -1:
+					# This is a file inside a directory inside the torrent. We can delete the
+					# directory itself, save time
+					try:
+						shutil.rmtree(os.path.dirname(os.path.join(temp.save_dir, filename)))
+					except OSError: # Perhaps it wasn't downloaded
+						pass
+				else:
+					# This is just a file
+					try:
+						os.remove(os.path.join(temp.save_dir, filename))
+					except OSError:
+						pass # No file just means it wasn't downloaded, we can continue
+
+### UNNEEDED, fixed already above
+#			# Clean up empty dir
+#			try:
+#				os.rmdir(os.path.dirname(os.path.join(temp.save_dir, filename)))
+#			except OSError:
+#				pass # Perhaps it wasn't a directory...
 
 	# A function to try and reload a torrent from a previous session. This is
 	# used in the event that Deluge crashes and a blank state is loaded.
