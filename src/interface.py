@@ -77,6 +77,7 @@ class DelugeGTK:
 		self.notebook = self.wtree.get_widget("torrent_info")
 		self.statusbar = self.wtree.get_widget("statusbar")
 		
+	
 		## Construct the Interface
 		try:
 			self.build_tray_icon()
@@ -93,6 +94,9 @@ class DelugeGTK:
 		self.build_summary_tab()
 		self.build_file_tab()
 		self.build_peer_tab()
+
+		# Set the Torrent menu bar sub-menu to the same as the right-click Torrent pop-up menu
+		self.wtree.get_widget("menu_torrent").set_submenu(self.torrent_menu)
 		
 		self.connect_signals()
 		
