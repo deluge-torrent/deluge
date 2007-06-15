@@ -1233,11 +1233,9 @@ static PyObject *torrent_use_upnp(PyObject *self, PyObject *args)
 	PyArg_ParseTuple(args, "i", &action);
 
 	if (action){
-		printf("Starting UPnP\r\n");
 		M_ses->start_upnp();
 	}
 	else{
-		printf("Stopping natpmp\r\n");
 		M_ses->stop_upnp();
 	}
 
@@ -1252,11 +1250,9 @@ static PyObject *torrent_use_natpmp(PyObject *self, PyObject *args)
 	PyArg_ParseTuple(args, "i", &action);
 
 	if (action){
-		printf("Starting NAT-PMP\r\n");
 		M_ses->start_natpmp();
 	}
 	else{
-		printf("Stopping NAT-PMP\r\n");
 		M_ses->stop_natpmp();
 	}
 
@@ -1270,11 +1266,7 @@ static PyObject *torrent_use_utpex(PyObject *self, PyObject *args)
 	PyArg_ParseTuple(args, "i", &action);
 
 	if (action){
-		printf("Starting UTPEX\r\n");
 		M_ses->add_extension(&libtorrent::create_ut_pex_plugin);
-	}
-	else{
-		printf("You must restart to remove UTPEX\r\n");
 	}
 
     Py_INCREF(Py_None); return Py_None;
