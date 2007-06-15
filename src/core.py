@@ -409,6 +409,7 @@ class Manager:
 			temp = self.state.queue[curr_index - 1]
 			self.state.queue[curr_index - 1] = unique_ID
 			self.state.queue[curr_index]     = temp
+			self.apply_queue()
 
 	def queue_down(self, unique_ID):
 		curr_index = self.get_queue_index(unique_ID)
@@ -416,12 +417,14 @@ class Manager:
 			temp = self.state.queue[curr_index + 1]
 			self.state.queue[curr_index + 1] = unique_ID
 			self.state.queue[curr_index]     = temp
+			self.apply_queue()
 
 	def queue_bottom(self, unique_ID):
 		curr_index = self.get_queue_index(unique_ID)
 		if curr_index < (len(self.state.queue) - 1):
 			self.state.queue.remove(curr_index)
 			self.state.queue.append(unique_ID)
+			self.apply_queue()
 
 	def clear_completed(self):
 		for unique_ID in self.unique_IDs:
@@ -430,6 +433,7 @@ class Manager:
 				self.remove_torrent_ns(unique_ID)
 
 		self.sync()
+		self.apply_queue()
 
 	# Enforce the queue: pause/unpause as needed, based on queue and user_pausing
 	# This should be called after changes to relevant parameters (user_pausing, or
