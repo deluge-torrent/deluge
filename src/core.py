@@ -446,7 +446,6 @@ class Manager:
 	# altering max_active_torrents), or just from time to time
 	# ___ALL queuing code should be in this function, and ONLY here___
 	def apply_queue(self, efficient = True):
-		print "applying queue";
 		# Handle autoseeding - downqueue as needed
 		if self.get_pref('auto_seed_ratio') > 0:
 			for unique_ID in self.unique_IDs:
