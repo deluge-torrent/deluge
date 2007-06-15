@@ -403,28 +403,31 @@ class Manager:
 
 	# Queueing functions
 
-	def queue_up(self, unique_ID):
+	def queue_up(self, unique_ID, enforce_queue=True):
 		curr_index = self.get_queue_index(unique_ID)
 		if curr_index > 0:
 			temp = self.state.queue[curr_index - 1]
 			self.state.queue[curr_index - 1] = unique_ID
 			self.state.queue[curr_index]     = temp
-			self.apply_queue()
+			if enforce_queue:
+				self.apply_queue()
 
-	def queue_down(self, unique_ID):
+	def queue_down(self, unique_ID, enforce_queue=True):
 		curr_index = self.get_queue_index(unique_ID)
 		if curr_index < (len(self.state.queue) - 1):
 			temp = self.state.queue[curr_index + 1]
 			self.state.queue[curr_index + 1] = unique_ID
 			self.state.queue[curr_index]     = temp
-			self.apply_queue()
+			if enforce_queue:
+				self.apply_queue()
 
-	def queue_bottom(self, unique_ID):
+	def queue_bottom(self, unique_ID, enforce_queue=True):
 		curr_index = self.get_queue_index(unique_ID)
 		if curr_index < (len(self.state.queue) - 1):
 			self.state.queue.remove(curr_index)
 			self.state.queue.append(unique_ID)
-			self.apply_queue()
+			if enforce_queue:
+				self.apply_queue()
 
 	def clear_completed(self):
 		for unique_ID in self.unique_IDs:
@@ -447,8 +450,7 @@ class Manager:
 					torrent_state = self.get_core_torrent_state(unique_ID, efficient)
 					ratio = self.calc_ratio(unique_ID, torrent_state)
 					if ratio >= self.get_pref('auto_seed_ratio'):
-						self.queue_bottom(unique_ID)
-
+						self.queue_bottom(unique_ID, enforce_queue=False) # don't recurse!
 
 		# Pause and resume torrents
 		for index in range(len(self.state.queue)):
