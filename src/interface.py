@@ -332,8 +332,12 @@ class DelugeGTK:
 			else:
 				return 0
 		
+		self.torrent_model.set_sort_func(1, long_sort, 1)
 		self.torrent_model.set_sort_func(3, long_sort, 3)
 		self.torrent_model.set_sort_func(12, long_sort, 12)
+		
+		self.torrent_model.set_sort_column_id(1, gtk.SORT_ASCENDING)
+		
 		try:
 			self.torrent_view.get_selection().set_select_function(self.torrent_clicked, full=True)
 		except TypeError:
