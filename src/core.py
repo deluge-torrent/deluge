@@ -424,7 +424,7 @@ class Manager:
 	def queue_bottom(self, unique_ID, enforce_queue=True):
 		curr_index = self.get_queue_index(unique_ID)
 		if curr_index < (len(self.state.queue) - 1):
-			self.state.queue.remove(curr_index)
+			self.state.queue.remove(unique_ID)
 			self.state.queue.append(unique_ID)
 			if enforce_queue:
 				self.apply_queue()
