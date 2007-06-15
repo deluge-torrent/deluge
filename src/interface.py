@@ -634,6 +634,9 @@ class DelugeGTK:
 	
 	## Call via a timer to update the interface
 	def update(self):
+		# We need to apply the queue changes
+		self.manager.apply_queue()
+		
 		# Make sure that the interface still exists
 		try:
 			tab = self.wtree.get_widget("torrent_info").get_current_page()
@@ -831,7 +834,7 @@ class DelugeGTK:
 			if self.torrent_view.get_selection().count_selected_rows() == 1:
 				self.torrent_selected = self.torrent_view.get_selection().get_selected_rows()[1][0]
 			return self.torrent_model.get_value(self.torrent_model.get_iter(self.torrent_selected), 0)
-		except ValueError:
+		except TypeError, ValueError:
 			return None
 			
 	# Return a list of ids of the selected torrents
