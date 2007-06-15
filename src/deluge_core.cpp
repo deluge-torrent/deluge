@@ -1273,6 +1273,9 @@ static PyObject *torrent_use_utpex(PyObject *self, PyObject *args)
 		printf("Starting UTPEX\r\n");
 		M_ses->add_extension(&libtorrent::create_ut_pex_plugin);
 	}
+	else{
+		printf("You must restart to remove UTPEX\r\n");
+	}
 
     Py_INCREF(Py_None); return Py_None;
 }
