@@ -452,7 +452,18 @@ class Manager:
 			if (index < self.get_pref('max_active_torrents') or self.get_pref('max_active_torrents') == -1) \
 				and self.get_core_torrent_state(unique_ID, efficient)['is_paused']               \
 				and not self.is_user_paused(unique_ID):
-				deluge_core.resume(unique_ID)
+				# Before we resume, we should check if the torrent is using Full Allocation 
+				# and if there is enough space on to finish this file.
+					if self.state.torrents[unique_ID].compact == False:
+						torrent_state = self.get_core_torrent_state(unique_ID, efficient)
+						avail = self.calc_free_space(self.state.torrents[unique_ID].save_dir)
+						total_needed = torrent_state["total_size"] - torrent_state["total_done"]
+						if total_needed < avail:
+							# We have enough free space, so lets resume this torrent
+							deluge_core.resume(unique_ID)
+						else:
+							print "Not enough free space to resume this torrent!"
+
 			elif (not self.get_core_torrent_state(unique_ID, efficient)['is_paused']) and \
 				  ( (index >= self.get_pref('max_active_torrents') and \
 			        self.get_pref('max_active_torrents') != -1        ) or \
@@ -664,19 +675,7 @@ class Manager:
 					self.state.torrents.remove(torrent)
 					raise e
 #				print "Got unique ID:", unique_ID
-				# Now to check and see if there is enough free space for the download
-				size = deluge_core.get_torrent_state(unique_ID)["total_size"]
-				avail = self.calc_free_space(torrent.save_dir)
-#				print "Torrent Size", size
-#				print "Available Space", avail
-#				size = avail + 1 #debug!
-				if size > avail: # Not enough free space
-					torrent.user_paused = True
-					no_space = True
-					deluge_core.remove_torrent(unique_ID) #Remove the torrent
-					self.state.torrents.remove(torrent)
-					os.remove(torrent.filename)
-					raise InsufficientFreeSpaceError(avail, size)
+
 				ret = unique_ID
 				self.unique_IDs[unique_ID] = torrent
 
@@ -718,8 +717,8 @@ class Manager:
 		assert(len(self.unique_IDs) == len(self.state.queue))
 		assert(len(self.unique_IDs) == deluge_core.get_num_torrents())
 		
-		if no_space:
-			self.apply_queue()
+		#if no_space:
+			#self.apply_queue()
 		# Pickle the state so if we experience a crash, the latest state is available
 		print "Pickling state..."
 		output = open(os.path.join(self.base_dir, STATE_FILENAME), 'wb')
