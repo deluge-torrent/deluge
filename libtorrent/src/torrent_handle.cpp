@@ -80,6 +80,8 @@ using libtorrent::aux::session_impl;
 
 namespace libtorrent
 {
+	namespace fs = boost::filesystem;
+
 	namespace
 	{
 		void throw_invalid_handle()
@@ -205,12 +207,12 @@ namespace libtorrent
 			, bind(&torrent::download_limit, _1));
 	}
 
-	bool torrent_handle::move_storage(
-		boost::filesystem::path const& save_path) const
+	void torrent_handle::move_storage(
+		fs::path const& save_path) const
 	{
 		INVARIANT_CHECK;
 
-		return call_member<bool>(m_ses, m_chk, m_info_hash
+		call_member<void>(m_ses, m_chk, m_info_hash
 			, bind(&torrent::move_storage, _1, save_path));
 	}
 
@@ -351,6 +353,14 @@ namespace libtorrent
 			, bind(&torrent::name, _1));
 	}
 
+
+	void torrent_handle::piece_availability(std::vector<int>& avail) const
+	{
+		INVARIANT_CHECK;
+
+		call_member<void>(m_ses, m_chk, m_info_hash
+			, bind(&torrent::piece_availability, _1, boost::ref(avail)));
+	}
 
 	void torrent_handle::piece_priority(int index, int priority) const
 	{
@@ -556,9 +566,12 @@ namespace libtorrent
 				for (int j = 0; j < num_bitmask_bytes; ++j)
 				{
 					unsigned char v = 0;
-					for (int k = 0; k < 8; ++k)
-						v |= i->info[j*8+k].finished?(1 << k):0;
+					int bits = std::min(num_blocks_per_piece - j*8, 8);
+					for (int k = 0; k < bits; ++k)
+						v |= (i->info[j*8+k].state == piece_picker::block_info::state_finished)
+						? (1 << k) : 0;
 					bitmask.insert(bitmask.end(), v);
+					assert(bits == 8 || j == num_bitmask_bytes - 1);
 				}
 				piece_struct["bitmask"] = bitmask;
 
@@ -608,11 +621,11 @@ namespace libtorrent
 	}
 
 
-	boost::filesystem::path torrent_handle::save_path() const
+	fs::path torrent_handle::save_path() const
 	{
 		INVARIANT_CHECK;
 
-		return call_member<boost::filesystem::path>(m_ses, m_chk, m_info_hash
+		return call_member<fs::path>(m_ses, m_chk, m_info_hash
 			, bind(&torrent::save_path, _1));
 	}
 
@@ -717,7 +730,7 @@ namespace libtorrent
 		{
 			peer_connection* peer = i->second;
 
-			// peers that haven't finished the handshake should
+			// incoming peers that haven't finished the handshake should
 			// not be included in this list
 			if (peer->associated_torrent().expired()) continue;
 
@@ -760,10 +773,9 @@ namespace libtorrent
 			pi.blocks_in_piece = p.blocks_in_piece(i->index);
 			for (int j = 0; j < pi.blocks_in_piece; ++j)
 			{
-				pi.peer[j] = i->info[j].peer;
-				pi.num_downloads[j] = i->info[j].num_downloads;
-				pi.finished_blocks[j] = i->info[j].finished;
-				pi.requested_blocks[j] = i->info[j].requested;
+				pi.blocks[j].peer = i->info[j].peer;
+				pi.blocks[j].num_downloads = i->info[j].num_downloads;
+				pi.blocks[j].state = i->info[j].state;
 			}
 			pi.piece_index = i->index;
 			queue.push_back(pi);

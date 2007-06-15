@@ -71,7 +71,10 @@ PREF_FUNCTIONS = {
 	"max_active_torrents" : None, # no need for a function, applied constantly
 	"auto_seed_ratio"     : None, # no need for a function, applied constantly
 	"max_download_rate_bps"   : deluge_core.set_download_rate_limit,
-	"max_upload_rate_bps"     : deluge_core.set_upload_rate_limit
+	"max_upload_rate_bps"     : deluge_core.set_upload_rate_limit,
+	"use_upnp"		: deluge_core.use_upnp,
+	"use_natpmp"		: deluge_core.use_natpmp,
+	"use_utpex"		: deluge_core.use_utpex
 }
 
 STATE_MESSAGES = (	"Queued",
@@ -443,6 +446,7 @@ class Manager:
 	# altering max_active_torrents), or just from time to time
 	# ___ALL queuing code should be in this function, and ONLY here___
 	def apply_queue(self, efficient = True):
+		print "applying queue";
 		# Handle autoseeding - downqueue as needed
 		if self.get_pref('auto_seed_ratio') > 0:
 			for unique_ID in self.unique_IDs:
@@ -781,3 +785,6 @@ class Manager:
 	# Adds an IP range (as two dotted quad strings) to the filter 
 	def add_range_to_ip_filter(self, start, end):
 		return deluge_core.add_range_to_IP_filter(start, end)
+
+	def netextras(self, proto, action):
+		return deluge_core.netextras(proto, action)

@@ -63,7 +63,7 @@ inline socket_type accept(socket_type s, socket_addr_type* addr,
     socket_addr_len_type* addrlen, asio::error_code& ec)
 {
   clear_error(ec);
-#if defined(__MACH__) && defined(__APPLE__)
+#if defined(__MACH__) && defined(__APPLE__) || defined(__FreeBSD__)
   socket_type new_s = error_wrapper(::accept(s, addr, addrlen), ec);
   if (new_s == invalid_socket)
     return new_s;
@@ -295,7 +295,7 @@ inline socket_type socket(int af, int type, int protocol,
   }
 
   return s;
-#elif defined(__MACH__) && defined(__APPLE__)
+#elif defined(__MACH__) && defined(__APPLE__) || defined(__FreeBSD__)
   socket_type s = error_wrapper(::socket(af, type, protocol), ec);
   if (s == invalid_socket)
     return s;
@@ -318,11 +318,35 @@ inline socket_type socket(int af, int type, int protocol,
 inline int setsockopt(socket_type s, int level, int optname,
     const void* optval, size_t optlen, asio::error_code& ec)
 {
+  if (level == custom_socket_option_level && optname == always_fail_option)
+  {
+    ec = asio::error::invalid_argument;
+    return -1;
+  }
+
+#if defined(__BORLANDC__)
+  // Mysteriously, using the getsockopt and setsockopt functions directly with
+  // Borland C++ results in incorrect values being set and read. The bug can be
+  // worked around by using function addresses resolved with GetProcAddress.
+  if (HMODULE winsock_module = ::GetModuleHandleA("ws2_32"))
+  {
+    typedef int (WSAAPI *sso_t)(SOCKET, int, int, const char*, int);
+    if (sso_t sso = (sso_t)::GetProcAddress(winsock_module, "setsockopt"))
+    {
+      clear_error(ec);
+      return error_wrapper(sso(s, level, optname,
+            reinterpret_cast<const char*>(optval),
+            static_cast<int>(optlen)), ec);
+    }
+  }
+  ec = asio::error::fault;
+  return -1;
+#elif defined(BOOST_WINDOWS) || defined(__CYGWIN__)
   clear_error(ec);
-#if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
   return error_wrapper(::setsockopt(s, level, optname,
         reinterpret_cast<const char*>(optval), static_cast<int>(optlen)), ec);
 #else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
+  clear_error(ec);
   return error_wrapper(::setsockopt(s, level, optname, optval,
         static_cast<socklen_t>(optlen)), ec);
 #endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
@@ -331,8 +355,44 @@ inline int setsockopt(socket_type s, int level, int optname,
 inline int getsockopt(socket_type s, int level, int optname, void* optval,
     size_t* optlen, asio::error_code& ec)
 {
+  if (level == custom_socket_option_level && optname == always_fail_option)
+  {
+    ec = asio::error::invalid_argument;
+    return -1;
+  }
+
+#if defined(__BORLANDC__)
+  // Mysteriously, using the getsockopt and setsockopt functions directly with
+  // Borland C++ results in incorrect values being set and read. The bug can be
+  // worked around by using function addresses resolved with GetProcAddress.
+  if (HMODULE winsock_module = ::GetModuleHandleA("ws2_32"))
+  {
+    typedef int (WSAAPI *gso_t)(SOCKET, int, int, char*, int*);
+    if (gso_t gso = (gso_t)::GetProcAddress(winsock_module, "getsockopt"))
+    {
+      clear_error(ec);
+      int tmp_optlen = static_cast<int>(*optlen);
+      int result = error_wrapper(gso(s, level, optname,
+            reinterpret_cast<char*>(optval), &tmp_optlen), ec);
+      *optlen = static_cast<size_t>(tmp_optlen);
+      if (result != 0 && level == IPPROTO_IPV6 && optname == IPV6_V6ONLY
+          && ec.value() == WSAENOPROTOOPT && *optlen == sizeof(DWORD))
+      {
+        // Dual-stack IPv4/v6 sockets, and the IPV6_V6ONLY socket option, are
+        // only supported on Windows Vista and later. To simplify program logic
+        // we will fake success of getting this option and specify that the
+        // value is non-zero (i.e. true). This corresponds to the behavior of
+        // IPv6 sockets on Windows platforms pre-Vista.
+        *static_cast<DWORD*>(optval) = 1;
+        clear_error(ec);
+      }
+      return result;
+    }
+  }
+  ec = asio::error::fault;
+  return -1;
+#elif defined(BOOST_WINDOWS) || defined(__CYGWIN__)
   clear_error(ec);
-#if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
   int tmp_optlen = static_cast<int>(*optlen);
   int result = error_wrapper(::getsockopt(s, level, optname,
         reinterpret_cast<char*>(optval), &tmp_optlen), ec);
@@ -350,6 +410,7 @@ inline int getsockopt(socket_type s, int level, int optname, void* optval,
   }
   return result;
 #else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
+  clear_error(ec);
   socklen_t tmp_optlen = static_cast<socklen_t>(*optlen);
   int result = error_wrapper(::getsockopt(s, level, optname,
         optval, &tmp_optlen), ec);

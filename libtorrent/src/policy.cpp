@@ -142,7 +142,19 @@ namespace
 		bool operator()(policy::peer const& p) const
 		{ return p.ip.address() == m_ip.address(); }
 
-		tcp::endpoint m_ip;
+		tcp::endpoint const& m_ip;
+	};
+
+	struct match_peer_id
+	{
+		match_peer_id(peer_id const& id_)
+			: m_id(id_)
+		{}
+
+		bool operator()(policy::peer const& p) const
+		{ return p.connection && p.connection->pid() == m_id; }
+
+		peer_id const& m_id;
 	};
 
 	struct match_peer_connection
@@ -152,9 +164,13 @@ namespace
 		{}
 
 		bool operator()(policy::peer const& p) const
-		{ return p.connection == &m_conn; }
+		{
+			return p.connection == &m_conn
+				|| (p.ip == m_conn.remote()
+					&& p.type == policy::peer::connectable);
+		}
 
-		const peer_connection& m_conn;
+		peer_connection const& m_conn;
 	};
 
 
@@ -230,7 +246,7 @@ namespace libtorrent
 		for (std::vector<piece_block>::iterator i = interesting_pieces.begin();
 			i != interesting_pieces.end(); ++i)
 		{
-			if (p.is_downloading(*i))
+			if (p.is_requested(*i))
 			{
 				busy_pieces.push_back(*i);
 				continue;
@@ -524,6 +540,8 @@ namespace libtorrent
 		int max_failcount = m_torrent->settings().max_failcount;
 		int min_reconnect_time = m_torrent->settings().min_reconnect_time;
 
+		aux::session_impl& ses = m_torrent->session();
+
 		for (iterator i = m_peers.begin(); i != m_peers.end(); ++i)
 		{
 			if (i->connection) continue;
@@ -532,6 +550,8 @@ namespace libtorrent
 			if (i->seed && m_torrent->is_seed()) continue;
 			if (i->failcount >= max_failcount) continue;
 			if (now - i->connected < seconds(i->failcount * min_reconnect_time))
+				continue;
+			if (ses.m_port_filter.access(i->ip.port()) & port_filter::blocked)
 				continue;
 
 			assert(i->connected <= now);
@@ -846,12 +866,13 @@ namespace libtorrent
 						--m_num_unchoked;
 					} while (m_num_unchoked > m_torrent->m_uploads_quota.given);
 				}
-				else
+				// this should prevent the choke/unchoke
+				// problem, since it will not unchoke unless
+				// there actually are any choked peers
+				else if (count_choked() > 0)
 				{
 					// optimistic unchoke. trade the 'worst'
 					// unchoked peer with one of the choked
-					// TODO: This rotation should happen
-					// far less frequent than this!
 					assert(m_num_unchoked <= m_torrent->num_peers());
 					iterator p = find_unchoke_candidate();
 					if (p != m_peers.end())
@@ -869,6 +890,22 @@ namespace libtorrent
 			while (m_num_unchoked < m_torrent->m_uploads_quota.given
 				&& unchoke_one_peer());
 		}
+	}
+
+	int policy::count_choked() const
+	{
+		int ret = 0;
+		for (const_iterator i = m_peers.begin();
+			i != m_peers.end(); ++i)
+		{
+			if (!i->connection
+				|| i->connection->is_connecting()
+				|| i->connection->is_disconnecting()
+				|| !i->connection->is_peer_interested())
+				continue;
+			if (i->connection->is_choked()) ++ret;
+		}
+		return ret;
 	}
 
 	void policy::new_connection(peer_connection& c)
@@ -902,7 +939,10 @@ namespace libtorrent
 
 		if (m_torrent->settings().allow_multiple_connections_per_ip)
 		{
-			i = m_peers.end();
+			i = std::find_if(
+				m_peers.begin()
+				, m_peers.end()
+				, match_peer_connection(c));
 		}
 		else
 		{
@@ -968,13 +1008,29 @@ namespace libtorrent
 		if(remote.address() == address() || remote.port() == 0)
 			return;
 
+		aux::session_impl& ses = m_torrent->session();
+
+		port_filter const& pf = ses.m_port_filter;
+		if (pf.access(remote.port()) & port_filter::blocked)
+		{
+			if (ses.m_alerts.should_post(alert::info))
+			{
+				ses.m_alerts.post_alert(peer_blocked_alert(remote.address()
+				, "outgoing port blocked, peer not added to peer list"));
+			}
+			return;
+		}
+
 		try
 		{
 			iterator i;
 			
 			if (m_torrent->settings().allow_multiple_connections_per_ip)
 			{
-				i = m_peers.end();
+				i = std::find_if(
+					m_peers.begin()
+					, m_peers.end()
+					, match_peer_id(pid));
 			}
 			else
 			{
@@ -986,8 +1042,6 @@ namespace libtorrent
 			
 			if (i == m_peers.end())
 			{
-				aux::session_impl& ses = m_torrent->session();
-
 				// if the IP is blocked, don't add it
 				if (ses.m_ip_filter.access(remote.address()) & ip_filter::blocked)
 				{
@@ -1095,18 +1149,6 @@ namespace libtorrent
 		}
 	}
 
-	// TODO: we must be able to get interested
-	// in a peer again, if a piece fails that
-	// this peer has.
-	void policy::block_finished(peer_connection& c, piece_block)
-	{
-		INVARIANT_CHECK;
-
-		// if the peer hasn't choked us, ask for another piece
-		if (!c.has_peer_choked() && !m_torrent->is_seed())
-			request_a_block(*m_torrent, c);
-	}
-
 	// this is called when we are unchoked by a peer
 	// i.e. a peer lets us know that we will receive
 	// data from now on
@@ -1167,6 +1209,7 @@ namespace libtorrent
 				c.add_free_upload(-diff);
 			}
 		}
+/*
 		if (!c.is_choked())
 		{
 			c.send_choke();
@@ -1175,6 +1218,7 @@ namespace libtorrent
 			if (m_torrent->is_seed()) seed_unchoke_one_peer();
 			else unchoke_one_peer();
 		}
+*/
 	}
 
 	bool policy::unchoke_one_peer()

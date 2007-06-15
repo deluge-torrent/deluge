@@ -72,7 +72,10 @@ namespace libtorrent
 	struct torrent_plugin;
 	class torrent;
 	class ip_filter;
+	class port_filter;
 	class connection_queue;
+
+	namespace fs = boost::filesystem;
 
 	namespace aux
 	{
@@ -135,7 +138,7 @@ namespace libtorrent
 		// all torrent_handles must be destructed before the session is destructed!
 		torrent_handle add_torrent(
 			torrent_info const& ti
-			, boost::filesystem::path const& save_path
+			, fs::path const& save_path
 			, entry const& resume_data = entry()
 			, bool compact_mode = true
 			, int block_size = 16 * 1024
@@ -144,7 +147,7 @@ namespace libtorrent
 		// TODO: deprecated, this is for backwards compatibility only
 		torrent_handle add_torrent(
 			entry const& e
-			, boost::filesystem::path const& save_path
+			, fs::path const& save_path
 			, entry const& resume_data = entry()
 			, bool compact_mode = true
 			, int block_size = 16 * 1024
@@ -158,7 +161,7 @@ namespace libtorrent
 			char const* tracker_url
 			, sha1_hash const& info_hash
 			, char const* name
-			, boost::filesystem::path const& save_path
+			, fs::path const& save_path
 			, entry const& resume_data = entry()
 			, bool compact_mode = true
 			, int block_size = 16 * 1024
@@ -187,8 +190,10 @@ namespace libtorrent
 #endif
 
 		void set_ip_filter(ip_filter const& f);
+		void set_port_filter(port_filter const& f);
 		void set_peer_id(peer_id const& pid);
 		void set_key(int key);
+		peer_id id() const;
 
 		bool is_listening() const;
 
@@ -249,6 +254,16 @@ namespace libtorrent
 
 		connection_queue& get_connection_queue();
 
+		// starts/stops UPnP, NATPMP or LSD port mappers
+		// they are stopped by default
+		void start_lsd();
+		void start_natpmp();
+		void start_upnp();
+
+		void stop_lsd();
+		void stop_natpmp();
+		void stop_upnp();
+		
 		// Resource management used for global limits.
 		resource_request m_ul_bandwidth_quota;
 		resource_request m_dl_bandwidth_quota;

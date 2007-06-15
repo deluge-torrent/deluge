@@ -99,10 +99,10 @@ namespace libtorrent
 
 		void piece_finished(int index, bool successfully_verified);
 
-		void block_finished(peer_connection& c, piece_block b);
-
 		// the peer choked us
 		void choked(peer_connection& c);
+
+		int count_choked() const;
 
 		// the peer unchoked us
 		void unchoked(peer_connection& c);

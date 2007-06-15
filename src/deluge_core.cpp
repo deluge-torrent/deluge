@@ -338,7 +338,6 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
     M_ses->set_severity_level(alert::debug);
 
     M_ses->add_extension(&libtorrent::create_metadata_plugin);
-    M_ses->add_extension(&libtorrent::create_ut_pex_plugin);
 
     M_constants = Py_BuildValue("{s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i}",
         "EVENT_NULL",               EVENT_NULL,
@@ -1228,6 +1227,56 @@ static PyObject *torrent_add_range_to_IP_filter(PyObject *self, PyObject *args)
     Py_INCREF(Py_None); return Py_None;
 }
 
+static PyObject *torrent_use_upnp(PyObject *self, PyObject *args)
+{
+	python_long action;
+	PyArg_ParseTuple(args, "i", &action);
+
+	if (action){
+		printf("Starting UPnP\r\n");
+		M_ses->start_upnp();
+	}
+	else{
+		printf("Stopping natpmp\r\n");
+		M_ses->stop_upnp();
+	}
+
+    Py_INCREF(Py_None); return Py_None;
+
+}
+
+static PyObject *torrent_use_natpmp(PyObject *self, PyObject *args)
+{
+	python_long action;
+
+	PyArg_ParseTuple(args, "i", &action);
+
+	if (action){
+		printf("Starting NAT-PMP\r\n");
+		M_ses->start_natpmp();
+	}
+	else{
+		printf("Stopping NAT-PMP\r\n");
+		M_ses->stop_natpmp();
+	}
+
+    Py_INCREF(Py_None); return Py_None;
+}
+
+static PyObject *torrent_use_utpex(PyObject *self, PyObject *args)
+{
+	python_long action;
+
+	PyArg_ParseTuple(args, "i", &action);
+
+	if (action){
+		printf("Starting UTPEX\r\n");
+		M_ses->add_extension(&libtorrent::create_ut_pex_plugin);
+	}
+
+    Py_INCREF(Py_None); return Py_None;
+}
+
 static PyObject *torrent_pe_settings(PyObject *self, PyObject *args)
 {
 	M_pe_settings = new pe_settings();
@@ -1284,6 +1333,9 @@ static PyMethodDef deluge_core_methods[] =
     {"create_torrent",      torrent_create_torrent,         METH_VARARGS,   "."},
     {"reset_IP_filter",     torrent_reset_IP_filter,        METH_VARARGS,   "."},
     {"add_range_to_IP_filter", torrent_add_range_to_IP_filter,    METH_VARARGS,   "."},
+    {"use_upnp",                torrent_use_upnp,               METH_VARARGS,   "."},
+    {"use_natpmp",              torrent_use_natpmp,               METH_VARARGS,   "."},
+    {"use_utpex",                torrent_use_utpex,               METH_VARARGS,   "."},
     {NULL}
 };
 

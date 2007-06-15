@@ -68,6 +68,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/escape_string.hpp"
 #include "libtorrent/bandwidth_manager.hpp"
 #include "libtorrent/storage.hpp"
+#include "libtorrent/hasher.hpp"
 
 namespace libtorrent
 {
@@ -84,6 +85,8 @@ namespace libtorrent
 		struct piece_checker_data;
 	}
 
+	namespace fs = boost::filesystem;
+
 	// a torrent is a class that holds information
 	// for a specific download. It updates itself against
 	// the tracker
@@ -96,7 +99,7 @@ namespace libtorrent
 			aux::session_impl& ses
 			, aux::checker_impl& checker
 			, torrent_info const& tf
-			, boost::filesystem::path const& save_path
+			, fs::path const& save_path
 			, tcp::endpoint const& net_interface
 			, bool compact_mode
 			, int block_size
@@ -111,7 +114,7 @@ namespace libtorrent
 			, char const* tracker_url
 			, sha1_hash const& info_hash
 			, char const* name
-			, boost::filesystem::path const& save_path
+			, fs::path const& save_path
 			, tcp::endpoint const& net_interface
 			, bool compact_mode
 			, int block_size
@@ -184,6 +187,8 @@ namespace libtorrent
 		void filter_files(std::vector<bool> const& files);
 		// ============ end deprecation =============
 
+		void piece_availability(std::vector<int>& avail) const;
+		
 		void set_piece_priority(int index, int priority);
 		int piece_priority(int index) const;
 
@@ -422,11 +427,12 @@ namespace libtorrent
 		// completed() is called immediately after it.
 		void finished();
 
-		bool verify_piece(int piece_index);
+		void async_verify_piece(int piece_index, boost::function<void(bool)> const&);
 
 		// this is called from the peer_connection
 		// each time a piece has failed the hash
 		// test
+		void piece_finished(int index, bool passed_hash_check);
 		void piece_failed(int index);
 		void received_redundant_data(int num_bytes)
 		{ assert(num_bytes > 0); m_total_redundant_bytes += num_bytes; }
@@ -446,17 +452,15 @@ namespace libtorrent
 				- m_num_pieces - m_picker->num_filtered() == 0;
 		}
 
-		boost::filesystem::path save_path() const;
+		fs::path save_path() const;
 		alert_manager& alerts() const;
 		piece_picker& picker()
 		{
-			assert(!is_seed());
 			assert(m_picker.get());
 			return *m_picker;
 		}
 		bool has_picker() const
 		{
-			assert((valid_metadata() && !is_seed()) == bool(m_picker.get() != 0));
 			return m_picker.get() != 0;
 		}
 		policy& get_policy()
@@ -503,14 +507,14 @@ namespace libtorrent
 
 		void set_max_uploads(int limit);
 		void set_max_connections(int limit);
-		bool move_storage(boost::filesystem::path const& save_path);
+		void move_storage(fs::path const& save_path);
 
 		// unless this returns true, new connections must wait
 		// with their initialization.
 		bool ready_for_connections() const
 		{ return m_connections_initialized; }
 		bool valid_metadata() const
-		{ return m_storage.get() != 0; }
+		{ return m_torrent_file.is_valid(); }
 
 		// parses the info section from the given
 		// bencoded tree and moves the torrent
@@ -519,6 +523,12 @@ namespace libtorrent
 		void set_metadata(entry const&);
 		
 	private:
+
+		void on_files_released(int ret, disk_io_job const& j);
+		void on_storage_moved(int ret, disk_io_job const& j);
+
+		void on_piece_verified(int ret, disk_io_job const& j
+			, boost::function<void(bool)> f);
 	
 		void try_next_tracker();
 		int prioritize_tracker(int tracker_index);
@@ -552,7 +562,27 @@ namespace libtorrent
 		// if this pointer is 0, the torrent is in
 		// a state where the metadata hasn't been
 		// received yet.
-		boost::scoped_ptr<piece_manager> m_storage;
+		// the piece_manager keeps the torrent object
+		// alive by holding a shared_ptr to it and
+		// the torrent keeps the piece manager alive
+		// with this intrusive_ptr. This cycle is
+		// broken when torrent::abort() is called
+		// Then the torrent releases the piece_manager
+		// and when the piece_manager is complete with all
+		// outstanding disk io jobs (that keeps
+		// the piece_manager alive) it will destruct
+		// and release the torrent file. The reason for
+		// this is that the torrent_info is used by
+		// the piece_manager, and stored in the
+		// torrent, so the torrent cannot destruct
+		// before the piece_manager.
+		boost::intrusive_ptr<piece_manager> m_owning_storage;
+
+		// this is a weak (non owninig) pointer to
+		// the piece_manager. This is used after the torrent
+		// has been aborted, and it can no longer own
+		// the object.
+		piece_manager* m_storage;
 
 		// the time of next tracker request
 		ptime m_next_request;
@@ -689,7 +719,7 @@ namespace libtorrent
 		// are opened through
 		tcp::endpoint m_net_interface;
 
-		boost::filesystem::path m_save_path;
+		fs::path m_save_path;
 
 		// determines the storage state for this torrent.
 		const bool m_compact_mode;
