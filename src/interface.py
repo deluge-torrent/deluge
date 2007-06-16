@@ -108,8 +108,6 @@ class DelugeGTK:
 		
 		self.apply_prefs()
 		self.load_window_geometry()
-		self.manager.pe_settings(self.config.get("encout_state", int, default=common.EncState.enabled), self.config.get("encin_state", int, default=common.EncState.enabled), self.config.get("enclevel_type", int, default=common.EncLevel.both), self.config.get("pref_rc4", bool, default=True))
-
 		# Load plugins after GTK is initialised
 		self.update_queue.append(self.load_plugins)
 
@@ -611,6 +609,8 @@ class DelugeGTK:
 		
 		# Apply the preferences in the core
 		self.manager.apply_prefs()
+		self.manager.pe_settings(self.config.get("encout_state", int, default=common.EncState.enabled), self.config.get("encin_state", int, default=common.EncState.enabled), self.config.get("enclevel_type", int, default=common.EncLevel.both), self.config.get("pref_rc4", bool, default=True))
+		self.manager.proxy_settings(self.config.get("proxy_hostname"), self.config.get("proxy_username"), self.config.get("proxy_password"), self.config.get("proxy_port"), self.config.get("proxy_type", int, default=common.ProxyType.none))
 
 	def get_message_from_state(self, torrent_state):
 		state = torrent_state['state']

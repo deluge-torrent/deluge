@@ -115,6 +115,7 @@ typedef torrents_t::iterator   torrents_t_iterator;
 long          M_unique_counter  = 0;
 session_settings *M_settings        = NULL;
 pe_settings	*M_pe_settings = NULL;
+proxy_settings	*M_proxy_settings = NULL;
 session          *M_ses         = NULL;
 PyObject         *M_constants       = NULL;
 ip_filter    *M_the_filter      = NULL;
@@ -1305,6 +1306,25 @@ static PyObject *torrent_set_ratio(PyObject *self, PyObject *args)
     Py_INCREF(Py_None); return Py_None;
 }
 
+static PyObject *torrent_proxy_settings(PyObject *self, PyObject *args)
+{
+	M_proxy_settings = new proxy_settings();
+
+	char *server, *login, *pasw;
+	int portnum;
+	libtorrent::proxy_settings::proxy_type	proxytype;
+
+	PyArg_ParseTuple(args, "sssii", &server, &login, &pasw, &portnum, &proxytype);
+    
+	M_proxy_settings->type = proxytype;
+	M_proxy_settings->username = login;
+	M_proxy_settings->password = pasw;
+	M_proxy_settings->hostname = server;
+	M_proxy_settings->port = portnum;
+	    
+	Py_INCREF(Py_None); return Py_None;
+}
+
 
 //====================
 // Python Module data
@@ -1348,6 +1368,7 @@ static PyMethodDef deluge_core_methods[] =
     {"use_natpmp",              torrent_use_natpmp,               METH_VARARGS,   "."},
     {"use_utpex",                torrent_use_utpex,               METH_VARARGS,   "."},
     {"set_ratio",                torrent_set_ratio,               METH_VARARGS,   "."},
+    {"proxy_settings",     torrent_proxy_settings,               METH_VARARGS,   "."},
     {NULL}
 };
 
