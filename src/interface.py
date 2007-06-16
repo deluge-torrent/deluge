@@ -265,6 +265,7 @@ class DelugeGTK:
 												"queue_down": self.q_torrent_down,
 												"queue_bottom": self.q_to_bottom,
 												})
+		self.torrent_menu.connect("focus", self.torrent_menu_focus)
 		# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
 		self.torrent_model = gtk.ListStore(int, int, str, str, float, str, int, int, int, int, int, int, str, float)
 		self.torrent_view.set_model(self.torrent_model)
@@ -375,8 +376,6 @@ class DelugeGTK:
 		return True
 	
 	def torrent_view_clicked(self, widget, event):
-#		print widget
-#		print event
 		if event.button == 3:
 			x = int(event.x)
 			y = int(event.y)
@@ -387,11 +386,13 @@ class DelugeGTK:
 			self.right_click = self.torrent_view.get_selection().path_is_selected(path)
 			self.torrent_view.grab_focus()
 			self.torrent_view.set_cursor(path, col, 0)
-			#unique_id = self.get_selected_torrent()
+			unique_id = self.torrent_model.get_value(self.torrent_model.get_iter(path), 0)
+			# Get the torrent state so we can check if the torrent is paused.
+			torrent_state = self.manager.get_torrent_state(unique_id)
 			widget = self.torrent_glade.get_widget("menu_pause")
-			if(self.manager.is_user_paused(self.torrent_model.get_value(self.torrent_model.get_iter(path), 0))):
+			if torrent_state["is_paused"]:
 				widget.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PLAY, gtk.ICON_SIZE_MENU))
-				widget.get_children()[0].set_text(_("Start"))
+				widget.get_children()[0].set_text(_("Resume"))
 			else:
 				widget.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PAUSE, gtk.ICON_SIZE_MENU))
 				widget.get_children()[0].set_text(_("Pause"))
@@ -404,15 +405,30 @@ class DelugeGTK:
 			return False
 	
 	def start_pause(self, widget):
-		print "Pause btn clicked"
 		unique_ids = self.get_selected_torrent_rows()
 		try:
 			for uid in unique_ids:
 				self.manager.set_user_pause(uid, not self.manager.is_user_paused(uid))
+			
+			# We need to force an update so the GUI looks more responsive
+			print "doing update()"
+			self.update()
+
 		except KeyError:
 			pass
 	
-
+	def torrent_menu_focus(self, widget, direction):
+		# Get the selected torrent state so we can check if the torrent is paused.
+		unique_id = self.get_selected_torrent()
+		torrent_state = self.manager.get_torrent_state(unique_id)
+		menuitem = self.torrent_glade.get_widget("menu_pause")
+		if torrent_state["is_paused"]:
+			menuitem.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PLAY, gtk.ICON_SIZE_MENU))
+			menuitem.get_children()[0].set_text(_("Resume"))
+		else:
+			menuitem.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PAUSE, gtk.ICON_SIZE_MENU))
+			menuitem.get_children()[0].set_text(_("Pause"))
+		
 	def build_summary_tab(self):
 		#Torrent Summary tab
 		# Look into glade's widget prefix function
@@ -717,7 +733,7 @@ class DelugeGTK:
 		try:
 			if self.manager.is_user_paused(self.get_selected_torrent()):
 				self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PLAY)
-				self.wtree.get_widget("toolbutton_pause").set_label("Play")
+				self.wtree.get_widget("toolbutton_pause").set_label(_("Resume"))
 			else:
 				self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PAUSE)
 				self.wtree.get_widget("toolbutton_pause").set_label(_("Pause"))
@@ -1011,16 +1027,19 @@ class DelugeGTK:
 		torrent = self.get_selected_torrent()
 		if torrent is not None:
 			self.manager.queue_up(torrent)
+			self.update()
 				
 	def q_torrent_down(self, obj=None):
 		torrent = self.get_selected_torrent()
 		if torrent is not None:
 			self.manager.queue_down(torrent)
+			self.update()
 
 	def q_to_bottom(self, widget):
 		torrent = self.get_selected_torrent()
 		if torrent is not None:
 			self.manager.queue_bottom(torrent)
+			self.update()
 				
 	def toolbar_toggle(self, widget):
 		if widget.get_active():
