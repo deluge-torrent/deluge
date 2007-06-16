@@ -263,6 +263,10 @@ class DelugeGTK:
 												"queue_down": self.q_torrent_down,
 												"queue_bottom": self.q_to_bottom,
 												"queue_top": self.q_to_top,
+												"set_ratio0": self.set_ratio_0,
+												"set_ratio1": self.set_ratio_1,
+												"set_ratio2": self.set_ratio_2,
+												"set_ratio3": self.set_ratio_3,
 												})
 		self.torrent_menu.connect("focus", self.torrent_menu_focus)
 		# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
@@ -414,7 +418,27 @@ class DelugeGTK:
 
 		except KeyError:
 			pass
-	
+
+	def set_ratio_0(self, widget):
+		unique_ids = self.get_selected_torrent_rows()
+		for uid in unique_ids:
+			self.manager.set_ratio(uid, 0)
+
+	def set_ratio_1(self, widget):
+		unique_ids = self.get_selected_torrent_rows()
+		for uid in unique_ids:
+			self.manager.set_ratio(uid, 1)
+
+	def set_ratio_2(self, widget):
+		unique_ids = self.get_selected_torrent_rows()
+		for uid in unique_ids:
+			self.manager.set_ratio(uid, 2)
+
+	def set_ratio_3(self, widget):
+		unique_ids = self.get_selected_torrent_rows()
+		for uid in unique_ids:
+			self.manager.set_ratio(uid, 3)
+
 	def torrent_menu_focus(self, widget, direction):
 		menuitem = self.torrent_glade.get_widget("menu_pause")
 		# Check if we are selecting multiple torrents

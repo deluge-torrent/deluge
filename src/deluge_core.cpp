@@ -1290,6 +1290,22 @@ static PyObject *torrent_pe_settings(PyObject *self, PyObject *args)
 	return Py_None;
 }
 
+static PyObject *torrent_set_ratio(PyObject *self, PyObject *args)
+{
+    python_long unique_ID, num;
+    if (!PyArg_ParseTuple(args, "ii", &unique_ID, &num))
+        return NULL;
+    
+    long index = get_index_from_unique_ID(unique_ID);
+    if (PyErr_Occurred())
+        return NULL;
+
+    M_torrents->at(index).handle.set_ratio(num);
+    
+    Py_INCREF(Py_None); return Py_None;
+}
+
+
 //====================
 // Python Module data
 //====================
@@ -1331,6 +1347,7 @@ static PyMethodDef deluge_core_methods[] =
     {"use_upnp",                torrent_use_upnp,               METH_VARARGS,   "."},
     {"use_natpmp",              torrent_use_natpmp,               METH_VARARGS,   "."},
     {"use_utpex",                torrent_use_utpex,               METH_VARARGS,   "."},
+    {"set_ratio",                torrent_set_ratio,               METH_VARARGS,   "."},
     {NULL}
 };
 
