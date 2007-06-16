@@ -784,6 +784,3 @@ class Manager:
 	# Adds an IP range (as two dotted quad strings) to the filter 
 	def add_range_to_ip_filter(self, start, end):
 		return deluge_core.add_range_to_IP_filter(start, end)
-
-	def netextras(self, proto, action):
-		return deluge_core.netextras(proto, action)
