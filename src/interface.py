@@ -411,17 +411,22 @@ class DelugeGTK:
 				self.manager.set_user_pause(uid, not self.manager.is_user_paused(uid))
 			
 			# We need to force an update so the GUI looks more responsive
-			print "doing update()"
 			self.update()
 
 		except KeyError:
 			pass
 	
 	def torrent_menu_focus(self, widget, direction):
+		menuitem = self.torrent_glade.get_widget("menu_pause")
+		# Check if we are selecting multiple torrents
+		if len(self.get_selected_torrent_rows()) > 1:
+			menuitem.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PAUSE, gtk.ICON_SIZE_MENU))
+			menuitem.get_children()[0].set_text(_("Pause/Resume"))
+			return
+			
 		# Get the selected torrent state so we can check if the torrent is paused.
 		unique_id = self.get_selected_torrent()
 		torrent_state = self.manager.get_torrent_state(unique_id)
-		menuitem = self.torrent_glade.get_widget("menu_pause")
 		if torrent_state["is_paused"]:
 			menuitem.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PLAY, gtk.ICON_SIZE_MENU))
 			menuitem.get_children()[0].set_text(_("Resume"))
