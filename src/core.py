@@ -569,7 +569,6 @@ class Manager:
 		self.apply_queue()
 
 	def set_ratio(self, unique_ID, num):
-		print("setting the ratio core")
 		deluge_core.set_ratio(unique_ID, num)
 
 	def is_user_paused(self, unique_ID):
