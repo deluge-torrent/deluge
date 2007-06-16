@@ -406,6 +406,9 @@ class Manager:
 
 	# Queueing functions
 
+	def queue_top(self, unique_ID, enforce_queue=True):
+		self.state.queue.insert(0,self.state.queue.pop(self.get_queue_index(unique_ID)))
+
 	def queue_up(self, unique_ID, enforce_queue=True):
 		curr_index = self.get_queue_index(unique_ID)
 		if curr_index > 0:

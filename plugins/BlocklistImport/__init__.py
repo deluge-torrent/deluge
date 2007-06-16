@@ -49,30 +49,30 @@ class BlocklistImport:
 
     def loadlist(self, fetch=False):
         # FIXME
-        #self.gtkprog.start()
+        self.gtkprog.start()
         
         # Attempt initial import
-        # FIXME: Make async
         if fetch:
-            print "Downloading blocklist..."
+            self.gtkprog.start_download()
             filename, headers = urllib.urlretrieve(self.config.get('url'),
                                                    filename=self.blockfile,
                                                    reporthook=self._download_update)
-            print "Done"
+
+        self.gtkprog.start_import()
 
         self.core.reset_ip_filter()
         reader = PGReader(self.blockfile)
 
         ips = reader.next()
         while ips:
-            print "Blocking",ips
             self.core.add_range_to_ip_filter(*ips)
+            self.gtkprog.import_prog()
             ips = reader.next()
 
         reader.close()
+        self.gtkprog.end_import()
 
-        # FIXME
-        #self.gtkprog.stop()
+        self.gtkprog.stop()
 
     def configure(self):
         self.gtkconf.start()
@@ -88,7 +88,6 @@ class BlocklistImport:
         self.core.reset_ip_filter()
 
     def unload(self):
-        #self.config.save_to_file(self.config_file)
         self.core.reset_ip_filter()
 
     def update(self):

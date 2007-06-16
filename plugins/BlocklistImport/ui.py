@@ -58,7 +58,7 @@ class GTKConfig(gtk.Dialog):
 
 class GTKProgress(gtk.Dialog):
     def __init__(self, plugin):
-        gtk.Dialog.__init__(self, title="Setting-Up Blocklist",
+        gtk.Dialog.__init__(self, title="Loading Blocklist",
                             flags=gtk.DIALOG_MODAL,
                             buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT))
         # Setup
@@ -76,17 +76,40 @@ class GTKProgress(gtk.Dialog):
 
         self.hide_all()
 
+    def start_download(self):
+        self.progress.set_text("Downloading")
+        self.update()
+
     def download_prog(self, fract):
         if fract > 1.0:
             fract = 1.0
         self.progress.set_fraction(fract)
+        self.update()
+
+    def start_import(self):
+        self.progress.set_text("Importing")
+        self.progress.set_pulse_step(0.0075)
+        self.update()
+
+    def import_prog(self):
+        self.progress.pulse()
+        self.update()
+
+    def end_import(self):
+        self.progress.set_text("Complete")
+        self.progress.set_fraction(1.0)
+        self.update()
 
     def cancel(self, dialog, response):
         self.hide_all()
 
     def start(self):
-        print "showing all"
         self.show_all()
+        self.update()
 
     def stop(self):
         self.hide_all()
+
+    def update(self):
+        while gtk.events_pending():
+            not gtk.main_iteration(block=True)

@@ -51,6 +51,7 @@ class DelugeGTK:
 		gettext.install(APP, DIR)
 		
 		self.is_running = False
+		self.update_queue = []
 		self.ipc_manager = ipc_manager.Manager(self)
 		self.torrent_file_queue = []
 		#Start the Deluge Manager:
@@ -105,16 +106,12 @@ class DelugeGTK:
 		except KeyError:
 			pass
 		
-		enable_plugins = self.config.get('enabled_plugins', str, default="").split(':')
-			
-		for plugin in enable_plugins:
-			try:
-				self.plugins.enable_plugin(plugin)
-			except KeyError:
-				pass
 		self.apply_prefs()
 		self.load_window_geometry()
 		self.manager.pe_settings(self.config.get("encout_state", int, default=common.EncState.enabled), self.config.get("encin_state", int, default=common.EncState.enabled), self.config.get("enclevel_type", int, default=common.EncLevel.both), self.config.get("pref_rc4", bool, default=True))
+
+		# Load plugins after GTK is initialised
+		self.update_queue.append(self.load_plugins)
 
 	def external_add_torrent(self, torrent_file):
 		print "Ding!"
@@ -158,6 +155,7 @@ class DelugeGTK:
 					"queue_up": self.q_torrent_up,
 					"queue_down": self.q_torrent_down,
 					"queue_bottom": self.q_to_bottom,
+					"queue_top": self.q_to_top,
 					})
 	
 	def build_tray_icon(self):
@@ -264,6 +262,7 @@ class DelugeGTK:
 												"queue_up": self.q_torrent_up,
 												"queue_down": self.q_torrent_down,
 												"queue_bottom": self.q_to_bottom,
+												"queue_top": self.q_to_top,
 												})
 		self.torrent_menu.connect("focus", self.torrent_menu_focus)
 		# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
@@ -656,9 +655,22 @@ class DelugeGTK:
 			gtk.main()
 		except KeyboardInterrupt:
 			self.manager.quit()
-	
+
+	def load_plugins(self):
+		enable_plugins = self.config.get('enabled_plugins', str, default="").split(':')
+		for plugin in enable_plugins:
+			try:
+				self.plugins.enable_plugin(plugin)
+			except KeyError:
+				pass
+
 	## Call via a timer to update the interface
 	def update(self):
+		self.update_queue.reverse()
+		while len(self.update_queue) > 0:
+			f = self.update_queue.pop()
+			f()
+
 		# We need to apply the queue changes
 		self.manager.apply_queue()
 		# Make sure that the interface still exists
@@ -1044,6 +1056,12 @@ class DelugeGTK:
 		torrent = self.get_selected_torrent()
 		if torrent is not None:
 			self.manager.queue_bottom(torrent)
+			self.update()
+
+	def q_to_top(self, widget):
+		torrent = self.get_selected_torrent()
+		if torrent is not None:
+			self.manager.queue_top(torrent)
 			self.update()
 				
 	def toolbar_toggle(self, widget):
