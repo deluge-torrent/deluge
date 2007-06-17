@@ -60,7 +60,7 @@ class GTKConfig(gtk.Dialog):
         if response != gtk.RESPONSE_ACCEPT:
             self.cancel(dialog)
             return
-        
+
         ls = self.listtype.get_model()
         ltype = ls[self.listtype.get_active()][1]
         url = self.url.get_text()
@@ -68,8 +68,8 @@ class GTKConfig(gtk.Dialog):
         
         self.plugin.setconfig(url, los, ltype)
 
-        
-    def cancel(self, dialog, response):
+
+    def cancel(self, dialog):
         self.hide_all()
 
     def start(self):
@@ -81,6 +81,8 @@ class GTKProgress(gtk.Dialog):
         gtk.Dialog.__init__(self, title="Loading Blocklist",
                             flags=gtk.DIALOG_MODAL,
                             buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT))
+        self.plugin = plugin
+
         # Setup
         self.set_border_width(12)
         self.vbox.set_spacing(6)
@@ -92,6 +94,7 @@ class GTKProgress(gtk.Dialog):
         self.progress = gtk.ProgressBar()
         self.vbox.pack_start(self.progress)
 
+        self.connect('response', self.response)
         self.connect('close', self.cancel)
 
         self.hide_all()
@@ -120,7 +123,13 @@ class GTKProgress(gtk.Dialog):
         self.progress.set_fraction(1.0)
         self.update()
 
-    def cancel(self, dialog, response):
+
+    def response(self, dialog, response):
+        self.cancel(dialog)
+
+    def cancel(self, dialog):
+        print "Cancelling"
+        self.plugin.cancelled = True
         self.hide_all()
 
     def start(self):

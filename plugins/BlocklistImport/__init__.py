@@ -44,6 +44,7 @@ class BlocklistImport:
         self.interface = interface
         self.gtkconf = GTKConfig(self)
         self.gtkprog = GTKProgress(self)
+        self.cancelled = False
 
         self.blockfile = deluge.common.CONFIG_DIR + "/blocklist.cache"
 
@@ -83,7 +84,7 @@ class BlocklistImport:
         reader = readers[ltype][1](self.blockfile)
 
         ips = reader.next()
-        while ips:
+        while ips and not self.cancelled:
             self.core.add_range_to_ip_filter(*ips)
             self.gtkprog.import_prog()
             ips = reader.next()
