@@ -682,10 +682,6 @@ class Manager:
 			if torrent not in torrents_with_unique_ID:
 #				print "Adding torrent to core:", torrent.filename, torrent.save_dir, torrent.compact
 				try:
-					if(torrent.compact == True):
-						torrent.compact == "1"
-					else:
-						torrent.compact == "0"
 					unique_ID = deluge_core.add_torrent(torrent.filename,
 				                                    torrent.save_dir,
 				                                    torrent.compact)
