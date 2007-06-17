@@ -238,6 +238,7 @@ class DelugeGTK:
 			if self.config.get("lock_tray", bool, default=False) == True:
 				self.unlock_tray("mainwinshow")
 			else:
+				self.load_window_geometry()
 				self.window.show()
 	
 	def force_show_hide(self, arg=None):
@@ -893,7 +894,8 @@ class DelugeGTK:
 		try:
 			if self.torrent_view.get_selection().count_selected_rows() == 1:
 				self.torrent_selected = self.torrent_view.get_selection().get_selected_rows()[1][0]
-			return self.torrent_model.get_value(self.torrent_model.get_iter(self.torrent_selected), 0)
+			selected_torrent = self.torrent_model.get_value(self.torrent_model.get_iter(self.torrent_selected), 0)
+			return selected_torrent
 		except TypeError, ValueError:
 			return None
 			
@@ -1157,8 +1159,8 @@ class DelugeGTK:
 	
 	def window_configure_event(self, widget, event):
 		if self.config.get("window_maximized") == False:
-			self.config.set("window_x_pos", event.x)
-			self.config.set("window_y_pos", event.y)
+			self.config.set("window_x_pos", self.window.get_position()[0])
+			self.config.set("window_y_pos", self.window.get_position()[1])
 			self.config.set("window_width", event.width)
 			self.config.set("window_height", event.height)
 
