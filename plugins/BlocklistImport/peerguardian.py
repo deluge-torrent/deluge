@@ -1,3 +1,7 @@
+##
+# Copyright 2007 Steve 'Tarka' Smith (tarka@internode.on.net)
+# Distributed under the same terms as Deluge
+##
 
 from exceptions import Exception
 from struct import unpack

@@ -1,5 +1,10 @@
+##
+# Copyright 2007 Steve 'Tarka' Smith (tarka@internode.on.net)
+# Distributed under the same terms as Deluge
+##
 
-import gtk
+import gobject, gtk
+import BlocklistImport
 
 class GTKConfig(gtk.Dialog):
     def __init__(self, plugin):
@@ -16,19 +21,29 @@ class GTKConfig(gtk.Dialog):
         label = gtk.Label()
         label.set_markup('<b>Blocklist URL</b>')
         self.url = gtk.Entry()
-        self.listtype = gtk.combo_box_new_text()
-        self.listtype.append_text("PeerGuardian (GZip)")
+
+        ls = gtk.ListStore(gobject.TYPE_STRING,  # Long name
+                           gobject.TYPE_STRING)  # Short name
+        for k in BlocklistImport.readers.keys():
+            ls.append([BlocklistImport.readers[k][0], k])
+
+        cell = gtk.CellRendererText()
+        cell.set_property('xpad', 5) # padding for status text
+
+        self.listtype = gtk.ComboBox(model=ls)
+        self.listtype.pack_start(cell, False)
+        self.listtype.add_attribute(cell, 'text', 0)
         self.listtype.set_active(0)
 
         hbox = gtk.HBox(False, 6)
         hbox.pack_start(label)
         hbox.pack_start(self.url)
-        hbox.pack_start(self.listtype)
 
+        self.vbox.pack_start(self.listtype)
         self.vbox.pack_start(hbox)
 
         # Load on start
-        self.load_on_start = gtk.CheckButton("Load on start")
+        self.load_on_start = gtk.CheckButton("Download on start")
         self.vbox.pack_start(self.load_on_start)
 
         self.connect('response', self.ok)
@@ -46,8 +61,13 @@ class GTKConfig(gtk.Dialog):
             self.cancel(dialog)
             return
         
-        self.plugin.setconfig(self.url.get_text(),
-                              self.load_on_start.get_active())
+        ls = self.listtype.get_model()
+        ltype = ls[self.listtype.get_active()][1]
+        url = self.url.get_text()
+        los = self.load_on_start.get_active()
+        
+        self.plugin.setconfig(url, los, ltype)
+
         
     def cancel(self, dialog, response):
         self.hide_all()

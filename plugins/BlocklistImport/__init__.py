@@ -1,9 +1,18 @@
-
+##
+# Copyright 2007 Steve 'Tarka' Smith (tarka@internode.on.net)
+# Distributed under the same terms as Deluge
+##
 
 plugin_name = "Blocklist Importer"
 plugin_author = "Steve 'Tarka' Smith"
-plugin_version = "0.1"
-plugin_description = "Downloads and import PeerGuardian blocklists"
+plugin_version = "0.3"
+plugin_description = """
+Downloads and import PeerGuardian blocklists.
+
+It can parse uncompressed text-format list, and Gzip P2B version 1 and
+2.  It does not currently support 7zip encoded lists unfortunately.
+It is suggested these are downloaded an unpacked via a cron script.
+"""
 
 def deluge_init(deluge_path):
     global path
@@ -17,7 +26,13 @@ def enable(core, interface):
 
 import urllib, deluge.common, deluge.pref
 from peerguardian import PGReader, PGException
+from text import TextReader
 from ui import GTKConfig, GTKProgress
+
+# List of formats supported.  This is used to generate the UI list and
+# specify the reader class
+readers = {'p2bgz':("PeerGuardian P2B (GZip)", PGReader),
+           'text':("PeerGuardian Text", TextReader)}
 
 class BlocklistImport:
 
@@ -30,7 +45,7 @@ class BlocklistImport:
         self.gtkconf = GTKConfig(self)
         self.gtkprog = GTKProgress(self)
 
-        self.blockfile = deluge.common.CONFIG_DIR + "/blocklist.p2b.gzip"
+        self.blockfile = deluge.common.CONFIG_DIR + "/blocklist.cache"
 
         conffile = deluge.common.CONFIG_DIR + "/blocklist.conf"
         self.config = deluge.pref.Preferences(filename=conffile,
@@ -53,6 +68,7 @@ class BlocklistImport:
         
         # Attempt initial import
         if fetch:
+            print "Fetching",self.config.get('url')
             self.gtkprog.start_download()
             filename, headers = urllib.urlretrieve(self.config.get('url'),
                                                    filename=self.blockfile,
@@ -61,7 +77,10 @@ class BlocklistImport:
         self.gtkprog.start_import()
 
         self.core.reset_ip_filter()
-        reader = PGReader(self.blockfile)
+        #reader = PGReader(self.blockfile)
+        ltype = self.config.get('listtype')
+        print "importing with",ltype
+        reader = readers[ltype][1](self.blockfile)
 
         ips = reader.next()
         while ips:
@@ -77,9 +96,10 @@ class BlocklistImport:
     def configure(self):
         self.gtkconf.start()
 
-    def setconfig(self, url, load_on_start):
+    def setconfig(self, url, load_on_start, listtype):
         self.config.set('url', url)
         self.config.set('load_on_start', load_on_start)
+        self.config.set('listtype', listtype)
         self.config.save()
 
         self.loadlist(fetch=True)
