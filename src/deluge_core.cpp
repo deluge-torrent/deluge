@@ -212,7 +212,6 @@ boost::filesystem::path const& save_path)
     torrent_t new_torrent;
 
     torrent_handle h = M_ses->add_torrent(t, save_path, resume_data, compact_mode, 16 * 1024);
-
     //	h.set_max_connections(60); // at some point we should use this
     h.set_max_uploads(-1);
     h.set_ratio(preferred_ratio);
@@ -514,7 +513,6 @@ static PyObject *torrent_add_torrent(PyObject *self, PyObject *args)
         return NULL;
 
     boost::filesystem::path save_dir_2  (save_dir, empty_name_check);
-
     try
     {
         long ret = internal_add_torrent(name, 0, compact, save_dir_2);
