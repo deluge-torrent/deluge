@@ -48,10 +48,7 @@
 
 import deluge_core
 import os, os.path, shutil, statvfs
-import pickle
-import time
-import gettext
-import pref
+import pickle, time, gettext, pref
 
 # Constants
 
