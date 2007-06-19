@@ -102,7 +102,7 @@ class PreferencesDlg:
 			self.preferences.set("use_upnp", self.glade.get_widget("chk_upnp").get_active())
 			self.preferences.set("use_natpmp", self.glade.get_widget("chk_natpmp").get_active())
 			self.preferences.set("use_utpex", self.glade.get_widget("chk_utpex").get_active())
-			self.preferences.set("system_tray", self.glade.get_widget("chk_use_tray").get_active())
+			self.preferences.set("enable_system_tray", self.glade.get_widget("chk_use_tray").get_active())
 			self.preferences.set("close_to_tray", self.glade.get_widget("chk_min_on_close").get_active())
 			self.preferences.set("lock_tray", self.glade.get_widget("chk_lock_tray").get_active())
 			self.preferences.set("tray_passwd", self.glade.get_widget("txt_tray_passwd").get_text())
