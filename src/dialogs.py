@@ -112,7 +112,7 @@ class PreferencesDlg:
 			self.preferences.set("use_default_dir", self.glade.get_widget("radio_save_all_to").get_active())
 			self.preferences.set("default_download_path", self.glade.get_widget("download_path_button").get_filename())
 			self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())
-			self.preferences.set("end_seed_ratio", self.glade.get_widget("ratio_spinner").get_value())
+			self.preferences.set("auto_seed_ratio", self.glade.get_widget("ratio_spinner").get_value())
 			self.preferences.set("use_compact_storage", self.glade.get_widget("chk_compact").get_active())
 			self.preferences.set("listen_on", [self.glade.get_widget("spin_port_min").get_value(), self.glade.get_widget("spin_port_max").get_value()])
 			self.preferences.set("max_upload_rate", self.glade.get_widget("spin_max_upload").get_value())
@@ -122,8 +122,6 @@ class PreferencesDlg:
 			self.preferences.set("max_connections", self.glade.get_widget("spin_max_connections").get_value())
 			self.preferences.set("max_number_torrents", self.glade.get_widget("spin_torrents").get_value())
 			self.preferences.set("queue_seeds_to_bottom", self.glade.get_widget("chk_seedbottom").get_active())
-			self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())
-			self.preferences.set("auto_seed_ratio", self.glade.get_widget("ratio_spinner").get_value())
 			self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
 			self.preferences.set("gui_update_interval", self.glade.get_widget("spin_gui").get_value())
 
