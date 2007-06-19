@@ -503,6 +503,9 @@ class Manager:
 			ret.append(event)
 
 			if event['event_type'] is self.constants['EVENT_FINISHED']:
+				# Queue seeding torrent to bottom if needed
+				if self.get_pref('queue_seeds_to_bottom'):
+					self.queue_to_bottom(event['unique_ID'])
 				# If we are autoseeding, then we need to apply the queue
 				if self.get_pref('auto_seed_ratio') == -1:
 					self.apply_queue(efficient = False) # To work on current data
