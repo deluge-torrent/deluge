@@ -32,8 +32,7 @@
 
 import sys, os, os.path, urllib
 import core, common, dgtk, ipc_manager, dialogs
-import plugins, pref
-import pygtk
+import plugins, pref, pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade, gobject
 import xdg, xdg.BaseDirectory
@@ -159,7 +158,11 @@ class DelugeGTK:
 	def build_tray_icon(self):
 		self.tray_icon = gtk.status_icon_new_from_file(common.get_pixmap("deluge32.png"))
 		self.tray_menu = gtk.Menu()
-		item_show  = gtk.MenuItem(_("Show / Hide Window"))
+                if self.window.get_property("visible"):
+                        if self.window.is_active():
+                                item_show = gtk.MenuItem(_("Hide Window"))
+                else:
+			item_show = gtk.MenuItem(_("Show Window"))
 		item_add   = gtk.ImageMenuItem(_("Add Torrent"))
 		item_clear = gtk.ImageMenuItem(_("Clear Finished"))
 		item_pref  = gtk.ImageMenuItem(gtk.STOCK_PREFERENCES)
@@ -176,7 +179,7 @@ class DelugeGTK:
 		item_pref.connect("activate", self.show_pref_dialog)
 		item_plug.connect("activate", self.show_plugin_dialog)
 		item_quit.connect("activate", self.quit)
-		
+
 		self.tray_menu.append(item_show)
 		self.tray_menu.append(item_add)
 		self.tray_menu.append(item_clear)
@@ -185,13 +188,15 @@ class DelugeGTK:
 		self.tray_menu.append(item_plug)
 		self.tray_menu.append(gtk.SeparatorMenuItem())
 		self.tray_menu.append(item_quit)
-		
+				
 		self.tray_menu.show_all()
-		
 		self.tray_icon.connect("activate", self.tray_clicked)
 		self.tray_icon.connect("popup-menu", self.tray_popup)
 		
 	def tray_popup(self, status_icon, button, activate_time):
+		self.tray_icon.set_visible(False)
+		self.tray_icon = None
+		self.build_tray_icon()
 		self.tray_menu.popup(None, None, gtk.status_icon_position_menu, 
 			button, activate_time, status_icon)
 
@@ -244,11 +249,13 @@ class DelugeGTK:
 	def force_show_hide(self, arg=None):
 		if self.window.get_property("visible"):
 			self.window.hide()
+
 		else:
                         if self.config.get("lock_tray", bool, default=False) == True:
 				self.unlock_tray("mainwinshow")
 			else:
 				self.window.show()
+
 
 	def build_torrent_table(self):
 		## Create the torrent listview
@@ -738,7 +745,7 @@ class DelugeGTK:
 			_("Connections") + ": " + str(connections) + "\n" + _("Download") + ": " + \
 			dlrate + "\n" + _("Upload") + ": " + ulrate
 		
-		self.tray_icon.set_tooltip(msg)		
+		self.tray_icon.set_tooltip(msg)
 
 		#Update any active plugins
 		self.plugins.update_active_plugins()
