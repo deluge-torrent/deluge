@@ -268,8 +268,8 @@ class DelugeGTK:
 												"set_ratio3": self.set_ratio_3,
 												})
 		self.torrent_menu.connect("focus", self.torrent_menu_focus)
-		# UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
-		self.torrent_model = gtk.ListStore(int, int, str, str, float, str, int, int, int, int, int, int, str, float)
+		# UID, Q#, Status Icon, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
+		self.torrent_model = gtk.ListStore(int, int, gtk.gdk.Pixbuf, str, str, float, str, int, int, int, int, int, int, str, float)
 		self.torrent_view.set_model(self.torrent_model)
 		self.torrent_view.set_rules_hint(True)
 		self.torrent_view.set_reorderable(True)
@@ -310,20 +310,26 @@ class DelugeGTK:
 			
 		
 		## Initializes the columns for the torrent_view
-		self.queue_column 	= 	dgtk.add_text_column(self.torrent_view, "#", 1)
-		self.name_column 	=	dgtk.add_text_column(self.torrent_view, _("Name"), 2)
-		self.size_column 	=	dgtk.add_func_column(self.torrent_view, _("Size"), size, 3)
-		self.status_column 	= 	dgtk.add_progress_column(self.torrent_view, _("Status"), 4, 5)
-		self.seed_column 	=	dgtk.add_func_column(self.torrent_view, _("Seeders"), peer, (6, 7))
-		self.peer_column 	=	dgtk.add_func_column(self.torrent_view, _("Peers"), peer, (8, 9))
-		self.dl_column 		=	dgtk.add_func_column(self.torrent_view, _("Download"), rate, 10)
-		self.ul_column 		=	dgtk.add_func_column(self.torrent_view, _("Upload"), rate, 11)
-		self.eta_column 	=	dgtk.add_func_column(self.torrent_view, _("ETA"), time, 12)
-		self.share_column 	= 	dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, 13)
+		(TORRENT_VIEW_COL_UID, TORRENT_VIEW_COL_QUEUE, TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME,
+		TORRENT_VIEW_COL_SIZE, TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS,
+		TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS,	
+		TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS, TORRENT_VIEW_COL_DOWNLOAD, 
+		TORRENT_VIEW_COL_UPLOAD, TORRENT_VIEW_COL_ETA, TORRENT_VIEW_COL_RATIO) = range(15)
+
+		self.queue_column 	= 	dgtk.add_text_column(self.torrent_view, "#", TORRENT_VIEW_COL_QUEUE)
+		self.name_column 	=	dgtk.add_text_column(self.torrent_view, _("Name"), TORRENT_VIEW_COL_NAME)
+		self.size_column 	=	dgtk.add_func_column(self.torrent_view, _("Size"), size, TORRENT_VIEW_COL_SIZE)
+		self.status_column 	= 	dgtk.add_progress_column(self.torrent_view, _("Status"), TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS)
+		self.seed_column 	=	dgtk.add_func_column(self.torrent_view, _("Seeders"), peer, (TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS))
+		self.peer_column 	=	dgtk.add_func_column(self.torrent_view, _("Peers"), peer, (TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS))
+		self.dl_column 		=	dgtk.add_func_column(self.torrent_view, _("Download"), rate, TORRENT_VIEW_COL_DOWNLOAD)
+		self.ul_column 		=	dgtk.add_func_column(self.torrent_view, _("Upload"), rate, TORRENT_VIEW_COL_UPLOAD)
+		self.eta_column 	=	dgtk.add_func_column(self.torrent_view, _("ETA"), time, TORRENT_VIEW_COL_ETA)
+		self.share_column 	= 	dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, TORRENT_VIEW_COL_RATIO)
 		
 		self.status_column.set_expand(True)
-		self.seed_column.set_sort_column_id(6)
-		self.peer_column.set_sort_column_id(8)
+		self.seed_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_SEEDS)
+		self.peer_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_PEERS)
 		
 		def long_sort(model, iter1, iter2, data):
 			value1 = long(model.get_value(iter1, data))
@@ -335,11 +341,11 @@ class DelugeGTK:
 			else:
 				return 0
 		
-		self.torrent_model.set_sort_func(1, long_sort, 1)
-		self.torrent_model.set_sort_func(3, long_sort, 3)
-		self.torrent_model.set_sort_func(12, long_sort, 12)
+		self.torrent_model.set_sort_func(TORRENT_VIEW_COL_QUEUE, long_sort, TORRENT_VIEW_COL_QUEUE)
+		self.torrent_model.set_sort_func(TORRENT_VIEW_COL_SIZE, long_sort, TORRENT_VIEW_COL_SIZE)
+		self.torrent_model.set_sort_func(TORRENT_VIEW_COL_ETA, long_sort, TORRENT_VIEW_COL_ETA)
 		
-		self.torrent_model.set_sort_column_id(1, gtk.SORT_ASCENDING)
+		self.torrent_model.set_sort_column_id(TORRENT_VIEW_COL_QUEUE, gtk.SORT_ASCENDING)
 		
 		try:
 			self.torrent_view.get_selection().set_select_function(self.torrent_clicked, full=True)
@@ -633,7 +639,7 @@ class DelugeGTK:
 	def get_list_from_unique_id(self, unique_id):
 		state = self.manager.get_torrent_state(unique_id)
 		
-		queue = int(state['queue_pos']) + 1 
+		queue = int(state['queue_pos']) + 1
 		name = state['name']
 		size = long(state['total_size'])
 		progress = float(state['progress'] * 100)
@@ -649,7 +655,8 @@ class DelugeGTK:
 		except ZeroDivisionError:
 			eta = 0
 		share = float(self.calc_share_ratio(unique_id, state))
-		rlist =  [int(unique_id), int(queue), str(name), long(size), float(progress), str(message),
+		# The None is for the status icon
+		rlist =  [int(unique_id), int(queue), None,str(name), long(size), float(progress), str(message),
 				int(seeds), int(seeds_t), int(peers), int(peers_t), int(dlrate), int(ulrate), int(eta), float(share)]	
 
 		return rlist
