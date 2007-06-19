@@ -102,3 +102,14 @@ def add_toggle_column(view, header, cid, toggled_signal=None):
 	if toggled_signal is not None:
 		render.connect("toggled", toggled_signal)
 	return column
+
+def add_texticon_column(view, header, icon_col, text_col):
+	column = gtk.TreeViewColumn(header)
+	render = gtk.CellRendererPixbuf()
+	column.pack_start(render, expand=False)
+	column.add_attribute(render, 'pixbuf', icon_col)
+	render = gtk.CellRendererText()
+	column.pack_start(render, expand=True)
+	column.add_attribute(render, 'text', text_col)
+	view.append_column(column)
+	return column

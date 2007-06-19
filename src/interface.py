@@ -317,7 +317,7 @@ class DelugeGTK:
 		TORRENT_VIEW_COL_UPLOAD, TORRENT_VIEW_COL_ETA, TORRENT_VIEW_COL_RATIO) = range(15)
 
 		self.queue_column 	= 	dgtk.add_text_column(self.torrent_view, "#", TORRENT_VIEW_COL_QUEUE)
-		self.name_column 	=	dgtk.add_text_column(self.torrent_view, _("Name"), TORRENT_VIEW_COL_NAME)
+		self.name_column  = dgtk.add_texticon_column(self.torrent_view, _("Name"), TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME)
 		self.size_column 	=	dgtk.add_func_column(self.torrent_view, _("Size"), size, TORRENT_VIEW_COL_SIZE)
 		self.status_column 	= 	dgtk.add_progress_column(self.torrent_view, _("Status"), TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS)
 		self.seed_column 	=	dgtk.add_func_column(self.torrent_view, _("Seeders"), peer, (TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS))
@@ -328,6 +328,7 @@ class DelugeGTK:
 		self.share_column 	= 	dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, TORRENT_VIEW_COL_RATIO)
 		
 		self.status_column.set_expand(True)
+		self.name_column.set_sort_column_id(TORRENT_VIEW_COL_NAME)
 		self.seed_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_SEEDS)
 		self.peer_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_PEERS)
 		
@@ -655,8 +656,16 @@ class DelugeGTK:
 		except ZeroDivisionError:
 			eta = 0
 		share = float(self.calc_share_ratio(unique_id, state))
-		# The None is for the status icon
-		rlist =  [int(unique_id), int(queue), None,str(name), long(size), float(progress), str(message),
+		
+		# Set the appropriate status icon
+		if state["is_paused"]:
+			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("inactive24.png"))
+		elif state["is_seed"]:
+			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("seeding24.png"))
+		else:
+			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("downloading24.png"))
+	
+		rlist =  [int(unique_id), int(queue), status_icon, str(name), long(size), float(progress), str(message),
 				int(seeds), int(seeds_t), int(peers), int(peers_t), int(dlrate), int(ulrate), int(eta), float(share)]	
 
 		return rlist
