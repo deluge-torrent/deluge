@@ -469,17 +469,17 @@ class Manager:
 					
 				# Before we resume, we should check if the torrent is using Full Allocation 
 				# and if there is enough space on to finish this file.
-					if self.unique_IDs[unique_ID].compact == False:
-						torrent_state = self.get_core_torrent_state(unique_ID, efficient)
-						avail = self.calc_free_space(self.unique_IDs[unique_ID].save_dir)
-						total_needed = torrent_state["total_size"] - torrent_state["total_done"]
-						if total_needed < avail:
-							# We have enough free space, so lets resume this torrent
-							deluge_core.resume(unique_ID)
-						else:
-							print "Not enough free space to resume this torrent!"
-					else: #We're using compact allocation so lets just resume
+				if self.unique_IDs[unique_ID].compact == False:
+					torrent_state = self.get_core_torrent_state(unique_ID, efficient)
+					avail = self.calc_free_space(self.unique_IDs[unique_ID].save_dir)
+					total_needed = torrent_state["total_size"] - torrent_state["total_done"]
+					if total_needed < avail:
+						# We have enough free space, so lets resume this torrent
 						deluge_core.resume(unique_ID)
+					else:
+						print "Not enough free space to resume this torrent!"
+				else: #We're using compact allocation so lets just resume
+					deluge_core.resume(unique_ID)
 
 			elif (not self.get_core_torrent_state(unique_ID, efficient)['is_paused']) and \
 				  ( (index >= self.get_pref('max_active_torrents') and \
