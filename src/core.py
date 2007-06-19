@@ -461,6 +461,12 @@ class Manager:
 			if (index < self.get_pref('max_active_torrents') or self.get_pref('max_active_torrents') == -1) \
 				and self.get_core_torrent_state(unique_ID, efficient)['is_paused']               \
 				and not self.is_user_paused(unique_ID):
+				
+				# This torrent is a seed so skip all the free space checking
+				if self.get_core_torrent_state(unique_ID, efficient)['is_seed']:
+					deluge_core.resume(unique_ID)
+					continue
+					
 				# Before we resume, we should check if the torrent is using Full Allocation 
 				# and if there is enough space on to finish this file.
 					if self.unique_IDs[unique_ID].compact == False:
