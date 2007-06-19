@@ -773,7 +773,7 @@ class DelugeGTK:
 				if not self.torrent_model.iter_is_valid(itr):
 					itr = None
 		try:
-			if self.manager.is_user_paused(self.get_selected_torrent()):
+			if self.manager.get_torrent_state(self.get_selected_torrent())["is_paused"]:
 				self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PLAY)
 				self.wtree.get_widget("toolbutton_pause").set_label(_("Resume"))
 			else:
