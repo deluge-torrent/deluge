@@ -454,6 +454,7 @@ class Manager:
 					ratio = self.calc_ratio(unique_ID, torrent_state)
 					if ratio >= self.get_pref('auto_seed_ratio'):
 						self.queue_bottom(unique_ID, enforce_queue=False) # don't recurse!
+						self.set_user_pause(unique_ID, True, enforce_queue=False)
 
 		# Pause and resume torrents
 		for index in range(len(self.state.queue)):
@@ -569,9 +570,10 @@ class Manager:
 
 	# Miscellaneous minor functions
 
-	def set_user_pause(self, unique_ID, new_value):
+	def set_user_pause(self, unique_ID, new_value, enforce_queue=True):
 		self.unique_IDs[unique_ID].user_paused = new_value
-		self.apply_queue()
+		if enforce_queue:
+			self.apply_queue()
 
 	def set_ratio(self, unique_ID, num):
 		deluge_core.set_ratio(unique_ID, num)

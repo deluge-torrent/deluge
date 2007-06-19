@@ -82,7 +82,7 @@ class PreferencesDlg:
 			self.glade.get_widget("spin_torrents").set_value(self.preferences.get("max_number_torrents", int, default=-1))
 			self.glade.get_widget("chk_seedbottom").set_active(self.preferences.get("queue_seeds_to_bottom", bool, default=False))
 			self.glade.get_widget("chk_autoseed").set_active(self.preferences.get("auto_end_seeding", bool, default=False))
-			self.glade.get_widget("ratio_spinner").set_value(self.preferences.get("auto_seed_ratio", int, default=-1))
+			self.glade.get_widget("ratio_spinner").set_value(self.preferences.get("auto_seed_ratio"))
 			self.glade.get_widget("chk_dht").set_active(self.preferences.get("enable_dht", bool, default=True))
 			self.glade.get_widget("spin_gui").set_value(self.preferences.get("gui_update_interval", float, default=1.0))
 			
