@@ -447,12 +447,12 @@ class Manager:
 	# ___ALL queuing code should be in this function, and ONLY here___
 	def apply_queue(self, efficient = True):
 		# Handle autoseeding - downqueue as needed
-		if self.get_pref('auto_seed_ratio') > 0:
+		if self.get_pref('ratio_spinner') > 0:
 			for unique_ID in self.unique_IDs:
 				if self.get_core_torrent_state(unique_ID, efficient)['is_seed']:
 					torrent_state = self.get_core_torrent_state(unique_ID, efficient)
 					ratio = self.calc_ratio(unique_ID, torrent_state)
-					if ratio >= self.get_pref('auto_seed_ratio'):
+					if ratio >= self.get_pref('ratio_spinner'):
 						self.queue_bottom(unique_ID, enforce_queue=False) # don't recurse!
 						self.set_user_pause(unique_ID, True, enforce_queue=False)
 
@@ -507,7 +507,7 @@ class Manager:
 				if self.get_pref('queue_seeds_to_bottom'):
 					self.queue_to_bottom(event['unique_ID'])
 				# If we are autoseeding, then we need to apply the queue
-				if self.get_pref('auto_seed_ratio') == -1:
+				if self.get_pref('ratio_spinner') == -1:
 					self.apply_queue(efficient = False) # To work on current data
 			elif event['event_type'] is self.constants['EVENT_TRACKER']:
 				unique_ID = event['unique_ID']
