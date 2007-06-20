@@ -158,41 +158,20 @@ class DelugeGTK:
 	
 	def build_tray_icon(self):
 		self.tray_icon = gtk.status_icon_new_from_file(common.get_pixmap("deluge32.png"))
-		self.tray_menu = gtk.Menu()
-
-		self.item_bwdownset = gtk.MenuItem(_("Download Limit"))
-		self.item_bwupset   = gtk.MenuItem(_("Upload Limit"))
 		
-		item_show  = gtk.MenuItem(_("Show / Hide Window"))
-		item_add   = gtk.ImageMenuItem(_("Add Torrent"))
-		item_clear = gtk.ImageMenuItem(_("Clear Finished"))
-		item_pref  = gtk.ImageMenuItem(gtk.STOCK_PREFERENCES)
-		item_plug  = gtk.ImageMenuItem(_("Plugins"))
-		item_quit  = gtk.ImageMenuItem(gtk.STOCK_QUIT)
+		self.tray_glade = gtk.glade.XML(common.get_glade_file("tray_menu.glade"), domain='deluge')
+		self.tray_menu  = self.tray_glade.get_widget("tray_menu")
+		self.tray_glade.signal_autoconnect({
+										    "quit": self.quit,
+											"plugins": self.show_plugin_dialog,
+											"preferences": self.show_pref_dialog,
+											"add_torrent": self.add_torrent_clicked,
+											"clear_finished": self.clear_finished,
+											"show_hide_window": self.force_show_hide,
+											})
 		
-		item_add.set_image(gtk.image_new_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_MENU))
-		item_clear.set_image(gtk.image_new_from_stock(gtk.STOCK_CLEAR, gtk.ICON_SIZE_MENU))
-		item_plug.set_image(gtk.image_new_from_stock(gtk.STOCK_DISCONNECT, gtk.ICON_SIZE_MENU))
-		
-		item_show.connect("activate", self.force_show_hide)
-		item_add.connect("activate", self.add_torrent_clicked)
-		item_clear.connect("activate", self.clear_finished)
-		item_pref.connect("activate", self.show_pref_dialog)
-		item_plug.connect("activate", self.show_plugin_dialog)
-		item_quit.connect("activate", self.quit)
-		
-		self.tray_menu.append(self.item_bwdownset)
-		self.tray_menu.append(self.item_bwupset)
-		self.tray_menu.append(gtk.SeparatorMenuItem())
-		self.tray_menu.append(item_show)
-		self.tray_menu.append(item_add)
-		self.tray_menu.append(item_clear)
-		self.tray_menu.append(gtk.SeparatorMenuItem())
-		self.tray_menu.append(item_pref)
-		self.tray_menu.append(item_plug)
-		self.tray_menu.append(gtk.SeparatorMenuItem())
-		self.tray_menu.append(item_quit)
-		
+		self.item_bwdownset = self.tray_glade.get_widget("download_limit")
+		self.item_bwupset   = self.tray_glade.get_widget("upload_limit")
 		self.build_tray_bwsetsubmenu()
 		
 		self.tray_icon.connect("activate", self.tray_clicked)
@@ -234,8 +213,9 @@ class DelugeGTK:
 		self.item_bwdownset.set_submenu(self.submenu_bwdownset)
 		self.item_bwupset.set_submenu(self.submenu_bwupset)
 		
-		self.tray_menu.show_all()
-
+		self.submenu_bwdownset.show_all()
+		self.submenu_bwupset.show_all()
+		
 	def tray_setbwdown(self, widget, data=None):
 		str_bwdown   = widget.get_children()[0].get_text().rstrip(" "+_("kiB/s"))
 		if str_bwdown == _("unlimited"):
