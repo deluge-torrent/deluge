@@ -292,7 +292,8 @@ class DelugeGTK:
 		self.torrent_view = self.wtree.get_widget("torrent_view")
 		self.torrent_glade = gtk.glade.XML(common.get_glade_file("torrent_menu.glade"), domain='deluge')
 		self.torrent_menu = self.torrent_glade.get_widget("torrent_menu")		
-		self.torrent_glade.signal_autoconnect({ "start_pause": self.start_pause,
+		self.torrent_glade.signal_autoconnect({ "remove_torrent": self.remove_torrent_clicked,
+												"start_pause": self.start_pause,
 												"update_tracker": self.update_tracker,
 												"clear_finished": self.clear_finished,
 												"queue_up": self.q_torrent_up,
