@@ -191,22 +191,22 @@ class DelugeGTK:
 		self.submenu_bwdownset = gtk.Menu()
 		self.submenu_bwupset   = gtk.Menu()
 
-		subitem_downtmp = gtk.MenuItem(_("unlimited"))
+		subitem_downtmp = gtk.MenuItem(_("Unlimited"))
 		self.submenu_bwdownset.append(subitem_downtmp)
 		self.submenu_bwdownset.append(gtk.SeparatorMenuItem())
 		subitem_downtmp.connect("activate", self.tray_setbwdown)
 		
-		subitem_uptmp = gtk.MenuItem(_("unlimited"))
+		subitem_uptmp = gtk.MenuItem(_("Unlimited"))
 		self.submenu_bwupset.append(subitem_uptmp)
 		self.submenu_bwupset.append(gtk.SeparatorMenuItem())
 		subitem_uptmp.connect("activate", self.tray_setbwup)
 		
 		for i in self.config.get("tray_downloadspeedlist").split(","):
-			subitem_downtmp = gtk.MenuItem(i+" "+_("kiB/s"))
+			subitem_downtmp = gtk.MenuItem(i+" "+_("KiB/s"))
 			self.submenu_bwdownset.append(subitem_downtmp)
 			subitem_downtmp.connect("activate", self.tray_setbwdown)
 		for i in self.config.get("tray_uploadspeedlist").split(","):
-			subitem_uptmp   = gtk.MenuItem(i+" "+_("kiB/s"))
+			subitem_uptmp   = gtk.MenuItem(i+" "+_("KiB/s"))
 			self.submenu_bwupset.append(subitem_uptmp)
 			subitem_uptmp.connect("activate", self.tray_setbwup)
 
@@ -217,16 +217,16 @@ class DelugeGTK:
 		self.submenu_bwupset.show_all()
 		
 	def tray_setbwdown(self, widget, data=None):
-		str_bwdown   = widget.get_children()[0].get_text().rstrip(" "+_("kiB/s"))
-		if str_bwdown == _("unlimited"):
+		str_bwdown   = widget.get_children()[0].get_text().rstrip(" "+_("KiB/s"))
+		if str_bwdown == _("Unlimited"):
 			str_bwdown = "-1"
 
 		self.config.set("max_download_rate", str_bwdown)
 		self.apply_prefs()
 
 	def tray_setbwup(self, widget, data=None):
-		str_bwup     = widget.get_children()[0].get_text().rstrip(" "+_("kiB/s"))
-		if str_bwup == _("unlimited"):
+		str_bwup     = widget.get_children()[0].get_text().rstrip(" "+_("KiB/s"))
+		if str_bwup == _("Unlimited"):
 			str_bwup = "-1"
 		
 		self.config.set("max_upload_rate", str_bwup)
