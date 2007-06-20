@@ -352,7 +352,7 @@ class DelugeGTK:
 		def time(column, cell, model, iter, data):
 			time = int(model.get_value(iter, data))
 			if time < 0 or time == 0:
-				time_str = _("Infinity")
+				time_str = _("Done")
 			else:
 				time_str = common.ftime(time)
 			cell.set_property('text', time_str)
