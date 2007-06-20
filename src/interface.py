@@ -170,8 +170,8 @@ class DelugeGTK:
 											"show_hide_window": self.force_show_hide,
 											})
 		
-		self.item_bwdownset = self.tray_glade.get_widget("download_limit")
-		self.item_bwupset   = self.tray_glade.get_widget("upload_limit")
+		self.tray_glade.get_widget("download-limit-image").set_from_file(common.get_pixmap('downloading22.png'))
+		self.tray_glade.get_widget("upload-limit-image").set_from_file(common.get_pixmap('seeding22.png'))
 		self.build_tray_bwsetsubmenu()
 		
 		self.tray_icon.connect("activate", self.tray_clicked)
@@ -181,37 +181,54 @@ class DelugeGTK:
 		self.tray_menu.popup(None, None, gtk.status_icon_position_menu, 
 			button, activate_time, status_icon)
 	
-	def update_tray_bwsetsubmenu(self):
-		self.submenu_bwdownset.destroy()
-		self.submenu_bwupset.destroy()
-		
-		self.build_tray_bwsetsubmenu()
-		
 	def build_tray_bwsetsubmenu(self):
 		self.submenu_bwdownset = gtk.Menu()
 		self.submenu_bwupset   = gtk.Menu()
+			
+		group = None
+		for value in sorted(self.config.get("tray_downloadspeedlist")):
+			subitem = gtk.RadioMenuItem(group, str(value) + " " + _("KiB/s"))
+			group = subitem
+			self.submenu_bwdownset.append(subitem)
+			if value == self.config.get("max_download_rate"):
+				subitem.set_active(True)
+			subitem.connect("toggled", self.tray_setbwdown)
 
-		subitem_downtmp = gtk.MenuItem(_("Unlimited"))
-		self.submenu_bwdownset.append(subitem_downtmp)
-		self.submenu_bwdownset.append(gtk.SeparatorMenuItem())
-		subitem_downtmp.connect("activate", self.tray_setbwdown)
+		subitem = gtk.RadioMenuItem(group, _("Unlimited"))
+		self.submenu_bwdownset.append(subitem)
+		if self.config.get("max_download_rate") < 0:
+			subitem.set_active(True)
+		subitem.connect("toggled", self.tray_setbwdown)
 		
-		subitem_uptmp = gtk.MenuItem(_("Unlimited"))
-		self.submenu_bwupset.append(subitem_uptmp)
-		self.submenu_bwupset.append(gtk.SeparatorMenuItem())
-		subitem_uptmp.connect("activate", self.tray_setbwup)
+		subitem = gtk.SeparatorMenuItem()
+		self.submenu_bwdownset.append(subitem)
+		subitem = gtk.MenuItem(_("Other..."))
+		subitem.connect("activate", self.tray_setbwdown)
+		self.submenu_bwdownset.append(subitem)
 		
-		for i in self.config.get("tray_downloadspeedlist").split(","):
-			subitem_downtmp = gtk.MenuItem(i+" "+_("KiB/s"))
-			self.submenu_bwdownset.append(subitem_downtmp)
-			subitem_downtmp.connect("activate", self.tray_setbwdown)
-		for i in self.config.get("tray_uploadspeedlist").split(","):
-			subitem_uptmp   = gtk.MenuItem(i+" "+_("KiB/s"))
-			self.submenu_bwupset.append(subitem_uptmp)
-			subitem_uptmp.connect("activate", self.tray_setbwup)
+		group = None
+		for value in self.config.get("tray_uploadspeedlist"):
+			subitem = gtk.RadioMenuItem(group, str(value) + " " + _("KiB/s"))
+			group = subitem
+			if value == self.config.get("max_upload_rate"):
+				subitem.set_active(True)
+			self.submenu_bwupset.append(subitem)
+			subitem.connect("toggled", self.tray_setbwup)
 
-		self.item_bwdownset.set_submenu(self.submenu_bwdownset)
-		self.item_bwupset.set_submenu(self.submenu_bwupset)
+		subitem = gtk.RadioMenuItem(group, _("Unlimited"))
+		self.submenu_bwupset.append(subitem)
+		if self.config.get("max_upload_rate") < 0:
+			subitem.set_active(True)
+		subitem.connect("toggled", self.tray_setbwup)
+		
+		subitem = gtk.SeparatorMenuItem()
+		self.submenu_bwupset.append(subitem)
+		subitem = gtk.MenuItem(_("Other..."))
+		subitem.connect("activate", self.tray_setbwup)
+		self.submenu_bwupset.append(subitem)
+
+		self.tray_glade.get_widget("download_limit").set_submenu(self.submenu_bwdownset)
+		self.tray_glade.get_widget("upload_limit").set_submenu(self.submenu_bwupset)
 		
 		self.submenu_bwdownset.show_all()
 		self.submenu_bwupset.show_all()
@@ -219,17 +236,45 @@ class DelugeGTK:
 	def tray_setbwdown(self, widget, data=None):
 		str_bwdown   = widget.get_children()[0].get_text().rstrip(" "+_("KiB/s"))
 		if str_bwdown == _("Unlimited"):
-			str_bwdown = "-1"
+			str_bwdown = -1
 
-		self.config.set("max_download_rate", str_bwdown)
+		if str_bwdown == _("Other..."):
+			dialog_glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"))
+			rate_dialog = dialog_glade.get_widget("rate_dialog")
+			spin_rate = dialog_glade.get_widget("spin_rate")
+			spin_rate.set_value(self.config.get("max_download_rate"))
+			spin_rate.select_region(0, -1)
+			response = rate_dialog.run()
+			if response == 1: # OK Response
+				str_bwdown = spin_rate.get_value()
+			else:
+				rate_dialog.destroy()
+				return
+			rate_dialog.destroy()
+			
+		self.config.set("max_download_rate", float(str_bwdown))
 		self.apply_prefs()
 
 	def tray_setbwup(self, widget, data=None):
 		str_bwup     = widget.get_children()[0].get_text().rstrip(" "+_("KiB/s"))
 		if str_bwup == _("Unlimited"):
-			str_bwup = "-1"
+			str_bwup = -1
 		
-		self.config.set("max_upload_rate", str_bwup)
+		if str_bwup == _("Other..."):
+			dialog_glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"))
+			rate_dialog = dialog_glade.get_widget("rate_dialog")
+			spin_rate = dialog_glade.get_widget("spin_rate")
+			spin_rate.set_value(self.config.get("max_upload_rate"))
+			spin_rate.select_region(0, -1)
+			response = rate_dialog.run()
+			if response == 1: # OK Response
+				str_bwup = spin_rate.get_value()
+			else:
+				rate_dialog.destroy()
+				return
+			rate_dialog.destroy()
+			
+		self.config.set("max_upload_rate", float(str_bwup))
 		self.apply_prefs()
 
 	def unlock_tray(self,comingnext):	
@@ -643,17 +688,31 @@ class DelugeGTK:
 	
 	def apply_prefs(self):
 		# Show tray icon if necessary
-		self.tray_icon.set_visible(self.config.get("enable_system_tray", bool, default=True))
+		self.tray_icon.set_visible(self.config.get("enable_system_tray"))
 		
 		# Update the max_*_rate_bps prefs
-		ulrate = self.config.get("max_upload_rate", int, default=-1) * 1024
-		dlrate = self.config.get("max_download_rate", int, default=-1) * 1024
+		ulrate = self.config.get("max_upload_rate") * 1024
+		dlrate = self.config.get("max_download_rate") * 1024
 		if not (ulrate < 0):
 			self.config.set("max_upload_rate_bps", ulrate)
 		if not (dlrate < 0):
 			self.config.set("max_download_rate_bps", dlrate)
 		
-		self.update_tray_bwsetsubmenu()
+		# Update the tray download speed limits
+		if self.config.get("max_download_rate") not in self.config.get("tray_downloadspeedlist") and self.config.get("max_download_rate") >= 0:
+			# We need to prepend this value and remove the last value in the list
+			self.config.get("tray_downloadspeedlist").insert(0, self.config.get("max_download_rate"))
+			self.config.get("tray_downloadspeedlist").pop()
+			# Re-build the sub-menu to display new option
+			self.build_tray_bwsetsubmenu()
+		# Do the same for the upload speed limits
+		if self.config.get("max_upload_rate") not in self.config.get("tray_uploadspeedlist") and self.config.get("max_upload_rate") >= 0:
+			# We need to prepend this value and remove the last value in the list
+			self.config.get("tray_uploadspeedlist").insert(0, self.config.get("max_upload_rate"))
+			self.config.get("tray_uploadspeedlist").pop()
+			# Re-build the sub-menu to display new option
+			self.build_tray_bwsetsubmenu()
+		
 		
 		# Apply the preferences in the core
 		self.manager.apply_prefs()
@@ -699,11 +758,11 @@ class DelugeGTK:
 		
 		# Set the appropriate status icon
 		if state["is_paused"]:
-			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("inactive24.png"))
+			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("inactive22.png"))
 		elif state["is_seed"]:
-			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("seeding24.png"))
+			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("seeding22.png"))
 		else:
-			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("downloading24.png"))
+			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("downloading22.png"))
 	
 		rlist =  [int(unique_id), int(queue), status_icon, str(name), long(size), float(progress), str(message),
 				int(seeds), int(seeds_t), int(peers), int(peers_t), int(dlrate), int(ulrate), int(eta), float(share)]	

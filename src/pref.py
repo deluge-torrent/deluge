@@ -77,7 +77,9 @@ DEFAULT_PREFS = {
 	"show_status" : True,
 	"show_toolbar" : True,
 	"show_ul" : True,
+	"tray_downloadspeedlist" : [5.0, 10.0, 30.0, 80.0, 300.0],
 	"tray_passwd" : "",
+	"tray_uploadspeedlist" : [5.0, 10.0, 30.0, 80.0, 300.0]
 	"use_compact_storage" : False,
 	"use_default_dir" : False,
 	"use_natpmp" : False,
@@ -89,8 +91,6 @@ DEFAULT_PREFS = {
 	"window_width" : 640,
 	"window_x_pos" : 0,
 	"window_y_pos" : 0,
-	"tray_downloadspeedlist" : "10,20,30,40,50,100,200,300,400,500,1000",
-	"tray_uploadspeedlist" : "10,20,30,40,50,100,200,300,400,500,1000"
 }
 class Preferences:
 	def __init__(self, filename=None, global_defaults=True, defaults=None):
