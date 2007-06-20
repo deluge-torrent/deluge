@@ -159,6 +159,10 @@ class DelugeGTK:
 	def build_tray_icon(self):
 		self.tray_icon = gtk.status_icon_new_from_file(common.get_pixmap("deluge32.png"))
 		self.tray_menu = gtk.Menu()
+
+		self.item_bwdownset = gtk.MenuItem(_("Download Limit"))
+		self.item_bwupset   = gtk.MenuItem(_("Upload Limit"))
+		
 		item_show  = gtk.MenuItem(_("Show / Hide Window"))
 		item_add   = gtk.ImageMenuItem(_("Add Torrent"))
 		item_clear = gtk.ImageMenuItem(_("Clear Finished"))
@@ -177,6 +181,9 @@ class DelugeGTK:
 		item_plug.connect("activate", self.show_plugin_dialog)
 		item_quit.connect("activate", self.quit)
 		
+		self.tray_menu.append(self.item_bwdownset)
+		self.tray_menu.append(self.item_bwupset)
+		self.tray_menu.append(gtk.SeparatorMenuItem())
 		self.tray_menu.append(item_show)
 		self.tray_menu.append(item_add)
 		self.tray_menu.append(item_clear)
@@ -186,7 +193,7 @@ class DelugeGTK:
 		self.tray_menu.append(gtk.SeparatorMenuItem())
 		self.tray_menu.append(item_quit)
 		
-		self.tray_menu.show_all()
+		self.build_tray_bwsetsubmenu()
 		
 		self.tray_icon.connect("activate", self.tray_clicked)
 		self.tray_icon.connect("popup-menu", self.tray_popup)
@@ -194,6 +201,56 @@ class DelugeGTK:
 	def tray_popup(self, status_icon, button, activate_time):
 		self.tray_menu.popup(None, None, gtk.status_icon_position_menu, 
 			button, activate_time, status_icon)
+	
+	def update_tray_bwsetsubmenu(self):
+		self.submenu_bwdownset.destroy()
+		self.submenu_bwupset.destroy()
+		
+		self.build_tray_bwsetsubmenu()
+		
+	def build_tray_bwsetsubmenu(self):
+		self.submenu_bwdownset = gtk.Menu()
+		self.submenu_bwupset   = gtk.Menu()
+
+		subitem_downtmp = gtk.MenuItem(_("unlimited"))
+		self.submenu_bwdownset.append(subitem_downtmp)
+		self.submenu_bwdownset.append(gtk.SeparatorMenuItem())
+		subitem_downtmp.connect("activate", self.tray_setbwdown)
+		
+		subitem_uptmp = gtk.MenuItem(_("unlimited"))
+		self.submenu_bwupset.append(subitem_uptmp)
+		self.submenu_bwupset.append(gtk.SeparatorMenuItem())
+		subitem_uptmp.connect("activate", self.tray_setbwup)
+		
+		for i in self.config.get("tray_downloadspeedlist").split(","):
+			subitem_downtmp = gtk.MenuItem(i+" "+_("kiB/s"))
+			self.submenu_bwdownset.append(subitem_downtmp)
+			subitem_downtmp.connect("activate", self.tray_setbwdown)
+		for i in self.config.get("tray_uploadspeedlist").split(","):
+			subitem_uptmp   = gtk.MenuItem(i+" "+_("kiB/s"))
+			self.submenu_bwupset.append(subitem_uptmp)
+			subitem_uptmp.connect("activate", self.tray_setbwup)
+
+		self.item_bwdownset.set_submenu(self.submenu_bwdownset)
+		self.item_bwupset.set_submenu(self.submenu_bwupset)
+		
+		self.tray_menu.show_all()
+
+	def tray_setbwdown(self, widget, data=None):
+		str_bwdown   = widget.get_children()[0].get_text().rstrip(" "+_("kiB/s"))
+		if str_bwdown == _("unlimited"):
+			str_bwdown = "-1"
+
+		self.config.set("max_download_rate", str_bwdown)
+		self.apply_prefs()
+
+	def tray_setbwup(self, widget, data=None):
+		str_bwup     = widget.get_children()[0].get_text().rstrip(" "+_("kiB/s"))
+		if str_bwup == _("unlimited"):
+			str_bwup = "-1"
+		
+		self.config.set("max_upload_rate", str_bwup)
+		self.apply_prefs()
 
 	def unlock_tray(self,comingnext):	
 		entered_pass = gtk.Entry(25)
@@ -614,6 +671,8 @@ class DelugeGTK:
 			self.config.set("max_upload_rate_bps", ulrate)
 		if not (dlrate < 0):
 			self.config.set("max_download_rate_bps", dlrate)
+		
+		self.update_tray_bwsetsubmenu()
 		
 		# Apply the preferences in the core
 		self.manager.apply_prefs()

@@ -88,7 +88,9 @@ DEFAULT_PREFS = {
 	"window_pane_position" : -1,
 	"window_width" : 640,
 	"window_x_pos" : 0,
-	"window_y_pos" : 0
+	"window_y_pos" : 0,
+	"tray_downloadspeedlist" : "10,20,30,40,50,100,200,300,400,500,1000",
+	"tray_uploadspeedlist" : "10,20,30,40,50,100,200,300,400,500,1000"
 }
 class Preferences:
 	def __init__(self, filename=None, global_defaults=True, defaults=None):

@@ -85,6 +85,9 @@ class PreferencesDlg:
 			self.glade.get_widget("ratio_spinner").set_value(self.preferences.get("auto_seed_ratio"))
 			self.glade.get_widget("chk_dht").set_active(self.preferences.get("enable_dht", bool, default=True))
 			self.glade.get_widget("spin_gui").set_value(self.preferences.get("gui_update_interval", float, default=1.0))
+
+			self.glade.get_widget("txt_tray_downladspeed").set_text(self.preferences.get("tray_downloadspeedlist", default=""))
+			self.glade.get_widget("txt_tray_uploadspeed").set_text(self.preferences.get("tray_uploadspeedlist", default=""))
 			
 		except KeyError:
 			pass
@@ -124,6 +127,9 @@ class PreferencesDlg:
 			self.preferences.set("queue_seeds_to_bottom", self.glade.get_widget("chk_seedbottom").get_active())
 			self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
 			self.preferences.set("gui_update_interval", self.glade.get_widget("spin_gui").get_value())
+
+			self.preferences.set("tray_downloadspeedlist", self.glade.get_widget("txt_tray_downladspeed").get_text())
+			self.preferences.set("tray_uploadspeedlist", self.glade.get_widget("txt_tray_uploadspeed").get_text())
 
 	def TestPort(self, widget):
 		activep = str(self.parent.manager.get_state()['port'])
