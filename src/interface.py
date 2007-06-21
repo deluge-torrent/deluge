@@ -723,7 +723,7 @@ class DelugeGTK:
 		# Apply the preferences in the core
 		self.manager.apply_prefs()
 		self.manager.pe_settings(self.config.get("encout_state"), self.config.get("encin_state"), self.config.get("enclevel_type"), self.config.get("pref_rc4"))
-		self.manager.proxy_settings(self.config.get("proxy_hostname"), self.config.get("proxy_username"), self.config.get("proxy_password"), int(self.config.get("proxy_port")), self.config.get("proxy_type"))
+		self.manager.proxy_settings(self.config.get("proxy_hostname"), self.config.get("proxy_username"), self.config.get("proxy_password"), int(self.config.get("proxy_port")), self.config.get("proxy_type"), self.config.get("peer_proxy"), self.config.get("web_seed_proxy"), self.config.get("tracker_proxy"), self.config.get("dht_proxy"))
 
 	def get_message_from_state(self, torrent_state):
 		state = torrent_state['state']
@@ -1273,14 +1273,14 @@ class DelugeGTK:
 	def load_window_settings(self):
 		self.wtree.get_widget("chk_infopane").set_active(self.config.get("show_infopane"))
 		self.wtree.get_widget("chk_toolbar").set_active(self.config.get("show_toolbar"))
-		self.wtree.get_widget("chk_size").set_active(self.config.get("show_size",))
+		self.wtree.get_widget("chk_size").set_active(self.config.get("show_size"))
 		self.wtree.get_widget("chk_status").set_active(self.config.get("show_status"))
-		self.wtree.get_widget("chk_seed").set_active(self.config.get("show_seeders",))
-		self.wtree.get_widget("chk_peer").set_active(self.config.get("show_peers",))
-		self.wtree.get_widget("chk_download").set_active(self.config.get("show_dl",))
-		self.wtree.get_widget("chk_upload").set_active(self.config.get("show_ul",))
-		self.wtree.get_widget("chk_eta").set_active(self.config.get("show_eta",))
-		self.wtree.get_widget("chk_ratio").set_active(self.config.get("show_share",))
+		self.wtree.get_widget("chk_seed").set_active(self.config.get("show_seeders"))
+		self.wtree.get_widget("chk_peer").set_active(self.config.get("show_peers"))
+		self.wtree.get_widget("chk_download").set_active(self.config.get("show_dl"))
+		self.wtree.get_widget("chk_upload").set_active(self.config.get("show_ul"))
+		self.wtree.get_widget("chk_eta").set_active(self.config.get("show_eta"))
+		self.wtree.get_widget("chk_ratio").set_active(self.config.get("show_share"))
 		self.wtree.get_widget("vpaned1").set_position(self.config.get("window_height") - self.config.get("window_pane_position"))
 	
 	def save_window_settings(self):
@@ -1353,5 +1353,3 @@ class DelugeGTK:
 if __name__ == "__main__":
 	interface = DelugeGTK()
 	interface.start()
-
-
