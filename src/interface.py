@@ -207,7 +207,7 @@ class DelugeGTK:
 		self.submenu_bwdownset.append(subitem)
 		
 		group = None
-		for value in self.config.get("tray_uploadspeedlist"):
+		for value in sorted(self.config.get("tray_uploadspeedlist")):
 			subitem = gtk.RadioMenuItem(group, str(value) + " " + _("KiB/s"))
 			group = subitem
 			if value == self.config.get("max_upload_rate"):
