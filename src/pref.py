@@ -154,36 +154,12 @@ class Preferences:
 	def set(self, key, value):
 		self.mapping[key] = value
 	
-	def get(self, key, kind=None, default=None):
-		if not key in self.mapping.keys():
-			if default is not None:
-				self.mapping[key] = default
-				return default
-			else:
-				raise KeyError
-		result = self.mapping[key]
-		if kind == None:
-			pass
-		elif kind == bool:
-			if isinstance(result, str):
-				result = not (result.lower() == "false")
-			elif isinstance(result, int):
-				result = not (result == 0)
-			else:
-				result = False
-		elif kind == int:
-			try:
-				result = int(result)
-			except ValueError:
-				result = int(float(result))
-		elif kind == float:
-			result = float(result)		
-		elif kind == str:
-			result = str(result)
-		else:
-			pass
-		
-		return result
+	def get(self, key):
+		try:
+			value = self.mapping[key]
+			return value
+		except KeyError:
+			return None
 	
 	def remove(self, key):
 		self.mapping.pop(key)

@@ -296,7 +296,7 @@ class DelugeGTK:
 		tray_lock.vbox.pack_start(entered_pass)
 		tray_lock.show_all()
 		if tray_lock.run() == gtk.RESPONSE_ACCEPT:
-			if self.config.get("tray_passwd", default="") == entered_pass.get_text():
+			if self.config.get("tray_passwd") == entered_pass.get_text():
 				if comingnext == "mainwinshow":
 					self.window.show()
 				elif comingnext == "prefwinshow":
@@ -318,7 +318,7 @@ class DelugeGTK:
 			else:
 				self.window.present()
 		else:
-			if self.config.get("lock_tray", bool, default=False) == True:
+			if self.config.get("lock_tray") == True:
 				self.unlock_tray("mainwinshow")
 			else:
 				self.load_window_geometry()
@@ -328,7 +328,7 @@ class DelugeGTK:
 		if self.window.get_property("visible"):
 			self.window.hide()
 		else:
-                        if self.config.get("lock_tray", bool, default=False) == True:
+                        if self.config.get("lock_tray") == True:
 				self.unlock_tray("mainwinshow")
 			else:
 				self.window.show()
@@ -679,7 +679,7 @@ class DelugeGTK:
 			self.config.save()
 
 		else:
-			if self.config.get("lock_tray", bool, default=False) == True:
+			if self.config.get("lock_tray") == True:
 				self.unlock_tray("prefwinshow")
 			else:
 				self.preferences_dialog.show()
@@ -722,8 +722,8 @@ class DelugeGTK:
 		
 		# Apply the preferences in the core
 		self.manager.apply_prefs()
-		self.manager.pe_settings(self.config.get("encout_state", int, default=common.EncState.enabled), self.config.get("encin_state", int, default=common.EncState.enabled), self.config.get("enclevel_type", int, default=common.EncLevel.both), self.config.get("pref_rc4", bool, default=True))
-		self.manager.proxy_settings(self.config.get("proxy_hostname"), self.config.get("proxy_username"), self.config.get("proxy_password"), int(self.config.get("proxy_port")), self.config.get("proxy_type", int, default=common.ProxyType.none))
+		self.manager.pe_settings(self.config.get("encout_state"), self.config.get("encin_state"), self.config.get("enclevel_type"), self.config.get("pref_rc4"))
+		self.manager.proxy_settings(self.config.get("proxy_hostname"), self.config.get("proxy_username"), self.config.get("proxy_password"), int(self.config.get("proxy_port")), self.config.get("proxy_type"))
 
 	def get_message_from_state(self, torrent_state):
 		state = torrent_state['state']
@@ -803,7 +803,7 @@ class DelugeGTK:
 			self.manager.quit()
 
 	def load_plugins(self):
-		enable_plugins = self.config.get('enabled_plugins', str, default="").split(':')
+		enable_plugins = self.config.get('enabled_plugins').split(':')
 		for plugin in enable_plugins:
 			try:
 				self.plugins.enable_plugin(plugin)
@@ -1069,14 +1069,14 @@ class DelugeGTK:
 				self.interactive_add_torrent(path)
 		
 	def interactive_add_torrent(self, torrent, append=True):
-		if self.config.get('use_default_dir', bool, default=False):
-			path = self.config.get('default_download_path', default=os.path.expandvars('$HOME'))
+		if self.config.get('use_default_dir'):
+			path = self.config.get('default_download_path')
 		else:
 			path = dialogs.show_directory_chooser_dialog(self.window)
 			if path is None:
 				return
 		try:
-			unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage', bool, default=False))
+			unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage'))
 			
 			if append:
 				self.torrent_model.append(self.get_list_from_unique_id(unique_id))
@@ -1271,16 +1271,16 @@ class DelugeGTK:
 		self.share_column.set_visible(obj.get_active())
 		
 	def load_window_settings(self):
-		self.wtree.get_widget("chk_infopane").set_active(self.config.get("show_infopane", bool, default=True))
-		self.wtree.get_widget("chk_toolbar").set_active(self.config.get("show_toolbar", bool, default=True))
-		self.wtree.get_widget("chk_size").set_active(self.config.get("show_size", bool, default=True))
-		self.wtree.get_widget("chk_status").set_active(self.config.get("show_status", bool, default=True))
-		self.wtree.get_widget("chk_seed").set_active(self.config.get("show_seeders", bool, default=True))
-		self.wtree.get_widget("chk_peer").set_active(self.config.get("show_peers", bool, default=True))
-		self.wtree.get_widget("chk_download").set_active(self.config.get("show_dl", bool, default=True))
-		self.wtree.get_widget("chk_upload").set_active(self.config.get("show_ul", bool, default=True))
-		self.wtree.get_widget("chk_eta").set_active(self.config.get("show_eta", bool, default=True))
-		self.wtree.get_widget("chk_ratio").set_active(self.config.get("show_share", bool, default=True))
+		self.wtree.get_widget("chk_infopane").set_active(self.config.get("show_infopane"))
+		self.wtree.get_widget("chk_toolbar").set_active(self.config.get("show_toolbar"))
+		self.wtree.get_widget("chk_size").set_active(self.config.get("show_size",))
+		self.wtree.get_widget("chk_status").set_active(self.config.get("show_status"))
+		self.wtree.get_widget("chk_seed").set_active(self.config.get("show_seeders",))
+		self.wtree.get_widget("chk_peer").set_active(self.config.get("show_peers",))
+		self.wtree.get_widget("chk_download").set_active(self.config.get("show_dl",))
+		self.wtree.get_widget("chk_upload").set_active(self.config.get("show_ul",))
+		self.wtree.get_widget("chk_eta").set_active(self.config.get("show_eta",))
+		self.wtree.get_widget("chk_ratio").set_active(self.config.get("show_share",))
 		self.wtree.get_widget("vpaned1").set_position(self.config.get("window_height") - self.config.get("window_pane_position"))
 	
 	def save_window_settings(self):
@@ -1322,7 +1322,7 @@ class DelugeGTK:
 			self.window.maximize()
 
 	def close(self, widget, event):
-		if self.config.get("close_to_tray", bool, default=False) and self.config.get("enable_system_tray", bool, default=True) and self.has_tray:
+		if self.config.get("close_to_tray") and self.config.get("enable_system_tray") and self.has_tray:
 			self.window.hide()
 			return True
 		else:
@@ -1333,7 +1333,7 @@ class DelugeGTK:
 			self.window.hide()
 			self.shutdown()
 		else:
-			if self.config.get("lock_tray", bool, default=False) == True:
+			if self.config.get("lock_tray") == True:
 				self.unlock_tray("quitus")
 			else:
 				self.window.hide()
