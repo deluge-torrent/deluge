@@ -184,14 +184,14 @@ class DelugeGTK:
 	def build_tray_bwsetsubmenu(self):
 		self.submenu_bwdownset = gtk.Menu()
 		self.submenu_bwupset   = gtk.Menu()
-			
+
 		group = None
 		for value in sorted(self.config.get("tray_downloadspeedlist")):
 			subitem = gtk.RadioMenuItem(group, str(value) + " " + _("KiB/s"))
 			group = subitem
-			self.submenu_bwdownset.append(subitem)
 			if value == self.config.get("max_download_rate"):
 				subitem.set_active(True)
+			self.submenu_bwdownset.append(subitem)
 			subitem.connect("toggled", self.tray_setbwdown)
 
 		subitem = gtk.RadioMenuItem(group, _("Unlimited"))
@@ -205,7 +205,7 @@ class DelugeGTK:
 		subitem = gtk.MenuItem(_("Other..."))
 		subitem.connect("activate", self.tray_setbwdown)
 		self.submenu_bwdownset.append(subitem)
-		
+
 		group = None
 		for value in sorted(self.config.get("tray_uploadspeedlist")):
 			subitem = gtk.RadioMenuItem(group, str(value) + " " + _("KiB/s"))
@@ -232,12 +232,12 @@ class DelugeGTK:
 		
 		self.submenu_bwdownset.show_all()
 		self.submenu_bwupset.show_all()
-		
+
 	def tray_setbwdown(self, widget, data=None):
-		str_bwdown   = widget.get_children()[0].get_text().rstrip(" "+_("KiB/s"))
+		str_bwdown     = widget.get_children()[0].get_text().rstrip(" "+_("KiB/s"))
 		if str_bwdown == _("Unlimited"):
 			str_bwdown = -1
-
+		
 		if str_bwdown == _("Other..."):
 			dialog_glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"))
 			rate_dialog = dialog_glade.get_widget("rate_dialog")
