@@ -836,8 +836,14 @@ class DelugeGTK:
 		connections = core_state['num_peers']
 		dlrate = common.frate(core_state['download_rate'])
 		ulrate = common.frate(core_state['upload_rate'])
-		dlrate_max = common.frate(self.config.get("max_download_rate_bps"))
-		ulrate_max = common.frate(self.config.get("max_upload_rate_bps"))
+		if self.config.get("max_download_rate") < 0:
+			dlrate_max = _("Unlimited")
+		else:
+			dlrate_max = common.frate(self.config.get("max_download_rate_bps"))
+		if self.config.get("max_upload_rate") < 0:
+			ulrate_max = _("Unlimited")
+		else:
+			ulrate_max = common.frate(self.config.get("max_upload_rate_bps"))
 		
 		self.statusbar_temp_msg = '%s: %s   %s: %s (%s)  %s: %s (%s)'%(
 			_('Connections'), connections, _('Download'), 
@@ -853,7 +859,7 @@ class DelugeGTK:
 		
 		msg = _("Deluge Bittorrent Client") + "\n" + \
 			_("Connections") + ": " + str(connections) + "\n" + _("Download") + ": " + \
-			dlrate + "\n" + _("Upload") + ": " + ulrate
+			dlrate + " (" + dlrate_max + ")" + "\n" + _("Upload") + ": " + ulrate + " (" + ulrate_max + ")"
 		
 		self.tray_icon.set_tooltip(msg)		
 
