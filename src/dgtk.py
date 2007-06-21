@@ -105,6 +105,9 @@ def add_toggle_column(view, header, cid, toggled_signal=None):
 
 def add_texticon_column(view, header, icon_col, text_col):
 	column = gtk.TreeViewColumn(header)
+	column.set_clickable(True)
+	column.set_resizable(True)
+	column.set_expand(False)
 	render = gtk.CellRendererPixbuf()
 	column.pack_start(render, expand=False)
 	column.add_attribute(render, 'pixbuf', icon_col)

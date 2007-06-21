@@ -1313,7 +1313,7 @@ static PyObject *torrent_proxy_settings(PyObject *self, PyObject *args)
 	libtorrent::proxy_settings::proxy_type	proxytype;
 	bool peerproxy, webseedproxy, trackerproxy, dhtproxy;
 
-	PyArg_ParseTuple(args, "sssii", &server, &login, &pasw, &portnum, &proxytype, &peerproxy, &webseedproxy, &trackerproxy, &dhtproxy);
+	PyArg_ParseTuple(args, "sssiibbbb", &server, &login, &pasw, &portnum, &proxytype, &peerproxy, &webseedproxy, &trackerproxy, &dhtproxy);
     
 	M_proxy_settings->type = proxytype;
 	M_proxy_settings->username = login;
@@ -1321,20 +1321,20 @@ static PyObject *torrent_proxy_settings(PyObject *self, PyObject *args)
 	M_proxy_settings->hostname = server;
 	M_proxy_settings->port = portnum;
 	
-	if (peerproxy){
-	M_ses->set_peer_proxy(*M_proxy_settings);
+	if (peerproxy) {
+		M_ses->set_peer_proxy(*M_proxy_settings);
 	}
 
-	if (webseedproxy){
-	M_ses->set_web_seed_proxy(*M_proxy_settings);
+	if (webseedproxy) {
+		M_ses->set_web_seed_proxy(*M_proxy_settings);
 	}
 
-	if (trackerproxy){
-	M_ses->set_tracker_proxy(*M_proxy_settings);
+	if (trackerproxy) {
+		M_ses->set_tracker_proxy(*M_proxy_settings);
 	}
 
-	if (dhtproxy){
-	M_ses->set_dht_proxy(*M_proxy_settings);
+	if (dhtproxy) {
+		M_ses->set_dht_proxy(*M_proxy_settings);
 	}
 
 	Py_INCREF(Py_None); return Py_None;
