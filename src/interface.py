@@ -692,14 +692,17 @@ class DelugeGTK:
 	def apply_prefs(self):
 		# Show tray icon if necessary
 		self.tray_icon.set_visible(self.config.get("enable_system_tray"))
-		
+	
 		# Update the max_*_rate_bps prefs
-		ulrate = self.config.get("max_upload_rate") * 1024
-		dlrate = self.config.get("max_download_rate") * 1024
-		if not (ulrate < 0):
-			self.config.set("max_upload_rate_bps", ulrate)
-		if not (dlrate < 0):
-			self.config.set("max_download_rate_bps", dlrate)
+		if self.config.get("max_upload_rate") < 0:
+			self.config.set("max_upload_rate_bps", -1)
+		else:
+			self.config.set("max_upload_rate_bps", int(self.config.get("max_upload_rate") * 1024))
+
+		if self.config.get("max_download_rate") < 0:
+			self.config.set("max_download_rate_bps", -1)
+		else:
+			self.config.set("max_download_rate_bps", int(self.config.get("max_download_rate") * 1024))
 		
 		# Update the tray download speed limits
 		if self.config.get("max_download_rate") not in self.config.get("tray_downloadspeedlist") and self.config.get("max_download_rate") >= 0:

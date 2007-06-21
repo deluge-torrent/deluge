@@ -119,7 +119,7 @@ class PreferencesDlg:
 			self.preferences.set("max_number_uploads", self.glade.get_widget("spin_num_upload").get_value())
 			self.preferences.set("max_download_rate", self.glade.get_widget("spin_max_download").get_value())
 			self.preferences.set("proxy_port", self.glade.get_widget("spin_proxy_port").get_value())
-			self.preferences.set("max_connections", self.glade.get_widget("spin_max_connections").get_value())
+			self.preferences.set("max_connections", int(self.glade.get_widget("spin_max_connections").get_value()))
 			self.preferences.set("max_active_torrents", int(self.glade.get_widget("spin_torrents").get_value()))
 			self.preferences.set("queue_seeds_to_bottom", self.glade.get_widget("chk_seedbottom").get_active())
 			self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
