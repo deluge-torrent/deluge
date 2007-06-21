@@ -98,6 +98,7 @@ class DelugeGTK:
 
 		# Set the Torrent menu bar sub-menu to the same as the right-click Torrent pop-up menu
 		self.wtree.get_widget("menu_torrent").set_submenu(self.torrent_menu)
+		self.wtree.get_widget("menu_torrent").set_sensitive(False)
 		
 		self.connect_signals()
 		
@@ -400,7 +401,7 @@ class DelugeGTK:
 		TORRENT_VIEW_COL_UPLOAD, TORRENT_VIEW_COL_ETA, TORRENT_VIEW_COL_RATIO) = range(15)
 
 		self.queue_column 	= 	dgtk.add_text_column(self.torrent_view, "#", TORRENT_VIEW_COL_QUEUE)
-		self.name_column  = dgtk.add_texticon_column(self.torrent_view, _("Name"), TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME)
+		self.name_column	= 	dgtk.add_texticon_column(self.torrent_view, _("Name"), TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME)
 		self.size_column 	=	dgtk.add_func_column(self.torrent_view, _("Size"), size, TORRENT_VIEW_COL_SIZE)
 		self.status_column 	= 	dgtk.add_progress_column(self.torrent_view, _("Status"), TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS)
 		self.seed_column 	=	dgtk.add_func_column(self.torrent_view, _("Seeders"), peer, (TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS))
@@ -538,6 +539,8 @@ class DelugeGTK:
 			
 		# Get the selected torrent state so we can check if the torrent is paused.
 		unique_id = self.get_selected_torrent()
+		if unique_id is None:
+			return
 		torrent_state = self.manager.get_torrent_state(unique_id)
 		if torrent_state["is_paused"]:
 			menuitem.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PLAY, gtk.ICON_SIZE_MENU))
@@ -896,6 +899,17 @@ class DelugeGTK:
 				self.torrent_model.remove(itr)
 				if not self.torrent_model.iter_is_valid(itr):
 					itr = None
+
+		has_selected_torrents = self.torrent_view.get_selection().count_selected_rows() > 0
+		self.wtree.get_widget("menu_torrent").set_sensitive(has_selected_torrents)
+		self.wtree.get_widget("toolbutton_remove").set_sensitive(has_selected_torrents)
+		self.wtree.get_widget("toolbutton_pause").set_sensitive(has_selected_torrents)
+		self.wtree.get_widget("toolbutton_up").set_sensitive(has_selected_torrents)
+		self.wtree.get_widget("toolbutton_down").set_sensitive(has_selected_torrents)
+
+		if not has_selected_torrents:
+			return True
+
 		try:
 			if self.manager.get_torrent_state(self.get_selected_torrent())["is_paused"]:
 				self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PLAY)
@@ -1127,8 +1141,6 @@ class DelugeGTK:
 			
 	
 	def remove_torrent_clicked(self, obj=None):
-		torrent_list = self.get_selected_torrent_rows()
-		
 		glade     = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"), domain='deluge')
 		asker     = glade.get_widget("remove_torrent_dlg")
 		
@@ -1144,17 +1156,11 @@ class DelugeGTK:
 		response = asker.run()
 		asker.destroy()
 		if response == 1:		
+			torrent_list = self.get_selected_torrent_rows()
+			self.clear_details_pane()
+			self.torrent_selected = None
 			for torrent in torrent_list:
-				if torrent is not None:
-					if torrent == self.get_selected_torrent():
-						first = self.torrent_model.get_iter_first()
-						if first:
-							self.torrent_view.get_selection().select_path("0")
-						else:
-							self.torrent_selected = None
-
-					self.manager.remove_torrent(torrent, data_also.get_active(), torrent_also.get_active())
-					self.clear_details_pane()
+				self.manager.remove_torrent(torrent, data_also.get_active(), torrent_also.get_active())
 	
 	def clear_details_pane(self):
 		self.wtree.get_widget("progressbar").set_text("")
