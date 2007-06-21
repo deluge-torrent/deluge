@@ -128,7 +128,6 @@ class DelugeGTK:
 					## File Menu
 					"add_torrent": self.add_torrent_clicked,
 					"add_torrent_url": self.add_torrent_url_clicked,
-					"remove_torrent" : self.remove_torrent_clicked,
 					"menu_quit": self.quit,
 					## Edit Menu
 					"pref_clicked": self.show_pref_dialog,
