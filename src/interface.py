@@ -837,7 +837,7 @@ class DelugeGTK:
 		# Update Statusbar and Tray Tips
 		core_state = self.manager.get_state()
 		connections = core_state['num_peers']
-		if (int(self.config.get("max_connections")) == -1):
+		if self.config.get("max_connections") < 0 :
 			max_connections = _("Unlimited")
 		else:
 			max_connections = int(self.config.get("max_connections"))
