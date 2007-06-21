@@ -79,7 +79,7 @@ DEFAULT_PREFS = {
 	"show_ul" : True,
 	"tray_downloadspeedlist" : [5.0, 10.0, 30.0, 80.0, 300.0],
 	"tray_passwd" : "",
-	"tray_uploadspeedlist" : [5.0, 10.0, 30.0, 80.0, 300.0]
+	"tray_uploadspeedlist" : [5.0, 10.0, 30.0, 80.0, 300.0],
 	"use_compact_storage" : False,
 	"use_default_dir" : False,
 	"use_natpmp" : False,
