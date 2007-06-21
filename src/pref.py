@@ -56,6 +56,7 @@ DEFAULT_PREFS = {
 	"max_download_rate" : -1,
 	"max_download_rate_bps": -1.0,
 	"max_number_downloads" : -1.0,
+	"max_number_torrents" : -1.0,
 	"max_number_uploads" : -1.0,
 	"max_upload_rate" : -1,
 	"max_upload_rate_bps" : -1.0,
