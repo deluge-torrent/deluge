@@ -52,7 +52,7 @@ DEFAULT_PREFS = {
 	"listen_on" : [6881,6889],
 	"lock_tray" : False,
 	"max_active_torrents" : -1,
-	"max_connections" : 200,
+	"max_connections" : 600,
 	"max_download_rate" : -1.0,
 	"max_download_rate_bps": -1.0,
 	"max_number_downloads" : -1.0,
