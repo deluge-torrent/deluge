@@ -837,7 +837,10 @@ class DelugeGTK:
 		# Update Statusbar and Tray Tips
 		core_state = self.manager.get_state()
 		connections = core_state['num_peers']
-		max_connections = int(self.config.get("max_connections"))
+		if (int(self.config.get("max_connections")) == -1):
+			max_connections = _("Unlimited")
+		else:
+			max_connections = int(self.config.get("max_connections"))
 		dlrate = common.frate(core_state['download_rate'])
 		ulrate = common.frate(core_state['upload_rate'])
 		if self.config.get("max_download_rate") < 0:
