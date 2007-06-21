@@ -836,10 +836,12 @@ class DelugeGTK:
 		connections = core_state['num_peers']
 		dlrate = common.frate(core_state['download_rate'])
 		ulrate = common.frate(core_state['upload_rate'])
+		dlrate_max = common.frate(self.config.get("max_download_rate_bps"))
+		ulrate_max = common.frate(self.config.get("max_upload_rate_bps"))
 		
-		self.statusbar_temp_msg = '%s: %s   %s: %s   %s: %s'%(
+		self.statusbar_temp_msg = '%s: %s   %s: %s (%s)  %s: %s (%s)'%(
 			_('Connections'), connections, _('Download'), 
-			dlrate, _('Upload'), ulrate)
+			dlrate, dlrate_max, _('Upload'), ulrate, ulrate_max)
 		
 		if 'DHT_nodes' in core_state.keys():
 			dht_peers = core_state['DHT_nodes']
