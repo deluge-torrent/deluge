@@ -764,7 +764,7 @@ class Manager:
 				PREF_FUNCTIONS[pref](self.get_pref(pref))
 
 	def set_DHT(self, start=False):
-		if start == True:
+		if start == True and self.dht_running != True:
 			print "Starting DHT..."
 			deluge_core.start_DHT(os.path.join(self.base_dir, DHT_FILENAME))
 			self.dht_running = True
