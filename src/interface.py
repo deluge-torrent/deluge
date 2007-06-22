@@ -392,7 +392,7 @@ class DelugeGTK:
 			if ratio == -1:
 				ratio_str = _("Unknown")
 			else:
-				ratio_str = "%.2f"%ratio
+				ratio_str = "%.3f"%ratio
 			cell.set_property('text', ratio_str)
 			
 		
