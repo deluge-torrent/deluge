@@ -183,57 +183,60 @@ class DelugeGTK:
 			button, activate_time, status_icon)
 	
 	def build_tray_bwsetsubmenu(self):
-		self.submenu_bwdownset = gtk.Menu()
-		self.submenu_bwupset   = gtk.Menu()
-
-		group = None
-		for value in sorted(self.config.get("tray_downloadspeedlist")):
-			subitem = gtk.RadioMenuItem(group, str(value) + " " + _("KiB/s"))
-			group = subitem
-			if value == self.config.get("max_download_rate"):
-				subitem.set_active(True)
-			self.submenu_bwdownset.append(subitem)
-			subitem.connect("toggled", self.tray_setbwdown)
-
-		subitem = gtk.RadioMenuItem(group, _("Unlimited"))
-		self.submenu_bwdownset.append(subitem)
-		if self.config.get("max_download_rate") < 0:
-			subitem.set_active(True)
-		subitem.connect("toggled", self.tray_setbwdown)
+		# Create the Download speed list sub-menu
+		self.submenu_bwdownset = self.build_menu_radio_list(self.config.get("tray_downloadspeedlist"), self.tray_setbwdown, self.config.get("max_download_rate"), _("KiB/s"), show_unlimited=True)
 		
-		subitem = gtk.SeparatorMenuItem()
-		self.submenu_bwdownset.append(subitem)
-		subitem = gtk.MenuItem(_("Other..."))
-		subitem.connect("activate", self.tray_setbwdown)
-		self.submenu_bwdownset.append(subitem)
-
-		group = None
-		for value in sorted(self.config.get("tray_uploadspeedlist")):
-			subitem = gtk.RadioMenuItem(group, str(value) + " " + _("KiB/s"))
-			group = subitem
-			if value == self.config.get("max_upload_rate"):
-				subitem.set_active(True)
-			self.submenu_bwupset.append(subitem)
-			subitem.connect("toggled", self.tray_setbwup)
-
-		subitem = gtk.RadioMenuItem(group, _("Unlimited"))
-		self.submenu_bwupset.append(subitem)
-		if self.config.get("max_upload_rate") < 0:
-			subitem.set_active(True)
-		subitem.connect("toggled", self.tray_setbwup)
+		# Create the Upload speed list sub-menu
+		self.submenu_bwupset = self.build_menu_radio_list(self.config.get("tray_uploadspeedlist"), self.tray_setbwup, self.config.get("max_upload_rate"), _("KiB/s"), show_unlimited=True)
 		
-		subitem = gtk.SeparatorMenuItem()
-		self.submenu_bwupset.append(subitem)
-		subitem = gtk.MenuItem(_("Other..."))
-		subitem.connect("activate", self.tray_setbwup)
-		self.submenu_bwupset.append(subitem)
-
+		# Add the sub-menus to the tray menu
 		self.tray_glade.get_widget("download_limit").set_submenu(self.submenu_bwdownset)
 		self.tray_glade.get_widget("upload_limit").set_submenu(self.submenu_bwupset)
 		
+		# Show the sub-menus for all to see
 		self.submenu_bwdownset.show_all()
 		self.submenu_bwupset.show_all()
 
+	def build_menu_radio_list(self, value_list, callback, pref_value=None, suffix=None, menu=None, show_unlimited=False):
+		# Build a menu with radio menu items from a list and connect them to the callback
+		# The pref_value is what you would like to test for the default active radio item
+		# Setting show_unlimited will include an Unlimited radio item
+		if menu == None:
+			menu = gtk.Menu()
+			
+		group = None
+		for value in sorted(value_list):
+			if suffix != None:
+				menuitem = gtk.RadioMenuItem(group, str(value) + " " + suffix)
+			else:
+				menuitem = gtk.RadioMenuItem(group, str(value))
+			
+			group = menuitem
+			
+			if value == pref_value and pref_value != None:
+				menuitem.set_active(True)
+
+			if callback != None:
+				menuitem.connect("toggled", callback)
+
+			menu.append(menuitem)
+
+		if show_unlimited:
+			menuitem = gtk.RadioMenuItem(group, _("Unlimited"))
+			if pref_value < 0 and pref_value != None:
+				menuitem.set_active(True)
+			menuitem.connect("toggled", callback)
+			menu.append(menuitem)
+			
+		# Add the Other... menuitem
+		menuitem = gtk.SeparatorMenuItem()
+		menu.append(menuitem)
+		menuitem = gtk.MenuItem(_("Other..."))
+		menuitem.connect("activate", callback)
+		menu.append(menuitem)
+					
+		return menu	
+	
 	def tray_setbwdown(self, widget, data=None):
 		str_bwdown     = widget.get_children()[0].get_text().rstrip(" "+_("KiB/s"))
 		if str_bwdown == _("Unlimited"):
