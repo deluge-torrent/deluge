@@ -674,17 +674,19 @@ class DelugeGTK:
 	
 	def show_pref_dialog(self, arg=None):
 		if self.window.get_property("visible"):
-			self.preferences_dialog.show()
-			self.apply_prefs()
-			self.config.save()
+			# Only apply the prefs if the user pressed OK in the prefs dialog
+			if self.preferences_dialog.show() == 1:
+				self.apply_prefs()
+				self.config.save()
 
 		else:
 			if self.config.get("lock_tray") == True:
 				self.unlock_tray("prefwinshow")
 			else:
-				self.preferences_dialog.show()
-				self.apply_prefs()
-				self.config.save()
+				# Only apply the prefs if the user pressed OK in the prefs dialog
+				if self.preferences_dialog.show() == 1:
+					self.apply_prefs()
+					self.config.save()
 	
 	def show_plugin_dialog(self, arg=None):
 		self.plugin_dialog.show()

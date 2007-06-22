@@ -131,6 +131,8 @@ class PreferencesDlg:
 			self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
 			self.preferences.set("gui_update_interval", self.glade.get_widget("spin_gui").get_value())
 
+		return r
+			
 	def TestPort(self, widget):
 		activep = str(self.parent.manager.get_state()['port'])
 		common.open_url_in_browser(self.dialog,'http://www.deluge-torrent.org/test-port.php?port=%s' %activep)
