@@ -999,14 +999,14 @@ class DelugeGTK:
 			for peer in new_peer_info:
 				if peer['ip'] in curr_ips.keys():
 					self.peer_store.set(self.peer_store.get_iter_from_string(curr_ips[peer['ip']]),
-											1,	unicode(peer['client'], 'utf8'),
+											1,	unicode(peer['client'], "latin-1"),
 											2,	round(peer["peer_has"],2),
 											3,	common.frate(peer["download_speed"]),
 											4,	common.frate(peer["upload_speed"]))
 
 				if peer['ip'] not in curr_ips.keys() and peer['client'] is not "":
 					self.peer_store.append([peer["ip"],	
-													unicode(peer["client"], 'utf8'), 
+													unicode(peer["client"], "latin-1"), 
 													round(peer["peer_has"],2), 
 													common.frate(peer["download_speed"]), 
 													common.frate(peer["upload_speed"])])
