@@ -776,8 +776,8 @@ class Manager:
 	# Calculations
 
 	def calc_ratio(self, unique_ID, torrent_state):
-		up = float(torrent_state['total_payload_upload'] + self.unique_IDs[unique_ID].uploaded_memory)
-		down = float(torrent_state["total_done"])
+                up = float((torrent_state['total_payload_upload'] / 1024) + (self.unique_IDs[unique_ID].uploaded_memory / 1024))
+                down = float(torrent_state["total_done"] / 1024)
 					
 		try:
 			ret = float(up/down)
