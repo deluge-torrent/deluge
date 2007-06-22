@@ -64,7 +64,6 @@ DEFAULT_PREFS = {
 	"pref_rc4" : True,
 	"proxy_type" : common.ProxyType.none,
 	"peer_proxy" : False,
-	"web_seed_proxy" : False,
 	"tracker_proxy" : False,
 	"dht_proxy" : False,
 	"proxy_hostname" : "",

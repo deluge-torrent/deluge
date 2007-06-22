@@ -799,8 +799,8 @@ class Manager:
 	def add_range_to_ip_filter(self, start, end):
 		return deluge_core.add_range_to_IP_filter(start, end)
 
-	def proxy_settings(self, server, login, paswd, portnum, proxytype, peerproxy, webseedproxy, trackerproxy, dhtproxy):
-		return deluge_core.proxy_settings(server, login, paswd, portnum, proxytype, peerproxy, webseedproxy, trackerproxy, dhtproxy)
+	def proxy_settings(self, server, login, paswd, portnum, proxytype, peerproxy, trackerproxy, dhtproxy):
+		return deluge_core.proxy_settings(server, login, paswd, portnum, proxytype, peerproxy, trackerproxy, dhtproxy)
 
 	def pe_settings(self, out_enc_policy, in_enc_policy, allowed_enc_level, prefer_rc4):
 		return deluge_core.pe_settings(out_enc_policy, in_enc_policy, allowed_enc_level, prefer_rc4)

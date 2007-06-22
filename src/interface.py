@@ -723,7 +723,7 @@ class DelugeGTK:
 		# Apply the preferences in the core
 		self.manager.apply_prefs()
 		self.manager.pe_settings(self.config.get("encout_state"), self.config.get("encin_state"), self.config.get("enclevel_type"), self.config.get("pref_rc4"))
-		self.manager.proxy_settings(self.config.get("proxy_hostname"), self.config.get("proxy_username"), self.config.get("proxy_password"), int(self.config.get("proxy_port")), self.config.get("proxy_type"), self.config.get("peer_proxy"), self.config.get("web_seed_proxy"), self.config.get("tracker_proxy"), self.config.get("dht_proxy"))
+		self.manager.proxy_settings(self.config.get("proxy_hostname"), self.config.get("proxy_username"), self.config.get("proxy_password"), int(self.config.get("proxy_port")), self.config.get("proxy_type"), self.config.get("peer_proxy"), self.config.get("tracker_proxy"), self.config.get("dht_proxy"))
 
 	def get_message_from_state(self, torrent_state):
 		state = torrent_state['state']
