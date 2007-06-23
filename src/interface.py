@@ -455,7 +455,6 @@ class DelugeGTK:
 		self.text_summary_total_size.set_text(common.fsize(state["total_size"]))
 		self.text_summary_pieces.set_text(str(state["num_pieces"]))
 		self.text_summary_tracker.set_text(str(state["tracker"]))
-		#self.text_summary_compact_allocation.set_text(str(state[""]))
 		# Now for the File tab
 		self.file_store.clear()
 		all_files = self.manager.get_torrent_file_info(unique_id)
@@ -555,7 +554,7 @@ class DelugeGTK:
 	def build_summary_tab(self):
 		#Torrent Summary tab
 		# Look into glade's widget prefix function
-		self.text_summary_title                   = self.wtree.get_widget("summary_title")
+		self.text_summary_name                    = self.wtree.get_widget("summary_name")
 		self.text_summary_total_size              = self.wtree.get_widget("summary_total_size")
 		self.text_summary_pieces                  = self.wtree.get_widget("summary_pieces")
 		self.text_summary_total_downloaded        = self.wtree.get_widget("summary_total_downloaded")
@@ -569,10 +568,8 @@ class DelugeGTK:
 		self.text_summary_downloaded_this_session = self.wtree.get_widget("summary_downloaded_this_session")
 		self.text_summary_uploaded_this_session	  = self.wtree.get_widget("summary_uploaded_this_session")
 		self.text_summary_tracker                 = self.wtree.get_widget("summary_tracker")
-		self.text_summary_tracker_response        = self.wtree.get_widget("summary_tracker_response")
 		self.text_summary_tracker_status          = self.wtree.get_widget("summary_tracker_status")
 		self.text_summary_next_announce           = self.wtree.get_widget("summary_next_announce")
-		self.text_summary_compact_allocation      = self.wtree.get_widget("summary_compact_allocation")
 		self.text_summary_eta			  = self.wtree.get_widget("summary_eta")
 
 
