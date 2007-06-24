@@ -333,7 +333,6 @@ class DelugeGTK:
 			start = textbuffer.get_start_iter()
 			end = textbuffer.get_end_iter()
 			textlist = textbuffer.get_text(start,end,include_hidden_chars=False)
-			print textlist
 			edit_window.destroy()
 		edit_glade.signal_autoconnect({"cancel_button_clicked": cancel_edit_window,
 						"ok_button_clicked": accept_edit_window 
