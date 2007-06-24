@@ -87,7 +87,7 @@ class BlocklistImport:
         print "importing with",ltype
 
         try:
-        reader = readers[ltype][1](self.blockfile)
+	        reader = readers[ltype][1](self.blockfile)
         except IOError, (errno, strerr):
             err = ui.GTKError("Couldn't open blocklist file: %s"%strerr)
             self.gtkprog.stop()
@@ -103,7 +103,7 @@ class BlocklistImport:
             if curr % 100 == 0:
                 self.gtkprog.import_prog(text="Imported %s IPs"%curr)
             else:
-            self.gtkprog.import_prog()
+	            self.gtkprog.import_prog()
 
         reader.close()
         self.gtkprog.end_import()
