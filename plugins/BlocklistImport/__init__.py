@@ -71,27 +71,43 @@ class BlocklistImport:
         if fetch:
             print "Fetching",self.config.get('url')
             self.gtkprog.start_download()
+            try:
             filename, headers = urllib.urlretrieve(self.config.get('url'),
                                                    filename=self.blockfile,
                                                    reporthook=self._download_update)
+            except IOError, (errno, strerr):
+                err = ui.GTKError("Couldn't download URL: %s"%strerr)
+                self.gtkprog.stop()
+                return
 
         self.gtkprog.start_import()
 
         self.core.reset_ip_filter()
         ltype = self.config.get('listtype')
         print "importing with",ltype
-        reader = readers[ltype][1](self.blockfile)
 
+        try:
+        reader = readers[ltype][1](self.blockfile)
+        except IOError, (errno, strerr):
+            err = ui.GTKError("Couldn't open blocklist file: %s"%strerr)
+            self.gtkprog.stop()
+            return
+
+        print "Starting import"
         ips = reader.next()
         curr = 0
         while ips and not self.cancelled:
             self.core.add_range_to_ip_filter(*ips)
             ips = reader.next()
             curr += 1
+            if curr % 100 == 0:
+                self.gtkprog.import_prog(text="Imported %s IPs"%curr)
+            else:
             self.gtkprog.import_prog()
 
         reader.close()
         self.gtkprog.end_import()
+        print "Import complete"
 
         self.gtkprog.stop()
 

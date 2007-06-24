@@ -114,7 +114,9 @@ class GTKProgress(gtk.Dialog):
         self.progress.set_pulse_step(0.0075)
         self.update()
 
-    def import_prog(self):
+    def import_prog(self, text=None):
+        if text:
+            self.progress.set_text(text)
         self.progress.pulse()
         self.update()
 
@@ -142,3 +144,30 @@ class GTKProgress(gtk.Dialog):
     def update(self):
         while gtk.events_pending():
             not gtk.main_iteration(block=True)
+
+
+class GTKError(gtk.Dialog):
+    def __init__(self, message):
+        gtk.Dialog.__init__(self, title="Error",
+                            flags=gtk.DIALOG_MODAL,
+                            buttons=(gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
+
+        # Setup
+        self.set_border_width(12)
+        self.vbox.set_spacing(6)
+
+        # List source
+        label = gtk.Label()
+        label.set_text(message)
+        self.vbox.pack_start(label)
+
+        self.connect('response', self.ok)
+        self.connect('close', self.cancel)
+
+        self.show_all()
+
+    def ok(self, dialog, response):
+        self.hide_all()
+
+    def cancel(self, dialog):
+        self.hide_all()
