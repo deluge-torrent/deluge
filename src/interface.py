@@ -152,9 +152,7 @@ class DelugeGTK:
 					"update_tracker": self.update_tracker,
 					"clear_finished": self.clear_finished,
 					"queue_up": self.q_torrent_up,
-					"queue_down": self.q_torrent_down,
-					"queue_bottom": self.q_to_bottom,
-					"queue_top": self.q_to_top,
+					"queue_down": self.q_torrent_down
 					})
 	
 	def build_tray_icon(self):
@@ -313,6 +311,38 @@ class DelugeGTK:
 		tray_lock.destroy()
 		return True
 
+	def list_of_trackers(self,obj=None):
+		torrent = self.get_selected_torrent()
+		if torrent is not None:
+			trackerslist = self.manager.get_trackers(torrent)
+			self.show_edit_tracker_dialog(trackerslist)
+
+	def show_edit_tracker_dialog(self,list):
+		textbuffer = gtk.TextBuffer(table=None)
+		textbuffer.set_text(list)
+                edit_glade = gtk.glade.XML(common.get_glade_file("edit_trackers.glade"))
+                edit_list  = edit_glade.get_widget("txt_tracker_list")
+		edit_list.set_buffer(textbuffer)
+                edit_window  = edit_glade.get_widget("edittrackers")
+                edit_window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
+                edit_window.set_size_request(400, 200)
+		def cancel_edit_window(self,arg=None):
+			edit_window.destroy()
+		def accept_edit_window(self,arg=None):
+			newlist = edit_list.get_buffer()
+			start = textbuffer.get_start_iter()
+			end = textbuffer.get_end_iter()
+			textlist = textbuffer.get_text(start,end,include_hidden_chars=False)
+			print textlist
+			edit_window.destroy()
+		edit_glade.signal_autoconnect({"cancel_button_clicked": cancel_edit_window,
+						"ok_button_clicked": accept_edit_window 
+						})
+
+		edit_window.show_all() 
+
+                return True
+
 
 	def tray_clicked(self, status_icon):
 		if self.window.get_property("visible"):
@@ -342,6 +372,7 @@ class DelugeGTK:
 		self.torrent_glade = gtk.glade.XML(common.get_glade_file("torrent_menu.glade"), domain='deluge')
 		self.torrent_menu = self.torrent_glade.get_widget("torrent_menu")		
 		self.torrent_glade.signal_autoconnect({ "remove_torrent": self.remove_torrent_clicked,
+												"edit_trackers": self.list_of_trackers,
 												"start_pause": self.start_pause,
 												"update_tracker": self.update_tracker,
 												"clear_finished": self.clear_finished,
@@ -671,7 +702,7 @@ class DelugeGTK:
 		
 	def show_about_dialog(self, arg=None):
 		dialogs.show_about_dialog()
-	
+
 	def show_pref_dialog(self, arg=None):
 		if self.window.get_property("visible"):
 			# Only apply the prefs if the user pressed OK in the prefs dialog
@@ -1312,6 +1343,7 @@ class DelugeGTK:
 			else:
 				self.config.set("window_maximized", False)
 		return False
+
 
 	def load_window_geometry(self):
 		x = self.config.get('window_x_pos')

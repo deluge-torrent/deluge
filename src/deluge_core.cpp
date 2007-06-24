@@ -1333,9 +1333,31 @@ static PyObject *torrent_proxy_settings(PyObject *self, PyObject *args)
 		M_ses->set_dht_proxy(*M_proxy_settings);
 	}
 
-	Py_INCREF(Py_None); return Py_None;
+	return Py_None;
 }
 
+static PyObject *torrent_get_trackers(PyObject *self, PyObject *args)
+{
+	python_long unique_ID;
+	if (!PyArg_ParseTuple(args, "i", &unique_ID))
+		return NULL;
+
+	long index = get_index_from_unique_ID(unique_ID);
+	if (PyErr_Occurred())
+	    return NULL;
+
+	torrent_handle& h = M_torrents->at(index).handle;
+	std::string trackerslist;
+	if (h.is_valid() && h.has_metadata())
+		{
+		for (std::vector<announce_entry>::const_iterator i = h.trackers().begin(); 
+			i != h.trackers().end(); ++i)
+			{
+			trackerslist = trackerslist + i->url +"\r\n";
+			}
+		}
+	return Py_BuildValue("s",trackerslist.c_str());
+}
 
 //====================
 // Python Module data
@@ -1380,6 +1402,7 @@ static PyMethodDef deluge_core_methods[] =
     {"use_utpex",                torrent_use_utpex,               METH_VARARGS,   "."},
     {"set_ratio",                torrent_set_ratio,               METH_VARARGS,   "."},
     {"proxy_settings",     torrent_proxy_settings,               METH_VARARGS,   "."},
+    {"get_trackers",     torrent_get_trackers,               METH_VARARGS,   "."},
     {NULL}
 };
 

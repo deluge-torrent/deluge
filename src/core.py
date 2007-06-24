@@ -807,3 +807,6 @@ class Manager:
 	def pe_settings(self, out_enc_policy, in_enc_policy, allowed_enc_level, prefer_rc4):
 		return deluge_core.pe_settings(out_enc_policy, in_enc_policy, allowed_enc_level, prefer_rc4)
 
+	def get_trackers(self, unique_ID):
+		return deluge_core.get_trackers(unique_ID)
+
