@@ -1152,7 +1152,7 @@ class DelugeGTK:
 		dlg.destroy()
 		
 		if result == 1:
-			add_torrent_url(url) 
+			self.add_torrent_url(url) 
 
 	def external_add_url(self, url):
 		print "Got URL externally:", url
