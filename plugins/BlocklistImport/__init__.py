@@ -26,13 +26,14 @@ def enable(core, interface):
 
 import urllib, deluge.common, deluge.pref
 from peerguardian import PGReader, PGException
-from text import TextReader
+from text import TextReader, GZMuleReader
 from ui import GTKConfig, GTKProgress
 
 # List of formats supported.  This is used to generate the UI list and
 # specify the reader class
 readers = {'p2bgz':("PeerGuardian P2B (GZip)", PGReader),
-           'text':("PeerGuardian Text", TextReader)}
+           'pgtext':("PeerGuardian Text (Uncompressed)", TextReader),
+           'gzmule':("Emule IP list (GZip)", GZMuleReader)}
 
 class BlocklistImport:
 
@@ -64,7 +65,6 @@ class BlocklistImport:
         self.gtkprog.download_prog(curr/incs)
 
     def loadlist(self, fetch=False):
-        # FIXME
         self.gtkprog.start()
         
         # Attempt initial import
@@ -78,16 +78,17 @@ class BlocklistImport:
         self.gtkprog.start_import()
 
         self.core.reset_ip_filter()
-        #reader = PGReader(self.blockfile)
         ltype = self.config.get('listtype')
         print "importing with",ltype
         reader = readers[ltype][1](self.blockfile)
 
         ips = reader.next()
+        curr = 0
         while ips and not self.cancelled:
             self.core.add_range_to_ip_filter(*ips)
-            self.gtkprog.import_prog()
             ips = reader.next()
+            curr += 1
+            self.gtkprog.import_prog()
 
         reader.close()
         self.gtkprog.end_import()
