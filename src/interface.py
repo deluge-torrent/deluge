@@ -317,28 +317,32 @@ class DelugeGTK:
 			trackerslist = self.manager.get_trackers(torrent)
 			self.show_edit_tracker_dialog(trackerslist)
 
+	def cancel_edit_window(self,arg=None):
+		self.edit_window.destroy()
+
+	def accept_edit_window(self,arg=None):
+		torrent = self.get_selected_torrent()
+		self.newlist = self.edit_list.get_buffer()
+		self.start = self.textbuffer.get_start_iter()
+		self.end = self.textbuffer.get_end_iter()
+		self.textlist = self.textbuffer.get_text(self.start,self.end,include_hidden_chars=False)
+		self.manager.replace_trackers(torrent, self.textlist)
+		self.edit_window.destroy()
+
 	def show_edit_tracker_dialog(self,list):
-		textbuffer = gtk.TextBuffer(table=None)
-		textbuffer.set_text(list)
-                edit_glade = gtk.glade.XML(common.get_glade_file("edit_trackers.glade"))
-                edit_list  = edit_glade.get_widget("txt_tracker_list")
-		edit_list.set_buffer(textbuffer)
-                edit_window  = edit_glade.get_widget("edittrackers")
-                edit_window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
-                edit_window.set_size_request(400, 200)
-		def cancel_edit_window(self,arg=None):
-			edit_window.destroy()
-		def accept_edit_window(self,arg=None):
-			newlist = edit_list.get_buffer()
-			start = textbuffer.get_start_iter()
-			end = textbuffer.get_end_iter()
-			textlist = textbuffer.get_text(start,end,include_hidden_chars=False)
-			edit_window.destroy()
-		edit_glade.signal_autoconnect({"cancel_button_clicked": cancel_edit_window,
-						"ok_button_clicked": accept_edit_window 
+		self.textbuffer = gtk.TextBuffer(table=None)
+		self.textbuffer.set_text(list)
+                self.edit_glade = gtk.glade.XML(common.get_glade_file("edit_trackers.glade"))
+                self.edit_list  = self.edit_glade.get_widget("txt_tracker_list")
+		self.edit_list.set_buffer(self.textbuffer)
+                self.edit_window  = self.edit_glade.get_widget("edittrackers")
+                self.edit_window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
+                self.edit_window.set_size_request(400, 200)
+		self.edit_glade.signal_autoconnect({"cancel_button_clicked": self.cancel_edit_window,
+						"ok_button_clicked": self.accept_edit_window 
 						})
 
-		edit_window.show_all() 
+		self.edit_window.show_all() 
 
                 return True
 

@@ -803,3 +803,6 @@ class Manager:
 	def get_trackers(self, unique_ID):
 		return deluge_core.get_trackers(unique_ID)
 
+	def replace_trackers(self, unique_ID, trackers):
+		return deluge_core.replace_trackers(unique_ID, trackers)
+

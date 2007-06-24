@@ -55,7 +55,9 @@
 #include "libtorrent/natpmp.hpp"
 #include "libtorrent/extensions/metadata_transfer.hpp"
 #include "libtorrent/extensions/ut_pex.hpp"
-
+#include <iostream>
+#include <sstream>
+using namespace std;
 using namespace boost::filesystem;
 using namespace libtorrent;
 
@@ -1359,6 +1361,34 @@ static PyObject *torrent_get_trackers(PyObject *self, PyObject *args)
 	return Py_BuildValue("s",trackerslist.c_str());
 }
 
+static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
+{
+       python_long unique_ID;
+       std::string tracker;
+       if (!PyArg_ParseTuple(args, "is", &unique_ID, &tracker))
+               return NULL;
+       long index = get_index_from_unique_ID(unique_ID);
+       if (PyErr_Occurred())
+           return NULL;
+
+       torrent_handle& h = M_torrents->at(index).handle;
+
+       std::vector<libtorrent::announce_entry> trackerlist;
+
+       std::string line;
+       
+       int i = 0;
+	
+       istringstream in(tracker);
+       while(getline(in, line)){
+               trackerlist.push_back(line);
+		++i;
+       }
+       h.replace_trackers(trackerlist);
+       h.force_reannounce();
+
+       return Py_None;
+}
 //====================
 // Python Module data
 //====================
@@ -1403,6 +1433,7 @@ static PyMethodDef deluge_core_methods[] =
     {"set_ratio",                torrent_set_ratio,               METH_VARARGS,   "."},
     {"proxy_settings",     torrent_proxy_settings,               METH_VARARGS,   "."},
     {"get_trackers",     torrent_get_trackers,               METH_VARARGS,   "."},
+    {"replace_trackers",     torrent_replace_trackers,               METH_VARARGS,   "."},
     {NULL}
 };
 
