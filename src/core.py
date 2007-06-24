@@ -325,13 +325,6 @@ class Manager:
 				except OSError:
 					pass # No file just means it wasn't downloaded, we can continue
 
-### UNNEEDED, fixed already above
-#			# Clean up empty dir
-#			try:
-#				os.rmdir(os.path.dirname(os.path.join(temp.save_dir, filename)))
-#			except OSError:
-#				pass # Perhaps it wasn't a directory...
-
 	# A function to try and reload a torrent from a previous session. This is
 	# used in the event that Deluge crashes and a blank state is loaded.
 	def add_old_torrent(self, filename, save_dir, compact):
