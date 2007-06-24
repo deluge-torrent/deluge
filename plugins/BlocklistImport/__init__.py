@@ -72,7 +72,7 @@ class BlocklistImport:
             print "Fetching",self.config.get('url')
             self.gtkprog.start_download()
             try:
-            filename, headers = urllib.urlretrieve(self.config.get('url'),
+	            filename, headers = urllib.urlretrieve(self.config.get('url'),
                                                    filename=self.blockfile,
                                                    reporthook=self._download_update)
             except IOError, (errno, strerr):
