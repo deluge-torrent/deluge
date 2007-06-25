@@ -325,7 +325,14 @@ class DelugeGTK:
 		self.newlist = self.edit_list.get_buffer()
 		self.start = self.textbuffer.get_start_iter()
 		self.end = self.textbuffer.get_end_iter()
-		self.textlist = self.textbuffer.get_text(self.start,self.end,include_hidden_chars=False)
+		self.contents = self.textbuffer.get_text(self.start,self.end,include_hidden_chars=False)
+		self.new_contents = []
+		for line in self.contents:
+			if not line.strip():
+				continue
+			else:
+			        self.new_contents.append(line)
+		self.textlist = "".join(self.new_contents)
 		self.manager.replace_trackers(torrent, self.textlist)
 		self.edit_window.destroy()
 
