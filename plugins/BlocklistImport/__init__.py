@@ -141,5 +141,5 @@ class BlocklistImport:
 
     def update(self):
         msg = "[Blocklist: %s entries]" % self.nimported
-        self.core.statusbar_temp_msg += '   ' + msg
+        self.interface.statusbar_temp_msg += '   ' + msg
         
