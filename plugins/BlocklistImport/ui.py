@@ -117,7 +117,6 @@ class GTKProgress(gtk.Dialog):
     def import_prog(self, text=None):
         if text:
             self.progress.set_text(text)
-        self.progress.pulse()
         self.update()
 
     def end_import(self):
