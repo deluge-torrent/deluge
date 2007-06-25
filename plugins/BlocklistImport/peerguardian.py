@@ -37,16 +37,6 @@ class PGReader:
             raise PGException("Invalid version %d" % ver)
 
 
-    def numentries(self):
-        save = self.fd.tell()
-        self.fd.seek(8)
-        count = 0
-        while self.next():
-            count += 1
-        self.fd.seek(save)
-        return count
-
-
     def next(self):
 
         # Skip over the string

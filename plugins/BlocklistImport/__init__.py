@@ -26,14 +26,15 @@ def enable(core, interface):
 
 import urllib, deluge.common, deluge.pref
 from peerguardian import PGReader, PGException
-from text import TextReader, GZMuleReader
+from text import TextReader, GZMuleReader, PGZip
 from ui import GTKConfig, GTKProgress
 
 # List of formats supported.  This is used to generate the UI list and
 # specify the reader class
 readers = {'p2bgz':("PeerGuardian P2B (GZip)", PGReader),
            'pgtext':("PeerGuardian Text (Uncompressed)", TextReader),
-           'gzmule':("Emule IP list (GZip)", GZMuleReader)}
+           'gzmule':("Emule IP list (GZip)", GZMuleReader),
+           'spzip':("SafePeer Text (Zipped)", PGZip)}
 
 class BlocklistImport:
 
@@ -96,14 +97,22 @@ class BlocklistImport:
         print "Starting import"
         ips = reader.next()
         curr = 0
-        while ips and not self.cancelled:
-            self.core.add_range_to_ip_filter(*ips)
-            ips = reader.next()
-            curr += 1
-            if curr % 100 == 0:
-                self.gtkprog.import_prog(text="Imported %s IPs"%curr)
-            else:
+        try:
+            while ips and not self.cancelled:
+                self.core.add_range_to_ip_filter(*ips)
+                ips = reader.next()
+                curr += 1
+                if curr % 100 == 0:
+                    self.gtkprog.import_prog(text="Imported %s IPs"%curr)
+                else:
 	            self.gtkprog.import_prog()
+
+        except FormatException, (ex):
+            err = ui.GTKError("Format error in blocklist: %s"%ex)
+            self.gtkprog.stop()
+            reader.close()
+            return
+            
 
         reader.close()
         self.gtkprog.end_import()
