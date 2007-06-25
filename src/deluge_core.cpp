@@ -1157,8 +1157,7 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
         t.set_piece_size(piece_size);
 
         file_pool fp;
-        boost::scoped_ptr<storage_interface> st(
-            default_storage_constructor(t, full_path.branch_path(), fp));
+        boost::scoped_ptr<storage_interface> st(default_storage_constructor(t, full_path.branch_path(), fp));
 
         std::string stdTrackers(trackers);
         unsigned long index = 0, next = stdTrackers.find("\n");
@@ -1377,13 +1376,26 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
 
        std::string line;
        
-       int i = 0;
-	
-       istringstream in(tracker);
-       while(getline(in, line)){
-               trackerlist.push_back(line);
-		++i;
+	int cur_tier;
+
+       for (int i = 0; i < trackerlist.size(); i++)
+       {
+               if (trackerlist[i].url == tracker)
+               {
+              cur_tier = trackerlist[i].tier;
+              announce_entry a(tracker);
+              a.tier = 0;
+              trackerlist.erase(trackerlist.begin() + i);
+              trackerlist.insert(trackerlist.begin(), a);
+              break;
+               }
        }
+       for (int i = 1; i < trackerlist.size(); i++)
+       {
+               if (trackerlist[i].tier < cur_tier)
+              trackerlist[i].tier++;
+       }
+       cur_tier = 0;
        h.replace_trackers(trackerlist);
        h.force_reannounce();
 
