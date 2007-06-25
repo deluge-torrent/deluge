@@ -79,6 +79,7 @@ class TorrentCreator:
   
       self.dialog = self.glade.get_widget("torrentcreator")
       self.glade.get_widget("piece_size_combobox").set_active(0)
+      self.glade.get_widget("torrent_chooserbutton").connect("clicked", self.torrent_chooserbutton_clicked)
       self.dialog.connect("destroy", self.destroy)
       self.dialog.show_all()
       response = self.dialog.run()
@@ -89,7 +90,16 @@ class TorrentCreator:
       
       self.destroy()
       return
+    
+    def torrent_chooserbutton_clicked(self, widget):
+      filechooser = gtk.FileChooserDialog(title=_("Save file as..."), parent=None, action=gtk.FILE_CHOOSER_ACTION_SAVE, buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK), backend=None)
+      response = filechooser.run()
+      # Update the torrentfile entry widget if a file was selected.
+      if response == gtk.RESPONSE_OK:
+        self.glade.get_widget("torrentfile_entry").set_text(filechooser.get_filename())
       
+      filechooser.destroy()
+    
     def create_torrent(self):
       # Create a torrent from the information provided in the torrentcreator dialog
       if self.glade.get_widget("folder_radiobutton").get_active():
@@ -97,7 +107,7 @@ class TorrentCreator:
       else:
         source = self.glade.get_widget("file_chooserbutton").get_filename()
         
-      torrent = self.glade.get_widget("torrent_chooserbutton").get_filename()
+      torrent = self.glade.get_widget("torrentfile_entry").get_text()
       
       piece_size = self.glade.get_widget("piece_size_combobox")
       piece_size = piece_size.get_model().get_value(piece_size.get_active_iter(), 0).split(" ")[0]
