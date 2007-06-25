@@ -1363,8 +1363,8 @@ static PyObject *torrent_get_trackers(PyObject *self, PyObject *args)
 static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
 {
        python_long unique_ID;
-       std::string tracker;
-       if (!PyArg_ParseTuple(args, "is", &unique_ID, &tracker))
+       const char* tracker;
+       if (!PyArg_ParseTuple(args, "iz", &unique_ID, &tracker))
                return NULL;
        long index = get_index_from_unique_ID(unique_ID);
        if (PyErr_Occurred())
