@@ -47,6 +47,7 @@ class BlocklistImport:
         self.gtkconf = GTKConfig(self)
         self.gtkprog = GTKProgress(self)
         self.cancelled = False
+        self.nimported = 0
 
         self.blockfile = deluge.common.CONFIG_DIR + "/blocklist.cache"
 
@@ -115,6 +116,7 @@ class BlocklistImport:
             
 
         reader.close()
+        self.nimported = curr
         self.gtkprog.end_import()
         print "Import complete"
 
@@ -138,4 +140,6 @@ class BlocklistImport:
         self.core.reset_ip_filter()
 
     def update(self):
-        pass
+        msg = "[Blocklist: %s entries]" % self.nimported
+        self.core.statusbar_temp_msg += '   ' + msg
+        
