@@ -1372,34 +1372,15 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
 
        torrent_handle& h = M_torrents->at(index).handle;
 
-       std::vector<libtorrent::announce_entry> trackerlist;
-
-       std::string line;
-       
-	int cur_tier;
-
-       for (int i = 0; i < trackerlist.size(); i++)
-       {
-               if (trackerlist[i].url == tracker)
-               {
-              cur_tier = trackerlist[i].tier;
-              announce_entry a(tracker);
-              a.tier = 0;
-              trackerlist.erase(trackerlist.begin() + i);
-              trackerlist.insert(trackerlist.begin(), a);
-              break;
-               }
-       }
-       for (int i = 1; i < trackerlist.size(); i++)
-       {
-               if (trackerlist[i].tier < cur_tier)
-              trackerlist[i].tier++;
-       }
-       cur_tier = 0;
-       h.replace_trackers(trackerlist);
-       h.force_reannounce();
-
-       return Py_None;
+        std::vector<libtorrent::announce_entry> trackerlist;
+	std::istringstream file(tracker);
+	std::string line; 
+	while(std::getline(file, line)){
+	trackerlist.push_back(line);
+	}
+	h.replace_trackers(trackerlist);
+	h.force_reannounce();
+	return Py_None;
 }
 //====================
 // Python Module data
