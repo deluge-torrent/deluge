@@ -322,36 +322,26 @@ class DelugeGTK:
 
 	def accept_edit_window(self,arg=None):
 		torrent = self.get_selected_torrent()
-		self.newlist = self.edit_list.get_buffer()
-		self.start = self.textbuffer.get_start_iter()
-		self.end = self.textbuffer.get_end_iter()
-		self.contents = self.textbuffer.get_text(self.start,self.end,include_hidden_chars=False)
-		self.new_contents = []
-		for line in self.contents:
-			if not line.strip():
-				continue
-			else:
-			        self.new_contents.append(line)
-		self.textlist = "".join(self.new_contents)
+		self.textlist = self.textbuffer.get_text(self.textbuffer.get_start_iter(), self.textbuffer.get_end_iter(), include_hidden_chars=False).strip()
 		self.manager.replace_trackers(torrent, self.textlist)
 		self.edit_window.destroy()
 
 	def show_edit_tracker_dialog(self,list):
 		self.textbuffer = gtk.TextBuffer(table=None)
 		self.textbuffer.set_text(list)
-                self.edit_glade = gtk.glade.XML(common.get_glade_file("edit_trackers.glade"))
-                self.edit_list  = self.edit_glade.get_widget("txt_tracker_list")
+		self.edit_glade = gtk.glade.XML(common.get_glade_file("edit_trackers.glade"))
+		self.edit_list  = self.edit_glade.get_widget("txt_tracker_list")
 		self.edit_list.set_buffer(self.textbuffer)
-                self.edit_window  = self.edit_glade.get_widget("edittrackers")
-                self.edit_window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
-                self.edit_window.set_size_request(400, 200)
+		self.edit_window  = self.edit_glade.get_widget("edittrackers")
+		self.edit_window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
+		self.edit_window.set_size_request(400, 200)
 		self.edit_glade.signal_autoconnect({"cancel_button_clicked": self.cancel_edit_window,
 						"ok_button_clicked": self.accept_edit_window 
 						})
 
 		self.edit_window.show_all() 
 
-                return True
+		return True
 
 
 	def tray_clicked(self, status_icon):

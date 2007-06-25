@@ -1354,7 +1354,7 @@ static PyObject *torrent_get_trackers(PyObject *self, PyObject *args)
 		for (std::vector<announce_entry>::const_iterator i = h.trackers().begin(); 
 			i != h.trackers().end(); ++i)
 			{
-			trackerslist = trackerslist + i->url +"\r\n";
+			trackerslist = trackerslist + i->url +"\n";
 			}
 		}
 	return Py_BuildValue("s",trackerslist.c_str());
@@ -1362,25 +1362,28 @@ static PyObject *torrent_get_trackers(PyObject *self, PyObject *args)
 
 static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
 {
-       python_long unique_ID;
-       const char* tracker;
-       if (!PyArg_ParseTuple(args, "iz", &unique_ID, &tracker))
-               return NULL;
-       long index = get_index_from_unique_ID(unique_ID);
-       if (PyErr_Occurred())
-           return NULL;
+  python_long unique_ID;
+  const char* tracker;
+  if (!PyArg_ParseTuple(args, "iz", &unique_ID, &tracker))
+    return NULL;
+  long index = get_index_from_unique_ID(unique_ID);
+  if (PyErr_Occurred())
+    return NULL;
 
-       torrent_handle& h = M_torrents->at(index).handle;
+  torrent_handle& h = M_torrents->at(index).handle;
 
-        std::vector<libtorrent::announce_entry> trackerlist;
-	std::istringstream file(tracker);
-	std::string line; 
-	while(std::getline(file, line)){
-	trackerlist.push_back(line);
-	}
-	h.replace_trackers(trackerlist);
-	h.force_reannounce();
-	return Py_None;
+  std::vector<libtorrent::announce_entry> trackerlist;
+	
+  std::istringstream trackers(tracker);
+  std::string line;
+	
+  while (std::getline(trackers, line)) {
+    libtorrent::announce_entry a_entry(line);
+    trackerlist.push_back(a_entry);
+  }
+  h.replace_trackers(trackerlist);
+  h.force_reannounce();
+  return Py_None;
 }
 //====================
 // Python Module data
