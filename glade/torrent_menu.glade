@@ -17,7 +17,7 @@
     <child>
       <widget class="GtkImageMenuItem" id="menuitem5">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">Update Tracker</property>
+        <property name="label" translatable="yes">_Update Tracker</property>
         <property name="use_underline">True</property>
         <signal name="activate" handler="update_tracker"/>
         <child internal-child="image">
@@ -34,7 +34,7 @@
       <widget class="GtkImageMenuItem" id="menuitem13">
         <property name="visible">True</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-        <property name="label" translatable="yes">Edit Trackers</property>
+        <property name="label" translatable="yes">_Edit Trackers</property>
         <property name="use_underline">True</property>
         <signal name="activate" handler="edit_trackers"/>
         <child internal-child="image">
@@ -46,16 +46,16 @@
         </child>
       </widget>
     </child>
-  <child>
-    <widget class="GtkSeparatorMenuItem" id="separator">
-      <property name="visible">True</property>
-    </widget>
-  </child>
+    <child>
+      <widget class="GtkSeparatorMenuItem" id="separator">
+        <property name="visible">True</property>
+      </widget>
+    </child>
     <child>
       <widget class="GtkImageMenuItem" id="menuitem12">
         <property name="visible">True</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-        <property name="label" translatable="yes">Remove Torrent</property>
+        <property name="label" translatable="yes">_Remove Torrent</property>
         <property name="use_underline">True</property>
         <signal name="activate" handler="remove_torrent"/>
         <child internal-child="image">
@@ -67,16 +67,16 @@
         </child>
       </widget>
     </child>
-  <child>
-    <widget class="GtkSeparatorMenuItem" id="separator">
-      <property name="visible">True</property>
-    </widget>
-  </child>
+    <child>
+      <widget class="GtkSeparatorMenuItem" id="separator">
+        <property name="visible">True</property>
+      </widget>
+    </child>
     <child>
       <widget class="GtkImageMenuItem" id="menuitem2">
         <property name="visible">True</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-        <property name="label" translatable="yes">Queue</property>
+        <property name="label" translatable="yes">_Queue</property>
         <property name="use_underline">True</property>
         <child>
           <widget class="GtkMenu" id="menu1">
@@ -86,7 +86,7 @@
               <widget class="GtkImageMenuItem" id="menuitem1">
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="yes">Top</property>
+                <property name="label" translatable="yes">_Top</property>
                 <property name="use_underline">True</property>
                 <signal name="activate" handler="queue_top"/>
                 <child internal-child="image">
@@ -102,7 +102,7 @@
             <child>
               <widget class="GtkImageMenuItem" id="menuitem6">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Up</property>
+                <property name="label" translatable="yes">_Up</property>
                 <property name="use_underline">True</property>
                 <signal name="activate" handler="queue_up"/>
                 <child internal-child="image">
@@ -118,7 +118,7 @@
             <child>
               <widget class="GtkImageMenuItem" id="menuitem7">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Down</property>
+                <property name="label" translatable="yes">_Down</property>
                 <property name="use_underline">True</property>
                 <signal name="activate" handler="queue_down"/>
                 <child internal-child="image">
@@ -134,7 +134,7 @@
             <child>
               <widget class="GtkImageMenuItem" id="menuitem8">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Bottom</property>
+                <property name="label" translatable="yes">_Bottom</property>
                 <property name="use_underline">True</property>
                 <signal name="activate" handler="queue_bottom"/>
                 <child internal-child="image">
@@ -163,7 +163,7 @@
       <widget class="GtkMenuItem" id="menuitem3">
         <property name="visible">True</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-        <property name="label" translatable="yes">Desired Ratio</property>
+        <property name="label" translatable="yes">_Desired Ratio</property>
         <property name="use_underline">True</property>
         <child>
           <widget class="GtkMenu" id="menu2">
@@ -173,7 +173,7 @@
               <widget class="GtkMenuItem" id="menuitem4">
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="yes">Not set</property>
+                <property name="label" translatable="yes">_Not set</property>
                 <property name="use_underline">True</property>
                 <signal name="activate" handler="set_ratio0"/>
               </widget>
@@ -182,7 +182,7 @@
               <widget class="GtkMenuItem" id="menuitem9">
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="yes">1</property>
+                <property name="label" translatable="yes">_1</property>
                 <property name="use_underline">True</property>
                 <signal name="activate" handler="set_ratio1"/>
               </widget>
@@ -191,7 +191,7 @@
               <widget class="GtkMenuItem" id="menuitem10">
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="yes">2</property>
+                <property name="label" translatable="yes">_2</property>
                 <property name="use_underline">True</property>
                 <signal name="activate" handler="set_ratio2"/>
               </widget>
@@ -200,7 +200,7 @@
               <widget class="GtkMenuItem" id="menuitem11">
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="yes">3</property>
+                <property name="label" translatable="yes">_3</property>
                 <property name="use_underline">True</property>
                 <signal name="activate" handler="set_ratio3"/>
               </widget>
