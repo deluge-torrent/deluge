@@ -58,6 +58,8 @@ class TorrentCreator:
       self.toolbutton_image.set_from_stock(gtk.STOCK_NEW, gtk.ICON_SIZE_MENU)
       
       self.toolbutton = gtk.ToolButton(self.toolbutton_image, _("New Torrent"))
+      self.toolbutton_tip = gtk.Tooltips()
+      self.toolbutton.set_tooltip(self.toolbutton_tip, _("Create a new torrent"))
       self.toolbutton.connect("clicked", self.new_torrent_clicked)
       self.interface.wtree.get_widget("tb_left").insert(self.toolbutton, 0)
       self.toolbutton.show_all()
