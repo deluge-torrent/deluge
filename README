@@ -19,6 +19,7 @@ or Ubuntu system, those dependencies are:
 g++
 python-all-dev
 python-all
+python-dbus
 python-gtk2
 python-xdg
 python-support
