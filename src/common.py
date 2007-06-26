@@ -114,6 +114,7 @@ def get_pixmap(fname):
 	return os.path.join(PIXMAP_DIR, fname)
 	
 def open_url_in_browser(dialog, link):
+	print "link: ", link
 	try:
 		webbrowser.open(link)
 	except webbrowser.Error:

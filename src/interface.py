@@ -169,8 +169,8 @@ class DelugeGTK:
 											"show_hide_window_toggled": self.show_hide_window_toggled
 											})
 		
-		self.tray_glade.get_widget("download-limit-image").set_from_file(common.get_pixmap('downloading22.png'))
-		self.tray_glade.get_widget("upload-limit-image").set_from_file(common.get_pixmap('seeding22.png'))
+		self.tray_glade.get_widget("download-limit-image").set_from_file(common.get_pixmap('downloading16.png'))
+		self.tray_glade.get_widget("upload-limit-image").set_from_file(common.get_pixmap('seeding16.png'))
 		self.build_tray_bwsetsubmenu()
 		
 		self.tray_icon.connect("activate", self.tray_clicked)
@@ -802,11 +802,11 @@ class DelugeGTK:
 		
 		# Set the appropriate status icon
 		if state["is_paused"]:
-			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("inactive22.png"))
+			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("inactive16.png"))
 		elif state["is_seed"]:
-			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("seeding22.png"))
+			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("seeding16.png"))
 		else:
-			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("downloading22.png"))
+			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("downloading16.png"))
 	
 		rlist =  [int(unique_id), int(queue), status_icon, str(name), long(size), float(progress), str(message),
 				int(seeds), int(seeds_t), int(peers), int(peers_t), int(dlrate), int(ulrate), int(eta), float(share)]	
