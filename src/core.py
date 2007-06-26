@@ -502,6 +502,8 @@ class Manager:
 				# If we are autoseeding, then we need to apply the queue
 				if self.get_pref('auto_seed_ratio') == -1:
 					self.apply_queue(efficient = False) # To work on current data
+				#save fast resume once torrent finshes so as to not recheck seed if client crashes
+				self.save_fastresume_data(event['unique_ID'])
 			elif event['event_type'] is self.constants['EVENT_TRACKER']:
 				unique_ID = event['unique_ID']
 				status    = event['tracker_status']
