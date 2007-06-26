@@ -1129,7 +1129,8 @@ class DelugeGTK:
 	def add_torrent_clicked(self, obj=None):
 		torrent = dialogs.show_file_open_dialog()
 		if torrent is not None:
-			self.interactive_add_torrent(torrent)
+			for single in torrent:
+				self.interactive_add_torrent(single)
 
 	def add_torrent_url_clicked(self, obj=None):
 		dlg = gtk.Dialog(title=_("Add torrent from URL"), parent=self.window,
