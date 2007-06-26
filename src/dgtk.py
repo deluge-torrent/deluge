@@ -68,6 +68,7 @@ def add_func_column(view, header, func, data, sortid=None):
 	column.set_resizable(True)
 	column.set_expand(False)
 	column.set_min_width(10)
+	column.set_reorderable(True)
 	view.append_column(column)
 	return column
 	
@@ -80,6 +81,7 @@ def add_text_column(view, header, cid):
 	column.set_resizable(True)
 	column.set_expand(False)
 	column.set_min_width(10)
+	column.set_reorderable(True)
 	view.append_column(column)
 	return column
 
@@ -91,6 +93,7 @@ def add_progress_column(view, header, pid, mid):
 	column.set_resizable(True)
 	column.set_expand(False)
 	column.set_min_width(10)
+	column.set_reorderable(True)
 	view.append_column(column)
 	return column
 
@@ -102,6 +105,7 @@ def add_toggle_column(view, header, cid, toggled_signal=None):
 	column.set_resizable(True)
 	column.set_expand(False)
 	column.set_min_width(10)
+	column.set_reorderable(True)
 	view.append_column(column)
 	if toggled_signal is not None:
 		render.connect("toggled", toggled_signal)
@@ -113,6 +117,7 @@ def add_texticon_column(view, header, icon_col, text_col):
 	column.set_resizable(True)
 	column.set_expand(False)
 	column.set_min_width(10)
+	column.set_reorderable(True)
 	render = gtk.CellRendererPixbuf()
 	column.pack_start(render, expand=False)
 	column.add_attribute(render, 'pixbuf', icon_col)
