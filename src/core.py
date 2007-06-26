@@ -490,46 +490,54 @@ class Manager:
 		# Handle them for the backend's purposes, but still send them up in case the client
 		# wants to do something - show messages, for example
 		ret = []
-
-		event = deluge_core.pop_event()
-
-		while event is not None:
-#			print "EVENT: ", event
-
-			ret.append(event)
-
-			if event['event_type'] is self.constants['EVENT_FINISHED']:
-				# Queue seeding torrent to bottom if needed
-				if self.get_pref('queue_seeds_to_bottom'):
-					self.queue_bottom(event['unique_ID'])
-				# If we are autoseeding, then we need to apply the queue
-				if self.get_pref('auto_seed_ratio') == -1:
-					self.apply_queue(efficient = False) # To work on current data
-				#save fast resume once torrent finshes so as to not recheck seed if client crashes
-				self.save_fastresume_data(event['unique_ID'])
-			elif event['event_type'] is self.constants['EVENT_TRACKER']:
-				unique_ID = event['unique_ID']
-				status    = event['tracker_status']
-				message   = event['message']
-				tracker   = message[message.find('"')+1:message.rfind('"')]
-
-				self.set_supp_torrent_state_val(unique_ID,			
-				                                "tracker_status",
-				                                (tracker, status))
-
-				old_state = self.get_supp_torrent_state(unique_ID)
-				try:
-					new = old_state['tracker_messages']
-				except KeyError:
-					new = {}
-
-				new[tracker] = message
-
-				self.set_supp_torrent_state_val(unique_ID,
-				                                "tracker_messages",
-				                                new)
-
+		try:
 			event = deluge_core.pop_event()
+		except:
+			pass
+		else:
+			while event is not None:
+	#			print "EVENT: ", event
+
+				ret.append(event)
+
+				if event['event_type'] is self.constants['EVENT_FINISHED']:
+					# Queue seeding torrent to bottom if needed
+					if self.get_pref('queue_seeds_to_bottom'):
+						self.queue_bottom(event['unique_ID'])
+					# If we are autoseeding, then we need to apply the queue
+					if self.get_pref('auto_seed_ratio') == -1:
+						self.apply_queue(efficient = False) # To work on current data
+					#save fast resume once torrent finshes so as to not recheck seed if client crashes
+					self.save_fastresume_data(event['unique_ID'])
+				elif event['event_type'] is self.constants['EVENT_TRACKER']:
+					unique_ID = event['unique_ID']
+					status    = event['tracker_status']
+					message   = event['message']
+					tracker   = message[message.find('"')+1:message.rfind('"')]
+
+					self.set_supp_torrent_state_val(unique_ID,			
+					                                "tracker_status",
+					                                (tracker, status))
+
+					old_state = self.get_supp_torrent_state(unique_ID)
+					try:
+						new = old_state['tracker_messages']
+					except KeyError:
+						new = {}
+
+					new[tracker] = message
+
+					self.set_supp_torrent_state_val(unique_ID,
+				        	                        "tracker_messages",
+				                	                new)
+
+
+				try:
+					event = deluge_core.pop_event()
+				except:
+					pass
+				else:
+					event = deluge_core.pop_event()
 
 		return ret
 
