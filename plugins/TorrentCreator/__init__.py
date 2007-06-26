@@ -37,7 +37,7 @@ import gtk, gtk.glade
 class TorrentCreator:
 
     def __init__(self, path, core, interface):
-      print "Loading torrent creator plugin..."
+      print "Loading TorrentCreator plugin..."
       self.path = path
       self.core = core
       self.interface = interface
@@ -62,33 +62,34 @@ class TorrentCreator:
       self.interface.wtree.get_widget("tb_left").insert(self.toolbutton, 0)
       self.toolbutton.show_all()
 
-    def destroy(self):
+    def destroy(self, data=None):
       self.dialog.hide()
-      self.dialog = None
+      self.dialog.destroy()
 
     def update(self):
       pass
       
     def unload(self):
-      pass
+      print "Unloading TorrentCreator plugin..."
+      self.interface.wtree.get_widget("menu_file").get_submenu().remove(self.menuitem)
+      self.interface.wtree.get_widget("tb_left").remove(self.toolbutton)
+      
 
     def new_torrent_clicked(self, widget, data=None):
       # Show the torrent creator dialog
-      if self.glade == None:
-        self.glade = gtk.glade.XML(self.path + "/torrentcreator.glade")
+      self.glade = gtk.glade.XML(self.path + "/torrentcreator.glade")
   
       self.dialog = self.glade.get_widget("torrentcreator")
       self.glade.get_widget("piece_size_combobox").set_active(0)
       self.glade.get_widget("torrent_chooserbutton").connect("clicked", self.torrent_chooserbutton_clicked)
-      self.dialog.connect("destroy", self.destroy)
+      self.glade.get_widget("ok_button").connect("clicked", self.create_torrent)
+      self.glade.get_widget("close_button").connect("clicked", self.destroy)
       self.dialog.show_all()
       response = self.dialog.run()
       
-      # If the user clicks OK then we need to call create_torrent()
-      if response == 1:
-        self.create_torrent()
-      
-      self.destroy()
+      if response == 0:
+        self.destroy()
+        
       return
     
     def torrent_chooserbutton_clicked(self, widget):
@@ -100,21 +101,34 @@ class TorrentCreator:
       
       filechooser.destroy()
     
-    def create_torrent(self):
+    def create_torrent(self, widget):
       # Create a torrent from the information provided in the torrentcreator dialog
       if self.glade.get_widget("folder_radiobutton").get_active():
         source = self.glade.get_widget("folder_chooserbutton").get_filename()
       else:
         source = self.glade.get_widget("file_chooserbutton").get_filename()
+      
+      if source == "" or source == None:
+        deluge.dialogs.show_popup_warning(self.dialog, _("You must select a source for the torrent."))
+        return False
         
       torrent = self.glade.get_widget("torrentfile_entry").get_text()
       
+      if torrent == "" or torrent == None:
+        # Send alert to the user that we need a torrent filename to save to
+        deluge.dialogs.show_popup_warning(self.dialog, _("You must select a file to save the torrent as."))
+        return False
+      
       piece_size = self.glade.get_widget("piece_size_combobox")
-      piece_size = piece_size.get_model().get_value(piece_size.get_active_iter(), 0).split(" ")[0]
+      piece_size = int(piece_size.get_model().get_value(piece_size.get_active_iter(), 0).split(" ")[0])
             
       trackers = self.glade.get_widget("trackers_textview").get_buffer()
       (start, end) = trackers.get_bounds()
       trackers = trackers.get_text(start, end).strip()
+      
+      if trackers == "" or trackers == None:
+        deluge.dialogs.show_popup_warning(self.dialog, _("You must specify at least one tracker."))
+        return False
 
       comments = self.glade.get_widget("comments_textview").get_buffer()
       (start, end) = comments.get_bounds()
@@ -122,6 +136,20 @@ class TorrentCreator:
       
       author = self.glade.get_widget("author_entry").get_text()
       
-      print "create_torrent: ", torrent, source, trackers, comments, piece_size, author
-      #return self.core.create_torrent(torrent, source, trackers, comments, piece_size, author)
-      return
+      if author == "" or author == None:
+        author = _("Deluge")
+      
+      add_torrent = self.glade.get_widget("add_torrent_checkbox").get_active()
+      
+      # Destroy the dialog.. we don't need it anymore
+      self.destroy()
+
+      # Create the torrent and add it to the queue if necessary
+      if self.core.create_torrent(torrent, source, trackers, comments, piece_size, author) == 1:
+        # Torrent was created successfully
+        if add_torrent:
+          # We need to add this torrent to the queue
+          self.interface.external_add_torrent(torrent)
+        return True
+      else:
+        return False

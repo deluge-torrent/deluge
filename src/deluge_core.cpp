@@ -1137,7 +1137,7 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
     using namespace libtorrent;
     using namespace boost::filesystem;
 
-    path::default_name_check(no_check);
+    //path::default_name_check(no_check);
 
     char *destination, *comment, *creator_str, *input, *trackers;
     python_long piece_size;
@@ -1192,6 +1192,7 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
         //		std::cerr << e.what() << "\n";
         //		return Py_BuildValue("l", 0);
         RAISE_PTR(DelugeError, e.what());
+        return Py_BuildValue("l", 0);
     }
 }
 
