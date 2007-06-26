@@ -340,9 +340,12 @@ class Manager:
 		return self.sync()
 
 	# A separate function, because people may want to call it from time to time
-	def save_fastresume_data(self):
-		for unique_ID in self.unique_IDs:
-			deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
+	def save_fastresume_data(self, uid=None):
+		if uid == None:
+			for unique_ID in self.unique_IDs:
+				deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
+		else:
+			deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
 
 	# Load all NEW torrents in a directory. The GUI can call this every minute or so,
 	# if one wants a directory to be 'watched' (personally, I think it should only be
@@ -503,6 +506,7 @@ class Manager:
 				if self.get_pref('auto_seed_ratio') == -1:
 					self.apply_queue(efficient = False) # To work on current data
 				#save fast resume once torrent finshes so as to not recheck seed if client crashes
+				self.save_fastresume_data(event['unique_ID'])
 			elif event['event_type'] is self.constants['EVENT_TRACKER']:
 				unique_ID = event['unique_ID']
 				status    = event['tracker_status']
