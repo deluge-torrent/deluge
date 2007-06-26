@@ -781,8 +781,8 @@ class Manager:
 	
 
 	def create_torrent(self, filename, source_directory, trackers, comments=None,
-					pieces=256, author="Deluge"):
-		return deluge_core.create_torrent(filename, source_directory, trackers, comments, pieces, author)
+					piece_size=32, author="Deluge"):
+		return deluge_core.create_torrent(filename, source_directory, trackers, comments, piece_size, author)
 
 	# Creates/resets the IP filter list
 	def reset_ip_filter(self):
