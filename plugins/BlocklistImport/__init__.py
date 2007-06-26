@@ -5,13 +5,19 @@
 
 plugin_name = "Blocklist Importer"
 plugin_author = "Steve 'Tarka' Smith"
-plugin_version = "0.3"
+plugin_version = "0.4"
 plugin_description = """
-Downloads and import PeerGuardian blocklists.
+Download and import various IP blocklists.
 
-It can parse uncompressed text-format list, and Gzip P2B version 1 and
-2.  It does not currently support 7zip encoded lists unfortunately.
-It is suggested these are downloaded an unpacked via a cron script.
+Currently this plugin can handle PeerGuardian (binary and text),
+SafePeer and Emule lists.  PeerGuardian 7zip format files are not
+supported.  Files may be specified as URLs or locations on the local
+filesystem.
+
+A page with pointer to blocklist download sites is available on the
+wiki:
+
+http://dev.deluge-torrent.org/wiki/BlocklistPlugin
 """
 
 def deluge_init(deluge_path):
