@@ -856,6 +856,10 @@ class DelugeGTK:
 
 		# We need to apply the queue changes
 		self.manager.apply_queue()
+		
+		# Handle the events
+		self.manager.handle_events()
+		
 		# Make sure that the interface still exists
 		try:
 			tab = self.wtree.get_widget("torrent_info").get_current_page()
