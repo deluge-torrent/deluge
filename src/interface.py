@@ -166,7 +166,7 @@ class DelugeGTK:
 											"preferences": self.show_pref_dialog,
 											"add_torrent": self.add_torrent_clicked,
 											"clear_finished": self.clear_finished,
-											"show_hide_window": self.force_show_hide,
+											"show_hide_window_toggled": self.show_hide_window_toggled
 											})
 		
 		self.tray_glade.get_widget("download-limit-image").set_from_file(common.get_pixmap('downloading22.png'))
@@ -177,6 +177,11 @@ class DelugeGTK:
 		self.tray_icon.connect("popup-menu", self.tray_popup)
 		
 	def tray_popup(self, status_icon, button, activate_time):
+		if self.window.get_property("visible"):
+			self.tray_glade.get_widget("show_hide_window").set_active(True)
+		else:
+			self.tray_glade.get_widget("show_hide_window").set_active(False)
+     		
 		self.tray_menu.popup(None, None, gtk.status_icon_position_menu, 
 			button, activate_time, status_icon)
 	
@@ -357,14 +362,14 @@ class DelugeGTK:
 				self.load_window_geometry()
 				self.window.show()
 	
-	def force_show_hide(self, arg=None):
-		if self.window.get_property("visible"):
-			self.window.hide()
-		else:
-                        if self.config.get("lock_tray") == True:
+	def show_hide_window_toggled(self, widget):
+		if widget.get_active() and not self.window.get_property("visible"):
+			if self.config.get("lock_tray") == True:
 				self.unlock_tray("mainwinshow")
 			else:
 				self.window.show()
+		elif not widget.get_active() and self.window.get_property("visible"):
+			self.window.hide()
 
 	def build_torrent_table(self):
 		## Create the torrent listview
