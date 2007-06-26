@@ -13,6 +13,8 @@ class GTKConfig(gtk.Dialog):
                             buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
                                      gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
 
+        self.plugin = plugin
+
         # Setup
         self.set_border_width(12)
         self.vbox.set_spacing(6)
@@ -25,7 +27,8 @@ class GTKConfig(gtk.Dialog):
         ls = gtk.ListStore(gobject.TYPE_STRING,  # Long name
                            gobject.TYPE_STRING)  # Short name
         for k in BlocklistImport.readers.keys():
-            ls.append([BlocklistImport.readers[k][0], k])
+            i = ls.append([BlocklistImport.readers[k][0], k])
+            BlocklistImport.readers[k][2] = ls.get_path(i)
 
         cell = gtk.CellRendererText()
         cell.set_property('xpad', 5) # padding for status text
@@ -51,8 +54,6 @@ class GTKConfig(gtk.Dialog):
 
         self.hide_all()
 
-        self.plugin = plugin
-
 
     def ok(self, dialog, response):
         self.hide_all()
@@ -72,7 +73,18 @@ class GTKConfig(gtk.Dialog):
     def cancel(self, dialog):
         self.hide_all()
 
-    def start(self):
+    def start(self, ltype, url, load):
+        if ltype:
+            path = BlocklistImport.readers[ltype][2]
+            i = self.listtype.get_model().get_iter(path)
+            self.listtype.set_active_iter(i)
+            
+        if url:
+            self.url.set_text(url)
+
+        if load:
+            self.load_on_start.set_active(load)
+
         self.show_all()
 
 
@@ -101,6 +113,7 @@ class GTKProgress(gtk.Dialog):
 
     def start_download(self):
         self.progress.set_text("Downloading")
+        self.progress.set_fraction(0.0)
         self.update()
 
     def download_prog(self, fract):
@@ -111,6 +124,7 @@ class GTKProgress(gtk.Dialog):
 
     def start_import(self):
         self.progress.set_text("Importing")
+        self.progress.set_fraction(0.0)
         self.progress.set_pulse_step(0.0075)
         self.update()
 

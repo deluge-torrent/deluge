@@ -30,11 +30,11 @@ from text import TextReader, GZMuleReader, PGZip
 from ui import GTKConfig, GTKProgress
 
 # List of formats supported.  This is used to generate the UI list and
-# specify the reader class
-readers = {'p2bgz':("PeerGuardian P2B (GZip)", PGReader),
-           'pgtext':("PeerGuardian Text (Uncompressed)", TextReader),
-           'gzmule':("Emule IP list (GZip)", GZMuleReader),
-           'spzip':("SafePeer Text (Zipped)", PGZip)}
+# specify the reader class.  The last entry is for storage by the UI.
+readers = {'p2bgz':["PeerGuardian P2B (GZip)", PGReader, None],
+           'pgtext':["PeerGuardian Text (Uncompressed)", TextReader, None],
+           'gzmule':["Emule IP list (GZip)", GZMuleReader, None],
+           'spzip':["SafePeer Text (Zipped)", PGZip, None]}
 
 class BlocklistImport:
 
@@ -44,9 +44,10 @@ class BlocklistImport:
         self.path = path
         self.core = core
         self.interface = interface
+        self.cancelled = False
+
         self.gtkconf = GTKConfig(self)
         self.gtkprog = GTKProgress(self)
-        self.cancelled = False
         self.nimported = 0
 
         self.blockfile = deluge.common.CONFIG_DIR + "/blocklist.cache"
@@ -74,9 +75,9 @@ class BlocklistImport:
             print "Fetching",self.config.get('url')
             self.gtkprog.start_download()
             try:
-	            filename, headers = urllib.urlretrieve(self.config.get('url'),
-                                                   filename=self.blockfile,
-                                                   reporthook=self._download_update)
+                filename, headers = urllib.urlretrieve(self.config.get('url'),
+                                                    filename=self.blockfile,
+                                                    reporthook=self._download_update)
             except IOError, (errno, strerr):
                 err = ui.GTKError("Couldn't download URL: %s"%strerr)
                 self.gtkprog.stop()
@@ -89,7 +90,7 @@ class BlocklistImport:
         print "importing with",ltype
 
         try:
-	        reader = readers[ltype][1](self.blockfile)
+            reader = readers[ltype][1](self.blockfile)
         except IOError, (errno, strerr):
             err = ui.GTKError("Couldn't open blocklist file: %s"%strerr)
             self.gtkprog.stop()
@@ -118,12 +119,15 @@ class BlocklistImport:
         reader.close()
         self.nimported = curr
         self.gtkprog.end_import()
-        print "Import complete"
+        print "Import finished"
 
         self.gtkprog.stop()
+        self.cancelled = False
 
     def configure(self):
-        self.gtkconf.start()
+        self.gtkconf.start(self.config.get('listtype'),
+                           self.config.get('url'),
+                           self.config.get('load_on_start'))
 
     def setconfig(self, url, load_on_start, listtype):
         self.config.set('url', url)
