@@ -854,6 +854,7 @@ class DelugeGTK:
 			f = self.update_queue.pop()
 			f()
 
+		self.apply_queue()
 		# Handle the events
 		self.manager.handle_events()
 		
