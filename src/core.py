@@ -690,7 +690,9 @@ class Manager:
 		# Add torrents to core and unique_IDs
 		torrents_with_unique_ID = self.unique_IDs.values()
 
-		for torrent in self.state.torrents:
+		# loop through a temp list, so we can remove torrents without
+		# messing up iteration
+		for torrent in list(self.state.torrents):
 			if not os.path.exists(torrent.filename):
 				print "Missing file: %s" % torrent.filename
 				self.state.torrents.remove(torrent)
