@@ -10,6 +10,7 @@
     <property name="has_separator">False</property>
     <property name="website"></property>
     <property name="authors"></property>
+    <property name="translator-credits"></property>
     <property name="documenters"></property>
     <property name="artists"></property>
     <child internal-child="vbox">

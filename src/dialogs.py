@@ -226,6 +226,7 @@ def show_about_dialog(parent=None):
 		abt.set_version(common.PROGRAM_VERSION)
 		abt.set_authors(["Zach Tibbitts", "Alon Zakai", "Marcos Pinto", "Andrew Resch"])
 		abt.set_artists(["Andrew Wedderburn"])
+		abt.set_translator_credits(_("translator-credits"))
 		abt.set_website("http://deluge-torrent.org")
 		abt.set_website_label("http://deluge-torrent.org")
 		abt.set_icon_from_file(common.get_pixmap("deluge32.png"))

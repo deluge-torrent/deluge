@@ -64,12 +64,12 @@ def get_eta(size, done, rate):
 def fsize(fsize_b):
 	fsize_kb = float (fsize_b / 1024.0)
 	if fsize_kb < 1000:
-		return '%.1f KiB'%fsize_kb
+		return _("%.1f KiB")%fsize_kb
 	fsize_mb = float (fsize_kb / 1024.0)
 	if fsize_mb < 1000:
-		return '%.1f MiB'%fsize_mb
+		return _("%.1f MiB")%fsize_mb
 	fsize_gb = float (fsize_mb / 1024.0)
-	return '%.1f GiB'%fsize_gb
+	return _("%.1f GiB")%fsize_gb
 
 # Returns a formatted string representing a percentage
 def fpcnt(dec):
@@ -114,7 +114,6 @@ def get_pixmap(fname):
 	return os.path.join(PIXMAP_DIR, fname)
 	
 def open_url_in_browser(dialog, link):
-	print "link: ", link
 	try:
 		webbrowser.open(link)
 	except webbrowser.Error:

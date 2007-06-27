@@ -1,7 +1,10 @@
 glade/delugegtk.glade
 glade/dgtkpopups.glade
+glade/file_tab_menu.glade
+glade/plugin_dialog.glade
 glade/preferences_dialog.glade
 glade/torrent_menu.glade
+glade/tray_menu.glade
 src/common.py
 src/core.py
 src/interface.py

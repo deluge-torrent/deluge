@@ -272,7 +272,7 @@
     <child>
       <widget class="GtkImageMenuItem" id="menuitem12">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">gtk-preferences</property>
+        <property name="label">gtk-preferences</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="preferences"/>
@@ -302,7 +302,7 @@
     <child>
       <widget class="GtkImageMenuItem" id="menuitem14">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">gtk-quit</property>
+        <property name="label">gtk-quit</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="quit"/>

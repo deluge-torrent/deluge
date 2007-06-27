@@ -52,7 +52,7 @@
                           <widget class="GtkButton" id="plugin_conf">
                             <property name="visible">True</property>
                             <property name="sensitive">False</property>
-                            <property name="label" translatable="yes">gtk-preferences</property>
+                            <property name="label">gtk-preferences</property>
                             <property name="use_stock">True</property>
                             <signal name="clicked" handler="plugin_pref"/>
                           </widget>
@@ -98,7 +98,7 @@
             <child>
               <widget class="GtkButton" id="button10">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">gtk-close</property>
+                <property name="label">gtk-close</property>
                 <property name="use_stock">True</property>
               </widget>
             </child>
