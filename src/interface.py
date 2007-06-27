@@ -809,6 +809,9 @@ class DelugeGTK:
 		# self.torrent_model.append([0, 1, "Hello, World", 2048, 50.0, "Hi", 1, 2, 1, 2, 2048, 2048, 120, 1.0])
 		for uid in self.manager.get_unique_IDs():
 			self.torrent_model.append(self.get_list_from_unique_id(uid))
+		# Call update now so everything is up-to-date when the window gains focus on startup
+		self.update()
+		
 		gobject.timeout_add(1000, self.update)
 		try:
 			self.is_running = True
