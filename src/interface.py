@@ -450,6 +450,7 @@ class DelugeGTK:
 		self.eta_column 	=	dgtk.add_func_column(self.torrent_view, _("ETA"), time, TORRENT_VIEW_COL_ETA)
 		self.share_column 	= 	dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, TORRENT_VIEW_COL_RATIO)
 		
+		self.status_column.set_expand(True)
 		self.name_column.set_sort_column_id(TORRENT_VIEW_COL_NAME)
 		self.seed_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_SEEDS)
 		self.peer_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_PEERS)
