@@ -35,6 +35,7 @@ class plugin_Search:
 		self.toolbar = self.interface.wtree.get_widget("tb_right") 
 		self.engines = deluge.pref.Preferences(self.conf_file, False)
 		self.search_entry = gtk.Entry()
+		self.search_entry.connect("activate", self.torrent_search) 
 		self.search_item = gtk.ToolItem()
 		self.search_item.add(self.search_entry)
 		self.search_icon = gtk.Image()
