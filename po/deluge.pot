@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-27 15:31-0500\n"
+"POT-Creation-Date: 2007-06-27 18:52-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,7 +93,7 @@ msgstr ""
 msgid "_File"
 msgstr ""
 
-#: glade/delugegtk.glade:737
+#: glade/delugegtk.glade:737 glade/tray_menu.glade:27
 msgid "_Add Torrent"
 msgstr ""
 
@@ -168,11 +168,12 @@ msgstr ""
 msgid "_Help"
 msgstr ""
 
-#: glade/delugegtk.glade:1007
+#: glade/delugegtk.glade:1007 glade/delugegtk.glade:1008
 msgid "Add Torrent"
 msgstr ""
 
-#: glade/delugegtk.glade:1021 glade/dgtkpopups.glade:81
+#: glade/delugegtk.glade:1021 glade/delugegtk.glade:1022
+#: glade/dgtkpopups.glade:81
 msgid "Remove Torrent"
 msgstr ""
 
@@ -180,23 +181,40 @@ msgstr ""
 msgid "Clear Finished Torrents"
 msgstr ""
 
+#: glade/delugegtk.glade:1035 glade/dgtkpopups.glade:254
+msgid "Clear Finished"
+msgstr ""
+
 #: glade/delugegtk.glade:1057
 msgid "Start / Pause"
+msgstr ""
+
+#: glade/delugegtk.glade:1058
+msgid "Start"
 msgstr ""
 
 #: glade/delugegtk.glade:1071
 msgid "Queue Torrent Up"
 msgstr ""
 
+#: glade/delugegtk.glade:1072
+msgid "Move Up"
+msgstr ""
+
 #: glade/delugegtk.glade:1085
 msgid "Queue Torrent Down"
 msgstr ""
 
-#: glade/delugegtk.glade:1107
+#: glade/delugegtk.glade:1086
+msgid "Move Down"
+msgstr ""
+
+#: glade/delugegtk.glade:1107 glade/delugegtk.glade:1108
 msgid "Preferences"
 msgstr ""
 
-#: glade/delugegtk.glade:1120 glade/dgtkpopups.glade:284
+#: glade/delugegtk.glade:1120 glade/delugegtk.glade:1121
+#: glade/dgtkpopups.glade:284 glade/plugin_dialog.glade:80
 msgid "Plugins"
 msgstr ""
 
@@ -230,18 +248,6 @@ msgstr ""
 msgid "Add a Torrent..."
 msgstr ""
 
-#: glade/dgtkpopups.glade:254
-msgid "Clear Finished"
-msgstr ""
-
-#: glade/dgtkpopups.glade:275
-msgid "gtk-preferences"
-msgstr ""
-
-#: glade/dgtkpopups.glade:305
-msgid "gtk-quit"
-msgstr ""
-
 #: glade/dgtkpopups.glade:335
 msgid "Rate:"
 msgstr ""
@@ -252,6 +258,26 @@ msgstr ""
 
 #: glade/dgtkpopups.glade:389
 msgid "gtk-ok"
+msgstr ""
+
+#: glade/file_tab_menu.glade:12
+msgid "Select All"
+msgstr ""
+
+#: glade/file_tab_menu.glade:33
+msgid "Unselect All"
+msgstr ""
+
+#: glade/file_tab_menu.glade:60
+msgid "Check Selected"
+msgstr ""
+
+#: glade/file_tab_menu.glade:81
+msgid "Uncheck Selected"
+msgstr ""
+
+#: glade/plugin_dialog.glade:8
+msgid "Plugin Manager"
 msgstr ""
 
 #: glade/preferences_dialog.glade:8
@@ -587,11 +613,54 @@ msgstr ""
 msgid "_Bottom"
 msgstr ""
 
+#: glade/tray_menu.glade:12
+msgid "_Show Deluge"
+msgstr ""
+
+#: glade/tray_menu.glade:44
+msgid "_Clear Finished"
+msgstr ""
+
+#: glade/tray_menu.glade:67
+msgid "_Download Limit"
+msgstr ""
+
+#: glade/tray_menu.glade:89
+msgid "_Upload Limit"
+msgstr ""
+
+#: glade/tray_menu.glade:111
+msgid "gtk-preferences"
+msgstr ""
+
+#: glade/tray_menu.glade:121
+msgid "Plu_gins"
+msgstr ""
+
+#: glade/tray_menu.glade:144
+msgid "_Quit"
+msgstr ""
+
 #: src/common.py:54 src/interface.py:417
 msgid "Infinity"
 msgstr ""
 
-#: src/common.py:121
+#: src/common.py:67
+#, python-format
+msgid "%.1f KiB"
+msgstr ""
+
+#: src/common.py:70
+#, python-format
+msgid "%.1f MiB"
+msgstr ""
+
+#: src/common.py:72
+#, python-format
+msgid "%.1f GiB"
+msgstr ""
+
+#: src/common.py:120
 msgid "Error: no webbrowser found"
 msgstr ""
 
@@ -743,18 +812,22 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: src/dialogs.py:268
+#: src/dialogs.py:229
+msgid "translator-credits"
+msgstr ""
+
+#: src/dialogs.py:269
 msgid "Choose a .torrent file"
 msgstr ""
 
-#: src/dialogs.py:273
+#: src/dialogs.py:274
 msgid "Torrent files"
 msgstr ""
 
-#: src/dialogs.py:277
+#: src/dialogs.py:278
 msgid "All files"
 msgstr ""
 
-#: src/dialogs.py:294
+#: src/dialogs.py:295
 msgid "Choose a download directory"
 msgstr ""
