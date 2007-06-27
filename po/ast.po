@@ -1,4 +1,4 @@
-# Serbian translation for deluge
+# Asturian translation for deluge
 # Copyright (c) 2007 Rosetta Contributors and Canonical Ltd 2007
 # This file is distributed under the same license as the deluge package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2007.
@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-06-08 02:22-0400\n"
-"PO-Revision-Date: 2007-02-12 16:29+0000\n"
-"Last-Translator: kliklik <marko.markovic@maccommedia.com>\n"
-"Language-Team: Serbian <sr@li.org>\n"
+"PO-Revision-Date: 2007-05-12 21:52+0000\n"
+"Last-Translator: Dani <danielfrechoso@gmail.com>\n"
+"Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Rosetta-Export-Date: 2007-06-27 20:28:49+0000\n"
+"X-Rosetta-Export-Date: 2007-06-27 20:28:38+0000\n"
 
 #: glade/delugegtk.glade:87
 msgid "<b>Progress:</b>"
@@ -31,55 +31,55 @@ msgstr ""
 
 #: glade/delugegtk.glade:180
 msgid "<b>Peers:</b>"
-msgstr ""
+msgstr "Collacies/os compartiendo"
 
 #: glade/delugegtk.glade:194
 msgid "<b>Seeders:</b>"
-msgstr ""
+msgstr "Collacies/os estendiendo'l archivu"
 
 #: glade/delugegtk.glade:206
 msgid "<b>Total Size:</b>"
-msgstr ""
+msgstr "Tamañu Total"
 
 #: glade/delugegtk.glade:218
 msgid "<b>Total Downloaded:</b>"
-msgstr ""
+msgstr "Toatal Baxau"
 
 #: glade/delugegtk.glade:230
 msgid "<b>Downloaded this session:</b>"
-msgstr ""
+msgstr "Baxau n'esta sesión"
 
 #: glade/delugegtk.glade:278
 msgid "<b>Tracker:</b>"
-msgstr ""
+msgstr "Rastreador"
 
 #: glade/delugegtk.glade:290
 msgid "<b>Tracker Response:</b>"
-msgstr ""
+msgstr "Respuesta de'l Rastreador"
 
 #: glade/delugegtk.glade:302
 msgid "<b>Tracker Status:</b>"
-msgstr ""
+msgstr "Estado'l Rastreador"
 
 #: glade/delugegtk.glade:326
 msgid "<b>Next Announce:</b>"
-msgstr ""
+msgstr "Prósimo Anunciu"
 
 #: glade/delugegtk.glade:352
 msgid "<b>Pieces:</b>"
-msgstr ""
+msgstr "Peazos"
 
 #: glade/delugegtk.glade:366
 msgid "<b>Total Uploaded:</b>"
-msgstr ""
+msgstr "Total Subiu"
 
 #: glade/delugegtk.glade:404
 msgid "<b>Share Ratio:</b>"
-msgstr ""
+msgstr "Relación de datos compartios: baxada/subida"
 
 #: glade/delugegtk.glade:418
 msgid "<b>Uploaded This Session:</b>"
-msgstr ""
+msgstr "Subiu N'esta Sesión"
 
 #: glade/delugegtk.glade:480
 msgid "<b>Use compact allocation:</b>"
@@ -87,24 +87,24 @@ msgstr ""
 
 #: glade/delugegtk.glade:504
 msgid "<b>Download Rate:</b>"
-msgstr ""
+msgstr "Velocidá de Baxada"
 
 #: glade/delugegtk.glade:528
 msgid "<b>Upload Rate:</b>"
-msgstr ""
+msgstr "Velocidá de Subida"
 
 #: glade/delugegtk.glade:562 glade/delugegtk.glade:825
 msgid "Details"
-msgstr ""
+msgstr "Detalles"
 
 #: glade/delugegtk.glade:589 glade/delugegtk.glade:869
 #: glade/dgtkpopups.glade:37 src/interface.py:345
 msgid "Peers"
-msgstr "Vršnjaci"
+msgstr "Collacies/os compartiendo"
 
 #: glade/delugegtk.glade:618
 msgid "Files"
-msgstr ""
+msgstr "Archivos"
 
 #: glade/delugegtk.glade:653
 msgid "Log"
@@ -116,93 +116,92 @@ msgstr ""
 
 #: glade/delugegtk.glade:699 glade/delugegtk.glade:980 src/interface.py:196
 msgid "Add Torrent"
-msgstr ""
+msgstr "Añade-i un \"Torrent\""
 
 #: glade/delugegtk.glade:715
 msgid "Add Torrent from URL"
-msgstr ""
+msgstr "Añade-i un \"torrent\" dende un enderezu na internet"
 
 #: glade/delugegtk.glade:723 glade/delugegtk.glade:993
 #: glade/dgtkpopups.glade:81
 msgid "Remove Torrent"
-msgstr ""
+msgstr "Elimina'l \"Torrent\""
 
 #: glade/delugegtk.glade:737
 msgid "Clear Completed"
-msgstr ""
+msgstr "Llimpia Completaos na Llista"
 
 #: glade/delugegtk.glade:771
 msgid "_Edit"
-msgstr ""
+msgstr "Remanar"
 
 #: glade/delugegtk.glade:788 glade/delugegtk.glade:1090
 #: glade/dgtkpopups.glade:221 src/interface.py:199
 msgid "Plugins"
-msgstr ""
+msgstr "Gabitos"
 
 #: glade/delugegtk.glade:808
 msgid "_View"
-msgstr ""
+msgstr "Vista"
 
 #: glade/delugegtk.glade:816
 msgid "Toolbar"
-msgstr ""
+msgstr "Barra de Ferramientes"
 
 #: glade/delugegtk.glade:834
 msgid "Columns"
-msgstr ""
+msgstr "Comumnes"
 
 #: glade/delugegtk.glade:842 glade/dgtkpopups.glade:10 src/interface.py:342
 #: src/interface.py:485
 msgid "Size"
-msgstr "Veličina"
+msgstr "Tamañu"
 
 #: glade/delugegtk.glade:851 glade/dgtkpopups.glade:19 src/interface.py:343
 msgid "Status"
-msgstr ""
+msgstr "Estáu"
 
 #: glade/delugegtk.glade:860 glade/dgtkpopups.glade:28 src/interface.py:344
-#, fuzzy
 msgid "Seeders"
-msgstr "Sejači"
+msgstr "Collacies/os estendiendo'l archivu"
 
 #: glade/delugegtk.glade:878 src/interface.py:346 src/interface.py:483
 #: src/interface.py:639 src/interface.py:651
 msgid "Download"
-msgstr ""
+msgstr "Baxada"
 
 #: glade/delugegtk.glade:887 src/interface.py:347 src/interface.py:640
 #: src/interface.py:652
 msgid "Upload"
-msgstr ""
+msgstr "Subida"
 
 #: glade/delugegtk.glade:896 glade/dgtkpopups.glade:64
 msgid "Time Remaining"
-msgstr ""
+msgstr "Tiempu Restante"
 
 #: glade/delugegtk.glade:905 glade/dgtkpopups.glade:73
 msgid "Share Ratio"
-msgstr ""
+msgstr "Relación de datos compartios: baxada/subida"
 
 #: glade/delugegtk.glade:922
 msgid "_Help"
-msgstr ""
+msgstr "Ayuda / Andecha"
 
 #: glade/delugegtk.glade:1006
 msgid "Clear Finished Torrents"
-msgstr ""
+msgstr "Llimpia \"Torrents\" Completaos na Llista"
 
 #: glade/delugegtk.glade:1028
 msgid "Start / Pause"
-msgstr ""
+msgstr "Entamar / Pausar"
 
 #: glade/delugegtk.glade:1041
 msgid "Queue Torrent Up"
-msgstr ""
+msgstr "Coloca Esti \"Torrent\" na Frente"
 
 #: glade/delugegtk.glade:1054
 msgid "Queue Torrent Down"
-msgstr ""
+msgstr "Coloca Esti \"Torrent\" pa Tras."
 
 #: glade/delugegtk.glade:1077
 msgid "Preferences"
@@ -210,40 +209,41 @@ msgstr ""
 
 #: glade/dgtkpopups.glade:46
 msgid "Download Speed"
-msgstr ""
+msgstr "Velocidá de Baxada"
 
 #: glade/dgtkpopups.glade:55
 msgid "Upload Speed"
-msgstr ""
+msgstr "Velocidá de Subida"
 
 #: glade/dgtkpopups.glade:97
 msgid ""
 "<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
 msgstr ""
+"¿Tas segura/u de que quies borrar los \"torrents\" selecionaos en \"Deluge?"
 
 #: glade/dgtkpopups.glade:107
 msgid "Delete downloaded files"
-msgstr ""
+msgstr "Borra los archivos selecionaos"
 
 #: glade/dgtkpopups.glade:167
 msgid "Show/Hide"
-msgstr ""
+msgstr "Muestra / Escuende"
 
 #: glade/dgtkpopups.glade:175
 msgid "Add a Torrent..."
-msgstr ""
+msgstr "Añande-i un \"Torrent\""
 
 #: glade/dgtkpopups.glade:191 src/interface.py:197
 msgid "Clear Finished"
-msgstr ""
+msgstr "Llimpia Completaos na Llista"
 
 #: glade/dgtkpopups.glade:212
 msgid "gtk-preferences"
-msgstr ""
+msgstr "Preferencies del \"gtk\""
 
 #: glade/dgtkpopups.glade:242
 msgid "gtk-quit"
-msgstr ""
+msgstr "salir-gtk"
 
 #: glade/preferences_dialog.glade:8
 msgid "Deluge Preferences"
@@ -255,7 +255,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:65
 msgid "Save all downloads to:"
-msgstr ""
+msgstr "Guarda los archivos baxaos en:"
 
 #: glade/preferences_dialog.glade:95
 msgid "<b>Download Location</b>"
@@ -442,11 +442,11 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:986
 msgid "Enable system tray icon"
-msgstr ""
+msgstr "Activa el icono del sistema na bandexa."
 
 #: glade/preferences_dialog.glade:999
 msgid "Minimize to tray on close"
-msgstr ""
+msgstr "Minimiza pa la bandexa al cerrar"
 
 #: glade/preferences_dialog.glade:1020
 msgid "Password protect system tray"
@@ -532,11 +532,11 @@ msgstr ""
 
 #: src/interface.py:341
 msgid "Name"
-msgstr "Naziv"
+msgstr ""
 
 #: src/interface.py:348
 msgid "ETA"
-msgstr "Procenjeno vreme"
+msgstr ""
 
 #: src/interface.py:349
 msgid "Ratio"

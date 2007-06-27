@@ -1,410 +1,411 @@
-# Serbian translation for deluge
+# Arabic translation for deluge
 # Copyright (c) 2007 Rosetta Contributors and Canonical Ltd 2007
 # This file is distributed under the same license as the deluge package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2007.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-06-08 02:22-0400\n"
-"PO-Revision-Date: 2007-02-12 16:29+0000\n"
-"Last-Translator: kliklik <marko.markovic@maccommedia.com>\n"
-"Language-Team: Serbian <sr@li.org>\n"
+"PO-Revision-Date: 2007-06-19 03:54+0000\n"
+"Last-Translator: Mohamed Magdy <mohamed.m.k@gmail.com>\n"
+"Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Rosetta-Export-Date: 2007-06-27 20:28:49+0000\n"
+"X-Rosetta-Export-Date: 2007-06-27 20:28:13+0000\n"
 
 #: glade/delugegtk.glade:87
 msgid "<b>Progress:</b>"
-msgstr ""
+msgstr "<b>المنجز:</b>"
 
 #: glade/delugegtk.glade:101
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>:الاسم</b>"
 
 #: glade/delugegtk.glade:142
 msgid "<b>ETA:</b>"
-msgstr ""
+msgstr "<b>الزمن المتوقع للانتهاء</b>"
 
 #: glade/delugegtk.glade:180
 msgid "<b>Peers:</b>"
-msgstr ""
+msgstr "<b>النظراء:</b>"
 
 #: glade/delugegtk.glade:194
 msgid "<b>Seeders:</b>"
-msgstr ""
+msgstr "<b>الناثرون:</b>"
 
 #: glade/delugegtk.glade:206
 msgid "<b>Total Size:</b>"
-msgstr ""
+msgstr "<b>الحجم الكلي:</b>"
 
 #: glade/delugegtk.glade:218
 msgid "<b>Total Downloaded:</b>"
-msgstr ""
+msgstr "<b>إجمالي المُنزل:</b>"
 
 #: glade/delugegtk.glade:230
 msgid "<b>Downloaded this session:</b>"
-msgstr ""
+msgstr "<b>المنزل في هذه الجلسة:</b>"
 
 #: glade/delugegtk.glade:278
 msgid "<b>Tracker:</b>"
-msgstr ""
+msgstr "<b>المتعقب:</b>"
 
 #: glade/delugegtk.glade:290
 msgid "<b>Tracker Response:</b>"
-msgstr ""
+msgstr "<b>رد المتعقب:</b>"
 
 #: glade/delugegtk.glade:302
 msgid "<b>Tracker Status:</b>"
-msgstr ""
+msgstr "<b>حالة المتعقب:</b>"
 
 #: glade/delugegtk.glade:326
 msgid "<b>Next Announce:</b>"
-msgstr ""
+msgstr "<b>الإعلان التالي:</b>"
 
 #: glade/delugegtk.glade:352
 msgid "<b>Pieces:</b>"
-msgstr ""
+msgstr "<b>القطع:</b>"
 
 #: glade/delugegtk.glade:366
 msgid "<b>Total Uploaded:</b>"
-msgstr ""
+msgstr "<b>إجمالي المرفوعات:</b>"
 
 #: glade/delugegtk.glade:404
 msgid "<b>Share Ratio:</b>"
-msgstr ""
+msgstr "<b>نسبة المشاركة:</b>"
 
 #: glade/delugegtk.glade:418
 msgid "<b>Uploaded This Session:</b>"
-msgstr ""
+msgstr "<b>رفع في هذه الجلسة:</b>"
 
 #: glade/delugegtk.glade:480
 msgid "<b>Use compact allocation:</b>"
-msgstr ""
+msgstr "<b>استخدم التخصيص المضغوط:</b>"
 
 #: glade/delugegtk.glade:504
 msgid "<b>Download Rate:</b>"
-msgstr ""
+msgstr "<b>معدل التنزيل:</b>"
 
 #: glade/delugegtk.glade:528
 msgid "<b>Upload Rate:</b>"
-msgstr ""
+msgstr "<b>معدل الرفع:</b>"
 
 #: glade/delugegtk.glade:562 glade/delugegtk.glade:825
 msgid "Details"
-msgstr ""
+msgstr "تفاصيل"
 
 #: glade/delugegtk.glade:589 glade/delugegtk.glade:869
 #: glade/dgtkpopups.glade:37 src/interface.py:345
 msgid "Peers"
-msgstr "Vršnjaci"
+msgstr "نظراء"
 
 #: glade/delugegtk.glade:618
 msgid "Files"
-msgstr ""
+msgstr "الملفات"
 
 #: glade/delugegtk.glade:653
 msgid "Log"
-msgstr ""
+msgstr "السجل"
 
 #: glade/delugegtk.glade:692
 msgid "_Torrent"
-msgstr ""
+msgstr "_تورينت"
 
 #: glade/delugegtk.glade:699 glade/delugegtk.glade:980 src/interface.py:196
 msgid "Add Torrent"
-msgstr ""
+msgstr "أضف تورينت"
 
 #: glade/delugegtk.glade:715
 msgid "Add Torrent from URL"
-msgstr ""
+msgstr "أضف تورينت من عنوان ويب"
 
 #: glade/delugegtk.glade:723 glade/delugegtk.glade:993
 #: glade/dgtkpopups.glade:81
 msgid "Remove Torrent"
-msgstr ""
+msgstr "أزل التورينت"
 
 #: glade/delugegtk.glade:737
 msgid "Clear Completed"
-msgstr ""
+msgstr "امسح المكتمل"
 
 #: glade/delugegtk.glade:771
 msgid "_Edit"
-msgstr ""
+msgstr "_عدل"
 
 #: glade/delugegtk.glade:788 glade/delugegtk.glade:1090
 #: glade/dgtkpopups.glade:221 src/interface.py:199
 msgid "Plugins"
-msgstr ""
+msgstr "مقبوسات"
 
 #: glade/delugegtk.glade:808
 msgid "_View"
-msgstr ""
+msgstr "_اعرض"
 
 #: glade/delugegtk.glade:816
 msgid "Toolbar"
-msgstr ""
+msgstr "شريط الأدوات"
 
 #: glade/delugegtk.glade:834
 msgid "Columns"
-msgstr ""
+msgstr "الأعمدة"
 
 #: glade/delugegtk.glade:842 glade/dgtkpopups.glade:10 src/interface.py:342
 #: src/interface.py:485
 msgid "Size"
-msgstr "Veličina"
+msgstr "المقاس"
 
 #: glade/delugegtk.glade:851 glade/dgtkpopups.glade:19 src/interface.py:343
 msgid "Status"
-msgstr ""
+msgstr "الحالة:"
 
 #: glade/delugegtk.glade:860 glade/dgtkpopups.glade:28 src/interface.py:344
-#, fuzzy
 msgid "Seeders"
-msgstr "Sejači"
+msgstr "الناثرون"
 
 #: glade/delugegtk.glade:878 src/interface.py:346 src/interface.py:483
 #: src/interface.py:639 src/interface.py:651
 msgid "Download"
-msgstr ""
+msgstr "التنزيل"
 
 #: glade/delugegtk.glade:887 src/interface.py:347 src/interface.py:640
 #: src/interface.py:652
 msgid "Upload"
-msgstr ""
+msgstr "الرفع"
 
 #: glade/delugegtk.glade:896 glade/dgtkpopups.glade:64
 msgid "Time Remaining"
-msgstr ""
+msgstr "الوقت المتبقي"
 
 #: glade/delugegtk.glade:905 glade/dgtkpopups.glade:73
 msgid "Share Ratio"
-msgstr ""
+msgstr "نسبة المشاركة"
 
 #: glade/delugegtk.glade:922
 msgid "_Help"
-msgstr ""
+msgstr "_المساعدة"
 
 #: glade/delugegtk.glade:1006
 msgid "Clear Finished Torrents"
-msgstr ""
+msgstr "امسح ملفات التورينت المنتهية"
 
 #: glade/delugegtk.glade:1028
 msgid "Start / Pause"
-msgstr ""
+msgstr "ابدأ / قف مؤقتا"
 
 #: glade/delugegtk.glade:1041
 msgid "Queue Torrent Up"
-msgstr ""
+msgstr "ادفع التورينت للأعلى"
 
 #: glade/delugegtk.glade:1054
 msgid "Queue Torrent Down"
-msgstr ""
+msgstr "ادفع التورينت للأسفل"
 
 #: glade/delugegtk.glade:1077
 msgid "Preferences"
-msgstr ""
+msgstr "التفضيلات"
 
 #: glade/dgtkpopups.glade:46
 msgid "Download Speed"
-msgstr ""
+msgstr "سرعة التنزيل"
 
 #: glade/dgtkpopups.glade:55
 msgid "Upload Speed"
-msgstr ""
+msgstr "سرعة الرفع"
 
 #: glade/dgtkpopups.glade:97
 msgid ""
 "<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
-msgstr ""
+msgstr "<b>هل تريد فعلا َ‌إزالة ملف(ات) التورينت المختارة من دلوج؟</b>"
 
 #: glade/dgtkpopups.glade:107
 msgid "Delete downloaded files"
-msgstr ""
+msgstr "احذف الملفات التي نزلت"
 
 #: glade/dgtkpopups.glade:167
 msgid "Show/Hide"
-msgstr ""
+msgstr "اظهر/اخفي"
 
 #: glade/dgtkpopups.glade:175
 msgid "Add a Torrent..."
-msgstr ""
+msgstr "أضف تورينت..."
 
 #: glade/dgtkpopups.glade:191 src/interface.py:197
 msgid "Clear Finished"
-msgstr ""
+msgstr "امسح المنتهي"
 
 #: glade/dgtkpopups.glade:212
 msgid "gtk-preferences"
-msgstr ""
+msgstr "تفضيلات-جي‌تي‌ك"
 
 #: glade/dgtkpopups.glade:242
 msgid "gtk-quit"
-msgstr ""
+msgstr "خروج-جي‌تي‌ك"
 
 #: glade/preferences_dialog.glade:8
 msgid "Deluge Preferences"
-msgstr ""
+msgstr "إعدادات دلوج"
 
 #: glade/preferences_dialog.glade:53
 msgid "Ask where to save each download"
-msgstr ""
+msgstr "اسأل أين تحُفظ كل تنزيلة"
 
 #: glade/preferences_dialog.glade:65
 msgid "Save all downloads to:"
-msgstr ""
+msgstr "احفظ كل التنزيلات إلى:"
 
 #: glade/preferences_dialog.glade:95
 msgid "<b>Download Location</b>"
-msgstr ""
+msgstr "<b>مكان التنزيل</b>"
 
 #: glade/preferences_dialog.glade:126
 msgid "Maximum simultaneous active torrents:"
-msgstr ""
+msgstr "عدد ملفات التورينت النشطة المتزامنة الأقصى"
 
 #: glade/preferences_dialog.glade:137
 msgid ""
 "The number of active torrents that Deluge will run.  Set to 0 for unlimited."
 msgstr ""
+"عدد ملفات التورينت النشطة التي سوف يشغلها دلوج. اضبطه 0 ليكون غير محدود"
 
 #: glade/preferences_dialog.glade:156
 msgid "<b>Torrents</b>"
-msgstr ""
+msgstr "<b>ملفات التورينت</b>"
 
 #: glade/preferences_dialog.glade:184
 msgid ""
 "Compact allocation will only allocate as much storage as it needs to keep "
 "the pieces downloaded so far."
 msgstr ""
+"سوف يخصص التخصيص المضغوط  المساحة التي تكفي لحفظ القطع المنزلة حتى آخر وقت‌ "
+"(تخصيص مساحة عند الحاجة)"
 
 #: glade/preferences_dialog.glade:185
 msgid "Use compact storage allocation"
-msgstr ""
+msgstr "استخدم تخصيص المساحة المضغوط"
 
 #: glade/preferences_dialog.glade:195
 msgid "<b>Compact Allocation</b>"
-msgstr ""
+msgstr "<b>التخصيص المضغوط</b>"
 
 #: glade/preferences_dialog.glade:226
 msgid "Queue torrents to bottom when they begin seeding"
-msgstr ""
+msgstr "ادفع ملفات التورينت إلى آخر الطابور عندما يبدأ البذر"
 
 #: glade/preferences_dialog.glade:238
 msgid "Stop seeding torrents when their share ratio reaches:"
-msgstr ""
+msgstr "أوقف بذر الملفات عندما تصل نسبة مشاركاتهم:"
 
 #: glade/preferences_dialog.glade:272
 msgid "<b>Seeding</b>"
-msgstr ""
+msgstr "<b>يجري البذر</b>"
 
 #: glade/preferences_dialog.glade:308
 msgid "Maximum Connections:"
-msgstr ""
+msgstr "أقصى عدد للإتصالات:"
 
 #: glade/preferences_dialog.glade:315
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr ""
+msgstr "أقصى عدد إتصالات مسموح به. اضبطه -1 ليكون بدون حد"
 
 #: glade/preferences_dialog.glade:335
 msgid "Upload Slots:"
-msgstr ""
+msgstr "فتحات الرفع:"
 
 #: glade/preferences_dialog.glade:342
 msgid "The maximum number of upload slots.  Set -1 for unlimited."
-msgstr ""
+msgstr "أقصى عدد لفتحات الرفع . اضيطه -1 لغير محدود"
 
 #: glade/preferences_dialog.glade:365
 msgid "Maximum Download Rate (KB/s):"
-msgstr ""
+msgstr "أقصى معدل تنزيل (كيلوبايت/ثانية)"
 
 #: glade/preferences_dialog.glade:373
 msgid "The maximum download rate for all torrents.  Set -1 for unlimited."
-msgstr ""
+msgstr "أقصى معدل لسرعة التنزيل لجميع ملفات التورينت. اضبطه -1  لغير محدود"
 
 #: glade/preferences_dialog.glade:396
 msgid "Maximum Upload Rate (KB/s):"
-msgstr ""
+msgstr "أقصى معدل رفع (كيلوبايت/ثانية)"
 
 #: glade/preferences_dialog.glade:403
 msgid "The maximum upload rate for all torrents.  Set -1 for unlimited."
-msgstr ""
+msgstr "أقصى معدل لسرعة الرفع لجميع ملفات التورينت. اضبطه -1  لغير محدود"
 
 #: glade/preferences_dialog.glade:425
 msgid "<b>Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>استعمال الباندويدز</b>"
 
 #: glade/preferences_dialog.glade:450
 msgid "Downloads"
-msgstr ""
+msgstr "التنزيلات"
 
 #: glade/preferences_dialog.glade:495
 msgid ""
 "<b>Please Note - Changes to these settings will only be applied the next "
 "time Deluge is restarted.</b>"
-msgstr ""
+msgstr "<b>ملاحظة: التغييرات لن تطبق حتى يعاد تشغيل دلوج.</b>"
 
 #: glade/preferences_dialog.glade:537
 msgid "From:"
-msgstr ""
+msgstr "من:"
 
 #: glade/preferences_dialog.glade:560
 msgid "To:"
-msgstr ""
+msgstr "إلى:"
 
 #: glade/preferences_dialog.glade:585
 msgid "Active Port:"
-msgstr ""
+msgstr "المنفذ النشط:"
 
 #: glade/preferences_dialog.glade:598
 msgid "0000"
-msgstr ""
+msgstr "0000"
 
 #: glade/preferences_dialog.glade:613
 msgid "Test Active Port"
-msgstr ""
+msgstr "اختبر المنفذ النشط"
 
 #: glade/preferences_dialog.glade:634
 msgid "<b>TCP Port</b>"
-msgstr ""
+msgstr "<b>منفذ تي‌سي‌بي</b>"
 
 #: glade/preferences_dialog.glade:665
 msgid "Distributed hash table may improve the amount of active connections."
-msgstr ""
+msgstr "قد يرفع الدي‌إتش‌تي كمية الإتصالات النشطة."
 
 #: glade/preferences_dialog.glade:666
 msgid "Enable Mainline DHT"
-msgstr ""
+msgstr "فعل دي‌إتش‌تي ماين‌لاين (دي‌إتش‌تي برنامج البت‌تورينت الرسمي)"
 
 #: glade/preferences_dialog.glade:678
 msgid "Max number of DHT connections:"
-msgstr ""
+msgstr "أقصى عدد إتصالات دي‌إتش‌تي:"
 
 #: glade/preferences_dialog.glade:709
 msgid "<b>DHT</b>"
-msgstr ""
+msgstr "<b>دي‌إتش‌تي</b>"
 
 #: glade/preferences_dialog.glade:743
 msgid "UPnP"
-msgstr ""
+msgstr "أب‌نب"
 
 #: glade/preferences_dialog.glade:755
 msgid "NAT-PMP"
-msgstr ""
+msgstr "NAT-PMP"
 
 #: glade/preferences_dialog.glade:768
 msgid "UT PeX"
-msgstr ""
+msgstr "UT PeX"
 
 #: glade/preferences_dialog.glade:784
 msgid "<b>Network Extras</b> - Always on"
-msgstr ""
+msgstr "<b>إضافات الشبكة</b> - يعمل دائماً"
 
 #: glade/preferences_dialog.glade:824
 msgid "Inbound:"
-msgstr ""
+msgstr "داخلة:"
 
 #: glade/preferences_dialog.glade:833 glade/preferences_dialog.glade:855
 msgid ""
@@ -412,18 +413,21 @@ msgid ""
 "Enabled\n"
 "Forced"
 msgstr ""
+"معطب\n"
+"مفعل\n"
+"مقسور"
 
 #: glade/preferences_dialog.glade:846
 msgid "Outbound:"
-msgstr ""
+msgstr "خارجة:"
 
 #: glade/preferences_dialog.glade:873
 msgid "Prefer to encrypt the entire stream"
-msgstr ""
+msgstr "تفضيل تشفير التيار بأكمله"
 
 #: glade/preferences_dialog.glade:885
 msgid "Level:"
-msgstr ""
+msgstr "المستوى:"
 
 #: glade/preferences_dialog.glade:894
 msgid ""
@@ -431,229 +435,236 @@ msgid ""
 "Either\n"
 "Full Stream"
 msgstr ""
+"مصافحة‌يد\n"
+"أي الاثنان\n"
+"التيار الكامل"
 
 #: glade/preferences_dialog.glade:915
 msgid "<b>Encryption</b>"
-msgstr ""
+msgstr "<b>التشفير</b>"
 
 #: glade/preferences_dialog.glade:946
 msgid "Network"
-msgstr ""
+msgstr "الشبكة"
 
 #: glade/preferences_dialog.glade:986
 msgid "Enable system tray icon"
-msgstr ""
+msgstr "فعل أيقونة صينية النظام"
 
 #: glade/preferences_dialog.glade:999
 msgid "Minimize to tray on close"
-msgstr ""
+msgstr "صغر إلى الصينية عند الغلق"
 
 #: glade/preferences_dialog.glade:1020
 msgid "Password protect system tray"
-msgstr ""
+msgstr "احمي صينية النظام بكلمة مرور"
 
 #: glade/preferences_dialog.glade:1036
 msgid "Password:"
-msgstr ""
+msgstr "كلمة المرور:"
 
 #: glade/preferences_dialog.glade:1078
 msgid "<b>System Tray</b>"
-msgstr ""
+msgstr "<b>صينية النظام</b>"
 
 #: glade/preferences_dialog.glade:1109
 msgid "GUI update interval (seconds)"
-msgstr ""
+msgstr "فترة تحديث واجهة المستخدم الرسومية (و‌م‌ر) بالثواني"
 
 #: glade/preferences_dialog.glade:1137
 msgid "<b>Performance</b>"
-msgstr ""
+msgstr "<b>الإداء</b>"
 
 #: glade/preferences_dialog.glade:1165
 msgid "Other"
-msgstr ""
+msgstr "آخر"
 
 #: glade/torrent_menu.glade:11
 msgid "StartPause"
-msgstr ""
+msgstr "ابدأ-‌قف‌موقتاً"
 
 #: glade/torrent_menu.glade:27
 msgid "Update Tracker"
-msgstr ""
+msgstr "حدث المتعقب"
 
 #: glade/torrent_menu.glade:44
 msgid "Queue"
-msgstr ""
+msgstr "الطابور"
 
 #: glade/torrent_menu.glade:54
 msgid "Top"
-msgstr ""
+msgstr "الأعلى"
 
 #: glade/torrent_menu.glade:69
 msgid "Up"
-msgstr ""
+msgstr "الأعلى"
 
 #: glade/torrent_menu.glade:85
 msgid "Down"
-msgstr ""
+msgstr "الأسفل"
 
 #: glade/torrent_menu.glade:101
 msgid "Bottom"
-msgstr ""
+msgstr "القاع"
 
 #: src/common.py:44 src/interface.py:323
 msgid "Infinity"
-msgstr ""
+msgstr "بلا‌نهاية"
 
 #: src/common.py:108
 msgid "Error: no webbrowser found"
-msgstr ""
+msgstr "خطأ: لم يتم إيجاد متصفح ويب"
 
 #: src/core.py:316
 msgid "File was not found"
-msgstr ""
+msgstr "لم يتم إيجاد الملف"
 
 #: src/interface.py:195
 msgid "Show / Hide Window"
-msgstr ""
+msgstr "اظهر / اخفي النافذة"
 
 #: src/interface.py:237
 msgid "Deluge is locked"
-msgstr ""
+msgstr "دلوج مقفول"
 
 #: src/interface.py:239
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 msgstr ""
+"دلوج محمي بكلمة مرور.\n"
+"لتظهر نافذة دلوج ، ادخل كلمة مرورك من فضلك"
 
 #: src/interface.py:333
 msgid "Unknown"
-msgstr ""
+msgstr "غير‌معروف"
 
 #: src/interface.py:341
 msgid "Name"
-msgstr "Naziv"
+msgstr "الاسم"
 
 #: src/interface.py:348
 msgid "ETA"
-msgstr "Procenjeno vreme"
+msgstr "الوقت المتبقي للإنتهاء (و‌م‌إ)"
 
 #: src/interface.py:349
 msgid "Ratio"
-msgstr ""
+msgstr "النسبة"
 
 #: src/interface.py:424
 msgid "Start"
-msgstr ""
+msgstr "ابدأ"
 
 #: src/interface.py:427 src/interface.py:695
 msgid "Pause"
-msgstr ""
+msgstr "قف‌مؤقتاً"
 
 #: src/interface.py:471
 msgid "IP Address"
-msgstr ""
+msgstr "عنوان ب‌إ (بروتوكول إنترنت)"
 
 #: src/interface.py:472
 msgid "Client"
-msgstr ""
+msgstr "العميل"
 
 #: src/interface.py:473
 msgid "Percent Complete"
-msgstr ""
+msgstr "النسبة المكتملة"
 
 #: src/interface.py:474
 msgid "Download Rate"
-msgstr ""
+msgstr "معدل التنزيل"
 
 #: src/interface.py:475
 msgid "Upload Rate"
-msgstr ""
+msgstr "معدل الرفع"
 
 #: src/interface.py:484
 msgid "Filename"
-msgstr ""
+msgstr "اسم‌الملف"
 
 #: src/interface.py:486
 msgid "Offset"
-msgstr ""
+msgstr "إزاحة"
 
 #: src/interface.py:487
 msgid "Progress"
-msgstr ""
+msgstr "المنجز"
 
 #: src/interface.py:622
 msgid ""
 "For some reason, the previous state could not be loaded, so a blank state "
 "has been loaded for you."
 msgstr ""
+"لسبب أو لآخر ، لم أقدر‍ على تحميل الحالة السابقة‌، لذا فقد حملت حالة فارغة "
+"من أجلك."
 
 #: src/interface.py:624
 msgid "Would you like to attempt to reload the previous session's downloads?"
-msgstr ""
+msgstr "هل ترغب في تجربة إعادة‌تحميل تنزيلات الجلسة السابقة؟"
 
 #: src/interface.py:639 src/interface.py:651
 msgid "Connections"
-msgstr ""
+msgstr "الإتّصالات"
 
 #: src/interface.py:650
 msgid "Deluge Bittorrent Client"
-msgstr ""
+msgstr "دلوج عميل البت‌تورينت"
 
 #: src/interface.py:849
 msgid ""
 "An error occured while trying to add the torrent. It's possible your "
 ".torrent file is corrupted."
-msgstr ""
+msgstr "حدث خطأ أثناء محاولة إضافة التورينت. هناك احتمال أن يكون الملف فاسد."
 
 #: src/interface.py:851
 msgid "The torrent you've added seems to already be in Deluge."
-msgstr ""
+msgstr "يبدو أن التورينت الذي أضفته موجود أساساً في دلوج."
 
 #: src/interface.py:855
 msgid "There is not enough free disk space to complete your download."
-msgstr ""
+msgstr "لا توجد مساحة كافية فارغة على القرص لإكمال تنزيلك."
 
 #: src/interface.py:856
 msgid "Space Needed:"
-msgstr ""
+msgstr "المساحة المطلوبة:"
 
 #: src/interface.py:857
 msgid "Available Space:"
-msgstr ""
+msgstr "المساحة المتاحة:"
 
 #: src/interface.py:866
 msgid "Add torrent from URL"
-msgstr ""
+msgstr "أضف تورينت من عنوان ويب"
 
 #: src/interface.py:870
 msgid "Enter the URL of the .torrent to download"
-msgstr ""
+msgstr "ادخل عنوان ويب التورينت الذي تريد تنزيله"
 
 #: src/interface.py:935
 msgid "Warning - all downloaded files for this torrent will be deleted!"
-msgstr ""
+msgstr "تحذير - كل الملفات المنزلة من هذا التورينت سوف تحذف!"
 
 #: src/dialogs.py:128
 msgid "Plugin"
-msgstr ""
+msgstr "مقبوس"
 
 #: src/dialogs.py:130
 msgid "Enabled"
-msgstr ""
+msgstr "مُفعّل"
 
 #: src/dialogs.py:236
 msgid "Choose a .torrent file"
-msgstr ""
+msgstr "اختر ملف تورينت"
 
 #: src/dialogs.py:241
 msgid "Torrent files"
-msgstr ""
+msgstr "ملفات التورينت"
 
 #: src/dialogs.py:245
 msgid "All files"
-msgstr ""
+msgstr "كل الملفات"
 
 #: src/dialogs.py:262
 msgid "Choose a download directory"
-msgstr ""
+msgstr "اختر مجلد للتنزيل"

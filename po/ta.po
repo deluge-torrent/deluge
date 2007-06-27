@@ -1,4 +1,4 @@
-# Serbian translation for deluge
+# Tamil translation for deluge
 # Copyright (c) 2007 Rosetta Contributors and Canonical Ltd 2007
 # This file is distributed under the same license as the deluge package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2007.
@@ -9,21 +9,21 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-06-08 02:22-0400\n"
-"PO-Revision-Date: 2007-02-12 16:29+0000\n"
-"Last-Translator: kliklik <marko.markovic@maccommedia.com>\n"
-"Language-Team: Serbian <sr@li.org>\n"
+"PO-Revision-Date: 2007-06-21 11:38+0000\n"
+"Last-Translator: cnu <srinivasanr@gmail.com>\n"
+"Language-Team: Tamil <ta@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Rosetta-Export-Date: 2007-06-27 20:28:49+0000\n"
+"X-Rosetta-Export-Date: 2007-06-27 20:28:23+0000\n"
 
 #: glade/delugegtk.glade:87
 msgid "<b>Progress:</b>"
-msgstr ""
+msgstr "<b>முன்னேற்றம்</b>"
 
 #: glade/delugegtk.glade:101
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>பெயர்:</b>"
 
 #: glade/delugegtk.glade:142
 msgid "<b>ETA:</b>"
@@ -67,7 +67,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:352
 msgid "<b>Pieces:</b>"
-msgstr ""
+msgstr "<b>துண்டுகள்:</b>"
 
 #: glade/delugegtk.glade:366
 msgid "<b>Total Uploaded:</b>"
@@ -100,11 +100,11 @@ msgstr ""
 #: glade/delugegtk.glade:589 glade/delugegtk.glade:869
 #: glade/dgtkpopups.glade:37 src/interface.py:345
 msgid "Peers"
-msgstr "Vršnjaci"
+msgstr ""
 
 #: glade/delugegtk.glade:618
 msgid "Files"
-msgstr ""
+msgstr "கோப்புக்கள்"
 
 #: glade/delugegtk.glade:653
 msgid "Log"
@@ -146,7 +146,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:816
 msgid "Toolbar"
-msgstr ""
+msgstr "கருவிப்பெட்டி"
 
 #: glade/delugegtk.glade:834
 msgid "Columns"
@@ -155,16 +155,15 @@ msgstr ""
 #: glade/delugegtk.glade:842 glade/dgtkpopups.glade:10 src/interface.py:342
 #: src/interface.py:485
 msgid "Size"
-msgstr "Veličina"
+msgstr ""
 
 #: glade/delugegtk.glade:851 glade/dgtkpopups.glade:19 src/interface.py:343
 msgid "Status"
-msgstr ""
+msgstr "தகுதி"
 
 #: glade/delugegtk.glade:860 glade/dgtkpopups.glade:28 src/interface.py:344
-#, fuzzy
 msgid "Seeders"
-msgstr "Sejači"
+msgstr ""
 
 #: glade/delugegtk.glade:878 src/interface.py:346 src/interface.py:483
 #: src/interface.py:639 src/interface.py:651
@@ -186,7 +185,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:922
 msgid "_Help"
-msgstr ""
+msgstr "_உதவி"
 
 #: glade/delugegtk.glade:1006
 msgid "Clear Finished Torrents"
@@ -194,7 +193,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:1028
 msgid "Start / Pause"
-msgstr ""
+msgstr "துவங்கு"
 
 #: glade/delugegtk.glade:1041
 msgid "Queue Torrent Up"
@@ -206,7 +205,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:1077
 msgid "Preferences"
-msgstr ""
+msgstr "விருப்பத் தேர்வுகள்"
 
 #: glade/dgtkpopups.glade:46
 msgid "Download Speed"
@@ -227,7 +226,7 @@ msgstr ""
 
 #: glade/dgtkpopups.glade:167
 msgid "Show/Hide"
-msgstr ""
+msgstr "காட்டு/மறை"
 
 #: glade/dgtkpopups.glade:175
 msgid "Add a Torrent..."
@@ -247,7 +246,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:8
 msgid "Deluge Preferences"
-msgstr ""
+msgstr "டெலூஜ் விருப்பத் தேர்வுகள்"
 
 #: glade/preferences_dialog.glade:53
 msgid "Ask where to save each download"
@@ -298,7 +297,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:272
 msgid "<b>Seeding</b>"
-msgstr ""
+msgstr "<b>விதைத்தல்</b>"
 
 #: glade/preferences_dialog.glade:308
 msgid "Maximum Connections:"
@@ -338,7 +337,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:450
 msgid "Downloads"
-msgstr ""
+msgstr "பதிவிறக்கங்கள்"
 
 #: glade/preferences_dialog.glade:495
 msgid ""
@@ -360,7 +359,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:598
 msgid "0000"
-msgstr ""
+msgstr "0000"
 
 #: glade/preferences_dialog.glade:613
 msgid "Test Active Port"
@@ -438,7 +437,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:946
 msgid "Network"
-msgstr ""
+msgstr "வலையமைப்பு"
 
 #: glade/preferences_dialog.glade:986
 msgid "Enable system tray icon"
@@ -454,7 +453,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1036
 msgid "Password:"
-msgstr ""
+msgstr "கடவுச்சொல்:"
 
 #: glade/preferences_dialog.glade:1078
 msgid "<b>System Tray</b>"
@@ -466,11 +465,11 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1137
 msgid "<b>Performance</b>"
-msgstr ""
+msgstr "<b>செயல்திறன்</b>"
 
 #: glade/preferences_dialog.glade:1165
 msgid "Other"
-msgstr ""
+msgstr "ஏனையவை"
 
 #: glade/torrent_menu.glade:11
 msgid "StartPause"
@@ -482,7 +481,7 @@ msgstr ""
 
 #: glade/torrent_menu.glade:44
 msgid "Queue"
-msgstr ""
+msgstr "வரிசை"
 
 #: glade/torrent_menu.glade:54
 msgid "Top"
@@ -528,15 +527,15 @@ msgstr ""
 
 #: src/interface.py:333
 msgid "Unknown"
-msgstr ""
+msgstr "தெரியாதவை"
 
 #: src/interface.py:341
 msgid "Name"
-msgstr "Naziv"
+msgstr "பெயர்"
 
 #: src/interface.py:348
 msgid "ETA"
-msgstr "Procenjeno vreme"
+msgstr ""
 
 #: src/interface.py:349
 msgid "Ratio"
@@ -544,7 +543,7 @@ msgstr ""
 
 #: src/interface.py:424
 msgid "Start"
-msgstr ""
+msgstr "தொடங்கு"
 
 #: src/interface.py:427 src/interface.py:695
 msgid "Pause"
@@ -552,15 +551,15 @@ msgstr ""
 
 #: src/interface.py:471
 msgid "IP Address"
-msgstr ""
+msgstr "ஐபி முகவரிகள்"
 
 #: src/interface.py:472
 msgid "Client"
-msgstr ""
+msgstr "வாங்கி"
 
 #: src/interface.py:473
 msgid "Percent Complete"
-msgstr ""
+msgstr "முடிக்கப்பட்ட விகிதம்"
 
 #: src/interface.py:474
 msgid "Download Rate"
@@ -580,7 +579,7 @@ msgstr ""
 
 #: src/interface.py:487
 msgid "Progress"
-msgstr ""
+msgstr "முன்னேற்றம்"
 
 #: src/interface.py:622
 msgid ""
@@ -594,11 +593,11 @@ msgstr ""
 
 #: src/interface.py:639 src/interface.py:651
 msgid "Connections"
-msgstr ""
+msgstr "இணைப்புகள்"
 
 #: src/interface.py:650
 msgid "Deluge Bittorrent Client"
-msgstr ""
+msgstr "டெலூஜ் பிட்டாரெண்ட் வாங்கி"
 
 #: src/interface.py:849
 msgid ""
