@@ -26,6 +26,15 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
+NAME		= "deluge"
+FULLNAME	= "Deluge BitTorrent Client"
+VERSION		= "0.5.1.90"
+AUTHOR		= "Zach Tibbitts, Alon Zakai, Marcos Pinto"
+EMAIL		= "zach@collegegeek.org, kripkensteiner@gmail.com, marcospinto@dipconsultants.com"
+DESCRIPTION	= "A bittorrent client written in PyGTK"
+URL		= "http://deluge-torrent.org"
+LICENSE		= "GPLv2"
+
 import os, platform
 print "Attempting to detect your system information"
 if platform.machine() == "i386" or platform.machine() == "i686":
@@ -69,15 +78,6 @@ from distutils.command.build import build as _build
 import msgfmt
 
 python_version = platform.python_version()[0:3]
-
-NAME		= "deluge"
-FULLNAME	= "Deluge BitTorrent Client"
-VERSION		= "0.5.1"
-AUTHOR		= "Zach Tibbitts, Alon Zakai, Marcos Pinto"
-EMAIL		= "zach@collegegeek.org, kripkensteiner@gmail.com, marcospinto@dipconsultants.com"
-DESCRIPTION	= "A bittorrent client written in PyGTK"
-URL		= "http://deluge-torrent.org"
-LICENSE		= "GPLv2"
 
 EXTRA_COMPILE_ARGS = ["-Wno-missing-braces"]
 if ARCH == "x64":
