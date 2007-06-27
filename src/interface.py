@@ -187,10 +187,10 @@ class DelugeGTK:
 	
 	def build_tray_bwsetsubmenu(self):
 		# Create the Download speed list sub-menu
-		self.submenu_bwdownset = self.build_menu_radio_list(self.config.get("tray_downloadspeedlist"), self.tray_setbwdown, self.config.get("max_download_rate"), _("KiB/s"), show_unlimited=True)
+		self.submenu_bwdownset = self.build_menu_radio_list(self.config.get("tray_downloadspeedlist"), self.tray_setbwdown, self.config.get("max_download_rate"), _("KiB/s"), show_notset=True)
 		
 		# Create the Upload speed list sub-menu
-		self.submenu_bwupset = self.build_menu_radio_list(self.config.get("tray_uploadspeedlist"), self.tray_setbwup, self.config.get("max_upload_rate"), _("KiB/s"), show_unlimited=True)
+		self.submenu_bwupset = self.build_menu_radio_list(self.config.get("tray_uploadspeedlist"), self.tray_setbwup, self.config.get("max_upload_rate"), _("KiB/s"), show_notset=True)
 		
 		# Add the sub-menus to the tray menu
 		self.tray_glade.get_widget("download_limit").set_submenu(self.submenu_bwdownset)
@@ -200,12 +200,12 @@ class DelugeGTK:
 		self.submenu_bwdownset.show_all()
 		self.submenu_bwupset.show_all()
 
-	def build_menu_radio_list(self, value_list, callback, pref_value=None, suffix=None, menu=None, show_unlimited=False):
+	def build_menu_radio_list(self, value_list, callback, pref_value=None, suffix=None, show_notset=False, notset_label="Unlimited"):
 		# Build a menu with radio menu items from a list and connect them to the callback
 		# The pref_value is what you would like to test for the default active radio item
 		# Setting show_unlimited will include an Unlimited radio item
-		if menu == None:
-			menu = gtk.Menu()
+		
+		menu = gtk.Menu()
 			
 		group = None
 		for value in sorted(value_list):
@@ -224,8 +224,8 @@ class DelugeGTK:
 
 			menu.append(menuitem)
 
-		if show_unlimited:
-			menuitem = gtk.RadioMenuItem(group, _("Unlimited"))
+		if show_notset:
+			menuitem = gtk.RadioMenuItem(group, _(notset_label))
 			if pref_value < 0 and pref_value != None:
 				menuitem.set_active(True)
 			menuitem.connect("toggled", callback)
