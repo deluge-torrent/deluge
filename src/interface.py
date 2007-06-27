@@ -200,7 +200,7 @@ class DelugeGTK:
 		self.submenu_bwdownset.show_all()
 		self.submenu_bwupset.show_all()
 
-	def build_menu_radio_list(self, value_list, callback, pref_value=None, suffix=None, show_notset=False, notset_label="Unlimited"):
+	def build_menu_radio_list(self, value_list, callback, pref_value=None, suffix=None, show_notset=False, notset_label="Unlimited", notset_lessthan=0):
 		# Build a menu with radio menu items from a list and connect them to the callback
 		# The pref_value is what you would like to test for the default active radio item
 		# Setting show_unlimited will include an Unlimited radio item
@@ -226,7 +226,7 @@ class DelugeGTK:
 
 		if show_notset:
 			menuitem = gtk.RadioMenuItem(group, _(notset_label))
-			if pref_value < 0 and pref_value != None:
+			if pref_value < notset_lessthan and pref_value != None:
 				menuitem.set_active(True)
 			menuitem.connect("toggled", callback)
 			menu.append(menuitem)

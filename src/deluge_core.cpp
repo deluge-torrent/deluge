@@ -1290,8 +1290,9 @@ static PyObject *torrent_pe_settings(PyObject *self, PyObject *args)
 
 static PyObject *torrent_set_ratio(PyObject *self, PyObject *args)
 {
-    python_long unique_ID, num;
-    if (!PyArg_ParseTuple(args, "ii", &unique_ID, &num))
+    python_long unique_ID;
+    float num;
+    if (!PyArg_ParseTuple(args, "if", &unique_ID, &num))
         return NULL;
     
     long index = get_index_from_unique_ID(unique_ID);

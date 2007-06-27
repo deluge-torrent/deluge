@@ -585,7 +585,7 @@ class Manager:
 			self.apply_queue()
 
 	def set_ratio(self, unique_ID, num):
-		deluge_core.set_ratio(unique_ID, num)
+		deluge_core.set_ratio(unique_ID, float(num))
 
 	def is_user_paused(self, unique_ID):
 		return self.unique_IDs[unique_ID].user_paused
