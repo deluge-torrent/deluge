@@ -47,7 +47,7 @@ class TorrentCreator:
       self.menuitem_image = gtk.Image()
       self.menuitem_image.set_from_stock(gtk.STOCK_NEW, gtk.ICON_SIZE_MENU)
 
-      self.menuitem = gtk.ImageMenuItem(_("New Torrent"))
+      self.menuitem = gtk.ImageMenuItem(_("_New Torrent"))
       self.menuitem.set_image(self.menuitem_image)
       self.menuitem.connect("activate", self.new_torrent_clicked)
       self.interface.wtree.get_widget("menu_file").get_submenu().prepend(self.menuitem)
@@ -59,7 +59,7 @@ class TorrentCreator:
       
       self.toolbutton = gtk.ToolButton(self.toolbutton_image, _("New Torrent"))
       self.toolbutton_tip = gtk.Tooltips()
-      self.toolbutton.set_tooltip(self.toolbutton_tip, _("Create a new torrent"))
+      self.toolbutton.set_tooltip(self.toolbutton_tip, _("Create New Torrent"))
       self.toolbutton.connect("clicked", self.new_torrent_clicked)
       self.interface.wtree.get_widget("tb_left").insert(self.toolbutton, 0)
       self.toolbutton.show_all()
