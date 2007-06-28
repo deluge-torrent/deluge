@@ -132,7 +132,7 @@ if not OS == "win":
 		sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
 else:
 	boosttype = 'mt'
-	EXTRA_COMPILE_FLAGS = '/link /LIBPATH: C:\Program Files\boost\boost_1_34_0\lib /LIBPATH: c:\win32-build-deps\lib'
+	EXTRA_COMPILE_ARGS = '/link /LIBPATH: C:\Program Files\boost\boost_1_34_0\lib /LIBPATH: c:\win32-build-deps\lib'
 	includedirs = ['./libtorrent', './libtorrent/include', 
                      './libtorrent/include/libtorrent', 
                      'c:\Python25\include', 'c:\win32-build-deps\include']
