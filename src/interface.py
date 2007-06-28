@@ -76,6 +76,7 @@ class DelugeGTK:
 		self.window.set_title(common.PROGRAM_NAME)
 		self.window.set_icon_from_file(common.get_pixmap("deluge32.png"))
 		self.notebook = self.wtree.get_widget("torrent_info")
+		self.notebook.connect("change-current-page", self.notebook_change_page_event)
 		self.statusbar = self.wtree.get_widget("statusbar")
 		
 	
@@ -154,6 +155,10 @@ class DelugeGTK:
 					"queue_up": self.q_torrent_up,
 					"queue_down": self.q_torrent_down
 					})
+	
+	def notebook_change_page_event(self, widget):
+		# Force an update when user changes the notebook tab
+		self.update()
 	
 	def build_tray_icon(self):
 		self.tray_icon = gtk.status_icon_new_from_file(common.get_pixmap("deluge32.png"))
