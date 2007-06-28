@@ -1189,6 +1189,7 @@ class DelugeGTK:
 			self.torrent_selected = None
 			for torrent in torrent_list:
 				self.manager.remove_torrent(torrent, data_also.get_active(), torrent_also.get_active())
+		self.update()
 	
 	def clear_details_pane(self):
 		self.wtree.get_widget("progressbar").set_text("")
@@ -1226,6 +1227,7 @@ class DelugeGTK:
 	def clear_finished(self, obj=None):
 		print "Clearing Completed Torrents"
 		self.manager.clear_completed()
+		self.update()
 	
 	def q_torrent_up(self, obj=None):
 		torrent = self.get_selected_torrent()
