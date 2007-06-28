@@ -63,9 +63,11 @@ class BlocklistImport:
                                               global_defaults=False)
         self.config.load()
 
-        if not self.config.has_key('url'):
-            self.configure()
-        else:
+#       if not self.config.has_key('url'):
+#            self.configure()
+#       else:
+#            self.loadlist(fetch=self.config.get('load_on_start'))
+        if self.config.has_key('url'):
             self.loadlist(fetch=self.config.get('load_on_start'))
 
 
