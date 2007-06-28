@@ -129,7 +129,7 @@ if not OS == "win":
 		sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
 else:
 	boosttype = 'mt'
-	EXTRA_COMPILE_FLAGS = ''
+	EXTRA_COMPILE_FLAGS = '/link /LIBPATH: C:\Program Files\boost\boost_1_34_0\lib'
 
 # NOTE: The Rasterbar Libtorrent source code is in the libtorrent/ directory
 # inside of Deluge's source tarball.  On several occasions, it has been 
