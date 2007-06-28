@@ -107,9 +107,11 @@ class DesiredRatio:
 				return
 			rate_dialog.destroy()
 		
+		value = float(value) # Make sure the value is a float
+		
 		# Set the ratio in the core and remember the setting
 		self.core.set_ratio(self.unique_ID, value)
-		self.set_ratios[self.unique_ID] = float(value)
+		self.set_ratios[self.unique_ID] = value
 		
 		# Update the ratios list if necessary
 		if value not in self.config.get("ratios") and value >= 1:
