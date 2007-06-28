@@ -79,9 +79,6 @@ import msgfmt
 
 python_version = platform.python_version()[0:3]
 
-if ARCH == "x64":
-	EXTRA_COMPILE_ARGS.append("-DAMD64")
-
 
 # NOTE: The following "hack" removes the -g and -Wstrict-prototypes
 # build options from the command that will compile the C++ module,
@@ -100,6 +97,9 @@ if ARCH == "x64":
 
 if not OS == "win":
 	EXTRA_COMPILE_ARGS = ["-Wno-missing-braces"]
+	if ARCH == "x64":
+		EXTRA_COMPILE_ARGS.append("-DAMD64")
+
 	includedirs = ['./libtorrent', './libtorrent/include', 
                      './libtorrent/include/libtorrent', 
                      '/usr/include/python' + python_version]
@@ -132,7 +132,7 @@ if not OS == "win":
 		sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
 else:
 	boosttype = 'mt'
-	EXTRA_COMPILE_ARGS = '/link /LIBPATH: C:\Program Files\boost\boost_1_34_0\lib /LIBPATH: c:\win32-build-deps\lib'
+	EXTRA_COMPILE_ARGS = ['/link /LIBPATH: "C:\Program Files\boost\boost_1_34_0\lib"']
 	includedirs = ['./libtorrent', './libtorrent/include', 
                      './libtorrent/include/libtorrent', 
                      'c:\Python25\include', 'c:\win32-build-deps\include']
