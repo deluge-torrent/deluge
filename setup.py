@@ -148,7 +148,7 @@ elif boosttype == "mt":
 			'boost_thread-mt', 'z', 'pthread', 'ssl']
 	print 'Libraries mt'
 
-deluge_core = Extension('deluge_core',
+deluge_core = Extension('_deluge_core',
                     include_dirs = ['./libtorrent', './libtorrent/include', 
                     			'./libtorrent/include/libtorrent', 
                     			'/usr/include/python' + python_version],
