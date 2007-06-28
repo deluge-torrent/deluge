@@ -489,6 +489,14 @@ class Manager:
 	def handle_events(self):
 		# Handle them for the backend's purposes, but still send them up in case the client
 		# wants to do something - show messages, for example
+		def pop_event():
+			try:
+				return deluge_core.pop_event()
+			except:
+				pass
+			else:
+				return deluge_core.pop_event()
+				
 		ret = []
 		try:
 			event = deluge_core.pop_event()
@@ -499,7 +507,14 @@ class Manager:
 	#			print "EVENT: ", event
 
 				ret.append(event)
-
+				try:
+					if event['unique_ID'] not in self.unique_IDs:
+						event = pop_event()
+						continue
+				except KeyError:
+					event = pop_event()
+					continue
+					
 				if event['event_type'] is self.constants['EVENT_FINISHED']:
 					# Queue seeding torrent to bottom if needed
 					if self.get_pref('queue_seeds_to_bottom'):
@@ -531,13 +546,7 @@ class Manager:
 				        	                        "tracker_messages",
 				                	                new)
 
-
-				try:
-					event = deluge_core.pop_event()
-				except:
-					pass
-				else:
-					event = deluge_core.pop_event()
+				event = pop_event()
 
 		return ret
 
