@@ -100,6 +100,9 @@ if ARCH == "x64":
 
 if not OS == "win":
 	EXTRA_COMPILE_ARGS = ["-Wno-missing-braces"]
+	includedirs = ['./libtorrent', './libtorrent/include', 
+                     './libtorrent/include/libtorrent', 
+                     '/usr/include/python' + python_version]
 
 	if OS == "linux":
 		if os.WEXITSTATUS(os.system('grep -iq "Debian GNU/Linux 4.0\|Ubuntu 7.04\|Ubuntu 6.06\|Ubuntu 6.10\|Fedora Core release 6\|openSUSE 10.2\|Mandriva Linux release 2007.1\|Fedora release 7" /etc/issue')) == 0:
@@ -129,7 +132,10 @@ if not OS == "win":
 		sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
 else:
 	boosttype = 'mt'
-	EXTRA_COMPILE_FLAGS = '/link /LIBPATH: C:\Program Files\boost\boost_1_34_0\lib'
+	EXTRA_COMPILE_FLAGS = '/link /LIBPATH: C:\Program Files\boost\boost_1_34_0\lib /LIBPATH: c:\win32-build-deps\lib'
+	includedirs = ['./libtorrent', './libtorrent/include', 
+                     './libtorrent/include/libtorrent', 
+                     'c:\Python25\include']
 
 # NOTE: The Rasterbar Libtorrent source code is in the libtorrent/ directory
 # inside of Deluge's source tarball.  On several occasions, it has been 
@@ -151,9 +157,7 @@ elif boosttype == "mt":
 	print 'Libraries mt'
 
 deluge_core = Extension('_deluge_core',
-                    include_dirs = ['./libtorrent', './libtorrent/include', 
-                    			'./libtorrent/include/libtorrent', 
-                    			'/usr/include/python' + python_version],
+                    include_dirs = includedirs,
 		    libraries = librariestype,
                     extra_compile_args = EXTRA_COMPILE_ARGS,
                     sources = ['src/deluge_core.cpp',
