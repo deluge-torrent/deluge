@@ -135,7 +135,7 @@ else:
 	EXTRA_COMPILE_FLAGS = '/link /LIBPATH: C:\Program Files\boost\boost_1_34_0\lib /LIBPATH: c:\win32-build-deps\lib'
 	includedirs = ['./libtorrent', './libtorrent/include', 
                      './libtorrent/include/libtorrent', 
-                     'c:\Python25\include']
+                     'c:\Python25\include', 'c:\win32-build-deps\include']
 
 # NOTE: The Rasterbar Libtorrent source code is in the libtorrent/ directory
 # inside of Deluge's source tarball.  On several occasions, it has been 
