@@ -79,7 +79,6 @@ import msgfmt
 
 python_version = platform.python_version()[0:3]
 
-EXTRA_COMPILE_ARGS = ["-Wno-missing-braces"]
 if ARCH == "x64":
 	EXTRA_COMPILE_ARGS.append("-DAMD64")
 
@@ -100,6 +99,8 @@ if ARCH == "x64":
 #	it has been removed to prevent confusion.
 
 if not OS == "win":
+	EXTRA_COMPILE_ARGS = ["-Wno-missing-braces"]
+
 	if OS == "linux":
 		if os.WEXITSTATUS(os.system('grep -iq "Debian GNU/Linux 4.0\|Ubuntu 7.04\|Ubuntu 6.06\|Ubuntu 6.10\|Fedora Core release 6\|openSUSE 10.2\|Mandriva Linux release 2007.1\|Fedora release 7" /etc/issue')) == 0:
 			boosttype = 'nomt'
@@ -128,6 +129,7 @@ if not OS == "win":
 		sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
 else:
 	boosttype = 'mt'
+	EXTRA_COMPILE_FLAGS = ''
 
 # NOTE: The Rasterbar Libtorrent source code is in the libtorrent/ directory
 # inside of Deluge's source tarball.  On several occasions, it has been 
