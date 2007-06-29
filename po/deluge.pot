@@ -252,14 +252,6 @@ msgstr ""
 msgid "Rate:"
 msgstr ""
 
-#: glade/dgtkpopups.glade:378
-msgid "gtk-cancel"
-msgstr ""
-
-#: glade/dgtkpopups.glade:389
-msgid "gtk-ok"
-msgstr ""
-
 #: glade/file_tab_menu.glade:12
 msgid "Select All"
 msgstr ""
@@ -577,10 +569,6 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: glade/torrent_menu.glade:11
-msgid "gtk-media-pause"
-msgstr ""
-
 #: glade/torrent_menu.glade:20
 msgid "_Update Tracker"
 msgstr ""
@@ -627,10 +615,6 @@ msgstr ""
 
 #: glade/tray_menu.glade:89
 msgid "_Upload Limit"
-msgstr ""
-
-#: glade/tray_menu.glade:111
-msgid "gtk-preferences"
 msgstr ""
 
 #: glade/tray_menu.glade:121
