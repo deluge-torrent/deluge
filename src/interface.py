@@ -220,7 +220,7 @@ class DelugeGTK:
 				menuitem = gtk.RadioMenuItem(group, str(value))
 			
 			group = menuitem
-			
+
 			if value == pref_value and pref_value != None:
 				menuitem.set_active(True)
 
@@ -728,16 +728,15 @@ class DelugeGTK:
 			# We need to prepend this value and remove the last value in the list
 			self.config.get("tray_downloadspeedlist").insert(0, self.config.get("max_download_rate"))
 			self.config.get("tray_downloadspeedlist").pop()
-			# Re-build the sub-menu to display new option
-			self.build_tray_bwsetsubmenu()
+
 		# Do the same for the upload speed limits
 		if self.config.get("max_upload_rate") not in self.config.get("tray_uploadspeedlist") and self.config.get("max_upload_rate") >= 0:
 			# We need to prepend this value and remove the last value in the list
 			self.config.get("tray_uploadspeedlist").insert(0, self.config.get("max_upload_rate"))
 			self.config.get("tray_uploadspeedlist").pop()
-			# Re-build the sub-menu to display new option
-			self.build_tray_bwsetsubmenu()
-		
+
+		# Re-build the tray sub-menu to display the correct active radio item
+		self.build_tray_bwsetsubmenu()
 		
 		# Apply the preferences in the core
 		self.manager.apply_prefs()
