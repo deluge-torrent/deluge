@@ -278,7 +278,7 @@ def show_file_open_dialog(parent=None, title=None):
 	f1.set_name(_("All files"))
 	f1.add_pattern("*")
 	chooser.add_filter(f1)
-	chooser.set_select_multiple(true)
+	chooser.set_select_multiple(True)
 	
 	chooser.set_icon_from_file(common.get_pixmap("deluge32.png"))
 	chooser.set_property("skip-taskbar-hint", True)
