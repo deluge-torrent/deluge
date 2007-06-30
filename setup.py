@@ -156,7 +156,7 @@ elif boosttype == "mt":
 			'boost_thread-mt', 'z', 'pthread', 'ssl']
 	print 'Libraries mt'
 
-deluge_core = Extension('_deluge_core',
+deluge_core = Extension('deluge_core',
                     include_dirs = includedirs,
 		    libraries = librariestype,
                     extra_compile_args = EXTRA_COMPILE_ARGS,
