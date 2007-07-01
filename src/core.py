@@ -68,9 +68,10 @@ PREF_FUNCTIONS = {
 	"auto_seed_ratio"     : None, # no need for a function, applied constantly
 	"max_download_rate_bps"   : deluge_core.set_download_rate_limit,
 	"max_upload_rate_bps"     : deluge_core.set_upload_rate_limit,
+	"enable_dht"          : None, # not a normal pref in that is is applied only on start 
 	"use_upnp"		: deluge_core.use_upnp,
 	"use_natpmp"		: deluge_core.use_natpmp,
-	"use_utpex"		: deluge_core.use_utpex
+	"use_utpex"		: deluge_core.use_utpex,
 }
 
 STATE_MESSAGES = (	"Queued",
@@ -212,8 +213,7 @@ class Manager:
 		# Apply preferences. Note that this is before any torrents are added
 		self.apply_prefs()
 
-		# Set the enable_dht PREF_FUNCTION
-		PREF_FUNCTIONS["enable_dht"] = self.set_DHT
+		PREF_FUNCTIONS["enable_dht"] = self.set_DHT 
 
 		# Unpickle the state, or create a new one
 		if not blank_slate:
@@ -235,6 +235,8 @@ class Manager:
 		else:
 			self.state = persistent_state()
 
+
+
 	def quit(self):
 		# Analyze data needed for pickling, etc.
 		self.pre_quitting()
@@ -249,12 +251,12 @@ class Manager:
 		pickle.dump(self.state, output)
 		output.close()
 
+		# Stop DHT, if needed
+		self.set_DHT(False)
+
 		# Save fastresume data
 		print "Saving fastresume data..."
 		self.save_fastresume_data()
-
-		# Stop DHT, if needed
-		self.set_DHT(False)
 
 		# Shutdown torrent core
 		print "Quitting the core..."
@@ -776,6 +778,7 @@ class Manager:
 		for pref in PREF_FUNCTIONS.keys():
 			if PREF_FUNCTIONS[pref] is not None:
 				PREF_FUNCTIONS[pref](self.get_pref(pref))
+
 
 	def set_DHT(self, start=False):
 		if start == True and self.dht_running != True:
