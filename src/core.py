@@ -64,7 +64,6 @@ PREF_FUNCTIONS = {
 	"max_uploads"         : deluge_core.set_max_uploads,
 	"listen_on"           : deluge_core.set_listen_on,
 	"max_connections"     : deluge_core.set_max_connections,
-	"enable_dht"          : None, # not a normal pref in that is is applied only on start
 	"max_active_torrents" : None, # no need for a function, applied constantly
 	"auto_seed_ratio"     : None, # no need for a function, applied constantly
 	"max_download_rate_bps"   : deluge_core.set_download_rate_limit,
@@ -209,12 +208,12 @@ class Manager:
 
 		# Load the preferences
 		self.config = pref.Preferences(os.path.join(self.base_dir, PREFS_FILENAME))
-
-		# Set the enable_dht PREF_FUNCTION
-		PREF_FUNCTIONS["enable_dht"] = self.set_DHT
 		
 		# Apply preferences. Note that this is before any torrents are added
 		self.apply_prefs()
+
+		# Set the enable_dht PREF_FUNCTION
+		PREF_FUNCTIONS["enable_dht"] = self.set_DHT
 
 		# Unpickle the state, or create a new one
 		if not blank_slate:
