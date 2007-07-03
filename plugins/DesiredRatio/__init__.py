@@ -64,7 +64,7 @@ class DesiredRatio:
 
 
      
-		self.ratio_menu = self.interface.build_menu_radio_list(self.config.get("ratios"), self.ratio_clicked, self.get_torrent_desired_ratio(), None, True, _("Not Set"), 1)
+		self.ratio_menu = self.interface.build_menu_radio_list(self.config.get("ratios"), self.ratio_clicked, self.get_torrent_desired_ratio(), None, True, _("_Not Set"), 1)
 
 		self.ratio_menuitem.set_submenu(self.ratio_menu)
 		self.interface.torrent_menu.append(self.ratio_menuitem)
@@ -84,6 +84,15 @@ class DesiredRatio:
 		# Disconnect all callbacks
 		for callback_id in self.callback_ids:
 			self.interface.torrent_menu.disconnect(callback_id)
+			
+		self.callback_ids = []
+
+		# Reset all desired ratios in the core		
+		for unique_ID, ratio in self.set_ratios.items():
+			if ratio >= 1:
+				self.core.set_ratio(unique_ID, ratio)
+		
+		self.set_ratios = {}
   	
 	def ratio_clicked(self, widget):
 		value = widget.get_children()[0].get_text()
