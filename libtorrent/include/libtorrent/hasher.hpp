@@ -40,10 +40,25 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/config.hpp"
 #include "zlib.h"
 
+#ifdef TORRENT_USE_OPENSSL
 extern "C"
 {
 #include <openssl/sha.h>
 }
+#else
+// from sha1.cpp
+struct TORRENT_EXPORT SHA_CTX
+{
+	boost::uint32_t state[5];
+	boost::uint32_t count[2];
+	boost::uint8_t buffer[64];
+};
+
+TORRENT_EXPORT void SHA1_Init(SHA_CTX* context);
+TORRENT_EXPORT void SHA1_Update(SHA_CTX* context, boost::uint8_t const* data, boost::uint32_t len);
+TORRENT_EXPORT void SHA1_Final(boost::uint8_t* digest, SHA_CTX* context);
+
+#endif
 
 namespace libtorrent
 {
@@ -104,4 +119,5 @@ namespace libtorrent
 }
 
 #endif // TORRENT_HASHER_HPP_INCLUDED
+
 

@@ -96,7 +96,10 @@ python_version = platform.python_version()[0:3]
 #	it has been removed to prevent confusion.
 
 if not OS == "win":
-	EXTRA_COMPILE_ARGS = ["-Wno-missing-braces"]
+	EXTRA_COMPILE_ARGS = ["-Wno-missing-braces", "-DHAVE_INCLUDE_LIBTORRENT_ASIO____ASIO_HPP=1", 
+				"-DHAVE_INCLUDE_LIBTORRENT_ASIO_SSL_STREAM_HPP=1", 
+				"-DHAVE_INCLUDE_LIBTORRENT_ASIO_IP_TCP_HPP=1", 
+				"-DHAVE_PTHREAD=1", "-DTORRENT_USE_OPENSSL=1", "-DHAVE_SSL=1"]
 	if ARCH == "x64":
 		EXTRA_COMPILE_ARGS.append("-DAMD64")
 
@@ -113,7 +116,7 @@ if not OS == "win":
 		boosttype = 'nomt'
 	else:
 		boosttype = 'mt'
-	removals = ['-g', '-DNDEBUG', '-O2', '-Wstrict-prototypes']
+	removals = ['-g', '-Wstrict-prototypes']
         additions = ['-DNDEBUG', '-O2']
 
 	if python_version == '2.5':
