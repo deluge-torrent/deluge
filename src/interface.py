@@ -749,10 +749,10 @@ class DelugeGTK:
 		progress = torrent_state['progress']
 		progress = '%d%%'%int(progress * 100)
 		if is_paused:
-			message = 'Paused %s'%progress
+			message = _("Paused %s")%progress
 		else:
 			try:
-				message = core.STATE_MESSAGES[state]
+				message = _(core.STATE_MESSAGES[state])
 				if state in (1, 3, 4, 7):
 					message = '%s %s'%(message, progress)
 			except IndexError:

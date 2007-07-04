@@ -773,7 +773,17 @@ namespace libtorrent
 			pi.blocks_in_piece = p.blocks_in_piece(i->index);
 			for (int j = 0; j < pi.blocks_in_piece; ++j)
 			{
-				pi.blocks[j].peer = i->info[j].peer;
+				if (i->info[j].peer == 0)
+					pi.blocks[j].peer = tcp::endpoint();
+				else
+				{
+					policy::peer* p = static_cast<policy::peer*>(i->info[j].peer);
+					if (p->connection)
+						pi.blocks[j].peer = p->connection->remote();
+					else
+						pi.blocks[j].peer = p->ip;
+				}
+
 				pi.blocks[j].num_downloads = i->info[j].num_downloads;
 				pi.blocks[j].state = i->info[j].state;
 			}
