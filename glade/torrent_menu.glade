@@ -85,7 +85,7 @@
             <property name="visible">True</property>
             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
             <child>
-              <widget class="GtkImageMenuItem" id="menuitem1">
+              <widget class="GtkImageMenuItem" id="menu_queue_top">
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                 <property name="label" translatable="yes">_Top</property>
@@ -102,7 +102,7 @@
               </widget>
             </child>
             <child>
-              <widget class="GtkImageMenuItem" id="menuitem6">
+              <widget class="GtkImageMenuItem" id="menu_queue_up">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">_Up</property>
                 <property name="use_underline">True</property>
@@ -118,7 +118,7 @@
               </widget>
             </child>
             <child>
-              <widget class="GtkImageMenuItem" id="menuitem7">
+              <widget class="GtkImageMenuItem" id="menu_queue_down">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">_Down</property>
                 <property name="use_underline">True</property>
@@ -134,7 +134,7 @@
               </widget>
             </child>
             <child>
-              <widget class="GtkImageMenuItem" id="menuitem8">
+              <widget class="GtkImageMenuItem" id="menu_queue_bottom">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">_Bottom</property>
                 <property name="use_underline">True</property>
