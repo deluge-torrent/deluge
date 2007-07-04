@@ -168,7 +168,6 @@ long get_torrent_index(torrent_handle &handle)
 
 long get_index_from_unique_ID(long unique_ID)
 {
-    assert(M_handles->size() == M_unique_IDs->size());
 
     for (unsigned long i = 0; i < M_torrents->size(); i++)
         if ((*M_torrents)[i].unique_ID == unique_ID)
