@@ -1,5 +1,5 @@
 #
-# daemon.py
+# common.py
 #
 # Copyright (C) Andrew Resch  2007 <andrewresch@gmail.com> 
 # 
@@ -32,32 +32,23 @@
 #  statement from all source files in the program, then also delete it here.
 
 import logging
-
-import Pyro.core
-
-from deluge.core import Core
+import pkg_resources
+import xdg, xdg.BaseDirectory
+import os.path
 
 # Get the logger
 log = logging.getLogger("deluge")
 
-class Daemon:
-  def __init__(self):
-    # Instantiate the Manager class
-    self.core = Core()
-    # Initialize the Pyro core and daemon
-    Pyro.core.initServer(banner=0)
-    log.debug("Pyro server initiliazed..")
-    self.daemon = Pyro.core.Daemon()
-    # Connect the Manager to the Pyro server
-    obj = Pyro.core.ObjBase()
-    obj.delegateTo(self.core)
-    self.uri = self.daemon.connect(obj, "core")
-    log.debug("uri: %s", self.uri)
-    
-  def start(self):
-    # Start the main loop for the pyro daemon
-    self.daemon.requestLoop()
-    
-  def get_uri(self):
-    # Return the URI for the Pyro server
-    return self.uri
+def get_version():
+  """Returns the program version from the egg metadata"""
+  return pkg_resources.require("Deluge")[0].version
+  
+def get_config_dir(filename=None):
+  """ Returns the CONFIG_DIR path if no filename is specified
+  Returns the CONFIG_DIR + filename as a path if filename is specified
+  """
+  if filename != None:
+    return os.path.join(xdg.BaseDirectory.save_config_path("deluge"), filename)
+  else:
+    return xdg.BaseDirectory.save_config_path("deluge")
+

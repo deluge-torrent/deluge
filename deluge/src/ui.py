@@ -31,18 +31,20 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-# Instantiate the logger
 import logging
-log = logging.getLogger("deluge")
 
 import Pyro.core
+
+# Get the logger
+log = logging.getLogger("deluge")
 
 class Ui:
   def __init__(self, core_uri):
     log.debug("Ui init..")
     log.debug("core_uri: %s", core_uri)
     # Get the core manager from the Pyro server
-    self.core = Pyro.core.getProxyForURI(core_uri)
-    # Test
-    self.core.test()
+    if core_uri != None:
+      self.core = Pyro.core.getProxyForURI(core_uri)
+      # Test
+      self.core.test()
 

@@ -1,9 +1,6 @@
-#!/usr/bin/env python
 #
 # main.py
 #
-# Copyright (C) Zach Tibbitts 2006 <zach@collegegeek.org>
-# Copyright (C) Alon Zakai    2006 <kripkensteiner@gmail.com>
 # Copyright (C) Andrew Resch  2007 <andrewresch@gmail.com> 
 # 
 # Deluge is free software.
@@ -37,16 +34,16 @@
 # The main starting point for the program.  This function is called when the 
 # user runs the command 'deluge'.
 
+import logging
 import os
 import signal
-
 from optparse import OptionParser
-import deluge.common
+
 from deluge.daemon import Daemon
 from deluge.ui import Ui
+import deluge.common
 
 # Setup the logger
-import logging 
 logging.basicConfig(
   level=logging.DEBUG,
   format="[%(levelname)-8s] %(name)s:%(module)s:%(lineno)d %(message)s"
@@ -55,10 +52,10 @@ logging.basicConfig(
 log = logging.getLogger("deluge")
 
 def main():
-  log.info("Starting Deluge..")
-    
   # Setup the argument parser
-  parser = OptionParser(usage="%prog [options] [actions]", version=deluge.common.PROGRAM_VERSION)
+  # FIXME: need to use deluge.common to fill in version
+  parser = OptionParser(usage="%prog [options] [actions]", 
+                        version=deluge.common.get_version())
   parser.add_option("--daemon", dest="daemon", help="Start Deluge daemon",
             metavar="DAEMON", action="store_true", default=False)
   parser.add_option("--ui", dest="ui", help="Start Deluge UI",
@@ -66,10 +63,12 @@ def main():
 
   # Get the options and args from the OptionParser
   (options, args) = parser.parse_args()
+
+  log.info("Deluge %s", deluge.common.get_version())
   
   log.debug("options: %s", options)
   log.debug("args: %s", args)
-  
+    
   daemon = None
   pid = None
   uri = None
@@ -78,8 +77,9 @@ def main():
   if options.daemon:
     log.info("Starting daemon..")
     daemon = Daemon()
-    uri = daemon.getURI()
+    uri = daemon.get_uri()
     # We need to fork() the process to run it in the background...
+    # FIXME: We cannot use fork() on Windows
     pid = os.fork()
     if not pid:
       daemon.start()

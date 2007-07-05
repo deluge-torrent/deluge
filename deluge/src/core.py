@@ -31,13 +31,22 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-# Instantiate the logger
 import logging
+
+from deluge.config import Config
+import deluge.common
+
+# Get the logger
 log = logging.getLogger("deluge")
+
+DEFAULT_PREFS = {
+}
 
 class Core:
   def __init__(self):
     log.debug("Core init..")
+    
+    self.config = Config("core.conf", DEFAULT_PREFS)
   
   def test(self):
     print "test"
