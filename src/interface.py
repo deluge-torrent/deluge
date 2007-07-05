@@ -1156,7 +1156,9 @@ class DelugeGTK:
 		dlg.vbox.pack_start(entry)
 		clip = gtk.clipboard_get(selection='PRIMARY')
 		text = clip.wait_for_text()
-		entry.set_text(text)
+		#watch out for an empty clipboard, TODO check for non url garbage 
+		if text:
+			entry.set_text(text)
 		dlg.show_all()
 		result = dlg.run()
 		url = entry.get_text()
