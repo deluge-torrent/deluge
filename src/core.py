@@ -78,7 +78,7 @@ def N_(self):
         return self
 
 STATE_MESSAGES = (	N_("Queued"),
-					N_("Checking)"),
+					N_("Checking"),
 					N_("Connecting"),
 					N_("Downloading Metadata"),
 					N_("Downloading"),
