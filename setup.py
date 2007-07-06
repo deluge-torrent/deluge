@@ -108,7 +108,7 @@ if not OS == "win":
                      '/usr/include/python' + python_version]
 
 	if OS == "linux":
-		if os.WEXITSTATUS(os.system('grep -iq "Debian GNU/Linux 4.0\|Ubuntu 7.04\|Ubuntu 6.06\|Ubuntu 6.10\|Fedora Core release 6\|openSUSE 10.2\|Mandriva Linux release 2007.1\|Fedora release 7" /etc/issue')) == 0:
+		if os.WEXITSTATUS(os.system('grep -iq "Debian GNU/Linux 4.0\|Ubuntu 7.04\|Ubuntu 6.06\|Ubuntu 6.10\|Fedora Core release 6\|openSUSE 10.2\|Mandriva Linux release 2007.1\|Fedora release 7\|BLAG release 60001" /etc/issue')) == 0:
 			boosttype = 'nomt'
 		else:
 			boosttype = 'mt'
