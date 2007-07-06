@@ -168,7 +168,7 @@ def fetchCpp():
                 yield os.path.join(root,file)
 
 sources=list(fetchCpp())
-sources.append(os.path.join('deluge','deluge_core.cpp'))
+sources.append(os.path.join('src','deluge_core.cpp'))
 if not OS == "win":
 	sources.remove('libtorrent/src/file_win.cpp')
 
