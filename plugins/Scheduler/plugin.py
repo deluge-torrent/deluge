@@ -135,14 +135,13 @@ class plugin_Scheduler:
 			self.button_state = copy.deepcopy(drawing.button_state)
 			self.dllimit = float(dlinput.get_value())
 			self.ullimit = float(ulinput.get_value())
+			self.interface.apply_prefs()
 
 			writer = open(self.conf_file, "wb")
 			pickle.dump([drawing.button_state,[self.dllimit,self.ullimit]], writer)
 			writer.close()
-			self.interface.apply_prefs()
 
 		dialog.destroy()
-		self.interface.apply_prefs()
 
 class scheduler_select(gtk.DrawingArea):
 
