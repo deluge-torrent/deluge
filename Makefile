@@ -2,7 +2,7 @@
 # Makefile for Deluge
 #
 
-PREFIX = /usr/local
+PREFIX = /usr
 
 
 all:
@@ -18,10 +18,11 @@ clean:
 	find . -name *.pyc -exec rm {} \;
 
 uninstall:
-	#find /usr -name deluge
 	-rm $(PREFIX)/bin/deluge
 	-rm -r $(PREFIX)/lib/python2.5/site-packages/deluge
 	-rm -r $(PREFIX)/lib/python2.5/site-packages/deluge-*.egg-info
+	-rm -r $(PREFIX)/lib/python2.4/site-packages/deluge
+	-rm -r $(PREFIX)/lib/python2.4/site-packages/deluge-*.egg-info
 	-rm -r $(PREFIX)/share/deluge
 	-find ${PREFIX}/share/locale -name deluge.mo -exec rm {} \;
 	-rm $(PREFIX)/share/applications/deluge.desktop
