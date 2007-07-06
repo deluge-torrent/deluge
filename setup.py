@@ -159,59 +159,25 @@ elif boosttype == "mt":
 			'boost_thread-mt', 'z', 'pthread', 'ssl']
 	print 'Libraries mt'
 
+def fetchCpp():
+    for root,dirs,files in os.walk('libtorrent'):
+        if '.svn' in dirs:
+            dirs.remove('.svn')
+        for file in files:
+            if file.endswith('.cpp'):
+                yield os.path.join(root,file)
+
+sources=list(fetchCpp())
+sources.append(os.path.join('deluge','deluge_core.cpp'))
+if not OS == "win":
+	sources.remove('libtorrent/src/file_win.cpp')
+
+
 deluge_core = Extension('deluge_core',
                     include_dirs = includedirs,
 		    libraries = librariestype,
                     extra_compile_args = EXTRA_COMPILE_ARGS,
-                    sources = ['src/deluge_core.cpp',
-					'libtorrent/src/alert.cpp',
-					'libtorrent/src/allocate_resources.cpp',
-					'libtorrent/src/bt_peer_connection.cpp',
-					'libtorrent/src/connection_queue.cpp',
-					'libtorrent/src/disk_io_thread.cpp',
-					'libtorrent/src/entry.cpp',
-					'libtorrent/src/escape_string.cpp',
-					'libtorrent/src/file.cpp',
-					'libtorrent/src/file_pool.cpp',
-					'libtorrent/src/http_connection.cpp',
-					'libtorrent/src/http_stream.cpp',
-					'libtorrent/src/http_tracker_connection.cpp',
-					'libtorrent/src/identify_client.cpp',
-					'libtorrent/src/instantiate_connection.cpp',
-					'libtorrent/src/ip_filter.cpp',
-					'libtorrent/src/logger.cpp',
-					'libtorrent/src/lsd.cpp',
-					'libtorrent/src/metadata_transfer.cpp',
-					'libtorrent/src/natpmp.cpp',
-					'libtorrent/src/pe_crypto.cpp',
-					'libtorrent/src/peer_connection.cpp',
-					'libtorrent/src/piece_picker.cpp',     
-					'libtorrent/src/policy.cpp',       
-					'libtorrent/src/session.cpp',   
-					'libtorrent/src/session_impl.cpp',
-					'libtorrent/src/sha1.cpp',
-					'libtorrent/src/socks4_stream.cpp',
-					'libtorrent/src/socks5_stream.cpp',
-					'libtorrent/src/stat.cpp',
-					'libtorrent/src/storage.cpp',
-					'libtorrent/src/torrent.cpp',
-					'libtorrent/src/torrent_handle.cpp',
-					'libtorrent/src/torrent_info.cpp',
-					'libtorrent/src/tracker_manager.cpp',
-					'libtorrent/src/udp_tracker_connection.cpp',
-					'libtorrent/src/upnp.cpp',
-					'libtorrent/src/ut_pex.cpp',
-					'libtorrent/src/web_peer_connection.cpp',
-						'libtorrent/src/kademlia/closest_nodes.cpp',
-						'libtorrent/src/kademlia/dht_tracker.cpp',
-						'libtorrent/src/kademlia/find_data.cpp',
-						'libtorrent/src/kademlia/node.cpp',
-						'libtorrent/src/kademlia/node_id.cpp',
-						'libtorrent/src/kademlia/refresh.cpp',
-						'libtorrent/src/kademlia/routing_table.cpp',
-						'libtorrent/src/kademlia/rpc_manager.cpp',
-						'libtorrent/src/kademlia/traversal_algorithm.cpp'])
-
+                    sources = sources)
 # Thanks to Iain Nicol for code to save the location for installed prefix
 # At runtime, we need to know where we installed the data to.
 
