@@ -40,7 +40,7 @@ class PreferencesDlg:
 		self.dialog = self.glade.get_widget("pref_dialog")
 		self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
 		self.glade.signal_autoconnect({
-										'tray_toggle': self.tray_toggle,
+										'on_chk_use_tray_toggled': self.tray_toggle,
 										'on_btn_testport_clicked': self.TestPort,
 									  })
 		self.parent = parent
@@ -138,11 +138,12 @@ class PreferencesDlg:
 		common.open_url_in_browser(self.dialog,'http://www.deluge-torrent.org/test-port.php?port=%s' %activep)
 
 		
-	def tray_toggle(self, obj):
-		if obj.get_active():
-			self.glade.get_widget("chk_min_on_close").set_sensitive(True)
-		else:
-			self.glade.get_widget("chk_min_on_close").set_sensitive(False)
+	def tray_toggle(self, widget):
+		is_active = widget.get_active()
+
+		self.glade.get_widget("chk_min_on_close").set_sensitive(is_active)
+		self.glade.get_widget("chk_lock_tray").set_sensitive(is_active)
+		self.glade.get_widget("txt_tray_passwd").set_sensitive(is_active)
 	
 
 class PluginDlg:
