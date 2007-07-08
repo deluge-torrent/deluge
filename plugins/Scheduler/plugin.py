@@ -8,7 +8,7 @@ class plugin_Scheduler:
 
 		self.days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 		self.conf_file = deluge.common.CONFIG_DIR + "/scheduler.conf"
-		self.config = self.config = deluge.pref.Preferences()
+		self.config = deluge.pref.Preferences()
 		self.button_state_temp = [[0] * 7 for dummy in xrange(24)]
 		self.status = -1
 
