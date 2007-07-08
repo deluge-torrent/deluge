@@ -66,13 +66,3 @@ Notes:
  need to remove your ~/.config/deluge directory
  to allow Deluge to rebuild it's configuration
  file.
-
-3) If #2 above still doesn't work, then do the 
-following as rootto completely remove all traces 
-of deluge:
-apt-get --purge remove deluge-torrent \
-&& rm -rf ~/.config/deluge && \
-rm -r `find / -name 'deluge*'`
-Now your system is clean of deluge, so you can 
-install it fresh without problems.
-
