@@ -33,6 +33,21 @@
 
 import logging
 
+try:
+	import dbus, dbus.service
+	dbus_version = getattr(dbus, "version", (0,0,0))
+	if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
+		import dbus.glib
+	elif dbus_version >= (0,80,0):
+		from dbus.mainloop.glib import DBusGMainLoop
+		DBusGMainLoop(set_as_default=True)
+	else:
+		pass
+except: dbus_imported = False
+else: dbus_imported = True
+
+import gobject
+
 from deluge.config import Config
 import deluge.common
 
@@ -42,11 +57,18 @@ log = logging.getLogger("deluge")
 DEFAULT_PREFS = {
 }
 
-class Core:
-  def __init__(self):
+class Core(dbus.service.Object):
+  def __init__(self, path="/org/deluge_torrent/Core"):
     log.debug("Core init..")
-    
+    bus_name = dbus.service.BusName("org.deluge_torrent.Deluge", 
+                                    bus=dbus.SessionBus())
+    dbus.service.Object.__init__(self, bus_name, path)
     self.config = Config("core.conf", DEFAULT_PREFS)
-  
+    log.debug("Starting main loop..")
+    loop = gobject.MainLoop()
+    loop.run()    
+        
+  @dbus.service.method("org.deluge_torrent.Deluge")
   def test(self):
     print "test"
+

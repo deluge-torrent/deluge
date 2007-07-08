@@ -38,7 +38,7 @@ import glob
 python_version = platform.python_version()[0:3]
 
 # The libtorrent extension
-__extra_compile_args = [
+_extra_compile_args = [
   "-Wno-missing-braces",
   "-DHAVE_INCLUDE_LIBTORRENT_ASIO____ASIO_HPP=1", 
   "-DHAVE_INCLUDE_LIBTORRENT_ASIO_SSL_STREAM_HPP=1", 
@@ -48,14 +48,14 @@ __extra_compile_args = [
   "-DHAVE_SSL=1"
 ]
 
-__include_dirs = [
+_include_dirs = [
   './libtorrent',
   './libtorrent/include',
   './libtorrent/include/libtorrent',
   '/usr/include/python' + python_version
 ]
             
-__libraries = [
+_libraries = [
   'boost_filesystem',
   'boost_date_time',
   'boost_thread',
@@ -64,26 +64,25 @@ __libraries = [
   'ssl'
 ]
 			
-__sources = glob.glob("./libtorrent/src/*.cpp") + glob.glob("./libtorrent/src/kademelia/*.cpp") + glob.glob("./libtorrent/bindings/python/src/*.cpp")
+_sources = glob.glob("./libtorrent/src/*.cpp") + glob.glob("./libtorrent/src/kademelia/*.cpp") + glob.glob("./libtorrent/bindings/python/src/*.cpp")
 
 # Remove file_win.cpp as it is only for Windows builds
-for source in __sources:
+for source in _sources:
   if "file_win.cpp" in source:
-    __sources.remove(source)
+    _sources.remove(source)
     break
 
 libtorrent = Extension(
   'libtorrent',
-  include_dirs = __include_dirs,
-  libraries = __libraries,
-  extra_compile_args = __extra_compile_args,
-  sources = __sources
+  include_dirs = _include_dirs,
+  libraries = _libraries,
+  extra_compile_args = _extra_compile_args,
+  sources = _sources
 )
 
-print find_packages("deluge")
 # Main setup
 
-__data_files = [
+_data_files = [
  # ('share/deluge/glade',  glob.glob("share/deluge/glade/*.glade")),
  # ('share/deluge/pixmaps', glob.glob('share/deluge/pixmaps/*.png')),
   ('share/applications' , ["deluge/share/applications/deluge.desktop"]),
@@ -100,10 +99,8 @@ setup(
   url = "http://deluge-torrent.org",
   license = "GPLv2",
   
-#  packages = find_packages("deluge"),
   include_package_data = True,
-  #scripts = ["scripts/deluge"],
-  data_files = __data_files,
+  data_files = _data_files,
   ext_package = "deluge",
   ext_modules = [libtorrent],
   packages=['deluge'],

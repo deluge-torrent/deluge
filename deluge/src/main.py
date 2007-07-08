@@ -76,18 +76,19 @@ def main():
   # Start the daemon
   if options.daemon:
     log.info("Starting daemon..")
-    daemon = Daemon()
-    uri = daemon.get_uri()
     # We need to fork() the process to run it in the background...
     # FIXME: We cannot use fork() on Windows
     pid = os.fork()
     if not pid:
-      daemon.start()
+      # Since we are starting daemon this process will not start a UI
+      options.ui = False
+      # Create the daemon object
+      daemon = Daemon()
 
   # Start the UI
   if options.ui:
     log.info("Starting ui..")
-    ui = Ui(uri)
+    ui = Ui()
   
   # Stop Deluge
   log.info ("Stopping Deluge..")

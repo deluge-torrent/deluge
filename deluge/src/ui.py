@@ -33,18 +33,31 @@
 
 import logging
 
-import Pyro.core
+try:
+	import dbus, dbus.service
+	dbus_version = getattr(dbus, "version", (0,0,0))
+	if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
+		import dbus.glib
+	elif dbus_version >= (0,80,0):
+		from dbus.mainloop.glib import DBusGMainLoop
+		DBusGMainLoop(set_as_default=True)
+	else:
+		pass
+except: dbus_imported = False
+else: dbus_imported = True
 
 # Get the logger
 log = logging.getLogger("deluge")
 
 class Ui:
-  def __init__(self, core_uri):
+  def __init__(self):
     log.debug("Ui init..")
-    log.debug("core_uri: %s", core_uri)
-    # Get the core manager from the Pyro server
-    if core_uri != None:
-      self.core = Pyro.core.getProxyForURI(core_uri)
-      # Test
-      self.core.test()
-
+    log.debug("Getting core proxy object from DBUS..")
+    # Get the proxy object from DBUS
+    bus = dbus.SessionBus()
+    proxy = bus.get_object("org.deluge_torrent.Deluge", 
+                           "/org/deluge_torrent/Core")
+    self.core = dbus.Interface(proxy, "org.deluge_torrent.Deluge")
+    log.debug("Got core proxy object..")      
+    # Test the interface.. this calls test() in Core
+    self.core.test()

@@ -30,10 +30,20 @@
 #  but you are not obligated to do so. If you do not wish to do so, delete
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
+try:
+	import dbus, dbus.service
+	dbus_version = getattr(dbus, "version", (0,0,0))
+	if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
+		import dbus.glib
+	elif dbus_version >= (0,80,0):
+		from dbus.mainloop.glib import DBusGMainLoop
+		DBusGMainLoop(set_as_default=True)
+	else:
+		pass
+except: dbus_imported = False
+else: dbus_imported = True
 
 import logging
-
-import Pyro.core
 
 from deluge.core import Core
 
@@ -42,22 +52,15 @@ log = logging.getLogger("deluge")
 
 class Daemon:
   def __init__(self):
-    # Instantiate the Manager class
-    self.core = Core()
-    # Initialize the Pyro core and daemon
-    Pyro.core.initServer(banner=0)
-    log.debug("Pyro server initiliazed..")
-    self.daemon = Pyro.core.Daemon()
-    # Connect the Manager to the Pyro server
-    obj = Pyro.core.ObjBase()
-    obj.delegateTo(self.core)
-    self.uri = self.daemon.connect(obj, "core")
-    log.debug("uri: %s", self.uri)
-    
-  def start(self):
-    # Start the main loop for the pyro daemon
-    self.daemon.requestLoop()
-    
-  def get_uri(self):
-    # Return the URI for the Pyro server
-    return self.uri
+    # Check to see if the daemon is already running and if not, start it
+    bus = dbus.SessionBus()
+    obj = bus.get_object("org.freedesktop.DBus", "/org/freedesktop/DBus")
+    iface = dbus.Interface(obj, "org.freedesktop.DBus")
+    if iface.NameHasOwner("org.deluge_torrent.Deluge"):
+      # Daemon is running so lets tell the user
+      log.info("Daemon is already running..")
+    else:
+      # Daemon is not running so lets start up the core
+      log.debug("Daemon is not running..")
+      self.core = Core()
+
