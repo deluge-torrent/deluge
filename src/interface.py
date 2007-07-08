@@ -795,8 +795,9 @@ class DelugeGTK:
 	
 
 	## Start the timer that updates the interface
-	def start(self):
-		if not (self.window.flags() & gtk.VISIBLE):
+	def start(self, start_in_tray=False):
+		if not(start_in_tray and self.config.get("enable_system_tray") and 
+				self.has_tray) and not self.window.get_property("visible"):
 			print "Showing window"
 			self.window.show()
 		# go through torrent files to add
