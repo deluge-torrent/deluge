@@ -56,7 +56,7 @@ class plugin_Example: # The plugin's class
 		try:
 			entry1.set_text(self.config.get("option1"))
 			entry2.set_text(self.config.get("option2"))
-		except KeyError:
+		except:
 			entry1.set_text("")
 			entry2.set_text("")
 		self.dialog.show()
