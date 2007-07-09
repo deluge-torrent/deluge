@@ -28,11 +28,11 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import common, dgtk
+import common, dgtk, pref
 import gtk, gtk.glade
 import os, os.path
 
-
+PREFS_FILENAME  = "prefs.state"
 
 class PreferencesDlg:
 	def __init__(self, parent, preferences):
@@ -278,6 +278,8 @@ def show_file_open_dialog(parent=None, title=None):
 	f1 = gtk.FileFilter()
 	f1.set_name(_("All files"))
 	f1.add_pattern("*")
+	loadpref = pref.Preferences(os.path.join('%s %s'%(common.PROGRAM_NAME, common.PROGRAM_VERSION), PREFS_FILENAME))
+        chooser.set_current_folder(loadpref.get("default_load_path"))
 	chooser.add_filter(f1)
 	chooser.set_select_multiple(True)
 	
@@ -287,6 +289,7 @@ def show_file_open_dialog(parent=None, title=None):
 	response = chooser.run()
 	if response == gtk.RESPONSE_OK:
 		result = chooser.get_filenames()
+		loadpref.set("default_load_path", chooser.get_current_folder())
 	else:
 		result = None
 	chooser.destroy()

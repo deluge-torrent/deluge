@@ -35,12 +35,14 @@
 
 import pickle
 import common
+import os.path
 
 DEFAULT_PREFS = {
 	"auto_end_seeding" : False,
 	"auto_seed_ratio" : 0,
 	"close_to_tray" : False,
 	"default_download_path" : "",
+	"default_load_path" : os.path.expanduser("~/"),
 	"enable_dht" : True,
 	"enable_system_tray" : True,
 	"enabled_plugins" : "",
