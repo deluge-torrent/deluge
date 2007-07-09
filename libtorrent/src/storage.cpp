@@ -1037,6 +1037,7 @@ namespace libtorrent
 				case 0xEF53: // EXT2 and EXT3
 				case 0x00011954: // UFS
 				case 0x52654973: // ReiserFS
+				case 0x52345362: // Reiser4 
 				case 0x58465342: // XFS
 					return true;
 			}
