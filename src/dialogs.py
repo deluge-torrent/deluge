@@ -278,7 +278,7 @@ def show_file_open_dialog(parent=None, title=None):
 	f1 = gtk.FileFilter()
 	f1.set_name(_("All files"))
 	f1.add_pattern("*")
-	loadpref = pref.Preferences(os.path.join('%s %s'%(common.PROGRAM_NAME, common.PROGRAM_VERSION), PREFS_FILENAME))
+	loadpref = pref.Preferences()
         chooser.set_current_folder(loadpref.get("default_load_path"))
 	chooser.add_filter(f1)
 	chooser.set_select_multiple(True)
