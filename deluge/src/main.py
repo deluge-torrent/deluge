@@ -40,7 +40,7 @@ import signal
 from optparse import OptionParser
 
 from deluge.daemon import Daemon
-from deluge.ui import Ui
+from deluge.ui import UI
 import deluge.common
 
 # Setup the logger
@@ -88,13 +88,4 @@ def main():
   # Start the UI
   if options.ui:
     log.info("Starting ui..")
-    ui = Ui()
-  
-  # Stop Deluge
-  log.info ("Stopping Deluge..")
-  
-  # Kill the daemon
-  if pid:
-    log.info("Killing daemon..")
-    os.kill(pid, signal.SIGTERM)
-
+    ui = UI()

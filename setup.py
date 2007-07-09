@@ -59,12 +59,15 @@ _libraries = [
   'boost_filesystem',
   'boost_date_time',
   'boost_thread',
+  'boost_python',
   'z',
   'pthread',
   'ssl'
 ]
 			
-_sources = glob.glob("./libtorrent/src/*.cpp") + glob.glob("./libtorrent/src/kademelia/*.cpp") + glob.glob("./libtorrent/bindings/python/src/*.cpp")
+_sources = glob.glob("./libtorrent/src/*.cpp") + \
+            glob.glob("./libtorrent/src/kademlia/*.cpp") + \
+            glob.glob("./libtorrent/bindings/python/src/*.cpp")
 
 # Remove file_win.cpp as it is only for Windows builds
 for source in _sources:
@@ -83,8 +86,8 @@ libtorrent = Extension(
 # Main setup
 
 _data_files = [
- # ('share/deluge/glade',  glob.glob("share/deluge/glade/*.glade")),
- # ('share/deluge/pixmaps', glob.glob('share/deluge/pixmaps/*.png')),
+  ('deluge/glade',  glob.glob("deluge/glade/*.glade")),
+  ('deluge/pixmaps', glob.glob('deluge/pixmaps/*.png')),
   ('share/applications' , ["deluge/share/applications/deluge.desktop"]),
   ('share/pixmaps' , ["deluge/share/pixmaps/deluge.xpm"])
 ]
@@ -94,7 +97,8 @@ setup(
   fullname = "Deluge Bittorent Client",
   version = "0.6",
   author = "Zach Tibbitts, Alon Zakai, Marcos Pinto, Andrew Resch",
-  author_email = "zach@collegegeek.org, kripkensteiner@gmail.com, marcospinto@dipconsultants.com, andrewresch@gmail.com",
+  author_email = "zach@collegegeek.org, kripkensteiner@gmail.com, \
+                  marcospinto@dipconsultants.com, andrewresch@gmail.com",
   description = "GTK+ bittorrent client",
   url = "http://deluge-torrent.org",
   license = "GPLv2",

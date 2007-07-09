@@ -1,5 +1,5 @@
 #
-# ui.py
+# gtkui.py
 #
 # Copyright (C) Andrew Resch  2007 <andrewresch@gmail.com> 
 # 
@@ -33,49 +33,30 @@
 
 import logging
 
-try:
-	import dbus, dbus.service
-	dbus_version = getattr(dbus, "version", (0,0,0))
-	if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
-		import dbus.glib
-	elif dbus_version >= (0,80,0):
-		from dbus.mainloop.glib import DBusGMainLoop
-		DBusGMainLoop(set_as_default=True)
-	else:
-		pass
-except: dbus_imported = False
-else: dbus_imported = True
+import pygtk
+pygtk.require('2.0')
+import gtk, gtk.glade
+import pkg_resources
 
-import time
-
-from deluge.config import Config
+import gtkui_mainwindow
 
 # Get the logger
 log = logging.getLogger("deluge")
 
-DEFAULT_PREFS = {
-  "selected_ui": "gtk"
-}
-
-class UI:
-  def __init__(self):
-    log.debug("UI init..")
-    self.config = Config("ui.conf", DEFAULT_PREFS)
-    log.debug("Getting core proxy object from DBUS..")
-    # Get the proxy object from DBUS
-    bus = dbus.SessionBus()
-    proxy = bus.get_object("org.deluge_torrent.Deluge", 
-                           "/org/deluge_torrent/Core")
-    self.core = dbus.Interface(proxy, "org.deluge_torrent.Deluge")
-    log.debug("Got core proxy object..")
+class GtkUI:
+  def __init__(self, core):
+    # Get the core proxy object from the args
+    self.core = core
     
-    if self.config["selected_ui"] == "gtk":
-      log.info("Starting GtkUI..")
-      from deluge.gtkui import GtkUI
-      ui = GtkUI(self.core)
+    # Get the glade file for the main window
+    self.main_glade = gtk.glade.XML(
+          pkg_resources.resource_filename("deluge", "glade/main_window.glade"))
     
-    # Test the interface.. 
-#    self.core.add_torrent_file("/home/andrew/Downloads/test.torrent", None)
- #   time.sleep(3)
-    # Shutdown the core thus stopping the daemon process
-#    self.core.shutdown()
+    # Initialize the main window
+    self.main_window = gtkui_mainwindow.GtkUIMainWindow(self.main_glade)
+    
+    # Show the main window
+    self.main_window.show()
+    
+    # Start the gtk main loop
+    gtk.main()

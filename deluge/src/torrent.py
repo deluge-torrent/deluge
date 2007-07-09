@@ -1,5 +1,5 @@
 #
-# ui.py
+# torrent.py
 #
 # Copyright (C) Andrew Resch  2007 <andrewresch@gmail.com> 
 # 
@@ -31,51 +31,12 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import logging
+import libtorrent as lt
 
-try:
-	import dbus, dbus.service
-	dbus_version = getattr(dbus, "version", (0,0,0))
-	if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
-		import dbus.glib
-	elif dbus_version >= (0,80,0):
-		from dbus.mainloop.glib import DBusGMainLoop
-		DBusGMainLoop(set_as_default=True)
-	else:
-		pass
-except: dbus_imported = False
-else: dbus_imported = True
-
-import time
-
-from deluge.config import Config
-
-# Get the logger
-log = logging.getLogger("deluge")
-
-DEFAULT_PREFS = {
-  "selected_ui": "gtk"
-}
-
-class UI:
-  def __init__(self):
-    log.debug("UI init..")
-    self.config = Config("ui.conf", DEFAULT_PREFS)
-    log.debug("Getting core proxy object from DBUS..")
-    # Get the proxy object from DBUS
-    bus = dbus.SessionBus()
-    proxy = bus.get_object("org.deluge_torrent.Deluge", 
-                           "/org/deluge_torrent/Core")
-    self.core = dbus.Interface(proxy, "org.deluge_torrent.Deluge")
-    log.debug("Got core proxy object..")
+class Torrent:
+  def __init__(self, filename=None, url=None):
+    # Load the torrent file
+    if filename is not None:
+      torrent_file = lt.bdecode(open(filename, 'rb').read())
+      self.torrent_info = lt.torrent_info(torrent_file)
     
-    if self.config["selected_ui"] == "gtk":
-      log.info("Starting GtkUI..")
-      from deluge.gtkui import GtkUI
-      ui = GtkUI(self.core)
-    
-    # Test the interface.. 
-#    self.core.add_torrent_file("/home/andrew/Downloads/test.torrent", None)
- #   time.sleep(3)
-    # Shutdown the core thus stopping the daemon process
-#    self.core.shutdown()

@@ -47,14 +47,19 @@ except: dbus_imported = False
 else: dbus_imported = True
 
 import gobject
+import libtorrent as lt
 
 from deluge.config import Config
 import deluge.common
+from deluge.torrent import Torrent
 
 # Get the logger
 log = logging.getLogger("deluge")
 
 DEFAULT_PREFS = {
+  "listen_ports": [6881, 6891],
+  "download_location": "/home/andrew/Downloads",
+  "compact_allocation": True
 }
 
 class Core(dbus.service.Object):
@@ -64,11 +69,44 @@ class Core(dbus.service.Object):
                                     bus=dbus.SessionBus())
     dbus.service.Object.__init__(self, bus_name, path)
     self.config = Config("core.conf", DEFAULT_PREFS)
+    # Setup the libtorrent session and listen on the configured ports
+    log.debug("Starting libtorrent session..")
+    self.session = lt.session()
+    log.debug("Listening on %i-%i", self.config.get("listen_ports")[0],
+                                    self.config.get("listen_ports")[1])
+    self.session.listen_on(self.config.get("listen_ports")[0],
+                           self.config.get("listen_ports")[1])
+
     log.debug("Starting main loop..")
-    loop = gobject.MainLoop()
-    loop.run()    
+    self.loop = gobject.MainLoop()
+    self.loop.run()
         
+  @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
+                       in_signature="s", out_signature="")
+  def add_torrent_file(self, _filename):
+    """Adds a torrent file to the libtorrent session
+    """
+    log.info("Adding torrent: %s", _filename)
+    torrent = Torrent(filename=_filename)
+    self.session.add_torrent(torrent.torrent_info, 
+                             self.config["download_location"], 
+                             self.config["compact_allocation"])
+
+  @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
+                       in_signature="s", out_signature="")
+  def add_torrent_url(self, _url):
+    """Adds a torrent from url to the libtorrent session
+    """
+    log.info("Adding torrent: %s", _url)
+    torrent = Torrent(url=_url)
+    self.session.add_torrent(torrent.torrent_info, 
+                             self.config["download_location"], 
+                             self.config["compact_allocation"])
+
+  
   @dbus.service.method("org.deluge_torrent.Deluge")
-  def test(self):
-    print "test"
+  def shutdown(self):
+    log.info("Shutting down core..")
+    self.loop.quit()
+    
 

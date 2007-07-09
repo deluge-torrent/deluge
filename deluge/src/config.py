@@ -95,4 +95,10 @@ class Config:
       return value
     except KeyError:
       log.warning("Key does not exist, returning None")
-      return None
+      return
+
+  def __getitem__(self, key):
+    return self.config[key]
+
+  def __setitem__(self, key, value):
+    self.config[key] = value
