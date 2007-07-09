@@ -305,9 +305,14 @@ static PyObject *torrent_pre_init(PyObject *self, PyObject *args)
 
 static PyObject *torrent_init(PyObject *self, PyObject *args)
 {
-    printf("deluge_core; using libtorrent %s. Compiled with NDEBUG value: %d\r\n",
+    printf("deluge_core; using libtorrent %s. Compiled %s NDEBUG.\r\n",
         LIBTORRENT_VERSION,
-        NDEBUG);
+#ifdef NDEBUG
+  "with"
+#else
+  "without"
+#endif
+          );
 
     // Tell Boost that we are on *NIX, so bloody '.'s are ok inside a directory name!
     boost::filesystem::path::default_name_check(empty_name_check);
