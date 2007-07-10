@@ -31,6 +31,7 @@
 #  statement from all source files in the program, then also delete it here.
 
 import sys, os, os.path, urllib
+from itertools import izip
 import core, common, dgtk, ipc_manager, dialogs
 import plugins, pref
 import pygtk
@@ -405,11 +406,6 @@ class DelugeGTK:
 			size_str = common.fsize(size)
 			cell.set_property('text', size_str)
 			
-		def rate(column, cell, model, iter, data):
-			rate = int(model.get_value(iter, data))
-			rate_str = common.frate(rate)
-			cell.set_property('text', rate_str)
-		
 		def peer(column, cell, model, iter, data):
 			c1, c2 = data
 			a = int(model.get_value(iter, c1))
@@ -446,8 +442,8 @@ class DelugeGTK:
 		self.status_column 	= 	dgtk.add_progress_column(self.torrent_view, _("Status"), TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS)
 		self.seed_column 	=	dgtk.add_func_column(self.torrent_view, _("Seeders"), peer, (TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS))
 		self.peer_column 	=	dgtk.add_func_column(self.torrent_view, _("Peers"), peer, (TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS))
-		self.dl_column 		=	dgtk.add_func_column(self.torrent_view, _("Download"), rate, TORRENT_VIEW_COL_DOWNLOAD)
-		self.ul_column 		=	dgtk.add_func_column(self.torrent_view, _("Upload"), rate, TORRENT_VIEW_COL_UPLOAD)
+		self.dl_column 		=	dgtk.add_func_column(self.torrent_view, _("Download"), dgtk.cell_data_rate, TORRENT_VIEW_COL_DOWNLOAD)
+		self.ul_column 		=	dgtk.add_func_column(self.torrent_view, _("Upload"), dgtk.cell_data_rate, TORRENT_VIEW_COL_UPLOAD)
 		self.eta_column 	=	dgtk.add_func_column(self.torrent_view, _("ETA"), time, TORRENT_VIEW_COL_ETA)
 		self.share_column 	= 	dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, TORRENT_VIEW_COL_RATIO)
 		
@@ -591,9 +587,10 @@ class DelugeGTK:
 
 
 	def build_peer_tab(self):
-
 		self.peer_view = self.wtree.get_widget("peer_view")
-		self.peer_store = gtk.ListStore(str, str, float, str, str)
+		# IP int, IP string, Client, Percent Complete, Download Rate, Upload Rate
+		# IP int is for faster sorting
+		self.peer_store = gtk.ListStore(gobject.TYPE_UINT, str, str, float, int, int)
 		def percent(column, cell, model, iter, data):
 			percent = float(model.get_value(iter, data))
 			percent_str = "%.2f%%"%percent
@@ -601,11 +598,13 @@ class DelugeGTK:
 
 		self.peer_view.set_model(self.peer_store)
 		
-		self.peer_ip_column		=	dgtk.add_text_column(self.peer_view, _("IP Address"), 0)
-		self.peer_client_column		=	dgtk.add_text_column(self.peer_view, _("Client"), 1)
-		self.peer_complete_column	=	dgtk.add_func_column(self.peer_view, _("Percent Complete"), percent, 2)
-		self.peer_download_column	=	dgtk.add_text_column(self.peer_view, _("Download Rate"), 3)
-		self.peer_upload_column		=	dgtk.add_text_column(self.peer_view, _("Upload Rate"), 4)
+		self.peer_ip_column		=	dgtk.add_text_column(self.peer_view, _("IP Address"), 1)
+		self.peer_client_column		=	dgtk.add_text_column(self.peer_view, _("Client"), 2)
+		self.peer_complete_column	=	dgtk.add_func_column(self.peer_view, _("Percent Complete"), percent, 3)
+		self.peer_download_column	=	dgtk.add_func_column(self.peer_view, _("Download Rate"), dgtk.cell_data_rate, 4)
+		self.peer_upload_column		=	dgtk.add_func_column(self.peer_view, _("Upload Rate"), dgtk.cell_data_rate, 5)
+
+		self.peer_ip_column.set_sort_column_id(0)
 
 	def build_file_tab(self):
 		def percent(column, cell, model, iter, data):
@@ -999,8 +998,8 @@ class DelugeGTK:
 			self.text_summary_eta.set_text(common.estimate_eta(state))
 		elif tab == 1: #Peers List
 			def biographer(model, path, iter, dictionary):
-				assert(model.get_value(iter, 0) not in dictionary.keys())
-				dictionary[model.get_value(iter, 0)] = model.get_string_from_iter(iter)
+				assert(model.get_value(iter, 1) not in dictionary.keys())
+				dictionary[model.get_value(iter, 1)] = model.get_string_from_iter(iter)
 			
 			class remover_data:
 				def __init__(self, new_ips):
@@ -1008,7 +1007,7 @@ class DelugeGTK:
 					self.removed = False
 			
 			def remover(model, path, iter, data):
-				if model.get_value(iter, 0) not in data.new_ips:
+				if model.get_value(iter, 1) not in data.new_ips:
 					model.remove(iter)
 					data.removed = True
 					return True
@@ -1041,17 +1040,21 @@ class DelugeGTK:
 			for peer in new_peer_info:
 				if peer['ip'] in curr_ips.keys():
 					self.peer_store.set(self.peer_store.get_iter_from_string(curr_ips[peer['ip']]),
-											1,	unicode(peer['client'], "latin-1"),
-											2,	round(peer["peer_has"],2),
-											3,	common.frate(peer["download_speed"]),
-											4,	common.frate(peer["upload_speed"]))
+											2,	unicode(peer['client'], "latin-1"),
+											3,	round(peer["peer_has"],2),
+											4,	peer["download_speed"],
+											5,	peer["upload_speed"])
 
 				if peer['ip'] not in curr_ips.keys() and peer['client'] is not "":
-					self.peer_store.append([peer["ip"],	
+					# convert IP adrress to int for sorting purposes
+					ip_int = sum([int(byte) << shift
+								      for byte, shift in izip(peer["ip"].split("."), (24, 16, 8, 0))])
+
+					self.peer_store.append([ip_int, peer["ip"],	
 													unicode(peer["client"], "latin-1"), 
 													round(peer["peer_has"],2), 
-													common.frate(peer["download_speed"]), 
-													common.frate(peer["upload_speed"])])
+													peer["download_speed"], 
+													peer["upload_speed"]])
 
 			del new_peer_info
 			del new_ips

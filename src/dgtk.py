@@ -47,6 +47,13 @@ class StupidTray:
 	def set_tooltip(self, value):
 		pass
 
+## Cell data functions to pass to add_func_column()
+
+def cell_data_rate(column, cell, model, iter, data):
+	rate = int(model.get_value(iter, data))
+	rate_str = common.frate(rate)
+	cell.set_property('text', rate_str)
+
 ## Functions to create columns
 
 def add_func_column(view, header, func, data, sortid=None):
