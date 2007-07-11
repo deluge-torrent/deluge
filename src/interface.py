@@ -149,6 +149,7 @@ class DelugeGTK:
 					"share_toggle": self.share_toggle,
 					## Help Menu
 					"show_about_dialog": self.show_about_dialog,
+					"launchpad": self.launchpad,
 					## Toolbar
 					"start_pause": self.start_pause,
 					"update_tracker": self.update_tracker,
@@ -1142,6 +1143,8 @@ class DelugeGTK:
 														_("Space Needed:") + " " + nice_need + "\n" + \
 														_("Available Space:") + " " + nice_free)
 			
+	def launchpad(self, obj=None):
+		common.open_url_in_browser('self', 'https://translations.launchpad.net/deluge/trunk/+pots/deluge')
 			
 	def add_torrent_clicked(self, obj=None):
 		torrent = dialogs.show_file_open_dialog()
