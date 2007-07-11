@@ -1119,9 +1119,9 @@ class DelugeGTK:
                 if file['path'] in curr_files.keys():
                     self.file_store.set(self.file_store.get_iter_from_string(curr_files[file['path']]),
                                             3, file['progress'])
-            del new_peer_info
-            del new_ips
-            del curr_ips
+            del new_file_info
+            del new_files
+            del curr_files
         
             return True
 
