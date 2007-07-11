@@ -725,7 +725,7 @@ class DelugeGTK:
 			self.config.set("max_upload_speed_bps", -1)
 		else:
 			self.config.set("max_upload_speed_bps", 
-					        int(self.config.get("max_upload_spee") * 1024))
+					        int(self.config.get("max_upload_speed") * 1024))
 
 		if self.config.get("max_download_speed") < 0:
 			self.config.set("max_download_speed_bps", -1)
