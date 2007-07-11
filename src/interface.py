@@ -1086,7 +1086,7 @@ class DelugeGTK:
             
                                 
         elif tab == 2: #file tab
-            for file in self.manager.get_torrent_file_info(self.get_selected_torrent()):
+            for file in self.manager.get_core_torrent_file_info(self.get_selected_torrent(), True):
                 if self.file_get_iter_from_name(file['path']) != None:
                         self.file_store.set_value(self.file_get_iter_from_name(file['path']), 3, round(file['progress'], 2))
             return True
