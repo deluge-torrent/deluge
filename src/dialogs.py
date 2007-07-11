@@ -45,6 +45,8 @@ class PreferencesDlg:
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
         self.glade.signal_autoconnect({
                                         'on_chk_use_tray_toggled': self.tray_toggle,
+                                        'on_save_all_to' : self.toggle_move_chk,
+                                        'on_ask_save' : self.toggle_move_chk,
                                         'on_btn_testport_clicked': self.TestPort,
                                       })
         self.parent = parent
@@ -73,8 +75,14 @@ class PreferencesDlg:
             self.glade.get_widget("txt_proxy_password").set_text(self.preferences.get("proxy_password"))
             if(self.preferences.get("use_default_dir")):
                 self.glade.get_widget("radio_save_all_to").set_active(True)
+                self.glade.get_widget("chk_move_completed").set_sensitive(True)
+                self.glade.get_widget("finished_path_button").set_sensitive(True)
+                if(self.preferences.get("enable_move_completed")):
+                    self.glade.get_widget("chk_move_completed").set_active(True)
             else:
                 self.glade.get_widget("radio_ask_save").set_active(True)
+                self.glade.get_widget("chk_move_completed").set_sensitive(False)
+                self.glade.get_widget("finished_path_button").set_sensitive(False)
                 
             self.glade.get_widget("download_path_button").set_filename(self.preferences.get("default_download_path"))
             self.glade.get_widget("chk_compact").set_active(self.preferences.get("use_compact_storage"))
@@ -121,6 +129,8 @@ class PreferencesDlg:
             self.preferences.set("proxy_hostname", self.glade.get_widget("txt_proxy_hostname").get_text())
             self.preferences.set("use_default_dir", self.glade.get_widget("radio_save_all_to").get_active())
             self.preferences.set("default_download_path", self.glade.get_widget("download_path_button").get_filename())
+            self.preferences.set("enable_move_completed", self.glade.get_widget("chk_move_completed").get_active())
+            self.preferences.set("default_finished_path", self.glade.get_widget("finished_path_button").get_filename())
             self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())
             self.preferences.set("auto_seed_ratio", self.glade.get_widget("ratio_spinner").get_value())
             self.preferences.set("use_compact_storage", self.glade.get_widget("chk_compact").get_active())
@@ -148,7 +158,15 @@ class PreferencesDlg:
         self.glade.get_widget("chk_min_on_close").set_sensitive(is_active)
         self.glade.get_widget("chk_lock_tray").set_sensitive(is_active)
         self.glade.get_widget("txt_tray_passwd").set_sensitive(is_active)
-    
+
+    def toggle_move_chk(self, widget):
+        if(self.glade.get_widget("radio_ask_save").get_active()):
+            self.glade.get_widget("chk_move_completed").set_active(False)
+            self.glade.get_widget("chk_move_completed").set_sensitive(False)
+            self.glade.get_widget("finished_path_button").set_sensitive(False)
+        else:
+            self.glade.get_widget("chk_move_completed").set_sensitive(True)
+            self.glade.get_widget("finished_path_button").set_sensitive(True)
 
 class PluginDlg:
     def __init__(self, parent, plugins):

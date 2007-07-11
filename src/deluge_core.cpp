@@ -534,6 +534,32 @@ static PyObject *torrent_add_torrent(PyObject *self, PyObject *args)
         {   RAISE_PTR(DuplicateTorrentError, "libtorrent reports this is a duplicate torrent"); }
 }
 
+static PyObject *torrent_move_storage(PyObject *self, PyObject *args)
+{
+    const char *move_dir;
+    python_long unique_ID;
+    if (!PyArg_ParseTuple(args, "is", &unique_ID, &move_dir))
+        return NULL;
+
+    long index = get_index_from_unique_ID(unique_ID);
+    if (PyErr_Occurred())
+        return NULL;
+
+    boost::filesystem::path move_dir_2 (move_dir, empty_name_check);
+    try
+    {
+        /*libtorrent's move_storage only works within same partition 
+          move_storage returns afterwards save_path should equal move_dir_2*/
+        M_torrents->at(index).handle.move_storage(move_dir_2);
+        //if(M_torrents->at(index).handle.save_path()!=move_dir_2)
+            //return NULL;
+            //throw error here to let user know
+    }
+    catch (boost::filesystem::filesystem_error&)
+        {   RAISE_PTR(FilesystemError, ""); }
+
+    Py_INCREF(Py_None); return Py_None;
+}
 
 static PyObject *torrent_remove_torrent(PyObject *self, PyObject *args)
 {
@@ -1407,6 +1433,7 @@ static PyMethodDef deluge_core_methods[] =
     {"set_max_uploads",         torrent_set_max_uploads,            METH_VARARGS,   "."},
     {"set_max_connections",     torrent_set_max_connections,        METH_VARARGS,   "."},
     {"add_torrent",             torrent_add_torrent,                METH_VARARGS,   "."},
+    {"move_storage",            torrent_move_storage,               METH_VARARGS,   "."},
     {"remove_torrent",          torrent_remove_torrent,             METH_VARARGS,   "."},
     {"get_num_torrents",        torrent_get_num_torrents,           METH_VARARGS,   "."},
     {"reannounce",              torrent_reannounce,                 METH_VARARGS,   "."},

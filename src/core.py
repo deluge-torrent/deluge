@@ -527,6 +527,8 @@ class Manager:
                     
                 if event['event_type'] is self.constants['EVENT_FINISHED']:
                     # Queue seeding torrent to bottom if needed
+                    if(self.get_pref('enable_move_completed')):
+                        deluge_core.move_storage(event['unique_ID'], self.get_pref('default_finished_path'))
                     if self.get_pref('queue_seeds_to_bottom'):
                         self.queue_bottom(event['unique_ID'])
                     # If we are autoseeding, then we need to apply the queue
@@ -803,7 +805,7 @@ class Manager:
 
     def calc_ratio(self, unique_ID, torrent_state):
         up = float((torrent_state['total_payload_upload'] / 1024) + (self.unique_IDs[unique_ID].uploaded_memory / 1024))
-        down = float(torrent_state["total_done"] / 1024)               
+        down = float(torrent_state["total_done"] / 1024)
         try:
             ret = float(up/down)
         except:

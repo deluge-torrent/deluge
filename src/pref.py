@@ -43,6 +43,8 @@ DEFAULT_PREFS = {
     "close_to_tray" : False,
     "default_download_path" : "",
     "default_load_path" : os.path.expanduser("~/"),
+    "default_finished_path" : "",
+    "enable_move_completed" : False,
     "enable_dht" : True,
     "enable_system_tray" : True,
     "enabled_plugins" : "",
