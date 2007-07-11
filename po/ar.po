@@ -571,10 +571,6 @@ msgstr "معدل الرفع"
 msgid "Filename"
 msgstr "اسم‌الملف"
 
-#: src/interface.py:486
-msgid "Offset"
-msgstr "إزاحة"
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr "المنجز"

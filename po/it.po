@@ -586,11 +586,6 @@ msgstr "Velocità di invio"
 msgid "Filename"
 msgstr "Nome file"
 
-#: src/interface.py:486
-#, fuzzy
-msgid "Offset"
-msgstr "Scostamento"
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr "Avanzamento"

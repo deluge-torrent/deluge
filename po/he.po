@@ -562,10 +562,6 @@ msgstr "קצב העלאה"
 msgid "Filename"
 msgstr "שם קובץ"
 
-#: src/interface.py:486
-msgid "Offset"
-msgstr "היסט"
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr ""

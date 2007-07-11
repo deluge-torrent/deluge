@@ -561,10 +561,6 @@ msgstr "Lähetysnopeus"
 msgid "Filename"
 msgstr "Tiedostonimi"
 
-#: src/interface.py:486
-msgid "Offset"
-msgstr "Siirtymä"
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr "Eteneminen"

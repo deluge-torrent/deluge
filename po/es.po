@@ -590,10 +590,6 @@ msgstr "Velocidad de Subida"
 msgid "Filename"
 msgstr "Nombre del archivo"
 
-#: src/interface.py:486
-msgid "Offset"
-msgstr "Compensar"
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr "En proceso"

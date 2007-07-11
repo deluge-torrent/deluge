@@ -584,10 +584,6 @@ msgstr "Sändningshastighet"
 msgid "Filename"
 msgstr "Filnamn"
 
-#: src/interface.py:486
-msgid "Offset"
-msgstr "Position"
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr "Förlopp"

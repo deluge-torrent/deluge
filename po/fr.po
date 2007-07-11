@@ -760,10 +760,6 @@ msgstr "Vitesse d'envoi"
 msgid "Filename"
 msgstr "Nom de Fichier"
 
-#: src/interface.py:630
-msgid "Offset"
-msgstr "Décalage"
-
 #: src/interface.py:631
 msgid "Progress"
 msgstr "Avancement"

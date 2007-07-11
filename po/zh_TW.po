@@ -564,10 +564,6 @@ msgstr "上傳頻寬"
 msgid "Filename"
 msgstr "檔案名稱"
 
-#: src/interface.py:486
-msgid "Offset"
-msgstr "偏移量"
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr "進度"
@@ -662,9 +658,6 @@ msgstr "請選取一個下載目錄"
 
 #~ msgid "size"
 #~ msgstr "大小"
-
-#~ msgid "offset"
-#~ msgstr "前置量"
 
 #~ msgid "download?"
 #~ msgstr "確定要下載？"

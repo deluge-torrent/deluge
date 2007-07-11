@@ -959,7 +959,6 @@ static PyObject *torrent_get_file_info(PyObject *self, PyObject *args)
         file_info = Py_BuildValue(
             "{s:s,s:d,s:d,s:f}",
             "path",     currFile.path.string().c_str(),
-            "offset",   double(currFile.offset),
             "size",     double(currFile.size),
             "progress", progresses[i - start]*100.0
             );

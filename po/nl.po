@@ -563,10 +563,6 @@ msgstr "Upload ratio"
 msgid "Filename"
 msgstr "Bestandsnaam"
 
-#: src/interface.py:486
-msgid "Offset"
-msgstr "Verschuiving"
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr "Voortgang"

@@ -562,10 +562,6 @@ msgstr ""
 msgid "Filename"
 msgstr ""
 
-#: src/interface.py:486
-msgid "Offset"
-msgstr ""
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr ""

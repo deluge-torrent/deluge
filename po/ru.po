@@ -574,10 +574,6 @@ msgstr "Скорость раздачи"
 msgid "Filename"
 msgstr "Файл"
 
-#: src/interface.py:486
-msgid "Offset"
-msgstr "Смещение"
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr "Состояние"

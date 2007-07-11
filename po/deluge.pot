@@ -725,10 +725,6 @@ msgstr ""
 msgid "Filename"
 msgstr ""
 
-#: src/interface.py:635
-msgid "Offset"
-msgstr ""
-
 #: src/interface.py:636
 msgid "Progress"
 msgstr ""

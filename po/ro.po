@@ -567,10 +567,6 @@ msgstr "Viteza Donare"
 msgid "Filename"
 msgstr "Nume fişier"
 
-#: src/interface.py:486
-msgid "Offset"
-msgstr "Decalaj"
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr ""

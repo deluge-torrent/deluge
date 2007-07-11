@@ -562,10 +562,6 @@ msgstr "Wysyłanie"
 msgid "Filename"
 msgstr "Nazwa pliku"
 
-#: src/interface.py:486
-msgid "Offset"
-msgstr "Offset"
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr "Status"

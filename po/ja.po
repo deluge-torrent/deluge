@@ -561,10 +561,6 @@ msgstr "アップロードの率"
 msgid "Filename"
 msgstr "ファイル名"
 
-#: src/interface.py:486
-msgid "Offset"
-msgstr ""
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr ""

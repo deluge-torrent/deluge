@@ -570,10 +570,6 @@ msgstr "Upload-Rate"
 msgid "Filename"
 msgstr "Dateiname"
 
-#: src/interface.py:486
-msgid "Offset"
-msgstr "Absatz"
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr "Fortschritt"

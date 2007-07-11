@@ -519,7 +519,7 @@ class DelugeGTK:
         i=0
         for f in all_files:
                         self.file_store.append([not file_filter[i], f['path'], common.fsize(f['size']),
-                                        f['offset'], round(f['progress'],2)])
+                                        round(f['progress'],2)])
                         i=i+1
         
         return True
@@ -642,7 +642,7 @@ class DelugeGTK:
                             "check_selected": self.file_check_selected,
                             "uncheck_selected": self.file_uncheck_selected,
                             })
-        self.file_store = gtk.ListStore(bool, str, str, str, float)
+        self.file_store = gtk.ListStore(bool, str, str, float)
         self.file_view.set_model(self.file_store)
         self.file_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         self.file_view.get_selection().set_select_function(self.file_clicked)
@@ -652,8 +652,7 @@ class DelugeGTK:
         dgtk.add_toggle_column(self.file_view, _("Download"), 0, toggled_signal=self.file_toggled)
         dgtk.add_text_column(self.file_view, _("Filename"), 1).set_expand(True)
         dgtk.add_text_column(self.file_view, _("Size"), 2)
-        dgtk.add_text_column(self.file_view, _("Offset"), 3)
-        dgtk.add_func_column(self.file_view, _("Progress"), percent, 4) 
+        dgtk.add_func_column(self.file_view, _("Progress"), percent, 3) 
     
     def file_select_all(self, widget):
         self.file_view.get_selection().select_all()
@@ -1091,8 +1090,9 @@ class DelugeGTK:
             new_file_info = self.manager.get_torrent_file_info(unique_id)
             for file in new_file_info:
                 iter = self.file_get_iter_from_name(file['path'])
-                if (iter != None) and (round(self.file_store.get_value(iter, 4),2) != round(file['progress'],2)):
-                    self.file_store.set_value(iter, 4, round(file['progress'],2))
+                if iter != None and \
+                    round(self.file_store.get_value(iter, 3), 2) != round(file['progress'], 2):
+                        self.file_store.set_value(iter, 3, round(file['progress'], 2))
             return True
 
         else:

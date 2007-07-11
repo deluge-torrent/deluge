@@ -560,10 +560,6 @@ msgstr "Rýchlosť odosielania"
 msgid "Filename"
 msgstr "Názov súboru"
 
-#: src/interface.py:486
-msgid "Offset"
-msgstr "Odstup"
-
 #: src/interface.py:487
 msgid "Progress"
 msgstr "Priebeh"
