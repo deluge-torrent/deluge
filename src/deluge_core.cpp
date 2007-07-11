@@ -548,12 +548,9 @@ static PyObject *torrent_move_storage(PyObject *self, PyObject *args)
     boost::filesystem::path move_dir_2 (move_dir, empty_name_check);
     try
     {
-        /*libtorrent's move_storage only works within same partition 
-          move_storage returns afterwards save_path should equal move_dir_2*/
         M_torrents->at(index).handle.move_storage(move_dir_2);
-        //if(M_torrents->at(index).handle.save_path()!=move_dir_2)
-            //return NULL;
-            //throw error here to let user know
+        if(M_torrents->at(index).handle.save_path()!=move_dir_2)
+            return NULL;
     }
     catch (boost::filesystem::filesystem_error&)
         {   RAISE_PTR(FilesystemError, ""); }

@@ -528,8 +528,12 @@ class Manager:
                 if event['event_type'] is self.constants['EVENT_FINISHED']:
                     # Queue seeding torrent to bottom if needed
                     if(self.get_pref('enable_move_completed')):
-                        deluge_core.move_storage(event['unique_ID'], self.get_pref('default_finished_path'))
-                        self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
+                        try:
+			    deluge_core.move_storage(event['unique_ID'], self.get_pref('default_finished_path'))
+                        except SystemError:
+                            print "You cannot move downloaded file/folder to a different partition"
+                        else:
+                            self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
                     if self.get_pref('queue_seeds_to_bottom'):
                         self.queue_bottom(event['unique_ID'])
                     # If we are autoseeding, then we need to apply the queue
