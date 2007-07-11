@@ -459,7 +459,7 @@ class DelugeGTK:
 
         self.queue_column     =     dgtk.add_text_column(self.torrent_view, "#", TORRENT_VIEW_COL_QUEUE)
         self.name_column    =     dgtk.add_texticon_column(self.torrent_view, _("Name"), TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME)
-        self.size_column     =    dgtk.add_func_column(self.torrent_view, _("Size"), size, TORRENT_VIEW_COL_SIZE)
+        self.size_column     =    dgtk.add_func_column(self.torrent_view, _("Size"), dgtk.cell_data_size, TORRENT_VIEW_COL_SIZE)
         self.status_column     =     dgtk.add_progress_column(self.torrent_view, _("Status"), TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS)
         self.seed_column     =    dgtk.add_func_column(self.torrent_view, _("Seeders"), peer, (TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS))
         self.peer_column     =    dgtk.add_func_column(self.torrent_view, _("Peers"), peer, (TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS))
@@ -518,9 +518,9 @@ class DelugeGTK:
         assert(len(all_files) == len(file_filter))
         i=0
         for f in all_files:
-                        self.file_store.append([not file_filter[i], f['path'], common.fsize(f['size']),
-                                        round(f['progress'],2)])
-                        i=i+1
+            self.file_store.append([not file_filter[i], f['path'], f['size'], 
+                                    round(f['progress'], 2)])
+            i=i+1
         
         return True
     
@@ -636,13 +636,13 @@ class DelugeGTK:
 
         self.file_view = self.wtree.get_widget("file_view")
         self.file_glade = gtk.glade.XML(common.get_glade_file("file_tab_menu.glade"), domain='deluge')
-        self.file_menu = self.file_glade.get_widget("file_tab_menu")        
+        self.file_menu = self.file_glade.get_widget("file_tab_menu")
         self.file_glade.signal_autoconnect({     "select_all": self.file_select_all,
                             "unselect_all": self.file_unselect_all,
                             "check_selected": self.file_check_selected,
                             "uncheck_selected": self.file_uncheck_selected,
                             })
-        self.file_store = gtk.ListStore(bool, str, str, float)
+        self.file_store = gtk.ListStore(bool, str, gobject.TYPE_UINT64, float)
         self.file_view.set_model(self.file_store)
         self.file_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         self.file_view.get_selection().set_select_function(self.file_clicked)
@@ -651,7 +651,7 @@ class DelugeGTK:
         
         dgtk.add_toggle_column(self.file_view, _("Download"), 0, toggled_signal=self.file_toggled)
         dgtk.add_text_column(self.file_view, _("Filename"), 1).set_expand(True)
-        dgtk.add_text_column(self.file_view, _("Size"), 2)
+        dgtk.add_func_column(self.file_view, _("Size"), dgtk.cell_data_size, 2)
         dgtk.add_func_column(self.file_view, _("Progress"), percent, 3) 
     
     def file_select_all(self, widget):

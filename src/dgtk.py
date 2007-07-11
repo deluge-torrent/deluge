@@ -54,6 +54,11 @@ def cell_data_speed(column, cell, model, iter, data):
     speed_str = common.fspeed(speed)
     cell.set_property('text', speed_str)
 
+def cell_data_size(column, cell, model, iter, data):
+	size = long(model.get_value(iter, data))
+	size_str = common.fsize(size)
+	cell.set_property('text', size_str)
+
 ## Functions to create columns
 
 def add_func_column(view, header, func, data, sortid=None):
