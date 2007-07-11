@@ -685,15 +685,6 @@ class DelugeGTK:
             itr = self.file_store.iter_next(itr)
         self.manager.set_file_filter(self.get_selected_torrent(), file_filter)
         
-    def file_get_iter_from_name(self, name):
-        iter = self.file_store.get_iter_first()
-        while iter:
-            if self.file_store.get_value(iter, 1) == name:
-                return iter
-            iter = self.file_store.iter_next(iter)
-            
-        return None
-        
     def show_about_dialog(self, arg=None):
         dialogs.show_about_dialog()
 
@@ -1011,7 +1002,6 @@ class DelugeGTK:
             self.text_summary_eta.set_text(common.estimate_eta(state))
         elif tab == 1: #Peers List
             def biographer(model, path, iter, dictionary):
-                assert(model.get_value(iter, 1) not in dictionary.keys())
                 dictionary[model.get_value(iter, 1)] = model.get_string_from_iter(iter)
             
             class remover_data:
@@ -1035,11 +1025,10 @@ class DelugeGTK:
             
             for index in range(len(new_peer_info)):
                 if not new_peer_info[index]['client'] == "":
-                    assert(new_peer_info[index]['ip'] not in new_ips.keys())
                     new_ips[new_peer_info[index]['ip']] = index
             
             while True:
-                data = remover_data(new_ips.keys())
+                data = remover_data(new_ips)
                 self.peer_store.foreach(remover, data)
                 if not data.removed:
                     break
@@ -1048,83 +1037,41 @@ class DelugeGTK:
             
             self.peer_store.foreach(biographer, curr_ips)
             
-            assert(self.peer_store.iter_n_children(None) == len(curr_ips.keys()))
-            
             for peer in new_peer_info:
-                if peer['ip'] in curr_ips.keys():
+                if peer['ip'] in curr_ips:
                     self.peer_store.set(self.peer_store.get_iter_from_string(curr_ips[peer['ip']]),
-                                            2,    unicode(peer['client'], "latin-1"),
-                                            3,    round(peer["peer_has"],2),
-                                            4,    peer["download_speed"],
-                                            5,    peer["upload_speed"])
+                                        2, unicode(peer['client'], "latin-1"),
+                                        3, round(peer["peer_has"], 2),
+                                        4, peer["download_speed"],
+                                        5, peer["upload_speed"])
 
-                if peer['ip'] not in curr_ips.keys() and peer['client'] is not "":
+                if peer['ip'] not in curr_ips and peer['client'] is not "":
                     # convert IP adrress to int for sorting purposes
                     ip_int = sum([int(byte) << shift
                                       for byte, shift in izip(peer["ip"].split("."), (24, 16, 8, 0))])
 
-                    self.peer_store.append([ip_int, peer["ip"],    
-                                                    unicode(peer["client"], "latin-1"), 
-                                                    round(peer["peer_has"],2), 
-                                                    peer["download_speed"], 
-                                                    peer["upload_speed"]])
-
-            del new_peer_info
-            del new_ips
-            del curr_ips
-                                
+                    self.peer_store.append([ip_int, peer["ip"], 
+                                            unicode(peer["client"], "latin-1"), 
+                                            round(peer["peer_has"], 2), 
+                                            peer["download_speed"], 
+                                            peer["upload_speed"]])
         elif tab == 2: #file tab
-        
             def biographer(model, path, iter, dictionary):
-                assert(model.get_value(iter, 1) not in dictionary.keys())
                 dictionary[model.get_value(iter, 1)] = model.get_string_from_iter(iter)
             
-            class remover_data:
-                def __init__(self, new_files):
-                    self.new_files = new_files
-                    self.removed = False
-            
-            def remover(model, path, iter, data):
-                if model.get_value(iter, 1) not in data.new_files:
-                    model.remove(iter)
-                    data.removed = True
-                    return True
-                else:
-                    return False
-
             unique_id = self.get_selected_torrent()
             
             new_file_info = self.manager.get_torrent_file_info(unique_id)
-            
-            new_files = {}
-            
-            for index in range(len(new_file_info)):
-                if not new_file_info[index]['path'] == "":
-                    assert(new_file_info[index]['path'] not in new_files.keys())
-                    new_files[new_file_info[index]['path']] = index
-            
-            while True:
-                data = remover_data(new_files.keys())
-                self.file_store.foreach(remover, data)
-                if not data.removed:
-                    break
             
             curr_files = {}
             
             self.file_store.foreach(biographer, curr_files)
             
-            assert(self.file_store.iter_n_children(None) == len(curr_files.keys()))
-            
             for file in new_file_info:
-                if file['path'] in curr_files.keys():
-                    self.file_store.set(self.file_store.get_iter_from_string(curr_files[file['path']]),
-                                            3, file['progress'])
-            del new_file_info
-            del new_files
-            del curr_files
-        
-            return True
-
+                iter = self.file_store.get_iter_from_string(curr_files[file['path']])
+                if file['path'] in curr_files and \
+                   self.file_store.get_value(iter, 3) != round(file['progress'], 2):
+                    self.file_store.set(iter, 3, file['progress'])
         else:
             pass
 
