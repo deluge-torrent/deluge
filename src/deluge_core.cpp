@@ -113,8 +113,8 @@ typedef torrents_t::iterator   torrents_t_iterator;
 
 long          M_unique_counter  = 0;
 session_settings *M_settings        = NULL;
-pe_settings	*M_pe_settings = NULL;
-proxy_settings	*M_proxy_settings = NULL;
+pe_settings    *M_pe_settings = NULL;
+proxy_settings    *M_proxy_settings = NULL;
 session          *M_ses         = NULL;
 PyObject         *M_constants       = NULL;
 ip_filter    *M_the_filter      = NULL;
@@ -158,7 +158,7 @@ long get_torrent_index(torrent_handle &handle)
     for (unsigned long i = 0; i < M_torrents->size(); i++)
         if ((*M_torrents)[i].handle == handle)
     {
-        //			printf("Found: %li\r\n", i);
+        //            printf("Found: %li\r\n", i);
         return i;
     }
 
@@ -210,7 +210,7 @@ boost::filesystem::path const& save_path)
     torrent_t new_torrent;
 
     torrent_handle h = M_ses->add_torrent(t, save_path, resume_data, compact_mode, 16 * 1024);
-    //	h.set_max_connections(60); // at some point we should use this
+    //    h.set_max_connections(60); // at some point we should use this
     h.set_max_uploads(-1);
     h.set_ratio(preferred_ratio);
     new_torrent.handle = h;
@@ -436,7 +436,7 @@ static PyObject *torrent_set_download_rate_limit(PyObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "i", &arg))
         return NULL;
 
-    //	printf("Capping download to %d bytes per second\r\n", (int)arg);
+    //    printf("Capping download to %d bytes per second\r\n", (int)arg);
     M_ses->set_download_rate_limit(arg);
 
     Py_INCREF(Py_None); return Py_None;
@@ -449,7 +449,7 @@ static PyObject *torrent_set_upload_rate_limit(PyObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "i", &arg))
         return NULL;
 
-    //	printf("Capping upload to %d bytes per second\r\n", (int)arg);
+    //    printf("Capping upload to %d bytes per second\r\n", (int)arg);
     M_ses->set_upload_rate_limit(arg);
 
     Py_INCREF(Py_None); return Py_None;
@@ -501,7 +501,7 @@ static PyObject *torrent_set_max_connections(PyObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "i", &max_conn))
         return NULL;
 
-    //	printf("Setting max connections: %d\r\n", max_conn);
+    //    printf("Setting max connections: %d\r\n", max_conn);
     M_ses->set_max_connections(max_conn);
 
     Py_INCREF(Py_None); return Py_None;
@@ -629,14 +629,14 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
     
     for (unsigned long i = 0; i < peers.size(); i++) {
 
-			connected_peers = s.num_peers - s.num_seeds;
+            connected_peers = s.num_peers - s.num_seeds;
 
-			connected_seeds = s.num_seeds;
+            connected_seeds = s.num_seeds;
 
-			total_seeds = s.num_complete != -1? s.num_complete : connected_seeds;
-			
-			total_peers = s.num_incomplete != -1? s.num_incomplete : connected_peers;
-		}
+            total_seeds = s.num_complete != -1? s.num_complete : connected_seeds;
+            
+            total_peers = s.num_incomplete != -1? s.num_incomplete : connected_peers;
+        }
 
     return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:f,s:L,s:L,s:b,s:s,s:s,s:f,s:L,s:L,s:l,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
         "name",               t.handle.get_torrent_info().name().c_str(),
@@ -661,11 +661,11 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
         "total_size",         i.total_size(),
         "piece_length",       i.piece_length(),
         "num_pieces",         i.num_pieces(),
-	"total_peers",        total_peers,
-	"total_seeds",	      total_seeds,
+    "total_peers",        total_peers,
+    "total_seeds",          total_seeds,
         "is_paused",          t.handle.is_paused(),
         "is_seed",            t.handle.is_seed(),
-        "total_done",	      s.total_done,
+        "total_done",          s.total_done,
         "total_wanted",       s.total_wanted,
         "total_wanted_done",  s.total_wanted_done);
 };
@@ -1033,7 +1033,7 @@ static PyObject *torrent_start_DHT(PyObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "s", &DHT_path))
         return NULL;
 
-    //	printf("Loading DHT state from %s\r\n", DHT_path);
+    //    printf("Loading DHT state from %s\r\n", DHT_path);
 
     boost::filesystem::path tempPath(DHT_path, empty_name_check);
     boost::filesystem::ifstream DHT_state_file(tempPath, std::ios_base::binary);
@@ -1045,10 +1045,10 @@ static PyObject *torrent_start_DHT(PyObject *self, PyObject *args)
         DHT_state = bdecode(std::istream_iterator<char>(DHT_state_file),
             std::istream_iterator<char>());
         M_ses->start_dht(DHT_state);
-        //		printf("DHT state recovered.\r\n");
+        //        printf("DHT state recovered.\r\n");
 
-        //		// Print out the state data from the FILE (not the session!)
-        //		printf("Number of DHT peers in recovered state: %ld\r\n", count_DHT_peers(DHT_state));
+        //        // Print out the state data from the FILE (not the session!)
+        //        printf("Number of DHT peers in recovered state: %ld\r\n", count_DHT_peers(DHT_state));
 
     }
     catch (std::exception&)
@@ -1074,7 +1074,7 @@ static PyObject *torrent_stop_DHT(PyObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "s", &DHT_path))
         return NULL;
 
-    //	printf("Saving DHT state to %s\r\n", DHT_path);
+    //    printf("Saving DHT state to %s\r\n", DHT_path);
 
     boost::filesystem::path tempPath = boost::filesystem::path(DHT_path, empty_name_check);
 
@@ -1082,7 +1082,7 @@ static PyObject *torrent_stop_DHT(PyObject *self, PyObject *args)
     {
         entry DHT_state = M_ses->dht_state();
 
-        //		printf("Number of DHT peers in state, saving: %ld\r\n", count_DHT_peers(DHT_state));
+        //        printf("Number of DHT peers in state, saving: %ld\r\n", count_DHT_peers(DHT_state));
 
         boost::filesystem::ofstream out(tempPath, std::ios_base::binary);
         out.unsetf(std::ios_base::skipws);
@@ -1105,7 +1105,7 @@ static PyObject *torrent_get_DHT_info(PyObject *self, PyObject *args)
     return Py_BuildValue("l", python_long(count_DHT_peers(DHT_state)));
 
     /*
-    //	DHT_state.print(cout);
+    //    DHT_state.print(cout);
         entry *nodes = DHT_state.find_key("nodes");
         if (!nodes)
             return Py_BuildValue("l", -1); // No nodes - we are just starting up...
@@ -1190,8 +1190,8 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
         return Py_BuildValue("l", 1);
     } catch (std::exception& e)
     {
-        //		std::cerr << e.what() << "\n";
-        //		return Py_BuildValue("l", 0);
+        //        std::cerr << e.what() << "\n";
+        //        return Py_BuildValue("l", 0);
         RAISE_PTR(DelugeError, e.what());
         return Py_BuildValue("l", 0);
     }
@@ -1231,15 +1231,15 @@ static PyObject *torrent_add_range_to_IP_filter(PyObject *self, PyObject *args)
 
 static PyObject *torrent_use_upnp(PyObject *self, PyObject *args)
 {
-	python_long action;
-	PyArg_ParseTuple(args, "i", &action);
+    python_long action;
+    PyArg_ParseTuple(args, "i", &action);
 
-	if (action){
-		M_ses->start_upnp();
-	}
-	else{
-		M_ses->stop_upnp();
-	}
+    if (action){
+        M_ses->start_upnp();
+    }
+    else{
+        M_ses->stop_upnp();
+    }
 
     Py_INCREF(Py_None); return Py_None;
 
@@ -1247,49 +1247,49 @@ static PyObject *torrent_use_upnp(PyObject *self, PyObject *args)
 
 static PyObject *torrent_use_natpmp(PyObject *self, PyObject *args)
 {
-	python_long action;
+    python_long action;
 
-	PyArg_ParseTuple(args, "i", &action);
+    PyArg_ParseTuple(args, "i", &action);
 
-	if (action){
-		M_ses->start_natpmp();
-	}
-	else{
-		M_ses->stop_natpmp();
-	}
+    if (action){
+        M_ses->start_natpmp();
+    }
+    else{
+        M_ses->stop_natpmp();
+    }
 
     Py_INCREF(Py_None); return Py_None;
 }
 
 static PyObject *torrent_use_utpex(PyObject *self, PyObject *args)
 {
-	python_long action;
+    python_long action;
 
-	PyArg_ParseTuple(args, "i", &action);
+    PyArg_ParseTuple(args, "i", &action);
 
-	if (action){
-		M_ses->add_extension(&libtorrent::create_ut_pex_plugin);
-	}
+    if (action){
+        M_ses->add_extension(&libtorrent::create_ut_pex_plugin);
+    }
 
     Py_INCREF(Py_None); return Py_None;
 }
 
 static PyObject *torrent_pe_settings(PyObject *self, PyObject *args)
 {
-	M_pe_settings = new pe_settings();
-	libtorrent::pe_settings::enc_policy out, in, prefer;
-	libtorrent::pe_settings::enc_level	level;
-	
-	PyArg_ParseTuple(args, "iiii", &out, &in, &level, &prefer);
-	
-	M_pe_settings->out_enc_policy = out;
-	M_pe_settings->in_enc_policy = in;
-	M_pe_settings->allowed_enc_level = level;
-	M_pe_settings->prefer_rc4 = prefer;
+    M_pe_settings = new pe_settings();
+    libtorrent::pe_settings::enc_policy out, in, prefer;
+    libtorrent::pe_settings::enc_level    level;
+    
+    PyArg_ParseTuple(args, "iiii", &out, &in, &level, &prefer);
+    
+    M_pe_settings->out_enc_policy = out;
+    M_pe_settings->in_enc_policy = in;
+    M_pe_settings->allowed_enc_level = level;
+    M_pe_settings->prefer_rc4 = prefer;
 
-	M_ses->set_pe_settings(*M_pe_settings);
-	
-	return Py_None;
+    M_ses->set_pe_settings(*M_pe_settings);
+    
+    return Py_None;
 }
 
 static PyObject *torrent_set_ratio(PyObject *self, PyObject *args)
@@ -1310,57 +1310,57 @@ static PyObject *torrent_set_ratio(PyObject *self, PyObject *args)
 
 static PyObject *torrent_proxy_settings(PyObject *self, PyObject *args)
 {
-	M_proxy_settings = new proxy_settings();
+    M_proxy_settings = new proxy_settings();
 
-	char *server, *login, *pasw;
-	int portnum;
-	libtorrent::proxy_settings::proxy_type	proxytype;
-	bool peerproxy, trackerproxy, dhtproxy;
+    char *server, *login, *pasw;
+    int portnum;
+    libtorrent::proxy_settings::proxy_type    proxytype;
+    bool peerproxy, trackerproxy, dhtproxy;
 
-	PyArg_ParseTuple(args, "sssiibbb", &server, &login, &pasw, &portnum, &proxytype, &peerproxy, &trackerproxy, &dhtproxy);
+    PyArg_ParseTuple(args, "sssiibbb", &server, &login, &pasw, &portnum, &proxytype, &peerproxy, &trackerproxy, &dhtproxy);
     
-	M_proxy_settings->type = proxytype;
-	M_proxy_settings->username = login;
-	M_proxy_settings->password = pasw;
-	M_proxy_settings->hostname = server;
-	M_proxy_settings->port = portnum;
-	
-	if (peerproxy) {
-		M_ses->set_peer_proxy(*M_proxy_settings);
-	}
+    M_proxy_settings->type = proxytype;
+    M_proxy_settings->username = login;
+    M_proxy_settings->password = pasw;
+    M_proxy_settings->hostname = server;
+    M_proxy_settings->port = portnum;
+    
+    if (peerproxy) {
+        M_ses->set_peer_proxy(*M_proxy_settings);
+    }
 
-	if (trackerproxy) {
-		M_ses->set_tracker_proxy(*M_proxy_settings);
-	}
+    if (trackerproxy) {
+        M_ses->set_tracker_proxy(*M_proxy_settings);
+    }
 
-	if (dhtproxy) {
-		M_ses->set_dht_proxy(*M_proxy_settings);
-	}
+    if (dhtproxy) {
+        M_ses->set_dht_proxy(*M_proxy_settings);
+    }
 
-	return Py_None;
+    return Py_None;
 }
 
 static PyObject *torrent_get_trackers(PyObject *self, PyObject *args)
 {
-	python_long unique_ID;
-	if (!PyArg_ParseTuple(args, "i", &unique_ID))
-		return NULL;
+    python_long unique_ID;
+    if (!PyArg_ParseTuple(args, "i", &unique_ID))
+        return NULL;
 
-	long index = get_index_from_unique_ID(unique_ID);
-	if (PyErr_Occurred())
-	    return NULL;
+    long index = get_index_from_unique_ID(unique_ID);
+    if (PyErr_Occurred())
+        return NULL;
 
-	torrent_handle& h = M_torrents->at(index).handle;
-	std::string trackerslist;
-	if (h.is_valid() && h.has_metadata())
-		{
-		for (std::vector<announce_entry>::const_iterator i = h.trackers().begin(); 
-			i != h.trackers().end(); ++i)
-			{
-			trackerslist = trackerslist + i->url +"\n";
-			}
-		}
-	return Py_BuildValue("s",trackerslist.c_str());
+    torrent_handle& h = M_torrents->at(index).handle;
+    std::string trackerslist;
+    if (h.is_valid() && h.has_metadata())
+        {
+        for (std::vector<announce_entry>::const_iterator i = h.trackers().begin(); 
+            i != h.trackers().end(); ++i)
+            {
+            trackerslist = trackerslist + i->url +"\n";
+            }
+        }
+    return Py_BuildValue("s",trackerslist.c_str());
 }
 
 static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
@@ -1376,10 +1376,10 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
   torrent_handle& h = M_torrents->at(index).handle;
 
   std::vector<libtorrent::announce_entry> trackerlist;
-	
+    
   std::istringstream trackers(tracker);
   std::string line;
-	
+    
   while (std::getline(trackers, line)) {
     libtorrent::announce_entry a_entry(line);
     trackerlist.push_back(a_entry);

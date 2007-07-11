@@ -14,9 +14,9 @@
 # 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, write to:
-# 	The Free Software Foundation, Inc.,
-# 	51 Franklin Street, Fifth Floor
-# 	Boston, MA  02110-1301, USA.
+#     The Free Software Foundation, Inc.,
+#     51 Franklin Street, Fifth Floor
+#     Boston, MA  02110-1301, USA.
 #
 #  In addition, as a special exception, the copyright holders give
 #  permission to link the code of portions of this program with the OpenSSL
@@ -34,42 +34,43 @@
 # 0.80.0.  I finally found a solution by reading the source code from the
 # Listen project. 
 try:
-	import dbus, dbus.service
-	dbus_version = getattr(dbus, 'version', (0,0,0))
-	if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
-		dbus.SessionBus()
-		import dbus.glib
-	elif dbus_version >= (0,80,0):
-		from dbus.mainloop.glib import DBusGMainLoop
-		DBusGMainLoop(set_as_default=True)
-		dbus.SessionBus()
-	else:
-		pass
+    import dbus
+    import dbus.service
+    dbus_version = getattr(dbus, 'version', (0,0,0))
+    if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
+        dbus.SessionBus()
+        import dbus.glib
+    elif dbus_version >= (0,80,0):
+        from dbus.mainloop.glib import DBusGMainLoop
+        DBusGMainLoop(set_as_default=True)
+        dbus.SessionBus()
+    else:
+        pass
 except: dbus_imported = False
 else: dbus_imported = True
 
 if dbus_imported:
-	class Manager(dbus.service.Object):
-		def __init__(self, interface, object_path='/org/deluge_torrent/DelugeObject'):
-			self.interface = interface
-			self.bus = dbus.SessionBus()
-			bus_name = dbus.service.BusName("org.deluge_torrent.Deluge", bus=self.bus)
-			dbus.service.Object.__init__(self, bus_name, object_path)
+    class Manager(dbus.service.Object):
+        def __init__(self, interface, object_path='/org/deluge_torrent/DelugeObject'):
+            self.interface = interface
+            self.bus = dbus.SessionBus()
+            bus_name = dbus.service.BusName("org.deluge_torrent.Deluge", bus=self.bus)
+            dbus.service.Object.__init__(self, bus_name, object_path)
 
-		## external_add_torrent should only be called from outside the class	
-		@dbus.service.method('org.deluge_torrent.Deluge')
-		def external_add_torrent(self, torrent_file):
-			self.interface.external_add_torrent(torrent_file)
-		@dbus.service.method('org.deluge_torrent.Deluge')
-		def external_add_url(self, url):
-			self.interface.external_add_url(url)
+        ## external_add_torrent should only be called from outside the class    
+        @dbus.service.method('org.deluge_torrent.Deluge')
+        def external_add_torrent(self, torrent_file):
+            self.interface.external_add_torrent(torrent_file)
+        @dbus.service.method('org.deluge_torrent.Deluge')
+        def external_add_url(self, url):
+            self.interface.external_add_url(url)
 else:
-	# This is a fallback class in case dbus is not available
-	class Manager:
-		def __init__(self, interface, object_path=None):
-			self.interface = interface
-		
-		def external_add_torrent(self, torrent_file):
-			print "I can't do anything with this."
-		def external_add_url(self, url):
-			print "I can't do anything with this."
+    # This is a fallback class in case dbus is not available
+    class Manager:
+        def __init__(self, interface, object_path=None):
+            self.interface = interface
+        
+        def external_add_torrent(self, torrent_file):
+            print "I can't do anything with this."
+        def external_add_url(self, url):
+            print "I can't do anything with this."
