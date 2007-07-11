@@ -113,7 +113,7 @@ class plugin_NetGraph:
 		
 		import deluge.common
 
-		self.pangoLayout.set_text(deluge.common.frate(shownSpeed))
+		self.pangoLayout.set_text(deluge.common.fspeed(shownSpeed))
 		self.networkPixmap.draw_layout(self.image.get_style().black_gc,
 												 4,
 												 int(self.height - 1 - (self.height*shownSpeed/maxSpeed)),

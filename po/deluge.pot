@@ -33,7 +33,7 @@ msgid "<b>Share Ratio:</b>"
 msgstr ""
 
 #: glade/delugegtk.glade:272 glade/delugegtk.glade:291
-msgid "<b>Rate:</b>"
+msgid "<b>Speed:</b>"
 msgstr ""
 
 #: glade/delugegtk.glade:312
@@ -218,14 +218,6 @@ msgstr ""
 msgid "Plugins"
 msgstr ""
 
-#: glade/dgtkpopups.glade:46
-msgid "Download Speed"
-msgstr ""
-
-#: glade/dgtkpopups.glade:55
-msgid "Upload Speed"
-msgstr ""
-
 #: glade/dgtkpopups.glade:116
 msgid ""
 "<span size=\"large\"><b>Are you sure you want to remove the selected torrent"
@@ -249,7 +241,7 @@ msgid "Add a Torrent..."
 msgstr ""
 
 #: glade/dgtkpopups.glade:335
-msgid "Rate:"
+msgid "Speed:"
 msgstr ""
 
 #: glade/file_tab_menu.glade:12
@@ -328,11 +320,11 @@ msgid "<b>Seeding</b>"
 msgstr ""
 
 #: glade/preferences_dialog.glade:324 glade/preferences_dialog.glade:453
-msgid "The maximum upload rate for all torrents.  Set -1 for unlimited."
+msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
 
 #: glade/preferences_dialog.glade:342 glade/preferences_dialog.glade:433
-msgid "The maximum download rate for all torrents.  Set -1 for unlimited."
+msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
 
 #: glade/preferences_dialog.glade:359 glade/preferences_dialog.glade:413
@@ -352,11 +344,11 @@ msgid "Upload Slots:"
 msgstr ""
 
 #: glade/preferences_dialog.glade:435
-msgid "Maximum Download Rate (KiB/s):"
+msgid "Maximum Download Speed (KiB/s):"
 msgstr ""
 
 #: glade/preferences_dialog.glade:455
-msgid "Maximum Upload Rate (KiB/s):"
+msgid "Maximum Upload Speed (KiB/s):"
 msgstr ""
 
 #: glade/preferences_dialog.glade:472
@@ -610,11 +602,11 @@ msgid "_Clear Finished"
 msgstr ""
 
 #: glade/tray_menu.glade:67
-msgid "_Download Limit"
+msgid "_Down Speed Limit"
 msgstr ""
 
 #: glade/tray_menu.glade:89
-msgid "_Upload Limit"
+msgid "_Up Speed Limit"
 msgstr ""
 
 #: glade/tray_menu.glade:121
@@ -722,11 +714,11 @@ msgid "Percent Complete"
 msgstr ""
 
 #: src/interface.py:607
-msgid "Download Rate"
+msgid "Down Speed"
 msgstr ""
 
 #: src/interface.py:608
-msgid "Upload Rate"
+msgid "Up Speed"
 msgstr ""
 
 #: src/interface.py:633

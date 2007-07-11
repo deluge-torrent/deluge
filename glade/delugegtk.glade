@@ -358,7 +358,7 @@
                             <child>
                               <widget class="GtkCheckMenuItem" id="chk_download">
                                 <property name="visible">True</property>
-                                <property name="label" translatable="yes">Download</property>
+                                <property name="label" translatable="yes">Down Speed</property>
                                 <property name="use_underline">True</property>
                                 <property name="active">True</property>
                                 <signal name="toggled" handler="dl_toggle"/>
@@ -367,7 +367,7 @@
                             <child>
                               <widget class="GtkCheckMenuItem" id="chk_upload">
                                 <property name="visible">True</property>
-                                <property name="label" translatable="yes">Upload</property>
+                                <property name="label" translatable="yes">Up Speed</property>
                                 <property name="use_underline">True</property>
                                 <property name="active">True</property>
                                 <signal name="toggled" handler="ul_toggle"/>
@@ -832,7 +832,7 @@
                                                       <widget class="GtkLabel" id="label6">
                                                         <property name="visible">True</property>
                                                         <property name="xalign">0</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Rate:&lt;/b&gt;</property>
+                                                        <property name="label" translatable="yes">&lt;b&gt;Speed:&lt;/b&gt;</property>
                                                         <property name="use_markup">True</property>
                                                       </widget>
                                                     </child>
@@ -853,7 +853,7 @@
                                                       <widget class="GtkLabel" id="label5">
                                                         <property name="visible">True</property>
                                                         <property name="xalign">0</property>
-                                                        <property name="label" translatable="yes">&lt;b&gt;Rate:&lt;/b&gt;</property>
+                                                        <property name="label" translatable="yes">&lt;b&gt;Speed:&lt;/b&gt;</property>
                                                         <property name="use_markup">True</property>
                                                       </widget>
                                                     </child>
@@ -980,7 +980,7 @@
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkLabel" id="summary_upload_rate">
+                                                  <widget class="GtkLabel" id="summary_upload_speed">
                                                     <property name="visible">True</property>
                                                     <property name="xalign">0</property>
                                                   </widget>
@@ -1004,7 +1004,7 @@
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkLabel" id="summary_download_rate">
+                                                  <widget class="GtkLabel" id="summary_download_speed">
                                                     <property name="visible">True</property>
                                                     <property name="xalign">0</property>
                                                   </widget>

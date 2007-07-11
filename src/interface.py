@@ -194,10 +194,16 @@ class DelugeGTK:
 	
 	def build_tray_bwsetsubmenu(self):
 		# Create the Download speed list sub-menu
-		self.submenu_bwdownset = self.build_menu_radio_list(self.config.get("tray_downloadspeedlist"), self.tray_setbwdown, self.config.get("max_download_rate"), _("KiB/s"), show_notset=True)
+		self.submenu_bwdownset = self.build_menu_radio_list(
+				self.config.get("tray_downloadspeedlist"), self.tray_setbwdown,
+				self.config.get("max_download_speed"), _("KiB/s"), 
+				show_notset=True)
 		
 		# Create the Upload speed list sub-menu
-		self.submenu_bwupset = self.build_menu_radio_list(self.config.get("tray_uploadspeedlist"), self.tray_setbwup, self.config.get("max_upload_rate"), _("KiB/s"), show_notset=True)
+		self.submenu_bwupset = self.build_menu_radio_list(
+				self.config.get("tray_uploadspeedlist"), self.tray_setbwup, 
+				self.config.get("max_upload_speed"), _("KiB/s"), 
+				show_notset=True)
 		
 		# Add the sub-menus to the tray menu
 		self.tray_glade.get_widget("download_limit").set_submenu(self.submenu_bwdownset)
@@ -207,7 +213,9 @@ class DelugeGTK:
 		self.submenu_bwdownset.show_all()
 		self.submenu_bwupset.show_all()
 
-	def build_menu_radio_list(self, value_list, callback, pref_value=None, suffix=None, show_notset=False, notset_label="Unlimited", notset_lessthan=0):
+	def build_menu_radio_list(self, value_list, callback, pref_value=None, 
+			                  suffix=None, show_notset=False, 
+			                  notset_label="Unlimited", notset_lessthan=0):
 		# Build a menu with radio menu items from a list and connect them to the callback
 		# The pref_value is what you would like to test for the default active radio item
 		# Setting show_unlimited will include an Unlimited radio item
@@ -254,19 +262,19 @@ class DelugeGTK:
 		
 		if str_bwdown == _("Other..."):
 			dialog_glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"))
-			rate_dialog = dialog_glade.get_widget("rate_dialog")
-			spin_rate = dialog_glade.get_widget("spin_rate")
-			spin_rate.set_value(self.config.get("max_download_rate"))
-			spin_rate.select_region(0, -1)
-			response = rate_dialog.run()
+			speed_dialog = dialog_glade.get_widget("speed_dialog")
+			spin_speed = dialog_glade.get_widget("spin_speed")
+			spin_speed.set_value(self.config.get("max_download_speed"))
+			spin_speed.select_region(0, -1)
+			response = speed_dialog.run()
 			if response == 1: # OK Response
-				str_bwdown = spin_rate.get_value()
+				str_bwdown = spin_speed.get_value()
 			else:
-				rate_dialog.destroy()
+				speed_dialog.destroy()
 				return
-			rate_dialog.destroy()
+			speed_dialog.destroy()
 			
-		self.config.set("max_download_rate", float(str_bwdown))
+		self.config.set("max_download_speed", float(str_bwdown))
 		self.apply_prefs()
 
 	def tray_setbwup(self, widget, data=None):
@@ -276,19 +284,19 @@ class DelugeGTK:
 		
 		if str_bwup == _("Other..."):
 			dialog_glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"))
-			rate_dialog = dialog_glade.get_widget("rate_dialog")
-			spin_rate = dialog_glade.get_widget("spin_rate")
-			spin_rate.set_value(self.config.get("max_upload_rate"))
-			spin_rate.select_region(0, -1)
-			response = rate_dialog.run()
+			speed_dialog = dialog_glade.get_widget("speed_dialog")
+			spin_speed = dialog_glade.get_widget("spin_speed")
+			spin_speed.set_value(self.config.get("max_upload_speed"))
+			spin_speed.select_region(0, -1)
+			response = speed_dialog.run()
 			if response == 1: # OK Response
-				str_bwup = spin_rate.get_value()
+				str_bwup = spin_speed.get_value()
 			else:
-				rate_dialog.destroy()
+				speed_dialog.destroy()
 				return
-			rate_dialog.destroy()
+			speed_dialog.destroy()
 			
-		self.config.set("max_upload_rate", float(str_bwup))
+		self.config.set("max_upload_speed", float(str_bwup))
 		self.apply_prefs()
 
 	def unlock_tray(self,comingnext):	
@@ -443,8 +451,8 @@ class DelugeGTK:
 		self.status_column 	= 	dgtk.add_progress_column(self.torrent_view, _("Status"), TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS)
 		self.seed_column 	=	dgtk.add_func_column(self.torrent_view, _("Seeders"), peer, (TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS))
 		self.peer_column 	=	dgtk.add_func_column(self.torrent_view, _("Peers"), peer, (TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS))
-		self.dl_column 		=	dgtk.add_func_column(self.torrent_view, _("Download"), dgtk.cell_data_rate, TORRENT_VIEW_COL_DOWNLOAD)
-		self.ul_column 		=	dgtk.add_func_column(self.torrent_view, _("Upload"), dgtk.cell_data_rate, TORRENT_VIEW_COL_UPLOAD)
+		self.dl_column 		=	dgtk.add_func_column(self.torrent_view, _("Down Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_DOWNLOAD)
+		self.ul_column 		=	dgtk.add_func_column(self.torrent_view, _("Up Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_UPLOAD)
 		self.eta_column 	=	dgtk.add_func_column(self.torrent_view, _("ETA"), time, TORRENT_VIEW_COL_ETA)
 		self.share_column 	= 	dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, TORRENT_VIEW_COL_RATIO)
 		
@@ -573,8 +581,8 @@ class DelugeGTK:
 		self.text_summary_pieces                  = self.wtree.get_widget("summary_pieces")
 		self.text_summary_total_downloaded        = self.wtree.get_widget("summary_total_downloaded")
 		self.text_summary_total_uploaded          = self.wtree.get_widget("summary_total_uploaded")
-		self.text_summary_download_rate		  = self.wtree.get_widget("summary_download_rate")
-		self.text_summary_upload_rate		  = self.wtree.get_widget("summary_upload_rate")
+		self.text_summary_download_speed		  = self.wtree.get_widget("summary_download_speed")
+		self.text_summary_upload_speed		  = self.wtree.get_widget("summary_upload_speed")
 		self.text_summary_seeders		  = self.wtree.get_widget("summary_seeders")
 		self.text_summary_peers			  = self.wtree.get_widget("summary_peers")
 		self.text_summary_percentage_done         = self.wtree.get_widget("summary_percentage_done")
@@ -589,7 +597,7 @@ class DelugeGTK:
 
 	def build_peer_tab(self):
 		self.peer_view = self.wtree.get_widget("peer_view")
-		# IP int, IP string, Client, Percent Complete, Download Rate, Upload Rate
+		# IP int, IP string, Client, Percent Complete, Down Speed, Up Speed
 		# IP int is for faster sorting
 		self.peer_store = gtk.ListStore(gobject.TYPE_UINT, str, str, float, int, int)
 		def percent(column, cell, model, iter, data):
@@ -602,8 +610,8 @@ class DelugeGTK:
 		self.peer_ip_column		=	dgtk.add_text_column(self.peer_view, _("IP Address"), 1)
 		self.peer_client_column		=	dgtk.add_text_column(self.peer_view, _("Client"), 2)
 		self.peer_complete_column	=	dgtk.add_func_column(self.peer_view, _("Percent Complete"), percent, 3)
-		self.peer_download_column	=	dgtk.add_func_column(self.peer_view, _("Download Rate"), dgtk.cell_data_rate, 4)
-		self.peer_upload_column		=	dgtk.add_func_column(self.peer_view, _("Upload Rate"), dgtk.cell_data_rate, 5)
+		self.peer_download_column	=	dgtk.add_func_column(self.peer_view, _("Down Speed"), dgtk.cell_data_speed, 4)
+		self.peer_upload_column		=	dgtk.add_func_column(self.peer_view, _("Up Speed"), dgtk.cell_data_speed, 5)
 
 		self.peer_ip_column.set_sort_column_id(0)
 
@@ -712,27 +720,31 @@ class DelugeGTK:
 		# Show tray icon if necessary
 		self.tray_icon.set_visible(self.config.get("enable_system_tray"))
 	
-		# Update the max_*_rate_bps prefs
-		if self.config.get("max_upload_rate") < 0:
-			self.config.set("max_upload_rate_bps", -1)
+		# Update the max_*_speed_bps prefs
+		if self.config.get("max_upload_speed") < 0:
+			self.config.set("max_upload_speed_bps", -1)
 		else:
-			self.config.set("max_upload_rate_bps", int(self.config.get("max_upload_rate") * 1024))
+			self.config.set("max_upload_speed_bps", 
+					        int(self.config.get("max_upload_spee") * 1024))
 
-		if self.config.get("max_download_rate") < 0:
-			self.config.set("max_download_rate_bps", -1)
+		if self.config.get("max_download_speed") < 0:
+			self.config.set("max_download_speed_bps", -1)
 		else:
-			self.config.set("max_download_rate_bps", int(self.config.get("max_download_rate") * 1024))
+			self.config.set("max_download_speed_bps", 
+					        int(self.config.get("max_download_speed") * 1024))
 		
 		# Update the tray download speed limits
-		if self.config.get("max_download_rate") not in self.config.get("tray_downloadspeedlist") and self.config.get("max_download_rate") >= 0:
+		if self.config.get("max_download_speed") not in self.config.get("tray_downloadspeedlist") and \
+				self.config.get("max_download_speed") >= 0:
 			# We need to prepend this value and remove the last value in the list
-			self.config.get("tray_downloadspeedlist").insert(0, self.config.get("max_download_rate"))
+			self.config.get("tray_downloadspeedlist").insert(0, self.config.get("max_download_speed"))
 			self.config.get("tray_downloadspeedlist").pop()
 
 		# Do the same for the upload speed limits
-		if self.config.get("max_upload_rate") not in self.config.get("tray_uploadspeedlist") and self.config.get("max_upload_rate") >= 0:
+		if self.config.get("max_upload_speed") not in self.config.get("tray_uploadspeedlist") and \
+				self.config.get("max_upload_speed") >= 0:
 			# We need to prepend this value and remove the last value in the list
-			self.config.get("tray_uploadspeedlist").insert(0, self.config.get("max_upload_rate"))
+			self.config.get("tray_uploadspeedlist").insert(0, self.config.get("max_upload_speed"))
 			self.config.get("tray_uploadspeedlist").pop()
 
 		# Re-build the tray sub-menu to display the correct active radio item
@@ -772,8 +784,8 @@ class DelugeGTK:
 		seeds_t = int(state['total_seeds'])
 		peers = int(state['num_peers'])
 		peers_t = int(state['total_peers'])
-		dlrate = int(state['download_rate'])
-		ulrate = int(state['upload_rate'])
+		dl_speed = int(state['download_rate'])
+		ul_speed = int(state['upload_rate'])
 		try:
 			eta = common.get_eta(state["total_size"], state["total_done"], state["download_rate"])
 		except ZeroDivisionError:
@@ -788,8 +800,8 @@ class DelugeGTK:
 		else:
 			status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("downloading16.png"))
 	
-		rlist =  [int(unique_id), int(queue), status_icon, str(name), long(size), float(progress), str(message),
-				int(seeds), int(seeds_t), int(peers), int(peers_t), int(dlrate), int(ulrate), int(eta), float(share)]	
+		rlist =  [int(unique_id), queue, status_icon, name, size, progress, message,
+				seeds, seeds_t, peers, peers_t, dl_speed, ul_speed, int(eta), share]
 
 		return rlist
 	
@@ -870,20 +882,20 @@ class DelugeGTK:
 			max_connections = _("Unlimited")
 		else:
 			max_connections = int(self.config.get("max_connections"))
-		dlrate = common.frate(core_state['download_rate'])
-		ulrate = common.frate(core_state['upload_rate'])
-		if self.config.get("max_download_rate") < 0:
-			dlrate_max = _("Unlimited")
+		dlspeed = common.fspeed(core_state['download_rate'])
+		ulspeed = common.fspeed(core_state['upload_rate'])
+		if self.config.get("max_download_speed") < 0:
+			dlspeed_max = _("Unlimited")
 		else:
-			dlrate_max = common.frate(self.config.get("max_download_rate_bps"))
-		if self.config.get("max_upload_rate") < 0:
-			ulrate_max = _("Unlimited")
+			dlspeed_max = common.fspeed(self.config.get("max_download_speed_bps"))
+		if self.config.get("max_upload_speed") < 0:
+			ulspeed_max = _("Unlimited")
 		else:
-			ulrate_max = common.frate(self.config.get("max_upload_rate_bps"))
+			ulspeed_max = common.fspeed(self.config.get("max_upload_speed_bps"))
 			
 		self.statusbar_temp_msg = '%s: %s (%s)  %s: %s (%s)  %s: %s (%s)'%(
-			_('Connections'), connections, max_connections, _('Download'), 
-			dlrate, dlrate_max, _('Upload'), ulrate, ulrate_max)
+			_('Connections'), connections, max_connections, _('Down Speed'), 
+			dlspeed, dlspeed_max, _('Up Speed'), ulspeed, ulspeed_max)
 		
 		if 'DHT_nodes' in core_state.keys():
 			dht_peers = core_state['DHT_nodes']
@@ -894,8 +906,8 @@ class DelugeGTK:
 			self.statusbar_temp_msg = self.statusbar_temp_msg + '   [DHT: %s]'%(dht_peers)
 		
 		msg = _("Deluge Bittorrent Client") + "\n" + \
-			_("Connections") + ": " + str(connections) + " (" + str(max_connections) + ")" + "\n" + _("Download") + ": " + \
-			dlrate + " (" + dlrate_max + ")" + "\n" + _("Upload") + ": " + ulrate + " (" + ulrate_max + ")"
+			_("Connections") + ": " + str(connections) + " (" + str(max_connections) + ")" + "\n" + _("Down Speed") + ": " + \
+			dlspeed + " (" + dlspeed_max + ")" + "\n" + _("Up Speed") + ": " + ulspeed + " (" + ulspeed_max + ")"
 		
 		self.tray_icon.set_tooltip(msg)		
 
@@ -986,8 +998,8 @@ class DelugeGTK:
 			self.text_summary_pieces.set_text(str(state["num_pieces"]))
 			self.text_summary_total_downloaded.set_text(common.fsize(state["total_done"]) + " (" + common.fsize(state["total_download"]) + ")")
 			self.text_summary_total_uploaded.set_text(common.fsize(self.manager.unique_IDs[self.get_selected_torrent()].uploaded_memory + state["total_payload_upload"]) + " (" + common.fsize(state["total_upload"]) + ")")
-			self.text_summary_download_rate.set_text(common.frate(state["download_rate"]))
-			self.text_summary_upload_rate.set_text(common.frate(state["upload_rate"]))
+			self.text_summary_download_speed.set_text(common.fspeed(state["download_rate"]))
+			self.text_summary_upload_speed.set_text(common.fspeed(state["upload_rate"]))
 			self.text_summary_seeders.set_text(common.fseed(state))
 			self.text_summary_peers.set_text(common.fpeer(state))
 			self.wtree.get_widget("progressbar").set_fraction(float(state['progress']))
@@ -1232,8 +1244,8 @@ class DelugeGTK:
 		self.text_summary_pieces.set_text("")
 		self.text_summary_total_downloaded.set_text("")
 		self.text_summary_total_uploaded.set_text("")
-		self.text_summary_download_rate.set_text("")
-		self.text_summary_upload_rate.set_text("")
+		self.text_summary_download_speed.set_text("")
+		self.text_summary_upload_speed.set_text("")
 		self.text_summary_seeders.set_text("")
 		self.text_summary_peers.set_text("")
 		self.wtree.get_widget("progressbar").set_fraction(0.0)

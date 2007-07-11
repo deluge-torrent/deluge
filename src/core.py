@@ -66,8 +66,8 @@ PREF_FUNCTIONS = {
 	"max_connections"     : deluge_core.set_max_connections,
 	"max_active_torrents" : None, # no need for a function, applied constantly
 	"auto_seed_ratio"     : None, # no need for a function, applied constantly
-	"max_download_rate_bps"   : deluge_core.set_download_rate_limit,
-	"max_upload_rate_bps"     : deluge_core.set_upload_rate_limit,
+	"max_download_speed_bps"   : deluge_core.set_download_rate_limit,
+	"max_upload_speed_bps"     : deluge_core.set_upload_rate_limit,
 	"enable_dht"          : None, # not a normal pref in that is is applied only on start 
 	"use_upnp"		: deluge_core.use_upnp,
 	"use_natpmp"		: deluge_core.use_natpmp,

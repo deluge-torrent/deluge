@@ -321,7 +321,7 @@
                                       <widget class="GtkSpinButton" id="spin_max_upload">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="tooltip" translatable="yes">The maximum upload rate for all torrents.  Set -1 for unlimited.</property>
+                                        <property name="tooltip" translatable="yes">The maximum upload speed for all torrents.  Set -1 for unlimited.</property>
                                         <property name="xalign">1</property>
                                         <property name="adjustment">-1 -1 9000 1 10 10</property>
                                         <property name="climb_rate">1</property>
@@ -339,7 +339,7 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                        <property name="tooltip" translatable="yes">The maximum download rate for all torrents.  Set -1 for unlimited.</property>
+                                        <property name="tooltip" translatable="yes">The maximum download speed for all torrents.  Set -1 for unlimited.</property>
                                         <property name="xalign">1</property>
                                         <property name="adjustment">-1 -1 9000 1 10 10</property>
                                         <property name="climb_rate">1</property>
@@ -430,9 +430,9 @@
                                         <child>
                                           <widget class="GtkLabel" id="label52">
                                             <property name="visible">True</property>
-                                            <property name="tooltip" translatable="yes">The maximum download rate for all torrents.  Set -1 for unlimited.</property>
+                                            <property name="tooltip" translatable="yes">The maximum download speed for all torrents.  Set -1 for unlimited.</property>
                                             <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">Maximum Download Rate (KiB/s):</property>
+                                            <property name="label" translatable="yes">Maximum Download Speed (KiB/s):</property>
                                           </widget>
                                         </child>
                                       </widget>
@@ -450,9 +450,9 @@
                                         <child>
                                           <widget class="GtkLabel" id="label55">
                                             <property name="visible">True</property>
-                                            <property name="tooltip" translatable="yes">The maximum upload rate for all torrents.  Set -1 for unlimited.</property>
+                                            <property name="tooltip" translatable="yes">The maximum upload speed for all torrents.  Set -1 for unlimited.</property>
                                             <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">Maximum Upload Rate (KiB/s):</property>
+                                            <property name="label" translatable="yes">Maximum Upload Speed (KiB/s):</property>
                                           </widget>
                                         </child>
                                       </widget>

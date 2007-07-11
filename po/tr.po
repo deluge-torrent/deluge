@@ -77,6 +77,10 @@ msgstr "<b>Toplam Gönderilen:</b>"
 msgid "<b>Share Ratio:</b>"
 msgstr "<b>Paylaşım Oranı:</b>"
 
+#: glade/delugegtk.glade:272 glade/delugegtk.glade:291
+msgid "<b>Speed:</b>"
+msgstr ""
+
 #: glade/delugegtk.glade:418
 msgid "<b>Uploaded This Session:</b>"
 msgstr "<b>Bu Oturumda Gönderilen:</b>"
@@ -84,14 +88,6 @@ msgstr "<b>Bu Oturumda Gönderilen:</b>"
 #: glade/delugegtk.glade:480
 msgid "<b>Use compact allocation:</b>"
 msgstr ""
-
-#: glade/delugegtk.glade:504
-msgid "<b>Download Rate:</b>"
-msgstr "<b>İndirme Hızı:</b>"
-
-#: glade/delugegtk.glade:528
-msgid "<b>Upload Rate:</b>"
-msgstr "<b>Gönderme Hızı:</b>"
 
 #: glade/delugegtk.glade:562 glade/delugegtk.glade:825
 msgid "Details"
@@ -207,14 +203,6 @@ msgstr "Sıradaki Torrent Aşağı"
 msgid "Preferences"
 msgstr ""
 
-#: glade/dgtkpopups.glade:46
-msgid "Download Speed"
-msgstr "İndirme Hızı"
-
-#: glade/dgtkpopups.glade:55
-msgid "Upload Speed"
-msgstr "Gönderme Hızı"
-
 #: glade/dgtkpopups.glade:97
 msgid ""
 "<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
@@ -318,19 +306,19 @@ msgid "The maximum number of upload slots.  Set -1 for unlimited."
 msgstr ""
 
 #: glade/preferences_dialog.glade:365
-msgid "Maximum Download Rate (KB/s):"
+msgid "Maximum Download Speed (KB/s):"
 msgstr ""
 
 #: glade/preferences_dialog.glade:373
-msgid "The maximum download rate for all torrents.  Set -1 for unlimited."
+msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
 
 #: glade/preferences_dialog.glade:396
-msgid "Maximum Upload Rate (KB/s):"
+msgid "Maximum Upload Speed (KB/s):"
 msgstr ""
 
 #: glade/preferences_dialog.glade:403
-msgid "The maximum upload rate for all torrents.  Set -1 for unlimited."
+msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
 
 #: glade/preferences_dialog.glade:425
@@ -564,11 +552,11 @@ msgid "Percent Complete"
 msgstr "Tamamlanma Yüzdesi"
 
 #: src/interface.py:474
-msgid "Download Rate"
+msgid "Down Speed"
 msgstr "İndirme Hızı"
 
 #: src/interface.py:475
-msgid "Upload Rate"
+msgid "Up Speed"
 msgstr "Gönderme Hızı"
 
 #: src/interface.py:484

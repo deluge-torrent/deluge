@@ -234,7 +234,7 @@
       </widget>
     </child>
   </widget>
-  <widget class="GtkDialog" id="rate_dialog">
+  <widget class="GtkDialog" id="speed_dialog">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
     <property name="border_width">5</property>
     <property name="window_position">GTK_WIN_POS_MOUSE</property>
@@ -257,14 +257,14 @@
               <widget class="GtkLabel" id="label2">
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="yes">Rate:</property>
+                <property name="label" translatable="yes">Speed:</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkSpinButton" id="spin_rate">
+              <widget class="GtkSpinButton" id="spin_speed">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="has_focus">True</property>

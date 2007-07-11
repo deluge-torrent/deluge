@@ -33,7 +33,7 @@ msgstr "<b>Ratio de partage :</b>"
 
 #: glade/delugegtk.glade:272
 #: glade/delugegtk.glade:291
-msgid "<b>Rate:</b>"
+msgid "<b>Speed:</b>"
 msgstr "<b>Vitesse :</b>"
 
 #: glade/delugegtk.glade:312
@@ -240,14 +240,6 @@ msgstr "Préférences"
 msgid "Plugins"
 msgstr "Greffons"
 
-#: glade/dgtkpopups.glade:46
-msgid "Download Speed"
-msgstr "Vitesse de téléchargement"
-
-#: glade/dgtkpopups.glade:55
-msgid "Upload Speed"
-msgstr "Vitesse d'émission"
-
 #: glade/dgtkpopups.glade:116
 msgid "<span size=\"large\"><b>Are you sure you want to remove the selected torrent(s) from Deluge?</b></span>"
 msgstr "<span size=\"large\"><b>Êtes-vous sûr de vouloir supprimer le(s) torrent(s) sélectionné(s) de Deluge ?</b></span>"
@@ -269,7 +261,7 @@ msgid "Add a Torrent..."
 msgstr "Ajouter un Torrent…"
 
 #: glade/dgtkpopups.glade:335
-msgid "Rate:"
+msgid "Speed:"
 msgstr "Taux :"
 
 #: glade/file_tab_menu.glade:12
@@ -347,11 +339,11 @@ msgid "<b>Seeding</b>"
 msgstr "<b>Partage :</b>"
 
 #: glade/preferences_dialog.glade:323
-msgid "The maximum upload rate for all torrents.  Set -1 for unlimited."
+msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr "Vitesse maximale d'émission pour tous les torrents. Utiliser -1 pour illimitée."
 
 #: glade/preferences_dialog.glade:341
-msgid "The maximum download rate for all torrents.  Set -1 for unlimited."
+msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr "Vitesse maximale de réception pour tous les torrents. Utiliser -1 pour illimitée."
 
 #: glade/preferences_dialog.glade:358
@@ -371,11 +363,11 @@ msgid "Upload Slots:"
 msgstr "Slots d'émission :"
 
 #: glade/preferences_dialog.glade:431
-msgid "Maximum Download Rate (KiB/s):"
+msgid "Maximum Download Speed (KiB/s):"
 msgstr "Vitesse maximale de téléchargement (Kio/s)"
 
 #: glade/preferences_dialog.glade:450
-msgid "Maximum Upload Rate (KiB/s):"
+msgid "Maximum Upload Speed (KiB/s):"
 msgstr "Vitesse maximale d'émission (Kio/s) :"
 
 #: glade/preferences_dialog.glade:467
@@ -636,11 +628,11 @@ msgid "_Clear Finished"
 msgstr "_Effacer les les torrents terminés"
 
 #: glade/tray_menu.glade:67
-msgid "_Download Limit"
+msgid "_Down Speed Limit"
 msgstr "Limite de _téléchargement"
 
 #: glade/tray_menu.glade:89
-msgid "_Upload Limit"
+msgid "_Up Speed Limit"
 msgstr "Limite d'_émission"
 
 #: glade/tray_menu.glade:121
@@ -757,11 +749,11 @@ msgid "Percent Complete"
 msgstr "Pourcentage complété"
 
 #: src/interface.py:602
-msgid "Download Rate"
+msgid "Down Speed"
 msgstr "Vitesse de réception"
 
 #: src/interface.py:603
-msgid "Upload Rate"
+msgid "Up Speed"
 msgstr "Vitesse d'envoi"
 
 #: src/interface.py:628

@@ -55,8 +55,8 @@ class plugin_Scheduler:
 		self.core.apply_queue()
 
 	def limit(self):
-		self.config.set("max_download_rate", float(self.dllimit))
-		self.config.set("max_upload_rate", float(self.ullimit))
+		self.config.set("max_download_speed", float(self.dllimit))
+		self.config.set("max_upload_speed", float(self.ullimit))
 
 	def unlimit(self):
 		self.interface.apply_prefs()

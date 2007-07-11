@@ -77,6 +77,10 @@ msgstr "<b>Gesamt hochgeladen:</b>"
 msgid "<b>Share Ratio:</b>"
 msgstr "<b>Tauschverhältnis</b>"
 
+#: glade/delugegtk.glade:272 glade/delugegtk.glade:291
+msgid "<b>Speed:</b>"
+msgstr ""
+
 #: glade/delugegtk.glade:418
 msgid "<b>Uploaded This Session:</b>"
 msgstr "<b>In dieser Sitzung hochgeladen:</b>"
@@ -84,14 +88,6 @@ msgstr "<b>In dieser Sitzung hochgeladen:</b>"
 #: glade/delugegtk.glade:480
 msgid "<b>Use compact allocation:</b>"
 msgstr "<b>Kompakte Speicherzuweisung benutzen:</b>"
-
-#: glade/delugegtk.glade:504
-msgid "<b>Download Rate:</b>"
-msgstr "<b>Download-Rate:</b>"
-
-#: glade/delugegtk.glade:528
-msgid "<b>Upload Rate:</b>"
-msgstr "<b>Upload-Rate:</b>"
 
 #: glade/delugegtk.glade:562 glade/delugegtk.glade:825
 msgid "Details"
@@ -207,14 +203,6 @@ msgstr "In Warteschlange hinunter"
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#: glade/dgtkpopups.glade:46
-msgid "Download Speed"
-msgstr "Downloadgeschwindigkeit"
-
-#: glade/dgtkpopups.glade:55
-msgid "Upload Speed"
-msgstr "Uploadgeschwindigkeit"
-
 #: glade/dgtkpopups.glade:97
 msgid ""
 "<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
@@ -318,19 +306,19 @@ msgid "The maximum number of upload slots.  Set -1 for unlimited."
 msgstr "max. Anzahl von Upload Slots. Setze -1 für unendlich."
 
 #: glade/preferences_dialog.glade:365
-msgid "Maximum Download Rate (KB/s):"
+msgid "Maximum Download Speed (KB/s):"
 msgstr "max. Download Rate (KB/s):"
 
 #: glade/preferences_dialog.glade:373
-msgid "The maximum download rate for all torrents.  Set -1 for unlimited."
+msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr "max. Download-Rate für alle Torrents. Setze -1 für unendlich."
 
 #: glade/preferences_dialog.glade:396
-msgid "Maximum Upload Rate (KB/s):"
+msgid "Maximum Upload Speed (KB/s):"
 msgstr "max. Upload Rate (KB/s):"
 
 #: glade/preferences_dialog.glade:403
-msgid "The maximum upload rate for all torrents.  Set -1 for unlimited."
+msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr "max. Upload-Rate für alle Torrents. Setze -1 für unendlich."
 
 #: glade/preferences_dialog.glade:425
@@ -571,11 +559,11 @@ msgid "Percent Complete"
 msgstr "Prozent komplett"
 
 #: src/interface.py:474
-msgid "Download Rate"
+msgid "Down Speed"
 msgstr "Download-Rate"
 
 #: src/interface.py:475
-msgid "Upload Rate"
+msgid "Up Speed"
 msgstr "Upload-Rate"
 
 #: src/interface.py:484

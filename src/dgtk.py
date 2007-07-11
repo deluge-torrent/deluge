@@ -49,10 +49,10 @@ class StupidTray:
 
 ## Cell data functions to pass to add_func_column()
 
-def cell_data_rate(column, cell, model, iter, data):
-	rate = int(model.get_value(iter, data))
-	rate_str = common.frate(rate)
-	cell.set_property('text', rate_str)
+def cell_data_speed(column, cell, model, iter, data):
+	speed = int(model.get_value(iter, data))
+	speed_str = common.fspeed(speed)
+	cell.set_property('text', speed_str)
 
 ## Functions to create columns
 

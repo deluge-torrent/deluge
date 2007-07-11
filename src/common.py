@@ -53,10 +53,10 @@ def estimate_eta(state):
 	except ZeroDivisionError:
 		return _("Infinity")
 	
-def get_eta(size, done, rate):
+def get_eta(size, done, speed):
 	if (size - done) == 0:
 		raise ZeroDivisionError
-	return (size - done) / rate
+	return (size - done) / speed
 
 # Returns formatted string describing filesize
 # fsize_b should be in bytes
@@ -75,8 +75,8 @@ def fsize(fsize_b):
 def fpcnt(dec):
 	return '%.2f%%'%(dec * 100)
 
-# Returns a formatted string representing transfer rate
-def frate(bps):
+# Returns a formatted string representing transfer speed
+def fspeed(bps):
 	return '%s/s'%(fsize(bps))
 
 def fseed(state):

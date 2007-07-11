@@ -77,6 +77,10 @@ msgstr "<b>Total pujat:</b>"
 msgid "<b>Share Ratio:</b>"
 msgstr "<b>Relació a compartir:</b>"
 
+#: glade/delugegtk.glade:272 glade/delugegtk.glade:291
+msgid "<b>Speed:</b>"
+msgstr ""
+
 #: glade/delugegtk.glade:418
 msgid "<b>Uploaded This Session:</b>"
 msgstr "<b>S'ha pujat en aquesta sessió:</b>"
@@ -84,14 +88,6 @@ msgstr "<b>S'ha pujat en aquesta sessió:</b>"
 #: glade/delugegtk.glade:480
 msgid "<b>Use compact allocation:</b>"
 msgstr "<b>Utilitza l'assignació compacta:</b>"
-
-#: glade/delugegtk.glade:504
-msgid "<b>Download Rate:</b>"
-msgstr "<b>Velocitat de baixada:</b>"
-
-#: glade/delugegtk.glade:528
-msgid "<b>Upload Rate:</b>"
-msgstr "<b>Velocitat de pujada:</b>"
 
 #: glade/delugegtk.glade:562 glade/delugegtk.glade:825
 msgid "Details"
@@ -207,14 +203,6 @@ msgstr "Baixa el torrent de la cua"
 msgid "Preferences"
 msgstr "Preferències"
 
-#: glade/dgtkpopups.glade:46
-msgid "Download Speed"
-msgstr "Velocitat de baixada"
-
-#: glade/dgtkpopups.glade:55
-msgid "Upload Speed"
-msgstr "Velocitat de pujada"
-
 #: glade/dgtkpopups.glade:97
 msgid ""
 "<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
@@ -323,21 +311,21 @@ msgstr ""
 "El número màxim de ranures de pujada. Establiu a -1 per a il·limitat."
 
 #: glade/preferences_dialog.glade:365
-msgid "Maximum Download Rate (KB/s):"
+msgid "Maximum Download Speed (KB/s):"
 msgstr "Velocitat màxima de baixada (kB/s):"
 
 #: glade/preferences_dialog.glade:373
-msgid "The maximum download rate for all torrents.  Set -1 for unlimited."
+msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
 "La velocitat màxima de baixada per a tots els torrents. Establiu a -1 per a "
 "il·limitat."
 
 #: glade/preferences_dialog.glade:396
-msgid "Maximum Upload Rate (KB/s):"
+msgid "Maximum Upload Speed (KB/s):"
 msgstr "Velocitat màxima de pujada (kB/s):"
 
 #: glade/preferences_dialog.glade:403
-msgid "The maximum upload rate for all torrents.  Set -1 for unlimited."
+msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
 "La velocitat màxima de pujada per a tots els torrents. Establiu a -1 per a "
 "il·limitat."
@@ -585,11 +573,11 @@ msgid "Percent Complete"
 msgstr "Percentatge acabat"
 
 #: src/interface.py:474
-msgid "Download Rate"
+msgid "Down Speed"
 msgstr "Velocitat de baixada"
 
 #: src/interface.py:475
-msgid "Upload Rate"
+msgid "Up Speed"
 msgstr "Velocitat de pujada"
 
 #: src/interface.py:484
@@ -748,13 +736,13 @@ msgstr "Seleccioneu un directori per a les baixades"
 #~ msgid "Maximum number of Downloads:"
 #~ msgstr "Número màxim de baixades:"
 
-#~ msgid "Maximum Download Rate:"
+#~ msgid "Maximum Download Speed:"
 #~ msgstr "Velocitat màxima de baixada:"
 
 #~ msgid "Upload Slots"
 #~ msgstr "Ranures de pujada"
 
-#~ msgid "Maximum Upload Rate:"
+#~ msgid "Maximum Upload Speed:"
 #~ msgstr "Velocitat màxima de pujada:"
 
 #~ msgid "Bandwidth "

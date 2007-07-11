@@ -78,6 +78,10 @@ msgstr "<b>Totale inviato:</b>"
 msgid "<b>Share Ratio:</b>"
 msgstr "<b>Rapporto di condivisione:</b>"
 
+#: glade/delugegtk.glade:272 glade/delugegtk.glade:291
+msgid "<b>Speed:</b>"
+msgstr ""
+
 #: glade/delugegtk.glade:418
 msgid "<b>Uploaded This Session:</b>"
 msgstr "<b>Inviato in questa sessione:</b>"
@@ -85,14 +89,6 @@ msgstr "<b>Inviato in questa sessione:</b>"
 #: glade/delugegtk.glade:480
 msgid "<b>Use compact allocation:</b>"
 msgstr "<b>Usa allocazione compatta:</b>"
-
-#: glade/delugegtk.glade:504
-msgid "<b>Download Rate:</b>"
-msgstr "<b>Velocità di scaricamento:</b>"
-
-#: glade/delugegtk.glade:528
-msgid "<b>Upload Rate:</b>"
-msgstr "<b>Velocità di invio:</b>"
 
 #: glade/delugegtk.glade:562 glade/delugegtk.glade:825
 msgid "Details"
@@ -208,14 +204,6 @@ msgstr "Accoda torrent in basso"
 msgid "Preferences"
 msgstr "Preferenze"
 
-#: glade/dgtkpopups.glade:46
-msgid "Download Speed"
-msgstr "Velocità di scaricamento"
-
-#: glade/dgtkpopups.glade:55
-msgid "Upload Speed"
-msgstr "Velocità di invio"
-
 #: glade/dgtkpopups.glade:97
 msgid ""
 "<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
@@ -324,21 +312,21 @@ msgid "The maximum number of upload slots.  Set -1 for unlimited."
 msgstr "Il numero massimo di slot di invio. Impostare a -1 per illimitato."
 
 #: glade/preferences_dialog.glade:365
-msgid "Maximum Download Rate (KB/s):"
+msgid "Maximum Download Speed (KB/s):"
 msgstr "Velocità massima di scaricamento (kB/s):"
 
 #: glade/preferences_dialog.glade:373
-msgid "The maximum download rate for all torrents.  Set -1 for unlimited."
+msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
 "La velocità massima di scaricamento per tutti i torrent. Impostare a -1 per "
 "illimitato."
 
 #: glade/preferences_dialog.glade:396
-msgid "Maximum Upload Rate (KB/s):"
+msgid "Maximum Upload Speed (KB/s):"
 msgstr "Velocità massima di invio (kB/s):"
 
 #: glade/preferences_dialog.glade:403
-msgid "The maximum upload rate for all torrents.  Set -1 for unlimited."
+msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
 "La velocità massima di invio per tutti i torrent. Impostare a -1 per "
 "illimitato."
@@ -587,11 +575,11 @@ msgid "Percent Complete"
 msgstr "Percentuale completata"
 
 #: src/interface.py:474
-msgid "Download Rate"
+msgid "Down Speed"
 msgstr "Velocità di scaricamento"
 
 #: src/interface.py:475
-msgid "Upload Rate"
+msgid "Up Speed"
 msgstr "Velocità di invio"
 
 #: src/interface.py:484
@@ -748,7 +736,7 @@ msgstr "Scegliere una directory di scaricamento"
 #~ msgid "KB/s"
 #~ msgstr "KB/s"
 
-#~ msgid "Maximum Download Rate:"
+#~ msgid "Maximum Download Speed:"
 #~ msgstr "Velocità massima di scaricamento:"
 
 #~ msgid "Upload Slots"
@@ -757,7 +745,7 @@ msgstr "Scegliere una directory di scaricamento"
 #~ msgid "Maximum Connections"
 #~ msgstr "Connessioni massime"
 
-#~ msgid "Maximum Upload Rate:"
+#~ msgid "Maximum Upload Speed:"
 #~ msgstr "Velocità massima di invio:"
 
 #~ msgid "Bandwidth "

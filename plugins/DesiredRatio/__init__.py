@@ -101,20 +101,20 @@ class DesiredRatio:
 		
 		if value == _("Other..."):
 			dialog_glade = gtk.glade.XML(deluge.common.get_glade_file("dgtkpopups.glade"))
-			rate_dialog = dialog_glade.get_widget("rate_dialog")
-			spin_rate = dialog_glade.get_widget("spin_rate")
-			spin_rate.set_value(self.get_torrent_desired_ratio())
-			spin_rate.set_increments(0.1, 1.0)
-			spin_rate.set_digits(1)
-			spin_rate.set_range(1.0, 1000.0)
-			spin_rate.select_region(0, -1)
-			response = rate_dialog.run()
+			speed_dialog = dialog_glade.get_widget("speed_dialog")
+			spin_speed = dialog_glade.get_widget("spin_speed")
+			spin_speed.set_value(self.get_torrent_desired_ratio())
+			spin_speed.set_increments(0.1, 1.0)
+			spin_speed.set_digits(1)
+			spin_speed.set_range(1.0, 1000.0)
+			spin_speed.select_region(0, -1)
+			response = speed_dialog.run()
 			if response == 1: # OK Response
-				value = spin_rate.get_value()
+				value = spin_speed.get_value()
 			else:
-				rate_dialog.destroy()
+				speed_dialog.destroy()
 				return
-			rate_dialog.destroy()
+			speed_dialog.destroy()
 		
 		value = float(value) # Make sure the value is a float
 		
