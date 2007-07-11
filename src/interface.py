@@ -1015,12 +1015,12 @@ class DelugeGTK:
                 dictionary[model.get_value(iter, 1)] = model.get_string_from_iter(iter)
             
             class remover_data:
-                def __init__(self, new_ips):
-                    self.new_ips = new_ips
+                def __init__(self, new_files):
+                    self.new_files = new_files
                     self.removed = False
             
             def remover(model, path, iter, data):
-                if model.get_value(iter, 1) not in data.new_ips:
+                if model.get_value(iter, 1) not in data.new_files:
                     model.remove(iter)
                     data.removed = True
                     return True
@@ -1029,36 +1029,36 @@ class DelugeGTK:
 
             unique_id = self.get_selected_torrent()
             
-            new_peer_info = self.manager.get_torrent_peer_info(unique_id)
+            new_file_info = self.manager.get_torrent_file_info(unique_id)
             
-            new_ips = {}
+            new_files = {}
             
-            for index in range(len(new_peer_info)):
-                if not new_peer_info[index]['client'] == "":
-                    assert(new_peer_info[index]['ip'] not in new_ips.keys())
-                    new_ips[new_peer_info[index]['ip']] = index
+            for index in range(len(new_file_info)):
+                if not new_file_info[index]['client'] == "":
+                    assert(new_file_info[index]['ip'] not in new_files.keys())
+                    new_files[new_file_info[index]['ip']] = index
             
             while True:
-                data = remover_data(new_ips.keys())
+                data = remover_data(new_files.keys())
                 self.peer_store.foreach(remover, data)
                 if not data.removed:
                     break
             
-            curr_ips = {}
+            curr_files = {}
             
-            self.peer_store.foreach(biographer, curr_ips)
+            self.peer_store.foreach(biographer, curr_files)
             
-            assert(self.peer_store.iter_n_children(None) == len(curr_ips.keys()))
+            assert(self.peer_store.iter_n_children(None) == len(curr_files.keys()))
             
-            for peer in new_peer_info:
-                if peer['ip'] in curr_ips.keys():
-                    self.peer_store.set(self.peer_store.get_iter_from_string(curr_ips[peer['ip']]),
+            for peer in new_file_info:
+                if peer['ip'] in curr_files.keys():
+                    self.peer_store.set(self.peer_store.get_iter_from_string(curr_files[peer['ip']]),
                                             2,    unicode(peer['client'], "latin-1"),
                                             3,    round(peer["peer_has"],2),
                                             4,    peer["download_speed"],
                                             5,    peer["upload_speed"])
 
-                if peer['ip'] not in curr_ips.keys() and peer['client'] is not "":
+                if peer['ip'] not in curr_files.keys() and peer['client'] is not "":
                     # convert IP adrress to int for sorting purposes
                     ip_int = sum([int(byte) << shift
                                       for byte, shift in izip(peer["ip"].split("."), (24, 16, 8, 0))])
@@ -1069,15 +1069,58 @@ class DelugeGTK:
                                                     peer["download_speed"], 
                                                     peer["upload_speed"]])
 
-            del new_peer_info
-            del new_ips
-            del curr_ips
+            del new_file_info
+            del new_files
+            del curr_files
             
                                 
         elif tab == 2: #file tab
-            for file in self.manager.get_core_torrent_file_info(self.get_selected_torrent(), True):
-                if self.file_get_iter_from_name(file['path']) != None:
-                        self.file_store.set_value(self.file_get_iter_from_name(file['path']), 3, round(file['progress'], 2))
+        
+            def biographer(model, path, iter, dictionary):
+                assert(model.get_value(iter, 1) not in dictionary.keys())
+                dictionary[model.get_value(iter, 1)] = model.get_string_from_iter(iter)
+            
+            class remover_data:
+                def __init__(self, new_files):
+                    self.new_files = new_files
+                    self.removed = False
+            
+            def remover(model, path, iter, data):
+                if model.get_value(iter, 1) not in data.new_files:
+                    model.remove(iter)
+                    data.removed = True
+                    return True
+                else:
+                    return False
+
+            unique_id = self.get_selected_torrent()
+            
+            new_file_info = self.manager.get_torrent_file_info(unique_id)
+            
+            new_files = {}
+            
+            for index in range(len(new_file_info)):
+                if not new_file_info[index]['path'] == "":
+                    assert(new_file_info[index]['path'] not in new_files.keys())
+                    new_files[new_file_info[index]['path']] = index
+            
+            while True:
+                data = remover_data(new_files.keys())
+                self.file_store.foreach(remover, data)
+                if not data.removed:
+                    break
+            
+            curr_files = {}
+            
+            self.file_store.foreach(biographer, curr_files)
+            
+            assert(self.file_store.iter_n_children(None) == len(curr_files.keys()))
+            
+            for file in new_file_info:
+                if file['path'] in curr_files.keys():
+                    self.file_store.set(self.file_store.get_iter_from_string(curr_files[file['path']]),
+                                            3, file['progress'])
+        
             return True
 
         else:
