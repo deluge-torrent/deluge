@@ -414,8 +414,11 @@ class DelugeGTK:
                                                 "queue_top": self.q_to_top,
                                                 })
         self.torrent_menu.connect("focus", self.torrent_menu_focus)
-        # UID, Q#, Status Icon, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
-        self.torrent_model = gtk.ListStore(int, int, gtk.gdk.Pixbuf, str, str, float, str, int, int, int, int, int, int, str, float)
+        # UID, Q#, Status Icon, Name, Size, Progress, Message, Seeders, Peers,
+        #     DL, UL, ETA, Share
+        self.torrent_model = gtk.ListStore(int, gobject.TYPE_UINT, 
+            gtk.gdk.Pixbuf, str, gobject.TYPE_UINT64, float, str, int, int, 
+            int, int, int, int, gobject.TYPE_UINT, float)
         self.torrent_view.set_model(self.torrent_model)
         self.torrent_view.set_rules_hint(True)
         self.torrent_view.set_reorderable(True)
@@ -457,35 +460,21 @@ class DelugeGTK:
         TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS, TORRENT_VIEW_COL_DOWNLOAD, 
         TORRENT_VIEW_COL_UPLOAD, TORRENT_VIEW_COL_ETA, TORRENT_VIEW_COL_RATIO) = range(15)
 
-        self.queue_column     =     dgtk.add_text_column(self.torrent_view, "#", TORRENT_VIEW_COL_QUEUE)
-        self.name_column    =     dgtk.add_texticon_column(self.torrent_view, _("Name"), TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME)
-        self.size_column     =    dgtk.add_func_column(self.torrent_view, _("Size"), dgtk.cell_data_size, TORRENT_VIEW_COL_SIZE)
-        self.status_column     =     dgtk.add_progress_column(self.torrent_view, _("Status"), TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS)
-        self.seed_column     =    dgtk.add_func_column(self.torrent_view, _("Seeders"), peer, (TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS))
-        self.peer_column     =    dgtk.add_func_column(self.torrent_view, _("Peers"), peer, (TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS))
-        self.dl_column         =    dgtk.add_func_column(self.torrent_view, _("Down Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_DOWNLOAD)
-        self.ul_column         =    dgtk.add_func_column(self.torrent_view, _("Up Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_UPLOAD)
-        self.eta_column     =    dgtk.add_func_column(self.torrent_view, _("ETA"), time, TORRENT_VIEW_COL_ETA)
-        self.share_column     =     dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, TORRENT_VIEW_COL_RATIO)
+        self.queue_column = dgtk.add_text_column(self.torrent_view, "#", TORRENT_VIEW_COL_QUEUE)
+        self.name_column = dgtk.add_texticon_column(self.torrent_view, _("Name"), TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME)
+        self.size_column = dgtk.add_func_column(self.torrent_view, _("Size"), dgtk.cell_data_size, TORRENT_VIEW_COL_SIZE)
+        self.status_column = dgtk.add_progress_column(self.torrent_view, _("Status"), TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS)
+        self.seed_column = dgtk.add_func_column(self.torrent_view, _("Seeders"), peer, (TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS))
+        self.peer_column = dgtk.add_func_column(self.torrent_view, _("Peers"), peer, (TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS))
+        self.dl_column = dgtk.add_func_column(self.torrent_view, _("Down Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_DOWNLOAD)
+        self.ul_column = dgtk.add_func_column(self.torrent_view, _("Up Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_UPLOAD)
+        self.eta_column = dgtk.add_func_column(self.torrent_view, _("ETA"), time, TORRENT_VIEW_COL_ETA)
+        self.share_column = dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, TORRENT_VIEW_COL_RATIO)
         
         self.status_column.set_expand(True)
         self.name_column.set_sort_column_id(TORRENT_VIEW_COL_NAME)
         self.seed_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_SEEDS)
         self.peer_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_PEERS)
-        
-        def long_sort(model, iter1, iter2, data):
-            value1 = long(model.get_value(iter1, data))
-            value2 = long(model.get_value(iter2, data))
-            if value1 < value2:
-                return -1
-            elif value1 > value2:
-                return 1
-            else:
-                return 0
-        
-        self.torrent_model.set_sort_func(TORRENT_VIEW_COL_QUEUE, long_sort, TORRENT_VIEW_COL_QUEUE)
-        self.torrent_model.set_sort_func(TORRENT_VIEW_COL_SIZE, long_sort, TORRENT_VIEW_COL_SIZE)
-        self.torrent_model.set_sort_func(TORRENT_VIEW_COL_ETA, long_sort, TORRENT_VIEW_COL_ETA)
         
         self.torrent_model.set_sort_column_id(TORRENT_VIEW_COL_QUEUE, gtk.SORT_ASCENDING)
         
