@@ -500,16 +500,6 @@ class DelugeGTK:
         self.text_summary_tracker.set_text(str(state["tracker"]))
         # Now for the File tab
         self.file_store.clear()
-        all_files = self.manager.get_torrent_file_info(unique_id)
-        file_filter = self.manager.get_file_filter(unique_id)
-        if file_filter is None:
-            file_filter = [False] * len(all_files)
-        assert(len(all_files) == len(file_filter))
-        i=0
-        for f in all_files:
-            self.file_store.append([not file_filter[i], f['path'], f['size'], 
-                                    round(f['progress'], 2)])
-            i=i+1
         
         return True
     
@@ -1056,10 +1046,22 @@ class DelugeGTK:
                                             peer["download_speed"], 
                                             peer["upload_speed"]])
         elif tab == 2: #file tab
+            unique_id = self.get_selected_torrent()
+            
+            # Fill self.file_store with files only once and only when we click to
+            # file tab or it's already open
+            if not self.file_store.iter_n_children(None):
+                all_files = self.manager.get_torrent_file_info(unique_id)
+                file_filter = self.manager.get_file_filter(unique_id)
+                if file_filter is None:
+                    file_filter = [False] * len(all_files)
+                for file, filt in izip(all_files, file_filter):
+                    self.file_store.append([not filt, file['path'],
+                                            file['size'],
+                                            round(file['progress'], 2)])
+            
             def biographer(model, path, iter, dictionary):
                 dictionary[model.get_value(iter, 1)] = model.get_string_from_iter(iter)
-            
-            unique_id = self.get_selected_torrent()
             
             new_file_info = self.manager.get_torrent_file_info(unique_id)
             
