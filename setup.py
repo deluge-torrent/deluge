@@ -84,6 +84,9 @@ libtorrent = Extension(
 )
 
 # Main setup
+ 
+_datafiles = [
+]
      
 setup(
   name = "deluge",
@@ -97,6 +100,7 @@ setup(
   license = "GPLv2",
   
   include_package_data = True,
+  package_data = {"deluge": ["ui/gtkui/glade/*.glade", "data/pixmaps/*.png"]},
   ext_package = "deluge",
   ext_modules = [libtorrent],
   packages = find_packages(),

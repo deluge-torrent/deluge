@@ -50,7 +50,7 @@ class GtkUI:
     
     # Get the glade file for the main window
     self.main_glade = gtk.glade.XML(
-          pkg_resources.resource_filename("deluge", "glade/main_window.glade"))
+          pkg_resources.resource_filename("deluge.ui.gtkui", "glade/main_window.glade"))
     
     # Initialize the main window
     self.main_window = MainWindow(self.main_glade)
