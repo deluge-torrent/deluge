@@ -423,7 +423,6 @@ class DelugeGTK:
         self.torrent_view.set_rules_hint(True)
         self.torrent_view.set_reorderable(True)
         self.torrent_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
-        self.torrent_selected = None
         
         def size(column, cell, model, iter, data):
             size = long(model.get_value(iter, data))
@@ -500,6 +499,8 @@ class DelugeGTK:
         self.text_summary_tracker.set_text(str(state["tracker"]))
         # Now for the File tab
         self.file_store.clear()
+        
+        self.update_torrent_info_widget(unique_id)
         
         return True
     
@@ -890,7 +891,7 @@ class DelugeGTK:
             _("Connections") + ": " + str(connections) + " (" + str(max_connections) + ")" + "\n" + _("Down Speed") + ": " + \
             dlspeed + " (" + dlspeed_max + ")" + "\n" + _("Up Speed") + ": " + ulspeed + " (" + ulspeed_max + ")"
         
-        self.tray_icon.set_tooltip(msg)        
+        self.tray_icon.set_tooltip(msg)
 
         #Update any active plugins
         self.plugins.update_active_plugins()
@@ -901,43 +902,41 @@ class DelugeGTK:
         self.statusbar.pop(1)
         self.statusbar.push(1, self.statusbar_temp_msg)
 
-        # If no torrent is selected, select the first torrent:
-        if self.torrent_selected is None:
-            self.torrent_view.get_selection().select_path("0")
         #Torrent List
         itr = self.torrent_model.get_iter_first()
+        
+        # Disable torrent options if there are no torrents
+        self.wtree.get_widget("menu_torrent").set_sensitive(itr is not None)
+        self.wtree.get_widget("toolbutton_remove").set_sensitive(itr is not None)
+        self.wtree.get_widget("toolbutton_pause").set_sensitive(itr is not None)
+        self.wtree.get_widget("toolbutton_up").set_sensitive(itr is not None)
+        self.wtree.get_widget("toolbutton_down").set_sensitive(itr is not None)
+        
         if itr is None:
             return True
-
+        
         while itr is not None:
             uid = self.torrent_model.get_value(itr, 0)
-            try:
-                state = self.manager.get_torrent_state(uid)
-                tlist = self.get_list_from_unique_id(uid)
-                for i in range(len(tlist)):
-                    try:
-                        self.torrent_model.set_value(itr, i, tlist[i])
-                    except:
-                        print "ERR", i, type(tlist[i]), tlist[i]
-                itr = self.torrent_model.iter_next(itr)
-            except core.InvalidUniqueIDError:
-                self.torrent_model.remove(itr)
-                if not self.torrent_model.iter_is_valid(itr):
-                    itr = None
+            state = self.manager.get_torrent_state(uid)
+            tlist = self.get_list_from_unique_id(uid)
+            for i in range(len(tlist)):
+                try:
+                    self.torrent_model.set_value(itr, i, tlist[i])
+                except:
+                    print "ERR", i, type(tlist[i]), tlist[i]
+            itr = self.torrent_model.iter_next(itr)
 
-        # Disable torrent options if no torrents are selected
-        torrent_selection = self.torrent_view.get_selection()
-        selection_count = torrent_selection.count_selected_rows()
-        
-        self.wtree.get_widget("menu_torrent").set_sensitive(selection_count > 0)
-        self.wtree.get_widget("toolbutton_remove").set_sensitive(selection_count > 0)
-        self.wtree.get_widget("toolbutton_pause").set_sensitive(selection_count > 0)
-        self.wtree.get_widget("toolbutton_up").set_sensitive(selection_count > 0)
-        self.wtree.get_widget("toolbutton_down").set_sensitive(selection_count > 0)
-        
         # Disable moving top torrents up or bottom torrents down
         top_torrents_selected = True
         bottom_torrents_selected = True
+        
+        torrent_selection = self.torrent_view.get_selection()
+        selection_count = torrent_selection.count_selected_rows()
+        
+        # If no torrent is selected, select the first torrent:
+        if selection_count == 0:
+            torrent_selection.select_path("0")
+            selection_count = 1
         
         for i in range(selection_count):
             if not torrent_selection.path_is_selected(i):
@@ -953,39 +952,43 @@ class DelugeGTK:
         self.wtree.get_widget("toolbutton_up").set_sensitive(not top_torrents_selected)
         self.wtree.get_widget("toolbutton_down").set_sensitive(not bottom_torrents_selected)
         
-        if selection_count == 0:
-            return True
-
-        try:
-            if self.manager.get_torrent_state(self.get_selected_torrent())["is_paused"]:
-                self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PLAY)
-                self.wtree.get_widget("toolbutton_pause").set_label(_("Resume"))
-            else:
-                self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PAUSE)
-                self.wtree.get_widget("toolbutton_pause").set_label(_("Pause"))
-
-        except KeyError:
-            pass
+        unique_id = None
+        if selection_count == 1:
+            unique_id = self.get_selected_torrent()
+            self.update_torrent_info_widget(unique_id)
+        else: # selection_count > 1
+            self.clear_details_pane()
+            
+            # Update tool buttons below based on the first selected torrent's state
+            path = torrent_selection.get_selected_rows()[1][0]
+            unique_id = self.torrent_model.get_value(self.torrent_model.get_iter(path), 0)
         
-        try:
-            state = self.manager.get_torrent_state(self.get_selected_torrent())
-        except core.InvalidUniqueIDError:
-            return True
-
+        if self.manager.get_torrent_state(unique_id)["is_paused"]:
+            self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PLAY)
+            self.wtree.get_widget("toolbutton_pause").set_label(_("Resume"))
+        else:
+            self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PAUSE)
+            self.wtree.get_widget("toolbutton_pause").set_label(_("Pause"))
         
-        if tab == 0: #Details Pane    
+        return True
+        
+    def update_torrent_info_widget(self, unique_id):
+        tab = self.wtree.get_widget("torrent_info").get_current_page()
+        state = self.manager.get_torrent_state(unique_id)
+        
+        if tab == 0: #Details Pane
             self.wtree.get_widget("summary_name").set_text(state['name'])
             self.text_summary_total_size.set_text(common.fsize(state["total_size"]))
             self.text_summary_pieces.set_text(str(state["num_pieces"]))
             self.text_summary_total_downloaded.set_text(common.fsize(state["total_done"]) + " (" + common.fsize(state["total_download"]) + ")")
-            self.text_summary_total_uploaded.set_text(common.fsize(self.manager.unique_IDs[self.get_selected_torrent()].uploaded_memory + state["total_payload_upload"]) + " (" + common.fsize(state["total_upload"]) + ")")
+            self.text_summary_total_uploaded.set_text(common.fsize(self.manager.unique_IDs[unique_id].uploaded_memory + state["total_payload_upload"]) + " (" + common.fsize(state["total_upload"]) + ")")
             self.text_summary_download_speed.set_text(common.fspeed(state["download_rate"]))
             self.text_summary_upload_speed.set_text(common.fspeed(state["upload_rate"]))
             self.text_summary_seeders.set_text(common.fseed(state))
             self.text_summary_peers.set_text(common.fpeer(state))
             self.wtree.get_widget("progressbar").set_fraction(float(state['progress']))
             self.wtree.get_widget("progressbar").set_text(common.fpcnt(state["progress"]))
-            self.text_summary_share_ratio.set_text('%.3f'%(self.calc_share_ratio(self.get_selected_torrent(), state)))
+            self.text_summary_share_ratio.set_text('%.3f'%(self.calc_share_ratio(unique_id, state)))
             self.text_summary_tracker.set_text(str(state["tracker"]))
             self.text_summary_tracker_status.set_text(str(state["tracker_ok"]))
             self.text_summary_next_announce.set_text(str(state["next_announce"]))
@@ -1007,8 +1010,6 @@ class DelugeGTK:
                 else:
                     return False
 
-            unique_id = self.get_selected_torrent()
-            
             new_peer_info = self.manager.get_torrent_peer_info(unique_id)
             
             new_ips = {}
@@ -1046,8 +1047,6 @@ class DelugeGTK:
                                             peer["download_speed"], 
                                             peer["upload_speed"]])
         elif tab == 2: #file tab
-            unique_id = self.get_selected_torrent()
-            
             # Fill self.file_store with files only once and only when we click to
             # file tab or it's already open
             if not self.file_store.iter_n_children(None):
@@ -1074,10 +1073,7 @@ class DelugeGTK:
                 if file['path'] in curr_files and \
                    self.file_store.get_value(iter, 3) != round(file['progress'], 2):
                     self.file_store.set(iter, 3, file['progress'])
-        else:
-            pass
-
-        return True        
+        
     
     def calc_share_ratio(self, unique_id, torrent_state):
         r = float(self.manager.calc_ratio(unique_id, torrent_state))
@@ -1087,11 +1083,14 @@ class DelugeGTK:
     def get_selected_torrent(self):
         try:
             if self.torrent_view.get_selection().count_selected_rows() == 1:
-                self.torrent_selected = self.torrent_view.get_selection().get_selected_rows()[1][0]
-            selected_torrent = self.torrent_model.get_value(self.torrent_model.get_iter(self.torrent_selected), 0)
-            return selected_torrent
-        except TypeError, ValueError:
-            return None
+                selected_path = self.torrent_view.get_selection().\
+                                    get_selected_rows()[1][0]
+                selected_torrent = self.torrent_model.get_value(self.torrent_model.get_iter(selected_path), 0)
+                return selected_torrent
+        except (TypeError, ValueError):
+            pass
+        
+        return None
             
     # Return a list of ids of the selected torrents
     def get_selected_torrent_rows(self):
@@ -1216,13 +1215,21 @@ class DelugeGTK:
 
         response = asker.run()
         asker.destroy()
-        if response == 1:        
-            torrent_list = self.get_selected_torrent_rows()
+        if response == 1:
             self.clear_details_pane()
-            self.torrent_selected = None
-            for torrent in torrent_list:
-                self.manager.remove_torrent(torrent, data_also.get_active(), torrent_also.get_active())
-        self.update()
+            
+            torrents = self.get_selected_torrent_rows()
+            paths = self.torrent_view.get_selection().get_selected_rows()[1]
+            row_references = [gtk.TreeRowReference(self.torrent_model, x)
+                                  for x in paths]
+            
+            for unique_id, row_ref in izip(torrents, row_references):
+                self.manager.remove_torrent(unique_id, data_also.get_active(),
+                                            torrent_also.get_active())
+                iter = self.torrent_model.get_iter(row_ref.get_path())
+                self.torrent_model.remove(iter)
+            
+            self.update()
     
     def clear_details_pane(self):
         self.wtree.get_widget("progressbar").set_text("")
