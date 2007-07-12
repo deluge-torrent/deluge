@@ -84,14 +84,7 @@ libtorrent = Extension(
 )
 
 # Main setup
-
-_data_files = [
-  ('deluge/glade',  glob.glob("deluge/glade/*.glade")),
-  ('deluge/pixmaps', glob.glob('deluge/pixmaps/*.png')),
-  ('share/applications' , ["deluge/share/applications/deluge.desktop"]),
-  ('share/pixmaps' , ["deluge/share/pixmaps/deluge.xpm"])
-]
-        
+     
 setup(
   name = "deluge",
   fullname = "Deluge Bittorent Client",
@@ -104,11 +97,9 @@ setup(
   license = "GPLv2",
   
   include_package_data = True,
-  data_files = _data_files,
   ext_package = "deluge",
   ext_modules = [libtorrent],
-  packages=['deluge'],
-  package_dir = {'deluge': 'deluge/src'},
+  packages = find_packages(),
   entry_points = """
     [console_scripts]
       deluge = deluge.main:main

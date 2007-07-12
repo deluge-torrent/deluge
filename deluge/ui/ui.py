@@ -71,11 +71,6 @@ class UI:
     
     if self.config["selected_ui"] == "gtk":
       log.info("Starting GtkUI..")
-      from deluge.gtkui import GtkUI
+      from deluge.ui.gtkui.gtkui import GtkUI
       ui = GtkUI(self.core)
-    
-    # Test the interface.. 
-#    self.core.add_torrent_file("/home/andrew/Downloads/test.torrent", None)
- #   time.sleep(3)
-    # Shutdown the core thus stopping the daemon process
-#    self.core.shutdown()
+

@@ -45,7 +45,7 @@ else: dbus_imported = True
 
 import logging
 
-from deluge.core import Core
+from deluge.core.core import Core
 
 # Get the logger
 log = logging.getLogger("deluge")

@@ -47,11 +47,11 @@ except: dbus_imported = False
 else: dbus_imported = True
 
 import gobject
-import libtorrent as lt
+import deluge.libtorrent as lt
 
 from deluge.config import Config
 import deluge.common
-from deluge.torrent import Torrent
+from deluge.core.torrent import Torrent
 
 # Get the logger
 log = logging.getLogger("deluge")

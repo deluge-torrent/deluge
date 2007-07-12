@@ -39,8 +39,8 @@ import os
 import signal
 from optparse import OptionParser
 
-from deluge.daemon import Daemon
-from deluge.ui import UI
+from deluge.core.daemon import Daemon
+from deluge.ui.ui import UI
 import deluge.common
 
 # Setup the logger
