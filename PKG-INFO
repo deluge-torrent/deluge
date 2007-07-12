@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: deluge
+Version: 0.5.2
+Summary: A bittorrent client written in PyGTK
+Home-page: http://deluge-torrent.org
+Author: Zach Tibbitts, Alon Zakai, Marcos Pinto
+Author-email: zach@collegegeek.org, kripkensteiner@gmail.com, marcospinto@dipconsultants.com
+License: GPLv2
+Description: UNKNOWN
+Platform: UNKNOWN
