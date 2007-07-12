@@ -870,12 +870,13 @@ class DelugeGTK:
             ulspeed_max = _("Unlimited")
         else:
             ulspeed_max = common.fspeed(self.config.get("max_upload_speed_bps"))
-            
+        
+        # Use self.statusbar_temp_msg instance var to allow plugins access it
         self.statusbar_temp_msg = '%s: %s (%s)  %s: %s (%s)  %s: %s (%s)'%(
             _('Connections'), connections, max_connections, _('Down Speed'), 
             dlspeed, dlspeed_max, _('Up Speed'), ulspeed, ulspeed_max)
         
-        if 'DHT_nodes' in core_state.keys():
+        if 'DHT_nodes' in core_state:
             dht_peers = core_state['DHT_nodes']
             if dht_peers == -1:
                 dht_peers = '?'
