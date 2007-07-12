@@ -69,7 +69,6 @@ class DelugeGTK:
         #Start the Deluge Manager:
         self.manager = core.Manager(common.CLIENT_CODE, common.CLIENT_VERSION, 
             '%s %s'%(common.PROGRAM_NAME, common.PROGRAM_VERSION), common.CONFIG_DIR)
-        self.something_screwed_up = False
         self.plugins = plugins.PluginManager(self.manager, self)
         self.plugins.add_plugin_dir(common.PLUGIN_DIR)
         if os.path.isdir(os.path.join(common.CONFIG_DIR , 'plugins')):
@@ -834,18 +833,6 @@ class DelugeGTK:
             tab = self.wtree.get_widget("torrent_info").get_current_page()
         except AttributeError:
             return False
-        
-        if self.something_screwed_up:
-            dialogs.show_popup_warning(self.window, 
-                _("For some reason, the previous state could not be loaded, so a blank state has been loaded for you."))
-            restore_torrents = dialogs.show_popup_question(self.window,
-                _("Would you like to attempt to reload the previous session's downloads?"))
-            if restore_torrents:
-                torrent_subdir = os.path.join(self.manager.base_dir, core.TORRENTS_SUBDIR)
-                for torrent in os.listdir(torrent_subdir):
-                    if torrent.endswith('.torrent'):
-                        self.interactive_add_torrent(torrent)
-            self.something_screwed_up = False
         
         # Update Statusbar and Tray Tips
         self.update_statusbar_and_tray()
