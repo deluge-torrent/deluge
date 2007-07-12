@@ -977,7 +977,7 @@ class DelugeGTK:
         except KeyError:
             pass
         
-        try:        
+        try:
             state = self.manager.get_torrent_state(self.get_selected_torrent())
         except core.InvalidUniqueIDError:
             return True
