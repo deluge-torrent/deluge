@@ -533,9 +533,9 @@ class Manager:
                     # Queue seeding torrent to bottom if needed
                     if(self.get_pref('enable_move_completed')):
                         try:
-			    deluge_core.move_storage(event['unique_ID'], self.get_pref('default_finished_path'))
+                            deluge_core.move_storage(event['unique_ID'], self.get_pref('default_finished_path'))
                         except SystemError:
-			    raise SystemError("You cannot move torrent to a different partition.  Please fix your preferences")
+                            raise SystemError("You cannot move torrent to a different partition.  Please fix your preferences")
                             continue
                         else:
                             self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
