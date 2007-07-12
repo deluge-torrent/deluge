@@ -487,8 +487,8 @@ class DelugeGTK:
             # Torrent is already selected, we don't need to do anything
             return not self.right_click
         
-        self.peer_store.clear()
-        self.file_store.clear()
+        self.clear_peer_store()
+        self.clear_file_store()
         
         unique_id = model.get_value(model.get_iter(path), 0)
         self.update_torrent_info_widget(unique_id)
@@ -577,12 +577,15 @@ class DelugeGTK:
         self.text_summary_next_announce           = self.wtree.get_widget("summary_next_announce")
         self.text_summary_eta              = self.wtree.get_widget("summary_eta")
 
-
     def build_peer_tab(self):
         self.peer_view = self.wtree.get_widget("peer_view")
         # IP int, IP string, Client, Percent Complete, Down Speed, Up Speed
         # IP int is for faster sorting
         self.peer_store = gtk.ListStore(gobject.TYPE_UINT, str, str, float, int, int)
+        # Stores IP -> gtk.TreeIter's iter mapping for quick look up 
+        # in update_torrent_info_widget
+        self.peer_store_dict = {}
+        
         def percent(column, cell, model, iter, data):
             percent = float(model.get_value(iter, data))
             percent_str = "%.2f%%"%percent
@@ -597,6 +600,10 @@ class DelugeGTK:
         self.peer_upload_column        =    dgtk.add_func_column(self.peer_view, _("Up Speed"), dgtk.cell_data_speed, 5)
 
         self.peer_ip_column.set_sort_column_id(0)
+
+    def clear_peer_store(self):
+        self.peer_store.clear()
+        self.peer_store_dict = {}
 
     def build_file_tab(self):
         def percent(column, cell, model, iter, data):
@@ -614,6 +621,9 @@ class DelugeGTK:
                             "uncheck_selected": self.file_uncheck_selected,
                             })
         self.file_store = gtk.ListStore(bool, str, gobject.TYPE_UINT64, float)
+        # Stores file path -> gtk.TreeIter's iter mapping for quick look up 
+        # in self.update_torrent_info_widget
+        self.file_store_dict = {}
         self.file_view.set_model(self.file_store)
         self.file_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         self.file_view.get_selection().set_select_function(self.file_clicked)
@@ -624,6 +634,10 @@ class DelugeGTK:
         dgtk.add_text_column(self.file_view, _("Filename"), 1).set_expand(True)
         dgtk.add_func_column(self.file_view, _("Size"), dgtk.cell_data_size, 2)
         dgtk.add_func_column(self.file_view, _("Progress"), percent, 3) 
+    
+    def clear_file_store(self):
+        self.file_store.clear()
+        self.file_store_dict = {}
     
     def file_select_all(self, widget):
         self.file_view.get_selection().select_all()
@@ -981,65 +995,45 @@ class DelugeGTK:
             self.text_summary_next_announce.set_text(str(state["next_announce"]))
             self.text_summary_eta.set_text(common.estimate_eta(state))
         elif tab == 1: #Peers List
-            def biographer(model, path, iter, dictionary):
-                dictionary[model.get_value(iter, 1)] = model.get_string_from_iter(iter)
-            
-            class remover_data:
-                def __init__(self, new_ips):
-                    self.new_ips = new_ips
-                    self.removed = False
-            
-            def remover(model, path, iter, data):
-                if model.get_value(iter, 1) not in data.new_ips:
-                    model.remove(iter)
-                    data.removed = True
-                    return True
-                else:
-                    return False
-
             new_peer_info = self.manager.get_torrent_peer_info(unique_id)
-            
-            new_ips = {}
-            
-            for index in range(len(new_peer_info)):
-                if not new_peer_info[index]['client'] == "":
-                    new_ips[new_peer_info[index]['ip']] = index
-            
-            while True:
-                data = remover_data(new_ips)
-                self.peer_store.foreach(remover, data)
-                if not data.removed:
-                    break
-            
-            curr_ips = {}
-            
-            self.peer_store.foreach(biographer, curr_ips)
+            new_ips = set()
             
             for peer in new_peer_info:
-                if peer['ip'] in curr_ips:
-                    self.peer_store.set(self.peer_store.get_iter_from_string(curr_ips[peer['ip']]),
+                # Update peers already in peers list
+                if peer['ip'] in self.peer_store_dict:
+                    self.peer_store.set(self.peer_store_dict[peer['ip']],
                                         2, unicode(peer['client'], "latin-1"),
                                         3, round(peer["peer_has"], 2),
                                         4, peer["download_speed"],
                                         5, peer["upload_speed"])
+                
+                if peer['client'] != "":
+                    new_ips.add(peer['ip'])
+                    
+                    # Add new peers
+                    if peer['ip'] not in self.peer_store_dict:
+                        # convert IP to int for sorting purposes
+                        ip_int = sum([int(byte) << shift
+                                         for byte, shift in 
+                                             izip(peer["ip"].split("."), 
+                                                  (24, 16, 8, 0))])
 
-                if peer['ip'] not in curr_ips and peer['client'] is not "":
-                    # convert IP adrress to int for sorting purposes
-                    ip_int = sum([int(byte) << shift
-                                      for byte, shift in izip(peer["ip"].split("."), (24, 16, 8, 0))])
+                        iter = self.peer_store.append([ip_int, peer["ip"],
+                                   unicode(peer["client"], "latin-1"),
+                                   round(peer["peer_has"], 2),
+                                   peer["download_speed"],
+                                   peer["upload_speed"]])
 
-                    self.peer_store.append([ip_int, peer["ip"], 
-                                            unicode(peer["client"], "latin-1"), 
-                                            round(peer["peer_has"], 2), 
-                                            peer["download_speed"], 
-                                            peer["upload_speed"]])
+                        self.peer_store_dict[peer['ip']] = iter
+            
+            # Remove peers that no longer exist in new_ips
+            for ip in set(self.peer_store_dict.keys()).difference(new_ips):
+                self.peer_store.remove(self.peer_store_dict[ip])
+                del self.peer_store_dict[ip]
         elif tab == 2: #file tab
             # Fill self.file_store with files only once and only when we click to
             # file tab or it's already open
-            if not self.file_store.iter_n_children(None):
-                # Stores file path -> iter mapping for quick look up
-                self.file_store_hash = {}
-                
+            if not self.file_store_dict:
                 all_files = self.manager.get_torrent_file_info(unique_id)
                 file_filter = self.manager.get_file_filter(unique_id)
                 if file_filter is None:
@@ -1048,12 +1042,12 @@ class DelugeGTK:
                     iter = self.file_store.append([not filt, file['path'],
                                                    file['size'],
                                                    round(file['progress'], 2)])
-                    self.file_store_hash[file['path']] = iter
+                    self.file_store_dict[file['path']] = iter
             
             new_file_info = self.manager.get_torrent_file_info(unique_id)
             
             for file in new_file_info:
-                iter = self.file_store_hash[file['path']]
+                iter = self.file_store_dict[file['path']]
                 if self.file_store.get_value(iter, 3) != round(file['progress'], 2):
                     self.file_store.set(iter, 3, file['progress'])
         
@@ -1231,9 +1225,8 @@ class DelugeGTK:
         self.text_summary_tracker_status.set_text("")
         self.text_summary_next_announce.set_text("")
         self.text_summary_eta.set_text("")
-        self.peer_store.clear()
-        self.file_store.clear()
-
+        self.clear_peer_store()
+        self.clear_file_store()
 
     def remove_toggle_warning(self, args, warning):
         if not args.get_active():
