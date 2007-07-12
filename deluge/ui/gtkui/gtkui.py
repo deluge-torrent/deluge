@@ -38,7 +38,7 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import pkg_resources
 
-import gtkui_mainwindow
+from mainwindow import MainWindow
 
 # Get the logger
 log = logging.getLogger("deluge")
@@ -53,7 +53,7 @@ class GtkUI:
           pkg_resources.resource_filename("deluge", "glade/main_window.glade"))
     
     # Initialize the main window
-    self.main_window = gtkui_mainwindow.GtkUIMainWindow(self.main_glade)
+    self.main_window = MainWindow(self.main_glade)
     
     # Show the main window
     self.main_window.show()

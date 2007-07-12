@@ -34,7 +34,7 @@
 import logging
 import pkg_resources
 import xdg, xdg.BaseDirectory
-import os.path
+import os
 
 # Get the logger
 log = logging.getLogger("deluge")
@@ -44,11 +44,14 @@ def get_version():
   return pkg_resources.require("Deluge")[0].version
   
 def get_config_dir(filename=None):
-  """ Returns the CONFIG_DIR path if no filename is specified
-  Returns the CONFIG_DIR + filename as a path if filename is specified
+  """ Returns the config path if no filename is specified
+  Returns the config directory + filename as a path if filename is specified
   """
   if filename != None:
     return os.path.join(xdg.BaseDirectory.save_config_path("deluge"), filename)
   else:
     return xdg.BaseDirectory.save_config_path("deluge")
 
+def get_default_download_dir():
+  """Returns the default download directory"""
+  return os.environ.get("HOME")

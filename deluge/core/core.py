@@ -56,9 +56,10 @@ from deluge.core.torrent import Torrent
 # Get the logger
 log = logging.getLogger("deluge")
 
+#_default_download_dir = deluge.common.get_default_download_dir()
 DEFAULT_PREFS = {
   "listen_ports": [6881, 6891],
-  "download_location": "/home/andrew/Downloads",
+  "download_location": deluge.common.get_default_download_dir(),
   "compact_allocation": True
 }
 
