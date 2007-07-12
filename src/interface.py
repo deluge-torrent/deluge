@@ -848,41 +848,7 @@ class DelugeGTK:
             self.something_screwed_up = False
         
         # Update Statusbar and Tray Tips
-        core_state = self.manager.get_state()
-        connections = core_state['num_peers']
-        if self.config.get("max_connections") < 0 :
-            max_connections = _("Unlimited")
-        else:
-            max_connections = int(self.config.get("max_connections"))
-        dlspeed = common.fspeed(core_state['download_rate'])
-        ulspeed = common.fspeed(core_state['upload_rate'])
-        if self.config.get("max_download_speed") < 0:
-            dlspeed_max = _("Unlimited")
-        else:
-            dlspeed_max = common.fspeed(self.config.get("max_download_speed_bps"))
-        if self.config.get("max_upload_speed") < 0:
-            ulspeed_max = _("Unlimited")
-        else:
-            ulspeed_max = common.fspeed(self.config.get("max_upload_speed_bps"))
-        
-        # Use self.statusbar_temp_msg instance var to allow plugins access it
-        self.statusbar_temp_msg = '%s: %s (%s)  %s: %s (%s)  %s: %s (%s)'%(
-            _('Connections'), connections, max_connections, _('Down Speed'), 
-            dlspeed, dlspeed_max, _('Up Speed'), ulspeed, ulspeed_max)
-        
-        if 'DHT_nodes' in core_state:
-            dht_peers = core_state['DHT_nodes']
-            if dht_peers == -1:
-                dht_peers = '?'
-            else:
-                dht_peers = str(dht_peers)
-            self.statusbar_temp_msg = self.statusbar_temp_msg + '   [DHT: %s]'%(dht_peers)
-        
-        msg = _("Deluge Bittorrent Client") + "\n" + \
-            _("Connections") + ": " + str(connections) + " (" + str(max_connections) + ")" + "\n" + _("Down Speed") + ": " + \
-            dlspeed + " (" + dlspeed_max + ")" + "\n" + _("Up Speed") + ": " + ulspeed + " (" + ulspeed_max + ")"
-        
-        self.tray_icon.set_tooltip(msg)
+        self.update_statusbar_and_tray()
 
         #Update any active plugins
         self.plugins.update_active_plugins()
@@ -962,6 +928,45 @@ class DelugeGTK:
             self.wtree.get_widget("toolbutton_pause").set_label(_("Pause"))
         
         return True
+        
+    def update_statusbar_and_tray(self):
+        core_state = self.manager.get_state()
+        connections = core_state['num_peers']
+        if self.config.get("max_connections") < 0 :
+            max_connections = _("Unlimited")
+        else:
+            max_connections = int(self.config.get("max_connections"))
+        dlspeed = common.fspeed(core_state['download_rate'])
+        ulspeed = common.fspeed(core_state['upload_rate'])
+        if self.config.get("max_download_speed") < 0:
+            dlspeed_max = _("Unlimited")
+        else:
+            dlspeed_max = common.fspeed(self.config.get("max_download_speed_bps"))
+        if self.config.get("max_upload_speed") < 0:
+            ulspeed_max = _("Unlimited")
+        else:
+            ulspeed_max = common.fspeed(self.config.get("max_upload_speed_bps"))
+        
+        # Use self.statusbar_temp_msg instance var to allow plugins access it
+        self.statusbar_temp_msg = '%s: %s (%s)  %s: %s (%s)  %s: %s (%s)'%(
+            _('Connections'), connections, max_connections, _('Down Speed'), 
+            dlspeed, dlspeed_max, _('Up Speed'), ulspeed, ulspeed_max)
+        
+        if 'DHT_nodes' in core_state:
+            dht_peers = core_state['DHT_nodes']
+            if dht_peers == -1:
+                dht_peers = '?'
+            else:
+                dht_peers = str(dht_peers)
+            self.statusbar_temp_msg = self.statusbar_temp_msg + \
+                                      '   [DHT: %s]'%(dht_peers)
+        
+        msg = '%s\n%s: %s (%s)\n%s: %s (%s)\n%s: %s (%s)' % (
+            _("Deluge Bittorrent Client"), _("Connections"), connections, 
+            max_connections, _("Down Speed"), dlspeed, dlspeed_max, 
+            _("Up Speed"), ulspeed, ulspeed_max)
+        
+        self.tray_icon.set_tooltip(msg)
         
     def update_torrent_info_widget(self, unique_id):
         tab = self.wtree.get_widget("torrent_info").get_current_page()
