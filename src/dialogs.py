@@ -83,7 +83,7 @@ class PreferencesDlg:
                 self.glade.get_widget("radio_ask_save").set_active(True)
                 self.glade.get_widget("chk_move_completed").set_sensitive(False)
                 self.glade.get_widget("finished_path_button").set_sensitive(False)
-            self.glade.get_widget("finished_path_button").set_filename(self.preferences.get("default_finished_path"))                
+            self.glade.get_widget("finished_path_button").set_filename(self.preferences.get("default_finished_path"))
             self.glade.get_widget("download_path_button").set_filename(self.preferences.get("default_download_path"))
             self.glade.get_widget("chk_compact").set_active(self.preferences.get("use_compact_storage"))
             self.glade.get_widget("active_port_label").set_text(str(self.parent.manager.get_state()['port']))

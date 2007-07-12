@@ -826,7 +826,11 @@ class DelugeGTK:
         self.manager.apply_queue()
         
         # Handle the events
-        self.manager.handle_events()
+        try:
+            self.manager.handle_events()
+        except core.SystemError, e:
+            print "SystemError", e
+            dialogs.show_popup_warning(self.window, _("You cannot move torrent to a different partition.  Please fix your preferences"))
         
         # Make sure that the interface still exists
         try:

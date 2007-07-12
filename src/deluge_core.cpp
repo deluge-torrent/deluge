@@ -127,6 +127,7 @@ torrents_t       *M_torrents        = NULL;
 static PyObject *DelugeError           = NULL;
 static PyObject *InvalidEncodingError  = NULL;
 static PyObject *FilesystemError       = NULL;
+static PyObject *SystemError           = NULL;
 static PyObject *DuplicateTorrentError = NULL;
 static PyObject *InvalidTorrentError   = NULL;
 
@@ -292,8 +293,9 @@ long count_DHT_peers(entry &state)
 
 static PyObject *torrent_pre_init(PyObject *self, PyObject *args)
 {
-    if (!PyArg_ParseTuple(args, "OOOOO", &DelugeError,
+    if (!PyArg_ParseTuple(args, "OOOOOO", &DelugeError,
         &InvalidEncodingError,
+        &SystemError,
         &FilesystemError,
         &DuplicateTorrentError,
         &InvalidTorrentError))
@@ -546,16 +548,9 @@ static PyObject *torrent_move_storage(PyObject *self, PyObject *args)
         return NULL;
 
     boost::filesystem::path move_dir_2 (move_dir, empty_name_check);
-    try
-    {
-        M_torrents->at(index).handle.move_storage(move_dir_2);
-        if(M_torrents->at(index).handle.save_path()!=move_dir_2)
-            return NULL;
-    }
-    catch (boost::filesystem::filesystem_error&)
-        {   RAISE_PTR(FilesystemError, ""); }
-
-    Py_INCREF(Py_None); return Py_None;
+    M_torrents->at(index).handle.move_storage(move_dir_2);
+       if(M_torrents->at(index).handle.save_path()!=move_dir_2)
+           RAISE_PTR(SystemError, "You cannot move torrent to a different partition.  Please fix your preferences");
 }
 
 static PyObject *torrent_remove_torrent(PyObject *self, PyObject *args)

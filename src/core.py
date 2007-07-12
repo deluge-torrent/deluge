@@ -107,6 +107,9 @@ class InvalidEncodingError(DelugeError):
 class FilesystemError(DelugeError):
     pass
 
+class SystemError(DelugeError):
+    pass
+
 # Note: this may be raised both from deluge-core.cpp and deluge.py, for
 # different reasons, both related to duplicate torrents
 class DuplicateTorrentError(DelugeError):
@@ -183,6 +186,7 @@ class Manager:
         # Pre-initialize the core's data structures
         deluge_core.pre_init(DelugeError,
                           InvalidEncodingError,
+                          SystemError,
                           FilesystemError,
                           DuplicateTorrentError,
                           InvalidTorrentError)
@@ -531,7 +535,8 @@ class Manager:
                         try:
 			    deluge_core.move_storage(event['unique_ID'], self.get_pref('default_finished_path'))
                         except SystemError:
-                            print "You cannot move downloaded file/folder to a different partition"
+			    raise SystemError("You cannot move torrent to a different partition.  Please fix your preferences")
+                            continue
                         else:
                             self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
                     if self.get_pref('queue_seeds_to_bottom'):
