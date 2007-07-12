@@ -64,7 +64,6 @@ class DelugeGTK:
         gettext.install(APP, DIR)
         
         self.is_running = False
-        self.update_queue = []
         self.ipc_manager = ipc_manager.Manager(self)
         self.torrent_file_queue = []
         #Start the Deluge Manager:
@@ -92,7 +91,6 @@ class DelugeGTK:
         self.notebook.connect("change-current-page", self.notebook_change_page_event)
         self.statusbar = self.wtree.get_widget("statusbar")
         
-    
         ## Construct the Interface
         try:
             self.build_tray_icon()
@@ -123,8 +121,6 @@ class DelugeGTK:
         
         self.apply_prefs()
         self.load_window_geometry()
-        # Load plugins after GTK is initialised
-        self.update_queue.append(self.load_plugins)
 
     def external_add_torrent(self, torrent_file):
         print "Ding!"
@@ -801,9 +797,12 @@ class DelugeGTK:
             except core.DelugeError:
                 print "duplicate torrent found, ignoring", torrent_file
         ## add torrents in manager to interface
-        # self.torrent_model.append([0, 1, "Hello, World", 2048, 50.0, "Hi", 1, 2, 1, 2, 2048, 2048, 120, 1.0])
         for uid in self.manager.get_unique_IDs():
             self.torrent_model.append(self.get_list_from_unique_id(uid))
+            
+        # Load plugins after we showed main window (if not started in tray)
+        self.load_plugins()
+        
         # Call update now so everything is up-to-date when the window gains focus on startup
         self.update()
         
@@ -824,11 +823,6 @@ class DelugeGTK:
 
     ## Call via a timer to update the interface
     def update(self):
-        self.update_queue.reverse()
-        while len(self.update_queue) > 0:
-            f = self.update_queue.pop()
-            f()
-            
         # We need to apply the queue changes
         self.manager.apply_queue()
         
