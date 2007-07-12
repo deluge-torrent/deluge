@@ -1037,28 +1037,24 @@ class DelugeGTK:
             # Fill self.file_store with files only once and only when we click to
             # file tab or it's already open
             if not self.file_store.iter_n_children(None):
+                # Stores file path -> iter mapping for quick look up
+                self.file_store_hash = {}
+                
                 all_files = self.manager.get_torrent_file_info(unique_id)
                 file_filter = self.manager.get_file_filter(unique_id)
                 if file_filter is None:
                     file_filter = [False] * len(all_files)
                 for file, filt in izip(all_files, file_filter):
-                    self.file_store.append([not filt, file['path'],
-                                            file['size'],
-                                            round(file['progress'], 2)])
-            
-            def biographer(model, path, iter, dictionary):
-                dictionary[model.get_value(iter, 1)] = model.get_string_from_iter(iter)
+                    iter = self.file_store.append([not filt, file['path'],
+                                                   file['size'],
+                                                   round(file['progress'], 2)])
+                    self.file_store_hash[file['path']] = iter
             
             new_file_info = self.manager.get_torrent_file_info(unique_id)
             
-            curr_files = {}
-            
-            self.file_store.foreach(biographer, curr_files)
-            
             for file in new_file_info:
-                iter = self.file_store.get_iter_from_string(curr_files[file['path']])
-                if file['path'] in curr_files and \
-                   self.file_store.get_value(iter, 3) != round(file['progress'], 2):
+                iter = self.file_store_hash[file['path']]
+                if self.file_store.get_value(iter, 3) != round(file['progress'], 2):
                     self.file_store.set(iter, 3, file['progress'])
         
     
