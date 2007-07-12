@@ -491,15 +491,11 @@ class DelugeGTK:
         if is_selected:
             # Torrent is already selected, we don't need to do anything
             return not self.right_click
-        unique_id = model.get_value(model.get_iter(path), 0)
-        state = self.manager.get_torrent_state(unique_id)
-        # A new torrent has been selected, need to update parts of interface
-        self.text_summary_total_size.set_text(common.fsize(state["total_size"]))
-        self.text_summary_pieces.set_text(str(state["num_pieces"]))
-        self.text_summary_tracker.set_text(str(state["tracker"]))
-        # Now for the File tab
+        
+        self.peer_store.clear()
         self.file_store.clear()
         
+        unique_id = model.get_value(model.get_iter(path), 0)
         self.update_torrent_info_widget(unique_id)
         
         return True
