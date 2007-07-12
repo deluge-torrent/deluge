@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Deluge BitTorrent Client
+Comment=Bittorrent client written in PyGTK
+Exec=deluge
+Icon=deluge.xpm
+Terminal=false
+Type=Application
+Categories=Application;Network
+StartupNotify=true
+MimeType=application/x-bittorrent;
+GenericName=

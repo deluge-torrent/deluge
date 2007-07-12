@@ -1,0 +1,100 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
+
+<glade-interface>
+
+<widget class="GtkMenu" id="file_tab_menu">
+  <property name="visible">True</property>
+
+  <child>
+    <widget class="GtkImageMenuItem" id="select_all">
+      <property name="visible">True</property>
+      <property name="label" translatable="yes">Select All</property>
+      <property name="use_underline">True</property>
+      <signal name="activate" handler="select_all" last_modification_time="Mon, 11 Jun 2007 12:54:52 GMT"/>
+
+      <child internal-child="image">
+	<widget class="GtkImage" id="image22">
+	  <property name="visible">True</property>
+	  <property name="stock">gtk-select-all</property>
+	  <property name="icon_size">1</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	</widget>
+      </child>
+    </widget>
+  </child>
+
+  <child>
+    <widget class="GtkImageMenuItem" id="unselect_all">
+      <property name="visible">True</property>
+      <property name="label" translatable="yes">Unselect All</property>
+      <property name="use_underline">True</property>
+      <signal name="activate" handler="unselect_all" last_modification_time="Mon, 11 Jun 2007 13:16:59 GMT"/>
+
+      <child internal-child="image">
+	<widget class="GtkImage" id="image23">
+	  <property name="visible">True</property>
+	  <property name="stock">gtk-file</property>
+	  <property name="icon_size">1</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	</widget>
+      </child>
+    </widget>
+  </child>
+
+  <child>
+    <widget class="GtkSeparatorMenuItem" id="separator">
+      <property name="visible">True</property>
+    </widget>
+  </child>
+
+  <child>
+    <widget class="GtkImageMenuItem" id="check_selected">
+      <property name="visible">True</property>
+      <property name="label" translatable="yes">Check Selected</property>
+      <property name="use_underline">True</property>
+      <signal name="activate" handler="check_selected" last_modification_time="Mon, 11 Jun 2007 12:54:52 GMT"/>
+
+      <child internal-child="image">
+	<widget class="GtkImage" id="image24">
+	  <property name="visible">True</property>
+	  <property name="stock">gtk-ok</property>
+	  <property name="icon_size">1</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	</widget>
+      </child>
+    </widget>
+  </child>
+
+  <child>
+    <widget class="GtkImageMenuItem" id="uncheck_selected">
+      <property name="visible">True</property>
+      <property name="label" translatable="yes">Uncheck Selected</property>
+      <property name="use_underline">True</property>
+      <signal name="activate" handler="uncheck_selected" last_modification_time="Mon, 11 Jun 2007 12:54:52 GMT"/>
+
+      <child internal-child="image">
+	<widget class="GtkImage" id="image25">
+	  <property name="visible">True</property>
+	  <property name="stock">gtk-remove</property>
+	  <property name="icon_size">1</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	</widget>
+      </child>
+    </widget>
+  </child>
+</widget>
+
+</glade-interface>
