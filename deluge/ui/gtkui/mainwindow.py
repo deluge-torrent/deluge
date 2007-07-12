@@ -40,13 +40,13 @@ import gtk, gtk.glade
 # Get the logger
 log = logging.getLogger("deluge")
 
-class GtkUIMainWindow:
+class MainWindow:
   def __init__(self, glade_xml):
     self.main_glade = glade_xml
     self.window = self.main_glade.get_widget("main_window")
     
     # Initialize various components of the gtkui
-    self.menubar = GtkUIMainWindow_MenuBar(self)
+    self.menubar = MainWindowMenuBar(self)
   
   def show(self):
     self.window.show_all()
@@ -58,27 +58,33 @@ class GtkUIMainWindow:
     self.hide()
     gtk.main_quit()
     
-class GtkUIMainWindow_MenuBar:
+class MainWindowMenuBar:
   def __init__(self, mainwindow):
+    log.debug("MainWindowMenuBar init..")
     self.mainwindow = mainwindow
     
     ### Connect Signals ###
     self.mainwindow.main_glade.signal_autoconnect({
       ## File Menu
-      "on_addtorrent_menuitem_activate": self.on_addtorrent_menuitem_activate,
-      "on_addurl_menuitem_activate": self.on_addurl_menuitem_activate,
-      "on_clearcompleted_menuitem_activate": \
-                                      self.on_clearcompleted_menuitem_activate,
-      "on_quit_menuitem_activate": self.on_quit_menuitem_activate
+      "on_menuitem_addtorrent_activate": self.on_menuitem_addtorrent_activate,
+      "on_menuitem_addurl_activate": self.on_menuitem_addurl_activate,
+      "on_menuitem_clear_activate": \
+                                      self.on_menuitem_clear_activate,
+      "on_menuitem_quit_activate": self.on_menuitem_quit_activate
     })
     
   ### Callbacks ###
-  def on_addtorrent_menuitem_activate(self, data=None):
-    log.debug("on_addtorrent_menuitem_activate")
-  def on_addurl_menuitem_activate(self, data=None):
-    log.debug("on_addurl_menuitem_activate")
-  def on_clearcompleted_menuitem_activate(self, data=None):
-    log.debug("on_clearcompleted_menuitem_activate")
-  def on_quit_menuitem_activate(self, data=None):
-    log.debug("on_quit_menuitem_activate")
+  def on_menuitem_addtorrent_activate(self, data=None):
+    log.debug("on_menuitem_addtorrent_activate")
+  def on_menuitem_addurl_activate(self, data=None):
+    log.debug("on_menuitem_addurl_activate")
+  def on_menuitem_clear_activate(self, data=None):
+    log.debug("on_menuitem_clear_activate")
+  def on_menuitem_quit_activate(self, data=None):
+    log.debug("on_menuitem_quit_activate")
     self.mainwindow.quit()
+
+class MainWindowToolBar:
+  def __init__(self, mainwindow):
+    self.mainwindow = mainwindow
+    
