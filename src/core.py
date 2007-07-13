@@ -107,7 +107,7 @@ class InvalidEncodingError(DelugeError):
 class FilesystemError(DelugeError):
     pass
 
-class SystemError(DelugeError):
+class StorageMoveFailed(DelugeError):
     pass
 
 # Note: this may be raised both from deluge-core.cpp and deluge.py, for
@@ -392,7 +392,7 @@ class Manager:
     def get_torrent_state(self, unique_ID):
         # Check to see if unique_ID exists:
         if self.state.queue.count(unique_ID) == 0:
-            raise InvalidUniqueIDError("Asked for a torrent that doesn't exist")
+            raise InvalidUniqueIDError(_("Asked for a torrent that doesn't exist"))
          
         ret = self.get_core_torrent_state(unique_ID, True).copy()
 
@@ -524,7 +524,7 @@ class Manager:
             pass
         else:
             while event is not None:
-    #            print "EVENT: ", event
+                print "EVENT: ", event
 
                 ret.append(event)
                 try:
@@ -539,16 +539,17 @@ class Manager:
                 if event['event_type'] in self.event_callbacks:
                     for plugin_instance in self.event_callbacks[event['event_type']]:
                         plugin_instance.handle_event(event)
+                if event['event_type'] is self.constants['EVENT_STORAGE_MOVED']:
+                    if event['message'] == "move_failed":
+                        raise StorageMoveFailed(_("You cannot move torrent to a different partition.  Please fix your preferences"))
+                    if event['message'] == "move_success":
+                        self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
+
 
                 if event['event_type'] is self.constants['EVENT_FINISHED']:
                     # Queue seeding torrent to bottom if needed
                     if(self.get_pref('enable_move_completed')):
-                        try:
-                            deluge_core.move_storage(event['unique_ID'], self.get_pref('default_finished_path'))
-                        except SystemError:
-                            raise SystemError("You cannot move torrent to a different partition.  Please fix your preferences")
-                        else:
-                            self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
+                        deluge_core.move_storage(event['unique_ID'], self.get_pref('default_finished_path'))
                     if self.get_pref('queue_seeds_to_bottom'):
                         self.queue_bottom(event['unique_ID'])
                     # If we are autoseeding, then we need to apply the queue
