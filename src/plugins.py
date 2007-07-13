@@ -98,9 +98,9 @@ class PluginManager:
             plugin = self.enabled_plugins[name]
             if 'update' in dir(plugin):
                 plugin.update()
-            
-            if 'notify' in dir(plugin):
-                plugin.notify(events)
+            print events
+            if 'handle_events' in dir(plugin):
+                plugin.handle_events(events)
 
     def shutdown_all_plugins(self):
         for name in self.enabled_plugins.keys():
