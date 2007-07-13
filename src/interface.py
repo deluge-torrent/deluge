@@ -86,8 +86,11 @@ class DelugeGTK:
         self.window.connect("configure-event", self.window_configure_event)
         self.window.set_title(common.PROGRAM_NAME)
         self.window.set_icon_from_file(common.get_pixmap("deluge32.png"))
-        self.wtree.get_widget("torrent_info").\
-            connect("switch-page", self.notebook_switch_page)
+        
+        # self.notebook is used by plugins
+        self.notebook = self.wtree.get_widget("torrent_info")
+        self.notebook.connect("switch-page", self.notebook_switch_page)
+        
         self.statusbar = self.wtree.get_widget("statusbar")
         
         ## Construct the Interface
