@@ -175,6 +175,7 @@ class PluginDlg:
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
         self.view = self.glade.get_widget("plugin_view")
         self.store = gtk.ListStore(str, bool)
+        self.store.set_sort_column_id(0, gtk.SORT_ASCENDING)
         self.view.set_model(self.store)
         try:
             self.view.get_selection().set_select_function(self.plugin_clicked, full=True)
