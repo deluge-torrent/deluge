@@ -98,7 +98,7 @@ class PluginManager:
             plugin = self.enabled_plugins[name]
             if 'update' in dir(plugin):
                 plugin.update()
-            print events
+            
             if 'handle_events' in dir(plugin):
                 plugin.handle_events(events)
 
