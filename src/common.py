@@ -38,7 +38,7 @@ import xdg.BaseDirectory
 import gettext
 
 PROGRAM_NAME = "Deluge"
-PROGRAM_VERSION = "0.5.2.7"
+PROGRAM_VERSION = "0.5.2.90"
 
 CLIENT_CODE = "DE"
 CLIENT_VERSION = "".join(PROGRAM_VERSION.split('.'))+"0"*(4 - len(PROGRAM_VERSION.split('.')))

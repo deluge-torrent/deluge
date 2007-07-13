@@ -26,14 +26,14 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-NAME		= "deluge"
-FULLNAME	= "Deluge BitTorrent Client"
-VERSION		= "0.5.2.7"
-AUTHOR		= "Zach Tibbitts, Alon Zakai, Marcos Pinto, Andrew Resch"
-EMAIL		= "zach@collegegeek.org, kripkensteiner@gmail.com, marcospinto@dipconsultants.com, alonzakai@gmail.com"
+NAME = "deluge"
+FULLNAME = "Deluge BitTorrent Client"
+VERSION	= "0.5.2.90"
+AUTHOR = "Zach Tibbitts, Alon Zakai, Marcos Pinto, Andrew Resch"
+EMAIL = "zach@collegegeek.org, kripkensteiner@gmail.com, marcospinto@dipconsultants.com, alonzakai@gmail.com"
 DESCRIPTION	= "A bittorrent client written in PyGTK"
-URL		= "http://deluge-torrent.org"
-LICENSE		= "GPLv2"
+URL = "http://deluge-torrent.org"
+LICENSE	= "GPLv2"
 
 import os, platform
 print "Attempting to detect your system information"
@@ -96,10 +96,12 @@ python_version = platform.python_version()[0:3]
 #	it has been removed to prevent confusion.
 
 if not OS == "win":
-	EXTRA_COMPILE_ARGS = ["-Wno-missing-braces", "-DHAVE_INCLUDE_LIBTORRENT_ASIO____ASIO_HPP=1", 
+	EXTRA_COMPILE_ARGS = ["-Wno-missing-braces", 
+	            "-DHAVE_INCLUDE_LIBTORRENT_ASIO____ASIO_HPP=1", 
 				"-DHAVE_INCLUDE_LIBTORRENT_ASIO_SSL_STREAM_HPP=1", 
 				"-DHAVE_INCLUDE_LIBTORRENT_ASIO_IP_TCP_HPP=1", 
-				"-DHAVE_PTHREAD=1", "-DTORRENT_USE_OPENSSL=1", "-DHAVE_SSL=1", "-DNDEBUG", "-O2"]
+				"-DHAVE_PTHREAD=1", "-DTORRENT_USE_OPENSSL=1", "-DHAVE_SSL=1", 
+				"-DNDEBUG", "-O2"]
 	if ARCH == "x64":
 		EXTRA_COMPILE_ARGS.append("-DAMD64")
 
@@ -297,4 +299,3 @@ setup(name=NAME, fullname=FULLNAME, version=VERSION,
 	ext_modules=[deluge_core],
 	cmdclass=cmdclass
 )
-

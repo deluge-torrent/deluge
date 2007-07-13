@@ -12,9 +12,8 @@ Homepage: http://deluge-torrent.org
 Installation Instructions:
 ==========================
 
-First, make sure you have the proper bulid
-dependencies installed.  On a normal Debian
-or Ubuntu system, those dependencies are:
+First, make sure you have the proper bulid dependencies installed.  On a normal 
+Debian or Ubuntu system, those dependencies are:
 
 g++
 python-all-dev
@@ -31,16 +30,13 @@ libboost-serialization-dev
 libssl-dev
 zlib1g-dev
 
-But the names of the packages may vary
-depending on your OS / distro.
+But the names of the packages may vary depending on your OS / distro.
 
-Once you have the needed libraries installed,
-build Deluge by running:
+Once you have the needed libraries installed, build Deluge by running:
 
 	python setup.py build
 
-You shouldn't get any errors.  Then run, as 
-root (or by using sudo): 
+You shouldn't get any errors.  Then run, as root (or by using sudo): 
 
 	python setup.py install
 
@@ -52,17 +48,12 @@ You can then run Deluge by executing:
 	
 Notes:
 
-1) On some distributions, boost libraries are 
- renamed to have "-mt" at the end (boost_thread_mt
- instead of boost_thread, for example), the "mt" 
- indicating "multithreaded". In some cases it 
- appears the distros lack symlinks to connect 
- things. The solution is to either add symlinks 
- from the short names to those with "-mt", or to 
- alter setup.py to look for the "-mt" versions.
+1) On some distributions, boost libraries are  renamed to have "-mt" at the end 
+(boost_thread_mt instead of boost_thread, for example), the "mt"  indicating 
+"multithreaded". In some cases it appears the distros lack symlinks to connect 
+things. The solution is to either add symlinks from the short names to those 
+with "-mt", or to alter setup.py to look for the "-mt" versions.
  
-2) After upgrading your Deluge installation, it 
- may fail to start.  If this happens to you, you
- need to remove your ~/.config/deluge directory
- to allow Deluge to rebuild it's configuration
- file.
+2) After upgrading your Deluge installation, it may fail to start.  If this 
+happens to you, you need to remove your ~/.config/deluge directory to allow 
+Deluge to rebuild it's configuration file.
