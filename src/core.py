@@ -542,7 +542,7 @@ class Manager:
                 if event['event_type'] is self.constants['EVENT_STORAGE_MOVED']:
                     if event['message'] == "move_failed":
                         raise StorageMoveFailed(_("You cannot move torrent to a different partition.  Please fix your preferences"))
-                    if event['message'] == "move_success":
+                    elif event['message'] == "move_success":
                         self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
 
 
