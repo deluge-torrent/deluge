@@ -621,10 +621,11 @@ class DelugeGTK:
                             "uncheck_selected": self.file_uncheck_selected,
                             })
         self.file_store = gtk.ListStore(bool, str, gobject.TYPE_UINT64, float)
+        self.file_store_sorted = gtk.TreeModelSort(self.file_store)
         # Stores file path -> gtk.TreeIter's iter mapping for quick look up 
         # in self.update_torrent_info_widget
         self.file_store_dict = {}
-        self.file_view.set_model(self.file_store)
+        self.file_view.set_model(self.file_store_sorted)
         self.file_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         self.file_view.get_selection().set_select_function(self.file_clicked)
         self.file_selected = []
@@ -647,38 +648,44 @@ class DelugeGTK:
     
     def file_check_selected(self, widget):
         self.file_view.get_selection().selected_foreach(self.file_toggle_selected, True)
+        self.file_toggled_update_filter()
     
     def file_uncheck_selected(self, widget):
         self.file_view.get_selection().selected_foreach(self.file_toggle_selected, False)
-        
+        self.file_toggled_update_filter()
+    
     def file_clicked(self, path):
         return not self.file_selected
-        
+    
     def file_view_clicked(self, widget, event):
         if event.button == 3:
             self.file_menu.popup(None, None, None, event.button, event.time)
             return True
         else:
-            self.file_selected = False            
+            self.file_selected = False
             return False
         
     def file_toggle_selected(self, treemodel, path, selected_iter, value):
-        self.file_store.set_value(selected_iter, 0, value)
+        child_iter = self.file_store_sorted.convert_iter_to_child_iter(None,
+                         selected_iter)
+        self.file_store_sorted.get_model().set_value(child_iter, 0, value)
     
     def file_toggled(self, renderer, path):
         self.file_selected = True
-        file_iter = self.file_store.get_iter_from_string(path)
+        file_iter = self.file_store_sorted.get_iter_from_string(path)
         value = not renderer.get_active()
         selection = self.file_view.get_selection()
         if selection.iter_is_selected(file_iter):
             selection.selected_foreach(self.file_toggle_selected, value)
         else:
-            self.file_store.set_value(file_iter, 0, value)
-        file_filter = []
-        itr = self.file_store.get_iter_first()
-        while itr is not None:
-            file_filter.append(not self.file_store.get_value(itr, 0))
-            itr = self.file_store.iter_next(itr)
+            child_iter = self.file_store_sorted.convert_iter_to_child_iter(
+                             None, file_iter)
+            self.file_store_sorted.get_model().set_value(child_iter, 0, value)
+        
+        self.file_toggled_update_filter()
+        
+    def file_toggled_update_filter(self):
+        file_filter = [not x[0] for x in self.file_store]
         self.manager.set_file_filter(self.get_selected_torrent(), file_filter)
         
     def show_about_dialog(self, arg=None):
