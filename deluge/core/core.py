@@ -81,7 +81,9 @@ class Core(dbus.service.Object):
     log.debug("Starting main loop..")
     self.loop = gobject.MainLoop()
     self.loop.run()
-        
+
+
+  # Exported Methods
   @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
                        in_signature="s", out_signature="")
   def add_torrent_file(self, _filename):
@@ -92,6 +94,8 @@ class Core(dbus.service.Object):
     self.session.add_torrent(torrent.torrent_info, 
                              self.config["download_location"], 
                              self.config["compact_allocation"])
+    # Emit the torrent_added signal
+    self.torrent_added()
 
   @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
                        in_signature="s", out_signature="")
@@ -110,4 +114,9 @@ class Core(dbus.service.Object):
     log.info("Shutting down core..")
     self.loop.quit()
     
-
+  # Signals
+  @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
+                       signature="")
+  def torrent_added(self):
+    """Emitted when a new torrent is added to the core"""
+    pass

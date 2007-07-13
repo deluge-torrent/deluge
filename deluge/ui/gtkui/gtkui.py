@@ -36,7 +36,6 @@ import logging
 import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
-import pkg_resources
 
 from mainwindow import MainWindow
 
@@ -48,12 +47,8 @@ class GtkUI:
     # Get the core proxy object from the args
     self.core = core
     
-    # Get the glade file for the main window
-    self.main_glade = gtk.glade.XML(
-          pkg_resources.resource_filename("deluge.ui.gtkui", "glade/main_window.glade"))
-    
     # Initialize the main window
-    self.main_window = MainWindow(self.main_glade)
+    self.main_window = MainWindow(self.core)
     
     # Show the main window
     self.main_window.show()

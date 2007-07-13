@@ -251,20 +251,20 @@
                   <widget class="GtkMenu" id="menu2">
                     <property name="visible">True</property>
                     <child>
-                      <widget class="GtkImageMenuItem" id="menuitem9">
+                      <widget class="GtkImageMenuItem" id="menuitem_preferences">
                         <property name="visible">True</property>
                         <property name="label">gtk-preferences</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="pref_clicked"/>
+                        <signal name="activate" handler="on_menuitem_preferences_activate"/>
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkImageMenuItem" id="plugins1">
+                      <widget class="GtkImageMenuItem" id="menuitem_plugins">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">Pl_ugins</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="plugins_clicked"/>
+                        <signal name="activate" handler="on_menuitem_plugins_activate"/>
                         <child internal-child="image">
                           <widget class="GtkImage" id="menu-item-image3">
                             <property name="visible">True</property>
@@ -294,105 +294,28 @@
                   <widget class="GtkMenu" id="menu1">
                     <property name="visible">True</property>
                     <child>
-                      <widget class="GtkCheckMenuItem" id="chk_toolbar">
+                      <widget class="GtkCheckMenuItem" id="menuitem_toolbar">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">_Toolbar</property>
                         <property name="use_underline">True</property>
                         <property name="active">True</property>
-                        <signal name="toggled" handler="toolbar_toggle"/>
+                        <signal name="toggled" handler="on_menuitem_toolbar_toggled"/>
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkCheckMenuItem" id="chk_infopane">
+                      <widget class="GtkCheckMenuItem" id="menuitem_infopane">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">_Details</property>
                         <property name="use_underline">True</property>
                         <property name="active">True</property>
-                        <signal name="toggled" handler="infopane_toggle"/>
+                        <signal name="toggled" handler="on_menuitem_infopane_toggled"/>
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkMenuItem" id="menu_column">
+                      <widget class="GtkMenuItem" id="menu_columns">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">Columns</property>
                         <property name="use_underline">True</property>
-                        <child>
-                          <widget class="GtkMenu" id="menu3">
-                            <property name="visible">True</property>
-                            <child>
-                              <widget class="GtkCheckMenuItem" id="chk_size">
-                                <property name="visible">True</property>
-                                <property name="label" translatable="yes">Size</property>
-                                <property name="use_underline">True</property>
-                                <property name="active">True</property>
-                                <signal name="toggled" handler="size_toggle"/>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkCheckMenuItem" id="chk_status">
-                                <property name="visible">True</property>
-                                <property name="label" translatable="yes">Status</property>
-                                <property name="use_underline">True</property>
-                                <property name="active">True</property>
-                                <signal name="toggled" handler="status_toggle"/>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkCheckMenuItem" id="chk_seed">
-                                <property name="visible">True</property>
-                                <property name="label" translatable="yes">Seeders</property>
-                                <property name="use_underline">True</property>
-                                <property name="active">True</property>
-                                <signal name="toggled" handler="seeders_toggle"/>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkCheckMenuItem" id="chk_peer">
-                                <property name="visible">True</property>
-                                <property name="label" translatable="yes">Peers</property>
-                                <property name="use_underline">True</property>
-                                <property name="active">True</property>
-                                <signal name="toggled" handler="peers_toggle"/>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkCheckMenuItem" id="chk_download">
-                                <property name="visible">True</property>
-                                <property name="label" translatable="yes">Download</property>
-                                <property name="use_underline">True</property>
-                                <property name="active">True</property>
-                                <signal name="toggled" handler="dl_toggle"/>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkCheckMenuItem" id="chk_upload">
-                                <property name="visible">True</property>
-                                <property name="label" translatable="yes">Upload</property>
-                                <property name="use_underline">True</property>
-                                <property name="active">True</property>
-                                <signal name="toggled" handler="ul_toggle"/>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkCheckMenuItem" id="chk_eta">
-                                <property name="visible">True</property>
-                                <property name="label" translatable="yes">Time Remaining</property>
-                                <property name="use_underline">True</property>
-                                <property name="active">True</property>
-                                <signal name="toggled" handler="eta_toggle"/>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkCheckMenuItem" id="chk_ratio">
-                                <property name="visible">True</property>
-                                <property name="label" translatable="yes">Share Ratio</property>
-                                <property name="use_underline">True</property>
-                                <property name="active">True</property>
-                                <signal name="toggled" handler="share_toggle"/>
-                              </widget>
-                            </child>
-                          </widget>
-                        </child>
                       </widget>
                     </child>
                   </widget>
@@ -407,12 +330,12 @@
                 <child>
                   <widget class="GtkMenu" id="menuitem2_menu">
                     <child>
-                      <widget class="GtkImageMenuItem" id="menuitem4">
+                      <widget class="GtkImageMenuItem" id="menuitem_about">
                         <property name="visible">True</property>
                         <property name="label">gtk-about</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="show_about_dialog"/>
+                        <signal name="activate" handler="on_menuitem_about_activate"/>
                       </widget>
                     </child>
                   </widget>
