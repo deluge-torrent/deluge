@@ -86,8 +86,8 @@ class DelugeGTK:
         self.window.connect("configure-event", self.window_configure_event)
         self.window.set_title(common.PROGRAM_NAME)
         self.window.set_icon_from_file(common.get_pixmap("deluge32.png"))
-        self.notebook = self.wtree.get_widget("torrent_info")
-        self.notebook.connect("change-current-page", self.notebook_change_page_event)
+        self.wtree.get_widget("torrent_info").\
+            connect("switch-page", self.notebook_switch_page)
         self.statusbar = self.wtree.get_widget("statusbar")
         
         ## Construct the Interface
@@ -165,9 +165,9 @@ class DelugeGTK:
                     "queue_down": self.q_torrent_down
                     })
     
-    def notebook_change_page_event(self, widget):
+    def notebook_switch_page(self, notebook, page, page_num):
         # Force an update when user changes the notebook tab
-        self.update()
+        self.update_torrent_info_widget(None, page_num)
     
     def build_tray_icon(self):
         self.tray_icon = gtk.status_icon_new_from_file(common.get_pixmap("deluge32.png"))
@@ -260,7 +260,7 @@ class DelugeGTK:
         menuitem.connect("activate", callback)
         menu.append(menuitem)
                     
-        return menu    
+        return menu
     
     def tray_setbwdown(self, widget, data=None):
         str_bwdown     = widget.get_children()[0].get_text().rstrip(" "+_("KiB/s"))
@@ -306,7 +306,7 @@ class DelugeGTK:
         self.config.set("max_upload_speed", float(str_bwup))
         self.apply_prefs()
 
-    def unlock_tray(self,comingnext):    
+    def unlock_tray(self,comingnext):
         entered_pass = gtk.Entry(25)
         entered_pass.set_activates_default(True)
         entered_pass.set_width_chars(25)
@@ -980,11 +980,18 @@ class DelugeGTK:
         
         self.tray_icon.set_tooltip(msg)
         
-    def update_torrent_info_widget(self, unique_id):
-        tab = self.wtree.get_widget("torrent_info").get_current_page()
-        state = self.manager.get_torrent_state(unique_id)
+    def update_torrent_info_widget(self, unique_id=None, page_num=None):
+        # Usually we don't need to pass unique_id, but there are a special
+        # cases like with self.torrent_clicked() and because of them we have
+        # unique_id param
+        if unique_id is None:
+            unique_id = self.get_selected_torrent()
+        # page_num is to force update info when user just changes tab
+        if page_num is None:
+            page_num = self.wtree.get_widget("torrent_info").get_current_page()
         
-        if tab == 0: #Details Pane
+        if page_num == 0: # Details
+            state = self.manager.get_torrent_state(unique_id)
             self.wtree.get_widget("summary_name").set_text(state['name'])
             self.text_summary_total_size.set_text(common.fsize(state["total_size"]))
             self.text_summary_pieces.set_text(str(state["num_pieces"]))
@@ -1001,7 +1008,7 @@ class DelugeGTK:
             self.text_summary_tracker_status.set_text(str(state["tracker_ok"]))
             self.text_summary_next_announce.set_text(str(state["next_announce"]))
             self.text_summary_eta.set_text(common.estimate_eta(state))
-        elif tab == 1: #Peers List
+        elif page_num == 1: # Peers
             new_peer_info = self.manager.get_torrent_peer_info(unique_id)
             new_ips = set()
             
@@ -1037,9 +1044,9 @@ class DelugeGTK:
             for ip in set(self.peer_store_dict.keys()).difference(new_ips):
                 self.peer_store.remove(self.peer_store_dict[ip])
                 del self.peer_store_dict[ip]
-        elif tab == 2: #file tab
+        elif page_num == 2: # Files
             # Fill self.file_store with files only once and only when we click to
-            # file tab or it's already open
+            # Files tab or it's already open
             if not self.file_store_dict:
                 all_files = self.manager.get_torrent_file_info(unique_id)
                 file_filter = self.manager.get_file_filter(unique_id)
