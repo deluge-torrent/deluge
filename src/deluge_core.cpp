@@ -72,12 +72,14 @@ using namespace libtorrent;
 #define EVENT_FINISHED              1
 #define EVENT_PEER_ERROR            2
 #define EVENT_INVALID_REQUEST       3
-#define EVENT_FILE_ERROR        4
+#define EVENT_FILE_ERROR            4
 #define EVENT_HASH_FAILED_ERROR     5
 #define EVENT_PEER_BAN_ERROR        6
 #define EVENT_FASTRESUME_REJECTED_ERROR 8
-#define EVENT_TRACKER           9
-#define EVENT_OTHER         10
+#define EVENT_TRACKER               9
+#define EVENT_OTHER                10
+#define EVENT_STORAGE_MOVED        11
+
 
 #define STATE_QUEUED                0
 #define STATE_CHECKING              1
@@ -344,7 +346,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
     M_ses->add_extension(&libtorrent::create_metadata_plugin);
 
-    M_constants = Py_BuildValue("{s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i}",
+    M_constants = Py_BuildValue("{s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i}",
         "EVENT_NULL",               EVENT_NULL,
         "EVENT_FINISHED",           EVENT_FINISHED,
         "EVENT_PEER_ERROR",         EVENT_PEER_ERROR,
@@ -355,6 +357,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
         "EVENT_FASTRESUME_REJECTED_ERROR",  EVENT_FASTRESUME_REJECTED_ERROR,
         "EVENT_TRACKER",            EVENT_TRACKER,
         "EVENT_OTHER",              EVENT_OTHER,
+        "EVENT_STORAGE_MOVED",            EVENT_STORAGE_MOVED,
         "STATE_QUEUED",             STATE_QUEUED,
         "STATE_CHECKING",           STATE_CHECKING,
         "STATE_CONNECTING",         STATE_CONNECTING,
@@ -548,9 +551,9 @@ static PyObject *torrent_move_storage(PyObject *self, PyObject *args)
         return NULL;
 
     boost::filesystem::path move_dir_2 (move_dir, empty_name_check);
-    M_torrents->at(index).handle.move_storage(move_dir_2);
-       if(M_torrents->at(index).handle.save_path()!=move_dir_2)
-           RAISE_PTR(SystemError, "You cannot move torrent to a different partition.  Please fix your preferences");
+    if (M_torrents->at(index).handle.is_valid())
+        M_torrents->at(index).handle.move_storage(move_dir_2);
+    Py_INCREF(Py_None); return Py_None;
 }
 
 static PyObject *torrent_remove_torrent(PyObject *self, PyObject *args)
@@ -820,6 +823,20 @@ static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
                 "unique_ID",
                 M_torrents->at(index).unique_ID,
                 "tracker_status",   "Bad response (status code=?)",
+                "message",          a->msg().c_str());
+        else
+            { Py_INCREF(Py_None); return Py_None; }
+    } else if (dynamic_cast<storage_moved_alert*>(popped_alert))
+    {
+        torrent_handle handle = (dynamic_cast<storage_moved_alert*>(popped_alert))->handle;
+        long index = get_torrent_index(handle);
+        if (PyErr_Occurred())
+            return NULL;
+
+        if (handle_exists(handle))
+            return Py_BuildValue("{s:i,s:i,s:s}",
+                "event_type",       EVENT_STORAGE_MOVED,
+                "unique_ID",        M_torrents->at(index).unique_ID,
                 "message",          a->msg().c_str());
         else
             { Py_INCREF(Py_None); return Py_None; }
