@@ -31,6 +31,7 @@
 import sys
 import os
 import os.path
+import threading
 import webbrowser
 import xdg
 import xdg.BaseDirectory
@@ -118,10 +119,13 @@ def get_pixmap(fname):
     return os.path.join(PIXMAP_DIR, fname)
     
 def open_url_in_browser(dialog, link):
-    try:
-        webbrowser.open(link)
-    except webbrowser.Error:
-        print _("Error: no webbrowser found")
+    class LaunchBrowser(threading.Thread):
+        def run(self):
+            try:    
+                webbrowser.open(link)
+            except webbrowser.Error:
+                print _("Error: no webbrowser found")
+    LaunchBrowser().start()
         
 # Encryption States
 class EncState:
