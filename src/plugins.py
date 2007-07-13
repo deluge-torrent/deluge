@@ -93,14 +93,11 @@ class PluginManager:
     def configure_plugin(self, name):
         self.enabled_plugins[name].configure()
     
-    def update_active_plugins(self, events):
+    def update_active_plugins(self):
         for name in self.enabled_plugins.keys():
             plugin = self.enabled_plugins[name]
             if 'update' in dir(plugin):
                 plugin.update()
-            
-            if 'handle_events' in dir(plugin):
-                plugin.handle_events(events)
 
     def shutdown_all_plugins(self):
         for name in self.enabled_plugins.keys():

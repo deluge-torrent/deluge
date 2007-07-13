@@ -848,7 +848,7 @@ class DelugeGTK:
         
         # Handle the events
         try:
-            events = self.manager.handle_events()
+            self.manager.handle_events()
         except core.SystemError, e:
             print "SystemError", e
             dialogs.show_popup_warning(self.window, _("You cannot move torrent to a different partition.  Please fix your preferences"))
@@ -863,7 +863,7 @@ class DelugeGTK:
         self.update_statusbar_and_tray()
 
         #Update any active plugins
-        self.plugins.update_active_plugins(events)
+        self.plugins.update_active_plugins()
         
         # Put the generated message into the statusbar
         # This gives plugins a chance to write to the 

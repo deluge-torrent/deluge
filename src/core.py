@@ -226,6 +226,9 @@ class Manager:
         # Apply preferences. Note that this is before any torrents are added
         self.apply_prefs()
 
+        # Event callbacks for use with plugins
+        self.event_callbacks = {}
+
         PREF_FUNCTIONS["enable_dht"] = self.set_DHT 
 
         # Unpickle the state, or create a new one
@@ -247,8 +250,6 @@ class Manager:
                 self.state = persistent_state()
         else:
             self.state = persistent_state()
-
-
 
     def quit(self):
         # Analyze data needed for pickling, etc.
@@ -500,6 +501,11 @@ class Manager:
 
     # Event handling
 
+    def connect_event(self, event_type, plugin_instance):
+        if event_type not in self.event_callbacks:
+            self.event_callbacks[event_type] = []
+        self.event_callbacks[event_type].append(plugin_instance)
+
     def handle_events(self):
         # Handle them for the backend's purposes, but still send them up in case the client
         # wants to do something - show messages, for example
@@ -528,7 +534,12 @@ class Manager:
                 except KeyError:
                     event = pop_event()
                     continue
-                    
+
+                # Call event callbacks
+                if event['event_type'] in self.event_callbacks:
+                    for plugin_instance in self.event_callbacks[event['event_type']]:
+                        plugin_instance.handle_event(event)
+
                 if event['event_type'] is self.constants['EVENT_FINISHED']:
                     # Queue seeding torrent to bottom if needed
                     if(self.get_pref('enable_move_completed')):
