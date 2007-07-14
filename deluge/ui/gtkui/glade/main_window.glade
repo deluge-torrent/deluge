@@ -23,7 +23,7 @@
                 <property name="label" translatable="yes">Add Torrent</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-add</property>
-                <signal name="clicked" handler="add_torrent"/>
+                <signal name="clicked" handler="on_toolbutton_add_clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -37,20 +37,20 @@
                 <property name="label" translatable="yes">Remove Torrent</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-remove</property>
-                <signal name="clicked" handler="remove_torrent"/>
+                <signal name="clicked" handler="on_toolbutton_remove_clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkToolButton" id="toolbutton3">
+              <widget class="GtkToolButton" id="toolbutton_clear">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Clear Finished Torrents</property>
                 <property name="label" translatable="yes">Clear Finished</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-clear</property>
-                <signal name="clicked" handler="clear_finished"/>
+                <signal name="clicked" handler="on_toolbutton_clear_clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -73,35 +73,35 @@
                 <property name="label" translatable="yes">Start</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-media-play</property>
-                <signal name="clicked" handler="start_pause"/>
+                <signal name="clicked" handler="on_toolbutton_pause_clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkToolButton" id="toolbutton_up">
+              <widget class="GtkToolButton" id="toolbutton_queueup">
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Queue Torrent Up</property>
                 <property name="label" translatable="yes">Move Up</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-go-up</property>
-                <signal name="clicked" handler="queue_up"/>
+                <signal name="clicked" handler="on_toolbutton_queueup_clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkToolButton" id="toolbutton_down">
+              <widget class="GtkToolButton" id="toolbutton_queuedown">
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Queue Torrent Down</property>
                 <property name="label" translatable="yes">Move Down</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-go-down</property>
-                <signal name="clicked" handler="queue_down"/>
+                <signal name="clicked" handler="on_toolbutton_queuedown_clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -117,26 +117,26 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkToolButton" id="toolbutton1">
+              <widget class="GtkToolButton" id="toolbutton_preferences">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Preferences</property>
                 <property name="label" translatable="yes">Preferences</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-preferences</property>
-                <signal name="clicked" handler="pref_clicked"/>
+                <signal name="clicked" handler="on_toolbutton_preferences_clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkToolButton" id="toolbutton2">
+              <widget class="GtkToolButton" id="toolbutton_plugins">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Plugins</property>
                 <property name="label" translatable="yes">Plugins</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-disconnect</property>
-                <signal name="clicked" handler="plugins_clicked"/>
+                <signal name="clicked" handler="on_toolbutton_plugins_clicked"/>
               </widget>
               <packing>
                 <property name="expand">False</property>

@@ -84,10 +84,7 @@ libtorrent = Extension(
 )
 
 # Main setup
- 
-_datafiles = [
-]
-         
+  
 setup(
     name = "deluge",
     fullname = "Deluge Bittorent Client",
@@ -102,7 +99,9 @@ setup(
     
     include_package_data = True,
     package_data = {"deluge": ["ui/gtkui/glade/*.glade", 
-                                "data/pixmaps/*.png"]},
+                                "data/pixmaps/*.png",
+                                "ui/gtkui/po/*.po?"
+                                ]},
     ext_package = "deluge",
     ext_modules = [libtorrent],
     packages = find_packages(),

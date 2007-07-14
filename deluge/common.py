@@ -32,9 +32,11 @@
 #    statement from all source files in the program, then also delete it here.
 
 import logging
+import os
+
 import pkg_resources
 import xdg, xdg.BaseDirectory
-import os
+import gettext
 
 # Get the logger
 log = logging.getLogger("deluge")
@@ -56,3 +58,74 @@ def get_config_dir(filename=None):
 def get_default_download_dir():
     """Returns the default download directory"""
     return os.environ.get("HOME")
+
+## Formatting text functions
+
+def estimate_eta(total_size, total_done, download_rate):
+    """Returns a string with the estimated ETA and will return 'Unlimited'
+       if the torrent is complete
+    """
+    try:
+        return ftime(get_eta(total_size, total_done, download_rate))
+    except ZeroDivisionError:
+        return _("Infinity")
+    
+def get_eta(size, done, speed):
+    """Returns the ETA in seconds
+       Will raise an exception if the torrent is completed
+    """
+    if (size - done) == 0:
+        raise ZeroDivisionError
+    return (size - done) / speed
+
+def fsize(fsize_b):
+    """Returns formatted string describing filesize
+       fsize_b should be in bytes
+       Returned value will be in either KB, MB, or GB
+    """    
+    fsize_kb = float (fsize_b / 1024.0)
+    if fsize_kb < 1000:
+        return _("%.1f KiB")%fsize_kb
+    fsize_mb = float (fsize_kb / 1024.0)
+    if fsize_mb < 1000:
+        return _("%.1f MiB")%fsize_mb
+    fsize_gb = float (fsize_mb / 1024.0)
+    return _("%.1f GiB")%fsize_gb
+
+def fpcnt(dec):
+    """Returns a formatted string representing a percentage"""
+    return '%.2f%%'%(dec * 100)
+
+def fspeed(bps):
+    """Returns a formatted string representing transfer speed"""
+    return '%s/s'%(fsize(bps))
+
+def fseed(num_seeds, total_seeds):
+    """Returns a formatted string num_seeds (total_seeds)"""
+    return str(str(num_seeds) + " (" + str(total_seeds) + ")")
+    
+def fpeer(num_peers, total_peers):
+    """Returns a formatted string num_peers (total_peers)"""
+    return str(str(num_peers) + " (" + str(total_peers) + ")")
+    
+def ftime(seconds):
+    """Returns a formatted time string"""
+    if seconds < 60:
+        return '%ds'%(seconds)
+    minutes = int(seconds/60)
+    seconds = seconds % 60
+    if minutes < 60:
+        return '%dm %ds'%(minutes, seconds)
+    hours = int(minutes/60)
+    minutes = minutes % 60
+    if hours < 24:
+        return '%dh %dm'%(hours, minutes)
+    days = int(hours/24)
+    hours = hours % 24
+    if days < 7:
+        return '%dd %dh'%(days, hours)
+    weeks = int(days/7)
+    days = days % 7
+    if weeks < 10:
+        return '%dw %dd'%(weeks, days)
+    return 'unknown'

@@ -36,6 +36,8 @@ import logging
 import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
+import gettext
+import pkg_resources
 
 from mainwindow import MainWindow
 
@@ -46,6 +48,17 @@ class GtkUI:
     def __init__(self, core):
         # Get the core proxy object from the args
         self.core = core
+
+        # Initialize gettext
+        gettext.bindtextdomain("deluge",
+                    pkg_resources.resource_filename(
+                                            "deluge.ui.gtkui",
+                                            "po"))
+        gettext.textdomain("deluge")
+        gettext.install("deluge",
+                    pkg_resources.resource_filename(
+                                            "deluge.ui.gtkui",
+                                            "po"))
         
         # Initialize the main window
         self.main_window = MainWindow(self.core)

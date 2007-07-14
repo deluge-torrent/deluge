@@ -1,5 +1,5 @@
 #
-# gtkui_mainwindow.py
+# mainwindow.py
 #
 # Copyright (C) Andrew Resch    2007 <andrewresch@gmail.com> 
 # 
@@ -38,6 +38,10 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import pkg_resources
 
+from menubar import MenuBar
+from toolbar import ToolBar
+from torrentview import TorrentView
+
 # Get the logger
 log = logging.getLogger("deluge")
 
@@ -53,7 +57,9 @@ class MainWindow:
         self.window = self.main_glade.get_widget("main_window")
         
         # Initialize various components of the gtkui
-        self.menubar = MainWindowMenuBar(self)
+        self.menubar = MenuBar(self)
+        self.toolbar = ToolBar(self)
+        self.torrentview = TorrentView(self)
     
     def show(self):
         self.window.show_all()
@@ -64,107 +70,3 @@ class MainWindow:
     def quit(self):
         self.hide()
         gtk.main_quit()
-        
-class MainWindowMenuBar:
-    def __init__(self, mainwindow):
-        log.debug("MainWindowMenuBar init..")
-        self.mainwindow = mainwindow
-        self.torrentmenu = gtk.glade.XML(
-                    pkg_resources.resource_filename("deluge.ui.gtkui", 
-                                                "glade/torrent_menu.glade"))
-
-        # Attach the torrent_menu to the Torrent file menu
-        self.mainwindow.main_glade.get_widget("menu_torrent").set_submenu(
-                                self.torrentmenu.get_widget("torrent_menu"))
-
-        ### Connect Signals ###
-        self.mainwindow.main_glade.signal_autoconnect({
-            ## File Menu
-            "on_menuitem_addtorrent_activate": \
-                                        self.on_menuitem_addtorrent_activate,
-            "on_menuitem_addurl_activate": self.on_menuitem_addurl_activate,
-            "on_menuitem_clear_activate": \
-                                            self.on_menuitem_clear_activate,
-            "on_menuitem_quit_activate": self.on_menuitem_quit_activate,
-
-            ## Edit Menu
-            "on_menuitem_preferences_activate": \
-                                        self.on_menuitem_preferences_activate,
-            "on_menuitem_plugins_activate": self.on_menuitem_plugins_activate,
-            
-            ## View Menu
-            "on_menuitem_toolbar_toggled": self.on_menuitem_toolbar_toggled,
-            "on_menuitem_infopane_toggled": self.on_menuitem_infopane_toggled,
-            
-            ## Help Menu
-            "on_menuitem_about_activate": self.on_menuitem_about_activate
-        })
-        
-        self.torrentmenu.signal_autoconnect({
-            ## Torrent Menu
-            "on_menuitem_pause_activate": self.on_menuitem_pause_activate,
-            "on_menuitem_updatetracker_activate": \
-                                    self.on_menuitem_updatetracker_activate,
-            "on_menuitem_edittrackers_activate": \
-                                    self.on_menuitem_edittrackers_activate,
-            "on_menuitem_remove_activate": self.on_menuitem_remove_activate,
-            "on_menuitem_queuetop_activate": \
-                                            self.on_menuitem_queuetop_activate,
-            "on_menuitem_queueup_activate": self.on_menuitem_queueup_activate,
-            "on_menuitem_queuedown_activate": \
-                                        self.on_menuitem_queuedown_activate,
-            "on_menuitem_queuebottom_activate": \
-                                        self.on_menuitem_queuebottom_activate
-        })
-        
-    ### Callbacks ###
-    
-    ## File Menu ##
-    def on_menuitem_addtorrent_activate(self, data=None):
-        log.debug("on_menuitem_addtorrent_activate")
-    def on_menuitem_addurl_activate(self, data=None):
-        log.debug("on_menuitem_addurl_activate")
-    def on_menuitem_clear_activate(self, data=None):
-        log.debug("on_menuitem_clear_activate")
-    def on_menuitem_quit_activate(self, data=None):
-        log.debug("on_menuitem_quit_activate")
-        self.mainwindow.quit()
-    
-    ## Edit Menu ##
-    def on_menuitem_preferences_activate(self, data=None):
-        log.debug("on_menuitem_preferences_activate")
-    def on_menuitem_plugins_activate(self, data=None):
-        log.debug("on_menuitem_plugins_activate")
-
-    ## Torrent Menu ##
-    def on_menuitem_pause_activate(self, data=None):
-        log.debug("on_menuitem_pause_activate")
-    def on_menuitem_updatetracker_activate(self, data=None):
-        log.debug("on_menuitem_updatetracker_activate")
-    def on_menuitem_edittrackers_activate(self, data=None):
-        log.debug("on_menuitem_edittrackers_activate")
-    def on_menuitem_remove_activate(self, data=None):
-        log.debug("on_menuitem_remove_activate")
-    def on_menuitem_queuetop_activate(self, data=None):
-        log.debug("on_menuitem_queuetop_activate")
-    def on_menuitem_queueup_activate(self, data=None):
-        log.debug("on_menuitem_queueup_activate")
-    def on_menuitem_queuedown_activate(self, data=None):
-        log.debug("on_menuitem_queuedown_activate")
-    def on_menuitem_queuebottom_activate(self, data=None):
-        log.debug("on_menuitem_queuebottom_activate")
-        
-    ## View Menu ##
-    def on_menuitem_toolbar_toggled(self, data=None):
-        log.debug("on_menuitem_toolbar_toggled")
-    def on_menuitem_infopane_toggled(self, data=None):
-        log.debug("on_menuitem_infopane_toggled")
-    
-    ## Help Menu ##
-    def on_menuitem_about_activate(self, data=None):
-        log.debug("on_menuitem_about_activate")
-
-class MainWindowToolBar:
-    def __init__(self, mainwindow):
-        self.mainwindow = mainwindow
-        
