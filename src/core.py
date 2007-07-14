@@ -523,6 +523,13 @@ class Manager:
             if event is None:
                 break
 
+            # EVENT_FINISHED fires after integrity checks as well, so ensure 
+            # we actually downloaded torrent now by making sure at least some 
+            # bytes have been downloaded for it in this session
+            if event['event_type'] is self.constants['EVENT_FINISHED'] and \
+               self.get_core_torrent_state(event['unique_ID'])['total_payload_download'] == 0:
+                continue
+
             print "EVENT: ", event
 
             ret.append(event)
@@ -530,7 +537,7 @@ class Manager:
             if 'unique_ID' in event and \
                event['unique_ID'] not in self.unique_IDs:
                 continue
-
+            
             # Call plugins events callbacks
             if event['event_type'] in self.event_callbacks:
                 for plugin_instance in self.event_callbacks[event['event_type']]:
