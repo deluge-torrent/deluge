@@ -534,7 +534,7 @@ class Manager:
                self.get_core_torrent_state(event['unique_ID'])['total_payload_download'] == 0:
                 continue
 
-            print "EVENT: ", event
+#            print "EVENT: ", event
 
             ret.append(event)
 
