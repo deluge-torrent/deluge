@@ -790,7 +790,7 @@ class DelugeGTK:
         
         queue = int(state['queue_pos']) + 1
         name = state['name']
-        size = long(state['total_size'])
+        size = long(state['total_wanted'])
         progress = float(state['progress'] * 100)
         message = self.get_message_from_state(state)
         seeds = int(state['num_seeds'])
@@ -800,7 +800,7 @@ class DelugeGTK:
         dl_speed = int(state['download_rate'])
         ul_speed = int(state['upload_rate'])
         try:
-            eta = common.get_eta(state["total_size"], state["total_done"], state["download_rate"])
+            eta = common.get_eta(state["total_wanted"], state["total_wanted_done"], state["download_rate"])
         except ZeroDivisionError:
             eta = 0
         share = float(self.calc_share_ratio(unique_id, state))
