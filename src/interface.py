@@ -373,7 +373,6 @@ class DelugeGTK:
 
         return True
 
-
     def tray_clicked(self, status_icon):
         if self.window.get_property("visible"):
             if self.window.is_active():
@@ -412,11 +411,14 @@ class DelugeGTK:
                                                 "queue_top": self.q_to_top,
                                                 })
         self.torrent_menu.connect("focus", self.torrent_menu_focus)
-        # UID, Q#, Status Icon, Name, Size, Progress, Message, Seeders, Peers,
+        # unique_ID, Q#, Status Icon, Name, Size, Progress, Message, Seeders, Peers,
         #     DL, UL, ETA, Share
         self.torrent_model = gtk.ListStore(int, gobject.TYPE_UINT, 
             gtk.gdk.Pixbuf, str, gobject.TYPE_UINT64, float, str, int, int, 
             int, int, int, int, gobject.TYPE_UINT, float)
+        # Stores unique_ID -> gtk.TreeRowReference's mapping for quick look up
+        self.torrent_model_dict = {}
+
         self.torrent_view.set_model(self.torrent_model)
         self.torrent_view.set_rules_hint(True)
         self.torrent_view.set_reorderable(True)
@@ -481,6 +483,20 @@ class DelugeGTK:
             self.torrent_view.get_selection().set_select_function(self.old_t_click)
         self.torrent_view.connect("button-press-event", self.torrent_view_clicked)
         self.right_click = False
+
+    def torrent_model_append(self, unique_id):
+        iter = self.torrent_model.append(self.get_list_from_unique_id(unique_id))
+        path = self.torrent_model.get_string_from_iter(iter)
+        row_ref = gtk.TreeRowReference(self.torrent_model, path)
+
+        self.torrent_model_dict[unique_id] = row_ref
+
+    def torrent_model_remove(self, unique_id):
+        row_ref = self.torrent_model_dict[unique_id]
+        iter = self.torrent_model.get_iter(row_ref.get_path())
+        self.torrent_model.remove(iter)
+
+        del self.torrent_model_dict[unique_id]
 
     def old_t_click(self, path):
         return self.torrent_clicked(self.torrent_view.get_selection(), self.torrent_model, path, False)
@@ -802,7 +818,6 @@ class DelugeGTK:
 
         return rlist
     
-
     ## Start the timer that updates the interface
     def start(self, start_in_tray=False):
         if not(start_in_tray and self.config.get("enable_system_tray") and 
@@ -820,8 +835,8 @@ class DelugeGTK:
             except core.DelugeError:
                 print "duplicate torrent found, ignoring", torrent_file
         ## add torrents in manager to interface
-        for uid in self.manager.get_unique_IDs():
-            self.torrent_model.append(self.get_list_from_unique_id(uid))
+        for unique_id in self.manager.get_unique_IDs():
+            self.torrent_model_append(unique_id)
             
         # Load plugins after we showed main window (if not started in tray)
         self.load_plugins()
@@ -1120,9 +1135,6 @@ class DelugeGTK:
                 return
         try:
             unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage'))
-            
-            if append:
-                self.torrent_model.append(self.get_list_from_unique_id(unique_id))
         except core.InvalidEncodingError, e:
             print "InvalidEncodingError", e
             dialogs.show_popup_warning(self.window, _("An error occured while trying to add the torrent. It's possible your .torrent file is corrupted."))
@@ -1134,6 +1146,9 @@ class DelugeGTK:
             dialogs.show_popup_warning(self.window, _("There is not enough free disk space to complete your download.") + "\n" + \
                                                         _("Space Needed:") + " " + nice_need + "\n" + \
                                                         _("Available Space:") + " " + nice_free)
+        else:
+            if append:
+                self.torrent_model_append(unique_id)
             
     def launchpad(self, obj=None):
         common.open_url_in_browser('self', 'https://translations.launchpad.net/deluge/trunk/+pots/deluge')
@@ -1193,7 +1208,6 @@ class DelugeGTK:
             print "URL doesn't appear to be a valid torrent file:", url
             return None, None
             
-    
     def remove_torrent_clicked(self, obj=None):
         glade     = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"), domain='deluge')
         asker     = glade.get_widget("remove_torrent_dlg")
@@ -1212,16 +1226,12 @@ class DelugeGTK:
         if response == 1:
             self.clear_details_pane()
             
-            torrents = self.get_selected_torrent_rows()
-            paths = self.torrent_view.get_selection().get_selected_rows()[1]
-            row_references = [gtk.TreeRowReference(self.torrent_model, x)
-                                  for x in paths]
+            unique_ids = self.get_selected_torrent_rows()
             
-            for unique_id, row_ref in izip(torrents, row_references):
+            for unique_id in unique_ids:
                 self.manager.remove_torrent(unique_id, data_also.get_active(),
                                             torrent_also.get_active())
-                iter = self.torrent_model.get_iter(row_ref.get_path())
-                self.torrent_model.remove(iter)
+                self.torrent_model_remove(unique_id)
             
             self.update()
     
@@ -1259,7 +1269,16 @@ class DelugeGTK:
     
     def clear_finished(self, obj=None):
         print "Clearing Completed Torrents"
-        self.manager.clear_completed()
+        unique_ids_remove = self.manager.clear_completed()
+        for unique_id in unique_ids_remove:
+            self.torrent_model_remove(unique_id)
+
+        selected_unique_id = self.get_selected_torrent()
+        # If currently selected torrent was complete and so removed clear 
+        # details pane
+        if selected_unique_id in unique_ids_remove:
+            self.clear_details_pane()
+            
         self.update()
     
     def q_torrent_up(self, obj=None):

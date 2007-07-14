@@ -444,13 +444,18 @@ class Manager:
                 self.apply_queue()
 
     def clear_completed(self):
+        removed_unique_IDs = []
+
         for unique_ID in self.unique_IDs:
             torrent_state = self.get_core_torrent_state(unique_ID)
             if torrent_state['progress'] == 1.0:
                 self.remove_torrent_ns(unique_ID)
+                removed_unique_IDs.append(unique_ID)
 
         self.sync()
         self.apply_queue()
+
+        return removed_unique_IDs
 
     # Enforce the queue: pause/unpause as needed, based on queue and user_pausing
     # This should be called after changes to relevant parameters (user_pausing, or
