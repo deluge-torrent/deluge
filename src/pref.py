@@ -99,6 +99,7 @@ DEFAULT_PREFS = {
     "window_x_pos" : 0,
     "window_y_pos" : 0,
 }
+
 class Preferences:
     def __init__(self, filename=None, global_defaults=True, defaults=None):
         self.mapping = {}
@@ -177,4 +178,3 @@ class Preferences:
     def printout(self):
         for key in self.mapping.keys():
             print key, ':', self.mapping[key]
-        

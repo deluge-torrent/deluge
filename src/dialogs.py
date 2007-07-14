@@ -262,16 +262,16 @@ def show_about_dialog(parent=None):
 
 def show_popup_warning(window, message):
     warner = gtk.MessageDialog(parent = window,
-                    flags  = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+                    flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
                     buttons= gtk.BUTTONS_OK,
                     message_format=message,
-                    type   = gtk.MESSAGE_WARNING)
+                    type = gtk.MESSAGE_WARNING)
     warner.run()
     warner.destroy()
 
 def show_popup_question(window, message):
     asker = gtk.MessageDialog(parent = window, 
-                    flags  = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+                    flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
                     buttons = gtk.BUTTONS_YES_NO,
                     message_format=message,
                     type=gtk.MESSAGE_QUESTION)
@@ -331,5 +331,3 @@ def show_directory_chooser_dialog(parent=None, title=None):
         result = None
     chooser.destroy()
     return result
-
-

@@ -61,38 +61,37 @@ import pref
 
 TORRENTS_SUBDIR = "torrentfiles"
 
-STATE_FILENAME  = "persistent.state"
-PREFS_FILENAME  = "prefs.state"
-DHT_FILENAME    = "dht.state"
+STATE_FILENAME = "persistent.state"
+PREFS_FILENAME = "prefs.state"
+DHT_FILENAME = "dht.state"
 
 CACHED_DATA_EXPIRATION = 1 # seconds, like the output of time.time()
 
 PREF_FUNCTIONS = {
-    "max_uploads"         : deluge_core.set_max_uploads,
-    "listen_on"           : deluge_core.set_listen_on,
-    "max_connections"     : deluge_core.set_max_connections,
+    "max_uploads" : deluge_core.set_max_uploads,
+    "listen_on" : deluge_core.set_listen_on,
+    "max_connections" : deluge_core.set_max_connections,
     "max_active_torrents" : None, # no need for a function, applied constantly
-    "auto_seed_ratio"     : None, # no need for a function, applied constantly
-    "max_download_speed_bps"   : deluge_core.set_download_rate_limit,
-    "max_upload_speed_bps"     : deluge_core.set_upload_rate_limit,
-    "enable_dht"          : None, # not a normal pref in that is is applied only on start 
-    "use_upnp"        : deluge_core.use_upnp,
-    "use_natpmp"        : deluge_core.use_natpmp,
-    "use_utpex"        : deluge_core.use_utpex,
+    "auto_seed_ratio" : None, # no need for a function, applied constantly
+    "max_download_speed_bps" : deluge_core.set_download_rate_limit,
+    "max_upload_speed_bps" : deluge_core.set_upload_rate_limit,
+    "enable_dht" : None, # not a normal pref in that is is applied only on start 
+    "use_upnp" : deluge_core.use_upnp,
+    "use_natpmp" : deluge_core.use_natpmp,
+    "use_utpex" : deluge_core.use_utpex,
 }
 
 def N_(self):
         return self
 
-STATE_MESSAGES = (    N_("Queued"),
-                    N_("Checking"),
-                    N_("Connecting"),
-                    N_("Downloading Metadata"),
-                    N_("Downloading"),
-                    N_("Finished"),
-                    N_("Seeding"),
-                    N_("Allocating")
-                     )
+STATE_MESSAGES = (N_("Queued"),
+                  N_("Checking"),
+                  N_("Connecting"),
+                  N_("Downloading Metadata"),
+                  N_("Downloading"),
+                  N_("Finished"),
+                  N_("Seeding"),
+                  N_("Allocating"))
 # Exceptions
 
 class DelugeError(Exception):
@@ -133,7 +132,7 @@ class InsufficientFreeSpaceError(DelugeError):
 class cached_data:
     def __init__(self, get_method, key):
         self.get_method = get_method
-        self.key        = key
+        self.key = key
 
         self.timestamp = -1
 
@@ -150,11 +149,11 @@ class cached_data:
 
 class torrent_info:
     def __init__(self, filename, save_dir, compact):
-        self.filename  = filename
-        self.save_dir  = save_dir
-        self.compact   = compact
+        self.filename = filename
+        self.save_dir = save_dir
+        self.compact = compact
 
-        self.user_paused     = False # start out unpaused
+        self.user_paused = False # start out unpaused
         self.uploaded_memory = 0
 
         self.delete_me = False # set this to true, to delete it on next sync
@@ -382,7 +381,7 @@ class Manager:
 
         # Get additional data from our level
         ret['is_listening'] = deluge_core.is_listening()
-        ret['port']         = deluge_core.listening_port()
+        ret['port'] = deluge_core.listening_port()
         if self.dht_running == True:
             ret['DHT_nodes'] = deluge_core.get_DHT_info()
 
@@ -422,7 +421,7 @@ class Manager:
         if curr_index > 0:
             temp = self.state.queue[curr_index - 1]
             self.state.queue[curr_index - 1] = unique_ID
-            self.state.queue[curr_index]     = temp
+            self.state.queue[curr_index] = temp
             if enforce_queue:
                 self.apply_queue()
 
@@ -431,7 +430,7 @@ class Manager:
         if curr_index < (len(self.state.queue) - 1):
             temp = self.state.queue[curr_index + 1]
             self.state.queue[curr_index + 1] = unique_ID
-            self.state.queue[curr_index]     = temp
+            self.state.queue[curr_index] = temp
             if enforce_queue:
                 self.apply_queue()
 
@@ -476,7 +475,7 @@ class Manager:
         for index in range(len(self.state.queue)):
             unique_ID = self.state.queue[index]
             if (index < self.get_pref('max_active_torrents') or self.get_pref('max_active_torrents') == -1) \
-                and self.get_core_torrent_state(unique_ID, efficient)['is_paused']               \
+                and self.get_core_torrent_state(unique_ID, efficient)['is_paused'] \
                 and not self.is_user_paused(unique_ID):
                 
                 # This torrent is a seed so skip all the free space checking
@@ -499,8 +498,8 @@ class Manager:
                     deluge_core.resume(unique_ID)
 
             elif (not self.get_core_torrent_state(unique_ID, efficient)['is_paused']) and \
-                  ( (index >= self.get_pref('max_active_torrents') and \
-                    self.get_pref('max_active_torrents') != -1        ) or \
+                  ((index >= self.get_pref('max_active_torrents') and \
+                    self.get_pref('max_active_torrents') != -1) or \
                 self.is_user_paused(unique_ID)):
                 deluge_core.pause(unique_ID)
 
@@ -566,9 +565,9 @@ class Manager:
                 self.save_fastresume_data(event['unique_ID'])
             elif event['event_type'] is self.constants['EVENT_TRACKER']:
                 unique_ID = event['unique_ID']
-                status    = event['tracker_status']
-                message   = event['message']
-                tracker   = message[message.find('"')+1:message.rfind('"')]
+                status = event['tracker_status']
+                message = event['message']
+                tracker = message[message.find('"')+1:message.rfind('"')]
 
                 self.set_supp_torrent_state_val(unique_ID, "tracker_status",
                                                 (tracker, status))
@@ -618,7 +617,7 @@ class Manager:
 
     def calc_swarm_speed(self, unique_ID):
         pieces_per_sec = deluge_stats.calc_swarm_speed(self.get_core_torrent_peer_info(unique_ID))
-        piece_length   = self.get_core_torrent_state(unique_ID, efficiently=True)
+        piece_length = self.get_core_torrent_state(unique_ID, efficiently=True)
 
         return pieces_per_sec * piece_length
 
@@ -652,8 +651,7 @@ class Manager:
     # Efficient: use a saved state, if it hasn't expired yet
     def get_core_torrent_state(self, unique_ID, efficiently=True):
         if unique_ID not in self.saved_core_torrent_states.keys():
-            self.saved_core_torrent_states[unique_ID] = cached_data(deluge_core.get_torrent_state,
-                                                               unique_ID)
+            self.saved_core_torrent_states[unique_ID] = cached_data(deluge_core.get_torrent_state, unique_ID)
 
         return self.saved_core_torrent_states[unique_ID].get(efficiently)
 
@@ -862,4 +860,3 @@ class Manager:
 
     def replace_trackers(self, unique_ID, trackers):
         return deluge_core.replace_trackers(unique_ID, trackers)
-

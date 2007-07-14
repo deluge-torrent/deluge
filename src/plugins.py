@@ -72,7 +72,7 @@ class PluginManager:
         return self.available_plugins[name]
     
     def enable_plugin(self, name):
-        plugin =  self.available_plugins[name]
+        plugin = self.available_plugins[name]
         self.enabled_plugins[name] = plugin.enable(self.core, self.interface)
 
     def get_enabled_plugins(self):

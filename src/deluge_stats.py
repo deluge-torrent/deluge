@@ -31,7 +31,7 @@ import time
 
 # Global variables. Caching of saved data, mostly
 
-old_peer_info           = None
+old_peer_info = None
 old_peer_info_timestamp = None
 
 # Availability - how many complete copies are among our peers
@@ -58,7 +58,7 @@ def calc_availability(peer_info):
 # be too unreliable. But the client can smooth things out, if desired
 def calc_swarm_speed(peer_info):
     if old_peer_info is not None:
-        new_pieces  = 0
+        new_pieces = 0
         peers_known = 0
 
         # List new peers
@@ -70,10 +70,10 @@ def calc_swarm_speed(peer_info):
             if new_IP in old_peer_IPs.keys():
                 # We know this peer from before, see what changed
                 peers_known = peers_known + 1
-                delta       = sum(new_peer_IPs[new_IP].pieces) - sum(old_peer_IPs[new_IP].pieces)
+                delta = sum(new_peer_IPs[new_IP].pieces) - sum(old_peer_IPs[new_IP].pieces)
 
                 if delta >= 0:
-                    new_pieces  = new_pieces + delta
+                    new_pieces = new_pieces + delta
                 else:
                     print "Deluge.stat.calc_swarm_speed: Bad Delta: ", delta, old_peer_IPs[new_IP].pieces, new_peer_IPs[new_IP].pieces
 
@@ -82,8 +82,8 @@ def calc_swarm_speed(peer_info):
     ret = float(new_pieces)/( float(peers_known) * time_delta )
 
     # Save info
-    old_peer_info           = peer_info
+    old_peer_info = peer_info
     old_peer_info_timestamp = time.time()
-    old_peer_IPs            = new_peer_IPs
+    old_peer_IPs = new_peer_IPs
 
     return ret
