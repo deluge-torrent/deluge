@@ -511,75 +511,66 @@ class Manager:
         # wants to do something - show messages, for example
         def pop_event():
             try:
-                return deluge_core.pop_event()
+                event = deluge_core.pop_event()
             except:
-                pass
+                return None
             else:
-                return deluge_core.pop_event()
+                return event
                 
         ret = []
-        try:
-            event = deluge_core.pop_event()
-        except:
-            pass
-        else:
-            while event is not None:
-                print "EVENT: ", event
+        while True:
+            event = pop_event()
+            if event is None:
+                break
 
-                ret.append(event)
+            print "EVENT: ", event
+
+            ret.append(event)
+
+            if 'unique_ID' in event and \
+               event['unique_ID'] not in self.unique_IDs:
+                continue
+
+            # Call plugins events callbacks
+            if event['event_type'] in self.event_callbacks:
+                for plugin_instance in self.event_callbacks[event['event_type']]:
+                    plugin_instance.handle_event(event)
+
+            if event['event_type'] is self.constants['EVENT_STORAGE_MOVED']:
+                if event['message'] == "move_failed":
+                    raise StorageMoveFailed(_("You cannot move torrent to a different partition.  Please fix your preferences"))
+                elif event['message'] == "move_success":
+                    self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
+            elif event['event_type'] is self.constants['EVENT_FINISHED']:
+                # Queue seeding torrent to bottom if needed
+                if self.get_pref('enable_move_completed'):
+                    deluge_core.move_storage(event['unique_ID'], self.get_pref('default_finished_path'))
+                if self.get_pref('queue_seeds_to_bottom'):
+                    self.queue_bottom(event['unique_ID'])
+                # If we are autoseeding, then we need to apply the queue
+                if self.get_pref('auto_seed_ratio') == -1:
+                    self.apply_queue(efficient = False) # To work on current data
+                #save fast resume once torrent finshes so as to not recheck seed if client crashes
+                self.save_fastresume_data(event['unique_ID'])
+            elif event['event_type'] is self.constants['EVENT_TRACKER']:
+                unique_ID = event['unique_ID']
+                status    = event['tracker_status']
+                message   = event['message']
+                tracker   = message[message.find('"')+1:message.rfind('"')]
+
+                self.set_supp_torrent_state_val(unique_ID, "tracker_status",
+                                                (tracker, status))
+
+                old_state = self.get_supp_torrent_state(unique_ID)
                 try:
-                    if event['unique_ID'] not in self.unique_IDs:
-                        event = pop_event()
-                        continue
+                    new = old_state['tracker_messages']
                 except KeyError:
-                    event = pop_event()
-                    continue
+                    new = {}
 
-                # Call event callbacks
-                if event['event_type'] in self.event_callbacks:
-                    for plugin_instance in self.event_callbacks[event['event_type']]:
-                        plugin_instance.handle_event(event)
-                if event['event_type'] is self.constants['EVENT_STORAGE_MOVED']:
-                    if event['message'] == "move_failed":
-                        raise StorageMoveFailed(_("You cannot move torrent to a different partition.  Please fix your preferences"))
-                    elif event['message'] == "move_success":
-                        self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
+                new[tracker] = message
 
-
-                if event['event_type'] is self.constants['EVENT_FINISHED']:
-                    # Queue seeding torrent to bottom if needed
-                    if(self.get_pref('enable_move_completed')):
-                        deluge_core.move_storage(event['unique_ID'], self.get_pref('default_finished_path'))
-                    if self.get_pref('queue_seeds_to_bottom'):
-                        self.queue_bottom(event['unique_ID'])
-                    # If we are autoseeding, then we need to apply the queue
-                    if self.get_pref('auto_seed_ratio') == -1:
-                        self.apply_queue(efficient = False) # To work on current data
-                    #save fast resume once torrent finshes so as to not recheck seed if client crashes
-                    self.save_fastresume_data(event['unique_ID'])
-                elif event['event_type'] is self.constants['EVENT_TRACKER']:
-                    unique_ID = event['unique_ID']
-                    status    = event['tracker_status']
-                    message   = event['message']
-                    tracker   = message[message.find('"')+1:message.rfind('"')]
-
-                    self.set_supp_torrent_state_val(unique_ID,            
-                                                    "tracker_status",
-                                                    (tracker, status))
-
-                    old_state = self.get_supp_torrent_state(unique_ID)
-                    try:
-                        new = old_state['tracker_messages']
-                    except KeyError:
-                        new = {}
-
-                    new[tracker] = message
-
-                    self.set_supp_torrent_state_val(unique_ID,
-                                                    "tracker_messages",
-                                                    new)
-
-                event = pop_event()
+                self.set_supp_torrent_state_val(unique_ID, "tracker_messages",
+                                                new)
 
         return ret
 
