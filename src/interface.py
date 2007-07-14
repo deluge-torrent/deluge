@@ -125,15 +125,13 @@ class DelugeGTK:
         self.load_window_geometry()
 
     def external_add_torrent(self, torrent_file):
-        print "Ding!"
         print "Got torrent externally:", os.path.basename(torrent_file)
         print "Here's the raw data:", torrent_file
-        print "\tNow, what to do with it?"
         if self.is_running:
-            print "\t\tthe client seems to already be running, i'll try and add the torrent"
+            print "\t\tClient seems to already be running, we'll try and add the torrent"
             uid = self.interactive_add_torrent(torrent_file)
         else:
-            print "\t\tthe client hasn't started yet, I'll queue the torrent"
+            print "\t\tClient isn't running, we'll queue the torrent"
             self.torrent_file_queue.append(torrent_file)
     
     def connect_signals(self):
@@ -365,7 +363,8 @@ class DelugeGTK:
         self.edit_window  = self.edit_glade.get_widget("edittrackers")
         self.edit_window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         self.edit_window.set_size_request(400, 200)
-        self.edit_glade.signal_autoconnect({"cancel_button_clicked": self.cancel_edit_window,
+        self.edit_glade.signal_autoconnect({
+                        "cancel_button_clicked": self.cancel_edit_window,
                         "ok_button_clicked": self.accept_edit_window 
                         })
 
@@ -400,15 +399,16 @@ class DelugeGTK:
         self.torrent_view = self.wtree.get_widget("torrent_view")
         self.torrent_glade = gtk.glade.XML(common.get_glade_file("torrent_menu.glade"), domain='deluge')
         self.torrent_menu = self.torrent_glade.get_widget("torrent_menu")        
-        self.torrent_glade.signal_autoconnect({ "remove_torrent": self.remove_torrent_clicked,
-                                                "edit_trackers": self.list_of_trackers,
-                                                "start_pause": self.start_pause,
-                                                "update_tracker": self.update_tracker,
-                                                "clear_finished": self.clear_finished,
-                                                "queue_up": self.q_torrent_up,
-                                                "queue_down": self.q_torrent_down,
-                                                "queue_bottom": self.q_to_bottom,
-                                                "queue_top": self.q_to_top,
+        self.torrent_glade.signal_autoconnect({
+                        "remove_torrent": self.remove_torrent_clicked,
+                        "edit_trackers": self.list_of_trackers,
+                        "start_pause": self.start_pause,
+                        "update_tracker": self.update_tracker,
+                        "clear_finished": self.clear_finished,
+                        "queue_up": self.q_torrent_up,
+                        "queue_down": self.q_torrent_down,
+                        "queue_bottom": self.q_to_bottom,
+                        "queue_top": self.q_to_top,
                                                 })
         self.torrent_menu.connect("focus", self.torrent_menu_focus)
         # unique_ID, Q#, Status Icon, Name, Size, Progress, Message, Seeders, Peers,
@@ -578,23 +578,23 @@ class DelugeGTK:
     def build_summary_tab(self):
         #Torrent Summary tab
         # Look into glade's widget prefix function
-        self.text_summary_name                    = self.wtree.get_widget("summary_name")
-        self.text_summary_total_size              = self.wtree.get_widget("summary_total_size")
-        self.text_summary_pieces                  = self.wtree.get_widget("summary_pieces")
-        self.text_summary_total_downloaded        = self.wtree.get_widget("summary_total_downloaded")
-        self.text_summary_total_uploaded          = self.wtree.get_widget("summary_total_uploaded")
-        self.text_summary_download_speed          = self.wtree.get_widget("summary_download_speed")
-        self.text_summary_upload_speed          = self.wtree.get_widget("summary_upload_speed")
-        self.text_summary_seeders          = self.wtree.get_widget("summary_seeders")
-        self.text_summary_peers              = self.wtree.get_widget("summary_peers")
-        self.text_summary_percentage_done         = self.wtree.get_widget("summary_percentage_done")
-        self.text_summary_share_ratio             = self.wtree.get_widget("summary_share_ratio")
+        self.text_summary_name = self.wtree.get_widget("summary_name")
+        self.text_summary_total_size = self.wtree.get_widget("summary_total_size")
+        self.text_summary_pieces = self.wtree.get_widget("summary_pieces")
+        self.text_summary_total_downloaded = self.wtree.get_widget("summary_total_downloaded")
+        self.text_summary_total_uploaded = self.wtree.get_widget("summary_total_uploaded")
+        self.text_summary_download_speed = self.wtree.get_widget("summary_download_speed")
+        self.text_summary_upload_speed = self.wtree.get_widget("summary_upload_speed")
+        self.text_summary_seeders = self.wtree.get_widget("summary_seeders")
+        self.text_summary_peers = self.wtree.get_widget("summary_peers")
+        self.text_summary_percentage_done = self.wtree.get_widget("summary_percentage_done")
+        self.text_summary_share_ratio = self.wtree.get_widget("summary_share_ratio")
         self.text_summary_downloaded_this_session = self.wtree.get_widget("summary_downloaded_this_session")
-        self.text_summary_uploaded_this_session      = self.wtree.get_widget("summary_uploaded_this_session")
-        self.text_summary_tracker                 = self.wtree.get_widget("summary_tracker")
-        self.text_summary_tracker_status          = self.wtree.get_widget("summary_tracker_status")
-        self.text_summary_next_announce           = self.wtree.get_widget("summary_next_announce")
-        self.text_summary_eta              = self.wtree.get_widget("summary_eta")
+        self.text_summary_uploaded_this_session = self.wtree.get_widget("summary_uploaded_this_session")
+        self.text_summary_tracker = self.wtree.get_widget("summary_tracker")
+        self.text_summary_tracker_status = self.wtree.get_widget("summary_tracker_status")
+        self.text_summary_next_announce = self.wtree.get_widget("summary_next_announce")
+        self.text_summary_eta = self.wtree.get_widget("summary_eta")
 
     def build_peer_tab(self):
         self.peer_view = self.wtree.get_widget("peer_view")
@@ -612,11 +612,11 @@ class DelugeGTK:
 
         self.peer_view.set_model(self.peer_store)
         
-        self.peer_ip_column        =    dgtk.add_text_column(self.peer_view, _("IP Address"), 1)
-        self.peer_client_column        =    dgtk.add_text_column(self.peer_view, _("Client"), 2)
-        self.peer_complete_column    =    dgtk.add_func_column(self.peer_view, _("Percent Complete"), percent, 3)
-        self.peer_download_column    =    dgtk.add_func_column(self.peer_view, _("Down Speed"), dgtk.cell_data_speed, 4)
-        self.peer_upload_column        =    dgtk.add_func_column(self.peer_view, _("Up Speed"), dgtk.cell_data_speed, 5)
+        self.peer_ip_column = dgtk.add_text_column(self.peer_view, _("IP Address"), 1)
+        self.peer_client_column = dgtk.add_text_column(self.peer_view, _("Client"), 2)
+        self.peer_complete_column = dgtk.add_func_column(self.peer_view, _("Percent Complete"), percent, 3)
+        self.peer_download_column = dgtk.add_func_column(self.peer_view, _("Down Speed"), dgtk.cell_data_speed, 4)
+        self.peer_upload_column = dgtk.add_func_column(self.peer_view, _("Up Speed"), dgtk.cell_data_speed, 5)
 
         self.peer_ip_column.set_sort_column_id(0)
 
@@ -634,7 +634,8 @@ class DelugeGTK:
         self.file_view = self.wtree.get_widget("file_view")
         self.file_glade = gtk.glade.XML(common.get_glade_file("file_tab_menu.glade"), domain='deluge')
         self.file_menu = self.file_glade.get_widget("file_tab_menu")
-        self.file_glade.signal_autoconnect({     "select_all": self.file_select_all,
+        self.file_glade.signal_autoconnect({
+                            "select_all": self.file_select_all,
                             "unselect_all": self.file_unselect_all,
                             "check_selected": self.file_check_selected,
                             "uncheck_selected": self.file_uncheck_selected,
@@ -765,8 +766,14 @@ class DelugeGTK:
         
         # Apply the preferences in the core
         self.manager.apply_prefs()
-        self.manager.pe_settings(self.config.get("encout_state"), self.config.get("encin_state"), self.config.get("enclevel_type"), self.config.get("pref_rc4"))
-        self.manager.proxy_settings(self.config.get("proxy_hostname"), self.config.get("proxy_username"), self.config.get("proxy_password"), int(self.config.get("proxy_port")), self.config.get("proxy_type"), self.config.get("peer_proxy"), self.config.get("tracker_proxy"), self.config.get("dht_proxy"))
+        self.manager.pe_settings(self.config.get("encout_state"), 
+            self.config.get("encin_state"), self.config.get("enclevel_type"), 
+                self.config.get("pref_rc4"))
+        self.manager.proxy_settings(self.config.get("proxy_hostname"), 
+            self.config.get("proxy_username"), self.config.get("proxy_password"), 
+                int(self.config.get("proxy_port")), self.config.get("proxy_type"), 
+                    self.config.get("peer_proxy"), self.config.get("tracker_proxy"), 
+                        self.config.get("dht_proxy"))
 
     def get_message_from_state(self, torrent_state):
         state = torrent_state['state']
@@ -829,11 +836,11 @@ class DelugeGTK:
         use_default_download_location = True
         default_download_location = "."
         for torrent_file in self.torrent_file_queue:
-            print "adding torrent", torrent_file
+            print "Adding torrent", torrent_file
             try:
                 self.interactive_add_torrent(torrent_file, append=False)
             except core.DelugeError:
-                print "duplicate torrent found, ignoring", torrent_file
+                print "Duplicate torrent found, ignoring the duplicate", torrent_file
         ## add torrents in manager to interface
         for unique_id in self.manager.get_unique_IDs():
             self.torrent_model_append(unique_id)
@@ -1013,8 +1020,11 @@ class DelugeGTK:
             self.wtree.get_widget("summary_name").set_text(state['name'])
             self.text_summary_total_size.set_text(common.fsize(state["total_size"]))
             self.text_summary_pieces.set_text(str(state["num_pieces"]))
-            self.text_summary_total_downloaded.set_text(common.fsize(state["total_done"]) + " (" + common.fsize(state["total_download"]) + ")")
-            self.text_summary_total_uploaded.set_text(common.fsize(self.manager.unique_IDs[unique_id].uploaded_memory + state["total_payload_upload"]) + " (" + common.fsize(state["total_upload"]) + ")")
+            self.text_summary_total_downloaded.set_text(common.fsize(state["total_done"]) \
+                + " (" + common.fsize(state["total_download"]) + ")")
+            self.text_summary_total_uploaded.set_text(common.fsize(self.manager.unique_IDs\
+                [unique_id].uploaded_memory + state["total_payload_upload"]) + \
+                    " (" + common.fsize(state["total_upload"]) + ")")
             self.text_summary_download_speed.set_text(common.fspeed(state["download_rate"]))
             self.text_summary_upload_speed.set_text(common.fspeed(state["upload_rate"]))
             self.text_summary_seeders.set_text(common.fseed(state))
@@ -1184,10 +1194,10 @@ class DelugeGTK:
     def external_add_url(self, url):
         print "Got URL externally:", url
         if self.is_running:
-            print "\t\tthe client seems to already be running, i'll try and add the URL"
+            print "\t\tClient seems to already be running, we'll try and add the URL"
             self.add_torrent_url(url)
         else:
-            print "\t\tthe client hasn't started yet, I'll queue the URL torrent file"
+            print "\t\tThe client hasn't yet started, we'll queue the URL torrent file"
             self.queue_torrent_url(url)
 
     def add_torrent_url(self, url):
@@ -1268,7 +1278,7 @@ class DelugeGTK:
             self.manager.update_tracker(torrent)
     
     def clear_finished(self, obj=None):
-        print "Clearing Completed Torrents"
+        print "Clearing completed torrents"
         unique_ids_remove = self.manager.clear_completed()
         for unique_id in unique_ids_remove:
             self.torrent_model_remove(unique_id)
