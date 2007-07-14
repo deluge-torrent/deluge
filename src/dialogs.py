@@ -230,9 +230,9 @@ class PluginDlg:
         plugin_value = not self.store.get_value(plugin_iter, 1)
         self.store.set_value(plugin_iter, 1, plugin_value)
         if plugin_value:
+            self.plugins.enable_plugin(plugin_name)
             config = self.plugins.configurable_plugin(plugin_name)
             self.glade.get_widget("plugin_conf").set_sensitive(config)
-            self.plugins.enable_plugin(plugin_name)
         else:
             self.plugins.disable_plugin(plugin_name)
             self.glade.get_widget("plugin_conf").set_sensitive(False)
