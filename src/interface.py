@@ -219,11 +219,12 @@ class DelugeGTK:
 
     def build_menu_radio_list(self, value_list, callback, pref_value=None, 
                               suffix=None, show_notset=False, 
-                              notset_label="Unlimited", notset_lessthan=0):
+                              notset_label=None, notset_lessthan=0):
         # Build a menu with radio menu items from a list and connect them to the callback
         # The pref_value is what you would like to test for the default active radio item
         # Setting show_unlimited will include an Unlimited radio item
-        
+        if notset_label is None:
+            notset_label = _("Unlimited")
         menu = gtk.Menu()
             
         group = None
