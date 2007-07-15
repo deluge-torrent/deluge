@@ -11,3 +11,18 @@ Deluge 0.5.3 (XX August 2007)
   * Details, Peers and Files tabs more responsible and use much less CPU
   especially on torrents with many files
   * A lot of other less visible fixes
+
+Deluge 0.5.2 (05 July 2007)
+  * Torrent creation built into main client
+  * Plugins implemented as modules
+  * Configuration options for PEX and UPnP
+  * Individual file progress shown in File tab
+  * The usual slew of bugfixes
+
+Deluge 0.5.1 (11 June 2007)
+  * Peer Exchange
+  * Encryption
+  * UPnP + NATPMP
+  * Improved user interface
+  * Redesigned preferences dialog
+  * Startup and shutdown bugs fixed
