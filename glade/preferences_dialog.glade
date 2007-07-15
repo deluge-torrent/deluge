@@ -158,35 +158,55 @@
                                 <property name="bottom_padding">2</property>
                                 <property name="left_padding">12</property>
                                 <child>
-                                  <widget class="GtkHBox" id="hbox11">
+                                  <widget class="GtkVBox" id="newvbox1">
                                     <property name="visible">True</property>
-                                    <property name="spacing">10</property>
                                     <child>
-                                      <widget class="GtkLabel" id="label56">
+                                      <widget class="GtkHBox" id="hbox11">
                                         <property name="visible">True</property>
-                                        <property name="tooltip" translatable="yes">The number of active torrents that Deluge will run.  Set to -1 for unlimited.</property>
-                                        <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">Maximum simultaneous active torrents:</property>
+                                        <property name="spacing">10</property>
+                                        <child>
+                                          <widget class="GtkLabel" id="label56">
+                                            <property name="visible">True</property>
+                                            <property name="tooltip" translatable="yes">The number of active torrents that Deluge will run.  Set to -1 for unlimited.</property>
+                                            <property name="xalign">0</property>
+                                            <property name="label" translatable="yes">Maximum simultaneous active torrents:</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkSpinButton" id="spin_torrents">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                            <property name="tooltip" translatable="yes">The number of active torrents that Deluge will run.  Set to -1 for unlimited.</property>
+                                            <property name="xalign">1</property>
+                                            <property name="adjustment">-1 -1 1000 1 10 10</property>
+                                            <property name="climb_rate">1</property>
+                                            <property name="snap_to_ticks">True</property>
+                                            <property name="update_policy">GTK_UPDATE_IF_VALID</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="padding">2</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
                                       </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                      </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkSpinButton" id="spin_torrents">
+                                      <widget class="GtkCheckButton" id="chk_enable_files_dialog">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                        <property name="tooltip" translatable="yes">The number of active torrents that Deluge will run.  Set to -1 for unlimited.</property>
-                                        <property name="xalign">1</property>
-                                        <property name="adjustment">-1 -1 1000 1 10 10</property>
-                                        <property name="climb_rate">1</property>
-                                        <property name="snap_to_ticks">True</property>
-                                        <property name="update_policy">GTK_UPDATE_IF_VALID</property>
+                                        <property name="tooltip" translatable="yes">Enable selecting files for torrents before loading</property>
+                                        <property name="label" translatable="yes">Enable selecting files for torrents before loading</property>
+                                        <property name="response_id">0</property>
+                                        <property name="draw_indicator">True</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
-                                        <property name="padding">2</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>

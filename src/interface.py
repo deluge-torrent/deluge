@@ -47,6 +47,7 @@ import common
 import dialogs
 import dgtk
 import ipc_manager
+import files
 import plugins
 
 class DelugeGTK:
@@ -66,6 +67,8 @@ class DelugeGTK:
         #Start the Deluge Manager:
         self.manager = core.Manager(common.CLIENT_CODE, common.CLIENT_VERSION, 
             '%s %s'%(common.PROGRAM_NAME, common.PROGRAM_VERSION), common.CONFIG_DIR)
+        self.files_for_tab = files.FilesManager(self.manager, True)
+        self.files_for_dialog = files.FilesManager(self.manager, False)
         self.plugins = plugins.PluginManager(self.manager, self)
         self.plugins.add_plugin_dir(common.PLUGIN_DIR)
         if os.path.isdir(os.path.join(common.CONFIG_DIR , 'plugins')):
@@ -102,6 +105,7 @@ class DelugeGTK:
         
         self.preferences_dialog = dialogs.PreferencesDlg(self, self.config)
         self.plugin_dialog = dialogs.PluginDlg(self, self.plugins)
+        self.files_dialog = dialogs.FilesDlg(self, self.files_for_dialog)
         self.build_torrent_table()
         self.build_summary_tab()
         self.build_file_tab()
@@ -658,88 +662,13 @@ class DelugeGTK:
         self.peer_store_dict = {}
 
     def build_file_tab(self):
-        def percent(column, cell, model, iter, data):
-            percent = float(model.get_value(iter, data))
-            percent_str = "%.2f%%"%percent
-            cell.set_property("text", percent_str)
-
-
+        self.files_for_tab.clear_file_store()
+        self.files_for_tab.use_unique_id(self.get_selected_torrent())
         self.file_view = self.wtree.get_widget("file_view")
-        self.file_glade = gtk.glade.XML(common.get_glade_file("file_tab_menu.glade"), domain='deluge')
-        self.file_menu = self.file_glade.get_widget("file_tab_menu")
-        self.file_glade.signal_autoconnect({
-                            "select_all": self.file_select_all,
-                            "unselect_all": self.file_unselect_all,
-                            "check_selected": self.file_check_selected,
-                            "uncheck_selected": self.file_uncheck_selected,
-                            })
-        self.file_store = gtk.ListStore(bool, str, gobject.TYPE_UINT64, float)
-        self.file_store_sorted = gtk.TreeModelSort(self.file_store)
-        # Stores file path -> gtk.TreeIter's iter mapping for quick look up 
-        # in self.update_torrent_info_widget
-        self.file_store_dict = {}
-        self.file_view.set_model(self.file_store_sorted)
-        self.file_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
-        self.file_view.get_selection().set_select_function(self.file_clicked)
-        self.file_selected = []
-        self.file_view.connect("button-press-event", self.file_view_clicked)
-        
-        dgtk.add_toggle_column(self.file_view, _("Download"), 0, toggled_signal=self.file_toggled)
-        dgtk.add_text_column(self.file_view, _("Filename"), 1).set_expand(True)
-        dgtk.add_func_column(self.file_view, _("Size"), dgtk.cell_data_size, 2)
-        dgtk.add_func_column(self.file_view, _("Progress"), percent, 3) 
+        self.files_for_tab.file_view_actions(self.file_view)
     
     def clear_file_store(self):
-        self.file_store.clear()
-        self.file_store_dict = {}
-    
-    def file_select_all(self, widget):
-        self.file_view.get_selection().select_all()
-        
-    def file_unselect_all(self, widget):
-        self.file_view.get_selection().unselect_all()
-    
-    def file_check_selected(self, widget):
-        self.file_view.get_selection().selected_foreach(self.file_toggle_selected, True)
-        self.file_toggled_update_filter()
-    
-    def file_uncheck_selected(self, widget):
-        self.file_view.get_selection().selected_foreach(self.file_toggle_selected, False)
-        self.file_toggled_update_filter()
-    
-    def file_clicked(self, path):
-        return not self.file_selected
-    
-    def file_view_clicked(self, widget, event):
-        if event.button == 3:
-            self.file_menu.popup(None, None, None, event.button, event.time)
-            return True
-        else:
-            self.file_selected = False
-            return False
-        
-    def file_toggle_selected(self, treemodel, path, selected_iter, value):
-        child_iter = self.file_store_sorted.convert_iter_to_child_iter(None,
-                         selected_iter)
-        self.file_store_sorted.get_model().set_value(child_iter, 0, value)
-    
-    def file_toggled(self, renderer, path):
-        self.file_selected = True
-        file_iter = self.file_store_sorted.get_iter_from_string(path)
-        value = not renderer.get_active()
-        selection = self.file_view.get_selection()
-        if selection.iter_is_selected(file_iter):
-            selection.selected_foreach(self.file_toggle_selected, value)
-        else:
-            child_iter = self.file_store_sorted.convert_iter_to_child_iter(
-                             None, file_iter)
-            self.file_store_sorted.get_model().set_value(child_iter, 0, value)
-        
-        self.file_toggled_update_filter()
-        
-    def file_toggled_update_filter(self):
-        file_filter = [not x[0] for x in self.file_store]
-        self.manager.set_file_filter(self.get_selected_torrent(), file_filter)
+        self.files_for_tab.clear_file_store()
         
     def show_about_dialog(self, arg=None):
         dialogs.show_about_dialog()
@@ -1108,23 +1037,9 @@ class DelugeGTK:
         elif page_num == 2: # Files
             # Fill self.file_store with files only once and only when we click to
             # Files tab or it's already open
-            if not self.file_store_dict:
-                all_files = self.manager.get_torrent_file_info(unique_id)
-                file_filter = self.manager.get_file_filter(unique_id)
-                if file_filter is None:
-                    file_filter = [False] * len(all_files)
-                for file, filt in izip(all_files, file_filter):
-                    iter = self.file_store.append([not filt, file['path'],
-                                                   file['size'],
-                                                   round(file['progress'], 2)])
-                    self.file_store_dict[file['path']] = iter
-            
-            new_file_info = self.manager.get_torrent_file_info(unique_id)
-            
-            for file in new_file_info:
-                iter = self.file_store_dict[file['path']]
-                if self.file_store.get_value(iter, 3) != round(file['progress'], 2):
-                    self.file_store.set(iter, 3, file['progress'])
+            self.files_for_tab.use_unique_id(unique_id)
+            self.files_for_tab.prepare_store()
+            self.files_for_tab.update_store()
         
     
     def calc_share_ratio(self, unique_id, torrent_state):
@@ -1178,6 +1093,13 @@ class DelugeGTK:
                 return
         try:
             unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage'))
+            if not append and self.config.get('enable_files_dialog'):
+                self.manager.set_user_pause(unique_id, True)
+                if self.files_dialog.show(self.manager, unique_id) == 1:
+                    self.manager.set_user_pause(unique_id, False)
+                else:
+                    self.manager.remove_torrent(unique_id, True, True)
+           
         except core.InvalidEncodingError, e:
             print "InvalidEncodingError", e
             dialogs.show_popup_warning(self.window, _("An error occured while trying to add the torrent. It's possible your .torrent file is corrupted."))
@@ -1191,7 +1113,15 @@ class DelugeGTK:
                                                         _("Available Space:") + " " + nice_free)
         else:
             if append:
-                self.torrent_model_append(unique_id)
+                if self.config.get('enable_files_dialog'):
+                    self.manager.set_user_pause(unique_id, True)
+                    if self.files_dialog.show(self.manager, unique_id) == 1:
+                        self.manager.set_user_pause(unique_id, False)
+                        self.torrent_model_append(unique_id)
+                    else:
+                        self.manager.remove_torrent(unique_id, True, True)
+                else:
+                    self.torrent_model_append(unique_id)
             
     def launchpad(self, obj=None):
         common.open_url_in_browser('self', 'https://translations.launchpad.net/deluge/trunk/+pots/deluge')

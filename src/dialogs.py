@@ -35,6 +35,7 @@ import gtk
 import gtk.glade
 import os
 import os.path
+import files
 
 PREFS_FILENAME  = "prefs.state"
 
@@ -85,6 +86,7 @@ class PreferencesDlg:
                 self.glade.get_widget("finished_path_button").set_sensitive(False)
             self.glade.get_widget("finished_path_button").set_filename(self.preferences.get("default_finished_path"))
             self.glade.get_widget("download_path_button").set_filename(self.preferences.get("default_download_path"))
+            self.glade.get_widget("chk_enable_files_dialog").set_active(self.preferences.get("enable_files_dialog"))
             self.glade.get_widget("chk_compact").set_active(self.preferences.get("use_compact_storage"))
             self.glade.get_widget("active_port_label").set_text(str(self.parent.manager.get_state()['port']))
             self.glade.get_widget("spin_port_min").set_value(self.preferences.get("listen_on")[0])
@@ -131,6 +133,7 @@ class PreferencesDlg:
             self.preferences.set("default_download_path", self.glade.get_widget("download_path_button").get_filename())
             self.preferences.set("enable_move_completed", self.glade.get_widget("chk_move_completed").get_active())
             self.preferences.set("default_finished_path", self.glade.get_widget("finished_path_button").get_filename())
+            self.preferences.set("enable_files_dialog", self.glade.get_widget("chk_enable_files_dialog").get_active())
             self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())
             self.preferences.set("auto_seed_ratio", self.glade.get_widget("ratio_spinner").get_value())
             self.preferences.set("use_compact_storage", self.glade.get_widget("chk_compact").get_active())
@@ -167,6 +170,28 @@ class PreferencesDlg:
         else:
             self.glade.get_widget("chk_move_completed").set_sensitive(True)
             self.glade.get_widget("finished_path_button").set_sensitive(True)
+
+class FilesDlg:
+    def __init__(self, parent, files_for_dialog):
+        self.files_for_dialog = files_for_dialog
+        self.parent = parent
+        self.glade = gtk.glade.XML(common.get_glade_file("files_dialog.glade"), domain='deluge')
+        self.dialog = self.glade.get_widget("file_dialog")
+        self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
+        self.file_view = self.glade.get_widget("file_view")
+    
+    def show(self, manager, unique_id):
+        self.manager = manager
+        self.files_for_dialog.clear_file_store()
+        self.files_for_dialog.use_unique_id(unique_id)
+        self.files_for_dialog.file_view_actions(self.file_view)
+        self.files_for_dialog.prepare_store()
+        self.dialog.show()
+        r = self.dialog.run()
+        self.dialog.hide()
+        self.files_for_dialog.remove_columns()
+        self.files_for_dialog.clear_file_store()
+        return r
 
 class PluginDlg:
     def __init__(self, parent, plugins):

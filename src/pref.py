@@ -41,6 +41,7 @@ DEFAULT_PREFS = {
     "auto_end_seeding" : False,
     "auto_seed_ratio" : 0,
     "close_to_tray" : False,
+    "enable_files_dialog" : False,
     "default_download_path" : os.path.expanduser("~/"),
     "default_load_path" : os.path.expanduser("~/"),
     "default_finished_path" : os.path.expanduser("~/"),
