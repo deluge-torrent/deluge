@@ -600,6 +600,10 @@ class Manager:
         except AttributeError:
             return None
 
+    # Priorities functions
+    def prioritize_files(self, unique_ID, priorities):
+        deluge_core.prioritize_files(unique_ID, priorities)
+
     # Called when a session starts, to apply existing filters
     def apply_all_file_filters(self):
         for unique_ID in self.unique_IDs.keys():

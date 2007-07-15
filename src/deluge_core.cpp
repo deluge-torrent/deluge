@@ -1443,6 +1443,34 @@ static PyObject *torrent_set_flp(PyObject *self, PyObject *args)
 
     return Py_None;
 }
+
+static PyObject *torrent_prioritize_files(PyObject *self, PyObject *args)
+{
+    python_long unique_ID;
+    PyObject *priorities_list_object;
+    
+    if (!PyArg_ParseTuple(args, "iO", &unique_ID, &priorities_list_object))
+        return NULL;
+    long index = get_index_from_unique_ID(unique_ID);
+    if (PyErr_Occurred())
+        return NULL;
+
+    torrent_t &t = M_torrents->at(index);
+    int num_files = t.handle.get_torrent_info().num_files();
+    assert(PyList_Size(priorities_list_object) == num_files);
+
+    std::vector<int> priorities_vector(num_files);
+    
+    for (long i = 0; i < num_files; i++) {
+        priorities_vector.at(i) = 
+            PyInt_AsLong(PyList_GetItem(priorities_list_object, i));
+    }
+
+    t.handle.prioritize_files(priorities_vector);
+
+    return Py_None;
+}
+
 //====================
 // Python Module data
 //====================
@@ -1490,6 +1518,7 @@ static PyMethodDef deluge_core_methods[] =
     {"get_trackers",     torrent_get_trackers,               METH_VARARGS,   "."},
     {"replace_trackers",     torrent_replace_trackers,               METH_VARARGS,   "."},
     {"set_flp",     torrent_set_flp,               METH_VARARGS,   "."},
+    {"prioritize_files",     torrent_prioritize_files,               METH_VARARGS,   "."},
     {NULL}
 };
 
