@@ -860,3 +860,6 @@ class Manager:
 
     def replace_trackers(self, unique_ID, trackers):
         return deluge_core.replace_trackers(unique_ID, trackers)
+
+    def set_flp(self, unique_ID, num):
+        return deluge_core.set_flp(unique_ID, int(num))

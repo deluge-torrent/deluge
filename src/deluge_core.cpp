@@ -1422,6 +1422,27 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
   h.force_reannounce();
   return Py_None;
 }
+static PyObject *torrent_set_flp(PyObject *self, PyObject *args)
+{
+    python_long unique_ID;
+    int num;
+    if (!PyArg_ParseTuple(args, "ii", &unique_ID, &num))
+      return NULL;
+    long index = get_index_from_unique_ID(unique_ID);
+    if (PyErr_Occurred())
+      return NULL;
+
+    torrent_t               &t = M_torrents->at(index);
+    torrent_status           s = t.handle.status();
+    const torrent_info  &i = t.handle.get_torrent_info();
+
+    int npieces = i.num_pieces();
+
+    t.handle.piece_priority(0, num);
+    t.handle.piece_priority(npieces, num);
+
+    return Py_None;
+}
 //====================
 // Python Module data
 //====================
@@ -1468,6 +1489,7 @@ static PyMethodDef deluge_core_methods[] =
     {"proxy_settings",     torrent_proxy_settings,               METH_VARARGS,   "."},
     {"get_trackers",     torrent_get_trackers,               METH_VARARGS,   "."},
     {"replace_trackers",     torrent_replace_trackers,               METH_VARARGS,   "."},
+    {"set_flp",     torrent_set_flp,               METH_VARARGS,   "."},
     {NULL}
 };
 

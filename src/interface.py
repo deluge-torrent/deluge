@@ -202,13 +202,13 @@ class DelugeGTK:
         self.submenu_bwdownset = self.build_menu_radio_list(
                 self.config.get("tray_downloadspeedlist"), self.tray_setbwdown,
                 self.config.get("max_download_speed"), _("KiB/s"), 
-                show_notset=True)
+                show_notset=True, show_other=True)
         
         # Create the Upload speed list sub-menu
         self.submenu_bwupset = self.build_menu_radio_list(
                 self.config.get("tray_uploadspeedlist"), self.tray_setbwup, 
                 self.config.get("max_upload_speed"), _("KiB/s"), 
-                show_notset=True)
+                show_notset=True, show_other=True)
         
         # Add the sub-menus to the tray menu
         self.tray_glade.get_widget("download_limit").set_submenu(self.submenu_bwdownset)
@@ -220,44 +220,77 @@ class DelugeGTK:
 
     def build_menu_radio_list(self, value_list, callback, pref_value=None, 
                               suffix=None, show_notset=False, 
-                              notset_label=None, notset_lessthan=0, show_other=False):
+                              notset_label=None, notset_lessthan=0, show_other=False, show_activated=False, activated_label=None):
         # Build a menu with radio menu items from a list and connect them to the callback
         # The pref_value is what you would like to test for the default active radio item
         # Setting show_unlimited will include an Unlimited radio item
         if notset_label is None:
             notset_label = _("Unlimited")
+
+        if activated_label is None:
+            activated_label = _("Activated")
+
         menu = gtk.Menu()
-            
         group = None
-        for value in sorted(value_list):
-            if suffix != None:
-                menuitem = gtk.RadioMenuItem(group, str(value) + " " + suffix)
-            else:
-                menuitem = gtk.RadioMenuItem(group, str(value))
+        if show_activated is False:
+            for value in sorted(value_list):
+                if suffix != None:
+                    menuitem = gtk.RadioMenuItem(group, str(value) + " " + suffix)
+                else:
+                    menuitem = gtk.RadioMenuItem(group, str(value))
             
-            group = menuitem
+                group = menuitem
 
-            if value == pref_value and pref_value != None:
-                menuitem.set_active(True)
+                if value == pref_value and pref_value != None:
+                    menuitem.set_active(True)
 
-            if callback != None:
-                menuitem.connect("toggled", callback)
+                if callback != None:
+                    menuitem.connect("toggled", callback)
 
-            menu.append(menuitem)
+                menu.append(menuitem)
+
+        if show_activated is True:
+            for value in sorted(value_list):
+                menuitem = gtk.RadioMenuItem(group, str(activated_label))
+            
+                group = menuitem
+
+                if value == pref_value and pref_value != None:
+                    menuitem.set_active(True)
+
+                if callback != None:
+                    menuitem.connect("toggled", callback)
+
+                menu.append(menuitem)
+
+ #       if show_activated is True:
+#            for value in sorted(value_list):
+  #              menuitem = gtk.RadioMenuItem(group, activated_label)
+   #             group = menuitem
+#
+ #               if value == 1:
+  #                  menuitem.set_active(False)
+   #             else:
+    #                menuitem.set_active(True)
+     #           menuitem.connect("toggled", callback)
+      #          menu.append(menuitem)
 
         if show_notset:
             menuitem = gtk.RadioMenuItem(group, notset_label)
             if pref_value < notset_lessthan and pref_value != None:
                 menuitem.set_active(True)
+            if show_activated and pref_value == 1:
+                menuitem.set_active(True)
             menuitem.connect("toggled", callback)
             menu.append(menuitem)
             
         # Add the Other... menuitem
-        menuitem = gtk.SeparatorMenuItem()
-        menu.append(menuitem)
-        menuitem = gtk.MenuItem(_("Other..."))
-        menuitem.connect("activate", callback)
-        menu.append(menuitem)
+        if show_other is True:
+            menuitem = gtk.SeparatorMenuItem()
+            menu.append(menuitem)
+            menuitem = gtk.MenuItem(_("Other..."))
+            menuitem.connect("activate", callback)
+            menu.append(menuitem)
                     
         return menu
     
