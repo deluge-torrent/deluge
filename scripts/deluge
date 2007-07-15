@@ -34,11 +34,14 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
+import gettext
+import locale
+import os
+import os.path
 from optparse import OptionParser
+import re
 import sys
-import os, os.path
-import gettext, locale
-import deluge, deluge.common, deluge.interface
+
 try:
     import dbus
     dbus_version = getattr(dbus, 'version', (0,0,0))
@@ -52,6 +55,10 @@ try:
 except: dbus_imported = False
 else: dbus_imported = True
 
+import deluge
+import deluge.common
+import deluge.core
+import deluge.interface
 
 parser = OptionParser(usage="%prog [options] [actions]", version=deluge.common.PROGRAM_VERSION)
 parser.add_option("--tray", dest="tray", help="start Deluge hidden in system tray",
@@ -61,13 +68,51 @@ parser.add_option("--url", dest="url", help="Load a torrent from a URL",
 
 (options, args) = parser.parse_args()
 
+def fix_old_persistence_state():
+    pstate_file_path = os.path.join(deluge.common.CONFIG_DIR, 
+                                    deluge.core.STATE_FILENAME)
+    ## The persistent_state object moved from the deluge.deluge module to the
+    ## deluge.core module from 0.5; so let's edit the user's saved data to 
+    ## reflect this.
+    if os.path.isfile(pstate_file_path):
+        try:
+            pstate_fd = open(pstate_file_path, "r")
+            pstate_data = pstate_fd.read()
+            pstate_fd.close()
+            
+            ## If the file was empty, then we should remove it so that the
+            ## pickler doesn't not attempt to unpack an empty state.
+            if len(pstate_data) is 0:
+                os.remove(pstate_file_path)
+                print "Empty persistent state data file removed successfully."
+            ## The file exists and contains data, so let's do a regex-based
+            ## find/replace to update the module name.
+            else:
+                pstate_old_regex = re.compile("\(ideluge\.deluge$", 
+                                              re.MULTILINE)
+                if re.search(pstate_old_regex, pstate_data):
+                    pstate_new_data = re.sub(pstate_old_regex, 
+                                             "(ideluge.core", pstate_data)
+                    pstate_fd = open(pstate_file_path, "w")
+                    pstate_fd.write(pstate_new_data)
+                    pstate_fd.close()
+                    print "Persistent state data updated successfully."
+        except OSError, oopsie: 
+            print >> sys.stderr, \
+"""There was an error updating the persistent.state file.
+If this is an upgrade from an earlier version of Deluge, this may cause bugs 
+or failures in startup. You may wish to remove it manually. (%s)
+Continuing...""" % pstate_file_path
+            print >> sys.stderr, "The error was: %s." % oopsie
 
 def start_deluge():
     print "Starting new Deluge session..."
+
+    fix_old_persistence_state()
+
     interface = deluge.interface.DelugeGTK()
     add_args(interface)
     interface.start(options.tray)
-
 
 def add_args(interface):
     if options.url:
@@ -79,7 +124,6 @@ def add_args(interface):
                 interface.external_add_torrent(apath)
             else:
                 print "Error,", arg, " does not seem to be a .torrent file"
-
 
 if dbus_imported:
     bus = dbus.SessionBus()
