@@ -3,28 +3,30 @@ Deluge 0.5.3 (XX August 2007)
   * Added ChangeLog
   * RSS plugin inclusion
   * Show text from clipboard in Add URL dialog only if it looks like an URL
-  * Fixed start in tray when run deluge --tray
-  * Fixed full storage allocation of files on reiser4 and ntfs-3g filesystems
-  * Remember directory of last added torrent
-  * Added Move completed downloads to feature
+  * ticket #405 - Fixed start in tray when run deluge --tray
+  * ticket #371 - Fixed full storage allocation of files on reiser4 and ntfs-3g filesystems
+  * ticket #111 - Remember directory of last added torrent
+  * ticket #420 - Show size of torrent minus size of unselected files as Total Size
+  * ticket #232 - Added Move completed downloads to feature
   * Added Torrent Notification plugin
-  * Added ability to select torrent files before starting
-  * No longer fail on startup after upgrade from old versions
+  * Added event handling callbacks for plugins
+  * ticket #245 - Added ability to select torrent files before starting
+  * ticket #437 - No longer fail on startup after upgrade from old versions
   * Details, Peers and Files tabs more responsible and their perfomance greatly
   improved especially on torrents with many files and peers
   * A lot of other less visible fixes
 
 Deluge 0.5.2 (05 July 2007)
-  * Torrent creation built into main client
-  * Plugins implemented as modules
-  * Configuration options for PEX and UPnP
-  * Individual file progress shown in File tab
+  * ticket #6 - Torrent creation built into main client
+  * ticket #315 - Plugins implemented as modules
+  * ticket #310 - Configuration options for PEX and UPnP
+  * ticket #390 - Individual file progress shown in File tab
   * The usual slew of bugfixes
 
 Deluge 0.5.1 (11 June 2007)
   * Peer Exchange
-  * Encryption
-  * UPnP + NATPMP
+  * ticket #254 - Encryption
+  * ticket #142 - UPnP + NATPMP
   * Improved user interface
   * Redesigned preferences dialog
   * Startup and shutdown bugs fixed
