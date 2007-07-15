@@ -30,27 +30,23 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import sys
-import os
 import os.path
-import urllib
 from itertools import izip
-import core
-import common
-import dgtk
-import ipc_manager
-import dialogs
-import plugins
-import pref
+import urllib
+
+import gettext
+import gobject
+import gtk
+import locale
 import pygtk
 pygtk.require('2.0')
-import gtk
-import gtk.glade
-import gobject
-import xdg
-import xdg.BaseDirectory
-import gettext
-import locale
+
+import core
+import common
+import dialogs
+import dgtk
+import ipc_manager
+import plugins
 
 class DelugeGTK:
     def __init__(self):
