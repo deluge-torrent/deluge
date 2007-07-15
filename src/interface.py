@@ -413,7 +413,7 @@ class DelugeGTK:
         #     DL, UL, ETA, Share
         self.torrent_model = gtk.ListStore(int, gobject.TYPE_UINT, 
             gtk.gdk.Pixbuf, str, gobject.TYPE_UINT64, float, str, int, int, 
-            int, int, int, int, gobject.TYPE_UINT, float)
+            int, int, int, int, gobject.TYPE_UINT64, float)
         # Stores unique_ID -> gtk.TreeRowReference's mapping for quick look up
         self.torrent_model_dict = {}
 
@@ -805,7 +805,7 @@ class DelugeGTK:
         dl_speed = int(state['download_rate'])
         ul_speed = int(state['upload_rate'])
         try:
-            eta = common.get_eta(state["total_wanted"], state["total_wanted_done"], state["download_rate"])
+            eta = common.get_eta(size, state["total_wanted_done"], dl_speed)
         except ZeroDivisionError:
             eta = 0
         share = float(self.calc_share_ratio(unique_id, state))
@@ -819,7 +819,7 @@ class DelugeGTK:
             status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("downloading16.png"))
     
         rlist =  [int(unique_id), queue, status_icon, name, size, progress, message,
-                seeds, seeds_t, peers, peers_t, dl_speed, ul_speed, int(eta), share]
+                seeds, seeds_t, peers, peers_t, dl_speed, ul_speed, eta, share]
 
         return rlist
     

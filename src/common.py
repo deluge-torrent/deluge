@@ -59,6 +59,7 @@ def estimate_eta(state):
         return _("Infinity")
     
 def get_eta(size, done, speed):
+    # raise ZeroDivisionError for Infinity in estimate_eta()
     if (size - done) == 0:
         raise ZeroDivisionError
     return (size - done) / speed
