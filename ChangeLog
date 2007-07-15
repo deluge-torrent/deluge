@@ -1,6 +1,7 @@
 Deluge 0.5.3 (XX August 2007)
 
   * Added ChangeLog
+  * RSS plugin inclusion by Mark Adamson
   * Show text from clipboard in Add URL dialog only if it looks like an URL
   * Fixed start in tray when run deluge --tray
   * Fixed full storage allocation of files on reiser4 and ntfs-3g filesystems
