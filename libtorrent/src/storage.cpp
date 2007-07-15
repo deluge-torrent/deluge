@@ -1037,13 +1037,13 @@ namespace libtorrent
 			switch (buf.f_type)
 			{
 				case 0x5346544e: // NTFS
-				case 0x65735546: // NTFS-3G
 				case 0xEF51: // EXT2 OLD
 				case 0xEF53: // EXT2 and EXT3
 				case 0x00011954: // UFS
 				case 0x52654973: // ReiserFS
 				case 0x52345362: // Reiser4
 				case 0x58465342: // XFS
+				case 0x65735546: // NTFS-3G
 					return true;
 			}
 		}
