@@ -32,7 +32,7 @@ def enable(core, interface):
 ### The Plugin ###
 
 DEFAULT_PREFS = {
-    "ratios": [1.0, 1.5, 2.0, 3.0]
+    "ratios": [1.0, 1.5, 2.0, 2.5, 3.0]
 }
 
 import deluge
@@ -64,7 +64,7 @@ class DesiredRatio:
 
 
      
-        self.ratio_menu = self.interface.build_menu_radio_list(self.config.get("ratios"), self.ratio_clicked, self.get_torrent_desired_ratio(), None, True, _("_Not Set"), 1)
+        self.ratio_menu = self.interface.build_menu_radio_list(self.config.get("ratios"), self.ratio_clicked, self.get_torrent_desired_ratio(), None, True, _("_Not Set"), 1, None)
 
         self.ratio_menuitem.set_submenu(self.ratio_menu)
         self.interface.torrent_menu.append(self.ratio_menuitem)
@@ -102,6 +102,8 @@ class DesiredRatio:
         if value == _("Other..."):
             dialog_glade = gtk.glade.XML(deluge.common.get_glade_file("dgtkpopups.glade"))
             speed_dialog = dialog_glade.get_widget("speed_dialog")
+            spin_title = dialog_glade.get_widget("spin_title")
+            spin_title.set_text(_("Desired Ratio"))
             spin_speed = dialog_glade.get_widget("spin_speed")
             spin_speed.set_value(self.get_torrent_desired_ratio())
             spin_speed.set_increments(0.1, 1.0)

@@ -220,7 +220,7 @@ class DelugeGTK:
 
     def build_menu_radio_list(self, value_list, callback, pref_value=None, 
                               suffix=None, show_notset=False, 
-                              notset_label=None, notset_lessthan=0):
+                              notset_label=None, notset_lessthan=0, show_other=False):
         # Build a menu with radio menu items from a list and connect them to the callback
         # The pref_value is what you would like to test for the default active radio item
         # Setting show_unlimited will include an Unlimited radio item
@@ -269,6 +269,8 @@ class DelugeGTK:
         if str_bwdown == _("Other..."):
             dialog_glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"))
             speed_dialog = dialog_glade.get_widget("speed_dialog")
+            spin_title = dialog_glade.get_widget("spin_title")
+            spin_title.set_text(_("Speed:"))
             spin_speed = dialog_glade.get_widget("spin_speed")
             spin_speed.set_value(self.config.get("max_download_speed"))
             spin_speed.select_region(0, -1)
