@@ -84,14 +84,14 @@ PREF_FUNCTIONS = {
 def N_(self):
         return self
 
-STATE_MESSAGES = (_("Queued"),
-                  _("Checking"),
-                  _("Connecting"),
-                  _("Downloading Metadata"),
-                  _("Downloading"),
-                  _("Finished"),
-                  _("Seeding"),
-                  _("Allocating"))
+STATE_MESSAGES = (N_("Queued"),
+                  N_("Checking"),
+                  N_("Connecting"),
+                  N_("Downloading Metadata"),
+                  N_("Downloading"),
+                  N_("Finished"),
+                  N_("Seeding"),
+                  N_("Allocating"))
 # Exceptions
 
 class DelugeError(Exception):
@@ -125,7 +125,7 @@ class InsufficientFreeSpaceError(DelugeError):
         self.free_space = free_space
         self.needed_space = needed_space
     def __str__(self):
-        return _("%d %d bytes needed")%(self.free_space, self.needed_space)
+        return "%d %d "%self.free_space, self.needed_space + _("bytes needed")
 
 # A cached data item
 
