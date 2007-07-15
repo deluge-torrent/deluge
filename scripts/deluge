@@ -68,7 +68,7 @@ parser.add_option("--url", dest="url", help="Load a torrent from a URL",
 
 (options, args) = parser.parse_args()
 
-def fix_old_persistent_state():
+def upgrade_old_persistent_state():
     pstate_file_path = os.path.join(deluge.common.CONFIG_DIR, 
                                     deluge.core.STATE_FILENAME)
     ## The persistent_state object moved from the deluge.deluge module to the
@@ -108,7 +108,7 @@ Continuing...""" % pstate_file_path
 def start_deluge():
     print "Starting new Deluge session..."
 
-    fix_old_persistent_state()
+    upgrade_old_persistent_state()
 
     interface = deluge.interface.DelugeGTK()
     add_args(interface)
