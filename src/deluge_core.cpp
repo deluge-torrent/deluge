@@ -1470,6 +1470,25 @@ static PyObject *torrent_prioritize_files(PyObject *self, PyObject *args)
 
     return Py_None;
 }
+static PyObject *torrent_set_priv(PyObject *self, PyObject *args)
+{
+    using namespace libtorrent;
+    python_long unique_ID;
+    bool onoff;
+    
+    if (!PyArg_ParseTuple(args, "ib", &unique_ID, &onoff))
+        return NULL;
+    long index = get_index_from_unique_ID(unique_ID);
+    if (PyErr_Occurred())
+        return NULL;
+
+    torrent_t &t = M_torrents->at(index);
+    torrent_info info = t.handle.get_torrent_info();
+
+    info.set_priv(onoff);
+
+    return Py_None;
+}
 
 //====================
 // Python Module data
@@ -1519,6 +1538,7 @@ static PyMethodDef deluge_core_methods[] =
     {"replace_trackers",     torrent_replace_trackers,               METH_VARARGS,   "."},
     {"set_flp",     torrent_set_flp,               METH_VARARGS,   "."},
     {"prioritize_files",     torrent_prioritize_files,               METH_VARARGS,   "."},
+    {"set_priv",     torrent_set_priv,               METH_VARARGS,   "."},
     {NULL}
 };
 
