@@ -1,0 +1,15 @@
+Deluge 0.5.3 (XX August 2007)
+
+	* Added ChangeLog.
+	* Show text from clipboard in Add URL dialog only if it looks like an
+	URL
+	* Fixed start in tray when run deluge --tray
+	* Fixed full storage allocation of files on reiser4 and ntfs-3g
+	filesystems
+	* Remember directory of last added torrent
+	* Added Move completed downloads to feature
+	* Added Torrent Notification plugin
+	* No longer fail on startup after upgrade from old versions
+	* Details, Peers and Files tabs more responsible and use much less CPU
+	especially on torrents with many files
+	* A lot of other less visible fixes
