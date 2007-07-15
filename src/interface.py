@@ -980,7 +980,7 @@ class DelugeGTK:
         if page_num == 0: # Details
             state = self.manager.get_torrent_state(unique_id)
             self.wtree.get_widget("summary_name").set_text(state['name'])
-            self.text_summary_total_size.set_text(common.fsize(state["total_size"]))
+            self.text_summary_total_size.set_text(common.fsize(state["total_wanted"]))
             self.text_summary_pieces.set_text(str(state["num_pieces"]))
             self.text_summary_total_downloaded.set_text(common.fsize(state["total_done"]) \
                 + " (" + common.fsize(state["total_download"]) + ")")
