@@ -1436,7 +1436,7 @@ static PyObject *torrent_set_flp(PyObject *self, PyObject *args)
     torrent_status           s = t.handle.status();
     const torrent_info  &i = t.handle.get_torrent_info();
 
-    int npieces = i.num_pieces();
+    int npieces = i.num_pieces() - 1;
 
     t.handle.piece_priority(0, num);
     t.handle.piece_priority(npieces, num);
