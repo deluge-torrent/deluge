@@ -219,7 +219,7 @@ class DelugeGTK:
 
     def build_menu_radio_list(self, value_list, callback, pref_value=None, 
                               suffix=None, show_notset=False, 
-                              notset_label="Unlimited", notset_lessthan=0):
+                              notset_label=_("Unlimited"), notset_lessthan=0):
         # Build a menu with radio menu items from a list and connect them to the callback
         # The pref_value is what you would like to test for the default active radio item
         # Setting show_unlimited will include an Unlimited radio item
@@ -244,7 +244,7 @@ class DelugeGTK:
             menu.append(menuitem)
 
         if show_notset:
-            menuitem = gtk.RadioMenuItem(group, _(notset_label))
+            menuitem = gtk.RadioMenuItem(group, notset_label)
             if pref_value < notset_lessthan and pref_value != None:
                 menuitem.set_active(True)
             menuitem.connect("toggled", callback)
@@ -780,7 +780,7 @@ class DelugeGTK:
             message = _("Paused %s")%progress
         else:
             try:
-                message = _(core.STATE_MESSAGES[state])
+                message = core.STATE_MESSAGES[state]
                 if state in (1, 3, 4, 7):
                     message = '%s %s'%(message, progress)
             except IndexError:
