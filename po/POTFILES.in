@@ -9,3 +9,4 @@ src/common.py
 src/core.py
 src/interface.py
 src/dialogs.py
+src/files.py
