@@ -8,8 +8,8 @@ Deluge 0.5.3 (XX August 2007)
   * Added Move completed downloads to feature
   * Added Torrent Notification plugin
   * No longer fail on startup after upgrade from old versions
-  * Details, Peers and Files tabs more responsible and use much less CPU
-  especially on torrents with many files
+  * Details, Peers and Files tabs more responsible and their perfomance greatly
+  improved especially on torrents with many files and peers
   * A lot of other less visible fixes
 
 Deluge 0.5.2 (05 July 2007)
