@@ -186,11 +186,15 @@ class FilesDlg:
         self.files_for_dialog.use_unique_id(unique_id)
         self.files_for_dialog.file_view_actions(self.file_view)
         self.files_for_dialog.prepare_store()
+        #clear private setting
+        self.glade.get_widget("chk_setpriv").set_active(False)
         self.dialog.show()
         r = self.dialog.run()
         self.dialog.hide()
         self.files_for_dialog.remove_columns()
         self.files_for_dialog.clear_file_store()
+        if(self.glade.get_widget("chk_setpriv").get_active()):
+            self.manager.set_priv(unique_id, True)
         return r
 
 class PluginDlg:

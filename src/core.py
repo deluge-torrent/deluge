@@ -869,5 +869,4 @@ class Manager:
         return deluge_core.set_flp(unique_ID, int(num))
 
     def set_priv(self, unique_ID, on_off):
-        print unique_ID, on_off
         return deluge_core.set_flp(unique_ID, on_off)
