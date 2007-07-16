@@ -129,14 +129,19 @@ def is_url(url):
 
 def fetch_url(url):
     import urllib
-    
-    filename, headers = urllib.urlretrieve(url)
-    if filename.endswith(".torrent") or \
-       headers["content-type"]=="application/x-bittorrent":
-        return filename, headers
+
+    try:
+        filename, headers = urllib.urlretrieve(url)
+    except IOError:
+        print 'Network error while trying to fetch torrent from %s' % url
     else:
-        print "URL doesn't appear to be a valid torrent file:", url
-        return None, None
+        if filename.endswith(".torrent") or \
+           headers["content-type"]=="application/x-bittorrent":
+            return filename
+        else:
+            print "URL doesn't appear to be a valid torrent file:", url
+            
+    return None
 
 # Encryption States
 class EncState:

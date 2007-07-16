@@ -63,8 +63,6 @@ import deluge.interface
 parser = OptionParser(usage="%prog [options] [actions]", version=deluge.common.PROGRAM_VERSION)
 parser.add_option("--tray", dest="tray", help="start Deluge hidden in system tray",
                         metavar="TRAY", action="store_true")
-parser.add_option("--url", dest="url", help="Load a torrent from a URL",
-                        metavar="URL", action="store")
 
 (options, args) = parser.parse_args()
 
@@ -106,7 +104,20 @@ Continuing...""" % pstate_file_path
             print >> sys.stderr, "The error was: %s." % oopsie
 
 def get_cmd_line_torrents():
-    return [os.path.abspath(x) for x in args]
+    cmd_line_torrents = []
+
+    for torrent in args:
+        if deluge.common.is_url(torrent):
+            filename = deluge.common.fetch_url(torrent)
+            if filename:
+                cmd_line_torrents.append(filename)
+        else:
+            if not torrent.endswith(".torrent"):
+                print "Error,", torrent, " does not seem to be a .torrent file"
+            else:        
+	            cmd_line_torrents.append(os.path.abspath(torrent))
+
+    return cmd_line_torrents
 
 def start_deluge():
     print "Starting new Deluge session..."
@@ -115,7 +126,7 @@ def start_deluge():
 
     interface = deluge.interface.DelugeGTK()
 
-    interface.start(options.tray, get_cmd_line_torrents(), options.url)
+    interface.start(options.tray, get_cmd_line_torrents())
 
 if dbus_imported:
     bus = dbus.SessionBus()
@@ -137,10 +148,6 @@ if dbus_imported:
 
         for filename in get_cmd_line_torrents():
             deluge_iface.interactive_add_torrent(filename)
-
-        if options.url:
-            deluge_iface.interactive_add_torrent_url(options.url)
-
 else:
     print "no existing Deluge session"
     start_deluge()

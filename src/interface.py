@@ -32,7 +32,6 @@
 
 import os.path
 from itertools import izip
-import re
 
 import gettext
 import gobject
@@ -766,8 +765,7 @@ class DelugeGTK:
         return rlist
     
     ## Start the timer that updates the interface
-    def start(self, start_in_tray=False, cmd_line_torrents=None, 
-              cmd_line_torrent_url=None):
+    def start(self, start_in_tray=False, cmd_line_torrents=None):
         if cmd_line_torrents is None:
             cmd_line_torrents = []
         
@@ -782,7 +780,6 @@ class DelugeGTK:
             
         for torrent_file in cmd_line_torrents:
             self.interactive_add_torrent(torrent_file)
-        self.interactive_add_torrent_url(cmd_line_torrent_url)
         
         # Load plugins after we showed main window (if not started in tray)
         self.load_plugins()
@@ -1065,15 +1062,11 @@ class DelugeGTK:
                 
     def interactive_add_torrent_url(self, url):
         if url:
-            filename, headers = common.fetch_url(url)
+            filename = common.fetch_url(url)
             if filename:
                 self.interactive_add_torrent(filename)
         
     def interactive_add_torrent(self, torrent):
-        if not torrent.endswith(".torrent"):
-            print "Error,", torrent, " does not seem to be a .torrent file"
-            return
-        
         if self.config.get('use_default_dir'):
             path = self.config.get('default_download_path')
         else:
