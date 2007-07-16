@@ -95,11 +95,17 @@ class TorrentCreator:
       return
     
     def torrent_chooserbutton_clicked(self, widget):
-      filechooser = gtk.FileChooserDialog(title=_("Save file as..."), parent=None, action=gtk.FILE_CHOOSER_ACTION_SAVE, buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK), backend=None)
+      filechooser = gtk.FileChooserDialog(title=_("Save file as..."), 
+                        parent=None, action=gtk.FILE_CHOOSER_ACTION_SAVE, 
+                        buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, 
+                                 gtk.STOCK_OK, gtk.RESPONSE_OK), backend=None)
       response = filechooser.run()
       # Update the torrentfile entry widget if a file was selected.
       if response == gtk.RESPONSE_OK:
-        self.glade.get_widget("torrentfile_entry").set_text(filechooser.get_filename())
+        torrent = filechooser.get_filename()
+        if not torrent.endswith(".torrent"):
+          torrent += ".torrent"
+        self.glade.get_widget("torrentfile_entry").set_text(torrent)
       
       filechooser.destroy()
     
@@ -120,7 +126,7 @@ class TorrentCreator:
         # Send alert to the user that we need a torrent filename to save to
         deluge.dialogs.show_popup_warning(self.dialog, _("You must select a file to save the torrent as."))
         return False
-      
+    
       piece_size = self.glade.get_widget("piece_size_combobox")
       piece_size = int(piece_size.get_model().get_value(piece_size.get_active_iter(), 0).split(" ")[0])
             
@@ -147,7 +153,8 @@ class TorrentCreator:
       self.destroy()
 
       # Create the torrent and add it to the queue if necessary
-      if self.core.create_torrent(torrent, source, trackers, comments, piece_size, author) == 1:
+      if self.core.create_torrent(torrent, source, trackers, comments, 
+                                  piece_size, author) == 1:
         # Torrent was created successfully
         if add_torrent:
           # We need to add this torrent to the queue
