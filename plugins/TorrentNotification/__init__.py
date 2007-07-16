@@ -72,16 +72,20 @@ class TorrentNotification:
     def set_tray_flashing_on(self):
         if self.window.has_toplevel_focus() is not True:
             self.interface.tray_icon.set_blinking(True)
-    
 
     def show_notification(self, event):
         import pynotify
+        
         file_info = self.interface.manager.get_torrent_file_info(event['unique_ID'])
-        self.filelist = ""
-        for file in file_info:
-            self.filelist += file['path']+"\n"
+        filelist = ""
+        for file in file_info[:10]:
+            filelist += file['path'] + "\n"
+        if len(file_info) > 10:
+            filelist += '...'
+            
         if pynotify.init("My Application Name"):
-            n = pynotify.Notification("Torrent complete", "Files:\n"+self.filelist)
+            n = pynotify.Notification("Torrent complete", 
+                                      "Files:\n" + filelist)
             n.show()
         else:
             print "there was a problem initializing the pynotify module"
