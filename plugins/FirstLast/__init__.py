@@ -48,8 +48,14 @@ class FirstLast:
         self.callback_ids = []
      
         # Setup preferences
-        self.config = deluge.pref.Preferences(filename=deluge.common.CONFIG_DIR + "/firstlast_priorty.conf", global_defaults=False, defaults=DEFAULT_PREFS)
-
+	self.config_file = deluge.common.CONFIG_DIR + "/firstlast_priorty.conf"
+        self.config = deluge.pref.Preferences(filename=deluge.common.CONFIG_DIR + "/firstlast_priority.conf", global_defaults=False, defaults=DEFAULT_PREFS)
+        try:
+            self.config.load(self.config_file)
+        except IOError:
+            # File does not exist
+            pass
+        print self.config.get
     # Connect to events for the torrent menu so we know when to build and remove our sub-menu
         self.callback_ids.append(self.interface.torrent_menu.connect_after("realize", self.torrent_menu_show))
         self.callback_ids.append(self.interface.torrent_menu.connect("show", self.torrent_menu_show))
@@ -79,6 +85,7 @@ class FirstLast:
         pass
       
     def unload(self):
+        self.config.save(self.config_file)
         # Disconnect all callbacks
         for callback_id in self.callback_ids:
             self.interface.torrent_menu.disconnect(callback_id)
