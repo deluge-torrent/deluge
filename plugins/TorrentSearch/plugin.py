@@ -126,7 +126,7 @@ class plugin_Search:
         url = url.replace('${query}', entry)
         print 'URL =', url
         print 'Entry =', entry
-        common.open_url_in_browser(None, url)
+        common.open_url_in_browser(url)
         
     def populate_search_menu(self):
         import gtk

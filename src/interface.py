@@ -1109,7 +1109,7 @@ class DelugeGTK:
                 self.torrent_model_append(unique_id)
             
     def launchpad(self, obj=None):
-        common.open_url_in_browser('self', 'https://translations.launchpad.net/deluge/trunk/+pots/deluge')
+        common.open_url_in_browser('https://translations.launchpad.net/deluge/trunk/+pots/deluge')
             
     def add_torrent_clicked(self, obj=None):
         torrent = dialogs.show_file_open_dialog()
@@ -1130,7 +1130,7 @@ class DelugeGTK:
         text = clip.wait_for_text()
         if text:
             text = text.strip()
-            if re.search('^(https?|ftp)://', text):
+            if common.is_url(text):
                 entry.set_text(text)
         dlg.show_all()
         result = dlg.run()

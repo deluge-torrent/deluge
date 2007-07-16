@@ -113,7 +113,7 @@ def get_glade_file(fname):
 def get_pixmap(fname):
     return os.path.join(PIXMAP_DIR, fname)
     
-def open_url_in_browser(dialog, link):
+def open_url_in_browser(link):
     class LaunchBrowser(threading.Thread):
         def run(self):
             try:    
@@ -121,6 +121,11 @@ def open_url_in_browser(dialog, link):
             except webbrowser.Error:
                 print _("Error: no webbrowser found")
     LaunchBrowser().start()
+
+def is_url(url):
+    import re
+    
+    return bool(re.search('^(https?|ftp)://', url))
 
 def fetch_url(url):
     import urllib

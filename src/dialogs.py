@@ -150,8 +150,7 @@ class PreferencesDlg:
         return r
             
     def TestPort(self, widget):
-        common.open_url_in_browser(self.dialog,
-            'http://www.deluge-torrent.org/test-port.php?port=%s' % self.active_port)
+        common.open_url_in_browser('http://www.deluge-torrent.org/test-port.php?port=%s' % self.active_port)
 
         
     def tray_toggle(self, widget):
@@ -273,7 +272,10 @@ class PluginDlg:
 
 
 def show_about_dialog(parent=None):
-        gtk.about_dialog_set_url_hook(common.open_url_in_browser)
+        def url_hook(dialog, url):
+            common.open_url_in_browser(url)
+
+        gtk.about_dialog_set_url_hook(url_hook)
         abt = gtk.glade.XML(common.get_glade_file("aboutdialog.glade")).get_widget("aboutdialog")
         abt.set_name(common.PROGRAM_NAME)
         abt.set_version(common.PROGRAM_VERSION)
