@@ -28,10 +28,12 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
+import gtk
+
 import common
 import dgtk
+import files
 import pref
-import gtk
 
 PREFS_FILENAME  = "prefs.state"
 
@@ -168,27 +170,32 @@ class PreferencesDlg:
             self.glade.get_widget("finished_path_button").set_sensitive(True)
 
 class FilesDlg:
-    def __init__(self, parent, files_for_dialog):
-        self.files_for_dialog = files_for_dialog
-        self.parent = parent
-        self.glade = gtk.glade.XML(common.get_glade_file("files_dialog.glade"), domain='deluge')
+    def __init__(self, manager, unique_id):
+        self.glade = gtk.glade.XML(common.get_glade_file("files_dialog.glade"), 
+                                   domain='deluge')
         self.dialog = self.glade.get_widget("file_dialog")
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
         self.file_view = self.glade.get_widget("file_view")
-        self.files_for_dialog.build_file_view(self.file_view)
-    
-    def show(self, manager, unique_id):
+        
         self.manager = manager
-        self.files_for_dialog.use_unique_id(unique_id)
-        self.files_for_dialog.prepare_store()
+        self.unique_id = unique_id
+        self.files_manager = files.FilesManager(manager, False)
+        self.files_manager.build_file_view(self.file_view)
+    
+    def show(self):
+        self.files_manager.use_unique_id(self.unique_id)
+        self.files_manager.prepare_store()
+        
         #clear private setting
         self.glade.get_widget("chk_setpriv").set_active(False)
+        
         self.dialog.show()
         r = self.dialog.run()
         self.dialog.hide()
-        self.files_for_dialog.clear_file_store()
+        
         if(self.glade.get_widget("chk_setpriv").get_active()):
-            self.manager.set_priv(unique_id, True)
+            self.manager.set_priv(self.unique_id, True)
+            
         return r
 
 class PluginDlg:

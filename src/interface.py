@@ -65,7 +65,6 @@ class DelugeGTK:
         self.manager = core.Manager(common.CLIENT_CODE, common.CLIENT_VERSION, 
             '%s %s'%(common.PROGRAM_NAME, common.PROGRAM_VERSION), common.CONFIG_DIR)
         self.files_for_tab = files.FilesManager(self.manager, True)
-        self.files_for_dialog = files.FilesManager(self.manager, False)
         self.plugins = plugins.PluginManager(self.manager, self)
         self.plugins.add_plugin_dir(common.PLUGIN_DIR)
         if os.path.isdir(os.path.join(common.CONFIG_DIR , 'plugins')):
@@ -102,7 +101,6 @@ class DelugeGTK:
         
         self.preferences_dialog = dialogs.PreferencesDlg(self, self.config)
         self.plugin_dialog = dialogs.PluginDlg(self, self.plugins)
-        self.files_dialog = dialogs.FilesDlg(self, self.files_for_dialog)
         self.build_torrent_table()
         self.build_summary_tab()
         self.build_file_tab()
@@ -1105,7 +1103,9 @@ class DelugeGTK:
             num_files = len(self.manager.get_torrent_file_info(unique_id))
             if self.config.get('enable_files_dialog') and num_files > 1:
                 self.manager.set_user_pause(unique_id, True)
-                if self.files_dialog.show(self.manager, unique_id) == 1:
+                
+                files_dialog = dialogs.FilesDlg(self.manager, unique_id)
+                if files_dialog.show() == 1:
                     self.manager.set_user_pause(unique_id, False)
                     self.torrent_model_append(unique_id)
                 else:
