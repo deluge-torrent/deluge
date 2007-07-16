@@ -57,20 +57,20 @@ if dbus_imported:
             bus_name = dbus.service.BusName("org.deluge_torrent.Deluge", bus=self.bus)
             dbus.service.Object.__init__(self, bus_name, object_path)
 
-        ## external_add_torrent should only be called from outside the class    
+        ## interactive_add_torrent should only be called from outside the class
         @dbus.service.method('org.deluge_torrent.Deluge')
-        def external_add_torrent(self, torrent_file):
-            self.interface.external_add_torrent(torrent_file)
+        def interactive_add_torrent(self, torrent_file):
+            self.interface.interactive_add_torrent(torrent_file)
         @dbus.service.method('org.deluge_torrent.Deluge')
-        def external_add_url(self, url):
-            self.interface.external_add_url(url)
+        def interactive_add_torrent_url(self, url):
+            self.interface.interactive_add_torrent_url(url)
 else:
     # This is a fallback class in case dbus is not available
     class Manager:
         def __init__(self, interface, object_path=None):
             self.interface = interface
         
-        def external_add_torrent(self, torrent_file):
+        def interactive_add_torrent(self, torrent_file):
             print "I can't do anything with this."
-        def external_add_url(self, url):
+        def interactive_add_torrent_url(self, url):
             print "I can't do anything with this."

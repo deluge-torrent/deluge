@@ -30,9 +30,6 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import os
-import sys
-import imp
 import gtk
 import dgtk
 import common
@@ -51,20 +48,20 @@ class FilesManager:
                             "uncheck_selected": self.file_uncheck_selected,
                             })
         self.file_unique_id = -1
+        self.is_file_tab = is_file_tab
         # Stores file path -> gtk.TreeIter's iter mapping for quick look up 
         # in self.update_torrent_info_widget
         self.file_store_dict = {}
-        self.file_store = gtk.ListStore(bool, str, gobject.TYPE_UINT64)
-        self.file_store_sorted = gtk.TreeModelSort(self.file_store)
-        self.is_file_tab = is_file_tab
         if self.is_file_tab:
             self.file_store = gtk.ListStore(bool, str, gobject.TYPE_UINT64, float)
-            self.file_store_sorted = gtk.TreeModelSort(self.file_store)
+        else:
+            self.file_store = gtk.ListStore(bool, str, gobject.TYPE_UINT64)
+        self.file_store_sorted = gtk.TreeModelSort(self.file_store)
 
     def use_unique_id(self, unique_id):
         self.file_unique_id = unique_id
 
-    def file_view_actions(self, file_view):
+    def build_file_view(self, file_view):
         self.file_view = file_view
         def percent(column, cell, model, iter, data):
             percent = float(model.get_value(iter, data))
@@ -81,11 +78,6 @@ class FilesManager:
         self.file_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         self.file_view.get_selection().set_select_function(self.file_clicked)
         self.file_view.connect("button-press-event", self.file_view_clicked)
-
-    def remove_columns(self):
-        self.file_view.remove_column(self.size_column)
-        self.file_view.remove_column(self.filename_column)
-        self.file_view.remove_column(self.toggle_column)
 
     def clear_file_store(self):
         self.file_store.clear()

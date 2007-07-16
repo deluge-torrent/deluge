@@ -267,7 +267,7 @@ class plugin_RSS:
 	def torrents_view_row_activated(self, widget, spare1, spare2):
 		selection = widget.get_selection()
 		model, selection_iter = selection.get_selected()
-		self.interface.add_torrent_url(widget.get_model().get_value(selection_iter, 2))
+		self.interface.interactive_add_torrent_url(widget.get_model().get_value(selection_iter, 2))
 		
 
 	def chkfeeds_clicked(self, args):
@@ -342,7 +342,7 @@ class plugin_RSS:
 									#print "contains" + checkfilterexp
 									for enclosure in entry.enclosures:
 										print enclosure.href
-										self.interface.external_add_url(enclosure.href)
+										self.interface.interactive_add_torrent_url(enclosure.href)
 										#self.feeds_config.set(feedname, "lastchecked", asctime(entry.date_parsed))
 			else:
 				if avail[checkfilterfeed]:
@@ -363,7 +363,7 @@ class plugin_RSS:
 								#print "contains" + checkfilterexp
 								for enclosure in entry.enclosures:
 									print enclosure.href
-									self.interface.external_add_url(enclosure.href)
+									self.interface.interactive_add_torrent_url(enclosure.href)
 									#self.feeds_config.set(checkfilterfeed, "lastchecked", asctime(entry.date_parsed))
 
 		for name in avail.keys():

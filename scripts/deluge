@@ -105,25 +105,17 @@ or failures in startup. You may wish to remove it manually. (%s)
 Continuing...""" % pstate_file_path
             print >> sys.stderr, "The error was: %s." % oopsie
 
+def get_cmd_line_torrents():
+    return [os.path.abspath(x) for x in args]
+
 def start_deluge():
     print "Starting new Deluge session..."
 
     upgrade_old_persistent_state()
 
     interface = deluge.interface.DelugeGTK()
-    add_args(interface)
-    interface.start(options.tray)
 
-def add_args(interface):
-    if options.url:
-        interface.external_add_url(options.url)
-    else:
-        for arg in args:
-            apath =  os.path.abspath(arg)
-            if apath.endswith(".torrent"):
-                interface.external_add_torrent(apath)
-            else:
-                print "Error,", arg, " does not seem to be a .torrent file"
+    interface.start(options.tray, get_cmd_line_torrents(), options.url)
 
 if dbus_imported:
     bus = dbus.SessionBus()
@@ -143,7 +135,11 @@ if dbus_imported:
         deluge_iface = dbus.Interface(proxy, 'org.deluge_torrent.Deluge')
         print "send to iface"
 
-        add_args(deluge_iface)
+        for filename in get_cmd_line_torrents():
+            deluge_iface.interactive_add_torrent(filename)
+
+        if options.url:
+            deluge_iface.interactive_add_torrent_url(options.url)
 
 else:
     print "no existing Deluge session"

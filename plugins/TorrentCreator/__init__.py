@@ -151,7 +151,7 @@ class TorrentCreator:
         # Torrent was created successfully
         if add_torrent:
           # We need to add this torrent to the queue
-          self.interface.external_add_torrent(torrent)
+          self.interface.interactive_add_torrent(torrent)
         return True
       else:
         return False

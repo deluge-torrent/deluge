@@ -32,10 +32,6 @@ import common
 import dgtk
 import pref
 import gtk
-import gtk.glade
-import os
-import os.path
-import files
 
 PREFS_FILENAME  = "prefs.state"
 
@@ -179,19 +175,17 @@ class FilesDlg:
         self.dialog = self.glade.get_widget("file_dialog")
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
         self.file_view = self.glade.get_widget("file_view")
+        self.files_for_dialog.build_file_view(self.file_view)
     
     def show(self, manager, unique_id):
         self.manager = manager
-        self.files_for_dialog.clear_file_store()
         self.files_for_dialog.use_unique_id(unique_id)
-        self.files_for_dialog.file_view_actions(self.file_view)
         self.files_for_dialog.prepare_store()
         #clear private setting
         self.glade.get_widget("chk_setpriv").set_active(False)
         self.dialog.show()
         r = self.dialog.run()
         self.dialog.hide()
-        self.files_for_dialog.remove_columns()
         self.files_for_dialog.clear_file_store()
         if(self.glade.get_widget("chk_setpriv").get_active()):
             self.manager.set_priv(unique_id, True)

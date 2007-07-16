@@ -33,7 +33,6 @@
 import os.path
 from itertools import izip
 import re
-import urllib
 
 import gettext
 import gobject
@@ -61,9 +60,7 @@ class DelugeGTK:
         gettext.textdomain(APP)
         gettext.install(APP, DIR)
         
-        self.is_running = False
         self.ipc_manager = ipc_manager.Manager(self)
-        self.torrent_file_queue = []
         #Start the Deluge Manager:
         self.manager = core.Manager(common.CLIENT_CODE, common.CLIENT_VERSION, 
             '%s %s'%(common.PROGRAM_NAME, common.PROGRAM_VERSION), common.CONFIG_DIR)
@@ -124,16 +121,6 @@ class DelugeGTK:
         
         self.apply_prefs()
         self.load_window_geometry()
-
-    def external_add_torrent(self, torrent_file):
-        print "Got torrent externally:", os.path.basename(torrent_file)
-        print "Here's the raw data:", torrent_file
-        if self.is_running:
-            print "\t\tClient seems to already be running, we'll try and add the torrent"
-            uid = self.interactive_add_torrent(torrent_file)
-        else:
-            print "\t\tClient isn't running, we'll queue the torrent"
-            self.torrent_file_queue.append(torrent_file)
     
     def connect_signals(self):
         self.wtree.signal_autoconnect({
@@ -662,10 +649,7 @@ class DelugeGTK:
         self.peer_store_dict = {}
 
     def build_file_tab(self):
-        self.files_for_tab.clear_file_store()
-        self.files_for_tab.use_unique_id(self.get_selected_torrent())
-        self.file_view = self.wtree.get_widget("file_view")
-        self.files_for_tab.file_view_actions(self.file_view)
+        self.files_for_tab.build_file_view(self.wtree.get_widget("file_view"))
     
     def clear_file_store(self):
         self.files_for_tab.clear_file_store()
@@ -782,40 +766,40 @@ class DelugeGTK:
         else:
             status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("downloading16.png"))
     
-        rlist =  [int(unique_id), queue, status_icon, name, size, progress, message,
-                seeds, seeds_t, peers, peers_t, dl_speed, ul_speed, eta, share]
+        rlist =  [int(unique_id), queue, status_icon, name, size, progress, 
+                  message, seeds, seeds_t, peers, peers_t, dl_speed, ul_speed, 
+                  eta, share]
 
         return rlist
     
     ## Start the timer that updates the interface
-    def start(self, start_in_tray=False):
+    def start(self, start_in_tray=False, cmd_line_torrents=None, 
+              cmd_line_torrent_url=None):
+        if cmd_line_torrents is None:
+            cmd_line_torrents = []
+        
         if not(start_in_tray and self.config.get("enable_system_tray") and 
-                self.has_tray) and not self.window.get_property("visible"):
+               self.has_tray) and not self.window.get_property("visible"):
             print "Showing window"
             self.window.show()
-        # go through torrent files to add
-        #dummy preferences values:
-        use_default_download_location = True
-        default_download_location = "."
-        for torrent_file in self.torrent_file_queue:
-            print "Adding torrent", torrent_file
-            try:
-                self.interactive_add_torrent(torrent_file, append=False)
-            except core.DelugeError:
-                print "Duplicate torrent found, ignoring the duplicate", torrent_file
+        
         ## add torrents in manager to interface
         for unique_id in self.manager.get_unique_IDs():
             self.torrent_model_append(unique_id)
             
+        for torrent_file in cmd_line_torrents:
+            self.interactive_add_torrent(torrent_file)
+        self.interactive_add_torrent_url(cmd_line_torrent_url)
+        
         # Load plugins after we showed main window (if not started in tray)
         self.load_plugins()
         
-        # Call update now so everything is up-to-date when the window gains focus on startup
+        # Call update now so everything is up-to-date when the window gains 
+        # focus on startup
         self.update()
         
         gobject.timeout_add(1000, self.update)
         try:
-            self.is_running = True
             gtk.main()
         except KeyboardInterrupt:
             self.manager.quit()
@@ -1072,6 +1056,8 @@ class DelugeGTK:
             return None
     
     def on_drag_data(self, widget, drag_context, x, y, selection_data, info, timestamp):
+        import urllib
+    
         uri_split = selection_data.data.strip().split()
         for uri in uri_split:
             path = urllib.url2pathname(uri).strip('\r\n\x00')
@@ -1083,23 +1069,27 @@ class DelugeGTK:
                 path = path[5:]
             if path.endswith('.torrent'):
                 self.interactive_add_torrent(path)
+                
+    def interactive_add_torrent_url(self, url):
+        if url:
+            filename, headers = common.fetch_url(url)
+            if filename:
+                self.interactive_add_torrent(filename)
         
-    def interactive_add_torrent(self, torrent, append=True):
+    def interactive_add_torrent(self, torrent):
+        if not torrent.endswith(".torrent"):
+            print "Error,", torrent, " does not seem to be a .torrent file"
+            return
+        
         if self.config.get('use_default_dir'):
             path = self.config.get('default_download_path')
         else:
             path = dialogs.show_directory_chooser_dialog(self.window)
             if path is None:
                 return
+            
         try:
             unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage'))
-            if not append and self.config.get('enable_files_dialog'):
-                self.manager.set_user_pause(unique_id, True)
-                if self.files_dialog.show(self.manager, unique_id) == 1:
-                    self.manager.set_user_pause(unique_id, False)
-                else:
-                    self.manager.remove_torrent(unique_id, True, True)
-           
         except core.InvalidEncodingError, e:
             print "InvalidEncodingError", e
             dialogs.show_popup_warning(self.window, _("An error occured while trying to add the torrent. It's possible your .torrent file is corrupted."))
@@ -1112,16 +1102,15 @@ class DelugeGTK:
                                                         _("Space Needed:") + " " + nice_need + "\n" + \
                                                         _("Available Space:") + " " + nice_free)
         else:
-            if append:
-                if self.config.get('enable_files_dialog'):
-                    self.manager.set_user_pause(unique_id, True)
-                    if self.files_dialog.show(self.manager, unique_id) == 1:
-                        self.manager.set_user_pause(unique_id, False)
-                        self.torrent_model_append(unique_id)
-                    else:
-                        self.manager.remove_torrent(unique_id, True, True)
-                else:
+            if self.config.get('enable_files_dialog'):
+                self.manager.set_user_pause(unique_id, True)
+                if self.files_dialog.show(self.manager, unique_id) == 1:
+                    self.manager.set_user_pause(unique_id, False)
                     self.torrent_model_append(unique_id)
+                else:
+                    self.manager.remove_torrent(unique_id, True, True)
+            else:
+                self.torrent_model_append(unique_id)
             
     def launchpad(self, obj=None):
         common.open_url_in_browser('self', 'https://translations.launchpad.net/deluge/trunk/+pots/deluge')
@@ -1153,35 +1142,8 @@ class DelugeGTK:
         dlg.destroy()
         
         if result == 1:
-            self.add_torrent_url(url) 
+            self.interactive_add_torrent_url(url) 
 
-    def external_add_url(self, url):
-        print "Got URL externally:", url
-        if self.is_running:
-            print "\t\tClient seems to already be running, we'll try and add the URL"
-            self.add_torrent_url(url)
-        else:
-            print "\t\tThe client hasn't yet started, we'll queue the URL torrent file"
-            self.queue_torrent_url(url)
-
-    def add_torrent_url(self, url):
-        filename, headers = self.fetch_url(url)
-        if filename:
-            self.interactive_add_torrent(filename)
-
-    def queue_torrent_url(self, url):
-        filename, headers = self.fetch_url(url)
-        if filename:
-            self.torrent_file_queue.append(filename)
-
-    def fetch_url(self, url):
-        filename, headers = urllib.urlretrieve(url)
-        if filename.endswith(".torrent") or headers["content-type"]=="application/x-bittorrent":
-            return filename, headers
-        else:
-            print "URL doesn't appear to be a valid torrent file:", url
-            return None, None
-            
     def remove_torrent_clicked(self, obj=None):
         glade     = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"), domain='deluge')
         asker     = glade.get_widget("remove_torrent_dlg")

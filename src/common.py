@@ -28,15 +28,10 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import sys
-import os
 import os.path
 import threading
 import webbrowser
-import xdg
 import xdg.BaseDirectory
-
-import gettext
 
 PROGRAM_NAME = "Deluge"
 PROGRAM_VERSION = "0.5.2.90"
@@ -112,7 +107,6 @@ def ftime(seconds):
         return '%dw %dd'%(weeks, days)
     return 'unknown'
 
-
 def get_glade_file(fname):
     return os.path.join(GLADE_DIR, fname)
 
@@ -127,7 +121,18 @@ def open_url_in_browser(dialog, link):
             except webbrowser.Error:
                 print _("Error: no webbrowser found")
     LaunchBrowser().start()
-        
+
+def fetch_url(url):
+    import urllib
+    
+    filename, headers = urllib.urlretrieve(url)
+    if filename.endswith(".torrent") or \
+       headers["content-type"]=="application/x-bittorrent":
+        return filename, headers
+    else:
+        print "URL doesn't appear to be a valid torrent file:", url
+        return None, None
+
 # Encryption States
 class EncState:
     forced, enabled, disabled = range(3)
