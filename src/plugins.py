@@ -82,7 +82,7 @@ class PluginManager:
         plugin = self.enabled_plugins[name]
         if 'unload' in dir(plugin):
             plugin.unload()
-        self.enabled_plugins.pop(name)
+        del self.enabled_plugins[name]
         
     def configurable_plugin(self, name):
         if name in self.enabled_plugins:

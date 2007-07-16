@@ -42,7 +42,7 @@ class TorrentNotification:
         self.interface = interface
         self.window = self.interface.window
         self.window.connect("focus_in_event", self.set_tray_flashing_off)
-        self.core.connect_event(self.core.constants['EVENT_FINISHED'], self)
+        self.core.connect_event(self.core.constants['EVENT_FINISHED'], self.handle_event)
 
         # Create an options file and try to load existing Values
         self.config_file = deluge.common.CONFIG_DIR + "/notification.conf"
@@ -63,6 +63,7 @@ class TorrentNotification:
             self.show_notification(event)
 
     def unload(self):
+        self.core.disconnect_event(self.core.constants['EVENT_FINISHED'], self.handle_event)
         self.config.save(self.config_file)
     
     def set_tray_flashing_off(self, focusdata1, focusdata2):

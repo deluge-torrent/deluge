@@ -505,10 +505,15 @@ class Manager:
 
     # Event handling
 
-    def connect_event(self, event_type, plugin_instance):
+    def connect_event(self, event_type, callback):
         if event_type not in self.event_callbacks:
             self.event_callbacks[event_type] = []
-        self.event_callbacks[event_type].append(plugin_instance)
+        self.event_callbacks[event_type].append(callback)
+
+    def disconnect_event(self, event_type, callback):
+        if event_type in self.event_callbacks and \
+           callback in self.event_callbacks[event_type]:
+            self.event_callbacks[event_type].remove(callback)
 
     def handle_events(self):
         # Handle them for the backend's purposes, but still send them up in case the client
@@ -544,8 +549,8 @@ class Manager:
             
             # Call plugins events callbacks
             if event['event_type'] in self.event_callbacks:
-                for plugin_instance in self.event_callbacks[event['event_type']]:
-                    plugin_instance.handle_event(event)
+                for callback in self.event_callbacks[event['event_type']]:
+                    callback(event)
 
             if event['event_type'] is self.constants['EVENT_STORAGE_MOVED']:
                 if event['message'] == "move_failed":
