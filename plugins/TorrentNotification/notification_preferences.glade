@@ -7,7 +7,6 @@
     <property name="title" translatable="yes">Torrent Notification Preferences</property>
     <property name="default_width">313</property>
     <property name="default_height">167</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
