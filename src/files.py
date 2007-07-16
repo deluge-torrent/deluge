@@ -53,9 +53,9 @@ class FilesManager:
         # in self.update_torrent_info_widget
         self.file_store_dict = {}
         if self.is_file_tab:
-            self.file_store = gtk.ListStore(bool, str, gobject.TYPE_ULONG, float)
+            self.file_store = gtk.ListStore(bool, str, gobject.TYPE_UINT64, float)
         else:
-            self.file_store = gtk.ListStore(bool, str, gobject.TYPE_ULONG)
+            self.file_store = gtk.ListStore(bool, str, gobject.TYPE_UINT64)
         self.file_store_sorted = gtk.TreeModelSort(self.file_store)
 
     def use_unique_id(self, unique_id):

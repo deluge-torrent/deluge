@@ -431,8 +431,8 @@ class DelugeGTK:
         # unique_ID, Q#, Status Icon, Name, Size, Progress, Message, Seeders, Peers,
         #     DL, UL, ETA, Share
         self.torrent_model = gtk.ListStore(int, gobject.TYPE_UINT, 
-            gtk.gdk.Pixbuf, str, gobject.TYPE_ULONG, float, str, int, int, 
-            int, int, int, int, gobject.TYPE_ULONG, float)
+            gtk.gdk.Pixbuf, str, gobject.TYPE_UINT64, float, str, int, int, 
+            int, int, int, int, gobject.TYPE_UINT64, float)
         # Stores unique_ID -> gtk.TreeRowReference's mapping for quick look up
         self.torrent_model_dict = {}
 
