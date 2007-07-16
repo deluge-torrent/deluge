@@ -1102,7 +1102,8 @@ class DelugeGTK:
                                                         _("Space Needed:") + " " + nice_need + "\n" + \
                                                         _("Available Space:") + " " + nice_free)
         else:
-            if self.config.get('enable_files_dialog'):
+            num_files = len(self.manager.get_torrent_file_info(unique_id))
+            if self.config.get('enable_files_dialog') and num_files > 1:
                 self.manager.set_user_pause(unique_id, True)
                 if self.files_dialog.show(self.manager, unique_id) == 1:
                     self.manager.set_user_pause(unique_id, False)
