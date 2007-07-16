@@ -11,6 +11,7 @@ Deluge 0.5.3 (XX August 2007)
   * Added Torrent Notification plugin
   * Added event handling callbacks for plugins
   * ticket #245 - Added ability to select torrent files before starting
+  * Added ability to designate a torrent as private (in file selection dialog)
   * ticket #437 - No longer fail on startup after upgrade from old versions
   * Details, Peers and Files tabs more responsible and their perfomance greatly
   improved especially on torrents with many files and peers
