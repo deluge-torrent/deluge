@@ -38,7 +38,7 @@ import pref
 PREFS_FILENAME  = "prefs.state"
 
 class PreferencesDlg:
-    def __init__(self, parent, preferences):
+    def __init__(self, preferences, active_port):
         self.glade = gtk.glade.XML(common.get_glade_file("preferences_dialog.glade"), domain='deluge')
         self.dialog = self.glade.get_widget("pref_dialog")
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
@@ -48,8 +48,9 @@ class PreferencesDlg:
                                         'on_ask_save' : self.toggle_move_chk,
                                         'on_btn_testport_clicked': self.TestPort,
                                       })
-        self.parent = parent
+        
         self.preferences = preferences
+        self.active_port = str(active_port)
         
     def show(self):
         # Load settings into dialog
@@ -86,7 +87,7 @@ class PreferencesDlg:
             self.glade.get_widget("download_path_button").set_filename(self.preferences.get("default_download_path"))
             self.glade.get_widget("chk_enable_files_dialog").set_active(self.preferences.get("enable_files_dialog"))
             self.glade.get_widget("chk_compact").set_active(self.preferences.get("use_compact_storage"))
-            self.glade.get_widget("active_port_label").set_text(str(self.parent.manager.get_state()['port']))
+            self.glade.get_widget("active_port_label").set_text(str(self.active_port))
             self.glade.get_widget("spin_port_min").set_value(self.preferences.get("listen_on")[0])
             self.glade.get_widget("spin_port_max").set_value(self.preferences.get("listen_on")[1])
             self.glade.get_widget("spin_max_upload").set_value(self.preferences.get("max_upload_speed"))
@@ -149,8 +150,8 @@ class PreferencesDlg:
         return r
             
     def TestPort(self, widget):
-        activep = str(self.parent.manager.get_state()['port'])
-        common.open_url_in_browser(self.dialog,'http://www.deluge-torrent.org/test-port.php?port=%s' %activep)
+        common.open_url_in_browser(self.dialog,
+            'http://www.deluge-torrent.org/test-port.php?port=%s' % self.active_port)
 
         
     def tray_toggle(self, widget):
@@ -199,7 +200,7 @@ class FilesDlg:
         return r
 
 class PluginDlg:
-    def __init__(self, parent, plugins):
+    def __init__(self, plugins):
         self.glade = gtk.glade.XML(common.get_glade_file("plugin_dialog.glade"), domain='deluge')
         self.dialog = self.glade.get_widget("plugin_dialog")
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
@@ -215,9 +216,7 @@ class PluginDlg:
         name_col.set_expand(True)
         dgtk.add_toggle_column(self.view, _("Enabled"), 1, toggled_signal=self.plugin_toggled)
         self.glade.signal_autoconnect({'plugin_pref': self.plugin_pref})
-        self.parent = parent
         self.plugins = plugins
-        
 
     def show(self):
         self.store.clear()

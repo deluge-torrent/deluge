@@ -99,8 +99,6 @@ class DelugeGTK:
         else:
             self.has_tray = True
         
-        self.preferences_dialog = dialogs.PreferencesDlg(self, self.config)
-        self.plugin_dialog = dialogs.PluginDlg(self, self.plugins)
         self.build_torrent_table()
         self.build_summary_tab()
         self.build_file_tab()
@@ -128,8 +126,8 @@ class DelugeGTK:
                     "remove_torrent": self.remove_torrent_clicked,
                     "menu_quit": self.quit,
                     ## Edit Menu
-                    "pref_clicked": self.show_pref_dialog,
-                    "plugins_clicked": self.show_plugin_dialog,
+                    "pref_clicked": self.show_preferences_dialog_clicked,
+                    "plugins_clicked": self.show_plugin_dialog_clicked,
                     ## View Menu
                     "toolbar_toggle": self.toolbar_toggle,
                     "infopane_toggle": self.infopane_toggle,
@@ -162,13 +160,13 @@ class DelugeGTK:
         self.tray_glade = gtk.glade.XML(common.get_glade_file("tray_menu.glade"), domain='deluge')
         self.tray_menu  = self.tray_glade.get_widget("tray_menu")
         self.tray_glade.signal_autoconnect({
-                                            "quit": self.quit,
-                                            "plugins": self.show_plugin_dialog,
-                                            "preferences": self.show_pref_dialog,
-                                            "add_torrent": self.add_torrent_clicked,
-                                            "clear_finished": self.clear_finished,
-                                            "show_hide_window_toggled": self.show_hide_window_toggled
-                                            })
+            "quit": self.quit,
+            "plugins": self.show_plugin_dialog_clicked,
+            "preferences": self.show_preferences_dialog_clicked,
+            "add_torrent": self.add_torrent_clicked,
+            "clear_finished": self.clear_finished,
+            "show_hide_window_toggled": self.show_hide_window_toggled
+        })
         
         self.tray_glade.get_widget("download-limit-image").set_from_file(common.get_pixmap('downloading16.png'))
         self.tray_glade.get_widget("upload-limit-image").set_from_file(common.get_pixmap('seeding16.png'))
@@ -351,12 +349,10 @@ class DelugeGTK:
                 if comingnext == "mainwinshow":
                     self.window.show()
                 elif comingnext == "prefwinshow":
-                            self.preferences_dialog.show()
-                            self.apply_prefs()
-                            self.config.save_to_file()
+                    self.show_preferences_dialog()
                 elif comingnext == "quitus":
-                                self.window.hide()
-                                self.shutdown()
+                    self.window.hide()
+                    self.shutdown()
 
         tray_lock.destroy()
         return True
@@ -655,24 +651,23 @@ class DelugeGTK:
     def show_about_dialog(self, arg=None):
         dialogs.show_about_dialog()
 
-    def show_pref_dialog(self, arg=None):
-        if self.window.get_property("visible"):
-            # Only apply the prefs if the user pressed OK in the prefs dialog
-            if self.preferences_dialog.show() == 1:
-                self.apply_prefs()
-                self.config.save()
+    def show_preferences_dialog(self):
+        active_port = self.manager.get_state()['port']
+        preferences_dialog = dialogs.PreferencesDlg(self.config, active_port)
+        # Only apply the prefs if the user pressed OK in the prefs dialog
+        if preferences_dialog.show() == 1:
+            self.apply_prefs()
+            self.config.save()
 
+    def show_preferences_dialog_clicked(self, arg=None):
+        if self.config.get("lock_tray") == True:
+            self.unlock_tray("prefwinshow")
         else:
-            if self.config.get("lock_tray") == True:
-                self.unlock_tray("prefwinshow")
-            else:
-                # Only apply the prefs if the user pressed OK in the prefs dialog
-                if self.preferences_dialog.show() == 1:
-                    self.apply_prefs()
-                    self.config.save()
+            self.show_preferences_dialog()
     
-    def show_plugin_dialog(self, arg=None):
-        self.plugin_dialog.show()
+    def show_plugin_dialog_clicked(self, arg=None):
+        plugin_dialog = dialogs.PluginDlg(self.plugins)
+        plugin_dialog.show()
     
     def apply_prefs(self):
         # Show tray icon if necessary
