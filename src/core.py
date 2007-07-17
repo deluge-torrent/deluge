@@ -798,7 +798,15 @@ class Manager:
         # Add torrents to queue - at the end, of course
         for unique_ID in self.unique_IDs.keys():
             if unique_ID not in self.state.queue:
-                self.state.queue.append(unique_ID)
+                if (self.get_pref('queue_above_completed')) and len(self.state.queue) > 0:
+                    for index in range(len(self.state.queue)):
+                        torrent_state = self.get_core_torrent_state(self.state.queue[index])
+                        if torrent_state['progress'] == 1.0:
+                            break
+                    self.state.queue.insert(index, unique_ID)
+                    
+                else:
+                    self.state.queue.append(unique_ID)
         # run through queue, remove those that no longer exists
         to_delete = []
         for queue_item in self.state.queue:

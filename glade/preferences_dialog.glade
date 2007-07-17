@@ -295,7 +295,21 @@
                                         <property name="use_underline">True</property>
                                         <property name="response_id">0</property>
                                         <property name="draw_indicator">True</property>
+                                        <signal name="toggled" handler="on_chk_seedbottom"/>
                                       </widget>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkCheckButton" id="chk_queue_above_completed">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="label" translatable="yes">Queue new torrents above completed ones</property>
+                                        <property name="use_underline">True</property>
+                                        <property name="response_id">0</property>
+                                        <property name="draw_indicator">True</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="position">1</property>
+                                      </packing>
                                     </child>
                                     <child>
                                       <widget class="GtkHBox" id="hbox14">
@@ -331,7 +345,7 @@
                                         </child>
                                       </widget>
                                       <packing>
-                                        <property name="position">1</property>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -344,7 +358,7 @@
                                         <property name="draw_indicator">True</property>
                                       </widget>
                                       <packing>
-                                        <property name="position">2</property>
+                                        <property name="position">3</property>
                                       </packing>
                                     </child>
                                   </widget>

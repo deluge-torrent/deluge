@@ -46,6 +46,7 @@ class PreferencesDlg:
                                         'on_chk_use_tray_toggled': self.tray_toggle,
                                         'on_save_all_to' : self.toggle_move_chk,
                                         'on_ask_save' : self.toggle_move_chk,
+                                        'on_chk_seedbottom' : self.toggle_queue_above_completed_chk,
                                         'on_chk_autoseed' : self.toggle_clear_max_ratio_torrents_chk,
                                         'on_btn_testport_clicked': self.TestPort,
                                       })
@@ -98,6 +99,8 @@ class PreferencesDlg:
             self.glade.get_widget("spin_proxy_port").set_value(self.preferences.get("proxy_port"))
             self.glade.get_widget("spin_torrents").set_value(float(self.preferences.get("max_active_torrents")))
             self.glade.get_widget("chk_seedbottom").set_active(self.preferences.get("queue_seeds_to_bottom"))
+            self.glade.get_widget("chk_queue_above_completed").set_sensitive(self.preferences.get("queue_seeds_to_bottom"))
+            self.glade.get_widget("chk_queue_above_completed").set_active(self.preferences.get("queue_above_completed"))
             self.glade.get_widget("chk_autoseed").set_active(self.preferences.get("auto_end_seeding"))
             self.glade.get_widget("chk_clear_max_ratio_torrents").set_sensitive(self.preferences.get("auto_end_seeding"))
             self.glade.get_widget("chk_clear_max_ratio_torrents").set_active(self.preferences.get("clear_max_ratio_torrents"))
@@ -150,6 +153,7 @@ class PreferencesDlg:
             self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
             self.preferences.set("gui_update_interval", self.glade.get_widget("spin_gui").get_value())
             self.preferences.set("clear_max_ratio_torrents", self.glade.get_widget("chk_clear_max_ratio_torrents").get_active())
+            self.preferences.set("queue_above_completed", self.glade.get_widget("chk_queue_above_completed").get_active())
 
         return r
             
@@ -170,6 +174,13 @@ class PreferencesDlg:
         else:
             self.glade.get_widget("chk_clear_max_ratio_torrents").set_active(False)
             self.glade.get_widget("chk_clear_max_ratio_torrents").set_sensitive(False)
+
+    def toggle_queue_above_completed_chk(self, widget):
+        if(self.glade.get_widget("chk_seedbottom").get_active()):
+            self.glade.get_widget("chk_queue_above_completed").set_sensitive(True)
+        else:
+            self.glade.get_widget("chk_queue_above_completed").set_active(False)
+            self.glade.get_widget("chk_queue_above_completed").set_sensitive(False)
 
     def toggle_move_chk(self, widget):
         if(self.glade.get_widget("radio_ask_save").get_active()):
