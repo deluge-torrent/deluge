@@ -441,11 +441,6 @@ class DelugeGTK:
         self.torrent_view.set_reorderable(True)
         self.torrent_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         
-        def size(column, cell, model, iter, data):
-            size = long(model.get_value(iter, data))
-            size_str = common.fsize(size)
-            cell.set_property('text', size_str)
-            
         def peer(column, cell, model, iter, data):
             c1, c2 = data
             a = int(model.get_value(iter, c1))
@@ -467,7 +462,6 @@ class DelugeGTK:
             else:
                 ratio_str = "%.3f"%ratio
             cell.set_property('text', ratio_str)
-            
         
         ## Initializes the columns for the torrent_view
         (TORRENT_VIEW_COL_UID, TORRENT_VIEW_COL_QUEUE, TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME,
