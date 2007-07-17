@@ -3,7 +3,7 @@ include README
 include README.Packagers
 include Makefile
 include deluge.desktop
-include deluge.xpm
+include deluge.png
 include msgfmt.py
 recursive-include libtorrent/ *
 recursive-include glade/ *.glade

@@ -43,12 +43,7 @@ class PreferencesDlg:
         self.dialog = self.glade.get_widget("pref_dialog")
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
         self.glade.signal_autoconnect({
-                                        'on_chk_use_tray_toggled': self.tray_toggle,
-                                        'on_save_all_to' : self.toggle_move_chk,
-                                        'on_ask_save' : self.toggle_move_chk,
-                                        'on_chk_seedbottom' : self.toggle_queue_above_completed_chk,
-                                        'on_chk_autoseed' : self.toggle_clear_max_ratio_torrents_chk,
-                                        'on_btn_testport_clicked': self.TestPort,
+                                        'toggle_ui': self.toggle_ui
                                       })
         
         self.preferences = preferences
@@ -160,36 +155,41 @@ class PreferencesDlg:
     def TestPort(self, widget):
         common.open_url_in_browser('http://www.deluge-torrent.org/test-port.php?port=%s' % self.active_port)
 
-        
-    def tray_toggle(self, widget):
-        is_active = widget.get_active()
 
-        self.glade.get_widget("chk_min_on_close").set_sensitive(is_active)
-        self.glade.get_widget("chk_lock_tray").set_sensitive(is_active)
-        self.glade.get_widget("txt_tray_passwd").set_sensitive(is_active)
-
-    def toggle_clear_max_ratio_torrents_chk(self, widget):
-        if(self.glade.get_widget("chk_autoseed").get_active()):
-            self.glade.get_widget("chk_clear_max_ratio_torrents").set_sensitive(True)
-        else:
-            self.glade.get_widget("chk_clear_max_ratio_torrents").set_active(False)
-            self.glade.get_widget("chk_clear_max_ratio_torrents").set_sensitive(False)
-
-    def toggle_queue_above_completed_chk(self, widget):
-        if(self.glade.get_widget("chk_seedbottom").get_active()):
-            self.glade.get_widget("chk_queue_above_completed").set_sensitive(True)
-        else:
-            self.glade.get_widget("chk_queue_above_completed").set_active(False)
-            self.glade.get_widget("chk_queue_above_completed").set_sensitive(False)
-
-    def toggle_move_chk(self, widget):
-        if(self.glade.get_widget("radio_ask_save").get_active()):
-            self.glade.get_widget("chk_move_completed").set_active(False)
-            self.glade.get_widget("chk_move_completed").set_sensitive(False)
-            self.glade.get_widget("finished_path_button").set_sensitive(False)
-        else:
-            self.glade.get_widget("chk_move_completed").set_sensitive(True)
-            self.glade.get_widget("finished_path_button").set_sensitive(True)
+    
+    def toggle_ui(self, widget):    			
+    	value = widget.get_active()
+    	print widget.get_name()
+    	if widget == self.glade.get_widget('radio_save_all_to'):
+    		self.glade.get_widget('download_path_button').set_sensitive(value)
+    		self.glade.get_widget('chk_move_completed').set_sensitive(value)
+    		if not value:
+	    		self.glade.get_widget('chk_move_completed').set_active(value)
+    		#self.toggle_ui(self.glade.get_widget('chk_move_completed'))
+    	elif widget == self.glade.get_widget('chk_move_completed'):
+    		self.glade.get_widget('finished_path_button').set_sensitive(value)
+    	elif widget == self.glade.get_widget('chk_autoseed'):
+    		self.glade.get_widget('ratio_spinner').set_sensitive(value)
+    		self.glade.get_widget('chk_clear_max_ratio_torrents').set_sensitive(value)    		
+    	elif widget == self.glade.get_widget('chk_peer_proxy') or \
+    			widget == self.glade.get_widget('chk_tracker_proxy') or \
+    			widget == self.glade.get_widget('chk_dht_proxy'):
+    		value = self.glade.get_widget('chk_peer_proxy').get_active() or self.glade.get_widget('chk_tracker_proxy').get_active() or self.glade.get_widget('chk_dht_proxy').get_active()
+    		for x in ['combo_proxy_type', 'txt_proxy_hostname', 'txt_proxy_username',
+    					'spin_proxy_port', 'txt_proxy_password']:
+	    		self.glade.get_widget(x).set_sensitive(value)
+    	elif widget == self.glade.get_widget('chk_use_tray'):
+    		self.glade.get_widget('chk_min_on_close').set_sensitive(value)
+    		self.glade.get_widget('chk_lock_tray').set_sensitive(value)
+    		if not value:
+	    		self.glade.get_widget('chk_min_on_close').set_active(value)
+    			self.glade.get_widget('chk_lock_tray').set_active(value)
+		elif widget == self.glade.get_widget('chk_lock_tray'):
+			self.glade.get_widget('txt_tray_passwd').set_sensitive(value)
+    		
+    	
+    	
+    	
 
 class FilesDlg:
     def __init__(self, manager, unique_id):
