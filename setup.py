@@ -283,7 +283,7 @@ cmdclass = {
 data = [('share/deluge/glade',  glob.glob('glade/*.glade')),
         ('share/deluge/pixmaps', glob.glob('pixmaps/*.png')),
         ('share/applications' , ['deluge.desktop']),
-        ('share/pixmaps' , ['deluge.xpm'])]
+        ('share/pixmaps' , ['deluge.png'])]
 
 for plugin in glob.glob('plugins/*'):
 	data.append( ('share/deluge/' + plugin, glob.glob(plugin + '/*')) )
