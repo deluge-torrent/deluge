@@ -847,14 +847,28 @@ class DelugeGTK:
         
         while itr is not None:
             uid = self.torrent_model.get_value(itr, 0)
-            state = self.manager.get_torrent_state(uid)
-            tlist = self.get_list_from_unique_id(uid)
-            for i in range(len(tlist)):
-                try:
-                    self.torrent_model.set_value(itr, i, tlist[i])
-                except:
-                    print "ERR", i, type(tlist[i]), tlist[i]
-            itr = self.torrent_model.iter_next(itr)
+            if self.manager.removed_unique_ids.count(uid) > 0:
+                selected_unique_id = self.get_selected_torrent()
+                # If currently selected torrent was complete and so removed clear 
+                # details pane
+                if selected_unique_id == uid:
+                    self.clear_details_pane()
+                next = self.torrent_model.iter_next(itr)
+                self.torrent_model.remove(itr)
+                itr = self.torrent_model.get_iter_first()
+                if itr is None:
+                    return True
+                itr = next
+                self.manager.removed_unique_ids.pop(self.manager.removed_unique_ids.index(uid))
+            else:
+                state = self.manager.get_torrent_state(uid)
+                tlist = self.get_list_from_unique_id(uid)
+                for i in range(len(tlist)):
+                    try:
+                        self.torrent_model.set_value(itr, i, tlist[i])
+                    except:
+                        print "ERR", i, type(tlist[i]), tlist[i]
+                itr = self.torrent_model.iter_next(itr)
 
         # Disable moving top torrents up or bottom torrents down
         top_torrents_selected = True
@@ -1194,16 +1208,7 @@ class DelugeGTK:
     
     def clear_finished(self, obj=None):
         print "Clearing completed torrents"
-        unique_ids_remove = self.manager.clear_completed()
-        for unique_id in unique_ids_remove:
-            self.torrent_model_remove(unique_id)
-
-        selected_unique_id = self.get_selected_torrent()
-        # If currently selected torrent was complete and so removed clear 
-        # details pane
-        if selected_unique_id in unique_ids_remove:
-            self.clear_details_pane()
-            
+        self.manager.clear_completed()
         self.update()
     
     def q_torrent_up(self, obj=None):

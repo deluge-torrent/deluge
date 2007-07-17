@@ -46,6 +46,7 @@ class PreferencesDlg:
                                         'on_chk_use_tray_toggled': self.tray_toggle,
                                         'on_save_all_to' : self.toggle_move_chk,
                                         'on_ask_save' : self.toggle_move_chk,
+                                        'on_chk_autoseed' : self.toggle_clear_max_ratio_torrents_chk,
                                         'on_btn_testport_clicked': self.TestPort,
                                       })
         
@@ -98,6 +99,8 @@ class PreferencesDlg:
             self.glade.get_widget("spin_torrents").set_value(float(self.preferences.get("max_active_torrents")))
             self.glade.get_widget("chk_seedbottom").set_active(self.preferences.get("queue_seeds_to_bottom"))
             self.glade.get_widget("chk_autoseed").set_active(self.preferences.get("auto_end_seeding"))
+            self.glade.get_widget("chk_clear_max_ratio_torrents").set_sensitive(self.preferences.get("auto_end_seeding"))
+            self.glade.get_widget("chk_clear_max_ratio_torrents").set_active(self.preferences.get("clear_max_ratio_torrents"))
             self.glade.get_widget("ratio_spinner").set_value(self.preferences.get("auto_seed_ratio"))
             self.glade.get_widget("chk_dht").set_active(self.preferences.get("enable_dht"))
             self.glade.get_widget("spin_gui").set_value(self.preferences.get("gui_update_interval"))
@@ -146,6 +149,7 @@ class PreferencesDlg:
             self.preferences.set("queue_seeds_to_bottom", self.glade.get_widget("chk_seedbottom").get_active())
             self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
             self.preferences.set("gui_update_interval", self.glade.get_widget("spin_gui").get_value())
+            self.preferences.set("clear_max_ratio_torrents", self.glade.get_widget("chk_clear_max_ratio_torrents").get_active())
 
         return r
             
@@ -159,6 +163,13 @@ class PreferencesDlg:
         self.glade.get_widget("chk_min_on_close").set_sensitive(is_active)
         self.glade.get_widget("chk_lock_tray").set_sensitive(is_active)
         self.glade.get_widget("txt_tray_passwd").set_sensitive(is_active)
+
+    def toggle_clear_max_ratio_torrents_chk(self, widget):
+        if(self.glade.get_widget("chk_autoseed").get_active()):
+            self.glade.get_widget("chk_clear_max_ratio_torrents").set_sensitive(True)
+        else:
+            self.glade.get_widget("chk_clear_max_ratio_torrents").set_active(False)
+            self.glade.get_widget("chk_clear_max_ratio_torrents").set_sensitive(False)
 
     def toggle_move_chk(self, widget):
         if(self.glade.get_widget("radio_ask_save").get_active()):
