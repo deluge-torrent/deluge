@@ -803,7 +803,10 @@ class Manager:
                         torrent_state = self.get_core_torrent_state(self.state.queue[index])
                         if torrent_state['progress'] == 1.0:
                             break
-                    self.state.queue.insert(index, unique_ID)
+                    if torrent_state['progress'] == 1.0:
+                        self.state.queue.insert(index, unique_ID)
+                    else:
+                        self.state.queue.append(unique_ID)
                     
                 else:
                     self.state.queue.append(unique_ID)
