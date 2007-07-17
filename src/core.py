@@ -228,6 +228,9 @@ class Manager:
         # Event callbacks for use with plugins
         self.event_callbacks = {}
 
+        # unique_ids removed by core
+        self.removed_unique_ids = []
+
         PREF_FUNCTIONS["enable_dht"] = self.set_DHT 
 
         # Unpickle the state, or create a new one
@@ -443,18 +446,14 @@ class Manager:
                 self.apply_queue()
 
     def clear_completed(self):
-        removed_unique_IDs = []
-
         for unique_ID in self.unique_IDs:
             torrent_state = self.get_core_torrent_state(unique_ID)
             if torrent_state['progress'] == 1.0:
                 self.remove_torrent_ns(unique_ID)
-                removed_unique_IDs.append(unique_ID)
+                self.removed_unique_ids.append(unique_ID)
 
         self.sync()
         self.apply_queue()
-
-        return removed_unique_IDs
 
     # Enforce the queue: pause/unpause as needed, based on queue and user_pausing
     # This should be called after changes to relevant parameters (user_pausing, or
@@ -462,7 +461,10 @@ class Manager:
     # ___ALL queuing code should be in this function, and ONLY here___
     def apply_queue(self, efficient = True):
         # Handle autoseeding - downqueue as needed
-        if self.get_pref('auto_seed_ratio') > 0 and self.get_pref('auto_end_seeding'):
+        if not self.get_pref('clear_max_ratio_torrents') \
+            and self.get_pref('auto_seed_ratio') > 0 \
+            and self.get_pref('auto_end_seeding'):
+
             for unique_ID in self.unique_IDs:
                 if self.get_core_torrent_state(unique_ID, efficient)['is_seed']:
                     torrent_state = self.get_core_torrent_state(unique_ID, efficient)
@@ -470,6 +472,16 @@ class Manager:
                     if ratio >= self.get_pref('auto_seed_ratio'):
                         self.queue_bottom(unique_ID, enforce_queue=False) # don't recurse!
                         self.set_user_pause(unique_ID, True, enforce_queue=False)
+        
+        if self.get_pref('clear_max_ratio_torrents'):
+            for index in range(len(self.state.queue)):
+                unique_ID = self.state.queue[index]
+                if self.get_core_torrent_state(unique_ID, efficient)['is_seed']:
+                    torrent_state = self.get_core_torrent_state(unique_ID, efficient)
+                    ratio = self.calc_ratio(unique_ID, torrent_state)
+                    if ratio >= self.get_pref('auto_seed_ratio'):
+                        self.removed_unique_ids.append(unique_ID)
+                        self.remove_torrent(unique_ID, False, True)
 
         # Pause and resume torrents
         for index in range(len(self.state.queue)):
