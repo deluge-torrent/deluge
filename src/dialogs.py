@@ -72,14 +72,14 @@ class PreferencesDlg:
             self.glade.get_widget("txt_proxy_password").set_text(self.preferences.get("proxy_password"))
             if(self.preferences.get("use_default_dir")):
                 self.glade.get_widget("radio_save_all_to").set_active(True)
-                self.glade.get_widget("chk_move_completed").set_sensitive(True)
-                self.glade.get_widget("finished_path_button").set_sensitive(True)
+                #self.glade.get_widget("chk_move_completed").set_sensitive(True)
+                #self.glade.get_widget("finished_path_button").set_sensitive(True)
                 if(self.preferences.get("enable_move_completed")):
                     self.glade.get_widget("chk_move_completed").set_active(True)
             else:
                 self.glade.get_widget("radio_ask_save").set_active(True)
-                self.glade.get_widget("chk_move_completed").set_sensitive(False)
-                self.glade.get_widget("finished_path_button").set_sensitive(False)
+                #self.glade.get_widget("chk_move_completed").set_sensitive(False)
+                #self.glade.get_widget("finished_path_button").set_sensitive(False)
             self.glade.get_widget("finished_path_button").set_filename(self.preferences.get("default_finished_path"))
             self.glade.get_widget("download_path_button").set_filename(self.preferences.get("default_download_path"))
             self.glade.get_widget("chk_enable_files_dialog").set_active(self.preferences.get("enable_files_dialog"))
