@@ -71,6 +71,7 @@ class plugin_RSS:
 		self.chkfeeds = glade.get_widget("chkfeeds")
 		self.filtername_entry = glade.get_widget("filtername_entry")
 		self.filterexp_entry = glade.get_widget("filterexp_entry")
+		self.button_delfilter = glade.get_widget("button_delfilter")
 		self.checkonstart_button = glade.get_widget("checkonstart_button")
 		self.update_entry = glade.get_widget("update_entry")
 		#Connect event signals
@@ -198,6 +199,7 @@ class plugin_RSS:
 			self.feedchoice_combo.set_sensitive(1)
 			self.filterexp_entry.set_text("")
 			self.filtername_entry.grab_focus()
+			self.button_delfilter.set_sensitive(1)
 
 	def delfilter_clicked(self, args):
 		model, selection = self.filters_view.get_selection().get_selected()
@@ -211,6 +213,7 @@ class plugin_RSS:
 		self.filtername_entry.set_sensitive(0)
 		self.filterexp_entry.set_sensitive(0)
 		self.feedchoice_combo.set_sensitive(0)
+		self.button_delfilter.set_sensitive(0)
 
 	def filter_row_clicked(self, widget):
 		selection = self.filters_view.get_selection()
@@ -233,6 +236,7 @@ class plugin_RSS:
 		self.filtername_entry.set_sensitive(1)
 		self.filterexp_entry.set_sensitive(1)
 		self.feedchoice_combo.set_sensitive(1)
+		self.button_delfilter.set_sensitive(1)
 
 	def filtername_lostfocus(self, args, spare):
 		(model, selection) = self.filters_view.get_selection().get_selected()
@@ -406,13 +410,13 @@ class plugin_RSS:
 		self.filtername_entry.set_sensitive(0)
 		self.filterexp_entry.set_sensitive(0)
 		self.feedchoice_combo.set_sensitive(0)
+		self.button_delfilter.set_sensitive(0)
 		self.update_entry.set_text(str(self.interval))
 		self.checkonstart_button.set_active(self.checkonstart)
 		result = self.dlg.run()
 		self.dlg.hide_all()
 		if result == 1:
-			self.timer = 0
-			self.interval = self.update_entry.get_text()
+			self.interval = int(self.update_entry.get_text())
 			self.feeds_config.set("DEFAULT", "interval", self.update_entry.get_text())
 			self.feeds_config.set("DEFAULT", "checkonstart", self.checkonstart_button.get_active())
 			f = open(self.filters_file, "w")
@@ -424,7 +428,8 @@ class plugin_RSS:
 			
 
 	def update(self):
-		#print "tick"
+		print "tick: " + str(self.timer)
+		print "interval: " + str(self.interval)
 		self.timer += 1
 		if self.timer >= self.interval:
 			print "BONG!"
