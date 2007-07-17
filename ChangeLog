@@ -2,6 +2,9 @@ Deluge 0.5.3 (XX August 2007)
 
   * Added ChangeLog
   * RSS plugin inclusion
+  * Added ability to queue new torrents above completed ones when
+  seeds are set to queue at the bottom
+  * Added ability to automatically remove torrents when max share ratio is set
   * Show text from clipboard in Add URL dialog only if it looks like an URL
   * ticket #405 - Properly start in tray when run deluge --tray
   * ticket #371 - Proper full storage allocation of files on reiser4 and
