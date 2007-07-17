@@ -565,10 +565,11 @@ class Manager:
                     callback(event)
 
             if event['event_type'] is self.constants['EVENT_STORAGE_MOVED']:
-                if event['message'] == "move_failed":
+                if event['message'] == self.unique_IDs[event['unique_ID']].save_dir:
                     raise StorageMoveFailed(_("You cannot move torrent to a different partition.  Please fix your preferences"))
-                elif event['message'] == "move_success":
+                elif event['message'] == self.get_pref('default_finished_path'):
                     self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
+                    
             elif event['event_type'] is self.constants['EVENT_FINISHED']:
                 # Queue seeding torrent to bottom if needed
                 if self.get_pref('enable_move_completed'):
