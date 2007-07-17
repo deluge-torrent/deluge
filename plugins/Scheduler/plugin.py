@@ -11,6 +11,17 @@ class plugin_Scheduler:
         self.config = deluge.pref.Preferences()
         self.button_state_temp = [[0] * 7 for dummy in xrange(24)]
         self.status = -1
+        
+        self.toolbutton_image = gtk.Image()
+        filename = self.path + "/scheduler.png"
+        self.toolbutton_image.set_from_file(filename)
+      
+        self.toolbutton = gtk.ToolButton(self.toolbutton_image, _("Scheduler"))
+        self.toolbutton_tip = gtk.Tooltips()
+        self.toolbutton.set_tooltip(self.toolbutton_tip, _("Scheduler"))
+        self.toolbutton.connect("clicked", self.configure)
+        self.interface.toolbar.insert(self.toolbutton, -1)
+        self.toolbutton.show_all()
 
         #Load config
         try:
@@ -26,6 +37,7 @@ class plugin_Scheduler:
             self.ullimit = float(-1)
 
     def unload(self):
+        self.interface.toolbar.remove(self.toolbutton)
         self.resume()
         self.unlimit()
 
@@ -62,7 +74,7 @@ class plugin_Scheduler:
         self.interface.apply_prefs()
 
     #Configuration dialog
-    def configure(self):
+    def configure(self, widget=None, data=None):
         global scheduler_select
 
         self.button_state_temp = copy.deepcopy(self.button_state)
