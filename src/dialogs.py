@@ -202,22 +202,18 @@ class PreferencesDlg:
             self.glade.get_widget('txt_tray_passwd').set_sensitive(value)
 
 class FilesDlg:
-    def __init__(self, manager, unique_id):
+    def __init__(self, dumped_torrent):
         self.glade = gtk.glade.XML(common.get_glade_file("files_dialog.glade"), 
                                    domain='deluge')
         self.dialog = self.glade.get_widget("file_dialog")
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
         self.file_view = self.glade.get_widget("file_view")
         
-        self.manager = manager
-        self.unique_id = unique_id
-        self.files_manager = files.FilesManager(manager, False)
+        self.files_manager = files.FilesDialogManager(dumped_torrent)
         self.files_manager.build_file_view(self.file_view)
+        self.files_manager.prepare_file_store()
     
     def show(self):
-        self.files_manager.use_unique_id(self.unique_id)
-        self.files_manager.prepare_store()
-        
         #clear private setting
         self.glade.get_widget("chk_setpriv").set_active(False)
         
@@ -229,6 +225,9 @@ class FilesDlg:
             self.manager.set_priv(self.unique_id, True)
             
         return r
+    
+    def get_priorities(self):
+        return self.files_manager.get_priorities()        
 
 class PluginDlg:
     def __init__(self, plugins):

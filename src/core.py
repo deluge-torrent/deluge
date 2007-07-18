@@ -47,14 +47,13 @@
 #                time to calculate, so we do if efficiently
 #        3. supp_torrent_state - supplementary torrent data, from Deluge
 
-import deluge_core
+import pickle
 import os
-import os.path
 import shutil
 import statvfs
-import pickle
 import time
-import gettext
+
+import deluge_core
 import pref
 
 # Constants
@@ -167,8 +166,8 @@ class persistent_state:
         self.torrents = []
 
         # Prepare queue (queue is pickled, just like everything else)
-        self.queue = [] # queue[x] is the unique_ID of the x-th queue position. Simple.
-
+        # queue[x] is the unique_ID of the x-th queue position. Simple.
+        self.queue = []
 
 # The manager for the torrent system
 
@@ -236,15 +235,18 @@ class Manager:
         # Unpickle the state, or create a new one
         if not blank_slate:
             try:
-                pkl_file = open(os.path.join(self.base_dir, STATE_FILENAME), 'rb')
+                pkl_file = open(os.path.join(self.base_dir, STATE_FILENAME), 
+                                'rb')
                 self.state = pickle.load(pkl_file)
                 pkl_file.close()
 
-                # Sync with the core: tell core about torrents, and get unique_IDs
+                # Sync with the core: tell core about torrents, and get 
+                # unique_IDs
                 self.sync()
 
-                # Apply all the file filters, right after adding the torrents
-                self.apply_all_file_filters()
+                # Apply all the file priorities, right after adding the 
+                # torrents
+                self.apply_all_file_priorities()
 
                 # Apply the queue at this time, after all is loaded and ready
                 self.apply_queue()
@@ -262,10 +264,7 @@ class Manager:
         self.config.save()
 
         # Pickle the state
-        print "Pickling state..."
-        output = open(os.path.join(self.base_dir, STATE_FILENAME), 'wb')
-        pickle.dump(self.state, output)
-        output.close()
+        self.pickle_state()
 
         # Stop DHT, if needed
         self.set_DHT(False)
@@ -277,6 +276,18 @@ class Manager:
         # Shutdown torrent core
         print "Quitting the core..."
         deluge_core.quit()
+
+    def pickle_state(self):
+        # Pickle the state so if we experience a crash, the latest state is 
+        # available
+        print "Pickling state..."
+        
+        #print self.state.torrents
+        #print self.state.queue
+        
+        output = open(os.path.join(self.base_dir, STATE_FILENAME), 'wb')
+        pickle.dump(self.state, output)
+        output.close()
 
     def pre_quitting(self):
         # Save the uploaded data from this session to the existing upload memory
@@ -306,6 +317,10 @@ class Manager:
         if PREF_FUNCTIONS[key] is not None:
             PREF_FUNCTIONS[key](value)
         
+    # Dump torrent info without adding
+    def dump_torrent_file_info(self, torrent):
+        return deluge_core.dump_file_info(torrent)
+    
     # Torrent addition and removal functions
 
     def add_torrent(self, filename, save_dir, compact):
@@ -393,14 +408,13 @@ class Manager:
     # This is the EXTERNAL function, for the GUI. It returns the core_state + supp_state
     def get_torrent_state(self, unique_ID):
         # Check to see if unique_ID exists:
-        if self.state.queue.count(unique_ID) == 0:
+        if unique_ID not in self.state.queue:
             raise InvalidUniqueIDError(_("Asked for a torrent that doesn't exist"))
          
         ret = self.get_core_torrent_state(unique_ID, True).copy()
 
         # Add the deluge-level things to the deluge_core data
-        if self.get_supp_torrent_state(unique_ID) is not None:
-            ret.update(self.get_supp_torrent_state(unique_ID))
+        ret.update(self.get_supp_torrent_state(unique_ID))
 
         # Get queue position
         ret['queue_pos'] = self.state.queue.index(unique_ID)
@@ -604,30 +618,30 @@ class Manager:
 
         return ret
 
-    # Filtering functions
-
-    def set_file_filter(self, unique_ID, file_filter):
-        assert(len(file_filter) == self.get_core_torrent_state(unique_ID, True)['num_files'])
-
-        self.unique_IDs[unique_ID].file_filter = file_filter[:]
-
-        deluge_core.set_filter_out(unique_ID, file_filter)
-
-    def get_file_filter(self, unique_ID):
-        try:
-            return self.unique_IDs[unique_ID].file_filter[:]
-        except AttributeError:
-            return None
-
     # Priorities functions
     def prioritize_files(self, unique_ID, priorities):
+        assert(len(priorities) == self.get_core_torrent_state(unique_ID, 
+                                      True)['num_files'])
+
+        self.unique_IDs[unique_ID].priorities = priorities[:]
         deluge_core.prioritize_files(unique_ID, priorities)
 
-    # Called when a session starts, to apply existing filters
-    def apply_all_file_filters(self):
+    def get_priorities(self, unique_ID):
+        try:
+            return self.unique_IDs[unique_ID].priorities[:]
+        except AttributeError:
+            # return normal priority for all files by default
+            
+            num_files = self.get_core_torrent_state(unique_ID, 
+                                                    True)['num_files']
+            return [1] * num_files
+
+    # Called when a session starts, to apply existing priorities
+    def apply_all_file_priorities(self):
         for unique_ID in self.unique_IDs.keys():
             try:
-                self.set_file_filter(unique_ID, self.unique_IDs[unique_ID].file_filter)
+                self.prioritize_files(unique_ID, 
+                                      self.get_priorities(unique_ID))
             except AttributeError:
                 pass
 
@@ -673,8 +687,9 @@ class Manager:
 
     # Efficient: use a saved state, if it hasn't expired yet
     def get_core_torrent_state(self, unique_ID, efficiently=True):
-        if unique_ID not in self.saved_core_torrent_states.keys():
-            self.saved_core_torrent_states[unique_ID] = cached_data(deluge_core.get_torrent_state, unique_ID)
+        if unique_ID not in self.saved_core_torrent_states:
+            self.saved_core_torrent_states[unique_ID] = \
+                cached_data(deluge_core.get_torrent_state, unique_ID)
 
         return self.saved_core_torrent_states[unique_ID].get(efficiently)
 
@@ -682,7 +697,7 @@ class Manager:
         try:
             return self.supp_torrent_states[unique_ID]
         except KeyError:
-            return None
+            return {}
 
     def set_supp_torrent_state_val(self, unique_ID, key, val):
         try:
@@ -754,19 +769,17 @@ class Manager:
         no_space = False
 
         # Add torrents to core and unique_IDs
-        torrents_with_unique_ID = self.unique_IDs.values()
-
         for torrent in self.state.torrents:
             if not os.path.exists(torrent.filename):
                 print "Missing file: %s" % torrent.filename
                 self.state.torrents.remove(torrent)
                 continue
-            if torrent not in torrents_with_unique_ID:
+            if torrent not in self.unique_IDs.values():
 #                print "Adding torrent to core:", torrent.filename, torrent.save_dir, torrent.compact
                 try:
                     unique_ID = deluge_core.add_torrent(torrent.filename,
-                                                    torrent.save_dir,
-                                                    torrent.compact)
+                                                        torrent.save_dir,
+                                                        torrent.compact)
                 except DelugeError, e:
                     print "Error:", e
                     self.state.torrents.remove(torrent)
@@ -775,9 +788,7 @@ class Manager:
 
                 ret = unique_ID
                 self.unique_IDs[unique_ID] = torrent
-
         
-#        print torrents_with_unique_ID
         # Remove torrents from core, unique_IDs and queue
         to_delete = []
         for unique_ID in self.unique_IDs.keys():
@@ -800,8 +811,9 @@ class Manager:
         # Add torrents to queue - at the end, of course
         for unique_ID in self.unique_IDs.keys():
             if unique_ID not in self.state.queue:
-                if (self.get_pref('queue_above_completed')) and len(self.state.queue) > 0:
-                    for index in range(len(self.state.queue)):
+                if self.get_pref('queue_above_completed') and \
+                   len(self.state.queue) > 0:
+                    for index in xrange(len(self.state.queue)):
                         torrent_state = self.get_core_torrent_state(self.state.queue[index])
                         if torrent_state['progress'] == 1.0:
                             break
@@ -827,11 +839,8 @@ class Manager:
         
         #if no_space:
             #self.apply_queue()
-        # Pickle the state so if we experience a crash, the latest state is available
-        print "Pickling state..."
-        output = open(os.path.join(self.base_dir, STATE_FILENAME), 'wb')
-        pickle.dump(self.state, output)
-        output.close()
+
+        self.pickle_state()
 
         return ret
 

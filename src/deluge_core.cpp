@@ -97,7 +97,6 @@ using namespace libtorrent;
 //-----------------
 
 typedef long          unique_ID_t;
-typedef std::vector<bool> filter_out_t;
 typedef std::string   torrent_name_t;
 
 struct torrent_t
@@ -179,6 +178,17 @@ long get_index_from_unique_ID(long unique_ID)
     RAISE_INT(DelugeError, "No such unique_ID.");
 }
 
+torrent_info internal_dump_file_info(std::string const& torrent_name)
+{
+    std::ifstream in(torrent_name.c_str(), std::ios_base::binary);
+    in.unsetf(std::ios_base::skipws);
+    entry e;
+    e = bdecode(std::istream_iterator<char>(in), std::istream_iterator<char>());
+
+    torrent_info t(e);
+
+    return t;
+}
 
 long internal_add_torrent(std::string const&    torrent_name,
 float   preferred_ratio,
@@ -512,6 +522,34 @@ static PyObject *torrent_set_max_connections(PyObject *self, PyObject *args)
     Py_INCREF(Py_None); return Py_None;
 }
 
+static PyObject *torrent_dump_file_info(PyObject *self, PyObject *args)
+{
+    const char *name;
+    if (!PyArg_ParseTuple(args, "s", &name))
+        return NULL;
+
+    torrent_info t = internal_dump_file_info(name);
+    
+    PyObject *file_info;
+    long file_index = 0;
+    PyObject *ret = PyTuple_New(t.num_files());
+
+    for(torrent_info::file_iterator i = t.begin_files(); i != t.end_files(); ++i)
+    {
+        file_entry const &currFile = (*i);
+
+        file_info = Py_BuildValue(
+            "{s:s,s:L}",
+            "path",     currFile.path.string().c_str(),
+            "size",     currFile.size
+            );
+            
+        PyTuple_SetItem(ret, file_index, file_info);   
+        file_index++;
+    };
+
+    return ret;
+}
 
 static PyObject *torrent_add_torrent(PyObject *self, PyObject *args)
 {
@@ -1011,35 +1049,6 @@ static PyObject *torrent_get_file_info(PyObject *self, PyObject *args)
     return ret;
 };
 
-static PyObject *torrent_set_filter_out(PyObject *self, PyObject *args)
-{
-    python_long unique_ID;
-    PyObject *filter_out_object;
-    if (!PyArg_ParseTuple(args, "iO", &unique_ID, &filter_out_object))
-        return NULL;
-
-    long index = get_index_from_unique_ID(unique_ID);
-    if (PyErr_Occurred())
-        return NULL;
-
-    torrent_t &t = M_torrents->at(index);
-    long num_files = t.handle.get_torrent_info().num_files();
-    assert(PyList_Size(filter_out_object) ==  num_files);
-
-    filter_out_t filter_out(num_files);
-
-    for (long i = 0; i < num_files; i++)
-    {
-        filter_out.at(i) =
-            PyInt_AsLong(PyList_GetItem(filter_out_object, i));
-    };
-
-    t.handle.filter_files(filter_out);
-
-    Py_INCREF(Py_None); return Py_None;
-}
-
-
 /*static PyObject *torrent_get_unique_IDs(PyObject *self, PyObject *args)
 {
     PyObject *ret = PyTuple_New(M_torrents.size());
@@ -1521,7 +1530,7 @@ static PyMethodDef deluge_core_methods[] =
     {"get_session_info",        torrent_get_session_info,   METH_VARARGS,       "."},
     {"get_peer_info",       torrent_get_peer_info,      METH_VARARGS,   "."},
     {"get_file_info",       torrent_get_file_info,      METH_VARARGS,   "."},
-    {"set_filter_out",      torrent_set_filter_out,         METH_VARARGS,   "."},
+    {"dump_file_info",      torrent_dump_file_info,         METH_VARARGS,   "."},
     {"constants",           torrent_constants,          METH_VARARGS,   "."},
     {"start_DHT",           torrent_start_DHT,          METH_VARARGS,   "."},
     {"stop_DHT",            torrent_stop_DHT,           METH_VARARGS,   "."},

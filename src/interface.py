@@ -63,7 +63,7 @@ class DelugeGTK:
         #Start the Deluge Manager:
         self.manager = core.Manager(common.CLIENT_CODE, common.CLIENT_VERSION, 
             '%s %s'%(common.PROGRAM_NAME, common.PROGRAM_VERSION), common.CONFIG_DIR)
-        self.files_for_tab = files.FilesManager(self.manager, True)
+        self.files_tab = files.FilesTabManager(self.manager)
         self.plugins = plugins.PluginManager(self.manager, self)
         self.plugins.add_plugin_dir(common.PLUGIN_DIR)
         if os.path.isdir(os.path.join(common.CONFIG_DIR , 'plugins')):
@@ -636,10 +636,10 @@ class DelugeGTK:
         self.peer_store_dict = {}
 
     def build_file_tab(self):
-        self.files_for_tab.build_file_view(self.wtree.get_widget("file_view"))
+        self.files_tab.build_file_view(self.wtree.get_widget("file_view"))
     
     def clear_file_store(self):
-        self.files_for_tab.clear_file_store()
+        self.files_tab.clear_file_store()
         
     def show_about_dialog(self, arg=None):
         dialogs.show_about_dialog()
@@ -1019,9 +1019,9 @@ class DelugeGTK:
         elif page_num == 2: # Files
             # Fill self.file_store with files only once and only when we click to
             # Files tab or it's already open
-            self.files_for_tab.use_unique_id(unique_id)
-            self.files_for_tab.prepare_store()
-            self.files_for_tab.update_store()
+            self.files_tab.set_unique_id(unique_id)
+            self.files_tab.prepare_file_store()
+            self.files_tab.update_file_store()
         
     
     def calc_share_ratio(self, unique_id, torrent_state):
@@ -1083,7 +1083,20 @@ class DelugeGTK:
                 return
             
         try:
-            unique_id = self.manager.add_torrent(torrent, path, self.config.get('use_compact_storage'))
+            dumped_torrent = self.manager.dump_torrent_file_info(torrent)
+            if self.config.get('enable_files_dialog') and \
+               len(dumped_torrent) > 1:
+                files_dialog = dialogs.FilesDlg(dumped_torrent)
+                if files_dialog.show() == 1:
+                    unique_id = self.manager.add_torrent(torrent, path, 
+                                    self.config.get('use_compact_storage'))
+                    self.manager.prioritize_files(unique_id, 
+                        files_dialog.get_priorities())
+                else:
+                    return
+            else:
+                unique_id = self.manager.add_torrent(torrent, path, 
+                                self.config.get('use_compact_storage'))
         except core.InvalidEncodingError, e:
             print "InvalidEncodingError", e
             dialogs.show_popup_warning(self.window, _("An error occured while trying to add the torrent. It's possible your .torrent file is corrupted."))
@@ -1095,19 +1108,8 @@ class DelugeGTK:
             dialogs.show_popup_warning(self.window, _("There is not enough free disk space to complete your download.") + "\n" + \
                                                         _("Space Needed:") + " " + nice_need + "\n" + \
                                                         _("Available Space:") + " " + nice_free)
-        else:
-            num_files = len(self.manager.get_torrent_file_info(unique_id))
-            if self.config.get('enable_files_dialog') and num_files > 1:
-                self.manager.set_user_pause(unique_id, True)
-                
-                files_dialog = dialogs.FilesDlg(self.manager, unique_id)
-                if files_dialog.show() == 1:
-                    self.manager.set_user_pause(unique_id, False)
-                    self.torrent_model_append(unique_id)
-                else:
-                    self.manager.remove_torrent(unique_id, True, True)
-            else:
-                self.torrent_model_append(unique_id)
+
+        self.torrent_model_append(unique_id)
             
     def launchpad(self, obj=None):
         common.open_url_in_browser('https://translations.launchpad.net/deluge/trunk/+pots/deluge')
