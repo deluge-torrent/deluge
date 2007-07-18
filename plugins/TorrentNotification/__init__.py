@@ -57,10 +57,11 @@ class TorrentNotification:
         self.dialog = self.glade.get_widget("dialog")
     
     def handle_event(self, event):
-        if self.config.get("enable_tray_blink"):
-            self.set_tray_flashing_on()
-        if self.config.get("enable_notification"):
-            self.show_notification(event)
+        if event['message'] == "torrent has finished downloading":
+            if self.config.get("enable_tray_blink"):
+                self.set_tray_flashing_on()
+            if self.config.get("enable_notification"):
+                self.show_notification(event)
 
     def unload(self):
         self.core.disconnect_event(self.core.constants['EVENT_FINISHED'], self.handle_event)

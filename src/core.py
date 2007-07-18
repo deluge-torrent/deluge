@@ -556,13 +556,6 @@ class Manager:
             if event is None:
                 break
 
-            # EVENT_FINISHED fires after integrity checks as well, so ensure 
-            # we actually downloaded torrent now by making sure at least some 
-            # bytes have been downloaded for it in this session
-            if event['event_type'] is self.constants['EVENT_FINISHED'] and \
-               self.get_core_torrent_state(event['unique_ID'])['total_payload_download'] == 0:
-                continue
-
 #            print "EVENT: ", event
 
             ret.append(event)
@@ -583,16 +576,21 @@ class Manager:
                     self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
                     
             elif event['event_type'] is self.constants['EVENT_FINISHED']:
-                # Queue seeding torrent to bottom if needed
                 if self.get_pref('enable_move_completed') and not \
-                    (self.get_pref('default_finished_path') == self.get_pref('default_download_path')):
+                   (self.get_pref('default_finished_path') == self.get_pref('default_download_path')) and \
+                   event['message'] == "torrent has finished downloading":
                     deluge_core.move_storage(event['unique_ID'], self.get_pref('default_finished_path'))
+                    
+                # Queue seeding torrent to bottom if needed
                 if self.get_pref('queue_seeds_to_bottom'):
                     self.queue_bottom(event['unique_ID'])
+                    
                 # If we are autoseeding, then we need to apply the queue
                 if self.get_pref('auto_seed_ratio') == -1:
                     self.apply_queue(efficient = False) # To work on current data
-                #save fast resume once torrent finshes so as to not recheck seed if client crashes
+                    
+                # save fast resume once torrent finishes so as to not recheck
+                # seed if client crashes
                 self.save_fastresume_data(event['unique_ID'])
             elif event['event_type'] is self.constants['EVENT_TRACKER']:
                 unique_ID = event['unique_ID']

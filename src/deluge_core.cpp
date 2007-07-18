@@ -749,9 +749,10 @@ static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
             return NULL;
 
         if (handle_exists(handle))
-            return Py_BuildValue("{s:i,s:i}", "event_type", EVENT_FINISHED,
-                "unique_ID",
-                M_torrents->at(index).unique_ID);
+            return Py_BuildValue("{s:i,s:i,s:s}", 
+                "event_type", EVENT_FINISHED,
+                "unique_ID", M_torrents->at(index).unique_ID,
+                "message", a->msg().c_str());
         else
             { Py_INCREF(Py_None); return Py_None; }
     } else if (dynamic_cast<peer_error_alert*>(popped_alert))
