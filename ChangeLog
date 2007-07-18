@@ -1,23 +1,24 @@
 Deluge 0.5.3 (XX August 2007)
 
   * Added ChangeLog
+  * Ticket #53 - Added files priorities within torrent
+  * Ticket #111 - Remember directory of last added torrent
+  * Ticket #232 - Added Move completed downloads to feature
+  * Ticket #245 - Added ability to select torrent files before starting
+  * Ticket #371 - Proper full storage allocation of files on reiser4 and
+  ntfs-3g filesystems
+  * Ticket #420 - Show size of torrent minus size of unselected files as Total
+  Size
+  * Ticket #405 - Properly start in tray when run deluge --tray
+  * Ticket #437 - Gracefully upgrade from old versions
   * RSS plugin inclusion
   * Added ability to queue new torrents above completed ones when
   seeds are set to queue at the bottom
   * Added ability to automatically remove torrents when max share ratio is set
   * Show text from clipboard in Add URL dialog only if it looks like an URL
-  * ticket #405 - Properly start in tray when run deluge --tray
-  * ticket #371 - Proper full storage allocation of files on reiser4 and
-  ntfs-3g filesystems
-  * ticket #111 - Remember directory of last added torrent
-  * ticket #420 - Show size of torrent minus size of unselected files as Total
-  Size
-  * ticket #232 - Added Move completed downloads to feature
   * Added Torrent Notification plugin
   * Added event handling callbacks for plugins
-  * ticket #245 - Added ability to select torrent files before starting
   * Added ability to designate a torrent as private (in file selection dialog)
-  * ticket #437 - Gracefully upgrade from old versions
   * Details, Peers and Files tabs more responsible and their perfomance
   greatly improved especially on torrents with many files and peers
   * A lot of other less visible improvements
