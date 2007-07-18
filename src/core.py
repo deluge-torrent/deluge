@@ -240,7 +240,7 @@ class Manager:
 
                 # Sync with the core: tell core about torrents, and get 
                 # unique_IDs
-                self.sync()
+                self.sync(True)
 
                 # Apply all the file priorities, right after adding the 
                 # torrents
@@ -762,7 +762,7 @@ class Manager:
     ## Some of these changes may be hack-ish, so look at them and make
     ## sure nothing is wrong.
     ##
-    def sync(self):
+    def sync(self, called_on_start=False):
         ret = None # We return new added unique ID(s), or None
         no_space = False
 
@@ -810,16 +810,16 @@ class Manager:
         for unique_ID in self.unique_IDs.keys():
             if unique_ID not in self.state.queue:
                 if self.get_pref('queue_above_completed') and \
-                   len(self.state.queue) > 0:
+                   len(self.state.queue) > 0 and not called_on_start:
                     for index in xrange(len(self.state.queue)):
-                        torrent_state = self.get_core_torrent_state(self.state.queue[index])
+                        torrent_state = self.get_core_torrent_state(
+                                            self.state.queue[index])
                         if torrent_state['progress'] == 1.0:
                             break
                     if torrent_state['progress'] == 1.0:
                         self.state.queue.insert(index, unique_ID)
                     else:
                         self.state.queue.append(unique_ID)
-                    
                 else:
                     self.state.queue.append(unique_ID)
         # run through queue, remove those that no longer exists
