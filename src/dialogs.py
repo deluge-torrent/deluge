@@ -310,7 +310,7 @@ def show_about_dialog(parent=None):
         abt = gtk.glade.XML(common.get_glade_file("aboutdialog.glade")).get_widget("aboutdialog")
         abt.set_name(common.PROGRAM_NAME)
         abt.set_version(common.PROGRAM_VERSION)
-        abt.set_authors(["Zach Tibbitts", "Alon Zakai", "Marcos Pinto", "Andrew Resch"])
+        abt.set_authors(["Zach Tibbitts", "Alon Zakai", "Marcos Pinto", "Andrew Resch", "Alex Dedul"])
         abt.set_artists(["Andrew Wedderburn"])
         abt.set_translator_credits(_("translator-credits"))
         abt.set_website("http://deluge-torrent.org")
