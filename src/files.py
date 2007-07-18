@@ -59,12 +59,13 @@ class FilesBaseManager(object):
         self.file_view = file_view
         self.file_selected = []
         
-        self.toggle_column = dgtk.add_toggle_column(self.file_view, 
-                                 _("Priority"), 0, 
-                                 toggled_signal=self.file_toggled)
-        self.filename_column = dgtk.add_text_column(self.file_view, _("Filename"), 1)
-        self.filename_column.set_expand(True)
-        self.size_column = dgtk.add_func_column(self.file_view, _("Size"), dgtk.cell_data_size, 2)
+        dgtk.add_toggle_column(self.file_view, _("Priority"), 0, 
+                               toggled_signal=self.file_toggled)
+        filename_column = dgtk.add_text_column(self.file_view, _("Filename"), 
+                                               1)
+        filename_column.set_expand(True)
+        dgtk.add_func_column(self.file_view, _("Size"), dgtk.cell_data_size, 
+                             2)
         
         self.file_view.set_model(self.file_store_sorted)
         self.file_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
