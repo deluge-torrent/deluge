@@ -293,7 +293,7 @@
                                         <property name="label" translatable="yes">Queue torrents to bottom when they begin seeding</property>
                                         <property name="use_underline">True</property>
                                         <property name="draw_indicator">True</property>
-                                        <signal name="toggled" handler="on_chk_seedbottom"/>
+                                        <signal name="toggled" handler="toggle_ui"/>
                                       </widget>
                                     </child>
                                     <child>

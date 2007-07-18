@@ -179,7 +179,9 @@ class PreferencesDlg:
             self.glade.get_widget('finished_path_button').set_sensitive(value)
         elif widget == self.glade.get_widget('chk_autoseed'):
             self.glade.get_widget('ratio_spinner').set_sensitive(value)
-            self.glade.get_widget('chk_clear_max_ratio_torrents').set_sensitive(value)          
+            self.glade.get_widget('chk_clear_max_ratio_torrents').set_sensitive(value)  
+        elif widget == self.glade.get_widget('chk_seedbottom'):
+            self.glade.get_widget('chk_queue_above_completed').set_sensitive(value)  		
         elif widget == self.glade.get_widget('chk_peer_proxy') or \
             widget == self.glade.get_widget('chk_tracker_proxy') or \
             widget == self.glade.get_widget('chk_dht_proxy'):
