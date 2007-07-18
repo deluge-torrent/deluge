@@ -1112,8 +1112,8 @@ class DelugeGTK:
             dialogs.show_popup_warning(self.window, _("There is not enough free disk space to complete your download.") + "\n" + \
                                                         _("Space Needed:") + " " + nice_need + "\n" + \
                                                         _("Available Space:") + " " + nice_free)
-
-        self.torrent_model_append(unique_id)
+        else:
+            self.torrent_model_append(unique_id)
             
     def launchpad(self, obj=None):
         common.open_url_in_browser('https://translations.launchpad.net/deluge/trunk/+pots/deluge')
