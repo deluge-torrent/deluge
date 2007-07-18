@@ -28,3 +28,10 @@ Here are the highlights:
             x             = 1
             y             = 2
             long_variable = 3
+
+Some more recommendations:
+    * Try to use iterators/generators where applicable. The simplest change from
+    range to xrange is also good.
+    * In UI and deluge code for consistency we use notion of speed not rate.
+    Libtorrent mixes this usage and so do we on deluge-libtorrent boundary, 
+    but all deluge only code should use speed.
