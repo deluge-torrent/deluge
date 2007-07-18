@@ -955,6 +955,9 @@ class DelugeGTK:
         # unique_id param
         if unique_id is None:
             unique_id = self.get_selected_torrent()
+        # If no torrents added
+        if unique_id is None:
+            return
         # page_num is to force update info when user just changes tab
         if page_num is None:
             page_num = self.wtree.get_widget("torrent_info").get_current_page()
@@ -1022,7 +1025,6 @@ class DelugeGTK:
             self.files_tab.set_unique_id(unique_id)
             self.files_tab.prepare_file_store()
             self.files_tab.update_file_store()
-        
     
     def calc_share_ratio(self, unique_id, torrent_state):
         r = float(self.manager.calc_ratio(unique_id, torrent_state))

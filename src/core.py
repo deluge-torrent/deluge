@@ -53,6 +53,7 @@ import shutil
 import statvfs
 import time
 
+from common import N_, PRIORITY_NORMAL
 import deluge_core
 import pref
 
@@ -79,9 +80,6 @@ PREF_FUNCTIONS = {
     "use_natpmp" : deluge_core.use_natpmp,
     "use_utpex" : deluge_core.use_utpex,
 }
-
-def N_(self):
-        return self
 
 STATE_MESSAGES = (N_("Queued"),
                   N_("Checking"),
@@ -634,7 +632,7 @@ class Manager:
             
             num_files = self.get_core_torrent_state(unique_ID, 
                                                     True)['num_files']
-            return [1] * num_files
+            return [PRIORITY_NORMAL] * num_files
 
     # Called when a session starts, to apply existing priorities
     def apply_all_file_priorities(self):

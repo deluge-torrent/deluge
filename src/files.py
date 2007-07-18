@@ -30,23 +30,27 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import gtk
-import dgtk
-import common
 from itertools import izip
+
 import gobject
+import gtk
+
+import common
+import dgtk
 
 class FilesBaseManager(object):
     def __init__(self, file_store):
-        self.file_glade = gtk.glade.XML(common.get_glade_file("file_tab_menu.glade"), 
-                                        domain='deluge')
-        self.file_menu = self.file_glade.get_widget("file_tab_menu")
-        self.file_glade.signal_autoconnect({
-                            "select_all": self.file_select_all,
-                            "unselect_all": self.file_unselect_all,
-                            "check_selected": self.file_check_selected,
-                            "uncheck_selected": self.file_uncheck_selected,
-                            })
+        file_glade = gtk.glade.XML(common.get_glade_file("file_tab_menu.glade"), 
+                                   domain='deluge')
+        self.file_menu = file_glade.get_widget("file_tab_menu")
+        file_glade.signal_autoconnect({
+            "select_all": self.file_select_all,
+            "unselect_all": self.file_unselect_all,
+            "priority_dont_download": self.priority_clicked,
+            "priority_normal": self.priority_clicked,
+            "priority_high": self.priority_clicked,
+            "priority_highest": self.priority_clicked,
+        })
         
         self.file_store = file_store
         # We need file_store_sorted so original file_store keeps unchanged
@@ -57,20 +61,21 @@ class FilesBaseManager(object):
 
     def build_file_view(self, file_view):
         self.file_view = file_view
-        self.file_selected = []
         
-        dgtk.add_toggle_column(self.file_view, _("Priority"), 0, 
-                               toggled_signal=self.file_toggled)
+        def priority(column, cell, model, iter, data):
+            priority = common.fpriority(model.get_value(iter, data))
+            cell.set_property("text", priority)
+            
         filename_column = dgtk.add_text_column(self.file_view, _("Filename"), 
-                                               1)
+                                               0)
         filename_column.set_expand(True)
         dgtk.add_func_column(self.file_view, _("Size"), dgtk.cell_data_size, 
-                             2)
+                             1)
+        dgtk.add_func_column(self.file_view, _("Priority"), priority, 2)
         
         self.file_view.set_model(self.file_store_sorted)
         self.file_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
-        self.file_view.get_selection().set_select_function(self.file_clicked)
-        self.file_view.connect("button-press-event", self.file_view_clicked)
+        self.file_view.connect("button-press-event", self.mouse_clicked)
 
     def clear_file_store(self):
         self.file_store.clear()
@@ -85,60 +90,37 @@ class FilesBaseManager(object):
     def file_unselect_all(self, widget):
         self.file_view.get_selection().unselect_all()
     
-    def file_check_selected(self, widget):
-        self.file_view.get_selection().selected_foreach(self.file_toggle_selected, True)
-        self.file_toggled_update_priorities()
+    def priority_clicked(self, widget):
+        widget_name = widget.get_name()
+        priority = {'priority_dont_download': common.PRIORITY_DONT_DOWNLOAD,
+                    'priority_normal': common.PRIORITY_NORMAL,
+                    'priority_high': common.PRIORITY_HIGH,
+                    'priority_highest': common.PRIORITY_HIGHEST}[widget_name]
+                    
+        selected_paths = self.file_view.get_selection().get_selected_rows()[1]
+        for path in selected_paths:
+            child_path = self.file_store_sorted.\
+                             convert_path_to_child_path(path)
+                             
+            self.file_store.set_value(self.file_store.get_iter(child_path), 2, 
+                                      priority)
+            
+        self.update_priorities()
     
-    def file_uncheck_selected(self, widget):
-        self.file_view.get_selection().selected_foreach(self.file_toggle_selected, False)
-        self.file_toggled_update_priorities()
-
-    def file_clicked(self, path):
-        return not self.file_selected
-    
-    def file_view_clicked(self, widget, event):
+    def mouse_clicked(self, widget, event):
         if event.button == 3:
             self.file_menu.popup(None, None, None, event.button, event.time)
             return True
         else:
-            self.file_selected = False
             return False
         
-    def file_toggle_selected(self, treemodel, path, selected_iter, value):
-        child_iter = self.file_store_sorted.convert_iter_to_child_iter(None,
-                         selected_iter)
-        if value:
-            new_value = 1
-        else:
-            new_value = 0
-        self.file_store_sorted.get_model().set_value(child_iter, 0, new_value)
-
-    def file_toggled(self, renderer, path):
-        self.file_selected = True
-        
-        value = not renderer.get_active()
-        if value:
-            new_value = 1
-        else:
-            new_value = 0
-            
-        file_iter = self.file_store_sorted.get_iter_from_string(path)
-        selection = self.file_view.get_selection()
-        if selection.iter_is_selected(file_iter):
-            selection.selected_foreach(self.file_toggle_selected, value)
-        else:
-            child_iter = self.file_store_sorted.convert_iter_to_child_iter(
-                             None, file_iter)
-            self.file_store_sorted.get_model().set_value(child_iter, 0, 
-                                                         new_value)
-        self.file_toggled_update_priorities()
-
-    def file_toggled_update_priorities(self):
+    def update_priorities(self):
         pass
 
 class FilesTabManager(FilesBaseManager):
     def __init__(self, manager):
-        file_store = gtk.ListStore(int, str, gobject.TYPE_UINT64, float)
+        file_store = gtk.ListStore(str, gobject.TYPE_UINT64, 
+                                   gobject.TYPE_UINT, float)
         
         super(FilesTabManager, self).__init__(file_store)
 
@@ -161,43 +143,47 @@ class FilesTabManager(FilesBaseManager):
     def set_unique_id(self, unique_id):
         self.file_unique_id = unique_id
     
+    # From core to UI
     def prepare_file_store(self):
         if not self.file_store_dict:
             all_files = self.manager.get_torrent_file_info(self.file_unique_id)
             file_priorities = self.manager.get_priorities(self.file_unique_id)
             for file, priority in izip(all_files, file_priorities):
-                iter = self.file_store.append([priority, file['path'],
-                           file['size'],
-                           round(file['progress'], 2)])
+                iter = self.file_store.append([file['path'], file['size'],
+                           priority, round(file['progress'], 2)])
                 self.file_store_dict[file['path']] = iter
     
+    # From core to UI
     def update_file_store(self):
         new_file_info = self.manager.get_torrent_file_info(self.file_unique_id)
         for file in new_file_info:
             iter = self.file_store_dict[file['path']]
             if self.file_store.get_value(iter, 3) != round(file['progress'], 2):
                 self.file_store.set(iter, 3, file['progress'])
-        
-    def file_toggled_update_priorities(self):
+
+    # From UI to core
+    def update_priorities(self):
         file_priorities = []
         for x in self.file_store:
-            file_priorities.append(x[0])
+            file_priorities.append(x[2])
         self.manager.prioritize_files(self.file_unique_id, file_priorities)
 
 class FilesDialogManager(FilesBaseManager):
     def __init__(self, dumped_torrent):
-        file_store = gtk.ListStore(int, str, gobject.TYPE_UINT64)
+        file_store = gtk.ListStore(str, gobject.TYPE_UINT64, 
+                                   gobject.TYPE_UINT)
         super(FilesDialogManager, self).__init__(file_store)
         
         self.dumped_torrent = dumped_torrent
     
     def prepare_file_store(self):
         for file in self.dumped_torrent:
-            self.file_store.append([1, file['path'], file['size']])
+            self.file_store.append([file['path'], file['size'], 
+                                    common.PRIORITY_NORMAL])
                 
     def get_priorities(self):
         file_priorities = []
         for x in self.file_store:
-            file_priorities.append(x[0])
+            file_priorities.append(x[2])
             
         return file_priorities
