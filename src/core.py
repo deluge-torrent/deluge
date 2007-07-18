@@ -226,7 +226,7 @@ class Manager:
         self.event_callbacks = {}
 
         # unique_ids removed by core
-        self.removed_unique_ids = []
+        self.removed_unique_ids = {}
 
         PREF_FUNCTIONS["enable_dht"] = self.set_DHT 
 
@@ -462,7 +462,7 @@ class Manager:
             torrent_state = self.get_core_torrent_state(unique_ID)
             if torrent_state['progress'] == 1.0:
                 self.remove_torrent_ns(unique_ID)
-                self.removed_unique_ids.append(unique_ID)
+                self.removed_unique_ids[unique_ID] = 1
 
         self.sync()
         self.apply_queue()
@@ -492,7 +492,7 @@ class Manager:
                     torrent_state = self.get_core_torrent_state(unique_ID, efficient)
                     ratio = self.calc_ratio(unique_ID, torrent_state)
                     if ratio >= self.get_pref('auto_seed_ratio'):
-                        self.removed_unique_ids.append(unique_ID)
+                        self.removed_unique_ids[unique_ID] = 1
                         self.remove_torrent(unique_ID, False, True)
 
         # Pause and resume torrents

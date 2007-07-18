@@ -841,23 +841,25 @@ class DelugeGTK:
         
         while itr is not None:
             uid = self.torrent_model.get_value(itr, 0)
-            if self.manager.removed_unique_ids.count(uid) > 0:
+            
+            if uid in self.manager.removed_unique_ids:
                 selected_unique_id = self.get_selected_torrent()
-                # If currently selected torrent was complete and so removed clear 
-                # details pane
+                # If currently selected torrent was complete and so removed 
+                # clear details pane
                 if selected_unique_id == uid:
                     self.clear_details_pane()
+                    
                 next = self.torrent_model.iter_next(itr)
                 self.torrent_model.remove(itr)
                 itr = self.torrent_model.get_iter_first()
                 if itr is None:
                     return True
                 itr = next
-                self.manager.removed_unique_ids.pop(self.manager.removed_unique_ids.index(uid))
+                
+                del self.manager.removed_unique_ids[uid]
             else:
-                state = self.manager.get_torrent_state(uid)
                 tlist = self.get_list_from_unique_id(uid)
-                for i in range(len(tlist)):
+                for i in xrange(len(tlist)):
                     try:
                         self.torrent_model.set_value(itr, i, tlist[i])
                     except:
