@@ -1,268 +1,243 @@
 # French translation for deluge
 # Copyright (c) 2006 Rosetta Contributors and Canonical Ltd 2006
 # This file is distributed under the same license as the deluge package.
-# Éric Lassauge <rpmfarm@free.fr>, 2007
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2006.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-27 19:40+0200\n"
-"PO-Revision-Date: 2007-06-28 16:36+0100\n"
-"Last-Translator: Éric Lassauge <rpmfarm@free.fr>\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2007-07-17 06:55-0500\n"
+"PO-Revision-Date: 2007-07-18 07:31+0000\n"
+"Last-Translator: Matrik <matrik.utbm@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Rosetta-Export-Date: 2007-07-18 14:38:27+0000\n"
 
-#: glade/delugegtk.glade:203
-msgid "<b>Downloaded:</b>"
-msgstr "<b>Téléchargé :</b>"
-
-#: glade/delugegtk.glade:217
-msgid "<b>Uploaded:</b>"
-msgstr "<b>Envoyés :</b>"
-
-#: glade/delugegtk.glade:235
-msgid "<b>Seeders:</b>"
-msgstr "<b>Sources :</b>"
-
-#: glade/delugegtk.glade:253
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>Ratio de partage :</b>"
-
-#: glade/delugegtk.glade:272
-#: glade/delugegtk.glade:291
-msgid "<b>Speed:</b>"
-msgstr "<b>Vitesse :</b>"
-
-#: glade/delugegtk.glade:312
-msgid "<b>Peers:</b>"
-msgstr "<b>Clients :</b>"
-
-#: glade/delugegtk.glade:333
-msgid "<b>ETA:</b>"
-msgstr "<b>EAP :</b>"
-
-#: glade/delugegtk.glade:359
-msgid "<b>Statistics</b>"
-msgstr "<b>Statistiques</b>"
-
-#: glade/delugegtk.glade:482
-msgid "<b>Name:</b>"
-msgstr "<b>Nom :</b>"
-
-#: glade/delugegtk.glade:501
-msgid "<b>Total Size:</b>"
-msgstr "<b>Taille totale :</b>"
-
-#: glade/delugegtk.glade:522
-msgid "<b>Pieces:</b>"
-msgstr "<b>Morceaux :</b>"
-
-#: glade/delugegtk.glade:544
-msgid "<b>Tracker:</b>"
-msgstr "<b>Tracker :</b>"
-
-#: glade/delugegtk.glade:565
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>État du tracker :</b>"
-
-#: glade/delugegtk.glade:586
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Prochaine annonce :</b>"
-
-#: glade/delugegtk.glade:605
-msgid "<b>Torrent Info</b>"
-msgstr "<b>Informations du torrent</b>"
-
-#: glade/delugegtk.glade:631
-msgid "Details"
-msgstr "Détails"
-
-#: glade/delugegtk.glade:659
-#: glade/delugegtk.glade:897
-#: glade/dgtkpopups.glade:37
-#: src/interface.py:443
-msgid "Peers"
-msgstr "Clients"
-
-#: glade/delugegtk.glade:689
-msgid "Files"
-msgstr "Fichiers"
-
-#: glade/delugegtk.glade:730
-msgid "_File"
-msgstr "_Fichier"
-
-#: glade/delugegtk.glade:737
-#: glade/tray_menu.glade:27
-msgid "_Add Torrent"
-msgstr "_Ajouter un torrent"
-
-#: glade/delugegtk.glade:752
-msgid "Add _URL"
-msgstr "Ajouter _URL"
-
-#: glade/delugegtk.glade:760
-msgid "_Clear Completed"
-msgstr "_Effacer les torrents terminés"
-
-#: glade/delugegtk.glade:793
-msgid "_Edit"
-msgstr "_Édition"
-
-#: glade/delugegtk.glade:810
-msgid "Pl_ugins"
-msgstr "_Greffons"
-
-#: glade/delugegtk.glade:829
-msgid "_Torrent"
-msgstr "_Torrent"
-
-#: glade/delugegtk.glade:836
-msgid "_View"
-msgstr "Afficha_ge"
-
-#: glade/delugegtk.glade:844
-msgid "_Toolbar"
-msgstr "Barre d'_outils"
-
-#: glade/delugegtk.glade:853
-msgid "_Details"
-msgstr "_Détails"
-
-#: glade/delugegtk.glade:862
-msgid "Columns"
-msgstr "Colonnes"
-
-#: glade/delugegtk.glade:870
-#: glade/dgtkpopups.glade:10
-#: src/interface.py:440
-#: src/interface.py:629
-msgid "Size"
-msgstr "Taille"
-
-#: glade/delugegtk.glade:879
-#: glade/dgtkpopups.glade:19
-#: src/interface.py:441
-msgid "Status"
-msgstr "État"
-
-#: glade/delugegtk.glade:888
-#: glade/dgtkpopups.glade:28
-#: src/interface.py:442
-msgid "Seeders"
-msgstr "Sources"
-
-#: glade/delugegtk.glade:906
-#: src/interface.py:444
-#: src/interface.py:627
-#: src/interface.py:880
-#: src/interface.py:892
-msgid "Download"
-msgstr "Réception"
-
-#: glade/delugegtk.glade:915
-#: src/interface.py:445
-#: src/interface.py:881
-#: src/interface.py:893
-msgid "Upload"
-msgstr "Émission"
-
-#: glade/delugegtk.glade:924
-#: glade/dgtkpopups.glade:64
-msgid "Time Remaining"
-msgstr "Temps restant"
-
-#: glade/delugegtk.glade:933
-#: glade/dgtkpopups.glade:73
-msgid "Share Ratio"
-msgstr "Taux de partage"
-
-#: glade/delugegtk.glade:950
-msgid "_Help"
-msgstr "_Aide"
-
-#: glade/delugegtk.glade:1007
-#: glade/delugegtk.glade:1008
+#: glade/delugegtk.glade:22
 msgid "Add Torrent"
 msgstr "Ajouter un torrent"
 
-#: glade/delugegtk.glade:1021
-#: glade/delugegtk.glade:1022
-#: glade/dgtkpopups.glade:81
+#: glade/delugegtk.glade:36 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
 msgstr "Supprimer le torrent"
 
-#: glade/delugegtk.glade:1034
+#: glade/delugegtk.glade:49
 msgid "Clear Finished Torrents"
 msgstr "Effacer les torrents terminés"
 
-#: glade/delugegtk.glade:1035
-#: glade/dgtkpopups.glade:254
-msgid "Clear Finished"
-msgstr "Effacer terminés"
+#: glade/delugegtk.glade:72
+msgid "Start or Pause torrent"
+msgstr "démarrer ou mettre en pause le torrent"
 
-#: glade/delugegtk.glade:1057
-msgid "Start / Pause"
-msgstr "Démarrer / Suspendre"
-
-#: glade/delugegtk.glade:1058
-msgid "Start"
-msgstr "Début"
-
-#: glade/delugegtk.glade:1071
+#: glade/delugegtk.glade:86
 msgid "Queue Torrent Up"
 msgstr "Déplacer le torrent vers le haut"
 
-#: glade/delugegtk.glade:1072
-msgid "Move Up"
-msgstr "Déplacer vers le Haut"
-
-#: glade/delugegtk.glade:1085
+#: glade/delugegtk.glade:100
 msgid "Queue Torrent Down"
 msgstr "Déplacer le torrent vers le bas"
 
-#: glade/delugegtk.glade:1086
-msgid "Move Down"
-msgstr "Déplacer vers le Bas"
+#: glade/delugegtk.glade:122
+msgid "Change Deluge preferences"
+msgstr "Modifier les préférences"
 
-#: glade/delugegtk.glade:1107
-#: glade/delugegtk.glade:1108
-msgid "Preferences"
-msgstr "Préférences"
+#: glade/delugegtk.glade:135
+msgid "Open the plugins dialog"
+msgstr "Choisir des greffons"
 
-#: glade/delugegtk.glade:1120
-#: glade/delugegtk.glade:1121
-#: glade/dgtkpopups.glade:284
-#: glade/plugin_dialog.glade:80
-msgid "Plugins"
-msgstr "Greffons"
+#: glade/delugegtk.glade:185
+msgid "_File"
+msgstr "_Torrent"
 
-#: glade/dgtkpopups.glade:116
-msgid "<span size=\"large\"><b>Are you sure you want to remove the selected torrent(s) from Deluge?</b></span>"
-msgstr "<span size=\"large\"><b>Êtes-vous sûr de vouloir supprimer le(s) torrent(s) sélectionné(s) de Deluge ?</b></span>"
+#: glade/delugegtk.glade:192 glade/tray_menu.glade:27
+msgid "_Add Torrent"
+msgstr "_ Ajouter un torrent"
 
-#: glade/dgtkpopups.glade:140
+#: glade/delugegtk.glade:207
+msgid "Add _URL"
+msgstr "Ajouter _un URL"
+
+#: glade/delugegtk.glade:215
+msgid "_Clear Completed"
+msgstr "Effacer les torrents terminés"
+
+#: glade/delugegtk.glade:248
+msgid "_Edit"
+msgstr "_Édition"
+
+#: glade/delugegtk.glade:265
+msgid "Pl_ugins"
+msgstr "_Greffons"
+
+#: glade/delugegtk.glade:284
+msgid "_Torrent"
+msgstr "_Torrent"
+
+#: glade/delugegtk.glade:291
+msgid "_View"
+msgstr "Afficha_ge"
+
+#: glade/delugegtk.glade:299
+msgid "_Toolbar"
+msgstr "Barre d'_outils"
+
+#: glade/delugegtk.glade:308
+msgid "_Details"
+msgstr "_Détails"
+
+#: glade/delugegtk.glade:317
+msgid "Columns"
+msgstr "Colonnes"
+
+#: glade/delugegtk.glade:325 src/interface.py:481 src/files.py:74
+msgid "Size"
+msgstr "Taille"
+
+#: glade/delugegtk.glade:334 src/interface.py:482
+msgid "Status"
+msgstr "Statut"
+
+#: glade/delugegtk.glade:343 src/interface.py:483
+msgid "Seeders"
+msgstr "Sources"
+
+#: glade/delugegtk.glade:352 glade/delugegtk.glade:1107 src/interface.py:484
+msgid "Peers"
+msgstr "Clients"
+
+#: glade/delugegtk.glade:361 src/interface.py:485 src/interface.py:635
+#: src/interface.py:939 src/interface.py:953
+msgid "Down Speed"
+msgstr "Vitesse de réception"
+
+#: glade/delugegtk.glade:370 src/interface.py:486 src/interface.py:636
+#: src/interface.py:940 src/interface.py:954
+msgid "Up Speed"
+msgstr "Vitesse d'envoi"
+
+#: glade/delugegtk.glade:379
+msgid "Time Remaining"
+msgstr "Temps restant"
+
+#: glade/delugegtk.glade:388
+msgid "Share Ratio"
+msgstr "Taux de partage"
+
+#: glade/delugegtk.glade:405
+msgid "_Help"
+msgstr "_Aide"
+
+#: glade/delugegtk.glade:413
+msgid "Help translate this application"
+msgstr "Aider à traduire cette application"
+
+#: glade/delugegtk.glade:414
+msgid "_Translate This Application..."
+msgstr "_Traduire cette application..."
+
+#: glade/delugegtk.glade:549
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Prochaine annonce :</b>"
+
+#: glade/delugegtk.glade:570
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Statut du tracker :</b>"
+
+#: glade/delugegtk.glade:592
+msgid "<b>Tracker:</b>"
+msgstr "<b>Tracker :</b>"
+
+#: glade/delugegtk.glade:613
+msgid "<b>Pieces:</b>"
+msgstr "<b>Parties :</b>"
+
+#: glade/delugegtk.glade:634
+msgid "<b>Total Size:</b>"
+msgstr "<b>Taille totale :</b>"
+
+#: glade/delugegtk.glade:656
+msgid "<b>Name:</b>"
+msgstr "<b>Nom :</b>"
+
+#: glade/delugegtk.glade:753
+msgid "<b>Torrent Info</b>"
+msgstr "Infos torrent"
+
+#: glade/delugegtk.glade:807
+msgid "<b>ETA:</b>"
+msgstr "<b>Temps restant estimé :</b>"
+
+#: glade/delugegtk.glade:828
+msgid "<b>Peers:</b>"
+msgstr "<b>Clients :</b>"
+
+#: glade/delugegtk.glade:849 glade/delugegtk.glade:870
+msgid "<b>Speed:</b>"
+msgstr "<b>Vitesse :</b>"
+
+#: glade/delugegtk.glade:888
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Taux de partage :</b>"
+
+#: glade/delugegtk.glade:906
+msgid "<b>Seeders:</b>"
+msgstr "<b>Sources :</b>"
+
+#: glade/delugegtk.glade:924
+msgid "<b>Uploaded:</b>"
+msgstr "Envoyé"
+
+#: glade/delugegtk.glade:942
+msgid "<b>Downloaded:</b>"
+msgstr "Téléchargé"
+
+#: glade/delugegtk.glade:1054
+msgid "<b>Statistics</b>"
+msgstr "<b>Statistiques</b>"
+
+#: glade/delugegtk.glade:1079
+msgid "Details"
+msgstr "Détails"
+
+#: glade/delugegtk.glade:1137
+msgid "Files"
+msgstr "Fichiers"
+
+#: glade/dgtkpopups.glade:41
+msgid ""
+"<span size=\"large\"><b>Are you sure you want to remove the selected "
+"torrent(s) from Deluge?</b></span>"
+msgstr ""
+"<span size=\"large\"><b>Etes vous sur de vouloir supprimer les torrents "
+"sélectionnés de Deluge?</b></span>"
+
+#: glade/dgtkpopups.glade:65
 msgid "Delete downloaded files"
-msgstr "Supprimer les fichiers téléchargés"
+msgstr "Supprimer les fichiers telechargés"
 
-#: glade/dgtkpopups.glade:163
+#: glade/dgtkpopups.glade:88
 msgid "Delete .torrent file"
 msgstr "Supprimer le fichier .torrent"
 
-#: glade/dgtkpopups.glade:230
+#: glade/dgtkpopups.glade:155
 msgid "Show/Hide"
 msgstr "Montrer/Cacher"
 
-#: glade/dgtkpopups.glade:238
+#: glade/dgtkpopups.glade:163
 msgid "Add a Torrent..."
-msgstr "Ajouter un Torrent…"
+msgstr "Ajouter un Torrent..."
 
-#: glade/dgtkpopups.glade:335
-msgid "Speed:"
-msgstr "Taux :"
+#: glade/dgtkpopups.glade:179
+msgid "Clear Finished"
+msgstr "Effacer terminés"
+
+#: glade/dgtkpopups.glade:209 glade/plugin_dialog.glade:80
+msgid "Plugins"
+msgstr "Greffons"
 
 #: glade/file_tab_menu.glade:12
 msgid "Select All"
@@ -270,15 +245,15 @@ msgstr "Tout sélectionner"
 
 #: glade/file_tab_menu.glade:33
 msgid "Unselect All"
-msgstr "Tout désélectionner"
+msgstr "Tout déselectionner"
 
 #: glade/file_tab_menu.glade:60
 msgid "Check Selected"
-msgstr "Valider les fichiers sélectionnés"
+msgstr "Cocher"
 
 #: glade/file_tab_menu.glade:81
 msgid "Uncheck Selected"
-msgstr "Dé-valider les fichiers sélectionnés"
+msgstr "Décocher"
 
 #: glade/plugin_dialog.glade:8
 msgid "Plugin Manager"
@@ -290,240 +265,291 @@ msgstr "Préférences de Deluge"
 
 #: glade/preferences_dialog.glade:56
 msgid "Ask where to save each download"
-msgstr "Demander où enregistrer pour chaque téléchargement"
+msgstr "Demander où sauvegarder chaque téléchargement"
 
-#: glade/preferences_dialog.glade:69
-msgid "Save all downloads to:"
-msgstr "Enregistrer tous les téléchargements dans :"
+#: glade/preferences_dialog.glade:74 glade/preferences_dialog.glade:88
+msgid "Select A Folder"
+msgstr "Sélectionner un dossier"
 
 #: glade/preferences_dialog.glade:100
+msgid "Move completed downloads to (*same partition only*):"
+msgstr ""
+"Déplacer les téléchargements terminés vers (*même patition uniquement*):"
+
+#: glade/preferences_dialog.glade:101
+msgid "Move completed downloads to:"
+msgstr "Déplacer les téléchargements terminés vers:"
+
+#: glade/preferences_dialog.glade:115 glade/preferences_dialog.glade:116
+msgid "Store all downloads in:"
+msgstr "Stocker tous les téléchargements dans:"
+
+#: glade/preferences_dialog.glade:135
 msgid "<b>Download Location</b>"
 msgstr "<b>Répertoire de réception</b>"
 
-#: glade/preferences_dialog.glade:133
+#: glade/preferences_dialog.glade:170 glade/preferences_dialog.glade:183
+msgid ""
+"The number of active torrents that Deluge will run.  Set to -1 for unlimited."
+msgstr ""
+"Le nombre de téléchargements actifs que Deluge lancera.  Mettre -1 pour "
+"illimité."
+
+#: glade/preferences_dialog.glade:172
 msgid "Maximum simultaneous active torrents:"
-msgstr "Nombre max de torrents simultannés actifs"
+msgstr "Nombre maximum de torrents actifs simultanément"
 
-#: glade/preferences_dialog.glade:144
-msgid "The number of active torrents that Deluge will run.  Set to 0 for unlimited."
-msgstr "Le nombre de torrents actifs démarrés par Deluge. Mettre à 0 pour ilimité."
+#: glade/preferences_dialog.glade:203 glade/preferences_dialog.glade:204
+msgid "Enable selecting files for torrents before loading"
+msgstr ""
 
-#: glade/preferences_dialog.glade:164
+#: glade/preferences_dialog.glade:220
 msgid "<b>Torrents</b>"
 msgstr "<b>Torrents</b>"
 
-#: glade/preferences_dialog.glade:193
-msgid "Compact allocation will only allocate as much storage as it needs to keep the pieces downloaded so far."
-msgstr "L'allocation compacte va allouer uniquement l'espace disque nécessaire aux parties déjà téléchargées."
+#: glade/preferences_dialog.glade:249
+msgid ""
+"Compact allocation will only allocate as much storage as it needs to keep "
+"the pieces downloaded so far."
+msgstr ""
+"L'allocation compacte allouera uniquement l'espace nécessaire pour conserver "
+"les parties téléchargées."
 
-#: glade/preferences_dialog.glade:194
+#: glade/preferences_dialog.glade:250
 msgid "Use compact storage allocation"
 msgstr "Utiliser l'allocation de stockage compacte"
 
-#: glade/preferences_dialog.glade:205
+#: glade/preferences_dialog.glade:261
 msgid "<b>Compact Allocation</b>"
-msgstr "<b>Allocation de stockage compacte :</b>"
+msgstr "<b>Allocation Compacte</b>"
 
-#: glade/preferences_dialog.glade:238
+#: glade/preferences_dialog.glade:294
 msgid "Queue torrents to bottom when they begin seeding"
-msgstr "Mettre en fin les torrents quand ils commencent le partage"
-
-#: glade/preferences_dialog.glade:251
-msgid "Stop seeding torrents when their share ratio reaches:"
 msgstr ""
-"Arrêter de partager les torrents\n"
-"quand leur taux de partage atteint :"
+"Déplacer les torrents à la fin de la file quand le téléchargmeent est terminé"
 
-#: glade/preferences_dialog.glade:287
+#: glade/preferences_dialog.glade:305
+msgid "Queue new torrents above completed ones"
+msgstr ""
+
+#: glade/preferences_dialog.glade:321
+msgid "Stop seeding torrents when their share ratio reaches:"
+msgstr "Arrêter de partager les torrents quand leur taux de partage atteint:"
+
+#: glade/preferences_dialog.glade:355
+msgid "Automatically clear torrents that reach the max share ratio"
+msgstr ""
+
+#: glade/preferences_dialog.glade:371
 msgid "<b>Seeding</b>"
-msgstr "<b>Partage :</b>"
+msgstr "<b>Partage</b>"
 
-#: glade/preferences_dialog.glade:323
+#: glade/preferences_dialog.glade:407 glade/preferences_dialog.glade:536
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
-msgstr "Vitesse maximale d'émission pour tous les torrents. Utiliser -1 pour illimitée."
+msgstr ""
+"Vitesse maximum d'envoi pour tous les torrents. Mettre -1 pour illimité"
 
-#: glade/preferences_dialog.glade:341
+#: glade/preferences_dialog.glade:425 glade/preferences_dialog.glade:516
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr "Vitesse maximale de réception pour tous les torrents. Utiliser -1 pour illimitée."
+msgstr ""
+"Vitesse maximum de réception pour tous les torrents. Mettre -1 pour illimité"
 
-#: glade/preferences_dialog.glade:358
+#: glade/preferences_dialog.glade:442 glade/preferences_dialog.glade:496
 msgid "The maximum number of upload slots.  Set -1 for unlimited."
-msgstr "Nombre maximum de slots d'émission. Utiliser -1 pour illimité."
+msgstr "Nombre maximum de slots d'émission. Mettre -1 pour illimité."
 
-#: glade/preferences_dialog.glade:375
+#: glade/preferences_dialog.glade:459 glade/preferences_dialog.glade:478
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "Nombre maximum de connexions autorisées. Utiliser -1 pour illimité."
+msgstr "Nombre maximum de connections. Mettre à -1 pour illimité."
 
-#: glade/preferences_dialog.glade:395
+#: glade/preferences_dialog.glade:480
 msgid "Maximum Connections:"
-msgstr "Connexions maximum :"
+msgstr "Nombre maximum de connections:"
 
-#: glade/preferences_dialog.glade:412
+#: glade/preferences_dialog.glade:498
 msgid "Upload Slots:"
-msgstr "Slots d'émission :"
+msgstr "Slots d'émission:"
 
-#: glade/preferences_dialog.glade:431
+#: glade/preferences_dialog.glade:518
 msgid "Maximum Download Speed (KiB/s):"
-msgstr "Vitesse maximale de téléchargement (Kio/s)"
+msgstr "Vitesse maximum de téléchargement (KiB/s):"
 
-#: glade/preferences_dialog.glade:450
+#: glade/preferences_dialog.glade:538
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr "Vitesse maximale d'émission (Kio/s) :"
+msgstr "Vitesse maximum d'envoi (KiB/s):"
 
-#: glade/preferences_dialog.glade:467
+#: glade/preferences_dialog.glade:555
 msgid "<b>Bandwidth Usage</b>"
-msgstr "<b>Bande passante</b>"
-
-#: glade/preferences_dialog.glade:494
-msgid "Downloads"
-msgstr "Réceptions"
-
-#: glade/preferences_dialog.glade:539
-msgid "<b>Please Note - Changes to these settings will only be applied the next time Deluge is restarted.</b>"
-msgstr "<b>Notez que les modifications de ces paramètres ne prendrons effet qu'au prochain démarrage de Deluge.</b>"
+msgstr "<b>Utilisation de la bande passante</b>"
 
 #: glade/preferences_dialog.glade:582
+msgid "Downloads"
+msgstr "Téléchargements"
+
+#: glade/preferences_dialog.glade:627
+msgid ""
+"<b>Please Note - Changes to these settings will only be applied the next "
+"time Deluge is restarted.</b>"
+msgstr ""
+"<b>Les changements de ces paramètres seront pris en compte au prochain "
+"redémarrage de Deluge.</b>"
+
+#: glade/preferences_dialog.glade:670
 msgid "From:"
-msgstr "De :"
+msgstr "De:"
 
-#: glade/preferences_dialog.glade:605
+#: glade/preferences_dialog.glade:693
 msgid "To:"
-msgstr "À :"
+msgstr "A:"
 
-#: glade/preferences_dialog.glade:630
+#: glade/preferences_dialog.glade:718
 msgid "Active Port:"
-msgstr "Port Actif :"
+msgstr "Port Actif:"
 
-#: glade/preferences_dialog.glade:643
+#: glade/preferences_dialog.glade:731
 msgid "0000"
 msgstr "0000"
 
-#: glade/preferences_dialog.glade:658
+#: glade/preferences_dialog.glade:746
 msgid "Test Active Port"
-msgstr "Test du Port"
+msgstr "Tester le Port Actif"
 
-#: glade/preferences_dialog.glade:680
+#: glade/preferences_dialog.glade:768
 msgid "<b>TCP Port</b>"
 msgstr "<b>Port TCP</b>"
 
-#: glade/preferences_dialog.glade:712
+#: glade/preferences_dialog.glade:800
 msgid "Distributed hash table may improve the amount of active connections."
-msgstr "Une table de hachage distribuée « DHT » permet d'améliorer le nombre de connexions actives."
+msgstr ""
+"La DHT (Distributed Hash Table) peut améliorer le nombre de connections "
+"actives."
 
-#: glade/preferences_dialog.glade:713
+#: glade/preferences_dialog.glade:801
 msgid "Enable Mainline DHT"
-msgstr "Valider la DHT principale"
+msgstr "Activer DHT"
 
-#: glade/preferences_dialog.glade:729
+#: glade/preferences_dialog.glade:817
 msgid "<b>DHT</b>"
-msgstr "<b>DHT</b>"
+msgstr "<b> DHT</b>"
 
-#: glade/preferences_dialog.glade:764
+#: glade/preferences_dialog.glade:852
 msgid "Universal Plug and Play"
-msgstr " « PnP » Universel"
+msgstr "Universal Plug and Play"
 
-#: glade/preferences_dialog.glade:765
+#: glade/preferences_dialog.glade:853
 msgid "UPnP"
 msgstr "UPnP"
 
-#: glade/preferences_dialog.glade:779
+#: glade/preferences_dialog.glade:867
 msgid "NAT Port Mapping Protocol"
-msgstr "Protocole « NAT Port Mapping »"
+msgstr "Protocol de mappage de port NAT"
 
-#: glade/preferences_dialog.glade:780
+#: glade/preferences_dialog.glade:868
 msgid "NAT-PMP"
 msgstr "NAT-PMP"
 
-#: glade/preferences_dialog.glade:795
+#: glade/preferences_dialog.glade:883
+#, fuzzy
 msgid "µTorrent Peer-Exchange"
-msgstr "Échange µTorrent"
+msgstr "Echange de clients µTorrent"
 
-#: glade/preferences_dialog.glade:796
+#: glade/preferences_dialog.glade:884
+#, fuzzy
 msgid "µTorrent-PeX"
-msgstr "µTorrent-PeX"
+msgstr "Echange µTorrent"
 
-#: glade/preferences_dialog.glade:814
+#: glade/preferences_dialog.glade:902
 msgid "<b>Network Extras</b>"
-msgstr "<b>Extras réseau</b>"
+msgstr "<b>Extras Reseau</b>"
 
-#: glade/preferences_dialog.glade:855
+#: glade/preferences_dialog.glade:943
 msgid "Inbound:"
-msgstr "Entrant :"
+msgstr "Entrée:"
 
-#: glade/preferences_dialog.glade:864
-#: glade/preferences_dialog.glade:886
+#: glade/preferences_dialog.glade:952 glade/preferences_dialog.glade:974
 msgid ""
 "Disabled\n"
 "Enabled\n"
 "Forced"
 msgstr ""
-"Inhibé\n"
-"Validé\n"
-"Forcé"
+"Désactivée\n"
+"Activée\n"
+"Forcée"
 
-#: glade/preferences_dialog.glade:877
+#: glade/preferences_dialog.glade:965
 msgid "Outbound:"
-msgstr "Sortant :"
+msgstr "Sortie:"
 
-#: glade/preferences_dialog.glade:904
+#: glade/preferences_dialog.glade:992
 msgid "Prefer to encrypt the entire stream"
-msgstr "Chiffrer tout le flux"
+msgstr "Préférer le cryptage du flux entier."
 
-#: glade/preferences_dialog.glade:917
+#: glade/preferences_dialog.glade:1005
 msgid "Level:"
-msgstr "Niveau :"
+msgstr "Niveau:"
 
-#: glade/preferences_dialog.glade:926
+#: glade/preferences_dialog.glade:1014
 msgid ""
 "Handshake\n"
 "Either\n"
 "Full Stream"
 msgstr ""
-"Établissement\n"
-"Les deux\n"
-"Flux entier"
+"Handshake\n"
+"Either\n"
+"Full Stream"
 
-#: glade/preferences_dialog.glade:947
+#: glade/preferences_dialog.glade:1035
 msgid "<b>Encryption</b>"
-msgstr "<b>Chiffrement</b>"
+msgstr "<b>Cryptage</b>"
 
-#: glade/preferences_dialog.glade:980
+#: glade/preferences_dialog.glade:1068
+#, fuzzy
 msgid "Affects regular bittorrent peers"
-msgstr "Impacte les poste à poste des bittorrents standards"
+msgstr "Affecter les clients bittorrent réguliers"
 
-#: glade/preferences_dialog.glade:981
+#: glade/preferences_dialog.glade:1069
 msgid "Peer Proxy"
-msgstr "Proxy « Peer »"
+msgstr "Proxy client"
 
-#: glade/preferences_dialog.glade:991
-msgid "Only affects HTTP tracker connections (UDP tracker connections are affected if the given proxy supports UDP, e.g. SOCKS5)."
-msgstr "Impacte uniquement les connexions tracker HTTP (les connexions tracker UDP ne sont impactées que si le proxy supporte UPD, par ex. SOCKS5)"
+#: glade/preferences_dialog.glade:1079
+msgid ""
+"Only affects HTTP tracker connections (UDP tracker connections are affected "
+"if the given proxy supports UDP, e.g. SOCKS5)."
+msgstr ""
+"Affecte seulement les connexions au tracker en HTTP (les connexions au "
+"tracker en UDP sont affectées si le proxy supporte l'UDP, exemple avec "
+"SOCKS5)"
 
-#: glade/preferences_dialog.glade:992
+#: glade/preferences_dialog.glade:1080
 msgid "Tracker Proxy"
-msgstr "Proxy « Tracker »"
+msgstr "Proxy tracker"
 
-#: glade/preferences_dialog.glade:1005
-msgid "Affects the DHT messages. Since they are sent over UDP, it only has any effect if the proxy supports UDP."
-msgstr "Impacte les messages DHT. Comme ils sont émis via UDP, ceci ne les affecte que si le proxy supporte UDP."
+#: glade/preferences_dialog.glade:1093
+msgid ""
+"Affects the DHT messages. Since they are sent over UDP, it only has any "
+"effect if the proxy supports UDP."
+msgstr ""
+"Affecte les messages DHT. Puisqu'ils sont envoyés en UDP, cela n'a d'effet "
+"que si le proxy supporte l'UDP."
 
-#: glade/preferences_dialog.glade:1006
+#: glade/preferences_dialog.glade:1094
 msgid "DHT Proxy"
-msgstr "Proxy « DHT »"
+msgstr "Proxy DHT"
 
-#: glade/preferences_dialog.glade:1032
+#: glade/preferences_dialog.glade:1120
 msgid "Proxy type"
 msgstr "Type de proxy"
 
-#: glade/preferences_dialog.glade:1039
+#: glade/preferences_dialog.glade:1127
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: glade/preferences_dialog.glade:1050
+#: glade/preferences_dialog.glade:1138
 msgid "Password"
 msgstr "Mot de passe"
 
-#: glade/preferences_dialog.glade:1061
+#: glade/preferences_dialog.glade:1149
+#, fuzzy
 msgid ""
 "None\n"
 "Socksv4\n"
@@ -535,65 +561,65 @@ msgstr ""
 "Aucun\n"
 "Socksv4\n"
 "Socksv5\n"
-"Socksv5 avec Auth\n"
+"Socksv5 W/ Auth\n"
 "HTTP\n"
-"HTTP avec Auth"
+"HTTP W/ Auth"
 
-#: glade/preferences_dialog.glade:1104
+#: glade/preferences_dialog.glade:1192
 msgid "Server"
 msgstr "Serveur"
 
-#: glade/preferences_dialog.glade:1115
+#: glade/preferences_dialog.glade:1203
 msgid "Port"
 msgstr "Port"
 
-#: glade/preferences_dialog.glade:1159
+#: glade/preferences_dialog.glade:1247
 msgid "<b>Proxy</b>"
 msgstr "<b>Proxy</b>"
 
-#: glade/preferences_dialog.glade:1186
+#: glade/preferences_dialog.glade:1274
 msgid "Network"
 msgstr "Réseau"
 
-#: glade/preferences_dialog.glade:1227
+#: glade/preferences_dialog.glade:1315
 msgid "Enable system tray icon"
 msgstr "Activer l'icône dans la barre des tâches"
 
-#: glade/preferences_dialog.glade:1241
+#: glade/preferences_dialog.glade:1330
 msgid "Minimize to tray on close"
 msgstr "Minimiser dans la barre des tâches à la fermeture"
 
-#: glade/preferences_dialog.glade:1264
-msgid "Password protect system tray"
-msgstr "Protection par mot de passe pour la zone de notification"
-
-#: glade/preferences_dialog.glade:1281
-msgid "Password:"
-msgstr " - Mot de passe :"
-
-#: glade/preferences_dialog.glade:1322
-msgid "<b>System Tray</b>"
-msgstr "<b>Zone de notification</b>"
-
 #: glade/preferences_dialog.glade:1353
+msgid "Password protect system tray"
+msgstr "Protéger par mot de passe"
+
+#: glade/preferences_dialog.glade:1370
+msgid "Password:"
+msgstr "Mot de passe:"
+
+#: glade/preferences_dialog.glade:1411
+msgid "<b>System Tray</b>"
+msgstr "<b>Barre des Tâches</b>"
+
+#: glade/preferences_dialog.glade:1442
 msgid "GUI update interval (seconds)"
-msgstr "Intervalle de mise à jour de l'IHM (seconds)"
+msgstr "Intervalle de rafraîchissement de l'interface (secondes)"
 
-#: glade/preferences_dialog.glade:1381
+#: glade/preferences_dialog.glade:1470
 msgid "<b>Performance</b>"
-msgstr "<b>Performance</b>"
+msgstr "<b>Performances</b>"
 
-#: glade/preferences_dialog.glade:1409
+#: glade/preferences_dialog.glade:1498
 msgid "Other"
 msgstr "Autre"
 
 #: glade/torrent_menu.glade:20
 msgid "_Update Tracker"
-msgstr "_Mettre à jour le tracker :"
+msgstr "Actualiser Tracker"
 
 #: glade/torrent_menu.glade:37
 msgid "_Edit Trackers"
-msgstr "_Édition les trackers"
+msgstr "_Editer les trackers"
 
 #: glade/torrent_menu.glade:59
 msgid "_Remove Torrent"
@@ -601,7 +627,7 @@ msgstr "_Supprimer le torrent"
 
 #: glade/torrent_menu.glade:81
 msgid "_Queue"
-msgstr "_Mettre dans la file"
+msgstr "_Fille d'attente"
 
 #: glade/torrent_menu.glade:91
 msgid "_Top"
@@ -625,7 +651,7 @@ msgstr "_Afficher Deluge"
 
 #: glade/tray_menu.glade:44
 msgid "_Clear Finished"
-msgstr "_Effacer les les torrents terminés"
+msgstr "_Effacer les torrents terminés"
 
 #: glade/tray_menu.glade:67
 msgid "_Down Speed Limit"
@@ -633,213 +659,219 @@ msgstr "Limite de _téléchargement"
 
 #: glade/tray_menu.glade:89
 msgid "_Up Speed Limit"
-msgstr "Limite d'_émission"
+msgstr "Limide d'_envoi"
 
 #: glade/tray_menu.glade:121
 msgid "Plu_gins"
-msgstr "G_reffons"
+msgstr "_Greffons"
 
 #: glade/tray_menu.glade:144
 msgid "_Quit"
 msgstr "_Quitter"
 
-#: src/common.py:54
-#: src/interface.py:417
+#: src/common.py:54 src/interface.py:458
 msgid "Infinity"
 msgstr "Infini"
 
-#: src/common.py:67
+#: src/common.py:68
 #, python-format
 msgid "%.1f KiB"
 msgstr "%.1f Kio"
 
-#: src/common.py:70
+#: src/common.py:71
 #, python-format
 msgid "%.1f MiB"
 msgstr "%.1f Mio"
 
-#: src/common.py:72
+#: src/common.py:73
 #, python-format
 msgid "%.1f GiB"
 msgstr "%.1f Gio"
 
-#: src/common.py:120
+#: src/common.py:122
 msgid "Error: no webbrowser found"
-msgstr "Erreur : aucun navigateur détecté"
+msgstr "Erreur : aucun navigateur détecté"
 
-#: src/core.py:332
+#: src/core.py:128
+msgid "bytes needed"
+msgstr "octects nécessaires"
+
+#: src/core.py:349
 msgid "File was not found"
 msgstr "Le fichier n'a pas été trouvé"
 
-#: src/interface.py:190
-#: src/interface.py:193
-#: src/interface.py:244
-#: src/interface.py:266
+#: src/core.py:397
+msgid "Asked for a torrent that doesn't exist"
+msgstr "Le torrent recherché n'existe pas."
+
+#: src/core.py:569 src/interface.py:815
+msgid ""
+"You cannot move torrent to a different partition.  Please fix your "
+"preferences"
+msgstr ""
+"Le torrent ne peut être déplacé sur une autre partition. Vérifiez vos "
+"préferences."
+
+#: src/interface.py:190 src/interface.py:196 src/interface.py:284
+#: src/interface.py:308
 msgid "KiB/s"
 msgstr "Kio/s"
 
-#: src/interface.py:237
-#: src/interface.py:248
-#: src/interface.py:270
-msgid "Other..."
-msgstr "Autre…"
-
-#: src/interface.py:245
-#: src/interface.py:267
-#: src/interface.py:865
-#: src/interface.py:871
-#: src/interface.py:875
+#: src/interface.py:214 src/interface.py:285 src/interface.py:309
+#: src/interface.py:923 src/interface.py:929 src/interface.py:933
 msgid "Unlimited"
 msgstr "Illimité"
 
-#: src/interface.py:293
-msgid "Deluge is locked"
-msgstr "Deluge est bloqué"
+#: src/interface.py:217
+msgid "Activated"
+msgstr "Activé"
 
-#: src/interface.py:295
+#: src/interface.py:277 src/interface.py:288 src/interface.py:312
+msgid "Other..."
+msgstr "Autres..."
+
+#: src/interface.py:292
+msgid "Speed:"
+msgstr "Vitesse:"
+
+#: src/interface.py:335
+msgid "Deluge is locked"
+msgstr "Deluge est verrouillé"
+
+#: src/interface.py:337
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 msgstr ""
-"Deluge est protégé par un mot de passe.\n"
-"Pour voir la fenétre Deluge, entrez votre mot de passe"
+"Deluge est protégé par mot de passe.\n"
+"Pour montrer la fenêtre Deluge, entrez votre mot de passe."
 
-#: src/interface.py:425
+#: src/interface.py:466
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: src/interface.py:439
+#: src/interface.py:480
 msgid "Name"
 msgstr "Nom"
 
-#: src/interface.py:446
+#: src/interface.py:487
 msgid "ETA"
-msgstr "EAP"
+msgstr "Temps Restant"
 
-#: src/interface.py:447
+#: src/interface.py:488
 msgid "Ratio"
 msgstr "Ratio"
 
-#: src/interface.py:522
-#: src/interface.py:561
-#: src/interface.py:943
+#: src/interface.py:551 src/interface.py:590 src/interface.py:912
 msgid "Resume"
-msgstr "Continuer"
+msgstr "Reprendre"
 
-#: src/interface.py:525
-#: src/interface.py:564
-#: src/interface.py:946
+#: src/interface.py:554 src/interface.py:593 src/interface.py:915
 msgid "Pause"
 msgstr "Pause"
 
-#: src/interface.py:551
+#: src/interface.py:580
 msgid "Pause/Resume"
-msgstr "Pause/Continuer"
+msgstr "Mettre en pause / Reprendre"
 
-#: src/interface.py:599
+#: src/interface.py:632
 msgid "IP Address"
 msgstr "Adresse IP"
 
-#: src/interface.py:600
+#: src/interface.py:633
 msgid "Client"
 msgstr "Client"
 
-#: src/interface.py:601
+#: src/interface.py:634
 msgid "Percent Complete"
 msgstr "Pourcentage complété"
 
-#: src/interface.py:602
-msgid "Down Speed"
-msgstr "Vitesse de réception"
+#: src/interface.py:722
+#, fuzzy
+msgid "Paused %s"
+msgstr "En pause %s"
 
-#: src/interface.py:603
-msgid "Up Speed"
-msgstr "Vitesse d'envoi"
-
-#: src/interface.py:628
-msgid "Filename"
-msgstr "Nom de Fichier"
-
-#: src/interface.py:631
-msgid "Progress"
-msgstr "Avancement"
-
-#: src/interface.py:851
-msgid "For some reason, the previous state could not be loaded, so a blank state has been loaded for you."
-msgstr "La session précédente n'a pas pu être chargée, une session vide a donc été chargée pour vous."
-
-#: src/interface.py:853
-msgid "Would you like to attempt to reload the previous session's downloads?"
-msgstr "Voulez-vous tenter de recharger les téléchargements de la session précédente ?"
-
-#: src/interface.py:880
-#: src/interface.py:892
+#: src/interface.py:939 src/interface.py:952
 msgid "Connections"
 msgstr "Connexions"
 
-#: src/interface.py:891
+#: src/interface.py:952
 msgid "Deluge Bittorrent Client"
 msgstr "Deluge - Client Bittorrent"
 
-#: src/interface.py:1106
-msgid "An error occured while trying to add the torrent. It's possible your .torrent file is corrupted."
-msgstr "Une erreur a été détectée lors de l'ajout du torrent. Ce fichier .torrent est peut-être corrompu."
+#: src/interface.py:1095
+msgid ""
+"An error occured while trying to add the torrent. It's possible your "
+".torrent file is corrupted."
+msgstr ""
+"Une erreur est survenue lors de l'ajout du torrent. Il est possible que le "
+"fichier .torrent soit corrompu."
 
-#: src/interface.py:1108
+#: src/interface.py:1097
 msgid "The torrent you've added seems to already be in Deluge."
-msgstr "Le torrent ajouté est déjà dans Deluge"
+msgstr "Le torrent que vous avez ajouté semble déjà être dans Deluge."
 
-#: src/interface.py:1112
+#: src/interface.py:1101
 msgid "There is not enough free disk space to complete your download."
-msgstr "Espace disque insuffisant pour finir le téléchargement."
+msgstr "Il n'y a pas assez d'espace disponible pour finir le téléchargement."
 
-#: src/interface.py:1113
+#: src/interface.py:1102
 msgid "Space Needed:"
-msgstr "Espace requis :"
+msgstr "Espace nécessaire:"
 
-#: src/interface.py:1114
+#: src/interface.py:1103
 msgid "Available Space:"
-msgstr "Espace disponibles :"
+msgstr "Espace disponible:"
 
-#: src/interface.py:1124
+#: src/interface.py:1128
 msgid "Add torrent from URL"
 msgstr "Ajouter un torrent à partir d'une URL"
 
-#: src/interface.py:1128
+#: src/interface.py:1132
 msgid "Enter the URL of the .torrent to download"
 msgstr "Entrez l'URL du .torrent à télécharger"
 
-#: src/interface.py:1218
+#: src/interface.py:1201
 msgid "Warning - all downloaded files for this torrent will be deleted!"
-msgstr "Attention - Tous les fichiers téléchargés pour ce torrent seront supprimés !"
+msgstr ""
+"Attention - Tous les fichiers téléchargés pour ce torrent seront supprimés !"
 
-#: src/dialogs.py:160
+#: src/dialogs.py:236
 msgid "Plugin"
 msgstr "Greffon"
 
-#: src/dialogs.py:162
+#: src/dialogs.py:238
 msgid "Enabled"
 msgstr "Activé"
 
-#: src/dialogs.py:229
+#: src/dialogs.py:306
 msgid "translator-credits"
-msgstr ""
-"\n"
-"Éric Lassauge <rpmfarm@free.fr>"
+msgstr "Contributeurs"
 
-#: src/dialogs.py:269
+#: src/dialogs.py:346
 msgid "Choose a .torrent file"
 msgstr "Sélection d'un torrent à ouvrir"
 
-#: src/dialogs.py:274
+#: src/dialogs.py:351
 msgid "Torrent files"
 msgstr "Fichiers Torrent"
 
-#: src/dialogs.py:278
+#: src/dialogs.py:355
 msgid "All files"
 msgstr "Tous les fichiers"
 
-#: src/dialogs.py:295
+#: src/dialogs.py:376
 msgid "Choose a download directory"
 msgstr "Choisissez un répertoire de téléchargement"
 
+#: src/files.py:71
+msgid "Download"
+msgstr "Réception"
+
+#: src/files.py:72
+msgid "Filename"
+msgstr "Nom de Fichier"
+
+#: src/files.py:76
+msgid "Progress"
+msgstr "Progression"
