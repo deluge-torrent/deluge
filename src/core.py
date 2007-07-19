@@ -582,25 +582,32 @@ class Manager:
                 # save fast resume once torrent finishes so as to not recheck
                 # seed if client crashes
                 self.save_fastresume_data(event['unique_ID'])
-            elif event['event_type'] is self.constants['EVENT_TRACKER']:
-                unique_ID = event['unique_ID']
-                tracker_status = event['tracker_status']
-
-                if tracker_status == "Alert":
-                    match = re.search('tracker:\s*".*"\s*(.*)', 
-                                      event["message"])
-                    message = match and match.groups()[0] or ""
-                        
-                    tracker_status += \
-                        ": %s (HTTP code=%s, times in a row=%s)" % \
-                            (message, event["status_code"], 
-                             event["times_in_row"])
-                elif tracker_status == "Warning":
-                    # Probably will need proper formatting later, not
-                    # tested
-                    tracker_status += ': %s' % event["message"]
+            elif event['event_type'] is self.constants['EVENT_TRACKER_ANNOUNCE']:
+                self.set_supp_torrent_state_val(event['unique_ID'], 
+                                                "tracker_status",
+                                                N_("Announce sent"))
+            elif event['event_type'] is self.constants['EVENT_TRACKER_REPLY']:
+                self.set_supp_torrent_state_val(event['unique_ID'], 
+                                                "tracker_status",
+                                                N_("Announce OK"))
+            elif event['event_type'] is self.constants['EVENT_TRACKER_ALERT']:
+                match = re.search('tracker:\s*".*"\s*(.*)', event["message"])
+                message = match and match.groups()[0] or ""
                     
-                self.set_supp_torrent_state_val(unique_ID, "tracker_status",
+                tracker_status = "%s: %s (%s=%s, %s=%s)" % \
+                    (N_("Alert"), message, 
+                     N_("HTTP code"), event["status_code"], 
+                     N_("times in a row"), event["times_in_row"])
+                        
+                self.set_supp_torrent_state_val(event['unique_ID'], 
+                                                "tracker_status",
+                                                tracker_status)
+            elif event['event_type'] is self.constants['EVENT_TRACKER_WARNING']:
+                # Probably will need proper formatting later, not tested yet
+                tracker_status = '%s: %s' % (N_("Warning", event["message"]))
+                
+                self.set_supp_torrent_state_val(event['unique_ID'], 
+                                                "tracker_status",
                                                 tracker_status)
 
         return ret

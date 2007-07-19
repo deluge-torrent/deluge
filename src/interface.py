@@ -985,15 +985,7 @@ class DelugeGTK:
             # At this time we still may not receive EVENT_TRACKER so there
             # could be no tracker_status yet.
             if "tracker_status" in state:
-                if(state["tracker_status"] == "Announce OK"):
-                    self.text_summary_tracker_status.set_text(_("Announce OK"))
-                elif(state["tracker_status"] == "Warning"):
-                    self.text_summary_tracker_status.set_text(_("Warning"))
-                elif(state["tracker_status"] == "Announce sent"):
-                    self.text_summary_tracker_status.set_text(_("Announce sent"))
-                elif(state["tracker_status"] == "Alert"):
-                    self.text_summary_tracker_status.set_text(_("Alert"))
-                
+                self.text_summary_tracker_status.set_text(state["tracker_status"])
             self.text_summary_next_announce.set_text(str(state["next_announce"]))
             self.text_summary_eta.set_text(common.estimate_eta(state))
         elif page_num == 1: # Peers
