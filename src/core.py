@@ -696,10 +696,7 @@ class Manager:
             return {}
 
     def set_supp_torrent_state_val(self, unique_ID, key, val):
-        try:
-            if self.supp_torrent_states[unique_ID] is None:
-                self.supp_torrent_states[unique_ID] = {}
-        except KeyError:
+        if unique_ID not in self.supp_torrent_states:
             self.supp_torrent_states[unique_ID] = {}
 
         self.supp_torrent_states[unique_ID][key] = val
