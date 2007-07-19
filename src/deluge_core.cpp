@@ -697,7 +697,7 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
             total_peers = s.num_incomplete != -1? s.num_incomplete : connected_peers;
         }
 
-    return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:f,s:L,s:L,s:b,s:s,s:s,s:f,s:L,s:L,s:l,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
+    return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:f,s:L,s:L,s:s,s:s,s:f,s:L,s:L,s:l,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
         "name",               t.handle.get_torrent_info().name().c_str(),
         "num_files",          t.handle.get_torrent_info().num_files(),
         "state",              s.state,
@@ -708,7 +708,6 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
         "upload_rate",        s.upload_rate,
         "total_download",     s.total_download,
         "total_upload",       s.total_upload,
-        "tracker_ok",         !s.current_tracker.empty(),
         "next_announce",      boost::posix_time::to_simple_string(s.next_announce).c_str(),
         "tracker",            s.current_tracker.c_str(),
         "progress",           s.progress,
@@ -855,13 +854,17 @@ static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
         long index = get_torrent_index(handle);
         if (PyErr_Occurred())
             return NULL;
+        int status_code = (dynamic_cast<tracker_alert*>(popped_alert))->status_code;
+        int times_in_row = (dynamic_cast<tracker_alert*>(popped_alert))->times_in_row;
 
         if (handle_exists(handle))
-            return Py_BuildValue("{s:i,s:i,s:s,s:s}",
+            return Py_BuildValue("{s:i,s:i,s:s,s:i,s:i,s:s}",
                 "event_type",       EVENT_TRACKER,
                 "unique_ID",
                 M_torrents->at(index).unique_ID,
-                "tracker_status",   "Bad response (status code=?)",
+                "tracker_status",   "Alert",
+                "status_code",      status_code,
+                "times_in_row",     times_in_row,
                 "message",          a->msg().c_str());
         else
             { Py_INCREF(Py_None); return Py_None; }
@@ -891,7 +894,7 @@ static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
                 "event_type",       EVENT_TRACKER,
                 "unique_ID",
                 M_torrents->at(index).unique_ID,
-                "tracker_status",   "Announce succeeded",
+                "tracker_status",   "Announce OK",
                 "message",          a->msg().c_str());
         else
             { Py_INCREF(Py_None); return Py_None; }
@@ -907,7 +910,7 @@ static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
                 "event_type",       EVENT_TRACKER,
                 "unique_ID",
                 M_torrents->at(index).unique_ID,
-                "tracker_status",   "Warning in response",
+                "tracker_status",   "Warning",
                 "message",          a->msg().c_str());
         else
             { Py_INCREF(Py_None); return Py_None; }

@@ -982,7 +982,10 @@ class DelugeGTK:
             self.wtree.get_widget("progressbar").set_text(common.fpcnt(state["progress"]))
             self.text_summary_share_ratio.set_text('%.3f'%(self.calc_share_ratio(unique_id, state)))
             self.text_summary_tracker.set_text(str(state["tracker"]))
-            self.text_summary_tracker_status.set_text(str(state["tracker_ok"]))
+            # At this time we still may not receive EVENT_TRACKER so there
+            # could be no tracker_status yet.
+            if "tracker_status" in state:
+                self.text_summary_tracker_status.set_text(state["tracker_status"])
             self.text_summary_next_announce.set_text(str(state["next_announce"]))
             self.text_summary_eta.set_text(common.estimate_eta(state))
         elif page_num == 1: # Peers

@@ -49,6 +49,7 @@
 
 import pickle
 import os
+import re
 import shutil
 import statvfs
 import time
@@ -583,23 +584,24 @@ class Manager:
                 self.save_fastresume_data(event['unique_ID'])
             elif event['event_type'] is self.constants['EVENT_TRACKER']:
                 unique_ID = event['unique_ID']
-                status = event['tracker_status']
-                message = event['message']
-                tracker = message[message.find('"')+1:message.rfind('"')]
+                tracker_status = event['tracker_status']
 
+                if tracker_status == "Alert":
+                    match = re.search('tracker:\s*".*"\s*(.*)', 
+                                      event["message"])
+                    message = match and match.groups()[0] or ""
+                        
+                    tracker_status += \
+                        ": %s (HTTP code=%s, times in a row=%s)" % \
+                            (message, event["status_code"], 
+                             event["times_in_row"])
+                elif tracker_status == "Warning":
+                    # Probably will need proper formatting later, not
+                    # tested
+                    tracker_status += ': %s' % event["message"]
+                    
                 self.set_supp_torrent_state_val(unique_ID, "tracker_status",
-                                                (tracker, status))
-
-                old_state = self.get_supp_torrent_state(unique_ID)
-                try:
-                    new = old_state['tracker_messages']
-                except KeyError:
-                    new = {}
-
-                new[tracker] = message
-
-                self.set_supp_torrent_state_val(unique_ID, "tracker_messages",
-                                                new)
+                                                tracker_status)
 
         return ret
 
