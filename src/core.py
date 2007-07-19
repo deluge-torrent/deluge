@@ -304,17 +304,6 @@ class Manager:
         # Get the value from the preferences object
         return self.config.get(key)
 
-    def set_pref(self, key, value):
-        # Make sure this is a valid key
-        if key not in pref.DEFAULT_PREFS.keys():
-            raise DelugeError("Asked to change a pref that isn't valid: " + key)
-
-        self.config.set(key, value)
-
-        # Apply the pref, if applicable
-        if PREF_FUNCTIONS[key] is not None:
-            PREF_FUNCTIONS[key](value)
-        
     # Dump torrent info without adding
     def dump_torrent_file_info(self, torrent):
         return deluge_core.dump_file_info(torrent)
