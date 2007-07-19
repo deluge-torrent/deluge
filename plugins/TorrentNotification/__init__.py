@@ -46,15 +46,18 @@ class TorrentNotification:
 
         # Create an options file and try to load existing Values
         self.config_file = deluge.common.CONFIG_DIR + "/notification.conf"
-        self.config = deluge.pref.Preferences()
+        self.config = deluge.pref.Preferences(self.config_file)
         try:
-            self.config.load(self.config_file)
+            self.config.load()
         except IOError:
             # File does not exist
             pass
         
         self.glade = gtk.glade.XML(path + "/notification_preferences.glade")
         self.dialog = self.glade.get_widget("dialog")
+        self.glade.signal_autoconnect({
+                                        'toggle_ui': self.toggle_ui
+                                      })
     
     def handle_event(self, event):
         if event['message'] == "torrent has finished downloading":
@@ -62,6 +65,8 @@ class TorrentNotification:
                 self.set_tray_flashing_on()
             if self.config.get("enable_notification"):
                 self.show_notification(event)
+            if self.config.get("enable_sound"):
+                self.play_sound()
 
     def unload(self):
         self.core.disconnect_event(self.core.constants['EVENT_FINISHED'], self.handle_event)
@@ -92,15 +97,46 @@ class TorrentNotification:
             print "there was a problem initializing the pynotify module"
 
     def configure(self):
+        import os.path
         try:
             self.glade.get_widget("chk_tray_blink").set_active(self.config.get("enable_tray_blink"))
             self.glade.get_widget("chk_notification").set_active(self.config.get("enable_notification"))
+            self.glade.get_widget("chk_sound").set_active(self.config.get("enable_sound"))
+            self.glade.get_widget("sound_path_button").set_sensitive(self.config.get("enable_sound"))
+            self.glade.get_widget("sound_path_button").set_filename(self.config.get("sound_path"))
         except:
             self.glade.get_widget("chk_tray_blink").set_active(False)
             self.glade.get_widget("chk_notification").set_active(False)
+            self.glade.get_widget("chk_sound").set_active(False)
+            self.glade.get_widget("sound_path_button").set_filename(os.path.expanduser("~/"))
+            self.glade.get_widget("sound_path_button").set_sensitive(False)
         self.dialog.show()
         response = self.dialog.run()
         self.dialog.hide()
         if response:
             self.config.set("enable_tray_blink", self.glade.get_widget("chk_tray_blink").get_active())
             self.config.set("enable_notification", self.glade.get_widget("chk_notification").get_active())
+            self.config.set("enable_sound", self.glade.get_widget("chk_sound").get_active())
+            self.config.set("sound_path", self.glade.get_widget("sound_path_button").get_filename())
+
+    def toggle_ui(self, widget):
+        value = widget.get_active()
+        if widget == self.glade.get_widget("chk_sound"):
+            self.glade.get_widget("sound_path_button").set_sensitive(value)
+    
+    def play_sound(self):
+        import pygame
+        import os.path
+        import sys
+        pygame.init()
+        try:
+            name = self.config.get("sound_path")
+        except:
+            print "no file set"
+            return
+        try:
+            alert_sound = pygame.mixer.music
+            alert_sound.load(name)
+            alert_sound.play()
+        except pygame.error, message:
+            print 'Cannot load sound:'
