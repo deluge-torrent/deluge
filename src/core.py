@@ -524,7 +524,7 @@ class Manager:
                         print "Not enough free space to resume this torrent!"
                 else: #We're using compact allocation so lets just resume
                     deluge_core.resume(unique_ID)
-            elif torrent_state['is_paused'] and \
+            elif not torrent_state['is_paused'] and \
                  ((index >= self.get_pref('max_active_torrents') and \
                    self.get_pref('max_active_torrents') != -1) or \
                   self.is_user_paused(unique_ID)):
