@@ -58,7 +58,6 @@ class PluginManager:
                     # parameter is important otherwise only the base
                     # modules (ie. 'plugins') is imported.  This appears
                     # to be by design.
-                    print "Loading module",modname
                     mod = __import__(modname, globals(), locals(), [''])
                     if 'deluge_init' in dir(mod):
                         print "Initialising plugin",modname
