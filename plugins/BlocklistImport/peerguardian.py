@@ -25,16 +25,16 @@ class PGReader:
         hdr = unpack("l", buf)[0]
         if hdr != -1:
             print "LEADER IS",hdr
-            raise PGException("Invalid leader %d"%hdr)
+            raise PGException(_("Invalid leader") + " %d"%hdr)
 
         magic = self.fd.read(3)
         if magic != "P2B":
-            raise PGException("Invalid magic code")
+            raise PGException(_("Invalid magic code"))
 
         buf = self.fd.read(1)
         ver = ord(buf)
         if ver != 1 and ver != 2:
-            raise PGException("Invalid version %d" % ver)
+            raise PGException(_("Invalid version") + " %d" % ver)
 
 
     def next(self):
@@ -57,4 +57,3 @@ class PGReader:
 
     def close(self):
         self.fd.close()
-

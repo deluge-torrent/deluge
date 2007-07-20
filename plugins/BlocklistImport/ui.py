@@ -21,7 +21,7 @@ class GTKConfig(gtk.Dialog):
 
         # List source
         label = gtk.Label()
-        label.set_markup('<b>Blocklist URL</b>')
+        label.set_markup('<b>' + _("Blocklist URL") + '</b>')
         self.url = gtk.Entry()
 
         ls = gtk.ListStore(gobject.TYPE_STRING,  # Long name
@@ -46,7 +46,7 @@ class GTKConfig(gtk.Dialog):
         self.vbox.pack_start(hbox)
 
         # Load on start
-        self.load_on_start = gtk.CheckButton("Download on start")
+        self.load_on_start = gtk.CheckButton(_("Download on start"))
         self.vbox.pack_start(self.load_on_start)
 
         self.connect('response', self.ok)
@@ -100,7 +100,7 @@ class GTKProgress(gtk.Dialog):
         self.vbox.set_spacing(6)
 
         label = gtk.Label()
-        label.set_markup('<b>Loading and installing blocklist</b>')
+        label.set_markup('<b>' + _("Loading and installing blocklist") + '</b>')
         self.vbox.pack_start(label)
 
         self.progress = gtk.ProgressBar()
@@ -112,7 +112,7 @@ class GTKProgress(gtk.Dialog):
         self.hide_all()
 
     def start_download(self):
-        self.progress.set_text("Downloading")
+        self.progress.set_text(_("Downloading"))
         self.progress.set_fraction(0.0)
         self.update()
 
@@ -123,7 +123,7 @@ class GTKProgress(gtk.Dialog):
         self.update()
 
     def start_import(self):
-        self.progress.set_text("Importing")
+        self.progress.set_text(_("Importing"))
         self.progress.set_fraction(0.0)
         self.progress.set_pulse_step(0.0075)
         self.update()
@@ -134,7 +134,7 @@ class GTKProgress(gtk.Dialog):
         self.update()
 
     def end_import(self):
-        self.progress.set_text("Complete")
+        self.progress.set_text(_("Complete"))
         self.progress.set_fraction(1.0)
         self.update()
 

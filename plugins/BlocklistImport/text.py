@@ -34,7 +34,7 @@ class TextBase:
 
         match = self.re.search(txt)
         if not match:
-            raise FormatException("Couldn't match on line %d: %s (%s)"%(self.count,txt,txt))
+            raise FormatException(_("Couldn't match on line") + " %d: %s (%s)"%(self.count,txt,txt))
 
         g = match.groups()
         start = ".".join(g[0:4])
@@ -123,4 +123,3 @@ class PGZip(TextBase):
 
     def close(self):
         self.zfd.close()
-

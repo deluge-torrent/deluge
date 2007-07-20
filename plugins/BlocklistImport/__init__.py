@@ -3,10 +3,10 @@
 # Distributed under the same terms as Deluge
 ##
 
-plugin_name = "Blocklist Importer"
+plugin_name = _("Blocklist Importer")
 plugin_author = "Steve 'Tarka' Smith"
 plugin_version = "0.4"
-plugin_description = """
+plugin_description = _("""
 Download and import various IP blocklists.
 
 Currently this plugin can handle PeerGuardian (binary and text),
@@ -18,7 +18,7 @@ A page with pointer to blocklist download sites is available on the
 wiki:
 
 http://dev.deluge-torrent.org/wiki/BlocklistPlugin
-"""
+""")
 
 def deluge_init(deluge_path):
     global path
@@ -37,10 +37,10 @@ from ui import GTKConfig, GTKProgress
 
 # List of formats supported.  This is used to generate the UI list and
 # specify the reader class.  The last entry is for storage by the UI.
-readers = {'p2bgz':["PeerGuardian P2B (GZip)", PGReader, None],
-           'pgtext':["PeerGuardian Text (Uncompressed)", TextReader, None],
-           'gzmule':["Emule IP list (GZip)", GZMuleReader, None],
-           'spzip':["SafePeer Text (Zipped)", PGZip, None]}
+readers = {'p2bgz':[_("PeerGuardian P2B (GZip)"), PGReader, None],
+           'pgtext':[_("PeerGuardian Text (Uncompressed)"), TextReader, None],
+           'gzmule':[_("Emule IP list (GZip)"), GZMuleReader, None],
+           'spzip':[_("SafePeer Text (Zipped)"), PGZip, None]}
 
 class BlocklistImport:
 
@@ -87,7 +87,7 @@ class BlocklistImport:
                                                     filename=self.blockfile,
                                                     reporthook=self._download_update)
             except IOError, (errno, strerr):
-                err = ui.GTKError("Couldn't download URL: %s"%strerr)
+                err = ui.GTKError(_("Couldn't download URL") + ": %s"%strerr)
                 self.gtkprog.stop()
                 return
 
@@ -100,7 +100,7 @@ class BlocklistImport:
         try:
             reader = readers[ltype][1](self.blockfile)
         except IOError, (errno, strerr):
-            err = ui.GTKError("Couldn't open blocklist file: %s"%strerr)
+            err = ui.GTKError(_("Couldn't open blocklist file") + ": %s"%strerr)
             self.gtkprog.stop()
             return
 
@@ -118,7 +118,7 @@ class BlocklistImport:
 	            self.gtkprog.import_prog()
 
         except FormatException, (ex):
-            err = ui.GTKError("Format error in blocklist: %s"%ex)
+            err = ui.GTKError(_("Format error in blocklist") + ": %s"%ex)
             self.gtkprog.stop()
             reader.close()
             return
@@ -154,4 +154,3 @@ class BlocklistImport:
     def update(self):
         msg = "[Blocklist: %s entries]" % self.nimported
         self.interface.statusbar_temp_msg += '   ' + msg
-        
