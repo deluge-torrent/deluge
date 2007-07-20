@@ -1,8 +1,7 @@
-
-plugin_name = "Torrent Search"
+plugin_name = _("Torrent Search")
 plugin_author = "Zach Tibbitts"
 plugin_version = "0.5"
-plugin_description = "A searchbar for torrent search engines"
+plugin_description = _("A searchbar for torrent search engines")
 
 
 def deluge_init(deluge_path):
