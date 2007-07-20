@@ -1,8 +1,7 @@
-
-plugin_name = "Network Activity Graph"
+plugin_name = _("Network Activity Graph")
 plugin_author = "Alon Zakai, Zach Tibbitts"
 plugin_version = "0.2"
-plugin_description = "Network Activity Graph plugin\n\nWritten by Kripkenstein"
+plugin_description = _("Network Activity Graph plugin\n\nWritten by Kripkenstein")
 
 
 def deluge_init(deluge_path):

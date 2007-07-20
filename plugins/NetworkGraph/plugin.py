@@ -20,7 +20,7 @@ class plugin_NetGraph:
 
         self.parentNotebook = self.parent.notebook
 #        print "Parent NOTEBOOK:", self.parentNotebook
-        self.parentNotebook.append_page(self.topWidget, gtk.Label("Graph"))
+        self.parentNotebook.append_page(self.topWidget, gtk.Label(_("Graph")))
 #        print "My INDEX in parentNoteBook:", self.index
 
         self.image.show()
@@ -156,5 +156,3 @@ class plugin_NetGraph:
             self.ctx.fill()
         else:
             self.ctx.stroke()
-
-
