@@ -1363,6 +1363,8 @@ class DelugeGTK:
                 self.is_minimized = True
             else:
                 self.is_minimized = False
+                # Force UI update as we don't update it while minimized
+                self.update()
         return False
 
 
