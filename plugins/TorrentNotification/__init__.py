@@ -90,8 +90,8 @@ class TorrentNotification:
             filelist += '...'
             
         if pynotify.init("My Application Name"):
-            n = pynotify.Notification("Torrent complete", 
-                                      "Files:\n" + filelist)
+            n = pynotify.Notification(_("Torrent complete"), 
+                                      _("Files") + ":\n" + filelist)
             n.show()
         else:
             print "there was a problem initializing the pynotify module"
