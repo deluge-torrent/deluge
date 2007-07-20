@@ -1,6 +1,7 @@
 glade/delugegtk.glade
 glade/dgtkpopups.glade
 glade/file_tab_menu.glade
+glade/merge_dialog.glade
 glade/plugin_dialog.glade
 glade/preferences_dialog.glade
 glade/torrent_menu.glade
