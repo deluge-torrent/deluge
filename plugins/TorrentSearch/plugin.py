@@ -17,8 +17,8 @@ class plugin_Search:
         self.view = glade.get_widget("search_view")
         model = gtk.ListStore(str, str)
         self.view.set_model(model)
-        deluge.dgtk.add_text_column(self.view, "Name", 0)
-        deluge.dgtk.add_text_column(self.view, "Search String", 1)
+        deluge.dgtk.add_text_column(self.view, _("Name"), 0)
+        deluge.dgtk.add_text_column(self.view, _("Search String"), 1)
         self.field_name = glade.get_widget("field_name")        
         self.field_search = glade.get_widget("field_search")
         self.button_add = glade.get_widget("button_addsearch")
@@ -40,11 +40,11 @@ class plugin_Search:
         self.search_item.add(self.search_entry)
         self.search_icon = gtk.Image()
         self.search_icon.set_from_stock(gtk.STOCK_FIND, gtk.ICON_SIZE_MENU)
-        self.menu_button = gtk.MenuToolButton(self.search_icon, "Choose an Engine")
+        self.menu_button = gtk.MenuToolButton(self.search_icon, _("Choose an Engine"))
         self.menu_button.set_is_important(True)
         self.menu_button.connect("clicked", self.torrent_search)
         self.menu = gtk.Menu()
-        self.manage_item = gtk.ImageMenuItem("Manage Engines")
+        self.manage_item = gtk.ImageMenuItem(_("Manage Engines"))
         self.image = gtk.Image()
         self.image.set_from_stock(gtk.STOCK_PREFERENCES, gtk.ICON_SIZE_MENU)
         self.manage_item.set_image(self.image)
@@ -130,7 +130,7 @@ class plugin_Search:
         
     def populate_search_menu(self):
         import gtk
-        self.menu_button.set_label("Choose an Engine")
+        self.menu_button.set_label(_("Choose an Engine"))
         for child in self.menu.get_children():
             self.menu.remove(child)
         group = None
@@ -151,6 +151,6 @@ class plugin_Search:
         self.menu.show()
 
     def select_search(self, menuitem, engine_string):
-        self.menu_button.set_label("Search " + engine_string)
+        self.menu_button.set_label(_("Search ") + engine_string)
         self.se = engine_string
     
