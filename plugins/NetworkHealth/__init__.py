@@ -1,9 +1,7 @@
-
-
-plugin_name = "Network Health Monitor"
+plugin_name = _("Network Health Monitor")
 plugin_author = "Alon Zakai, Zach Tibbitts"
 plugin_version = "0.2"
-plugin_description = "Network Health Monitor plugin\n\nWritten by Kripkenstein"
+plugin_description = _("Network Health Monitor plugin\n\nWritten by Kripkenstein")
 
 
 def deluge_init(deluge_path):

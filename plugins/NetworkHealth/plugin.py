@@ -18,7 +18,7 @@ class plugin_NetworkHealth:
                 self.counter  = self.maxCount*2
                 self.maxCount = self.counter
         else:
-            message = "[Health: OK]"
+            message = _("[Health: OK]")
             self.counter = self.maxCount
 
         self.parent.statusbar_temp_msg = self.parent.statusbar_temp_msg + '   ' + message
