@@ -116,6 +116,10 @@ class DelugeGTK:
         
         self.apply_prefs()
         self.load_window_geometry()
+
+        # Boolean used in update method to help check whether gui
+        # should be updated and is set by the window_state_event method
+        self.is_minimized = False
     
     def connect_signals(self):
         self.wtree.signal_autoconnect({
@@ -820,98 +824,103 @@ class DelugeGTK:
         #Update any active plugins
         self.plugins.update_active_plugins()
         
-        # Put the generated message into the statusbar
-        # This gives plugins a chance to write to the 
-        # statusbar if they want
-        self.statusbar.pop(1)
-        self.statusbar.push(1, self.statusbar_temp_msg)
-
-        #Torrent List
-        itr = self.torrent_model.get_iter_first()
-        
-        # Disable torrent options if there are no torrents
-        self.wtree.get_widget("menu_torrent").set_sensitive(itr is not None)
-        self.wtree.get_widget("toolbutton_remove").set_sensitive(itr is not None)
-        self.wtree.get_widget("toolbutton_pause").set_sensitive(itr is not None)
-        self.wtree.get_widget("toolbutton_up").set_sensitive(itr is not None)
-        self.wtree.get_widget("toolbutton_down").set_sensitive(itr is not None)
-        
-        if itr is None:
-            return True
-        
-        while itr is not None:
-            uid = self.torrent_model.get_value(itr, 0)
+        # only update gui if it's needed
+        if self.window.get_property("visible") and not self.is_minimized:
+            print "Visibility", self.window.get_property("visible")
+            print "Minimized", self.is_minimized
             
-            if uid in self.manager.removed_unique_ids:
-                selected_unique_id = self.get_selected_torrent()
-                # If currently selected torrent was complete and so removed 
-                # clear details pane
-                if selected_unique_id == uid:
-                    self.clear_details_pane()
-                    
-                next = self.torrent_model.iter_next(itr)
-                self.torrent_model.remove(itr)
-                itr = self.torrent_model.get_iter_first()
-                if itr is None:
-                    return True
-                itr = next
+            # Put the generated message into the statusbar
+            # This gives plugins a chance to write to the 
+            # statusbar if they want
+            self.statusbar.pop(1)
+            self.statusbar.push(1, self.statusbar_temp_msg)
+            
+            #Torrent List
+            itr = self.torrent_model.get_iter_first()
+            
+            # Disable torrent options if there are no torrents
+            self.wtree.get_widget("menu_torrent").set_sensitive(itr is not None)
+            self.wtree.get_widget("toolbutton_remove").set_sensitive(itr is not None)
+            self.wtree.get_widget("toolbutton_pause").set_sensitive(itr is not None)
+            self.wtree.get_widget("toolbutton_up").set_sensitive(itr is not None)
+            self.wtree.get_widget("toolbutton_down").set_sensitive(itr is not None)
+        
+            if itr is None:
+                return True
+            
+            while itr is not None:
+                uid = self.torrent_model.get_value(itr, 0)
                 
-                del self.manager.removed_unique_ids[uid]
+                if uid in self.manager.removed_unique_ids:
+                    selected_unique_id = self.get_selected_torrent()
+                    # If currently selected torrent was complete and so removed 
+                    # clear details pane
+                    if selected_unique_id == uid:
+                        self.clear_details_pane()
+                    
+                    next = self.torrent_model.iter_next(itr)
+                    self.torrent_model.remove(itr)
+                    itr = self.torrent_model.get_iter_first()
+                    if itr is None:
+                        return True
+                    itr = next
+                    
+                    del self.manager.removed_unique_ids[uid]
+                else:
+                    tlist = self.get_list_from_unique_id(uid)
+                    for i in xrange(len(tlist)):
+                        try:
+                            self.torrent_model.set_value(itr, i, tlist[i])
+                        except:
+                            print "ERR", i, type(tlist[i]), tlist[i]
+                    itr = self.torrent_model.iter_next(itr)
+            
+            # Disable moving top torrents up or bottom torrents down
+            top_torrents_selected = True
+            bottom_torrents_selected = True
+            
+            torrent_selection = self.torrent_view.get_selection()
+            selection_count = torrent_selection.count_selected_rows()
+            
+            # If no torrent is selected, select the first torrent:
+            if selection_count == 0:
+                torrent_selection.select_path("0")
+                selection_count = 1
+            
+            for i in range(selection_count):
+                if not torrent_selection.path_is_selected(i):
+                    top_torrents_selected = False
+            
+                if not torrent_selection.path_is_selected(len(self.torrent_model) - 1 - i):
+                    bottom_torrents_selected = False
+            
+            self.torrent_glade.get_widget("menu_queue_top").set_sensitive(not top_torrents_selected)
+            self.torrent_glade.get_widget("menu_queue_up").set_sensitive(not top_torrents_selected)
+            self.torrent_glade.get_widget("menu_queue_down").set_sensitive(not bottom_torrents_selected)
+            self.torrent_glade.get_widget("menu_queue_bottom").set_sensitive(not bottom_torrents_selected)
+            self.wtree.get_widget("toolbutton_up").set_sensitive(not top_torrents_selected)
+            self.wtree.get_widget("toolbutton_down").set_sensitive(not bottom_torrents_selected)
+            
+            unique_id = None
+            if selection_count == 1:
+                unique_id = self.get_selected_torrent()
+                self.update_torrent_info_widget(unique_id)
+            else: # selection_count > 1
+                self.clear_details_pane()
+                
+                # Update tool buttons below based on the first selected torrent's state
+                path = torrent_selection.get_selected_rows()[1][0]
+                unique_id = self.torrent_model.get_value(self.torrent_model.get_iter(path), 0)
+            
+            if self.manager.get_torrent_state(unique_id)["is_paused"]:
+                self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PLAY)
+                self.wtree.get_widget("toolbutton_pause").set_label(_("Resume"))
             else:
-                tlist = self.get_list_from_unique_id(uid)
-                for i in xrange(len(tlist)):
-                    try:
-                        self.torrent_model.set_value(itr, i, tlist[i])
-                    except:
-                        print "ERR", i, type(tlist[i]), tlist[i]
-                itr = self.torrent_model.iter_next(itr)
-
-        # Disable moving top torrents up or bottom torrents down
-        top_torrents_selected = True
-        bottom_torrents_selected = True
-        
-        torrent_selection = self.torrent_view.get_selection()
-        selection_count = torrent_selection.count_selected_rows()
-        
-        # If no torrent is selected, select the first torrent:
-        if selection_count == 0:
-            torrent_selection.select_path("0")
-            selection_count = 1
-        
-        for i in range(selection_count):
-            if not torrent_selection.path_is_selected(i):
-                top_torrents_selected = False
+                self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PAUSE)
+                self.wtree.get_widget("toolbutton_pause").set_label(_("Pause"))
             
-            if not torrent_selection.path_is_selected(len(self.torrent_model) - 1 - i):
-                bottom_torrents_selected = False
-        
-        self.torrent_glade.get_widget("menu_queue_top").set_sensitive(not top_torrents_selected)
-        self.torrent_glade.get_widget("menu_queue_up").set_sensitive(not top_torrents_selected)
-        self.torrent_glade.get_widget("menu_queue_down").set_sensitive(not bottom_torrents_selected)
-        self.torrent_glade.get_widget("menu_queue_bottom").set_sensitive(not bottom_torrents_selected)
-        self.wtree.get_widget("toolbutton_up").set_sensitive(not top_torrents_selected)
-        self.wtree.get_widget("toolbutton_down").set_sensitive(not bottom_torrents_selected)
-        
-        unique_id = None
-        if selection_count == 1:
-            unique_id = self.get_selected_torrent()
-            self.update_torrent_info_widget(unique_id)
-        else: # selection_count > 1
-            self.clear_details_pane()
-            
-            # Update tool buttons below based on the first selected torrent's state
-            path = torrent_selection.get_selected_rows()[1][0]
-            unique_id = self.torrent_model.get_value(self.torrent_model.get_iter(path), 0)
-        
-        if self.manager.get_torrent_state(unique_id)["is_paused"]:
-            self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PLAY)
-            self.wtree.get_widget("toolbutton_pause").set_label(_("Resume"))
-        else:
-            self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PAUSE)
-            self.wtree.get_widget("toolbutton_pause").set_label(_("Pause"))
-        
         return True
-        
+            
     def update_statusbar_and_tray(self):
         core_state = self.manager.get_state()
         connections = core_state['num_peers']
@@ -1330,6 +1339,11 @@ class DelugeGTK:
                 self.config.set("window_maximized", True)
             else:
                 self.config.set("window_maximized", False)
+        if event.changed_mask & gtk.gdk.WINDOW_STATE_ICONIFIED:
+            if event.new_window_state & gtk.gdk.WINDOW_STATE_ICONIFIED:
+                self.is_minimized = True
+            else:
+                self.is_minimized = False
         return False
 
 
