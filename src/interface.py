@@ -102,6 +102,7 @@ class DelugeGTK:
         self.build_summary_tab()
         self.build_file_tab()
         self.build_peer_tab()
+        self.load_status_icons()
 
         # Set the Torrent menu bar sub-menu to the same as the right-click Torrent pop-up menu
         self.wtree.get_widget("menu_torrent").set_submenu(self.torrent_menu)
@@ -360,6 +361,15 @@ class DelugeGTK:
         tray_lock.destroy()
         return True
 
+    def load_status_icons(self):
+        self.status_icons = \
+            {'paused': gtk.gdk.pixbuf_new_from_file(
+                           common.get_pixmap("inactive16.png")),
+             'seeding': gtk.gdk.pixbuf_new_from_file(
+                         common.get_pixmap("seeding16.png")),
+             'downloading' : gtk.gdk.pixbuf_new_from_file(
+                                 common.get_pixmap("downloading16.png"))}
+    
     def list_of_trackers(self,obj=None):
         torrent = self.get_selected_torrent()
         if torrent is not None:
@@ -750,11 +760,11 @@ class DelugeGTK:
         
         # Set the appropriate status icon
         if state["is_paused"]:
-            status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("inactive16.png"))
+            status_icon = self.status_icons['paused']
         elif state["is_seed"]:
-            status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("seeding16.png"))
+            status_icon = self.status_icons['seeding']
         else:
-            status_icon = gtk.gdk.pixbuf_new_from_file(common.get_pixmap("downloading16.png"))
+            status_icon = self.status_icons['downloading']
     
         rlist =  [int(unique_id), queue, status_icon, name, size, progress, 
                   message, seeds, seeds_t, peers, peers_t, dl_speed, ul_speed, 
@@ -868,7 +878,10 @@ class DelugeGTK:
                     tlist = self.get_list_from_unique_id(uid)
                     for i in xrange(len(tlist)):
                         try:
-                            self.torrent_model.set_value(itr, i, tlist[i])
+                            if self.torrent_model.get_value(itr, i) != \
+                                   tlist[i]:
+                                self.torrent_model.set_value(itr, i, 
+                                                             tlist[i])
                         except:
                             print "ERR", i, type(tlist[i]), tlist[i]
                     itr = self.torrent_model.iter_next(itr)
