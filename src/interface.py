@@ -826,8 +826,6 @@ class DelugeGTK:
         
         # only update gui if it's needed
         if self.window.get_property("visible") and not self.is_minimized:
-            print "Visibility", self.window.get_property("visible")
-            print "Minimized", self.is_minimized
             
             # Put the generated message into the statusbar
             # This gives plugins a chance to write to the 
