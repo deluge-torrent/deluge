@@ -412,12 +412,16 @@ class DelugeGTK:
                 self.window.hide()
             else:
                 self.window.present()
+                # Force UI update as we don't update it while minimized
+                self.update()
         else:
             if self.config.get("lock_tray") == True:
                 self.unlock_tray("mainwinshow")
             else:
                 self.load_window_geometry()
                 self.window.show()
+                # Force UI update as we don't update it while in tray
+                self.update()
     
     def show_hide_window_toggled(self, widget):
         if widget.get_active() and not self.window.get_property("visible"):
