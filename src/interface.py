@@ -841,7 +841,6 @@ class DelugeGTK:
         
         # only update gui if it's needed
         if self.update_interface:
-            
             # Put the generated message into the statusbar
             # This gives plugins a chance to write to the 
             # statusbar if they want
@@ -903,7 +902,7 @@ class DelugeGTK:
                 torrent_selection.select_path("0")
                 selection_count = 1
             
-            for i in range(selection_count):
+            for i in xrange(selection_count):
                 if not torrent_selection.path_is_selected(i):
                     top_torrents_selected = False
             
