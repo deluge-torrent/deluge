@@ -33,22 +33,22 @@ class plugin_RSS:
 		self.feeds_view = glade.get_widget("feeds_view")
 		model = gtk.ListStore(str, str, str)
 		self.feeds_view.set_model(model)
-		deluge.dgtk.add_text_column(self.feeds_view, "Name", 0)
-		deluge.dgtk.add_text_column(self.feeds_view, "URL", 1)
-		deluge.dgtk.add_text_column(self.feeds_view, "Last Entry Date", 2)
+		deluge.dgtk.add_text_column(self.feeds_view, _("Name"), 0)
+		deluge.dgtk.add_text_column(self.feeds_view, _("URL"), 1)
+		deluge.dgtk.add_text_column(self.feeds_view, _("Last Entry Date"), 2)
 		#set up the torrents list viewer
 		self.torrents_view = glade.get_widget("torrents_view")
 		model = gtk.ListStore(str, str, str, str)
 		self.torrents_view.set_model(model)
-		deluge.dgtk.add_text_column(self.torrents_view, "Feed", 0)
-		deluge.dgtk.add_text_column(self.torrents_view, "Name", 1)
-		deluge.dgtk.add_text_column(self.torrents_view, "URL", 2)
-		deluge.dgtk.add_text_column(self.torrents_view, "Date", 3)
+		deluge.dgtk.add_text_column(self.torrents_view, _("Feed"), 0)
+		deluge.dgtk.add_text_column(self.torrents_view, _("Name"), 1)
+		deluge.dgtk.add_text_column(self.torrents_view, _("URL"), 2)
+		deluge.dgtk.add_text_column(self.torrents_view, _("Date"), 3)
 		# Setup the filters list viewer
 		self.filters_view = glade.get_widget("filters_view")
 		model = gtk.ListStore(str)
 		self.filters_view.set_model(model)
-		deluge.dgtk.add_text_column(self.filters_view, "Name", 0)
+		deluge.dgtk.add_text_column(self.filters_view, _("Name"), 0)
 		# set up the feed choice combobox
 		self.feedchoice_combo = glade.get_widget("feedchoice_combo")
 		model = gtk.ListStore(str)
@@ -98,7 +98,7 @@ class plugin_RSS:
 		# Make a toolbar button
 		icon = gtk.Image()
 		icon.set_from_file(self.path + "/rss.png") # Toolbar items should be 22x22 pixel images
-		self.button = gtk.ToolButton(icon_widget=icon, label="RSS")
+		self.button = gtk.ToolButton(icon_widget=icon, label=_("RSS"))
 		self.button.connect("clicked", self.rss_clicked) # Connect the signal handler for the button
 		self.toolbar.add(self.button) # Add button to toolbar
 		self.button.show_all() # Show the button
@@ -181,17 +181,17 @@ class plugin_RSS:
 	def addfilter_clicked(self, args):
 		unique = True
 		for filt in self.filters_config.sections():
-			if filt == "New Filter":
+			if filt == _("New Filter"):
 				unique = False
 
 		if unique:
-			self.current_filter = "New Filter"
-			self.filters_config.add_section("New Filter")
-			new_iter = self.filters_view.get_model().append(["New Filter"])
+			self.current_filter = _("New Filter")
+			self.filters_config.add_section(_("New Filter"))
+			new_iter = self.filters_view.get_model().append([_("New Filter")])
 			self.filters_view.get_selection().select_iter(new_iter)
-			self.filters_config.set("New Filter", "filterexp", "")
-			self.filters_config.set("New Filter", "feed", "All")
-			self.filtername_entry.set_text("New Filter")
+			self.filters_config.set(_("New Filter"), "filterexp", "")
+			self.filters_config.set(_("New Filter"), "feed", "All")
+			self.filtername_entry.set_text(_("New Filter"))
 			self.feedchoice_combo.set_active(0)
 
 			self.filtername_entry.set_sensitive(1)
@@ -260,7 +260,7 @@ class plugin_RSS:
 	def torrents_fcc_changed(self, args):
 		model = self.torrents_view.get_model()
 		model.clear()
-		if self.torrents_fcc.get_active_text() == "All":
+		if self.torrents_fcc.get_active_text() == _("All"):
 			for (date, feed, title, link) in self.torrents_list:
 				self.torrents_view.get_model().append((feed, title, link, date))
 		else:
@@ -395,8 +395,8 @@ class plugin_RSS:
 		self.filterexp_entry.set_text("")
 		self.name_entry.set_text("")
 		self.url_entry.set_text("")
-		self.feedchoice_combo.append_text("All")
-		self.torrents_fcc.append_text("All")
+		self.feedchoice_combo.append_text(_("All"))
+		self.torrents_fcc.append_text(_("All"))
 		self.torrents_fcc.set_active(0)
 		for name in self.feeds_config.sections():
 			self.feeds_view.get_model().append( (name, self.feeds_config.get(name, "url"), self.feeds_config.get(name, "lastchecked") ) )
@@ -435,4 +435,3 @@ class plugin_RSS:
 			print "BONG!"
 			self.checkfeeds()
 			self.timer = 0
-
