@@ -612,7 +612,7 @@ class Manager:
                                                 tracker_status)
             elif event['event_type'] is self.constants['EVENT_TRACKER_WARNING']:
                 # Probably will need proper formatting later, not tested yet
-                tracker_status = '%s: %s' % (N_("Warning", event["message"]))
+                tracker_status = '%s: %s' % (N_("Warning"), event["message"])
                 
                 self.set_supp_torrent_state_val(event['unique_ID'], 
                                                 "tracker_status",

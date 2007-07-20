@@ -121,6 +121,9 @@ class DelugeGTK:
         # Boolean used in update method to help check whether gui
         # should be updated and is set by the window_state_event method
         self.is_minimized = False
+        
+        # Boolean set to true if window is not minimized and is "visible"
+        self.update_interface = True
     
     def connect_signals(self):
         self.wtree.signal_autoconnect({
@@ -815,6 +818,8 @@ class DelugeGTK:
         # We need to apply the queue changes
         self.manager.apply_queue()
         
+        self.update_interface = self.window.get_property("visible") and not self.is_minimized
+        
         # Handle the events
         try:
             self.manager.handle_events()
@@ -835,7 +840,7 @@ class DelugeGTK:
         self.plugins.update_active_plugins()
         
         # only update gui if it's needed
-        if self.window.get_property("visible") and not self.is_minimized:
+        if self.update_interface:
             
             # Put the generated message into the statusbar
             # This gives plugins a chance to write to the 
