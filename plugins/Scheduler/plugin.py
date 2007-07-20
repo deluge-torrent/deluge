@@ -6,7 +6,7 @@ class plugin_Scheduler:
         self.core = deluge_core
         self.interface = deluge_interface
 
-        self.days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        self.days = [_("Mon"), _("Tue"), _("Wed"), _("Thu"), _("Fri"), _("Sat"), _("Sun")]
         self.conf_file = deluge.common.CONFIG_DIR + "/scheduler.conf"
         self.config = deluge.pref.Preferences()
         self.button_state_temp = [[0] * 7 for dummy in xrange(24)]
@@ -80,7 +80,7 @@ class plugin_Scheduler:
         self.button_state_temp = copy.deepcopy(self.button_state)
 
         #dialog
-        dialog = gtk.Dialog("Scheduler Settings")
+        dialog = gtk.Dialog(_("Scheduler Settings"))
         dialog.set_default_size(600, 270)
 
         #buttons
@@ -90,8 +90,8 @@ class plugin_Scheduler:
         #text
         hover_text = gtk.Label()
 
-        dllimit_label = gtk.Label("Limit download to:")
-        ullimit_label = gtk.Label("Limit upload to:")
+        dllimit_label = gtk.Label(_("Limit download to:"))
+        ullimit_label = gtk.Label(_("Limit upload to:"))
 
         #Select Widget
         drawing = scheduler_select(self.button_state_temp, hover_text, self.days)
