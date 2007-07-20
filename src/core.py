@@ -66,8 +66,6 @@ STATE_FILENAME = "persistent.state"
 PREFS_FILENAME = "prefs.state"
 DHT_FILENAME = "dht.state"
 
-CACHED_DATA_EXPIRATION = 1 # seconds, like the output of time.time()
-
 PREF_FUNCTIONS = {
     "max_uploads" : deluge_core.set_max_uploads,
     "listen_on" : deluge_core.set_listen_on,
@@ -128,20 +126,21 @@ class InsufficientFreeSpaceError(DelugeError):
 # A cached data item
 
 class cached_data:
-    def __init__(self, get_method, key):
-        self.get_method = get_method
-        self.key = key
+    CACHED_DATA_EXPIRATION = 1
+    
+    def __init__(self, get_method):
+        self._get_method = get_method
+        self._cache = {}
+        self._expire_info = {}
 
-        self.timestamp = -1
+    def get(self, key, cached=True):
+        now = time.time()
+        exp = self._expire_info.get(key)
+        if not exp or now > exp + self.CACHED_DATA_EXPIRATION or not cached:
+            self._cache[key] = self._get_method(key)
+            self._expire_info[key] = now
 
-    def get(self, efficiently=True):
-        if self.timestamp == -1 or time.time() > self.timestamp + CACHED_DATA_EXPIRATION or \
-           not efficiently:
-            self.data = self.get_method(self.key)
-            self.timestamp = time.time()
-
-        return self.data
-
+        return self._cache[key]
         
 # Persistent information for a single torrent
 
@@ -202,17 +201,23 @@ class Manager:
         # Unique IDs are NOT in the state, since they are temporary for each session
         self.unique_IDs = {} # unique_ID -> a torrent_info object, i.e. persistent data
 
-        # Saved torrent core_states. We do not poll the core in a costly manner, necessarily
-        self.saved_core_torrent_states = {} # unique_ID -> torrent_state
+        # Cached torrent core_states. We do not poll the core in a costly 
+        # manner.
+        self.cached_core_torrent_states = \
+            cached_data(deluge_core.get_torrent_state)
 
         # supplementary torrent states
         self.supp_torrent_states = {} # unique_ID->dict of data
 
-        # Saved torrent core_states. We do not poll the core in a costly manner, necessarily
-        self.saved_core_torrent_peer_infos = {} # unique_ID -> torrent_state
+        # Cached torrent core_states. We do not poll the core in a costly 
+        # manner.
+        self.cached_core_torrent_peer_infos = \
+            cached_data(deluge_core.get_peer_info)
         
-        # Saved torrent core_states. We do not poll the core in a costly manner, necessarily
-        self.saved_core_torrent_file_infos = {} # unique_ID -> torrent_state
+        # Cached torrent core_states. We do not poll the core in a costly 
+        # manner.
+        self.cached_core_torrent_file_infos = \
+            cached_data(deluge_core.get_file_info)
         
         # Keeps track of DHT running state
         self.dht_running = False
@@ -291,9 +296,10 @@ class Manager:
     def pre_quitting(self):
         # Save the uploaded data from this session to the existing upload memory
         for unique_ID in self.unique_IDs.keys():
+            # self.get_core_torrent_state purposefully not cached.
             self.unique_IDs[unique_ID].uploaded_memory = \
                     self.unique_IDs[unique_ID].uploaded_memory + \
-                    self.get_core_torrent_state(unique_ID, False)['total_upload'] # Purposefully ineffi.
+                    self.get_core_torrent_state(unique_ID, False)['total_upload']
 
     # Preference management functions
 
@@ -407,7 +413,7 @@ class Manager:
         if unique_ID not in self.state.queue:
             raise InvalidUniqueIDError(_("Asked for a torrent that doesn't exist"))
          
-        ret = self.get_core_torrent_state(unique_ID, True).copy()
+        ret = self.get_core_torrent_state(unique_ID).copy()
 
         # Add the deluge-level things to the deluge_core data
         ret.update(self.get_supp_torrent_state(unique_ID))
@@ -469,15 +475,15 @@ class Manager:
     # This should be called after changes to relevant parameters (user_pausing, or
     # altering max_active_torrents), or just from time to time
     # ___ALL queuing code should be in this function, and ONLY here___
-    def apply_queue(self, efficient = True):
+    def apply_queue(self):
         # Handle autoseeding - downqueue as needed
         if not self.get_pref('clear_max_ratio_torrents') \
             and self.get_pref('auto_seed_ratio') > 0 \
             and self.get_pref('auto_end_seeding'):
 
             for unique_ID in self.unique_IDs:
-                if self.get_core_torrent_state(unique_ID, efficient)['is_seed']:
-                    torrent_state = self.get_core_torrent_state(unique_ID, efficient)
+                torrent_state = self.get_core_torrent_state(unique_ID)
+                if torrent_state['is_seed']:
                     ratio = self.calc_ratio(unique_ID, torrent_state)
                     if ratio >= self.get_pref('auto_seed_ratio'):
                         self.queue_bottom(unique_ID, enforce_queue=False) # don't recurse!
@@ -486,8 +492,8 @@ class Manager:
         if self.get_pref('clear_max_ratio_torrents'):
             for index in range(len(self.state.queue)):
                 unique_ID = self.state.queue[index]
-                if self.get_core_torrent_state(unique_ID, efficient)['is_seed']:
-                    torrent_state = self.get_core_torrent_state(unique_ID, efficient)
+                torrent_state = self.get_core_torrent_state(unique_ID)
+                if torrent_state['is_seed']:
                     ratio = self.calc_ratio(unique_ID, torrent_state)
                     if ratio >= self.get_pref('auto_seed_ratio'):
                         self.removed_unique_ids[unique_ID] = 1
@@ -496,19 +502,19 @@ class Manager:
         # Pause and resume torrents
         for index in range(len(self.state.queue)):
             unique_ID = self.state.queue[index]
-            if (index < self.get_pref('max_active_torrents') or self.get_pref('max_active_torrents') == -1) \
-                and self.get_core_torrent_state(unique_ID, efficient)['is_paused'] \
-                and not self.is_user_paused(unique_ID):
-                
+            torrent_state = self.get_core_torrent_state(unique_ID)
+            if (index < self.get_pref('max_active_torrents') or \
+                self.get_pref('max_active_torrents') == -1) and \
+               torrent_state['is_paused'] and not \
+               self.is_user_paused(unique_ID):
                 # This torrent is a seed so skip all the free space checking
-                if self.get_core_torrent_state(unique_ID, efficient)['is_seed']:
+                if torrent_state['is_seed']:
                     deluge_core.resume(unique_ID)
                     continue
                     
                 # Before we resume, we should check if the torrent is using Full Allocation 
                 # and if there is enough space on to finish this file.
                 if self.unique_IDs[unique_ID].compact == False:
-                    torrent_state = self.get_core_torrent_state(unique_ID, efficient)
                     avail = self.calc_free_space(self.unique_IDs[unique_ID].save_dir)
                     total_needed = torrent_state["total_size"] - torrent_state["total_done"]
                     if total_needed < avail:
@@ -518,11 +524,10 @@ class Manager:
                         print "Not enough free space to resume this torrent!"
                 else: #We're using compact allocation so lets just resume
                     deluge_core.resume(unique_ID)
-
-            elif (not self.get_core_torrent_state(unique_ID, efficient)['is_paused']) and \
-                  ((index >= self.get_pref('max_active_torrents') and \
-                    self.get_pref('max_active_torrents') != -1) or \
-                self.is_user_paused(unique_ID)):
+            elif torrent_state['is_paused'] and \
+                 ((index >= self.get_pref('max_active_torrents') and \
+                   self.get_pref('max_active_torrents') != -1) or \
+                  self.is_user_paused(unique_ID)):
                 deluge_core.pause(unique_ID)
 
     # Event handling
@@ -583,10 +588,6 @@ class Manager:
                 if self.get_pref('queue_seeds_to_bottom'):
                     self.queue_bottom(event['unique_ID'])
                     
-                # If we are autoseeding, then we need to apply the queue
-                if self.get_pref('auto_seed_ratio') == -1:
-                    self.apply_queue(efficient = False) # To work on current data
-                    
                 # save fast resume once torrent finishes so as to not recheck
                 # seed if client crashes
                 self.save_fastresume_data(event['unique_ID'])
@@ -622,8 +623,8 @@ class Manager:
 
     # Priorities functions
     def prioritize_files(self, unique_ID, priorities):
-        assert(len(priorities) == self.get_core_torrent_state(unique_ID, 
-                                      True)['num_files'])
+        assert(len(priorities) == \
+                   self.get_core_torrent_state(unique_ID)['num_files'])
 
         self.unique_IDs[unique_ID].priorities = priorities[:]
         deluge_core.prioritize_files(unique_ID, priorities)
@@ -634,8 +635,7 @@ class Manager:
         except AttributeError:
             # return normal priority for all files by default
             
-            num_files = self.get_core_torrent_state(unique_ID, 
-                                                    True)['num_files']
+            num_files = self.get_core_torrent_state(unique_ID)['num_files']
             return [PRIORITY_NORMAL] * num_files
 
     # Called when a session starts, to apply existing priorities
@@ -656,7 +656,7 @@ class Manager:
 
     def calc_swarm_speed(self, unique_ID):
         pieces_per_sec = deluge_stats.calc_swarm_speed(self.get_core_torrent_peer_info(unique_ID))
-        piece_length = self.get_core_torrent_state(unique_ID, efficiently=True)
+        piece_length = self.get_core_torrent_state(unique_ID)
 
         return pieces_per_sec * piece_length
 
@@ -687,13 +687,8 @@ class Manager:
     # Internal functions
     ####################
 
-    # Efficient: use a saved state, if it hasn't expired yet
-    def get_core_torrent_state(self, unique_ID, efficiently=True):
-        if unique_ID not in self.saved_core_torrent_states:
-            self.saved_core_torrent_states[unique_ID] = \
-                cached_data(deluge_core.get_torrent_state, unique_ID)
-
-        return self.saved_core_torrent_states[unique_ID].get(efficiently)
+    def get_core_torrent_state(self, unique_ID, cached=True):
+        return self.cached_core_torrent_states.get(unique_ID, cached)
 
     def get_supp_torrent_state(self, unique_ID):
         try:
@@ -707,17 +702,11 @@ class Manager:
 
         self.supp_torrent_states[unique_ID][key] = val
 
-    def get_core_torrent_peer_info(self, unique_ID, efficiently=True):
-        if unique_ID not in self.saved_core_torrent_peer_infos.keys():
-            self.saved_core_torrent_peer_infos[unique_ID] = cached_data(deluge_core.get_peer_info, unique_ID)
-
-        return self.saved_core_torrent_peer_infos[unique_ID].get(efficiently)
+    def get_core_torrent_peer_info(self, unique_ID):
+        return self.cached_core_torrent_peer_infos.get(unique_ID)
     
-    def get_core_torrent_file_info(self, unique_ID, efficiently=True):
-        if unique_ID not in self.saved_core_torrent_file_infos.keys():
-            self.saved_core_torrent_file_infos[unique_ID] = cached_data(deluge_core.get_file_info, unique_ID)
-        
-        return self.saved_core_torrent_file_infos[unique_ID].get(efficiently)
+    def get_core_torrent_file_info(self, unique_ID):
+        return self.cached_core_torrent_file_infos.get(unique_ID)
 
     # Functions for checking if enough space is available
     
