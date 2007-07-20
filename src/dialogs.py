@@ -201,6 +201,20 @@ class PreferencesDlg:
         elif widget == self.glade.get_widget('chk_lock_tray'):
             self.glade.get_widget('txt_tray_passwd').set_sensitive(value)
 
+class MergeDlg:
+    def __init__(self):
+        self.glade = gtk.glade.XML(common.get_glade_file("merge_dialog.glade"), 
+                                   domain='deluge')
+        self.dialog = self.glade.get_widget("merge_dialog")
+        self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
+    
+    def show(self):
+        self.dialog.show()
+        r = self.dialog.run()
+        self.dialog.hide()
+        
+        return r
+
 class FilesDlg:
     def __init__(self, dumped_torrent):
         self.glade = gtk.glade.XML(common.get_glade_file("files_dialog.glade"), 

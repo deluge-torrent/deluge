@@ -1108,7 +1108,23 @@ class DelugeGTK:
             print "InvalidEncodingError", e
             dialogs.show_popup_warning(self.window, _("An error occured while trying to add the torrent. It's possible your .torrent file is corrupted."))
         except core.DuplicateTorrentError, e:
-            dialogs.show_popup_warning(self.window, _("The torrent you've added seems to already be in Deluge."))
+            for unique_id in self.manager.unique_IDs:
+                is_duplicate = self.manager.test_duplicate(torrent, unique_id)
+                if is_duplicate:
+                    break
+            if is_duplicate:
+                merge_dialog = dialogs.MergeDlg()
+                if merge_dialog.show() == 1:
+                    new_trackers_as_list = self.manager.dump_trackers(torrent).replace(' ','').splitlines(True)
+                    original_trackers_as_list = self.manager.get_trackers(unique_id).replace(' ','').splitlines(True)
+                    for index in xrange(len(new_trackers_as_list)):
+                        if original_trackers_as_list.count(new_trackers_as_list[index]) == 0:
+                            original_trackers_as_list.append(new_trackers_as_list[index])
+                    merged_trackers_as_string = ''.join([original_trackers_as_list[index] for \
+                        index in xrange(len(original_trackers_as_list))])
+                    self.manager.replace_trackers(unique_id, merged_trackers_as_string)
+            else:
+                dialogs.show_popup_warning(self.window, _("Unknown duplicate torrent error."))
         except core.InsufficientFreeSpaceError, e:
             nice_need = common.fsize(e.needed_space)
             nice_free = common.fsize(e.free_space)

@@ -309,11 +309,19 @@ class Manager:
     def dump_torrent_file_info(self, torrent):
         return deluge_core.dump_file_info(torrent)
     
+    # Dump trackers from torrent file
+    def dump_trackers(self, torrent):
+        return deluge_core.dump_trackers(torrent)
+    
     # Torrent addition and removal functions
 
     def add_torrent(self, filename, save_dir, compact):
         self.add_torrent_ns(filename, save_dir, compact)
         return self.sync() # Syncing will create a new torrent in the core, and return it's ID
+    
+    # When duplicate torrent error, use to find duplicate when merging tracker lists
+    def test_duplicate(self, torrent, unique_id):
+        return deluge_core.test_duplicate(torrent, unique_id)
 
     def remove_torrent(self, unique_ID, data_also, torrent_also):
         temp = self.unique_IDs[unique_ID]
