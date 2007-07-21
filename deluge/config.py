@@ -1,7 +1,7 @@
 #
 # config.py
 #
-# Copyright (C) Andrew Resch    2007 <andrewresch@gmail.com> 
+# Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
 # Deluge is free software.
 # 
@@ -51,6 +51,10 @@ class Config:
         # Load the config from file in the config_dir
         self.config_file = deluge.common.get_config_dir(filename)
         self.load(self.config_file)
+        
+    def __del__(self):
+        log.debug("Config object deconstructing..")
+        self.save()
             
     def load(self, filename=None):
         # Use self.config_file if filename is None

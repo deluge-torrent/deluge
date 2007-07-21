@@ -1,7 +1,7 @@
 #
 # core.py
 #
-# Copyright (C) Andrew Resch    2007 <andrewresch@gmail.com> 
+# Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
 # Deluge is free software.
 # 
@@ -118,4 +118,4 @@ class Core(dbus.service.Object):
                                              signature="")
     def torrent_added(self):
         """Emitted when a new torrent is added to the core"""
-        pass
+        log.debug("torrent_added signal emitted")

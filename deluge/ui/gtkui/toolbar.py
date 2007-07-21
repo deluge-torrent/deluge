@@ -1,7 +1,7 @@
 #
 # toolbar.py
 #
-# Copyright (C) Andrew Resch    2007 <andrewresch@gmail.com> 
+# Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
 # Deluge is free software.
 # 
@@ -37,6 +37,8 @@ import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
 
+import functions
+
 # Get the logger
 log = logging.getLogger("deluge")
 
@@ -64,6 +66,7 @@ class ToolBar:
     ### Callbacks ###
     def on_toolbutton_add_clicked(self, data):
         log.debug("on_toolbutton_add_clicked")
+        functions.add_torrent_file()
     def on_toolbutton_remove_clicked(self, data):
         log.debug("on_toolbutton_remove_clicked")
     def on_toolbutton_clear_clicked(self, data):

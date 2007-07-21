@@ -1,7 +1,7 @@
 #
 # torrentview.py
 #
-# Copyright (C) Andrew Resch    2007 <andrewresch@gmail.com> 
+# Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
 # Deluge is free software.
 # 
@@ -94,9 +94,9 @@ class TorrentView:
             _("Size"),
             columns.cell_data_size,
             TORRENT_VIEW_COL_SIZE)
-        self.status_column = columns.add_progress_column(
+        self.progress_column = columns.add_progress_column(
             self.torrent_view,
-            _("Status"),
+            _("Progress"),
             TORRENT_VIEW_COL_PROGRESS,
             TORRENT_VIEW_COL_STATUS)
         self.seed_column = columns.add_func_column(
@@ -131,13 +131,14 @@ class TorrentView:
             TORRENT_VIEW_COL_RATIO)
         
         # Set some column settings
-        self.status_column.set_expand(True)
+        self.progress_column.set_expand(True)
         self.name_column.set_sort_column_id(TORRENT_VIEW_COL_NAME)
         self.seed_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_SEEDS)
         self.peer_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_PEERS)
         
         # Set the default sort column to the queue column
-        self.torrent_model.set_sort_column_id(TORRENT_VIEW_COL_QUEUE, gtk.SORT_ASCENDING)
+        self.torrent_model.set_sort_column_id(TORRENT_VIEW_COL_QUEUE, 
+                                                gtk.SORT_ASCENDING)
                 
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the

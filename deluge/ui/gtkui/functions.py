@@ -1,5 +1,5 @@
 #
-# ui.py
+# functions.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
@@ -33,23 +33,45 @@
 
 import logging
 
-import time
+try:
+    import dbus, dbus.service
+    dbus_version = getattr(dbus, "version", (0,0,0))
+    if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
+        import dbus.glib
+    elif dbus_version >= (0,80,0):
+        from dbus.mainloop.glib import DBusGMainLoop
+        DBusGMainLoop(set_as_default=True)
+    else:
+        pass
+except: dbus_imported = False
+else: dbus_imported = True
 
-from deluge.config import Config
+import pygtk
+pygtk.require('2.0')
+import gtk, gtk.glade
+
+from addtorrentdialog import AddTorrentDialog
+from deluge.ui.ui import UI
 
 # Get the logger
 log = logging.getLogger("deluge")
 
-DEFAULT_PREFS = {
-    "selected_ui": "gtk"
-}
-
-class UI:
-    def __init__(self):
-        log.debug("UI init..")
-        self.config = Config("ui.conf", DEFAULT_PREFS)
-        
-        if self.config["selected_ui"] == "gtk":
-            log.info("Starting GtkUI..")
-            from deluge.ui.gtkui.gtkui import GtkUI
-            ui = GtkUI()
+def get_core():
+    """Get the core object and return it"""
+    log.debug("Getting core proxy object from DBUS..")
+    # Get the proxy object from DBUS
+    bus = dbus.SessionBus()
+    proxy = bus.get_object("org.deluge_torrent.Deluge", 
+                               "/org/deluge_torrent/Core")
+    core = dbus.Interface(proxy, "org.deluge_torrent.Deluge")
+    log.debug("Got core proxy object..")
+    return core
+    
+def add_torrent_file():
+    """Opens a file chooser dialog and adds any files selected to the core"""
+    at_dialog = AddTorrentDialog()
+    torrent_files = at_dialog.run()
+    log.debug("Attempting to add torrent files: %s", torrent_files)
+    core = get_core()
+    for torrent_file in torrent_files:
+        core.add_torrent_file(torrent_file)

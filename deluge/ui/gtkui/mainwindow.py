@@ -1,7 +1,7 @@
 #
 # mainwindow.py
 #
-# Copyright (C) Andrew Resch    2007 <andrewresch@gmail.com> 
+# Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
 # Deluge is free software.
 # 
@@ -46,9 +46,7 @@ from torrentview import TorrentView
 log = logging.getLogger("deluge")
 
 class MainWindow:
-    def __init__(self, core):
-        self.core = core
-        
+    def __init__(self):
         # Get the glade file for the main window
         self.main_glade = gtk.glade.XML(
                     pkg_resources.resource_filename("deluge.ui.gtkui", 

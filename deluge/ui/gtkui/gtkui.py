@@ -1,7 +1,7 @@
 #
 # gtkui.py
 #
-# Copyright (C) Andrew Resch    2007 <andrewresch@gmail.com> 
+# Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
 # Deluge is free software.
 # 
@@ -45,10 +45,7 @@ from mainwindow import MainWindow
 log = logging.getLogger("deluge")
 
 class GtkUI:
-    def __init__(self, core):
-        # Get the core proxy object from the args
-        self.core = core
-
+    def __init__(self):
         # Initialize gettext
         gettext.bindtextdomain("deluge",
                     pkg_resources.resource_filename(
@@ -61,7 +58,7 @@ class GtkUI:
                                             "po"))
         
         # Initialize the main window
-        self.main_window = MainWindow(self.core)
+        self.main_window = MainWindow()
         
         # Show the main window
         self.main_window.show()

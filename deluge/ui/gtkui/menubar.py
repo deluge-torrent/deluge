@@ -1,7 +1,7 @@
 #
 # menubar.py
 #
-# Copyright (C) Andrew Resch    2007 <andrewresch@gmail.com> 
+# Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
 # Deluge is free software.
 # 
@@ -37,6 +37,8 @@ import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
 import pkg_resources
+
+import functions
 
 # Get the logger
 log = logging.getLogger("deluge")
@@ -99,6 +101,7 @@ class MenuBar:
     ## File Menu ##
     def on_menuitem_addtorrent_activate(self, data=None):
         log.debug("on_menuitem_addtorrent_activate")
+        functions.add_torrent_file()
     def on_menuitem_addurl_activate(self, data=None):
         log.debug("on_menuitem_addurl_activate")
     def on_menuitem_clear_activate(self, data=None):
