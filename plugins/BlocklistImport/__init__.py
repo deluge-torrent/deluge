@@ -113,7 +113,7 @@ class BlocklistImport:
                 ips = reader.next()
                 curr += 1
                 if curr % 100 == 0:
-                    self.gtkprog.import_prog(text="Imported %s IPs"%curr)
+                    self.gtkprog.import_prog(text=(_("Imported") + " %s " + _("IPs"))%curr)
                 else:
 	            self.gtkprog.import_prog()
 
@@ -152,5 +152,5 @@ class BlocklistImport:
         self.core.reset_ip_filter()
 
     def update(self):
-        msg = "[Blocklist: %s entries]" % self.nimported
+        msg = ("[" + _("Blocklist") + ": %s " + _("entries") + "]") % self.nimported
         self.interface.statusbar_temp_msg += '   ' + msg
