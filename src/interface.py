@@ -613,6 +613,8 @@ class DelugeGTK:
         self.text_summary_name = self.wtree.get_widget("summary_name")
         self.text_summary_total_size = self.wtree.get_widget("summary_total_size")
         self.text_summary_pieces = self.wtree.get_widget("summary_pieces")
+        self.text_summary_piece_size = self.wtree.get_widget("summary_piece_size")
+        self.text_summary_availability = self.wtree.get_widget("summary_availability")
         self.text_summary_total_downloaded = self.wtree.get_widget("summary_total_downloaded")
         self.text_summary_total_uploaded = self.wtree.get_widget("summary_total_uploaded")
         self.text_summary_download_speed = self.wtree.get_widget("summary_download_speed")
@@ -997,6 +999,8 @@ class DelugeGTK:
             self.wtree.get_widget("summary_name").set_text(state['name'])
             self.text_summary_total_size.set_text(common.fsize(state["total_wanted"]))
             self.text_summary_pieces.set_text(str(state["num_pieces"]))
+            self.text_summary_piece_size.set_text(common.fsize(state["piece_length"]))
+            self.text_summary_availability.set_text(str(round(state["distributed_copies"], 2)))
             self.text_summary_total_downloaded.set_text(common.fsize(state["total_done"]) \
                 + " (" + common.fsize(state["total_download"]) + ")")
             self.text_summary_total_uploaded.set_text(common.fsize(self.manager.unique_IDs\
@@ -1226,6 +1230,8 @@ class DelugeGTK:
         self.wtree.get_widget("summary_name").set_text("")
         self.text_summary_total_size.set_text("")
         self.text_summary_pieces.set_text("")
+        self.text_summary_piece_size.set_text("")
+        self.text_summary_availability.set_text("")
         self.text_summary_total_downloaded.set_text("")
         self.text_summary_total_uploaded.set_text("")
         self.text_summary_download_speed.set_text("")

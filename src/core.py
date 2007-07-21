@@ -651,9 +651,6 @@ class Manager:
     # when needed, and perhaps only once in a long while (they are mostly just
     # approximations anyhow
 
-    def calc_availability(self, unique_ID):
-        return deluge_stats.calc_availability(self.get_core_torrent_peer_info(unique_ID))
-
     def calc_swarm_speed(self, unique_ID):
         pieces_per_sec = deluge_stats.calc_swarm_speed(self.get_core_torrent_peer_info(unique_ID))
         piece_length = self.get_core_torrent_state(unique_ID)

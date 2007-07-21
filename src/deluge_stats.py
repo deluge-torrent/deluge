@@ -34,24 +34,6 @@ import time
 old_peer_info = None
 old_peer_info_timestamp = None
 
-# Availability - how many complete copies are among our peers
-def calc_availability(peer_info):
-    if len(peer_info) == 0:
-        return 0
-
-    num_pieces = len(peer_info[0].pieces)
-
-    freqs = [0]*num_pieces
-
-    for peer in peer_info:
-        for piece in num_pieces:
-            freqs[piece] = freqs[piece] + peer['pieces'][piece]
-
-    minimum = min(freqs)
-#        frac = freqs.count(minimum + 1) # Does this mean something?
-
-    return minimum
-
 # Swarm speed - try to guess the speed of the entire swarm
 # We return #pieces / second. The calling function should convert pieces to KB, if it wants
 # Note that we return the delta from the last call. If the client calls too soon, this may
