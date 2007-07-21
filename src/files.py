@@ -37,9 +37,11 @@ import gtk
 
 import common
 import dgtk
+import pref
 
 class FilesBaseManager(object):
     def __init__(self, file_store):
+        self.config = pref.Preferences()
         file_glade = gtk.glade.XML(common.get_glade_file("file_tab_menu.glade"), 
                                    domain='deluge')
         self.file_menu = file_glade.get_widget("file_tab_menu")
@@ -89,23 +91,33 @@ class FilesBaseManager(object):
         
     def file_unselect_all(self, widget):
         self.file_view.get_selection().unselect_all()
+
+    def compact_warning(self, widget):
+        msgBox = gtk.MessageDialog(parent = None, buttons = gtk.BUTTONS_OK, 
+        message_format = (_("File priority can only be set when using full allocation.\nPlease change your preference to disable compact allocation, then remove and readd this torrent.")))
+        msgBox.run()
+        msgBox.destroy()
+
     
     def priority_clicked(self, widget):
-        widget_name = widget.get_name()
-        priority = {'priority_dont_download': common.PRIORITY_DONT_DOWNLOAD,
-                    'priority_normal': common.PRIORITY_NORMAL,
-                    'priority_high': common.PRIORITY_HIGH,
-                    'priority_highest': common.PRIORITY_HIGHEST}[widget_name]
+        if self.config.get("use_compact_storage"):
+            self.compact_warning(widget)
+        else:
+            widget_name = widget.get_name()
+            priority = {'priority_dont_download': common.PRIORITY_DONT_DOWNLOAD,
+                        'priority_normal': common.PRIORITY_NORMAL,
+                        'priority_high': common.PRIORITY_HIGH,
+                        'priority_highest': common.PRIORITY_HIGHEST}[widget_name]
                     
-        selected_paths = self.file_view.get_selection().get_selected_rows()[1]
-        for path in selected_paths:
-            child_path = self.file_store_sorted.\
+            selected_paths = self.file_view.get_selection().get_selected_rows()[1]
+            for path in selected_paths:
+                child_path = self.file_store_sorted.\
                              convert_path_to_child_path(path)
                              
-            self.file_store.set_value(self.file_store.get_iter(child_path), 2, 
+                self.file_store.set_value(self.file_store.get_iter(child_path), 2, 
                                       priority)
             
-        self.update_priorities()
+            self.update_priorities()
     
     def mouse_clicked(self, widget, event):
         if event.button == 3:
