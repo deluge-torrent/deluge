@@ -970,8 +970,8 @@ class DelugeGTK:
         
         # Use self.statusbar_temp_msg instance var to allow plugins access it
         self.statusbar_temp_msg = '%s: %s (%s)  %s: %s (%s)  %s: %s (%s)'%(
-            _('Connections'), connections, max_connections, _('Down Speed'), 
-            dlspeed, dlspeed_max, _('Up Speed'), ulspeed, ulspeed_max)
+            _("Connections"), connections, max_connections, _("Down Speed"), 
+            dlspeed, dlspeed_max, _("Up Speed"), ulspeed, ulspeed_max)
         
         if 'DHT_nodes' in core_state:
             dht_peers = core_state['DHT_nodes']
@@ -980,7 +980,7 @@ class DelugeGTK:
             else:
                 dht_peers = str(dht_peers)
             self.statusbar_temp_msg = self.statusbar_temp_msg + \
-                                      '   [DHT: %s]'%(dht_peers)
+                                      '   [' + _("DHT") + ': %s]'%(dht_peers)
         
         msg = '%s\n%s: %s (%s)\n%s: %s (%s)\n%s: %s (%s)' % (
             _("Deluge Bittorrent Client"), _("Connections"), connections, 
