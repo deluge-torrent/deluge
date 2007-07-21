@@ -145,6 +145,7 @@ class DelugeGTK:
                     "dl_toggle": self.dl_toggle,
                     "ul_toggle": self.ul_toggle,
                     "eta_toggle": self.eta_toggle,
+                    "availability_toggle": self.availability_toggle,
                     "share_toggle": self.share_toggle,
                     ## Help Menu
                     "show_about_dialog": self.show_about_dialog,
@@ -453,7 +454,7 @@ class DelugeGTK:
         #     DL, UL, ETA, Share
         self.torrent_model = gtk.ListStore(int, gobject.TYPE_UINT, 
             gtk.gdk.Pixbuf, str, gobject.TYPE_UINT64, float, str, int, int, 
-            int, int, int, int, gobject.TYPE_UINT64, float)
+            int, int, int, int, gobject.TYPE_UINT64, float, float)
         # Stores unique_ID -> gtk.TreeRowReference's mapping for quick look up
         self.torrent_model_dict = {}
 
@@ -476,6 +477,10 @@ class DelugeGTK:
                 time_str = common.ftime(time)
             cell.set_property('text', time_str)
             
+        def availability(column, cell, model, iter, data):
+            availability_str = float(model.get_value(iter, data))
+            cell.set_property('text', "%.3f" % availability_str)
+            
         def ratio(column, cell, model, iter, data):
             ratio = float(model.get_value(iter, data))
             if ratio == -1:
@@ -489,7 +494,8 @@ class DelugeGTK:
         TORRENT_VIEW_COL_SIZE, TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS,
         TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS,    
         TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS, TORRENT_VIEW_COL_DOWNLOAD, 
-        TORRENT_VIEW_COL_UPLOAD, TORRENT_VIEW_COL_ETA, TORRENT_VIEW_COL_RATIO) = range(15)
+        TORRENT_VIEW_COL_UPLOAD, TORRENT_VIEW_COL_ETA, 
+        TORRENT_VIEW_COL_AVAILABILITY, TORRENT_VIEW_COL_RATIO) = range(16)
 
         self.queue_column = dgtk.add_text_column(self.torrent_view, "#", TORRENT_VIEW_COL_QUEUE)
         self.name_column = dgtk.add_texticon_column(self.torrent_view, _("Name"), TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME)
@@ -500,6 +506,7 @@ class DelugeGTK:
         self.dl_column = dgtk.add_func_column(self.torrent_view, _("Down Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_DOWNLOAD)
         self.ul_column = dgtk.add_func_column(self.torrent_view, _("Up Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_UPLOAD)
         self.eta_column = dgtk.add_func_column(self.torrent_view, _("ETA"), time, TORRENT_VIEW_COL_ETA)
+        self.availability_column = dgtk.add_func_column(self.torrent_view, _("Availability"), availability, TORRENT_VIEW_COL_AVAILABILITY)
         self.share_column = dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, TORRENT_VIEW_COL_RATIO)
         
         self.status_column.set_expand(True)
@@ -507,7 +514,8 @@ class DelugeGTK:
         self.seed_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_SEEDS)
         self.peer_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_PEERS)
         
-        self.torrent_model.set_sort_column_id(TORRENT_VIEW_COL_QUEUE, gtk.SORT_ASCENDING)
+        self.torrent_model.set_sort_column_id(TORRENT_VIEW_COL_QUEUE, 
+                                              gtk.SORT_ASCENDING)
         
         try:
             self.torrent_view.get_selection().set_select_function(self.torrent_clicked, full=True)
@@ -764,6 +772,7 @@ class DelugeGTK:
             eta = common.get_eta(size, state["total_wanted_done"], dl_speed)
         except ZeroDivisionError:
             eta = 0
+        availability = state['distributed_copies']
         share = float(self.calc_share_ratio(unique_id, state))
         
         # Set the appropriate status icon
@@ -776,7 +785,7 @@ class DelugeGTK:
     
         rlist =  [int(unique_id), queue, status_icon, name, size, progress, 
                   message, seeds, seeds_t, peers, peers_t, dl_speed, ul_speed, 
-                  eta, share]
+                  eta, availability, share]
 
         return rlist
     
@@ -1320,6 +1329,9 @@ class DelugeGTK:
     def eta_toggle(self, obj):
         self.eta_column.set_visible(obj.get_active())
     
+    def availability_toggle(self, obj):
+        self.availability_column.set_visible(obj.get_active())
+        
     def share_toggle(self, obj):
         self.share_column.set_visible(obj.get_active())
         
@@ -1333,6 +1345,7 @@ class DelugeGTK:
         self.wtree.get_widget("chk_download").set_active(self.config.get("show_dl"))
         self.wtree.get_widget("chk_upload").set_active(self.config.get("show_ul"))
         self.wtree.get_widget("chk_eta").set_active(self.config.get("show_eta"))
+        self.wtree.get_widget("chk_availability").set_active(self.config.get("show_availability"))
         self.wtree.get_widget("chk_ratio").set_active(self.config.get("show_share"))
         self.wtree.get_widget("vpaned1").set_position(self.config.get("window_height") - self.config.get("window_pane_position"))
     
@@ -1346,6 +1359,7 @@ class DelugeGTK:
         self.config.set("show_dl", self.dl_column.get_visible())
         self.config.set("show_ul", self.ul_column.get_visible())
         self.config.set("show_eta", self.eta_column.get_visible())
+        self.config.set("show_availability", self.availability_column.get_visible())
         self.config.set("show_share", self.share_column.get_visible())
         self.config.set("window_pane_position", self.config.get("window_height") - self.wtree.get_widget("vpaned1").get_position())
     

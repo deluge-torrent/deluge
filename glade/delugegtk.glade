@@ -384,6 +384,15 @@
                               </widget>
                             </child>
                             <child>
+                              <widget class="GtkCheckMenuItem" id="chk_availability">
+                                <property name="visible">True</property>
+                                <property name="label" translatable="yes">Availability</property>
+                                <property name="use_underline">True</property>
+                                <property name="active">True</property>
+                                <signal name="toggled" handler="availability_toggle"/>
+                              </widget>
+                            </child>
+                            <child>
                               <widget class="GtkCheckMenuItem" id="chk_ratio">
                                 <property name="visible">True</property>
                                 <property name="label" translatable="yes">Share Ratio</property>
