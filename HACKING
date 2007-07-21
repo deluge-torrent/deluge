@@ -29,7 +29,10 @@ Here are the highlights:
             y             = 2
             long_variable = 3
 
-Some more recommendations:
+Some more recommendations: 
+    * "Don’t repeat yourself (DRY). Every distinct concept and/or piece of 
+    data should live in one, and only one, place. Redundancy is bad. 
+    Normalization is good." (taken straight from django's Design philosophies)
     * Try to use iterators/generators where applicable. The simplest change from
     range to xrange is also good.
     * In UI and deluge code for consistency we use notion of speed not rate.
