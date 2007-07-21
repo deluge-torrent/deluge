@@ -30,7 +30,7 @@ Here are the highlights:
             long_variable = 3
 
 Some more recommendations: 
-    * "Don’t repeat yourself (DRY). Every distinct concept and/or piece of 
+    * "Don't repeat yourself (DRY). Every distinct concept and/or piece of 
     data should live in one, and only one, place. Redundancy is bad. 
     Normalization is good." (taken straight from django's Design philosophies)
     * Try to use iterators/generators where applicable. The simplest change from
