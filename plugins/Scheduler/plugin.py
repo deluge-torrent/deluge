@@ -271,3 +271,4 @@ class scheduler_select(gtk.DrawingArea):
 	def mouse_leave(self, widget, event):
 		self.clear_infotext()
 		self.hover_point = [-1,-1]
+
