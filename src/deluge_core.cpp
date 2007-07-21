@@ -742,7 +742,7 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
         "state",              s.state,
         "num_peers",          connected_peers,
         "num_seeds",          connected_seeds,
-        "distributed_copies", s.distributed_copies,
+        "distributed_copies", s.distributed_copies == -1.0 ? 0.0 : s.distributed_copies,
         "download_rate",      s.download_rate,
         "upload_rate",        s.upload_rate,
         "total_download",     s.total_download,
