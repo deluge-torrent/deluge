@@ -14,6 +14,8 @@ Deluge 0.5.3 (XX August 2007)
   * RSS plugin inclusion
   * Added ability to queue new torrents above completed ones when
   seeds are set to queue at the bottom
+  * Added availability and piece size display in details, availailability
+  column
   * Added ability to automatically remove torrents when max share ratio is set
   * Show text from clipboard in Add URL dialog only if it looks like an URL
   * Added Torrent Notification plugin
