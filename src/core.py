@@ -489,8 +489,7 @@ class Manager:
                         self.set_user_pause(unique_ID, True, enforce_queue=False)
         
         if self.get_pref('clear_max_ratio_torrents'):
-            for index in range(len(self.state.queue)):
-                unique_ID = self.state.queue[index]
+            for unique_ID in self.state.queue:
                 torrent_state = self.get_core_torrent_state(unique_ID)
                 if torrent_state['is_seed']:
                     ratio = self.calc_ratio(unique_ID, torrent_state)
@@ -499,8 +498,7 @@ class Manager:
                         self.remove_torrent(unique_ID, False, True)
 
         # Pause and resume torrents
-        for index in range(len(self.state.queue)):
-            unique_ID = self.state.queue[index]
+        for index, unique_ID in enumerate(self.state.queue):
             torrent_state = self.get_core_torrent_state(unique_ID)
             if (index < self.get_pref('max_active_torrents') or \
                 self.get_pref('max_active_torrents') == -1) and \
