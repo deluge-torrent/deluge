@@ -78,13 +78,7 @@ class FilesBaseManager(object):
         self.file_view.set_model(self.file_store_sorted)
         self.file_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         
-        try:
-            self.file_view.get_selection().set_select_function(self.file_clicked, 
-                                                               full=True)
-        except TypeError:
-            self.torrent_view.get_selection().set_select_function(self.file_clicked_old)
         self.file_view.connect("button-press-event", self.mouse_clicked)
-        self.right_click = False
 
     def clear_file_store(self):
         self.file_store.clear()
@@ -125,16 +119,6 @@ class FilesBaseManager(object):
             
             self.update_priorities()
 
-    def file_clicked_old(self, path):
-        return self.file_clicked(self.file_view.get_selection(),
-                                 self.file_store, path, False)
-        
-    def file_clicked(self, selection, model, path, is_selected):
-        if is_selected:
-            return not self.right_click
-        
-        return True
-
     def mouse_clicked(self, widget, event):
         if event.button == 3:
             data = self.file_view.get_path_at_pos(int(event.x), int(event.y))
@@ -142,13 +126,14 @@ class FilesBaseManager(object):
                 return True
             
             path, col, cellx, celly = data
-            self.right_click = self.file_view.get_selection().path_is_selected(path)
-            self.file_view.grab_focus()
-            self.file_view.set_cursor(path, col, 0)
+            is_selected = self.file_view.get_selection().path_is_selected(path)
+            if not is_selected:
+                self.file_view.grab_focus()
+                self.file_view.set_cursor(path, col, 0)
             self.file_menu.popup(None, None, None, event.button, event.time)
-            return True
+            
+            return is_selected
         else:
-            self.right_click = False
             return False
         
     def update_priorities(self):

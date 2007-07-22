@@ -522,7 +522,6 @@ class DelugeGTK:
         except TypeError:
             self.torrent_view.get_selection().set_select_function(self.old_t_click)
         self.torrent_view.connect("button-press-event", self.torrent_view_clicked)
-        self.right_click = False
 
     def torrent_model_append(self, unique_id):
         state = self.manager.get_torrent_state(unique_id)
@@ -546,7 +545,7 @@ class DelugeGTK:
     def torrent_clicked(self, selection, model, path, is_selected):
         if is_selected:
             # Torrent is already selected, we don't need to do anything
-            return not self.right_click
+            return True
         
         self.clear_peer_store()
         self.clear_file_store()
@@ -563,9 +562,11 @@ class DelugeGTK:
             if data is None:
                 return True
             path, col, cellx, celly = data
-            self.right_click = self.torrent_view.get_selection().path_is_selected(path)
-            self.torrent_view.grab_focus()
-            self.torrent_view.set_cursor(path, col, 0)
+            is_selected = self.torrent_view.get_selection().path_is_selected(path)
+            if not is_selected:
+                self.torrent_view.grab_focus()
+                self.torrent_view.set_cursor(path, col, 0)
+                
             unique_id = self.torrent_model.get_value(self.torrent_model.get_iter(path), 0)
             # Get the torrent state so we can check if the torrent is paused.
             torrent_state = self.manager.get_torrent_state(unique_id)
@@ -577,11 +578,11 @@ class DelugeGTK:
                 widget.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PAUSE, gtk.ICON_SIZE_MENU))
                 widget.get_children()[0].set_text(_("Pause"))
             
-            self.torrent_menu.popup(None, None, None, event.button, event.time)
+            self.torrent_menu.popup(None, None, None, event.button, 
+                                    event.time)
             
-            return True
+            return is_selected
         else:
-            self.right_click = False
             return False
     
     def start_pause(self, widget):
