@@ -558,9 +558,8 @@ class DelugeGTK:
     
     def torrent_view_clicked(self, widget, event):
         if event.button == 3:
-            x = int(event.x)
-            y = int(event.y)
-            data = self.torrent_view.get_path_at_pos(x, y)
+            data = self.torrent_view.get_path_at_pos(int(event.x), 
+                                                     int(event.y))
             if data is None:
                 return True
             path, col, cellx, celly = data
