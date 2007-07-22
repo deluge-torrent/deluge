@@ -124,7 +124,7 @@ class DelugeGTK:
         
         # Boolean set to true if window is not minimized and is "visible"
         self.update_interface = True
-    
+        
     def connect_signals(self):
         self.wtree.signal_autoconnect({
                     ## File Menu
@@ -525,7 +525,9 @@ class DelugeGTK:
         self.right_click = False
 
     def torrent_model_append(self, unique_id):
-        iter = self.torrent_model.append(self.get_list_from_unique_id(unique_id))
+        state = self.manager.get_torrent_state(unique_id)
+        iter = self.torrent_model.append(
+                   self.get_torrent_state_list(unique_id, state))
         path = self.torrent_model.get_string_from_iter(iter)
         row_ref = gtk.TreeRowReference(self.torrent_model, path)
 
@@ -753,35 +755,41 @@ class DelugeGTK:
                 message = ''
         return message
     
-    # UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, Share
-    def get_list_from_unique_id(self, unique_id):
-        state = self.manager.get_torrent_state(unique_id)
-        
-        queue = int(state['queue_pos']) + 1
+    # UID, Q#, Name, Size, Progress, Message, Seeders, Peers, DL, UL, ETA, 
+    # Share
+    def get_torrent_state_list(self, unique_id, state):
+        queue = state['queue_pos']
         name = state['name']
-        size = long(state['total_wanted'])
+        size = state['total_wanted']
         progress = float(state['progress'] * 100)
         message = self.get_message_from_state(state)
-        seeds = int(state['num_seeds'])
-        seeds_t = int(state['total_seeds'])
-        peers = int(state['num_peers'])
-        peers_t = int(state['total_peers'])
-        dl_speed = int(state['download_rate'])
-        ul_speed = int(state['upload_rate'])
-        try:
-            eta = common.get_eta(size, state["total_wanted_done"], dl_speed)
-        except ZeroDivisionError:
-            eta = 0
         availability = state['distributed_copies']
         share = float(self.calc_share_ratio(unique_id, state))
-        
-        # Set the appropriate status icon
+
+        # setting after initial paused state ensures first change gets updated
         if state["is_paused"]:
+            # Update stats to pause state immediately so interface does not
+            # need to keep updating when paused
+            seeds = seeds_t = peers = peers_t = dl_speed = ul_speed = eta = 0
+            # Set status icon as pause
             status_icon = self.status_icons['paused']
-        elif state["is_seed"]:
-            status_icon = self.status_icons['seeding']
         else:
-            status_icon = self.status_icons['downloading']
+            seeds = int(state['num_seeds'])
+            seeds_t = int(state['total_seeds'])
+            peers = int(state['num_peers'])
+            peers_t = int(state['total_peers'])
+            dl_speed = int(state['download_rate'])
+            ul_speed = int(state['upload_rate'])
+            try:
+                eta = common.get_eta(size, state["total_wanted_done"], 
+                                     dl_speed)
+            except ZeroDivisionError:
+                eta = 0
+            # Set the appropriate status icon
+            if state["is_seed"]:
+                status_icon = self.status_icons['seeding']
+            else:
+                status_icon = self.status_icons['downloading']
     
         rlist =  [int(unique_id), queue, status_icon, name, size, progress, 
                   message, seeds, seeds_t, peers, peers_t, dl_speed, ul_speed, 
@@ -829,6 +837,16 @@ class DelugeGTK:
 
     ## Call via a timer to update the interface
     def update(self):
+        def torrent_model_update(itr, col, new_value):
+            try:
+                # equality check because formatting and cell renderer 
+                # functions called on self.torrent_model.set_value() are 
+                # expensive
+                if self.torrent_model.get_value(itr, col) != new_value:
+                    self.torrent_model.set_value(itr, col, new_value)
+            except:
+                print "ERR", col, type(new_value), new_value
+        
         # We need to apply the queue changes
         self.manager.apply_queue()
         
@@ -875,13 +893,13 @@ class DelugeGTK:
                 return True
             
             while itr is not None:
-                uid = self.torrent_model.get_value(itr, 0)
+                unique_id = self.torrent_model.get_value(itr, 0)
                 
-                if uid in self.manager.removed_unique_ids:
+                if unique_id in self.manager.removed_unique_ids:
                     selected_unique_id = self.get_selected_torrent()
-                    # If currently selected torrent was complete and so removed 
-                    # clear details pane
-                    if selected_unique_id == uid:
+                    # If currently selected torrent was complete and so 
+                    # removed clear details pane
+                    if selected_unique_id == unique_id:
                         self.clear_details_pane()
                     
                     next = self.torrent_model.iter_next(itr)
@@ -891,18 +909,29 @@ class DelugeGTK:
                         return True
                     itr = next
                     
-                    del self.manager.removed_unique_ids[uid]
+                    del self.manager.removed_unique_ids[unique_id]
+                    continue
+                    
+                # self.torrent_model holds previous state of the torrent.
+                # We can check by icon was it paused or not.
+                previosly_paused = self.torrent_model.get_value(itr, 2) == \
+                                       self.status_icons['paused']
+                state = self.manager.get_torrent_state(unique_id)
+                if previosly_paused and state['is_paused']:
+                    # For previosly and still paused torrents update only 
+                    # queue pos and selected files size, all the rest 
+                    # columns are unchanged for them.
+                    for i, new_value in izip((1, 4), 
+                                             (state['queue_pos'], 
+                                              state['total_wanted'])):
+                        torrent_model_update(itr, i, new_value)
                 else:
-                    tlist = self.get_list_from_unique_id(uid)
-                    for i in xrange(len(tlist)):
-                        try:
-                            if self.torrent_model.get_value(itr, i) != \
-                                   tlist[i]:
-                                self.torrent_model.set_value(itr, i, 
-                                                             tlist[i])
-                        except:
-                            print "ERR", i, type(tlist[i]), tlist[i]
-                    itr = self.torrent_model.iter_next(itr)
+                    tlist = self.get_torrent_state_list(unique_id, state)
+                    
+                    for i, new_value in enumerate(tlist):
+                        torrent_model_update(itr, i, new_value)
+                        
+                itr = self.torrent_model.iter_next(itr)
             
             # Disable moving top torrents up or bottom torrents down
             top_torrents_selected = True
@@ -947,7 +976,6 @@ class DelugeGTK:
             else:
                 self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PAUSE)
                 self.wtree.get_widget("toolbutton_pause").set_label(_("Pause"))
-            
         return True
             
     def update_statusbar_and_tray(self):
@@ -1004,8 +1032,35 @@ class DelugeGTK:
         
         if page_num == 0: # Details
             state = self.manager.get_torrent_state(unique_id)
-            self.wtree.get_widget("summary_name").set_text(state['name'])
+
+            # Update selected files size, tracker, tracker status and next 
+            # announce no matter what status of the torrent is
             self.text_summary_total_size.set_text(common.fsize(state["total_wanted"]))
+            self.text_summary_tracker.set_text(str(state["tracker"]))
+            # At this time we still may not receive EVENT_TRACKER so there
+            # could be no tracker_status yet.
+            if "tracker_status" in state:
+                self.text_summary_tracker_status.set_text(state["tracker_status"])
+            self.text_summary_next_announce.set_text(str(state["next_announce"]))
+            
+            just_paused = False
+            if state['is_paused']:
+                # Take a notice about " " space on the end, it's like a sign
+                # to decide was this torrent already paused before we get here
+                # or not. It's to don't add any instance variable for just
+                # this specific check and to keep instance clearer.
+                if self.text_summary_seeders.get_text() != "0 (0) ":
+                    # Selected torrent just paused, zero data now and don't 
+                    # update it anymore on each update()
+                    state['num_seeds'] = state['total_seeds'] = \
+                        state['num_peers'] = state['total_peers'] = \
+                        state['download_rate'] = state['upload_rate'] = 0
+                    just_paused = True
+                else:
+                    # If we already updated paused torrent - do nothing more
+                    return
+            
+            self.wtree.get_widget("summary_name").set_text(state['name'])
             self.text_summary_pieces.set_text('%s x %s' % \
                 (state["num_pieces"], common.fsize(state["piece_length"])))
             self.text_summary_availability.set_text('%.3f' % state["distributed_copies"])
@@ -1016,18 +1071,13 @@ class DelugeGTK:
                     " (" + common.fsize(state["total_upload"]) + ")")
             self.text_summary_download_speed.set_text(common.fspeed(state["download_rate"]))
             self.text_summary_upload_speed.set_text(common.fspeed(state["upload_rate"]))
-            self.text_summary_seeders.set_text(common.fseed(state))
+            self.text_summary_seeders.set_text(common.fseed(state) + 
+                                               (just_paused and " " or ""))
             self.text_summary_peers.set_text(common.fpeer(state))
             self.wtree.get_widget("progressbar").set_fraction(float(state['progress']))
             self.wtree.get_widget("progressbar").set_text(common.fpcnt(state["progress"]))
-            self.text_summary_share_ratio.set_text('%.3f'%(self.calc_share_ratio(unique_id, state)))
-            self.text_summary_tracker.set_text(str(state["tracker"]))
-            # At this time we still may not receive EVENT_TRACKER so there
-            # could be no tracker_status yet.
-            if "tracker_status" in state:
-                self.text_summary_tracker_status.set_text(state["tracker_status"])
-            self.text_summary_next_announce.set_text(str(state["next_announce"]))
             self.text_summary_eta.set_text(common.estimate_eta(state))
+            self.text_summary_share_ratio.set_text('%.3f'%(self.calc_share_ratio(unique_id, state)))
         elif page_num == 1: # Peers
             new_peer_info = self.manager.get_torrent_peer_info(unique_id)
             new_ips = set()

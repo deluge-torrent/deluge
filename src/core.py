@@ -297,9 +297,8 @@ class Manager:
         # Save the uploaded data from this session to the existing upload memory
         for unique_ID in self.unique_IDs.keys():
             # self.get_core_torrent_state purposefully not cached.
-            self.unique_IDs[unique_ID].uploaded_memory = \
-                    self.unique_IDs[unique_ID].uploaded_memory + \
-                    self.get_core_torrent_state(unique_ID, False)['total_upload']
+            self.unique_IDs[unique_ID].uploaded_memory += \
+                self.get_core_torrent_state(unique_ID, False)['total_upload']
 
     # Preference management functions
 
@@ -419,7 +418,7 @@ class Manager:
         ret.update(self.get_supp_torrent_state(unique_ID))
 
         # Get queue position
-        ret['queue_pos'] = self.state.queue.index(unique_ID)
+        ret['queue_pos'] = self.state.queue.index(unique_ID) + 1
 
         return ret
 
@@ -688,10 +687,7 @@ class Manager:
         return self.cached_core_torrent_states.get(unique_ID, cached)
 
     def get_supp_torrent_state(self, unique_ID):
-        try:
-            return self.supp_torrent_states[unique_ID]
-        except KeyError:
-            return {}
+        return self.supp_torrent_states.get(unique_ID, {})
 
     def set_supp_torrent_state_val(self, unique_ID, key, val):
         if unique_ID not in self.supp_torrent_states:
