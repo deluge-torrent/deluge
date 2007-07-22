@@ -34,6 +34,7 @@ from itertools import izip
 
 import gobject
 import gtk
+import gtk.glade
 
 import common
 import dgtk
@@ -180,8 +181,8 @@ class FilesTabManager(FilesBaseManager):
         new_file_info = self.manager.get_torrent_file_info(self.file_unique_id)
         for file in new_file_info:
             iter = self.file_store_dict[file['path']]
-            if self.file_store.get_value(iter, 3) != round(file['progress'], 2):
-                self.file_store.set(iter, 3, file['progress'])
+            dgtk.update_store(self.file_store, iter, (3,), 
+                              (round(file['progress'], 2),))
 
     # From UI to core
     def update_priorities(self):

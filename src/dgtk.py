@@ -31,12 +31,12 @@
 # Similar to common, this contains any common functions
 # related to gtk that are needed by the client
 
+from itertools import izip
+
 import common
-import gettext
 import pygtk
 pygtk.require('2.0')
 import gtk
-import gtk.glade
 
 # This is a dummy tray object to allow Deluge to run on PyGTK < 2.9
 class StupidTray:
@@ -138,3 +138,28 @@ def add_texticon_column(view, header, icon_col, text_col):
     column.add_attribute(render, 'text', text_col)
     view.append_column(column)
     return column
+
+def update_store(store, iter, cols, new_values):
+    """gtk.ListStore update function
+    
+    Arguments:
+    store - gtk.ListStore instance
+    iter - a valid gtk.TreeIter for the row being modified
+    cols - iterable containing indexes of columns to change
+    new_values - iterable with new values for specified columns
+    
+    Example:
+    update_store(file_store, iter, (1, 3), ('test.txt', 9940))
+    
+    """
+
+    old_values = store.get(iter, *cols)
+    
+    for col, old_value, new_value in izip(cols, old_values, new_values):
+        try:
+            # equality check because formatting and cell renderer functions 
+            # called on self.torrent_model.set_value() are expensive
+            if old_value != new_value:
+                store.set_value(iter, col, new_value)
+        except:
+            print "ERR", col, type(new_value), new_value

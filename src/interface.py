@@ -837,16 +837,6 @@ class DelugeGTK:
 
     ## Call via a timer to update the interface
     def update(self):
-        def torrent_model_update(itr, col, new_value):
-            try:
-                # equality check because formatting and cell renderer 
-                # functions called on self.torrent_model.set_value() are 
-                # expensive
-                if self.torrent_model.get_value(itr, col) != new_value:
-                    self.torrent_model.set_value(itr, col, new_value)
-            except:
-                print "ERR", col, type(new_value), new_value
-        
         # We need to apply the queue changes
         self.manager.apply_queue()
         
@@ -921,15 +911,13 @@ class DelugeGTK:
                     # For previosly and still paused torrents update only 
                     # queue pos and selected files size, all the rest 
                     # columns are unchanged for them.
-                    for i, new_value in izip((1, 4), 
-                                             (state['queue_pos'], 
-                                              state['total_wanted'])):
-                        torrent_model_update(itr, i, new_value)
+                    dgtk.update_store(self.torrent_model, itr, (1, 4), 
+                                      (state['queue_pos'], 
+                                       state['total_wanted']))
                 else:
                     tlist = self.get_torrent_state_list(unique_id, state)
-                    
-                    for i, new_value in enumerate(tlist):
-                        torrent_model_update(itr, i, new_value)
+                    dgtk.update_store(self.torrent_model, itr, 
+                                      xrange(len(tlist)), tlist)
                         
                 itr = self.torrent_model.iter_next(itr)
             
@@ -1085,11 +1073,12 @@ class DelugeGTK:
             for peer in new_peer_info:
                 # Update peers already in peers list
                 if peer['ip'] in self.peer_store_dict:
-                    self.peer_store.set(self.peer_store_dict[peer['ip']],
-                                        2, unicode(peer['client'], "latin-1"),
-                                        3, round(peer["peer_has"], 2),
-                                        4, peer["download_speed"],
-                                        5, peer["upload_speed"])
+                    iter = self.peer_store_dict[peer['ip']]
+
+                    dgtk.update_store(self.peer_store, iter, (3, 4, 5),
+                                      (round(peer["peer_has"], 2),
+                                       peer["download_speed"],
+                                       peer["upload_speed"]))
                 
                 if peer['client'] != "":
                     new_ips.add(peer['ip'])
