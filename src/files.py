@@ -121,8 +121,9 @@ class FilesBaseManager(object):
     
     def mouse_clicked(self, widget, event):
         if event.button == 3:
+            self.file_view.get_selection().get_selected_rows()[1]
             self.file_menu.popup(None, None, None, event.button, event.time)
-            return True
+            return False
         else:
             return False
         
