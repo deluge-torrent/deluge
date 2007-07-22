@@ -1,5 +1,5 @@
 #
-# torrent.py
+# signals.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
@@ -31,10 +31,36 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import deluge.libtorrent as lt
+import logging
 
-class Torrent:
-    def __init__(self, handle):
-        # Set the libtorrent handle
-        self.handle = handle
-       
+try:
+    import dbus, dbus.service
+    dbus_version = getattr(dbus, "version", (0,0,0))
+    if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
+        import dbus.glib
+    elif dbus_version >= (0,80,0):
+        from dbus.mainloop.glib import DBusGMainLoop
+        DBusGMainLoop(set_as_default=True)
+    else:
+        pass
+except: dbus_imported = False
+else: dbus_imported = True
+
+import pygtk
+pygtk.require('2.0')
+import gtk, gtk.glade
+
+import functions
+from deluge.config import Config
+
+# Get the logger
+log = logging.getLogger("deluge")
+
+class Signals:
+    def __init__(self):
+        core = functions.get_core()
+        core.connect_to_signal("torrent_added", self.torrent_added_signal)
+    
+    def torrent_added_signal(self, torrentid):
+        log.debug("torrent_added signal received..")
+        log.debug("torrent id: %s", torrentid)

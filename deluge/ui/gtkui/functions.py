@@ -32,6 +32,7 @@
 #    statement from all source files in the program, then also delete it here.
 
 import logging
+import os.path
 
 try:
     import dbus, dbus.service
@@ -71,7 +72,16 @@ def add_torrent_file():
     """Opens a file chooser dialog and adds any files selected to the core"""
     at_dialog = AddTorrentDialog()
     torrent_files = at_dialog.run()
+    if torrent_files is None:
+        log.debug("No torrent files selected..")
+        return
     log.debug("Attempting to add torrent files: %s", torrent_files)
     core = get_core()
     for torrent_file in torrent_files:
-        core.add_torrent_file(torrent_file)
+        # Open the .torrent file for reading because we need to send it's
+        # contents to the core.
+        f = open(torrent_file, "rb")
+        # Get the filename because the core doesn't want a path.
+        (path, filename) = os.path.split(torrent_file)
+        core.add_torrent_file(filename, f.read())
+        f.close()

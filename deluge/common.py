@@ -59,6 +59,10 @@ def get_default_download_dir():
     """Returns the default download directory"""
     return os.environ.get("HOME")
 
+def get_default_torrent_dir():
+    """Returns the default torrent directory"""
+    return os.path.join(get_config_dir(), "torrentfiles")
+
 ## Formatting text functions
 
 def estimate_eta(total_size, total_done, download_rate):

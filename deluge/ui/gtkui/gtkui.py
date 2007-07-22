@@ -40,6 +40,7 @@ import gettext
 import pkg_resources
 
 from mainwindow import MainWindow
+from signals import Signals
 
 # Get the logger
 log = logging.getLogger("deluge")
@@ -59,6 +60,9 @@ class GtkUI:
         
         # Initialize the main window
         self.main_window = MainWindow()
+        
+        # Start the signal receiver
+        self.signal_receiver = Signals()
         
         # Show the main window
         self.main_window.show()

@@ -32,6 +32,7 @@
 #    statement from all source files in the program, then also delete it here.
 
 import logging
+import os.path
 
 try:
 	import dbus, dbus.service
@@ -57,18 +58,27 @@ from deluge.core.torrent import Torrent
 log = logging.getLogger("deluge")
 
 DEFAULT_PREFS = {
-    "listen_ports": [6881, 6891],
+    "compact_allocation": True,
     "download_location": deluge.common.get_default_download_dir(),
-    "compact_allocation": True
+    "listen_ports": [6881, 6891],
+    "torrentfiles_location": deluge.common.get_default_torrent_dir()
 }
 
 class Core(dbus.service.Object):
     def __init__(self, path="/org/deluge_torrent/Core"):
         log.debug("Core init..")
+
+        # A dictionary containing hash keys to Torrent objects
+        self.torrents = {}
+
+        # Setup DBUS
         bus_name = dbus.service.BusName("org.deluge_torrent.Deluge", 
                                                         bus=dbus.SessionBus())
         dbus.service.Object.__init__(self, bus_name, path)
+
+        # Get config
         self.config = Config("core.conf", DEFAULT_PREFS)
+
         # Setup the libtorrent session and listen on the configured ports
         log.debug("Starting libtorrent session..")
         self.session = lt.session()
@@ -81,20 +91,52 @@ class Core(dbus.service.Object):
         self.loop = gobject.MainLoop()
         self.loop.run()
 
-
     # Exported Methods
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
-                                    in_signature="s", out_signature="")
-    def add_torrent_file(self, _filename):
+                                    in_signature="say", out_signature="")
+    def add_torrent_file(self, filename, filedump):
         """Adds a torrent file to the libtorrent session
+            This requires the torrents filename and a dump of it's content
         """
-        log.info("Adding torrent: %s", _filename)
-        torrent = Torrent(filename=_filename)
-        self.session.add_torrent(torrent.torrent_info, 
-                                    self.config["download_location"], 
+        log.info("Adding torrent: %s", filename)
+
+        # Convert the filedump data array into a string of bytes
+        filedump = "".join(chr(b) for b in filedump)
+        
+        # Bdecode the filedata sent from the UI
+        torrent_filedump = lt.bdecode(filedump)
+        try:
+            handle = self.session.add_torrent(lt.torrent_info(torrent_filedump), 
+                                    self.config["download_location"],
                                     self.config["compact_allocation"])
+        except RuntimeError:
+            log.warning("Error adding torrent") 
+            
+        if not handle or not handle.is_valid():
+            # The torrent was not added to the session
+            # Emit the torrent_add_failed signal
+            self.torrent_add_failed()
+            return
+        
+        # Write the .torrent file to the torrent directory
+        log.debug("Attemping to save torrent file: %s", filename)
+        try:
+            f = open(os.path.join(self.config["torrentfiles_location"], 
+                    filename),
+                    "wb")
+            f.write(filedump)
+            f.close()
+        except IOError:
+            log.warning("Unable to save torrent file: %s", filename)
+        
+        # Create a Torrent object
+        torrent = Torrent(handle)
+
+        # Store the Torrent object in the dictionary
+        self.torrents[handle.info_hash()] = torrent
+
         # Emit the torrent_added signal
-        self.torrent_added()
+        self.torrent_added(str(handle.info_hash()))
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
                                     in_signature="s", out_signature="")
@@ -115,7 +157,13 @@ class Core(dbus.service.Object):
         
     # Signals
     @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
-                                             signature="")
-    def torrent_added(self):
+                                             signature="s")
+    def torrent_added(self, torrentid):
         """Emitted when a new torrent is added to the core"""
         log.debug("torrent_added signal emitted")
+
+    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
+                                             signature="")
+    def torrent_add_failed(self):
+        """Emitted when a new torrent fails addition to the session"""
+        log.debug("torrent_add_failed signal emitted")
