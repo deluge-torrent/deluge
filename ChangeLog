@@ -2,6 +2,8 @@ Deluge 0.5.3 (XX August 2007)
 
   * Added ChangeLog
   * Ticket #53 - Added files priorities within torrent
+  * Picking a file to not download now checks for compact_mode status to prevent
+  all sorts of problems such as downloading pieces into the wrong file
   * Ticket #111 - Remember directory of last added torrent
   * Ticket #232 - Added Move completed downloads to feature
   * Ticket #245 - Added ability to select torrent files before starting
