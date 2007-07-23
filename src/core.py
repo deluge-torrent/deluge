@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # core.py
 #
 # Copyright (C) 2006 Alon Zakai ('Kripken') <kripkensteiner@gmail.com>

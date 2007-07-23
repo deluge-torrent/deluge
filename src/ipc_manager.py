@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # ipc_manager.py
 #
 # Copyright (C) Zach Tibbitts 2006 <zach@collegegeek.org>
