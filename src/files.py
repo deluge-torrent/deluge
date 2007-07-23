@@ -38,11 +38,9 @@ import gtk.glade
 
 import common
 import dgtk
-import pref
 
 class FilesBaseManager(object):
     def __init__(self, file_store):
-        self.config = pref.Preferences()
         file_glade = gtk.glade.XML(common.get_glade_file("file_tab_menu.glade"), 
                                    domain='deluge')
         self.file_menu = file_glade.get_widget("file_tab_menu")
@@ -101,7 +99,10 @@ class FilesBaseManager(object):
         msgBox.destroy()
     
     def priority_clicked(self, widget):
-        if self.config.get("use_compact_storage"):
+        import deluge_core
+        state = deluge_core.get_torrent_state(self.file_unique_id)
+        print state["compact_mode"]
+        if state["compact_mode"]:
             self.compact_warning(widget)
         else:
             widget_name = widget.get_name()
