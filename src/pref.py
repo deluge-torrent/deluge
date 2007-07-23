@@ -70,7 +70,7 @@ DEFAULT_PREFS = {
     "max_upload_speed_bps" : -1,
     "max_uploads" : 2,
     "pref_rc4" : True,
-    "prioritize_first_last_pieces" : True,
+    "prioritize_first_last_pieces" : False,
     "proxy_type" : common.ProxyType.none,
     "peer_proxy" : False,
     "tracker_proxy" : False,
