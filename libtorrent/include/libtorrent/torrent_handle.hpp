@@ -101,6 +101,11 @@ namespace libtorrent
 			, num_seeds(0)
 			, distributed_copies(0.f)
 			, block_size(0)
+			, num_uploads(0)
+			, num_connections(0)
+			, uploads_limit(0)
+			, connections_limit(0)
+			, compact_mode(false)
 		{}
 
 		enum state_t
@@ -202,6 +207,15 @@ namespace libtorrent
 		// the number of bytes each piece request asks for
 		// and each bit in the download queue bitfield represents
 		int block_size;
+
+		int num_uploads;
+		int num_connections;
+		int uploads_limit;
+		int connections_limit;
+
+		// true if the torrent is saved in compact mode
+		// false if it is saved in full allocation mode
+		bool compact_mode;
 	};
 
 	struct TORRENT_EXPORT block_info
@@ -210,8 +224,16 @@ namespace libtorrent
 		{ none, requested, writing, finished };
 
 		tcp::endpoint peer;
+		// number of bytes downloaded in this block
+		unsigned bytes_progress:16;
+		// the total number of bytes in this block
+		unsigned block_size:16;
+		// the state this block is in (see block_state_t)
 		unsigned state:2;
-		unsigned num_downloads:14;
+		// the number of peers that has requested this block
+		// typically 0 or 1. If > 1, this block is in
+		// end game mode
+		unsigned num_peers:14;
 	};
 
 	struct TORRENT_EXPORT partial_piece_info

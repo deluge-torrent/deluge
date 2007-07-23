@@ -42,7 +42,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #pragma warning(push, 1)
 #endif
 
-#include <boost/optional.hpp>
 #include <boost/static_assert.hpp>
 
 #ifdef _MSC_VER
@@ -90,12 +89,15 @@ namespace libtorrent
 
 		struct block_info
 		{
-			block_info(): num_downloads(0), state(state_none) {}
+			block_info(): peer(0), num_peers(0), state(state_none) {}
 			// the peer this block was requested or
-			// downloaded from
-			tcp::endpoint peer;
-			// the number of times this block has been downloaded
-			unsigned num_downloads:14;
+			// downloaded from. This is a pointer to
+			// a policy::peer object
+			void* peer;
+			// the number of peers that has this block in their
+			// download or request queues
+			unsigned num_peers:14;
+			// the state of this block
 			enum { state_none, state_requested, state_writing, state_finished };
 			unsigned state:2;
 		};
@@ -185,12 +187,17 @@ namespace libtorrent
 		// decides to download a piece, it must mark it as being downloaded
 		// itself, by using the mark_as_downloading() member function.
 		// THIS IS DONE BY THE peer_connection::send_request() MEMBER FUNCTION!
-		// The last argument is the tcp::endpoint of the peer that we'll download
-		// from.
+		// The last argument is the policy::peer pointer for the peer that
+		// we'll download from.
 		void pick_pieces(const std::vector<bool>& pieces
 			, std::vector<piece_block>& interesting_blocks
 			, int num_pieces, bool prefer_whole_pieces
-			, tcp::endpoint peer, piece_state_t speed) const;
+			, void* peer, piece_state_t speed
+			, bool rarest_first) const;
+
+		// clears the peer pointer in all downloading pieces with this
+		// peer pointer
+		void clear_peer(void* peer);
 
 		// returns true if any client is currently downloading this
 		// piece-block, or if it's queued for downloading by some client
@@ -202,10 +209,11 @@ namespace libtorrent
 		bool is_finished(piece_block block) const;
 
 		// marks this piece-block as queued for downloading
-		void mark_as_downloading(piece_block block, tcp::endpoint const& peer
+		void mark_as_downloading(piece_block block, void* peer
 			, piece_state_t s);
-		void mark_as_writing(piece_block block, tcp::endpoint const& peer);
-		void mark_as_finished(piece_block block, tcp::endpoint const& peer);
+		void mark_as_writing(piece_block block, void* peer);
+		void mark_as_finished(piece_block block, void* peer);
+		int num_peers(piece_block block) const;
 
 		// if a piece had a hash-failure, it must be restored and
 		// made available for redownloading
@@ -224,12 +232,12 @@ namespace libtorrent
 		// the hash-check yet
 		int unverified_blocks() const;
 
-		void get_downloaders(std::vector<tcp::endpoint>& d, int index) const;
+		void get_downloaders(std::vector<void*>& d, int index) const;
 
 		std::vector<downloading_piece> const& get_download_queue() const
 		{ return m_downloads; }
 
-		boost::optional<tcp::endpoint> get_downloader(piece_block block) const;
+		void* get_downloader(piece_block block) const;
 
 		// the number of filtered pieces we don't have
 		int num_filtered() const { return m_num_filtered; }
@@ -271,7 +279,8 @@ namespace libtorrent
 				assert(index_ >= 0);
 			}
 
-			// selects which vector to look in
+			// the number of peers that has this piece
+			// (availability)
 			unsigned peer_count : 10;
 			// is 1 if the piece is marked as being downloaded
 			unsigned downloading : 1;
@@ -342,13 +351,15 @@ namespace libtorrent
 
 		void add(int index);
 		void move(int vec_index, int elem_index);
+		void sort_piece(std::vector<downloading_piece>::iterator dp);
 
 		int add_interesting_blocks(const std::vector<int>& piece_list
 			, const std::vector<bool>& pieces
 			, std::vector<piece_block>& interesting_blocks
 			, std::vector<piece_block>& backup_blocks
 			, int num_blocks, bool prefer_whole_pieces
-			, tcp::endpoint peer, piece_state_t speed) const;
+			, void* peer, piece_state_t speed
+			, bool ignore_downloading_pieces) const;
 
 		downloading_piece& add_download_piece();
 		void erase_download_piece(std::vector<downloading_piece>::iterator i);

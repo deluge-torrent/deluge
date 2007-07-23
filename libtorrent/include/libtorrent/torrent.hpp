@@ -262,6 +262,8 @@ namespace libtorrent
 		// decreased in the piece_picker
 		void remove_peer(peer_connection* p);
 
+		void cancel_block(piece_block block);
+
 		bool want_more_peers() const;
 		bool try_connect_peer();
 
@@ -271,6 +273,18 @@ namespace libtorrent
 			if (i == m_connections.end()) return 0;
 			return i->second;
 		}
+
+#ifndef NDEBUG
+		void connection_for(address const& a, std::vector<peer_connection*>& pc)
+		{
+			for (peer_iterator i = m_connections.begin()
+				, end(m_connections.end()); i != end; ++i)
+			{
+				if (i->first.address() == a) pc.push_back(i->second);
+			}
+			return;
+		}
+#endif
 
 		// the number of peers that belong to this torrent
 		int num_peers() const { return (int)m_connections.size(); }

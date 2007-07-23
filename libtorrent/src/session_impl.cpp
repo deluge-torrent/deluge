@@ -75,6 +75,22 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/aux_/session_impl.hpp"
 #include "libtorrent/kademlia/dht_tracker.hpp"
 
+#ifndef TORRENT_DISABLE_ENCRYPTION
+
+#include <openssl/crypto.h>
+
+namespace
+{
+	// openssl requires this to clean up internal
+	// structures it allocates
+	struct openssl_cleanup
+	{
+		~openssl_cleanup() { CRYPTO_cleanup_all_ex_data(); }
+	} openssl_global_destructor;
+}
+
+#endif
+
 using boost::shared_ptr;
 using boost::weak_ptr;
 using boost::bind;
@@ -1584,6 +1600,8 @@ namespace detail
 
 		boost::shared_ptr<torrent> t = find_torrent(ih).lock();
 		if (!t) return;
+		// don't add peers from lsd to private torrents
+		if (t->torrent_file().priv()) return;
 
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
 		(*m_logger) << time_now_string()
