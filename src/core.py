@@ -188,7 +188,7 @@ class Manager:
                           InvalidTorrentError)
 
         # Start up the core
-        assert(len(version) == 5)
+        assert(len(version) == 4)
         deluge_core.init(client_ID,
                              int(version[0]),
                              int(version[1]),
