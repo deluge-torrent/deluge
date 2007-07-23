@@ -1,4 +1,5 @@
-# dcommon.py
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # Copyright (C) Zach Tibbitts 2006 <zach@collegegeek.org>
 #
@@ -119,22 +120,15 @@ def get_pixmap(fname):
     return os.path.join(PIXMAP_DIR, fname)
     
 def open_url_in_browser(link):
-    import webbrowser
-    
-    # why this method with causes up to 1 minutes delays when opening url in 
-    # deluge ? when you run it from console - works instantly. maybe it has
-    # something to do with libtorrent's threads or with boost mt/nomt ?
-    
-    #import threading
-    #class LaunchBrowser(threading.Thread):
-    #    def run(self):
-    #        try:    
-    #            webbrowser.open(link)
-    #        except webbrowser.Error:
-    #            print _("Error: no webbrowser found")
-    #LaunchBrowser().start()
-    
-    webbrowser.open(link)
+    import platform
+    if platform.system() == "Windows":
+        import webbrowser
+        webbrowser.open(link)
+    else:
+        import os, sys
+        version = sys.version[:3]
+        file = '/usr/lib/python' + version + '/site-packages/deluge/browser.py'
+        os.spawnlp(os.P_NOWAIT, 'python', 'python', file, link)
 
 def is_url(url):
     import re
