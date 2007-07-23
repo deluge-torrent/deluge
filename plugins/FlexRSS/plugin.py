@@ -60,7 +60,8 @@ class plugin_FlexRSS_Config:
 				   "type"     : type,
 				   "patterns" : patterns,
 				   "feeds"    : feeds,
-				   "history"  : {} }
+				   "history"  : {},
+				   "path"     : None}
 
 		self.filters.append(filter)
 
@@ -197,9 +198,9 @@ class plugin_FlexRSS:
 
 	def configure_cb_feed_new(self, args):
 		feed = { "name"     : 'Untitled',
-			 "url"      : 'http://',
-			 "interval" : 900,
-			 "id"       : 0 }
+				 "url"      : 'http://',
+				 "interval" : 900,
+				 "id"       : 0 }
 
 		feed["id"] = self.config.addFeed(feed["name"], feed["url"], feed["interval"])
 
@@ -238,6 +239,8 @@ class plugin_FlexRSS:
 				return
 
 			id = model.get_value(iter, 0)
+			if id == 0:
+				id = model.get_value(model.iter_parent(iter), 0)
 		else:
 			model = self.glade.get_widget("FlexRSS_Feeds").get_model()
 			iter = model.get_iter_first()
@@ -273,6 +276,9 @@ class plugin_FlexRSS:
 				return
 
 			id = model.get_value(iter, 0)
+			if id == 0:
+				iter = model.iter_parent(iter)
+				id = model.get_value(iter, 0)
 		else:
 			model = self.glade.get_widget("FlexRSS_Feeds").get_model()
 			iter = model.iter_first()
@@ -302,6 +308,17 @@ class plugin_FlexRSS:
 							   'updated' : 0,
 							   'data'    : [] }
 
+	def escape_regex_special_chars(self, pattern):
+		escape_chars = '[]()^$\\.?*+|'
+		out = []
+		for c in pattern:
+			try:
+				escape_chars.index(c)
+				out.append('\\' + c)
+			except:
+				out.append(c)
+		return ''.join(out)
+
 	def configure_cb_filter_new(self, arg, test_pattern=None):
 		filter = { "name"     : "Untitled",
 				   "type"     : "Generic",
@@ -316,32 +333,23 @@ class plugin_FlexRSS:
 			trans_table = string.maketrans(' ', '.')
 
 			# TV Show
-			exp = re.compile('(.*).([0-9]+)x([0-9]+)', re.IGNORECASE)
+			exp = re.compile(r'(.*?)S([0-9]+)E([0-9]+)', re.IGNORECASE)
 			match = exp.match(test_pattern)
 			if match:
-				pattern = match.group(1).lower().translate(trans_table) + '.%sx%e'
+				pattern = self.escape_regex_special_chars(match.group(1)).lower().translate(trans_table) + 's%se%e'
 				filter['patterns'][0] = (pattern, 'Title')
 				filter['name'] = match.group(1)
 				filter['type'] = 'TV Show'
 
 			if not match:
-				exp = re.compile('(.*).S([0-9]+)E([0-9]+)', re.IGNORECASE)
-				match = exp.match(test_pattern)
-				if match:
-					pattern = match.group(1).lower().translate(trans_table) + '.S%sE%e'
-					filter['patterns'][0] = (pattern, 'Title')
-					filter['name'] = match.group(1)
-					filter['type'] = 'TV Show'
-
-			if not match:
-				exp = re.compile('(.*).([0-9]{4}).([0-9]{1,2}).([0-9]{1,2})', re.IGNORECASE)
+				exp = re.compile(r'(.*?)([0-9]{4}).([0-9]{1,2}).([0-9]{1,2})', re.IGNORECASE)
 				match = exp.match(test_pattern)
 				if match:
 					pattern = None
 					if ((int(match.group(3)) <= 12) and (int(match.group(4)) <= 31)):
-						pattern = match.group(1).lower().translate(trans_table) + '.%Y.%m.%d'
+						pattern = self.escape_regex_special_chars(match.group(1)).lower().translate(trans_table) + '%Y.%m.%d'
 					elif ((int(match.group(3)) <= 31) and (int(match.group(4)) <= 12)):
-						pattern = match.group(1).lower().translate(trans_table) + '.%Y.%d.%m'
+						pattern = self.escape_regex_special_chars(match.group(1)).lower().translate(trans_table) + '%Y.%d.%m'
 
 					if pattern:
 						filter['patterns'][0] = (pattern, 'Title')
@@ -351,10 +359,19 @@ class plugin_FlexRSS:
 						match = None
 
 			if not match:
-				exp = re.compile('(.*).([0-9]+)', re.IGNORECASE)
+				exp = re.compile(r'(.*?)([0-9]+)([x\.\-_]{1})([0-9]+)', re.IGNORECASE)
 				match = exp.match(test_pattern)
 				if match:
-					pattern = match.group(1).lower().translate(trans_table) + '.%e'
+					pattern = self.escape_regex_special_chars(match.group(1)).lower().translate(trans_table) + '%s' + self.escape_regex_special_chars(match.group(3)) + '%e'
+					filter['patterns'][0] = (pattern, 'Title')
+					filter['name'] = match.group(1)
+					filter['type'] = 'TV Show'
+
+			if not match:
+				exp = re.compile(r'(.*?)([0-9]+)$', re.IGNORECASE)
+				match = exp.match(test_pattern)
+				if match:
+					pattern = self.escape_regex_special_chars(match.group(1)).lower().translate(trans_table) + '%e'
 					filter['patterns'][0] = (pattern, 'Title')
 					filter['name'] = match.group(1)
 					filter['type'] = 'TV Show'
@@ -376,6 +393,8 @@ class plugin_FlexRSS:
 		if not filter:
 			print 'Error: could not find filter #' + str(model.get_value(iter, 0))
 			return
+
+		self.configure_ui_reset_filter()
 
 		self.glade.get_widget('FlexRSS_Filters_Name').set_text(filter['name'])
 
@@ -401,11 +420,12 @@ class plugin_FlexRSS:
 						selection.select_iter(iter)
 					iter = feed_model.iter_next(iter)
 
-		filter_patterns = self.glade.get_widget('FlexRSS_Filter_Patterns_List')
-		for child in filter_patterns.get_children():
-			child.destroy()
 		for pattern in filter['patterns']:
 			self.configure_ui_add_pattern(pattern)
+
+		if filter['path'] != None:
+			self.glade.get_widget('FlexRSS_Filter_Output_Location').select_filename(filter['path'])
+			self.glade.get_widget('FlexRSS_Filter_Output_Type_Custom').set_active(True)
 
 	def configure_cb_filter_save(self, arg):
 		# Which feed is selected?
@@ -453,6 +473,13 @@ class plugin_FlexRSS:
 			patterns.append((pattern, type))
 		self.config.setFilter(id, 'patterns', patterns)
 
+		if self.glade.get_widget('FlexRSS_Filter_Output_Type_Custom').get_active():
+			path = self.glade.get_widget('FlexRSS_Filter_Output_Location').get_filename()
+		else:
+			path = None
+
+		self.config.setFilter(id, 'path', path)
+
 		self.write_config()
 
 	def configure_cb_remove_pattern(self, arg):
@@ -499,6 +526,8 @@ class plugin_FlexRSS:
 		if not filter:
 			print 'No filter to add'
 			return None
+
+		self.configure_ui_reset_filter()
 
 		model = self.glade.get_widget("FlexRSS_Filters_List").get_model()
 		iter = model.append(None, (filter['id'], filter['name']))
@@ -591,8 +620,7 @@ class plugin_FlexRSS:
 		# Remove from UI
 		model.remove(iter)
 
-		# Fuck it--just leave the crap in the widgets. Todo: fix it so
-		# the save button will create a new filter if it must.
+		self.configure_ui_reset_filter()
 
 	def configure_cb_feed_refresh(self, caller, id=None):
 		if not id:
@@ -644,6 +672,42 @@ class plugin_FlexRSS:
 		popup.popup(None, None, None, event.button, event.time)
 		popup.show_all()
 
+	def configure_cb_output_set(self, chooser):
+		self.glade.get_widget('FlexRSS_Filter_Output_Type_Custom').set_active(True)
+
+	def configure_ui_reset_filter(self):
+		# Just resets the crap in the filter tab to defaults.
+		self.glade.get_widget('FlexRSS_Filters_Name').set_text('')
+		self.glade.get_widget('FlexRSS_Filters_Type').set_active(0)
+		self.glade.get_widget('FlexRSS_Filters_Feed').get_selection().unselect_all()
+		for filter in self.glade.get_widget('FlexRSS_Filter_Patterns_List').get_children():
+			filter.destroy()
+		self.glade.get_widget('FlexRSS_Filters_Test_Results_TVShow').hide()
+		self.glade.get_widget('FlexRSS_Filters_Test_Results_TVShow_Dated').hide()
+		file_chooser = self.glade.get_widget('FlexRSS_Filter_Output_Location')
+		file_chooser.select_filename(self.interface.config.get('default_download_path'))
+		self.glade.get_widget('FlexRSS_Filter_Output_Type_Default').set_active(True)
+
+	def strcasecmp(self, s1, s2):
+		try:
+			t1 = s1.lower()
+			t2 = s2.lower()
+
+			if s1 < s2:
+				return -1
+			elif s1 > s2:
+				return 1
+		except:
+			pass
+
+		return 0
+
+	def configure_ui_sort_cmp(self, model, iter1, iter2, user_data=None):
+		if (model.get_value(iter1, 0) == 0) or (model.get_value(iter2, 0) == 0):
+			return 0
+
+		return self.strcasecmp(model.get_value(iter1, 1), model.get_value(iter2, 1))
+
 	def configure(self):
 		if self.glade: # Dialog already running
 			return
@@ -658,6 +722,8 @@ class plugin_FlexRSS:
 		filters_feeds_view = self.glade.get_widget("FlexRSS_Filters_Feed")
 		feeds_view.set_model(feeds_model)
 		filters_feeds_view.set_model(feeds_model)
+		feeds_model.set_sort_func(1, self.configure_ui_sort_cmp)
+		feeds_model.set_sort_column_id(1, gtk.SORT_ASCENDING)
 
 		# Setup columns for feeds tab
 		renderer_name = gtk.CellRendererText()
@@ -692,6 +758,8 @@ class plugin_FlexRSS:
 		filters_model = gtk.TreeStore(gobject.TYPE_INT, gobject.TYPE_STRING)
 		filters_view = self.glade.get_widget("FlexRSS_Filters_List")
 		filters_view.set_model(filters_model)
+		feeds_model.set_sort_func(1, self.configure_ui_sort_cmp)
+		filters_model.set_sort_column_id(1, gtk.SORT_ASCENDING)
 
 		# Setup columns for filters list
 		renderer_name = gtk.CellRendererText()
@@ -716,11 +784,15 @@ class plugin_FlexRSS:
 				"on_FlexRSS_Feeds_button_press_event" : self.configure_cb_feed_popup,
 
 			    # Filters tab
-			    "on_FlexRSS_Filters_Add_pressed"       : self.configure_cb_filter_new,
-			    "on_FlexRSS_Action_Save_pressed"       : self.configure_cb_filter_save,
-			    "on_FlexRSS_Filter_Patern_Add_pressed" : self.configure_cb_add_pattern,
-				"on_FlexRSS_Filters_Test_Pattern"      : self.configure_cb_test_filter,
-				"on_FlexRSS_Filters_Delete_pressed"    : self.configure_cb_delete_filter }
+			    "on_FlexRSS_Filters_Add_pressed"            : self.configure_cb_filter_new,
+			    "on_FlexRSS_Action_Save_pressed"            : self.configure_cb_filter_save,
+			    "on_FlexRSS_Filter_Patern_Add_pressed"      : self.configure_cb_add_pattern,
+				"on_FlexRSS_Filters_Test_Pattern"           : self.configure_cb_test_filter,
+				"on_FlexRSS_Filters_Delete_pressed"         : self.configure_cb_delete_filter }
+		if self.interface.__dict__.has_key('interactive_add_torrent_path'):
+			acitons["on_FlexRSS_Filter_Output_Location_changed"] = self.configure_cb_output_set
+		else:
+			self.glade.get_widget('FlexRSS_Filter_Output').hide()
 		self.glade.signal_autoconnect(actions)
 
 		self.glade.get_widget("FlexRSS_MainWindow").show()
@@ -759,8 +831,8 @@ class plugin_FlexRSS:
 		return out
 
 	def replace_tv_show_patterns(self, input):
-		patterns = [('%s', '(?P<series>[0-9]+)'),
-					('%e', '(?P<episode>[0-9]+)')]
+		patterns = [('%s', '(?P<s>[0-9]+)'),
+					('%e', '(?P<e>[0-9]+)')]
 
 		out = input
 		for p in patterns:
@@ -789,19 +861,16 @@ class plugin_FlexRSS:
 
 		match = exp.match(subject)
 		if match:
-			print 'Match: ' + subject
-			print '       ' + pattern
+# 			print 'Match: ' + subject
+# 			print '       ' + pattern
 			if type == 'TV Show':
 				try:
-					series = int(match.group('series'))
+					series = int(match.group('s'))
 				except:
-					try:
-						series = int(match.group('season'))
-					except:
-						series = 0
+					series = 0
 
 				try:
-					episode = int(match.group('episode'))
+					episode = int(match.group('e'))
 				except:
 					episode = 0
 
@@ -845,7 +914,6 @@ class plugin_FlexRSS:
 
 		feed = self.config.getFeed(id)
 
-		print 'Updating feed #' + str(id)
 		parsed = feedparser.parse(feed['url'])
 		if (not parsed) or (not parsed.entries):
 			print 'Unable to parse feed: ' + feed['url']
@@ -888,7 +956,19 @@ class plugin_FlexRSS:
 								self.config.addHistory(filter['id'], filter['type'], match)
 								self.write_config()
 								print 'Downloading'
-								self.interface.interactive_add_torrent_url(entry.links[0]['href'])
+								if self.interface.__dict__.has_key('interactive_add_torrent_path'):
+									path = filter['path']
+									if path is None:
+										path = self.interface.config.get('default_download_path')
+
+									filename = common.fetch_url(url)
+									if filename:
+										self.interactive_add_torrent_path(filename, path)
+
+								if self.interface.__dict__.has_key('interactive_add_torrent_url'):
+									self.interface.interactive_add_torrent_url(entry.links[0]['href'])
+								else:
+									self.interface.external_add_url(entry.links[0]['href'])
 							else:
 								print 'Skipping (history)'
 
@@ -903,6 +983,7 @@ class plugin_FlexRSS:
 					this_feed = feeds_model.append(None, (feed['id'], feed['name'], feed['url']))
 					for item in self.feeds[feed['id']]['data']:
 						feeds_model.append(this_feed, (0, item['title'], item['link']))
+
 	def update(self):
 		import time
 

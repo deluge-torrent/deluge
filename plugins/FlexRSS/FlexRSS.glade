@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.2.0 on Sat Jul 21 16:48:25 2007 by daddy-->
+<!--Generated with glade3 3.3.1 on Sun Jul 22 16:15:58 2007 by daddy-->
 <glade-interface>
   <widget class="GtkWindow" id="FlexRSS_MainWindow">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -45,8 +45,9 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="label">gtk-new</property>
+                    <property name="label" translatable="yes">gtk-new</property>
                     <property name="use_stock">True</property>
+                    <property name="response_id">0</property>
                     <signal name="pressed" handler="on_FlexRSS_Feeds_New_pressed"/>
                   </widget>
                 </child>
@@ -56,8 +57,9 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="label">gtk-save</property>
+                    <property name="label" translatable="yes">gtk-save</property>
                     <property name="use_stock">True</property>
+                    <property name="response_id">0</property>
                     <signal name="pressed" handler="on_FlexRSS_Feeds_Save_pressed"/>
                   </widget>
                   <packing>
@@ -70,8 +72,9 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="label">gtk-delete</property>
+                    <property name="label" translatable="yes">gtk-delete</property>
                     <property name="use_stock">True</property>
+                    <property name="response_id">0</property>
                     <signal name="pressed" handler="on_FlexRSS_Feeds_Delete_pressed"/>
                   </widget>
                   <packing>
@@ -229,8 +232,9 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="label">gtk-add</property>
+                        <property name="label" translatable="yes">gtk-add</property>
                         <property name="use_stock">True</property>
+                        <property name="response_id">0</property>
                         <signal name="pressed" handler="on_FlexRSS_Filters_Add_pressed"/>
                       </widget>
                       <packing>
@@ -244,8 +248,9 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="label">gtk-delete</property>
+                        <property name="label" translatable="yes">gtk-delete</property>
                         <property name="use_stock">True</property>
+                        <property name="response_id">0</property>
                         <signal name="pressed" handler="on_FlexRSS_Filters_Delete_pressed"/>
                       </widget>
                       <packing>
@@ -434,8 +439,9 @@ TV Show (dated)</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                    <property name="label">gtk-add</property>
+                                    <property name="label" translatable="yes">gtk-add</property>
                                     <property name="use_stock">True</property>
+                                    <property name="response_id">0</property>
                                     <signal name="pressed" handler="on_FlexRSS_Filter_Patern_Add_pressed"/>
                                   </widget>
                                   <packing>
@@ -664,7 +670,82 @@ TV Show (dated)</property>
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <widget class="GtkFrame" id="FlexRSS_Filter_Output">
+                    <property name="visible">True</property>
+                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                    <property name="label_xalign">0</property>
+                    <property name="shadow_type">GTK_SHADOW_OUT</property>
+                    <child>
+                      <widget class="GtkAlignment" id="FlexRSS_Filter_Output_Align">
+                        <property name="visible">True</property>
+                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                        <property name="left_padding">12</property>
+                        <child>
+                          <widget class="GtkVBox" id="FlexRSS_Filter_Output_Container">
+                            <property name="visible">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <child>
+                              <widget class="GtkRadioButton" id="FlexRSS_Filter_Output_Type_Default">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                <property name="label" translatable="yes">Deluge default</property>
+                                <property name="response_id">0</property>
+                                <property name="active">True</property>
+                                <property name="draw_indicator">True</property>
+                                <property name="group">FlexRSS_Filter_Output_Type_Custom</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkRadioButton" id="FlexRSS_Filter_Output_Type_Custom">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                <property name="label" translatable="yes">Choose:</property>
+                                <property name="response_id">0</property>
+                                <property name="active">True</property>
+                                <property name="draw_indicator">True</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkFileChooserButton" id="FlexRSS_Filter_Output_Location">
+                                <property name="visible">True</property>
+                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                <property name="action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
+                                <signal name="file_set" handler="on_FlexRSS_Filter_Output_Location_changed"/>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="FlexRSS_Filter_Output_Align_L">
+                        <property name="visible">True</property>
+                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Output&lt;/b&gt;</property>
+                        <property name="use_markup">True</property>
+                      </widget>
+                      <packing>
+                        <property name="type">label_item</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="position">3</property>
+                  </packing>
                 </child>
                 <child>
                   <widget class="GtkHBox" id="FlexRSS_Filter_Actions">
@@ -682,8 +763,9 @@ TV Show (dated)</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="label">gtk-save</property>
+                        <property name="label" translatable="yes">gtk-save</property>
                         <property name="use_stock">True</property>
+                        <property name="response_id">0</property>
                         <signal name="pressed" handler="on_FlexRSS_Action_Save_pressed"/>
                       </widget>
                       <packing>
@@ -694,6 +776,7 @@ TV Show (dated)</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="pack_type">GTK_PACK_END</property>
                     <property name="position">4</property>
                   </packing>
                 </child>
