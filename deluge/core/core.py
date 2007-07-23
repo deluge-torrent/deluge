@@ -53,6 +53,7 @@ import deluge.libtorrent as lt
 from deluge.config import Config
 import deluge.common
 from deluge.core.torrent import Torrent
+from deluge.core.torrentqueue import TorrentQueue
 
 # Get the logger
 log = logging.getLogger("deluge")
@@ -70,6 +71,8 @@ class Core(dbus.service.Object):
 
         # A dictionary containing hash keys to Torrent objects
         self.torrents = {}
+        # Instantiate the TorrentQueue
+        self.queue = TorrentQueue()
 
         # Setup DBUS
         bus_name = dbus.service.BusName("org.deluge_torrent.Deluge", 
@@ -133,21 +136,13 @@ class Core(dbus.service.Object):
         torrent = Torrent(handle)
 
         # Store the Torrent object in the dictionary
-        self.torrents[handle.info_hash()] = torrent
+        self.torrents[str(handle.info_hash())] = torrent
+        
+        # Add the torrent id to the queue
+        self.queue.append(str(handle.info_hash()))
 
         # Emit the torrent_added signal
         self.torrent_added(str(handle.info_hash()))
-
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
-                                    in_signature="s", out_signature="")
-    def add_torrent_url(self, _url):
-        """Adds a torrent from url to the libtorrent session
-        """
-        log.info("Adding torrent: %s", _url)
-        torrent = Torrent(url=_url)
-        self.session.add_torrent(torrent.torrent_info, 
-                                    self.config["download_location"], 
-                                    self.config["compact_allocation"])
 
     
     @dbus.service.method("org.deluge_torrent.Deluge")
@@ -155,10 +150,48 @@ class Core(dbus.service.Object):
         log.info("Shutting down core..")
         self.loop.quit()
         
+        
+    ## Queueing functions ######
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
+                                    in_signature="s", out_signature="")
+    def queue_top(self, torrent_id):
+        # If the queue method returns True, then we should emit a signal
+        if self.queue.top(torrent_id):
+            self.torrent_queue_top()
+            # Store the new torrent position in the torrent object
+            self.torrents[torrent_id].set_position(self.queue[torrent_id])
+
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
+                                    in_signature="s", out_signature="")
+    def queue_up(self, torrent_id):
+        # If the queue method returns True, then we should emit a signal
+        if self.queue.up(torrent_id):
+            self.torrent_queue_up()
+            # Store the new torrent position in the torrent object
+            self.torrents[torrent_id].set_position(self.queue[torrent_id])
+
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
+                                    in_signature="s", out_signature="")
+    def queue_down(self, torrent_id):
+        # If the queue method returns True, then we should emit a signal
+        if self.queue.down(torrent_id):
+            self.torrent_queue_down()
+            # Store the new torrent position in the torrent object
+            self.torrents[torrent_id].set_position(self.queue[torrent_id])
+
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
+                                    in_signature="s", out_signature="")
+    def queue_bottom(self, torrent_id):
+        # If the queue method returns True, then we should emit a signal
+        if self.queue.bottom(torrent_id):
+            self.torrent_queue_bottom()
+            # Store the new torrent position in the torrent object
+            self.torrents[torrent_id].set_position(self.queue[torrent_id])
+        
     # Signals
     @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
                                              signature="s")
-    def torrent_added(self, torrentid):
+    def torrent_added(self, torrent_id):
         """Emitted when a new torrent is added to the core"""
         log.debug("torrent_added signal emitted")
 
@@ -167,3 +200,27 @@ class Core(dbus.service.Object):
     def torrent_add_failed(self):
         """Emitted when a new torrent fails addition to the session"""
         log.debug("torrent_add_failed signal emitted")
+
+    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
+                                             signature="s")
+    def torrent_queue_top(self, torrent_id):
+        """Emitted when a torrent is queued to the top"""
+        log.debug("torrent_queue_top signal emitted")
+
+    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
+                                             signature="s")    
+    def torrent_queue_up(self, torrent_id):
+        """Emitted when a torrent is queued up"""
+        log.debug("torrent_queue_up signal emitted")
+
+    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
+                                             signature="s")    
+    def torrent_queue_down(self, torrent_id):
+        """Emitted when a torrent is queued down"""
+        log.debug("torrent_queue_down signal emitted")
+
+    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
+                                             signature="s")    
+    def torrent_queue_bottom(self, torrent_id):
+        """Emitted when a torrent is queued to the bottom"""
+        log.debug("torrent_queue_bottom signal emitted")

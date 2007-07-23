@@ -37,4 +37,8 @@ class Torrent:
     def __init__(self, handle):
         # Set the libtorrent handle
         self.handle = handle
+        
+    def set_position(self, position):
+        """Store the torrents queue position"""
+        self.position = position
        
