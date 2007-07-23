@@ -76,7 +76,7 @@ PREF_FUNCTIONS = {
     "auto_seed_ratio" : None, # no need for a function, applied constantly
     "max_download_speed_bps" : deluge_core.set_download_rate_limit,
     "max_upload_speed_bps" : deluge_core.set_upload_rate_limit,
-    "enable_dht" : None, # not a normal pref in that is is applied only on start 
+    "enable_dht" : None, # not a normal pref in that is is applied only on start
     "use_upnp" : deluge_core.use_upnp,
     "use_natpmp" : deluge_core.use_natpmp,
     "use_utpex" : deluge_core.use_utpex,
@@ -249,10 +249,6 @@ class Manager:
                 # Sync with the core: tell core about torrents, and get 
                 # unique_IDs
                 self.sync(True)
-
-                # Apply all the file priorities, right after adding the 
-                # torrents
-                self.apply_all_file_priorities()
 
                 # Apply the queue at this time, after all is loaded and ready
                 self.apply_queue()
@@ -627,6 +623,9 @@ class Manager:
 
         self.unique_IDs[unique_ID].priorities = priorities[:]
         deluge_core.prioritize_files(unique_ID, priorities)
+        
+        if self.get_pref('prioritize_first_last_pieces'):
+            self.prioritize_first_last_pieces(unique_ID)
 
     def get_priorities(self, unique_ID):
         try:
@@ -637,14 +636,15 @@ class Manager:
             num_files = self.get_core_torrent_state(unique_ID)['num_files']
             return [PRIORITY_NORMAL] * num_files
 
-    # Called when a session starts, to apply existing priorities
-    def apply_all_file_priorities(self):
-        for unique_ID in self.unique_IDs.keys():
-            try:
-                self.prioritize_files(unique_ID, 
-                                      self.get_priorities(unique_ID))
-            except AttributeError:
-                pass
+    def prioritize_first_last_pieces(self, unique_ID):
+        """Try to prioritize first and last pieces of each file in torrent
+        
+        Currently it tries to prioritize 1% in the beginning and in the end
+        of each file in the torrent
+        
+        """
+        deluge_core.prioritize_first_last_pieces(unique_ID, 
+            self.unique_IDs[unique_ID].priorities)
 
     # Advanced statistics - these may be SLOW. The client should call these only
     # when needed, and perhaps only once in a long while (they are mostly just
@@ -832,10 +832,14 @@ class Manager:
     def apply_prefs(self):
         print "Applying preferences"
 
-        for pref in PREF_FUNCTIONS.keys():
+        for pref in PREF_FUNCTIONS:
             if PREF_FUNCTIONS[pref] is not None:
                 PREF_FUNCTIONS[pref](self.get_pref(pref))
-
+                
+        # We need to reapply priorities to files after preferences were 
+        # changed
+        for unique_ID in self.unique_IDs:
+            self.prioritize_files(unique_ID, self.get_priorities(unique_ID))
 
     def set_DHT(self, start=False):
         if start == True and self.dht_running != True:

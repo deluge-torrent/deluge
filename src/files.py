@@ -165,7 +165,6 @@ class FilesTabManager(FilesBaseManager):
     
     def priority_clicked(self, widget):
         state = self.manager.get_torrent_state(self.file_unique_id)
-        print state["compact_mode"]
         if state["compact_mode"]:
             self.compact_allocation_warning()
         else:

@@ -1517,8 +1517,103 @@ static PyObject *torrent_prioritize_files(PyObject *self, PyObject *args)
 
     t.handle.prioritize_files(priorities_vector);
 
+    #ifndef NDEBUG
+    int num_pieces = t.handle.get_torrent_info().num_pieces();
+    
+    std::vector<int> priorities_pieces_vector(num_pieces);
+    priorities_pieces_vector = t.handle.piece_priorities();
+    
+    std::cout << "after files prioritization\n";
+    for (long i = 0; i < num_pieces; i++) {
+        std::cout << priorities_pieces_vector.at(i);
+    }
+    std::cout << "\n";
+    #endif
+    
     return Py_None;
 }
+
+static PyObject *torrent_prioritize_first_last_pieces(PyObject *self, 
+                                                      PyObject *args)
+{
+#define FIRST_LAST_PRIO 6
+    
+    // Prioritize first and last 1% of file size bytes in each file of torrent
+    // with unique_ID
+    python_long unique_ID;
+    PyObject *priorities_list_object;
+    
+    // We need priorities_list_object to see whether file is marked to 
+    // download(has priority > 0) or not.
+    if (!PyArg_ParseTuple(args, "iO", &unique_ID, &priorities_list_object))
+        return NULL;
+    long index = get_index_from_unique_ID(unique_ID);
+    if (PyErr_Occurred())
+        return NULL;
+
+    torrent_t &t = M_torrents->at(index);
+    const torrent_info &tor_info = t.handle.get_torrent_info();
+    int num_files = tor_info.num_files();
+    assert(PyList_Size(priorities_list_object) == num_files);
+    int num_pieces = tor_info.num_pieces();
+
+    std::vector<int> priorities_vector(num_pieces);
+    priorities_vector = t.handle.piece_priorities();
+    
+    #ifndef NDEBUG
+    std::cout << "priority distribution in torrent_prioritize_first_last_pieces()\n";
+    std::cout << "before prioritization\n";
+    for (long i = 0; i < num_pieces; i++) {
+        std::cout << priorities_vector.at(i);
+    }
+    std::cout << "\n";
+    #endif
+        
+    for (long i = 0; i < num_files; i++) {
+        file_entry const &file = tor_info.file_at(i);
+        if(file.size == 0) {
+            continue;
+        }
+
+        // Check if file has priority 0 - means don't download - skip it 
+        // and move to next file
+        int file_prio = PyInt_AsLong(PyList_GetItem(priorities_list_object, 
+                                                    i));
+        if(file_prio == 0) {
+            continue;
+        }        
+            
+        int start_piece = tor_info.map_file(i, 0, 0).piece;
+        int end_piece = tor_info.map_file(i, file.size, 0).piece;
+        // Set prio_size to 1% of the file size
+        int prio_size = file.size / 100;
+        int prio_pieces = tor_info.map_file(i, prio_size, 0).piece -
+                              start_piece + 1;
+        
+        #ifndef NDEBUG
+        std::cout << "s=" << start_piece << ", e=" << end_piece << ", p=" << prio_pieces << "\n";
+        #endif
+        
+        for (int piece = 0; piece < prio_pieces; piece++) {
+            priorities_vector.at(start_piece + piece) = FIRST_LAST_PRIO; 
+            priorities_vector.at(end_piece - piece) = FIRST_LAST_PRIO; 
+        }
+    }
+
+    t.handle.prioritize_pieces(priorities_vector);
+        
+    #ifndef NDEBUG
+    std::cout << "after prioritization\n";
+    for (long i = 0; i < num_pieces; i++) {
+        std::cout << priorities_vector.at(i);
+    }
+    std::cout << "\n";
+    #endif
+
+    return Py_None;
+}
+
+
 static PyObject *torrent_set_priv(PyObject *self, PyObject *args)
 {
     using namespace libtorrent;
@@ -1545,51 +1640,52 @@ static PyObject *torrent_set_priv(PyObject *self, PyObject *args)
 
 static PyMethodDef deluge_core_methods[] =
 {
-    {"pe_settings",                torrent_pe_settings,                METH_VARARGS,   "."},
-    {"pre_init",                   torrent_pre_init,                   METH_VARARGS,   "."},
-    {"init",                       torrent_init,                       METH_VARARGS,   "."},
-    {"quit",                       torrent_quit,                       METH_VARARGS,   "."},
-    {"save_fastresume",            torrent_save_fastresume,            METH_VARARGS,   "."},
-    {"set_max_half_open",          torrent_set_max_half_open,          METH_VARARGS,   "."},
-    {"set_download_rate_limit",    torrent_set_download_rate_limit,    METH_VARARGS,   "."},
-    {"set_upload_rate_limit",      torrent_set_upload_rate_limit,      METH_VARARGS,   "."},
-    {"set_listen_on",              torrent_set_listen_on,              METH_VARARGS,   "."},
-    {"is_listening",               torrent_is_listening,               METH_VARARGS,   "."},
-    {"listening_port",             torrent_listening_port,             METH_VARARGS,   "."},
-    {"set_max_uploads",            torrent_set_max_uploads,            METH_VARARGS,   "."},
-    {"set_max_connections",        torrent_set_max_connections,        METH_VARARGS,   "."},
-    {"add_torrent",                torrent_add_torrent,                METH_VARARGS,   "."},
-    {"move_storage",               torrent_move_storage,               METH_VARARGS,   "."},
-    {"remove_torrent",             torrent_remove_torrent,             METH_VARARGS,   "."},
-    {"get_num_torrents",           torrent_get_num_torrents,           METH_VARARGS,   "."},
-    {"reannounce",                 torrent_reannounce,                 METH_VARARGS,   "."},
-    {"pause",                      torrent_pause,                      METH_VARARGS,   "."},
-    {"resume",                     torrent_resume,                     METH_VARARGS,   "."},
-    {"get_torrent_state",          torrent_get_torrent_state,          METH_VARARGS,   "."},
-    {"pop_event",                  torrent_pop_event,                  METH_VARARGS,   "."},
-    {"get_session_info",           torrent_get_session_info,           METH_VARARGS,   "."},
-    {"get_peer_info",              torrent_get_peer_info,              METH_VARARGS,   "."},
-    {"get_file_info",              torrent_get_file_info,              METH_VARARGS,   "."},
-    {"dump_file_info",             torrent_dump_file_info,             METH_VARARGS,   "."},
-    {"constants",                  torrent_constants,                  METH_VARARGS,   "."},
-    {"start_DHT",                  torrent_start_DHT,                  METH_VARARGS,   "."},
-    {"stop_DHT",                   torrent_stop_DHT,                   METH_VARARGS,   "."},
-    {"get_DHT_info",               torrent_get_DHT_info,               METH_VARARGS,   "."},
-    {"create_torrent",             torrent_create_torrent,             METH_VARARGS,   "."},
-    {"reset_IP_filter",            torrent_reset_IP_filter,            METH_VARARGS,   "."},
-    {"add_range_to_IP_filter",     torrent_add_range_to_IP_filter,     METH_VARARGS,   "."},
-    {"use_upnp",                   torrent_use_upnp,                   METH_VARARGS,   "."},
-    {"use_natpmp",                 torrent_use_natpmp,                 METH_VARARGS,   "."},
-    {"use_utpex",                  torrent_use_utpex,                  METH_VARARGS,   "."},
-    {"set_ratio",                  torrent_set_ratio,                  METH_VARARGS,   "."},
-    {"proxy_settings",             torrent_proxy_settings,             METH_VARARGS,   "."},
-    {"get_trackers",               torrent_get_trackers,               METH_VARARGS,   "."},
-    {"dump_trackers",              torrent_dump_trackers,              METH_VARARGS,   "."},
-    {"replace_trackers",           torrent_replace_trackers,           METH_VARARGS,   "."},
-    {"set_flp",                    torrent_set_flp,                    METH_VARARGS,   "."},
-    {"prioritize_files",           torrent_prioritize_files,           METH_VARARGS,   "."},
-    {"set_priv",                   torrent_set_priv,                   METH_VARARGS,   "."},
-    {"test_duplicate",             torrent_test_duplicate,             METH_VARARGS,   "."},
+    {"pe_settings",                     torrent_pe_settings,                    METH_VARARGS,   "."},
+    {"pre_init",                        torrent_pre_init,                       METH_VARARGS,   "."},
+    {"init",                            torrent_init,                           METH_VARARGS,   "."},
+    {"quit",                            torrent_quit,                           METH_VARARGS,   "."},
+    {"save_fastresume",                 torrent_save_fastresume,                METH_VARARGS,   "."},
+    {"set_max_half_open",               torrent_set_max_half_open,              METH_VARARGS,   "."},
+    {"set_download_rate_limit",         torrent_set_download_rate_limit,        METH_VARARGS,   "."},
+    {"set_upload_rate_limit",           torrent_set_upload_rate_limit,          METH_VARARGS,   "."},
+    {"set_listen_on",                   torrent_set_listen_on,                  METH_VARARGS,   "."},
+    {"is_listening",                    torrent_is_listening,                   METH_VARARGS,   "."},
+    {"listening_port",                  torrent_listening_port,                 METH_VARARGS,   "."},
+    {"set_max_uploads",                 torrent_set_max_uploads,                METH_VARARGS,   "."},
+    {"set_max_connections",             torrent_set_max_connections,            METH_VARARGS,   "."},
+    {"add_torrent",                     torrent_add_torrent,                    METH_VARARGS,   "."},
+    {"move_storage",                    torrent_move_storage,                   METH_VARARGS,   "."},
+    {"remove_torrent",                  torrent_remove_torrent,                 METH_VARARGS,   "."},
+    {"get_num_torrents",                torrent_get_num_torrents,               METH_VARARGS,   "."},
+    {"reannounce",                      torrent_reannounce,                     METH_VARARGS,   "."},
+    {"pause",                           torrent_pause,                          METH_VARARGS,   "."},
+    {"resume",                          torrent_resume,                         METH_VARARGS,   "."},
+    {"get_torrent_state",               torrent_get_torrent_state,              METH_VARARGS,   "."},
+    {"pop_event",                       torrent_pop_event,                      METH_VARARGS,   "."},
+    {"get_session_info",                torrent_get_session_info,               METH_VARARGS,   "."},
+    {"get_peer_info",                   torrent_get_peer_info,                  METH_VARARGS,   "."},
+    {"get_file_info",                   torrent_get_file_info,                  METH_VARARGS,   "."},
+    {"dump_file_info",                  torrent_dump_file_info,                 METH_VARARGS,   "."},
+    {"constants",                       torrent_constants,                      METH_VARARGS,   "."},
+    {"start_DHT",                       torrent_start_DHT,                      METH_VARARGS,   "."},
+    {"stop_DHT",                        torrent_stop_DHT,                       METH_VARARGS,   "."},
+    {"get_DHT_info",                    torrent_get_DHT_info,                   METH_VARARGS,   "."},
+    {"create_torrent",                  torrent_create_torrent,                 METH_VARARGS,   "."},
+    {"reset_IP_filter",                 torrent_reset_IP_filter,                METH_VARARGS,   "."},
+    {"add_range_to_IP_filter",          torrent_add_range_to_IP_filter,         METH_VARARGS,   "."},
+    {"use_upnp",                        torrent_use_upnp,                       METH_VARARGS,   "."},
+    {"use_natpmp",                      torrent_use_natpmp,                     METH_VARARGS,   "."},
+    {"use_utpex",                       torrent_use_utpex,                      METH_VARARGS,   "."},
+    {"set_ratio",                       torrent_set_ratio,                      METH_VARARGS,   "."},
+    {"proxy_settings",                  torrent_proxy_settings,                 METH_VARARGS,   "."},
+    {"get_trackers",                    torrent_get_trackers,                   METH_VARARGS,   "."},
+    {"dump_trackers",                   torrent_dump_trackers,                  METH_VARARGS,   "."},
+    {"replace_trackers",                torrent_replace_trackers,               METH_VARARGS,   "."},
+    {"set_flp",                         torrent_set_flp,                        METH_VARARGS,   "."},
+    {"prioritize_files",                torrent_prioritize_files,               METH_VARARGS,   "."},
+    {"prioritize_first_last_pieces",    torrent_prioritize_first_last_pieces,   METH_VARARGS,   "."},
+    {"set_priv",                        torrent_set_priv,                       METH_VARARGS,   "."},
+    {"test_duplicate",                  torrent_test_duplicate,                 METH_VARARGS,   "."},
     {NULL}
 };
 
