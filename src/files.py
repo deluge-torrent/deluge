@@ -38,6 +38,7 @@ import gtk.glade
 
 import common
 import dgtk
+import pref
 
 class FilesBaseManager(object):
     def __init__(self, file_store):
@@ -92,34 +93,28 @@ class FilesBaseManager(object):
     def file_unselect_all(self, widget):
         self.file_view.get_selection().unselect_all()
 
-    def compact_warning(self, widget):
+    def compact_allocation_warning(self):
         msgBox = gtk.MessageDialog(parent = None, buttons = gtk.BUTTONS_OK, 
-        message_format = (_("File priority can only be set when using full allocation.\nPlease change your preference to disable compact allocation, then remove and readd this torrent.")))
+            message_format = (_("File priority can only be set when using full allocation.\nPlease change your preference to disable compact allocation, then remove and readd this torrent.")))
         msgBox.run()
         msgBox.destroy()
     
     def priority_clicked(self, widget):
-        import deluge_core
-        state = deluge_core.get_torrent_state(self.file_unique_id)
-        print state["compact_mode"]
-        if state["compact_mode"]:
-            self.compact_warning(widget)
-        else:
-            widget_name = widget.get_name()
-            priority = {'priority_dont_download': common.PRIORITY_DONT_DOWNLOAD,
-                        'priority_normal': common.PRIORITY_NORMAL,
-                        'priority_high': common.PRIORITY_HIGH,
-                        'priority_highest': common.PRIORITY_HIGHEST}[widget_name]
-                    
-            selected_paths = self.file_view.get_selection().get_selected_rows()[1]
-            for path in selected_paths:
-                child_path = self.file_store_sorted.\
-                             convert_path_to_child_path(path)
-                             
-                self.file_store.set_value(self.file_store.get_iter(child_path), 2, 
+        widget_name = widget.get_name()
+        priority = {'priority_dont_download': common.PRIORITY_DONT_DOWNLOAD,
+                    'priority_normal': common.PRIORITY_NORMAL,
+                    'priority_high': common.PRIORITY_HIGH,
+                    'priority_highest': common.PRIORITY_HIGHEST}[widget_name]
+                
+        selected_paths = self.file_view.get_selection().get_selected_rows()[1]
+        for path in selected_paths:
+            child_path = self.file_store_sorted.\
+                         convert_path_to_child_path(path)
+                         
+            self.file_store.set_value(self.file_store.get_iter(child_path), 2, 
                                       priority)
-            
-            self.update_priorities()
+        
+        self.update_priorities()
 
     def mouse_clicked(self, widget, event):
         if event.button == 3:
@@ -167,6 +162,14 @@ class FilesTabManager(FilesBaseManager):
     def set_unique_id(self, unique_id):
         self.file_unique_id = unique_id
     
+    def priority_clicked(self, widget):
+        state = self.manager.get_torrent_state(self.file_unique_id)
+        print state["compact_mode"]
+        if state["compact_mode"]:
+            self.compact_allocation_warning()
+        else:
+            super(FilesTabManager, self).priority_clicked(widget)
+    
     # From core to UI
     def prepare_file_store(self):
         if not self.file_store_dict:
@@ -199,11 +202,18 @@ class FilesDialogManager(FilesBaseManager):
         super(FilesDialogManager, self).__init__(file_store)
         
         self.dumped_torrent = dumped_torrent
+        self.config = pref.Preferences()
     
     def prepare_file_store(self):
         for file in self.dumped_torrent:
             self.file_store.append([file['path'], file['size'], 
                                     common.PRIORITY_NORMAL])
+
+    def priority_clicked(self, widget):
+        if self.config.get("use_compact_storage"): 
+            self.compact_allocation_warning()
+        else:
+            super(FilesDialogManager, self).priority_clicked(widget)
                 
     def get_priorities(self):
         file_priorities = []
