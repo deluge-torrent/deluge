@@ -736,7 +736,7 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
             total_peers = s.num_incomplete != -1? s.num_incomplete : connected_peers;
         }
 
-    return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:f,s:L,s:L,s:s,s:s,s:f,s:L,s:L,s:l,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
+    return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:b,s:f,s:L,s:L,s:s,s:s,s:f,s:L,s:L,s:l,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
         "name",               t.handle.get_torrent_info().name().c_str(),
         "num_files",          t.handle.get_torrent_info().num_files(),
         "state",              s.state,
@@ -744,6 +744,7 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
         "num_seeds",          connected_seeds,
         "distributed_copies", s.distributed_copies == -1.0 ? 0.0 : s.distributed_copies,
         "download_rate",      s.download_rate,
+        "compact_mode",       s.compact_mode,
         "upload_rate",        s.upload_rate,
         "total_download",     s.total_download,
         "total_upload",       s.total_upload,
