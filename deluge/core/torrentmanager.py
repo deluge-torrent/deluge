@@ -1,5 +1,5 @@
 #
-# signals.py
+# torrentmanager.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
@@ -33,39 +33,29 @@
 
 import logging
 
-try:
-    import dbus, dbus.service
-    dbus_version = getattr(dbus, "version", (0,0,0))
-    if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
-        import dbus.glib
-    elif dbus_version >= (0,80,0):
-        from dbus.mainloop.glib import DBusGMainLoop
-        DBusGMainLoop(set_as_default=True)
-    else:
-        pass
-except: dbus_imported = False
-else: dbus_imported = True
-
-import pygtk
-pygtk.require('2.0')
-import gtk, gtk.glade
-
-import functions
-from deluge.config import Config
+from deluge.core.torrent import Torrent
+from deluge.core.torrentqueue import TorrentQueue
 
 # Get the logger
 log = logging.getLogger("deluge")
 
-class Signals:
-    def __init__(self, ui):
-        self.ui = ui
-        self.core = functions.get_core()
-        self.core.connect_to_signal("torrent_added", self.torrent_added_signal)
+class TorrentManager:
+    def __init__(self):
+        log.debug("TorrentManager init..")
+        # Create the torrents dict { torrent_id: Torrent }
+        self.torrents = {}
+        self.queue = TorrentQueue()
+        
+    def __getitem__(self, torrent_id):
+        """Return the Torrent with torrent_id"""
+        return self.torrents[torrent_id]
     
-    def torrent_added_signal(self, torrent_id):
-        log.debug("torrent_added signal received..")
-        log.debug("torrent id: %s", torrent_id)
-        # Add the torrent to the treeview
-        self.ui.main_window.torrentview.add_torrent(torrent_id, 
-                                self.core.get_torrent_info(torrent_id),
-                                self.core.get_torrent_status(torrent_id))
+    def add(self, handle):
+        """Add a torrent to the manager and returns it's torrent_id"""
+        # Create a Torrent object
+        torrent = Torrent(handle, self.queue)
+        # Add the torrent object to the dictionary
+        self.torrents[torrent.torrent_id] = torrent
+        # Add the torrent to the queue
+        self.queue.append(torrent.torrent_id)
+        return torrent.torrent_id

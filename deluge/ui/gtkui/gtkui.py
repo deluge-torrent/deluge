@@ -62,7 +62,7 @@ class GtkUI:
         self.main_window = MainWindow()
         
         # Start the signal receiver
-        self.signal_receiver = Signals()
+        self.signal_receiver = Signals(self)
         
         # Show the main window
         self.main_window.show()

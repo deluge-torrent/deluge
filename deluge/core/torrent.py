@@ -34,11 +34,52 @@
 import deluge.libtorrent as lt
 
 class Torrent:
-    def __init__(self, handle):
+    def __init__(self, handle, queue):
         # Set the libtorrent handle
         self.handle = handle
+        # Set the queue this torrent belongs too
+        self.queue = queue
+        # Set the torrent_id for this torrent
+        self.torrent_id = str(handle.info_hash())
+    
+    def get_eta(self):
+        """Returns the ETA in seconds for this torrent"""
+        left = self.handle.status().total_wanted \
+                - self.handle.status().total_done
         
-    def set_position(self, position):
-        """Store the torrents queue position"""
-        self.position = position
-       
+        # The torrent file is done
+        if left == 0:
+            return 0
+        
+        # Calculate the ETA in seconds and return it
+        return (left / self.handle.status().download_payload_rate)
+                
+    def get_info(self):
+        """Returns the torrents info.. stuff that remains constant, such as
+            name."""
+        
+        return (
+            self.handle.torrent_info().name(),
+            self.handle.torrent_info().total_size(),
+            self.handle.status().num_pieces
+        )
+                  
+    def get_status(self):
+        """Returns the torrent status"""
+        status = self.handle.status()
+        
+        return (
+            status.state,
+            status.paused,
+            status.progress,
+            status.next_announce.seconds,
+            status.total_payload_download,
+            status.total_payload_upload,
+            status.download_payload_rate,
+            status.upload_payload_rate,
+            status.num_peers,
+            status.num_seeds,
+            status.total_wanted,
+            self.get_eta(),
+            self.queue[self.torrent_id]
+        )

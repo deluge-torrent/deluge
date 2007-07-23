@@ -54,9 +54,8 @@ class TorrentView:
         ## TreeModel setup ##
         # UID, Q#, Status Icon, Name, Size, Progress, Message, Seeders, Peers,
         #     DL, UL, ETA, Share
-        self.torrent_model = gtk.ListStore(int, gobject.TYPE_UINT, 
-            gtk.gdk.Pixbuf, str, gobject.TYPE_UINT64, float, str, int, int, 
-            int, int, int, int, gobject.TYPE_UINT, float)
+        self.torrent_model = gtk.ListStore(str, int, gtk.gdk.Pixbuf, str, 
+            long, float, str, int, int, int, int, int, int, int, float)
         
         ## TreeView setup ##
         self.torrent_view.set_model(self.torrent_model)
@@ -150,8 +149,30 @@ class TorrentView:
         self.torrent_view.get_selection().connect("changed", 
                                     self.on_selection_changed)
     
+    def add_torrent(self, torrent_id, info, status):
+        """Adds a new torrent row to the treeview"""
+        # UID, Q#, Status Icon, Name, Size, Progress, Message, Seeders, Peers,
+        #     DL, UL, ETA, Share
+        self.torrent_model.insert(status[12], [
+                torrent_id,
+                status[12]+1,
+                None, ## Status Icon
+                info[0],
+                info[2],
+                status[2],
+                status[0],
+                status[9],
+                status[9],
+                status[8],
+                status[8],
+                status[6],
+                status[7],
+                status[11],
+                0.0 
+            ])
+        
     ### Callbacks ###                             
-    def on_button_press_event(self, widget, event):
+    def on_button_press_event(self, widget, event, data):
         log.debug("on_button_press_event")
     
     def on_selection_changed(self, treeselection, data):

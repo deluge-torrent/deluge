@@ -52,8 +52,7 @@ import deluge.libtorrent as lt
 
 from deluge.config import Config
 import deluge.common
-from deluge.core.torrent import Torrent
-from deluge.core.torrentqueue import TorrentQueue
+from deluge.core.torrentmanager import TorrentManager
 
 # Get the logger
 log = logging.getLogger("deluge")
@@ -69,11 +68,9 @@ class Core(dbus.service.Object):
     def __init__(self, path="/org/deluge_torrent/Core"):
         log.debug("Core init..")
 
-        # A dictionary containing hash keys to Torrent objects
-        self.torrents = {}
-        # Instantiate the TorrentQueue
-        self.queue = TorrentQueue()
-
+        # Start the TorrentManager
+        self.torrents = TorrentManager()
+        
         # Setup DBUS
         bus_name = dbus.service.BusName("org.deluge_torrent.Deluge", 
                                                         bus=dbus.SessionBus())
@@ -95,6 +92,12 @@ class Core(dbus.service.Object):
         self.loop.run()
 
     # Exported Methods
+    @dbus.service.method("org.deluge_torrent.Deluge")
+    def shutdown(self):
+        """Shutdown the core"""
+        log.info("Shutting down core..")
+        self.loop.quit()
+
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
                                     in_signature="say", out_signature="")
     def add_torrent_file(self, filename, filedump):
@@ -108,6 +111,7 @@ class Core(dbus.service.Object):
         
         # Bdecode the filedata sent from the UI
         torrent_filedump = lt.bdecode(filedump)
+        handle = None
         try:
             handle = self.session.add_torrent(lt.torrent_info(torrent_filedump), 
                                     self.config["download_location"],
@@ -132,24 +136,24 @@ class Core(dbus.service.Object):
         except IOError:
             log.warning("Unable to save torrent file: %s", filename)
         
-        # Create a Torrent object
-        torrent = Torrent(handle)
-
-        # Store the Torrent object in the dictionary
-        self.torrents[str(handle.info_hash())] = torrent
+        # Add the torrent to the torrentmanager
+        torrent_id = self.torrents.add(handle)
         
-        # Add the torrent id to the queue
-        self.queue.append(str(handle.info_hash()))
-
         # Emit the torrent_added signal
-        self.torrent_added(str(handle.info_hash()))
+        self.torrent_added(torrent_id)
 
-    
-    @dbus.service.method("org.deluge_torrent.Deluge")
-    def shutdown(self):
-        log.info("Shutting down core..")
-        self.loop.quit()
-        
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+                                    in_signature="s", out_signature="(six)")
+    def get_torrent_info(self, torrent_id):
+        # Get the info tuple from the torrent and return it
+        return self.torrents[torrent_id].get_info()
+
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+                                    in_signature="s", 
+                                    out_signature="(ibdixxddiixii)")
+    def get_torrent_status(self, torrent_id):
+        # Get the status tuple from the torrent and return it
+        return self.torrents[torrent_id].get_status()
         
     ## Queueing functions ######
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
@@ -159,7 +163,7 @@ class Core(dbus.service.Object):
         if self.queue.top(torrent_id):
             self.torrent_queue_top()
             # Store the new torrent position in the torrent object
-            self.torrents[torrent_id].set_position(self.queue[torrent_id])
+#            self.torrents[torrent_id].set_position(self.queue[torrent_id])
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
                                     in_signature="s", out_signature="")
@@ -167,8 +171,6 @@ class Core(dbus.service.Object):
         # If the queue method returns True, then we should emit a signal
         if self.queue.up(torrent_id):
             self.torrent_queue_up()
-            # Store the new torrent position in the torrent object
-            self.torrents[torrent_id].set_position(self.queue[torrent_id])
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
                                     in_signature="s", out_signature="")
@@ -176,8 +178,6 @@ class Core(dbus.service.Object):
         # If the queue method returns True, then we should emit a signal
         if self.queue.down(torrent_id):
             self.torrent_queue_down()
-            # Store the new torrent position in the torrent object
-            self.torrents[torrent_id].set_position(self.queue[torrent_id])
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
                                     in_signature="s", out_signature="")
@@ -185,8 +185,6 @@ class Core(dbus.service.Object):
         # If the queue method returns True, then we should emit a signal
         if self.queue.bottom(torrent_id):
             self.torrent_queue_bottom()
-            # Store the new torrent position in the torrent object
-            self.torrents[torrent_id].set_position(self.queue[torrent_id])
         
     # Signals
     @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
