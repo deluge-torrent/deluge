@@ -19,7 +19,7 @@
             <child>
               <widget class="GtkButton" id="button_addsearch">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">gtk-add</property>
+                <property name="label">gtk-add</property>
                 <property name="use_stock">True</property>
                 <signal name="pressed" handler="add_clicked"/>
                 <signal name="activate" handler="add_clicked"/>
@@ -100,7 +100,7 @@
             <child>
               <widget class="GtkButton" id="button_delsearch">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">gtk-remove</property>
+                <property name="label">gtk-remove</property>
                 <property name="use_stock">True</property>
                 <signal name="clicked" handler="del_clicked"/>
               </widget>
@@ -156,14 +156,14 @@ URL: http://www.google.com/search?q=${query}</property>
             <child>
               <widget class="GtkButton" id="button3">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">gtk-cancel</property>
+                <property name="label">gtk-cancel</property>
                 <property name="use_stock">True</property>
               </widget>
             </child>
             <child>
               <widget class="GtkButton" id="button2">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">gtk-ok</property>
+                <property name="label">gtk-ok</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">1</property>
               </widget>
