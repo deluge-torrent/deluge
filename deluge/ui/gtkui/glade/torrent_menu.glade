@@ -106,7 +106,7 @@
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">_Up</property>
                 <property name="use_underline">True</property>
-                <signal name="activate" handler="queue_up"/>
+                <signal name="activate" handler="on_menuitem_queueup_activate"/>
                 <child internal-child="image">
                   <widget class="GtkImage" id="menu-item-image6">
                     <property name="visible">True</property>
@@ -122,7 +122,7 @@
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">_Down</property>
                 <property name="use_underline">True</property>
-                <signal name="activate" handler="queue_down"/>
+                <signal name="activate" handler="on_menuitem_queuedown_activate"/>
                 <child internal-child="image">
                   <widget class="GtkImage" id="menu-item-image7">
                     <property name="visible">True</property>

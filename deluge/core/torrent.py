@@ -55,6 +55,9 @@ class Torrent:
         left = self.handle.status().total_wanted \
                 - self.handle.status().total_done
         
+        if left == 0 or self.handle.status().download_payload_rate == 0:
+            return 0
+        
         try:
             eta = left / self.handle.status().download_payload_rate
         except ZeroDivisionError:

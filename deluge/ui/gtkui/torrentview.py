@@ -153,9 +153,9 @@ class TorrentView:
     
     def update(self):
         """Update the view, this is likely called by a timer"""
-        # Iterate through the torrent_model and update rows
-        row = self.torrent_model.get_iter_first()
-        while row is not None:
+        
+        # This function is used for the foreach method of the treemodel
+        def update_row(model, path, row, user_data):
             torrent_id = self.torrent_model.get_value(row, 0)
             status = functions.get_torrent_status_dict(self.core, torrent_id)
             # Set values for each column in the row
@@ -179,7 +179,9 @@ class TorrentView:
                                             status["upload_payload_rate"])
             self.torrent_model.set_value(row, TORRENT_VIEW_COL_ETA, 
                                             status["eta"])
-            row = self.torrent_model.iter_next(row)
+
+        # Iterates through every row and updates them accordingly
+        self.torrent_model.foreach(update_row, None)
     
     def add_row(self, torrent_id):
         """Adds a new torrent row to the treeview"""

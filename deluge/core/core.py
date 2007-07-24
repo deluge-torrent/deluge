@@ -188,29 +188,29 @@ class Core(dbus.service.Object):
                                     in_signature="s", out_signature="")
     def queue_top(self, torrent_id):
         # If the queue method returns True, then we should emit a signal
-        if self.queue.top(torrent_id):
-            self.torrent_queue_top()
+        if self.torrents.queue.top(torrent_id):
+            self.torrent_queue_changed()
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
                                     in_signature="s", out_signature="")
     def queue_up(self, torrent_id):
         # If the queue method returns True, then we should emit a signal
-        if self.queue.up(torrent_id):
-            self.torrent_queue_up()
-
+        if self.torrents.queue.up(torrent_id):
+            self.torrent_queue_changed()
+            
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
                                     in_signature="s", out_signature="")
     def queue_down(self, torrent_id):
         # If the queue method returns True, then we should emit a signal
-        if self.queue.down(torrent_id):
-            self.torrent_queue_down()
+        if self.torrents.queue.down(torrent_id):
+            self.torrent_queue_changed()
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
                                     in_signature="s", out_signature="")
     def queue_bottom(self, torrent_id):
         # If the queue method returns True, then we should emit a signal
-        if self.queue.bottom(torrent_id):
-            self.torrent_queue_bottom()
+        if self.torrents.queue.bottom(torrent_id):
+            self.torrent_queue_changed()
         
     # Signals
     @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
@@ -232,25 +232,7 @@ class Core(dbus.service.Object):
         log.debug("torrent_remove signal emitted")
         
     @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
-                                             signature="s")
-    def torrent_queue_top(self, torrent_id):
-        """Emitted when a torrent is queued to the top"""
-        log.debug("torrent_queue_top signal emitted")
-
-    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
-                                             signature="s")    
-    def torrent_queue_up(self, torrent_id):
-        """Emitted when a torrent is queued up"""
-        log.debug("torrent_queue_up signal emitted")
-
-    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
-                                             signature="s")    
-    def torrent_queue_down(self, torrent_id):
-        """Emitted when a torrent is queued down"""
-        log.debug("torrent_queue_down signal emitted")
-
-    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
-                                             signature="s")    
-    def torrent_queue_bottom(self, torrent_id):
-        """Emitted when a torrent is queued to the bottom"""
-        log.debug("torrent_queue_bottom signal emitted")
+                                             signature="")
+    def torrent_queue_changed(self):
+        """Emitted when a torrent queue position is changed"""
+        log.debug("torrent_queue_changed signal emitted")

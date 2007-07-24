@@ -66,19 +66,40 @@ class ToolBar:
     ### Callbacks ###
     def on_toolbutton_add_clicked(self, data):
         log.debug("on_toolbutton_add_clicked")
-        functions.add_torrent_file()
+        # Use the menubar's callback
+        self.window.menubar.on_menuitem_addtorrent_activate(data)
+
     def on_toolbutton_remove_clicked(self, data):
         log.debug("on_toolbutton_remove_clicked")
+        # Use the menubar's callbacks
+        self.window.menubar.on_menuitem_remove_activate(data)
+
     def on_toolbutton_clear_clicked(self, data):
         log.debug("on_toolbutton_clear_clicked")
+        # Use the menubar's callbacks
+        self.window.menubar.on_menuitem_clear_activate(data)
+        
     def on_toolbutton_pause_clicked(self, data):
         log.debug("on_toolbutton_pause_clicked")
+        # Use the menubar's callbacks
+        self.window.menubar.on_menuitem_pause_activate(data)
+
     def on_toolbutton_queueup_clicked(self, data):
         log.debug("on_toolbutton_queueup_clicked")
+        # Use the menubar's callbacks
+        self.window.menubar.on_menuitem_queueup_activate(data)
+
     def on_toolbutton_queuedown_clicked(self, data):
         log.debug("on_toolbutton_queuedown_clicked")
+        # Use the menubar's callbacks
+        self.window.menubar.on_menuitem_queuedown_activate(data)
+
     def on_toolbutton_preferences_clicked(self, data):
         log.debug("on_toolbutton_preferences_clicked")
+        # Use the menubar's callbacks
+        self.window.menubar.on_menuitem_preferences_activate(data)
+
     def on_toolbutton_plugins_clicked(self, data):
         log.debug("on_toolbutton_plugins_clicked")
-
+        # Use the menubar's callbacks
+        self.window.menubar.on_menuitem_preferences_activate(data)

@@ -93,6 +93,34 @@ def remove_torrent(torrent_ids):
     for torrent_id in torrent_ids:
         core.remove_torrent(torrent_id)
 
+def queue_top(torrent_ids):
+    """Attempts to queue all torrent_ids to the top"""
+    log.debug("Attempting to queue to top these torrents: %s", torrent_ids)
+    core = get_core()
+    for torrent_id in torrent_ids:
+        core.queue_top(torrent_id)
+        
+def queue_up(torrent_ids):
+    """Attempts to queue all torrent_ids up"""
+    log.debug("Attempting to queue up these torrents: %s", torrent_ids)
+    core = get_core()
+    for torrent_id in torrent_ids:
+        core.queue_up(torrent_id)
+
+def queue_down(torrent_ids):
+    """Attempts to queue all torrent_ids down"""
+    log.debug("Attempting to queue down these torrents: %s", torrent_ids)
+    core = get_core()
+    for torrent_id in torrent_ids:
+        core.queue_down(torrent_id)
+
+def queue_bottom(torrent_ids):
+    """Attempts to queue all torrent_ids to the bottom"""
+    log.debug("Attempting to queue to bottom these torrents: %s", torrent_ids)
+    core = get_core()
+    for torrent_id in torrent_ids:
+        core.queue_bottom(torrent_id)
+
 def get_torrent_status_dict(core, torrent_id):
     """Builds and returns a status dictionary using the status template"""
     status = core.get_torrent_status(torrent_id)

@@ -70,7 +70,6 @@ class AddTorrentDialog:
             self.chooser.set_current_folder(
                                         self.config.get("default_load_path"))
 
-
     def run(self):
         """Returns a list of selected files or None if no files were selected.
         """
