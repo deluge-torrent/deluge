@@ -33,14 +33,10 @@ import os.path
 import xdg.BaseDirectory
 
 PROGRAM_NAME = "Deluge"
-PROGRAM_VERSION = "0.5.3"
+PROGRAM_VERSION = "0.5.2.95"
 
 CLIENT_CODE = "DE"
-CLIENT_VERSION = ''.join(PROGRAM_VERSION.split('.'))
-if len(CLIENT_VERSION) < 4:
-    CLIENT_VERSION = CLIENT_VERSION + '0'*(4-len(CLIENT_VERSION))
-elif len(CLIENT_VERSION) > 4:
-	CLIENT_VERSION = CLIENT_VERSION[:4]
+CLIENT_VERSION = "".join(PROGRAM_VERSION.split('.'))+"0"*(4 - len(PROGRAM_VERSION.split('.'))) 
 CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
 
 # the necessary substitutions are made at installation time

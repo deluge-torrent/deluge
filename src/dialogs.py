@@ -173,7 +173,6 @@ class PreferencesDlg:
     
     def toggle_ui(self, widget):
         value = widget.get_active()
-        print widget.get_name()
         if widget == self.glade.get_widget('radio_save_all_to'):
             self.glade.get_widget('download_path_button').set_sensitive(value)
             self.glade.get_widget('chk_move_completed').set_sensitive(value)

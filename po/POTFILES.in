@@ -16,7 +16,6 @@ plugins/TorrentSearch/plugin.py
 plugins/TorrentSearch/searchdlg.glade
 plugins/TorrentCreator/__init__.py
 plugins/TorrentCreator/torrentcreator.glade
-plugins/FirstLast/__init__.py
 plugins/DesiredRatio/__init__.py
 plugins/Scheduler/__init__.py
 plugins/Scheduler/plugin.py

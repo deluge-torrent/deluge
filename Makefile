@@ -4,7 +4,6 @@
 
 PREFIX = /usr
 
-
 all:
 	python setup.py build
 
