@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# files.py
+# tab_files.py
 #
 # Copyright (C) Zach Tibbitts 2006 <zach@collegegeek.org>
 #

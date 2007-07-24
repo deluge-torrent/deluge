@@ -46,9 +46,9 @@ import common
 import dialogs
 import dgtk
 import ipc_manager
-import files
 import plugins
 import tab_details
+import tab_files
 
 class DelugeGTK:
     def __init__(self):
@@ -90,7 +90,7 @@ class DelugeGTK:
         # Tabs
         self.tab_details = tab_details.DetailsManager(self.wtree,
                                                       self.manager)
-        self.tab_files = files.FilesTabManager(self.manager)
+        self.tab_files = tab_files.FilesTabManager(self.manager)
         self.tab_files.build_file_view(self.wtree.get_widget("file_view"))
         
         self.statusbar = self.wtree.get_widget("statusbar")
