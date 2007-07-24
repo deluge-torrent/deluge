@@ -2,7 +2,7 @@
 # Makefile for Deluge
 #
 PYVER=`python -c "import sys; print sys.version[:3]"`
-PREFIX = /usr
+PREFIX ?= /usr
 
 all:
 	python setup.py build
