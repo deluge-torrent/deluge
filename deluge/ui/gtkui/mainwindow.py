@@ -36,6 +36,7 @@ import logging
 import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
+import gobject
 import pkg_resources
 
 from menubar import MenuBar
@@ -58,7 +59,13 @@ class MainWindow:
         self.menubar = MenuBar(self)
         self.toolbar = ToolBar(self)
         self.torrentview = TorrentView(self)
+        
+        gobject.timeout_add(1000, self.update)
     
+    def update(self):
+        self.torrentview.update()
+        return True
+        
     def show(self):
         self.window.show_all()
     

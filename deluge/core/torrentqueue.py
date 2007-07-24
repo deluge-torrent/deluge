@@ -54,7 +54,11 @@ class TorrentQueue:
         """Prepend torrent_id to the top of the queue"""
         log.debug("Prepend torrent %s to queue..", torrent_id)
         self.queue.insert(0, torrent_id)
-        
+    
+    def remove(self, torrent_id):
+        """Removes torrent_id from the list"""
+        self.queue.remove(torrent_id)
+            
     def up(self, torrent_id):
         """Move torrent_id up one in the queue"""
         if torrent_id not in self.queue:

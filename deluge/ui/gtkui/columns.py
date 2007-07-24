@@ -62,7 +62,7 @@ def cell_data_time(column, cell, model, iter, data):
         time_str = _("Infinity")
     else:
         time_str = deluge.common.ftime(time)
-        cell.set_property('text', time_str)
+    cell.set_property('text', time_str)
             
 def cell_data_ratio(column, cell, model, iter, data):
     ratio = float(model.get_value(iter, data))

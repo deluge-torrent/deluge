@@ -31,7 +31,12 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
+import logging
+
 import deluge.libtorrent as lt
+
+# Get the logger
+log = logging.getLogger("deluge")
 
 class Torrent:
     def __init__(self, handle, queue):
@@ -42,17 +47,20 @@ class Torrent:
         # Set the torrent_id for this torrent
         self.torrent_id = str(handle.info_hash())
     
+    def __del__(self):
+        self.queue.remove(self.torrent_id)
+        
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""
         left = self.handle.status().total_wanted \
                 - self.handle.status().total_done
         
-        # The torrent file is done
-        if left == 0:
-            return 0
-        
-        # Calculate the ETA in seconds and return it
-        return (left / self.handle.status().download_payload_rate)
+        try:
+            eta = left / self.handle.status().download_payload_rate
+        except ZeroDivisionError:
+            eta = 0
+            
+        return eta
                 
     def get_info(self):
         """Returns the torrents info.. stuff that remains constant, such as
@@ -83,3 +91,4 @@ class Torrent:
             self.get_eta(),
             self.queue[self.torrent_id]
         )
+    

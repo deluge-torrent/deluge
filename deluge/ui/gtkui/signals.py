@@ -61,11 +61,17 @@ class Signals:
         self.ui = ui
         self.core = functions.get_core()
         self.core.connect_to_signal("torrent_added", self.torrent_added_signal)
+        self.core.connect_to_signal("torrent_removed", 
+                                                    self.torrent_removed_signal)
     
     def torrent_added_signal(self, torrent_id):
         log.debug("torrent_added signal received..")
         log.debug("torrent id: %s", torrent_id)
         # Add the torrent to the treeview
-        self.ui.main_window.torrentview.add_torrent(torrent_id, 
-                                self.core.get_torrent_info(torrent_id),
-                                self.core.get_torrent_status(torrent_id))
+        self.ui.main_window.torrentview.add_row(torrent_id)
+
+    def torrent_removed_signal(self, torrent_id):
+        log.debug("torrent_remove signal received..")
+        log.debug("torrent id: %s", torrent_id)
+        # Remove the torrent from the treeview
+        self.ui.main_window.torrentview.remove_row(torrent_id)

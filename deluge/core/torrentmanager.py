@@ -59,3 +59,37 @@ class TorrentManager:
         # Add the torrent to the queue
         self.queue.append(torrent.torrent_id)
         return torrent.torrent_id
+    
+    def remove(self, torrent_id):
+        """Remove a torrent from the manager"""
+        try:
+            del self.torrents[torrent_id]
+        except KeyError, ValueError:
+            return False
+        return True
+        
+    def get_info_template(self):
+        """Returns a list of strings that correspond to the info tuple"""
+        return [
+            "name",
+            "total_size",
+            "num_pieces"
+        ]
+        
+    def get_status_template(self):
+        """Returns a list of strings that correspond to the status tuple"""
+        return [
+            "state",
+            "paused",
+            "progress",
+            "next_announce",
+            "total_payload_download",
+            "total_payload_upload",
+            "download_payload_rate",
+            "upload_payload_rate",
+            "num_peers",
+            "num_seeds",
+            "total_wanted",
+            "eta",
+            "position"
+        ]

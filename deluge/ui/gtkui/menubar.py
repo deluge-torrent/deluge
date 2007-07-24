@@ -125,6 +125,8 @@ class MenuBar:
         log.debug("on_menuitem_edittrackers_activate")
     def on_menuitem_remove_activate(self, data=None):
         log.debug("on_menuitem_remove_activate")
+        functions.remove_torrent(
+                            self.window.torrentview.get_selected_torrents())
     def on_menuitem_queuetop_activate(self, data=None):
         log.debug("on_menuitem_queuetop_activate")
     def on_menuitem_queueup_activate(self, data=None):

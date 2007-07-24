@@ -143,7 +143,21 @@ class Core(dbus.service.Object):
         self.torrent_added(torrent_id)
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                    in_signature="s", out_signature="(six)")
+                                    in_signature="s", out_signature="")
+    def remove_torrent(self, torrent_id):
+        log.debug("Removing torrent %s from the core.", torrent_id)
+        try:
+            # Remove from libtorrent session
+            self.session.remove_torrent(self.torrents[torrent_id].handle)
+            # Remove from TorrentManager
+            self.torrents.remove(torrent_id)
+            # Emit the torrent_removed signal
+            self.torrent_removed(torrent_id)
+        except RuntimeError, KeyError:
+            log.warning("Error removing torrent")
+    
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+                                    in_signature="s", out_signature="(sxi)")
     def get_torrent_info(self, torrent_id):
         # Get the info tuple from the torrent and return it
         return self.torrents[torrent_id].get_info()
@@ -154,6 +168,20 @@ class Core(dbus.service.Object):
     def get_torrent_status(self, torrent_id):
         # Get the status tuple from the torrent and return it
         return self.torrents[torrent_id].get_status()
+
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+                                    in_signature="", 
+                                    out_signature="as")    
+    def get_torrent_status_template(self):
+        # A list of strings the correspond to the status tuple
+        return self.torrents.get_status_template()
+
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+                                    in_signature="", 
+                                    out_signature="as")    
+    def get_torrent_info_template(self):
+        # A list of strings the correspond to the info tuple
+        return self.torrents.get_info_template()
         
     ## Queueing functions ######
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
@@ -162,8 +190,6 @@ class Core(dbus.service.Object):
         # If the queue method returns True, then we should emit a signal
         if self.queue.top(torrent_id):
             self.torrent_queue_top()
-            # Store the new torrent position in the torrent object
-#            self.torrents[torrent_id].set_position(self.queue[torrent_id])
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
                                     in_signature="s", out_signature="")
@@ -199,6 +225,12 @@ class Core(dbus.service.Object):
         """Emitted when a new torrent fails addition to the session"""
         log.debug("torrent_add_failed signal emitted")
 
+    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
+                                             signature="s")
+    def torrent_removed(self, torrent_id):
+        """Emitted when a torrent has been removed from the core"""
+        log.debug("torrent_remove signal emitted")
+        
     @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
                                              signature="s")
     def torrent_queue_top(self, torrent_id):

@@ -85,3 +85,28 @@ def add_torrent_file():
         (path, filename) = os.path.split(torrent_file)
         core.add_torrent_file(filename, f.read())
         f.close()
+
+def remove_torrent(torrent_ids):
+    """Removes torrent_ids from the core.. Expects a list of torrent_ids"""
+    log.debug("Attempting to removing torrents: %s", torrent_ids)
+    core = get_core()
+    for torrent_id in torrent_ids:
+        core.remove_torrent(torrent_id)
+
+def get_torrent_status_dict(core, torrent_id):
+    """Builds and returns a status dictionary using the status template"""
+    status = core.get_torrent_status(torrent_id)
+    template = core.get_torrent_status_template()
+    status_dict = {}
+    for string in template:
+        status_dict[string] = status[template.index(string)]
+    return status_dict
+    
+def get_torrent_info_dict(core, torrent_id):
+    """Builds and returns an info dictionary using the info template"""
+    info = core.get_torrent_info(torrent_id)
+    template = core.get_torrent_info_template()
+    info_dict = {}
+    for string in template:
+        info_dict[string] = info[template.index(string)]
+    return info_dict
