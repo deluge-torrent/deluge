@@ -68,7 +68,7 @@ DEFAULT_PREFS = {
     "max_number_uploads" : -1,
     "max_upload_speed" : -1,
     "max_upload_speed_bps" : -1,
-    "max_number_uploads" : -1,
+    "max_number_uploads" : 4,
     "pref_rc4" : True,
     "prioritize_first_last_pieces" : False,
     "proxy_type" : common.ProxyType.none,
