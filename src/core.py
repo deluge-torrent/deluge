@@ -73,6 +73,7 @@ PREF_FUNCTIONS = {
     "listen_on" : deluge_core.set_listen_on,
     "max_connections" : deluge_core.set_max_connections,
     "max_active_torrents" : None, # no need for a function, applied constantly
+    "set_max_uploads" : deluge_core.set_max_uploads,
     "auto_seed_ratio" : None, # no need for a function, applied constantly
     "max_download_speed_bps" : deluge_core.set_download_rate_limit,
     "max_upload_speed_bps" : deluge_core.set_upload_rate_limit,
