@@ -1,7 +1,7 @@
 #
 # Makefile for Deluge
 #
-
+PYVER=`python -c "import sys; print sys.version[:3]"`
 PREFIX = /usr
 
 all:
@@ -18,11 +18,9 @@ clean:
 
 uninstall:
 	-rm $(PREFIX)/bin/deluge
-	-rm -r $(PREFIX)/lib/python2.5/site-packages/deluge
-	-rm -r $(PREFIX)/lib/python2.5/site-packages/deluge-*.egg-info
-	-rm -r $(PREFIX)/lib/python2.4/site-packages/deluge
-	-rm -r $(PREFIX)/lib/python2.4/site-packages/deluge-*.egg-info
+	-rm -r $(PREFIX)/lib/python${PYVER}/site-packages/deluge
+	-rm -r $(PREFIX)/lib/python${PYVER}/site-packages/deluge-*.egg-info
 	-rm -r $(PREFIX)/share/deluge
 	-find ${PREFIX}/share/locale -name deluge.mo -exec rm {} \;
 	-rm $(PREFIX)/share/applications/deluge.desktop
-	-rm $(PREFIX)/share/pixmaps/deluge.xpm
+	-rm $(PREFIX)/share/pixmaps/deluge.png
