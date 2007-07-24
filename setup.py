@@ -232,7 +232,7 @@ class build_trans(cmd.Command):
 		pass
 
 	def run(self):
-		po_dir = os.path.join(os.path.dirname(__file__), 'po')
+		po_dir = os.path.join(os.path.dirname(os.curdir), 'po')
 		for path, names, filenames in os.walk(po_dir):
 			for f in filenames:
 				if f.endswith('.po'):
