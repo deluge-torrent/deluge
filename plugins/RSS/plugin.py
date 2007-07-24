@@ -428,8 +428,6 @@ class plugin_RSS:
 			
 
 	def update(self):
-		print "tick: " + str(self.timer)
-		print "interval: " + str(self.interval)
 		self.timer += 1
 		if self.timer >= self.interval:
 			print "BONG!"
