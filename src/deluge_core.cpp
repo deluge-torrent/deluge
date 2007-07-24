@@ -53,6 +53,7 @@
 #include "libtorrent/upnp.hpp"
 #include "libtorrent/file_pool.hpp"
 #include "libtorrent/natpmp.hpp"
+#include "libtorrent/size_type.hpp"
 #include "libtorrent/extensions/metadata_transfer.hpp"
 #include "libtorrent/extensions/ut_pex.hpp"
 using namespace boost::filesystem;
@@ -1586,7 +1587,7 @@ static PyObject *torrent_prioritize_first_last_pieces(PyObject *self,
         int start_piece = tor_info.map_file(i, 0, 0).piece;
         int end_piece = tor_info.map_file(i, file.size, 0).piece;
         // Set prio_size to 1% of the file size
-        int prio_size = file.size / 100;
+        size_type prio_size = file.size / 100;
         int prio_pieces = tor_info.map_file(i, prio_size, 0).piece -
                               start_piece + 1;
         
