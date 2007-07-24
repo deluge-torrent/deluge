@@ -69,7 +69,6 @@ PREFS_FILENAME = "prefs.state"
 DHT_FILENAME = "dht.state"
 
 PREF_FUNCTIONS = {
-    "max_uploads" : deluge_core.set_max_uploads,
     "listen_on" : deluge_core.set_listen_on,
     "max_connections" : deluge_core.set_max_connections,
     "max_active_torrents" : None, # no need for a function, applied constantly
