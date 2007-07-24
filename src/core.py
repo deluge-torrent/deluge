@@ -857,11 +857,11 @@ class Manager:
         up = float((torrent_state['total_payload_upload'] / 1024) + (self.unique_IDs[unique_ID].uploaded_memory / 1024))
         down = float(torrent_state["total_done"] / 1024)
         try:
-            ret = float(up/down)
+            ret = up/down
         except:
-            ret = 0
-        return ret
-    
+            ret = 0.0
+            
+        return ret    
 
     def create_torrent(self, filename, source_directory, trackers, comments=None,
                     piece_size=32, author="Deluge"):

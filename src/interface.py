@@ -48,6 +48,7 @@ import dgtk
 import ipc_manager
 import files
 import plugins
+import tab_details
 
 class DelugeGTK:
     def __init__(self):
@@ -64,7 +65,6 @@ class DelugeGTK:
         #Start the Deluge Manager:
         self.manager = core.Manager(common.CLIENT_CODE, common.CLIENT_VERSION, 
             '%s %s'%(common.PROGRAM_NAME, common.PROGRAM_VERSION), common.CONFIG_DIR)
-        self.files_tab = files.FilesTabManager(self.manager)
         self.plugins = plugins.PluginManager(self.manager, self)
         self.plugins.add_plugin_dir(common.PLUGIN_DIR)
         if os.path.isdir(os.path.join(common.CONFIG_DIR , 'plugins')):
@@ -86,6 +86,13 @@ class DelugeGTK:
         # self.notebook is used by plugins
         self.notebook = self.wtree.get_widget("torrent_info")
         self.notebook.connect("switch-page", self.notebook_switch_page)
+
+        # Tabs
+        self.tab_details = tab_details.DetailsManager(self.wtree,
+                                                      self.manager)
+        self.tab_details.build()
+        self.tab_files = files.FilesTabManager(self.manager)
+        self.tab_files.build_file_view(self.wtree.get_widget("file_view"))
         
         self.statusbar = self.wtree.get_widget("statusbar")
         
@@ -100,8 +107,6 @@ class DelugeGTK:
             self.has_tray = True
         
         self.build_torrent_table()
-        self.build_summary_tab()
-        self.build_file_tab()
         self.build_peer_tab()
         self.load_status_icons()
 
@@ -549,7 +554,7 @@ class DelugeGTK:
             return True
         
         self.clear_peer_store()
-        self.clear_file_store()
+        self.tab_files.clear_file_store()
         
         unique_id = model.get_value(model.get_iter(path), 0)
         self.update_torrent_info_widget(unique_id)
@@ -618,28 +623,6 @@ class DelugeGTK:
             menuitem.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PAUSE, gtk.ICON_SIZE_MENU))
             menuitem.get_children()[0].set_text(_("Pause"))
         
-    def build_summary_tab(self):
-        #Torrent Summary tab
-        # Look into glade's widget prefix function
-        self.text_summary_name = self.wtree.get_widget("summary_name")
-        self.text_summary_total_size = self.wtree.get_widget("summary_total_size")
-        self.text_summary_pieces = self.wtree.get_widget("summary_pieces")
-        self.text_summary_availability = self.wtree.get_widget("summary_availability")
-        self.text_summary_total_downloaded = self.wtree.get_widget("summary_total_downloaded")
-        self.text_summary_total_uploaded = self.wtree.get_widget("summary_total_uploaded")
-        self.text_summary_download_speed = self.wtree.get_widget("summary_download_speed")
-        self.text_summary_upload_speed = self.wtree.get_widget("summary_upload_speed")
-        self.text_summary_seeders = self.wtree.get_widget("summary_seeders")
-        self.text_summary_peers = self.wtree.get_widget("summary_peers")
-        self.text_summary_percentage_done = self.wtree.get_widget("summary_percentage_done")
-        self.text_summary_share_ratio = self.wtree.get_widget("summary_share_ratio")
-        self.text_summary_downloaded_this_session = self.wtree.get_widget("summary_downloaded_this_session")
-        self.text_summary_uploaded_this_session = self.wtree.get_widget("summary_uploaded_this_session")
-        self.text_summary_tracker = self.wtree.get_widget("summary_tracker")
-        self.text_summary_tracker_status = self.wtree.get_widget("summary_tracker_status")
-        self.text_summary_next_announce = self.wtree.get_widget("summary_next_announce")
-        self.text_summary_eta = self.wtree.get_widget("summary_eta")
-
     def build_peer_tab(self):
         self.peer_view = self.wtree.get_widget("peer_view")
         # IP int, IP string, Client, Percent Complete, Down Speed, Up Speed
@@ -667,12 +650,6 @@ class DelugeGTK:
     def clear_peer_store(self):
         self.peer_store.clear()
         self.peer_store_dict = {}
-
-    def build_file_tab(self):
-        self.files_tab.build_file_view(self.wtree.get_widget("file_view"))
-    
-    def clear_file_store(self):
-        self.files_tab.clear_file_store()
         
     def show_about_dialog(self, arg=None):
         dialogs.show_about_dialog()
@@ -765,7 +742,7 @@ class DelugeGTK:
         progress = float(state['progress'] * 100)
         message = self.get_message_from_state(state)
         availability = state['distributed_copies']
-        share = float(self.calc_share_ratio(unique_id, state))
+        share = self.manager.calc_ratio(unique_id, state)
 
         # setting after initial paused state ensures first change gets updated
         if state["is_paused"]:
@@ -1020,53 +997,7 @@ class DelugeGTK:
             page_num = self.wtree.get_widget("torrent_info").get_current_page()
         
         if page_num == 0: # Details
-            state = self.manager.get_torrent_state(unique_id)
-
-            # Update selected files size, tracker, tracker status and next 
-            # announce no matter what status of the torrent is
-            self.text_summary_total_size.set_text(common.fsize(state["total_wanted"]))
-            self.text_summary_tracker.set_text(str(state["tracker"]))
-            # At this time we still may not receive EVENT_TRACKER so there
-            # could be no tracker_status yet.
-            if "tracker_status" in state:
-                self.text_summary_tracker_status.set_text(state["tracker_status"])
-            self.text_summary_next_announce.set_text(str(state["next_announce"]))
-            
-            just_paused = False
-            if state['is_paused']:
-                # Take a notice about " " space on the end, it's like a sign
-                # to decide was this torrent already paused before we get here
-                # or not. It's to don't add any instance variable for just
-                # this specific check and to keep instance clearer.
-                if self.text_summary_seeders.get_text() != "0 (0) ":
-                    # Selected torrent just paused, zero data now and don't 
-                    # update it anymore on each update()
-                    state['num_seeds'] = state['total_seeds'] = \
-                        state['num_peers'] = state['total_peers'] = \
-                        state['download_rate'] = state['upload_rate'] = 0
-                    just_paused = True
-                else:
-                    # If we already updated paused torrent - do nothing more
-                    return
-            
-            self.wtree.get_widget("summary_name").set_text(state['name'])
-            self.text_summary_pieces.set_text('%s x %s' % \
-                (state["num_pieces"], common.fsize(state["piece_length"])))
-            self.text_summary_availability.set_text('%.3f' % state["distributed_copies"])
-            self.text_summary_total_downloaded.set_text(common.fsize(state["total_done"]) \
-                + " (" + common.fsize(state["total_download"]) + ")")
-            self.text_summary_total_uploaded.set_text(common.fsize(self.manager.unique_IDs\
-                [unique_id].uploaded_memory + state["total_payload_upload"]) + \
-                    " (" + common.fsize(state["total_upload"]) + ")")
-            self.text_summary_download_speed.set_text(common.fspeed(state["download_rate"]))
-            self.text_summary_upload_speed.set_text(common.fspeed(state["upload_rate"]))
-            self.text_summary_seeders.set_text(common.fseed(state) + 
-                                               (just_paused and " " or ""))
-            self.text_summary_peers.set_text(common.fpeer(state))
-            self.wtree.get_widget("progressbar").set_fraction(float(state['progress']))
-            self.wtree.get_widget("progressbar").set_text(common.fpcnt(state["progress"]))
-            self.text_summary_eta.set_text(common.estimate_eta(state))
-            self.text_summary_share_ratio.set_text('%.3f'%(self.calc_share_ratio(unique_id, state)))
+            self.tab_details.update(unique_id)
         elif page_num == 1: # Peers
             new_peer_info = self.manager.get_torrent_peer_info(unique_id)
             new_ips = set()
@@ -1107,13 +1038,9 @@ class DelugeGTK:
         elif page_num == 2: # Files
             # Fill self.file_store with files only once and only when we click to
             # Files tab or it's already open
-            self.files_tab.set_unique_id(unique_id)
-            self.files_tab.prepare_file_store()
-            self.files_tab.update_file_store()
-    
-    def calc_share_ratio(self, unique_id, torrent_state):
-        r = float(self.manager.calc_ratio(unique_id, torrent_state))
-        return r
+            self.tab_files.set_unique_id(unique_id)
+            self.tab_files.prepare_file_store()
+            self.tab_files.update_file_store()
     
     # Return the id of the last single selected torrent
     def get_selected_torrent(self):
@@ -1274,25 +1201,9 @@ class DelugeGTK:
             self.update()
     
     def clear_details_pane(self):
-        self.wtree.get_widget("progressbar").set_text("")
-        self.wtree.get_widget("summary_name").set_text("")
-        self.text_summary_total_size.set_text("")
-        self.text_summary_pieces.set_text("")
-        self.text_summary_availability.set_text("")
-        self.text_summary_total_downloaded.set_text("")
-        self.text_summary_total_uploaded.set_text("")
-        self.text_summary_download_speed.set_text("")
-        self.text_summary_upload_speed.set_text("")
-        self.text_summary_seeders.set_text("")
-        self.text_summary_peers.set_text("")
-        self.wtree.get_widget("progressbar").set_fraction(0.0)
-        self.text_summary_share_ratio.set_text("")
-        self.text_summary_tracker.set_text("")
-        self.text_summary_tracker_status.set_text("")
-        self.text_summary_next_announce.set_text("")
-        self.text_summary_eta.set_text("")
+        self.tab_details.clear()
         self.clear_peer_store()
-        self.clear_file_store()
+        self.tab_files.clear_file_store()
 
     def remove_toggle_warning(self, args, warning):
         if not args.get_active():
