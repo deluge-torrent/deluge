@@ -1097,8 +1097,7 @@ class DelugeGTK:
             
         try:
             dumped_torrent = self.manager.dump_torrent_file_info(torrent)
-            if self.config.get('enable_files_dialog') and \
-               len(dumped_torrent) > 1:
+            if self.config.get('enable_files_dialog'):
                 files_dialog = dialogs.FilesDlg(dumped_torrent)
                 if files_dialog.show() == 1:
                     unique_id = self.manager.add_torrent(torrent, path, 
