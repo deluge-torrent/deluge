@@ -1,18 +1,31 @@
-Deluge BitTorrent Client
+==========================
+ Deluge BitTorrent Client
+==========================
 
 Authors:
 	Zach Tibbitts, aka zachtib
 	Alon Zakai, aka kripkenstein
 	Marcos Pinto, aka markybob
 	Andrew Resch, aka andar
+	Alex Dedul, aka plisk
 
 Homepage: http://deluge-torrent.org
+
+==========================
+Contact/Support:
+==========================
+
+We have two options available for support:
+
+	Our Forum, at http://forum.deluge-torrent.org
+		or
+	Our IRC Channel, at #deluge on Freenode
 
 ==========================
 Installation Instructions:
 ==========================
 
-First, make sure you have the proper bulid dependencies installed.  On a normal 
+First, make sure you have the proper build dependencies installed.  On a normal 
 Debian or Ubuntu system, those dependencies are:
 
 g++
@@ -35,19 +48,29 @@ But the names of the packages may vary depending on your OS / distro.
 
 Once you have the needed libraries installed, build Deluge by running:
 
-	python setup.py build
+	$ make
 
 You shouldn't get any errors.  Then run, as root (or by using sudo): 
 
-	python setup.py install
+	$ make install
 
-and Deluge will be installed.
+and Deluge will be installed.  By default, Deluge will be installed to the
+prefix /usr.  If you wish, you can install Deluge to a different prefix by
+specifying it when you install it:
+
+	$ PREFIX=yourprefixhere make install
+
+So, to install to /usr/local, run:
+
+	$ PREFIX=/usr/local make install
 
 You can then run Deluge by executing:
 
-	deluge
-	
-Notes:
+	$ deluge
+
+==========================
+Additional Notes:
+==========================
 
 1) On some distributions, boost libraries are  renamed to have "-mt" at the end 
 (boost_thread_mt instead of boost_thread, for example), the "mt"  indicating 
