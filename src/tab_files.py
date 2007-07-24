@@ -190,9 +190,7 @@ class FilesTabManager(FilesBaseManager):
 
     # From UI to core
     def update_priorities(self):
-        file_priorities = []
-        for x in self.file_store:
-            file_priorities.append(x[2])
+        file_priorities = [x[2] for x in self.file_store]
         self.manager.prioritize_files(self.file_unique_id, file_priorities)
 
 class FilesDialogManager(FilesBaseManager):
