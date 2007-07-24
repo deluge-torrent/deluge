@@ -99,6 +99,8 @@ class plugin_RSS:
 		icon = gtk.Image()
 		icon.set_from_file(self.path + "/rss.png") # Toolbar items should be 22x22 pixel images
 		self.button = gtk.ToolButton(icon_widget=icon, label=_("RSS"))
+		self.ttips = gtk.Tooltips()
+		self.button.set_tooltip(self.ttips, _("RSS Broadcatcher"))
 		self.button.connect("clicked", self.rss_clicked) # Connect the signal handler for the button
 		self.toolbar.add(self.button) # Add button to toolbar
 		self.button.show_all() # Show the button
