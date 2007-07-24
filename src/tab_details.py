@@ -7,33 +7,30 @@ import common
 
 class DetailsManager(object):
     def __init__(self, glade, manager):
-        self.glade = glade
         self.manager = manager
         
         self.paused_unique_id = None
         
-    def build(self):
-        #Torrent Summary tab
         # Look into glade's widget prefix function
-        self.progress_bar = self.glade.get_widget("progressbar")
-        self.name = self.glade.get_widget("summary_name")
-        self.total_size = self.glade.get_widget("summary_total_size")
-        self.pieces = self.glade.get_widget("summary_pieces")
-        self.availability = self.glade.get_widget("summary_availability")
-        self.total_downloaded = self.glade.get_widget("summary_total_downloaded")
-        self.total_uploaded = self.glade.get_widget("summary_total_uploaded")
-        self.download_speed = self.glade.get_widget("summary_download_speed")
-        self.upload_speed = self.glade.get_widget("summary_upload_speed")
-        self.seeders = self.glade.get_widget("summary_seeders")
-        self.peers = self.glade.get_widget("summary_peers")
-        self.percentage_done = self.glade.get_widget("summary_percentage_done")
-        self.share_ratio = self.glade.get_widget("summary_share_ratio")
-        self.downloaded_this_session = self.glade.get_widget("summary_downloaded_this_session")
-        self.uploaded_this_session = self.glade.get_widget("summary_uploaded_this_session")
-        self.tracker = self.glade.get_widget("summary_tracker")
-        self.tracker_status = self.glade.get_widget("summary_tracker_status")
-        self.next_announce = self.glade.get_widget("summary_next_announce")
-        self.eta = self.glade.get_widget("summary_eta")
+        self.progress_bar = glade.get_widget("progressbar")
+        self.name = glade.get_widget("summary_name")
+        self.total_size = glade.get_widget("summary_total_size")
+        self.pieces = glade.get_widget("summary_pieces")
+        self.availability = glade.get_widget("summary_availability")
+        self.total_downloaded = glade.get_widget("summary_total_downloaded")
+        self.total_uploaded = glade.get_widget("summary_total_uploaded")
+        self.download_speed = glade.get_widget("summary_download_speed")
+        self.upload_speed = glade.get_widget("summary_upload_speed")
+        self.seeders = glade.get_widget("summary_seeders")
+        self.peers = glade.get_widget("summary_peers")
+        self.percentage_done = glade.get_widget("summary_percentage_done")
+        self.share_ratio = glade.get_widget("summary_share_ratio")
+        self.downloaded_this_session = glade.get_widget("summary_downloaded_this_session")
+        self.uploaded_this_session = glade.get_widget("summary_uploaded_this_session")
+        self.tracker = glade.get_widget("summary_tracker")
+        self.tracker_status = glade.get_widget("summary_tracker_status")
+        self.next_announce = glade.get_widget("summary_next_announce")
+        self.eta = glade.get_widget("summary_eta")
         
     def update(self, unique_id):
         state = self.manager.get_torrent_state(unique_id)

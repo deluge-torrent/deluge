@@ -90,7 +90,6 @@ class DelugeGTK:
         # Tabs
         self.tab_details = tab_details.DetailsManager(self.wtree,
                                                       self.manager)
-        self.tab_details.build()
         self.tab_files = files.FilesTabManager(self.manager)
         self.tab_files.build_file_view(self.wtree.get_widget("file_view"))
         
