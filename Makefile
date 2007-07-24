@@ -3,9 +3,14 @@
 #
 PYVER=`python -c "import sys; print sys.version[:3]"`
 PREFIX ?= /usr
+DESTDIR ?= ./
 
 all:
 	python setup.py build
+
+tarball:
+	python setup.py sdist
+	mv dist/deluge-*.tar.gz $(DESTDIR)
 
 install:
 	python setup.py install --prefix=$(PREFIX)
