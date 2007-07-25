@@ -89,7 +89,8 @@ class plugin_NetGraph:
                 self.width  = allocation.width
                 self.height = allocation.height
                 
-                self.networkPixmap = gtk.gdk.Pixmap(None, self.width, self.height, 24)
+                self.networkPixmap = gtk.gdk.Pixmap(None, self.width, 
+                    self.height, gtk.gdk.visual_get_system().depth)
                 self.image.set_from_pixmap(self.networkPixmap, None)
                 self.ctx = self.networkPixmap.cairo_create()
                 
