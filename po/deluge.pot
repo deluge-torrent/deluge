@@ -1,14 +1,9 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-24 16:01-0500\n"
+"POT-Creation-Date: 2007-07-25 02:49-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,8 +211,8 @@ msgstr ""
 
 #: glade/dgtkpopups.glade:41
 msgid ""
-"<span size=\"large\"><b>Are you sure you want to remove the selected torrent"
-"(s) from Deluge?</b></span>"
+"<span size=\"large\"><b>Are you sure you want to remove the selected "
+"torrent(s) from Deluge?</b></span>"
 msgstr ""
 
 #: glade/dgtkpopups.glade:65
@@ -290,20 +285,20 @@ msgstr ""
 msgid "Ask where to save each download"
 msgstr ""
 
-#: glade/preferences_dialog.glade:74 glade/preferences_dialog.glade:75
-msgid "Store all downloads in:"
+#: glade/preferences_dialog.glade:75 glade/preferences_dialog.glade:90
+msgid "Select A Folder"
 msgstr ""
 
-#: glade/preferences_dialog.glade:89
+#: glade/preferences_dialog.glade:103
 msgid "Move completed downloads to (*same partition only*):"
 msgstr ""
 
-#: glade/preferences_dialog.glade:90
+#: glade/preferences_dialog.glade:104
 msgid "Move completed downloads to:"
 msgstr ""
 
-#: glade/preferences_dialog.glade:106 glade/preferences_dialog.glade:119
-msgid "Select A Folder"
+#: glade/preferences_dialog.glade:119 glade/preferences_dialog.glade:120
+msgid "Store all downloads in:"
 msgstr ""
 
 #: glade/preferences_dialog.glade:140
@@ -481,15 +476,19 @@ msgstr ""
 msgid "DHT Proxy"
 msgstr ""
 
-#: glade/preferences_dialog.glade:876
-msgid "Port"
+#: glade/preferences_dialog.glade:849
+msgid "Proxy type"
 msgstr ""
 
-#: glade/preferences_dialog.glade:889
-msgid "Server"
+#: glade/preferences_dialog.glade:856
+msgid "Username"
 msgstr ""
 
-#: glade/preferences_dialog.glade:930
+#: glade/preferences_dialog.glade:867
+msgid "Password"
+msgstr ""
+
+#: glade/preferences_dialog.glade:879
 msgid ""
 "None\n"
 "Socksv4\n"
@@ -499,16 +498,12 @@ msgid ""
 "HTTP W/ Auth"
 msgstr ""
 
-#: glade/preferences_dialog.glade:946
-msgid "Password"
+#: glade/preferences_dialog.glade:924
+msgid "Server"
 msgstr ""
 
-#: glade/preferences_dialog.glade:957
-msgid "Username"
-msgstr ""
-
-#: glade/preferences_dialog.glade:968
-msgid "Proxy type"
+#: glade/preferences_dialog.glade:935
+msgid "Port"
 msgstr ""
 
 #: glade/preferences_dialog.glade:981
@@ -543,33 +538,37 @@ msgstr ""
 msgid "Seeding"
 msgstr ""
 
-#: glade/preferences_dialog.glade:1210 glade/preferences_dialog.glade:1227
-#: glade/preferences_dialog.glade:1311 glade/preferences_dialog.glade:1331
+#: glade/preferences_dialog.glade:1214 glade/preferences_dialog.glade:1234
+#: glade/preferences_dialog.glade:1313
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
 
-#: glade/preferences_dialog.glade:1245 glade/preferences_dialog.glade:1261
-msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
+#: glade/preferences_dialog.glade:1216
+msgid "Maximum Global Upload Slots:"
 msgstr ""
 
-#: glade/preferences_dialog.glade:1263
-msgid "Maximum Download Speed (KiB/s):"
-msgstr ""
-
-#: glade/preferences_dialog.glade:1274 glade/preferences_dialog.glade:1293
-msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr ""
-
-#: glade/preferences_dialog.glade:1295
-msgid "Maximum Connections:"
-msgstr ""
-
-#: glade/preferences_dialog.glade:1313
+#: glade/preferences_dialog.glade:1236
 msgid "Maximum Upload Speed (KiB/s):"
 msgstr ""
 
-#: glade/preferences_dialog.glade:1333
-msgid "Maximum Global Upload Slots:"
+#: glade/preferences_dialog.glade:1254 glade/preferences_dialog.glade:1268
+msgid "The maximum number of connections allowed.  Set -1 for unlimited."
+msgstr ""
+
+#: glade/preferences_dialog.glade:1256
+msgid "Maximum Connections:"
+msgstr ""
+
+#: glade/preferences_dialog.glade:1282 glade/preferences_dialog.glade:1296
+msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
+msgstr ""
+
+#: glade/preferences_dialog.glade:1284
+msgid "Maximum Download Speed (KiB/s):"
+msgstr ""
+
+#: glade/preferences_dialog.glade:1330
+msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr ""
 
 #: glade/preferences_dialog.glade:1350
@@ -793,37 +792,37 @@ msgstr ""
 msgid "Deluge Bittorrent Client"
 msgstr ""
 
-#: src/interface.py:1115
+#: src/interface.py:1114
 msgid ""
-"An error occured while trying to add the torrent. It's possible your ."
-"torrent file is corrupted."
+"An error occured while trying to add the torrent. It's possible your "
+".torrent file is corrupted."
 msgstr ""
 
-#: src/interface.py:1133
+#: src/interface.py:1132
 msgid "Unknown duplicate torrent error."
 msgstr ""
 
-#: src/interface.py:1137
+#: src/interface.py:1136
 msgid "There is not enough free disk space to complete your download."
 msgstr ""
 
-#: src/interface.py:1138
+#: src/interface.py:1137
 msgid "Space Needed:"
 msgstr ""
 
-#: src/interface.py:1139
+#: src/interface.py:1138
 msgid "Available Space:"
 msgstr ""
 
-#: src/interface.py:1153
+#: src/interface.py:1152
 msgid "Add torrent from URL"
 msgstr ""
 
-#: src/interface.py:1157
+#: src/interface.py:1156
 msgid "Enter the URL of the .torrent to download"
 msgstr ""
 
-#: src/interface.py:1211
+#: src/interface.py:1210
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr ""
 
@@ -1057,51 +1056,6 @@ msgstr ""
 
 #: plugins/DesiredRatio/__init__.py:99
 msgid "Not Set"
-msgstr ""
-
-#: plugins/Scheduler/__init__.py:3 plugins/Scheduler/__init__.py:6
-#: plugins/Scheduler/plugin.py:19 plugins/Scheduler/plugin.py:21
-msgid "Scheduler"
-msgstr ""
-
-#: plugins/Scheduler/plugin.py:9
-msgid "Mon"
-msgstr ""
-
-#: plugins/Scheduler/plugin.py:9
-msgid "Tue"
-msgstr ""
-
-#: plugins/Scheduler/plugin.py:9
-msgid "Wed"
-msgstr ""
-
-#: plugins/Scheduler/plugin.py:9
-msgid "Thu"
-msgstr ""
-
-#: plugins/Scheduler/plugin.py:9
-msgid "Fri"
-msgstr ""
-
-#: plugins/Scheduler/plugin.py:9
-msgid "Sat"
-msgstr ""
-
-#: plugins/Scheduler/plugin.py:9
-msgid "Sun"
-msgstr ""
-
-#: plugins/Scheduler/plugin.py:83
-msgid "Scheduler Settings"
-msgstr ""
-
-#: plugins/Scheduler/plugin.py:93
-msgid "Limit download to:"
-msgstr ""
-
-#: plugins/Scheduler/plugin.py:94
-msgid "Limit upload to:"
 msgstr ""
 
 #: plugins/NetworkGraph/__init__.py:1
