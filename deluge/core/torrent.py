@@ -39,7 +39,9 @@ import deluge.libtorrent as lt
 log = logging.getLogger("deluge")
 
 class Torrent:
-    def __init__(self, handle, queue):
+    def __init__(self, filename, handle, queue):
+        # Set the filename
+        self.filename = filename
         # Set the libtorrent handle
         self.handle = handle
         # Set the queue this torrent belongs too
@@ -49,6 +51,10 @@ class Torrent:
     
     def __del__(self):
         self.queue.remove(self.torrent_id)
+    
+    def get_state(self):
+        """Returns the state of this torrent for saving to the session state"""
+        return (self.torrent_id, self.filename)
         
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""

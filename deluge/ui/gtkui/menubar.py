@@ -123,6 +123,8 @@ class MenuBar:
     ## Torrent Menu ##
     def on_menuitem_pause_activate(self, data=None):
         log.debug("on_menuitem_pause_activate")
+        functions.pause_torrent(
+                            self.window.torrentview.get_selected_torrents())
         
     def on_menuitem_updatetracker_activate(self, data=None):
         log.debug("on_menuitem_updatetracker_activate")

@@ -51,6 +51,8 @@ class Config:
         # Load the config from file in the config_dir
         self.config_file = deluge.common.get_config_dir(filename)
         self.load(self.config_file)
+        # Save
+        self.save()
         
     def __del__(self):
         log.debug("Config object deconstructing..")
@@ -90,6 +92,8 @@ class Config:
 	    # Sets the "key" with "value" in the config dict
         log.debug("Setting '%s' to %s", key, value)
         self.config[key] = value
+        # Whenever something is set, we should save
+        self.save()
 		
     def get(self, key):
         # Attempts to get the "key" value and returns None if the key is 
@@ -106,4 +110,4 @@ class Config:
         return self.config[key]
 
     def __setitem__(self, key, value):
-        self.config[key] = value
+        self.set(key, value)

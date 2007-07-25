@@ -53,7 +53,6 @@ log = logging.getLogger("deluge")
 
 def main():
     # Setup the argument parser
-    # FIXME: need to use deluge.common to fill in version
     parser = OptionParser(usage="%prog [options] [actions]", 
                                            version=deluge.common.get_version())
     parser.add_option("--daemon", dest="daemon", help="Start Deluge daemon",

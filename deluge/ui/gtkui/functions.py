@@ -92,6 +92,12 @@ def remove_torrent(torrent_ids):
     core = get_core()
     for torrent_id in torrent_ids:
         core.remove_torrent(torrent_id)
+        
+def pause_torrent(torrent_ids):
+    """Pauses torrent_ids"""
+    core = get_core()
+    for torrent_id in torrent_ids:
+        core.pause_torrent(torrent_id)
 
 def queue_top(torrent_ids):
     """Attempts to queue all torrent_ids to the top"""

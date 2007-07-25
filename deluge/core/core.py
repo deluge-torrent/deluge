@@ -67,9 +67,6 @@ DEFAULT_PREFS = {
 class Core(dbus.service.Object):
     def __init__(self, path="/org/deluge_torrent/Core"):
         log.debug("Core init..")
-
-        # Start the TorrentManager
-        self.torrents = TorrentManager()
         
         # Setup DBUS
         bus_name = dbus.service.BusName("org.deluge_torrent.Deluge", 
@@ -86,6 +83,9 @@ class Core(dbus.service.Object):
                                         self.config.get("listen_ports")[1])
         self.session.listen_on(self.config.get("listen_ports")[0],
                                self.config.get("listen_ports")[1])
+
+        # Start the TorrentManager
+        self.torrents = TorrentManager(self.session)
 
         log.debug("Starting main loop..")
         self.loop = gobject.MainLoop()
@@ -105,56 +105,27 @@ class Core(dbus.service.Object):
             This requires the torrents filename and a dump of it's content
         """
         log.info("Adding torrent: %s", filename)
-
-        # Convert the filedump data array into a string of bytes
-        filedump = "".join(chr(b) for b in filedump)
-        
-        # Bdecode the filedata sent from the UI
-        torrent_filedump = lt.bdecode(filedump)
-        handle = None
-        try:
-            handle = self.session.add_torrent(lt.torrent_info(torrent_filedump), 
-                                    self.config["download_location"],
-                                    self.config["compact_allocation"])
-        except RuntimeError:
-            log.warning("Error adding torrent") 
-            
-        if not handle or not handle.is_valid():
-            # The torrent was not added to the session
-            # Emit the torrent_add_failed signal
+        torrent_id = self.torrents.add(filename, filedump)
+        if torrent_id is not None:
+            # Emit the torrent_added signal
+            self.torrent_added(torrent_id)
+        else:
             self.torrent_add_failed()
-            return
-        
-        # Write the .torrent file to the torrent directory
-        log.debug("Attemping to save torrent file: %s", filename)
-        try:
-            f = open(os.path.join(self.config["torrentfiles_location"], 
-                    filename),
-                    "wb")
-            f.write(filedump)
-            f.close()
-        except IOError:
-            log.warning("Unable to save torrent file: %s", filename)
-        
-        # Add the torrent to the torrentmanager
-        torrent_id = self.torrents.add(handle)
-        
-        # Emit the torrent_added signal
-        self.torrent_added(torrent_id)
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
                                     in_signature="s", out_signature="")
     def remove_torrent(self, torrent_id):
         log.debug("Removing torrent %s from the core.", torrent_id)
-        try:
-            # Remove from libtorrent session
-            self.session.remove_torrent(self.torrents[torrent_id].handle)
-            # Remove from TorrentManager
-            self.torrents.remove(torrent_id)
+        if self.torrents.remove(torrent_id):
             # Emit the torrent_removed signal
             self.torrent_removed(torrent_id)
-        except RuntimeError, KeyError:
-            log.warning("Error removing torrent")
+            
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+                                    in_signature="s", out_signature="")
+    def pause_torrent(self, torrent_id):
+        log.debug("Pausing torrent %s", torrent_id)
+        if self.torrents.pause(torrent_id):
+            self.torrent_paused(torrent_id)
     
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
                                     in_signature="s", out_signature="(sxi)")
@@ -236,3 +207,9 @@ class Core(dbus.service.Object):
     def torrent_queue_changed(self):
         """Emitted when a torrent queue position is changed"""
         log.debug("torrent_queue_changed signal emitted")
+
+    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
+                                             signature="s")
+    def torrent_paused(self, torrent_id):
+        """Emitted when a torrent is paused"""
+        log.debug("torrent_paused signal emitted")

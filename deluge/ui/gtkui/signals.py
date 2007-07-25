@@ -65,6 +65,7 @@ class Signals:
                                                     self.torrent_removed_signal)
         self.core.connect_to_signal("torrent_queue_changed",
                                             self.torrent_queue_changed_signal)
+        self.core.connect_to_signal("torrent_paused", self.torrent_paused)
     
     def torrent_added_signal(self, torrent_id):
         log.debug("torrent_added signal received..")
@@ -81,4 +82,8 @@ class Signals:
     def torrent_queue_changed_signal(self):
         log.debug("torrent_queue_changed signal received..")
         # Force an update of the torrent view
+        self.ui.main_window.torrentview.update()
+
+    def torrent_paused(self, torrent_id):
+        log.debug("torrent_paused signal received..")
         self.ui.main_window.torrentview.update()

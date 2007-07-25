@@ -32,16 +32,25 @@
 #    statement from all source files in the program, then also delete it here.
 
 import logging
+import pickle
+import os.path
 
+import deluge.libtorrent as lt
+
+import deluge.common
+from deluge.config import Config
 from deluge.core.torrent import Torrent
 from deluge.core.torrentqueue import TorrentQueue
+from deluge.core.torrentmanagerstate import TorrentManagerState, TorrentState
 
 # Get the logger
 log = logging.getLogger("deluge")
 
 class TorrentManager:
-    def __init__(self):
+    def __init__(self, session):
         log.debug("TorrentManager init..")
+        # Set the libtorrent session
+        self.session = session
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
         self.queue = TorrentQueue()
@@ -50,10 +59,42 @@ class TorrentManager:
         """Return the Torrent with torrent_id"""
         return self.torrents[torrent_id]
     
-    def add(self, handle):
+    def add(self, filename, filedump):
         """Add a torrent to the manager and returns it's torrent_id"""
+        # Get the core config
+        config = Config("core.conf")
+        
+        # Convert the filedump data array into a string of bytes
+        filedump = "".join(chr(b) for b in filedump)
+        
+        # Bdecode the filedata sent from the UI
+        torrent_filedump = lt.bdecode(filedump)
+        handle = None
+        
+        try:
+            handle = self.session.add_torrent(lt.torrent_info(torrent_filedump), 
+                                    config["download_location"],
+                                    config["compact_allocation"])
+        except RuntimeError:
+            log.warning("Error adding torrent") 
+            
+        if not handle or not handle.is_valid():
+            # The torrent was not added to the session
+            return None
+        
+        # Write the .torrent file to the torrent directory
+        log.debug("Attemping to save torrent file: %s", filename)
+        try:
+            f = open(os.path.join(config["torrentfiles_location"], 
+                    filename),
+                    "wb")
+            f.write(filedump)
+            f.close()
+        except IOError:
+            log.warning("Unable to save torrent file: %s", filename)
+        
         # Create a Torrent object
-        torrent = Torrent(handle, self.queue)
+        torrent = Torrent(filename, handle, self.queue)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
         # Add the torrent to the queue
@@ -63,11 +104,47 @@ class TorrentManager:
     def remove(self, torrent_id):
         """Remove a torrent from the manager"""
         try:
+            # Remove from libtorrent session
+            self.session.remove_torrent(self.torrents[torrent_id].handle)
+        except RuntimeError, KeyError:
+            log.warning("Error removing torrent")
+            return False
+            
+        try:
             del self.torrents[torrent_id]
         except KeyError, ValueError:
             return False
         return True
+
+    def pause(self, torrent_id):
+        """Pause a torrent"""
+        try:
+            self.torrents[torrent_id].handle.pause()
+        except:
+            return False
+            
+        return True       
+
+    def save_state(self):
+        """Save the state of the TorrentManager to the torrents.state file"""
+        state = TorrentManagerState()
+        # Grab the queue from TorrentQueue
+        state.queue = self.queue.queue
+        # Create the state for each Torrent and append to the list
+        for (key, torrent) in self.torrents:
+            t = TorrentState(torrent.get_state())
+            state.torrents.append(t)
         
+        # Pickle the TorrentManagerState object
+        try:
+            log.debug("Saving torrent state file.")
+            state_file = open(deluge.common.get_config_dir("torrents.state"), "wb")
+            pickle.dump(state, state_file)
+            state_file.close()
+        except IOError:
+            log.warning("Unable to save state file.")
+            
+    
     def get_info_template(self):
         """Returns a list of strings that correspond to the info tuple"""
         return [
