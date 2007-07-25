@@ -18,8 +18,6 @@ plugins/TorrentSearch/searchdlg.glade
 plugins/TorrentCreator/__init__.py
 plugins/TorrentCreator/torrentcreator.glade
 plugins/DesiredRatio/__init__.py
-plugins/Scheduler/__init__.py
-plugins/Scheduler/plugin.py
 plugins/NetworkGraph/__init__.py
 plugins/NetworkGraph/plugin.py
 plugins/NetworkHealth/__init__.py
