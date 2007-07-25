@@ -157,10 +157,10 @@ class TorrentView:
         # This function is used for the foreach method of the treemodel
         def update_row(model, path, row, user_data):
             torrent_id = self.torrent_model.get_value(row, 0)
-            status = functions.get_torrent_status_dict(self.core, torrent_id)
+            status = functions.get_torrent_status(self.core, torrent_id)
             # Set values for each column in the row
             self.torrent_model.set_value(row, TORRENT_VIEW_COL_QUEUE, 
-                                            status["position"]+1)
+                                            status["queue"]+1)
             self.torrent_model.set_value(row, TORRENT_VIEW_COL_PROGRESS, 
                                             status["progress"]*100)
             self.torrent_model.set_value(row, TORRENT_VIEW_COL_STATUS, 
@@ -186,13 +186,13 @@ class TorrentView:
     def add_row(self, torrent_id):
         """Adds a new torrent row to the treeview"""
         # Get the status and info dictionaries
-        status = functions.get_torrent_status_dict(self.core, torrent_id)
-        info = functions.get_torrent_info_dict(self.core, torrent_id)
+        status = functions.get_torrent_status(self.core, torrent_id)
+        info = functions.get_torrent_info(self.core, torrent_id)
 
         # Insert the row with info provided from core
-        self.torrent_model.insert(status["position"], [
+        self.torrent_model.insert(status["queue"], [
                 torrent_id,
-                status["position"]+1,
+                status["queue"]+1,
                 None,
                 info["name"],
                 info["total_size"],

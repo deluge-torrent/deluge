@@ -33,6 +33,7 @@
 
 import logging
 import os.path
+import pickle
 
 try:
 	import dbus, dbus.service
@@ -128,31 +129,21 @@ class Core(dbus.service.Object):
             self.torrent_paused(torrent_id)
     
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                    in_signature="s", out_signature="(sxi)")
+                                    in_signature="s", out_signature="ay")
     def get_torrent_info(self, torrent_id):
-        # Get the info tuple from the torrent and return it
-        return self.torrents[torrent_id].get_info()
+        # Pickle the info dictionary from the torrent and return it
+        info = self.torrents[torrent_id].get_info()
+        info = pickle.dumps(info)
+        return info
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
                                     in_signature="s", 
-                                    out_signature="(ibdixxddiixii)")
+                                    out_signature="ay")
     def get_torrent_status(self, torrent_id):
-        # Get the status tuple from the torrent and return it
-        return self.torrents[torrent_id].get_status()
-
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                    in_signature="", 
-                                    out_signature="as")    
-    def get_torrent_status_template(self):
-        # A list of strings the correspond to the status tuple
-        return self.torrents.get_status_template()
-
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                    in_signature="", 
-                                    out_signature="as")    
-    def get_torrent_info_template(self):
-        # A list of strings the correspond to the info tuple
-        return self.torrents.get_info_template()
+        # Pickle the status dictionary from the torrent and return it
+        status = self.torrents[torrent_id].get_status()
+        status = pickle.dumps(status)
+        return status
         
     ## Queueing functions ######
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 

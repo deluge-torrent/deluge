@@ -75,29 +75,28 @@ class Torrent:
         """Returns the torrents info.. stuff that remains constant, such as
             name."""
         
-        return (
-            self.handle.torrent_info().name(),
-            self.handle.torrent_info().total_size(),
-            self.handle.status().num_pieces
-        )
+        return {
+            "name": self.handle.torrent_info().name(),
+            "total_size": self.handle.torrent_info().total_size(),
+            "num_pieces": self.handle.status().num_pieces
+        }
                   
     def get_status(self):
         """Returns the torrent status"""
         status = self.handle.status()
         
-        return (
-            status.state,
-            status.paused,
-            status.progress,
-            status.next_announce.seconds,
-            status.total_payload_download,
-            status.total_payload_upload,
-            status.download_payload_rate,
-            status.upload_payload_rate,
-            status.num_peers,
-            status.num_seeds,
-            status.total_wanted,
-            self.get_eta(),
-            self.queue[self.torrent_id]
-        )
-    
+        return {
+            "state": int(status.state),
+            "paused": status.paused,
+            "progress": status.progress,
+            "next_announce": status.next_announce.seconds,
+            "total_payload_download": status.total_payload_download,
+            "total_payload_upload": status.total_payload_upload,
+            "download_payload_rate": status.download_payload_rate,
+            "upload_payload_rate": status.upload_payload_rate,
+            "num_peers": status.num_peers,
+            "num_seeds": status.num_seeds,
+            "total_wanted": status.total_wanted,
+            "eta": self.get_eta(),
+            "queue": self.queue[self.torrent_id]
+        }

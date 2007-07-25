@@ -33,6 +33,7 @@
 
 import logging
 import os.path
+import pickle
 
 try:
     import dbus, dbus.service
@@ -127,20 +128,20 @@ def queue_bottom(torrent_ids):
     for torrent_id in torrent_ids:
         core.queue_bottom(torrent_id)
 
-def get_torrent_status_dict(core, torrent_id):
-    """Builds and returns a status dictionary using the status template"""
-    status = core.get_torrent_status(torrent_id)
-    template = core.get_torrent_status_template()
-    status_dict = {}
-    for string in template:
-        status_dict[string] = status[template.index(string)]
-    return status_dict
-    
-def get_torrent_info_dict(core, torrent_id):
-    """Builds and returns an info dictionary using the info template"""
+def get_torrent_info(core, torrent_id):
+    """Builds the info dictionary and returns it"""
     info = core.get_torrent_info(torrent_id)
-    template = core.get_torrent_info_template()
-    info_dict = {}
-    for string in template:
-        info_dict[string] = info[template.index(string)]
-    return info_dict
+    # Join the array of bytes into a string for pickle to read
+    info = "".join(chr(b) for b in info)
+    # De-serialize the object
+    info = pickle.loads(info)
+    return info
+    
+def get_torrent_status(core, torrent_id):
+    """Builds the status dictionary and returns it"""
+    status = core.get_torrent_status(torrent_id)
+    # Join the array of bytes into a string for pickle to read
+    status = "".join(chr(b) for b in status)
+    # De-serialize the object
+    status = pickle.loads(status)
+    return status

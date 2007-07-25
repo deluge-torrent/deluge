@@ -59,15 +59,24 @@ class TorrentManager:
         """Return the Torrent with torrent_id"""
         return self.torrents[torrent_id]
     
-    def add(self, filename, filedump):
+    def add(self, filename, filedump=None):
         """Add a torrent to the manager and returns it's torrent_id"""
         # Get the core config
         config = Config("core.conf")
         
         # Convert the filedump data array into a string of bytes
-        filedump = "".join(chr(b) for b in filedump)
+        if filedump is not None:
+            filedump = "".join(chr(b) for b in filedump)
+        else:
+            # Get the data from the file
+            try:
+                filedump = open(os.path.join(config["torrentfiles_location"],
+                                    filename, "rb")).read()
+            except IOError:
+                log.warning("Unable to open %s", filename)
+                return None
         
-        # Bdecode the filedata sent from the UI
+        # Bdecode the filedata
         torrent_filedump = lt.bdecode(filedump)
         handle = None
         
@@ -144,29 +153,3 @@ class TorrentManager:
         except IOError:
             log.warning("Unable to save state file.")
             
-    
-    def get_info_template(self):
-        """Returns a list of strings that correspond to the info tuple"""
-        return [
-            "name",
-            "total_size",
-            "num_pieces"
-        ]
-        
-    def get_status_template(self):
-        """Returns a list of strings that correspond to the status tuple"""
-        return [
-            "state",
-            "paused",
-            "progress",
-            "next_announce",
-            "total_payload_download",
-            "total_payload_upload",
-            "download_payload_rate",
-            "upload_payload_rate",
-            "num_peers",
-            "num_seeds",
-            "total_wanted",
-            "eta",
-            "position"
-        ]
