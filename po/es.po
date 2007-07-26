@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-07-25 02:49-0500\n"
-"PO-Revision-Date: 2007-07-25 05:19+0000\n"
-"Last-Translator: antoniojreyes <antoniojreyes@gmail.com>\n"
+"PO-Revision-Date: 2007-07-26 00:06+0000\n"
+"Last-Translator: moonkey <germanbassi@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Rosetta-Export-Date: 2007-07-25 22:08:33+0000\n"
+"X-Rosetta-Export-Date: 2007-07-26 06:28:44+0000\n"
 
 #: glade/delugegtk.glade:22
 msgid "Add Torrent"
@@ -573,7 +573,7 @@ msgstr "<b>Compartiendo</b>"
 
 #: glade/preferences_dialog.glade:1163
 msgid "Seeding"
-msgstr "Sembrando"
+msgstr "Compartiendo"
 
 #: glade/preferences_dialog.glade:1214 glade/preferences_dialog.glade:1234
 #: glade/preferences_dialog.glade:1313
@@ -592,7 +592,7 @@ msgstr "Velocidad Máxima de Subida (KB/s)"
 
 #: glade/preferences_dialog.glade:1254 glade/preferences_dialog.glade:1268
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "Número máximo de conexiones permitidas. Pon -1 para ilimitados."
+msgstr "Número máximo de conexiones permitidas. Use -1 si desea ilimitados."
 
 #: glade/preferences_dialog.glade:1256
 msgid "Maximum Connections:"
@@ -609,8 +609,11 @@ msgid "Maximum Download Speed (KiB/s):"
 msgstr "Velocidad Máxima de Descarga (KB/s)"
 
 #: glade/preferences_dialog.glade:1330
+#, fuzzy
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr ""
+"La cantidad máxima de slots para todos los torrents. Use -1 si desea "
+"ilimitada."
 
 #: glade/preferences_dialog.glade:1350
 msgid "<b>Bandwidth Usage</b>"
@@ -907,6 +910,7 @@ msgstr ""
 "  fosk <https://launchpad.net/~oscarrdg>\n"
 "  granjerox <https://launchpad.net/~granjerox>\n"
 "  julietgolf <https://launchpad.net/~julietgolf>\n"
+"  moonkey <https://launchpad.net/~germanbassi>\n"
 "  vicedo <https://launchpad.net/~soytuputofan>"
 
 #: src/dialogs.py:372
