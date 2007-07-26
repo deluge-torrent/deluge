@@ -1022,9 +1022,16 @@ class DelugeGTK:
                                              izip(peer["ip"].split("."), 
                                                   (24, 16, 8, 0))])
 
+                        client = peer["client"]
+                        try:
+                            client = client.decode('utf-8')
+                        except UnicodeDecodeError:
+                            # Fallback to latin-1 in case peer's client 
+                            # doesn't use utf-8. utorrent < 1.7 for example
+                            client = client.decode('latin-1')
+                            
                         iter = self.peer_store.append([ip_int, peer["ip"],
-                                   unicode(peer["client"], "latin-1"),
-                                   round(peer["peer_has"], 2),
+                                   client, round(peer["peer_has"], 2),
                                    peer["download_speed"],
                                    peer["upload_speed"]])
 
