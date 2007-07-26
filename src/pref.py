@@ -64,7 +64,7 @@ DEFAULT_PREFS = {
     "max_connections" : 400,
     "max_download_speed" : -1,
     "max_download_speed_bps": -1,
-    "max_number_uploads" : 5,
+    "max_number_uploads" : 10,
     "max_upload_speed" : -1,
     "max_upload_speed_bps" : -1,
     "pref_rc4" : True,
