@@ -20,7 +20,7 @@
               <widget class="GtkToolButton" id="toolbutton_add">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Add Torrent</property>
-                <property name="label">Add</property>
+                <property name="label" translatable="yes">Add</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-add</property>
                 <signal name="clicked" handler="add_torrent"/>
@@ -34,7 +34,7 @@
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Remove Torrent</property>
-                <property name="label">Remove</property>
+                <property name="label" translatable="yes">Remove</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-remove</property>
                 <signal name="clicked" handler="remove_torrent"/>
@@ -47,7 +47,7 @@
               <widget class="GtkToolButton" id="toolbutton3">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Clear Finished Torrents</property>
-                <property name="label">Clear</property>
+                <property name="label" translatable="yes">Clear</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-clear</property>
                 <signal name="clicked" handler="clear_finished"/>
@@ -70,7 +70,7 @@
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Start or Pause torrent</property>
-                <property name="label">Start</property>
+                <property name="label" translatable="yes">Start</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-media-play</property>
                 <signal name="clicked" handler="start_pause"/>
@@ -84,7 +84,7 @@
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Queue Torrent Up</property>
-                <property name="label">Up</property>
+                <property name="label" translatable="yes">Up</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-go-up</property>
                 <signal name="clicked" handler="queue_up"/>
@@ -98,7 +98,7 @@
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Queue Torrent Down</property>
-                <property name="label">Down</property>
+                <property name="label" translatable="yes">Down</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-go-down</property>
                 <signal name="clicked" handler="queue_down"/>
@@ -120,7 +120,7 @@
               <widget class="GtkToolButton" id="toolbutton1">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Change Deluge preferences</property>
-                <property name="label">Preferences</property>
+                <property name="label" translatable="yes">Preferences</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-preferences</property>
                 <signal name="clicked" handler="pref_clicked"/>
@@ -133,7 +133,7 @@
               <widget class="GtkToolButton" id="toolbutton2">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Open the plugins dialog</property>
-                <property name="label">Plugins</property>
+                <property name="label" translatable="yes">Plugins</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-disconnect</property>
                 <signal name="clicked" handler="plugins_clicked"/>
