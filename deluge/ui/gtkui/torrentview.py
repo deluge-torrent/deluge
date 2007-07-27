@@ -40,7 +40,7 @@ import gobject
 import gettext
 
 import columns
-import ui.functions
+import deluge.ui.functions as functions
 
 # Get the logger
 log = logging.getLogger("deluge")

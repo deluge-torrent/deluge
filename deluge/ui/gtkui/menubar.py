@@ -38,7 +38,7 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import pkg_resources
 
-import ui.functions
+import deluge.ui.functions as functions
 
 # Get the logger
 log = logging.getLogger("deluge")
