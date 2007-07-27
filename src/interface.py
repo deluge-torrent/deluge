@@ -883,10 +883,6 @@ class DelugeGTK:
                         
                 itr = self.torrent_model.iter_next(itr)
             
-            # Disable moving top torrents up or bottom torrents down
-            top_torrents_selected = True
-            bottom_torrents_selected = True
-            
             torrent_selection = self.torrent_view.get_selection()
             selection_count = torrent_selection.count_selected_rows()
             
@@ -894,20 +890,6 @@ class DelugeGTK:
             if selection_count == 0:
                 torrent_selection.select_path("0")
                 selection_count = 1
-            
-            for i in xrange(selection_count):
-                if not torrent_selection.path_is_selected(i):
-                    top_torrents_selected = False
-            
-                if not torrent_selection.path_is_selected(len(self.torrent_model) - 1 - i):
-                    bottom_torrents_selected = False
-            
-            self.torrent_glade.get_widget("menu_queue_top").set_sensitive(not top_torrents_selected)
-            self.torrent_glade.get_widget("menu_queue_up").set_sensitive(not top_torrents_selected)
-            self.torrent_glade.get_widget("menu_queue_down").set_sensitive(not bottom_torrents_selected)
-            self.torrent_glade.get_widget("menu_queue_bottom").set_sensitive(not bottom_torrents_selected)
-            self.wtree.get_widget("toolbutton_up").set_sensitive(not top_torrents_selected)
-            self.wtree.get_widget("toolbutton_down").set_sensitive(not bottom_torrents_selected)
             
             unique_id = None
             if selection_count == 1:
