@@ -56,9 +56,10 @@ import shutil
 import statvfs
 import time
 import gettext
-from common import N_, PRIORITY_NORMAL
 import deluge_core
 import pref
+import common 
+import locale
 
 # Constants
 
@@ -81,15 +82,23 @@ PREF_FUNCTIONS = {
     "use_natpmp" : deluge_core.use_natpmp,
     "use_utpex" : deluge_core.use_utpex,
 }
+APP = 'deluge'
+DIR = os.path.join(common.INSTALL_PREFIX, 'share', 'locale')
+locale.setlocale(locale.LC_ALL, '')
+locale.bindtextdomain(APP, DIR)
+locale.textdomain(APP)
+gettext.bindtextdomain(APP, DIR)
+gettext.textdomain(APP)
+gettext.install(APP, DIR)
 
-STATE_MESSAGES = (N_("Queued"),
-                  N_("Checking"),
-                  N_("Connecting"),
-                  N_("Downloading Metadata"),
-                  N_("Downloading"),
-                  N_("Finished"),
-                  N_("Seeding"),
-                  N_("Allocating"))
+STATE_MESSAGES = (_("Queued"),
+                  _("Checking"),
+                  _("Connecting"),
+                  _("Downloading Metadata"),
+                  _("Downloading"),
+                  _("Finished"),
+                  _("Seeding"),
+                  _("Allocating"))
 # Exceptions
 
 class DelugeError(Exception):
@@ -588,26 +597,26 @@ class Manager:
             elif event['event_type'] is self.constants['EVENT_TRACKER_ANNOUNCE']:
                 self.set_supp_torrent_state_val(event['unique_ID'], 
                                                 "tracker_status",
-                                                N_("Announce sent"))
+                                                _("Announce sent"))
             elif event['event_type'] is self.constants['EVENT_TRACKER_REPLY']:
                 self.set_supp_torrent_state_val(event['unique_ID'], 
                                                 "tracker_status",
-                                                N_("Announce OK"))
+                                                _("Announce OK"))
             elif event['event_type'] is self.constants['EVENT_TRACKER_ALERT']:
                 match = re.search('tracker:\s*".*"\s*(.*)', event["message"])
                 message = match and match.groups()[0] or ""
                     
                 tracker_status = "%s: %s (%s=%s, %s=%s)" % \
-                    (N_("Alert"), message, 
-                     N_("HTTP code"), event["status_code"], 
-                     N_("times in a row"), event["times_in_row"])
+                    (_("Alert"), message, 
+                     _("HTTP code"), event["status_code"], 
+                     _("times in a row"), event["times_in_row"])
                         
                 self.set_supp_torrent_state_val(event['unique_ID'], 
                                                 "tracker_status",
                                                 tracker_status)
             elif event['event_type'] is self.constants['EVENT_TRACKER_WARNING']:
                 # Probably will need proper formatting later, not tested yet
-                tracker_status = '%s: %s' % (N_("Warning"), event["message"])
+                tracker_status = '%s: %s' % (_("Warning"), event["message"])
                 
                 self.set_supp_torrent_state_val(event['unique_ID'], 
                                                 "tracker_status",
