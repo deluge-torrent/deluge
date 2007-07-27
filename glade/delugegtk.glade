@@ -44,7 +44,7 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkToolButton" id="toolbutton3">
+              <widget class="GtkToolButton" id="toolbutton_clear">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Clear Finished Torrents</property>
                 <property name="label" translatable="yes">Clear</property>
