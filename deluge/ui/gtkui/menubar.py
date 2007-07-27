@@ -38,7 +38,7 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import pkg_resources
 
-import functions
+import ui.functions
 
 # Get the logger
 log = logging.getLogger("deluge")
@@ -101,7 +101,8 @@ class MenuBar:
     ## File Menu ##
     def on_menuitem_addtorrent_activate(self, data=None):
         log.debug("on_menuitem_addtorrent_activate")
-        functions.add_torrent_file()
+        from addtorrentdialog import AddTorrentDialog
+        functions.add_torrent_file(AddTorrentDialog().run())
         
     def on_menuitem_addurl_activate(self, data=None):
         log.debug("on_menuitem_addurl_activate")

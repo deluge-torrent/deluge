@@ -50,7 +50,7 @@ import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
 
-import functions
+import ui.functions
 from deluge.config import Config
 
 # Get the logger

@@ -37,8 +37,6 @@ import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
 
-import functions
-
 # Get the logger
 log = logging.getLogger("deluge")
 

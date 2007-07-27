@@ -52,9 +52,6 @@ import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
 
-from addtorrentdialog import AddTorrentDialog
-from deluge.ui.ui import UI
-
 # Get the logger
 log = logging.getLogger("deluge")
 
@@ -69,10 +66,10 @@ def get_core():
     log.debug("Got core proxy object..")
     return core
     
-def add_torrent_file():
-    """Opens a file chooser dialog and adds any files selected to the core"""
-    at_dialog = AddTorrentDialog()
-    torrent_files = at_dialog.run()
+def add_torrent_file(torrent_files):
+    """Adds torrent files to the core
+        Expects a list of torrent files
+    """
     if torrent_files is None:
         log.debug("No torrent files selected..")
         return
