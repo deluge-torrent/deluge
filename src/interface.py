@@ -145,7 +145,8 @@ class DelugeGTK:
                     "show_about_dialog": self.show_about_dialog,
                     "launchpad": self.launchpad,
                     ## Toolbar
-                    "start_pause": self.start_pause,
+                    "tor_start": self.tor_start,
+                    "tor_pause": self.tor_pause,
                     "update_tracker": self.update_tracker,
                     "clear_finished": self.clear_finished,
                     "queue_up": self.q_torrent_up,
@@ -435,7 +436,8 @@ class DelugeGTK:
         self.torrent_glade.signal_autoconnect({
                         "remove_torrent": self.remove_torrent_clicked,
                         "edit_trackers": self.list_of_trackers,
-                        "start_pause": self.start_pause,
+                        "tor_start": self.tor_start,
+                        "tor_pause": self.tor_pause,
                         "update_tracker": self.update_tracker,
                         "clear_finished": self.clear_finished,
                         "queue_up": self.q_torrent_up,
@@ -565,12 +567,6 @@ class DelugeGTK:
             # Get the torrent state so we can check if the torrent is paused.
             torrent_state = self.manager.get_torrent_state(unique_id)
             widget = self.torrent_glade.get_widget("menu_pause")
-            if torrent_state["is_paused"]:
-                widget.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PLAY, gtk.ICON_SIZE_MENU))
-                widget.get_children()[0].set_text(_("Resume"))
-            else:
-                widget.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PAUSE, gtk.ICON_SIZE_MENU))
-                widget.get_children()[0].set_text(_("Pause"))
             
             self.torrent_menu.popup(None, None, None, event.button, 
                                     event.time)
@@ -579,13 +575,27 @@ class DelugeGTK:
         else:
             return False
     
-    def start_pause(self, widget):
+    def tor_start(self, widget):
         unique_ids = self.get_selected_torrent_rows()
         try:
             for uid in unique_ids:
-                self.manager.set_user_pause(uid, not self.manager.is_user_paused(uid))
+                torrent_state = self.manager.get_torrent_state(uid)
+                if torrent_state["is_paused"]:
+                    self.manager.set_user_pause(uid, False)
             
-            # We need to force an update so the GUI looks more responsive
+            self.update()
+
+        except KeyError:
+            pass
+
+    def tor_pause(self, widget):
+        unique_ids = self.get_selected_torrent_rows()
+        try:
+            for uid in unique_ids:
+                torrent_state = self.manager.get_torrent_state(uid)
+                if torrent_state["is_paused"] == 0:
+                    self.manager.set_user_pause(uid, True, True)
+
             self.update()
 
         except KeyError:
@@ -594,23 +604,8 @@ class DelugeGTK:
     def torrent_menu_focus(self, widget, direction):
         menuitem = self.torrent_glade.get_widget("menu_pause")
         # Check if we are selecting multiple torrents
-        if len(self.get_selected_torrent_rows()) > 1:
-            menuitem.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PAUSE, gtk.ICON_SIZE_MENU))
-            menuitem.get_children()[0].set_text(_("Pause/Resume"))
-            return
+        return
             
-        # Get the selected torrent state so we can check if the torrent is paused.
-        unique_id = self.get_selected_torrent()
-        if unique_id is None:
-            return
-        torrent_state = self.manager.get_torrent_state(unique_id)
-        if torrent_state["is_paused"]:
-            menuitem.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PLAY, gtk.ICON_SIZE_MENU))
-            menuitem.get_children()[0].set_text(_("Resume"))
-        else:
-            menuitem.set_image(gtk.image_new_from_stock(gtk.STOCK_MEDIA_PAUSE, gtk.ICON_SIZE_MENU))
-            menuitem.get_children()[0].set_text(_("Pause"))
-        
     def build_peer_tab(self):
         self.peer_view = self.wtree.get_widget("peer_view")
         # IP int, IP string, Client, Percent Complete, Down Speed, Up Speed
@@ -841,6 +836,7 @@ class DelugeGTK:
             # Disable torrent options if there are no torrents
             self.wtree.get_widget("menu_torrent").set_sensitive(itr is not None)
             self.wtree.get_widget("toolbutton_remove").set_sensitive(itr is not None)
+            self.wtree.get_widget("toolbutton_resume").set_sensitive(itr is not None)
             self.wtree.get_widget("toolbutton_pause").set_sensitive(itr is not None)
             self.wtree.get_widget("toolbutton_up").set_sensitive(itr is not None)
             self.wtree.get_widget("toolbutton_down").set_sensitive(itr is not None)
@@ -925,8 +921,8 @@ class DelugeGTK:
                 unique_id = self.torrent_model.get_value(self.torrent_model.get_iter(path), 0)
             
             if self.manager.get_torrent_state(unique_id)["is_paused"]:
-                self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PLAY)
-                self.wtree.get_widget("toolbutton_pause").set_label(_("Resume"))
+                self.wtree.get_widget("toolbutton_resume").set_stock_id(gtk.STOCK_MEDIA_PLAY)
+                self.wtree.get_widget("toolbutton_resume").set_label(_("Resume"))
             else:
                 self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PAUSE)
                 self.wtree.get_widget("toolbutton_pause").set_label(_("Pause"))

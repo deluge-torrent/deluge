@@ -66,14 +66,26 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkToolButton" id="toolbutton_pause">
+              <widget class="GtkToolButton" id="toolbutton_resume">
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Start or Pause torrent</property>
-                <property name="label" translatable="yes">Start</property>
+                <property name="label" translatable="yes">Resume</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-media-play</property>
-                <signal name="clicked" handler="start_pause"/>
+                <signal name="clicked" handler="tor_start"/>
+              </widget>
+              <packing>
+                <property name="expand">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkToolButton" id="toolbutton_pause">
+                <property name="visible">True</property>
+                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                <property name="label" translatable="yes">Pause</property>
+                <property name="stock_id">gtk-media-pause</property>
+                <signal name="clicked" handler="tor_pause"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
