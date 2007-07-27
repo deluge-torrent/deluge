@@ -584,14 +584,16 @@ class Manager:
                     self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
                     
             elif event['event_type'] is self.constants['EVENT_FINISHED']:
-                if self.get_pref('enable_move_completed') and not \
-                   (self.get_pref('default_finished_path') == self.get_pref('default_download_path')) and \
-                   event['message'] == "torrent has finished downloading":
-                    deluge_core.move_storage(event['unique_ID'], self.get_pref('default_finished_path'))
+                if event['message'] == "torrent has finished downloading":
+                    if self.get_pref('enable_move_completed') and not \
+                       self.get_pref('default_finished_path') == \
+                           self.get_pref('default_download_path'):
+                        deluge_core.move_storage(event['unique_ID'], 
+                            self.get_pref('default_finished_path'))
                     
-                # Queue seeding torrent to bottom if needed
-                if self.get_pref('queue_seeds_to_bottom'):
-                    self.queue_bottom(event['unique_ID'])
+                    # Queue seeding torrent to bottom if needed
+                    if self.get_pref('queue_seeds_to_bottom'):
+                        self.queue_bottom(event['unique_ID'])
                     
                 # save fast resume once torrent finishes so as to not recheck
                 # seed if client crashes
