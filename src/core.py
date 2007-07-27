@@ -82,14 +82,14 @@ PREF_FUNCTIONS = {
     "use_utpex" : deluge_core.use_utpex,
 }
 
-STATE_MESSAGES = (_("Queued"),
-                  _("Checking"),
-                  _("Connecting"),
-                  _("Downloading Metadata"),
-                  _("Downloading"),
-                  _("Finished"),
-                  _("Seeding"),
-                  _("Allocating"))
+STATE_MESSAGES = (N_("Queued"),
+                  N_("Checking"),
+                  N_("Connecting"),
+                  N_("Downloading Metadata"),
+                  N_("Downloading"),
+                  N_("Finished"),
+                  N_("Seeding"),
+                  N_("Allocating"))
 # Exceptions
 
 class DelugeError(Exception):
@@ -893,3 +893,4 @@ class Manager:
 
     def set_priv(self, unique_ID, on_off):
         return deluge_core.set_priv(unique_ID, on_off)
+
