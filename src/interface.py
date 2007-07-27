@@ -581,7 +581,7 @@ class DelugeGTK:
             for uid in unique_ids:
                 torrent_state = self.manager.get_torrent_state(uid)
                 if torrent_state["is_paused"]:
-                    self.manager.set_user_pause(uid, False)
+                    self.manager.set_user_pause(uid, False, True)
             
             self.update()
 
