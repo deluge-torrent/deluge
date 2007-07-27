@@ -1,9 +1,14 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-25 02:49-0500\n"
+"POT-Creation-Date: 2007-07-27 02:14-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,32 +20,65 @@ msgstr ""
 msgid "Add Torrent"
 msgstr ""
 
+#: glade/delugegtk.glade:23
+msgid "Add"
+msgstr ""
+
 #: glade/delugegtk.glade:36 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
+msgstr ""
+
+#: glade/delugegtk.glade:37
+msgid "Remove"
 msgstr ""
 
 #: glade/delugegtk.glade:49
 msgid "Clear Finished Torrents"
 msgstr ""
 
+#: glade/delugegtk.glade:50
+msgid "Clear"
+msgstr ""
+
 #: glade/delugegtk.glade:72
 msgid "Start or Pause torrent"
+msgstr ""
+
+#: glade/delugegtk.glade:73
+msgid "Start"
 msgstr ""
 
 #: glade/delugegtk.glade:86
 msgid "Queue Torrent Up"
 msgstr ""
 
+#: glade/delugegtk.glade:87
+msgid "Up"
+msgstr ""
+
 #: glade/delugegtk.glade:100
 msgid "Queue Torrent Down"
+msgstr ""
+
+#: glade/delugegtk.glade:101
+msgid "Down"
 msgstr ""
 
 #: glade/delugegtk.glade:122
 msgid "Change Deluge preferences"
 msgstr ""
 
+#: glade/delugegtk.glade:123
+msgid "Preferences"
+msgstr ""
+
 #: glade/delugegtk.glade:135
 msgid "Open the plugins dialog"
+msgstr ""
+
+#: glade/delugegtk.glade:136 glade/dgtkpopups.glade:209
+#: glade/plugin_dialog.glade:90
+msgid "Plugins"
 msgstr ""
 
 #: glade/delugegtk.glade:186
@@ -211,8 +249,8 @@ msgstr ""
 
 #: glade/dgtkpopups.glade:41
 msgid ""
-"<span size=\"large\"><b>Are you sure you want to remove the selected "
-"torrent(s) from Deluge?</b></span>"
+"<span size=\"large\"><b>Are you sure you want to remove the selected torrent"
+"(s) from Deluge?</b></span>"
 msgstr ""
 
 #: glade/dgtkpopups.glade:65
@@ -233,10 +271,6 @@ msgstr ""
 
 #: glade/dgtkpopups.glade:179
 msgid "Clear Finished"
-msgstr ""
-
-#: glade/dgtkpopups.glade:209 glade/plugin_dialog.glade:90
-msgid "Plugins"
 msgstr ""
 
 #: glade/file_tab_menu.glade:10
@@ -534,7 +568,7 @@ msgstr ""
 msgid "<b>Seeding</b>"
 msgstr ""
 
-#: glade/preferences_dialog.glade:1163
+#: glade/preferences_dialog.glade:1163 src/core.py:91
 msgid "Seeding"
 msgstr ""
 
@@ -683,19 +717,47 @@ msgstr ""
 msgid "GiB"
 msgstr ""
 
+#: src/core.py:85
+msgid "Queued"
+msgstr ""
+
+#: src/core.py:86
+msgid "Checking"
+msgstr ""
+
+#: src/core.py:87
+msgid "Connecting"
+msgstr ""
+
+#: src/core.py:88
+msgid "Downloading Metadata"
+msgstr ""
+
+#: src/core.py:89 plugins/BlocklistImport/ui.py:115
+msgid "Downloading"
+msgstr ""
+
+#: src/core.py:90
+msgid "Finished"
+msgstr ""
+
+#: src/core.py:92
+msgid "Allocating"
+msgstr ""
+
 #: src/core.py:126
 msgid "bytes needed"
 msgstr ""
 
-#: src/core.py:363
+#: src/core.py:362
 msgid "File was not found"
 msgstr ""
 
-#: src/core.py:411
+#: src/core.py:410
 msgid "Asked for a torrent that doesn't exist"
 msgstr ""
 
-#: src/core.py:572 src/interface.py:827
+#: src/core.py:571 src/interface.py:827
 msgid ""
 "You cannot move torrent to a different partition.  Please fix your "
 "preferences"
@@ -792,37 +854,37 @@ msgstr ""
 msgid "Deluge Bittorrent Client"
 msgstr ""
 
-#: src/interface.py:1114
+#: src/interface.py:1121
 msgid ""
-"An error occured while trying to add the torrent. It's possible your "
-".torrent file is corrupted."
+"An error occured while trying to add the torrent. It's possible your ."
+"torrent file is corrupted."
 msgstr ""
 
-#: src/interface.py:1132
+#: src/interface.py:1139
 msgid "Unknown duplicate torrent error."
 msgstr ""
 
-#: src/interface.py:1136
+#: src/interface.py:1143
 msgid "There is not enough free disk space to complete your download."
 msgstr ""
 
-#: src/interface.py:1137
+#: src/interface.py:1144
 msgid "Space Needed:"
 msgstr ""
 
-#: src/interface.py:1138
+#: src/interface.py:1145
 msgid "Available Space:"
 msgstr ""
 
-#: src/interface.py:1152
+#: src/interface.py:1159
 msgid "Add torrent from URL"
 msgstr ""
 
-#: src/interface.py:1156
+#: src/interface.py:1163
 msgid "Enter the URL of the .torrent to download"
 msgstr ""
 
-#: src/interface.py:1210
+#: src/interface.py:1217
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr ""
 
@@ -1116,7 +1178,7 @@ msgstr ""
 msgid "Last Entry Date"
 msgstr ""
 
-#: plugins/RSS/plugin.py:43 plugins/RSS/rss.glade:385
+#: plugins/RSS/plugin.py:43 plugins/RSS/rss.glade:384
 msgid "Feed"
 msgstr ""
 
@@ -1144,51 +1206,51 @@ msgstr ""
 msgid "RSS Broadcatcher Settings"
 msgstr ""
 
-#: plugins/RSS/rss.glade:87
+#: plugins/RSS/rss.glade:86
 msgid "Feed Name:"
 msgstr ""
 
-#: plugins/RSS/rss.glade:151
+#: plugins/RSS/rss.glade:150
 msgid "Feed URL:"
 msgstr ""
 
-#: plugins/RSS/rss.glade:283
+#: plugins/RSS/rss.glade:282
 msgid "Feeds"
 msgstr ""
 
-#: plugins/RSS/rss.glade:413
+#: plugins/RSS/rss.glade:412
 msgid "Filter Exp:"
 msgstr ""
 
-#: plugins/RSS/rss.glade:442
+#: plugins/RSS/rss.glade:441
 msgid "Filter Name:"
 msgstr ""
 
-#: plugins/RSS/rss.glade:543
+#: plugins/RSS/rss.glade:542
 msgid "Filters"
 msgstr ""
 
-#: plugins/RSS/rss.glade:564
+#: plugins/RSS/rss.glade:563
 msgid " Feed: "
 msgstr ""
 
-#: plugins/RSS/rss.glade:617
+#: plugins/RSS/rss.glade:616
 msgid "Torrents"
 msgstr ""
 
-#: plugins/RSS/rss.glade:660
+#: plugins/RSS/rss.glade:659
 msgid "Update Interval (seconds): "
 msgstr ""
 
-#: plugins/RSS/rss.glade:729
+#: plugins/RSS/rss.glade:728
 msgid "Check feeds on Deluge start"
 msgstr ""
 
-#: plugins/RSS/rss.glade:781
+#: plugins/RSS/rss.glade:780
 msgid "Check Feeds Now"
 msgstr ""
 
-#: plugins/RSS/rss.glade:836
+#: plugins/RSS/rss.glade:835
 msgid "Options"
 msgstr ""
 
@@ -1266,10 +1328,6 @@ msgstr ""
 
 #: plugins/BlocklistImport/ui.py:103
 msgid "Loading and installing blocklist"
-msgstr ""
-
-#: plugins/BlocklistImport/ui.py:115
-msgid "Downloading"
 msgstr ""
 
 #: plugins/BlocklistImport/ui.py:126
