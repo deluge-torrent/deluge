@@ -34,10 +34,8 @@
 import os.path
 from itertools import izip
 
-import gettext
 import gobject
 import gtk
-import locale
 import pygtk
 pygtk.require('2.0')
 
@@ -52,15 +50,6 @@ import tab_files
 
 class DelugeGTK:
     def __init__(self):
-        APP = 'deluge'
-        DIR = os.path.join(common.INSTALL_PREFIX, 'share', 'locale')
-        locale.setlocale(locale.LC_ALL, '')
-        locale.bindtextdomain(APP, DIR)
-        locale.textdomain(APP)
-        gettext.bindtextdomain(APP, DIR)
-        gettext.textdomain(APP)
-        gettext.install(APP, DIR)
-        
         self.ipc_manager = ipc_manager.Manager(self)
         #Start the Deluge Manager:
         self.manager = core.Manager(common.CLIENT_CODE, common.CLIENT_VERSION, 
@@ -72,7 +61,7 @@ class DelugeGTK:
         self.plugins.scan_for_plugins()
         self.config = self.manager.get_config()
         #Set up the interface:
-        self.wtree = gtk.glade.XML(common.get_glade_file("delugegtk.glade"), domain=APP)
+        self.wtree = gtk.glade.XML(common.get_glade_file("delugegtk.glade"), domain='deluge')
         self.window = self.wtree.get_widget("main_window")
         self.toolbar = self.wtree.get_widget("tb_middle")
         self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL,[('text/uri-list', 0, 80)], gtk.gdk.ACTION_COPY) 

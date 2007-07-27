@@ -35,9 +35,9 @@ from itertools import izip
 
 import gobject
 import gtk
-import gtk.glade
 
 import common
+import core
 import dgtk
 import pref
 
@@ -102,10 +102,10 @@ class FilesBaseManager(object):
     
     def priority_clicked(self, widget):
         widget_name = widget.get_name()
-        priority = {'priority_dont_download': common.PRIORITY_DONT_DOWNLOAD,
-                    'priority_normal': common.PRIORITY_NORMAL,
-                    'priority_high': common.PRIORITY_HIGH,
-                    'priority_highest': common.PRIORITY_HIGHEST}[widget_name]
+        priority = {'priority_dont_download': core.PRIORITY_DONT_DOWNLOAD,
+                    'priority_normal': core.PRIORITY_NORMAL,
+                    'priority_high': core.PRIORITY_HIGH,
+                    'priority_highest': core.PRIORITY_HIGHEST}[widget_name]
                 
         selected_paths = self.file_view.get_selection().get_selected_rows()[1]
         for path in selected_paths:
@@ -205,7 +205,7 @@ class FilesDialogManager(FilesBaseManager):
     def prepare_file_store(self):
         for file in self.dumped_torrent:
             self.file_store.append([file['path'], file['size'], 
-                                    common.PRIORITY_NORMAL])
+                                    core.PRIORITY_NORMAL])
 
     def priority_clicked(self, widget):
         if self.config.get("use_compact_storage"): 

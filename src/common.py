@@ -107,6 +107,8 @@ def ftime(seconds):
     return 'unknown'
 
 def fpriority(priority):
+    from core import PRIORITY_DICT
+    
     return PRIORITY_DICT[priority]
 
 def get_glade_file(fname):
@@ -147,9 +149,6 @@ def fetch_url(url):
             
     return None
 
-def N_(arg):
-        return arg
-
 # Encryption States
 class EncState:
     forced, enabled, disabled = range(3)
@@ -159,14 +158,3 @@ class EncLevel:
 
 class ProxyType:
     none, socks4, socks5, socks5_pw, http, http_pw = range(6)
-
-# Priorities
-PRIORITY_DONT_DOWNLOAD = 0
-PRIORITY_NORMAL = 1
-PRIORITY_HIGH = 2
-PRIORITY_HIGHEST = 5
-
-PRIORITY_DICT = {PRIORITY_DONT_DOWNLOAD: N_("Don't download"),
-                 PRIORITY_NORMAL: N_("Normal"),
-                 PRIORITY_HIGH: N_("High"),
-                 PRIORITY_HIGHEST: N_("Highest")}

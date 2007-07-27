@@ -55,11 +55,9 @@ import re
 import shutil
 import statvfs
 import time
-import gettext
+
 import deluge_core
 import pref
-import common 
-import locale
 
 # Constants
 
@@ -82,14 +80,6 @@ PREF_FUNCTIONS = {
     "use_natpmp" : deluge_core.use_natpmp,
     "use_utpex" : deluge_core.use_utpex,
 }
-APP = 'deluge'
-DIR = os.path.join(common.INSTALL_PREFIX, 'share', 'locale')
-locale.setlocale(locale.LC_ALL, '')
-locale.bindtextdomain(APP, DIR)
-locale.textdomain(APP)
-gettext.bindtextdomain(APP, DIR)
-gettext.textdomain(APP)
-gettext.install(APP, DIR)
 
 STATE_MESSAGES = (_("Queued"),
                   _("Checking"),
@@ -99,6 +89,18 @@ STATE_MESSAGES = (_("Queued"),
                   _("Finished"),
                   _("Seeding"),
                   _("Allocating"))
+
+# Priorities
+PRIORITY_DONT_DOWNLOAD = 0
+PRIORITY_NORMAL = 1
+PRIORITY_HIGH = 2
+PRIORITY_HIGHEST = 5
+
+PRIORITY_DICT = {PRIORITY_DONT_DOWNLOAD: _("Don't download"),
+                 PRIORITY_NORMAL: _("Normal"),
+                 PRIORITY_HIGH: _("High"),
+                 PRIORITY_HIGHEST: _("Highest")}
+
 # Exceptions
 
 class DelugeError(Exception):
