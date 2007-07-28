@@ -850,10 +850,11 @@ class Manager:
                     if self.get_pref("random_port") == False:
                         PREF_FUNCTIONS[pref](self.get_pref(pref))
                     else:
-                        if deluge_core.listening_port() != 0 and \
-                        deluge_core.listening_port() != self.get_pref("listen_on")[0] \
-                        and deluge_core.listening_port() != self.get_pref("listen_on")[1]:
-                            pass
+                        if deluge_core.listening_port() != 0:
+                            for i in xrange(int(self.get_pref("listen_on")[0]),\
+                            int(self.get_pref("listen_on")[1])):
+                                if deluge_core.listening_port() != i:
+                                    pass
                         else:
                             import random
                             ports = [random.randrange(49152, 65535), random.randrange(49152, 65535)]
