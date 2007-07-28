@@ -78,6 +78,7 @@ DEFAULT_PREFS = {
     "proxy_password" : "",
     "proxy_port": 8080,
     "queue_seeds_to_bottom" : False,
+    "random_port" : False,
     "show_availability" : True,
     "show_dl" : True,
     "show_eta" : True,

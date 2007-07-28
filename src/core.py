@@ -845,9 +845,15 @@ class Manager:
         print "Applying preferences"
 
         for pref in PREF_FUNCTIONS:
-            if PREF_FUNCTIONS[pref] is not None:
+            if PREF_FUNCTIONS[pref] is not None and self.get_pref("random_port") \
+                == False:
                 PREF_FUNCTIONS[pref](self.get_pref(pref))
-                
+            if self.get_pref("random_port"):
+                import random
+                ports = [random.randrange(49152, 65535), random.randrange(49152, 65535)]
+                ports.sort()
+                deluge_core.set_listen_on(ports)
+                            
         # We need to reapply priorities to files after preferences were 
         # changed
         for unique_ID in self.unique_IDs:

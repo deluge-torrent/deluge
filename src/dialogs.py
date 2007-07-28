@@ -63,6 +63,7 @@ class PreferencesDlg:
             self.glade.get_widget("chk_tracker_proxy").set_active(self.preferences.get("tracker_proxy"))
             self.glade.get_widget("chk_dht_proxy").set_active(self.preferences.get("dht_proxy"))
             self.glade.get_widget("chk_upnp").set_active(self.preferences.get("use_upnp"))
+            self.glade.get_widget("chk_random_port").set_active(self.preferences.get("random_port"))
             self.glade.get_widget("chk_natpmp").set_active(self.preferences.get("use_natpmp"))
             self.glade.get_widget("chk_utpex").set_active(self.preferences.get("use_utpex"))
             self.glade.get_widget("chk_use_tray").set_active(self.preferences.get("enable_system_tray"))
@@ -135,6 +136,7 @@ class PreferencesDlg:
             self.preferences.set("tracker_proxy", self.glade.get_widget("chk_tracker_proxy").get_active())
             self.preferences.set("dht_proxy", self.glade.get_widget("chk_dht_proxy").get_active())
             self.preferences.set("use_upnp", self.glade.get_widget("chk_upnp").get_active())
+            self.preferences.set("random_port", self.glade.get_widget("chk_random_port").get_active())
             self.preferences.set("use_natpmp", self.glade.get_widget("chk_natpmp").get_active())
             self.preferences.set("use_utpex", self.glade.get_widget("chk_utpex").get_active())
             self.preferences.set("enable_system_tray", self.glade.get_widget("chk_use_tray").get_active())
@@ -203,6 +205,13 @@ class PreferencesDlg:
                 self.glade.get_widget('chk_lock_tray').set_active(value)
         elif widget == self.glade.get_widget('chk_lock_tray'):
             self.glade.get_widget('txt_tray_passwd').set_sensitive(value)
+        elif widget == self.glade.get_widget('chk_move_completed'):
+            if self.glade.get_widget('chk_random_port').get_active():
+                self.glade.get_widget('spin_port_min').set_sensitive(False)
+                self.glade.get_widget('spin_port_max').set_sensitive(False)
+            else:
+                self.glade.get_widget('spin_port_min').set_sensitive(True)
+                self.glade.get_widget('spin_port_max').set_sensitive(True)
 
 class MergeDlg:
     def __init__(self):
