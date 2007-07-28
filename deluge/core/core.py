@@ -129,19 +129,15 @@ class Core(dbus.service.Object):
             self.torrent_paused(torrent_id)
     
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                    in_signature="s", out_signature="ay")
-    def get_torrent_info(self, torrent_id):
-        # Pickle the info dictionary from the torrent and return it
-        info = self.torrents[torrent_id].get_info()
-        info = pickle.dumps(info)
-        return info
-
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                    in_signature="s", 
+                                    in_signature="sas", 
                                     out_signature="ay")
-    def get_torrent_status(self, torrent_id):
+    def get_torrent_status(self, torrent_id, keys):
+        # Convert the array of strings to a python list of strings
+        nkeys = []
+        for key in keys:
+            nkeys.append(str(key))
         # Pickle the status dictionary from the torrent and return it
-        status = self.torrents[torrent_id].get_status()
+        status = self.torrents[torrent_id].get_status(nkeys)
         status = pickle.dumps(status)
         return status
         

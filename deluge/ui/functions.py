@@ -134,9 +134,9 @@ def get_torrent_info(core, torrent_id):
     info = pickle.loads(info)
     return info
     
-def get_torrent_status(core, torrent_id):
+def get_torrent_status(core, torrent_id, keys):
     """Builds the status dictionary and returns it"""
-    status = core.get_torrent_status(torrent_id)
+    status = core.get_torrent_status(torrent_id, keys)
     # Join the array of bytes into a string for pickle to read
     status = "".join(chr(b) for b in status)
     # De-serialize the object

@@ -25,6 +25,7 @@
         <property name="tooltip" translatable="yes">Resume selected torrents.</property>
         <property name="label" translatable="yes">Resu_me</property>
         <property name="use_underline">True</property>
+        <signal name="activate" handler="on_menuitem_resume_activate"/>
         <child internal-child="image">
           <widget class="GtkImage" id="menu-item-image13">
             <property name="visible">True</property>

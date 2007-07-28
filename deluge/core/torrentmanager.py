@@ -132,7 +132,10 @@ class TorrentManager:
         except:
             return False
             
-        return True       
+        return True
+        
+    def resume(self, torrent_id):
+        pass
 
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file"""

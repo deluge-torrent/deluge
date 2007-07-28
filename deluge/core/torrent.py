@@ -71,21 +71,15 @@ class Torrent:
             
         return eta
                 
-    def get_info(self):
-        """Returns the torrents info.. stuff that remains constant, such as
-            name."""
-        
-        return {
-            "name": self.handle.torrent_info().name(),
-            "total_size": self.handle.torrent_info().total_size(),
-            "num_pieces": self.handle.status().num_pieces
-        }
-                  
-    def get_status(self):
-        """Returns the torrent status"""
+    def get_status(self, keys):
+        """Returns the status of the torrent based on the keys provided"""
+        # Create the full dictionary
         status = self.handle.status()
         
-        return {
+        full_status = {
+            "name": self.handle.torrent_info().name(),
+            "total_size": self.handle.torrent_info().total_size(),
+            "num_pieces": self.handle.status().num_pieces,
             "state": int(status.state),
             "paused": status.paused,
             "progress": status.progress,
@@ -98,5 +92,14 @@ class Torrent:
             "num_seeds": status.num_seeds,
             "total_wanted": status.total_wanted,
             "eta": self.get_eta(),
-            "queue": self.queue[self.torrent_id]
+            "queue": self.queue[self.torrent_id]            
         }
+        
+        # Create the desired status dictionary and return it
+        status_dict = {}
+        
+        for key in keys:
+            if key in full_status:
+                status_dict[key] = full_status[key]
+
+        return status_dict
