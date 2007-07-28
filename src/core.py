@@ -845,8 +845,7 @@ class Manager:
         print "Applying preferences"
 
         for pref in PREF_FUNCTIONS:
-            if PREF_FUNCTIONS[pref] is not None and self.get_pref("random_port") \
-                == False:
+            if PREF_FUNCTIONS[pref] is not None:
                 PREF_FUNCTIONS[pref](self.get_pref(pref))
             if self.get_pref("random_port"):
                 import random
