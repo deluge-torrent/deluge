@@ -118,6 +118,12 @@ class PreferencesDlg:
                 self.glade.get_widget('txt_tray_passwd').set_sensitive(True)
             else:
                 self.glade.get_widget('txt_tray_passwd').set_sensitive(False)
+            if self.glade.get_widget('chk_random_port').get_active():
+                self.glade.get_widget('spin_port_min').set_sensitive(False)
+                self.glade.get_widget('spin_port_max').set_sensitive(False)                
+            else:
+                self.glade.get_widget('spin_port_min').set_sensitive(True)
+                self.glade.get_widget('spin_port_max').set_sensitive(True)
             
         except KeyError:
             pass
@@ -205,11 +211,10 @@ class PreferencesDlg:
                 self.glade.get_widget('chk_lock_tray').set_active(value)
         elif widget == self.glade.get_widget('chk_lock_tray'):
             self.glade.get_widget('txt_tray_passwd').set_sensitive(value)
-        elif widget == self.glade.get_widget('chk_move_completed'):
-            if self.glade.get_widget('chk_random_port').get_active():
-                self.glade.get_widget('spin_port_min').set_sensitive(False)
-                self.glade.get_widget('spin_port_max').set_sensitive(False)
-            else:
+        elif widget == self.glade.get_widget('chk_random_port'):
+            self.glade.get_widget('spin_port_min').set_sensitive(False)
+            self.glade.get_widget('spin_port_max').set_sensitive(False)
+            if not value:
                 self.glade.get_widget('spin_port_min').set_sensitive(True)
                 self.glade.get_widget('spin_port_max').set_sensitive(True)
 
