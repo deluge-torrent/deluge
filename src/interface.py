@@ -902,12 +902,6 @@ class DelugeGTK:
                 path = torrent_selection.get_selected_rows()[1][0]
                 unique_id = self.torrent_model.get_value(self.torrent_model.get_iter(path), 0)
             
-            if self.manager.get_torrent_state(unique_id)["is_paused"]:
-                self.wtree.get_widget("toolbutton_resume").set_stock_id(gtk.STOCK_MEDIA_PLAY)
-                self.wtree.get_widget("toolbutton_resume").set_label(_("Resume"))
-            else:
-                self.wtree.get_widget("toolbutton_pause").set_stock_id(gtk.STOCK_MEDIA_PAUSE)
-                self.wtree.get_widget("toolbutton_pause").set_label(_("Pause"))
         return True
             
     def update_statusbar_and_tray(self):
