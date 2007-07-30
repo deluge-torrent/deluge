@@ -90,20 +90,28 @@ class DesiredSpeed:
     def unload(self):
         # Disconnect all callbacks
         for callback_id in self.callback_ids:
-            self.interface.torrent_menu.disconnect(callback_id)
+            try:
+                self.interface.torrent_menu.disconnect(callback_id)
+            except:
+                pass
             
         self.callback_ids = []
 
-        # Reset all desired speeds in the core        
+        # Reset all desired speeds in the core
         for unique_ID, speed in self.set_up_speeds.items():
             if speed >= 0:
-                self.core.set_per_upload_rate_limit(unique_ID, int(-1))
+                try:
+                    self.core.set_per_upload_rate_limit(unique_ID, int(-1))
+                except:
+                    pass
         self.set_up_speeds = {}
 
         for unique_ID, speed in self.set_down_speeds.items():
             if speed >= 0:
-                self.core.set_per_download_rate_limit(unique_ID, int(-1))
-
+                try:
+                    self.core.set_per_download_rate_limit(unique_ID, int(-1))
+                except:
+                    pass
         self.set_down_speeds = {}
 
     def up_speed_clicked(self, widget):
