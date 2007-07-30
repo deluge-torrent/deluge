@@ -434,6 +434,7 @@ class DelugeGTK:
         self.torrent_glade = gtk.glade.XML(common.get_glade_file("torrent_menu.glade"), domain='deluge')
         self.torrent_menu = self.torrent_glade.get_widget("torrent_menu")        
         self.torrent_glade.signal_autoconnect({
+                        "select_all_torrents": self.select_all_torrents,
                         "remove_torrent": self.remove_torrent_clicked,
                         "edit_trackers": self.list_of_trackers,
                         "tor_start": self.tor_start,
@@ -1187,6 +1188,9 @@ class DelugeGTK:
         print "Clearing completed torrents"
         self.manager.clear_completed()
         self.update()
+        
+    def select_all_torrents(self, widget):
+        self.torrent_view.get_selection().select_all()
     
     def q_torrent_up(self, obj=None):
         for torrent in self.get_selected_torrent_rows():
