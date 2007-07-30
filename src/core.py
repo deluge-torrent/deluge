@@ -855,6 +855,11 @@ class Manager:
                             int(self.get_pref("listen_on")[1])):
                                 if deluge_core.listening_port() != i:
                                     pass
+                                else:
+                                    import random
+                                    ports = [random.randrange(49152, 65535), random.randrange(49152, 65535)]
+                                    ports.sort()
+                                    deluge_core.set_listen_on(ports)
                         else:
                             import random
                             ports = [random.randrange(49152, 65535), random.randrange(49152, 65535)]
