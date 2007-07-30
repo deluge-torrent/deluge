@@ -91,7 +91,7 @@ class TorrentNotification:
             
         if pynotify.init("Deluge"):
             n = pynotify.Notification(_("Torrent complete"), 
-                                      _("Files") + ":\n" + filelist, deluge.common.get_pixmap("deluge32.png"))
+                                      _("Files") + ":\n" + filelist, deluge.common.get_pixmap("deluge48.png"))
             n.show()
         else:
             print "there was a problem initializing the pynotify module"
