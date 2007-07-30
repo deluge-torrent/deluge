@@ -69,6 +69,22 @@ You can then run Deluge by executing:
 	$ deluge
 
 ==========================
+Uninstallation/Upgrading:
+==========================
+
+If you wish to upgrade from the older Deluge version please remove it first, 
+then install the latest version as per "Installation Instructions". If you 
+installed via the tarball, cd into the unpacked source tarball and then run, 
+as root (or by using sudo): 
+
+	$ make uninstall
+
+If you installed via the deb package, run as root (or by using sudo:)
+    $ dpkg --purge remove deluge-torrent
+
+Now install the latest version (and check out the additional notes).
+
+==========================
 Additional Notes:
 ==========================
 
