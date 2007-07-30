@@ -293,7 +293,7 @@ class DelugeGTK:
             dialog_glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"))
             speed_dialog = dialog_glade.get_widget("speed_dialog")
             spin_title = dialog_glade.get_widget("spin_title")
-            spin_title.set_text(_("Speed:"))
+            spin_title.set_text(_("Download Speed (KiB/s):"))
             spin_speed = dialog_glade.get_widget("spin_speed")
             spin_speed.set_value(self.config.get("max_download_speed"))
             spin_speed.select_region(0, -1)
@@ -316,6 +316,8 @@ class DelugeGTK:
         if str_bwup == _("Other..."):
             dialog_glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"))
             speed_dialog = dialog_glade.get_widget("speed_dialog")
+            spin_title = dialog_glade.get_widget("spin_title")
+            spin_title.set_text(_("Upload Speed (KiB/s):"))
             spin_speed = dialog_glade.get_widget("spin_speed")
             spin_speed.set_value(self.config.get("max_upload_speed"))
             spin_speed.select_region(0, -1)

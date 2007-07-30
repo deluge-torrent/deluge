@@ -472,10 +472,40 @@ static PyObject *torrent_set_upload_rate_limit(PyObject *self, PyObject *args)
 
     //    printf("Capping upload to %d bytes per second\r\n", (int)arg);
     M_ses->set_upload_rate_limit(arg);
+    Py_INCREF(Py_None); return Py_None;
+}
+
+static PyObject *torrent_set_per_upload_rate_limit(PyObject *self, PyObject *args)
+{
+    python_long unique_ID, speed;
+    if (!PyArg_ParseTuple(args, "ii", &unique_ID, &speed))
+        return NULL;
+
+    long index = get_index_from_unique_ID(unique_ID);
+    if (PyErr_Occurred())
+        return NULL;
+        
+    if (M_torrents->at(index).handle.is_valid())
+        M_torrents->at(index).handle.set_upload_limit(speed);    
 
     Py_INCREF(Py_None); return Py_None;
 }
 
+static PyObject *torrent_set_per_download_rate_limit(PyObject *self, PyObject *args)
+{
+    python_long unique_ID, speed;
+
+    if (!PyArg_ParseTuple(args, "ii", &unique_ID, &speed))
+        return NULL;
+        
+    long index = get_index_from_unique_ID(unique_ID);
+    if (PyErr_Occurred())
+        return NULL;
+    if (M_torrents->at(index).handle.is_valid())
+        M_torrents->at(index).handle.set_download_limit(speed);
+
+    Py_INCREF(Py_None); return Py_None;
+}
 
 static PyObject *torrent_set_listen_on(PyObject *self, PyObject *args)
 {
@@ -1649,6 +1679,8 @@ static PyMethodDef deluge_core_methods[] =
     {"set_max_half_open",               torrent_set_max_half_open,              METH_VARARGS,   "."},
     {"set_download_rate_limit",         torrent_set_download_rate_limit,        METH_VARARGS,   "."},
     {"set_upload_rate_limit",           torrent_set_upload_rate_limit,          METH_VARARGS,   "."},
+    {"set_per_upload_rate_limit",       torrent_set_per_upload_rate_limit,      METH_VARARGS,   "."},
+    {"set_per_download_rate_limit",     torrent_set_per_download_rate_limit,    METH_VARARGS,   "."},
     {"set_listen_on",                   torrent_set_listen_on,                  METH_VARARGS,   "."},
     {"is_listening",                    torrent_is_listening,                   METH_VARARGS,   "."},
     {"listening_port",                  torrent_listening_port,                 METH_VARARGS,   "."},

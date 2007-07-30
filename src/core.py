@@ -927,3 +927,12 @@ class Manager:
     def set_priv(self, unique_ID, on_off):
         return deluge_core.set_priv(unique_ID, on_off)
 
+    def set_per_upload_rate_limit(self, unique_ID, speed):
+        if speed != -1:
+            speed = speed * 1024
+        return deluge_core.set_per_upload_rate_limit(unique_ID, speed)
+
+    def set_per_download_rate_limit(self, unique_ID, speed):
+        if speed != -1:
+            speed = speed * 1024
+        return deluge_core.set_per_download_rate_limit(unique_ID, speed)
