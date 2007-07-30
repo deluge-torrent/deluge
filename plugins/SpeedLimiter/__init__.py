@@ -68,7 +68,7 @@ class DesiredSpeed:
         
         self.up_image = gtk.Image()
         self.up_image.set_from_file(deluge.common.get_pixmap('seeding16.png'))
-        self.up_speed_menuitem = gtk.ImageMenuItem(_("Torrent _Upload Speed"))
+        self.up_speed_menuitem = gtk.ImageMenuItem(_("Torrent Upload _Speed"))
         self.up_speed_menuitem.set_image(self.up_image)
         self.up_speed_menu = self.interface.build_menu_radio_list(self.config.get("up_speeds"), self.up_speed_clicked, self.get_torrent_desired_up_speed(), suffix=_("KiB/s"), show_notset=True, notset_lessthan=0, show_other=True)
 
