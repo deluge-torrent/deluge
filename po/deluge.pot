@@ -1377,3 +1377,68 @@ msgstr ""
 #: plugins/BlocklistImport/peerguardian.py:37
 msgid "Invalid version"
 msgstr ""
+
+#: plugins/TorrentPieces/__init__.py:22
+msgid "Torrent Pieces"
+msgstr ""
+
+#: plugins/TorrentPieces/__init__.py:22
+msgid ""
+"\n"
+"Adds a pieces tab which gives piece by piece progress for a torrent.\n"
+"Each piece is represented by a small progress bar.\n"
+"\n"
+"Pieces currently downloading show up as partially filled progress bars,\n"
+"but this does not represent percentage done.\n"
+"\n"
+"More information is provided as a tooltip for each piece.\n"
+"For currently downloading pieces, the tooltip contains the number\n"
+"of blocks finished as well as the peer speed for that piece.\n"
+"\n"
+"When the plugin initializes, such as when enabling the plugin or\n"
+"when a different torrent is selected, the cpu will spike.  This is normal,\n"
+"as initialization must get information on every piece from libtorrent,\n"
+"and the cpu will normalize once all of the information is retrieved.\n"
+msgstr ""
+
+#: plugins/TorrentPieces/__init__.py:68
+msgid "Pieces"
+msgstr ""
+
+#: plugins/TorrentPieces/tab_pieces.py:57
+#: plugins/TorrentPieces/tab_pieces.py:105
+msgid "Piece finished"
+msgstr ""
+
+#: plugins/TorrentPieces/tab_pieces.py:59
+msgid "Piece not started"
+msgstr ""
+
+#: plugins/TorrentPieces/tab_pieces.py:67
+#: plugins/TorrentPieces/tab_pieces.py:113
+msgid "blocks finished"
+msgstr ""
+
+#: plugins/TorrentPieces/tab_pieces.py:68
+msgid "peer speed: unknown"
+msgstr ""
+
+#: plugins/TorrentPieces/tab_pieces.py:84
+msgid "fast"
+msgstr ""
+
+#: plugins/TorrentPieces/tab_pieces.py:86
+msgid "slow"
+msgstr ""
+
+#: plugins/TorrentPieces/tab_pieces.py:88
+msgid "medium"
+msgstr ""
+
+#: plugins/TorrentPieces/tab_pieces.py:90
+msgid "unknown"
+msgstr ""
+
+#: plugins/TorrentPieces/tab_pieces.py:114
+msgid "peer speed: "
+msgstr ""

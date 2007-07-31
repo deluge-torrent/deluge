@@ -83,7 +83,9 @@ using namespace libtorrent;
 #define EVENT_TRACKER_WARNING       12
 #define EVENT_OTHER                 13
 #define EVENT_STORAGE_MOVED         14
-
+#define EVENT_PIECE_FINISHED        15
+#define EVENT_BLOCK_DOWNLOADING     16
+#define EVENT_BLOCK_FINISHED        17
 
 #define STATE_QUEUED                0
 #define STATE_CHECKING              1
@@ -181,6 +183,17 @@ long get_index_from_unique_ID(long unique_ID)
     RAISE_INT(DelugeError, "No such unique_ID.");
 }
 
+partial_piece_info internal_get_piece_info(torrent_handle h, long piece_index)
+{
+    std::vector<partial_piece_info> queue;
+    std::vector<partial_piece_info>& q = queue;
+    h.get_download_queue(q);
+    for (unsigned long i = 0; i < q.size(); i++)
+    {
+        if ((long)q[i].piece_index == piece_index) return queue[i];
+    }
+}
+
 torrent_info internal_get_torrent_info(std::string const& torrent_name)
 {
     std::ifstream in(torrent_name.c_str(), std::ios_base::binary);
@@ -264,6 +277,10 @@ long get_peer_index(tcp::endpoint addr, std::vector<peer_info> const& peers)
     return index;
 }
 
+bool internal_has_piece(std::vector<bool> const& pieces, long index)
+{
+    return pieces[index];
+}
 
 // The following function contains code by Christophe Dumez and Arvid Norberg
 void internal_add_files(torrent_info&   t,
@@ -359,29 +376,32 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
     M_ses->add_extension(&libtorrent::create_metadata_plugin);
 
-    M_constants = Py_BuildValue("{s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i}",
-        "EVENT_NULL",               EVENT_NULL,
-        "EVENT_FINISHED",           EVENT_FINISHED,
-        "EVENT_PEER_ERROR",         EVENT_PEER_ERROR,
-        "EVENT_INVALID_REQUEST",        EVENT_INVALID_REQUEST,
-        "EVENT_FILE_ERROR",         EVENT_FILE_ERROR,
-        "EVENT_HASH_FAILED_ERROR",      EVENT_HASH_FAILED_ERROR,
-        "EVENT_PEER_BAN_ERROR",         EVENT_PEER_BAN_ERROR,
-        "EVENT_FASTRESUME_REJECTED_ERROR",  EVENT_FASTRESUME_REJECTED_ERROR,
-        "EVENT_TRACKER_ANNOUNCE",            EVENT_TRACKER_ANNOUNCE,
-        "EVENT_TRACKER_REPLY",            EVENT_TRACKER_REPLY,
-        "EVENT_TRACKER_ALERT",            EVENT_TRACKER_ALERT,
-        "EVENT_TRACKER_WARNING",            EVENT_TRACKER_WARNING,
-        "EVENT_OTHER",              EVENT_OTHER,
-        "EVENT_STORAGE_MOVED",            EVENT_STORAGE_MOVED,
-        "STATE_QUEUED",             STATE_QUEUED,
-        "STATE_CHECKING",           STATE_CHECKING,
-        "STATE_CONNECTING",         STATE_CONNECTING,
-        "STATE_DOWNLOADING_META",       STATE_DOWNLOADING_META,
-        "STATE_DOWNLOADING",            STATE_DOWNLOADING,
-        "STATE_FINISHED",           STATE_FINISHED,
-        "STATE_SEEDING",            STATE_SEEDING,
-        "STATE_ALLOCATING",         STATE_ALLOCATING);
+    M_constants = Py_BuildValue("{s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i}",
+        "EVENT_NULL",                         EVENT_NULL,
+        "EVENT_FINISHED",                     EVENT_FINISHED,
+        "EVENT_PEER_ERROR",                   EVENT_PEER_ERROR,
+        "EVENT_INVALID_REQUEST",              EVENT_INVALID_REQUEST,
+        "EVENT_FILE_ERROR",                   EVENT_FILE_ERROR,
+        "EVENT_HASH_FAILED_ERROR",            EVENT_HASH_FAILED_ERROR,
+        "EVENT_PEER_BAN_ERROR",               EVENT_PEER_BAN_ERROR,
+        "EVENT_FASTRESUME_REJECTED_ERROR",    EVENT_FASTRESUME_REJECTED_ERROR,
+        "EVENT_TRACKER_ANNOUNCE",             EVENT_TRACKER_ANNOUNCE,
+        "EVENT_TRACKER_REPLY",                EVENT_TRACKER_REPLY,
+        "EVENT_TRACKER_ALERT",                EVENT_TRACKER_ALERT,
+        "EVENT_TRACKER_WARNING",              EVENT_TRACKER_WARNING,
+        "EVENT_OTHER",                        EVENT_OTHER,
+        "EVENT_STORAGE_MOVED",                EVENT_STORAGE_MOVED,
+        "EVENT_PIECE_FINISHED",               EVENT_PIECE_FINISHED,
+        "EVENT_BLOCK_DOWNLOADING",            EVENT_BLOCK_DOWNLOADING,
+        "EVENT_BLOCK_FINISHED",               EVENT_BLOCK_FINISHED,
+        "STATE_QUEUED",                       STATE_QUEUED,
+        "STATE_CHECKING",                     STATE_CHECKING,
+        "STATE_CONNECTING",                   STATE_CONNECTING,
+        "STATE_DOWNLOADING_META",             STATE_DOWNLOADING_META,
+        "STATE_DOWNLOADING",                  STATE_DOWNLOADING,
+        "STATE_FINISHED",                     STATE_FINISHED,
+        "STATE_SEEDING",                      STATE_SEEDING,
+        "STATE_ALLOCATING",                   STATE_ALLOCATING);
 
     Py_INCREF(Py_None); return Py_None;
 };
@@ -733,6 +753,77 @@ static PyObject *torrent_resume(PyObject *self, PyObject *args)
     Py_INCREF(Py_None); return Py_None;
 }
 
+static PyObject *torrent_has_piece(PyObject *self, PyObject *args)
+{
+    python_long unique_ID;
+    long piece_index;
+    bool has_piece;
+    if (!PyArg_ParseTuple(args, "ii", &unique_ID, &piece_index))
+        return NULL;
+
+    long index = get_index_from_unique_ID(unique_ID);
+    if (PyErr_Occurred())
+        return NULL;
+
+    torrent_status s = M_torrents->at(index).handle.status();
+    has_piece = internal_has_piece(*s.pieces, piece_index);
+    return Py_BuildValue("b", has_piece);
+}
+
+static PyObject *torrent_get_all_piece_info(PyObject *self, PyObject *args)
+{
+   python_long unique_ID;
+    if (!PyArg_ParseTuple(args, "i", &unique_ID))
+        return NULL;
+
+    long index = get_index_from_unique_ID(unique_ID);
+    if (PyErr_Occurred())
+        return NULL;
+
+    torrent_handle h = M_torrents->at(index).handle;
+    std::vector<partial_piece_info> queue;
+    std::vector<partial_piece_info>& q = queue;
+    h.get_download_queue(q);    
+    PyObject *piece_info;
+    long piece_index = 0;
+    PyObject *ret = PyTuple_New(q.size());
+
+    for(unsigned long i=0; i<q.size(); i++)
+    {
+        piece_info = Py_BuildValue("{s:i,s:i,s:i}",
+            "piece_index", q[i].piece_index,
+            "blocks_total", q[i].blocks_in_piece,
+            "blocks_finished", q[i].finished);
+            
+        PyTuple_SetItem(ret, piece_index, piece_info);   
+        piece_index++;
+    };
+    return ret;
+}
+
+static PyObject *torrent_get_piece_info(PyObject *self, PyObject *args)
+{
+    python_long unique_ID;
+    long piece_index;
+    if (!PyArg_ParseTuple(args, "ii", &unique_ID, &piece_index))
+        return NULL;
+
+    long index = get_index_from_unique_ID(unique_ID);
+    if (PyErr_Occurred())
+        return NULL;
+
+    torrent_handle h = M_torrents->at(index).handle;
+    partial_piece_info piece_info = internal_get_piece_info(h, piece_index);
+    int blocks_total=0, blocks_finished=0;
+    if(piece_info.piece_index == piece_index) 
+    {
+        blocks_total = piece_info.blocks_in_piece;
+        blocks_finished = piece_info.finished;
+    }
+    return Py_BuildValue("{s:i,s:i}",
+        "blocks_total", blocks_total,
+        "blocks_finished", blocks_finished);
+}
 
 static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
 {
@@ -810,6 +901,60 @@ static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
     if (!popped_alert)
     {
         Py_INCREF(Py_None); return Py_None;
+    } else if (dynamic_cast<block_downloading_alert*>(popped_alert))
+    {
+        torrent_handle handle = (dynamic_cast<block_downloading_alert*>(popped_alert))->handle;
+        int piece_index = (dynamic_cast<block_downloading_alert*>(popped_alert))->piece_index;
+        int block_index = (dynamic_cast<block_downloading_alert*>(popped_alert))->block_index;
+        std::string speedmsg = (dynamic_cast<block_downloading_alert*>(popped_alert))->peer_speedmsg;
+        long index = get_torrent_index(handle);
+        if (PyErr_Occurred())
+            return NULL;
+
+        if (handle_exists(handle))
+            return Py_BuildValue("{s:i,s:i,s:i,s:i,s:s,s:s}", 
+                "event_type", EVENT_BLOCK_DOWNLOADING,
+                "unique_ID", M_torrents->at(index).unique_ID,
+                "block_index", block_index,
+                "piece_index", piece_index,
+                "peer_speed", speedmsg.c_str(),
+                "message", a->msg().c_str());
+        else
+            { Py_INCREF(Py_None); return Py_None; }
+    } else if (dynamic_cast<block_finished_alert*>(popped_alert))
+    {
+        torrent_handle handle = (dynamic_cast<block_finished_alert*>(popped_alert))->handle;
+        int piece_index = (dynamic_cast<block_finished_alert*>(popped_alert))->piece_index;
+        int block_index = (dynamic_cast<block_finished_alert*>(popped_alert))->block_index;
+        long index = get_torrent_index(handle);
+        if (PyErr_Occurred())
+            return NULL;
+
+        if (handle_exists(handle))
+            return Py_BuildValue("{s:i,s:i,s:i,s:i,s:s}", 
+                "event_type", EVENT_BLOCK_FINISHED,
+                "unique_ID", M_torrents->at(index).unique_ID,
+                "block_index", block_index,
+                "piece_index", piece_index,
+                "message", a->msg().c_str());
+        else
+            { Py_INCREF(Py_None); return Py_None; }
+    } else if (dynamic_cast<piece_finished_alert*>(popped_alert))
+    {
+        torrent_handle handle = (dynamic_cast<piece_finished_alert*>(popped_alert))->handle;
+        int piece_index = (dynamic_cast<piece_finished_alert*>(popped_alert))->piece_index;
+        long index = get_torrent_index(handle);
+        if (PyErr_Occurred())
+            return NULL;
+
+        if (handle_exists(handle))
+            return Py_BuildValue("{s:i,s:i,s:i,s:s}", 
+                "event_type", EVENT_PIECE_FINISHED,
+                "unique_ID", M_torrents->at(index).unique_ID,
+                "piece_index", piece_index,
+                "message", a->msg().c_str());
+        else
+            { Py_INCREF(Py_None); return Py_None; }
     } else if (dynamic_cast<torrent_finished_alert*>(popped_alert))
     {
         torrent_handle handle = (dynamic_cast<torrent_finished_alert*>(popped_alert))->handle;
@@ -1719,6 +1864,9 @@ static PyMethodDef deluge_core_methods[] =
     {"prioritize_first_last_pieces",    torrent_prioritize_first_last_pieces,   METH_VARARGS,   "."},
     {"set_priv",                        torrent_set_priv,                       METH_VARARGS,   "."},
     {"test_duplicate",                  torrent_test_duplicate,                 METH_VARARGS,   "."},
+    {"has_piece",                       torrent_has_piece,                      METH_VARARGS,   "."},
+    {"get_piece_info",                  torrent_get_piece_info,                 METH_VARARGS,   "."},
+    {"get_all_piece_info",              torrent_get_all_piece_info,             METH_VARARGS,   "."},
     {NULL}
 };
 

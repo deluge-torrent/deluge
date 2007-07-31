@@ -317,7 +317,11 @@ class Manager:
     def get_pref(self, key):
         # Get the value from the preferences object
         return self.config.get(key)
-
+    
+    # Check if piece is finished
+    def has_piece(self, unique_id, piece_index):
+        return deluge_core.has_piece(unique_id, piece_index)
+    
     # Dump torrent info without adding
     def dump_torrent_file_info(self, torrent):
         return deluge_core.dump_file_info(torrent)
@@ -436,6 +440,12 @@ class Manager:
     
     def get_torrent_file_info(self, unique_ID):
         return self.get_core_torrent_file_info(unique_ID)
+
+    def get_piece_info(self, unique_ID, piece_index):
+        return deluge_core.get_piece_info(unique_ID, piece_index)
+
+    def get_all_piece_info(self, unique_ID):
+        return deluge_core.get_all_piece_info(unique_ID)
 
     # Queueing functions
 
@@ -571,8 +581,7 @@ class Manager:
             if 'unique_ID' in event and \
                event['unique_ID'] not in self.unique_IDs:
                 continue
-            
-            # Call plugins events callbacks
+
             if event['event_type'] in self.event_callbacks:
                 for callback in self.event_callbacks[event['event_type']]:
                     callback(event)

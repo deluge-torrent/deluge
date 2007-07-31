@@ -30,3 +30,5 @@ plugins/BlocklistImport/ui.py
 plugins/BlocklistImport/text.py
 plugins/BlocklistImport/test.py
 plugins/BlocklistImport/peerguardian.py
+plugins/TorrentPieces/__init__.py
+plugins/TorrentPieces/tab_pieces.py
