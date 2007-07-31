@@ -54,9 +54,7 @@ class TorrentPieces:
         print "Loading TorrentPieces plugin..."
         self.manager = core
         self.parent = interface
-        self.table = gtk.Table()
         self.viewport = gtk.Viewport()
-        self.viewport.add(self.table)
         self.scrolledWindow = gtk.ScrolledWindow()
         self.scrolledWindow.add(self.viewport)
         self.scrolledWindow.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
@@ -68,13 +66,13 @@ class TorrentPieces:
         self.parentNotebook.append_page(self.topWidget, gtk.Label(_("Pieces")))
         self.viewport.show()
         self.scrolledWindow.show()
-        self.table.show()
-        self.tab_pieces = PiecesManager(self.table, self.manager)
+        self.tab_pieces = PiecesManager(self.viewport, self.manager)
 
     def unload(self):
         self.manager.disconnect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_pieces.handle_event)
         self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_pieces.handle_event)
         self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_pieces.handle_event)
+        self.tab_pieces.clear_pieces_store()
         numPages = self.parentNotebook.get_n_pages()
         for page in xrange(numPages):
             if self.parentNotebook.get_nth_page(page) == self.topWidget:

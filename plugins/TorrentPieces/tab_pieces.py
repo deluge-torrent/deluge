@@ -3,8 +3,9 @@ import gtk
 import math
 
 class PiecesManager(object):
-    def __init__(self, table, manager):
-        self.table = table
+    def __init__(self, viewport, manager):
+        self.viewport = viewport
+        self.table = None
         self.manager = manager
         self.progress = []
         self.tooltips = []
@@ -23,11 +24,9 @@ class PiecesManager(object):
     def clear_pieces_store(self):
         self.unique_id = -1
         self.rows = 0
-        for widget in self.eventboxes:
-            widget.destroy()
-        for widget in self.progress:
-            widget.hide()
-            widget.destroy()
+        if not self.table is None:
+            self.table.destroy()
+        self.table = None
         self.peer_speed = []
         self.eventboxes = []
         self.progress = []
@@ -35,6 +34,8 @@ class PiecesManager(object):
         self.tooltips = []
         
     def prepare_pieces_store(self):
+        self.table = gtk.Table()
+        self.viewport.add(self.table)
         state = self.manager.get_torrent_state(self.unique_id)
         num_pieces = state["num_pieces"]
         self.rows = int(math.ceil(num_pieces/self.columns))
@@ -57,7 +58,6 @@ class PiecesManager(object):
                 self.tooltips[index].set_tip(self.eventboxes[index], _("Piece finished"))
             else:
                 self.tooltips[index].set_tip(self.eventboxes[index], _("Piece not started"))
-            self.eventboxes[index].show_all()
         all_piece_info = self.manager.get_all_piece_info(self.unique_id)
         for piece_index in all_piece_info:
             temp_piece_info = {'blocks_total':piece_index['blocks_total'], \
@@ -69,6 +69,7 @@ class PiecesManager(object):
             if self.progress[index].get_fraction() == 0:
                 self.progress[index].set_fraction(0.5)
                 self.tooltips[index].set_tip(self.eventboxes[index], info_string)
+        self.table.show_all()
     
     def handle_event(self, event):
         if event['event_type'] is self.manager.constants['EVENT_PIECE_FINISHED']:
