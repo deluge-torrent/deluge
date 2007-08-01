@@ -45,7 +45,8 @@ class PreferencesDlg:
         self.dialog = self.glade.get_widget("pref_dialog")
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
         self.glade.signal_autoconnect({
-                                        'toggle_ui': self.toggle_ui
+                                        'toggle_ui': self.toggle_ui,
+                                        'on_btn_testport_clicked': self.TestPort
                                       })
         
         self.preferences = preferences
