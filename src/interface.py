@@ -709,7 +709,7 @@ class DelugeGTK:
             self.config.get("encin_state"), self.config.get("enclevel_type"), 
                 self.config.get("pref_rc4"))
         if self.config.get("peer_proxy"):
-            self.manager.proxy_settings(self.config.get(peer_proxy_hostname), 
+            self.manager.proxy_settings(self.config.get("peer_proxy_hostname"), 
                 self.config.get("peer_proxy_username"), self.config.get("peer_proxy_password"), 
                     int(self.config.get("peer_proxy_port")), self.config.get("peer_proxy_type"), "peer")
         if self.config.get("dht_proxy"):
