@@ -98,6 +98,7 @@ DEFAULT_PREFS = {
     "use_natpmp" : False,
     "use_upnp" : False,
     "use_utpex" : True,
+    "new_releases" : True,
     "window_height" : 480,
     "window_maximized" : False,
     "window_pane_position" : -1,

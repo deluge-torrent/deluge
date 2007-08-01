@@ -119,6 +119,16 @@ class DelugeGTK:
         
         # Boolean set to true if window is not minimized and is "visible"
         self.update_interface = True
+
+        def new_release_check():
+            import os, sys
+            py_version = sys.version[:3]
+            file = '/usr/lib/python' + py_version + '/site-packages/deluge/update.py'
+            os.spawnlp(os.P_NOWAIT, 'python', 'python', file, '0.5.3')
+
+        if self.config.get("new_releases"):
+            new_release_check()
+
         
     def connect_signals(self):
         self.wtree.signal_autoconnect({
@@ -153,7 +163,7 @@ class DelugeGTK:
                     "queue_up": self.q_torrent_up,
                     "queue_down": self.q_torrent_down
                     })
-    
+        
     def notebook_switch_page(self, notebook, page, page_num):
         # Force an update when user changes the notebook tab
         self.update_torrent_info_widget(None, page_num)
@@ -1309,7 +1319,6 @@ class DelugeGTK:
                 self.update()
         return False
 
-
     def load_window_geometry(self):
         x = self.config.get('window_x_pos')
         y = self.config.get('window_y_pos')
@@ -1346,7 +1355,6 @@ class DelugeGTK:
         self.plugins.shutdown_all_plugins()
         self.manager.quit()
         gtk.main_quit()
-
 
 ## For testing purposes, create a copy of the interface
 if __name__ == "__main__":
