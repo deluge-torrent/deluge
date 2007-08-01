@@ -713,15 +713,15 @@ class DelugeGTK:
                 self.config.get("peer_proxy_username"), self.config.get("peer_proxy_password"), 
                     int(self.config.get("peer_proxy_port")), self.config.get("peer_proxy_type"), "peer")
         if self.config.get("dht_proxy"):
-            self.manager.proxy_settings(self.config.get(dht_proxy_hostname), 
+            self.manager.proxy_settings(self.config.get("dht_proxy_hostname"), 
                 self.config.get("dht_proxy_username"), self.config.get("dht_proxy_password"), 
                     int(self.config.get("dht_proxy_port")), self.config.get("dht_proxy_type"), "dht")
         if self.config.get("tracker_proxy"):
-            self.manager.proxy_settings(self.config.get(tracker_proxy_hostname), 
+            self.manager.proxy_settings(self.config.get("tracker_proxy_hostname"), 
                 self.config.get("tracker_proxy_username"), self.config.get("tracker_proxy_password"), 
                     int(self.config.get("tracker_proxy_port")), self.config.get("tracker_proxy_type"), "tracker")
         if self.config.get("web_proxy"):
-            self.manager.proxy_settings(self.config.get(web_proxy_hostname), 
+            self.manager.proxy_settings(self.config.get("web_proxy_hostname"), 
                 self.config.get("web_proxy_username"), self.config.get("web_proxy_password"), 
                     int(self.config.get("web_proxy_port")), self.config.get("web_proxy_type"), "web")
 
