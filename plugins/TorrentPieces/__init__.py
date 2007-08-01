@@ -83,6 +83,7 @@ class TorrentPieces:
         unique_id = self.parent.get_selected_torrent()
         # If no torrents added or more than one torrent selected
         if unique_id is None:
+            self.tab_pieces.clear_pieces_store()
             return
         if unique_id != self.tab_pieces.unique_id:
             self.manager.disconnect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_pieces.handle_event)
