@@ -124,7 +124,7 @@ class DelugeGTK:
             import os, sys
             py_version = sys.version[:3]
             file = '/usr/lib/python' + py_version + '/site-packages/deluge/update.py'
-            os.spawnlp(os.P_NOWAIT, 'python', 'python', file, '0.5.3')
+            os.spawnlp(os.P_NOWAIT, 'python', 'python', file, common.PROGRAM_VERSION)
 
         if self.config.get("new_releases"):
             new_release_check()
