@@ -25,6 +25,16 @@ Adds a tab with log of selected events.
 Event messages come from libtorrent alerts.
 If you want those strings translated to your locale,
 you'll have to report the issue with libtorrent, not deluge.
+
+Regarding the log files, the logs are saved in a log
+directory within the deluge config directory.  Event
+messages for specific torrents are saved to individual
+log files named the same as the associated .torrent
+file.  Event messages not specific to any torrent are
+saved to logs named after the events
+(eg peer_messages.log).
+Event messages in the log files also include a timestamp.
+The user is responsible to cleanout the logs.
 """)
 
 def deluge_init(deluge_path):
@@ -105,7 +115,9 @@ class EventLogging:
             self.manager.connect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
         if self.config.get("enable_other"):
             self.manager.connect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
-            self.tab_log.prepare_log_store()
+        if self.config.get("enable_log_files"):
+            self.tab_log.enable_log_files()
+        self.tab_log.prepare_log_store()
 
     def unload(self):
         self.config.save(self.config_file)
@@ -140,7 +152,7 @@ class EventLogging:
         if self.config.get("enable_block_finished"):
             self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
         if self.config.get("enable_other"):
-            self.manager.connect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
+            self.manager.disconnect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
         self.tab_log.clear_log_store()
         numPages = self.parentNotebook.get_n_pages()
         for page in xrange(numPages):
@@ -233,6 +245,11 @@ class EventLogging:
                 self.manager.disconnect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
             else:
                 self.manager.connect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
+        if widget == self.glade.get_widget("chk_log_files"):
+            if value:
+                self.tab_log.enable_log_files()
+            else:
+                self.tab_log.disable_log_files()
 
     def configure(self):
         try:
@@ -252,6 +269,7 @@ class EventLogging:
             self.glade.get_widget("chk_block_downloading").set_active(self.config.get("enable_block_downloading"))
             self.glade.get_widget("chk_block_finished").set_active(self.config.get("enable_block_finished"))
             self.glade.get_widget("chk_other").set_active(self.config.get("enable_other"))
+            self.glade.get_widget("chk_log_files").set_active(self.config.get("enable_log_files"))
         except:
             self.glade.get_widget("chk_finished").set_active(False)
             self.glade.get_widget("chk_peer_error").set_active(False)
@@ -269,6 +287,7 @@ class EventLogging:
             self.glade.get_widget("chk_block_downloading").set_active(False)
             self.glade.get_widget("chk_block_finished").set_active(False)
             self.glade.get_widget("chk_other").set_active(False)
+            self.glade.get_widget("chk_log_files").set_active(False)
         self.dialog.show()
         response = self.dialog.run()
         self.dialog.hide()
@@ -289,3 +308,4 @@ class EventLogging:
             self.config.set("enable_block_downloading", self.glade.get_widget("chk_block_downloading").get_active())
             self.config.set("enable_block_finished", self.glade.get_widget("chk_block_finished").get_active())
             self.config.set("enable_other", self.glade.get_widget("chk_other").get_active())
+            self.config.set("enable_log_files", self.glade.get_widget("chk_log_files").get_active())
