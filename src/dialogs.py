@@ -58,7 +58,10 @@ class PreferencesDlg:
             self.glade.get_widget("combo_encin").set_active(self.preferences.get("encin_state"))
             self.glade.get_widget("combo_encout").set_active(self.preferences.get("encout_state"))
             self.glade.get_widget("combo_enclevel").set_active(self.preferences.get("enclevel_type"))
-            self.glade.get_widget("combo_proxy_type").set_active(self.preferences.get("proxy_type"))
+            self.glade.get_widget("combo_peer_proxy_type").set_active(self.preferences.get("peer_proxy_type"))
+            self.glade.get_widget("combo_dht_proxy_type").set_active(self.preferences.get("dht_proxy_type"))
+            self.glade.get_widget("combo_tracker_proxy_type").set_active(self.preferences.get("tracker_proxy_type"))
+            self.glade.get_widget("combo_web_proxy_type").set_active(self.preferences.get("web_proxy_type"))
             self.glade.get_widget("chk_pref_rc4").set_active(self.preferences.get("pref_rc4"))
             self.glade.get_widget("chk_peer_proxy").set_active(self.preferences.get("peer_proxy"))
             self.glade.get_widget("chk_tracker_proxy").set_active(self.preferences.get("tracker_proxy"))
@@ -72,9 +75,15 @@ class PreferencesDlg:
             self.glade.get_widget("chk_min_on_close").set_active(self.preferences.get("close_to_tray"))
             self.glade.get_widget("chk_lock_tray").set_active(self.preferences.get("lock_tray"))
             self.glade.get_widget("txt_tray_passwd").set_text(self.preferences.get("tray_passwd"))
-            self.glade.get_widget("txt_proxy_hostname").set_text(self.preferences.get("proxy_hostname"))
-            self.glade.get_widget("txt_proxy_username").set_text(self.preferences.get("proxy_username"))
-            self.glade.get_widget("txt_proxy_password").set_text(self.preferences.get("proxy_password"))
+            self.glade.get_widget("txt_peer_proxy_hostname").set_text(self.preferences.get("peer_proxy_hostname"))
+            self.glade.get_widget("txt_peer_proxy_username").set_text(self.preferences.get("peer_proxy_username"))
+            self.glade.get_widget("txt_peer_proxy_password").set_text(self.preferences.get("peer_proxy_password"))
+            self.glade.get_widget("txt_dht_proxy_hostname").set_text(self.preferences.get("dht_proxy_hostname"))
+            self.glade.get_widget("txt_dht_proxy_username").set_text(self.preferences.get("dht_proxy_username"))
+            self.glade.get_widget("txt_dht_proxy_password").set_text(self.preferences.get("dht_proxy_password"))
+            self.glade.get_widget("txt_web_proxy_hostname").set_text(self.preferences.get("web_proxy_hostname"))
+            self.glade.get_widget("txt_web_proxy_username").set_text(self.preferences.get("web_proxy_username"))
+            self.glade.get_widget("txt_web_proxy_password").set_text(self.preferences.get("web_proxy_password"))
             self.glade.get_widget("finished_path_button").set_filename(self.preferences.get("default_finished_path"))
             self.glade.get_widget("download_path_button").set_filename(self.preferences.get("default_download_path"))
             self.glade.get_widget("chk_enable_files_dialog").set_active(self.preferences.get("enable_files_dialog"))
@@ -87,7 +96,10 @@ class PreferencesDlg:
             self.glade.get_widget("spin_num_upload").set_value(float(self.preferences.get("max_number_uploads")))
             self.glade.get_widget("spin_max_download").set_value(self.preferences.get("max_download_speed"))
             self.glade.get_widget("spin_max_connections").set_value(self.preferences.get("max_connections"))
-            self.glade.get_widget("spin_proxy_port").set_value(self.preferences.get("proxy_port"))
+            self.glade.get_widget("spin_peer_proxy_port").set_value(self.preferences.get("peer_proxy_port"))
+            self.glade.get_widget("spin_tracker_proxy_port").set_value(self.preferences.get("tracker_proxy_port"))
+            self.glade.get_widget("spin_dht_proxy_port").set_value(self.preferences.get("dht_proxy_port"))
+            self.glade.get_widget("spin_web_proxy_port").set_value(self.preferences.get("web_proxy_port"))
             self.glade.get_widget("spin_torrents").set_value(float(self.preferences.get("max_active_torrents")))
             self.glade.get_widget("chk_seedbottom").set_active(self.preferences.get("queue_seeds_to_bottom"))
             self.glade.get_widget("chk_queue_above_completed").set_sensitive(self.preferences.get("queue_seeds_to_bottom"))
@@ -138,12 +150,16 @@ class PreferencesDlg:
             self.preferences.set("encin_state", self.glade.get_widget("combo_encin").get_active())
             self.preferences.set("encout_state", self.glade.get_widget("combo_encout").get_active())
             self.preferences.set("enclevel_type", self.glade.get_widget("combo_enclevel").get_active())
-            self.preferences.set("proxy_type", self.glade.get_widget("combo_proxy_type").get_active())
+            self.preferences.set("peer_proxy_type", self.glade.get_widget("combo_peer_proxy_type").get_active())
             self.preferences.set("pref_rc4", self.glade.get_widget("chk_pref_rc4").get_active())
             self.preferences.set("peer_proxy", self.glade.get_widget("chk_peer_proxy").get_active())
             self.preferences.set("tracker_proxy", self.glade.get_widget("chk_tracker_proxy").get_active())
             self.preferences.set("dht_proxy", self.glade.get_widget("chk_dht_proxy").get_active())
+            self.preferences.set("web_proxy", self.glade.get_widget("chk_web_proxy").get_active())
             self.preferences.set("use_upnp", self.glade.get_widget("chk_upnp").get_active())
+            self.preferences.set("tracker_proxy_type", self.glade.get_widget("combo_tracker_proxy_type").get_active())
+            self.preferences.set("dht_proxy_type", self.glade.get_widget("combo_dht_proxy_type").get_active())
+            self.preferences.set("web_proxy_type", self.glade.get_widget("combo_web_proxy_type").get_active())
             self.preferences.set("new_releases", self.glade.get_widget("chk_new_releases").get_active())
             self.preferences.set("random_port", self.glade.get_widget("chk_random_port").get_active())
             self.preferences.set("use_natpmp", self.glade.get_widget("chk_natpmp").get_active())
@@ -152,9 +168,18 @@ class PreferencesDlg:
             self.preferences.set("close_to_tray", self.glade.get_widget("chk_min_on_close").get_active())
             self.preferences.set("lock_tray", self.glade.get_widget("chk_lock_tray").get_active())
             self.preferences.set("tray_passwd", self.glade.get_widget("txt_tray_passwd").get_text())
-            self.preferences.set("proxy_username", self.glade.get_widget("txt_proxy_username").get_text())
-            self.preferences.set("proxy_password", self.glade.get_widget("txt_proxy_password").get_text())
-            self.preferences.set("proxy_hostname", self.glade.get_widget("txt_proxy_hostname").get_text())
+            self.preferences.set("tracker_proxy_username", self.glade.get_widget("txt_tracker_proxy_username").get_text())
+            self.preferences.set("tracker_proxy_password", self.glade.get_widget("txt_tracker_proxy_password").get_text())
+            self.preferences.set("tracker_proxy_hostname", self.glade.get_widget("txt_tracker_proxy_hostname").get_text())
+            self.preferences.set("web_proxy_username", self.glade.get_widget("txt_web_proxy_username").get_text())
+            self.preferences.set("web_proxy_password", self.glade.get_widget("txt_web_proxy_password").get_text())
+            self.preferences.set("web_proxy_hostname", self.glade.get_widget("txt_web_proxy_hostname").get_text())
+            self.preferences.set("dht_proxy_username", self.glade.get_widget("txt_dht_proxy_username").get_text())
+            self.preferences.set("dht_proxy_password", self.glade.get_widget("txt_dht_proxy_password").get_text())
+            self.preferences.set("dht_proxy_hostname", self.glade.get_widget("txt_dht_proxy_hostname").get_text())
+            self.preferences.set("peer_proxy_username", self.glade.get_widget("txt_peer_proxy_username").get_text())
+            self.preferences.set("peer_proxy_password", self.glade.get_widget("txt_peer_proxy_password").get_text())
+            self.preferences.set("peer_proxy_hostname", self.glade.get_widget("txt_peer_proxy_hostname").get_text())
             self.preferences.set("use_default_dir", self.glade.get_widget("radio_save_all_to").get_active())
             self.preferences.set("default_download_path", self.glade.get_widget("download_path_button").get_filename())
             self.preferences.set("enable_move_completed", self.glade.get_widget("chk_move_completed").get_active())
@@ -168,7 +193,10 @@ class PreferencesDlg:
             self.preferences.set("max_upload_speed", self.glade.get_widget("spin_max_upload").get_value())
             self.preferences.set("max_number_uploads", int(self.glade.get_widget("spin_num_upload").get_value()))
             self.preferences.set("max_download_speed", self.glade.get_widget("spin_max_download").get_value())
-            self.preferences.set("proxy_port", self.glade.get_widget("spin_proxy_port").get_value())
+            self.preferences.set("peer_proxy_port", self.glade.get_widget("spin_peer_proxy_port").get_value())
+            self.preferences.set("dht_proxy_port", self.glade.get_widget("spin_dht_proxy_port").get_value())
+            self.preferences.set("web_proxy_port", self.glade.get_widget("spin_web_proxy_port").get_value())
+            self.preferences.set("tracker_proxy_port", self.glade.get_widget("spin_tracker_proxy_port").get_value())
             self.preferences.set("max_connections", int(self.glade.get_widget("spin_max_connections").get_value()))
             self.preferences.set("max_active_torrents", int(self.glade.get_widget("spin_torrents").get_value()))
             self.preferences.set("queue_seeds_to_bottom", self.glade.get_widget("chk_seedbottom").get_active())
@@ -196,15 +224,29 @@ class PreferencesDlg:
             self.glade.get_widget('chk_clear_max_ratio_torrents').set_sensitive(value)  
         elif widget == self.glade.get_widget('chk_seedbottom'):
             self.glade.get_widget('chk_queue_above_completed').set_sensitive(value)  		
-        elif widget == self.glade.get_widget('chk_peer_proxy') or \
-            widget == self.glade.get_widget('chk_tracker_proxy') or \
-            widget == self.glade.get_widget('chk_dht_proxy'):
-                value = self.glade.get_widget('chk_peer_proxy').get_active() or \
-                    self.glade.get_widget('chk_tracker_proxy').get_active() or \
-                    self.glade.get_widget('chk_dht_proxy').get_active()
-                for x in ['combo_proxy_type', 'txt_proxy_hostname', 
-                          'txt_proxy_username', 'spin_proxy_port', 
-                          'txt_proxy_password']:
+        elif widget == self.glade.get_widget('chk_peer_proxy'):
+                value = self.glade.get_widget('chk_peer_proxy').get_active() 
+                for x in ['combo_peer_proxy_type', 'txt_peer_proxy_hostname', 
+                          'txt_peer_proxy_username', 'spin_peer_proxy_port', 
+                          'txt_peer_proxy_password']:
+                    self.glade.get_widget(x).set_sensitive(value)
+        elif widget == self.glade.get_widget('chk_tracker_proxy'):
+                value = self.glade.get_widget('chk_tracker_proxy').get_active() 
+                for x in ['combo_tracker_proxy_type', 'txt_tracker_proxy_hostname', 
+                          'txt_tracker_proxy_username', 'spin_tracker_proxy_port', 
+                          'txt_tracker_proxy_password']:
+                    self.glade.get_widget(x).set_sensitive(value)
+        elif widget == self.glade.get_widget('chk_dht_proxy'):
+                value = self.glade.get_widget('chk_dht_proxy').get_active() 
+                for x in ['combo_dht_proxy_type', 'txt_dht_proxy_hostname', 
+                          'txt_dht_proxy_username', 'spin_dht_proxy_port', 
+                          'txt_dht_proxy_password']:
+                    self.glade.get_widget(x).set_sensitive(value)
+        elif widget == self.glade.get_widget('chk_web_proxy'):
+                value = self.glade.get_widget('chk_web_proxy').get_active() 
+                for x in ['combo_web_proxy_type', 'txt_web_proxy_hostname', 
+                          'txt_web_proxy_username', 'spin_web_proxy_port', 
+                          'txt_web_proxy_password']:
                     self.glade.get_widget(x).set_sensitive(value)
         elif widget == self.glade.get_widget('chk_use_tray'):
             self.glade.get_widget('chk_min_on_close').set_sensitive(value)

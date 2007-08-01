@@ -708,11 +708,22 @@ class DelugeGTK:
         self.manager.pe_settings(self.config.get("encout_state"), 
             self.config.get("encin_state"), self.config.get("enclevel_type"), 
                 self.config.get("pref_rc4"))
-        self.manager.proxy_settings(self.config.get("proxy_hostname"), 
-            self.config.get("proxy_username"), self.config.get("proxy_password"), 
-                int(self.config.get("proxy_port")), self.config.get("proxy_type"), 
-                    self.config.get("peer_proxy"), self.config.get("tracker_proxy"), 
-                        self.config.get("dht_proxy"))
+        if self.config.get("peer_proxy"):
+            self.manager.proxy_settings(self.config.get(peer_proxy_hostname), 
+                self.config.get("peer_proxy_username"), self.config.get("peer_proxy_password"), 
+                    int(self.config.get("peer_proxy_port")), self.config.get("peer_proxy_type"), "peer")
+        if self.config.get("dht_proxy"):
+            self.manager.proxy_settings(self.config.get(dht_proxy_hostname), 
+                self.config.get("dht_proxy_username"), self.config.get("dht_proxy_password"), 
+                    int(self.config.get("dht_proxy_port")), self.config.get("dht_proxy_type"), "dht")
+        if self.config.get("tracker_proxy"):
+            self.manager.proxy_settings(self.config.get(tracker_proxy_hostname), 
+                self.config.get("tracker_proxy_username"), self.config.get("tracker_proxy_password"), 
+                    int(self.config.get("tracker_proxy_port")), self.config.get("tracker_proxy_type"), "tracker")
+        if self.config.get("web_proxy"):
+            self.manager.proxy_settings(self.config.get(web_proxy_hostname), 
+                self.config.get("web_proxy_username"), self.config.get("web_proxy_password"), 
+                    int(self.config.get("web_proxy_port")), self.config.get("web_proxy_type"), "web")
 
     def get_message_from_state(self, torrent_state):
         state = torrent_state['state']
