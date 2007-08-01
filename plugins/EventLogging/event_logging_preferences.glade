@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
+<!--*- mode: xml -*-->
+<glade-interface>
+  <widget class="GtkDialog" id="dialog">
+    <property name="border_width">5</property>
+    <property name="title" translatable="yes">Event Logging Preferences</property>
+    <property name="default_width">400</property>
+    <property name="default_height">150</property>
+    <property name="has_separator">False</property>
+    <child internal-child="vbox">
+      <widget class="GtkVBox" id="dialog-vbox1">
+        <property name="visible">True</property>
+        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK</property>
+        <property name="spacing">2</property>
+        <child>
+          <widget class="GtkTable" id="table1">
+            <property name="visible">True</property>
+            <property name="n_rows">17</property>
+            <child>
+              <widget class="GtkLabel" id="label1">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Select events to log</property>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_finished">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Torrent finished</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_peer_error">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Peer messages</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_invalid_request">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Invalid request</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_file_error">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">File error</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_hash_failed_error">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Hash failed error</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_peer_ban_error">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Peer ban error</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">6</property>
+                <property name="bottom_attach">7</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_fastresume_rejected_error">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Fastresume rejected error</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">7</property>
+                <property name="bottom_attach">8</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_tracker_announce">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Tracker announce</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">8</property>
+                <property name="bottom_attach">9</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_tracker_reply">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Tracker reply</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">9</property>
+                <property name="bottom_attach">10</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_tracker_alert">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Tracker alert</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">10</property>
+                <property name="bottom_attach">11</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_tracker_warning">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Tracker warning</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">11</property>
+                <property name="bottom_attach">12</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_storage_moved">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Storage moved</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">12</property>
+                <property name="bottom_attach">13</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_piece_finished">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Piece finished</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">13</property>
+                <property name="bottom_attach">14</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_block_downloading">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Block downloading</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">14</property>
+                <property name="bottom_attach">15</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_block_finished">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Block finished</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">15</property>
+                <property name="bottom_attach">16</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_other">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Other</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">16</property>
+                <property name="bottom_attach">17</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="fill">False</property>
+            <property name="expand">False</property>
+          </packing>
+        </child>
+        <child internal-child="action_area">
+          <widget class="GtkHButtonBox" id="dialog-action_area1">
+            <property name="visible">True</property>
+            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK</property>
+            <property name="layout_style">GTK_BUTTONBOX_END</property>
+            <child>
+              <widget class="GtkButton" id="button_cancel">
+                <property name="visible">True</property>
+                <property name="label">gtk-cancel</property>
+                <property name="use_stock">True</property>
+                <property name="response_id">0</property>
+              </widget>
+            </child>
+            <child>
+              <widget class="GtkButton" id="button_ok">
+                <property name="visible">True</property>
+                <property name="label">gtk-ok</property>
+                <property name="use_stock">True</property>
+                <property name="response_id">1</property>
+              </widget>
+              <packing>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">GTK_PACK_END</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
+  </widget>
+</glade-interface>
+

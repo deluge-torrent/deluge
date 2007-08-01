@@ -32,3 +32,8 @@ plugins/BlocklistImport/test.py
 plugins/BlocklistImport/peerguardian.py
 plugins/TorrentPieces/__init__.py
 plugins/TorrentPieces/tab_pieces.py
+plugins/EventLogging/__init__.py
+plugins/EventLogging/tab_log.py
+plugins/EventLogging/event_logging_preferences.glade
+plugins/TorrentNotification/__init__.py
+plugins/TorrentNotification/notification_preferences.glade
