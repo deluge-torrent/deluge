@@ -152,8 +152,8 @@ if boosttype == "nomt":
 			'boost_thread', 'z', 'pthread', 'ssl']
 	print 'Libraries nomt' 
 elif boosttype == "mt":
-	librariestype = ['boost_filesystem', 'boost_date_time',
-			'boost_thread', 'z', 'pthread', 'ssl']
+	librariestype = ['boost_filesystem-mt', 'boost_date_time-mt',
+			'boost_thread-mt', 'z', 'pthread', 'ssl']
 	print 'Libraries mt'
 
 def fetchCpp():
