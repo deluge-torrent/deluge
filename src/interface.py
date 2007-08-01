@@ -35,9 +35,10 @@ import os.path
 from itertools import izip
 
 import gobject
-import gtk
+
 import pygtk
 pygtk.require('2.0')
+import gtk
 
 import core
 import common
