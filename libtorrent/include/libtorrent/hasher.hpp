@@ -120,4 +120,3 @@ namespace libtorrent
 
 #endif // TORRENT_HASHER_HPP_INCLUDED
 
-

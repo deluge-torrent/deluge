@@ -166,6 +166,7 @@ namespace libtorrent
 
 		virtual std::auto_ptr<alert> clone() const
 		{ return std::auto_ptr<alert>(new invalid_request_alert(*this)); }
+
 		tcp::endpoint ip;
 		peer_request request;
 		peer_id pid;

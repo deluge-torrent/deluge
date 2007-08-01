@@ -47,7 +47,10 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/ac_cxx_namespaces.m4 \
 	$(top_srcdir)/m4/ax_boost_filesystem.m4 \
 	$(top_srcdir)/m4/ax_boost_program_options.m4 \
 	$(top_srcdir)/m4/ax_boost_regex.m4 \
-	$(top_srcdir)/m4/ax_boost_thread.m4 $(top_srcdir)/configure.in
+	$(top_srcdir)/m4/ax_boost_thread.m4 \
+	$(top_srcdir)/m4/check_ssl.m4 $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -65,13 +68,16 @@ libtorrent_la_DEPENDENCIES =
 am__libtorrent_la_SOURCES_DIST = allocate_resources.cpp \
 	bandwidth_manager.cpp entry.cpp escape_string.cpp \
 	peer_connection.cpp bt_peer_connection.cpp \
-	web_peer_connection.cpp piece_picker.cpp policy.cpp \
+	web_peer_connection.cpp natpmp.cpp piece_picker.cpp policy.cpp \
 	session.cpp session_impl.cpp sha1.cpp stat.cpp storage.cpp \
-	torrent.cpp torrent_handle.cpp torrent_info.cpp \
-	tracker_manager.cpp http_tracker_connection.cpp \
-	udp_tracker_connection.cpp alert.cpp identify_client.cpp \
-	ip_filter.cpp file.cpp metadata_transfer.cpp logger.cpp \
-	file_pool.cpp ut_pex.cpp kademlia/closest_nodes.cpp \
+	torrent.cpp torrent_handle.cpp pe_crypto.cpp torrent_info.cpp \
+	tracker_manager.cpp http_connection.cpp \
+	http_tracker_connection.cpp udp_tracker_connection.cpp \
+	alert.cpp identify_client.cpp ip_filter.cpp file.cpp \
+	metadata_transfer.cpp logger.cpp file_pool.cpp ut_pex.cpp \
+	lsd.cpp upnp.cpp instantiate_connection.cpp socks5_stream.cpp \
+	socks4_stream.cpp http_stream.cpp connection_queue.cpp \
+	disk_io_thread.cpp kademlia/closest_nodes.cpp \
 	kademlia/dht_tracker.cpp kademlia/find_data.cpp \
 	kademlia/node.cpp kademlia/node_id.cpp kademlia/refresh.cpp \
 	kademlia/routing_table.cpp kademlia/rpc_manager.cpp \
@@ -82,13 +88,16 @@ am__libtorrent_la_SOURCES_DIST = allocate_resources.cpp \
 @USE_DHT_TRUE@	traversal_algorithm.lo
 am_libtorrent_la_OBJECTS = allocate_resources.lo bandwidth_manager.lo \
 	entry.lo escape_string.lo peer_connection.lo \
-	bt_peer_connection.lo web_peer_connection.lo piece_picker.lo \
-	policy.lo session.lo session_impl.lo sha1.lo stat.lo \
-	storage.lo torrent.lo torrent_handle.lo torrent_info.lo \
-	tracker_manager.lo http_tracker_connection.lo \
-	udp_tracker_connection.lo alert.lo identify_client.lo \
-	ip_filter.lo file.lo metadata_transfer.lo logger.lo \
-	file_pool.lo ut_pex.lo $(am__objects_1)
+	bt_peer_connection.lo web_peer_connection.lo natpmp.lo \
+	piece_picker.lo policy.lo session.lo session_impl.lo sha1.lo \
+	stat.lo storage.lo torrent.lo torrent_handle.lo pe_crypto.lo \
+	torrent_info.lo tracker_manager.lo http_connection.lo \
+	http_tracker_connection.lo udp_tracker_connection.lo alert.lo \
+	identify_client.lo ip_filter.lo file.lo metadata_transfer.lo \
+	logger.lo file_pool.lo ut_pex.lo lsd.lo upnp.lo \
+	instantiate_connection.lo socks5_stream.lo socks4_stream.lo \
+	http_stream.lo connection_queue.lo disk_io_thread.lo \
+	$(am__objects_1)
 libtorrent_la_OBJECTS = $(am_libtorrent_la_OBJECTS)
 DEFAULT_INCLUDES = -I. -I$(srcdir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
@@ -135,19 +144,21 @@ CYGPATH_W = @CYGPATH_W@
 DEBUGFLAGS = @DEBUGFLAGS@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
-ECHO = @ECHO@
+DUMPBIN = @DUMPBIN@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXAMPLESDIR = @EXAMPLESDIR@
 EXEEXT = @EXEEXT@
-F77 = @F77@
-FFLAGS = @FFLAGS@
+FGREP = @FGREP@
+GREP = @GREP@
+HAVE_SSL = @HAVE_SSL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
@@ -155,6 +166,7 @@ LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
+NM = @NM@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -167,21 +179,21 @@ PTHREAD_CC = @PTHREAD_CC@
 PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 PTHREAD_LIBS = @PTHREAD_LIBS@
 RANLIB = @RANLIB@
+SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 USE_DHT_FALSE = @USE_DHT_FALSE@
 USE_DHT_TRUE = @USE_DHT_TRUE@
+USE_ENCRYPTION_FALSE = @USE_ENCRYPTION_FALSE@
+USE_ENCRYPTION_TRUE = @USE_ENCRYPTION_TRUE@
 VERSION = @VERSION@
 ZLIB = @ZLIB@
 ZLIBDIR = @ZLIBDIR@
 ZLIBINCL = @ZLIBINCL@
-ac_ct_AR = @ac_ct_AR@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
-ac_ct_F77 = @ac_ct_F77@
-ac_ct_RANLIB = @ac_ct_RANLIB@
-ac_ct_STRIP = @ac_ct_STRIP@
+ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
 acx_pthread_config = @acx_pthread_config@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
 am__fastdepCC_TRUE = @am__fastdepCC_TRUE@
@@ -199,23 +211,31 @@ build_cpu = @build_cpu@
 build_os = @build_os@
 build_vendor = @build_vendor@
 datadir = @datadir@
+datarootdir = @datarootdir@
+docdir = @docdir@
+dvidir = @dvidir@
 exec_prefix = @exec_prefix@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@
 host_os = @host_os@
 host_vendor = @host_vendor@
+htmldir = @htmldir@
 includedir = @includedir@
 infodir = @infodir@
 install_sh = @install_sh@
 libdir = @libdir@
 libexecdir = @libexecdir@
+localedir = @localedir@
 localstatedir = @localstatedir@
+lt_ECHO = @lt_ECHO@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
+pdfdir = @pdfdir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
+psdir = @psdir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
@@ -234,12 +254,15 @@ lib_LTLIBRARIES = libtorrent.la
 libtorrent_la_SOURCES = allocate_resources.cpp \
 bandwidth_manager.cpp entry.cpp escape_string.cpp \
 peer_connection.cpp bt_peer_connection.cpp web_peer_connection.cpp \
-piece_picker.cpp policy.cpp session.cpp session_impl.cpp sha1.cpp stat.cpp \
-storage.cpp torrent.cpp torrent_handle.cpp \
-torrent_info.cpp tracker_manager.cpp \
+natpmp.cpp piece_picker.cpp policy.cpp session.cpp session_impl.cpp sha1.cpp \
+stat.cpp storage.cpp torrent.cpp torrent_handle.cpp pe_crypto.cpp \
+torrent_info.cpp tracker_manager.cpp http_connection.cpp \
 http_tracker_connection.cpp udp_tracker_connection.cpp \
 alert.cpp identify_client.cpp ip_filter.cpp file.cpp metadata_transfer.cpp \
-logger.cpp file_pool.cpp ut_pex.cpp $(kademlia_sources)
+logger.cpp file_pool.cpp ut_pex.cpp lsd.cpp upnp.cpp instantiate_connection.cpp \
+socks5_stream.cpp socks4_stream.cpp http_stream.cpp connection_queue.cpp \
+disk_io_thread.cpp \
+$(kademlia_sources)
 
 noinst_HEADERS = \
 $(top_srcdir)/include/libtorrent/alert.hpp \
@@ -250,7 +273,9 @@ $(top_srcdir)/include/libtorrent/aux_/session_impl.hpp \
 $(top_srcdir)/include/libtorrent/bandwidth_manager.hpp \
 $(top_srcdir)/include/libtorrent/bencode.hpp \
 $(top_srcdir)/include/libtorrent/buffer.hpp \
+$(top_srcdir)/include/libtorrent/connection_queue.hpp \
 $(top_srcdir)/include/libtorrent/debug.hpp \
+$(top_srcdir)/include/libtorrent/disk_io_thread.hpp \
 $(top_srcdir)/include/libtorrent/entry.hpp \
 $(top_srcdir)/include/libtorrent/escape_string.hpp \
 $(top_srcdir)/include/libtorrent/extensions.hpp \
@@ -261,16 +286,24 @@ $(top_srcdir)/include/libtorrent/file.hpp \
 $(top_srcdir)/include/libtorrent/file_pool.hpp \
 $(top_srcdir)/include/libtorrent/fingerprint.hpp \
 $(top_srcdir)/include/libtorrent/hasher.hpp \
+$(top_srcdir)/include/libtorrent/http_connection.hpp \
+$(top_srcdir)/include/libtorrent/http_stream.hpp \
 $(top_srcdir)/include/libtorrent/session_settings.hpp \
 $(top_srcdir)/include/libtorrent/http_tracker_connection.hpp \
 $(top_srcdir)/include/libtorrent/identify_client.hpp \
+$(top_srcdir)/include/libtorrent/instantiate_connection.hpp \
+$(top_srcdir)/include/libtorrent/intrusive_ptr_base.hpp \
 $(top_srcdir)/include/libtorrent/invariant_check.hpp \
 $(top_srcdir)/include/libtorrent/io.hpp \
 $(top_srcdir)/include/libtorrent/ip_filter.hpp \
+$(top_srcdir)/include/libtorrent/lsd.hpp \
 $(top_srcdir)/include/libtorrent/peer.hpp \
 $(top_srcdir)/include/libtorrent/peer_connection.hpp \
 $(top_srcdir)/include/libtorrent/bt_peer_connection.hpp \
 $(top_srcdir)/include/libtorrent/web_peer_connection.hpp \
+$(top_srcdir)/include/libtorrent/pe_crypto.hpp \
+$(top_srcdir)/include/libtorrent/natpmp.hpp \
+$(top_srcdir)/include/libtorrent/pch.hpp \
 $(top_srcdir)/include/libtorrent/peer_id.hpp \
 $(top_srcdir)/include/libtorrent/peer_info.hpp \
 $(top_srcdir)/include/libtorrent/peer_request.hpp \
@@ -281,17 +314,23 @@ $(top_srcdir)/include/libtorrent/resource_request.hpp \
 $(top_srcdir)/include/libtorrent/session.hpp \
 $(top_srcdir)/include/libtorrent/size_type.hpp \
 $(top_srcdir)/include/libtorrent/socket.hpp \
+$(top_srcdir)/include/libtorrent/socket_type.hpp \
+$(top_srcdir)/include/libtorrent/socks4_stream.hpp \
+$(top_srcdir)/include/libtorrent/socks5_stream.hpp \
 $(top_srcdir)/include/libtorrent/stat.hpp \
 $(top_srcdir)/include/libtorrent/storage.hpp \
+$(top_srcdir)/include/libtorrent/time.hpp \
 $(top_srcdir)/include/libtorrent/torrent.hpp \
 $(top_srcdir)/include/libtorrent/torrent_handle.hpp \
 $(top_srcdir)/include/libtorrent/torrent_info.hpp \
 $(top_srcdir)/include/libtorrent/tracker_manager.hpp \
 $(top_srcdir)/include/libtorrent/udp_tracker_connection.hpp \
 $(top_srcdir)/include/libtorrent/utf8.hpp \
+$(top_srcdir)/include/libtorrent/xml_parse.hpp \
+$(top_srcdir)/include/libtorrent/variant_stream.hpp \
 $(top_srcdir)/include/libtorrent/version.hpp
 
-libtorrent_la_LDFLAGS = $(LDFLAGS) -version-info 1:0:1
+libtorrent_la_LDFLAGS = $(LDFLAGS) -release @VERSION@
 libtorrent_la_LIBADD = @ZLIB@ -l@BOOST_DATE_TIME_LIB@ -l@BOOST_FILESYSTEM_LIB@ -l@BOOST_THREAD_LIB@ @PTHREAD_LIBS@
 AM_CXXFLAGS = -ftemplate-depth-50 -I$(top_srcdir)/include -I$(top_srcdir)/include/libtorrent @ZLIBINCL@ @DEBUGFLAGS@ @PTHREAD_CFLAGS@
 AM_LDFLAGS = $(LDFLAGS) -l@BOOST_DATE_TIME_LIB@ -l@BOOST_FILESYSTEM_LIB@ -l@BOOST_THREAD_LIB@ @PTHREAD_LIBS@
@@ -369,19 +408,27 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bandwidth_manager.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bt_peer_connection.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/closest_nodes.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/connection_queue.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dht_tracker.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/disk_io_thread.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/entry.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/escape_string.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/file_pool.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/find_data.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/http_connection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/http_stream.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/http_tracker_connection.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/identify_client.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/instantiate_connection.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ip_filter.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logger.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lsd.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/metadata_transfer.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/natpmp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/node.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/node_id.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pe_crypto.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/peer_connection.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/piece_picker.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/policy.Plo@am__quote@
@@ -391,6 +438,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/session.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/session_impl.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sha1.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socks4_stream.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/socks5_stream.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/stat.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/storage.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/torrent.Plo@am__quote@
@@ -399,6 +448,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tracker_manager.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/traversal_algorithm.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/udp_tracker_connection.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/upnp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ut_pex.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/web_peer_connection.Plo@am__quote@
 

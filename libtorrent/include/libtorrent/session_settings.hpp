@@ -251,15 +251,15 @@ namespace libtorrent
 		// while we have fewer pieces than this, pick
 		// random pieces instead of rarest first.
 		int initial_picker_threshold;
-		
-        // the maximum number of bytes a connection may have
-        // pending in the disk write queue before its download
-        // rate is being throttled. This prevents fast downloads
-        // to slow medias to allocate more and more memory
-        // indefinitely. This should be set to at least 32 kB
-        // to not completely disrupt normal downloads.
-        int max_outstanding_disk_bytes_per_connection;
-                 
+
+		// the maximum number of bytes a connection may have
+		// pending in the disk write queue before its download
+		// rate is being throttled. This prevents fast downloads
+		// to slow medias to allocate more and more memory
+		// indefinitely. This should be set to at least 32 kB
+		// to not completely disrupt normal downloads.
+		int max_outstanding_disk_bytes_per_connection;
+
 #ifndef TORRENT_DISABLE_DHT
 		// while this is true, the dht will note be used unless the
 		// tracker is online
