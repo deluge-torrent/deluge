@@ -60,7 +60,7 @@ DEFAULT_PREFS = {
     "gui_update_interval" : 1.0,
     "listen_on" : [6881,6889],
     "lock_tray" : False,
-    "max_active_torrents" : -1,
+    "max_active_torrents" : 8,
     "max_connections" : 200,
     "max_download_speed" : -1,
     "max_download_speed_bps": -1,
