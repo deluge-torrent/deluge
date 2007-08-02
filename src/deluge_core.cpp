@@ -86,7 +86,6 @@ using namespace libtorrent;
 #define EVENT_PIECE_FINISHED        15
 #define EVENT_BLOCK_DOWNLOADING     16
 #define EVENT_BLOCK_FINISHED        17
-#define EVENT_PEER_BLOCKED          18
 
 #define STATE_QUEUED                0
 #define STATE_CHECKING              1
@@ -1111,21 +1110,6 @@ static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
                 "unique_ID",
                 M_torrents->at(index).unique_ID,
                 "message",          a->msg().c_str());
-        else
-            { Py_INCREF(Py_None); return Py_None; }
-    } else if (dynamic_cast<peer_blocked_alert*>(popped_alert))
-    {
-        torrent_handle handle = (dynamic_cast<peer_blocked_alert*>(popped_alert))->handle;
-        long index = get_torrent_index(handle);
-        if (PyErr_Occurred())
-            return NULL;
-
-        if (handle_exists(handle))
-            return Py_BuildValue("{s:i,s:i,s:i,s:s}", 
-                "event_type", EVENT_PEER_BLOCKED,
-                "unique_ID", M_torrents->at(index).unique_ID,
-                "peer_ip", ip,
-                "message", a->msg().c_str());
         else
             { Py_INCREF(Py_None); return Py_None; }
     } else if (dynamic_cast<tracker_warning_alert*>(popped_alert))
