@@ -181,6 +181,8 @@ class LogManager(object):
                 logfile = open(log, "a")
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
+        if self.vbox is None:
+            self.prepare_log_store()
         if not event_message is None:
             label = gtk.Label()
             label.set_text(event_message)

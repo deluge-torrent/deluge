@@ -202,9 +202,9 @@ class EventLogging:
                 self.manager.disconnect_event(self.manager.constants['EVENT_FASTRESUME_REJECTED_ERROR'], self.tab_log.handle_event)
         if widget == self.glade.get_widget("chk_tracker_announce"):
             if value:
-                self.manager.disconnect_event(self.manager.constants['EVENT_TRACKER_ANNOUNCE'], self.tab_log.handle_event)
-            else:
                 self.manager.connect_event(self.manager.constants['EVENT_TRACKER_ANNOUNCE'], self.tab_log.handle_event)
+            else:
+                self.manager.disconnect_event(self.manager.constants['EVENT_TRACKER_ANNOUNCE'], self.tab_log.handle_event)
         if widget == self.glade.get_widget("chk_tracker_reply"):
             if value:
                 self.manager.connect_event(self.manager.constants['EVENT_TRACKER_REPLY'], self.tab_log.handle_event)
@@ -237,14 +237,14 @@ class EventLogging:
                 self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_log.handle_event)
         if widget == self.glade.get_widget("chk_block_finished"):
             if value:
-                self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
-            else:
                 self.manager.connect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
+            else:
+                self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
         if widget == self.glade.get_widget("chk_other"):
             if value:
-                self.manager.disconnect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
-            else:
                 self.manager.connect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
+            else:
+                self.manager.disconnect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
         if widget == self.glade.get_widget("chk_log_files"):
             if value:
                 self.tab_log.enable_log_files()
