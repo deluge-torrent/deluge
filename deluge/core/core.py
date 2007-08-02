@@ -127,6 +127,13 @@ class Core(dbus.service.Object):
         log.debug("Pausing torrent %s", torrent_id)
         if self.torrents.pause(torrent_id):
             self.torrent_paused(torrent_id)
+            
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+                                    in_signature="s", out_signature="")
+    def resume_torrent(self, torrent_id):
+        log.debug("Resuming torrent %s", torrent_id)
+        if self.torrents.resume(torrent_id):
+            self.torrent_resumed(torrent_id)
     
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
                                     in_signature="sas", 
@@ -200,3 +207,7 @@ class Core(dbus.service.Object):
     def torrent_paused(self, torrent_id):
         """Emitted when a torrent is paused"""
         log.debug("torrent_paused signal emitted")
+    
+    def torrent_resumed(self, torrent_id):
+        """Emitted when a torrent is resumed"""
+        log.debug("torrent_resumed signal emitted")

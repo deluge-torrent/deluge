@@ -135,8 +135,14 @@ class TorrentManager:
         return True
         
     def resume(self, torrent_id):
-        pass
-
+        """Resume a torrent"""
+        try:
+            self.torrents[torrent_id].handle.resume()
+        except:
+            return False
+        
+        return True
+        
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file"""
         state = TorrentManagerState()

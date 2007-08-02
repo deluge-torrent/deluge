@@ -97,6 +97,12 @@ def pause_torrent(torrent_ids):
     for torrent_id in torrent_ids:
         core.pause_torrent(torrent_id)
 
+def resume_torrent(torrent_ids):
+    """Resume torrent_ids"""
+    core = get_core()
+    for torrent_id in torrent_ids:
+        core.resume_torrent(torrent_id)
+        
 def queue_top(torrent_ids):
     """Attempts to queue all torrent_ids to the top"""
     log.debug("Attempting to queue to top these torrents: %s", torrent_ids)

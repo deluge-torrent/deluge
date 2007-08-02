@@ -51,6 +51,7 @@ class ToolBar:
             "on_toolbutton_remove_clicked": self.on_toolbutton_remove_clicked,
             "on_toolbutton_clear_clicked": self.on_toolbutton_clear_clicked,
             "on_toolbutton_pause_clicked": self.on_toolbutton_pause_clicked,
+            "on_toolbutton_resume_clicked": self.on_toolbutton_resume_clicked,
             "on_toolbutton_queueup_clicked": \
                                         self.on_toolbutton_queueup_clicked,
             "on_toolbutton_queuedown_clicked": \
@@ -81,6 +82,11 @@ class ToolBar:
         log.debug("on_toolbutton_pause_clicked")
         # Use the menubar's callbacks
         self.window.menubar.on_menuitem_pause_activate(data)
+     
+    def on_toolbutton_resume_clicked(self, data):
+        log.debug("on_toolbutton_resume_clicked")
+        # Use the menubar's calbacks
+        self.window.menubar.on_menuitem_resume_activate(data)
 
     def on_toolbutton_queueup_clicked(self, data):
         log.debug("on_toolbutton_queueup_clicked")

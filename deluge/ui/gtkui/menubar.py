@@ -82,6 +82,7 @@ class MenuBar:
         self.torrentmenu.signal_autoconnect({
             ## Torrent Menu
             "on_menuitem_pause_activate": self.on_menuitem_pause_activate,
+            "on_menuitem_resume_activate": self.on_menuitem_resume_activate,
             "on_menuitem_updatetracker_activate": \
                                     self.on_menuitem_updatetracker_activate,
             "on_menuitem_edittrackers_activate": \
@@ -125,6 +126,11 @@ class MenuBar:
     def on_menuitem_pause_activate(self, data=None):
         log.debug("on_menuitem_pause_activate")
         functions.pause_torrent(
+                            self.window.torrentview.get_selected_torrents())
+    
+    def on_menuitem_resume_activate(self, data=None):
+        log.debug("on_menuitem_resume_activate")
+        functions.resume_torrent(
                             self.window.torrentview.get_selected_torrents())
         
     def on_menuitem_updatetracker_activate(self, data=None):
