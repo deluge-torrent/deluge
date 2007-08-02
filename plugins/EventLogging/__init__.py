@@ -64,7 +64,7 @@ class EventLogging:
         except IOError:
             # File does not exist
             pass
-        
+        self.dialog_initialize = True
         self.glade = gtk.glade.XML(path + "/event_logging_preferences.glade")
         self.dialog = self.glade.get_widget("dialog")
         self.glade.signal_autoconnect({
@@ -120,7 +120,6 @@ class EventLogging:
             self.tab_log.enable_log_files()
 
     def unload(self):
-        self.config.save(self.config_file)
         if self.config.get("enable_finished"):
             self.manager.disconnect_event(self.manager.constants['EVENT_FINISHED'], self.tab_log.handle_event)
         if self.config.get("enable_peer_error"):
@@ -159,99 +158,102 @@ class EventLogging:
             if self.parentNotebook.get_nth_page(page) == self.topWidget:
                 self.parentNotebook.remove_page(page)
                 break
+        self.config.save(self.config_file)
 
     def update(self):
         pass
 
     def toggle_ui(self, widget):
-        value = widget.get_active()
-        if widget == self.glade.get_widget("chk_finished"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_FINISHED'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_FINISHED'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_peer_error"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_PEER_ERROR'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_PEER_ERROR'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_invalid_request"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_INVALID_REQUEST'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_INVALID_REQUEST'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_file_error"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_FILE_ERROR'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_FILE_ERROR'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_hash_failed_error"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_HASH_FAILED_ERROR'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_HASH_FAILED_ERROR'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_peer_ban_error"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_PEER_BAN_ERROR'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_PEER_BAN_ERROR'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_fastresume_rejected_error"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_FASTRESUME_REJECTED_ERROR'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_FASTRESUME_REJECTED_ERROR'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_tracker_announce"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_TRACKER_ANNOUNCE'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_TRACKER_ANNOUNCE'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_tracker_reply"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_TRACKER_REPLY'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_TRACKER_REPLY'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_tracker_alert"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_TRACKER_ALERT'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_TRACKER_ALERT'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_tracker_warning"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_TRACKER_WARNING'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_TRACKER_WARNING'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_storage_moved"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_STORAGE_MOVED'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_STORAGE_MOVED'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_piece_finished"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_block_downloading"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_block_finished"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_other"):
-            if value:
-                self.manager.connect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
-            else:
-                self.manager.disconnect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
-        if widget == self.glade.get_widget("chk_log_files"):
-            if value:
-                self.tab_log.enable_log_files()
-            else:
-                self.tab_log.disable_log_files()
+        if not self.dialog_initialize:
+            value = widget.get_active()
+            if widget == self.glade.get_widget("chk_finished"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_FINISHED'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_FINISHED'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_peer_error"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_PEER_ERROR'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_PEER_ERROR'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_invalid_request"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_INVALID_REQUEST'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_INVALID_REQUEST'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_file_error"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_FILE_ERROR'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_FILE_ERROR'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_hash_failed_error"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_HASH_FAILED_ERROR'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_HASH_FAILED_ERROR'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_peer_ban_error"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_PEER_BAN_ERROR'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_PEER_BAN_ERROR'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_fastresume_rejected_error"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_FASTRESUME_REJECTED_ERROR'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_FASTRESUME_REJECTED_ERROR'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_tracker_announce"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_TRACKER_ANNOUNCE'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_TRACKER_ANNOUNCE'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_tracker_reply"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_TRACKER_REPLY'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_TRACKER_REPLY'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_tracker_alert"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_TRACKER_ALERT'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_TRACKER_ALERT'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_tracker_warning"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_TRACKER_WARNING'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_TRACKER_WARNING'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_storage_moved"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_STORAGE_MOVED'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_STORAGE_MOVED'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_piece_finished"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_block_downloading"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_block_finished"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_other"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_log_files"):
+                if value:
+                    self.tab_log.enable_log_files()
+                else:
+                    self.tab_log.disable_log_files()
 
     def configure(self):
+        self.dialog_initialize = True
         try:
             self.glade.get_widget("chk_finished").set_active(self.config.get("enable_finished"))
             self.glade.get_widget("chk_peer_error").set_active(self.config.get("enable_peer_error"))
@@ -288,6 +290,7 @@ class EventLogging:
             self.glade.get_widget("chk_block_finished").set_active(False)
             self.glade.get_widget("chk_other").set_active(False)
             self.glade.get_widget("chk_log_files").set_active(False)
+        self.dialog_initialize = False
         self.dialog.show()
         response = self.dialog.run()
         self.dialog.hide()
