@@ -122,8 +122,8 @@ class BlocklistImport:
             self.gtkprog.stop()
             reader.close()
             return
-            
 
+        self.core.set_ip_filter()
         reader.close()
         self.nimported = curr
         self.gtkprog.end_import()

@@ -916,6 +916,9 @@ class Manager:
     def add_range_to_ip_filter(self, start, end):
         return deluge_core.add_range_to_IP_filter(start, end)
 
+    def set_ip_filter(self):
+        return deluge_core.set_IP_filter()
+
     def proxy_settings(self, server, login, paswd, portnum, proxytype, proxy):
         return deluge_core.proxy_settings(server, login, paswd, portnum, proxytype, proxy)
 

@@ -1484,9 +1484,20 @@ static PyObject *torrent_add_range_to_IP_filter(PyObject *self, PyObject *args)
     address_v4 inet_start = address_v4::from_string(start);
     address_v4 inet_end = address_v4::from_string(end);
     M_the_filter->add_rule(inet_start, inet_end, ip_filter::blocked);
-    M_ses->set_ip_filter(*M_the_filter);
+
     Py_INCREF(Py_None); return Py_None;
 }
+
+static PyObject *torrent_set_IP_filter(PyObject *self, PyObject *args)
+{
+    if (M_the_filter == NULL) {
+        RAISE_PTR(DelugeError, "No filter defined, use reset_IP_filter");
+    }
+    M_ses->set_ip_filter(*M_the_filter);
+
+    Py_INCREF(Py_None); return Py_None;
+}
+
 
 static PyObject *torrent_use_upnp(PyObject *self, PyObject *args)
 {
@@ -1854,6 +1865,7 @@ static PyMethodDef deluge_core_methods[] =
     {"create_torrent",                  torrent_create_torrent,                 METH_VARARGS,   "."},
     {"reset_IP_filter",                 torrent_reset_IP_filter,                METH_VARARGS,   "."},
     {"add_range_to_IP_filter",          torrent_add_range_to_IP_filter,         METH_VARARGS,   "."},
+    {"set_IP_filter",                   torrent_set_IP_filter,                  METH_VARARGS,   "."},
     {"use_upnp",                        torrent_use_upnp,                       METH_VARARGS,   "."},
     {"use_natpmp",                      torrent_use_natpmp,                     METH_VARARGS,   "."},
     {"use_utpex",                       torrent_use_utpex,                      METH_VARARGS,   "."},
