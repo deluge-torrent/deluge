@@ -376,7 +376,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
     M_ses->add_extension(&libtorrent::create_metadata_plugin);
 
-    M_constants = Py_BuildValue("{s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i}",
+    M_constants = Py_BuildValue("{s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i}",
         "EVENT_NULL",                         EVENT_NULL,
         "EVENT_FINISHED",                     EVENT_FINISHED,
         "EVENT_PEER_ERROR",                   EVENT_PEER_ERROR,
@@ -394,7 +394,6 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
         "EVENT_PIECE_FINISHED",               EVENT_PIECE_FINISHED,
         "EVENT_BLOCK_DOWNLOADING",            EVENT_BLOCK_DOWNLOADING,
         "EVENT_BLOCK_FINISHED",               EVENT_BLOCK_FINISHED,
-        "EVENT_PEER_BLOCKED",                 EVENT_PEER_BLOCKED,
         "STATE_QUEUED",                       STATE_QUEUED,
         "STATE_CHECKING",                     STATE_CHECKING,
         "STATE_CONNECTING",                   STATE_CONNECTING,
