@@ -1484,7 +1484,7 @@ static PyObject *torrent_add_range_to_IP_filter(PyObject *self, PyObject *args)
     address_v4 inet_start = address_v4::from_string(start);
     address_v4 inet_end = address_v4::from_string(end);
     M_the_filter->add_rule(inet_start, inet_end, ip_filter::blocked);
-
+    M_ses->set_ip_filter(*M_the_filter);
     Py_INCREF(Py_None); return Py_None;
 }
 
