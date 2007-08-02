@@ -48,7 +48,7 @@ import ipc_manager
 import plugins
 import tab_details
 import tab_files
-INSTALL_PREFIX = '@datadir@'
+
 class DelugeGTK:
     def __init__(self):
         self.ipc_manager = ipc_manager.Manager(self)
@@ -123,7 +123,7 @@ class DelugeGTK:
         def new_release_check():
             import os, sys
             py_version = sys.version[:3]
-            file = INSTALL_PREFIX + '/lib/python' + py_version + '/site-packages/deluge/update.py'
+            file = common.INSTALL_PREFIX + '/lib/python' + py_version + '/site-packages/deluge/update.py'
             os.spawnlp(os.P_NOWAIT, 'python', 'python', file, common.PROGRAM_VERSION)
 
         if self.config.get("new_releases"):
