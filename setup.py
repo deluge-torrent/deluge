@@ -201,6 +201,16 @@ class write_data_install_path(cmd.Command):
 		data = conf_file.read()
 		conf_file.close()
 		data = data.replace('@datadir@', self.prefix)
+		conf_file = open(conf_filename, 'w')
+		conf_file.write(data)
+		conf_file.close()
+		conf_filename = os.path.join(self.lib_build_dir,
+			'deluge', 'interface.py')
+
+		conf_file = open(conf_filename, 'r')
+		data = conf_file.read()
+		conf_file.close()
+		data = data.replace('@datadir@', self.prefix)
 
 		conf_file = open(conf_filename, 'w')
 		conf_file.write(data)
