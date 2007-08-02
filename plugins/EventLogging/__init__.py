@@ -83,6 +83,7 @@ class EventLogging:
         self.viewport.show()
         self.scrolledWindow.show()
         self.tab_log = LogManager(self.viewport, self.manager)
+        self.tab_log.prepare_log_store()
         if self.config.get("enable_finished"):
             self.manager.connect_event(self.manager.constants['EVENT_FINISHED'], self.tab_log.handle_event)
         if self.config.get("enable_peer_error"):
@@ -117,7 +118,6 @@ class EventLogging:
             self.manager.connect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
         if self.config.get("enable_log_files"):
             self.tab_log.enable_log_files()
-        self.tab_log.prepare_log_store()
 
     def unload(self):
         self.config.save(self.config_file)
