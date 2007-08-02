@@ -138,6 +138,7 @@ class DelugeGTK:
                     "remove_torrent": self.remove_torrent_clicked,
                     "menu_quit": self.quit,
                     ## Edit Menu
+                    "select_all_torrents": self.select_all_torrents,
                     "pref_clicked": self.show_preferences_dialog_clicked,
                     "plugins_clicked": self.show_plugin_dialog_clicked,
                     ## View Menu
@@ -447,7 +448,6 @@ class DelugeGTK:
         self.torrent_glade = gtk.glade.XML(common.get_glade_file("torrent_menu.glade"), domain='deluge')
         self.torrent_menu = self.torrent_glade.get_widget("torrent_menu")        
         self.torrent_glade.signal_autoconnect({
-                        "select_all_torrents": self.select_all_torrents,
                         "remove_torrent": self.remove_torrent_clicked,
                         "edit_trackers": self.list_of_trackers,
                         "tor_start": self.tor_start,
