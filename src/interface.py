@@ -179,7 +179,6 @@ class DelugeGTK:
             "plugins": self.show_plugin_dialog_clicked,
             "preferences": self.show_preferences_dialog_clicked,
             "add_torrent": self.add_torrent_clicked,
-            "clear_finished": self.clear_finished,
             "show_hide_window_toggled": self.show_hide_window_toggled
         })
         
