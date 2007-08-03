@@ -118,12 +118,17 @@ if not OS == "win":
 		boosttype = 'nomt'
 	else:
 		boosttype = 'mt'
+    removals = ['-g', '-Wstrict-prototypes'] 
 
 	if python_version == '2.5':
 		cv_opt = sysconfig.get_config_vars()["CFLAGS"]
+        for removal in removals:
+            cv_opt = cv_opt.replace(removal, " ")
 		sysconfig.get_config_vars()["CFLAGS"] = ' '.join(cv_opt.split())
 	else:
 		cv_opt = sysconfig.get_config_vars()["OPT"]
+        for removal in removals:
+            cv_opt = cv_opt.replace(removal, " ")
 		sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
 else:
 	boosttype = 'mt'
