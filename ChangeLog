@@ -1,6 +1,7 @@
 Deluge 0.5.4 (xx August 2007)
 
   * Option to use a random port every time
+  * Pause all/resume all in tray menu
   * Proxy system redone - you can now specify different information for each 
   type of proxy (DHT, peer, tracker, web-seed)
   * TorrentPieces plugin to view piece updates

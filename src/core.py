@@ -948,4 +948,4 @@ class Manager:
         for index, unique_ID in enumerate(self.state.queue):
             torrent_state = self.get_core_torrent_state(unique_ID)
             if torrent_state['is_paused']:
-                self.set_user_pause(unique_ID, False, enforce_queue=False)
+                self.set_user_pause(unique_ID, False, enforce_queue=True)
