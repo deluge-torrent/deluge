@@ -376,7 +376,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
     M_ses->add_extension(&libtorrent::create_metadata_plugin);
 
-    M_constants = Py_BuildValue("{s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i}",
+    M_constants = Py_BuildValue("{s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i}",
         "EVENT_NULL",                         EVENT_NULL,
         "EVENT_FINISHED",                     EVENT_FINISHED,
         "EVENT_PEER_ERROR",                   EVENT_PEER_ERROR,
