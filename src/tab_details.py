@@ -25,8 +25,6 @@ class DetailsManager(object):
         self.peers = glade.get_widget("summary_peers")
         self.percentage_done = glade.get_widget("summary_percentage_done")
         self.share_ratio = glade.get_widget("summary_share_ratio")
-        self.downloaded_this_session = glade.get_widget("summary_downloaded_this_session")
-        self.uploaded_this_session = glade.get_widget("summary_uploaded_this_session")
         self.tracker = glade.get_widget("summary_tracker")
         self.tracker_status = glade.get_widget("summary_tracker_status")
         self.next_announce = glade.get_widget("summary_next_announce")
