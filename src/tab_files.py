@@ -190,8 +190,16 @@ class FilesTabManager(FilesBaseManager):
 
     # From UI to core
     def update_priorities(self):
-        file_priorities = [x[2] for x in self.file_store]
-        self.manager.prioritize_files(self.file_unique_id, file_priorities)
+        prev_file_priorities = self.manager.get_priorities(self.file_unique_id)
+        file_priorities = []
+        update = False
+        for x, priority in izip(self.file_store, prev_file_priorities):
+            file_priorities.append(x[2])
+            if x[2] > 0 and priority == 0:
+                update = True
+            if x[2] == 0:
+                update = True
+        self.manager.prioritize_files(self.file_unique_id, file_priorities, update_files_removed=update)
 
 class FilesDialogManager(FilesBaseManager):
     def __init__(self, dumped_torrent):

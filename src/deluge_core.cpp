@@ -1261,6 +1261,26 @@ static PyObject *torrent_get_file_info(PyObject *self, PyObject *args)
     return ret;
 };
 
+static PyObject *torrent_get_file_piece_range(PyObject *self, PyObject *args)
+{
+    python_long unique_ID;
+    int file_index, file_size;
+    if (!PyArg_ParseTuple(args, "iii", &unique_ID, &file_index, &file_size))
+        return NULL;
+
+    long index = get_index_from_unique_ID(unique_ID);
+    if (PyErr_Occurred())
+        return NULL;
+    torrent_info const &info = M_torrents->at(index).handle.get_torrent_info();
+    peer_request first_index = info.map_file(file_index, 0, 1);
+    peer_request last_index = info.map_file(file_index, file_size-1, 1);
+    return Py_BuildValue(
+        "{s:i,s:i}",
+        "first_index",     first_index.piece,
+        "last_index",      last_index.piece
+        );
+};
+
 /*static PyObject *torrent_get_unique_IDs(PyObject *self, PyObject *args)
 {
     PyObject *ret = PyTuple_New(M_torrents.size());
@@ -1878,6 +1898,7 @@ static PyMethodDef deluge_core_methods[] =
     {"has_piece",                       torrent_has_piece,                      METH_VARARGS,   "."},
     {"get_piece_info",                  torrent_get_piece_info,                 METH_VARARGS,   "."},
     {"get_all_piece_info",              torrent_get_all_piece_info,             METH_VARARGS,   "."},
+    {"get_file_piece_range",            torrent_get_file_piece_range,           METH_VARARGS,   "."},
     {NULL}
 };
 

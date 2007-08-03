@@ -246,6 +246,9 @@ class Manager:
         # unique_ids removed by core
         self.removed_unique_ids = {}
 
+        # unique_ids with files just removed by user
+        self.update_files_removed = {}
+
         PREF_FUNCTIONS["enable_dht"] = self.set_DHT 
 
         # Unpickle the state, or create a new one
@@ -317,6 +320,12 @@ class Manager:
     def get_pref(self, key):
         # Get the value from the preferences object
         return self.config.get(key)
+    
+    # Get file piece range
+    def get_file_piece_range(self, unique_id,\
+        file_index, file_size):
+        return deluge_core.get_file_piece_range(unique_id,\
+            file_index, file_size)
     
     # Check if piece is finished
     def has_piece(self, unique_id, piece_index):
@@ -638,12 +647,17 @@ class Manager:
         return ret
 
     # Priorities functions
-    def prioritize_files(self, unique_ID, priorities):
+    def clear_update_files_removed(self):
+        self.update_files_removed = {}
+
+    def prioritize_files(self, unique_ID, priorities, update_files_removed=False):
         assert(len(priorities) == \
                    self.get_core_torrent_state(unique_ID)['num_files'])
 
         self.unique_IDs[unique_ID].priorities = priorities[:]
         deluge_core.prioritize_files(unique_ID, priorities)
+        if update_files_removed:
+            self.update_files_removed[unique_ID] = 1
         
         if self.get_pref('prioritize_first_last_pieces'):
             self.prioritize_first_last_pieces(unique_ID)
@@ -866,12 +880,14 @@ class Manager:
                                     pass
                                 else:
                                     import random
-                                    ports = [random.randrange(49152, 65535), random.randrange(49152, 65535)]
+                                    randrange = lambda: random.randrange(49152, 65535)
+                                    ports = [randrange(), randrange()]
                                     ports.sort()
                                     deluge_core.set_listen_on(ports)
                         else:
                             import random
-                            ports = [random.randrange(49152, 65535), random.randrange(49152, 65535)]
+                            randrange = lambda: random.randrange(49152, 65535)
+                            ports = [randrange(), randrange()]
                             ports.sort()
                             deluge_core.set_listen_on(ports)
                 else:
