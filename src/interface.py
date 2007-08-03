@@ -169,6 +169,12 @@ class DelugeGTK:
         # Force an update when user changes the notebook tab
         self.update_torrent_info_widget(None, page_num)
     
+    def pause_all_clicked(self, arg=None):
+        self.manager.pause_all()
+
+    def resume_all_clicked(self, arg=None):
+        self.manager.resume_all()
+
     def build_tray_icon(self):
         self.tray_icon = gtk.status_icon_new_from_file(common.get_pixmap("deluge32.png"))
         
@@ -176,6 +182,8 @@ class DelugeGTK:
         self.tray_menu  = self.tray_glade.get_widget("tray_menu")
         self.tray_glade.signal_autoconnect({
             "quit": self.quit,
+            "pause_all": self.pause_all_clicked,
+            "resume_all": self.resume_all_clicked,
             "plugins": self.show_plugin_dialog_clicked,
             "preferences": self.show_preferences_dialog_clicked,
             "add_torrent": self.add_torrent_clicked,
