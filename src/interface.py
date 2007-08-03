@@ -864,9 +864,6 @@ class DelugeGTK:
 
         #Update any active plugins
         self.plugins.update_active_plugins()
-
-        #Plugins have updated info, so clear it
-        self.manager.clear_update_files_removed()
         
         # only update gui if it's needed
         if self.update_interface:
@@ -947,6 +944,7 @@ class DelugeGTK:
                 # Update tool buttons below based on the first selected torrent's state
                 path = torrent_selection.get_selected_rows()[1][0]
                 unique_id = self.torrent_model.get_value(self.torrent_model.get_iter(path), 0)
+            
         return True
             
     def update_statusbar_and_tray(self):

@@ -18,7 +18,7 @@
 
 plugin_name = _("Torrent Pieces")
 plugin_author = "Micah Bucy"
-plugin_version = "0.2"
+plugin_version = "0.1"
 plugin_description = _("""
 Adds a pieces tab which gives piece by piece progress for a torrent.
 Each piece is represented by a small progress bar.
@@ -33,11 +33,7 @@ of blocks finished as well as the peer speed for that piece.
 When the plugin initializes, such as when enabling the plugin or
 when a different torrent is selected, the cpu will spike.  This is normal,
 as initialization must get information on every piece from libtorrent,
-and the cpu will normalize once all of the information is retrieved.
-
-This plugin supports multifile torrents.  If a file is skipped, it does not
-show up in the pieces tab.
-""")
+and the cpu will normalize once all of the information is retrieved.""")
 
 def deluge_init(deluge_path):
     global path
@@ -84,14 +80,12 @@ class TorrentPieces:
                 break
 
     def update(self):
-        update_files_removed = self.manager.update_files_removed
         unique_id = self.parent.get_selected_torrent()
+        # If no torrents added or more than one torrent selected
         if unique_id is None:
-        #if no torrents added or more than one torrent selected
             self.tab_pieces.clear_pieces_store()
             return
-        if unique_id != self.tab_pieces.unique_id or unique_id in update_files_removed.keys():
-        #if different torrent was selected or file priorities were changed.
+        if unique_id != self.tab_pieces.unique_id:
             self.manager.disconnect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_pieces.handle_event)
             self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_pieces.handle_event)
             self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_pieces.handle_event)
