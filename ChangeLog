@@ -9,6 +9,8 @@ Deluge 0.5.4 (xx August 2007)
   basis
   * New release alerts - Client will inform user if their version of deluge is
   outdated
+  * Tray message includes session totals
+  * Ticket #474 - Multiple password prompts displayed
 
 Deluge 0.5.3 (25 July 2007)
 
