@@ -100,8 +100,7 @@ if not OS == "win":
 	            "-DHAVE_INCLUDE_LIBTORRENT_ASIO____ASIO_HPP=1", 
 				"-DHAVE_INCLUDE_LIBTORRENT_ASIO_SSL_STREAM_HPP=1", 
 				"-DHAVE_INCLUDE_LIBTORRENT_ASIO_IP_TCP_HPP=1", 
-				"-DHAVE_PTHREAD=1", "-DTORRENT_USE_OPENSSL=1", "-DHAVE_SSL=1", 
-				"-DNDEBUG", "-O2"]
+				"-DHAVE_PTHREAD=1", "-DTORRENT_USE_OPENSSL=1", "-DHAVE_SSL=1"]
 	if ARCH == "x64":
 		EXTRA_COMPILE_ARGS.append("-DAMD64")
 
@@ -118,17 +117,12 @@ if not OS == "win":
 		boosttype = 'nomt'
 	else:
 		boosttype = 'mt'
-	removals = ['-DNDEBUG', '-g', '-Wstrict-prototypes']
 
 	if python_version == '2.5':
 		cv_opt = sysconfig.get_config_vars()["CFLAGS"]
-		for removal in removals:
-			cv_opt = cv_opt.replace(removal, " ")
 		sysconfig.get_config_vars()["CFLAGS"] = ' '.join(cv_opt.split())
 	else:
 		cv_opt = sysconfig.get_config_vars()["OPT"]
-		for removal in removals:
-			cv_opt = cv_opt.replace(removal, " ")
 		sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
 else:
 	boosttype = 'mt'
