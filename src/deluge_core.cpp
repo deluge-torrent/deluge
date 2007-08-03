@@ -305,14 +305,8 @@ long count_DHT_peers(entry &state)
     if (nodes)
     {
         entry::list_type &peers = nodes->list();
-        entry::list_type::const_iterator i;
-        i = peers.begin();
-
-        while (i != peers.end())
-        {
-            num_peers++;
-            i++;
-        }
+        
+        num_peers = peers.size();
     }
 
     return num_peers;
