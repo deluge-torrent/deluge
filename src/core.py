@@ -874,16 +874,13 @@ class Manager:
                         PREF_FUNCTIONS[pref](self.get_pref(pref))
                     else:
                         if deluge_core.listening_port() != 0:
-                            for i in xrange(int(self.get_pref("listen_on")[0]),\
-                            int(self.get_pref("listen_on")[1])):
-                                if deluge_core.listening_port() != i:
-                                    pass
-                                else:
-                                    import random
-                                    randrange = lambda: random.randrange(49152, 65535)
-                                    ports = [randrange(), randrange()]
-                                    ports.sort()
-                                    deluge_core.set_listen_on(ports)
+                            if self.get_pref("listen_on")[0] <= deluge_core.listening_port() <= self.get_pref("listen_on")[1]:
+                                import random
+                                randrange = lambda: random.randrange(49152, 65535)
+                                ports = [randrange(), randrange()]
+                                ports.sort()
+                                deluge_core.set_listen_on(ports)
+                            
                         else:
                             import random
                             randrange = lambda: random.randrange(49152, 65535)
