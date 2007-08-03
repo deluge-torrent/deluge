@@ -344,7 +344,15 @@ class DelugeGTK:
         self.config.set("max_upload_speed", float(str_bwup))
         self.apply_prefs()
 
-    def unlock_tray(self,comingnext):
+    # Use is_showing_dlg argument as a kind of static variable to not add
+    # unlock tray dialog state to instance where it will be not used except as
+    # in this method. Assigning list to is_showing_dlg is intentional.
+    def unlock_tray(self,comingnext, is_showing_dlg=[False]):
+        if is_showing_dlg[0]:
+            return
+        
+        is_showing_dlg[0] = True
+        
         entered_pass = gtk.Entry(25)
         entered_pass.set_activates_default(True)
         entered_pass.set_width_chars(25)
@@ -372,6 +380,9 @@ class DelugeGTK:
                     self.shutdown()
 
         tray_lock.destroy()
+        
+        is_showing_dlg[0] = False
+        
         return True
 
     def load_status_icons(self):
