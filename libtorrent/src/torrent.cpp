@@ -50,6 +50,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <boost/filesystem/convenience.hpp>
 #include <boost/bind.hpp>
 #include <boost/thread/mutex.hpp>
+#include <boost/tokenizer.hpp>
 
 #ifdef _MSC_VER
 #pragma warning(pop)
@@ -1667,7 +1668,20 @@ namespace libtorrent
 			|| p->in_handshake()) return;
 
 		m_resolving_country = true;
-		tcp::resolver::query q(boost::lexical_cast<std::string>(p->remote().address())
+
+		std::string ip_address = boost::lexical_cast<std::string>(p->remote().address());
+		std::string ip_address_reversed = "";
+		
+		boost::char_separator<char> sep(".");
+		boost::tokenizer< boost::char_separator<char> > tokens(ip_address, sep);
+		for (boost::tokenizer< boost::char_separator<char> >::const_iterator it = tokens.begin(); it != tokens.end(); ++it)
+		{
+			if(ip_address_reversed != "")
+				ip_address_reversed = "." + ip_address_reversed;
+			ip_address_reversed = *it + ip_address_reversed;
+		}
+
+		tcp::resolver::query q(ip_address_reversed
 			+ ".zz.countries.nerd.dk", "0");
 		m_host_resolver.async_resolve(q, m_ses.m_strand.wrap(
 			bind(&torrent::on_country_lookup, shared_from_this(), _1, _2, p)));
