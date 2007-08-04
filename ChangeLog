@@ -11,6 +11,7 @@ Deluge 0.5.4 (xx August 2007)
   * New release alerts - Client will inform user if their version of deluge is
   outdated
   * Tray message includes session totals
+  * Ticket #198 - Display peers countries in the Peers tab.
   * Ticket #474 - Multiple password prompts displayed
 
 Deluge 0.5.3 (25 July 2007)
