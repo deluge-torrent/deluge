@@ -15,6 +15,7 @@ class DetailsManager(object):
         self.progress_bar = glade.get_widget("progressbar")
         self.name = glade.get_widget("summary_name")
         self.total_size = glade.get_widget("summary_total_size")
+        self.num_files = glade.get_widget("summary_num_files")
         self.pieces = glade.get_widget("summary_pieces")
         self.availability = glade.get_widget("summary_availability")
         self.total_downloaded = glade.get_widget("summary_total_downloaded")
@@ -64,6 +65,7 @@ class DetailsManager(object):
             self.paused_unique_id = None
         
         self.name.set_text(state['name'])
+        self.num_files.set_text(str(state['num_files']))
         self.pieces.set_text('%s x %s' % (state["num_pieces"], 
                                           common.fsize(state["piece_length"])))
         self.availability.set_text('%.3f' % state["distributed_copies"])
@@ -87,6 +89,7 @@ class DetailsManager(object):
     def clear(self):
         self.name.set_text("")
         self.total_size.set_text("")
+        self.num_files.set_text("")
         self.pieces.set_text("")
         self.availability.set_text("")
         self.total_downloaded.set_text("")
