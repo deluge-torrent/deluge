@@ -58,19 +58,15 @@ class TorrentPieces:
         print "Loading TorrentPieces plugin..."
         self.manager = core
         self.parent = interface
-        self.viewport = gtk.Viewport()
-        self.scrolledWindow = gtk.ScrolledWindow()
-        self.scrolledWindow.add(self.viewport)
-        self.scrolledWindow.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-
-        self.topWidget = self.scrolledWindow
+        scrolledWindow = gtk.ScrolledWindow()
+        scrolledWindow.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        self.topWidget = scrolledWindow
 
         self.parentNotebook = self.parent.notebook
 
         self.parentNotebook.append_page(self.topWidget, gtk.Label(_("Pieces")))
-        self.viewport.show()
-        self.scrolledWindow.show()
-        self.tab_pieces = PiecesManager(self.viewport, self.manager)
+        self.topWidget.show_all()
+        self.tab_pieces = PiecesManager(self.manager)
 
     def unload(self):
         self.manager.disconnect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_pieces.handle_event)
@@ -92,12 +88,45 @@ class TorrentPieces:
             return
         if unique_id != self.tab_pieces.unique_id or unique_id in update_files_removed.keys():
         #if different torrent was selected or file priorities were changed.
+            self.tab_pieces.clear_pieces_store()
+            numPages = self.parentNotebook.get_n_pages()
+            for page in xrange(numPages):
+                if self.parentNotebook.get_nth_page(page) == self.topWidget:
+                    break
+            switch_page = False
+            if self.parentNotebook.get_current_page() == page:
+                switch_page = True
+            self.parentNotebook.remove_page(page)
+            viewport = gtk.Viewport()
+            scrolledWindow = gtk.ScrolledWindow()
+            scrolledWindow.add(viewport)
+            scrolledWindow.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+            label = gtk.Label(_("""
+This is a temporary page used while the pieces tab gets built.
+When operations are complete this will automatically become the
+pieces tab.
+"""))
+            label.set_alignment(0,0)
+            viewport.add(label)
+            self.parentNotebook.insert_page(scrolledWindow,gtk.Label(_("Pieces")),page)
+            scrolledWindow.show_all()
+            if switch_page:
+                self.parentNotebook.set_current_page(page)
             self.manager.disconnect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_pieces.handle_event)
             self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_pieces.handle_event)
             self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_pieces.handle_event)
             self.tab_pieces.clear_pieces_store()
             self.tab_pieces.set_unique_id(unique_id)
-            self.tab_pieces.prepare_pieces_store()
+            self.topWidget = self.tab_pieces.prepare_pieces_store()
+            switch_page = False
+            if self.parentNotebook.get_current_page() == page:
+                switch_page = True
+            self.parentNotebook.remove_page(page)
+            self.parentNotebook = self.parent.notebook
+            self.parentNotebook.insert_page(self.topWidget, gtk.Label(_("Pieces")), page)
+            self.topWidget.show_all()
+            if switch_page:
+                self.parentNotebook.set_current_page(page)
             self.manager.connect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_pieces.handle_event)
             self.manager.connect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_pieces.handle_event)
             self.manager.connect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_pieces.handle_event)

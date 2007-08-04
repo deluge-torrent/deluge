@@ -2,8 +2,7 @@ import gtk
 import math
 
 class PiecesManager(object):
-    def __init__(self, viewport, manager):
-        self.viewport = viewport
+    def __init__(self, manager):
         self.vbox = None
         self.manager = manager
         self.progress = []
@@ -32,9 +31,6 @@ class PiecesManager(object):
     def clear_pieces_store(self):
         self.unique_id = -1
         self.rows = 0
-        if not self.vbox is None:
-            self.vbox.destroy()
-        self.vbox = None
         self.peer_speed = []
         self.eventboxes = []
         self.progress = []
@@ -45,14 +41,22 @@ class PiecesManager(object):
         self.all_files = None
         self.file_priorities = None
         self.index = 0
+        self.num_files = 0
         self.prev_file_index = -1
         self.file_index = 0
         self.next_file_index = 1
-        self.num_files = 0
+        if not self.vbox is None:
+            self.vbox.destroy()
+        self.vbox = None
         
     def prepare_pieces_store(self):
+        gtk.main_iteration_do(False)
+        viewport = gtk.Viewport()
+        scrolledWindow = gtk.ScrolledWindow()
+        scrolledWindow.add(viewport)
+        scrolledWindow.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         self.vbox = gtk.VBox()
-        self.viewport.add(self.vbox)
+        viewport.add(self.vbox)
         self.all_files = self.manager.get_torrent_file_info(self.unique_id)
         self.file_priorities = self.manager.get_priorities(self.unique_id)
         state = self.manager.get_torrent_state(self.unique_id)
@@ -74,9 +78,10 @@ class PiecesManager(object):
             self.prev_file_index += 1
         
         self.get_current_pieces_info()
-        self.vbox.show_all()
+        return scrolledWindow
 
     def build_file_pieces(self):
+        gtk.main_iteration_do(False)
         label = gtk.Label()
         label.set_alignment(0,0)
         label.set_text(self.all_files[self.file_index]['path'])
@@ -130,6 +135,7 @@ class PiecesManager(object):
                 temp_range = self.last_indexes[self.file_index]-self.first_indexes[self.file_index]
         #last piece handled outside of loop, skip it from range
         for index in xrange(temp_range):
+            gtk.main_iteration_do(False)
             main_index = diff+self.first_indexes[self.file_index]+index
             if temp_prev_priority > 0:
             #normal behavior
@@ -163,6 +169,7 @@ class PiecesManager(object):
         self.index = index+1
 
     def build_last_file_piece(self, table, main_index, only_one_piece):
+        gtk.main_iteration_do(False)
         if only_one_piece:
         #if piece is shared with a skipped file
             self.share_skipped_piece(main_index)
