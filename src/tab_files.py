@@ -42,7 +42,9 @@ import dgtk
 import pref
 
 class FilesBaseManager(object):
-    def __init__(self, file_store):
+    def __init__(self, file_view, file_store):
+        self.file_view = file_view
+        
         file_glade = gtk.glade.XML(common.get_glade_file("file_tab_menu.glade"), 
                                    domain='deluge')
         self.file_menu = file_glade.get_widget("file_tab_menu")
@@ -62,9 +64,7 @@ class FilesBaseManager(object):
         # order as we get files from manager.get_torrent_file_info()
         self.file_store_sorted = gtk.TreeModelSort(self.file_store)
 
-    def build_file_view(self, file_view):
-        self.file_view = file_view
-        
+    def build_file_view(self):
         def priority(column, cell, model, iter, data):
             priority = common.fpriority(model.get_value(iter, data))
             cell.set_property("text", priority)
@@ -138,11 +138,11 @@ class FilesBaseManager(object):
         pass
 
 class FilesTabManager(FilesBaseManager):
-    def __init__(self, manager):
+    def __init__(self, file_view, manager):
         file_store = gtk.ListStore(str, gobject.TYPE_UINT64, 
                                    gobject.TYPE_UINT, float)
         
-        super(FilesTabManager, self).__init__(file_store)
+        super(FilesTabManager, self).__init__(file_view, file_store)
 
         self.manager = manager
         self.file_unique_id = None
@@ -151,14 +151,14 @@ class FilesTabManager(FilesBaseManager):
         # in self.update_file_store()
         self.file_store_dict = {}
         
-    def build_file_view(self, file_view):
-        super(FilesTabManager, self).build_file_view(file_view)
+    def build_file_view(self):
+        super(FilesTabManager, self).build_file_view()
         
         def percent(column, cell, model, iter, data):
             percent = float(model.get_value(iter, data))
             percent_str = "%.2f%%"%percent
             cell.set_property("text", percent_str)
-        dgtk.add_func_column(file_view, _("Progress"), percent, 3)
+        dgtk.add_func_column(self.file_view, _("Progress"), percent, 3)
     
     def set_unique_id(self, unique_id):
         self.file_unique_id = unique_id
@@ -202,10 +202,10 @@ class FilesTabManager(FilesBaseManager):
         self.manager.prioritize_files(self.file_unique_id, file_priorities, update_files_removed=update)
 
 class FilesDialogManager(FilesBaseManager):
-    def __init__(self, dumped_torrent):
+    def __init__(self, file_view, dumped_torrent):
         file_store = gtk.ListStore(str, gobject.TYPE_UINT64, 
                                    gobject.TYPE_UINT)
-        super(FilesDialogManager, self).__init__(file_store)
+        super(FilesDialogManager, self).__init__(file_view, file_store)
         
         self.dumped_torrent = dumped_torrent
         self.config = pref.Preferences()

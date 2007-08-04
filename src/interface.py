@@ -79,13 +79,14 @@ class DelugeGTK:
         self.notebook.connect("switch-page", self.notebook_switch_page)
 
         # Tabs
-        self.tab_details = tab_details.DetailsManager(self.wtree,
-                                                      self.manager)
+        self.tab_details = tab_details.DetailsTabManager(self.wtree,
+                                                         self.manager)
         self.tab_peers = tab_peers.PeersTabManager(
                              self.wtree.get_widget("peer_view"), self.manager)
         self.tab_peers.build_peers_view()
-        self.tab_files = tab_files.FilesTabManager(self.manager)
-        self.tab_files.build_file_view(self.wtree.get_widget("file_view"))
+        self.tab_files = tab_files.FilesTabManager(
+                             self.wtree.get_widget("file_view"), self.manager)
+        self.tab_files.build_file_view()
         
         self.statusbar = self.wtree.get_widget("statusbar")
         

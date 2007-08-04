@@ -5,7 +5,7 @@
 
 import common
 
-class DetailsManager(object):
+class DetailsTabManager(object):
     def __init__(self, glade, manager):
         self.manager = manager
         

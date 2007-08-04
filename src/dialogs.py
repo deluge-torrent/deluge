@@ -283,10 +283,11 @@ class FilesDlg:
                                    domain='deluge')
         self.dialog = self.glade.get_widget("file_dialog")
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
-        self.file_view = self.glade.get_widget("file_view")
         
-        self.files_manager = tab_files.FilesDialogManager(dumped_torrent)
-        self.files_manager.build_file_view(self.file_view)
+        self.files_manager = tab_files.FilesDialogManager(
+                                 self.glade.get_widget("file_view"),
+                                 dumped_torrent)
+        self.files_manager.build_file_view()
         self.files_manager.prepare_file_store()
     
     def show(self):
