@@ -242,6 +242,7 @@ boost::filesystem::path const& save_path)
     //    h.set_max_connections(60); // at some point we should use this
     h.set_max_uploads(-1);
     h.set_ratio(preferred_ratio);
+    h.resolve_countries(true);
     new_torrent.handle = h;
 
     new_torrent.unique_ID = M_unique_counter;
@@ -1176,8 +1177,11 @@ static PyObject *torrent_get_peer_info(PyObject *self, PyObject *args)
             PyTuple_SetItem(py_pieces, piece, curr_piece);
         }
 
+        std::stringstream country;
+        country << peers[i].country[0] << peers[i].country[1];
+
         peer_info = Py_BuildValue(
-            "{s:f,s:L,s:f,s:L,s:i,s:i,s:b,s:b,s:b,s:b,s:b,s:b,s:b,s:b,s:b,s:s,s:b,s:s,s:f,s:O,s:b,s:b}",
+            "{s:f,s:L,s:f,s:L,s:i,s:i,s:b,s:b,s:b,s:b,s:b,s:b,s:b,s:b,s:b,s:s,s:b,s:s,s:f,s:O,s:b,s:b,s:s}",
             "download_speed",        peers[i].down_speed,
             "total_download",        peers[i].total_download,
             "upload_speed",          peers[i].up_speed,
@@ -1199,7 +1203,8 @@ static PyObject *torrent_get_peer_info(PyObject *self, PyObject *args)
             "peer_has",              float(float(pieces_had)*100.0/pieces.size()),
             "pieces",                py_pieces,
             "rc4_encrypted",         ((peers[i].flags & peer_info::rc4_encrypted) != 0),
-            "plaintext_encrypted",   ((peers[i].flags & peer_info::plaintext_encrypted) != 0)
+            "plaintext_encrypted",   ((peers[i].flags & peer_info::plaintext_encrypted) != 0),
+            "country",               country.str().c_str()
             );
 
         Py_DECREF(py_pieces);    // Assuming the previous line does NOT steal the ref, then this is

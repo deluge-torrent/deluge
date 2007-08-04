@@ -8,6 +8,7 @@ from itertools import izip
 import gobject
 import gtk
 
+import common
 import dgtk
 
 class PeersTabManager(object):
@@ -17,11 +18,13 @@ class PeersTabManager(object):
 
         # IP int, IP string, Client, Percent Complete, Down Speed, Up Speed
         # IP int is for faster sorting
-        self.peer_store = gtk.ListStore(gobject.TYPE_UINT, str, str, float, 
-                                        int, int)
+        self.peer_store = gtk.ListStore(gobject.TYPE_UINT, gtk.gdk.Pixbuf, 
+                                        str, str, float, int, int)
         # Stores IP -> gtk.TreeIter's iter mapping for quick look up 
         # in update_torrent_info_widget
         self.peer_store_dict = {}
+        
+        self._cached_flags = {}
     
     def build_peers_view(self):
         def percent(column, cell, model, iter, data):
@@ -31,24 +34,38 @@ class PeersTabManager(object):
 
         self.peer_view.set_model(self.peer_store)
         
-        self.peer_ip_column = dgtk.add_text_column(self.peer_view, 
-                                                   _("IP Address"), 1)
-        self.peer_client_column = dgtk.add_text_column(self.peer_view, 
-                                                       _("Client"), 2)
-        self.peer_complete_column = dgtk.add_func_column(self.peer_view, 
-                                        _("Percent Complete"), percent, 3)
-        self.peer_download_column = dgtk.add_func_column(self.peer_view, 
-                                        _("Down Speed"), dgtk.cell_data_speed, 
-                                        4)
-        self.peer_upload_column = dgtk.add_func_column(self.peer_view, 
-                                        _("Up Speed"), dgtk.cell_data_speed, 
-                                        5)
-
-        self.peer_ip_column.set_sort_column_id(0)
+        ip_column = dgtk.add_texticon_column(self.peer_view, _("IP Address"), 
+                                             1, 2)
+        ip_column.set_sort_column_id(0)
+        dgtk.add_text_column(self.peer_view, _("Client"), 3)
+        dgtk.add_func_column(self.peer_view, _("Percent Complete"), percent, 
+                             4)
+        dgtk.add_func_column(self.peer_view, _("Down Speed"), 
+                             dgtk.cell_data_speed, 5)
+        dgtk.add_func_column(self.peer_view, _("Up Speed"), 
+                             dgtk.cell_data_speed, 6)
         
     def clear_store(self):
         self.peer_store.clear()
         self.peer_store_dict = {}
+    
+    def get_country_image(self, country):
+        country_image = None
+        if country.isalpha():
+            if country in self._cached_flags:
+                country_image = self._cached_flags[country]
+            else:
+                try:
+                    country_image = gtk.gdk.pixbuf_new_from_file(
+                                        common.get_pixmap('flags/%s.png' % 
+                                                          country.lower()))
+                except gobject.GError:
+                    pass
+                    
+                self._cached_flags[country] = country_image
+            
+        return country_image
+        
     
     def update(self, unique_id):
         new_peer_info = self.manager.get_torrent_peer_info(unique_id)
@@ -59,8 +76,9 @@ class PeersTabManager(object):
             if peer['ip'] in self.peer_store_dict:
                 iter = self.peer_store_dict[peer['ip']]
 
-                dgtk.update_store(self.peer_store, iter, (3, 4, 5),
-                                  (round(peer["peer_has"], 2),
+                dgtk.update_store(self.peer_store, iter, (1, 4, 5, 6),
+                                  (self.get_country_image(peer["country"]),
+                                   round(peer["peer_has"], 2),
                                    peer["download_speed"],
                                    peer["upload_speed"]))
             
@@ -82,11 +100,11 @@ class PeersTabManager(object):
                         # Fallback to latin-1 in case peer's client 
                         # doesn't use utf-8. utorrent < 1.7 for example
                         client = client.decode('latin-1')
-                        
-                    iter = self.peer_store.append([ip_int, peer["ip"],
-                               client, round(peer["peer_has"], 2),
-                               peer["download_speed"],
-                               peer["upload_speed"]])
+
+                    iter = self.peer_store.append([ip_int, 
+                               self.get_country_image(peer["country"]), 
+                               peer["ip"], client, round(peer["peer_has"], 2),
+                               peer["download_speed"], peer["upload_speed"]])
 
                     self.peer_store_dict[peer['ip']] = iter
         

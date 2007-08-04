@@ -282,6 +282,7 @@ cmdclass = {
 
 data = [('share/deluge/glade',  glob.glob('glade/*.glade')),
         ('share/deluge/pixmaps', glob.glob('pixmaps/*.png')),
+        ('share/deluge/pixmaps/flags', glob.glob('pixmaps/flags/*.png')),
         ('share/applications' , ['deluge.desktop']),
         ('share/pixmaps' , ['deluge.png'])]
 
