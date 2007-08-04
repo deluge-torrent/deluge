@@ -1368,6 +1368,8 @@ static PyObject *torrent_stop_DHT(PyObject *self, PyObject *args)
         printf("An error occured in saving DHT\r\n");
         std::cerr << e.what() << "\n";
     }
+    
+    M_ses->stop_dht();
 
     Py_INCREF(Py_None); return Py_None;
 }
