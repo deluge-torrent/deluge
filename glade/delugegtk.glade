@@ -20,7 +20,7 @@
               <widget class="GtkToolButton" id="toolbutton_add">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Add Torrent</property>
-                <property name="label">Add</property>
+                <property name="label" translatable="yes">Add</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-add</property>
                 <signal name="clicked" handler="add_torrent"/>
@@ -34,7 +34,7 @@
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Remove Torrent</property>
-                <property name="label">Remove</property>
+                <property name="label" translatable="yes">Remove</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-remove</property>
                 <signal name="clicked" handler="remove_torrent"/>
@@ -47,7 +47,7 @@
               <widget class="GtkToolButton" id="toolbutton_clear">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Clear Finished Torrents</property>
-                <property name="label">Clear</property>
+                <property name="label" translatable="yes">Clear</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-clear</property>
                 <signal name="clicked" handler="clear_finished"/>
@@ -70,7 +70,7 @@
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Start or Pause torrent</property>
-                <property name="label">Resume</property>
+                <property name="label" translatable="yes">Resume</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-media-play</property>
                 <signal name="clicked" handler="tor_start"/>
@@ -83,7 +83,7 @@
               <widget class="GtkToolButton" id="toolbutton_pause">
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label">Pause</property>
+                <property name="label" translatable="yes">Pause</property>
                 <property name="stock_id">gtk-media-pause</property>
                 <signal name="clicked" handler="tor_pause"/>
               </widget>
@@ -96,7 +96,7 @@
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Queue Torrent Up</property>
-                <property name="label">Up</property>
+                <property name="label" translatable="yes">Up</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-go-up</property>
                 <signal name="clicked" handler="queue_up"/>
@@ -110,7 +110,7 @@
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Queue Torrent Down</property>
-                <property name="label">Down</property>
+                <property name="label" translatable="yes">Down</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-go-down</property>
                 <signal name="clicked" handler="queue_down"/>
@@ -132,7 +132,7 @@
               <widget class="GtkToolButton" id="toolbutton1">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Change Deluge preferences</property>
-                <property name="label">Preferences</property>
+                <property name="label" translatable="yes">Preferences</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-preferences</property>
                 <signal name="clicked" handler="pref_clicked"/>
@@ -145,7 +145,7 @@
               <widget class="GtkToolButton" id="toolbutton2">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Open the plugins dialog</property>
-                <property name="label">Plugins</property>
+                <property name="label" translatable="yes">Plugins</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-disconnect</property>
                 <signal name="clicked" handler="plugins_clicked"/>
@@ -274,11 +274,9 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkSeparatorMenuItem" id="menuitem7">
+                      <widget class="GtkSeparatorMenuItem" id="separatormenuitem3">
                         <property name="visible">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="label" translatable="yes">menuitem7</property>
-                        <property name="use_underline">True</property>
                       </widget>
                     </child>
                     <child>
@@ -510,6 +508,7 @@
                 <child>
                   <widget class="GtkScrolledWindow" id="scrolledwindow1">
                     <property name="visible">True</property>
+                    <property name="can_focus">False</property>
                     <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                     <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                     <child>
@@ -525,6 +524,7 @@
                 </child>
               </widget>
               <packing>
+                <property name="resize">True</property>
                 <property name="shrink">False</property>
               </packing>
             </child>
@@ -1210,6 +1210,7 @@
                     <child>
                       <widget class="GtkScrolledWindow" id="scrolledwindow3">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                         <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                         <child>
@@ -1238,6 +1239,7 @@
                     <child>
                       <widget class="GtkScrolledWindow" id="scrolledwindow4">
                         <property name="visible">True</property>
+                        <property name="can_focus">False</property>
                         <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                         <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                         <child>
@@ -1283,3 +1285,4 @@
     </child>
   </widget>
 </glade-interface>
+
