@@ -14,6 +14,7 @@ class LogManager(object):
         self.logdir = os.path.join(CONFIG_DIR, 'logs')
         if not os.path.isdir(self.logdir):
             os.mkdir(self.logdir)
+        self.labels = []
 
     def clear_log_store(self):
         if not self.vbox is None:
@@ -183,8 +184,12 @@ class LogManager(object):
                 logfile.close()
         if not event_message is None:
             label = gtk.Label()
+            self.labels.append(label)
             label.set_text(event_message)
             label.set_alignment(0,0)
             label.set_selectable(True)
-            self.vbox.pack_start(label, expand=False)
+            self.vbox.pack_end(label, expand=False)
+            if len(self.labels)>100:
+                remove_label = self.labels.pop(0)
+                remove_label.destroy()
             label.show()

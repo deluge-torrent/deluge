@@ -18,7 +18,7 @@
 
 plugin_name = _("Event Logging")
 plugin_author = "Micah Bucy"
-plugin_version = "0.1"
+plugin_version = "0.2"
 plugin_description = _("""
 Adds a tab with log of selected events.
 
@@ -35,6 +35,10 @@ saved to logs named after the events
 (eg peer_messages.log).
 Event messages in the log files also include a timestamp.
 The user is responsible to cleanout the logs.
+
+As of v0.2
+Events are now truncated in display.  Log files are not.
+New events are now displayed at the top.
 """)
 
 def deluge_init(deluge_path):
