@@ -10,8 +10,9 @@ src/common.py
 src/core.py
 src/interface.py
 src/dialogs.py
-src/tab_files.py
 src/tab_details.py
+src/tab_files.py
+src/tab_peers.py
 plugins/TorrentSearch/__init__.py
 plugins/TorrentSearch/plugin.py
 plugins/TorrentSearch/searchdlg.glade

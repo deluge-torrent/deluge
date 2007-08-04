@@ -48,6 +48,7 @@ import ipc_manager
 import plugins
 import tab_details
 import tab_files
+import tab_peers
 
 class DelugeGTK:
     def __init__(self):
@@ -80,6 +81,9 @@ class DelugeGTK:
         # Tabs
         self.tab_details = tab_details.DetailsManager(self.wtree,
                                                       self.manager)
+        self.tab_peers = tab_peers.PeersTabManager(
+                             self.wtree.get_widget("peer_view"), self.manager)
+        self.tab_peers.build_peers_view()
         self.tab_files = tab_files.FilesTabManager(self.manager)
         self.tab_files.build_file_view(self.wtree.get_widget("file_view"))
         
@@ -96,7 +100,6 @@ class DelugeGTK:
             self.has_tray = True
         
         self.build_torrent_table()
-        self.build_peer_tab()
         self.load_status_icons()
 
         # Set the Torrent menu bar sub-menu to the same as the right-click Torrent pop-up menu
@@ -575,7 +578,7 @@ class DelugeGTK:
             # Torrent is already selected, we don't need to do anything
             return True
         
-        self.clear_peer_store()
+        self.tab_peers.clear_store()
         self.tab_files.clear_file_store()
         
         unique_id = model.get_value(model.get_iter(path), 0)
@@ -638,34 +641,6 @@ class DelugeGTK:
         # Check if we are selecting multiple torrents
         return
             
-    def build_peer_tab(self):
-        self.peer_view = self.wtree.get_widget("peer_view")
-        # IP int, IP string, Client, Percent Complete, Down Speed, Up Speed
-        # IP int is for faster sorting
-        self.peer_store = gtk.ListStore(gobject.TYPE_UINT, str, str, float, int, int)
-        # Stores IP -> gtk.TreeIter's iter mapping for quick look up 
-        # in update_torrent_info_widget
-        self.peer_store_dict = {}
-        
-        def percent(column, cell, model, iter, data):
-            percent = float(model.get_value(iter, data))
-            percent_str = "%.2f%%"%percent
-            cell.set_property("text", percent_str)
-
-        self.peer_view.set_model(self.peer_store)
-        
-        self.peer_ip_column = dgtk.add_text_column(self.peer_view, _("IP Address"), 1)
-        self.peer_client_column = dgtk.add_text_column(self.peer_view, _("Client"), 2)
-        self.peer_complete_column = dgtk.add_func_column(self.peer_view, _("Percent Complete"), percent, 3)
-        self.peer_download_column = dgtk.add_func_column(self.peer_view, _("Down Speed"), dgtk.cell_data_speed, 4)
-        self.peer_upload_column = dgtk.add_func_column(self.peer_view, _("Up Speed"), dgtk.cell_data_speed, 5)
-
-        self.peer_ip_column.set_sort_column_id(0)
-
-    def clear_peer_store(self):
-        self.peer_store.clear()
-        self.peer_store_dict = {}
-        
     def show_about_dialog(self, arg=None):
         dialogs.show_about_dialog()
 
@@ -1007,49 +982,7 @@ class DelugeGTK:
         if page_num == 0: # Details
             self.tab_details.update(unique_id)
         elif page_num == 1: # Peers
-            new_peer_info = self.manager.get_torrent_peer_info(unique_id)
-            new_ips = set()
-            
-            for peer in new_peer_info:
-                # Update peers already in peers list
-                if peer['ip'] in self.peer_store_dict:
-                    iter = self.peer_store_dict[peer['ip']]
-
-                    dgtk.update_store(self.peer_store, iter, (3, 4, 5),
-                                      (round(peer["peer_has"], 2),
-                                       peer["download_speed"],
-                                       peer["upload_speed"]))
-                
-                if peer['client'] != "":
-                    new_ips.add(peer['ip'])
-                    
-                    # Add new peers
-                    if peer['ip'] not in self.peer_store_dict:
-                        # convert IP to int for sorting purposes
-                        ip_int = sum([int(byte) << shift
-                                         for byte, shift in 
-                                             izip(peer["ip"].split("."), 
-                                                  (24, 16, 8, 0))])
-
-                        client = peer["client"]
-                        try:
-                            client = client.decode('utf-8')
-                        except UnicodeDecodeError:
-                            # Fallback to latin-1 in case peer's client 
-                            # doesn't use utf-8. utorrent < 1.7 for example
-                            client = client.decode('latin-1')
-                            
-                        iter = self.peer_store.append([ip_int, peer["ip"],
-                                   client, round(peer["peer_has"], 2),
-                                   peer["download_speed"],
-                                   peer["upload_speed"]])
-
-                        self.peer_store_dict[peer['ip']] = iter
-            
-            # Remove peers that no longer exist in new_ips
-            for ip in set(self.peer_store_dict.keys()).difference(new_ips):
-                self.peer_store.remove(self.peer_store_dict[ip])
-                del self.peer_store_dict[ip]
+            self.tab_peers.update(unique_id)
         elif page_num == 2: # Files
             # Fill self.file_store with files only once and only when we click to
             # Files tab or it's already open
@@ -1216,7 +1149,7 @@ class DelugeGTK:
     
     def clear_details_pane(self):
         self.tab_details.clear()
-        self.clear_peer_store()
+        self.tab_peers.clear_store()
         self.tab_files.clear_file_store()
 
     def remove_toggle_warning(self, args, warning):
