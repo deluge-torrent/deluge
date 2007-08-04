@@ -49,23 +49,22 @@ class PeersTabManager(object):
         self.peer_store.clear()
         self.peer_store_dict = {}
     
-    def get_country_image(self, country):
-        country_image = None
+    def get_country_flag_image(self, country):
+        flag_image = None
         if country.isalpha():
             if country in self._cached_flags:
-                country_image = self._cached_flags[country]
+                flag_image = self._cached_flags[country]
             else:
                 try:
-                    country_image = gtk.gdk.pixbuf_new_from_file(
+                    flag_image = gtk.gdk.pixbuf_new_from_file(
                                         common.get_pixmap('flags/%s.png' % 
                                                           country.lower()))
                 except gobject.GError:
                     pass
                     
-                self._cached_flags[country] = country_image
+                self._cached_flags[country] = flag_image
             
-        return country_image
-        
+        return flag_image
     
     def update(self, unique_id):
         new_peer_info = self.manager.get_torrent_peer_info(unique_id)
@@ -77,7 +76,7 @@ class PeersTabManager(object):
                 iter = self.peer_store_dict[peer['ip']]
 
                 dgtk.update_store(self.peer_store, iter, (1, 4, 5, 6),
-                                  (self.get_country_image(peer["country"]),
+                                  (self.get_country_flag_image(peer["country"]),
                                    round(peer["peer_has"], 2),
                                    peer["download_speed"],
                                    peer["upload_speed"]))
@@ -102,7 +101,7 @@ class PeersTabManager(object):
                         client = client.decode('latin-1')
 
                     iter = self.peer_store.append([ip_int, 
-                               self.get_country_image(peer["country"]), 
+                               self.get_country_flag_image(peer["country"]), 
                                peer["ip"], client, round(peer["peer_has"], 2),
                                peer["download_speed"], peer["upload_speed"]])
 
