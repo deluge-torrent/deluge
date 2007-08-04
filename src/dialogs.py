@@ -298,13 +298,13 @@ class FilesDlg:
         r = self.dialog.run()
         self.dialog.hide()
         
-        if(self.glade.get_widget("chk_setpriv").get_active()):
-            self.manager.set_priv(self.unique_id, True)
-            
         return r
     
+    def is_private_flag_checked(self):
+        return self.glade.get_widget("chk_setpriv").get_active()
+    
     def get_priorities(self):
-        return self.files_manager.get_priorities()        
+        return self.files_manager.get_priorities()
 
 class PluginDlg:
     def __init__(self, plugins):

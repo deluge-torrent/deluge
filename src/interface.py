@@ -1054,6 +1054,8 @@ class DelugeGTK:
                                     self.config.get('use_compact_storage'))
                     self.manager.prioritize_files(unique_id, 
                         files_dialog.get_priorities())
+                    if files_dialog.is_private_flag_checked():
+                        self.manager.set_priv(unique_id, True)
                 else:
                     return
             else:
