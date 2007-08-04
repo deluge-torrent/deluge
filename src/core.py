@@ -524,10 +524,21 @@ class Manager:
                         self.removed_unique_ids[unique_ID] = 1
                         self.remove_torrent(unique_ID, False, True)
 
+        # Counter for currently active torrent in the queue. Paused in core
+        # but having self.is_user_paused(unique_ID) == False is 
+        # also considered active.
+        active_torrent_cnt = 0
+
         # Pause and resume torrents
-        for index, unique_ID in enumerate(self.state.queue):
+        for unique_ID in self.state.queue:
             torrent_state = self.get_core_torrent_state(unique_ID)
-            if (index < self.get_pref('max_active_torrents') or \
+            
+            if not torrent_state['is_paused'] or \
+               (torrent_state['is_paused'] and not \
+                self.is_user_paused(unique_ID)):
+                active_torrent_cnt += 1 
+            
+            if (active_torrent_cnt <= self.get_pref('max_active_torrents') or \
                 self.get_pref('max_active_torrents') == -1) and \
                torrent_state['is_paused'] and not \
                self.is_user_paused(unique_ID):
@@ -549,7 +560,7 @@ class Manager:
                 else: #We're using compact allocation so lets just resume
                     deluge_core.resume(unique_ID)
             elif not torrent_state['is_paused'] and \
-                 ((index >= self.get_pref('max_active_torrents') and \
+                 ((active_torrent_cnt > self.get_pref('max_active_torrents') and \
                    self.get_pref('max_active_torrents') != -1) or \
                   self.is_user_paused(unique_ID)):
                 deluge_core.pause(unique_ID)
