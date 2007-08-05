@@ -10,7 +10,6 @@ Deluge 0.5.4 (xx August 2007)
   * Proxy system redone - you can now specify different information for each 
   type of proxy (DHT, peer, tracker, web-seed)
   * TorrentPieces plugin to view piece updates and show pieces table per file
-  * Files and Peers tabs moved to plugins
   * EventLogger plugin to view/log every activity
   * SpeedLimiter plugin, which allows you to set speed limits on a per-torrent
   basis
