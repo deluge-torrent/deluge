@@ -1018,7 +1018,7 @@ class DelugeGTK:
             filename = common.fetch_url(url)
             if filename:
                 self.interactive_add_torrent(filename)
-        
+
     def interactive_add_torrent(self, torrent):
         if self.config.get('use_default_dir'):
             path = self.config.get('default_download_path')
@@ -1026,7 +1026,10 @@ class DelugeGTK:
             path = dialogs.show_directory_chooser_dialog(self.window)
             if path is None:
                 return
-            
+
+        self.interactive_add_torrent_path(self, torrent, path)
+
+    def interactive_add_torrent_path(self, torrent, path):
         try:
             dumped_torrent = self.manager.dump_torrent_file_info(torrent)
             if self.config.get('enable_files_dialog'):
