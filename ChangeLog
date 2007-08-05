@@ -1,18 +1,20 @@
 Deluge 0.5.4 (xx August 2007)
 
-  * Option to use a random port every time
+  * Tray message includes session totals
+  * Ticket #198 - Display peers countries in the Peers tab.
+  * Ticket #474 - Multiple password prompts displayed
   * Pause all/resume all in tray menu
+  * Peers and Files tabs are now plugins
+  * Option to use a random port every time
   * Proxy system redone - you can now specify different information for each 
   type of proxy (DHT, peer, tracker, web-seed)
-  * TorrentPieces plugin to view piece updates
+  * TorrentPieces plugin to view piece updates and show pieces table per file
+  * Files and Peers tabs moved to plugins
   * EventLogger plugin to view/log every activity
   * SpeedLimiter plugin, which allows you to set speed limits on a per-torrent
   basis
   * New release alerts - Client will inform user if their version of deluge is
   outdated
-  * Tray message includes session totals
-  * Ticket #198 - Display peers countries in the Peers tab.
-  * Ticket #474 - Multiple password prompts displayed
 
 Deluge 0.5.3 (25 July 2007)
 
