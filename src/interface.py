@@ -639,9 +639,7 @@ class DelugeGTK:
         active_port = self.manager.get_state()['port']
         preferences_dialog = dialogs.PreferencesDlg(self.config, active_port)
         # Only apply the prefs if the user pressed OK in the prefs dialog
-        if preferences_dialog.show() == 1:
-            self.apply_prefs()
-            self.config.save()
+        preferences_dialog.show(self)
 
     def show_preferences_dialog_clicked(self, arg=None):
         if self.config.get("lock_tray") == True:

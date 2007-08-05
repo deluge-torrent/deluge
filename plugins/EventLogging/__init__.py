@@ -71,8 +71,11 @@ class EventLogging:
         self.dialog_initialize = True
         self.glade = gtk.glade.XML(path + "/event_logging_preferences.glade")
         self.dialog = self.glade.get_widget("dialog")
+        self.dialog.set_position(gtk.WIN_POS_CENTER)
         self.glade.signal_autoconnect({
-                                        'toggle_ui': self.toggle_ui
+                                        'toggle_ui': self.toggle_ui,
+                                        'on_button_cancel_pressed': self.cancel_pressed,
+                                        'on_button_ok_pressed': self.ok_pressed
                                       })
         self.viewport = gtk.Viewport()
         self.scrolledWindow = gtk.ScrolledWindow()
@@ -341,24 +344,27 @@ class EventLogging:
             self.glade.get_widget("chk_log_files").set_active(False)
         self.dialog_initialize = False
         self.dialog.show()
-        response = self.dialog.run()
+
+    def ok_pressed(self, src):
         self.dialog.hide()
-        if response:
-            self.config.set("enable_finished", self.glade.get_widget("chk_finished").get_active())
-            self.config.set("enable_peer_error", self.glade.get_widget("chk_peer_error").get_active())
-            self.config.set("enable_invalid_request", self.glade.get_widget("chk_invalid_request").get_active())
-            self.config.set("enable_file_error", self.glade.get_widget("chk_file_error").get_active())
-            self.config.set("enable_hash_failed_error", self.glade.get_widget("chk_hash_failed_error").get_active())
-            self.config.set("enable_peer_ban_error", self.glade.get_widget("chk_peer_ban_error").get_active())
-            self.config.set("enable_fastresume_rejected_error", self.glade.get_widget("chk_fastresume_rejected_error").get_active())
-            self.config.set("enable_tracker_announce", self.glade.get_widget("chk_tracker_announce").get_active())
-            self.config.set("enable_tracker_reply", self.glade.get_widget("chk_tracker_reply").get_active())
-            self.config.set("enable_tracker_alert", self.glade.get_widget("chk_tracker_alert").get_active())
-            self.config.set("enable_tracker_warning", self.glade.get_widget("chk_tracker_warning").get_active())
-            self.config.set("enable_storage_moved", self.glade.get_widget("chk_storage_moved").get_active())
-            self.config.set("enable_piece_finished", self.glade.get_widget("chk_piece_finished").get_active())
-            self.config.set("enable_block_downloading", self.glade.get_widget("chk_block_downloading").get_active())
-            self.config.set("enable_block_finished", self.glade.get_widget("chk_block_finished").get_active())
-            self.config.set("enable_peer_blocked", self.glade.get_widget("chk_peer_blocked").get_active())
-            self.config.set("enable_other", self.glade.get_widget("chk_other").get_active())
-            self.config.set("enable_log_files", self.glade.get_widget("chk_log_files").get_active())
+        self.config.set("enable_finished", self.glade.get_widget("chk_finished").get_active())
+        self.config.set("enable_peer_error", self.glade.get_widget("chk_peer_error").get_active())
+        self.config.set("enable_invalid_request", self.glade.get_widget("chk_invalid_request").get_active())
+        self.config.set("enable_file_error", self.glade.get_widget("chk_file_error").get_active())
+        self.config.set("enable_hash_failed_error", self.glade.get_widget("chk_hash_failed_error").get_active())
+        self.config.set("enable_peer_ban_error", self.glade.get_widget("chk_peer_ban_error").get_active())
+        self.config.set("enable_fastresume_rejected_error", self.glade.get_widget("chk_fastresume_rejected_error").get_active())
+        self.config.set("enable_tracker_announce", self.glade.get_widget("chk_tracker_announce").get_active())
+        self.config.set("enable_tracker_reply", self.glade.get_widget("chk_tracker_reply").get_active())
+        self.config.set("enable_tracker_alert", self.glade.get_widget("chk_tracker_alert").get_active())
+        self.config.set("enable_tracker_warning", self.glade.get_widget("chk_tracker_warning").get_active())
+        self.config.set("enable_storage_moved", self.glade.get_widget("chk_storage_moved").get_active())
+        self.config.set("enable_piece_finished", self.glade.get_widget("chk_piece_finished").get_active())
+        self.config.set("enable_block_downloading", self.glade.get_widget("chk_block_downloading").get_active())
+        self.config.set("enable_block_finished", self.glade.get_widget("chk_block_finished").get_active())
+        self.config.set("enable_peer_blocked", self.glade.get_widget("chk_peer_blocked").get_active())
+        self.config.set("enable_other", self.glade.get_widget("chk_other").get_active())
+        self.config.set("enable_log_files", self.glade.get_widget("chk_log_files").get_active())
+
+    def cancel_pressed(self, src):
+        self.dialog.hide()

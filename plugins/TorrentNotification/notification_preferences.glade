@@ -7,6 +7,7 @@
     <property name="title" translatable="yes">Torrent Notification Preferences</property>
     <property name="default_width">400</property>
     <property name="default_height">150</property>
+    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
@@ -33,8 +34,6 @@
                 <property name="visible">True</property>
                 <property name="sensitive">False</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="action">GTK_FILE_CHOOSER_ACTION_SELECT_FILE</property>
-                <property name="title" translatable="yes">Select A File</property>
               </widget>
               <packing>
                 <property name="position">1</property>
@@ -42,24 +41,15 @@
             </child>
           </widget>
           <packing>
-            <property name="fill">False</property>
             <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
           <widget class="GtkTable" id="table1">
             <property name="visible">True</property>
             <property name="n_rows">2</property>
-            <child>
-              <widget class="GtkCheckButton" id="chk_tray_blink">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="label" translatable="yes">Enable blinking tray icon</property>
-                <property name="use_underline">True</property>
-                <property name="response_id">0</property>
-                <property name="draw_indicator">True</property>
-              </widget>
-            </child>
             <child>
               <widget class="GtkCheckButton" id="chk_notification">
                 <property name="visible">True</property>
@@ -74,10 +64,21 @@
                 <property name="bottom_attach">2</property>
               </packing>
             </child>
+            <child>
+              <widget class="GtkCheckButton" id="chk_tray_blink">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Enable blinking tray icon</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+              </widget>
+            </child>
           </widget>
           <packing>
-            <property name="fill">False</property>
             <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child internal-child="action_area">
@@ -91,6 +92,7 @@
                 <property name="label">gtk-cancel</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
+                <signal name="pressed" handler="dialog_cancel"/>
               </widget>
             </child>
             <child>
@@ -99,6 +101,7 @@
                 <property name="label">gtk-ok</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">1</property>
+                <signal name="pressed" handler="dialog_ok"/>
               </widget>
               <packing>
                 <property name="position">1</property>
@@ -114,4 +117,3 @@
     </child>
   </widget>
 </glade-interface>
-

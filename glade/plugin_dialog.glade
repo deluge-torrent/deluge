@@ -9,7 +9,7 @@
     <property name="default_width">583</property>
     <property name="default_height">431</property>
     <property name="destroy_with_parent">True</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="skip_pager_hint">True</property>
     <child internal-child="vbox">
@@ -127,6 +127,7 @@
                 <property name="label">gtk-close</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
+                <signal name="pressed" handler="on_close_pressed"/>
               </widget>
             </child>
           </widget>

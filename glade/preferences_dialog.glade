@@ -10,7 +10,7 @@
     <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
     <property name="default_height">550</property>
     <property name="destroy_with_parent">True</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="skip_pager_hint">True</property>
     <property name="has_separator">False</property>
@@ -2289,7 +2289,7 @@ HTTP W/ Auth</property>
             <property name="visible">True</property>
             <property name="layout_style">GTK_BUTTONBOX_END</property>
             <child>
-              <widget class="GtkButton" id="button2">
+              <widget class="GtkButton" id="cancel_button">
                 <property name="visible">True</property>
                 <property name="label">gtk-cancel</property>
                 <property name="use_stock">True</property>
@@ -2297,7 +2297,7 @@ HTTP W/ Auth</property>
               </widget>
             </child>
             <child>
-              <widget class="GtkButton" id="button1">
+              <widget class="GtkButton" id="ok_button">
                 <property name="visible">True</property>
                 <property name="label">gtk-ok</property>
                 <property name="use_stock">True</property>

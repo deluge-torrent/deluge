@@ -55,8 +55,11 @@ class TorrentNotification:
         
         self.glade = gtk.glade.XML(path + "/notification_preferences.glade")
         self.dialog = self.glade.get_widget("dialog")
+        self.dialog.set_position(gtk.WIN_POS_CENTER)
         self.glade.signal_autoconnect({
-                                        'toggle_ui': self.toggle_ui
+                                        'toggle_ui': self.toggle_ui,
+                                        'dialog_ok': self.dialog_ok,
+                                        'dialog_cancel': self.dialog_cancel
                                       })
     
     def handle_event(self, event):
@@ -111,13 +114,16 @@ class TorrentNotification:
             self.glade.get_widget("sound_path_button").set_filename(os.path.expanduser("~/"))
             self.glade.get_widget("sound_path_button").set_sensitive(False)
         self.dialog.show()
-        response = self.dialog.run()
+
+    def dialog_ok(self, source):
         self.dialog.hide()
-        if response:
-            self.config.set("enable_tray_blink", self.glade.get_widget("chk_tray_blink").get_active())
-            self.config.set("enable_notification", self.glade.get_widget("chk_notification").get_active())
-            self.config.set("enable_sound", self.glade.get_widget("chk_sound").get_active())
-            self.config.set("sound_path", self.glade.get_widget("sound_path_button").get_filename())
+        self.config.set("enable_tray_blink", self.glade.get_widget("chk_tray_blink").get_active())
+        self.config.set("enable_notification", self.glade.get_widget("chk_notification").get_active())
+        self.config.set("enable_sound", self.glade.get_widget("chk_sound").get_active())
+        self.config.set("sound_path", self.glade.get_widget("sound_path_button").get_filename())
+
+    def dialog_cancel(self, source):
+        self.dialog.hide()
 
     def toggle_ui(self, widget):
         value = widget.get_active()

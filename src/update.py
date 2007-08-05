@@ -11,7 +11,7 @@ if new_release >  sys.argv[1]:
     dialog = gtk.MessageDialog(parent = None,
                     flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
                     buttons = gtk.BUTTONS_YES_NO,
-                    message_format="There is a newer version of Deluge.  Would you like to be taken to our download site?",
+                    message_format=_("There is a newer version of Deluge.  Would you like to be taken to our download site?"),
                     type=gtk.MESSAGE_QUESTION)
     dialog.set_title('New Release!')
     import time

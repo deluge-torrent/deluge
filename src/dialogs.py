@@ -43,6 +43,7 @@ class PreferencesDlg:
     def __init__(self, preferences, active_port):
         self.glade = gtk.glade.XML(common.get_glade_file("preferences_dialog.glade"), domain='deluge')
         self.dialog = self.glade.get_widget("pref_dialog")
+        self.dialog.set_position(gtk.WIN_POS_CENTER)
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
         self.glade.signal_autoconnect({
                                         'toggle_ui': self.toggle_ui,
@@ -52,7 +53,7 @@ class PreferencesDlg:
         self.preferences = preferences
         self.active_port = str(active_port)
         
-    def show(self):
+    def show(self, interface):
         # Load settings into dialog
         try:
             self.glade.get_widget("combo_encin").set_active(self.preferences.get("encin_state"))
@@ -138,74 +139,80 @@ class PreferencesDlg:
             else:
                 self.glade.get_widget('spin_port_min').set_sensitive(True)
                 self.glade.get_widget('spin_port_max').set_sensitive(True)
+
+            self.glade.get_widget("ok_button").connect("pressed", self.ok_pressed, interface)
+            self.glade.get_widget("cancel_button").connect("pressed", self.cancel_pressed)
             
         except KeyError:
             pass
         # Now, show the dialog
         self.dialog.show()
-        r = self.dialog.run()
-        self.dialog.hide()
-        # Now, get the settings from the dialog
-        if r == 1:
-            self.preferences.set("encin_state", self.glade.get_widget("combo_encin").get_active())
-            self.preferences.set("encout_state", self.glade.get_widget("combo_encout").get_active())
-            self.preferences.set("enclevel_type", self.glade.get_widget("combo_enclevel").get_active())
-            self.preferences.set("peer_proxy_type", self.glade.get_widget("combo_peer_proxy_type").get_active())
-            self.preferences.set("pref_rc4", self.glade.get_widget("chk_pref_rc4").get_active())
-            self.preferences.set("peer_proxy", self.glade.get_widget("chk_peer_proxy").get_active())
-            self.preferences.set("tracker_proxy", self.glade.get_widget("chk_tracker_proxy").get_active())
-            self.preferences.set("dht_proxy", self.glade.get_widget("chk_dht_proxy").get_active())
-            self.preferences.set("web_proxy", self.glade.get_widget("chk_web_proxy").get_active())
-            self.preferences.set("use_upnp", self.glade.get_widget("chk_upnp").get_active())
-            self.preferences.set("tracker_proxy_type", self.glade.get_widget("combo_tracker_proxy_type").get_active())
-            self.preferences.set("dht_proxy_type", self.glade.get_widget("combo_dht_proxy_type").get_active())
-            self.preferences.set("web_proxy_type", self.glade.get_widget("combo_web_proxy_type").get_active())
-            self.preferences.set("new_releases", self.glade.get_widget("chk_new_releases").get_active())
-            self.preferences.set("random_port", self.glade.get_widget("chk_random_port").get_active())
-            self.preferences.set("use_natpmp", self.glade.get_widget("chk_natpmp").get_active())
-            self.preferences.set("use_utpex", self.glade.get_widget("chk_utpex").get_active())
-            self.preferences.set("enable_system_tray", self.glade.get_widget("chk_use_tray").get_active())
-            self.preferences.set("close_to_tray", self.glade.get_widget("chk_min_on_close").get_active())
-            self.preferences.set("lock_tray", self.glade.get_widget("chk_lock_tray").get_active())
-            self.preferences.set("tray_passwd", self.glade.get_widget("txt_tray_passwd").get_text())
-            self.preferences.set("tracker_proxy_username", self.glade.get_widget("txt_tracker_proxy_username").get_text())
-            self.preferences.set("tracker_proxy_password", self.glade.get_widget("txt_tracker_proxy_password").get_text())
-            self.preferences.set("tracker_proxy_hostname", self.glade.get_widget("txt_tracker_proxy_hostname").get_text())
-            self.preferences.set("web_proxy_username", self.glade.get_widget("txt_web_proxy_username").get_text())
-            self.preferences.set("web_proxy_password", self.glade.get_widget("txt_web_proxy_password").get_text())
-            self.preferences.set("web_proxy_hostname", self.glade.get_widget("txt_web_proxy_hostname").get_text())
-            self.preferences.set("dht_proxy_username", self.glade.get_widget("txt_dht_proxy_username").get_text())
-            self.preferences.set("dht_proxy_password", self.glade.get_widget("txt_dht_proxy_password").get_text())
-            self.preferences.set("dht_proxy_hostname", self.glade.get_widget("txt_dht_proxy_hostname").get_text())
-            self.preferences.set("peer_proxy_username", self.glade.get_widget("txt_peer_proxy_username").get_text())
-            self.preferences.set("peer_proxy_password", self.glade.get_widget("txt_peer_proxy_password").get_text())
-            self.preferences.set("peer_proxy_hostname", self.glade.get_widget("txt_peer_proxy_hostname").get_text())
-            self.preferences.set("use_default_dir", self.glade.get_widget("radio_save_all_to").get_active())
-            self.preferences.set("default_download_path", self.glade.get_widget("download_path_button").get_filename())
-            self.preferences.set("enable_move_completed", self.glade.get_widget("chk_move_completed").get_active())
-            self.preferences.set("default_finished_path", self.glade.get_widget("finished_path_button").get_filename())
-            self.preferences.set("enable_files_dialog", self.glade.get_widget("chk_enable_files_dialog").get_active())
-            self.preferences.set("prioritize_first_last_pieces", self.glade.get_widget("chk_prioritize_first_last_pieces").get_active())
-            self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())
-            self.preferences.set("auto_seed_ratio", self.glade.get_widget("ratio_spinner").get_value())
-            self.preferences.set("use_compact_storage", self.glade.get_widget("chk_compact").get_active())
-            self.preferences.set("listen_on", [self.glade.get_widget("spin_port_min").get_value(), self.glade.get_widget("spin_port_max").get_value()])
-            self.preferences.set("max_upload_speed", self.glade.get_widget("spin_max_upload").get_value())
-            self.preferences.set("max_number_uploads", int(self.glade.get_widget("spin_num_upload").get_value()))
-            self.preferences.set("max_download_speed", self.glade.get_widget("spin_max_download").get_value())
-            self.preferences.set("peer_proxy_port", self.glade.get_widget("spin_peer_proxy_port").get_value())
-            self.preferences.set("dht_proxy_port", self.glade.get_widget("spin_dht_proxy_port").get_value())
-            self.preferences.set("web_proxy_port", self.glade.get_widget("spin_web_proxy_port").get_value())
-            self.preferences.set("tracker_proxy_port", self.glade.get_widget("spin_tracker_proxy_port").get_value())
-            self.preferences.set("max_connections", int(self.glade.get_widget("spin_max_connections").get_value()))
-            self.preferences.set("max_active_torrents", int(self.glade.get_widget("spin_torrents").get_value()))
-            self.preferences.set("queue_seeds_to_bottom", self.glade.get_widget("chk_seedbottom").get_active())
-            self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
-            self.preferences.set("gui_update_interval", self.glade.get_widget("spin_gui").get_value())
-            self.preferences.set("clear_max_ratio_torrents", self.glade.get_widget("chk_clear_max_ratio_torrents").get_active())
-            self.preferences.set("queue_above_completed", self.glade.get_widget("chk_queue_above_completed").get_active())
 
-        return r
+    def ok_pressed(self, source, interface):
+        self.dialog.hide()
+        self.preferences.set("encin_state", self.glade.get_widget("combo_encin").get_active())
+        self.preferences.set("encout_state", self.glade.get_widget("combo_encout").get_active())
+        self.preferences.set("enclevel_type", self.glade.get_widget("combo_enclevel").get_active())
+        self.preferences.set("peer_proxy_type", self.glade.get_widget("combo_peer_proxy_type").get_active())
+        self.preferences.set("pref_rc4", self.glade.get_widget("chk_pref_rc4").get_active())
+        self.preferences.set("peer_proxy", self.glade.get_widget("chk_peer_proxy").get_active())
+        self.preferences.set("tracker_proxy", self.glade.get_widget("chk_tracker_proxy").get_active())
+        self.preferences.set("dht_proxy", self.glade.get_widget("chk_dht_proxy").get_active())
+        self.preferences.set("web_proxy", self.glade.get_widget("chk_web_proxy").get_active())
+        self.preferences.set("use_upnp", self.glade.get_widget("chk_upnp").get_active())
+        self.preferences.set("tracker_proxy_type", self.glade.get_widget("combo_tracker_proxy_type").get_active())
+        self.preferences.set("dht_proxy_type", self.glade.get_widget("combo_dht_proxy_type").get_active())
+        self.preferences.set("web_proxy_type", self.glade.get_widget("combo_web_proxy_type").get_active())
+        self.preferences.set("new_releases", self.glade.get_widget("chk_new_releases").get_active())
+        self.preferences.set("random_port", self.glade.get_widget("chk_random_port").get_active())
+        self.preferences.set("use_natpmp", self.glade.get_widget("chk_natpmp").get_active())
+        self.preferences.set("use_utpex", self.glade.get_widget("chk_utpex").get_active())
+        self.preferences.set("enable_system_tray", self.glade.get_widget("chk_use_tray").get_active())
+        self.preferences.set("close_to_tray", self.glade.get_widget("chk_min_on_close").get_active())
+        self.preferences.set("lock_tray", self.glade.get_widget("chk_lock_tray").get_active())
+        self.preferences.set("tray_passwd", self.glade.get_widget("txt_tray_passwd").get_text())
+        self.preferences.set("tracker_proxy_username", self.glade.get_widget("txt_tracker_proxy_username").get_text())
+        self.preferences.set("tracker_proxy_password", self.glade.get_widget("txt_tracker_proxy_password").get_text())
+        self.preferences.set("tracker_proxy_hostname", self.glade.get_widget("txt_tracker_proxy_hostname").get_text())
+        self.preferences.set("web_proxy_username", self.glade.get_widget("txt_web_proxy_username").get_text())
+        self.preferences.set("web_proxy_password", self.glade.get_widget("txt_web_proxy_password").get_text())
+        self.preferences.set("web_proxy_hostname", self.glade.get_widget("txt_web_proxy_hostname").get_text())
+        self.preferences.set("dht_proxy_username", self.glade.get_widget("txt_dht_proxy_username").get_text())
+        self.preferences.set("dht_proxy_password", self.glade.get_widget("txt_dht_proxy_password").get_text())
+        self.preferences.set("dht_proxy_hostname", self.glade.get_widget("txt_dht_proxy_hostname").get_text())
+        self.preferences.set("peer_proxy_username", self.glade.get_widget("txt_peer_proxy_username").get_text())
+        self.preferences.set("peer_proxy_password", self.glade.get_widget("txt_peer_proxy_password").get_text())
+        self.preferences.set("peer_proxy_hostname", self.glade.get_widget("txt_peer_proxy_hostname").get_text())
+        self.preferences.set("use_default_dir", self.glade.get_widget("radio_save_all_to").get_active())
+        self.preferences.set("default_download_path", self.glade.get_widget("download_path_button").get_filename())
+        self.preferences.set("enable_move_completed", self.glade.get_widget("chk_move_completed").get_active())
+        self.preferences.set("default_finished_path", self.glade.get_widget("finished_path_button").get_filename())
+        self.preferences.set("enable_files_dialog", self.glade.get_widget("chk_enable_files_dialog").get_active())
+        self.preferences.set("prioritize_first_last_pieces", self.glade.get_widget("chk_prioritize_first_last_pieces").get_active())
+        self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())
+        self.preferences.set("auto_seed_ratio", self.glade.get_widget("ratio_spinner").get_value())
+        self.preferences.set("use_compact_storage", self.glade.get_widget("chk_compact").get_active())
+        self.preferences.set("listen_on", [self.glade.get_widget("spin_port_min").get_value(), self.glade.get_widget("spin_port_max").get_value()])
+        self.preferences.set("max_upload_speed", self.glade.get_widget("spin_max_upload").get_value())
+        self.preferences.set("max_number_uploads", int(self.glade.get_widget("spin_num_upload").get_value()))
+        self.preferences.set("max_download_speed", self.glade.get_widget("spin_max_download").get_value())
+        self.preferences.set("peer_proxy_port", self.glade.get_widget("spin_peer_proxy_port").get_value())
+        self.preferences.set("dht_proxy_port", self.glade.get_widget("spin_dht_proxy_port").get_value())
+        self.preferences.set("web_proxy_port", self.glade.get_widget("spin_web_proxy_port").get_value())
+        self.preferences.set("tracker_proxy_port", self.glade.get_widget("spin_tracker_proxy_port").get_value())
+        self.preferences.set("max_connections", int(self.glade.get_widget("spin_max_connections").get_value()))
+        self.preferences.set("max_active_torrents", int(self.glade.get_widget("spin_torrents").get_value()))
+        self.preferences.set("queue_seeds_to_bottom", self.glade.get_widget("chk_seedbottom").get_active())
+        self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
+        self.preferences.set("gui_update_interval", self.glade.get_widget("spin_gui").get_value())
+        self.preferences.set("clear_max_ratio_torrents", self.glade.get_widget("chk_clear_max_ratio_torrents").get_active())
+        self.preferences.set("queue_above_completed", self.glade.get_widget("chk_queue_above_completed").get_active())
+
+        interface.apply_prefs()
+        interface.config.save()
+
+    def cancel_pressed(self, source):
+        self.dialog.hide()
             
     def TestPort(self, widget):
         common.open_url_in_browser('http://www.deluge-torrent.org/test-port.php?port=%s' % self.active_port)
@@ -268,6 +275,7 @@ class MergeDlg:
         self.glade = gtk.glade.XML(common.get_glade_file("merge_dialog.glade"), 
                                    domain='deluge')
         self.dialog = self.glade.get_widget("merge_dialog")
+        self.dialog.set_position(gtk.WIN_POS_CENTER)
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
     
     def show(self):
@@ -282,6 +290,7 @@ class FilesDlg:
         self.glade = gtk.glade.XML(common.get_glade_file("files_dialog.glade"), 
                                    domain='deluge')
         self.dialog = self.glade.get_widget("file_dialog")
+        self.dialog.set_position(gtk.WIN_POS_CENTER)
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
         
         self.files_manager = files.FilesDialogManager(
@@ -310,6 +319,7 @@ class PluginDlg:
     def __init__(self, plugins):
         self.glade = gtk.glade.XML(common.get_glade_file("plugin_dialog.glade"), domain='deluge')
         self.dialog = self.glade.get_widget("plugin_dialog")
+        self.dialog.set_position(gtk.WIN_POS_CENTER)
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
         self.view = self.glade.get_widget("plugin_view")
         self.store = gtk.ListStore(str, bool)
@@ -322,7 +332,9 @@ class PluginDlg:
         name_col = dgtk.add_text_column(self.view, _("Plugin"), 0)
         name_col.set_expand(True)
         dgtk.add_toggle_column(self.view, _("Enabled"), 1, toggled_signal=self.plugin_toggled)
-        self.glade.signal_autoconnect({'plugin_pref': self.plugin_pref})
+        signals = {'plugin_pref':      self.plugin_pref,
+                   'on_close_pressed': self.close_pressed}
+        self.glade.signal_autoconnect(signals)
         self.plugins = plugins
 
     def show(self):
@@ -336,7 +348,8 @@ class PluginDlg:
         self.glade.get_widget("plugin_text").get_buffer().set_text("")
         self.glade.get_widget("plugin_conf").set_sensitive(False)
         self.dialog.show()
-        self.dialog.run()
+
+    def close_pressed(self, source):
         self.dialog.hide()
     
     def old_clicked(self, path):
@@ -385,6 +398,7 @@ def show_about_dialog(parent=None):
 
         gtk.about_dialog_set_url_hook(url_hook)
         abt = gtk.glade.XML(common.get_glade_file("aboutdialog.glade")).get_widget("aboutdialog")
+        abt.set_position(gtk.WIN_POS_CENTER)
         abt.set_name(common.PROGRAM_NAME)
         abt.set_version(common.PROGRAM_VERSION)
         abt.set_authors(["Zach Tibbitts", "Alon Zakai", "Marcos Pinto", "Andrew Resch", "Alex Dedul"])

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.2.2 on Sun Jul 15 13:48:13 2007 by markybob@peg-->
+<!--Generated with glade3 3.3.3 on Sun Aug  5 10:26:04 2007 -->
 <glade-interface>
   <widget class="GtkDialog" id="dialog">
     <property name="border_width">5</property>
     <property name="title" translatable="yes">RSS Broadcatcher Settings</property>
     <property name="default_width">512</property>
     <property name="default_height">384</property>
+    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
@@ -857,6 +858,7 @@
                 <property name="label">gtk-cancel</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
+                <signal name="pressed" handler="cancel_pressed"/>
               </widget>
             </child>
             <child>
@@ -865,6 +867,7 @@
                 <property name="label">gtk-ok</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">1</property>
+                <signal name="pressed" handler="ok_pressed"/>
               </widget>
               <packing>
                 <property name="position">1</property>
