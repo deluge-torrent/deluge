@@ -118,6 +118,8 @@ class EventLogging:
             self.manager.connect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_log.handle_event)
         if self.config.get("enable_block_finished"):
             self.manager.connect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
+        if self.config.get("enable_peer_blocked"):
+            self.manager.connect_event(self.manager.constants['EVENT_PEER_BLOCKED'], self.tab_log.handle_event)
         if self.config.get("enable_other"):
             self.manager.connect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
         if self.config.get("enable_log_files"):
@@ -154,6 +156,8 @@ class EventLogging:
             self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_log.handle_event)
         if self.config.get("enable_block_finished"):
             self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
+        if self.config.get("enable_peer_blocked"):
+            self.manager.disconnect_event(self.manager.constants['EVENT_PEER_BLOCKED'], self.tab_log.handle_event)
         if self.config.get("enable_other"):
             self.manager.disconnect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
         self.tab_log.clear_log_store()
@@ -245,6 +249,11 @@ class EventLogging:
                     self.manager.connect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
                 else:
                     self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
+            if widget == self.glade.get_widget("chk_peer_blocked"):
+                if value:
+                    self.manager.connect_event(self.manager.constants['EVENT_PEER_BLOCKED'], self.tab_log.handle_event)
+                else:
+                    self.manager.disconnect_event(self.manager.constants['EVENT_PEER_BLOCKED'], self.tab_log.handle_event)
             if widget == self.glade.get_widget("chk_other"):
                 if value:
                     self.manager.connect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
@@ -260,39 +269,75 @@ class EventLogging:
         self.dialog_initialize = True
         try:
             self.glade.get_widget("chk_finished").set_active(self.config.get("enable_finished"))
-            self.glade.get_widget("chk_peer_error").set_active(self.config.get("enable_peer_error"))
-            self.glade.get_widget("chk_invalid_request").set_active(self.config.get("enable_invalid_request"))
-            self.glade.get_widget("chk_file_error").set_active(self.config.get("enable_file_error"))
-            self.glade.get_widget("chk_hash_failed_error").set_active(self.config.get("enable_hash_failed_error"))
-            self.glade.get_widget("chk_peer_ban_error").set_active(self.config.get("enable_peer_ban_error"))
-            self.glade.get_widget("chk_fastresume_rejected_error").set_active(self.config.get("enable_fastresume_rejected_error"))
-            self.glade.get_widget("chk_tracker_announce").set_active(self.config.get("enable_tracker_announce"))
-            self.glade.get_widget("chk_tracker_reply").set_active(self.config.get("enable_tracker_reply"))
-            self.glade.get_widget("chk_tracker_alert").set_active(self.config.get("enable_tracker_alert"))
-            self.glade.get_widget("chk_tracker_warning").set_active(self.config.get("enable_tracker_warning"))
-            self.glade.get_widget("chk_storage_moved").set_active(self.config.get("enable_storage_moved"))
-            self.glade.get_widget("chk_piece_finished").set_active(self.config.get("enable_piece_finished"))
-            self.glade.get_widget("chk_block_downloading").set_active(self.config.get("enable_block_downloading"))
-            self.glade.get_widget("chk_block_finished").set_active(self.config.get("enable_block_finished"))
-            self.glade.get_widget("chk_other").set_active(self.config.get("enable_other"))
-            self.glade.get_widget("chk_log_files").set_active(self.config.get("enable_log_files"))
         except:
             self.glade.get_widget("chk_finished").set_active(False)
+        try:
+            self.glade.get_widget("chk_peer_error").set_active(self.config.get("enable_peer_error"))
+        except:
             self.glade.get_widget("chk_peer_error").set_active(False)
+        try:
+            self.glade.get_widget("chk_invalid_request").set_active(self.config.get("enable_invalid_request"))
+        except:
             self.glade.get_widget("chk_invalid_request").set_active(False)
+        try:
+            self.glade.get_widget("chk_file_error").set_active(self.config.get("enable_file_error"))
+        except:
             self.glade.get_widget("chk_file_error").set_active(False)
+        try:
+            self.glade.get_widget("chk_hash_failed_error").set_active(self.config.get("enable_hash_failed_error"))
+        except:
             self.glade.get_widget("chk_hash_failed_error").set_active(False)
+        try:
+            self.glade.get_widget("chk_peer_ban_error").set_active(self.config.get("enable_peer_ban_error"))
+        except:
             self.glade.get_widget("chk_peer_ban_error").set_active(False)
+        try:
+            self.glade.get_widget("chk_fastresume_rejected_error").set_active(self.config.get("enable_fastresume_rejected_error"))
+        except:
             self.glade.get_widget("chk_fastresume_rejected_error").set_active(False)
+        try:
+            self.glade.get_widget("chk_tracker_announce").set_active(self.config.get("enable_tracker_announce"))
+        except:
             self.glade.get_widget("chk_tracker_announce").set_active(False)
+        try:
+            self.glade.get_widget("chk_tracker_reply").set_active(self.config.get("enable_tracker_reply"))
+        except:
             self.glade.get_widget("chk_tracker_reply").set_active(False)
+        try:
+            self.glade.get_widget("chk_tracker_alert").set_active(self.config.get("enable_tracker_alert"))
+        except:
             self.glade.get_widget("chk_tracker_alert").set_active(False)
+        try:
+            self.glade.get_widget("chk_tracker_warning").set_active(self.config.get("enable_tracker_warning"))
+        except:
             self.glade.get_widget("chk_tracker_warning").set_active(False)
+        try:
+            self.glade.get_widget("chk_storage_moved").set_active(self.config.get("enable_storage_moved"))
+        except:
             self.glade.get_widget("chk_storage_moved").set_active(False)
+        try:
+            self.glade.get_widget("chk_piece_finished").set_active(self.config.get("enable_piece_finished"))
+        except:
             self.glade.get_widget("chk_piece_finished").set_active(False)
+        try:
+            self.glade.get_widget("chk_block_downloading").set_active(self.config.get("enable_block_downloading"))
+        except:
             self.glade.get_widget("chk_block_downloading").set_active(False)
+        try:
+            self.glade.get_widget("chk_block_finished").set_active(self.config.get("enable_block_finished"))
+        except:
             self.glade.get_widget("chk_block_finished").set_active(False)
+        try:
+            self.glade.get_widget("chk_peer_blocked").set_active(self.config.get("enable_peer_blocked"))
+        except:
+            self.glade.get_widget("chk_peer_blocked").set_active(False)
+        try:
+            self.glade.get_widget("chk_other").set_active(self.config.get("enable_other"))
+        except:
             self.glade.get_widget("chk_other").set_active(False)
+        try:
+            self.glade.get_widget("chk_log_files").set_active(self.config.get("enable_log_files"))
+        except:
             self.glade.get_widget("chk_log_files").set_active(False)
         self.dialog_initialize = False
         self.dialog.show()
@@ -314,5 +359,6 @@ class EventLogging:
             self.config.set("enable_piece_finished", self.glade.get_widget("chk_piece_finished").get_active())
             self.config.set("enable_block_downloading", self.glade.get_widget("chk_block_downloading").get_active())
             self.config.set("enable_block_finished", self.glade.get_widget("chk_block_finished").get_active())
+            self.config.set("enable_peer_blocked", self.glade.get_widget("chk_peer_blocked").get_active())
             self.config.set("enable_other", self.glade.get_widget("chk_other").get_active())
             self.config.set("enable_log_files", self.glade.get_widget("chk_log_files").get_active())

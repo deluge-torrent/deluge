@@ -16,7 +16,7 @@
         <child>
           <widget class="GtkTable" id="table1">
             <property name="visible">True</property>
-            <property name="n_rows">19</property>
+            <property name="n_rows">20</property>
             <child>
               <widget class="GtkLabel" id="label1">
                 <property name="visible">True</property>
@@ -249,10 +249,10 @@
               </packing>
             </child>
             <child>
-              <widget class="GtkCheckButton" id="chk_other">
+              <widget class="GtkCheckButton" id="chk_peer_blocked">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="label" translatable="yes">Other</property>
+                <property name="label" translatable="yes">Peer blocked</property>
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
@@ -264,13 +264,28 @@
               </packing>
             </child>
             <child>
+              <widget class="GtkCheckButton" id="chk_other">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="label" translatable="yes">Other</property>
+                <property name="use_underline">True</property>
+                <property name="response_id">0</property>
+                <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="toggle_ui"/>
+              </widget>
+              <packing>
+                <property name="top_attach">17</property>
+                <property name="bottom_attach">18</property>
+              </packing>
+            </child>
+            <child>
               <widget class="GtkLabel" id="label2">
                 <property name="visible">True</property>
                 <property name="label" translatable="yes">Log files</property>
               </widget>
               <packing>
-                <property name="top_attach">17</property>
-                <property name="bottom_attach">18</property>
+                <property name="top_attach">18</property>
+                <property name="bottom_attach">19</property>
               </packing>
             </child>
             <child>
@@ -284,8 +299,8 @@
                 <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
-                <property name="top_attach">18</property>
-                <property name="bottom_attach">19</property>
+                <property name="top_attach">19</property>
+                <property name="bottom_attach">20</property>
               </packing>
             </child>
           </widget>

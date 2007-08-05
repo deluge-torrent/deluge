@@ -175,6 +175,14 @@ class LogTabManager(object):
                 logfile = open(log, "a")
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
+        if event['event_type'] is self.manager.constants['EVENT_PEER_BLOCKED']:
+            event_message = _("Peer blocked") + " {" + _("event message: ") + event['message'] + ", "\
+                + _("ip address: ") + event['ip'] + "}"
+            if self.log_files:
+                log = os.path.join(self.logdir, 'peer_blocked.log')
+                logfile = open(log, "a")
+                logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
+                logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_OTHER']:
             event_message = _("Other") + " {" + _("event message: ") + event['message'] + "}"
             if self.log_files:
