@@ -50,10 +50,12 @@ else: dbus_imported = True
 
 import gobject
 import deluge.libtorrent as lt
+import pkg_resources
 
 from deluge.config import Config
 import deluge.common
 from deluge.core.torrentmanager import TorrentManager
+from deluge.core.pluginmanager import PluginManager
 
 # Get the logger
 log = logging.getLogger("deluge")
@@ -87,7 +89,10 @@ class Core(dbus.service.Object):
 
         # Start the TorrentManager
         self.torrents = TorrentManager(self.session)
-
+        
+        # Load plugins
+        self.plugins = PluginManager()
+        
         log.debug("Starting main loop..")
         self.loop = gobject.MainLoop()
         self.loop.run()

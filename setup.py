@@ -34,6 +34,7 @@ ez_setup.use_setuptools()
 from setuptools import setup, find_packages, Extension
 import platform
 import glob
+import os
 
 python_version = platform.python_version()[0:3]
 
@@ -83,6 +84,11 @@ libtorrent = Extension(
     sources = _sources
 )
 
+# Build the plugin eggs
+for path in glob.glob('deluge/plugins/*'):
+    print path + "/setup.py"
+    os.system("cd " + path + "&& python setup.py bdist_egg -d ..")
+
 # Main setup
   
 setup(
@@ -100,11 +106,12 @@ setup(
     include_package_data = True,
     package_data = {"deluge": ["ui/gtkui/glade/*.glade", 
                                 "data/pixmaps/*.png",
-                                "ui/gtkui/po/*.po?"
+                                "ui/gtkui/po/*.po?",
+                                "plugins/*.egg",
                                 ]},
     ext_package = "deluge",
     ext_modules = [libtorrent],
-    packages = find_packages(),
+    packages = find_packages(exclude=["plugins"]),
     entry_points = """
         [console_scripts]
             deluge = deluge.main:main
