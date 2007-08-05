@@ -1027,7 +1027,7 @@ class DelugeGTK:
             if path is None:
                 return
 
-        self.interactive_add_torrent_path(self, torrent, path)
+        self.interactive_add_torrent_path(torrent, path)
 
     def interactive_add_torrent_path(self, torrent, path):
         try:
@@ -1313,3 +1313,4 @@ class DelugeGTK:
 if __name__ == "__main__":
     interface = DelugeGTK()
     interface.start()
+
