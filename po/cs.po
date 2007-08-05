@@ -8,212 +8,249 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-07-25 02:49-0500\n"
-"PO-Revision-Date: 2007-07-25 13:40+0000\n"
-"Last-Translator: Jan Kaláb <pitel@nomi.cz>\n"
+"POT-Creation-Date: 2007-07-31 01:40-0500\n"
+"PO-Revision-Date: 2007-08-01 19:57+0000\n"
+"Last-Translator: Kamil Páral <ripper42@gmail.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Rosetta-Export-Date: 2007-07-25 22:09:30+0000\n"
+"X-Rosetta-Export-Date: 2007-08-05 10:10:01+0000\n"
 
-#: glade/delugegtk.glade:22
-msgid "Add Torrent"
-msgstr "Přidat Torrent"
-
-#: glade/delugegtk.glade:36 glade/dgtkpopups.glade:6
-msgid "Remove Torrent"
-msgstr "Odstranit torrent"
-
-#: glade/delugegtk.glade:49
-msgid "Clear Finished Torrents"
-msgstr "Vyčistit stažené torrenty"
-
-#: glade/delugegtk.glade:72
-msgid "Start or Pause torrent"
-msgstr "Spustit nebo pozastavit torrent"
-
-#: glade/delugegtk.glade:86
-msgid "Queue Torrent Up"
-msgstr "Posunout dolů"
-
-#: glade/delugegtk.glade:100
-msgid "Queue Torrent Down"
-msgstr "Posunou nahoru"
-
-#: glade/delugegtk.glade:122
-msgid "Change Deluge preferences"
-msgstr "Změnit nastavení Deluge"
-
-#: glade/delugegtk.glade:135
-msgid "Open the plugins dialog"
-msgstr "Otevřít nastavení plug-inů"
-
-#: glade/delugegtk.glade:186
-msgid "_File"
-msgstr "_Soubor"
-
-#: glade/delugegtk.glade:193 glade/tray_menu.glade:27
-msgid "_Add Torrent"
-msgstr "_Přidat torrent"
-
-#: glade/delugegtk.glade:208
-msgid "Add _URL"
-msgstr "_Přidat URL"
-
-#: glade/delugegtk.glade:216
-msgid "_Clear Completed"
-msgstr "_Vyčistit dokončené"
-
-#: glade/delugegtk.glade:249
-msgid "_Edit"
-msgstr "_Úpravy"
-
-#: glade/delugegtk.glade:266
-msgid "Pl_ugins"
-msgstr "Pl_uginy"
-
-#: glade/delugegtk.glade:285
-msgid "_Torrent"
-msgstr "_Torrent"
-
-#: glade/delugegtk.glade:292
-msgid "_View"
-msgstr "Zobra_zení"
-
-#: glade/delugegtk.glade:300
-msgid "_Toolbar"
-msgstr "_Panel nástrojů"
-
-#: glade/delugegtk.glade:309
-msgid "_Details"
-msgstr "_Podrobnosti"
-
-#: glade/delugegtk.glade:318
-msgid "Columns"
-msgstr "Sloupce"
-
-#: glade/delugegtk.glade:326 src/interface.py:507 src/tab_files.py:75
-msgid "Size"
-msgstr "Velikost"
-
-#: glade/delugegtk.glade:335 src/interface.py:508
-msgid "Status"
-msgstr "_Stav"
-
-#: glade/delugegtk.glade:344 src/interface.py:509
-msgid "Seeders"
-msgstr "Seedů"
-
-#: glade/delugegtk.glade:353 glade/delugegtk.glade:1167 src/interface.py:510
-msgid "Peers"
-msgstr "Peerů"
-
-#: glade/delugegtk.glade:362 src/interface.py:511 src/interface.py:644
-#: src/interface.py:966 src/interface.py:980
-msgid "Down Speed"
-msgstr "Rychlost stahování"
-
-#: glade/delugegtk.glade:371 src/interface.py:512 src/interface.py:645
-#: src/interface.py:967 src/interface.py:981
-msgid "Up Speed"
-msgstr "Rychlost odesílání"
-
-#: glade/delugegtk.glade:380
-msgid "Time Remaining"
-msgstr "Zbývající čas"
-
-#: glade/delugegtk.glade:389 src/interface.py:514
-msgid "Availability"
-msgstr "Dostupnost"
-
-#: glade/delugegtk.glade:398
-msgid "Share Ratio"
-msgstr "Poměr sdílení"
-
-#: glade/delugegtk.glade:415
-msgid "_Help"
-msgstr "_Nápověda"
-
-#: glade/delugegtk.glade:423
-msgid "Help translate this application"
-msgstr "Pomozte přeložit tuto aplikaci"
-
-#: glade/delugegtk.glade:424
-msgid "_Translate This Application..."
-msgstr "_Přeložit tuto aplikaci..."
-
-#: glade/delugegtk.glade:602
-msgid "<b>Name:</b>"
-msgstr "<b>Název:</b>"
-
-#: glade/delugegtk.glade:621
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Příští ohlášení:</b>"
-
-#: glade/delugegtk.glade:647
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>Stav trackeru</b>"
-
-#: glade/delugegtk.glade:675
-msgid "<b>Tracker:</b>"
-msgstr "<b>Tracker:</b>"
-
-#: glade/delugegtk.glade:698
-msgid "<b>Total Size:</b>"
-msgstr "<b>Celková velikost:</b>"
-
-#: glade/delugegtk.glade:743
-msgid "<b>Torrent Info</b>"
-msgstr "<b>Informace o torrentu</b>"
-
-#: glade/delugegtk.glade:814
-msgid "<b>Availability:</b>"
-msgstr "<b>Dostupnost:</b>"
-
-#: glade/delugegtk.glade:850
-msgid "<b>Pieces:</b>"
-msgstr "<b>Dílků:</b>"
-
-#: glade/delugegtk.glade:867
-msgid "<b>ETA:</b>"
-msgstr "<b>Zbývající čas:</b>"
-
-#: glade/delugegtk.glade:888
-msgid "<b>Peers:</b>"
-msgstr "<b>Peerů:</b>"
-
-#: glade/delugegtk.glade:909 glade/delugegtk.glade:930
-msgid "<b>Speed:</b>"
-msgstr "<b>Rychlost:</b>"
-
-#: glade/delugegtk.glade:948
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>Poměr sdílení:</b>"
-
-#: glade/delugegtk.glade:966
-msgid "<b>Seeders:</b>"
-msgstr "<b>Seedů:</b>"
-
-#: glade/delugegtk.glade:984
-msgid "<b>Uploaded:</b>"
-msgstr "<b>Odesláno:</b>"
-
-#: glade/delugegtk.glade:1002
+#: glade/delugegtk.glade:204
 msgid "<b>Downloaded:</b>"
 msgstr "<b>Staženo:</b>"
 
-#: glade/delugegtk.glade:1114
+#: glade/delugegtk.glade:218
+msgid "<b>Uploaded:</b>"
+msgstr "<b>Odesláno:</b>"
+
+#: glade/delugegtk.glade:236
+msgid "<b>Seeders:</b>"
+msgstr "<b>Seedů:</b>"
+
+#: glade/delugegtk.glade:254
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Poměr sdílení:</b>"
+
+#: glade/delugegtk.glade:273 glade/delugegtk.glade:292
+msgid "<b>Speed:</b>"
+msgstr "<b>Rychlost:</b>"
+
+#: glade/delugegtk.glade:313
+msgid "<b>Peers:</b>"
+msgstr "<b>Peerů:</b>"
+
+#: glade/delugegtk.glade:334
+msgid "<b>ETA:</b>"
+msgstr "<b>Zbývající čas:</b>"
+
+#: glade/delugegtk.glade:351
+msgid "<b>Pieces:</b>"
+msgstr "<b>Dílků:</b>"
+
+#: glade/delugegtk.glade:389
+msgid "<b>Availability:</b>"
+msgstr "<b>Dostupnost:</b>"
+
+#: glade/delugegtk.glade:430
 msgid "<b>Statistics</b>"
 msgstr "<b>Statistiky</b>"
 
-#: glade/delugegtk.glade:1139
+#: glade/delugegtk.glade:498
+msgid "<b>Total Size:</b>"
+msgstr "<b>Celková velikost:</b>"
+
+#: glade/delugegtk.glade:524
+msgid "<b>Tracker:</b>"
+msgstr "<b>Tracker:</b>"
+
+#: glade/delugegtk.glade:552
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Stav trackeru</b>"
+
+#: glade/delugegtk.glade:575
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Příští ohlášení:</b>"
+
+#: glade/delugegtk.glade:597
+msgid "<b>Name:</b>"
+msgstr "<b>Název:</b>"
+
+#: glade/delugegtk.glade:655
+msgid "<b>Torrent Info</b>"
+msgstr "<b>Informace o torrentu</b>"
+
+#: glade/delugegtk.glade:681
 msgid "Details"
 msgstr "Detaily"
 
-#: glade/delugegtk.glade:1197
+#: glade/delugegtk.glade:709 glade/delugegtk.glade:947 src/interface.py:504
+msgid "Peers"
+msgstr "Peerů"
+
+#: glade/delugegtk.glade:739
 msgid "Files"
 msgstr "Soubory"
+
+#: glade/delugegtk.glade:780
+msgid "_File"
+msgstr "_Soubor"
+
+#: glade/delugegtk.glade:787 glade/tray_menu.glade:27
+msgid "_Add Torrent"
+msgstr "_Přidat torrent"
+
+#: glade/delugegtk.glade:802
+msgid "Add _URL"
+msgstr "_Přidat URL"
+
+#: glade/delugegtk.glade:810
+msgid "_Clear Completed"
+msgstr "_Vyčistit dokončené"
+
+#: glade/delugegtk.glade:843
+msgid "_Edit"
+msgstr "_Úpravy"
+
+#: glade/delugegtk.glade:860
+msgid "Pl_ugins"
+msgstr "Pl_uginy"
+
+#: glade/delugegtk.glade:879
+msgid "_Torrent"
+msgstr "_Torrent"
+
+#: glade/delugegtk.glade:886
+msgid "_View"
+msgstr "Zobra_zení"
+
+#: glade/delugegtk.glade:894
+msgid "_Toolbar"
+msgstr "_Panel nástrojů"
+
+#: glade/delugegtk.glade:903
+msgid "_Details"
+msgstr "_Podrobnosti"
+
+#: glade/delugegtk.glade:912
+msgid "_Columns"
+msgstr "Sloup_ce"
+
+#: glade/delugegtk.glade:920 src/interface.py:501 src/tab_files.py:75
+msgid "Size"
+msgstr "Velikost"
+
+#: glade/delugegtk.glade:929 src/interface.py:502
+msgid "Status"
+msgstr "_Stav"
+
+#: glade/delugegtk.glade:938 src/interface.py:503
+msgid "Seeders"
+msgstr "Seedů"
+
+#: glade/delugegtk.glade:956 src/interface.py:505 src/interface.py:631
+#: src/interface.py:930 src/interface.py:944
+msgid "Down Speed"
+msgstr "Rychlost stahování"
+
+#: glade/delugegtk.glade:965 src/interface.py:506 src/interface.py:632
+#: src/interface.py:931 src/interface.py:945
+msgid "Up Speed"
+msgstr "Rychlost odesílání"
+
+#: glade/delugegtk.glade:974
+msgid "Time Remaining"
+msgstr "Zbývající čas"
+
+#: glade/delugegtk.glade:983 src/interface.py:508
+msgid "Availability"
+msgstr "Dostupnost"
+
+#: glade/delugegtk.glade:992
+msgid "Share Ratio"
+msgstr "Poměr sdílení"
+
+#: glade/delugegtk.glade:1009
+msgid "_Help"
+msgstr "_Nápověda"
+
+#: glade/delugegtk.glade:1017
+msgid "Help translate this application"
+msgstr "Pomozte přeložit tuto aplikaci"
+
+#: glade/delugegtk.glade:1018
+msgid "_Translate This Application..."
+msgstr "_Přeložit tuto aplikaci..."
+
+#: glade/delugegtk.glade:1091
+msgid "Add Torrent"
+msgstr "Přidat torrent"
+
+#: glade/delugegtk.glade:1092
+msgid "Add"
+msgstr "Přidat"
+
+#: glade/delugegtk.glade:1105 glade/dgtkpopups.glade:6
+msgid "Remove Torrent"
+msgstr "Odstranit torrent"
+
+#: glade/delugegtk.glade:1106
+msgid "Remove"
+msgstr "Odstranit"
+
+#: glade/delugegtk.glade:1118
+msgid "Clear Finished Torrents"
+msgstr "Vyčistit stažené torrenty"
+
+#: glade/delugegtk.glade:1119
+msgid "Clear"
+msgstr "Vyčistit"
+
+#: glade/delugegtk.glade:1141
+msgid "Start or Pause torrent"
+msgstr "Spustit nebo pozastavit torrent"
+
+#: glade/delugegtk.glade:1142
+msgid "Resume"
+msgstr "Obnovit"
+
+#: glade/delugegtk.glade:1155
+msgid "Pause"
+msgstr "Pozastavit"
+
+#: glade/delugegtk.glade:1167
+msgid "Queue Torrent Up"
+msgstr "Posunout dolů"
+
+#: glade/delugegtk.glade:1168
+msgid "Up"
+msgstr "Nahoru"
+
+#: glade/delugegtk.glade:1181
+msgid "Queue Torrent Down"
+msgstr "Posunout nahoru"
+
+#: glade/delugegtk.glade:1182
+msgid "Down"
+msgstr "Dolů"
+
+#: glade/delugegtk.glade:1203
+msgid "Change Deluge preferences"
+msgstr "Změnit nastavení Deluge"
+
+#: glade/delugegtk.glade:1204
+msgid "Preferences"
+msgstr "Nastavení"
+
+#: glade/delugegtk.glade:1216
+msgid "Open the plugins dialog"
+msgstr "Otevřít nastavení plug-inů"
+
+#: glade/delugegtk.glade:1217 glade/dgtkpopups.glade:209
+#: glade/plugin_dialog.glade:90
+msgid "Plugins"
+msgstr "Pluginy"
 
 #: glade/dgtkpopups.glade:41
 msgid ""
@@ -243,10 +280,6 @@ msgstr "Přidat torrent..."
 msgid "Clear Finished"
 msgstr "Odstranit dokončené"
 
-#: glade/dgtkpopups.glade:209 glade/plugin_dialog.glade:90
-msgid "Plugins"
-msgstr "Pluginy"
-
 #: glade/file_tab_menu.glade:10
 msgid "Select All"
 msgstr "Vybrat vše"
@@ -255,19 +288,19 @@ msgstr "Vybrat vše"
 msgid "Unselect All"
 msgstr "Zrušit výběr"
 
-#: glade/file_tab_menu.glade:45
+#: glade/file_tab_menu.glade:45 src/core.py:99
 msgid "Don't download"
 msgstr "Nestahovat"
 
-#: glade/file_tab_menu.glade:60
+#: glade/file_tab_menu.glade:60 src/core.py:100
 msgid "Normal"
 msgstr "Střední"
 
-#: glade/file_tab_menu.glade:75
+#: glade/file_tab_menu.glade:75 src/core.py:101
 msgid "High"
 msgstr "Vysoká"
 
-#: glade/file_tab_menu.glade:90
+#: glade/file_tab_menu.glade:90 src/core.py:102
 msgid "Highest"
 msgstr "Nejvyšší"
 
@@ -368,67 +401,75 @@ msgstr "Z:"
 msgid "To:"
 msgstr "Do:"
 
-#: glade/preferences_dialog.glade:444
-msgid "Active Port:"
-msgstr "Aktivní port:"
+#: glade/preferences_dialog.glade:445
+msgid "Deluge will automatically choose a different port to use every time."
+msgstr "Deluge vždy vybere náhodný port."
 
-#: glade/preferences_dialog.glade:457
-msgid "0000"
-msgstr "0000"
+#: glade/preferences_dialog.glade:446
+msgid "Random Ports"
+msgstr "Náhodné porty"
 
-#: glade/preferences_dialog.glade:472
+#: glade/preferences_dialog.glade:463
 msgid "Test Active Port"
 msgstr "Vyzkoušet aktivní port"
 
-#: glade/preferences_dialog.glade:494
-msgid "<b>TCP Port</b>"
-msgstr "<b>TCP port</b>"
+#: glade/preferences_dialog.glade:489
+msgid "<b>TCP</b>"
+msgstr "<b>TCP</b>"
 
-#: glade/preferences_dialog.glade:526
+#: glade/preferences_dialog.glade:501
+msgid "Active Port:"
+msgstr "Aktivní port:"
+
+#: glade/preferences_dialog.glade:514
+msgid "0000"
+msgstr "0000"
+
+#: glade/preferences_dialog.glade:553
 msgid "Distributed hash table may improve the amount of active connections."
 msgstr "Distributed hash table může vylepšit množství aktivních spojení."
 
-#: glade/preferences_dialog.glade:527
+#: glade/preferences_dialog.glade:554
 msgid "Enable Mainline DHT"
 msgstr "Povolit Mainline DHT"
 
-#: glade/preferences_dialog.glade:543
+#: glade/preferences_dialog.glade:567
 msgid "<b>DHT</b>"
 msgstr "<b>DHT</b>"
 
-#: glade/preferences_dialog.glade:578
+#: glade/preferences_dialog.glade:602
 msgid "Universal Plug and Play"
 msgstr "Universal Plug and Play"
 
-#: glade/preferences_dialog.glade:579
+#: glade/preferences_dialog.glade:603
 msgid "UPnP"
 msgstr "UPnP"
 
-#: glade/preferences_dialog.glade:593
+#: glade/preferences_dialog.glade:617
 msgid "NAT Port Mapping Protocol"
 msgstr "NAT Port Mapping Protocol"
 
-#: glade/preferences_dialog.glade:594
+#: glade/preferences_dialog.glade:618
 msgid "NAT-PMP"
 msgstr "NAT-PMP"
 
-#: glade/preferences_dialog.glade:609
+#: glade/preferences_dialog.glade:633
 msgid "µTorrent Peer-Exchange"
 msgstr "µTorrent Peer-Exchange"
 
-#: glade/preferences_dialog.glade:610
+#: glade/preferences_dialog.glade:634
 msgid "µTorrent-PeX"
 msgstr "µTorrent-PeX"
 
-#: glade/preferences_dialog.glade:628
+#: glade/preferences_dialog.glade:652
 msgid "<b>Network Extras</b>"
 msgstr "<b>Speciality sítě</b>"
 
-#: glade/preferences_dialog.glade:669
+#: glade/preferences_dialog.glade:693
 msgid "Inbound:"
 msgstr "Příchozí:"
 
-#: glade/preferences_dialog.glade:678 glade/preferences_dialog.glade:700
+#: glade/preferences_dialog.glade:702 glade/preferences_dialog.glade:724
 msgid ""
 "Disabled\n"
 "Enabled\n"
@@ -438,19 +479,19 @@ msgstr ""
 "Zapnuto\n"
 "Vynuceno"
 
-#: glade/preferences_dialog.glade:691
+#: glade/preferences_dialog.glade:715
 msgid "Outbound:"
 msgstr "Odchozí:"
 
-#: glade/preferences_dialog.glade:718
+#: glade/preferences_dialog.glade:742
 msgid "Prefer to encrypt the entire stream"
 msgstr "Preferovat šifrování celého stremu"
 
-#: glade/preferences_dialog.glade:731
+#: glade/preferences_dialog.glade:755
 msgid "Level:"
 msgstr "Úroveň:"
 
-#: glade/preferences_dialog.glade:740
+#: glade/preferences_dialog.glade:764
 msgid ""
 "Handshake\n"
 "Either\n"
@@ -460,19 +501,19 @@ msgstr ""
 "Obojí\n"
 "Celý stream"
 
-#: glade/preferences_dialog.glade:761
+#: glade/preferences_dialog.glade:785
 msgid "<b>Encryption</b>"
 msgstr "<b>Šifrování</b>"
 
-#: glade/preferences_dialog.glade:794
+#: glade/preferences_dialog.glade:818
 msgid "Affects regular bittorrent peers"
 msgstr "Ovlivní běžné peery bittorrentu"
 
-#: glade/preferences_dialog.glade:795
+#: glade/preferences_dialog.glade:819
 msgid "Peer Proxy"
 msgstr "Proxy peerů"
 
-#: glade/preferences_dialog.glade:806
+#: glade/preferences_dialog.glade:830
 msgid ""
 "Only affects HTTP tracker connections (UDP tracker connections are affected "
 "if the given proxy supports UDP, e.g. SOCKS5)."
@@ -480,11 +521,11 @@ msgstr ""
 "Ovlivní pouze spojení HTTP trackeru (spojení UDP trackeru jsou ovlivněna "
 "pokud daná proxy podporuje UDP, např. SOCKS5)."
 
-#: glade/preferences_dialog.glade:807
+#: glade/preferences_dialog.glade:831
 msgid "Tracker Proxy"
 msgstr "Proxy Trackeru"
 
-#: glade/preferences_dialog.glade:821
+#: glade/preferences_dialog.glade:845
 msgid ""
 "Affects the DHT messages. Since they are sent over UDP, it only has any "
 "effect if the proxy supports UDP."
@@ -492,23 +533,23 @@ msgstr ""
 "Ovlivní zprávy DHT. Protože se odesílají přes UDP, bude to mít nějaký efekt "
 "pouze pokud proxy podporuje UDP."
 
-#: glade/preferences_dialog.glade:822
+#: glade/preferences_dialog.glade:846
 msgid "DHT Proxy"
 msgstr "Proxy DHT"
 
-#: glade/preferences_dialog.glade:849
+#: glade/preferences_dialog.glade:873
 msgid "Proxy type"
 msgstr "Typ proxy"
 
-#: glade/preferences_dialog.glade:856
+#: glade/preferences_dialog.glade:880
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: glade/preferences_dialog.glade:867
+#: glade/preferences_dialog.glade:891
 msgid "Password"
 msgstr "Heslo:"
 
-#: glade/preferences_dialog.glade:879
+#: glade/preferences_dialog.glade:903
 msgid ""
 "None\n"
 "Socksv4\n"
@@ -524,151 +565,163 @@ msgstr ""
 "HTTP\n"
 "HTTP s autorizací"
 
-#: glade/preferences_dialog.glade:924
+#: glade/preferences_dialog.glade:948
 msgid "Server"
 msgstr "Server"
 
-#: glade/preferences_dialog.glade:935
+#: glade/preferences_dialog.glade:959
 msgid "Port"
 msgstr "Port"
 
-#: glade/preferences_dialog.glade:981
+#: glade/preferences_dialog.glade:1005
 msgid "<b>Proxy</b>"
 msgstr "<b>Proxy</b>"
 
-#: glade/preferences_dialog.glade:1008
+#: glade/preferences_dialog.glade:1032
 msgid "Network"
 msgstr "Síť"
 
-#: glade/preferences_dialog.glade:1052
+#: glade/preferences_dialog.glade:1076
 msgid "Queue torrents to bottom when they begin seeding"
 msgstr "Zařadit torrenty na konec fronty při seedování"
 
-#: glade/preferences_dialog.glade:1064
+#: glade/preferences_dialog.glade:1088
 msgid "Queue new torrents above completed ones"
 msgstr "Zařadit nové torrenty nad dokončené"
 
-#: glade/preferences_dialog.glade:1080
+#: glade/preferences_dialog.glade:1104
 msgid "Stop seeding torrents when their share ratio reaches:"
 msgstr "Zasatvit seedování když poměr sdílení dosáhne:"
 
-#: glade/preferences_dialog.glade:1116
+#: glade/preferences_dialog.glade:1140
 msgid "Automatically clear torrents that reach the max share ratio"
 msgstr ""
 "Automaticky odstranit toorenty po dosažení maximálního poměru sdílení"
 
-#: glade/preferences_dialog.glade:1132
+#: glade/preferences_dialog.glade:1156
 msgid "<b>Seeding</b>"
 msgstr "<b>Seedování</b>"
 
-#: glade/preferences_dialog.glade:1163
+#: glade/preferences_dialog.glade:1187 src/core.py:90
 msgid "Seeding"
 msgstr "Seeduje"
 
-#: glade/preferences_dialog.glade:1214 glade/preferences_dialog.glade:1234
-#: glade/preferences_dialog.glade:1313
+#: glade/preferences_dialog.glade:1238 glade/preferences_dialog.glade:1258
+#: glade/preferences_dialog.glade:1337
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
 "Maximální rychlost odesílání pro všechny torrenty. Zadejte -1 pro neomezené."
 
-#: glade/preferences_dialog.glade:1216
+#: glade/preferences_dialog.glade:1240
 msgid "Maximum Global Upload Slots:"
 msgstr "Maximum globálních odesílacích slotů"
 
-#: glade/preferences_dialog.glade:1236
+#: glade/preferences_dialog.glade:1260
 msgid "Maximum Upload Speed (KiB/s):"
 msgstr "Maximální rychlost odesílání (KiB/s):"
 
-#: glade/preferences_dialog.glade:1254 glade/preferences_dialog.glade:1268
+#: glade/preferences_dialog.glade:1278 glade/preferences_dialog.glade:1292
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
 msgstr "Maximální počet povolených spojení. Zadejte -1 pro neomezené."
 
-#: glade/preferences_dialog.glade:1256
+#: glade/preferences_dialog.glade:1280
 msgid "Maximum Connections:"
 msgstr "Maximum spojení:"
 
-#: glade/preferences_dialog.glade:1282 glade/preferences_dialog.glade:1296
+#: glade/preferences_dialog.glade:1306 glade/preferences_dialog.glade:1320
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
 "Maximální rychlost stahování pro všechny torrenty. Zadejte -1 pro neomezené."
 
-#: glade/preferences_dialog.glade:1284
+#: glade/preferences_dialog.glade:1308
 msgid "Maximum Download Speed (KiB/s):"
 msgstr "Maximální rychlost stahování (KiB/s):"
 
-#: glade/preferences_dialog.glade:1330
+#: glade/preferences_dialog.glade:1354
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr "Maximum odesílacích slotů. Zadejte -1 pro neomezené."
 
-#: glade/preferences_dialog.glade:1350
+#: glade/preferences_dialog.glade:1374
 msgid "<b>Bandwidth Usage</b>"
 msgstr "<b>Využití šířky pásma</b>"
 
-#: glade/preferences_dialog.glade:1381
+#: glade/preferences_dialog.glade:1405
 msgid "Bandwidth"
 msgstr "Šířka pásma"
 
-#: glade/preferences_dialog.glade:1422
+#: glade/preferences_dialog.glade:1446
 msgid "Enable system tray icon"
 msgstr "Povolit ikonu"
 
-#: glade/preferences_dialog.glade:1438
+#: glade/preferences_dialog.glade:1462
 msgid "Minimize to tray on close"
 msgstr "Minimalizovat do ikony při zavření"
 
-#: glade/preferences_dialog.glade:1462
+#: glade/preferences_dialog.glade:1486
 msgid "Password protect system tray"
 msgstr "Ikona chráněna heslem"
 
-#: glade/preferences_dialog.glade:1480
+#: glade/preferences_dialog.glade:1504
 msgid "Password:"
 msgstr "Heslo:"
 
-#: glade/preferences_dialog.glade:1522
+#: glade/preferences_dialog.glade:1546
 msgid "<b>System Tray</b>"
 msgstr "<b>Ikona</b>"
 
-#: glade/preferences_dialog.glade:1553
+#: glade/preferences_dialog.glade:1577
 msgid "GUI update interval (seconds)"
 msgstr "Interval aktualizace GUI (sekundy)"
 
-#: glade/preferences_dialog.glade:1581
+#: glade/preferences_dialog.glade:1605
 msgid "<b>Performance</b>"
 msgstr "<b>Výkon</b>"
 
-#: glade/preferences_dialog.glade:1609
+#: glade/preferences_dialog.glade:1633
 msgid "Other"
 msgstr "Ostatní"
 
-#: glade/torrent_menu.glade:20
+#: glade/torrent_menu.glade:11
+msgid "gtk-select-all"
+msgstr "gtk-select-all"
+
+#: glade/torrent_menu.glade:21
+msgid "Re_sume"
+msgstr "Ob_novit"
+
+#: glade/torrent_menu.glade:37
+msgid "_Pause"
+msgstr "_Pozastavit"
+
+#: glade/torrent_menu.glade:52
 msgid "_Update Tracker"
 msgstr "_Obnov tracker"
 
-#: glade/torrent_menu.glade:37
+#: glade/torrent_menu.glade:69
 msgid "_Edit Trackers"
 msgstr "_Upravit trackery"
 
-#: glade/torrent_menu.glade:59
+#: glade/torrent_menu.glade:91
 msgid "_Remove Torrent"
 msgstr "_Odstranit torrent"
 
-#: glade/torrent_menu.glade:81
+#: glade/torrent_menu.glade:113
 msgid "_Queue"
 msgstr "_Fronta"
 
-#: glade/torrent_menu.glade:91
+#: glade/torrent_menu.glade:123
 msgid "_Top"
 msgstr "_Nahoře"
 
-#: glade/torrent_menu.glade:107
+#: glade/torrent_menu.glade:139
 msgid "_Up"
 msgstr "Na_horu"
 
-#: glade/torrent_menu.glade:123
+#: glade/torrent_menu.glade:155
 msgid "_Down"
 msgstr "_Dolů"
 
-#: glade/torrent_menu.glade:139
+#: glade/torrent_menu.glade:171
 msgid "_Bottom"
 msgstr "D_ole"
 
@@ -681,12 +734,12 @@ msgid "_Clear Finished"
 msgstr "_Odstranit dokončené"
 
 #: glade/tray_menu.glade:67
-msgid "_Down Speed Limit"
-msgstr "Limit _stahování"
+msgid "Global _Down Speed Limit"
+msgstr "Globální limit rychlosti _stahování"
 
 #: glade/tray_menu.glade:89
-msgid "_Up Speed Limit"
-msgstr "Limit _odesílání"
+msgid "Global _Up Speed Limit"
+msgstr "Globální limit rychlosti _odesílání"
 
 #: glade/tray_menu.glade:121
 msgid "Plu_gins"
@@ -696,7 +749,7 @@ msgstr "Plu_giny"
 msgid "_Quit"
 msgstr "Uk_ončit"
 
-#: src/common.py:53 src/interface.py:480
+#: src/common.py:53 src/interface.py:474
 msgid "Infinity"
 msgstr "Nekonečno"
 
@@ -712,19 +765,47 @@ msgstr "MiB"
 msgid "GiB"
 msgstr "GiB"
 
-#: src/core.py:126
+#: src/core.py:84
+msgid "Queued"
+msgstr "Čeká"
+
+#: src/core.py:85
+msgid "Checking"
+msgstr "Kontroluji"
+
+#: src/core.py:86
+msgid "Connecting"
+msgstr "Probíhá připojování"
+
+#: src/core.py:87
+msgid "Downloading Metadata"
+msgstr "Stahování metadat"
+
+#: src/core.py:88 plugins/BlocklistImport/ui.py:115
+msgid "Downloading"
+msgstr "Stahuji"
+
+#: src/core.py:89
+msgid "Finished"
+msgstr "Dokončeno"
+
+#: src/core.py:91
+msgid "Allocating"
+msgstr "Alokuji"
+
+#: src/core.py:137
 msgid "bytes needed"
 msgstr "bajtů potřeba"
 
-#: src/core.py:363
+#: src/core.py:377
 msgid "File was not found"
 msgstr "Soubor nebyl nalezen"
 
-#: src/core.py:411
+#: src/core.py:425
 msgid "Asked for a torrent that doesn't exist"
 msgstr "Požadavek na neexistující torrent"
 
-#: src/core.py:572 src/interface.py:827
+#: src/core.py:591 src/interface.py:814
 msgid ""
 "You cannot move torrent to a different partition.  Please fix your "
 "preferences"
@@ -732,34 +813,62 @@ msgstr ""
 "Nemůžete přesouvat torrent na jiný diskový oddíl. Prosím opravte své "
 "nastavení"
 
-#: src/interface.py:204 src/interface.py:210 src/interface.py:298
-#: src/interface.py:322
+#: src/core.py:613
+msgid "Announce sent"
+msgstr "Ohlášení announce odesláno"
+
+#: src/core.py:617
+msgid "Announce OK"
+msgstr "Announce OK"
+
+#: src/core.py:623
+msgid "Alert"
+msgstr "Upozornění"
+
+#: src/core.py:624
+msgid "HTTP code"
+msgstr "HTTP kód"
+
+#: src/core.py:625
+msgid "times in a row"
+msgstr "krát za sebou"
+
+#: src/core.py:632
+msgid "Warning"
+msgstr "Varování"
+
+#: src/interface.py:194 src/interface.py:200 src/interface.py:288
+#: src/interface.py:312
 msgid "KiB/s"
 msgstr "KiB/s"
 
-#: src/interface.py:228 src/interface.py:299 src/interface.py:323
-#: src/interface.py:950 src/interface.py:956 src/interface.py:960
+#: src/interface.py:218 src/interface.py:289 src/interface.py:313
+#: src/interface.py:914 src/interface.py:920 src/interface.py:924
 msgid "Unlimited"
 msgstr "Neomezeně"
 
-#: src/interface.py:231
+#: src/interface.py:221
 msgid "Activated"
 msgstr "Aktivováno"
 
-#: src/interface.py:291 src/interface.py:302 src/interface.py:326
+#: src/interface.py:281 src/interface.py:292 src/interface.py:316
 #: plugins/DesiredRatio/__init__.py:102
 msgid "Other..."
 msgstr "Další..."
 
-#: src/interface.py:306
-msgid "Speed:"
-msgstr "Rychlost:"
+#: src/interface.py:296
+msgid "Download Speed (KiB/s):"
+msgstr "Rychlost stahování (KiB/s):"
 
-#: src/interface.py:349
+#: src/interface.py:320
+msgid "Upload Speed (KiB/s):"
+msgstr "Rychlost odesílání (KiB/s):"
+
+#: src/interface.py:341
 msgid "Deluge is locked"
 msgstr "Deluge je uzamčen"
 
-#: src/interface.py:351
+#: src/interface.py:343
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
@@ -767,128 +876,118 @@ msgstr ""
 "Deluge je chráněn heslem.\n"
 "Pro zobrazení okna Deluge prosím zadejte vaše heslo"
 
-#: src/interface.py:492
+#: src/interface.py:486
 msgid "Unknown"
 msgstr "Neznámý"
 
-#: src/interface.py:506 plugins/TorrentSearch/plugin.py:20
+#: src/interface.py:500 plugins/TorrentSearch/plugin.py:20
 #: plugins/RSS/plugin.py:36 plugins/RSS/plugin.py:44 plugins/RSS/plugin.py:51
 msgid "Name"
 msgstr "Název"
 
-#: src/interface.py:513
+#: src/interface.py:507
 msgid "ETA"
 msgstr "ETA"
 
-#: src/interface.py:515
+#: src/interface.py:509
 msgid "Ratio"
 msgstr "Poměr"
 
-#: src/interface.py:581 src/interface.py:620 src/interface.py:940
-msgid "Resume"
-msgstr "Obnovit"
-
-#: src/interface.py:584 src/interface.py:623 src/interface.py:943
-msgid "Pause"
-msgstr "Pozastavit"
-
-#: src/interface.py:610
-msgid "Pause/Resume"
-msgstr "Pozastavit/obnovit"
-
-#: src/interface.py:641
+#: src/interface.py:628
 msgid "IP Address"
 msgstr "IP adresa"
 
-#: src/interface.py:642
+#: src/interface.py:629
 msgid "Client"
 msgstr "Klient"
 
-#: src/interface.py:643
+#: src/interface.py:630
 msgid "Percent Complete"
 msgstr "Procent dokončení"
 
-#: src/interface.py:725
+#: src/interface.py:712
 #, python-format
 msgid "Paused %s"
 msgstr "Pozastaveno %s"
 
-#: src/interface.py:966 src/interface.py:979
+#: src/interface.py:930 src/interface.py:943
 msgid "Connections"
 msgstr "Spojení"
 
-#: src/interface.py:976
+#: src/interface.py:940
 msgid "DHT"
 msgstr "DHT"
 
-#: src/interface.py:979
+#: src/interface.py:943
 msgid "Deluge Bittorrent Client"
 msgstr "Bittorent klient Deluge"
 
-#: src/interface.py:1114
+#: src/interface.py:1085
 msgid ""
 "An error occured while trying to add the torrent. It's possible your "
 ".torrent file is corrupted."
 msgstr ""
 "Nastala chyba při přidávání torrentu. Je možné že .torrent je poškozený."
 
-#: src/interface.py:1132
+#: src/interface.py:1103
 msgid "Unknown duplicate torrent error."
 msgstr "Neznámá chyba duplicity torrentu."
 
-#: src/interface.py:1136
+#: src/interface.py:1107
 msgid "There is not enough free disk space to complete your download."
 msgstr "Není dost místa na disku pro dokončení stahování."
 
-#: src/interface.py:1137
+#: src/interface.py:1108
 msgid "Space Needed:"
 msgstr "Potřeba místa:"
 
-#: src/interface.py:1138
+#: src/interface.py:1109
 msgid "Available Space:"
 msgstr "Dostupné místo:"
 
-#: src/interface.py:1152
+#: src/interface.py:1123
 msgid "Add torrent from URL"
 msgstr "Přidat torrent z URL"
 
-#: src/interface.py:1156
+#: src/interface.py:1127
 msgid "Enter the URL of the .torrent to download"
 msgstr "Zadejte URL torrentu ke stažení"
 
-#: src/interface.py:1210
+#: src/interface.py:1181
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr "Varování - všechny stažené soubory z tohoto torrentu budou smazány!"
 
-#: src/dialogs.py:262
+#: src/dialogs.py:276
 msgid "Plugin"
 msgstr "Plugin"
 
-#: src/dialogs.py:264
+#: src/dialogs.py:278
 msgid "Enabled"
 msgstr "Povolen"
 
-#: src/dialogs.py:332
+#: src/dialogs.py:346
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
 "  DarkenCZ <https://launchpad.net/~darkencz>\n"
 "  Jan Kaláb <https://launchpad.net/~pitel>\n"
-"  dwori <https://launchpad.net/~dwori>"
+"  Kamil Páral <https://launchpad.net/~ripper42>\n"
+"  dwori <https://launchpad.net/~dwori>\n"
+"  sirkubador <https://launchpad.net/~sirkubador>"
 
-#: src/dialogs.py:372
+#: src/dialogs.py:386
 msgid "Choose a .torrent file"
 msgstr "Vyberte .torrent soubor"
 
-#: src/dialogs.py:377
+#: src/dialogs.py:391
 msgid "Torrent files"
 msgstr "Torrent soubory"
 
-#: src/dialogs.py:381
+#: src/dialogs.py:395
 msgid "All files"
 msgstr "Všechny soubory"
 
-#: src/dialogs.py:402
+#: src/dialogs.py:416
 msgid "Choose a download directory"
 msgstr "Vyberte adresář pro stažení"
 
@@ -1188,7 +1287,7 @@ msgstr "URL"
 msgid "Last Entry Date"
 msgstr "Datum poslední položky"
 
-#: plugins/RSS/plugin.py:43 plugins/RSS/rss.glade:385
+#: plugins/RSS/plugin.py:43 plugins/RSS/rss.glade:384
 msgid "Feed"
 msgstr "Kanál"
 
@@ -1216,51 +1315,51 @@ msgstr "Vše"
 msgid "RSS Broadcatcher Settings"
 msgstr "Nastavení RSS odchytávače"
 
-#: plugins/RSS/rss.glade:87
+#: plugins/RSS/rss.glade:86
 msgid "Feed Name:"
 msgstr "Jméno kanálu:"
 
-#: plugins/RSS/rss.glade:151
+#: plugins/RSS/rss.glade:150
 msgid "Feed URL:"
 msgstr "URL kanálu:"
 
-#: plugins/RSS/rss.glade:283
+#: plugins/RSS/rss.glade:282
 msgid "Feeds"
 msgstr "Kanály"
 
-#: plugins/RSS/rss.glade:413
+#: plugins/RSS/rss.glade:412
 msgid "Filter Exp:"
 msgstr "Výraz filtru:"
 
-#: plugins/RSS/rss.glade:442
+#: plugins/RSS/rss.glade:441
 msgid "Filter Name:"
 msgstr "Jméno filtru:"
 
-#: plugins/RSS/rss.glade:543
+#: plugins/RSS/rss.glade:542
 msgid "Filters"
 msgstr "Filtry"
 
-#: plugins/RSS/rss.glade:564
+#: plugins/RSS/rss.glade:563
 msgid " Feed: "
 msgstr " Kanál: "
 
-#: plugins/RSS/rss.glade:617
+#: plugins/RSS/rss.glade:616
 msgid "Torrents"
 msgstr "Torrenty"
 
-#: plugins/RSS/rss.glade:660
+#: plugins/RSS/rss.glade:659
 msgid "Update Interval (seconds): "
 msgstr "Interval aktualizace (sekundy): "
 
-#: plugins/RSS/rss.glade:729
+#: plugins/RSS/rss.glade:728
 msgid "Check feeds on Deluge start"
 msgstr "Zkontrolovat kanály při startu Deluge"
 
-#: plugins/RSS/rss.glade:781
+#: plugins/RSS/rss.glade:780
 msgid "Check Feeds Now"
 msgstr "Zkontrolovat kanály teď"
 
-#: plugins/RSS/rss.glade:836
+#: plugins/RSS/rss.glade:835
 msgid "Options"
 msgstr "Nastaveni"
 
@@ -1352,10 +1451,6 @@ msgstr "Stahovat při startu"
 msgid "Loading and installing blocklist"
 msgstr "Načítám a instaluji bloklist"
 
-#: plugins/BlocklistImport/ui.py:115
-msgid "Downloading"
-msgstr "Stahuji"
-
 #: plugins/BlocklistImport/ui.py:126
 msgid "Importing"
 msgstr "Importuji"
@@ -1379,3 +1474,84 @@ msgstr "Neplatný kouzelný kód"
 #: plugins/BlocklistImport/peerguardian.py:37
 msgid "Invalid version"
 msgstr "Neplatná verze"
+
+#: plugins/TorrentPieces/__init__.py:19
+msgid "Torrent Pieces"
+msgstr "Části torrentu"
+
+#: plugins/TorrentPieces/__init__.py:22
+msgid ""
+"\n"
+"Adds a pieces tab which gives piece by piece progress for a torrent.\n"
+"Each piece is represented by a small progress bar.\n"
+"\n"
+"Pieces currently downloading show up as partially filled progress bars,\n"
+"but this does not represent percentage done.  \n"
+"\n"
+"More information is provided as a tooltip for each piece.\n"
+"For currently downloading pieces, the tooltip contains the number\n"
+"of blocks finished as well as the peer speed for that piece.\n"
+"\n"
+"When the plugin initializes, such as when enabling the plugin or\n"
+"when a different torrent is selected, the cpu will spike.  This is normal,\n"
+"as initialization must get information on every piece from libtorrent,\n"
+"and the cpu will normalize once all of the information is retrieved."
+msgstr ""
+"\n"
+"Přidá panel částí, která pro torrent zobrazuje průběh část po části.\n"
+"Každá část je reprezentována malým indikátorem průběhu.\n"
+"\n"
+"Aktuálně stahované části se zobrazují jako částečně vyplněné indikátory "
+"průběhu,\n"
+"ale to neodpovídá stahování procentuálně.  \n"
+"\n"
+"Více informací je poskytováno jako místní nápověda pro každý kousek.\n"
+"Pro aktuálně stahované části místní nápověda obsahuje počet\n"
+"dokončených bloků, stejně jako rychlost členů pro danou část.\n"
+"\n"
+"Když se zásuvný modul spustí, jako když zapnete modul nebo\n"
+"když je označen jiný torrent, procesor je vytížen. To je normální,\n"
+"protože inicializace musí získat informace o každé části od libtorrent,\n"
+"a procesor se zklidní, jakmile jsou všechny informace získány."
+
+#: plugins/TorrentPieces/__init__.py:68
+msgid "Pieces"
+msgstr "Části"
+
+#: plugins/TorrentPieces/tab_pieces.py:57
+#: plugins/TorrentPieces/tab_pieces.py:105
+msgid "Piece finished"
+msgstr "Část dokončena"
+
+#: plugins/TorrentPieces/tab_pieces.py:59
+msgid "Piece not started"
+msgstr "Část nespuštěna"
+
+#: plugins/TorrentPieces/tab_pieces.py:67
+#: plugins/TorrentPieces/tab_pieces.py:113
+msgid "blocks finished"
+msgstr "bloků dokončeno"
+
+#: plugins/TorrentPieces/tab_pieces.py:68
+msgid "peer speed: unknown"
+msgstr "rychlost členů: neznámá"
+
+#: plugins/TorrentPieces/tab_pieces.py:84
+msgid "fast"
+msgstr "rychlá"
+
+#: plugins/TorrentPieces/tab_pieces.py:86
+msgid "slow"
+msgstr "pomalá"
+
+#: plugins/TorrentPieces/tab_pieces.py:88
+msgid "medium"
+msgstr "střední"
+
+#: plugins/TorrentPieces/tab_pieces.py:90
+msgid "unknown"
+msgstr "neznamá"
+
+#: plugins/TorrentPieces/tab_pieces.py:114
+msgid "peer speed: "
+msgstr "rychlost členů: "
