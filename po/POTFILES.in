@@ -1,6 +1,7 @@
 glade/delugegtk.glade
 glade/dgtkpopups.glade
 glade/file_tab_menu.glade
+glade/file_tab_menu.glade
 glade/merge_dialog.glade
 glade/plugin_dialog.glade
 glade/preferences_dialog.glade
@@ -11,8 +12,7 @@ src/core.py
 src/interface.py
 src/dialogs.py
 src/tab_details.py
-src/tab_files.py
-src/tab_peers.py
+src/files.py
 plugins/TorrentSearch/__init__.py
 plugins/TorrentSearch/plugin.py
 plugins/TorrentSearch/searchdlg.glade
@@ -20,7 +20,7 @@ plugins/TorrentCreator/__init__.py
 plugins/TorrentCreator/torrentcreator.glade
 plugins/DesiredRatio/__init__.py
 plugins/NetworkGraph/__init__.py
-plugins/NetworkGraph/plugin.py
+plugins/NetworkGraph/tab_graph.py
 plugins/NetworkHealth/__init__.py
 plugins/NetworkHealth/plugin.py
 plugins/RSS/__init__.py
@@ -38,3 +38,9 @@ plugins/EventLogging/tab_log.py
 plugins/EventLogging/event_logging_preferences.glade
 plugins/TorrentNotification/__init__.py
 plugins/TorrentNotification/notification_preferences.glade
+plugins/TorrentPieces/__init__.py
+plugins/TorrentPieces/tab_pieces.py
+plugins/TorrentPeers/__init__.py
+plugins/TorrentPeers/tab_peers.py
+plugins/Locations/__init__.py
+plugins/Locations/plugin.py

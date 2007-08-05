@@ -18,12 +18,12 @@
 plugin_name = _("Locations")
 plugin_author = "Kristoffer Lundén"
 plugin_version = "0.2"
-plugin_description = """Automagically remembers relevant settings for different locations.
+plugin_description = _("""Automagically remembers relevant settings for different locations.
 
 When this plugin is active, it will remember a lot of useful network-specific preferences, such as up- or download limits, open ports and proxy information. Just change preferences to suit each location while connected, and Deluge will automagically use those settings the next time you connect at that location. There is no other configuration needed.
 
 The plugin determines location by identifying the unique MAC address of the Gateway used for the connection. It is therefore possible to have different settings for home and work, or for broadband, 3G and dial-up on the fly.
-"""
+""")
 
 def deluge_init(deluge_path):
     global path
