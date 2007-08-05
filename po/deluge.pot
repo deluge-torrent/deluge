@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-05 04:33-0500\n"
+"POT-Creation-Date: 2007-08-05 17:07-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,6 +141,7 @@ msgid "Size"
 msgstr ""
 
 #: glade/delugegtk.glade:920 src/interface.py:528
+#: plugins/AdvancedRSS/FlexRSS.glade:137
 msgid "Status"
 msgstr ""
 
@@ -153,13 +154,13 @@ msgstr ""
 msgid "Peers"
 msgstr ""
 
-#: glade/delugegtk.glade:947 src/interface.py:531 src/interface.py:941
-#: src/interface.py:954 plugins/TorrentPeers/tab_peers.py:42
+#: glade/delugegtk.glade:947 src/interface.py:531 src/interface.py:939
+#: src/interface.py:952 plugins/TorrentPeers/tab_peers.py:42
 msgid "Down Speed"
 msgstr ""
 
-#: glade/delugegtk.glade:956 src/interface.py:532 src/interface.py:942
-#: src/interface.py:955 plugins/TorrentPeers/tab_peers.py:44
+#: glade/delugegtk.glade:956 src/interface.py:532 src/interface.py:940
+#: src/interface.py:953 plugins/TorrentPeers/tab_peers.py:44
 msgid "Up Speed"
 msgstr ""
 
@@ -688,7 +689,7 @@ msgid "<b>Updates</b>"
 msgstr ""
 
 #: glade/preferences_dialog.glade:2272
-#: plugins/EventLogging/event_logging_preferences.glade:270
+#: plugins/EventLogging/event_logging_preferences.glade:50
 #: plugins/EventLogging/tab_log.py:187
 msgid "Other"
 msgstr ""
@@ -775,7 +776,7 @@ msgid "KiB/s"
 msgstr ""
 
 #: src/interface.py:234 src/interface.py:305 src/interface.py:329
-#: src/interface.py:922 src/interface.py:931 src/interface.py:935
+#: src/interface.py:920 src/interface.py:929 src/interface.py:933
 #: plugins/SpeedLimiter/__init__.py:119 plugins/SpeedLimiter/__init__.py:150
 msgid "Unlimited"
 msgstr ""
@@ -816,8 +817,11 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: src/interface.py:526 plugins/RSS/plugin.py:36 plugins/RSS/plugin.py:44
-#: plugins/RSS/plugin.py:51 plugins/TorrentSearch/plugin.py:20
+#: src/interface.py:526 plugins/SimpleRSS/plugin.py:37
+#: plugins/SimpleRSS/plugin.py:45 plugins/SimpleRSS/plugin.py:52
+#: plugins/TorrentSearch/plugin.py:20 plugins/AdvancedRSS/FlexRSS.glade:178
+#: plugins/AdvancedRSS/FlexRSS.glade:378
+#: plugins/AdvancedRSS/FlexRSS.glade:1030
 msgid "Name"
 msgstr ""
 
@@ -829,68 +833,68 @@ msgstr ""
 msgid "Ratio"
 msgstr ""
 
-#: src/interface.py:718
+#: src/interface.py:716
 #, python-format
 msgid "Paused %s"
 msgstr ""
 
-#: src/interface.py:820 src/core.py:609
+#: src/interface.py:818 src/core.py:609
 msgid ""
 "You cannot move torrent to a different partition.  Please fix your "
 "preferences"
 msgstr ""
 
-#: src/interface.py:941
+#: src/interface.py:939
 msgid "Connections"
 msgstr ""
 
-#: src/interface.py:951
+#: src/interface.py:949
 msgid "DHT"
 msgstr ""
 
-#: src/interface.py:954
+#: src/interface.py:952
 msgid "Deluge Bittorrent Client"
 msgstr ""
 
-#: src/interface.py:955
+#: src/interface.py:953
 msgid "Total Downloaded"
 msgstr ""
 
-#: src/interface.py:956
+#: src/interface.py:954
 msgid "Total Uploaded"
 msgstr ""
 
-#: src/interface.py:1051
+#: src/interface.py:1049
 msgid ""
 "An error occured while trying to add the torrent. It's possible your ."
 "torrent file is corrupted."
 msgstr ""
 
-#: src/interface.py:1069
+#: src/interface.py:1067
 msgid "Unknown duplicate torrent error."
 msgstr ""
 
-#: src/interface.py:1073
+#: src/interface.py:1071
 msgid "There is not enough free disk space to complete your download."
 msgstr ""
 
-#: src/interface.py:1074
+#: src/interface.py:1072
 msgid "Space Needed:"
 msgstr ""
 
-#: src/interface.py:1075
+#: src/interface.py:1073
 msgid "Available Space:"
 msgstr ""
 
-#: src/interface.py:1089
+#: src/interface.py:1087
 msgid "Add torrent from URL"
 msgstr ""
 
-#: src/interface.py:1093
+#: src/interface.py:1091
 msgid "Enter the URL of the .torrent to download"
 msgstr ""
 
-#: src/interface.py:1145
+#: src/interface.py:1143
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr ""
 
@@ -973,31 +977,31 @@ msgid ""
 "readd this torrent."
 msgstr ""
 
-#: src/dialogs.py:322
+#: src/dialogs.py:332
 msgid "Plugin"
 msgstr ""
 
-#: src/dialogs.py:324
+#: src/dialogs.py:334 plugins/AdvancedRSS/FlexRSS.glade:104
 msgid "Enabled"
 msgstr ""
 
-#: src/dialogs.py:392
+#: src/dialogs.py:406
 msgid "translator-credits"
 msgstr ""
 
-#: src/dialogs.py:432
+#: src/dialogs.py:446
 msgid "Choose a .torrent file"
 msgstr ""
 
-#: src/dialogs.py:437
+#: src/dialogs.py:451
 msgid "Torrent files"
 msgstr ""
 
-#: src/dialogs.py:441
+#: src/dialogs.py:455
 msgid "All files"
 msgstr ""
 
-#: src/dialogs.py:462
+#: src/dialogs.py:476
 msgid "Choose a download directory"
 msgstr ""
 
@@ -1269,107 +1273,112 @@ msgstr ""
 msgid "Deluge"
 msgstr ""
 
-#: plugins/RSS/rss.glade:7
+#: plugins/SimpleRSS/rss.glade:7
 msgid "RSS Broadcatcher Settings"
 msgstr ""
 
-#: plugins/RSS/rss.glade:86
+#: plugins/SimpleRSS/rss.glade:87
 msgid "Feed Name:"
 msgstr ""
 
-#: plugins/RSS/rss.glade:150
+#: plugins/SimpleRSS/rss.glade:151
 msgid "Feed URL:"
 msgstr ""
 
-#: plugins/RSS/rss.glade:282
+#: plugins/SimpleRSS/rss.glade:283 plugins/AdvancedRSS/FlexRSS.glade:242
 msgid "Feeds"
 msgstr ""
 
-#: plugins/RSS/rss.glade:384 plugins/RSS/plugin.py:43
+#: plugins/SimpleRSS/rss.glade:385 plugins/SimpleRSS/plugin.py:44
+#: plugins/AdvancedRSS/FlexRSS.glade:402
 msgid "Feed"
 msgstr ""
 
-#: plugins/RSS/rss.glade:412
+#: plugins/SimpleRSS/rss.glade:413
 msgid "Filter Exp:"
 msgstr ""
 
-#: plugins/RSS/rss.glade:441
+#: plugins/SimpleRSS/rss.glade:442
 msgid "Filter Name:"
 msgstr ""
 
-#: plugins/RSS/rss.glade:542
+#: plugins/SimpleRSS/rss.glade:543 plugins/AdvancedRSS/FlexRSS.glade:850
 msgid "Filters"
 msgstr ""
 
-#: plugins/RSS/rss.glade:563
+#: plugins/SimpleRSS/rss.glade:564
 msgid " Feed: "
 msgstr ""
 
-#: plugins/RSS/rss.glade:616
+#: plugins/SimpleRSS/rss.glade:617
 msgid "Torrents"
 msgstr ""
 
-#: plugins/RSS/rss.glade:659
+#: plugins/SimpleRSS/rss.glade:660
 msgid "Update Interval (seconds): "
 msgstr ""
 
-#: plugins/RSS/rss.glade:728
+#: plugins/SimpleRSS/rss.glade:729
 msgid "Check feeds on Deluge start"
 msgstr ""
 
-#: plugins/RSS/rss.glade:780
+#: plugins/SimpleRSS/rss.glade:781
 msgid "Check Feeds Now"
 msgstr ""
 
-#: plugins/RSS/rss.glade:835
+#: plugins/SimpleRSS/rss.glade:836
 msgid "Options"
 msgstr ""
 
-#: plugins/RSS/__init__.py:1 plugins/RSS/plugin.py:103
-msgid "RSS Broadcatcher"
+#: plugins/SimpleRSS/__init__.py:1
+msgid "Simple RSS"
 msgstr ""
 
-#: plugins/RSS/__init__.py:4
+#: plugins/SimpleRSS/__init__.py:4
 msgid ""
 "\n"
-"Download Torrents automatically from RSS Feeds\n"
+"Download Torrents automatically from SimpleRSS Feeds\n"
 "\n"
-"The latest version of my RSS autodownloader, which uses the Universal Feed "
-"parser (http://feedparser.org/). Add RSS feeds on the 'Feeds' tab, then add "
-"filters for TV shows (or whatever) on the 'Filters' tab. Double-click "
-"entries on the 'Torrents' tab to download extra torrents from the feeds. The "
-"Options are pretty self-explanatary.\n"
+"Add RSS feeds on the 'Feeds' tab, then add filters for TV shows (or "
+"whatever) on the 'Filters' tab. Double-click entries on the 'Torrents' tab "
+"to download extra torrents from the feeds. The Options are pretty self-"
+"explanatary.\n"
 "\n"
 "Please message me (SatNav) on the forums and let me know how you get on..\n"
 "\n"
 "Enjoy!"
 msgstr ""
 
-#: plugins/RSS/plugin.py:37 plugins/RSS/plugin.py:45
+#: plugins/SimpleRSS/plugin.py:38 plugins/SimpleRSS/plugin.py:46
+#: plugins/AdvancedRSS/FlexRSS.glade:164
 msgid "URL"
 msgstr ""
 
-#: plugins/RSS/plugin.py:38
+#: plugins/SimpleRSS/plugin.py:39
 msgid "Last Entry Date"
 msgstr ""
 
-#: plugins/RSS/plugin.py:46
+#: plugins/SimpleRSS/plugin.py:47
 msgid "Date"
 msgstr ""
 
-#: plugins/RSS/plugin.py:101
+#: plugins/SimpleRSS/plugin.py:104
 msgid "RSS"
 msgstr ""
 
-#: plugins/RSS/plugin.py:186 plugins/RSS/plugin.py:190
-#: plugins/RSS/plugin.py:191 plugins/RSS/plugin.py:192
-#: plugins/RSS/plugin.py:194 plugins/RSS/plugin.py:195
-#: plugins/RSS/plugin.py:196
+#: plugins/SimpleRSS/plugin.py:106
+msgid "SimpleRSS Broadcatcher"
+msgstr ""
+
+#: plugins/SimpleRSS/plugin.py:189 plugins/SimpleRSS/plugin.py:193
+#: plugins/SimpleRSS/plugin.py:194 plugins/SimpleRSS/plugin.py:195
+#: plugins/SimpleRSS/plugin.py:197 plugins/SimpleRSS/plugin.py:198
+#: plugins/SimpleRSS/plugin.py:199
 msgid "New Filter"
 msgstr ""
 
-#: plugins/RSS/plugin.py:265 plugins/RSS/plugin.py:400
-#: plugins/RSS/plugin.py:401
+#: plugins/SimpleRSS/plugin.py:268 plugins/SimpleRSS/plugin.py:403
+#: plugins/SimpleRSS/plugin.py:404
 msgid "All"
 msgstr ""
 
@@ -1377,20 +1386,16 @@ msgstr ""
 msgid "Torrent Notification Preferences"
 msgstr ""
 
-#: plugins/TorrentNotification/notification_preferences.glade:24
+#: plugins/TorrentNotification/notification_preferences.glade:25
 msgid "Enable event sound (requires pygame)"
 msgstr ""
 
-#: plugins/TorrentNotification/notification_preferences.glade:37
-msgid "Select A File"
-msgstr ""
-
 #: plugins/TorrentNotification/notification_preferences.glade:57
-msgid "Enable blinking tray icon"
+msgid "Enable popup notification (requires python-notify)"
 msgstr ""
 
-#: plugins/TorrentNotification/notification_preferences.glade:67
-msgid "Enable popup notification (requires python-notify)"
+#: plugins/TorrentNotification/notification_preferences.glade:71
+msgid "Enable blinking tray icon"
 msgstr ""
 
 #: plugins/TorrentNotification/__init__.py:19
@@ -1403,11 +1408,11 @@ msgid ""
 "notification"
 msgstr ""
 
-#: plugins/TorrentNotification/__init__.py:93
+#: plugins/TorrentNotification/__init__.py:96
 msgid "Torrent complete"
 msgstr ""
 
-#: plugins/TorrentNotification/__init__.py:94
+#: plugins/TorrentNotification/__init__.py:97
 #: plugins/TorrentFiles/__init__.py:54
 msgid "Files"
 msgstr ""
@@ -1431,97 +1436,97 @@ msgstr ""
 msgid "Event Logging Preferences"
 msgstr ""
 
-#: plugins/EventLogging/event_logging_preferences.glade:23
-msgid "Select events to log"
+#: plugins/EventLogging/event_logging_preferences.glade:25
+msgid "Enable log files"
 msgstr ""
 
-#: plugins/EventLogging/event_logging_preferences.glade:30
-#: plugins/EventLogging/tab_log.py:39
-msgid "Torrent finished"
+#: plugins/EventLogging/event_logging_preferences.glade:39
+msgid "Log files"
 msgstr ""
 
-#: plugins/EventLogging/event_logging_preferences.glade:45
-msgid "Peer messages"
+#: plugins/EventLogging/event_logging_preferences.glade:65
+#: plugins/EventLogging/tab_log.py:179
+msgid "Peer blocked"
 msgstr ""
 
-#: plugins/EventLogging/event_logging_preferences.glade:60
-#: plugins/EventLogging/tab_log.py:55
-msgid "Invalid request"
+#: plugins/EventLogging/event_logging_preferences.glade:80
+#: plugins/EventLogging/tab_log.py:169
+msgid "Block finished"
 msgstr ""
 
-#: plugins/EventLogging/event_logging_preferences.glade:75
-#: plugins/EventLogging/tab_log.py:64
-msgid "File error"
+#: plugins/EventLogging/event_logging_preferences.glade:95
+#: plugins/EventLogging/tab_log.py:158
+msgid "Block downloading"
 msgstr ""
 
-#: plugins/EventLogging/event_logging_preferences.glade:90
-#: plugins/EventLogging/tab_log.py:73
-msgid "Hash failed error"
-msgstr ""
-
-#: plugins/EventLogging/event_logging_preferences.glade:105
-#: plugins/EventLogging/tab_log.py:83
-msgid "Peer ban error"
-msgstr ""
-
-#: plugins/EventLogging/event_logging_preferences.glade:120
-#: plugins/EventLogging/tab_log.py:92
-msgid "Fastresume rejected error"
-msgstr ""
-
-#: plugins/EventLogging/event_logging_preferences.glade:135
-#: plugins/EventLogging/tab_log.py:101
-msgid "Tracker announce"
-msgstr ""
-
-#: plugins/EventLogging/event_logging_preferences.glade:150
-#: plugins/EventLogging/tab_log.py:110
-msgid "Tracker reply"
-msgstr ""
-
-#: plugins/EventLogging/event_logging_preferences.glade:165
-#: plugins/EventLogging/tab_log.py:119
-msgid "Tracker alert"
-msgstr ""
-
-#: plugins/EventLogging/event_logging_preferences.glade:180
-#: plugins/EventLogging/tab_log.py:130
-msgid "Tracker warning"
-msgstr ""
-
-#: plugins/EventLogging/event_logging_preferences.glade:195
-#: plugins/EventLogging/tab_log.py:139
-msgid "Storage moved"
-msgstr ""
-
-#: plugins/EventLogging/event_logging_preferences.glade:210
+#: plugins/EventLogging/event_logging_preferences.glade:110
 #: plugins/EventLogging/tab_log.py:148 plugins/TorrentPieces/tab_pieces.py:157
 #: plugins/TorrentPieces/tab_pieces.py:206
 #: plugins/TorrentPieces/tab_pieces.py:282
 msgid "Piece finished"
 msgstr ""
 
-#: plugins/EventLogging/event_logging_preferences.glade:225
-#: plugins/EventLogging/tab_log.py:158
-msgid "Block downloading"
+#: plugins/EventLogging/event_logging_preferences.glade:125
+#: plugins/EventLogging/tab_log.py:139
+msgid "Storage moved"
 msgstr ""
 
-#: plugins/EventLogging/event_logging_preferences.glade:240
-#: plugins/EventLogging/tab_log.py:169
-msgid "Block finished"
+#: plugins/EventLogging/event_logging_preferences.glade:140
+#: plugins/EventLogging/tab_log.py:130
+msgid "Tracker warning"
 msgstr ""
 
-#: plugins/EventLogging/event_logging_preferences.glade:255
-#: plugins/EventLogging/tab_log.py:179
-msgid "Peer blocked"
+#: plugins/EventLogging/event_logging_preferences.glade:155
+#: plugins/EventLogging/tab_log.py:119
+msgid "Tracker alert"
 msgstr ""
 
-#: plugins/EventLogging/event_logging_preferences.glade:284
-msgid "Log files"
+#: plugins/EventLogging/event_logging_preferences.glade:170
+#: plugins/EventLogging/tab_log.py:110
+msgid "Tracker reply"
 msgstr ""
 
-#: plugins/EventLogging/event_logging_preferences.glade:295
-msgid "Enable log files"
+#: plugins/EventLogging/event_logging_preferences.glade:185
+#: plugins/EventLogging/tab_log.py:101
+msgid "Tracker announce"
+msgstr ""
+
+#: plugins/EventLogging/event_logging_preferences.glade:200
+#: plugins/EventLogging/tab_log.py:92
+msgid "Fastresume rejected error"
+msgstr ""
+
+#: plugins/EventLogging/event_logging_preferences.glade:215
+#: plugins/EventLogging/tab_log.py:83
+msgid "Peer ban error"
+msgstr ""
+
+#: plugins/EventLogging/event_logging_preferences.glade:230
+#: plugins/EventLogging/tab_log.py:73
+msgid "Hash failed error"
+msgstr ""
+
+#: plugins/EventLogging/event_logging_preferences.glade:245
+#: plugins/EventLogging/tab_log.py:64
+msgid "File error"
+msgstr ""
+
+#: plugins/EventLogging/event_logging_preferences.glade:260
+#: plugins/EventLogging/tab_log.py:55
+msgid "Invalid request"
+msgstr ""
+
+#: plugins/EventLogging/event_logging_preferences.glade:275
+msgid "Peer messages"
+msgstr ""
+
+#: plugins/EventLogging/event_logging_preferences.glade:290
+#: plugins/EventLogging/tab_log.py:39
+msgid "Torrent finished"
+msgstr ""
+
+#: plugins/EventLogging/event_logging_preferences.glade:304
+msgid "Select events to log"
 msgstr ""
 
 #: plugins/EventLogging/__init__.py:19
@@ -1552,7 +1557,7 @@ msgid ""
 "New events are now displayed at the top.\n"
 msgstr ""
 
-#: plugins/EventLogging/__init__.py:86
+#: plugins/EventLogging/__init__.py:89
 msgid "Event Log"
 msgstr ""
 
@@ -1805,4 +1810,136 @@ msgstr ""
 msgid ""
 "\n"
 "This is just the files tab as a plugin.\n"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:7
+msgid "FlexRSS"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:115
+msgid "Disabled"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:150
+msgid "Update Interval"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:191
+msgid "900"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:361
+msgid ""
+"Generic\n"
+"TV Show\n"
+"TV Show (dated)"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:389
+msgid "Type"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:444
+msgid "<b>Information</b>"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:516
+msgid "<b>Patterns</b>"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:560
+msgid "Doesn't Match"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:576
+msgid "Season"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:583
+msgid "Episode"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:625
+msgid "Year"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:632
+msgid "Month"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:643
+msgid "Day"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:710
+msgid "<b>Test</b>"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:743
+msgid "Deluge default"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:758
+msgid "Choose:"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:788
+msgid "<b>Output</b>"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:883
+msgid "Show button on toolbar."
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:900
+msgid "<b>Interface</b>"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:955
+msgid "gtk-new"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:967
+msgid "gtk-save"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:982
+msgid "gtk-delete"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:1006
+msgid "Domain"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:1017
+msgid "Path"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:1043
+msgid "Value"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:1116
+msgid "<b>Cookies</b>"
+msgstr ""
+
+#: plugins/AdvancedRSS/FlexRSS.glade:1138
+msgid "Configuration"
+msgstr ""
+
+#: plugins/AdvancedRSS/__init__.py:1
+msgid "Advanced RSS"
+msgstr ""
+
+#: plugins/AdvancedRSS/__init__.py:4
+msgid ""
+"\n"
+"Advanced RSS scraper\n"
+"\n"
+"This plugin is similar in purpose to Mark Adamson's excellent Simple RSS, "
+"but targets a more advanced audience. It is extremely powerful, "
+"configurable, unforgiving, and difficult.\n"
+"\n"
+"Filters use regular expressions with named patterns and strptime(3)-like "
+"format filters to match items."
 msgstr ""

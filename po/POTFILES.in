@@ -26,9 +26,9 @@ plugins/TorrentPeers/__init__.py
 plugins/TorrentPeers/tab_peers.py
 plugins/TorrentCreator/torrentcreator.glade
 plugins/TorrentCreator/__init__.py
-plugins/RSS/rss.glade
-plugins/RSS/__init__.py
-plugins/RSS/plugin.py
+plugins/SimpleRSS/rss.glade
+plugins/SimpleRSS/__init__.py
+plugins/SimpleRSS/plugin.py
 plugins/TorrentNotification/notification_preferences.glade
 plugins/TorrentNotification/__init__.py
 plugins/NetworkHealth/__init__.py

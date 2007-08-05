@@ -1,6 +1,6 @@
 
 
-class plugin_RSS:
+class plugin_SimpleRSS:
     def __init__(self, path, deluge_core, deluge_interface):
         #set up system thingies
         import gtk, gtk.glade, os, ConfigParser, feedparser
@@ -103,7 +103,7 @@ class plugin_RSS:
         icon.set_from_file(self.path + "/rss.png") # Toolbar items should be 22x22 pixel images
         self.button = gtk.ToolButton(icon_widget=icon, label=_("RSS"))
         self.ttips = gtk.Tooltips()
-        self.button.set_tooltip(self.ttips, _("RSS Broadcatcher"))
+        self.button.set_tooltip(self.ttips, _("SimpleRSS Broadcatcher"))
         self.button.connect("clicked", self.rss_clicked) # Connect the signal handler for the button
         self.toolbar.add(self.button) # Add button to toolbar
         self.button.show_all() # Show the button
