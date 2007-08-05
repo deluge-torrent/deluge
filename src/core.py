@@ -322,10 +322,8 @@ class Manager:
         return self.config.get(key)
     
     # Get file piece range
-    def get_file_piece_range(self, unique_id,\
-        file_index, file_size):
-        return deluge_core.get_file_piece_range(unique_id,\
-            file_index, file_size)
+    def get_file_piece_range(self, unique_id):
+        return deluge_core.get_file_piece_range(unique_id)
     
     # Check if piece is finished
     def has_piece(self, unique_id, piece_index):

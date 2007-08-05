@@ -5,7 +5,7 @@ import time
 
 CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
 
-class LogManager(object):
+class LogTabManager(object):
     def __init__(self, viewport, manager):
         self.log_files = False
         self.viewport = viewport
@@ -21,7 +21,7 @@ class LogManager(object):
             self.vbox.destroy()
         self.vbox = None
         
-    def prepare_log_store(self):
+    def build_log_view(self):
         self.vbox = gtk.VBox()
         self.viewport.add(self.vbox)
         self.vbox.show_all()

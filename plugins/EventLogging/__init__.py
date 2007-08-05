@@ -52,7 +52,7 @@ def enable(core, interface):
 ### The Plugin ###
 import deluge
 import gtk
-from EventLogging.tab_log import LogManager
+from EventLogging.tab_log import LogTabManager
 
 class EventLogging:
 
@@ -86,8 +86,8 @@ class EventLogging:
         self.parentNotebook.append_page(self.topWidget, gtk.Label(_("Event Log")))
         self.viewport.show()
         self.scrolledWindow.show()
-        self.tab_log = LogManager(self.viewport, self.manager)
-        self.tab_log.prepare_log_store()
+        self.tab_log = LogTabManager(self.viewport, self.manager)
+        self.tab_log.build_log_view()
         if self.config.get("enable_finished"):
             self.manager.connect_event(self.manager.constants['EVENT_FINISHED'], self.tab_log.handle_event)
         if self.config.get("enable_peer_error"):

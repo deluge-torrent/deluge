@@ -1,7 +1,7 @@
 import gtk
 import math
 
-class PiecesManager(object):
+class PiecesTabManager(object):
     def __init__(self, manager):
         self.vbox = None
         self.manager = manager
@@ -15,8 +15,6 @@ class PiecesManager(object):
         self.unique_id = -1
         self.peer_speed = []
         self.piece_info = []
-        self.first_indexes = []
-        self.last_indexes = []
         self.all_files = None
         self.file_priorities = None
         self.index = 0
@@ -24,6 +22,8 @@ class PiecesManager(object):
         self.file_index = 0
         self.next_file_index = 1
         self.num_files = 0
+        self.current_first_index = None
+        self.current_last_index = None
 
     def set_unique_id(self, unique_id):
         self.unique_id = unique_id
@@ -36,10 +36,10 @@ class PiecesManager(object):
         self.progress = []
         self.piece_info = []
         self.tooltips = []
-        self.first_indexes = []
-        self.last_indexes = []
         self.all_files = None
         self.file_priorities = None
+        self.current_first_index = None
+        self.current_last_index = None
         self.index = 0
         self.num_files = 0
         self.prev_file_index = -1
@@ -57,16 +57,13 @@ class PiecesManager(object):
         scrolledWindow.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
         self.vbox = gtk.VBox()
         viewport.add(self.vbox)
-        self.all_files = self.manager.get_torrent_file_info(self.unique_id)
+        self.all_files = self.manager.get_file_piece_range(self.unique_id)
         self.file_priorities = self.manager.get_priorities(self.unique_id)
         state = self.manager.get_torrent_state(self.unique_id)
         self.num_pieces = state["num_pieces"]
         for priority in self.file_priorities:
-            if self.file_index == 0:
-                file_piece_range = self.manager.get_file_piece_range(self.unique_id,\
-                    self.file_index, self.all_files[self.file_index]['size'])
-                self.first_indexes.append(file_piece_range['first_index'])
-                self.last_indexes.append(file_piece_range['last_index'])
+            self.current_first_index = self.all_files[self.file_index]['first_index']
+            self.current_last_index = self.all_files[self.file_index]['last_index']
             if priority > 0:
             #if file is being downloaded build the file pieces information
                 self.build_file_pieces()
@@ -87,11 +84,11 @@ class PiecesManager(object):
         label.set_text(self.all_files[self.file_index]['path'])
         self.vbox.pack_start(label, expand=False)
         table = gtk.Table()
-        self.rows = int(math.ceil((self.last_indexes[self.file_index]-self.first_indexes[self.file_index])/self.columns)+1)
+        self.rows = int(math.ceil((self.current_last_index-self.current_first_index)/self.columns)+1)
         self.vbox.pack_start(table, expand=False)
         table.resize(self.rows, self.columns)
         table.set_size_request((self.columns+1)*self.piece_width, (self.rows+1)*self.piece_height)
-        if self.last_indexes[self.file_index] != self.first_indexes[self.file_index]:
+        if self.current_last_index != self.current_first_index:
         #if there is more than one piece
             self.build_pieces_table(table)
             only_one_piece = False
@@ -99,14 +96,12 @@ class PiecesManager(object):
         #if file only has one piece
             self.index = 0
             only_one_piece = True
-        main_index = self.last_indexes[self.file_index]
-        # do the following even if file has only one piece and that piece has already been created
-        if self.next_file_index < len(self.all_files):
-        #if there is another file
-            file_piece_range = self.manager.get_file_piece_range(self.unique_id,\
-                self.next_file_index, self.all_files[self.next_file_index]['size'])
-            self.first_indexes.append(file_piece_range['first_index'])
-            self.last_indexes.append(file_piece_range['last_index'])
+        self.piece_info.append({'blocks_total':0, 'blocks_finished':0, 'blocks_requested':0})
+        self.progress.append(gtk.ProgressBar())
+        self.tooltips.append(gtk.Tooltips())
+        self.eventboxes.append(gtk.EventBox())
+        self.peer_speed.append("unknown")
+        main_index = self.current_last_index
         if self.file_index > 0 and not self.piece_info[main_index] is None and only_one_piece:
         #if file has only one piece and it is shared destroy the table
             table.destroy()
@@ -117,10 +112,11 @@ class PiecesManager(object):
 
     def build_pieces_table(self, table):
         temp_prev_priority = 1
-        if self.first_indexes[self.file_index] == 0\
-            or self.first_indexes[self.file_index] != self.last_indexes[self.prev_file_index]:
+        if self.current_first_index == 0\
+            or self.current_first_index !=\
+                self.all_files[self.prev_file_index]['last_index']:
         #if first piece is not a shared piece
-            temp_range = self.last_indexes[self.file_index]-self.first_indexes[self.file_index]
+            temp_range = self.current_last_index-self.current_first_index
             diff = 0
         else:
         #if first piece is shared
@@ -128,15 +124,16 @@ class PiecesManager(object):
             if temp_prev_priority > 0:
             #if last file was not skipped, skip the first piece
                 diff = 1
-                temp_range = self.last_indexes[self.file_index]-(self.first_indexes[self.file_index]+1)
+                temp_range = self.current_last_index-(self.current_first_index+1)
             #otherwise keep the first piece
             else:
                 diff = 0
-                temp_range = self.last_indexes[self.file_index]-self.first_indexes[self.file_index]
+                temp_range = self.current_last_index-self.current_first_index
         #last piece handled outside of loop, skip it from range
+        temp_first_index = self.current_first_index
         for index in xrange(temp_range):
             gtk.main_iteration_do(False)
-            main_index = diff+self.first_indexes[self.file_index]+index
+            main_index = diff+temp_first_index+index
             if temp_prev_priority > 0:
             #normal behavior
                 self.piece_info.append({'blocks_total':0, 'blocks_finished':0, 'blocks_requested':0})
@@ -161,23 +158,18 @@ class PiecesManager(object):
             else:
             #if piece is not already finished
                 self.tooltips[main_index].set_tip(self.eventboxes[main_index], _("Piece not started"))
-        self.piece_info.append({'blocks_total':0, 'blocks_finished':0, 'blocks_requested':0})
-        self.progress.append(gtk.ProgressBar())
-        self.tooltips.append(gtk.Tooltips())
-        self.eventboxes.append(gtk.EventBox())
-        self.peer_speed.append("unknown")
-        self.index = index+1
+        self.index = temp_range
 
     def build_last_file_piece(self, table, main_index, only_one_piece):
         gtk.main_iteration_do(False)
-        if only_one_piece:
+        if only_one_piece and self.file_index > 0:
         #if piece is shared with a skipped file
             self.share_skipped_piece(main_index)
         self.progress[main_index].set_size_request(self.piece_width, self.piece_height)
         if self.next_file_index < len(self.all_files):
         # if there is another file
             if self.file_priorities[self.next_file_index]==0\
-                or self.last_indexes[self.file_index] != self.first_indexes[self.next_file_index]:
+                or self.current_last_index != self.all_files[self.next_file_index]['first_index']:
             #if next file is skipped or there is no shared piece, keep last piece
                 row=self.index/self.columns
                 column=self.index%self.columns
@@ -185,7 +177,7 @@ class PiecesManager(object):
                     xoptions=0, yoptions=0, xpadding=0, ypadding=0)
                 self.eventboxes[main_index].add(self.progress[main_index])
             if self.file_priorities[self.next_file_index]>0\
-                and self.last_indexes[self.file_index] == self.first_indexes[self.next_file_index]:
+                and self.current_last_index == self.all_files[self.next_file_index]['first_index']:
             #if next file is not skipped and there is a shared piece, do not keep last piece
                 if only_one_piece:
                 #only piece in file is shared, destroy table for file
@@ -224,26 +216,20 @@ class PiecesManager(object):
         self.peer_speed[main_index] = "unknown"
 
     def skip_current_file(self):
-        if self.first_indexes[self.file_index] == 0 or self.first_indexes[self.file_index] != self.last_indexes[self.prev_file_index]:
+        if self.current_first_index == 0\
+            or self.current_first_index !=\
+                self.all_files[self.prev_file_index]['last_index']:
         #if first piece is not shared
-            temp_range = 1+self.last_indexes[self.file_index]-self.first_indexes[self.file_index]
+            temp_range = 1+self.current_last_index-self.current_first_index
         else:
         #if first piece is shared
-            temp_range = self.last_indexes[self.file_index]-self.first_indexes[self.file_index]
+            temp_range = self.current_last_index-self.current_first_index
         for index in xrange(temp_range):
             self.piece_info.append(None)
             self.progress.append(None)
             self.eventboxes.append(None)
             self.tooltips.append(None)
             self.peer_speed.append(None)
-        if self.next_file_index < len(self.all_files):
-        #if there is another file
-            file_piece_range = self.manager.get_file_piece_range(self.unique_id,\
-                self.next_file_index, self.all_files[self.next_file_index]['size'])
-            self.first_indexes.append(file_piece_range['first_index'])
-            self.last_indexes.append(file_piece_range['last_index'])
-            if self.last_indexes[self.next_file_index] >= self.num_pieces:
-                self.last_indexes[self.next_file_index] = self.num_pieces-1
 
     def handle_event(self, event):
         #protect against pieces trying to display after file priority changed

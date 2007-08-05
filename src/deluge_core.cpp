@@ -1269,21 +1269,40 @@ static PyObject *torrent_get_file_info(PyObject *self, PyObject *args)
 static PyObject *torrent_get_file_piece_range(PyObject *self, PyObject *args)
 {
     python_long unique_ID;
-    int file_index, file_size;
-    if (!PyArg_ParseTuple(args, "iii", &unique_ID, &file_index, &file_size))
+    if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
 
     long index = get_index_from_unique_ID(unique_ID);
     if (PyErr_Occurred())
         return NULL;
+
+    std::vector<PyObject *> temp_files;
+
     torrent_info const &info = M_torrents->at(index).handle.get_torrent_info();
-    peer_request first_index = info.map_file(file_index, 0, 1);
-    peer_request last_index = info.map_file(file_index, file_size-1, 1);
-    return Py_BuildValue(
-        "{s:i,s:i}",
-        "first_index",     first_index.piece,
-        "last_index",      last_index.piece
-        );
+    int file_index = 0;
+    PyObject *file_info;
+
+    for(torrent_info::file_iterator i = info.begin_files(); i != info.end_files(); ++i)
+    {
+        file_entry const &currFile = (*i);
+        peer_request first_index = info.map_file(file_index, 0, 1);
+        peer_request last_index = info.map_file(file_index, currFile.size-1, 1);
+        file_info = Py_BuildValue(
+            "{s:i,s:i,s:s}",
+            "first_index",     first_index.piece,
+            "last_index",      last_index.piece,
+            "path",            currFile.path.string().c_str()
+            );
+        file_index++;
+        temp_files.push_back(file_info);
+    };
+
+    PyObject *ret = PyTuple_New(temp_files.size());
+
+    for (unsigned long i = 0; i < temp_files.size(); i++)
+        PyTuple_SetItem(ret, i, temp_files[i]);
+
+    return ret;
 };
 
 /*static PyObject *torrent_get_unique_IDs(PyObject *self, PyObject *args)

@@ -1,31 +1,30 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
-# tab_details.py
-
 from itertools import izip
-
+from deluge import dgtk
+from deluge import common
 import gobject
 import gtk
-
-import common
-import dgtk
-
 class PeersTabManager(object):
     def __init__(self, peer_view, manager):
         self.peer_view = peer_view
         self.manager = manager
-
+        self.peer_unique_id = None
         # IP int, IP string, Client, Percent Complete, Down Speed, Up Speed
         # IP int is for faster sorting
         self.peer_store = gtk.ListStore(gobject.TYPE_UINT, gtk.gdk.Pixbuf, 
                                         str, str, float, int, int)
         # Stores IP -> gtk.TreeIter's iter mapping for quick look up 
         # in update_torrent_info_widget
-        self.peer_store_dict = {}
-        
+        self.peer_store_dict = {}       
         self._cached_flags = {}
-    
+
+    def clear_peer_store(self):
+        self.peer_store.clear()
+        self.peer_store_dict = {}
+        self.peer_unique_id = None
+
+    def set_unique_id(self, unique_id):
+        self.peer_unique_id = unique_id
+
     def build_peers_view(self):
         def percent(column, cell, model, iter, data):
             percent = float(model.get_value(iter, data))
@@ -44,11 +43,7 @@ class PeersTabManager(object):
                              dgtk.cell_data_speed, 5)
         dgtk.add_func_column(self.peer_view, _("Up Speed"), 
                              dgtk.cell_data_speed, 6)
-        
-    def clear_store(self):
-        self.peer_store.clear()
-        self.peer_store_dict = {}
-    
+
     def get_country_flag_image(self, country):
         flag_image = None
         if country.isalpha():
@@ -65,9 +60,9 @@ class PeersTabManager(object):
                 self._cached_flags[country] = flag_image
             
         return flag_image
-    
-    def update(self, unique_id):
-        new_peer_info = self.manager.get_torrent_peer_info(unique_id)
+        
+    def update_peer_store(self):
+        new_peer_info = self.manager.get_torrent_peer_info(self.peer_unique_id)
         new_ips = set()
         
         for peer in new_peer_info:

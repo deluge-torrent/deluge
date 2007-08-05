@@ -47,8 +47,7 @@ import dgtk
 import ipc_manager
 import plugins
 import tab_details
-import tab_files
-import tab_peers
+import files
 
 class DelugeGTK:
     def __init__(self):
@@ -81,12 +80,6 @@ class DelugeGTK:
         # Tabs
         self.tab_details = tab_details.DetailsTabManager(self.wtree,
                                                          self.manager)
-        self.tab_peers = tab_peers.PeersTabManager(
-                             self.wtree.get_widget("peer_view"), self.manager)
-        self.tab_peers.build_peers_view()
-        self.tab_files = tab_files.FilesTabManager(
-                             self.wtree.get_widget("file_view"), self.manager)
-        self.tab_files.build_file_view()
         
         self.statusbar = self.wtree.get_widget("statusbar")
         
@@ -579,9 +572,6 @@ class DelugeGTK:
             # Torrent is already selected, we don't need to do anything
             return True
         
-        self.tab_peers.clear_store()
-        self.tab_files.clear_file_store()
-        
         unique_id = model.get_value(model.get_iter(path), 0)
         self.update_torrent_info_widget(unique_id)
         
@@ -982,14 +972,6 @@ class DelugeGTK:
         
         if page_num == 0: # Details
             self.tab_details.update(unique_id)
-        elif page_num == 1: # Peers
-            self.tab_peers.update(unique_id)
-        elif page_num == 2: # Files
-            # Fill self.file_store with files only once and only when we click to
-            # Files tab or it's already open
-            self.tab_files.set_unique_id(unique_id)
-            self.tab_files.prepare_file_store()
-            self.tab_files.update_file_store()
     
     # Return the id of the last single selected torrent
     def get_selected_torrent(self):
@@ -1152,8 +1134,6 @@ class DelugeGTK:
     
     def clear_details_pane(self):
         self.tab_details.clear()
-        self.tab_peers.clear_store()
-        self.tab_files.clear_file_store()
 
     def remove_toggle_warning(self, args, warning):
         if not args.get_active():

@@ -50,7 +50,7 @@ def enable(core, interface):
 ### The Plugin ###
 import deluge
 import gtk
-from TorrentPieces.tab_pieces import PiecesManager
+from TorrentPieces.tab_pieces import PiecesTabManager
 
 class TorrentPieces:
 
@@ -66,7 +66,7 @@ class TorrentPieces:
 
         self.parentNotebook.append_page(self.topWidget, gtk.Label(_("Pieces")))
         self.topWidget.show_all()
-        self.tab_pieces = PiecesManager(self.manager)
+        self.tab_pieces = PiecesTabManager(self.manager)
 
     def unload(self):
         self.manager.disconnect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_pieces.handle_event)

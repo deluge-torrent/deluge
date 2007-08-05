@@ -34,7 +34,7 @@ import gtk
 
 import common
 import dgtk
-import tab_files
+import files
 import pref
 
 PREFS_FILENAME  = "prefs.state"
@@ -284,7 +284,7 @@ class FilesDlg:
         self.dialog = self.glade.get_widget("file_dialog")
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
         
-        self.files_manager = tab_files.FilesDialogManager(
+        self.files_manager = files.FilesDialogManager(
                                  self.glade.get_widget("file_view"),
                                  dumped_torrent)
         self.files_manager.build_file_view()
