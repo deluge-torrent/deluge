@@ -40,7 +40,6 @@ class TorrentPeers:
 
     def __init__(self, path, core, interface):
         print "Loading TorrentPeers plugin..."
-        self.manager = core
         self.parent = interface
         self.config_file = deluge.common.CONFIG_DIR + "/peers.conf"
         self.config = deluge.pref.Preferences(self.config_file)
@@ -57,30 +56,27 @@ class TorrentPeers:
                                         'on_button_cancel_pressed': self.cancel_pressed,
                                         'on_button_ok_pressed': self.ok_pressed
                                       })
-        treeView = gtk.TreeView()
-        scrolledWindow = gtk.ScrolledWindow()
-        scrolledWindow.add(treeView)
-        scrolledWindow.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        tree_view = gtk.TreeView()
+        scrolled_window = gtk.ScrolledWindow()
+        scrolled_window.add(tree_view)
+        scrolled_window.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        self.top_widget = scrolled_window
 
-        self.topWidget = scrolledWindow
-
-        self.parentNotebook = self.parent.notebook
-
-        self.parentNotebook.append_page(self.topWidget, gtk.Label(_("Peers")))
-        treeView.show()
-        scrolledWindow.show()
-        self.tab_peers = PeersTabManager(treeView, self.manager)
-        self.rebuild_view = False
+        self.parent_notebook = self.parent.notebook
+        self.parent_notebook.append_page(self.top_widget, 
+                                         gtk.Label(_("Peers")))
+        
+        tree_view.show()
+        scrolled_window.show()
+        
+        self.tab_peers = PeersTabManager(tree_view, core)
         self.update_config()
         self.tab_peers.build_peers_view()
 
     def unload(self):
         self.tab_peers.clear_peer_store()
-        numPages = self.parentNotebook.get_n_pages()
-        for page in xrange(numPages):
-            if self.parentNotebook.get_nth_page(page) == self.topWidget:
-                self.parentNotebook.remove_page(page)
-                break
+        tab_page = self.parent_notebook.page_num(self.top_widget)
+        self.parent_notebook.remove_page(tab_page)
         self.config.save(self.config_file)
 
     def configure(self, window):
@@ -108,7 +104,7 @@ class TorrentPeers:
         self.dialog.set_transient_for(window)
         self.dialog.show()
 
-    def update_config(self, rebuild_view=False):
+    def update_config(self):
         if self.config.get("enable_flags"):
             self.tab_peers.enable_flags()
             if self.config.get("size_18"):
@@ -121,7 +117,6 @@ class TorrentPeers:
                 self.tab_peers.set_flag_size("25x15")
         else:
             self.tab_peers.disable_flags()
-            self.rebuild_view = rebuild_view
             
 
     def toggle_ui(self, widget):
@@ -138,37 +133,34 @@ class TorrentPeers:
     def update(self):
         if not self.parent.update_interface:
             return
-        numPages = self.parentNotebook.get_n_pages()
-        for page in xrange(numPages):
-            if self.parentNotebook.get_nth_page(page) == self.topWidget:
-                unique_id = self.parent.get_selected_torrent()
-                if unique_id is None:
-                #if no torrents added or more than one torrent selected
-                    self.tab_peers.clear_peer_store()
-                    return
-                if self.tab_peers.peer_unique_id != unique_id:
-                    self.tab_peers.clear_peer_store()
-                    self.tab_peers.set_unique_id(unique_id)
-                    self.tab_peers.update_peer_store()
-                else:
-                    if self.rebuild_view:
-                        self.tab_peers.clear_peer_store()
-                        self.tab_peers.set_unique_id(unique_id)
-                        self.tab_peers.rebuild_peer_view(self.topWidget)
-                        self.tab_peers.update_peer_store()
-                        self.rebuild_view = False
-                    self.tab_peers.update_peer_store()
-                break
+        
+        tab_page = self.parent_notebook.page_num(self.top_widget)
+        current_page = self.parent_notebook.get_current_page()
+        
+        if tab_page == current_page:
+            unique_id = self.parent.get_selected_torrent()
+            if unique_id is None:
+            #if no torrents added or more than one torrent selected
+                self.tab_peers.clear_peer_store()
+                self.tab_peers.set_unique_id(None)
+                return
+            if self.tab_peers.peer_unique_id != unique_id:
+                self.tab_peers.clear_peer_store()
+                self.tab_peers.set_unique_id(unique_id)
+                self.tab_peers.update_peer_store()
+            else:
+                self.tab_peers.update_peer_store()
 
     def ok_pressed(self, src):
         self.dialog.hide()
-        if self.config.get("enable_flags") and not self.glade.get_widget("chk_flags").get_active():
-            rebuild_view = True
-        else:
-            rebuild_view = False
+        if self.config.get("enable_flags") and not \
+           self.glade.get_widget("chk_flags").get_active():
+            self.tab_peers.clear_peer_store()
+            self.tab_peers.rebuild_peer_view(self.top_widget)
+            self.tab_peers.update_peer_store()
         self.config.set("enable_flags", self.glade.get_widget("chk_flags").get_active())
         self.config.set("size_18", self.glade.get_widget("radio_18").get_active())
-        self.update_config(rebuild_view)
+        self.update_config()
 
     def cancel_pressed(self, src):
         self.dialog.hide()

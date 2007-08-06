@@ -27,10 +27,10 @@ class PeersTabManager(object):
     def set_unique_id(self, unique_id):
         self.peer_unique_id = unique_id
 
-    def rebuild_peers_view(self, scrolledWindow):
+    def rebuild_peers_view(self, top_widget):
         self.peer_view.destroy()
         self.peer_view = gtk.TreeView()
-        scrolledWindow.add(self.peer_view)
+        top_widget.add(self.peer_view)
 
     def build_peers_view(self):
         def percent(column, cell, model, iter, data):
@@ -65,7 +65,7 @@ class PeersTabManager(object):
 
     def get_country_flag_image(self, country):
         flag_image = None
-        if country.isalpha() and self.show_flags:
+        if self.show_flags and country.isalpha():
             if country in self._cached_flags:
                 flag_image = self._cached_flags[country]
             else:
