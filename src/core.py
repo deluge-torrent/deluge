@@ -978,11 +978,9 @@ class Manager:
                 pass
             else:
                 self.set_user_pause(unique_ID, True, enforce_queue=False)
-        self.pickle_state()
 
     def resume_all(self):
         for index, unique_ID in enumerate(self.state.queue):
             torrent_state = self.get_core_torrent_state(unique_ID)
             if torrent_state['is_paused']:
                 self.set_user_pause(unique_ID, False, enforce_queue=True)
-        self.pickle_state()
