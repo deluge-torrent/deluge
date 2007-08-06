@@ -609,6 +609,7 @@ class Manager:
                     raise StorageMoveFailed(_("You cannot move torrent to a different partition.  Please fix your preferences"))
                 elif event['message'] == self.get_pref('default_finished_path'):
                     self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
+                    self.pickle_state()
                     
             elif event['event_type'] is self.constants['EVENT_FINISHED']:
                 if event['message'] == "torrent has finished downloading":
@@ -706,6 +707,7 @@ class Manager:
         self.unique_IDs[unique_ID].user_paused = new_value
         if enforce_queue:
             self.apply_queue()
+        self.sync()
 
     def set_ratio(self, unique_ID, num):
         deluge_core.set_ratio(unique_ID, float(num))
@@ -976,9 +978,11 @@ class Manager:
                 pass
             else:
                 self.set_user_pause(unique_ID, True, enforce_queue=False)
+        self.pickle_state()
 
     def resume_all(self):
         for index, unique_ID in enumerate(self.state.queue):
             torrent_state = self.get_core_torrent_state(unique_ID)
             if torrent_state['is_paused']:
                 self.set_user_pause(unique_ID, False, enforce_queue=True)
+        self.pickle_state()
