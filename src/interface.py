@@ -160,8 +160,15 @@ class DelugeGTK:
                     })
         
     def notebook_switch_page(self, notebook, page, page_num):
-        # Force an update when user changes the notebook tab
-        self.update_torrent_info_widget(page_num)
+        # Force an update when user changes the notebook tab.
+        # See notes in torrent_clicked() why we doing it this way. The only
+        # difference here is that notebook_switch_page() is called by signal
+        # 'switch-page' from GTK before notebook is switched to page_num, so
+        # queue up update routines so they are called after page is actually
+        # showed. See docs on 'switch-page' signal for gtk.Notebook.
+        
+        gobject.timeout_add(10, self.update_torrent_info_widget)
+        gobject.timeout_add(10, self.plugins.update_active_plugins)
     
     def pause_all_clicked(self, arg=None):
         self.manager.pause_all()
@@ -949,14 +956,13 @@ class DelugeGTK:
         
         self.tray_icon.set_tooltip(msg)
         
-    def update_torrent_info_widget(self, page_num=None):
+    def update_torrent_info_widget(self):
         unique_id = self.get_selected_torrent()
         # If no torrents added
         if unique_id is None:
             return
-        # page_num is to force update info when user just changes tab
-        if page_num is None:
-            page_num = self.wtree.get_widget("torrent_info").get_current_page()
+        
+        page_num = self.wtree.get_widget("torrent_info").get_current_page()
         
         if page_num == 0: # Details
             self.tab_details.update(unique_id)
