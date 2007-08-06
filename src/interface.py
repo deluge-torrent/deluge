@@ -901,16 +901,12 @@ class DelugeGTK:
                 torrent_selection.select_path("0")
                 selection_count = 1
             
-            unique_id = None
             if selection_count == 1:
                 unique_id = self.get_selected_torrent()
                 self.update_torrent_info_widget(unique_id)
             else: # selection_count > 1
                 self.clear_details_pane()
                 
-                # Update tool buttons below based on the first selected torrent's state
-                path = torrent_selection.get_selected_rows()[1][0]
-                unique_id = self.torrent_model.get_value(self.torrent_model.get_iter(path), 0)
         return True
             
     def update_statusbar_and_tray(self):
