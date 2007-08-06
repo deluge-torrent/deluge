@@ -31,8 +31,8 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import os.path
-
+import os
+import signal
 import gobject
 import pygtk
 pygtk.require('2.0')
@@ -123,7 +123,9 @@ class DelugeGTK:
         if self.config.get("new_releases"):
             new_release_check()
 
-        
+        signal.signal(signal.SIGTERM, self.manager.quit)
+        signal.signal(signal.SIGHUP, self.manager.quit)
+
     def connect_signals(self):
         self.wtree.signal_autoconnect({
                     ## File Menu
@@ -794,7 +796,6 @@ class DelugeGTK:
         # Call update now so everything is up-to-date when the window gains 
         # focus on startup
         self.update()
-        
         gobject.timeout_add(1000, self.update)
         try:
             gtk.main()
@@ -1297,7 +1298,7 @@ class DelugeGTK:
             else:
                 self.window.hide()
                 self.shutdown()
-    
+
     def shutdown(self):
         enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
         self.config.set('enabled_plugins', enabled_plugins)
