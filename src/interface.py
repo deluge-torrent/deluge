@@ -593,11 +593,6 @@ class DelugeGTK:
                 self.torrent_view.grab_focus()
                 self.torrent_view.set_cursor(path, col, 0)
                 
-            unique_id = self.torrent_model.get_value(self.torrent_model.get_iter(path), 0)
-            # Get the torrent state so we can check if the torrent is paused.
-            torrent_state = self.manager.get_torrent_state(unique_id)
-            widget = self.torrent_glade.get_widget("menu_pause")
-            
             self.torrent_menu.popup(None, None, None, event.button, 
                                     event.time)
             
