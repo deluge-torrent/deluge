@@ -53,7 +53,7 @@ class PreferencesDlg:
         self.preferences = preferences
         self.active_port = str(active_port)
         
-    def show(self, interface):
+    def show(self, interface, window):
         # Load settings into dialog
         try:
             self.glade.get_widget("combo_encin").set_active(self.preferences.get("encin_state"))
@@ -146,6 +146,7 @@ class PreferencesDlg:
         except KeyError:
             pass
         # Now, show the dialog
+        self.dialog.set_transient_for(window)
         self.dialog.show()
 
     def ok_pressed(self, source, interface):
@@ -278,7 +279,8 @@ class MergeDlg:
         self.dialog.set_position(gtk.WIN_POS_CENTER)
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
     
-    def show(self):
+    def show(self, window):
+        self.dialog.set_transient_for(window)
         self.dialog.show()
         r = self.dialog.run()
         self.dialog.hide()
@@ -299,10 +301,10 @@ class FilesDlg:
         self.files_manager.build_file_view()
         self.files_manager.prepare_file_store()
     
-    def show(self):
+    def show(self, window):
         #clear private setting
         self.glade.get_widget("chk_setpriv").set_active(False)
-        
+        self.dialog.set_transient_for(window)
         self.dialog.show()
         r = self.dialog.run()
         self.dialog.hide()
@@ -337,7 +339,7 @@ class PluginDlg:
         self.glade.signal_autoconnect(signals)
         self.plugins = plugins
 
-    def show(self):
+    def show(self, window):
         self.store.clear()
         for plugin in self.plugins.get_available_plugins():
             #print plugin
@@ -347,6 +349,7 @@ class PluginDlg:
                 self.store.append( (plugin, False) )
         self.glade.get_widget("plugin_text").get_buffer().set_text("")
         self.glade.get_widget("plugin_conf").set_sensitive(False)
+        self.dialog.set_transient_for(window)
         self.dialog.show()
 
     def close_pressed(self, source):
@@ -389,7 +392,7 @@ class PluginDlg:
     def plugin_pref(self, widget=None):
         (model, plugin_iter) = self.view.get_selection().get_selected()
         plugin_name = self.store.get_value(plugin_iter, 0)
-        self.plugins.configure_plugin(plugin_name)
+        self.plugins.configure_plugin(plugin_name, self.dialog)
 
 
 def show_about_dialog(parent=None):

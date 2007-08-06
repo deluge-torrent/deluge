@@ -90,8 +90,8 @@ class PluginManager:
         else:
             return False
 
-    def configure_plugin(self, name):
-        self.enabled_plugins[name].configure()
+    def configure_plugin(self, name, window):
+        self.enabled_plugins[name].configure(window)
     
     def update_active_plugins(self):
         for name in self.enabled_plugins.keys():

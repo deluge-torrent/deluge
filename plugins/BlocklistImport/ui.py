@@ -9,12 +9,13 @@ import BlocklistImport
 class GTKConfig(gtk.Dialog):
     def __init__(self, plugin):
         gtk.Dialog.__init__(self, title="Blocklist Config",
-                            flags=gtk.DIALOG_MODAL,
+                            flags=gtk.DIALOG_DESTROY_WITH_PARENT,
                             buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
                                      gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
+        self.set_property("skip-taskbar-hint", True)
+        self.set_property("skip-pager-hint", True)
 
         self.plugin = plugin
-
         # Setup
         self.set_border_width(12)
         self.vbox.set_spacing(6)
@@ -73,7 +74,8 @@ class GTKConfig(gtk.Dialog):
     def cancel(self, dialog):
         self.hide_all()
 
-    def start(self, ltype, url, load):
+    def start(self, ltype, url, load, window):
+        self.set_transient_for(window)
         if ltype:
             path = BlocklistImport.readers[ltype][2]
             i = self.listtype.get_model().get_iter(path)

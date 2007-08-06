@@ -16,6 +16,8 @@ class PeersTabManager(object):
         # in update_torrent_info_widget
         self.peer_store_dict = {}       
         self._cached_flags = {}
+        self.show_flags = None
+        self.flag_size = ""
 
     def clear_peer_store(self):
         self.peer_store.clear()
@@ -24,6 +26,11 @@ class PeersTabManager(object):
 
     def set_unique_id(self, unique_id):
         self.peer_unique_id = unique_id
+
+    def rebuild_peers_view(self, scrolledWindow):
+        self.peer_view.destroy()
+        self.peer_view = gtk.TreeView()
+        scrolledWindow.add(self.peer_view)
 
     def build_peers_view(self):
         def percent(column, cell, model, iter, data):
@@ -44,16 +51,28 @@ class PeersTabManager(object):
         dgtk.add_func_column(self.peer_view, _("Up Speed"), 
                              dgtk.cell_data_speed, 6)
 
+    def enable_flags(self):
+        self.show_flags = True
+
+    def disable_flags(self):
+        self.show_flags = False
+
+    def clear_flag_cache(self):
+        self._cached_flags = {}
+
+    def set_flag_size(self, size):
+        self.flag_size = size
+
     def get_country_flag_image(self, country):
         flag_image = None
-        if country.isalpha():
+        if country.isalpha() and self.show_flags:
             if country in self._cached_flags:
                 flag_image = self._cached_flags[country]
             else:
                 try:
+                    flag_path = "flags" + self.flag_size + '/' + str(country.lower()) + '.png'
                     flag_image = gtk.gdk.pixbuf_new_from_file(
-                                        common.get_pixmap('flags/%s.png' % 
-                                                          country.lower()))
+                                        common.get_pixmap(flag_path))
                 except gobject.GError:
                     pass
                     

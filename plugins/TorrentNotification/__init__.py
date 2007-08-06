@@ -99,7 +99,7 @@ class TorrentNotification:
         else:
             print "there was a problem initializing the pynotify module"
 
-    def configure(self):
+    def configure(self, window):
         import os.path
         try:
             self.glade.get_widget("chk_tray_blink").set_active(self.config.get("enable_tray_blink"))
@@ -113,6 +113,7 @@ class TorrentNotification:
             self.glade.get_widget("chk_sound").set_active(False)
             self.glade.get_widget("sound_path_button").set_filename(os.path.expanduser("~/"))
             self.glade.get_widget("sound_path_button").set_sensitive(False)
+        self.dialog.set_transient_for(window)
         self.dialog.show()
 
     def dialog_ok(self, source):

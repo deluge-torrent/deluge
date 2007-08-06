@@ -574,7 +574,7 @@ class DelugeGTK:
         
         unique_id = model.get_value(model.get_iter(path), 0)
         self.update_torrent_info_widget(unique_id)
-        
+        self.plugins.update_active_plugins()
         return True
     
     def torrent_view_clicked(self, widget, event):
@@ -639,7 +639,7 @@ class DelugeGTK:
         active_port = self.manager.get_state()['port']
         preferences_dialog = dialogs.PreferencesDlg(self.config, active_port)
         # Only apply the prefs if the user pressed OK in the prefs dialog
-        preferences_dialog.show(self)
+        preferences_dialog.show(self, self.window)
 
     def show_preferences_dialog_clicked(self, arg=None):
         if self.config.get("lock_tray") == True:
@@ -649,7 +649,7 @@ class DelugeGTK:
     
     def show_plugin_dialog_clicked(self, arg=None):
         plugin_dialog = dialogs.PluginDlg(self.plugins)
-        plugin_dialog.show()
+        plugin_dialog.show(self.window)
     
     def apply_prefs(self):
         # Show tray icon if necessary
@@ -1032,7 +1032,7 @@ class DelugeGTK:
             dumped_torrent = self.manager.dump_torrent_file_info(torrent)
             if self.config.get('enable_files_dialog'):
                 files_dialog = dialogs.FilesDlg(dumped_torrent)
-                if files_dialog.show() == 1:
+                if files_dialog.show(self.window) == 1:
                     unique_id = self.manager.add_torrent(torrent, path, 
                                     self.config.get('use_compact_storage'))
                     self.manager.prioritize_files(unique_id, 
@@ -1054,7 +1054,7 @@ class DelugeGTK:
                     break
             if is_duplicate:
                 merge_dialog = dialogs.MergeDlg()
-                if merge_dialog.show() == 1:
+                if merge_dialog.show(self.window) == 1:
                     new_trackers_as_list = self.manager.dump_trackers(torrent).replace(' ','').splitlines(True)
                     original_trackers_as_list = self.manager.get_trackers(unique_id).replace(' ','').splitlines(True)
                     for index in xrange(len(new_trackers_as_list)):

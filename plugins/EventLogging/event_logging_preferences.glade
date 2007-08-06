@@ -8,6 +8,9 @@
     <property name="default_width">400</property>
     <property name="default_height">150</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="skip_pager_hint">True</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
@@ -26,7 +29,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">19</property>
@@ -51,7 +53,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">17</property>
@@ -66,7 +67,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">16</property>
@@ -81,7 +81,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">15</property>
@@ -96,7 +95,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">14</property>
@@ -111,7 +109,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">13</property>
@@ -126,7 +123,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">12</property>
@@ -141,7 +137,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">11</property>
@@ -156,7 +151,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">10</property>
@@ -171,7 +165,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">9</property>
@@ -186,7 +179,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">8</property>
@@ -201,7 +193,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">7</property>
@@ -216,7 +207,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">6</property>
@@ -231,7 +221,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">5</property>
@@ -246,7 +235,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">4</property>
@@ -261,7 +249,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">3</property>
@@ -276,7 +263,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">2</property>
@@ -291,7 +277,6 @@
                 <property name="use_underline">True</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
-                <signal name="toggled" handler="toggle_ui"/>
               </widget>
               <packing>
                 <property name="top_attach">1</property>

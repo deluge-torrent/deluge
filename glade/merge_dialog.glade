@@ -9,6 +9,9 @@
     <property name="default_width">200</property>
     <property name="default_height">50</property>
     <property name="has_separator">False</property>
+    <property name="destroy_with_parent">True</property>
+    <property name="skip_taskbar_hint">True</property>
+    <property name="skip_pager_hint">True</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>

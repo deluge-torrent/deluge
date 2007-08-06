@@ -73,7 +73,6 @@ class EventLogging:
         self.dialog = self.glade.get_widget("dialog")
         self.dialog.set_position(gtk.WIN_POS_CENTER)
         self.glade.signal_autoconnect({
-                                        'toggle_ui': self.toggle_ui,
                                         'on_button_cancel_pressed': self.cancel_pressed,
                                         'on_button_ok_pressed': self.ok_pressed
                                       })
@@ -174,101 +173,7 @@ class EventLogging:
     def update(self):
         pass
 
-    def toggle_ui(self, widget):
-        if not self.dialog_initialize:
-            value = widget.get_active()
-            if widget == self.glade.get_widget("chk_finished"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_FINISHED'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_FINISHED'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_peer_error"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_PEER_ERROR'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_PEER_ERROR'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_invalid_request"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_INVALID_REQUEST'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_INVALID_REQUEST'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_file_error"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_FILE_ERROR'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_FILE_ERROR'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_hash_failed_error"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_HASH_FAILED_ERROR'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_HASH_FAILED_ERROR'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_peer_ban_error"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_PEER_BAN_ERROR'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_PEER_BAN_ERROR'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_fastresume_rejected_error"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_FASTRESUME_REJECTED_ERROR'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_FASTRESUME_REJECTED_ERROR'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_tracker_announce"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_TRACKER_ANNOUNCE'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_TRACKER_ANNOUNCE'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_tracker_reply"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_TRACKER_REPLY'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_TRACKER_REPLY'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_tracker_alert"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_TRACKER_ALERT'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_TRACKER_ALERT'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_tracker_warning"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_TRACKER_WARNING'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_TRACKER_WARNING'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_storage_moved"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_STORAGE_MOVED'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_STORAGE_MOVED'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_piece_finished"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_block_downloading"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_block_finished"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_peer_blocked"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_PEER_BLOCKED'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_PEER_BLOCKED'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_other"):
-                if value:
-                    self.manager.connect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
-                else:
-                    self.manager.disconnect_event(self.manager.constants['EVENT_OTHER'], self.tab_log.handle_event)
-            if widget == self.glade.get_widget("chk_log_files"):
-                if value:
-                    self.tab_log.enable_log_files()
-                else:
-                    self.tab_log.disable_log_files()
-
-    def configure(self):
+    def configure(self, window):
         self.dialog_initialize = True
         try:
             self.glade.get_widget("chk_finished").set_active(self.config.get("enable_finished"))
@@ -343,27 +248,55 @@ class EventLogging:
         except:
             self.glade.get_widget("chk_log_files").set_active(False)
         self.dialog_initialize = False
+        self.dialog.set_transient_for(window)
         self.dialog.show()
+
+    def update_config(self, event_id, value):
+        if value:
+            self.manager.connect_event(event_id, self.tab_log.handle_event)
+        else:
+            self.manager.disconnect_event(event_id, self.tab_log.handle_event)
 
     def ok_pressed(self, src):
         self.dialog.hide()
+        self.update_config(self.manager.constants['EVENT_FINISHED'], self.glade.get_widget("chk_finished").get_active())
         self.config.set("enable_finished", self.glade.get_widget("chk_finished").get_active())
+        self.update_config(self.manager.constants['EVENT_PEER_ERROR'], self.glade.get_widget("chk_peer_error").get_active())
         self.config.set("enable_peer_error", self.glade.get_widget("chk_peer_error").get_active())
+        self.update_config(self.manager.constants['EVENT_INVALID_REQUEST'], self.glade.get_widget("chk_invalid_request").get_active())
         self.config.set("enable_invalid_request", self.glade.get_widget("chk_invalid_request").get_active())
+        self.update_config(self.manager.constants['EVENT_FILE_ERROR'], self.glade.get_widget("chk_file_error").get_active())
         self.config.set("enable_file_error", self.glade.get_widget("chk_file_error").get_active())
+        self.update_config(self.manager.constants['EVENT_HASH_FAILED_ERROR'], self.glade.get_widget("chk_hash_failed_error").get_active())
         self.config.set("enable_hash_failed_error", self.glade.get_widget("chk_hash_failed_error").get_active())
+        self.update_config(self.manager.constants['EVENT_PEER_BAN_ERROR'], self.glade.get_widget("chk_peer_ban_error").get_active())
         self.config.set("enable_peer_ban_error", self.glade.get_widget("chk_peer_ban_error").get_active())
+        self.update_config(self.manager.constants['EVENT_FASTRESUME_REJECTED_ERROR'], self.glade.get_widget("chk_fastresume_rejected_error").get_active())
         self.config.set("enable_fastresume_rejected_error", self.glade.get_widget("chk_fastresume_rejected_error").get_active())
+        self.update_config(self.manager.constants['EVENT_TRACKER_ANNOUNCE'], self.glade.get_widget("chk_tracker_announce").get_active())
         self.config.set("enable_tracker_announce", self.glade.get_widget("chk_tracker_announce").get_active())
+        self.update_config(self.manager.constants['EVENT_TRACKER_REPLY'], self.glade.get_widget("chk_tracker_reply").get_active())
         self.config.set("enable_tracker_reply", self.glade.get_widget("chk_tracker_reply").get_active())
+        self.update_config(self.manager.constants['EVENT_TRACKER_ALERT'], self.glade.get_widget("chk_tracker_alert").get_active())
         self.config.set("enable_tracker_alert", self.glade.get_widget("chk_tracker_alert").get_active())
+        self.update_config(self.manager.constants['EVENT_TRACKER_WARNING'], self.glade.get_widget("chk_tracker_warning").get_active())
         self.config.set("enable_tracker_warning", self.glade.get_widget("chk_tracker_warning").get_active())
+        self.update_config(self.manager.constants['EVENT_STORAGE_MOVED'], self.glade.get_widget("chk_storage_moved").get_active())
         self.config.set("enable_storage_moved", self.glade.get_widget("chk_storage_moved").get_active())
+        self.update_config(self.manager.constants['EVENT_PIECE_FINISHED'], self.glade.get_widget("chk_piece_finished").get_active())
         self.config.set("enable_piece_finished", self.glade.get_widget("chk_piece_finished").get_active())
+        self.update_config(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.glade.get_widget("chk_block_downloading").get_active())
         self.config.set("enable_block_downloading", self.glade.get_widget("chk_block_downloading").get_active())
+        self.update_config(self.manager.constants['EVENT_BLOCK_FINISHED'], self.glade.get_widget("chk_block_finished").get_active())
         self.config.set("enable_block_finished", self.glade.get_widget("chk_block_finished").get_active())
+        self.update_config(self.manager.constants['EVENT_PEER_BLOCKED'], self.glade.get_widget("chk_peer_blocked").get_active())
         self.config.set("enable_peer_blocked", self.glade.get_widget("chk_peer_blocked").get_active())
+        self.update_config(self.manager.constants['EVENT_OTHER'], self.glade.get_widget("chk_other").get_active())
         self.config.set("enable_other", self.glade.get_widget("chk_other").get_active())
+        if self.glade.get_widget("chk_log_files").get_active():
+            self.tab_log.enable_log_files()
+        else:
+            self.tab_log.disable_log_files()
         self.config.set("enable_log_files", self.glade.get_widget("chk_log_files").get_active())
 
     def cancel_pressed(self, src):

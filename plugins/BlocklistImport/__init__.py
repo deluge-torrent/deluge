@@ -132,10 +132,11 @@ class BlocklistImport:
         self.gtkprog.stop()
         self.cancelled = False
 
-    def configure(self):
+    def configure(self, window):
         self.gtkconf.start(self.config.get('listtype'),
                            self.config.get('url'),
-                           self.config.get('load_on_start'))
+                           self.config.get('load_on_start'),
+                           window)
 
     def setconfig(self, url, load_on_start, listtype):
         self.config.set('url', url)
