@@ -161,7 +161,7 @@ class DelugeGTK:
         
     def notebook_switch_page(self, notebook, page, page_num):
         # Force an update when user changes the notebook tab
-        self.update_torrent_info_widget(None, page_num)
+        self.update_torrent_info_widget(page_num)
     
     def pause_all_clicked(self, arg=None):
         self.manager.pause_all()
@@ -569,9 +569,16 @@ class DelugeGTK:
             # Torrent is already selected, we don't need to do anything
             return True
         
-        unique_id = model.get_value(model.get_iter(path), 0)
-        self.update_torrent_info_widget(unique_id)
-        self.plugins.update_active_plugins()
+        # We don't call update function directly, because torrent_clicked()
+        # called by GTK when torrent is not selected yet(read docs on 
+        # gtk.TreeSelection.set_select_function()), but update routines
+        # expect already selected torrent. So queue update functions until we
+        # exit from torrent_clicked() and torrent will be actually selected by
+        # the time update functions called. Hope 10ms will be always enough
+        # for this.
+        gobject.timeout_add(10, self.update_torrent_info_widget)
+        gobject.timeout_add(10, self.plugins.update_active_plugins)
+
         return True
     
     def torrent_view_clicked(self, widget, event):
@@ -899,8 +906,7 @@ class DelugeGTK:
                 selection_count = 1
             
             if selection_count == 1:
-                unique_id = self.get_selected_torrent()
-                self.update_torrent_info_widget(unique_id)
+                self.update_torrent_info_widget()
             else: # selection_count > 1
                 self.clear_details_pane()
                 
@@ -948,12 +954,8 @@ class DelugeGTK:
         
         self.tray_icon.set_tooltip(msg)
         
-    def update_torrent_info_widget(self, unique_id=None, page_num=None):
-        # Usually we don't need to pass unique_id, but there are a special
-        # cases like with self.torrent_clicked() and because of them we have
-        # unique_id param
-        if unique_id is None:
-            unique_id = self.get_selected_torrent()
+    def update_torrent_info_widget(self, page_num=None):
+        unique_id = self.get_selected_torrent()
         # If no torrents added
         if unique_id is None:
             return
@@ -963,6 +965,10 @@ class DelugeGTK:
         
         if page_num == 0: # Details
             self.tab_details.update(unique_id)
+    
+        # We have to return False here to stop calling this function by timer
+        # over and over again, from self.torrent_clicked() for example.
+        return False
     
     # Return the id of the last single selected torrent
     def get_selected_torrent(self):

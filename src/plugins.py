@@ -98,6 +98,10 @@ class PluginManager:
             plugin = self.enabled_plugins[name]
             if 'update' in dir(plugin):
                 plugin.update()
+                
+        # We have to return False here to stop calling this function by timer
+        # over and over again, from interface.torrent_clicked() for example.
+        return False
 
     def shutdown_all_plugins(self):
         for name in self.enabled_plugins.keys():
