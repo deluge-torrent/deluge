@@ -981,7 +981,7 @@ namespace libtorrent
 			return true;
 #endif
 
-#if defined(__APPLE__) || defined(__linux__)
+#if defined(__APPLE__) || defined(__linux__) || defined(__FreeBSD__)
 		// find the last existing directory of the save path
 		fs::path query_path = p;
 		while (!query_path.empty() && !exists(query_path))
@@ -1044,7 +1044,7 @@ namespace libtorrent
 				case 0x52345362: // Reiser4
 				case 0x58465342: // XFS
 				case 0x65735546: // NTFS-3G
-                case 0x19540119: // UFS2
+				case 0x19540119: // UFS2
 					return true;
 			}
 		}
@@ -1059,7 +1059,11 @@ namespace libtorrent
 #endif
 
 		// TODO: POSIX implementation
+#if defined(__FreeBSD__)
+		return true;
+#else
 		return false;
+#endif
 	}
 
 	// -- piece_manager -----------------------------------------------------
