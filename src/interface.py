@@ -819,7 +819,7 @@ class DelugeGTK:
         
         # Make sure that the interface still exists
         try:
-            tab = self.wtree.get_widget("torrent_info").get_current_page()
+            self.wtree.get_widget("torrent_info").get_current_page()
         except AttributeError:
             return False
         
