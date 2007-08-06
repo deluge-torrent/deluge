@@ -72,14 +72,18 @@ class TorrentFiles:
         for page in xrange(numPages):
             if self.parentNotebook.get_nth_page(page) == self.topWidget:
                 unique_id = self.parent.get_selected_torrent()
+                
                 if unique_id is None:
-                #if no torrents added or more than one torrent selected
+                    #if no torrents added or more than one torrent selected
                     self.tab_files.clear_file_store()
+                    self.tab_files.set_unique_id(unique_id)
                     return
+                
                 if self.tab_files.file_unique_id != unique_id:
                     self.tab_files.clear_file_store()
                     self.tab_files.set_unique_id(unique_id)
                     self.tab_files.prepare_file_store()
                 else:
                     self.tab_files.update_file_store()
+                    
                 break
