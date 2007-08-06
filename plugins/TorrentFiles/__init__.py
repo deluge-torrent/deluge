@@ -41,7 +41,8 @@ class TorrentFiles:
     def __init__(self, path, core, interface):
         print "Loading TorrentFiles plugin..."
         self.parent = interface
-        
+        self.manager = core
+
         tree_view = gtk.TreeView()
         scrolled_window = gtk.ScrolledWindow()
         scrolled_window.add(tree_view)
@@ -73,7 +74,8 @@ class TorrentFiles:
         if tab_page == current_page:
             unique_id = self.parent.get_selected_torrent()
             
-            if unique_id is None:
+            if unique_id is None or \
+               unique_id in self.manager.removed_unique_ids:
                 # If no torrents added or more than one torrent selected
                 self.tab_files.clear_file_store()
                 self.tab_files.set_unique_id(None)

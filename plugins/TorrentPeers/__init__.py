@@ -41,6 +41,7 @@ class TorrentPeers:
     def __init__(self, path, core, interface):
         print "Loading TorrentPeers plugin..."
         self.parent = interface
+        self.manager = core
         self.config_file = deluge.common.CONFIG_DIR + "/peers.conf"
         self.config = deluge.pref.Preferences(self.config_file)
         try:
@@ -139,7 +140,8 @@ class TorrentPeers:
         
         if tab_page == current_page:
             unique_id = self.parent.get_selected_torrent()
-            if unique_id is None:
+            if unique_id is None or \
+               unique_id in self.manager.removed_unique_ids:
             #if no torrents added or more than one torrent selected
                 self.tab_peers.clear_peer_store()
                 self.tab_peers.set_unique_id(None)
