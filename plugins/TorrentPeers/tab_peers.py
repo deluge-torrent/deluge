@@ -22,15 +22,9 @@ class PeersTabManager(object):
     def clear_peer_store(self):
         self.peer_store.clear()
         self.peer_store_dict = {}
-        self.peer_unique_id = None
 
     def set_unique_id(self, unique_id):
         self.peer_unique_id = unique_id
-
-    def rebuild_peers_view(self, top_widget):
-        self.peer_view.destroy()
-        self.peer_view = gtk.TreeView()
-        top_widget.add(self.peer_view)
 
     def build_peers_view(self):
         def percent(column, cell, model, iter, data):

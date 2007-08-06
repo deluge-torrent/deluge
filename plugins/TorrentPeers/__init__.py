@@ -117,8 +117,7 @@ class TorrentPeers:
                     self.tab_peers.clear_flag_cache()
                 self.tab_peers.set_flag_size("25x15")
         else:
-            self.tab_peers.disable_flags()
-            
+            self.tab_peers.disable_flags()            
 
     def toggle_ui(self, widget):
         if not self.dialog_initialize:
@@ -155,13 +154,10 @@ class TorrentPeers:
 
     def ok_pressed(self, src):
         self.dialog.hide()
-        if self.config.get("enable_flags") and not \
-           self.glade.get_widget("chk_flags").get_active():
-            self.tab_peers.clear_peer_store()
-            self.tab_peers.rebuild_peer_view(self.top_widget)
-            self.tab_peers.update_peer_store()
-        self.config.set("enable_flags", self.glade.get_widget("chk_flags").get_active())
-        self.config.set("size_18", self.glade.get_widget("radio_18").get_active())
+        self.config.set("enable_flags", 
+                        self.glade.get_widget("chk_flags").get_active())
+        self.config.set("size_18", 
+                        self.glade.get_widget("radio_18").get_active())
         self.update_config()
 
     def cancel_pressed(self, src):
