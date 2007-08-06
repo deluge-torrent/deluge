@@ -112,7 +112,7 @@ class PiecesTabManager(object):
 
     def build_pieces_table(self, table):
         temp_prev_priority = 1
-        if self.current_first_index == 0\
+        if self.file_index == 0\
             or self.current_first_index !=\
                 self.all_files[self.prev_file_index]['last_index']:
         #if first piece is not a shared piece
@@ -216,7 +216,7 @@ class PiecesTabManager(object):
         self.peer_speed[main_index] = "unknown"
 
     def skip_current_file(self):
-        if self.current_first_index == 0\
+        if self.file_index == 0\
             or self.current_first_index !=\
                 self.all_files[self.prev_file_index]['last_index']:
         #if first piece is not shared
