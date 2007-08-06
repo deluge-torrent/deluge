@@ -507,7 +507,7 @@ class Manager:
 
             for unique_ID in self.unique_IDs:
                 torrent_state = self.get_core_torrent_state(unique_ID)
-                if torrent_state['is_seed']:
+                if torrent_state['is_seed'] and not torrent_state['is_paused']:
                     ratio = self.calc_ratio(unique_ID, torrent_state)
                     if ratio >= self.get_pref('auto_seed_ratio'):
                         self.queue_bottom(unique_ID, enforce_queue=False) # don't recurse!

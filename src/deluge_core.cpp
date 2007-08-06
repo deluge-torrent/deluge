@@ -763,6 +763,8 @@ static PyObject *torrent_has_piece(PyObject *self, PyObject *args)
         return NULL;
 
     torrent_status s = M_torrents->at(index).handle.status();
+    if ((*s.pieces).size() == 0)
+        return Py_BuildValue("b", false);
     has_piece = internal_has_piece(*s.pieces, piece_index);
     return Py_BuildValue("b", has_piece);
 }
