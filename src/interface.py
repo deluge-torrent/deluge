@@ -34,7 +34,6 @@
 import os.path
 
 import gobject
-
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -46,7 +45,6 @@ import dgtk
 import ipc_manager
 import plugins
 import tab_details
-import files
 
 class DelugeGTK:
     def __init__(self):
