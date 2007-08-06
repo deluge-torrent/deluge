@@ -123,6 +123,7 @@ class DelugeGTK:
         if self.config.get("new_releases"):
             new_release_check()
 
+        signal.signal(signal.SIGINT, self.manager.quit)
         signal.signal(signal.SIGTERM, self.manager.quit)
         signal.signal(signal.SIGHUP, self.manager.quit)
 
