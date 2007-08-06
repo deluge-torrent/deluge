@@ -76,7 +76,7 @@ class TorrentFiles:
                 if unique_id is None:
                     #if no torrents added or more than one torrent selected
                     self.tab_files.clear_file_store()
-                    self.tab_files.set_unique_id(unique_id)
+                    self.tab_files.set_unique_id(None)
                     return
                 
                 if self.tab_files.file_unique_id != unique_id:
