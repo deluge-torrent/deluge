@@ -632,11 +632,12 @@ class DelugeGTK:
                                                      int(event.y))
             if data is None:
                 return True
-            path, col, cellx, celly = data
+            
+            path = data[0]
             is_selected = self.torrent_view.get_selection().path_is_selected(path)
             if not is_selected:
                 self.torrent_view.grab_focus()
-                self.torrent_view.set_cursor(path, col, 0)
+                self.torrent_view.set_cursor(path)
                 
             self.torrent_menu.popup(None, None, None, event.button, 
                                     event.time)

@@ -122,11 +122,11 @@ class FilesBaseManager(object):
             if data is None:
                 return True
             
-            path, col, cellx, celly = data
+            path = data[0]
             is_selected = self.file_view.get_selection().path_is_selected(path)
             if not is_selected:
                 self.file_view.grab_focus()
-                self.file_view.set_cursor(path, col, 0)
+                self.file_view.set_cursor(path)
             self.file_menu.popup(None, None, None, event.button, event.time)
             
             return is_selected
