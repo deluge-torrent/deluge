@@ -124,9 +124,9 @@ def open_url_in_browser(link):
         webbrowser.open(link)
     else:
         import os, sys
-        version = sys.version[:3]
+        py_version = sys.version[:3]
         file = os.path.join(INSTALL_PREFIX, 'lib', 'python' \
-                        + version, 'site-packages', 'deluge', 'browser.py')
+                        + py_version, 'site-packages', 'deluge', 'browser.py')
         os.spawnlp(os.P_NOWAIT, 'python', 'python', file, link)
 
 def is_url(url):
