@@ -119,25 +119,30 @@ class DelugeGTK:
             py_version = sys.version[:3]
             file = os.path.join(common.INSTALL_PREFIX, 'lib', 'python' \
                         + py_version, 'site-packages', 'deluge', 'update.py')
-            os.spawnlp(os.P_NOWAIT, 'python', 'python', file, common.PROGRAM_VERSION)
+            os.spawnlp(os.P_NOWAIT, 'python', 'python', file, 
+                       common.PROGRAM_VERSION)
 
         def send_info():
-            import sys
-            py_version = sys.version[:3]
-            #check if we've done this within the last week
-            import glob
             import time
-            if os.path.exists(os.path.join(common.CONFIG_DIR, 'infosent')):
-                a=glob.glob(os.path.join(common.CONFIG_DIR, 'infosent'))[0]
-                if  time.time() - os.stat(a)[8] >= 604800:
-                    file = os.path.join(common.INSTALL_PREFIX, 'lib', 'python' \
-                        + py_version, 'site-packages', 'deluge', 'info.py')
-                    os.spawnlp(os.P_NOWAIT, 'python', 'python', file, common.PROGRAM_VERSION)
-            else:
+            
+            def _run_script():
+                import sys
+                
+                py_version = sys.version[:3]
+            
                 file = os.path.join(common.INSTALL_PREFIX, 'lib', 'python' \
-                        + py_version, 'site-packages', 'deluge', 'info.py')
-                os.spawnlp(os.P_NOWAIT, 'python', 'python', file, common.PROGRAM_VERSION)
-        
+                    + py_version, 'site-packages', 'deluge', 'info.py')
+                os.spawnlp(os.P_NOWAIT, 'python', 'python', file, 
+                           common.PROGRAM_VERSION)
+            
+            info_file = os.path.join(common.CONFIG_DIR, 'infosent')
+            
+            # Check if we've done this within the last week
+            if os.path.exists(info_file):
+                if time.time() - os.stat(info_file)[8] >= 60 * 60 * 24 * 7:
+                    _run_script()
+            else:
+                _run_script()        
 
         if self.config.get("new_releases"):
             new_release_check()
