@@ -117,7 +117,8 @@ class DelugeGTK:
         def new_release_check():
             import sys
             py_version = sys.version[:3]
-            file = common.INSTALL_PREFIX + '/lib/python' + py_version + '/site-packages/deluge/update.py'
+            file = os.path.join(common.INSTALL_PREFIX, 'lib', 'python' \
+                        + py_version, 'site-packages', 'deluge', 'update.py')
             os.spawnlp(os.P_NOWAIT, 'python', 'python', file, common.PROGRAM_VERSION)
 
         def send_info():
@@ -126,8 +127,8 @@ class DelugeGTK:
             #check if we've done this within the last week
             import glob
             import time
-            if os.path.exists(common.CONFIG_DIR + '/infosent'):
-                a=glob.glob(common.CONFIG_DIR + '/infosent')[0]
+            if os.path.exists(os.path.join(common.CONFIG_DIR, 'infosent')):
+                a=glob.glob(os.path.join(common.CONFIG_DIR, 'infosent'))[0]
                 if  time.time() - os.stat(a)[8] >= 604800:
                     file = os.path.join(common.INSTALL_PREFIX, 'lib', 'python' \
                         + py_version, 'site-packages', 'deluge', 'info.py')
