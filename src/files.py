@@ -114,7 +114,6 @@ class FilesBaseManager(object):
                          
             self.file_store.set_value(self.file_store.get_iter(child_path), 2, 
                                       priority)
-        
         self.update_priorities()
 
     def mouse_clicked(self, widget, event):

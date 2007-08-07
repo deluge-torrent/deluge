@@ -120,8 +120,22 @@ class DelugeGTK:
             file = common.INSTALL_PREFIX + '/lib/python' + py_version + '/site-packages/deluge/update.py'
             os.spawnlp(os.P_NOWAIT, 'python', 'python', file, common.PROGRAM_VERSION)
 
+        def send_info():
+            import sys
+            py_version = sys.version[:3]
+            #check if we already sent the info
+            if os.path.exists(common.CONFIG_DIR + '/infosent'):
+                pass
+            #if we havent, let's do so
+            else:
+                file = common.INSTALL_PREFIX + '/lib/python' + py_version + '/site-packages/deluge/info.py'
+                os.spawnlp(os.P_NOWAIT, 'python', 'python', file, common.PROGRAM_VERSION)
+
         if self.config.get("new_releases"):
             new_release_check()
+
+        if self.config.get("send_info"):
+            send_info()
 
         signal.signal(signal.SIGINT, self.manager.quit)
         signal.signal(signal.SIGTERM, self.manager.quit)

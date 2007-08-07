@@ -40,6 +40,7 @@ import common
 import os.path
 
 DEFAULT_PREFS = {
+    "send_info" : True,
     "auto_end_seeding" : False,
     "auto_seed_ratio" : 0,
     "close_to_tray" : False,
