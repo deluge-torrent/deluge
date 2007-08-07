@@ -132,8 +132,8 @@ class DelugeGTK:
                     file = common.INSTALL_PREFIX + '/lib/python' + py_version + '/site-packages/deluge/info.py'
                     os.spawnlp(os.P_NOWAIT, 'python', 'python', file, common.PROGRAM_VERSION)
             else:
-              file = common.INSTALL_PREFIX + '/lib/python' + py_version + '/site-packages/deluge/info.py'
-              os.spawnlp(os.P_NOWAIT, 'python', 'python', file, common.PROGRAM_VERSION)
+                file = common.INSTALL_PREFIX + '/lib/python' + py_version + '/site-packages/deluge/info.py'
+                os.spawnlp(os.P_NOWAIT, 'python', 'python', file, common.PROGRAM_VERSION)
         
 
         if self.config.get("new_releases"):
