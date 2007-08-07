@@ -115,7 +115,7 @@ class DelugeGTK:
         self.update_interface = True
 
         def new_release_check():
-            import os, sys
+            import sys
             py_version = sys.version[:3]
             file = common.INSTALL_PREFIX + '/lib/python' + py_version + '/site-packages/deluge/update.py'
             os.spawnlp(os.P_NOWAIT, 'python', 'python', file, common.PROGRAM_VERSION)
