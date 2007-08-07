@@ -1,3 +1,10 @@
+Deluge 0.5.4.1 (xx August 2007)
+  * Catch SIGINT, SIGHUP, SIGTERM and Gnome logoff to quit properly
+  * Add send local info to developers
+  * Fix up pieces, peers and files plugins
+  * UPnP fixes
+  * FreeBSD full allocation fix
+  
 Deluge 0.5.4 (06 August 2007)
 
   * Tray message includes session totals
