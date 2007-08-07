@@ -1060,9 +1060,9 @@ namespace libtorrent
 
 		// TODO: POSIX implementation
 #if defined(__FreeBSD__)
-		return true;
+        return true;
 #else
-		return false;
+        return false;
 #endif
 	}
 
