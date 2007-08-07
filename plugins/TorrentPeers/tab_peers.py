@@ -34,9 +34,10 @@ class PeersTabManager(object):
 
         self.peer_view.set_model(self.peer_store)
         
-        ip_column = dgtk.add_texticon_column(self.peer_view, _("IP Address"), 
-                                             1, 2)
-        ip_column.set_sort_column_id(0)
+        # self.ip_column is used in self.ip_column_queue_resize() method
+        self.ip_column = dgtk.add_texticon_column(self.peer_view, 
+                                                  _("IP Address"), 1, 2)
+        self.ip_column.set_sort_column_id(0)
         dgtk.add_text_column(self.peer_view, _("Client"), 3)
         dgtk.add_func_column(self.peer_view, _("Percent Complete"), percent, 
                              4)
@@ -56,6 +57,9 @@ class PeersTabManager(object):
 
     def set_flag_size(self, size):
         self.flag_size = size
+        
+    def ip_column_queue_resize(self):
+        self.ip_column.queue_resize()
 
     def get_country_flag_image(self, country):
         flag_image = None
@@ -64,7 +68,8 @@ class PeersTabManager(object):
                 flag_image = self._cached_flags[country]
             else:
                 try:
-                    flag_path = "flags" + self.flag_size + '/' + str(country.lower()) + '.png'
+                    flag_path = "flags%s/%s.png" % (self.flag_size,
+                                                    country.lower())
                     flag_image = gtk.gdk.pixbuf_new_from_file(
                                         common.get_pixmap(flag_path))
                 except gobject.GError:

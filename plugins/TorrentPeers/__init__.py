@@ -32,8 +32,9 @@ def enable(core, interface):
     return TorrentPeers(path, core, interface)
 
 ### The Plugin ###
-import deluge
 import gtk
+
+import deluge
 from TorrentPeers.tab_peers import PeersTabManager
 
 class TorrentPeers:
@@ -71,8 +72,9 @@ class TorrentPeers:
         scrolled_window.show()
         
         self.tab_peers = PeersTabManager(tree_view, core)
-        self.update_config()
         self.tab_peers.build_peers_view()
+        
+        self.config_updated()
 
     def unload(self):
         self.tab_peers.clear_peer_store()
@@ -105,7 +107,7 @@ class TorrentPeers:
         self.dialog.set_transient_for(window)
         self.dialog.show()
 
-    def update_config(self):
+    def config_updated(self):
         if self.config.get("enable_flags"):
             self.tab_peers.enable_flags()
             if self.config.get("size_18"):
@@ -117,6 +119,7 @@ class TorrentPeers:
                     self.tab_peers.clear_flag_cache()
                 self.tab_peers.set_flag_size("25x15")
         else:
+            self.tab_peers.clear_flag_cache()
             self.tab_peers.disable_flags()            
 
     def toggle_ui(self, widget):
@@ -154,11 +157,21 @@ class TorrentPeers:
 
     def ok_pressed(self, src):
         self.dialog.hide()
+        
+        needs_store_update = False
+        if self.config.get("enable_flags") and not \
+           self.glade.get_widget("chk_flags").get_active():
+            needs_store_update = True
+             
         self.config.set("enable_flags", 
                         self.glade.get_widget("chk_flags").get_active())
         self.config.set("size_18", 
                         self.glade.get_widget("radio_18").get_active())
-        self.update_config()
+        self.config_updated()
+
+        if needs_store_update:
+            self.tab_peers.update_peer_store()
+            self.tab_peers.ip_column_queue_resize()
 
     def cancel_pressed(self, src):
         self.dialog.hide()

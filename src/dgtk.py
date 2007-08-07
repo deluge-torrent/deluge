@@ -132,9 +132,6 @@ def add_texticon_column(view, header, icon_col, text_col):
     column.set_expand(False)
     column.set_min_width(10)
     column.set_reorderable(True)
-    # gtk.TREE_VIEW_COLUMN_AUTOSIZE is because of toggled flags in Peers tab
-    # in IP Address column.
-    column.set_sizing(gtk.TREE_VIEW_COLUMN_AUTOSIZE)
     render = gtk.CellRendererPixbuf()
     column.pack_start(render, expand=False)
     column.add_attribute(render, 'pixbuf', icon_col)
