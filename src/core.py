@@ -609,7 +609,7 @@ class Manager:
                     raise StorageMoveFailed(_("You cannot move torrent to a different partition.  Please fix your preferences"))
                 elif event['message'] == self.get_pref('default_finished_path'):
                     self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
-                    self.sync()
+                    self.pickle_state()
                     
             elif event['event_type'] is self.constants['EVENT_FINISHED']:
                 if event['message'] == "torrent has finished downloading":
