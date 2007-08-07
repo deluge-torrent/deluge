@@ -981,7 +981,7 @@ namespace libtorrent
 			return true;
 #endif
 
-#if defined(__APPLE__) || defined(__linux__)
+#if defined(__APPLE__) || defined(__linux__) || defined(__FreeBSD__)
 		// find the last existing directory of the save path
 		fs::path query_path = p;
 		while (!query_path.empty() && !exists(query_path))
@@ -1059,7 +1059,11 @@ namespace libtorrent
 #endif
 
 		// TODO: POSIX implementation
+#if defined(__FreeBSD__)
+		return true;
+#else
 		return false;
+#endif
 	}
 
 	// -- piece_manager -----------------------------------------------------
