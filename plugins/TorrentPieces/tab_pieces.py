@@ -24,6 +24,7 @@ class PiecesTabManager(object):
         self.num_files = 0
         self.current_first_index = None
         self.current_last_index = None
+        self.handlers_connected = False
 
     def set_unique_id(self, unique_id):
         self.unique_id = unique_id
@@ -130,10 +131,9 @@ class PiecesTabManager(object):
                 diff = 0
                 temp_range = self.current_last_index-self.current_first_index
         #last piece handled outside of loop, skip it from range
-        temp_first_index = self.current_first_index
         for index in xrange(temp_range):
             gtk.main_iteration_do(False)
-            main_index = diff+temp_first_index+index
+            main_index = diff+self.current_first_index+index
             if temp_prev_priority > 0:
             #normal behavior
                 self.piece_info.append({'blocks_total':0, 'blocks_finished':0, 'blocks_requested':0})
@@ -230,6 +230,19 @@ class PiecesTabManager(object):
             self.eventboxes.append(None)
             self.tooltips.append(None)
             self.peer_speed.append(None)
+
+    def connect_handlers(self):
+        self.handlers_connected = True
+        self.manager.connect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.handle_event)
+        self.manager.connect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.handle_event)
+        self.manager.connect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.handle_event)
+
+    def disconnect_handlers(self):
+        if self.handlers_connected:
+            self.manager.disconnect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.handle_event)
+            self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.handle_event)
+            self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.handle_event)
+            self.handlers_connected = False
 
     def handle_event(self, event):
         #protect against pieces trying to display after file priority changed

@@ -69,9 +69,7 @@ class TorrentPieces:
         self.tab_pieces = PiecesTabManager(self.manager)
 
     def unload(self):
-        self.manager.disconnect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_pieces.handle_event)
-        self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_pieces.handle_event)
-        self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_pieces.handle_event)
+        self.tab_pieces.disconnect_handlers()
         self.tab_pieces.clear_pieces_store()
         numPages = self.parentNotebook.get_n_pages()
         for page in xrange(numPages):
@@ -84,10 +82,12 @@ class TorrentPieces:
         unique_id = self.parent.get_selected_torrent()
         if unique_id is None:
         #if no torrents added or more than one torrent selected
+            self.tab_pieces.disconnect_handlers()
             self.tab_pieces.clear_pieces_store()
             return
         if unique_id != self.tab_pieces.unique_id or unique_id in update_files_removed.keys():
         #if different torrent was selected or file priorities were changed.
+            self.tab_pieces.disconnect_handlers()
             self.tab_pieces.clear_pieces_store()
             numPages = self.parentNotebook.get_n_pages()
             for page in xrange(numPages):
@@ -112,10 +112,6 @@ pieces tab.
             scrolledWindow.show_all()
             if switch_page:
                 self.parentNotebook.set_current_page(page)
-            self.manager.disconnect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_pieces.handle_event)
-            self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_pieces.handle_event)
-            self.manager.disconnect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_pieces.handle_event)
-            self.tab_pieces.clear_pieces_store()
             self.tab_pieces.set_unique_id(unique_id)
             self.topWidget = self.tab_pieces.prepare_pieces_store()
             switch_page = False
@@ -127,6 +123,4 @@ pieces tab.
             self.topWidget.show_all()
             if switch_page:
                 self.parentNotebook.set_current_page(page)
-            self.manager.connect_event(self.manager.constants['EVENT_PIECE_FINISHED'], self.tab_pieces.handle_event)
-            self.manager.connect_event(self.manager.constants['EVENT_BLOCK_FINISHED'], self.tab_pieces.handle_event)
-            self.manager.connect_event(self.manager.constants['EVENT_BLOCK_DOWNLOADING'], self.tab_pieces.handle_event)
+            self.tab_pieces.connect_handlers()
