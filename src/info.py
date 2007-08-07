@@ -12,6 +12,5 @@ urllib.urlopen("http://download.deluge-torrent.org/stats.php?processor=" + \
     + "&os=" + platform.system() + "&pygtk=" + pygtk)
 
 f = open(common.CONFIG_DIR + '/infosent', 'w')
-print "writing file infosent"
 f.write("")
 f.close
