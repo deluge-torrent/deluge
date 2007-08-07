@@ -133,6 +133,14 @@ class DelugeGTK:
         if self.config.get("send_info"):
             send_info()
 
+        try:
+            import gnome.ui
+        except:
+            pass
+        else:
+            self.client = gnome.ui.Client()
+            self.client.connect("save_yourself", self.manager.quit)
+
         signal.signal(signal.SIGINT, self.manager.quit)
         signal.signal(signal.SIGTERM, self.manager.quit)
         signal.signal(signal.SIGHUP, self.manager.quit)
