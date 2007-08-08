@@ -4,6 +4,8 @@
 import urllib
 import sys
 
+import __init__
+
 new_release = urllib.urlopen("http://download.deluge-torrent.org/version").read().strip()
 if new_release >  sys.argv[1]:
     import gtk
