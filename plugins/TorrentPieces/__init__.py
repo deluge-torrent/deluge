@@ -57,7 +57,7 @@ class TorrentPieces:
         self.manager = core
         self.parent = interface
         self.config_file = deluge.common.CONFIG_DIR + "/pieces.conf"
-        self.config = deluge.pref.Preferences(self.config_file)
+        self.config = deluge.pref.Preferences(self.config_file, False)
         try:
             self.config.load()
         except IOError:

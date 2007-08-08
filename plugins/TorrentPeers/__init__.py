@@ -44,7 +44,7 @@ class TorrentPeers:
         self.parent = interface
         self.manager = core
         self.config_file = deluge.common.CONFIG_DIR + "/peers.conf"
-        self.config = deluge.pref.Preferences(self.config_file)
+        self.config = deluge.pref.Preferences(self.config_file, False)
         try:
             self.config.load()
         except IOError:

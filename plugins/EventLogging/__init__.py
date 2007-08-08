@@ -62,7 +62,7 @@ class EventLogging:
         self.parent = interface
         # Create an options file and try to load existing Values
         self.config_file = deluge.common.CONFIG_DIR + "/event_logging.conf"
-        self.config = deluge.pref.Preferences(self.config_file)
+        self.config = deluge.pref.Preferences(self.config_file, False)
         try:
             self.config.load()
         except IOError:
