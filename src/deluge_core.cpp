@@ -1292,6 +1292,7 @@ static PyObject *torrent_get_file_piece_range(PyObject *self, PyObject *args)
 
     torrent_info const &info = M_torrents->at(index).handle.get_torrent_info();
     int file_index = 0;
+    size_type first_num_blocks, last_num_blocks;
     PyObject *file_info;
 
     for(torrent_info::file_iterator i = info.begin_files(); i != info.end_files(); ++i)
@@ -1299,10 +1300,14 @@ static PyObject *torrent_get_file_piece_range(PyObject *self, PyObject *args)
         file_entry const &currFile = (*i);
         peer_request first_index = info.map_file(file_index, 0, 1);
         peer_request last_index = info.map_file(file_index, currFile.size-1, 1);
+        first_num_blocks = info.piece_length()/(16 * 1024);
+        last_num_blocks = ceil((double)(info.piece_size(last_index.piece))/(16 * 1024));
         file_info = Py_BuildValue(
-            "{s:i,s:i,s:s}",
+            "{s:i,s:i,s:i,s:i,s:s}",
             "first_index",     first_index.piece,
             "last_index",      last_index.piece,
+            "first_num_blocks", (int)first_num_blocks,
+            "last_num_blocks", (int)last_num_blocks,
             "path",            currFile.path.string().c_str()
             );
         file_index++;

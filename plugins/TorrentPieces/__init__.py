@@ -18,25 +18,19 @@
 
 plugin_name = _("Torrent Pieces")
 plugin_author = "Micah Bucy"
-plugin_version = "0.2"
+plugin_version = "0.3"
 plugin_description = _("""
-Adds a pieces tab which gives piece by piece progress for a torrent.
-Each piece is represented by a small progress bar.
+Pieces tab now shows percentage instead
+of progress bars.  There are no longer any tooltips.
+Peer speed uses following symbols:
+fast is +
+medium is =
+slow is -
 
-Pieces currently downloading show up as partially filled progress bars,
-but this does not represent percentage done.  
+monospace font is required for columns to be aligned.
 
-More information is provided as a tooltip for each piece.
-For currently downloading pieces, the tooltip contains the number
-of blocks finished as well as the peer speed for that piece.
-
-When the plugin initializes, such as when enabling the plugin or
-when a different torrent is selected, the cpu will spike.  This is normal,
-as initialization must get information on every piece from libtorrent,
-and the cpu will normalize once all of the information is retrieved.
-
-This plugin supports multifile torrents.  If a file is skipped, it does not
-show up in the pieces tab.
+Finished torrents do not show piece information, just
+a message that the torrent is complete.
 """)
 
 def deluge_init(deluge_path):
@@ -58,24 +52,74 @@ class TorrentPieces:
         print "Loading TorrentPieces plugin..."
         self.manager = core
         self.parent = interface
-        scrolledWindow = gtk.ScrolledWindow()
-        scrolledWindow.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-        self.topWidget = scrolledWindow
+        self.config_file = deluge.common.CONFIG_DIR + "/pieces.conf"
+        self.config = deluge.pref.Preferences(self.config_file)
+        try:
+            self.config.load()
+        except IOError:
+            # File does not exist
+            pass
+        self.glade = gtk.glade.XML(path + "/pieces_preferences.glade")
+        widget = self.glade.get_widget("hbox_columns")
+        self.combo_columns = gtk.combo_box_new_text()
+        for x in xrange(100):
+            self.combo_columns.append_text(str(x+1))
+        widget.pack_start(self.combo_columns, expand=False)
+        widget.show_all()
+        widget = self.glade.get_widget("hbox_font_size")
+        self.combo_font_size = gtk.combo_box_new_text()
+        for x in xrange(100):
+            self.combo_font_size.append_text(str(x+1))
+        widget.pack_start(self.combo_font_size, expand=False)
+        widget.show_all()
+        self.dialog = self.glade.get_widget("dialog")
+        self.glade.signal_autoconnect({
+                                        'on_button_cancel_pressed': self.cancel_pressed,
+                                        'on_button_ok_pressed': self.ok_pressed
+                                      })
+        scrolled_window = gtk.ScrolledWindow()
+        scrolled_window.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        viewport = gtk.Viewport()
+        scrolled_window.add(viewport)
+        self.top_widget = scrolled_window
 
-        self.parentNotebook = self.parent.notebook
+        self.parent_notebook = self.parent.notebook
 
-        self.parentNotebook.append_page(self.topWidget, gtk.Label(_("Pieces")))
-        self.topWidget.show_all()
-        self.tab_pieces = PiecesTabManager(self.manager)
+        self.parent_notebook.append_page(self.top_widget, gtk.Label(_("Pieces")))
+        self.top_widget.show_all()
+        columns = self.config.get("columns")
+        if columns is None:
+            columns = 15
+        font_size = self.config.get("font_size")
+        if font_size is None:
+            font_size = 9
+        self.tab_pieces = PiecesTabManager(self.manager, viewport, columns, font_size)
+        self.manager.connect_event(self.manager.constants['EVENT_FINISHED'], self.handle_event)
 
     def unload(self):
         self.tab_pieces.disconnect_handlers()
+        self.manager.disconnect_event(self.manager.constants['EVENT_FINISHED'], self.handle_event)
         self.tab_pieces.clear_pieces_store()
-        numPages = self.parentNotebook.get_n_pages()
-        for page in xrange(numPages):
-            if self.parentNotebook.get_nth_page(page) == self.topWidget:
-                self.parentNotebook.remove_page(page)
-                break
+        tab_page = self.parent_notebook.page_num(self.top_widget)
+        self.parent_notebook.remove_page(tab_page)
+
+    def configure(self, window):
+        try:
+            self.combo_columns.set_active(self.config.get("columns"))
+        except:
+            self.combo_columns.set_active(15)
+        try:
+            self.combo_font_size.set_active(self.config.get("font_size"))
+        except:
+            self.combo_font_size.set_active(9)
+        self.dialog.set_transient_for(window)
+        self.dialog.show()
+
+    def handle_event(self, event):
+        self.tab_pieces.disconnect_handlers()
+        self.tab_pieces.clear_pieces_store()
+        self.tab_pieces.set_unique_id(event['unique_ID'])
+        self.tab_pieces.prepare_pieces_store()
 
     def update(self):
         update_files_removed = self.manager.update_files_removed
@@ -89,38 +133,29 @@ class TorrentPieces:
         #if different torrent was selected or file priorities were changed.
             self.tab_pieces.disconnect_handlers()
             self.tab_pieces.clear_pieces_store()
-            numPages = self.parentNotebook.get_n_pages()
-            for page in xrange(numPages):
-                if self.parentNotebook.get_nth_page(page) == self.topWidget:
-                    break
-            switch_page = False
-            if self.parentNotebook.get_current_page() == page:
-                switch_page = True
-            self.parentNotebook.remove_page(page)
-            viewport = gtk.Viewport()
-            scrolledWindow = gtk.ScrolledWindow()
-            scrolledWindow.add(viewport)
-            scrolledWindow.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-            label = gtk.Label(_("""
-This is a temporary page used while the pieces tab gets built.
-When operations are complete this will automatically become the
-pieces tab.
-"""))
-            label.set_alignment(0,0)
-            viewport.add(label)
-            self.parentNotebook.insert_page(scrolledWindow,gtk.Label(_("Pieces")),page)
-            scrolledWindow.show_all()
-            if switch_page:
-                self.parentNotebook.set_current_page(page)
             self.tab_pieces.set_unique_id(unique_id)
-            self.topWidget = self.tab_pieces.prepare_pieces_store()
-            switch_page = False
-            if self.parentNotebook.get_current_page() == page:
-                switch_page = True
-            self.parentNotebook.remove_page(page)
-            self.parentNotebook = self.parent.notebook
-            self.parentNotebook.insert_page(self.topWidget, gtk.Label(_("Pieces")), page)
-            self.topWidget.show_all()
-            if switch_page:
-                self.parentNotebook.set_current_page(page)
+            self.tab_pieces.prepare_pieces_store()
             self.tab_pieces.connect_handlers()
+
+    def ok_pressed(self, src):
+        self.dialog.hide()
+        
+        needs_store_update = False
+        if self.config.get("columns") !=\
+                self.combo_columns.get_active()\
+            or self.config.get("font_size") !=\
+                self.combo_font_size.get_active():
+            needs_store_update = True
+            
+        self.config.set("columns", 
+                        self.combo_columns.get_active())
+        self.config.set("font_size", 
+                        self.combo_font_size.get_active())
+        self.tab_pieces.set_columns(self.combo_columns.get_active())
+        self.tab_pieces.set_font_size(self.combo_font_size.get_active())
+        if needs_store_update:
+            self.tab_pieces.clear_pieces_store(clear_unique_id=False)
+            self.tab_pieces.prepare_pieces_store()
+
+    def cancel_pressed(self, src):
+        self.dialog.hide()
