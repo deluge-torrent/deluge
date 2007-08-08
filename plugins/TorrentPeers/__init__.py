@@ -55,8 +55,8 @@ class TorrentPeers:
         self.dialog = self.glade.get_widget("dialog")
         self.glade.signal_autoconnect({
                                         'toggle_ui': self.toggle_ui,
-                                        'on_button_cancel_pressed': self.cancel_pressed,
-                                        'on_button_ok_pressed': self.ok_pressed
+                                        'on_button_cancel_clicked': self.cancel_clicked,
+                                        'on_button_ok_clicked': self.ok_clicked
                                       })
         tree_view = gtk.TreeView()
         scrolled_window = gtk.ScrolledWindow()
@@ -155,7 +155,7 @@ class TorrentPeers:
             else:
                 self.tab_peers.update_peer_store()
 
-    def ok_pressed(self, src):
+    def ok_clicked(self, src):
         self.dialog.hide()
         
         needs_store_update = False
@@ -173,5 +173,5 @@ class TorrentPeers:
             self.tab_peers.update_peer_store()
             self.tab_peers.ip_column_queue_resize()
 
-    def cancel_pressed(self, src):
+    def cancel_clicked(self, src):
         self.dialog.hide()

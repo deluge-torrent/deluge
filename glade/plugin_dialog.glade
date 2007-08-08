@@ -127,7 +127,7 @@
                 <property name="label">gtk-close</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
-                <signal name="clicked" handler="on_close_pressed"/>
+                <signal name="clicked" handler="on_close_clicked"/>
               </widget>
             </child>
           </widget>

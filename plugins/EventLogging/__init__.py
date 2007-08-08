@@ -73,8 +73,8 @@ class EventLogging:
         self.dialog = self.glade.get_widget("dialog")
         self.dialog.set_position(gtk.WIN_POS_CENTER)
         self.glade.signal_autoconnect({
-                                        'on_button_cancel_pressed': self.cancel_pressed,
-                                        'on_button_ok_pressed': self.ok_pressed
+                                        'on_button_cancel_clicked': self.cancel_clicked,
+                                        'on_button_ok_clicked': self.ok_clicked
                                       })
         self.viewport = gtk.Viewport()
         self.scrolledWindow = gtk.ScrolledWindow()
@@ -257,7 +257,7 @@ class EventLogging:
         else:
             self.manager.disconnect_event(event_id, self.tab_log.handle_event)
 
-    def ok_pressed(self, src):
+    def ok_clicked(self, src):
         self.dialog.hide()
         self.update_config(self.manager.constants['EVENT_FINISHED'], self.glade.get_widget("chk_finished").get_active())
         self.config.set("enable_finished", self.glade.get_widget("chk_finished").get_active())
@@ -299,5 +299,5 @@ class EventLogging:
             self.tab_log.disable_log_files()
         self.config.set("enable_log_files", self.glade.get_widget("chk_log_files").get_active())
 
-    def cancel_pressed(self, src):
+    def cancel_clicked(self, src):
         self.dialog.hide()

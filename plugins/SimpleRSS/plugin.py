@@ -89,8 +89,8 @@ class plugin_SimpleRSS:
                 "torrents_fcc_changed" : self.torrents_fcc_changed,
                 "torrents_view_row_activated" : self.torrents_view_row_activated,
                 "chkfeeds_clicked" : self.chkfeeds_clicked,
-                "cancel_pressed" : self.dialog_cancel,
-                "ok_pressed" : self.dialog_ok }
+                "cancel_clicked" : self.dialog_cancel,
+                "ok_clicked" : self.dialog_ok }
         glade.signal_autoconnect(dic)
         self.feeds_view.get_selection().set_select_function(self.row_clicked)
         self.timer = 0

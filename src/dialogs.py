@@ -141,8 +141,10 @@ class PreferencesDlg:
                 self.glade.get_widget('spin_port_min').set_sensitive(True)
                 self.glade.get_widget('spin_port_max').set_sensitive(True)
 
-            self.glade.get_widget("ok_button").connect("clicked", self.ok_pressed, interface)
-            self.glade.get_widget("cancel_button").connect("clicked", self.cancel_pressed)
+            self.glade.get_widget("ok_button").connect("clicked", 
+                                                   self.ok_clicked, interface)
+            self.glade.get_widget("cancel_button").connect("clicked", 
+                                                       self.cancel_clicked)
             
         except KeyError:
             pass
@@ -150,7 +152,7 @@ class PreferencesDlg:
         self.dialog.set_transient_for(window)
         self.dialog.show()
 
-    def ok_pressed(self, source, interface):
+    def ok_clicked(self, source, interface):
         self.dialog.hide()
         self.preferences.set("encin_state", self.glade.get_widget("combo_encin").get_active())
         self.preferences.set("encout_state", self.glade.get_widget("combo_encout").get_active())
@@ -214,7 +216,7 @@ class PreferencesDlg:
         interface.apply_prefs()
         interface.config.save()
 
-    def cancel_pressed(self, source):
+    def cancel_clicked(self, source):
         self.dialog.hide()
             
     def TestPort(self, widget):
@@ -337,7 +339,7 @@ class PluginDlg:
         name_col.set_expand(True)
         dgtk.add_toggle_column(self.view, _("Enabled"), 1, toggled_signal=self.plugin_toggled)
         signals = {'plugin_pref':      self.plugin_pref,
-                   'on_close_pressed': self.close_pressed}
+                   'on_close_clicked': self.close_clicked}
         self.glade.signal_autoconnect(signals)
         self.plugins = plugins
 
@@ -354,7 +356,7 @@ class PluginDlg:
         self.dialog.set_transient_for(window)
         self.dialog.show()
 
-    def close_pressed(self, source):
+    def close_clicked(self, source):
         self.dialog.hide()
     
     def old_clicked(self, path):

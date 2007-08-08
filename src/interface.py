@@ -683,7 +683,7 @@ class DelugeGTK:
     def show_preferences_dialog(self):
         active_port = self.manager.get_state()['port']
         preferences_dialog = dialogs.PreferencesDlg(self.config, active_port)
-        # Only apply the prefs if the user pressed OK in the prefs dialog
+        # Only apply the prefs if the user clicked OK in the prefs dialog
         preferences_dialog.show(self, self.window)
 
     def show_preferences_dialog_clicked(self, arg=None):

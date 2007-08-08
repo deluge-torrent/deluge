@@ -95,7 +95,7 @@
                 <property name="label">gtk-cancel</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
-                <signal name="pressed" handler="dialog_cancel"/>
+                <signal name="clicked" handler="dialog_cancel"/>
               </widget>
             </child>
             <child>
@@ -104,7 +104,7 @@
                 <property name="label">gtk-ok</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">1</property>
-                <signal name="pressed" handler="dialog_ok"/>
+                <signal name="clicked" handler="dialog_ok"/>
               </widget>
               <packing>
                 <property name="position">1</property>

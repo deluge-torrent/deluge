@@ -217,7 +217,7 @@
                             <property name="label">gtk-add</property>
                             <property name="use_stock">True</property>
                             <property name="response_id">0</property>
-                            <signal name="pressed" handler="addfeed_clicked"/>
+                            <signal name="clicked" handler="addfeed_clicked"/>
                             <signal name="activate" handler="addfeed_clicked"/>
                           </widget>
                           <packing>
@@ -348,7 +348,7 @@
                         <property name="label">gtk-add</property>
                         <property name="use_stock">True</property>
                         <property name="response_id">0</property>
-                        <signal name="pressed" handler="addfilter_clicked"/>
+                        <signal name="clicked" handler="addfilter_clicked"/>
                         <signal name="activate" handler="addfilter_clicked"/>
                       </widget>
                       <packing>
@@ -858,7 +858,7 @@
                 <property name="label">gtk-cancel</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
-                <signal name="pressed" handler="cancel_pressed"/>
+                <signal name="clicked" handler="cancel_clicked"/>
               </widget>
             </child>
             <child>
@@ -867,7 +867,7 @@
                 <property name="label">gtk-ok</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">1</property>
-                <signal name="pressed" handler="ok_pressed"/>
+                <signal name="clicked" handler="ok_clicked"/>
               </widget>
               <packing>
                 <property name="position">1</property>
