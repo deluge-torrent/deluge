@@ -645,8 +645,7 @@ class DelugeGTK:
                     command = "/usr/bin/nautilus"
                 if self.config.get("file_manager") == 2:
                     command = "/usr/bin/thunar"
-            os.system('%s %s' %(command, self.manager.unique_IDs[uid].save_dir))
-            self.update()
+                os.system('%s %s' %(command, self.manager.unique_IDs[uid].save_dir))
         except KeyError:
             pass
 
