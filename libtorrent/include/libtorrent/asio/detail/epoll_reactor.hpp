@@ -331,7 +331,10 @@ public:
   std::size_t cancel_timer(timer_queue<Time_Traits>& timer_queue, void* token)
   {
     asio::detail::mutex::scoped_lock lock(mutex_);
-    return timer_queue.cancel_timer(token);
+    std::size_t n = timer_queue.cancel_timer(token);
+    if (n > 0)
+      interrupter_.interrupt();
+    return n;
   }
 
 private:
@@ -347,16 +350,13 @@ private:
     read_op_queue_.dispatch_cancellations();
     write_op_queue_.dispatch_cancellations();
     except_op_queue_.dispatch_cancellations();
+    for (std::size_t i = 0; i < timer_queues_.size(); ++i)
+      timer_queues_[i]->dispatch_cancellations();
 
     // Check if the thread is supposed to stop.
     if (stop_thread_)
     {
-      // Clean up operations. We must not hold the lock since the operations may
-      // make calls back into this reactor.
-      lock.unlock();
-      read_op_queue_.cleanup_operations();
-      write_op_queue_.cleanup_operations();
-      except_op_queue_.cleanup_operations();
+      cleanup_operations_and_timers(lock);
       return;
     }
 
@@ -365,12 +365,7 @@ private:
     if (!block && read_op_queue_.empty() && write_op_queue_.empty()
         && except_op_queue_.empty() && all_timer_queues_are_empty())
     {
-      // Clean up operations. We must not hold the lock since the operations may
-      // make calls back into this reactor.
-      lock.unlock();
-      read_op_queue_.cleanup_operations();
-      write_op_queue_.cleanup_operations();
-      except_op_queue_.cleanup_operations();
+      cleanup_operations_and_timers(lock);
       return;
     }
 
@@ -398,59 +393,44 @@ private:
       }
       else
       {
-        if (events[i].events & (EPOLLERR | EPOLLHUP))
+        bool more_reads = false;
+        bool more_writes = false;
+        bool more_except = false;
+        asio::error_code ec;
+
+        // Exception operations must be processed first to ensure that any
+        // out-of-band data is read before normal data.
+        if (events[i].events & (EPOLLPRI | EPOLLERR | EPOLLHUP))
+          more_except = except_op_queue_.dispatch_operation(descriptor, ec);
+        else
+          more_except = except_op_queue_.has_operation(descriptor);
+
+        if (events[i].events & (EPOLLIN | EPOLLERR | EPOLLHUP))
+          more_reads = read_op_queue_.dispatch_operation(descriptor, ec);
+        else
+          more_reads = read_op_queue_.has_operation(descriptor);
+
+        if (events[i].events & (EPOLLOUT | EPOLLERR | EPOLLHUP))
+          more_writes = write_op_queue_.dispatch_operation(descriptor, ec);
+        else
+          more_writes = write_op_queue_.has_operation(descriptor);
+
+        epoll_event ev = { 0, { 0 } };
+        ev.events = EPOLLERR | EPOLLHUP;
+        if (more_reads)
+          ev.events |= EPOLLIN;
+        if (more_writes)
+          ev.events |= EPOLLOUT;
+        if (more_except)
+          ev.events |= EPOLLPRI;
+        ev.data.fd = descriptor;
+        int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
+        if (result != 0)
         {
-          asio::error_code ec;
-          except_op_queue_.dispatch_all_operations(descriptor, ec);
+          ec = asio::error_code(errno, asio::native_ecat);
           read_op_queue_.dispatch_all_operations(descriptor, ec);
           write_op_queue_.dispatch_all_operations(descriptor, ec);
-
-          epoll_event ev = { 0, { 0 } };
-          ev.events = 0;
-          ev.data.fd = descriptor;
-          epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
-        }
-        else
-        {
-          bool more_reads = false;
-          bool more_writes = false;
-          bool more_except = false;
-          asio::error_code ec;
-
-          // Exception operations must be processed first to ensure that any
-          // out-of-band data is read before normal data.
-          if (events[i].events & EPOLLPRI)
-            more_except = except_op_queue_.dispatch_operation(descriptor, ec);
-          else
-            more_except = except_op_queue_.has_operation(descriptor);
-
-          if (events[i].events & EPOLLIN)
-            more_reads = read_op_queue_.dispatch_operation(descriptor, ec);
-          else
-            more_reads = read_op_queue_.has_operation(descriptor);
-
-          if (events[i].events & EPOLLOUT)
-            more_writes = write_op_queue_.dispatch_operation(descriptor, ec);
-          else
-            more_writes = write_op_queue_.has_operation(descriptor);
-
-          epoll_event ev = { 0, { 0 } };
-          ev.events = EPOLLERR | EPOLLHUP;
-          if (more_reads)
-            ev.events |= EPOLLIN;
-          if (more_writes)
-            ev.events |= EPOLLOUT;
-          if (more_except)
-            ev.events |= EPOLLPRI;
-          ev.data.fd = descriptor;
-          int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
-          if (result != 0)
-          {
-            ec = asio::error_code(errno, asio::native_ecat);
-            read_op_queue_.dispatch_all_operations(descriptor, ec);
-            write_op_queue_.dispatch_all_operations(descriptor, ec);
-            except_op_queue_.dispatch_all_operations(descriptor, ec);
-          }
+          except_op_queue_.dispatch_all_operations(descriptor, ec);
         }
       }
     }
@@ -458,19 +438,17 @@ private:
     write_op_queue_.dispatch_cancellations();
     except_op_queue_.dispatch_cancellations();
     for (std::size_t i = 0; i < timer_queues_.size(); ++i)
+    {
       timer_queues_[i]->dispatch_timers();
+      timer_queues_[i]->dispatch_cancellations();
+    }
 
     // Issue any pending cancellations.
     for (size_t i = 0; i < pending_cancellations_.size(); ++i)
       cancel_ops_unlocked(pending_cancellations_[i]);
     pending_cancellations_.clear();
 
-    // Clean up operations. We must not hold the lock since the operations may
-    // make calls back into this reactor.
-    lock.unlock();
-    read_op_queue_.cleanup_operations();
-    write_op_queue_.cleanup_operations();
-    except_op_queue_.cleanup_operations();
+    cleanup_operations_and_timers(lock);
   }
 
   // Run the select loop in the thread.
@@ -566,6 +544,22 @@ private:
       interrupter_.interrupt();
   }
 
+  // Clean up operations and timers. We must not hold the lock since the
+  // destructors may make calls back into this reactor. We make a copy of the
+  // vector of timer queues since the original may be modified while the lock
+  // is not held.
+  void cleanup_operations_and_timers(
+      asio::detail::mutex::scoped_lock& lock)
+  {
+    timer_queues_for_cleanup_ = timer_queues_;
+    lock.unlock();
+    read_op_queue_.cleanup_operations();
+    write_op_queue_.cleanup_operations();
+    except_op_queue_.cleanup_operations();
+    for (std::size_t i = 0; i < timer_queues_for_cleanup_.size(); ++i)
+      timer_queues_for_cleanup_[i]->cleanup_timers();
+  }
+
   // Mutex to protect access to internal data.
   asio::detail::mutex mutex_;
 
@@ -589,6 +583,10 @@ private:
 
   // The timer queues.
   std::vector<timer_queue_base*> timer_queues_;
+
+  // A copy of the timer queues, used when cleaning up timers. The copy is
+  // stored as a class data member to avoid unnecessary memory allocation.
+  std::vector<timer_queue_base*> timer_queues_for_cleanup_;
 
   // The descriptors that are pending cancellation.
   std::vector<socket_type> pending_cancellations_;
