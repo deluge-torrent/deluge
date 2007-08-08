@@ -93,11 +93,11 @@ class TorrentPieces:
         self.top_widget.show_all()
         columns = self.config.get("columns")
         if columns is None:
-            columns = 15
+            columns = 13
         font_size = self.config.get("font_size")
         if font_size is None:
-            font_size = 9
-        self.tab_pieces = PiecesTabManager(self.manager, viewport, columns, font_size)
+            font_size = 7
+        self.tab_pieces = PiecesTabManager(self.manager, viewport, columns+1, font_size+1)
         self.manager.connect_event(self.manager.constants['EVENT_FINISHED'], self.handle_event)
 
     def unload(self):
@@ -106,16 +106,17 @@ class TorrentPieces:
         self.tab_pieces.clear_pieces_store()
         tab_page = self.parent_notebook.page_num(self.top_widget)
         self.parent_notebook.remove_page(tab_page)
+        self.config.save(self.config_file)
 
     def configure(self, window):
         try:
             self.combo_columns.set_active(self.config.get("columns"))
         except:
-            self.combo_columns.set_active(15)
+            self.combo_columns.set_active(13)
         try:
             self.combo_font_size.set_active(self.config.get("font_size"))
         except:
-            self.combo_font_size.set_active(9)
+            self.combo_font_size.set_active(7)
         self.dialog.set_transient_for(window)
         self.dialog.show()
 
@@ -155,8 +156,8 @@ class TorrentPieces:
                         self.combo_columns.get_active())
         self.config.set("font_size", 
                         self.combo_font_size.get_active())
-        self.tab_pieces.set_columns(self.combo_columns.get_active())
-        self.tab_pieces.set_font_size(self.combo_font_size.get_active())
+        self.tab_pieces.set_columns(self.combo_columns.get_active()+1)
+        self.tab_pieces.set_font_size(self.combo_font_size.get_active()+1)
         if needs_store_update:
             self.tab_pieces.clear_pieces_store(clear_unique_id=False)
             self.tab_pieces.prepare_pieces_store()

@@ -146,14 +146,14 @@ class PiecesTabManager(object):
                 self.row += 1
                 self.rows.append([])
                 self.labels.append(gtk.Label())
-                self.labels[row].set_alignment(0,0)
+                self.labels[self.row].set_alignment(0,0)
                 self.vbox.pack_start(self.labels[self.row], expand=False)
             if row > row_prev:
                 self.row += 1
                 row_list = {}
                 self.rows.append([])
                 self.labels.append(gtk.Label())
-                self.labels[row].set_alignment(0,0)
+                self.labels[self.row].set_alignment(0,0)
                 self.vbox.pack_start(self.labels[self.row], expand=False)
             percentage = "    0%  "
             self.pieces[main_index] = {'row':self.row, 'column':column}
