@@ -4,6 +4,8 @@ Deluge 0.5.4.1 (xx August 2007)
   * Fix up pieces, peers and files plugins
   * UPnP fixes
   * FreeBSD full allocation fix
+  * Added per torrent max upload slots and max connections preferences
+  * A lot of other less visible improvements
   
 Deluge 0.5.4 (06 August 2007)
 
