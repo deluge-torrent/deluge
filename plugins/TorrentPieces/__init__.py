@@ -22,12 +22,16 @@ plugin_version = "0.3"
 plugin_description = _("""
 Pieces tab now shows percentage instead
 of progress bars.  There are no longer any tooltips.
+
 Peer speed uses following symbols:
 fast is +
 medium is =
 slow is -
 
 monospace font is required for columns to be aligned.
+
+Font size and number of columns are configurable in the
+preferences.
 
 Finished torrents do not show piece information, just
 a message that the torrent is complete.
