@@ -31,8 +31,7 @@
 
 import os.path
 import xdg.BaseDirectory
-import gobject
-gobject.threads_init()
+
 PROGRAM_NAME = "Deluge"
 PROGRAM_VERSION = "0.5.4"
 
@@ -124,11 +123,11 @@ def open_url_in_browser(link):
         import webbrowser
         webbrowser.open(link)
     else:
-        import webbrowser
-        import gtk
-        gtk.gdk.threads_enter()
-        webbrowser.open(link)
-        gtk.gdk.threads_leave()
+        import os, sys
+        py_version = sys.version[:3]
+        file = os.path.join(INSTALL_PREFIX, 'lib', 'python' \
+                        + py_version, 'site-packages', 'deluge', 'browser.py')
+        os.spawnlp(os.P_NOWAIT, 'python', 'python', file, link)
 
 def is_url(url):
     import re
