@@ -56,6 +56,7 @@ class PreferencesDlg:
     def show(self, interface, window):
         # Load settings into dialog
         try:
+            self.glade.get_widget("combo_file_manager").set_active(self.preferences.get("file_manager"))
             self.glade.get_widget("combo_encin").set_active(self.preferences.get("encin_state"))
             self.glade.get_widget("combo_encout").set_active(self.preferences.get("encout_state"))
             self.glade.get_widget("combo_enclevel").set_active(self.preferences.get("enclevel_type"))
@@ -156,6 +157,7 @@ class PreferencesDlg:
 
     def ok_clicked(self, source, interface):
         self.dialog.hide()
+        self.preferences.set("file_manager", self.glade.get_widget("combo_file_manager").get_active())
         self.preferences.set("encin_state", self.glade.get_widget("combo_encin").get_active())
         self.preferences.set("encout_state", self.glade.get_widget("combo_encout").get_active())
         self.preferences.set("enclevel_type", self.glade.get_widget("combo_enclevel").get_active())

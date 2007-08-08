@@ -69,7 +69,13 @@ def fsize(fsize_b):
     if fsize_mb < 1000:
         return "%.1f %s" % (fsize_mb, _("MiB"))
     fsize_gb = float (fsize_mb / 1024.0)
-    return "%.1f %s" % (fsize_gb, _("GiB"))
+    if fsize_gb < 1000:
+        return "%.1f %s" % (fsize_gb, _("GiB"))
+    fsize_tb = float (fsize_gb / 1024.0)
+    if fsize_tb < 1000:
+        return "%.1f %s" % (fsize_tb, _("TiB"))
+    fsize_pb = float (fsize_tb / 1024.0)
+    return "%.1f %s" % (fsize_pb, _("PiB"))
 
 # Returns a formatted string representing a percentage
 def fpcnt(dec):
@@ -159,3 +165,5 @@ class EncLevel:
 
 class ProxyType:
     none, socks4, socks5, socks5_pw, http, http_pw = range(6)
+class FileManager:
+    konqueror, nautilus, thunar = range(3)

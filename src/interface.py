@@ -52,6 +52,9 @@ class DelugeGTK:
         #Start the Deluge Manager:
         self.manager = core.Manager(common.CLIENT_CODE, common.CLIENT_VERSION, 
             '%s %s'%(common.PROGRAM_NAME, common.PROGRAM_VERSION), common.CONFIG_DIR)
+        self.logdir = os.path.join(common.CONFIG_DIR, 'logs')
+        self.alltime_download = None
+        self.alltime_upload = None
         self.plugins = plugins.PluginManager(self.manager, self)
         self.plugins.add_plugin_dir(common.PLUGIN_DIR)
         if os.path.isdir(os.path.join(common.CONFIG_DIR , 'plugins')):
@@ -499,6 +502,7 @@ class DelugeGTK:
                         "tor_pause": self.tor_pause,
                         "update_tracker": self.update_tracker,
                         "clear_finished": self.clear_finished,
+                        "open_folder_clicked": self.open_folder,
                         "queue_up": self.q_torrent_up,
                         "queue_down": self.q_torrent_down,
                         "queue_bottom": self.q_to_bottom,
@@ -633,7 +637,23 @@ class DelugeGTK:
             return is_selected
         else:
             return False
-    
+
+    def open_folder(self, widget):
+        unique_ids = self.get_selected_torrent_rows()
+#        try:
+        for uid in unique_ids:
+            if self.config.get("file_manager") == 0:
+                command = "/usr/bin/konqueror"
+            if self.config.get("file_manager") == 1:
+                command = "/usr/bin/nautilus"
+            if self.config.get("file_manager") == 2:
+                command = "/usr/bin/thunar"
+#               print "command %s uid %i dir %s\n" %(command, uid, self.manager.unique_IDs[uid].save_dir)
+            os.system('%s %s' %(command, self.manager.unique_IDs[uid].save_dir))
+            self.update()
+#        except KeyError:
+ #           pass
+
     def tor_start(self, widget):
         unique_ids = self.get_selected_torrent_rows()
         try:
@@ -800,6 +820,20 @@ class DelugeGTK:
     
     ## Start the timer that updates the interface
     def start(self, start_in_tray=False, cmd_line_torrents=None):
+        if not os.path.isdir(self.logdir):
+            os.mkdir(self.logdir)
+        log = os.path.join(self.logdir, "stats.log")
+        try:
+            logfile = open(log, "r")
+        except:
+            self.alltime_download = 0
+            self.alltime_upload = 0
+        else:
+            readlines = logfile.readlines() 
+            self.alltime_download = long(readlines[0])
+            self.alltime_upload = long(readlines[1])
+            logfile.close()
+
         if cmd_line_torrents is None:
             cmd_line_torrents = []
         
@@ -947,10 +981,14 @@ class DelugeGTK:
             max_connections = _("Unlimited")
         else:
             max_connections = int(self.config.get("max_connections_global"))
+
+        dlall = long(core_state['total_downloaded']) + self.alltime_download
+        ulall = long(core_state['total_uploaded']) + self.alltime_upload
+
         dlspeed = common.fspeed(core_state['download_rate'])
         ulspeed = common.fspeed(core_state['upload_rate'])
-        dltotal = common.fsize(core_state['total_downloaded'])
-        ultotal = common.fsize(core_state['total_uploaded'])
+        dltotal = common.fsize(dlall)
+        ultotal = common.fsize(ulall)
 
         if self.config.get("max_download_speed") < 0:
             dlspeed_max = _("Unlimited")
@@ -1325,6 +1363,16 @@ class DelugeGTK:
                 self.shutdown()
 
     def shutdown(self):
+        core_state = self.manager.get_state()
+
+        dlall = long(core_state['total_downloaded']) + self.alltime_download
+        ulall = long(core_state['total_uploaded']) + self.alltime_upload
+
+        log = os.path.join(self.logdir, "stats.log")
+        logfile = open(log, "w")
+        logfile.writelines([str(dlall)+'\n', str(ulall)+'\n'])
+        logfile.close()
+
         enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
         self.config.set('enabled_plugins', enabled_plugins)
         self.save_window_settings()
