@@ -640,11 +640,11 @@ class DelugeGTK:
         try:
             for uid in unique_ids:
                 if self.config.get("file_manager") == 0:
-                    command = "/usr/bin/konqueror"
+                    command = "konqueror"
                 if self.config.get("file_manager") == 1:
-                    command = "/usr/bin/nautilus"
+                    command = "nautilus"
                 if self.config.get("file_manager") == 2:
-                    command = "/usr/bin/thunar"
+                    command = "thunar"
                 os.system('%s %s' %(command, self.manager.unique_IDs[uid].save_dir))
         except KeyError:
             pass
