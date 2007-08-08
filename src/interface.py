@@ -963,7 +963,8 @@ class DelugeGTK:
             max_connections = _("Unlimited")
         else:
             max_connections = int(self.config.get("max_connections_global"))
-
+        dlspeed = common.fspeed(core_state['download_rate'])
+        ulspeed = common.fspeed(core_state['upload_rate'])
         dltotal = common.fsize(core_state['total_downloaded'])
         ultotal = common.fsize(core_state['total_uploaded'])
 
@@ -996,7 +997,7 @@ class DelugeGTK:
             _("Total Uploaded"), ultotal)
         
         self.tray_icon.set_tooltip(msg)
-        
+
     def update_torrent_info_widget(self):
         unique_id = self.get_selected_torrent()
         # If no torrents added
