@@ -141,8 +141,8 @@ class PreferencesDlg:
                 self.glade.get_widget('spin_port_min').set_sensitive(True)
                 self.glade.get_widget('spin_port_max').set_sensitive(True)
 
-            self.glade.get_widget("ok_button").connect("pressed", self.ok_pressed, interface)
-            self.glade.get_widget("cancel_button").connect("pressed", self.cancel_pressed)
+            self.glade.get_widget("ok_button").connect("clicked", self.ok_pressed, interface)
+            self.glade.get_widget("cancel_button").connect("clicked", self.cancel_pressed)
             
         except KeyError:
             pass
