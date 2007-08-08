@@ -32,7 +32,6 @@
 import os.path
 import xdg.BaseDirectory
 import gobject
-gobject.threads_init()
 
 PROGRAM_NAME = "Deluge"
 PROGRAM_VERSION = "0.5.4"

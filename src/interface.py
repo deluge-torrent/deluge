@@ -48,7 +48,6 @@ import tab_details
 
 class DelugeGTK:
     def __init__(self):
-	gobject.threads_init()
         self.ipc_manager = ipc_manager.Manager(self)
         #Start the Deluge Manager:
         self.manager = core.Manager(common.CLIENT_CODE, common.CLIENT_VERSION, 
@@ -116,42 +115,42 @@ class DelugeGTK:
         self.update_interface = True
 
         def new_release_check():
-		import urllib
-		new_release = urllib.urlopen("http://download.deluge-torrent.org/version").read().strip()
-		if new_release >  common.PROGRAM_VERSION:
-		    gtk.gdk.threads_enter() 
-		    dialog = gtk.MessageDialog(parent = None,
-		             flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
-		             buttons = gtk.BUTTONS_YES_NO,
-                	     message_format=_("There is a newer version of Deluge.  Would you like to be taken to our download site?"),
+        import urllib
+        new_release = urllib.urlopen("http://download.deluge-torrent.org/version").read().strip()
+        if new_release >  common.PROGRAM_VERSION:
+            gtk.gdk.threads_enter() 
+            dialog = gtk.MessageDialog(parent = None,
+                     flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+                     buttons = gtk.BUTTONS_YES_NO,
+                         message_format=_("There is a newer version of Deluge.  Would you like to be taken to our download site?"),
                              type=gtk.MESSAGE_QUESTION)
-		    dialog.set_title('New Release!')
-		    result = dialog.run()
-		    dialog.destroy()
-		    if result == gtk.RESPONSE_YES:
-			common.open_url_in_browser('http://download.deluge-torrent.org')
-		    elif result == gtk.RESPONSE_NO:
-		        pass
-		    gtk.gdk.threads_leave() 
+            dialog.set_title('New Release!')
+            result = dialog.run()
+            dialog.destroy()
+            if result == gtk.RESPONSE_YES:
+            common.open_url_in_browser('http://download.deluge-torrent.org')
+            elif result == gtk.RESPONSE_NO:
+                pass
+            gtk.gdk.threads_leave() 
 
-		
+        
         def send_info():
-	    import time
+        import time
             
             def _run_script():
-		import urllib
-		import platform
+        import urllib
+        import platform
 
-		pygtk = '%i.%i.%i' %(gtk.pygtk_version[0],gtk.pygtk_version[1],gtk.pygtk_version[2])
+        pygtk = '%i.%i.%i' %(gtk.pygtk_version[0],gtk.pygtk_version[1],gtk.pygtk_version[2])
                 gtk.gdk.threads_enter() 
 
-		urllib.urlopen("http://download.deluge-torrent.org/stats.php?processor=" + \
-		    platform.machine() + "&python=" + platform.python_version() \
-		    + "&os=" + platform.system() + "&pygtk=" + pygtk)
+        urllib.urlopen("http://download.deluge-torrent.org/stats.php?processor=" + \
+            platform.machine() + "&python=" + platform.python_version() \
+            + "&os=" + platform.system() + "&pygtk=" + pygtk)
 
-		f = open(os.path.join(common.CONFIG_DIR, 'infosent'), 'w')
-		f.write("")
-		f.close
+        f = open(os.path.join(common.CONFIG_DIR, 'infosent'), 'w')
+        f.write("")
+        f.close
                 gtk.gdk.threads_leave() 
 
             info_file = os.path.join(common.CONFIG_DIR, 'infosent')
@@ -1354,6 +1353,7 @@ class DelugeGTK:
 
 ## For testing purposes, create a copy of the interface
 if __name__ == "__main__":
+    gobject.threads_init()
     interface = DelugeGTK()
     interface.start()
 
