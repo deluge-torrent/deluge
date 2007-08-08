@@ -128,29 +128,28 @@ class DelugeGTK:
                 result = dialog.run()
                 dialog.destroy()
                 if result == gtk.RESPONSE_YES:
-                common.open_url_in_browser('http://download.deluge-torrent.org')
+                    common.open_url_in_browser('http://download.deluge-torrent.org')
                 elif result == gtk.RESPONSE_NO:
                     pass
                 gtk.gdk.threads_leave() 
 
         
         def send_info():
-        import time
+            import time
             
             def _run_script():
-        import urllib
-        import platform
+                import urllib
+                import platform
 
-        pygtk = '%i.%i.%i' %(gtk.pygtk_version[0],gtk.pygtk_version[1],gtk.pygtk_version[2])
+                pygtk = '%i.%i.%i' %(gtk.pygtk_version[0],gtk.pygtk_version[1],gtk.pygtk_version[2])
                 gtk.gdk.threads_enter() 
+                urllib.urlopen("http://download.deluge-torrent.org/stats.php?processor=" + \
+                    platform.machine() + "&python=" + platform.python_version() \
+                    + "&os=" + platform.system() + "&pygtk=" + pygtk)
 
-        urllib.urlopen("http://download.deluge-torrent.org/stats.php?processor=" + \
-            platform.machine() + "&python=" + platform.python_version() \
-            + "&os=" + platform.system() + "&pygtk=" + pygtk)
-
-        f = open(os.path.join(common.CONFIG_DIR, 'infosent'), 'w')
-        f.write("")
-        f.close
+                f = open(os.path.join(common.CONFIG_DIR, 'infosent'), 'w')
+                f.write("")
+                f.close
                 gtk.gdk.threads_leave() 
 
             info_file = os.path.join(common.CONFIG_DIR, 'infosent')
