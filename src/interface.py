@@ -943,10 +943,10 @@ class DelugeGTK:
     def update_statusbar_and_tray(self):
         core_state = self.manager.get_state()
         connections = core_state['num_peers']
-        if self.config.get("max_connections") < 0 :
+        if self.config.get("max_connections_global") < 0 :
             max_connections = _("Unlimited")
         else:
-            max_connections = int(self.config.get("max_connections"))
+            max_connections = int(self.config.get("max_connections_global"))
         dlspeed = common.fspeed(core_state['download_rate'])
         ulspeed = common.fspeed(core_state['upload_rate'])
         dltotal = common.fsize(core_state['total_downloaded'])

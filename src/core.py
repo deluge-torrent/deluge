@@ -69,9 +69,9 @@ DHT_FILENAME = "dht.state"
 
 PREF_FUNCTIONS = {
     "listen_on" : deluge_core.set_listen_on,
-    "max_connections" : deluge_core.set_max_connections,
+    "max_connections_global" : deluge_core.set_max_connections_global,
     "max_active_torrents" : None, # no need for a function, applied constantly
-    "max_number_uploads" : deluge_core.set_max_uploads,
+    "max_upload_slots_global" : deluge_core.set_max_upload_slots_global,
     "auto_seed_ratio" : None, # no need for a function, applied constantly
     "max_download_speed_bps" : deluge_core.set_download_rate_limit,
     "max_upload_speed_bps" : deluge_core.set_upload_rate_limit,
@@ -903,10 +903,14 @@ class Manager:
                 else:
                     PREF_FUNCTIONS[pref](self.get_pref(pref))
                                                 
-        # We need to reapply priorities to files after preferences were 
-        # changed
+        # We need to reapply priorities to files and per torrent options after
+        # preferences were changed.
         for unique_ID in self.unique_IDs:
             self.prioritize_files(unique_ID, self.get_priorities(unique_ID))
+            self.set_max_connections_per_torrent(unique_ID, 
+                self.get_pref("max_connections_per_torrent"))
+            self.set_max_upload_slots_per_torrent(unique_ID, 
+                self.get_pref("max_upload_slots_per_torrent"))
 
     def set_DHT(self, start=False):
         if start == True and self.dht_running != True:
@@ -957,11 +961,16 @@ class Manager:
     def replace_trackers(self, unique_ID, trackers):
         return deluge_core.replace_trackers(unique_ID, trackers)
 
-    def set_flp(self, unique_ID, num):
-        return deluge_core.set_flp(unique_ID, int(num))
-
     def set_priv(self, unique_ID, on_off):
         return deluge_core.set_priv(unique_ID, on_off)
+
+    def set_max_connections_per_torrent(self, unique_ID, max_connections):
+        return deluge_core.set_max_connections_per_torrent(unique_ID, 
+                   max_connections)
+    
+    def set_max_upload_slots_per_torrent(self, unique_ID, max_upload_slots):
+        return deluge_core.set_max_upload_slots_per_torrent(unique_ID, 
+                   max_upload_slots)
 
     def set_per_upload_rate_limit(self, unique_ID, speed):
         if speed != -1:
