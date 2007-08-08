@@ -311,18 +311,6 @@ class DelugeGTK:
 
                 menu.append(menuitem)
 
- #       if show_activated is True:
-#            for value in sorted(value_list):
-  #              menuitem = gtk.RadioMenuItem(group, activated_label)
-   #             group = menuitem
-#
- #               if value == 1:
-  #                  menuitem.set_active(False)
-   #             else:
-    #                menuitem.set_active(True)
-     #           menuitem.connect("toggled", callback)
-      #          menu.append(menuitem)
-
         if show_notset:
             menuitem = gtk.RadioMenuItem(group, notset_label)
             if pref_value < notset_lessthan and pref_value != None:
