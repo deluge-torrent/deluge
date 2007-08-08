@@ -709,7 +709,7 @@ class Manager:
         self.unique_IDs[unique_ID].user_paused = new_value
         if enforce_queue:
             self.apply_queue()
-        self.sync()
+        self.pickle_state()
 
     def set_ratio(self, unique_ID, num):
         deluge_core.set_ratio(unique_ID, float(num))
