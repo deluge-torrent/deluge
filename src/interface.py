@@ -561,7 +561,7 @@ class DelugeGTK:
         self.dl_column = dgtk.add_func_column(self.torrent_view, _("Down Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_DOWNLOAD)
         self.ul_column = dgtk.add_func_column(self.torrent_view, _("Up Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_UPLOAD)
         self.eta_column = dgtk.add_func_column(self.torrent_view, _("ETA"), time, TORRENT_VIEW_COL_ETA)
-        self.availability_column = dgtk.add_func_column(self.torrent_view, _("Availability"), availability, TORRENT_VIEW_COL_AVAILABILITY)
+        self.availability_column = dgtk.add_func_column(self.torrent_view, _("Avail."), availability, TORRENT_VIEW_COL_AVAILABILITY)
         self.share_column = dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, TORRENT_VIEW_COL_RATIO)
         
         self.status_column.set_expand(True)
