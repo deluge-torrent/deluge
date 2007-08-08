@@ -41,6 +41,9 @@ import os.path
 
 DEFAULT_PREFS = {
     "file_manager" : common.FileManager.nautilus,
+    "open_folder_stock" : True,
+    "open_folder_custom" : False,
+    "open_folder_location": "",
     "send_info" : True,
     "auto_end_seeding" : False,
     "auto_seed_ratio" : 0,

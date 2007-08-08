@@ -639,12 +639,15 @@ class DelugeGTK:
         unique_ids = self.get_selected_torrent_rows()
         try:
             for uid in unique_ids:
-                if self.config.get("file_manager") == 0:
-                    command = "konqueror"
-                if self.config.get("file_manager") == 1:
-                    command = "nautilus"
-                if self.config.get("file_manager") == 2:
-                    command = "thunar"
+                if self.config.get("open_folder_stock"):
+                    if self.config.get("file_manager") == 0:
+                        command = "konqueror"
+                    if self.config.get("file_manager") == 1:
+                        command = "nautilus"
+                    if self.config.get("file_manager") == 2:
+                        command = "thunar"
+                elif self.config.get("open_folder_custom"):
+                    command = self.config.get("open_folder_location")
                 os.system('%s %s' %(command, self.manager.unique_IDs[uid].save_dir))
         except KeyError:
             pass

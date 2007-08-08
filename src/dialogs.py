@@ -57,6 +57,9 @@ class PreferencesDlg:
         # Load settings into dialog
         try:
             self.glade.get_widget("combo_file_manager").set_active(self.preferences.get("file_manager"))
+            self.glade.get_widget("txt_open_folder_location").set_text(self.preferences.get("open_folder_location"))
+            self.glade.get_widget("radio_open_folder_stock").set_active(self.preferences.get("open_folder_stock"))
+            self.glade.get_widget("radio_open_folder_custom").set_active(self.preferences.get("open_folder_custom"))
             self.glade.get_widget("combo_encin").set_active(self.preferences.get("encin_state"))
             self.glade.get_widget("combo_encout").set_active(self.preferences.get("encout_state"))
             self.glade.get_widget("combo_enclevel").set_active(self.preferences.get("enclevel_type"))
@@ -158,6 +161,9 @@ class PreferencesDlg:
     def ok_clicked(self, source, interface):
         self.dialog.hide()
         self.preferences.set("file_manager", self.glade.get_widget("combo_file_manager").get_active())
+        self.preferences.set("open_folder_custom", self.glade.get_widget("radio_open_folder_custom").get_active())
+        self.preferences.set("open_folder_stock", self.glade.get_widget("radio_open_folder_stock").get_active())
+        self.preferences.set("open_folder_location", self.glade.get_widget("txt_open_folder_location").get_text())
         self.preferences.set("encin_state", self.glade.get_widget("combo_encin").get_active())
         self.preferences.set("encout_state", self.glade.get_widget("combo_encout").get_active())
         self.preferences.set("enclevel_type", self.glade.get_widget("combo_enclevel").get_active())
