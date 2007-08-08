@@ -640,19 +640,18 @@ class DelugeGTK:
 
     def open_folder(self, widget):
         unique_ids = self.get_selected_torrent_rows()
-#        try:
-        for uid in unique_ids:
-            if self.config.get("file_manager") == 0:
-                command = "/usr/bin/konqueror"
-            if self.config.get("file_manager") == 1:
-                command = "/usr/bin/nautilus"
-            if self.config.get("file_manager") == 2:
-                command = "/usr/bin/thunar"
-#               print "command %s uid %i dir %s\n" %(command, uid, self.manager.unique_IDs[uid].save_dir)
+        try:
+            for uid in unique_ids:
+                if self.config.get("file_manager") == 0:
+                    command = "/usr/bin/konqueror"
+                if self.config.get("file_manager") == 1:
+                    command = "/usr/bin/nautilus"
+                if self.config.get("file_manager") == 2:
+                    command = "/usr/bin/thunar"
             os.system('%s %s' %(command, self.manager.unique_IDs[uid].save_dir))
             self.update()
-#        except KeyError:
- #           pass
+        except KeyError:
+            pass
 
     def tor_start(self, widget):
         unique_ids = self.get_selected_torrent_rows()
