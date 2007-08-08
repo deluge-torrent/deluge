@@ -615,7 +615,9 @@ class Manager:
                 if event['message'] == "torrent has finished downloading":
                     if self.get_pref('enable_move_completed') and \
                        self.get_pref('default_finished_path') != \
-                           self.get_pref('default_download_path'):
+                           self.get_pref('default_download_path') and \
+                       self.unique_IDs[event['unique_ID']].save_dir != \
+                           self.get_pref('default_finished_path'):
                         deluge_core.move_storage(event['unique_ID'], 
                             self.get_pref('default_finished_path'))
                     
