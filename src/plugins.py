@@ -92,7 +92,15 @@ class PluginManager:
 
     def configure_plugin(self, name, window):
         self.enabled_plugins[name].configure(window)
-    
+
+    def get_plugin_tray_messages(self):
+        tray_message = ""
+        for name in self.enabled_plugins.keys():
+            plugin = self.enabled_plugins[name]
+            if 'get_tray_message' in dir(plugin):
+                tray_message = tray_message + '\n' + plugin.get_tray_message()
+        return tray_message
+
     def update_active_plugins(self):
         for name in self.enabled_plugins.keys():
             plugin = self.enabled_plugins[name]

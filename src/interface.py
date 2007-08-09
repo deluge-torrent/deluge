@@ -970,6 +970,7 @@ class DelugeGTK:
         return True
             
     def update_statusbar_and_tray(self):
+        plugin_messages = self.plugins.get_plugin_tray_messages()
         core_state = self.manager.get_state()
         connections = core_state['num_peers']
         if self.config.get("max_connections_global") < 0 :
@@ -1004,10 +1005,10 @@ class DelugeGTK:
             self.statusbar_temp_msg = self.statusbar_temp_msg + \
                                       '   [' + _("DHT") + ': %s]'%(dht_peers)
         
-        msg = '%s\n%s: %s (%s)\n%s: %s (%s)\n%s: %s\n%s: %s' % (
+        msg = '%s\n%s: %s (%s)\n%s: %s (%s)\n%s: %s\n%s: %s\n%s: %s%s' % (
             _("Deluge Bittorrent Client"), _("Down Speed"), dlspeed, dlspeed_max, 
             _("Up Speed"), ulspeed, ulspeed_max, _("Total Downloaded"), dltotal,
-            _("Total Uploaded"), ultotal)
+            _("Total Uploaded"), ultotal, plugin_messages)
         
         self.tray_icon.set_tooltip(msg)
 
