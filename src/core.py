@@ -911,10 +911,13 @@ class Manager:
         # preferences were changed.
         for unique_ID in self.unique_IDs:
             self.prioritize_files(unique_ID, self.get_priorities(unique_ID))
-            self.set_max_connections_per_torrent(unique_ID, 
-                self.get_pref("max_connections_per_torrent"))
-            self.set_max_upload_slots_per_torrent(unique_ID, 
-                self.get_pref("max_upload_slots_per_torrent"))
+            self.apply_prefs_per_torrent(unique_ID)
+
+    def apply_prefs_per_torrent(self, unique_ID):
+        self.set_max_connections_per_torrent(unique_ID, 
+            self.get_pref("max_connections_per_torrent"))
+        self.set_max_upload_slots_per_torrent(unique_ID, 
+            self.get_pref("max_upload_slots_per_torrent"))
 
     def set_DHT(self, start=False):
         if start == True and self.dht_running != True:
