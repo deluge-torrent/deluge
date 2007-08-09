@@ -1101,7 +1101,6 @@ class DelugeGTK:
                         files_dialog.get_priorities())
                     if files_dialog.is_private_flag_checked():
                         self.manager.set_priv(unique_id, True)
-                    self.manager.apply_prefs_per_torrent(unique_id)
                 else:
                     return
             else:

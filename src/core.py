@@ -813,6 +813,8 @@ class Manager:
                     unique_ID = deluge_core.add_torrent(torrent.filename,
                                                         torrent.save_dir,
                                                         torrent.compact)
+                    # Apply per torrent prefs after torrent added to core
+                    self.apply_prefs_per_torrent(unique_ID)
                 except DelugeError, e:
                     print "Error:", e
                     self.state.torrents.remove(torrent)
