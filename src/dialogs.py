@@ -47,7 +47,10 @@ class PreferencesDlg:
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
         self.glade.signal_autoconnect({
                                         'toggle_ui': self.toggle_ui,
-                                        'on_btn_testport_clicked': self.TestPort
+                                        'on_btn_testport_clicked': self.TestPort,
+                                        'on_combo_file_manager_entry_focus_in_event': self.on_combo_file_manager_entry_focus_in_event,
+                                        'on_txt_open_folder_location_focus_in_event': self.on_txt_open_folder_location_focus_in_event,
+                                        'on_radio_open_folder_custom_focus_in_event': self.on_radio_open_folder_custom_focus_in_event
                                       })
         
         self.preferences = preferences
@@ -286,6 +289,15 @@ class PreferencesDlg:
             if not value:
                 self.glade.get_widget('spin_port_min').set_sensitive(True)
                 self.glade.get_widget('spin_port_max').set_sensitive(True)
+
+    def on_combo_file_manager_entry_focus_in_event(self, widget, event):
+        self.glade.get_widget("radio_open_folder_stock").set_active(True)
+        
+    def on_txt_open_folder_location_focus_in_event(self, widget, event):
+        self.glade.get_widget("radio_open_folder_custom").set_active(True)
+
+    def on_radio_open_folder_custom_focus_in_event(self, widget, event):
+        self.glade.get_widget("txt_open_folder_location").grab_focus()
 
 class MergeDlg:
     def __init__(self):
