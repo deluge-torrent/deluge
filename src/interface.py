@@ -1005,7 +1005,7 @@ class DelugeGTK:
             self.statusbar_temp_msg = self.statusbar_temp_msg + \
                                       '   [' + _("DHT") + ': %s]'%(dht_peers)
         
-        msg = '%s\n%s: %s (%s)\n%s: %s (%s)\n%s: %s\n%s: %s\n%s: %s%s' % (
+        msg = '%s\n%s: %s (%s)\n%s: %s (%s)\n%s: %s\n%s: %s\n %s' % (
             _("Deluge Bittorrent Client"), _("Down Speed"), dlspeed, dlspeed_max, 
             _("Up Speed"), ulspeed, ulspeed_max, _("Total Downloaded"), dltotal,
             _("Total Uploaded"), ultotal, plugin_messages)
