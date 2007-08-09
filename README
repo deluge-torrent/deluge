@@ -34,7 +34,7 @@ python-all-dev
 python-all version >= 2.4
 python-dbus
 python-gtk2 version >= 2.9
-python-xdg
+python-xdg (http://freedesktop.org/wiki/Software/pyxdg)
 python-support
 libboost-dev >= 1.33.1
 libboost-thread-dev
