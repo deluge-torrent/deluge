@@ -841,18 +841,20 @@ class DelugeGTK:
             
         for torrent_file in cmd_line_torrents:
             self.interactive_add_torrent(torrent_file)
-        
-        # Load plugins after we showed main window (if not started in tray)
-        self.load_plugins()
-        
+             
         # Call update now so everything is up-to-date when the window gains 
         # focus on startup
         self.update()
         gobject.timeout_add(1000, self.update)
+
+        # Load plugins after we showed main window (if not started in tray)
+        self.load_plugins()
+
         try:
             gtk.main()
         except KeyboardInterrupt:
             self.manager.quit()
+
 
     def load_plugins(self):
         enable_plugins = self.config.get('enabled_plugins').split(':')

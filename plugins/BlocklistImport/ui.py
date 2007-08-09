@@ -9,7 +9,7 @@ import BlocklistImport
 class GTKConfig(gtk.Dialog):
     def __init__(self, plugin):
         gtk.Dialog.__init__(self, title="Blocklist Config",
-                            flags=gtk.DIALOG_DESTROY_WITH_PARENT,
+                            parent=None,
                             buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
                                      gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
         self.set_property("skip-taskbar-hint", True)
@@ -93,7 +93,7 @@ class GTKConfig(gtk.Dialog):
 class GTKProgress(gtk.Dialog):
     def __init__(self, plugin):
         gtk.Dialog.__init__(self, title="Loading Blocklist",
-                            flags=gtk.DIALOG_MODAL,
+                            parent=None,
                             buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT))
         self.plugin = plugin
 
@@ -164,7 +164,7 @@ class GTKProgress(gtk.Dialog):
 class GTKError(gtk.Dialog):
     def __init__(self, message):
         gtk.Dialog.__init__(self, title="Error",
-                            flags=gtk.DIALOG_MODAL,
+                            parent=None,
                             buttons=(gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
 
         # Setup
