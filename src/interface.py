@@ -858,9 +858,16 @@ class DelugeGTK:
 
     def load_plugins(self):
         enable_plugins = self.config.get('enabled_plugins').split(':')
+        print enable_plugins
         for plugin in enable_plugins:
+            if plugin != "Blocklist Importer":
+                try:
+                    self.plugins.enable_plugin(plugin)
+                except KeyError:
+                    pass
+        if "Blocklist Importer" in enable_plugins:
             try:
-                self.plugins.enable_plugin(plugin)
+                self.plugins.enable_plugin("Blocklist Importer")
             except KeyError:
                 pass
 
