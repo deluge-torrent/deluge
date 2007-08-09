@@ -34,7 +34,7 @@ class LogTabManager(object):
     def handle_event(self, event):
         event_message = None
         if event['event_type'] is self.manager.constants['EVENT_FINISHED']:
-            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(CONFIG_DIR, 'torrentfiles/'), '')
+            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
             event_message = _("Torrent finished") + " {"+ _("event message: ") + event['message'] + ", "\
                 + _("torrent: ") + torrent + "}"
             if self.log_files:
@@ -59,7 +59,7 @@ class LogTabManager(object):
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_FILE_ERROR']:
-            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(CONFIG_DIR, 'torrentfiles/'), '')
+            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
             event_message = _("File error") + " {" + _("event message: ") + event['message'] + ", " + _("torrent: ")\
                 + torrent + "}"
             if self.log_files:
@@ -68,7 +68,7 @@ class LogTabManager(object):
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_HASH_FAILED_ERROR']:
-            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(CONFIG_DIR, 'torrentfiles/'), '')
+            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
             event_message = _("Hash failed error") + " {" + _("event message: ") + event['message'] + ", "\
                 + _("torrent: ") + torrent + ", "\
                 + _("piece index: ") + str(event['piece_index']) + "}"
@@ -78,7 +78,7 @@ class LogTabManager(object):
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_PEER_BAN_ERROR']:
-            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(CONFIG_DIR, 'torrentfiles/'), '')
+            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
             event_message = _("Peer ban error") + " {" + _("event message: ") + event['message'] + ", " + _("ip address: ")\
                 + event['ip'] + ", " + _("torrent: ") + torrent + "}"
             if self.log_files:
@@ -87,7 +87,7 @@ class LogTabManager(object):
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_FASTRESUME_REJECTED_ERROR']:
-            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(CONFIG_DIR, 'torrentfiles/'), '')
+            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
             event_message = _("Fastresume rejected error") + event['message'] + ", "\
                 + _("torrent: ") + torrent + "}"
             if self.log_files:
@@ -96,7 +96,7 @@ class LogTabManager(object):
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_TRACKER_ANNOUNCE']:
-            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(CONFIG_DIR, 'torrentfiles/'), '')
+            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
             event_message = _("Tracker announce") + " {" + _("event message: ") + event['message'] + ", "\
                 + _("torrent: ") + torrent + "}"
             if self.log_files:
@@ -105,7 +105,7 @@ class LogTabManager(object):
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_TRACKER_REPLY']:
-            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(CONFIG_DIR, 'torrentfiles/'), '')
+            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
             event_message = _("Tracker reply") + " {" + _("event message: ") + event['message'] + ", "\
                 + _("torrent: ") + torrent + "}"
             if self.log_files:
@@ -114,7 +114,7 @@ class LogTabManager(object):
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_TRACKER_ALERT']:
-            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(CONFIG_DIR, 'torrentfiles/'), '')
+            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
             event_message = _("Tracker alert") + " {" + _("event message: ") + event['message'] + ", "\
                 + _("torrent: ") + torrent + ", "\
                 + _("status code: ") + str(event['status_code']) + ", " + _("Times in a row: ")\
@@ -125,7 +125,7 @@ class LogTabManager(object):
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_TRACKER_WARNING']:
-            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(CONFIG_DIR, 'torrentfiles/'), '')
+            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
             event_message = _("Tracker warning") + " {" + _("event message: ") + event['message'] + ", "\
                 + _("torrent: ") + torrent + "}"
             if self.log_files:
@@ -134,7 +134,7 @@ class LogTabManager(object):
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_STORAGE_MOVED']:
-            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(CONFIG_DIR, 'torrentfiles/'), '')
+            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
             event_message = _("Storage moved") + " {" + _("event message: ") + event['message'] + ", "\
                 + _("torrent: ") + torrent + "}"
             if self.log_files:
@@ -143,7 +143,7 @@ class LogTabManager(object):
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_PIECE_FINISHED']:
-            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(CONFIG_DIR, 'torrentfiles/'), '')
+            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
             event_message = _("Piece finished") + " {" + _("event message: ") + event['message'] + ", "\
                 + _("torrent: ") + torrent + ", "\
                 + _("piece index: ") + str(event['piece_index']) + "}"
@@ -153,7 +153,7 @@ class LogTabManager(object):
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_BLOCK_DOWNLOADING']:
-            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(CONFIG_DIR, 'torrentfiles/'), '')
+            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
             event_message = _("Block downloading") + " {" + _("event message: ") + event['message'] + ", "\
                 + _("torrent: ") + torrent + ", "\
                 + _("piece index: ") + str(event['piece_index']) + ", " + _("block index: ")\
@@ -164,7 +164,7 @@ class LogTabManager(object):
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_BLOCK_FINISHED']:
-            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(CONFIG_DIR, 'torrentfiles/'), '')
+            torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
             event_message = _("Block finished") + " {" + _("event message: ") + event['message'] + ", "\
                 + _("torrent: ") + torrent + ", "\
                 + _("piece index: ") + str(event['piece_index']) + ", " + _("block index: ")\
