@@ -6,7 +6,12 @@ import sys
 
 import __init__
 
-new_release = urllib.urlopen("http://download.deluge-torrent.org/version").read().strip()
+try:
+    new_release = urllib.urlopen("http://download.deluge-torrent.org/version").read().strip()
+except IOError:
+    print "Network error while trying to check for a newer version of Deluge"
+    new_release = ""
+
 if new_release >  sys.argv[1]:
     import gtk
     import pygtk
