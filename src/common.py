@@ -158,7 +158,6 @@ def exec_command(executable, *parameters):
     command = [executable]
     command.extend(parameters)    
     Popen(command)
-    
 
 def exec_deluge_command(script, *parameters):
     """Execute deluge's command like browser.py, update.py and others"""
