@@ -35,7 +35,21 @@ class FilesTabManager(FilesBaseManager):
             self.compact_allocation_warning()
         else:
             super(FilesTabManager, self).priority_clicked(widget)
-    
+
+    def open_file(self, widget):
+        self.open_image = gtk.Image()
+        self.open_image.set_from_stock(gtk.STOCK_OPEN)
+        self.open_speed_menuitem = gtk.ImageMenuItem(_("OPen File"))
+        self.open_speed_menuitem.set_image(self.down_image)   
+
+        selected_paths = self.file_view.get_selection().get_selected_rows()[1]
+        import os
+        for path in selected_paths:
+            child_path = self.file_store_sorted.\
+                         convert_path_to_child_path(path)
+            os.system("xdg-open %s/%s" %(self.manager.unique_IDs[self.file_unique_id].save_dir, \
+            self.file_store.get_value(self.file_store.get_iter(child_path), 0)))
+
     # From core to UI
     def prepare_file_store(self):
         if not self.file_store_dict:

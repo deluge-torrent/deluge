@@ -49,6 +49,7 @@ class FilesBaseManager(object):
                                    domain='deluge')
         self.file_menu = file_glade.get_widget("file_tab_menu")
         file_glade.signal_autoconnect({
+            "open_file" : self.open_file,
             "select_all": self.file_select_all,
             "unselect_all": self.file_unselect_all,
             "priority_dont_download": self.priority_clicked,
@@ -63,6 +64,9 @@ class FilesBaseManager(object):
         # files priorities to manager.prioritize_files() in the exact same 
         # order as we get files from manager.get_torrent_file_info()
         self.file_store_sorted = gtk.TreeModelSort(self.file_store)
+
+    def open_file(self):
+        pass
 
     def build_file_view(self):
         def priority(column, cell, model, iter, data):
