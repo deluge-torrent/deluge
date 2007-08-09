@@ -1,4 +1,6 @@
 Deluge 0.5.4.1 (xx August 2007)
+  * Add "Open containing folder" and "Open File" to the torrent and file 
+  menu, respectively
   * Catch SIGINT, SIGHUP, SIGTERM and Gnome logoff to quit properly
   * Add send local info to developers
   * Fix up pieces, peers and files plugins
