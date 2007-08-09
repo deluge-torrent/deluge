@@ -133,8 +133,8 @@ class AlltimeStats:
             ratio = "%.3f" % float(float(uploaded)/float(downloaded))
         self.tray_message = '%s: %s\n\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s' % (
             _("Uptime"), common.ftime(ses_uptime),
-            _("Alltime Downloaded"), common.fsize(downloaded),
-            _("Alltime Uploaded"), common.fsize(uploaded),
-            _("Alltime Ratio"), ratio,
+            _("All-time Downloaded"), common.fsize(downloaded),
+            _("All-time Uploaded"), common.fsize(uploaded),
+            _("All-time Ratio"), ratio,
             _("Torrents completed"), str(self.finished),
-            _("Alltime Uptime"), common.ftime(uptime))
+            _("All-time Uptime"), common.ftime(uptime))
