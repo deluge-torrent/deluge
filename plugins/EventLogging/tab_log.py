@@ -1,9 +1,8 @@
 import gtk
-import xdg.BaseDirectory
 import os
 import time
 
-CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
+from deluge import common
 
 class LogTabManager(object):
     def __init__(self, viewport, manager):
@@ -11,7 +10,7 @@ class LogTabManager(object):
         self.viewport = viewport
         self.vbox = None
         self.manager = manager
-        self.logdir = os.path.join(CONFIG_DIR, 'logs')
+        self.logdir = os.path.join(common.CONFIG_DIR, 'logs')
         if not os.path.isdir(self.logdir):
             os.mkdir(self.logdir)
         self.labels = []
