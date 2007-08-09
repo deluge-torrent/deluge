@@ -42,6 +42,21 @@ class TorrentFiles:
         print "Loading TorrentFiles plugin..."
         self.parent = interface
         self.manager = core
+        config_file = deluge.common.CONFIG_DIR + "/files.conf"
+        self.config = deluge.pref.Preferences(config_file, False, 
+                          defaults={'file_viewer': 'xdg-open'})
+        try:
+            self.config.load()
+        except IOError:
+            # File does not exist
+            pass
+
+        self.glade = gtk.glade.XML(path + "/files_preferences.glade")
+        self.dialog = self.glade.get_widget("dialog")
+        self.glade.signal_autoconnect({
+                                        'on_button_cancel_clicked': self.on_button_cancel_clicked,
+                                        'on_button_ok_clicked': self.on_button_ok_clicked
+                                      })
 
         tree_view = gtk.TreeView()
         scrolled_window = gtk.ScrolledWindow()
@@ -58,11 +73,13 @@ class TorrentFiles:
         
         self.tab_files = FilesTabManager(tree_view, core)
         self.tab_files.build_file_view()
+        self.tab_files.set_file_viewer(self.config.get("file_viewer"))
 
     def unload(self):
         self.tab_files.clear_file_store()
         tab_page = self.parent_notebook.page_num(self.top_widget)
         self.parent_notebook.remove_page(tab_page)
+        self.config.save()
 
     def update(self):
         if not self.parent.update_interface:
@@ -87,3 +104,21 @@ class TorrentFiles:
                 self.tab_files.prepare_file_store()
             else:
                 self.tab_files.update_file_store()
+                
+    def configure(self, window):
+        self.glade.get_widget("file_viewer").\
+            set_text(self.config.get("file_viewer"))
+        self.dialog.set_transient_for(window)
+        self.dialog.show()
+
+    def on_button_ok_clicked(self, button):
+        self.dialog.hide()
+        
+        self.config.set("file_viewer", 
+                        self.glade.get_widget("file_viewer").get_text())
+        self.config.save()
+        
+        self.tab_files.set_file_viewer(self.config.get("file_viewer"))
+    
+    def on_button_cancel_clicked(self, button):
+        self.dialog.hide()

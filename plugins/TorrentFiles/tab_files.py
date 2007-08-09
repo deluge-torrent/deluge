@@ -20,6 +20,8 @@ class FilesTabManager(FilesBaseManager):
         # in self.update_file_store()
         self.file_store_dict = {}
         
+        self.file_viewer = None
+        
     def build_file_view(self):
         super(FilesTabManager, self).build_file_view()
         
@@ -39,22 +41,22 @@ class FilesTabManager(FilesBaseManager):
         else:
             super(FilesTabManager, self).priority_clicked(widget)
 
+    def set_file_viewer(self, file_viewer):
+        self.file_viewer = file_viewer
+
     def open_file(self, widget):
-        selected_paths = self.file_view.get_selection().get_selected_rows()[1]
         import os
+        
+        save_dir = self.manager.unique_IDs[self.file_unique_id].save_dir
+        selected_paths = self.file_view.get_selection().get_selected_rows()[1]
         try:
             for path in selected_paths:
-                child_path = self.file_store_sorted.convert_path_to_child_path(path)
-                result = os.system("xdg-open %s/%s" %(self.manager.unique_IDs[self.file_unique_id].save_dir, \
-                self.file_store.get_value(self.file_store.get_iter(child_path), 0)))
-                if result != 0:
-                    warning = gtk.MessageDialog(parent = None,
-                            flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
-                            buttons= gtk.BUTTONS_OK,
-                            message_format=_("xdg-open was not found.  Please install xdg-utils for this feature to work"),
-                            type = gtk.MESSAGE_WARNING)
-                    warning.run()
-                    warning.destroy()
+                child_path = self.file_store_sorted.\
+                                 convert_path_to_child_path(path)
+                file_name = self.file_store.get_value(
+                                self.file_store.get_iter(child_path), 0)
+                os.system('%s "%s" &' % (self.file_viewer, 
+                                         os.path.join(save_dir, file_name)))
         except KeyError:
             pass
 
