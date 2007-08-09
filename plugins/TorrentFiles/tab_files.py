@@ -42,8 +42,16 @@ class FilesTabManager(FilesBaseManager):
         try:
             for path in selected_paths:
                 child_path = self.file_store_sorted.convert_path_to_child_path(path)
-                os.system("xdg-open %s/%s" %(self.manager.unique_IDs[self.file_unique_id].save_dir, \
+                result = os.system("xdg-open %s/%s" %(self.manager.unique_IDs[self.file_unique_id].save_dir, \
                 self.file_store.get_value(self.file_store.get_iter(child_path), 0)))
+                if result != 0:
+                    warning = gtk.MessageDialog(parent = None,
+                            flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT,
+                            buttons= gtk.BUTTONS_OK,
+                            message_format=_("xdg-open was not found.  Please install xdg-utils for this feature to work"),
+                            type = gtk.MESSAGE_WARNING)
+                    warning.run()
+                    warning.destroy()
         except KeyError:
             pass
 
