@@ -95,11 +95,11 @@ class AlltimeStats:
             ratio = "%.3f" % float(float(self.uploaded)/float(self.downloaded))
         self.tray_message = '%s: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s' % (
             _("Uptime"), common.ftime(0),
-            _("Alltime Downloaded"), common.fsize(self.downloaded),
-            _("Alltime Uploaded"), common.fsize(self.uploaded),
-            _("Alltime Ratio"), ratio,
+            _("All-time Downloaded"), common.fsize(self.downloaded),
+            _("All-time Uploaded"), common.fsize(self.uploaded),
+            _("All-time Ratio"), ratio,
             _("Torrents completed"), str(self.finished),
-            _("Alltime Uptime"), common.ftime(self.uptime))
+            _("All-time Uptime"), common.ftime(self.uptime))
 
     def get_tray_message(self):
         return self.tray_message
