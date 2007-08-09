@@ -55,7 +55,7 @@ class FilesTabManager(FilesBaseManager):
                                  convert_path_to_child_path(path)
                 file_name = self.file_store.get_value(
                                 self.file_store.get_iter(child_path), 0)
-                os.popen4('%s "%s"' % (self.file_viewer, 
+                os.popen2('%s "%s"' % (self.file_viewer, 
                                        os.path.join(save_dir, file_name)))
         except KeyError:
             pass
