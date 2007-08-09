@@ -456,30 +456,29 @@ class Manager:
 
     # Queueing functions
 
-    def queue_top(self, unique_ID, enforce_queue=True):
+    def queue_top(self, unique_ID):
         self.state.queue.insert(0,
             self.state.queue.pop(self.get_queue_index(unique_ID)))
+        self.apply_queue()
         self.pickle_state()
 
-    def queue_up(self, unique_ID, enforce_queue=True):
+    def queue_up(self, unique_ID):
         curr_index = self.get_queue_index(unique_ID)
         if curr_index > 0:
             temp = self.state.queue[curr_index - 1]
             self.state.queue[curr_index - 1] = unique_ID
             self.state.queue[curr_index] = temp
-            if enforce_queue:
-                self.apply_queue()
-        self.pickle_state()
+            self.apply_queue()
+            self.pickle_state()
 
-    def queue_down(self, unique_ID, enforce_queue=True):
+    def queue_down(self, unique_ID):
         curr_index = self.get_queue_index(unique_ID)
         if curr_index < (len(self.state.queue) - 1):
             temp = self.state.queue[curr_index + 1]
             self.state.queue[curr_index + 1] = unique_ID
             self.state.queue[curr_index] = temp
-            if enforce_queue:
-                self.apply_queue()
-        self.pickle_state()
+            self.apply_queue()
+            self.pickle_state()
 
     def queue_bottom(self, unique_ID, enforce_queue=True):
         curr_index = self.get_queue_index(unique_ID)
@@ -488,7 +487,7 @@ class Manager:
             self.state.queue.append(unique_ID)
             if enforce_queue:
                 self.apply_queue()
-        self.pickle_state()
+            self.pickle_state()
 
     def clear_completed(self):
         for unique_ID in self.unique_IDs:
