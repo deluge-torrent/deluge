@@ -45,10 +45,10 @@ class FilesBaseManager(object):
     def __init__(self, file_view, file_store):
         self.file_view = file_view
         
-        file_glade = gtk.glade.XML(common.get_glade_file("file_tab_menu.glade"), 
+        self.glade = gtk.glade.XML(common.get_glade_file("file_tab_menu.glade"), 
                                    domain='deluge')
-        self.file_menu = file_glade.get_widget("file_tab_menu")
-        file_glade.signal_autoconnect({
+        self.file_menu = self.glade.get_widget("file_tab_menu")
+        self.glade.signal_autoconnect({
             "open_file" : self.open_file,
             "select_all": self.file_select_all,
             "unselect_all": self.file_unselect_all,
@@ -148,6 +148,11 @@ class FilesDialogManager(FilesBaseManager):
         
         self.dumped_torrent = dumped_torrent
         self.config = pref.Preferences()
+        
+        # Hide Open File menu item as it's not applicable when torrent is
+        # not added yet
+        self.glade.get_widget("open_file").hide()
+        self.glade.get_widget("open_file_separator").hide()
     
     def prepare_file_store(self):
         for file in self.dumped_torrent:

@@ -5,7 +5,7 @@
   <widget class="GtkMenu" id="file_tab_menu">
     <property name="visible">True</property>
     <child>
-      <widget class="GtkImageMenuItem" id="menuitem1">
+      <widget class="GtkImageMenuItem" id="open_file">
         <property name="visible">True</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
         <property name="label" translatable="yes">_Open File</property>
@@ -22,7 +22,7 @@
       </widget>
     </child>
     <child>
-      <widget class="GtkSeparatorMenuItem" id="separatormenuitem1">
+      <widget class="GtkSeparatorMenuItem" id="open_file_separator">
         <property name="visible">True</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
       </widget>
