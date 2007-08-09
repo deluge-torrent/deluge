@@ -657,7 +657,7 @@ class DelugeGTK:
                     torrent_path = os.path.join(torrent_path,
                                                 file["path"].split("/", 1)[0])
                     
-                os.system('%s "%s"' % (file_manager, torrent_path))
+                os.popen4('%s "%s"' % (file_manager, torrent_path))
         except KeyError:
             pass
 
