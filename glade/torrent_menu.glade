@@ -201,6 +201,7 @@
         <child internal-child="image">
           <widget class="GtkImage" id="menu-item-image15">
             <property name="stock">gtk-open</property>
+            <property name="icon_size">1</property>
           </widget>
         </child>
       </widget>
