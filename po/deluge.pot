@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-09 02:47-0500\n"
+"POT-Creation-Date: 2007-08-09 03:01-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1874,4 +1874,36 @@ msgstr ""
 
 #: plugins/AlltimeStats/__init__.py:102 plugins/AlltimeStats/__init__.py:140
 msgid "All-time Uptime"
+msgstr ""
+
+#: plugins/TorrentPieces/pieces_preferences.glade:7
+msgid "Pieces Preferences"
+msgstr ""
+
+#: plugins/TorrentPieces/pieces_preferences.glade:31
+msgid "Select number of columns"
+msgstr ""
+
+#: plugins/TorrentPieces/pieces_preferences.glade:47
+msgid "Select font size"
+msgstr ""
+
+#: plugins/TorrentPeers/peers_preferences.glade:7
+msgid "Peers Preferences"
+msgstr ""
+
+#: plugins/TorrentPeers/peers_preferences.glade:28
+msgid "Enable flags"
+msgstr ""
+
+#: plugins/TorrentPeers/peers_preferences.glade:38
+msgid "Select size of flag"
+msgstr ""
+
+#: plugins/TorrentPeers/peers_preferences.glade:48
+msgid "18x12"
+msgstr ""
+
+#: plugins/TorrentPeers/peers_preferences.glade:62
+msgid "25x15"
 msgstr ""

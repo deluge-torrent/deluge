@@ -49,3 +49,5 @@ plugins/Locations/plugin.py
 plugins/TorrentFiles/tab_files.py
 plugins/TorrentFiles/__init__.py
 plugins/AlltimeStats/__init__.py
+plugins/TorrentPieces/pieces_preferences.glade
+plugins/TorrentPeers/peers_preferences.glade
