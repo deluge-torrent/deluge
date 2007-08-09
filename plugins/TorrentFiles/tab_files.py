@@ -30,6 +30,7 @@ class FilesTabManager(FilesBaseManager):
             percent_str = "%.2f%%"%percent
             cell.set_property("text", percent_str)
         dgtk.add_func_column(self.file_view, _("Progress"), percent, 3)
+        self.file_view.connect("row-activated", self.double_click_file)
     
     def set_unique_id(self, unique_id):
         self.file_unique_id = unique_id
@@ -44,7 +45,10 @@ class FilesTabManager(FilesBaseManager):
     def set_file_viewer(self, file_viewer):
         self.file_viewer = file_viewer
 
-    def open_file(self, widget):
+    def double_click_file(self, tree, path, view_column):
+        self.open_file()
+
+    def open_file(self, widget=None):
         import os
         
         save_dir = self.manager.unique_IDs[self.file_unique_id].save_dir
