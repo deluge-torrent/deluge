@@ -51,6 +51,8 @@ class FilesTabManager(FilesBaseManager):
     def open_file(self, widget=None):
         import os
         
+        from deluge.common import exec_command
+        
         save_dir = self.manager.unique_IDs[self.file_unique_id].save_dir
         selected_paths = self.file_view.get_selection().get_selected_rows()[1]
         try:
@@ -59,8 +61,8 @@ class FilesTabManager(FilesBaseManager):
                                  convert_path_to_child_path(path)
                 file_name = self.file_store.get_value(
                                 self.file_store.get_iter(child_path), 0)
-                os.popen2('%s "%s"' % (self.file_viewer, 
-                                       os.path.join(save_dir, file_name)))
+                exec_command(self.file_viewer, 
+                             os.path.join(save_dir, file_name))
         except KeyError:
             pass
 

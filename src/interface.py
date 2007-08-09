@@ -115,25 +115,13 @@ class DelugeGTK:
         self.update_interface = True
 
         def new_release_check():
-            import sys
-            py_version = sys.version[:3]
-            file = os.path.join(common.INSTALL_PREFIX, 'lib', 'python' \
-                        + py_version, 'site-packages', 'deluge', 'update.py')
-            os.spawnlp(os.P_NOWAIT, 'python', 'python', file, 
-                       common.PROGRAM_VERSION)
+            common.exec_deluge_command('update.py', common.PROGRAM_VERSION)
 
         def send_info():
             import time
             
             def _run_script():
-                import sys
-                
-                py_version = sys.version[:3]
-            
-                file = os.path.join(common.INSTALL_PREFIX, 'lib', 'python' \
-                    + py_version, 'site-packages', 'deluge', 'info.py')
-                os.spawnlp(os.P_NOWAIT, 'python', 'python', file, 
-                           common.PROGRAM_VERSION)
+                common.exec_deluge_command('info.py', common.PROGRAM_VERSION)
             
             info_file = os.path.join(common.CONFIG_DIR, 'infosent')
             
@@ -657,7 +645,7 @@ class DelugeGTK:
                     torrent_path = os.path.join(torrent_path,
                                                 file["path"].split("/", 1)[0])
                     
-                os.popen2('%s "%s"' % (file_manager, torrent_path))
+                common.exec_command(file_manager, torrent_path)
         except KeyError:
             pass
 

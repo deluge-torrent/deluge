@@ -129,11 +129,7 @@ def open_url_in_browser(link):
         import webbrowser
         webbrowser.open(link)
     else:
-        import os, sys
-        py_version = sys.version[:3]
-        file = os.path.join(INSTALL_PREFIX, 'lib', 'python' \
-                        + py_version, 'site-packages', 'deluge', 'browser.py')
-        os.spawnlp(os.P_NOWAIT, 'python', 'python', file, link)
+        exec_deluge_command('browser.py', link)
 
 def is_url(url):
     import re
@@ -155,6 +151,24 @@ def fetch_url(url):
             print "URL doesn't appear to be a valid torrent file:", url
             
     return None
+
+def exec_command(executable, *parameters):
+    from subprocess import Popen
+
+    command = [executable]
+    command.extend(parameters)    
+    Popen(command)
+    
+
+def exec_deluge_command(script, *parameters):
+    """Execute deluge's command like browser.py, update.py and others"""
+    
+    import sys
+    
+    py_version = sys.version[:3]
+    full_path = os.path.join(INSTALL_PREFIX, 'lib', 'python' + py_version, 
+                             'site-packages', 'deluge', script)
+    exec_command('python', full_path, *parameters)
 
 # Encryption States
 class EncState:
