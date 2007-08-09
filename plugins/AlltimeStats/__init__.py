@@ -93,7 +93,7 @@ class AlltimeStats:
             ratio = _("Undefined")
         else:
             ratio = "%.3f" % float(float(self.uploaded)/float(self.downloaded))
-        self.tray_message = '%s: %s\n\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s' % (
+        self.tray_message = '%s: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s\n%s: %s' % (
             _("Uptime"), common.ftime(0),
             _("Alltime Downloaded"), common.fsize(self.downloaded),
             _("Alltime Uploaded"), common.fsize(self.uploaded),
