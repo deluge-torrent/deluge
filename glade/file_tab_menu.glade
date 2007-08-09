@@ -21,6 +21,12 @@
       </widget>
     </child>
     <child>
+      <widget class="GtkSeparatorMenuItem" id="separatormenuitem1">
+        <property name="visible">True</property>
+        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+      </widget>
+    </child>
+    <child>
       <widget class="GtkImageMenuItem" id="select_all">
         <property name="visible">True</property>
         <property name="label" translatable="yes">Select All</property>
