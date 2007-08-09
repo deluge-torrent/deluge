@@ -636,19 +636,28 @@ class DelugeGTK:
             return False
 
     def open_folder(self, widget):
+        if self.config.get("open_folder_stock"):
+            if self.config.get("file_manager") == 0:
+                file_manager = "konqueror"
+            if self.config.get("file_manager") == 1:
+                file_manager = "nautilus"
+            if self.config.get("file_manager") == 2:
+                file_manager = "thunar"
+        elif self.config.get("open_folder_custom"):
+            file_manager = self.config.get("open_folder_location")
+        
         unique_ids = self.get_selected_torrent_rows()
         try:
             for uid in unique_ids:
-                if self.config.get("open_folder_stock"):
-                    if self.config.get("file_manager") == 0:
-                        command = "konqueror"
-                    if self.config.get("file_manager") == 1:
-                        command = "nautilus"
-                    if self.config.get("file_manager") == 2:
-                        command = "thunar"
-                elif self.config.get("open_folder_custom"):
-                    command = self.config.get("open_folder_location")
-                os.system('%s %s' %(command, self.manager.unique_IDs[uid].save_dir))
+                torrent_path = self.manager.unique_IDs[uid].save_dir
+                torrent_state = self.manager.get_torrent_state(uid)
+                if torrent_state["num_files"] > 1:
+                    # Assume torrent has only one root dir. 
+                    file = self.manager.get_torrent_file_info(uid)[0]
+                    torrent_path = os.path.join(torrent_path,
+                                                file["path"].split("/", 1)[0])
+                    
+                os.system('%s "%s"' % (file_manager, torrent_path))
         except KeyError:
             pass
 
