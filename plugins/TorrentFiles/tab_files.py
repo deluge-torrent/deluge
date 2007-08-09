@@ -1,8 +1,11 @@
 from itertools import izip
-from deluge.files import FilesBaseManager
-from deluge import dgtk
+
 import gobject
 import gtk
+
+from deluge.files import FilesBaseManager
+from deluge import dgtk
+
 class FilesTabManager(FilesBaseManager):
     def __init__(self, file_view, manager):
         file_store = gtk.ListStore(str, gobject.TYPE_UINT64, 
