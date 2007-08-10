@@ -973,8 +973,6 @@ class DelugeGTK:
             max_connections = int(self.config.get("max_connections_global"))
         dlspeed = common.fspeed(core_state['download_rate'])
         ulspeed = common.fspeed(core_state['upload_rate'])
-        dltotal = common.fsize(core_state['total_downloaded'])
-        ultotal = common.fsize(core_state['total_uploaded'])
 
         if self.config.get("max_download_speed") < 0:
             dlspeed_max = _("Unlimited")
@@ -999,10 +997,9 @@ class DelugeGTK:
             self.statusbar_temp_msg = self.statusbar_temp_msg + \
                                       '   [' + _("DHT") + ': %s]'%(dht_peers)
         
-        msg = '%s\n%s: %s (%s)\n%s: %s (%s)\n%s: %s\n%s: %s %s' % (
+        msg = '%s\n%s: %s (%s)\n%s: %s (%s)%s' % (
             _("Deluge Bittorrent Client"), _("Down Speed"), dlspeed, dlspeed_max, 
-            _("Up Speed"), ulspeed, ulspeed_max, _("Total Downloaded"), dltotal,
-            _("Total Uploaded"), ultotal, plugin_messages)
+            _("Up Speed"), ulspeed, ulspeed_max, plugin_messages)
         
         self.tray_icon.set_tooltip(msg)
 
