@@ -42,7 +42,6 @@ import os.path
 DEFAULT_PREFS = {
     "file_manager" : common.FileManager.xdg,
     "open_folder_stock" : True,
-    "open_folder_custom" : False,
     "open_folder_location": "",
     "send_info" : True,
     "auto_end_seeding" : False,
@@ -115,7 +114,6 @@ DEFAULT_PREFS = {
     "tray_downloadspeedlist" : [5.0, 10.0, 30.0, 80.0, 300.0],
     "tray_passwd" : "",
     "tray_uploadspeedlist" : [5.0, 10.0, 30.0, 80.0, 300.0],
-    "use_compact_storage" : False,
     "use_full_storage" : True,
     "use_default_dir" : False,
     "use_natpmp" : False,
