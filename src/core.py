@@ -730,6 +730,17 @@ class Manager:
     def update_tracker(self, unique_ID):
         deluge_core.reannounce(unique_ID)
 
+    def pause_all(self):
+        for unique_ID in self.state.queue:
+            torrent_state = self.get_core_torrent_state(unique_ID)
+            if not torrent_state['is_paused']:
+                self.set_user_pause(unique_ID, True, enforce_queue=False)
+
+    def resume_all(self):
+        for unique_ID in self.state.queue:
+            torrent_state = self.get_core_torrent_state(unique_ID)
+            if torrent_state['is_paused']:
+                self.set_user_pause(unique_ID, False, enforce_queue=True)
 
     ####################
     # Internal functions
@@ -990,17 +1001,3 @@ class Manager:
         if speed != -1:
             speed = speed * 1024
         return deluge_core.set_per_download_rate_limit(unique_ID, speed)
-
-    def pause_all(self):
-        for index, unique_ID in enumerate(self.state.queue):
-            torrent_state = self.get_core_torrent_state(unique_ID)
-            if torrent_state['is_paused']:
-                pass
-            else:
-                self.set_user_pause(unique_ID, True, enforce_queue=False)
-
-    def resume_all(self):
-        for index, unique_ID in enumerate(self.state.queue):
-            torrent_state = self.get_core_torrent_state(unique_ID)
-            if torrent_state['is_paused']:
-                self.set_user_pause(unique_ID, False, enforce_queue=True)
