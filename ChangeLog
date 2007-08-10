@@ -1,4 +1,4 @@
-Deluge 0.5.4.1 (xx August 2007)
+Deluge 0.5.4.1 (10 August 2007)
   * Add "Open containing folder" and "Open File" to the torrent and file 
   menu, respectively
   * Load Blocklist plugin last and have it not lock up the interface during 
