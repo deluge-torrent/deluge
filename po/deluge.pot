@@ -1,14 +1,9 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-10 15:09-0500\n"
+"POT-Creation-Date: 2007-08-09 17:37-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -136,30 +131,30 @@ msgstr ""
 msgid "_Columns"
 msgstr ""
 
-#: glade/delugegtk.glade:911 src/interface.py:546 src/files.py:79
+#: glade/delugegtk.glade:911 src/interface.py:558 src/files.py:79
 msgid "Size"
 msgstr ""
 
-#: glade/delugegtk.glade:920 src/interface.py:547
+#: glade/delugegtk.glade:920 src/interface.py:559
 msgid "Status"
 msgstr ""
 
-#: glade/delugegtk.glade:929 src/interface.py:548
+#: glade/delugegtk.glade:929 src/interface.py:560
 msgid "Seeders"
 msgstr ""
 
-#: glade/delugegtk.glade:938 src/interface.py:549
+#: glade/delugegtk.glade:938 src/interface.py:561
 #: plugins/TorrentPeers/__init__.py:69
 msgid "Peers"
 msgstr ""
 
-#: glade/delugegtk.glade:947 src/interface.py:550 src/interface.py:990
-#: src/interface.py:1003 plugins/TorrentPeers/tab_peers.py:44
+#: glade/delugegtk.glade:947 src/interface.py:562 src/interface.py:1002
+#: src/interface.py:1015 plugins/TorrentPeers/tab_peers.py:44
 msgid "Down Speed"
 msgstr ""
 
-#: glade/delugegtk.glade:956 src/interface.py:551 src/interface.py:991
-#: src/interface.py:1004 plugins/TorrentPeers/tab_peers.py:46
+#: glade/delugegtk.glade:956 src/interface.py:563 src/interface.py:1003
+#: src/interface.py:1016 plugins/TorrentPeers/tab_peers.py:46
 msgid "Up Speed"
 msgstr ""
 
@@ -258,8 +253,8 @@ msgstr ""
 
 #: glade/dgtkpopups.glade:41
 msgid ""
-"<span size=\"large\"><b>Are you sure you want to remove the selected torrent"
-"(s) from Deluge?</b></span>"
+"<span size=\"large\"><b>Are you sure you want to remove the selected "
+"torrent(s) from Deluge?</b></span>"
 msgstr ""
 
 #: glade/dgtkpopups.glade:65
@@ -695,50 +690,49 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2318
 msgid ""
-"Auto-detect (xdg-open)\n"
 "Konqueror\n"
 "Nautilus\n"
 "Thunar"
 msgstr ""
 
-#: glade/preferences_dialog.glade:2374
+#: glade/preferences_dialog.glade:2373
 msgid "<b>Desktop File Manager</b>"
 msgstr ""
 
-#: glade/preferences_dialog.glade:2407
+#: glade/preferences_dialog.glade:2406
 msgid "GUI update interval (seconds)"
 msgstr ""
 
-#: glade/preferences_dialog.glade:2435
+#: glade/preferences_dialog.glade:2434
 msgid "<b>Performance</b>"
 msgstr ""
 
-#: glade/preferences_dialog.glade:2470
+#: glade/preferences_dialog.glade:2469
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
 msgstr ""
 
-#: glade/preferences_dialog.glade:2471
+#: glade/preferences_dialog.glade:2470
 msgid "Be alerted about new releases"
 msgstr ""
 
-#: glade/preferences_dialog.glade:2488
+#: glade/preferences_dialog.glade:2487
 msgid "<b>Updates</b>"
 msgstr ""
 
-#: glade/preferences_dialog.glade:2518
+#: glade/preferences_dialog.glade:2517
 msgid ""
 "Help us improve Deluge by sending us your Python and PyGTK\n"
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
 
-#: glade/preferences_dialog.glade:2531
+#: glade/preferences_dialog.glade:2530
 msgid "<b>System Information</b>"
 msgstr ""
 
-#: glade/preferences_dialog.glade:2558
+#: glade/preferences_dialog.glade:2557
 #: plugins/EventLogging/event_logging_preferences.glade:52
 #: plugins/EventLogging/tab_log.py:186
 msgid "Other"
@@ -822,127 +816,135 @@ msgid ""
 "download site?"
 msgstr ""
 
-#: src/interface.py:240 src/interface.py:246 src/interface.py:322
-#: src/interface.py:346 plugins/SpeedLimiter/__init__.py:63
+#: src/interface.py:252 src/interface.py:258 src/interface.py:334
+#: src/interface.py:358 plugins/SpeedLimiter/__init__.py:63
 #: plugins/SpeedLimiter/__init__.py:73 plugins/SpeedLimiter/__init__.py:118
 #: plugins/SpeedLimiter/__init__.py:149
 msgid "KiB/s"
 msgstr ""
 
-#: src/interface.py:264 src/interface.py:323 src/interface.py:347
-#: src/interface.py:973 src/interface.py:980 src/interface.py:984
+#: src/interface.py:276 src/interface.py:335 src/interface.py:359
+#: src/interface.py:983 src/interface.py:992 src/interface.py:996
 #: plugins/SpeedLimiter/__init__.py:119 plugins/SpeedLimiter/__init__.py:150
 msgid "Unlimited"
 msgstr ""
 
-#: src/interface.py:267
+#: src/interface.py:279
 msgid "Activated"
 msgstr ""
 
-#: src/interface.py:315 src/interface.py:326 src/interface.py:350
+#: src/interface.py:327 src/interface.py:338 src/interface.py:362
 #: plugins/DesiredRatio/__init__.py:102 plugins/SpeedLimiter/__init__.py:122
 #: plugins/SpeedLimiter/__init__.py:153
 msgid "Other..."
 msgstr ""
 
-#: src/interface.py:330
+#: src/interface.py:342
 msgid "Download Speed (KiB/s):"
 msgstr ""
 
-#: src/interface.py:354
+#: src/interface.py:366
 msgid "Upload Speed (KiB/s):"
 msgstr ""
 
-#: src/interface.py:383
+#: src/interface.py:395
 msgid "Deluge is locked"
 msgstr ""
 
-#: src/interface.py:385
+#: src/interface.py:397
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 msgstr ""
 
-#: src/interface.py:519 src/common.py:53
+#: src/interface.py:531 src/common.py:53
 msgid "Infinity"
 msgstr ""
 
-#: src/interface.py:531
+#: src/interface.py:543
 msgid "Unknown"
 msgstr ""
 
-#: src/interface.py:545 plugins/SimpleRSS/plugin.py:37
+#: src/interface.py:557 plugins/SimpleRSS/plugin.py:37
 #: plugins/SimpleRSS/plugin.py:45 plugins/SimpleRSS/plugin.py:52
 #: plugins/TorrentSearch/plugin.py:20
 msgid "Name"
 msgstr ""
 
-#: src/interface.py:552
+#: src/interface.py:564
 msgid "ETA"
 msgstr ""
 
-#: src/interface.py:553
+#: src/interface.py:565
 msgid "Avail."
 msgstr ""
 
-#: src/interface.py:554
+#: src/interface.py:566
 msgid "Ratio"
 msgstr ""
 
-#: src/interface.py:766
+#: src/interface.py:776
 #, python-format
 msgid "Paused %s"
 msgstr ""
 
-#: src/interface.py:875 src/core.py:610
+#: src/interface.py:885 src/core.py:613
 msgid ""
 "You cannot move torrent to a different partition.  Please fix your "
 "preferences"
 msgstr ""
 
-#: src/interface.py:990
+#: src/interface.py:1002
 msgid "Connections"
 msgstr ""
 
-#: src/interface.py:1000
+#: src/interface.py:1012
 msgid "DHT"
 msgstr ""
 
-#: src/interface.py:1003
+#: src/interface.py:1015
 msgid "Deluge Bittorrent Client"
 msgstr ""
 
-#: src/interface.py:1098
-msgid ""
-"An error occured while trying to add the torrent. It's possible your ."
-"torrent file is corrupted."
+#: src/interface.py:1016
+msgid "Total Downloaded"
 msgstr ""
 
-#: src/interface.py:1116
+#: src/interface.py:1017
+msgid "Total Uploaded"
+msgstr ""
+
+#: src/interface.py:1111
+msgid ""
+"An error occured while trying to add the torrent. It's possible your "
+".torrent file is corrupted."
+msgstr ""
+
+#: src/interface.py:1129
 msgid "Unknown duplicate torrent error."
 msgstr ""
 
-#: src/interface.py:1120
+#: src/interface.py:1133
 msgid "There is not enough free disk space to complete your download."
 msgstr ""
 
-#: src/interface.py:1121
+#: src/interface.py:1134
 msgid "Space Needed:"
 msgstr ""
 
-#: src/interface.py:1122
+#: src/interface.py:1135
 msgid "Available Space:"
 msgstr ""
 
-#: src/interface.py:1136
+#: src/interface.py:1149
 msgid "Add torrent from URL"
 msgstr ""
 
-#: src/interface.py:1140
+#: src/interface.py:1153
 msgid "Enter the URL of the .torrent to download"
 msgstr ""
 
-#: src/interface.py:1192
+#: src/interface.py:1205
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr ""
 
@@ -978,35 +980,35 @@ msgstr ""
 msgid "bytes needed"
 msgstr ""
 
-#: src/core.py:381
+#: src/core.py:384
 msgid "File was not found"
 msgstr ""
 
-#: src/core.py:429
+#: src/core.py:432
 msgid "Asked for a torrent that doesn't exist"
 msgstr ""
 
-#: src/core.py:635
+#: src/core.py:638
 msgid "Announce sent"
 msgstr ""
 
-#: src/core.py:639
+#: src/core.py:642
 msgid "Announce OK"
 msgstr ""
 
-#: src/core.py:645
+#: src/core.py:648
 msgid "Alert"
 msgstr ""
 
-#: src/core.py:646
+#: src/core.py:649
 msgid "HTTP code"
 msgstr ""
 
-#: src/core.py:647
+#: src/core.py:650
 msgid "times in a row"
 msgstr ""
 
-#: src/core.py:654
+#: src/core.py:657
 msgid "Warning"
 msgstr ""
 
@@ -1824,6 +1826,46 @@ msgid ""
 "This is just the files tab as a plugin.\n"
 msgstr ""
 
+#: plugins/AlltimeStats/__init__.py:19
+msgid "Alltime Stats"
+msgstr ""
+
+#: plugins/AlltimeStats/__init__.py:22
+msgid ""
+"\n"
+"Shows alltime stats in the tray tooltip.\n"
+"Tracks transfer amounts, ratio, number of torrents finished, and uptime.\n"
+"Also show session uptime\n"
+msgstr ""
+
+#: plugins/AlltimeStats/__init__.py:93 plugins/AlltimeStats/__init__.py:131
+msgid "Undefined"
+msgstr ""
+
+#: plugins/AlltimeStats/__init__.py:97 plugins/AlltimeStats/__init__.py:135
+msgid "Uptime"
+msgstr ""
+
+#: plugins/AlltimeStats/__init__.py:98 plugins/AlltimeStats/__init__.py:136
+msgid "All-time Downloaded"
+msgstr ""
+
+#: plugins/AlltimeStats/__init__.py:99 plugins/AlltimeStats/__init__.py:137
+msgid "All-time Uploaded"
+msgstr ""
+
+#: plugins/AlltimeStats/__init__.py:100 plugins/AlltimeStats/__init__.py:138
+msgid "All-time Ratio"
+msgstr ""
+
+#: plugins/AlltimeStats/__init__.py:101 plugins/AlltimeStats/__init__.py:139
+msgid "Torrents completed"
+msgstr ""
+
+#: plugins/AlltimeStats/__init__.py:102 plugins/AlltimeStats/__init__.py:140
+msgid "All-time Uptime"
+msgstr ""
+
 #: plugins/TorrentPieces/pieces_preferences.glade:7
 msgid "Pieces Preferences"
 msgstr ""
@@ -1854,67 +1896,4 @@ msgstr ""
 
 #: plugins/TorrentPeers/peers_preferences.glade:62
 msgid "25x15"
-msgstr ""
-
-#: plugins/ExtraStats/__init__.py:19
-msgid "Extra Stats"
-msgstr ""
-
-#: plugins/ExtraStats/__init__.py:22
-msgid ""
-"\n"
-"Adds info to tray tooltip.\n"
-"Adds these stats.\n"
-"total bytes downloaded\n"
-"total bytes uploaded\n"
-"overall ratio\n"
-"torrents completed\n"
-"\n"
-"All of these stats come in pairs:\n"
-"across sessions stat and within session stat.\n"
-"By default, all pairs enabled, but can be disabled in plugin preferences.\n"
-"\n"
-"session data always shows up within parenthesis\n"
-"eg.  Total Downloaded: 5 GiB (4 MiB)\n"
-"would be 5 GiB across sessions and 4 MiB within session\n"
-msgstr ""
-
-#: plugins/ExtraStats/__init__.py:119 plugins/ExtraStats/__init__.py:125
-#: plugins/ExtraStats/__init__.py:270
-#: plugins/ExtraStats/stats_preferences.glade:28
-msgid "Total Downloaded"
-msgstr ""
-
-#: plugins/ExtraStats/__init__.py:135 plugins/ExtraStats/__init__.py:141
-#: plugins/ExtraStats/__init__.py:277
-#: plugins/ExtraStats/stats_preferences.glade:38
-msgid "Total Uploaded"
-msgstr ""
-
-#: plugins/ExtraStats/__init__.py:150 plugins/ExtraStats/__init__.py:152
-#: plugins/ExtraStats/__init__.py:161 plugins/ExtraStats/__init__.py:163
-#: plugins/ExtraStats/__init__.py:284 plugins/ExtraStats/__init__.py:288
-msgid "Undefined"
-msgstr ""
-
-#: plugins/ExtraStats/__init__.py:156 plugins/ExtraStats/__init__.py:167
-#: plugins/ExtraStats/__init__.py:292
-#: plugins/ExtraStats/stats_preferences.glade:52
-msgid "Overall Ratio"
-msgstr ""
-
-#: plugins/ExtraStats/__init__.py:177 plugins/ExtraStats/__init__.py:183
-#: plugins/ExtraStats/__init__.py:299
-#: plugins/ExtraStats/stats_preferences.glade:66
-msgid "Torrents Completed"
-msgstr ""
-
-#: plugins/ExtraStats/__init__.py:193 plugins/ExtraStats/__init__.py:199
-#: plugins/ExtraStats/__init__.py:306
-#: plugins/ExtraStats/stats_preferences.glade:80
-msgid "Running Time"
-msgstr ""
-
-#: plugins/ExtraStats/stats_preferences.glade:7
-msgid "Extra Stats Preferences"
 msgstr ""
