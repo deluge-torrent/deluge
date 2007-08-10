@@ -633,7 +633,7 @@ class DelugeGTK:
                 file_manager = "nautilus"
             elif self.config.get("file_manager") == common.FileManager.thunar:
                 file_manager = "thunar"
-        elif self.config.get("open_folder_custom"):
+        else:
             file_manager = self.config.get("open_folder_location")
         
         unique_ids = self.get_selected_torrent_rows()
