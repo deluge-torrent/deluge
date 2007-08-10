@@ -2300,7 +2300,7 @@ HTTP W/ Auth</property>
 Konqueror
 Nautilus
 Thunar
-Auto-detect (xdp-open)</property>
+Auto-detect (xdg-open)</property>
                                                 <child internal-child="entry">
                                                   <widget class="GtkEntry" id="combo_file_manager_entry">
                                                     <property name="visible">True</property>
