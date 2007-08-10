@@ -33,7 +33,7 @@ import os.path
 import xdg.BaseDirectory
 
 PROGRAM_NAME = "Deluge"
-PROGRAM_VERSION = "0.5.4"
+PROGRAM_VERSION = "0.5.4.1"
 
 CLIENT_CODE = "DE"
 CLIENT_VERSION = "".join(PROGRAM_VERSION.split('.'))+"0"*(4 - len(PROGRAM_VERSION.split('.'))) 
