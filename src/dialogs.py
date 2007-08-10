@@ -211,7 +211,7 @@ class PreferencesDlg:
         self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())
         self.preferences.set("auto_seed_ratio", self.glade.get_widget("ratio_spinner").get_value())
         self.preferences.set("use_full_storage", self.glade.get_widget("radio_full_allocation").get_active())
-        self.preferences.set("use_compact_storage", self.glade.get_widget("radio_compact_allcoation").get_active())
+        self.preferences.set("use_compact_storage", self.glade.get_widget("radio_compact_allocation").get_active())
 
         self.preferences.set("listen_on", [self.glade.get_widget("spin_port_min").get_value(), self.glade.get_widget("spin_port_max").get_value()])
         self.preferences.set("max_upload_speed", self.glade.get_widget("spin_max_upload").get_value())
