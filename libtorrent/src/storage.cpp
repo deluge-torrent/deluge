@@ -1019,6 +1019,7 @@ namespace libtorrent
 			return true;
 		}
 
+		// workaround for bugs in Mac OS X where zero run is not reported
 		if (!strcmp(fsinfo.f_fstypename, "hfs")
 			|| !strcmp(fsinfo.f_fstypename, "ufs"))
 			return true;
@@ -1026,7 +1027,7 @@ namespace libtorrent
 		return false;
 #endif
 
-#if defined(__linux__)
+#if defined(__linux__) || defined(__FreeBSD__)
 		struct statfs buf;
 		int err = statfs(query_path.native_directory_string().c_str(), &buf);
 		if (err == 0)
@@ -1059,11 +1060,7 @@ namespace libtorrent
 #endif
 
 		// TODO: POSIX implementation
-#if defined(__FreeBSD__)
-		return true;
-#else
 		return false;
-#endif
 	}
 
 	// -- piece_manager -----------------------------------------------------
@@ -1575,16 +1572,12 @@ namespace libtorrent
 			}
 
 			if (m_unallocated_slots.empty())
-			{
 				m_state = state_create_files;
-				return false;
-			}
-
-			if (m_compact_mode)
-			{
+			else if (m_compact_mode)
 				m_state = state_create_files;
-				return false;
-			}
+			else
+				m_state = state_allocating;
+			return false;
 		}
 
 		m_state = state_full_check;
@@ -1604,7 +1597,7 @@ namespace libtorrent
       |        |
       |        v
       |  +------------+
-      |  | allocating |
+      |->| allocating |
       |  +------------+
       |        |
       |        v

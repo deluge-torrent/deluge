@@ -48,9 +48,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/ac_cxx_namespaces.m4 \
 	$(top_srcdir)/m4/ax_boost_program_options.m4 \
 	$(top_srcdir)/m4/ax_boost_regex.m4 \
 	$(top_srcdir)/m4/ax_boost_thread.m4 \
-	$(top_srcdir)/m4/check_ssl.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/configure.in
+	$(top_srcdir)/m4/check_ssl.m4 $(top_srcdir)/configure.in
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -65,9 +63,8 @@ am__installdirs = "$(DESTDIR)$(libdir)"
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libtorrent_la_DEPENDENCIES =
-am__libtorrent_la_SOURCES_DIST = allocate_resources.cpp \
-	bandwidth_manager.cpp entry.cpp escape_string.cpp \
-	peer_connection.cpp bt_peer_connection.cpp \
+am__libtorrent_la_SOURCES_DIST = allocate_resources.cpp entry.cpp \
+	escape_string.cpp peer_connection.cpp bt_peer_connection.cpp \
 	web_peer_connection.cpp natpmp.cpp piece_picker.cpp policy.cpp \
 	session.cpp session_impl.cpp sha1.cpp stat.cpp storage.cpp \
 	torrent.cpp torrent_handle.cpp pe_crypto.cpp torrent_info.cpp \
@@ -86,12 +83,12 @@ am__libtorrent_la_SOURCES_DIST = allocate_resources.cpp \
 @USE_DHT_TRUE@	find_data.lo node.lo node_id.lo refresh.lo \
 @USE_DHT_TRUE@	routing_table.lo rpc_manager.lo \
 @USE_DHT_TRUE@	traversal_algorithm.lo
-am_libtorrent_la_OBJECTS = allocate_resources.lo bandwidth_manager.lo \
-	entry.lo escape_string.lo peer_connection.lo \
-	bt_peer_connection.lo web_peer_connection.lo natpmp.lo \
-	piece_picker.lo policy.lo session.lo session_impl.lo sha1.lo \
-	stat.lo storage.lo torrent.lo torrent_handle.lo pe_crypto.lo \
-	torrent_info.lo tracker_manager.lo http_connection.lo \
+am_libtorrent_la_OBJECTS = allocate_resources.lo entry.lo \
+	escape_string.lo peer_connection.lo bt_peer_connection.lo \
+	web_peer_connection.lo natpmp.lo piece_picker.lo policy.lo \
+	session.lo session_impl.lo sha1.lo stat.lo storage.lo \
+	torrent.lo torrent_handle.lo pe_crypto.lo torrent_info.lo \
+	tracker_manager.lo http_connection.lo \
 	http_tracker_connection.lo udp_tracker_connection.lo alert.lo \
 	identify_client.lo ip_filter.lo file.lo metadata_transfer.lo \
 	logger.lo file_pool.lo ut_pex.lo lsd.lo upnp.lo \
@@ -252,7 +249,7 @@ lib_LTLIBRARIES = libtorrent.la
 @USE_DHT_TRUE@kademlia/traversal_algorithm.cpp
 
 libtorrent_la_SOURCES = allocate_resources.cpp \
-bandwidth_manager.cpp entry.cpp escape_string.cpp \
+entry.cpp escape_string.cpp \
 peer_connection.cpp bt_peer_connection.cpp web_peer_connection.cpp \
 natpmp.cpp piece_picker.cpp policy.cpp session.cpp session_impl.cpp sha1.cpp \
 stat.cpp storage.cpp torrent.cpp torrent_handle.cpp pe_crypto.cpp \
@@ -332,7 +329,7 @@ $(top_srcdir)/include/libtorrent/version.hpp
 
 libtorrent_la_LDFLAGS = $(LDFLAGS) -release @VERSION@
 libtorrent_la_LIBADD = @ZLIB@ -l@BOOST_DATE_TIME_LIB@ -l@BOOST_FILESYSTEM_LIB@ -l@BOOST_THREAD_LIB@ @PTHREAD_LIBS@
-AM_CXXFLAGS = -ftemplate-depth-50 -I$(top_srcdir)/include -I$(top_srcdir)/include/libtorrent @ZLIBINCL@ @DEBUGFLAGS@ @PTHREAD_CFLAGS@
+AM_CXXFLAGS = -ftemplate-depth-50 -I$(top_srcdir)/include -I$(top_srcdir)/include/libtorrent @ZLIBINCL@ @DEBUGFLAGS@ @PTHREAD_CFLAGS@ -DBOOST_MULTI_INDEX_DISABLE_SERIALIZATION
 AM_LDFLAGS = $(LDFLAGS) -l@BOOST_DATE_TIME_LIB@ -l@BOOST_FILESYSTEM_LIB@ -l@BOOST_THREAD_LIB@ @PTHREAD_LIBS@
 all: all-am
 
@@ -405,7 +402,6 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/alert.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/allocate_resources.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bandwidth_manager.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bt_peer_connection.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/closest_nodes.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/connection_queue.Plo@am__quote@
