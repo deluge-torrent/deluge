@@ -61,12 +61,8 @@ class PreferencesDlg:
         try:
             self.glade.get_widget("combo_file_manager").set_active(self.preferences.get("file_manager"))
             self.glade.get_widget("txt_open_folder_location").set_text(self.preferences.get("open_folder_location"))
-            if self.preferences.get("open_folder_stock"):
-                self.glade.get_widget("radio_open_folder_stock").set_active(True)
-                self.glade.get_widget("radio_open_folder_custom").set_active(False)
-            else:
-                self.glade.get_widget("radio_open_folder_stock").set_active(False)
-                self.glade.get_widget("radio_open_folder_custom").set_active(True)
+            self.glade.get_widget("radio_open_folder_stock").set_active(self.preferences.get("open_folder_stock"))
+            self.glade.get_widget("radio_open_folder_custom").set_active(not self.preferences.get("open_folder_stock"))
             self.glade.get_widget("combo_encin").set_active(self.preferences.get("encin_state"))
             self.glade.get_widget("combo_encout").set_active(self.preferences.get("encout_state"))
             self.glade.get_widget("combo_enclevel").set_active(self.preferences.get("enclevel_type"))
@@ -101,12 +97,8 @@ class PreferencesDlg:
             self.glade.get_widget("download_path_button").set_filename(self.preferences.get("default_download_path"))
             self.glade.get_widget("chk_enable_files_dialog").set_active(self.preferences.get("enable_files_dialog"))
             self.glade.get_widget("chk_prioritize_first_last_pieces").set_active(self.preferences.get("prioritize_first_last_pieces"))
-            if self.preferences.get("radio_compact_alllocation"):
-                self.glade.get_widget("radio_compact_allocation").set_active(True)
-                self.glade.get_widget("radio_full_allocation").set_active(False)
-            else:
-                self.glade.get_widget("radio_compact_allocation").set_active(False)
-                self.glade.get_widget("radio_full_allocation").set_active(True)
+            self.glade.get_widget("radio_compact_allocation").set_active(self.preferences.get("use_compact_storage"))
+            self.glade.get_widget("radio_full_allocation").set_active(not self.preferences.get("use_compact_storage"))
             self.glade.get_widget("active_port_label").set_text(str(self.active_port))
             self.glade.get_widget("spin_port_min").set_value(self.preferences.get("listen_on")[0])
             self.glade.get_widget("spin_port_max").set_value(self.preferences.get("listen_on")[1])
@@ -173,10 +165,7 @@ class PreferencesDlg:
     def ok_clicked(self, source, interface):
         self.dialog.hide()
         self.preferences.set("file_manager", self.glade.get_widget("combo_file_manager").get_active())
-        if self.glade.get_widget("radio_open_folder_stock").get_active():
-            self.preferences.set("open_folder_stock", True)
-        else:
-            self.preferences.set("open_folder_stock", False)
+        self.preferences.set("open_folder_stock", self.glade.get_widget("radio_open_folder_stock").get_active())
         self.preferences.set("open_folder_location", self.glade.get_widget("txt_open_folder_location").get_text())
         self.preferences.set("encin_state", self.glade.get_widget("combo_encin").get_active())
         self.preferences.set("encout_state", self.glade.get_widget("combo_encout").get_active())
@@ -220,10 +209,7 @@ class PreferencesDlg:
         self.preferences.set("prioritize_first_last_pieces", self.glade.get_widget("chk_prioritize_first_last_pieces").get_active())
         self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())
         self.preferences.set("auto_seed_ratio", self.glade.get_widget("ratio_spinner").get_value())
-        if self.glade.get_widget("radio_full_allocation").get_active():
-            self.preferences.set("use_full_storage", True)
-        else:
-            self.preferences.set("use_full_storage", False)
+        self.preferences.set("use_compact_storage", self.glade.get_widget("radio_compact_allocation").get_active())
         self.preferences.set("listen_on", [self.glade.get_widget("spin_port_min").get_value(), self.glade.get_widget("spin_port_max").get_value()])
         self.preferences.set("max_upload_speed", self.glade.get_widget("spin_max_upload").get_value())
         self.preferences.set("max_upload_slots_global", int(self.glade.get_widget("spin_max_upload_slots_global").get_value()))
