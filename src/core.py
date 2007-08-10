@@ -501,28 +501,6 @@ class Manager:
     # altering max_active_torrents), or just from time to time
     # ___ALL queuing code should be in this function, and ONLY here___
     def apply_queue(self):
-        # Handle autoseeding - downqueue as needed
-        if not self.get_pref('clear_max_ratio_torrents') \
-            and self.get_pref('auto_seed_ratio') > 0 \
-            and self.get_pref('auto_end_seeding'):
-
-            for unique_ID in self.unique_IDs:
-                torrent_state = self.get_core_torrent_state(unique_ID)
-                if torrent_state['is_seed'] and not torrent_state['is_paused']:
-                    ratio = self.calc_ratio(unique_ID, torrent_state)
-                    if ratio >= self.get_pref('auto_seed_ratio'):
-                        self.queue_bottom(unique_ID, enforce_queue=False) # don't recurse!
-                        self.set_user_pause(unique_ID, True, enforce_queue=False)
-        
-        if self.get_pref('clear_max_ratio_torrents'):
-            for unique_ID in self.state.queue:
-                torrent_state = self.get_core_torrent_state(unique_ID)
-                if torrent_state['is_seed']:
-                    ratio = self.calc_ratio(unique_ID, torrent_state)
-                    if ratio >= self.get_pref('auto_seed_ratio'):
-                        self.removed_unique_ids[unique_ID] = 1
-                        self.remove_torrent(unique_ID, False, True)
-
         # Counter for currently active torrent in the queue. Paused in core
         # but having self.is_user_paused(unique_ID) == False is 
         # also considered active.
@@ -530,7 +508,10 @@ class Manager:
 
         # Pause and resume torrents
         for unique_ID in self.state.queue:
-            torrent_state = self.get_core_torrent_state(unique_ID)
+            # Get not cached torrent state so we don't pause/resume torrents
+            # more than 1 time - if cached torrent_state['is_paused'] can be
+            # still paused after we already paused it.
+            torrent_state = self.get_core_torrent_state(unique_ID, False)
             
             if not torrent_state['is_paused'] or \
                (torrent_state['is_paused'] and not \
@@ -563,6 +544,28 @@ class Manager:
                    self.get_pref('max_active_torrents') != -1) or \
                   self.is_user_paused(unique_ID)):
                 self.pause(unique_ID)
+
+        # Handle autoseeding - downqueue as needed
+        if not self.get_pref('clear_max_ratio_torrents') \
+            and self.get_pref('auto_seed_ratio') > 0 \
+            and self.get_pref('auto_end_seeding'):
+
+            for unique_ID in self.unique_IDs:
+                torrent_state = self.get_core_torrent_state(unique_ID)
+                if torrent_state['is_seed'] and not torrent_state['is_paused']:
+                    ratio = self.calc_ratio(unique_ID, torrent_state)
+                    if ratio >= self.get_pref('auto_seed_ratio'):
+                        self.queue_bottom(unique_ID, enforce_queue=False) # don't recurse!
+                        self.set_user_pause(unique_ID, True, enforce_queue=False)
+        
+        if self.get_pref('clear_max_ratio_torrents'):
+            for unique_ID in self.state.queue:
+                torrent_state = self.get_core_torrent_state(unique_ID)
+                if torrent_state['is_seed']:
+                    ratio = self.calc_ratio(unique_ID, torrent_state)
+                    if ratio >= self.get_pref('auto_seed_ratio'):
+                        self.removed_unique_ids[unique_ID] = 1
+                        self.remove_torrent(unique_ID, False, True)
 
     # Event handling
 
