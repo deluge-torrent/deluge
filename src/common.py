@@ -29,7 +29,7 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import os.path
+import os
 import xdg.BaseDirectory
 
 PROGRAM_NAME = "Deluge"
@@ -156,8 +156,20 @@ def exec_command(executable, *parameters):
     from subprocess import Popen
 
     command = [executable]
-    command.extend(parameters)    
-    Popen(command)
+    command.extend(parameters)
+    try:
+        Popen(command)
+    except OSError:
+        import gtk
+         
+        warning = gtk.MessageDialog(parent = None, 
+                      flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, 
+                      buttons= gtk.BUTTONS_OK, 
+                      message_format='%s %s %s' % (_("External command"),
+                                                   executable, _("not found")), 
+                      type = gtk.MESSAGE_WARNING) 
+        warning.run()
+        warning.destroy()
 
 def exec_deluge_command(script, *parameters):
     """Execute deluge's command like browser.py, update.py and others"""
