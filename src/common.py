@@ -179,4 +179,4 @@ class EncLevel:
 class ProxyType:
     none, socks4, socks5, socks5_pw, http, http_pw = range(6)
 class FileManager:
-    choose_one, konqueror, nautilus, thunar = range(4)
+    choose_one, konqueror, nautilus, thunar, xdg = range(5)

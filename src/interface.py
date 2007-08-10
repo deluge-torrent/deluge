@@ -639,6 +639,8 @@ class DelugeGTK:
                 file_manager = "nautilus"
             if self.config.get("file_manager") == common.FileManager.thunar:
                 file_manager = "thunar"
+            if self.config.get("file_manager") == common.FileManager.xdg:
+                file_manager = "xdg-open"
         elif self.config.get("open_folder_custom"):
             file_manager = self.config.get("open_folder_location")
         
@@ -1010,6 +1012,7 @@ class DelugeGTK:
             _("Up Speed"), ulspeed, ulspeed_max, plugin_messages)
         
         self.tray_icon.set_tooltip(msg)
+        print self.config.get("file_manager")
 
     def update_torrent_info_widget(self):
         unique_id = self.get_selected_torrent()

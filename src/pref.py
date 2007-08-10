@@ -40,7 +40,7 @@ import common
 import os.path
 
 DEFAULT_PREFS = {
-    "file_manager" : common.FileManager.choose_one,
+    "file_manager" : common.FileManager.xdg,
     "open_folder_stock" : True,
     "open_folder_custom" : False,
     "open_folder_location": "",
