@@ -543,7 +543,7 @@ class Manager:
                self.is_user_paused(unique_ID):
                 # This torrent is a seed so skip all the free space checking
                 if torrent_state['is_seed']:
-                    deluge_core.resume(unique_ID)
+                    self.resume(unique_ID)
                     continue
                     
                 # Before we resume, we should check if the torrent is using Full Allocation 
@@ -553,16 +553,16 @@ class Manager:
                     total_needed = torrent_state["total_size"] - torrent_state["total_done"]
                     if total_needed < avail:
                         # We have enough free space, so lets resume this torrent
-                        deluge_core.resume(unique_ID)
+                        self.resume(unique_ID)
                     else:
                         print "Not enough free space to resume this torrent!"
                 else: #We're using compact allocation so lets just resume
-                    deluge_core.resume(unique_ID)
+                    self.resume(unique_ID)
             elif not torrent_state['is_paused'] and \
                  ((active_torrent_cnt > self.get_pref('max_active_torrents') and \
                    self.get_pref('max_active_torrents') != -1) or \
                   self.is_user_paused(unique_ID)):
-                deluge_core.pause(unique_ID)
+                self.pause(unique_ID)
 
     # Event handling
 
@@ -726,6 +726,15 @@ class Manager:
 
     def update_tracker(self, unique_ID):
         deluge_core.reannounce(unique_ID)
+
+    def pause(self, unique_ID):
+        deluge_core.pause(unique_ID)
+
+    def resume(self, unique_ID):
+        deluge_core.resume(unique_ID)
+        # We have to re-apply per torrent settings after resume. This has to
+        # be done until ticket #118 in libtorrent is fixed.
+        self.apply_prefs_per_torrent(unique_ID)
 
     def pause_all(self):
         for unique_ID in self.state.queue:
