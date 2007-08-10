@@ -271,9 +271,6 @@ class Manager:
             self.state = persistent_state()
 
     def quit(self):
-        # Analyze data needed for pickling, etc.
-        self.pre_quitting()
-
         # Pickle the prefs
         print "Saving prefs..."
         self.config.save()
@@ -293,23 +290,25 @@ class Manager:
         deluge_core.quit()
 
     def pickle_state(self):
+        # Save the uploaded data from this session to the existing upload 
+        # memory
+        for unique_ID in self.unique_IDs:
+            # self.get_core_torrent_state purposefully not cached.
+            #
+            # self.unique_IDs[unique_ID] is a reference to torrent_info 
+            # instance in a self.state.torrents array, so changing something
+            # in self.unique_IDs[unique_ID] we also changing it in 
+            # self.state.torrents array.
+            self.unique_IDs[unique_ID].uploaded_memory += \
+                self.get_core_torrent_state(unique_ID, False)['total_upload']
+
         # Pickle the state so if we experience a crash, the latest state is 
         # available
         print "Pickling state..."
         
-        #print self.state.torrents
-        #print self.state.queue
-        
         output = open(os.path.join(self.base_dir, STATE_FILENAME), 'wb')
         pickle.dump(self.state, output)
         output.close()
-
-    def pre_quitting(self):
-        # Save the uploaded data from this session to the existing upload memory
-        for unique_ID in self.unique_IDs.keys():
-            # self.get_core_torrent_state purposefully not cached.
-            self.unique_IDs[unique_ID].uploaded_memory += \
-                self.get_core_torrent_state(unique_ID, False)['total_upload']
 
     # Preference management functions
 
@@ -892,7 +891,6 @@ class Manager:
 
     def get_queue_index(self, unique_ID):
         return self.state.queue.index(unique_ID)
-
 
     def apply_prefs(self):
         print "Applying preferences"
