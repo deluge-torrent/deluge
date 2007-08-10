@@ -112,6 +112,10 @@ class Core(dbus.service.Object):
         """
         log.info("Adding torrent: %s", filename)
         torrent_id = self.torrents.add(filename, filedump)
+
+        # Run the plugin hooks for 'post_torrent_add'
+        self.plugins.run_post_torrent_add(torrent_id)
+
         if torrent_id is not None:
             # Emit the torrent_added signal
             self.torrent_added(torrent_id)
@@ -123,6 +127,8 @@ class Core(dbus.service.Object):
     def remove_torrent(self, torrent_id):
         log.debug("Removing torrent %s from the core.", torrent_id)
         if self.torrents.remove(torrent_id):
+            # Run the plugin hooks for 'post_torrent_remove'
+            self.plugins.run_post_torrent_remove(torrent_id)
             # Emit the torrent_removed signal
             self.torrent_removed(torrent_id)
             
@@ -153,35 +159,6 @@ class Core(dbus.service.Object):
         status = pickle.dumps(status)
         return status
         
-    ## Queueing functions ######
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
-                                    in_signature="s", out_signature="")
-    def queue_top(self, torrent_id):
-        # If the queue method returns True, then we should emit a signal
-        if self.torrents.queue.top(torrent_id):
-            self.torrent_queue_changed()
-
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
-                                    in_signature="s", out_signature="")
-    def queue_up(self, torrent_id):
-        # If the queue method returns True, then we should emit a signal
-        if self.torrents.queue.up(torrent_id):
-            self.torrent_queue_changed()
-            
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
-                                    in_signature="s", out_signature="")
-    def queue_down(self, torrent_id):
-        # If the queue method returns True, then we should emit a signal
-        if self.torrents.queue.down(torrent_id):
-            self.torrent_queue_changed()
-
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
-                                    in_signature="s", out_signature="")
-    def queue_bottom(self, torrent_id):
-        # If the queue method returns True, then we should emit a signal
-        if self.torrents.queue.bottom(torrent_id):
-            self.torrent_queue_changed()
-        
     # Signals
     @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
                                              signature="s")
@@ -201,12 +178,6 @@ class Core(dbus.service.Object):
         """Emitted when a torrent has been removed from the core"""
         log.debug("torrent_remove signal emitted")
         
-    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
-                                             signature="")
-    def torrent_queue_changed(self):
-        """Emitted when a torrent queue position is changed"""
-        log.debug("torrent_queue_changed signal emitted")
-
     @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
                                              signature="s")
     def torrent_paused(self, torrent_id):

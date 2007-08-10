@@ -43,7 +43,7 @@ setup(
     author=__author__,
     packages=["queue"],
     entry_points="""
-    [deluge.plugin]
-    Queue = queue:QueuePlugin
+    [deluge.plugin.core]
+    Queue = queue:QueueCorePlugin
     """
 )

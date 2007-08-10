@@ -41,6 +41,9 @@ log = logging.getLogger("deluge")
 
 class PluginManager:
     def __init__(self):
+        # Set up the hooks dictionary
+        self.hooks = {"post_torrent_add": []}
+        
         # This will load any .eggs in the plugins folder inside the main
         # deluge egg.. Need to scan the local plugin folder too.
         
@@ -54,10 +57,35 @@ class PluginManager:
            egg = pkg_env[name][0]
            egg.activate()
            modules = []
-           for name in egg.get_entry_map("deluge.plugin"):
-              entry_point = egg.get_entry_info("deluge.plugin", name)
+           for name in egg.get_entry_map("deluge.plugin.core"):
+              entry_point = egg.get_entry_info("deluge.plugin.core", name)
               cls = entry_point.load()
-              instance = cls()
+              instance = cls(self)
               self.plugins[name] = instance
+              log.info("Load plugin %s", name)
+           
+    def __getitem__(self, key):
+        return self.plugins[key]
         
-        log.info("Plugins loaded: %s", self.plugins)
+    def register_hook(self, hook, function):
+        """Register a hook function with the plugin manager"""
+        try:
+            self.hooks[hook].append(function)
+        except KeyError:
+            log.warning("Plugin attempting to register invalid hook.")
+        
+    def run_post_torrent_add(self, torrent_id):
+        log.debug("run_post_torrent_add")
+        try:
+            for function in self.hooks["post_torrent_add"]:
+                function(torrent_id)
+        except:
+            pass
+            
+    def run_post_torrent_remove(self, torrent_id):
+        log.debug("run_post_torrent_remove")
+        try:
+            for function in self.hooks["post_torrent_remove"]:
+                function(torrent_id)
+        except:
+            pass   

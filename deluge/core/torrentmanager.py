@@ -40,7 +40,6 @@ import deluge.libtorrent as lt
 import deluge.common
 from deluge.config import Config
 from deluge.core.torrent import Torrent
-from deluge.core.torrentqueue import TorrentQueue
 from deluge.core.torrentmanagerstate import TorrentManagerState, TorrentState
 
 # Get the logger
@@ -53,7 +52,6 @@ class TorrentManager:
         self.session = session
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
-        self.queue = TorrentQueue()
         
     def __getitem__(self, torrent_id):
         """Return the Torrent with torrent_id"""
@@ -103,11 +101,9 @@ class TorrentManager:
             log.warning("Unable to save torrent file: %s", filename)
         
         # Create a Torrent object
-        torrent = Torrent(filename, handle, self.queue)
+        torrent = Torrent(filename, handle)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
-        # Add the torrent to the queue
-        self.queue.append(torrent.torrent_id)
         return torrent.torrent_id
     
     def remove(self, torrent_id):
@@ -146,8 +142,6 @@ class TorrentManager:
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file"""
         state = TorrentManagerState()
-        # Grab the queue from TorrentQueue
-        state.queue = self.queue.queue
         # Create the state for each Torrent and append to the list
         for (key, torrent) in self.torrents:
             t = TorrentState(torrent.get_state())

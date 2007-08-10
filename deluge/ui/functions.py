@@ -66,6 +66,15 @@ def get_core():
     log.debug("Got core proxy object..")
     return core
     
+def get_core_plugin(plugin):
+    """Get the core plugin object and return it"""
+    log.debug("Getting core plugin %s from DBUS..", plugin)
+    bus = dbus.SessionBus()
+    proxy = bus.get_object("org.deluge_torrent.Deluge", 
+                               "/org/deluge_torrent/Plugin/" + plugin)
+    core = dbus.Interface(proxy, "org.deluge_torrent.Deluge." + plugin)
+    return core
+    
 def add_torrent_file(torrent_files):
     """Adds torrent files to the core
         Expects a list of torrent files
@@ -106,7 +115,7 @@ def resume_torrent(torrent_ids):
 def queue_top(torrent_ids):
     """Attempts to queue all torrent_ids to the top"""
     log.debug("Attempting to queue to top these torrents: %s", torrent_ids)
-    core = get_core()
+    core = get_core_plugin("Queue")
     for torrent_id in torrent_ids:
         core.queue_top(torrent_id)
         

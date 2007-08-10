@@ -47,7 +47,7 @@ log = logging.getLogger("deluge")
 
 # Initializes the columns for the torrent_view
 (TORRENT_VIEW_COL_UID,
-TORRENT_VIEW_COL_QUEUE,
+#TORRENT_VIEW_COL_QUEUE,
 TORRENT_VIEW_COL_STATUSICON,
 TORRENT_VIEW_COL_NAME,
 TORRENT_VIEW_COL_SIZE,
@@ -60,7 +60,7 @@ TORRENT_VIEW_COL_PEERS,
 TORRENT_VIEW_COL_DOWNLOAD,
 TORRENT_VIEW_COL_UPLOAD,
 TORRENT_VIEW_COL_ETA,
-TORRENT_VIEW_COL_RATIO) = range(15)
+TORRENT_VIEW_COL_RATIO) = range(14)
 
 class TorrentView:
     def __init__(self, window):
@@ -71,9 +71,9 @@ class TorrentView:
         self.torrent_view = self.window.main_glade.get_widget("torrent_view")
         
         ## TreeModel setup ##
-        # UID, Q#, Status Icon, Name, Size, Progress, Message, Seeders, Peers,
+        # UID, Status Icon, Name, Size, Progress, Message, Seeders, Peers,
         #     DL, UL, ETA, Share
-        self.torrent_model = gtk.ListStore(str, int, gtk.gdk.Pixbuf, str, 
+        self.torrent_model = gtk.ListStore(str, gtk.gdk.Pixbuf, str, 
             long, float, str, int, int, int, int, int, int, int, float)
         
         ## TreeView setup ##
@@ -82,9 +82,9 @@ class TorrentView:
         self.torrent_view.set_reorderable(True)
         self.torrent_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         
-        self.queue_column = columns.add_text_column(
-            self.torrent_view, "#",
-            TORRENT_VIEW_COL_QUEUE)
+  #      self.queue_column = columns.add_text_column(
+   #         self.torrent_view, "#",
+    #        TORRENT_VIEW_COL_QUEUE)
         self.name_column = columns.add_texticon_column(
             self.torrent_view, 
             _("Name"),
@@ -138,8 +138,8 @@ class TorrentView:
         self.peer_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_PEERS)
         
         # Set the default sort column to the queue column
-        self.torrent_model.set_sort_column_id(TORRENT_VIEW_COL_QUEUE, 
-                                                gtk.SORT_ASCENDING)
+       # self.torrent_model.set_sort_column_id(TORRENT_VIEW_COL_QUEUE, 
+         #                                       gtk.SORT_ASCENDING)
                 
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
@@ -156,15 +156,15 @@ class TorrentView:
         # This function is used for the foreach method of the treemodel
         def update_row(model, path, row, user_data):
             torrent_id = self.torrent_model.get_value(row, 0)
-            status_keys = ["queue", "progress", "state", "num_seeds", 
+            status_keys = ["progress", "state", "num_seeds", 
                     "num_peers", "download_payload_rate", "upload_payload_rate",
                     "eta"]
             status = functions.get_torrent_status(self.core, torrent_id,
                     status_keys)
                                                    
             # Set values for each column in the row
-            self.torrent_model.set_value(row, TORRENT_VIEW_COL_QUEUE, 
-                                            status["queue"]+1)
+          #  self.torrent_model.set_value(row, TORRENT_VIEW_COL_QUEUE, 
+          #                                  status["queue"]+1)
             self.torrent_model.set_value(row, TORRENT_VIEW_COL_PROGRESS, 
                                             status["progress"]*100)
             self.torrent_model.set_value(row, TORRENT_VIEW_COL_STATUS, 
@@ -190,15 +190,16 @@ class TorrentView:
     def add_row(self, torrent_id):
         """Adds a new torrent row to the treeview"""
         # Get the status and info dictionaries
-        status_keys = ["queue", "name", "total_size", "progress", "state",
+        status_keys = ["name", "total_size", "progress", "state",
                 "num_seeds", "num_peers", "download_payload_rate",
                 "upload_payload_rate", "eta"]
         status = functions.get_torrent_status(self.core, torrent_id,
                 status_keys)
         # Insert the row with info provided from core
-        self.torrent_model.insert(status["queue"], [
+        #self.torrent_model.insert(status["queue"], [
+        self.torrent_model.append([
                 torrent_id,
-                status["queue"]+1,
+              #  status["queue"]+1,
                 None,
                 status["name"],
                 status["total_size"],

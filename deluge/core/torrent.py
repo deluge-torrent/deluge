@@ -39,18 +39,13 @@ import deluge.libtorrent as lt
 log = logging.getLogger("deluge")
 
 class Torrent:
-    def __init__(self, filename, handle, queue):
+    def __init__(self, filename, handle):
         # Set the filename
         self.filename = filename
         # Set the libtorrent handle
         self.handle = handle
-        # Set the queue this torrent belongs too
-        self.queue = queue
         # Set the torrent_id for this torrent
         self.torrent_id = str(handle.info_hash())
-    
-    def __del__(self):
-        self.queue.remove(self.torrent_id)
     
     def get_state(self):
         """Returns the state of this torrent for saving to the session state"""
@@ -91,8 +86,7 @@ class Torrent:
             "num_peers": status.num_peers,
             "num_seeds": status.num_seeds,
             "total_wanted": status.total_wanted,
-            "eta": self.get_eta(),
-            "queue": self.queue[self.torrent_id]            
+            "eta": self.get_eta()
         }
         
         # Create the desired status dictionary and return it
