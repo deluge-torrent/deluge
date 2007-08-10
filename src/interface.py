@@ -625,22 +625,14 @@ class DelugeGTK:
 
     def open_folder(self, widget):
         if self.config.get("open_folder_stock"):
-            if self.config.get("file_manager") == common.FileManager.choose_one:
-                msgBox = gtk.MessageDialog(parent = None, buttons = gtk.BUTTONS_OK, 
-                    message_format = (_("Please set a default file manager in the Other tab in the Preferences.")))
-                msgBox.set_position(gtk.WIN_POS_CENTER_ALWAYS)
-                msgBox.set_transient_for(self.window)
-                msgBox.run()
-                msgBox.destroy()
-                return
-            if self.config.get("file_manager") == common.FileManager.konqueror:
-                file_manager = "konqueror"
-            if self.config.get("file_manager") == common.FileManager.nautilus:
-                file_manager = "nautilus"
-            if self.config.get("file_manager") == common.FileManager.thunar:
-                file_manager = "thunar"
             if self.config.get("file_manager") == common.FileManager.xdg:
                 file_manager = "xdg-open"
+            elif self.config.get("file_manager") == common.FileManager.konqueror:
+                file_manager = "konqueror"
+            elif self.config.get("file_manager") == common.FileManager.nautilus:
+                file_manager = "nautilus"
+            elif self.config.get("file_manager") == common.FileManager.thunar:
+                file_manager = "thunar"
         elif self.config.get("open_folder_custom"):
             file_manager = self.config.get("open_folder_location")
         
