@@ -1012,7 +1012,6 @@ class DelugeGTK:
             _("Up Speed"), ulspeed, ulspeed_max, plugin_messages)
         
         self.tray_icon.set_tooltip(msg)
-        print self.config.get("file_manager")
 
     def update_torrent_info_widget(self):
         unique_id = self.get_selected_torrent()
