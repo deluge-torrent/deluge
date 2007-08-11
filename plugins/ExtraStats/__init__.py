@@ -53,13 +53,18 @@ import deluge
 from deluge import common
 
 class ExtraStats:
-
     def __init__(self, path, core, interface):
         print "Loading ExtraStats plugin..."
         self.manager = core
         # Create an options file and try to load existing Values
         self.config_file = deluge.common.CONFIG_DIR + "/extra_stats.conf"
-        self.config = deluge.pref.Preferences(self.config_file, False)
+        self.config = deluge.pref.Preferences(self.config_file, False,
+                          {'enable_downloaded': True,
+                           'enable_uploaded': True,
+                           'enable_ratio': True,
+                           'enable_finished': True,
+                           'enable_running_time': True,
+                           })
         try:
             self.config.load()
         except IOError:
@@ -72,7 +77,7 @@ class ExtraStats:
                                         'on_button_cancel_clicked': self.cancel_clicked,
                                         'on_button_ok_clicked': self.ok_clicked
                                       })
-        self.statsdir = os.path.join(common.CONFIG_DIR, 'alltime_stats')
+        self.statsdir = os.path.join(common.CONFIG_DIR, 'extra_stats')
         self.tray_message = ""
         self.all_downloaded = None
         self.all_uploaded = None
@@ -110,118 +115,12 @@ class ExtraStats:
             self.all_running_time = long(readlines[3])
             stats_file.close()
 
-        downloaded = ""
-        config = self.config.get("enable_downloaded")
-        if config is None:
-            self.config.set("enable_downloaded", True)
-            config = True
-            downloaded = "%s: %s (%s)\n" % (
-                _("Total Downloaded"),
-                common.fsize(self.all_downloaded),
-                common.fsize(0))
-        else:
-            if config :
-                downloaded = "%s: %s (%s)\n" % (
-                    _("Total Downloaded"),
-                    common.fsize(self.all_downloaded),
-                    common.fsize(0))
-
-        uploaded = ""
-        config = self.config.get("enable_uploaded")
-        if config is None:
-            config = True
-            self.config.set("enable_uploaded", True)
-            uploaded = "%s: %s (%s)\n" % (
-                _("Total Uploaded"),
-                common.fsize(self.all_uploaded),
-                common.fsize(0))
-        else:
-            if config:
-                uploaded = "%s: %s (%s)\n" % (
-                    _("Total Uploaded"),
-                    common.fsize(self.all_uploaded),
-                    common.fsize(0))
-
-        overall_ratio = ""
-        config = self.config.get("enable_ratio")
-        if config is None:
-            config = True
-            self.config.set("enable_ratio", True)
-            ratio = _("Undefined")
-            if self.all_downloaded == 0:
-                all_ratio = _("Undefined")
-            else:
-                all_ratio = "%.3f" % float(float(self.all_uploaded)/float(self.all_downloaded))
-            overall_ratio = "%s: %s (%s)\n" % (
-                _("Overall Ratio"),
-                all_ratio,
-                ratio)
-        else:
-            if config:
-                ratio = _("Undefined")
-                if self.all_downloaded == 0:
-                    all_ratio = _("Undefined")
-                else:
-                    all_ratio = "%.3f" % float(float(self.all_uploaded)/float(self.all_downloaded))
-                overall_ratio = "%s: %s (%s)\n" % (
-                    _("Overall Ratio"),
-                    all_ratio,
-                    ratio)
-
-        finished = ""
-        config = self.config.get("enable_finished")
-        if config is None:
-            config = True
-            self.config.set("enable_finished", True)
-            finished = "%s: %s (%s)\n" % (
-                _("Torrents Completed"),
-                str(self.all_finished),
-                str(0))
-        else:
-            if config:
-                finished = "%s: %s (%s)\n" % (
-                    _("Torrents Completed"),
-                    str(self.all_finished),
-                    str(0))
-
-        running_time = ""
-        config = self.config.get("enable_running_time")
-        if config is None:
-            config = True
-            self.config.set("enable_running_time", True)
-            running_time = "%s: %s (%s)\n" % (
-                _("Running Time"),
-                common.ftime(self.all_running_time),
-                common.ftime(0))
-        else:
-            if config:
-                running_time = "%s: %s (%s)\n" % (
-                    _("Running Time"),
-                    common.ftime(self.all_running_time),
-                    common.ftime(0))
-        self.tray_message = downloaded + uploaded + overall_ratio + finished + running_time
-
     def configure(self, window):
-        try:
-            self.glade.get_widget("chk_downloaded").set_active(self.config.get("enable_downloaded"))
-        except:
-            self.glade.get_widget("chk_downloaded").set_active(True)
-        try:
-            self.glade.get_widget("chk_uploaded").set_active(self.config.get("enable_uploaded"))
-        except:
-            self.glade.get_widget("chk_uploaded").set_active(True)
-        try:
-            self.glade.get_widget("chk_ratio").set_active(self.config.get("enable_ratio"))
-        except:
-            self.glade.get_widget("chk_ratio").set_active(True)
-        try:
-            self.glade.get_widget("chk_finished").set_active(self.config.get("enable_finished"))
-        except:
-            self.glade.get_widget("chk_finished").set_active(True)
-        try:
-            self.glade.get_widget("chk_running_time").set_active(self.config.get("enable_running_time"))
-        except:
-            self.glade.get_widget("chk_running_time").set_active(True)
+        self.glade.get_widget("chk_downloaded").set_active(self.config.get("enable_downloaded"))
+        self.glade.get_widget("chk_uploaded").set_active(self.config.get("enable_uploaded"))
+        self.glade.get_widget("chk_ratio").set_active(self.config.get("enable_ratio"))
+        self.glade.get_widget("chk_finished").set_active(self.config.get("enable_finished"))
+        self.glade.get_widget("chk_running_time").set_active(self.config.get("enable_running_time"))
         self.dialog.set_transient_for(window)
         self.dialog.show()
 
@@ -229,15 +128,7 @@ class ExtraStats:
         return self.tray_message
 
     def unload(self):
-        state = self.manager.get_state()
-        downloaded = long(state['total_downloaded']) + self.all_downloaded
-        uploaded = long(state['total_uploaded']) + self.all_uploaded
-        running_time = long(time.time()) - self.start_time + self.all_running_time
-        stats_state = os.path.join(self.statsdir, "stats.state")
-        stats_file = open(stats_state, "w")
-        stats_file.writelines([str(downloaded)+'\n',\
-            str(uploaded)+'\n', str(self.all_finished)+'\n', str(running_time)+'\n'])
-        stats_file.close()
+        self.save_stats_state(self.get_stats())
         self.manager.disconnect_event(self.manager.constants['EVENT_FINISHED'], self.handle_event)
         self.config.save(self.config_file)
 
@@ -247,35 +138,47 @@ class ExtraStats:
             self.all_finished += 1
             self.update()
 
-    def update(self):
+    def get_stats(self):
         state = self.manager.get_state()
         ses_downloaded = long(state['total_downloaded'])
-        all_downloaded = ses_downloaded + self.all_downloaded
         ses_uploaded = long(state['total_uploaded'])
-        all_uploaded = ses_uploaded + self.all_uploaded
         ses_running_time = long(time.time()) - self.start_time
+        all_downloaded = ses_downloaded + self.all_downloaded
+        all_uploaded = ses_uploaded + self.all_uploaded
         all_running_time =  ses_running_time + self.all_running_time
+        
+        return (ses_downloaded, ses_uploaded, ses_running_time, 
+                all_downloaded, all_uploaded, all_running_time)
+
+    def save_stats_state(self, stats_array):
+        all_downloaded, all_uploaded, all_running_time = stats_array[3:] 
+        
+        stats_state = os.path.join(self.statsdir, "stats.state")
+        stats_file = open(stats_state, "w")
+        stats_file.writelines([str(all_downloaded)+'\n',
+            str(all_uploaded)+'\n', str(self.all_finished)+'\n', 
+            str(all_running_time)+'\n'])
+        stats_file.close()
+
+    def update(self):
+        stats_array = self.get_stats()
+        ses_downloaded, ses_uploaded, ses_running_time, \
+        all_downloaded, all_uploaded, all_running_time = stats_array 
 
         if ses_running_time%100 == 0:
-        # Store state approximately every 100 updates.
-            stats_state = os.path.join(self.statsdir, "stats.state")
-            stats_file = open(stats_state, "w")
-            stats_file.writelines([str(all_downloaded)+'\n',\
-                str(all_uploaded)+'\n', str(self.all_finished)+'\n', str(all_running_time)+'\n'])
-            stats_file.close()
+            # Store state approximately every 100 updates.
+            self.save_stats_state(stats_array)
 
         downloaded = ""
         if self.config.get("enable_downloaded"):
             downloaded = "%s: %s (%s)\n" % (
-                _("Total Downloaded"),
-                common.fsize(all_downloaded),
+                _("Total Downloaded"), common.fsize(all_downloaded),
                 common.fsize(ses_downloaded))
 
         uploaded = ""
         if self.config.get("enable_uploaded"):
             uploaded = "%s: %s (%s)\n" % (
-                _("Total Uploaded"),
-                common.fsize(all_uploaded),
+                _("Total Uploaded"), common.fsize(all_uploaded),
                 common.fsize(ses_uploaded))
 
         overall_ratio = ""
@@ -283,31 +186,29 @@ class ExtraStats:
             if ses_downloaded == 0:
                 ses_ratio = _("Undefined")
             else:
-                ses_ratio = "%.3f" % float(float(ses_uploaded)/float(ses_downloaded))
+                ses_ratio = "%.3f" % (float(ses_uploaded)/float(ses_downloaded))
             if all_downloaded == 0:
                 all_ratio = _("Undefined")
             else:
-                all_ratio = "%.3f" % float(float(all_uploaded)/float(all_downloaded))
+                all_ratio = "%.3f" % (float(all_uploaded)/float(all_downloaded))
             overall_ratio = "%s: %s (%s)\n" % (
-                _("Overall Ratio"),
-                all_ratio,
-                ses_ratio)
+                _("Overall Ratio"), all_ratio, ses_ratio)
 
         finished = ""
         if self.config.get("enable_finished"):
             finished = "%s: %s (%s)\n" % (
-                _("Torrents Completed"),
-                str(self.all_finished),
+                _("Torrents Completed"), str(self.all_finished),
                 str(self.finished))
 
         running_time = ""
         if self.config.get("enable_running_time"):
-            finished = "%s: %s (%s)\n" % (
-                _("Running Time"),
-                common.ftime(all_running_time),
+            running_time = "%s: %s (%s)\n" % (
+                _("Running Time"), common.ftime(all_running_time),
                 common.ftime(ses_running_time))
 
-        self.tray_message = downloaded + uploaded + overall_ratio + finished + running_time
+        # Copy to self.tray_message without last new line char
+        self.tray_message = (downloaded + uploaded + overall_ratio + \
+                             finished + running_time)[:-1]
 
     def ok_clicked(self, src):
         self.dialog.hide()
