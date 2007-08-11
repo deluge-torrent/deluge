@@ -692,7 +692,8 @@ class DelugeGTK:
         preferences_dialog.show(self, self.window)
 
     def show_preferences_dialog_clicked(self, arg=None):
-        if self.config.get("lock_tray") == True:
+        if self.config.get("enable_system_tray") and \
+           self.config.get("lock_tray"):
             self.unlock_tray("prefwinshow")
         else:
             self.show_preferences_dialog()
