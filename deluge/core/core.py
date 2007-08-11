@@ -64,7 +64,8 @@ DEFAULT_PREFS = {
     "compact_allocation": True,
     "download_location": deluge.common.get_default_download_dir(),
     "listen_ports": [6881, 6891],
-    "torrentfiles_location": deluge.common.get_default_torrent_dir()
+    "torrentfiles_location": deluge.common.get_default_torrent_dir(),
+    "plugins_location": deluge.common.get_default_plugin_dir()
 }
 
 class Core(dbus.service.Object):

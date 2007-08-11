@@ -62,6 +62,10 @@ def get_default_download_dir():
 def get_default_torrent_dir():
     """Returns the default torrent directory"""
     return os.path.join(get_config_dir(), "torrentfiles")
+    
+def get_default_plugin_dir():
+    """Returns the default plugin directory"""
+    return os.path.join(get_config_dir(), "plugins")
 
 ## Formatting text functions
 

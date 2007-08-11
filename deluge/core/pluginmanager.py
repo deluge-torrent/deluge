@@ -42,7 +42,10 @@ log = logging.getLogger("deluge")
 class PluginManager:
     def __init__(self):
         # Set up the hooks dictionary
-        self.hooks = {"post_torrent_add": []}
+        self.hooks = {
+            "post_torrent_add": [],
+            "post_torrent_remove": []
+        }
         
         # This will load any .eggs in the plugins folder inside the main
         # deluge egg.. Need to scan the local plugin folder too.

@@ -1,5 +1,5 @@
 #
-# gtkui.py
+# core.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
@@ -33,43 +33,9 @@
 
 import logging
 
-import pygtk
-pygtk.require('2.0')
-import gtk, gtk.glade
-import gettext
-import pkg_resources
-
-from mainwindow import MainWindow
-from signals import Signals
-from pluginmanager import PluginManager
-
 # Get the logger
 log = logging.getLogger("deluge")
 
 class GtkUI:
-    def __init__(self):
-        # Initialize gettext
-        gettext.bindtextdomain("deluge",
-                    pkg_resources.resource_filename(
-                                            "deluge.ui.gtkui",
-                                            "po"))
-        gettext.textdomain("deluge")
-        gettext.install("deluge",
-                    pkg_resources.resource_filename(
-                                            "deluge.ui.gtkui",
-                                            "po"))
-        
-        # Initialize the main window
-        self.main_window = MainWindow()
-        
-        # Start the signal receiver
-        self.signal_receiver = Signals(self)
-        
-        # Initalize the plugins
-        self.plugins = PluginManager()
-        
-        # Show the main window
-        self.main_window.show()
-        
-        # Start the gtk main loop
-        gtk.main()
+    def __init__(self, plugin_manager):
+        log.debug("Queue GtkUI plugin initalized..")
