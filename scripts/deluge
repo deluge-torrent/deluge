@@ -34,10 +34,7 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import gettext
-import locale
 import os
-import os.path
 from optparse import OptionParser
 import re
 import sys
@@ -60,10 +57,8 @@ import deluge.common
 import deluge.core
 import deluge.interface
 
-parser = OptionParser(usage="%prog [options] [actions]", version=deluge.common.PROGRAM_VERSION)
-parser.add_option("--tray", dest="tray", help="start Deluge hidden in system tray",
-                        metavar="TRAY", action="store_true")
-
+parser = OptionParser(usage="%prog [options] [torrents to add]", 
+                      version=deluge.common.PROGRAM_VERSION)
 (options, args) = parser.parse_args()
 
 def upgrade_old_persistent_state():
@@ -115,7 +110,7 @@ def get_cmd_line_torrents():
             if not torrent.endswith(".torrent"):
                 print "Error,", torrent, " does not seem to be a .torrent file"
             else:        
-	            cmd_line_torrents.append(os.path.abspath(torrent))
+                cmd_line_torrents.append(os.path.abspath(torrent))
 
     return cmd_line_torrents
 
@@ -126,7 +121,7 @@ def start_deluge():
 
     interface = deluge.interface.DelugeGTK()
 
-    interface.start(options.tray, get_cmd_line_torrents())
+    interface.start(get_cmd_line_torrents())
 
 if dbus_imported:
     bus = dbus.SessionBus()

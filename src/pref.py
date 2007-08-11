@@ -111,6 +111,7 @@ DEFAULT_PREFS = {
     "show_status" : True,
     "show_toolbar" : True,
     "show_ul" : True,
+    "start_in_tray" : False,
     "tray_downloadspeedlist" : [5.0, 10.0, 30.0, 80.0, 300.0],
     "tray_passwd" : "",
     "tray_uploadspeedlist" : [5.0, 10.0, 30.0, 80.0, 300.0],

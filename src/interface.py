@@ -816,11 +816,12 @@ class DelugeGTK:
         return rlist
     
     ## Start the timer that updates the interface
-    def start(self, start_in_tray=False, cmd_line_torrents=None):
+    def start(self, cmd_line_torrents=None):
         if cmd_line_torrents is None:
             cmd_line_torrents = []
         
-        if not(start_in_tray and self.config.get("enable_system_tray") and 
+        if not(self.config.get("start_in_tray") and \
+               self.config.get("enable_system_tray") and 
                self.has_tray) and not self.window.get_property("visible"):
             print "Showing window"
             self.window.show()

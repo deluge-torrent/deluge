@@ -82,6 +82,7 @@ class PreferencesDlg:
             self.glade.get_widget("chk_new_releases").set_active(self.preferences.get("new_releases"))
             self.glade.get_widget("chk_use_tray").set_active(self.preferences.get("enable_system_tray"))
             self.glade.get_widget("chk_min_on_close").set_active(self.preferences.get("close_to_tray"))
+            self.glade.get_widget("chk_start_in_tray").set_active(self.preferences.get("start_in_tray"))
             self.glade.get_widget("chk_lock_tray").set_active(self.preferences.get("lock_tray"))
             self.glade.get_widget("txt_tray_passwd").set_text(self.preferences.get("tray_passwd"))
             self.glade.get_widget("txt_peer_proxy_hostname").set_text(self.preferences.get("peer_proxy_hostname"))
@@ -134,22 +135,21 @@ class PreferencesDlg:
                 self.glade.get_widget("radio_ask_save").set_active(True)
                 self.glade.get_widget("chk_move_completed").set_sensitive(False)
                 self.glade.get_widget("finished_path_button").set_sensitive(False)
-            if self.glade.get_widget('chk_use_tray').get_active():
-                self.glade.get_widget('chk_min_on_close').set_sensitive(True)
-                self.glade.get_widget('chk_lock_tray').set_sensitive(True)
-            else:
-                self.glade.get_widget('chk_min_on_close').set_sensitive(False)
-                self.glade.get_widget('chk_lock_tray').set_sensitive(False)
-            if self.glade.get_widget('chk_lock_tray').get_active():
-                self.glade.get_widget('txt_tray_passwd').set_sensitive(True)
-            else:
-                self.glade.get_widget('txt_tray_passwd').set_sensitive(False)
-            if self.glade.get_widget('chk_random_port').get_active():
-                self.glade.get_widget('spin_port_min').set_sensitive(False)
-                self.glade.get_widget('spin_port_max').set_sensitive(False)                
-            else:
-                self.glade.get_widget('spin_port_min').set_sensitive(True)
-                self.glade.get_widget('spin_port_max').set_sensitive(True)
+                
+            self.glade.get_widget('chk_min_on_close').set_sensitive(
+                self.glade.get_widget('chk_use_tray').get_active())
+            self.glade.get_widget('chk_start_in_tray').set_sensitive(
+                self.glade.get_widget('chk_use_tray').get_active())
+            self.glade.get_widget('chk_lock_tray').set_sensitive(
+                self.glade.get_widget('chk_use_tray').get_active())
+            self.glade.get_widget('txt_tray_passwd').set_sensitive(
+                self.glade.get_widget('chk_use_tray').get_active() and \
+                    self.glade.get_widget('chk_lock_tray').get_active())
+            
+            self.glade.get_widget('spin_port_min').set_sensitive(
+                not self.glade.get_widget('chk_random_port').get_active())
+            self.glade.get_widget('spin_port_max').set_sensitive(
+                not self.glade.get_widget('chk_random_port').get_active())                
 
             self.glade.get_widget("ok_button").connect("clicked", 
                                                    self.ok_clicked, interface)
@@ -187,6 +187,7 @@ class PreferencesDlg:
         self.preferences.set("use_utpex", self.glade.get_widget("chk_utpex").get_active())
         self.preferences.set("enable_system_tray", self.glade.get_widget("chk_use_tray").get_active())
         self.preferences.set("close_to_tray", self.glade.get_widget("chk_min_on_close").get_active())
+        self.preferences.set("start_in_tray", self.glade.get_widget("chk_start_in_tray").get_active())
         self.preferences.set("lock_tray", self.glade.get_widget("chk_lock_tray").get_active())
         self.preferences.set("tray_passwd", self.glade.get_widget("txt_tray_passwd").get_text())
         self.preferences.set("tracker_proxy_username", self.glade.get_widget("txt_tracker_proxy_username").get_text())
@@ -277,10 +278,10 @@ class PreferencesDlg:
                     self.glade.get_widget(x).set_sensitive(value)
         elif widget == self.glade.get_widget('chk_use_tray'):
             self.glade.get_widget('chk_min_on_close').set_sensitive(value)
+            self.glade.get_widget('chk_start_in_tray').set_sensitive(value)
             self.glade.get_widget('chk_lock_tray').set_sensitive(value)
-            if not value:
-                self.glade.get_widget('chk_min_on_close').set_active(value)
-                self.glade.get_widget('chk_lock_tray').set_active(value)
+            self.glade.get_widget('txt_tray_passwd').set_sensitive(value and \
+                self.glade.get_widget('chk_lock_tray').get_active())
         elif widget == self.glade.get_widget('chk_lock_tray'):
             self.glade.get_widget('txt_tray_passwd').set_sensitive(value)
         elif widget == self.glade.get_widget('chk_random_port'):
