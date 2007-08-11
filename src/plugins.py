@@ -97,8 +97,11 @@ class PluginManager:
         tray_message = ""
         for name in self.enabled_plugins.keys():
             plugin = self.enabled_plugins[name]
-            if 'get_tray_message' in dir(plugin):
-                tray_message = tray_message + '\n' + plugin.get_tray_message()
+            if hasattr(plugin, 'get_tray_message'):
+                plugin_tray_message = plugin.get_tray_message()
+                if plugin_tray_message:
+                    tray_message += '\n' + plugin_tray_message
+                
         return tray_message
 
     def update_active_plugins(self):
