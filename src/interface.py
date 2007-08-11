@@ -478,9 +478,8 @@ class DelugeGTK:
     def build_torrent_table(self):
         ## Create the torrent listview
         self.torrent_view = self.wtree.get_widget("torrent_view")
-        self.torrent_glade = gtk.glade.XML(common.get_glade_file("torrent_menu.glade"), domain='deluge')
-        self.torrent_menu = self.torrent_glade.get_widget("torrent_menu")        
-        self.torrent_glade.signal_autoconnect({
+        torrent_glade = gtk.glade.XML(common.get_glade_file("torrent_menu.glade"), domain='deluge')
+        torrent_glade.signal_autoconnect({
                         "remove_torrent": self.remove_torrent_clicked,
                         "edit_trackers": self.list_of_trackers,
                         "tor_start": self.tor_start,
@@ -493,7 +492,7 @@ class DelugeGTK:
                         "queue_bottom": self.q_to_bottom,
                         "queue_top": self.q_to_top,
                                                 })
-        self.torrent_menu.connect("focus", self.torrent_menu_focus)
+        self.torrent_menu = torrent_glade.get_widget("torrent_menu")
         # unique_ID, Q#, Status Icon, Name, Size, Progress, Message, Seeders, Peers,
         #     DL, UL, ETA, Share
         self.torrent_model = gtk.ListStore(int, gobject.TYPE_UINT, 
@@ -677,11 +676,6 @@ class DelugeGTK:
         except KeyError:
             pass
 
-    def torrent_menu_focus(self, widget, direction):
-        menuitem = self.torrent_glade.get_widget("menu_pause")
-        # Check if we are selecting multiple torrents
-        return
-            
     def show_about_dialog(self, arg=None):
         dialogs.show_about_dialog()
 
