@@ -1,5 +1,5 @@
 #
-# gtkui.py
+# pluginmanager.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
@@ -32,10 +32,38 @@
 #    statement from all source files in the program, then also delete it here.
 
 import logging
+import os.path
+
+import pkg_resources
 
 # Get the logger
 log = logging.getLogger("deluge")
 
-class GtkUI:
-    def __init__(self, plugin_manager):
-        log.debug("Queue GtkUI plugin initalized..")
+class PluginManager:
+    def __init__(self):
+        # Set up the hooks dictionary
+        self.hooks = {
+        }
+        
+        # This will load any .eggs in the plugins folder inside the main
+        # deluge egg.. Need to scan the local plugin folder too.
+        
+        plugin_dir = os.path.join(os.path.dirname(__file__), "../..", "plugins")
+        
+        pkg_resources.working_set.add_entry(plugin_dir)
+        pkg_env = pkg_resources.Environment([plugin_dir])
+        
+        self.plugins = {}
+        for name in pkg_env:
+           egg = pkg_env[name][0]
+           egg.activate()
+           modules = []
+           for name in egg.get_entry_map("deluge.plugin.ui.gtk"):
+              entry_point = egg.get_entry_info("deluge.plugin.ui.gtk", name)
+              cls = entry_point.load()
+              instance = cls(self)
+              self.plugins[name] = instance
+              log.info("Loaded plugin %s", name)
+           
+    def __getitem__(self, key):
+        return self.plugins[key]
