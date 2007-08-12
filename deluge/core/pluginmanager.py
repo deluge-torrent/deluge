@@ -76,7 +76,11 @@ class PluginManager:
             self.hooks[hook].append(function)
         except KeyError:
             log.warning("Plugin attempting to register invalid hook.")
+    
+    def run_hook(self, hook, data):
+        log.debug("Running hook %s", hook)
         
+            
     def run_post_torrent_add(self, torrent_id):
         log.debug("run_post_torrent_add")
         try:

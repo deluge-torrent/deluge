@@ -60,16 +60,16 @@ class GtkUI:
                                             "po"))
         
         # Initialize the main window
-        self.main_window = MainWindow()
+        self.mainwindow = MainWindow()
         
         # Start the signal receiver
         self.signal_receiver = Signals(self)
         
         # Initalize the plugins
-        self.plugins = PluginManager()
+        self.plugins = PluginManager(self)
         
         # Show the main window
-        self.main_window.show()
+        self.mainwindow.show()
         
         # Start the gtk main loop
         gtk.main()

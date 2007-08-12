@@ -39,208 +39,68 @@ import gtk, gtk.glade
 import gobject
 import gettext
 
-import columns
 import deluge.ui.functions as functions
+import listview
 
 # Get the logger
 log = logging.getLogger("deluge")
-
-# Initializes the columns for the torrent_view
-(TORRENT_VIEW_COL_UID,
-#TORRENT_VIEW_COL_QUEUE,
-TORRENT_VIEW_COL_STATUSICON,
-TORRENT_VIEW_COL_NAME,
-TORRENT_VIEW_COL_SIZE,
-TORRENT_VIEW_COL_PROGRESS,
-TORRENT_VIEW_COL_STATUS,
-TORRENT_VIEW_COL_CONNECTED_SEEDS,
-TORRENT_VIEW_COL_SEEDS,
-TORRENT_VIEW_COL_CONNECTED_PEERS,
-TORRENT_VIEW_COL_PEERS,
-TORRENT_VIEW_COL_DOWNLOAD,
-TORRENT_VIEW_COL_UPLOAD,
-TORRENT_VIEW_COL_ETA,
-TORRENT_VIEW_COL_RATIO) = range(14)
 
 class TorrentView:
     def __init__(self, window):
         log.debug("TorrentView Init..")
         self.window = window
         self.core = functions.get_core()
-        # Get the torrent_view widget
-        self.torrent_view = self.window.main_glade.get_widget("torrent_view")
-        
-        ## TreeModel setup ##
-        # UID, Status Icon, Name, Size, Progress, Message, Seeders, Peers,
-        #     DL, UL, ETA, Share
-        self.torrent_model = gtk.ListStore(str, gtk.gdk.Pixbuf, str, 
-            long, float, str, int, int, int, int, int, int, int, float)
-        
-        ## TreeView setup ##
-        self.torrent_view.set_model(self.torrent_model)
-        self.torrent_view.set_rules_hint(True)
-        self.torrent_view.set_reorderable(True)
-        self.torrent_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
-        
-  #      self.queue_column = columns.add_text_column(
-   #         self.torrent_view, "#",
-    #        TORRENT_VIEW_COL_QUEUE)
-        self.name_column = columns.add_texticon_column(
-            self.torrent_view, 
-            _("Name"),
-            TORRENT_VIEW_COL_STATUSICON,
-            TORRENT_VIEW_COL_NAME)
-        self.size_column = columns.add_func_column(
-            self.torrent_view,
-            _("Size"),
-            columns.cell_data_size,
-            TORRENT_VIEW_COL_SIZE)
-        self.progress_column = columns.add_progress_column(
-            self.torrent_view,
-            _("Progress"),
-            TORRENT_VIEW_COL_PROGRESS,
-            TORRENT_VIEW_COL_STATUS)
-        self.seed_column = columns.add_func_column(
-            self.torrent_view,
-            _("Seeders"),
-            columns.cell_data_peer,
-            (TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS))
-        self.peer_column = columns.add_func_column(
-            self.torrent_view,
-            _("Peers"),
-            columns.cell_data_peer,
-            (TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS))
-        self.dl_column = columns.add_func_column(
-            self.torrent_view,
-            _("Down Speed"),
-            columns.cell_data_speed,
-            TORRENT_VIEW_COL_DOWNLOAD)
-        self.ul_column = columns.add_func_column(
-            self.torrent_view,
-            _("Up Speed"),
-            columns.cell_data_speed,
-            TORRENT_VIEW_COL_UPLOAD)
-        self.eta_column = columns.add_func_column(
-            self.torrent_view,
-            _("ETA"),
-            columns.cell_data_time,
-            TORRENT_VIEW_COL_ETA)
-        self.share_column = columns.add_func_column(
-            self.torrent_view,
-            _("Ratio"),
-            columns.cell_data_ratio,
-            TORRENT_VIEW_COL_RATIO)
-        
-        # Set some column settings
-        self.progress_column.set_expand(True)
-        self.name_column.set_sort_column_id(TORRENT_VIEW_COL_NAME)
-        self.seed_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_SEEDS)
-        self.peer_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_PEERS)
-        
-        # Set the default sort column to the queue column
-       # self.torrent_model.set_sort_column_id(TORRENT_VIEW_COL_QUEUE, 
-         #                                       gtk.SORT_ASCENDING)
-                
+        # Create a ListView object using the torrent_view from the mainwindow
+        self.torrent_view = listview.ListView(
+                            self.window.main_glade.get_widget("torrent_view"))
+
+        self.torrent_view.add_text_column("torrent_id", visible=False)
+        self.torrent_view.add_texticon_column("Name")
+        self.torrent_view.add_func_column("Size", 
+                                            listview.cell_data_size, 
+                                            [long])
+        self.torrent_view.add_progress_column("Progress")
+        self.torrent_view.add_func_column("Seeders",
+                                            listview.cell_data_peer,
+                                            [int, int])
+        self.torrent_view.add_func_column("Peers",
+                                            listview.cell_data_peer,
+                                            [int, int])
+        self.torrent_view.add_func_column("Down Speed",
+                                            listview.cell_data_speed,
+                                            [int])
+        self.torrent_view.add_func_column("Up Speed",
+                                            listview.cell_data_speed,
+                                            [int])
+        self.torrent_view.add_func_column("ETA",
+                                            listview.cell_data_time,
+                                            [int])
+        self.torrent_view.add_func_column("Ratio",
+                                            listview.cell_data_ratio,
+                                            [float])
+       
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
         # torrent menu popup.
-        self.torrent_view.connect("button-press-event",
+        self.torrent_view.treeview.connect("button-press-event",
                                     self.on_button_press_event)
         # Connect to the 'changed' event of TreeViewSelection to get selection
         # changes.
-        self.torrent_view.get_selection().connect("changed", 
+        self.torrent_view.treeview.get_selection().connect("changed", 
                                     self.on_selection_changed)
     
     def update(self):
-        """Update the view, this is likely called by a timer"""
-        # This function is used for the foreach method of the treemodel
-        def update_row(model, path, row, user_data):
-            torrent_id = self.torrent_model.get_value(row, 0)
-            status_keys = ["progress", "state", "num_seeds", 
-                    "num_peers", "download_payload_rate", "upload_payload_rate",
-                    "eta"]
-            status = functions.get_torrent_status(self.core, torrent_id,
-                    status_keys)
-                                                   
-            # Set values for each column in the row
-          #  self.torrent_model.set_value(row, TORRENT_VIEW_COL_QUEUE, 
-          #                                  status["queue"]+1)
-            self.torrent_model.set_value(row, TORRENT_VIEW_COL_PROGRESS, 
-                                            status["progress"]*100)
-            self.torrent_model.set_value(row, TORRENT_VIEW_COL_STATUS, 
-                                            status["state"])
-            self.torrent_model.set_value(row, TORRENT_VIEW_COL_CONNECTED_SEEDS, 
-                                            status["num_seeds"])
-            self.torrent_model.set_value(row, TORRENT_VIEW_COL_SEEDS, 
-                                            status["num_seeds"])
-            self.torrent_model.set_value(row, TORRENT_VIEW_COL_CONNECTED_PEERS, 
-                                            status["num_peers"])
-            self.torrent_model.set_value(row, TORRENT_VIEW_COL_PEERS, 
-                                            status["num_peers"])
-            self.torrent_model.set_value(row, TORRENT_VIEW_COL_DOWNLOAD, 
-                                            status["download_payload_rate"])
-            self.torrent_model.set_value(row, TORRENT_VIEW_COL_UPLOAD, 
-                                            status["upload_payload_rate"])
-            self.torrent_model.set_value(row, TORRENT_VIEW_COL_ETA, 
-                                            status["eta"])
-
-        # Iterates through every row and updates them accordingly
-        self.torrent_model.foreach(update_row, None)
+        pass
     
     def add_row(self, torrent_id):
-        """Adds a new torrent row to the treeview"""
-        # Get the status and info dictionaries
-        status_keys = ["name", "total_size", "progress", "state",
-                "num_seeds", "num_peers", "download_payload_rate",
-                "upload_payload_rate", "eta"]
-        status = functions.get_torrent_status(self.core, torrent_id,
-                status_keys)
-        # Insert the row with info provided from core
-        #self.torrent_model.insert(status["queue"], [
-        self.torrent_model.append([
-                torrent_id,
-              #  status["queue"]+1,
-                None,
-                status["name"],
-                status["total_size"],
-                status["progress"]*100,
-                status["state"],
-                status["num_seeds"],
-                status["num_seeds"],
-                status["num_peers"],
-                status["num_peers"],
-                status["download_payload_rate"],
-                status["upload_payload_rate"],
-                status["eta"],
-                0.0
-            ])
+        pass
     
     def remove_row(self, torrent_id):
-        """Removes a row with torrent_id"""
-        row = self.torrent_model.get_iter_first()
-        while row is not None:
-            # Check if this row is the row we want to remove
-            if self.torrent_model.get_value(row, 0) == torrent_id:
-                self.torrent_model.remove(row)
-                # Force an update of the torrentview
-                self.update()
-                break
-            row = self.torrent_model.iter_next(row)
-            
+        pass
+                    
     def get_selected_torrents(self):
-        """Returns a list of selected torrents or None"""
-        torrent_ids = []
-        paths = self.torrent_view.get_selection().get_selected_rows()[1]
-        
-        try:
-            for path in paths:
-                torrent_ids.append(
-                    self.torrent_model.get_value(
-                        self.torrent_model.get_iter(path), 0))
-            return torrent_ids
-        except ValueError:
-            return None
-        
+        pass
+                
     ### Callbacks ###                             
     def on_button_press_event(self, widget, event):
         log.debug("on_button_press_event")

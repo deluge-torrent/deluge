@@ -40,10 +40,9 @@ import pkg_resources
 log = logging.getLogger("deluge")
 
 class PluginManager:
-    def __init__(self):
-        # Set up the hooks dictionary
-        self.hooks = {
-        }
+    def __init__(self, gtkui):
+        
+        self._gtkui = gtkui
         
         # This will load any .eggs in the plugins folder inside the main
         # deluge egg.. Need to scan the local plugin folder too.
@@ -67,3 +66,7 @@ class PluginManager:
            
     def __getitem__(self, key):
         return self.plugins[key]
+        
+    def get_torrentview(self):
+        """Returns a reference to the torrentview component"""
+        return self._gtkui.mainwindow.torrentview

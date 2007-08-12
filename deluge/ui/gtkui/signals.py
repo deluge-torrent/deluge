@@ -63,27 +63,20 @@ class Signals:
         self.core.connect_to_signal("torrent_added", self.torrent_added_signal)
         self.core.connect_to_signal("torrent_removed", 
                                                     self.torrent_removed_signal)
-        self.core.connect_to_signal("torrent_queue_changed",
-                                            self.torrent_queue_changed_signal)
         self.core.connect_to_signal("torrent_paused", self.torrent_paused)
     
     def torrent_added_signal(self, torrent_id):
         log.debug("torrent_added signal received..")
         log.debug("torrent id: %s", torrent_id)
         # Add the torrent to the treeview
-        self.ui.main_window.torrentview.add_row(torrent_id)
+        self.ui.mainwindow.torrentview.add_row(torrent_id)
 
     def torrent_removed_signal(self, torrent_id):
         log.debug("torrent_remove signal received..")
         log.debug("torrent id: %s", torrent_id)
         # Remove the torrent from the treeview
-        self.ui.main_window.torrentview.remove_row(torrent_id)
-
-    def torrent_queue_changed_signal(self):
-        log.debug("torrent_queue_changed signal received..")
-        # Force an update of the torrent view
-        self.ui.main_window.torrentview.update()
+        self.ui.mainwindow.torrentview.remove_row(torrent_id)
 
     def torrent_paused(self, torrent_id):
         log.debug("torrent_paused signal received..")
-        self.ui.main_window.torrentview.update()
+        self.ui.mainwindow.torrentview.update()

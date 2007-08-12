@@ -39,3 +39,7 @@ log = logging.getLogger("deluge")
 class GtkUI:
     def __init__(self, plugin_manager):
         log.debug("Queue GtkUI plugin initalized..")
+        self.plugin = plugin_manager
+        # Get the torrentview component from the plugin manager
+        self.torrentview = self.plugin.get_torrentview()
+        
