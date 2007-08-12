@@ -38,6 +38,8 @@ pygtk.require('2.0')
 import gtk
 import gettext
 
+import deluge.common
+
 # Get the logger
 log = logging.getLogger("deluge")
 
@@ -49,9 +51,9 @@ def cell_data_speed(column, cell, model, iter, data):
     cell.set_property('text', speed_str)
 
 def cell_data_size(column, cell, model, iter, data):
-	size = long(model.get_value(iter, data))
-	size_str = deluge.common.fsize(size)
-	cell.set_property('text', size_str)
+    size = long(model.get_value(iter, data))
+    size_str = deluge.common.fsize(size)
+    cell.set_property('text', size_str)
 
 def cell_data_peer(column, cell, model, iter, data):
     c1, c2 = data
@@ -79,7 +81,6 @@ class ListView:
     class ListViewColumn:
         def __init__(self, name, column_indices):
             self.name = name
-            # self.column_types = column_types
             self.column_indices = column_indices
     
     def __init__(self, treeview_widget=None):
@@ -101,6 +102,17 @@ class ListView:
         self.columns = {}
         self.liststore_columns = []
     
+    def set_treeview(self, treeview_widget):
+        self.treeview = treeview_widget
+        return
+        
+    def get_column_index(self, name):
+        # Only return as list if needed
+        if len(self.columns[name].column_indices) > 1:
+            return self.columns[name].column_indices
+        else:
+            return self.columns[name].column_indices[0]
+    
     def create_new_liststore(self):
         # Create a new liststore with added column and move the data from the 
         # old one to the new one.
@@ -110,8 +122,6 @@ class ListView:
         # being the new liststore and the columns list
         def copy_row(model, path, row, user_data):
             new_list, columns = user_data
-            # Iterate over the columns except the last one.  This one would have
-            # been just added and no need to copy it from the old list.
             for column in range(model.get_n_columns()):
                 # Get the current value of the column for this row
                 value = model.get_value(row, column)
@@ -171,8 +181,12 @@ class ListView:
         column = gtk.TreeViewColumn(header)
         render = gtk.CellRendererText()
         column.pack_start(render, True)
-        column.set_cell_data_func(render, function, 
+        if len(self.columns[header].column_indices) > 1:
+            column.set_cell_data_func(render, function, 
                                     tuple(self.columns[header].column_indices))
+        else:
+            column.set_cell_data_func(render, function,
+                                    self.columns[header].column_indices[0])
         column.set_clickable(True)
         column.set_sort_column_id(column_indices[sortid])
         column.set_resizable(True)

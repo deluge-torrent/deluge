@@ -45,61 +45,147 @@ import listview
 # Get the logger
 log = logging.getLogger("deluge")
 
-class TorrentView:
+class TorrentView(listview.ListView):
     def __init__(self, window):
+        # Call the ListView constructor
+        listview.ListView.__init__(self)
         log.debug("TorrentView Init..")
         self.window = window
         self.core = functions.get_core()
-        # Create a ListView object using the torrent_view from the mainwindow
-        self.torrent_view = listview.ListView(
-                            self.window.main_glade.get_widget("torrent_view"))
+        # Set the treeview used in listview with the one from our glade file
+        self.set_treeview(self.window.main_glade.get_widget("torrent_view"))
 
-        self.torrent_view.add_text_column("torrent_id", visible=False)
-        self.torrent_view.add_texticon_column("Name")
-        self.torrent_view.add_func_column("Size", 
+        self.add_text_column("torrent_id", visible=False)
+        self.add_texticon_column("Name")
+        self.add_func_column("Size", 
                                             listview.cell_data_size, 
                                             [long])
-        self.torrent_view.add_progress_column("Progress")
-        self.torrent_view.add_func_column("Seeders",
+        self.add_progress_column("Progress")
+        self.add_func_column("Seeders",
                                             listview.cell_data_peer,
                                             [int, int])
-        self.torrent_view.add_func_column("Peers",
+        self.add_func_column("Peers",
                                             listview.cell_data_peer,
                                             [int, int])
-        self.torrent_view.add_func_column("Down Speed",
+        self.add_func_column("Down Speed",
                                             listview.cell_data_speed,
-                                            [int])
-        self.torrent_view.add_func_column("Up Speed",
+                                            [float])
+        self.add_func_column("Up Speed",
                                             listview.cell_data_speed,
-                                            [int])
-        self.torrent_view.add_func_column("ETA",
+                                            [float])
+        self.add_func_column("ETA",
                                             listview.cell_data_time,
                                             [int])
-        self.torrent_view.add_func_column("Ratio",
+        self.add_func_column("Ratio",
                                             listview.cell_data_ratio,
                                             [float])
-       
+
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
         # torrent menu popup.
-        self.torrent_view.treeview.connect("button-press-event",
+        self.treeview.connect("button-press-event",
                                     self.on_button_press_event)
         # Connect to the 'changed' event of TreeViewSelection to get selection
         # changes.
-        self.torrent_view.treeview.get_selection().connect("changed", 
+        self.treeview.get_selection().connect("changed", 
                                     self.on_selection_changed)
     
     def update(self):
-        pass
+        """Update the view, this is likely called by a timer"""
+        # This function is used for the foreach method of the treemodel
+        def update_row(model, path, row, user_data):
+            torrent_id = self.liststore.get_value(row, 0)
+            status_keys = ["progress", "state", "num_seeds", 
+                    "num_peers", "download_payload_rate", "upload_payload_rate",
+                    "eta"]
+            status = functions.get_torrent_status(self.core, torrent_id,
+                    status_keys)
+                                                   
+            # Set values for each column in the row
+
+            self.liststore.set_value(row, 
+                            self.get_column_index("Progress")[0], 
+                            status["progress"]*100)
+            self.liststore.set_value(row,
+                            self.get_column_index("Progress")[1],
+                            status["state"])
+            self.liststore.set_value(row,
+                            self.get_column_index("Seeders")[0],  
+                            status["num_seeds"])
+            self.liststore.set_value(row,
+                            self.get_column_index("Seeders")[1],  
+                            status["num_seeds"])
+            self.liststore.set_value(row,
+                            self.get_column_index("Peers")[0],  
+                            status["num_peers"])
+            self.liststore.set_value(row,
+                            self.get_column_index("Peers")[1],  
+                            status["num_peers"])
+            self.liststore.set_value(row,
+                            self.get_column_index("Down Speed"),  
+                            status["download_payload_rate"])
+            self.liststore.set_value(row,
+                            self.get_column_index("Up Speed"),  
+                            status["upload_payload_rate"])
+            self.liststore.set_value(row,
+                            self.get_column_index("ETA"),
+                            status["eta"])
+
+        # Iterates through every row and updates them accordingly
+        if self.liststore is not None:
+            self.liststore.foreach(update_row, None)
     
     def add_row(self, torrent_id):
-        pass
-    
+        """Adds a new torrent row to the treeview"""
+        # Get the status and info dictionaries
+        status_keys = ["name", "total_size", "progress", "state",
+                "num_seeds", "num_peers", "download_payload_rate",
+                "upload_payload_rate", "eta"]
+        status = functions.get_torrent_status(self.core, torrent_id,
+                status_keys)
+        # Insert the row with info provided from core
+        self.liststore.append([
+                torrent_id,
+                None,
+                status["name"],
+                status["total_size"],
+                status["progress"]*100,
+                status["state"],
+                status["num_seeds"],
+                status["num_seeds"],
+                status["num_peers"],
+                status["num_peers"],
+                status["download_payload_rate"],
+                status["upload_payload_rate"],
+                status["eta"],
+                0.0
+            ])
+            
     def remove_row(self, torrent_id):
-        pass
+        """Removes a row with torrent_id"""
+        row = self.liststore.get_iter_first()
+        while row is not None:
+            # Check if this row is the row we want to remove
+            if self.liststore.get_value(row, 0) == torrent_id:
+                self.liststore.remove(row)
+                # Force an update of the torrentview
+                self.update()
+                break
+            row = self.liststore.iter_next(row)
                     
     def get_selected_torrents(self):
-        pass
+        """Returns a list of selected torrents or None"""
+        torrent_ids = []
+        paths = self.treeview.get_selection().get_selected_rows()[1]
+        
+        try:
+            for path in paths:
+                torrent_ids.append(
+                    self.liststore.get_value(
+                        self.liststore.get_iter(path), 0))
+            return torrent_ids
+        except ValueError:
+            return None
                 
     ### Callbacks ###                             
     def on_button_press_event(self, widget, event):
