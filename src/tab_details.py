@@ -71,11 +71,11 @@ class DetailsTabManager(object):
         self.availability.set_text('%.3f' % state["distributed_copies"])
         self.total_downloaded.set_text('%s (%s)' % \
             (common.fsize(state["total_done"]),
-             common.fsize(state["total_download"])))
+             common.fsize(state["total_payload_download"])))
         self.total_uploaded.set_text('%s (%s)' % \
             (common.fsize(self.manager.unique_IDs[unique_id].uploaded_memory+\
                           state["total_payload_upload"]),
-             common.fsize(state["total_upload"])))
+             common.fsize(state["total_payload_upload"])))
         self.download_speed.set_text(common.fspeed(state["download_rate"]))
         self.upload_speed.set_text(common.fspeed(state["upload_rate"]))
         self.seeders.set_text(common.fseed(state))
