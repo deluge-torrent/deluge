@@ -864,9 +864,9 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
         "num_peers",          connected_peers,
         "num_seeds",          connected_seeds,
         "distributed_copies", s.distributed_copies == -1.0 ? 0.0 : s.distributed_copies,
-        "download_rate",      s.download_rate,
+        "download_rate",      s.download_payload_rate,
         "compact_mode",       s.compact_mode,
-        "upload_rate",        s.upload_rate,
+        "upload_rate",        s.upload_payload_rate,
         "total_download",     s.total_download,
         "total_upload",       s.total_upload,
         "next_announce",      boost::posix_time::to_simple_string(s.next_announce).c_str(),
@@ -1144,12 +1144,10 @@ static PyObject *torrent_get_session_info(PyObject *self, PyObject *args)
 {
     session_status s = M_ses->status();
 
-    return Py_BuildValue("{s:l,s:f,s:f,s:f,s:f,s:l,s:f,s:f}",
+    return Py_BuildValue("{s:l,s:f,s:f,s:l,s:f,s:f}",
         "has_incoming_connections", long(s.has_incoming_connections),
-        "upload_rate",          float(s.upload_rate),
-        "download_rate",        float(s.download_rate),
-        "payload_upload_rate",      float(s.payload_upload_rate),
-        "payload_download_rate",    float(s.payload_download_rate),
+        "upload_rate",          float(s.payload_upload_rate),
+        "download_rate",        float(s.payload_download_rate),
         "num_peers",            long(s.num_peers),
         "total_downloaded",     float(s.total_payload_download),
         "total_uploaded",       float(s.total_payload_upload));
