@@ -30,44 +30,17 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
+import deluge._dbus as dbus
+import dbus.service
 
-# Code for dbus_importing borrowed from Listen (http://listen-project.org)
-# I couldn't figure out how to use dbus without breaking on versions past
-# 0.80.0.  I finally found a solution by reading the source code from the
-# Listen project. 
-try:
-    import dbus
-    import dbus.service
-    dbus_version = getattr(dbus, 'version', (0,0,0))
-    if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
-        dbus.SessionBus()
-        import dbus.glib
-    elif dbus_version >= (0,80,0):
-        from dbus.mainloop.glib import DBusGMainLoop
-        DBusGMainLoop(set_as_default=True)
-        dbus.SessionBus()
-    else:
-        pass
-except: dbus_imported = False
-else: dbus_imported = True
+class Manager(dbus.service.Object):
+    def __init__(self, interface, object_path='/org/deluge_torrent/DelugeObject'):
+        self.interface = interface
+        self.bus = dbus.SessionBus()
+        bus_name = dbus.service.BusName("org.deluge_torrent.Deluge", bus=self.bus)
+        dbus.service.Object.__init__(self, bus_name, object_path)
 
-if dbus_imported:
-    class Manager(dbus.service.Object):
-        def __init__(self, interface, object_path='/org/deluge_torrent/DelugeObject'):
-            self.interface = interface
-            self.bus = dbus.SessionBus()
-            bus_name = dbus.service.BusName("org.deluge_torrent.Deluge", bus=self.bus)
-            dbus.service.Object.__init__(self, bus_name, object_path)
-
-        ## interactive_add_torrent should only be called from outside the class
-        @dbus.service.method('org.deluge_torrent.Deluge')
-        def interactive_add_torrent(self, torrent_file):
-            self.interface.interactive_add_torrent(torrent_file)
-else:
-    # This is a fallback class in case dbus is not available
-    class Manager:
-        def __init__(self, interface, object_path=None):
-            self.interface = interface
-        
-        def interactive_add_torrent(self, torrent_file):
-            print "I can't do anything with this."
+    ## interactive_add_torrent should only be called from outside the class
+    @dbus.service.method('org.deluge_torrent.Deluge')
+    def interactive_add_torrent(self, torrent_file):
+        self.interface.interactive_add_torrent(torrent_file)

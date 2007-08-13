@@ -39,22 +39,10 @@ from optparse import OptionParser
 import re
 import sys
 
-try:
-    import dbus
-    dbus_version = getattr(dbus, 'version', (0,0,0))
-    if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
-        import dbus.glib
-    elif dbus_version >= (0,80,0):
-        from dbus.mainloop.glib import DBusGMainLoop
-        DBusGMainLoop(set_as_default=True)
-    else:
-        pass
-except: dbus_imported = False
-else: dbus_imported = True
-
 import deluge
 import deluge.common
 import deluge.core
+import deluge._dbus as dbus
 import deluge.interface
 
 parser = OptionParser(usage="%prog [options] [torrents to add]", 
@@ -123,26 +111,21 @@ def start_deluge():
 
     interface.start(get_cmd_line_torrents())
 
-if dbus_imported:
-    bus = dbus.SessionBus()
 
-    dbus_objects = dbus.Interface(bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus'), 'org.freedesktop.DBus').ListNames()
+bus = dbus.SessionBus()
 
-    interface = None
+dbus_objects = dbus.Interface(bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus'), 'org.freedesktop.DBus').ListNames()
 
-    if not "org.deluge_torrent.Deluge" in dbus_objects:
-        print "no existing Deluge session"
-        start_deluge()
-    else:
-        ## This connects to the deluge interface
-        print "create proxy object"
-        proxy = bus.get_object('org.deluge_torrent.Deluge', '/org/deluge_torrent/DelugeObject')
-        print "create iface"
-        deluge_iface = dbus.Interface(proxy, 'org.deluge_torrent.Deluge')
-        print "send to iface"
-
-        for filename in get_cmd_line_torrents():
-            deluge_iface.interactive_add_torrent(filename)
-else:
+if not "org.deluge_torrent.Deluge" in dbus_objects:
     print "no existing Deluge session"
     start_deluge()
+else:
+    ## This connects to the deluge interface
+    print "create proxy object"
+    proxy = bus.get_object('org.deluge_torrent.Deluge', '/org/deluge_torrent/DelugeObject')
+    print "create iface"
+    deluge_iface = dbus.Interface(proxy, 'org.deluge_torrent.Deluge')
+    print "send to iface"
+
+    for filename in get_cmd_line_torrents():
+        deluge_iface.interactive_add_torrent(filename)
