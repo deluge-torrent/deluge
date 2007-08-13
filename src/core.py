@@ -724,8 +724,8 @@ class Manager:
     def get_num_torrents(self):
         return deluge_core.get_num_torrents()
 
-    def get_unique_IDs(self):
-        return self.unique_IDs.keys()
+    def get_queue(self):
+        return self.state.queue
 
     def update_tracker(self, unique_ID):
         deluge_core.reannounce(unique_ID)
