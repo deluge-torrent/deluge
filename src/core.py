@@ -173,7 +173,7 @@ class torrent_info:
 
 class persistent_state:
     def __init__(self):
-        # Torrents is a torrent_info instance -> unique_ID dict
+        # Torrents is a dict with instance of torrent_info -> unique_ID 
         self.torrents = {}
 
         # Prepare queue (queue is pickled, just like everything else)
