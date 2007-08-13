@@ -822,7 +822,8 @@ class DelugeGTK:
             self.window.show()
         
         ## add torrents in manager's queue to interface
-        for unique_id in self.manager.get_queue():
+        for torrent in self.manager.get_queue():
+            unique_id = self.manager.get_torrent_unique_id(torrent)
             self.torrent_model_append(unique_id)
             
         for torrent_file in cmd_line_torrents:

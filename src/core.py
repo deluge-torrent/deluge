@@ -173,8 +173,8 @@ class torrent_info:
 
 class persistent_state:
     def __init__(self):
-        # Torrents
-        self.torrents = []
+        # Torrents is a torrent_info instance -> unique_ID dict
+        self.torrents = {}
 
         # Prepare queue (queue is pickled, just like everything else)
         # queue[x] is the unique_ID of the x-th queue position. Simple.
@@ -258,6 +258,11 @@ class Manager:
                                 'rb')
                 self.state = pickle.load(pkl_file)
                 pkl_file.close()
+                
+                if isinstance(self.state.torrents, list):
+                    # One time convert of old torrents list to dict
+                    self.state.torrents = dict((x, None) for x in 
+                                                   self.state.torrents)
 
                 # Sync with the core: tell core about torrents, and get 
                 # unique_IDs
@@ -384,7 +389,7 @@ class Manager:
 
         # Create torrent object
         new_torrent = torrent_info(full_new_name, save_dir, compact)
-        self.state.torrents.append(new_torrent)
+        self.state.torrents[new_torrent] = None
         
         return self.sync()
 
@@ -425,7 +430,7 @@ class Manager:
     # This is the EXTERNAL function, for the GUI. It returns the core_state + supp_state
     def get_torrent_state(self, unique_ID):
         # Check to see if unique_ID exists:
-        if unique_ID not in self.state.queue:
+        if unique_ID not in self.unique_IDs:
             raise InvalidUniqueIDError(_("Asked for a torrent that doesn't exist"))
          
         ret = self.get_core_torrent_state(unique_ID).copy()
@@ -434,7 +439,8 @@ class Manager:
         ret.update(self.get_supp_torrent_state(unique_ID))
 
         # Get queue position
-        ret['queue_pos'] = self.state.queue.index(unique_ID) + 1
+        torrent = self.unique_IDs[unique_ID]
+        ret['queue_pos'] = self.state.queue.index(torrent) + 1
 
         return ret
 
@@ -450,38 +456,45 @@ class Manager:
 
     def get_all_piece_info(self, unique_ID):
         return deluge_core.get_all_piece_info(unique_ID)
+    
+    def get_torrent_unique_id(self, torrent):
+        return self.state.torrents[torrent]
 
     # Queueing functions
 
     def queue_top(self, unique_ID):
+        torrent = self.unique_IDs[unique_ID]
         self.state.queue.insert(0,
-            self.state.queue.pop(self.get_queue_index(unique_ID)))
+            self.state.queue.pop(self.get_queue_index(torrent)))
         self.apply_queue()
         self.pickle_state()
 
     def queue_up(self, unique_ID):
-        curr_index = self.get_queue_index(unique_ID)
+        torrent = self.unique_IDs[unique_ID]
+        curr_index = self.get_queue_index(torrent)
         if curr_index > 0:
             temp = self.state.queue[curr_index - 1]
-            self.state.queue[curr_index - 1] = unique_ID
+            self.state.queue[curr_index - 1] = torrent
             self.state.queue[curr_index] = temp
             self.apply_queue()
             self.pickle_state()
 
     def queue_down(self, unique_ID):
-        curr_index = self.get_queue_index(unique_ID)
+        torrent = self.unique_IDs[unique_ID]
+        curr_index = self.get_queue_index(torrent)
         if curr_index < (len(self.state.queue) - 1):
             temp = self.state.queue[curr_index + 1]
-            self.state.queue[curr_index + 1] = unique_ID
+            self.state.queue[curr_index + 1] = torrent
             self.state.queue[curr_index] = temp
             self.apply_queue()
             self.pickle_state()
 
     def queue_bottom(self, unique_ID, enforce_queue=True):
-        curr_index = self.get_queue_index(unique_ID)
+        torrent = self.unique_IDs[unique_ID]
+        curr_index = self.get_queue_index(torrent)
         if curr_index < (len(self.state.queue) - 1):
-            self.state.queue.remove(unique_ID)
-            self.state.queue.append(unique_ID)
+            self.state.queue.remove(torrent)
+            self.state.queue.append(torrent)
             if enforce_queue:
                 self.apply_queue()
             self.pickle_state()
@@ -507,7 +520,8 @@ class Manager:
         active_torrent_cnt = 0
 
         # Pause and resume torrents
-        for unique_ID in self.state.queue:
+        for torrent in self.state.queue:
+            unique_ID = self.state.torrents[torrent]
             # Get not cached torrent state so we don't pause/resume torrents
             # more than 1 time - if cached torrent_state['is_paused'] can be
             # still paused after we already paused it.
@@ -559,7 +573,7 @@ class Manager:
                         self.set_user_pause(unique_ID, True, enforce_queue=False)
         
         if self.get_pref('clear_max_ratio_torrents'):
-            for unique_ID in self.state.queue:
+            for unique_ID in self.unique_IDs:
                 torrent_state = self.get_core_torrent_state(unique_ID)
                 if torrent_state['is_seed']:
                     ratio = self.calc_ratio(unique_ID, torrent_state)
@@ -740,13 +754,13 @@ class Manager:
         self.apply_prefs_per_torrent(unique_ID)
 
     def pause_all(self):
-        for unique_ID in self.state.queue:
+        for unique_ID in self.unique_IDs:
             torrent_state = self.get_core_torrent_state(unique_ID)
             if not torrent_state['is_paused']:
                 self.set_user_pause(unique_ID, True, enforce_queue=False)
 
     def resume_all(self):
-        for unique_ID in self.state.queue:
+        for unique_ID in self.unique_IDs:
             torrent_state = self.get_core_torrent_state(unique_ID)
             if torrent_state['is_paused']:
                 self.set_user_pause(unique_ID, False, enforce_queue=True)
@@ -802,7 +816,7 @@ class Manager:
 
         # Create torrent object
         new_torrent = torrent_info(full_new_name, save_dir, compact)
-        self.state.torrents.append(new_torrent)
+        self.state.torrents[new_torrent] = None
 
     def remove_torrent_ns(self, unique_ID):
         self.unique_IDs[unique_ID].delete_me = True
@@ -825,7 +839,7 @@ class Manager:
         for torrent in self.state.torrents:
             if not os.path.exists(torrent.filename):
                 print "Missing file: %s" % torrent.filename
-                self.state.torrents.remove(torrent)
+                del self.state.torrents[torrent]
                 continue
             if torrent not in self.unique_IDs.values():
 #                print "Adding torrent to core:", torrent.filename, torrent.save_dir, torrent.compact
@@ -837,12 +851,13 @@ class Manager:
                     self.apply_prefs_per_torrent(unique_ID)
                 except DelugeError, e:
                     print "Error:", e
-                    self.state.torrents.remove(torrent)
+                    del self.state.torrents[torrent]
                     raise e
 #                print "Got unique ID:", unique_ID
 
                 ret = unique_ID
                 self.unique_IDs[unique_ID] = torrent
+                self.state.torrents[torrent] = unique_ID
         
         # Remove torrents from core, unique_IDs and queue
         to_delete = []
@@ -853,8 +868,8 @@ class Manager:
                 to_delete.append(unique_ID)
 
         for unique_ID in to_delete:
-            self.state.torrents.remove(self.unique_IDs[unique_ID])
-            self.state.queue.remove(unique_ID)
+            del self.state.torrents[self.unique_IDs[unique_ID]]
+            self.state.queue.remove(self.unique_IDs[unique_ID])
             # Remove .fastresume
             try:
                 # Must be after removal of the torrent, because that saves a new .fastresume
@@ -864,28 +879,30 @@ class Manager:
             del self.unique_IDs[unique_ID]
             
         # Add torrents to queue - at the end, of course
-        for unique_ID in self.unique_IDs.keys():
-            if unique_ID not in self.state.queue:
+        for torrent in self.unique_IDs.values():
+            if torrent not in self.state.queue:
                 if self.get_pref('queue_above_completed') and \
                    len(self.state.queue) > 0 and not called_on_start:
-                    for index in xrange(len(self.state.queue)):
-                        torrent_state = self.get_core_torrent_state(
-                                            self.state.queue[index])
+                    for index, torrent_tmp in enumerate(self.state.queue):
+                        unique_ID = self.state.torrents[torrent_tmp]
+                        torrent_state = self.get_core_torrent_state(unique_ID)
                         if torrent_state['progress'] == 1.0:
                             break
                     if torrent_state['progress'] == 1.0:
-                        self.state.queue.insert(index, unique_ID)
+                        self.state.queue.insert(index, torrent)
                     else:
-                        self.state.queue.append(unique_ID)
+                        self.state.queue.append(torrent)
                 else:
-                    self.state.queue.append(unique_ID)
+                    self.state.queue.append(torrent)
+                    
         # run through queue, remove those that no longer exists
         to_delete = []
-        for queue_item in self.state.queue:
-            if queue_item not in self.unique_IDs.keys():
-                to_delete.append(queue_item)
-        for del_item in to_delete:
-            self.state.queue.remove(del_item)
+        for torrent in self.state.queue:
+            if torrent not in self.state.torrents:
+                to_delete.append(torrent)
+                
+        for torrent in to_delete:
+            self.state.queue.remove(torrent)
 
         assert(len(self.unique_IDs) == len(self.state.torrents))
 
@@ -899,8 +916,8 @@ class Manager:
 
         return ret
 
-    def get_queue_index(self, unique_ID):
-        return self.state.queue.index(unique_ID)
+    def get_queue_index(self, torrent):
+        return self.state.queue.index(torrent)
 
     def apply_prefs(self):
         print "Applying preferences"
