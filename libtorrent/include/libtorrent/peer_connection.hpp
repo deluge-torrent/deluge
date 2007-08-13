@@ -74,10 +74,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/socket_type.hpp"
 #include "libtorrent/intrusive_ptr_base.hpp"
 
-// TODO: each time a block is 'taken over'
-// from another peer. That peer must be given
-// a chance to become not-interested.
-
 namespace libtorrent
 {
 	class torrent;
@@ -395,9 +391,7 @@ namespace libtorrent
 #ifndef TORRENT_DISABLE_ENCRYPTION
 		buffer::interval wr_recv_buffer()
 		{
-#if defined _SECURE_SCL && _SECURE_SCL > 0
 			if (m_recv_buffer.empty()) return buffer::interval(0,0);
-#endif
 			return buffer::interval(&m_recv_buffer[0]
 				, &m_recv_buffer[0] + m_recv_pos);
 		}
@@ -405,9 +399,7 @@ namespace libtorrent
 		
 		buffer::const_interval receive_buffer() const
 		{
-#if defined _SECURE_SCL && _SECURE_SCL > 0
 			if (m_recv_buffer.empty()) return buffer::const_interval(0,0);
-#endif
 			return buffer::const_interval(&m_recv_buffer[0]
 				, &m_recv_buffer[0] + m_recv_pos);
 		}
@@ -646,7 +638,8 @@ namespace libtorrent
 		bool m_queued;
 
 		// these are true when there's a asynchronous write
-		// or read operation running.
+		// or read operation in progress. Or an asyncronous bandwidth
+		// request is in progress.
 		bool m_writing;
 		bool m_reading;
 
@@ -701,6 +694,10 @@ namespace libtorrent
 		// a timestamp when the remote download rate
 		// was last updated
 		ptime m_remote_dl_update;
+
+		// the number of bytes send to the disk-io
+		// thread that hasn't yet been completely written.
+		int m_outstanding_writing_bytes;
 		
 #ifndef NDEBUG
 	public:

@@ -80,6 +80,9 @@ class TorrentView(listview.ListView):
                                             listview.cell_data_ratio,
                                             [float])
 
+        self.window.main_glade.get_widget("menu_columns").set_submenu(
+                        self.create_checklist_menu())
+                        
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
         # torrent menu popup.
@@ -100,7 +103,7 @@ class TorrentView(listview.ListView):
                     "eta"]
             status = functions.get_torrent_status(self.core, torrent_id,
                     status_keys)
-                                                   
+                                       
             # Set values for each column in the row
 
             self.liststore.set_value(row, 

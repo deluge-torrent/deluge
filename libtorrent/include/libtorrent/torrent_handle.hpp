@@ -241,6 +241,12 @@ namespace libtorrent
 		enum { max_blocks_per_piece = 256 };
 		int piece_index;
 		int blocks_in_piece;
+		// the number of blocks in the finished state
+		int finished;
+		// the number of blocks in the writing state
+		int writing;
+		// the number of blocks in the requested state
+		int requested;
 		block_info blocks[max_blocks_per_piece];
 		enum state_t { none, slow, medium, fast };
 		state_t piece_state;
@@ -290,13 +296,13 @@ namespace libtorrent
 
 		// marks the piece with the given index as filtered
 		// it will not be downloaded
-		void filter_piece(int index, bool filter) const;
-		void filter_pieces(std::vector<bool> const& pieces) const;
-		bool is_piece_filtered(int index) const;
-		std::vector<bool> filtered_pieces() const;
+		void filter_piece(int index, bool filter) const TORRENT_DEPRECATED;
+		void filter_pieces(std::vector<bool> const& pieces) const TORRENT_DEPRECATED;
+		bool is_piece_filtered(int index) const TORRENT_DEPRECATED;
+		std::vector<bool> filtered_pieces() const TORRENT_DEPRECATED;
 		// marks the file with the given index as filtered
 		// it will not be downloaded
-		void filter_files(std::vector<bool> const& files) const;
+		void filter_files(std::vector<bool> const& files) const TORRENT_DEPRECATED;
 
 		// ================ end deprecation ============
 

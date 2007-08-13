@@ -82,6 +82,7 @@ class ListView:
         def __init__(self, name, column_indices):
             self.name = name
             self.column_indices = column_indices
+            self.column = None
     
     def __init__(self, treeview_widget=None):
         log.debug("ListView initialized..")
@@ -112,6 +113,13 @@ class ListView:
             return self.columns[name].column_indices
         else:
             return self.columns[name].column_indices[0]
+    
+    def create_checklist_menu(self):
+        menu = gtk.Menu()
+        for column in self.columns.values():
+            menuitem = gtk.CheckMenuItem(column.name)
+            menu.append(menuitem)
+        return menu
     
     def create_new_liststore(self):
         # Create a new liststore with added column and move the data from the 
@@ -158,6 +166,7 @@ class ListView:
         column.set_reorderable(True)
         column.set_visible(visible)
         self.treeview.append_column(column)
+        self.columns[header].column = column
 
         return True
         
@@ -194,7 +203,8 @@ class ListView:
         column.set_min_width(10)
         column.set_reorderable(True)
         self.treeview.append_column(column)
-        
+        self.columns[header].column = column
+                
         return True
 
     def add_progress_column(self, header):
@@ -221,7 +231,8 @@ class ListView:
         column.set_min_width(10)
         column.set_reorderable(True)
         self.treeview.append_column(column)
-        
+        self.columns[header].column = column
+                
         return True
         
     def add_texticon_column(self, header):
@@ -251,5 +262,6 @@ class ListView:
         column.add_attribute(render, 'text', 
                                         self.columns[header].column_indices[1])
         self.treeview.append_column(column)
-        
+        self.columns[header].column = column
+                
         return True
