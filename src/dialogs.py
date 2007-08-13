@@ -436,6 +436,7 @@ def show_about_dialog(parent=None):
         abt.set_authors(["Zach Tibbitts", "Alon Zakai", "Marcos Pinto", "Andrew Resch", "Alex Dedul"])
         abt.set_artists(["Andrew Wedderburn"])
         abt.set_translator_credits(_("translator-credits"))
+        abt.set_license(_("Deluge is free software, you can redistribute it and/or\nmodify it under the terms of the GNU General Public\n License as published by the Free Software Foundation,\neitherversion 2 of the License, or (at your option) any\nlater version.  Deluge is distributed in the hope that it\nwill be useful, but WITHOUT ANY WARRANTY, without even \nthe implied warranty of MERCHANTABILITY or FITNESS\nFOR A PARTICULAR PURPOSE.  See the GNU General\nPublic License for more details.  You should have received\na copy of the GNU General Public License along with\nDeluge, but if not, write to the Free Software Foundation,\n Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-\n1301 USA"))
         abt.set_website("http://deluge-torrent.org")
         abt.set_website_label("http://deluge-torrent.org")
         abt.set_icon_from_file(common.get_pixmap("deluge32.png"))
