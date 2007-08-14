@@ -1894,7 +1894,7 @@ static PyObject *torrent_set_max_upload_slots_per_torrent(PyObject *self, PyObje
 static PyObject *torrent_add_url_seed(PyObject *self, PyObject *args)
 {
     python_long unique_ID;
-    std::string address;
+    char *address;
     
     if (!PyArg_ParseTuple(args, "is", &unique_ID, &address))
         return NULL;
@@ -1904,7 +1904,6 @@ static PyObject *torrent_add_url_seed(PyObject *self, PyObject *args)
 
     torrent_t &t = M_torrents->at(index);
     t.handle.add_url_seed(address);
-
     return Py_None;
 }
 
@@ -1914,7 +1913,7 @@ static PyObject *torrent_add_url_seed(PyObject *self, PyObject *args)
 
 static PyMethodDef deluge_core_methods[] =
 {
-    {"add_url_seed",                    torrent_pe_settings,                      METH_VARARGS,   "."},
+    {"add_url_seed",                    torrent_add_url_seed,                      METH_VARARGS,   "."},
     {"pe_settings",                     torrent_pe_settings,                      METH_VARARGS,   "."},
     {"pre_init",                        torrent_pre_init,                         METH_VARARGS,   "."},
     {"init",                            torrent_init,                             METH_VARARGS,   "."},
