@@ -151,7 +151,7 @@ class DesiredSpeed:
             value = -1
         
         if value == _("Other..."):
-            dialog_glade = gtk.glade.XML(deluge.common.get_glade_file("dgtkpopdowns.glade"))
+            dialog_glade = gtk.glade.XML(deluge.common.get_glade_file("dgtkpopups.glade"))
             speed_dialog = dialog_glade.get_widget("speed_dialog")
             spin_title = dialog_glade.get_widget("spin_title")
             spin_title.set_text(_("Torrent Download Speed (KiB/s):"))
