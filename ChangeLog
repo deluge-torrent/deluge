@@ -2,6 +2,7 @@ Deluge 0.5.5 (xx August 2007)
   * Queue order after restart fixes.
   * Use payload instead of including protocol overhead to ease user confusion 
   of seeding torrents "downloading"
+  * New Web Seed plugin for adding URLs to torrents for http seeding
 
 Deluge 0.5.4.1 (10 August 2007)
   * Add "Open containing folder" and "Open File" to the torrent and file 
