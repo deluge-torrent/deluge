@@ -65,4 +65,6 @@ class webseedMenu:
         response = self.dialog.run()
         self.dialog.hide()
         if response:
-            self.core.add_url_seed(self.unique_ID, self.glade.get_widget("txt_url").get_text())
+            text = self.glade.get_widget("txt_url").get_text().strip()
+            if common.is_url(text):
+                self.core.add_url_seed(self.unique_ID, text)
