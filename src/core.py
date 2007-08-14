@@ -1026,3 +1026,6 @@ class Manager:
         if speed != -1:
             speed = speed * 1024
         return deluge_core.set_per_download_rate_limit(unique_ID, speed)
+
+    def add_url_seed(self, unique_ID, address):
+        return deluge_core.add_url_seed(unique_ID, address)
