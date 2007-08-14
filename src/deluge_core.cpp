@@ -632,7 +632,7 @@ static PyObject *torrent_add_torrent(PyObject *self, PyObject *args)
     boost::filesystem::path save_dir_2  (save_dir, empty_name_check);
     try
     {
-        long ret = internal_add_torrent(name, 0, compact, save_dir_2);
+        long ret = internal_add_torrent(name, 1.0, compact, save_dir_2);
         if (PyErr_Occurred())
             return NULL;
         else

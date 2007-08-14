@@ -97,7 +97,7 @@ class DesiredRatio:
     def ratio_clicked(self, widget):
         value = widget.get_children()[0].get_text()
         if value == _("Not Set"):
-            value = -1
+            value = 0.0
         
         if value == _("Other..."):
             dialog_glade = gtk.glade.XML(deluge.common.get_glade_file("dgtkpopups.glade"))
@@ -130,7 +130,4 @@ class DesiredRatio:
             self.config.get("ratios").pop()
       
     def get_torrent_desired_ratio(self):
-        if self.set_ratios.has_key(self.unique_ID):
-            return self.set_ratios[self.unique_ID]
-        else:
-            return -1
+        return self.set_ratios.get(self.unique_ID, 1)
