@@ -799,7 +799,8 @@ class DelugeGTK:
             except ZeroDivisionError:
                 eta = 0
             # Set the appropriate status icon
-            if state["is_seed"]:
+            if state["is_seed"] or \
+               state["state"] == self.manager.constants["STATE_FINISHED"]:
                 status_icon = self.status_icons['seeding']
             else:
                 status_icon = self.status_icons['downloading']
