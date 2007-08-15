@@ -80,9 +80,17 @@ def cell_data_ratio(column, cell, model, iter, data):
 class ListView:
     class ListViewColumn:
         def __init__(self, name, column_indices):
+            # Name is how a column is identified and is also the header
             self.name = name
+            # Column_indices holds the indexes to the liststore_columns that 
+            # this column utilizes. It is stored as a list.      
             self.column_indices = column_indices
+            # Column is a reference to the GtkTreeViewColumn object
             self.column = None
+            # If column is 'hidden' then it will not be visible and will not
+            # show up in any menu listing;  it cannot be shown ever.
+            self.hidden = False
+            
     
     def __init__(self, treeview_widget=None):
         log.debug("ListView initialized..")
@@ -100,8 +108,17 @@ class ListView:
         self.treeview.set_reorderable(True)
         self.treeview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
 
+        # Dictionary of 'header' or 'name' to ListViewColumn object
         self.columns = {}
+        # Column_index will keep track of the order that the visible columns
+        # are in.
+        self.column_index = []
+        # The column types for the list store.. this may have more entries than
+        # visible columns due to some columns utilizing more than 1 liststore
+        # column and some columns being hidden.
         self.liststore_columns = []
+        # The GtkMenu that is created after every addition, removal or reorder
+        self.menu = None
     
     def set_treeview(self, treeview_widget):
         self.treeview = treeview_widget
@@ -115,11 +132,22 @@ class ListView:
             return self.columns[name].column_indices[0]
     
     def create_checklist_menu(self):
-        menu = gtk.Menu()
-        for column in self.columns.values():
+        self.menu = gtk.Menu()
+        # Iterate through the column_index list to preserve order
+        for name in self.column_index:
+            column = self.columns[name]
+            # If the column is hidden, then we do not want to show it in the
+            # menu.
+            if column.hidden is True:
+                continue
             menuitem = gtk.CheckMenuItem(column.name)
-            menu.append(menuitem)
-        return menu
+            # If the column is currently visible, make sure it's set active
+            # (or checked) in the menu.
+            if column.column.get_visible() is True:
+                menuitem.set_active(True)
+            # Add the new checkmenuitem to the menu
+            self.menu.append(menuitem)
+        return self.menu
     
     def create_new_liststore(self):
         # Create a new liststore with added column and move the data from the 
@@ -145,9 +173,11 @@ class ListView:
         
         return
     
-    def add_text_column(self, header, visible=True):
+    def add_text_column(self, header, hidden=False):
         # Create a new column object and add it to the list
         self.liststore_columns.append(str)
+        # Add to the index list so we know the order of the visible columns.
+        self.column_index.append(header)
         self.columns[header] = self.ListViewColumn(header, 
                                             [len(self.liststore_columns) - 1])
       
@@ -164,13 +194,18 @@ class ListView:
         column.set_expand(False)
         column.set_min_width(10)
         column.set_reorderable(True)
-        column.set_visible(visible)
+        column.set_visible(not hidden)
         self.treeview.append_column(column)
+        # Set hidden in the column
+        self.columns[header].hidden = hidden
         self.columns[header].column = column
-
+        # Re-create the menu item because of the new column
+        self.create_checklist_menu()
+        
         return True
         
-    def add_func_column(self, header, function, column_types, sortid=0):
+    def add_func_column(self, header, function, column_types, sortid=0, 
+                                                            hidden=False):
         # Add the new column types to the list and keep track of the liststore
         # columns that this column object uses.
         # Set sortid to the column index relative the to column_types used.
@@ -180,7 +215,9 @@ class ListView:
         for column_type in column_types:
             self.liststore_columns.append(column_type)
             column_indices.append(len(self.liststore_columns) - 1)
-
+        
+        # Add to the index list so we know the order of the visible columns.
+        self.column_index.append(header)
         # Create a new column object and add it to the list    
         self.columns[header] = self.ListViewColumn(header, column_indices)
         
@@ -202,18 +239,26 @@ class ListView:
         column.set_expand(False)
         column.set_min_width(10)
         column.set_reorderable(True)
+        column.set_visible(not hidden)
         self.treeview.append_column(column)
+        # Set hidden in the column
+        self.columns[header].hidden = hidden
         self.columns[header].column = column
+        # Re-create the menu item because of the new column
+        self.create_checklist_menu()
                 
         return True
 
-    def add_progress_column(self, header):
+    def add_progress_column(self, header, hidden=False):
         # For the progress value
         self.liststore_columns.append(float)
         # For the text
         self.liststore_columns.append(str)
         column_indices = [len(self.liststore_columns) - 2, 
                                             len(self.liststore_columns) - 1]
+        # Add to the index list so we know the order of the visible columns.
+        self.column_index.append(header)
+        
         # Create a new column object and add it to the list
         self.columns[header] = self.ListViewColumn(header, column_indices)
         
@@ -230,18 +275,25 @@ class ListView:
         column.set_expand(False)
         column.set_min_width(10)
         column.set_reorderable(True)
+        column.set_visible(not hidden)
         self.treeview.append_column(column)
+        # Set hidden in the column
+        self.columns[header].hidden = hidden
         self.columns[header].column = column
+        # Re-create the menu item because of the new column
+        self.create_checklist_menu()
                 
         return True
         
-    def add_texticon_column(self, header):
+    def add_texticon_column(self, header, hidden=False):
         # For icon
         self.liststore_columns.append(gtk.gdk.Pixbuf)
         # For text
         self.liststore_columns.append(str)
         column_indices = [len(self.liststore_columns) - 2, 
                                             len(self.liststore_columns) - 1]
+        # Add to the index list so we know the order of the visible columns.
+        self.column_index.append(header)
         self.columns[header] = self.ListViewColumn(header, column_indices)
 
         # Create new list with the added columns
@@ -261,7 +313,12 @@ class ListView:
         column.pack_start(render, expand=True)
         column.add_attribute(render, 'text', 
                                         self.columns[header].column_indices[1])
+        column.set_visible(not hidden)
         self.treeview.append_column(column)
+        # Set hidden in the column
+        self.columns[header].hidden = hidden
         self.columns[header].column = column
+        # Re-create the menu item because of the new column
+        self.create_checklist_menu()
                 
         return True

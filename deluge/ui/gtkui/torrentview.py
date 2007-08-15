@@ -55,7 +55,7 @@ class TorrentView(listview.ListView):
         # Set the treeview used in listview with the one from our glade file
         self.set_treeview(self.window.main_glade.get_widget("torrent_view"))
 
-        self.add_text_column("torrent_id", visible=False)
+        self.add_text_column("torrent_id", hidden=True)
         self.add_texticon_column("Name")
         self.add_func_column("Size", 
                                             listview.cell_data_size, 
@@ -81,7 +81,7 @@ class TorrentView(listview.ListView):
                                             [float])
 
         self.window.main_glade.get_widget("menu_columns").set_submenu(
-                        self.create_checklist_menu())
+                        self.menu)
                         
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
