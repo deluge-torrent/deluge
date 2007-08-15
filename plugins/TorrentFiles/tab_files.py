@@ -29,7 +29,8 @@ class FilesTabManager(FilesBaseManager):
             percent = float(model.get_value(iter, data))
             percent_str = "%.2f%%"%percent
             cell.set_property("text", percent_str)
-        dgtk.add_func_column(self.file_view, _("Progress"), percent, 3)
+        percent_col = dgtk.add_func_column(self.file_view, _("Progress"), percent, 3)
+        percent_col.set_fixed_width(90)
         self.file_view.connect("row-activated", self.double_click_file)
     
     def set_unique_id(self, unique_id):

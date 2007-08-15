@@ -76,10 +76,11 @@ class FilesBaseManager(object):
         filename_column = dgtk.add_text_column(self.file_view, _("Filename"), 
                                                0)
         filename_column.set_expand(True)
-        dgtk.add_func_column(self.file_view, _("Size"), dgtk.cell_data_size, 
+        size_column = dgtk.add_func_column(self.file_view, _("Size"), dgtk.cell_data_size, 
                              1)
-        dgtk.add_func_column(self.file_view, _("Priority"), priority, 2)
-        
+        size_column.set_fixed_width(80)
+        priority_column = dgtk.add_func_column(self.file_view, _("Priority"), priority, 2)
+        priority_column.set_fixed_width(115)
         self.file_view.set_model(self.file_store_sorted)
         self.file_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         
