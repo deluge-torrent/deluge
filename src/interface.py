@@ -1000,6 +1000,7 @@ class DelugeGTK:
                     self.manager.set_DHT(False)
                     os.remove(common.CONFIG_DIR + '/dht.state')
                     self.manager.set_DHT(True)
+                    dht_timer = 0
             else:
                 dht_peers = str(dht_peers)
             self.statusbar_temp_msg = self.statusbar_temp_msg + \
