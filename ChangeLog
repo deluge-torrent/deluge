@@ -3,6 +3,7 @@ Deluge 0.5.5 (xx August 2007)
   * Use payload instead of including protocol overhead to ease user confusion 
   of seeding torrents "downloading"
   * New Web Seed plugin for adding URLs to torrents for http seeding
+  * Add FAST-extension (http://www.bittorrent.org/fast_extensions.html)
 
 Deluge 0.5.4.1 (10 August 2007)
   * Add "Open containing folder" and "Open File" to the torrent and file 
