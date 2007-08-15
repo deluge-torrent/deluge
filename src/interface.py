@@ -1383,13 +1383,13 @@ class DelugeGTK:
 
     def shutdown(self):
         self.save_column_widths()
+        self.save_window_settings()
+        gtk.main_quit()
         enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
         self.config.set('enabled_plugins', enabled_plugins)
-        self.save_window_settings()
         self.config.save()
         self.plugins.shutdown_all_plugins()
         self.manager.quit()
-        gtk.main_quit()
 
 ## For testing purposes, create a copy of the interface
 if __name__ == "__main__":
