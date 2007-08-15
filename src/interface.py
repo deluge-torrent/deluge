@@ -101,6 +101,7 @@ class DelugeGTK:
         
         try:
             self.load_window_settings()
+            self.load_column_widths()
         except KeyError:
             pass
         
@@ -552,7 +553,6 @@ class DelugeGTK:
         self.availability_column = dgtk.add_func_column(self.torrent_view, _("Avail."), availability, TORRENT_VIEW_COL_AVAILABILITY)
         self.share_column = dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, TORRENT_VIEW_COL_RATIO)
         
-        self.status_column.set_expand(True)
         self.name_column.set_sort_column_id(TORRENT_VIEW_COL_NAME)
         self.seed_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_SEEDS)
         self.peer_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_PEERS)
@@ -1303,7 +1303,34 @@ class DelugeGTK:
         self.config.set("show_availability", self.availability_column.get_visible())
         self.config.set("show_share", self.share_column.get_visible())
         self.config.set("window_pane_position", self.config.get("window_height") - self.wtree.get_widget("vpaned1").get_position())
+
+    def load_column_widths(self):
+        self.queue_column.set_fixed_width(self.config.get("queue_width"))
+        self.name_column.set_fixed_width(self.config.get("name_width"))
+        self.size_column.set_fixed_width(self.config.get("size_width"))
+        self.status_column.set_fixed_width(self.config.get("status_width"))
+        self.seed_column.set_fixed_width(self.config.get("seed_width"))
+        self.peer_column.set_fixed_width(self.config.get("peer_width"))
+        self.dl_column.set_fixed_width(self.config.get("dl_width"))
+        self.ul_column.set_fixed_width(self.config.get("ul_width"))
+        self.eta_column.set_fixed_width(self.config.get("eta_width"))
+        self.availability_column.set_fixed_width(self.config.get("availability_width"))
+        self.share_column.set_fixed_width(self.config.get("share_width"))
     
+    def save_column_widths(self):
+        self.config.set("queue_width", self.queue_column.get_width())
+        self.config.set("name_width", self.name_column.get_width())        
+        self.config.set("size_width", self.size_column.get_width())
+        self.config.set("status_width", self.status_column.get_width())
+        self.config.set("seed_width", self.seed_column.get_width())
+        self.config.set("peer_width", self.peer_column.get_width())
+        self.config.set("dl_width", self.dl_column.get_width())
+        self.config.set("ul_width", self.ul_column.get_width())
+        self.config.set("eta_width", self.eta_column.get_width())
+        self.config.set("availability_width", self.availability_column.get_width())
+        self.config.set("share_width", self.share_column.get_width())
+
+   
     def window_configure_event(self, widget, event):
         if self.config.get("window_maximized") == False:
             self.config.set("window_x_pos", self.window.get_position()[0])
@@ -1355,6 +1382,7 @@ class DelugeGTK:
                 self.shutdown()
 
     def shutdown(self):
+        self.save_column_widths()
         enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
         self.config.set('enabled_plugins', enabled_plugins)
         self.save_window_settings()

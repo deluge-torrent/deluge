@@ -128,6 +128,17 @@ DEFAULT_PREFS = {
     "window_width" : 640,
     "window_x_pos" : 0,
     "window_y_pos" : 0,
+    "availability_width" : 50,
+    "queue_width" : 40,
+    "name_width" : 175,
+    "dl_width" : 110,
+    "ul_width" : 110,
+    "eta_width" : 65,
+    "peer_width" : 85,
+    "seed_width" : 85,
+    "share_width" : 60,
+    "size_width" : 71,
+    "status_width" : 150,
 }
 
 class Preferences:
