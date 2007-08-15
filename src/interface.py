@@ -106,7 +106,6 @@ class DelugeGTK:
         
         self.apply_prefs()
         self.load_window_geometry()
-
         # Boolean used in update method to help check whether gui
         # should be updated and is set by the window_state_event method
         self.is_minimized = False
@@ -149,6 +148,7 @@ class DelugeGTK:
         signal.signal(signal.SIGINT, self.manager.quit)
         signal.signal(signal.SIGTERM, self.manager.quit)
         signal.signal(signal.SIGHUP, self.manager.quit)
+        self.dht_timer = 0
 
     def connect_signals(self):
         self.wtree.signal_autoconnect({
@@ -947,7 +947,6 @@ class DelugeGTK:
                                       xrange(len(tlist)), tlist)
                         
                 itr = self.torrent_model.iter_next(itr)
-            
             torrent_selection = self.torrent_view.get_selection()
             selection_count = torrent_selection.count_selected_rows()
             
@@ -992,6 +991,15 @@ class DelugeGTK:
             dht_peers = core_state['DHT_nodes']
             if dht_peers == -1:
                 dht_peers = '?'
+            if dht_peers == 0:
+                dht_timer += 1
+                if dht_timer == 15:
+                    #dht has been on for 15 seconds but has 0 nodes
+                    #we probably have a corrupted dht.state file,
+                    #so let's clean things up
+                    self.manager.set_DHT(False)
+                    os.remove(common.CONFIG_DIR + '/dht.state')
+                    self.manager.set_DHT(True)
             else:
                 dht_peers = str(dht_peers)
             self.statusbar_temp_msg = self.statusbar_temp_msg + \
