@@ -1,4 +1,5 @@
 Deluge 0.5.5 (xx August 2007)
+  * Save column widths
   * Queue order after restart fixes.
   * Use payload instead of including protocol overhead to ease user confusion 
   of seeding torrents "downloading"
