@@ -139,6 +139,9 @@ DEFAULT_PREFS = {
     "share_width" : 60,
     "size_width" : 71,
     "status_width" : 150,
+    "filename_f_width" : 220,
+    "size_f_width" : 90,
+    "priority_f_width" : 140
 }
 
 class Preferences:

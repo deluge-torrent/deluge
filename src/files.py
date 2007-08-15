@@ -43,6 +43,8 @@ import pref
 
 class FilesBaseManager(object):
     def __init__(self, file_view, file_store):
+        self.config = pref.Preferences()
+
         self.file_view = file_view
         
         self.glade = gtk.glade.XML(common.get_glade_file("file_tab_menu.glade"), 
@@ -75,12 +77,12 @@ class FilesBaseManager(object):
             
         filename_column = dgtk.add_text_column(self.file_view, _("Filename"), 
                                                0)
-        filename_column.set_expand(True)
+        filename_column.set_fixed_width(self.config.get("filename_f_width"))
         size_column = dgtk.add_func_column(self.file_view, _("Size"), dgtk.cell_data_size, 
                              1)
-        size_column.set_fixed_width(80)
+        size_column.set_fixed_width(self.config.get("size_f_width"))
         priority_column = dgtk.add_func_column(self.file_view, _("Priority"), priority, 2)
-        priority_column.set_fixed_width(115)
+        priority_column.set_fixed_width(self.config.get("priority_f_width"))
         self.file_view.set_model(self.file_store_sorted)
         self.file_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         
