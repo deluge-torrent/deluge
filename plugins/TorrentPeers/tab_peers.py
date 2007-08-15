@@ -38,13 +38,18 @@ class PeersTabManager(object):
         self.ip_column = dgtk.add_texticon_column(self.peer_view, 
                                                   _("IP Address"), 1, 2)
         self.ip_column.set_sort_column_id(0)
-        dgtk.add_text_column(self.peer_view, _("Client"), 3)
-        dgtk.add_func_column(self.peer_view, _("Percent Complete"), percent, 
+        self.ip_column.set_fixed_width(120)
+        self.client = dgtk.add_text_column(self.peer_view, _("Client"), 3)
+        self.client.set_fixed_width(120)
+        self.percent = dgtk.add_func_column(self.peer_view, _("Percent Complete"), percent, 
                              4)
-        dgtk.add_func_column(self.peer_view, _("Down Speed"), 
+        self.percent.set_fixed_width(150)
+        self.down = dgtk.add_func_column(self.peer_view, _("Down Speed"), 
                              dgtk.cell_data_speed, 5)
-        dgtk.add_func_column(self.peer_view, _("Up Speed"), 
+        self.down.set_fixed_width(115)
+        self.up = dgtk.add_func_column(self.peer_view, _("Up Speed"), 
                              dgtk.cell_data_speed, 6)
+        self.up.set_fixed_width(115)
 
     def enable_flags(self):
         self.show_flags = True
