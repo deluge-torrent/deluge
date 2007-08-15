@@ -487,8 +487,8 @@ def show_file_open_dialog(parent=None, title=None):
     f1 = gtk.FileFilter()
     f1.set_name(_("All files"))
     f1.add_pattern("*")
-    loadpref = pref.Preferences()
-    chooser.set_current_folder(loadpref.get("default_load_path"))
+    config = pref.Preferences()
+    chooser.set_current_folder(config.get("open_torrent_dialog_path"))
     chooser.add_filter(f1)
     chooser.set_select_multiple(True)
     
@@ -498,7 +498,7 @@ def show_file_open_dialog(parent=None, title=None):
     response = chooser.run()
     if response == gtk.RESPONSE_OK:
         result = chooser.get_filenames()
-        loadpref.set("default_load_path", chooser.get_current_folder())
+        config.set("open_torrent_dialog_path", chooser.get_current_folder())
     else:
         result = None
     chooser.destroy()
@@ -511,8 +511,11 @@ def show_directory_chooser_dialog(parent=None, title=None):
                 buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
     chooser.set_icon_from_file(common.get_pixmap("deluge32.png"))
     chooser.set_property("skip-taskbar-hint", True)
+    config = pref.Preferences()
+    chooser.set_current_folder(config.get("choose_download_directory_dialog_path"))
     if chooser.run() == gtk.RESPONSE_OK:
         result = chooser.get_filename()
+        config.set("choose_download_directory_dialog_path", result)
     else:
         result = None
     chooser.destroy()
