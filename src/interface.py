@@ -992,15 +992,15 @@ class DelugeGTK:
             if dht_peers == -1:
                 dht_peers = '?'
             if dht_peers == 0:
-                dht_timer += 1
-                if dht_timer == 15:
+                self.dht_timer += 1
+                if self.dht_timer == 15:
                     #dht has been on for 15 seconds but has 0 nodes
                     #we probably have a corrupted dht.state file,
                     #so let's clean things up
                     self.manager.set_DHT(False)
                     os.remove(common.CONFIG_DIR + '/dht.state')
                     self.manager.set_DHT(True)
-                    dht_timer = 0
+                    self.dht_timer = 0
             else:
                 dht_peers = str(dht_peers)
             self.statusbar_temp_msg = self.statusbar_temp_msg + \
