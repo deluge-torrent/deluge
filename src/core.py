@@ -847,8 +847,6 @@ class Manager:
                     unique_ID = deluge_core.add_torrent(torrent.filename,
                                                         torrent.save_dir,
                                                         torrent.compact)
-                    # Apply per torrent prefs after torrent added to core
-                    self.apply_prefs_per_torrent(unique_ID)
                 except DelugeError, e:
                     print "Error:", e
                     del self.state.torrents[torrent]
@@ -858,6 +856,9 @@ class Manager:
                 ret = unique_ID
                 self.unique_IDs[unique_ID] = torrent
                 self.state.torrents[torrent] = unique_ID
+                
+                # Apply per torrent prefs after torrent added to core
+                self.apply_prefs_per_torrent(unique_ID)
         
         # Remove torrents from core, unique_IDs and queue
         to_delete = []
