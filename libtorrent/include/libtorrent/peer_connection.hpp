@@ -64,6 +64,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/alert.hpp"
 #include "libtorrent/torrent_handle.hpp"
 #include "libtorrent/torrent.hpp"
+#include "libtorrent/allocate_resources.hpp"
 #include "libtorrent/peer_request.hpp"
 #include "libtorrent/piece_block_progress.hpp"
 #include "libtorrent/config.hpp"
@@ -212,7 +213,7 @@ namespace libtorrent
 		void add_stat(size_type downloaded, size_type uploaded);
 
 		// is called once every second by the main loop
-		void second_tick(float tick_interval) throw();
+		void second_tick(float tick_interval);
 
 		boost::shared_ptr<socket_type> get_socket() const { return m_socket; }
 		tcp::endpoint const& remote() const { return m_remote; }
