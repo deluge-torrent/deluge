@@ -110,8 +110,7 @@ class ListView:
 
         # Dictionary of 'header' or 'name' to ListViewColumn object
         self.columns = {}
-        # Column_index will keep track of the order that the visible columns
-        # are in.
+        # Column_index keeps track of the order of the visible columns.
         self.column_index = []
         # The column types for the list store.. this may have more entries than
         # visible columns due to some columns utilizing more than 1 liststore
@@ -130,7 +129,15 @@ class ListView:
             return self.columns[name].column_indices
         else:
             return self.columns[name].column_indices[0]
-    
+
+    def on_menuitem_toggled(self, widget):
+        # Get the column name from the widget
+        name = widget.get_child().get_text()
+        
+        # Set the column's visibility based on the widgets active state
+        self.columns[name].column.set_visible(widget.get_active())
+        return
+
     def create_checklist_menu(self):
         self.menu = gtk.Menu()
         # Iterate through the column_index list to preserve order
@@ -145,6 +152,8 @@ class ListView:
             # (or checked) in the menu.
             if column.column.get_visible() is True:
                 menuitem.set_active(True)
+            # Connect to the 'toggled' event
+            menuitem.connect("toggled", self.on_menuitem_toggled)
             # Add the new checkmenuitem to the menu
             self.menu.append(menuitem)
         return self.menu
