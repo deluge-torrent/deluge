@@ -101,7 +101,6 @@ class DelugeGTK:
         
         try:
             self.load_window_settings()
-            self.load_column_widths()
         except KeyError:
             pass
         
@@ -541,17 +540,17 @@ class DelugeGTK:
         TORRENT_VIEW_COL_UPLOAD, TORRENT_VIEW_COL_ETA, 
         TORRENT_VIEW_COL_AVAILABILITY, TORRENT_VIEW_COL_RATIO) = range(16)
 
-        self.queue_column = dgtk.add_text_column(self.torrent_view, "#", TORRENT_VIEW_COL_QUEUE)
-        self.name_column = dgtk.add_texticon_column(self.torrent_view, _("Name"), TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME)
-        self.size_column = dgtk.add_func_column(self.torrent_view, _("Size"), dgtk.cell_data_size, TORRENT_VIEW_COL_SIZE)
-        self.status_column = dgtk.add_progress_column(self.torrent_view, _("Status"), TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS)
-        self.seed_column = dgtk.add_func_column(self.torrent_view, _("Seeders"), peer, (TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS))
-        self.peer_column = dgtk.add_func_column(self.torrent_view, _("Peers"), peer, (TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS))
-        self.dl_column = dgtk.add_func_column(self.torrent_view, _("Down Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_DOWNLOAD)
-        self.ul_column = dgtk.add_func_column(self.torrent_view, _("Up Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_UPLOAD)
-        self.eta_column = dgtk.add_func_column(self.torrent_view, _("ETA"), time, TORRENT_VIEW_COL_ETA)
-        self.availability_column = dgtk.add_func_column(self.torrent_view, _("Avail."), availability, TORRENT_VIEW_COL_AVAILABILITY)
-        self.share_column = dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, TORRENT_VIEW_COL_RATIO)
+        self.queue_column = dgtk.add_text_column(self.torrent_view, "#", TORRENT_VIEW_COL_QUEUE, width=self.config.get("queue_width"))
+        self.name_column = dgtk.add_texticon_column(self.torrent_view, _("Name"), TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME, width=self.config.get("name_width"))
+        self.size_column = dgtk.add_func_column(self.torrent_view, _("Size"), dgtk.cell_data_size, TORRENT_VIEW_COL_SIZE, width=self.config.get("size_width"))
+        self.status_column = dgtk.add_progress_column(self.torrent_view, _("Status"), TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS, width=self.config.get("status_width"))
+        self.seed_column = dgtk.add_func_column(self.torrent_view, _("Seeders"), peer, (TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS), width=self.config.get("seed_width"))
+        self.peer_column = dgtk.add_func_column(self.torrent_view, _("Peers"), peer, (TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS), width=self.config.get("peer_width"))
+        self.dl_column = dgtk.add_func_column(self.torrent_view, _("Down Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_DOWNLOAD, width=self.config.get("dl_width"))
+        self.ul_column = dgtk.add_func_column(self.torrent_view, _("Up Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_UPLOAD, width=self.config.get("ul_width"))
+        self.eta_column = dgtk.add_func_column(self.torrent_view, _("ETA"), time, TORRENT_VIEW_COL_ETA, width=self.config.get("eta_width"))
+        self.availability_column = dgtk.add_func_column(self.torrent_view, _("Avail."), availability, TORRENT_VIEW_COL_AVAILABILITY, width=self.config.get("availability_width"))
+        self.share_column = dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, TORRENT_VIEW_COL_RATIO, width=self.config.get("share_width"))
         
         self.name_column.set_sort_column_id(TORRENT_VIEW_COL_NAME)
         self.seed_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_SEEDS)
@@ -559,7 +558,6 @@ class DelugeGTK:
         
         self.torrent_model.set_sort_column_id(TORRENT_VIEW_COL_QUEUE, 
                                               gtk.SORT_ASCENDING)
-        
         try:
             self.torrent_view.get_selection().set_select_function(self.torrent_clicked, full=True)
         except TypeError:
@@ -1304,32 +1302,12 @@ class DelugeGTK:
         self.config.set("show_share", self.share_column.get_visible())
         self.config.set("window_pane_position", self.config.get("window_height") - self.wtree.get_widget("vpaned1").get_position())
 
-    def load_column_widths(self):
-        self.queue_column.set_fixed_width(self.config.get("queue_width"))
-        self.name_column.set_fixed_width(self.config.get("name_width"))
-        self.size_column.set_fixed_width(self.config.get("size_width"))
-        self.status_column.set_fixed_width(self.config.get("status_width"))
-        self.seed_column.set_fixed_width(self.config.get("seed_width"))
-        self.peer_column.set_fixed_width(self.config.get("peer_width"))
-        self.dl_column.set_fixed_width(self.config.get("dl_width"))
-        self.ul_column.set_fixed_width(self.config.get("ul_width"))
-        self.eta_column.set_fixed_width(self.config.get("eta_width"))
-        self.availability_column.set_fixed_width(self.config.get("availability_width"))
-        self.share_column.set_fixed_width(self.config.get("share_width"))
-    
     def save_column_widths(self):
-        self.config.set("queue_width", self.queue_column.get_width())
-        self.config.set("name_width", self.name_column.get_width())        
-        self.config.set("size_width", self.size_column.get_width())
-        self.config.set("status_width", self.status_column.get_width())
-        self.config.set("seed_width", self.seed_column.get_width())
-        self.config.set("peer_width", self.peer_column.get_width())
-        self.config.set("dl_width", self.dl_column.get_width())
-        self.config.set("ul_width", self.ul_column.get_width())
-        self.config.set("eta_width", self.eta_column.get_width())
-        self.config.set("availability_width", self.availability_column.get_width())
-        self.config.set("share_width", self.share_column.get_width())
-
+        to_save = ["queue", "name", "size", "status", "seed", "peer", "dl", \
+                    "ul", "eta", "availability", "share"]
+        for columns in to_save:
+            pref_name = columns + '_width'
+            self.config.set(pref_name, eval('self.' + columns + '_column.get_width()'))
    
     def window_configure_event(self, widget, event):
         if self.config.get("window_maximized") == False:

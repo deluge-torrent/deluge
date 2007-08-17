@@ -1,4 +1,5 @@
 from itertools import izip
+import deluge
 from deluge import dgtk
 from deluge import common
 import gobject
@@ -8,6 +9,18 @@ class PeersTabManager(object):
         self.peer_view = peer_view
         self.manager = manager
         self.peer_unique_id = None
+        self.config_file = deluge.common.CONFIG_DIR + "/peers.conf"
+        self.config = deluge.pref.Preferences(self.config_file, False, 
+                          defaults={'ip_p_width': 120,
+                                    'client_p_width' : 120,
+                                    'percent_p_width': 90, 
+                                    'down_p_width': 150,
+                                    'up_p_width': 115})
+        try:
+            self.config.load()
+        except IOError:
+            # File does not exist
+            pass
         # IP int, IP string, Client, Percent Complete, Down Speed, Up Speed
         # IP int is for faster sorting
         self.peer_store = gtk.ListStore(gobject.TYPE_UINT, gtk.gdk.Pixbuf, 
@@ -36,20 +49,15 @@ class PeersTabManager(object):
         
         # self.ip_column is used in self.ip_column_queue_resize() method
         self.ip_column = dgtk.add_texticon_column(self.peer_view, 
-                                                  _("IP Address"), 1, 2)
+                                                  _("IP Address"), 1, 2, width=140)
         self.ip_column.set_sort_column_id(0)
-        self.ip_column.set_fixed_width(140)
-        client = dgtk.add_text_column(self.peer_view, _("Client"), 3)
-        client.set_fixed_width(120)
+        client = dgtk.add_text_column(self.peer_view, _("Client"), 3, width=120)
         percent = dgtk.add_func_column(self.peer_view, _("Percent Complete"), 
-                                       percent, 4)
-        percent.set_fixed_width(150)
+                                       percent, 4, width=150)
         down = dgtk.add_func_column(self.peer_view, _("Down Speed"), 
-                                    dgtk.cell_data_speed, 5)
-        down.set_fixed_width(115)
+                                    dgtk.cell_data_speed, 5, width=115)
         up = dgtk.add_func_column(self.peer_view, _("Up Speed"), 
-                                  dgtk.cell_data_speed, 6)
-        up.set_fixed_width(115)
+                                  dgtk.cell_data_speed, 6, width=115)
 
     def enable_flags(self):
         self.show_flags = True

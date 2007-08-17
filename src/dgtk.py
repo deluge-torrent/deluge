@@ -63,7 +63,7 @@ def cell_data_size(column, cell, model, iter, data):
 
 ## Functions to create columns
 
-def add_func_column(view, header, func, data, sortid=None):
+def add_func_column(view, header, func, data, sortid=None, width=None):
     column = gtk.TreeViewColumn(header)
     render = gtk.CellRendererText()
     column.pack_start(render, True)
@@ -81,6 +81,8 @@ def add_func_column(view, header, func, data, sortid=None):
             column.set_sort_column_id(data)
     column.set_resizable(True)
     column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
+    if width:
+        column.set_fixed_width(width)
     column.set_expand(False)
     column.set_min_width(10)
     column.set_reorderable(True)
@@ -88,20 +90,22 @@ def add_func_column(view, header, func, data, sortid=None):
     return column
     
 
-def add_text_column(view, header, cid):
+def add_text_column(view, header, cid, width=None):
     render = gtk.CellRendererText()
     column = gtk.TreeViewColumn(header, render, text=cid)
     column.set_clickable(True)
     column.set_sort_column_id(cid)
     column.set_resizable(True)
     column.set_expand(False)
+    if width:
+        column.set_fixed_width(width)
     column.set_min_width(10)
     column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
     column.set_reorderable(True)
     view.append_column(column)
     return column
 
-def add_progress_column(view, header, pid, mid):
+def add_progress_column(view, header, pid, mid, width=None):
     render = gtk.CellRendererProgress()
     column = gtk.TreeViewColumn(header, render, value=pid, text=mid)
     column.set_clickable(True)
@@ -109,18 +113,22 @@ def add_progress_column(view, header, pid, mid):
     column.set_resizable(True)
     column.set_expand(False)
     column.set_min_width(10)
+    if width:
+        column.set_fixed_width(width)
     column.set_reorderable(True)
     column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
     view.append_column(column)
     return column
 
-def add_toggle_column(view, header, cid, toggled_signal=None):
+def add_toggle_column(view, header, cid, toggled_signal=None, width=None):
     render = gtk.CellRendererToggle()
     render.set_property('activatable', True)
     column = gtk.TreeViewColumn(header, render, active=cid)
     column.set_clickable(True)
     column.set_resizable(True)
     column.set_expand(False)
+    if width:
+        column.set_fixed_width(width)
     column.set_min_width(10)
     column.set_reorderable(True)
     view.append_column(column)
@@ -128,11 +136,13 @@ def add_toggle_column(view, header, cid, toggled_signal=None):
         render.connect("toggled", toggled_signal)
     return column
 
-def add_texticon_column(view, header, icon_col, text_col):
+def add_texticon_column(view, header, icon_col, text_col, width=None):
     column = gtk.TreeViewColumn(header)
     column.set_clickable(True)
     column.set_resizable(True)
     column.set_expand(False)
+    if width:
+        column.set_fixed_width(width)
     column.set_min_width(10)
     column.set_reorderable(True)
     render = gtk.CellRendererPixbuf()
