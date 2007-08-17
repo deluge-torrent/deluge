@@ -179,7 +179,36 @@ class ListView:
         
         self.liststore = new_list
         self.treeview.set_model(self.liststore)
+       
+        return
+    
+    def remove_column(self, header):
+        """Removes the column with the name 'header' from the listview"""
+        # Start by removing this column from the treeview
+        self.treeview.remove_column(self.columns[header].column)
+        # Get the column indices
+        column_indices = self.columns[header].column_indices
+        # Delete the column
+        del self.columns[header]
+        self.column_index.remove(header)
+        # Shift the column_indices values of those columns effected by the
+        # removal.  Any column_indices > the one removed.
+        for column in self.columns.values():
+            if column.column_indices[0] > column_indices[0]:
+                # We need to shift this column_indices
+                for index in column.column_indices:
+                    index = index - len(column_indices)
         
+        # Remove from the liststore columns list
+        for index in column_indices:
+            del self.liststore_columns[index]
+        
+        # Create a new liststore
+        self.create_new_liststore()
+
+        # Re-create the menu
+        self.create_checklist_menu()
+    
         return
     
     def add_text_column(self, header, hidden=False):
