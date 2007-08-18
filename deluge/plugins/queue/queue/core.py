@@ -132,12 +132,19 @@ class Core(dbus.service.Object):
     
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge.Queue",
                                     in_signature="", out_signature="as")
-    def get_queue(self):
+    def get_queue_list(self):
         """Returns the queue list.
         """
         log.debug("Getting queue list")
         return self.queue.queue
-            
+    
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge.Queue",
+                                    in_signature="s", out_signature="i")
+    def get_position(self, torrent_id):
+        """Returns the queue position of torrent_id"""
+        log.debug("Getting queue position for %s", torrent_id)
+        return self.queue[torrent_id]
+       
     ## Signals ##
     @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge.Queue",
                                              signature="")

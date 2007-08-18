@@ -87,6 +87,9 @@ class ListView:
             self.column_indices = column_indices
             # Column is a reference to the GtkTreeViewColumn object
             self.column = None
+            # The get_function is called when a column is in need of an update
+            # This is primarily used by plugins.
+            self.get_function = None
             # If column is 'hidden' then it will not be visible and will not
             # show up in any menu listing;  it cannot be shown ever.
             self.hidden = False
@@ -162,7 +165,7 @@ class ListView:
         # Create a new liststore with added column and move the data from the 
         # old one to the new one.
         new_list = gtk.ListStore(*tuple(self.liststore_columns))
-
+        
         # This function is used in the liststore.foreach method with user_data
         # being the new liststore and the columns list
         def copy_row(model, path, row, user_data):
@@ -211,14 +214,25 @@ class ListView:
     
         return
     
-    def add_text_column(self, header, hidden=False):
+    def add_text_column(self, header, col_type=str, hidden=False, 
+                                            position=None, get_function=None):
         # Create a new column object and add it to the list
-        self.liststore_columns.append(str)
+        self.liststore_columns.append(col_type)
         # Add to the index list so we know the order of the visible columns.
-        self.column_index.append(header)
+        if position is not None:
+            self.column_index.insert(position, header)
+        else:
+            self.column_index.append(header)
+        
         self.columns[header] = self.ListViewColumn(header, 
                                             [len(self.liststore_columns) - 1])
-      
+        
+        # Set the get_function.. This function is used mainly for plugins.
+        # You can have your listview call this function to update the column
+        # value.
+        if get_function is not None:
+            self.columns[header].get_function = get_function
+        
         # Create a new list with the added column
         self.create_new_liststore()
         
@@ -233,7 +247,10 @@ class ListView:
         column.set_min_width(10)
         column.set_reorderable(True)
         column.set_visible(not hidden)
-        self.treeview.append_column(column)
+        if position is not None:
+            self.treeview.insert_column(column, position)
+        else:
+            self.treeview.append_column(column)
         # Set hidden in the column
         self.columns[header].hidden = hidden
         self.columns[header].column = column
@@ -243,7 +260,7 @@ class ListView:
         return True
         
     def add_func_column(self, header, function, column_types, sortid=0, 
-                                                            hidden=False):
+                                hidden=False, position=None, get_function=None):
         # Add the new column types to the list and keep track of the liststore
         # columns that this column object uses.
         # Set sortid to the column index relative the to column_types used.
@@ -256,6 +273,13 @@ class ListView:
         
         # Add to the index list so we know the order of the visible columns.
         self.column_index.append(header)
+
+        # Add to the index list so we know the order of the visible columns.
+        if position is not None:
+            self.column_index.insert(position, header)
+        else:
+            self.column_index.append(header)
+
         # Create a new column object and add it to the list    
         self.columns[header] = self.ListViewColumn(header, column_indices)
         
@@ -278,7 +302,10 @@ class ListView:
         column.set_min_width(10)
         column.set_reorderable(True)
         column.set_visible(not hidden)
-        self.treeview.append_column(column)
+        if position is not None:
+            self.treeview.insert_column(column, position)
+        else:
+            self.treeview.append_column(column)
         # Set hidden in the column
         self.columns[header].hidden = hidden
         self.columns[header].column = column
@@ -287,7 +314,8 @@ class ListView:
                 
         return True
 
-    def add_progress_column(self, header, hidden=False):
+    def add_progress_column(self, header, hidden=False, position=None, 
+                                                            get_function=None):
         # For the progress value
         self.liststore_columns.append(float)
         # For the text
@@ -296,7 +324,12 @@ class ListView:
                                             len(self.liststore_columns) - 1]
         # Add to the index list so we know the order of the visible columns.
         self.column_index.append(header)
-        
+
+        # Add to the index list so we know the order of the visible columns.
+        if position is not None:
+            self.column_index.insert(position, header)
+        else:
+            self.column_index.append(header)        
         # Create a new column object and add it to the list
         self.columns[header] = self.ListViewColumn(header, column_indices)
         
@@ -314,7 +347,10 @@ class ListView:
         column.set_min_width(10)
         column.set_reorderable(True)
         column.set_visible(not hidden)
-        self.treeview.append_column(column)
+        if position is not None:
+            self.treeview.insert_column(column, position)
+        else:
+            self.treeview.append_column(column)
         # Set hidden in the column
         self.columns[header].hidden = hidden
         self.columns[header].column = column
@@ -323,7 +359,8 @@ class ListView:
                 
         return True
         
-    def add_texticon_column(self, header, hidden=False):
+    def add_texticon_column(self, header, hidden=False, position=None, 
+                                                            get_function=None):
         # For icon
         self.liststore_columns.append(gtk.gdk.Pixbuf)
         # For text
@@ -332,6 +369,13 @@ class ListView:
                                             len(self.liststore_columns) - 1]
         # Add to the index list so we know the order of the visible columns.
         self.column_index.append(header)
+
+        # Add to the index list so we know the order of the visible columns.
+        if position is not None:
+            self.column_index.insert(position, header)
+        else:
+            self.column_index.append(header)
+            
         self.columns[header] = self.ListViewColumn(header, column_indices)
 
         # Create new list with the added columns
@@ -352,7 +396,10 @@ class ListView:
         column.add_attribute(render, 'text', 
                                         self.columns[header].column_indices[1])
         column.set_visible(not hidden)
-        self.treeview.append_column(column)
+        if position is not None:
+            self.treeview.insert_column(column, position)
+        else:
+            self.treeview.append_column(column)
         # Set hidden in the column
         self.columns[header].hidden = hidden
         self.columns[header].column = column

@@ -33,6 +33,19 @@
 
 import logging
 
+try:
+    import dbus, dbus.service
+    dbus_version = getattr(dbus, "version", (0,0,0))
+    if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
+        import dbus.glib
+    elif dbus_version >= (0,80,0):
+        from dbus.mainloop.glib import DBusGMainLoop
+        DBusGMainLoop(set_as_default=True)
+    else:
+        pass
+except: dbus_imported = False
+else: dbus_imported = True
+
 # Get the logger
 log = logging.getLogger("deluge")
 
@@ -40,6 +53,21 @@ class GtkUI:
     def __init__(self, plugin_manager):
         log.debug("Queue GtkUI plugin initalized..")
         self.plugin = plugin_manager
+        # Get a reference to the core portion of the plugin
+        bus = dbus.SessionBus()
+        proxy = bus.get_object("org.deluge_torrent.Deluge", 
+                               "/org/deluge_torrent/Plugin/Queue")
+        self.core = dbus.Interface(proxy, "org.deluge_torrent.Deluge.Queue")
         # Get the torrentview component from the plugin manager
         self.torrentview = self.plugin.get_torrentview()
-        
+        # Add the '#' column at the first position
+        self.torrentview.add_text_column("#", 
+                                        col_type=int,
+                                        position=0, 
+                                        get_function=self.column_get_function)
+    
+    def column_get_function(self, torrent_id):
+        """Returns the queue position for torrent_id"""
+        # Return the value + 1 because we want the queue list to start at 1
+        # for the user display.
+        return self.core.get_position(torrent_id) + 1

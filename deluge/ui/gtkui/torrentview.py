@@ -146,8 +146,8 @@ class TorrentView(listview.ListView):
                 "upload_payload_rate", "eta"]
         status = functions.get_torrent_status(self.core, torrent_id,
                 status_keys)
-        # Insert the row with info provided from core
-        self.liststore.append([
+                
+        row_list = [
                 torrent_id,
                 None,
                 status["name"],
@@ -162,7 +162,24 @@ class TorrentView(listview.ListView):
                 status["upload_payload_rate"],
                 status["eta"],
                 0.0
-            ])
+            ]
+
+        # Insert any column info from get_functions.. this is usually from
+        # plugins
+        for column in self.columns.values():
+            if column.get_function is not None:
+                if len(column.column_indices) == 1:
+                    row_list.insert(column.column_indices[0], 
+                                                column.get_function(torrent_id))
+                else:
+                    result = column.get_function(torrent_id)
+                    r_index = 0
+                    for index in column.column_indices:
+                        row_list.insert(index, result[r_index])
+                        r_index = r_index + 1
+
+        # Insert the row with info provided from core
+        self.liststore.append(row_list)
             
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""
