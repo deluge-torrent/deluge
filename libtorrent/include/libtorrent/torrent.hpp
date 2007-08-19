@@ -62,7 +62,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/tracker_manager.hpp"
 #include "libtorrent/stat.hpp"
 #include "libtorrent/alert.hpp"
-#include "libtorrent/resource_request.hpp"
 #include "libtorrent/piece_picker.hpp"
 #include "libtorrent/config.hpp"
 #include "libtorrent/escape_string.hpp"
@@ -154,10 +153,6 @@ namespace libtorrent
 		bool verify_resume_data(entry& rd, std::string& error)
 		{ assert(m_storage); return m_storage->verify_resume_data(rd, error); }
 
-		// is called every second by session. This will
-		// caclulate the upload/download and number
-		// of connections this torrent needs. And prepare
-		// it for being used by allocate_resources.
 		void second_tick(stat& accumulator, float tick_interval);
 
 		// debug purpose only
@@ -253,6 +248,15 @@ namespace libtorrent
 	
 		void remove_url_seed(std::string const& url)
 		{ m_web_seeds.erase(url); }
+
+		std::set<std::string> url_seeds() const
+		{ return m_web_seeds; }
+
+		bool free_upload_slots() const
+		{ return m_num_uploads < m_max_uploads; }
+
+		void choke_peer(peer_connection& c);
+		bool unchoke_peer(peer_connection& c);
 
 		// used by peer_connection to attach itself to a torrent
 		// since incoming connections don't know what torrent
@@ -516,11 +520,6 @@ namespace libtorrent
 // --------------------------------------------
 		// RESOURCE MANAGEMENT
 
-		void distribute_resources(float tick_interval);
-
-		resource_request m_uploads_quota;
-		resource_request m_connections_quota;
-
 		void set_peer_upload_limit(tcp::endpoint ip, int limit);
 		void set_peer_download_limit(tcp::endpoint ip, int limit);
 
@@ -530,7 +529,9 @@ namespace libtorrent
 		int download_limit() const;
 
 		void set_max_uploads(int limit);
+		int max_uploads() const { return m_max_uploads; }
 		void set_max_connections(int limit);
+		int max_connections() const { return m_max_connections; }
 		void move_storage(fs::path const& save_path);
 
 		// unless this returns true, new connections must wait
@@ -705,9 +706,9 @@ namespace libtorrent
 		// determine the timeout until next try.
 		int m_failed_trackers;
 
-		// this is a counter that is increased every
-		// second, and when it reaches 10, the policy::pulse()
-		// is called and the time scaler is reset to 0.
+		// this is a counter that is decreased every
+		// second, and when it reaches 0, the policy::pulse()
+		// is called and the time scaler is reset to 10.
 		int m_time_scaler;
 
 		// the bitmask that says which pieces we have
@@ -774,6 +775,15 @@ namespace libtorrent
 		session_settings const& m_settings;
 
 		storage_constructor_type m_storage_constructor;
+
+		// the maximum number of uploads for this torrent
+		int m_max_uploads;
+
+		// the number of unchoked peers in this torrent
+		int m_num_uploads;
+
+		// the maximum number of connections for this torrent
+		int m_max_connections;
 		
 #ifndef TORRENT_DISABLE_EXTENSIONS
 		typedef std::list<boost::shared_ptr<torrent_plugin> > extension_list_t;
