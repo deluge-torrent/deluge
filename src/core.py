@@ -624,10 +624,10 @@ class Manager:
 
             if event['event_type'] is self.constants['EVENT_STORAGE_MOVED']:
                 if event['message'] == self.unique_IDs[event['unique_ID']].save_dir:
-                    raise StorageMoveFailed(_("You cannot move torrent to a different partition.  Please fix your preferences"))
-                elif event['message'] == self.get_pref('default_finished_path'):
-                    self.unique_IDs[event['unique_ID']].save_dir = self.get_pref('default_finished_path')
-                    self.pickle_state()
+                    raise StorageMoveFailed(_("You cannot move torrent to a different partition. Please check your preferences. Or maybe you are trying to move torrent's files to the same directory they are already stored ?"))
+                
+                self.unique_IDs[event['unique_ID']].save_dir = event['message']
+                self.pickle_state()
                     
             elif event['event_type'] is self.constants['EVENT_FINISHED']:
                 if event['message'] == "torrent has finished downloading":
@@ -636,7 +636,7 @@ class Manager:
                            self.get_pref('default_download_path') and \
                        self.unique_IDs[event['unique_ID']].save_dir != \
                            self.get_pref('default_finished_path'):
-                        deluge_core.move_storage(event['unique_ID'], 
+                        self.move_storage(event['unique_ID'], 
                             self.get_pref('default_finished_path'))
                     
                     # Queue seeding torrent to bottom if needed
@@ -764,6 +764,9 @@ class Manager:
             torrent_state = self.get_core_torrent_state(unique_ID)
             if torrent_state['is_paused']:
                 self.set_user_pause(unique_ID, False, enforce_queue=True)
+
+    def move_storage(self, unique_ID, directory):
+        deluge_core.move_storage(unique_ID, directory)
 
     ####################
     # Internal functions

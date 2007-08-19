@@ -868,7 +868,7 @@ class DelugeGTK:
             self.manager.handle_events()
         except core.StorageMoveFailed, e:
             print "StorageMoveFailed", e
-            dialogs.show_popup_warning(self.window, _("You cannot move torrent to a different partition.  Please fix your preferences"))
+            dialogs.show_popup_warning(self.window, e.value)
         
         # Make sure that the interface still exists
         try:
@@ -1075,7 +1075,8 @@ class DelugeGTK:
         if self.config.get('use_default_dir'):
             path = self.config.get('default_download_path')
         else:
-            path = dialogs.show_directory_chooser_dialog(self.window)
+            path = dialogs.show_directory_chooser_dialog(self.window, 
+                       _("Choose a download directory"))
             if path is None:
                 return
 

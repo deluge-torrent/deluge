@@ -504,18 +504,16 @@ def show_file_open_dialog(parent=None, title=None):
     chooser.destroy()
     return result
 
-def show_directory_chooser_dialog(parent=None, title=None):
-    if title is None:
-        title = _("Choose a download directory")
+def show_directory_chooser_dialog(parent, title):
     chooser = gtk.FileChooserDialog(title, parent, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
                 buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
     chooser.set_icon_from_file(common.get_pixmap("deluge32.png"))
     chooser.set_property("skip-taskbar-hint", True)
     config = pref.Preferences()
-    chooser.set_current_folder(config.get("choose_download_directory_dialog_path"))
+    chooser.set_current_folder(config.get("choose_directory_dialog_path"))
     if chooser.run() == gtk.RESPONSE_OK:
         result = chooser.get_filename()
-        config.set("choose_download_directory_dialog_path", result)
+        config.set("choose_directory_dialog_path", result)
     else:
         result = None
     chooser.destroy()

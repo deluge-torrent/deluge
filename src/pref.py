@@ -52,7 +52,7 @@ DEFAULT_PREFS = {
     "clear_max_ratio_torrents" : False,
     "default_download_path" : os.path.expanduser("~/"),
     "open_torrent_dialog_path" : os.path.expanduser("~/"),
-    "choose_download_directory_dialog_path": os.path.expanduser("~/"),
+    "choose_directory_dialog_path": os.path.expanduser("~/"),
     "default_finished_path" : os.path.expanduser("~/"),
     "enable_move_completed" : False,
     "enable_dht" : True,
