@@ -52,13 +52,6 @@ class webseedMenu:
         self.menuitem.connect("activate", self.webseed_clicked)
         self.interface.torrent_menu.append(self.menuitem)
         self.menuitem.show_all()
-
-        self.config_file = deluge.common.CONFIG_DIR + "/web_seed.conf"
-        self.config = deluge.pref.Preferences(self.config_file, global_defaults=False)
-        try:
-            self.config.load()
-        except IOError:
-            pass
         
     def update(self):
         pass
@@ -75,3 +68,4 @@ class webseedMenu:
             text = self.glade.get_widget("txt_url").get_text().strip()
             if common.is_url(text):
                 self.core.add_url_seed(self.unique_ID, text)
+
