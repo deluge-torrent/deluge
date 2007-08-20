@@ -1065,7 +1065,7 @@ class DelugeGTK:
         if url:
             filename = common.fetch_url(url)
             if filename:
-                self.interactive_add_torrent(filename)
+                return self.interactive_add_torrent(filename)
 
     def interactive_add_torrent(self, torrent):
         if self.config.get('use_default_dir'):
@@ -1076,9 +1076,11 @@ class DelugeGTK:
             if path is None:
                 return
 
-        self.interactive_add_torrent_path(torrent, path)
+        return self.interactive_add_torrent_path(torrent, path)
 
     def interactive_add_torrent_path(self, torrent, path):
+        unique_id = False
+
         try:
             dumped_torrent = self.manager.dump_torrent_file_info(torrent)
             if self.config.get('enable_files_dialog'):
@@ -1091,7 +1093,7 @@ class DelugeGTK:
                     if files_dialog.is_private_flag_checked():
                         self.manager.set_priv(unique_id, True)
                 else:
-                    return
+                    return False
             else:
                 unique_id = self.manager.add_torrent(torrent, path, 
                                 self.config.get('use_compact_storage'))
@@ -1124,6 +1126,8 @@ class DelugeGTK:
                                                         _("Available Space:") + " " + nice_free)
         else:
             self.torrent_model_append(unique_id)
+
+        return unique_id
             
     def launchpad(self, obj=None):
         common.open_url_in_browser('https://translations.launchpad.net/deluge/trunk/+pots/deluge')
