@@ -94,7 +94,6 @@ class PreferencesDlg:
             self.glade.get_widget("txt_web_proxy_hostname").set_text(self.preferences.get("web_proxy_hostname"))
             self.glade.get_widget("txt_web_proxy_username").set_text(self.preferences.get("web_proxy_username"))
             self.glade.get_widget("txt_web_proxy_password").set_text(self.preferences.get("web_proxy_password"))
-            self.glade.get_widget("finished_path_button").set_filename(self.preferences.get("default_finished_path"))
             self.glade.get_widget("download_path_button").set_filename(self.preferences.get("default_download_path"))
             self.glade.get_widget("chk_enable_files_dialog").set_active(self.preferences.get("enable_files_dialog"))
             self.glade.get_widget("chk_prioritize_first_last_pieces").set_active(self.preferences.get("prioritize_first_last_pieces"))
@@ -127,14 +126,8 @@ class PreferencesDlg:
             #smart dialog set sensitivities
             if(self.preferences.get("use_default_dir")):
                 self.glade.get_widget("radio_save_all_to").set_active(True)
-                self.glade.get_widget("chk_move_completed").set_sensitive(True)
-                self.glade.get_widget("finished_path_button").set_sensitive(True)
-                if(self.preferences.get("enable_move_completed")):
-                    self.glade.get_widget("chk_move_completed").set_active(True)
             else:
                 self.glade.get_widget("radio_ask_save").set_active(True)
-                self.glade.get_widget("chk_move_completed").set_sensitive(False)
-                self.glade.get_widget("finished_path_button").set_sensitive(False)
                 
             self.glade.get_widget('chk_min_on_close').set_sensitive(
                 self.glade.get_widget('chk_use_tray').get_active())
@@ -204,8 +197,6 @@ class PreferencesDlg:
         self.preferences.set("peer_proxy_hostname", self.glade.get_widget("txt_peer_proxy_hostname").get_text())
         self.preferences.set("use_default_dir", self.glade.get_widget("radio_save_all_to").get_active())
         self.preferences.set("default_download_path", self.glade.get_widget("download_path_button").get_filename())
-        self.preferences.set("enable_move_completed", self.glade.get_widget("chk_move_completed").get_active())
-        self.preferences.set("default_finished_path", self.glade.get_widget("finished_path_button").get_filename())
         self.preferences.set("enable_files_dialog", self.glade.get_widget("chk_enable_files_dialog").get_active())
         self.preferences.set("prioritize_first_last_pieces", self.glade.get_widget("chk_prioritize_first_last_pieces").get_active())
         self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())
@@ -242,11 +233,6 @@ class PreferencesDlg:
         value = widget.get_active()
         if widget == self.glade.get_widget('radio_save_all_to'):
             self.glade.get_widget('download_path_button').set_sensitive(value)
-            self.glade.get_widget('chk_move_completed').set_sensitive(value)
-            if not value:
-                self.glade.get_widget('chk_move_completed').set_active(value)
-        elif widget == self.glade.get_widget('chk_move_completed'):
-            self.glade.get_widget('finished_path_button').set_sensitive(value)
         elif widget == self.glade.get_widget('chk_autoseed'):
             self.glade.get_widget('ratio_spinner').set_sensitive(value)
             self.glade.get_widget('chk_clear_max_ratio_torrents').set_sensitive(value)  

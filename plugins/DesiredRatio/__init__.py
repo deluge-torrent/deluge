@@ -48,7 +48,12 @@ class DesiredRatio:
         self.callback_ids = []
      
         # Setup preferences
-        self.config = deluge.pref.Preferences(filename=deluge.common.CONFIG_DIR + "/desired_ratio.conf", global_defaults=False, defaults=DEFAULT_PREFS)
+        self.config_file = deluge.common.CONFIG_DIR + "/desired_ratio.conf"
+        self.config = deluge.pref.Preferences(self.config_file, global_defaults=False, defaults=DEFAULT_PREFS)
+        try:
+            self.config.load()
+        except IOError:
+            pass
 
     # Connect to events for the torrent menu so we know when to build and remove our sub-menu
         self.callback_ids.append(self.interface.torrent_menu.connect_after("realize", self.torrent_menu_show))
@@ -62,8 +67,6 @@ class DesiredRatio:
         # Make the sub-menu for the torrent menu
         self.ratio_menuitem = gtk.MenuItem(_("_Desired Ratio"))
 
-
-     
         self.ratio_menu = self.interface.build_menu_radio_list(self.config.get("ratios"), self.ratio_clicked, self.get_torrent_desired_ratio(), None, True, _("_Not Set"), 1, None)
 
         self.ratio_menuitem.set_submenu(self.ratio_menu)
@@ -81,6 +84,7 @@ class DesiredRatio:
         pass
       
     def unload(self):
+        self.config.save(self.config_file)
         # Disconnect all callbacks
         for callback_id in self.callback_ids:
             self.interface.torrent_menu.disconnect(callback_id)
@@ -123,11 +127,12 @@ class DesiredRatio:
         # Set the ratio in the core and remember the setting
         self.core.set_ratio(self.unique_ID, value)
         self.set_ratios[self.unique_ID] = value
+        self.config.set[self.unique_ID]("ratios") = value
         
         # Update the ratios list if necessary
-        if value not in self.config.get("ratios") and value >= 1:
-            self.config.get("ratios").insert(0, value)
-            self.config.get("ratios").pop()
+        if value not in self.config.get("ratios")[self.unique_ID] and value >= 1:
+            self.config.get("ratios")[self.unique_ID].insert(0, value)
+            self.config.get("ratios")[self.unique_ID].pop()
       
     def get_torrent_desired_ratio(self):
         return self.set_ratios.get(self.unique_ID, 1)

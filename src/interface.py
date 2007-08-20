@@ -864,11 +864,7 @@ class DelugeGTK:
         self.update_interface = self.window.get_property("visible") and not self.is_minimized
         
         # Handle the events
-        try:
-            self.manager.handle_events()
-        except core.StorageMoveFailed, e:
-            print "StorageMoveFailed", e
-            dialogs.show_popup_warning(self.window, e.value)
+        self.manager.handle_events()
         
         # Make sure that the interface still exists
         try:

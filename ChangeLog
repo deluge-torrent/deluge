@@ -1,4 +1,6 @@
 Deluge 0.5.5 (xx August 2007)
+  * New Move torrent plugin - takes over for "move completed downloads" feature
+  and provides a "Move Torrent" option when right-clicking on a torrent
   * Save column widths
   * Queue order after restart fixes.
   * Use payload instead of including protocol overhead to ease user confusion 

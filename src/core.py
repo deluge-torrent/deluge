@@ -115,9 +115,6 @@ class InvalidEncodingError(DelugeError):
 class FilesystemError(DelugeError):
     pass
 
-class StorageMoveFailed(DelugeError):
-    pass
-
 # Note: this may be raised both from deluge-core.cpp and deluge.py, for
 # different reasons, both related to duplicate torrents
 class DuplicateTorrentError(DelugeError):
@@ -622,23 +619,6 @@ class Manager:
                 for callback in self.event_callbacks[event['event_type']]:
                     callback(event)
 
-            if event['event_type'] is self.constants['EVENT_STORAGE_MOVED']:
-                if event['message'] == self.unique_IDs[event['unique_ID']].save_dir:
-                    raise StorageMoveFailed(_("You cannot move torrent to a different partition. Please check your preferences. Or maybe you are trying to move torrent's files to the same directory they are already stored ?"))
-                
-                self.unique_IDs[event['unique_ID']].save_dir = event['message']
-                self.pickle_state()
-                    
-            elif event['event_type'] is self.constants['EVENT_FINISHED']:
-                if event['message'] == "torrent has finished downloading":
-                    if self.get_pref('enable_move_completed') and \
-                       self.get_pref('default_finished_path') != \
-                           self.get_pref('default_download_path') and \
-                       self.unique_IDs[event['unique_ID']].save_dir != \
-                           self.get_pref('default_finished_path'):
-                        self.move_storage(event['unique_ID'], 
-                            self.get_pref('default_finished_path'))
-                    
                     # Queue seeding torrent to bottom if needed
                     if self.get_pref('queue_seeds_to_bottom'):
                         self.queue_bottom(event['unique_ID'])

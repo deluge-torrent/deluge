@@ -52,6 +52,13 @@ class webseedMenu:
         self.menuitem.connect("activate", self.webseed_clicked)
         self.interface.torrent_menu.append(self.menuitem)
         self.menuitem.show_all()
+
+        self.config_file = deluge.common.CONFIG_DIR + "/web_seed.conf"
+        self.config = deluge.pref.Preferences(self.config_file, global_defaults=False)
+        try:
+            self.config.load()
+        except IOError:
+            pass
         
     def update(self):
         pass

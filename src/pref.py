@@ -53,8 +53,6 @@ DEFAULT_PREFS = {
     "default_download_path" : os.path.expanduser("~/"),
     "open_torrent_dialog_path" : os.path.expanduser("~/"),
     "choose_directory_dialog_path": os.path.expanduser("~/"),
-    "default_finished_path" : os.path.expanduser("~/"),
-    "enable_move_completed" : False,
     "enable_dht" : True,
     "enable_system_tray" : True,
     "enabled_plugins" : "",
