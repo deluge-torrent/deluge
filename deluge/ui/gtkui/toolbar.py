@@ -44,7 +44,7 @@ class ToolBar:
     def __init__(self, window):
         log.debug("ToolBar Init..")
         self.window = window
-        
+        self.toolbar = self.window.main_glade.get_widget("toolbar")
         ### Connect Signals ###
         self.window.main_glade.signal_autoconnect({
             "on_toolbutton_add_clicked": self.on_toolbutton_add_clicked,
@@ -52,15 +52,43 @@ class ToolBar:
             "on_toolbutton_clear_clicked": self.on_toolbutton_clear_clicked,
             "on_toolbutton_pause_clicked": self.on_toolbutton_pause_clicked,
             "on_toolbutton_resume_clicked": self.on_toolbutton_resume_clicked,
-            "on_toolbutton_queueup_clicked": \
-                                        self.on_toolbutton_queueup_clicked,
-            "on_toolbutton_queuedown_clicked": \
-                                        self.on_toolbutton_queuedown_clicked,
             "on_toolbutton_preferences_clicked": \
                                         self.on_toolbutton_preferences_clicked,
             "on_toolbutton_plugins_clicked": \
                                         self.on_toolbutton_plugins_clicked,            
         })
+    
+    def add_toolbutton(self, callback, label=None, image=None, stock=None,
+                                                         tooltip=None):
+        """Adds a toolbutton to the toolbar"""
+        # Create the button
+        toolbutton = gtk.ToolButton(stock)
+        if label is not None:
+            toolbutton.set_label(label)
+        if image is not None:
+            toolbutton.set_icon_widget(image)
+        # Set the tooltip
+        if tooltip is not None:
+            tip = gtk.Tooltips()
+            tip.set_tip(toolbutton, tooltip)
+        
+        # Connect the 'clicked' event callback
+        toolbutton.connect("clicked", callback)
+        
+        # Append the button to the toolbar
+        self.toolbar.insert(toolbutton, -1)
+        
+        return
+    
+    def add_separator(self, position=None):
+        """Adds a separator toolitem"""
+        sep = gtk.SeparatorToolItem()
+        if position is not None:
+            self.toolbar.insert(sep, position)
+        else:
+            # Append the separator
+            self.toolbar.insert(sep, -1)
+        return
         
     ### Callbacks ###
     def on_toolbutton_add_clicked(self, data):
@@ -87,16 +115,6 @@ class ToolBar:
         log.debug("on_toolbutton_resume_clicked")
         # Use the menubar's calbacks
         self.window.menubar.on_menuitem_resume_activate(data)
-
-    def on_toolbutton_queueup_clicked(self, data):
-        log.debug("on_toolbutton_queueup_clicked")
-        # Use the menubar's callbacks
-        self.window.menubar.on_menuitem_queueup_activate(data)
-
-    def on_toolbutton_queuedown_clicked(self, data):
-        log.debug("on_toolbutton_queuedown_clicked")
-        # Use the menubar's callbacks
-        self.window.menubar.on_menuitem_queuedown_activate(data)
 
     def on_toolbutton_preferences_clicked(self, data):
         log.debug("on_toolbutton_preferences_clicked")

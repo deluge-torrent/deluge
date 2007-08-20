@@ -47,14 +47,14 @@ log = logging.getLogger("deluge")
 
 class TorrentView(listview.ListView):
     def __init__(self, window):
-        # Call the ListView constructor
-        listview.ListView.__init__(self)
-        log.debug("TorrentView Init..")
         self.window = window
+        # Call the ListView constructor
+        listview.ListView.__init__(self, 
+                            self.window.main_glade.get_widget("torrent_view"))
+        log.debug("TorrentView Init..")
         self.core = functions.get_core()
-        # Set the treeview used in listview with the one from our glade file
-        self.set_treeview(self.window.main_glade.get_widget("torrent_view"))
-
+        
+        # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
         self.add_texticon_column("Name")
         self.add_func_column("Size", 

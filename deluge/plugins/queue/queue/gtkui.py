@@ -58,6 +58,11 @@ class GtkUI:
         proxy = bus.get_object("org.deluge_torrent.Deluge", 
                                "/org/deluge_torrent/Plugin/Queue")
         self.core = dbus.Interface(proxy, "org.deluge_torrent.Deluge.Queue")
+        
+        # Connect to the 'torrent_queue_changed' signal
+        self.core.connect_to_signal("torrent_queue_changed", 
+                                        self.torrent_queue_changed_signal)
+        
         # Get the torrentview component from the plugin manager
         self.torrentview = self.plugin.get_torrentview()
         # Add the '#' column at the first position
@@ -65,7 +70,41 @@ class GtkUI:
                                         col_type=int,
                                         position=0, 
                                         get_function=self.column_get_function)
+        # Add a toolbar buttons
+        self.plugin.get_toolbar().add_separator()
+        self.plugin.get_toolbar().add_toolbutton(stock="gtk-go-up", 
+                                    label="Queue Up", 
+                                    tooltip="Queue selected torrents up",
+                                    callback=self.on_queueup_toolbutton_clicked)
+
+        self.plugin.get_toolbar().add_toolbutton(stock="gtk-go-down", 
+                                label="Queue Down", 
+                                tooltip="Queue selected torrents down",
+                                callback=self.on_queuedown_toolbutton_clicked)
+
+    def on_queuedown_toolbutton_clicked(self, widget):
+        log.debug("Queue down toolbutton clicked.")
+        # Get the selected torrents
+        torrent_ids = self.plugin.get_selected_torrents()
+        for torrent_id in torrent_ids:
+            self.core.queue_down(torrent_id)
+        return
+        
+    def on_queueup_toolbutton_clicked(self, widget):
+        log.debug("Queue Up toolbutton clicked.")    
+        # Get the selected torrents
+        torrent_ids = self.plugin.get_selected_torrents()
+        for torrent_id in torrent_ids:
+            self.core.queue_up(torrent_id)
+        return
     
+    def torrent_queue_changed_signal(self):
+        """This function is called whenever we receive a 'torrent_queue_changed'
+        signal from the core plugin.
+        """
+        log.debug("torrent_queue_changed signal received..")
+        return
+        
     def column_get_function(self, torrent_id):
         """Returns the queue position for torrent_id"""
         # Return the value + 1 because we want the queue list to start at 1

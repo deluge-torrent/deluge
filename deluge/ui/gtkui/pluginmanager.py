@@ -70,3 +70,11 @@ class PluginManager:
     def get_torrentview(self):
         """Returns a reference to the torrentview component"""
         return self._gtkui.mainwindow.torrentview
+
+    def get_toolbar(self):
+        """Returns a reference to the toolbar component"""
+        return self._gtkui.mainwindow.toolbar
+    
+    def get_selected_torrents(self):
+        """Returns a list of the selected torrent_ids"""
+        return self._gtkui.mainwindow.torrentview.get_selected_torrents()

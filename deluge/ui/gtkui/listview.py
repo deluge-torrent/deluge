@@ -124,6 +124,7 @@ class ListView:
     
     def set_treeview(self, treeview_widget):
         self.treeview = treeview_widget
+        self.treeview.set_model(self.liststore)
         return
         
     def get_column_index(self, name):
