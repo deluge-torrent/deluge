@@ -56,29 +56,36 @@ class TorrentView(listview.ListView):
         
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
-        self.add_texticon_column("Name")
+        self.add_texticon_column("Name", status_field=["name"])
         self.add_func_column("Size", 
                                             listview.cell_data_size, 
-                                            [long])
-        self.add_progress_column("Progress")
+                                            [long],
+                                            status_field=["total_size"])
+        self.add_progress_column("Progress", status_field=["progress", "state"])
         self.add_func_column("Seeders",
-                                            listview.cell_data_peer,
-                                            [int, int])
+                                        listview.cell_data_peer,
+                                        [int, int],
+                                        status_field=["num_seeds", "num_seeds"])
         self.add_func_column("Peers",
-                                            listview.cell_data_peer,
-                                            [int, int])
+                                        listview.cell_data_peer,
+                                        [int, int],
+                                        status_field=["num_peers", "num_peers"])
         self.add_func_column("Down Speed",
-                                            listview.cell_data_speed,
-                                            [float])
+                                        listview.cell_data_speed,
+                                        [float],
+                                        status_field=["download_payload_rate"])
         self.add_func_column("Up Speed",
-                                            listview.cell_data_speed,
-                                            [float])
+                                        listview.cell_data_speed,
+                                        [float],
+                                        status_field=["upload_payload_rate"])
         self.add_func_column("ETA",
                                             listview.cell_data_time,
-                                            [int])
+                                            [int],
+                                            status_field=["eta"])
         self.add_func_column("Ratio",
                                             listview.cell_data_ratio,
-                                            [float])
+                                            [float],
+                                            status_field=["ratio"])
 
         self.window.main_glade.get_widget("menu_columns").set_submenu(
                         self.menu)
@@ -93,19 +100,45 @@ class TorrentView(listview.ListView):
         self.treeview.get_selection().connect("changed", 
                                     self.on_selection_changed)
     
-    def update(self):
-        """Update the view, this is likely called by a timer"""
+    def update(self, columns=None):
+        """Update the view.  If columns is not None, it will attempt to only
+        update those columns selected.
+        """
         # This function is used for the foreach method of the treemodel
         def update_row(model, path, row, user_data):
             torrent_id = self.liststore.get_value(row, 0)
-            status_keys = ["progress", "state", "num_seeds", 
-                    "num_peers", "download_payload_rate", "upload_payload_rate",
-                    "eta"]
+            status_keys = []
+            if columns is None:
+                # Iterate through the list of columns and only add the 
+                # 'status-fields' of the visible ones.
+                for column in self.columns.values():
+                    # Make sure column is visible and has 'status_field' set.
+                    # If not, we can ignore it.
+                    if column.column.get_visible() is True \
+                        and column.hidden is False \
+                            and column.status_field is not None:
+                        for field in column.status_field:
+                            status_keys.append(field)                                
+            else:
+                # Iterate through supplied list of columns to update
+                for column in columns:
+                    if self.columns[column.name].column.get_visible() is True \
+                        and self.columns[column.name].hidden is False \
+                        and self.columns[column.name].status_field is not None:
+                        for field in self.columns[column.name].status_field:
+                            status_keys.append(field)
+            
+            # If there is nothing in status_keys then we must not continue
+            if status_keys is []:
+                return
+                
+            # Remove duplicates from status_key list
+            status_keys = list(set(status_keys))
             status = functions.get_torrent_status(self.core, torrent_id,
                     status_keys)
                                        
             # Set values for each column in the row
-
+            # FIXME: Need to update based on 'status_keys'
             self.liststore.set_value(row, 
                             self.get_column_index("Progress")[0], 
                             status["progress"]*100)

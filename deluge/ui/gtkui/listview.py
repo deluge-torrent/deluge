@@ -90,6 +90,9 @@ class ListView:
             # The get_function is called when a column is in need of an update
             # This is primarily used by plugins.
             self.get_function = None
+            # This is the name of the status field that the column will query
+            # the core for if an update is called.
+            self.status_field = None
             # If column is 'hidden' then it will not be visible and will not
             # show up in any menu listing;  it cannot be shown ever.
             self.hidden = False
@@ -216,7 +219,8 @@ class ListView:
         return
     
     def add_text_column(self, header, col_type=str, hidden=False, 
-                                            position=None, get_function=None):
+                                            position=None, get_function=None,
+                                            status_field=None):
         # Create a new column object and add it to the list
         self.liststore_columns.append(col_type)
         # Add to the index list so we know the order of the visible columns.
@@ -233,6 +237,8 @@ class ListView:
         # value.
         if get_function is not None:
             self.columns[header].get_function = get_function
+            
+        self.columns[header].status_field = status_field
         
         # Create a new list with the added column
         self.create_new_liststore()
@@ -261,7 +267,8 @@ class ListView:
         return True
         
     def add_func_column(self, header, function, column_types, sortid=0, 
-                                hidden=False, position=None, get_function=None):
+                                hidden=False, position=None, get_function=None,
+                                            status_field=None):
         # Add the new column types to the list and keep track of the liststore
         # columns that this column object uses.
         # Set sortid to the column index relative the to column_types used.
@@ -273,9 +280,6 @@ class ListView:
             column_indices.append(len(self.liststore_columns) - 1)
         
         # Add to the index list so we know the order of the visible columns.
-        self.column_index.append(header)
-
-        # Add to the index list so we know the order of the visible columns.
         if position is not None:
             self.column_index.insert(position, header)
         else:
@@ -283,7 +287,9 @@ class ListView:
 
         # Create a new column object and add it to the list    
         self.columns[header] = self.ListViewColumn(header, column_indices)
-        
+
+        self.columns[header].status_field = status_field
+                
         # Create new list with the added columns
         self.create_new_liststore()
         
@@ -316,7 +322,8 @@ class ListView:
         return True
 
     def add_progress_column(self, header, hidden=False, position=None, 
-                                                            get_function=None):
+                                            get_function=None,
+                                            status_field=None):
         # For the progress value
         self.liststore_columns.append(float)
         # For the text
@@ -324,16 +331,14 @@ class ListView:
         column_indices = [len(self.liststore_columns) - 2, 
                                             len(self.liststore_columns) - 1]
         # Add to the index list so we know the order of the visible columns.
-        self.column_index.append(header)
-
-        # Add to the index list so we know the order of the visible columns.
         if position is not None:
             self.column_index.insert(position, header)
         else:
             self.column_index.append(header)        
         # Create a new column object and add it to the list
         self.columns[header] = self.ListViewColumn(header, column_indices)
-        
+
+        self.columns[header].status_field = status_field
         # Create new list with the added columns
         self.create_new_liststore()
         
@@ -361,15 +366,14 @@ class ListView:
         return True
         
     def add_texticon_column(self, header, hidden=False, position=None, 
-                                                            get_function=None):
+                                            get_function=None,
+                                            status_field=None):
         # For icon
         self.liststore_columns.append(gtk.gdk.Pixbuf)
         # For text
         self.liststore_columns.append(str)
         column_indices = [len(self.liststore_columns) - 2, 
                                             len(self.liststore_columns) - 1]
-        # Add to the index list so we know the order of the visible columns.
-        self.column_index.append(header)
 
         # Add to the index list so we know the order of the visible columns.
         if position is not None:
@@ -378,7 +382,7 @@ class ListView:
             self.column_index.append(header)
             
         self.columns[header] = self.ListViewColumn(header, column_indices)
-
+        self.columns[header].status_field = status_field
         # Create new list with the added columns
         self.create_new_liststore()
         
