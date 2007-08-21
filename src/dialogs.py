@@ -40,7 +40,7 @@ import pref
 PREFS_FILENAME  = "prefs.state"
 
 class PreferencesDlg:
-    def __init__(self, preferences, active_port):
+    def __init__(self, preferences, active_port, plugins):
         self.glade = gtk.glade.XML(common.get_glade_file("preferences_dialog.glade"), domain='deluge')
         self.dialog = self.glade.get_widget("pref_dialog")
         self.dialog.set_position(gtk.WIN_POS_CENTER)
@@ -55,7 +55,23 @@ class PreferencesDlg:
         
         self.preferences = preferences
         self.active_port = str(active_port)
-        
+        #init plugin info
+        self.view = self.glade.get_widget("plugin_view")
+        self.store = gtk.ListStore(str, bool)
+        self.store.set_sort_column_id(0, gtk.SORT_ASCENDING)
+        self.view.set_model(self.store)
+        try:
+            self.view.get_selection().set_select_function(self.plugin_clicked, full=True)
+        except TypeError:
+            self.view.get_selection().set_select_function(self.old_clicked)
+        name_col = dgtk.add_text_column(self.view, _("Plugin"), 0)
+        name_col.set_expand(True)
+        dgtk.add_toggle_column(self.view, _("Enabled"), 1, toggled_signal=self.plugin_toggled)
+        signals = {'plugin_pref':      self.plugin_pref,
+                   'on_close_clicked': self.close_clicked}
+        self.glade.signal_autoconnect(signals)
+        self.plugins = plugins
+
     def show(self, interface, window):
         # Load settings into dialog
         try:
@@ -151,7 +167,16 @@ class PreferencesDlg:
             
         except KeyError:
             pass
-        # Now, show the dialog
+        # plugin tab
+        self.store.clear()
+        for plugin in self.plugins.get_available_plugins():
+            #print plugin
+            if plugin in self.plugins.get_enabled_plugins():
+                self.store.append( (plugin, True) )
+            else:
+                self.store.append( (plugin, False) )
+        self.glade.get_widget("plugin_text").get_buffer().set_text("")
+        self.glade.get_widget("plugin_conf").set_sensitive(False)
         self.dialog.set_transient_for(window)
         self.dialog.show()
 
@@ -225,7 +250,49 @@ class PreferencesDlg:
 
     def cancel_clicked(self, source):
         self.dialog.hide()
-            
+
+    def close_clicked(self, source):
+        self.dialog.hide()
+    
+    def old_clicked(self, path):
+        return self.plugin_clicked(self.view.get_selection(), self.store, path, False)
+    
+    def plugin_clicked(self, selection, model, path, is_selected):
+        if is_selected:
+            return True
+        name = model.get_value(model.get_iter(path), 0)
+        plugin = self.plugins.get_plugin(name)
+        author = plugin.plugin_author
+        version = plugin.plugin_version
+        description = plugin.plugin_description
+        if name in self.plugins.get_enabled_plugins():
+            config = self.plugins.configurable_plugin(name)
+            self.glade.get_widget("plugin_conf").set_sensitive(config)
+        else:
+            self.glade.get_widget("plugin_conf").set_sensitive(False)
+        self.glade.get_widget("plugin_text").get_buffer(
+            ).set_text("%s\nBy: %s\nVersion: %s\n\n%s"%
+            (name, author, version, description))
+        return True
+
+    def plugin_toggled(self, renderer, path):
+        plugin_iter = self.store.get_iter_from_string(path)
+        plugin_name = self.store.get_value(plugin_iter, 0)
+        plugin_value = not self.store.get_value(plugin_iter, 1)
+        self.store.set_value(plugin_iter, 1, plugin_value)
+        if plugin_value:
+            self.plugins.enable_plugin(plugin_name)
+            config = self.plugins.configurable_plugin(plugin_name)
+            self.glade.get_widget("plugin_conf").set_sensitive(config)
+        else:
+            self.plugins.disable_plugin(plugin_name)
+            self.glade.get_widget("plugin_conf").set_sensitive(False)
+                
+    def plugin_pref(self, widget=None):
+        (model, plugin_iter) = self.view.get_selection().get_selected()
+        plugin_name = self.store.get_value(plugin_iter, 0)
+        self.plugins.configure_plugin(plugin_name, self.dialog)
+
     def TestPort(self, widget):
         common.open_url_in_browser('http://www.deluge-torrent.org/test-port.php?port=%s' % self.active_port)
     
@@ -331,84 +398,6 @@ class FilesDlg:
     
     def get_priorities(self):
         return self.files_manager.get_priorities()
-
-class PluginDlg:
-    def __init__(self, plugins):
-        self.glade = gtk.glade.XML(common.get_glade_file("plugin_dialog.glade"), domain='deluge')
-        self.dialog = self.glade.get_widget("plugin_dialog")
-        self.dialog.set_position(gtk.WIN_POS_CENTER)
-        self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
-        self.view = self.glade.get_widget("plugin_view")
-        self.store = gtk.ListStore(str, bool)
-        self.store.set_sort_column_id(0, gtk.SORT_ASCENDING)
-        self.view.set_model(self.store)
-        try:
-            self.view.get_selection().set_select_function(self.plugin_clicked, full=True)
-        except TypeError:
-            self.view.get_selection().set_select_function(self.old_clicked)
-        name_col = dgtk.add_text_column(self.view, _("Plugin"), 0)
-        name_col.set_expand(True)
-        dgtk.add_toggle_column(self.view, _("Enabled"), 1, toggled_signal=self.plugin_toggled)
-        signals = {'plugin_pref':      self.plugin_pref,
-                   'on_close_clicked': self.close_clicked}
-        self.glade.signal_autoconnect(signals)
-        self.plugins = plugins
-
-    def show(self, window):
-        self.store.clear()
-        for plugin in self.plugins.get_available_plugins():
-            #print plugin
-            if plugin in self.plugins.get_enabled_plugins():
-                self.store.append( (plugin, True) )
-            else:
-                self.store.append( (plugin, False) )
-        self.glade.get_widget("plugin_text").get_buffer().set_text("")
-        self.glade.get_widget("plugin_conf").set_sensitive(False)
-        self.dialog.set_transient_for(window)
-        self.dialog.show()
-
-    def close_clicked(self, source):
-        self.dialog.hide()
-    
-    def old_clicked(self, path):
-        return self.plugin_clicked(self.view.get_selection(), self.store, path, False)
-    
-    def plugin_clicked(self, selection, model, path, is_selected):
-        if is_selected:
-            return True
-        name = model.get_value(model.get_iter(path), 0)
-        plugin = self.plugins.get_plugin(name)
-        author = plugin.plugin_author
-        version = plugin.plugin_version
-        description = plugin.plugin_description
-        if name in self.plugins.get_enabled_plugins():
-            config = self.plugins.configurable_plugin(name)
-            self.glade.get_widget("plugin_conf").set_sensitive(config)
-        else:
-            self.glade.get_widget("plugin_conf").set_sensitive(False)
-        self.glade.get_widget("plugin_text").get_buffer(
-            ).set_text("%s\nBy: %s\nVersion: %s\n\n%s"%
-            (name, author, version, description))
-        return True
-
-    def plugin_toggled(self, renderer, path):
-        plugin_iter = self.store.get_iter_from_string(path)
-        plugin_name = self.store.get_value(plugin_iter, 0)
-        plugin_value = not self.store.get_value(plugin_iter, 1)
-        self.store.set_value(plugin_iter, 1, plugin_value)
-        if plugin_value:
-            self.plugins.enable_plugin(plugin_name)
-            config = self.plugins.configurable_plugin(plugin_name)
-            self.glade.get_widget("plugin_conf").set_sensitive(config)
-        else:
-            self.plugins.disable_plugin(plugin_name)
-            self.glade.get_widget("plugin_conf").set_sensitive(False)
-                
-    def plugin_pref(self, widget=None):
-        (model, plugin_iter) = self.view.get_selection().get_selected()
-        plugin_name = self.store.get_value(plugin_iter, 0)
-        self.plugins.configure_plugin(plugin_name, self.dialog)
-
 
 def show_about_dialog(parent=None):
         def url_hook(dialog, url):
