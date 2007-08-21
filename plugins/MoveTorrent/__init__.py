@@ -120,7 +120,7 @@ class movetorrentMenu:
     def handle_event(self, event):
         if event['event_type'] is self.core.constants['EVENT_STORAGE_MOVED']:
             if event['message'] == self.core.unique_IDs[event['unique_ID']].save_dir:
-                self.dialogs.show_popup_warning(self.window, _("You cannot move torrent to a different partition. Please check your preferences. Or perhalps you are trying to move torrent's files to the same directory they are already stored?"))
+                self.dialogs.show_popup_warning(self.window, _("You cannot move torrent to a different partition. Please check your preferences. Or perhaps you are trying to move torrent's files to the same directory they are already stored?"))
             self.core.unique_IDs[event['unique_ID']].save_dir = event['message']
             self.core.pickle_state()
                     
