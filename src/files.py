@@ -101,7 +101,7 @@ class FilesBaseManager(object):
 
     def compact_allocation_warning(self):
         msgBox = gtk.MessageDialog(parent = None, buttons = gtk.BUTTONS_OK, 
-            message_format = (_("File priority can only be set when using full allocation.\nPlease change your preference to disable compact allocation, then remove and readd this torrent.")))
+            message_format = (_("File priority can only be set when using full allocation.\nPlease change your preference to disable compact allocation, then remove and re-add this torrent.")))
         msgBox.run()
         msgBox.destroy()
     
