@@ -210,7 +210,6 @@ class DelugeGTK:
             "quit": self.quit,
             "pause_all": self.pause_all_clicked,
             "resume_all": self.resume_all_clicked,
-            "plugins": self.show_plugin_dialog_clicked,
             "preferences": self.show_preferences_dialog_clicked,
             "add_torrent": self.add_torrent_clicked,
             "show_hide_window_toggled": self.show_hide_window_toggled
