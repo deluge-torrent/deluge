@@ -1,12 +1,13 @@
 glade/delugegtk.glade
 glade/dgtkpopups.glade
 glade/file_tab_menu.glade
-glade/file_tab_menu.glade
 glade/merge_dialog.glade
-glade/plugin_dialog.glade
 glade/preferences_dialog.glade
 glade/torrent_menu.glade
 glade/tray_menu.glade
+glade/edit_trackers.glade
+glade/aboutdialog.glade
+glade/files_dialog.glade
 src/tab_details.py
 src/update.py
 src/interface.py
@@ -52,3 +53,7 @@ plugins/TorrentPieces/pieces_preferences.glade
 plugins/TorrentPeers/peers_preferences.glade
 plugins/ExtraStats/__init__.py
 plugins/ExtraStats/stats_preferences.glade
+plugins/MoveTorrent/__init__.py
+plugins/MoveTorrent/movetorrent.glade
+plugins/WebSeed/__init__.py
+plugins/WebSeed/webseed.glade
