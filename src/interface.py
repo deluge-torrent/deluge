@@ -80,15 +80,8 @@ class DelugeGTK:
         
         self.statusbar = self.wtree.get_widget("statusbar")
         
-        ## Construct the Interface
-        try:
-            self.build_tray_icon()
-        except AttributeError:
-            #python-pygtk is < 2.9
-            self.tray_icon = dgtk.StupidTray()
-            self.has_tray = False
-        else:
-            self.has_tray = True
+        self.build_tray_icon()
+        self.has_tray = True
         
         self.build_torrent_table()
         self.load_status_icons()

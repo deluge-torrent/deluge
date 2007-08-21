@@ -40,15 +40,6 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 
-# This is a dummy tray object to allow Deluge to run on PyGTK < 2.9
-class StupidTray:
-    def __init__(self):
-        pass
-    def set_visible(self, value):
-        pass
-    def set_tooltip(self, value):
-        pass
-
 ## Cell data functions to pass to add_func_column()
 
 def cell_data_speed(column, cell, model, iter, data):
