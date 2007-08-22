@@ -69,7 +69,6 @@ class GtkUI:
         self.torrentview.add_text_column("#", 
                                         col_type=int,
                                         position=0, 
-                                        get_function=self.column_get_function,
                                         status_field=["queue"])
         # Add a toolbar buttons
         self.plugin.get_toolbar().add_separator()
@@ -107,9 +106,4 @@ class GtkUI:
         # We only need to update the queue column
         self.torrentview.update(["#"])
         return
-        
-    def column_get_function(self, torrent_id):
-        """Returns the queue position for torrent_id"""
-        # Return the value + 1 because we want the queue list to start at 1
-        # for the user display.
-        return self.core.get_position(torrent_id) + 1
+

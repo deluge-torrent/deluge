@@ -56,7 +56,7 @@ class TorrentView(listview.ListView):
         
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
-        self.add_texticon_column("Name", status_field=["name"])
+        self.add_text_column("Name", status_field=["name"])
         self.add_func_column("Size", 
                                             listview.cell_data_size, 
                                             [long],
@@ -104,113 +104,80 @@ class TorrentView(listview.ListView):
         """Update the view.  If columns is not None, it will attempt to only
         update those columns selected.
         """
-        # This function is used for the foreach method of the treemodel
-        def update_row(model, path, row, user_data):
-            torrent_id = self.liststore.get_value(row, 0)
-            # Store the 'status_fields' we need to send to core
-            status_keys = []
-            # Store the actual columns we will be updating
-            columns_to_update = []
-            if columns is None:
-                # Iterate through the list of columns and only add the 
-                # 'status-fields' of the visible ones.
-                for column in self.columns.values():
-                    # Make sure column is visible and has 'status_field' set.
-                    # If not, we can ignore it.
-                    if column.column.get_visible() is True \
-                        and column.hidden is False \
-                            and column.status_field is not None:
-                        for field in column.status_field:
-                            status_keys.append(field)
-                            columns_to_update.append(column.name)                           
-            else:
-                # Iterate through supplied list of columns to update
-                for column in columns:
-                    if self.columns[column].column.get_visible() is True \
-                        and self.columns[column].hidden is False \
-                        and self.columns[column].status_field is not None:
-                        for field in self.columns[column].status_field:
-                            status_keys.append(field)
-                            columns_to_update.append(column)
-            
-            # If there is nothing in status_keys then we must not continue
-            if status_keys is []:
-                return
-                
-            # Remove duplicates from status_key list
-            status_keys = list(set(status_keys))
-            status = functions.get_torrent_status(self.core, torrent_id,
-                    status_keys)
-                                       
-            # Set values for each column in the row
-            for column in columns_to_update:
-                if type(self.get_column_index(column)) is not list:
-                    # We only have a single list store column we need to update
-                    self.liststore.set_value(row,
-                                self.get_column_index(column),
-                                status[self.columns[column].status_field[0]])
-                else:
-                    # We have more than 1 liststore column to update
-                    i = 0
-                    for index in self.get_column_index(column):
-                        # Only update the column if the status field exists
-                        try:
-                            self.liststore.set_value(row,
-                                index,
-                                status[self.columns[column].status_field[i]])
-                        except:
-                            pass
-                        i = i + 1
-                    
-
         # Iterates through every row and updates them accordingly
         if self.liststore is not None:
-            self.liststore.foreach(update_row, None)
-    
-    def add_row(self, torrent_id):
-        """Adds a new torrent row to the treeview"""
-        ## REWRITE TO USE STATUS FIELDS
-        # Get the status and info dictionaries
-        status_keys = ["name", "total_size", "progress", "state",
-                "num_seeds", "num_peers", "download_payload_rate",
-                "upload_payload_rate", "eta"]
+            self.liststore.foreach(self.update_row, columns)
+            
+    def update_row(self, model, path, row, columns=None):
+        torrent_id = self.liststore.get_value(row, 
+                                self.columns["torrent_id"].column_indices[0])
+        # Store the 'status_fields' we need to send to core
+        status_keys = []
+        # Store the actual columns we will be updating
+        columns_to_update = []
+        if columns is None:
+            # Iterate through the list of columns and only add the 
+            # 'status-fields' of the visible ones.
+            for column in self.columns.values():
+                # Make sure column is visible and has 'status_field' set.
+                # If not, we can ignore it.
+                if column.column.get_visible() is True \
+                    and column.hidden is False \
+                        and column.status_field is not None:
+                    for field in column.status_field:
+                        status_keys.append(field)
+                        columns_to_update.append(column.name)                           
+        else:
+            # Iterate through supplied list of columns to update
+            for column in columns:
+                if self.columns[column].column.get_visible() is True \
+                    and self.columns[column].hidden is False \
+                    and self.columns[column].status_field is not None:
+                    for field in self.columns[column].status_field:
+                        status_keys.append(field)
+                        columns_to_update.append(column)
+        
+        # If there is nothing in status_keys then we must not continue
+        if status_keys is []:
+            return
+            
+        # Remove duplicates from status_key list
+        status_keys = list(set(status_keys))
         status = functions.get_torrent_status(self.core, torrent_id,
                 status_keys)
-                
-        row_list = [
-                torrent_id,
-                None,
-                status["name"],
-                status["total_size"],
-                status["progress"]*100,
-                status["state"],
-                status["num_seeds"],
-                status["num_seeds"],
-                status["num_peers"],
-                status["num_peers"],
-                status["download_payload_rate"],
-                status["upload_payload_rate"],
-                status["eta"],
-                0.0
-            ]
 
-        # Insert any column info from get_functions.. this is usually from
-        # plugins
-        for column in self.columns.values():
-            if column.get_function is not None:
-                if len(column.column_indices) == 1:
-                    row_list.insert(column.column_indices[0], 
-                                                column.get_function(torrent_id))
-                else:
-                    result = column.get_function(torrent_id)
-                    r_index = 0
-                    for index in column.column_indices:
-                        row_list.insert(index, result[r_index])
-                        r_index = r_index + 1
-
-        # Insert the row with info provided from core
-        self.liststore.append(row_list)
-            
+        # Set values for each column in the row
+        for column in columns_to_update:
+            if type(self.get_column_index(column)) is not list:
+                # We only have a single list store column we need to update
+                self.liststore.set_value(row,
+                            self.get_column_index(column),
+                            status[self.columns[column].status_field[0]])
+            else:
+                # We have more than 1 liststore column to update
+                i = 0
+                for index in self.get_column_index(column):
+                    # Only update the column if the status field exists
+                    try:
+                        self.liststore.set_value(row,
+                            index,
+                            status[self.columns[column].status_field[i]])
+                    except:
+                        pass
+                    i = i + 1
+                        
+    def add_row(self, torrent_id):
+        """Adds a new torrent row to the treeview"""
+        # Insert a new row to the liststore
+        row = self.liststore.append()
+        # Store the torrent id
+        self.liststore.set_value(
+                    row,
+                    self.columns["torrent_id"].column_indices[0], 
+                    torrent_id)
+        # Update the new row so 
+        self.update_row(None, None, row)
+        
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""
         row = self.liststore.get_iter_first()
