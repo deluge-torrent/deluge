@@ -69,7 +69,8 @@ class GtkUI:
         self.torrentview.add_text_column("#", 
                                         col_type=int,
                                         position=0, 
-                                        get_function=self.column_get_function)
+                                        get_function=self.column_get_function,
+                                        status_field=["queue"])
         # Add a toolbar buttons
         self.plugin.get_toolbar().add_separator()
         self.plugin.get_toolbar().add_toolbutton(stock="gtk-go-up", 
@@ -103,6 +104,8 @@ class GtkUI:
         signal from the core plugin.
         """
         log.debug("torrent_queue_changed signal received..")
+        # We only need to update the queue column
+        self.torrentview.update(["#"])
         return
         
     def column_get_function(self, torrent_id):

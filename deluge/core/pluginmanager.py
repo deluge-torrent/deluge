@@ -47,6 +47,8 @@ class PluginManager:
             "post_torrent_remove": []
         }
         
+        self.status_fields = {}
+        
         # This will load any .eggs in the plugins folder inside the main
         # deluge egg.. Need to scan the local plugin folder too.
         
@@ -69,6 +71,21 @@ class PluginManager:
            
     def __getitem__(self, key):
         return self.plugins[key]
+        
+    def register_status_field(self, field, function):
+        """Register a new status field.  This can be used in the same way the
+        client requests other status information from core."""
+        self.status_fields[field] = function
+    
+    def get_status(self, torrent_id, fields):
+        status = {}
+        for field in fields:
+            try:
+                status[field] = self.status_fields[field](torrent_id)
+            except KeyError:
+                log.warning("Status field %s is not registered with the\
+                                                                PluginManager.")
+        return status
         
     def register_hook(self, hook, function):
         """Register a hook function with the plugin manager"""

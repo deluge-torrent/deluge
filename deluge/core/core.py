@@ -155,8 +155,12 @@ class Core(dbus.service.Object):
         nkeys = []
         for key in keys:
             nkeys.append(str(key))
-        # Pickle the status dictionary from the torrent and return it
+        # Pickle the status dictionary from the torrent
         status = self.torrents[torrent_id].get_status(nkeys)
+        # Get the leftover fields and ask the plugin manager to fill them
+        leftover_fields = list(set(nkeys) - set(status.keys()))
+        if len(leftover_fields) > 0:
+            status.update(self.plugins.get_status(torrent_id, leftover_fields))
         status = pickle.dumps(status)
         return status
         

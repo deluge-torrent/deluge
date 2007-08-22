@@ -126,10 +126,10 @@ class TorrentView(listview.ListView):
             else:
                 # Iterate through supplied list of columns to update
                 for column in columns:
-                    if self.columns[column.name].column.get_visible() is True \
-                        and self.columns[column.name].hidden is False \
-                        and self.columns[column.name].status_field is not None:
-                        for field in self.columns[column.name].status_field:
+                    if self.columns[column].column.get_visible() is True \
+                        and self.columns[column].hidden is False \
+                        and self.columns[column].status_field is not None:
+                        for field in self.columns[column].status_field:
                             status_keys.append(field)
                             columns_to_update.append(column)
             
@@ -169,6 +169,7 @@ class TorrentView(listview.ListView):
     
     def add_row(self, torrent_id):
         """Adds a new torrent row to the treeview"""
+        ## REWRITE TO USE STATUS FIELDS
         # Get the status and info dictionaries
         status_keys = ["name", "total_size", "progress", "state",
                 "num_seeds", "num_peers", "download_payload_rate",

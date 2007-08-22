@@ -69,6 +69,7 @@ class Core(dbus.service.Object):
         self.plugin.register_hook("post_torrent_add", self.post_torrent_add)
         self.plugin.register_hook("post_torrent_remove", 
                                                     self.post_torrent_remove)
+        self.plugin.register_status_field("queue", self.status_field_queue)
         
         log.info("Queue Core plugin initialized..")
     
@@ -80,7 +81,11 @@ class Core(dbus.service.Object):
     def post_torrent_remove(self, torrent_id):
         if torrent_id is not None:
             self.queue.remove(torrent_id)
-            
+    
+    ## Status field function ##
+    def status_field_queue(self, torrent_id):
+        return self.queue[torrent_id]+1
+        
     ## Queueing functions ##
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge.Queue", 
                                     in_signature="s", out_signature="")
