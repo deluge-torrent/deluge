@@ -1480,7 +1480,7 @@ namespace libtorrent
 
 		assert(!m_have_piece.empty());
 		std::fill(m_have_piece.begin(), m_have_piece.end(), true);
-        m_num_pieces = m_have_piece.size();
+		m_num_pieces = m_have_piece.size();
 		
 		t->peer_has_all();
 		if (!t->is_finished())
@@ -1563,13 +1563,9 @@ namespace libtorrent
 		boost::shared_ptr<torrent> t = m_torrent.lock();
 		assert(t);
 
-		for (std::vector<int>::iterator i = m_allowed_fast.begin()
-			, end(m_allowed_fast.end()); i != end; ++i)
-		{
-			if (!t->have_piece(*i)) continue;
-			*i = m_allowed_fast.back();
-			m_allowed_fast.pop_back();
-		}
+		m_allowed_fast.erase(std::remove_if(m_allowed_fast.begin()
+			, m_allowed_fast.end(), bind(&torrent::have_piece, t, _1))
+			, m_allowed_fast.end());
 
 		// TODO: sort the allowed fast set in priority order
 		return m_allowed_fast;
@@ -1683,6 +1679,8 @@ namespace libtorrent
 	{
 		INVARIANT_CHECK;
 
+		assert(!m_peer_info || !m_peer_info->optimistically_unchoked);
+
 		if (m_choked) return;
 		write_choke();
 		m_choked = true;
@@ -1700,14 +1698,6 @@ namespace libtorrent
 	void peer_connection::send_unchoke()
 	{
 		INVARIANT_CHECK;
-
-#ifndef NDEBUG
-		// TODO: once the policy lowers the interval for optimistic
-		// unchoke, increase this value that interval
-		// this condition cannot be guaranteed since if peers disconnect
-		// a new one will be unchoked ignoring when it was last choked
-		//assert(time_now() - m_last_choke > seconds(9));
-#endif
 
 		if (!m_choked) return;
 		write_unchoke();
@@ -1904,7 +1894,7 @@ namespace libtorrent
 	void peer_connection::set_upload_limit(int limit)
 	{
 		assert(limit >= -1);
-		if (limit == -1) limit = std::numeric_limits<int>::max();
+		if (limit == -1) limit = (std::numeric_limits<int>::max)();
 		if (limit < 10) limit = 10;
 		m_upload_limit = limit;
 		m_bandwidth_limit[upload_channel].throttle(m_upload_limit);
@@ -1913,7 +1903,7 @@ namespace libtorrent
 	void peer_connection::set_download_limit(int limit)
 	{
 		assert(limit >= -1);
-		if (limit == -1) limit = std::numeric_limits<int>::max();
+		if (limit == -1) limit = (std::numeric_limits<int>::max)();
 		if (limit < 10) limit = 10;
 		m_download_limit = limit;
 		m_bandwidth_limit[download_channel].throttle(m_download_limit);
@@ -1931,7 +1921,7 @@ namespace libtorrent
 		// if we have an infinite ratio, just say we have downloaded
 		// much more than we have uploaded. And we'll keep uploading.
 		if (ratio == 0.f)
-			return std::numeric_limits<size_type>::max();
+			return (std::numeric_limits<size_type>::max)();
 
 		return m_free_upload
 			+ static_cast<size_type>(m_statistics.total_payload_download() * ratio)
@@ -2013,6 +2003,7 @@ namespace libtorrent
 			p.failcount = peer_info_struct()->failcount;
 			p.num_hashfails = peer_info_struct()->hashfails;
 			p.flags |= peer_info_struct()->on_parole ? peer_info::on_parole : 0;
+			p.flags |= peer_info_struct()->optimistically_unchoked ? peer_info::optimistic_unchoke : 0;
 			p.remote_dl_rate = m_remote_dl_rate;
 		}
 		else
@@ -2171,7 +2162,7 @@ namespace libtorrent
 				+ bias) / break_even_time, double(m_upload_limit));
 
 			upload_speed_limit = (std::min)(upload_speed_limit,
-				(double)std::numeric_limits<int>::max());
+				(double)(std::numeric_limits<int>::max)());
 
 			m_bandwidth_limit[upload_channel].throttle(
 				(std::min)((std::max)((int)upload_speed_limit, 20)
@@ -2235,20 +2226,6 @@ namespace libtorrent
 			m_reading_bytes += r.length;
 
 			m_requests.erase(m_requests.begin());
-/*
-			if (m_requests.empty()
-				&& m_num_invalid_requests > 0
-				&& is_peer_interested()
-				&& !is_seed())
-			{
-				// this will make the peer clear
-				// its download queue and re-request
-				// pieces. Hopefully it will not
-				// send invalid requests then
-				send_choke();
-				send_unchoke();
-			}
-*/
 		}
 	}
 
@@ -2789,9 +2766,14 @@ namespace libtorrent
 	void peer_connection::check_invariant() const
 	{
 		if (m_peer_info)
+		{
 			assert(m_peer_info->connection == this
 				|| m_peer_info->connection == 0);
-	
+
+			if (m_peer_info->optimistically_unchoked)
+				assert(!is_choked());
+		}
+
 		boost::shared_ptr<torrent> t = m_torrent.lock();
 		if (!t)
 		{
