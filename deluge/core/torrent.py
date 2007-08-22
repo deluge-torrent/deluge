@@ -71,13 +71,16 @@ class Torrent:
         # Create the full dictionary
         status = self.handle.status()
         
+        # Adjust progress to be 0-100 value
+        progress = status.progress*100
+
         full_status = {
             "name": self.handle.torrent_info().name(),
             "total_size": self.handle.torrent_info().total_size(),
             "num_pieces": self.handle.status().num_pieces,
             "state": int(status.state),
             "paused": status.paused,
-            "progress": status.progress,
+            "progress": progress,
             "next_announce": status.next_announce.seconds,
             "total_payload_download": status.total_payload_download,
             "total_payload_upload": status.total_payload_upload,
@@ -86,7 +89,8 @@ class Torrent:
             "num_peers": status.num_peers,
             "num_seeds": status.num_seeds,
             "total_wanted": status.total_wanted,
-            "eta": self.get_eta()
+            "eta": self.get_eta(),
+            "ratio": 0.0
         }
         
         # Create the desired status dictionary and return it

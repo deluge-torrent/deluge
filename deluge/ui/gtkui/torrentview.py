@@ -107,7 +107,10 @@ class TorrentView(listview.ListView):
         # This function is used for the foreach method of the treemodel
         def update_row(model, path, row, user_data):
             torrent_id = self.liststore.get_value(row, 0)
+            # Store the 'status_fields' we need to send to core
             status_keys = []
+            # Store the actual columns we will be updating
+            columns_to_update = []
             if columns is None:
                 # Iterate through the list of columns and only add the 
                 # 'status-fields' of the visible ones.
@@ -118,7 +121,8 @@ class TorrentView(listview.ListView):
                         and column.hidden is False \
                             and column.status_field is not None:
                         for field in column.status_field:
-                            status_keys.append(field)                                
+                            status_keys.append(field)
+                            columns_to_update.append(column.name)                           
             else:
                 # Iterate through supplied list of columns to update
                 for column in columns:
@@ -127,6 +131,7 @@ class TorrentView(listview.ListView):
                         and self.columns[column.name].status_field is not None:
                         for field in self.columns[column.name].status_field:
                             status_keys.append(field)
+                            columns_to_update.append(column)
             
             # If there is nothing in status_keys then we must not continue
             if status_keys is []:
@@ -138,34 +143,25 @@ class TorrentView(listview.ListView):
                     status_keys)
                                        
             # Set values for each column in the row
-            # FIXME: Need to update based on 'status_keys'
-            self.liststore.set_value(row, 
-                            self.get_column_index("Progress")[0], 
-                            status["progress"]*100)
-            self.liststore.set_value(row,
-                            self.get_column_index("Progress")[1],
-                            status["state"])
-            self.liststore.set_value(row,
-                            self.get_column_index("Seeders")[0],  
-                            status["num_seeds"])
-            self.liststore.set_value(row,
-                            self.get_column_index("Seeders")[1],  
-                            status["num_seeds"])
-            self.liststore.set_value(row,
-                            self.get_column_index("Peers")[0],  
-                            status["num_peers"])
-            self.liststore.set_value(row,
-                            self.get_column_index("Peers")[1],  
-                            status["num_peers"])
-            self.liststore.set_value(row,
-                            self.get_column_index("Down Speed"),  
-                            status["download_payload_rate"])
-            self.liststore.set_value(row,
-                            self.get_column_index("Up Speed"),  
-                            status["upload_payload_rate"])
-            self.liststore.set_value(row,
-                            self.get_column_index("ETA"),
-                            status["eta"])
+            for column in columns_to_update:
+                if type(self.get_column_index(column)) is not list:
+                    # We only have a single list store column we need to update
+                    self.liststore.set_value(row,
+                                self.get_column_index(column),
+                                status[self.columns[column].status_field[0]])
+                else:
+                    # We have more than 1 liststore column to update
+                    i = 0
+                    for index in self.get_column_index(column):
+                        # Only update the column if the status field exists
+                        try:
+                            self.liststore.set_value(row,
+                                index,
+                                status[self.columns[column].status_field[i]])
+                        except:
+                            pass
+                        i = i + 1
+                    
 
         # Iterates through every row and updates them accordingly
         if self.liststore is not None:
