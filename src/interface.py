@@ -142,6 +142,7 @@ class DelugeGTK:
         signal.signal(signal.SIGTERM, self.manager.quit)
         signal.signal(signal.SIGHUP, self.manager.quit)
         self.dht_timer = 0
+        self.dht_skip = False
 
     def connect_signals(self):
         self.wtree.signal_autoconnect({
@@ -973,14 +974,12 @@ class DelugeGTK:
                 dht_peers = '?'
             if dht_peers == 0:
                 self.dht_timer += 1
-                if (self.dht_timer == 15) and (self.manager.get_state()['num_peers'] > 0):
-                    #dht has been on for 15 seconds but has 0 nodes
-                    #we probably have a corrupted dht.state file,
-                    #so let's clean things up
+                if (self.dht_timer == 20) and (self.manager.\
+                    get_state()['num_peers'] > 0) and (not self.dht_skip):
                     self.manager.set_DHT(False)
                     os.remove(common.CONFIG_DIR + '/dht.state')
                     self.manager.set_DHT(True)
-                    self.dht_timer = 0
+                    self.dht_skip = True
             else:
                 dht_peers = str(dht_peers)
             self.statusbar_temp_msg = self.statusbar_temp_msg + \
