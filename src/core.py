@@ -619,6 +619,9 @@ class Manager:
                 for callback in self.event_callbacks[event['event_type']]:
                     callback(event)
 
+            elif event['event_type'] is self.constants['EVENT_FINISHED']: 
+                if event['message'] == "torrent has finished downloading":
+
                     # Queue seeding torrent to bottom if needed
                     if self.get_pref('queue_seeds_to_bottom'):
                         self.queue_bottom(event['unique_ID'])
@@ -626,6 +629,7 @@ class Manager:
                 # save fast resume once torrent finishes so as to not recheck
                 # seed if client crashes
                 self.save_fastresume_data(event['unique_ID'])
+
             elif event['event_type'] is self.constants['EVENT_TRACKER_ANNOUNCE']:
                 self.set_supp_torrent_state_val(event['unique_ID'], 
                                                 "tracker_status",
