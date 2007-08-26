@@ -8,6 +8,7 @@ glade/tray_menu.glade
 glade/edit_trackers.glade
 glade/aboutdialog.glade
 glade/files_dialog.glade
+glade/wizard.glade
 src/tab_details.py
 src/update.py
 src/interface.py
