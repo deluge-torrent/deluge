@@ -51,7 +51,6 @@ class BlocklistImport:
         self.core = core
         self.interface = interface
         self.cancelled = False
-
         self.gtkconf = GTKConfig(self)
         self.gtkprog = GTKProgress(self)
         self.nimported = 0
@@ -100,6 +99,9 @@ class BlocklistImport:
             self.gtkprog.stop()
             return
 
+        print "Pausing all torrents ..."
+        self.core.pause_all()
+
         print "Starting import"
         ips = reader.next()
         curr = 0
@@ -127,6 +129,8 @@ class BlocklistImport:
 
         self.gtkprog.stop()
         self.cancelled = False
+        print "Resuming all torrents ..."
+        self.core.resume_all()
 
     def configure(self, window):
         self.gtkconf.start(self.config.get('listtype'),
