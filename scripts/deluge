@@ -44,6 +44,7 @@ import deluge.common
 import deluge.core
 import deluge._dbus as dbus
 import deluge.interface
+import deluge.pref
 
 parser = OptionParser(usage="%prog [options] [torrents to add]", 
                       version=deluge.common.PROGRAM_VERSION)
@@ -104,21 +105,21 @@ def get_cmd_line_torrents():
 
 def start_deluge():
     print "Starting new Deluge session..."
-
     upgrade_old_persistent_state()
-
     interface = deluge.interface.DelugeGTK()
-
     interface.start(get_cmd_line_torrents())
 
-
 bus = dbus.SessionBus()
-
 dbus_objects = dbus.Interface(bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus'), 'org.freedesktop.DBus').ListNames()
 
 if not "org.deluge_torrent.Deluge" in dbus_objects:
     print "no existing Deluge session"
+    if not os.path.exists(os.path.join(deluge.common.CONFIG_DIR, 'firstrun')):
+        import deluge.wizard
+        deluge.wizard.WizardGTK()
+
     start_deluge()
+
 else:
     ## This connects to the deluge interface
     print "create proxy object"
