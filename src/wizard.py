@@ -1,3 +1,6 @@
+"""
+this is our wizard which aids configuration for new users
+"""
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Marcos Pinto 2007 <markybob@gmail.com>
@@ -29,6 +32,9 @@
 #  statement from all source files in the program, then also delete it here.
 
 class WizardGTK:
+    """
+    the main window for our configuration wizard
+    """
     def __init__(self):
         import gtk
         import gtk.glade
@@ -36,7 +42,8 @@ class WizardGTK:
         import deluge
         import deluge.common
         import deluge.pref
-        self.wtree = gtk.glade.XML(deluge.common.get_glade_file("wizard.glade"), domain='deluge')
+        self.wtree = gtk.glade.XML(deluge.common.get_glade_file("wizard.glade")\
+            , domain='deluge')
         self.wtree.signal_autoconnect({'apply_prefs': self.apply_prefs,
                                 'cancel': self.cancel,
                                 'toggle': self.toggle,
@@ -48,7 +55,8 @@ class WizardGTK:
         self.window.set_page_complete(self.wtree.get_widget('vbox1'), True)
         self.window.set_page_complete(self.wtree.get_widget('vbox2'), True)
         self.window.set_page_complete(self.wtree.get_widget('vbox3'), True)
-        self.window.set_page_complete(self.wtree.get_widget('chk_send_info'), True)
+        self.window.set_page_complete(self.wtree.get_widget('chk_send_info'), \
+            True)
         config_file = deluge.common.CONFIG_DIR + "/prefs.state"
         self.config = deluge.pref.Preferences(config_file, False, 
             defaults={"listen_on" : [6881,6889],
@@ -66,142 +74,226 @@ class WizardGTK:
         except IOError:
             pass
         else:
-            self.wtree.get_widget('spin_port_min').set_value(self.config.get("listen_on")[0])
-            self.wtree.get_widget('spin_port_max').set_value(self.config.get("listen_on")[1])
-            self.wtree.get_widget('chk_send_info').set_active(self.config.get("send_info"))
-            self.wtree.get_widget('chk_random_ports').set_active(self.config.get("random_port"))
-            self.wtree.get_widget('radio_save_all_to').set_active(self.config.get("use_default_dir"))
-            self.wtree.get_widget('download_path_button').set_filename(self.config.get("default_download_path"))
-            self.wtree.get_widget('spin_max_connections_global').set_value(self.config.get("max_connections_global"))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(self.config.get("max_upload_slots_global"))
-            self.wtree.get_widget('spin_max_upload').set_value(self.config.get("max_upload_speed"))
-            self.wtree.get_widget('spin_torrents').set_value(self.config.get("max_active_torrents"))
+            self.wtree.get_widget('spin_port_min').set_value(self.config.\
+                get("listen_on")[0])
+            self.wtree.get_widget('spin_port_max').set_value(self.config.\
+                get("listen_on")[1])
+            self.wtree.get_widget('chk_send_info').set_active(self.config.\
+                get("send_info"))
+            self.wtree.get_widget('chk_random_ports').set_active(self.config.\
+                get("random_port"))
+            self.wtree.get_widget('radio_save_all_to').set_active(self.config.\
+                get("use_default_dir"))
+            self.wtree.get_widget('download_path_button').set_filename(self.\
+                config.get("default_download_path"))
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                self.config.get("max_connections_global"))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                self.config.get("max_upload_slots_global"))
+            self.wtree.get_widget('spin_max_upload').set_value(self.config.\
+                get("max_upload_speed"))
+            self.wtree.get_widget('spin_torrents').set_value(self.config.\
+                get("max_active_torrents"))
 
         #show wizard
         self.window.show()
         gtk.main()
 
-    def toggle(self, args=None):
+    def toggle(self, *args):
+        """
+        updates the gui with preferences according to user input
+        """
         self.wtree.get_widget('spin_port_min').set_sensitive(
             not self.wtree.get_widget('chk_random_ports').get_active())
         self.wtree.get_widget('spin_port_max').set_sensitive(
             not self.wtree.get_widget('chk_random_ports').get_active())
-        if self.wtree.get_widget('combo_upload_line').get_active_text() == "28k":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('25'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('1'))
+        if self.wtree.get_widget('combo_upload_line').get_active_text() == \
+                "28k":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('25'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('1'))
             self.wtree.get_widget('spin_max_upload').set_value(float('2'))
             self.wtree.get_widget('spin_torrents').set_value(float('1'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "56k":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('30'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('3'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "56k":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('30'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('3'))
             self.wtree.get_widget('spin_max_upload').set_value(float('2'))
             self.wtree.get_widget('spin_torrents').set_value(float('1'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "64k":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('75'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('2'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "64k":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('75'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('2'))
             self.wtree.get_widget('spin_max_upload').set_value(float('5'))
             self.wtree.get_widget('spin_torrents').set_value(float('1'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "96k":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('75'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('3'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "96k":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('75'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('3'))
             self.wtree.get_widget('spin_max_upload').set_value(float('7'))
             self.wtree.get_widget('spin_torrents').set_value(float('1'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "128k":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('88'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('3'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "128k":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('88'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('3'))
             self.wtree.get_widget('spin_max_upload').set_value(float('9'))
             self.wtree.get_widget('spin_torrents').set_value(float('1'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "192k":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('90'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('3'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "192k":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('90'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('3'))
             self.wtree.get_widget('spin_max_upload').set_value(float('17'))
             self.wtree.get_widget('spin_torrents').set_value(float('1'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "256k":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('130'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('3'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "256k":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('130'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('3'))
             self.wtree.get_widget('spin_max_upload').set_value(float('17'))
             self.wtree.get_widget('spin_torrents').set_value(float('1'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "384k":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('230'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('4'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "384k":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('230'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('4'))
             self.wtree.get_widget('spin_max_upload').set_value(float('35'))
             self.wtree.get_widget('spin_torrents').set_value(float('3'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "512k":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('250'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('4'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "512k":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('250'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('4'))
             self.wtree.get_widget('spin_max_upload').set_value(float('47'))
             self.wtree.get_widget('spin_torrents').set_value(float('3'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "640k":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('375'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('4'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "640k":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('375'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('4'))
             self.wtree.get_widget('spin_max_upload').set_value(float('60'))
             self.wtree.get_widget('spin_torrents').set_value(float('4'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "768k":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('450'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('5'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "768k":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('450'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('5'))
             self.wtree.get_widget('spin_max_upload').set_value(float('72'))
             self.wtree.get_widget('spin_torrents').set_value(float('5'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "1Mbit":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('600'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('6'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "1Mbit":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('600'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('6'))
             self.wtree.get_widget('spin_max_upload').set_value(float('92'))
             self.wtree.get_widget('spin_torrents').set_value(float('5'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "2Mbit":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('750'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('8'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "2Mbit":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('750'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('8'))
             self.wtree.get_widget('spin_max_upload').set_value(float('186'))
             self.wtree.get_widget('spin_torrents').set_value(float('9'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "10Mbit":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('800'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('25'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "10Mbit":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('800'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('25'))
             self.wtree.get_widget('spin_max_upload').set_value(float('1120'))
             self.wtree.get_widget('spin_torrents').set_value(float('15'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "20Mbit":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('850'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('30'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "20Mbit":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('850'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('30'))
             self.wtree.get_widget('spin_max_upload').set_value(float('2240'))
             self.wtree.get_widget('spin_torrents').set_value(float('15'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "40Mbit":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('900'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('35'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "40Mbit":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('900'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('35'))
             self.wtree.get_widget('spin_max_upload').set_value(float('4480'))
             self.wtree.get_widget('spin_torrents').set_value(float('15'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "50Mbit":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('950'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('50'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "50Mbit":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('950'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('50'))
             self.wtree.get_widget('spin_max_upload').set_value(float('5600'))
             self.wtree.get_widget('spin_torrents').set_value(float('20'))
-        elif self.wtree.get_widget('combo_upload_line').get_active_text() == "100Mbit":
-            self.wtree.get_widget('spin_max_connections_global').set_value(float('1000'))
-            self.wtree.get_widget('spin_max_upload_slots_global').set_value(float('50'))
+        elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
+            "100Mbit":
+            self.wtree.get_widget('spin_max_connections_global').set_value(\
+                float('1000'))
+            self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
+                float('50'))
             self.wtree.get_widget('spin_max_upload').set_value(float('11200'))
             self.wtree.get_widget('spin_torrents').set_value(float('25'))
 
     def create_file(self):
+        """
+        creates file that we check for to know if we need to run the wizard or
+        not
+        """
         import os
-        import deluge
         import deluge.common
-        f = open(os.path.join(deluge.common.CONFIG_DIR, 'firstrun'), 'w')
-        f.write("")
-        f.close
+        firstrun = open(os.path.join(deluge.common.CONFIG_DIR, 'firstrun'), 'w')
+        firstrun.write("")
 
-    def cancel(self, args=None):
+    def cancel(self, *args):
+        """
+        exits the wizard and creates file so we dont re-run
+        """
         import gtk
         self.create_file()
         self.window.destroy()
         gtk.main_quit()
 
-    def apply_prefs(self, args=None):
+    def apply_prefs(self, *args):
+        """
+        saves configuration settings
+        """
         import gtk
         self.create_file()
-        self.config.set('random_port', self.wtree.get_widget('chk_random_ports').get_active())
-        self.config.set("listen_on", [self.wtree.get_widget("spin_port_min").get_value(), self.wtree.get_widget("spin_port_max").get_value()])
-        self.config.set("send_info", self.wtree.get_widget("chk_send_info").get_active())
-        self.config.set("max_connections_global", int(self.wtree.get_widget('spin_max_connections_global').get_value()))
-        self.config.set("max_upload_slots_global", int(self.wtree.get_widget('spin_max_upload_slots_global').get_value()))
-        self.config.set("max_upload_speed", int(self.wtree.get_widget('spin_max_upload').get_value()))
-        self.config.set("max_active_torrents", int(self.wtree.get_widget('spin_torrents').get_value()))
-        self.config.set("use_default_dir", self.wtree.get_widget('radio_save_all_to').get_active())
-        self.config.set("default_download_path", self.wtree.get_widget('download_path_button').get_filename())
+        self.config.set("random_port", self.wtree.get_widget('chk_random_ports'\
+            ).get_active())
+        self.config.set("listen_on", [self.wtree.get_widget("spin_port_min")\
+            .get_value(), self.wtree.get_widget("spin_port_max").get_value()])
+        self.config.set("send_info", self.wtree.get_widget("chk_send_info").\
+            get_active())
+        self.config.set("max_connections_global", int(self.wtree.get_widget\
+            ('spin_max_connections_global').get_value()))
+        self.config.set("max_upload_slots_global", int(self.wtree.get_widget\
+            ('spin_max_upload_slots_global').get_value()))
+        self.config.set("max_upload_speed", int(self.wtree.get_widget(\
+            'spin_max_upload').get_value()))
+        self.config.set("max_active_torrents", int(self.wtree.get_widget(\
+            'spin_torrents').get_value()))
+        self.config.set("use_default_dir", self.wtree.get_widget(\
+            'radio_save_all_to').get_active())
+        self.config.set("default_download_path", self.wtree.get_widget(\
+            'download_path_button').get_filename())
         self.config.save()
         gtk.main_quit()
