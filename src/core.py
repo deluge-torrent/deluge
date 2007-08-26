@@ -396,14 +396,14 @@ class Manager:
             for unique_ID in self.unique_IDs:
                 import common
                 try:
-                    os.remove(os.path.join(common.CONFIG_DIR, torrentfiles, self.unique_IDs[unique_ID].filename + '.fastresume'))
+                    os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
                 except:
                     pass
                 deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
         else:
             import common
             try:
-                os.remove(os.path.join(common.CONFIG_DIR, torrentfiles, self.unique_IDs[unique_ID].filename + '.fastresume'))
+                os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
             except:
                 pass
             deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
