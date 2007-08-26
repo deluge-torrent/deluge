@@ -31,21 +31,19 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
+"""The torrent view component that lists all torrents in the session."""
 
 import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
-import gobject
 import gettext
 
 import deluge.ui.functions as functions
-import listview
-
-# Get the logger
-log = logging.getLogger("deluge")
+from deluge.log import LOG as log
+import deluge.ui.gtkui.listview as listview
 
 class TorrentView(listview.ListView):
+    """TorrentView handles the listing of torrents."""
     def __init__(self, window):
         self.window = window
         # Call the ListView constructor
@@ -108,34 +106,31 @@ class TorrentView(listview.ListView):
         if self.liststore is not None:
             self.liststore.foreach(self.update_row, columns)
             
-    def update_row(self, model, path, row, columns=None):
-        torrent_id = self.liststore.get_value(row, 
+    def update_row(self, model=None, path=None, row=None, columns=None):
+        """Updates the column values for 'row'.  If columns is None it will
+        update all visible columns."""
+    
+        torrent_id = model.get_value(row, 
                                 self.columns["torrent_id"].column_indices[0])
         # Store the 'status_fields' we need to send to core
         status_keys = []
         # Store the actual columns we will be updating
         columns_to_update = []
+        
         if columns is None:
-            # Iterate through the list of columns and only add the 
-            # 'status-fields' of the visible ones.
-            for column in self.columns.values():
-                # Make sure column is visible and has 'status_field' set.
-                # If not, we can ignore it.
-                if column.column.get_visible() is True \
-                    and column.hidden is False \
-                        and column.status_field is not None:
-                    for field in column.status_field:
-                        status_keys.append(field)
-                        columns_to_update.append(column.name)                           
-        else:
-            # Iterate through supplied list of columns to update
-            for column in columns:
-                if self.columns[column].column.get_visible() is True \
-                    and self.columns[column].hidden is False \
-                    and self.columns[column].status_field is not None:
-                    for field in self.columns[column].status_field:
-                        status_keys.append(field)
-                        columns_to_update.append(column)
+            # We need to iterate through all columns
+            columns = self.columns.keys()
+        
+        # Iterate through supplied list of columns to update
+        for column in columns:
+            # Make sure column is visible and has 'status_field' set.
+            # If not, we can ignore it.
+            if self.columns[column].column.get_visible() is True \
+                and self.columns[column].hidden is False \
+                and self.columns[column].status_field is not None:
+                for field in self.columns[column].status_field:
+                    status_keys.append(field)
+                    columns_to_update.append(column)
         
         # If there is nothing in status_keys then we must not continue
         if status_keys is []:
@@ -148,23 +143,23 @@ class TorrentView(listview.ListView):
 
         # Set values for each column in the row
         for column in columns_to_update:
-            if type(self.get_column_index(column)) is not list:
+            column_index = self.get_column_index(column)
+            if type(column_index) is not list:
                 # We only have a single list store column we need to update
-                self.liststore.set_value(row,
-                            self.get_column_index(column),
+                model.set_value(row,
+                            column_index,
                             status[self.columns[column].status_field[0]])
             else:
                 # We have more than 1 liststore column to update
-                i = 0
-                for index in self.get_column_index(column):
+                for index in column_index:
                     # Only update the column if the status field exists
                     try:
-                        self.liststore.set_value(row,
+                        model.set_value(row,
                             index,
-                            status[self.columns[column].status_field[i]])
+                            status[self.columns[column].status_field[
+                                                    column_index.index(index)]])
                     except:
                         pass
-                    i = i + 1
                         
     def add_row(self, torrent_id):
         """Adds a new torrent row to the treeview"""
@@ -176,7 +171,7 @@ class TorrentView(listview.ListView):
                     self.columns["torrent_id"].column_indices[0], 
                     torrent_id)
         # Update the new row so 
-        self.update_row(None, None, row)
+        self.update_row(model=self.liststore, row=row)
         
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""
@@ -206,6 +201,7 @@ class TorrentView(listview.ListView):
                 
     ### Callbacks ###                             
     def on_button_press_event(self, widget, event):
+        """This is a callback for showing the right-click context menu."""
         log.debug("on_button_press_event")
         # We only care about right-clicks
         if event.button == 3:
@@ -215,5 +211,6 @@ class TorrentView(listview.ListView):
             torrentmenu.popup(None, None, None, event.button, event.time)
     
     def on_selection_changed(self, treeselection):
+        """This callback is know when the selection has changed."""
         log.debug("on_selection_changed")
         

@@ -31,14 +31,11 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
-
-import deluge.libtorrent as lt
-
-# Get the logger
-log = logging.getLogger("deluge")
+"""Internal Torrent class"""
 
 class Torrent:
+    """Torrent holds information about torrents added to the libtorrent session.
+    """
     def __init__(self, filename, handle):
         # Set the filename
         self.filename = filename

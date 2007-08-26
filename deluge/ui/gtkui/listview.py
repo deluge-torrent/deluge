@@ -31,50 +31,51 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
-
 import pygtk
 pygtk.require('2.0')
 import gtk
 import gettext
 
 import deluge.common
-
-# Get the logger
-log = logging.getLogger("deluge")
+from deluge.log import LOG as log
 
 # Cell data functions to pass to add_func_column()
 
-def cell_data_speed(column, cell, model, iter, data):
-    speed = int(model.get_value(iter, data))
+def cell_data_speed(column, cell, model, row, data):
+    """Display value as a speed, eg. 2 KiB/s"""
+    speed = int(model.get_value(row, data))
     speed_str = deluge.common.fspeed(speed)
     cell.set_property('text', speed_str)
 
-def cell_data_size(column, cell, model, iter, data):
-    size = long(model.get_value(iter, data))
+def cell_data_size(column, cell, model, row, data):
+    """Display value in terms of size, eg. 2 MB"""
+    size = long(model.get_value(row, data))
     size_str = deluge.common.fsize(size)
     cell.set_property('text', size_str)
 
-def cell_data_peer(column, cell, model, iter, data):
-    c1, c2 = data
-    a = int(model.get_value(iter, c1))
-    b = int(model.get_value(iter, c2))
-    cell.set_property('text', '%d (%d)'%(a, b))
+def cell_data_peer(column, cell, model, row, data):
+    """Display values as 'value1 (value2)'"""
+    column1, column2 = data
+    first = int(model.get_value(row, column1))
+    second = int(model.get_value(row, column2))
+    cell.set_property('text', '%d (%d)' % (first, second))
         
-def cell_data_time(column, cell, model, iter, data):
-    time = int(model.get_value(iter, data))
+def cell_data_time(column, cell, model, row, data):
+    """Display value as time, eg 1m10s"""
+    time = int(model.get_value(row, data))
     if time < 0 or time == 0:
         time_str = _("Infinity")
     else:
         time_str = deluge.common.ftime(time)
     cell.set_property('text', time_str)
             
-def cell_data_ratio(column, cell, model, iter, data):
-    ratio = float(model.get_value(iter, data))
+def cell_data_ratio(column, cell, model, row, data):
+    """Display value as a ratio with a precision of 3."""
+    ratio = float(model.get_value(row, data))
     if ratio == -1:
         ratio_str = _("Unknown")
     else:
-        ratio_str = "%.3f"%ratio
+        ratio_str = "%.3f" % ratio
         cell.set_property('text', ratio_str)
 
 class ListView:
@@ -87,9 +88,6 @@ class ListView:
             self.column_indices = column_indices
             # Column is a reference to the GtkTreeViewColumn object
             self.column = None
-            # The get_function is called when a column is in need of an update
-            # This is primarily used by plugins.
-            self.get_function = None
             # This is the name of the status field that the column will query
             # the core for if an update is called.
             self.status_field = None
@@ -126,11 +124,15 @@ class ListView:
         self.menu = None
     
     def set_treeview(self, treeview_widget):
+        """Set the treeview widget that this listview uses."""
         self.treeview = treeview_widget
         self.treeview.set_model(self.liststore)
         return
         
     def get_column_index(self, name):
+        """Get the liststore column indices belonging to this column.
+        Will return a list if greater than 1 column.
+        """
         # Only return as list if needed
         if len(self.columns[name].column_indices) > 1:
             return self.columns[name].column_indices
@@ -218,37 +220,39 @@ class ListView:
     
         return
     
-    def add_text_column(self, header, col_type=str, hidden=False, 
-                                            position=None, get_function=None,
-                                            status_field=None):
-        # Create a new column object and add it to the list
-        self.liststore_columns.append(col_type)
+    def add_column(self, header, render, col_types, hidden, position, 
+            status_field, sortid, text=0, value=0, function=None):
+        # Add the column types to liststore_columns
+        if type(col_types) is list:
+            for col_type in col_types:
+                self.liststore_columns.append(col_type)
+        else:
+            self.liststore_columns.append(col_types)
+        
         # Add to the index list so we know the order of the visible columns.
         if position is not None:
             self.column_index.insert(position, header)
         else:
             self.column_index.append(header)
         
+        # Create a new column object and add it to the list
         self.columns[header] = self.ListViewColumn(header, 
                                             [len(self.liststore_columns) - 1])
         
-        # Set the get_function.. This function is used mainly for plugins.
-        # You can have your listview call this function to update the column
-        # value.
-        if get_function is not None:
-            self.columns[header].get_function = get_function
-            
+           
         self.columns[header].status_field = status_field
         
         # Create a new list with the added column
         self.create_new_liststore()
         
-        # Now add the column to the treeview so the user can see it
-        render = gtk.CellRendererText()
-        column = gtk.TreeViewColumn(header, render, 
-                                    text=self.columns[header].column_indices[0])
+        if type(render) is gtk.CellRendererText:
+            column = gtk.TreeViewColumn(header, render, 
+                            text=self.columns[header].column_indices[text])
+        else:
+            column = gtk.TreeViewColumn(header, render)
+                
+        column.set_sort_column_id(self.columns[header].column_indices[sortid])
         column.set_clickable(True)
-        column.set_sort_column_id(self.columns[header].column_indices[0])
         column.set_resizable(True)
         column.set_expand(False)
         column.set_min_width(10)
@@ -263,7 +267,18 @@ class ListView:
         self.columns[header].column = column
         # Re-create the menu item because of the new column
         self.create_checklist_menu()
+
+        return True
         
+    def add_text_column(self, header, col_type=str, hidden=False, 
+                                            position=None,
+                                            status_field=None,
+                                            sortid=0):
+        # Add a text column to the treeview
+        render = gtk.CellRendererText()
+        self.add_column(header, render, col_type, hidden, position,
+                    status_field, sortid, text=0)
+       
         return True
         
     def add_func_column(self, header, function, column_types, sortid=0, 
@@ -321,7 +336,8 @@ class ListView:
                 
         return True
 
-    def add_progress_column(self, header, hidden=False, position=None, 
+    def add_progress_column(self, header, col_type=[float,str], hidden=False, 
+                                            position=None, 
                                             get_function=None,
                                             status_field=None):
         # For the progress value

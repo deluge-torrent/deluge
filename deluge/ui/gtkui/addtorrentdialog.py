@@ -31,16 +31,13 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
-
 import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
+import gettext
 
 from deluge.config import Config
-
-# Get the logger
-log = logging.getLogger("deluge")
+from deluge.log import LOG as log
 
 class AddTorrentDialog:
     def __init__(self, parent=None):
@@ -55,14 +52,14 @@ class AddTorrentDialog:
         self.chooser.set_property("skip-taskbar-hint", True)
         
         # Add .torrent and * file filters
-        f0 = gtk.FileFilter()
-        f0.set_name(_("Torrent files"))
-        f0.add_pattern("*." + "torrent")
-        self.chooser.add_filter(f0)
-        f1 = gtk.FileFilter()
-        f1.set_name(_("All files"))
-        f1.add_pattern("*")
-        self.chooser.add_filter(f1)
+        file_filter = gtk.FileFilter()
+        file_filter.set_name(_("Torrent files"))
+        file_filter.add_pattern("*." + "torrent")
+        self.chooser.add_filter(file_filter)
+        file_filter = gtk.FileFilter()
+        file_filter.set_name(_("All files"))
+        file_filter.add_pattern("*")
+        self.chooser.add_filter(file_filter)
 
         # Load the 'default_load_path' from the config
         self.config = Config("gtkui.conf")

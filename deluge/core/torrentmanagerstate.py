@@ -31,10 +31,7 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
-
-# Get the logger
-log = logging.getLogger("deluge")
+from deluge.log import LOG as log
 
 class TorrentState:
     def __init__(self, torrent_id, filename):

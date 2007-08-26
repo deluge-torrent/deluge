@@ -31,15 +31,16 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
+"""Configuration class used to access/create/modify configuration files."""
+
 import pickle
 
 import deluge.common
-
-# Get the logger
-log = logging.getLogger("deluge")
+from deluge.log import LOG as log
 
 class Config:
+    """This class is used to access configuration files."""
+    
     def __init__(self, filename, defaults=None):
         log.debug("Config created with filename: %s", filename)
         log.debug("Config defaults: %s", defaults)
@@ -59,6 +60,8 @@ class Config:
         self.save()
             
     def load(self, filename=None):
+        """Load a config file either by 'filename' or the filename set during
+        construction of this object."""
         # Use self.config_file if filename is None
         if filename is None:
             filename = self.config_file
@@ -76,6 +79,8 @@ class Config:
             pkl_file.close()
             
     def save(self, filename=None):
+        """Save configuration to either 'filename' or the filename set during
+        construction of this object."""
         # Saves the config dictionary
         if filename is None:
             filename = self.config_file
@@ -89,6 +94,7 @@ class Config:
             log.warning("IOError: Unable to save file '%s'", filename)
             
     def set(self, key, value):
+        """Set the 'key' with 'value'."""
 	    # Sets the "key" with "value" in the config dict
         log.debug("Setting '%s' to %s", key, value)
         self.config[key] = value
@@ -96,6 +102,8 @@ class Config:
         self.save()
 		
     def get(self, key):
+        """Get the value of 'key'.  If it is an invalid key then get() will
+        return None."""
         # Attempts to get the "key" value and returns None if the key is 
         # invalid
         try:
@@ -104,7 +112,7 @@ class Config:
             return value
         except KeyError:
             log.warning("Key does not exist, returning None")
-            return
+            return None
 
     def __getitem__(self, key):
         return self.config[key]

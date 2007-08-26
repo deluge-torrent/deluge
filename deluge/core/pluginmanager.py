@@ -31,15 +31,18 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
+"""PluginManager for Core"""
+
 import os.path
 
 import pkg_resources
 
-# Get the logger
-log = logging.getLogger("deluge")
+from deluge.log import LOG as log
 
 class PluginManager:
+    """PluginManager handles the loading of plugins and provides plugins with
+    functions to access parts of the core."""
+    
     def __init__(self):
         # Set up the hooks dictionary
         self.hooks = {
@@ -59,15 +62,14 @@ class PluginManager:
         
         self.plugins = {}
         for name in pkg_env:
-           egg = pkg_env[name][0]
-           egg.activate()
-           modules = []
-           for name in egg.get_entry_map("deluge.plugin.core"):
-              entry_point = egg.get_entry_info("deluge.plugin.core", name)
-              cls = entry_point.load()
-              instance = cls(self)
-              self.plugins[name] = instance
-              log.info("Load plugin %s", name)
+            egg = pkg_env[name][0]
+            egg.activate()
+            for name in egg.get_entry_map("deluge.plugin.core"):
+                entry_point = egg.get_entry_info("deluge.plugin.core", name)
+                cls = entry_point.load()
+                instance = cls(self)
+                self.plugins[name] = instance
+                log.info("Load plugin %s", name)
            
     def __getitem__(self, key):
         return self.plugins[key]
@@ -78,6 +80,7 @@ class PluginManager:
         self.status_fields[field] = function
     
     def get_status(self, torrent_id, fields):
+        """Return the value of status fields for the selected torrent_id."""
         status = {}
         for field in fields:
             try:
@@ -93,23 +96,17 @@ class PluginManager:
             self.hooks[hook].append(function)
         except KeyError:
             log.warning("Plugin attempting to register invalid hook.")
-    
-    def run_hook(self, hook, data):
-        log.debug("Running hook %s", hook)
-        
-            
+          
     def run_post_torrent_add(self, torrent_id):
+        """This hook is run after a torrent has been added to the session."""
         log.debug("run_post_torrent_add")
-        try:
-            for function in self.hooks["post_torrent_add"]:
-                function(torrent_id)
-        except:
-            pass
+        for function in self.hooks["post_torrent_add"]:
+            function(torrent_id)
             
     def run_post_torrent_remove(self, torrent_id):
+        """This hook is run after a torrent has been removed from the session.
+        """
         log.debug("run_post_torrent_remove")
-        try:
-            for function in self.hooks["post_torrent_remove"]:
-                function(torrent_id)
-        except:
-            pass   
+        for function in self.hooks["post_torrent_remove"]:
+            function(torrent_id)
+   

@@ -31,15 +31,12 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
+"""Common functions for various parts of Deluge to use."""
+
 import os
 
 import pkg_resources
 import xdg, xdg.BaseDirectory
-import gettext
-
-# Get the logger
-log = logging.getLogger("deluge")
 
 def get_version():
     """Returns the program version from the egg metadata"""
@@ -76,7 +73,7 @@ def estimate_eta(total_size, total_done, download_rate):
     try:
         return ftime(get_eta(total_size, total_done, download_rate))
     except ZeroDivisionError:
-        return _("Infinity")
+        return "Infinity"
     
 def get_eta(size, done, speed):
     """Returns the ETA in seconds
@@ -93,20 +90,20 @@ def fsize(fsize_b):
     """    
     fsize_kb = float (fsize_b / 1024.0)
     if fsize_kb < 1000:
-        return _("%.1f KiB")%fsize_kb
+        return "%.1f KiB" % fsize_kb
     fsize_mb = float (fsize_kb / 1024.0)
     if fsize_mb < 1000:
-        return _("%.1f MiB")%fsize_mb
+        return "%.1f MiB" % fsize_mb
     fsize_gb = float (fsize_mb / 1024.0)
-    return _("%.1f GiB")%fsize_gb
+    return "%.1f GiB" % fsize_gb
 
 def fpcnt(dec):
     """Returns a formatted string representing a percentage"""
-    return '%.2f%%'%(dec * 100)
+    return '%.2f%%' % (dec * 100)
 
 def fspeed(bps):
     """Returns a formatted string representing transfer speed"""
-    return '%s/s'%(fsize(bps))
+    return '%s/s' % (fsize(bps))
 
 def fseed(num_seeds, total_seeds):
     """Returns a formatted string num_seeds (total_seeds)"""
@@ -119,21 +116,21 @@ def fpeer(num_peers, total_peers):
 def ftime(seconds):
     """Returns a formatted time string"""
     if seconds < 60:
-        return '%ds'%(seconds)
+        return '%ds' % (seconds)
     minutes = int(seconds/60)
     seconds = seconds % 60
     if minutes < 60:
-        return '%dm %ds'%(minutes, seconds)
+        return '%dm %ds' % (minutes, seconds)
     hours = int(minutes/60)
     minutes = minutes % 60
     if hours < 24:
-        return '%dh %dm'%(hours, minutes)
+        return '%dh %dm' % (hours, minutes)
     days = int(hours/24)
     hours = hours % 24
     if days < 7:
-        return '%dd %dh'%(days, hours)
+        return '%dd %dh' % (days, hours)
     weeks = int(days/7)
     days = days % 7
     if weeks < 10:
-        return '%dw %dd'%(weeks, days)
+        return '%dw %dd' % (weeks, days)
     return 'unknown'

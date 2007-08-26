@@ -31,13 +31,11 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
 import os.path
 
 import pkg_resources
 
-# Get the logger
-log = logging.getLogger("deluge")
+from deluge.log import LOG as log
 
 class PluginManager:
     def __init__(self, gtkui):
@@ -54,15 +52,14 @@ class PluginManager:
         
         self.plugins = {}
         for name in pkg_env:
-           egg = pkg_env[name][0]
-           egg.activate()
-           modules = []
-           for name in egg.get_entry_map("deluge.plugin.ui.gtk"):
-              entry_point = egg.get_entry_info("deluge.plugin.ui.gtk", name)
-              cls = entry_point.load()
-              instance = cls(self)
-              self.plugins[name] = instance
-              log.info("Loaded plugin %s", name)
+            egg = pkg_env[name][0]
+            egg.activate()
+            for name in egg.get_entry_map("deluge.plugin.ui.gtk"):
+                entry_point = egg.get_entry_info("deluge.plugin.ui.gtk", name)
+                cls = entry_point.load()
+                instance = cls(self)
+                self.plugins[name] = instance
+                log.info("Loaded plugin %s", name)
            
     def __getitem__(self, key):
         return self.plugins[key]

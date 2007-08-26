@@ -34,24 +34,18 @@
 # The main starting point for the program.    This function is called when the 
 # user runs the command 'deluge'.
 
-import logging
+"""Main starting point for Deluge.  Contains the main() entry point."""
+
 import os
-import signal
 from optparse import OptionParser
 
 from deluge.core.daemon import Daemon
 from deluge.ui.ui import UI
+from deluge.log import LOG as log
 import deluge.common
 
-# Setup the logger
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="[%(levelname)-8s] %(name)s:%(module)s:%(lineno)d %(message)s"
-)
-# Get the logger for deluge
-log = logging.getLogger("deluge")
-
 def main():
+    """Entry point for Deluge"""
     # Setup the argument parser
     parser = OptionParser(usage="%prog [options] [actions]", 
                                            version=deluge.common.get_version())
@@ -68,9 +62,7 @@ def main():
     log.debug("options: %s", options)
     log.debug("args: %s", args)
         
-    daemon = None
     pid = None
-    uri = None
     
     # Start the daemon
     if options.daemon:
@@ -82,9 +74,9 @@ def main():
             # Since we are starting daemon this process will not start a UI
             options.ui = False
             # Create the daemon object
-            daemon = Daemon()
+            Daemon()
 
     # Start the UI
     if options.ui:
         log.info("Starting ui..")
-        ui = UI()
+        UI()

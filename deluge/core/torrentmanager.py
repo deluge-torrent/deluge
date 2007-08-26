@@ -31,7 +31,8 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
+"""TorrentManager handles Torrent objects"""
+
 import pickle
 import os.path
 
@@ -41,11 +42,13 @@ import deluge.common
 from deluge.config import Config
 from deluge.core.torrent import Torrent
 from deluge.core.torrentmanagerstate import TorrentManagerState, TorrentState
-
-# Get the logger
-log = logging.getLogger("deluge")
+from deluge.log import LOG as log
 
 class TorrentManager:
+    """TorrentManager contains a list of torrents in the current libtorrent
+    session.  This object is also responsible for saving the state of the
+    session for use on restart."""
+    
     def __init__(self, session):
         log.debug("TorrentManager init..")
         # Set the libtorrent session
@@ -79,7 +82,8 @@ class TorrentManager:
         handle = None
         
         try:
-            handle = self.session.add_torrent(lt.torrent_info(torrent_filedump), 
+            handle = self.session.add_torrent(
+                                    lt.torrent_info(torrent_filedump), 
                                     config["download_location"],
                                     config["compact_allocation"])
         except RuntimeError:
@@ -92,11 +96,11 @@ class TorrentManager:
         # Write the .torrent file to the torrent directory
         log.debug("Attemping to save torrent file: %s", filename)
         try:
-            f = open(os.path.join(config["torrentfiles_location"], 
+            save_file = open(os.path.join(config["torrentfiles_location"], 
                     filename),
                     "wb")
-            f.write(filedump)
-            f.close()
+            save_file.write(filedump)
+            save_file.close()
         except IOError:
             log.warning("Unable to save torrent file: %s", filename)
         
@@ -143,14 +147,15 @@ class TorrentManager:
         """Save the state of the TorrentManager to the torrents.state file"""
         state = TorrentManagerState()
         # Create the state for each Torrent and append to the list
-        for (key, torrent) in self.torrents:
-            t = TorrentState(torrent.get_state())
-            state.torrents.append(t)
+        for torrent in self.torrents.values():
+            torrent_state = TorrentState(torrent.get_state())
+            state.torrents.append(torrent_state)
         
         # Pickle the TorrentManagerState object
         try:
             log.debug("Saving torrent state file.")
-            state_file = open(deluge.common.get_config_dir("torrents.state"), "wb")
+            state_file = open(deluge.common.get_config_dir("torrents.state"), 
+                                                                        "wb")
             pickle.dump(state, state_file)
             state_file.close()
         except IOError:
