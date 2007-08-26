@@ -153,6 +153,7 @@ class DelugeGTK:
                     "menu_quit": self.quit,
                     ## Edit Menu
                     "select_all_torrents": self.select_all_torrents,
+                    "plugin_clicked": self.show_plugin_dialog_clicked,
                     "pref_clicked": self.show_preferences_dialog_clicked,
                     ## View Menu
                     "toolbar_toggle": self.toolbar_toggle,
@@ -204,6 +205,7 @@ class DelugeGTK:
             "quit": self.quit,
             "pause_all": self.pause_all_clicked,
             "resume_all": self.resume_all_clicked,
+            "plugins": self.show_plugin_dialog_clicked,
             "preferences": self.show_preferences_dialog_clicked,
             "add_torrent": self.add_torrent_clicked,
             "show_hide_window_toggled": self.show_hide_window_toggled
@@ -680,6 +682,19 @@ class DelugeGTK:
             self.unlock_tray("prefwinshow")
         else:
             self.show_preferences_dialog()
+
+    def show_plugin_dialog(self, plugin_tab=True):
+        active_port = self.manager.get_state()['port']
+        plugin_dialog = dialogs.PreferencesDlg(self.config, active_port, \
+            self.plugins, plugin_tab=True)
+        plugin_dialog.show(self, self.window)
+
+    def show_plugin_dialog_clicked(self, arg=None):
+        if self.config.get("enable_system_tray") and \
+           self.config.get("lock_tray"):
+            self.unlock_tray("prefwinshow")
+        else:
+            self.show_plugin_dialog(plugin_tab=True)
 
     def apply_prefs(self):
         # Show tray icon if necessary

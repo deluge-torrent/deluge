@@ -40,9 +40,11 @@ import pref
 PREFS_FILENAME  = "prefs.state"
 
 class PreferencesDlg:
-    def __init__(self, preferences, active_port, plugins):
+    def __init__(self, preferences, active_port, plugins, plugin_tab=False):
         self.glade = gtk.glade.XML(common.get_glade_file("preferences_dialog.glade"), domain='deluge')
         self.dialog = self.glade.get_widget("pref_dialog")
+        if plugin_tab:
+            self.glade.get_widget("notebook").set_current_page(6)
         self.dialog.set_position(gtk.WIN_POS_CENTER)
         self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
         self.glade.signal_autoconnect({
