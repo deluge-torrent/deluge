@@ -391,6 +391,8 @@ class DelugeGTK:
                     self.window.show()
                 elif comingnext == "prefwinshow":
                     self.show_preferences_dialog()
+                elif comingnext == "plugwinshow":
+                    self.show_plugin_dialog()
                 elif comingnext == "quitus":
                     self.window.hide()
                     self.shutdown()
@@ -678,7 +680,7 @@ class DelugeGTK:
 
     def show_preferences_dialog_clicked(self, arg=None):
         if self.config.get("enable_system_tray") and \
-           self.config.get("lock_tray"):
+            self.config.get("lock_tray") and not self.window.get_property("visible"):
             self.unlock_tray("prefwinshow")
         else:
             self.show_preferences_dialog()
@@ -691,8 +693,8 @@ class DelugeGTK:
 
     def show_plugin_dialog_clicked(self, arg=None):
         if self.config.get("enable_system_tray") and \
-           self.config.get("lock_tray"):
-            self.unlock_tray("prefwinshow")
+           self.config.get("lock_tray") and not self.window.get_property("visible"):
+               self.unlock_tray("plugwinshow")
         else:
             self.show_plugin_dialog(plugin_tab=True)
 
