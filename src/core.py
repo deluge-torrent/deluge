@@ -131,7 +131,7 @@ class InsufficientFreeSpaceError(DelugeError):
         self.free_space = free_space
         self.needed_space = needed_space
     def __str__(self):
-        return "%d %d "%self.free_space, self.needed_space + _("bytes needed")
+        return "%d %d" % self.free_space, self.needed_space + _("bytes needed")
 
 # A cached data item
 
