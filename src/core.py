@@ -628,6 +628,12 @@ class Manager:
                     
                 # save fast resume once torrent finishes so as to not recheck
                 # seed if client crashes
+                # remove existing fastresume first to prevent "losing" data
+                import common
+                try:
+                    os.remove(os.path.join(common.CONFIG_DIR, torrentfiles, self.unique_IDs[unique_ID].filename + '.fastresume'))
+                except:
+                    pass
                 self.save_fastresume_data(event['unique_ID'])
 
             elif event['event_type'] is self.constants['EVENT_TRACKER_ANNOUNCE']:
