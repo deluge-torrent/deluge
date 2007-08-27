@@ -3,7 +3,7 @@
 <!--*- mode: xml -*-->
 <glade-interface>
   <widget class="GtkDialog" id="pref_dialog">
-    <property name="width_request">552</property>
+    <property name="width_request">500</property>
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Deluge Preferences</property>
@@ -22,7 +22,6 @@
           <widget class="GtkNotebook" id="notebook">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-            <property name="tab_pos">GTK_POS_LEFT</property>
             <property name="scrollable">True</property>
             <child>
               <widget class="GtkScrolledWindow" id="scroll_downloads">
