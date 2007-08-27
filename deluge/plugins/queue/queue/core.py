@@ -69,6 +69,8 @@ class Core(dbus.service.Object):
         self.plugin.register_hook("post_torrent_add", self.post_torrent_add)
         self.plugin.register_hook("post_torrent_remove", 
                                                     self.post_torrent_remove)
+
+        # Register the 'queue' status field
         self.plugin.register_status_field("queue", self.status_field_queue)
         
         log.info("Queue Core plugin initialized..")

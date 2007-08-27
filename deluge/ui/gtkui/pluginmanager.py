@@ -52,14 +52,15 @@ class PluginManager:
         
         self.plugins = {}
         for name in pkg_env:
-            egg = pkg_env[name][0]
-            egg.activate()
-            for name in egg.get_entry_map("deluge.plugin.ui.gtk"):
-                entry_point = egg.get_entry_info("deluge.plugin.ui.gtk", name)
-                cls = entry_point.load()
-                instance = cls(self)
-                self.plugins[name] = instance
-                log.info("Loaded plugin %s", name)
+           egg = pkg_env[name][0]
+           egg.activate()
+           modules = []
+           for name in egg.get_entry_map("deluge.plugin.ui.gtk"):
+              entry_point = egg.get_entry_info("deluge.plugin.ui.gtk", name)
+              cls = entry_point.load()
+              instance = cls(self)
+              self.plugins[name] = instance
+              log.info("Loaded plugin %s", name)
            
     def __getitem__(self, key):
         return self.plugins[key]
@@ -71,7 +72,15 @@ class PluginManager:
     def get_toolbar(self):
         """Returns a reference to the toolbar component"""
         return self._gtkui.mainwindow.toolbar
+     
+    def get_menubar(self):
+        """Returns a reference to the menubar component"""
+        return self._gtkui.mainwindow.menubar
     
+    def get_torrentmenu(self):
+        """Returns a reference to the torrentmenu component"""
+        return self._gtkui.mainwindow.menubar.torrentmenu
+        
     def get_selected_torrents(self):
         """Returns a list of the selected torrent_ids"""
         return self._gtkui.mainwindow.torrentview.get_selected_torrents()

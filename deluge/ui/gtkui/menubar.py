@@ -48,13 +48,15 @@ class MenuBar:
         log.debug("MenuBar init..")
         self.window = window
         # Get the torrent menu from the glade file
-        self.torrentmenu = gtk.glade.XML(
+        torrentmenu_glade = gtk.glade.XML(
                     pkg_resources.resource_filename("deluge.ui.gtkui", 
                                                 "glade/torrent_menu.glade"))
 
+        self.torrentmenu = torrentmenu_glade.get_widget("torrent_menu")
+        
         # Attach the torrent_menu to the Torrent file menu
         self.window.main_glade.get_widget("menu_torrent").set_submenu(
-                                self.torrentmenu.get_widget("torrent_menu"))
+                                                            self.torrentmenu)
 
         ### Connect Signals ###
         self.window.main_glade.signal_autoconnect({
@@ -79,7 +81,7 @@ class MenuBar:
             "on_menuitem_about_activate": self.on_menuitem_about_activate
         })
         
-        self.torrentmenu.signal_autoconnect({
+        torrentmenu_glade.signal_autoconnect({
             ## Torrent Menu
             "on_menuitem_pause_activate": self.on_menuitem_pause_activate,
             "on_menuitem_resume_activate": self.on_menuitem_resume_activate,

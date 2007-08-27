@@ -46,6 +46,9 @@ try:
 except: dbus_imported = False
 else: dbus_imported = True
 
+import pkg_resources
+import gtk.glade
+
 # Get the logger
 log = logging.getLogger("deluge")
 
@@ -58,6 +61,12 @@ class GtkUI:
         proxy = bus.get_object("org.deluge_torrent.Deluge", 
                                "/org/deluge_torrent/Plugin/Queue")
         self.core = dbus.Interface(proxy, "org.deluge_torrent.Deluge.Queue")
+        
+        # Get the queue menu from the glade file
+        menu_glade = gtk.glade.XML(pkg_resources.resource_filename("queue", 
+                                                    "glade/queuemenu.glade"))
+        
+        menu = menu_glade.get_widget("menu_queue")    
         
         # Connect to the 'torrent_queue_changed' signal
         self.core.connect_to_signal("torrent_queue_changed", 
@@ -81,6 +90,14 @@ class GtkUI:
                                 label="Queue Down", 
                                 tooltip="Queue selected torrents down",
                                 callback=self.on_queuedown_toolbutton_clicked)
+                                
+        # Add the queue menu to the torrent menu
+        queue_menuitem = gtk.ImageMenuItem("Queue")
+        queue_image = gtk.Image()
+        queue_image.set_from_stock(gtk.STOCK_SORT_ASCENDING, gtk.ICON_SIZE_MENU)
+        queue_menuitem.set_image(queue_image)
+        queue_menuitem.set_submenu(menu)
+        self.plugin.get_torrentmenu().append(queue_menuitem)
 
     def on_queuedown_toolbutton_clicked(self, widget):
         log.debug("Queue down toolbutton clicked.")

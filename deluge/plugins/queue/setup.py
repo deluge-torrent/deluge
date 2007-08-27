@@ -42,6 +42,7 @@ setup(
     description=__doc__,
     author=__author__,
     packages=["queue"],
+    package_data = {"queue": ["glade/*.glade"]},
     entry_points="""
     [deluge.plugin.core]
     Queue = queue:CorePlugin
