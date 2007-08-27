@@ -51,18 +51,22 @@ class DelugeGTK:
         self.ipc_manager = ipc_manager.Manager(self)
         #Start the Deluge Manager:
         self.manager = core.Manager(common.CLIENT_CODE, common.CLIENT_VERSION, 
-            '%s %s'%(common.PROGRAM_NAME, common.PROGRAM_VERSION), common.CONFIG_DIR)
+            '%s %s' % (common.PROGRAM_NAME, common.PROGRAM_VERSION), 
+            common.CONFIG_DIR)
         self.plugins = plugins.PluginManager(self.manager, self)
         self.plugins.add_plugin_dir(common.PLUGIN_DIR)
         if os.path.isdir(os.path.join(common.CONFIG_DIR , 'plugins')):
-            self.plugins.add_plugin_dir(os.path.join(common.CONFIG_DIR, 'plugins'))
+            self.plugins.add_plugin_dir(os.path.join(common.CONFIG_DIR, 
+                'plugins'))
         self.plugins.scan_for_plugins()
         self.config = self.manager.get_config()
         #Set up the interface:
-        self.wtree = gtk.glade.XML(common.get_glade_file("delugegtk.glade"), domain='deluge')
+        self.wtree = gtk.glade.XML(common.get_glade_file("delugegtk.glade"), 
+            domain='deluge')
         self.window = self.wtree.get_widget("main_window")
         self.toolbar = self.wtree.get_widget("tb_middle")
-        self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL,[('text/uri-list', 0, 80)], gtk.gdk.ACTION_COPY) 
+        self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 
+            80)], gtk.gdk.ACTION_COPY) 
         self.window.connect("delete_event", self.close)
         self.window.connect("drag_data_received", self.on_drag_data)
         self.window.connect("window-state-event", self.window_state_event)
@@ -86,7 +90,8 @@ class DelugeGTK:
         self.build_torrent_table()
         self.load_status_icons()
 
-        # Set the Torrent menu bar sub-menu to the same as the right-click Torrent pop-up menu
+        # Set the Torrent menu bar sub-menu to the same as the right-click 
+        #Torrent pop-up menu
         self.wtree.get_widget("menu_torrent").set_submenu(self.torrent_menu)
         self.wtree.get_widget("menu_torrent").set_sensitive(False)
         
@@ -198,9 +203,11 @@ class DelugeGTK:
         self.manager.resume_all()
 
     def build_tray_icon(self):
-        self.tray_icon = gtk.status_icon_new_from_file(common.get_pixmap("deluge32.png"))
+        self.tray_icon = gtk.status_icon_new_from_file(common.get_pixmap\
+            ("deluge32.png"))
         
-        self.tray_glade = gtk.glade.XML(common.get_glade_file("tray_menu.glade"), domain='deluge')
+        self.tray_glade = gtk.glade.XML(common.get_glade_file\
+            ("tray_menu.glade"), domain='deluge')
         self.tray_menu  = self.tray_glade.get_widget("tray_menu")
         self.tray_glade.signal_autoconnect({
             "quit": self.quit,
@@ -212,8 +219,10 @@ class DelugeGTK:
             "show_hide_window_toggled": self.show_hide_window_toggled
         })
         
-        self.tray_glade.get_widget("download-limit-image").set_from_file(common.get_pixmap('downloading16.png'))
-        self.tray_glade.get_widget("upload-limit-image").set_from_file(common.get_pixmap('seeding16.png'))
+        self.tray_glade.get_widget("download-limit-image").set_from_file(
+            common.get_pixmap('downloading16.png'))
+        self.tray_glade.get_widget("upload-limit-image").set_from_file(
+            common.get_pixmap('seeding16.png'))
         self.build_tray_bwsetsubmenu()
         
         self.tray_icon.connect("activate", self.tray_clicked)
@@ -242,18 +251,21 @@ class DelugeGTK:
                 show_notset=True, show_other=True)
         
         # Add the sub-menus to the tray menu
-        self.tray_glade.get_widget("download_limit").set_submenu(self.submenu_bwdownset)
-        self.tray_glade.get_widget("upload_limit").set_submenu(self.submenu_bwupset)
+        self.tray_glade.get_widget("download_limit").set_submenu(
+            self.submenu_bwdownset)
+        self.tray_glade.get_widget("upload_limit").set_submenu(
+            self.submenu_bwupset)
         
         # Show the sub-menus for all to see
         self.submenu_bwdownset.show_all()
         self.submenu_bwupset.show_all()
 
     def build_menu_radio_list(self, value_list, callback, pref_value=None, 
-                              suffix=None, show_notset=False, 
-                              notset_label=None, notset_lessthan=0, show_other=False, show_activated=False, activated_label=None):
-        # Build a menu with radio menu items from a list and connect them to the callback
-        # The pref_value is what you would like to test for the default active radio item
+        suffix=None, show_notset=False, notset_label=None, notset_lessthan=0, 
+        show_other=False, show_activated=False, activated_label=None):
+        # Build a menu with radio menu items from a list and connect them to 
+        # the callback. The pref_value is what you would like to test for the 
+        # default active radio item.
         # Setting show_unlimited will include an Unlimited radio item
         if notset_label is None:
             notset_label = _("Unlimited")
@@ -266,7 +278,8 @@ class DelugeGTK:
         if show_activated is False:
             for value in sorted(value_list):
                 if suffix != None:
-                    menuitem = gtk.RadioMenuItem(group, str(value) + " " + suffix)
+                    menuitem = gtk.RadioMenuItem(group, str(value) + " " + \
+                        suffix)
                 else:
                     menuitem = gtk.RadioMenuItem(group, str(value))
             
@@ -314,12 +327,14 @@ class DelugeGTK:
         return menu
     
     def tray_setbwdown(self, widget, data=None):
-        str_bwdown     = widget.get_children()[0].get_text().rstrip(" "+_("KiB/s"))
+        str_bwdown = widget.get_children()[0].get_text().rstrip(" " + 
+                        _("KiB/s"))
         if str_bwdown == _("Unlimited"):
             str_bwdown = -1
         
         if str_bwdown == _("Other..."):
-            dialog_glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"))
+            dialog_glade = gtk.glade.XML(common.get_glade_file(
+                "dgtkpopups.glade"))
             speed_dialog = dialog_glade.get_widget("speed_dialog")
             spin_title = dialog_glade.get_widget("spin_title")
             spin_title.set_text(_("Download Speed (KiB/s):"))
@@ -338,12 +353,14 @@ class DelugeGTK:
         self.apply_prefs()
 
     def tray_setbwup(self, widget, data=None):
-        str_bwup     = widget.get_children()[0].get_text().rstrip(" "+_("KiB/s"))
+        str_bwup = widget.get_children()[0].get_text().rstrip(" " + 
+            _("KiB/s"))
         if str_bwup == _("Unlimited"):
             str_bwup = -1
         
         if str_bwup == _("Other..."):
-            dialog_glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"))
+            dialog_glade = gtk.glade.XML(common.get_glade_file(
+                "dgtkpopups.glade"))
             speed_dialog = dialog_glade.get_widget("speed_dialog")
             spin_title = dialog_glade.get_widget("spin_title")
             spin_title.set_text(_("Upload Speed (KiB/s):"))
@@ -364,7 +381,7 @@ class DelugeGTK:
     # Use is_showing_dlg argument as a kind of static variable to not add
     # unlock tray dialog state to instance where it will be not used except as
     # in this method. Assigning list to is_showing_dlg is intentional.
-    def unlock_tray(self,comingnext, is_showing_dlg=[False]):
+    def unlock_tray(self, comingnext, is_showing_dlg=[False]):
         if is_showing_dlg[0]:
             return
         
@@ -376,8 +393,10 @@ class DelugeGTK:
         entered_pass.set_visibility(False)
         entered_pass.show()
         tray_lock = gtk.Dialog(title=_("Deluge is locked"), parent=self.window,
-            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
-        label = gtk.Label(_("Deluge is password protected.\nTo show the Deluge window, please enter your password"))
+            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_OK, 
+            gtk.RESPONSE_ACCEPT))
+        label = gtk.Label(_("Deluge is password protected.\nTo show the Deluge \
+window, please enter your password"))
         label.set_line_wrap(True)
         label.set_justify(gtk.JUSTIFY_CENTER)
         tray_lock.set_position(gtk.WIN_POS_CENTER_ALWAYS)
@@ -413,25 +432,28 @@ class DelugeGTK:
              'downloading' : gtk.gdk.pixbuf_new_from_file(
                                  common.get_pixmap("downloading16.png"))}
     
-    def list_of_trackers(self,obj=None):
+    def list_of_trackers(self, obj=None):
         torrent = self.get_selected_torrent()
         if torrent is not None:
             trackerslist = self.manager.get_trackers(torrent)
             self.show_edit_tracker_dialog(trackerslist)
 
-    def cancel_edit_window(self,arg=None):
+    def cancel_edit_window(self, arg=None):
         self.edit_window.destroy()
 
-    def accept_edit_window(self,arg=None):
+    def accept_edit_window(self, arg=None):
         torrent = self.get_selected_torrent()
-        self.textlist = self.textbuffer.get_text(self.textbuffer.get_start_iter(), self.textbuffer.get_end_iter(), include_hidden_chars=False).strip()
+        self.textlist = self.textbuffer.get_text(self.textbuffer.\
+            get_start_iter(), self.textbuffer.get_end_iter(), 
+            include_hidden_chars=False).strip()
         self.manager.replace_trackers(torrent, self.textlist)
         self.edit_window.destroy()
 
-    def show_edit_tracker_dialog(self,list):
+    def show_edit_tracker_dialog(self, list):
         self.textbuffer = gtk.TextBuffer(table=None)
         self.textbuffer.set_text(list)
-        self.edit_glade = gtk.glade.XML(common.get_glade_file("edit_trackers.glade"))
+        self.edit_glade = gtk.glade.XML(common.get_glade_file(
+            "edit_trackers.glade"))
         self.edit_list  = self.edit_glade.get_widget("txt_tracker_list")
         self.edit_list.set_buffer(self.textbuffer)
         self.edit_window  = self.edit_glade.get_widget("edittrackers")
@@ -475,7 +497,8 @@ class DelugeGTK:
     def build_torrent_table(self):
         ## Create the torrent listview
         self.torrent_view = self.wtree.get_widget("torrent_view")
-        torrent_glade = gtk.glade.XML(common.get_glade_file("torrent_menu.glade"), domain='deluge')
+        torrent_glade = gtk.glade.XML(common.get_glade_file(
+            "torrent_menu.glade"), domain='deluge')
         torrent_glade.signal_autoconnect({
                         "remove_torrent": self.remove_torrent_clicked,
                         "edit_trackers": self.list_of_trackers,
@@ -490,8 +513,8 @@ class DelugeGTK:
                         "queue_top": self.q_to_top,
                                                 })
         self.torrent_menu = torrent_glade.get_widget("torrent_menu")
-        # unique_ID, Q#, Status Icon, Name, Size, Progress, Message, Seeders, Peers,
-        #     DL, UL, ETA, Share
+        # unique_ID, Q#, Status Icon, Name, Size, Progress, Message, Seeders, 
+        # Peers, DL, UL, ETA, Share
         self.torrent_model = gtk.ListStore(int, gobject.TYPE_UINT, 
             gtk.gdk.Pixbuf, str, gobject.TYPE_UINT64, float, str, int, int, 
             int, int, int, int, gobject.TYPE_UINT64, float, float)
@@ -526,28 +549,49 @@ class DelugeGTK:
             if ratio == -1:
                 ratio_str = _("Unknown")
             else:
-                ratio_str = "%.3f"%ratio
+                ratio_str = "%.3f" % ratio
             cell.set_property('text', ratio_str)
         
         ## Initializes the columns for the torrent_view
-        (TORRENT_VIEW_COL_UID, TORRENT_VIEW_COL_QUEUE, TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME,
-        TORRENT_VIEW_COL_SIZE, TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS,
-        TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS,    
-        TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS, TORRENT_VIEW_COL_DOWNLOAD, 
+        (TORRENT_VIEW_COL_UID, TORRENT_VIEW_COL_QUEUE, 
+        TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME,
+        TORRENT_VIEW_COL_SIZE, TORRENT_VIEW_COL_PROGRESS, 
+        TORRENT_VIEW_COL_STATUS, TORRENT_VIEW_COL_CONNECTED_SEEDS, 
+        TORRENT_VIEW_COL_SEEDS, TORRENT_VIEW_COL_CONNECTED_PEERS, 
+        TORRENT_VIEW_COL_PEERS, TORRENT_VIEW_COL_DOWNLOAD, 
         TORRENT_VIEW_COL_UPLOAD, TORRENT_VIEW_COL_ETA, 
         TORRENT_VIEW_COL_AVAILABILITY, TORRENT_VIEW_COL_RATIO) = range(16)
 
-        self.queue_column = dgtk.add_text_column(self.torrent_view, "#", TORRENT_VIEW_COL_QUEUE, width=self.config.get("queue_width"))
-        self.name_column = dgtk.add_texticon_column(self.torrent_view, _("Name"), TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME, width=self.config.get("name_width"))
-        self.size_column = dgtk.add_func_column(self.torrent_view, _("Size"), dgtk.cell_data_size, TORRENT_VIEW_COL_SIZE, width=self.config.get("size_width"))
-        self.status_column = dgtk.add_progress_column(self.torrent_view, _("Status"), TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS, width=self.config.get("status_width"))
-        self.seed_column = dgtk.add_func_column(self.torrent_view, _("Seeders"), peer, (TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS), width=self.config.get("seed_width"))
-        self.peer_column = dgtk.add_func_column(self.torrent_view, _("Peers"), peer, (TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS), width=self.config.get("peer_width"))
-        self.dl_column = dgtk.add_func_column(self.torrent_view, _("Down Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_DOWNLOAD, width=self.config.get("dl_width"))
-        self.ul_column = dgtk.add_func_column(self.torrent_view, _("Up Speed"), dgtk.cell_data_speed, TORRENT_VIEW_COL_UPLOAD, width=self.config.get("ul_width"))
-        self.eta_column = dgtk.add_func_column(self.torrent_view, _("ETA"), time, TORRENT_VIEW_COL_ETA, width=self.config.get("eta_width"))
-        self.availability_column = dgtk.add_func_column(self.torrent_view, _("Avail."), availability, TORRENT_VIEW_COL_AVAILABILITY, width=self.config.get("availability_width"))
-        self.share_column = dgtk.add_func_column(self.torrent_view, _("Ratio"), ratio, TORRENT_VIEW_COL_RATIO, width=self.config.get("share_width"))
+        self.queue_column = dgtk.add_text_column(self.torrent_view, "#", 
+            TORRENT_VIEW_COL_QUEUE, width=self.config.get("queue_width"))
+        self.name_column = dgtk.add_texticon_column(self.torrent_view, _("Name"\
+            ), TORRENT_VIEW_COL_STATUSICON, TORRENT_VIEW_COL_NAME, width=\
+            self.config.get("name_width"))
+        self.size_column = dgtk.add_func_column(self.torrent_view, _("Size"), \
+            dgtk.cell_data_size, TORRENT_VIEW_COL_SIZE, width=self.config.get\
+            ("size_width"))
+        self.status_column = dgtk.add_progress_column(self.torrent_view, _(\
+            "Status"), TORRENT_VIEW_COL_PROGRESS, TORRENT_VIEW_COL_STATUS, 
+            width=self.config.get("status_width"))
+        self.seed_column = dgtk.add_func_column(self.torrent_view, _("Seeders")\
+            , peer, (TORRENT_VIEW_COL_CONNECTED_SEEDS, TORRENT_VIEW_COL_SEEDS)\
+            , width=self.config.get("seed_width"))
+        self.peer_column = dgtk.add_func_column(self.torrent_view, _("Peers"), \
+            peer, (TORRENT_VIEW_COL_CONNECTED_PEERS, TORRENT_VIEW_COL_PEERS), \
+            width=self.config.get("peer_width"))
+        self.dl_column = dgtk.add_func_column(self.torrent_view, _("Down Speed"\
+            ), dgtk.cell_data_speed, TORRENT_VIEW_COL_DOWNLOAD, width=\
+            self.config.get("dl_width"))
+        self.ul_column = dgtk.add_func_column(self.torrent_view, _("Up Speed"), 
+            dgtk.cell_data_speed, TORRENT_VIEW_COL_UPLOAD, width=\
+            self.config.get("ul_width"))
+        self.eta_column = dgtk.add_func_column(self.torrent_view, _("ETA"), 
+            time, TORRENT_VIEW_COL_ETA, width=self.config.get("eta_width"))
+        self.availability_column = dgtk.add_func_column(self.torrent_view, 
+            _("Avail."), availability, TORRENT_VIEW_COL_AVAILABILITY, width=\
+            self.config.get("availability_width"))
+        self.share_column = dgtk.add_func_column(self.torrent_view, _("Ratio"), 
+            ratio, TORRENT_VIEW_COL_RATIO, width=self.config.get("share_width"))
         
         self.name_column.set_sort_column_id(TORRENT_VIEW_COL_NAME)
         self.seed_column.set_sort_column_id(TORRENT_VIEW_COL_CONNECTED_SEEDS)
@@ -556,10 +600,13 @@ class DelugeGTK:
         self.torrent_model.set_sort_column_id(TORRENT_VIEW_COL_QUEUE, 
                                               gtk.SORT_ASCENDING)
         try:
-            self.torrent_view.get_selection().set_select_function(self.torrent_clicked, full=True)
+            self.torrent_view.get_selection().set_select_function(
+                self.torrent_clicked, full=True)
         except TypeError:
-            self.torrent_view.get_selection().set_select_function(self.old_t_click)
-        self.torrent_view.connect("button-press-event", self.torrent_view_clicked)
+            self.torrent_view.get_selection().set_select_function(
+                self.old_t_click)
+        self.torrent_view.connect("button-press-event", 
+            self.torrent_view_clicked)
 
     def torrent_model_append(self, unique_id):
         state = self.manager.get_torrent_state(unique_id)
@@ -578,7 +625,8 @@ class DelugeGTK:
         del self.torrent_model_dict[unique_id]
 
     def old_t_click(self, path):
-        return self.torrent_clicked(self.torrent_view.get_selection(), self.torrent_model, path, False)
+        return self.torrent_clicked(self.torrent_view.get_selection(), 
+            self.torrent_model, path, False)
         
     def torrent_clicked(self, selection, model, path, is_selected):
         if is_selected:
@@ -605,7 +653,8 @@ class DelugeGTK:
                 return True
             
             path = data[0]
-            is_selected = self.torrent_view.get_selection().path_is_selected(path)
+            is_selected = self.torrent_view.get_selection().path_is_selected\
+                (path)
             if not is_selected:
                 self.torrent_view.grab_focus()
                 self.torrent_view.set_cursor(path)
@@ -621,7 +670,8 @@ class DelugeGTK:
         if self.config.get("open_folder_stock"):
             if self.config.get("file_manager") == common.FileManager.xdg:
                 file_manager = "xdg-open"
-            elif self.config.get("file_manager") == common.FileManager.konqueror:
+            elif self.config.get("file_manager") == common.FileManager.\
+                konqueror:
                 file_manager = "konqueror"
             elif self.config.get("file_manager") == common.FileManager.nautilus:
                 file_manager = "nautilus"
@@ -680,12 +730,14 @@ class DelugeGTK:
 
     def show_preferences_dialog(self):
         active_port = self.manager.get_state()['port']
-        preferences_dialog = dialogs.PreferencesDlg(self.config, active_port, self.plugins)
+        preferences_dialog = dialogs.PreferencesDlg(self.config, active_port, 
+            self.plugins)
         preferences_dialog.show(self, self.window)
 
     def show_preferences_dialog_clicked(self, arg=None):
         if self.config.get("enable_system_tray") and \
-            self.config.get("lock_tray") and not self.window.get_property("visible"):
+            self.config.get("lock_tray") and not self.window.get_property(
+                "visible"):
             self.unlock_tray("prefwinshow")
         else:
             self.show_preferences_dialog()
@@ -697,9 +749,9 @@ class DelugeGTK:
         plugin_dialog.show(self, self.window)
 
     def show_plugin_dialog_clicked(self, arg=None):
-        if self.config.get("enable_system_tray") and \
-           self.config.get("lock_tray") and not self.window.get_property("visible"):
-               self.unlock_tray("plugwinshow")
+        if self.config.get("enable_system_tray") and self.config.get(
+            "lock_tray") and not self.window.get_property("visible"):
+            self.unlock_tray("plugwinshow")
         else:
             self.show_plugin_dialog(plugin_tab=True)
 
@@ -721,17 +773,21 @@ class DelugeGTK:
                             int(self.config.get("max_download_speed") * 1024))
         
         # Update the tray download speed limits
-        if self.config.get("max_download_speed") not in self.config.get("tray_downloadspeedlist") and \
-                self.config.get("max_download_speed") >= 0:
-            # We need to prepend this value and remove the last value in the list
-            self.config.get("tray_downloadspeedlist").insert(0, self.config.get("max_download_speed"))
+        if self.config.get("max_download_speed") not in self.config.get(
+            "tray_downloadspeedlist") and self.config.get("max_download_speed")\
+                 >= 0:
+            # We prepend this value and remove the last value in the list
+            self.config.get("tray_downloadspeedlist").insert(0, self.config.get(
+                "max_download_speed"))
             self.config.get("tray_downloadspeedlist").pop()
 
         # Do the same for the upload speed limits
-        if self.config.get("max_upload_speed") not in self.config.get("tray_uploadspeedlist") and \
-                self.config.get("max_upload_speed") >= 0:
-            # We need to prepend this value and remove the last value in the list
-            self.config.get("tray_uploadspeedlist").insert(0, self.config.get("max_upload_speed"))
+        if self.config.get("max_upload_speed") not in self.config.get(
+            "tray_uploadspeedlist") and self.config.get("max_upload_speed") >= \
+                0:
+            # We prepend this value and remove the last value in the list
+            self.config.get("tray_uploadspeedlist").insert(0, self.config.get(
+                "max_upload_speed"))
             self.config.get("tray_uploadspeedlist").pop()
 
         # Re-build the tray sub-menu to display the correct active radio item
@@ -744,33 +800,42 @@ class DelugeGTK:
                 self.config.get("pref_rc4"))
         if self.config.get("peer_proxy"):
             self.manager.proxy_settings(self.config.get("peer_proxy_hostname"), 
-                self.config.get("peer_proxy_username"), self.config.get("peer_proxy_password"), 
-                    int(self.config.get("peer_proxy_port")), self.config.get("peer_proxy_type"), "peer")
+                self.config.get("peer_proxy_username"), self.config.get(
+                    "peer_proxy_password"), 
+                    int(self.config.get("peer_proxy_port")), self.config.get(
+                        "peer_proxy_type"), "peer")
         if self.config.get("dht_proxy"):
             self.manager.proxy_settings(self.config.get("dht_proxy_hostname"), 
-                self.config.get("dht_proxy_username"), self.config.get("dht_proxy_password"), 
-                    int(self.config.get("dht_proxy_port")), self.config.get("dht_proxy_type"), "dht")
+                self.config.get("dht_proxy_username"), self.config.get(
+                    "dht_proxy_password"), 
+                    int(self.config.get("dht_proxy_port")), self.config.get(
+                        "dht_proxy_type"), "dht")
         if self.config.get("tracker_proxy"):
-            self.manager.proxy_settings(self.config.get("tracker_proxy_hostname"), 
-                self.config.get("tracker_proxy_username"), self.config.get("tracker_proxy_password"), 
-                    int(self.config.get("tracker_proxy_port")), self.config.get("tracker_proxy_type"), "tracker")
+            self.manager.proxy_settings(self.config.get(
+                "tracker_proxy_hostname"), 
+                self.config.get("tracker_proxy_username"), self.config.get(
+                    "tracker_proxy_password"), 
+                    int(self.config.get("tracker_proxy_port")), self.config.get(
+                        "tracker_proxy_type"), "tracker")
         if self.config.get("web_proxy"):
             self.manager.proxy_settings(self.config.get("web_proxy_hostname"), 
-                self.config.get("web_proxy_username"), self.config.get("web_proxy_password"), 
-                    int(self.config.get("web_proxy_port")), self.config.get("web_proxy_type"), "web")
+                self.config.get("web_proxy_username"), self.config.get(
+                    "web_proxy_password"), 
+                    int(self.config.get("web_proxy_port")), self.config.get(
+                        "web_proxy_type"), "web")
 
     def get_message_from_state(self, torrent_state):
         state = torrent_state['state']
         is_paused = torrent_state['is_paused']
         progress = torrent_state['progress']
-        progress = '%d%%'%int(progress * 100)
+        progress = '%d%%' % int(progress * 100)
         if is_paused:
-            message = _("Paused %s")%progress
+            message = _("Paused %s") % progress
         else:
             try:
                 message = core.STATE_MESSAGES[state]
                 if state in (1, 3, 4, 7):
-                    message = '%s %s'%(message, progress)
+                    message = '%s %s' % (message, progress)
             except IndexError:
                 message = ''
         return message
@@ -870,7 +935,8 @@ class DelugeGTK:
         # We need to apply the queue changes
         self.manager.apply_queue()
         
-        self.update_interface = self.window.get_property("visible") and not self.is_minimized
+        self.update_interface = self.window.get_property("visible") and not \
+            self.is_minimized
         
         # Handle the events
         self.manager.handle_events()
@@ -903,11 +969,16 @@ class DelugeGTK:
             
             # Disable torrent options if there are no torrents
             self.wtree.get_widget("menu_torrent").set_sensitive(itr is not None)
-            self.wtree.get_widget("toolbutton_remove").set_sensitive(itr is not None)
-            self.wtree.get_widget("toolbutton_resume").set_sensitive(itr is not None)
-            self.wtree.get_widget("toolbutton_pause").set_sensitive(itr is not None)
-            self.wtree.get_widget("toolbutton_up").set_sensitive(itr is not None)
-            self.wtree.get_widget("toolbutton_down").set_sensitive(itr is not None)
+            self.wtree.get_widget("toolbutton_remove").set_sensitive(itr is \
+                not None)
+            self.wtree.get_widget("toolbutton_resume").set_sensitive(itr is \
+                not None)
+            self.wtree.get_widget("toolbutton_pause").set_sensitive(itr is \
+                not None)
+            self.wtree.get_widget("toolbutton_up").set_sensitive(itr is \
+                not None)
+            self.wtree.get_widget("toolbutton_down").set_sensitive(itr is \
+                not None)
         
             if itr is None:
                 return True
@@ -979,14 +1050,15 @@ class DelugeGTK:
         if self.config.get("max_download_speed") < 0:
             dlspeed_max = _("Unlimited")
         else:
-            dlspeed_max = common.fspeed(self.config.get("max_download_speed_bps"))
+            dlspeed_max = common.fspeed(self.config.get(
+                "max_download_speed_bps"))
         if self.config.get("max_upload_speed") < 0:
             ulspeed_max = _("Unlimited")
         else:
             ulspeed_max = common.fspeed(self.config.get("max_upload_speed_bps"))
         
         # Use self.statusbar_temp_msg instance var to allow plugins access it
-        self.statusbar_temp_msg = '%s: %s (%s)  %s: %s (%s)  %s: %s (%s)'%(
+        self.statusbar_temp_msg = '%s: %s (%s)  %s: %s (%s)  %s: %s (%s)' % (
             _("Connections"), connections, max_connections, _("Down Speed"), 
             dlspeed, dlspeed_max, _("Up Speed"), ulspeed, ulspeed_max)
         
@@ -1008,8 +1080,8 @@ class DelugeGTK:
                                       '   [' + _("DHT") + ': %s]'%(dht_peers)
         
         msg = '%s\n%s: %s (%s)\n%s: %s (%s)%s' % (
-            _("Deluge Bittorrent Client"), _("Down Speed"), dlspeed, dlspeed_max, 
-            _("Up Speed"), ulspeed, ulspeed_max, plugin_messages)
+            _("Deluge Bittorrent Client"), _("Down Speed"), dlspeed, 
+            dlspeed_max, _("Up Speed"), ulspeed, ulspeed_max, plugin_messages)
         
         self.tray_icon.set_tooltip(msg)
 
@@ -1034,7 +1106,8 @@ class DelugeGTK:
             if self.torrent_view.get_selection().count_selected_rows() == 1:
                 selected_path = self.torrent_view.get_selection().\
                                     get_selected_rows()[1][0]
-                selected_torrent = self.torrent_model.get_value(self.torrent_model.get_iter(selected_path), 0)
+                selected_torrent = self.torrent_model.get_value(
+                    self.torrent_model.get_iter(selected_path), 0)
                 return selected_torrent
         except (TypeError, ValueError):
             pass
@@ -1044,16 +1117,19 @@ class DelugeGTK:
     # Return a list of ids of the selected torrents
     def get_selected_torrent_rows(self):
         selected_ids = []
-        selected_paths = self.torrent_view.get_selection().get_selected_rows()[1]
+        selected_paths = self.torrent_view.get_selection().get_selected_rows()\
+            [1]
         
         try:
             for path in selected_paths:
-                selected_ids.append(self.torrent_model.get_value(self.torrent_model.get_iter(path), 0))
+                selected_ids.append(self.torrent_model.get_value(
+                    self.torrent_model.get_iter(path), 0))
             return selected_ids
         except ValueError:
             return None
     
-    def on_drag_data(self, widget, drag_context, x, y, selection_data, info, timestamp):
+    def on_drag_data(self, widget, drag_context, x, y, selection_data, info, 
+        timestamp):
         import urllib
     
         uri_split = selection_data.data.strip().split()
@@ -1106,7 +1182,8 @@ class DelugeGTK:
                                 self.config.get('use_compact_storage'))
         except core.InvalidEncodingError, e:
             print "InvalidEncodingError", e
-            dialogs.show_popup_warning(self.window, _("An error occured while trying to add the torrent. It's possible your .torrent file is corrupted."))
+            dialogs.show_popup_warning(self.window, _("An error occured while \
+trying to add the torrent. It's possible your .torrent file is corrupted."))
         except core.DuplicateTorrentError, e:
             for unique_id in self.manager.unique_IDs:
                 is_duplicate = self.manager.test_duplicate(torrent, unique_id)
@@ -1115,29 +1192,38 @@ class DelugeGTK:
             if is_duplicate:
                 merge_dialog = dialogs.MergeDlg()
                 if merge_dialog.show(self.window) == 1:
-                    new_trackers_as_list = self.manager.dump_trackers(torrent).replace(' ','').splitlines(True)
-                    original_trackers_as_list = self.manager.get_trackers(unique_id).replace(' ','').splitlines(True)
+                    new_trackers_as_list = self.manager.dump_trackers(torrent).\
+                        replace(' ','').splitlines(True)
+                    original_trackers_as_list = self.manager.get_trackers(
+                        unique_id).replace(' ','').splitlines(True)
                     for index in xrange(len(new_trackers_as_list)):
-                        if original_trackers_as_list.count(new_trackers_as_list[index]) == 0:
-                            original_trackers_as_list.append(new_trackers_as_list[index])
-                    merged_trackers_as_string = ''.join([original_trackers_as_list[index] for \
+                        if original_trackers_as_list.count(
+                            new_trackers_as_list[index]) == 0:
+                            original_trackers_as_list.append(
+                                new_trackers_as_list[index])
+                    merged_trackers_as_string = ''.join([
+                        original_trackers_as_list[index] for \
                         index in xrange(len(original_trackers_as_list))])
-                    self.manager.replace_trackers(unique_id, merged_trackers_as_string)
+                    self.manager.replace_trackers(unique_id, 
+                        merged_trackers_as_string)
             else:
-                dialogs.show_popup_warning(self.window, _("Unknown duplicate torrent error."))
+                dialogs.show_popup_warning(self.window, _("Unknown duplicate \
+torrent error."))
         except core.InsufficientFreeSpaceError, e:
             nice_need = common.fsize(e.needed_space)
             nice_free = common.fsize(e.free_space)
-            dialogs.show_popup_warning(self.window, _("There is not enough free disk space to complete your download.") + "\n" + \
-                                                        _("Space Needed:") + " " + nice_need + "\n" + \
-                                                        _("Available Space:") + " " + nice_free)
+            dialogs.show_popup_warning(self.window, _("There is not enough free\
+                disk space to complete your download.") + "\n" + \
+                _("Space Needed:") + " " + nice_need + "\n" + 
+                _("Available Space:") + " " + nice_free)
         else:
             self.torrent_model_append(unique_id)
 
         return unique_id
             
     def launchpad(self, obj=None):
-        common.open_url_in_browser('https://translations.launchpad.net/deluge/trunk/+pots/deluge')
+        common.open_url_in_browser('https://translations.launchpad.net/deluge/\
+            trunk/+pots/deluge')
             
     def add_torrent_clicked(self, obj=None):
         torrent = dialogs.show_file_open_dialog()
@@ -1169,12 +1255,13 @@ class DelugeGTK:
             self.interactive_add_torrent_url(url) 
 
     def remove_torrent_clicked(self, obj=None):
-        glade     = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"), domain='deluge')
-        asker     = glade.get_widget("remove_torrent_dlg")
+        glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"), 
+                    domain='deluge')
+        asker = glade.get_widget("remove_torrent_dlg")
         
         asker.set_icon_from_file(common.get_pixmap("deluge32.png"))
 
-        warning   =  glade.get_widget("warning")
+        warning = glade.get_widget("warning")
         warning.set_text(" ")
 
         torrent_also = glade.get_widget("torrent_also")
@@ -1202,7 +1289,8 @@ class DelugeGTK:
         if not args.get_active():
             warning.set_text(" ")
         else:
-            warning.set_markup("<i>" + _("Warning - all downloaded files for this torrent will be deleted!") + "</i>")
+            warning.set_markup("<i>" + _("Warning - all downloaded files for \
+this torrent will be deleted!") + "</i>")
         return False
 
     def update_tracker(self, obj=None):
@@ -1283,22 +1371,35 @@ class DelugeGTK:
         self.share_column.set_visible(obj.get_active())
         
     def load_window_settings(self):
-        self.wtree.get_widget("chk_infopane").set_active(self.config.get("show_infopane"))
-        self.wtree.get_widget("chk_toolbar").set_active(self.config.get("show_toolbar"))
-        self.wtree.get_widget("chk_size").set_active(self.config.get("show_size"))
-        self.wtree.get_widget("chk_status").set_active(self.config.get("show_status"))
-        self.wtree.get_widget("chk_seed").set_active(self.config.get("show_seeders"))
-        self.wtree.get_widget("chk_peer").set_active(self.config.get("show_peers"))
-        self.wtree.get_widget("chk_download").set_active(self.config.get("show_dl"))
-        self.wtree.get_widget("chk_upload").set_active(self.config.get("show_ul"))
+        self.wtree.get_widget("chk_infopane").set_active(self.config.get(
+            "show_infopane"))
+        self.wtree.get_widget("chk_toolbar").set_active(self.config.get(
+            "show_toolbar"))
+        self.wtree.get_widget("chk_size").set_active(self.config.get(
+            "show_size"))
+        self.wtree.get_widget("chk_status").set_active(self.config.get(
+            "show_status"))
+        self.wtree.get_widget("chk_seed").set_active(self.config.get(
+            "show_seeders"))
+        self.wtree.get_widget("chk_peer").set_active(self.config.get(
+            "show_peers"))
+        self.wtree.get_widget("chk_download").set_active(self.config.get(
+            "show_dl"))
+        self.wtree.get_widget("chk_upload").set_active(self.config.get(
+            "show_ul"))
         self.wtree.get_widget("chk_eta").set_active(self.config.get("show_eta"))
-        self.wtree.get_widget("chk_availability").set_active(self.config.get("show_availability"))
-        self.wtree.get_widget("chk_ratio").set_active(self.config.get("show_share"))
-        self.wtree.get_widget("vpaned1").set_position(self.config.get("window_height") - self.config.get("window_pane_position"))
+        self.wtree.get_widget("chk_availability").set_active(self.config.get(
+            "show_availability"))
+        self.wtree.get_widget("chk_ratio").set_active(self.config.get(
+            "show_share"))
+        self.wtree.get_widget("vpaned1").set_position(self.config.get(
+            "window_height") - self.config.get("window_pane_position"))
     
     def save_window_settings(self):
-        self.config.set("show_infopane", self.wtree.get_widget("chk_infopane").get_active())
-        self.config.set("show_toolbar", self.wtree.get_widget("chk_toolbar").get_active())
+        self.config.set("show_infopane", self.wtree.get_widget("chk_infopane").\
+            get_active())
+        self.config.set("show_toolbar", self.wtree.get_widget("chk_toolbar").\
+            get_active())
         self.config.set("show_size", self.size_column.get_visible())
         self.config.set("show_status", self.status_column.get_visible())
         self.config.set("show_seeders", self.seed_column.get_visible())
@@ -1306,16 +1407,19 @@ class DelugeGTK:
         self.config.set("show_dl", self.dl_column.get_visible())
         self.config.set("show_ul", self.ul_column.get_visible())
         self.config.set("show_eta", self.eta_column.get_visible())
-        self.config.set("show_availability", self.availability_column.get_visible())
+        self.config.set("show_availability", self.availability_column.\
+            get_visible())
         self.config.set("show_share", self.share_column.get_visible())
-        self.config.set("window_pane_position", self.config.get("window_height") - self.wtree.get_widget("vpaned1").get_position())
+        self.config.set("window_pane_position", self.config.get(
+            "window_height") - self.wtree.get_widget("vpaned1").get_position())
 
     def save_column_widths(self):
-        to_save = ["queue", "name", "size", "status", "seed", "peer", "dl", \
+        to_save = ["queue", "name", "size", "status", "seed", "peer", "dl", 
                     "ul", "eta", "availability", "share"]
         for columns in to_save:
             pref_name = columns + '_width'
-            self.config.set(pref_name, eval('self.' + columns + '_column.get_width()'))
+            self.config.set(pref_name, eval('self.' + columns + 
+                '_column.get_width()'))
    
     def window_configure_event(self, widget, event):
         if self.config.get("window_maximized") == False:
@@ -1350,7 +1454,8 @@ class DelugeGTK:
             self.window.maximize()
 
     def close(self, widget, event):
-        if self.config.get("close_to_tray") and self.config.get("enable_system_tray") and self.has_tray:
+        if self.config.get("close_to_tray") and self.config.get(
+            "enable_system_tray") and self.has_tray:
             self.window.hide()
             return True
         else:
@@ -1381,4 +1486,3 @@ class DelugeGTK:
 if __name__ == "__main__":
     interface = DelugeGTK()
     interface.start()
-
