@@ -48,8 +48,21 @@ class WizardGTK:
                                 'cancel': self.cancel,
                                 'toggle': self.toggle,
                                 'close': self.cancel})
-
+        #add deluge logo to headers
         self.window = self.wtree.get_widget("wizard")
+        pixmap = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap(\
+            "deluge48.png"))
+        self.window.set_page_header_image(self.wtree.get_widget('label1'), \
+            pixmap)
+        self.window.set_page_header_image(self.wtree.get_widget('vbox1'), \
+            pixmap)
+        self.window.set_page_header_image(self.wtree.get_widget('vbox2'), \
+            pixmap)
+        self.window.set_page_header_image(self.wtree.get_widget('vbox3'), \
+            pixmap)
+        self.window.set_page_header_image(self.wtree.get_widget\
+            ('chk_send_info'), pixmap)
+
         #activate forward buttons for all pages
         self.window.set_page_complete(self.wtree.get_widget('label1'), True)
         self.window.set_page_complete(self.wtree.get_widget('vbox1'), True)
