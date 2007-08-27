@@ -19,7 +19,8 @@
 plugin_name = _("Web Seed")
 plugin_author = "Marcos Pinto"
 plugin_version = "0.1"
-plugin_description = _("This plugin allows users to add web seeds to their torrents")
+plugin_description = _("This plugin allows users to add web seeds to their \
+torrents")
 
 def deluge_init(deluge_path):
     global path

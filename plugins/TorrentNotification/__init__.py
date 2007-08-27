@@ -19,7 +19,8 @@
 plugin_name = _("Torrent Notification")
 plugin_author = "Micah Bucy"
 plugin_version = "0.1"
-plugin_description = _("Make tray icon blink when torrent finishes downloading and/or popup a notification")
+plugin_description = _("Make tray icon blink when torrent finishes downloading \
+and/or popup a notification")
 
 def deluge_init(deluge_path):
     global path

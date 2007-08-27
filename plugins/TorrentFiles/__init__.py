@@ -20,7 +20,8 @@ plugin_name = _("Torrent Files")
 plugin_author = "Deluge"
 plugin_version = "0.2"
 plugin_description = _("""
-This is just the files tab as a plugin.
+This plugin shows you the files inside a torrent and allows you to set \
+priorities for them and choose which ones you want or don't want to download.
 """)
 
 def deluge_init(deluge_path):

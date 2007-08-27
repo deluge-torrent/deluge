@@ -20,10 +20,10 @@ plugin_name = _("Move Torrent")
 plugin_author = "Marcos Pinto"
 plugin_version = "0.1"
 plugin_description = _("This plugin allows users to move the torrent to a \
-    different directory without having to remove and re-add the torrent.  This \
-    feature can be found by right-clicking on a torrent.\nFurthermore, it \
-    allows the user to automatically have finished torrents moved to a different \
-    folder.")
+different directory without having to remove and re-add the torrent.  This \
+feature can be found by right-clicking on a torrent.\nFurthermore, it \
+allows the user to automatically have finished torrents moved to a different \
+folder.")
 
 def deluge_init(deluge_path):
     global path

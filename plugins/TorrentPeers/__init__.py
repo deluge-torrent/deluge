@@ -20,7 +20,8 @@ plugin_name = _("Torrent Peers")
 plugin_author = "Deluge"
 plugin_version = "0.2"
 plugin_description = _("""
-This is just the peers tab as a plugin.
+This shows you the peers associated with each torrent and shows you their ip, \
+country, client, percent complete and upload and download speeds.
 """)
 
 def deluge_init(deluge_path):
