@@ -261,6 +261,7 @@ class WizardGTK:
         import deluge.common
         firstrun = open(os.path.join(deluge.common.CONFIG_DIR, 'firstrun'), 'w')
         firstrun.write("")
+        firstrun.close()
 
     def cancel(self, *args):
         """
