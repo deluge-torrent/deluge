@@ -1838,6 +1838,7 @@ namespace libtorrent
 #endif
 
 		assert(want_more_peers());
+		assert(m_ses.num_connections() < m_ses.max_connections());
 
 		tcp::endpoint const& a(peerinfo->ip);
 		assert((m_ses.m_ip_filter.access(a.address()) & ip_filter::blocked) == 0);
@@ -2025,9 +2026,9 @@ namespace libtorrent
 		, boost::intrusive_ptr<peer_connection> const& p
 		, bool non_prioritized)
 	{
-        assert(m_bandwidth_limit[channel].throttle() > 0);
+		assert(m_bandwidth_limit[channel].throttle() > 0);
 		int block_size = m_bandwidth_limit[channel].throttle() / 10;
-        if (block_size <= 0) block_size = 1;
+		if (block_size <= 0) block_size = 1;
 
 		if (m_bandwidth_limit[channel].max_assignable() > 0)
 		{
