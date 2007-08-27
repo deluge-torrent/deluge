@@ -79,7 +79,13 @@ def cell_data_ratio(column, cell, model, row, data):
         cell.set_property('text', ratio_str)
 
 class ListView:
+    """ListView is used to make custom GtkTreeViews.  It supports the adding
+    and removing of columns, creating a menu for a column toggle list and
+    support for 'status_field's which are used while updating the columns data.
+    """
+
     class ListViewColumn:
+        """Holds information regarding a column in the ListView"""
         def __init__(self, name, column_indices):
             # Name is how a column is identified and is also the header
             self.name = name
@@ -140,6 +146,7 @@ class ListView:
             return self.columns[name].column_indices[0]
 
     def on_menuitem_toggled(self, widget):
+        """Callback for the generated column menuitems."""
         # Get the column name from the widget
         name = widget.get_child().get_text()
         
@@ -148,6 +155,7 @@ class ListView:
         return
 
     def create_checklist_menu(self):
+        """Creates a menu used for toggling the display of columns."""
         self.menu = gtk.Menu()
         # Iterate through the column_index list to preserve order
         for name in self.column_index:
@@ -166,8 +174,9 @@ class ListView:
             # Add the new checkmenuitem to the menu
             self.menu.append(menuitem)
         return self.menu
-    
+
     def create_new_liststore(self):
+        """Creates a new GtkListStore based on the liststore_columns list"""
         # Create a new liststore with added column and move the data from the 
         # old one to the new one.
         new_list = gtk.ListStore(*tuple(self.liststore_columns))
@@ -222,12 +231,16 @@ class ListView:
     
     def add_column(self, header, render, col_types, hidden, position, 
             status_field, sortid, text=0, value=0, function=None):
+        """Adds a column to the ListView"""
         # Add the column types to liststore_columns
+        column_indices = []
         if type(col_types) is list:
             for col_type in col_types:
                 self.liststore_columns.append(col_type)
+                column_indices.append(len(self.liststore_columns) - 1)
         else:
             self.liststore_columns.append(col_types)
+            column_indices.append(len(self.liststore_columns) - 1)
         
         # Add to the index list so we know the order of the visible columns.
         if position is not None:
@@ -236,8 +249,7 @@ class ListView:
             self.column_index.append(header)
         
         # Create a new column object and add it to the list
-        self.columns[header] = self.ListViewColumn(header, 
-                                            [len(self.liststore_columns) - 1])
+        self.columns[header] = self.ListViewColumn(header, column_indices)
         
            
         self.columns[header].status_field = status_field
@@ -246,8 +258,21 @@ class ListView:
         self.create_new_liststore()
         
         if type(render) is gtk.CellRendererText:
-            column = gtk.TreeViewColumn(header, render, 
+            # Check to see if this is a function column or not
+            if function is None:
+                # Not a function column, so lets treat it as a regular text col
+                column = gtk.TreeViewColumn(header, render, 
                             text=self.columns[header].column_indices[text])
+            else:
+                # This is a function column
+                column = gtk.TreeViewColumn(header)
+                column.pack_start(render, True)
+                if len(self.columns[header].column_indices) > 1:
+                    column.set_cell_data_func(render, function, 
+                                    tuple(self.columns[header].column_indices))
+                else:
+                    column.set_cell_data_func(render, function,
+                                    self.columns[header].column_indices[0])                
         else:
             column = gtk.TreeViewColumn(header, render)
                 
@@ -274,66 +299,23 @@ class ListView:
                                             position=None,
                                             status_field=None,
                                             sortid=0):
-        # Add a text column to the treeview
+        """Add a text column to the listview.  Only the header name is required.
+        """
         render = gtk.CellRendererText()
         self.add_column(header, render, col_type, hidden, position,
                     status_field, sortid, text=0)
        
         return True
         
-    def add_func_column(self, header, function, column_types, sortid=0, 
-                                hidden=False, position=None, get_function=None,
-                                            status_field=None):
-        # Add the new column types to the list and keep track of the liststore
-        # columns that this column object uses.
-        # Set sortid to the column index relative the to column_types used.
-        # Default is 0.
+    def add_func_column(self, header, function, col_types, sortid=0, 
+                                hidden=False, position=None, status_field=None):
+        """Add a function column to the listview.  Need a header name, the
+        function and the column types."""
         
-        column_indices = []
-        for column_type in column_types:
-            self.liststore_columns.append(column_type)
-            column_indices.append(len(self.liststore_columns) - 1)
-        
-        # Add to the index list so we know the order of the visible columns.
-        if position is not None:
-            self.column_index.insert(position, header)
-        else:
-            self.column_index.append(header)
-
-        # Create a new column object and add it to the list    
-        self.columns[header] = self.ListViewColumn(header, column_indices)
-
-        self.columns[header].status_field = status_field
-                
-        # Create new list with the added columns
-        self.create_new_liststore()
-        
-        column = gtk.TreeViewColumn(header)
         render = gtk.CellRendererText()
-        column.pack_start(render, True)
-        if len(self.columns[header].column_indices) > 1:
-            column.set_cell_data_func(render, function, 
-                                    tuple(self.columns[header].column_indices))
-        else:
-            column.set_cell_data_func(render, function,
-                                    self.columns[header].column_indices[0])
-        column.set_clickable(True)
-        column.set_sort_column_id(column_indices[sortid])
-        column.set_resizable(True)
-        column.set_expand(False)
-        column.set_min_width(10)
-        column.set_reorderable(True)
-        column.set_visible(not hidden)
-        if position is not None:
-            self.treeview.insert_column(column, position)
-        else:
-            self.treeview.append_column(column)
-        # Set hidden in the column
-        self.columns[header].hidden = hidden
-        self.columns[header].column = column
-        # Re-create the menu item because of the new column
-        self.create_checklist_menu()
-                
+        self.add_column(header, render, col_types, hidden, position,
+                            status_field, sortid, function=function)
+
         return True
 
     def add_progress_column(self, header, col_type=[float,str], hidden=False, 
