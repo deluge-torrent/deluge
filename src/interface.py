@@ -170,6 +170,7 @@ class DelugeGTK:
                     ## Help Menu
                     "show_about_dialog": self.show_about_dialog,
                     "launchpad": self.launchpad,
+                    "run_wizard": self.run_wizard,
                     ## Toolbar
                     "tor_start": self.tor_start,
                     "tor_pause": self.tor_pause,
@@ -672,6 +673,10 @@ class DelugeGTK:
 
     def show_about_dialog(self, arg=None):
         dialogs.show_about_dialog()
+
+    def run_wizard(self, arg=None):
+        import wizard
+        wizard.WizardGTK()
 
     def show_preferences_dialog(self):
         active_port = self.manager.get_state()['port']

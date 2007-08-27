@@ -1027,6 +1027,30 @@
                       </widget>
                     </child>
                     <child>
+                      <widget class="GtkImageMenuItem" id="menuitem8">
+                        <property name="visible">True</property>
+                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                        <property name="tooltip" translatable="yes">Runs the first-time configuration wizard</property>
+                        <property name="label" translatable="yes">_Run Configuration Wizard</property>
+                        <property name="use_underline">True</property>
+                        <signal name="activate" handler="run_wizard"/>
+                        <child internal-child="image">
+                          <widget class="GtkImage" id="menu-item-image7">
+                            <property name="visible">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="stock">gtk-preferences</property>
+                            <property name="icon_size">1</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkSeparatorMenuItem" id="separatormenuitem4">
+                        <property name="visible">True</property>
+                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                      </widget>
+                    </child>
+                    <child>
                       <widget class="GtkImageMenuItem" id="menuitem4">
                         <property name="visible">True</property>
                         <property name="label">gtk-about</property>
