@@ -77,16 +77,19 @@ class DesiredSpeed:
         self.up_speed_menuitem.show_all()
         for torrent in self.core.get_queue():
             unique_ID = self.core.get_torrent_unique_id(torrent)
-            if self.core.unique_IDs[unique_ID].upload_rate_limit != -1:
-                self.core.set_per_upload_rate_limit(unique_ID, 
-                    self.core.unique_IDs[unique_ID].upload_rate_limit)
-                self.set_up_speeds[unique_ID] = \
-                    self.core.unique_IDs[unique_ID].upload_rate_limit / 1024
-            if self.core.unique_IDs[unique_ID].download_rate_limit != -1:
-                self.core.set_per_download_rate_limit(unique_ID, 
-                    self.core.unique_IDs[unique_ID].download_rate_limit)
-                self.set_down_speeds[unique_ID] = \
-                    self.core.unique_IDs[unique_ID].download_rate_limit / 1024
+            try:
+                if self.core.unique_IDs[unique_ID].upload_rate_limit != -1:
+                    self.core.set_per_upload_rate_limit(unique_ID, 
+                        self.core.unique_IDs[unique_ID].upload_rate_limit)
+                    self.set_up_speeds[unique_ID] = \
+                        self.core.unique_IDs[unique_ID].upload_rate_limit / 1024
+                if self.core.unique_IDs[unique_ID].download_rate_limit != -1:
+                    self.core.set_per_download_rate_limit(unique_ID, 
+                        self.core.unique_IDs[unique_ID].download_rate_limit)
+                    self.set_down_speeds[unique_ID] = \
+                        self.core.unique_IDs[unique_ID].download_rate_limit / 1024
+            except AttributeError:
+                pass
 
     def torrent_menu_hide(self, widget):
         try:
