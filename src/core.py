@@ -159,9 +159,10 @@ class torrent_info:
         self.filename = filename
         self.save_dir = save_dir
         self.compact = compact
-
-        self.user_paused = False # start out unpaused
+        self.user_paused = False
         self.uploaded_memory = 0
+        self.upload_rate_limit = 0
+        self.download_rate_limit = 0
 
         self.delete_me = False # set this to true, to delete it on next sync
 
@@ -1024,6 +1025,12 @@ class Manager:
         if speed != -1:
             speed = speed * 1024
         return deluge_core.set_per_download_rate_limit(unique_ID, speed)
+
+    def get_per_upload_rate_limit(self, unique_ID):
+        return deluge_core.get_per_upload_rate_limit(unique_ID)
+
+    def get_per_download_rate_limit(self, unique_ID):
+        return deluge_core.get_per_download_rate_limit(unique_ID)
 
     def add_url_seed(self, unique_ID, address):
         return deluge_core.add_url_seed(unique_ID, address)
