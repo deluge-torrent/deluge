@@ -53,6 +53,14 @@ class webseedMenu:
         self.menuitem.connect("activate", self.webseed_clicked)
         self.interface.torrent_menu.append(self.menuitem)
         self.menuitem.show_all()
+        for torrent in self.core.get_queue():
+            unique_ID = self.core.get_torrent_unique_id(torrent)
+            try:
+                if self.core.unique_IDs[unique_ID].webseed_urls:
+                    for urls in self.core.unique_IDs[unique_ID].webseed_urls:
+                        self.core.add_url_seed(unique_ID, urls)
+            except AttributeError:
+                pass
         
     def update(self):
         pass
