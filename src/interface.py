@@ -448,6 +448,7 @@ window, please enter your password"))
             include_hidden_chars=False).strip()
         self.manager.replace_trackers(torrent, self.textlist)
         self.edit_window.destroy()
+        self.manager.unique_IDs[torrent].trackers = self.textlist
 
     def show_edit_tracker_dialog(self, list):
         self.textbuffer = gtk.TextBuffer(table=None)
@@ -898,6 +899,12 @@ window, please enter your password"))
         for torrent in self.manager.get_queue():
             unique_id = self.manager.get_torrent_unique_id(torrent)
             self.torrent_model_append(unique_id)
+            try:
+                if self.manager.unique_IDs[unique_id].trackers:
+                    self.manager.replace_trackers(torrent, \
+                        self.manager.unique_IDs[unique_id].trackers)
+            except AttributeError:
+                pass
             
         for torrent_file in cmd_line_torrents:
             self.interactive_add_torrent(torrent_file)
@@ -1476,6 +1483,10 @@ this torrent will be deleted!") + "</i>")
         self.save_column_widths()
         self.save_window_settings()
         gtk.main_quit()
+        for torrent in self.manager.get_queue():
+            unique_id = self.manager.get_torrent_unique_id(torrent)
+            trackerslist = self.manager.get_trackers(unique_id)
+            self.manager.unique_IDs[unique_id].trackers = trackerslist
         enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
         self.config.set('enabled_plugins', enabled_plugins)
         self.config.save()
