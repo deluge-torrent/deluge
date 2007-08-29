@@ -71,6 +71,17 @@ class PluginManager:
                 self.plugins[name] = instance
                 log.info("Load plugin %s", name)
            
+    def shutdown(self):
+        log.debug("PluginManager shutting down..")
+        # Del all plugins to allow them to deconstruct properly
+        for plugin in self.plugins.values():
+            plugin.core.shutdown()
+           # del plugin
+            #while plugin is not None:
+            #    del plugin
+        
+        del self.plugins
+            
     def __getitem__(self, key):
         return self.plugins[key]
         

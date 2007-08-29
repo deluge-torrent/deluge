@@ -66,7 +66,17 @@ class GtkUI:
         menu_glade = gtk.glade.XML(pkg_resources.resource_filename("queue", 
                                                     "glade/queuemenu.glade"))
         
-        menu = menu_glade.get_widget("menu_queue")    
+        menu_glade.signal_autoconnect({
+            "on_menuitem_queuetop_activate": \
+                                            self.on_menuitem_queuetop_activate,
+            "on_menuitem_queueup_activate": self.on_menuitem_queueup_activate,
+            "on_menuitem_queuedown_activate": \
+                                        self.on_menuitem_queuedown_activate,
+            "on_menuitem_queuebottom_activate": \
+                                        self.on_menuitem_queuebottom_activate
+        })
+        
+        menu = menu_glade.get_widget("menu_queue")
         
         # Connect to the 'torrent_queue_changed' signal
         self.core.connect_to_signal("torrent_queue_changed", 
@@ -79,17 +89,20 @@ class GtkUI:
                                         col_type=int,
                                         position=0, 
                                         status_field=["queue"])
+        # Update the new column right away
+        self.torrentview.update(["#"])
+        
         # Add a toolbar buttons
         self.plugin.get_toolbar().add_separator()
         self.plugin.get_toolbar().add_toolbutton(stock="gtk-go-up", 
                                     label="Queue Up", 
                                     tooltip="Queue selected torrents up",
-                                    callback=self.on_queueup_toolbutton_clicked)
+                                    callback=self.on_toolbutton_queueup_clicked)
 
         self.plugin.get_toolbar().add_toolbutton(stock="gtk-go-down", 
                                 label="Queue Down", 
                                 tooltip="Queue selected torrents down",
-                                callback=self.on_queuedown_toolbutton_clicked)
+                                callback=self.on_toolbutton_queuedown_clicked)
                                 
         # Add the queue menu to the torrent menu
         queue_menuitem = gtk.ImageMenuItem("Queue")
@@ -98,23 +111,58 @@ class GtkUI:
         queue_menuitem.set_image(queue_image)
         queue_menuitem.set_submenu(menu)
         self.plugin.get_torrentmenu().append(queue_menuitem)
-
-    def on_queuedown_toolbutton_clicked(self, widget):
-        log.debug("Queue down toolbutton clicked.")
+        
+    ## Menu callbacks ##
+    def on_menuitem_queuetop_activate(self, data=None):
+        log.debug("on_menuitem_queuetop_activate")
+        # Get the selected torrents
+        torrent_ids = self.plugin.get_selected_torrents()
+        for torrent_id in torrent_ids:
+            self.core.queue_top(torrent_id)
+        return
+                
+    def on_menuitem_queueup_activate(self, data=None):
+        log.debug("on_menuitem_queueup_activate")
+        # Get the selected torrents
+        torrent_ids = self.plugin.get_selected_torrents()
+        for torrent_id in torrent_ids:
+            self.core.queue_up(torrent_id)
+        return
+        
+    def on_menuitem_queuedown_activate(self, data=None):
+        log.debug("on_menuitem_queuedown_activate")
+        # Get the selected torrents
+        torrent_ids = self.plugin.get_selected_torrents()
+        for torrent_id in torrent_ids:
+            self.core.queue_down(torrent_id)
+        return
+                
+    def on_menuitem_queuebottom_activate(self, data=None):
+        log.debug("on_menuitem_queuebottom_activate")
+        # Get the selected torrents
+        torrent_ids = self.plugin.get_selected_torrents()
+        for torrent_id in torrent_ids:
+            self.core.queue_bottom(torrent_id)
+        return
+        
+    ## Toolbutton callbacks ##
+    def on_toolbutton_queuedown_clicked(self, widget):
+        log.debug("on_toolbutton_queuedown_clicked")
         # Get the selected torrents
         torrent_ids = self.plugin.get_selected_torrents()
         for torrent_id in torrent_ids:
             self.core.queue_down(torrent_id)
         return
         
-    def on_queueup_toolbutton_clicked(self, widget):
-        log.debug("Queue Up toolbutton clicked.")    
+    def on_toolbutton_queueup_clicked(self, widget):
+        log.debug("on_toolbutton_queueup_clicked")    
         # Get the selected torrents
         torrent_ids = self.plugin.get_selected_torrents()
         for torrent_id in torrent_ids:
             self.core.queue_up(torrent_id)
         return
     
+    ## Signals ##
     def torrent_queue_changed_signal(self):
         """This function is called whenever we receive a 'torrent_queue_changed'
         signal from the core plugin.

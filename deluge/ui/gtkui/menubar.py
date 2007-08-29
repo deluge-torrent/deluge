@@ -66,6 +66,8 @@ class MenuBar:
             "on_menuitem_addurl_activate": self.on_menuitem_addurl_activate,
             "on_menuitem_clear_activate": \
                                             self.on_menuitem_clear_activate,
+            "on_menuitem_quitdaemon_activate": \
+                                        self.on_menuitem_quitdaemon_activate,
             "on_menuitem_quit_activate": self.on_menuitem_quit_activate,
 
             ## Edit Menu
@@ -90,13 +92,7 @@ class MenuBar:
             "on_menuitem_edittrackers_activate": \
                                     self.on_menuitem_edittrackers_activate,
             "on_menuitem_remove_activate": self.on_menuitem_remove_activate,
-            "on_menuitem_queuetop_activate": \
-                                            self.on_menuitem_queuetop_activate,
-            "on_menuitem_queueup_activate": self.on_menuitem_queueup_activate,
-            "on_menuitem_queuedown_activate": \
-                                        self.on_menuitem_queuedown_activate,
-            "on_menuitem_queuebottom_activate": \
-                                        self.on_menuitem_queuebottom_activate
+
         })
         
     ### Callbacks ###
@@ -112,6 +108,12 @@ class MenuBar:
         
     def on_menuitem_clear_activate(self, data=None):
         log.debug("on_menuitem_clear_activate")
+    
+    def on_menuitem_quitdaemon_activate(self, data=None):
+        log.debug("on_menuitem_quitdaemon_activate")
+        # Tell the core to shutdown
+        functions.shutdown()
+        self.window.quit()
         
     def on_menuitem_quit_activate(self, data=None):
         log.debug("on_menuitem_quit_activate")
@@ -145,22 +147,6 @@ class MenuBar:
         log.debug("on_menuitem_remove_activate")
         functions.remove_torrent(
                             self.window.torrentview.get_selected_torrents())
-                            
-    def on_menuitem_queuetop_activate(self, data=None):
-        log.debug("on_menuitem_queuetop_activate")
-        functions.queue_top(self.window.torrentview.get_selected_torrents())
-        
-    def on_menuitem_queueup_activate(self, data=None):
-        log.debug("on_menuitem_queueup_activate")
-        functions.queue_up(self.window.torrentview.get_selected_torrents())
-        
-    def on_menuitem_queuedown_activate(self, data=None):
-        log.debug("on_menuitem_queuedown_activate")
-        functions.queue_down(self.window.torrentview.get_selected_torrents())
-        
-    def on_menuitem_queuebottom_activate(self, data=None):
-        log.debug("on_menuitem_queuebottom_activate")
-        functions.queue_bottom(self.window.torrentview.get_selected_torrents())
                 
     ## View Menu ##
     def on_menuitem_toolbar_toggled(self, data=None):

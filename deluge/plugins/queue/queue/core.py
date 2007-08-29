@@ -31,25 +31,13 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
-
-try:
-	import dbus, dbus.service
-	dbus_version = getattr(dbus, "version", (0,0,0))
-	if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
-		import dbus.glib
-	elif dbus_version >= (0,80,0):
-		from dbus.mainloop.glib import DBusGMainLoop
-		DBusGMainLoop(set_as_default=True)
-	else:
-		pass
-except: dbus_imported = False
-else: dbus_imported = True
+import dbus
+import dbus.service
+from dbus.mainloop.glib import DBusGMainLoop
+DBusGMainLoop(set_as_default=True)
 
 from torrentqueue import TorrentQueue
-
-# Get the logger
-log = logging.getLogger("deluge")
+from deluge.log import LOG as log
 
 class Core(dbus.service.Object):
     def __init__(self, plugin, path="/org/deluge_torrent/Plugin/Queue"):
@@ -62,7 +50,7 @@ class Core(dbus.service.Object):
 
         dbus.service.Object.__init__(self, bus_name, path)
        
-        # Instantiate the TorrentQueue object        
+        # Instantiate the TorrentQueue object
         self.queue = TorrentQueue()
         
         # Register core hooks
@@ -74,6 +62,10 @@ class Core(dbus.service.Object):
         self.plugin.register_status_field("queue", self.status_field_queue)
         
         log.info("Queue Core plugin initialized..")
+    
+    def shutdown(self):
+        # Save the queue state
+        self.queue.save_state()
     
     ## Hooks for core ##
     def post_torrent_add(self, torrent_id):

@@ -90,6 +90,10 @@ class Core(dbus.service.Object):
         """Shutdown the core"""
         log.info("Shutting down core..")
         self.loop.quit()
+        del self.torrents
+        self.plugins.shutdown()
+        del self.plugins
+        del self.session
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
                                     in_signature="say", out_signature="")
@@ -97,7 +101,6 @@ class Core(dbus.service.Object):
         """Adds a torrent file to the libtorrent session
             This requires the torrents filename and a dump of it's content
         """
-        log.info("Adding torrent: %s", filename)
         torrent_id = self.torrents.add(filename, filedump)
 
         # Run the plugin hooks for 'post_torrent_add'
@@ -149,6 +152,23 @@ class Core(dbus.service.Object):
             status.update(self.plugins.get_status(torrent_id, leftover_fields))
         status = pickle.dumps(status)
         return status
+    
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+                                in_signature="",
+                                out_signature="ay")
+    def get_session_state(self):
+        """Returns a list of torrent_ids in the session."""
+        # Get the torrent list from the TorrentManager
+        torrent_list = self.torrents.get_torrent_list()
+        # Pickle the list and send it
+        session_state = pickle.dumps(torrent_list)
+        return session_state
+    
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge")
+    def save_state(self):
+        """Save the current session state to file."""
+        # Have the TorrentManager save it's state
+        self.torrents.save_state()
         
     # Signals
     @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",

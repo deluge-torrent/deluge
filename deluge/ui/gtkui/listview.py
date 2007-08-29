@@ -185,11 +185,12 @@ class ListView:
         # being the new liststore and the columns list
         def copy_row(model, path, row, user_data):
             new_list, columns = user_data
+            new_row = new_list.append()
             for column in range(model.get_n_columns()):
                 # Get the current value of the column for this row
                 value = model.get_value(row, column)
                 # Set the value of this row and column in the new liststore
-                new_list.set_value(row, column, value)
+                new_list.set_value(new_row, column, value)
         
         # Do the actual row copy
         if self.liststore is not None:

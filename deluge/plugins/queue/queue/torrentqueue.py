@@ -31,19 +31,45 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
+import pickle
 
-# Get the logger
-log = logging.getLogger("deluge")
+import deluge.common
+from deluge.log import LOG as log
 
 class TorrentQueue:
     def __init__(self):
         self.queue = []
+        # Try to load the queue state from file
+        self.load_state()
 
     def __getitem__(self, torrent_id):
         """Return the queue position of the torrent_id"""
         return self.queue.index(torrent_id)
         
+    def load_state(self):
+        """Load the queue state"""
+        try:
+            log.debug("Opening queue state file for load.")
+            state_file = open(deluge.common.get_config_dir("queue.state"),
+                                                                        "rb")
+            state = pickle.load(state_file)
+            state_file.close()
+            self.queue = state
+        except IOError:
+            log.warning("Unable to load queue state file.")
+        
+        
+    def save_state(self):
+        """Save the queue state"""
+        try:
+            log.debug("Saving queue state file.")
+            state_file = open(deluge.common.get_config_dir("queue.state"), 
+                                                                        "wb")
+            pickle.dump(self.queue, state_file)
+            state_file.close()
+        except IOError:
+            log.warning("Unable to save queue state file.")
+            
     def append(self, torrent_id):
         """Append torrent_id to the bottom of the queue"""
         log.debug("Append torrent %s to queue..", torrent_id)

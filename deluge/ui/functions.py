@@ -63,7 +63,13 @@ def get_core_plugin(plugin):
                                "/org/deluge_torrent/Plugin/" + plugin)
     core = dbus.Interface(proxy, "org.deluge_torrent.Deluge." + plugin)
     return core
-    
+
+def shutdown():
+    """Shutdown the core daemon"""
+    core = get_core()
+    core.shutdown()
+    return
+     
 def add_torrent_file(torrent_files):
     """Adds torrent files to the core
         Expects a list of torrent files
@@ -118,3 +124,14 @@ def get_torrent_status(core, torrent_id, keys):
     # De-serialize the object
     status = pickle.loads(status)
     return status
+    
+def get_session_state(core=None):
+    # Get the core if not supplied
+    if core is None:
+        core = get_core()
+    state = core.get_session_state()
+    # Join the array of bytes into a string for pickle to read
+    state = "".join(chr(b) for b in state)
+    # De-serialize the object
+    state = pickle.loads(state)
+    return state

@@ -97,6 +97,13 @@ class TorrentView(listview.ListView):
         # changes.
         self.treeview.get_selection().connect("changed", 
                                     self.on_selection_changed)
+                                    
+        # We need to get the core session state to know which torrents are in
+        # the session so we can add them to our list.
+        session_state = functions.get_session_state(self.core)
+        print "session_state:", session_state
+        for torrent_id in session_state:
+            self.add_row(torrent_id)
     
     def update(self, columns=None):
         """Update the view.  If columns is not None, it will attempt to only
@@ -165,6 +172,7 @@ class TorrentView(listview.ListView):
         """Adds a new torrent row to the treeview"""
         # Insert a new row to the liststore
         row = self.liststore.append()
+        print "columnid:", self.columns["torrent_id"].column_indices[0]
         # Store the torrent id
         self.liststore.set_value(
                     row,
@@ -206,8 +214,7 @@ class TorrentView(listview.ListView):
         # We only care about right-clicks
         if event.button == 3:
             # Show the Torrent menu from the MenuBar
-            torrentmenu = self.window.menubar.torrentmenu.get_widget(
-                                                                "torrent_menu")
+            torrentmenu = self.window.menubar.torrentmenu
             torrentmenu.popup(None, None, None, event.button, event.time)
     
     def on_selection_changed(self, treeselection):

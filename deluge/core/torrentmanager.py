@@ -41,8 +41,16 @@ import deluge.libtorrent as lt
 import deluge.common
 from deluge.config import Config
 from deluge.core.torrent import Torrent
-from deluge.core.torrentmanagerstate import TorrentManagerState, TorrentState
 from deluge.log import LOG as log
+
+class TorrentState:
+    def __init__(self, torrent_id, filename):
+        self.torrent_id = torrent_id
+        self.filename = filename
+
+class TorrentManagerState:
+    def __init__(self):
+        self.torrents = []
 
 class TorrentManager:
     """TorrentManager contains a list of torrents in the current libtorrent
@@ -55,24 +63,40 @@ class TorrentManager:
         self.session = session
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
-        
+        # Try to load the state from file
+        self.load_state()
+    
+    def __del__(self):
+        log.debug("TorrentManager shutting down..")
+        # Save state on shutdown
+        self.save_state()
+            
     def __getitem__(self, torrent_id):
         """Return the Torrent with torrent_id"""
         return self.torrents[torrent_id]
     
+    def get_torrent_list(self):
+        """Returns a list of torrent_ids"""
+        return self.torrents.keys()
+        
     def add(self, filename, filedump=None):
         """Add a torrent to the manager and returns it's torrent_id"""
+        log.info("Adding torrent: %s", filename)
         # Get the core config
         config = Config("core.conf")
-        
+
+        # Make sure 'filename' is a python string
+        filename = str(filename)
+
         # Convert the filedump data array into a string of bytes
         if filedump is not None:
             filedump = "".join(chr(b) for b in filedump)
         else:
             # Get the data from the file
             try:
+                log.debug("Attempting to open %s for add.", filename)
                 filedump = open(os.path.join(config["torrentfiles_location"],
-                                    filename, "rb")).read()
+                                    filename), "rb").read()
             except IOError:
                 log.warning("Unable to open %s", filename)
                 return None
@@ -104,10 +128,13 @@ class TorrentManager:
         except IOError:
             log.warning("Unable to save torrent file: %s", filename)
         
+        log.debug("Torrent %s added.", handle.info_hash())
         # Create a Torrent object
         torrent = Torrent(filename, handle)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
+        # Save the session state
+        self.save_state()
         return torrent.torrent_id
     
     def remove(self, torrent_id):
@@ -123,6 +150,8 @@ class TorrentManager:
             del self.torrents[torrent_id]
         except KeyError, ValueError:
             return False
+        # Save the session state
+        self.save_state()
         return True
 
     def pause(self, torrent_id):
@@ -142,13 +171,30 @@ class TorrentManager:
             return False
         
         return True
+
+    def load_state(self):
+        """Load the state of the TorrentManager from the torrents.state file"""
+        state = TorrentManagerState()
         
+        try:
+            log.debug("Opening torrent state file for load.")
+            state_file = open(deluge.common.get_config_dir("torrents.state"),
+                                                                        "rb")
+            state = pickle.load(state_file)
+            state_file.close()
+        except IOError:
+            log.warning("Unable to load state file.")
+
+        # Try to add the torrents in the state to the session        
+        for torrent_state in state.torrents:
+            self.add(torrent_state.filename)
+            
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file"""
         state = TorrentManagerState()
         # Create the state for each Torrent and append to the list
         for torrent in self.torrents.values():
-            torrent_state = TorrentState(torrent.get_state())
+            torrent_state = TorrentState(*torrent.get_state())
             state.torrents.append(torrent_state)
         
         # Pickle the TorrentManagerState object
