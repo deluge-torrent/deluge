@@ -1229,7 +1229,7 @@ torrent error."))
             
     def launchpad(self, obj=None):
         common.open_url_in_browser('https://translations.launchpad.net/deluge/\
-            trunk/+pots/deluge')
+trunk/+pots/deluge')
             
     def add_torrent_clicked(self, obj=None):
         torrent = dialogs.show_file_open_dialog()
