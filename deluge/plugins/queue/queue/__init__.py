@@ -31,13 +31,10 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
-
 from core import Core
 from gtkui import GtkUI
 
-# Get the logger
-log = logging.getLogger("deluge")
+from deluge.log import LOG as log
 
 class CorePlugin:
     def __init__(self, plugin_manager):

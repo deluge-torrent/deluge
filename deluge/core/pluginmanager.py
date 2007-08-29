@@ -73,13 +73,8 @@ class PluginManager:
            
     def shutdown(self):
         log.debug("PluginManager shutting down..")
-        # Del all plugins to allow them to deconstruct properly
         for plugin in self.plugins.values():
             plugin.core.shutdown()
-           # del plugin
-            #while plugin is not None:
-            #    del plugin
-        
         del self.plugins
             
     def __getitem__(self, key):

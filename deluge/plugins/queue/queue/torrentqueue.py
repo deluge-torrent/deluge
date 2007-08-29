@@ -58,7 +58,6 @@ class TorrentQueue:
         except IOError:
             log.warning("Unable to load queue state file.")
         
-        
     def save_state(self):
         """Save the queue state"""
         try:

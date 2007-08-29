@@ -101,7 +101,6 @@ class TorrentView(listview.ListView):
         # We need to get the core session state to know which torrents are in
         # the session so we can add them to our list.
         session_state = functions.get_session_state(self.core)
-        print "session_state:", session_state
         for torrent_id in session_state:
             self.add_row(torrent_id)
     
@@ -172,7 +171,6 @@ class TorrentView(listview.ListView):
         """Adds a new torrent row to the treeview"""
         # Insert a new row to the liststore
         row = self.liststore.append()
-        print "columnid:", self.columns["torrent_id"].column_indices[0]
         # Store the torrent id
         self.liststore.set_value(
                     row,
