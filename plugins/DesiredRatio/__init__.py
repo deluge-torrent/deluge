@@ -54,6 +54,18 @@ class DesiredRatio:
         self.callback_ids.append(self.interface.torrent_menu.connect_after("realize", self.torrent_menu_show))
         self.callback_ids.append(self.interface.torrent_menu.connect("show", self.torrent_menu_show))
         self.callback_ids.append(self.interface.torrent_menu.connect("hide", self.torrent_menu_hide))
+        for torrent in self.core.get_queue():
+            unique_ID = self.core.get_torrent_unique_id(torrent)
+            try:
+                if self.core.unique_IDs[unique_ID].desired_ratio != 1.0:
+                    value = float(self.core.unique_IDs[unique_ID].desired_ratio)
+                    self.core.set_ratio(unique_ID, value)
+                    self.set_ratios[unique_ID] = value
+                    if value not in self.config.get("ratios") and value >= 1:
+                        self.config.get("ratios").insert(0, value)
+                        self.config.get("ratios").pop()
+            except AttributeError:
+                pass
     
     def torrent_menu_show(self, widget, data=None):
         # Get the selected torrent
@@ -123,6 +135,7 @@ class DesiredRatio:
         # Set the ratio in the core and remember the setting
         self.core.set_ratio(self.unique_ID, value)
         self.set_ratios[self.unique_ID] = value
+        self.core.unique_IDs[self.unique_ID].desired_ratio = value
         
         # Update the ratios list if necessary
         if value not in self.config.get("ratios") and value >= 1:

@@ -164,6 +164,7 @@ class torrent_info:
         self.upload_rate_limit = 0
         self.download_rate_limit = 0
         self.webseed_urls = []
+        self.desired_ratio = 1.0
 
         self.delete_me = False # set this to true, to delete it on next sync
 
