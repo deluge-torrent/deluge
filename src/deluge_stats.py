@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Copyright (C) 2006 Alon Zakai ('Kripken') <kripkensteiner@gmail.com>
 #
