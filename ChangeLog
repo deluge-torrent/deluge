@@ -1,9 +1,9 @@
 Deluge 0.5.5 (xx August 2007)
   * Editing a torrent's tracker list is now persistent between sessions
-  * Email alerts in the Torrent Notification plugin
-  * New wizard to aid first-time users with configuration
   * Persistence between sessions for Speed Limiter, Web Seed and Desired Ratio 
   plugins
+  * New wizard to aid first-time users with configuration
+  * Reorderable tabs and remember order
   * Fix losing data and having to re-download parts
   * Fix password lock showing when main window is not hidden
   * Get rid of the plugin manager and integrate it into preferences

@@ -76,6 +76,8 @@ class DelugeGTK:
         # self.notebook is used by plugins
         self.notebook = self.wtree.get_widget("torrent_info")
         self.notebook.connect("switch-page", self.notebook_switch_page)
+        self.notebook.connect("page-reordered", self.notebook_page_reordered)
+        self.notebook.connect("page-added", self.notebook_page_added)
 
         # Tabs
         self.tab_details = tab_details.DetailsTabManager(self.wtree,
@@ -195,6 +197,13 @@ class DelugeGTK:
         gobject.timeout_add(10, self.update_torrent_info_widget)
         gobject.timeout_add(10, self.plugins.update_active_plugins)
     
+    def notebook_page_reordered(self, notebook, page, page_num):
+        if page_num == 0:
+            notebook.reorder_child(page, 1)
+	
+    def notebook_page_added(self, notebook, page, page_num):
+        notebook.set_tab_reorderable(page, True)
+
     def pause_all_clicked(self, arg=None):
         self.manager.pause_all()
 
@@ -915,6 +924,14 @@ window, please enter your password"))
 
         # Load plugins after we showed main window (if not started in tray)
         self.load_plugins()
+        self.load_tabs_order()
+        #now we load blocklist plugin separately since it takes much longer
+        enable_plugins = self.config.get('enabled_plugins').split(':')
+        if "Blocklist Importer" in enable_plugins:
+            try:
+                self.plugins.enable_plugin("Blocklist Importer")
+            except KeyError:
+                pass
 
         try:
             gtk.main()
@@ -930,11 +947,6 @@ window, please enter your password"))
                     self.plugins.enable_plugin(plugin)
                 except KeyError:
                     pass
-        if "Blocklist Importer" in enable_plugins:
-            try:
-                self.plugins.enable_plugin("Blocklist Importer")
-            except KeyError:
-                pass
 
     ## Call via a timer to update the interface
     def update(self):
@@ -1427,6 +1439,33 @@ this torrent will be deleted!") + "</i>")
             self.config.set(pref_name, eval('self.' + columns + 
                 '_column.get_width()'))
    
+    # Saves the tabs order (except the 'Details' tab)
+    def save_tabs_order(self):
+        tabs_order = []
+        num_tabs = self.notebook.get_n_pages()
+        for i in range(1, num_tabs):
+            tab = self.notebook.get_nth_page(i) 
+            tabs_order.append(self.notebook.get_tab_label_text(tab))
+
+        tabs_order_str = ':'.join(tabs_order)
+        self.config.set('tabs_order', tabs_order_str)
+
+    def load_tabs_order(self):
+        tabs_order_str = self.config.get('tabs_order') or ""
+        tabs_order = tabs_order_str.split(':')
+        tabs = {}
+        num_tabs = self.notebook.get_n_pages()
+        for i in range(1, num_tabs):
+            tab = self.notebook.get_nth_page(i)
+            tab_title = self.notebook.get_tab_label_text(tab)
+            tabs[tab_title] = tab
+
+        i = 1
+        for tab in tabs_order:
+            if tab in tabs:
+                self.notebook.reorder_child(tabs[tab], i)
+                i = i + 1
+
     def window_configure_event(self, widget, event):
         if self.config.get("window_maximized") == False:
             self.config.set("window_x_pos", self.window.get_position()[0])
@@ -1481,6 +1520,7 @@ this torrent will be deleted!") + "</i>")
     def shutdown(self):
         self.save_column_widths()
         self.save_window_settings()
+        self.save_tabs_order()
         gtk.main_quit()
         for torrent in self.manager.get_queue():
             unique_id = self.manager.get_torrent_unique_id(torrent)
