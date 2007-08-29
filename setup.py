@@ -28,7 +28,7 @@
 
 NAME = "deluge"
 FULLNAME = "Deluge BitTorrent Client"
-VERSION	= "0.5.4.1"
+VERSION	= "0.5.4.1.95"
 AUTHOR = "Zach Tibbitts, Alon Zakai, Marcos Pinto, Andrew Resch, Alex Dedul"
 EMAIL = "zach@collegegeek.org, kripkensteiner@gmail.com, marcospinto@dipconsultants.com, alonzakai@gmail.com, rotmer@gmail.com"
 DESCRIPTION    = "A bittorrent client written in PyGTK"
