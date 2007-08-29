@@ -52,6 +52,25 @@ class DesiredSpeed:
         self.callback_ids.append(self.interface.torrent_menu.connect_after("realize", self.torrent_menu_show))
         self.callback_ids.append(self.interface.torrent_menu.connect("show", self.torrent_menu_show))
         self.callback_ids.append(self.interface.torrent_menu.connect("hide", self.torrent_menu_hide))
+        for torrent in self.core.get_queue():
+            unique_ID = self.core.get_torrent_unique_id(torrent)
+            try:
+                if self.core.unique_IDs[unique_ID].upload_rate_limit != -1:
+                    value = int(self.core.unique_IDs[unique_ID].upload_rate_limit / 1024)
+                    self.core.set_per_upload_rate_limit(unique_ID, value)
+                    self.set_up_speeds[unique_ID] =  value
+                    if value not in self.config.get("up_speeds") and value >= 1:
+                        self.config.get("up_speeds").insert(0, value)
+                        self.config.get("up_speeds").pop()
+                if self.core.unique_IDs[unique_ID].download_rate_limit != -1:
+                    value = int(self.core.unique_IDs[unique_ID].download_rate_limit / 1024)
+                    self.core.set_per_download_rate_limit(unique_ID, value)
+                    self.set_down_speeds[unique_ID] = value
+                    if value not in self.config.get("down_speeds") and value >= 1:
+                        self.config.get("down_speeds").insert(0, value)
+                        self.config.get("down_speeds").pop()
+            except AttributeError:
+                pass
     
     def torrent_menu_show(self, widget, data=None):
         self.unique_ID = self.interface.get_selected_torrent()
@@ -75,25 +94,6 @@ class DesiredSpeed:
         self.up_speed_menuitem.set_submenu(self.up_speed_menu)
         self.interface.torrent_menu.append(self.up_speed_menuitem)
         self.up_speed_menuitem.show_all()
-        for torrent in self.core.get_queue():
-            unique_ID = self.core.get_torrent_unique_id(torrent)
-            try:
-                if self.core.unique_IDs[unique_ID].upload_rate_limit != -1:
-                    value = int(self.core.unique_IDs[unique_ID].upload_rate_limit / 1024)
-                    self.core.set_per_upload_rate_limit(unique_ID, value)
-                    self.set_up_speeds[unique_ID] =  value
-                    if value not in self.config.get("up_speeds") and value >= 1:
-                        self.config.get("up_speeds").insert(0, value)
-                        self.config.get("up_speeds").pop()
-                if self.core.unique_IDs[unique_ID].download_rate_limit != -1:
-                    value = int(self.core.unique_IDs[unique_ID].download_rate_limit / 1024)
-                    self.core.set_per_download_rate_limit(unique_ID, value)
-                    self.set_down_speeds[unique_ID] = value
-                    if value not in self.config.get("down_speeds") and value >= 1:
-                        self.config.get("down_speeds").insert(0, value)
-                        self.config.get("down_speeds").pop()
-            except AttributeError:
-                pass
 
     def torrent_menu_hide(self, widget):
         try:
