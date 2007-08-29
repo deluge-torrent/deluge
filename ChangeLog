@@ -1,5 +1,7 @@
 Deluge 0.5.5 (xx August 2007)
   * New wizard to aid first-time users with configuration
+  * Persistence between sessions for Speed Limiter, Web Seed and Desired Ratio 
+  plugins
   * Fix losing data and having to re-download parts
   * Fix password lock showing when main window is not hidden
   * Get rid of the plugin manager and integrate it into preferences
