@@ -38,6 +38,7 @@ class TorrentNotification:
 
     def __init__(self, path, core, interface):
         print "Loading TorrentNotification plugin..."
+        import os.path
         self.path = path
         self.core = core
         self.interface = interface
@@ -47,11 +48,14 @@ class TorrentNotification:
 
         # Create an options file and try to load existing Values
         self.config_file = deluge.common.CONFIG_DIR + "/notification.conf"
-        self.config = deluge.pref.Preferences(self.config_file, False)
+        self.config = deluge.pref.Preferences(self.config_file, False,
+                        defaults={'enable_tray_blink' : True,
+                                'enable_notification' : True,
+                                'enable_sound' : False,
+                                'sound_path' : os.path.expanduser("~/")})
         try:
             self.config.load()
         except IOError:
-            # File does not exist
             pass
         
         self.glade = gtk.glade.XML(path + "/notification_preferences.glade")
@@ -102,18 +106,11 @@ class TorrentNotification:
 
     def configure(self, window):
         import os.path
-        try:
-            self.glade.get_widget("chk_tray_blink").set_active(self.config.get("enable_tray_blink"))
-            self.glade.get_widget("chk_notification").set_active(self.config.get("enable_notification"))
-            self.glade.get_widget("chk_sound").set_active(self.config.get("enable_sound"))
-            self.glade.get_widget("sound_path_button").set_sensitive(self.config.get("enable_sound"))
-            self.glade.get_widget("sound_path_button").set_filename(self.config.get("sound_path"))
-        except:
-            self.glade.get_widget("chk_tray_blink").set_active(False)
-            self.glade.get_widget("chk_notification").set_active(False)
-            self.glade.get_widget("chk_sound").set_active(False)
-            self.glade.get_widget("sound_path_button").set_filename(os.path.expanduser("~/"))
-            self.glade.get_widget("sound_path_button").set_sensitive(False)
+        self.glade.get_widget("chk_tray_blink").set_active(self.config.get("enable_tray_blink"))
+        self.glade.get_widget("chk_notification").set_active(self.config.get("enable_notification"))
+        self.glade.get_widget("chk_sound").set_active(self.config.get("enable_sound"))
+        self.glade.get_widget("sound_path_button").set_sensitive(self.config.get("enable_sound"))
+        self.glade.get_widget("sound_path_button").set_filename(self.config.get("sound_path"))
         self.dialog.set_transient_for(window)
         self.dialog.show()
 
