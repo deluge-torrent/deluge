@@ -3,7 +3,7 @@ Deluge 0.5.5 (xx August 2007)
   * Persistence between sessions for Speed Limiter, Web Seed and Desired Ratio 
   plugins
   * New wizard to aid first-time users with configuration
-  * Reorderable tabs and remember order
+  * Reorderable tabs and remember order (with exception of details tab)
   * Fix losing data and having to re-download parts
   * Fix password lock showing when main window is not hidden
   * Get rid of the plugin manager and integrate it into preferences
