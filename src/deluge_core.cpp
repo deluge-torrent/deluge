@@ -475,8 +475,6 @@ static PyObject *torrent_set_download_rate_limit(PyObject *self, PyObject *args)
         return NULL;
 
     M_ses->set_download_rate_limit(arg);
-    printf("Capping download to %d bytes per second\n", (int)M_ses->download_rate_limit());    
-
     Py_INCREF(Py_None); return Py_None;
 }
 
@@ -488,7 +486,6 @@ static PyObject *torrent_set_upload_rate_limit(PyObject *self, PyObject *args)
         return NULL;
 
     M_ses->set_upload_rate_limit(arg);
-    printf("Capping upload to %d bytes per second\n", (int)M_ses->upload_rate_limit());    
     Py_INCREF(Py_None); return Py_None;
 }
 
