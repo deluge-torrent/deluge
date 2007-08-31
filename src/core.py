@@ -632,7 +632,7 @@ class Manager:
                 for callback in self.event_callbacks[event['event_type']]:
                     callback(event)
 
-            elif event['event_type'] is self.constants['EVENT_FINISHED']: 
+            if event['event_type'] is self.constants['EVENT_FINISHED']: 
                 if event['message'] == "torrent has finished downloading":
 
                     # Queue seeding torrent to bottom if needed
