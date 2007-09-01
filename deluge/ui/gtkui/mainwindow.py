@@ -31,8 +31,6 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
-
 import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
@@ -43,8 +41,7 @@ from menubar import MenuBar
 from toolbar import ToolBar
 from torrentview import TorrentView
 
-# Get the logger
-log = logging.getLogger("deluge")
+from deluge.log import LOG as log
 
 class MainWindow:
     def __init__(self):

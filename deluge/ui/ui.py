@@ -31,14 +31,9 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
-
-import time
-
 from deluge.config import Config
 
-# Get the logger
-log = logging.getLogger("deluge")
+from deluge.log import LOG as log
 
 DEFAULT_PREFS = {
     "selected_ui": "gtk"

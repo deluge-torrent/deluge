@@ -31,26 +31,14 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import logging
-
-try:
-    import dbus, dbus.service
-    dbus_version = getattr(dbus, "version", (0,0,0))
-    if dbus_version >= (0,41,0) and dbus_version < (0,80,0):
-        import dbus.glib
-    elif dbus_version >= (0,80,0):
-        from dbus.mainloop.glib import DBusGMainLoop
-        DBusGMainLoop(set_as_default=True)
-    else:
-        pass
-except: dbus_imported = False
-else: dbus_imported = True
+import dbus
+from dbus.mainloop.glib import DBusGMainLoop
+DBusGMainLoop(set_as_default=True)
 
 import pkg_resources
 import gtk.glade
 
-# Get the logger
-log = logging.getLogger("deluge")
+from deluge.log import LOG as log
 
 class GtkUI:
     def __init__(self, plugin_manager):
