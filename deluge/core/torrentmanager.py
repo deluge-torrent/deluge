@@ -35,6 +35,7 @@
 
 import pickle
 import os.path
+import os
 
 import deluge.libtorrent as lt
 
@@ -115,10 +116,19 @@ class TorrentManager:
             
         if not handle or not handle.is_valid():
             # The torrent was not added to the session
-            return None
+            return None       
+
+        log.debug("Attemping to save torrent file: %s", filename)
+        # Test if the torrentfiles_location is accessible
+        if os.access(os.path.join(config["torrentfiles_location"]), os.F_OK) \
+                                                                    is False:
+            # The directory probably doesn't exist, so lets create it
+            try:
+               os.makedirs(os.path.join(config["torrentfiles_location"]))
+            except IOError:
+                log.warning("Unable to create torrent files directory..")
         
         # Write the .torrent file to the torrent directory
-        log.debug("Attemping to save torrent file: %s", filename)
         try:
             save_file = open(os.path.join(config["torrentfiles_location"], 
                     filename),
