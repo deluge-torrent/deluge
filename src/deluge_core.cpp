@@ -863,24 +863,17 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
     torrent_status           s = t.handle.status();
     const torrent_info  &i = t.handle.get_torrent_info();
 
-    std::vector<peer_info> peers;
-    t.handle.get_peer_info(peers);
-
     long connected_seeds = 0;
     long connected_peers = 0;
     long total_seeds = 0;
     long total_peers = 0;
-    
-    for (unsigned long i = 0; i < peers.size(); i++) {
 
-            connected_peers = s.num_peers - s.num_seeds;
+    connected_peers = s.num_peers - s.num_seeds;
+    connected_seeds = s.num_seeds;
 
-            connected_seeds = s.num_seeds;
+    total_seeds = s.num_complete != -1? s.num_complete : connected_seeds;
+    total_peers = s.num_incomplete != -1? s.num_incomplete : connected_peers;
 
-            total_seeds = s.num_complete != -1? s.num_complete : connected_seeds;
-            
-            total_peers = s.num_incomplete != -1? s.num_incomplete : connected_peers;
-        }
 
     return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:b,s:f,s:L,s:L,s:s,s:s,s:f,s:L,s:L,s:l,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
         "name",               t.handle.get_torrent_info().name().c_str(),
