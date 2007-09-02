@@ -40,6 +40,7 @@ import pkg_resources
 from menubar import MenuBar
 from toolbar import ToolBar
 from torrentview import TorrentView
+from torrentdetails import TorrentDetails
 
 from deluge.log import LOG as log
 
@@ -56,11 +57,13 @@ class MainWindow:
         self.menubar = MenuBar(self)
         self.toolbar = ToolBar(self)
         self.torrentview = TorrentView(self)
+        self.torrentdetails = TorrentDetails(self)
         
         gobject.timeout_add(1000, self.update)
     
     def update(self):
         self.torrentview.update()
+        self.torrentdetails.update()
         return True
         
     def show(self):

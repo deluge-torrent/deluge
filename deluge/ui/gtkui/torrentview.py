@@ -63,11 +63,13 @@ class TorrentView(listview.ListView):
         self.add_func_column("Seeders",
                                         listview.cell_data_peer,
                                         [int, int],
-                                        status_field=["num_seeds", "num_seeds"])
+                                        status_field=["num_seeds", 
+                                                        "total_seeds"])
         self.add_func_column("Peers",
                                         listview.cell_data_peer,
                                         [int, int],
-                                        status_field=["num_peers", "num_peers"])
+                                        status_field=["num_peers", 
+                                                        "total_peers"])
         self.add_func_column("Down Speed",
                                         listview.cell_data_speed,
                                         [float],
@@ -201,6 +203,11 @@ class TorrentView(listview.ListView):
                 torrent_ids.append(
                     self.liststore.get_value(
                         self.liststore.get_iter(path), 0))
+            
+            if len(torrent_ids) is 0:
+                # Only return a list if there is something in it.
+                return None
+            
             return torrent_ids
         except ValueError:
             return None

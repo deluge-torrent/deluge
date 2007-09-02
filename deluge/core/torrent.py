@@ -43,6 +43,8 @@ class Torrent:
         self.handle = handle
         # Set the torrent_id for this torrent
         self.torrent_id = str(handle.info_hash())
+        # This is for saving the total uploaded between sessions
+        self.total_uploaded = 0
     
     def get_state(self):
         """Returns the state of this torrent for saving to the session state"""
@@ -62,7 +64,23 @@ class Torrent:
             eta = 0
             
         return eta
-                
+    
+    def get_ratio(self):
+        """Returns the ratio for this torrent"""
+        up = self.total_uploaded + self.handle.status().total_payload_upload
+        down = self.handle.status().total_done
+        
+        # Convert 'up' and 'down' to floats for proper calculation
+        up = float(up)
+        down = float(down)
+        
+        try:
+            ratio = up / down
+        except ZeroDivisionError:
+            return 0.0
+
+        return ratio
+                    
     def get_status(self, keys):
         """Returns the status of the torrent based on the keys provided"""
         # Create the full dictionary
@@ -70,11 +88,27 @@ class Torrent:
         
         # Adjust progress to be 0-100 value
         progress = status.progress*100
-
+        
+        # Get the total number of seeds and peers
+        if status.num_complete is -1:
+            total_seeds = status.num_seeds
+        else:
+            total_seeds = status.num_complete
+            
+        if status.num_incomplete is -1:
+            total_peers = status.num_peers - status.num_seeds
+        else:
+            total_peers = status.num_incomplete
+            
         full_status = {
             "name": self.handle.torrent_info().name(),
             "total_size": self.handle.torrent_info().total_size(),
-            "num_pieces": self.handle.status().num_pieces,
+            "num_files": self.handle.torrent_info().num_files(),
+            "num_pieces": self.handle.torrent_info().num_pieces(),
+            "piece_length": self.handle.torrent_info().piece_length(),
+            "distributed_copies": status.distributed_copies,
+            "total_done": status.total_done,
+            "total_uploaded": self.total_uploaded + status.total_payload_upload,
             "state": int(status.state),
             "paused": status.paused,
             "progress": progress,
@@ -83,11 +117,14 @@ class Torrent:
             "total_payload_upload": status.total_payload_upload,
             "download_payload_rate": status.download_payload_rate,
             "upload_payload_rate": status.upload_payload_rate,
-            "num_peers": status.num_peers,
+            "num_peers": status.num_peers - status.num_seeds,
             "num_seeds": status.num_seeds,
+            "total_peers": total_peers,
+            "total_seeds": total_seeds,
             "total_wanted": status.total_wanted,
             "eta": self.get_eta(),
-            "ratio": 0.0
+            "ratio": self.get_ratio(),
+            "tracker": status.current_tracker
         }
         
         # Create the desired status dictionary and return it

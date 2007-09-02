@@ -66,23 +66,6 @@ def get_default_plugin_dir():
 
 ## Formatting text functions
 
-def estimate_eta(total_size, total_done, download_rate):
-    """Returns a string with the estimated ETA and will return 'Unlimited'
-       if the torrent is complete
-    """
-    try:
-        return ftime(get_eta(total_size, total_done, download_rate))
-    except ZeroDivisionError:
-        return "Infinity"
-    
-def get_eta(size, done, speed):
-    """Returns the ETA in seconds
-       Will raise an exception if the torrent is completed
-    """
-    if (size - done) == 0:
-        raise ZeroDivisionError
-    return (size - done) / speed
-
 def fsize(fsize_b):
     """Returns formatted string describing filesize
        fsize_b should be in bytes
@@ -105,16 +88,14 @@ def fspeed(bps):
     """Returns a formatted string representing transfer speed"""
     return '%s/s' % (fsize(bps))
 
-def fseed(num_seeds, total_seeds):
-    """Returns a formatted string num_seeds (total_seeds)"""
-    return str(str(num_seeds) + " (" + str(total_seeds) + ")")
-    
 def fpeer(num_peers, total_peers):
     """Returns a formatted string num_peers (total_peers)"""
     return str(str(num_peers) + " (" + str(total_peers) + ")")
     
 def ftime(seconds):
     """Returns a formatted time string"""
+    if seconds is 0:
+        return "Infinity"
     if seconds < 60:
         return '%ds' % (seconds)
     minutes = int(seconds/60)
