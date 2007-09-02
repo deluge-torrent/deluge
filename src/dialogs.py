@@ -39,8 +39,7 @@ import pref
 PREFS_FILENAME  = "prefs.state"
 
 class PreferencesDlg:
-    def __init__(self, preferences, active_port, plugins, plugin_tab=False, is_showing_dlg=[False]):
-        self.is_showing_dlg = is_showing_dlg
+    def __init__(self, preferences, active_port, plugins, plugin_tab=False):
         self.glade = gtk.glade.XML(common.get_glade_file("preferences_dialog.glade"), domain='deluge')
         self.dialog = self.glade.get_widget("pref_dialog")
         if plugin_tab:
@@ -75,10 +74,6 @@ class PreferencesDlg:
         self.plugins = plugins
 
     def show(self, interface, window):
-        if self.is_showing_dlg[0]:
-            return
-        
-        self.is_showing_dlg[0] = True
         # Load settings into dialog
         try:
             self.glade.get_widget("combo_file_manager").set_active(self.preferences.get("file_manager"))
@@ -192,9 +187,6 @@ class PreferencesDlg:
 
     def ok_clicked(self, source, interface):
         self.dialog.hide()
-        self.is_showing_dlg[0] = False
-        
-        return True
         self.preferences.set("file_manager", self.glade.get_widget("combo_file_manager").get_active())
         self.preferences.set("open_folder_stock", self.glade.get_widget("radio_open_folder_stock").get_active())
         self.preferences.set("open_folder_location", self.glade.get_widget("txt_open_folder_location").get_text())
@@ -263,15 +255,9 @@ class PreferencesDlg:
 
     def cancel_clicked(self, source):
         self.dialog.hide()
-        self.is_showing_dlg[0] = False
-        
-        return True
 
-    def close_clicked(self, source, *args):
+    def close_clicked(self, source):
         self.dialog.hide()
-        self.is_showing_dlg[0] = False
-        
-        return True
     
     def old_clicked(self, path):
         return self.plugin_clicked(self.view.get_selection(), self.store, path, False)
