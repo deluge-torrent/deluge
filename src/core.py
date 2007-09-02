@@ -583,7 +583,7 @@ class Manager:
                         self.set_user_pause(unique_ID, True, enforce_queue=False)
         
         if self.get_pref('clear_max_ratio_torrents'):
-            for unique_ID in self.unique_IDs:
+            for unique_ID in self.unique_IDs.keys():
                 torrent_state = self.get_core_torrent_state(unique_ID)
                 if torrent_state['is_seed']:
                     ratio = self.calc_ratio(unique_ID, torrent_state)
