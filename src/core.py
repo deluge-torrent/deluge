@@ -1036,3 +1036,12 @@ class Manager:
 
     def add_url_seed(self, unique_ID, address):
         return deluge_core.add_url_seed(unique_ID, address)
+
+    def get_torrent_path(self, unique_ID):
+        torrent_path = self.unique_IDs[unique_ID].save_dir
+        torrent_state = self.get_torrent_state(unique_ID)
+        if torrent_state["num_files"] > 1:
+            file = self.get_torrent_file_info(unique_ID)[0]
+            torrent_path = os.path.join(torrent_path,
+                                        file["path"].split("/", 1)[0])
+        return torrent_path

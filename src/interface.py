@@ -692,14 +692,7 @@ window, please enter your password"))
         unique_ids = self.get_selected_torrent_rows()
         try:
             for uid in unique_ids:
-                torrent_path = self.manager.unique_IDs[uid].save_dir
-                torrent_state = self.manager.get_torrent_state(uid)
-                if torrent_state["num_files"] > 1:
-                    # Assume torrent has only one root dir. 
-                    file = self.manager.get_torrent_file_info(uid)[0]
-                    torrent_path = os.path.join(torrent_path,
-                                                file["path"].split("/", 1)[0])
-                    
+                torrent_path = self.manager.get_torrent_path(uid)
                 common.exec_command(file_manager, torrent_path)
         except KeyError:
             pass
