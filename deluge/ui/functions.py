@@ -85,8 +85,11 @@ def add_torrent_file(torrent_files):
         f = open(torrent_file, "rb")
         # Get the filename because the core doesn't want a path.
         (path, filename) = os.path.split(torrent_file)
-        core.add_torrent_file(filename, f.read())
+        result = core.add_torrent_file(filename, f.read())
         f.close()
+        if result is False:
+            # The torrent was not added successfully.
+            log.warning("Torrent %s was not added successfully.", filename)
 
 def remove_torrent(torrent_ids):
     """Removes torrent_ids from the core.. Expects a list of torrent_ids"""
@@ -107,15 +110,6 @@ def resume_torrent(torrent_ids):
     for torrent_id in torrent_ids:
         core.resume_torrent(torrent_id)
         
-def get_torrent_info(core, torrent_id):
-    """Builds the info dictionary and returns it"""
-    info = core.get_torrent_info(torrent_id)
-    # Join the array of bytes into a string for pickle to read
-    info = "".join(chr(b) for b in info)
-    # De-serialize the object
-    info = pickle.loads(info)
-    return info
-    
 def get_torrent_status(core, torrent_id, keys):
     """Builds the status dictionary and returns it"""
     status = core.get_torrent_status(torrent_id, keys)

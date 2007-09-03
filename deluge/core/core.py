@@ -96,7 +96,7 @@ class Core(dbus.service.Object):
         del self.session
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
-                                    in_signature="say", out_signature="")
+                                    in_signature="say", out_signature="b")
     def add_torrent_file(self, filename, filedump):
         """Adds a torrent file to the libtorrent session
             This requires the torrents filename and a dump of it's content
@@ -109,8 +109,10 @@ class Core(dbus.service.Object):
         if torrent_id is not None:
             # Emit the torrent_added signal
             self.torrent_added(torrent_id)
+            return True
         else:
-            self.torrent_add_failed()
+            # Return False because the torrent was not added successfully
+            return False
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
                                     in_signature="s", out_signature="")
@@ -176,12 +178,6 @@ class Core(dbus.service.Object):
     def torrent_added(self, torrent_id):
         """Emitted when a new torrent is added to the core"""
         log.debug("torrent_added signal emitted")
-
-    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
-                                             signature="")
-    def torrent_add_failed(self):
-        """Emitted when a new torrent fails addition to the session"""
-        log.debug("torrent_add_failed signal emitted")
 
     @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
                                              signature="s")
