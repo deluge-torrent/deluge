@@ -66,9 +66,15 @@ class Core(dbus.service.Object):
         # Get config
         self.config = Config("core.conf", DEFAULT_PREFS)
 
+        # Create the client fingerprint
+        version = []
+        for value in deluge.common.get_version().split("."):
+            version.append(int(value))
+        fingerprint = lt.fingerprint("DE", *version)
+        
         # Setup the libtorrent session and listen on the configured ports
         log.debug("Starting libtorrent session..")
-        self.session = lt.session()
+        self.session = lt.session(fingerprint)
         log.debug("Listening on %i-%i", self.config.get("listen_ports")[0],
                                         self.config.get("listen_ports")[1])
         self.session.listen_on(self.config.get("listen_ports")[0],
