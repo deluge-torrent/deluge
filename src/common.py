@@ -38,7 +38,9 @@ CLIENT_CODE = "DE"
 CLIENT_VERSION = "".join(PROGRAM_VERSION.split('.'))+"0"*(4 - len(PROGRAM_VERSION.split('.')))
 import platform
 if platform.system() == "Windows":
-    CONFIG_DIR = os.path.join(os.path.expanduser("~/"), 'deluge')
+    CONFIG_DIR = os.path.join(os.path.expanduser("~\\"), 'deluge')
+    if not os.path.exists(CONFIG_DIR):
+        os.mkdir(CONFIG_DIR)
 else:
     CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
 
