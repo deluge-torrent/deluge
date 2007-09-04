@@ -32,11 +32,9 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #ifndef NDEBUG
 
-#include <stdlib.h>
-#include <stdio.h>
 #include <execinfo.h>
 
-void assert_fail(char const* expr, int line, char const* file, char const* function)
+void assert_fail(int line, char const* file)
 {
 
 	fprintf(stderr, "assertion failed. Please file a bugreport at "
@@ -44,11 +42,9 @@ void assert_fail(char const* expr, int line, char const* file, char const* funct
 		"Please include the following information:\n\n"
 		"file: '%s'\n"
 		"line: %d\n"
-		"function: %s\n"
-		"expression: %s\n"
-		"stack:\n", file, line, function, expr);
+		"stack:\n", file, line);
 
-	void* stack[50];
+	void* stacktrace[50];
 	int size = backtrace(stack, 50);
 	char** symbols = backtrace_symbols(stack, size);
 
@@ -58,7 +54,6 @@ void assert_fail(char const* expr, int line, char const* file, char const* funct
 	}
 
 	free(symbols);
-	exit(1);
 }
 
 #endif

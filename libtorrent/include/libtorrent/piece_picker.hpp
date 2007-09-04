@@ -35,6 +35,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <algorithm>
 #include <vector>
 #include <bitset>
+#include <cassert>
 #include <utility>
 
 #ifdef _MSC_VER
@@ -51,7 +52,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/socket.hpp"
 #include "libtorrent/session_settings.hpp"
 #include "libtorrent/config.hpp"
-#include "libtorrent/assert.hpp"
 
 namespace libtorrent
 {
@@ -191,9 +191,9 @@ namespace libtorrent
 		// THIS IS DONE BY THE peer_connection::send_request() MEMBER FUNCTION!
 		// The last argument is the policy::peer pointer for the peer that
 		// we'll download from.
-		void pick_pieces(std::vector<bool> const& pieces
+		void pick_pieces(const std::vector<bool>& pieces
 			, std::vector<piece_block>& interesting_blocks
-			, int num_pieces, int prefer_whole_pieces
+			, int num_pieces, bool prefer_whole_pieces
 			, void* peer, piece_state_t speed
 			, bool rarest_first) const;
 
@@ -202,11 +202,11 @@ namespace libtorrent
 		// are added to interesting_blocks, and busy blocks are
 		// added to backup_blocks. num blocks is the number of
 		// blocks to be picked.
-		int add_interesting_blocks(std::vector<int> const& piece_list
+		int add_interesting_blocks(const std::vector<int>& piece_list
 			, const std::vector<bool>& pieces
 			, std::vector<piece_block>& interesting_blocks
 			, std::vector<piece_block>& backup_blocks
-			, int num_blocks, int prefer_whole_pieces
+			, int num_blocks, bool prefer_whole_pieces
 			, void* peer, piece_state_t speed
 			, bool ignore_downloading_pieces) const;
 
@@ -283,9 +283,6 @@ namespace libtorrent
 		float distributed_copies() const;
 
 	private:
-
-		std::pair<int, int> expand_piece(int piece, int whole_pieces
-			, std::vector<bool> const& have) const;
 
 		struct piece_pos
 		{

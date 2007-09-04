@@ -209,15 +209,16 @@ namespace libtorrent
 		std::vector<piece_block> interesting_pieces;
 		interesting_pieces.reserve(100);
 
-		int prefer_whole_pieces = c.prefer_whole_pieces();
+		bool prefer_whole_pieces = c.prefer_whole_pieces()
+			|| (c.peer_info_struct() && c.peer_info_struct()->on_parole);
 
 		bool rarest_first = t.num_pieces() >= t.settings().initial_picker_threshold;
 
-		if (prefer_whole_pieces == 0)
+		if (!prefer_whole_pieces)
 		{
 			prefer_whole_pieces = c.statistics().download_payload_rate()
 				* t.settings().whole_pieces_threshold
-				> t.torrent_file().piece_length() ? 1 : 0;
+				> t.torrent_file().piece_length();
 		}
 	
 		// if we prefer whole pieces, the piece picker will pick at least
@@ -257,18 +258,6 @@ namespace libtorrent
 		}
 		else
 		{
-			if (!c.suggested_pieces().empty())
-			{
-				// if the peer has suggested us to download certain pieces
-				// try to pick among those primarily
-				std::vector<int> const& suggested = c.suggested_pieces();
-
-				p.add_interesting_blocks(suggested, c.get_bitfield()
-					, interesting_pieces, busy_pieces, num_requests
-					, prefer_whole_pieces, c.peer_info_struct(), state
-					, false);
-			}
-
 			// picks the interesting pieces from this peer
 			// the integer is the number of pieces that
 			// should be guaranteed to be available for download
@@ -277,18 +266,15 @@ namespace libtorrent
 			// the last argument is if we should prefer whole pieces
 			// for this peer. If we're downloading one piece in 20 seconds
 			// then use this mode.
-			if (int(interesting_pieces.size()) < num_requests)
-				p.pick_pieces(c.get_bitfield(), interesting_pieces
-					, num_requests, prefer_whole_pieces, c.peer_info_struct()
-					, state, rarest_first);
+			p.pick_pieces(c.get_bitfield(), interesting_pieces
+				, num_requests, prefer_whole_pieces, c.peer_info_struct()
+				, state, rarest_first);
+			busy_pieces.reserve(10);
 		}
 
 #ifdef TORRENT_VERBOSE_LOGGING
-		(*c.m_logger) << time_now_string() << " PIECE_PICKER [ php: " << prefer_whole_pieces
-			<< " picked: " << interesting_pieces.size() << " ]\n";
+		(*c.m_logger) << time_now_string() << " PIECE_PICKER [ picked: " << interesting_pieces.size() << " ]\n";
 #endif
-		std::deque<piece_block> const& dq = c.download_queue();
-		std::deque<piece_block> const& rq = c.request_queue();
 		for (std::vector<piece_block>::iterator i = interesting_pieces.begin();
 			i != interesting_pieces.end(); ++i)
 		{
@@ -296,6 +282,8 @@ namespace libtorrent
 			{
 				if (num_requests <= 0) break;
 				// don't request pieces we already have in our request queue
+				const std::deque<piece_block>& dq = c.download_queue();
+				const std::deque<piece_block>& rq = c.request_queue();
 				if (std::find(dq.begin(), dq.end(), *i) != dq.end()
 					|| std::find(rq.begin(), rq.end(), *i) != rq.end())
 					continue;
@@ -528,7 +516,6 @@ namespace libtorrent
 
 		int max_failcount = m_torrent->settings().max_failcount;
 		int min_reconnect_time = m_torrent->settings().min_reconnect_time;
-		bool finished = m_torrent->is_finished();
 
 		aux::session_impl& ses = m_torrent->session();
 
@@ -537,7 +524,7 @@ namespace libtorrent
 			if (i->connection) continue;
 			if (i->banned) continue;
 			if (i->type == peer::not_connectable) continue;
-			if (i->seed && finished) continue;
+			if (i->seed && m_torrent->is_seed()) continue;
 			if (i->failcount >= max_failcount) continue;
 			if (now - i->connected < seconds(i->failcount * min_reconnect_time))
 				continue;
@@ -1192,7 +1179,7 @@ namespace libtorrent
 			&& m_torrent->session().num_uploads() < m_torrent->session().max_uploads()
 			&& (m_torrent->ratio() == 0
 				|| c.share_diff() >= -free_upload_amount
-				|| m_torrent->is_finished()))
+				|| m_torrent->is_seed()))
 		{
 			m_torrent->session().unchoke_peer(c);
 		}

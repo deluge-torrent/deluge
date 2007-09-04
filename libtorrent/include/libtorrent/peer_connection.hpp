@@ -152,15 +152,11 @@ namespace libtorrent
 		int upload_limit() const { return m_upload_limit; }
 		int download_limit() const { return m_download_limit; }
 
-		int prefer_whole_pieces() const
-		{
-			if (m_prefer_whole_pieces == 0)
-				return peer_info_struct() && peer_info_struct()->on_parole ? 1 : 0;
-			return m_prefer_whole_pieces;
-		}
+		bool prefer_whole_pieces() const
+		{ return m_prefer_whole_pieces; }
 
-		void prefer_whole_pieces(int num)
-		{ m_prefer_whole_pieces = num; }
+		void prefer_whole_pieces(bool b)
+		{ m_prefer_whole_pieces = b; }
 
 		bool request_large_blocks() const
 		{ return m_request_large_blocks; }
@@ -223,7 +219,6 @@ namespace libtorrent
 
 		std::vector<bool> const& get_bitfield() const;
 		std::vector<int> const& allowed_fast();
-		std::vector<int> const& suggested_pieces() const { return m_suggested_pieces; }
 
 		void timed_out();
 		// this will cause this peer_connection to be disconnected.
@@ -308,7 +303,6 @@ namespace libtorrent
 		void incoming_have_all();
 		void incoming_have_none();
 		void incoming_allowed_fast(int index);
-		void incoming_suggest(int index);
 
 		// the following functions appends messages
 		// to the send buffer
@@ -499,11 +493,6 @@ namespace libtorrent
 		// the time we sent a request to
 		// this peer the last time
 		ptime m_last_request;
-		// the time we received the last
-		// piece request from the peer
-		ptime m_last_incoming_request;
-		// the time when we unchoked this peer
-		ptime m_last_unchoke;
 
 		int m_packet_size;
 		int m_recv_pos;
@@ -601,7 +590,7 @@ namespace libtorrent
 		std::deque<peer_request> m_requests;
 
 		// the blocks we have reserved in the piece
-		// picker and will request from this peer.
+		// picker and will send to this peer.
 		std::deque<piece_block> m_request_queue;
 		
 		// the queue of blocks we have requested
@@ -669,13 +658,12 @@ namespace libtorrent
 		bool m_writing;
 		bool m_reading;
 
-		// if set to non-zero, this peer will always prefer
-		// to request entire n pieces, rather than blocks.
-		// where n is the value of this variable.
-		// if it is 0, the download rate limit setting
+		// if set to true, this peer will always prefer
+		// to request entire pieces, rather than blocks.
+		// if it is false, the download rate limit setting
 		// will be used to determine if whole pieces
 		// are preferred.
-		int m_prefer_whole_pieces;
+		bool m_prefer_whole_pieces;
 		
 		// if this is true, the blocks picked by the piece
 		// picker will be merged before passed to the
@@ -729,10 +717,6 @@ namespace libtorrent
 		// the pieces the peer will send us if
 		// requested (regardless of choke state)
 		std::vector<int> m_allowed_fast;
-
-		// pieces that has been suggested to be
-		// downloaded from this peer
-		std::vector<int> m_suggested_pieces;
 
 		// the number of bytes send to the disk-io
 		// thread that hasn't yet been completely written.

@@ -34,6 +34,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #define NODE_HPP
 
 #include <algorithm>
+#include <cassert>
 #include <map>
 #include <set>
 
@@ -44,7 +45,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include <libtorrent/io.hpp>
 #include <libtorrent/session_settings.hpp>
-#include <libtorrent/assert.hpp>
 
 #include <boost/cstdint.hpp>
 #include <boost/optional.hpp>

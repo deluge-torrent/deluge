@@ -43,7 +43,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <boost/limits.hpp>
 #include <boost/thread.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/intrusive_ptr.hpp>
 #include <boost/filesystem/path.hpp>
 
 #ifdef _MSC_VER
@@ -148,11 +147,10 @@ namespace libtorrent
 	};
 
 	typedef storage_interface* (&storage_constructor_type)(
-		boost::intrusive_ptr<torrent_info const>, fs::path const&
+		torrent_info const&, fs::path const&
 		, file_pool&);
 
-	TORRENT_EXPORT storage_interface* default_storage_constructor(
-		boost::intrusive_ptr<torrent_info const> ti
+	TORRENT_EXPORT storage_interface* default_storage_constructor(torrent_info const& ti
 		, fs::path const& path, file_pool& fp);
 
 	// returns true if the filesystem the path relies on supports
@@ -171,7 +169,7 @@ namespace libtorrent
 
 		piece_manager(
 			boost::shared_ptr<void> const& torrent
-			, boost::intrusive_ptr<torrent_info const> ti
+			, torrent_info const& ti
 			, fs::path const& path
 			, file_pool& fp
 			, disk_io_thread& io
@@ -229,7 +227,7 @@ namespace libtorrent
 		{ return m_compact_mode; }
 
 #ifndef NDEBUG
-		std::string name() const { return m_info->name(); }
+		std::string name() const { return m_info.name(); }
 #endif
 		
 	private:
@@ -285,7 +283,7 @@ namespace libtorrent
 		// a bitmask representing the pieces we have
 		std::vector<bool> m_have_piece;
 
-		boost::intrusive_ptr<torrent_info const> m_info;
+		torrent_info const& m_info;
 
 		// slots that haven't had any file storage allocated
 		std::vector<int> m_unallocated_slots;
@@ -315,6 +313,12 @@ namespace libtorrent
 
 		mutable boost::recursive_mutex m_mutex;
 
+		bool m_allocating;
+		boost::mutex m_allocating_monitor;
+		boost::condition m_allocating_condition;
+
+		// these states are used while checking/allocating the torrent
+
 		enum {
 			// the default initial state
 			state_none,
@@ -329,11 +333,6 @@ namespace libtorrent
 		} m_state;
 		int m_current_slot;
 		
-		// this is saved in case we need to instantiate a new
-		// storage (osed when remapping files)
-		storage_constructor_type m_storage_constructor;
-
-		// temporary buffer used while checking
 		std::vector<char> m_piece_data;
 		
 		// this maps a piece hash to piece index. It will be
@@ -341,8 +340,6 @@ namespace libtorrent
 		// isn't needed) 				
 		std::multimap<sha1_hash, int> m_hash_to_piece;
 	
-		// this map contains partial hashes for downloading
-		// pieces.
 		std::map<int, partial_hash> m_piece_hasher;
 
 		disk_io_thread& m_io_thread;

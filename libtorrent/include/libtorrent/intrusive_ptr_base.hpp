@@ -34,17 +34,14 @@ POSSIBILITY OF SUCH DAMAGE.
 #define TORRENT_INTRUSIVE_PTR_BASE
 
 #include <boost/detail/atomic_count.hpp>
+#include <cassert>
 #include "libtorrent/config.hpp"
-#include "libtorrent/assert.hpp"
 
 namespace libtorrent
 {
 	template<class T>
 	struct intrusive_ptr_base
 	{
-		intrusive_ptr_base(const intrusive_ptr_base<T>& b)
-			: m_refs(0) {}
-
 		friend void intrusive_ptr_add_ref(intrusive_ptr_base<T> const* s)
 		{
 			assert(s->m_refs >= 0);

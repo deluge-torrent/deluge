@@ -240,7 +240,7 @@ namespace libtorrent
 			bool is_listening() const;
 
 			torrent_handle add_torrent(
-				boost::intrusive_ptr<torrent_info> ti
+				torrent_info const& ti
 				, fs::path const& save_path
 				, entry const& resume_data
 				, bool compact_mode

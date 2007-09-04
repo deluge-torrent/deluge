@@ -323,13 +323,7 @@ try
 #endif
 {
 	using namespace libtorrent::detail;
-	if (e)
-	{
-#ifdef TORRENT_UPNP_LOGGING
-		m_log << time_now_string() << " *** on_reply aborted: " << e.message() << std::endl;
-#endif
-		return;
-	}
+	if (e) return;
 
 	// parse out the url for the device
 
@@ -849,16 +843,9 @@ void upnp::on_upnp_map_response(asio::error_code const& e
 	{
 #ifdef TORRENT_UPNP_LOGGING
 		m_log << time_now_string()
-			<< " <== error while adding portmap: " << p.status_code() << " " << p.message() << std::endl;
+			<< " <== error while adding portmap: " << p.message() << std::endl;
 #endif
-		for (int i = 0; i < num_mappings; ++i)
-		{
-			if (d.mapping[i].need_update)
-			{
-				map_port(d, i);
-				return;
-			}
-		}
+		m_devices.erase(d);
 		return;
 	}
 
