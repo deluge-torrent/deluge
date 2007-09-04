@@ -948,7 +948,7 @@ namespace libtorrent
 			// if this is a web seed. we don't have a peer_info struct
 			if (m_peer_info) m_peer_info->seed = true;
 			// if we're a seed too, disconnect
-			if (t->is_seed())
+            if (t->is_finished())
 			{
 				throw protocol_error("seed to seed connection redundant, disconnecting");
 			}
