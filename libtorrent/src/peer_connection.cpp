@@ -51,6 +51,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/aux_/session_impl.hpp"
 #include "libtorrent/policy.hpp"
 #include "libtorrent/socket_type.hpp"
+#include "libtorrent/assert.hpp"
 
 using boost::bind;
 using boost::shared_ptr;
@@ -76,6 +77,8 @@ namespace libtorrent
 		, m_timeout(m_ses.settings().peer_timeout)
 		, m_last_piece(time_now())
 		, m_last_request(time_now())
+		, m_last_incoming_request(min_time())
+		, m_last_unchoke(min_time())
 		, m_packet_size(0)
 		, m_recv_pos(0)
 		, m_current_send_buffer(0)
@@ -154,6 +157,8 @@ namespace libtorrent
 		, m_timeout(m_ses.settings().peer_timeout)
 		, m_last_piece(time_now())
 		, m_last_request(time_now())
+		, m_last_incoming_request(min_time())
+		, m_last_unchoke(min_time())
 		, m_packet_size(0)
 		, m_recv_pos(0)
 		, m_current_send_buffer(0)
@@ -338,7 +343,7 @@ namespace libtorrent
 			// if this is a web seed. we don't have a peer_info struct
 			if (m_peer_info) m_peer_info->seed = true;
 			// if we're a seed too, disconnect
-			if (t->is_seed())
+			if (t->is_finished())
 			{
 				throw std::runtime_error("seed to seed connection redundant, disconnecting");
 			}
@@ -395,7 +400,12 @@ namespace libtorrent
 	{
 		// dont announce during handshake
 		if (in_handshake()) return;
-		
+
+		// remove suggested pieces that we have		
+		std::vector<int>::iterator i = std::find(
+			m_suggested_pieces.begin(), m_suggested_pieces.end(), index);
+		if (i != m_suggested_pieces.end()) m_suggested_pieces.erase(i);
+
 		// optimization, don't send have messages
 		// to peers that already have the piece
 		if (!m_ses.settings().send_redundant_have
@@ -511,6 +521,7 @@ namespace libtorrent
 		assert(t);
 
 		assert(t->valid_metadata());
+		torrent_info const& ti = t->torrent_file();
 
 		return p.piece >= 0
 			&& p.piece < t->torrent_file().num_pieces()
@@ -518,11 +529,13 @@ namespace libtorrent
 			&& p.start >= 0
 			&& (p.length == t->block_size()
 				|| (p.length < t->block_size()
-					&& p.piece == t->torrent_file().num_pieces()-1
-					&& p.start + p.length == t->torrent_file().piece_size(p.piece))
+					&& p.piece == ti.num_pieces()-1
+					&& p.start + p.length == ti.piece_size(p.piece))
 				|| (m_request_large_blocks
-					&& p.length <= t->torrent_file().piece_size(p.piece)))
-			&& p.start + p.length <= t->torrent_file().piece_size(p.piece)
+					&& p.length <= ti.piece_length() * m_prefer_whole_pieces == 0 ?
+					1 : m_prefer_whole_pieces))
+			&& p.piece * size_type(ti.piece_length()) + p.start + p.length
+				<= ti.total_size()
 			&& (p.start % t->block_size() == 0);
 	}
 
@@ -724,6 +737,33 @@ namespace libtorrent
 	}
 	
 	// -----------------------------
+	// -------- REJECT PIECE -------
+	// -----------------------------
+
+	void peer_connection::incoming_suggest(int index)
+	{
+		INVARIANT_CHECK;
+		
+#ifdef TORRENT_VERBOSE_LOGGING
+		(*m_logger) << time_now_string()
+			<< " <== SUGGEST_PIECE [ piece: " << index << " ]\n";
+#endif
+		boost::shared_ptr<torrent> t = m_torrent.lock();
+		if (!t) return;
+
+		if (t->have_piece(index)) return;
+		
+		if (m_suggested_pieces.size() > 9)
+			m_suggested_pieces.erase(m_suggested_pieces.begin());
+		m_suggested_pieces.push_back(index);
+
+#ifdef TORRENT_VERBOSE_LOGGING
+		(*m_logger) << time_now_string()
+			<< " ** SUGGEST_PIECE [ piece: " << index << " added to set: " << m_suggested_pieces.size() << " ]\n";
+#endif
+	}
+
+	// -----------------------------
 	// ---------- UNCHOKE ----------
 	// -----------------------------
 
@@ -877,7 +917,7 @@ namespace libtorrent
 			{
 				assert(m_peer_info);
 				m_peer_info->seed = true;
-				if (t->is_seed())
+				if (t->is_finished())
 				{
 					throw protocol_error("seed to seed connection redundant, disconnecting");
 				}
@@ -948,7 +988,7 @@ namespace libtorrent
 			// if this is a web seed. we don't have a peer_info struct
 			if (m_peer_info) m_peer_info->seed = true;
 			// if we're a seed too, disconnect
-			if (t->is_seed())
+			if (t->is_finished())
 			{
 				throw protocol_error("seed to seed connection redundant, disconnecting");
 			}
@@ -1096,6 +1136,7 @@ namespace libtorrent
 			else
 			{
 				m_requests.push_back(r);
+				m_last_incoming_request = time_now();
 				fill_send_buffer();
 			}
 		}
@@ -1476,7 +1517,7 @@ namespace libtorrent
 #endif
 
 		// if we're a seed too, disconnect
-		if (t->is_seed())
+		if (t->is_finished())
 			throw protocol_error("seed to seed connection redundant, disconnecting");
 
 		assert(!m_have_piece.empty());
@@ -1585,6 +1626,7 @@ namespace libtorrent
 		assert(block.block_index >= 0);
 		assert(block.block_index < t->torrent_file().piece_size(block.piece_index));
 		assert(!t->picker().is_requested(block) || (t->picker().num_peers(block) > 0));
+		assert(!t->have_piece(block.piece_index));
 
 		piece_picker::piece_state_t state;
 		peer_speed_t speed = peer_speed();
@@ -1701,6 +1743,7 @@ namespace libtorrent
 		INVARIANT_CHECK;
 
 		if (!m_choked) return;
+		m_last_unchoke = time_now();
 		write_unchoke();
 		m_choked = false;
 
@@ -1776,21 +1819,27 @@ namespace libtorrent
 			// blocks that are in the same piece into larger requests
 			if (m_request_large_blocks)
 			{
-				while (!m_request_queue.empty()
-					&& m_request_queue.front().piece_index == r.piece
-					&& m_request_queue.front().block_index == block.block_index + 1)
+				int blocks_per_piece = t->torrent_file().piece_length() / t->block_size();
+
+				while (!m_request_queue.empty())
 				{
+					// check to see if this block is connected to the previous one
+					// if it is, merge them, otherwise, break this merge loop
+					piece_block const& front = m_request_queue.front();
+					if (front.piece_index * blocks_per_piece + front.block_index
+						!= block.piece_index * blocks_per_piece + block.block_index + 1)
+						break;
 					block = m_request_queue.front();
 					m_request_queue.pop_front();
 					m_download_queue.push_back(block);
-/*
+
 #ifdef TORRENT_VERBOSE_LOGGING
 					(*m_logger) << time_now_string()
-						<< " *** REQUEST-QUEUE** [ "
+						<< " *** MERGING REQUEST ** [ "
 						"piece: " << block.piece_index << " | "
 						"block: " << block.block_index << " ]\n";
 #endif
-*/
+
 					block_offset = block.block_index * t->block_size();
 					block_size = (std::min)((int)t->torrent_file().piece_size(
 						block.piece_index) - block_offset, t->block_size());
@@ -2137,7 +2186,7 @@ namespace libtorrent
 		// maintain the share ratio given by m_ratio
 		// with all peers.
 
-		if (t->is_seed() || is_choked() || t->ratio() == 0.0f)
+		if (t->is_finished() || is_choked() || t->ratio() == 0.0f)
 		{
 			// if we have downloaded more than one piece more
 			// than we have uploaded OR if we are a seed
@@ -2862,8 +2911,19 @@ namespace libtorrent
 		// if the peer hasn't said a thing for a certain
 		// time, it is considered to have timed out
 		time_duration d;
-		d = time_now() - m_last_receive;
+		d = now - m_last_receive;
 		if (d > seconds(m_timeout)) return true;
+
+		// disconnect peers that we unchoked, but
+		// they didn't send a request within 20 seconds.
+		// but only if we're a seed
+		boost::shared_ptr<torrent> t = m_torrent.lock();
+		d = now - (std::max)(m_last_unchoke, m_last_incoming_request);
+		if (m_requests.empty()
+			&& !m_choked
+			&& m_peer_interested
+			&& t && t->is_finished()
+			&& d > seconds(20)) return true;
 
 		// TODO: as long as we have less than 95% of the
 		// global (or local) connection limit, connections should

@@ -32,7 +32,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #ifndef TORRENT_DISABLE_ENCRYPTION
 
-#include <cassert>
 #include <algorithm>
 
 #include <openssl/dh.h>

@@ -239,7 +239,7 @@ boost::filesystem::path const& save_path)
 
     torrent_t new_torrent;
 
-    torrent_handle h = M_ses->add_torrent(t, save_path, resume_data, compact_mode, 16 * 1024);
+    torrent_handle h = M_ses->add_torrent(t, save_path, resume_data, compact_mode);
     //    h.set_max_connections(60); // at some point we should use this
     h.set_max_uploads(-1);
     h.set_ratio(preferred_ratio);
@@ -1484,12 +1484,13 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 
     try
     {
-        torrent_info t;
+		boost::intrusive_ptr<torrent_info> t(new torrent_info);
         boost::filesystem::path full_path = complete(boost::filesystem::path(input));
         boost::filesystem::ofstream out(complete(boost::filesystem::path(destination)), std::ios_base::binary);
 
-        internal_add_files(t, full_path.branch_path(), full_path.leaf());
-        t.set_piece_size(piece_size);
+
+        internal_add_files(*t, full_path.branch_path(), full_path.leaf());
+		t->set_piece_size(piece_size);
 
         file_pool fp;
         boost::scoped_ptr<storage_interface> st(default_storage_constructor(t, full_path.branch_path(), fp));
@@ -1498,7 +1499,7 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
         unsigned long index = 0, next = stdTrackers.find("\n");
         while (1 == 1)
         {
-            t.add_tracker(stdTrackers.substr(index, next-index));
+            t->add_tracker(stdTrackers.substr(index, next-index));
             index = next + 1;
             if (next >= stdTrackers.length())
                 break;
@@ -1507,19 +1508,19 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
                 break;
         }
 
-        int num = t.num_pieces();
+        int num = t->num_pieces();
         std::vector<char> buf(piece_size);
         for (int i = 0; i < num; ++i)
         {
-            st->read(&buf[0], i, 0, t.piece_size(i));
-            hasher h(&buf[0], t.piece_size(i));
-            t.set_hash(i, h.final());
+            st->read(&buf[0], i, 0, t->piece_size(i));
+            hasher h(&buf[0], t->piece_size(i));
+            t->set_hash(i, h.final());
         }
 
-        t.set_creator(creator_str);
-        t.set_comment(comment);
+        t->set_creator(creator_str);
+        t->set_comment(comment);
 
-        entry e = t.create_torrent();
+        entry e = t->create_torrent();
         bencode(std::ostream_iterator<char>(out), e);
         return Py_BuildValue("l", 1);
     } catch (std::exception& e)

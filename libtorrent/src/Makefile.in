@@ -63,8 +63,8 @@ am__installdirs = "$(DESTDIR)$(libdir)"
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libtorrent_la_DEPENDENCIES =
-am__libtorrent_la_SOURCES_DIST = allocate_resources.cpp entry.cpp \
-	escape_string.cpp peer_connection.cpp bt_peer_connection.cpp \
+am__libtorrent_la_SOURCES_DIST = entry.cpp escape_string.cpp \
+	peer_connection.cpp bt_peer_connection.cpp \
 	web_peer_connection.cpp natpmp.cpp piece_picker.cpp policy.cpp \
 	session.cpp session_impl.cpp sha1.cpp stat.cpp storage.cpp \
 	torrent.cpp torrent_handle.cpp pe_crypto.cpp torrent_info.cpp \
@@ -83,8 +83,8 @@ am__libtorrent_la_SOURCES_DIST = allocate_resources.cpp entry.cpp \
 @USE_DHT_TRUE@	find_data.lo node.lo node_id.lo refresh.lo \
 @USE_DHT_TRUE@	routing_table.lo rpc_manager.lo \
 @USE_DHT_TRUE@	traversal_algorithm.lo
-am_libtorrent_la_OBJECTS = allocate_resources.lo entry.lo \
-	escape_string.lo peer_connection.lo bt_peer_connection.lo \
+am_libtorrent_la_OBJECTS = entry.lo escape_string.lo \
+	peer_connection.lo bt_peer_connection.lo \
 	web_peer_connection.lo natpmp.lo piece_picker.lo policy.lo \
 	session.lo session_impl.lo sha1.lo stat.lo storage.lo \
 	torrent.lo torrent_handle.lo pe_crypto.lo torrent_info.lo \
@@ -248,8 +248,7 @@ lib_LTLIBRARIES = libtorrent.la
 @USE_DHT_TRUE@kademlia/rpc_manager.cpp \
 @USE_DHT_TRUE@kademlia/traversal_algorithm.cpp
 
-libtorrent_la_SOURCES = allocate_resources.cpp \
-entry.cpp escape_string.cpp \
+libtorrent_la_SOURCES = entry.cpp escape_string.cpp \
 peer_connection.cpp bt_peer_connection.cpp web_peer_connection.cpp \
 natpmp.cpp piece_picker.cpp policy.cpp session.cpp session_impl.cpp sha1.cpp \
 stat.cpp storage.cpp torrent.cpp torrent_handle.cpp pe_crypto.cpp \
@@ -264,8 +263,6 @@ $(kademlia_sources)
 noinst_HEADERS = \
 $(top_srcdir)/include/libtorrent/alert.hpp \
 $(top_srcdir)/include/libtorrent/alert_types.hpp \
-$(top_srcdir)/include/libtorrent/allocate_resources.hpp \
-$(top_srcdir)/include/libtorrent/aux_/allocate_resources_impl.hpp \
 $(top_srcdir)/include/libtorrent/aux_/session_impl.hpp \
 $(top_srcdir)/include/libtorrent/bandwidth_manager.hpp \
 $(top_srcdir)/include/libtorrent/bencode.hpp \
@@ -307,7 +304,6 @@ $(top_srcdir)/include/libtorrent/peer_request.hpp \
 $(top_srcdir)/include/libtorrent/piece_block_progress.hpp \
 $(top_srcdir)/include/libtorrent/piece_picker.hpp \
 $(top_srcdir)/include/libtorrent/policy.hpp \
-$(top_srcdir)/include/libtorrent/resource_request.hpp \
 $(top_srcdir)/include/libtorrent/session.hpp \
 $(top_srcdir)/include/libtorrent/size_type.hpp \
 $(top_srcdir)/include/libtorrent/socket.hpp \
@@ -401,7 +397,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/alert.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/allocate_resources.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bt_peer_connection.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/closest_nodes.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/connection_queue.Plo@am__quote@
