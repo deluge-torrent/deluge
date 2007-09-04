@@ -57,6 +57,7 @@ class DetailsTabManager(object):
         self.tracker_status = glade.get_widget("summary_tracker_status")
         self.next_announce = glade.get_widget("summary_next_announce")
         self.eta = glade.get_widget("summary_eta")
+        self.torrent_path = glade.get_widget("summary_torrent_path")
         
     def update(self, unique_id):
         state = self.manager.get_torrent_state(unique_id)
@@ -112,6 +113,7 @@ class DetailsTabManager(object):
         self.eta.set_text(common.estimate_eta(state))
         self.share_ratio.set_text( '%.3f' % self.manager.calc_ratio(unique_id, 
                                                                     state))
+        self.torrent_path.set_text(self.manager.get_torrent_path(unique_id))
         
     def clear(self):
         self.name.set_text("")
@@ -132,4 +134,4 @@ class DetailsTabManager(object):
         self.tracker_status.set_text("")
         self.next_announce.set_text("")
         self.eta.set_text("")
-        
+        self.torrent_path.set_text("")
