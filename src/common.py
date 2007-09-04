@@ -35,8 +35,12 @@ PROGRAM_NAME = "Deluge"
 PROGRAM_VERSION = "0.5.5.95"
 
 CLIENT_CODE = "DE"
-CLIENT_VERSION = "".join(PROGRAM_VERSION.split('.'))+"0"*(4 - len(PROGRAM_VERSION.split('.'))) 
-CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
+CLIENT_VERSION = "".join(PROGRAM_VERSION.split('.'))+"0"*(4 - len(PROGRAM_VERSION.split('.')))
+import platform
+if platform.system() == "Windows":
+    CONFIG_DIR = os.path.join(os.path.expanduser("~/"), 'deluge')
+else:
+    CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
 
 # the necessary substitutions are made at installation time
 INSTALL_PREFIX = '@datadir@'
