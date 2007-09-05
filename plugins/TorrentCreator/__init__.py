@@ -148,13 +148,13 @@ class TorrentCreator:
         author = _("Deluge")
       
       add_torrent = self.glade.get_widget("add_torrent_checkbox").get_active()
-      
+      set_private = self.glade.get_widget("chk_set_priv").get_active()
       # Destroy the dialog.. we don't need it anymore
       self.destroy()
 
       # Create the torrent and add it to the queue if necessary
       if self.core.create_torrent(torrent, source, trackers, comments, 
-                                  piece_size, author) == 1:
+                                  piece_size, author, set_private) == 1:
         # Torrent was created successfully
         if add_torrent:
           # We need to add this torrent to the queue

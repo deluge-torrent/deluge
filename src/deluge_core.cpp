@@ -1475,9 +1475,10 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
     //path::default_name_check(no_check);
 
     char *destination, *comment, *creator_str, *input, *trackers;
+    bool *priv;
     python_long piece_size;
-    if (!PyArg_ParseTuple(args, "ssssis",
-        &destination, &input, &trackers, &comment, &piece_size, &creator_str))
+    if (!PyArg_ParseTuple(args, "ssssisb",
+        &destination, &input, &trackers, &comment, &piece_size, &creator_str, &priv))
         return NULL;
 
     piece_size = piece_size * 1024;
@@ -1519,7 +1520,7 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 
         t->set_creator(creator_str);
         t->set_comment(comment);
-
+        t->set_priv(priv);
         entry e = t->create_torrent();
         bencode(std::ostream_iterator<char>(out), e);
         return Py_BuildValue("l", 1);
