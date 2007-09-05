@@ -87,21 +87,20 @@ class TorrentPeers:
 
     def configure(self, window):
         self.dialog_initialize = True
-        try:
-            if self.config.get("enable_flags"):
-                self.glade.get_widget("chk_flags").set_active(True)
-                self.glade.get_widget("radio_18").set_sensitive(True)
-                self.glade.get_widget("radio_25").set_sensitive(True)
-                if self.config.get("size_18"):
-                    self.glade.get_widget("radio_18").set_active(True)
-                    self.glade.get_widget("radio_25").set_active(False)
-                else:
-                    self.glade.get_widget("radio_18").set_active(False)
-                    self.glade.get_widget("radio_25").set_active(True)
+        if self.config.get("enable_flags"):
+            self.glade.get_widget("chk_flags").set_active(True)
+            self.glade.get_widget("radio_18").set_sensitive(True)
+            self.glade.get_widget("radio_25").set_sensitive(True)
+            if self.config.get("size_18"):
+                self.glade.get_widget("radio_18").set_active(True)
+                self.glade.get_widget("radio_25").set_active(False)
             else:
-                self.glade.get_widget("chk_flags").set_active(False)
-                self.glade.get_widget("radio_18").set_sensitive(False)
-                self.glade.get_widget("radio_25").set_sensitive(False)
+                self.glade.get_widget("radio_18").set_active(False)
+                self.glade.get_widget("radio_25").set_active(True)
+        else:
+            self.glade.get_widget("chk_flags").set_active(False)
+            self.glade.get_widget("radio_18").set_sensitive(False)
+            self.glade.get_widget("radio_25").set_sensitive(False)
 
         self.dialog_initialize = False
         self.dialog.set_transient_for(window)
