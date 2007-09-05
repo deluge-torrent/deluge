@@ -128,6 +128,9 @@ class ListView:
         self.liststore_columns = []
         # The GtkMenu that is created after every addition, removal or reorder
         self.menu = None
+        # A list of menus that self.menu will be a submenu of everytime it is
+        # created.
+        self.checklist_menus = []
     
     def set_treeview(self, treeview_widget):
         """Set the treeview widget that this listview uses."""
@@ -153,7 +156,13 @@ class ListView:
         # Set the column's visibility based on the widgets active state
         self.columns[name].column.set_visible(widget.get_active())
         return
-
+        
+    def register_checklist_menu(self, menu):
+        """Register a checklist menu with the listview.  It will automatically
+        attach any new checklist menu it makes to this menu.
+        """
+        self.checklist_menus.append(menu)
+        
     def create_checklist_menu(self):
         """Creates a menu used for toggling the display of columns."""
         self.menu = gtk.Menu()
@@ -173,6 +182,11 @@ class ListView:
             menuitem.connect("toggled", self.on_menuitem_toggled)
             # Add the new checkmenuitem to the menu
             self.menu.append(menuitem)
+        
+        # Attach this new menu to all the checklist_menus
+        for menu in self.checklist_menus:
+            menu.set_submenu(self.menu)
+            
         return self.menu
 
     def create_new_liststore(self):

@@ -51,6 +51,11 @@ class TorrentView(listview.ListView):
                             self.window.main_glade.get_widget("torrent_view"))
         log.debug("TorrentView Init..")
         self.core = functions.get_core()
+
+        # Register the columns menu with the listview so it gets updated
+        # accordingly.
+        self.register_checklist_menu(
+                            self.window.main_glade.get_widget("menu_columns"))
         
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
@@ -87,8 +92,6 @@ class TorrentView(listview.ListView):
                                             [float],
                                             status_field=["ratio"])
 
-        self.window.main_glade.get_widget("menu_columns").set_submenu(
-                        self.menu)
                         
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
