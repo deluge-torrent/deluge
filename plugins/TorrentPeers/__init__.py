@@ -45,7 +45,9 @@ class TorrentPeers:
         self.parent = interface
         self.manager = core
         self.config_file = deluge.common.CONFIG_DIR + "/peers.conf"
-        self.config = deluge.pref.Preferences(self.config_file, False)
+        self.config = deluge.pref.Preferences(self.config_file, False,
+                        defaults={'enable_flags' : True,
+                                    'size_18' : True})
         try:
             self.config.load()
         except IOError:
@@ -100,10 +102,7 @@ class TorrentPeers:
                 self.glade.get_widget("chk_flags").set_active(False)
                 self.glade.get_widget("radio_18").set_sensitive(False)
                 self.glade.get_widget("radio_25").set_sensitive(False)
-        except:
-            self.glade.get_widget("chk_finished").set_active(False)
-            self.glade.get_widget("radio_18").set_sensitive(False)
-            self.glade.get_widget("radio_25").set_sensitive(False)
+
         self.dialog_initialize = False
         self.dialog.set_transient_for(window)
         self.dialog.show()
