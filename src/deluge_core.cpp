@@ -1828,7 +1828,9 @@ static PyObject *torrent_prioritize_first_last_pieces(PyObject *self,
         }        
             
         int start_piece = tor_info.map_file(i, 0, 0).piece;
-        int end_piece = tor_info.map_file(i, file.size, 0).piece -1;
+        int end_piece = tor_info.map_file(i, file.size, 0).piece;
+        if (end_piece == num_pieces)
+            end_piece -= 1;
         // Set prio_size to 1% of the file size
         size_type prio_size = file.size / 100;
         int prio_pieces = tor_info.map_file(i, prio_size, 0).piece -
