@@ -1149,13 +1149,13 @@ namespace libtorrent
 					if (!suggested_bucket.empty())
 					{
 						num_blocks = add_blocks(suggested_bucket, pieces
-							, interesting_blocks, backup_blocks, num_blocks
+							, interesting_blocks, num_blocks
 							, prefer_whole_pieces, peer, empty_vector);
 						if (num_blocks == 0) break;
 					}
 				}
 				num_blocks = add_blocks(*bucket, pieces
-					, interesting_blocks, backup_blocks, num_blocks
+					, interesting_blocks, num_blocks
 					, prefer_whole_pieces, peer, suggested_bucket);
 				assert(num_blocks >= 0);
 			}
@@ -1193,12 +1193,12 @@ namespace libtorrent
 					if (piece == start_piece) return;
 				}
 
-				assert(m_piece_map[piece].downloading == false);
-
 				int start, end;
 				boost::tie(start, end) = expand_piece(piece, prefer_whole_pieces, pieces);
 				for (int k = start; k < end; ++k)
 				{
+					assert(m_piece_map[piece].downloading == false);
+					assert(m_piece_map[k].priority(m_sequenced_download_threshold) > 0);
 					int num_blocks_in_piece = blocks_in_piece(k);
 					if (prefer_whole_pieces == 0 && num_blocks_in_piece > num_blocks)
 						num_blocks_in_piece = num_blocks;
@@ -1263,7 +1263,6 @@ namespace libtorrent
 	int piece_picker::add_blocks(std::vector<int> const& piece_list
 		, std::vector<bool> const& pieces
 		, std::vector<piece_block>& interesting_blocks
-		, std::vector<piece_block>& backup_blocks
 		, int num_blocks, int prefer_whole_pieces
 		, void* peer, std::vector<int> const& ignore) const
 	{
@@ -1286,6 +1285,7 @@ namespace libtorrent
 			int num_blocks_in_piece = blocks_in_piece(*i);
 
 			assert(m_piece_map[*i].downloading == 0);
+			assert(m_piece_map[*i].priority(m_sequenced_download_threshold) > 0);
 
 			// pick a new piece
 			if (prefer_whole_pieces == 0)
@@ -1302,6 +1302,7 @@ namespace libtorrent
 				boost::tie(start, end) = expand_piece(*i, prefer_whole_pieces, pieces);
 				for (int k = start; k < end; ++k)
 				{
+					assert(m_piece_map[k].priority(m_sequenced_download_threshold) > 0);
 					num_blocks_in_piece = blocks_in_piece(k);
 					for (int j = 0; j < num_blocks_in_piece; ++j)
 					{
@@ -1310,7 +1311,7 @@ namespace libtorrent
 					}
 				}
 			}
-			if (num_blocks <= 0) return num_blocks < 0 ? 0 : num_blocks;
+			if (num_blocks <= 0) return 0;
 		}
 		return num_blocks;
 	}
@@ -1337,6 +1338,8 @@ namespace libtorrent
 			// peers on parole are only allowed to pick blocks from
 			// pieces that only they have downloaded/requested from
 			if (on_parole && !exclusive) continue;
+
+			if (prefer_whole_pieces > 0 && !exclusive_active) continue;
 
 			for (int j = 0; j < num_blocks_in_piece; ++j)
 			{
@@ -1377,6 +1380,7 @@ namespace libtorrent
 	
 		assert(num_blocks >= 0 || prefer_whole_pieces > 0);
 		if (num_blocks <= 0) return 0;
+		if (on_parole) return num_blocks;
 
 		interesting_blocks.insert(interesting_blocks.end()
 			, backup_blocks.begin(), backup_blocks.end());
@@ -1784,4 +1788,5 @@ namespace libtorrent
 	}
 
 }
+
 

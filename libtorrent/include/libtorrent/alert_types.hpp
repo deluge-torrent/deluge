@@ -223,7 +223,7 @@ namespace libtorrent
 	{
 		block_downloading_alert(
 			const torrent_handle& h
-			, std::string& speedmsg
+			, char const* speedmsg
 			, int block_num
 			, int piece_num
 			, const std::string& msg)
@@ -384,3 +384,4 @@ namespace libtorrent
 
 
 #endif
+
