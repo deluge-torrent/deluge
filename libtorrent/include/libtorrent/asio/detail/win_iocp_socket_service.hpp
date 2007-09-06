@@ -137,7 +137,7 @@ public:
     enum
     {
       enable_connection_aborted = 1, // User wants connection_aborted errors.
-      user_set_linger = 2, // The user set the linger option.
+      close_might_block = 2, // User set linger option for blocking close.
       user_set_non_blocking = 4 // The user wants a non-blocking socket.
     };
 
@@ -170,7 +170,7 @@ public:
   typedef detail::select_reactor<true> reactor_type;
 
   // The maximum number of buffers to support in a single operation.
-  enum { max_buffers = 16 };
+  enum { max_buffers = 64 < max_iov_len ? 64 : max_iov_len };
 
   // Constructor.
   win_iocp_socket_service(asio::io_service& io_service)
@@ -192,7 +192,7 @@ public:
     while (impl)
     {
       asio::error_code ignored_ec;
-      close(*impl, ignored_ec);
+      close_for_destruction(*impl);
       impl = impl->next_;
     }
   }
@@ -217,34 +217,7 @@ public:
   // Destroy a socket implementation.
   void destroy(implementation_type& impl)
   {
-    if (impl.socket_ != invalid_socket)
-    {
-      // Check if the reactor was created, in which case we need to close the
-      // socket on the reactor as well to cancel any operations that might be
-      // running there.
-      reactor_type* reactor = static_cast<reactor_type*>(
-            interlocked_compare_exchange_pointer(
-              reinterpret_cast<void**>(&reactor_), 0, 0));
-      if (reactor)
-        reactor->close_descriptor(impl.socket_);
-
-      if (impl.flags_ & implementation_type::user_set_linger)
-      {
-        ::linger opt;
-        opt.l_onoff = 0;
-        opt.l_linger = 0;
-        asio::error_code ignored_ec;
-        socket_ops::setsockopt(impl.socket_,
-            SOL_SOCKET, SO_LINGER, &opt, sizeof(opt), ignored_ec);
-      }
-
-      asio::error_code ignored_ec;
-      socket_ops::close(impl.socket_, ignored_ec);
-      impl.socket_ = invalid_socket;
-      impl.flags_ = 0;
-      impl.cancel_token_.reset();
-      impl.safe_cancellation_thread_id_ = 0;
-    }
+    close_for_destruction(impl);
 
     // Remove implementation from linked list of all implementations.
     asio::detail::mutex::scoped_lock lock(mutex_);
@@ -352,6 +325,24 @@ public:
     if (!is_open(impl))
     {
       ec = asio::error::bad_descriptor;
+    }
+    else if (FARPROC cancel_io_ex_ptr = ::GetProcAddress(
+          ::GetModuleHandle("KERNEL32"), "CancelIoEx"))
+    {
+      // The version of Windows supports cancellation from any thread.
+      typedef BOOL (WINAPI* cancel_io_ex_t)(HANDLE, LPOVERLAPPED);
+      cancel_io_ex_t cancel_io_ex = (cancel_io_ex_t)cancel_io_ex_ptr;
+      socket_type sock = impl.socket_;
+      HANDLE sock_as_handle = reinterpret_cast<HANDLE>(sock);
+      if (!cancel_io_ex(sock_as_handle, 0))
+      {
+        DWORD last_error = ::GetLastError();
+        ec = asio::error_code(last_error, asio::native_ecat);
+      }
+      else
+      {
+        ec = asio::error_code();
+      }
     }
     else if (impl.safe_cancellation_thread_id_ == 0)
     {
@@ -475,7 +466,12 @@ public:
       if (option.level(impl.protocol_) == SOL_SOCKET
           && option.name(impl.protocol_) == SO_LINGER)
       {
-        impl.flags_ |= implementation_type::user_set_linger;
+        const ::linger* linger_option =
+          reinterpret_cast<const ::linger*>(option.data(impl.protocol_));
+        if (linger_option->l_onoff != 0 && linger_option->l_linger != 0)
+          impl.flags_ |= implementation_type::close_might_block;
+        else
+          impl.flags_ &= ~implementation_type::close_might_block;
       }
 
       socket_ops::setsockopt(impl.socket_,
@@ -1950,6 +1946,43 @@ public:
   }
 
 private:
+  // Helper function to close a socket when the associated object is being
+  // destroyed.
+  void close_for_destruction(implementation_type& impl)
+  {
+    if (is_open(impl))
+    {
+      // Check if the reactor was created, in which case we need to close the
+      // socket on the reactor as well to cancel any operations that might be
+      // running there.
+      reactor_type* reactor = static_cast<reactor_type*>(
+            interlocked_compare_exchange_pointer(
+              reinterpret_cast<void**>(&reactor_), 0, 0));
+      if (reactor)
+        reactor->close_descriptor(impl.socket_);
+
+      // The socket destructor must not block. If the user has changed the
+      // linger option to block in the foreground, we will change it back to the
+      // default so that the closure is performed in the background.
+      if (impl.flags_ & implementation_type::close_might_block)
+      {
+        ::linger opt;
+        opt.l_onoff = 0;
+        opt.l_linger = 0;
+        asio::error_code ignored_ec;
+        socket_ops::setsockopt(impl.socket_,
+            SOL_SOCKET, SO_LINGER, &opt, sizeof(opt), ignored_ec);
+      }
+
+      asio::error_code ignored_ec;
+      socket_ops::close(impl.socket_, ignored_ec);
+      impl.socket_ = invalid_socket;
+      impl.flags_ = 0;
+      impl.cancel_token_.reset();
+      impl.safe_cancellation_thread_id_ = 0;
+    }
+  }
+
   // Helper function to emulate InterlockedCompareExchangePointer functionality
   // for:
   // - very old Platform SDKs; and
