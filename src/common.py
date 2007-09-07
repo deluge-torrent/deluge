@@ -191,6 +191,23 @@ def exec_deluge_command(script, *parameters):
                              'site-packages', 'deluge', script)
     exec_command('python', full_path, *parameters)
 
+def send_info():
+    import urllib
+    import platform
+    import gtk
+    import os
+    import common
+
+    pygtk = '%i.%i.%i' %(gtk.pygtk_version[0],gtk.pygtk_version[1],gtk.pygtk_version[2])
+
+    urllib.urlopen("http://download.deluge-torrent.org/stats.php?processor=" + \
+        platform.machine() + "&python=" + platform.python_version() \
+        + "&os=" + platform.system() + "&pygtk=" + pygtk)
+
+    f = open(os.path.join(CONFIG_DIR, 'infosent'), 'w')
+    f.write("")
+    f.close
+
 # Encryption States
 class EncState:
     forced, enabled, disabled = range(3)

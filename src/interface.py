@@ -119,7 +119,7 @@ class DelugeGTK:
             import time
             
             def _run_script():
-                common.exec_deluge_command('info.py', common.PROGRAM_VERSION)
+                common.send_info()
             
             info_file = os.path.join(common.CONFIG_DIR, 'infosent')
             
