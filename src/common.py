@@ -129,12 +129,17 @@ def get_pixmap(fname):
     return os.path.join(PIXMAP_DIR, fname)
     
 def open_url_in_browser(link):
-    import platform
-    if platform.system() == "Windows":
-        import webbrowser
-        webbrowser.open(link)
-    else:
-        exec_deluge_command('browser.py', link)
+    import threading
+    import time
+    import webbrowser
+    class BrowserThread(threading.Thread):
+       def __init__(self, link):
+           threading.Thread.__init__(self)
+           self.url = link
+       def run(self):
+           webbrowser.open(self.url)
+    t = BrowserThread(link)
+    t.start()
 
 def is_url(url):
     import re
