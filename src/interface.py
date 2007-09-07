@@ -1513,6 +1513,8 @@ this torrent will be deleted!") + "</i>")
                 self.shutdown()
 
     def shutdown(self):
+        #for the sake of windows, hide tray_icon
+        self.tray_icon.set_visible(False)
         self.save_column_widths()
         self.save_window_settings()
         self.save_tabs_order()
