@@ -94,11 +94,9 @@ for path in glob.glob('deluge/plugins/*'):
 setup(
     name = "deluge",
     fullname = "Deluge Bittorent Client",
-    version = "0.6",
-    author = "Zach Tibbitts, Alon Zakai, Marcos Pinto, Andrew Resch",
-    author_email = "zach@collegegeek.org, kripkensteiner@gmail.com, \
-                                    marcospinto@dipconsultants.com, \
-                                    andrewresch@gmail.com",
+    version = "0.6.0.0",
+    author = "Andrew Resch",
+    author_email = "andrewresch@gmail.com",
     description = "GTK+ bittorrent client",
     url = "http://deluge-torrent.org",
     license = "GPLv2",
