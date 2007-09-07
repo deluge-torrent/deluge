@@ -44,6 +44,7 @@ from deluge.config import Config
 import deluge.common
 from deluge.core.torrentmanager import TorrentManager
 from deluge.core.pluginmanager import PluginManager
+from deluge.core.alertmanager import AlertManager
 from deluge.log import LOG as log
 
 DEFAULT_PREFS = {
@@ -85,6 +86,9 @@ class Core(dbus.service.Object):
         
         # Load plugins
         self.plugins = PluginManager()
+        
+        # Start the AlertManager
+        self.alerts = AlertManager(self.session)
         
         log.debug("Starting main loop..")
         self.loop = gobject.MainLoop()
