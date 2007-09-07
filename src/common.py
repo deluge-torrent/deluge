@@ -138,8 +138,7 @@ def open_url_in_browser(link):
            self.url = link
        def run(self):
            webbrowser.open(self.url)
-    t = BrowserThread(link)
-    t.start()
+    BrowserThread(link).start()
 
 def is_url(url):
     import re
