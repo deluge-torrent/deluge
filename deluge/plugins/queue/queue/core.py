@@ -78,7 +78,10 @@ class Core(dbus.service.Object):
     
     ## Status field function ##
     def status_field_queue(self, torrent_id):
-        return self.queue[torrent_id]+1
+        try:
+            return self.queue[torrent_id]+1
+        except TypeError:
+            return None
         
     ## Queueing functions ##
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge.Queue", 

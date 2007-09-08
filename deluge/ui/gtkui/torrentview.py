@@ -199,8 +199,11 @@ class TorrentView(listview.ListView):
     def get_selected_torrents(self):
         """Returns a list of selected torrents or None"""
         torrent_ids = []
-        paths = self.treeview.get_selection().get_selected_rows()[1]
-        
+        try:
+            paths = self.treeview.get_selection().get_selected_rows()[1]
+        except AttributeError:
+            # paths is likely None .. so lets return None
+            return None
         try:
             for path in paths:
                 torrent_ids.append(

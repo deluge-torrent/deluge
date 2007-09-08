@@ -44,7 +44,10 @@ class TorrentQueue:
 
     def __getitem__(self, torrent_id):
         """Return the queue position of the torrent_id"""
-        return self.queue.index(torrent_id)
+        try:
+            return self.queue.index(torrent_id)
+        except ValueError:
+            return None
         
     def load_state(self):
         """Load the queue state"""

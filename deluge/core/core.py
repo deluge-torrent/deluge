@@ -157,7 +157,14 @@ class Core(dbus.service.Object):
         for key in keys:
             nkeys.append(str(key))
         # Pickle the status dictionary from the torrent
-        status = self.torrents[torrent_id].get_status(nkeys)
+        try:
+            status = self.torrents[torrent_id].get_status(nkeys)
+        except KeyError:
+            # The torrent_id is not found in the torrentmanager, so return None
+            status = None
+            status.pickle.dumps(status)
+            return status
+        
         # Get the leftover fields and ask the plugin manager to fill them
         leftover_fields = list(set(nkeys) - set(status.keys()))
         if len(leftover_fields) > 0:
