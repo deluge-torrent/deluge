@@ -43,18 +43,49 @@ class AlertManager:
         log.debug("AlertManager initialized..")
         self.session = session
         self.session.set_severity_level(lt.alert.severity_levels.info)
+        # handlers is a dictionary of lists {"alert_type": [handler1,h2,..]}
+        self.handlers = {}
         # Handle the alerts every 50 milliseconds
         gobject.timeout_add(50, self.handle_alerts)
+    
+    def register_handler(self, alert_type, handler):
+        """Registers a function that will be called when 'alert_type' is pop'd
+        in handle_alerts.  The handler function should look like:
+        handler(alert)
+        Where 'alert' is the actual alert object from libtorrent
+        """
+        if alert_type not in self.handlers.keys():
+            # There is no entry for this alert type yet, so lets make it with an
+            # empty list.
+            self.handlers[alert_type] = []
         
+        # Append the handler to the list in the handlers dictionary
+        self.handlers[alert_type].append(handler)
+        log.debug("Registered handler %s for alert %s", handler, alert_type)
+    
+    def deregister_handler(self, handler):
+        """De-registers the 'handler' function from all alert types."""
+        # Iterate through all handlers and remove 'handler' where found
+        for (key, value) in self.handlers:
+            if handler in value:
+                # Handler is in this alert type list
+                value.remove(handler)
+                    
     def handle_alerts(self):
         """Pops all libtorrent alerts in the session queue and handles them
         appropriately."""
         alert = self.session.pop_alert()
         while alert is not None:
             # Loop through all alerts in the queue
-            # Do some magic to the type string and display the alert message
-            log.debug("%s: %s", str(type(alert)).split("'")[1].split(".")[2], 
-                                                                    alert.msg())
+            # Do some magic to get the alert type as a string
+            alert_type = str(type(alert)).split("'")[1].split(".")[2]
+            # Display the alert message
+            log.debug("%s: %s", alert_type, alert.msg())
+            # Call any handlers for this alert type
+            if alert_type in self.handlers.keys():
+                for handler in self.handlers[alert_type]:
+                    handler(alert)
+                    
             alert = self.session.pop_alert()
 
         # Return True so that the timer continues
