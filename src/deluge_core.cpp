@@ -37,7 +37,11 @@
 //
 //-----------------
 #include <Python.h>
-
+#if defined(_WIN32)
+# if defined(socklen_t)
+#  undef socklen_t
+# endif
+#endif
 #include <boost/filesystem/exception.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
