@@ -681,6 +681,8 @@ window, please enter your password"))
         if self.config.get("open_folder_stock"):
             if self.config.get("file_manager") == common.FileManager.xdg:
                 file_manager = "xdg-open"
+            elif self.config.get("file_manager") == common.FileManager.explorer:
+                file_manager = "explorer.exe"
             elif self.config.get("file_manager") == common.FileManager.\
                 konqueror:
                 file_manager = "konqueror"

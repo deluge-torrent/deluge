@@ -230,4 +230,4 @@ class ProxyType:
     none, socks4, socks5, socks5_pw, http, http_pw = range(6)
     
 class FileManager:
-    xdg, konqueror, nautilus, thunar = range(4)
+    xdg, explorer, konqueror, nautilus, thunar = range(5)
