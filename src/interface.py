@@ -113,7 +113,7 @@ class DelugeGTK:
         self.update_interface = True
 
         def new_release_check():
-            common.exec_deluge_command('update.py', common.PROGRAM_VERSION)
+            common.new_release_check()
 
         def send_info():
             import time
@@ -929,7 +929,10 @@ window, please enter your password"))
                 pass
 
         try:
+            gobject.threads_init()
+            gtk.gdk.threads_enter()
             gtk.main()
+            gtk.gdk.threads_leave()
         except KeyboardInterrupt:
             self.manager.quit()
 
