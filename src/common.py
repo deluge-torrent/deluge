@@ -180,16 +180,6 @@ def exec_command(executable, *parameters):
         warning.run()
         warning.destroy()
 
-def exec_deluge_command(script, *parameters):
-    """Execute deluge's command like browser.py, update.py and others"""
-    
-    import sys
-    
-    py_version = sys.version[:3]
-    full_path = os.path.join(INSTALL_PREFIX, 'lib', 'python' + py_version, 
-                             'site-packages', 'deluge', script)
-    exec_command('python', full_path, *parameters)
-
 def send_info():
     import urllib
     import platform
