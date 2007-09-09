@@ -31,7 +31,6 @@ class plugin_Scheduler:
 
 	def update(self):
 		time_now = time.localtime(time.time())
-		
 		if self.status is not self.button_state[time_now[3]][time_now[6]]:
 			self.status = self.button_state[time_now[3]][time_now[6]]
 
@@ -55,14 +54,14 @@ class plugin_Scheduler:
 		self.core.apply_queue()
 
 	def limit(self):
-		self.config.set("max_download_rate", float(self.dllimit))
-		self.config.set("max_upload_rate", float(self.ullimit))
+		self.config.set("max_download_speed", float(self.dllimit))
+		self.config.set("max_upload_speed", float(self.ullimit))
 
 	def unlimit(self):
 		self.interface.apply_prefs()
 
 	#Configuration dialog
-	def configure(self):
+	def configure(self, window):
 		global scheduler_select
 
 		self.button_state_temp = copy.deepcopy(self.button_state)
