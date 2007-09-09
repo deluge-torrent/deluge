@@ -8,262 +8,266 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-31 14:42-0500\n"
+"POT-Creation-Date: 2007-09-03 01:43-0500\n"
 "PO-Revision-Date: 2007-08-24 19:37+0000\n"
 "Last-Translator: spin_555 <epsilonmajorquezero@gmail.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Rosetta-Export-Date: 2007-09-03 06:29:32+0000\n"
+"X-Rosetta-Export-Date: 2007-09-09 04:29:42+0000\n"
 
-#: glade/delugegtk.glade:22
-msgid "Add Torrent"
-msgstr "Afegeix un torrent"
+#: glade/delugegtk.glade:204
+msgid "<b>Downloaded:</b>"
+msgstr "<b>Descarregat:</b>"
 
-#: glade/delugegtk.glade:23
-msgid "Add"
-msgstr ""
-
-#: glade/delugegtk.glade:36 glade/dgtkpopups.glade:6
-msgid "Remove Torrent"
-msgstr "Suprimeix el torrent"
-
-#: glade/delugegtk.glade:37
-msgid "Remove"
-msgstr "Suprimeix"
-
-#: glade/delugegtk.glade:49
-msgid "Clear Finished Torrents"
-msgstr "Esborra els torrents finalitzats"
-
-#: glade/delugegtk.glade:50
-msgid "Clear"
-msgstr "Esborrar"
-
-#: glade/delugegtk.glade:72
-#, fuzzy
-msgid "Start or Pause torrent"
-msgstr "Activar o Pausar torrent"
-
-#: glade/delugegtk.glade:73
-msgid "Resume"
-msgstr "Continua"
-
-#: glade/delugegtk.glade:86
-msgid "Pause"
-msgstr "Pausa"
-
-#: glade/delugegtk.glade:98
-msgid "Queue Torrent Up"
-msgstr "Puja el torrent de la cua"
-
-#: glade/delugegtk.glade:99
-msgid "Up"
-msgstr "Puja"
-
-#: glade/delugegtk.glade:112
-msgid "Queue Torrent Down"
-msgstr "Baixa el torrent de la cua"
-
-#: glade/delugegtk.glade:113
-msgid "Down"
-msgstr "Baixa"
-
-#: glade/delugegtk.glade:134
-msgid "Change Deluge preferences"
-msgstr "Canviar les preferencies de Deluge"
-
-#: glade/delugegtk.glade:135
-msgid "Preferences"
-msgstr "Preferències"
-
-#: glade/delugegtk.glade:148 glade/dgtkpopups.glade:209
-#: glade/preferences_dialog.glade:2713
-msgid "Plugins"
-msgstr "Connectors"
-
-#: glade/delugegtk.glade:197
-msgid "_File"
-msgstr "_Fitxer"
-
-#: glade/delugegtk.glade:204 glade/tray_menu.glade:61
-msgid "_Add Torrent"
-msgstr "_Afegir Torrent"
-
-#: glade/delugegtk.glade:219
-msgid "Add _URL"
-msgstr "Afegir _URL"
-
-#: glade/delugegtk.glade:227
-msgid "_Clear Completed"
-msgstr "_Netejar Completats"
-
-#: glade/delugegtk.glade:260
-msgid "_Edit"
-msgstr "_Edita"
-
-#: glade/delugegtk.glade:269
-msgid "gtk-select-all"
-msgstr ""
-
-#: glade/delugegtk.glade:285 glade/tray_menu.glade:128
-msgid "Plu_gins"
-msgstr ""
-
-#: glade/delugegtk.glade:313
-msgid "_Torrent"
-msgstr "_Torrent"
-
-#: glade/delugegtk.glade:320
-msgid "_View"
-msgstr "_Visualitza"
-
-#: glade/delugegtk.glade:328
-msgid "_Toolbar"
-msgstr ""
-
-#: glade/delugegtk.glade:337
-msgid "_Details"
-msgstr ""
-
-#: glade/delugegtk.glade:346
-msgid "_Columns"
-msgstr ""
-
-#: glade/delugegtk.glade:354 src/interface.py:579 src/files.py:79
-msgid "Size"
-msgstr "Mida"
-
-#: glade/delugegtk.glade:363 src/interface.py:583
-msgid "Status"
-msgstr "Estat"
-
-#: glade/delugegtk.glade:372 src/interface.py:585
-msgid "Seeders"
-msgstr "Llavors"
-
-#: glade/delugegtk.glade:381 src/interface.py:588
-#: plugins/TorrentPeers/__init__.py:70
-msgid "Peers"
-msgstr "Clients"
-
-#: glade/delugegtk.glade:390 src/interface.py:591 src/interface.py:1080
-#: src/interface.py:1101 plugins/TorrentPeers/tab_peers.py:89
-msgid "Down Speed"
-msgstr ""
-
-#: glade/delugegtk.glade:399 src/interface.py:594 src/interface.py:1081
-#: src/interface.py:1102 plugins/TorrentPeers/tab_peers.py:91
-msgid "Up Speed"
-msgstr ""
-
-#: glade/delugegtk.glade:408
-msgid "Time Remaining"
-msgstr "Temps restant"
-
-#: glade/delugegtk.glade:417
-msgid "Availability"
-msgstr ""
-
-#: glade/delugegtk.glade:426
-msgid "Share Ratio"
-msgstr "Relació a compartir"
-
-#: glade/delugegtk.glade:443
-msgid "_Help"
-msgstr "_Ajuda"
-
-#: glade/delugegtk.glade:451
-msgid "Help translate this application"
-msgstr ""
-
-#: glade/delugegtk.glade:452
-msgid "_Translate This Application..."
-msgstr ""
-
-#: glade/delugegtk.glade:475
-msgid "Runs the first-time configuration wizard"
-msgstr ""
-
-#: glade/delugegtk.glade:476
-msgid "_Run Configuration Wizard"
-msgstr ""
-
-#: glade/delugegtk.glade:654
-msgid "<b>Name:</b>"
-msgstr "<b>Nom:</b>"
-
-#: glade/delugegtk.glade:673
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Següent comunicat:</b>"
-
-#: glade/delugegtk.glade:699
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>Estat del rastrejador:</b>"
-
-#: glade/delugegtk.glade:727
-msgid "<b>Tracker:</b>"
-msgstr "<b>Rastrejador:</b>"
-
-#: glade/delugegtk.glade:750
-msgid "<b>Total Size:</b>"
-msgstr "<b>Mida total:</b>"
-
-#: glade/delugegtk.glade:810
-msgid "<b># of files:</b>"
-msgstr "<b># de fitxers:</b>"
-
-#: glade/delugegtk.glade:829
-#, fuzzy
-msgid "<b>Torrent Info</b>"
-msgstr "<b>Informarmació Torrent</b>"
-
-#: glade/delugegtk.glade:900
-#, fuzzy
-msgid "<b>Availability:</b>"
-msgstr "<b>Disponibilitat:</b>"
-
-#: glade/delugegtk.glade:936
-msgid "<b>Pieces:</b>"
-msgstr "<b>Peces:</b>"
-
-#: glade/delugegtk.glade:953
-msgid "<b>ETA:</b>"
-msgstr "<b>Temps estimat:</b>"
-
-#: glade/delugegtk.glade:974
-msgid "<b>Peers:</b>"
-msgstr "<b>Clients:</b>"
-
-#: glade/delugegtk.glade:995 glade/delugegtk.glade:1016
-msgid "<b>Speed:</b>"
-msgstr "<b>Velocitat:</b>"
-
-#: glade/delugegtk.glade:1034
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>Relació a compartir:</b>"
-
-#: glade/delugegtk.glade:1052
-msgid "<b>Seeders:</b>"
-msgstr "<b>Llavors:</b>"
-
-#: glade/delugegtk.glade:1070
+#: glade/delugegtk.glade:218
 #, fuzzy
 msgid "<b>Uploaded:</b>"
 msgstr "<b>Pujat:</b>"
 
-#: glade/delugegtk.glade:1088
-msgid "<b>Downloaded:</b>"
-msgstr "<b>Descarregat:</b>"
+#: glade/delugegtk.glade:236
+msgid "<b>Seeders:</b>"
+msgstr "<b>Llavors:</b>"
 
-#: glade/delugegtk.glade:1200
+#: glade/delugegtk.glade:254
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Relació a compartir:</b>"
+
+#: glade/delugegtk.glade:273 glade/delugegtk.glade:292
+msgid "<b>Speed:</b>"
+msgstr "<b>Velocitat:</b>"
+
+#: glade/delugegtk.glade:313
+msgid "<b>Peers:</b>"
+msgstr "<b>Clients:</b>"
+
+#: glade/delugegtk.glade:334
+msgid "<b>ETA:</b>"
+msgstr "<b>Temps estimat:</b>"
+
+#: glade/delugegtk.glade:351
+msgid "<b>Pieces:</b>"
+msgstr "<b>Peces:</b>"
+
+#: glade/delugegtk.glade:389
+#, fuzzy
+msgid "<b>Availability:</b>"
+msgstr "<b>Disponibilitat:</b>"
+
+#: glade/delugegtk.glade:430
 msgid "<b>Statistics</b>"
 msgstr "<b>Estadístiques</b>"
 
-#: glade/delugegtk.glade:1226
+#: glade/delugegtk.glade:486
+msgid "<b>Path:</b>"
+msgstr ""
+
+#: glade/delugegtk.glade:520
+msgid "<b>Total Size:</b>"
+msgstr "<b>Mida total:</b>"
+
+#: glade/delugegtk.glade:582
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Estat del rastrejador:</b>"
+
+#: glade/delugegtk.glade:615
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Següent comunicat:</b>"
+
+#: glade/delugegtk.glade:654
+msgid "<b># of files:</b>"
+msgstr "<b># de fitxers:</b>"
+
+#: glade/delugegtk.glade:682
+msgid "<b>Tracker:</b>"
+msgstr "<b>Rastrejador:</b>"
+
+#: glade/delugegtk.glade:706
+msgid "<b>Name:</b>"
+msgstr "<b>Nom:</b>"
+
+#: glade/delugegtk.glade:723
+#, fuzzy
+msgid "<b>Torrent Info</b>"
+msgstr "<b>Informarmació Torrent</b>"
+
+#: glade/delugegtk.glade:750
 msgid "Details"
 msgstr "Detalls"
+
+#: glade/delugegtk.glade:790
+msgid "_File"
+msgstr "_Fitxer"
+
+#: glade/delugegtk.glade:797 glade/tray_menu.glade:61
+msgid "_Add Torrent"
+msgstr "_Afegir Torrent"
+
+#: glade/delugegtk.glade:812
+msgid "Add _URL"
+msgstr "Afegir _URL"
+
+#: glade/delugegtk.glade:820
+msgid "_Clear Completed"
+msgstr "_Netejar Completats"
+
+#: glade/delugegtk.glade:853
+msgid "_Edit"
+msgstr "_Edita"
+
+#: glade/delugegtk.glade:862
+msgid "gtk-select-all"
+msgstr ""
+
+#: glade/delugegtk.glade:878 glade/tray_menu.glade:128
+msgid "Plu_gins"
+msgstr ""
+
+#: glade/delugegtk.glade:906
+msgid "_Torrent"
+msgstr "_Torrent"
+
+#: glade/delugegtk.glade:913
+msgid "_View"
+msgstr "_Visualitza"
+
+#: glade/delugegtk.glade:921
+msgid "_Toolbar"
+msgstr ""
+
+#: glade/delugegtk.glade:930
+msgid "_Details"
+msgstr ""
+
+#: glade/delugegtk.glade:939
+msgid "_Columns"
+msgstr ""
+
+#: glade/delugegtk.glade:947 src/interface.py:579 src/files.py:79
+msgid "Size"
+msgstr "Mida"
+
+#: glade/delugegtk.glade:956 src/interface.py:583
+msgid "Status"
+msgstr "Estat"
+
+#: glade/delugegtk.glade:965 src/interface.py:585
+msgid "Seeders"
+msgstr "Llavors"
+
+#: glade/delugegtk.glade:974 src/interface.py:588
+#: plugins/TorrentPeers/__init__.py:70
+msgid "Peers"
+msgstr "Clients"
+
+#: glade/delugegtk.glade:983 src/interface.py:591 src/interface.py:1073
+#: src/interface.py:1094 plugins/TorrentPeers/tab_peers.py:89
+msgid "Down Speed"
+msgstr ""
+
+#: glade/delugegtk.glade:992 src/interface.py:594 src/interface.py:1074
+#: src/interface.py:1095 plugins/TorrentPeers/tab_peers.py:91
+msgid "Up Speed"
+msgstr ""
+
+#: glade/delugegtk.glade:1001
+msgid "Time Remaining"
+msgstr "Temps restant"
+
+#: glade/delugegtk.glade:1010
+msgid "Availability"
+msgstr ""
+
+#: glade/delugegtk.glade:1019
+msgid "Share Ratio"
+msgstr "Relació a compartir"
+
+#: glade/delugegtk.glade:1036
+msgid "_Help"
+msgstr "_Ajuda"
+
+#: glade/delugegtk.glade:1044
+msgid "Help translate this application"
+msgstr ""
+
+#: glade/delugegtk.glade:1045
+msgid "_Translate This Application..."
+msgstr ""
+
+#: glade/delugegtk.glade:1068
+msgid "Runs the first-time configuration wizard"
+msgstr ""
+
+#: glade/delugegtk.glade:1069
+msgid "_Run Configuration Wizard"
+msgstr ""
+
+#: glade/delugegtk.glade:1142
+msgid "Add Torrent"
+msgstr "Afegeix un torrent"
+
+#: glade/delugegtk.glade:1143
+msgid "Add"
+msgstr ""
+
+#: glade/delugegtk.glade:1156 glade/dgtkpopups.glade:6
+msgid "Remove Torrent"
+msgstr "Suprimeix el torrent"
+
+#: glade/delugegtk.glade:1157
+msgid "Remove"
+msgstr "Suprimeix"
+
+#: glade/delugegtk.glade:1169
+msgid "Clear Finished Torrents"
+msgstr "Esborra els torrents finalitzats"
+
+#: glade/delugegtk.glade:1170
+msgid "Clear"
+msgstr "Esborrar"
+
+#: glade/delugegtk.glade:1192
+#, fuzzy
+msgid "Start or Pause torrent"
+msgstr "Activar o Pausar torrent"
+
+#: glade/delugegtk.glade:1193
+msgid "Resume"
+msgstr "Continua"
+
+#: glade/delugegtk.glade:1206
+msgid "Pause"
+msgstr "Pausa"
+
+#: glade/delugegtk.glade:1218
+msgid "Queue Torrent Up"
+msgstr "Puja el torrent de la cua"
+
+#: glade/delugegtk.glade:1219
+msgid "Up"
+msgstr "Puja"
+
+#: glade/delugegtk.glade:1232
+msgid "Queue Torrent Down"
+msgstr "Baixa el torrent de la cua"
+
+#: glade/delugegtk.glade:1233
+msgid "Down"
+msgstr "Baixa"
+
+#: glade/delugegtk.glade:1254
+msgid "Change Deluge preferences"
+msgstr "Canviar les preferencies de Deluge"
+
+#: glade/delugegtk.glade:1255
+msgid "Preferences"
+msgstr "Preferències"
+
+#: glade/delugegtk.glade:1268 glade/dgtkpopups.glade:209
+#: glade/preferences_dialog.glade:2713
+msgid "Plugins"
+msgstr "Connectors"
 
 #: glade/dgtkpopups.glade:41
 #, fuzzy
@@ -982,7 +986,7 @@ msgid "KiB/s"
 msgstr "KiB/s"
 
 #: src/interface.py:279 src/interface.py:340 src/interface.py:366
-#: src/interface.py:1062 src/interface.py:1069 src/interface.py:1074
+#: src/interface.py:1055 src/interface.py:1062 src/interface.py:1067
 #: plugins/SpeedLimiter/__init__.py:137 plugins/SpeedLimiter/__init__.py:169
 msgid "Unlimited"
 msgstr ""
@@ -1043,28 +1047,28 @@ msgstr ""
 msgid "Ratio"
 msgstr "Relació"
 
-#: src/interface.py:842
+#: src/interface.py:835
 #, python-format
 msgid "Paused %s"
 msgstr ""
 
-#: src/interface.py:1080
+#: src/interface.py:1073
 msgid "Connections"
 msgstr "Connexions"
 
-#: src/interface.py:1098
+#: src/interface.py:1091
 msgid "DHT"
 msgstr "DHT"
 
-#: src/interface.py:1101
+#: src/interface.py:1094
 msgid "Deluge Bittorrent Client"
 msgstr "Deluge - Client bittorrent"
 
-#: src/interface.py:1176
+#: src/interface.py:1169
 msgid "Choose a download directory"
 msgstr "Seleccioneu un directori per a les baixades"
 
-#: src/interface.py:1203
+#: src/interface.py:1196
 msgid ""
 "An error occured while trying to add the torrent. It's possible your "
 ".torrent file is corrupted."
@@ -1072,32 +1076,32 @@ msgstr ""
 "Ha succeït un error mentre s'intentava afegir el torrent. És possible que el "
 "fitxer .torrent sigui corrupte."
 
-#: src/interface.py:1228
+#: src/interface.py:1221
 msgid "Unknown duplicate torrent error."
 msgstr ""
 
-#: src/interface.py:1233
+#: src/interface.py:1226
 msgid ""
 "There is not enough free                disk space to complete your download."
 msgstr ""
 
-#: src/interface.py:1235
+#: src/interface.py:1228
 msgid "Space Needed:"
 msgstr "Espai necessari:"
 
-#: src/interface.py:1236
+#: src/interface.py:1229
 msgid "Available Space:"
 msgstr "Espai disponible:"
 
-#: src/interface.py:1253
+#: src/interface.py:1246
 msgid "Add torrent from URL"
 msgstr "Afegiu un torrent des d'un URL"
 
-#: src/interface.py:1257
+#: src/interface.py:1250
 msgid "Enter the URL of the .torrent to download"
 msgstr "Introduïu el URL des d'on baixar el .torrent"
 
-#: src/interface.py:1310
+#: src/interface.py:1303
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr "Atenció - tots els fitxers baixats d'aquest torrent seran esborrats"
 

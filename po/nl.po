@@ -8,258 +8,262 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-08-31 14:42-0500\n"
-"PO-Revision-Date: 2007-08-29 13:01+0000\n"
-"Last-Translator: blackbird <djongman@vanwijheverf.com>\n"
+"POT-Creation-Date: 2007-09-03 01:43-0500\n"
+"PO-Revision-Date: 2007-09-08 19:32+0000\n"
+"Last-Translator: elparia <marco@elparia.nl>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Rosetta-Export-Date: 2007-09-03 06:28:52+0000\n"
+"X-Rosetta-Export-Date: 2007-09-09 04:29:26+0000\n"
 
-#: glade/delugegtk.glade:22
-msgid "Add Torrent"
-msgstr "Torrent toevoegen"
+#: glade/delugegtk.glade:204
+msgid "<b>Downloaded:</b>"
+msgstr "<b>Gedownload:</b>"
 
-#: glade/delugegtk.glade:23
-msgid "Add"
-msgstr "Toevoegen"
+#: glade/delugegtk.glade:218
+msgid "<b>Uploaded:</b>"
+msgstr "<b>Ge-upload:</b>"
 
-#: glade/delugegtk.glade:36 glade/dgtkpopups.glade:6
-msgid "Remove Torrent"
-msgstr "Torrent verwijderen"
+#: glade/delugegtk.glade:236
+msgid "<b>Seeders:</b>"
+msgstr "<b>Seeders:</b>"
 
-#: glade/delugegtk.glade:37
-msgid "Remove"
-msgstr "Verwijder"
+#: glade/delugegtk.glade:254
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Deelverhouding</b>"
 
-#: glade/delugegtk.glade:49
-msgid "Clear Finished Torrents"
-msgstr "Voltooide torrents verwijderen"
+#: glade/delugegtk.glade:273 glade/delugegtk.glade:292
+msgid "<b>Speed:</b>"
+msgstr "<b>Snelheid:</b>"
 
-#: glade/delugegtk.glade:50
-msgid "Clear"
-msgstr "Leegmaken"
+#: glade/delugegtk.glade:313
+msgid "<b>Peers:</b>"
+msgstr "<b>Peers:</b>"
 
-#: glade/delugegtk.glade:72
-msgid "Start or Pause torrent"
-msgstr "Torrent starten of pauzeren"
+#: glade/delugegtk.glade:334
+msgid "<b>ETA:</b>"
+msgstr "<b>Resterende tijd:</b>"
 
-#: glade/delugegtk.glade:73
-msgid "Resume"
-msgstr "Hervatten"
+#: glade/delugegtk.glade:351
+msgid "<b>Pieces:</b>"
+msgstr "<b>Gedeelten:</b>"
 
-#: glade/delugegtk.glade:86
-msgid "Pause"
-msgstr "Pauzeren"
+#: glade/delugegtk.glade:389
+msgid "<b>Availability:</b>"
+msgstr "<b>Beschikbaarheid:</b>"
 
-#: glade/delugegtk.glade:98
-msgid "Queue Torrent Up"
-msgstr "Torrent in wachtrij omhoog"
+#: glade/delugegtk.glade:430
+msgid "<b>Statistics</b>"
+msgstr "<b>Statistieken</b>"
 
-#: glade/delugegtk.glade:99
-msgid "Up"
-msgstr "Naar boven"
+#: glade/delugegtk.glade:486
+msgid "<b>Path:</b>"
+msgstr "<b>Pad:</b>"
 
-#: glade/delugegtk.glade:112
-msgid "Queue Torrent Down"
-msgstr "Torrent in wachtrij omlaag"
+#: glade/delugegtk.glade:520
+msgid "<b>Total Size:</b>"
+msgstr "<b>Totale grootte:</b>"
 
-#: glade/delugegtk.glade:113
-msgid "Down"
-msgstr "Naar beneden"
+#: glade/delugegtk.glade:582
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Tracker status:</b>"
 
-#: glade/delugegtk.glade:134
-msgid "Change Deluge preferences"
-msgstr "Deluge-voorkeuren wijzigen"
+#: glade/delugegtk.glade:615
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Volgende aankondiging:</b>"
 
-#: glade/delugegtk.glade:135
-msgid "Preferences"
-msgstr "Instellingen"
+#: glade/delugegtk.glade:654
+msgid "<b># of files:</b>"
+msgstr "<b># van de bestanden:</b>"
 
-#: glade/delugegtk.glade:148 glade/dgtkpopups.glade:209
-#: glade/preferences_dialog.glade:2713
-msgid "Plugins"
-msgstr "Plugins"
+#: glade/delugegtk.glade:682
+msgid "<b>Tracker:</b>"
+msgstr "<b>Tracker:</b>"
 
-#: glade/delugegtk.glade:197
+#: glade/delugegtk.glade:706
+msgid "<b>Name:</b>"
+msgstr "<b>Naam:</b>"
+
+#: glade/delugegtk.glade:723
+msgid "<b>Torrent Info</b>"
+msgstr "<b>Torrent Info</b>"
+
+#: glade/delugegtk.glade:750
+msgid "Details"
+msgstr "Details"
+
+#: glade/delugegtk.glade:790
 msgid "_File"
 msgstr "_Bestand"
 
-#: glade/delugegtk.glade:204 glade/tray_menu.glade:61
+#: glade/delugegtk.glade:797 glade/tray_menu.glade:61
 msgid "_Add Torrent"
 msgstr "_Torrent toevoegen"
 
-#: glade/delugegtk.glade:219
+#: glade/delugegtk.glade:812
 msgid "Add _URL"
 msgstr "_URL toevoegen"
 
-#: glade/delugegtk.glade:227
+#: glade/delugegtk.glade:820
 msgid "_Clear Completed"
 msgstr "_Voltooide torrents wissen"
 
-#: glade/delugegtk.glade:260
+#: glade/delugegtk.glade:853
 msgid "_Edit"
 msgstr "B_ewerken"
 
-#: glade/delugegtk.glade:269
+#: glade/delugegtk.glade:862
 msgid "gtk-select-all"
-msgstr "gtk-selecteer-alles"
+msgstr "Selecteer alles"
 
-#: glade/delugegtk.glade:285 glade/tray_menu.glade:128
+#: glade/delugegtk.glade:878 glade/tray_menu.glade:128
 msgid "Plu_gins"
 msgstr "Plu_gins"
 
-#: glade/delugegtk.glade:313
+#: glade/delugegtk.glade:906
 msgid "_Torrent"
 msgstr "_Torrent"
 
-#: glade/delugegtk.glade:320
+#: glade/delugegtk.glade:913
 msgid "_View"
 msgstr "Weerga_ve"
 
-#: glade/delugegtk.glade:328
+#: glade/delugegtk.glade:921
 msgid "_Toolbar"
 msgstr "_Knoppenbalk"
 
-#: glade/delugegtk.glade:337
+#: glade/delugegtk.glade:930
 msgid "_Details"
 msgstr "_Details"
 
-#: glade/delugegtk.glade:346
+#: glade/delugegtk.glade:939
 msgid "_Columns"
 msgstr "_Kolommen"
 
-#: glade/delugegtk.glade:354 src/interface.py:579 src/files.py:79
+#: glade/delugegtk.glade:947 src/interface.py:579 src/files.py:79
 msgid "Size"
 msgstr "Grootte"
 
-#: glade/delugegtk.glade:363 src/interface.py:583
+#: glade/delugegtk.glade:956 src/interface.py:583
 msgid "Status"
 msgstr "Status"
 
-#: glade/delugegtk.glade:372 src/interface.py:585
+#: glade/delugegtk.glade:965 src/interface.py:585
 msgid "Seeders"
 msgstr "Seeders"
 
-#: glade/delugegtk.glade:381 src/interface.py:588
+#: glade/delugegtk.glade:974 src/interface.py:588
 #: plugins/TorrentPeers/__init__.py:70
 msgid "Peers"
 msgstr "Peers"
 
-#: glade/delugegtk.glade:390 src/interface.py:591 src/interface.py:1080
-#: src/interface.py:1101 plugins/TorrentPeers/tab_peers.py:89
+#: glade/delugegtk.glade:983 src/interface.py:591 src/interface.py:1073
+#: src/interface.py:1094 plugins/TorrentPeers/tab_peers.py:89
 msgid "Down Speed"
 msgstr "Downloadsnelheid"
 
-#: glade/delugegtk.glade:399 src/interface.py:594 src/interface.py:1081
-#: src/interface.py:1102 plugins/TorrentPeers/tab_peers.py:91
+#: glade/delugegtk.glade:992 src/interface.py:594 src/interface.py:1074
+#: src/interface.py:1095 plugins/TorrentPeers/tab_peers.py:91
 msgid "Up Speed"
 msgstr "Uploadsnelheid"
 
-#: glade/delugegtk.glade:408
+#: glade/delugegtk.glade:1001
 msgid "Time Remaining"
 msgstr "Resterende tijd"
 
-#: glade/delugegtk.glade:417
+#: glade/delugegtk.glade:1010
 msgid "Availability"
 msgstr "Beschikbaarheid"
 
-#: glade/delugegtk.glade:426
+#: glade/delugegtk.glade:1019
 msgid "Share Ratio"
 msgstr "Deelverhouding"
 
-#: glade/delugegtk.glade:443
+#: glade/delugegtk.glade:1036
 msgid "_Help"
 msgstr "_Help"
 
-#: glade/delugegtk.glade:451
+#: glade/delugegtk.glade:1044
 msgid "Help translate this application"
 msgstr "Help dit programma te vertalen"
 
-#: glade/delugegtk.glade:452
+#: glade/delugegtk.glade:1045
 msgid "_Translate This Application..."
 msgstr "_Vertaal dit programma..."
 
-#: glade/delugegtk.glade:475
+#: glade/delugegtk.glade:1068
 msgid "Runs the first-time configuration wizard"
 msgstr "De configuratie wizard voor de eerste keer gestart"
 
-#: glade/delugegtk.glade:476
+#: glade/delugegtk.glade:1069
 msgid "_Run Configuration Wizard"
 msgstr "_Start de Configuratie wizard"
 
-#: glade/delugegtk.glade:654
-msgid "<b>Name:</b>"
-msgstr "<b>Naam:</b>"
+#: glade/delugegtk.glade:1142
+msgid "Add Torrent"
+msgstr "Torrent toevoegen"
 
-#: glade/delugegtk.glade:673
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Volgende aankondiging:</b>"
+#: glade/delugegtk.glade:1143
+msgid "Add"
+msgstr "Toevoegen"
 
-#: glade/delugegtk.glade:699
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>Tracker status:</b>"
+#: glade/delugegtk.glade:1156 glade/dgtkpopups.glade:6
+msgid "Remove Torrent"
+msgstr "Torrent verwijderen"
 
-#: glade/delugegtk.glade:727
-msgid "<b>Tracker:</b>"
-msgstr "<b>Tracker:</b>"
+#: glade/delugegtk.glade:1157
+msgid "Remove"
+msgstr "Verwijder"
 
-#: glade/delugegtk.glade:750
-msgid "<b>Total Size:</b>"
-msgstr "<b>Totale grootte:</b>"
+#: glade/delugegtk.glade:1169
+msgid "Clear Finished Torrents"
+msgstr "Voltooide torrents verwijderen"
 
-#: glade/delugegtk.glade:810
-msgid "<b># of files:</b>"
-msgstr "<b># van de bestanden:</b>"
+#: glade/delugegtk.glade:1170
+msgid "Clear"
+msgstr "Leegmaken"
 
-#: glade/delugegtk.glade:829
-msgid "<b>Torrent Info</b>"
-msgstr "<b>Torrent Info</b>"
+#: glade/delugegtk.glade:1192
+msgid "Start or Pause torrent"
+msgstr "Torrent starten of pauzeren"
 
-#: glade/delugegtk.glade:900
-msgid "<b>Availability:</b>"
-msgstr "<b>Beschikbaarheid:</b>"
+#: glade/delugegtk.glade:1193
+msgid "Resume"
+msgstr "Hervatten"
 
-#: glade/delugegtk.glade:936
-msgid "<b>Pieces:</b>"
-msgstr "<b>Gedeelten:</b>"
+#: glade/delugegtk.glade:1206
+msgid "Pause"
+msgstr "Pauzeren"
 
-#: glade/delugegtk.glade:953
-msgid "<b>ETA:</b>"
-msgstr "<b>Resterende tijd:</b>"
+#: glade/delugegtk.glade:1218
+msgid "Queue Torrent Up"
+msgstr "Torrent in wachtrij omhoog"
 
-#: glade/delugegtk.glade:974
-msgid "<b>Peers:</b>"
-msgstr "<b>Peers:</b>"
+#: glade/delugegtk.glade:1219
+msgid "Up"
+msgstr "Naar boven"
 
-#: glade/delugegtk.glade:995 glade/delugegtk.glade:1016
-msgid "<b>Speed:</b>"
-msgstr "<b>Snelheid:</b>"
+#: glade/delugegtk.glade:1232
+msgid "Queue Torrent Down"
+msgstr "Torrent in wachtrij omlaag"
 
-#: glade/delugegtk.glade:1034
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>Deelverhouding</b>"
+#: glade/delugegtk.glade:1233
+msgid "Down"
+msgstr "Naar beneden"
 
-#: glade/delugegtk.glade:1052
-msgid "<b>Seeders:</b>"
-msgstr "<b>Seeders:</b>"
+#: glade/delugegtk.glade:1254
+msgid "Change Deluge preferences"
+msgstr "Voorkeuren van Deluge wijzigen"
 
-#: glade/delugegtk.glade:1070
-msgid "<b>Uploaded:</b>"
-msgstr "<b>Ge-upload:</b>"
+#: glade/delugegtk.glade:1255
+msgid "Preferences"
+msgstr "Instellingen"
 
-#: glade/delugegtk.glade:1088
-msgid "<b>Downloaded:</b>"
-msgstr "<b>Gedownload:</b>"
-
-#: glade/delugegtk.glade:1200
-msgid "<b>Statistics</b>"
-msgstr "<b>Statistieken</b>"
-
-#: glade/delugegtk.glade:1226
-msgid "Details"
-msgstr "Details"
+#: glade/delugegtk.glade:1268 glade/dgtkpopups.glade:209
+#: glade/preferences_dialog.glade:2713
+msgid "Plugins"
+msgstr "Plugins"
 
 #: glade/dgtkpopups.glade:41
 msgid ""
@@ -702,15 +706,15 @@ msgstr "Proxies"
 
 #: glade/preferences_dialog.glade:2150
 msgid "Enable system tray icon"
-msgstr "Systeemvakpictogram inschakelen"
+msgstr "Systeemvak-icoon inschakelen"
 
 #: glade/preferences_dialog.glade:2166
 msgid "Minimize to tray on close"
-msgstr "Naar systeemvak minlmaliseren bij afsluiten"
+msgstr "Naar systeemvak minimaliseren bij afsluiten"
 
 #: glade/preferences_dialog.glade:2185
 msgid "Start in tray"
-msgstr "Start in het mededelingengebied"
+msgstr "Start in het systeemvak"
 
 #: glade/preferences_dialog.glade:2209
 msgid "Password protect system tray"
@@ -766,7 +770,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2505
 msgid "Be alerted about new releases"
-msgstr "Word verwittigd van nieuwe versies"
+msgstr "Laat het weten wanneer er nieuwe versies zijn"
 
 #: glade/preferences_dialog.glade:2522
 msgid "<b>Updates</b>"
@@ -870,7 +874,7 @@ msgstr "Bewerk trackers"
 
 #: glade/edit_trackers.glade:19
 msgid "Tracker Editing"
-msgstr ""
+msgstr "Tracker wijzigen"
 
 #: glade/files_dialog.glade:8
 msgid "Deluge File Selection"
@@ -896,6 +900,10 @@ msgid ""
 "the form of plugins, which can be accessed by clicking on Plugins in the "
 "Edit menu or the toolbar."
 msgstr ""
+"Deze wizard helpt je om Deluge naar je eigen wens in te stellen. Als je "
+"nieuw bij Deluge bent, weet dan dat de meeste van Deluge zijn "
+"functionaliteiten in de vorm van plugins komen, die je kan benaderen als je "
+"op de Plugins knop drukt."
 
 #: glade/wizard.glade:34
 #, fuzzy
@@ -1010,7 +1018,7 @@ msgid "KiB/s"
 msgstr "KiB/s"
 
 #: src/interface.py:279 src/interface.py:340 src/interface.py:366
-#: src/interface.py:1062 src/interface.py:1069 src/interface.py:1074
+#: src/interface.py:1055 src/interface.py:1062 src/interface.py:1067
 #: plugins/SpeedLimiter/__init__.py:137 plugins/SpeedLimiter/__init__.py:169
 msgid "Unlimited"
 msgstr "Onbeperkt"
@@ -1061,7 +1069,7 @@ msgstr "Naam"
 
 #: src/interface.py:597
 msgid "ETA"
-msgstr "Verwachtte aankomsttijd"
+msgstr "Verwachtte tijd gereed:"
 
 #: src/interface.py:600
 msgid "Avail."
@@ -1071,28 +1079,28 @@ msgstr "Beschikbaar"
 msgid "Ratio"
 msgstr "Verhouding"
 
-#: src/interface.py:842
+#: src/interface.py:835
 #, python-format
 msgid "Paused %s"
 msgstr "%s gepauzeerd"
 
-#: src/interface.py:1080
+#: src/interface.py:1073
 msgid "Connections"
 msgstr "Verbindingen"
 
-#: src/interface.py:1098
+#: src/interface.py:1091
 msgid "DHT"
 msgstr "DHT"
 
-#: src/interface.py:1101
+#: src/interface.py:1094
 msgid "Deluge Bittorrent Client"
 msgstr "Deluge Bittorrent Client"
 
-#: src/interface.py:1176
+#: src/interface.py:1169
 msgid "Choose a download directory"
 msgstr "Kies een downloadmap"
 
-#: src/interface.py:1203
+#: src/interface.py:1196
 msgid ""
 "An error occured while trying to add the torrent. It's possible your "
 ".torrent file is corrupted."
@@ -1100,32 +1108,32 @@ msgstr ""
 "Er is een fout opgetreden bij het toevoegen van de torrent. Mogelijk is uw "
 ".torrent-bestand beschadigd."
 
-#: src/interface.py:1228
+#: src/interface.py:1221
 msgid "Unknown duplicate torrent error."
 msgstr "Onbekende dubbele torrent fout."
 
-#: src/interface.py:1233
+#: src/interface.py:1226
 msgid ""
 "There is not enough free                disk space to complete your download."
 msgstr "Er is te weinig vrije opslagruimte om de download af te maken."
 
-#: src/interface.py:1235
+#: src/interface.py:1228
 msgid "Space Needed:"
 msgstr "Benodigde ruimte:"
 
-#: src/interface.py:1236
+#: src/interface.py:1229
 msgid "Available Space:"
 msgstr "Beschikbare ruimte:"
 
-#: src/interface.py:1253
+#: src/interface.py:1246
 msgid "Add torrent from URL"
 msgstr "Torrent toevoegen vanaf URL"
 
-#: src/interface.py:1257
+#: src/interface.py:1250
 msgid "Enter the URL of the .torrent to download"
 msgstr "Voer de URL in van te downloaden .torrent-bestand"
 
-#: src/interface.py:1310
+#: src/interface.py:1303
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr ""
 "Waarschuwing - alle gedownloadde bestanden van deze torrent zullen worden "
@@ -1623,7 +1631,7 @@ msgstr ""
 
 #: plugins/SimpleRSS/rss.glade:781
 msgid "Check Feeds Now"
-msgstr ""
+msgstr "Controleer feeds nu"
 
 #: plugins/SimpleRSS/rss.glade:836
 msgid "Options"
@@ -1647,6 +1655,8 @@ msgid ""
 "\n"
 "Enjoy!"
 msgstr ""
+"\n"
+"Download torrents automatisch van SimpleRSS feeds."
 
 #: plugins/SimpleRSS/plugin.py:69 plugins/SimpleRSS/plugin.py:77
 msgid "URL"
@@ -1692,7 +1702,7 @@ msgstr "Activeer popup notificatie (python-notify is nodig)"
 #: plugins/TorrentNotification/notification_preferences.glade:42
 #, fuzzy
 msgid "Enable blinking tray icon"
-msgstr "Activeer knipperend tray icon"
+msgstr "Activeer knipperend systeemvak-icoon"
 
 #: plugins/TorrentNotification/notification_preferences.glade:56
 msgid "Enable event sound (requires pygame)"
@@ -1708,6 +1718,8 @@ msgid ""
 "Make tray icon blink when torrent finishes downloading and/or popup a "
 "notification"
 msgstr ""
+"Laat het systeemvak icoon knipperen en/of laat een notificatie zien wanneer "
+"een torrent klaar is met downloaden"
 
 #: plugins/TorrentNotification/__init__.py:101
 #: plugins/TorrentPieces/tab_pieces.py:102
@@ -1753,7 +1765,7 @@ msgstr "Log bestanden"
 #: plugins/EventLogging/event_logging_preferences.glade:66
 #: plugins/EventLogging/tab_log.py:210
 msgid "Peer blocked"
-msgstr ""
+msgstr "Peer geblokkeerd"
 
 #: plugins/EventLogging/event_logging_preferences.glade:80
 #: plugins/EventLogging/tab_log.py:200
@@ -1793,7 +1805,7 @@ msgstr "Tracker antwoord"
 #: plugins/EventLogging/event_logging_preferences.glade:178
 #: plugins/EventLogging/tab_log.py:132
 msgid "Tracker announce"
-msgstr ""
+msgstr "Tracker aankondiging"
 
 #: plugins/EventLogging/event_logging_preferences.glade:192
 #: plugins/EventLogging/tab_log.py:123
@@ -1952,7 +1964,7 @@ msgstr "Torrents zoeken"
 
 #: plugins/TorrentSearch/__init__.py:36
 msgid "A searchbar for torrent search engines"
-msgstr ""
+msgstr "Een zoekbalk voor torrent-zoek machines"
 
 #: plugins/TorrentSearch/plugin.py:52
 msgid "Search String"
@@ -1964,7 +1976,7 @@ msgstr "Zoekplugin kiezen"
 
 #: plugins/TorrentSearch/plugin.py:78
 msgid "Manage Engines"
-msgstr ""
+msgstr "Beheer zoekmachines"
 
 #: plugins/TorrentSearch/plugin.py:185
 msgid "Search "
@@ -2100,7 +2112,7 @@ msgstr "Kies lettertype grootte"
 
 #: plugins/TorrentPeers/peers_preferences.glade:7
 msgid "Peers Preferences"
-msgstr ""
+msgstr "Peers instellingen"
 
 #: plugins/TorrentPeers/peers_preferences.glade:28
 msgid "Enable flags"
@@ -2173,7 +2185,7 @@ msgstr "Speelduur"
 
 #: plugins/ExtraStats/stats_preferences.glade:7
 msgid "Extra Stats Preferences"
-msgstr ""
+msgstr "Extra statistieken voorkeuren"
 
 #: plugins/MoveTorrent/__init__.py:19
 msgid "Move Torrent"

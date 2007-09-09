@@ -8,265 +8,270 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-08-31 14:42-0500\n"
-"PO-Revision-Date: 2007-08-12 20:00+0000\n"
-"Last-Translator: Jesse Zilstorff <jesse.hz@gmail.com>\n"
+"POT-Creation-Date: 2007-09-03 01:43-0500\n"
+"PO-Revision-Date: 2007-09-08 22:53+0000\n"
+"Last-Translator: Cybolic <cybolic@gmail.com>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Rosetta-Export-Date: 2007-09-03 06:29:39+0000\n"
+"X-Rosetta-Export-Date: 2007-09-09 04:29:35+0000\n"
 
-#: glade/delugegtk.glade:22
+#: glade/delugegtk.glade:204
+msgid "<b>Downloaded:</b>"
+msgstr "<b>Hentet:</b>"
+
+#: glade/delugegtk.glade:218
+msgid "<b>Uploaded:</b>"
+msgstr "<b>Videregivet:</b>"
+
+#: glade/delugegtk.glade:236
+msgid "<b>Seeders:</b>"
+msgstr "<b>Udgivere:</b>"
+
+#: glade/delugegtk.glade:254
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Delingsforhold:</b>"
+
+#: glade/delugegtk.glade:273 glade/delugegtk.glade:292
+msgid "<b>Speed:</b>"
+msgstr "<b>Hastighed</b>"
+
+#: glade/delugegtk.glade:313
 #, fuzzy
-msgid "Add Torrent"
-msgstr "Tilføj Torrent"
+msgid "<b>Peers:</b>"
+msgstr "<b>Modparter:</b>"
 
-#: glade/delugegtk.glade:23
-msgid "Add"
-msgstr "Tilføj"
+#: glade/delugegtk.glade:334
+msgid "<b>ETA:</b>"
+msgstr "<b>Anslået resterende tid:</b>"
 
-#: glade/delugegtk.glade:36 glade/dgtkpopups.glade:6
-msgid "Remove Torrent"
-msgstr "Fjern torrent"
+#: glade/delugegtk.glade:351
+msgid "<b>Pieces:</b>"
+msgstr "<b>Stykker:</b>"
 
-#: glade/delugegtk.glade:37
-msgid "Remove"
-msgstr "Fjern"
+#: glade/delugegtk.glade:389
+msgid "<b>Availability:</b>"
+msgstr "<b>Tilgængelighed:</b>"
 
-#: glade/delugegtk.glade:49
-msgid "Clear Finished Torrents"
-msgstr "Fjern færdige Torrentfiler"
+#: glade/delugegtk.glade:430
+msgid "<b>Statistics</b>"
+msgstr "<b>Statistik</b>"
 
-#: glade/delugegtk.glade:50
-msgid "Clear"
-msgstr "Ryd"
+#: glade/delugegtk.glade:486
+msgid "<b>Path:</b>"
+msgstr "<b>Sti:</b>"
 
-#: glade/delugegtk.glade:72
-#, fuzzy
-msgid "Start or Pause torrent"
-msgstr "Begynd eller sæt torrent på pause"
+#: glade/delugegtk.glade:520
+msgid "<b>Total Size:</b>"
+msgstr "<b>Samlet størrelse:</b>"
 
-#: glade/delugegtk.glade:73
-msgid "Resume"
-msgstr "Genoptag"
+#: glade/delugegtk.glade:582
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Trackerstatus:</b>"
 
-#: glade/delugegtk.glade:86
-msgid "Pause"
-msgstr "Pause"
+#: glade/delugegtk.glade:615
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Næste annoncering:</b>"
 
-#: glade/delugegtk.glade:98
-msgid "Queue Torrent Up"
-msgstr "Skub frøfil frem i køen"
+#: glade/delugegtk.glade:654
+msgid "<b># of files:</b>"
+msgstr "<b>Antal filer:</b>"
 
-#: glade/delugegtk.glade:99
-msgid "Up"
-msgstr "Op"
+#: glade/delugegtk.glade:682
+msgid "<b>Tracker:</b>"
+msgstr "<b>Tracker:</b>"
 
-#: glade/delugegtk.glade:112
-msgid "Queue Torrent Down"
-msgstr "Skub frøfil tilbage i køen"
+#: glade/delugegtk.glade:706
+msgid "<b>Name:</b>"
+msgstr "<b>Navn:</b>"
 
-#: glade/delugegtk.glade:113
-msgid "Down"
-msgstr "Ned"
+#: glade/delugegtk.glade:723
+msgid "<b>Torrent Info</b>"
+msgstr "<b>Torrent-oplysninger</b>"
 
-#: glade/delugegtk.glade:134
-msgid "Change Deluge preferences"
-msgstr "Ændr Deluge præferencer"
+#: glade/delugegtk.glade:750
+msgid "Details"
+msgstr "Detaljer"
 
-#: glade/delugegtk.glade:135
-msgid "Preferences"
-msgstr "Indstillinger"
-
-#: glade/delugegtk.glade:148 glade/dgtkpopups.glade:209
-#: glade/preferences_dialog.glade:2713
-msgid "Plugins"
-msgstr "Moduler"
-
-#: glade/delugegtk.glade:197
+#: glade/delugegtk.glade:790
 msgid "_File"
 msgstr "_Fil"
 
-#: glade/delugegtk.glade:204 glade/tray_menu.glade:61
+#: glade/delugegtk.glade:797 glade/tray_menu.glade:61
 msgid "_Add Torrent"
 msgstr "_Tilføj Torrent"
 
-#: glade/delugegtk.glade:219
+#: glade/delugegtk.glade:812
 msgid "Add _URL"
 msgstr "Tilføj _URL"
 
-#: glade/delugegtk.glade:227
+#: glade/delugegtk.glade:820
 #, fuzzy
 msgid "_Clear Completed"
 msgstr "_Fjern Fuldendte"
 
-#: glade/delugegtk.glade:260
+#: glade/delugegtk.glade:853
 msgid "_Edit"
 msgstr "_Redigér"
 
-#: glade/delugegtk.glade:269
+#: glade/delugegtk.glade:862
 #, fuzzy
 msgid "gtk-select-all"
 msgstr "gtk-select-all"
 
-#: glade/delugegtk.glade:285 glade/tray_menu.glade:128
+#: glade/delugegtk.glade:878 glade/tray_menu.glade:128
 msgid "Plu_gins"
 msgstr "Udvidelser"
 
-#: glade/delugegtk.glade:313
+#: glade/delugegtk.glade:906
 #, fuzzy
 msgid "_Torrent"
 msgstr "_Frøfil"
 
-#: glade/delugegtk.glade:320
+#: glade/delugegtk.glade:913
 msgid "_View"
 msgstr "_Vis"
 
-#: glade/delugegtk.glade:328
+#: glade/delugegtk.glade:921
 msgid "_Toolbar"
 msgstr "_Værktøjslinje"
 
-#: glade/delugegtk.glade:337
+#: glade/delugegtk.glade:930
 msgid "_Details"
 msgstr "_Detaljer"
 
-#: glade/delugegtk.glade:346
+#: glade/delugegtk.glade:939
 msgid "_Columns"
 msgstr "_Kolonner"
 
-#: glade/delugegtk.glade:354 src/interface.py:579 src/files.py:79
+#: glade/delugegtk.glade:947 src/interface.py:579 src/files.py:79
 msgid "Size"
 msgstr "Størrelse"
 
-#: glade/delugegtk.glade:363 src/interface.py:583
+#: glade/delugegtk.glade:956 src/interface.py:583
 msgid "Status"
 msgstr "Status"
 
-#: glade/delugegtk.glade:372 src/interface.py:585
+#: glade/delugegtk.glade:965 src/interface.py:585
 msgid "Seeders"
 msgstr "Udgivere"
 
-#: glade/delugegtk.glade:381 src/interface.py:588
+#: glade/delugegtk.glade:974 src/interface.py:588
 #: plugins/TorrentPeers/__init__.py:70
 #, fuzzy
 msgid "Peers"
 msgstr "Modparter"
 
-#: glade/delugegtk.glade:390 src/interface.py:591 src/interface.py:1080
-#: src/interface.py:1101 plugins/TorrentPeers/tab_peers.py:89
+#: glade/delugegtk.glade:983 src/interface.py:591 src/interface.py:1073
+#: src/interface.py:1094 plugins/TorrentPeers/tab_peers.py:89
 msgid "Down Speed"
 msgstr "Download-hastighed"
 
-#: glade/delugegtk.glade:399 src/interface.py:594 src/interface.py:1081
-#: src/interface.py:1102 plugins/TorrentPeers/tab_peers.py:91
+#: glade/delugegtk.glade:992 src/interface.py:594 src/interface.py:1074
+#: src/interface.py:1095 plugins/TorrentPeers/tab_peers.py:91
 msgid "Up Speed"
 msgstr "Sendehastighed"
 
-#: glade/delugegtk.glade:408
+#: glade/delugegtk.glade:1001
 msgid "Time Remaining"
 msgstr "Resterende tid"
 
-#: glade/delugegtk.glade:417
+#: glade/delugegtk.glade:1010
 msgid "Availability"
 msgstr "Tilgængelighed"
 
-#: glade/delugegtk.glade:426
+#: glade/delugegtk.glade:1019
 msgid "Share Ratio"
 msgstr "Delingsforhold"
 
-#: glade/delugegtk.glade:443
+#: glade/delugegtk.glade:1036
 msgid "_Help"
 msgstr "_Hjælp"
 
-#: glade/delugegtk.glade:451
+#: glade/delugegtk.glade:1044
 msgid "Help translate this application"
 msgstr "Hjælp med at oversætte dette program"
 
-#: glade/delugegtk.glade:452
+#: glade/delugegtk.glade:1045
 msgid "_Translate This Application..."
 msgstr "_Oversæt Dette Program"
 
-#: glade/delugegtk.glade:475
-msgid "Runs the first-time configuration wizard"
-msgstr ""
-
-#: glade/delugegtk.glade:476
-msgid "_Run Configuration Wizard"
-msgstr ""
-
-#: glade/delugegtk.glade:654
-msgid "<b>Name:</b>"
-msgstr "<b>Navn:</b>"
-
-#: glade/delugegtk.glade:673
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Næste annoncering:</b>"
-
-#: glade/delugegtk.glade:699
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>Trackerstatus:</b>"
-
-#: glade/delugegtk.glade:727
-msgid "<b>Tracker:</b>"
-msgstr "<b>Tracker:</b>"
-
-#: glade/delugegtk.glade:750
-msgid "<b>Total Size:</b>"
-msgstr "<b>Samlet størrelse:</b>"
-
-#: glade/delugegtk.glade:810
-msgid "<b># of files:</b>"
-msgstr "<b>Antal filer:</b>"
-
-#: glade/delugegtk.glade:829
-msgid "<b>Torrent Info</b>"
-msgstr "<b>Torrent Oplysninger</b>"
-
-#: glade/delugegtk.glade:900
-msgid "<b>Availability:</b>"
-msgstr "<b>Tilgængelighed:</b>"
-
-#: glade/delugegtk.glade:936
-msgid "<b>Pieces:</b>"
-msgstr "<b>Stykker:</b>"
-
-#: glade/delugegtk.glade:953
-msgid "<b>ETA:</b>"
-msgstr "<b>Anslået resterende tid:</b>"
-
-#: glade/delugegtk.glade:974
+#: glade/delugegtk.glade:1068
 #, fuzzy
-msgid "<b>Peers:</b>"
-msgstr "<b>Modparter:</b>"
+msgid "Runs the first-time configuration wizard"
+msgstr "Kører guiden til første-gangs-opsætning"
 
-#: glade/delugegtk.glade:995 glade/delugegtk.glade:1016
-msgid "<b>Speed:</b>"
-msgstr "<b>Hastighed</b>"
+#: glade/delugegtk.glade:1069
+msgid "_Run Configuration Wizard"
+msgstr "_Kør Opsætnings-guiden"
 
-#: glade/delugegtk.glade:1034
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>Delingsforhold:</b>"
+#: glade/delugegtk.glade:1142
+#, fuzzy
+msgid "Add Torrent"
+msgstr "Tilføj Torrent"
 
-#: glade/delugegtk.glade:1052
-msgid "<b>Seeders:</b>"
-msgstr "<b>Udgivere:</b>"
+#: glade/delugegtk.glade:1143
+msgid "Add"
+msgstr "Tilføj"
 
-#: glade/delugegtk.glade:1070
-msgid "<b>Uploaded:</b>"
-msgstr "<b>Videregivet:</b>"
+#: glade/delugegtk.glade:1156 glade/dgtkpopups.glade:6
+msgid "Remove Torrent"
+msgstr "Fjern torrent"
 
-#: glade/delugegtk.glade:1088
-msgid "<b>Downloaded:</b>"
-msgstr "<b>Hentet:</b>"
+#: glade/delugegtk.glade:1157
+msgid "Remove"
+msgstr "Fjern"
 
-#: glade/delugegtk.glade:1200
-msgid "<b>Statistics</b>"
-msgstr "<b>Statistik</b>"
+#: glade/delugegtk.glade:1169
+msgid "Clear Finished Torrents"
+msgstr "Fjern færdige Torrentfiler"
 
-#: glade/delugegtk.glade:1226
-msgid "Details"
-msgstr "Detaljer"
+#: glade/delugegtk.glade:1170
+msgid "Clear"
+msgstr "Ryd"
+
+#: glade/delugegtk.glade:1192
+#, fuzzy
+msgid "Start or Pause torrent"
+msgstr "Begynd eller sæt torrent på pause"
+
+#: glade/delugegtk.glade:1193
+msgid "Resume"
+msgstr "Genoptag"
+
+#: glade/delugegtk.glade:1206
+msgid "Pause"
+msgstr "Pause"
+
+#: glade/delugegtk.glade:1218
+msgid "Queue Torrent Up"
+msgstr "Skub frøfil frem i køen"
+
+#: glade/delugegtk.glade:1219
+msgid "Up"
+msgstr "Op"
+
+#: glade/delugegtk.glade:1232
+msgid "Queue Torrent Down"
+msgstr "Skub frøfil tilbage i køen"
+
+#: glade/delugegtk.glade:1233
+msgid "Down"
+msgstr "Ned"
+
+#: glade/delugegtk.glade:1254
+msgid "Change Deluge preferences"
+msgstr "Ændr Deluge præferencer"
+
+#: glade/delugegtk.glade:1255
+msgid "Preferences"
+msgstr "Indstillinger"
+
+#: glade/delugegtk.glade:1268 glade/dgtkpopups.glade:209
+#: glade/preferences_dialog.glade:2713
+msgid "Plugins"
+msgstr "Moduler"
 
 #: glade/dgtkpopups.glade:41
 msgid ""
@@ -363,21 +368,25 @@ msgid "<b>Download Location</b>"
 msgstr "<b>Gemmeplacering</b>"
 
 #: glade/preferences_dialog.glade:144 glade/preferences_dialog.glade:157
+#, fuzzy
 msgid ""
 "The number of active torrents that Deluge will run.  Set to -1 for unlimited."
 msgstr ""
+"Antallet af aktive torrent-filer som Deluge holder kørende. Sæt til -1 for "
+"ubegrænset."
 
 #: glade/preferences_dialog.glade:146
 msgid "Maximum simultaneous active torrents:"
 msgstr "Største antal samtidigt aktive torrent"
 
 #: glade/preferences_dialog.glade:177 glade/preferences_dialog.glade:178
+#, fuzzy
 msgid "Enable selecting files for torrents before loading"
-msgstr ""
+msgstr "Gør det muligt at vælge filerne i torrent-filen før hentning"
 
 #: glade/preferences_dialog.glade:192 glade/preferences_dialog.glade:193
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr ""
+msgstr "Giv første og sidste del af filer højere prioritet"
 
 #: glade/preferences_dialog.glade:209
 msgid "<b>Torrents</b>"
@@ -388,22 +397,25 @@ msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
+"Fuld allokation allokerer al den nødvendige plads for en torrent og "
+"forhindrer disk-fragmentation"
 
 #: glade/preferences_dialog.glade:249
 msgid "Use Full Allocation"
-msgstr ""
+msgstr "Brug fuld allokation"
 
 #: glade/preferences_dialog.glade:271
 msgid "Compact allocation only allocates space as needed"
 msgstr ""
+"Kompakt allokation bruger kun plads efterhånden som det bliver nødvendigt"
 
 #: glade/preferences_dialog.glade:272
 msgid "Use Compact Allocation"
-msgstr ""
+msgstr "Brug kompakt allokation"
 
 #: glade/preferences_dialog.glade:292
 msgid "<b>Allocation</b>"
-msgstr ""
+msgstr "<b>Allokation</b>"
 
 #: glade/preferences_dialog.glade:319
 #, fuzzy
@@ -969,7 +981,7 @@ msgid "KiB/s"
 msgstr "KiB/s"
 
 #: src/interface.py:279 src/interface.py:340 src/interface.py:366
-#: src/interface.py:1062 src/interface.py:1069 src/interface.py:1074
+#: src/interface.py:1055 src/interface.py:1062 src/interface.py:1067
 #: plugins/SpeedLimiter/__init__.py:137 plugins/SpeedLimiter/__init__.py:169
 msgid "Unlimited"
 msgstr "Ubegrænset"
@@ -1028,28 +1040,28 @@ msgstr "Tilgæng."
 msgid "Ratio"
 msgstr "Forhold"
 
-#: src/interface.py:842
+#: src/interface.py:835
 #, python-format
 msgid "Paused %s"
 msgstr "Pause %s"
 
-#: src/interface.py:1080
+#: src/interface.py:1073
 msgid "Connections"
 msgstr "Forbindelser"
 
-#: src/interface.py:1098
+#: src/interface.py:1091
 msgid "DHT"
 msgstr "DHT"
 
-#: src/interface.py:1101
+#: src/interface.py:1094
 msgid "Deluge Bittorrent Client"
 msgstr "Deluge Bittorrentklient"
 
-#: src/interface.py:1176
+#: src/interface.py:1169
 msgid "Choose a download directory"
 msgstr "Vælg en mappe til modtagne filer"
 
-#: src/interface.py:1203
+#: src/interface.py:1196
 msgid ""
 "An error occured while trying to add the torrent. It's possible your "
 ".torrent file is corrupted."
@@ -1057,32 +1069,32 @@ msgstr ""
 "En fejl opstod under tilføjelse af torrent-filen, Det er muligt at din "
 ".torrent fil er beskediget"
 
-#: src/interface.py:1228
+#: src/interface.py:1221
 msgid "Unknown duplicate torrent error."
 msgstr "Ukendt dobbelt torrent fejl."
 
-#: src/interface.py:1233
+#: src/interface.py:1226
 msgid ""
 "There is not enough free                disk space to complete your download."
 msgstr ""
 
-#: src/interface.py:1235
+#: src/interface.py:1228
 msgid "Space Needed:"
 msgstr "Nødvendig diskplads"
 
-#: src/interface.py:1236
+#: src/interface.py:1229
 msgid "Available Space:"
 msgstr "tilgængelig diskplads"
 
-#: src/interface.py:1253
+#: src/interface.py:1246
 msgid "Add torrent from URL"
 msgstr "Tilføj torrent fra link"
 
-#: src/interface.py:1257
+#: src/interface.py:1250
 msgid "Enter the URL of the .torrent to download"
 msgstr "Indtast linken til torrentfilen der skal hentes"
 
-#: src/interface.py:1310
+#: src/interface.py:1303
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr "Advarsel! Alle modtagne filer for denne torrent vil blive slettet!"
 
@@ -1177,6 +1189,7 @@ msgstr "Slået til"
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
+"  Cybolic <https://launchpad.net/~cybolic>\n"
 "  Jesse Zilstorff <https://launchpad.net/~jesse-hz>\n"
 "  Kerberos <https://launchpad.net/~e-boxen>\n"
 "  Mariusz Cielecki <https://launchpad.net/~xodeus>\n"
