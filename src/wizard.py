@@ -50,8 +50,7 @@ class WizardGTK:
                                 'close': self.cancel})
         #add deluge logo to headers
         self.window = self.wtree.get_widget("wizard")
-        pixmap = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap(\
-            "deluge48.png"))
+        pixmap = deluge.common.get_logo(48)
         self.window.set_page_header_image(self.wtree.get_widget('label1'), \
             pixmap)
         self.window.set_page_header_image(self.wtree.get_widget('vbox1'), \

@@ -127,6 +127,11 @@ def get_glade_file(fname):
 
 def get_pixmap(fname):
     return os.path.join(PIXMAP_DIR, fname)
+
+def get_logo(size):
+    import gtk
+    return gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap("deluge.svg"), size,\
+     size)
     
 def open_url_in_browser(link):
     import threading

@@ -71,7 +71,7 @@ class DelugeGTK:
         self.window.connect("window-state-event", self.window_state_event)
         self.window.connect("configure-event", self.window_configure_event)
         self.window.set_title(common.PROGRAM_NAME)
-        self.window.set_icon_from_file(common.get_pixmap("deluge32.png"))
+        self.window.set_icon(common.get_logo(32))
         
         # self.notebook is used by plugins
         self.notebook = self.wtree.get_widget("torrent_info")
@@ -213,8 +213,7 @@ class DelugeGTK:
         self.manager.resume_all()
 
     def build_tray_icon(self):
-        self.tray_icon = gtk.status_icon_new_from_file(common.get_pixmap\
-            ("deluge32.png"))
+        self.tray_icon = gtk.status_icon_new_from_pixbuf(common.get_logo(32))
         
         self.tray_glade = gtk.glade.XML(common.get_glade_file\
             ("tray_menu.glade"), domain='deluge')
@@ -1252,7 +1251,7 @@ trunk/+pots/deluge')
     def add_torrent_url_clicked(self, obj=None):
         dlg = gtk.Dialog(title=_("Add torrent from URL"), parent=self.window,
             buttons=(gtk.STOCK_CANCEL, 0, gtk.STOCK_OK, 1))
-        dlg.set_icon_from_file(common.get_pixmap("deluge32.png"))
+        dlg.set_icon(common.get_logo(32))
         
         label = gtk.Label(_("Enter the URL of the .torrent to download"))
         entry = gtk.Entry()
@@ -1276,8 +1275,7 @@ trunk/+pots/deluge')
         glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"), 
                     domain='deluge')
         asker = glade.get_widget("remove_torrent_dlg")
-        
-        asker.set_icon_from_file(common.get_pixmap("deluge32.png"))
+        asker.set_icon(common.get_logo(32))
 
         warning = glade.get_widget("warning")
         warning.set_text(" ")

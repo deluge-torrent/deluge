@@ -45,7 +45,7 @@ class PreferencesDlg:
         if plugin_tab:
             self.glade.get_widget("notebook").set_current_page(6)
         self.dialog.set_position(gtk.WIN_POS_CENTER)
-        self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
+        self.dialog.set_icon(common.get_logo(32))
         self.glade.signal_autoconnect({
                                         'toggle_ui': self.toggle_ui,
                                         'on_btn_testport_clicked': self.TestPort,
@@ -364,7 +364,7 @@ class MergeDlg:
                                    domain='deluge')
         self.dialog = self.glade.get_widget("merge_dialog")
         self.dialog.set_position(gtk.WIN_POS_CENTER)
-        self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
+        self.dialog.set_icon(common.get_logo(32))
     
     def show(self, window):
         self.dialog.set_transient_for(window)
@@ -380,7 +380,7 @@ class FilesDlg:
                                    domain='deluge')
         self.dialog = self.glade.get_widget("file_dialog")
         self.dialog.set_position(gtk.WIN_POS_CENTER)
-        self.dialog.set_icon_from_file(common.get_pixmap("deluge32.png"))
+        self.dialog.set_icon(common.get_logo(32))
         
         self.files_manager = files.FilesDialogManager(
                                  self.glade.get_widget("file_view"),
@@ -419,7 +419,7 @@ def show_about_dialog(parent=None):
         abt.set_license(_("Deluge is free software, you can redistribute it and/or\nmodify it under the terms of the GNU General Public\n License as published by the Free Software Foundation,\neither version 2 of the License, or (at your option) any\nlater version.  Deluge is distributed in the hope that it\nwill be useful, but WITHOUT ANY WARRANTY, without even \nthe implied warranty of MERCHANTABILITY or FITNESS\nFOR A PARTICULAR PURPOSE.  See the GNU General\nPublic License for more details.  You should have received\na copy of the GNU General Public License along with\nDeluge, but if not, write to the Free Software Foundation,\n Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-\n1301 USA"))
         abt.set_website("http://deluge-torrent.org")
         abt.set_website_label("http://deluge-torrent.org")
-        abt.set_icon_from_file(common.get_pixmap("deluge32.png"))
+        abt.set_icon(common.get_logo(32))
         abt.set_logo(gtk.gdk.pixbuf_new_from_file(
                 common.get_pixmap("deluge-about.png")))
         abt.show_all()
@@ -471,8 +471,7 @@ def show_file_open_dialog(parent=None, title=None):
     chooser.set_current_folder(config.get("open_torrent_dialog_path"))
     chooser.add_filter(f1)
     chooser.set_select_multiple(True)
-    
-    chooser.set_icon_from_file(common.get_pixmap("deluge32.png"))
+    chooser.set_icon(common.get_logo(32))
     chooser.set_property("skip-taskbar-hint", True)
         
     response = chooser.run()
@@ -487,7 +486,7 @@ def show_file_open_dialog(parent=None, title=None):
 def show_directory_chooser_dialog(parent, title):
     chooser = gtk.FileChooserDialog(title, parent, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
                 buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
-    chooser.set_icon_from_file(common.get_pixmap("deluge32.png"))
+    chooser.set_icon(common.get_logo(32))
     chooser.set_property("skip-taskbar-hint", True)
     config = pref.Preferences()
     chooser.set_current_folder(config.get("choose_directory_dialog_path"))
