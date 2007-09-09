@@ -213,7 +213,7 @@ class DelugeGTK:
         self.manager.resume_all()
 
     def build_tray_icon(self):
-        self.tray_icon = gtk.status_icon_new_from_pixbuf(common.get_logo(32))
+        self.tray_icon = gtk.status_icon_new_from_icon_name('deluge')
         
         self.tray_glade = gtk.glade.XML(common.get_glade_file\
             ("tray_menu.glade"), domain='deluge')
