@@ -28,7 +28,7 @@
 
 NAME = "deluge"
 FULLNAME = "Deluge BitTorrent Client"
-VERSION	= "0.5.5.95"
+VERSION    = "0.5.5.95"
 AUTHOR = "Zach Tibbitts, Alon Zakai, Marcos Pinto, Andrew Resch, Alex Dedul"
 EMAIL = "zach@collegegeek.org, kripkensteiner@gmail.com, marcospinto@dipconsultants.com, alonzakai@gmail.com, rotmer@gmail.com"
 DESCRIPTION    = "A bittorrent client written in PyGTK"
@@ -75,6 +75,8 @@ from distutils import cmd
 from distutils.command.install import install as _install
 from distutils.command.install_data import install_data as _install_data
 from distutils.command.build import build as _build
+if OS == "win":
+    from distutils.command.build_ext import build_ext as _build_ext
 import msgfmt
 
 python_version = platform.python_version()[0:3]
@@ -133,10 +135,19 @@ if not OS == "win":
         sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
 else:
     boosttype = 'mt'
-    EXTRA_COMPILE_ARGS = ['/link /LIBPATH: C:\Program Files\boost\boost_1_34_0\lib']
-    includedirs = ['./libtorrent', './libtorrent/include', 
-                     './libtorrent/include/libtorrent', 
-                     'c:\Python25\include', 'c:\win32-build-deps\include']
+    EXTRA_COMPILE_ARGS = [  '-DBOOST_WINDOWS',
+                            '-Wno-missing-braces',
+                            '-D_WIN32_WINNT=0x0500',
+                             '-D_WIN32',
+                             '-DWIN32',
+                             '-DBOOST_ALL_NO_LIB',
+                            '-D_FILE_OFFSET_BITS=64',
+                            '-DBOOST_THREAD_USE_LIB',
+                            '-DTORRENT_USE_OPENSSL=1',
+                            '-DNDEBUG=1']
+                             
+    EXTRA_LINK_ARGS = ['-L.\win32\lib']
+    includedirs = ['./libtorrent', './libtorrent/include', './libtorrent/include/libtorrent', './win32/boost', './win32/zlib', './win32/openssl/include']
 
 # NOTE: The Rasterbar Libtorrent source code is in the libtorrent/ directory
 # inside of Deluge's source tarball.  On several occasions, it has been 
@@ -148,14 +159,19 @@ else:
 # we will probably begin to build against a system libtorrent, but at the
 # moment, we are including the source code to make packaging on Debian and
 # Ubuntu possible.
-if boosttype == "nomt":
-    librariestype = ['boost_filesystem', 'boost_date_time',
+if not OS == "win":
+    if boosttype == "nomt":
+        librariestype = ['boost_filesystem', 'boost_date_time',
             'boost_thread', 'z', 'pthread', 'ssl']
-    print 'Libraries nomt' 
-elif boosttype == "mt":
-    librariestype = ['boost_filesystem-mt', 'boost_date_time-mt',
+        print 'Libraries nomt' 
+    elif boosttype == "mt":
+        librariestype = ['boost_filesystem-mt', 'boost_date_time-mt',
             'boost_thread-mt', 'z', 'pthread', 'ssl']
-    print 'Libraries mt'
+        print 'Libraries mt'
+else:
+        librariestype = ['boost_filesystem-mt', 'boost_date_time-mt',
+            'boost_thread-mt', 'z', 'ssl' ,'wsock32' ,'crypto' ,'gdi32' ,'ws2_32']
+        print 'Libraries mt'
 
 def fetchCpp():
     for root,dirs,files in os.walk('libtorrent'):
@@ -169,13 +185,20 @@ sources=list(fetchCpp())
 sources.append(os.path.join('src','deluge_core.cpp'))
 if not OS == "win":
     sources.remove('libtorrent/src/file_win.cpp')
-
-
-deluge_core = Extension('deluge_core',
+    deluge_core = Extension('deluge_core',
                     include_dirs = includedirs,
-            libraries = librariestype,
+                    libraries = librariestype,
                     extra_compile_args = EXTRA_COMPILE_ARGS,
                     sources = sources)
+else:
+    sources.remove('libtorrent\\src\\file.cpp')
+    deluge_core = Extension('deluge_core',
+                    include_dirs = includedirs,
+                    libraries = librariestype,
+                    extra_compile_args = EXTRA_COMPILE_ARGS,
+                    extra_link_args = EXTRA_LINK_ARGS,
+                    sources = sources)
+
 # Thanks to Iain Nicol for code to save the location for installed prefix
 # At runtime, we need to know where we installed the data to.
 
@@ -270,15 +293,36 @@ class install_data(_install_data):
             lang_file = os.path.join('build', 'locale', lang, 'LC_MESSAGES', 'deluge.mo')
             self.data_files.append( (lang_dir, [lang_file]) )
         _install_data.run(self)
+if OS == "win":
+    class build_ext(_build_ext):
+        def build_extensions(self):
+        # Linking against this library causes deluge_core.pyd to crash 
+        # on Python >= 2.4. Maybe related to strdup calls, cfr.
+        # http://mail.python.org/pipermail/distutils-sig/2005-April/004433.html
+            if 'msvcr71' in self.compiler.dll_libraries:
+                self.compiler.dll_libraries.remove('msvcr71')
+            _build_ext.build_extensions(self)
 
-cmdclass = {
-    'build': build,
-    'install': install,
-    'build_trans': build_trans,
-    'install_data': install_data,
-    'write_data_install_path': write_data_install_path,
-    'unwrite_data_install_path': unwrite_data_install_path,
-}
+if not OS == "win":
+    cmdclass = {
+        'build': build,
+        'install': install,
+        'build_trans': build_trans,
+        'install_data': install_data,
+        'write_data_install_path': write_data_install_path,
+        'unwrite_data_install_path': unwrite_data_install_path,
+    }
+else:
+    cmdclass = {
+        'build': build,
+        'build_ext' : build_ext,
+        'install': install,
+        'build_trans': build_trans,
+        'install_data': install_data,
+        'write_data_install_path': write_data_install_path,
+        'unwrite_data_install_path': unwrite_data_install_path,
+    }
+
 
 data = [('share/deluge/glade',  glob.glob('glade/*.glade')),
         ('share/deluge/pixmaps', glob.glob('pixmaps/*.png')),
