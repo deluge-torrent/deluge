@@ -182,6 +182,7 @@ namespace libtorrent
 		, bool paused
 		, storage_constructor_type sc)
 	{
+		assert(!ti.m_half_metadata);
 		boost::intrusive_ptr<torrent_info> tip(new torrent_info(ti));
 		return m_impl->add_torrent(tip, save_path, resume_data
 			, compact_mode, sc, paused);
@@ -195,6 +196,7 @@ namespace libtorrent
 		, bool paused
 		, storage_constructor_type sc)
 	{
+		assert(!ti->m_half_metadata);
 		return m_impl->add_torrent(ti, save_path, resume_data
 			, compact_mode, sc, paused);
 	}
@@ -347,6 +349,11 @@ namespace libtorrent
 	void session::set_max_connections(int limit)
 	{
 		m_impl->set_max_connections(limit);
+	}
+
+	int session::max_half_open_connections() const
+	{
+		return m_impl->max_half_open_connections();
 	}
 
 	void session::set_max_half_open_connections(int limit)

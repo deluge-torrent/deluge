@@ -83,6 +83,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/socket_type.hpp"
 #include "libtorrent/connection_queue.hpp"
 #include "libtorrent/disk_io_thread.hpp"
+#include "libtorrent/assert.hpp"
 
 namespace libtorrent
 {
@@ -275,6 +276,7 @@ namespace libtorrent
 
 			int max_connections() const { return m_max_connections; }
 			int max_uploads() const { return m_max_uploads; }
+			int max_half_open_connections() const { return m_half_open.limit(); }
 
 			int num_uploads() const { return m_num_unchoked; }
 			int num_connections() const

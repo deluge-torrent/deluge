@@ -72,6 +72,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/policy.hpp"
 #include "libtorrent/socket_type.hpp"
 #include "libtorrent/intrusive_ptr_base.hpp"
+#include "libtorrent/assert.hpp"
 
 namespace libtorrent
 {
@@ -749,5 +750,4 @@ namespace libtorrent
 }
 
 #endif // TORRENT_PEER_CONNECTION_HPP_INCLUDED
-
 
