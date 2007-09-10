@@ -52,7 +52,9 @@ import pickle
 import os
 import re
 import shutil
-import statvfs
+import platform
+if platform.system() != "Windows":
+    import statvfs
 import time
 
 import deluge_core
@@ -411,7 +413,7 @@ class Manager:
                 pass
             deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
 
-    # Load all NEW torrents in a directory. The GUI can call this every minute or so,
+    # Load all NEW torrents in a . The GUI can call this every minute or so,
     # if one wants a directory to be 'watched' (personally, I think it should only be
     # done on user command).os.path.join(
     def autoload_directory(self, directory, save_dir, compact):
@@ -554,7 +556,8 @@ class Manager:
                 # Before we resume, we should check if the torrent is using Full Allocation 
                 # and if there is enough space on to finish this file.
                 if self.unique_IDs[unique_ID].compact == False:
-                    avail = self.calc_free_space(self.unique_IDs[unique_ID].save_dir)
+                    avail = self.calc_free_space(directory = self.unique_IDs\
+                        [unique_ID].save_dir)
                     total_needed = torrent_state["total_size"] - torrent_state["total_done"]
                     if total_needed < avail:
                         # We have enough free space, so lets resume this torrent
@@ -788,12 +791,24 @@ class Manager:
         return self.cached_core_torrent_file_infos.get(unique_ID)
 
     # Functions for checking if enough space is available
-    
+
     def calc_free_space(self, directory):
-        dir_stats = os.statvfs(directory)
-        block_size = dir_stats[statvfs.F_BSIZE]
-        avail_blocks = dir_stats[statvfs.F_BAVAIL]
-        return long(block_size * avail_blocks)
+        if platform.system() != "Windows":
+            dir_stats = os.statvfs(directory)
+            block_size = dir_stats[statvfs.F_BSIZE]
+            avail_blocks = dir_stats[statvfs.F_BAVAIL]
+            return long(block_size * avail_blocks)
+        else:
+            import string
+            import win32api
+            import win32file
+            sectorsPerCluster, bytesPerSector, numFreeClusters, totalNumClusters\
+                 = win32file.GetDiskFreeSpace(directory[0] + ":\\")
+            sectorsPerCluster = long(sectorsPerCluster)
+            bytesPerSector = long(bytesPerSector)
+            numFreeClusters = long(numFreeClusters)
+            totalNumClusters = long(totalNumClusters)
+            return long(numFreeClusters * sectorsPerCluster * bytesPerSector)
 
     # Non-syncing functions. Used when we loop over such events, and sync manually at the end
 
