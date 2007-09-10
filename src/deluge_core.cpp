@@ -366,8 +366,12 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
     // Init values
 
     M_settings->user_agent = std::string(user_agent);
-
+#if defined(_WIN32)
+    M_ses->set_max_half_open_connections(8);
+#else
     M_ses->set_max_half_open_connections(-1);
+#endif
+
     M_ses->set_download_rate_limit(-1);
     M_ses->set_upload_rate_limit(-1);
 
