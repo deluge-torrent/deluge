@@ -1,7 +1,7 @@
 Deluge 0.5.6 (xx September 2007)
   * A whole bunch of stuff for Win32
   * Add private flag to TorrentCreator plugin
-  * Use SVG for internal logo usage
+  * Use SVG for internal logo usage (except on Win32)
   * Use theme for tray icon instead of hard-coded 
   * Properly release port on shutdown
   * Inherit UPnP fixes from libtorrent
