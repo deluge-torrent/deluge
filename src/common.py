@@ -44,8 +44,12 @@ if platform.system() == "Windows":
 else:
     CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
 
-# the necessary substitutions are made at installation time
-INSTALL_PREFIX = '@datadir@'
+if hasattr(sys, "frozen"):
+    INSTALL_PREFIX = ''
+else:
+    # the necessary substitutions are made at installation time
+    INSTALL_PREFIX = '@datadir@'
+
 GLADE_DIR  = os.path.join(INSTALL_PREFIX, 'share', 'deluge', 'glade')
 PIXMAP_DIR = os.path.join(INSTALL_PREFIX, 'share', 'deluge', 'pixmaps')
 PLUGIN_DIR = os.path.join(INSTALL_PREFIX, 'share', 'deluge', 'plugins')
