@@ -39,11 +39,15 @@ CLIENT_VERSION = "".join(PROGRAM_VERSION.split('.'))+"0"*(4 - len(PROGRAM_VERSIO
 import platform
 if platform.system() == "Windows":
     CONFIG_DIR = os.path.join(os.path.expanduser("~\\"), 'deluge')
-    INSTALL_PREFIX = ''
     if not os.path.exists(CONFIG_DIR):
         os.mkdir(CONFIG_DIR)
 else:
     CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
+
+import sys 
+if hasattr(sys, "frozen"):
+    INSTALL_PREFIX = ''
+else:
     # the necessary substitutions are made at installation time
     INSTALL_PREFIX = '@datadir@'
 
