@@ -119,6 +119,7 @@ class MenuBar:
     ## Edit Menu ##
     def on_menuitem_preferences_activate(self, data=None):
         log.debug("on_menuitem_preferences_activate")
+        self.window.preferences.show()
         
     def on_menuitem_plugins_activate(self, data=None):
         log.debug("on_menuitem_plugins_activate")
