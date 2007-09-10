@@ -666,14 +666,14 @@ namespace detail
 		try
 		{
 			// create listener socket
-            m_listen_socket.reset(new socket_acceptor(m_io_service));
-            m_listen_socket->set_option(socket_acceptor::reuse_address(true));
+			m_listen_socket.reset(new socket_acceptor(m_io_service));
 
 			for(;;)
 			{
 				try
 				{
 					m_listen_socket->open(m_listen_interface.protocol());
+					m_listen_socket->set_option(socket_acceptor::reuse_address(true));
 					m_listen_socket->bind(m_listen_interface);
 					m_listen_socket->listen();
 					m_external_listen_port = m_listen_interface.port();
@@ -2379,4 +2379,5 @@ namespace detail
 		}
 	}
 }}
+
 
