@@ -1,4 +1,13 @@
-Deluge 0.5.5 (xx August 2007)
+Deluge 0.5.6 (xx September 2007)
+  * A whole bunch of stuff for Win32
+  * Add private flag to TorrentCreator plugin
+  * Use SVG for internal logo usage
+  * Use theme for tray icon instead of hard-coded 
+  * Properly release port on shutdown
+  * Inherit UPnP fixes from libtorrent
+  * Use threading for everything, instead of spawnning
+
+Deluge 0.5.5 (09 September 2007)
   * Editing a torrent's tracker list is now persistent between sessions
   * Persistence between sessions for Speed Limiter, Web Seed and Desired Ratio 
   plugins
