@@ -54,6 +54,12 @@ class BlocklistImport:
         self.gtkconf = GTKConfig(self)
         self.gtkprog = GTKProgress(self)
         self.nimported = 0
+        # Stop all torrents
+        self.paused_or_not = {}
+        for unique_ID in self.core.unique_IDs:
+            self.paused_or_not[unique_ID] = self.core.is_user_paused(unique_ID)
+            if not self.paused_or_not[unique_ID]:
+                self.core.set_user_pause(unique_ID, True, enforce_queue=False)
 
         self.blockfile = deluge.common.CONFIG_DIR + "/blocklist.cache"
 
@@ -72,7 +78,7 @@ class BlocklistImport:
 
     def loadlist(self, fetch=False):
         self.gtkprog.start()
-        
+
         # Attempt initial import
         if fetch:
             print "Fetching",self.config.get('url')
@@ -126,6 +132,10 @@ class BlocklistImport:
 
         self.gtkprog.stop()
         self.cancelled = False
+        #restart torrents that werent paused by us
+        for unique_ID in self.core.unique_IDs:
+            if not self.paused_or_not[unique_ID]:
+                self.core.set_user_pause(unique_ID, False, enforce_queue=False)
 
     def configure(self, window):
         self.gtkconf.start(self.config.get('listtype'),
