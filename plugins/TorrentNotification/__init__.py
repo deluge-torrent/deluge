@@ -88,22 +88,24 @@ class TorrentNotification:
             self.interface.tray_icon.set_blinking(True)
 
     def show_notification(self, event):
-        import pynotify
+        import platform
+        if platform.system() != "Windows":
+            import pynotify
         
-        file_info = self.interface.manager.get_torrent_file_info(event['unique_ID'])
-        filelist = ""
-        for file in file_info[:10]:
-            filelist += file['path'] + "\n"
-        if len(file_info) > 10:
-            filelist += '...'
-            
-        if pynotify.init("Deluge"):
-            n = pynotify.Notification(_("Torrent complete"), 
-                                      _("Files") + ":\n" + filelist)
-            n.set_icon_from_pixbuf(deluge.common.get_logo(48))
-            n.show()
+            file_info = self.interface.manager.get_torrent_file_info(event['unique_ID'])
+            filelist = ""
+            for file in file_info[:10]:
+                filelist += file['path'] + "\n"
+            if len(file_info) > 10:
+                filelist += '...'
+               
+            if pynotify.init("Deluge"):
+                n = pynotify.Notification(_("Torrent complete"), 
+                    _("Files") + ":\n" + filelist)
+                n.set_icon_from_pixbuf(deluge.common.get_logo(48))
+                n.show()
         else:
-            print "there was a problem initializing the pynotify module"
+            pass
 
     def configure(self, window):
         import os.path
@@ -131,18 +133,21 @@ class TorrentNotification:
             self.glade.get_widget("sound_path_button").set_sensitive(value)
     
     def play_sound(self):
-        import pygame
-        import os.path
-        import sys
-        pygame.init()
-        try:
-            name = self.config.get("sound_path")
-        except:
-            print "no file set"
-            return
-        try:
-            alert_sound = pygame.mixer.music
-            alert_sound.load(name)
-            alert_sound.play()
-        except pygame.error, message:
-            print 'Cannot load sound:'
+        import platform
+        if platform.system() != "Windows":
+            import pygame
+            import os.path
+            import sys
+            pygame.init()
+            try:
+                name = self.config.get("sound_path")
+            except:
+                print "no file set"
+            try:
+                alert_sound = pygame.mixer.music
+                alert_sound.load(name)
+                alert_sound.play()
+            except pygame.error, message:
+                print 'Cannot load sound:'
+        else:
+            pass
