@@ -288,7 +288,10 @@ class PreferencesDlg:
         if plugin_value:
             self.plugins.enable_plugin(plugin_name)
             config = self.plugins.configurable_plugin(plugin_name)
-            self.glade.get_widget("plugin_conf").set_sensitive(config)
+            try:
+                self.glade.get_widget("plugin_conf").set_sensitive(config)
+            except: 
+                pass
         else:
             self.plugins.disable_plugin(plugin_name)
             self.glade.get_widget("plugin_conf").set_sensitive(False)
