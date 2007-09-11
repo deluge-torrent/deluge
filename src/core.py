@@ -802,12 +802,12 @@ class Manager:
             import string
             import win32api
             import win32file
-            sectorsPerCluster, bytesPerSector, numFreeClusters, totalNumClusters\
-                 = win32file.GetDiskFreeSpace(directory[0] + ":\\")
+            sectorsPerCluster, bytesPerSector, numFreeClusters, \
+                totalNumClusters_Not_Used = win32file.GetDiskFreeSpace(\
+                    directory[0] + ":\\")
             sectorsPerCluster = long(sectorsPerCluster)
             bytesPerSector = long(bytesPerSector)
             numFreeClusters = long(numFreeClusters)
-            totalNumClusters = long(totalNumClusters)
             return long(numFreeClusters * sectorsPerCluster * bytesPerSector)
 
     # Non-syncing functions. Used when we loop over such events, and sync manually at the end
