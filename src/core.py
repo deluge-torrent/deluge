@@ -800,7 +800,6 @@ class Manager:
             return long(block_size * avail_blocks)
         else:
             import string
-            import win32api
             import win32file
             sectorsPerCluster, bytesPerSector, numFreeClusters, \
                 totalNumClusters_Not_Used = win32file.GetDiskFreeSpace(\
