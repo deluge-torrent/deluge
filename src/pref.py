@@ -117,7 +117,7 @@ DEFAULT_PREFS = {
     "use_compact_storage" : True,
     "use_default_dir" : False,
     "use_natpmp" : False,
-    "use_upnp" : False,
+    "use_upnp" : True,
     "use_utpex" : True,
     "new_releases" : True,
     "window_height" : 480,
