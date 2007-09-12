@@ -994,4 +994,3 @@ void upnp::close()
 	}
 }
 
-
