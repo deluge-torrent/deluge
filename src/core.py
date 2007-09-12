@@ -299,6 +299,11 @@ class Manager:
         print "Quitting the core..."
         deluge_core.quit()
 
+        #kill dbus on windows
+        if platform.system() == "Windows":
+            import os
+            os.popen4('tskill.exe dbus-daemon.exe')
+
     def pickle_state(self):
         # Pickle the state so if we experience a crash, the latest state is 
         # available
