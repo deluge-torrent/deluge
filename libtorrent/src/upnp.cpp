@@ -129,7 +129,7 @@ void upnp::discover_device() try
 catch (std::exception&)
 {
 	disable();
-}
+};
 
 void upnp::set_mappings(int tcp, int udp)
 {
@@ -223,7 +223,7 @@ try
 catch (std::exception&)
 {
 	assert(false);
-}
+};
 #endif
 
 void upnp::on_reply(udp::endpoint const& from, char* buffer
@@ -339,6 +339,8 @@ try
 		{
 			d.mapping[0].need_update = true;
 			d.mapping[0].local_port = m_tcp_local_port;
+			if (d.mapping[0].external_port == 0)
+				d.mapping[0].external_port = d.mapping[0].local_port;
 #ifdef TORRENT_UPNP_LOGGING
 			m_log << time_now_string() << " *** Mapping 0 will be updated" << std::endl;
 #endif
@@ -347,6 +349,8 @@ try
 		{
 			d.mapping[1].need_update = true;
 			d.mapping[1].local_port = m_udp_local_port;
+			if (d.mapping[1].external_port == 0)
+				d.mapping[1].external_port = d.mapping[1].local_port;
 #ifdef TORRENT_UPNP_LOGGING
 			m_log << time_now_string() << " *** Mapping 1 will be updated" << std::endl;
 #endif
@@ -411,7 +415,7 @@ void upnp::post(upnp::rootdevice const& d, std::string const& soap
 
 #ifdef TORRENT_UPNP_LOGGING
 	m_log << time_now_string()
-		<< " ==> sending: " << soap << std::endl;
+		<< " ==> sending: " << header.str() << std::endl;
 #endif
 	
 }
@@ -989,4 +993,5 @@ void upnp::close()
 		unmap_port(d, 0);
 	}
 }
+
 
