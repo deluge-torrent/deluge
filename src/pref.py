@@ -39,6 +39,7 @@ import common
 import os.path
 
 DEFAULT_PREFS = {
+    "enabled_plugins" : "Torrent Files:Torrent Peers",
     "file_manager" : common.FileManager.xdg,
     "open_folder_stock" : True,
     "open_folder_location": "",
