@@ -222,7 +222,7 @@ boost::filesystem::path const& save_path)
     entry e;
     e = bdecode(std::istream_iterator<char>(in), std::istream_iterator<char>());
 
-    torrent_info t(e);
+    boost::intrusive_ptr<torrent_info> t(new torrent_info(e));
 
     entry resume_data;
     try
