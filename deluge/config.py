@@ -114,6 +114,10 @@ class Config:
             log.warning("Key does not exist, returning None")
             return None
 
+    def get_config(self):
+        """Returns the entire configuration as a dictionary."""
+        return self.config
+        
     def __getitem__(self, key):
         return self.config[key]
 

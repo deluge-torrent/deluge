@@ -38,7 +38,7 @@ import logging
 # Setup the logger
 logging.basicConfig(
     level=logging.DEBUG,
-    format="[%(levelname)-8s] %(name)s:%(module)s:%(lineno)d %(message)s"
+    format="[%(levelname)-8s] %(module)s:%(lineno)d %(message)s"
 )
 
 # Get the logger

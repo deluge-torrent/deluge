@@ -52,7 +52,23 @@ DEFAULT_PREFS = {
     "download_location": deluge.common.get_default_download_dir(),
     "listen_ports": [6881, 6891],
     "torrentfiles_location": deluge.common.get_default_torrent_dir(),
-    "plugins_location": deluge.common.get_default_plugin_dir()
+    "plugins_location": deluge.common.get_default_plugin_dir(),
+    "prioritize_first_last_pieces": False,
+    "random_port": False,
+    "dht": False,
+    "upnp": False,
+    "natpmp": False,
+    "utpex": False,
+    "enc_in_policy": 1,
+    "enc_out_policy": 1,
+    "enc_level": 1,
+    "enc_prefer_rc4": True,
+    "max_connections_global": -1,
+    "max_upload_speed": -1.0,
+    "max_download_speed": -1.0,
+    "max_upload_slots_global": -1,
+    "max_connections_per_torrent": -1,
+    "max_upload_slots_per_torrent": -1
 }
 
 class Core(dbus.service.Object):
@@ -188,6 +204,32 @@ class Core(dbus.service.Object):
         """Save the current session state to file."""
         # Have the TorrentManager save it's state
         self.torrents.save_state()
+    
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+                                in_signature="",
+                                out_signature="ay")    
+    def get_config(self):
+        """Get all the preferences as a dictionary"""
+        config = self.config.get_config()
+        config = pickle.dumps(config)
+        return config
+        
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+        in_signature="ay")
+    def set_config(self, config):
+        """Set the config with values from dictionary"""
+        # Convert the byte array into the dictionary
+        config = "".join(chr(b) for b in config)
+        config = pickle.loads(config)
+        # Load all the values into the configuration
+        for key in config.keys():
+            self.config[key] = config[key]
+    
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+        out_signature="i")
+    def get_listen_port(self):
+        """Returns the active listen port"""
+        return self.session.listen_port()
         
     # Signals
     @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",

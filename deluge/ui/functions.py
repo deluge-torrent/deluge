@@ -129,3 +129,25 @@ def get_session_state(core=None):
     # De-serialize the object
     state = pickle.loads(state)
     return state
+
+def get_config(core=None):
+    if core is None:
+        core = get_core()
+    config = core.get_config()
+    config = "".join(chr(b) for b in config)
+    config = pickle.loads(config)
+    return config
+
+def set_config(config, core=None):
+    if config == {}:
+        return
+    if core is None:
+        core = get_core()
+    config = pickle.dumps(config)
+    core.set_config(config)
+    
+def get_listen_port(core=None):
+    if core is None:
+        core = get_core()
+    return int(core.get_listen_port())
+
