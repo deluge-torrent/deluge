@@ -146,8 +146,7 @@ class DelugeGTK:
 
         signal.signal(signal.SIGINT, self.manager.quit)
         signal.signal(signal.SIGTERM, self.manager.quit)
-        import platform
-        if not platform.system() in ('Windows', 'Microsoft'): 
+        if not common.windows_check(): 
             signal.signal(signal.SIGHUP, self.manager.quit)
         else:
             from win32api import SetConsoleCtrlHandler

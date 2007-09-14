@@ -36,8 +36,15 @@ PROGRAM_VERSION = "0.5.5.95"
 
 CLIENT_CODE = "DE"
 CLIENT_VERSION = "".join(PROGRAM_VERSION.split('.'))+"0"*(4 - len(PROGRAM_VERSION.split('.')))
-import platform
-if platform.system() in ('Windows', 'Microsoft'): 
+
+def windows_check():
+    import platform
+    if platform.system() in ('Windows', 'Microsoft'):
+        return True
+    else:
+        return False
+
+if windows_check(): 
     CONFIG_DIR = os.path.join(os.path.expanduser("~\\"), 'deluge')
     if not os.path.exists(CONFIG_DIR):
         os.mkdir(CONFIG_DIR)
@@ -135,8 +142,7 @@ def get_pixmap(fname):
 
 def get_logo(size):
     import gtk
-    import platform
-    if platform.system() in ('Windows', 'Microsoft'): 
+    if windows_check(): 
         return gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap("deluge.png"), \
             size, size)
     else:

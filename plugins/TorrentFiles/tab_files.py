@@ -94,7 +94,11 @@ class FilesTabManager(FilesBaseManager):
                                  convert_path_to_child_path(path)
                 file_name = self.file_store.get_value(
                                 self.file_store.get_iter(child_path), 0)
-                exec_command(self.file_viewer, 
+                import platform
+                if platform.system() in ('Windows', 'Microsoft'): 
+                    os.startfile(os.path.join(save_dir, file_name))
+                else:    
+                    exec_command(self.file_viewer, 
                              os.path.join(save_dir, file_name))
         except KeyError:
             pass

@@ -53,7 +53,8 @@ import os
 import re
 import shutil
 import platform
-if not platform.system() in ('Windows', 'Microsoft'): 
+import common
+if not common.windows_check(): 
     import statvfs
 import time
 
@@ -300,7 +301,7 @@ class Manager:
         deluge_core.quit()
 
         #kill dbus on windows
-        if platform.system() in ('Windows', 'Microsoft'): 
+        if common.windows_check(): 
             import os
             os.popen4('tskill.exe dbus-daemon-deluge')
 
@@ -404,14 +405,12 @@ class Manager:
     def save_fastresume_data(self, uid=None):
         if uid == None:
             for unique_ID in self.unique_IDs:
-                import common
                 try:
                     os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
                 except:
                     pass
                 deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
         else:
-            import common
             try:
                 os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
             except:
@@ -798,7 +797,7 @@ class Manager:
     # Functions for checking if enough space is available
 
     def calc_free_space(self, directory):
-        if not platform.system() in ('Windows', 'Microsoft'): 
+        if not common.windows_check(): 
             dir_stats = os.statvfs(directory)
             block_size = dir_stats[statvfs.F_BSIZE]
             avail_blocks = dir_stats[statvfs.F_BAVAIL]

@@ -33,13 +33,11 @@
 import gettext
 import locale
 import os
-import platform
-
-from common import INSTALL_PREFIX
+import common
 
 APP = 'deluge'
-DIR = os.path.join(INSTALL_PREFIX, 'share', 'locale')
-if not platform.system() in ('Windows', 'Microsoft'): 
+DIR = os.path.join(common.INSTALL_PREFIX, 'share', 'locale')
+if not common.windows_check(): 
     locale.setlocale(locale.LC_MESSAGES, '')
     locale.bindtextdomain(APP, DIR)
     locale.textdomain(APP)
