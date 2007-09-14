@@ -99,7 +99,6 @@ class FilesTabManager(FilesBaseManager):
                         os.startfile(os.path.join(save_dir, file_name))
                     except WindowsError:
                         import gtk
-                        import dialogs
                         gtk.gdk.threads_enter()
                         result = dialogs.show_popup_warning(None, _("There is a \
 newer version of Deluge.  Would you like to be taken to our download site?"))
