@@ -149,6 +149,14 @@ class DelugeGTK:
         import platform
         if not platform.system() in ('Windows', 'Microsoft'): 
             signal.signal(signal.SIGHUP, self.manager.quit)
+        else:
+            from win32api import SetConsoleCtrlHandler
+            from win32con import CTRL_CLOSE_EVENT
+            def win_handler(self, ctrl_type):
+                if ctrl_type == CTRL_CLOSE_EVENT:
+                    self.shutdown()
+            SetConsoleCtrlHandler(win_handler)
+
         self.dht_timer = 0
         self.dht_skip = False
 
