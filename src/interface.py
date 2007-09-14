@@ -157,9 +157,8 @@ class DelugeGTK:
                 if ctrl_type == CTRL_CLOSE_EVENT:
                     self.shutdown()
                     result = 1
+                    return result
             SetConsoleCtrlHandler(win_handler)
-            return result
-
 
         self.dht_timer = 0
         self.dht_skip = False
