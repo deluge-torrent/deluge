@@ -149,7 +149,7 @@ else:
                             '-DNDEBUG=1']
                              
     EXTRA_LINK_ARGS = ['-L.\win32\lib']
-    includedirs = ['./libtorrent', './libtorrent/include', './libtorrent/include/libtorrent', './win32/boost', './win32/zlib', './win32/openssl/include']
+    includedirs = ['./libtorrent', './libtorrent/include', './libtorrent/include/libtorrent', './win32/include']
 
 # NOTE: The Rasterbar Libtorrent source code is in the libtorrent/ directory
 # inside of Deluge's source tarball.  On several occasions, it has been 
