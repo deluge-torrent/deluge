@@ -84,7 +84,7 @@ class FilesTabManager(FilesBaseManager):
     def open_file(self, widget=None):
         import os
         
-        from deluge.common import exec_command
+        from deluge.common import exec_command, windows_check
         
         save_dir = self.manager.unique_IDs[self.file_unique_id].save_dir
         selected_paths = self.file_view.get_selection().get_selected_rows()[1]
@@ -94,8 +94,7 @@ class FilesTabManager(FilesBaseManager):
                                  convert_path_to_child_path(path)
                 file_name = self.file_store.get_value(
                                 self.file_store.get_iter(child_path), 0)
-                import platform
-                if platform.system() in ('Windows', 'Microsoft'): 
+                if windows_check(): 
                     os.startfile(os.path.join(save_dir, file_name))
                 else:    
                     exec_command(self.file_viewer, 
