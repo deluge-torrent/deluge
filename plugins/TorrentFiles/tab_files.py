@@ -100,8 +100,8 @@ class FilesTabManager(FilesBaseManager):
                     except WindowsError:
                         import gtk
                         gtk.gdk.threads_enter()
-                        result = dialogs.show_popup_warning(None, _("There is a \
-newer version of Deluge.  Would you like to be taken to our download site?"))
+                        result = dialogs.show_popup_warning(None, _("There was \
+an error trying to launch the file."))
                         gtk.gdk.threads_leave()
                 else:    
                     exec_command(self.file_viewer, 
