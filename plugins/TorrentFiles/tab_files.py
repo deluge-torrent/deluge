@@ -95,7 +95,10 @@ class FilesTabManager(FilesBaseManager):
                 file_name = self.file_store.get_value(
                                 self.file_store.get_iter(child_path), 0)
                 if windows_check(): 
-                    os.startfile(os.path.join(save_dir, file_name))
+                    try:
+                        os.startfile(os.path.join(save_dir, file_name))
+                    except WindowsError:
+                        pass
                 else:    
                     exec_command(self.file_viewer, 
                              os.path.join(save_dir, file_name))
