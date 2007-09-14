@@ -302,7 +302,7 @@ class Manager:
         #kill dbus on windows
         if platform.system() == "Windows":
             import os
-            os.popen4('tskill.exe dbus-daemon-deluge.exe')
+            os.popen4('tskill.exe dbus-daemon-deluge')
 
     def pickle_state(self):
         # Pickle the state so if we experience a crash, the latest state is 
