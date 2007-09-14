@@ -58,7 +58,7 @@ elif platform.system() == "Darwin" :
 elif platform.system() == "FreeBSD" :
     print "FreeBSD operating system detected"
     OS = "freebsd"
-elif platform.system() == "Windows":
+elif platform.system() in ('Windows', 'Microsoft'): 
     print "Windows system detected"
     OS = "win"
 elif os.name == "posix":

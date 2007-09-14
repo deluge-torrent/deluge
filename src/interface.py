@@ -147,7 +147,7 @@ class DelugeGTK:
         signal.signal(signal.SIGINT, self.manager.quit)
         signal.signal(signal.SIGTERM, self.manager.quit)
         import platform
-        if platform.system() != "Windows":
+        if not platform.system() in ('Windows', 'Microsoft'): 
             signal.signal(signal.SIGHUP, self.manager.quit)
         self.dht_timer = 0
         self.dht_skip = False

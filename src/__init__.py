@@ -39,7 +39,7 @@ from common import INSTALL_PREFIX
 
 APP = 'deluge'
 DIR = os.path.join(INSTALL_PREFIX, 'share', 'locale')
-if platform.system() != "Windows":
+if not platform.system() in ('Windows', 'Microsoft'): 
     locale.setlocale(locale.LC_MESSAGES, '')
     locale.bindtextdomain(APP, DIR)
     locale.textdomain(APP)

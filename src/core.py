@@ -53,7 +53,7 @@ import os
 import re
 import shutil
 import platform
-if platform.system() != "Windows":
+if not platform.system() in ('Windows', 'Microsoft'): 
     import statvfs
 import time
 
@@ -300,7 +300,7 @@ class Manager:
         deluge_core.quit()
 
         #kill dbus on windows
-        if platform.system() == "Windows":
+        if platform.system() in ('Windows', 'Microsoft'): 
             import os
             os.popen4('tskill.exe dbus-daemon-deluge')
 
@@ -798,7 +798,7 @@ class Manager:
     # Functions for checking if enough space is available
 
     def calc_free_space(self, directory):
-        if platform.system() != "Windows":
+        if not platform.system() in ('Windows', 'Microsoft'): 
             dir_stats = os.statvfs(directory)
             block_size = dir_stats[statvfs.F_BSIZE]
             avail_blocks = dir_stats[statvfs.F_BAVAIL]
