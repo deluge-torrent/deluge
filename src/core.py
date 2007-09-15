@@ -54,8 +54,6 @@ import re
 import shutil
 import platform
 import common
-if not common.windows_check(): 
-    import statvfs
 import time
 
 import deluge_core
@@ -798,6 +796,7 @@ class Manager:
 
     def calc_free_space(self, directory):
         if not common.windows_check(): 
+            import statvfs
             dir_stats = os.statvfs(directory)
             block_size = dir_stats[statvfs.F_BSIZE]
             avail_blocks = dir_stats[statvfs.F_BAVAIL]
