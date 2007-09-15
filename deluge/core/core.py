@@ -89,14 +89,24 @@ class Core(dbus.service.Object):
             version.append(int(value))
         fingerprint = lt.fingerprint("DE", *version)
         
-        # Setup the libtorrent session and listen on the configured ports
+        # Start the libtorrent session
         log.debug("Starting libtorrent session..")
         self.session = lt.session(fingerprint)
-        log.debug("Listening on %i-%i", self.config.get("listen_ports")[0],
-                                        self.config.get("listen_ports")[1])
-        self.session.listen_on(self.config.get("listen_ports")[0],
-                               self.config.get("listen_ports")[1])
 
+        # Set the listening ports
+        if self.config.get("random_port"):
+            import random
+            randrange = lambda: random.randrange(49152, 65535)
+            ports = [randrange(), randrange()]
+            ports.sort()
+            log.debug("Listening on %i-%i", ports[0], ports[1])
+            self.session.listen_on(ports[0], ports[1])
+        else:
+            listen_ports = self.config.get("listen_ports")
+            log.debug("Listening on %i-%i", listen_ports[0],
+                                            listen_ports[1])
+            self.session.listen_on(listen_ports[0],
+                                   listen_ports[1])
         # Start the TorrentManager
         self.torrents = TorrentManager(self.session)
         

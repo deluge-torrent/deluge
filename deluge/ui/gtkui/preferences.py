@@ -72,7 +72,7 @@ class Preferences:
             "on_button_ok_clicked": self.on_button_ok_clicked,
             "on_button_apply_clicked": self.on_button_apply_clicked,
             "on_button_cancel_clicked": self.on_button_cancel_clicked,
-            "on_radio_save_all_to_toggled": self.on_toggle
+            "on_toggle": self.on_toggle
         })
     
     def add_page(self, name, widget):
@@ -229,7 +229,12 @@ class Preferences:
         value = widget.get_active()
         if widget == self.glade.get_widget('radio_save_all_to'):
             self.glade.get_widget('download_path_button').set_sensitive(value)
-            
+        
+        self.glade.get_widget('spin_port_min').set_sensitive(
+            not self.glade.get_widget('chk_random_port').get_active())
+        self.glade.get_widget('spin_port_max').set_sensitive(
+            not self.glade.get_widget('chk_random_port').get_active())
+        
     def on_button_ok_clicked(self, data):
         log.debug("on_button_ok_clicked")
         self.set_config()
