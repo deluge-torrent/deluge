@@ -38,6 +38,7 @@ import pkg_resources
 
 from deluge.log import LOG as log
 import deluge.ui.functions as functions
+from deluge.common import get_logo
 
 class Preferences:
     def __init__(self, window):
@@ -46,6 +47,7 @@ class Preferences:
                     pkg_resources.resource_filename("deluge.ui.gtkui",
                                             "glade/preferences_dialog.glade"))
         self.pref_dialog = self.glade.get_widget("pref_dialog")
+        self.pref_dialog.set_icon(get_logo(32))
         self.treeview = self.glade.get_widget("treeview")
         self.notebook = self.glade.get_widget("notebook")
         self.core = functions.get_core()

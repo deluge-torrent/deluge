@@ -115,3 +115,25 @@ def ftime(seconds):
     if weeks < 10:
         return '%dw %dd' % (weeks, days)
     return 'unknown'
+
+def windows_check():
+    import platform
+    if platform.system() in ('Windows', 'Microsoft'):
+        return True
+    else:
+        return False
+
+def get_pixmap(fname):
+    import pkg_resources
+    from os import path
+    return pkg_resources.resource_filename("deluge", path.join("data", \
+                                           "pixmaps", fname))
+
+def get_logo(size):
+    import gtk
+    if windows_check(): 
+        return gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap("deluge.png"), \
+            size, size)
+    else:
+        return gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap("deluge.svg"), \
+            size, size)
