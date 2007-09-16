@@ -186,7 +186,8 @@ setup(
                         'deluge/data/icons/hicolor/72x72/apps/deluge.png']),
                 ('/usr/share/deluge/icons/hicolor/96x96/apps', [
                         'deluge/data/icons/hicolor/96x96/apps/deluge.png']),
-                ('/usr/share/applications', ['deluge.desktop'])],
+                ('/usr/share/applications', [
+                        'deluge/data/share/applications/deluge.desktop'])],
     ext_package = "deluge",
     ext_modules = [libtorrent],
     packages = find_packages(exclude=["plugins"]),
