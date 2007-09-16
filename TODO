@@ -1,0 +1,25 @@
+* Hook gtkui preferences up in the preferences dialog
+* Add 'set config functions' in the core so when config options change the
+    appropriate function will be called to 'apply' those changes.  This type of
+    system may need to be added to the gtkui as well.
+* Status icons for the torrentview
+* Icons for the gtkui windows
+* Have the ui better handle not being able to connect to the daemon.
+* Mainwindow state saving.. Size, location, vpane position, etc..
+* System tray icon
+* Add state saving to listview.. this includes saving column size and position.
+* Queue plugin 'apply_queue' stuff.. Just finishing the queue plugin and it's
+    intended functionality.
+* Add plugin list and the ability to load/unload them from the preferences
+    dialog.
+* Have core keep track of which plugins are activated or not, so it only loads
+    those on start-up.
+* Have the UI request a list of activated plugins on start-up so it nows which
+    plugins to load.
+* Figure out easy way for user-made plugins to add i18n support.
+* Change the menubar.py gtkui component to menus.py and add support for plugins
+    to add menuitems to the torrentmenu in an easy way.
+* Create a new status icon.. a red alert icon to show there is an error with
+    the torrent.. ie, disk full alert and stuff like that..
+* Add the tracker responses to the torrent details
+
