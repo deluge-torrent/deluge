@@ -64,6 +64,29 @@ def get_default_plugin_dir():
     """Returns the default plugin directory"""
     return os.path.join(get_config_dir(), "plugins")
 
+def windows_check():
+    """Checks if the current platform is Windows.  Returns True if it is Windows
+        and False if not."""
+    import platform
+    if platform.system() in ('Windows', 'Microsoft'):
+        return True
+    else:
+        return False
+
+def get_pixmap(fname):
+    """Returns a pixmap file included with deluge"""
+    return pkg_resources.resource_filename("deluge", os.path.join("data", \
+                                           "pixmaps", fname))
+def get_logo(size):
+    """Returns a deluge logo pixbuf based on the size parameter."""
+    import gtk
+    if windows_check(): 
+        return gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap("deluge.png"), \
+            size, size)
+    else:
+        return gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap("deluge.svg"), \
+            size, size)
+
 ## Formatting text functions
 
 def fsize(fsize_b):
@@ -116,24 +139,4 @@ def ftime(seconds):
         return '%dw %dd' % (weeks, days)
     return 'unknown'
 
-def windows_check():
-    import platform
-    if platform.system() in ('Windows', 'Microsoft'):
-        return True
-    else:
-        return False
 
-def get_pixmap(fname):
-    import pkg_resources
-    from os import path
-    return pkg_resources.resource_filename("deluge", path.join("data", \
-                                           "pixmaps", fname))
-
-def get_logo(size):
-    import gtk
-    if windows_check(): 
-        return gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap("deluge.png"), \
-            size, size)
-    else:
-        return gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap("deluge.svg"), \
-            size, size)

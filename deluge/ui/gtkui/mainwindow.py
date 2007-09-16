@@ -42,7 +42,7 @@ from toolbar import ToolBar
 from torrentview import TorrentView
 from torrentdetails import TorrentDetails
 from preferences import Preferences
-from deluge.common import get_logo
+import deluge.common
 
 from deluge.log import LOG as log
 
@@ -54,7 +54,7 @@ class MainWindow:
                                                     "glade/main_window.glade"))
 
         self.window = self.main_glade.get_widget("main_window")
-        self.window.set_icon(get_logo(32))
+        self.window.set_icon(deluge.common.get_logo(32))
         
         # Initialize various components of the gtkui
         self.menubar = MenuBar(self)
