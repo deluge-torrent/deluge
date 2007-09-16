@@ -32,6 +32,12 @@ import ez_setup
 ez_setup.use_setuptools()
 
 from setuptools import setup, find_packages, Extension
+from distutils import cmd 
+from distutils.command.build import build as _build
+from distutils.command.install import install as _install
+from distutils.command.install_data import install_data as _install_data
+import msgfmt
+
 import platform
 import glob
 import os
@@ -84,6 +90,52 @@ libtorrent = Extension(
     sources = _sources
 )
 
+class build_trans(cmd.Command):
+    description = 'Compile .po files into .mo files'
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        po_dir = os.path.join(os.path.dirname(__file__), 'deluge/i18n/')
+        for path, names, filenames in os.walk(po_dir):
+            for f in filenames:
+                if f.endswith('.po'):
+                    lang = f[:len(f) - 3]
+                    src = os.path.join(path, f)
+                    dest_path = os.path.join('deluge', 'i18n', lang, \
+                        'LC_MESSAGES')
+                    dest = os.path.join(dest_path, 'deluge.mo')
+                    if not os.path.exists(dest_path):
+                        os.makedirs(dest_path)
+                    if not os.path.exists(dest):
+                        print 'Compiling %s' % src
+                        msgfmt.make(src, dest)
+                    else:
+                        src_mtime = os.stat(src)[8]
+                        dest_mtime = os.stat(dest)[8]
+                        if src_mtime > dest_mtime:
+                            print 'Compiling %s' % src
+                            msgfmt.make(src, dest)
+
+class build(_build):
+    sub_commands = _build.sub_commands + [('build_trans', None)]
+    def run(self):
+        _build.run(self)
+
+class install_data(_install_data):
+    def run(self):
+        _install_data.run(self)
+
+cmdclass = {
+    'build': build,
+    'build_trans': build_trans,
+    'install_data': install_data
+}
+
 # Build the plugin eggs
 for path in glob.glob('deluge/plugins/*'):
     print path + "/setup.py"
@@ -95,23 +147,23 @@ setup(
     name = "deluge",
     fullname = "Deluge Bittorent Client",
     version = "0.6.0.0",
-    author = "Andrew Resch",
-    author_email = "andrewresch@gmail.com",
+    author = "Andrew Resch, Marcos Pinto",
+    author_email = "andrewresch@gmail.com, markybob@dipconsultants.com",
     description = "GTK+ bittorrent client",
     url = "http://deluge-torrent.org",
     license = "GPLv2",
-    
     include_package_data = True,
     package_data = {"deluge": ["ui/gtkui/glade/*.glade", 
                                 "data/pixmaps/*.png",
-                                "ui/gtkui/po/*.po?",
                                 "plugins/*.egg",
+                                "i18n/*.pot",
+                                "i18n/*/LC_MESSAGES/*.mo"
                                 ]},
     ext_package = "deluge",
     ext_modules = [libtorrent],
     packages = find_packages(exclude=["plugins"]),
+    cmdclass=cmdclass,
     entry_points = """
         [console_scripts]
             deluge = deluge.main:main
-    """
-)
+    """)

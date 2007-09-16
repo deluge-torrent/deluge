@@ -35,6 +35,7 @@ import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
 import gettext
+import locale
 import pkg_resources
 
 from mainwindow import MainWindow
@@ -46,15 +47,18 @@ from deluge.log import LOG as log
 class GtkUI:
     def __init__(self):
         # Initialize gettext
+        locale.setlocale(locale.LC_MESSAGES, '')
+        locale.bindtextdomain("deluge", 
+                    pkg_resources.resource_filename(
+                                            "deluge", "i18n"))
+        locale.textdomain("deluge")
         gettext.bindtextdomain("deluge",
                     pkg_resources.resource_filename(
-                                            "deluge.ui.gtkui",
-                                            "po"))
+                                            "deluge", "i18n"))
         gettext.textdomain("deluge")
         gettext.install("deluge",
                     pkg_resources.resource_filename(
-                                            "deluge.ui.gtkui",
-                                            "po"))
+                                            "deluge", "i18n"))
         
         # Initialize the main window
         self.mainwindow = MainWindow()

@@ -37,11 +37,25 @@ DBusGMainLoop(set_as_default=True)
 
 import pkg_resources
 import gtk.glade
-
+import gettext
+import locale
 from deluge.log import LOG as log
 
 class GtkUI:
     def __init__(self, plugin_manager):
+        # Initialize gettext
+        locale.setlocale(locale.LC_MESSAGES, '')
+        locale.bindtextdomain("deluge", 
+                    pkg_resources.resource_filename(
+                                            "deluge", "i18n"))
+        locale.textdomain("deluge")
+        gettext.bindtextdomain("deluge",
+                    pkg_resources.resource_filename(
+                                            "deluge", "i18n"))
+        gettext.textdomain("deluge")
+        gettext.install("deluge",
+                    pkg_resources.resource_filename(
+                                            "deluge", "i18n"))
         log.debug("Queue GtkUI plugin initalized..")
         self.plugin = plugin_manager
         # Get a reference to the core portion of the plugin
@@ -83,13 +97,13 @@ class GtkUI:
         # Add a toolbar buttons
         self.plugin.get_toolbar().add_separator()
         self.plugin.get_toolbar().add_toolbutton(stock="gtk-go-up", 
-                                    label="Queue Up", 
-                                    tooltip="Queue selected torrents up",
+                                    label=_("Queue Up"), 
+                                    tooltip=_("Queue selected torrents up"),
                                     callback=self.on_toolbutton_queueup_clicked)
 
         self.plugin.get_toolbar().add_toolbutton(stock="gtk-go-down", 
-                                label="Queue Down", 
-                                tooltip="Queue selected torrents down",
+                                label=_("Queue Down"), 
+                                tooltip=_("Queue selected torrents down"),
                                 callback=self.on_toolbutton_queuedown_clicked)
                                 
         # Add the queue menu to the torrent menu

@@ -190,7 +190,7 @@
               <widget class="GtkToolButton" id="toolbutton_add">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Add torrent</property>
-                <property name="label">Add Torrent</property>
+                <property name="label" translatable="yes">Add Torrent</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-add</property>
                 <signal name="clicked" handler="on_toolbutton_add_clicked"/>
@@ -203,7 +203,7 @@
               <widget class="GtkToolButton" id="toolbutton_remove">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Remove the selected torrents</property>
-                <property name="label">Remove Torrent</property>
+                <property name="label" translatable="yes">Remove Torrent</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-remove</property>
                 <signal name="clicked" handler="on_toolbutton_remove_clicked"/>
@@ -216,7 +216,7 @@
               <widget class="GtkToolButton" id="toolbutton_clear">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Remove the finished torrents</property>
-                <property name="label">Clear Finished</property>
+                <property name="label" translatable="yes">Clear Finished</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-clear</property>
                 <signal name="clicked" handler="on_toolbutton_clear_clicked"/>
@@ -238,7 +238,7 @@
               <widget class="GtkToolButton" id="toolbutton_pause">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Pause the selected torrents</property>
-                <property name="label">Pause</property>
+                <property name="label" translatable="yes">Pause</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-media-pause</property>
                 <signal name="clicked" handler="on_toolbutton_pause_clicked"/>
@@ -252,7 +252,7 @@
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                 <property name="tooltip" translatable="yes">Resume the selected torrents</property>
-                <property name="label">Resume</property>
+                <property name="label" translatable="yes">Resume</property>
                 <property name="stock_id">gtk-media-play</property>
                 <signal name="clicked" handler="on_toolbutton_resume_clicked"/>
               </widget>
@@ -273,7 +273,7 @@
               <widget class="GtkToolButton" id="toolbutton_preferences">
                 <property name="visible">True</property>
                 <property name="tooltip" translatable="yes">Preferences</property>
-                <property name="label">Preferences</property>
+                <property name="label" translatable="yes">Preferences</property>
                 <property name="use_underline">True</property>
                 <property name="stock_id">gtk-preferences</property>
                 <signal name="clicked" handler="on_toolbutton_preferences_clicked"/>
