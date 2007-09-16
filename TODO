@@ -3,7 +3,6 @@
     appropriate function will be called to 'apply' those changes.  This type of
     system may need to be added to the gtkui as well.
 * Status icons for the torrentview
-* Icons for the gtkui windows
 * Have the ui better handle not being able to connect to the daemon.
 * Mainwindow state saving.. Size, location, vpane position, etc..
 * System tray icon

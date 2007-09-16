@@ -38,6 +38,7 @@ import gettext
 
 from deluge.config import Config
 from deluge.log import LOG as log
+import deluge.common
 
 class AddTorrentDialog:
     def __init__(self, parent=None):
@@ -48,6 +49,7 @@ class AddTorrentDialog:
             buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, 
                         gtk.RESPONSE_OK))
 
+        self.chooser.set_icon(deluge.common.get_logo(32))
         self.chooser.set_select_multiple(True)
         self.chooser.set_property("skip-taskbar-hint", True)
         
