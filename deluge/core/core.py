@@ -96,17 +96,17 @@ class Core(dbus.service.Object):
         # Set the listening ports
         if self.config.get("random_port"):
             import random
-            randrange = lambda: random.randrange(49152, 65535)
-            ports = [randrange(), randrange()]
-            ports.sort()
-            log.debug("Listening on %i-%i", ports[0], ports[1])
-            self.session.listen_on(ports[0], ports[1])
+            listen_ports = []
+            randrange = lambda: random.randrange(49152, 65525)
+            listen_ports.append(randrange())
+            listen_ports.append(listen_ports[0]+10)
         else:
             listen_ports = self.config.get("listen_ports")
-            log.debug("Listening on %i-%i", listen_ports[0],
-                                            listen_ports[1])
-            self.session.listen_on(listen_ports[0],
-                                   listen_ports[1])
+        
+        log.debug("Listening on ports %i-%i", listen_ports[0],
+                                                listen_ports[1])
+        self.session.listen_on(listen_ports[0],
+                                listen_ports[1])
         # Start the TorrentManager
         self.torrents = TorrentManager(self.session)
         
