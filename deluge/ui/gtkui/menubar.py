@@ -102,7 +102,9 @@ class MenuBar:
     def on_menuitem_addurl_activate(self, data=None):
         log.debug("on_menuitem_addurl_activate")
         from addtorrenturl import AddTorrentUrl
-        functions.add_torrent_url(AddTorrentUrl().run())
+        result = AddTorrentUrl().run()
+        if result is not None:
+            functions.add_torrent_url(result)
         
     def on_menuitem_clear_activate(self, data=None):
         log.debug("on_menuitem_clear_activate")
