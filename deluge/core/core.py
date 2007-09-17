@@ -164,6 +164,29 @@ class Core(dbus.service.Object):
             return False
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+                                    in_signature="s", out_signature="b")
+    def add_torrent_url(self, url):
+        log.info("Attempting to add url %s", url)
+        
+        # Get the actual filename of the torrent from the url provided.
+        filename = url.split("/")[-1]
+        
+        # Get the .torrent file from the url
+        torrent_file = deluge.common.fetch_url(url)
+        if torrent_file is None:
+            return False
+        
+        # Dump the torrents file contents to a string
+        try:
+            filedump = open(torrent_file, "rb").read()
+        except IOError:
+            log.warning("Unable to open %s for reading.", torrent_file)
+            return False
+            
+        # Add the torrent to session
+        return self.add_torrent_file(filename, filedump)
+        
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
                                     in_signature="s", out_signature="")
     def remove_torrent(self, torrent_id):
         log.debug("Removing torrent %s from the core.", torrent_id)

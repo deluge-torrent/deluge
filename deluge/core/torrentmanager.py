@@ -92,7 +92,10 @@ class TorrentManager:
 
         # Convert the filedump data array into a string of bytes
         if filedump is not None:
-            filedump = "".join(chr(b) for b in filedump)
+            # If the filedump is already of type str, then it's already been
+            # joined.
+            if type(filedump) is not str:
+                filedump = "".join(chr(b) for b in filedump)
         else:
             # Get the data from the file
             try:

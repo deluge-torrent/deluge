@@ -123,3 +123,4 @@ class Config:
 
     def __setitem__(self, key, value):
         self.set(key, value)
+
