@@ -92,21 +92,34 @@ class Core(dbus.service.Object):
         # Start the libtorrent session
         log.debug("Starting libtorrent session..")
         self.session = lt.session(fingerprint)
-
+        
+        # Set the user agent
+        self.settings = lt.session_settings()
+        self.settings.user_agent = "Deluge %s" % deluge.common.get_version()
+        self.session.set_settings(self.settings)
+        
         # Set the listening ports
-        if self.config.get("random_port"):
+        if self.config["random_port"]:
             import random
             listen_ports = []
             randrange = lambda: random.randrange(49152, 65525)
             listen_ports.append(randrange())
             listen_ports.append(listen_ports[0]+10)
         else:
-            listen_ports = self.config.get("listen_ports")
+            listen_ports = self.config["listen_ports"]
         
         log.debug("Listening on ports %i-%i", listen_ports[0],
                                                 listen_ports[1])
         self.session.listen_on(listen_ports[0],
                                 listen_ports[1])
+
+        # Load metadata extension
+        self.session.add_extension(lt.create_metadata_plugin)
+
+        # Load utorrent peer-exchange
+        if self.config["utpex"]:
+            self.session.add_extension(lt.create_ut_pex_plugin)
+
         # Start the TorrentManager
         self.torrents = TorrentManager(self.session)
         
