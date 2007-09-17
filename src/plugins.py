@@ -60,9 +60,10 @@ class PluginManager:
                     # to be by design.
                     mod = __import__(modname, globals(), locals(), [''])
                     if 'deluge_init' in dir(mod):
-                        print "Initialising plugin",modname
-                        mod.deluge_init(path)
-                        self.available_plugins[mod.plugin_name] = mod
+                        if modname != "TorrentPieces":
+                            print "Initialising plugin",modname
+                            mod.deluge_init(path)
+                            self.available_plugins[mod.plugin_name] = mod
     
     def get_available_plugins(self):
         return self.available_plugins.keys()
