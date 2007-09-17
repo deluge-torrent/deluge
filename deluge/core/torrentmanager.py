@@ -40,7 +40,7 @@ import os
 import deluge.libtorrent as lt
 
 import deluge.common
-from deluge.config import Config
+from deluge.configmanager import ConfigManager
 from deluge.core.torrent import Torrent
 from deluge.log import LOG as log
 
@@ -85,7 +85,7 @@ class TorrentManager:
         """Add a torrent to the manager and returns it's torrent_id"""
         log.info("Adding torrent: %s", filename)
         # Get the core config
-        config = Config("core.conf")
+        config = ConfigManager("core.conf")
 
         # Make sure 'filename' is a python string
         filename = str(filename)

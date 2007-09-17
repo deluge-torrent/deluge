@@ -1,5 +1,5 @@
 #
-# ui.py
+# configmanager.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
@@ -31,20 +31,27 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-from deluge.configmanager import ConfigManager
-
 from deluge.log import LOG as log
+from deluge.config import Config
 
-DEFAULT_PREFS = {
-    "selected_ui": "gtk"
-}
-
-class UI:
+class _ConfigManager:
     def __init__(self):
-        log.debug("UI init..")
-        self.config = ConfigManager("ui.conf", DEFAULT_PREFS)
+        log.debug("ConfigManager started..")
+        self.config_files = {}
+    
+    def __del__(self):
+        del self.config_files
         
-        if self.config["selected_ui"] == "gtk":
-            log.info("Starting GtkUI..")
-            from deluge.ui.gtkui.gtkui import GtkUI
-            ui = GtkUI()
+    def get_config(self, config_file, defaults=None):
+        """Get a reference to the Config object for this filename"""
+        # Create the config object if not already created
+        if config_file not in self.config_files.keys():
+            self.config_files[config_file] = Config(config_file, defaults)
+
+        return self.config_files[config_file]
+        
+# Singleton functions
+_configmanager = _ConfigManager()
+
+def ConfigManager(config, defaults=None):
+    return _configmanager.get_config(config, defaults)

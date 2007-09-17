@@ -39,7 +39,7 @@ import pkg_resources
 from deluge.log import LOG as log
 import deluge.ui.functions as functions
 import deluge.common
-from deluge.config import Config
+from deluge.configmanager import ConfigManager
 
 class Preferences:
     def __init__(self, window):
@@ -85,7 +85,7 @@ class Preferences:
 
     def show(self):
         self.core_config = functions.get_config(self.core)
-        self.gtkui_config = Config("gtkui.conf")
+        self.gtkui_config = ConfigManager("gtkui.conf")
         # Update the preferences dialog to reflect current config settings
         
         ## Downloads tab ##

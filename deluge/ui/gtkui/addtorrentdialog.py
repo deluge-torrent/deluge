@@ -36,7 +36,7 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import gettext
 
-from deluge.config import Config
+from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 import deluge.common
 
@@ -64,7 +64,7 @@ class AddTorrentDialog:
         self.chooser.add_filter(file_filter)
 
         # Load the 'default_load_path' from the config
-        self.config = Config("gtkui.conf")
+        self.config = ConfigManager("gtkui.conf")
         if self.config.get("default_load_path") is not None:
             self.chooser.set_current_folder(
                                         self.config.get("default_load_path"))

@@ -40,7 +40,7 @@ DBusGMainLoop(set_as_default=True)
 import gobject
 
 import deluge.libtorrent as lt
-from deluge.config import Config
+from deluge.configmanager import ConfigManager
 import deluge.common
 from deluge.core.torrentmanager import TorrentManager
 from deluge.core.pluginmanager import PluginManager
@@ -81,8 +81,8 @@ class Core(dbus.service.Object):
         dbus.service.Object.__init__(self, bus_name, path)
 
         # Get config
-        self.config = Config("core.conf", DEFAULT_PREFS)
-
+        self.config = ConfigManager("core.conf", DEFAULT_PREFS)
+        
         # Create the client fingerprint
         version = []
         for value in deluge.common.get_version().split("."):

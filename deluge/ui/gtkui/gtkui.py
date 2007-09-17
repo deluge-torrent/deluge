@@ -41,7 +41,7 @@ import pkg_resources
 from mainwindow import MainWindow
 from signals import Signals
 from pluginmanager import PluginManager
-from deluge.config import Config
+from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
 DEFAULT_PREFS = {
@@ -76,7 +76,7 @@ class GtkUI:
                                             "deluge", "i18n"))
         
         # Make sure gtkui.conf has at least the defaults set
-        config = Config("gtkui.conf", DEFAULT_PREFS)
+        config = ConfigManager("gtkui.conf", DEFAULT_PREFS)
         del config
         
         # Initialize the main window
