@@ -33,12 +33,14 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <cassert>
 
 #ifndef NDEBUG
-#if defined __linux__ && defined __GNUC__
+#if (defined __linux__ || defined __MACH__) && defined __GNUC__
 #ifdef assert
 #undef assert
 #endif
 
-void assert_fail(const char* expr, int line, char const* file, char const* function);
+#include "libtorrent/config.hpp"
+
+TORRENT_EXPORT void assert_fail(const char* expr, int line, char const* file, char const* function);
 
 #define assert(x) if (x) {} else assert_fail(#x, __LINE__, __FILE__, __PRETTY_FUNCTION__)
 
