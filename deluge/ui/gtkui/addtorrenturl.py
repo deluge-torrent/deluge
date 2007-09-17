@@ -33,10 +33,9 @@
 
 import pygtk
 pygtk.require('2.0')
-import gtk, gtk.glade
+import gtk
 import gettext
 
-from deluge.config import Config
 import deluge.common
 import pkg_resources
 
