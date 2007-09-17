@@ -39,6 +39,7 @@ import pkg_resources
 from deluge.log import LOG as log
 import deluge.ui.functions as functions
 import deluge.common
+from deluge.config import Config
 
 class Preferences:
     def __init__(self, window):
@@ -81,19 +82,17 @@ class Preferences:
         """Add a another page to the notebook"""
         index = self.notebook.append_page(widget)
         self.liststore.append([index, name])
-        
-    def get_core_config(self):
-        """Get the configuration from the core."""
-        # Get the config dictionary from the core
-        self.core_config = functions.get_config(self.core)
-        
+
     def show(self):
-        self.get_core_config()
+        self.core_config = functions.get_config(self.core)
+        self.gtkui_config = Config("gtkui.conf")
         # Update the preferences dialog to reflect current config settings
         
         ## Downloads tab ##
-        # FIXME: Add GtkUI specific prefs here
-        # Core specific options for Downloads tab
+        self.glade.get_widget("radio_ask_save").set_active(
+            self.gtkui_config["interactive_add"])
+        self.glade.get_widget("radio_save_all_to").set_active(
+            not self.gtkui_config["interactive_add"])
         
         # This one will need to be re-evaluated if the core is running on a 
         # different machine.. We won't be able to use the local file browser to
@@ -105,6 +104,8 @@ class Preferences:
             self.core_config["compact_allocation"])
         self.glade.get_widget("radio_full_allocation").set_active(
             not self.core_config["compact_allocation"])
+        self.glade.get_widget("chk_enable_files_dialog").set_active(
+            self.gtkui_config["enable_files_dialog"])
         self.glade.get_widget("chk_prioritize_first_last_pieces").set_active(
             self.core_config["prioritize_first_last_pieces"])
         
@@ -149,7 +150,31 @@ class Preferences:
             self.core_config["max_upload_slots_per_torrent"])
 
         ## Other tab ##
-        # All of it is UI only.
+        self.glade.get_widget("chk_use_tray").set_active(
+            self.gtkui_config["enable_system_tray"])
+        self.glade.get_widget("chk_min_on_close").set_active(
+            self.gtkui_config["close_to_tray"])
+        self.glade.get_widget("chk_start_in_tray").set_active(
+            self.gtkui_config["start_in_tray"])
+        self.glade.get_widget("chk_lock_tray").set_active(
+            self.gtkui_config["lock_tray"])
+        self.glade.get_widget("txt_tray_password").set_text(
+            self.gtkui_config["tray_password"])
+    
+        self.glade.get_widget("combo_file_manager").set_active(
+            self.gtkui_config["stock_file_manager"])
+        self.glade.get_widget("txt_open_folder_location").set_text(
+            self.gtkui_config["open_folder_location"])
+        self.glade.get_widget("radio_open_folder_stock").set_active(
+            self.gtkui_config["open_folder_stock"])
+        self.glade.get_widget("radio_open_folder_custom").set_active(
+            not self.gtkui_config["open_folder_stock"])
+            
+        self.glade.get_widget("chk_new_releases").set_active(
+            self.gtkui_config["check_new_releases"])
+            
+        self.glade.get_widget("chk_send_info").set_active(
+            self.gtkui_config["send_info"])
         
         # Now show the dialog
         self.pref_dialog.show()
@@ -158,7 +183,11 @@ class Preferences:
         """Sets all altered config values in the core"""
         # Get the values from the dialog
         new_core_config = {}
+        new_gtkui_config = {}
+        
         ## Downloads tab ##
+        new_gtkui_config["interactive_add"] = \
+            self.glade.get_widget("radio_ask_save").get_active()
         new_core_config["download_location"] = \
             self.glade.get_widget("download_path_button").get_filename()
         new_core_config["compact_allocation"] = \
@@ -166,6 +195,8 @@ class Preferences:
         new_core_config["prioritize_first_last_pieces"] = \
             self.glade.get_widget(
                 "chk_prioritize_first_last_pieces").get_active()
+        new_gtkui_config["enable_files_dialog"] = \
+            self.glade.get_widget("chk_enable_files_dialog").get_active()
 
         ## Network tab ##
         listen_ports = []
@@ -207,6 +238,38 @@ class Preferences:
             self.glade.get_widget(
                 "spin_max_upload_slots_per_torrent").get_value_as_int()
         
+        ## Other tab ##
+        new_gtkui_config["enable_system_tray"] = \
+            self.glade.get_widget("chk_use_tray").get_active()
+        new_gtkui_config["close_to_tray"] = \
+            self.glade.get_widget("chk_min_on_close").get_active()
+        new_gtkui_config["start_in_tray"] = \
+            self.glade.get_widget("chk_start_in_tray").get_active()
+        new_gtkui_config["lock_tray"] = \
+            self.glade.get_widget("chk_lock_tray").get_active()
+        new_gtkui_config["tray_password"] = \
+            self.glade.get_widget("txt_tray_password").get_text()
+    
+        new_gtkui_config["stock_file_manager"] = \
+            self.glade.get_widget("combo_file_manager").get_active()
+        new_gtkui_config["open_folder_location"] = \
+            self.glade.get_widget("txt_open_folder_location").get_text()
+        new_gtkui_config["open_folder_stock"] = \
+            self.glade.get_widget("radio_open_folder_stock").get_active()
+            
+        new_gtkui_config["check_new_releases"] = \
+            self.glade.get_widget("chk_new_releases").get_active()
+            
+        new_gtkui_config["send_info"] = \
+            self.glade.get_widget("chk_send_info").get_active()
+
+        # GtkUI
+        for key in new_gtkui_config.keys():
+            # The values do not match so this needs to be updated
+            if self.gtkui_config[key] != new_gtkui_config[key]:
+                self.gtkui_config[key] = new_gtkui_config[key]
+        
+        # Core
         config_to_set = {}
         for key in new_core_config.keys():
             # The values do not match so this needs to be updated
@@ -246,14 +309,14 @@ class Preferences:
             self.glade.get_widget("chk_lock_tray").set_sensitive(value)
             if value == True:
                 lock = self.glade.get_widget("chk_lock_tray").get_active()
-                self.glade.get_widget("txt_tray_passwd").set_sensitive(lock)
+                self.glade.get_widget("txt_tray_password").set_sensitive(lock)
                 self.glade.get_widget("password_label").set_sensitive(lock)
             else:
-                self.glade.get_widget("txt_tray_passwd").set_sensitive(value)
+                self.glade.get_widget("txt_tray_password").set_sensitive(value)
                 self.glade.get_widget("password_label").set_sensitive(value)
             
         if widget == self.glade.get_widget("chk_lock_tray"):
-            self.glade.get_widget("txt_tray_passwd").set_sensitive(value)
+            self.glade.get_widget("txt_tray_password").set_sensitive(value)
             self.glade.get_widget("password_label").set_sensitive(value)
                         
         # Disable the file manager combo box if custom is selected.
