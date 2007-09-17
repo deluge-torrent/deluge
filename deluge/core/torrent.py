@@ -36,7 +36,7 @@
 class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.
     """
-    def __init__(self, filename, handle):
+    def __init__(self, filename, handle, compact):
         # Set the filename
         self.filename = filename
         # Set the libtorrent handle
@@ -45,10 +45,12 @@ class Torrent:
         self.torrent_id = str(handle.info_hash())
         # This is for saving the total uploaded between sessions
         self.total_uploaded = 0
+        # Set the allocation mode
+        self.compact = compact
     
     def get_state(self):
         """Returns the state of this torrent for saving to the session state"""
-        return (self.torrent_id, self.filename)
+        return (self.torrent_id, self.filename, self.compact)
         
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""

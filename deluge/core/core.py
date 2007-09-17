@@ -114,7 +114,7 @@ class Core(dbus.service.Object):
                                 listen_ports[1])
 
         # Load metadata extension
-        self.session.add_extension(lt.create_metadata_plugin)
+        #self.session.add_extension(lt.create_metadata_plugin)
 
         # Load utorrent peer-exchange
         if self.config["utpex"]:

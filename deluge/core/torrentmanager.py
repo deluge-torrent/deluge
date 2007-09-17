@@ -45,9 +45,10 @@ from deluge.core.torrent import Torrent
 from deluge.log import LOG as log
 
 class TorrentState:
-    def __init__(self, torrent_id, filename):
+    def __init__(self, torrent_id, filename, compact):
         self.torrent_id = torrent_id
         self.filename = filename
+        self.compact = compact
 
 class TorrentManagerState:
     def __init__(self):
@@ -80,7 +81,7 @@ class TorrentManager:
         """Returns a list of torrent_ids"""
         return self.torrents.keys()
         
-    def add(self, filename, filedump=None):
+    def add(self, filename, filedump=None, compact=None):
         """Add a torrent to the manager and returns it's torrent_id"""
         log.info("Adding torrent: %s", filename)
         # Get the core config
@@ -106,11 +107,16 @@ class TorrentManager:
         torrent_filedump = lt.bdecode(filedump)
         handle = None
         
+        # Make sure we are adding it with the correct allocation method.
+        if compact is None:
+            compact = config["compact_allocation"]
+        print "compact: ", compact
+            
         try:
             handle = self.session.add_torrent(
                                     lt.torrent_info(torrent_filedump), 
                                     config["download_location"],
-                                    config["compact_allocation"])
+                                    compact)
         except RuntimeError:
             log.warning("Error adding torrent") 
             
@@ -140,7 +146,7 @@ class TorrentManager:
         
         log.debug("Torrent %s added.", handle.info_hash())
         # Create a Torrent object
-        torrent = Torrent(filename, handle)
+        torrent = Torrent(filename, handle, compact)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
         # Save the session state
@@ -197,7 +203,7 @@ class TorrentManager:
 
         # Try to add the torrents in the state to the session        
         for torrent_state in state.torrents:
-            self.add(torrent_state.filename)
+            self.add(torrent_state.filename, compact=torrent_state.compact)
             
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file"""
