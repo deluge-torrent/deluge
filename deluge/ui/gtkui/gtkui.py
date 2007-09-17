@@ -41,8 +41,23 @@ import pkg_resources
 from mainwindow import MainWindow
 from signals import Signals
 from pluginmanager import PluginManager
-
+from deluge.config import Config
 from deluge.log import LOG as log
+
+DEFAULT_PREFS = {
+    "interactive_add": False,
+    "enable_files_dialog": False,
+    "enable_system_tray": True,
+    "close_to_tray": True,
+    "start_in_tray": False,
+    "lock_tray": False,
+    "tray_password": "",
+    "open_folder_stock": True,
+    "stock_file_manager": 0,
+    "open_folder_location": "",
+    "check_new_releases": False,
+    "send_info": False
+}
 
 class GtkUI:
     def __init__(self):
@@ -59,6 +74,10 @@ class GtkUI:
         gettext.install("deluge",
                     pkg_resources.resource_filename(
                                             "deluge", "i18n"))
+        
+        # Make sure gtkui.conf has at least the defaults set
+        config = Config("gtkui.conf", DEFAULT_PREFS)
+        del config
         
         # Initialize the main window
         self.mainwindow = MainWindow()
