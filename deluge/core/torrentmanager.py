@@ -110,7 +110,6 @@ class TorrentManager:
         # Make sure we are adding it with the correct allocation method.
         if compact is None:
             compact = config["compact_allocation"]
-        print "compact: ", compact
             
         try:
             handle = self.session.add_torrent(
