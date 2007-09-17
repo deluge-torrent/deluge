@@ -951,7 +951,7 @@ window, please enter your password"))
     def load_plugins(self):
         enable_plugins = self.config.get('enabled_plugins').split(':')
         for plugin in enable_plugins:
-            if plugin != "Blocklist Importer":
+            if plugin != "Blocklist Importer" and plugin != "Torrent Pieces":
                 try:
                     self.plugins.enable_plugin(plugin)
                 except KeyError:
