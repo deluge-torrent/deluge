@@ -1,7 +1,5 @@
-* Hook gtkui preferences up in the preferences dialog
-* Add 'set config functions' in the core so when config options change the
-    appropriate function will be called to 'apply' those changes.  This type of
-    system may need to be added to the gtkui as well.
+* Add 'set config functions' in config.py so when config options change the
+    appropriate function will be called to 'apply' those changes.
 * Status icons for the torrentview
 * Have the ui better handle not being able to connect to the daemon.
 * Mainwindow state saving.. Size, location, vpane position, etc..
@@ -21,4 +19,6 @@
 * Create a new status icon.. a red alert icon to show there is an error with
     the torrent.. ie, disk full alert and stuff like that..
 * Add the tracker responses to the torrent details
-
+* About dialog
+* Fast resume saving
+* Restart daemon function
