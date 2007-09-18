@@ -94,10 +94,12 @@ def add_torrent_file(torrent_files):
 def add_torrent_url(torrent_url):
     """Adds torrents to the core via url"""
     core = get_core()
-    result = core.add_torrent_url(torrent_url)
-    if result is False:
-        # The torrent url was not added successfully.
-        log.warning("Torrent %s url was not added successfully.", torrent_url)
+    from deluge.common import is_url
+    if is_url(torrent_url):
+        result = core.add_torrent_url(torrent_url)
+        if result is False:
+            # The torrent url was not added successfully.
+            log.warning("Torrent %s url was not added successfully.", torrent_url)
     
 def remove_torrent(torrent_ids):
     """Removes torrent_ids from the core.. Expects a list of torrent_ids"""

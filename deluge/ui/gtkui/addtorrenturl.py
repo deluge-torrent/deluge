@@ -63,7 +63,7 @@ class AddTorrentUrl:
         self.response = self.dlg.run()
         url = self.entry.get_text()
         self.dlg.destroy()
-        if self.response == 1 and deluge.common.is_url(url):
+        if self.response == 1:
             return url
         else:
             return None
