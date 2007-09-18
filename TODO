@@ -19,6 +19,5 @@
 * Create a new status icon.. a red alert icon to show there is an error with
     the torrent.. ie, disk full alert and stuff like that..
 * Add the tracker responses to the torrent details
-* About dialog
 * Fast resume saving
 * Restart daemon function

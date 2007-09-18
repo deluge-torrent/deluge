@@ -156,3 +156,6 @@ class MenuBar:
     ## Help Menu ##
     def on_menuitem_about_activate(self, data=None):
         log.debug("on_menuitem_about_activate")
+        from aboutdialog import AboutDialog
+        AboutDialog().run()
+
