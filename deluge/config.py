@@ -45,6 +45,8 @@ class Config:
         log.debug("Config created with filename: %s", filename)
         log.debug("Config defaults: %s", defaults)
         self.config = {}
+        self.set_functions = {}
+        
         # If defaults is not None then we need to use "defaults".
         if defaults != None:
             self.config = defaults
@@ -111,9 +113,18 @@ class Config:
         """Set the 'key' with 'value'."""
 	    # Sets the "key" with "value" in the config dict
         log.debug("Setting '%s' to %s", key, value)
-        self.config[key] = value
-        # Whenever something is set, we should save
-        self.save()
+        if self.config[key] != value:
+            self.config[key] = value
+            # Whenever something is set, we should save
+            self.save()
+            # Run the set_function for this key if any
+            try:
+                self.set_functions[key](value)
+            except KeyError:
+                pass
+        else:
+            log.debug("Not set as value is same.")    
+
 		
     def get(self, key):
         """Get the value of 'key'.  If it is an invalid key then get() will
@@ -131,7 +142,12 @@ class Config:
     def get_config(self):
         """Returns the entire configuration as a dictionary."""
         return self.config
-        
+    
+    def register_set_function(self, key, function):
+        """Register a function to be run when a config value changes."""
+        self.set_functions[key] = function
+        return
+            
     def __getitem__(self, key):
         return self.config[key]
 
