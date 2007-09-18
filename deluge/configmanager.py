@@ -38,10 +38,11 @@ class _ConfigManager:
     def __init__(self):
         log.debug("ConfigManager started..")
         self.config_files = {}
-    
+
     def __del__(self):
+        log.debug("ConfigManager stopping..")
         del self.config_files
-        
+
     def get_config(self, config_file, defaults=None):
         """Get a reference to the Config object for this filename"""
         # Create the config object if not already created

@@ -43,6 +43,7 @@ from signals import Signals
 from pluginmanager import PluginManager
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
+import deluge.configmanager
 
 DEFAULT_PREFS = {
     "interactive_add": False,
@@ -93,3 +94,9 @@ class GtkUI:
         
         # Start the gtk main loop
         gtk.main()
+
+        # Clean-up
+        del self.mainwindow
+        del self.signal_receiver
+        del self.plugins
+        del deluge.configmanager

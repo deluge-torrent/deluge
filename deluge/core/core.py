@@ -142,6 +142,8 @@ class Core(dbus.service.Object):
         del self.torrents
         self.plugins.shutdown()
         del self.plugins
+        del self.config
+        del deluge.configmanager
         del self.session
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
