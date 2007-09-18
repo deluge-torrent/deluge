@@ -16,8 +16,6 @@
 * Figure out easy way for user-made plugins to add i18n support.
 * Change the menubar.py gtkui component to menus.py and add support for plugins
     to add menuitems to the torrentmenu in an easy way.
-* Create a new status icon.. a red alert icon to show there is an error with
-    the torrent.. ie, disk full alert and stuff like that..
 * Add the tracker responses to the torrent details
 * Fast resume saving
 * Restart daemon function

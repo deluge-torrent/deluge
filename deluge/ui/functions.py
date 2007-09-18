@@ -99,7 +99,9 @@ def add_torrent_url(torrent_url):
         result = core.add_torrent_url(torrent_url)
         if result is False:
             # The torrent url was not added successfully.
-            log.warning("Torrent %s url was not added successfully.", torrent_url)
+            log.warning("Torrent %s was not added successfully.", torrent_url)
+    else:
+        log.warning("Invalid URL %s", torrent_url)
     
 def remove_torrent(torrent_ids):
     """Removes torrent_ids from the core.. Expects a list of torrent_ids"""
