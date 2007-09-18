@@ -84,6 +84,20 @@ class Config:
         # Saves the config dictionary
         if filename is None:
             filename = self.config_file
+        # Check to see if the current config differs from the one on disk
+        # We will only write a new config file if there is a difference
+        try:
+            log.debug("Opening pickled file for comparison..")
+            pkl_file = open(filename, "rb")
+            filedump = pickle.load(pkl_file)
+            pkl_file.close()
+            if filedump == self.config:
+                # The config has not changed so lets just return
+                log.debug("Not writing config file due to no changes..")
+                return
+        except IOError:
+            log.warning("IOError: Unable to open file: '%s'", filename)
+            
         try:
             log.debug("Opening pickled file for save..")
             pkl_file = open(filename, "wb")
