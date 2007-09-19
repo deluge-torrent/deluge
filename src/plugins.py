@@ -52,7 +52,7 @@ class PluginManager:
         for folder in self.plugin_dirs:
             print "Scanning plugin dir",folder
             for modname in os.listdir(folder):
-                path = folder+'/'+modname
+                path = os.path.join(folder, modname)
                 if '__init__.py' in os.listdir(path):
                     # Import the found module. Note that the last
                     # parameter is important otherwise only the base
