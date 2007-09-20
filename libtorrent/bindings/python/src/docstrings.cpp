@@ -156,11 +156,22 @@ char const* session_set_max_half_open_connections_doc =
 
 char const* session_set_settings_doc = 
     "";
+char const* session_set_pe_settings_doc = 
+    "";
+char const* session_get_pe_settings_doc = 
+    "";
 char const* session_set_severity_level_doc = 
     "";
 char const* session_pop_alert_doc = 
     "";
-
+char const* session_start_upnp_doc = 
+    "";
+char const* session_stop_upnp_doc = 
+    "";
+ char const* session_start_natpmp_doc = 
+    "";
+char const* session_stop_natpmp_doc = 
+    "";   
 // -- alert -----------------------------------------------------------------
 
 char const* alert_doc =

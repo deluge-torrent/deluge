@@ -45,8 +45,14 @@ extern char const* session_set_max_uploads_doc;
 extern char const* session_set_max_connections_doc;
 extern char const* session_set_max_half_open_connections_doc;
 extern char const* session_set_settings_doc;
+extern char const* session_set_pe_settings_doc;
+extern char const* session_get_pe_settings_doc;
 extern char const* session_set_severity_level_doc;
 extern char const* session_pop_alert_doc;
+extern char const* session_start_upnp_doc;
+extern char const* session_stop_upnp_doc;
+extern char const* session_start_natpmp_doc;
+extern char const* session_stop_natpmp_doc;
 
 namespace
 {
@@ -205,6 +211,8 @@ void bind_session()
           , session_set_max_half_open_connections_doc
         )
         .def("set_settings", allow_threads(&session::set_settings), session_set_settings_doc)
+        .def("set_pe_settings", allow_threads(&session::set_pe_settings), session_set_pe_settings_doc)
+        .def_readonly("get_pe_settings", allow_threads(&session::get_pe_settings), session_get_pe_settings_doc)
         .def(
             "set_severity_level", allow_threads(&session::set_severity_level)
           , session_set_severity_level_doc
@@ -217,6 +225,10 @@ void bind_session()
 #ifndef TORRENT_DISABLE_DHT
         .def("set_dht_proxy", allow_threads(&session::set_dht_proxy))
 #endif
+        .def("start_upnp", allow_threads(&session::start_upnp), session_start_upnp_doc)
+        .def("stop_upnp", allow_threads(&session::stop_upnp), session_stop_upnp_doc)
+        .def("start_natpmp", allow_threads(&session::start_natpmp), session_start_natpmp_doc)
+        .def("stop_natpmp", allow_threads(&session::stop_natpmp), session_stop_natpmp_doc)
         ;
 
     def("supports_sparse_files", &supports_sparse_files);
