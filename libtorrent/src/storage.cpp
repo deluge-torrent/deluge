@@ -400,20 +400,22 @@ namespace libtorrent
 			partial.update(&m_scratch_buffer[0], ph.offset);
 		whole.update(&m_scratch_buffer[0], slot_size1);
 		hasher partial_copy = ph.h;
-		std::cerr << partial_copy.final() << " " << partial.final() << std::endl;
 		assert(ph.offset == 0 || partial_copy.final() == partial.final());
 #endif
 		int slot_size = piece_size - ph.offset;
-		if (slot_size == 0)
+		if (slot_size > 0)
 		{
-			assert(ph.h.final() == whole.final());
-			return ph.h.final();
+			m_scratch_buffer.resize(slot_size);
+			read_impl(&m_scratch_buffer[0], slot, ph.offset, slot_size, true);
+			ph.h.update(&m_scratch_buffer[0], slot_size);
 		}
-		m_scratch_buffer.resize(slot_size);
-		read_impl(&m_scratch_buffer[0], slot, ph.offset, slot_size, true);
-		ph.h.update(&m_scratch_buffer[0], slot_size);
-		assert(whole.final() == ph.h.final());
+#ifndef NDEBUG
+		sha1_hash ret = ph.h.final();
+		assert(ret == whole.final());
+		return ret;
+#else
 		return ph.h.final();
+#endif
 	}
 
 	void storage::initialize(bool allocate_files)
@@ -2212,5 +2214,4 @@ namespace libtorrent
 #endif
 #endif
 } // namespace libtorrent
-
 

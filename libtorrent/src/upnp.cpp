@@ -980,4 +980,3 @@ void upnp::close()
 	}
 }
 
-
