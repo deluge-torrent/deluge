@@ -195,4 +195,5 @@ setup(
     entry_points = """
         [console_scripts]
             deluge = deluge.main:main
+            deluged = deluge.main:start_daemon
     """)

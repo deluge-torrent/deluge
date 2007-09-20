@@ -80,3 +80,11 @@ def main():
     if options.ui:
         log.info("Starting ui..")
         UI()
+        
+def start_daemon():
+    """Entry point for daemon script"""
+    log.info("Deluge daemon %s", deluge.common.get_version())
+    log.info("Starting daemon..")
+    pid = os.fork()
+    if not pid:
+        Daemon()
