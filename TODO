@@ -1,5 +1,3 @@
-* Add 'set config functions' in config.py so when config options change the
-    appropriate function will be called to 'apply' those changes.
 * Status icons for the torrentview
 * Have the ui better handle not being able to connect to the daemon.
 * Mainwindow state saving.. Size, location, vpane position, etc..
