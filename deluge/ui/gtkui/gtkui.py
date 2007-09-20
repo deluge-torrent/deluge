@@ -57,7 +57,8 @@ DEFAULT_PREFS = {
     "stock_file_manager": 0,
     "open_folder_location": "",
     "check_new_releases": False,
-    "send_info": False
+    "send_info": False,
+    "default_load_path": None
 }
 
 class GtkUI:
