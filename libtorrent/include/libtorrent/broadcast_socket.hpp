@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2005, Arvid Norberg
+Copyright (c) 2007, Arvid Norberg
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -30,43 +30,51 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifndef TORRENT_CONFIG_HPP_INCLUDED
-#define TORRENT_CONFIG_HPP_INCLUDED
+#ifndef TORRENT_BROADCAST_SOCKET_HPP_INCLUDED
+#define TORRENT_BROADCAST_SOCKET_HPP_INCLUDED
 
-#include <boost/config.hpp>
-#include "libtorrent/assert.hpp"
+#include "libtorrent/socket.hpp"
+#include <boost/shared_ptr.hpp>
+#include <boost/function.hpp>
+#include <list>
 
-#if defined(__GNUC__) && __GNUC__ >= 4
+namespace libtorrent
+{
 
-#define TORRENT_DEPRECATED __attribute__ ((deprecated))
+	bool is_local(address const& a);
+	address_v4 guess_local_address(asio::io_service&);
 
-# if defined(TORRENT_BUILDING_SHARED) || defined(TORRENT_LINKING_SHARED)
-#  define TORRENT_EXPORT __attribute__ ((visibility("default")))
-# else
-#  define TORRENT_EXPORT
-# endif
+	typedef boost::function<void(udp::endpoint const& from
+		, char* buffer, int size)> receive_handler_t;
 
-#elif defined(__GNUC__)
+	class broadcast_socket
+	{
+	public:
+		broadcast_socket(asio::io_service& ios, udp::endpoint const& multicast_endpoint
+			, receive_handler_t const& handler);
 
-# define TORRENT_EXPORT
+		void send(char const* buffer, int size, asio::error_code& ec);
+		void close();
 
-#elif defined(BOOST_MSVC)
+	private:
 
-# if defined(TORRENT_BUILDING_SHARED)
-#  define TORRENT_EXPORT __declspec(dllexport)
-# elif defined(TORRENT_LINKING_SHARED)
-#  define TORRENT_EXPORT __declspec(dllimport)
-# else
-#  define TORRENT_EXPORT
-# endif
+		struct socket_entry
+		{
+			socket_entry(boost::shared_ptr<datagram_socket> const& s): socket(s) {}
+			boost::shared_ptr<datagram_socket> socket;
+			char buffer[1024];
+			udp::endpoint remote;
+		};
+	
+		void on_receive(socket_entry* s, asio::error_code const& ec
+			, std::size_t bytes_transferred);
 
-#else
-# define TORRENT_EXPORT
+		std::list<socket_entry> m_sockets;
+		udp::endpoint m_multicast_endpoint;
+		receive_handler_t m_on_receive;
+		
+	};
+}
+	
 #endif
-
-#ifndef TORRENT_DEPRECATED
-#define TORRENT_DEPRECATED
-#endif
-
-#endif // TORRENT_CONFIG_HPP_INCLUDED
 

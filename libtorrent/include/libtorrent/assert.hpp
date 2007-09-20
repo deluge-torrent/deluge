@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2005, Arvid Norberg
+Copyright (c) 2007, Arvid Norberg
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -30,43 +30,23 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifndef TORRENT_CONFIG_HPP_INCLUDED
-#define TORRENT_CONFIG_HPP_INCLUDED
+#include <cassert>
 
-#include <boost/config.hpp>
-#include "libtorrent/assert.hpp"
+#ifndef NDEBUG
+#if defined __linux__ && defined __GNUC__
+#ifdef assert
+#undef assert
+#endif
 
-#if defined(__GNUC__) && __GNUC__ >= 4
+void assert_fail(const char* expr, int line, char const* file, char const* function);
 
-#define TORRENT_DEPRECATED __attribute__ ((deprecated))
+#define assert(x) if (x) {} else assert_fail(#x, __LINE__, __FILE__, __PRETTY_FUNCTION__)
 
-# if defined(TORRENT_BUILDING_SHARED) || defined(TORRENT_LINKING_SHARED)
-#  define TORRENT_EXPORT __attribute__ ((visibility("default")))
-# else
-#  define TORRENT_EXPORT
-# endif
-
-#elif defined(__GNUC__)
-
-# define TORRENT_EXPORT
-
-#elif defined(BOOST_MSVC)
-
-# if defined(TORRENT_BUILDING_SHARED)
-#  define TORRENT_EXPORT __declspec(dllexport)
-# elif defined(TORRENT_LINKING_SHARED)
-#  define TORRENT_EXPORT __declspec(dllimport)
-# else
-#  define TORRENT_EXPORT
-# endif
+#endif
 
 #else
-# define TORRENT_EXPORT
+#ifndef assert
+#define assert(x) (void)
 #endif
-
-#ifndef TORRENT_DEPRECATED
-#define TORRENT_DEPRECATED
 #endif
-
-#endif // TORRENT_CONFIG_HPP_INCLUDED
 

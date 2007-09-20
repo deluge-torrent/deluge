@@ -86,7 +86,7 @@ public:
   };
 
   // The maximum number of buffers to support in a single operation.
-  enum { max_buffers = 16 };
+  enum { max_buffers = 64 < max_iov_len ? 64 : max_iov_len };
 
   // Constructor.
   reactive_socket_service(asio::io_service& io_service)
@@ -157,7 +157,7 @@ public:
 
     if (int err = reactor_.register_descriptor(sock.get()))
     {
-      ec = asio::error_code(err, asio::native_ecat);
+      ec = asio::error_code(err, asio::error::system_category);
       return ec;
     }
 
@@ -181,7 +181,7 @@ public:
 
     if (int err = reactor_.register_descriptor(native_socket))
     {
-      ec = asio::error_code(err, asio::native_ecat);
+      ec = asio::error_code(err, asio::error::system_category);
       return ec;
     }
 
@@ -1124,7 +1124,7 @@ public:
     bool operator()(const asio::error_code& result)
     {
       // Check whether the operation was successful.
-      if (result != 0)
+      if (result)
       {
         io_service_.post(bind_handler(handler_, result, 0));
         return true;
@@ -1489,7 +1489,7 @@ public:
       if (connect_error)
       {
         ec = asio::error_code(connect_error,
-            asio::native_ecat);
+            asio::error::system_category);
         io_service_.post(bind_handler(handler_, ec));
         return true;
       }

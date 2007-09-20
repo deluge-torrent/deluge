@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2005, Arvid Norberg
+Copyright (c) 2007, Arvid Norberg
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -30,43 +30,15 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifndef TORRENT_CONFIG_HPP_INCLUDED
-#define TORRENT_CONFIG_HPP_INCLUDED
+#ifndef TORRENT_ENUM_NET_HPP_INCLUDED
+#define TORRENT_ENUM_NET_HPP_INCLUDED
 
-#include <boost/config.hpp>
-#include "libtorrent/assert.hpp"
+#include "libtorrent/socket.hpp"
 
-#if defined(__GNUC__) && __GNUC__ >= 4
+namespace libtorrent
+{
+	std::vector<address> const& enum_net_interfaces(asio::io_service& ios, asio::error_code& ec);
+}
 
-#define TORRENT_DEPRECATED __attribute__ ((deprecated))
-
-# if defined(TORRENT_BUILDING_SHARED) || defined(TORRENT_LINKING_SHARED)
-#  define TORRENT_EXPORT __attribute__ ((visibility("default")))
-# else
-#  define TORRENT_EXPORT
-# endif
-
-#elif defined(__GNUC__)
-
-# define TORRENT_EXPORT
-
-#elif defined(BOOST_MSVC)
-
-# if defined(TORRENT_BUILDING_SHARED)
-#  define TORRENT_EXPORT __declspec(dllexport)
-# elif defined(TORRENT_LINKING_SHARED)
-#  define TORRENT_EXPORT __declspec(dllimport)
-# else
-#  define TORRENT_EXPORT
-# endif
-
-#else
-# define TORRENT_EXPORT
 #endif
-
-#ifndef TORRENT_DEPRECATED
-#define TORRENT_DEPRECATED
-#endif
-
-#endif // TORRENT_CONFIG_HPP_INCLUDED
 

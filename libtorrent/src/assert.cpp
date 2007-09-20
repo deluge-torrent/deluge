@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2005, Arvid Norberg
+Copyright (c) 2007, Arvid Norberg
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -30,43 +30,36 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifndef TORRENT_CONFIG_HPP_INCLUDED
-#define TORRENT_CONFIG_HPP_INCLUDED
+#ifndef NDEBUG
 
-#include <boost/config.hpp>
-#include "libtorrent/assert.hpp"
+#include <stdlib.h>
+#include <stdio.h>
+#include <execinfo.h>
 
-#if defined(__GNUC__) && __GNUC__ >= 4
+void assert_fail(char const* expr, int line, char const* file, char const* function)
+{
 
-#define TORRENT_DEPRECATED __attribute__ ((deprecated))
+	fprintf(stderr, "assertion failed. Please file a bugreport at "
+		"http://code.rasterbar.com/libtorrent/newticket\n"
+		"Please include the following information:\n\n"
+		"file: '%s'\n"
+		"line: %d\n"
+		"function: %s\n"
+		"expression: %s\n"
+		"stack:\n", file, line, function, expr);
 
-# if defined(TORRENT_BUILDING_SHARED) || defined(TORRENT_LINKING_SHARED)
-#  define TORRENT_EXPORT __attribute__ ((visibility("default")))
-# else
-#  define TORRENT_EXPORT
-# endif
+	void* stack[50];
+	int size = backtrace(stack, 50);
+	char** symbols = backtrace_symbols(stack, size);
 
-#elif defined(__GNUC__)
+	for (int i = 0; i < size; ++i)
+	{
+		fprintf(stderr, "%d: %s\n", i, symbols[i]);
+	}
 
-# define TORRENT_EXPORT
+	free(symbols);
+	exit(1);
+}
 
-#elif defined(BOOST_MSVC)
-
-# if defined(TORRENT_BUILDING_SHARED)
-#  define TORRENT_EXPORT __declspec(dllexport)
-# elif defined(TORRENT_LINKING_SHARED)
-#  define TORRENT_EXPORT __declspec(dllimport)
-# else
-#  define TORRENT_EXPORT
-# endif
-
-#else
-# define TORRENT_EXPORT
 #endif
-
-#ifndef TORRENT_DEPRECATED
-#define TORRENT_DEPRECATED
-#endif
-
-#endif // TORRENT_CONFIG_HPP_INCLUDED
 

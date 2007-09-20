@@ -53,6 +53,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #pragma warning(pop)
 #endif
 
+#include "libtorrent/config.hpp"
 #include "libtorrent/torrent_handle.hpp"
 #include "libtorrent/entry.hpp"
 #include "libtorrent/alert.hpp"
@@ -60,7 +61,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/version.hpp"
 #include "libtorrent/fingerprint.hpp"
 
-#include "libtorrent/resource_request.hpp"
 #include "libtorrent/storage.hpp"
 
 #ifdef _MSC_VER
@@ -141,22 +141,16 @@ namespace libtorrent
 			, fs::path const& save_path
 			, entry const& resume_data = entry()
 			, bool compact_mode = true
-			, int block_size = 16 * 1024
-			, storage_constructor_type sc = default_storage_constructor);
+			, bool paused = false
+			, storage_constructor_type sc = default_storage_constructor) TORRENT_DEPRECATED;
 
-		// ==== deprecated, this is for backwards compatibility only
-		// instead, use one of the other add_torrent overloads
 		torrent_handle add_torrent(
-			entry const& e
+			boost::intrusive_ptr<torrent_info> ti
 			, fs::path const& save_path
 			, entry const& resume_data = entry()
 			, bool compact_mode = true
-			, int block_size = 16 * 1024
-			, storage_constructor_type sc = default_storage_constructor) TORRENT_DEPRECATED
-		{
-			return add_torrent(torrent_info(e), save_path, resume_data
-				, compact_mode, block_size, sc);
-		}
+			, bool paused = false
+			, storage_constructor_type sc = default_storage_constructor);
 
 		torrent_handle add_torrent(
 			char const* tracker_url
@@ -165,7 +159,7 @@ namespace libtorrent
 			, fs::path const& save_path
 			, entry const& resume_data = entry()
 			, bool compact_mode = true
-			, int block_size = 16 * 1024
+			, bool paused = false
 			, storage_constructor_type sc = default_storage_constructor);
 
 		session_proxy abort() { return session_proxy(m_impl); }
@@ -243,6 +237,7 @@ namespace libtorrent
 
 		int upload_rate_limit() const;
 		int download_rate_limit() const;
+		int max_half_open_connections() const;
 
 		void set_upload_rate_limit(int bytes_per_second);
 		void set_download_rate_limit(int bytes_per_second);
@@ -265,12 +260,6 @@ namespace libtorrent
 		void stop_natpmp();
 		void stop_upnp();
 		
-		// Resource management used for global limits.
-		resource_request m_ul_bandwidth_quota;
-		resource_request m_dl_bandwidth_quota;
-		resource_request m_uploads_quota;
-		resource_request m_connections_quota;
-
 	private:
 
 		// just a way to initialize boost.filesystem

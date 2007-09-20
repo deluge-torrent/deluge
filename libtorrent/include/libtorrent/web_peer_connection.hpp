@@ -65,7 +65,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/alert.hpp"
 #include "libtorrent/torrent_handle.hpp"
 #include "libtorrent/torrent.hpp"
-#include "libtorrent/allocate_resources.hpp"
 #include "libtorrent/peer_request.hpp"
 #include "libtorrent/piece_block_progress.hpp"
 #include "libtorrent/config.hpp"
@@ -126,6 +125,8 @@ namespace libtorrent
 		void write_piece(peer_request const& r, char const* buffer) { assert(false); }
 		void write_keepalive() {}
 		void on_connected();
+		void write_reject_request(peer_request const&) {}
+		void write_allow_fast(int) {}
 
 #ifndef NDEBUG
 		void check_invariant() const;

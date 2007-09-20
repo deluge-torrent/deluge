@@ -33,9 +33,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #ifndef TORRENT_BANDWIDTH_MANAGER_HPP_INCLUDED
 #define TORRENT_BANDWIDTH_MANAGER_HPP_INCLUDED
 
-#include "libtorrent/socket.hpp"
-#include "libtorrent/invariant_check.hpp"
-
 #include <boost/shared_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
 #include <boost/function.hpp>
@@ -44,10 +41,16 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <boost/thread/mutex.hpp>
 #include <deque>
 
+#include "libtorrent/socket.hpp"
+#include "libtorrent/invariant_check.hpp"
+#include "libtorrent/assert.hpp"
+
 using boost::weak_ptr;
 using boost::shared_ptr;
 using boost::intrusive_ptr;
 using boost::bind;
+
+//#define TORRENT_VERBOSE_BANDWIDTH_LIMIT
 
 namespace libtorrent {
 
@@ -237,8 +240,10 @@ struct bandwidth_manager
 				i = j;
 			}
 		}
-
-		if (m_queue.size() == 1) hand_out_bandwidth();
+#ifdef TORRENT_VERBOSE_BANDWIDTH_LIMIT
+		std::cerr << " req_bandwidht. m_queue.size() = " << m_queue.size() << std::endl;
+#endif
+		if (!m_queue.empty()) hand_out_bandwidth();
 	}
 
 #ifndef NDEBUG
@@ -337,10 +342,18 @@ private:
 		// available bandwidth to hand out
 		int amount = limit - m_current_quota;
 
+#ifdef TORRENT_VERBOSE_BANDWIDTH_LIMIT
+		std::cerr << " hand_out_bandwidht. m_queue.size() = " << m_queue.size()
+			<< " amount = " << amount
+			<< " limit = " << limit
+			<< " m_current_quota = " << m_current_quota << std::endl;
+#endif
+
 		while (!m_queue.empty() && amount > 0)
 		{
 			assert(amount == limit - m_current_quota);
 			bw_queue_entry<PeerConnection> qe = m_queue.front();
+			assert(qe.max_block_size > 0);
 			m_queue.pop_front();
 
 			shared_ptr<Torrent> t = qe.peer->associated_torrent().lock();
@@ -374,13 +387,12 @@ private:
 			// block size must be smaller for lower rates. This is because
 			// the history window is one second, and the block will be forgotten
 			// after one second.
-			int block_size = (std::min)(qe.max_block_size
-				, (std::min)(qe.peer->bandwidth_throttle(m_channel)
-				, m_limit / 10));
+			int block_size = (std::min)(qe.peer->bandwidth_throttle(m_channel)
+				, m_limit / 10);
 
 			if (block_size < min_bandwidth_block_size)
 			{
-				block_size = min_bandwidth_block_size;
+				block_size = (std::min)(int(min_bandwidth_block_size), m_limit);
 			}
 			else if (block_size > max_bandwidth_block_size)
 			{
@@ -399,7 +411,11 @@ private:
 						/ (m_limit / max_bandwidth_block_size);
 				}
 			}
+			if (block_size > qe.max_block_size) block_size = qe.max_block_size;
 
+#ifdef TORRENT_VERBOSE_BANDWIDTH_LIMIT
+		std::cerr << " block_size = " << block_size << " amount = " << amount << std::endl;
+#endif
 			if (amount < block_size / 2)
 			{
 				m_queue.push_front(qe);
