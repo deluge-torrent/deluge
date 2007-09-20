@@ -63,6 +63,9 @@ class TorrentManager:
         log.debug("TorrentManager init..")
         # Set the libtorrent session
         self.session = session
+        # Per torrent connection limit and upload slot limit
+        self.max_connections = -1
+        self.max_uploads = -1
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
         # Try to load the state from file
@@ -126,6 +129,10 @@ class TorrentManager:
             # The torrent was not added to the session
             return None       
 
+        # Set per-torrent limits
+        handle.set_max_connections(self.max_connections)
+        handle.set_max_uploads(self.max_uploads)
+        
         log.debug("Attemping to save torrent file: %s", filename)
         # Test if the torrentfiles_location is accessible
         if os.access(os.path.join(config["torrentfiles_location"]), os.F_OK) \
@@ -224,4 +231,15 @@ class TorrentManager:
             state_file.close()
         except IOError:
             log.warning("Unable to save state file.")
-            
+
+    def set_max_connections(self, value):
+        """Sets the per-torrent connection limit"""
+        self.max_connections = value
+        for key in self.torrents.keys():
+            self.torrents[key].handle.set_max_connections(value)
+    
+    def set_max_uploads(self, value):
+        """Sets the per-torrent upload slot limit"""
+        self.max_uploads = value
+        for key in self.torrents.keys():
+            self.torrents[key].handle.set_max_uploads(value)

@@ -119,7 +119,7 @@ class Config:
             self.save()
             # Run the set_function for this key if any
             try:
-                self.set_functions[key](value)
+                self.set_functions[key](key, value)
             except KeyError:
                 pass
         else:
@@ -145,9 +145,16 @@ class Config:
     
     def register_set_function(self, key, function):
         """Register a function to be run when a config value changes."""
+        log.debug("Registering function for %s key..", key)
         self.set_functions[key] = function
         return
-            
+    
+    def apply_all(self):
+        """Runs all set functions"""
+        log.debug("Running all set functions..")
+        for key in self.set_functions.keys():
+            self.set_functions[key](key, self.config[key])
+                    
     def __getitem__(self, key):
         return self.config[key]
 

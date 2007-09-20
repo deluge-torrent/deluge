@@ -98,27 +98,8 @@ class Core(dbus.service.Object):
         self.settings.user_agent = "Deluge %s" % deluge.common.get_version()
         self.session.set_settings(self.settings)
         
-        # Set the listening ports
-        if self.config["random_port"]:
-            import random
-            listen_ports = []
-            randrange = lambda: random.randrange(49152, 65525)
-            listen_ports.append(randrange())
-            listen_ports.append(listen_ports[0]+10)
-        else:
-            listen_ports = self.config["listen_ports"]
-        
-        log.debug("Listening on ports %i-%i", listen_ports[0],
-                                                listen_ports[1])
-        self.session.listen_on(listen_ports[0],
-                                listen_ports[1])
-
         # Load metadata extension
         self.session.add_extension(lt.create_metadata_plugin)
-
-        # Load utorrent peer-exchange
-        if self.config["utpex"]:
-            self.session.add_extension(lt.create_ut_pex_plugin)
 
         # Start the TorrentManager
         self.torrents = TorrentManager(self.session)
@@ -128,6 +109,39 @@ class Core(dbus.service.Object):
         
         # Start the AlertManager
         self.alerts = AlertManager(self.session)
+        
+        # Register set functions in the Config
+        self.config.register_set_function("listen_ports", 
+            self.on_set_listen_ports)
+        self.config.register_set_function("random_port",
+            self.on_set_random_port)
+        self.config.register_set_function("dht", self.on_set_dht)
+        self.config.register_set_function("upnp", self.on_set_upnp)
+        self.config.register_set_function("natpmp", self.on_set_natpmp)
+        self.config.register_set_function("utpex", self.on_set_utpex)
+        self.config.register_set_function("enc_in_policy",
+            self.on_set_encryption)
+        self.config.register_set_function("enc_out_policy",
+            self.on_set_encryption)
+        self.config.register_set_function("enc_level",
+            self.on_set_encryption)
+        self.config.register_set_function("enc_prefer_rc4",
+            self.on_set_encryption)
+        self.config.register_set_function("max_connections_global",
+            self.on_set_max_connections_global)
+        self.config.register_set_function("max_upload_speed",
+            self.on_set_max_upload_speed)
+        self.config.register_set_function("max_download_speed",
+            self.on_set_max_download_speed)
+        self.config.register_set_function("max_upload_slots_global",
+            self.on_set_max_upload_slots_global)
+        self.config.register_set_function("max_connections_per_torrent",
+            self.on_set_max_connections_per_torrent)
+        self.config.register_set_function("max_upload_slots_per_torrent",
+            self.on_set_max_upload_slots_per_torrent)
+            
+        # Run all the set functions now to set the config for the session
+        self.config.apply_all()
         
         log.debug("Starting main loop..")
         self.loop = gobject.MainLoop()
@@ -301,3 +315,90 @@ class Core(dbus.service.Object):
     def torrent_resumed(self, torrent_id):
         """Emitted when a torrent is resumed"""
         log.debug("torrent_resumed signal emitted")
+        
+    # Config set functions
+    def on_set_listen_ports(self, key, value):
+        # Only set the listen ports if random_port is not true
+        if self.config["random_port"] is not True:
+            log.debug("listen port range set to %s-%s", value[0], value[1])
+            self.session.listen_on(value[0], value[1])
+        
+    def on_set_random_port(self, key, value):
+        log.debug("random port value set to %s", value)
+        # We need to check if the value has been changed to true and false
+        # and then handle accordingly.
+        if value:
+            import random
+            listen_ports = []
+            randrange = lambda: random.randrange(49152, 65525)
+            listen_ports.append(randrange())
+            listen_ports.append(listen_ports[0]+10)
+        else:
+            listen_ports = self.config["listen_ports"]
+        
+        # Set the listen ports
+        log.debug("listen port range set to %s-%s", listen_ports[0], 
+            listen_ports[1])
+        self.session.listen_on(listen_ports[0], listen_ports[1])
+    
+    def on_set_dht(self, key, value):
+        log.debug("dht value set to %s", value)
+        if value:
+            self.session.start_dht(None)
+        else:
+            self.session.stop_dht()
+    
+    def on_set_upnp(self, key, value):
+        log.debug("upnp value set to %s", value)
+        if value:
+            self.session.start_upnp()
+        else:
+            self.session.stop_upnp()
+    
+    def on_set_natpmp(self, key, value):
+        log.debug("natpmp value set to %s", value)
+        if value:
+            self.session.start_natpmp()
+        else:
+            self.session.stop_natpmp()
+    
+    def on_set_utpex(self, key, value):
+        log.debug("utpex value set to %s", value)
+        if value:
+            self.session.add_extension(lt.create_ut_pex_plugin)
+
+    def on_set_encryption(self, key, value):
+        log.debug("encryption value %s set to %s..", key, value)
+        pe_settings = lt.pe_settings()
+        pe_settings.out_enc_policy = \
+            lt.enc_policy(self.config["enc_out_policy"])
+        pe_settings.in_enc_policy = lt.enc_policy(self.config["enc_in_policy"])
+        pe_settings.allow_enc_level = lt.enc_level(self.config["enc_level"])
+        pe_settings.prefer_rc4 = self.config["enc_prefer_rc4"]
+        self.session.set_pe_settings(pe_settings)
+
+    def on_set_max_connections_global(self, key, value):
+        log.debug("max_connections_global set to %s..", value)
+        self.session.set_max_connections(value)
+        
+    def on_set_max_upload_speed(self, key, value):
+        log.debug("max_upload_speed set to %s..", value)
+        # We need to convert Kb/s to B/s
+        self.session.set_upload_rate_limit(int(value * 1024))
+
+    def on_set_max_download_speed(self, key, value):
+        log.debug("max_download_speed set to %s..", value)
+        # We need to convert Kb/s to B/s
+        self.session.set_download_rate_limit(int(value * 1024))
+        
+    def on_set_max_upload_slots_global(self, key, value):
+        log.debug("max_upload_slots_global set to %s..", value)
+        self.session.set_max_uploads(value)
+        
+    def on_set_max_connections_per_torrent(self, key, value):
+        log.debug("max_connections_per_torrent set to %s..", value)
+        self.torrents.set_max_connections(value)
+        
+    def on_set_max_upload_slots_per_torrent(self, key, value):
+        log.debug("max_upload_slots_per_torrent set to %s..", value)
+        self.torrents.set_max_uploads(value)
