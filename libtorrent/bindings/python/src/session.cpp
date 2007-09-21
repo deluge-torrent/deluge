@@ -69,7 +69,7 @@ namespace
         : cb(callback)
       {}
 
-      boost::shared_ptr<torrent_plugin> operator()(torrent* t)
+      boost::shared_ptr<torrent_plugin> operator()(torrent* t, void*)
       {
           lock_gil lock;
           return extract<boost::shared_ptr<torrent_plugin> >(cb(ptr(t)))();
