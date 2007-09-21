@@ -142,6 +142,7 @@ void bind_extensions()
     // TODO move to it's own file
     class_<peer_connection, boost::noncopyable>("peer_connection", no_init);
 
+    class_<torrent_plugin, boost::shared_ptr<torrent_plugin> >("torrent_plugin", no_init);
     def("create_ut_pex_plugin", create_ut_pex_plugin);
     def("create_metadata_plugin", create_metadata_plugin);
 }
