@@ -287,10 +287,14 @@ class ListView:
                             self.columns[header].column_indices[0])            
         elif column_type == "progress":
             column.pack_start(render)
-            column.add_attribute(render, "text",
-                self.columns[header].column_indices[text])
-            column.add_attribute(render, "value",
-                self.columns[header].column_indices[value])
+            if function is None:
+                column.add_attribute(render, "text",
+                    self.columns[header].column_indices[text])
+                column.add_attribute(render, "value",
+                    self.columns[header].column_indices[value])
+            else:
+                column.set_cell_data_func(render, function, 
+                    tuple(self.columns[header].column_indices))
         elif column_type == "texticon":
             column.pack_start(render[pixbuf])
             if function is not None:
@@ -354,12 +358,14 @@ class ListView:
                                             hidden=False, 
                                             position=None, 
                                             status_field=None,
+                                            function=None,
                                             column_type="progress"):
         """Add a progress column to the listview."""
                                             
         render = gtk.CellRendererProgress()
         self.add_column(header, render, col_types, hidden, position,
-                            status_field, sortid, column_type=column_type, 
+                            status_field, sortid, function=function,
+                            column_type=column_type, 
                             value=0, text=1)
 
         return True

@@ -65,6 +65,20 @@ def cell_data_statusicon(column, cell, model, row, data):
         
     icon = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap(fname))
     cell.set_property("pixbuf", icon)
+
+def cell_data_progress(column, cell, model, row, data):
+    """Display progress bar with text"""
+    column1, column2 = data
+    value = model.get_value(row, column1)
+    text = model.get_value(row, column2)
+    cell.set_property("value", value)
+    textstr = "%s" % _(deluge.common.TORRENT_STATE[text])
+    if deluge.common.TORRENT_STATE[text] == "Downloading" or\
+            deluge.common.TORRENT_STATE[text] == "Downloading Metadata" or\
+            deluge.common.TORRENT_STATE[text] == "Checking" or\
+            deluge.common.TORRENT_STATE[text] == "Allocating":
+        textstr = textstr + " %.2f%%" % value
+    cell.set_property("text", textstr)
     
 class TorrentView(listview.ListView):
     """TorrentView handles the listing of torrents."""
@@ -89,7 +103,10 @@ class TorrentView(listview.ListView):
                                             listview.cell_data_size, 
                                             [long],
                                             status_field=["total_size"])
-        self.add_progress_column(_("Progress"), status_field=["progress", "state"])
+        self.add_progress_column(_("Progress"), 
+                                    status_field=["progress", "state"],
+                                    col_types=[float, int],
+                                    function=cell_data_progress)
         self.add_func_column(_("Seeders"),
                                         listview.cell_data_peer,
                                         [int, int],
