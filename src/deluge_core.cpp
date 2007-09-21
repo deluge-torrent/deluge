@@ -1644,7 +1644,7 @@ static PyObject *torrent_pe_settings(PyObject *self, PyObject *args)
 
     M_ses->set_pe_settings(*M_pe_settings);
     
-    return Py_None;
+    Py_INCREF(Py_None); return Py_None;
 }
 
 static PyObject *torrent_set_ratio(PyObject *self, PyObject *args)
@@ -1695,7 +1695,7 @@ static PyObject *torrent_proxy_settings(PyObject *self, PyObject *args)
         M_ses->set_web_seed_proxy(*M_proxy_settings);
     }
 
-    return Py_None;
+    Py_INCREF(Py_None); return Py_None;
 }
 
 static PyObject *torrent_get_trackers(PyObject *self, PyObject *args)
@@ -1744,7 +1744,7 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
   }
   h.replace_trackers(trackerlist);
   h.force_reannounce();
-  return Py_None;
+  Py_INCREF(Py_None); return Py_None;
 }
 static PyObject *torrent_prioritize_files(PyObject *self, PyObject *args)
 {
@@ -1783,7 +1783,7 @@ static PyObject *torrent_prioritize_files(PyObject *self, PyObject *args)
     std::cout << "\n";
     #endif
     
-    return Py_None;
+    Py_INCREF(Py_None); return Py_None;
 }
 
 static PyObject *torrent_prioritize_first_last_pieces(PyObject *self, 
@@ -1865,7 +1865,7 @@ static PyObject *torrent_prioritize_first_last_pieces(PyObject *self,
     std::cout << "\n";
     #endif
 
-    return Py_None;
+    Py_INCREF(Py_None); return Py_None;
 }
 
 
@@ -1886,7 +1886,7 @@ static PyObject *torrent_set_priv(PyObject *self, PyObject *args)
 
     info.set_priv(onoff);
 
-    return Py_None;
+    Py_INCREF(Py_None); return Py_None;
 }
 
 static PyObject *torrent_set_max_connections_per_torrent(PyObject *self, PyObject *args)
@@ -1902,7 +1902,7 @@ static PyObject *torrent_set_max_connections_per_torrent(PyObject *self, PyObjec
     torrent_t &t = M_torrents->at(index);
     t.handle.set_max_connections(max_connections);
 
-    return Py_None;
+    Py_INCREF(Py_None); return Py_None;
 }
 
 static PyObject *torrent_set_max_upload_slots_per_torrent(PyObject *self, PyObject *args)
@@ -1918,7 +1918,7 @@ static PyObject *torrent_set_max_upload_slots_per_torrent(PyObject *self, PyObje
     torrent_t &t = M_torrents->at(index);
     t.handle.set_max_uploads(max_upload_slots);
 
-    return Py_None;
+    Py_INCREF(Py_None); return Py_None;
 }
 
 static PyObject *torrent_add_url_seed(PyObject *self, PyObject *args)
@@ -1934,7 +1934,7 @@ static PyObject *torrent_add_url_seed(PyObject *self, PyObject *args)
 
     torrent_t &t = M_torrents->at(index);
     t.handle.add_url_seed(address);
-    return Py_None;
+    Py_INCREF(Py_None); return Py_None;
 }
 
 //====================
