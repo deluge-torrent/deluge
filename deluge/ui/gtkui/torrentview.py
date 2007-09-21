@@ -116,7 +116,10 @@ class TorrentView(listview.ListView):
                                             listview.cell_data_ratio,
                                             [float],
                                             status_field=["ratio"])
-
+        self.add_func_column(_("Avail"),
+                                            listview.cell_data_ratio,
+                                            [float],
+                                            status_field=["distributed_copies"])
                         
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
