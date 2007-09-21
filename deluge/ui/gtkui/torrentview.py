@@ -70,16 +70,28 @@ def cell_data_statusicon(column, cell, model, row, data):
 
 def cell_data_progress(column, cell, model, row, data):
     """Display progress bar with text"""
+    # Translated state strings
+    TORRENT_STATE = [
+        _("Queued"),
+        _("Checking"),
+        _("Connecting"),
+        _("Downloading Metadata"),
+        _("Downloading"),
+        _("Finished"),
+        _("Seeding"),
+        _("Allocating"),
+        _("Paused")
+    ]
     column1, column2 = data
     value = model.get_value(row, column1)
     text = model.get_value(row, column2)
     cell.set_property("value", value)
-    textstr = "%s" % deluge.common.TORRENT_STATE[text]
-    if deluge.common.TORRENT_STATE[text] == "Downloading" or\
-            deluge.common.TORRENT_STATE[text] == "Downloading Metadata" or\
-            deluge.common.TORRENT_STATE[text] == "Checking" or\
-            deluge.common.TORRENT_STATE[text] == "Allocating" or\
-            (deluge.common.TORRENT_STATE[text] == "Paused" and value < 100):
+    textstr = "%s" % TORRENT_STATE[text]
+    if TORRENT_STATE[text] == "Downloading" or\
+            TORRENT_STATE[text] == "Downloading Metadata" or\
+            TORRENT_STATE[text] == "Checking" or\
+            TORRENT_STATE[text] == "Allocating" or\
+            (TORRENT_STATE[text] == "Paused" and value < 100):
         textstr = textstr + " %.2f%%" % value
     cell.set_property("text", textstr)
     
