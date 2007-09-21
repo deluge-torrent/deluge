@@ -1,4 +1,3 @@
-* Status icons for the torrentview
 * Have the ui better handle not being able to connect to the daemon.
 * Mainwindow state saving.. Size, location, vpane position, etc..
 * System tray icon
