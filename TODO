@@ -1,3 +1,4 @@
+* Have peer numbers show what we receive from tracker_reply_alert
 * Have the ui better handle not being able to connect to the daemon.
 * Mainwindow state saving.. Size, location, vpane position, etc..
 * System tray icon
