@@ -83,36 +83,36 @@ class TorrentView(listview.ListView):
         
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
-        self.add_texticon_column("Name", status_field=["state", "name"], 
+        self.add_texticon_column(_("Name"), status_field=["state", "name"], 
                                             function=cell_data_statusicon)
-        self.add_func_column("Size", 
+        self.add_func_column(_("Size"), 
                                             listview.cell_data_size, 
                                             [long],
                                             status_field=["total_size"])
-        self.add_progress_column("Progress", status_field=["progress", "state"])
-        self.add_func_column("Seeders",
+        self.add_progress_column(_("Progress"), status_field=["progress", "state"])
+        self.add_func_column(_("Seeders"),
                                         listview.cell_data_peer,
                                         [int, int],
                                         status_field=["num_seeds", 
                                                         "total_seeds"])
-        self.add_func_column("Peers",
+        self.add_func_column(_("Peers"),
                                         listview.cell_data_peer,
                                         [int, int],
                                         status_field=["num_peers", 
                                                         "total_peers"])
-        self.add_func_column("Down Speed",
+        self.add_func_column(_("Down Speed"),
                                         listview.cell_data_speed,
                                         [float],
                                         status_field=["download_payload_rate"])
-        self.add_func_column("Up Speed",
+        self.add_func_column(_("Up Speed"),
                                         listview.cell_data_speed,
                                         [float],
                                         status_field=["upload_payload_rate"])
-        self.add_func_column("ETA",
+        self.add_func_column(_("ETA"),
                                             listview.cell_data_time,
                                             [int],
                                             status_field=["eta"])
-        self.add_func_column("Ratio",
+        self.add_func_column(_("Ratio"),
                                             listview.cell_data_ratio,
                                             [float],
                                             status_field=["ratio"])
