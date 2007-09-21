@@ -63,8 +63,7 @@ public:
     {
       DWORD last_error = ::GetLastError();
       asio::system_error e(
-          asio::error_code(last_error,
-            asio::error::system_category),
+          asio::error_code(last_error, asio::native_ecat),
           "iocp");
       boost::throw_exception(e);
     }
@@ -174,8 +173,7 @@ public:
       {
         DWORD last_error = ::GetLastError();
         asio::system_error e(
-            asio::error_code(last_error,
-              asio::error::system_category),
+            asio::error_code(last_error, asio::native_ecat),
             "pqcs");
         boost::throw_exception(e);
       }
@@ -230,8 +228,7 @@ public:
     {
       DWORD last_error = ::GetLastError();
       asio::system_error e(
-          asio::error_code(last_error,
-            asio::error::system_category),
+          asio::error_code(last_error, asio::native_ecat),
           "pqcs");
       boost::throw_exception(e);
     }
@@ -250,8 +247,7 @@ public:
     {
       DWORD last_error = ::GetLastError();
       asio::system_error e(
-          asio::error_code(last_error,
-            asio::error::system_category),
+          asio::error_code(last_error, asio::native_ecat),
           "pqcs");
       boost::throw_exception(e);
     }
@@ -316,7 +312,7 @@ private:
           {
             DWORD last_error = ::GetLastError();
             ec = asio::error_code(last_error,
-                asio::error::system_category);
+                asio::native_ecat);
             return 0;
           }
 

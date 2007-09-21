@@ -148,19 +148,13 @@ namespace libtorrent
 			pos = newline;
 
 			line >> m_protocol;
-			if (m_protocol.substr(0, 5) == "HTTP/")
+			if (m_protocol.substr(0, 5) != "HTTP/")
 			{
-				line >> m_status_code;
-				std::getline(line, m_server_message);
+				throw std::runtime_error("unknown protocol in HTTP response: "
+					+ m_protocol + " line: " + std::string(pos, newline));
 			}
-			else
-			{
-				m_method = m_protocol;
-				std::transform(m_method.begin(), m_method.end(), m_method.begin(), &to_lower);
-				m_protocol.clear();
-				line >> m_path >> m_protocol;
-				m_status_code = 0;
-			}
+			line >> m_status_code;
+			std::getline(line, m_server_message);
 			m_state = read_header;
 		}
 
@@ -256,7 +250,7 @@ namespace libtorrent
 		assert(m_state == read_body);
 		if (m_content_length >= 0)
 			return buffer::const_interval(m_recv_buffer.begin + m_body_start_pos
-				, m_recv_buffer.begin + (std::min)(m_recv_pos
+				, m_recv_buffer.begin + std::min(m_recv_pos
 				, m_body_start_pos + m_content_length));
 		else
 			return buffer::const_interval(m_recv_buffer.begin + m_body_start_pos
@@ -414,7 +408,7 @@ namespace libtorrent
 			{
 				m_send_buffer += "numwant=";
 				m_send_buffer += boost::lexical_cast<std::string>(
-					(std::min)(req.num_want, 999));
+					std::min(req.num_want, 999));
 				m_send_buffer += '&';
 			}
 			if (m_settings.announce_ip != address() && !url_has_argument(request, "ip"))
@@ -465,16 +459,14 @@ namespace libtorrent
 		m_send_buffer += "\r\n\r\n";
 
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-
-		boost::shared_ptr<request_callback> cb = requester();
-		if (cb)
+		if (has_requester())
 		{
-			cb->debug_log("==> TRACKER_REQUEST [ str: " + m_send_buffer + " ]");
+			requester().debug_log("==> TRACKER_REQUEST [ str: " + m_send_buffer + " ]");
 			std::stringstream info_hash_str;
 			info_hash_str << req.info_hash;
-			cb->debug_log("info_hash: "
+			requester().debug_log("info_hash: "
 				+ boost::lexical_cast<std::string>(req.info_hash));
-			cb->debug_log("name lookup: " + hostname);
+			requester().debug_log("name lookup: " + hostname);
 		}
 #endif
 
@@ -499,9 +491,8 @@ namespace libtorrent
 	void http_tracker_connection::name_lookup(asio::error_code const& error
 		, tcp::resolver::iterator i) try
 	{
-		boost::shared_ptr<request_callback> cb = requester();
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		if (cb) cb->debug_log("tracker name lookup handler called");
+		if (has_requester()) requester().debug_log("tracker name lookup handler called");
 #endif
 		if (error == asio::error::operation_aborted) return;
 		if (m_timed_out) return;
@@ -513,7 +504,7 @@ namespace libtorrent
 		}
 		
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		if (cb) cb->debug_log("tracker name lookup successful");
+		if (has_requester()) requester().debug_log("tracker name lookup successful");
 #endif
 		restart_read_timeout();
 
@@ -528,11 +519,11 @@ namespace libtorrent
 		if (target == end)
 		{
 			assert(target_address.address().is_v4() != bind_interface().is_v4());
-			if (cb)
+			if (has_requester())
 			{
 				std::string tracker_address_type = target_address.address().is_v4() ? "IPv4" : "IPv6";
 				std::string bind_address_type = bind_interface().is_v4() ? "IPv4" : "IPv6";
-				cb->tracker_warning("the tracker only resolves to an "
+				requester().tracker_warning("the tracker only resolves to an "
 					+ tracker_address_type + " address, and you're listening on an "
 					+ bind_address_type + " socket. This may prevent you from receiving incoming connections.");
 			}
@@ -542,7 +533,7 @@ namespace libtorrent
 			target_address = *target;
 		}
 
-		if (cb) cb->m_tracker_address = target_address;
+		if (has_requester()) requester().m_tracker_address = target_address;
 		m_socket = instantiate_connection(m_name_lookup.io_service(), m_proxy);
 
 		if (m_proxy.type == proxy_settings::http
@@ -583,8 +574,7 @@ namespace libtorrent
 		}
 
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		boost::shared_ptr<request_callback> cb = requester();
-		if (cb) cb->debug_log("tracker connection successful");
+		if (has_requester()) requester().debug_log("tracker connection successful");
 #endif
 
 		restart_read_timeout();
@@ -608,8 +598,7 @@ namespace libtorrent
 		}
 
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		boost::shared_ptr<request_callback> cb = requester();
-		if (cb) cb->debug_log("tracker send data completed");
+		if (has_requester()) requester().debug_log("tracker send data completed");
 #endif
 		restart_read_timeout();
 		assert(m_buffer.size() - m_recv_pos > 0);
@@ -645,8 +634,7 @@ namespace libtorrent
 		restart_read_timeout();
 		assert(bytes_transferred > 0);
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		boost::shared_ptr<request_callback> cb = requester();
-		if (cb) cb->debug_log("tracker connection reading "
+		if (has_requester()) requester().debug_log("tracker connection reading "
 			+ boost::lexical_cast<std::string>(bytes_transferred));
 #endif
 
@@ -712,8 +700,6 @@ namespace libtorrent
 		}
 	
 		std::string location = m_parser.header<std::string>("location");
-
-		boost::shared_ptr<request_callback> cb = requester();
 		
 		if (m_parser.status_code() >= 300 && m_parser.status_code() < 400)
 		{
@@ -734,9 +720,9 @@ namespace libtorrent
 			}
 
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-			if (cb) cb->debug_log("Redirecting to \"" + location + "\"");
+			if (has_requester()) requester().debug_log("Redirecting to \"" + location + "\"");
 #endif
-			if (cb) cb->tracker_warning("Redirecting to \"" + location + "\"");
+			if (has_requester()) requester().tracker_warning("Redirecting to \"" + location + "\"");
 			tracker_request req = tracker_req();
 
 			req.url = location;
@@ -759,18 +745,20 @@ namespace libtorrent
 		std::string content_encoding = m_parser.header<std::string>("content-encoding");
 
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		if (cb) cb->debug_log("content-encoding: \"" + content_encoding + "\"");
+		if (has_requester()) requester().debug_log("content-encoding: \"" + content_encoding + "\"");
 #endif
 
 		if (content_encoding == "gzip" || content_encoding == "x-gzip")
 		{
-			if (!cb)
+			boost::shared_ptr<request_callback> r = m_requester.lock();
+			
+			if (!r)
 			{
 				close();
 				return;
 			}
 			m_buffer.erase(m_buffer.begin(), m_buffer.begin() + m_parser.body_start());
-			if (inflate_gzip(m_buffer, tracker_request(), cb.get(),
+			if (inflate_gzip(m_buffer, tracker_request(), r.get(),
 				m_settings.tracker_maximum_response_length))
 			{
 				close();
@@ -847,8 +835,7 @@ namespace libtorrent
 
 	void http_tracker_connection::parse(entry const& e)
 	{
-		boost::shared_ptr<request_callback> cb = requester();
-		if (!cb) return;
+		if (!has_requester()) return;
 
 		try
 		{
@@ -865,7 +852,8 @@ namespace libtorrent
 			try
 			{
 				entry const& warning = e["warning message"];
-				cb->tracker_warning(warning.string());
+				if (has_requester())
+					requester().tracker_warning(warning.string());
 			}
 			catch(type_error const&) {}
 			
@@ -879,7 +867,7 @@ namespace libtorrent
 				entry scrape_data = e["files"][ih];
 				int complete = scrape_data["complete"].integer();
 				int incomplete = scrape_data["incomplete"].integer();
-				cb->tracker_response(tracker_request(), peer_list, 0, complete
+				requester().tracker_response(tracker_request(), peer_list, 0, complete
 					, incomplete);
 				return;
 			}
@@ -896,7 +884,12 @@ namespace libtorrent
 
 					peer_entry p;
 					p.pid.clear();
-					p.ip = detail::read_v4_address(i).to_string();
+					std::stringstream ip_str;
+					ip_str << (int)detail::read_uint8(i) << ".";
+					ip_str << (int)detail::read_uint8(i) << ".";
+					ip_str << (int)detail::read_uint8(i) << ".";
+					ip_str << (int)detail::read_uint8(i);
+					p.ip = ip_str.str();
 					p.port = detail::read_uint16(i);
 					peer_list.push_back(p);
 				}
@@ -911,22 +904,6 @@ namespace libtorrent
 				}
 			}
 
-			if (entry const* ipv6_peers = e.find_key("peers6"))
-			{
-				std::string const& peers = ipv6_peers->string();
-				for (std::string::const_iterator i = peers.begin();
-					i != peers.end();)
-				{
-					if (std::distance(i, peers.end()) < 18) break;
-					
-					peer_entry p;
-					p.pid.clear();
-					p.ip = detail::read_v6_address(i).to_string();
-					p.port = detail::read_uint16(i);
-					peer_list.push_back(p);
-				}
-			}
-
 			// look for optional scrape info
 			int complete = -1;
 			int incomplete = -1;
@@ -937,16 +914,16 @@ namespace libtorrent
 			try { incomplete = e["incomplete"].integer(); }
 			catch(type_error&) {}
 			
-			cb->tracker_response(tracker_request(), peer_list, interval, complete
+			requester().tracker_response(tracker_request(), peer_list, interval, complete
 				, incomplete);
 		}
 		catch(type_error& e)
 		{
-			cb->tracker_request_error(tracker_request(), m_parser.status_code(), e.what());
+			requester().tracker_request_error(tracker_request(), m_parser.status_code(), e.what());
 		}
 		catch(std::runtime_error& e)
 		{
-			cb->tracker_request_error(tracker_request(), m_parser.status_code(), e.what());
+			requester().tracker_request_error(tracker_request(), m_parser.status_code(), e.what());
 		}
 	}
 

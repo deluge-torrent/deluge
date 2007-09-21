@@ -85,8 +85,7 @@ public:
     if (this != &instance_ && ref_->result() != 0)
     {
       asio::system_error e(
-          asio::error_code(ref_->result(),
-            asio::error::system_category),
+          asio::error_code(ref_->result(), asio::native_ecat),
           "winsock");
       boost::throw_exception(e);
     }

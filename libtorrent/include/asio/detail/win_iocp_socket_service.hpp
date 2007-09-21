@@ -137,7 +137,7 @@ public:
     enum
     {
       enable_connection_aborted = 1, // User wants connection_aborted errors.
-      close_might_block = 2, // User set linger option for blocking close.
+      user_set_linger = 2, // The user set the linger option.
       user_set_non_blocking = 4 // The user wants a non-blocking socket.
     };
 
@@ -170,7 +170,7 @@ public:
   typedef detail::select_reactor<true> reactor_type;
 
   // The maximum number of buffers to support in a single operation.
-  enum { max_buffers = 64 < max_iov_len ? 64 : max_iov_len };
+  enum { max_buffers = 16 };
 
   // Constructor.
   win_iocp_socket_service(asio::io_service& io_service)
@@ -192,7 +192,7 @@ public:
     while (impl)
     {
       asio::error_code ignored_ec;
-      close_for_destruction(*impl);
+      close(*impl, ignored_ec);
       impl = impl->next_;
     }
   }
@@ -217,7 +217,34 @@ public:
   // Destroy a socket implementation.
   void destroy(implementation_type& impl)
   {
-    close_for_destruction(impl);
+    if (impl.socket_ != invalid_socket)
+    {
+      // Check if the reactor was created, in which case we need to close the
+      // socket on the reactor as well to cancel any operations that might be
+      // running there.
+      reactor_type* reactor = static_cast<reactor_type*>(
+            interlocked_compare_exchange_pointer(
+              reinterpret_cast<void**>(&reactor_), 0, 0));
+      if (reactor)
+        reactor->close_descriptor(impl.socket_);
+
+      if (impl.flags_ & implementation_type::user_set_linger)
+      {
+        ::linger opt;
+        opt.l_onoff = 0;
+        opt.l_linger = 0;
+        asio::error_code ignored_ec;
+        socket_ops::setsockopt(impl.socket_,
+            SOL_SOCKET, SO_LINGER, &opt, sizeof(opt), ignored_ec);
+      }
+
+      asio::error_code ignored_ec;
+      socket_ops::close(impl.socket_, ignored_ec);
+      impl.socket_ = invalid_socket;
+      impl.flags_ = 0;
+      impl.cancel_token_.reset();
+      impl.safe_cancellation_thread_id_ = 0;
+    }
 
     // Remove implementation from linked list of all implementations.
     asio::detail::mutex::scoped_lock lock(mutex_);
@@ -326,25 +353,6 @@ public:
     {
       ec = asio::error::bad_descriptor;
     }
-    else if (FARPROC cancel_io_ex_ptr = ::GetProcAddress(
-          ::GetModuleHandle("KERNEL32"), "CancelIoEx"))
-    {
-      // The version of Windows supports cancellation from any thread.
-      typedef BOOL (WINAPI* cancel_io_ex_t)(HANDLE, LPOVERLAPPED);
-      cancel_io_ex_t cancel_io_ex = (cancel_io_ex_t)cancel_io_ex_ptr;
-      socket_type sock = impl.socket_;
-      HANDLE sock_as_handle = reinterpret_cast<HANDLE>(sock);
-      if (!cancel_io_ex(sock_as_handle, 0))
-      {
-        DWORD last_error = ::GetLastError();
-        ec = asio::error_code(last_error,
-            asio::error::system_category);
-      }
-      else
-      {
-        ec = asio::error_code();
-      }
-    }
     else if (impl.safe_cancellation_thread_id_ == 0)
     {
       // No operations have been started, so there's nothing to cancel.
@@ -359,8 +367,7 @@ public:
       if (!::CancelIo(sock_as_handle))
       {
         DWORD last_error = ::GetLastError();
-        ec = asio::error_code(last_error,
-            asio::error::system_category);
+        ec = asio::error_code(last_error, asio::native_ecat);
       }
       else
       {
@@ -468,12 +475,7 @@ public:
       if (option.level(impl.protocol_) == SOL_SOCKET
           && option.name(impl.protocol_) == SO_LINGER)
       {
-        const ::linger* linger_option =
-          reinterpret_cast<const ::linger*>(option.data(impl.protocol_));
-        if (linger_option->l_onoff != 0 && linger_option->l_linger != 0)
-          impl.flags_ |= implementation_type::close_might_block;
-        else
-          impl.flags_ &= ~implementation_type::close_might_block;
+        impl.flags_ |= implementation_type::user_set_linger;
       }
 
       socket_ops::setsockopt(impl.socket_,
@@ -666,8 +668,7 @@ public:
         last_error = WSAECONNRESET;
       else if (last_error == ERROR_PORT_UNREACHABLE)
         last_error = WSAECONNREFUSED;
-      ec = asio::error_code(last_error,
-          asio::error::system_category);
+      ec = asio::error_code(last_error, asio::native_ecat);
       return 0;
     }
 
@@ -718,8 +719,7 @@ public:
 #endif // defined(ASIO_ENABLE_BUFFER_DEBUGGING)
 
       // Map non-portable errors to their portable counterparts.
-      asio::error_code ec(last_error,
-          asio::error::system_category);
+      asio::error_code ec(last_error, asio::native_ecat);
       if (ec.value() == ERROR_NETNAME_DELETED)
       {
         if (handler_op->cancel_token_.expired())
@@ -821,8 +821,7 @@ public:
     {
       asio::io_service::work work(this->io_service());
       ptr.reset();
-      asio::error_code ec(last_error,
-          asio::error::system_category);
+      asio::error_code ec(last_error, asio::native_ecat);
       iocp_service_.post(bind_handler(handler, ec, bytes_transferred));
     }
     else
@@ -866,8 +865,7 @@ public:
       DWORD last_error = ::WSAGetLastError();
       if (last_error == ERROR_PORT_UNREACHABLE)
         last_error = WSAECONNREFUSED;
-      ec = asio::error_code(last_error,
-          asio::error::system_category);
+      ec = asio::error_code(last_error, asio::native_ecat);
       return 0;
     }
 
@@ -916,8 +914,7 @@ public:
 #endif // defined(ASIO_ENABLE_BUFFER_DEBUGGING)
 
       // Map non-portable errors to their portable counterparts.
-      asio::error_code ec(last_error,
-          asio::error::system_category);
+      asio::error_code ec(last_error, asio::native_ecat);
       if (ec.value() == ERROR_PORT_UNREACHABLE)
       {
         ec = asio::error::connection_refused;
@@ -1000,8 +997,7 @@ public:
     {
       asio::io_service::work work(this->io_service());
       ptr.reset();
-      asio::error_code ec(last_error,
-          asio::error::system_category);
+      asio::error_code ec(last_error, asio::native_ecat);
       iocp_service_.post(bind_handler(handler, ec, bytes_transferred));
     }
     else
@@ -1055,8 +1051,7 @@ public:
         last_error = WSAECONNRESET;
       else if (last_error == ERROR_PORT_UNREACHABLE)
         last_error = WSAECONNREFUSED;
-      ec = asio::error_code(last_error,
-          asio::error::system_category);
+      ec = asio::error_code(last_error, asio::native_ecat);
       return 0;
     }
     if (bytes_transferred == 0)
@@ -1114,8 +1109,7 @@ public:
 #endif // defined(ASIO_ENABLE_BUFFER_DEBUGGING)
 
       // Map non-portable errors to their portable counterparts.
-      asio::error_code ec(last_error,
-          asio::error::system_category);
+      asio::error_code ec(last_error, asio::native_ecat);
       if (ec.value() == ERROR_NETNAME_DELETED)
       {
         if (handler_op->cancel_token_.expired())
@@ -1222,8 +1216,7 @@ public:
     {
       asio::io_service::work work(this->io_service());
       ptr.reset();
-      asio::error_code ec(last_error,
-          asio::error::system_category);
+      asio::error_code ec(last_error, asio::native_ecat);
       iocp_service_.post(bind_handler(handler, ec, bytes_transferred));
     }
     else
@@ -1269,8 +1262,7 @@ public:
       DWORD last_error = ::WSAGetLastError();
       if (last_error == ERROR_PORT_UNREACHABLE)
         last_error = WSAECONNREFUSED;
-      ec = asio::error_code(last_error,
-          asio::error::system_category);
+      ec = asio::error_code(last_error, asio::native_ecat);
       return 0;
     }
     if (bytes_transferred == 0)
@@ -1336,8 +1328,7 @@ public:
 #endif // defined(ASIO_ENABLE_BUFFER_DEBUGGING)
 
       // Map non-portable errors to their portable counterparts.
-      asio::error_code ec(last_error,
-          asio::error::system_category);
+      asio::error_code ec(last_error, asio::native_ecat);
       if (ec.value() == ERROR_PORT_UNREACHABLE)
       {
         ec = asio::error::connection_refused;
@@ -1431,8 +1422,7 @@ public:
     {
       asio::io_service::work work(this->io_service());
       ptr.reset();
-      asio::error_code ec(last_error,
-          asio::error::system_category);
+      asio::error_code ec(last_error, asio::native_ecat);
       iocp_service_.post(bind_handler(handler, ec, bytes_transferred));
     }
     else
@@ -1669,8 +1659,7 @@ public:
       ptr.reset();
 
       // Call the handler.
-      asio::error_code ec(last_error,
-          asio::error::system_category);
+      asio::error_code ec(last_error, asio::native_ecat);
       asio_handler_invoke_helpers::invoke(
           detail::bind_handler(handler, ec), &handler);
     }
@@ -1770,8 +1759,7 @@ public:
       {
         asio::io_service::work work(this->io_service());
         ptr.reset();
-        asio::error_code ec(last_error,
-            asio::error::system_category);
+        asio::error_code ec(last_error, asio::native_ecat);
         iocp_service_.post(bind_handler(handler, ec));
       }
     }
@@ -1847,8 +1835,8 @@ public:
       // If connection failed then post the handler with the error code.
       if (connect_error)
       {
-        ec = asio::error_code(connect_error,
-            asio::error::system_category);
+        ec = asio::error_code(
+            connect_error, asio::native_ecat);
         io_service_.post(bind_handler(handler_, ec));
         return true;
       }
@@ -1962,66 +1950,26 @@ public:
   }
 
 private:
-  // Helper function to close a socket when the associated object is being
-  // destroyed.
-  void close_for_destruction(implementation_type& impl)
-  {
-    if (is_open(impl))
-    {
-      // Check if the reactor was created, in which case we need to close the
-      // socket on the reactor as well to cancel any operations that might be
-      // running there.
-      reactor_type* reactor = static_cast<reactor_type*>(
-            interlocked_compare_exchange_pointer(
-              reinterpret_cast<void**>(&reactor_), 0, 0));
-      if (reactor)
-        reactor->close_descriptor(impl.socket_);
-
-      // The socket destructor must not block. If the user has changed the
-      // linger option to block in the foreground, we will change it back to the
-      // default so that the closure is performed in the background.
-      if (impl.flags_ & implementation_type::close_might_block)
-      {
-        ::linger opt;
-        opt.l_onoff = 0;
-        opt.l_linger = 0;
-        asio::error_code ignored_ec;
-        socket_ops::setsockopt(impl.socket_,
-            SOL_SOCKET, SO_LINGER, &opt, sizeof(opt), ignored_ec);
-      }
-
-      asio::error_code ignored_ec;
-      socket_ops::close(impl.socket_, ignored_ec);
-      impl.socket_ = invalid_socket;
-      impl.flags_ = 0;
-      impl.cancel_token_.reset();
-      impl.safe_cancellation_thread_id_ = 0;
-    }
-  }
-
-  // Helper function to emulate InterlockedCompareExchangePointer functionality
-  // for:
-  // - very old Platform SDKs; and
-  // - platform SDKs where MSVC's /Wp64 option causes spurious warnings.
+  // Helper function to provide InterlockedCompareExchangePointer functionality
+  // on very old Platform SDKs.
   void* interlocked_compare_exchange_pointer(void** dest, void* exch, void* cmp)
   {
-#if defined(_M_IX86)
+#if defined(_WIN32_WINNT) && (_WIN32_WINNT <= 0x400) && (_M_IX86)
     return reinterpret_cast<void*>(InterlockedCompareExchange(
-          reinterpret_cast<PLONG>(dest), reinterpret_cast<LONG>(exch),
+          reinterpret_cast<LONG*>(dest), reinterpret_cast<LONG>(exch),
           reinterpret_cast<LONG>(cmp)));
 #else
     return InterlockedCompareExchangePointer(dest, exch, cmp);
 #endif
   }
 
-  // Helper function to emulate InterlockedExchangePointer functionality for:
-  // - very old Platform SDKs; and
-  // - platform SDKs where MSVC's /Wp64 option causes spurious warnings.
+  // Helper function to provide InterlockedExchangePointer functionality on very
+  // old Platform SDKs.
   void* interlocked_exchange_pointer(void** dest, void* val)
   {
-#if defined(_M_IX86)
+#if defined(_WIN32_WINNT) && (_WIN32_WINNT <= 0x400) && (_M_IX86)
     return reinterpret_cast<void*>(InterlockedExchange(
-          reinterpret_cast<PLONG>(dest), reinterpret_cast<LONG>(val)));
+          reinterpret_cast<LONG*>(dest), reinterpret_cast<LONG>(val)));
 #else
     return InterlockedExchangePointer(dest, val);
 #endif

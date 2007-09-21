@@ -33,7 +33,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/pch.hpp"
 
 #include "libtorrent/socks5_stream.hpp"
-#include "libtorrent/assert.hpp"
 
 namespace libtorrent
 {

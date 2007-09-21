@@ -167,7 +167,6 @@ namespace libtorrent
 			return;
 			
 		assert(sequenced_download_threshold > 0);
-		if (sequenced_download_threshold <= 0) return;
 			
 		int old_limit = m_sequenced_download_threshold;
 		m_sequenced_download_threshold = sequenced_download_threshold;
@@ -192,22 +191,22 @@ namespace libtorrent
 			// the previous max availability was reached
 			// we need to shuffle that bucket, if not, we
 			// don't have to do anything
-			if (int(m_piece_info.size()) > old_limit * 2)
+			if (int(m_piece_info.size()) > old_limit)
 			{
-				info_t& in = m_piece_info[old_limit * 2];
+				info_t& in = m_piece_info[old_limit];
 				std::random_shuffle(in.begin(), in.end());
 				int c = 0;
 				for (info_t::iterator i = in.begin()
 					, end(in.end()); i != end; ++i)
 				{
 					m_piece_map[*i].index = c++;
-					assert(m_piece_map[*i].priority(old_limit) == old_limit * 2);
+					assert(m_piece_map[*i].priority(old_limit) == old_limit);
 				}
 			}
 		}
-		else if (int(m_piece_info.size()) > sequenced_download_threshold * 2)
+		else if (int(m_piece_info.size()) > sequenced_download_threshold)
 		{
-			info_t& in = m_piece_info[sequenced_download_threshold * 2];
+			info_t& in = m_piece_info[sequenced_download_threshold];
 			std::sort(in.begin(), in.end());
 			int c = 0;
 			for (info_t::iterator i = in.begin()
@@ -215,7 +214,7 @@ namespace libtorrent
 			{
 				m_piece_map[*i].index = c++;
 				assert(m_piece_map[*i].priority(
-					sequenced_download_threshold) == sequenced_download_threshold * 2);
+					sequenced_download_threshold) == sequenced_download_threshold);
 			}
 		}
 	}
@@ -263,23 +262,8 @@ namespace libtorrent
 		}
 		m_downloads.erase(i);
 	}
-
 #ifndef NDEBUG
 
-	void piece_picker::verify_pick(std::vector<piece_block> const& picked
-		, std::vector<bool> const& bitfield) const
-	{
-		assert(bitfield.size() == m_piece_map.size());
-		for (std::vector<piece_block>::const_iterator i = picked.begin()
-			, end(picked.end()); i != end; ++i)
-		{
-			assert(i->piece_index >= 0);
-			assert(i->piece_index < int(bitfield.size()));
-			assert(bitfield[i->piece_index]);
-			assert(!m_piece_map[i->piece_index].have());
-		}
-	}
-	
 	void piece_picker::check_invariant(const torrent* t) const
 	{
 		assert(sizeof(piece_pos) == 4);
@@ -410,7 +394,6 @@ namespace libtorrent
 					assert(!t->have_piece(index));
 
 				int prio = i->priority(m_sequenced_download_threshold);
-				assert(prio < int(m_piece_info.size()));
 				if (prio > 0)
 				{
 					const std::vector<int>& vec = m_piece_info[prio];
@@ -464,7 +447,7 @@ namespace libtorrent
 			if (i->have()) ++peer_count;
 			if (min_availability > peer_count)
 			{
-				min_availability = peer_count;
+				min_availability = i->peer_count;
 				fraction_part += integer_part;
 				integer_part = 1;
 			}
@@ -655,13 +638,12 @@ namespace libtorrent
 		if (dp == m_downloads.begin()) return;
 		int complete = dp->writing + dp->finished;
 		for (std::vector<downloading_piece>::iterator i = dp, j(dp-1);
-			i != m_downloads.begin(); --i, --j)
+			i != m_downloads.begin() && j != m_downloads.begin(); --i, --j)
 		{
 			assert(j >= m_downloads.begin());
 			if (j->finished + j->writing >= complete) return;
 			using std::swap;
 			swap(*j, *i);
-			if (j == m_downloads.begin()) break;
 		}
 	}
 
@@ -757,7 +739,6 @@ namespace libtorrent
 			, end(m_piece_map.end()); i != end; ++i)
 		{
 			int prev_prio = i->priority(m_sequenced_download_threshold);
-			assert(prev_prio < int(m_piece_info.size()));
 			++i->peer_count;
 			// if the assumption that the priority would
 			// increase by 2 when increasing the availability
@@ -847,8 +828,6 @@ namespace libtorrent
 			, end(m_piece_map.end()); i != end; ++i)
 		{
 			int prev_prio = i->priority(m_sequenced_download_threshold);
-			assert(prev_prio < int(m_piece_info.size()));
-			assert(pushed_out_index < int(m_piece_info.size()));
 			assert(i->peer_count > 0);
 			--i->peer_count;
 			// if the assumption that the priority would
@@ -900,7 +879,6 @@ namespace libtorrent
 		piece_pos& p = m_piece_map[i];
 		int index = p.index;
 		int prev_priority = p.priority(m_sequenced_download_threshold);
-		assert(prev_priority < int(m_piece_info.size()));
 
 		assert(p.peer_count < piece_pos::max_peer_count);
 		p.peer_count++;
@@ -935,7 +913,6 @@ namespace libtorrent
 
 		piece_pos& p = m_piece_map[i];
 		int prev_priority = p.priority(m_sequenced_download_threshold);
-		assert(prev_priority < int(m_piece_info.size()));
 		int index = p.index;
 		assert(p.peer_count > 0);
 
@@ -960,7 +937,6 @@ namespace libtorrent
 		piece_pos& p = m_piece_map[index];
 		int info_index = p.index;
 		int priority = p.priority(m_sequenced_download_threshold);
-		assert(priority < int(m_piece_info.size()));
 
 		assert(p.downloading == 1);
 		assert(!p.have());
@@ -1004,7 +980,6 @@ namespace libtorrent
 		if (new_piece_priority == int(p.piece_priority)) return false;
 		
 		int prev_priority = p.priority(m_sequenced_download_threshold);
-		assert(prev_priority < int(m_piece_info.size()));
 
 		bool ret = false;
 		if (new_piece_priority == piece_pos::filter_priority
@@ -1028,7 +1003,6 @@ namespace libtorrent
 		
 		p.piece_priority = new_piece_priority;
 		int new_priority = p.priority(m_sequenced_download_threshold);
-		assert(prev_priority < int(m_piece_info.size()));
 
 		if (new_priority == prev_priority) return false;
 		
@@ -1094,9 +1068,8 @@ namespace libtorrent
 	// or slow once they're started.
 	void piece_picker::pick_pieces(const std::vector<bool>& pieces
 		, std::vector<piece_block>& interesting_blocks
-		, int num_blocks, int prefer_whole_pieces
-		, void* peer, piece_state_t speed, bool rarest_first
-		, bool on_parole, std::vector<int> const& suggested_pieces) const
+		, int num_blocks, bool prefer_whole_pieces
+		, void* peer, piece_state_t speed, bool rarest_first) const
 	{
 		TORRENT_PIECE_PICKER_INVARIANT_CHECK;
 		assert(num_blocks > 0);
@@ -1112,84 +1085,59 @@ namespace libtorrent
 		// blocks belonging to a piece that others have
 		// downloaded to
 		std::vector<piece_block> backup_blocks;
-		// suggested pieces for each vector is put in this vector
-		std::vector<int> suggested_bucket;
-		const std::vector<int> empty_vector;
 	
 		// When prefer_whole_pieces is set (usually set when downloading from
 		// fast peers) the partial pieces will not be prioritized, but actually
 		// ignored as long as possible. All blocks found in downloading
 		// pieces are regarded as backup blocks
-
-		num_blocks = add_blocks_downloading(pieces
-			, interesting_blocks, backup_blocks, num_blocks
-			, prefer_whole_pieces, peer, speed, on_parole);
-
-		if (num_blocks <= 0) return;
-
-		if (rarest_first)
+		bool ignore_downloading_pieces = false;
+		if (prefer_whole_pieces)
 		{
-			// this loop will loop from pieces with priority 1 and up
-			// until we either reach the end of the piece list or
-			// has filled the interesting_blocks with num_blocks
-			// blocks.
-
-			// +1 is to ignore pieces that no peer has. The bucket with index 0 contains
-			// pieces that 0 other peers have. bucket will point to a bucket with
-			// pieces with the same priority. It will be iterated in priority
-			// order (high priority/rare pices first). The content of each
-			// bucket is randomized
-			for (std::vector<std::vector<int> >::const_iterator bucket
-				= m_piece_info.begin() + 1; num_blocks > 0 && bucket != m_piece_info.end();
-				++bucket)
+			std::vector<int> downloading_pieces;
+			downloading_pieces.reserve(m_downloads.size());
+			for (std::vector<downloading_piece>::const_iterator i = m_downloads.begin()
+				, end(m_downloads.end()); i != end; ++i)
 			{
-				if (bucket->empty()) continue;
-				if (!suggested_pieces.empty())
-				{
-					int bucket_index = bucket - m_piece_info.begin();
-					suggested_bucket.clear();
-					for (std::vector<int>::const_iterator i = suggested_pieces.begin()
-						, end(suggested_pieces.end()); i != end; ++i)
-					{
-						assert(*i >= 0);
-						assert(*i < int(m_piece_map.size()));
-						if (!can_pick(*i, pieces)) continue;
-						if (m_piece_map[*i].priority(m_sequenced_download_threshold) == bucket_index)
-							suggested_bucket.push_back(*i);
-					}
-					if (!suggested_bucket.empty())
-					{
-						num_blocks = add_blocks(suggested_bucket, pieces
-							, interesting_blocks, num_blocks
-							, prefer_whole_pieces, peer, empty_vector);
-						if (num_blocks == 0) break;
-					}
-				}
-				num_blocks = add_blocks(*bucket, pieces
-					, interesting_blocks, num_blocks
-					, prefer_whole_pieces, peer, suggested_bucket);
-				assert(num_blocks >= 0);
+				downloading_pieces.push_back(i->index);
 			}
+			add_interesting_blocks(downloading_pieces, pieces
+				, backup_blocks, backup_blocks, num_blocks
+				, prefer_whole_pieces, peer, speed, ignore_downloading_pieces);
+			ignore_downloading_pieces = true;
 		}
-		else
+		
+		// this loop will loop from pieces with priority 1 and up
+		// until we either reach the end of the piece list or
+		// has filled the interesting_blocks with num_blocks
+		// blocks.
+
+		// +1 is to ignore pieces that no peer has. The bucket with index 0 contains
+		// pieces that 0 other peers have. bucket will point to a bucket with
+		// pieces with the same priority. It will be iterated in priority
+		// order (high priority/rare pices first). The content of each
+		// bucket is randomized
+		for (std::vector<std::vector<int> >::const_iterator bucket
+			= m_piece_info.begin() + 1; bucket != m_piece_info.end();
+			++bucket)
 		{
+			if (bucket->empty()) continue;
+			num_blocks = add_interesting_blocks(*bucket, pieces
+				, interesting_blocks, backup_blocks, num_blocks
+				, prefer_whole_pieces, peer, speed, ignore_downloading_pieces);
+			assert(num_blocks >= 0);
+			if (num_blocks == 0) return;
+			if (rarest_first) continue;
+
 			// we're not using rarest first (only for the first
 			// bucket, since that's where the currently downloading
 			// pieces are)
-			int start_piece = rand() % m_piece_map.size();
-
-			// if we have suggested pieces, try to find one of those instead
-			for (std::vector<int>::const_iterator i = suggested_pieces.begin()
-				, end(suggested_pieces.end()); i != end; ++i)
-			{
-				if (!can_pick(*i, pieces)) continue;
-				start_piece = *i;
-				break;
-			}
-			int piece = start_piece;
 			while (num_blocks > 0)
 			{
-				while (!can_pick(piece, pieces))
+				int start_piece = rand() % m_piece_map.size();
+				int piece = start_piece;
+				while (!pieces[piece]
+					|| m_piece_map[piece].index == piece_pos::we_have_index
+					|| m_piece_map[piece].priority(m_sequenced_download_threshold) < 2)
 				{
 					++piece;
 					if (piece == int(m_piece_map.size())) piece = 0;
@@ -1197,43 +1145,25 @@ namespace libtorrent
 					if (piece == start_piece) return;
 				}
 
-				int start, end;
-				boost::tie(start, end) = expand_piece(piece, prefer_whole_pieces, pieces);
-				for (int k = start; k < end; ++k)
-				{
-					assert(m_piece_map[piece].downloading == false);
-					assert(m_piece_map[k].priority(m_sequenced_download_threshold) > 0);
-					int num_blocks_in_piece = blocks_in_piece(k);
-					if (prefer_whole_pieces == 0 && num_blocks_in_piece > num_blocks)
-						num_blocks_in_piece = num_blocks;
-					for (int j = 0; j < num_blocks_in_piece; ++j)
-					{
-						interesting_blocks.push_back(piece_block(k, j));
-						--num_blocks;
-					}
-				}
-				piece = end;
-				if (piece == int(m_piece_map.size())) piece = 0;
-				// could not find any more pieces
-				if (piece == start_piece) return;
+				assert(m_piece_map[piece].downloading == false);
+
+				int num_blocks_in_piece = blocks_in_piece(piece);
+
+				if (!prefer_whole_pieces && num_blocks_in_piece > num_blocks)
+					num_blocks_in_piece = num_blocks;
+				for (int j = 0; j < num_blocks_in_piece; ++j)
+					interesting_blocks.push_back(piece_block(piece, j));
+				num_blocks -= (std::min)(num_blocks_in_piece, num_blocks);
 			}
-		
+			if (num_blocks == 0) return;
+			break;
 		}
 
-		if (num_blocks <= 0) return;
+		assert(num_blocks > 0);
 
 		if (!backup_blocks.empty())
 			interesting_blocks.insert(interesting_blocks.end()
 				, backup_blocks.begin(), backup_blocks.end());
-	}
-
-	bool piece_picker::can_pick(int piece, std::vector<bool> const& bitmask) const
-	{
-		assert(piece >= 0 && piece < int(m_piece_map.size()));
-		return bitmask[piece]
-			&& !m_piece_map[piece].have()
-			&& !m_piece_map[piece].downloading
-			&& !m_piece_map[piece].filtered();
 	}
 
 	void piece_picker::clear_peer(void* peer)
@@ -1273,12 +1203,17 @@ namespace libtorrent
 		}
 	}
 
-	int piece_picker::add_blocks(std::vector<int> const& piece_list
+	int piece_picker::add_interesting_blocks(std::vector<int> const& piece_list
 		, std::vector<bool> const& pieces
 		, std::vector<piece_block>& interesting_blocks
-		, int num_blocks, int prefer_whole_pieces
-		, void* peer, std::vector<int> const& ignore) const
+		, std::vector<piece_block>& backup_blocks
+		, int num_blocks, bool prefer_whole_pieces
+		, void* peer, piece_state_t speed
+		, bool ignore_downloading_pieces) const
 	{
+		// if we have less than 1% of the pieces, ignore speed priorities and just try
+		// to finish any downloading piece
+		bool ignore_speed_categories = (m_num_have * 100 / m_piece_map.size()) < 1;
 		for (std::vector<int>::const_iterator i = piece_list.begin();
 			i != piece_list.end(); ++i)
 		{
@@ -1289,266 +1224,109 @@ namespace libtorrent
 			// skip it
 			if (!pieces[*i]) continue;
 
-			// ignore pieces found in the ignore list
-			if (std::find(ignore.begin(), ignore.end(), *i) != ignore.end()) continue;
-
-			// skip the piece is the priority is 0
-			assert(m_piece_map[*i].priority(m_sequenced_download_threshold) > 0);
-
 			int num_blocks_in_piece = blocks_in_piece(*i);
 
-			assert(m_piece_map[*i].downloading == 0);
-			assert(m_piece_map[*i].priority(m_sequenced_download_threshold) > 0);
-
-			// pick a new piece
-			if (prefer_whole_pieces == 0)
+			if (m_piece_map[*i].downloading == 1)
 			{
-				if (num_blocks_in_piece > num_blocks)
-					num_blocks_in_piece = num_blocks;
-				for (int j = 0; j < num_blocks_in_piece; ++j)
-					interesting_blocks.push_back(piece_block(*i, j));
-				num_blocks -= num_blocks_in_piece;
-			}
-			else
-			{
-				int start, end;
-				boost::tie(start, end) = expand_piece(*i, prefer_whole_pieces, pieces);
-				for (int k = start; k < end; ++k)
-				{
-					assert(m_piece_map[k].priority(m_sequenced_download_threshold) > 0);
-					num_blocks_in_piece = blocks_in_piece(k);
-					for (int j = 0; j < num_blocks_in_piece; ++j)
-					{
-						interesting_blocks.push_back(piece_block(k, j));
-						--num_blocks;
-					}
-				}
-			}
-			if (num_blocks <= 0)
-			{
-#ifndef NDEBUG
-				verify_pick(interesting_blocks, pieces);
-#endif
-				return 0;
-			}
-		}
-#ifndef NDEBUG
-		verify_pick(interesting_blocks, pieces);
-#endif
-		return num_blocks;
-	}
+				if (ignore_downloading_pieces) continue;
+				std::vector<downloading_piece>::const_iterator p
+					= std::find_if(m_downloads.begin(), m_downloads.end(), has_index(*i));
+				assert(p != m_downloads.end());
 
-	int piece_picker::add_blocks_downloading(std::vector<bool> const& pieces
-		, std::vector<piece_block>& interesting_blocks
-		, std::vector<piece_block>& backup_blocks
-		, int num_blocks, int prefer_whole_pieces
-		, void* peer, piece_state_t speed, bool on_parole) const
-	{
-		for (std::vector<downloading_piece>::const_iterator i = m_downloads.begin()
-			, end(m_downloads.end()); i != end; ++i)
-		{
-			if (!pieces[i->index]) continue;
-
-			int num_blocks_in_piece = blocks_in_piece(i->index);
-
-			// is true if all the other pieces that are currently
-			// requested from this piece are from the same
-			// peer as 'peer'.
-			bool exclusive;
-			bool exclusive_active;
-			boost::tie(exclusive, exclusive_active)
-				= requested_from(*i, num_blocks_in_piece, peer);
-
-			// peers on parole are only allowed to pick blocks from
-			// pieces that only they have downloaded/requested from
-			if (on_parole && !exclusive) continue;
-
-			if (prefer_whole_pieces > 0 && !exclusive_active) continue;
-
-			// don't pick too many back-up blocks
-			if (i->state != none
-				&& i->state != speed
-				&& !exclusive_active
-				&& int(backup_blocks.size()) >= num_blocks)
-				continue;
-
-			for (int j = 0; j < num_blocks_in_piece; ++j)
-			{
-				// ignore completed blocks and already requested blocks
-				block_info const& info = i->info[j];
-				if (info.state != block_info::state_none)
-					continue;
-
-				assert(i->info[j].state == block_info::state_none);
-
-				// if the piece is fast and the peer is slow, or vice versa,
-				// add the block as a backup.
-				// override this behavior if all the other blocks
-				// have been requested from the same peer or
-				// if the state of the piece is none (the
-				// piece will in that case change state).
-				if (i->state != none && i->state != speed
-					&& !exclusive_active)
-				{
-					backup_blocks.push_back(piece_block(i->index, j));
-					continue;
-				}
-				
-				// this block is interesting (we don't have it
-				// yet).
-				interesting_blocks.push_back(piece_block(i->index, j));
-				// we have found a block that's free to download
-				num_blocks--;
-				// if we prefer whole pieces, continue picking from this
-				// piece even though we have num_blocks
-				if (prefer_whole_pieces > 0) continue;
-				assert(num_blocks >= 0);
-				if (num_blocks <= 0) break;
-			}
-			if (num_blocks <= 0) break;
-		}
-	
-		assert(num_blocks >= 0 || prefer_whole_pieces > 0);
-
-#ifndef NDEBUG
-		verify_pick(interesting_blocks, pieces);
-		verify_pick(backup_blocks, pieces);
-#endif
-
-		if (num_blocks <= 0) return 0;
-		if (on_parole) return num_blocks;
-
-		int to_copy;
-		if (prefer_whole_pieces == 0)
-			to_copy = (std::min)(int(backup_blocks.size()), num_blocks);
-		else
-			to_copy = int(backup_blocks.size());
-
-		interesting_blocks.insert(interesting_blocks.end()
-			, backup_blocks.begin(), backup_blocks.begin() + to_copy);
-		num_blocks -= to_copy;
-		backup_blocks.clear();
-
-		if (num_blocks <= 0) return 0;
-
-		if (prefer_whole_pieces > 0)
-		{
-			for (std::vector<downloading_piece>::const_iterator i = m_downloads.begin()
-				, end(m_downloads.end()); i != end; ++i)
-			{
-				if (!pieces[i->index]) continue;
-				int num_blocks_in_piece = blocks_in_piece(i->index);
+				// is true if all the other pieces that are currently
+				// requested from this piece are from the same
+				// peer as 'peer'.
 				bool exclusive;
 				bool exclusive_active;
 				boost::tie(exclusive, exclusive_active)
-					= requested_from(*i, num_blocks_in_piece, peer);
+					= requested_from(*p, num_blocks_in_piece, peer);
 
-				if (exclusive_active) continue;
-				
+				// this means that this partial piece has
+				// been downloaded/requested partially from
+				// another peer that isn't us. And since
+				// we prefer whole pieces, add this piece's
+				// blocks to the backup list. If the prioritized
+				// blocks aren't enough, blocks from this list
+				// will be picked.
+				if (prefer_whole_pieces && !exclusive)
+				{
+					for (int j = 0; j < num_blocks_in_piece; ++j)
+					{
+						block_info const& info = p->info[j];
+						if (info.state == block_info::state_finished
+							|| info.state == block_info::state_writing)
+							continue;
+						if (info.state == block_info::state_requested
+							&& info.peer == peer) continue;
+						backup_blocks.push_back(piece_block(*i, j));
+					}
+					continue;
+				}
+
 				for (int j = 0; j < num_blocks_in_piece; ++j)
 				{
-					block_info const& info = i->info[j];
-					if (info.state != block_info::state_none) continue;
-					backup_blocks.push_back(piece_block(i->index, j));
+					// ignore completed blocks
+					block_info const& info = p->info[j];
+					if (info.state == block_info::state_finished
+						|| info.state == block_info::state_writing)
+						continue;
+					// ignore blocks requested from this peer already
+					if (info.state == block_info::state_requested
+						&& info.peer == peer)
+						continue;
+					// if the piece is fast and the peer is slow, or vice versa,
+					// add the block as a backup.
+					// override this behavior if all the other blocks
+					// have been requested from the same peer or
+					// if the state of the piece is none (the
+					// piece will in that case change state).
+					if (p->state != none && p->state != speed
+						&& !exclusive_active
+						&& !ignore_speed_categories)
+					{
+						backup_blocks.push_back(piece_block(*i, j));
+						continue;
+					}
+					// this block is interesting (we don't have it
+					// yet). But it may already have been requested
+					// from another peer. We have to add it anyway
+					// to allow the requester to determine if the
+					// block should be requested from more than one
+					// peer. If it is being downloaded, we continue
+					// to look for blocks until we have num_blocks
+					// blocks that have not been requested from any
+					// other peer.
+					if (p->info[j].state == block_info::state_none)
+					{
+						interesting_blocks.push_back(piece_block(*i, j));
+						// we have found a block that's free to download
+						num_blocks--;
+						// if we prefer whole pieces, continue picking from this
+						// piece even though we have num_blocks
+						if (prefer_whole_pieces) continue;
+						assert(num_blocks >= 0);
+						if (num_blocks == 0) return num_blocks;
+					}
+					else
+					{
+						backup_blocks.push_back(piece_block(*i, j));
+					}
 				}
+				assert(num_blocks >= 0 || prefer_whole_pieces);
+				if (num_blocks < 0) num_blocks = 0;
 			}
-		}
-
-		if (int(backup_blocks.size()) >= num_blocks) return num_blocks;
-
-
-#ifndef NDEBUG
-//		make sure that we at this point has added requests to all unrequested blocks
-//		in all downloading pieces
-
-		for (std::vector<downloading_piece>::const_iterator i = m_downloads.begin()
-			, end(m_downloads.end()); i != end; ++i)
-		{
-			if (!pieces[i->index]) continue;
-				
-			int num_blocks_in_piece = blocks_in_piece(i->index);
-			for (int j = 0; j < num_blocks_in_piece; ++j)
+			else
 			{
-				block_info const& info = i->info[j];
-				if (info.state != block_info::state_none) continue;
-				std::vector<piece_block>::iterator k = std::find(
-					interesting_blocks.begin(), interesting_blocks.end()
-					, piece_block(i->index, j));
-				if (k != interesting_blocks.end()) continue;
-				
-				k = std::find(backup_blocks.begin()
-					, backup_blocks.end(), piece_block(i->index, j));
-				if (k != backup_blocks.end()) continue;
-
-				std::cerr << "interesting blocks:" << std::endl;
-				for (k = interesting_blocks.begin(); k != interesting_blocks.end(); ++k)
-					std::cerr << "(" << k->piece_index << ", " << k->block_index << ") ";
-				std::cerr << std::endl;
-				std::cerr << "backup blocks:" << std::endl;
-				for (k = backup_blocks.begin(); k != backup_blocks.end(); ++k)
-					std::cerr << "(" << k->piece_index << ", " << k->block_index << ") ";
-				std::cerr << std::endl;
-				std::cerr << "num_blocks: " << num_blocks << std::endl;
-				
-				for (std::vector<downloading_piece>::const_iterator l = m_downloads.begin()
-					, end(m_downloads.end()); l != end; ++l)
-				{
-					std::cerr << l->index << " : ";
-					int num_blocks_in_piece = blocks_in_piece(l->index);
-					for (int m = 0; m < num_blocks_in_piece; ++m)
-						std::cerr << l->info[m].state;
-					std::cerr << std::endl;
-				}
-
-				assert(false);
+				if (!prefer_whole_pieces && num_blocks_in_piece > num_blocks)
+					num_blocks_in_piece = num_blocks;
+				for (int j = 0; j < num_blocks_in_piece; ++j)
+					interesting_blocks.push_back(piece_block(*i, j));
+				num_blocks -= (std::min)(num_blocks_in_piece, num_blocks);
 			}
+			assert(num_blocks >= 0);
+			if (num_blocks == 0) return num_blocks;
 		}
-#endif
-
-		for (std::vector<downloading_piece>::const_iterator i = m_downloads.begin()
-			, end(m_downloads.end()); i != end; ++i)
-		{
-			if (!pieces[i->index]) continue;
-
-			int num_blocks_in_piece = blocks_in_piece(i->index);
-
-			// fill in with blocks requested from other peers
-			// as backups
-			for (int j = 0; j < num_blocks_in_piece; ++j)
-			{
-				block_info const& info = i->info[j];
-				if (info.state != block_info::state_requested
-					|| info.peer == peer)
-					continue;
-				backup_blocks.push_back(piece_block(i->index, j));
-			}
-		}
-#ifndef NDEBUG
-		verify_pick(backup_blocks, pieces);
-#endif
 		return num_blocks;
-	}
-	
-	std::pair<int, int> piece_picker::expand_piece(int piece, int whole_pieces
-		, std::vector<bool> const& have) const
-	{
-		if (whole_pieces == 0) return std::make_pair(piece, piece + 1);
-
-		int start = piece - 1;
-		int lower_limit = piece - whole_pieces;
-		if (lower_limit < -1) lower_limit = -1;
-		while (start > lower_limit
-			&& can_pick(start, have))
-			--start;
-		++start;
-		assert(start >= 0);
-		int end = piece + 1;
-		int upper_limit = start + whole_pieces;
-		if (upper_limit > int(m_piece_map.size())) upper_limit = int(m_piece_map.size());
-		while (end < upper_limit
-			&& can_pick(end, have))
-			++end;
-		return std::make_pair(start, end);
 	}
 
 	bool piece_picker::is_piece_finished(int index) const
@@ -1627,7 +1405,7 @@ namespace libtorrent
 	}
 
 
-	bool piece_picker::mark_as_downloading(piece_block block
+	void piece_picker::mark_as_downloading(piece_block block
 		, void* peer, piece_state_t state)
 	{
 		TORRENT_PIECE_PICKER_INVARIANT_CHECK;
@@ -1636,14 +1414,11 @@ namespace libtorrent
 		assert(block.block_index >= 0);
 		assert(block.piece_index < (int)m_piece_map.size());
 		assert(block.block_index < blocks_in_piece(block.piece_index));
-		assert(!m_piece_map[block.piece_index].have());
 
 		piece_pos& p = m_piece_map[block.piece_index];
 		if (p.downloading == 0)
 		{
 			int prio = p.priority(m_sequenced_download_threshold);
-			assert(prio < int(m_piece_info.size()));
-			assert(prio > 0);
 			p.downloading = 1;
 			move(prio, p.index);
 
@@ -1662,9 +1437,6 @@ namespace libtorrent
 				= std::find_if(m_downloads.begin(), m_downloads.end(), has_index(block.piece_index));
 			assert(i != m_downloads.end());
 			block_info& info = i->info[block.block_index];
-			if (info.state == block_info::state_writing
-				|| info.state == block_info::state_finished)
-				return false;
 			assert(info.state == block_info::state_none
 				|| (info.state == block_info::state_requested
 					&& (info.num_peers > 0)));
@@ -1677,7 +1449,6 @@ namespace libtorrent
 			++info.num_peers;
 			if (i->state == none) i->state = state;
 		}
-		return true;
 	}
 
 	int piece_picker::num_peers(piece_block block) const
@@ -1758,7 +1529,6 @@ namespace libtorrent
 			
 			assert(peer == 0);
 			int prio = p.priority(m_sequenced_download_threshold);
-			assert(prio < int(m_piece_info.size()));
 			p.downloading = 1;
 			if (prio > 0) move(prio, p.index);
 			else assert(p.priority(m_sequenced_download_threshold) == 0);
@@ -1880,12 +1650,9 @@ namespace libtorrent
 		{
 			erase_download_piece(i);
 			piece_pos& p = m_piece_map[block.piece_index];
-			int prev_prio = p.priority(m_sequenced_download_threshold);
-			assert(prev_prio < int(m_piece_info.size()));
-			p.downloading = 0;
 			int prio = p.priority(m_sequenced_download_threshold);
-			if (prev_prio == 0 && prio > 0) add(block.piece_index);
-			else if (prio > 0) move(prio, p.index);
+			p.downloading = 0;
+			if (prio > 0) move(prio, p.index);
 
 			assert(std::find_if(m_downloads.begin(), m_downloads.end()
 				, has_index(block.piece_index)) == m_downloads.end());

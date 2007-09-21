@@ -131,15 +131,6 @@ namespace libtorrent
 		virtual bool on_bitfield(std::vector<bool> const& bitfield)
 		{ return false; }
 
-		virtual bool on_have_all()
-		{ return false; }
-
-		virtual bool on_have_none()
-		{ return false; }
-
-		virtual bool on_allowed_fast(int index)
-		{ return false; }
-
 		virtual bool on_request(peer_request const& req)
 		{ return false; }
 
@@ -149,12 +140,6 @@ namespace libtorrent
 		virtual bool on_cancel(peer_request const& req)
 		{ return false; }
 	
-		virtual bool on_reject(peer_request const& req)
-		{ return false; }
-
-		virtual bool on_suggest(int index)
-		{ return false; }
-
 		// called when an extended message is received. If returning true,
 		// the message is not processed by any other plugin and if false
 		// is returned the next plugin in the chain will receive it to

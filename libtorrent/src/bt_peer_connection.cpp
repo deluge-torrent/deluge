@@ -50,7 +50,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/version.hpp"
 #include "libtorrent/extensions.hpp"
 #include "libtorrent/aux_/session_impl.hpp"
-#include "libtorrent/enum_net.hpp"
 
 #ifndef TORRENT_DISABLE_ENCRYPTION
 #include "libtorrent/pe_crypto.hpp"
@@ -76,14 +75,7 @@ namespace libtorrent
 		&bt_peer_connection::on_piece,
 		&bt_peer_connection::on_cancel,
 		&bt_peer_connection::on_dht_port,
-		0, 0, 0,
-		// FAST extension messages
-		&bt_peer_connection::on_suggest_piece,
-		&bt_peer_connection::on_have_all,
-		&bt_peer_connection::on_have_none,
-		&bt_peer_connection::on_reject_request,
-		&bt_peer_connection::on_allowed_fast,
-		0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		&bt_peer_connection::on_extended
 	};
 
@@ -101,7 +93,6 @@ namespace libtorrent
 		, m_supports_extensions(false)
 #endif
 		, m_supports_dht_port(false)
-		, m_supports_fast(false)
 #ifndef TORRENT_DISABLE_ENCRYPTION
 		, m_encrypted(false)
 		, m_rc4_encrypted(false)
@@ -133,7 +124,6 @@ namespace libtorrent
 		, m_supports_extensions(false)
 #endif
 		, m_supports_dht_port(false)
-		, m_supports_fast(false)
 #ifndef TORRENT_DISABLE_ENCRYPTION
 		, m_encrypted(false)
 		, m_rc4_encrypted(false)
@@ -236,10 +226,6 @@ namespace libtorrent
 		boost::shared_ptr<torrent> t = associated_torrent().lock();
 		assert(t);
 		write_bitfield(t->pieces());
-#ifndef TORRENT_DISABLE_DHT
-		if (m_supports_dht_port && m_ses.m_dht)
-			write_dht_port(m_ses.get_dht_settings().service_port);
-#endif
 	}
 
 	void bt_peer_connection::write_dht_port(int listen_port)
@@ -258,75 +244,6 @@ namespace libtorrent
 		detail::write_uint16(listen_port, packet.begin);
 		assert(packet.begin == packet.end);
 		setup_send();
-	}
-
-	void bt_peer_connection::write_have_all()
-	{
-		INVARIANT_CHECK;
-		assert(m_sent_handshake && !m_sent_bitfield);
-#ifndef NDEBUG
-		m_sent_bitfield = true;
-#endif
-#ifdef TORRENT_VERBOSE_LOGGING
-		(*m_logger) << time_now_string()
-			<< " ==> HAVE_ALL\n";
-#endif
-		char buf[] = {0,0,0,1, msg_have_all};
-		send_buffer(buf, buf + sizeof(buf));
-	}
-
-	void bt_peer_connection::write_have_none()
-	{
-		INVARIANT_CHECK;
-		assert(m_sent_handshake && !m_sent_bitfield);
-#ifndef NDEBUG
-		m_sent_bitfield = true;
-#endif
-#ifdef TORRENT_VERBOSE_LOGGING
-		(*m_logger) << time_now_string()
-			<< " ==> HAVE_NONE\n";
-#endif
-		char buf[] = {0,0,0,1, msg_have_none};
-		send_buffer(buf, buf + sizeof(buf));
-	}
-
-	void bt_peer_connection::write_reject_request(peer_request const& r)
-	{
-		INVARIANT_CHECK;
-
-		assert(m_sent_handshake && m_sent_bitfield);
-		assert(associated_torrent().lock()->valid_metadata());
-
-		char buf[] = {0,0,0,13, msg_reject_request};
-
-		buffer::interval i = allocate_send_buffer(17);
-
-		std::copy(buf, buf + 5, i.begin);
-		i.begin += 5;
-
-		// index
-		detail::write_int32(r.piece, i.begin);
-		// begin
-		detail::write_int32(r.start, i.begin);
-		// length
-		detail::write_int32(r.length, i.begin);
-		assert(i.begin == i.end);
-
-		setup_send();
-	}
-
-	void bt_peer_connection::write_allow_fast(int piece)
-	{
-		INVARIANT_CHECK;
-
-		assert(m_sent_handshake && m_sent_bitfield);
-		assert(associated_torrent().lock()->valid_metadata());
-
-		char buf[] = {0,0,0,5, msg_allowed_fast, 0, 0, 0, 0};
-
-		char* ptr = buf + 5;
-		detail::write_int32(piece, ptr);
-		send_buffer(buf, buf + sizeof(buf));
 	}
 
 	void bt_peer_connection::get_specific_peer_info(peer_info& p) const
@@ -711,16 +628,13 @@ namespace libtorrent
 
 #ifndef TORRENT_DISABLE_DHT
 		// indicate that we support the DHT messages
-		*(i.begin + 7) |= 0x01;
+		*(i.begin + 7) = 0x01;
 #endif
 
 #ifndef TORRENT_DISABLE_EXTENSIONS
 		// we support extensions
-		*(i.begin + 5) |= 0x10;
+		*(i.begin + 5) = 0x10;
 #endif
-
-		// we support FAST extension
-		*(i.begin + 7) |= 0x04;
 
 		i.begin += 8;
 
@@ -807,20 +721,6 @@ namespace libtorrent
 		if (!packet_finished()) return;
 
 		incoming_choke();
-		if (!m_supports_fast)
-		{
-			boost::shared_ptr<torrent> t = associated_torrent().lock();
-			assert(t);
-			while (!request_queue().empty())
-			{
-				piece_block const& b = request_queue().front();
-				peer_request r;
-				r.piece = b.piece_index;
-				r.start = b.block_index * t->block_size();
-				r.length = t->block_size();
-				incoming_reject_request(r);
-			}
-		}
 	}
 
 	// -----------------------------
@@ -1039,9 +939,6 @@ namespace libtorrent
 	{
 		INVARIANT_CHECK;
 
-		if (!m_supports_dht_port)
-			throw protocol_error("got 'dht_port' message from peer that doesn't support it");
-
 		assert(received > 0);
 		if (packet_size() != 3)
 			throw protocol_error("'dht_port' message size != 3");
@@ -1054,80 +951,6 @@ namespace libtorrent
 		int listen_port = detail::read_uint16(ptr);
 		
 		incoming_dht_port(listen_port);
-	}
-
-	void bt_peer_connection::on_suggest_piece(int received)
-	{
-		INVARIANT_CHECK;
-
-		if (!m_supports_fast)
-			throw protocol_error("got 'suggest_piece' without FAST extension support");
-
-		m_statistics.received_bytes(0, received);
-		if (!packet_finished()) return;
-
-		buffer::const_interval recv_buffer = receive_buffer();
-
-		const char* ptr = recv_buffer.begin + 1;
-		int piece = detail::read_uint32(ptr);
-		incoming_suggest(piece);
-	}
-
-	void bt_peer_connection::on_have_all(int received)
-	{
-		INVARIANT_CHECK;
-
-		if (!m_supports_fast)
-			throw protocol_error("got 'have_all' without FAST extension support");
-		m_statistics.received_bytes(0, received);
-		incoming_have_all();
-	}
-
-	void bt_peer_connection::on_have_none(int received)
-	{
-		INVARIANT_CHECK;
-
-		if (!m_supports_fast)
-			throw protocol_error("got 'have_none' without FAST extension support");
-		m_statistics.received_bytes(0, received);
-		incoming_have_none();
-	}
-
-	void bt_peer_connection::on_reject_request(int received)
-	{
-		INVARIANT_CHECK;
-
-		if (!m_supports_fast)
-			throw protocol_error("got 'reject_request' without FAST extension support");
-
-		m_statistics.received_bytes(0, received);
-		if (!packet_finished()) return;
-
-		buffer::const_interval recv_buffer = receive_buffer();
-
-		peer_request r;
-		const char* ptr = recv_buffer.begin + 1;
-		r.piece = detail::read_int32(ptr);
-		r.start = detail::read_int32(ptr);
-		r.length = detail::read_int32(ptr);
-		
-		incoming_reject_request(r);
-	}
-
-	void bt_peer_connection::on_allowed_fast(int received)
-	{
-		INVARIANT_CHECK;
-
-		if (!m_supports_fast)
-			throw protocol_error("got 'allowed_fast' without FAST extension support");
-
-		m_statistics.received_bytes(0, received);
-		if (!packet_finished()) return;
-		buffer::const_interval recv_buffer = receive_buffer();
-		const char* ptr = recv_buffer.begin + 1;
-		int index = detail::read_int32(ptr);
-		
-		incoming_allowed_fast(index);
 	}
 
 	// -----------------------------
@@ -1222,7 +1045,7 @@ namespace libtorrent
 			{
 				tcp::endpoint adr(remote().address()
 					, (unsigned short)listen_port->integer());
-				t->get_policy().peer_from_tracker(adr, pid(), peer_info::incoming, 0);
+				t->get_policy().peer_from_tracker(adr, pid(), 0, 0);
 			}
 		}
 		// there should be a version too
@@ -1352,22 +1175,6 @@ namespace libtorrent
 		assert(m_sent_handshake && !m_sent_bitfield);
 		assert(t->valid_metadata());
 
-		// in this case, have_all or have_none should be sent instead
-		assert(!m_supports_fast || !t->is_seed() || t->num_pieces() != 0);
-
-		if (m_supports_fast && t->is_seed())
-		{
-			write_have_all();
-			send_allowed_set();
-			return;
-		}
-		else if (m_supports_fast && t->num_pieces() == 0)
-		{
-			write_have_none();
-			send_allowed_set();
-			return;
-		}
-	
 		int num_pieces = bitfield.size();
 		int lazy_pieces[50];
 		int num_lazy_pieces = 0;
@@ -1376,7 +1183,7 @@ namespace libtorrent
 		assert(t->is_seed() == (std::count(bitfield.begin(), bitfield.end(), true) == num_pieces));
 		if (t->is_seed() && m_ses.settings().lazy_bitfields)
 		{
-			num_lazy_pieces = (std::min)(50, num_pieces / 10);
+			num_lazy_pieces = std::min(50, num_pieces / 10);
 			if (num_lazy_pieces < 1) num_lazy_pieces = 1;
 			for (int i = 0; i < num_pieces; ++i)
 			{
@@ -1444,9 +1251,6 @@ namespace libtorrent
 #endif
 			}
 		}
-
-		if (m_supports_fast)
-			send_allowed_set();
 	}
 
 #ifndef TORRENT_DISABLE_EXTENSIONS
@@ -1475,19 +1279,6 @@ namespace libtorrent
 		detail::write_address(remote().address(), out);
 		handshake["yourip"] = remote_address;
 		handshake["reqq"] = m_ses.settings().max_allowed_in_request_queue;
-		asio::error_code ec;
-		std::vector<address> const& interfaces = enum_net_interfaces(get_socket()->io_service(), ec);
-		for (std::vector<address>::const_iterator i = interfaces.begin()
-			, end(interfaces.end()); i != end; ++i)
-		{
-			// TODO: only use global IPv6 addresses
-			if (!i->is_v6() || i->to_v6().is_link_local()) continue;
-			std::string ipv6_address;
-			std::back_insert_iterator<std::string> out(ipv6_address);
-			detail::write_address(*i, out);
-			handshake["ipv6"] = ipv6_address;
-			break;
-		}
 
 		// loop backwards, to make the first extension be the last
 		// to fill in the handshake (i.e. give the first extensions priority)
@@ -1755,7 +1546,7 @@ namespace libtorrent
 				if (m_sync_bytes_read >= 512)
 					throw protocol_error("sync hash not found within 532 bytes");
 
-				cut_receive_buffer(bytes_processed, (std::min)(packet_size(), (512+20) - m_sync_bytes_read));
+				cut_receive_buffer(bytes_processed, std::min(packet_size(), (512+20) - m_sync_bytes_read));
 
 				assert(!packet_finished());
 				return;
@@ -1893,7 +1684,7 @@ namespace libtorrent
 				if (m_sync_bytes_read >= 512)
 					throw protocol_error("sync verification constant not found within 520 bytes");
 
-				cut_receive_buffer(bytes_processed, (std::min)(packet_size(), (512+8) - m_sync_bytes_read));
+				cut_receive_buffer(bytes_processed, std::min(packet_size(), (512+8) - m_sync_bytes_read));
 
 				assert(!packet_finished());
 				return;
@@ -2225,9 +2016,6 @@ namespace libtorrent
 			if (recv_buffer[7] & 0x01)
 				m_supports_dht_port = true;
 
-			if (recv_buffer[7] & 0x04)
-				m_supports_fast = true;
-
 			// ok, now we have got enough of the handshake. Is this connection
 			// attached to a torrent?
 			if (!t)
@@ -2261,10 +2049,10 @@ namespace libtorrent
 			assert(t);
 			
 			// if this is a local connection, we have already
-			// sent the handshake
+			// send the handshake
 			if (!is_local()) write_handshake();
-//			if (t->valid_metadata())
-//				write_bitfield(t->pieces());
+			if (t->valid_metadata())
+				write_bitfield(t->pieces());
 
 			assert(t->get_policy().has_connection(this));
 
@@ -2337,6 +2125,11 @@ namespace libtorrent
 				throw protocol_error("closing connection to ourself");
 			}
  
+#ifndef TORRENT_DISABLE_DHT
+			if (m_supports_dht_port && m_ses.m_dht)
+				write_dht_port(m_ses.get_dht_settings().service_port);
+#endif
+
 			m_client_version = identify_client(pid);
 			boost::optional<fingerprint> f = client_fingerprint(pid);
 			if (f && std::equal(f->name, f->name + 2, "BC"))
@@ -2388,14 +2181,6 @@ namespace libtorrent
 
 			m_state = read_packet_size;
 			reset_recv_buffer(4);
-			if (t->valid_metadata())
-			{
-				write_bitfield(t->pieces());
-#ifndef TORRENT_DISABLE_DHT
-				if (m_supports_dht_port && m_ses.m_dht)
-					write_dht_port(m_ses.get_dht_settings().service_port);
-#endif
-			}
 
 			assert(!packet_finished());
 			return;

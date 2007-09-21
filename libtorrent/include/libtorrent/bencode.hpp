@@ -79,8 +79,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/entry.hpp"
 #include "libtorrent/config.hpp"
 
-#include "libtorrent/assert.hpp"
-
 #if defined(_MSC_VER)
 namespace std
 {

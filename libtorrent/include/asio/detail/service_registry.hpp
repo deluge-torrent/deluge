@@ -166,8 +166,7 @@ private:
   }
 
   // Check if a service matches the given id.
-  static bool service_id_matches(
-      const asio::io_service::service& service,
+  bool service_id_matches(const asio::io_service::service& service,
       const asio::io_service::id& id)
   {
     return service.id_ == &id;
@@ -175,8 +174,7 @@ private:
 
   // Check if a service matches the given id.
   template <typename Service>
-  static bool service_id_matches(
-      const asio::io_service::service& service,
+  bool service_id_matches(const asio::io_service::service& service,
       const asio::detail::service_id<Service>& /*id*/)
   {
     return service.type_info_ != 0 && *service.type_info_ == typeid(Service);

@@ -64,6 +64,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/alert.hpp"
 #include "libtorrent/torrent_handle.hpp"
 #include "libtorrent/torrent.hpp"
+#include "libtorrent/allocate_resources.hpp"
 #include "libtorrent/peer_request.hpp"
 #include "libtorrent/piece_block_progress.hpp"
 #include "libtorrent/config.hpp"
@@ -72,7 +73,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/policy.hpp"
 #include "libtorrent/socket_type.hpp"
 #include "libtorrent/intrusive_ptr_base.hpp"
-#include "libtorrent/assert.hpp"
 
 namespace libtorrent
 {
@@ -131,8 +131,6 @@ namespace libtorrent
 		enum peer_speed_t { slow, medium, fast };
 		peer_speed_t peer_speed();
 
-		void send_allowed_set();
-
 #ifndef TORRENT_DISABLE_EXTENSIONS
 		void add_extension(boost::shared_ptr<peer_plugin>);
 #endif
@@ -153,17 +151,11 @@ namespace libtorrent
 		int upload_limit() const { return m_upload_limit; }
 		int download_limit() const { return m_download_limit; }
 
-		int prefer_whole_pieces() const
-		{
-			if (on_parole()) return 1;
-			return m_prefer_whole_pieces;
-		}
+		bool prefer_whole_pieces() const
+		{ return m_prefer_whole_pieces; }
 
-		bool on_parole() const
-		{ return peer_info_struct() && peer_info_struct()->on_parole; }
-
-		void prefer_whole_pieces(int num)
-		{ m_prefer_whole_pieces = num; }
+		void prefer_whole_pieces(bool b)
+		{ m_prefer_whole_pieces = b; }
 
 		bool request_large_blocks() const
 		{ return m_request_large_blocks; }
@@ -194,9 +186,9 @@ namespace libtorrent
 		void set_pid(const peer_id& pid) { m_peer_id = pid; }
 		bool has_piece(int i) const;
 
-		std::deque<piece_block> const& download_queue() const;
-		std::deque<piece_block> const& request_queue() const;
-		std::deque<peer_request> const& upload_queue() const;
+		const std::deque<piece_block>& download_queue() const;
+		const std::deque<piece_block>& request_queue() const;
+		const std::deque<peer_request>& upload_queue() const;
 
 		bool is_interesting() const { return m_interesting; }
 		bool is_choked() const { return m_choked; }
@@ -219,14 +211,12 @@ namespace libtorrent
 		void add_stat(size_type downloaded, size_type uploaded);
 
 		// is called once every second by the main loop
-		void second_tick(float tick_interval) throw();
+		void second_tick(float tick_interval);
 
 		boost::shared_ptr<socket_type> get_socket() const { return m_socket; }
 		tcp::endpoint const& remote() const { return m_remote; }
 
 		std::vector<bool> const& get_bitfield() const;
-		std::vector<int> const& allowed_fast();
-		std::vector<int> const& suggested_pieces() const { return m_suggested_pieces; }
 
 		void timed_out();
 		// this will cause this peer_connection to be disconnected.
@@ -304,14 +294,7 @@ namespace libtorrent
 		void incoming_piece(peer_request const& p, char const* data);
 		void incoming_piece_fragment();
 		void incoming_cancel(peer_request const& r);
-
 		void incoming_dht_port(int listen_port);
-		
-		void incoming_reject_request(peer_request const& r);
-		void incoming_have_all();
-		void incoming_have_none();
-		void incoming_allowed_fast(int index);
-		void incoming_suggest(int index);
 
 		// the following functions appends messages
 		// to the send buffer
@@ -390,9 +373,6 @@ namespace libtorrent
 		virtual void write_keepalive() = 0;
 		virtual void write_piece(peer_request const& r, char const* buffer) = 0;
 		
-		virtual void write_reject_request(peer_request const& r) = 0;
-		virtual void write_allow_fast(int piece) = 0;
-
 		virtual void on_connected() = 0;
 		virtual void on_tick() {}
 	
@@ -502,11 +482,6 @@ namespace libtorrent
 		// the time we sent a request to
 		// this peer the last time
 		ptime m_last_request;
-		// the time we received the last
-		// piece request from the peer
-		ptime m_last_incoming_request;
-		// the time when we unchoked this peer
-		ptime m_last_unchoke;
 
 		int m_packet_size;
 		int m_recv_pos;
@@ -554,7 +529,7 @@ namespace libtorrent
 		// set to the torrent it belongs to.
 		boost::weak_ptr<torrent> m_torrent;
 		// is true if it was we that connected to the peer
-		// and false if we got an incoming connection
+		// and false if we got an incomming connection
 		// could be considered: true = local, false = remote
 		bool m_active;
 
@@ -588,10 +563,6 @@ namespace libtorrent
 
 		// the pieces the other end have
 		std::vector<bool> m_have_piece;
-		// this is set to true when a have_all
-		// message is received. This information
-		// is used to fill the bitmask in init()
-		bool m_have_all;
 
 		// the number of pieces this peer
 		// has. Must be the same as
@@ -604,7 +575,7 @@ namespace libtorrent
 		std::deque<peer_request> m_requests;
 
 		// the blocks we have reserved in the piece
-		// picker and will request from this peer.
+		// picker and will send to this peer.
 		std::deque<piece_block> m_request_queue;
 		
 		// the queue of blocks we have requested
@@ -672,13 +643,12 @@ namespace libtorrent
 		bool m_writing;
 		bool m_reading;
 
-		// if set to non-zero, this peer will always prefer
-		// to request entire n pieces, rather than blocks.
-		// where n is the value of this variable.
-		// if it is 0, the download rate limit setting
+		// if set to true, this peer will always prefer
+		// to request entire pieces, rather than blocks.
+		// if it is false, the download rate limit setting
 		// will be used to determine if whole pieces
 		// are preferred.
-		int m_prefer_whole_pieces;
+		bool m_prefer_whole_pieces;
 		
 		// if this is true, the blocks picked by the piece
 		// picker will be merged before passed to the
@@ -724,18 +694,6 @@ namespace libtorrent
 		// a timestamp when the remote download rate
 		// was last updated
 		ptime m_remote_dl_update;
-
-		// the pieces we will send to the peer
-		// if requested (regardless of choke state)
-		std::set<int> m_accept_fast;
-
-		// the pieces the peer will send us if
-		// requested (regardless of choke state)
-		std::vector<int> m_allowed_fast;
-
-		// pieces that has been suggested to be
-		// downloaded from this peer
-		std::vector<int> m_suggested_pieces;
 
 		// the number of bytes send to the disk-io
 		// thread that hasn't yet been completely written.

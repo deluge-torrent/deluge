@@ -110,9 +110,8 @@ namespace libtorrent
 			return;
 		}
 
-		boost::shared_ptr<request_callback> cb = requester();
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		if (cb) cb->debug_log("udp tracker name lookup successful");
+		if (has_requester()) requester().debug_log("udp tracker name lookup successful");
 #endif
 		restart_read_timeout();
 		
@@ -127,11 +126,11 @@ namespace libtorrent
 		if (target == end)
 		{
 			assert(target_address.address().is_v4() != bind_interface().is_v4());
-			if (cb)
+			if (has_requester())
 			{
 				std::string tracker_address_type = target_address.address().is_v4() ? "IPv4" : "IPv6";
 				std::string bind_address_type = bind_interface().is_v4() ? "IPv4" : "IPv6";
-				cb->tracker_warning("the tracker only resolves to an "
+				requester().tracker_warning("the tracker only resolves to an "
 					+ tracker_address_type + " address, and you're listening on an "
 					+ bind_address_type + " socket. This may prevent you from receiving incoming connections.");
 			}
@@ -141,7 +140,7 @@ namespace libtorrent
 			target_address = *target;
 		}
 		
-		if (cb) cb->m_tracker_address = tcp::endpoint(target_address.address(), target_address.port());
+		if (has_requester()) requester().m_tracker_address = tcp::endpoint(target_address.address(), target_address.port());
 		m_target = target_address;
 		m_socket.reset(new datagram_socket(m_name_lookup.io_service()));
 		m_socket->open(target_address.protocol());
@@ -164,10 +163,9 @@ namespace libtorrent
 	void udp_tracker_connection::send_udp_connect()
 	{
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		boost::shared_ptr<request_callback> cb = requester();
-		if (cb)
+		if (has_requester())
 		{
-			cb->debug_log("==> UDP_TRACKER_CONNECT ["
+			requester().debug_log("==> UDP_TRACKER_CONNECT ["
 				+ lexical_cast<std::string>(tracker_req().info_hash) + "]");
 		}
 #endif
@@ -261,10 +259,9 @@ namespace libtorrent
 		m_connection_id = detail::read_int64(ptr);
 
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		boost::shared_ptr<request_callback> cb = requester();
-		if (cb)
+		if (has_requester())
 		{
-			cb->debug_log("<== UDP_TRACKER_CONNECT_RESPONSE ["
+			requester().debug_log("<== UDP_TRACKER_CONNECT_RESPONSE ["
 				+ lexical_cast<std::string>(m_connection_id) + "]");
 		}
 #endif
@@ -324,10 +321,9 @@ namespace libtorrent
 		detail::write_uint16(0, out);
 
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		boost::shared_ptr<request_callback> cb = requester();
-		if (cb)
+		if (has_requester())
 		{
-			cb->debug_log("==> UDP_TRACKER_ANNOUNCE ["
+			requester().debug_log("==> UDP_TRACKER_ANNOUNCE ["
 				+ lexical_cast<std::string>(req.info_hash) + "]");
 		}
 #endif
@@ -435,15 +431,14 @@ namespace libtorrent
 			return;
 		}
 
-		boost::shared_ptr<request_callback> cb = requester();
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		if (cb)
+		if (has_requester())
 		{
-			cb->debug_log("<== UDP_TRACKER_ANNOUNCE_RESPONSE");
+			requester().debug_log("<== UDP_TRACKER_ANNOUNCE_RESPONSE");
 		}
 #endif
 
-		if (!cb)
+		if (!has_requester())
 		{
 			m_man.remove_request(this);
 			return;
@@ -464,7 +459,7 @@ namespace libtorrent
 			peer_list.push_back(e);
 		}
 
-		cb->tracker_response(tracker_req(), peer_list, interval
+		requester().tracker_response(tracker_req(), peer_list, interval
 			, complete, incomplete);
 
 		m_man.remove_request(this);
@@ -539,15 +534,14 @@ namespace libtorrent
 		/*int downloaded = */detail::read_int32(buf);
 		int incomplete = detail::read_int32(buf);
 
-		boost::shared_ptr<request_callback> cb = requester();
-		if (!cb)
+		if (!has_requester())
 		{
 			m_man.remove_request(this);
 			return;
 		}
 		
 		std::vector<peer_entry> peer_list;
-		cb->tracker_response(tracker_req(), peer_list, 0
+		requester().tracker_response(tracker_req(), peer_list, 0
 			, complete, incomplete);
 
 		m_man.remove_request(this);

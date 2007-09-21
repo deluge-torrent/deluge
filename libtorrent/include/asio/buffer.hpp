@@ -542,10 +542,9 @@ inline const_buffers_1 buffer(const PodType (&data)[N],
         ? N * sizeof(PodType) : max_size_in_bytes));
 }
 
-#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582)) \
-  || BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
+#if BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
 
-// Borland C++ and Sun Studio think the overloads:
+// Borland C++ thinks the overloads:
 //
 //   unspecified buffer(boost::array<PodType, N>& array ...);
 //
@@ -611,7 +610,6 @@ buffer(boost::array<PodType, N>& data, std::size_t max_size_in_bytes)
 }
 
 #else // BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
-      // || BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
 
 /// Create a new modifiable buffer that represents the given POD array.
 template <typename PodType, std::size_t N>
@@ -652,7 +650,6 @@ inline const_buffers_1 buffer(boost::array<const PodType, N>& data,
 }
 
 #endif // BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x582))
-       // || BOOST_WORKAROUND(__SUNPRO_CC, BOOST_TESTED_AT(0x590))
 
 /// Create a new non-modifiable buffer that represents the given POD array.
 template <typename PodType, std::size_t N>

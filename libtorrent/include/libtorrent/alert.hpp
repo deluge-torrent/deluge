@@ -36,6 +36,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <memory>
 #include <queue>
 #include <string>
+#include <cassert>
 #include <typeinfo>
 
 #ifdef _MSC_VER
@@ -55,7 +56,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "libtorrent/time.hpp"
 #include "libtorrent/config.hpp"
-#include "libtorrent/assert.hpp"
 
 #ifndef TORRENT_MAX_ALERT_TYPES
 #define TORRENT_MAX_ALERT_TYPES 15

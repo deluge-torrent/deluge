@@ -34,24 +34,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <deque>
 #include "libtorrent/disk_io_thread.hpp"
 
-#ifdef TORRENT_DISK_STATS
-
-#include "libtorrent/time.hpp"
-#include <boost/lexical_cast.hpp>
-
-namespace
-{
-	std::string log_time()
-	{
-		using namespace libtorrent;
-		static ptime start = time_now();
-		return boost::lexical_cast<std::string>(
-			total_milliseconds(time_now() - start));
-	}
-}
-
-#endif
-
 namespace libtorrent
 {
 
@@ -63,12 +45,7 @@ namespace libtorrent
 		, m_block_size(block_size)
 #endif
 		, m_disk_io_thread(boost::ref(*this))
-	{
-	
-#ifdef TORRENT_DISK_STATS
-		m_log.open("disk_io_thread.log", std::ios::trunc);
-#endif
-	}
+	{}
 
 	disk_io_thread::~disk_io_thread()
 	{
@@ -112,15 +89,8 @@ namespace libtorrent
 	
 	namespace
 	{
-		// The semantic of this operator is:
-		// shouls lhs come before rhs in the job queue
 		bool operator<(disk_io_job const& lhs, disk_io_job const& rhs)
 		{
-			// NOTE: comparison inverted to make higher priority
-			// skip _in_front_of_ lower priority
-			if (lhs.priority > rhs.priority) return true;
-			if (lhs.priority < rhs.priority) return false;
-
 			if (lhs.storage.get() < rhs.storage.get()) return true;
 			if (lhs.storage.get() > rhs.storage.get()) return false;
 			if (lhs.piece < rhs.piece) return true;
@@ -195,9 +165,6 @@ namespace libtorrent
 	{
 		for (;;)
 		{
-#ifdef TORRENT_DISK_STATS
-			m_log << log_time() << " idle" << std::endl;
-#endif
 			boost::mutex::scoped_lock l(m_mutex);
 			while (m_jobs.empty() && !m_abort)
 				m_signal.wait(l);
@@ -212,46 +179,31 @@ namespace libtorrent
 
 			int ret = 0;
 
-			bool free_buffer = true;
 			try
 			{
-#ifdef TORRENT_DISK_STATS
-				ptime start = time_now();
-#endif
 //				std::cerr << "DISK THREAD: executing job: " << j.action << std::endl;
 				switch (j.action)
 				{
 					case disk_io_job::read:
-#ifdef TORRENT_DISK_STATS
-						m_log << log_time() << " read " << j.buffer_size << std::endl;
-#endif
+						l.lock();
+						j.buffer = (char*)m_pool.ordered_malloc();
+						l.unlock();
 						if (j.buffer == 0)
 						{
-							l.lock();
-							j.buffer = (char*)m_pool.ordered_malloc();
-							l.unlock();
-							assert(j.buffer_size <= m_block_size);
-							if (j.buffer == 0)
-							{
-								ret = -1;
-								j.str = "out of memory";
-								break;
-							}
+							ret = -1;
+							j.str = "out of memory";
 						}
 						else
 						{
-							free_buffer = false;
-						}
-						ret = j.storage->read_impl(j.buffer, j.piece, j.offset
-							, j.buffer_size);
+							assert(j.buffer_size <= m_block_size);
+							ret = j.storage->read_impl(j.buffer, j.piece, j.offset
+								, j.buffer_size);
 
-						// simulates slow drives
-						// usleep(300);
+							// simulates slow drives
+							// usleep(300);
+						}
 						break;
 					case disk_io_job::write:
-#ifdef TORRENT_DISK_STATS
-						m_log << log_time() << " write " << j.buffer_size << std::endl;
-#endif
 						assert(j.buffer);
 						assert(j.buffer_size <= m_block_size);
 						j.storage->write_impl(j.buffer, j.piece, j.offset
@@ -262,25 +214,16 @@ namespace libtorrent
 						break;
 					case disk_io_job::hash:
 						{
-#ifdef TORRENT_DISK_STATS
-							m_log << log_time() << " hash" << std::endl;
-#endif
 							sha1_hash h = j.storage->hash_for_piece_impl(j.piece);
 							j.str.resize(20);
 							std::memcpy(&j.str[0], &h[0], 20);
 						}
 						break;
 					case disk_io_job::move_storage:
-#ifdef TORRENT_DISK_STATS
-						m_log << log_time() << " move" << std::endl;
-#endif
 						ret = j.storage->move_storage_impl(j.str) ? 1 : 0;
 						j.str = j.storage->save_path().string();
 						break;
 					case disk_io_job::release_files:
-#ifdef TORRENT_DISK_STATS
-						m_log << log_time() << " release" << std::endl;
-#endif
 						j.storage->release_files_impl();
 						break;
 				}
@@ -297,7 +240,7 @@ namespace libtorrent
 			try { if (handler) handler(ret, j); }
 			catch (std::exception&) {}
 			
-			if (j.buffer && free_buffer)
+			if (j.buffer)
 			{
 				l.lock();
 				m_pool.ordered_free(j.buffer);

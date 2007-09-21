@@ -33,6 +33,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #ifndef TORRENT_BANDWIDTH_MANAGER_HPP_INCLUDED
 #define TORRENT_BANDWIDTH_MANAGER_HPP_INCLUDED
 
+#include "libtorrent/socket.hpp"
+#include "libtorrent/invariant_check.hpp"
+
 #include <boost/shared_ptr.hpp>
 #include <boost/intrusive_ptr.hpp>
 #include <boost/function.hpp>
@@ -41,16 +44,10 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <boost/thread/mutex.hpp>
 #include <deque>
 
-#include "libtorrent/socket.hpp"
-#include "libtorrent/invariant_check.hpp"
-#include "libtorrent/assert.hpp"
-
 using boost::weak_ptr;
 using boost::shared_ptr;
 using boost::intrusive_ptr;
 using boost::bind;
-
-//#define TORRENT_VERBOSE_BANDWIDTH_LIMIT
 
 namespace libtorrent {
 
@@ -180,7 +177,6 @@ struct bandwidth_manager
 		, m_limit(bandwidth_limit::inf)
 		, m_current_quota(0)
 		, m_channel(channel)
-		, m_in_hand_out_bandwidth(false)
 	{}
 
 	void throttle(int limit) throw()
@@ -241,10 +237,8 @@ struct bandwidth_manager
 				i = j;
 			}
 		}
-#ifdef TORRENT_VERBOSE_BANDWIDTH_LIMIT
-		std::cerr << " req_bandwidht. m_queue.size() = " << m_queue.size() << std::endl;
-#endif
-		if (!m_queue.empty()) hand_out_bandwidth();
+
+		if (m_queue.size() == 1) hand_out_bandwidth();
 	}
 
 #ifndef NDEBUG
@@ -329,10 +323,6 @@ private:
 
 	void hand_out_bandwidth() throw()
 	{
-		// if we're already handing out bandwidth, just return back
-		// to the loop further down on the callstack
-		if (m_in_hand_out_bandwidth) return;
-		m_in_hand_out_bandwidth = true;
 #ifndef NDEBUG
 		try {
 #endif
@@ -347,18 +337,10 @@ private:
 		// available bandwidth to hand out
 		int amount = limit - m_current_quota;
 
-#ifdef TORRENT_VERBOSE_BANDWIDTH_LIMIT
-		std::cerr << " hand_out_bandwidht. m_queue.size() = " << m_queue.size()
-			<< " amount = " << amount
-			<< " limit = " << limit
-			<< " m_current_quota = " << m_current_quota << std::endl;
-#endif
-
 		while (!m_queue.empty() && amount > 0)
 		{
 			assert(amount == limit - m_current_quota);
 			bw_queue_entry<PeerConnection> qe = m_queue.front();
-			assert(qe.max_block_size > 0);
 			m_queue.pop_front();
 
 			shared_ptr<Torrent> t = qe.peer->associated_torrent().lock();
@@ -366,7 +348,6 @@ private:
 			if (qe.peer->is_disconnecting())
 			{
 				t->expire_bandwidth(m_channel, qe.max_block_size);
-				assert(amount == limit - m_current_quota);
 				continue;
 			}
 
@@ -380,7 +361,6 @@ private:
 			if (max_assignable == 0)
 			{
 				t->expire_bandwidth(m_channel, qe.max_block_size);
-				assert(amount == limit - m_current_quota);
 				continue;
 			}
 
@@ -394,16 +374,17 @@ private:
 			// block size must be smaller for lower rates. This is because
 			// the history window is one second, and the block will be forgotten
 			// after one second.
-			int block_size = (std::min)(qe.peer->bandwidth_throttle(m_channel)
-				, limit / 10);
+			int block_size = (std::min)(qe.max_block_size
+				, (std::min)(qe.peer->bandwidth_throttle(m_channel)
+				, m_limit / 10));
 
 			if (block_size < min_bandwidth_block_size)
 			{
-				block_size = (std::min)(int(min_bandwidth_block_size), limit);
+				block_size = min_bandwidth_block_size;
 			}
 			else if (block_size > max_bandwidth_block_size)
 			{
-				if (limit == bandwidth_limit::inf)
+				if (m_limit == bandwidth_limit::inf)
 				{
 					block_size = max_bandwidth_block_size;
 				}
@@ -414,15 +395,11 @@ private:
 					// as possible
 					// TODO: move this calculcation to where the limit
 					// is changed
-					block_size = limit
-						/ (limit / max_bandwidth_block_size);
+					block_size = m_limit
+						/ (m_limit / max_bandwidth_block_size);
 				}
 			}
-			if (block_size > qe.max_block_size) block_size = qe.max_block_size;
 
-#ifdef TORRENT_VERBOSE_BANDWIDTH_LIMIT
-		std::cerr << " block_size = " << block_size << " amount = " << amount << std::endl;
-#endif
 			if (amount < block_size / 2)
 			{
 				m_queue.push_front(qe);
@@ -435,21 +412,18 @@ private:
 			int hand_out_amount = (std::min)((std::min)(block_size, max_assignable)
 				, amount);
 			assert(hand_out_amount > 0);
-			assert(amount == limit - m_current_quota);
 			amount -= hand_out_amount;
 			assert(hand_out_amount <= qe.max_block_size);
 			t->assign_bandwidth(m_channel, hand_out_amount, qe.max_block_size);
 			qe.peer->assign_bandwidth(m_channel, hand_out_amount);
 			add_history_entry(history_entry<PeerConnection, Torrent>(
 				qe.peer, t, hand_out_amount, now + bw_window_size));
-			assert(amount == limit - m_current_quota);
 		}
 #ifndef NDEBUG
 		}
 		catch (std::exception& e)
 		{ assert(false); };
 #endif
-		m_in_hand_out_bandwidth = false;
 	}
 
 
@@ -482,11 +456,6 @@ private:
 	// this is the channel within the consumers
 	// that bandwidth is assigned to (upload or download)
 	int m_channel;
-
-	// this is true while we're in the hand_out_bandwidth loop
-	// to prevent recursive invocations to interfere
-	bool m_in_hand_out_bandwidth;
-
 };
 
 }

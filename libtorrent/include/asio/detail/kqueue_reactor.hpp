@@ -150,8 +150,7 @@ public:
       EV_SET(&event, descriptor, EVFILT_READ, EV_ADD, 0, 0, 0);
       if (::kevent(kqueue_fd_, &event, 1, 0, 0, 0) == -1)
       {
-        asio::error_code ec(errno,
-            asio::error::system_category);
+        asio::error_code ec(errno, asio::native_ecat);
         read_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
@@ -177,8 +176,7 @@ public:
       EV_SET(&event, descriptor, EVFILT_WRITE, EV_ADD, 0, 0, 0);
       if (::kevent(kqueue_fd_, &event, 1, 0, 0, 0) == -1)
       {
-        asio::error_code ec(errno,
-            asio::error::system_category);
+        asio::error_code ec(errno, asio::native_ecat);
         write_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
@@ -203,8 +201,7 @@ public:
         EV_SET(&event, descriptor, EVFILT_READ, EV_ADD, EV_OOBAND, 0, 0);
       if (::kevent(kqueue_fd_, &event, 1, 0, 0, 0) == -1)
       {
-        asio::error_code ec(errno,
-            asio::error::system_category);
+        asio::error_code ec(errno, asio::native_ecat);
         except_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
@@ -227,8 +224,7 @@ public:
       EV_SET(&event, descriptor, EVFILT_WRITE, EV_ADD, 0, 0, 0);
       if (::kevent(kqueue_fd_, &event, 1, 0, 0, 0) == -1)
       {
-        asio::error_code ec(errno,
-            asio::error::system_category);
+        asio::error_code ec(errno, asio::native_ecat);
         write_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
@@ -242,8 +238,7 @@ public:
         EV_SET(&event, descriptor, EVFILT_READ, EV_ADD, EV_OOBAND, 0, 0);
       if (::kevent(kqueue_fd_, &event, 1, 0, 0, 0) == -1)
       {
-        asio::error_code ec(errno,
-            asio::error::system_category);
+        asio::error_code ec(errno, asio::native_ecat);
         except_op_queue_.dispatch_all_operations(descriptor, ec);
         write_op_queue_.dispatch_all_operations(descriptor, ec);
       }
@@ -326,10 +321,7 @@ public:
   std::size_t cancel_timer(timer_queue<Time_Traits>& timer_queue, void* token)
   {
     asio::detail::mutex::scoped_lock lock(mutex_);
-    std::size_t n = timer_queue.cancel_timer(token);
-    if (n > 0)
-      interrupter_.interrupt();
-    return n;
+    return timer_queue.cancel_timer(token);
   }
 
 private:
@@ -345,13 +337,16 @@ private:
     read_op_queue_.dispatch_cancellations();
     write_op_queue_.dispatch_cancellations();
     except_op_queue_.dispatch_cancellations();
-    for (std::size_t i = 0; i < timer_queues_.size(); ++i)
-      timer_queues_[i]->dispatch_cancellations();
 
     // Check if the thread is supposed to stop.
     if (stop_thread_)
     {
-      cleanup_operations_and_timers(lock);
+      // Clean up operations. We must not hold the lock since the operations may
+      // make calls back into this reactor.
+      lock.unlock();
+      read_op_queue_.cleanup_operations();
+      write_op_queue_.cleanup_operations();
+      except_op_queue_.cleanup_operations();
       return;
     }
 
@@ -360,7 +355,12 @@ private:
     if (!block && read_op_queue_.empty() && write_op_queue_.empty()
         && except_op_queue_.empty() && all_timer_queues_are_empty())
     {
-      cleanup_operations_and_timers(lock);
+      // Clean up operations. We must not hold the lock since the operations may
+      // make calls back into this reactor.
+      lock.unlock();
+      read_op_queue_.cleanup_operations();
+      write_op_queue_.cleanup_operations();
+      except_op_queue_.cleanup_operations();
       return;
     }
 
@@ -397,7 +397,7 @@ private:
         if (events[i].flags & EV_ERROR)
         {
           asio::error_code error(
-              events[i].data, asio::error::system_category);
+              events[i].data, asio::native_ecat);
           except_op_queue_.dispatch_all_operations(descriptor, error);
           read_op_queue_.dispatch_all_operations(descriptor, error);
         }
@@ -427,8 +427,7 @@ private:
           EV_SET(&event, descriptor, EVFILT_READ, EV_DELETE, 0, 0, 0);
         if (::kevent(kqueue_fd_, &event, 1, 0, 0, 0) == -1)
         {
-          asio::error_code error(errno,
-              asio::error::system_category);
+          asio::error_code error(errno, asio::native_ecat);
           except_op_queue_.dispatch_all_operations(descriptor, error);
           read_op_queue_.dispatch_all_operations(descriptor, error);
         }
@@ -440,7 +439,7 @@ private:
         if (events[i].flags & EV_ERROR)
         {
           asio::error_code error(
-              events[i].data, asio::error::system_category);
+              events[i].data, asio::native_ecat);
           write_op_queue_.dispatch_all_operations(descriptor, error);
         }
         else
@@ -457,8 +456,7 @@ private:
           EV_SET(&event, descriptor, EVFILT_WRITE, EV_DELETE, 0, 0, 0);
         if (::kevent(kqueue_fd_, &event, 1, 0, 0, 0) == -1)
         {
-          asio::error_code error(errno,
-              asio::error::system_category);
+          asio::error_code error(errno, asio::native_ecat);
           write_op_queue_.dispatch_all_operations(descriptor, error);
         }
       }
@@ -468,17 +466,19 @@ private:
     write_op_queue_.dispatch_cancellations();
     except_op_queue_.dispatch_cancellations();
     for (std::size_t i = 0; i < timer_queues_.size(); ++i)
-    {
       timer_queues_[i]->dispatch_timers();
-      timer_queues_[i]->dispatch_cancellations();
-    }
 
     // Issue any pending cancellations.
     for (std::size_t i = 0; i < pending_cancellations_.size(); ++i)
       cancel_ops_unlocked(pending_cancellations_[i]);
     pending_cancellations_.clear();
 
-    cleanup_operations_and_timers(lock);
+    // Clean up operations. We must not hold the lock since the operations may
+    // make calls back into this reactor.
+    lock.unlock();
+    read_op_queue_.cleanup_operations();
+    write_op_queue_.cleanup_operations();
+    except_op_queue_.cleanup_operations();
   }
 
   // Run the select loop in the thread.
@@ -512,10 +512,8 @@ private:
     int fd = kqueue();
     if (fd == -1)
     {
-      boost::throw_exception(
-          asio::system_error(
-            asio::error_code(errno,
-              asio::error::system_category),
+      boost::throw_exception(asio::system_error(
+            asio::error_code(errno, asio::native_ecat),
             "kqueue"));
     }
     return fd;
@@ -575,22 +573,6 @@ private:
       interrupter_.interrupt();
   }
 
-  // Clean up operations and timers. We must not hold the lock since the
-  // destructors may make calls back into this reactor. We make a copy of the
-  // vector of timer queues since the original may be modified while the lock
-  // is not held.
-  void cleanup_operations_and_timers(
-      asio::detail::mutex::scoped_lock& lock)
-  {
-    timer_queues_for_cleanup_ = timer_queues_;
-    lock.unlock();
-    read_op_queue_.cleanup_operations();
-    write_op_queue_.cleanup_operations();
-    except_op_queue_.cleanup_operations();
-    for (std::size_t i = 0; i < timer_queues_for_cleanup_.size(); ++i)
-      timer_queues_for_cleanup_[i]->cleanup_timers();
-  }
-
   // Mutex to protect access to internal data.
   asio::detail::mutex mutex_;
 
@@ -614,10 +596,6 @@ private:
 
   // The timer queues.
   std::vector<timer_queue_base*> timer_queues_;
-
-  // A copy of the timer queues, used when cleaning up timers. The copy is
-  // stored as a class data member to avoid unnecessary memory allocation.
-  std::vector<timer_queue_base*> timer_queues_for_cleanup_;
 
   // The descriptors that are pending cancellation.
   std::vector<socket_type> pending_cancellations_;

@@ -17,10 +17,6 @@
 
 #include "asio/detail/push_options.hpp"
 
-#include "asio/detail/push_options.hpp"
-#include <boost/type_traits.hpp>
-#include "asio/detail/pop_options.hpp"
-
 #include "asio/detail/bind_handler.hpp"
 #include "asio/detail/handler_alloc_helpers.hpp"
 #include "asio/detail/handler_invoke_helpers.hpp"
@@ -34,9 +30,7 @@ class wrapped_handler
 public:
   typedef void result_type;
 
-  wrapped_handler(
-      typename boost::add_reference<Dispatcher>::type dispatcher,
-      Handler handler)
+  wrapped_handler(Dispatcher& dispatcher, Handler handler)
     : dispatcher_(dispatcher),
       handler_(handler)
   {
@@ -123,7 +117,7 @@ public:
   }
 
 //private:
-  Dispatcher dispatcher_;
+  Dispatcher& dispatcher_;
   Handler handler_;
 };
 
@@ -177,9 +171,9 @@ inline void asio_handler_invoke(const Function& function,
         function, this_handler->handler_));
 }
 
-template <typename Function, typename Handler, typename Context>
+template <typename Function, typename Dispatcher, typename Handler>
 inline void asio_handler_invoke(const Function& function,
-    rewrapped_handler<Handler, Context>* this_handler)
+    rewrapped_handler<Dispatcher, Handler>* this_handler)
 {
   asio_handler_invoke_helpers::invoke(
       function, &this_handler->context_);

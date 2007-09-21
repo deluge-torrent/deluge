@@ -30,10 +30,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifdef TORRENT_DISK_STATS
-#include <fstream>
-#endif
-
 #include "libtorrent/storage.hpp"
 #include <boost/thread/thread.hpp>
 #include <boost/function.hpp>
@@ -54,7 +50,6 @@ namespace libtorrent
 			, buffer_size(0)
 			, piece(0)
 			, offset(0)
-			, priority(0)
 		{}
 
 		enum action_t
@@ -76,12 +71,6 @@ namespace libtorrent
 		// used for move_storage. On errors, this is set
 		// to the error message
 		std::string str;
-
-		// priority decides whether or not this
-		// job will skip entries in the queue or
-		// not. It always skips in front of entries
-		// with lower priority
-		int priority;
 
 		// this is called when operation completes
 		boost::function<void(int, disk_io_job const&)> callback;
@@ -124,10 +113,6 @@ namespace libtorrent
 
 #ifndef NDEBUG
 		int m_block_size;
-#endif
-
-#ifdef TORRENT_DISK_STATS
-		std::ofstream m_log;
 #endif
 
 		// thread for performing blocking disk io operations

@@ -38,7 +38,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/socket.hpp"
 #include "libtorrent/peer_connection.hpp"
 #include "libtorrent/config.hpp"
-#include "libtorrent/assert.hpp"
 
 namespace libtorrent
 {
@@ -224,7 +223,7 @@ namespace libtorrent
 	{
 		block_downloading_alert(
 			const torrent_handle& h
-			, char const* speedmsg
+			, std::string& speedmsg
 			, int block_num
 			, int piece_num
 			, const std::string& msg)
@@ -261,17 +260,6 @@ namespace libtorrent
 		virtual std::auto_ptr<alert> clone() const
 		{ return std::auto_ptr<alert>(new torrent_paused_alert(*this)); }
 	};
-
-	struct TORRENT_EXPORT torrent_checked_alert: torrent_alert
-	{
-		torrent_checked_alert(torrent_handle const& h, std::string const& msg)
-			: torrent_alert(h, alert::info, msg)
-		{}
-
-		virtual std::auto_ptr<alert> clone() const
-		{ return std::auto_ptr<alert>(new torrent_checked_alert(*this)); }
-  };
-
 
 	struct TORRENT_EXPORT url_seed_alert: torrent_alert
 	{

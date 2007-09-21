@@ -65,6 +65,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/alert.hpp"
 #include "libtorrent/torrent_handle.hpp"
 #include "libtorrent/torrent.hpp"
+#include "libtorrent/allocate_resources.hpp"
 #include "libtorrent/peer_request.hpp"
 #include "libtorrent/piece_block_progress.hpp"
 #include "libtorrent/config.hpp"
@@ -121,16 +122,8 @@ namespace libtorrent
 			msg_request,
 			msg_piece,
 			msg_cancel,
-			// DHT extension
 			msg_dht_port,
-			// FAST extension
-			msg_suggest_piece = 0xd,
-			msg_have_all,
-			msg_have_none,
-			msg_reject_request,
-			msg_allowed_fast,
-			
-			// extension protocol message
+	// extension protocol message
 			msg_extended = 20,
 
 			num_supported_messages
@@ -181,16 +174,7 @@ namespace libtorrent
 		void on_request(int received);
 		void on_piece(int received);
 		void on_cancel(int received);
-
-		// DHT extension
 		void on_dht_port(int received);
-
-		// FAST extension
-		void on_suggest_piece(int received);
-		void on_have_all(int received);
-		void on_have_none(int received);
-		void on_reject_request(int received);
-		void on_allowed_fast(int received);
 
 		void on_extended(int received);
 
@@ -217,16 +201,7 @@ namespace libtorrent
 		void write_metadata(std::pair<int, int> req);
 		void write_metadata_request(std::pair<int, int> req);
 		void write_keepalive();
-
-		// DHT extension
 		void write_dht_port(int listen_port);
-
-		// FAST extension
-		void write_have_all();
-		void write_have_none();
-		void write_reject_request(peer_request const&);
-		void write_allow_fast(int piece);
-		
 		void on_connected();
 		void on_metadata();
 
@@ -350,7 +325,6 @@ namespace libtorrent
 		bool m_supports_extensions;
 #endif
 		bool m_supports_dht_port;
-		bool m_supports_fast;
 
 #ifndef TORRENT_DISABLE_ENCRYPTION
 		// this is set to true after the encryption method has been

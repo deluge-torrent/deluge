@@ -105,11 +105,9 @@ namespace libtorrent
 			, send_redundant_have(false)
 			, lazy_bitfields(true)
 			, inactivity_timeout(600)
-			, unchoke_interval(15)
-			, optimistic_unchoke_multiplier(4)
+			, unchoke_interval(20)
 			, num_want(200)
 			, initial_picker_threshold(4)
-			, allowed_fast_set_size(10)
 			, max_outstanding_disk_bytes_per_connection(64 * 1024)
 #ifndef TORRENT_DISABLE_DHT
 			, use_dht_as_fallback(true)
@@ -243,10 +241,6 @@ namespace libtorrent
 		// the number of seconds between chokes/unchokes
 		int unchoke_interval;
 
-		// the number of unchoke intervals between
-		// optimistic unchokes
-		int optimistic_unchoke_multiplier;
-
 		// if this is set, this IP will be reported do the
 		// tracker in the ip= parameter.
 		address announce_ip;
@@ -257,10 +251,6 @@ namespace libtorrent
 		// while we have fewer pieces than this, pick
 		// random pieces instead of rarest first.
 		int initial_picker_threshold;
-
-		// the number of allowed pieces to send to peers
-		// that supports the fast extensions
-		int allowed_fast_set_size;
 
 		// the maximum number of bytes a connection may have
 		// pending in the disk write queue before its download

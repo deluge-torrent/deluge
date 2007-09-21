@@ -34,7 +34,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #define TORRENT_TORRENT_HANDLE_HPP_INCLUDED
 
 #include <vector>
-#include <set>
 
 #ifdef _MSC_VER
 #pragma warning(push, 1)
@@ -274,9 +273,7 @@ namespace libtorrent
 		std::vector<announce_entry> const& trackers() const;
 		void replace_trackers(std::vector<announce_entry> const&) const;
 
-		void add_url_seed(std::string const& url) const;
-		void remove_url_seed(std::string const& url) const;
-		std::set<std::string> url_seeds() const;
+		void add_url_seed(std::string const& url);
 
 		bool has_metadata() const;
 		const torrent_info& get_torrent_info() const;
@@ -399,7 +396,6 @@ namespace libtorrent
 			, m_info_hash(h)
 		{
 			assert(m_ses != 0);
-			assert(m_chk != 0);
 		}
 
 #ifndef NDEBUG

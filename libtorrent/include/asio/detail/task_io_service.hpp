@@ -40,7 +40,6 @@ public:
     : asio::detail::service_base<task_io_service<Task> >(io_service),
       mutex_(),
       task_(use_service<Task>(io_service)),
-      task_interrupted_(true),
       outstanding_work_(0),
       handler_queue_(&task_handler_),
       handler_queue_end_(&task_handler_),
@@ -81,7 +80,8 @@ public:
     typename call_stack<task_io_service>::context ctx(this);
 
     idle_thread_info this_idle_thread;
-    this_idle_thread.next = 0;
+    this_idle_thread.prev = &this_idle_thread;
+    this_idle_thread.next = &this_idle_thread;
 
     asio::detail::mutex::scoped_lock lock(mutex_);
 
@@ -98,7 +98,8 @@ public:
     typename call_stack<task_io_service>::context ctx(this);
 
     idle_thread_info this_idle_thread;
-    this_idle_thread.next = 0;
+    this_idle_thread.prev = &this_idle_thread;
+    this_idle_thread.next = &this_idle_thread;
 
     asio::detail::mutex::scoped_lock lock(mutex_);
 
@@ -133,7 +134,7 @@ public:
   void stop()
   {
     asio::detail::mutex::scoped_lock lock(mutex_);
-    stop_all_threads(lock);
+    stop_all_threads();
   }
 
   // Reset in preparation for a subsequent run invocation.
@@ -155,7 +156,7 @@ public:
   {
     asio::detail::mutex::scoped_lock lock(mutex_);
     if (--outstanding_work_ == 0)
-      stop_all_threads(lock);
+      stop_all_threads();
   }
 
   // Request invocation of the given handler.
@@ -200,14 +201,9 @@ public:
     ++outstanding_work_;
 
     // Wake up a thread to execute the handler.
-    if (!interrupt_one_idle_thread(lock))
-    {
-      if (!task_interrupted_)
-      {
-        task_interrupted_ = true;
+    if (!interrupt_one_idle_thread())
+      if (task_handler_.next_ == 0 && handler_queue_end_ != &task_handler_)
         task_.interrupt();
-      }
-    }
   }
 
 private:
@@ -218,7 +214,7 @@ private:
   {
     if (outstanding_work_ == 0 && !stopped_)
     {
-      stop_all_threads(lock);
+      stop_all_threads();
       ec = asio::error_code();
       return 0;
     }
@@ -234,14 +230,11 @@ private:
         handler_queue_ = h->next_;
         if (handler_queue_ == 0)
           handler_queue_end_ = 0;
-        h->next_ = 0;
+        bool more_handlers = (handler_queue_ != 0);
+        lock.unlock();
 
         if (h == &task_handler_)
         {
-          bool more_handlers = (handler_queue_ != 0);
-          task_interrupted_ = more_handlers || polling;
-          lock.unlock();
-
           // If the task has already run and we're polling then we're done.
           if (task_has_run && polling)
           {
@@ -259,7 +252,6 @@ private:
         }
         else
         {
-          lock.unlock();
           handler_cleanup c(lock, *this);
 
           // Invoke the handler. May throw an exception.
@@ -272,10 +264,31 @@ private:
       else if (this_idle_thread)
       {
         // Nothing to run right now, so just wait for work to do.
-        this_idle_thread->next = first_idle_thread_;
+        if (first_idle_thread_)
+        {
+          this_idle_thread->next = first_idle_thread_;
+          this_idle_thread->prev = first_idle_thread_->prev;
+          first_idle_thread_->prev->next = this_idle_thread;
+          first_idle_thread_->prev = this_idle_thread;
+        }
         first_idle_thread_ = this_idle_thread;
-        this_idle_thread->wakeup_event.clear(lock);
-        this_idle_thread->wakeup_event.wait(lock);
+        this_idle_thread->wakeup_event.clear();
+        lock.unlock();
+        this_idle_thread->wakeup_event.wait();
+        lock.lock();
+        if (this_idle_thread->next == this_idle_thread)
+        {
+          first_idle_thread_ = 0;
+        }
+        else
+        {
+          if (first_idle_thread_ == this_idle_thread)
+            first_idle_thread_ = this_idle_thread->next;
+          this_idle_thread->next->prev = this_idle_thread->prev;
+          this_idle_thread->prev->next = this_idle_thread->next;
+          this_idle_thread->next = this_idle_thread;
+          this_idle_thread->prev = this_idle_thread;
+        }
       }
       else
       {
@@ -289,44 +302,39 @@ private:
   }
 
   // Stop the task and all idle threads.
-  void stop_all_threads(
-      asio::detail::mutex::scoped_lock& lock)
+  void stop_all_threads()
   {
     stopped_ = true;
-    interrupt_all_idle_threads(lock);
-    if (!task_interrupted_)
-    {
-      task_interrupted_ = true;
+    interrupt_all_idle_threads();
+    if (task_handler_.next_ == 0 && handler_queue_end_ != &task_handler_)
       task_.interrupt();
-    }
   }
 
   // Interrupt a single idle thread. Returns true if a thread was interrupted,
   // false if no running thread could be found to interrupt.
-  bool interrupt_one_idle_thread(
-      asio::detail::mutex::scoped_lock& lock)
+  bool interrupt_one_idle_thread()
   {
     if (first_idle_thread_)
     {
-      idle_thread_info* idle_thread = first_idle_thread_;
-      first_idle_thread_ = idle_thread->next;
-      idle_thread->next = 0;
-      idle_thread->wakeup_event.signal(lock);
+      first_idle_thread_->wakeup_event.signal();
+      first_idle_thread_ = first_idle_thread_->next;
       return true;
     }
     return false;
   }
 
   // Interrupt all idle threads.
-  void interrupt_all_idle_threads(
-      asio::detail::mutex::scoped_lock& lock)
+  void interrupt_all_idle_threads()
   {
-    while (first_idle_thread_)
+    if (first_idle_thread_)
     {
-      idle_thread_info* idle_thread = first_idle_thread_;
-      first_idle_thread_ = idle_thread->next;
-      idle_thread->next = 0;
-      idle_thread->wakeup_event.signal(lock);
+      first_idle_thread_->wakeup_event.signal();
+      idle_thread_info* current_idle_thread = first_idle_thread_->next;
+      while (current_idle_thread != first_idle_thread_)
+      {
+        current_idle_thread->wakeup_event.signal();
+        current_idle_thread = current_idle_thread->next;
+      }
     }
   }
 
@@ -432,7 +440,6 @@ private:
     {
       // Reinsert the task at the end of the handler queue.
       lock_.lock();
-      task_io_service_.task_interrupted_ = true;
       task_io_service_.task_handler_.next_ = 0;
       if (task_io_service_.handler_queue_end_)
       {
@@ -471,7 +478,7 @@ private:
     {
       lock_.lock();
       if (--task_io_service_.outstanding_work_ == 0)
-        task_io_service_.stop_all_threads(lock_);
+        task_io_service_.stop_all_threads();
     }
 
   private:
@@ -496,9 +503,6 @@ private:
     }
   } task_handler_;
 
-  // Whether the task has been interrupted.
-  bool task_interrupted_;
-
   // The count of unfinished work.
   int outstanding_work_;
 
@@ -518,6 +522,7 @@ private:
   struct idle_thread_info
   {
     event wakeup_event;
+    idle_thread_info* prev;
     idle_thread_info* next;
   };
 

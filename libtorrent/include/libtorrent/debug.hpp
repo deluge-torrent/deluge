@@ -80,4 +80,3 @@ namespace libtorrent
 }
 
 #endif // TORRENT_DEBUG_HPP_INCLUDED
-

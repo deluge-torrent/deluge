@@ -247,16 +247,19 @@ namespace libtorrent
 
 		void set_size(size_type s)
 		{
-#ifdef _WIN32
-#error file.cpp is for posix systems only. use file_win.cpp on windows
-#else
-			if (ftruncate(m_fd, s) < 0)
+			size_type pos = tell();
+			// Only set size if current file size not equals s.
+			// 2 as "m" argument is to be sure seek() sets SEEK_END on
+			// all compilers.
+			if(s != seek(0, 2))
 			{
-				std::stringstream msg;
-				msg << "ftruncate failed: '" << strerror(errno);
-				throw file_error(msg.str());
+				seek(s - 1);
+				char dummy = 0;
+				read(&dummy, 1);
+				seek(s - 1);
+				write(&dummy, 1);
 			}
-#endif
+			seek(pos);
 		}
 
 		size_type seek(size_type offset, int m = 1)

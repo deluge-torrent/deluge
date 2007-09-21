@@ -23,13 +23,11 @@
 
 #if defined(BOOST_WINDOWS)
 
-#include "asio/error.hpp"
 #include "asio/system_error.hpp"
 #include "asio/detail/noncopyable.hpp"
 #include "asio/detail/socket_types.hpp"
 
 #include "asio/detail/push_options.hpp"
-#include <boost/assert.hpp>
 #include <boost/throw_exception.hpp>
 #include "asio/detail/pop_options.hpp"
 
@@ -48,8 +46,7 @@ public:
     {
       DWORD last_error = ::GetLastError();
       asio::system_error e(
-          asio::error_code(last_error,
-            asio::error::system_category),
+          asio::error_code(last_error, asio::native_ecat),
           "event");
       boost::throw_exception(e);
     }
@@ -62,31 +59,21 @@ public:
   }
 
   // Signal the event.
-  template <typename Lock>
-  void signal(Lock& lock)
+  void signal()
   {
-    BOOST_ASSERT(lock.locked());
-    (void)lock;
     ::SetEvent(event_);
   }
 
   // Reset the event.
-  template <typename Lock>
-  void clear(Lock& lock)
+  void clear()
   {
-    BOOST_ASSERT(lock.locked());
-    (void)lock;
     ::ResetEvent(event_);
   }
 
   // Wait for the event to become signalled.
-  template <typename Lock>
-  void wait(Lock& lock)
+  void wait()
   {
-    BOOST_ASSERT(lock.locked());
-    lock.unlock();
     ::WaitForSingleObject(event_, INFINITE);
-    lock.lock();
   }
 
 private:

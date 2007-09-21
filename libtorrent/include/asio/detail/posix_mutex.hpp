@@ -28,15 +28,12 @@
 #include <pthread.h>
 #include "asio/detail/pop_options.hpp"
 
-#include "asio/error.hpp"
 #include "asio/system_error.hpp"
 #include "asio/detail/noncopyable.hpp"
 #include "asio/detail/scoped_lock.hpp"
 
 namespace asio {
 namespace detail {
-
-class posix_event;
 
 class posix_mutex
   : private noncopyable
@@ -51,7 +48,7 @@ public:
     if (error != 0)
     {
       asio::system_error e(
-          asio::error_code(error, asio::error::system_category),
+          asio::error_code(error, asio::native_ecat),
           "mutex");
       boost::throw_exception(e);
     }
@@ -70,7 +67,7 @@ public:
     if (error != 0)
     {
       asio::system_error e(
-          asio::error_code(error, asio::error::system_category),
+          asio::error_code(error, asio::native_ecat),
           "mutex");
       boost::throw_exception(e);
     }
@@ -83,14 +80,13 @@ public:
     if (error != 0)
     {
       asio::system_error e(
-          asio::error_code(error, asio::error::system_category),
+          asio::error_code(error, asio::native_ecat),
           "mutex");
       boost::throw_exception(e);
     }
   }
 
 private:
-  friend class posix_event;
   ::pthread_mutex_t mutex_;
 };
 
