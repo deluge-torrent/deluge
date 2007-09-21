@@ -54,6 +54,8 @@ def cell_data_statusicon(column, cell, model, row, data):
         fname = "downloading16.png"
     if state == deluge.common.TORRENT_STATE.index("Queued"):
         fname = "inactive16.png"
+    if state == deluge.common.TORRENT_STATE.index("Paused"):
+        fname = "inactive16.png"
     if state == deluge.common.TORRENT_STATE.index("Checking"):
         fname = "downloading16.png"
     if state == deluge.common.TORRENT_STATE.index("Allocating"):
@@ -72,11 +74,12 @@ def cell_data_progress(column, cell, model, row, data):
     value = model.get_value(row, column1)
     text = model.get_value(row, column2)
     cell.set_property("value", value)
-    textstr = "%s" % _(deluge.common.TORRENT_STATE[text])
+    textstr = "%s" % deluge.common.TORRENT_STATE[text]
     if deluge.common.TORRENT_STATE[text] == "Downloading" or\
             deluge.common.TORRENT_STATE[text] == "Downloading Metadata" or\
             deluge.common.TORRENT_STATE[text] == "Checking" or\
-            deluge.common.TORRENT_STATE[text] == "Allocating":
+            deluge.common.TORRENT_STATE[text] == "Allocating" or\
+            (deluge.common.TORRENT_STATE[text] == "Paused" and value < 100):
         textstr = textstr + " %.2f%%" % value
     cell.set_property("text", textstr)
     

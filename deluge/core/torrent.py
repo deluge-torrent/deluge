@@ -33,6 +33,8 @@
 
 """Internal Torrent class"""
 
+import deluge.common
+
 class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.
     """
@@ -101,6 +103,11 @@ class Torrent:
             total_peers = status.num_peers - status.num_seeds
         else:
             total_peers = status.num_incomplete
+        
+        # Set the state to 'Paused' if the torrent is paused.
+        state = status.state
+        if status.paused:
+            state = deluge.common.TORRENT_STATE.index("Paused")
             
         full_status = {
             "name": self.handle.torrent_info().name(),
@@ -111,7 +118,7 @@ class Torrent:
             "distributed_copies": status.distributed_copies,
             "total_done": status.total_done,
             "total_uploaded": self.total_uploaded + status.total_payload_upload,
-            "state": int(status.state),
+            "state": int(state),
             "paused": status.paused,
             "progress": progress,
             "next_announce": status.next_announce.seconds,

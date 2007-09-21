@@ -47,7 +47,8 @@ TORRENT_STATE = [
     "Downloading",
     "Finished",
     "Seeding",
-    "Allocating"
+    "Allocating",
+    "Paused"
 ]
 
 def get_version():
