@@ -38,10 +38,34 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import gettext
 
+import deluge.common
 import deluge.ui.functions as functions
 from deluge.log import LOG as log
 import deluge.ui.gtkui.listview as listview
 
+def cell_data_statusicon(column, cell, model, row, data):
+    """Display text with an icon"""
+    state = model.get_value(row, data)
+    if state == deluge.common.TORRENT_STATE.index("Connecting"):
+        fname = "downloading16.png"
+    if state == deluge.common.TORRENT_STATE.index("Downloading"):
+        fname = "downloading16.png"
+    if state == deluge.common.TORRENT_STATE.index("Downloading Metadata"):
+        fname = "downloading16.png"
+    if state == deluge.common.TORRENT_STATE.index("Queued"):
+        fname = "inactive16.png"
+    if state == deluge.common.TORRENT_STATE.index("Checking"):
+        fname = "downloading16.png"
+    if state == deluge.common.TORRENT_STATE.index("Allocating"):
+        fname = "downloading16.png"
+    if state == deluge.common.TORRENT_STATE.index("Finished"):
+        fname = "seeding16.png"
+    if state == deluge.common.TORRENT_STATE.index("Seeding"):
+        fname = "seeding16.png"
+        
+    icon = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap(fname))
+    cell.set_property("pixbuf", icon)
+    
 class TorrentView(listview.ListView):
     """TorrentView handles the listing of torrents."""
     def __init__(self, window):
@@ -59,7 +83,8 @@ class TorrentView(listview.ListView):
         
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
-        self.add_text_column("Name", status_field=["name"])
+        self.add_texticon_column("Name", status_field=["state", "name"], 
+                                            function=cell_data_statusicon)
         self.add_func_column("Size", 
                                             listview.cell_data_size, 
                                             [long],
@@ -143,6 +168,9 @@ class TorrentView(listview.ListView):
                     status_keys.append(field)
                     columns_to_update.append(column)
         
+        # Remove duplicate keys
+        columns_to_update = list(set(columns_to_update))
+
         # If there is nothing in status_keys then we must not continue
         if status_keys is []:
             return

@@ -40,7 +40,6 @@ import deluge.common
 from deluge.log import LOG as log
 
 # Cell data functions to pass to add_func_column()
-
 def cell_data_speed(column, cell, model, row, data):
     """Display value as a speed, eg. 2 KiB/s"""
     speed = int(model.get_value(row, data))
@@ -244,8 +243,9 @@ class ListView:
     
         return
     
-    def add_column(self, header, renderer, col_types, hidden, position, 
-            status_field, sortid, text=0, value=0, function=None):
+    def add_column(self, header, render, col_types, hidden, position, 
+            status_field, sortid, text=0, value=0, pixbuf=0, function=None,
+            column_type=None):
         """Adds a column to the ListView"""
         # Add the column types to liststore_columns
         column_indices = []
@@ -272,43 +272,37 @@ class ListView:
         # Create a new list with the added column
         self.create_new_liststore()
         
-        if type(renderer) is not tuple and type(renderer) is not list:
-            renderer = [renderer]
-
-        column = gtk.TreeViewColumn(header)            
-        for render in renderer:
-            if type(render) is gtk.CellRendererText:
-                # Check to see if this is a function column or not
-                if function is None:
-                    # Not a function column, so lets treat it as a regular
-                    # text col
-                    column.pack_start(render)
-                    column.add_attribute(render, "text",
-                            self.columns[header].column_indices[text])
-                else:
-                    # This is a function column
-                    column.pack_start(render, True)
-                    if len(self.columns[header].column_indices) > 1:
-                        column.set_cell_data_func(render, function, 
-                                tuple(self.columns[header].column_indices))
-                    else:
-                        column.set_cell_data_func(render, function,
-                                    self.columns[header].column_indices[0])                
-            elif type(render) is gtk.CellRendererProgress:
-                # This is a progress column
-                column.pack_start(render)
-                column.add_attribute(render, "text",
+        column = gtk.TreeViewColumn(header)
+        if column_type == "text":
+            column.pack_start(render)
+            column.add_attribute(render, "text",
                     self.columns[header].column_indices[text])
-                column.add_attribute(render, "value",
-                    self.columns[header].column_indices[value])
-                    
-            elif type(render) is gtk.CellRendererPixbuf:
-                # This is a pixbuf column
-                column.pack_start(render, expand=False)
-                column.add_attribute(render, "pixbuf", 
-                                self.columns[header].column_indices[pixbuf])
+        elif column_type == "func":
+            column.pack_start(render, True)
+            if len(self.columns[header].column_indices) > 1:
+                column.set_cell_data_func(render, function, 
+                        tuple(self.columns[header].column_indices))
             else:
-                column.pack_start(render)
+                column.set_cell_data_func(render, function,
+                            self.columns[header].column_indices[0])            
+        elif column_type == "progress":
+            column.pack_start(render)
+            column.add_attribute(render, "text",
+                self.columns[header].column_indices[text])
+            column.add_attribute(render, "value",
+                self.columns[header].column_indices[value])
+        elif column_type == "texticon":
+            column.pack_start(render[pixbuf])
+            if function is not None:
+                column.set_cell_data_func(render[pixbuf], function,
+                            self.columns[header].column_indices[pixbuf])
+            column.pack_start(render[text])
+            column.add_attribute(render[text], "text",
+                    self.columns[header].column_indices[text])
+        elif column_type == None:
+            return
+            
+
                 
         column.set_sort_column_id(self.columns[header].column_indices[sortid])
         column.set_clickable(True)
@@ -332,23 +326,26 @@ class ListView:
     def add_text_column(self, header, col_type=str, hidden=False, 
                                             position=None,
                                             status_field=None,
-                                            sortid=0):
+                                            sortid=0,
+                                            column_type="text"):
         """Add a text column to the listview.  Only the header name is required.
         """
         render = gtk.CellRendererText()
         self.add_column(header, render, col_type, hidden, position,
-                    status_field, sortid, text=0)
+                    status_field, sortid, column_type=column_type)
        
         return True
         
     def add_func_column(self, header, function, col_types, sortid=0, 
-                                hidden=False, position=None, status_field=None):
+                                hidden=False, position=None, status_field=None,
+                                column_type="func"):
         """Add a function column to the listview.  Need a header name, the
         function and the column types."""
         
         render = gtk.CellRendererText()
         self.add_column(header, render, col_types, hidden, position,
-                            status_field, sortid, function=function)
+                            status_field, sortid, column_type=column_type, 
+                            function=function)
 
         return True
 
@@ -356,25 +353,31 @@ class ListView:
                                             sortid=0, 
                                             hidden=False, 
                                             position=None, 
-                                            status_field=None):
+                                            status_field=None,
+                                            column_type="progress"):
         """Add a progress column to the listview."""
                                             
         render = gtk.CellRendererProgress()
         self.add_column(header, render, col_types, hidden, position,
-                            status_field, sortid, value=0, text=1)
+                            status_field, sortid, column_type=column_type, 
+                            value=0, text=1)
 
         return True
         
-    def add_texticon_column(self, header, col_types=[gtk.gdk.Pixbuf, str],
+    def add_texticon_column(self, header, col_types=[int, str],
                                             sortid=0,
                                             hidden=False, 
                                             position=None, 
-                                            status_field=None):
+                                            status_field=None,
+                                            column_type="texticon",
+                                            function=None):
         """Adds a texticon column to the listview."""
         render1 = gtk.CellRendererPixbuf()
         render2 = gtk.CellRendererText()        
         
         self.add_column(header, (render1, render2), col_types, hidden,
-                            position, status_field, sortid, text=1, pixbuf=0)
+                            position, status_field, sortid, 
+                            column_type=column_type, function=function,
+                            pixbuf=0, text=1)
 
         return True
