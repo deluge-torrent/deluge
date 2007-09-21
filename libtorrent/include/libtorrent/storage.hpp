@@ -202,7 +202,8 @@ namespace libtorrent
 		void async_read(
 			peer_request const& r
 			, boost::function<void(int, disk_io_job const&)> const& handler
-			, char* buffer = 0);
+			, char* buffer = 0
+			, int priority = 0);
 
 		void async_write(
 			peer_request const& r
@@ -343,7 +344,8 @@ namespace libtorrent
 		std::multimap<sha1_hash, int> m_hash_to_piece;
 	
 		// this map contains partial hashes for downloading
-		// pieces.
+		// pieces. This is only accessed from within the
+		// disk-io thread.
 		std::map<int, partial_hash> m_piece_hasher;
 
 		disk_io_thread& m_io_thread;

@@ -687,6 +687,14 @@ namespace libtorrent
 		boost::shared_ptr<torrent> t = m_torrent.lock();
 		assert(t);
 
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		for (extension_list_t::iterator i = m_extensions.begin()
+			, end(m_extensions.end()); i != end; ++i)
+		{
+			if ((*i)->on_reject(r)) return;
+		}
+#endif
+
 		std::deque<piece_block>::iterator i = std::find_if(
 			m_download_queue.begin(), m_download_queue.end()
 			, bind(match_request, boost::cref(r), _1, t->block_size()));
@@ -743,13 +751,21 @@ namespace libtorrent
 	void peer_connection::incoming_suggest(int index)
 	{
 		INVARIANT_CHECK;
-		
+
 #ifdef TORRENT_VERBOSE_LOGGING
 		(*m_logger) << time_now_string()
 			<< " <== SUGGEST_PIECE [ piece: " << index << " ]\n";
 #endif
 		boost::shared_ptr<torrent> t = m_torrent.lock();
 		if (!t) return;
+
+#ifndef TORRENT_DISABLE_EXTENSIONS
+		for (extension_list_t::iterator i = m_extensions.begin()
+			, end(m_extensions.end()); i != end; ++i)
+		{
+			if ((*i)->on_suggest(index)) return;
+		}
+#endif
 
 		if (t->have_piece(index)) return;
 		
@@ -1647,7 +1663,9 @@ namespace libtorrent
 			state = piece_picker::slow;
 		}
 
-		t->picker().mark_as_downloading(block, peer_info_struct(), state);
+		if (!t->picker().mark_as_downloading(block, peer_info_struct(), state))
+			return;
+
 		if (t->alerts().should_post(alert::info))
 		{
 			t->alerts().post_alert(block_downloading_alert(t->get_handle(), 
@@ -1934,7 +1952,6 @@ namespace libtorrent
 			}
 
 			t->remove_peer(this);
-
 			m_torrent.reset();
 		}
 
@@ -2838,6 +2855,8 @@ namespace libtorrent
 			return;
 		}
 
+		assert(t->connection_for(remote()) != 0 || m_in_constructor);
+
 		if (!m_in_constructor && t->connection_for(remote()) != this
 			&& !m_ses.settings().allow_multiple_connections_per_ip)
 		{
@@ -2897,11 +2916,6 @@ namespace libtorrent
 		// TODO: the timeout should be called by an event
 		INVARIANT_CHECK;
 
-#ifndef NDEBUG
-		// allow step debugging without timing out
-		return false;
-#endif
-
 		ptime now(time_now());
 		
 		// if the socket is still connecting, don't
@@ -2914,6 +2928,10 @@ namespace libtorrent
 		time_duration d;
 		d = now - m_last_receive;
 		if (d > seconds(m_timeout)) return true;
+
+		// if it takes more than 5 seconds to receive
+		// handshake, disconnect
+		if (in_handshake() && d > seconds(5)) return true;
 
 		// disconnect peers that we unchoked, but
 		// they didn't send a request within 20 seconds.

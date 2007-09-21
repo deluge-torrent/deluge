@@ -42,6 +42,9 @@ namespace libtorrent
 {
 
 	bool is_local(address const& a);
+	bool is_loopback(address const& addr);
+	bool is_multicast(address const& addr);
+
 	address_v4 guess_local_address(asio::io_service&);
 
 	typedef boost::function<void(udp::endpoint const& from
@@ -51,7 +54,8 @@ namespace libtorrent
 	{
 	public:
 		broadcast_socket(asio::io_service& ios, udp::endpoint const& multicast_endpoint
-			, receive_handler_t const& handler);
+			, receive_handler_t const& handler, bool loopback = true);
+		~broadcast_socket() { close(); }
 
 		void send(char const* buffer, int size, asio::error_code& ec);
 		void close();

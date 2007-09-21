@@ -403,13 +403,19 @@ namespace libtorrent
 		assert(ph.offset == 0 || partial_copy.final() == partial.final());
 #endif
 		int slot_size = piece_size - ph.offset;
-		if (slot_size == 0) return ph.h.final();
-		m_scratch_buffer.resize(slot_size);
-		read_impl(&m_scratch_buffer[0], slot, ph.offset, slot_size, true);
-		ph.h.update(&m_scratch_buffer[0], slot_size);
+		if (slot_size > 0)
+		{
+			m_scratch_buffer.resize(slot_size);
+			read_impl(&m_scratch_buffer[0], slot, ph.offset, slot_size, true);
+			ph.h.update(&m_scratch_buffer[0], slot_size);
+		}
+#ifndef NDEBUG
 		sha1_hash ret = ph.h.final();
-		assert(whole.final() == ret);
+		assert(ret == whole.final());
 		return ret;
+#else
+		return ph.h.final();
+#endif
 	}
 
 	void storage::initialize(bool allocate_files)
@@ -996,9 +1002,6 @@ namespace libtorrent
 		int err = statfs(query_path.native_directory_string().c_str(), &buf);
 		if (err == 0)
 		{
-#ifndef NDEBUG
-			std::cerr << "buf.f_type " << std::hex << buf.f_type << std::endl;
-#endif
 			switch (buf.f_type)
 			{
 				case 0x5346544e: // NTFS
@@ -1084,7 +1087,8 @@ namespace libtorrent
 	void piece_manager::async_read(
 		peer_request const& r
 		, boost::function<void(int, disk_io_job const&)> const& handler
-		, char* buffer)
+		, char* buffer
+		, int priority)
 	{
 		disk_io_job j;
 		j.storage = this;
@@ -1093,6 +1097,7 @@ namespace libtorrent
 		j.offset = r.start;
 		j.buffer_size = r.length;
 		j.buffer = buffer;
+		j.priority = priority;
 		// if a buffer is not specified, only one block can be read
 		// since that is the size of the pool allocator's buffers
 		assert(r.length <= 16 * 1024 || buffer != 0);
@@ -1295,6 +1300,7 @@ namespace libtorrent
 			if (i != m_piece_hasher.end())
 			{
 				assert(i->second.offset > 0);
+				assert(offset >= i->second.offset);
 				if (offset == i->second.offset)
 				{
 					i->second.offset += size;

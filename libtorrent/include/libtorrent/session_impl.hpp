@@ -83,7 +83,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/socket_type.hpp"
 #include "libtorrent/connection_queue.hpp"
 #include "libtorrent/disk_io_thread.hpp"
-#include "libtorrent/assert.hpp"
 
 namespace libtorrent
 {
@@ -185,7 +184,7 @@ namespace libtorrent
 			~session_impl();
 
 #ifndef TORRENT_DISABLE_EXTENSIONS
-			void add_extension(boost::function<boost::shared_ptr<torrent_plugin>(torrent*, void*)> ext);
+			void add_extension(boost::function<boost::shared_ptr<torrent_plugin>(torrent*)> ext);
 #endif
 			void operator()();
 
@@ -241,13 +240,12 @@ namespace libtorrent
 			bool is_listening() const;
 
 			torrent_handle add_torrent(
-				boost::intrusive_ptr<torrent_info> ti
+				torrent_info const& ti
 				, fs::path const& save_path
 				, entry const& resume_data
 				, bool compact_mode
-				, storage_constructor_type sc
-				, bool paused
-				, void* userdata);
+				, int block_size
+				, storage_constructor_type sc);
 
 			torrent_handle add_torrent(
 				char const* tracker_url
@@ -256,9 +254,8 @@ namespace libtorrent
 				, fs::path const& save_path
 				, entry const& resume_data
 				, bool compact_mode
-				, storage_constructor_type sc
-				, bool paused
-				, void* userdata);
+				, int block_size
+				, storage_constructor_type sc);
 
 			void remove_torrent(torrent_handle const& h);
 
@@ -278,7 +275,6 @@ namespace libtorrent
 
 			int max_connections() const { return m_max_connections; }
 			int max_uploads() const { return m_max_uploads; }
-			int max_half_open_connections() const { return m_half_open.limit(); }
 
 			int num_uploads() const { return m_num_unchoked; }
 			int num_connections() const
@@ -286,10 +282,8 @@ namespace libtorrent
 
 			void unchoke_peer(peer_connection& c)
 			{
-				torrent* t = c.associated_torrent().lock().get();
-				assert(t);
-				if (t->unchoke_peer(c))
-					++m_num_unchoked;
+				c.send_unchoke();
+				++m_num_unchoked;
 			}
 
 			session_status status() const;
@@ -497,7 +491,7 @@ namespace libtorrent
 			// This implements a round robin.
 			int m_next_connect_torrent;
 #ifndef NDEBUG
-			void check_invariant() const;
+			void check_invariant(const char *place = 0);
 #endif
 
 #ifdef TORRENT_STATS
@@ -521,7 +515,7 @@ namespace libtorrent
 
 #ifndef TORRENT_DISABLE_EXTENSIONS
 			typedef std::list<boost::function<boost::shared_ptr<
-				torrent_plugin>(torrent*, void*)> > extension_list_t;
+				torrent_plugin>(torrent*)> > extension_list_t;
 
 			extension_list_t m_extensions;
 #endif
