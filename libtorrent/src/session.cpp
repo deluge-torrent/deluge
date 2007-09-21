@@ -68,7 +68,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/alert_types.hpp"
 #include "libtorrent/invariant_check.hpp"
 #include "libtorrent/file.hpp"
-#include "libtorrent/allocate_resources.hpp"
 #include "libtorrent/bt_peer_connection.hpp"
 #include "libtorrent/ip_filter.hpp"
 #include "libtorrent/socket.hpp"
@@ -133,7 +132,7 @@ namespace libtorrent
 			m_impl->abort();
 	}
 
-	void session::add_extension(boost::function<boost::shared_ptr<torrent_plugin>(torrent*)> ext)
+	void session::add_extension(boost::function<boost::shared_ptr<torrent_plugin>(torrent*, void*)> ext)
 	{
 		m_impl->add_extension(ext);
 	}
@@ -180,11 +179,27 @@ namespace libtorrent
 		, fs::path const& save_path
 		, entry const& resume_data
 		, bool compact_mode
-		, int block_size
+		, bool paused
 		, storage_constructor_type sc)
 	{
+		assert(!ti.m_half_metadata);
+		boost::intrusive_ptr<torrent_info> tip(new torrent_info(ti));
+		return m_impl->add_torrent(tip, save_path, resume_data
+			, compact_mode, sc, paused, 0);
+	}
+
+	torrent_handle session::add_torrent(
+		boost::intrusive_ptr<torrent_info> ti
+		, fs::path const& save_path
+		, entry const& resume_data
+		, bool compact_mode
+		, bool paused
+		, storage_constructor_type sc
+		, void* userdata)
+	{
+		assert(!ti->m_half_metadata);
 		return m_impl->add_torrent(ti, save_path, resume_data
-			, compact_mode, block_size, sc);
+			, compact_mode, sc, paused, userdata);
 	}
 
 	torrent_handle session::add_torrent(
@@ -194,11 +209,12 @@ namespace libtorrent
 		, fs::path const& save_path
 		, entry const& e
 		, bool compact_mode
-		, int block_size
-		, storage_constructor_type sc)
+		, bool paused
+		, storage_constructor_type sc
+		, void* userdata)
 	{
 		return m_impl->add_torrent(tracker_url, info_hash, name, save_path, e
-			, compact_mode, block_size, sc);
+			, compact_mode, sc, paused, userdata);
 	}
 
 	void session::remove_torrent(const torrent_handle& h)
@@ -335,6 +351,11 @@ namespace libtorrent
 	void session::set_max_connections(int limit)
 	{
 		m_impl->set_max_connections(limit);
+	}
+
+	int session::max_half_open_connections() const
+	{
+		return m_impl->max_half_open_connections();
 	}
 
 	void session::set_max_half_open_connections(int limit)

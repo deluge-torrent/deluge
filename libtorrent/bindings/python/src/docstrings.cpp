@@ -164,14 +164,14 @@ char const* session_set_severity_level_doc =
     "";
 char const* session_pop_alert_doc = 
     "";
-char const* session_start_upnp_doc = 
+char const* session_start_upnp_doc =  
     "";
-char const* session_stop_upnp_doc = 
+char const* session_stop_upnp_doc =
     "";
- char const* session_start_natpmp_doc = 
+char const* session_start_natpmp_doc =
     "";
-char const* session_stop_natpmp_doc = 
-    "";   
+char const* session_stop_natpmp_doc =
+    "";
 // -- alert -----------------------------------------------------------------
 
 char const* alert_doc =
@@ -257,6 +257,17 @@ char const* torrent_finished_alert_doc =
     "It contains a `torrent_handle` to the torrent in question. This alert\n"
     "is generated as severity level `alert.severity_levels.info`.";
 
+char const* torrent_paused_alert_doc =
+    "This alert is generated when a torrent switches from being a\n"
+    "active to paused.\n"
+    "It contains a `torrent_handle` to the torrent in question. This alert\n"
+    "is generated as severity level `alert.severity_levels.warning`.";
+
+char const* storage_moved_alert_doc =
+    "This alert is generated when a torrent moves storage.\n"
+    "It contains a `torrent_handle` to the torrent in question. This alert\n"
+    "is generated as severity level `alert.severity_levels.warning`.";
+
 char const* metadata_failed_alert_doc = 
     "This alert is generated when the metadata has been completely\n"
     "received and the info-hash failed to match it. i.e. the\n"
@@ -278,4 +289,5 @@ char const* fastresume_rejected_alert_doc =
     "to `session.add_torrent` but the files on disk did not match the\n"
     "fastresume file. The string explains the reason why the resume\n"
     "file was rejected. It is generated at severity level `alert.severity_levels.warning`.";
+
 

@@ -35,6 +35,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "libtorrent/socket.hpp"
 #include "libtorrent/peer_id.hpp"
+#include "libtorrent/broadcast_socket.hpp"
 
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
@@ -58,35 +59,26 @@ public:
 		, peer_callback_t const& cb);
 	~lsd();
 
-	void rebind(address const& listen_interface);
+//	void rebind(address const& listen_interface);
 
 	void announce(sha1_hash const& ih, int listen_port);
 	void close();
 
 private:
 
-	static address_v4 lsd_multicast_address;
-	static udp::endpoint lsd_multicast_endpoint;
-
 	void resend_announce(asio::error_code const& e, std::string msg);
-	void on_announce(asio::error_code const& e
+	void on_announce(udp::endpoint const& from, char* buffer
 		, std::size_t bytes_transferred);
-	void setup_receive();
+//	void setup_receive();
 
 	peer_callback_t m_callback;
 
 	// current retry count
 	int m_retry_count;
 
-	// used to receive responses in	
-	char m_receive_buffer[1024];
-
-	// the endpoint we received the message from
-	udp::endpoint m_remote;
-
 	// the udp socket used to send and receive
 	// multicast messages on
-	datagram_socket m_socket;
+	broadcast_socket m_socket;
 
 	// used to resend udp packets in case
 	// they time out

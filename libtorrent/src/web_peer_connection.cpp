@@ -69,9 +69,6 @@ namespace libtorrent
 	{
 		INVARIANT_CHECK;
 
-		// we always prefer downloading entire
-		// pieces from web seeds
-		prefer_whole_pieces(true);
 		// we want large blocks as well, so
 		// we can request more bytes at once
 		request_large_blocks(true);
@@ -80,6 +77,10 @@ namespace libtorrent
 		shared_ptr<torrent> tor = t.lock();
 		assert(tor);
 		int blocks_per_piece = tor->torrent_file().piece_length() / tor->block_size();
+
+		// we always prefer downloading 1 MB chunks
+		// from web seeds
+		prefer_whole_pieces((1024 * 1024) / tor->torrent_file().piece_length());
 		
 		// multiply with the blocks per piece since that many requests are
 		// merged into one http request
@@ -178,13 +179,16 @@ namespace libtorrent
 
 		int size = r.length;
 		const int block_size = t->block_size();
+		const int piece_size = t->torrent_file().piece_length();
+		peer_request pr;
 		while (size > 0)
 		{
-			int request_size = std::min(block_size, size);
-			peer_request pr = {r.piece, r.start + r.length - size
-				,  request_size};
+			int request_offset = r.start + r.length - size;
+			pr.start = request_offset % piece_size;
+			pr.length = (std::min)(block_size, size);
+			pr.piece = r.piece + request_offset / piece_size;
 			m_requests.push_back(pr);
-			size -= request_size;
+			size -= pr.length;
 		}
 
 		proxy_settings const& ps = m_ses.web_seed_proxy();
@@ -477,8 +481,11 @@ namespace libtorrent
 
 			peer_request front_request = m_requests.front();
 
-			if (in_range.piece != front_request.piece
-				|| in_range.start > front_request.start + int(m_piece.size()))
+			size_type rs = size_type(in_range.piece) * info.piece_length() + in_range.start;
+			size_type re = rs + in_range.length;
+			size_type fs = size_type(front_request.piece) * info.piece_length() + front_request.start;
+			size_type fe = fs + front_request.length;
+			if (fs < rs || fe > re)
 			{
 				throw std::runtime_error("invalid range in HTTP response");
 			}
@@ -486,7 +493,7 @@ namespace libtorrent
 			// skip the http header and the blocks we've already read. The
 			// http_body.begin is now in sync with the request at the front
 			// of the request queue
-			assert(in_range.start - int(m_piece.size()) <= front_request.start);
+//			assert(in_range.start - int(m_piece.size()) <= front_request.start);
 
 			// the http response body consists of 3 parts
 			// 1. the middle of a block or the ending of a block
@@ -510,7 +517,7 @@ namespace libtorrent
 				// m_piece as buffer.
 				
 				int piece_size = int(m_piece.size());
-				int copy_size = std::min(std::min(front_request.length - piece_size
+				int copy_size = (std::min)((std::min)(front_request.length - piece_size
 					, recv_buffer.left()), int(range_end - range_start - m_received_body));
 				m_piece.resize(piece_size + copy_size);
 				assert(copy_size > 0);
@@ -568,7 +575,7 @@ namespace libtorrent
 					&& (m_received_body + recv_buffer.left() >= range_end - range_start))
 				{
 					int piece_size = int(m_piece.size());
-					int copy_size = std::min(std::min(m_requests.front().length - piece_size
+					int copy_size = (std::min)((std::min)(m_requests.front().length - piece_size
 						, recv_buffer.left()), int(range_end - range_start - m_received_body));
 					assert(copy_size >= 0);
 					if (copy_size > 0)

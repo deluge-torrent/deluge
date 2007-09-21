@@ -256,7 +256,7 @@ namespace libtorrent
 		{
 			// available input is 1,2 or 3 bytes
 			// since we read 3 bytes at a time at most
-			int available_input = std::min(3, (int)std::distance(i, s.end()));
+			int available_input = (std::min)(3, (int)std::distance(i, s.end()));
 
 			// clear input buffer
 			std::fill(inbuf, inbuf+3, 0);
@@ -305,7 +305,7 @@ namespace libtorrent
 		m_start_time = time_now();
 		m_read_time = time_now();
 
-		m_timeout.expires_at(std::min(
+		m_timeout.expires_at((std::min)(
 			m_read_time + seconds(m_read_timeout)
 			, m_start_time + seconds(m_completion_timeout)));
 		m_timeout.async_wait(m_strand.wrap(bind(
@@ -341,7 +341,7 @@ namespace libtorrent
 			return;
 		}
 
-		m_timeout.expires_at(std::min(
+		m_timeout.expires_at((std::min)(
 			m_read_time + seconds(m_read_timeout)
 			, m_start_time + seconds(m_completion_timeout)));
 		m_timeout.async_wait(m_strand.wrap(
@@ -365,23 +365,22 @@ namespace libtorrent
 		, m_req(req)
 	{}
 
-	request_callback& tracker_connection::requester()
+	boost::shared_ptr<request_callback> tracker_connection::requester()
 	{
-		boost::shared_ptr<request_callback> r = m_requester.lock();
-		assert(r);
-		return *r;
+		return m_requester.lock();
 	}
 
 	void tracker_connection::fail(int code, char const* msg)
 	{
-		if (has_requester()) requester().tracker_request_error(
-			m_req, code, msg);
+		boost::shared_ptr<request_callback> cb = requester();
+		if (cb) cb->tracker_request_error(m_req, code, msg);
 		close();
 	}
 
 	void tracker_connection::fail_timeout()
 	{
-		if (has_requester()) requester().tracker_request_timed_out(m_req);
+		boost::shared_ptr<request_callback> cb = requester();
+		if (cb) cb->tracker_request_timed_out(m_req);
 		close();
 	}
 	
@@ -548,7 +547,8 @@ namespace libtorrent
 
 			m_connections.push_back(con);
 
-			if (con->has_requester()) con->requester().m_manager = this;
+			boost::shared_ptr<request_callback> cb = con->requester();
+			if (cb) cb->m_manager = this;
 		}
 		catch (std::exception& e)
 		{

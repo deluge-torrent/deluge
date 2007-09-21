@@ -57,6 +57,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/peer_request.hpp"
 #include "libtorrent/config.hpp"
 #include "libtorrent/time.hpp"
+#include "libtorrent/intrusive_ptr_base.hpp"
+#include "libtorrent/assert.hpp"
 
 namespace libtorrent
 {
@@ -71,7 +73,7 @@ namespace libtorrent
 		size_type offset; // the offset of this file inside the torrent
 		size_type size; // the size of this file
 		// if the path was incorrectly encoded, this is
-		// the origianal corrupt encoded string. It is
+		// the original corrupt encoded string. It is
 		// preserved in order to be able to reproduce
 		// the correct info-hash
 		boost::shared_ptr<const fs::path> orig_path;
@@ -96,7 +98,7 @@ namespace libtorrent
 		virtual const char* what() const throw() { return "invalid torrent file"; }
 	};
 
-	class TORRENT_EXPORT torrent_info
+	class TORRENT_EXPORT torrent_info : public intrusive_ptr_base<torrent_info>
 	{
 	public:
 
@@ -115,8 +117,12 @@ namespace libtorrent
 		void add_file(fs::path file, size_type size);
 		void add_url_seed(std::string const& url);
 
-		std::vector<file_slice> map_block(int piece, size_type offset, int size) const;
-		peer_request map_file(int file, size_type offset, int size) const;
+		bool remap_files(std::vector<std::pair<std::string, libtorrent::size_type> > const& map);
+
+		std::vector<file_slice> map_block(int piece, size_type offset
+			, int size, bool storage = false) const;
+		peer_request map_file(int file, size_type offset, int size
+			, bool storage = false) const;
 		
 		std::vector<std::string> const& url_seeds() const
 		{
@@ -128,15 +134,60 @@ namespace libtorrent
 		typedef std::vector<file_entry>::const_reverse_iterator reverse_file_iterator;
 
 		// list the files in the torrent file
-		file_iterator begin_files() const { return m_files.begin(); }
-		file_iterator end_files() const { return m_files.end(); }
-		reverse_file_iterator rbegin_files() const { return m_files.rbegin(); }
-		reverse_file_iterator rend_files() const { return m_files.rend(); }
+		file_iterator begin_files(bool storage = false) const
+		{
+			if (!storage || m_remapped_files.empty())
+				return m_files.begin();
+			else
+				return m_remapped_files.begin();
+		}
 
-		int num_files() const
-		{ assert(m_piece_length > 0); return (int)m_files.size(); }
-		const file_entry& file_at(int index) const
-		{ assert(index >= 0 && index < (int)m_files.size()); return m_files[index]; }
+		file_iterator end_files(bool storage = false) const
+		{
+			if (!storage || m_remapped_files.empty())
+				return m_files.end();
+			else
+				return m_remapped_files.end();
+		}
+
+		reverse_file_iterator rbegin_files(bool storage = false) const
+		{
+			if (!storage || m_remapped_files.empty())
+				return m_files.rbegin();
+			else
+				return m_remapped_files.rbegin();
+		}
+
+		reverse_file_iterator rend_files(bool storage = false) const
+		{
+			if (!storage || m_remapped_files.empty())
+				return m_files.rend();
+			else
+				return m_remapped_files.rend();
+		}
+
+		int num_files(bool storage = false) const
+		{
+			assert(m_piece_length > 0);
+			if (!storage || m_remapped_files.empty())
+				return (int)m_files.size();
+			else
+				return (int)m_remapped_files.size();
+		}
+
+		const file_entry& file_at(int index, bool storage = false) const
+		{
+			if (!storage || m_remapped_files.empty())
+			{
+				assert(index >= 0 && index < (int)m_files.size());
+				return m_files[index];
+			}
+			else
+			{
+				assert(index >= 0 && index < (int)m_remapped_files.size());
+				return m_remapped_files[index];
+			}
+		}
 		
 		const std::vector<announce_entry>& trackers() const { return m_urls; }
 
@@ -218,6 +269,13 @@ namespace libtorrent
 		// the list of files that this torrent consists of
 		std::vector<file_entry> m_files;
 
+		// this vector is typically empty. If it is not
+		// empty, it means the user has re-mapped the
+		// files in this torrent to diffefrent names
+		// on disk. This is only used when reading and
+		// writing the disk.
+		std::vector<file_entry> m_remapped_files;
+
 		nodes_t m_nodes;
 
 		// the sum of all filesizes
@@ -264,8 +322,10 @@ namespace libtorrent
 		entry m_extra_info;
 
 #ifndef NDEBUG
+	public:
 		// this is set to true when seed_free() is called
 		bool m_half_metadata;
+	private:
 #endif
 	};
 

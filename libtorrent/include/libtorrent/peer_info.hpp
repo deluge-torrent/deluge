@@ -56,10 +56,11 @@ namespace libtorrent
 			connecting = 0x80,
 			queued = 0x100,
 			on_parole = 0x200,
-			seed = 0x400
+			seed = 0x400,
+			optimistic_unchoke = 0x800
 #ifndef TORRENT_DISABLE_ENCRYPTION
-			, rc4_encrypted = 0x800,
-			plaintext_encrypted = 0x1000
+			, rc4_encrypted = 0x100000,
+			plaintext_encrypted = 0x200000
 #endif
 		};
 
@@ -71,7 +72,8 @@ namespace libtorrent
 			dht = 0x2,
 			pex = 0x4,
 			lsd = 0x8,
-			resume_data = 0x10
+			resume_data = 0x10,
+			incoming = 0x20
 		};
 
 		int source;
@@ -115,6 +117,11 @@ namespace libtorrent
 		// that we haven't got a response
 		// for yet
 		int download_queue_length;
+
+		// the number of requests that is
+		// tried to be maintained (this is
+		// typically a function of download speed)
+		int target_dl_queue_length;
 
 		// this is the number of requests
 		// the peer has sent to us
