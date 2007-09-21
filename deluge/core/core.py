@@ -373,9 +373,16 @@ class Core(dbus.service.Object):
         pe_settings.out_enc_policy = \
             lt.enc_policy(self.config["enc_out_policy"])
         pe_settings.in_enc_policy = lt.enc_policy(self.config["enc_in_policy"])
-        pe_settings.allow_enc_level = lt.enc_level(self.config["enc_level"])
+        pe_settings.allowed_enc_level = lt.enc_level(self.config["enc_level"])
         pe_settings.prefer_rc4 = self.config["enc_prefer_rc4"]
         self.session.set_pe_settings(pe_settings)
+        set = self.session.get_pe_settings()
+        log.debug("encryption settings:\n\t\t\tout_policy: %s\n\t\t\
+        in_policy: %s\n\t\t\tlevel: %s\n\t\t\tprefer_rc4: %s", 
+            set.out_enc_policy,
+            set.in_enc_policy,
+            set.allowed_enc_level,
+            set.prefer_rc4)
 
     def on_set_max_connections_global(self, key, value):
         log.debug("max_connections_global set to %s..", value)

@@ -211,7 +211,7 @@ void bind_session()
         )
         .def("set_settings", allow_threads(&session::set_settings), session_set_settings_doc)
         .def("set_pe_settings", allow_threads(&session::set_pe_settings), session_set_pe_settings_doc)
-        .def_readonly("get_pe_settings", allow_threads(&session::get_pe_settings), session_get_pe_settings_doc)
+        .def("get_pe_settings", allow_threads(&session::get_pe_settings), return_value_policy<copy_const_reference>())
         .def(
             "set_severity_level", allow_threads(&session::set_severity_level)
           , session_set_severity_level_doc
