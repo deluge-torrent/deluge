@@ -198,7 +198,7 @@ class TorrentManager:
         return True
 
     def force_reannounce(self, torrent_id):
-        """Resume a torrent"""
+        """Force a tracker reannounce"""
         try:
             self.torrents[torrent_id].handle.force_reannounce()
         except:
