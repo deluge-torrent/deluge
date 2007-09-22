@@ -31,6 +31,8 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
+import gobject
+
 from deluge.log import LOG as log
 from deluge.config import Config
 
@@ -38,11 +40,25 @@ class _ConfigManager:
     def __init__(self):
         log.debug("ConfigManager started..")
         self.config_files = {}
+        # Set a 5 minute timer to call save()
+        gobject.timeout_add(300000, self.save)
 
     def __del__(self):
         log.debug("ConfigManager stopping..")
         del self.config_files
 
+    def close(self, config):
+        """Closes a config file."""
+        try:
+            del self.config_files[config]
+        except KeyError:
+            pass
+            
+    def save(self):
+        """Saves all the configs to disk."""
+        for key in self.config_files.keys():
+            self.config_files[key].save()
+        
     def get_config(self, config_file, defaults=None):
         """Get a reference to the Config object for this filename"""
         # Create the config object if not already created
@@ -56,3 +72,6 @@ _configmanager = _ConfigManager()
 
 def ConfigManager(config, defaults=None):
     return _configmanager.get_config(config, defaults)
+
+def close(config):
+    return _configmanager.close(config)

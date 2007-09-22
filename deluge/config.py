@@ -112,16 +112,14 @@ class Config:
     def set(self, key, value):
         """Set the 'key' with 'value'."""
 	    # Sets the "key" with "value" in the config dict
-        log.debug("Setting '%s' to %s", key, value)
         if self.config[key] != value:
+            log.debug("Setting '%s' to %s", key, value)
             self.config[key] = value
             # Run the set_function for this key if any
             try:
                 self.set_functions[key](key, value)
             except KeyError:
                 pass
-        else:
-            log.debug("Not set because value is same.")    
 
     def get(self, key):
         """Get the value of 'key'.  If it is an invalid key then get() will
