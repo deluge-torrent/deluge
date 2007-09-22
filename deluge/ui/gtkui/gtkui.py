@@ -58,7 +58,12 @@ DEFAULT_PREFS = {
     "open_folder_location": "",
     "check_new_releases": False,
     "send_info": False,
-    "default_load_path": None
+    "default_load_path": None,
+    "window_maximized": False,
+    "window_x_pos": -1,
+    "window_y_pos": -1,
+    "window_width": -1,
+    "window_height": -1
 }
 
 class GtkUI:

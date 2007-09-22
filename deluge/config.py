@@ -115,17 +115,14 @@ class Config:
         log.debug("Setting '%s' to %s", key, value)
         if self.config[key] != value:
             self.config[key] = value
-            # Whenever something is set, we should save
-            self.save()
             # Run the set_function for this key if any
             try:
                 self.set_functions[key](key, value)
             except KeyError:
                 pass
         else:
-            log.debug("Not set as value is same.")    
+            log.debug("Not set because value is same.")    
 
-		
     def get(self, key):
         """Get the value of 'key'.  If it is an invalid key then get() will
         return None."""

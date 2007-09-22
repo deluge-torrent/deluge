@@ -37,6 +37,7 @@ import gtk, gtk.glade
 import gobject
 import pkg_resources
 
+from deluge.configmanager import ConfigManager
 from menubar import MenuBar
 from toolbar import ToolBar
 from torrentview import TorrentView
@@ -48,6 +49,7 @@ from deluge.log import LOG as log
 
 class MainWindow:
     def __init__(self):
+        self.config = ConfigManager("gtkui.conf")
         # Get the glade file for the main window
         self.main_glade = gtk.glade.XML(
                     pkg_resources.resource_filename("deluge.ui.gtkui", 
@@ -55,6 +57,16 @@ class MainWindow:
 
         self.window = self.main_glade.get_widget("main_window")
         self.window.set_icon(deluge.common.get_logo(32))
+        # Load the window state
+        self.load_window_geometry()
+        
+        # Keep track of window's minimization state so that we don't update the
+        # UI when it is minimized.
+        self.is_minimized = False
+
+        # Connect events
+        self.window.connect("window-state-event", self.window_state_event)
+        self.window.connect("configure-event", self.window_configure_event)
         
         # Initialize various components of the gtkui
         self.menubar = MenuBar(self)
@@ -66,6 +78,9 @@ class MainWindow:
         gobject.timeout_add(1000, self.update)
     
     def update(self):
+        # Don't update the UI if the the window is minimized.
+        if self.is_minimized == True:
+            return True
         self.torrentview.update()
         self.torrentdetails.update()
         return True
@@ -79,3 +94,37 @@ class MainWindow:
     def quit(self):
         self.hide()
         gtk.main_quit()
+    
+    def load_window_geometry(self):
+        x = self.config["window_x_pos"]
+        y = self.config["window_y_pos"]
+        w = self.config["window_width"]
+        h = self.config["window_height"]
+        self.window.move(x, y)
+        self.window.resize(w, h)
+        if self.config["window_maximized"] == True:
+            self.window.maximize()
+        
+    def window_configure_event(self, widget, event):
+        if self.config["window_maximized"] == False:
+            self.config.set("window_x_pos", self.window.get_position()[0])
+            self.config.set("window_y_pos", self.window.get_position()[1])
+            self.config.set("window_width", event.width)
+            self.config.set("window_height", event.height)
+
+    def window_state_event(self, widget, event):
+        if event.changed_mask & gtk.gdk.WINDOW_STATE_MAXIMIZED:
+            if event.new_window_state & gtk.gdk.WINDOW_STATE_MAXIMIZED:
+                self.config.set("window_maximized", True)
+            else:
+                self.config.set("window_maximized", False)
+        if event.changed_mask & gtk.gdk.WINDOW_STATE_ICONIFIED:
+            if event.new_window_state & gtk.gdk.WINDOW_STATE_ICONIFIED:
+                log.debug("MainWindow is minimized..")
+                self.is_minimized = True
+            else:
+                log.debug("MainWindow is not minimized..")
+                self.is_minimized = False
+                # Force UI update as we don't update it while minimized
+                self.update()
+        return False
