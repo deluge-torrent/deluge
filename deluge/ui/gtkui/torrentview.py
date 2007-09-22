@@ -294,4 +294,6 @@ class TorrentView(listview.ListView):
     def on_selection_changed(self, treeselection):
         """This callback is know when the selection has changed."""
         log.debug("on_selection_changed")
+        self.window.torrentdetails.update()
+        
         
