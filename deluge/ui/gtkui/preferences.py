@@ -52,6 +52,7 @@ class Preferences:
         self.treeview = self.glade.get_widget("treeview")
         self.notebook = self.glade.get_widget("notebook")
         self.core = functions.get_core()
+        self.gtkui_config = ConfigManager("gtkui.conf")
         # Setup the liststore for the categories (tab pages)
         self.liststore = gtk.ListStore(int, str)
         self.treeview.set_model(self.liststore)
@@ -88,7 +89,6 @@ class Preferences:
 
     def show(self):
         self.core_config = functions.get_config(self.core)
-        self.gtkui_config = ConfigManager("gtkui.conf")
         # Update the preferences dialog to reflect current config settings
         
         ## Downloads tab ##

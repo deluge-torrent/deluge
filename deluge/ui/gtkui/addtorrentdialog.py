@@ -83,4 +83,5 @@ class AddTorrentDialog:
             result = None
 
         self.chooser.destroy()
+        del self.config
         return result

@@ -60,10 +60,10 @@ DEFAULT_PREFS = {
     "send_info": False,
     "default_load_path": None,
     "window_maximized": False,
-    "window_x_pos": -1,
-    "window_y_pos": -1,
-    "window_width": -1,
-    "window_height": -1
+    "window_x_pos": 0,
+    "window_y_pos": 0,
+    "window_width": 640,
+    "window_height": 480
 }
 
 class GtkUI:
@@ -84,8 +84,7 @@ class GtkUI:
         
         # Make sure gtkui.conf has at least the defaults set
         config = ConfigManager("gtkui.conf", DEFAULT_PREFS)
-        del config
-        
+                
         # Initialize the main window
         self.mainwindow = MainWindow()
         
@@ -100,12 +99,15 @@ class GtkUI:
         
         # Start the gtk main loop
         gtk.main()
-
+        
         log.debug("gtkui shutting down..")
+
+        # Make sure the config is saved.
+        config.save()
+        del config
+        
         # Clean-up
         del self.mainwindow
         del self.signal_receiver
         del self.plugins
-        # Make sure the config file is closed and saved to disk.
-        deluge.configmanager.close("gtkui.conf")
         del deluge.configmanager
