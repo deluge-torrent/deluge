@@ -61,7 +61,7 @@ DEFAULT_PREFS = {
     "utpex": False,
     "enc_in_policy": 1,
     "enc_out_policy": 1,
-    "enc_level": 1,
+    "enc_level": 2,
     "enc_prefer_rc4": True,
     "max_connections_global": -1,
     "max_upload_speed": -1.0,
