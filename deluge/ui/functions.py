@@ -156,6 +156,14 @@ def get_config(core=None):
     config = pickle.loads(config)
     return config
 
+def get_config_value(key, core=None):
+    if core is None:
+        core = get_core()
+    config = core.get_config_value(key)
+    config = "".join(chr(b) for b in config)
+    config = pickle.loads(config)
+    return config
+    
 def set_config(config, core=None):
     if config == {}:
         return

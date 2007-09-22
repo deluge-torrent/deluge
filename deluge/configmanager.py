@@ -58,6 +58,8 @@ class _ConfigManager:
         """Saves all the configs to disk."""
         for key in self.config_files.keys():
             self.config_files[key].save()
+        # We need to return True to keep the timer active
+        return True
         
     def get_config(self, config_file, defaults=None):
         """Get a reference to the Config object for this filename"""

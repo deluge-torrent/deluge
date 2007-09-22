@@ -187,6 +187,18 @@ class TorrentManager:
             return False
             
         return True
+    
+    def pause_all(self):
+        """Pauses all torrents.. Returns a list of torrents paused."""
+        torrent_was_paused = False
+        for key in self.torrents.keys():
+            try:
+                self.torrents[key].handle.pause()
+                torrent_was_paused = True
+            except:
+                log.warning("Unable to pause torrent %s", key)
+        
+        return torrent_was_paused
         
     def resume(self, torrent_id):
         """Resume a torrent"""
@@ -197,6 +209,18 @@ class TorrentManager:
         
         return True
 
+    def resume_all(self):
+        """Resumes all torrents.. Returns a list of torrents resumed"""
+        torrent_was_resumed = False
+        for key in self.torrents.keys():
+            try:
+                self.torrents[key].handle.resume()
+                torrent_was_resumed = True
+            except:
+                log.warning("Unable to resume torrent %s", key)
+
+        return torrent_was_resumed
+                        
     def force_reannounce(self, torrent_id):
         """Force a tracker reannounce"""
         try:
@@ -205,7 +229,6 @@ class TorrentManager:
             return False
         
         return True
-
 
     def load_state(self):
         """Load the state of the TorrentManager from the torrents.state file"""

@@ -43,6 +43,7 @@ from toolbar import ToolBar
 from torrentview import TorrentView
 from torrentdetails import TorrentDetails
 from preferences import Preferences
+from systemtray import SystemTray
 import deluge.common
 
 from deluge.log import LOG as log
@@ -74,6 +75,7 @@ class MainWindow:
         self.torrentview = TorrentView(self)
         self.torrentdetails = TorrentDetails(self)
         self.preferences = Preferences(self)
+        self.systemtray = SystemTray(self)
         
         gobject.timeout_add(1000, self.update)
     
@@ -86,11 +88,22 @@ class MainWindow:
         return True
         
     def show(self):
-        self.window.show_all()
+        self.window.show()
     
     def hide(self):
         self.window.hide()
+    
+    def present(self):
+        self.window.present()
+    
+    def active(self):
+        """Returns True if the window is active, False if not."""
+        return self.window.is_active()
         
+    def visible(self):
+        """Returns True if window is visible, False if not."""
+        return self.window.get_property("visible")
+               
     def quit(self):
         del self.menubar
         del self.toolbar

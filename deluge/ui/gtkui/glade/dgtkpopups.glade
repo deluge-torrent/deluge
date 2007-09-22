@@ -1,86 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.2.2 on Wed Jun 20 16:04:00 2007 by andrew@fractal-->
+<!--Generated with glade3 3.2.2 on Wed Aug  8 23:27:43 2007 by markybob@peg-->
 <glade-interface>
-  <widget class="GtkMenu" id="torrent_popup">
-    <property name="visible">True</property>
-    <child>
-      <widget class="GtkCheckMenuItem" id="menuitem1">
-        <property name="visible">True</property>
-        <property name="label" translatable="yes">Size</property>
-        <property name="use_underline">True</property>
-        <property name="active">True</property>
-        <signal name="toggled" handler="size_toggle"/>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkCheckMenuItem" id="menuitem2">
-        <property name="visible">True</property>
-        <property name="label" translatable="yes">Status</property>
-        <property name="use_underline">True</property>
-        <property name="active">True</property>
-        <signal name="toggled" handler="status_toggle"/>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkCheckMenuItem" id="menuitem3">
-        <property name="visible">True</property>
-        <property name="label" translatable="yes">Seeders</property>
-        <property name="use_underline">True</property>
-        <property name="active">True</property>
-        <signal name="toggled" handler="seeders_toggle"/>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkCheckMenuItem" id="menuitem4">
-        <property name="visible">True</property>
-        <property name="label" translatable="yes">Peers</property>
-        <property name="use_underline">True</property>
-        <property name="active">True</property>
-        <signal name="toggled" handler="peers_toggle"/>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkCheckMenuItem" id="menuitem5">
-        <property name="visible">True</property>
-        <property name="label" translatable="yes">Download Speed</property>
-        <property name="use_underline">True</property>
-        <property name="active">True</property>
-        <signal name="toggled" handler="dl_toggle"/>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkCheckMenuItem" id="menuitem6">
-        <property name="visible">True</property>
-        <property name="label" translatable="yes">Upload Speed</property>
-        <property name="use_underline">True</property>
-        <property name="active">True</property>
-        <signal name="toggled" handler="ul_toggle"/>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkCheckMenuItem" id="menuitem7">
-        <property name="visible">True</property>
-        <property name="label" translatable="yes">Time Remaining</property>
-        <property name="use_underline">True</property>
-        <property name="active">True</property>
-        <signal name="toggled" handler="eta_toggle"/>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkCheckMenuItem" id="menuitem8">
-        <property name="visible">True</property>
-        <property name="label" translatable="yes">Share Ratio</property>
-        <property name="use_underline">True</property>
-        <property name="active">True</property>
-        <signal name="toggled" handler="share_toggle"/>
-      </widget>
-    </child>
-  </widget>
   <widget class="GtkDialog" id="remove_torrent_dlg">
     <property name="title" translatable="yes">Remove Torrent</property>
-    <property name="destroy_with_parent">True</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <property name="window_position">GTK_WIN_POS_CENTER</property>
+    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="skip_pager_hint">True</property>
     <property name="has_separator">False</property>
@@ -309,14 +234,15 @@
       </widget>
     </child>
   </widget>
-  <widget class="GtkDialog" id="rate_dialog">
+  <widget class="GtkDialog" id="speed_dialog">
+    <property name="app_paintable">True</property>
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
     <property name="border_width">5</property>
-    <property name="window_position">GTK_WIN_POS_MOUSE</property>
-    <property name="destroy_with_parent">True</property>
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
+    <property name="title" translatable="yes">Speed</property>
+    <property name="window_position">GTK_WIN_POS_CENTER</property>
+    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
     <property name="skip_taskbar_hint">True</property>
-    <property name="decorated">False</property>
+    <property name="skip_pager_hint">True</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox2">
@@ -329,17 +255,16 @@
             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
             <property name="spacing">10</property>
             <child>
-              <widget class="GtkLabel" id="label2">
+              <widget class="GtkLabel" id="spin_title">
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="yes">Rate:</property>
               </widget>
               <packing>
                 <property name="expand">False</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkSpinButton" id="spin_rate">
+              <widget class="GtkSpinButton" id="spin_speed">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="has_focus">True</property>

@@ -42,7 +42,12 @@ class Signals:
         self.core.connect_to_signal("torrent_removed", 
                                                     self.torrent_removed_signal)
         self.core.connect_to_signal("torrent_paused", self.torrent_paused)
-    
+        self.core.connect_to_signal("torrent_resumed", self.torrent_resumed)
+        self.core.connect_to_signal("torrent_all_paused", 
+            self.torrent_all_paused)
+        self.core.connect_to_signal("torrent_all_resumed", 
+            self.torrent_all_resumed)    
+        
     def torrent_added_signal(self, torrent_id):
         log.debug("torrent_added signal received..")
         log.debug("torrent id: %s", torrent_id)
@@ -57,4 +62,16 @@ class Signals:
 
     def torrent_paused(self, torrent_id):
         log.debug("torrent_paused signal received..")
+        self.ui.mainwindow.torrentview.update()
+    
+    def torrent_resumed(self, torrent_id):
+        log.debug("torrent_resumed signal received..")
+        self.ui.mainwindow.torrentview.update()
+    
+    def torrent_all_paused(self):
+        log.debug("torrent_all_paused signal received..")
+        self.ui.mainwindow.torrentview.update()
+
+    def torrent_all_resumed(self):
+        log.debug("torrent_all_resumed signal received..")
         self.ui.mainwindow.torrentview.update()

@@ -224,7 +224,21 @@ class Core(dbus.service.Object):
         log.debug("Pausing torrent %s", torrent_id)
         if self.torrents.pause(torrent_id):
             self.torrent_paused(torrent_id)
+    
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge")   
+    def pause_all_torrents(self):
+        """Pause all torrents in the session"""
+        if self.torrents.pause_all():
+            # Emit 'torrent_all_paused' signal
+            self.torrent_all_paused()
             
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge")   
+    def resume_all_torrents(self):
+        """Resume all torrents in the session"""
+        if self.torrents.resume_all():
+            # Emit the 'torrent_all_resumed' signal
+            self.torrent_all_resumed()
+        
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
                                     in_signature="s", out_signature="")
     def resume_torrent(self, torrent_id):
@@ -283,6 +297,19 @@ class Core(dbus.service.Object):
         return config
         
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+                                in_signature="s",
+                                out_signature="ay")     
+    def get_config_value(self, key):
+        """Get the config value for key"""
+        try:
+            value = self.config[key]
+        except KeyError:
+            return None
+        
+        value = pickle.dumps(value)
+        return value
+        
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
         in_signature="ay")
     def set_config(self, config):
         """Set the config with values from dictionary"""
@@ -317,10 +344,22 @@ class Core(dbus.service.Object):
     def torrent_paused(self, torrent_id):
         """Emitted when a torrent is paused"""
         log.debug("torrent_paused signal emitted")
-    
+
+    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
+                                             signature="s")    
     def torrent_resumed(self, torrent_id):
         """Emitted when a torrent is resumed"""
         log.debug("torrent_resumed signal emitted")
+
+    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge")
+    def torrent_all_paused(self):
+        """Emitted when all torrents have been paused"""
+        log.debug("torrent_all_paused signal emitted")
+
+    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge")
+    def torrent_all_resumed(self):
+        """Emitted when all torrents have been resumed"""
+        log.debug("torrent_all_resumed signal emitted")
         
     # Config set functions
     def on_set_listen_ports(self, key, value):
