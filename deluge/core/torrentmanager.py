@@ -197,6 +197,16 @@ class TorrentManager:
         
         return True
 
+    def force_reannounce(self, torrent_id):
+        """Resume a torrent"""
+        try:
+            self.torrents[torrent_id].handle.force_reannounce()
+        except:
+            return False
+        
+        return True
+
+
     def load_state(self):
         """Load the state of the TorrentManager from the torrents.state file"""
         state = TorrentManagerState()

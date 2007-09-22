@@ -122,6 +122,12 @@ def resume_torrent(torrent_ids):
     for torrent_id in torrent_ids:
         core.resume_torrent(torrent_id)
         
+def force_reannounce(torrent_ids):
+    """Reannounce to trackers"""
+    core = get_core()
+    for torrent_id in torrent_ids:
+        core.force_reannounce(torrent_id)
+
 def get_torrent_status(core, torrent_id, keys):
     """Builds the status dictionary and returns it"""
     status = core.get_torrent_status(torrent_id, keys)

@@ -137,6 +137,8 @@ class MenuBar:
         
     def on_menuitem_updatetracker_activate(self, data=None):
         log.debug("on_menuitem_updatetracker_activate")
+        functions.force_reannounce(
+                            self.window.torrentview.get_selected_torrents())    
         
     def on_menuitem_edittrackers_activate(self, data=None):
         log.debug("on_menuitem_edittrackers_activate")

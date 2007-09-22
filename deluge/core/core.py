@@ -214,6 +214,12 @@ class Core(dbus.service.Object):
             
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
                                     in_signature="s", out_signature="")
+    def force_reannounce(self, torrent_id):
+        log.debug("Forcing reannouncment to trackers of torrent %s", torrent_id)
+        self.torrents.force_reannounce(torrent_id)
+
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+                                    in_signature="s", out_signature="")
     def pause_torrent(self, torrent_id):
         log.debug("Pausing torrent %s", torrent_id)
         if self.torrents.pause(torrent_id):
