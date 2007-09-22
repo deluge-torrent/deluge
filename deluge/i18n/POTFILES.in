@@ -1,3 +1,4 @@
 deluge/ui/gtkui/glade/main_window.glade
 deluge/ui/gtkui/glade/preferences_dialog.glade
 deluge/plugins/queue/queue/gtkui.py
+deluge/ui/gtkui/torrentview.py
