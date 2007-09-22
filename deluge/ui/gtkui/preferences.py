@@ -78,6 +78,9 @@ class Preferences:
             "on_toggle": self.on_toggle
         })
     
+    def __del__(self):
+        del self.gtkui_config
+        
     def add_page(self, name, widget):
         """Add a another page to the notebook"""
         index = self.notebook.append_page(widget)

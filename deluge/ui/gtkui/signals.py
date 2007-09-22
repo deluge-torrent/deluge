@@ -32,7 +32,6 @@
 #    statement from all source files in the program, then also delete it here.
 
 import deluge.ui.functions as functions
-from deluge.config import Config
 from deluge.log import LOG as log
 
 class Signals:

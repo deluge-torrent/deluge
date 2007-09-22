@@ -101,8 +101,11 @@ class GtkUI:
         # Start the gtk main loop
         gtk.main()
 
+        log.debug("gtkui shutting down..")
         # Clean-up
         del self.mainwindow
         del self.signal_receiver
         del self.plugins
+        # Make sure the config file is closed and saved to disk.
+        deluge.configmanager.close("gtkui.conf")
         del deluge.configmanager

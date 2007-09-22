@@ -92,6 +92,12 @@ class MainWindow:
         self.window.hide()
         
     def quit(self):
+        del self.menubar
+        del self.toolbar
+        del self.torrentview
+        del self.torrentdetails
+        del self.preferences
+        del self.config
         self.hide()
         gtk.main_quit()
     
