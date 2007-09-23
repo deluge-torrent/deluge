@@ -52,7 +52,7 @@ class SystemTray:
         """Enables the system tray icon."""
         log.debug("Enabling the system tray icon..")
         self.core = functions.get_core()
-        self.tray = gtk.status_icon_new_from_pixbuf(deluge.common.get_logo(48))        
+        self.tray = gtk.status_icon_new_from_icon_name('deluge')
         self.tray.connect("activate", self.on_tray_clicked)
         self.tray.connect("popup-menu", self.on_tray_popup)
         

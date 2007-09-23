@@ -162,29 +162,29 @@ setup(
                                 "i18n/*/LC_MESSAGES/*.mo"]},
     data_files = [('/usr/share/deluge/icons/scalable/apps', [
                          'deluge/data/icons/scalable/apps/deluge.svg']),
-                ('/usr/share/deluge/icons/hicolor/128x128/apps', [
+                ('/usr/share/icons/hicolor/128x128/apps', [
                         'deluge/data/icons/hicolor/128x128/apps/deluge.png']),
-                ('/usr/share/deluge/icons/hicolor/16x16/apps', [
+                ('/usr/share/icons/hicolor/16x16/apps', [
                         'deluge/data/icons/hicolor/16x16/apps/deluge.png']),
-                ('/usr/share/deluge/icons/hicolor/192x192/apps', [
+                ('/usr/share/icons/hicolor/192x192/apps', [
                         'deluge/data/icons/hicolor/192x192/apps/deluge.png']),
-                ('/usr/share/deluge/icons/hicolor/22x22/apps', [
+                ('/usr/share/icons/hicolor/22x22/apps', [
                         'deluge/data/icons/hicolor/22x22/apps/deluge.png']),
-                ('/usr/share/deluge/icons/hicolor/24x24/apps', [
+                ('/usr/share/icons/hicolor/24x24/apps', [
                         'deluge/data/icons/hicolor/24x24/apps/deluge.png']),
-                ('/usr/share/deluge/icons/hicolor/256x256/apps', [
+                ('/usr/share/icons/hicolor/256x256/apps', [
                         'deluge/data/icons/hicolor/256x256/apps/deluge.png']),
-                ('/usr/share/deluge/icons/hicolor/32x32/apps', [
+                ('/usr/share/icons/hicolor/32x32/apps', [
                         'deluge/data/icons/hicolor/32x32/apps/deluge.png']),
-                ('/usr/share/deluge/icons/hicolor/36x36/apps', [
+                ('/usr/share/icons/hicolor/36x36/apps', [
                         'deluge/data/icons/hicolor/36x36/apps/deluge.png']),
-                ('/usr/share/deluge/icons/hicolor/48x48/apps', [
+                ('/usr/share/icons/hicolor/48x48/apps', [
                         'deluge/data/icons/hicolor/48x48/apps/deluge.png']),
-                ('/usr/share/deluge/icons/hicolor/64x64/apps', [
+                ('/usr/share/icons/hicolor/64x64/apps', [
                         'deluge/data/icons/hicolor/64x64/apps/deluge.png']),
-                ('/usr/share/deluge/icons/hicolor/72x72/apps', [
+                ('/usr/share/icons/hicolor/72x72/apps', [
                         'deluge/data/icons/hicolor/72x72/apps/deluge.png']),
-                ('/usr/share/deluge/icons/hicolor/96x96/apps', [
+                ('/usr/share/icons/hicolor/96x96/apps', [
                         'deluge/data/icons/hicolor/96x96/apps/deluge.png']),
                 ('/usr/share/applications', [
                         'deluge/data/share/applications/deluge.desktop'])],
