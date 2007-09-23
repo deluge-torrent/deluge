@@ -156,6 +156,8 @@ class Core(dbus.service.Object):
         del self.torrents
         self.plugins.shutdown()
         del self.plugins
+        # Make sure the config file has been saved
+        self.config.save()
         del self.config
         del deluge.configmanager
         del self.session
