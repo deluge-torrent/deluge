@@ -58,6 +58,7 @@ class MainWindow:
 
         self.window = self.main_glade.get_widget("main_window")
         self.window.set_icon(deluge.common.get_logo(32))
+        self.vpaned = self.main_glade.get_widget("vpaned")
         # Load the window state
         self.load_window_geometry()
         
@@ -68,6 +69,7 @@ class MainWindow:
         # Connect events
         self.window.connect("window-state-event", self.window_state_event)
         self.window.connect("configure-event", self.window_configure_event)
+        self.vpaned.connect("notify::position", self.vpaned_position_event)
         
         # Initialize various components of the gtkui
         self.menubar = MenuBar(self)
@@ -123,7 +125,9 @@ class MainWindow:
         self.window.resize(w, h)
         if self.config["window_maximized"] == True:
             self.window.maximize()
-        
+        self.vpaned.set_position(
+            self.config["window_height"] - self.config["window_pane_position"])
+            
     def window_configure_event(self, widget, event):
         if self.config["window_maximized"] == False:
             self.config.set("window_x_pos", self.window.get_position()[0])
@@ -147,3 +151,8 @@ class MainWindow:
                 # Force UI update as we don't update it while minimized
                 self.update()
         return False
+
+    def vpaned_position_event(self, obj, param):
+        self.config.set("window_pane_position", 
+            self.config["window_height"] - self.vpaned.get_position())
+

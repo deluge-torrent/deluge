@@ -64,6 +64,7 @@ DEFAULT_PREFS = {
     "window_y_pos": 0,
     "window_width": 640,
     "window_height": 480,
+    "window_pane_position": -1,
     "tray_download_speed_list" : [5.0, 10.0, 30.0, 80.0, 300.0],
     "tray_upload_speed_list" : [5.0, 10.0, 30.0, 80.0, 300.0]
 }
