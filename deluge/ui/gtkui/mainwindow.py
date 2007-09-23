@@ -44,6 +44,7 @@ from torrentview import TorrentView
 from torrentdetails import TorrentDetails
 from preferences import Preferences
 from systemtray import SystemTray
+from statusbar import StatusBar
 import deluge.common
 
 from deluge.log import LOG as log
@@ -78,6 +79,7 @@ class MainWindow:
         self.torrentdetails = TorrentDetails(self)
         self.preferences = Preferences(self)
         self.systemtray = SystemTray(self)
+        self.statusbar = StatusBar(self)
         
         gobject.timeout_add(1000, self.update)
     
@@ -87,6 +89,7 @@ class MainWindow:
             return True
         self.torrentview.update()
         self.torrentdetails.update()
+        self.statusbar.update()
         return True
         
     def show(self):

@@ -44,6 +44,7 @@ extern char const* session_upload_rate_limit_doc;
 extern char const* session_set_max_uploads_doc;
 extern char const* session_set_max_connections_doc;
 extern char const* session_set_max_half_open_connections_doc;
+extern char const* session_num_connections_doc;
 extern char const* session_set_settings_doc;
 extern char const* session_set_pe_settings_doc;
 extern char const* session_get_pe_settings_doc; 
@@ -208,6 +209,10 @@ void bind_session()
         .def(
             "set_max_half_open_connections", allow_threads(&session::set_max_half_open_connections)
           , session_set_max_half_open_connections_doc
+        )
+        .def(
+            "num_connections", allow_threads(&session::num_connections)
+          , session_num_connections_doc
         )
         .def("set_settings", allow_threads(&session::set_settings), session_set_settings_doc)
         .def("set_pe_settings", allow_threads(&session::set_pe_settings), session_set_pe_settings_doc)

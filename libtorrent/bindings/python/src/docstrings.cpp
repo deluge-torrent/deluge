@@ -153,7 +153,8 @@ char const* session_set_max_half_open_connections_doc =
     "-1 as the limit, means to have no limit. When limiting the number of\n"
     "simultaneous connection attempts, peers will be put in a queue waiting\n"
     "for their turn to get connected.";
-
+char const* session_num_connections_doc =
+    "";
 char const* session_set_settings_doc = 
     "";
 char const* session_set_pe_settings_doc = 

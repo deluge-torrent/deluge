@@ -325,7 +325,27 @@ class Core(dbus.service.Object):
     def get_listen_port(self):
         """Returns the active listen port"""
         return self.session.listen_port()
-        
+    
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+        out_signature="i")
+    def get_num_connections(self):
+        """Returns the current number of connections"""
+        return self.session.num_connections()
+    
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+        out_signature="d")
+    def get_download_rate(self):
+        """Returns the payload download rate"""
+ #       print self.session.status().payload_download_rate
+        return self.session.status().payload_download_rate
+#        return 0.0
+
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+        out_signature="d")
+    def get_upload_rate(self):
+        """Returns the payload upload rate"""
+        return self.session.status().payload_upload_rate
+            
     # Signals
     @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
                                              signature="s")
