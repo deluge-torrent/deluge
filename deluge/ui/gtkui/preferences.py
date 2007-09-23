@@ -285,6 +285,12 @@ class Preferences:
         # Update the configuration
         self.core_config.update(config_to_set)
         
+        # Re-show the dialog to make sure everything has been updated
+        self.show()
+        
+        # Update the UI
+        self.window.update()
+        
     def hide(self):
         self.pref_dialog.hide()
     

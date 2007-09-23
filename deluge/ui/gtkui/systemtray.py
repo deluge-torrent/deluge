@@ -287,6 +287,8 @@ class SystemTray:
             self.config[ui_key].pop()
             # Re-build the menu
             self.build_tray_bwsetsubmenu()
+            # Update the UI
+            self.window.update()
             
     def unlock_tray(self):
         log.debug("Tray locking needs implementation..!")
