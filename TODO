@@ -1,7 +1,6 @@
 * Have peer numbers show what we receive from tracker_reply_alert
 * Have the ui better handle not being able to connect to the daemon.
-* Mainwindow state saving.. Size, location, vpane position, etc..
-* System tray icon
+* Tray locking and other tray options (close to tray, start in tray..)
 * Add state saving to listview.. this includes saving column size and position.
 * Queue plugin 'apply_queue' stuff.. Just finishing the queue plugin and it's
     intended functionality.
@@ -17,3 +16,7 @@
 * Add the tracker responses to the torrent details
 * Fast resume saving
 * Restart daemon function
+* Sync the details pane to current trunk
+* Automatically save torrent state every ~5 minutes, much like how
+    configmanager does it.
+* Docstrings!
