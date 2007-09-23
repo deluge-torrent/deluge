@@ -84,7 +84,6 @@ class TorrentDetails:
                 selected = selected[0]
             else:
                 # No torrent is selected in the torrentview
-                self.clear()
                 return
             
             # Get the torrent status

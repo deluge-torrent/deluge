@@ -59,6 +59,7 @@ class Signals:
         log.debug("torrent id: %s", torrent_id)
         # Remove the torrent from the treeview
         self.ui.mainwindow.torrentview.remove_row(torrent_id)
+        self.ui.mainwindow.torrentdetails.clear()
 
     def torrent_paused(self, torrent_id):
         log.debug("torrent_paused signal received..")
