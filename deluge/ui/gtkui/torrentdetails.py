@@ -84,6 +84,7 @@ class TorrentDetails:
                 selected = selected[0]
             else:
                 # No torrent is selected in the torrentview
+                self.clear()
                 return
             
             # Get the torrent status
@@ -127,4 +128,26 @@ class TorrentDetails:
             self.tracker.set_text(status["tracker"])
             self.next_announce.set_text(
                 deluge.common.ftime(status["next_announce"]))
-            
+
+    def clear(self):
+        # Only update if this page is showing
+        if self.notebook.page_num(self.details_tab) is \
+                                            self.notebook.get_current_page():
+            self.name.set_text("")
+            self.total_size.set_text("")
+            self.num_files.set_text("")
+            self.pieces.set_text("")
+            self.availability.set_text("")
+            self.total_downloaded.set_text("")
+            self.total_uploaded.set_text("")
+            self.download_speed.set_text("")
+            self.upload_speed.set_text("")
+            self.seeders.set_text("")
+            self.peers.set_text("")
+            self.progress_bar.set_fraction(0.0)
+            self.progress_bar.set_text("")
+            self.share_ratio.set_text("")
+            self.tracker.set_text("")
+            self.tracker_status.set_text("")
+            self.next_announce.set_text("")
+            self.eta.set_text("")
