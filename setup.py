@@ -160,7 +160,7 @@ setup(
                                 "plugins/*.egg",
                                 "i18n/*.pot",
                                 "i18n/*/LC_MESSAGES/*.mo"]},
-    data_files = [('/usr/share/deluge/icons/scalable/apps', [
+    data_files = [('/usr/share/icons/scalable/apps', [
                          'deluge/data/icons/scalable/apps/deluge.svg']),
                 ('/usr/share/icons/hicolor/128x128/apps', [
                         'deluge/data/icons/hicolor/128x128/apps/deluge.png']),
