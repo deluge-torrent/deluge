@@ -428,6 +428,13 @@ namespace libtorrent
 			m_send_buffer += "supportcrypto=1&";
 #endif
 
+			if (!url_has_argument(request, "ipv6") && !req.ipv6.empty())
+			{
+				m_send_buffer += "ipv6=";
+				m_send_buffer += req.ipv6;
+				m_send_buffer += '&';
+			}
+
 			// extension that tells the tracker that
 			// we don't need any peer_id's in the response
 			if (!url_has_argument(request, "no_peer_id"))
