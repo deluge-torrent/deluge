@@ -81,8 +81,11 @@ class MainWindow:
         self.systemtray = SystemTray(self)
         self.statusbar = StatusBar(self)
         
+    def start(self):
+        """Start the update thread and show the window"""
         gobject.timeout_add(1000, self.update)
-    
+        self.show()
+        
     def update(self):
         # Don't update the UI if the the window is minimized.
         if self.is_minimized == True:

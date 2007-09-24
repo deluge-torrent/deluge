@@ -97,8 +97,8 @@ class GtkUI:
         # Initalize the plugins
         self.plugins = PluginManager(self)
         
-        # Show the main window
-        self.mainwindow.show()
+        # Start the mainwindow and show it
+        self.mainwindow.start()
         
         # Start the gtk main loop
         gtk.main()
