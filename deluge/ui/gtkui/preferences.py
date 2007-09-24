@@ -76,12 +76,13 @@ class Preferences:
             "on_button_ok_clicked": self.on_button_ok_clicked,
             "on_button_apply_clicked": self.on_button_apply_clicked,
             "on_button_cancel_clicked": self.on_button_cancel_clicked,
-            "on_toggle": self.on_toggle
+            "on_toggle": self.on_toggle,
+            "on_test_port_clicked": self.on_test_port_clicked
         })
     
     def __del__(self):
         del self.gtkui_config
-        
+
     def add_page(self, name, widget):
         """Add a another page to the notebook"""
         index = self.notebook.append_page(widget)
@@ -353,4 +354,9 @@ class Preferences:
         # Show the correct notebook page based on what row is selected.
         (model, row) = treeselection.get_selected()
         self.notebook.set_current_page(model.get_value(row, 0))
+
+    def on_test_port_clicked(self, data):
+        functions.open_url_in_browser('\
+            http://www.deluge-torrent.org/test-port.php?port=%s' % \
+            functions.get_listen_port(self.core))
 
