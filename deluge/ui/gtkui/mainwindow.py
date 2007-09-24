@@ -83,7 +83,7 @@ class MainWindow:
         
     def start(self):
         """Start the update thread and show the window"""
-        gobject.timeout_add(1000, self.update)
+        self.update_timer = gobject.timeout_add(1000, self.update)
         self.show()
         
     def update(self):
@@ -113,6 +113,8 @@ class MainWindow:
         return self.window.get_property("visible")
                
     def quit(self):
+        # Stop the update timer from running
+        gobject.source_remove(self.update_timer)
         del self.menubar
         del self.toolbar
         del self.torrentview
