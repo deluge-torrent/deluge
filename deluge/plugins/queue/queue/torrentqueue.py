@@ -76,16 +76,19 @@ class TorrentQueue:
         """Append torrent_id to the bottom of the queue"""
         log.debug("Append torrent %s to queue..", torrent_id)
         self.queue.append(torrent_id)
+        self.save_state()
     
     def prepend(self, torrent_id):
         """Prepend torrent_id to the top of the queue"""
         log.debug("Prepend torrent %s to queue..", torrent_id)
         self.queue.insert(0, torrent_id)
+        self.save_state()
     
     def remove(self, torrent_id):
         """Removes torrent_id from the list"""
         log.debug("Remove torrent %s from queue..", torrent_id)
         self.queue.remove(torrent_id)
+        self.save_state()
             
     def up(self, torrent_id):
         """Move torrent_id up one in the queue"""
@@ -103,7 +106,9 @@ class TorrentQueue:
         
         # Pop and insert the torrent_id at index - 1
         self.queue.insert(index - 1, self.queue.pop(index))
-        
+
+        self.save_state()
+                
         return True
         
     def top(self, torrent_id):
@@ -141,7 +146,9 @@ class TorrentQueue:
             
         # Pop and insert the torrent_id at index + 1
         self.queue.insert(index + 1, self.queue.pop(index))
-        
+
+        self.save_state()
+                
         return True
         
     def bottom(self, torrent_id):
