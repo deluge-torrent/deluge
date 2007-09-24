@@ -147,10 +147,8 @@ class Core(dbus.service.Object):
         self.loop = gobject.MainLoop()
         self.loop.run()
 
-    # Exported Methods
-    @dbus.service.method("org.deluge_torrent.Deluge")
-    def shutdown(self):
-        """Shutdown the core"""
+    def _shutdown(self):
+        """This is called by a thread from shutdown()"""
         log.info("Shutting down core..")
         self.loop.quit()
         del self.torrents
@@ -161,6 +159,14 @@ class Core(dbus.service.Object):
         del self.config
         del deluge.configmanager
         del self.session
+                
+    # Exported Methods
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+                                    in_signature="", out_signature="")
+    def shutdown(self):
+        """Shutdown the core"""
+        # Make shutdown an async call
+        gobject.idle_add(self._shutdown)
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
                                     in_signature="say", out_signature="b")
@@ -338,9 +344,8 @@ class Core(dbus.service.Object):
         out_signature="d")
     def get_download_rate(self):
         """Returns the payload download rate"""
- #       print self.session.status().payload_download_rate
         return self.session.status().payload_download_rate
-#        return 0.0
+
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
         out_signature="d")
