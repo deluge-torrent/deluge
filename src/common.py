@@ -54,6 +54,7 @@ else:
 import sys 
 if hasattr(sys, "frozen"):
     INSTALL_PREFIX = ''
+    os.chdir(os.path.dirname(unicode(sys.executable, sys.getfilesystemencoding( ))))
 else:
     # the necessary substitutions are made at installation time
     INSTALL_PREFIX = '@datadir@'
