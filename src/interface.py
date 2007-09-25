@@ -734,6 +734,7 @@ window, please enter your password"))
                 torrent_state = self.manager.get_torrent_state(uid)
                 if torrent_state["is_paused"] == 0:
                     self.manager.set_user_pause(uid, True, True)
+                    self.manager.save_fastresume_data(uid)
 
             self.update()
 
