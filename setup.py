@@ -231,6 +231,8 @@ class write_data_install_path(cmd.Command):
         conf_file.write(data)
         conf_file.close()
 
+    def get_outputs(self): return []
+
 class unwrite_data_install_path(cmd.Command):
     description = 'undoes write_data_install_path'
 
@@ -246,6 +248,8 @@ class unwrite_data_install_path(cmd.Command):
         dest = os.path.join(self.lib_build_dir,
             'deluge', 'common.py')
         shutil.copyfile('src/common.py', dest)
+
+    def get_outputs(self): return []
 
 class build_trans(cmd.Command):
     description = 'Compile .po files into .mo files'

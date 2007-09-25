@@ -7,6 +7,6 @@ include deluge.png
 include msgfmt.py
 recursive-include libtorrent/ *
 recursive-include glade/ *.glade
-recursive-include pixmaps/ *.png
+recursive-include pixmaps/ *.png *.svg
 recursive-include plugins/ *
 recursive-include po/ *
