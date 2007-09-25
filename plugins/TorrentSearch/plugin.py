@@ -44,7 +44,7 @@ class plugin_Search:
             f.close()
         glade = gtk.glade.XML(path + "/searchdlg.glade")
         self.dlg = glade.get_widget("search_dialog")
-        self.dlg.set_icon_from_file(deluge.common.get_pixmap("deluge32.png"))
+        # self.dlg.set_icon_from_file(deluge.common.get_pixmap("deluge32.png"))
         self.view = glade.get_widget("search_view")
         model = gtk.ListStore(str, str)
         self.view.set_model(model)
