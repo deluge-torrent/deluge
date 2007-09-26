@@ -1731,7 +1731,7 @@ namespace libtorrent
 		m_resolving_country = false;
 
 		// must be ordered in increasing order
-		country_entry country_map[] =
+		static const country_entry country_map[] =
 		{
 			  {  4,  "AF"}, {  8,  "AL"}, { 10,  "AQ"}, { 12,  "DZ"}, { 16,  "AS"}
 			, { 20,  "AD"}, { 24,  "AO"}, { 28,  "AG"}, { 31,  "AZ"}, { 32,  "AR"}
@@ -1801,7 +1801,7 @@ namespace libtorrent
 			// look up the country code in the map
 			const int size = sizeof(country_map)/sizeof(country_map[0]);
 			country_entry tmp = {country, ""};
-			country_entry* i =
+			country_entry const* i =
 				std::lower_bound(country_map, country_map + size, tmp
 					, bind(&country_entry::code, _1) < bind(&country_entry::code, _2));
 			if (i == country_map + size
