@@ -58,7 +58,7 @@ class DesiredSpeed:
                 if self.core.unique_IDs[unique_ID].upload_rate_limit != -1:
                     value = int(self.core.unique_IDs[unique_ID].upload_rate_limit / 1024)
                     self.core.set_per_upload_rate_limit(unique_ID, value)
-                    self.set_up_speeds[unique_ID] =  value
+                    self.set_up_speeds[unique_ID] = value
                     if value not in self.config.get("up_speeds") and value >= 1:
                         self.config.get("up_speeds").insert(0, value)
                         self.config.get("up_speeds").pop()
