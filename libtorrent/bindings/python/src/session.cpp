@@ -174,8 +174,8 @@ void bind_session()
         .def(
             "add_torrent", &add_torrent
           , (
-                arg("torrent_info"), "save_path", arg("resume_data") = entry()
-              , arg("compact_mode") = true, arg("paused") = false
+                arg("resume_data") = entry(), arg("compact_mode") = true
+                , arg("paused") = false
             )
           , session_add_torrent_doc
         )

@@ -86,7 +86,9 @@ void bind_alert()
 
     class_<tracker_reply_alert, bases<torrent_alert>, noncopyable>(
         "tracker_reply_alert", tracker_reply_alert_doc, no_init
-    );
+    )
+        .def_readonly("num_peers", &tracker_reply_alert::num_peers)
+        ;
 
     class_<tracker_announce_alert, bases<torrent_alert>, noncopyable>(
         "tracker_announce_alert", tracker_announce_alert_doc, no_init
