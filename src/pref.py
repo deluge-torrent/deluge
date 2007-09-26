@@ -34,7 +34,7 @@
 # object.  However, this class provides a few extra features on top of
 # the built in class that Deluge can take advantage of.
 
-import pickle
+import cPickle as pickle
 import common
 import os.path
 

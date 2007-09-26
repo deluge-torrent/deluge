@@ -48,7 +48,7 @@
 #                time to calculate, so we do if efficiently
 #        3. supp_torrent_state - supplementary torrent data, from Deluge
 
-import pickle
+import cPickle as pickle
 import os
 import re
 import shutil
