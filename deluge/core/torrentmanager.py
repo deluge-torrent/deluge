@@ -77,7 +77,11 @@ class TorrentManager:
         log.debug("TorrentManager shutting down..")
         # Save state on shutdown
         self.save_state()
-            
+        # Pause all torrents and save the .fastresume files
+        self.pause_all()
+        for key in self.torrents.keys():
+            self.write_fastresume(key)
+        
     def __getitem__(self, torrent_id):
         """Return the Torrent with torrent_id"""
         return self.torrents[torrent_id]

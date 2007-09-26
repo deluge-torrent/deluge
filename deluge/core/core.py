@@ -157,9 +157,9 @@ class Core(dbus.service.Object):
         """This is called by a thread from shutdown()"""
         log.info("Shutting down core..")
         self.loop.quit()
-        del self.torrents
         self.plugins.shutdown()
         del self.plugins
+        del self.torrents
         # Make sure the config file has been saved
         self.config.save()
         del self.config
