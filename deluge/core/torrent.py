@@ -49,7 +49,7 @@ class Torrent:
         self.total_uploaded = 0
         # Set the allocation mode
         self.compact = compact
-    
+        
     def get_state(self):
         """Returns the state of this torrent for saving to the session state"""
         return (self.torrent_id, self.filename, self.compact)

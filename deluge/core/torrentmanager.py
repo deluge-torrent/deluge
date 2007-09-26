@@ -63,6 +63,8 @@ class TorrentManager:
         log.debug("TorrentManager init..")
         # Set the libtorrent session
         self.session = session
+        # Get the core config
+        self.config = ConfigManager("core.conf")
         # Per torrent connection limit and upload slot limit
         self.max_connections = -1
         self.max_uploads = -1
@@ -87,8 +89,6 @@ class TorrentManager:
     def add(self, filename, filedump=None, compact=None):
         """Add a torrent to the manager and returns it's torrent_id"""
         log.info("Adding torrent: %s", filename)
-        # Get the core config
-        config = ConfigManager("core.conf")
 
         # Make sure 'filename' is a python string
         filename = str(filename)
@@ -103,7 +103,8 @@ class TorrentManager:
             # Get the data from the file
             try:
                 log.debug("Attempting to open %s for add.", filename)
-                filedump = open(os.path.join(config["torrentfiles_location"],
+                filedump = open(
+                    os.path.join(self.config["torrentfiles_location"],
                                     filename), "rb").read()
             except IOError:
                 log.warning("Unable to open %s", filename)
@@ -115,12 +116,12 @@ class TorrentManager:
         
         # Make sure we are adding it with the correct allocation method.
         if compact is None:
-            compact = config["compact_allocation"]
+            compact = self.config["compact_allocation"]
             
         try:
             handle = self.session.add_torrent(
                                     lt.torrent_info(torrent_filedump), 
-                                    config["download_location"],
+                                    self.config["download_location"],
                                     compact)
         except RuntimeError:
             log.warning("Error adding torrent") 
@@ -135,17 +136,18 @@ class TorrentManager:
         
         log.debug("Attemping to save torrent file: %s", filename)
         # Test if the torrentfiles_location is accessible
-        if os.access(os.path.join(config["torrentfiles_location"]), os.F_OK) \
+        if os.access(
+            os.path.join(self.config["torrentfiles_location"]), os.F_OK) \
                                                                     is False:
             # The directory probably doesn't exist, so lets create it
             try:
-               os.makedirs(os.path.join(config["torrentfiles_location"]))
+               os.makedirs(os.path.join(self.config["torrentfiles_location"]))
             except IOError:
                 log.warning("Unable to create torrent files directory..")
         
         # Write the .torrent file to the torrent directory
         try:
-            save_file = open(os.path.join(config["torrentfiles_location"], 
+            save_file = open(os.path.join(self.config["torrentfiles_location"], 
                     filename),
                     "wb")
             save_file.write(filedump)
@@ -207,16 +209,21 @@ class TorrentManager:
         except:
             return False
         
+        status = self.torrents[torrent_id].get_status(
+            ["total_done", "total_wanted"])
+        
+        # Only delete the .fastresume file if we're still downloading stuff
+        if status["total_done"] < status["total_wanted"]:
+            self.delete_fastresume(torrent_id)
         return True
 
     def resume_all(self):
         """Resumes all torrents.. Returns a list of torrents resumed"""
         torrent_was_resumed = False
         for key in self.torrents.keys():
-            try:
-                self.torrents[key].handle.resume()
+            if self.resume(key):
                 torrent_was_resumed = True
-            except:
+            else:
                 log.warning("Unable to resume torrent %s", key)
 
         return torrent_was_resumed
@@ -264,7 +271,34 @@ class TorrentManager:
             state_file.close()
         except IOError:
             log.warning("Unable to save state file.")
-
+    
+    def delete_fastresume(self, torrent_id):
+        """Deletes the .fastresume file"""
+        torrent = self.torrents[torrent_id]
+        path = "%s/%s.fastresume" % (
+            self.config["torrentfiles_location"], 
+            torrent.filename)
+        log.debug("Deleting fastresume file: %s", path)
+        try:
+            os.remove(path)
+        except IOError:
+            log.warning("Unable to delete the fastresume file: %s", path)
+            
+    def write_fastresume(self, torrent_id):
+        """Writes the .fastresume file for the torrent"""
+        torrent = self.torrents[torrent_id]
+        resume_data = lt.bencode(torrent.handle.write_resume_data())
+        path = "%s/%s.fastresume" % (
+            self.config["torrentfiles_location"], 
+            torrent.filename)
+        log.debug("Saving fastresume file: %s", path)
+        try:
+            fastresume = open(path,"wb")
+            fastresume.write(resume_data)
+            fastresume.close()
+        except IOError:
+            log.warning("Error trying to save fastresume file")
+        
     def set_max_connections(self, value):
         """Sets the per-torrent connection limit"""
         self.max_connections = value

@@ -110,6 +110,12 @@ class Core(dbus.service.Object):
         # Start the AlertManager
         self.alerts = AlertManager(self.session)
         
+        # Register alert functions
+        self.alerts.register_handler("torrent_finished_alert", 
+            self.on_alert_torrent_finished)
+        self.alerts.register_handler("torrent_paused_alert",
+            self.on_alert_torrent_paused)
+            
         # Register set functions in the Config
         self.config.register_set_function("listen_ports", 
             self.on_set_listen_ports)
@@ -159,7 +165,7 @@ class Core(dbus.service.Object):
         del self.config
         del deluge.configmanager
         del self.session
-                
+        
     # Exported Methods
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
                                     in_signature="", out_signature="")
@@ -230,15 +236,14 @@ class Core(dbus.service.Object):
                                     in_signature="s", out_signature="")
     def pause_torrent(self, torrent_id):
         log.debug("Pausing torrent %s", torrent_id)
-        if self.torrents.pause(torrent_id):
-            self.torrent_paused(torrent_id)
+        if not self.torrents.pause(torrent_id):
+            log.warning("Error pausing torrent %s", torrent_id)
     
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge")   
     def pause_all_torrents(self):
         """Pause all torrents in the session"""
-        if self.torrents.pause_all():
-            # Emit 'torrent_all_paused' signal
-            self.torrent_all_paused()
+        if not self.torrents.pause_all():
+            log.warning("Error pausing all torrents..")
             
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge")   
     def resume_all_torrents(self):
@@ -481,3 +486,21 @@ class Core(dbus.service.Object):
     def on_set_max_upload_slots_per_torrent(self, key, value):
         log.debug("max_upload_slots_per_torrent set to %s..", value)
         self.torrents.set_max_uploads(value)
+        
+    ## Alert handlers ##
+    def on_alert_torrent_finished(self, alert):
+        log.debug("on_alert_torrent_finished")
+        # Get the torrent_id
+        torrent_id = str(alert.handle.info_hash())
+        log.debug("%s is finished..", torrent_id)
+        # Write the fastresume file
+        self.torrents.write_fastresume(torrent_id)
+        
+    def on_alert_torrent_paused(self, alert):
+        log.debug("on_alert_torrent_paused")
+        # Get the torrent_id
+        torrent_id = str(alert.handle.info_hash())
+        # Write the fastresume file
+        self.torrents.write_fastresume(torrent_id)
+        # Emit torrent_paused signal
+        self.torrent_paused(torrent_id)
