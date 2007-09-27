@@ -1110,9 +1110,12 @@ window, please enter your password"))
                 dht_peers = str(dht_peers)
             self.statusbar_temp_msg = self.statusbar_temp_msg + \
                                       '   [' + _("DHT") + ': %s]'%(dht_peers)
-        
-        msg = '%s\n%s: %s (%s)\n%s: %s (%s)%s' % (
-            _("Deluge Bittorrent Client"), _("Down Speed"), dlspeed, 
+        # windows cant display more than 64 characters in systray tooltip
+        if common.windows_check():
+            msg = _("Deluge Bittorrent Client")
+        else:
+            msg = '%s\n%s: %s (%s)\n%s: %s (%s)%s' % (\
+            _("Deluge Bittorrent Client"), _("Down Speed"), dlspeed, \
             dlspeed_max, _("Up Speed"), ulspeed, ulspeed_max, plugin_messages)
         
         self.tray_icon.set_tooltip(msg)
