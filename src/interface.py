@@ -530,7 +530,7 @@ window, please enter your password"))
                         "queue_up": self.q_torrent_up,
                         "queue_down": self.q_torrent_down,
                         "queue_bottom": self.q_to_bottom,
-                        "queue_top": self.q_to_top,
+                        "queue_top": self.q_to_top
                                                 })
         self.torrent_menu = torrent_glade.get_widget("torrent_menu")
         # unique_ID, Q#, Status Icon, Name, Size, Progress, Message, Seeders, 
@@ -541,11 +541,12 @@ window, please enter your password"))
         # Stores unique_ID -> gtk.TreeRowReference's mapping for quick look up
         self.torrent_model_dict = {}
 
+        self.torrent_view.connect("row-activated", self.double_click_folder)
         self.torrent_view.set_model(self.torrent_model)
         self.torrent_view.set_rules_hint(True)
         self.torrent_view.set_reorderable(True)
         self.torrent_view.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
-        
+
         def peer(column, cell, model, iter, data):
             c1, c2 = data
             a = int(model.get_value(iter, c1))
@@ -686,6 +687,9 @@ window, please enter your password"))
         else:
             return False
 
+    def double_click_folder(self, tree, path, view_column):
+        self.open_folder(view_column)
+
     def open_folder(self, widget):
         if self.config.get("open_folder_stock"):
             if self.config.get("file_manager") == common.FileManager.xdg:
@@ -742,7 +746,7 @@ window, please enter your password"))
             pass
 
     def show_about_dialog(self, arg=None):
-        dialogs.show_about_dialog()
+        dialogs.show_about_dialog(self.window)
 
     def run_wizard(self, arg=None):
         import wizard

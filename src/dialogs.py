@@ -407,13 +407,14 @@ class FilesDlg:
     def get_priorities(self):
         return self.files_manager.get_priorities()
 
-def show_about_dialog(parent=None):
+def show_about_dialog(window):
         def url_hook(dialog, url):
             common.open_url_in_browser(url)
 
         gtk.about_dialog_set_url_hook(url_hook)
         abt = gtk.glade.XML(common.get_glade_file("aboutdialog.glade")).get_widget("aboutdialog")
         abt.set_position(gtk.WIN_POS_CENTER)
+        abt.set_transient_for(window)
         abt.set_name(common.PROGRAM_NAME)
         abt.set_version(common.PROGRAM_VERSION)
         abt.set_authors(["Zach Tibbitts", "Alon Zakai", "Marcos Pinto", "Andrew Resch", "Alex Dedul"])
