@@ -101,21 +101,6 @@ class Core(dbus.service.Object):
         # Load metadata extension
         self.session.add_extension(lt.create_metadata_plugin)
 
-        # Start the TorrentManager
-        self.torrents = TorrentManager(self.session)
-        
-        # Load plugins
-        self.plugins = PluginManager()
-        
-        # Start the AlertManager
-        self.alerts = AlertManager(self.session)
-        
-        # Register alert functions
-        self.alerts.register_handler("torrent_finished_alert", 
-            self.on_alert_torrent_finished)
-        self.alerts.register_handler("torrent_paused_alert",
-            self.on_alert_torrent_paused)
-            
         # Register set functions in the Config
         self.config.register_set_function("listen_ports", 
             self.on_set_listen_ports)
@@ -141,14 +126,22 @@ class Core(dbus.service.Object):
             self.on_set_max_download_speed)
         self.config.register_set_function("max_upload_slots_global",
             self.on_set_max_upload_slots_global)
-        self.config.register_set_function("max_connections_per_torrent",
-            self.on_set_max_connections_per_torrent)
-        self.config.register_set_function("max_upload_slots_per_torrent",
-            self.on_set_max_upload_slots_per_torrent)
-            
-        # Run all the set functions now to set the config for the session
-        self.config.apply_all()
+                    
+        # Start the TorrentManager
+        self.torrents = TorrentManager(self.session)
         
+        # Load plugins
+        self.plugins = PluginManager()
+        
+        # Start the AlertManager
+        self.alerts = AlertManager(self.session)
+        
+        # Register alert functions
+        self.alerts.register_handler("torrent_finished_alert", 
+            self.on_alert_torrent_finished)
+        self.alerts.register_handler("torrent_paused_alert",
+            self.on_alert_torrent_paused)
+       
         log.debug("Starting main loop..")
         self.loop = gobject.MainLoop()
         self.loop.run()
@@ -478,14 +471,6 @@ class Core(dbus.service.Object):
     def on_set_max_upload_slots_global(self, key, value):
         log.debug("max_upload_slots_global set to %s..", value)
         self.session.set_max_uploads(value)
-        
-    def on_set_max_connections_per_torrent(self, key, value):
-        log.debug("max_connections_per_torrent set to %s..", value)
-        self.torrents.set_max_connections(value)
-        
-    def on_set_max_upload_slots_per_torrent(self, key, value):
-        log.debug("max_upload_slots_per_torrent set to %s..", value)
-        self.torrents.set_max_uploads(value)
         
     ## Alert handlers ##
     def on_alert_torrent_finished(self, alert):

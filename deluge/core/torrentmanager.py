@@ -73,6 +73,12 @@ class TorrentManager:
         # Try to load the state from file
         self.load_state()
     
+        # Register set functions
+        self.config.register_set_function("max_connections_per_torrent",
+            self.on_set_max_connections_per_torrent)
+        self.config.register_set_function("max_upload_slots_per_torrent",
+            self.on_set_max_upload_slots_per_torrent)
+            
     def __del__(self):
         log.debug("TorrentManager shutting down..")
         # Save state on shutdown
@@ -107,17 +113,19 @@ class TorrentManager:
             # Get the data from the file
             try:
                 log.debug("Attempting to open %s for add.", filename)
-                filedump = open(
-                    os.path.join(self.config["torrentfiles_location"],
-                                    filename), "rb").read()
+                _file = open(
+                    os.path.join(
+                        self.config["torrentfiles_location"], filename), "rb")
+                filedump = _file.read()
+                _file.close()
             except IOError:
                 log.warning("Unable to open %s", filename)
                 return None
-        
+       
         # Bdecode the filedata
         torrent_filedump = lt.bdecode(filedump)
         handle = None
-        
+
         # Make sure we are adding it with the correct allocation method.
         if compact is None:
             compact = self.config["compact_allocation"]
@@ -154,7 +162,7 @@ class TorrentManager:
             save_file = open(os.path.join(self.config["torrentfiles_location"], 
                     filename),
                     "wb")
-            save_file.write(filedump)
+            save_file.write(lt.bencode(torrent_filedump))
             save_file.close()
         except IOError:
             log.warning("Unable to save torrent file: %s", filename)
@@ -302,15 +310,18 @@ class TorrentManager:
             fastresume.close()
         except IOError:
             log.warning("Error trying to save fastresume file")
-        
-    def set_max_connections(self, value):
+
+    def on_set_max_connections_per_torrent(self, key, value):
         """Sets the per-torrent connection limit"""
+        log.debug("max_connections_per_torrent set to %s..", value)
         self.max_connections = value
         for key in self.torrents.keys():
             self.torrents[key].handle.set_max_connections(value)
-    
-    def set_max_uploads(self, value):
+        
+    def on_set_max_upload_slots_per_torrent(self, key, value):
         """Sets the per-torrent upload slot limit"""
+        log.debug("max_upload_slots_per_torrent set to %s..", value)
         self.max_uploads = value
         for key in self.torrents.keys():
             self.torrents[key].handle.set_max_uploads(value)
+

@@ -138,10 +138,13 @@ class Config:
         """Returns the entire configuration as a dictionary."""
         return self.config
     
-    def register_set_function(self, key, function):
+    def register_set_function(self, key, function, apply_now=True):
         """Register a function to be run when a config value changes."""
         log.debug("Registering function for %s key..", key)
         self.set_functions[key] = function
+        # Run the function now if apply_now is set
+        if apply_now:
+            self.set_functions[key](key, self.config[key])
         return
     
     def apply_all(self):
