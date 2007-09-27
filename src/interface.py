@@ -1118,7 +1118,14 @@ window, please enter your password"))
                                       '   [' + _("DHT") + ': %s]'%(dht_peers)
         # windows cant display more than 64 characters in systray tooltip
         if common.windows_check():
-            msg = _("Deluge Bittorrent Client")
+            #msg = _("Deluge Bittorrent Client")
+            if ulspeed_max == _("Unlimited"):
+                ulspeed_max = "*"
+            if dlspeed_max == _("Unlimited"):
+                dlspeed_max = "*" 
+            msg = '%s\n%s: %s (%s)\n%s: %s (%s)' % (\
+            _("Deluge"), _("Download"), dlspeed, \
+            dlspeed_max, _("Upload"), ulspeed, ulspeed_max)
         else:
             msg = '%s\n%s: %s (%s)\n%s: %s (%s)%s' % (\
             _("Deluge Bittorrent Client"), _("Down Speed"), dlspeed, \
@@ -1175,6 +1182,8 @@ window, please enter your password"))
     
         uri_split = selection_data.data.strip().split()
         for uri in uri_split:
+            if uri.startswith('file://') and common.windows_check():
+                uri = uri[7:]
             path = urllib.url2pathname(uri).strip('\r\n\x00')
             if path.startswith('file:\\\\\\'):
                 path = path[8:]
@@ -1281,8 +1290,15 @@ trunk/+pots/deluge')
         entry = gtk.Entry()
         dlg.vbox.pack_start(label)
         dlg.vbox.pack_start(entry)
-        clip = gtk.clipboard_get(selection='PRIMARY')
-        text = clip.wait_for_text()
+        if common.windows_check():
+            import win32clipboard as clip 
+            import win32con
+            clip.OpenClipboard() 
+            text=clip.GetClipboardData(win32con.CF_UNICODETEXT) 
+            clip.CloseClipboard() 
+        else:
+            clip = gtk.clipboard_get(selection='PRIMARY')
+            text = clip.wait_for_text()
         if text:
             text = text.strip()
             if common.is_url(text):
@@ -1540,8 +1556,6 @@ this torrent will be deleted!") + "</i>")
                 self.shutdown()
 
     def shutdown(self):
-        #for the sake of windows, hide tray_icon
-        self.tray_icon.set_visible(False)
         self.save_column_widths()
         self.save_window_settings()
         self.save_tabs_order()
@@ -1554,6 +1568,8 @@ this torrent will be deleted!") + "</i>")
         self.config.set('enabled_plugins', enabled_plugins)
         self.config.save()
         self.plugins.shutdown_all_plugins()
+        #for the sake of windows, hide tray_icon
+        self.tray_icon.set_visible(False)
         self.manager.quit()
 
 ## For testing purposes, create a copy of the interface
