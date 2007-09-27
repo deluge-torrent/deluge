@@ -704,7 +704,7 @@ window, please enter your password"))
                     file_manager = "thunar"
             else:
                 file_manager = self.config.get("open_folder_location")
-        elif self.config.get("file_manager") == common.FileManager.explorer:
+        else:
             file_manager = "explorer.exe"
 
         
