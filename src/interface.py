@@ -691,7 +691,7 @@ window, please enter your password"))
         self.open_folder(view_column)
 
     def open_folder(self, widget):
-        if common.windows_check:
+        if not common.windows_check:
             if self.config.get("open_folder_stock"):
                 if self.config.get("file_manager") == common.FileManager.xdg:
                     file_manager = "xdg-open"
