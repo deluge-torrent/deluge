@@ -691,20 +691,22 @@ window, please enter your password"))
         self.open_folder(view_column)
 
     def open_folder(self, widget):
-        if self.config.get("open_folder_stock"):
-            if self.config.get("file_manager") == common.FileManager.xdg:
-                file_manager = "xdg-open"
-            elif self.config.get("file_manager") == common.FileManager.explorer:
-                file_manager = "explorer.exe"
-            elif self.config.get("file_manager") == common.FileManager.\
-                konqueror:
-                file_manager = "konqueror"
-            elif self.config.get("file_manager") == common.FileManager.nautilus:
-                file_manager = "nautilus"
-            elif self.config.get("file_manager") == common.FileManager.thunar:
-                file_manager = "thunar"
-        else:
-            file_manager = self.config.get("open_folder_location")
+        if common.windows_check:
+            if self.config.get("open_folder_stock"):
+                if self.config.get("file_manager") == common.FileManager.xdg:
+                    file_manager = "xdg-open"
+                elif self.config.get("file_manager") == common.FileManager.\
+                    konqueror:
+                    file_manager = "konqueror"
+                elif self.config.get("file_manager") == common.FileManager.nautilus:
+                    file_manager = "nautilus"
+                elif self.config.get("file_manager") == common.FileManager.thunar:
+                    file_manager = "thunar"
+            else:
+                file_manager = self.config.get("open_folder_location")
+        elif self.config.get("file_manager") == common.FileManager.explorer:
+            file_manager = "explorer.exe"
+
         
         unique_ids = self.get_selected_torrent_rows()
         try:
