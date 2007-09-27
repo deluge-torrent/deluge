@@ -164,7 +164,7 @@ class ListView:
         
     def create_checklist_menu(self):
         """Creates a menu used for toggling the display of columns."""
-        self.menu = gtk.Menu()
+        menu = gtk.Menu()
         # Iterate through the column_index list to preserve order
         for name in self.column_index:
             column = self.columns[name]
@@ -180,13 +180,14 @@ class ListView:
             # Connect to the 'toggled' event
             menuitem.connect("toggled", self.on_menuitem_toggled)
             # Add the new checkmenuitem to the menu
-            self.menu.append(menuitem)
+            menu.append(menuitem)
         
         # Attach this new menu to all the checklist_menus
-        for menu in self.checklist_menus:
-            menu.set_submenu(self.menu)
+        for _menu in self.checklist_menus:
+            _menu.set_submenu(menu)
+            _menu.show_all()
             
-        return self.menu
+        return menu
 
     def create_new_liststore(self):
         """Creates a new GtkListStore based on the liststore_columns list"""
