@@ -1,0 +1,27 @@
+Quickstart:
+Just copy and rename an existing template.
+-The settings panel will see all directory's in this folder ,and let you choose your new template.
+-Clicking Ok in the settings panel will restart the webserver and reload your template.
+
+Notes:
+Please configure your editor to use 4-space indents instead of tabs.
+Or use scite and my config: http://mvoncken.sohosted.com/deluge/SciTEUser.properties.txt
+
+template language: http://webpy.org/templetor
+
+Exposed methods and variables (c&p from deluge_webserver):
+
+template.Template.globals['crop']  = template_crop
+template.Template.globals['fspeed']  = common.fspeed
+template.Template.globals['fsize']  = common.fsize
+template.Template.globals['sorted']  = sorted
+template.Template.globals['_']  = _ #gettext/translations
+template.Template.globals['deluge_web_version']  = '0.3alfa'
+template.Template.globals['render']  = render #for easy resuse of templates
+template.Template.globals['sort_head']  = sort_head
+template.Template.globals['get_config']  = proxy.get_webui_config
+
+I will update this file if there is interest in making templates.
+
+
+

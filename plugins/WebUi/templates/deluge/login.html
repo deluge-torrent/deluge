@@ -1,0 +1,21 @@
+$:render.header(_('Login'))
+<div class="panel">
+<form method="POST" id="loginform" action='/login'>
+<div id="loginpanel">
+    <div class="form_row">
+	<span class="form_label">$_('User')</span>
+	<input type="text" name="user" id="user" class="form_input">
+    </div>
+    <div class="form_row">
+	<span class="form_label">$_('Pass')</span>
+	<input type="password" name="pwd" id="pwd" class="form_input">
+    </div>
+    <div class="form_row">
+	<span class="form_label"></span>
+	<input type="submit" name="submit"
+	id="submit" value="Submit" class="form_input">
+    </div>
+</div>
+</form>
+</div>
+$:render.footer()

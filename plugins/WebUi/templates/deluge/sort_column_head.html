@@ -1,0 +1,12 @@
+$def with (column_id, column_name, order, active_up, active_down)
+<th>
+<a href="/index?sort=$column_id&order=$order">
+$column_name\
+$if active_up:
+    <img src="/static/images/tango/up.png" />
+$if active_down:
+    <img src="/static/images/tango/down.png" />
+</a>
+</th>
+
+

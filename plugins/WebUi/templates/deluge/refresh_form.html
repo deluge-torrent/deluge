@@ -1,0 +1,10 @@
+$:render.header(_('Set Timeout'))
+<div class="panel">
+<form action="/refresh/set" method="POST">
+    $_('Refresh page every:')
+    <input type="text" name="refresh" value="$get_config('refresh')" size="3">
+    $_('Seconds')
+    <input type="submit" value="$_('Set')">
+</form>
+</div>
+$:render.footer()

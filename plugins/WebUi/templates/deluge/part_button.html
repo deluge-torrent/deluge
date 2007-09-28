@@ -1,0 +1,13 @@
+$def with (method, url, title, image='')
+<div class="deluge_button">
+<form method="$method" action="$url" class="deluge_button">
+<button type="submit" class="deluge_button">
+<input type="hidden" name="redir" value="$self_url()">
+$if image:
+    <image src="/static/images/$image" class="button"/>
+$else:
+    <!--no image-->
+$title
+</button>
+</form>
+</div>
