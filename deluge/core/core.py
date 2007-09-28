@@ -266,7 +266,6 @@ class Core(dbus.service.Object):
         except KeyError:
             # The torrent_id is not found in the torrentmanager, so return None
             status = None
-            status.pickle.dumps(status)
             return status
         
         # Get the leftover fields and ask the plugin manager to fill them
