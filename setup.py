@@ -372,7 +372,6 @@ for o in os.walk('plugins'):
         for x in range(len(items)):
             items[x] = path + '/' + items[x]
         data.append( ('share/deluge/' + path, items))
-        #data.append( ('share/deluge/' + plugin, glob.glob(plugin + '/*')) )
 
 setup(name=NAME, fullname=FULLNAME, version=VERSION,
     author=AUTHOR, author_email=EMAIL, description=DESCRIPTION,
