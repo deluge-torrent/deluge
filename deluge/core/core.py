@@ -265,8 +265,7 @@ class Core(dbus.service.Object):
             status = self.torrents[torrent_id].get_status(nkeys)
         except KeyError:
             # The torrent_id is not found in the torrentmanager, so return None
-            status = None
-            return status
+            return None
         
         # Get the leftover fields and ask the plugin manager to fill them
         leftover_fields = list(set(nkeys) - set(status.keys()))

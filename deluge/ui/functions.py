@@ -177,14 +177,13 @@ def get_listen_port(core=None):
         core = get_core()
     return int(core.get_listen_port())
 
-def open_url_in_browser(link):
+def open_url_in_browser(url):
     """Opens link in the desktop's default browser"""
-    import threading
-    import webbrowser
-    class BrowserThread(threading.Thread):
-       def __init__(self, link):
-           threading.Thread.__init__(self)
-           self.url = link
-       def run(self):
-           webbrowser.open(self.url)
-    BrowserThread(link).start()
+    def start_browser():
+        import webbrowser
+        log.debug("Opening webbrowser with url: %s", url)
+        webbrowser.open(url)
+        return False
+        
+    import gobject
+    gobject.idle_add(start_browser)

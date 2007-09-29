@@ -121,7 +121,20 @@ class TorrentManager:
             except IOError:
                 log.warning("Unable to open %s", filename)
                 return None
-       
+
+        # Attempt to load fastresume data
+        try:
+            _file = open(
+                os.path.join(
+                    self.config["torrentfiles_location"], 
+                    filename + ".fastresume"),
+                    "rb")
+            fastresume = lt.bdecode(_file.read())
+            _file.close()
+        except IOError:
+            log.debug("Unable to load .fastresume..")
+            fastresume = None
+            
         # Bdecode the filedata
         torrent_filedump = lt.bdecode(filedump)
         handle = None
@@ -134,7 +147,8 @@ class TorrentManager:
             handle = self.session.add_torrent(
                                     lt.torrent_info(torrent_filedump), 
                                     self.config["download_location"],
-                                    compact)
+                                    resume_data=fastresume,
+                                    compact_mode=compact)
         except RuntimeError:
             log.warning("Error adding torrent") 
             

@@ -356,7 +356,8 @@ class Preferences:
         self.notebook.set_current_page(model.get_value(row, 0))
 
     def on_test_port_clicked(self, data):
-        functions.open_url_in_browser('\
-            http://www.deluge-torrent.org/test-port.php?port=%s' % \
-            functions.get_listen_port(self.core))
+        log.debug("on_test_port_clicked")
+        url = "http://deluge-torrent.org/test-port.php?port=%s" % \
+            functions.get_listen_port(self.core)
+        functions.open_url_in_browser(url)
 
