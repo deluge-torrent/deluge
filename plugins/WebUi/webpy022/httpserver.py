@@ -6,11 +6,11 @@ import net
 
 def runbasic(func, server_address=("0.0.0.0", 8080)):
     """
-    Runs a simple HTTP server hosting WSGI app `func`. The directory `static/` 
+    Runs a simple HTTP server hosting WSGI app `func`. The directory `static/`
     is hosted statically.
 
     Based on [WsgiServer][ws] from [Colin Stewart][cs].
-    
+
   [ws]: http://www.owlfish.com/software/wsgiutils/documentation/wsgi-server-api.html
   [cs]: http://www.owlfish.com/
     """
@@ -62,17 +62,17 @@ def runbasic(func, server_address=("0.0.0.0", 8080)):
                 try:
                     try:
                         for data in result:
-                            if data: 
+                            if data:
                                 self.wsgi_write_data(data)
                     finally:
-                        if hasattr(result, 'close'): 
+                        if hasattr(result, 'close'):
                             result.close()
                 except socket.error, socket_err:
                     # Catch common network errors and suppress them
                     if (socket_err.args[0] in \
-                       (errno.ECONNABORTED, errno.EPIPE)): 
+                       (errno.ECONNABORTED, errno.EPIPE)):
                         return
-                except socket.timeout, socket_timeout: 
+                except socket.timeout, socket_timeout:
                     return
             except:
                 print >> web.debug, traceback.format_exc(),
@@ -92,7 +92,7 @@ def runbasic(func, server_address=("0.0.0.0", 8080)):
             else:
                 self.run_wsgi_app()
 
-        def wsgi_start_response(self, response_status, response_headers, 
+        def wsgi_start_response(self, response_status, response_headers,
                               exc_info=None):
             if (self.wsgi_sent_headers):
                 raise Exception \
@@ -117,8 +117,8 @@ def runbasic(func, server_address=("0.0.0.0", 8080)):
 
     class WSGIServer(SocketServer.ThreadingMixIn, BaseHTTPServer.HTTPServer):
         def __init__(self, func, server_address):
-            BaseHTTPServer.HTTPServer.__init__(self, 
-                                               server_address, 
+            BaseHTTPServer.HTTPServer.__init__(self,
+                                               server_address,
                                                WSGIHandler)
             self.app = func
             self.serverShuttingDown = 0
@@ -128,7 +128,7 @@ def runbasic(func, server_address=("0.0.0.0", 8080)):
 
 def runsimple(func, server_address=("0.0.0.0", 8080)):
     """
-    Runs [CherryPy][cp] WSGI server hosting WSGI app `func`. 
+    Runs [CherryPy][cp] WSGI server hosting WSGI app `func`.
     The directory `static/` is hosted statically.
 
     [cp]: http://www.cherrypy.org
@@ -180,7 +180,7 @@ def runsimple(func, server_address=("0.0.0.0", 8080)):
             else:
                 value = self.wfile.getvalue()
                 yield value
-                    
+
     class WSGIWrapper(BaseHTTPRequestHandler):
         """WSGI wrapper for logging the status and serving static files."""
         def __init__(self, app):
@@ -200,20 +200,23 @@ def runsimple(func, server_address=("0.0.0.0", 8080)):
                 return self.app(environ, xstart_response)
 
         def log(self, status, environ):
+            #mvoncken,no logging..
+            return
+
             outfile = environ.get('wsgi.errors', web.debug)
             req = environ.get('PATH_INFO', '_')
             protocol = environ.get('ACTUAL_SERVER_PROTOCOL', '-')
             method = environ.get('REQUEST_METHOD', '-')
-            host = "%s:%s" % (environ.get('REMOTE_ADDR','-'), 
+            host = "%s:%s" % (environ.get('REMOTE_ADDR','-'),
                               environ.get('REMOTE_PORT','-'))
 
-            #@@ It is really bad to extend from 
+            #@@ It is really bad to extend from
             #@@ BaseHTTPRequestHandler just for this method
             time = self.log_date_time_string()
 
-            print >> outfile, self.format % (host, time, protocol, 
+            print >> outfile, self.format % (host, time, protocol,
                                              method, req, status)
-            
+
     func = WSGIWrapper(func)
     server = CherryPyWSGIServer(server_address, func, server_name="localhost")
 

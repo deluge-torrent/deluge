@@ -33,18 +33,24 @@
 plugin_name = "Web User interface"
 plugin_author = "Martijn Voncken"
 plugin_version = "rev."
-plugin_description = """A Web based User Interface (and dbus-ipc)
-beta test version, disclaimer, etc..
-"""
+plugin_description = "A Web based User Interface\n"
 
-import deluge.common, deluge.pref
+import deluge.common
+import deluge.pref
+from deluge.dialogs import show_popup_warning
 from dbus_interface import DbusManager
+
 import gtk
 import os
-
 from subprocess import Popen
+from md5 import md5
+import random
+random.seed()
 
 plugin_version += open(os.path.join(os.path.dirname(__file__),'revno')).read()
+plugin_description += (
+    open(os.path.join(os.path.dirname(__file__),'version')).read())
+
 
 def deluge_init(deluge_path):
     global path
@@ -72,19 +78,24 @@ class plugin_WebUi:
         if not self.config.get('port'): #ugly way to detect new config file.
             #set default values:
             self.config.set("port", 8112)
-            self.config.set("user", "deluge")
-            self.config.set("pwd", "deluge")
             #future->use deluge-core setting for download_dir (if it is set)
             self.config.set("download_dir", os.path.expanduser("~/"))
             self.config.set("torrent_dir", os.path.expanduser("~/"))
+            self.config.set("button_style", 2)
             self.config.set("auto_refresh", False)
             self.config.set("auto_refresh_secs", 4)
             self.config.set("template", "deluge")
             self.config.save(self.config_file)
 
+        if not self.config.get("pwd_salt"):
+            self.config.set("pwd_salt", "invalid")
+            self.config.set("pwd_md5", "invalid")
+
 
         self.dbusManager = DbusManager(deluge_core, deluge_interface
             , self.config, self.config_file)
+
+        print dir(self.dbusManager)
         self.start_server()
 
     def unload(self):
@@ -135,9 +146,11 @@ class ConfigDialog(gtk.Dialog):
             if os.path.isdir(os.path.join(template_path, dirname))]
 
         self.port = self.add_widget(_('Port Number'), gtk.SpinButton())
-        self.user = self.add_widget(_('User'), gtk.Entry())
-        self.pwd = self.add_widget(_('Password'), gtk.Entry())
+        self.pwd1 = self.add_widget(_('New Password'), gtk.Entry())
+        self.pwd2 = self.add_widget(_('New Password(confirm)'), gtk.Entry())
         self.template = self.add_widget(_('Template'), gtk.combo_box_new_text())
+        self.button_style = self.add_widget(_('Button Style'),
+            gtk.combo_box_new_text())
         self.download_dir = self.add_widget(_('Download Directory'),
             gtk.FileChooserButton(_('Download Directory')))
         self.torrent_dir = self.add_widget(_('Torrent Directory'),
@@ -147,16 +160,24 @@ class ConfigDialog(gtk.Dialog):
         self.torrent_dir.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
         self.port.set_range(80, 65536)
         self.port.set_increments(1, 10)
+        self.pwd1.set_visibility(False)
+        self.pwd2.set_visibility(False)
+
         for item in self.templates:
             self.template.append_text(item)
+        self.button_style
         if not self.config.get("template") in self.templates:
             self.config.set("template","deluge")
 
-        self.user.set_text(self.config.get("user"))
-        self.pwd.set_text(self.config.get("pwd"))
+        for item in [_('Text and image'), _('Image Only'), _('Text Only')]:
+            self.button_style.append_text(item)
+        if not self.config.get("button_style"):
+            self.config.set("button_style", 2)
+
         self.port.set_value(int(self.config.get("port")))
         self.template.set_active(
             self.templates.index(self.config.get("template")))
+        self.button_style.set_active(self.config.get("button_style"))
         self.torrent_dir.set_filename(self.config.get("torrent_dir"))
         self.download_dir.set_filename(self.config.get("download_dir"))
         self.vbox.pack_start(self.vb, True, True, 0)
@@ -177,11 +198,21 @@ class ConfigDialog(gtk.Dialog):
         self.add_buttons(dgtk.STOCK_CLOSE, dgtk.RESPONSE_CLOSE)
 
     def save_config(self):
-        print 'save config'
-        self.config.set("user", self.user.get_text())
-        self.config.set("pwd", self.pwd.get_text())
+        if self.pwd1.get_text() > '':
+            if self.pwd1.get_text() <> self.pwd2.get_text():
+                show_popup_warning(self,_("Confirmed Password <> New Password\n"
+                    + "Password was not changed"))
+            else:
+                salt = str(random.getrandbits(500))
+                m = md5()
+                m.update(salt)
+                m.update(unicode(self.pwd1.get_text()))
+                self.config.set("pwd_salt", salt)
+                self.config.set("pwd_md5", m.digest())
+
         self.config.set("port", int(self.port.get_value()))
         self.config.set("template", self.template.get_active_text())
+        self.config.set("button_style", self.button_style.get_active())
         self.config.set("torrent_dir", self.torrent_dir.get_filename())
         self.config.set("download_dir",self.download_dir.get_filename())
         self.config.save(self.plugin.config_file)

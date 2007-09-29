@@ -80,17 +80,7 @@ class="deluge_button">
             name="$torrent.action" value="$torrent.id">
 </form>
 
-<div class="deluge_button">
-<form method="GET" action="/torrent/delete/$torrent.id" class="deluge_button">
-
-<button type="submit" class="deluge_button">
-<image src="/static/images/tango/user-trash.png" /> $_('Delete')
-</button>
-</form>
-</div>
-
-</form>
-
+$:render.part_button('GET', '/torrent/delete/' + str(torrent.id), _('Remove'), 'tango/user-trash.png')
 
 <br>
 [<a onclick="javascript:toggle_dump()">$_('Debug:Data Dump')</a>]

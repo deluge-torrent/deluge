@@ -31,6 +31,15 @@ button.deluge_button  {
 	color: #000;
 }
 
+div.error {
+	background-color:#FFFFFF;
+	color:#AA0000;
+	font-weight:bold;
+	-moz-border-radius:10px;
+	width:200px;
+	margin-bottom:20px;
+	padding:10px;
 
+}
 
 /* Hides from IE-mac \*/* html .clearfix {height: 1%;}.clearfix {display: block;}/* End hide from IE-mac */

@@ -50,7 +50,7 @@ from webpy022 import template
 
 import dbus
 
-import gettext, os, platform, locale
+import gettext, os, platform, locale, traceback
 import random
 import base64
 from operator import attrgetter
@@ -105,7 +105,7 @@ def deluge_page_noauth(func):
             web.header("Content-Type", "text/html; charset=utf-8")
             web.header("Cache-Control", "no-cache, must-revalidate")
             res = func(self, name)
-            print res
+            print unicode(res)
     return deco
 
 def check_session(func):
@@ -138,6 +138,17 @@ def error_page(error):
     web.header("Content-Type", "text/html; charset=utf-8")
     web.header("Cache-Control", "no-cache, must-revalidate")
     print render.error(error)
+
+def remote(func):
+    "decorator for remote api's"
+    def deco(self, name):
+        try:
+            print func(self, name)
+        except Exception, e:
+            print 'error:' + e.message
+            print '-'*20
+            print  traceback.format_exc()
+    return deco
 
 #/framework
 
@@ -191,7 +202,7 @@ def template_crop(text, end):
         return text[0:end - 3] + '...'
     return text
 
-def sort_head(id,name):
+def template_sort_head(id,name):
     #got tired of doing these complex things inside templetor..
     vars = web.input(sort=None, order=None)
     active_up = False
@@ -210,18 +221,23 @@ def sort_head(id,name):
 
 render = template.render('templates/%s/' % proxy.get_webui_config('template'))
 
-template.Template.globals['crop']  = template_crop
-template.Template.globals['fspeed']  = common.fspeed
-template.Template.globals['fsize']  = common.fsize
-template.Template.globals['sorted']  = sorted
-template.Template.globals['_']  = _ #gettext/translations
-template.Template.globals['deluge_web_version']  = ('rev.'
-    + open(os.path.join(os.path.dirname(__file__),'revno')).read())
-template.Template.globals['render']  = render #for easy resuse of templates
-template.Template.globals['sort_head']  = sort_head
-template.Template.globals['get_config']  = proxy.get_webui_config
-template.Template.globals['self_url']  = web.changequery
-
+template.Template.globals.update({
+    'sort_head': template_sort_head,
+    'crop': template_crop,
+    '_': _ , #gettext/translations
+    'str': str, #because % in templetor is broken.
+    'sorted': sorted,
+    'get_config': proxy.get_webui_config,
+    'self_url': web.changequery,
+    'fspeed': common.fspeed,
+    'fsize': common.fsize,
+    'render': render, #for easy resuse of templates
+    'button_style': (proxy.get_webui_config('button_style')),
+    'rev': ('rev.' +
+        open(os.path.join(os.path.dirname(__file__),'revno')).read()),
+    'version': (
+        open(os.path.join(os.path.dirname(__file__),'version')).read())
+})
 #/template-defs
 
 #routing:
@@ -237,9 +253,12 @@ urls = (
     "/refresh/set(.*)", "refresh_set",
     "/refresh/(.*)", "refresh",
     "/home(.*)", "home",
+    "/about(.*)", "about",
     #default-pages
     "/", "login",
-    "", "login"
+    "", "login",
+    #remote-api:
+    "/remote/torrent/add(.*)", "remote_torrent_add"
 )
 
 #/routing
@@ -248,20 +267,20 @@ urls = (
 class login:
     @deluge_page_noauth
     def GET(self, name):
-        return render.login()
+        vars = web.input(error = None)
+        return render.login(vars.error)
 
     def POST(self, name):
-        vars = web.input(var = None, pwd = None)
+        vars = web.input(pwd = None)
 
-        if (vars.user == proxy.get_webui_config('user')
-            and vars.pwd == proxy.get_webui_config('pwd')):
+        if proxy.check_pwd(vars.pwd):
             #start new session
             session_id = str(random.random())
-            SESSIONS[session_id]  = {"user":vars.user}
+            SESSIONS[session_id]  = {"not":"used"}
             setcookie("session_id", session_id)
             do_redirect()
         else:
-            error_page(_("Username or Password is invalid."))
+            seeother('/login?error=1')
 
 class home:
     @check_session
@@ -332,6 +351,23 @@ class torrent_add:
         else:
             error_page(_("no data."))
 
+class remote_torrent_add:
+    """
+    For use in remote scripts etc.
+    POST user and file
+    Example : curl -F torrent=@./test1.torrent -F pwd=deluge http://localhost:8112/remote/torrent/add"
+    """
+    @remote
+    def POST(self, name):
+        vars = web.input(pwd = None, torrent = {})
+
+        if not proxy.check_pwd(vars.pwd):
+            return 'error:wrong password'
+
+        data_b64 = base64.b64encode(vars.torrent.file.read())
+        proxy.add_torrent_filecontent(vars.torrent.filename,data_b64)
+        return 'ok'
+
 class torrent_delete:
     @deluge_page
     def GET(self, torrent_id):
@@ -382,6 +418,12 @@ class refresh_set:
             do_redirect()
         else:
             error_page(_('refresh must be > 0'))
+
+class about:
+    @deluge_page_noauth
+    def GET(self, name):
+        return render.about()
+
 
 #/pages
 

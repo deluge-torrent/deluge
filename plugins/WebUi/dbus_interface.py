@@ -39,6 +39,7 @@ import dbus
 import deluge.common as common
 from dbus_pythonize import pythonize
 import base64
+from md5 import md5
 import random
 random.seed()
 
@@ -182,7 +183,7 @@ class DbusManager(dbus.service.Object):
         not in 0.6
         """
         retval = self.config.get(str(key))
-        print 'get webui config:', str(key), retval
+        #print 'get webui config:', str(key), retval
         if retval == None:
             retval = False #dbus does not accept None  :(
 
@@ -195,9 +196,17 @@ class DbusManager(dbus.service.Object):
         return data from wevbui config.
         not in 0.6
         """
-        print 'set webui config:', str(key), pythonize(value)
+        #print 'set webui config:', str(key), pythonize(value)
         self.config.set(str(key), pythonize(value))
         self.config.save(self.config_file)
+
+    @dbus.service.method(dbus_interface=dbus_interface,
+        in_signature="s",out_signature="b")
+    def check_pwd(self, pwd):
+        m = md5()
+        m.update(self.config.get('pwd_salt'))
+        m.update(pwd)
+        return (m.digest() == self.config.get('pwd_md5'))
 
     #internal
     def _add_torrent(self, filename):

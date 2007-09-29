@@ -10,16 +10,21 @@ Or use scite and my config: http://mvoncken.sohosted.com/deluge/SciTEUser.proper
 template language: http://webpy.org/templetor
 
 Exposed methods and variables (c&p from deluge_webserver):
-
-template.Template.globals['crop']  = template_crop
-template.Template.globals['fspeed']  = common.fspeed
-template.Template.globals['fsize']  = common.fsize
-template.Template.globals['sorted']  = sorted
-template.Template.globals['_']  = _ #gettext/translations
-template.Template.globals['deluge_web_version']  = '0.3alfa'
-template.Template.globals['render']  = render #for easy resuse of templates
-template.Template.globals['sort_head']  = sort_head
-template.Template.globals['get_config']  = proxy.get_webui_config
+    'sort_head': template_sort_head,
+    'crop': template_crop,
+    '_': _ , #gettext/translations
+    'str': str, #because % in templetor is broken.
+    'sorted': sorted,
+    'get_config': proxy.get_webui_config,
+    'self_url': web.changequery,
+    'fspeed': common.fspeed,
+    'fsize': common.fsize,
+    'render': render, #for easy resuse of templates
+    'button_style': (proxy.get_webui_config('button_style')),
+    'rev': ('rev.' +
+        open(os.path.join(os.path.dirname(__file__),'revno')).read()),
+    'version': (
+        open(os.path.join(os.path.dirname(__file__),'version')).read())
 
 I will update this file if there is interest in making templates.
 

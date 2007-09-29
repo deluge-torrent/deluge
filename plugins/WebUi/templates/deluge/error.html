@@ -1,6 +1,6 @@
 $def with (error_msg)
-$:header(_('Error'))
+$:render.header(_('Error'))
 <pre class="error">
     $error_msg
 </pre>
-$:footer()
+$:render.footer()
