@@ -115,6 +115,7 @@ class MainWindow:
     def quit(self):
         # Stop the update timer from running
         gobject.source_remove(self.update_timer)
+        del self.systemtray
         del self.menubar
         del self.toolbar
         del self.torrentview

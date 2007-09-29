@@ -45,8 +45,8 @@ class SystemTray:
         self.config = ConfigManager("gtkui.conf")
         self.config.register_set_function("enable_system_tray", 
             self.on_enable_system_tray_set)
-        if self.config["enable_system_tray"]:
-            self.enable()
+        #if self.config["enable_system_tray"]:
+        #    self.enable()
     
     def enable(self):
         """Enables the system tray icon."""
