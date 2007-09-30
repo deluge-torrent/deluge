@@ -302,6 +302,7 @@ class SystemTray:
             self.window.update()
             
     def unlock_tray(self, comingnext, is_showing_dlg=[False]):
+        import sha
         log.debug("Show tray lock dialog")
         if is_showing_dlg[0]:
             return
@@ -326,7 +327,8 @@ window, please enter your password"))
         tray_lock.vbox.pack_start(entered_pass)
         tray_lock.show_all()
         if tray_lock.run() == gtk.RESPONSE_ACCEPT:
-            if self.config["tray_password"] == entered_pass.get_text():
+            if self.config["tray_password"] == sha.new(entered_pass.get_text())\
+                .hexdigest():
                 if comingnext == "mainwinshow":
                     log.debug("Showing main window via tray")
                     self.window.show()

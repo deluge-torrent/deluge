@@ -162,9 +162,6 @@ class Preferences:
             self.gtkui_config["start_in_tray"])
         self.glade.get_widget("chk_lock_tray").set_active(
             self.gtkui_config["lock_tray"])
-        self.glade.get_widget("txt_tray_password").set_text(
-            self.gtkui_config["tray_password"])
-    
         self.glade.get_widget("combo_file_manager").set_active(
             self.gtkui_config["stock_file_manager"])
         self.glade.get_widget("txt_open_folder_location").set_text(
@@ -185,6 +182,7 @@ class Preferences:
     
     def set_config(self):
         """Sets all altered config values in the core"""
+        import sha
         # Get the values from the dialog
         new_core_config = {}
         new_gtkui_config = {}
@@ -251,9 +249,9 @@ class Preferences:
             self.glade.get_widget("chk_start_in_tray").get_active()
         new_gtkui_config["lock_tray"] = \
             self.glade.get_widget("chk_lock_tray").get_active()
-        new_gtkui_config["tray_password"] = \
-            self.glade.get_widget("txt_tray_password").get_text()
-    
+        password = sha.new(self.glade.get_widget("txt_tray_password").\
+            get_text()).hexdigest()
+        new_gtkui_config["tray_password"] = password
         new_gtkui_config["stock_file_manager"] = \
             self.glade.get_widget("combo_file_manager").get_active()
         new_gtkui_config["open_folder_location"] = \
