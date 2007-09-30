@@ -49,6 +49,8 @@ namespace libtorrent
 		std::strftime(str, 200, "%b %d %X", timeinfo);
 		return str;
 	}
+
+	inline std::string log_time();
 }
 
 #if (!defined (__MACH__) && !defined (_WIN32) && (!defined(_POSIX_MONOTONIC_CLOCK) \
@@ -389,5 +391,6 @@ namespace libtorrent
 #endif
 
 #endif
+
 #endif
 

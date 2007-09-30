@@ -18,7 +18,7 @@
 
 plugin_name = _("Move Torrent")
 plugin_author = "Marcos Pinto"
-plugin_version = "0.1"
+plugin_version = "0.2"
 plugin_description = _("This plugin allows users to move the torrent to a \
 different directory without having to remove and re-add the torrent.  This \
 feature can be found by right-clicking on a torrent.\nFurthermore, it \

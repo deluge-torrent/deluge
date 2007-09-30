@@ -61,14 +61,6 @@ public:
   typedef asio::detail::socket_addr_type data_type;
 #endif
 
-  /// The type for the size of the endpoint structure. This type is dependent on
-  /// the underlying implementation of the socket layer.
-#if defined(GENERATING_DOCUMENTATION)
-  typedef implementation_defined size_type;
-#else
-  typedef asio::detail::socket_addr_len_type size_type;
-#endif
-
   /// Default constructor.
   basic_endpoint()
     : data_()
@@ -190,7 +182,7 @@ public:
   }
 
   /// Get the underlying size of the endpoint in the native type.
-  size_type size() const
+  std::size_t size() const
   {
     if (is_v4(data_))
       return sizeof(asio::detail::sockaddr_in4_type);
@@ -199,9 +191,9 @@ public:
   }
 
   /// Set the underlying size of the endpoint in the native type.
-  void resize(size_type size)
+  void resize(std::size_t size)
   {
-    if (size > size_type(sizeof(data_)))
+    if (size > sizeof(data_))
     {
       asio::system_error e(asio::error::invalid_argument);
       boost::throw_exception(e);
@@ -209,7 +201,7 @@ public:
   }
 
   /// Get the capacity of the endpoint in the native type.
-  size_type capacity() const
+  std::size_t capacity() const
   {
     return sizeof(data_);
   }
@@ -349,11 +341,23 @@ std::ostream& operator<<(std::ostream& os,
     const basic_endpoint<InternetProtocol>& endpoint)
 {
   const address& addr = endpoint.address();
-  if (addr.is_v4())
-    os << addr.to_string();
+  asio::error_code ec;
+  std::string a = addr.to_string(ec);
+  if (ec)
+  {
+    if (os.exceptions() & std::ios::failbit)
+      asio::detail::throw_error(ec);
+    else
+      os.setstate(std::ios_base::failbit);
+  }
   else
-    os << '[' << addr.to_string() << ']';
-  os << ':' << endpoint.port();
+  {
+    if (addr.is_v4())
+      os << a;
+    else
+      os << '[' << a << ']';
+    os << ':' << endpoint.port();
+  }
   return os;
 }
 #else // BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
@@ -363,11 +367,23 @@ std::basic_ostream<Elem, Traits>& operator<<(
     const basic_endpoint<InternetProtocol>& endpoint)
 {
   const address& addr = endpoint.address();
-  if (addr.is_v4())
-    os << addr.to_string();
+  asio::error_code ec;
+  std::string a = addr.to_string(ec);
+  if (ec)
+  {
+    if (os.exceptions() & std::ios::failbit)
+      asio::detail::throw_error(ec);
+    else
+      os.setstate(std::ios_base::failbit);
+  }
   else
-    os << '[' << addr.to_string() << ']';
-  os << ':' << endpoint.port();
+  {
+    if (addr.is_v4())
+      os << a;
+    else
+      os << '[' << a << ']';
+    os << ':' << endpoint.port();
+  }
   return os;
 }
 #endif // BOOST_WORKAROUND(__BORLANDC__, BOOST_TESTED_AT(0x564))
