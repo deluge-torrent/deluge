@@ -152,7 +152,6 @@ def get_logo(size):
     
 def open_url_in_browser(link):
     import threading
-    import time
     import webbrowser
     class BrowserThread(threading.Thread):
        def __init__(self, link):
