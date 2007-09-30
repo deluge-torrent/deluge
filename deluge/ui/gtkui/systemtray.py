@@ -67,7 +67,8 @@ class SystemTray:
                 self.on_menuitem_pause_all_activate,
             "on_menuitem_resume_all_activate": \
                 self.on_menuitem_resume_all_activate,
-            "on_menuitem_quit_activate": self.on_menuitem_quit_activate
+            "on_menuitem_quit_activate": self.on_menuitem_quit_activate,
+            "on_menuitem_quit_daemon": self.on_menuitem_quitdaemon_activate
         })
         
         self.tray_menu  = self.tray_glade.get_widget("tray_menu")
@@ -172,6 +173,11 @@ class SystemTray:
         
     def on_menuitem_quit_activate(self, menuitem):
         log.debug("on_menuitem_quit_activate")
+        self.window.quit()
+
+    def on_menuitem_quitdaemon_activate(self, menuitem):
+        log.debug("on_menuitem_quitdaemon_activate")
+        functions.shutdown()
         self.window.quit()
         
     def build_menu_radio_list(self, value_list, callback, pref_value=None, 
