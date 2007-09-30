@@ -42,16 +42,26 @@ import pkg_resources
 class AddTorrentUrl:
     def __init__(self, parent=None):
         """Set up url dialog"""
-        self.dlg = gtk.Dialog(title=_("Add torrent from URL"), parent=None,
-            buttons=(gtk.STOCK_CANCEL, 0, gtk.STOCK_OK, 1))
+        self.dlg = gtk.Dialog(_("Add torrent from URL"), None, 0, \
+          (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,gtk.STOCK_OK, gtk.RESPONSE_OK))
+        self.dlg.set_default_response(gtk.RESPONSE_OK)
         self.dlg.set_icon(deluge.common.get_logo(32))
         self.dlg.set_default_response(1)
         label = gtk.Label(_("Enter the URL of the .torrent to download"))
         self.entry = gtk.Entry()
+        self.entry.connect("activate", lambda w : self.dlg.response\
+            (gtk.RESPONSE_OK))
         self.dlg.vbox.pack_start(label)
         self.dlg.vbox.pack_start(self.entry)
-        clip = gtk.clipboard_get(selection='PRIMARY')
-        text = clip.wait_for_text()
+        if deluge.common.windows_check():
+            import win32clipboard as clip 
+            import win32con
+            clip.OpenClipboard() 
+            text = clip.GetClipboardData(win32con.CF_UNICODETEXT) 
+            clip.CloseClipboard() 
+        else:
+            clip = gtk.clipboard_get(selection='PRIMARY')
+            text = clip.wait_for_text()
         if text:
             text = text.strip()
             if deluge.common.is_url(text):
@@ -61,9 +71,10 @@ class AddTorrentUrl:
         """Show url dialog and add torrent"""
         self.dlg.show_all()
         self.response = self.dlg.run()
-        url = self.entry.get_text()
-        self.dlg.destroy()
-        if self.response == 1:
+        if self.response == gtk.RESPONSE_OK:
+            url = self.entry.get_text().decode("utf_8")
+            self.dlg.destroy()
             return url
         else:
+            self.dlg.destroy()
             return None
