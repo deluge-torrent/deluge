@@ -32,21 +32,21 @@
 #  statement from all source files in the program, then also delete it here.
 
 """
-Todo's before beta:
--alternating rows?
--__init__:unload plugin is broken!
+Todo's before stable:
 -__init__:kill->restart is not waiting for kill to be finished.
--redir is broken.
 --later/features:---
+-alternating rows?
 -set prio
 -clear finished?
 -torrent files.
 """
 import webpy022 as web
+
 from webpy022.webapi import cookies, setcookie
 from webpy022.http import seeother, url
 from webpy022.utils import Storage
-from webpy022 import template
+from webpy022.net import urlquote
+from webpy022 import template, changequery as self_url
 
 import dbus
 
@@ -79,9 +79,12 @@ proxy = bus.get_object("org.deluge_torrent.dbusplugin"
 
 web.webapi.internalerror = web.debugerror
 
+render = template.render('templates/%s/' % proxy.get_webui_config('template')
+    ,cache=proxy.get_webui_config('cache_templates'))
 #/init
 
 #framework:
+
 SESSIONS = {}
 
 def do_redirect():
@@ -105,7 +108,7 @@ def deluge_page_noauth(func):
             web.header("Content-Type", "text/html; charset=utf-8")
             web.header("Cache-Control", "no-cache, must-revalidate")
             res = func(self, name)
-            print unicode(res)
+            print res
     return deco
 
 def check_session(func):
@@ -114,9 +117,13 @@ def check_session(func):
     return func if session is valid, else redirect to login page.
     """
     def deco(self, name):
+        vars = web.input(redir_after_login=None)
+
         ck = cookies()
         if ck.has_key("session_id") and ck["session_id"] in SESSIONS:
             return func(self, name) #ok, continue..
+        elif vars.redir_after_login:
+            seeother("/login?redir=" + urlquote(self_url()))
         else:
             seeother("/login") #do not continue, and redirect to login page
     return deco
@@ -129,8 +136,7 @@ def auto_refreshed(func):
     def deco(self, name):
         if proxy.get_webui_config('auto_refresh'):
             web.header("Refresh", "%i ; url=%s" %
-                (proxy.get_webui_config('auto_refresh_secs'),
-                web.changequery()))
+                (proxy.get_webui_config('auto_refresh_secs'),self_url()))
         return func(self, name)
     return deco
 
@@ -218,9 +224,6 @@ def template_sort_head(id,name):
 
     return render.sort_column_head(id, name, order, active_up, active_down)
 
-
-render = template.render('templates/%s/' % proxy.get_webui_config('template'))
-
 template.Template.globals.update({
     'sort_head': template_sort_head,
     'crop': template_crop,
@@ -228,7 +231,7 @@ template.Template.globals.update({
     'str': str, #because % in templetor is broken.
     'sorted': sorted,
     'get_config': proxy.get_webui_config,
-    'self_url': web.changequery,
+    'self_url': self_url,
     'fspeed': common.fspeed,
     'fsize': common.fsize,
     'render': render, #for easy resuse of templates
@@ -236,7 +239,8 @@ template.Template.globals.update({
     'rev': ('rev.' +
         open(os.path.join(os.path.dirname(__file__),'revno')).read()),
     'version': (
-        open(os.path.join(os.path.dirname(__file__),'version')).read())
+        open(os.path.join(os.path.dirname(__file__),'version')).read()),
+    'get': lambda (var): getattr(web.input(**{var:None}),var) # unreadable :-(
 })
 #/template-defs
 
@@ -271,7 +275,7 @@ class login:
         return render.login(vars.error)
 
     def POST(self, name):
-        vars = web.input(pwd = None)
+        vars = web.input(pwd = None ,redir = None)
 
         if proxy.check_pwd(vars.pwd):
             #start new session
@@ -279,6 +283,8 @@ class login:
             SESSIONS[session_id]  = {"not":"used"}
             setcookie("session_id", session_id)
             do_redirect()
+        elif vars.redir:
+            seeother('/login?error=1&redir=' + urlquote(vars.redir))
         else:
             seeother('/login?error=1')
 
@@ -334,7 +340,6 @@ class torrent_add:
 
     @check_session
     def POST(self, name):
-
         vars = web.input(url = None, torrent = {})
 
         if vars.url and vars.torrent.filename:
@@ -354,7 +359,7 @@ class torrent_add:
 class remote_torrent_add:
     """
     For use in remote scripts etc.
-    POST user and file
+    POST pwd and torrent
     Example : curl -F torrent=@./test1.torrent -F pwd=deluge http://localhost:8112/remote/torrent/add"
     """
     @remote

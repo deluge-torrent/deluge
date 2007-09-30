@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-# Dbus Ipc for experimental web interface
 #
-# dbus_interface.py
 #
 # Copyright (C) Martijn Voncken 2007 <mvoncken@gmail.com>
 #
@@ -30,7 +28,7 @@
 #  but you are not obligated to do so. If you do not wish to do so, delete
 #  this exception statement from your version. If you delete this exception
 
-plugin_name = "Web User interface"
+plugin_name = "Web User Interface"
 plugin_author = "Martijn Voncken"
 plugin_version = "rev."
 plugin_description = "A Web based User Interface\n"
@@ -51,6 +49,9 @@ plugin_version += open(os.path.join(os.path.dirname(__file__),'revno')).read()
 plugin_description += (
     open(os.path.join(os.path.dirname(__file__),'version')).read())
 
+#not found a way to stop a dbus manager.
+#global so it does not get started twice.
+dbus_manager = None
 
 def deluge_init(deluge_path):
     global path
@@ -62,10 +63,13 @@ def enable(core, interface):
 
 class plugin_WebUi:
     def __init__(self, path, deluge_core, deluge_interface):
+        global dbus_manager
         self.path = path
         self.core = deluge_core
         self.interface = deluge_interface
         self.proc = None
+
+
 
         self.config_file = deluge.common.CONFIG_DIR + "/webui.conf"
         self.config = deluge.pref.Preferences(self.config_file, False)
@@ -91,11 +95,16 @@ class plugin_WebUi:
             self.config.set("pwd_salt", "invalid")
             self.config.set("pwd_md5", "invalid")
 
+        if self.config.get("cache_templates") == None:
+            self.config.set("cache_templates", True)
 
-        self.dbusManager = DbusManager(deluge_core, deluge_interface
-            , self.config, self.config_file)
 
-        print dir(self.dbusManager)
+        if not dbus_manager:
+            self.dbusManager = DbusManager(deluge_core, deluge_interface
+                , self.config, self.config_file)
+
+        self.dbus_manager  = dbus_manager
+
         self.start_server()
 
     def unload(self):
@@ -108,7 +117,7 @@ class plugin_WebUi:
 
     ## This will be only called if your plugin is configurable
     def configure(self,parent_dialog):
-        d = ConfigDialog(self.config,self)
+        d = ConfigDialog(self.config, self, parent_dialog)
         if d.run() == gtk.RESPONSE_OK:
             d.save_config()
         d.destroy()
@@ -133,8 +142,8 @@ class ConfigDialog(gtk.Dialog):
     sorry, can't get used to gui builders.
     from what I read glade is better, but i dont want to invest time in them.
     """
-    def __init__(self, config, plugin):
-        gtk.Dialog.__init__(self)
+    def __init__(self, config, plugin, parent):
+        gtk.Dialog.__init__(self ,parent=parent)
         self.config = config
         self.plugin = plugin
         self.vb = gtk.VBox()
@@ -151,6 +160,8 @@ class ConfigDialog(gtk.Dialog):
         self.template = self.add_widget(_('Template'), gtk.combo_box_new_text())
         self.button_style = self.add_widget(_('Button Style'),
             gtk.combo_box_new_text())
+        self.cache_templates = self.add_widget(_('Cache Templates'),
+            gtk.CheckButton())
         self.download_dir = self.add_widget(_('Download Directory'),
             gtk.FileChooserButton(_('Download Directory')))
         self.torrent_dir = self.add_widget(_('Torrent Directory'),
@@ -165,7 +176,7 @@ class ConfigDialog(gtk.Dialog):
 
         for item in self.templates:
             self.template.append_text(item)
-        self.button_style
+
         if not self.config.get("template") in self.templates:
             self.config.set("template","deluge")
 
@@ -178,6 +189,8 @@ class ConfigDialog(gtk.Dialog):
         self.template.set_active(
             self.templates.index(self.config.get("template")))
         self.button_style.set_active(self.config.get("button_style"))
+        self.cache_templates.set_active(self.config.get("cache_templates"))
+
         self.torrent_dir.set_filename(self.config.get("torrent_dir"))
         self.download_dir.set_filename(self.config.get("download_dir"))
         self.vbox.pack_start(self.vb, True, True, 0)
@@ -213,6 +226,7 @@ class ConfigDialog(gtk.Dialog):
         self.config.set("port", int(self.port.get_value()))
         self.config.set("template", self.template.get_active_text())
         self.config.set("button_style", self.button_style.get_active())
+        self.config.set("cache_templates", self.cache_templates.get_active())
         self.config.set("torrent_dir", self.torrent_dir.get_filename())
         self.config.set("download_dir",self.download_dir.get_filename())
         self.config.save(self.plugin.config_file)

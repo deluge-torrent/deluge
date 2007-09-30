@@ -4,7 +4,8 @@ $:render.header(_("Add Torrent"))
 <div id="torrent_add">
     <div class="form_row">
 	<span class="form_label">$_('Url')</span>
-	<input type="text" name="url" class="form_input" size=60>
+	<input type="text" name="url" class="form_input" size=60
+        value="$get('url')" >
     </div>
     <div class="form_row">
 	<span class="form_label">$_('Upload torrent')</span>

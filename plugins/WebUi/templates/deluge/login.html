@@ -5,6 +5,7 @@ $if error > 0:
     <div class="error">$_("Password is invalid,try again")</div>
 
 <form method="POST" id="loginform" action='/login'>
+<input type="hidden" name="redir" value="$get('redir')">
 <div id="loginpanel">
     <div class="form_row">
 	<span class="form_label">$_('Password')</span>
