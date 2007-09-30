@@ -1282,7 +1282,7 @@ torrent error."))
 trunk/+pots/deluge')
             
     def add_torrent_clicked(self, obj=None):
-        torrent = dialogs.show_file_open_dialog()
+        torrent = dialogs.show_file_open_dialog(self.window)
         if torrent is not None:
             for single in torrent:
                 self.interactive_add_torrent(single)

@@ -105,7 +105,6 @@ class PreferencesDlg:
             self.glade.get_widget("txt_peer_proxy_hostname").set_text(self.preferences.get("peer_proxy_hostname"))
             self.glade.get_widget("txt_peer_proxy_username").set_text(self.preferences.get("peer_proxy_username"))
             self.glade.get_widget("txt_peer_proxy_password").set_text(self.preferences.get("peer_proxy_password"))
-
             self.glade.get_widget("txt_tracker_proxy_hostname").set_text(self.preferences.get("tracker_proxy_hostname"))
             self.glade.get_widget("txt_tracker_proxy_username").set_text(self.preferences.get("tracker_proxy_username"))
             self.glade.get_widget("txt_tracker_proxy_password").set_text(self.preferences.get("tracker_proxy_password"))
@@ -463,7 +462,7 @@ def show_popup_question(window, message):
 
 
 ## Browse for .torrent files
-def show_file_open_dialog(parent=None, title=None):
+def show_file_open_dialog(parent, title=None):
     if title is None:
         title = _("Choose a .torrent file")
     chooser = gtk.FileChooserDialog(title, parent, gtk.FILE_CHOOSER_ACTION_OPEN,
