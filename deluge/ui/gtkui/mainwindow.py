@@ -84,7 +84,11 @@ class MainWindow:
     def start(self):
         """Start the update thread and show the window"""
         self.update_timer = gobject.timeout_add(1000, self.update)
-        self.show()
+        if not(self.config["start_in_tray"] and \
+               self.config["enable_system_tray"]) and not \
+                self.window.get_property("visible"):
+            log.debug("Showing window")
+            self.show()
         
     def update(self):
         # Don't update the UI if the the window is minimized.
