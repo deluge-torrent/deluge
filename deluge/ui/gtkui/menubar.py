@@ -112,12 +112,35 @@ class MenuBar:
     def on_menuitem_quitdaemon_activate(self, data=None):
         log.debug("on_menuitem_quitdaemon_activate")
         # Tell the core to shutdown
-        functions.shutdown()
-        self.window.quit()
+        if self.window.visible():
+            self.window.hide()
+            self.window.quit()
+            functions.shutdown()
+        else:
+            from deluge.configmanager import ConfigManager
+            if self.config.get("lock_tray") == True:
+                from deluge.ui.gtk.systemtray import SystemTray
+                SystemTray.unlock_tray("quitdaemon")
+            else:
+                self.window.hide()
+                self.window.quit()
+                functions.shutdown()
         
     def on_menuitem_quit_activate(self, data=None):
         log.debug("on_menuitem_quit_activate")
-        self.window.quit()
+        if self.window.visible():
+            self.window.hide()
+            self.window.quit()
+        else:
+            from deluge.configmanager import ConfigManager
+            self.config = ConfigManager("gtkui.conf")
+            if self.config.get("lock_tray") == True:
+                log.debug("trying to import")
+                from deluge.ui.gtk.systemtray import SystemTray
+                SystemTray.unlock_tray("quitui")
+            else:
+                self.window.hide()
+                self.window.quit()
     
     ## Edit Menu ##
     def on_menuitem_preferences_activate(self, data=None):

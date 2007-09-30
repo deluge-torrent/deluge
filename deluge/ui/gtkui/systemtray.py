@@ -132,7 +132,7 @@ class SystemTray:
                 self.window.update()
         else:
             if self.config["lock_tray"] == True:
-                log.debug("Implement tray locking please!")
+                self.unlock_tray("mainwinshow")
             else:
                 self.window.load_window_geometry()
                 self.window.show()
@@ -153,7 +153,7 @@ class SystemTray:
         log.debug("on_menuitem_show_deluge_activate")
         if menuitem.get_active() and not self.window.visible():
             if self.config["lock_tray"] == True:
-                self.unlock_tray()
+                self.unlock_tray("mainwinshow")
             else:
                 self.window.show()
         elif not menuitem.get_active() and self.window.visible():
@@ -174,12 +174,18 @@ class SystemTray:
         
     def on_menuitem_quit_activate(self, menuitem):
         log.debug("on_menuitem_quit_activate")
-        self.window.quit()
+        if self.window.visible():
+            self.window.quit()
+        else:
+            self.unlock_tray("quitui")
 
     def on_menuitem_quitdaemon_activate(self, menuitem):
         log.debug("on_menuitem_quitdaemon_activate")
-        functions.shutdown()
-        self.window.quit()
+        if self.window.visible():
+            self.window.quit()
+            functions.shutdown()
+        else:
+            self.unlock_tray("quitdaemon")
         
     def build_menu_radio_list(self, value_list, callback, pref_value=None, 
         suffix=None, show_notset=False, notset_label=None, notset_lessthan=0, 
@@ -295,5 +301,44 @@ class SystemTray:
             # Update the UI
             self.window.update()
             
-    def unlock_tray(self):
-        log.debug("Tray locking needs implementation..!")
+    def unlock_tray(self, comingnext, is_showing_dlg=[False]):
+        log.debug("Show tray lock dialog")
+        if is_showing_dlg[0]:
+            return
+        is_showing_dlg[0] = True
+        
+        entered_pass = gtk.Entry(25)
+        entered_pass.set_activates_default(True)
+        entered_pass.set_width_chars(25)
+        entered_pass.set_visibility(False)
+        entered_pass.show()
+        tray_lock = gtk.Dialog(title=_("Deluge is locked"), parent=None,
+            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT, gtk.STOCK_OK, 
+            gtk.RESPONSE_ACCEPT))
+        label = gtk.Label(_("Deluge is password protected.\nTo show the Deluge \
+window, please enter your password"))
+        label.set_line_wrap(True)
+        label.set_justify(gtk.JUSTIFY_CENTER)
+        tray_lock.set_position(gtk.WIN_POS_CENTER_ALWAYS)
+        tray_lock.set_size_request(400, 200)
+        tray_lock.set_default_response(gtk.RESPONSE_ACCEPT)
+        tray_lock.vbox.pack_start(label)
+        tray_lock.vbox.pack_start(entered_pass)
+        tray_lock.show_all()
+        if tray_lock.run() == gtk.RESPONSE_ACCEPT:
+            if self.config["tray_password"] == entered_pass.get_text():
+                if comingnext == "mainwinshow":
+                    log.debug("Showing main window via tray")
+                    self.window.show()
+                elif comingnext == "quitdaemon":
+                    functions.shutdown()
+                    self.window.hide()
+                    self.window.quit()
+                elif comingnext == "quitui":
+                    log.debug("Quiting UI via tray")
+                    self.window.hide()
+                    self.window.quit()
+        tray_lock.destroy()
+        is_showing_dlg[0] = False
+        return True
+
