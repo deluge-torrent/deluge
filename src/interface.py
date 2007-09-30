@@ -425,7 +425,13 @@ window, please enter your password"))
         tray_lock.vbox.pack_start(entered_pass)
         tray_lock.show_all()
         if tray_lock.run() == gtk.RESPONSE_ACCEPT:
-            if self.config.get("tray_passwd") == entered_pass.get_text():
+            import sha
+            #for backward compatibility
+            if len(self.config.get("tray_passwd")) != 40:
+                password = sha.new(self.config.get("tray_passwd")).hexdigest()
+            else:
+                password = self.config.get("tray_passwd")
+            if password == sha.new(entered_pass.get_text()).hexdigest():
                 if comingnext == "mainwinshow":
                     self.window.show()
                 elif comingnext == "prefwinshow":

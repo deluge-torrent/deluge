@@ -101,7 +101,7 @@ class PreferencesDlg:
             self.glade.get_widget("chk_min_on_close").set_active(self.preferences.get("close_to_tray"))
             self.glade.get_widget("chk_start_in_tray").set_active(self.preferences.get("start_in_tray"))
             self.glade.get_widget("chk_lock_tray").set_active(self.preferences.get("lock_tray"))
-            self.glade.get_widget("txt_tray_passwd").set_text(self.preferences.get("tray_passwd"))
+            self.glade.get_widget("txt_tray_passwd").set_text("")
             self.glade.get_widget("txt_peer_proxy_hostname").set_text(self.preferences.get("peer_proxy_hostname"))
             self.glade.get_widget("txt_peer_proxy_username").set_text(self.preferences.get("peer_proxy_username"))
             self.glade.get_widget("txt_peer_proxy_password").set_text(self.preferences.get("peer_proxy_password"))
@@ -187,6 +187,7 @@ class PreferencesDlg:
 
     def ok_clicked(self, source, interface):
         self.dialog.hide()
+        import sha
         self.preferences.set("file_manager", self.glade.get_widget("combo_file_manager").get_active())
         self.preferences.set("open_folder_stock", self.glade.get_widget("radio_open_folder_stock").get_active())
         self.preferences.set("open_folder_location", self.glade.get_widget("txt_open_folder_location").get_text())
@@ -212,7 +213,8 @@ class PreferencesDlg:
         self.preferences.set("close_to_tray", self.glade.get_widget("chk_min_on_close").get_active())
         self.preferences.set("start_in_tray", self.glade.get_widget("chk_start_in_tray").get_active())
         self.preferences.set("lock_tray", self.glade.get_widget("chk_lock_tray").get_active())
-        self.preferences.set("tray_passwd", self.glade.get_widget("txt_tray_passwd").get_text())
+        password = sha.new(self.glade.get_widget("txt_tray_passwd").get_text()).hexdigest()
+        self.preferences.set("tray_passwd", password)
         self.preferences.set("tracker_proxy_username", self.glade.get_widget("txt_tracker_proxy_username").get_text())
         self.preferences.set("tracker_proxy_password", self.glade.get_widget("txt_tracker_proxy_password").get_text())
         self.preferences.set("tracker_proxy_hostname", self.glade.get_widget("txt_tracker_proxy_hostname").get_text())
