@@ -1282,12 +1282,13 @@ trunk/+pots/deluge')
                 self.interactive_add_torrent(single)
 
     def add_torrent_url_clicked(self, obj=None):
-        dlg = gtk.Dialog(title=_("Add torrent from URL"), parent=self.window,
-            buttons=(gtk.STOCK_CANCEL, 0, gtk.STOCK_OK, 1))
+        dlg = gtk.Dialog(_("Add torrent from URL"), self.window, 0,
+            (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,gtk.STOCK_OK, gtk.RESPONSE_OK))
+        dlg.set_default_response(gtk.RESPONSE_OK)
         dlg.set_icon(common.get_logo(32))
-        
         label = gtk.Label(_("Enter the URL of the .torrent to download"))
         entry = gtk.Entry()
+        entry.connect("activate", lambda w : dlg.response(gtk.RESPONSE_OK))
         dlg.vbox.pack_start(label)
         dlg.vbox.pack_start(entry)
         if common.windows_check():
@@ -1304,12 +1305,13 @@ trunk/+pots/deluge')
             if common.is_url(text):
                 entry.set_text(text)
         dlg.show_all()
-        result = dlg.run()
-        url = entry.get_text()
-        dlg.destroy()
-        
-        if result == 1:
+        response = dlg.run()
+        if response == gtk.RESPONSE_OK:
+            url = entry.get_text().decode("utf_8")
+            dlg.destroy()
             self.interactive_add_torrent_url(url) 
+        else:
+            dlg.destroy()
 
     def remove_torrent_clicked(self, obj=None):
         glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"), 
