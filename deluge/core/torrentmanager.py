@@ -78,8 +78,8 @@ class TorrentManager:
             self.on_set_max_connections_per_torrent)
         self.config.register_set_function("max_upload_slots_per_torrent",
             self.on_set_max_upload_slots_per_torrent)
-            
-    def __del__(self):
+    
+    def shutdown(self):
         log.debug("TorrentManager shutting down..")
         # Save state on shutdown
         self.save_state()

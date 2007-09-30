@@ -96,7 +96,11 @@ class TorrentDetails:
             status = functions.get_torrent_status(self.core, 
                                                     selected, 
                                                     status_keys)
-
+            
+            # Check to see if we got valid data from the core
+            if status is None:
+                return
+                
             # We need to adjust the value core gives us for progress
             progress = status["progress"]/100
             self.progress_bar.set_fraction(progress)

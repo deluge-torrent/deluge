@@ -151,8 +151,7 @@ class Core(dbus.service.Object):
         log.info("Shutting down core..")
         self.loop.quit()
         self.plugins.shutdown()
-        del self.plugins
-        del self.torrents
+        self.torrents.shutdown()
         # Make sure the config file has been saved
         self.config.save()
         del self.config
@@ -265,7 +264,9 @@ class Core(dbus.service.Object):
             status = self.torrents[torrent_id].get_status(nkeys)
         except KeyError:
             # The torrent_id is not found in the torrentmanager, so return None
-            return None
+            status = None
+            status = pickle.dumps(status)
+            return status
         
         # Get the leftover fields and ask the plugin manager to fill them
         leftover_fields = list(set(nkeys) - set(status.keys()))
@@ -486,4 +487,4 @@ class Core(dbus.service.Object):
         # Write the fastresume file
         self.torrents.write_fastresume(torrent_id)
         # Emit torrent_paused signal
-        self.torrent_paused(torrent_id)
+        self.torrent_paused(torrent_id)        

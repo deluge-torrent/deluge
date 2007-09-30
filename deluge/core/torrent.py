@@ -49,7 +49,7 @@ class Torrent:
         self.total_uploaded = 0
         # Set the allocation mode
         self.compact = compact
-        
+    
     def get_state(self):
         """Returns the state of this torrent for saving to the session state"""
         return (self.torrent_id, self.filename, self.compact)
@@ -94,12 +94,12 @@ class Torrent:
         progress = status.progress*100
         
         # Get the total number of seeds and peers
-        if status.num_complete is -1:
+        if status.num_complete == -1:
             total_seeds = status.num_seeds
         else:
             total_seeds = status.num_complete
             
-        if status.num_incomplete is -1:
+        if status.num_incomplete == -1:
             total_peers = status.num_peers - status.num_seeds
         else:
             total_peers = status.num_incomplete

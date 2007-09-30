@@ -1,4 +1,3 @@
-* Have peer numbers show what we receive from tracker_reply_alert
 * Have the ui better handle not being able to connect to the daemon.
 * Tray locking and other tray options (close to tray, start in tray..)
 * Add state saving to listview.. this includes saving column size and position.
@@ -14,7 +13,6 @@
 * Change the menubar.py gtkui component to menus.py and add support for plugins
     to add menuitems to the torrentmenu in an easy way.
 * Add the tracker responses to the torrent details
-* Fast resume saving
 * Restart daemon function
 * Sync the details pane to current trunk
 * Automatically save torrent state every ~5 minutes, much like how
