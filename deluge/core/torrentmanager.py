@@ -45,10 +45,11 @@ from deluge.core.torrent import Torrent
 from deluge.log import LOG as log
 
 class TorrentState:
-    def __init__(self, torrent_id, filename, compact):
+    def __init__(self, torrent_id, filename, compact, paused):
         self.torrent_id = torrent_id
         self.filename = filename
         self.compact = compact
+        self.paused = paused
 
 class TorrentManagerState:
     def __init__(self):
@@ -59,10 +60,12 @@ class TorrentManager:
     session.  This object is also responsible for saving the state of the
     session for use on restart."""
     
-    def __init__(self, session):
+    def __init__(self, session, alerts):
         log.debug("TorrentManager init..")
         # Set the libtorrent session
         self.session = session
+        # Set the alertmanager
+        self.alerts = alerts
         # Get the core config
         self.config = ConfigManager("core.conf")
         # Per torrent connection limit and upload slot limit
@@ -78,7 +81,13 @@ class TorrentManager:
             self.on_set_max_connections_per_torrent)
         self.config.register_set_function("max_upload_slots_per_torrent",
             self.on_set_max_upload_slots_per_torrent)
-    
+            
+        # Register alert functions
+        self.alerts.register_handler("torrent_finished_alert", 
+            self.on_alert_torrent_finished)
+        self.alerts.register_handler("torrent_paused_alert",
+            self.on_alert_torrent_paused)
+            
     def shutdown(self):
         log.debug("TorrentManager shutting down..")
         # Save state on shutdown
@@ -96,7 +105,7 @@ class TorrentManager:
         """Returns a list of torrent_ids"""
         return self.torrents.keys()
         
-    def add(self, filename, filedump=None, compact=None):
+    def add(self, filename, filedump=None, compact=None, paused=False):
         """Add a torrent to the manager and returns it's torrent_id"""
         log.info("Adding torrent: %s", filename)
 
@@ -148,7 +157,8 @@ class TorrentManager:
                                     lt.torrent_info(torrent_filedump), 
                                     self.config["download_location"],
                                     resume_data=fastresume,
-                                    compact_mode=compact)
+                                    compact_mode=compact,
+                                    paused=paused)
         except RuntimeError:
             log.warning("Error adding torrent") 
             
@@ -278,7 +288,8 @@ class TorrentManager:
 
         # Try to add the torrents in the state to the session        
         for torrent_state in state.torrents:
-            self.add(torrent_state.filename, compact=torrent_state.compact)
+            self.add(torrent_state.filename, compact=torrent_state.compact,
+                paused=torrent_state.paused)
             
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file"""
@@ -338,4 +349,19 @@ class TorrentManager:
         self.max_uploads = value
         for key in self.torrents.keys():
             self.torrents[key].handle.set_max_uploads(value)
-
+    
+    ## Alert handlers ##
+    def on_alert_torrent_finished(self, alert):
+        log.debug("on_alert_torrent_finished")
+        # Get the torrent_id
+        torrent_id = str(alert.handle.info_hash())
+        log.debug("%s is finished..", torrent_id)
+        # Write the fastresume file
+        self.write_fastresume(torrent_id)
+        
+    def on_alert_torrent_paused(self, alert):
+        log.debug("on_alert_torrent_paused")
+        # Get the torrent_id
+        torrent_id = str(alert.handle.info_hash())
+        # Write the fastresume file
+        self.write_fastresume(torrent_id)  

@@ -49,10 +49,17 @@ class Torrent:
         self.total_uploaded = 0
         # Set the allocation mode
         self.compact = compact
+        # The reply from the tracker
+        self.tracker_reply = ""
     
+    def set_tracker_reply(self, reply):
+        """Sets the tracker reply message"""
+        self.tracker_reply = reply
+        
     def get_state(self):
         """Returns the state of this torrent for saving to the session state"""
-        return (self.torrent_id, self.filename, self.compact)
+        status = self.handle.status()
+        return (self.torrent_id, self.filename, self.compact, status.paused)
         
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""

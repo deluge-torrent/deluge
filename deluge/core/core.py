@@ -126,22 +126,20 @@ class Core(dbus.service.Object):
             self.on_set_max_download_speed)
         self.config.register_set_function("max_upload_slots_global",
             self.on_set_max_upload_slots_global)
-                    
+
+        # Start the AlertManager
+        self.alerts = AlertManager(self.session)
+                            
         # Start the TorrentManager
-        self.torrents = TorrentManager(self.session)
+        self.torrents = TorrentManager(self.session, self.alerts)
         
         # Load plugins
         self.plugins = PluginManager()
-        
-        # Start the AlertManager
-        self.alerts = AlertManager(self.session)
-        
-        # Register alert functions
-        self.alerts.register_handler("torrent_finished_alert", 
-            self.on_alert_torrent_finished)
+       
+        # Register alert handlers
         self.alerts.register_handler("torrent_paused_alert",
             self.on_alert_torrent_paused)
-       
+            
         log.debug("Starting main loop..")
         self.loop = gobject.MainLoop()
         self.loop.run()
@@ -470,21 +468,11 @@ class Core(dbus.service.Object):
     def on_set_max_upload_slots_global(self, key, value):
         log.debug("max_upload_slots_global set to %s..", value)
         self.session.set_max_uploads(value)
-        
+    
     ## Alert handlers ##
-    def on_alert_torrent_finished(self, alert):
-        log.debug("on_alert_torrent_finished")
-        # Get the torrent_id
-        torrent_id = str(alert.handle.info_hash())
-        log.debug("%s is finished..", torrent_id)
-        # Write the fastresume file
-        self.torrents.write_fastresume(torrent_id)
-        
     def on_alert_torrent_paused(self, alert):
         log.debug("on_alert_torrent_paused")
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
-        # Write the fastresume file
-        self.torrents.write_fastresume(torrent_id)
         # Emit torrent_paused signal
-        self.torrent_paused(torrent_id)        
+        self.torrent_paused(torrent_id)  

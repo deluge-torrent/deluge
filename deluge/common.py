@@ -174,3 +174,19 @@ def fetch_url(url):
         else:
             log.debug("URL doesn't appear to be a valid torrent file: %s", url)
             return None
+            
+def pythonize(var):
+    """Translates DBUS types back to basic Python types."""
+    if isinstance(var, list):
+        return [pythonize(value) for value in var]
+    if isinstance(var, tuple):
+        return tuple([pythonize(value) for value in var])
+    if isinstance(var, dict):
+        return dict(
+        [(pythonize(key), pythonize(value)) for key, value in var.iteritems()]
+        )
+
+    for klass in [unicode, str, bool, int, float, long]:
+        if isinstance(var,klass):
+            return klass(var)
+    return var
