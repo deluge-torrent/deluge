@@ -1597,6 +1597,15 @@ namespace libtorrent
 			&& t->have_piece(index))
 			return;
 
+		if (index < 0 || index >= int(m_have_piece.size()))
+		{
+#ifdef TORRENT_VERBOSE_LOGGING
+			(*m_logger) << time_now_string() << " <== INVALID_ALLOWED_FAST [ " << index << " | s: "
+				<< int(m_have_piece.size()) << " ]\n";
+#endif
+			return;
+		}
+
 		m_allowed_fast.push_back(index);
 
 		// if the peer has the piece and we want
@@ -3020,4 +3029,5 @@ namespace libtorrent
 		return m_num_pieces == (int)m_have_piece.size() && m_num_pieces > 0;
 	}
 }
+
 
