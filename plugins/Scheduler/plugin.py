@@ -72,7 +72,7 @@ class plugin_Scheduler:
         self.button_state_temp = copy.deepcopy(self.button_state)
 
         #dialog
-        dialog = gtk.Dialog("Scheduler Settings")
+        dialog = gtk.Dialog(_("Scheduler Settings"))
         dialog.set_default_size(600, 270)
 
         #buttons
@@ -82,8 +82,8 @@ class plugin_Scheduler:
         #text
         hover_text = gtk.Label()
 
-        dllimit_label = gtk.Label("Limit download to:")
-        ullimit_label = gtk.Label("Limit upload to:")
+        dllimit_label = gtk.Label(_("Limit download to:"))
+        ullimit_label = gtk.Label(_("Limit upload to:"))
 
         #Select Widget
         drawing = scheduler_select(self.button_state_temp, hover_text, self.days)
@@ -92,6 +92,8 @@ class plugin_Scheduler:
         vbox_main = gtk.VBox()
         hbox_main = gtk.HBox()
         vbox_sub = gtk.VBox()
+        hbox_key = gtk.HBox()
+        hbox_info = gtk.HBox()
         hbox_limit = gtk.HBox()
 
         #seperator
@@ -120,12 +122,19 @@ class plugin_Scheduler:
         dialog.vbox.pack_start(vbox_main)
 
         vbox_main.pack_start(hbox_main)
-        vbox_main.pack_start(hover_text, False, True, 5)
+        vbox_main.pack_start(hover_text, False, True)
+        vbox_main.pack_start(hbox_key, False, True)
+        vbox_main.pack_start(hbox_info, False, True)
         vbox_main.pack_start(sep, False, True)
         vbox_main.pack_start(hbox_limit, False, True, 5)
 
         hbox_main.pack_start(vbox_sub, False, True, 5)
         hbox_main.pack_start(drawing)
+
+        hbox_key.pack_start(gtk.Label(_("Yellow is limited, red is stopped and \
+green is unlimited.")), True, False)
+        hbox_info.pack_start(gtk.Label(_("When set to -1 (unlimited), the global limits in Deluge's preferences \
+will be obeyed.")), True, False)
 
         hbox_limit.pack_start(dllimit_label, True, False)
         hbox_limit.pack_start(dlinput, True, False)
