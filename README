@@ -42,6 +42,7 @@ libboost-dev >= 1.33.1
 libboost-thread-dev
 libboost-date-time-dev
 libboost-filesystem-dev
+libboost-regex-dev
 libboost-serialization-dev
 libssl-dev
 zlib1g-dev
