@@ -173,6 +173,11 @@ class TorrentManager:
             # The torrent was not added to the session
             return None       
 
+        # Create a Torrent object
+        torrent = Torrent(filename, handle, compact)
+        # Add the torrent object to the dictionary
+        self.torrents[torrent.torrent_id] = torrent
+        
         # Set per-torrent limits
         handle.set_max_connections(self.max_connections)
         handle.set_max_uploads(self.max_uploads)
@@ -199,10 +204,7 @@ class TorrentManager:
             log.warning("Unable to save torrent file: %s", filename)
         
         log.debug("Torrent %s added.", handle.info_hash())
-        # Create a Torrent object
-        torrent = Torrent(filename, handle, compact)
-        # Add the torrent object to the dictionary
-        self.torrents[torrent.torrent_id] = torrent
+
         # Save the session state
         self.save_state()
         return torrent.torrent_id
@@ -378,15 +380,21 @@ class TorrentManager:
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the tracker status for the torrent
-        self.torrents[torrent_id].set_tracker_status(_("Announce OK"))
+        try:
+            self.torrents[torrent_id].set_tracker_status(_("Announce OK"))
+        except KeyError:
+            log.debug("torrent_id doesn't exist.")
 
     def on_alert_tracker_announce(self, alert):
         log.debug("on_alert_tracker_announce")
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the tracker status for the torrent
-        self.torrents[torrent_id].set_tracker_status(_("Announce Sent"))
-                
+        try:
+            self.torrents[torrent_id].set_tracker_status(_("Announce Sent"))
+        except KeyError:
+            log.debug("torrent_id doesn't exist.")
+
     def on_alert_tracker(self, alert):
         log.debug("on_alert_tracker")
         # Get the torrent_id
@@ -396,7 +404,10 @@ class TorrentManager:
             _("HTTP code"), alert.status_code, 
             _("times in a row"), alert.times_in_row)
         # Set the tracker status for the torrent
-        self.torrents[torrent_id].set_tracker_status(tracker_status)
+        try:
+            self.torrents[torrent_id].set_tracker_status(tracker_status)
+        except KeyError:
+            log.debug("torrent_id doesn't exist.")
                 
     def on_alert_tracker_warning(self, alert):
         log.debug("on_alert_tracker_warning")
@@ -404,4 +415,7 @@ class TorrentManager:
         torrent_id = str(alert.handle.info_hash())
         tracker_status = '%s: %s' % (_("Warning"), str(alert.msg()))
         # Set the tracker status for the torrent
-        self.torrents[torrent_id].set_tracker_status(tracker_status)
+        try:
+            self.torrents[torrent_id].set_tracker_status(tracker_status)
+        except KeyError:
+            log.debug("torrent_id doesn't exist.")
