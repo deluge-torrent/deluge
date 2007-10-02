@@ -130,20 +130,7 @@ class TorrentDetails:
             self.eta.set_text(deluge.common.ftime(status["eta"]))
             self.share_ratio.set_text("%.3f" % status["ratio"])
             self.tracker.set_text(status["tracker"])
-            if status["tracker_status"] == "Announce OK":
-                tracker_msg = _("Announce OK")
-            elif status["tracker_status"] == "Announce Sent":
-                tracker_msg = _("Announce Sent")
-            elif 'Alert' in status["tracker_status"]:
-                tracker_msg = status["tracker_status"].replace("Alert", \
-                    _("Alert"))
-                tracker_msg = tracker_msg.replace("HTTP code", _("HTTP code"))
-                tracker_msg = tracker_msg.replace("times in a row", \
-                    _("times in a row"))
-            elif 'Warning' in status["tracker_status"]:
-                tracker_msg = status["tracker_status"].replace("Warning", \
-                    _("Warning"))
-            self.tracker_status.set_text(tracker_msg)
+            self.tracker_status.set_text(status["tracker_status"])
             self.next_announce.set_text(
                 deluge.common.ftime(status["next_announce"]))
 

@@ -36,6 +36,9 @@ import dbus
 import dbus.service
 from dbus.mainloop.glib import DBusGMainLoop
 DBusGMainLoop(set_as_default=True)
+import gettext
+import locale
+import pkg_resources
 
 import gobject
 
@@ -73,6 +76,19 @@ DEFAULT_PREFS = {
 
 class Core(dbus.service.Object):
     def __init__(self, path="/org/deluge_torrent/Core"):
+        # Initialize gettext
+        locale.setlocale(locale.LC_MESSAGES, '')
+        locale.bindtextdomain("deluge", 
+                    pkg_resources.resource_filename(
+                                            "deluge", "i18n"))
+        locale.textdomain("deluge")
+        gettext.bindtextdomain("deluge",
+                    pkg_resources.resource_filename(
+                                            "deluge", "i18n"))
+        gettext.textdomain("deluge")
+        gettext.install("deluge",
+                    pkg_resources.resource_filename(
+                                            "deluge", "i18n"))
         log.debug("Core init..")
         
         # Setup DBUS

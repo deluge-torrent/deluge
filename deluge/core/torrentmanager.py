@@ -378,23 +378,23 @@ class TorrentManager:
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the tracker status for the torrent
-        self.torrents[torrent_id].set_tracker_status("Announce OK")
+        self.torrents[torrent_id].set_tracker_status(_("Announce OK"))
 
     def on_alert_tracker_announce(self, alert):
         log.debug("on_alert_tracker_announce")
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the tracker status for the torrent
-        self.torrents[torrent_id].set_tracker_status("Announce Sent")
+        self.torrents[torrent_id].set_tracker_status(_("Announce Sent"))
                 
     def on_alert_tracker(self, alert):
         log.debug("on_alert_tracker")
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         tracker_status = "%s: %s (%s=%s, %s=%s)" % \
-            ("Alert", str(alert.msg()), 
-            "HTTP code", alert.status_code, 
-            "times in a row", alert.times_in_row)
+            (_("Alert"), str(alert.msg()), 
+            _("HTTP code"), alert.status_code, 
+            _("times in a row"), alert.times_in_row)
         # Set the tracker status for the torrent
         self.torrents[torrent_id].set_tracker_status(tracker_status)
                 
@@ -402,6 +402,6 @@ class TorrentManager:
         log.debug("on_alert_tracker_warning")
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
-        tracker_status = '%s: %s' % ("Warning", str(alert.msg()))
+        tracker_status = '%s: %s' % (_("Warning"), str(alert.msg()))
         # Set the tracker status for the torrent
         self.torrents[torrent_id].set_tracker_status(tracker_status)
