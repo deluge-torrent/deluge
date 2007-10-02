@@ -92,7 +92,8 @@ class TorrentDetails:
                 "total_done", "total_payload_download", "total_uploaded",
                 "total_payload_upload", "download_payload_rate", 
                 "upload_payload_rate", "num_peers", "num_seeds", "total_peers",
-                "total_seeds", "eta", "ratio", "tracker", "next_announce"]
+                "total_seeds", "eta", "ratio", "tracker", "next_announce",
+                "tracker_status"]
             status = functions.get_torrent_status(self.core, 
                                                     selected, 
                                                     status_keys)
@@ -129,6 +130,7 @@ class TorrentDetails:
             self.eta.set_text(deluge.common.ftime(status["eta"]))
             self.share_ratio.set_text("%.3f" % status["ratio"])
             self.tracker.set_text(status["tracker"])
+            self.tracker_status.set_text(status["tracker_status"])
             self.next_announce.set_text(
                 deluge.common.ftime(status["next_announce"]))
 

@@ -49,12 +49,12 @@ class Torrent:
         self.total_uploaded = 0
         # Set the allocation mode
         self.compact = compact
-        # The reply from the tracker
-        self.tracker_reply = ""
+        # The tracker status
+        self.tracker_status = ""
     
-    def set_tracker_reply(self, reply):
-        """Sets the tracker reply message"""
-        self.tracker_reply = reply
+    def set_tracker_status(self, status):
+        """Sets the tracker status"""
+        self.tracker_status = status
         
     def get_state(self):
         """Returns the state of this torrent for saving to the session state"""
@@ -140,7 +140,8 @@ class Torrent:
             "total_wanted": status.total_wanted,
             "eta": self.get_eta(),
             "ratio": self.get_ratio(),
-            "tracker": status.current_tracker
+            "tracker": status.current_tracker,
+            "tracker_status": self.tracker_status
         }
         
         # Create the desired status dictionary and return it

@@ -12,7 +12,6 @@
 * Figure out easy way for user-made plugins to add i18n support.
 * Change the menubar.py gtkui component to menus.py and add support for plugins
     to add menuitems to the torrentmenu in an easy way.
-* Add the tracker responses to the torrent details
 * Restart daemon function
 * Sync the details pane to current trunk
 * Automatically save torrent state every ~5 minutes, much like how

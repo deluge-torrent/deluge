@@ -87,6 +87,13 @@ class TorrentManager:
             self.on_alert_torrent_finished)
         self.alerts.register_handler("torrent_paused_alert",
             self.on_alert_torrent_paused)
+        self.alerts.register_handler("tracker_reply_alert",
+            self.on_alert_tracker_reply)
+        self.alerts.register_handler("tracker_announce_alert",
+            self.on_alert_tracker_announce)
+        self.alerts.register_handler("tracker_alert", self.on_alert_tracker)
+        self.alerts.register_handler("tracker_warning_alert",
+            self.on_alert_tracker_warning)
             
     def shutdown(self):
         log.debug("TorrentManager shutting down..")
@@ -364,4 +371,37 @@ class TorrentManager:
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Write the fastresume file
-        self.write_fastresume(torrent_id)  
+        self.write_fastresume(torrent_id)
+        
+    def on_alert_tracker_reply(self, alert):
+        log.debug("on_alert_tracker_reply")
+        # Get the torrent_id
+        torrent_id = str(alert.handle.info_hash())
+        # Set the tracker status for the torrent
+        self.torrents[torrent_id].set_tracker_status("Announce OK")
+
+    def on_alert_tracker_announce(self, alert):
+        log.debug("on_alert_tracker_announce")
+        # Get the torrent_id
+        torrent_id = str(alert.handle.info_hash())
+        # Set the tracker status for the torrent
+        self.torrents[torrent_id].set_tracker_status("Announce Sent")
+                
+    def on_alert_tracker(self, alert):
+        log.debug("on_alert_tracker")
+        # Get the torrent_id
+        torrent_id = str(alert.handle.info_hash())
+        tracker_status = "%s: %s (%s=%s, %s=%s)" % \
+            ("Alert", str(alert.msg()), 
+            "HTTP code", alert.status_code, 
+            "times in a row", alert.times_in_row)
+        # Set the tracker status for the torrent
+        self.torrents[torrent_id].set_tracker_status(tracker_status)
+                
+    def on_alert_tracker_warning(self, alert):
+        log.debug("on_alert_tracker_warning")
+        # Get the torrent_id
+        torrent_id = str(alert.handle.info_hash())
+        tracker_status = '%s: %s' % ("Warning", str(alert.msg()))
+        # Set the tracker status for the torrent
+        self.torrents[torrent_id].set_tracker_status(tracker_status)
