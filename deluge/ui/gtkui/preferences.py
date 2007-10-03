@@ -162,8 +162,6 @@ class Preferences:
             self.gtkui_config["start_in_tray"])
         self.glade.get_widget("chk_lock_tray").set_active(
             self.gtkui_config["lock_tray"])
-        self.glade.get_widget("txt_tray_password").set_text(
-            self.gtkui_config["tray_password"])
         self.glade.get_widget("combo_file_manager").set_active(
             self.gtkui_config["stock_file_manager"])
         self.glade.get_widget("txt_open_folder_location").set_text(
@@ -251,12 +249,10 @@ class Preferences:
             self.glade.get_widget("chk_start_in_tray").get_active()
         new_gtkui_config["lock_tray"] = \
             self.glade.get_widget("chk_lock_tray").get_active()
-        if len(self.glade.get_widget("txt_tray_password").get_text()) == 40:
-            password = self.glade.get_widget("txt_tray_password").get_text()
-        else:
-            password = sha.new(self.glade.get_widget("txt_tray_password").\
-                get_text()).hexdigest()
-        new_gtkui_config["tray_password"] = password
+        passhex = sha.new(self.glade.get_widget("txt_tray_password").get_text())\
+            .hexdigest()
+        if passhex != "c07eb5a8c0dc7bb81c217b67f11c3b7a5e95ffd7":
+            new_gtkui_config["tray_password"] = passhex
         new_gtkui_config["stock_file_manager"] = \
             self.glade.get_widget("combo_file_manager").get_active()
         new_gtkui_config["open_folder_location"] = \
