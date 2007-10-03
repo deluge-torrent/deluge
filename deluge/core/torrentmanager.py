@@ -37,6 +37,8 @@ import pickle
 import os.path
 import os
 
+import gobject
+
 import deluge.libtorrent as lt
 
 import deluge.common
@@ -75,6 +77,9 @@ class TorrentManager:
         self.torrents = {}
         # Try to load the state from file
         self.load_state()
+        
+        # Save the state every 5 minutes
+        self.save_state_timer = gobject.timeout_add(300000, self.save_state)
     
         # Register set functions
         self.config.register_set_function("max_connections_per_torrent",
@@ -317,6 +322,9 @@ class TorrentManager:
             state_file.close()
         except IOError:
             log.warning("Unable to save state file.")
+            
+        # We return True so that the timer thread will continue
+        return True
     
     def delete_fastresume(self, torrent_id):
         """Deletes the .fastresume file"""
