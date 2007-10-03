@@ -32,25 +32,20 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
+
 import os
 import gtk
 import dbus
 import deluge.common as common
 from dbus_pythonize import pythonize
 import base64
+from md5 import md5
 import random
 random.seed()
 
 dbus_interface="org.deluge_torrent.dbusplugin"
 dbus_service="/org/deluge_torrent/DelugeDbusPlugin"
 
-dbus_manager = None
-def get_dbus_manager(*args):
-    #another way to make a singleton.
-    global dbus_manager
-    if not dbus_manager:
-        dbus_manager = DbusManager(*args)
-    return dbus_manager
 
 class DbusManager(dbus.service.Object):
     def __init__(self, core, interface,config,config_file):
@@ -94,7 +89,7 @@ class DbusManager(dbus.service.Object):
             "name": state["name"],
             "total_size": state["total_size"],
             "num_pieces": state["num_pieces"],
-            "state": state['state'],
+            #"state": int(status.state), #?
             "paused": self.core.is_user_paused(torrent_id),
             "progress": int(state["progress"] * 100),
             "next_announce": state["next_announce"],
@@ -108,6 +103,7 @@ class DbusManager(dbus.service.Object):
             "eta": common.estimate_eta(state),
             "ratio": self.interface.manager.calc_ratio(torrent_id,state),
             #non 0.6 values follow here:
+            "message":  self.interface.get_message_from_state(state),
             "tracker_status": state.get("tracker_status","?"),
             "uploaded_memory": torrent.uploaded_memory,
         }
@@ -178,6 +174,39 @@ class DbusManager(dbus.service.Object):
         print 'write:',filename
         self._add_torrent(filename)
         return True
+
+    @dbus.service.method(dbus_interface=dbus_interface,
+        in_signature="s",out_signature="v")
+    def get_webui_config(self,key):
+        """
+        return data from wevbui config.
+        not in 0.6
+        """
+        retval = self.config.get(str(key))
+        #print 'get webui config:', str(key), retval
+        if retval == None:
+            retval = False #dbus does not accept None  :(
+
+        return retval
+
+    @dbus.service.method(dbus_interface=dbus_interface,
+        in_signature="sv",out_signature="")
+    def set_webui_config(self, key, value):
+        """
+        return data from wevbui config.
+        not in 0.6
+        """
+        #print 'set webui config:', str(key), pythonize(value)
+        self.config.set(str(key), pythonize(value))
+        self.config.save(self.config_file)
+
+    @dbus.service.method(dbus_interface=dbus_interface,
+        in_signature="s",out_signature="b")
+    def check_pwd(self, pwd):
+        m = md5()
+        m.update(self.config.get('pwd_salt'))
+        m.update(pwd)
+        return (m.digest() == self.config.get('pwd_md5'))
 
     #internal
     def _add_torrent(self, filename):
