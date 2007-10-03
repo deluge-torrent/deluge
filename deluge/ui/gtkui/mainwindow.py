@@ -68,9 +68,10 @@ class MainWindow:
         self.is_minimized = False
 
         # Connect events
-        self.window.connect("window-state-event", self.window_state_event)
-        self.window.connect("configure-event", self.window_configure_event)
-        self.vpaned.connect("notify::position", self.vpaned_position_event)
+        self.window.connect("window-state-event", self.on_window_state_event)
+        self.window.connect("configure-event", self.on_window_configure_event)
+        self.window.connect("delete-event", self.on_window_delete_event)
+        self.vpaned.connect("notify::position", self.on_vpaned_position_event)
         
         # Initialize various components of the gtkui
         self.menubar = MenuBar(self)
@@ -141,14 +142,14 @@ class MainWindow:
         self.vpaned.set_position(
             self.config["window_height"] - self.config["window_pane_position"])
             
-    def window_configure_event(self, widget, event):
+    def on_window_configure_event(self, widget, event):
         if self.config["window_maximized"] == False:
             self.config.set("window_x_pos", self.window.get_position()[0])
             self.config.set("window_y_pos", self.window.get_position()[1])
             self.config.set("window_width", event.width)
             self.config.set("window_height", event.height)
 
-    def window_state_event(self, widget, event):
+    def on_window_state_event(self, widget, event):
         if event.changed_mask & gtk.gdk.WINDOW_STATE_MAXIMIZED:
             if event.new_window_state & gtk.gdk.WINDOW_STATE_MAXIMIZED:
                 self.config.set("window_maximized", True)
@@ -165,7 +166,15 @@ class MainWindow:
                 self.update()
         return False
 
-    def vpaned_position_event(self, obj, param):
+    def on_window_delete_event(self, widget, event):
+        if self.config["close_to_tray"] and self.config["enable_system_tray"]:
+            self.hide()
+        else:
+            self.quit()
+            
+        return True
+        
+    def on_vpaned_position_event(self, obj, param):
         self.config.set("window_pane_position", 
             self.config["window_height"] - self.vpaned.get_position())
 

@@ -1,5 +1,4 @@
 * Have the ui better handle not being able to connect to the daemon.
-* Tray locking and other tray options (close to tray, start in tray..)
 * Add state saving to listview.. this includes saving column size and position.
 * Queue plugin 'apply_queue' stuff.. Just finishing the queue plugin and it's
     intended functionality.
