@@ -38,6 +38,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/natpmp.hpp"
 #include "libtorrent/io.hpp"
 #include "libtorrent/assert.hpp"
+#include "libtorrent/enum_net.hpp"
 
 using boost::bind;
 using namespace libtorrent;
@@ -48,7 +49,7 @@ namespace libtorrent
 {
 	// defined in upnp.cpp
 	bool is_local(address const& a);
-	address_v4 guess_local_address(asio::io_service&);
+	address guess_local_address(asio::io_service&);
 }
 
 natpmp::natpmp(io_service& ios, address const& listen_interface, portmap_callback_t const& cb)
@@ -71,10 +72,10 @@ natpmp::natpmp(io_service& ios, address const& listen_interface, portmap_callbac
 
 void natpmp::rebind(address const& listen_interface) try
 {
-	address_v4 local = address_v4::any();
-	if (listen_interface.is_v4() && listen_interface != address_v4::any())
+	address local = address_v4::any();
+	if (listen_interface != address_v4::any())
 	{
-		local = listen_interface.to_v4();
+		local = listen_interface;
 	}
 	else
 	{
@@ -101,14 +102,12 @@ void natpmp::rebind(address const& listen_interface) try
 
 	m_disabled = false;
 
-	// assume the router is located on the local
-	// network as x.x.x.1
-	udp::endpoint nat_endpoint(
-		address_v4((local.to_ulong() & 0xffffff00) | 1), 5351);
+	asio::error_code ec;
+	udp::endpoint nat_endpoint(router_for_interface(local, ec), 5351);
+	if (ec)
+		throw std::runtime_error("cannot retrieve router address");
 
 	if (nat_endpoint == m_nat_endpoint) return;
-
-	// TODO: find a better way to figure out the router IP
 	m_nat_endpoint = nat_endpoint;
 
 #if defined(TORRENT_LOGGING) || defined(TORRENT_VERBOSE_LOGGING)
@@ -161,7 +160,7 @@ void natpmp::update_mapping(int i, int port)
 		m_retry_count = 0;
 		send_map_request(i);
 		m_socket.async_receive_from(asio::buffer(&m_response_buffer, 16)
-			, m_remote, bind(&natpmp::on_reply, this, _1, _2));
+			, m_remote, bind(&natpmp::on_reply, self(), _1, _2));
 	}
 }
 
@@ -194,7 +193,7 @@ void natpmp::send_map_request(int i) try
 	// linear back-off instead of exponential
 	++m_retry_count;
 	m_send_timer.expires_from_now(milliseconds(250 * m_retry_count));
-	m_send_timer.async_wait(bind(&natpmp::resend_request, this, i, _1));
+	m_send_timer.async_wait(bind(&natpmp::resend_request, self(), i, _1));
 }
 catch (std::exception& e)
 {
@@ -227,7 +226,7 @@ void natpmp::on_reply(asio::error_code const& e
 		if (m_remote != m_nat_endpoint)
 		{
 			m_socket.async_receive_from(asio::buffer(&m_response_buffer, 16)
-				, m_remote, bind(&natpmp::on_reply, this, _1, _2));
+				, m_remote, bind(&natpmp::on_reply, self(), _1, _2));
 			return;
 		}
 		
@@ -346,7 +345,7 @@ void natpmp::update_expiration_timer()
 	if (min_index >= 0)
 	{
 		m_refresh_timer.expires_from_now(min_expire - now);
-		m_refresh_timer.async_wait(bind(&natpmp::mapping_expired, this, _1, min_index));
+		m_refresh_timer.async_wait(bind(&natpmp::mapping_expired, self(), _1, min_index));
 	}
 }
 
@@ -369,7 +368,7 @@ void natpmp::refresh_mapping(int i)
 		m_retry_count = 0;
 		send_map_request(i);
 		m_socket.async_receive_from(asio::buffer(&m_response_buffer, 16)
-			, m_remote, bind(&natpmp::on_reply, this, _1, _2));
+			, m_remote, bind(&natpmp::on_reply, self(), _1, _2));
 	}
 }
 

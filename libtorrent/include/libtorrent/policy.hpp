@@ -80,9 +80,10 @@ namespace libtorrent
 		// for peer choking management
 		void pulse();
 
+		struct peer;
 		// this is called once for every peer we get from
 		// the tracker, pex, lsd or dht.
-		void peer_from_tracker(const tcp::endpoint& remote, const peer_id& pid
+		policy::peer* peer_from_tracker(const tcp::endpoint& remote, const peer_id& pid
 			, int source, char flags);
 
 		// called when an incoming connection is accepted
@@ -212,8 +213,8 @@ namespace libtorrent
 
 		int num_peers() const { return m_peers.size(); }
 
-		typedef std::list<peer>::iterator iterator;
-		typedef std::list<peer>::const_iterator const_iterator;
+		typedef std::multimap<address, peer>::iterator iterator;
+		typedef std::multimap<address, peer>::const_iterator const_iterator;
 		iterator begin_peer() { return m_peers.begin(); }
 		iterator end_peer() { return m_peers.end(); }
 
@@ -237,7 +238,7 @@ namespace libtorrent
 		iterator find_disconnect_candidate();
 		iterator find_connect_candidate();
 
-		std::list<peer> m_peers;
+		std::multimap<address, peer> m_peers;
 
 		torrent* m_torrent;
 

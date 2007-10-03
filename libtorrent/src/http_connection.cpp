@@ -235,7 +235,7 @@ void http_connection::on_read(asio::error_code const& e
 		m_called = true;
 		char const* data = 0;
 		std::size_t size = 0;
-		if (m_bottled)
+		if (m_bottled && m_parser.header_finished())
 		{
 			data = m_parser.get_body().begin;
 			size = m_parser.get_body().left();
@@ -263,7 +263,7 @@ void http_connection::on_read(asio::error_code const& e
 		if (code >= 300 && code < 400)
 		{
 			// attempt a redirect
-			std::string url = m_parser.header<std::string>("location");
+			std::string const& url = m_parser.header("location");
 			if (url.empty())
 			{
 				// missing location header

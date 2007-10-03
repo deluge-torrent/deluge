@@ -205,6 +205,15 @@ namespace detail
 					// lock the session to add the new torrent
 					session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 					mutex::scoped_lock l2(m_mutex);
+
+					if (m_torrents.empty() || m_torrents.front() != t)
+					{
+						// this means the torrent was removed right after it was
+						// added. Abort the checking.
+						t.reset();
+						continue;
+					}
+					
 					// clear the resume data now that it has been used
 					// (the fast resume data is now parsed and stored in t)
 					t->resume_data = entry();
@@ -214,6 +223,7 @@ namespace detail
 					{
 						INVARIANT_CHECK;
 
+						assert(!m_torrents.empty());
 						assert(m_torrents.front() == t);
 
 						t->torrent_ptr->files_checked(t->unfinished_pieces);
@@ -243,6 +253,14 @@ namespace detail
 							{
 								t->torrent_ptr->get_policy().peer_from_tracker(*i, id
 									, peer_info::resume_data, 0);
+							}
+
+							for (std::vector<tcp::endpoint>::const_iterator i = t->banned_peers.begin();
+								i != t->banned_peers.end(); ++i)
+							{
+								policy::peer* p = t->torrent_ptr->get_policy().peer_from_tracker(*i, id
+									, peer_info::resume_data, 0);
+								if (p) p->banned = true;
 							}
 						}
 						else
@@ -507,7 +525,8 @@ namespace detail
 		std::pair<int, int> listen_port_range
 		, fingerprint const& cl_fprint
 		, char const* listen_interface)
-		: m_strand(m_io_service)
+		: m_send_buffers(send_buffer_size)
+		, m_strand(m_io_service)
 		, m_files(40)
 		, m_half_open(m_io_service)
 		, m_download_channel(m_io_service, peer_connection::download_channel)
@@ -546,7 +565,7 @@ namespace detail
 #endif
 
 #ifdef TORRENT_STATS
-		m_stats_logger.open("session_stats.log");
+		m_stats_logger.open("session_stats.log", std::ios::trunc);
 		m_stats_logger <<
 			"1. second\n"
 			"2. upload rate\n"
@@ -555,7 +574,9 @@ namespace detail
 			"5. seeding torrents\n"
 			"6. peers\n"
 			"7. connecting peers\n"
+			"8. disk block buffers\n"
 			"\n";
+		m_buffer_usage_logger.open("buffer_stats.log", std::ios::trunc);
 		m_second_counter = 0;
 #endif
 
@@ -999,7 +1020,8 @@ namespace detail
 	{
 		session_impl::mutex_t::scoped_lock l(m_mutex);
 
-		INVARIANT_CHECK;
+// too expensive
+//		INVARIANT_CHECK;
 
 		if (e)
 		{
@@ -1031,7 +1053,7 @@ namespace detail
 			else
 				++downloading_torrents;
 		}
-		int num_connections = 0;
+		int num_complete_connections = 0;
 		int num_half_open = 0;
 		for (connection_map::iterator i = m_connections.begin()
 			, end(m_connections.end()); i != end; ++i)
@@ -1039,7 +1061,7 @@ namespace detail
 			if (i->second->is_connecting())
 				++num_half_open;
 			else
-				++num_connections;
+				++num_complete_connections;
 		}
 		
 		m_stats_logger
@@ -1048,8 +1070,9 @@ namespace detail
 			<< m_stat.download_rate() << "\t"
 			<< downloading_torrents << "\t"
 			<< seeding_torrents << "\t"
-			<< num_connections << "\t"
+			<< num_complete_connections << "\t"
 			<< num_half_open << "\t"
+			<< m_disk_thread.disk_allocations() << "\t"
 			<< std::endl;
 #endif
 
@@ -1755,7 +1778,6 @@ namespace detail
 			assert(m_torrents.find(i_hash) == m_torrents.end());
 			return;
 		}
-		l.unlock();
 
 		if (h.m_chk)
 		{
@@ -2195,9 +2217,9 @@ namespace detail
 
 		INVARIANT_CHECK;
 
-		m_lsd.reset(new lsd(m_io_service
+		m_lsd = new lsd(m_io_service
 			, m_listen_interface.address()
-			, bind(&session_impl::on_lsd_peer, this, _1, _2)));
+			, bind(&session_impl::on_lsd_peer, this, _1, _2));
 	}
 	
 	void session_impl::start_natpmp()
@@ -2206,10 +2228,10 @@ namespace detail
 
 		INVARIANT_CHECK;
 
-		m_natpmp.reset(new natpmp(m_io_service
+		m_natpmp = new natpmp(m_io_service
 			, m_listen_interface.address()
 			, bind(&session_impl::on_port_mapping
-				, this, _1, _2, _3)));
+				, this, _1, _2, _3));
 
 		m_natpmp->set_mappings(m_listen_interface.port(),
 #ifndef TORRENT_DISABLE_DHT
@@ -2224,11 +2246,11 @@ namespace detail
 
 		INVARIANT_CHECK;
 
-		m_upnp.reset(new upnp(m_io_service, m_half_open
+		m_upnp = new upnp(m_io_service, m_half_open
 			, m_listen_interface.address()
 			, m_settings.user_agent
 			, bind(&session_impl::on_port_mapping
-				, this, _1, _2, _3)));
+				, this, _1, _2, _3));
 
 		m_upnp->set_mappings(m_listen_interface.port(), 
 #ifndef TORRENT_DISABLE_DHT
@@ -2240,7 +2262,7 @@ namespace detail
 	void session_impl::stop_lsd()
 	{
 		mutex_t::scoped_lock l(m_mutex);
-		m_lsd.reset();
+		m_lsd = 0;
 	}
 	
 	void session_impl::stop_natpmp()
@@ -2248,7 +2270,7 @@ namespace detail
 		mutex_t::scoped_lock l(m_mutex);
 		if (m_natpmp.get())
 			m_natpmp->close();
-		m_natpmp.reset();
+		m_natpmp = 0;
 	}
 	
 	void session_impl::stop_upnp()
@@ -2256,9 +2278,38 @@ namespace detail
 		mutex_t::scoped_lock l(m_mutex);
 		if (m_upnp.get())
 			m_upnp->close();
-		m_upnp.reset();
+		m_upnp = 0;
 	}
 	
+	void session_impl::free_disk_buffer(char* buf)
+	{
+		m_disk_thread.free_buffer(buf);
+	}
+	
+	std::pair<char*, int> session_impl::allocate_buffer(int size)
+	{
+		int num_buffers = (size + send_buffer_size - 1) / send_buffer_size;
+#ifdef TORRENT_STATS
+		m_buffer_allocations += num_buffers;
+		m_buffer_usage_logger << log_time() << " protocol_buffer: "
+			<< (m_buffer_allocations * send_buffer_size) << std::endl;
+#endif
+		return std::make_pair((char*)m_send_buffers.ordered_malloc(num_buffers)
+			, num_buffers * send_buffer_size);
+	}
+
+	void session_impl::free_buffer(char* buf, int size)
+	{
+		assert(size % send_buffer_size == 0);
+		int num_buffers = size / send_buffer_size;
+#ifdef TORRENT_STATS
+		m_buffer_allocations -= num_buffers;
+		assert(m_buffer_allocations >= 0);
+		m_buffer_usage_logger << log_time() << " protocol_buffer: "
+			<< (m_buffer_allocations * send_buffer_size) << std::endl;
+#endif
+		m_send_buffers.ordered_free(buf, num_buffers);
+	}	
 
 #ifndef NDEBUG
 	void session_impl::check_invariant() const
@@ -2328,9 +2379,9 @@ namespace detail
 
 			// the peers
 
-			if (rd.find_key("peers"))
+			if (entry* peers_entry = rd.find_key("peers"))
 			{
-				entry::list_type& peer_list = rd["peers"].list();
+				entry::list_type& peer_list = peers_entry->list();
 
 				std::vector<tcp::endpoint> tmp_peers;
 				tmp_peers.reserve(peer_list.size());
@@ -2344,6 +2395,24 @@ namespace detail
 				}
 
 				peers.swap(tmp_peers);
+			}
+
+			if (entry* banned_peers_entry = rd.find_key("banned_peers"))
+			{
+				entry::list_type& peer_list = banned_peers_entry->list();
+
+				std::vector<tcp::endpoint> tmp_peers;
+				tmp_peers.reserve(peer_list.size());
+				for (entry::list_type::iterator i = peer_list.begin();
+					i != peer_list.end(); ++i)
+				{
+					tcp::endpoint a(
+						address::from_string((*i)["ip"].string())
+						, (unsigned short)(*i)["port"].integer());
+					tmp_peers.push_back(a);
+				}
+
+				banned_peers.swap(tmp_peers);
 			}
 
 			// read piece map

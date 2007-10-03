@@ -775,6 +775,8 @@ namespace libtorrent
 
 		if (total_done >= m_torrent_file->total_size())
 		{
+			// Thist happens when a piece has been downloaded completely
+			// but not yet verified against the hash
 			std::copy(m_have_pieces.begin(), m_have_pieces.end()
 				, std::ostream_iterator<bool>(std::cerr, " "));
 			std::cerr << std::endl;
@@ -1022,11 +1024,26 @@ namespace libtorrent
 #endif
 
 		disconnect_all();
-		if (m_owning_storage.get()) m_storage->async_release_files();
+		if (m_owning_storage.get())
+			m_storage->async_release_files(
+				bind(&torrent::on_files_released, shared_from_this(), _1, _2));
+			
 		m_owning_storage = 0;
 	}
 
 	void torrent::on_files_released(int ret, disk_io_job const& j)
+	{
+/*
+		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
+
+		if (alerts().should_post(alert::warning))
+		{
+			alerts().post_alert(torrent_paused_alert(get_handle(), "torrent paused"));
+		}
+*/
+	}
+
+	void torrent::on_torrent_paused(int ret, disk_io_job const& j)
 	{
 		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 
@@ -1464,9 +1481,6 @@ namespace libtorrent
 		m_policy->connection_closed(*p);
 		p->set_peer_info(0);
 		m_connections.erase(i);
-#ifndef NDEBUG
-		m_policy->check_invariant();
-#endif
 	}
 	catch (std::exception& e)
 	{
@@ -1731,7 +1745,7 @@ namespace libtorrent
 		m_resolving_country = false;
 
 		// must be ordered in increasing order
-		country_entry country_map[] =
+		static const country_entry country_map[] =
 		{
 			  {  4,  "AF"}, {  8,  "AL"}, { 10,  "AQ"}, { 12,  "DZ"}, { 16,  "AS"}
 			, { 20,  "AD"}, { 24,  "AO"}, { 28,  "AG"}, { 31,  "AZ"}, { 32,  "AR"}
@@ -1801,7 +1815,7 @@ namespace libtorrent
 			// look up the country code in the map
 			const int size = sizeof(country_map)/sizeof(country_map[0]);
 			country_entry tmp = {country, ""};
-			country_entry* i =
+			country_entry const* i =
 				std::lower_bound(country_map, country_map + size, tmp
 					, bind(&country_entry::code, _1) < bind(&country_entry::code, _2));
 			if (i == country_map + size
@@ -2118,7 +2132,9 @@ namespace libtorrent
 			, bind(&peer_connection::disconnect, _1));
 
 		assert(m_storage);
-		m_storage->async_release_files();
+		// we need to keep the object alive during this operation
+		m_storage->async_release_files(
+			bind(&torrent::on_files_released, shared_from_this(), _1, _2));
 	}
 	
 	// called when torrent is complete (all pieces downloaded)
@@ -2381,6 +2397,8 @@ namespace libtorrent
 #ifndef NDEBUG
 	void torrent::check_invariant() const
 	{
+		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
+
 		int num_uploads = 0;
 		std::map<piece_block, int> num_requests;
 		for (const_peer_iterator i = begin(); i != end(); ++i)
@@ -2550,10 +2568,8 @@ namespace libtorrent
 		if (m_owning_storage.get())
 		{
 			assert(m_storage);
-			// TOOD: add a callback which posts
-			// an alert for the client to sync. with
 			m_storage->async_release_files(
-				bind(&torrent::on_files_released, shared_from_this(), _1, _2));
+				bind(&torrent::on_torrent_paused, shared_from_this(), _1, _2));
 		}
 	}
 

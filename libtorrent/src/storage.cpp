@@ -1065,6 +1065,11 @@ namespace libtorrent
 		return m_storage->verify_resume_data(rd, error);
 	}
 
+	void piece_manager::free_buffer(char* buf)
+	{
+		m_io_thread.free_buffer(buf);
+	}
+
 	void piece_manager::async_release_files(
 		boost::function<void(int, disk_io_job const&)> const& handler)
 	{
@@ -1243,7 +1248,7 @@ namespace libtorrent
 				, block_size);
 			crc.update(&buf[0], block_size);
 		}
-		if (bi[num_blocks - 1].state == piece_picker::block_info::state_finished)
+		if (num_blocks > 0 && bi[num_blocks - 1].state == piece_picker::block_info::state_finished)
 		{
 			m_storage->read(
 				&buf[0]
