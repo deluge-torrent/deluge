@@ -115,14 +115,19 @@ class Torrent:
         state = status.state
         if status.paused:
             state = deluge.common.TORRENT_STATE.index("Paused")
-            
+        
+        # Adjust status.distributed_copies to return a non-negative value
+        distributed_copies = status.distributed_copies
+        if distributed_copies < 0:
+            distributed_copies = 0.0
+               
         full_status = {
             "name": self.handle.torrent_info().name(),
             "total_size": self.handle.torrent_info().total_size(),
             "num_files": self.handle.torrent_info().num_files(),
             "num_pieces": self.handle.torrent_info().num_pieces(),
             "piece_length": self.handle.torrent_info().piece_length(),
-            "distributed_copies": status.distributed_copies,
+            "distributed_copies": distributed_copies,
             "total_done": status.total_done,
             "total_uploaded": self.total_uploaded + status.total_payload_upload,
             "state": int(state),
