@@ -12,4 +12,3 @@
 * Restart daemon function
 * Sync the details pane to current trunk
 * Docstrings!
-* Change core to use dbus variants instead of byte-arrays

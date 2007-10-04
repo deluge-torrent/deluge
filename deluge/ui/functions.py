@@ -42,6 +42,7 @@ import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
 
+import deluge.common
 from deluge.log import LOG as log
 
 def get_core():
@@ -130,46 +131,29 @@ def force_reannounce(torrent_ids):
 
 def get_torrent_status(core, torrent_id, keys):
     """Builds the status dictionary and returns it"""
-    status = core.get_torrent_status(torrent_id, keys)
-    # Join the array of bytes into a string for pickle to read
-    status = "".join(chr(b) for b in status)
-    # De-serialize the object
-    status = pickle.loads(status)
-    return status
+    return deluge.common.pythonize(core.get_torrent_status(torrent_id, keys))
     
 def get_session_state(core=None):
     # Get the core if not supplied
     if core is None:
         core = get_core()
-    state = core.get_session_state()
-    # Join the array of bytes into a string for pickle to read
-    state = "".join(chr(b) for b in state)
-    # De-serialize the object
-    state = pickle.loads(state)
-    return state
+    return deluge.common.pythonize(core.get_session_state())
 
 def get_config(core=None):
     if core is None:
         core = get_core()
-    config = core.get_config()
-    config = "".join(chr(b) for b in config)
-    config = pickle.loads(config)
-    return config
+    return deluge.common.pythonize(core.get_config())
 
 def get_config_value(key, core=None):
     if core is None:
         core = get_core()
-    config = core.get_config_value(key)
-    config = "".join(chr(b) for b in config)
-    config = pickle.loads(config)
-    return config
+    return deluge.common.pythonize(core.get_config_value(key))
     
 def set_config(config, core=None):
     if config == {}:
         return
     if core is None:
         core = get_core()
-    config = pickle.dumps(config)
     core.set_config(config)
     
 def get_listen_port(core=None):

@@ -272,38 +272,30 @@ class Core(dbus.service.Object):
     
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
                                     in_signature="sas", 
-                                    out_signature="ay")
+                                    out_signature="a{sv}")
     def get_torrent_status(self, torrent_id, keys):
         # Convert the array of strings to a python list of strings
-        nkeys = []
-        for key in keys:
-            nkeys.append(str(key))
-        # Pickle the status dictionary from the torrent
+        keys = deluge.common.pythonize(keys)
+        # Build the status dictionary
         try:
-            status = self.torrents[torrent_id].get_status(nkeys)
+            status = self.torrents[torrent_id].get_status(keys)
         except KeyError:
             # The torrent_id is not found in the torrentmanager, so return None
-            status = None
-            status = pickle.dumps(status)
-            return status
+            return None
         
         # Get the leftover fields and ask the plugin manager to fill them
-        leftover_fields = list(set(nkeys) - set(status.keys()))
+        leftover_fields = list(set(keys) - set(status.keys()))
         if len(leftover_fields) > 0:
             status.update(self.plugins.get_status(torrent_id, leftover_fields))
-        status = pickle.dumps(status)
         return status
     
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
                                 in_signature="",
-                                out_signature="ay")
+                                out_signature="as")
     def get_session_state(self):
         """Returns a list of torrent_ids in the session."""
         # Get the torrent list from the TorrentManager
-        torrent_list = self.torrents.get_torrent_list()
-        # Pickle the list and send it
-        session_state = pickle.dumps(torrent_list)
-        return session_state
+        return self.torrents.get_torrent_list()
     
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge")
     def save_state(self):
@@ -313,33 +305,28 @@ class Core(dbus.service.Object):
     
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
                                 in_signature="",
-                                out_signature="ay")    
+                                out_signature="a{sv}")    
     def get_config(self):
         """Get all the preferences as a dictionary"""
-        config = self.config.get_config()
-        config = pickle.dumps(config)
-        return config
+        return self.config.get_config()
         
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
                                 in_signature="s",
-                                out_signature="ay")     
+                                out_signature="v")     
     def get_config_value(self, key):
         """Get the config value for key"""
         try:
             value = self.config[key]
         except KeyError:
             return None
-        
-        value = pickle.dumps(value)
+
         return value
         
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-        in_signature="ay")
+        in_signature="a{sv}")
     def set_config(self, config):
         """Set the config with values from dictionary"""
-        # Convert the byte array into the dictionary
-        config = "".join(chr(b) for b in config)
-        config = pickle.loads(config)
+        config = deluge.common.pythonize(config)
         # Load all the values into the configuration
         for key in config.keys():
             self.config[key] = config[key]
