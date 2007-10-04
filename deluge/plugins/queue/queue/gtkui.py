@@ -112,6 +112,7 @@ class GtkUI:
         queue_image.set_from_stock(gtk.STOCK_SORT_ASCENDING, gtk.ICON_SIZE_MENU)
         queue_menuitem.set_image(queue_image)
         queue_menuitem.set_submenu(menu)
+        queue_menuitem.show_all()
         self.plugin.get_torrentmenu().append(queue_menuitem)
         
     ## Menu callbacks ##

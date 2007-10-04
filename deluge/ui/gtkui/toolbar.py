@@ -75,6 +75,9 @@ class ToolBar:
         # Append the button to the toolbar
         self.toolbar.insert(toolbutton, -1)
         
+        # Show the new toolbutton
+        toolbutton.show()
+        
         return
     
     def add_separator(self, position=None):
