@@ -89,7 +89,7 @@ class DbusManager(dbus.service.Object):
             "name": state["name"],
             "total_size": state["total_size"],
             "num_pieces": state["num_pieces"],
-            #"state": int(status.state), #?
+            "state": state['state'],
             "paused": self.core.is_user_paused(torrent_id),
             "progress": int(state["progress"] * 100),
             "next_announce": state["next_announce"],

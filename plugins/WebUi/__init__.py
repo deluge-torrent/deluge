@@ -100,7 +100,7 @@ class plugin_WebUi:
 
 
         if not dbus_manager:
-            self.dbusManager = DbusManager(deluge_core, deluge_interface
+            dbus_manager = self.dbusManager = DbusManager(deluge_core, deluge_interface
                 , self.config, self.config_file)
 
         self.dbus_manager  = dbus_manager

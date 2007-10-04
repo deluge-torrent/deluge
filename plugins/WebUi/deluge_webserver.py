@@ -166,7 +166,7 @@ torrent_keys = ['distributed_copies', 'download_payload_rate',
     'total_payload_download', 'total_payload_upload', 'total_peers',
     'total_seeds', 'total_size', 'total_upload', 'total_wanted',
     'tracker_status', 'upload_payload_rate', 'upload_rate',
-    'uploaded_memory','tracker']
+    'uploaded_memory','tracker','state']
 
 def get_torrent_status(torrent_id):
     """
@@ -188,6 +188,8 @@ def get_torrent_status(torrent_id):
         status["action"] = "start"
     else:
         status["action"] = "stop"
+
+    status["message"] +=  str(status["state"])
 
     #add some pre-calculated values
     status.update({
@@ -428,7 +430,6 @@ class about:
     @deluge_page_noauth
     def GET(self, name):
         return render.about()
-
 
 #/pages
 
