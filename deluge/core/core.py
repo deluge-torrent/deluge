@@ -71,7 +71,8 @@ DEFAULT_PREFS = {
     "max_download_speed": -1.0,
     "max_upload_slots_global": -1,
     "max_connections_per_torrent": -1,
-    "max_upload_slots_per_torrent": -1
+    "max_upload_slots_per_torrent": -1,
+    "enabled_plugins": ["Queue"]
 }
 
 class Core(dbus.service.Object):

@@ -4,8 +4,6 @@
     intended functionality.
 * Add plugin list and the ability to load/unload them from the preferences
     dialog.
-* Have core keep track of which plugins are activated or not, so it only loads
-    those on start-up.
 * Have the UI request a list of activated plugins on start-up so it nows which
     plugins to load.
 * Figure out easy way for user-made plugins to add i18n support.

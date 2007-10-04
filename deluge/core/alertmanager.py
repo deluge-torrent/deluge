@@ -61,7 +61,7 @@ class AlertManager:
         
         # Append the handler to the list in the handlers dictionary
         self.handlers[alert_type].append(handler)
-        log.debug("Registered handler %s for alert %s", handler, alert_type)
+        log.debug("Registered handler for alert %s", alert_type)
     
     def deregister_handler(self, handler):
         """De-registers the 'handler' function from all alert types."""

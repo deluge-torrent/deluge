@@ -33,13 +33,10 @@
 
 """PluginManager for Core"""
 
-import os.path
-
-import pkg_resources
-
+import deluge.pluginmanagerbase
 from deluge.log import LOG as log
 
-class PluginManager:
+class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
     """PluginManager handles the loading of plugins and provides plugins with
     functions to access parts of the core."""
     
@@ -52,34 +49,10 @@ class PluginManager:
         
         self.status_fields = {}
         
-        # This will load any .eggs in the plugins folder inside the main
-        # deluge egg.. Need to scan the local plugin folder too.
-        
-        plugin_dir = os.path.join(os.path.dirname(__file__), "..", "plugins")
-        
-        pkg_resources.working_set.add_entry(plugin_dir)
-        pkg_env = pkg_resources.Environment([plugin_dir])
-        
-        self.plugins = {}
-        for name in pkg_env:
-            egg = pkg_env[name][0]
-            egg.activate()
-            for name in egg.get_entry_map("deluge.plugin.core"):
-                entry_point = egg.get_entry_info("deluge.plugin.core", name)
-                cls = entry_point.load()
-                instance = cls(self)
-                self.plugins[name] = instance
-                log.info("Load plugin %s", name)
-           
-    def shutdown(self):
-        log.debug("PluginManager shutting down..")
-        for plugin in self.plugins.values():
-            plugin.core.shutdown()
-        del self.plugins
-            
-    def __getitem__(self, key):
-        return self.plugins[key]
-        
+        # Call the PluginManagerBase constructor
+        deluge.pluginmanagerbase.PluginManagerBase.__init__(
+            self, "core.conf", "deluge.plugin.core")
+
     def register_status_field(self, field, function):
         """Register a new status field.  This can be used in the same way the
         client requests other status information from core."""

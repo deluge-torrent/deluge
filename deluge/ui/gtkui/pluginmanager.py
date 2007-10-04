@@ -31,39 +31,16 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import os.path
-
-import pkg_resources
-
+import deluge.pluginmanagerbase
 from deluge.log import LOG as log
 
-class PluginManager:
+class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
     def __init__(self, gtkui):
         
         self._gtkui = gtkui
         
-        # This will load any .eggs in the plugins folder inside the main
-        # deluge egg.. Need to scan the local plugin folder too.
-        
-        plugin_dir = os.path.join(os.path.dirname(__file__), "../..", "plugins")
-        
-        pkg_resources.working_set.add_entry(plugin_dir)
-        pkg_env = pkg_resources.Environment([plugin_dir])
-        
-        self.plugins = {}
-        for name in pkg_env:
-           egg = pkg_env[name][0]
-           egg.activate()
-           modules = []
-           for name in egg.get_entry_map("deluge.plugin.ui.gtk"):
-              entry_point = egg.get_entry_info("deluge.plugin.ui.gtk", name)
-              cls = entry_point.load()
-              instance = cls(self)
-              self.plugins[name] = instance
-              log.info("Loaded plugin %s", name)
-           
-    def __getitem__(self, key):
-        return self.plugins[key]
+        deluge.pluginmanagerbase.PluginManagerBase.__init__(
+            self, "gtkui.conf", "deluge.plugin.ui.gtk")
         
     def get_torrentview(self):
         """Returns a reference to the torrentview component"""
