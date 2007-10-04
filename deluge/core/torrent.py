@@ -38,7 +38,7 @@ import deluge.common
 class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.
     """
-    def __init__(self, filename, handle, compact):
+    def __init__(self, filename, handle, compact, save_path):
         # Set the filename
         self.filename = filename
         # Set the libtorrent handle
@@ -49,6 +49,8 @@ class Torrent:
         self.total_uploaded = 0
         # Set the allocation mode
         self.compact = compact
+        # Where the torrent is being saved to
+        self.save_path = save_path
         # The tracker status
         self.tracker_status = ""
     
@@ -59,7 +61,8 @@ class Torrent:
     def get_state(self):
         """Returns the state of this torrent for saving to the session state"""
         status = self.handle.status()
-        return (self.torrent_id, self.filename, self.compact, status.paused)
+        return (self.torrent_id, self.filename, self.compact, status.paused,
+            self.save_path)
         
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""

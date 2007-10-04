@@ -47,11 +47,12 @@ from deluge.core.torrent import Torrent
 from deluge.log import LOG as log
 
 class TorrentState:
-    def __init__(self, torrent_id, filename, compact, paused):
+    def __init__(self, torrent_id, filename, compact, paused, save_path):
         self.torrent_id = torrent_id
         self.filename = filename
         self.compact = compact
         self.paused = paused
+        self.save_path = save_path
 
 class TorrentManagerState:
     def __init__(self):
@@ -117,7 +118,8 @@ class TorrentManager:
         """Returns a list of torrent_ids"""
         return self.torrents.keys()
         
-    def add(self, filename, filedump=None, compact=None, paused=False):
+    def add(self, filename, filedump=None, compact=None, paused=False,
+        save_path=None):
         """Add a torrent to the manager and returns it's torrent_id"""
         log.info("Adding torrent: %s", filename)
 
@@ -160,6 +162,10 @@ class TorrentManager:
         torrent_filedump = lt.bdecode(filedump)
         handle = None
 
+        # Make sure we have a valid download_location
+        if save_path is None:
+            save_path = self.config["download_location"]
+
         # Make sure we are adding it with the correct allocation method.
         if compact is None:
             compact = self.config["compact_allocation"]
@@ -167,7 +173,7 @@ class TorrentManager:
         try:
             handle = self.session.add_torrent(
                                     lt.torrent_info(torrent_filedump), 
-                                    self.config["download_location"],
+                                    save_path,
                                     resume_data=fastresume,
                                     compact_mode=compact,
                                     paused=paused)
@@ -179,7 +185,8 @@ class TorrentManager:
             return None       
 
         # Create a Torrent object
-        torrent = Torrent(filename, handle, compact)
+        torrent = Torrent(filename, handle, compact, 
+            save_path)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
         
@@ -187,7 +194,7 @@ class TorrentManager:
         handle.set_max_connections(self.max_connections)
         handle.set_max_uploads(self.max_uploads)
         
-        log.debug("Attemping to save torrent file: %s", filename)
+        log.debug("Attempting to save torrent file: %s", filename)
         # Test if the torrentfiles_location is accessible
         if os.access(
             os.path.join(self.config["torrentfiles_location"]), os.F_OK) \
@@ -303,7 +310,7 @@ class TorrentManager:
         # Try to add the torrents in the state to the session        
         for torrent_state in state.torrents:
             self.add(torrent_state.filename, compact=torrent_state.compact,
-                paused=torrent_state.paused)
+                paused=torrent_state.paused, save_path=torrent_state.save_path)
             
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file"""

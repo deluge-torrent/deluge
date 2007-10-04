@@ -85,7 +85,7 @@ def add_torrent_file(torrent_files):
         f = open(torrent_file, "rb")
         # Get the filename because the core doesn't want a path.
         (path, filename) = os.path.split(torrent_file)
-        result = core.add_torrent_file(filename, f.read())
+        result = core.add_torrent_file(filename, str(), f.read())
         f.close()
         if result is False:
             # The torrent was not added successfully.
@@ -96,7 +96,7 @@ def add_torrent_url(torrent_url):
     core = get_core()
     from deluge.common import is_url
     if is_url(torrent_url):
-        result = core.add_torrent_url(torrent_url)
+        result = core.add_torrent_url(torrent_url, str())
         if result is False:
             # The torrent url was not added successfully.
             log.warning("Torrent %s was not added successfully.", torrent_url)

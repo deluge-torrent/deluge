@@ -182,12 +182,16 @@ class Core(dbus.service.Object):
         gobject.idle_add(self._shutdown)
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
-                                    in_signature="say", out_signature="b")
-    def add_torrent_file(self, filename, filedump):
+                                    in_signature="ssay", out_signature="b")
+    def add_torrent_file(self, filename, save_path, filedump):
         """Adds a torrent file to the libtorrent session
             This requires the torrents filename and a dump of it's content
         """
-        torrent_id = self.torrents.add(filename, filedump)
+        if save_path == "":
+            save_path = None
+            
+        torrent_id = self.torrents.add(filename, filedump=filedump, 
+            save_path=save_path)
 
         # Run the plugin hooks for 'post_torrent_add'
         self.plugins.run_post_torrent_add(torrent_id)
@@ -201,8 +205,8 @@ class Core(dbus.service.Object):
             return False
 
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                    in_signature="s", out_signature="b")
-    def add_torrent_url(self, url):
+                                    in_signature="ss", out_signature="b")
+    def add_torrent_url(self, url, save_path):
         log.info("Attempting to add url %s", url)
         
         # Get the actual filename of the torrent from the url provided.
@@ -221,7 +225,7 @@ class Core(dbus.service.Object):
             return False
             
         # Add the torrent to session
-        return self.add_torrent_file(filename, filedump)
+        return self.add_torrent_file(filename, save_path, filedump)
         
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
                                     in_signature="s", out_signature="")
