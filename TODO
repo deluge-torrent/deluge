@@ -10,5 +10,4 @@
 * Change the menubar.py gtkui component to menus.py and add support for plugins
     to add menuitems to the torrentmenu in an easy way.
 * Restart daemon function
-* Sync the details pane to current trunk
 * Docstrings!

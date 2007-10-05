@@ -149,7 +149,8 @@ class Torrent:
             "eta": self.get_eta(),
             "ratio": self.get_ratio(),
             "tracker": status.current_tracker,
-            "tracker_status": self.tracker_status
+            "tracker_status": self.tracker_status,
+            "save_path": self.save_path
         }
         
         # Create the desired status dictionary and return it

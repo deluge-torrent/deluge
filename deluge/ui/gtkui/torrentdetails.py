@@ -71,6 +71,7 @@ class TorrentDetails:
         self.tracker_status = glade.get_widget("summary_tracker_status")
         self.next_announce = glade.get_widget("summary_next_announce")
         self.eta = glade.get_widget("summary_eta")
+        self.torrent_path = glade.get_widget("summary_torrent_path")
     
     def update(self):
         # Only update if this page is showing
@@ -93,7 +94,7 @@ class TorrentDetails:
                 "total_payload_upload", "download_payload_rate", 
                 "upload_payload_rate", "num_peers", "num_seeds", "total_peers",
                 "total_seeds", "eta", "ratio", "tracker", "next_announce",
-                "tracker_status"]
+                "tracker_status", "save_path"]
             status = functions.get_torrent_status(self.core, 
                                                     selected, 
                                                     status_keys)
@@ -133,6 +134,7 @@ class TorrentDetails:
             self.tracker_status.set_text(status["tracker_status"])
             self.next_announce.set_text(
                 deluge.common.ftime(status["next_announce"]))
+            self.torrent_path.set_text(status["save_path"])
 
     def clear(self):
         # Only update if this page is showing
