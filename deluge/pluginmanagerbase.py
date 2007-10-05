@@ -60,7 +60,7 @@ class PluginManagerBase:
 
         # Load plugins that are enabled in the config.
         for name in self.config["enabled_plugins"]:
-            self.load_plugin(name)
+            self.enable_plugin(name)
            
     def shutdown(self):
         log.debug("PluginManager shutting down..")
@@ -72,9 +72,13 @@ class PluginManagerBase:
         return self.plugins[key]
     
     def get_available_plugins(self):
-        """Returns a list of the available plugins (name, version)"""
+        """Returns a list of the available plugins name"""
         return self.available_plugins
     
+    def get_enabled_plugins(self):
+        """Returns a list of enabled plugins"""
+        return self.plugins.key()
+        
     def scan_for_plugins(self):
         """Scans for available plugins"""
         plugin_dir = os.path.join(os.path.dirname(__file__), "plugins")
@@ -92,8 +96,12 @@ class PluginManagerBase:
             log.debug("Found plugin: %s %s", pkg_name, pkg_version)
             self.available_plugins.append(pkg_name)
 
-    def load_plugin(self, name, version=None):
-        """Loads a plugin with optional version"""
+    def enable_plugin(self, name):
+        """Enables a plugin"""
+        if name not in self.available_plugins:
+            log.warning("Cannot enable non-existant plugin %s", name)
+            return
+            
         egg = self.pkg_env[name][0]
         egg.activate()
         for name in egg.get_entry_map(self.entry_name):
@@ -101,4 +109,13 @@ class PluginManagerBase:
             cls = entry_point.load()
             instance = cls(self)
             self.plugins[name] = instance
-            log.info("Load plugin %s", name)
+            log.info("Plugin %s enabled..", name)
+            
+    def disable_plugin(self, name):
+        """Disables a plugin"""
+        try:
+            del self.plugins[name]
+        except:
+            log.warning("Unable to disable non-existant plugin %s", name)
+        
+        log.info("Plugin %s disabled..", name)

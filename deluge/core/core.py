@@ -349,13 +349,34 @@ class Core(dbus.service.Object):
         """Returns the payload download rate"""
         return self.session.status().payload_download_rate
 
-
     @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
         out_signature="d")
     def get_upload_rate(self):
         """Returns the payload upload rate"""
         return self.session.status().payload_upload_rate
-            
+    
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+        out_signature="as")    
+    def get_available_plugins(self):
+        """Returns a list of plugins available in the core"""
+        return self.plugins.get_available_plugins()
+
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+        out_signature="as")    
+    def get_enabled_plugins(self):
+        """Returns a list of enabled plugins in the core"""
+        return self.plugins.get_enabled_plugins()
+
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+        in_signature="s")    
+    def enable_plugin(self, plugin):
+        self.plugins.enable_plugin(plugin)
+
+    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
+        in_signature="s")    
+    def disable_plugin(self, plugin):
+        self.plugins.disable_plugin(plugin)
+        
     # Signals
     @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
                                              signature="s")
