@@ -61,7 +61,7 @@ class MainWindow:
         self.window.set_icon(deluge.common.get_logo(32))
         self.vpaned = self.main_glade.get_widget("vpaned")
         # Load the window state
-        self.load_window_geometry()
+        self.load_window_state()
         
         # Keep track of window's minimization state so that we don't update the
         # UI when it is minimized.
@@ -101,6 +101,8 @@ class MainWindow:
         return True
         
     def show(self):
+        # Load the state prior to showing
+        self.load_window_state()
         self.window.show()
     
     def hide(self):
@@ -130,7 +132,7 @@ class MainWindow:
         self.hide()
         gtk.main_quit()
     
-    def load_window_geometry(self):
+    def load_window_state(self):
         x = self.config["window_x_pos"]
         y = self.config["window_y_pos"]
         w = self.config["window_width"]

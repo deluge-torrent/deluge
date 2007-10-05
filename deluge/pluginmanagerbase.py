@@ -77,7 +77,7 @@ class PluginManagerBase:
     
     def get_enabled_plugins(self):
         """Returns a list of enabled plugins"""
-        return self.plugins.key()
+        return self.plugins.keys()
         
     def scan_for_plugins(self):
         """Scans for available plugins"""

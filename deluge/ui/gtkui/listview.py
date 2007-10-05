@@ -297,17 +297,15 @@ class ListView:
                 column.set_cell_data_func(render, function, 
                     tuple(self.columns[header].column_indices))
         elif column_type == "texticon":
-            column.pack_start(render[pixbuf])
+            column.pack_start(render[pixbuf], False)
             if function is not None:
                 column.set_cell_data_func(render[pixbuf], function,
                             self.columns[header].column_indices[pixbuf])
-            column.pack_start(render[text])
+            column.pack_start(render[text], True)
             column.add_attribute(render[text], "text",
                     self.columns[header].column_indices[text])
         elif column_type == None:
             return
-            
-
                 
         column.set_sort_column_id(self.columns[header].column_indices[sortid])
         column.set_clickable(True)

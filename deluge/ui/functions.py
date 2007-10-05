@@ -161,6 +161,16 @@ def get_listen_port(core=None):
         core = get_core()
     return int(core.get_listen_port())
 
+def get_available_plugins(core=None):
+    if core is None:
+        core = get_core()
+    return deluge.common.pythonize(core.get_available_plugins())
+    
+def get_enabled_plugins(core=None):
+    if core is None:
+        core = get_core()
+    return deluge.common.pythonize(core.get_enabled_plugins())
+
 def open_url_in_browser(url):
     """Opens link in the desktop's default browser"""
     def start_browser():

@@ -66,11 +66,26 @@ class Preferences:
             self.liststore.append([i, category])
             i += 1
 
+        # Setup plugin tab listview
+        self.plugin_liststore = gtk.ListStore(str, bool)
+        self.plugin_listview = self.glade.get_widget("plugin_listview")
+        self.plugin_listview.set_model(self.plugin_liststore)
+        render = gtk.CellRendererToggle()
+        render.connect("toggled", self.on_plugin_toggled)
+        render.set_property("activatable", True)
+        self.plugin_listview.append_column(
+            gtk.TreeViewColumn(_("Enabled"), render, active=1))
+        self.plugin_listview.append_column(
+            gtk.TreeViewColumn(_("Plugin"), gtk.CellRendererText(), text=0))
+        
         # Connect to the 'changed' event of TreeViewSelection to get selection
         # changes.
         self.treeview.get_selection().connect("changed", 
                                     self.on_selection_changed)
         
+        self.plugin_listview.get_selection().connect("changed",
+            self.on_plugin_selection_changed)
+            
         self.glade.signal_autoconnect({
             "on_pref_dialog_delete_event": self.on_pref_dialog_delete_event,
             "on_button_ok_clicked": self.on_button_ok_clicked,
@@ -177,6 +192,21 @@ class Preferences:
         self.glade.get_widget("chk_send_info").set_active(
             self.gtkui_config["send_info"])
         
+        ## Plugins tab ##
+        all_plugins = functions.get_available_plugins()
+        enabled_plugins = functions.get_enabled_plugins()
+        # Clear the existing list so we don't duplicate entries.
+        self.plugin_liststore.clear()
+        # Iterate through the lists and add them to the liststore
+        for plugin in all_plugins:
+            if plugin in enabled_plugins:
+                enabled = True
+            else:
+                enabled = False
+            row = self.plugin_liststore.append()
+            self.plugin_liststore.set_value(row, 0, plugin)
+            self.plugin_liststore.set_value(row, 1, enabled)
+            
         # Now show the dialog
         self.pref_dialog.show()
     
@@ -359,4 +389,14 @@ class Preferences:
         url = "http://deluge-torrent.org/test-port.php?port=%s" % \
             functions.get_listen_port(self.core)
         functions.open_url_in_browser(url)
-
+    
+    def on_plugin_toggled(self, renderer, path):
+        log.debug("on_plugin_toggled")
+        row = self.plugin_liststore.get_iter_from_string(path)
+        name = self.plugin_liststore.get_value(row, 0)
+        value = self.plugin_liststore.get_value(row, 1)
+        self.plugin_liststore.set_value(row, 1, not value)
+        
+    def on_plugin_selection_changed(self, treeselection):
+        log.debug("on_plugin_selection_changed")
+        

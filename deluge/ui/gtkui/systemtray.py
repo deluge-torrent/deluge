@@ -134,7 +134,6 @@ class SystemTray:
             if self.config["lock_tray"] == True:
                 self.unlock_tray("mainwinshow")
             else:
-                self.window.load_window_geometry()
                 self.window.show()
                 # Force UI update as we don't update it while in tray
                 self.window.update()
