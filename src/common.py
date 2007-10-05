@@ -45,7 +45,7 @@ def windows_check():
         return False
 
 if windows_check(): 
-    CONFIG_DIR = os.path.join(os.path.expanduser("~\\"), 'deluge')
+    CONFIG_DIR = os.path.join(os.path.expanduser("~"), 'deluge')
     if not os.path.exists(CONFIG_DIR):
         os.mkdir(CONFIG_DIR)
 else:
