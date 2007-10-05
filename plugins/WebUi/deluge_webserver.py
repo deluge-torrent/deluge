@@ -31,149 +31,35 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-"""
-Todo's before stable:
--__init__:kill->restart is not waiting for kill to be finished.
---later/features:---
--alternating rows?
--set prio
--clear finished?
--torrent files.
-"""
+
+from webserver_common import TORRENT_KEYS, STATE_MESSAGES
+import webserver_common as ws
+from webserver_framework import *
+
+
 import webpy022 as web
-
-from webpy022.webapi import cookies, setcookie
 from webpy022.http import seeother, url
+from webpy022.webapi import setcookie
 from webpy022.utils import Storage
-from webpy022.net import urlquote
-from webpy022 import template, changequery as self_url
 
-import dbus
-
-import gettext, os, platform, locale, traceback
-import random
+from md5 import md5
 import base64
+from deluge.common import fsize
 from operator import attrgetter
 
-from deluge import common
-from deluge.common import INSTALL_PREFIX
-
-
-#init:
-APP = 'deluge'
-DIR = os.path.join(INSTALL_PREFIX, 'share', 'locale')
-if platform.system() != "Windows":
-    locale.setlocale(locale.LC_MESSAGES, '')
-    locale.bindtextdomain(APP, DIR)
-    locale.textdomain(APP)
-else:
-    locale.setlocale(locale.LC_ALL, '')
-gettext.bindtextdomain(APP, DIR)
-gettext.textdomain(APP)
-gettext.install(APP, DIR)
-
-random.seed()
-bus = dbus.SessionBus()
-proxy = bus.get_object("org.deluge_torrent.dbusplugin"
-    , "/org/deluge_torrent/DelugeDbusPlugin")
-
-web.webapi.internalerror = web.debugerror
-
-render = template.render('templates/%s/' % proxy.get_webui_config('template')
-    ,cache=proxy.get_webui_config('cache_templates'))
-#/init
-
-#framework:
-
-SESSIONS = {}
-
-def do_redirect():
-    """for redirects after a POST"""
-    vars = web.input(redir = None)
-    ck = cookies()
-
-    if vars.redir:
-        seeother(vars.redir)
-    elif ("order" in ck and "sort" in ck):
-        seeother(url("/index", sort=ck['sort'], order=ck['order']))
-    else:
-        seeother(url("/index"))
-
-def deluge_page_noauth(func):
-    """
-    add http headers
-    print result of func
-    """
-    def deco(self, name=None):
-            web.header("Content-Type", "text/html; charset=utf-8")
-            web.header("Cache-Control", "no-cache, must-revalidate")
-            res = func(self, name)
-            print res
-    return deco
-
-def check_session(func):
-    """
-    a decorator
-    return func if session is valid, else redirect to login page.
-    """
-    def deco(self, name):
-        vars = web.input(redir_after_login=None)
-
-        ck = cookies()
-        if ck.has_key("session_id") and ck["session_id"] in SESSIONS:
-            return func(self, name) #ok, continue..
-        elif vars.redir_after_login:
-            seeother("/login?redir=" + urlquote(self_url()))
-        else:
-            seeother("/login") #do not continue, and redirect to login page
-    return deco
-
-def deluge_page(func):
-    return check_session(deluge_page_noauth(func))
-
-def auto_refreshed(func):
-    "decorator:adds a refresh header"
-    def deco(self, name):
-        if proxy.get_webui_config('auto_refresh'):
-            web.header("Refresh", "%i ; url=%s" %
-                (proxy.get_webui_config('auto_refresh_secs'),self_url()))
-        return func(self, name)
-    return deco
-
-def error_page(error):
-    web.header("Content-Type", "text/html; charset=utf-8")
-    web.header("Cache-Control", "no-cache, must-revalidate")
-    print render.error(error)
-
-def remote(func):
-    "decorator for remote api's"
-    def deco(self, name):
-        try:
-            print func(self, name)
-        except Exception, e:
-            print 'error:' + e.message
-            print '-'*20
-            print  traceback.format_exc()
-    return deco
-
-#/framework
-
 #utils:
-torrent_keys = ['distributed_copies', 'download_payload_rate',
-    'download_rate', 'eta', 'is_seed', 'message', 'name', 'next_announce',
-    'num_files', 'num_peers', 'num_pieces', 'num_seeds', 'paused',
-    'piece_length','progress', 'ratio', 'total_done', 'total_download',
-    'total_payload_download', 'total_payload_upload', 'total_peers',
-    'total_seeds', 'total_size', 'total_upload', 'total_wanted',
-    'tracker_status', 'upload_payload_rate', 'upload_rate',
-    'uploaded_memory','tracker','state']
+def check_pwd(pwd):
+    m = md5()
+    m.update(ws.config.get('pwd_salt'))
+    m.update(pwd)
+    return (m.digest() == ws.config.get('pwd_md5'))
 
 def get_torrent_status(torrent_id):
     """
     helper method.
-    enhance proxy.get_torrent_status with some extra data
+    enhance ws.proxy.get_torrent_status with some extra data
     """
-    status = proxy.get_torrent_status(torrent_id,torrent_keys)
+    status = ws.proxy.get_torrent_status(torrent_id,TORRENT_KEYS)
     status["id"] = torrent_id
 
     #for naming the status-images
@@ -189,62 +75,24 @@ def get_torrent_status(torrent_id):
     else:
         status["action"] = "stop"
 
-    status["message"] +=  str(status["state"])
+    if status["paused"]:
+        status["message"] = _("Paused %s%%") % status['progress']
+    else:
+        status["message"] = "%s %i%%" % (STATE_MESSAGES[status["state"]]
+        , status['progress'])
 
     #add some pre-calculated values
     status.update({
-        "calc_total_downloaded"  : (common.fsize(status["total_done"])
-            + " (" + common.fsize(status["total_download"]) + ")"),
-        "calc_total_uploaded": (common.fsize(status['uploaded_memory']
+        "calc_total_downloaded"  : (fsize(status["total_done"])
+            + " (" + fsize(status["total_download"]) + ")"),
+        "calc_total_uploaded": (fsize(status['uploaded_memory']
             + status["total_payload_upload"]) + " ("
-            + common.fsize(status["total_upload"]) + ")"),
+            + fsize(status["total_upload"]) + ")"),
     })
 
     return Storage(status) #Storage for easy templating.
 
 #/utils
-
-#template-defs:
-def template_crop(text, end):
-    if len(text) > end:
-        return text[0:end - 3] + '...'
-    return text
-
-def template_sort_head(id,name):
-    #got tired of doing these complex things inside templetor..
-    vars = web.input(sort=None, order=None)
-    active_up = False
-    active_down = False
-    order = 'down'
-
-    if vars.sort == id:
-        if vars.order == 'down':
-            order = 'up'
-            active_down = True
-        else:
-            active_up = True
-
-    return render.sort_column_head(id, name, order, active_up, active_down)
-
-template.Template.globals.update({
-    'sort_head': template_sort_head,
-    'crop': template_crop,
-    '_': _ , #gettext/translations
-    'str': str, #because % in templetor is broken.
-    'sorted': sorted,
-    'get_config': proxy.get_webui_config,
-    'self_url': self_url,
-    'fspeed': common.fspeed,
-    'fsize': common.fsize,
-    'render': render, #for easy resuse of templates
-    'button_style': (proxy.get_webui_config('button_style')),
-    'rev': ('rev.' +
-        open(os.path.join(os.path.dirname(__file__),'revno')).read()),
-    'version': (
-        open(os.path.join(os.path.dirname(__file__),'version')).read()),
-    'get': lambda (var): getattr(web.input(**{var:None}),var) # unreadable :-(
-})
-#/template-defs
 
 #routing:
 urls = (
@@ -274,19 +122,17 @@ class login:
     @deluge_page_noauth
     def GET(self, name):
         vars = web.input(error = None)
-        return render.login(vars.error)
+        return ws.render.login(vars.error)
 
     def POST(self, name):
         vars = web.input(pwd = None ,redir = None)
 
-        if proxy.check_pwd(vars.pwd):
+        if check_pwd(vars.pwd):
             #start new session
-            session_id = str(random.random())
-            SESSIONS[session_id]  = {"not":"used"}
-            setcookie("session_id", session_id)
+            start_session()
             do_redirect()
         elif vars.redir:
-            seeother('/login?error=1&redir=' + urlquote(vars.redir))
+            seeother(url('/login',error=1,redir=vars.redir))
         else:
             seeother('/login?error=1')
 
@@ -303,7 +149,7 @@ class index:
         vars = web.input(sort=None, order=None)
 
         status_rows = [get_torrent_status(torrent_id)
-            for torrent_id in proxy.get_torrent_state()]
+            for torrent_id in ws.proxy.get_torrent_state()]
 
         #sorting:
         if vars.sort:
@@ -314,14 +160,14 @@ class index:
             setcookie("order", vars.order)
             setcookie("sort", vars.sort)
 
-        return render.index(status_rows)
+        return ws.render.index(status_rows)
 
 class torrent_info:
     "torrent details"
     @auto_refreshed
     @deluge_page
     def GET(self, torrent_id):
-        return render.torrent_info(get_torrent_status(torrent_id))
+        return ws.render.torrent_info(get_torrent_status(torrent_id))
 
 class torrent_pause:
     "start/stop a torrent"
@@ -329,16 +175,16 @@ class torrent_pause:
     def POST(self, name):
         vars = web.input(stop = None, start = None, redir = None)
         if vars.stop:
-            proxy.pause_torrent(vars.stop)
+            ws.proxy.pause_torrent(vars.stop)
         elif vars.start:
-            proxy.resume_torrent(vars.start)
+            ws.proxy.resume_torrent(vars.start)
 
         do_redirect()
 
 class torrent_add:
     @deluge_page
     def GET(self, name):
-        return render.torrent_add()
+        return ws.render.torrent_add()
 
     @check_session
     def POST(self, name):
@@ -347,13 +193,13 @@ class torrent_add:
         if vars.url and vars.torrent.filename:
             error_page(_("Choose an url or a torrent, not both."))
         if vars.url:
-            proxy.add_torrent_url(vars.url)
+            ws.proxy.add_torrent_url(vars.url)
             do_redirect()
         elif vars.torrent.filename:
             data = vars.torrent.file.read()
             data_b64 = base64.b64encode(data)
             #b64 because of strange bug-reports related to binary data
-            proxy.add_torrent_filecontent(vars.torrent.filename,data_b64)
+            ws.proxy.add_torrent_filecontent(vars.torrent.filename,data_b64)
             do_redirect()
         else:
             error_page(_("no data."))
@@ -362,23 +208,22 @@ class remote_torrent_add:
     """
     For use in remote scripts etc.
     POST pwd and torrent
-    Example : curl -F torrent=@./test1.torrent -F pwd=deluge http://localhost:8112/remote/torrent/add"
     """
     @remote
     def POST(self, name):
         vars = web.input(pwd = None, torrent = {})
 
-        if not proxy.check_pwd(vars.pwd):
+        if not check_pwd(vars.pwd):
             return 'error:wrong password'
 
         data_b64 = base64.b64encode(vars.torrent.file.read())
-        proxy.add_torrent_filecontent(vars.torrent.filename,data_b64)
+        ws.proxy.add_torrent_filecontent(vars.torrent.filename,data_b64)
         return 'ok'
 
 class torrent_delete:
     @deluge_page
     def GET(self, torrent_id):
-        return render.torrent_delete(get_torrent_status(torrent_id))
+        return ws.render.torrent_delete(get_torrent_status(torrent_id))
 
     @check_session
     def POST(self, name):
@@ -386,42 +231,42 @@ class torrent_delete:
         vars = web.input(data_also = None, torrent_also = None)
         data_also = bool(vars.data_also)
         torrent_also = bool(vars.torrent_also)
-        proxy.remove_torrent(torrent_id, data_also, torrent_also)
+        ws.proxy.remove_torrent(torrent_id, data_also, torrent_also)
         do_redirect()
 
 class pause_all:
     @check_session
     def POST(self, name):
-        for torrent_id in proxy.get_torrent_state():
-            proxy.pause_torrent(torrent_id)
+        for torrent_id in ws.proxy.get_torrent_state():
+            ws.proxy.pause_torrent(torrent_id)
         do_redirect()
 
 class resume_all:
     @check_session
     def POST(self, name):
-        for torrent_id in proxy.get_torrent_state():
-            proxy.resume_torrent(torrent_id)
+        for torrent_id in ws.proxy.get_torrent_state():
+            ws.proxy.resume_torrent(torrent_id)
         do_redirect()
 
 class refresh:
     @check_session
     def POST(self, name):
-        auto_refresh = {'off':False, 'on':True}[name]
-        proxy.set_webui_config('auto_refresh', auto_refresh)
+        auto_refresh = {'off':'0', 'on':'1'}[name]
+        setcookie('auto_refresh',auto_refresh)
         do_redirect()
 
 class refresh_set:
     @deluge_page
     def GET(self, name):
-        return render.refresh_form()
+        return ws.render.refresh_form()
 
     @check_session
     def POST(self, name):
         vars = web.input(refresh = 0)
         refresh = int(vars.refresh)
         if refresh > 0:
-            proxy.set_webui_config('refresh', refresh)
-            proxy.set_webui_config('auto_refresh', True)
+            setcookie('auto_refresh','1')
+            setcookie('auto_refresh_secs', str(refresh))
             do_redirect()
         else:
             error_page(_('refresh must be > 0'))
@@ -429,11 +274,21 @@ class refresh_set:
 class about:
     @deluge_page_noauth
     def GET(self, name):
-        return render.about()
+        return ws.render.about()
 
 #/pages
 
-if __name__ == "__main__":
-  web.run(urls, globals())
 
+def WebServer():
+    return create_webserver(urls, globals())
+
+def run():
+    server = WebServer()
+    try:
+        server.start()
+    except KeyboardInterrupt:
+        server.stop()
+
+if __name__ == "__main__":
+    run()
 

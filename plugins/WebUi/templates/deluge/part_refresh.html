@@ -1,8 +1,8 @@
 <div id='refresh_panel'>
 <div class="panel" >
 $_('Auto refresh:')
-$if get_config('auto_refresh'):
-    ($(get_config('refresh')) $_('seconds')) &nbsp;
+$if getcookie('auto_refresh') == '1':
+    ($getcookie('auto_refresh_secs')) $_('seconds')) &nbsp;
     $:render.part_button('GET', '/refresh/set', _('Set'), 'tango/preferences-system.png')
     $:render.part_button('POST', '/refresh/off', _('Disable'), 'tango/process-stop.png')
 $else:

@@ -31,27 +31,37 @@
 plugin_name = "Web User Interface"
 plugin_author = "Martijn Voncken"
 plugin_version = "rev."
-plugin_description = "A Web based User Interface\n"
+plugin_description = """A Web based User Interface
+
+Firefox greasemonkey script: http://userscripts.org/scripts/show/12639
+
+Remotely add a file: "curl -F torrent=@./test1.torrent -F pwd=deluge http://localhost:8112/remote/torrent/add"
+
+There is support for multiple templates, but just one is included.
+
+Other contributors:
+*somedude : template enhancements.
+
+"""
 
 import deluge.common
 import deluge.pref
 from deluge.dialogs import show_popup_warning
-from dbus_interface import DbusManager
+from dbus_interface import get_dbus_manager
+import webserver_common
+import time
 
 import gtk
 import os
 from subprocess import Popen
 from md5 import md5
+from threading import Thread
 import random
 random.seed()
 
 plugin_version += open(os.path.join(os.path.dirname(__file__),'revno')).read()
 plugin_description += (
     open(os.path.join(os.path.dirname(__file__),'version')).read())
-
-#not found a way to stop a dbus manager.
-#global so it does not get started twice.
-dbus_manager = None
 
 def deluge_init(deluge_path):
     global path
@@ -61,15 +71,13 @@ def enable(core, interface):
     global path
     return plugin_WebUi(path, core, interface)
 
-class plugin_WebUi:
+class plugin_WebUi(object):
     def __init__(self, path, deluge_core, deluge_interface):
-        global dbus_manager
         self.path = path
         self.core = deluge_core
         self.interface = deluge_interface
         self.proc = None
-
-
+        self.web_server = None
 
         self.config_file = deluge.common.CONFIG_DIR + "/webui.conf"
         self.config = deluge.pref.Preferences(self.config_file, False)
@@ -98,19 +106,17 @@ class plugin_WebUi:
         if self.config.get("cache_templates") == None:
             self.config.set("cache_templates", True)
 
+        if self.config.get("run_in_thread") == None:
+            self.config.set("run_in_thread", True)
 
-        if not dbus_manager:
-            dbus_manager = self.dbusManager = DbusManager(deluge_core, deluge_interface
-                , self.config, self.config_file)
-
-        self.dbus_manager  = dbus_manager
+        self.dbus_manager = get_dbus_manager(deluge_core, deluge_interface,
+            self.config, self.config_file)
 
         self.start_server()
 
     def unload(self):
         print 'WebUI:unload..'
         self.kill_server()
-        #self.dbusManager.
 
     def update(self):
         pass
@@ -124,17 +130,37 @@ class plugin_WebUi:
 
     def start_server(self):
         self.kill_server()
-        print 'start Webui..'
-        path = os.path.dirname(__file__)
-        server_bin = path + '/run_webserver'
-        port = str(self.config.get('port'))
-        self.proc = Popen((server_bin, port),cwd=path)
+
+        if self.config.get("run_in_thread"):
+            print 'start Webui(inside gtk)..'
+            webserver_common.init() #reload changed config.
+            from deluge_webserver import WebServer #only import in threaded mode
+
+
+            self.web_server = WebServer()
+            self.web_server.start_gtk()
+
+        else:
+            print 'start Webui(in process)..'
+            path = os.path.dirname(__file__)
+            server_bin = path + '/run_webserver'
+            port = str(self.config.get('port'))
+            self.proc = Popen((server_bin, port),cwd=path)
 
     def kill_server(self):
+        if self.web_server:
+            print "webserver: stop"
+            self.web_server.stop_gtk()
+            self.web_server = None
         if self.proc:
-            print "webserver: kill %i"%self.proc.pid
-            os.system("kill %i"%self.proc.pid)
+            print "webserver: kill %i" % self.proc.pid
+            os.system("kill %i" % self.proc.pid)
+            time.sleep(1) #safe time to wait for kill to finish.
         self.proc = None
+
+    def __del__(self):
+        self.kill_server()
+
 
 
 class ConfigDialog(gtk.Dialog):
@@ -160,12 +186,15 @@ class ConfigDialog(gtk.Dialog):
         self.template = self.add_widget(_('Template'), gtk.combo_box_new_text())
         self.button_style = self.add_widget(_('Button Style'),
             gtk.combo_box_new_text())
-        self.cache_templates = self.add_widget(_('Cache Templates'),
-            gtk.CheckButton())
         self.download_dir = self.add_widget(_('Download Directory'),
             gtk.FileChooserButton(_('Download Directory')))
         self.torrent_dir = self.add_widget(_('Torrent Directory'),
             gtk.FileChooserButton(_('Torrent Directory')))
+        self.cache_templates = self.add_widget(_('Cache Templates'),
+            gtk.CheckButton())
+        self.run_in_thread = self.add_widget(_('Run inside gtk'),
+            gtk.CheckButton())
+
 
         self.download_dir.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
         self.torrent_dir.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
@@ -189,10 +218,13 @@ class ConfigDialog(gtk.Dialog):
         self.template.set_active(
             self.templates.index(self.config.get("template")))
         self.button_style.set_active(self.config.get("button_style"))
-        self.cache_templates.set_active(self.config.get("cache_templates"))
 
         self.torrent_dir.set_filename(self.config.get("torrent_dir"))
         self.download_dir.set_filename(self.config.get("download_dir"))
+
+        self.run_in_thread.set_active(self.config.get("run_in_thread"))
+        self.cache_templates.set_active(self.config.get("cache_templates"))
+
         self.vbox.pack_start(self.vb, True, True, 0)
         self.vb.show_all()
 
@@ -226,17 +258,9 @@ class ConfigDialog(gtk.Dialog):
         self.config.set("port", int(self.port.get_value()))
         self.config.set("template", self.template.get_active_text())
         self.config.set("button_style", self.button_style.get_active())
-        self.config.set("cache_templates", self.cache_templates.get_active())
         self.config.set("torrent_dir", self.torrent_dir.get_filename())
         self.config.set("download_dir",self.download_dir.get_filename())
+        self.config.set("cache_templates", self.cache_templates.get_active())
+        self.config.set("run_in_thread", self.run_in_thread.get_active())
         self.config.save(self.plugin.config_file)
         self.plugin.start_server() #restarts server
-
-
-
-
-
-
-
-
-
