@@ -3,7 +3,7 @@
 <!--*- mode: xml -*-->
 <glade-interface>
   <widget class="GtkDialog" id="pref_dialog">
-    <property name="width_request">500</property>
+    <property name="width_request">516</property>
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Deluge Preferences</property>
@@ -41,7 +41,6 @@
                         <child>
                           <widget class="GtkFrame" id="frame1">
                             <property name="visible">True</property>
-                            <property name="label_xalign">0</property>
                             <property name="shadow_type">GTK_SHADOW_NONE</property>
                             <child>
                               <widget class="GtkAlignment" id="alignment1">
@@ -123,7 +122,6 @@
                         <child>
                           <widget class="GtkFrame" id="frame6">
                             <property name="visible">True</property>
-                            <property name="label_xalign">0</property>
                             <property name="shadow_type">GTK_SHADOW_NONE</property>
                             <child>
                               <widget class="GtkAlignment" id="alignment6">
@@ -224,7 +222,6 @@
                         <child>
                           <widget class="GtkFrame" id="frame7">
                             <property name="visible">True</property>
-                            <property name="label_xalign">0</property>
                             <property name="shadow_type">GTK_SHADOW_NONE</property>
                             <child>
                               <widget class="GtkAlignment" id="alignment7">
@@ -309,9 +306,6 @@
                   </widget>
                 </child>
               </widget>
-              <packing>
-                <property name="tab_expand">False</property>
-              </packing>
             </child>
             <child>
               <widget class="GtkLabel" id="label11">
@@ -320,7 +314,6 @@
               </widget>
               <packing>
                 <property name="type">tab</property>
-                <property name="tab_expand">False</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -387,7 +380,6 @@
                         <child>
                           <widget class="GtkFrame" id="frame8">
                             <property name="visible">True</property>
-                            <property name="label_xalign">0</property>
                             <property name="shadow_type">GTK_SHADOW_NONE</property>
                             <child>
                               <widget class="GtkAlignment" id="alignment8">
@@ -546,7 +538,6 @@
                         <child>
                           <widget class="GtkFrame" id="frame9">
                             <property name="visible">True</property>
-                            <property name="label_xalign">0</property>
                             <property name="shadow_type">GTK_SHADOW_NONE</property>
                             <child>
                               <widget class="GtkAlignment" id="alignment9">
@@ -595,7 +586,6 @@
                             <child>
                               <widget class="GtkFrame" id="frame10">
                                 <property name="visible">True</property>
-                                <property name="label_xalign">0</property>
                                 <property name="shadow_type">GTK_SHADOW_NONE</property>
                                 <child>
                                   <widget class="GtkAlignment" id="alignment10">
@@ -682,7 +672,6 @@
                         <child>
                           <widget class="GtkFrame" id="frame12">
                             <property name="visible">True</property>
-                            <property name="label_xalign">0</property>
                             <property name="shadow_type">GTK_SHADOW_NONE</property>
                             <child>
                               <widget class="GtkAlignment" id="alignment12">
@@ -818,7 +807,6 @@ Either</property>
               </widget>
               <packing>
                 <property name="position">1</property>
-                <property name="tab_expand">False</property>
               </packing>
             </child>
             <child>
@@ -829,7 +817,6 @@ Either</property>
               <packing>
                 <property name="type">tab</property>
                 <property name="position">1</property>
-                <property name="tab_expand">False</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -851,7 +838,6 @@ Either</property>
                         <child>
                           <widget class="GtkFrame" id="frame2">
                             <property name="visible">True</property>
-                            <property name="label_xalign">0</property>
                             <property name="shadow_type">GTK_SHADOW_NONE</property>
                             <child>
                               <widget class="GtkAlignment" id="alignment2">
@@ -969,7 +955,6 @@ Either</property>
               </widget>
               <packing>
                 <property name="position">2</property>
-                <property name="tab_expand">False</property>
               </packing>
             </child>
             <child>
@@ -981,7 +966,6 @@ Either</property>
               <packing>
                 <property name="type">tab</property>
                 <property name="position">2</property>
-                <property name="tab_expand">False</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -1005,7 +989,6 @@ Either</property>
                         <child>
                           <widget class="GtkFrame" id="frame11">
                             <property name="visible">True</property>
-                            <property name="label_xalign">0</property>
                             <property name="shadow_type">GTK_SHADOW_NONE</property>
                             <child>
                               <widget class="GtkAlignment" id="alignment11">
@@ -1181,7 +1164,6 @@ Either</property>
                           <widget class="GtkFrame" id="frame16">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label_xalign">0</property>
                             <property name="shadow_type">GTK_SHADOW_NONE</property>
                             <child>
                               <widget class="GtkAlignment" id="alignment20">
@@ -1287,7 +1269,6 @@ Either</property>
               </widget>
               <packing>
                 <property name="position">3</property>
-                <property name="tab_expand">False</property>
               </packing>
             </child>
             <child>
@@ -1299,7 +1280,6 @@ Either</property>
               <packing>
                 <property name="type">tab</property>
                 <property name="position">3</property>
-                <property name="tab_expand">False</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -1326,7 +1306,6 @@ Either</property>
                         <child>
                           <widget class="GtkFrame" id="frame14">
                             <property name="visible">True</property>
-                            <property name="label_xalign">0</property>
                             <property name="shadow_type">GTK_SHADOW_NONE</property>
                             <child>
                               <widget class="GtkVBox" id="vbox10">
@@ -1521,7 +1500,6 @@ HTTP W/ Auth</property>
                         <child>
                           <widget class="GtkFrame" id="frame15">
                             <property name="visible">True</property>
-                            <property name="label_xalign">0</property>
                             <property name="shadow_type">GTK_SHADOW_NONE</property>
                             <child>
                               <widget class="GtkVBox" id="vbox17">
@@ -1716,7 +1694,6 @@ HTTP W/ Auth</property>
                         <child>
                           <widget class="GtkFrame" id="frame17">
                             <property name="visible">True</property>
-                            <property name="label_xalign">0</property>
                             <property name="shadow_type">GTK_SHADOW_NONE</property>
                             <child>
                               <widget class="GtkVBox" id="vbox19">
@@ -1911,7 +1888,6 @@ HTTP W/ Auth</property>
                         <child>
                           <widget class="GtkFrame" id="frame18">
                             <property name="visible">True</property>
-                            <property name="label_xalign">0</property>
                             <property name="shadow_type">GTK_SHADOW_NONE</property>
                             <child>
                               <widget class="GtkVBox" id="vbox20">
@@ -2110,7 +2086,6 @@ HTTP W/ Auth</property>
               </widget>
               <packing>
                 <property name="position">4</property>
-                <property name="tab_expand">False</property>
               </packing>
             </child>
             <child>
@@ -2122,7 +2097,6 @@ HTTP W/ Auth</property>
               <packing>
                 <property name="type">tab</property>
                 <property name="position">4</property>
-                <property name="tab_expand">False</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -2133,7 +2107,6 @@ HTTP W/ Auth</property>
                 <child>
                   <widget class="GtkFrame" id="frame13">
                     <property name="visible">True</property>
-                    <property name="label_xalign">0</property>
                     <property name="shadow_type">GTK_SHADOW_NONE</property>
                     <child>
                       <widget class="GtkAlignment" id="alignment13">
@@ -2283,7 +2256,6 @@ HTTP W/ Auth</property>
                   <widget class="GtkFrame" id="frame19">
                     <property name="visible">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="label_xalign">0</property>
                     <property name="shadow_type">GTK_SHADOW_NONE</property>
                     <child>
                       <widget class="GtkAlignment" id="alignment23">
@@ -2422,7 +2394,6 @@ Thunar</property>
                 </child>
                 <child>
                   <widget class="GtkFrame" id="frame3">
-                    <property name="label_xalign">0</property>
                     <property name="shadow_type">GTK_SHADOW_NONE</property>
                     <child>
                       <widget class="GtkAlignment" id="alignment3">
@@ -2485,7 +2456,6 @@ Thunar</property>
                   <widget class="GtkFrame" id="frame4">
                     <property name="visible">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="label_xalign">0</property>
                     <property name="shadow_type">GTK_SHADOW_NONE</property>
                     <child>
                       <widget class="GtkAlignment" id="alignment5">
@@ -2537,7 +2507,6 @@ Thunar</property>
                   <widget class="GtkFrame" id="frame5">
                     <property name="visible">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="label_xalign">0</property>
                     <property name="shadow_type">GTK_SHADOW_NONE</property>
                     <child>
                       <widget class="GtkAlignment" id="alignment19">
@@ -2579,7 +2548,6 @@ information is sent.</property>
               </widget>
               <packing>
                 <property name="position">5</property>
-                <property name="tab_expand">False</property>
               </packing>
             </child>
             <child>
@@ -2591,7 +2559,6 @@ information is sent.</property>
               <packing>
                 <property name="type">tab</property>
                 <property name="position">5</property>
-                <property name="tab_expand">False</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
@@ -2703,7 +2670,6 @@ information is sent.</property>
               </widget>
               <packing>
                 <property name="position">6</property>
-                <property name="tab_expand">False</property>
               </packing>
             </child>
             <child>
@@ -2715,7 +2681,6 @@ information is sent.</property>
               <packing>
                 <property name="type">tab</property>
                 <property name="position">6</property>
-                <property name="tab_expand">False</property>
                 <property name="tab_fill">False</property>
               </packing>
             </child>
