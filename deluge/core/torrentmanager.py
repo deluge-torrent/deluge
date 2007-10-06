@@ -173,7 +173,7 @@ class TorrentManager:
         try:
             handle = self.session.add_torrent(
                                     lt.torrent_info(torrent_filedump), 
-                                    save_path,
+                                    str(save_path),
                                     resume_data=fastresume,
                                     compact_mode=compact,
                                     paused=paused)

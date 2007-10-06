@@ -187,6 +187,6 @@ def pythonize(var):
         )
 
     for klass in [unicode, str, bool, int, float, long]:
-        if isinstance(var,klass):
+        if isinstance(var, klass):
             return klass(var)
     return var

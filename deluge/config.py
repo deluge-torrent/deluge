@@ -113,7 +113,7 @@ class Config:
         """Set the 'key' with 'value'."""
 	    # Sets the "key" with "value" in the config dict
         if self.config[key] != value:
-            log.debug("Setting '%s' to %s", key, value)
+            log.debug("Setting '%s' to %s of type %s", key, type(value), value)
             self.config[key] = value
             # Run the set_function for this key if any
             try:
@@ -128,7 +128,7 @@ class Config:
         # invalid
         try:
             value = self.config[key]
-            log.debug("Getting '%s' as %s", key, value)
+            log.debug("Getting '%s' as %s of type %s", key, value, type(value))
             return value
         except KeyError:
             log.warning("Key does not exist, returning None")

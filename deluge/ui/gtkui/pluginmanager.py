@@ -32,12 +32,21 @@
 #    statement from all source files in the program, then also delete it here.
 
 import deluge.pluginmanagerbase
+import deluge.ui.functions as functions
+from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
 class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
     def __init__(self, gtkui):
         
+        self.config = ConfigManager("gtkui.conf")
         self._gtkui = gtkui
+        
+        # Update the enabled_plugins from the core
+        enabled_plugins = functions.get_enabled_plugins()
+        enabled_plugins += self.config["enabled_plugins"]
+        enabled_plugins = list(set(enabled_plugins))
+        self.config["enabled_plugins"] = enabled_plugins
         
         deluge.pluginmanagerbase.PluginManagerBase.__init__(
             self, "gtkui.conf", "deluge.plugin.ui.gtk")
