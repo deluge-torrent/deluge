@@ -342,8 +342,8 @@ namespace libtorrent
 				: start(s)
 				, length(l)
 			{
-				assert(s >= 0);
-				assert(l > 0);
+				TORRENT_ASSERT(s >= 0);
+				TORRENT_ASSERT(l > 0);
 			}
 			int start;
 			int length;
@@ -375,7 +375,7 @@ namespace libtorrent
 		int m_sync_bytes_read;
 
 		// hold information about latest allocated send buffer
-		// need to check for non zero (begin, end)  for operations with this
+		// need to check for non zero (begin, end) for operations with this
 		buffer::interval m_enc_send_buffer;
 		
 		// initialized during write_pe1_2_dhkey, and destroyed on
