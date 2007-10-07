@@ -1036,13 +1036,9 @@ class Manager:
                    max_upload_slots)
 
     def set_per_upload_rate_limit(self, unique_ID, speed):
-        if speed != -1:
-            speed = speed * 1024
         return deluge_core.set_per_upload_rate_limit(unique_ID, speed)
 
     def set_per_download_rate_limit(self, unique_ID, speed):
-        if speed != -1:
-            speed = speed * 1024
         return deluge_core.set_per_download_rate_limit(unique_ID, speed)
 
     def get_per_upload_rate_limit(self, unique_ID):

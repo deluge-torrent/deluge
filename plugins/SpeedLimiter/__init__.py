@@ -56,14 +56,14 @@ class DesiredSpeed:
             unique_ID = self.core.get_torrent_unique_id(torrent)
             try:
                 if self.core.unique_IDs[unique_ID].upload_rate_limit != -1:
-                    value = int(self.core.unique_IDs[unique_ID].upload_rate_limit / 1024)
+                    value = int(self.core.unique_IDs[unique_ID].upload_rate_limit)
                     self.core.set_per_upload_rate_limit(unique_ID, value)
                     self.set_up_speeds[unique_ID] = value
                     if value not in self.config.get("up_speeds") and value >= 1:
                         self.config.get("up_speeds").insert(0, value)
                         self.config.get("up_speeds").pop()
                 if self.core.unique_IDs[unique_ID].download_rate_limit != -1:
-                    value = int(self.core.unique_IDs[unique_ID].download_rate_limit / 1024)
+                    value = int(self.core.unique_IDs[unique_ID].download_rate_limit)
                     self.core.set_per_download_rate_limit(unique_ID, value)
                     self.set_down_speeds[unique_ID] = value
                     if value not in self.config.get("down_speeds") and value >= 1:
@@ -157,7 +157,7 @@ class DesiredSpeed:
 
         self.core.set_per_upload_rate_limit(self.unique_ID, value)
         self.set_up_speeds[self.unique_ID] = value
-        self.core.unique_IDs[self.unique_ID].upload_rate_limit = value * 1024
+        self.core.unique_IDs[self.unique_ID].upload_rate_limit = value
 
         # Update the speeds list if necessary
         if value not in self.config.get("up_speeds") and value >= 1:
@@ -189,7 +189,7 @@ class DesiredSpeed:
         
         self.core.set_per_download_rate_limit(self.unique_ID, value)
         self.set_down_speeds[self.unique_ID] = value
-        self.core.unique_IDs[self.unique_ID].download_rate_limit = value * 1024
+        self.core.unique_IDs[self.unique_ID].download_rate_limit = value
         
         # update the speeds list if necessary
         if value not in self.config.get("down_speeds") and value >= 0:
