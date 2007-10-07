@@ -502,13 +502,14 @@ static PyObject *torrent_set_per_upload_rate_limit(PyObject *self, PyObject *arg
     python_long unique_ID, speed;
     if (!PyArg_ParseTuple(args, "ii", &unique_ID, &speed))
         return NULL;
-
+    if (speed != -1)
+        speed = speed * 1024;
     long index = get_index_from_unique_ID(unique_ID);
     if (PyErr_Occurred())
         return NULL;
         
     if (M_torrents->at(index).handle.is_valid())
-        M_torrents->at(index).handle.set_upload_limit(speed * 1024);
+        M_torrents->at(index).handle.set_upload_limit(speed);
 
     Py_INCREF(Py_None); return Py_None;
 }
@@ -533,12 +534,13 @@ static PyObject *torrent_set_per_download_rate_limit(PyObject *self, PyObject *a
 
     if (!PyArg_ParseTuple(args, "ii", &unique_ID, &speed))
         return NULL;
-        
+    if (speed != -1)
+        speed = speed * 1024;
     long index = get_index_from_unique_ID(unique_ID);
     if (PyErr_Occurred())
         return NULL;
     if (M_torrents->at(index).handle.is_valid())
-        M_torrents->at(index).handle.set_download_limit(speed * 1024);
+        M_torrents->at(index).handle.set_download_limit(speed);
 
     Py_INCREF(Py_None); return Py_None;
 }
