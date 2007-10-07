@@ -1,8 +1,8 @@
 $def with (method, url, title, image='')
 <div class="deluge_button">
 <form method="$method" action="$url" class="deluge_button">
-<button type="submit" class="deluge_button">
 <input type="hidden" name="redir" value="$self_url()">
+<button type="submit" class="deluge_button">
 $if (get_config('button_style') == 0):
     $title
     $if image:

@@ -82,6 +82,7 @@ class="deluge_button">
 
 $:render.part_button('GET', '/torrent/delete/' + str(torrent.id), _('Remove'), 'tango/user-trash.png')
 
+
 <br>
 [<a onclick="javascript:toggle_dump()">$_('Debug:Data Dump')</a>]
 
@@ -101,6 +102,16 @@ function toggle_dump(){
     }
 }
 </script>
+</div>
+
+
+
+<div class='panel'>
+Queue pos: $torrent.queue_pos
+
+$:render.part_button('POST', '/torrent/queue/up/' + str(torrent.id), _('Queue Up'), 'tango/up.png')
+
+$:render.part_button('POST', '/torrent/queue/down/' + str(torrent.id), _('Queue Down'), 'tango/down.png')
 </div>
 
 $:render.part_refresh()

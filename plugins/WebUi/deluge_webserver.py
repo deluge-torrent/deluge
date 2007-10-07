@@ -102,6 +102,8 @@ urls = (
     "/torrent/pause(.*)", "torrent_pause",
     "/torrent/add(.*)", "torrent_add",
     "/torrent/delete/(.*)", "torrent_delete",
+    "/torrent/queue/up/(.*)", "torrent_queue_up",
+    "/torrent/queue/down/(.*)", "torrent_queue_down",
     "/pause_all(.*)", "pause_all",
     "/resume_all(.*)", "resume_all",
     "/refresh/set(.*)", "refresh_set",
@@ -232,6 +234,21 @@ class torrent_delete:
         data_also = bool(vars.data_also)
         torrent_also = bool(vars.torrent_also)
         ws.proxy.remove_torrent(torrent_id, data_also, torrent_also)
+        do_redirect()
+
+
+class torrent_queue_up:
+    @check_session
+    def POST(self, name):
+        torrent_id = name
+        ws.proxy.queue_up(torrent_id)
+        do_redirect()
+
+class torrent_queue_down:
+    @check_session
+    def POST(self, name):
+        torrent_id = name
+        ws.proxy.queue_down(torrent_id)
         do_redirect()
 
 class pause_all:

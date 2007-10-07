@@ -115,7 +115,7 @@ class DbusManager(dbus.service.Object):
         for key in ["total_seeds", "total_peers","is_seed", "total_done",
                 "total_download", "total_upload", "download_rate",
                 "upload_rate", "num_files", "piece_length", "distributed_copies"
-                ,"next_announce","tracker"]:
+                ,"next_announce","tracker","queue_pos"]:
             status[key] = state[key]
 
         #print 'all_keys:',sorted(status.keys())
@@ -160,6 +160,19 @@ class DbusManager(dbus.service.Object):
         """not available in deluge 0.6 interface"""
         filename = fetch_url(url)
         self._add_torrent(filename)
+        return True
+
+    @dbus.service.method(dbus_interface=dbus_interface,
+        in_signature="s", out_signature="b")
+    def queue_up(self, torrent_id):
+        print 'UP!'
+        self.core.queue_up(int(torrent_id))
+        return True
+
+    @dbus.service.method(dbus_interface=dbus_interface,
+        in_signature="s", out_signature="b")
+    def queue_down(self, torrent_id):
+        self.core.queue_down(int(torrent_id))
         return True
 
     @dbus.service.method(dbus_interface=dbus_interface,

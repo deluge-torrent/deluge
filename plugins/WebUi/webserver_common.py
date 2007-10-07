@@ -52,11 +52,14 @@ if not hasattr(deluge,'pref'):
 
 def init():
     #appy possibly changed config-vars, only called in when runing inside gtk.
+    path = os.path.dirname(__file__)
     from dbus_interface import get_dbus_manager
     globals()['proxy'] =  get_dbus_manager()
     globals()['config']  = deluge.pref.Preferences(config_file, False)
-    globals()['render'] = template.render('templates/%s/' % config.get('template'),
-        cache=config.get('cache_templates'))
+    globals()['render'] = template.render(os.path.join(path, 'templates/%s/' %
+        config.get('template')), cache=config.get('cache_templates'))
+
+
 
 
 REVNO = open(os.path.join(os.path.dirname(__file__),'revno')).read()
@@ -69,7 +72,7 @@ TORRENT_KEYS = ['distributed_copies', 'download_payload_rate',
     'total_payload_download', 'total_payload_upload', 'total_peers',
     'total_seeds', 'total_size', 'total_upload', 'total_wanted',
     'tracker_status', 'upload_payload_rate', 'upload_rate',
-    'uploaded_memory','tracker','state']
+    'uploaded_memory','tracker','state','queue_pos']
 
 STATE_MESSAGES = (_("Queued"),
     _("Checking"),
