@@ -47,12 +47,14 @@ from deluge.core.torrent import Torrent
 from deluge.log import LOG as log
 
 class TorrentState:
-    def __init__(self, torrent_id, filename, compact, paused, save_path):
+    def __init__(self, torrent_id, filename, compact, paused, save_path,
+        total_uploaded):
         self.torrent_id = torrent_id
         self.filename = filename
         self.compact = compact
         self.paused = paused
         self.save_path = save_path
+        self.total_uploaded = total_uploaded
 
 class TorrentManagerState:
     def __init__(self):
@@ -119,7 +121,7 @@ class TorrentManager:
         return self.torrents.keys()
         
     def add(self, filename, filedump=None, compact=None, paused=False,
-        save_path=None):
+        save_path=None, total_uploaded=0):
         """Add a torrent to the manager and returns it's torrent_id"""
         log.info("Adding torrent: %s", filename)
 
@@ -186,7 +188,8 @@ class TorrentManager:
 
         # Create a Torrent object
         torrent = Torrent(filename, handle, compact, 
-            save_path)
+            save_path, total_uploaded)
+        
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
         
@@ -310,7 +313,8 @@ class TorrentManager:
         # Try to add the torrents in the state to the session        
         for torrent_state in state.torrents:
             self.add(torrent_state.filename, compact=torrent_state.compact,
-                paused=torrent_state.paused, save_path=torrent_state.save_path)
+                paused=torrent_state.paused, save_path=torrent_state.save_path,
+                total_uploaded=torrent_state.total_uploaded)
             
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file"""
