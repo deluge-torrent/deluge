@@ -37,6 +37,7 @@ import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
 import gettext
+import gobject
 
 import deluge.common
 import deluge.ui.functions as functions
@@ -116,7 +117,7 @@ class TorrentView(listview.ListView):
                                             function=cell_data_statusicon)
         self.add_func_column(_("Size"), 
                                             listview.cell_data_size, 
-                                            [long],
+                                            [gobject.TYPE_UINT64],
                                             status_field=["total_size"])
         self.add_progress_column(_("Progress"), 
                                     status_field=["progress", "state"],
@@ -220,9 +221,13 @@ class TorrentView(listview.ListView):
             column_index = self.get_column_index(column)
             if type(column_index) is not list:
                 # We only have a single list store column we need to update
-                model.set_value(row,
+                try:
+                    model.set_value(row,
                             column_index,
                             status[self.columns[column].status_field[0]])
+                except TypeError:
+                    log.warning("Unable to update column %s with value: %s", 
+                        column, status[self.columns[column].status_field[0]])
             else:
                 # We have more than 1 liststore column to update
                 for index in column_index:
