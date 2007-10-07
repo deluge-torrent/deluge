@@ -31,7 +31,6 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import pickle
 import dbus
 import dbus.service
 from dbus.mainloop.glib import DBusGMainLoop

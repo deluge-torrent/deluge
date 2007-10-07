@@ -33,7 +33,7 @@
 
 """Configuration class used to access/create/modify configuration files."""
 
-import pickle
+import cPickle
 
 import deluge.common
 from deluge.log import LOG as log
@@ -71,7 +71,7 @@ class Config:
             # Un-pickle the file and update the config dictionary
             log.debug("Opening pickled file for load..")
             pkl_file = open(filename, "rb")
-            filedump = pickle.load(pkl_file)
+            filedump = cPickle.load(pkl_file)
             self.config.update(filedump)
             pkl_file.close()
         except IOError:
@@ -91,7 +91,7 @@ class Config:
         try:
             log.debug("Opening pickled file for comparison..")
             pkl_file = open(filename, "rb")
-            filedump = pickle.load(pkl_file)
+            filedump = cPickle.load(pkl_file)
             pkl_file.close()
             if filedump == self.config:
                 # The config has not changed so lets just return
@@ -103,7 +103,7 @@ class Config:
         try:
             log.debug("Opening pickled file for save..")
             pkl_file = open(filename, "wb")
-            pickle.dump(self.config, pkl_file)
+            cPickle.dump(self.config, pkl_file)
             log.debug("Closing pickled file..")
             pkl_file.close()
         except IOError:

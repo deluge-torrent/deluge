@@ -33,7 +33,7 @@
 
 """TorrentManager handles Torrent objects"""
 
-import pickle
+import cPickle
 import os.path
 import os
 
@@ -305,7 +305,7 @@ class TorrentManager:
             log.debug("Opening torrent state file for load.")
             state_file = open(deluge.common.get_config_dir("torrents.state"),
                                                                         "rb")
-            state = pickle.load(state_file)
+            state = cPickle.load(state_file)
             state_file.close()
         except IOError:
             log.warning("Unable to load state file.")
@@ -329,7 +329,7 @@ class TorrentManager:
             log.debug("Saving torrent state file.")
             state_file = open(deluge.common.get_config_dir("torrents.state"), 
                                                                         "wb")
-            pickle.dump(state, state_file)
+            cPickle.dump(state, state_file)
             state_file.close()
         except IOError:
             log.warning("Unable to save state file.")

@@ -32,7 +32,6 @@
 #    statement from all source files in the program, then also delete it here.
 
 import os.path
-import pickle
 
 import dbus
 from dbus.mainloop.glib import DBusGMainLoop
