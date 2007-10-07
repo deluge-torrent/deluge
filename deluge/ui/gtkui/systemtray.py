@@ -176,7 +176,10 @@ class SystemTray:
         if self.window.visible():
             self.window.quit()
         else:
-            self.unlock_tray("quitui")
+            if self.config["lock_tray"] == True:
+                self.unlock_tray("quitui")
+            else:
+                self.window.quit()
 
     def on_menuitem_quitdaemon_activate(self, menuitem):
         log.debug("on_menuitem_quitdaemon_activate")
@@ -184,7 +187,11 @@ class SystemTray:
             self.window.quit()
             functions.shutdown()
         else:
-            self.unlock_tray("quitdaemon")
+            if self.config["lock_tray"] == True:
+                self.unlock_tray("quitdaemon")
+            else:
+                self.window.quit()
+                functions.shutdown()
         
     def build_menu_radio_list(self, value_list, callback, pref_value=None, 
         suffix=None, show_notset=False, notset_label=None, notset_lessthan=0, 
