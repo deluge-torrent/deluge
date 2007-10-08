@@ -55,6 +55,8 @@ import sys
 if hasattr(sys, "frozen"):
     INSTALL_PREFIX = ''
     os.chdir(os.path.dirname(unicode(sys.executable, sys.getfilesystemencoding( ))))
+    sys.stdout = open("deluge.stdout.log", "w")
+    sys.stderr = open("deluge.stderr.log", "w")
 else:
     # the necessary substitutions are made at installation time
     INSTALL_PREFIX = '@datadir@'
