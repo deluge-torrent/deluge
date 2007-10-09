@@ -154,7 +154,7 @@ namespace libtorrent
 		, boost::intrusive_ptr<torrent_info> tf
 		, fs::path const& save_path
 		, tcp::endpoint const& net_interface
-		, bool compact_mode
+		, storage_mode_t storage_mode
 		, int block_size
 		, storage_constructor_type sc
 		, bool paused)
@@ -195,7 +195,7 @@ namespace libtorrent
 		, m_total_redundant_bytes(0)
 		, m_net_interface(net_interface.address(), 0)
 		, m_save_path(complete(save_path))
-		, m_compact_mode(compact_mode)
+		, m_storage_mode(storage_mode)
 		, m_default_block_size(block_size)
 		, m_connections_initialized(true)
 		, m_settings(ses.settings())
@@ -215,7 +215,7 @@ namespace libtorrent
 		, char const* name
 		, fs::path const& save_path
 		, tcp::endpoint const& net_interface
-		, bool compact_mode
+		, storage_mode_t storage_mode
 		, int block_size
 		, storage_constructor_type sc
 		, bool paused)
@@ -255,7 +255,7 @@ namespace libtorrent
 		, m_total_redundant_bytes(0)
 		, m_net_interface(net_interface.address(), 0)
 		, m_save_path(complete(save_path))
-		, m_compact_mode(compact_mode)
+		, m_storage_mode(storage_mode)
 		, m_default_block_size(block_size)
 		, m_connections_initialized(false)
 		, m_settings(ses.settings())
@@ -2215,10 +2215,22 @@ namespace libtorrent
 		bool done = true;
 		try
 		{
+			std::string error_msg;
 			TORRENT_ASSERT(m_storage);
 			TORRENT_ASSERT(m_owning_storage.get());
 			done = m_storage->check_fastresume(data, m_have_pieces, m_num_pieces
-				, m_compact_mode);
+				, m_storage_mode, error_msg);
+
+			if (!error_msg.empty() && m_ses.m_alerts.should_post(alert::warning))
+			{
+				m_ses.m_alerts.post_alert(fastresume_rejected_alert(
+					get_handle(), error_msg));
+#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+				(*m_ses.m_logger) << "fastresume data for "
+					<< torrent_file().name() << " rejected: "
+					<< error_msg << "\n";
+#endif
+			}
 		}
 		catch (std::exception& e)
 		{
@@ -2768,7 +2780,7 @@ namespace libtorrent
 			!boost::bind(&peer_connection::is_connecting
 			, boost::bind(&std::map<tcp::endpoint,peer_connection*>::value_type::second, _1)));
 
-		st.compact_mode = m_compact_mode;
+		st.storage_mode = m_storage_mode;
 
 		st.num_complete = m_complete;
 		st.num_incomplete = m_incomplete;

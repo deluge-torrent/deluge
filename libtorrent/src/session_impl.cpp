@@ -189,9 +189,11 @@ namespace detail
 					t->parse_resume_data(t->resume_data, t->torrent_ptr->torrent_file()
 						, error_msg);
 
+					// lock the session to add the new torrent
+					session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
+
 					if (!error_msg.empty() && m_ses.m_alerts.should_post(alert::warning))
 					{
-						session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 						m_ses.m_alerts.post_alert(fastresume_rejected_alert(
 							t->torrent_ptr->get_handle()
 							, error_msg));
@@ -202,8 +204,6 @@ namespace detail
 #endif
 					}
 
-					// lock the session to add the new torrent
-					session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 					mutex::scoped_lock l2(m_mutex);
 
 					if (m_torrents.empty() || m_torrents.front() != t)
@@ -1623,7 +1623,7 @@ namespace detail
 		boost::intrusive_ptr<torrent_info> ti
 		, fs::path const& save_path
 		, entry const& resume_data
-		, bool compact_mode
+		, storage_mode_t storage_mode
 		, storage_constructor_type sc
 		, bool paused
 		, void* userdata)
@@ -1655,7 +1655,7 @@ namespace detail
 		// the thread
 		boost::shared_ptr<torrent> torrent_ptr(
 			new torrent(*this, m_checker_impl, ti, save_path
-				, m_listen_interface, compact_mode, 16 * 1024
+				, m_listen_interface, storage_mode, 16 * 1024
 				, sc, paused));
 		torrent_ptr->start();
 
@@ -1701,7 +1701,7 @@ namespace detail
 		, char const* name
 		, fs::path const& save_path
 		, entry const&
-		, bool compact_mode
+		, storage_mode_t storage_mode
 		, storage_constructor_type sc
 		, bool paused
 		, void* userdata)
@@ -1735,7 +1735,7 @@ namespace detail
 		// the thread
 		boost::shared_ptr<torrent> torrent_ptr(
 			new torrent(*this, m_checker_impl, tracker_url, info_hash, name
-			, save_path, m_listen_interface, compact_mode, 16 * 1024
+			, save_path, m_listen_interface, storage_mode, 16 * 1024
 			, sc, paused));
 		torrent_ptr->start();
 

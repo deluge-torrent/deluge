@@ -242,8 +242,13 @@ boost::filesystem::path const& save_path)
     // Create new torrent object
 
     torrent_t new_torrent;
-
-    torrent_handle h = M_ses->add_torrent(t, save_path, resume_data, compact_mode);
+    libtorrent::storage_mode_t storage_mode;
+    if (compact_mode){
+        storage_mode = storage_mode_compact;
+    } else {
+        storage_mode = storage_mode_sparse;
+    }
+    torrent_handle h = M_ses->add_torrent(t, save_path, resume_data, storage_mode);
     //    h.set_max_connections(60); // at some point we should use this
     h.set_max_uploads(-1);
     h.set_ratio(preferred_ratio);
@@ -893,7 +898,7 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
         "num_seeds",          connected_seeds,
         "distributed_copies", s.distributed_copies == -1.0 ? 0.0 : s.distributed_copies,
         "download_rate",      s.download_payload_rate,
-        "compact_mode",       s.compact_mode,
+        "storage_mode",       s.storage_mode,
         "upload_rate",        s.upload_payload_rate,
         "total_download",     s.total_download,
         "total_upload",       s.total_upload,
