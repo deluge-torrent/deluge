@@ -475,6 +475,8 @@ static PyObject *torrent_set_max_half_open(PyObject *self, PyObject *args)
 #if defined(_WIN32)
     if (arg > 8)
         arg = 8;
+    if (arg = -1)
+        arg = 8;
 #endif
     M_ses->set_max_half_open_connections(arg);
 
