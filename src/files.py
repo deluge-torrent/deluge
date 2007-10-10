@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# tab_files.py
+# files.py
 #
 # Copyright (C) Zach Tibbitts 2006 <zach@collegegeek.org>
 #

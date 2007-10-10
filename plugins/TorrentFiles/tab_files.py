@@ -44,7 +44,6 @@ class FilesTabManager(FilesBaseManager):
                                    gobject.TYPE_UINT, float)
         
         super(FilesTabManager, self).__init__(file_view, file_store)
-
         self.manager = manager
         self.file_unique_id = None
         
@@ -69,8 +68,7 @@ class FilesTabManager(FilesBaseManager):
         self.file_unique_id = unique_id
     
     def priority_clicked(self, widget):
-        state = self.manager.get_torrent_state(self.file_unique_id)
-        if state["compact_mode"]:
+	if self.manager.get_pref("use_compact_storage"):
             self.compact_allocation_warning()
         else:
             super(FilesTabManager, self).priority_clicked(widget)
