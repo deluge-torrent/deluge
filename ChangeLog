@@ -14,6 +14,7 @@ Deluge 0.5.6 (xx October 2007)
   * Use SVG for internal logo usage (except on Win32)
   * Use theme for tray icon instead of hard-coded 
   * Properly release port on shutdown
+  * New max half-open connections setting to deal with cheap/broken routers
   * Inherit UPnP fixes from libtorrent
   * Use threading for everything, instead of spawnning
 

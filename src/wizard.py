@@ -74,6 +74,7 @@ class WizardGTK:
             defaults={"listen_on" : [6881,6889],
                     "send_info": True,
                     "random_port": False,
+                    "max_half_open" : 8,
                     "max_active_torrents" : 8,
                     "max_upload_slots_global" : 15,
                     "max_connections_global" : 200,
@@ -106,6 +107,8 @@ class WizardGTK:
                 get("max_upload_speed"))
             self.wtree.get_widget('spin_torrents').set_value(self.config.\
                 get("max_active_torrents"))
+            self.wtree.get_widget('spin_max_half_open').set_value(self.config.\
+                get("max_half_open"))
 
         #show wizard
         self.window.show()
@@ -304,6 +307,8 @@ class WizardGTK:
             'spin_max_upload').get_value()))
         self.config.set("max_active_torrents", int(self.wtree.get_widget(\
             'spin_torrents').get_value()))
+        self.config.set("max_half_open", int(self.wtree.get_widget(\
+            'spin_max_half_open').get_value()))
         self.config.set("use_default_dir", self.wtree.get_widget(\
             'radio_save_all_to').get_active())
         self.config.set("default_download_path", self.wtree.get_widget(\

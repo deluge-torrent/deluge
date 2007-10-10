@@ -69,6 +69,7 @@ DHT_FILENAME = "dht.state"
 
 PREF_FUNCTIONS = {
     "listen_on" : deluge_core.set_listen_on,
+    "max_half_open" : deluge_core.set_max_half_open,
     "max_connections_global" : deluge_core.set_max_connections_global,
     "max_active_torrents" : None, # no need for a function, applied constantly
     "max_upload_slots_global" : deluge_core.set_max_upload_slots_global,
