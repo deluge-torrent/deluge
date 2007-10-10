@@ -68,7 +68,7 @@ class FilesTabManager(FilesBaseManager):
         self.file_unique_id = unique_id
     
     def priority_clicked(self, widget):
-	if self.manager.get_pref("use_compact_storage"):
+        if self.manager.get_pref("use_compact_storage"):
             self.compact_allocation_warning()
         else:
             super(FilesTabManager, self).priority_clicked(widget)
