@@ -1,7 +1,9 @@
 Deluge 0.5.6 (xx October 2007)
+  * Web Interface Plugin
+  * Use new full allocation method which does not create files until one of its
+  pieces is downloaded
   * Tray lock password is no longer stored in plain text
   * Update the Scheduler plugin and fix a bunch of bugs on it
-  * Web Interface Plugin
   * Double-clicking on a torrent opens up its containing folder
   * Fix SpeedLimiter plugin when setting upload limits
   * Fix MoveTorrent plugin when moving actively downloading torrents
