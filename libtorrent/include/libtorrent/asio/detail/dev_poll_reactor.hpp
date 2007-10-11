@@ -1,6 +1,6 @@
 //
-// epoll_reactor.hpp
-// ~~~~~~~~~~~~~~~~~
+// dev_poll_reactor.hpp
+// ~~~~~~~~~~~~~~~~~~~~
 //
 // Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
@@ -8,8 +8,8 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 
-#ifndef ASIO_DETAIL_EPOLL_REACTOR_HPP
-#define ASIO_DETAIL_EPOLL_REACTOR_HPP
+#ifndef ASIO_DETAIL_DEV_POLL_REACTOR_HPP
+#define ASIO_DETAIL_DEV_POLL_REACTOR_HPP
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1200)
 # pragma once
@@ -17,17 +17,17 @@
 
 #include "asio/detail/push_options.hpp"
 
-#include "asio/detail/epoll_reactor_fwd.hpp"
+#include "asio/detail/dev_poll_reactor_fwd.hpp"
 
-#if defined(ASIO_HAS_EPOLL)
+#if defined(ASIO_HAS_DEV_POLL)
 
 #include "asio/detail/push_options.hpp"
 #include <cstddef>
 #include <vector>
-#include <sys/epoll.h>
 #include <boost/config.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <boost/throw_exception.hpp>
+#include <sys/devpoll.h>
 #include "asio/detail/pop_options.hpp"
 
 #include "asio/error.hpp"
@@ -49,15 +49,16 @@ namespace asio {
 namespace detail {
 
 template <bool Own_Thread>
-class epoll_reactor
-  : public asio::detail::service_base<epoll_reactor<Own_Thread> >
+class dev_poll_reactor
+  : public asio::detail::service_base<dev_poll_reactor<Own_Thread> >
 {
 public:
   // Constructor.
-  epoll_reactor(asio::io_service& io_service)
-    : asio::detail::service_base<epoll_reactor<Own_Thread> >(io_service),
+  dev_poll_reactor(asio::io_service& io_service)
+    : asio::detail::service_base<
+        dev_poll_reactor<Own_Thread> >(io_service),
       mutex_(),
-      epoll_fd_(do_epoll_create()),
+      dev_poll_fd_(do_dev_poll_create()),
       wait_in_progress_(false),
       interrupter_(),
       read_op_queue_(),
@@ -73,21 +74,22 @@ public:
     {
       asio::detail::signal_blocker sb;
       thread_ = new asio::detail::thread(
-          bind_handler(&epoll_reactor::call_run_thread, this));
+          bind_handler(&dev_poll_reactor::call_run_thread, this));
     }
 
-    // Add the interrupter's descriptor to epoll.
-    epoll_event ev = { 0, { 0 } };
-    ev.events = EPOLLIN | EPOLLERR;
-    ev.data.fd = interrupter_.read_descriptor();
-    epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, interrupter_.read_descriptor(), &ev);
+    // Add the interrupter's descriptor to /dev/poll.
+    ::pollfd ev = { 0 };
+    ev.fd = interrupter_.read_descriptor();
+    ev.events = POLLIN | POLLERR;
+    ev.revents = 0;
+    ::write(dev_poll_fd_, &ev, sizeof(ev));
   }
 
   // Destructor.
-  ~epoll_reactor()
+  ~dev_poll_reactor()
   {
     shutdown_service();
-    close(epoll_fd_);
+    ::close(dev_poll_fd_);
   }
 
   // Destroy all user-defined handler objects owned by the service.
@@ -119,14 +121,6 @@ public:
   // code on failure.
   int register_descriptor(socket_type descriptor)
   {
-    // No need to lock according to epoll documentation.
-
-    epoll_event ev = { 0, { 0 } };
-    ev.events = 0;
-    ev.data.fd = descriptor;
-    int result = epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, descriptor, &ev);
-    if (result != 0)
-      return errno;
     return 0;
   }
 
@@ -146,18 +140,17 @@ public:
 
     if (read_op_queue_.enqueue_operation(descriptor, handler))
     {
-      epoll_event ev = { 0, { 0 } };
-      ev.events = EPOLLIN | EPOLLERR | EPOLLHUP;
+      ::pollfd ev = { 0 };
+      ev.fd = descriptor;
+      ev.events = POLLIN | POLLERR | POLLHUP;
       if (write_op_queue_.has_operation(descriptor))
-        ev.events |= EPOLLOUT;
+        ev.events |= POLLOUT;
       if (except_op_queue_.has_operation(descriptor))
-        ev.events |= EPOLLPRI;
-      ev.data.fd = descriptor;
+        ev.events |= POLLPRI;
+      ev.revents = 0;
 
-      int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
-      if (result != 0 && errno == ENOENT)
-        result = epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, descriptor, &ev);
-      if (result != 0)
+      int result = ::write(dev_poll_fd_, &ev, sizeof(ev));
+      if (result != sizeof(ev))
       {
         asio::error_code ec(errno,
             asio::error::system_category);
@@ -182,18 +175,17 @@ public:
 
     if (write_op_queue_.enqueue_operation(descriptor, handler))
     {
-      epoll_event ev = { 0, { 0 } };
-      ev.events = EPOLLOUT | EPOLLERR | EPOLLHUP;
+      ::pollfd ev = { 0 };
+      ev.fd = descriptor;
+      ev.events = POLLOUT | POLLERR | POLLHUP;
       if (read_op_queue_.has_operation(descriptor))
-        ev.events |= EPOLLIN;
+        ev.events |= POLLIN;
       if (except_op_queue_.has_operation(descriptor))
-        ev.events |= EPOLLPRI;
-      ev.data.fd = descriptor;
+        ev.events |= POLLPRI;
+      ev.revents = 0;
 
-      int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
-      if (result != 0 && errno == ENOENT)
-        result = epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, descriptor, &ev);
-      if (result != 0)
+      int result = ::write(dev_poll_fd_, &ev, sizeof(ev));
+      if (result != sizeof(ev))
       {
         asio::error_code ec(errno,
             asio::error::system_category);
@@ -214,18 +206,17 @@ public:
 
     if (except_op_queue_.enqueue_operation(descriptor, handler))
     {
-      epoll_event ev = { 0, { 0 } };
-      ev.events = EPOLLPRI | EPOLLERR | EPOLLHUP;
+      ::pollfd ev = { 0 };
+      ev.fd = descriptor;
+      ev.events = POLLPRI | POLLERR | POLLHUP;
       if (read_op_queue_.has_operation(descriptor))
-        ev.events |= EPOLLIN;
+        ev.events |= POLLIN;
       if (write_op_queue_.has_operation(descriptor))
-        ev.events |= EPOLLOUT;
-      ev.data.fd = descriptor;
+        ev.events |= POLLOUT;
+      ev.revents = 0;
 
-      int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
-      if (result != 0 && errno == ENOENT)
-        result = epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, descriptor, &ev);
-      if (result != 0)
+      int result = ::write(dev_poll_fd_, &ev, sizeof(ev));
+      if (result != sizeof(ev))
       {
         asio::error_code ec(errno,
             asio::error::system_category);
@@ -250,16 +241,15 @@ public:
       && need_mod;
     if (need_mod)
     {
-      epoll_event ev = { 0, { 0 } };
-      ev.events = EPOLLOUT | EPOLLPRI | EPOLLERR | EPOLLHUP;
+      ::pollfd ev = { 0 };
+      ev.fd = descriptor;
+      ev.events = POLLOUT | POLLPRI | POLLERR | POLLHUP;
       if (read_op_queue_.has_operation(descriptor))
-        ev.events |= EPOLLIN;
-      ev.data.fd = descriptor;
+        ev.events |= POLLIN;
+      ev.revents = 0;
 
-      int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
-      if (result != 0 && errno == ENOENT)
-        result = epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, descriptor, &ev);
-      if (result != 0)
+      int result = ::write(dev_poll_fd_, &ev, sizeof(ev));
+      if (result != sizeof(ev))
       {
         asio::error_code ec(errno,
             asio::error::system_category);
@@ -281,7 +271,7 @@ public:
   // Enqueue cancellation of all operations associated with the given
   // descriptor. The handlers associated with the descriptor will be invoked
   // with the operation_aborted error. This function does not acquire the
-  // epoll_reactor's mutex, and so should only be used from within a reactor
+  // dev_poll_reactor's mutex, and so should only be used from within a reactor
   // handler.
   void enqueue_cancel_ops_unlocked(socket_type descriptor)
   {
@@ -294,9 +284,12 @@ public:
   {
     asio::detail::mutex::scoped_lock lock(mutex_);
 
-    // Remove the descriptor from epoll.
-    epoll_event ev = { 0, { 0 } };
-    epoll_ctl(epoll_fd_, EPOLL_CTL_DEL, descriptor, &ev);
+    // Remove the descriptor from /dev/poll.
+    ::pollfd ev = { 0 };
+    ev.fd = descriptor;
+    ev.events = POLLREMOVE;
+    ev.revents = 0;
+    ::write(dev_poll_fd_, &ev, sizeof(ev));
 
     // Cancel any outstanding operations associated with the descriptor.
     cancel_ops_unlocked(descriptor);
@@ -350,9 +343,9 @@ public:
   }
 
 private:
-  friend class task_io_service<epoll_reactor<Own_Thread> >;
+  friend class task_io_service<dev_poll_reactor<Own_Thread> >;
 
-  // Run epoll once until interrupted or events are ready to be dispatched.
+  // Run /dev/poll once until interrupted or events are ready to be dispatched.
   void run(bool block)
   {
     asio::detail::mutex::scoped_lock lock(mutex_);
@@ -385,9 +378,13 @@ private:
     wait_in_progress_ = true;
     lock.unlock();
 
-    // Block on the epoll descriptor.
-    epoll_event events[128];
-    int num_events = epoll_wait(epoll_fd_, events, 128, timeout);
+    // Block on the /dev/poll descriptor.
+    ::pollfd events[128] = { { 0 } };
+    ::dvpoll dp = { 0 };
+    dp.dp_fds = events;
+    dp.dp_nfds = 128;
+    dp.dp_timeout = timeout;
+    int num_events = ::ioctl(dev_poll_fd_, DP_POLL, &dp);
 
     lock.lock();
     wait_in_progress_ = false;
@@ -398,7 +395,7 @@ private:
     // Dispatch the waiting events.
     for (int i = 0; i < num_events; ++i)
     {
-      int descriptor = events[i].data.fd;
+      int descriptor = events[i].fd;
       if (descriptor == interrupter_.read_descriptor())
       {
         interrupter_.reset();
@@ -412,48 +409,49 @@ private:
 
         // Exception operations must be processed first to ensure that any
         // out-of-band data is read before normal data.
-        if (events[i].events & (EPOLLPRI | EPOLLERR | EPOLLHUP))
+        if (events[i].events & (POLLPRI | POLLERR | POLLHUP))
           more_except = except_op_queue_.dispatch_operation(descriptor, ec);
         else
           more_except = except_op_queue_.has_operation(descriptor);
 
-        if (events[i].events & (EPOLLIN | EPOLLERR | EPOLLHUP))
+        if (events[i].events & (POLLIN | POLLERR | POLLHUP))
           more_reads = read_op_queue_.dispatch_operation(descriptor, ec);
         else
           more_reads = read_op_queue_.has_operation(descriptor);
 
-        if (events[i].events & (EPOLLOUT | EPOLLERR | EPOLLHUP))
+        if (events[i].events & (POLLOUT | POLLERR | POLLHUP))
           more_writes = write_op_queue_.dispatch_operation(descriptor, ec);
         else
           more_writes = write_op_queue_.has_operation(descriptor);
 
-        if ((events[i].events == EPOLLHUP)
+        if ((events[i].events == POLLHUP)
             && !more_except && !more_reads && !more_writes)
         {
-          // If we have only an EPOLLHUP event and no operations associated
+          // If we have only an POLLHUP event and no operations associated
           // with the descriptor then we need to delete the descriptor from
-          // epoll. The epoll_wait system call will produce EPOLLHUP events
-          // even if they are not specifically requested, so if we do not
-          // remove the descriptor we can end up in a tight loop of repeated
-          // calls to epoll_wait.
-          epoll_event ev = { 0, { 0 } };
-          epoll_ctl(epoll_fd_, EPOLL_CTL_DEL, descriptor, &ev);
+          // /dev/poll. The poll operation might produce POLLHUP events even
+          // if they are not specifically requested, so if we do not remove the
+          // descriptor we can end up in a tight polling loop.
+          ::pollfd ev = { 0 };
+          ev.fd = descriptor;
+          ev.events = POLLREMOVE;
+          ev.revents = 0;
+          ::write(dev_poll_fd_, &ev, sizeof(ev));
         }
         else
         {
-          epoll_event ev = { 0, { 0 } };
-          ev.events = EPOLLERR | EPOLLHUP;
+          ::pollfd ev = { 0 };
+          ev.fd = descriptor;
+          ev.events = POLLERR | POLLHUP;
           if (more_reads)
-            ev.events |= EPOLLIN;
+            ev.events |= POLLIN;
           if (more_writes)
-            ev.events |= EPOLLOUT;
+            ev.events |= POLLOUT;
           if (more_except)
-            ev.events |= EPOLLPRI;
-          ev.data.fd = descriptor;
-          int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
-          if (result != 0 && errno == ENOENT)
-            result = epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, descriptor, &ev);
-          if (result != 0)
+            ev.events |= POLLPRI;
+          ev.revents = 0;
+          int result = ::write(dev_poll_fd_, &ev, sizeof(ev));
+          if (result != sizeof(ev))
           {
             ec = asio::error_code(errno,
                 asio::error::system_category);
@@ -494,7 +492,7 @@ private:
   }
 
   // Entry point for the select loop thread.
-  static void call_run_thread(epoll_reactor* reactor)
+  static void call_run_thread(dev_poll_reactor* reactor)
   {
     reactor->run_thread();
   }
@@ -505,21 +503,18 @@ private:
     interrupter_.interrupt();
   }
 
-  // The hint to pass to epoll_create to size its data structures.
-  enum { epoll_size = 20000 };
-
-  // Create the epoll file descriptor. Throws an exception if the descriptor
+  // Create the /dev/poll file descriptor. Throws an exception if the descriptor
   // cannot be created.
-  static int do_epoll_create()
+  static int do_dev_poll_create()
   {
-    int fd = epoll_create(epoll_size);
+    int fd = ::open("/dev/poll", O_RDWR);
     if (fd == -1)
     {
       boost::throw_exception(
           asio::system_error(
             asio::error_code(errno,
               asio::error::system_category),
-            "epoll"));
+            "/dev/poll"));
     }
     return fd;
   }
@@ -533,9 +528,9 @@ private:
     return true;
   }
 
-  // Get the timeout value for the epoll_wait call. The timeout value is
-  // returned as a number of milliseconds. A return value of -1 indicates
-  // that epoll_wait should block indefinitely.
+  // Get the timeout value for the /dev/poll DP_POLL operation. The timeout
+  // value is returned as a number of milliseconds. A return value of -1
+  // indicates that the poll should block indefinitely.
   int get_timeout()
   {
     if (all_timer_queues_are_empty())
@@ -567,7 +562,7 @@ private:
 
   // Cancel all operations associated with the given descriptor. The do_cancel
   // function of the handler objects will be invoked. This function does not
-  // acquire the epoll_reactor's mutex.
+  // acquire the dev_poll_reactor's mutex.
   void cancel_ops_unlocked(socket_type descriptor)
   {
     bool interrupt = read_op_queue_.cancel_operations(descriptor);
@@ -596,13 +591,13 @@ private:
   // Mutex to protect access to internal data.
   asio::detail::mutex mutex_;
 
-  // The epoll file descriptor.
-  int epoll_fd_;
+  // The /dev/poll file descriptor.
+  int dev_poll_fd_;
 
-  // Whether the epoll_wait call is currently in progress
+  // Whether the DP_POLL operation is currently in progress
   bool wait_in_progress_;
 
-  // The interrupter is used to break a blocking epoll_wait call.
+  // The interrupter is used to break a blocking DP_POLL operation.
   select_interrupter interrupter_;
 
   // The queue of read operations.
@@ -637,8 +632,8 @@ private:
 } // namespace detail
 } // namespace asio
 
-#endif // defined(ASIO_HAS_EPOLL)
+#endif // defined(ASIO_HAS_DEV_POLL)
 
 #include "asio/detail/pop_options.hpp"
 
-#endif // ASIO_DETAIL_EPOLL_REACTOR_HPP
+#endif // ASIO_DETAIL_DEV_POLL_REACTOR_HPP
