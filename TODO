@@ -1,6 +1,5 @@
 for 0.5.6
-    1.  save upload data intermidently for sake of ratio
-    2.  check on file size warnings "you do not have enough disk space blah blah"
+    1.  check on file size warnings "you do not have enough disk space blah blah"
         and see how it works with the new sparse mode.  use total_wanted.
-    3.  for the love of all that is pure and holy, figure out why speed limiter
+    2.  for the love of all that is pure and holy, figure out why speed limiter
         doesnt work anymore
