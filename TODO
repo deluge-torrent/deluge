@@ -3,4 +3,3 @@ for 0.5.6
         and see how it works with the new sparse mode.  use total_wanted.
     2.  for the love of all that is pure and holy, figure out why speed limiter
         doesnt work anymore
-    3.  proper file association on windows
