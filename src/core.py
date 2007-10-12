@@ -653,6 +653,9 @@ class Manager:
                 self.set_supp_torrent_state_val(event['unique_ID'], 
                                                 "tracker_status",
                                                 _("Announce sent"))
+            elif event['event_type'] is self.constants['EVENT_LISTEN_FAILED']:
+                deluge_core.set_listen_on(self.get_state()['port'], 
+                                            self.get_state()['port'])
             elif event['event_type'] is self.constants['EVENT_TRACKER_REPLY']:
                 self.set_supp_torrent_state_val(event['unique_ID'], 
                                                 "tracker_status",

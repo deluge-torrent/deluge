@@ -91,6 +91,7 @@ using namespace libtorrent;
 #define EVENT_BLOCK_DOWNLOADING     16
 #define EVENT_BLOCK_FINISHED        17
 #define EVENT_PEER_BLOCKED          18
+#define EVENT_LISTEN_FAILED         19
 
 #define STATE_QUEUED                0
 #define STATE_CHECKING              1
@@ -383,7 +384,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
     M_ses->add_extension(&libtorrent::create_metadata_plugin);
 
-    M_constants = Py_BuildValue("{s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i}",
+    M_constants = Py_BuildValue("{s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i,s:i}",
         "EVENT_NULL",                         EVENT_NULL,
         "EVENT_FINISHED",                     EVENT_FINISHED,
         "EVENT_PEER_ERROR",                   EVENT_PEER_ERROR,
@@ -402,6 +403,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
         "EVENT_BLOCK_DOWNLOADING",            EVENT_BLOCK_DOWNLOADING,
         "EVENT_BLOCK_FINISHED",               EVENT_BLOCK_FINISHED,
         "EVENT_PEER_BLOCKED",                 EVENT_PEER_BLOCKED,
+        "EVENT_LISTEN_FAILED",                EVENT_LISTEN_FAILED,
         "STATE_QUEUED",                       STATE_QUEUED,
         "STATE_CHECKING",                     STATE_CHECKING,
         "STATE_CONNECTING",                   STATE_CONNECTING,
@@ -943,6 +945,11 @@ static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
         return Py_BuildValue("{s:i,s:s,s:s}", 
             "event_type", EVENT_PEER_BLOCKED,
             "ip", peer_IP.c_str(),
+            "message", a->msg().c_str());
+    } else if (dynamic_cast<listen_failed_alert*>(popped_alert))
+    {
+        return Py_BuildValue("{s:i,s:s}",
+            "event_type", EVENT_LISTEN_FAILED,
             "message", a->msg().c_str());
     } else if (dynamic_cast<block_downloading_alert*>(popped_alert))
     {
