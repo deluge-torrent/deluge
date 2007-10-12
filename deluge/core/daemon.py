@@ -31,23 +31,13 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import dbus
-from dbus.mainloop.glib import DBusGMainLoop
-
 from deluge.core.core import Core
 from deluge.log import LOG as log
 
 class Daemon:
     def __init__(self):
-        # Check to see if the daemon is already running and if not, start it
-        bus = dbus.SessionBus()
-        obj = bus.get_object("org.freedesktop.DBus", "/org/freedesktop/DBus")
-        iface = dbus.Interface(obj, "org.freedesktop.DBus")
-        if iface.NameHasOwner("org.deluge_torrent.Deluge"):
-            # Daemon is running so lets tell the user
-            log.info("Daemon is already running..")
-        else:
-            # Daemon is not running so lets start up the core
-            log.debug("Daemon is not running..")
-            self.core = Core()
+        # Start the core as a thread and join it until it's done
+        self.core = Core()
+        self.core.start()
+        self.core.join()
 

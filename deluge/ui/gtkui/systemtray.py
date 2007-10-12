@@ -86,14 +86,13 @@ class SystemTray:
         # Create the Download speed list sub-menu
         submenu_bwdownset = self.build_menu_radio_list(
                 self.config["tray_download_speed_list"], self.tray_setbwdown,
-                functions.get_config_value("max_download_speed", 
-                    core=self.core), _("KiB/s"), show_notset=True, 
-                    show_other=True)
+                functions.get_config_value("max_download_speed"),
+                     _("KiB/s"), show_notset=True, show_other=True)
         
         # Create the Upload speed list sub-menu
         submenu_bwupset = self.build_menu_radio_list(
                 self.config["tray_upload_speed_list"], self.tray_setbwup, 
-                functions.get_config_value("max_upload_speed", core=self.core),
+                functions.get_config_value("max_upload_speed"),
                 _("KiB/s"), show_notset=True, show_other=True)
         
         # Add the sub-menus to the tray menu
@@ -282,7 +281,7 @@ class SystemTray:
             spin_title.set_text(_("%s Speed (KiB/s):" % string))
             spin_speed = dialog_glade.get_widget("spin_speed")
             spin_speed.set_value(
-                functions.get_config_value(core_key, core=self.core))
+                functions.get_config_value(core_key))
             spin_speed.select_region(0, -1)
             response = speed_dialog.run()
             if response == 1: # OK Response
@@ -295,7 +294,7 @@ class SystemTray:
         # Set the config in the core
         value = float(value)
         config_to_set = {core_key: value}
-        functions.set_config(config_to_set, core=self.core)
+        functions.set_config(config_to_set)
 
         # Update the tray speed limit list
         if value not in self.config[ui_key] and value >= 0:

@@ -74,8 +74,7 @@ class StatusBar:
 
     def update(self):
         # Set the max connections label
-        max_connections = functions.get_config_value("max_connections_global",
-            core=self.core)
+        max_connections = functions.get_config_value("max_connections_global")
         if max_connections < 0:
             max_connections = _("Unlimited")
             
@@ -83,8 +82,7 @@ class StatusBar:
             self.core.get_num_connections(), max_connections))
         
         # Set the download speed label
-        max_download_speed = functions.get_config_value("max_download_speed",
-            core=self.core)
+        max_download_speed = functions.get_config_value("max_download_speed")
         if max_download_speed < 0:
             max_download_speed = _("Unlimited")
         else:
@@ -95,8 +93,7 @@ class StatusBar:
             max_download_speed))
         
         # Set the upload speed label
-        max_upload_speed = functions.get_config_value("max_upload_speed",
-            core=self.core)
+        max_upload_speed = functions.get_config_value("max_upload_speed")
         if max_upload_speed < 0:
             max_upload_speed = _("Unlimited")
         else:

@@ -93,7 +93,7 @@ class GtkUI:
         self.mainwindow = MainWindow()
         
         # Start the signal receiver
-        self.signal_receiver = Signals(self)
+        #self.signal_receiver = Signals(self)
         
         # Initalize the plugins
         self.plugins = PluginManager(self)
@@ -112,6 +112,6 @@ class GtkUI:
         
         # Clean-up
         del self.mainwindow
-        del self.signal_receiver
+        #del self.signal_receiver
         del self.plugins
         del deluge.configmanager

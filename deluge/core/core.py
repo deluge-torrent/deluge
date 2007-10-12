@@ -31,15 +31,17 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import dbus
-import dbus.service
-from dbus.mainloop.glib import DBusGMainLoop
-DBusGMainLoop(set_as_default=True)
 import gettext
 import locale
 import pkg_resources
+import sys
+import pickle
 
+import SimpleXMLRPCServer
+from SocketServer import ThreadingMixIn
+import xmlrpclib
 import gobject
+import threading
 
 import deluge.libtorrent as lt
 from deluge.configmanager import ConfigManager
@@ -73,9 +75,27 @@ DEFAULT_PREFS = {
     "max_upload_slots_per_torrent": -1,
     "enabled_plugins": ["Queue"]
 }
+        
+class Core(threading.Thread, ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
+    def __init__(self):
+        log.debug("Core init..")
+        threading.Thread.__init__(self)
 
-class Core(dbus.service.Object):
-    def __init__(self, path="/org/deluge_torrent/Core"):
+        # Setup the xmlrpc server
+        try:
+            SimpleXMLRPCServer.SimpleXMLRPCServer.__init__(
+                self, ("localhost", 6666), logRequests=False, allow_none=True)
+        except:
+            log.info("Daemon already running or port not available..")
+            sys.exit(0)
+            
+        # Register all export_* functions
+        for func in dir(self):
+            if func.startswith("export_"):
+                self.register_function(getattr(self, "%s" % func), func[7:])
+
+        self.register_introspection_functions()
+                
         # Initialize gettext
         locale.setlocale(locale.LC_MESSAGES, '')
         locale.bindtextdomain("deluge", 
@@ -89,13 +109,9 @@ class Core(dbus.service.Object):
         gettext.install("deluge",
                     pkg_resources.resource_filename(
                                             "deluge", "i18n"))
-        log.debug("Core init..")
         
-        # Setup DBUS
-        bus_name = dbus.service.BusName("org.deluge_torrent.Deluge", 
-                                                        bus=dbus.SessionBus())
-        dbus.service.Object.__init__(self, bus_name, path)
-
+    def run(self):
+        """Starts the core"""
         # Get config
         self.config = ConfigManager("core.conf", DEFAULT_PREFS)
         
@@ -119,29 +135,29 @@ class Core(dbus.service.Object):
 
         # Register set functions in the Config
         self.config.register_set_function("listen_ports", 
-            self.on_set_listen_ports)
+            self._on_set_listen_ports)
         self.config.register_set_function("random_port",
-            self.on_set_random_port)
-        self.config.register_set_function("dht", self.on_set_dht)
-        self.config.register_set_function("upnp", self.on_set_upnp)
-        self.config.register_set_function("natpmp", self.on_set_natpmp)
-        self.config.register_set_function("utpex", self.on_set_utpex)
+            self._on_set_random_port)
+        self.config.register_set_function("dht", self._on_set_dht)
+        self.config.register_set_function("upnp", self._on_set_upnp)
+        self.config.register_set_function("natpmp", self._on_set_natpmp)
+        self.config.register_set_function("utpex", self._on_set_utpex)
         self.config.register_set_function("enc_in_policy",
-            self.on_set_encryption)
+            self._on_set_encryption)
         self.config.register_set_function("enc_out_policy",
-            self.on_set_encryption)
+            self._on_set_encryption)
         self.config.register_set_function("enc_level",
-            self.on_set_encryption)
+            self._on_set_encryption)
         self.config.register_set_function("enc_prefer_rc4",
-            self.on_set_encryption)
+            self._on_set_encryption)
         self.config.register_set_function("max_connections_global",
-            self.on_set_max_connections_global)
+            self._on_set_max_connections_global)
         self.config.register_set_function("max_upload_speed",
-            self.on_set_max_upload_speed)
+            self._on_set_max_upload_speed)
         self.config.register_set_function("max_download_speed",
-            self.on_set_max_download_speed)
+            self._on_set_max_download_speed)
         self.config.register_set_function("max_upload_slots_global",
-            self.on_set_max_upload_slots_global)
+            self._on_set_max_upload_slots_global)
 
         # Start the AlertManager
         self.alerts = AlertManager(self.session)
@@ -154,16 +170,18 @@ class Core(dbus.service.Object):
        
         # Register alert handlers
         self.alerts.register_handler("torrent_paused_alert",
-            self.on_alert_torrent_paused)
-            
-        log.debug("Starting main loop..")
+            self._on_alert_torrent_paused)
+        
+        t = threading.Thread(target=self.serve_forever)
+        t.start()
+        gobject.threads_init()
+
         self.loop = gobject.MainLoop()
         self.loop.run()
-
+    
     def _shutdown(self):
         """This is called by a thread from shutdown()"""
         log.info("Shutting down core..")
-        self.loop.quit()
         self.plugins.shutdown()
         self.torrents.shutdown()
         # Make sure the config file has been saved
@@ -171,25 +189,22 @@ class Core(dbus.service.Object):
         del self.config
         del deluge.configmanager
         del self.session
+        self.loop.quit()
         
     # Exported Methods
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                    in_signature="", out_signature="")
-    def shutdown(self):
+    def export_shutdown(self):
         """Shutdown the core"""
         # Make shutdown an async call
         gobject.idle_add(self._shutdown)
 
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge", 
-                                    in_signature="ssay", out_signature="b")
-    def add_torrent_file(self, filename, save_path, filedump):
+    def export_add_torrent_file(self, filename, save_path, filedump):
         """Adds a torrent file to the libtorrent session
             This requires the torrents filename and a dump of it's content
         """
         if save_path == "":
             save_path = None
             
-        torrent_id = self.torrents.add(filename, filedump=filedump, 
+        torrent_id = self.torrents.add(filename, filedump=filedump.data, 
             save_path=save_path)
 
         # Run the plugin hooks for 'post_torrent_add'
@@ -203,9 +218,7 @@ class Core(dbus.service.Object):
             # Return False because the torrent was not added successfully
             return False
 
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                    in_signature="ss", out_signature="b")
-    def add_torrent_url(self, url, save_path):
+    def export_add_torrent_url(self, url, save_path):
         log.info("Attempting to add url %s", url)
         
         # Get the actual filename of the torrent from the url provided.
@@ -224,11 +237,9 @@ class Core(dbus.service.Object):
             return False
             
         # Add the torrent to session
-        return self.add_torrent_file(filename, save_path, filedump)
+        return self.export_add_torrent_file(filename, save_path, filedump)
         
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                    in_signature="s", out_signature="")
-    def remove_torrent(self, torrent_id):
+    def export_remove_torrent(self, torrent_id):
         log.debug("Removing torrent %s from the core.", torrent_id)
         if self.torrents.remove(torrent_id):
             # Run the plugin hooks for 'post_torrent_remove'
@@ -236,43 +247,32 @@ class Core(dbus.service.Object):
             # Emit the torrent_removed signal
             self.torrent_removed(torrent_id)
             
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                    in_signature="s", out_signature="")
-    def force_reannounce(self, torrent_id):
+    def export_force_reannounce(self, torrent_id):
         log.debug("Forcing reannouncment to trackers of torrent %s", torrent_id)
         self.torrents.force_reannounce(torrent_id)
 
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                    in_signature="s", out_signature="")
-    def pause_torrent(self, torrent_id):
+    def export_pause_torrent(self, torrent_id):
         log.debug("Pausing torrent %s", torrent_id)
         if not self.torrents.pause(torrent_id):
             log.warning("Error pausing torrent %s", torrent_id)
     
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge")   
-    def pause_all_torrents(self):
+    def export_pause_all_torrents(self):
         """Pause all torrents in the session"""
         if not self.torrents.pause_all():
             log.warning("Error pausing all torrents..")
             
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge")   
-    def resume_all_torrents(self):
+    def export_resume_all_torrents(self):
         """Resume all torrents in the session"""
         if self.torrents.resume_all():
             # Emit the 'torrent_all_resumed' signal
             self.torrent_all_resumed()
         
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                    in_signature="s", out_signature="")
-    def resume_torrent(self, torrent_id):
+    def export_resume_torrent(self, torrent_id):
         log.debug("Resuming torrent %s", torrent_id)
         if self.torrents.resume(torrent_id):
             self.torrent_resumed(torrent_id)
     
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                    in_signature="sas", 
-                                    out_signature="a{sv}")
-    def get_torrent_status(self, torrent_id, keys):
+    def export_get_torrent_status(self, torrent_id, keys):
         # Convert the array of strings to a python list of strings
         keys = deluge.common.pythonize(keys)
         # Build the status dictionary
@@ -286,33 +286,23 @@ class Core(dbus.service.Object):
         leftover_fields = list(set(keys) - set(status.keys()))
         if len(leftover_fields) > 0:
             status.update(self.plugins.get_status(torrent_id, leftover_fields))
-        return status
+        return xmlrpclib.Binary(pickle.dumps(status))
     
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                in_signature="",
-                                out_signature="as")
-    def get_session_state(self):
+    def export_get_session_state(self):
         """Returns a list of torrent_ids in the session."""
         # Get the torrent list from the TorrentManager
         return self.torrents.get_torrent_list()
     
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge")
-    def save_state(self):
+    def export_save_state(self):
         """Save the current session state to file."""
         # Have the TorrentManager save it's state
         self.torrents.save_state()
     
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                in_signature="",
-                                out_signature="a{sv}")    
-    def get_config(self):
+    def export_get_config(self):
         """Get all the preferences as a dictionary"""
         return self.config.get_config()
         
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-                                in_signature="s",
-                                out_signature="v")     
-    def get_config_value(self, key):
+    def export_get_config_value(self, key):
         """Get the config value for key"""
         try:
             value = self.config[key]
@@ -320,105 +310,77 @@ class Core(dbus.service.Object):
             return None
 
         return value
-        
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-        in_signature="a{sv}")
-    def set_config(self, config):
+
+    def export_set_config(self, config):
         """Set the config with values from dictionary"""
         config = deluge.common.pythonize(config)
         # Load all the values into the configuration
         for key in config.keys():
             self.config[key] = config[key]
-    
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-        out_signature="i")
-    def get_listen_port(self):
+        
+    def export_get_listen_port(self):
         """Returns the active listen port"""
         return self.session.listen_port()
     
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-        out_signature="i")
-    def get_num_connections(self):
+    def export_get_num_connections(self):
         """Returns the current number of connections"""
         return self.session.num_connections()
     
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-        out_signature="d")
-    def get_download_rate(self):
+    def export_get_download_rate(self):
         """Returns the payload download rate"""
         return self.session.status().payload_download_rate
 
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-        out_signature="d")
-    def get_upload_rate(self):
+    def export_get_upload_rate(self):
         """Returns the payload upload rate"""
         return self.session.status().payload_upload_rate
     
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-        out_signature="as")    
-    def get_available_plugins(self):
+    def export_get_available_plugins(self):
         """Returns a list of plugins available in the core"""
         return self.plugins.get_available_plugins()
 
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-        out_signature="as")    
-    def get_enabled_plugins(self):
+    def export_get_enabled_plugins(self):
         """Returns a list of enabled plugins in the core"""
         return self.plugins.get_enabled_plugins()
 
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-        in_signature="s")    
-    def enable_plugin(self, plugin):
+    def export_enable_plugin(self, plugin):
         self.plugins.enable_plugin(plugin)
 
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge",
-        in_signature="s")    
-    def disable_plugin(self, plugin):
+    def export_disable_plugin(self, plugin):
         self.plugins.disable_plugin(plugin)
         
     # Signals
-    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
-                                             signature="s")
     def torrent_added(self, torrent_id):
         """Emitted when a new torrent is added to the core"""
         log.debug("torrent_added signal emitted")
 
-    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
-                                             signature="s")
     def torrent_removed(self, torrent_id):
         """Emitted when a torrent has been removed from the core"""
         log.debug("torrent_remove signal emitted")
         
-    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
-                                             signature="s")
     def torrent_paused(self, torrent_id):
         """Emitted when a torrent is paused"""
         log.debug("torrent_paused signal emitted")
 
-    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge",
-                                             signature="s")    
     def torrent_resumed(self, torrent_id):
         """Emitted when a torrent is resumed"""
         log.debug("torrent_resumed signal emitted")
 
-    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge")
     def torrent_all_paused(self):
         """Emitted when all torrents have been paused"""
         log.debug("torrent_all_paused signal emitted")
 
-    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge")
     def torrent_all_resumed(self):
         """Emitted when all torrents have been resumed"""
         log.debug("torrent_all_resumed signal emitted")
         
     # Config set functions
-    def on_set_listen_ports(self, key, value):
+    def _on_set_listen_ports(self, key, value):
         # Only set the listen ports if random_port is not true
         if self.config["random_port"] is not True:
             log.debug("listen port range set to %s-%s", value[0], value[1])
             self.session.listen_on(value[0], value[1])
         
-    def on_set_random_port(self, key, value):
+    def _on_set_random_port(self, key, value):
         log.debug("random port value set to %s", value)
         # We need to check if the value has been changed to true and false
         # and then handle accordingly.
@@ -436,33 +398,33 @@ class Core(dbus.service.Object):
             listen_ports[1])
         self.session.listen_on(listen_ports[0], listen_ports[1])
     
-    def on_set_dht(self, key, value):
+    def _on_set_dht(self, key, value):
         log.debug("dht value set to %s", value)
         if value:
             self.session.start_dht(None)
         else:
             self.session.stop_dht()
     
-    def on_set_upnp(self, key, value):
+    def _on_set_upnp(self, key, value):
         log.debug("upnp value set to %s", value)
         if value:
             self.session.start_upnp()
         else:
             self.session.stop_upnp()
     
-    def on_set_natpmp(self, key, value):
+    def _on_set_natpmp(self, key, value):
         log.debug("natpmp value set to %s", value)
         if value:
             self.session.start_natpmp()
         else:
             self.session.stop_natpmp()
     
-    def on_set_utpex(self, key, value):
+    def _on_set_utpex(self, key, value):
         log.debug("utpex value set to %s", value)
         if value:
             self.session.add_extension(lt.create_ut_pex_plugin)
 
-    def on_set_encryption(self, key, value):
+    def _on_set_encryption(self, key, value):
         log.debug("encryption value %s set to %s..", key, value)
         pe_settings = lt.pe_settings()
         pe_settings.out_enc_policy = \
@@ -479,26 +441,26 @@ class Core(dbus.service.Object):
             set.allowed_enc_level,
             set.prefer_rc4)
 
-    def on_set_max_connections_global(self, key, value):
+    def _on_set_max_connections_global(self, key, value):
         log.debug("max_connections_global set to %s..", value)
         self.session.set_max_connections(value)
         
-    def on_set_max_upload_speed(self, key, value):
+    def _on_set_max_upload_speed(self, key, value):
         log.debug("max_upload_speed set to %s..", value)
         # We need to convert Kb/s to B/s
         self.session.set_upload_rate_limit(int(value * 1024))
 
-    def on_set_max_download_speed(self, key, value):
+    def _on_set_max_download_speed(self, key, value):
         log.debug("max_download_speed set to %s..", value)
         # We need to convert Kb/s to B/s
         self.session.set_download_rate_limit(int(value * 1024))
         
-    def on_set_max_upload_slots_global(self, key, value):
+    def _on_set_max_upload_slots_global(self, key, value):
         log.debug("max_upload_slots_global set to %s..", value)
         self.session.set_max_uploads(value)
     
     ## Alert handlers ##
-    def on_alert_torrent_paused(self, alert):
+    def _on_alert_torrent_paused(self, alert):
         log.debug("on_alert_torrent_paused")
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())

@@ -47,8 +47,6 @@ class TorrentDetails:
         self.window = window
         glade = self.window.main_glade
         
-        self.core = functions.get_core()
-        
         self.notebook = glade.get_widget("torrent_info")
         self.details_tab = glade.get_widget("torrentdetails_tab")
     
@@ -95,9 +93,7 @@ class TorrentDetails:
                 "upload_payload_rate", "num_peers", "num_seeds", "total_peers",
                 "total_seeds", "eta", "ratio", "tracker", "next_announce",
                 "tracker_status", "save_path"]
-            status = functions.get_torrent_status(self.core, 
-                                                    selected, 
-                                                    status_keys)
+            status = functions.get_torrent_status(selected, status_keys)
             
             # Check to see if we got valid data from the core
             if status is None:

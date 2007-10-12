@@ -104,7 +104,6 @@ class TorrentView(listview.ListView):
         listview.ListView.__init__(self, 
                             self.window.main_glade.get_widget("torrent_view"))
         log.debug("TorrentView Init..")
-        self.core = functions.get_core()
 
         # Register the columns menu with the listview so it gets updated
         # accordingly.
@@ -166,7 +165,7 @@ class TorrentView(listview.ListView):
                                     
         # We need to get the core session state to know which torrents are in
         # the session so we can add them to our list.
-        session_state = functions.get_session_state(self.core)
+        session_state = functions.get_session_state()
         for torrent_id in session_state:
             self.add_row(torrent_id)
     
@@ -213,7 +212,7 @@ class TorrentView(listview.ListView):
             
         # Remove duplicates from status_key list
         status_keys = list(set(status_keys))
-        status = functions.get_torrent_status(self.core, torrent_id,
+        status = functions.get_torrent_status(torrent_id,
                 status_keys)
 
         # Set values for each column in the row
