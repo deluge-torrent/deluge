@@ -169,7 +169,7 @@ class torrent_info:
         self.trackers = ""
 
         self.delete_me = False # set this to true, to delete it on next sync
-
+        self.del_data = False # set this to true, to delete data on next sync
 
 # The persistent state of the torrent system. Everything in this will be pickled
 
@@ -360,31 +360,12 @@ class Manager:
         temp = self.unique_IDs[unique_ID]
         temp_fileinfo = deluge_core.get_file_info(unique_ID)
 
-        self.remove_torrent_ns(unique_ID)
+        self.remove_torrent_ns(unique_ID, data_also)
         self.sync()
 
         # Remove .torrent file if asked to do so
         if torrent_also:
             os.remove(temp.filename)
-            
-        # Remove data, if asked to do so
-        if data_also:
-            # Must be done AFTER the torrent is removed
-            # Note: can this be to the trash?
-            for filedata in temp_fileinfo:
-                filename = filedata['path']
-                if filename.find(os.sep) != -1:
-                    # This is a file inside a directory inside the torrent. We can delete the
-                    # directory itself, save time
-                    try:
-                        shutil.rmtree(os.path.dirname(os.path.join(temp.save_dir, filename)))
-                    except OSError: # Perhaps it wasn't downloaded
-                        pass
-                # Perhaps this is just a file, try to remove it
-                try:
-                    os.remove(os.path.join(temp.save_dir, filename))
-                except OSError:
-                    pass # No file just means it wasn't downloaded, we can continue
 
     # A function to try and reload a torrent from a previous session. This is
     # used in the event that Deluge crashes and a blank state is loaded.
@@ -839,9 +820,9 @@ class Manager:
         new_torrent = torrent_info(full_new_name, save_dir, compact)
         self.state.torrents[new_torrent] = None
 
-    def remove_torrent_ns(self, unique_ID):
+    def remove_torrent_ns(self, unique_ID, data_also):
         self.unique_IDs[unique_ID].delete_me = True
-        
+        self.unique_IDs[unique_ID].del_data = data_also        
 
     # Sync the state.torrents and unique_IDs lists with the core
     # ___ALL syncing code with the core is here, and ONLY here___
@@ -886,7 +867,8 @@ class Manager:
         for unique_ID in self.unique_IDs.keys():
 #            print torrent
             if self.unique_IDs[unique_ID].delete_me:
-                deluge_core.remove_torrent(unique_ID)
+                deluge_core.remove_torrent(unique_ID, \
+                    self.unique_IDs[unique_ID].del_data)
                 to_delete.append(unique_ID)
 
         for unique_ID in to_delete:

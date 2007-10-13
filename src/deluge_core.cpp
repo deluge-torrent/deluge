@@ -265,13 +265,12 @@ boost::filesystem::path const& save_path)
 }
 
 
-void internal_remove_torrent(long index)
+void internal_remove_torrent(long index, int delete_files)
 {
     assert(index < M_torrents->size());
 
     torrent_handle& h = M_torrents->at(index).handle;
-
-    M_ses->remove_torrent(h);
+    M_ses->remove_torrent(h, delete_files);
 
     torrents_t_iterator it = M_torrents->begin() + index;
     M_torrents->erase(it);
@@ -728,15 +727,15 @@ static PyObject *torrent_move_storage(PyObject *self, PyObject *args)
 
 static PyObject *torrent_remove_torrent(PyObject *self, PyObject *args)
 {
-    python_long unique_ID;
-    if (!PyArg_ParseTuple(args, "i", &unique_ID))
+    python_long unique_ID, delete_files;
+    if (!PyArg_ParseTuple(args, "ii", &unique_ID, &delete_files))
         return NULL;
 
     long index = get_index_from_unique_ID(unique_ID);
     if (PyErr_Occurred())
         return NULL;
 
-    internal_remove_torrent(index);
+    internal_remove_torrent(index, delete_files);
 
     Py_INCREF(Py_None); return Py_None;
 }
