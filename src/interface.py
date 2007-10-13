@@ -160,7 +160,6 @@ class DelugeGTK:
             SetConsoleCtrlHandler(win_handler)
 
         self.dht_timer = 0
-        self.memory_timer = 0
         self.dht_skip = False
 
     def connect_signals(self):
@@ -982,11 +981,6 @@ window, please enter your password"))
         
         self.update_interface = self.window.get_property("visible") and not \
             self.is_minimized
-        #save uploaded memory every minute
-        self.memory_timer += 1
-        if (self.memory_timer == 60):
-            self.manager.pre_quitting()
-            self.memory_timer = 0
         
         # Handle the events
         self.manager.handle_events()
