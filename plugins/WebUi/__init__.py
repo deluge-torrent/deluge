@@ -80,7 +80,10 @@ class plugin_WebUi(object):
         self.web_server = None
         if not deluge.common.windows_check():
             if os.WEXITSTATUS(os.system('ps x -o pid,args |grep -v grep |grep -q run_webserver')):
-                os.system('killall run_webserver')
+                import commands
+                pid = commands.getoutput('ps x -o pid,args |grep -v grep |grep run_webserver  |awk {\'print $1\'}')
+                os.kill(pid, 9)
+        time.sleep(1) #safe time to wait for kill to finish.
         self.config_file = deluge.common.CONFIG_DIR + "/webui.conf"
         self.config = deluge.pref.Preferences(self.config_file, False)
         try:
@@ -159,8 +162,12 @@ class plugin_WebUi(object):
             self.web_server.stop_gtk()
             self.web_server = None
         if self.proc:
-            print "webserver: kill %i" % self.proc.pid
-            os.system("kill %i" % self.proc.pid)
+            if os.WEXITSTATUS(os.system('ps x -o pid,args |grep -v grep |grep -q run_webserver')):
+                import commands
+                pid = commands.getoutput('ps x -o pid,args |grep -v grep |grep run_webserver  |awk {\'print $1\'}')
+                os.kill(pid, 9)
+#            print "webserver: kill %i" % self.proc.pid
+ #           os.system("kill %i" % self.proc.pid)
             time.sleep(1) #safe time to wait for kill to finish.
         self.proc = None
 
