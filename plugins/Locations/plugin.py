@@ -171,6 +171,7 @@ class plugin_Locations:
     for key in LOCATION_KEYS:
       if conf.has_key(key):
         self.pref.set(key, conf.get(key))
+    self.interface.apply_prefs()
 
   def config_filename(self, mac):
     mac_esc = re.sub(":","_",mac)
