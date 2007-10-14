@@ -1013,6 +1013,7 @@ window, please enter your password"))
             
             # Disable torrent options if there are no torrents
             self.wtree.get_widget("menu_torrent").set_sensitive(itr is not None)
+            self.wtree.get_widget("toolbutton_clear").set_sensitive(itr is not None)
             self.wtree.get_widget("toolbutton_remove").set_sensitive(itr is \
                 not None)
             self.wtree.get_widget("toolbutton_resume").set_sensitive(itr is \
@@ -1364,8 +1365,10 @@ this torrent will be deleted!") + "</i>")
     
     def clear_finished(self, obj=None):
         print "Clearing completed torrents"
-        self.manager.clear_completed()
-        self.update()
+        if dialogs.show_popup_question(self.window, _("Are you sure that you \
+want to remove all seeding torrents?")):
+            self.manager.clear_completed()
+            self.update()
         
     def select_all_torrents(self, widget):
         self.torrent_view.get_selection().select_all()
