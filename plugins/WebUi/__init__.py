@@ -91,8 +91,8 @@ class plugin_WebUi(object):
             #set default values:
             self.config.set("port", 8112)
             #future->use deluge-core setting for download_dir (if it is set)
-            self.config.set("download_dir", os.path.expanduser("~/"))
-            self.config.set("torrent_dir", os.path.expanduser("~/"))
+            self.config.set("download_dir", os.path.expanduser("~"))
+            self.config.set("torrent_dir", os.path.expanduser("~"))
             self.config.set("button_style", 2)
             self.config.set("auto_refresh", False)
             self.config.set("auto_refresh_secs", 4)
@@ -106,8 +106,12 @@ class plugin_WebUi(object):
         if self.config.get("cache_templates") == None:
             self.config.set("cache_templates", True)
 
-        if self.config.get("run_in_thread") == None:
-            self.config.set("run_in_thread", True)
+        if deluge.common.windows_check():
+            if self.config.get("run_in_thread") == None:
+                self.config.set("run_in_thread", True)
+        else:
+            if self.config.get("run_in_thread") == None:
+                self.config.set("run_in_thread", False)        
 
         self.dbus_manager = get_dbus_manager(deluge_core, deluge_interface,
             self.config, self.config_file)
