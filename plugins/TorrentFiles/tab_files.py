@@ -41,7 +41,7 @@ from deluge import dgtk, dialogs
 class FilesTabManager(FilesBaseManager):
     def __init__(self, file_view, manager):
         file_store = gtk.ListStore(str, gobject.TYPE_UINT64, 
-                                   gobject.TYPE_UINT, float)
+                                   gobject.TYPE_UINT, float, str)
         
         super(FilesTabManager, self).__init__(file_view, file_store)
         self.manager = manager
@@ -56,12 +56,11 @@ class FilesTabManager(FilesBaseManager):
     def build_file_view(self):
         super(FilesTabManager, self).build_file_view()
         
-        def percent(column, cell, model, iter, data):
-            percent = float(model.get_value(iter, data))
-            percent_str = "%.2f%%"%percent
-            cell.set_property("text", percent_str)
-        percent_col = dgtk.add_func_column(self.file_view, _("Progress"), \
-                percent, 3, width=90)
+        percent_col = dgtk.add_progress_column(self.file_view, _("Progress"),\
+                 3, 4, width=150)
+        expander_col = gtk.TreeViewColumn()
+        expander_col.set_expand(True)
+        self.file_view.append_column(expander_col)
         self.file_view.connect("row-activated", self.double_click_file)
     
     def set_unique_id(self, unique_id):
@@ -114,7 +113,8 @@ an error trying to launch the file."))
             file_priorities = self.manager.get_priorities(self.file_unique_id)
             for file, priority in izip(all_files, file_priorities):
                 iter = self.file_store.append([file['path'], file['size'],
-                           priority, round(file['progress'], 2)])
+                            priority, file['progress'],
+                            "%.3g%%"%float(file['progress'])])
                 self.file_store_dict[file['path']] = iter
     
     # From core to UI
@@ -122,8 +122,9 @@ an error trying to launch the file."))
         new_file_info = self.manager.get_torrent_file_info(self.file_unique_id)
         for file in new_file_info:
             iter = self.file_store_dict[file['path']]
-            dgtk.update_store(self.file_store, iter, (3,), 
-                              (round(file['progress'], 2),))
+            dgtk.update_store(self.file_store, iter, (3,4), 
+                              (file['progress'],
+                               "%.3g%%"%float(file['progress'])))
 
     # From UI to core
     def update_priorities(self):

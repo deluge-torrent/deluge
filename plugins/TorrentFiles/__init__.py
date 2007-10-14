@@ -60,6 +60,7 @@ class TorrentFiles:
                                       })
 
         tree_view = gtk.TreeView()
+        tree_view.set_rules_hint(True)
         scrolled_window = gtk.ScrolledWindow()
         scrolled_window.add(tree_view)
         scrolled_window.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
