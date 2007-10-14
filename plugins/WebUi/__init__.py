@@ -78,7 +78,9 @@ class plugin_WebUi(object):
         self.interface = deluge_interface
         self.proc = None
         self.web_server = None
-
+        if not deluge.common.windows_check():
+            if os.WEXITSTATUS(os.system('ps x -o pid,args |grep -v grep |grep -q run_webserver')):
+                os.system('killall run_webserver')
         self.config_file = deluge.common.CONFIG_DIR + "/webui.conf"
         self.config = deluge.pref.Preferences(self.config_file, False)
         try:
