@@ -51,9 +51,7 @@ class PluginManager:
     def scan_for_plugins(self):
         for folder in self.plugin_dirs:
             print "Scanning plugin dir",folder
-            pluginlist = [plugin for plugin in os.listdir(folder) if \
-                os.path.isdir(plugin)]
-            for modname in pluginlist:
+            for modname in os.listdir(folder):
                 path = os.path.join(folder, modname)
                 if '__init__.py' in os.listdir(path):
                     # Import the found module. Note that the last
@@ -131,3 +129,4 @@ if __name__ == "__main__":
         print x
         for y in p.plugins[x]:
             print "\t", y
+
