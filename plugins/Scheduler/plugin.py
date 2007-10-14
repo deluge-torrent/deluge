@@ -27,6 +27,7 @@ class plugin_Scheduler:
             self.button_state = [[0] * 7 for dummy in xrange(24)]
             self.dllimit = float(self.globaldlmax)
             self.ullimit = float(self.globalulmax)
+        self.interface.apply_prefs()
 
     def unload(self):
         self.resume()
