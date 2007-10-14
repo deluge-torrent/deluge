@@ -49,6 +49,7 @@ import deluge.common
 from deluge.core.torrentmanager import TorrentManager
 from deluge.core.pluginmanager import PluginManager
 from deluge.core.alertmanager import AlertManager
+from deluge.core.signalmanager import SignalManager
 from deluge.log import LOG as log
 
 DEFAULT_PREFS = {
@@ -76,7 +77,10 @@ DEFAULT_PREFS = {
     "enabled_plugins": ["Queue"]
 }
         
-class Core(threading.Thread, ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
+class Core(
+        threading.Thread, 
+        ThreadingMixIn, 
+        SimpleXMLRPCServer.SimpleXMLRPCServer):
     def __init__(self):
         log.debug("Core init..")
         threading.Thread.__init__(self)
@@ -161,7 +165,10 @@ class Core(threading.Thread, ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServ
 
         # Start the AlertManager
         self.alerts = AlertManager(self.session)
-                            
+        
+        # Start the SignalManager
+        self.signals = SignalManager()                    
+        
         # Start the TorrentManager
         self.torrents = TorrentManager(self.session, self.alerts)
         
@@ -197,6 +204,11 @@ class Core(threading.Thread, ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServ
         # Make shutdown an async call
         gobject.idle_add(self._shutdown)
 
+    def export_register_client(self, uri):
+        """Registers a client with the signal manager so that signals are
+            sent to it."""
+        self.signals.register_client(uri)
+        
     def export_add_torrent_file(self, filename, save_path, filedump):
         """Adds a torrent file to the libtorrent session
             This requires the torrents filename and a dump of it's content
@@ -352,26 +364,32 @@ class Core(threading.Thread, ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServ
     def torrent_added(self, torrent_id):
         """Emitted when a new torrent is added to the core"""
         log.debug("torrent_added signal emitted")
+        self.signals.emit("torrent_added", torrent_id)
 
     def torrent_removed(self, torrent_id):
         """Emitted when a torrent has been removed from the core"""
         log.debug("torrent_remove signal emitted")
+        self.signals.emit("torrent_removed", torrent_id)
         
     def torrent_paused(self, torrent_id):
         """Emitted when a torrent is paused"""
         log.debug("torrent_paused signal emitted")
+        self.signals.emit("torrent_paused", torrent_id)
 
     def torrent_resumed(self, torrent_id):
         """Emitted when a torrent is resumed"""
         log.debug("torrent_resumed signal emitted")
+        self.signals.emit("torrent_resumed", torrent_id)
 
     def torrent_all_paused(self):
         """Emitted when all torrents have been paused"""
         log.debug("torrent_all_paused signal emitted")
+        self.signals.emit("torrent_all_paused", torrent_id)
 
     def torrent_all_resumed(self):
         """Emitted when all torrents have been resumed"""
         log.debug("torrent_all_resumed signal emitted")
+        self.signals.emit("torrent_all_resumed", torrent_id)
         
     # Config set functions
     def _on_set_listen_ports(self, key, value):

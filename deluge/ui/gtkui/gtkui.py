@@ -93,8 +93,8 @@ class GtkUI:
         self.mainwindow = MainWindow()
         
         # Start the signal receiver
-        #self.signal_receiver = Signals(self)
-        
+        self.signal_receiver = Signals(self)
+
         # Initalize the plugins
         self.plugins = PluginManager(self)
         
@@ -102,6 +102,7 @@ class GtkUI:
         self.mainwindow.start()
         
         # Start the gtk main loop
+        gtk.gdk.threads_init()
         gtk.main()
         
         log.debug("gtkui shutting down..")
