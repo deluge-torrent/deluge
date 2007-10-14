@@ -542,7 +542,7 @@ class Manager:
                 if self.unique_IDs[unique_ID].compact == False:
                     avail = self.calc_free_space(directory = self.unique_IDs\
                         [unique_ID].save_dir)
-                    total_needed = torrent_state["total_size"] - torrent_state["total_done"]
+                    total_needed = torrent_state["total_wanted"] - torrent_state["total_done"]
                     if total_needed < avail:
                         # We have enough free space, so lets resume this torrent
                         self.resume(unique_ID)
