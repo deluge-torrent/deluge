@@ -44,13 +44,6 @@ def windows_check():
     else:
         return False
 
-if windows_check(): 
-    CONFIG_DIR = os.path.join(os.path.expanduser("~"), 'deluge')
-    if not os.path.exists(CONFIG_DIR):
-        os.mkdir(CONFIG_DIR)
-else:
-    CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
-
 import sys 
 if hasattr(sys, "frozen"):
     INSTALL_PREFIX = ''
@@ -60,6 +53,16 @@ if hasattr(sys, "frozen"):
 else:
     # the necessary substitutions are made at installation time
     INSTALL_PREFIX = '@datadir@'
+    
+if windows_check(): 
+    if os.path.isdir(os.path.expanduser("~")):
+        CONFIG_DIR = os.path.join(os.path.expanduser("~"), 'deluge')
+    else:
+        CONFIG_DIR = os.path.join(INSTALL_PREFIX, 'deluge')
+    if not os.path.exists(CONFIG_DIR):
+        os.mkdir(CONFIG_DIR)
+else:
+    CONFIG_DIR = xdg.BaseDirectory.save_config_path('deluge')
 
 GLADE_DIR  = os.path.join(INSTALL_PREFIX, 'share', 'deluge', 'glade')
 PIXMAP_DIR = os.path.join(INSTALL_PREFIX, 'share', 'deluge', 'pixmaps')
