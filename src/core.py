@@ -864,7 +864,10 @@ class Manager:
                 #remove fastresume for non-seed
                 torrent_state = self.get_core_torrent_state(unique_ID, False)
                 if not torrent_state['is_seed']:
-                    os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
+                    try:
+                        os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
+                    except:
+                        pass
         
         # Remove torrents from core, unique_IDs and queue
         to_delete = []
