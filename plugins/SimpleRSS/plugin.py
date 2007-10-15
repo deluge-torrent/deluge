@@ -333,7 +333,7 @@ class plugin_SimpleRSS:
                 entries = []
                 entries.extend( tmp[ "items" ] )
                 decorated = [(entry["date_parsed"], entry) for entry in entries]
-                tmplist = [(entry["date_parsed"], name, entry["title"], entry.enclosures[0].href) for entry in entries]
+                tmplist = [(entry["date_parsed"], name, entry["title"], entry.links[0].href) for entry in entries]
                 decorated.sort()
                 self.torrents_list.extend(tmplist)
                 #decorated.reverse() # for most recent entries first
