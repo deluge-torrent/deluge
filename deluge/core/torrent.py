@@ -62,7 +62,7 @@ class Torrent:
         """Returns the state of this torrent for saving to the session state"""
         status = self.handle.status()
         return (self.torrent_id, self.filename, self.compact, status.paused,
-            self.save_path, self.total_uploaded)
+            self.save_path, self.total_uploaded + status.total_payload_upload)
         
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""
