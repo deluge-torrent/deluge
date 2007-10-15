@@ -37,7 +37,7 @@ import pkg_resources
 import sys
 import pickle
 
-import SimpleXMLRPCServer
+import deluge.SimpleXMLRPCServer as SimpleXMLRPCServer
 from SocketServer import ThreadingMixIn
 import xmlrpclib
 import gobject

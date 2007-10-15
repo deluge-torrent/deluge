@@ -32,7 +32,7 @@
 #    statement from all source files in the program, then also delete it here.
 
 import sys
-import SimpleXMLRPCServer
+import deluge.SimpleXMLRPCServer as SimpleXMLRPCServer
 from SocketServer import ThreadingMixIn
 import xmlrpclib
 import threading
