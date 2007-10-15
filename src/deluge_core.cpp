@@ -372,7 +372,17 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
     M_settings->user_agent = std::string(user_agent);
 #if defined(_WIN32)
+    DWORD windows_version = ::GetVersion();
+    if ((windows_version & 0xff) >= 6)
+    {
+    // on vista the limit is 5 (in home edition)
     M_ses->set_max_half_open_connections(4);
+    }
+    else
+    {
+    // on XP SP2 it's 10	
+    M_ses->set_max_half_open_connections(8);
+    }
 #endif
 
     M_ses->set_download_rate_limit(-1);
@@ -474,10 +484,31 @@ static PyObject *torrent_set_max_half_open(PyObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "i", &arg))
         return NULL;
 #if defined(_WIN32)
-    if (arg > 8)
-        arg = 4;
-    if (arg = -1)
-        arg = 4;
+    DWORD windows_version = ::GetVersion();
+    if ((windows_version & 0xff) >= 6)
+    {
+    // on vista the limit is 5 (in home edition)
+        if (arg > 4)
+        {
+            arg = 4;
+        }
+        else if (arg = -1)
+        {
+            arg = 4;
+        }
+    }
+    else
+    {
+    // on XP SP2 it's 10	
+        if (arg > 8)
+        {
+            arg = 8;
+        }
+        else if (arg = -1)
+        {
+            arg = 8;
+        }
+    }
 #endif
     M_ses->set_max_half_open_connections(arg);
 
