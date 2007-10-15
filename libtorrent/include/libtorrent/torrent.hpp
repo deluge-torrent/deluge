@@ -101,7 +101,7 @@ namespace libtorrent
 			, boost::intrusive_ptr<torrent_info> tf
 			, fs::path const& save_path
 			, tcp::endpoint const& net_interface
-			, bool compact_mode
+			, storage_mode_t m_storage_mode
 			, int block_size
 			, storage_constructor_type sc
 			, bool paused);
@@ -116,7 +116,7 @@ namespace libtorrent
 			, char const* name
 			, fs::path const& save_path
 			, tcp::endpoint const& net_interface
-			, bool compact_mode
+			, storage_mode_t m_storage_mode
 			, int block_size
 			, storage_constructor_type sc
 			, bool paused);
@@ -176,6 +176,8 @@ namespace libtorrent
 		void pause();
 		void resume();
 		bool is_paused() const { return m_paused; }
+
+		void delete_files();
 
 		// ============ start deprecation =============
 		void filter_piece(int index, bool filter);
@@ -550,6 +552,7 @@ namespace libtorrent
 		
 	private:
 
+		void on_files_deleted(int ret, disk_io_job const& j);
 		void on_files_released(int ret, disk_io_job const& j);
 		void on_torrent_paused(int ret, disk_io_job const& j);
 		void on_storage_moved(int ret, disk_io_job const& j);
@@ -751,7 +754,7 @@ namespace libtorrent
 		fs::path m_save_path;
 
 		// determines the storage state for this torrent.
-		const bool m_compact_mode;
+		storage_mode_t m_storage_mode;
 
 		// defaults to 16 kiB, but can be set by the user
 		// when creating the torrent

@@ -986,7 +986,8 @@ namespace libtorrent
 		i->second.prev_amount_upload = 0;
 		i->second.connection = &c;
 		TORRENT_ASSERT(i->second.connection);
-		i->second.connected = time_now();
+		if (!c.fast_reconnect())
+			i->second.connected = time_now();
 //		m_last_optimistic_disconnect = time_now();
 	}
 
@@ -1045,10 +1046,10 @@ namespace libtorrent
 			
 				// we don't have any info about this peer.
 				// add a new entry
-				peer p(remote, peer::connectable, src);
-				i = m_peers.insert(std::make_pair(remote.address(), p));
+				i = m_peers.insert(std::make_pair(remote.address()
+					, peer(remote, peer::connectable, src)));
 #ifndef TORRENT_DISABLE_ENCRYPTION
-				if (flags & 0x01) p.pe_support = true;
+				if (flags & 0x01) i->second.pe_support = true;
 #endif
 				if (flags & 0x02) i->second.seed = true;
 
@@ -1503,6 +1504,7 @@ namespace libtorrent
 		, failcount(0)
 		, hashfails(0)
 		, seed(false)
+		, fast_reconnects(0)
 		, optimistically_unchoked(false)
 		, last_optimistically_unchoked(min_time())
 		, connected(min_time())
