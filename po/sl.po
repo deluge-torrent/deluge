@@ -3,263 +3,407 @@
 # This file is distributed under the same license as the deluge package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2006.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-08-31 14:42-0500\n"
-"PO-Revision-Date: 2007-08-01 15:09+0000\n"
-"Last-Translator: Alan Pepelko <alan.pepelko@siol.net>\n"
+"POT-Creation-Date: 2007-10-14 01:08-0500\n"
+"PO-Revision-Date: 2007-10-05 07:02+0000\n"
+"Last-Translator: Robert Hrovat <robi@hipnos.net>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Rosetta-Export-Date: 2007-09-03 06:30:33+0000\n"
+"X-Launchpad-Export-Date: 2007-10-15 21:01+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
 
-#: glade/delugegtk.glade:22
-msgid "Add Torrent"
-msgstr "Dodaj torrent"
+#~ msgid "Clear Finished Torrents"
+#~ msgstr "Odstrani končane torrente"
 
-#: glade/delugegtk.glade:23
-msgid "Add"
-msgstr "Dodaj"
+#~ msgid "Start or Pause torrent"
+#~ msgstr "Začni ali ustavi torrent"
 
-#: glade/delugegtk.glade:36 glade/dgtkpopups.glade:6
-msgid "Remove Torrent"
-msgstr "Odstrani torrent"
+#~ msgid ""
+#~ "Handshake\n"
+#~ "Either\n"
+#~ "Full Stream"
+#~ msgstr ""
+#~ "Rokovanje\n"
+#~ "Vsak\n"
+#~ "Poln tok"
 
-#: glade/delugegtk.glade:37
-msgid "Remove"
-msgstr "Odstrani"
+#~ msgid "<b>Desktop File Manager</b>"
+#~ msgstr "<b>Upravljalec datotek</b>"
 
-#: glade/delugegtk.glade:49
-msgid "Clear Finished Torrents"
-msgstr "Odstrani končane torrente"
+#~ msgid "Global _Down Speed Limit"
+#~ msgstr "Skupna omejitev _prenosa"
 
-#: glade/delugegtk.glade:50
-msgid "Clear"
-msgstr "Počisti"
+#~ msgid "Global _Up Speed Limit"
+#~ msgstr "Skupna omejitev _nalaganja"
 
-#: glade/delugegtk.glade:72
-msgid "Start or Pause torrent"
-msgstr "Začni ali ustavi torrent"
+#~ msgid ""
+#~ "28.8k\n"
+#~ "56k\n"
+#~ "64k\n"
+#~ "96k\n"
+#~ "128k\n"
+#~ "192k\n"
+#~ "256k\n"
+#~ "384k\n"
+#~ "512k\n"
+#~ "640k\n"
+#~ "768k\n"
+#~ "1Mbit\n"
+#~ "2Mbit\n"
+#~ "10Mbit\n"
+#~ "20Mbit\n"
+#~ "40Mbit\n"
+#~ "50Mbit\n"
+#~ "10Mbit"
+#~ msgstr ""
+#~ "28.8k\n"
+#~ "56k\n"
+#~ "64k\n"
+#~ "96k\n"
+#~ "128k\n"
+#~ "192k\n"
+#~ "256k\n"
+#~ "384k\n"
+#~ "512k\n"
+#~ "640k\n"
+#~ "768k\n"
+#~ "1Mbit\n"
+#~ "2Mbit\n"
+#~ "10Mbit\n"
+#~ "20Mbit\n"
+#~ "40Mbit\n"
+#~ "50Mbit\n"
+#~ "10Mbit"
 
-#: glade/delugegtk.glade:73
-msgid "Resume"
-msgstr "Nadaljuj"
+#~ msgid "Enable popup notification (requires python-notify)"
+#~ msgstr "Omogoči pojavni opomnik (zahtevna python-notify)"
 
-#: glade/delugegtk.glade:86
-msgid "Pause"
-msgstr "Začasno ustavi"
+#~ msgid "Enable event sound (requires pygame)"
+#~ msgstr "Omogoči zvok dogodka (zahteva pygame)"
 
-#: glade/delugegtk.glade:98
-msgid "Queue Torrent Up"
-msgstr "Postavi v vrsti gor"
+#~ msgid "Piece shared with next file(s)"
+#~ msgstr "Kos deljen z naslednjo/naslednjimi datoteko/datotekami"
 
-#: glade/delugegtk.glade:99
-msgid "Up"
-msgstr "Gor"
+#~ msgid "Torrent Pieces"
+#~ msgstr "Kosi torrenta"
 
-#: glade/delugegtk.glade:112
-msgid "Queue Torrent Down"
-msgstr "Postavi v vrsti dol"
+#~ msgid ""
+#~ "\n"
+#~ "Pieces tab now shows percentage instead\n"
+#~ "of progress bars.  There are no longer any tooltips.\n"
+#~ "\n"
+#~ "Peer speed uses following symbols:\n"
+#~ "fast is +\n"
+#~ "medium is =\n"
+#~ "slow is -\n"
+#~ "\n"
+#~ "monospace font is required for columns to be aligned.\n"
+#~ "\n"
+#~ "Font size and number of columns are configurable in the\n"
+#~ "preferences.\n"
+#~ "\n"
+#~ "Finished torrents do not show piece information, just\n"
+#~ "a message that the torrent is complete.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Zavihek s kosi po novem prikazuje delež namesto napredek.\n"
+#~ "Namigi niso več na voljo.\n"
+#~ "\n"
+#~ "Vrstni za hitrost uporablja naslednje simbole:\n"
+#~ "hitro je +\n"
+#~ "srednje je =\n"
+#~ "počasno je -\n"
+#~ "\n"
+#~ "da bodo stolpci poravnani, moraš uporabiti fiksno pisavo\n"
+#~ "\n"
+#~ "Velikost pisave in število stolpcev določamo v nastavitvah.\n"
+#~ "\n"
+#~ "Končani torrenti ne kažejo informacij posameznih kosov ampak \n"
+#~ "samo sporočilo, da je torrent končan.\n"
 
-#: glade/delugegtk.glade:113
-msgid "Down"
-msgstr "Dol"
+#~ msgid "Pieces"
+#~ msgstr "Kosi"
 
-#: glade/delugegtk.glade:134
-msgid "Change Deluge preferences"
-msgstr "Spremeni nastavitve Deluge"
+#~ msgid "Pieces Preferences"
+#~ msgstr "Lastnosti kosov"
 
-#: glade/delugegtk.glade:135
-msgid "Preferences"
-msgstr "Nastavitve"
+#~ msgid "Select number of columns"
+#~ msgstr "Izberite število stolpcev"
 
-#: glade/delugegtk.glade:148 glade/dgtkpopups.glade:209
-#: glade/preferences_dialog.glade:2713
-msgid "Plugins"
-msgstr "Vtičniki"
+#~ msgid "Select font size"
+#~ msgstr "Izberite velikost pisave"
 
-#: glade/delugegtk.glade:197
-msgid "_File"
-msgstr "_Datoteka"
+#~ msgid "Peers Preferences"
+#~ msgstr "Lastnosti vrstnikov"
 
-#: glade/delugegtk.glade:204 glade/tray_menu.glade:61
-msgid "_Add Torrent"
-msgstr "_Dodaj torrent"
+#~ msgid "Enable flags"
+#~ msgstr "Omogoči zastavice"
 
-#: glade/delugegtk.glade:219
-msgid "Add _URL"
-msgstr "Dodaj _URL"
+#~ msgid "Select size of flag"
+#~ msgstr "Izberite velikost zastavic"
 
-#: glade/delugegtk.glade:227
-msgid "_Clear Completed"
-msgstr "_Počisti končane"
+#~ msgid "18x12"
+#~ msgstr "18x12"
 
-#: glade/delugegtk.glade:260
-msgid "_Edit"
-msgstr "_Uredi"
+#~ msgid "25x15"
+#~ msgstr "25x15"
 
-#: glade/delugegtk.glade:269
-msgid "gtk-select-all"
-msgstr ""
-
-#: glade/delugegtk.glade:285 glade/tray_menu.glade:128
-msgid "Plu_gins"
-msgstr ""
-
-#: glade/delugegtk.glade:313
-msgid "_Torrent"
-msgstr "_Torrent"
-
-#: glade/delugegtk.glade:320
-msgid "_View"
-msgstr "_Pogled"
-
-#: glade/delugegtk.glade:328
-msgid "_Toolbar"
-msgstr "_Orodna vrstica"
-
-#: glade/delugegtk.glade:337
-msgid "_Details"
-msgstr "_Podrobnosti"
-
-#: glade/delugegtk.glade:346
-msgid "_Columns"
-msgstr "Stolpci"
-
-#: glade/delugegtk.glade:354 src/interface.py:579 src/files.py:79
-msgid "Size"
-msgstr "Velikost"
-
-#: glade/delugegtk.glade:363 src/interface.py:583
-msgid "Status"
-msgstr "Stanje"
-
-#: glade/delugegtk.glade:372 src/interface.py:585
-msgid "Seeders"
-msgstr "Sejalci"
-
-#: glade/delugegtk.glade:381 src/interface.py:588
-#: plugins/TorrentPeers/__init__.py:70
-msgid "Peers"
-msgstr "Vrstniki"
-
-#: glade/delugegtk.glade:390 src/interface.py:591 src/interface.py:1080
-#: src/interface.py:1101 plugins/TorrentPeers/tab_peers.py:89
-msgid "Down Speed"
-msgstr "Hitrost sprejemanja"
-
-#: glade/delugegtk.glade:399 src/interface.py:594 src/interface.py:1081
-#: src/interface.py:1102 plugins/TorrentPeers/tab_peers.py:91
-msgid "Up Speed"
-msgstr "Hitrost pošiljanja"
-
-#: glade/delugegtk.glade:408
-msgid "Time Remaining"
-msgstr "Preostali čas"
-
-#: glade/delugegtk.glade:417
-msgid "Availability"
-msgstr "Razpoložljivost"
-
-#: glade/delugegtk.glade:426
-msgid "Share Ratio"
-msgstr "Delilno razmerje"
-
-#: glade/delugegtk.glade:443
-msgid "_Help"
-msgstr "_Pomoč"
-
-#: glade/delugegtk.glade:451
-msgid "Help translate this application"
-msgstr "Pomagaj pri prevodu tega programa"
-
-#: glade/delugegtk.glade:452
-msgid "_Translate This Application..."
-msgstr "_Prevedi ta program"
-
-#: glade/delugegtk.glade:475
-msgid "Runs the first-time configuration wizard"
-msgstr ""
-
-#: glade/delugegtk.glade:476
-msgid "_Run Configuration Wizard"
-msgstr ""
-
-#: glade/delugegtk.glade:654
-msgid "<b>Name:</b>"
-msgstr "<b>Ime:</b>"
-
-#: glade/delugegtk.glade:673
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Naslednji Razglas:</b>"
-
-#: glade/delugegtk.glade:699
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>Stanje Sledilnika:</b>"
-
-#: glade/delugegtk.glade:727
-msgid "<b>Tracker:</b>"
-msgstr "<b>Sledilnik:</b>"
-
-#: glade/delugegtk.glade:750
-msgid "<b>Total Size:</b>"
-msgstr "<b>Skupna Velikost:</b>"
-
-#: glade/delugegtk.glade:810
-msgid "<b># of files:</b>"
-msgstr ""
-
-#: glade/delugegtk.glade:829
-msgid "<b>Torrent Info</b>"
-msgstr "<b>Informacije o torrentu</b>"
-
-#: glade/delugegtk.glade:900
-msgid "<b>Availability:</b>"
-msgstr "<b>Razpoložljivost:</b>"
-
-#: glade/delugegtk.glade:936
-msgid "<b>Pieces:</b>"
-msgstr "<b>Kosi:</b>"
-
-#: glade/delugegtk.glade:953
-msgid "<b>ETA:</b>"
-msgstr "<b>ETA:</b>"
-
-#: glade/delugegtk.glade:974
-msgid "<b>Peers:</b>"
-msgstr "<b>Vrstniki:</b>"
-
-#: glade/delugegtk.glade:995 glade/delugegtk.glade:1016
-msgid "<b>Speed:</b>"
-msgstr "<b>Hitrost</b>"
-
-#: glade/delugegtk.glade:1034
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>Delilno Razmerje:</b>"
-
-#: glade/delugegtk.glade:1052
-msgid "<b>Seeders:</b>"
-msgstr "<b>Sejalci:</b>"
-
-#: glade/delugegtk.glade:1070
-msgid "<b>Uploaded:</b>"
-msgstr "<b>Naloženo:</b>"
-
-#: glade/delugegtk.glade:1088
+#: glade/delugegtk.glade:204
 msgid "<b>Downloaded:</b>"
 msgstr "<b>Sprejeto:</b>"
 
-#: glade/delugegtk.glade:1200
+#: glade/delugegtk.glade:218
+msgid "<b>Uploaded:</b>"
+msgstr "<b>Naloženo:</b>"
+
+#: glade/delugegtk.glade:236
+msgid "<b>Seeders:</b>"
+msgstr "<b>Sejalci:</b>"
+
+#: glade/delugegtk.glade:254
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Delilno razmerje:</b>"
+
+#: glade/delugegtk.glade:273 glade/delugegtk.glade:292
+msgid "<b>Speed:</b>"
+msgstr "<b>Hitrost</b>"
+
+#: glade/delugegtk.glade:313
+msgid "<b>Peers:</b>"
+msgstr "<b>Vrstniki:</b>"
+
+#: glade/delugegtk.glade:334
+msgid "<b>ETA:</b>"
+msgstr "<b>ETA:</b>"
+
+#: glade/delugegtk.glade:351
+msgid "<b>Pieces:</b>"
+msgstr "<b>Kosi:</b>"
+
+#: glade/delugegtk.glade:389
+msgid "<b>Availability:</b>"
+msgstr "<b>Razpoložljivost:</b>"
+
+#: glade/delugegtk.glade:430
 msgid "<b>Statistics</b>"
 msgstr "<b>Statistika</b>"
 
-#: glade/delugegtk.glade:1226
+#: glade/delugegtk.glade:486
+msgid "<b>Path:</b>"
+msgstr "<b>Pot:</b>"
+
+#: glade/delugegtk.glade:520
+msgid "<b>Total Size:</b>"
+msgstr "<b>Skupna velikost:</b>"
+
+#: glade/delugegtk.glade:582
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Stanje sledilnika:</b>"
+
+#: glade/delugegtk.glade:615
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Naslednja najava:</b>"
+
+#: glade/delugegtk.glade:654
+msgid "<b># of files:</b>"
+msgstr "<b># datotek:</b>"
+
+#: glade/delugegtk.glade:682
+msgid "<b>Tracker:</b>"
+msgstr "<b>Sledilnik:</b>"
+
+#: glade/delugegtk.glade:706
+msgid "<b>Name:</b>"
+msgstr "<b>Ime:</b>"
+
+#: glade/delugegtk.glade:723
+msgid "<b>Torrent Info</b>"
+msgstr "<b>Informacije o torrentu</b>"
+
+#: glade/delugegtk.glade:750
 msgid "Details"
 msgstr "Podrobnosti"
+
+#: glade/delugegtk.glade:790
+msgid "_File"
+msgstr "_Datoteka"
+
+#: glade/delugegtk.glade:797 glade/tray_menu.glade:61
+msgid "_Add Torrent"
+msgstr "_Dodaj torrent"
+
+#: glade/delugegtk.glade:812
+msgid "Add _URL"
+msgstr "Dodaj _URL"
+
+#: glade/delugegtk.glade:820
+msgid "_Clear Completed"
+msgstr "_Počisti končane"
+
+#: glade/delugegtk.glade:853
+msgid "_Edit"
+msgstr "_Uredi"
+
+#: glade/delugegtk.glade:862
+msgid "gtk-select-all"
+msgstr "gtk-select-all"
+
+#: glade/delugegtk.glade:878
+msgid "Plu_gins"
+msgstr "Vt_ičniki"
+
+#: glade/delugegtk.glade:906
+msgid "_Torrent"
+msgstr "_Torrent"
+
+#: glade/delugegtk.glade:913
+msgid "_View"
+msgstr "_Pogled"
+
+#: glade/delugegtk.glade:921
+msgid "_Toolbar"
+msgstr "_Orodna vrstica"
+
+#: glade/delugegtk.glade:930
+msgid "_Details"
+msgstr "_Podrobnosti"
+
+#: glade/delugegtk.glade:939
+msgid "_Columns"
+msgstr "Stolpci"
+
+#: glade/delugegtk.glade:947 src/interface.py:595 src/files.py:79
+msgid "Size"
+msgstr "Velikost"
+
+#: glade/delugegtk.glade:956 src/interface.py:599
+msgid "Status"
+msgstr "Stanje"
+
+#: glade/delugegtk.glade:965 src/interface.py:601
+msgid "Seeders"
+msgstr "Sejalci"
+
+#: glade/delugegtk.glade:974 src/interface.py:604
+#: plugins/TorrentPeers/__init__.py:72
+msgid "Peers"
+msgstr "Vrstniki"
+
+#: glade/delugegtk.glade:983 src/interface.py:607 src/interface.py:1105
+#: src/interface.py:1136 plugins/TorrentPeers/tab_peers.py:89
+msgid "Down Speed"
+msgstr "Hitrost sprejema"
+
+#: glade/delugegtk.glade:992 src/interface.py:610 src/interface.py:1106
+#: src/interface.py:1137 plugins/TorrentPeers/tab_peers.py:91
+msgid "Up Speed"
+msgstr "Hitrost nalaganja"
+
+#: glade/delugegtk.glade:1001
+msgid "Time Remaining"
+msgstr "Preostali čas"
+
+#: glade/delugegtk.glade:1010
+msgid "Availability"
+msgstr "Razpoložljivost"
+
+#: glade/delugegtk.glade:1019
+msgid "Share Ratio"
+msgstr "Delilno razmerje"
+
+#: glade/delugegtk.glade:1036
+msgid "_Help"
+msgstr "_Pomoč"
+
+#: glade/delugegtk.glade:1044
+msgid "Help translate this application"
+msgstr "Pomagaj pri prevodu tega programa"
+
+#: glade/delugegtk.glade:1045
+msgid "_Translate This Application..."
+msgstr "_Prevedi ta program"
+
+#: glade/delugegtk.glade:1068
+msgid "Runs the first-time configuration wizard"
+msgstr "Zagon čarovnika konfiguracije"
+
+#: glade/delugegtk.glade:1069
+msgid "_Run Configuration Wizard"
+msgstr "_Zagon čarovnika konfiguracije"
+
+#: glade/delugegtk.glade:1142
+msgid "Add Torrent"
+msgstr "Dodaj torrent"
+
+#: glade/delugegtk.glade:1143
+msgid "Add"
+msgstr "Dodaj"
+
+#: glade/delugegtk.glade:1156 glade/dgtkpopups.glade:6
+msgid "Remove Torrent"
+msgstr "Odstrani torrent"
+
+#: glade/delugegtk.glade:1157
+msgid "Remove"
+msgstr "Odstrani"
+
+#: glade/delugegtk.glade:1169
+msgid "Clear Seeding Torrents"
+msgstr ""
+
+#: glade/delugegtk.glade:1170
+msgid "Clear"
+msgstr "Počisti"
+
+#: glade/delugegtk.glade:1192
+msgid "Start or Resume Torrent"
+msgstr ""
+
+#: glade/delugegtk.glade:1193
+msgid "Resume"
+msgstr "Nadaljuj"
+
+#: glade/delugegtk.glade:1206
+msgid "Pause Torrent"
+msgstr ""
+
+#: glade/delugegtk.glade:1207
+msgid "Pause"
+msgstr "Začasno ustavi"
+
+#: glade/delugegtk.glade:1219
+msgid "Queue Torrent Up"
+msgstr "Postavi v vrsti gor"
+
+#: glade/delugegtk.glade:1220
+msgid "Up"
+msgstr "Gor"
+
+#: glade/delugegtk.glade:1233
+msgid "Queue Torrent Down"
+msgstr "Postavi v vrsti dol"
+
+#: glade/delugegtk.glade:1234
+msgid "Down"
+msgstr "Dol"
+
+#: glade/delugegtk.glade:1255
+msgid "Change Deluge preferences"
+msgstr "Spremeni nastavitve Deluge"
+
+#: glade/delugegtk.glade:1256
+msgid "Preferences"
+msgstr "Nastavitve"
+
+#: glade/delugegtk.glade:1269 glade/dgtkpopups.glade:209
+#: glade/preferences_dialog.glade:2709
+msgid "Plugins"
+msgstr "Vtičniki"
 
 #: glade/dgtkpopups.glade:41
 msgid ""
@@ -291,11 +435,11 @@ msgstr "Odstrani Končane"
 
 #: glade/dgtkpopups.glade:241
 msgid "Speed"
-msgstr ""
+msgstr "Hitrost"
 
 #: glade/file_tab_menu.glade:11
 msgid "_Open File"
-msgstr ""
+msgstr "_Odpri datoteko"
 
 #: glade/file_tab_menu.glade:33
 msgid "Select All"
@@ -305,19 +449,19 @@ msgstr "Izberi vse"
 msgid "Unselect All"
 msgstr "Prekliči ves izbor"
 
-#: glade/file_tab_menu.glade:68 src/core.py:98
+#: glade/file_tab_menu.glade:68 src/core.py:100
 msgid "Don't download"
 msgstr "Ne prenašaj"
 
-#: glade/file_tab_menu.glade:83 src/core.py:99
+#: glade/file_tab_menu.glade:83 src/core.py:101
 msgid "Normal"
 msgstr "Običajen"
 
-#: glade/file_tab_menu.glade:98 src/core.py:100
+#: glade/file_tab_menu.glade:98 src/core.py:102
 msgid "High"
 msgstr "Visoko"
 
-#: glade/file_tab_menu.glade:113 src/core.py:101
+#: glade/file_tab_menu.glade:113 src/core.py:103
 msgid "Highest"
 msgstr "Najvišja"
 
@@ -335,73 +479,75 @@ msgstr "Torrent v Deluge že obstaja. Želite združiti seznam sledilnikov?"
 msgid "Deluge Preferences"
 msgstr "Deluge nastavitve"
 
-#: glade/preferences_dialog.glade:58
+#: glade/preferences_dialog.glade:57
 msgid "Ask where to save each download"
-msgstr "Vprašaj kam naj shranim datoteko za vsak prenos"
+msgstr "Za vsak prenos vprašaj kam shranim datoteko"
 
-#: glade/preferences_dialog.glade:75 glade/preferences_dialog.glade:76
-msgid "Store all downloads in:"
-msgstr "Shrani vse prenose v:"
-
-#: glade/preferences_dialog.glade:90 glade/wizard.glade:185
+#: glade/preferences_dialog.glade:75 glade/wizard.glade:187
 #: plugins/MoveTorrent/movetorrent.glade:35
 msgid "Select A Folder"
 msgstr "Izberi mapo"
 
-#: glade/preferences_dialog.glade:109
+#: glade/preferences_dialog.glade:87 glade/preferences_dialog.glade:88
+msgid "Store all downloads in:"
+msgstr "Shrani vse prenose v:"
+
+#: glade/preferences_dialog.glade:108
 msgid "<b>Download Location</b>"
 msgstr "<b>Mesto shranjevanja</b>"
 
-#: glade/preferences_dialog.glade:144 glade/preferences_dialog.glade:157
+#: glade/preferences_dialog.glade:142 glade/preferences_dialog.glade:155
+#: glade/wizard.glade:237 glade/wizard.glade:478
 msgid ""
 "The number of active torrents that Deluge will run.  Set to -1 for unlimited."
 msgstr ""
 "Število aktivnih torrentov, ki jih poganja Deluge. Izberi -1 za neomejeno."
 
-#: glade/preferences_dialog.glade:146
+#: glade/preferences_dialog.glade:144
 msgid "Maximum simultaneous active torrents:"
 msgstr "Največje število hkrati aktivnih torrentov:"
 
-#: glade/preferences_dialog.glade:177 glade/preferences_dialog.glade:178
+#: glade/preferences_dialog.glade:175 glade/preferences_dialog.glade:176
 msgid "Enable selecting files for torrents before loading"
 msgstr "Omogoči izbiranje datotek pred prenosom torrentov"
 
-#: glade/preferences_dialog.glade:192 glade/preferences_dialog.glade:193
+#: glade/preferences_dialog.glade:190 glade/preferences_dialog.glade:191
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr ""
+msgstr "Najprej prenesi prve in zadnje koščke torrenta"
 
-#: glade/preferences_dialog.glade:209
+#: glade/preferences_dialog.glade:207
 msgid "<b>Torrents</b>"
 msgstr "<b>Torrenti</b>"
 
-#: glade/preferences_dialog.glade:248
+#: glade/preferences_dialog.glade:245
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
+"Polna alokacija bo zapolnila celoten prostor, ki ga torrent potrebuje in s "
+"tem preprečila razdrobljenost diska."
 
-#: glade/preferences_dialog.glade:249
+#: glade/preferences_dialog.glade:246
 msgid "Use Full Allocation"
-msgstr ""
+msgstr "Uporabi polno dodelitev"
 
-#: glade/preferences_dialog.glade:271
+#: glade/preferences_dialog.glade:268
 msgid "Compact allocation only allocates space as needed"
-msgstr ""
+msgstr "Kompaktna dodelitev bo dodelila prostor po potrebi"
 
-#: glade/preferences_dialog.glade:272
+#: glade/preferences_dialog.glade:269
 msgid "Use Compact Allocation"
-msgstr ""
+msgstr "Uporabi kompaktno dodelitev"
 
-#: glade/preferences_dialog.glade:292
+#: glade/preferences_dialog.glade:289
 msgid "<b>Allocation</b>"
-msgstr ""
+msgstr "<b>Dodelitev</b>"
 
-#: glade/preferences_dialog.glade:319
+#: glade/preferences_dialog.glade:313
 msgid "Downloads"
 msgstr "Prenosi"
 
-#: glade/preferences_dialog.glade:364
-#, fuzzy
+#: glade/preferences_dialog.glade:357
 msgid ""
 "<b>Please Note - Changes to these settings will only be applied the next "
 "time Deluge is restarted.</b>"
@@ -409,223 +555,234 @@ msgstr ""
 "<b>Opomba: Spremembe teh nastavitev bodo uveljavljene šele ob naslednjem "
 "zagonu programa Deluge.</b>"
 
-#: glade/preferences_dialog.glade:407 glade/wizard.glade:46
+#: glade/preferences_dialog.glade:399 glade/wizard.glade:48
 msgid "From:"
 msgstr "Od:"
 
-#: glade/preferences_dialog.glade:430 glade/wizard.glade:64
+#: glade/preferences_dialog.glade:422 glade/wizard.glade:66
 msgid "To:"
 msgstr "Do:"
 
-#: glade/preferences_dialog.glade:456
-#, fuzzy
+#: glade/preferences_dialog.glade:448
 msgid "Deluge will automatically choose a different port to use every time."
 msgstr "Deluge bo vsakič samodejno izbral druga vrata."
 
-#: glade/preferences_dialog.glade:457
+#: glade/preferences_dialog.glade:449
 msgid "Random Ports"
-msgstr ""
+msgstr "Naključna vrata"
 
-#: glade/preferences_dialog.glade:474
-#, fuzzy
+#: glade/preferences_dialog.glade:466
 msgid "Test Active Port"
-msgstr "Testiraj aktivna vrata"
+msgstr "Testiraj vrata"
 
-#: glade/preferences_dialog.glade:500
+#: glade/preferences_dialog.glade:492
 msgid "<b>TCP</b>"
 msgstr "<b>TCP</b>"
 
-#: glade/preferences_dialog.glade:512
+#: glade/preferences_dialog.glade:504
 msgid "Active Port:"
 msgstr "Aktivna vrata:"
 
-#: glade/preferences_dialog.glade:525
+#: glade/preferences_dialog.glade:517
 msgid "0000"
 msgstr "0000"
 
-#: glade/preferences_dialog.glade:564
+#: glade/preferences_dialog.glade:555
 msgid "Distributed hash table may improve the amount of active connections."
 msgstr ""
+"Distribuirana tabela izvlečka lahko izboljša količino aktivnih povezav."
 
-#: glade/preferences_dialog.glade:565
+#: glade/preferences_dialog.glade:556
 msgid "Enable Mainline DHT"
-msgstr ""
+msgstr "Omogoči DHT sezname"
 
-#: glade/preferences_dialog.glade:578
+#: glade/preferences_dialog.glade:569
 msgid "<b>DHT</b>"
-msgstr ""
+msgstr "<b>DHT</b>"
 
-#: glade/preferences_dialog.glade:613
+#: glade/preferences_dialog.glade:603
 msgid "Universal Plug and Play"
-msgstr ""
+msgstr "Univerzalen Vstavi in poženi"
 
-#: glade/preferences_dialog.glade:614
+#: glade/preferences_dialog.glade:604
 msgid "UPnP"
-msgstr ""
+msgstr "UPnP"
 
-#: glade/preferences_dialog.glade:628
+#: glade/preferences_dialog.glade:618
 msgid "NAT Port Mapping Protocol"
-msgstr ""
+msgstr "NAT protokol za mapiranje vrat"
 
-#: glade/preferences_dialog.glade:629
+#: glade/preferences_dialog.glade:619
 msgid "NAT-PMP"
-msgstr ""
+msgstr "NAT-PMP"
 
-#: glade/preferences_dialog.glade:644
+#: glade/preferences_dialog.glade:634
 msgid "µTorrent Peer-Exchange"
-msgstr ""
+msgstr "µTorrent Peer-Exchange"
 
-#: glade/preferences_dialog.glade:645
+#: glade/preferences_dialog.glade:635
 msgid "µTorrent-PeX"
-msgstr ""
+msgstr "µTorrent-PeX"
 
-#: glade/preferences_dialog.glade:663
+#: glade/preferences_dialog.glade:653
 msgid "<b>Network Extras</b>"
-msgstr ""
+msgstr "<b>Omrežni dodatki</b>"
 
-#: glade/preferences_dialog.glade:704
+#: glade/preferences_dialog.glade:693
 msgid "Inbound:"
-msgstr ""
+msgstr "Vhodno:"
 
-#: glade/preferences_dialog.glade:713 glade/preferences_dialog.glade:735
+#: glade/preferences_dialog.glade:702 glade/preferences_dialog.glade:724
 msgid ""
 "Disabled\n"
 "Enabled\n"
 "Forced"
 msgstr ""
+"Onemogočeno\n"
+"Omogočeno\n"
+"Vsiljeno"
 
-#: glade/preferences_dialog.glade:726
+#: glade/preferences_dialog.glade:715
 msgid "Outbound:"
-msgstr ""
+msgstr "Izhodno:"
 
-#: glade/preferences_dialog.glade:753
+#: glade/preferences_dialog.glade:742
 msgid "Prefer to encrypt the entire stream"
-msgstr ""
+msgstr "Šifriraj celoten pretok"
 
-#: glade/preferences_dialog.glade:766
+#: glade/preferences_dialog.glade:755
 msgid "Level:"
-msgstr ""
+msgstr "Stopnja:"
 
-#: glade/preferences_dialog.glade:775
+#: glade/preferences_dialog.glade:764
 msgid ""
 "Handshake\n"
-"Either\n"
-"Full Stream"
+"Full Stream\n"
+"Either"
 msgstr ""
 
-#: glade/preferences_dialog.glade:796
+#: glade/preferences_dialog.glade:785
 msgid "<b>Encryption</b>"
-msgstr ""
+msgstr "<b>Šifriranje</b>"
 
-#: glade/preferences_dialog.glade:827
+#: glade/preferences_dialog.glade:815
 msgid "Network"
 msgstr "Omrežje"
 
-#: glade/preferences_dialog.glade:869
+#: glade/preferences_dialog.glade:855
 msgid "Queue torrents to bottom when they begin seeding"
 msgstr "Prestavi torrente na dno pred začetkom sejanja"
 
-#: glade/preferences_dialog.glade:881
+#: glade/preferences_dialog.glade:867
 msgid "Queue new torrents above completed ones"
 msgstr "Prestavi nove torrente nad tiste, ki so že končani"
 
-#: glade/preferences_dialog.glade:897
+#: glade/preferences_dialog.glade:883
 msgid "Stop seeding torrents when their share ratio reaches:"
 msgstr "Prenehaj sejanje torrentov, ko njihovo delilno razmerje doseže:"
 
-#: glade/preferences_dialog.glade:933
+#: glade/preferences_dialog.glade:919
 msgid "Automatically clear torrents that reach the max share ratio"
 msgstr "Samodejno odstrani torrente, ko dosežejo najvišje delilno razmerje"
 
-#: glade/preferences_dialog.glade:949
+#: glade/preferences_dialog.glade:935
 msgid "<b>Seeding</b>"
 msgstr "<b>Sejem</b>"
 
-#: glade/preferences_dialog.glade:979 src/core.py:89
+#: glade/preferences_dialog.glade:964 src/core.py:91
 msgid "Seeding"
 msgstr "Sejanje"
 
-#: glade/preferences_dialog.glade:1030 glade/preferences_dialog.glade:1050
-#: glade/preferences_dialog.glade:1129
+#: glade/preferences_dialog.glade:1009 glade/wizard.glade:257
+#: glade/wizard.glade:318
+msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
+msgstr "Največje število nalaganj za vse torrente. -1 za neomejeno."
+
+#: glade/preferences_dialog.glade:1026 glade/preferences_dialog.glade:1110
+#: glade/preferences_dialog.glade:1130 glade/wizard.glade:277
+#: glade/wizard.glade:341
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr "Najvišja hitrost nalaganja vseh torrentov. Izberi -1 za neomejeno."
 
-#: glade/preferences_dialog.glade:1032 glade/preferences_dialog.glade:1222
-#: glade/wizard.glade:409
-msgid "Maximum Upload Slots:"
-msgstr ""
-
-#: glade/preferences_dialog.glade:1052 glade/wizard.glade:390
-msgid "Maximum Upload Speed (KiB/s):"
-msgstr "Najvišja hitrost nalganja (KiB/s):"
-
-#: glade/preferences_dialog.glade:1070 glade/preferences_dialog.glade:1084
-msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr ""
-
-#: glade/preferences_dialog.glade:1072 glade/preferences_dialog.glade:1208
-#: glade/wizard.glade:371
-msgid "Maximum Connections:"
-msgstr ""
-
-#: glade/preferences_dialog.glade:1098 glade/preferences_dialog.glade:1112
+#: glade/preferences_dialog.glade:1044 glade/preferences_dialog.glade:1060
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr "Najvišja hitrost prenosa vseh torrentov. Izberi -1 za neomejeno."
 
-#: glade/preferences_dialog.glade:1100
+#: glade/preferences_dialog.glade:1062
 msgid "Maximum Download Speed (KiB/s):"
 msgstr "Najvišja hitrost prenosa (KiB/s):"
 
-#: glade/preferences_dialog.glade:1146
-msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
+#: glade/preferences_dialog.glade:1073 glade/preferences_dialog.glade:1092
+#: glade/wizard.glade:297 glade/wizard.glade:364
+msgid "The maximum number of connections allowed.  Set -1 for unlimited."
+msgstr "Največje število dovoljenih povezav. -1 za neomejeno."
+
+#: glade/preferences_dialog.glade:1094 glade/preferences_dialog.glade:1278
+#: glade/wizard.glade:298
+msgid "Maximum Connections:"
+msgstr "Največje število povezav:"
+
+#: glade/preferences_dialog.glade:1112 glade/wizard.glade:278
+msgid "Maximum Upload Speed (KiB/s):"
+msgstr "Najvišja hitrost nalganja (KiB/s):"
+
+#: glade/preferences_dialog.glade:1132 glade/preferences_dialog.glade:1259
+#: glade/wizard.glade:258
+msgid "Maximum Upload Slots:"
+msgstr "Največje število nalaganj:"
+
+#: glade/preferences_dialog.glade:1150 glade/preferences_dialog.glade:1166
+#: glade/wizard.glade:434 glade/wizard.glade:455
+msgid ""
+"The maximum half-open connections.  A high value may crash some cheap "
+"routers.  Set -1 for unlimited."
 msgstr ""
 
-#: glade/preferences_dialog.glade:1166
+#: glade/preferences_dialog.glade:1152 glade/wizard.glade:435
+msgid "Maximum Half-Open Connections:"
+msgstr ""
+
+#: glade/preferences_dialog.glade:1186
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>Skupna uporaba pasovne širine</b>"
 
-#: glade/preferences_dialog.glade:1235
-msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr ""
-
-#: glade/preferences_dialog.glade:1249
+#: glade/preferences_dialog.glade:1222 glade/preferences_dialog.glade:1257
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "Največje število nalagalnih mest na torrent. -1 za neomejeno."
 
-#: glade/preferences_dialog.glade:1270
+#: glade/preferences_dialog.glade:1239 glade/preferences_dialog.glade:1276
+msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
+msgstr "Največ povezav na torrent. -1 za neomejeno."
+
+#: glade/preferences_dialog.glade:1291
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>Uporaba pasovne širine na torrent</b>"
 
-#: glade/preferences_dialog.glade:1297
+#: glade/preferences_dialog.glade:1317
 msgid "Bandwidth"
-msgstr ""
+msgstr "Pasovna širina"
 
-#: glade/preferences_dialog.glade:1344 glade/preferences_dialog.glade:1539
-#: glade/preferences_dialog.glade:1734 glade/preferences_dialog.glade:1929
+#: glade/preferences_dialog.glade:1362 glade/preferences_dialog.glade:1556
+#: glade/preferences_dialog.glade:1750 glade/preferences_dialog.glade:1944
 msgid "Affects regular bittorrent peers"
-msgstr ""
+msgstr "Učinkuje tudi na bittorrent vrstnike"
 
-#: glade/preferences_dialog.glade:1345
+#: glade/preferences_dialog.glade:1363
 msgid "Peer Proxy"
-msgstr ""
+msgstr "Proksi vrstnika"
 
-#: glade/preferences_dialog.glade:1387 glade/preferences_dialog.glade:1582
-#: glade/preferences_dialog.glade:1777 glade/preferences_dialog.glade:1972
-msgid "Proxy type"
-msgstr ""
+#: glade/preferences_dialog.glade:1408 glade/preferences_dialog.glade:1602
+#: glade/preferences_dialog.glade:1796 glade/preferences_dialog.glade:1990
+msgid "Port"
+msgstr "Vrata"
 
-#: glade/preferences_dialog.glade:1394 glade/preferences_dialog.glade:1589
-#: glade/preferences_dialog.glade:1784 glade/preferences_dialog.glade:1979
-msgid "Username"
-msgstr ""
+#: glade/preferences_dialog.glade:1421 glade/preferences_dialog.glade:1615
+#: glade/preferences_dialog.glade:1809 glade/preferences_dialog.glade:2003
+msgid "Server"
+msgstr "Strežnik"
 
-#: glade/preferences_dialog.glade:1405 glade/preferences_dialog.glade:1600
-#: glade/preferences_dialog.glade:1795 glade/preferences_dialog.glade:1990
-msgid "Password"
-msgstr ""
-
-#: glade/preferences_dialog.glade:1417 glade/preferences_dialog.glade:1612
-#: glade/preferences_dialog.glade:1807 glade/preferences_dialog.glade:2002
+#: glade/preferences_dialog.glade:1462 glade/preferences_dialog.glade:1656
+#: glade/preferences_dialog.glade:1850 glade/preferences_dialog.glade:2044
 msgid ""
 "None\n"
 "Socksv4\n"
@@ -634,143 +791,161 @@ msgid ""
 "HTTP\n"
 "HTTP W/ Auth"
 msgstr ""
+"Brez\n"
+"Socksv4\n"
+"Socksv5\n"
+"Socksv5 z avt.\n"
+"HTTP\n"
+"HTTP z avt."
 
-#: glade/preferences_dialog.glade:1462 glade/preferences_dialog.glade:1657
-#: glade/preferences_dialog.glade:1852 glade/preferences_dialog.glade:2047
-msgid "Server"
-msgstr ""
+#: glade/preferences_dialog.glade:1478 glade/preferences_dialog.glade:1672
+#: glade/preferences_dialog.glade:1866 glade/preferences_dialog.glade:2060
+msgid "Password"
+msgstr "Geslo"
 
-#: glade/preferences_dialog.glade:1473 glade/preferences_dialog.glade:1668
-#: glade/preferences_dialog.glade:1863 glade/preferences_dialog.glade:2058
-msgid "Port"
-msgstr ""
+#: glade/preferences_dialog.glade:1489 glade/preferences_dialog.glade:1683
+#: glade/preferences_dialog.glade:1877 glade/preferences_dialog.glade:2071
+msgid "Username"
+msgstr "Uporabniško Ime"
 
-#: glade/preferences_dialog.glade:1507
+#: glade/preferences_dialog.glade:1500 glade/preferences_dialog.glade:1694
+#: glade/preferences_dialog.glade:1888 glade/preferences_dialog.glade:2082
+msgid "Proxy type"
+msgstr "Vrsta proksija"
+
+#: glade/preferences_dialog.glade:1525
 msgid "<b>Peer Proxy</b>"
-msgstr ""
+msgstr "<b>Proksi vrstnika</b>"
 
-#: glade/preferences_dialog.glade:1540
+#: glade/preferences_dialog.glade:1557
 msgid "Tracker Proxy"
-msgstr ""
+msgstr "Proksi sledilnika"
 
-#: glade/preferences_dialog.glade:1702
+#: glade/preferences_dialog.glade:1719
 msgid "<b>Tracker Proxy</b>"
-msgstr ""
+msgstr "<b>Proksi sledilnika</b>"
 
-#: glade/preferences_dialog.glade:1735
+#: glade/preferences_dialog.glade:1751
 msgid "DHT Proxy"
-msgstr ""
+msgstr "Proksi DHT"
 
-#: glade/preferences_dialog.glade:1897
+#: glade/preferences_dialog.glade:1913
 msgid "<b>DHT Proxy</b>"
-msgstr ""
+msgstr "<b>Proksi DHT</b>"
 
-#: glade/preferences_dialog.glade:1930
+#: glade/preferences_dialog.glade:1945
 msgid "Web Seed Proxy"
-msgstr ""
+msgstr "Proksi spletnega sejanja"
 
-#: glade/preferences_dialog.glade:2092
+#: glade/preferences_dialog.glade:2107
 msgid "<b>Web Seed Proxy</b>"
-msgstr ""
+msgstr "<b>Proksi spletnega sejanja</b>"
 
-#: glade/preferences_dialog.glade:2120
+#: glade/preferences_dialog.glade:2134
 msgid "Proxies"
-msgstr ""
+msgstr "Proksiji"
 
-#: glade/preferences_dialog.glade:2150
+#: glade/preferences_dialog.glade:2162
 msgid "Enable system tray icon"
 msgstr "Omogoči ikono v sistemski vrstici"
 
-#: glade/preferences_dialog.glade:2166
+#: glade/preferences_dialog.glade:2178
 msgid "Minimize to tray on close"
 msgstr "Pomanjšaj v pladenj ob izhodu"
 
-#: glade/preferences_dialog.glade:2185
+#: glade/preferences_dialog.glade:2197
 msgid "Start in tray"
-msgstr ""
+msgstr "Zaženi v pladnju"
 
-#: glade/preferences_dialog.glade:2209
+#: glade/preferences_dialog.glade:2221
 msgid "Password protect system tray"
-msgstr ""
+msgstr "Zakleni pladenj z geslom"
 
-#: glade/preferences_dialog.glade:2227
+#: glade/preferences_dialog.glade:2239
 msgid "Password:"
-msgstr ""
+msgstr "Geslo"
 
-#: glade/preferences_dialog.glade:2269
+#: glade/preferences_dialog.glade:2281
 msgid "<b>System Tray</b>"
-msgstr ""
+msgstr "<b>Sistemska vrstica</b>"
 
-#: glade/preferences_dialog.glade:2333
+#: glade/preferences_dialog.glade:2323
+msgid "Open folder with:"
+msgstr "Odpri mapo z:"
+
+#: glade/preferences_dialog.glade:2340
+msgid "Custom:"
+msgstr "Po meri:"
+
+#: glade/preferences_dialog.glade:2363
 msgid ""
 "Auto-detect (xdg-open)\n"
 "Konqueror\n"
 "Nautilus\n"
 "Thunar"
 msgstr ""
+"Samodejno  (xdg-open)\n"
+"Konqueror\n"
+"Nautilus\n"
+"Thunar"
 
-#: glade/preferences_dialog.glade:2363
-msgid "Custom:"
+#: glade/preferences_dialog.glade:2410
+msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
 msgstr ""
 
-#: glade/preferences_dialog.glade:2386
-msgid "Open folder with:"
-msgstr ""
-
-#: glade/preferences_dialog.glade:2408
-msgid "<b>Desktop File Manager</b>"
-msgstr ""
-
-#: glade/preferences_dialog.glade:2441
+#: glade/preferences_dialog.glade:2442
 msgid "GUI update interval (seconds)"
-msgstr ""
+msgstr "Osveževanje grafičnega vmesnika v sekundah"
 
-#: glade/preferences_dialog.glade:2469
+#: glade/preferences_dialog.glade:2470
 msgid "<b>Performance</b>"
-msgstr ""
+msgstr "<b>Zmogljivost</b>"
 
 #: glade/preferences_dialog.glade:2504
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
-msgstr ""
+msgstr "Deluge bo preveril, če je na voljo novejša različica"
 
 #: glade/preferences_dialog.glade:2505
 msgid "Be alerted about new releases"
-msgstr ""
+msgstr "Obveščanje o novih različicah"
 
 #: glade/preferences_dialog.glade:2522
 msgid "<b>Updates</b>"
-msgstr ""
+msgstr "<b>Posodobitve</b>"
 
-#: glade/preferences_dialog.glade:2552
+#: glade/preferences_dialog.glade:2551
 msgid ""
 "Help us improve Deluge by sending us your Python and PyGTK\n"
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
+"Pomagajte nam izboljšati Deluge tako, da nam sporočiterazličice Python in "
+"PyGTK, operacijski sistem in vrsto\n"
+"procesorja. Nobena druga informacija ne bo poslana."
 
-#: glade/preferences_dialog.glade:2565
+#: glade/preferences_dialog.glade:2564
 msgid "<b>System Information</b>"
-msgstr ""
+msgstr "<b>Sistemske informacije</b>"
 
-#: glade/preferences_dialog.glade:2589
+#: glade/preferences_dialog.glade:2587
 #: plugins/EventLogging/event_logging_preferences.glade:52
 #: plugins/EventLogging/tab_log.py:218
 msgid "Other"
-msgstr ""
+msgstr "Ostali"
 
-#: glade/preferences_dialog.glade:2684
+#: glade/preferences_dialog.glade:2681
 msgid "gtk-preferences"
 msgstr "gtk-nastavitve"
 
 #: glade/torrent_menu.glade:11
 msgid "Re_sume"
-msgstr ""
+msgstr "_Nadaljuj"
 
 #: glade/torrent_menu.glade:28
 msgid "_Pause"
-msgstr ""
+msgstr "_Premor"
 
 #: glade/torrent_menu.glade:49
 msgid "_Update Tracker"
@@ -778,93 +953,97 @@ msgstr "_Osveži sledilnik"
 
 #: glade/torrent_menu.glade:66
 msgid "_Edit Trackers"
-msgstr ""
+msgstr "Ur_edi sledilnike"
 
 #: glade/torrent_menu.glade:88
 msgid "_Remove Torrent"
-msgstr ""
+msgstr "Odst_rani torrent"
 
 #: glade/torrent_menu.glade:111
 msgid "_Queue"
-msgstr ""
+msgstr "Postavi v _vrsto"
 
 #: glade/torrent_menu.glade:121
 msgid "_Top"
-msgstr ""
+msgstr "_Na vrh"
 
 #: glade/torrent_menu.glade:137
 msgid "_Up"
-msgstr ""
+msgstr "_Gor"
 
 #: glade/torrent_menu.glade:153
 msgid "_Down"
-msgstr ""
+msgstr "_Dol"
 
 #: glade/torrent_menu.glade:169
 msgid "_Bottom"
-msgstr ""
+msgstr "Na _dnu"
 
 #: glade/torrent_menu.glade:198
 msgid "_Open Containing Folder"
-msgstr ""
+msgstr "_Odpri mapo"
 
 #: glade/tray_menu.glade:12
 msgid "_Show Deluge"
-msgstr ""
+msgstr "_Pokaži Deluge"
 
 #: glade/tray_menu.glade:21
 msgid "_Resume All"
-msgstr ""
+msgstr "_Nadaljevanje vseh"
 
 #: glade/tray_menu.glade:38
 msgid "_Pause All"
-msgstr ""
+msgstr "_Premor vseh"
 
 #: glade/tray_menu.glade:84
-msgid "Global _Down Speed Limit"
+msgid "_Download Speed Limit"
 msgstr ""
 
-#: glade/tray_menu.glade:106
-msgid "Global _Up Speed Limit"
+#: glade/tray_menu.glade:100
+msgid "_Upload Speed Limit"
 msgstr ""
 
-#: glade/tray_menu.glade:161
+#: glade/tray_menu.glade:122
 msgid "_Quit"
-msgstr ""
+msgstr "I_zhod"
 
 #: glade/edit_trackers.glade:9
 msgid "Edit Trackers"
-msgstr ""
+msgstr "Uredi sledilnike"
 
 #: glade/edit_trackers.glade:19
 msgid "Tracker Editing"
-msgstr ""
+msgstr "Urejanje sledilnika"
 
 #: glade/files_dialog.glade:8
 msgid "Deluge File Selection"
-msgstr ""
+msgstr "Izbor datotek"
 
 #: glade/files_dialog.glade:42
 msgid "Torrent will not be distributed on the trackerless (DHT) network"
-msgstr ""
+msgstr "Torrent ne bo uvrščen na omrežje brez sledilnikov (DHT)"
 
 #: glade/files_dialog.glade:43
 msgid "Set the private flag"
-msgstr ""
+msgstr "Označi kot zasebno"
 
-#: glade/wizard.glade:9
+#: glade/wizard.glade:10
 msgid "First Launch Configuration"
-msgstr ""
+msgstr "Začetna konfiguracija"
 
-#: glade/wizard.glade:18
+#: glade/wizard.glade:20
 msgid ""
 "This wizard will help you set up Deluge to your liking.  If you are new to "
 "Deluge, please note that most of Deluge's functionality and features come in "
 "the form of plugins, which can be accessed by clicking on Plugins in the "
 "Edit menu or the toolbar."
 msgstr ""
+"Čarovnik vam bo pomagal nastaviti Deluge po vaši želji. Če ste nov "
+"uporabnik, upoštevajte da večji del funkcionalnosti pridobite z vtičniki, do "
+"katerih lahko dostopate v meniju pod Uredi in nato Vtičniki oziroma preko "
+"orodne vrstice."
 
-#: glade/wizard.glade:34
+#: glade/wizard.glade:36
 msgid ""
 "Deluge needs a range of ports that it will try to listen to for incoming "
 "connections.  The default ports for bittorrent are 6881-6889, however, most "
@@ -872,36 +1051,44 @@ msgid ""
 "and 65535.  Alternatively, you can have Deluge automatically pick random "
 "ports for you."
 msgstr ""
+"Deluge potrebuje območje vrat, preko katerih bo prejemal dohodne povezave. "
+"Privzeta vrata so 6881-6889. Lahko se zgodi, da vaš internetni ponudnik "
+"blokira ta vrata, zato vam svetujemo, da izberete kakšna druga med 49152 in "
+"65535. Lahko pa tudi določite, da Deluge izbere naključna vrata namesto vas."
 
-#: glade/wizard.glade:86
+#: glade/wizard.glade:88
 msgid "Use _Random Ports"
-msgstr ""
+msgstr "Uporabi _naključna vrata"
 
-#: glade/wizard.glade:114
+#: glade/wizard.glade:116
 msgid ""
 "Would you like Deluge to automatically download to a predefined location, or "
 "would you like to specify the download location every time?"
 msgstr ""
+"Naj Deluge shrani prenose v določeno mapo ali jo želite vsakič posebej "
+"izbrati?"
 
-#: glade/wizard.glade:139
+#: glade/wizard.glade:141
 msgid "Ask where to save each file"
-msgstr ""
+msgstr "Vprašaj kam shranim vsako datoteko"
 
-#: glade/wizard.glade:163
+#: glade/wizard.glade:165
 msgid "Store all downloads in: "
-msgstr ""
+msgstr "Shrani vse prenose v: "
 
-#: glade/wizard.glade:213
+#: glade/wizard.glade:215
 msgid ""
 "Please select the upload speed of your connection, which we will then use to "
 "automatically make suggestions for the settings below"
 msgstr ""
+"Izberi hitrost prenosa povezave, na podlagi katere bomo samodejno "
+"prilagodili spodnje nastavitve"
 
-#: glade/wizard.glade:231
-msgid "Your Upload Line Speed:"
-msgstr ""
+#: glade/wizard.glade:238
+msgid "Maximum Active Torrents:"
+msgstr "Največ aktivnih torrentov"
 
-#: glade/wizard.glade:246
+#: glade/wizard.glade:386
 msgid ""
 "28.8k\n"
 "56k\n"
@@ -920,212 +1107,247 @@ msgid ""
 "20Mbit\n"
 "40Mbit\n"
 "50Mbit\n"
-"10Mbit"
+"100Mbit"
 msgstr ""
+"28.8k\n"
+"56k\n"
+"64k\n"
+"96k\n"
+"128k\n"
+"192k\n"
+"256k\n"
+"384k\n"
+"512k\n"
+"640k\n"
+"768k\n"
+"1Mbit\n"
+"2Mbit\n"
+"10Mbit\n"
+"20Mbit\n"
+"40Mbit\n"
+"50Mbit\n"
+"100Mbit"
 
-#: glade/wizard.glade:428
-msgid "Maximum Active Torrents:"
-msgstr ""
+#: glade/wizard.glade:419
+msgid "Your Upload Line Speed:"
+msgstr "Hitrost nalaganja:"
 
-#: glade/wizard.glade:453
+#: glade/wizard.glade:506
 msgid ""
 "_Help us improve Deluge by sending us your Python and PyGTK\n"
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
+"_Pomagajte nam izboljšati Deluge tako, da nam sporočite\n"
+"različice Pythona in PyGTK, operacijski sistem in vrsto procesorja\n"
+"Nobeni drugi podatki ne bodo poslani."
 
-#: src/update.py:50
-msgid ""
-"There is a newer version of Deluge.  Would you like to be taken to our "
-"download site?"
-msgstr ""
-
-#: src/interface.py:252 src/interface.py:258 src/interface.py:339
-#: src/interface.py:365 plugins/SpeedLimiter/__init__.py:82
+#: src/interface.py:261 src/interface.py:267 src/interface.py:348
+#: src/interface.py:374 plugins/SpeedLimiter/__init__.py:82
 #: plugins/SpeedLimiter/__init__.py:92 plugins/SpeedLimiter/__init__.py:136
 #: plugins/SpeedLimiter/__init__.py:168
 msgid "KiB/s"
-msgstr ""
+msgstr "KiB/s"
 
-#: src/interface.py:279 src/interface.py:340 src/interface.py:366
-#: src/interface.py:1062 src/interface.py:1069 src/interface.py:1074
+#: src/interface.py:288 src/interface.py:349 src/interface.py:375
+#: src/interface.py:1087 src/interface.py:1094 src/interface.py:1099
+#: src/interface.py:1127 src/interface.py:1129
 #: plugins/SpeedLimiter/__init__.py:137 plugins/SpeedLimiter/__init__.py:169
 msgid "Unlimited"
-msgstr ""
+msgstr "Neomejeno"
 
-#: src/interface.py:282
+#: src/interface.py:291
 msgid "Activated"
-msgstr ""
+msgstr "Aktivirano"
 
-#: src/interface.py:331 src/interface.py:343 src/interface.py:369
+#: src/interface.py:340 src/interface.py:352 src/interface.py:378
 #: plugins/DesiredRatio/__init__.py:114 plugins/SpeedLimiter/__init__.py:140
 #: plugins/SpeedLimiter/__init__.py:172
 msgid "Other..."
-msgstr ""
+msgstr "Drugo..."
 
-#: src/interface.py:348
+#: src/interface.py:357
 msgid "Download Speed (KiB/s):"
-msgstr ""
+msgstr "Hitrost prenosa (KiB/s):"
 
-#: src/interface.py:374
+#: src/interface.py:383
 msgid "Upload Speed (KiB/s):"
-msgstr ""
+msgstr "Hitrost nalganja (KiB/s):"
 
-#: src/interface.py:403
+#: src/interface.py:412
 msgid "Deluge is locked"
-msgstr ""
+msgstr "Deluge je zaklenjen"
 
-#: src/interface.py:406
+#: src/interface.py:415
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 msgstr ""
+"Deluge je zaklenjen z geslom.\n"
+"Če želite prikazati Deluge, vpišite geslo."
 
-#: src/interface.py:547 src/common.py:52
+#: src/interface.py:563 src/common.py:73
 msgid "Infinity"
 msgstr "Neskončno"
 
-#: src/interface.py:559
+#: src/interface.py:575
 msgid "Unknown"
 msgstr "Neznan"
 
-#: src/interface.py:576 plugins/SimpleRSS/plugin.py:68
+#: src/interface.py:592 plugins/SimpleRSS/plugin.py:68
 #: plugins/SimpleRSS/plugin.py:76 plugins/SimpleRSS/plugin.py:83
 #: plugins/TorrentSearch/plugin.py:51
 msgid "Name"
 msgstr "Ime"
 
-#: src/interface.py:597
+#: src/interface.py:613
 msgid "ETA"
 msgstr "ETA"
 
-#: src/interface.py:600
+#: src/interface.py:616
 msgid "Avail."
-msgstr ""
+msgstr "Na voljo"
 
-#: src/interface.py:602
+#: src/interface.py:618
 msgid "Ratio"
 msgstr "Razmerje"
 
-#: src/interface.py:842
+#: src/interface.py:863
 #, python-format
 msgid "Paused %s"
-msgstr ""
+msgstr "S premorom %s"
 
-#: src/interface.py:1080
+#: src/interface.py:1105
 msgid "Connections"
 msgstr "Povezave"
 
-#: src/interface.py:1098
+#: src/interface.py:1123
 msgid "DHT"
-msgstr ""
+msgstr "DHT"
 
-#: src/interface.py:1101
+#: src/interface.py:1132 plugins/TorrentCreator/__init__.py:148
+msgid "Deluge"
+msgstr "Deluge"
+
+#: src/interface.py:1132
+msgid "Download"
+msgstr "Prejemanje"
+
+#: src/interface.py:1133
+msgid "Upload"
+msgstr "Oddajanje"
+
+#: src/interface.py:1136
 msgid "Deluge Bittorrent Client"
 msgstr "Deluge Bittorrent Odjemalec"
 
-#: src/interface.py:1176
+#: src/interface.py:1213
 msgid "Choose a download directory"
 msgstr "Izberi mapo za prenos"
 
-#: src/interface.py:1203
+#: src/interface.py:1240
 msgid ""
 "An error occured while trying to add the torrent. It's possible your "
 ".torrent file is corrupted."
 msgstr ""
+"Prišlo je do napake pri dodajanju torrenta. Mogoče je datoteka poškodovana."
 
-#: src/interface.py:1228
+#: src/interface.py:1265
 msgid "Unknown duplicate torrent error."
-msgstr ""
+msgstr "Neznana napaka podvajanja torrenta"
 
-#: src/interface.py:1233
+#: src/interface.py:1270
 msgid ""
 "There is not enough free                disk space to complete your download."
-msgstr ""
+msgstr "Na disku je premalo prostora, da bi končali prenos."
 
-#: src/interface.py:1235
+#: src/interface.py:1272
 msgid "Space Needed:"
-msgstr ""
+msgstr "Potreben prostor:"
 
-#: src/interface.py:1236
+#: src/interface.py:1273
 msgid "Available Space:"
-msgstr ""
+msgstr "Razpoložljivi prostor:"
 
-#: src/interface.py:1253
+#: src/interface.py:1290
 msgid "Add torrent from URL"
 msgstr "Dodaj torrent iz URL naslova"
 
-#: src/interface.py:1257
+#: src/interface.py:1294
 msgid "Enter the URL of the .torrent to download"
-msgstr "Vnesi URL naslov .torrent datoteke, ki jo želite prenesti"
+msgstr "Vnesite URL naslov .torrent datoteke, ki jo želite prenesti"
 
-#: src/interface.py:1310
+#: src/interface.py:1355
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr "Opozorilo - vse prejete datoteke za ta torrent bodo izbrisane!"
 
-#: src/core.py:83
+#: src/interface.py:1366
+msgid "Are you sure that you want to remove all seeding torrents?"
+msgstr ""
+
+#: src/core.py:85
 msgid "Queued"
 msgstr "V vrsti"
 
-#: src/core.py:84
+#: src/core.py:86
 msgid "Checking"
 msgstr "Preverjam"
 
-#: src/core.py:85
+#: src/core.py:87
 msgid "Connecting"
-msgstr ""
+msgstr "Povezujem se"
 
-#: src/core.py:86
+#: src/core.py:88
 msgid "Downloading Metadata"
-msgstr ""
+msgstr "Prenašam metapodatke"
 
-#: src/core.py:87 plugins/BlocklistImport/ui.py:117
+#: src/core.py:89 plugins/BlocklistImport/ui.py:117
 msgid "Downloading"
 msgstr "Prenašanje"
 
-#: src/core.py:88
+#: src/core.py:90
 msgid "Finished"
 msgstr "Končano"
 
-#: src/core.py:90
+#: src/core.py:92
 msgid "Allocating"
 msgstr "Iščem"
 
-#: src/core.py:133
+#: src/core.py:135
 msgid "bytes needed"
-msgstr ""
+msgstr "potrebnih bajtov"
 
-#: src/core.py:386
+#: src/core.py:374
 msgid "File was not found"
 msgstr "Datoteke ni bilo mogoče najti"
 
-#: src/core.py:444
+#: src/core.py:430
 msgid "Asked for a torrent that doesn't exist"
-msgstr ""
+msgstr "Zahtevam torrent, ki ne obstaja"
+
+#: src/core.py:636
+msgid "Announce sent"
+msgstr "Poslana najava"
+
+#: src/core.py:643
+msgid "Announce OK"
+msgstr "Najava je v redu"
 
 #: src/core.py:649
-msgid "Announce sent"
-msgstr ""
-
-#: src/core.py:653
-msgid "Announce OK"
-msgstr ""
-
-#: src/core.py:659
 msgid "Alert"
-msgstr ""
+msgstr "Opozorilo"
 
-#: src/core.py:660
+#: src/core.py:650
 msgid "HTTP code"
-msgstr ""
+msgstr "HTTP koda"
 
-#: src/core.py:661
+#: src/core.py:651
 msgid "times in a row"
-msgstr ""
+msgstr "krat v vrstici"
 
-#: src/core.py:668
+#: src/core.py:658
 msgid "Warning"
-msgstr ""
+msgstr "Opozorilo"
 
 #: src/files.py:77
 msgid "Filename"
@@ -1133,7 +1355,7 @@ msgstr "Ime datoteke"
 
 #: src/files.py:81
 msgid "Priority"
-msgstr ""
+msgstr "Prioriteta"
 
 #: src/files.py:103
 msgid ""
@@ -1141,6 +1363,9 @@ msgid ""
 "Please change your preference to disable compact allocation, then remove and "
 "re-add this torrent."
 msgstr ""
+"Prioriteto dtoteke je mogoče določiti samo če uporabljate polno alokacijo.\n"
+"Preverite nastavitve in izklopite kompaktno alokacijo, nato odstranite in "
+"ponovno dodajte torrent."
 
 #: src/dialogs.py:68
 msgid "Plugin"
@@ -1150,18 +1375,19 @@ msgstr "Vtičnik"
 msgid "Enabled"
 msgstr "Omogočeno"
 
-#: src/dialogs.py:418
+#: src/dialogs.py:428
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
-"  Alan Pepelko <https://launchpad.net/~alan-new>\n"
-"  Boone <https://launchpad.net/~e-boone>\n"
-"  DvoglavaZver <https://launchpad.net/~smolej-peter>\n"
-"  Mitja Pagon <https://launchpad.net/~sect2k>\n"
-"  Robert Hrovat <https://launchpad.net/~robi-hipnos>\n"
-"  christooss <https://launchpad.net/~matic-ahacic>"
+"  Alan Pepelko https://launchpad.net/~alan-new\n"
+"  Boone https://launchpad.net/~e-boone\n"
+"  DvoglavaZver https://launchpad.net/~smolej-peter\n"
+"  Matej Urbančič https://launchpad.net/~matej-urban\n"
+"  Mitja Pagon https://launchpad.net/~sect2k\n"
+"  Robert Hrovat https://launchpad.net/~robi-hipnos\n"
+"  christooss https://launchpad.net/~matic-ahacic"
 
-#: src/dialogs.py:419
+#: src/dialogs.py:429
 msgid ""
 "Deluge is free software, you can redistribute it and/or\n"
 "modify it under the terms of the GNU General Public\n"
@@ -1177,50 +1403,67 @@ msgid ""
 " Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-\n"
 "1301 USA"
 msgstr ""
+"Deluge je brezplačni program. Lahko ga uporabljate\n"
+"in spreminjate v skladu s pogoji GNU General Public \n"
+"Licence, ki jo določa fundacija Free Software Foundation,\n"
+"različica 2 ali katerakoli kasnejša. \n"
+"Deluge je narejen v upranju, da bo koristen,\n"
+"vendar BREZ KAKRŠNEGAKOLI JAMSTVA.\n"
+"Preverite GNU General Public License za podrobnosti.\n"
+"Kopija dokumenta GNU General Public License je tudi \n"
+"priložena programu Deluge, če ni, to sporočite fundaciji \n"
+"Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,\n"
+"Boston, MA 02110-1301 USA"
 
-#: src/dialogs.py:459
+#: src/dialogs.py:469
 msgid "Choose a .torrent file"
-msgstr "Izberi .torrent datoteko"
+msgstr "Izberite .torrent datoteko"
 
-#: src/dialogs.py:464
+#: src/dialogs.py:474
 msgid "Torrent files"
 msgstr "Torrent datoteke"
 
-#: src/dialogs.py:468
+#: src/dialogs.py:478
 msgid "All files"
 msgstr "Vse datoteke"
 
-#: src/common.py:66
+#: src/common.py:87
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
-#: src/common.py:69
+#: src/common.py:90
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
-#: src/common.py:72
+#: src/common.py:93
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
-#: src/common.py:75
+#: src/common.py:96
 msgid "TiB"
-msgstr ""
+msgstr "TiB"
 
-#: src/common.py:77
+#: src/common.py:98
 msgid "PiB"
-msgstr ""
+msgstr "PiB"
 
-#: src/common.py:167
+#: src/common.py:200
 msgid "External command"
-msgstr ""
+msgstr "Zunanji ukaz"
 
-#: src/common.py:168
+#: src/common.py:201
 msgid "not found"
-msgstr ""
+msgstr "ne najdem"
+
+#: src/common.py:237
+msgid ""
+"There is a newer version of Deluge.  Would you like to be taken to our "
+"download site?"
+msgstr "Na voljo je nova različica Deluge. Želiš na spletno stran za prenos?"
 
 #: plugins/BlocklistImport/__init__.py:6
 msgid "Blocklist Importer"
-msgstr ""
+msgstr "Seznami blokiranih"
 
 #: plugins/BlocklistImport/__init__.py:9
 msgid ""
@@ -1237,110 +1480,122 @@ msgid ""
 "\n"
 "http://dev.deluge-torrent.org/wiki/BlocklistPlugin\n"
 msgstr ""
+"\n"
+"Prenos in uvoz različnih seznamov blokiranih IP številk.\n"
+"\n"
+"Trenutno lahko ta vtičnik upravlja s seznami PeerGuardian (binarni in "
+"tekstovni),\n"
+"SafePeer in Emules.  7zip datoteke programa PeerGuardian niso podprte.\n"
+"Datoteke so lahko posredovane kot URL naslovi ali lokacije lokalnega\n"
+"datotečnega sistema.\n"
+"\n"
+"Prikaz naslovov, ki vsebujejo sezname blokiranih je na voljo na strani:\n"
+"\n"
+"http://dev.deluge-torrent.org/wiki/BlocklistPlugin\n"
 
 #: plugins/BlocklistImport/__init__.py:40
 msgid "PeerGuardian P2B (GZip)"
-msgstr ""
+msgstr "PeerGuardian P2B (GZip)"
 
 #: plugins/BlocklistImport/__init__.py:41
 msgid "PeerGuardian Text (Uncompressed)"
-msgstr ""
+msgstr "PeerGuardian Text (Nestisnjeno)"
 
 #: plugins/BlocklistImport/__init__.py:42
 msgid "Emule IP list (GZip)"
-msgstr ""
+msgstr "Emule IP list (GZip)"
 
 #: plugins/BlocklistImport/__init__.py:43
 msgid "SafePeer Text (Zipped)"
-msgstr ""
+msgstr "SafePeer besedilo (ZIP)"
 
-#: plugins/BlocklistImport/__init__.py:85
+#: plugins/BlocklistImport/__init__.py:92
 msgid "Couldn't download URL"
-msgstr ""
+msgstr "Ne morem prenesti z naslova"
 
-#: plugins/BlocklistImport/__init__.py:98
+#: plugins/BlocklistImport/__init__.py:105
 msgid "Couldn't open blocklist file"
-msgstr ""
+msgstr "Ne morem odpreti seznama blokiranj"
 
-#: plugins/BlocklistImport/__init__.py:111
+#: plugins/BlocklistImport/__init__.py:118
 msgid "Imported"
-msgstr ""
+msgstr "Uvoženo"
 
-#: plugins/BlocklistImport/__init__.py:111
+#: plugins/BlocklistImport/__init__.py:118
 msgid "IPs"
-msgstr ""
+msgstr "IP številke"
 
-#: plugins/BlocklistImport/__init__.py:116
+#: plugins/BlocklistImport/__init__.py:123
 msgid "Format error in blocklist"
-msgstr ""
+msgstr "Napaka zapisa datoteke za blokiranje"
 
-#: plugins/BlocklistImport/__init__.py:151
+#: plugins/BlocklistImport/__init__.py:162
 msgid "Blocklist"
-msgstr ""
+msgstr "Seznam blokiranj"
 
-#: plugins/BlocklistImport/__init__.py:151
+#: plugins/BlocklistImport/__init__.py:162
 msgid "entries"
-msgstr ""
+msgstr "vnosov"
 
 #: plugins/BlocklistImport/ui.py:25
 msgid "Blocklist URL"
-msgstr ""
+msgstr "Naslova seznama blokiranj"
 
 #: plugins/BlocklistImport/ui.py:50
 msgid "Download on start"
-msgstr ""
+msgstr "Prenos po zagonu"
 
 #: plugins/BlocklistImport/ui.py:105
 msgid "Loading and installing blocklist"
-msgstr ""
+msgstr "Nalaganje in nameščanje seznama blokiranj"
 
 #: plugins/BlocklistImport/ui.py:128
 msgid "Importing"
-msgstr ""
+msgstr "Uvažam"
 
 #: plugins/BlocklistImport/ui.py:139
 msgid "Complete"
-msgstr ""
+msgstr "Končano"
 
 #: plugins/BlocklistImport/text.py:37
 msgid "Couldn't match on line"
-msgstr ""
+msgstr "Neujemanje v vrstici"
 
 #: plugins/BlocklistImport/peerguardian.py:28
 msgid "Invalid leader"
-msgstr ""
+msgstr "Napaka povzetka"
 
 #: plugins/BlocklistImport/peerguardian.py:32
 msgid "Invalid magic code"
-msgstr ""
+msgstr "Napačna magična koda"
 
 #: plugins/BlocklistImport/peerguardian.py:37
 msgid "Invalid version"
-msgstr ""
+msgstr "Napačna različica"
 
 #: plugins/DesiredRatio/__init__.py:19 plugins/DesiredRatio/__init__.py:118
 msgid "Desired Ratio"
-msgstr ""
+msgstr "Zaželeno razmerje"
 
 #: plugins/DesiredRatio/__init__.py:22
 msgid "Set the desired ratio for a torrent."
-msgstr ""
+msgstr "Določi zaželeno razmerje torrenta."
 
 #: plugins/DesiredRatio/__init__.py:75
 msgid "_Desired Ratio"
-msgstr ""
+msgstr "_Zaželeno razmerje"
 
 #: plugins/DesiredRatio/__init__.py:79
 msgid "_Not Set"
-msgstr ""
+msgstr "_Ni določeno"
 
 #: plugins/DesiredRatio/__init__.py:111
 msgid "Not Set"
-msgstr ""
+msgstr "Ni določeno"
 
 #: plugins/TorrentPeers/__init__.py:19
 msgid "Torrent Peers"
-msgstr ""
+msgstr "Vrstniki torrentov"
 
 #: plugins/TorrentPeers/__init__.py:22
 msgid ""
@@ -1348,6 +1603,10 @@ msgid ""
 "This shows you the peers associated with each torrent and shows you their "
 "ip, country, client, percent complete and upload and download speeds.\n"
 msgstr ""
+"\n"
+"Omogoča prikaz vrstnikov, določenih vsakemu torrentu, njihovo IP številko, "
+"državo kjer se nahajajo in program, ki ga uporabljajo ter odstotek končanega "
+"prenosa in hitrosti prenosov in nalaganj.\n"
 
 #: plugins/TorrentPeers/tab_peers.py:84
 msgid "IP Address"
@@ -1364,68 +1623,70 @@ msgstr "Odstotek zaključenosti"
 #: plugins/TorrentCreator/torrentcreator.glade:8
 #: plugins/TorrentCreator/__init__.py:19
 msgid "Torrent Creator"
-msgstr ""
+msgstr "Ustvarjalec torrentov"
 
-#: plugins/TorrentCreator/torrentcreator.glade:77
-msgid "This torrent will be made from a directory"
-msgstr ""
-
-#: plugins/TorrentCreator/torrentcreator.glade:78
-msgid "Folder:"
-msgstr ""
-
-#: plugins/TorrentCreator/torrentcreator.glade:92
+#: plugins/TorrentCreator/torrentcreator.glade:103
 msgid "This torrent will be made from a single file"
-msgstr ""
+msgstr "Ta torrent bo narejen z vsebino datoteke"
 
-#: plugins/TorrentCreator/torrentcreator.glade:93
+#: plugins/TorrentCreator/torrentcreator.glade:104
 msgid "File:"
-msgstr ""
+msgstr "Datoteka:"
+
+#: plugins/TorrentCreator/torrentcreator.glade:120
+msgid "This torrent will be made from a directory"
+msgstr "Ta torrent bo narejen z vsebino mape"
+
+#: plugins/TorrentCreator/torrentcreator.glade:121
+msgid "Folder:"
+msgstr "Mapa:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:138
 msgid "<b>Source</b>"
-msgstr ""
+msgstr "<b>Vir</b>"
 
-#: plugins/TorrentCreator/torrentcreator.glade:219
+#: plugins/TorrentCreator/torrentcreator.glade:184
 msgid "Save Torrent File As:"
-msgstr ""
+msgstr "Shrani torrent datoteko kot:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:237
 msgid "Load this torrent into Deluge for seeding"
-msgstr ""
+msgstr "Naloži torrent v Deluge za sejanje"
 
 #: plugins/TorrentCreator/torrentcreator.glade:238
 msgid "Add new torrent to queue"
-msgstr ""
+msgstr "Dodaj nov torrent v vrsto"
 
 #: plugins/TorrentCreator/torrentcreator.glade:257
 msgid "<b>Torrent File</b>"
-msgstr ""
+msgstr "<b>Torrent datoteka</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:305
 msgid "<b>Trackers</b>"
-msgstr ""
+msgstr "<b>Sledilniki</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:352
 msgid "<b>Comments</b>"
-msgstr ""
+msgstr "<b>Komentarji</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:389
 msgid "<b>Author</b>"
+msgstr "<b>Avtor</b>"
+
+#: plugins/TorrentCreator/torrentcreator.glade:425
+msgid "Set Private Flag"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:424
-#: plugins/TorrentCreator/torrentcreator.glade:436
+#: plugins/TorrentCreator/torrentcreator.glade:441
+#: plugins/TorrentCreator/torrentcreator.glade:461
 msgid ""
 "The smaller the piece sizes, the more efficient the transfers will be, but "
 "the actual \".torrent\" file will be larger"
 msgstr ""
+"Manjše kot so velikosti kosov, večji bo učinek prenosa, \".torrent.\" "
+"datoteka pa bo večja."
 
-#: plugins/TorrentCreator/torrentcreator.glade:426
-msgid "Piece Size:"
-msgstr ""
-
-#: plugins/TorrentCreator/torrentcreator.glade:437
+#: plugins/TorrentCreator/torrentcreator.glade:442
 msgid ""
 "32 KiB\n"
 "64 KiB\n"
@@ -1434,98 +1695,104 @@ msgid ""
 "512 KiB\n"
 "1024 KiB\n"
 msgstr ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1024 KiB\n"
 
-#: plugins/TorrentCreator/torrentcreator.glade:460
+#: plugins/TorrentCreator/torrentcreator.glade:463
+msgid "Piece Size:"
+msgstr "Velikost kosa:"
+
+#: plugins/TorrentCreator/torrentcreator.glade:477
 msgid "<b>Advanced</b>"
-msgstr ""
+msgstr "<b>Napredno</b>"
 
 #: plugins/TorrentCreator/__init__.py:22
 msgid "A torrent creator plugin"
-msgstr ""
+msgstr "Vtičnik za ustvarjanje torrentov"
 
 #: plugins/TorrentCreator/__init__.py:50
 msgid "_New Torrent"
-msgstr ""
+msgstr "_Nov torrent"
 
 #: plugins/TorrentCreator/__init__.py:60
 msgid "New Torrent"
-msgstr ""
+msgstr "Nov torrent"
 
 #: plugins/TorrentCreator/__init__.py:62
 msgid "Create New Torrent"
-msgstr ""
+msgstr "Ustvari nov torrent"
 
 #: plugins/TorrentCreator/__init__.py:98
 msgid "Save file as..."
-msgstr ""
+msgstr "Shrani datoteko kot ..."
 
 #: plugins/TorrentCreator/__init__.py:120
 msgid "You must select a source for the torrent."
-msgstr ""
+msgstr "Izbrati morate vir torrenta."
 
 #: plugins/TorrentCreator/__init__.py:127
 msgid "You must select a file to save the torrent as."
-msgstr ""
+msgstr "Izbrati morate datoteko pod katero se bo shranil torrent."
 
 #: plugins/TorrentCreator/__init__.py:138
 msgid "You must specify at least one tracker."
-msgstr ""
-
-#: plugins/TorrentCreator/__init__.py:148
-msgid "Deluge"
-msgstr ""
+msgstr "Določen mora biti vsaj en sledilnik."
 
 #: plugins/SimpleRSS/rss.glade:7
 msgid "RSS Broadcatcher Settings"
-msgstr ""
+msgstr "Nastavitve RSS Broadcatcher"
 
 #: plugins/SimpleRSS/rss.glade:87
 msgid "Feed Name:"
-msgstr ""
+msgstr "Ime vira:"
 
 #: plugins/SimpleRSS/rss.glade:151
 msgid "Feed URL:"
-msgstr ""
+msgstr "URL vira:"
 
 #: plugins/SimpleRSS/rss.glade:283
 msgid "Feeds"
-msgstr ""
+msgstr "Viri"
 
 #: plugins/SimpleRSS/rss.glade:385 plugins/SimpleRSS/plugin.py:75
 msgid "Feed"
-msgstr ""
+msgstr "Vir"
 
 #: plugins/SimpleRSS/rss.glade:413
 msgid "Filter Exp:"
-msgstr ""
+msgstr "Filter Exp:"
 
 #: plugins/SimpleRSS/rss.glade:442
 msgid "Filter Name:"
-msgstr ""
+msgstr "Ime filtra:"
 
 #: plugins/SimpleRSS/rss.glade:543
 msgid "Filters"
-msgstr ""
+msgstr "Filtri"
 
 #: plugins/SimpleRSS/rss.glade:564
 msgid " Feed: "
-msgstr ""
+msgstr " Vir: "
 
 #: plugins/SimpleRSS/rss.glade:617
 msgid "Torrents"
-msgstr ""
+msgstr "Torrenti"
 
 #: plugins/SimpleRSS/rss.glade:660
 msgid "Update Interval (seconds): "
-msgstr ""
+msgstr "Interval osveževanja v sekundah "
 
 #: plugins/SimpleRSS/rss.glade:729
 msgid "Check feeds on Deluge start"
-msgstr ""
+msgstr "Preveri vire ob zagonu Deluge"
 
 #: plugins/SimpleRSS/rss.glade:781
 msgid "Check Feeds Now"
-msgstr ""
+msgstr "Preveri vire sedaj"
 
 #: plugins/SimpleRSS/rss.glade:836
 msgid "Options"
@@ -1533,7 +1800,7 @@ msgstr "Možnosti"
 
 #: plugins/SimpleRSS/__init__.py:33
 msgid "Simple RSS"
-msgstr ""
+msgstr "Preprost RSS"
 
 #: plugins/SimpleRSS/__init__.py:36
 msgid ""
@@ -1549,78 +1816,90 @@ msgid ""
 "\n"
 "Enjoy!"
 msgstr ""
+"\n"
+"Samodejno prenesi torrente iz SimpleRSS vira\n"
+"\n"
+"Dodaj RSS vire na zavihek 'viri', nato dodaj filter za TV serije, oziroma po "
+"želji, na zavihek 'Filtri'. Dvojni klik na zavihek 'Torrenti' bo prenesel "
+"dodatne torrente iz RSS virov. \n"
+"\n"
+"Na forumu mi lahko pustite sporočilo (SatNav) kako vam stvar deluje.\n"
+"\n"
+"Uživajte!"
 
 #: plugins/SimpleRSS/plugin.py:69 plugins/SimpleRSS/plugin.py:77
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: plugins/SimpleRSS/plugin.py:70
 msgid "Last Entry Date"
-msgstr ""
+msgstr "Datum zadnjega vnosa"
 
 #: plugins/SimpleRSS/plugin.py:78
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: plugins/SimpleRSS/plugin.py:135
 msgid "RSS"
-msgstr ""
+msgstr "RSS"
 
 #: plugins/SimpleRSS/plugin.py:137
 msgid "SimpleRSS Broadcatcher"
-msgstr ""
+msgstr "SimpleRSS Broadcatcher"
 
 #: plugins/SimpleRSS/plugin.py:220 plugins/SimpleRSS/plugin.py:224
 #: plugins/SimpleRSS/plugin.py:225 plugins/SimpleRSS/plugin.py:226
 #: plugins/SimpleRSS/plugin.py:228 plugins/SimpleRSS/plugin.py:229
 #: plugins/SimpleRSS/plugin.py:230
 msgid "New Filter"
-msgstr ""
+msgstr "Nov filter"
 
 #: plugins/SimpleRSS/plugin.py:299 plugins/SimpleRSS/plugin.py:434
 #: plugins/SimpleRSS/plugin.py:435
 msgid "All"
-msgstr ""
+msgstr "Vsi"
 
 #: plugins/TorrentNotification/notification_preferences.glade:7
 msgid "Torrent Notification Preferences"
+msgstr "Lastnosti opomnika torrenta"
+
+#: plugins/TorrentNotification/notification_preferences.glade:32
+msgid "Enable event sound (requires pygame, not available on Win32)"
 msgstr ""
 
-#: plugins/TorrentNotification/notification_preferences.glade:28
-msgid "Enable popup notification (requires python-notify)"
-msgstr ""
-
-#: plugins/TorrentNotification/notification_preferences.glade:42
+#: plugins/TorrentNotification/notification_preferences.glade:59
 msgid "Enable blinking tray icon"
-msgstr ""
+msgstr "Omogoči utripajočo ikono na pladnju"
 
-#: plugins/TorrentNotification/notification_preferences.glade:56
-msgid "Enable event sound (requires pygame)"
+#: plugins/TorrentNotification/notification_preferences.glade:69
+msgid ""
+"Enable popup notification (requires python-notify, not available on Win32)"
 msgstr ""
 
 #: plugins/TorrentNotification/__init__.py:19
 msgid "Torrent Notification"
-msgstr ""
+msgstr "Opomnik torrenta"
 
 #: plugins/TorrentNotification/__init__.py:22
 msgid ""
 "Make tray icon blink when torrent finishes downloading and/or popup a "
 "notification"
 msgstr ""
+"Ob končanem prenosu bo ikona v pladnju utripala in/ali prikazala pojavno "
+"okno."
 
-#: plugins/TorrentNotification/__init__.py:101
-#: plugins/TorrentPieces/tab_pieces.py:102
+#: plugins/TorrentNotification/__init__.py:103
 msgid "Torrent complete"
-msgstr ""
+msgstr "Končan torrent"
 
-#: plugins/TorrentNotification/__init__.py:102
-#: plugins/TorrentFiles/__init__.py:70
+#: plugins/TorrentNotification/__init__.py:104
+#: plugins/TorrentFiles/__init__.py:71
 msgid "Files"
 msgstr "Datoteke"
 
 #: plugins/NetworkHealth/__init__.py:33
 msgid "Network Health Monitor"
-msgstr ""
+msgstr "Zanesljivost povezave"
 
 #: plugins/NetworkHealth/__init__.py:36
 msgid ""
@@ -1628,82 +1907,85 @@ msgid ""
 "\n"
 "Written by Kripkenstein"
 msgstr ""
+"Vtičnik prikaza kakovosti omrežne povezave\n"
+"\n"
+"Napisal Kripkenstein"
 
 #: plugins/NetworkHealth/plugin.py:53
 msgid "[Health: OK]"
-msgstr ""
+msgstr "[Povezava: Dobra]"
 
 #: plugins/EventLogging/event_logging_preferences.glade:7
 msgid "Event Logging Preferences"
-msgstr ""
+msgstr "Lastnosti zapisovanja dnevnika"
 
 #: plugins/EventLogging/event_logging_preferences.glade:28
 msgid "Enable log files"
-msgstr ""
+msgstr "Omogoči datoteke dnevnika"
 
 #: plugins/EventLogging/event_logging_preferences.glade:41
 msgid "Log files"
-msgstr ""
+msgstr "Datoteke dnevnika"
 
 #: plugins/EventLogging/event_logging_preferences.glade:66
 #: plugins/EventLogging/tab_log.py:210
 msgid "Peer blocked"
-msgstr ""
+msgstr "Vrstnik je blokiran"
 
 #: plugins/EventLogging/event_logging_preferences.glade:80
 #: plugins/EventLogging/tab_log.py:200
 msgid "Block finished"
-msgstr ""
+msgstr "Blokiranje končano"
 
 #: plugins/EventLogging/event_logging_preferences.glade:94
 #: plugins/EventLogging/tab_log.py:189
 msgid "Block downloading"
-msgstr ""
+msgstr "Prenos blokiranj"
 
 #: plugins/EventLogging/event_logging_preferences.glade:108
 #: plugins/EventLogging/tab_log.py:179
 msgid "Piece finished"
-msgstr ""
+msgstr "Končan kos"
 
 #: plugins/EventLogging/event_logging_preferences.glade:122
 #: plugins/EventLogging/tab_log.py:170
 msgid "Storage moved"
-msgstr ""
+msgstr "Premik shranjevanja"
 
 #: plugins/EventLogging/event_logging_preferences.glade:136
 #: plugins/EventLogging/tab_log.py:161
 msgid "Tracker warning"
-msgstr ""
+msgstr "Opozorilo sledilnika"
 
 #: plugins/EventLogging/event_logging_preferences.glade:150
 #: plugins/EventLogging/tab_log.py:150
 msgid "Tracker alert"
-msgstr ""
+msgstr "Opozorilo sledilnika"
 
 #: plugins/EventLogging/event_logging_preferences.glade:164
 #: plugins/EventLogging/tab_log.py:141
 msgid "Tracker reply"
-msgstr ""
+msgstr "Odgovor sledilnika"
 
 #: plugins/EventLogging/event_logging_preferences.glade:178
 #: plugins/EventLogging/tab_log.py:132
 msgid "Tracker announce"
-msgstr ""
+msgstr "Najava sledilnika"
 
 #: plugins/EventLogging/event_logging_preferences.glade:192
 #: plugins/EventLogging/tab_log.py:123
 msgid "Fastresume rejected error"
-msgstr ""
+msgstr "Napaka v hitrem nadaljevanju"
 
 #: plugins/EventLogging/event_logging_preferences.glade:206
 #: plugins/EventLogging/tab_log.py:114
 msgid "Peer ban error"
-msgstr ""
+msgstr "Vrstnikova napaka"
 
 #: plugins/EventLogging/event_logging_preferences.glade:220
 #: plugins/EventLogging/tab_log.py:104
 msgid "Hash failed error"
-msgstr ""
+msgstr "Napaka izvlečka"
 
 #: plugins/EventLogging/event_logging_preferences.glade:234
 #: plugins/EventLogging/tab_log.py:95
@@ -1717,20 +1999,20 @@ msgstr "Neveljavna zahteva"
 
 #: plugins/EventLogging/event_logging_preferences.glade:262
 msgid "Peer messages"
-msgstr ""
+msgstr "Vrstnikova sporočila"
 
 #: plugins/EventLogging/event_logging_preferences.glade:276
 #: plugins/EventLogging/tab_log.py:70
 msgid "Torrent finished"
-msgstr ""
+msgstr "Končan torrent"
 
 #: plugins/EventLogging/event_logging_preferences.glade:289
 msgid "Select events to log"
-msgstr ""
+msgstr "Izbor dogodkov v dnevniku"
 
 #: plugins/EventLogging/__init__.py:19
 msgid "Event Logging"
-msgstr ""
+msgstr "Dnevnik dogodkov"
 
 #: plugins/EventLogging/__init__.py:22
 msgid ""
@@ -1755,10 +2037,31 @@ msgid ""
 "Events are now truncated in display.  Log files are not.\n"
 "New events are now displayed at the top.\n"
 msgstr ""
+"\n"
+"Doda zavihek z dnevnikom izbranih dogodkov.\n"
+"\n"
+"Zapisovanje dogodkov je narejeno s pomočjo knjižnice libtorrent opozoril.\n"
+"Če želite prevod besed v vaš jezik, morate to sporočiti,\n"
+"upravljalcu knjižnice libtorrent, ne Deluge.\n"
+"\n"
+"Dnevniki dogodkov so vedno shranjeni v mapo log, ki se \n"
+"nahaja v mapi, kjer Deluge shrani konfiguracijske datoteke.\n"
+"Sporočila za določene torrente so shranjena v posamezne\n"
+"dnevniške datoteke z enakim imenom datoteke, kot jo ima\n"
+"izvirna .torrent datoteka.\n"
+"Sporočila, ki niso določena za posamezni torrent, so shranjena\n"
+"v datoteko z imenom dogodka.\n"
+"(na primer peer_messages.log).\n"
+"Dogodki v dnevniku so označeni tudi z datumom in uro.\n"
+"Uporabnik mora po potrebi sam prazniti dnevniške datoteke.\n"
+"\n"
+"Od različice v0.2 naprej:\n"
+"Prikazi dogodkov so skrajšani. Dnevniške datoteke pa ne.\n"
+"Novi dogodki so prikazani na vrhu.\n"
 
 #: plugins/EventLogging/__init__.py:88
 msgid "Event Log"
-msgstr ""
+msgstr "Dnevnik dogodkov"
 
 #: plugins/EventLogging/tab_log.py:70 plugins/EventLogging/tab_log.py:78
 #: plugins/EventLogging/tab_log.py:86 plugins/EventLogging/tab_log.py:95
@@ -1769,7 +2072,7 @@ msgstr ""
 #: plugins/EventLogging/tab_log.py:189 plugins/EventLogging/tab_log.py:200
 #: plugins/EventLogging/tab_log.py:210 plugins/EventLogging/tab_log.py:218
 msgid "event message: "
-msgstr ""
+msgstr "sporočilo: "
 
 #: plugins/EventLogging/tab_log.py:71 plugins/EventLogging/tab_log.py:95
 #: plugins/EventLogging/tab_log.py:105 plugins/EventLogging/tab_log.py:115
@@ -1779,89 +2082,89 @@ msgstr ""
 #: plugins/EventLogging/tab_log.py:180 plugins/EventLogging/tab_log.py:190
 #: plugins/EventLogging/tab_log.py:201
 msgid "torrent: "
-msgstr ""
+msgstr "torrent: "
 
 #: plugins/EventLogging/tab_log.py:78
 msgid "Peer message"
-msgstr ""
+msgstr "Sporočila vrstnika"
 
 #: plugins/EventLogging/tab_log.py:78 plugins/EventLogging/tab_log.py:114
 #: plugins/EventLogging/tab_log.py:211
 msgid "ip address: "
-msgstr ""
+msgstr "IP naslov: "
 
 #: plugins/EventLogging/tab_log.py:79 plugins/EventLogging/tab_log.py:86
 msgid "client: "
-msgstr ""
+msgstr "odjemalec: "
 
 #: plugins/EventLogging/tab_log.py:106 plugins/EventLogging/tab_log.py:181
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
 msgid "piece index: "
-msgstr ""
+msgstr "indeks kosa: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "status code: "
-msgstr ""
+msgstr "koda statusa: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "Times in a row: "
-msgstr ""
+msgstr "Zapored: "
 
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
 msgid "block index: "
-msgstr ""
+msgstr "blokirni seznam: "
 
 #: plugins/EventLogging/tab_log.py:192
 msgid "peer speed: "
-msgstr ""
+msgstr "hitrost vrstnika: "
 
 #: plugins/SpeedLimiter/__init__.py:17
 msgid "Speed Limiter"
-msgstr ""
+msgstr "Omejevalec hitrosti"
 
 #: plugins/SpeedLimiter/__init__.py:20
 msgid "Set the desired speed limit per torrent."
-msgstr ""
+msgstr "Nastavi želeno omejitev hitrosti na torrent"
 
 #: plugins/SpeedLimiter/__init__.py:80
 msgid "Torrent _Download Speed"
-msgstr ""
+msgstr "Hitrost _prenosa torrenta"
 
 #: plugins/SpeedLimiter/__init__.py:90
 msgid "Torrent Upload _Speed"
-msgstr ""
+msgstr "Hitrost _nalaganja torrenta"
 
 #: plugins/SpeedLimiter/__init__.py:144
 msgid "Torrent Upload Speed (KiB/s):"
-msgstr ""
+msgstr "Hitrost nalaganja torrenta (KiB/s):"
 
 #: plugins/SpeedLimiter/__init__.py:176
 msgid "Torrent Download Speed (KiB/s):"
-msgstr ""
+msgstr "Hitrost prenosa torrenta (KiB/s):"
 
 #: plugins/TorrentSearch/__init__.py:33
 msgid "Torrent Search"
-msgstr ""
+msgstr "Iskanje torrentov"
 
 #: plugins/TorrentSearch/__init__.py:36
 msgid "A searchbar for torrent search engines"
-msgstr ""
+msgstr "Polje za iskanje torrentov"
 
 #: plugins/TorrentSearch/plugin.py:52
 msgid "Search String"
-msgstr ""
+msgstr "Iskani niz"
 
 #: plugins/TorrentSearch/plugin.py:74 plugins/TorrentSearch/plugin.py:164
 msgid "Choose an Engine"
-msgstr ""
+msgstr "Izberite iskalnik"
 
 #: plugins/TorrentSearch/plugin.py:78
 msgid "Manage Engines"
-msgstr ""
+msgstr "Upravljaj iskalnike"
 
 #: plugins/TorrentSearch/plugin.py:185
 msgid "Search "
-msgstr ""
+msgstr "Najdi "
 
 #: plugins/TorrentSearch/searchdlg.glade:7
 msgid "Manage Search Plugins"
@@ -1885,6 +2188,12 @@ msgid ""
 "Name: Google\n"
 "URL: http://www.google.com/search?q=${query}"
 msgstr ""
+"Dodaj ime in URL naslov novega iskalnika. Za ime vnesite ime iskalnika. Za "
+"URL naslov vnesite naslov iskalne strani. Uporabnikov iskani niz bo zamenjal "
+"vse nazive ${query} v URL naslovu.\n"
+"Primer za Google iskalnik:\n"
+"Ime: Google\n"
+"URL naslov: http://www.google.com/search?q=${query}"
 
 #: plugins/TorrentSearch/searchdlg.glade:133
 msgid "Help"
@@ -1892,54 +2201,22 @@ msgstr "Pomoč"
 
 #: plugins/NetworkGraph/__init__.py:33
 msgid "Network Activity Graph"
-msgstr ""
+msgstr "Graf mrežne dejavnosti"
 
 #: plugins/NetworkGraph/__init__.py:36
 msgid ""
 "Network Activity Graph plugin\n"
 "\n"
 "Written by Kripkenstein"
-msgstr ""
+msgstr "Vtičnik grafa mrežne dejavnosti"
 
 #: plugins/NetworkGraph/__init__.py:89
 msgid "Graph"
-msgstr ""
-
-#: plugins/TorrentPieces/tab_pieces.py:226
-msgid "Piece shared with next file(s)"
-msgstr ""
-
-#: plugins/TorrentPieces/__init__.py:19
-msgid "Torrent Pieces"
-msgstr ""
-
-#: plugins/TorrentPieces/__init__.py:22
-msgid ""
-"\n"
-"Pieces tab now shows percentage instead\n"
-"of progress bars.  There are no longer any tooltips.\n"
-"\n"
-"Peer speed uses following symbols:\n"
-"fast is +\n"
-"medium is =\n"
-"slow is -\n"
-"\n"
-"monospace font is required for columns to be aligned.\n"
-"\n"
-"Font size and number of columns are configurable in the\n"
-"preferences.\n"
-"\n"
-"Finished torrents do not show piece information, just\n"
-"a message that the torrent is complete.\n"
-msgstr ""
-
-#: plugins/TorrentPieces/__init__.py:92
-msgid "Pieces"
-msgstr "Kosi"
+msgstr "Graf"
 
 #: plugins/Locations/__init__.py:18
 msgid "Locations"
-msgstr ""
+msgstr "Lokacije"
 
 #: plugins/Locations/__init__.py:21
 msgid ""
@@ -1955,14 +2232,30 @@ msgid ""
 "Gateway used for the connection. It is therefore possible to have different "
 "settings for home and work, or for broadband, 3G and dial-up on the fly.\n"
 msgstr ""
+"Zapomni si nastavitve za različne lokacije samodejno.\n"
+"\n"
+"Ko je vtičnik dejaven, si bo zapomnil koristne omrežne lastnosti kot si "
+"omejitve prenosov in nalaganj, odprtih vrat in proksi informacij. Medtem ko "
+"ste priključeni, spremenite lastnosti vsake lokacije, Deluge pa bo samodejno "
+"uporabil nastavitve lokacije ob naslednjem zagonu. Nobene druge nastavitve "
+"niso potrebne.\n"
+"\n"
+"Vtičnik določa lokacijo tako, da si zapomni MAC naslov prehoda, ki je "
+"uporabljen za povezavo. Na ta način je mogoče imeti različne nastavitve za "
+"domačo ali službeno omrežje, širokopasovne povezave, 3G ali pa klicne "
+"povezave.\n"
 
-#: plugins/TorrentFiles/tab_files.py:64
+#: plugins/TorrentFiles/tab_files.py:59
 msgid "Progress"
 msgstr "Opravljeno"
 
+#: plugins/TorrentFiles/tab_files.py:100
+msgid "There was an error trying to launch the file."
+msgstr "Prišlo je od napake med poskusom zagona datoteke."
+
 #: plugins/TorrentFiles/__init__.py:19
 msgid "Torrent Files"
-msgstr ""
+msgstr "Torrent datoteke"
 
 #: plugins/TorrentFiles/__init__.py:22
 msgid ""
@@ -1971,42 +2264,14 @@ msgid ""
 "priorities for them and choose which ones you want or don't want to "
 "download.\n"
 msgstr ""
-
-#: plugins/TorrentPieces/pieces_preferences.glade:7
-msgid "Pieces Preferences"
-msgstr ""
-
-#: plugins/TorrentPieces/pieces_preferences.glade:31
-msgid "Select number of columns"
-msgstr ""
-
-#: plugins/TorrentPieces/pieces_preferences.glade:47
-msgid "Select font size"
-msgstr ""
-
-#: plugins/TorrentPeers/peers_preferences.glade:7
-msgid "Peers Preferences"
-msgstr ""
-
-#: plugins/TorrentPeers/peers_preferences.glade:28
-msgid "Enable flags"
-msgstr ""
-
-#: plugins/TorrentPeers/peers_preferences.glade:38
-msgid "Select size of flag"
-msgstr ""
-
-#: plugins/TorrentPeers/peers_preferences.glade:48
-msgid "18x12"
-msgstr ""
-
-#: plugins/TorrentPeers/peers_preferences.glade:62
-msgid "25x15"
-msgstr ""
+"\n"
+"Ta vtičnik omogoča prikaz datotek znotraj torrenta. Z njim lahko tudi "
+"nastavite prioriteto posameznim datotekam ali pa določite katerih ne želite "
+"prenesti.\n"
 
 #: plugins/ExtraStats/__init__.py:19
 msgid "Extra Stats"
-msgstr ""
+msgstr "Dodatna statistika"
 
 #: plugins/ExtraStats/__init__.py:22
 msgid ""
@@ -2026,6 +2291,22 @@ msgid ""
 "eg.  Total Downloaded: 5 GiB (4 MiB)\n"
 "would be 5 GiB across sessions and 4 MiB within session\n"
 msgstr ""
+"\n"
+"Dodaj informacije v pojavno okno pladnja.\n"
+"Dodaj te statistike.\n"
+"skupna količina prenešenih bajtov\n"
+"skupno količina naloženih bajtov\n"
+"skupno razmerje\n"
+"končanih torrentov\n"
+"\n"
+"Vse te statistike pridejo v parih:\n"
+"čez vse seje in po posamezni seji.\n"
+"Privzeto so vsi pari omogočeni, lahko pa jih izklopite v nastavitvah "
+"vtičnika.\n"
+"\n"
+"podatki trenutne seje so vedno prikazani v oklepajih\n"
+"primer: Skupni prenos 5 GiB (4 MiB)\n"
+"bi pomenilo 5 GiB v vseh sejah in 4 MiB v trenutni.\n"
 
 #: plugins/ExtraStats/__init__.py:175
 #: plugins/ExtraStats/stats_preferences.glade:28
@@ -2039,30 +2320,30 @@ msgstr "Skupaj oddano"
 
 #: plugins/ExtraStats/__init__.py:187 plugins/ExtraStats/__init__.py:191
 msgid "Undefined"
-msgstr ""
+msgstr "Nedoločeno"
 
 #: plugins/ExtraStats/__init__.py:195
 #: plugins/ExtraStats/stats_preferences.glade:52
 msgid "Overall Ratio"
-msgstr ""
+msgstr "Skupno razmerje"
 
 #: plugins/ExtraStats/__init__.py:200
 #: plugins/ExtraStats/stats_preferences.glade:66
 msgid "Torrents Completed"
-msgstr ""
+msgstr "Končanih torrentov"
 
 #: plugins/ExtraStats/__init__.py:206
 #: plugins/ExtraStats/stats_preferences.glade:80
 msgid "Running Time"
-msgstr ""
+msgstr "Čas delovanja"
 
 #: plugins/ExtraStats/stats_preferences.glade:7
 msgid "Extra Stats Preferences"
-msgstr ""
+msgstr "Nastavitve dodatnih satistik"
 
 #: plugins/MoveTorrent/__init__.py:19
 msgid "Move Torrent"
-msgstr ""
+msgstr "Premakni torrent"
 
 #: plugins/MoveTorrent/__init__.py:22
 msgid ""
@@ -2072,21 +2353,27 @@ msgid ""
 "Furthermore, it allows the user to automatically have finished torrents "
 "moved to a different folder."
 msgstr ""
+"Vtičnik omogoča uporabniku premik torrenta v drugo mapo, ne da bi moral pri "
+"tem torrent odstraniti iz seznama in ga ponovno dodati. To je mogoče doseči "
+"z desnim klikom na torrent \n"
+"Vtičnik omogoča tudi samodejno prestavljanje končanih torrentov v drugo mapo."
 
 #: plugins/MoveTorrent/__init__.py:76
 msgid "_Move Torrent"
-msgstr ""
+msgstr "Pre_makni torrent"
 
 #: plugins/MoveTorrent/__init__.py:95
 msgid "Choose a directory to move files to"
-msgstr ""
+msgstr "Izberite mapo v katero želite prestaviti datoteke"
 
-#: plugins/MoveTorrent/__init__.py:123
+#: plugins/MoveTorrent/__init__.py:129
 msgid ""
 "You cannot move torrent to a different partition. Please check your "
 "preferences. Or perhaps you are trying to move torrent's files to the same "
 "directory they are already stored?"
 msgstr ""
+"Torrenta ne morete prestaviti na drugo particijo. Preverite nastavitve, "
+"mogoče pa poskušate prestaviti datoteke v isto mapo kjer se že nahajajo."
 
 #: plugins/MoveTorrent/movetorrent.glade:25
 msgid "Move completed downloads to:"
@@ -2102,16 +2389,38 @@ msgstr "gtk-v redu"
 
 #: plugins/WebSeed/__init__.py:19
 msgid "Web Seed"
-msgstr ""
+msgstr "Spletno sejanje"
 
 #: plugins/WebSeed/__init__.py:22
 msgid "This plugin allows users to add web seeds to their torrents"
-msgstr ""
+msgstr "Vtičnik omogoči uporabnikom, da torrentom dodajo spletno sejanje"
 
 #: plugins/WebSeed/__init__.py:51
 msgid "_Add Web Seed"
-msgstr ""
+msgstr "Dodaj _Spletno sejanje"
 
 #: plugins/WebSeed/webseed.glade:7
 msgid "Open Containing Folder Preferences"
+msgstr "Lastnosti odpiranja mape"
+
+#: plugins/Scheduler/plugin.py:76
+msgid "Scheduler Settings"
+msgstr ""
+
+#: plugins/Scheduler/plugin.py:86
+msgid "Limit download to:"
+msgstr "Omejitev prenosa na:"
+
+#: plugins/Scheduler/plugin.py:87
+msgid "Limit upload to:"
+msgstr "Omejitev pošiljanja na:"
+
+#: plugins/Scheduler/plugin.py:135
+msgid "Yellow is limited, red is stopped and green is unlimited."
+msgstr "Rumena predstavlja omejeno, rdeča ustavljeno in zelena neomejeno."
+
+#: plugins/Scheduler/plugin.py:137
+msgid ""
+"When set to -1 (unlimited), the global limits in Deluge's preferences will "
+"be obeyed."
 msgstr ""
