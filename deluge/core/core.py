@@ -215,8 +215,12 @@ class Core(
         """
         if save_path == "":
             save_path = None
-            
-        torrent_id = self.torrents.add(filename, filedump=filedump.data, 
+        
+        # Make sure we are sending a string to add()
+        if not isinstance(filedump, str):
+            filedump = filedump.data
+
+        torrent_id = self.torrents.add(filename, filedump=filedump, 
             save_path=save_path)
 
         # Run the plugin hooks for 'post_torrent_add'
