@@ -80,9 +80,9 @@ class plugin_WebUi(object):
         self.web_server = None
         if not deluge.common.windows_check():
             import commands
-            pid = commands.getstatus('ps x |grep -v grep |grep run_webserver |awk {\'print $1\'}')
-            if pid == 0:
-                os.kill(pid[1], 9)
+            status = commands.getstatus('ps x |grep -v grep |grep run_webserver')
+            if status == 0:
+                os.kill(commands.getoutput('ps x |grep -v grep |grep run_webserver |awk {\'print $1\'}'), 9)
                 time.sleep(1) #safe time to wait for kill to finish.
         self.config_file = deluge.common.CONFIG_DIR + "/webui.conf"
         self.config = deluge.pref.Preferences(self.config_file, False)
