@@ -39,7 +39,7 @@ import pickle
 
 import deluge.SimpleXMLRPCServer as SimpleXMLRPCServer
 from SocketServer import ThreadingMixIn
-import xmlrpclib
+import deluge.xmlrpclib as xmlrpclib
 import gobject
 import threading
 

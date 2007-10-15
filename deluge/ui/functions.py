@@ -34,10 +34,7 @@
 import os.path
 import pickle
 
-import xmlrpclib
-#import dbus
-#from dbus.mainloop.glib import DBusGMainLoop
-#DBusGMainLoop(set_as_default=True)
+import deluge.xmlrpclib as xmlrpclib
 
 import pygtk
 pygtk.require('2.0')

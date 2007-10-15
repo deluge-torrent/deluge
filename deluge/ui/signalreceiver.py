@@ -34,7 +34,7 @@
 import sys
 import deluge.SimpleXMLRPCServer as SimpleXMLRPCServer
 from SocketServer import ThreadingMixIn
-import xmlrpclib
+import xmlrpclib as xmlrpclib
 import threading
 
 from deluge.log import LOG as log
