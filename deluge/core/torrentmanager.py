@@ -171,13 +171,19 @@ class TorrentManager:
         # Make sure we are adding it with the correct allocation method.
         if compact is None:
             compact = self.config["compact_allocation"]
+        
+        # Set the right storage_mode
+        if compact:
+            storage_mode = lt.storage_mode_t(1)
+        else:
+            storage_mode = lt.storage_mode_t(2)
             
         try:
             handle = self.session.add_torrent(
                                     lt.torrent_info(torrent_filedump), 
                                     str(save_path),
                                     resume_data=fastresume,
-                                    compact_mode=compact,
+                                    storage_mode=storage_mode,
                                     paused=paused)
         except RuntimeError:
             log.warning("Error adding torrent") 
@@ -228,7 +234,7 @@ class TorrentManager:
         """Remove a torrent from the manager"""
         try:
             # Remove from libtorrent session
-            self.session.remove_torrent(self.torrents[torrent_id].handle)
+            self.session.remove_torrent(self.torrents[torrent_id].handle, 0)
         except RuntimeError, KeyError:
             log.warning("Error removing torrent")
             return False
