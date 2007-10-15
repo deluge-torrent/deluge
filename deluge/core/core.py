@@ -180,6 +180,7 @@ class Core(
             self._on_alert_torrent_paused)
         
         t = threading.Thread(target=self.serve_forever)
+        t.setDaemon(True)
         t.start()
         gobject.threads_init()
 
