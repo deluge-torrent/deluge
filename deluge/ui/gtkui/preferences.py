@@ -104,7 +104,7 @@ class Preferences:
         self.liststore.append([index, name])
 
     def show(self):
-        self.core_config = functions.get_config(self.core)
+        self.core_config = functions.get_config()
         # Update the preferences dialog to reflect current config settings
         
         ## Downloads tab ##
@@ -134,7 +134,7 @@ class Preferences:
         self.glade.get_widget("spin_port_max").set_value(
             self.core_config["listen_ports"][1])
         self.glade.get_widget("active_port_label").set_text(
-            str(functions.get_listen_port(self.core)))
+            str(functions.get_listen_port()))
         self.glade.get_widget("chk_random_port").set_active(
             self.core_config["random_port"])
         self.glade.get_widget("chk_dht").set_active(
@@ -310,7 +310,7 @@ class Preferences:
                 config_to_set[key] = new_core_config[key]
 
         # Set each changed config value in the core
-        functions.set_config(config_to_set, self.core)
+        functions.set_config(config_to_set)
 
         # Update the configuration
         self.core_config.update(config_to_set)
@@ -387,7 +387,7 @@ class Preferences:
     def on_test_port_clicked(self, data):
         log.debug("on_test_port_clicked")
         url = "http://deluge-torrent.org/test-port.php?port=%s" % \
-            functions.get_listen_port(self.core)
+            functions.get_listen_port()
         functions.open_url_in_browser(url)
     
     def on_plugin_toggled(self, renderer, path):
