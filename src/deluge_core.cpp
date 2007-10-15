@@ -372,7 +372,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
     M_settings->user_agent = std::string(user_agent);
 #if defined(_WIN32)
-    M_ses->set_max_half_open_connections(8);
+    M_ses->set_max_half_open_connections(4);
 #endif
 
     M_ses->set_download_rate_limit(-1);
@@ -475,9 +475,9 @@ static PyObject *torrent_set_max_half_open(PyObject *self, PyObject *args)
         return NULL;
 #if defined(_WIN32)
     if (arg > 8)
-        arg = 8;
+        arg = 4;
     if (arg = -1)
-        arg = 8;
+        arg = 4;
 #endif
     M_ses->set_max_half_open_connections(arg);
 
