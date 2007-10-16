@@ -499,7 +499,7 @@ class Manager:
         for unique_ID in self.unique_IDs:
             torrent_state = self.get_core_torrent_state(unique_ID)
             if torrent_state['progress'] == 1.0:
-                self.remove_torrent_ns(unique_ID)
+                self.remove_torrent_ns(unique_ID, False)
                 self.removed_unique_ids[unique_ID] = 1
 
         self.sync()
