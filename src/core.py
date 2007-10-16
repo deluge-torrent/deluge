@@ -859,13 +859,17 @@ class Manager:
                 # Apply per torrent prefs after torrent added to core
                 self.apply_prefs_per_torrent(unique_ID)
                 #remove fastresume for non-seed
-                torrent_state = self.get_core_torrent_state(unique_ID, False)
-                if not torrent_state['is_seed']:
-                    try:
-                        os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
-                    except:
-                        pass
-        
+                try:
+                    torrent_state = self.get_core_torrent_state(unique_ID)
+                except:
+                    pass
+                else:
+                    if not torrent_state['is_seed']:
+                        try:
+                            os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
+                        except:
+                            pass
+
         # Remove torrents from core, unique_IDs and queue
         to_delete = []
         for unique_ID in self.unique_IDs.keys():
@@ -902,15 +906,7 @@ class Manager:
                         self.state.queue.append(torrent)
                 else:
                     self.state.queue.append(torrent)
-        #remove fastresume for non-seed
-            torrent_state = self.get_core_torrent_state(unique_ID, False)
-            if not torrent_state['is_seed']:
-                try:
-                    os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
-                except:
-                    pass
 
-                    
         # run through queue, remove those that no longer exists
         to_delete = []
         for torrent in self.state.queue:
