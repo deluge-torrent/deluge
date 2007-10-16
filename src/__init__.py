@@ -42,7 +42,10 @@ if not common.windows_check():
     locale.bindtextdomain(APP, DIR)
     locale.textdomain(APP)
 else:
+    import gtk.glade
     locale.setlocale(locale.LC_ALL, '')
+    gtk.glade.bindtextdomain(APP,DIR)
+    gtk.glade.textdomain(APP)
 gettext.bindtextdomain(APP, DIR)
 gettext.textdomain(APP)
 gettext.install(APP, DIR)
