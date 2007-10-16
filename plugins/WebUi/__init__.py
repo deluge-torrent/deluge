@@ -201,9 +201,7 @@ class ConfigDialog(gtk.Dialog):
             gtk.FileChooserButton(_('Torrent Directory')))
         self.cache_templates = self.add_widget(_('Cache Templates'),
             gtk.CheckButton())
-        self.run_in_thread = self.add_widget(_('Run inside gtk'),
-            gtk.CheckButton())
-
+        self.run_in_thread = self.add_widget(_('Run inside GTK'), gtk.CheckButton())
 
         self.download_dir.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
         self.torrent_dir.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
@@ -231,7 +229,12 @@ class ConfigDialog(gtk.Dialog):
         self.torrent_dir.set_filename(self.config.get("torrent_dir"))
         self.download_dir.set_filename(self.config.get("download_dir"))
 
-        self.run_in_thread.set_active(self.config.get("run_in_thread"))
+        if deluge.common.windows_check():
+            self.run_in_thread.set_active(False)
+            self.run_in_thread.set_sensitive(False)
+        else:
+            self.run_in_thread.set_active(True)
+            self.run_in_thread.set_sensitive(False)
         self.cache_templates.set_active(self.config.get("cache_templates"))
 
         self.vbox.pack_start(self.vb, True, True, 0)
