@@ -1,5 +1,6 @@
 Deluge 0.5.6 (xx October 2007)
   * Web Interface Plugin
+  * Hopefully fix "losing data" and having to re-download parts (for real this time :p)
   * Use new full allocation method which does not create files until one of its
   pieces is downloaded
   * Tray lock password is no longer stored in plain text
@@ -7,7 +8,7 @@ Deluge 0.5.6 (xx October 2007)
   * Double-clicking on a torrent opens up its containing folder
   * Fix SpeedLimiter plugin when setting upload limits
   * Fix MoveTorrent plugin when moving actively downloading torrents
-  * Pause plugins while importing blocklist and resume them when finished
+  * Pause torrents while importing blocklist and resume them when finished
   * Remove TorrentPieces and disable its use
   * A whole bunch of stuff for Win32
   * Add private flag to TorrentCreator plugin
