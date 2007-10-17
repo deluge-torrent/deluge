@@ -190,7 +190,7 @@ class NetworkGraph:
                 self.topWidget\
                 or not self.parent.update_interface)\
                 and not self.bootupRuns > 0:
-            return
+            self.tab_graph.update_graph_store()
         self.bootupRuns = max(self.bootupRuns - 1, 0)
         self.tab_graph.update_graph_store()
         self.tab_graph.update_graph_view()
