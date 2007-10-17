@@ -44,7 +44,7 @@ if not common.windows_check():
 else:
     import gtk.glade
     locale.setlocale(locale.LC_ALL, '')
-    gtk.glade.bindtextdomain(APP,DIR)
+    gtk.glade.bindtextdomain(APP, DIR)
     gtk.glade.textdomain(APP)
 gettext.bindtextdomain(APP, DIR)
 gettext.textdomain(APP)
