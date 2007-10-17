@@ -80,6 +80,11 @@ class PreferencesDlg:
             self.glade.get_widget("txt_open_folder_location").set_text(self.preferences.get("open_folder_location"))
             self.glade.get_widget("radio_open_folder_stock").set_active(self.preferences.get("open_folder_stock"))
             self.glade.get_widget("radio_open_folder_custom").set_active(not self.preferences.get("open_folder_stock"))
+            if common.windows_check():
+                self.glade.get_widget("combo_file_manager").set_sensitive(False)
+                self.glade.get_widget("txt_open_folder_location").set_sensitive(False)
+                self.glade.get_widget("radio_open_folder_stock").set_sensitive(False)
+                self.glade.get_widget("radio_open_folder_custom").set_sensitive(False)
             self.glade.get_widget("combo_encin").set_active(self.preferences.get("encin_state"))
             self.glade.get_widget("combo_encout").set_active(self.preferences.get("encout_state"))
             self.glade.get_widget("combo_enclevel").set_active(self.preferences.get("enclevel_type"))
