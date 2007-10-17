@@ -110,6 +110,8 @@ class TorrentFiles:
     def configure(self, window):
         self.glade.get_widget("file_viewer").\
             set_text(self.config.get("file_viewer"))
+        if deluge.common.windows_check():
+            self.glade.get_widget("file_viewer").set_sensitive(False)
         self.dialog.set_transient_for(window)
         self.dialog.show()
 
