@@ -116,7 +116,11 @@ class TorrentNotification:
     def configure(self, window):
         import os.path
         self.glade.get_widget("chk_tray_blink").set_active(self.config.get("enable_tray_blink"))
-        self.glade.get_widget("chk_notification").set_active(self.config.get("enable_notification"))
+        if deluge.common.windows_check():
+            self.glade.get_widget("chk_notification").set_active(False)
+            self.glade.get_widget("chk_notification").set_sensitive(False)
+        else:
+            self.glade.get_widget("chk_notification").set_active(self.config.get("enable_notification"))
         self.glade.get_widget("chk_sound").set_active(self.config.get("enable_sound"))
         self.glade.get_widget("sound_path_button").set_sensitive(self.config.get("enable_sound"))
         self.glade.get_widget("sound_path_button").set_filename(self.config.get("sound_path"))
