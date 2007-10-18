@@ -32,6 +32,7 @@ def enable(core, interface):
 
 ### The Plugin ###
 import deluge
+import deluge.common
 import gtk
 
 class TorrentNotification:
@@ -48,11 +49,18 @@ class TorrentNotification:
 
         # Create an options file and try to load existing Values
         self.config_file = deluge.common.CONFIG_DIR + "/notification.conf"
-        self.config = deluge.pref.Preferences(self.config_file, False,
-                        defaults={'enable_tray_blink' : True,
-                                'enable_notification' : True,
-                                'enable_sound' : False,
-                                'sound_path' : os.path.expanduser("~/")})
+        if deluge.common.windows_check():
+            self.config = deluge.pref.Preferences(self.config_file, False,
+                            defaults={'enable_tray_blink' : True,
+                                    'enable_notification' : False,
+                                    'enable_sound' : False,
+                                    'sound_path' : os.path.expanduser("~")})
+        else:
+            self.config = deluge.pref.Preferences(self.config_file, False,
+                            defaults={'enable_tray_blink' : True,
+                                    'enable_notification' : True,
+                                    'enable_sound' : False,
+                                    'sound_path' : os.path.expanduser("~")})
         try:
             self.config.load()
         except IOError:
@@ -88,10 +96,8 @@ class TorrentNotification:
             self.interface.tray_icon.set_blinking(True)
 
     def show_notification(self, event):
-        import platform
-        if platform.system() != "Windows":
+        if not deluge.common.windows_check():
             import pynotify
-        
             file_info = self.interface.manager.get_torrent_file_info(event['unique_ID'])
             filelist = ""
             for file in file_info[:10]:
@@ -133,8 +139,7 @@ class TorrentNotification:
             self.glade.get_widget("sound_path_button").set_sensitive(value)
     
     def play_sound(self):
-        import platform
-        if platform.system() != "Windows":
+        if not deluge.common.windows_check():
             import pygame
             import os.path
             import sys
