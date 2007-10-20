@@ -11,3 +11,4 @@
     to add menuitems to the torrentmenu in an easy way.
 * Restart daemon function
 * Docstrings!
+* Update libtorrent and bindings for sparse_mode allocation and remove_torrent options

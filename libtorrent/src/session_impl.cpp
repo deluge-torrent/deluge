@@ -189,9 +189,11 @@ namespace detail
 					t->parse_resume_data(t->resume_data, t->torrent_ptr->torrent_file()
 						, error_msg);
 
+					// lock the session to add the new torrent
+					session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
+
 					if (!error_msg.empty() && m_ses.m_alerts.should_post(alert::warning))
 					{
-						session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 						m_ses.m_alerts.post_alert(fastresume_rejected_alert(
 							t->torrent_ptr->get_handle()
 							, error_msg));
@@ -202,8 +204,6 @@ namespace detail
 #endif
 					}
 
-					// lock the session to add the new torrent
-					session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 					mutex::scoped_lock l2(m_mutex);
 
 					if (m_torrents.empty() || m_torrents.front() != t)
@@ -328,7 +328,7 @@ namespace detail
 				boost::tie(finished, progress) = processing->torrent_ptr->check_files();
 
 				{
-					mutex::scoped_lock l(m_mutex);
+					mutex::scoped_lock l2(m_mutex);
 
 					INVARIANT_CHECK;
 
@@ -340,9 +340,9 @@ namespace detail
 						m_processing.pop_front();
 
 						// make sure the lock order is correct
-						l.unlock();
+						l2.unlock();
 						session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
-						l.lock();
+						l2.lock();
 						processing->torrent_ptr->abort();
 
 						processing.reset();
@@ -481,7 +481,7 @@ namespace detail
 		return 0;
 	}
 
-	void checker_impl::remove_torrent(sha1_hash const& info_hash)
+	void checker_impl::remove_torrent(sha1_hash const& info_hash, int options)
 	{
 		INVARIANT_CHECK;
 		for (std::deque<boost::shared_ptr<piece_checker_data> >::iterator i
@@ -490,6 +490,8 @@ namespace detail
 			if ((*i)->info_hash == info_hash)
 			{
 				TORRENT_ASSERT((*i)->processing == false);
+				if (options & session::delete_files)
+					(*i)->torrent_ptr->delete_files();
 				m_torrents.erase(i);
 				return;
 			}
@@ -500,6 +502,8 @@ namespace detail
 			if ((*i)->info_hash == info_hash)
 			{
 				TORRENT_ASSERT((*i)->processing == false);
+				if (options & session::delete_files)
+					(*i)->torrent_ptr->delete_files();
 				m_processing.erase(i);
 				return;
 			}
@@ -565,8 +569,19 @@ namespace detail
 		, m_checker_impl(*this)
 	{
 #ifdef WIN32
-		// windows XP has a limit of 10 simultaneous connections
-		m_half_open.limit(8);
+		// windows XP has a limit on the number of
+		// simultaneous half-open TCP connections
+		DWORD windows_version = ::GetVersion();
+		if ((windows_version & 0xff) >= 6)
+		{
+			// on vista the limit is 5 (in home edition)
+			m_half_open.limit(4);
+		}
+		else
+		{
+			// on XP SP2 it's 10	
+			m_half_open.limit(8);
+		}
 #endif
 
 		m_bandwidth_manager[peer_connection::download_channel] = &m_download_channel;
@@ -1623,7 +1638,7 @@ namespace detail
 		boost::intrusive_ptr<torrent_info> ti
 		, fs::path const& save_path
 		, entry const& resume_data
-		, bool compact_mode
+		, storage_mode_t storage_mode
 		, storage_constructor_type sc
 		, bool paused
 		, void* userdata)
@@ -1655,7 +1670,7 @@ namespace detail
 		// the thread
 		boost::shared_ptr<torrent> torrent_ptr(
 			new torrent(*this, m_checker_impl, ti, save_path
-				, m_listen_interface, compact_mode, 16 * 1024
+				, m_listen_interface, storage_mode, 16 * 1024
 				, sc, paused));
 		torrent_ptr->start();
 
@@ -1701,7 +1716,7 @@ namespace detail
 		, char const* name
 		, fs::path const& save_path
 		, entry const&
-		, bool compact_mode
+		, storage_mode_t storage_mode
 		, storage_constructor_type sc
 		, bool paused
 		, void* userdata)
@@ -1735,7 +1750,7 @@ namespace detail
 		// the thread
 		boost::shared_ptr<torrent> torrent_ptr(
 			new torrent(*this, m_checker_impl, tracker_url, info_hash, name
-			, save_path, m_listen_interface, compact_mode, 16 * 1024
+			, save_path, m_listen_interface, storage_mode, 16 * 1024
 			, sc, paused));
 		torrent_ptr->start();
 
@@ -1754,7 +1769,7 @@ namespace detail
 		return torrent_handle(this, &m_checker_impl, info_hash);
 	}
 
-	void session_impl::remove_torrent(const torrent_handle& h)
+	void session_impl::remove_torrent(const torrent_handle& h, int options)
 	{
 		if (h.m_ses != this) return;
 		TORRENT_ASSERT(h.m_chk == &m_checker_impl || h.m_chk == 0);
@@ -1769,6 +1784,8 @@ namespace detail
 		if (i != m_torrents.end())
 		{
 			torrent& t = *i->second;
+			if (options & session::delete_files)
+				t.delete_files();
 			t.abort();
 
 			if ((!t.is_paused() || t.should_request())
@@ -1815,7 +1832,7 @@ namespace detail
 			if (d != 0)
 			{
 				if (d->processing) d->abort = true;
-				else m_checker_impl.remove_torrent(h.m_info_hash);
+				else m_checker_impl.remove_torrent(h.m_info_hash, options);
 				return;
 			}
 		}

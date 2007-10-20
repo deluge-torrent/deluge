@@ -32,7 +32,7 @@
 #    statement from all source files in the program, then also delete it here.
 
 import deluge.pluginmanagerbase
-import deluge.ui.functions as functions
+import deluge.ui.client as client
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
@@ -41,16 +41,21 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
         
         self.config = ConfigManager("gtkui.conf")
         self._gtkui = gtkui
-        
+
+        # Register a callback with the client        
+        client.connect_on_new_core(self.start)
+    
+    def start(self):
+        """Start the plugin manager"""
         # Update the enabled_plugins from the core
-        enabled_plugins = functions.get_enabled_plugins()
+        enabled_plugins = client.get_enabled_plugins()
         enabled_plugins += self.config["enabled_plugins"]
         enabled_plugins = list(set(enabled_plugins))
         self.config["enabled_plugins"] = enabled_plugins
         
         deluge.pluginmanagerbase.PluginManagerBase.__init__(
             self, "gtkui.conf", "deluge.plugin.ui.gtk")
-        
+    
     def get_torrentview(self):
         """Returns a reference to the torrentview component"""
         return self._gtkui.mainwindow.torrentview

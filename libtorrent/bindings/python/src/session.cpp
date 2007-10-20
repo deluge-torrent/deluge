@@ -87,10 +87,10 @@ namespace
 
   torrent_handle add_torrent(session& s, torrent_info const& ti
     , boost::filesystem::path const& save, entry const& resume
-    , bool compact, bool paused)
+    , storage_mode_t storage_mode, bool paused)
   {
     allow_threading_guard guard;
-    return s.add_torrent(ti, save, resume, compact, paused, default_storage_constructor);
+    return s.add_torrent(ti, save, resume, storage_mode, paused, default_storage_constructor);
   }
   
 } // namespace unnamed
@@ -154,6 +154,17 @@ void bind_session()
 #endif
         ;
 
+    enum_<storage_mode_t>("storage_mode_t")
+        .value("storage_mode_allocate", storage_mode_allocate)
+        .value("storage_mode_compact", storage_mode_compact)
+        .value("storage_mode_sparse", storage_mode_sparse)
+    ;
+
+    enum_<session::options_t>("options_t")
+        .value("none", session::none)
+        .value("delete_files", session::delete_files)
+    ;
+	 
     class_<session, boost::noncopyable>("session", session_doc, no_init)
         .def(
             init<fingerprint>(arg("fingerprint")=fingerprint("LT",0,1,0,0), session_init_doc)
@@ -174,8 +185,8 @@ void bind_session()
         .def(
             "add_torrent", &add_torrent
           , (
-                arg("resume_data") = entry(), arg("compact_mode") = true
-                , arg("paused") = false
+                arg("resume_data") = entry(), arg("storage_mode") = storage_mode_sparse,
+                arg("paused") = false
             )
           , session_add_torrent_doc
         )
@@ -234,8 +245,6 @@ void bind_session()
         .def("start_natpmp", allow_threads(&session::start_natpmp), session_start_natpmp_doc)
         .def("stop_natpmp", allow_threads(&session::stop_natpmp), session_stop_natpmp_doc)
         ;
-
-    def("supports_sparse_files", &supports_sparse_files);
 
     register_ptr_to_python<std::auto_ptr<alert> >();
 }

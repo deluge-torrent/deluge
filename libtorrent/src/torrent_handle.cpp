@@ -661,7 +661,7 @@ namespace libtorrent
 
 		if (!t->valid_metadata()) return entry();
 
-		t->filesystem().export_piece_map(piece_index);
+		std::vector<bool> have_pieces = t->pieces();
 
 		entry ret(entry::dictionary_t);
 
@@ -672,10 +672,6 @@ namespace libtorrent
 
 		const sha1_hash& info_hash = t->torrent_file().info_hash();
 		ret["info-hash"] = std::string((char*)info_hash.begin(), (char*)info_hash.end());
-
-		ret["slots"] = entry(entry::list_t);
-		entry::list_type& slots = ret["slots"].list();
-		std::copy(piece_index.begin(), piece_index.end(), std::back_inserter(slots));
 
 		// blocks per piece
 		int num_blocks_per_piece =
@@ -706,6 +702,8 @@ namespace libtorrent
 				// the unfinished piece's index
 				piece_struct["piece"] = i->index;
 
+				have_pieces[i->index] = true;
+
 				std::string bitmask;
 				const int num_bitmask_bytes
 					= (std::max)(num_blocks_per_piece / 8, 1);
@@ -722,10 +720,10 @@ namespace libtorrent
 				}
 				piece_struct["bitmask"] = bitmask;
 
-				TORRENT_ASSERT(t->filesystem().slot_for_piece(i->index) >= 0);
+				TORRENT_ASSERT(t->filesystem().slot_for(i->index) >= 0);
 				unsigned long adler
 					= t->filesystem().piece_crc(
-						t->filesystem().slot_for_piece(i->index)
+						t->filesystem().slot_for(i->index)
 						, t->block_size()
 						, i->info);
 
@@ -735,6 +733,11 @@ namespace libtorrent
 				up.push_back(piece_struct);
 			}
 		}
+
+		t->filesystem().export_piece_map(piece_index, have_pieces);
+		entry::list_type& slots = ret["slots"].list();
+		std::copy(piece_index.begin(), piece_index.end(), std::back_inserter(slots));
+
 		// write local peers
 
 		entry::list_type& peer_list = ret["peers"].list();

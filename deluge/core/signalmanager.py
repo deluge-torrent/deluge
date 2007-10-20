@@ -1,5 +1,5 @@
 #
-# daemon.py
+# signalmanager.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
@@ -31,13 +31,28 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-from deluge.core.core import Core
+import xmlrpclib
+
 from deluge.log import LOG as log
 
-class Daemon:
+class SignalManager:
     def __init__(self):
-        # Start the core as a thread and join it until it's done
-        self.core = Core()
-        self.core.start()
-        self.core.join()
-
+        self.clients = []
+    
+    def deregister_client(self, uri):
+        """Deregisters a client"""
+        log.debug("Deregistering %s as a signal reciever..", uri)
+        self.clients.remove(self.clients.index(uri))
+        
+    def register_client(self, uri):
+        """Registers a client to emit signals to."""
+        log.debug("Registering %s as a signal reciever..", uri)
+        self.clients.append(xmlrpclib.ServerProxy(uri))
+    
+    def emit(self, signal, data):
+        for client in self.clients:
+            try:
+                client.emit_signal(signal, data)
+            except:
+                log.warning("Unable to emit signal to client %s", client)
+                

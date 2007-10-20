@@ -154,7 +154,7 @@ namespace libtorrent
 		, boost::intrusive_ptr<torrent_info> tf
 		, fs::path const& save_path
 		, tcp::endpoint const& net_interface
-		, bool compact_mode
+		, storage_mode_t storage_mode
 		, int block_size
 		, storage_constructor_type sc
 		, bool paused)
@@ -195,7 +195,7 @@ namespace libtorrent
 		, m_total_redundant_bytes(0)
 		, m_net_interface(net_interface.address(), 0)
 		, m_save_path(complete(save_path))
-		, m_compact_mode(compact_mode)
+		, m_storage_mode(storage_mode)
 		, m_default_block_size(block_size)
 		, m_connections_initialized(true)
 		, m_settings(ses.settings())
@@ -215,7 +215,7 @@ namespace libtorrent
 		, char const* name
 		, fs::path const& save_path
 		, tcp::endpoint const& net_interface
-		, bool compact_mode
+		, storage_mode_t storage_mode
 		, int block_size
 		, storage_constructor_type sc
 		, bool paused)
@@ -255,7 +255,7 @@ namespace libtorrent
 		, m_total_redundant_bytes(0)
 		, m_net_interface(net_interface.address(), 0)
 		, m_save_path(complete(save_path))
-		, m_compact_mode(compact_mode)
+		, m_storage_mode(storage_mode)
 		, m_default_block_size(block_size)
 		, m_connections_initialized(false)
 		, m_settings(ses.settings())
@@ -1032,6 +1032,16 @@ namespace libtorrent
 		m_announce_timer.cancel();
 	}
 
+	void torrent::on_files_deleted(int ret, disk_io_job const& j)
+	{
+		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
+
+		if (alerts().should_post(alert::warning))
+		{
+			alerts().post_alert(torrent_deleted_alert(get_handle(), "files deleted"));
+		}
+	}
+
 	void torrent::on_files_released(int ret, disk_io_job const& j)
 	{
 /*
@@ -1668,8 +1678,6 @@ namespace libtorrent
 
 		try
 		{
-			TORRENT_ASSERT(m_connections.find(a) == m_connections.end());
-
 			// add the newly connected peer to this torrent's peer list
 			TORRENT_ASSERT(m_connections.find(a) == m_connections.end());
 			m_connections.insert(
@@ -1883,10 +1891,13 @@ namespace libtorrent
 				std::make_pair(a, boost::get_pointer(c)));
 			m_ses.m_connections.insert(std::make_pair(s, c));
 
+			int timeout = settings().peer_connect_timeout;
+			if (peerinfo) timeout += 3 * peerinfo->failcount;
+
 			m_ses.m_half_open.enqueue(
 				bind(&peer_connection::connect, c, _1)
 				, bind(&peer_connection::timed_out, c)
-				, seconds(settings().peer_connect_timeout));
+				, seconds(timeout));
 		}
 		catch (std::exception& e)
 		{
@@ -2215,10 +2226,22 @@ namespace libtorrent
 		bool done = true;
 		try
 		{
+			std::string error_msg;
 			TORRENT_ASSERT(m_storage);
 			TORRENT_ASSERT(m_owning_storage.get());
 			done = m_storage->check_fastresume(data, m_have_pieces, m_num_pieces
-				, m_compact_mode);
+				, m_storage_mode, error_msg);
+
+			if (!error_msg.empty() && m_ses.m_alerts.should_post(alert::warning))
+			{
+				m_ses.m_alerts.post_alert(fastresume_rejected_alert(
+					get_handle(), error_msg));
+#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+				(*m_ses.m_logger) << "fastresume data for "
+					<< torrent_file().name() << " rejected: "
+					<< error_msg << "\n";
+#endif
+			}
 		}
 		catch (std::exception& e)
 		{
@@ -2378,8 +2401,6 @@ namespace libtorrent
 
 	piece_manager& torrent::filesystem()
 	{
-		INVARIANT_CHECK;
-
 		TORRENT_ASSERT(m_owning_storage.get());
 		return *m_owning_storage;
 	}
@@ -2535,6 +2556,29 @@ namespace libtorrent
 		int limit = m_bandwidth_limit[peer_connection::download_channel].throttle();
 		if (limit == (std::numeric_limits<int>::max)()) limit = -1;
 		return limit;
+	}
+
+	void torrent::delete_files()
+	{
+#if defined(TORRENT_VERBOSE_LOGGING)
+		for (peer_iterator i = m_connections.begin();
+			i != m_connections.end(); ++i)
+		{
+			(*i->second->m_logger) << "*** DELETING FILES IN TORRENT\n";
+		}
+#endif
+
+		disconnect_all();
+		m_paused = true;
+		// tell the tracker that we stopped
+		m_event = tracker_request::stopped;
+
+		if (m_owning_storage.get())
+		{
+			TORRENT_ASSERT(m_storage);
+			m_storage->async_delete_files(
+				bind(&torrent::on_files_deleted, shared_from_this(), _1, _2));
+		}
 	}
 
 	void torrent::pause()
@@ -2768,7 +2812,7 @@ namespace libtorrent
 			!boost::bind(&peer_connection::is_connecting
 			, boost::bind(&std::map<tcp::endpoint,peer_connection*>::value_type::second, _1)));
 
-		st.compact_mode = m_compact_mode;
+		st.storage_mode = m_storage_mode;
 
 		st.num_complete = m_complete;
 		st.num_incomplete = m_incomplete;

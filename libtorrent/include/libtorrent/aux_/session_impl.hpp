@@ -140,7 +140,7 @@ namespace libtorrent
 			checker_impl(session_impl& s): m_ses(s), m_abort(false) {}
 			void operator()();
 			piece_checker_data* find_torrent(const sha1_hash& info_hash);
-			void remove_torrent(sha1_hash const& info_hash);
+			void remove_torrent(sha1_hash const& info_hash, int options);
 
 #ifndef NDEBUG
 			void check_invariant() const;
@@ -254,7 +254,7 @@ namespace libtorrent
 				boost::intrusive_ptr<torrent_info> ti
 				, fs::path const& save_path
 				, entry const& resume_data
-				, bool compact_mode
+				, storage_mode_t storage_mode
 				, storage_constructor_type sc
 				, bool paused
 				, void* userdata);
@@ -265,12 +265,12 @@ namespace libtorrent
 				, char const* name
 				, fs::path const& save_path
 				, entry const& resume_data
-				, bool compact_mode
+				, storage_mode_t storage_mode
 				, storage_constructor_type sc
 				, bool paused
 				, void* userdata);
 
-			void remove_torrent(torrent_handle const& h);
+			void remove_torrent(torrent_handle const& h, int options);
 
 			std::vector<torrent_handle> get_torrents();
 			
@@ -371,12 +371,6 @@ namespace libtorrent
 
 			void on_lsd_peer(tcp::endpoint peer, sha1_hash const& ih);
 
-			// handles disk io requests asynchronously
-			// peers have pointers into the disk buffer
-			// pool, and must be destructed before this
-			// object.
-			disk_io_thread m_disk_thread;
-
 			// this pool is used to allocate and recycle send
 			// buffers from.
 			boost::pool<> m_send_buffers;
@@ -394,6 +388,12 @@ namespace libtorrent
 			// since they will still have references to it
 			// when they are destructed.
 			file_pool m_files;
+
+			// handles disk io requests asynchronously
+			// peers have pointers into the disk buffer
+			// pool, and must be destructed before this
+			// object.
+			disk_io_thread m_disk_thread;
 
 			// this is a list of half-open tcp connections
 			// (only outgoing connections)

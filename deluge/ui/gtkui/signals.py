@@ -31,23 +31,25 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import deluge.ui.functions as functions
+from deluge.ui.signalreceiver import SignalReceiver
 from deluge.log import LOG as log
 
 class Signals:
     def __init__(self, ui):
         self.ui = ui
-        self.core = functions.get_core()
-        self.core.connect_to_signal("torrent_added", self.torrent_added_signal)
-        self.core.connect_to_signal("torrent_removed", 
-                                                    self.torrent_removed_signal)
-        self.core.connect_to_signal("torrent_paused", self.torrent_paused)
-        self.core.connect_to_signal("torrent_resumed", self.torrent_resumed)
-        self.core.connect_to_signal("torrent_all_paused", 
+        self.receiver = SignalReceiver(6667, "http://localhost:56684")
+        self.receiver.start()
+        self.receiver.connect_to_signal("torrent_added", 
+            self.torrent_added_signal)
+        self.receiver.connect_to_signal("torrent_removed", 
+            self.torrent_removed_signal)
+        self.receiver.connect_to_signal("torrent_paused", self.torrent_paused)
+        self.receiver.connect_to_signal("torrent_resumed", self.torrent_resumed)
+        self.receiver.connect_to_signal("torrent_all_paused", 
             self.torrent_all_paused)
-        self.core.connect_to_signal("torrent_all_resumed", 
+        self.receiver.connect_to_signal("torrent_all_resumed", 
             self.torrent_all_resumed)    
-        
+    
     def torrent_added_signal(self, torrent_id):
         log.debug("torrent_added signal received..")
         log.debug("torrent id: %s", torrent_id)

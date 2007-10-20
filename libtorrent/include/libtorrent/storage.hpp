@@ -71,6 +71,13 @@ namespace libtorrent
 	struct file_pool;
 	struct disk_io_job;
 
+	enum storage_mode_t
+	{
+		storage_mode_allocate = 0,
+		storage_mode_sparse,
+		storage_mode_compact
+	};
+	
 #if defined(_WIN32) && defined(UNICODE)
 
 	TORRENT_EXPORT std::wstring safe_convert(std::string const& s);
@@ -144,6 +151,10 @@ namespace libtorrent
 		// writing. This is called when a torrent has finished
 		// downloading.
 		virtual void release_files() = 0;
+
+		// this will close all open files and delete them
+		virtual void delete_files() = 0;
+
 		virtual ~storage_interface() {}
 	};
 
@@ -154,10 +165,6 @@ namespace libtorrent
 	TORRENT_EXPORT storage_interface* default_storage_constructor(
 		boost::intrusive_ptr<torrent_info const> ti
 		, fs::path const& path, file_pool& fp);
-
-	// returns true if the filesystem the path relies on supports
-	// sparse files or automatic zero filling of files.
-	TORRENT_EXPORT bool supports_sparse_files(fs::path const& p);
 
 	struct disk_io_thread;
 
@@ -180,7 +187,8 @@ namespace libtorrent
 		~piece_manager();
 
 		bool check_fastresume(aux::piece_checker_data& d
-			, std::vector<bool>& pieces, int& num_pieces, bool compact_mode);
+			, std::vector<bool>& pieces, int& num_pieces, storage_mode_t storage_mode
+			, std::string& error_msg);
 		std::pair<bool, float> check_files(std::vector<bool>& pieces
 			, int& num_pieces, boost::recursive_mutex& mutex);
 
@@ -191,8 +199,8 @@ namespace libtorrent
 		bool verify_resume_data(entry& rd, std::string& error);
 
 		bool is_allocating() const
-		{ return m_state == state_allocating; }
-	
+		{ return m_state == state_expand_pieces; }
+
 		void mark_failed(int index);
 
 		unsigned long piece_crc(
@@ -200,8 +208,9 @@ namespace libtorrent
 			, int block_size
 			, piece_picker::block_info const* bi);
 
-		int slot_for_piece(int piece_index) const;
-
+		int slot_for(int piece) const;
+		int piece_for(int slot) const;
+		
 		void async_read(
 			peer_request const& r
 			, boost::function<void(int, disk_io_job const&)> const& handler
@@ -221,6 +230,10 @@ namespace libtorrent
 			boost::function<void(int, disk_io_job const&)> const& handler
 			= boost::function<void(int, disk_io_job const&)>());
 
+		void async_delete_files(
+			boost::function<void(int, disk_io_job const&)> const& handler
+			= boost::function<void(int, disk_io_job const&)>());
+
 		void async_move_storage(fs::path const& p
 			, boost::function<void(int, disk_io_job const&)> const& handler);
 
@@ -228,10 +241,11 @@ namespace libtorrent
 		// slots to the piece that is stored (or
 		// partially stored) there. -2 is the index
 		// of unassigned pieces and -1 is unallocated
-		void export_piece_map(std::vector<int>& pieces) const;
+		void export_piece_map(std::vector<int>& pieces
+			, std::vector<bool> const& have) const;
 
 		bool compact_allocation() const
-		{ return m_compact_mode; }
+		{ return m_storage_mode == storage_mode_compact; }
 
 #ifndef NDEBUG
 		std::string name() const { return m_info->name(); }
@@ -261,9 +275,11 @@ namespace libtorrent
 			, int offset
 			, int size);
 
+		void switch_to_full_mode();
 		sha1_hash hash_for_piece_impl(int piece);
 
-		void release_files_impl();
+		void release_files_impl() { m_storage->release_files(); }
+		void delete_files_impl() { m_storage->delete_files(); }
 
 		bool move_storage_impl(fs::path const& save_path);
 
@@ -276,19 +292,7 @@ namespace libtorrent
 #endif
 		boost::scoped_ptr<storage_interface> m_storage;
 
-		// if this is true, pieces are always allocated at the
-		// lowest possible slot index. If it is false, pieces
-		// are always written to their final place immediately
-		bool m_compact_mode;
-
-		// if this is true, pieces that haven't been downloaded
-		// will be filled with zeroes. Not filling with zeroes
-		// will not work in some cases (where a seek cannot pass
-		// the end of the file).
-		bool m_fill_mode;
-
-		// a bitmask representing the pieces we have
-		std::vector<bool> m_have_piece;
+		storage_mode_t m_storage_mode;
 
 		boost::intrusive_ptr<torrent_info const> m_info;
 
@@ -329,10 +333,21 @@ namespace libtorrent
 			state_create_files,
 			// checking the files
 			state_full_check,
-			// allocating files (in non-compact mode)
-			state_allocating
+			// move pieces to their final position
+			state_expand_pieces
 		} m_state;
 		int m_current_slot;
+		// used during check. If any piece is found
+		// that is not in its final position, this
+		// is set to true
+		bool m_out_of_place;
+		// used to move pieces while expanding
+		// the storage from compact allocation
+		// to full allocation
+		std::vector<char> m_scratch_buffer;
+		std::vector<char> m_scratch_buffer2;
+		// the piece that is in the scratch buffer
+		int m_scratch_piece;
 		
 		// this is saved in case we need to instantiate a new
 		// storage (osed when remapping files)

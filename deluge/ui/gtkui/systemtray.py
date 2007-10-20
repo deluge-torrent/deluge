@@ -34,7 +34,7 @@
 import gtk
 import pkg_resources
 
-import deluge.ui.functions as functions
+import deluge.ui.client as client
 import deluge.common
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
@@ -49,7 +49,6 @@ class SystemTray:
     def enable(self):
         """Enables the system tray icon."""
         log.debug("Enabling the system tray icon..")
-        self.core = functions.get_core()
         self.tray = gtk.status_icon_new_from_icon_name('deluge')
         self.tray.connect("activate", self.on_tray_clicked)
         self.tray.connect("popup-menu", self.on_tray_popup)
@@ -79,6 +78,7 @@ class SystemTray:
         self.tray_glade.get_widget("upload-limit-image").set_from_file(
             deluge.common.get_pixmap("seeding16.png"))
         
+    def start(self):
         # Build the bandwidth speed limit menus
         self.build_tray_bwsetsubmenu()
     
@@ -86,14 +86,13 @@ class SystemTray:
         # Create the Download speed list sub-menu
         submenu_bwdownset = self.build_menu_radio_list(
                 self.config["tray_download_speed_list"], self.tray_setbwdown,
-                functions.get_config_value("max_download_speed", 
-                    core=self.core), _("KiB/s"), show_notset=True, 
-                    show_other=True)
+                client.get_config_value("max_download_speed"),
+                     _("KiB/s"), show_notset=True, show_other=True)
         
         # Create the Upload speed list sub-menu
         submenu_bwupset = self.build_menu_radio_list(
                 self.config["tray_upload_speed_list"], self.tray_setbwup, 
-                functions.get_config_value("max_upload_speed", core=self.core),
+                client.get_config_value("max_upload_speed"),
                 _("KiB/s"), show_notset=True, show_other=True)
         
         # Add the sub-menus to the tray menu
@@ -161,7 +160,7 @@ class SystemTray:
     def on_menuitem_add_torrent_activate(self, menuitem):
         log.debug("on_menuitem_add_torrent_activate")
         from addtorrentdialog import AddTorrentDialog
-        functions.add_torrent_file(AddTorrentDialog().run())
+        client.add_torrent_file(AddTorrentDialog().run())
         
     def on_menuitem_pause_all_activate(self, menuitem):
         log.debug("on_menuitem_pause_all_activate")
@@ -185,13 +184,13 @@ class SystemTray:
         log.debug("on_menuitem_quitdaemon_activate")
         if self.window.visible():
             self.window.quit()
-            functions.shutdown()
+            client.shutdown()
         else:
             if self.config["lock_tray"] == True:
                 self.unlock_tray("quitdaemon")
             else:
                 self.window.quit()
-                functions.shutdown()
+                client.shutdown()
         
     def build_menu_radio_list(self, value_list, callback, pref_value=None, 
         suffix=None, show_notset=False, notset_label=None, notset_lessthan=0, 
@@ -282,7 +281,7 @@ class SystemTray:
             spin_title.set_text(_("%s Speed (KiB/s):" % string))
             spin_speed = dialog_glade.get_widget("spin_speed")
             spin_speed.set_value(
-                functions.get_config_value(core_key, core=self.core))
+                client.get_config_value(core_key))
             spin_speed.select_region(0, -1)
             response = speed_dialog.run()
             if response == 1: # OK Response
@@ -295,7 +294,7 @@ class SystemTray:
         # Set the config in the core
         value = float(value)
         config_to_set = {core_key: value}
-        functions.set_config(config_to_set, core=self.core)
+        client.set_config(config_to_set)
 
         # Update the tray speed limit list
         if value not in self.config[ui_key] and value >= 0:
@@ -339,7 +338,7 @@ window, please enter your password"))
                     log.debug("Showing main window via tray")
                     self.window.show()
                 elif comingnext == "quitdaemon":
-                    functions.shutdown()
+                    client.shutdown()
                     self.window.hide()
                     self.window.quit()
                 elif comingnext == "quitui":
