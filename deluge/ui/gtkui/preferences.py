@@ -37,7 +37,7 @@ import gtk, gtk.glade
 import pkg_resources
 
 from deluge.log import LOG as log
-import deluge.ui.functions as functions
+import deluge.ui.client as client
 import deluge.common
 from deluge.configmanager import ConfigManager
 
@@ -51,7 +51,6 @@ class Preferences:
         self.pref_dialog.set_icon(deluge.common.get_logo(32))
         self.treeview = self.glade.get_widget("treeview")
         self.notebook = self.glade.get_widget("notebook")
-        self.core = functions.get_core()
         self.gtkui_config = ConfigManager("gtkui.conf")
         # Setup the liststore for the categories (tab pages)
         self.liststore = gtk.ListStore(int, str)
@@ -104,7 +103,7 @@ class Preferences:
         self.liststore.append([index, name])
 
     def show(self):
-        self.core_config = functions.get_config()
+        self.core_config = client.get_config()
         # Update the preferences dialog to reflect current config settings
         
         ## Downloads tab ##
@@ -134,7 +133,7 @@ class Preferences:
         self.glade.get_widget("spin_port_max").set_value(
             self.core_config["listen_ports"][1])
         self.glade.get_widget("active_port_label").set_text(
-            str(functions.get_listen_port()))
+            str(client.get_listen_port()))
         self.glade.get_widget("chk_random_port").set_active(
             self.core_config["random_port"])
         self.glade.get_widget("chk_dht").set_active(
@@ -193,8 +192,8 @@ class Preferences:
             self.gtkui_config["send_info"])
         
         ## Plugins tab ##
-        all_plugins = functions.get_available_plugins()
-        enabled_plugins = functions.get_enabled_plugins()
+        all_plugins = client.get_available_plugins()
+        enabled_plugins = client.get_enabled_plugins()
         # Clear the existing list so we don't duplicate entries.
         self.plugin_liststore.clear()
         # Iterate through the lists and add them to the liststore
@@ -310,7 +309,7 @@ class Preferences:
                 config_to_set[key] = new_core_config[key]
 
         # Set each changed config value in the core
-        functions.set_config(config_to_set)
+        client.set_config(config_to_set)
 
         # Update the configuration
         self.core_config.update(config_to_set)
@@ -387,8 +386,8 @@ class Preferences:
     def on_test_port_clicked(self, data):
         log.debug("on_test_port_clicked")
         url = "http://deluge-torrent.org/test-port.php?port=%s" % \
-            functions.get_listen_port()
-        functions.open_url_in_browser(url)
+            client.get_listen_port()
+        client.open_url_in_browser(url)
     
     def on_plugin_toggled(self, renderer, path):
         log.debug("on_plugin_toggled")

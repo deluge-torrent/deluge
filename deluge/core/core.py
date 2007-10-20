@@ -88,7 +88,7 @@ class Core(
         # Setup the xmlrpc server
         try:
             SimpleXMLRPCServer.SimpleXMLRPCServer.__init__(
-                self, ("localhost", 6666), logRequests=False, allow_none=True)
+                self, ("localhost", 58846), logRequests=False, allow_none=True)
         except:
             log.info("Daemon already running or port not available..")
             sys.exit(0)
@@ -200,6 +200,10 @@ class Core(
         self.loop.quit()
         
     # Exported Methods
+    def export_ping(self):
+        """A method to see if the core is running"""
+        return True
+        
     def export_shutdown(self):
         """Shutdown the core"""
         # Make shutdown an async call
@@ -209,6 +213,10 @@ class Core(
         """Registers a client with the signal manager so that signals are
             sent to it."""
         self.signals.register_client(uri)
+    
+    def export_deregister_client(self, uri):
+        """De-registers a client with the signal manager."""
+        self.signals.deregister_client(uri)
         
     def export_add_torrent_file(self, filename, save_path, filedump):
         """Adds a torrent file to the libtorrent session

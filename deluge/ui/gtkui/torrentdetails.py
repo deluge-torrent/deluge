@@ -38,7 +38,7 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import gettext
 
-import deluge.ui.functions as functions
+import deluge.ui.client as client
 import deluge.common
 from deluge.log import LOG as log
 
@@ -93,7 +93,7 @@ class TorrentDetails:
                 "upload_payload_rate", "num_peers", "num_seeds", "total_peers",
                 "total_seeds", "eta", "ratio", "tracker", "next_announce",
                 "tracker_status", "save_path"]
-            status = functions.get_torrent_status(selected, status_keys)
+            status = client.get_torrent_status(selected, status_keys)
             
             # Check to see if we got valid data from the core
             if status is None:

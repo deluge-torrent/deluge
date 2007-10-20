@@ -45,12 +45,27 @@ from deluge.log import LOG as log
 
 class CoreProxy:
     def __init__(self):
+        self._uri = None
         self._core = None
+        self._on_new_core_callbacks = []
+    
+    def connect_on_new_core(self, callback):
+        """Connect a callback to be called when a new core is connected to."""
+        self._on_new_core_callbacks.append(callback)
+        
+    def set_core_uri(self, uri):
+        log.info("Setting core uri as %s", uri)
+        self._uri = uri
+        # Get a new core
+        self.get_core()
         
     def get_core(self):
-        if self._core is None:
+        if self._core is None and self._uri is not None:
             log.debug("Creating ServerProxy..")
-            self._core = xmlrpclib.ServerProxy("http://localhost:6666")
+            self._core = xmlrpclib.ServerProxy(self._uri)
+            # Call any callbacks registered
+            for callback in self._on_new_core_callbacks:
+                callback()
         
         return self._core
                
@@ -69,6 +84,14 @@ def get_core_plugin(plugin):
     core = dbus.Interface(proxy, "org.deluge_torrent.Deluge." + plugin)
     return core
 
+def connect_on_new_core(callback):
+    """Connect a callback whenever a new core is connected to."""
+    return _core.connect_on_new_core(callback)
+
+def set_core_uri(uri):
+    """Sets the core uri"""
+    return _core.set_core_uri(uri)
+    
 def shutdown():
     """Shutdown the core daemon"""
     get_core().shutdown()
@@ -156,6 +179,15 @@ def get_available_plugins():
 def get_enabled_plugins():
     return get_core().get_enabled_plugins()
 
+def get_download_rate():
+    return get_core().get_download_rate()
+
+def get_upload_rate():
+    return get_core().get_upload_rate()
+
+def get_num_connections():
+    return get_core().get_num_connections()
+    
 def open_url_in_browser(url):
     """Opens link in the desktop's default browser"""
     def start_browser():

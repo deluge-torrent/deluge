@@ -37,7 +37,7 @@ from deluge.log import LOG as log
 class Signals:
     def __init__(self, ui):
         self.ui = ui
-        self.receiver = SignalReceiver(6667, "http://localhost:6666")
+        self.receiver = SignalReceiver(6667, "http://localhost:56684")
         self.receiver.start()
         self.receiver.connect_to_signal("torrent_added", 
             self.torrent_added_signal)
@@ -49,7 +49,7 @@ class Signals:
             self.torrent_all_paused)
         self.receiver.connect_to_signal("torrent_all_resumed", 
             self.torrent_all_resumed)    
-        
+    
     def torrent_added_signal(self, torrent_id):
         log.debug("torrent_added signal received..")
         log.debug("torrent id: %s", torrent_id)

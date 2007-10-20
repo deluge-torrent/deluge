@@ -37,13 +37,13 @@ import gtk
 import pkg_resources
 
 import deluge.common
-import deluge.ui.functions as functions
+import deluge.ui.client as client
 
 class AboutDialog:
     def __init__(self):
         # Get the glade file for the about dialog
         def url_hook(dialog, url):
-            functions.open_url_in_browser(url)
+            client.open_url_in_browser(url)
         gtk.about_dialog_set_url_hook(url_hook)
         self.about = gtk.glade.XML(pkg_resources.resource_filename(\
             "deluge.ui.gtkui", "glade/aboutdialog.glade")).get_widget(\

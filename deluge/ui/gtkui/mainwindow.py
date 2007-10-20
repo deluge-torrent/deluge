@@ -37,6 +37,7 @@ import gtk, gtk.glade
 import gobject
 import pkg_resources
 
+import deluge.ui.client as client
 from deluge.configmanager import ConfigManager
 from menubar import MenuBar
 from toolbar import ToolBar
@@ -45,6 +46,7 @@ from torrentdetails import TorrentDetails
 from preferences import Preferences
 from systemtray import SystemTray
 from statusbar import StatusBar
+from connectionmanager import ConnectionManager
 import deluge.common
 
 from deluge.log import LOG as log
@@ -81,15 +83,19 @@ class MainWindow:
         self.preferences = Preferences(self)
         self.systemtray = SystemTray(self)
         self.statusbar = StatusBar(self)
-        
-    def start(self):
-        """Start the update thread and show the window"""
-        self.update_timer = gobject.timeout_add(1000, self.update)
+        self.connectionmanager = ConnectionManager(self)
+        client.connect_on_new_core(self.start)
         if not(self.config["start_in_tray"] and \
                self.config["enable_system_tray"]) and not \
                 self.window.get_property("visible"):
             log.debug("Showing window")
             self.show()
+        self.connectionmanager.show()        
+        
+    def start(self):
+        """Start the update thread and show the window"""
+        self.torrentview.start()
+        self.update_timer = gobject.timeout_add(1000, self.update)
         
     def update(self):
         # Don't update the UI if the the window is minimized.
@@ -121,7 +127,10 @@ class MainWindow:
                
     def quit(self):
         # Stop the update timer from running
-        gobject.source_remove(self.update_timer)
+        try:
+            gobject.source_remove(self.update_timer)
+        except:
+            pass
         del self.systemtray
         del self.menubar
         del self.toolbar

@@ -40,7 +40,7 @@ import gettext
 import gobject
 
 import deluge.common
-import deluge.ui.functions as functions
+import deluge.ui.client as client
 from deluge.log import LOG as log
 import deluge.ui.gtkui.listview as listview
 
@@ -163,12 +163,14 @@ class TorrentView(listview.ListView):
         self.treeview.get_selection().connect("changed", 
                                     self.on_selection_changed)
                                     
+    def start(self):
+        """Start the torrentview"""
         # We need to get the core session state to know which torrents are in
         # the session so we can add them to our list.
-        session_state = functions.get_session_state()
+        session_state = client.get_session_state()
         for torrent_id in session_state:
             self.add_row(torrent_id)
-    
+        
     def update(self, columns=None):
         """Update the view.  If columns is not None, it will attempt to only
         update those columns selected.
@@ -212,7 +214,7 @@ class TorrentView(listview.ListView):
             
         # Remove duplicates from status_key list
         status_keys = list(set(status_keys))
-        status = functions.get_torrent_status(torrent_id,
+        status = client.get_torrent_status(torrent_id,
                 status_keys)
 
         # Set values for each column in the row

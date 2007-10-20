@@ -48,6 +48,8 @@ class SignalReceiver(
         log.debug("SignalReceiver init..")
         threading.Thread.__init__(self)
 
+        self.port = port
+
         # Daemonize the thread so it exits when the main program does
         self.setDaemon(True)
         
@@ -68,7 +70,11 @@ class SignalReceiver(
         # FIXME: send actual URI not localhost
         core = xmlrpclib.ServerProxy(core_uri)
         core.register_client("http://localhost:" + str(port))
+        
     
+    def __del__(self):
+        core.deregister_client("http://localhost:" + str(self.port))
+        
     def run(self):
         """This gets called when we start the thread"""
         t = threading.Thread(target=self.serve_forever)

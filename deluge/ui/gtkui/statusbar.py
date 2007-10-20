@@ -34,13 +34,12 @@
 import gtk
 
 import deluge.common
-import deluge.ui.functions as functions
+import deluge.ui.client as client
 
 class StatusBar:
     def __init__(self, window):
         self.window = window
         self.statusbar = self.window.main_glade.get_widget("statusbar")
-        self.core = functions.get_core()
         
         # Add a HBox to the statusbar after removing the initial label widget
         self.hbox = gtk.HBox()
@@ -69,36 +68,36 @@ class StatusBar:
             expand=False, fill=False)       
         
         # Update once before showing
-        self.update()
+#        self.update()
         self.statusbar.show_all()
 
     def update(self):
         # Set the max connections label
-        max_connections = functions.get_config_value("max_connections_global")
+        max_connections = client.get_config_value("max_connections_global")
         if max_connections < 0:
             max_connections = _("Unlimited")
             
         self.label_connections.set_text("%s (%s)" % (
-            self.core.get_num_connections(), max_connections))
+            client.get_num_connections(), max_connections))
         
         # Set the download speed label
-        max_download_speed = functions.get_config_value("max_download_speed")
+        max_download_speed = client.get_config_value("max_download_speed")
         if max_download_speed < 0:
             max_download_speed = _("Unlimited")
         else:
             max_download_speed = "%s %s" % (max_download_speed, _("KiB/s"))
                     
         self.label_download_speed.set_text("%s/s (%s)" % (
-            deluge.common.fsize(self.core.get_download_rate()), 
+            deluge.common.fsize(client.get_download_rate()), 
             max_download_speed))
         
         # Set the upload speed label
-        max_upload_speed = functions.get_config_value("max_upload_speed")
+        max_upload_speed = client.get_config_value("max_upload_speed")
         if max_upload_speed < 0:
             max_upload_speed = _("Unlimited")
         else:
             max_upload_speed = "%s %s" % (max_upload_speed, _("KiB/s"))
         
         self.label_upload_speed.set_text("%s/s (%s)" % (
-            deluge.common.fsize(self.core.get_upload_rate()), 
+            deluge.common.fsize(client.get_upload_rate()), 
             max_upload_speed))

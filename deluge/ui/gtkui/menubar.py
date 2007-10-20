@@ -36,7 +36,7 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import pkg_resources
 
-import deluge.ui.functions as functions
+import deluge.ui.client as client
 
 from deluge.log import LOG as log
 
@@ -70,6 +70,8 @@ class MenuBar:
             ## Edit Menu
             "on_menuitem_preferences_activate": \
                                         self.on_menuitem_preferences_activate,
+            "on_menuitem_connectionmanager_activate": \
+                self.on_menuitem_connectionmanager_activate,
             
             ## View Menu
             "on_menuitem_toolbar_toggled": self.on_menuitem_toolbar_toggled,
@@ -97,14 +99,14 @@ class MenuBar:
     def on_menuitem_addtorrent_activate(self, data=None):
         log.debug("on_menuitem_addtorrent_activate")
         from addtorrentdialog import AddTorrentDialog
-        functions.add_torrent_file(AddTorrentDialog().run())
+        client.add_torrent_file(AddTorrentDialog().run())
         
     def on_menuitem_addurl_activate(self, data=None):
         log.debug("on_menuitem_addurl_activate")
         from addtorrenturl import AddTorrentUrl
         result = AddTorrentUrl().run()
         if result is not None:
-            functions.add_torrent_url(result)
+            client.add_torrent_url(result)
         
     def on_menuitem_clear_activate(self, data=None):
         log.debug("on_menuitem_clear_activate")
@@ -113,7 +115,7 @@ class MenuBar:
         log.debug("on_menuitem_quitdaemon_activate")
         # Tell the core to shutdown
         self.window.quit()
-        functions.shutdown()
+        client.shutdown()
         
     def on_menuitem_quit_activate(self, data=None):
         log.debug("on_menuitem_quit_activate")
@@ -124,20 +126,24 @@ class MenuBar:
         log.debug("on_menuitem_preferences_activate")
         self.window.preferences.show()
 
+    def on_menuitem_connectionmanager_activate(self, data=None):
+        log.debug("on_menuitem_connectionmanager_activate")
+        self.window.connectionmanager.show()
+        
     ## Torrent Menu ##
     def on_menuitem_pause_activate(self, data=None):
         log.debug("on_menuitem_pause_activate")
-        functions.pause_torrent(
+        client.pause_torrent(
                             self.window.torrentview.get_selected_torrents())
     
     def on_menuitem_resume_activate(self, data=None):
         log.debug("on_menuitem_resume_activate")
-        functions.resume_torrent(
+        client.resume_torrent(
                             self.window.torrentview.get_selected_torrents())
         
     def on_menuitem_updatetracker_activate(self, data=None):
         log.debug("on_menuitem_updatetracker_activate")
-        functions.force_reannounce(
+        client.force_reannounce(
                             self.window.torrentview.get_selected_torrents())    
         
     def on_menuitem_edittrackers_activate(self, data=None):
@@ -145,7 +151,7 @@ class MenuBar:
         
     def on_menuitem_remove_activate(self, data=None):
         log.debug("on_menuitem_remove_activate")
-        functions.remove_torrent(
+        client.remove_torrent(
                             self.window.torrentview.get_selected_torrents())
                 
     ## View Menu ##

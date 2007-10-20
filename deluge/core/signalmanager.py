@@ -39,6 +39,11 @@ class SignalManager:
     def __init__(self):
         self.clients = []
     
+    def deregister_client(self, uri):
+        """Deregisters a client"""
+        log.debug("Deregistering %s as a signal reciever..", uri)
+        self.clients.remove(self.clients.index(uri))
+        
     def register_client(self, uri):
         """Registers a client to emit signals to."""
         log.debug("Registering %s as a signal reciever..", uri)
