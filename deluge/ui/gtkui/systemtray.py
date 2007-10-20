@@ -34,14 +34,16 @@
 import gtk
 import pkg_resources
 
+import deluge.ui.component as component
 import deluge.ui.client as client
 import deluge.common
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
-class SystemTray:
-    def __init__(self, window):
-        self.window = window
+class SystemTray(component.Component):
+    def __init__(self):
+        component.Component.__init__(self, "SystemTray")
+        self.window = component.get("MainWindow")
         self.config = ConfigManager("gtkui.conf")
         self.config.register_set_function("enable_system_tray", 
             self.on_enable_system_tray_set)
@@ -79,6 +81,7 @@ class SystemTray:
             deluge.common.get_pixmap("seeding16.png"))
         
     def start(self):
+        log.debug("SystemTray start..")
         # Build the bandwidth speed limit menus
         self.build_tray_bwsetsubmenu()
     

@@ -38,7 +38,17 @@ import gettext
 import locale
 import pkg_resources
 
+import deluge.ui.component as component
+import deluge.ui.client as client
 from mainwindow import MainWindow
+from menubar import MenuBar
+from toolbar import ToolBar
+from torrentview import TorrentView
+from torrentdetails import TorrentDetails
+from preferences import Preferences
+from systemtray import SystemTray
+from statusbar import StatusBar
+from connectionmanager import ConnectionManager
 from signals import Signals
 from pluginmanager import PluginManager
 from deluge.configmanager import ConfigManager
@@ -67,7 +77,7 @@ DEFAULT_PREFS = {
     "window_pane_position": -1,
     "tray_download_speed_list" : [5.0, 10.0, 30.0, 80.0, 300.0],
     "tray_upload_speed_list" : [5.0, 10.0, 30.0, 80.0, 300.0],
-    "enabled_plugins": ["Queue"]
+    "enabled_plugins": []
 }
 
 class GtkUI:
@@ -88,19 +98,31 @@ class GtkUI:
         
         # Make sure gtkui.conf has at least the defaults set
         config = ConfigManager("gtkui.conf", DEFAULT_PREFS)
-                
-        # Initialize the main window
-        self.mainwindow = MainWindow()
         
+        # We make sure that the UI components start once we get a core URI
+        client.connect_on_new_core(component.start)
+        client.connect_on_no_core(component.stop)
+        
+        # Initialize various components of the gtkui
+        self.mainwindow = MainWindow()
+        self.menubar = MenuBar()
+        self.toolbar = ToolBar()
+        self.torrentview = TorrentView()
+        self.torrentdetails = TorrentDetails()
+        self.preferences = Preferences()
+        self.systemtray = SystemTray()
+        self.statusbar = StatusBar()
+        self.connectionmanager = ConnectionManager()
+
         # Start the signal receiver
         #self.signal_receiver = Signals(self)
 
         # Initalize the plugins
         self.plugins = PluginManager(self)
         
-        # Start the mainwindow and show it
-        #self.mainwindow.start()
-        
+        # Show the connection manager
+        self.connectionmanager.show()
+                
         # Start the gtk main loop
         gtk.gdk.threads_init()
         gtk.main()
@@ -113,6 +135,12 @@ class GtkUI:
         
         # Clean-up
         del self.mainwindow
+        del self.systemtray
+        del self.menubar
+        del self.toolbar
+        del self.torrentview
+        del self.torrentdetails
+        del self.preferences
        # del self.signal_receiver
         del self.plugins
         del deluge.configmanager

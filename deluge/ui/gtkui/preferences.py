@@ -36,14 +36,16 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import pkg_resources
 
+import deluge.ui.component as component
 from deluge.log import LOG as log
 import deluge.ui.client as client
 import deluge.common
 from deluge.configmanager import ConfigManager
 
-class Preferences:
-    def __init__(self, window):
-        self.window = window
+class Preferences(component.Component):
+    def __init__(self):
+        component.Component.__init__(self, "Preferences")
+        self.window = component.get("MainWindow")
         self.glade = gtk.glade.XML(
                     pkg_resources.resource_filename("deluge.ui.gtkui",
                                             "glade/preferences_dialog.glade"))
@@ -395,6 +397,10 @@ class Preferences:
         name = self.plugin_liststore.get_value(row, 0)
         value = self.plugin_liststore.get_value(row, 1)
         self.plugin_liststore.set_value(row, 1, not value)
+        if not value:
+            functions.enable_plugin(name)
+        else:
+            functions.disable_plugin(name)
         
     def on_plugin_selection_changed(self, treeselection):
         log.debug("on_plugin_selection_changed")

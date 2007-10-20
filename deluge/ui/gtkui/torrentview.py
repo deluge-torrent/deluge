@@ -40,6 +40,7 @@ import gettext
 import gobject
 
 import deluge.common
+import deluge.ui.component as component
 import deluge.ui.client as client
 from deluge.log import LOG as log
 import deluge.ui.gtkui.listview as listview
@@ -96,10 +97,11 @@ def cell_data_progress(column, cell, model, row, data):
         textstr = textstr + " %.2f%%" % value
     cell.set_property("text", textstr)
     
-class TorrentView(listview.ListView):
+class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
-    def __init__(self, window):
-        self.window = window
+    def __init__(self):
+        component.Component.__init__(self, "TorrentView")
+        self.window = component.get("MainWindow")
         # Call the ListView constructor
         listview.ListView.__init__(self, 
                             self.window.main_glade.get_widget("torrent_view"))
@@ -170,7 +172,12 @@ class TorrentView(listview.ListView):
         session_state = client.get_session_state()
         for torrent_id in session_state:
             self.add_row(torrent_id)
-        
+    
+    def stop(self):
+        """Stops the torrentview"""
+        # We need to clear the liststore
+        self.liststore.clear()
+            
     def update(self, columns=None):
         """Update the view.  If columns is not None, it will attempt to only
         update those columns selected.
@@ -294,12 +301,12 @@ class TorrentView(listview.ListView):
         # We only care about right-clicks
         if event.button == 3:
             # Show the Torrent menu from the MenuBar
-            torrentmenu = self.window.menubar.torrentmenu
+            torrentmenu = component.get("MenuBar").torrentmenu
             torrentmenu.popup(None, None, None, event.button, event.time)
     
     def on_selection_changed(self, treeselection):
         """This callback is know when the selection has changed."""
         log.debug("on_selection_changed")
-        self.window.torrentdetails.update()
+        component.get("TorrentDetails").update()
         
         

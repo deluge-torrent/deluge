@@ -38,21 +38,16 @@ import gobject
 import pkg_resources
 
 import deluge.ui.client as client
+import deluge.ui.component as component
 from deluge.configmanager import ConfigManager
-from menubar import MenuBar
-from toolbar import ToolBar
-from torrentview import TorrentView
-from torrentdetails import TorrentDetails
-from preferences import Preferences
-from systemtray import SystemTray
-from statusbar import StatusBar
-from connectionmanager import ConnectionManager
+
 import deluge.common
 
 from deluge.log import LOG as log
 
-class MainWindow:
+class MainWindow(component.Component):
     def __init__(self):
+        component.Component.__init__(self, "MainWindow")
         self.config = ConfigManager("gtkui.conf")
         # Get the glade file for the main window
         self.main_glade = gtk.glade.XML(
@@ -74,38 +69,13 @@ class MainWindow:
         self.window.connect("configure-event", self.on_window_configure_event)
         self.window.connect("delete-event", self.on_window_delete_event)
         self.vpaned.connect("notify::position", self.on_vpaned_position_event)
-        
-        # Initialize various components of the gtkui
-        self.menubar = MenuBar(self)
-        self.toolbar = ToolBar(self)
-        self.torrentview = TorrentView(self)
-        self.torrentdetails = TorrentDetails(self)
-        self.preferences = Preferences(self)
-        self.systemtray = SystemTray(self)
-        self.statusbar = StatusBar(self)
-        self.connectionmanager = ConnectionManager(self)
-        client.connect_on_new_core(self.start)
+
         if not(self.config["start_in_tray"] and \
                self.config["enable_system_tray"]) and not \
                 self.window.get_property("visible"):
             log.debug("Showing window")
             self.show()
-        self.connectionmanager.show()        
-        
-    def start(self):
-        """Start the update thread and show the window"""
-        self.torrentview.start()
-        self.update_timer = gobject.timeout_add(1000, self.update)
-        
-    def update(self):
-        # Don't update the UI if the the window is minimized.
-        if self.is_minimized == True:
-            return True
-        self.torrentview.update()
-        self.torrentdetails.update()
-        self.statusbar.update()
-        return True
-        
+
     def show(self):
         # Load the state prior to showing
         self.load_window_state()
@@ -126,17 +96,6 @@ class MainWindow:
         return self.window.get_property("visible")
                
     def quit(self):
-        # Stop the update timer from running
-        try:
-            gobject.source_remove(self.update_timer)
-        except:
-            pass
-        del self.systemtray
-        del self.menubar
-        del self.toolbar
-        del self.torrentview
-        del self.torrentdetails
-        del self.preferences
         del self.config
         self.hide()
         gtk.main_quit()

@@ -35,12 +35,14 @@ import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
 
+import deluge.ui.component as component
 from deluge.log import LOG as log
 
-class ToolBar:
-    def __init__(self, window):
+class ToolBar(component.Component):
+    def __init__(self):
+        component.Component.__init__(self, "ToolBar")
         log.debug("ToolBar Init..")
-        self.window = window
+        self.window = component.get("MainWindow")
         self.toolbar = self.window.main_glade.get_widget("toolbar")
         ### Connect Signals ###
         self.window.main_glade.signal_autoconnect({
@@ -94,34 +96,34 @@ class ToolBar:
     def on_toolbutton_add_clicked(self, data):
         log.debug("on_toolbutton_add_clicked")
         # Use the menubar's callback
-        self.window.menubar.on_menuitem_addtorrent_activate(data)
+        component.get("MenuBar").on_menuitem_addtorrent_activate(data)
 
     def on_toolbutton_remove_clicked(self, data):
         log.debug("on_toolbutton_remove_clicked")
         # Use the menubar's callbacks
-        self.window.menubar.on_menuitem_remove_activate(data)
+        component.get("MenuBar").on_menuitem_remove_activate(data)
 
     def on_toolbutton_clear_clicked(self, data):
         log.debug("on_toolbutton_clear_clicked")
         # Use the menubar's callbacks
-        self.window.menubar.on_menuitem_clear_activate(data)
+        component.get("MenuBar").on_menuitem_clear_activate(data)
         
     def on_toolbutton_pause_clicked(self, data):
         log.debug("on_toolbutton_pause_clicked")
         # Use the menubar's callbacks
-        self.window.menubar.on_menuitem_pause_activate(data)
+        component.get("MenuBar").on_menuitem_pause_activate(data)
      
     def on_toolbutton_resume_clicked(self, data):
         log.debug("on_toolbutton_resume_clicked")
         # Use the menubar's calbacks
-        self.window.menubar.on_menuitem_resume_activate(data)
+        component.get("MenuBar").on_menuitem_resume_activate(data)
 
     def on_toolbutton_preferences_clicked(self, data):
         log.debug("on_toolbutton_preferences_clicked")
         # Use the menubar's callbacks
-        self.window.menubar.on_menuitem_preferences_activate(data)
+        component.get("MenuBar").on_menuitem_preferences_activate(data)
 
     def on_toolbutton_plugins_clicked(self, data):
         log.debug("on_toolbutton_plugins_clicked")
         # Use the menubar's callbacks
-        self.window.menubar.on_menuitem_preferences_activate(data)
+        component.get("MenuBar").on_menuitem_preferences_activate(data)

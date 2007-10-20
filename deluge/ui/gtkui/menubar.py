@@ -36,14 +36,16 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import pkg_resources
 
+import deluge.ui.component as component
 import deluge.ui.client as client
 
 from deluge.log import LOG as log
 
-class MenuBar:
-    def __init__(self, window):
+class MenuBar(component.Component):
+    def __init__(self):
         log.debug("MenuBar init..")
-        self.window = window
+        component.Component.__init__(self, "MenuBar")
+        self.window = component.get("MainWindow")
         # Get the torrent menu from the glade file
         torrentmenu_glade = gtk.glade.XML(
                     pkg_resources.resource_filename("deluge.ui.gtkui", 
@@ -124,27 +126,27 @@ class MenuBar:
     ## Edit Menu ##
     def on_menuitem_preferences_activate(self, data=None):
         log.debug("on_menuitem_preferences_activate")
-        self.window.preferences.show()
+        component.get("Preferences").show()
 
     def on_menuitem_connectionmanager_activate(self, data=None):
         log.debug("on_menuitem_connectionmanager_activate")
-        self.window.connectionmanager.show()
+        component.get("ConnectionManager").show()
         
     ## Torrent Menu ##
     def on_menuitem_pause_activate(self, data=None):
         log.debug("on_menuitem_pause_activate")
         client.pause_torrent(
-                            self.window.torrentview.get_selected_torrents())
+                            component.get("TorrentView").get_selected_torrents())
     
     def on_menuitem_resume_activate(self, data=None):
         log.debug("on_menuitem_resume_activate")
         client.resume_torrent(
-                            self.window.torrentview.get_selected_torrents())
+                            component.get("TorrentView").get_selected_torrents())
         
     def on_menuitem_updatetracker_activate(self, data=None):
         log.debug("on_menuitem_updatetracker_activate")
         client.force_reannounce(
-                            self.window.torrentview.get_selected_torrents())    
+                            component.get("TorrentView").get_selected_torrents())    
         
     def on_menuitem_edittrackers_activate(self, data=None):
         log.debug("on_menuitem_edittrackers_activate")
@@ -152,7 +154,7 @@ class MenuBar:
     def on_menuitem_remove_activate(self, data=None):
         log.debug("on_menuitem_remove_activate")
         client.remove_torrent(
-                            self.window.torrentview.get_selected_torrents())
+                            component.get("TorrentView").get_selected_torrents())
                 
     ## View Menu ##
     def on_menuitem_toolbar_toggled(self, data=None):

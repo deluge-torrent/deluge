@@ -38,13 +38,15 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import gettext
 
+import deluge.ui.component as component
 import deluge.ui.client as client
 import deluge.common
 from deluge.log import LOG as log
 
-class TorrentDetails:
-    def __init__(self, window):
-        self.window = window
+class TorrentDetails(component.Component):
+    def __init__(self):
+        component.Component.__init__(self, "TorrentDetails")
+        self.window = component.get("MainWindow")
         glade = self.window.main_glade
         
         self.notebook = glade.get_widget("torrent_info")
@@ -71,12 +73,16 @@ class TorrentDetails:
         self.eta = glade.get_widget("summary_eta")
         self.torrent_path = glade.get_widget("summary_torrent_path")
     
+    def stop(self):
+        self.clear()
+        
     def update(self):
         # Only update if this page is showing
         if self.notebook.page_num(self.details_tab) is \
                                             self.notebook.get_current_page():
             # Get the first selected torrent
-            selected = self.window.torrentview.get_selected_torrents()
+            #selected = self.window.torrentview.get_selected_torrents()
+            selected = component.get("TorrentView").get_selected_torrents()
             
             # Only use the first torrent in the list or return if None selected
             if selected is not None:
@@ -154,3 +160,4 @@ class TorrentDetails:
             self.tracker_status.set_text("")
             self.next_announce.set_text("")
             self.eta.set_text("")
+            self.torrent_path.set_text("")

@@ -31,6 +31,7 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
+import deluge.ui.component as component
 import deluge.pluginmanagerbase
 import deluge.ui.client as client
 from deluge.configmanager import ConfigManager
@@ -58,20 +59,25 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
     
     def get_torrentview(self):
         """Returns a reference to the torrentview component"""
-        return self._gtkui.mainwindow.torrentview
+        #return self._gtkui.mainwindow.torrentview
+        return component.get("TorrentView")
 
     def get_toolbar(self):
         """Returns a reference to the toolbar component"""
-        return self._gtkui.mainwindow.toolbar
+#        return self._gtkui.mainwindow.toolbar
+        return component.get("ToolBar")
      
     def get_menubar(self):
         """Returns a reference to the menubar component"""
-        return self._gtkui.mainwindow.menubar
+ #       return self._gtkui.mainwindow.menubar
+        return component.get("MenuBar")
     
     def get_torrentmenu(self):
         """Returns a reference to the torrentmenu component"""
-        return self._gtkui.mainwindow.menubar.torrentmenu
+#        return self._gtkui.mainwindow.menubar.torrentmenu
+        return component.get("MenuBar").torrentmenu
         
     def get_selected_torrents(self):
         """Returns a list of the selected torrent_ids"""
-        return self._gtkui.mainwindow.torrentview.get_selected_torrents()
+#        return self._gtkui.mainwindow.torrentview.get_selected_torrents()
+        return component.get("TorrentView").get_selected_torrents()

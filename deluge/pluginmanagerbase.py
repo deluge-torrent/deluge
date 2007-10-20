@@ -65,7 +65,7 @@ class PluginManagerBase:
     def shutdown(self):
         log.debug("PluginManager shutting down..")
         for plugin in self.plugins.values():
-            plugin.core.shutdown()
+            plugin.disable()
         del self.plugins
             
     def __getitem__(self, key):
@@ -113,9 +113,11 @@ class PluginManagerBase:
             
     def disable_plugin(self, name):
         """Disables a plugin"""
-        try:
-            del self.plugins[name]
-        except:
-            log.warning("Unable to disable non-existant plugin %s", name)
+
+        self.plugins[name].disable()
+            
+        del self.plugins[name]
+#        except:
+ #           log.warning("Unable to disable non-existant plugin %s", name)
         
         log.info("Plugin %s disabled..", name)

@@ -33,12 +33,15 @@
 
 import gtk
 
+import deluge.ui.component as component
 import deluge.common
 import deluge.ui.client as client
+from deluge.log import LOG as log
 
-class StatusBar:
-    def __init__(self, window):
-        self.window = window
+class StatusBar(component.Component):
+    def __init__(self):
+        component.Component.__init__(self, "StatusBar")
+        self.window = component.get("MainWindow")
         self.statusbar = self.window.main_glade.get_widget("statusbar")
         
         # Add a HBox to the statusbar after removing the initial label widget
@@ -47,8 +50,13 @@ class StatusBar:
         frame = self.statusbar.get_children()[0]
         frame.remove(frame.get_children()[0])
         frame.add(self.hbox)
-        
+        # Show the not connected status bar
+        self.show_not_connected()
+
+    def start(self):
+        log.debug("StatusBar start..")
         # Add in images and labels
+        self.clear_statusbar()
         image = gtk.Image()
         image.set_from_stock(gtk.STOCK_NETWORK, gtk.ICON_SIZE_MENU)
         self.hbox.pack_start(image, expand=False, fill=False)
@@ -65,12 +73,28 @@ class StatusBar:
         self.hbox.pack_start(image, expand=False, fill=False)
         self.label_upload_speed = gtk.Label()
         self.hbox.pack_start(self.label_upload_speed, 
-            expand=False, fill=False)       
+            expand=False, fill=False)
         
-        # Update once before showing
-#        self.update()
         self.statusbar.show_all()
-
+    
+    def stop(self):
+        # When stopped, we just show the not connected thingy
+        self.show_not_connected()
+        
+    def show_not_connected(self):
+        self.clear_statusbar()
+        image = gtk.Image()
+        image.set_from_stock(gtk.STOCK_STOP, gtk.ICON_SIZE_MENU)
+        self.hbox.pack_start(image, expand=False, fill=False)
+        label = gtk.Label("Not connected to daemon..")
+        self.hbox.pack_start(label, expand=False, fill=False)
+        self.statusbar.show_all()
+    
+    def clear_statusbar(self):
+        def remove(child):
+            self.hbox.remove(child)
+        self.hbox.foreach(remove)
+        
     def update(self):
         # Set the max connections label
         max_connections = client.get_config_value("max_connections_global")
@@ -101,3 +125,4 @@ class StatusBar:
         self.label_upload_speed.set_text("%s/s (%s)" % (
             deluge.common.fsize(client.get_upload_rate()), 
             max_upload_speed))
+
