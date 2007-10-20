@@ -930,7 +930,7 @@ window, please enter your password"))
             self.torrent_model_append(unique_id)
             try:
                 if self.manager.unique_IDs[unique_id].trackers:
-                    self.manager.replace_trackers(torrent, \
+                    self.manager.replace_trackers(unique_id, \
                         self.manager.unique_IDs[unique_id].trackers)
             except AttributeError:
                 pass
