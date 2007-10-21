@@ -68,7 +68,7 @@ class ConnectionManager(component.Component):
         self.config = ConfigManager("hostlist.conf", DEFAULT_CONFIG)
         self.connection_manager = self.glade.get_widget("connection_manager")
         self.hostlist = self.glade.get_widget("hostlist")
-        self.connection_manager.set_icon(deluge.common.get_logo(16))
+        self.connection_manager.set_icon(deluge.common.get_logo(32))
         
         self.glade.get_widget("image1").set_from_pixbuf(
             deluge.common.get_logo(32))
@@ -106,7 +106,7 @@ class ConnectionManager(component.Component):
                                     self.on_selection_changed)
         
     def show(self):
-        self._update_timer = gobject.timeout_add(5000, self._update)
+        self._update_timer = gobject.timeout_add(1000, self._update)
         self._update()
         self.connection_manager.show_all()
         
@@ -263,6 +263,19 @@ class ConnectionManager(component.Component):
         
     def on_button_startdaemon_clicked(self, widget):
         log.debug("on_button_startdaemon_clicked")
+        paths = self.hostlist.get_selection().get_selected_rows()[1]
+        row = self.liststore.get_iter(paths[0])
+        status = self.liststore.get_value(row, HOSTLIST_COL_STATUS)
+        if HOSTLIST_STATUS[status] == "Online" or\
+            HOSTLIST_STATUS[status] == "Connected":
+            # We need to stop this daemon
+            uri = self.liststore.get_value(row, HOSTLIST_COL_URI)
+            uri = "http://" + uri
+            # Call the shutdown method on the daemon
+            core = xmlrpclib.ServerProxy(uri)
+            core.shutdown()
+            # Update display to show change
+            self.update()
         
     def on_button_close_clicked(self, widget):
         log.debug("on_button_close_clicked")
