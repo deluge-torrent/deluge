@@ -115,7 +115,7 @@ class GtkUI:
         self.connectionmanager = ConnectionManager()
 
         # Start the signal receiver
-        #self.signal_receiver = Signals(self)
+        self.signal_receiver = Signals()
 
         # Initalize the plugins
         self.plugins = PluginManager(self)
@@ -141,6 +141,6 @@ class GtkUI:
         del self.torrentview
         del self.torrentdetails
         del self.preferences
-       # del self.signal_receiver
+        del self.signal_receiver
         del self.plugins
         del deluge.configmanager

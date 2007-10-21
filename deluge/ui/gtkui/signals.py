@@ -31,13 +31,16 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
+import deluge.ui.component as component
 from deluge.ui.signalreceiver import SignalReceiver
 from deluge.log import LOG as log
 
-class Signals:
-    def __init__(self, ui):
-        self.ui = ui
-        self.receiver = SignalReceiver(6667, "http://localhost:56684")
+class Signals(component.Component):
+    def __init__(self):
+        component.Component.__init__(self, "Signals")
+
+    def start(self):
+        self.receiver = SignalReceiver(6667)
         self.receiver.start()
         self.receiver.connect_to_signal("torrent_added", 
             self.torrent_added_signal)
@@ -50,31 +53,34 @@ class Signals:
         self.receiver.connect_to_signal("torrent_all_resumed", 
             self.torrent_all_resumed)    
     
+    def stop(self):
+        self.receiver.shutdown()
+        
     def torrent_added_signal(self, torrent_id):
         log.debug("torrent_added signal received..")
         log.debug("torrent id: %s", torrent_id)
         # Add the torrent to the treeview
-        self.ui.mainwindow.torrentview.add_row(torrent_id)
+        component.get("TorrentView").add_row(torrent_id)
 
     def torrent_removed_signal(self, torrent_id):
         log.debug("torrent_remove signal received..")
         log.debug("torrent id: %s", torrent_id)
         # Remove the torrent from the treeview
-        self.ui.mainwindow.torrentview.remove_row(torrent_id)
-        self.ui.mainwindow.torrentdetails.clear()
+        component.get("TorrentView").remove_row(torrent_id)
+        component.get("TorrentDetails").clear()
 
     def torrent_paused(self, torrent_id):
         log.debug("torrent_paused signal received..")
-        self.ui.mainwindow.torrentview.update()
+        component.get("TorrentView").update()
     
     def torrent_resumed(self, torrent_id):
         log.debug("torrent_resumed signal received..")
-        self.ui.mainwindow.torrentview.update()
+        component.get("TorrentView").update()
     
     def torrent_all_paused(self):
         log.debug("torrent_all_paused signal received..")
-        self.ui.mainwindow.torrentview.update()
+        component.get("TorrentView").update()
 
     def torrent_all_resumed(self):
         log.debug("torrent_all_resumed signal received..")
-        self.ui.mainwindow.torrentview.update()
+        component.get("TorrentView").update()

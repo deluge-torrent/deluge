@@ -37,20 +37,20 @@ from deluge.log import LOG as log
 
 class SignalManager:
     def __init__(self):
-        self.clients = []
+        self.clients = {}
     
     def deregister_client(self, uri):
         """Deregisters a client"""
         log.debug("Deregistering %s as a signal reciever..", uri)
-        self.clients.remove(self.clients.index(uri))
+        del self.clients[uri]
         
     def register_client(self, uri):
         """Registers a client to emit signals to."""
         log.debug("Registering %s as a signal reciever..", uri)
-        self.clients.append(xmlrpclib.ServerProxy(uri))
-    
+        self.clients[uri] = xmlrpclib.ServerProxy(uri)
+        
     def emit(self, signal, data):
-        for client in self.clients:
+        for client in self.clients.values():
             try:
                 client.emit_signal(signal, data)
             except:

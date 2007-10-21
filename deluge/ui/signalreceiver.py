@@ -32,6 +32,7 @@
 #    statement from all source files in the program, then also delete it here.
 
 import sys
+import deluge.ui.client as client
 import deluge.SimpleXMLRPCServer as SimpleXMLRPCServer
 from SocketServer import ThreadingMixIn
 import deluge.xmlrpclib as xmlrpclib
@@ -44,10 +45,12 @@ class SignalReceiver(
         ThreadingMixIn, 
         SimpleXMLRPCServer.SimpleXMLRPCServer):
     
-    def __init__(self, port, core_uri):
+    def __init__(self, port):
         log.debug("SignalReceiver init..")
         threading.Thread.__init__(self)
-
+    
+        # Set to true so that the receiver thread will exit
+        self._shutdown = False
         self.port = port
 
         # Daemonize the thread so it exits when the main program does
@@ -68,18 +71,33 @@ class SignalReceiver(
         
         # Register the signal receiver with the core
         # FIXME: send actual URI not localhost
-        core = xmlrpclib.ServerProxy(core_uri)
+        core = client.get_core()
         core.register_client("http://localhost:" + str(port))
         
-    
-    def __del__(self):
-        core.deregister_client("http://localhost:" + str(self.port))
+    def shutdown(self):
+        """Shutdowns receiver thread"""
+        self._shutdown = True
+        # De-register with the daemon so it doesn't try to send us more signals
+        client.get_core().deregister_client(
+            "http://localhost:" + str(self.port))
+
+        # Hacky.. sends a request to our local receiver to ensure that it
+        # shutdowns.. This is because handle_request() is a blocking call.
+        receiver = xmlrpclib.ServerProxy("http://localhost:" + str(self.port),
+            allow_none=True)
+        receiver.emit_signal("shutdown", None)
         
     def run(self):
         """This gets called when we start the thread"""
-        t = threading.Thread(target=self.serve_forever)
+        t = threading.Thread(target=self.handle_thread)
         t.start()
-        
+    
+    def handle_thread(self):
+        while not self._shutdown:
+            self.handle_request()
+        self._shutdown = False
+        self.server_close()
+            
     def emit_signal(self, signal, data):
         """Exported method used by the core to emit a signal to the client"""
         log.debug("Received signal %s with data %s from core..", signal, data)
