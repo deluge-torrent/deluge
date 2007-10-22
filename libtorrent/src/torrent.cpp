@@ -326,6 +326,21 @@ namespace libtorrent
 			disconnect_all();
 	}
 
+	peer_request torrent::to_req(piece_block const& p)
+	{
+		int block_offset = p.block_index * m_block_size;
+		int block_size = (std::min)((int)torrent_file().piece_size(
+			p.piece_index) - block_offset, m_block_size);
+		TORRENT_ASSERT(block_size > 0);
+		TORRENT_ASSERT(block_size <= m_block_size);
+
+		peer_request r;
+		r.piece = p.piece_index;
+		r.start = block_offset;
+		r.length = block_size;
+		return r;
+	}
+
 	std::string torrent::name() const
 	{
 		if (valid_metadata()) return m_torrent_file->name();
@@ -1656,8 +1671,11 @@ namespace libtorrent
 			else return;
 		}
 
-		boost::shared_ptr<socket_type> s
-			= instantiate_connection(m_ses.m_io_service, m_ses.web_seed_proxy());
+		boost::shared_ptr<socket_type> s(new socket_type);
+	
+		bool ret = instantiate_connection(m_ses.m_io_service, m_ses.web_seed_proxy(), *s);
+		TORRENT_ASSERT(ret);
+
 		if (m_ses.web_seed_proxy().type == proxy_settings::http
 			|| m_ses.web_seed_proxy().type == proxy_settings::http_pw)
 		{
@@ -1869,8 +1887,11 @@ namespace libtorrent
 		tcp::endpoint const& a(peerinfo->ip);
 		TORRENT_ASSERT((m_ses.m_ip_filter.access(a.address()) & ip_filter::blocked) == 0);
 
-		boost::shared_ptr<socket_type> s
-			= instantiate_connection(m_ses.m_io_service, m_ses.peer_proxy());
+		boost::shared_ptr<socket_type> s(new socket_type);
+
+		bool ret = instantiate_connection(m_ses.m_io_service, m_ses.peer_proxy(), *s);
+		TORRENT_ASSERT(ret);
+
 		boost::intrusive_ptr<peer_connection> c(new bt_peer_connection(
 			m_ses, shared_from_this(), s, a, peerinfo));
 
