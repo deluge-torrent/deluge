@@ -928,12 +928,6 @@ window, please enter your password"))
         for torrent in self.manager.get_queue():
             unique_id = self.manager.get_torrent_unique_id(torrent)
             self.torrent_model_append(unique_id)
-            try:
-                if self.manager.unique_IDs[unique_id].trackers:
-                    self.manager.replace_trackers(unique_id, \
-                        self.manager.unique_IDs[unique_id].trackers)
-            except AttributeError:
-                pass
             
         for torrent_file in cmd_line_torrents:
             self.interactive_add_torrent(torrent_file)
@@ -962,6 +956,14 @@ window, please enter your password"))
         except KeyboardInterrupt:
             self.manager.quit()
 
+        for torrent in self.manager.get_queue():
+            unique_id = self.manager.get_torrent_unique_id(torrent)
+            try:
+                if self.manager.unique_IDs[unique_id].trackers:
+                    self.manager.replace_trackers(unique_id, \
+                        self.manager.unique_IDs[unique_id].trackers)
+            except AttributeError:
+                pass
 
     def load_plugins(self):
         enable_plugins = self.config.get('enabled_plugins').split(':')
