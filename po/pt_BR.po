@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-10-14 01:08-0500\n"
-"PO-Revision-Date: 2007-10-14 03:47+0000\n"
+"POT-Creation-Date: 2007-10-15 10:51-0500\n"
+"PO-Revision-Date: 2007-10-20 21:01+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Portuguese (Brazil) <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-10-15 21:01+0000\n"
+"X-Launchpad-Export-Date: 2007-10-23 03:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:204
@@ -227,7 +227,7 @@ msgstr "Limpar"
 
 #: glade/delugegtk.glade:1192
 msgid "Start or Resume Torrent"
-msgstr ""
+msgstr "Iniciar ou Retomar Torrent"
 
 #: glade/delugegtk.glade:1193
 msgid "Resume"
@@ -235,7 +235,7 @@ msgstr "Continuar"
 
 #: glade/delugegtk.glade:1206
 msgid "Pause Torrent"
-msgstr ""
+msgstr "Pausar Torrent"
 
 #: glade/delugegtk.glade:1207
 msgid "Pause"
@@ -778,6 +778,8 @@ msgstr ""
 #: glade/preferences_dialog.glade:2410
 msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
 msgstr ""
+"<b>Gerenciador de Arquivos da Área de Trabalho</b> - Apenas para plataformas "
+"não-Windows"
 
 #: glade/preferences_dialog.glade:2442
 msgid "GUI update interval (seconds)"
@@ -886,11 +888,11 @@ msgstr "_Pausar Todos"
 
 #: glade/tray_menu.glade:84
 msgid "_Download Speed Limit"
-msgstr ""
+msgstr "_Limite da Velocidade de Download"
 
 #: glade/tray_menu.glade:100
 msgid "_Upload Speed Limit"
-msgstr ""
+msgstr "_Limite da Velocidade de Upload"
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"
@@ -1080,7 +1082,7 @@ msgstr ""
 "Deluge está protegido por senha.\n"
 "Para ver a janela do Deluge, entre com sua senha"
 
-#: src/interface.py:563 src/common.py:73
+#: src/interface.py:563 src/common.py:76
 msgid "Infinity"
 msgstr "Infinito"
 
@@ -1179,6 +1181,7 @@ msgstr "Atenção - todos os arquivos recebidos deste torrent serão excluídos!
 #: src/interface.py:1366
 msgid "Are you sure that you want to remove all seeding torrents?"
 msgstr ""
+"Você têm certeza de que deseja remover todos seus torrents semeadores?"
 
 #: src/core.py:85
 msgid "Queued"
@@ -1286,6 +1289,7 @@ msgstr ""
 "  José Geraldo Gouvêa https://launchpad.net/~jggouvea\n"
 "  Jr. https://launchpad.net/~jrdh\n"
 "  LKRaider https://launchpad.net/~paul-eipper\n"
+"  Pedro Clemente Pereira Neto https://launchpad.net/~pedrocpneto\n"
 "  Philipi https://launchpad.net/~philipix\n"
 "  Renato https://launchpad.net/~renatoat\n"
 "  Ricardo Duarte https://launchpad.net/~ricardo-ricardoduarte\n"
@@ -1293,6 +1297,7 @@ msgstr ""
 "  Vinícius de Figueiredo Silva https://launchpad.net/~viniciusfs\n"
 "  Vitor Caike https://launchpad.net/~vitorcaike\n"
 "  airmind https://launchpad.net/~airmind\n"
+"  alexandrenescau https://launchpad.net/~alexandrenescau\n"
 "  rohmaru https://launchpad.net/~ls3-guer"
 
 #: src/dialogs.py:429
@@ -1324,35 +1329,35 @@ msgstr "Arquivos Torrent"
 msgid "All files"
 msgstr "Todos os arquivos"
 
-#: src/common.py:87
+#: src/common.py:90
 msgid "KiB"
 msgstr "KiB"
 
-#: src/common.py:90
+#: src/common.py:93
 msgid "MiB"
 msgstr "MiB"
 
-#: src/common.py:93
+#: src/common.py:96
 msgid "GiB"
 msgstr "GiB"
 
-#: src/common.py:96
+#: src/common.py:99
 msgid "TiB"
 msgstr ""
 
-#: src/common.py:98
+#: src/common.py:101
 msgid "PiB"
 msgstr ""
 
-#: src/common.py:200
+#: src/common.py:203
 msgid "External command"
 msgstr "Comando externo"
 
-#: src/common.py:201
+#: src/common.py:204
 msgid "not found"
 msgstr "não encontrado"
 
-#: src/common.py:237
+#: src/common.py:240
 msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
@@ -1893,7 +1898,7 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:206
 #: plugins/EventLogging/tab_log.py:114
 msgid "Peer ban error"
-msgstr ""
+msgstr "Erro ao banir Peer"
 
 #: plugins/EventLogging/event_logging_preferences.glade:220
 #: plugins/EventLogging/tab_log.py:104
@@ -1912,7 +1917,7 @@ msgstr "Solicitação inválida"
 
 #: plugins/EventLogging/event_logging_preferences.glade:262
 msgid "Peer messages"
-msgstr ""
+msgstr "Mensagens do Peer"
 
 #: plugins/EventLogging/event_logging_preferences.glade:276
 #: plugins/EventLogging/tab_log.py:70
@@ -1964,7 +1969,7 @@ msgstr "Log de Eventos"
 #: plugins/EventLogging/tab_log.py:189 plugins/EventLogging/tab_log.py:200
 #: plugins/EventLogging/tab_log.py:210 plugins/EventLogging/tab_log.py:218
 msgid "event message: "
-msgstr ""
+msgstr "mensagem do evento: "
 
 #: plugins/EventLogging/tab_log.py:71 plugins/EventLogging/tab_log.py:95
 #: plugins/EventLogging/tab_log.py:105 plugins/EventLogging/tab_log.py:115
@@ -1979,7 +1984,7 @@ msgstr "torrent: "
 
 #: plugins/EventLogging/tab_log.py:78
 msgid "Peer message"
-msgstr ""
+msgstr "Mensagem do Peer"
 
 #: plugins/EventLogging/tab_log.py:78 plugins/EventLogging/tab_log.py:114
 #: plugins/EventLogging/tab_log.py:211
@@ -2200,7 +2205,7 @@ msgstr "Indefinido"
 #: plugins/ExtraStats/__init__.py:195
 #: plugins/ExtraStats/stats_preferences.glade:52
 msgid "Overall Ratio"
-msgstr ""
+msgstr "Taxa final"
 
 #: plugins/ExtraStats/__init__.py:200
 #: plugins/ExtraStats/stats_preferences.glade:66
@@ -2216,7 +2221,7 @@ msgstr "Tempo de Execução"
 
 #: plugins/ExtraStats/stats_preferences.glade:7
 msgid "Extra Stats Preferences"
-msgstr ""
+msgstr "Preferências de Estatísticas Extra"
 
 #: plugins/MoveTorrent/__init__.py:19
 msgid "Move Torrent"
@@ -2248,15 +2253,16 @@ msgid "Choose a directory to move files to"
 msgstr "Escolha um diretório para mover os arquivos"
 
 #: plugins/MoveTorrent/__init__.py:129
-#, fuzzy
 msgid ""
 "You cannot move torrent to a different partition. Please check your "
-"preferences. Or perhaps you are trying to move torrent's files to the same "
-"directory they are already stored?"
+"preferences. Also, you cannot move a torrent's files to the same directory "
+"that they are already stored or move a torrent's files before any of its "
+"files have actually been created."
 msgstr ""
-"Você não pode mover o torrent para uma partição diferente. Por favor cheque "
-"as suas preferências. Ou você esta tentando mover arquivos torrent para o "
-"mesmo diretório que se encontram?"
+"Você não pode mover o torrent para uma partição diferente. Por favor "
+"verifique suas preferências. Além disso, você não pode mover arquivos "
+"torrent para o mesmo diretório no qual ele já está armazenado ou mover "
+"arquivos de torrent antes que seus arquivos estejam criados realmente."
 
 #: plugins/MoveTorrent/movetorrent.glade:25
 msgid "Move completed downloads to:"
@@ -2272,7 +2278,7 @@ msgstr "OK"
 
 #: plugins/WebSeed/__init__.py:19
 msgid "Web Seed"
-msgstr ""
+msgstr "Semente Web"
 
 #: plugins/WebSeed/__init__.py:22
 msgid "This plugin allows users to add web seeds to their torrents"
@@ -2281,7 +2287,7 @@ msgstr ""
 
 #: plugins/WebSeed/__init__.py:51
 msgid "_Add Web Seed"
-msgstr ""
+msgstr "_Adicionar Semente Web"
 
 #: plugins/WebSeed/webseed.glade:7
 msgid "Open Containing Folder Preferences"
@@ -2308,3 +2314,5 @@ msgid ""
 "When set to -1 (unlimited), the global limits in Deluge's preferences will "
 "be obeyed."
 msgstr ""
+"Quanto ajustado para -1 (ilimitado), os limites globais nas preferências do "
+"Deluge serão obedecidas."

@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-10-14 01:08-0500\n"
+"POT-Creation-Date: 2007-10-15 10:51-0500\n"
 "PO-Revision-Date: 2007-10-14 13:56+0000\n"
 "Last-Translator: Dmitriy Geels <dmitriy.geels@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-10-15 21:01+0000\n"
+"X-Launchpad-Export-Date: 2007-10-23 03:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #~ msgid "Clear Finished Torrents"
@@ -153,6 +153,14 @@ msgstr ""
 
 #~ msgid "25x15"
 #~ msgstr "25x15"
+
+#~ msgid ""
+#~ "You cannot move torrent to a different partition. Please check your "
+#~ "preferences. Or perhaps you are trying to move torrent's files to the same "
+#~ "directory they are already stored?"
+#~ msgstr ""
+#~ "Нельзя перенести торрент на другой раздел. Проверьте настройки. Или, может, "
+#~ "Вы пытаетесь переместить его в ту же директорию, где он сейчас?"
 
 #: glade/delugegtk.glade:204
 msgid "<b>Downloaded:</b>"
@@ -1178,7 +1186,7 @@ msgstr ""
 "Deluge защищён паролем.\n"
 "Чтобы открыть главное окно введите пароль"
 
-#: src/interface.py:563 src/common.py:73
+#: src/interface.py:563 src/common.py:76
 msgid "Infinity"
 msgstr "Бесконечно"
 
@@ -1425,35 +1433,35 @@ msgstr "Файлы .torrent"
 msgid "All files"
 msgstr "Все файлы"
 
-#: src/common.py:87
+#: src/common.py:90
 msgid "KiB"
 msgstr "КБ"
 
-#: src/common.py:90
+#: src/common.py:93
 msgid "MiB"
 msgstr "МБ"
 
-#: src/common.py:93
+#: src/common.py:96
 msgid "GiB"
 msgstr "ГБ"
 
-#: src/common.py:96
+#: src/common.py:99
 msgid "TiB"
 msgstr "ТБ"
 
-#: src/common.py:98
+#: src/common.py:101
 msgid "PiB"
 msgstr "ПБ"
 
-#: src/common.py:200
+#: src/common.py:203
 msgid "External command"
 msgstr "Внешняя команда"
 
-#: src/common.py:201
+#: src/common.py:204
 msgid "not found"
 msgstr "не найден"
 
-#: src/common.py:237
+#: src/common.py:240
 msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
@@ -2366,11 +2374,10 @@ msgstr "Выберите директорию для переноса файло
 #: plugins/MoveTorrent/__init__.py:129
 msgid ""
 "You cannot move torrent to a different partition. Please check your "
-"preferences. Or perhaps you are trying to move torrent's files to the same "
-"directory they are already stored?"
+"preferences. Also, you cannot move a torrent's files to the same directory "
+"that they are already stored or move a torrent's files before any of its "
+"files have actually been created."
 msgstr ""
-"Нельзя перенести торрент на другой раздел. Проверьте настройки. Или, может, "
-"Вы пытаетесь переместить его в ту же директорию, где он сейчас?"
 
 #: plugins/MoveTorrent/movetorrent.glade:25
 msgid "Move completed downloads to:"

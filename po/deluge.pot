@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-15 16:20-0500\n"
+"POT-Creation-Date: 2007-10-22 22:35-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -140,30 +140,30 @@ msgstr ""
 msgid "_Columns"
 msgstr ""
 
-#: glade/delugegtk.glade:947 src/interface.py:595 src/files.py:79
+#: glade/delugegtk.glade:947 src/interface.py:596 src/files.py:79
 msgid "Size"
 msgstr ""
 
-#: glade/delugegtk.glade:956 src/interface.py:599
+#: glade/delugegtk.glade:956 src/interface.py:600
 msgid "Status"
 msgstr ""
 
-#: glade/delugegtk.glade:965 src/interface.py:601
+#: glade/delugegtk.glade:965 src/interface.py:602
 msgid "Seeders"
 msgstr ""
 
-#: glade/delugegtk.glade:974 src/interface.py:604
+#: glade/delugegtk.glade:974 src/interface.py:605
 #: plugins/TorrentPeers/__init__.py:72
 msgid "Peers"
 msgstr ""
 
-#: glade/delugegtk.glade:983 src/interface.py:607 src/interface.py:1105
-#: src/interface.py:1136 plugins/TorrentPeers/tab_peers.py:89
+#: glade/delugegtk.glade:983 src/interface.py:608 src/interface.py:1114
+#: src/interface.py:1145 plugins/TorrentPeers/tab_peers.py:89
 msgid "Down Speed"
 msgstr ""
 
-#: glade/delugegtk.glade:992 src/interface.py:610 src/interface.py:1106
-#: src/interface.py:1137 plugins/TorrentPeers/tab_peers.py:91
+#: glade/delugegtk.glade:992 src/interface.py:611 src/interface.py:1115
+#: src/interface.py:1146 plugins/TorrentPeers/tab_peers.py:91
 msgid "Up Speed"
 msgstr ""
 
@@ -948,143 +948,143 @@ msgid ""
 "information is sent."
 msgstr ""
 
-#: src/interface.py:261 src/interface.py:267 src/interface.py:348
-#: src/interface.py:374 plugins/SpeedLimiter/__init__.py:82
+#: src/interface.py:262 src/interface.py:268 src/interface.py:349
+#: src/interface.py:375 plugins/SpeedLimiter/__init__.py:82
 #: plugins/SpeedLimiter/__init__.py:92 plugins/SpeedLimiter/__init__.py:136
 #: plugins/SpeedLimiter/__init__.py:168
 msgid "KiB/s"
 msgstr ""
 
-#: src/interface.py:288 src/interface.py:349 src/interface.py:375
-#: src/interface.py:1087 src/interface.py:1094 src/interface.py:1099
-#: src/interface.py:1127 src/interface.py:1129
+#: src/interface.py:289 src/interface.py:350 src/interface.py:376
+#: src/interface.py:1096 src/interface.py:1103 src/interface.py:1108
+#: src/interface.py:1136 src/interface.py:1138
 #: plugins/SpeedLimiter/__init__.py:137 plugins/SpeedLimiter/__init__.py:169
 msgid "Unlimited"
 msgstr ""
 
-#: src/interface.py:291
+#: src/interface.py:292
 msgid "Activated"
 msgstr ""
 
-#: src/interface.py:340 src/interface.py:352 src/interface.py:378
+#: src/interface.py:341 src/interface.py:353 src/interface.py:379
 #: plugins/DesiredRatio/__init__.py:114 plugins/SpeedLimiter/__init__.py:140
 #: plugins/SpeedLimiter/__init__.py:172
 msgid "Other..."
 msgstr ""
 
-#: src/interface.py:357
+#: src/interface.py:358
 msgid "Download Speed (KiB/s):"
 msgstr ""
 
-#: src/interface.py:383
+#: src/interface.py:384
 msgid "Upload Speed (KiB/s):"
 msgstr ""
 
-#: src/interface.py:412
+#: src/interface.py:413
 msgid "Deluge is locked"
 msgstr ""
 
-#: src/interface.py:415
+#: src/interface.py:416
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 msgstr ""
 
-#: src/interface.py:563 src/common.py:76
+#: src/interface.py:564 src/common.py:76
 msgid "Infinity"
 msgstr ""
 
-#: src/interface.py:575
+#: src/interface.py:576
 msgid "Unknown"
 msgstr ""
 
-#: src/interface.py:592 plugins/SimpleRSS/plugin.py:68
+#: src/interface.py:593 plugins/SimpleRSS/plugin.py:68
 #: plugins/SimpleRSS/plugin.py:76 plugins/SimpleRSS/plugin.py:83
 #: plugins/TorrentSearch/plugin.py:51
 msgid "Name"
 msgstr ""
 
-#: src/interface.py:613
+#: src/interface.py:614
 msgid "ETA"
 msgstr ""
 
-#: src/interface.py:616
+#: src/interface.py:617
 msgid "Avail."
 msgstr ""
 
-#: src/interface.py:618
+#: src/interface.py:619
 msgid "Ratio"
 msgstr ""
 
-#: src/interface.py:863
+#: src/interface.py:864
 #, python-format
 msgid "Paused %s"
 msgstr ""
 
-#: src/interface.py:1105
+#: src/interface.py:1114
 msgid "Connections"
 msgstr ""
 
-#: src/interface.py:1123
+#: src/interface.py:1132
 msgid "DHT"
 msgstr ""
 
-#: src/interface.py:1132 plugins/TorrentCreator/__init__.py:148
+#: src/interface.py:1141 plugins/TorrentCreator/__init__.py:148
 msgid "Deluge"
 msgstr ""
 
-#: src/interface.py:1132
+#: src/interface.py:1141
 msgid "Download"
 msgstr ""
 
-#: src/interface.py:1133
+#: src/interface.py:1142
 msgid "Upload"
 msgstr ""
 
-#: src/interface.py:1136
+#: src/interface.py:1145
 msgid "Deluge Bittorrent Client"
 msgstr ""
 
-#: src/interface.py:1213
+#: src/interface.py:1222
 msgid "Choose a download directory"
 msgstr ""
 
-#: src/interface.py:1240
+#: src/interface.py:1249
 msgid ""
 "An error occured while trying to add the torrent. It's possible your ."
 "torrent file is corrupted."
 msgstr ""
 
-#: src/interface.py:1265
+#: src/interface.py:1274
 msgid "Unknown duplicate torrent error."
 msgstr ""
 
-#: src/interface.py:1270
+#: src/interface.py:1279
 msgid ""
 "There is not enough free                disk space to complete your download."
 msgstr ""
 
-#: src/interface.py:1272
+#: src/interface.py:1281
 msgid "Space Needed:"
 msgstr ""
 
-#: src/interface.py:1273
+#: src/interface.py:1282
 msgid "Available Space:"
 msgstr ""
 
-#: src/interface.py:1290
+#: src/interface.py:1299
 msgid "Add torrent from URL"
 msgstr ""
 
-#: src/interface.py:1294
+#: src/interface.py:1303
 msgid "Enter the URL of the .torrent to download"
 msgstr ""
 
-#: src/interface.py:1355
+#: src/interface.py:1364
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr ""
 
-#: src/interface.py:1366
+#: src/interface.py:1375
 msgid "Are you sure that you want to remove all seeding torrents?"
 msgstr ""
 
@@ -1120,35 +1120,35 @@ msgstr ""
 msgid "bytes needed"
 msgstr ""
 
-#: src/core.py:374
+#: src/core.py:376
 msgid "File was not found"
 msgstr ""
 
-#: src/core.py:430
+#: src/core.py:432
 msgid "Asked for a torrent that doesn't exist"
 msgstr ""
 
-#: src/core.py:636
+#: src/core.py:638
 msgid "Announce sent"
 msgstr ""
 
-#: src/core.py:640
+#: src/core.py:642
 msgid "Announce OK"
 msgstr ""
 
-#: src/core.py:646
+#: src/core.py:648
 msgid "Alert"
 msgstr ""
 
-#: src/core.py:647
+#: src/core.py:649
 msgid "HTTP code"
 msgstr ""
 
-#: src/core.py:648
+#: src/core.py:650
 msgid "times in a row"
 msgstr ""
 
-#: src/core.py:655
+#: src/core.py:657
 msgid "Warning"
 msgstr ""
 
@@ -1175,11 +1175,11 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: src/dialogs.py:428
+#: src/dialogs.py:433
 msgid "translator-credits"
 msgstr ""
 
-#: src/dialogs.py:429
+#: src/dialogs.py:434
 msgid ""
 "Deluge is free software, you can redistribute it and/or\n"
 "modify it under the terms of the GNU General Public\n"
@@ -1196,15 +1196,15 @@ msgid ""
 "1301 USA"
 msgstr ""
 
-#: src/dialogs.py:469
+#: src/dialogs.py:474
 msgid "Choose a .torrent file"
 msgstr ""
 
-#: src/dialogs.py:474
+#: src/dialogs.py:479
 msgid "Torrent files"
 msgstr ""
 
-#: src/dialogs.py:478
+#: src/dialogs.py:483
 msgid "All files"
 msgstr ""
 
@@ -1633,11 +1633,11 @@ msgid ""
 "notification"
 msgstr ""
 
-#: plugins/TorrentNotification/__init__.py:103
+#: plugins/TorrentNotification/__init__.py:109
 msgid "Torrent complete"
 msgstr ""
 
-#: plugins/TorrentNotification/__init__.py:104
+#: plugins/TorrentNotification/__init__.py:110
 #: plugins/TorrentFiles/__init__.py:71
 msgid "Files"
 msgstr ""
