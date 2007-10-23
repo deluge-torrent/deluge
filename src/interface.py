@@ -1492,8 +1492,8 @@ want to remove all seeding torrents?")):
                     "ul", "eta", "availability", "share"]
         for columns in to_save:
             pref_name = columns + '_width'
-            self.config.set(pref_name, eval('self.' + columns + 
-                '_column.get_width()'))
+            column = getattr(self, columns + '_column') 
+            self.config.set(pref_name, column.get_width())
    
     # Saves the tabs order (except the 'Details' tab)
     def save_tabs_order(self):
