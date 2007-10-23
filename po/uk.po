@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-10-14 01:08-0500\n"
+"POT-Creation-Date: 2007-10-15 10:51-0500\n"
 "PO-Revision-Date: 2007-04-07 15:13+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-10-15 21:01+0000\n"
+"X-Launchpad-Export-Date: 2007-10-23 03:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:204
@@ -991,7 +991,7 @@ msgid ""
 "To show the Deluge window, please enter your password"
 msgstr ""
 
-#: src/interface.py:563 src/common.py:73
+#: src/interface.py:563 src/common.py:76
 msgid "Infinity"
 msgstr ""
 
@@ -1211,35 +1211,35 @@ msgstr ""
 msgid "All files"
 msgstr ""
 
-#: src/common.py:87
+#: src/common.py:90
 msgid "KiB"
 msgstr ""
 
-#: src/common.py:90
+#: src/common.py:93
 msgid "MiB"
 msgstr ""
 
-#: src/common.py:93
+#: src/common.py:96
 msgid "GiB"
 msgstr ""
 
-#: src/common.py:96
+#: src/common.py:99
 msgid "TiB"
 msgstr ""
 
-#: src/common.py:98
+#: src/common.py:101
 msgid "PiB"
 msgstr ""
 
-#: src/common.py:200
+#: src/common.py:203
 msgid "External command"
 msgstr ""
 
-#: src/common.py:201
+#: src/common.py:204
 msgid "not found"
 msgstr ""
 
-#: src/common.py:237
+#: src/common.py:240
 msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
@@ -2051,8 +2051,9 @@ msgstr ""
 #: plugins/MoveTorrent/__init__.py:129
 msgid ""
 "You cannot move torrent to a different partition. Please check your "
-"preferences. Or perhaps you are trying to move torrent's files to the same "
-"directory they are already stored?"
+"preferences. Also, you cannot move a torrent's files to the same directory "
+"that they are already stored or move a torrent's files before any of its "
+"files have actually been created."
 msgstr ""
 
 #: plugins/MoveTorrent/movetorrent.glade:25

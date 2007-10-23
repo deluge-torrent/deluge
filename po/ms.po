@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-10-14 01:08-0500\n"
-"PO-Revision-Date: 2007-10-14 16:29+0000\n"
+"POT-Creation-Date: 2007-10-15 10:51-0500\n"
+"PO-Revision-Date: 2007-10-19 15:42+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Malay <ms@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-10-15 21:01+0000\n"
+"X-Launchpad-Export-Date: 2007-10-23 03:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:204
@@ -38,7 +38,7 @@ msgstr "<b>Kadar kongsi:</b>"
 #: glade/delugegtk.glade:273 glade/delugegtk.glade:292
 #, fuzzy
 msgid "<b>Speed:</b>"
-msgstr "<b>Benih:</b>"
+msgstr "<b>Kelajuan</b>"
 
 #: glade/delugegtk.glade:313
 msgid "<b>Peers:</b>"
@@ -54,8 +54,9 @@ msgid "<b>Pieces:</b>"
 msgstr "<b>Cebisan:</b>"
 
 #: glade/delugegtk.glade:389
+#, fuzzy
 msgid "<b>Availability:</b>"
-msgstr ""
+msgstr "Kebolehsediaan"
 
 #: glade/delugegtk.glade:430
 msgid "<b>Statistics</b>"
@@ -124,11 +125,11 @@ msgstr "gtk-select-all"
 
 #: glade/delugegtk.glade:878
 msgid "Plu_gins"
-msgstr ""
+msgstr "Plu_gins"
 
 #: glade/delugegtk.glade:906
 msgid "_Torrent"
-msgstr ""
+msgstr "_Torrent"
 
 #: glade/delugegtk.glade:913
 msgid "_View"
@@ -136,15 +137,15 @@ msgstr "_Papar"
 
 #: glade/delugegtk.glade:921
 msgid "_Toolbar"
-msgstr ""
+msgstr "_Toolbar"
 
 #: glade/delugegtk.glade:930
 msgid "_Details"
-msgstr ""
+msgstr "_Perincian"
 
 #: glade/delugegtk.glade:939
 msgid "_Columns"
-msgstr ""
+msgstr "_Kolum"
 
 #: glade/delugegtk.glade:947 src/interface.py:595 src/files.py:79
 msgid "Size"
@@ -193,7 +194,7 @@ msgstr "_Bantuan"
 #: glade/delugegtk.glade:1044
 #, fuzzy
 msgid "Help translate this application"
-msgstr "Bantu terjemahan aplikasi ini"
+msgstr "Bantu terjemah aplikasi ini"
 
 #: glade/delugegtk.glade:1045
 msgid "_Translate This Application..."
@@ -225,7 +226,7 @@ msgstr "Buang"
 
 #: glade/delugegtk.glade:1169
 msgid "Clear Seeding Torrents"
-msgstr "Bersih Seeding Torrent"
+msgstr "Bersih Torrent Penyemai"
 
 #: glade/delugegtk.glade:1170
 msgid "Clear"
@@ -308,7 +309,7 @@ msgstr "Clear Finished"
 
 #: glade/dgtkpopups.glade:241
 msgid "Speed"
-msgstr "Kalajuan"
+msgstr "Kelajuan"
 
 #: glade/file_tab_menu.glade:11
 msgid "_Open File"
@@ -324,7 +325,7 @@ msgstr "Unselect Semua"
 
 #: glade/file_tab_menu.glade:68 src/core.py:100
 msgid "Don't download"
-msgstr "Jangan muatturun"
+msgstr "Jangan muat turun"
 
 #: glade/file_tab_menu.glade:83 src/core.py:101
 msgid "Normal"
@@ -359,7 +360,7 @@ msgstr "Deluge Preferences"
 
 #: glade/preferences_dialog.glade:57
 msgid "Ask where to save each download"
-msgstr "Tanya dimana mahu disimpan setiap muatturun"
+msgstr "Tanya dimana mahu disimpan setiap muat turun"
 
 #: glade/preferences_dialog.glade:75 glade/wizard.glade:187
 #: plugins/MoveTorrent/movetorrent.glade:35
@@ -368,7 +369,7 @@ msgstr "Pilih Folder"
 
 #: glade/preferences_dialog.glade:87 glade/preferences_dialog.glade:88
 msgid "Store all downloads in:"
-msgstr "Simpan semua muatturun dalam:"
+msgstr "Simpan semua muat turun dalam:"
 
 #: glade/preferences_dialog.glade:108
 msgid "<b>Download Location</b>"
@@ -384,7 +385,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:144
 msgid "Maximum simultaneous active torrents:"
-msgstr ""
+msgstr "Maksimum torrent aktif serentak"
 
 #: glade/preferences_dialog.glade:175 glade/preferences_dialog.glade:176
 msgid "Enable selecting files for torrents before loading"
@@ -392,7 +393,7 @@ msgstr "Enable pilih fail torrent sebelum muat turun."
 
 #: glade/preferences_dialog.glade:190 glade/preferences_dialog.glade:191
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr ""
+msgstr "Utamakan cebisan awal dan akhir fail dalam torrent"
 
 #: glade/preferences_dialog.glade:207
 msgid "<b>Torrents</b>"
@@ -422,7 +423,7 @@ msgstr "<b>Allocation</b>"
 
 #: glade/preferences_dialog.glade:313
 msgid "Downloads"
-msgstr "Downloads"
+msgstr "Muat Turun"
 
 #: glade/preferences_dialog.glade:357
 #, fuzzy
@@ -503,11 +504,11 @@ msgstr "µTorrent-PeX"
 
 #: glade/preferences_dialog.glade:653
 msgid "<b>Network Extras</b>"
-msgstr ""
+msgstr "<b>Network Extras</b>"
 
 #: glade/preferences_dialog.glade:693
 msgid "Inbound:"
-msgstr ""
+msgstr "Inbound:"
 
 #: glade/preferences_dialog.glade:702 glade/preferences_dialog.glade:724
 msgid ""
@@ -515,18 +516,21 @@ msgid ""
 "Enabled\n"
 "Forced"
 msgstr ""
+"Disabled\n"
+"Enabled\n"
+"Forced"
 
 #: glade/preferences_dialog.glade:715
 msgid "Outbound:"
-msgstr ""
+msgstr "Outbound:"
 
 #: glade/preferences_dialog.glade:742
 msgid "Prefer to encrypt the entire stream"
-msgstr ""
+msgstr "Prefer to encrypt the entire stream"
 
 #: glade/preferences_dialog.glade:755
 msgid "Level:"
-msgstr ""
+msgstr "Level:"
 
 #: glade/preferences_dialog.glade:764
 msgid ""
@@ -534,76 +538,85 @@ msgid ""
 "Full Stream\n"
 "Either"
 msgstr ""
+"Handshake\n"
+"Full Stream\n"
+"Either"
 
 #: glade/preferences_dialog.glade:785
 msgid "<b>Encryption</b>"
-msgstr ""
+msgstr "<b>Encryption</b>"
 
 #: glade/preferences_dialog.glade:815
 msgid "Network"
-msgstr ""
+msgstr "Rangkaian"
 
 #: glade/preferences_dialog.glade:855
 msgid "Queue torrents to bottom when they begin seeding"
-msgstr ""
+msgstr "Bariskan torrent ke bawah apabila mula seeding"
 
 #: glade/preferences_dialog.glade:867
+#, fuzzy
 msgid "Queue new torrents above completed ones"
-msgstr ""
+msgstr "Bariskan torrent baru atas yang sudah selesai"
 
 #: glade/preferences_dialog.glade:883
 msgid "Stop seeding torrents when their share ratio reaches:"
-msgstr ""
+msgstr "Berhenti seeding torrent apabila share ratio sampai:"
 
 #: glade/preferences_dialog.glade:919
 msgid "Automatically clear torrents that reach the max share ratio"
-msgstr ""
+msgstr "Bersih torrent yang sampai share ratio maksimum secara automatik"
 
 #: glade/preferences_dialog.glade:935
 msgid "<b>Seeding</b>"
-msgstr ""
+msgstr "<b>Seeding</b>"
 
 #: glade/preferences_dialog.glade:964 src/core.py:91
 msgid "Seeding"
-msgstr ""
+msgstr "Seeding"
 
 #: glade/preferences_dialog.glade:1009 glade/wizard.glade:257
 #: glade/wizard.glade:318
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr ""
+"Had slot muat naik maksimum untuk semua torrent. Set -1 untuk tak terhad."
 
 #: glade/preferences_dialog.glade:1026 glade/preferences_dialog.glade:1110
 #: glade/preferences_dialog.glade:1130 glade/wizard.glade:277
 #: glade/wizard.glade:341
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
+"Had kelajuan muat naik maksimum untuk semua torrent. Set -1 untuk tidak "
+"terhad."
 
 #: glade/preferences_dialog.glade:1044 glade/preferences_dialog.glade:1060
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
+"Had kelajuan muat turun maksimum untuk semua torrent. Set -1 untuk tak "
+"terhad."
 
 #: glade/preferences_dialog.glade:1062
 msgid "Maximum Download Speed (KiB/s):"
-msgstr ""
+msgstr "Kelajuan Muat turun Maksimum (KiB/s):"
 
 #: glade/preferences_dialog.glade:1073 glade/preferences_dialog.glade:1092
 #: glade/wizard.glade:297 glade/wizard.glade:364
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr ""
+msgstr "Maksimum connection dibenarkan. Set -1 untuk tak terhad."
 
 #: glade/preferences_dialog.glade:1094 glade/preferences_dialog.glade:1278
 #: glade/wizard.glade:298
 msgid "Maximum Connections:"
-msgstr ""
+msgstr "Maximum Connections:"
 
 #: glade/preferences_dialog.glade:1112 glade/wizard.glade:278
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr ""
+msgstr "Kelajuan Muat naik Maksimum (KiB/s):"
 
 #: glade/preferences_dialog.glade:1132 glade/preferences_dialog.glade:1259
 #: glade/wizard.glade:258
 msgid "Maximum Upload Slots:"
-msgstr ""
+msgstr "Slot Muat naik Maksimum:"
 
 #: glade/preferences_dialog.glade:1150 glade/preferences_dialog.glade:1166
 #: glade/wizard.glade:434 glade/wizard.glade:455
@@ -614,27 +627,27 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1152 glade/wizard.glade:435
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "Maximum Half-Open Connections:"
 
 #: glade/preferences_dialog.glade:1186
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>Global Bandwidth Usage</b>"
 
 #: glade/preferences_dialog.glade:1222 glade/preferences_dialog.glade:1257
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "Had slot muat naik maksimum per torrent. Set -1 untuk tak terhad."
 
 #: glade/preferences_dialog.glade:1239 glade/preferences_dialog.glade:1276
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "Bilangan connection maksimum per torrent. Set -1 untuk tak terhad."
 
 #: glade/preferences_dialog.glade:1291
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>Per Torrent Bandwidth Usage</b>"
 
 #: glade/preferences_dialog.glade:1317
 msgid "Bandwidth"
-msgstr ""
+msgstr "Bandwidth"
 
 #: glade/preferences_dialog.glade:1362 glade/preferences_dialog.glade:1556
 #: glade/preferences_dialog.glade:1750 glade/preferences_dialog.glade:1944
@@ -643,17 +656,17 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1363
 msgid "Peer Proxy"
-msgstr ""
+msgstr "Peer Proxy"
 
 #: glade/preferences_dialog.glade:1408 glade/preferences_dialog.glade:1602
 #: glade/preferences_dialog.glade:1796 glade/preferences_dialog.glade:1990
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: glade/preferences_dialog.glade:1421 glade/preferences_dialog.glade:1615
 #: glade/preferences_dialog.glade:1809 glade/preferences_dialog.glade:2003
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #: glade/preferences_dialog.glade:1462 glade/preferences_dialog.glade:1656
 #: glade/preferences_dialog.glade:1850 glade/preferences_dialog.glade:2044
@@ -665,33 +678,39 @@ msgid ""
 "HTTP\n"
 "HTTP W/ Auth"
 msgstr ""
+"None\n"
+"Socksv4\n"
+"Socksv5\n"
+"Socksv5 W/ Auth\n"
+"HTTP\n"
+"HTTP W/ Auth"
 
 #: glade/preferences_dialog.glade:1478 glade/preferences_dialog.glade:1672
 #: glade/preferences_dialog.glade:1866 glade/preferences_dialog.glade:2060
 msgid "Password"
-msgstr ""
+msgstr "Kata laluan"
 
 #: glade/preferences_dialog.glade:1489 glade/preferences_dialog.glade:1683
 #: glade/preferences_dialog.glade:1877 glade/preferences_dialog.glade:2071
 msgid "Username"
-msgstr ""
+msgstr "Username"
 
 #: glade/preferences_dialog.glade:1500 glade/preferences_dialog.glade:1694
 #: glade/preferences_dialog.glade:1888 glade/preferences_dialog.glade:2082
 msgid "Proxy type"
-msgstr ""
+msgstr "Proxy type"
 
 #: glade/preferences_dialog.glade:1525
 msgid "<b>Peer Proxy</b>"
-msgstr ""
+msgstr "<b>Peer Proxy</b>"
 
 #: glade/preferences_dialog.glade:1557
 msgid "Tracker Proxy"
-msgstr ""
+msgstr "Tracker Proxy"
 
 #: glade/preferences_dialog.glade:1719
 msgid "<b>Tracker Proxy</b>"
-msgstr ""
+msgstr "<b>Tracker Proxy</b>"
 
 #: glade/preferences_dialog.glade:1751
 msgid "DHT Proxy"
@@ -699,51 +718,51 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1913
 msgid "<b>DHT Proxy</b>"
-msgstr ""
+msgstr "<b>DHT Proxy</b>"
 
 #: glade/preferences_dialog.glade:1945
 msgid "Web Seed Proxy"
-msgstr ""
+msgstr "Web Seed Proxy"
 
 #: glade/preferences_dialog.glade:2107
 msgid "<b>Web Seed Proxy</b>"
-msgstr ""
+msgstr "<b>Web Seed Proxy</b>"
 
 #: glade/preferences_dialog.glade:2134
 msgid "Proxies"
-msgstr ""
+msgstr "Proxies"
 
 #: glade/preferences_dialog.glade:2162
 msgid "Enable system tray icon"
-msgstr ""
+msgstr "Enable system tray icon"
 
 #: glade/preferences_dialog.glade:2178
 msgid "Minimize to tray on close"
-msgstr ""
+msgstr "Minimize to tray on close"
 
 #: glade/preferences_dialog.glade:2197
 msgid "Start in tray"
-msgstr ""
+msgstr "Start in tray"
 
 #: glade/preferences_dialog.glade:2221
 msgid "Password protect system tray"
-msgstr ""
+msgstr "Password protect system tray"
 
 #: glade/preferences_dialog.glade:2239
 msgid "Password:"
-msgstr ""
+msgstr "Kata laluan:"
 
 #: glade/preferences_dialog.glade:2281
 msgid "<b>System Tray</b>"
-msgstr ""
+msgstr "<b>System Tray</b>"
 
 #: glade/preferences_dialog.glade:2323
 msgid "Open folder with:"
-msgstr ""
+msgstr "Buka folder dengan:"
 
 #: glade/preferences_dialog.glade:2340
 msgid "Custom:"
-msgstr ""
+msgstr "Custom:"
 
 #: glade/preferences_dialog.glade:2363
 msgid ""
@@ -752,18 +771,22 @@ msgid ""
 "Nautilus\n"
 "Thunar"
 msgstr ""
+"Auto-detect (xdg-open)\n"
+"Konqueror\n"
+"Nautilus\n"
+"Thunar"
 
 #: glade/preferences_dialog.glade:2410
 msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
-msgstr ""
+msgstr "<b>Desktop File Manager</b> - only for non-Windows platforms"
 
 #: glade/preferences_dialog.glade:2442
 msgid "GUI update interval (seconds)"
-msgstr ""
+msgstr "GUI update interval (seconds)"
 
 #: glade/preferences_dialog.glade:2470
 msgid "<b>Performance</b>"
-msgstr ""
+msgstr "<b>Performance</b>"
 
 #: glade/preferences_dialog.glade:2504
 msgid ""
@@ -777,7 +800,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2522
 msgid "<b>Updates</b>"
-msgstr ""
+msgstr "<b>Updates</b>"
 
 #: glade/preferences_dialog.glade:2551
 msgid ""
@@ -802,55 +825,55 @@ msgstr ""
 
 #: glade/torrent_menu.glade:11
 msgid "Re_sume"
-msgstr ""
+msgstr "Re_sume"
 
 #: glade/torrent_menu.glade:28
 msgid "_Pause"
-msgstr ""
+msgstr "_Pause"
 
 #: glade/torrent_menu.glade:49
 msgid "_Update Tracker"
-msgstr ""
+msgstr "_Update Tracker"
 
 #: glade/torrent_menu.glade:66
 msgid "_Edit Trackers"
-msgstr ""
+msgstr "_Edit Trackers"
 
 #: glade/torrent_menu.glade:88
 msgid "_Remove Torrent"
-msgstr ""
+msgstr "_Buang Torrent"
 
 #: glade/torrent_menu.glade:111
 msgid "_Queue"
-msgstr ""
+msgstr "_Queue"
 
 #: glade/torrent_menu.glade:121
 msgid "_Top"
-msgstr ""
+msgstr "_Top"
 
 #: glade/torrent_menu.glade:137
 msgid "_Up"
-msgstr ""
+msgstr "_Up"
 
 #: glade/torrent_menu.glade:153
 msgid "_Down"
-msgstr ""
+msgstr "_Down"
 
 #: glade/torrent_menu.glade:169
 msgid "_Bottom"
-msgstr ""
+msgstr "_Bottom"
 
 #: glade/torrent_menu.glade:198
 msgid "_Open Containing Folder"
-msgstr ""
+msgstr "_Open Containing Folder"
 
 #: glade/tray_menu.glade:12
 msgid "_Show Deluge"
-msgstr ""
+msgstr "_Show Deluge"
 
 #: glade/tray_menu.glade:21
 msgid "_Resume All"
-msgstr ""
+msgstr "_Resume All"
 
 #: glade/tray_menu.glade:38
 msgid "_Pause All"
@@ -866,19 +889,19 @@ msgstr ""
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"
-msgstr ""
+msgstr "_Keluar"
 
 #: glade/edit_trackers.glade:9
 msgid "Edit Trackers"
-msgstr ""
+msgstr "Edit Trackers"
 
 #: glade/edit_trackers.glade:19
 msgid "Tracker Editing"
-msgstr ""
+msgstr "Tracker Editing"
 
 #: glade/files_dialog.glade:8
 msgid "Deluge File Selection"
-msgstr ""
+msgstr "Pemilihan Fail Deluge"
 
 #: glade/files_dialog.glade:42
 msgid "Torrent will not be distributed on the trackerless (DHT) network"
@@ -911,7 +934,7 @@ msgstr ""
 
 #: glade/wizard.glade:88
 msgid "Use _Random Ports"
-msgstr ""
+msgstr "Guna _Random Ports"
 
 #: glade/wizard.glade:116
 msgid ""
@@ -935,7 +958,7 @@ msgstr ""
 
 #: glade/wizard.glade:238
 msgid "Maximum Active Torrents:"
-msgstr ""
+msgstr "Torrent Aktif Maksimum"
 
 #: glade/wizard.glade:386
 msgid ""
@@ -958,10 +981,28 @@ msgid ""
 "50Mbit\n"
 "100Mbit"
 msgstr ""
+"28.8k\n"
+"56k\n"
+"64k\n"
+"96k\n"
+"128k\n"
+"192k\n"
+"256k\n"
+"384k\n"
+"512k\n"
+"640k\n"
+"768k\n"
+"1Mbit\n"
+"2Mbit\n"
+"10Mbit\n"
+"20Mbit\n"
+"40Mbit\n"
+"50Mbit\n"
+"100Mbit"
 
 #: glade/wizard.glade:419
 msgid "Your Upload Line Speed:"
-msgstr ""
+msgstr "Kelajuan Talian Muat Naik Anda:"
 
 #: glade/wizard.glade:506
 msgid ""
@@ -975,111 +1016,115 @@ msgstr ""
 #: plugins/SpeedLimiter/__init__.py:92 plugins/SpeedLimiter/__init__.py:136
 #: plugins/SpeedLimiter/__init__.py:168
 msgid "KiB/s"
-msgstr ""
+msgstr "KiB/s"
 
 #: src/interface.py:288 src/interface.py:349 src/interface.py:375
 #: src/interface.py:1087 src/interface.py:1094 src/interface.py:1099
 #: src/interface.py:1127 src/interface.py:1129
 #: plugins/SpeedLimiter/__init__.py:137 plugins/SpeedLimiter/__init__.py:169
 msgid "Unlimited"
-msgstr ""
+msgstr "Tak terhad"
 
 #: src/interface.py:291
 msgid "Activated"
-msgstr ""
+msgstr "Telah diaktifkan"
 
 #: src/interface.py:340 src/interface.py:352 src/interface.py:378
 #: plugins/DesiredRatio/__init__.py:114 plugins/SpeedLimiter/__init__.py:140
 #: plugins/SpeedLimiter/__init__.py:172
 msgid "Other..."
-msgstr ""
+msgstr "Lain-lain..."
 
 #: src/interface.py:357
 msgid "Download Speed (KiB/s):"
-msgstr ""
+msgstr "Kelajuan Muat turun (KiB/s):"
 
 #: src/interface.py:383
 msgid "Upload Speed (KiB/s):"
-msgstr ""
+msgstr "Kelajuan Muat naik (KiB/s):"
 
 #: src/interface.py:412
 msgid "Deluge is locked"
-msgstr ""
+msgstr "Deluge telah dikunci"
 
 #: src/interface.py:415
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 msgstr ""
+"Deluge dilindungi dengan kata laluan.\n"
+"Untuk melihat window Deluge, sila masukkan kata laluan anda"
 
-#: src/interface.py:563 src/common.py:73
+#: src/interface.py:563 src/common.py:76
 msgid "Infinity"
-msgstr ""
+msgstr "Infinity"
 
 #: src/interface.py:575
 msgid "Unknown"
-msgstr ""
+msgstr "Tidak Diketahui"
 
 #: src/interface.py:592 plugins/SimpleRSS/plugin.py:68
 #: plugins/SimpleRSS/plugin.py:76 plugins/SimpleRSS/plugin.py:83
 #: plugins/TorrentSearch/plugin.py:51
 msgid "Name"
-msgstr ""
+msgstr "Nama"
 
 #: src/interface.py:613
 msgid "ETA"
-msgstr ""
+msgstr "ETA"
 
 #: src/interface.py:616
 msgid "Avail."
-msgstr ""
+msgstr "Avail."
 
 #: src/interface.py:618
 msgid "Ratio"
-msgstr ""
+msgstr "Ratio"
 
 #: src/interface.py:863
 #, python-format
 msgid "Paused %s"
-msgstr ""
+msgstr "Paused %s"
 
 #: src/interface.py:1105
 msgid "Connections"
-msgstr ""
+msgstr "Connections"
 
 #: src/interface.py:1123
 msgid "DHT"
-msgstr ""
+msgstr "DHT"
 
 #: src/interface.py:1132 plugins/TorrentCreator/__init__.py:148
 msgid "Deluge"
-msgstr ""
+msgstr "Deluge"
 
 #: src/interface.py:1132
 msgid "Download"
-msgstr ""
+msgstr "Muat turun"
 
 #: src/interface.py:1133
 msgid "Upload"
-msgstr ""
+msgstr "Muat naik"
 
 #: src/interface.py:1136
 msgid "Deluge Bittorrent Client"
-msgstr ""
+msgstr "Deluge Bittorrent Client"
 
 #: src/interface.py:1213
 msgid "Choose a download directory"
-msgstr ""
+msgstr "Pilih direktori muat turun"
 
 #: src/interface.py:1240
 msgid ""
 "An error occured while trying to add the torrent. It's possible your "
 ".torrent file is corrupted."
 msgstr ""
+"An error occured while trying to add the torrent. It's possible your "
+".torrent file is corrupted."
 
 #: src/interface.py:1265
 msgid "Unknown duplicate torrent error."
-msgstr ""
+msgstr "Unknown duplicate torrent error."
 
 #: src/interface.py:1270
 msgid ""
@@ -1087,6 +1132,7 @@ msgid ""
 msgstr ""
 
 #: src/interface.py:1272
+#, fuzzy
 msgid "Space Needed:"
 msgstr ""
 
@@ -1096,55 +1142,58 @@ msgstr ""
 
 #: src/interface.py:1290
 msgid "Add torrent from URL"
-msgstr ""
+msgstr "Tambah torrent dari URL"
 
 #: src/interface.py:1294
 msgid "Enter the URL of the .torrent to download"
-msgstr ""
+msgstr "Masukkan URL bagi torrent untuk dimuat turun"
 
 #: src/interface.py:1355
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr ""
+"Amaran - semua fail yang telah dimuat turun untuk fail ini akan dihapus!"
 
 #: src/interface.py:1366
+#, fuzzy
 msgid "Are you sure that you want to remove all seeding torrents?"
-msgstr ""
+msgstr "Adakah anda pasti untuk buang semua seeding torrent?"
 
 #: src/core.py:85
 msgid "Queued"
-msgstr ""
+msgstr "Queued"
 
 #: src/core.py:86
 msgid "Checking"
-msgstr ""
+msgstr "Checking"
 
 #: src/core.py:87
 msgid "Connecting"
-msgstr ""
+msgstr "Connecting"
 
 #: src/core.py:88
 msgid "Downloading Metadata"
-msgstr ""
+msgstr "Downloading Metadata"
 
 #: src/core.py:89 plugins/BlocklistImport/ui.py:117
 msgid "Downloading"
-msgstr ""
+msgstr "Downloading"
 
 #: src/core.py:90
 msgid "Finished"
-msgstr ""
+msgstr "Finished"
 
 #: src/core.py:92
 msgid "Allocating"
-msgstr ""
+msgstr "Allocating"
 
 #: src/core.py:135
+#, fuzzy
 msgid "bytes needed"
-msgstr ""
+msgstr "bytes dikehendaki"
 
 #: src/core.py:374
 msgid "File was not found"
-msgstr ""
+msgstr "Fail tidak dijumpai"
 
 #: src/core.py:430
 msgid "Asked for a torrent that doesn't exist"
@@ -1164,7 +1213,7 @@ msgstr ""
 
 #: src/core.py:650
 msgid "HTTP code"
-msgstr ""
+msgstr "HTTP code"
 
 #: src/core.py:651
 msgid "times in a row"
@@ -1172,15 +1221,15 @@ msgstr ""
 
 #: src/core.py:658
 msgid "Warning"
-msgstr ""
+msgstr "Amaran"
 
 #: src/files.py:77
 msgid "Filename"
-msgstr ""
+msgstr "Filename"
 
 #: src/files.py:81
 msgid "Priority"
-msgstr ""
+msgstr "Keutamaan"
 
 #: src/files.py:103
 msgid ""
@@ -1191,17 +1240,18 @@ msgstr ""
 
 #: src/dialogs.py:68
 msgid "Plugin"
-msgstr ""
+msgstr "Plugin"
 
 #: src/dialogs.py:70
 msgid "Enabled"
-msgstr ""
+msgstr "Enabled"
 
 #: src/dialogs.py:428
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
 "  ibe https://launchpad.net/~imen802003-netscape\n"
+"  imen https://launchpad.net/~imen802003\n"
 "  umarzuki https://launchpad.net/~umarzuki"
 
 #: src/dialogs.py:429
@@ -1223,45 +1273,45 @@ msgstr ""
 
 #: src/dialogs.py:469
 msgid "Choose a .torrent file"
-msgstr ""
+msgstr "Pilih fail torrent"
 
 #: src/dialogs.py:474
 msgid "Torrent files"
-msgstr ""
+msgstr "Fail torrent"
 
 #: src/dialogs.py:478
 msgid "All files"
-msgstr ""
-
-#: src/common.py:87
-msgid "KiB"
-msgstr ""
+msgstr "Semua fail"
 
 #: src/common.py:90
-msgid "MiB"
-msgstr ""
+msgid "KiB"
+msgstr "KiB"
 
 #: src/common.py:93
+msgid "MiB"
+msgstr "MiB"
+
+#: src/common.py:96
 msgid "GiB"
 msgstr ""
 
-#: src/common.py:96
+#: src/common.py:99
 msgid "TiB"
 msgstr ""
 
-#: src/common.py:98
+#: src/common.py:101
 msgid "PiB"
 msgstr ""
 
-#: src/common.py:200
+#: src/common.py:203
 msgid "External command"
 msgstr ""
 
-#: src/common.py:201
+#: src/common.py:204
 msgid "not found"
 msgstr ""
 
-#: src/common.py:237
+#: src/common.py:240
 msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
@@ -2073,8 +2123,9 @@ msgstr ""
 #: plugins/MoveTorrent/__init__.py:129
 msgid ""
 "You cannot move torrent to a different partition. Please check your "
-"preferences. Or perhaps you are trying to move torrent's files to the same "
-"directory they are already stored?"
+"preferences. Also, you cannot move a torrent's files to the same directory "
+"that they are already stored or move a torrent's files before any of its "
+"files have actually been created."
 msgstr ""
 
 #: plugins/MoveTorrent/movetorrent.glade:25

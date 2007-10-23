@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-10-14 01:08-0500\n"
-"PO-Revision-Date: 2007-10-09 13:07+0000\n"
+"POT-Creation-Date: 2007-10-15 10:51-0500\n"
+"PO-Revision-Date: 2007-10-19 17:39+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-10-15 21:01+0000\n"
+"X-Launchpad-Export-Date: 2007-10-23 03:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:204
@@ -220,7 +220,7 @@ msgstr "Entfernen"
 
 #: glade/delugegtk.glade:1169
 msgid "Clear Seeding Torrents"
-msgstr ""
+msgstr "Entferne vollständige Downloads"
 
 #: glade/delugegtk.glade:1170
 msgid "Clear"
@@ -228,7 +228,7 @@ msgstr "Leeren"
 
 #: glade/delugegtk.glade:1192
 msgid "Start or Resume Torrent"
-msgstr ""
+msgstr "Download beginnen/fortsetzen"
 
 #: glade/delugegtk.glade:1193
 msgid "Resume"
@@ -236,7 +236,7 @@ msgstr "Fortsetzen"
 
 #: glade/delugegtk.glade:1206
 msgid "Pause Torrent"
-msgstr ""
+msgstr "Download pausieren"
 
 #: glade/delugegtk.glade:1207
 msgid "Pause"
@@ -617,7 +617,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1152 glade/wizard.glade:435
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "Maximale Halboffene Verbindungen"
 
 #: glade/preferences_dialog.glade:1186
 msgid "<b>Global Bandwidth Usage</b>"
@@ -1071,7 +1071,7 @@ msgstr ""
 "Deluge ist passwortgeschützt.\n"
 "Um Deluge anzuzeigen, geben Sie bitte Ihr Passwort ein."
 
-#: src/interface.py:563 src/common.py:73
+#: src/interface.py:563 src/common.py:76
 msgid "Infinity"
 msgstr "Unendlich"
 
@@ -1174,6 +1174,7 @@ msgstr ""
 #: src/interface.py:1366
 msgid "Are you sure that you want to remove all seeding torrents?"
 msgstr ""
+"Sind Sie sicher, dass Sie alle vollständigen Torrents entfernen öchten?"
 
 #: src/core.py:85
 msgid "Queued"
@@ -1298,6 +1299,7 @@ msgstr ""
 "  gl https://launchpad.net/~gregstar.at\n"
 "  lazka https://launchpad.net/~lazka\n"
 "  mld https://launchpad.net/~mldxxxx-deactivatedaccount\n"
+"  nxxs https://launchpad.net/~nxxs\n"
 "  pano https://launchpad.net/~pano90\n"
 "  perdido https://launchpad.net/~pio13\n"
 "  shifty https://launchpad.net/~shifty\n"
@@ -1348,35 +1350,35 @@ msgstr "Torrent-Dateien"
 msgid "All files"
 msgstr "Alle Dateien"
 
-#: src/common.py:87
+#: src/common.py:90
 msgid "KiB"
 msgstr "KiB"
 
-#: src/common.py:90
+#: src/common.py:93
 msgid "MiB"
 msgstr "MiB"
 
-#: src/common.py:93
+#: src/common.py:96
 msgid "GiB"
 msgstr "GiB"
 
-#: src/common.py:96
+#: src/common.py:99
 msgid "TiB"
 msgstr "TiB"
 
-#: src/common.py:98
+#: src/common.py:101
 msgid "PiB"
 msgstr "PiB"
 
-#: src/common.py:200
+#: src/common.py:203
 msgid "External command"
 msgstr "Externer Befehl"
 
-#: src/common.py:201
+#: src/common.py:204
 msgid "not found"
 msgstr "nicht gefunden"
 
-#: src/common.py:237
+#: src/common.py:240
 msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
@@ -2308,13 +2310,10 @@ msgstr "Wähle den Zielordner"
 #: plugins/MoveTorrent/__init__.py:129
 msgid ""
 "You cannot move torrent to a different partition. Please check your "
-"preferences. Or perhaps you are trying to move torrent's files to the same "
-"directory they are already stored?"
+"preferences. Also, you cannot move a torrent's files to the same directory "
+"that they are already stored or move a torrent's files before any of its "
+"files have actually been created."
 msgstr ""
-"Sie können Torrents nicht auf eine andere Partition verschieben. Bitte "
-"prüfen Sie Ihre Einstellungen. Vielleicht haben Sie auch versucht, die "
-"Dateien eines Torrents in dasselbe Verzeichnis zu verschieben, in dem sie "
-"sich schon befinden?"
 
 #: plugins/MoveTorrent/movetorrent.glade:25
 msgid "Move completed downloads to:"

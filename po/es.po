@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-10-14 01:08-0500\n"
-"PO-Revision-Date: 2007-10-14 09:19+0000\n"
+"POT-Creation-Date: 2007-10-15 10:51-0500\n"
+"PO-Revision-Date: 2007-10-19 07:06+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-10-15 21:01+0000\n"
+"X-Launchpad-Export-Date: 2007-10-23 03:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:204
@@ -31,7 +31,7 @@ msgstr "<b>Semillas:</b>"
 
 #: glade/delugegtk.glade:254
 msgid "<b>Share Ratio:</b>"
-msgstr "<b>Porcentaje Compartido:</b>"
+msgstr "<b>Porcentaje compartido:</b>"
 
 #: glade/delugegtk.glade:273 glade/delugegtk.glade:292
 msgid "<b>Speed:</b>"
@@ -67,7 +67,7 @@ msgstr "<b>Tamaño total:</b>"
 
 #: glade/delugegtk.glade:582
 msgid "<b>Tracker Status:</b>"
-msgstr "<b>Estado del Tracker:</b>"
+msgstr "<b>Estado del tracker:</b>"
 
 #: glade/delugegtk.glade:615
 msgid "<b>Next Announce:</b>"
@@ -119,7 +119,7 @@ msgstr "gtk-select-all"
 
 #: glade/delugegtk.glade:878
 msgid "Plu_gins"
-msgstr "_Extenciones"
+msgstr "_Complementos"
 
 #: glade/delugegtk.glade:906
 msgid "_Torrent"
@@ -218,7 +218,7 @@ msgstr "Borrar"
 
 #: glade/delugegtk.glade:1169
 msgid "Clear Seeding Torrents"
-msgstr "Limpiar Torrents compartidos"
+msgstr "Limpiar torrents compartidos"
 
 #: glade/delugegtk.glade:1170
 msgid "Clear"
@@ -226,7 +226,7 @@ msgstr "Limpiar"
 
 #: glade/delugegtk.glade:1192
 msgid "Start or Resume Torrent"
-msgstr "Iniciar o Continuar Torrent"
+msgstr "Iniciar o continuar torrent"
 
 #: glade/delugegtk.glade:1193
 msgid "Resume"
@@ -234,7 +234,7 @@ msgstr "Reanudar"
 
 #: glade/delugegtk.glade:1206
 msgid "Pause Torrent"
-msgstr "Pausar Torrent"
+msgstr "Pausar torrent"
 
 #: glade/delugegtk.glade:1207
 msgid "Pause"
@@ -436,7 +436,7 @@ msgstr "Deluge escogerá automáticamente un nuevo puerto cada vez."
 
 #: glade/preferences_dialog.glade:449
 msgid "Random Ports"
-msgstr "Puertos Aleatorios"
+msgstr "Puertos aleatorios"
 
 #: glade/preferences_dialog.glade:466
 msgid "Test Active Port"
@@ -883,11 +883,11 @@ msgstr "_Pausar todo"
 
 #: glade/tray_menu.glade:84
 msgid "_Download Speed Limit"
-msgstr "_Límite de Velocidad de Descarga"
+msgstr "_Límite de velocidad de descarga"
 
 #: glade/tray_menu.glade:100
 msgid "_Upload Speed Limit"
-msgstr "_Límite de Velocidad de Subids"
+msgstr "_Límite de velocidad de subida"
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"
@@ -1074,7 +1074,7 @@ msgstr ""
 "Deluge está protegido con contraseña.\n"
 "Para mostrar la ventana de Deluge, por favor introduzca su contraseña"
 
-#: src/interface.py:563 src/common.py:73
+#: src/interface.py:563 src/common.py:76
 msgid "Infinity"
 msgstr "Infinito"
 
@@ -1344,35 +1344,35 @@ msgstr "Archivos torrents"
 msgid "All files"
 msgstr "Todos los archivos"
 
-#: src/common.py:87
+#: src/common.py:90
 msgid "KiB"
 msgstr "KiB"
 
-#: src/common.py:90
+#: src/common.py:93
 msgid "MiB"
 msgstr "MiB"
 
-#: src/common.py:93
+#: src/common.py:96
 msgid "GiB"
 msgstr "GiB"
 
-#: src/common.py:96
+#: src/common.py:99
 msgid "TiB"
 msgstr "TiB"
 
-#: src/common.py:98
+#: src/common.py:101
 msgid "PiB"
 msgstr "PiB"
 
-#: src/common.py:200
+#: src/common.py:203
 msgid "External command"
 msgstr "Comando externo"
 
-#: src/common.py:201
+#: src/common.py:204
 msgid "not found"
 msgstr "no encontrado"
 
-#: src/common.py:237
+#: src/common.py:240
 msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
@@ -1668,7 +1668,7 @@ msgstr "Nombre de la fuente"
 
 #: plugins/SimpleRSS/rss.glade:151
 msgid "Feed URL:"
-msgstr "URL de la Fuente:"
+msgstr "URL de la fuente:"
 
 #: plugins/SimpleRSS/rss.glade:283
 msgid "Feeds"
@@ -1995,7 +1995,7 @@ msgstr "Registro de eventos"
 #: plugins/EventLogging/tab_log.py:189 plugins/EventLogging/tab_log.py:200
 #: plugins/EventLogging/tab_log.py:210 plugins/EventLogging/tab_log.py:218
 msgid "event message: "
-msgstr "mansaje de evento "
+msgstr "mensaje de evento "
 
 #: plugins/EventLogging/tab_log.py:71 plugins/EventLogging/tab_log.py:95
 #: plugins/EventLogging/tab_log.py:105 plugins/EventLogging/tab_log.py:115
@@ -2009,7 +2009,7 @@ msgstr "torrent: "
 
 #: plugins/EventLogging/tab_log.py:78
 msgid "Peer message"
-msgstr "Mensaje de par"
+msgstr "Mensaje del cliente"
 
 #: plugins/EventLogging/tab_log.py:78 plugins/EventLogging/tab_log.py:114
 #: plugins/EventLogging/tab_log.py:211
@@ -2297,12 +2297,14 @@ msgstr "Elige un directorio al que mover los ficheros"
 #: plugins/MoveTorrent/__init__.py:129
 msgid ""
 "You cannot move torrent to a different partition. Please check your "
-"preferences. Or perhaps you are trying to move torrent's files to the same "
-"directory they are already stored?"
+"preferences. Also, you cannot move a torrent's files to the same directory "
+"that they are already stored or move a torrent's files before any of its "
+"files have actually been created."
 msgstr ""
-"No puede mover el torrent a una partición diferente. Por favor, compruebe "
-"sus preferencias. O quizás, esta intentando mover los torrents al mismo "
-"directorio en el que se encuentran almacenados."
+"No puedes mover el torrent a una partición diferente. Por favor comprueba "
+"tus preferencias. Además, no puedes mover los archivos  torrent al mismo "
+"directorio donde ya están almacenados ni moverlos antes de que sus archivos "
+"hayan sido creados."
 
 #: plugins/MoveTorrent/movetorrent.glade:25
 msgid "Move completed downloads to:"
@@ -2335,7 +2337,7 @@ msgstr "Preferencias de la carpeta contenedora"
 
 #: plugins/Scheduler/plugin.py:76
 msgid "Scheduler Settings"
-msgstr "Opciones del Scheduler"
+msgstr "Opciones del planificador"
 
 #: plugins/Scheduler/plugin.py:86
 msgid "Limit download to:"

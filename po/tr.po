@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-10-14 01:08-0500\n"
-"PO-Revision-Date: 2007-09-23 16:23+0000\n"
+"POT-Creation-Date: 2007-10-15 10:51-0500\n"
+"PO-Revision-Date: 2007-10-20 07:54+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-10-15 21:01+0000\n"
+"X-Launchpad-Export-Date: 2007-10-23 03:22+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:204
@@ -76,7 +76,7 @@ msgstr "<b>Sonraki Duyuru:</b>"
 
 #: glade/delugegtk.glade:654
 msgid "<b># of files:</b>"
-msgstr ""
+msgstr "<b>Dosya sayısı:</b>"
 
 #: glade/delugegtk.glade:682
 msgid "<b>Tracker:</b>"
@@ -84,7 +84,7 @@ msgstr "<b>İzleyici:</b>"
 
 #: glade/delugegtk.glade:706
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Ad:</b>"
 
 #: glade/delugegtk.glade:723
 msgid "<b>Torrent Info</b>"
@@ -164,12 +164,12 @@ msgstr "Eşler"
 #: glade/delugegtk.glade:983 src/interface.py:607 src/interface.py:1105
 #: src/interface.py:1136 plugins/TorrentPeers/tab_peers.py:89
 msgid "Down Speed"
-msgstr ""
+msgstr "İndirme Hızı"
 
 #: glade/delugegtk.glade:992 src/interface.py:610 src/interface.py:1106
 #: src/interface.py:1137 plugins/TorrentPeers/tab_peers.py:91
 msgid "Up Speed"
-msgstr ""
+msgstr "Gönderme Hızı"
 
 #: glade/delugegtk.glade:1001
 msgid "Time Remaining"
@@ -177,7 +177,7 @@ msgstr "Kalan Süre"
 
 #: glade/delugegtk.glade:1010
 msgid "Availability"
-msgstr ""
+msgstr "Ulaşılabilirlik"
 
 #: glade/delugegtk.glade:1019
 msgid "Share Ratio"
@@ -189,19 +189,19 @@ msgstr "_Yardım"
 
 #: glade/delugegtk.glade:1044
 msgid "Help translate this application"
-msgstr ""
+msgstr "Bu uygulamanın dilinize çevrilmesine yardımcı olun"
 
 #: glade/delugegtk.glade:1045
 msgid "_Translate This Application..."
-msgstr ""
+msgstr "Bu Uygulamayı _Çevir..."
 
 #: glade/delugegtk.glade:1068
 msgid "Runs the first-time configuration wizard"
-msgstr ""
+msgstr "İlk kullanım yapılandırma sihirbazını çalıştırır"
 
 #: glade/delugegtk.glade:1069
 msgid "_Run Configuration Wizard"
-msgstr ""
+msgstr "Yapılandırma _Sihirbazını Çalıştır"
 
 #: glade/delugegtk.glade:1142
 msgid "Add Torrent"
@@ -257,15 +257,15 @@ msgstr "Sıradaki Torrent Aşağı"
 
 #: glade/delugegtk.glade:1234
 msgid "Down"
-msgstr ""
+msgstr "Aşağı"
 
 #: glade/delugegtk.glade:1255
 msgid "Change Deluge preferences"
-msgstr ""
+msgstr "Deluge seçeneklerini değiştir"
 
 #: glade/delugegtk.glade:1256
 msgid "Preferences"
-msgstr ""
+msgstr "Yeğlenenler"
 
 #: glade/delugegtk.glade:1269 glade/dgtkpopups.glade:209
 #: glade/preferences_dialog.glade:2709
@@ -273,10 +273,13 @@ msgid "Plugins"
 msgstr "Eklentiler"
 
 #: glade/dgtkpopups.glade:41
+#, fuzzy
 msgid ""
 "<span size=\"large\"><b>Are you sure you want to remove the selected "
 "torrent(s) from Deluge?</b></span>"
 msgstr ""
+"<span size=\"large\"><b>Seçili torrent(ler)i Deluge'den silmek istediğinize "
+"emin misiniz?</b></span>"
 
 #: glade/dgtkpopups.glade:65
 msgid "Delete downloaded files"
@@ -284,7 +287,7 @@ msgstr "İndirilmiş dosyaları sil"
 
 #: glade/dgtkpopups.glade:88
 msgid "Delete .torrent file"
-msgstr ""
+msgstr ".torrent dosyasını sil"
 
 #: glade/dgtkpopups.glade:155
 msgid "Show/Hide"
@@ -300,23 +303,23 @@ msgstr "Bitenleri Temizle"
 
 #: glade/dgtkpopups.glade:241
 msgid "Speed"
-msgstr ""
+msgstr "Hız"
 
 #: glade/file_tab_menu.glade:11
 msgid "_Open File"
-msgstr ""
+msgstr "Dosya _Aç"
 
 #: glade/file_tab_menu.glade:33
 msgid "Select All"
-msgstr ""
+msgstr "Hepsini Seç"
 
 #: glade/file_tab_menu.glade:48
 msgid "Unselect All"
-msgstr ""
+msgstr "Tüm Seçimleri Tersine Çevir"
 
 #: glade/file_tab_menu.glade:68 src/core.py:100
 msgid "Don't download"
-msgstr ""
+msgstr "İndirme"
 
 #: glade/file_tab_menu.glade:83 src/core.py:101
 msgid "Normal"
@@ -998,7 +1001,7 @@ msgid ""
 "To show the Deluge window, please enter your password"
 msgstr ""
 
-#: src/interface.py:563 src/common.py:73
+#: src/interface.py:563 src/common.py:76
 msgid "Infinity"
 msgstr "Sonsuzluk"
 
@@ -1190,6 +1193,7 @@ msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
 "  Mustafa Temizel https://launchpad.net/~root-musti\n"
+"  ercangun https://launchpad.net/~egundogdu2001\n"
 "  hokten https://launchpad.net/~patlakbalon\n"
 "  srtck https://launchpad.net/~sertac-kanaci\n"
 "  webdr https://launchpad.net/~inf-langturk"
@@ -1223,35 +1227,35 @@ msgstr "Torrent Dosyaları"
 msgid "All files"
 msgstr "Tüm dosyalar"
 
-#: src/common.py:87
+#: src/common.py:90
 msgid "KiB"
 msgstr ""
 
-#: src/common.py:90
+#: src/common.py:93
 msgid "MiB"
 msgstr ""
 
-#: src/common.py:93
+#: src/common.py:96
 msgid "GiB"
 msgstr ""
 
-#: src/common.py:96
+#: src/common.py:99
 msgid "TiB"
 msgstr ""
 
-#: src/common.py:98
+#: src/common.py:101
 msgid "PiB"
 msgstr ""
 
-#: src/common.py:200
+#: src/common.py:203
 msgid "External command"
 msgstr ""
 
-#: src/common.py:201
+#: src/common.py:204
 msgid "not found"
 msgstr ""
 
-#: src/common.py:237
+#: src/common.py:240
 msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
@@ -2063,8 +2067,9 @@ msgstr ""
 #: plugins/MoveTorrent/__init__.py:129
 msgid ""
 "You cannot move torrent to a different partition. Please check your "
-"preferences. Or perhaps you are trying to move torrent's files to the same "
-"directory they are already stored?"
+"preferences. Also, you cannot move a torrent's files to the same directory "
+"that they are already stored or move a torrent's files before any of its "
+"files have actually been created."
 msgstr ""
 
 #: plugins/MoveTorrent/movetorrent.glade:25
