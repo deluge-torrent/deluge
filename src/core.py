@@ -162,6 +162,7 @@ class torrent_info:
         self.compact = compact
         self.user_paused = False
         self.uploaded_memory = 0
+        self.initial_uploaded_memory = 0
         self.upload_rate_limit = 0
         self.download_rate_limit = 0
         self.webseed_urls = []
@@ -278,9 +279,6 @@ class Manager:
             self.state = persistent_state()
 
     def quit(self):
-        # Analyze data needed for pickling, etc.
-        self.pre_quitting()
-        
         # Pickle the prefs
         print "Saving prefs..."
         self.config.save()
@@ -313,11 +311,12 @@ class Manager:
         pickle.dump(self.state, output)
         output.close()
 
-    def pre_quitting(self):
+    def save_upmem(self):
         # Save the uploaded data from this session to the existing upload memory
         for unique_ID in self.unique_IDs.keys():
             # self.get_core_torrent_state purposefully not cached.
-            self.unique_IDs[unique_ID].uploaded_memory += \
+            self.unique_IDs[unique_ID].uploaded_memory = \
+                self.unique_IDs[unique_ID].initial_uploaded_memory + \
                 self.get_core_torrent_state(unique_ID, False)['total_upload']
 
     # Preference management functions
@@ -982,7 +981,7 @@ class Manager:
     # Calculations
 
     def calc_ratio(self, unique_ID, torrent_state):
-        up = float((torrent_state['total_payload_upload'] / 1024) + (self.unique_IDs[unique_ID].uploaded_memory / 1024))
+        up = float(self.unique_IDs[unique_ID].uploaded_memory / 1024)
         down = float(torrent_state["total_done"] / 1024)
         try:
             ret = up/down
