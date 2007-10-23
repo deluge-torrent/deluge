@@ -76,6 +76,7 @@ class FilesBaseManager(object):
             
         filename_column = dgtk.add_text_column(self.file_view, _("Filename"), \
                                  0, width=self.config.get("filename_f_width"))
+        filename_column.set_expand(True)
         size_column = dgtk.add_func_column(self.file_view, _("Size"), dgtk.cell_data_size, 
                              1, width=self.config.get("size_f_width"))
         priority_column = dgtk.add_func_column(self.file_view, _("Priority"), \
