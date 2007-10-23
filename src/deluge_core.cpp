@@ -1779,18 +1779,17 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
     return NULL;
 
   torrent_handle& h = M_torrents->at(index).handle;
-
-  std::vector<libtorrent::announce_entry> trackerlist;
-    
-  std::istringstream trackers(tracker);
-  std::string line;
-    
-  while (std::getline(trackers, line)) {
-    libtorrent::announce_entry a_entry(line);
-    trackerlist.push_back(a_entry);
+  if (h.is_valid()){
+      std::vector<libtorrent::announce_entry> trackerlist;
+      std::istringstream trackers(tracker);
+      std::string line;
+      while (std::getline(trackers, line)) {
+        libtorrent::announce_entry a_entry(line);
+        trackerlist.push_back(a_entry);
+      }
+      h.replace_trackers(trackerlist);
+      h.force_reannounce();
   }
-  h.replace_trackers(trackerlist);
-  h.force_reannounce();
   Py_INCREF(Py_None); return Py_None;
 }
 static PyObject *torrent_prioritize_files(PyObject *self, PyObject *args)
