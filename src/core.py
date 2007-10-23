@@ -987,7 +987,7 @@ class Manager:
         try:
             up = float((self.unique_IDs[unique_ID].initial_uploaded_memory + self.get_core_torrent_state(unique_ID, False)['total_upload']) / 1024)
         except AttributeError:
-            up = float(self.get_core_torrent_state(unique_ID, False)['total_upload'] / 1024)
+            up = float((self.unique_IDs[unique_ID].uploaded_memory + self.get_core_torrent_state(unique_ID, False)['total_upload']) / 1024)
         down = float(torrent_state["total_done"] / 1024)
         try:
             ret = up/down
