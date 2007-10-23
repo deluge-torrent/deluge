@@ -39,7 +39,6 @@ from webserver_framework import *
 
 import webpy022 as web
 from webpy022.http import seeother, url
-from webpy022.webapi import setcookie
 from webpy022.utils import Storage
 
 from md5 import md5
