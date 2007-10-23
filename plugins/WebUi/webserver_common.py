@@ -62,7 +62,7 @@ def init():
 
 
 
-REVNO = open(os.path.join(os.path.dirname(__file__),'revno')).read()
+REVNO = '0.56.stable.' + open(os.path.join(os.path.dirname(__file__),'revno')).read()
 VERSION = open(os.path.join(os.path.dirname(__file__),'version')).read()
 
 TORRENT_KEYS = ['distributed_copies', 'download_payload_rate',

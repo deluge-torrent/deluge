@@ -42,7 +42,7 @@ Todo's before stable:
 """
 import webpy022 as web
 
-from webpy022.webapi import cookies, setcookie
+from webpy022.webapi import cookies, setcookie as w_setcookie
 from webpy022.http import seeother, url
 from webpy022 import template,changequery as self_url
 
@@ -54,13 +54,17 @@ from deluge import common
 from webserver_common import  REVNO, VERSION
 import webserver_common as ws
 
+from debugerror import deluge_debugerror
+
 #init:
-web.webapi.internalerror = web.debugerror
-
-
+web.webapi.internalerror = deluge_debugerror
 #/init
 
 #methods:
+def setcookie(key, val):
+    """add 30 days expires header for persistent cookies"""
+    return w_setcookie(key, val , expires=2592000)
+
 SESSIONS = [] #dumb sessions.
 def start_session():
     session_id = str(random.random())
@@ -88,8 +92,13 @@ def error_page(error):
     print ws.render.error(error)
 
 def getcookie(key, default=None):
+    COOKIE_DEFAULTS = {'auto_refresh_secs':'10'}
+    key = str(key).strip()
     ck = cookies()
-    return str(ck.get(key, default))
+    val = ck.get(key, default)
+    if (not val) and key in COOKIE_DEFAULTS:
+        return COOKIE_DEFAULTS[key]
+    return val
 
 #deco's:
 def deluge_page_noauth(func):
@@ -327,7 +336,7 @@ def create_webserver(urls,methods):
 __all__ = ['deluge_page_noauth', 'deluge_page', 'remote',
     'auto_refreshed', 'check_session',
     'do_redirect', 'error_page','start_session','getcookie'
-    ,'create_webserver']
+    ,'create_webserver','setcookie']
 
 
 
