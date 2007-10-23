@@ -161,6 +161,7 @@ class DelugeGTK:
 
         self.dht_timer = 0
         self.dht_skip = False
+        self.memory_timer = 0
 
     def connect_signals(self):
         self.wtree.signal_autoconnect({
@@ -962,6 +963,9 @@ window, please enter your password"))
                 if self.manager.unique_IDs[unique_id].trackers:
                     self.manager.replace_trackers(unique_id, \
                         self.manager.unique_IDs[unique_id].trackers)
+                if self.manager.unique_IDs[unique_id].uploaded_memory:
+                    self.manager.unique_IDs[unique_id].initial_uploaded_memory \
+                    = self.manager.unique_IDs[unique_id].uploaded_memory
             except AttributeError:
                 pass
 
@@ -981,7 +985,10 @@ window, please enter your password"))
         
         self.update_interface = self.window.get_property("visible") and not \
             self.is_minimized
-        
+        self.memory_timer += 1 
+        if (self.memory_timer == 60):
+            self.manager.save_upmem()
+            self.memory_timer = 0
         # Handle the events
         self.manager.handle_events()
         
