@@ -943,6 +943,18 @@ window, please enter your password"))
         self.load_tabs_order()
         #now we load blocklist plugin separately since it takes much longer
         enable_plugins = self.config.get('enabled_plugins').split(':')
+        for torrent in self.manager.get_queue():
+            unique_id = self.manager.get_torrent_unique_id(torrent)
+            try:
+                if self.manager.unique_IDs[unique_id].trackers:
+                    self.manager.replace_trackers(unique_id, \
+                        self.manager.unique_IDs[unique_id].trackers)
+                if self.manager.unique_IDs[unique_id].uploaded_memory:
+                    self.manager.unique_IDs[unique_id].initial_uploaded_memory \
+                   = self.manager.unique_IDs[unique_id].uploaded_memory
+            except AttributeError:
+                pass
+
         if "Blocklist Importer" in enable_plugins:
             try:
                 self.plugins.enable_plugin("Blocklist Importer")
@@ -956,18 +968,6 @@ window, please enter your password"))
             gtk.gdk.threads_leave()
         except KeyboardInterrupt:
             self.manager.quit()
-
-        for torrent in self.manager.get_queue():
-            unique_id = self.manager.get_torrent_unique_id(torrent)
-            try:
-                if self.manager.unique_IDs[unique_id].trackers:
-                    self.manager.replace_trackers(unique_id, \
-                        self.manager.unique_IDs[unique_id].trackers)
-                if self.manager.unique_IDs[unique_id].uploaded_memory:
-                    self.manager.unique_IDs[unique_id].initial_uploaded_memory \
-                    = self.manager.unique_IDs[unique_id].uploaded_memory
-            except AttributeError:
-                pass
 
     def load_plugins(self):
         enable_plugins = self.config.get('enabled_plugins').split(':')
