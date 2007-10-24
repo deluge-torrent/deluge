@@ -52,9 +52,9 @@ class ToolBar(component.Component):
             "on_toolbutton_pause_clicked": self.on_toolbutton_pause_clicked,
             "on_toolbutton_resume_clicked": self.on_toolbutton_resume_clicked,
             "on_toolbutton_preferences_clicked": \
-                                        self.on_toolbutton_preferences_clicked,
-            "on_toolbutton_plugins_clicked": \
-                                        self.on_toolbutton_plugins_clicked,            
+                self.on_toolbutton_preferences_clicked,
+            "on_toolbutton_connectionmanager_clicked": \
+                self.on_toolbutton_connectionmanager_clicked
         })
     
     def add_toolbutton(self, callback, label=None, image=None, stock=None,
@@ -123,7 +123,7 @@ class ToolBar(component.Component):
         # Use the menubar's callbacks
         component.get("MenuBar").on_menuitem_preferences_activate(data)
 
-    def on_toolbutton_plugins_clicked(self, data):
-        log.debug("on_toolbutton_plugins_clicked")
+    def on_toolbutton_connectionmanager_clicked(self, data):
+        log.debug("on_toolbutton_connectionmanager_clicked")
         # Use the menubar's callbacks
-        component.get("MenuBar").on_menuitem_preferences_activate(data)
+        component.get("MenuBar").on_menuitem_connectionmanager_activate(data)

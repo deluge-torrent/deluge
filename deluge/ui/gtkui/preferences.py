@@ -341,17 +341,19 @@ class Preferences(component.Component):
                 self.gtkui_config[key] = new_gtkui_config[key]
         
         # Core
-        config_to_set = {}
-        for key in new_core_config.keys():
-            # The values do not match so this needs to be updated
-            if self.core_config[key] != new_core_config[key]:
-                config_to_set[key] = new_core_config[key]
+        if client.get_core_uri() != None:
+            # Only do this if we're connected to a daemon
+            config_to_set = {}
+            for key in new_core_config.keys():
+                # The values do not match so this needs to be updated
+                if self.core_config[key] != new_core_config[key]:
+                    config_to_set[key] = new_core_config[key]
 
-        # Set each changed config value in the core
-        client.set_config(config_to_set)
+            # Set each changed config value in the core
+            client.set_config(config_to_set)
 
-        # Update the configuration
-        self.core_config.update(config_to_set)
+            # Update the configuration
+            self.core_config.update(config_to_set)
         
         # Re-show the dialog to make sure everything has been updated
         self.show()
