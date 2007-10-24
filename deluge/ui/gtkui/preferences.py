@@ -105,69 +105,106 @@ class Preferences(component.Component):
         self.liststore.append([index, name])
 
     def show(self):
-        self.core_config = client.get_config()
         # Update the preferences dialog to reflect current config settings
-        
+        self.core_config = client.get_config()
+
+        if self.core_config != {} and self.core_config != None:
+            core_widgets = {
+                "download_path_button": \
+                    ("filename", self.core_config["download_location"]),
+                "radio_compact_allocation": \
+                    ("active", self.core_config["compact_allocation"]),
+                "radio_full_allocation": \
+                    ("not_active", self.core_config["compact_allocation"]),
+                "chk_prioritize_first_last_pieces": \
+                    ("active", 
+                        self.core_config["prioritize_first_last_pieces"]),
+                "spin_port_min": ("value", self.core_config["listen_ports"][0]),
+                "spin_port_max": ("value", self.core_config["listen_ports"][1]),
+                "active_port_label": ("text", str(client.get_listen_port())),
+                "chk_random_port": ("active", self.core_config["random_port"]),
+                "chk_dht": ("active", self.core_config["dht"]),
+                "chk_upnp": ("active", self.core_config["upnp"]),
+                "chk_natpmp": ("active", self.core_config["natpmp"]),
+                "chk_utpex": ("active", self.core_config["utpex"]),
+                "combo_encin": ("active", self.core_config["enc_in_policy"]),
+                "combo_encout": ("active", self.core_config["enc_out_policy"]),
+                "combo_enclevel": ("active", self.core_config["enc_level"]),
+                "chk_pref_rc4": ("active", self.core_config["enc_prefer_rc4"]),
+                "spin_max_connections_global": \
+                    ("value", self.core_config["max_connections_global"]),
+                "spin_max_download": \
+                    ("value", self.core_config["max_download_speed"]),
+                "spin_max_upload": \
+                    ("value", self.core_config["max_upload_speed"]),
+                "spin_max_upload_slots_global": \
+                    ("value", self.core_config["max_upload_slots_global"]),
+                "spin_max_connections_per_torrent": \
+                    ("value", self.core_config["max_connections_per_torrent"]),
+                "spin_max_upload_slots_per_torrent": \
+                    ("value", self.core_config["max_upload_slots_per_torrent"])
+            }
+
+            # Update the widgets accordingly
+            for key in core_widgets.keys():
+                modifier = core_widgets[key][0]
+                value = core_widgets[key][1]
+                widget = self.glade.get_widget(key)
+                if type(widget) == gtk.FileChooserButton:
+                    for child in widget.get_children():
+                        child.set_sensitive(True)
+                widget.set_sensitive(True)
+                
+                if modifier == "filename":
+                    widget.set_filename(value)
+                elif modifier == "active":
+                    widget.set_active(value)
+                elif modifier == "not_active":
+                    widget.set_active(not value)
+                elif modifier == "value":
+                    widget.set_value(value)
+                elif modifier == "text":
+                    widget.set_text(value)
+        else:
+            core_widget_list = [
+                "download_path_button",
+                "radio_compact_allocation",
+                "radio_full_allocation",
+                "chk_prioritize_first_last_pieces",
+                "spin_port_min",
+                "spin_port_max",
+                "active_port_label",
+                "chk_random_port",
+                "chk_dht",
+                "chk_upnp",
+                "chk_natpmp",
+                "chk_utpex",
+                "combo_encin",
+                "combo_encout",
+                "combo_enclevel",
+                "chk_pref_rc4",
+                "spin_max_connections_global",
+                "spin_max_download",
+                "spin_max_upload",
+                "spin_max_upload_slots_global",
+                "spin_max_connections_per_torrent",
+                "spin_max_upload_slots_per_torrent"
+            ]
+            # We don't appear to be connected to a daemon
+            for key in core_widget_list:
+                widget = self.glade.get_widget(key)
+                if type(widget) == gtk.FileChooserButton:
+                    for child in widget.get_children():
+                        child.set_sensitive(False)
+                widget.set_sensitive(False)
+
         ## Downloads tab ##
         self.glade.get_widget("radio_ask_save").set_active(
             self.gtkui_config["interactive_add"])
         self.glade.get_widget("radio_save_all_to").set_active(
             not self.gtkui_config["interactive_add"])
-        
-        # This one will need to be re-evaluated if the core is running on a 
-        # different machine.. We won't be able to use the local file browser to
-        # choose a download location.. It will be specific to the machine core
-        # is running on.
-        self.glade.get_widget("download_path_button").set_filename(
-            self.core_config["download_location"])
-        self.glade.get_widget("radio_compact_allocation").set_active(
-            self.core_config["compact_allocation"])
-        self.glade.get_widget("radio_full_allocation").set_active(
-            not self.core_config["compact_allocation"])
         self.glade.get_widget("chk_enable_files_dialog").set_active(
             self.gtkui_config["enable_files_dialog"])
-        self.glade.get_widget("chk_prioritize_first_last_pieces").set_active(
-            self.core_config["prioritize_first_last_pieces"])
-        
-        ## Network tab ##
-        self.glade.get_widget("spin_port_min").set_value(
-            self.core_config["listen_ports"][0])
-        self.glade.get_widget("spin_port_max").set_value(
-            self.core_config["listen_ports"][1])
-        self.glade.get_widget("active_port_label").set_text(
-            str(client.get_listen_port()))
-        self.glade.get_widget("chk_random_port").set_active(
-            self.core_config["random_port"])
-        self.glade.get_widget("chk_dht").set_active(
-            self.core_config["dht"])
-        self.glade.get_widget("chk_upnp").set_active(
-            self.core_config["upnp"])
-        self.glade.get_widget("chk_natpmp").set_active(
-            self.core_config["natpmp"])
-        self.glade.get_widget("chk_utpex").set_active(
-            self.core_config["utpex"])
-        self.glade.get_widget("combo_encin").set_active(
-            self.core_config["enc_in_policy"])
-        self.glade.get_widget("combo_encout").set_active(
-            self.core_config["enc_out_policy"])
-        self.glade.get_widget("combo_enclevel").set_active(
-            self.core_config["enc_level"])
-        self.glade.get_widget("chk_pref_rc4").set_active(
-            self.core_config["enc_prefer_rc4"])
-            
-        ## Bandwidth tab ##
-        self.glade.get_widget("spin_max_connections_global").set_value(
-            self.core_config["max_connections_global"])
-        self.glade.get_widget("spin_max_download").set_value(
-            self.core_config["max_download_speed"])
-        self.glade.get_widget("spin_max_upload").set_value(
-            self.core_config["max_upload_speed"])
-        self.glade.get_widget("spin_max_upload_slots_global").set_value(
-            self.core_config["max_upload_slots_global"])
-        self.glade.get_widget("spin_max_connections_per_torrent").set_value(
-            self.core_config["max_connections_per_torrent"])
-        self.glade.get_widget("spin_max_upload_slots_per_torrent").set_value(
-            self.core_config["max_upload_slots_per_torrent"])
 
         ## Other tab ##
         self.glade.get_widget("chk_use_tray").set_active(

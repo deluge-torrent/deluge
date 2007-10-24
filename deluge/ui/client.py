@@ -37,10 +37,6 @@ import socket
 
 import deluge.xmlrpclib as xmlrpclib
 
-import pygtk
-pygtk.require('2.0')
-import gtk, gtk.glade
-
 import deluge.common
 from deluge.log import LOG as log
 
