@@ -68,8 +68,7 @@ class ConnectionManager(component.Component):
         self.config = ConfigManager("hostlist.conf", DEFAULT_CONFIG)
         self.connection_manager = self.glade.get_widget("connection_manager")
         self.hostlist = self.glade.get_widget("hostlist")
-        #self.connection_manager.set_icon(deluge.common.get_logo(32))
-        
+        self.connection_manager.set_icon(deluge.common.get_logo(32))
         
         self.glade.get_widget("image1").set_from_pixbuf(
             deluge.common.get_logo(32))
