@@ -157,11 +157,13 @@ class MenuBar(component.Component):
                             component.get("TorrentView").get_selected_torrents())
                 
     ## View Menu ##
-    def on_menuitem_toolbar_toggled(self, data=None):
+    def on_menuitem_toolbar_toggled(self, value):
         log.debug("on_menuitem_toolbar_toggled")
+        component.get("ToolBar").visible(value.get_active())
         
-    def on_menuitem_infopane_toggled(self, data=None):
+    def on_menuitem_infopane_toggled(self, value):
         log.debug("on_menuitem_infopane_toggled")
+        component.get("TorrentDetails").visible(value.get_active())
     
     ## Help Menu ##
     def on_menuitem_about_activate(self, data=None):

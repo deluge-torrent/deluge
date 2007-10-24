@@ -57,6 +57,12 @@ class ToolBar(component.Component):
                 self.on_toolbutton_connectionmanager_clicked
         })
     
+    def visible(self, visible):
+        if visible:
+            self.toolbar.show()
+        else:
+            self.toolbar.hide()
+            
     def add_toolbutton(self, callback, label=None, image=None, stock=None,
                                                          tooltip=None):
         """Adds a toolbutton to the toolbar"""

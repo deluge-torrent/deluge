@@ -73,6 +73,13 @@ class TorrentDetails(component.Component):
         self.eta = glade.get_widget("summary_eta")
         self.torrent_path = glade.get_widget("summary_torrent_path")
     
+    def visible(self, visible):
+        if visible:
+            self.notebook.show()
+        else:
+            self.notebook.hide()
+            self.window.vpaned.set_position(-1)
+        
     def stop(self):
         self.clear()
         
