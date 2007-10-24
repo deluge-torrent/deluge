@@ -84,7 +84,7 @@ class AlertManager:
             # Call any handlers for this alert type
             if alert_type in self.handlers.keys():
                 for handler in self.handlers[alert_type]:
-                    handler(alert)
+                    gobject.idle_add(handler, alert)
                     
             alert = self.session.pop_alert()
 

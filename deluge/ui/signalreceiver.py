@@ -82,8 +82,11 @@ class SignalReceiver(
         """Shutdowns receiver thread"""
         self._shutdown = True
         # De-register with the daemon so it doesn't try to send us more signals
-        client.get_core().deregister_client(
-            "http://localhost:" + str(self.port))
+        try:
+            client.get_core().deregister_client(
+                "http://localhost:" + str(self.port))
+        except (socket.error, AttributeError):
+            pass
 
         # Hacky.. sends a request to our local receiver to ensure that it
         # shutdowns.. This is because handle_request() is a blocking call.
