@@ -95,6 +95,32 @@ class MenuBar(component.Component):
 
         })
         
+        self.change_sensitivity = [
+            "menuitem_addtorrent",
+            "menuitem_addurl",
+            "menuitem_clear"
+        ]
+    
+    def start(self):
+        for widget in self.change_sensitivity:
+            self.window.main_glade.get_widget(widget).set_sensitive(True)
+
+        for child in self.torrentmenu:
+            child.set_sensitive(True)
+
+        self.window.main_glade.get_widget("separatormenuitem").show()
+        self.window.main_glade.get_widget("menuitem_quitdaemon").show()
+        
+    def stop(self):
+        for widget in self.change_sensitivity:
+            self.window.main_glade.get_widget(widget).set_sensitive(False)
+
+        for child in self.torrentmenu:
+            child.set_sensitive(False)
+
+        self.window.main_glade.get_widget("separatormenuitem").hide()
+        self.window.main_glade.get_widget("menuitem_quitdaemon").hide()
+
     ### Callbacks ###
     
     ## File Menu ##

@@ -56,7 +56,23 @@ class ToolBar(component.Component):
             "on_toolbutton_connectionmanager_clicked": \
                 self.on_toolbutton_connectionmanager_clicked
         })
+        self.change_sensitivity = [
+            "toolbutton_add",
+            "toolbutton_remove",
+            "toolbutton_clear",
+            "toolbutton_pause",
+            "toolbutton_resume"
+        ]
     
+    
+    def start(self):
+        for widget in self.change_sensitivity:
+            self.window.main_glade.get_widget(widget).set_sensitive(True)
+    
+    def stop(self):
+        for widget in self.change_sensitivity:
+            self.window.main_glade.get_widget(widget).set_sensitive(False)
+        
     def visible(self, visible):
         if visible:
             self.toolbar.show()

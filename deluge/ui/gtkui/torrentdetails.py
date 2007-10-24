@@ -52,6 +52,8 @@ class TorrentDetails(component.Component):
         self.notebook = glade.get_widget("torrent_info")
         self.details_tab = glade.get_widget("torrentdetails_tab")
     
+        self.is_visible = True
+        
         # Get the labels we need to update.
         self.progress_bar = glade.get_widget("progressbar")
         self.name = glade.get_widget("summary_name")
@@ -80,13 +82,16 @@ class TorrentDetails(component.Component):
             self.notebook.hide()
             self.window.vpaned.set_position(-1)
         
+        self.is_visible = visible
+        
     def stop(self):
         self.clear()
         
     def update(self):
         # Only update if this page is showing
         if self.notebook.page_num(self.details_tab) is \
-                                            self.notebook.get_current_page():
+            self.notebook.get_current_page() and \
+                self.notebook.get_property("visible"):
             # Get the first selected torrent
             #selected = self.window.torrentview.get_selected_torrents()
             selected = component.get("TorrentView").get_selected_torrents()

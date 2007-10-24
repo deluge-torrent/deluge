@@ -24,6 +24,7 @@
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_addtorrent">
                         <property name="visible">True</property>
+                        <property name="sensitive">False</property>
                         <property name="label" translatable="yes">_Add Torrent</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_menuitem_addtorrent_activate"/>
@@ -39,6 +40,7 @@
                     <child>
                       <widget class="GtkMenuItem" id="menuitem_addurl">
                         <property name="visible">True</property>
+                        <property name="sensitive">False</property>
                         <property name="label" translatable="yes">Add _URL</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_menuitem_addurl_activate"/>
@@ -47,6 +49,7 @@
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_clear">
                         <property name="visible">True</property>
+                        <property name="sensitive">False</property>
                         <property name="label" translatable="yes">_Clear Completed</property>
                         <property name="use_underline">True</property>
                         <child internal-child="image">
@@ -60,12 +63,10 @@
                     </child>
                     <child>
                       <widget class="GtkSeparatorMenuItem" id="separatormenuitem">
-                        <property name="visible">True</property>
                       </widget>
                     </child>
                     <child>
                       <widget class="GtkImageMenuItem" id="menuitem_quitdaemon">
-                        <property name="visible">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                         <property name="label" translatable="yes">Quit &amp; Shutdown Daemon</property>
                         <property name="use_underline">True</property>
@@ -208,6 +209,7 @@
             <child>
               <widget class="GtkToolButton" id="toolbutton_add">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Add torrent</property>
                 <property name="label">Add Torrent</property>
                 <property name="use_underline">True</property>
@@ -221,6 +223,7 @@
             <child>
               <widget class="GtkToolButton" id="toolbutton_remove">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Remove the selected torrents</property>
                 <property name="label">Remove Torrent</property>
                 <property name="use_underline">True</property>
@@ -234,6 +237,7 @@
             <child>
               <widget class="GtkToolButton" id="toolbutton_clear">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Remove the finished torrents</property>
                 <property name="label">Clear Finished</property>
                 <property name="use_underline">True</property>
@@ -256,6 +260,7 @@
             <child>
               <widget class="GtkToolButton" id="toolbutton_pause">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="tooltip" translatable="yes">Pause the selected torrents</property>
                 <property name="label">Pause</property>
                 <property name="use_underline">True</property>
@@ -269,6 +274,7 @@
             <child>
               <widget class="GtkToolButton" id="toolbutton_resume">
                 <property name="visible">True</property>
+                <property name="sensitive">False</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                 <property name="tooltip" translatable="yes">Resume the selected torrents</property>
                 <property name="label">Resume</property>
