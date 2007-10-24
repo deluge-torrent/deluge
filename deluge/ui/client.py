@@ -1,5 +1,5 @@
 #
-# functions.py
+# client.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 

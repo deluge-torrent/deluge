@@ -47,7 +47,8 @@ class Signals(component.Component):
         self.receiver.connect_to_signal("torrent_removed", 
             self.torrent_removed_signal)
         self.receiver.connect_to_signal("torrent_paused", self.torrent_paused)
-        self.receiver.connect_to_signal("torrent_resumed", self.torrent_resumed)
+        self.receiver.connect_to_signal("torrent_resumed", 
+            self.torrent_resumed)
         self.receiver.connect_to_signal("torrent_all_paused", 
             self.torrent_all_paused)
         self.receiver.connect_to_signal("torrent_all_resumed", 

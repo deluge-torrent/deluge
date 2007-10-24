@@ -32,6 +32,9 @@
 #    statement from all source files in the program, then also delete it here.
 
 import sys
+
+import gobject
+
 import deluge.ui.client as client
 import deluge.SimpleXMLRPCServer as SimpleXMLRPCServer
 from SocketServer import ThreadingMixIn
@@ -47,6 +50,7 @@ class SignalReceiver(
     
     def __init__(self, port):
         log.debug("SignalReceiver init..")
+        gobject.threads_init()
         threading.Thread.__init__(self)
     
         # Set to true so that the receiver thread will exit
@@ -105,14 +109,14 @@ class SignalReceiver(
             if data != None:
                 for callback in self.signals[signal]:
                     try:
-                        callback(data)
+                        gobject.idle_add(callback, data)
                     except:
                         log.warning("Unable to call callback for signal %s", 
                             signal)
             else:
                 for callback in self.signals[signal]:
                     try:
-                        callback()
+                        gobject.idle_add(callback)
                     except:
                         log.warning("Unable to call callback for signal %s",
                             signal)
