@@ -308,5 +308,6 @@ class TorrentView(listview.ListView, component.Component):
         """This callback is know when the selection has changed."""
         log.debug("on_selection_changed")
         component.get("TorrentDetails").update()
+        component.get("ToolBar").update_buttons()
         
         

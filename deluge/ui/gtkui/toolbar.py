@@ -34,11 +34,17 @@
 import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
+import gobject
 
 import deluge.ui.component as component
 from deluge.log import LOG as log
+from deluge.common import TORRENT_STATE
+import deluge.ui.client as client
 
 class ToolBar(component.Component):
+    STATE_FINISHED = TORRENT_STATE.index("Finished")
+    STATE_SEEDING = TORRENT_STATE.index("Seeding")
+    STATE_PAUSED = TORRENT_STATE.index("Paused")
     def __init__(self):
         component.Component.__init__(self, "ToolBar")
         log.debug("ToolBar Init..")
@@ -63,11 +69,11 @@ class ToolBar(component.Component):
             "toolbutton_pause",
             "toolbutton_resume"
         ]
-    
-    
+
     def start(self):
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(True)
+        gobject.idle_add(self.update_buttons)
     
     def stop(self):
         for widget in self.change_sensitivity:
@@ -149,3 +155,50 @@ class ToolBar(component.Component):
         log.debug("on_toolbutton_connectionmanager_clicked")
         # Use the menubar's callbacks
         component.get("MenuBar").on_menuitem_connectionmanager_activate(data)
+
+    def update_buttons(self):
+        log.debug("update_buttons")
+        # If all the selected torrents are paused, then disable the 'Pause' 
+        # button.
+        # The same goes for the 'Resume' button.
+        pause = False
+        resume = False
+
+        # Disable the 'Clear Seeders' button if there's no finished torrent
+        finished = False
+
+        selecteds = component.get('TorrentView').get_selected_torrents()
+        if not selecteds : selecteds  = []
+
+        for torrent in  selecteds :
+            status = client.get_torrent_status(torrent, ['state'])['state']
+            if status == self.STATE_PAUSED:
+                resume = True
+            elif status in [self.STATE_FINISHED, self.STATE_SEEDING]:
+                finished = True
+                pause = True
+            else:
+                pause = True
+            if pause and resume and finished:    break
+
+        # Enable the 'Remove Torrent' button only if there's some selected 
+        # torrent.
+        remove = (len(selecteds ) > 0)
+
+        if not finished:
+            torrents = client.get_session_state()
+            for torrent in torrents:
+                if torrent in selecteds: continue
+                status = client.get_torrent_status(torrent, ['state'])['state']
+                if status in [self.STATE_FINISHED, self.STATE_SEEDING]:
+                    finished = True
+                    break
+
+        for name, sensitive in (("toolbutton_pause", pause),
+                                ("toolbutton_resume", resume),
+                                ("toolbutton_remove", remove),
+                                ("toolbutton_clear", finished)):
+            self.window.main_glade.get_widget(name).set_sensitive(sensitive)
+
+        return False
+
