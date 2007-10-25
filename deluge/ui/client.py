@@ -114,7 +114,19 @@ def set_core_uri(uri):
 def get_core_uri():
     """Get the core URI"""
     return _core.get_core_uri()
-        
+
+def is_localhost():
+    """Returns True if core is a localhost"""
+    # Get the uri
+    uri = _core.get_core_uri()
+    if uri != None:
+        # Get the host
+        host = uri[7:].split(":")[0]
+        if host == "localhost" or host == "127.0.0.1":
+            return True
+    
+    return False
+    
 def shutdown():
     """Shutdown the core daemon"""
     try:

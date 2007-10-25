@@ -39,52 +39,47 @@
 import os
 from optparse import OptionParser
 
-from deluge.core.daemon import Daemon
-from deluge.ui.ui import UI
-from deluge.log import LOG as log
 import deluge.common
 
-def main():
-    """Entry point for Deluge"""
+def start_ui():
+    """Entry point for ui script"""
     # Setup the argument parser
     parser = OptionParser(usage="%prog [options] [actions]", 
                                            version=deluge.common.get_version())
-    parser.add_option("--daemon", dest="daemon", help="Start Deluge daemon",
-                        metavar="DAEMON", action="store_true", default=False)
-    parser.add_option("--ui", dest="ui", help="Start Deluge UI",
-                        metavar="UI", action="store_true", default=False)
 
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
 
-    log.info("Deluge %s", deluge.common.get_version())
-    
+    from deluge.log import LOG as log
+
+    log.info("Deluge ui %s", deluge.common.get_version())        
     log.debug("options: %s", options)
     log.debug("args: %s", args)
-        
-    pid = None
-    
-    # Start the daemon
-    if options.daemon:
-        log.info("Starting daemon..")
-        # We need to fork() the process to run it in the background...
-        # FIXME: We cannot use fork() on Windows
-        pid = os.fork()
-        if not pid:
-            # Since we are starting daemon this process will not start a UI
-            options.ui = False
-            # Create the daemon object
-            Daemon()
 
-    # Start the UI
-    if options.ui:
-        log.info("Starting ui..")
-        UI()
-        
+    from deluge.ui.ui import UI
+    log.info("Starting ui..")
+    UI()
+                                                      
 def start_daemon():
     """Entry point for daemon script"""
-    log.info("Deluge daemon %s", deluge.common.get_version())
+    # Setup the argument parser
+    parser = OptionParser(usage="%prog [options] [actions]", 
+                                           version=deluge.common.get_version())
+    parser.add_option("-p", "--port", dest="port", 
+        help="Port daemon will listen on", action="store", type="int")
+
+    # Get the options and args from the OptionParser
+    (options, args) = parser.parse_args()
+
+    from deluge.log import LOG as log
+    
+    log.info("Deluge daemon %s", deluge.common.get_version())        
+    log.debug("options: %s", options)
+    log.debug("args: %s", args)
+
+    from deluge.core.daemon import Daemon
+            
     log.info("Starting daemon..")
     pid = os.fork()
     if not pid:
-        Daemon()
+        Daemon(options.port)

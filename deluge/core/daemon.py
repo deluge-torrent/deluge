@@ -35,9 +35,9 @@ from deluge.core.core import Core
 from deluge.log import LOG as log
 
 class Daemon:
-    def __init__(self):
+    def __init__(self, port):
         # Start the core as a thread and join it until it's done
-        self.core = Core()
+        self.core = Core(port)
         self.core.start()
         self.core.join()
 

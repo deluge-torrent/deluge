@@ -53,6 +53,7 @@ from deluge.core.signalmanager import SignalManager
 from deluge.log import LOG as log
 
 DEFAULT_PREFS = {
+    "daemon_port": 58846,
     "compact_allocation": True,
     "download_location": deluge.common.get_default_download_dir(),
     "listen_ports": [6881, 6891],
@@ -81,14 +82,21 @@ class Core(
         threading.Thread, 
         ThreadingMixIn, 
         SimpleXMLRPCServer.SimpleXMLRPCServer):
-    def __init__(self):
+    def __init__(self, port):
         log.debug("Core init..")
         threading.Thread.__init__(self)
+ 
+        # Get config
+        self.config = ConfigManager("core.conf", DEFAULT_PREFS)
 
+        if port == None:
+            port = self.config["daemon_port"]
+            
         # Setup the xmlrpc server
         try:
+            log.info("Starting XMLRPC server on port %s", port)
             SimpleXMLRPCServer.SimpleXMLRPCServer.__init__(
-                self, ("localhost", 58846), logRequests=False, allow_none=True)
+                self, ("localhost", port), logRequests=False, allow_none=True)
         except:
             log.info("Daemon already running or port not available..")
             sys.exit(0)
@@ -116,8 +124,6 @@ class Core(
         
     def run(self):
         """Starts the core"""
-        # Get config
-        self.config = ConfigManager("core.conf", DEFAULT_PREFS)
         
         # Create the client fingerprint
         version = []

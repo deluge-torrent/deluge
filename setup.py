@@ -194,6 +194,6 @@ setup(
     cmdclass=cmdclass,
     entry_points = """
         [console_scripts]
-            deluge = deluge.main:main
+            deluge = deluge.main:start_ui
             deluged = deluge.main:start_daemon
     """)

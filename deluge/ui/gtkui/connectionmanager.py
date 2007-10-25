@@ -35,6 +35,7 @@ import gtk, gtk.glade
 import pkg_resources
 import gobject
 import socket
+import os
 
 import deluge.ui.component as component
 import deluge.xmlrpclib as xmlrpclib
@@ -266,17 +267,22 @@ class ConnectionManager(component.Component):
         paths = self.hostlist.get_selection().get_selected_rows()[1]
         row = self.liststore.get_iter(paths[0])
         status = self.liststore.get_value(row, HOSTLIST_COL_STATUS)
+        uri = self.liststore.get_value(row, HOSTLIST_COL_URI)
+        port = uri.split(":")[1]
         if HOSTLIST_STATUS[status] == "Online" or\
             HOSTLIST_STATUS[status] == "Connected":
             # We need to stop this daemon
-            uri = self.liststore.get_value(row, HOSTLIST_COL_URI)
             uri = "http://" + uri
             # Call the shutdown method on the daemon
             core = xmlrpclib.ServerProxy(uri)
             core.shutdown()
             # Update display to show change
             self.update()
-        
+        elif HOSTLIST_STATUS[status] == "Offline":
+            log.debug("Start localhost daemon..")
+            # Spawn a local daemon
+            os.popen("deluged -p %s" % port)
+            
     def on_button_close_clicked(self, widget):
         log.debug("on_button_close_clicked")
         self.hide()
