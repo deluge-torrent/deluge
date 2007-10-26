@@ -646,7 +646,6 @@ static PyObject *torrent_set_max_connections_global(PyObject *self, PyObject *ar
 
     //    printf("Setting max connections: %d\r\n", max_conn);
     M_ses->set_max_connections(max_conn);
-
     Py_INCREF(Py_None); return Py_None;
 }
 
@@ -1217,11 +1216,12 @@ static PyObject *torrent_get_session_info(PyObject *self, PyObject *args)
 {
     session_status s = M_ses->status();
 
-    return Py_BuildValue("{s:l,s:f,s:f,s:l,s:f,s:f}",
+    return Py_BuildValue("{s:l,s:f,s:f,s:ls:l,s:f,s:f}",
         "has_incoming_connections", long(s.has_incoming_connections),
         "upload_rate",          float(s.payload_upload_rate),
         "download_rate",        float(s.payload_download_rate),
         "num_peers",            long(s.num_peers),
+        "num_connections",      long(M_ses->num_connections()),
         "total_downloaded",     float(s.total_payload_download),
         "total_uploaded",       float(s.total_payload_upload));
 }

@@ -1091,7 +1091,7 @@ window, please enter your password"))
     def update_statusbar_and_tray(self):
         plugin_messages = self.plugins.get_plugin_tray_messages()
         core_state = self.manager.get_state()
-        connections = core_state['num_peers']
+        connections = core_state['num_connections']
         if self.config.get("max_connections_global") < 0 :
             max_connections = _("Unlimited")
         else:
