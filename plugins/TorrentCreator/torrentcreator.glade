@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.2.2 on Wed Sep  5 12:27:39 2007 by markybob@peg-->
+<!--Generated with glade3 3.2.2 on Thu Oct 25 22:18:52 2007 by markybob@peg-->
 <glade-interface>
   <widget class="GtkDialog" id="torrentcreator">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -54,7 +54,6 @@
                               <widget class="GtkFrame" id="frame2">
                                 <property name="visible">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <property name="label_xalign">0</property>
                                 <property name="shadow_type">GTK_SHADOW_NONE</property>
                                 <child>
                                   <widget class="GtkAlignment" id="alignment2">
@@ -151,7 +150,6 @@
                               <widget class="GtkFrame" id="frame1">
                                 <property name="visible">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <property name="label_xalign">0</property>
                                 <property name="shadow_type">GTK_SHADOW_NONE</property>
                                 <child>
                                   <widget class="GtkAlignment" id="alignment3">
@@ -271,7 +269,6 @@
                               <widget class="GtkFrame" id="frame3">
                                 <property name="visible">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <property name="label_xalign">0</property>
                                 <property name="shadow_type">GTK_SHADOW_NONE</property>
                                 <child>
                                   <widget class="GtkAlignment" id="alignment4">
@@ -318,7 +315,6 @@
                               <widget class="GtkFrame" id="frame4">
                                 <property name="visible">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <property name="label_xalign">0</property>
                                 <property name="shadow_type">GTK_SHADOW_NONE</property>
                                 <child>
                                   <widget class="GtkAlignment" id="alignment5">
@@ -365,7 +361,6 @@
                               <widget class="GtkFrame" id="frame5">
                                 <property name="visible">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <property name="label_xalign">0</property>
                                 <property name="shadow_type">GTK_SHADOW_NONE</property>
                                 <child>
                                   <widget class="GtkAlignment" id="alignment6">
@@ -418,6 +413,9 @@
                                         <property name="n_columns">2</property>
                                         <property name="column_spacing">10</property>
                                         <child>
+                                          <placeholder/>
+                                        </child>
+                                        <child>
                                           <widget class="GtkCheckButton" id="chk_set_priv">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
@@ -432,9 +430,6 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <placeholder/>
-                                        </child>
-                                        <child>
                                           <widget class="GtkComboBox" id="piece_size_combobox">
                                             <property name="visible">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -445,6 +440,7 @@
 256 KiB
 512 KiB
 1024 KiB
+2048 KiB
 </property>
                                           </widget>
                                           <packing>
