@@ -1,4 +1,8 @@
-Deluge 0.5.6 (xx October 2007)
+Deluge 0.5.7 (xx November 2007)
+  * Set default piece size to 256-KiB in TorrentCreator plugin and add 2048KiB
+  as a size option.
+
+Deluge 0.5.6 (24 October 2007)
   * Web Interface Plugin
   * Hopefully fix "losing data" and having to re-download parts (for real this time :p)
   * Use new full allocation method which does not create files until one of its
