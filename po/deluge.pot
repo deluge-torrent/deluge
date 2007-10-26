@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-22 22:35-0500\n"
+"POT-Creation-Date: 2007-10-25 21:56-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -140,7 +140,7 @@ msgstr ""
 msgid "_Columns"
 msgstr ""
 
-#: glade/delugegtk.glade:947 src/interface.py:596 src/files.py:79
+#: glade/delugegtk.glade:947 src/interface.py:596 src/files.py:80
 msgid "Size"
 msgstr ""
 
@@ -1156,11 +1156,11 @@ msgstr ""
 msgid "Filename"
 msgstr ""
 
-#: src/files.py:81
+#: src/files.py:82
 msgid "Priority"
 msgstr ""
 
-#: src/files.py:103
+#: src/files.py:104
 msgid ""
 "File priority can only be set when using full allocation.\n"
 "Please change your preference to disable compact allocation, then remove and "
@@ -1175,11 +1175,11 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: src/dialogs.py:433
+#: src/dialogs.py:435
 msgid "translator-credits"
 msgstr ""
 
-#: src/dialogs.py:434
+#: src/dialogs.py:436
 msgid ""
 "Deluge is free software, you can redistribute it and/or\n"
 "modify it under the terms of the GNU General Public\n"
@@ -1196,15 +1196,15 @@ msgid ""
 "1301 USA"
 msgstr ""
 
-#: src/dialogs.py:474
+#: src/dialogs.py:476
 msgid "Choose a .torrent file"
 msgstr ""
 
-#: src/dialogs.py:479
+#: src/dialogs.py:481
 msgid "Torrent files"
 msgstr ""
 
-#: src/dialogs.py:483
+#: src/dialogs.py:485
 msgid "All files"
 msgstr ""
 

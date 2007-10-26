@@ -428,6 +428,8 @@ def show_about_dialog(window):
         abt.set_transient_for(window)
         abt.set_name(common.PROGRAM_NAME)
         abt.set_version(common.PROGRAM_VERSION)
+        abt.set_comments("Deluge is a full-featured BitTorrent\nclient for Linux, Mac OS X and Windows")
+        abt.set_documenters(["Marcos Pinto"])
         abt.set_authors(["Zach Tibbitts", "Alon Zakai", "Marcos Pinto", "Andrew Resch", "Alex Dedul"])
         abt.set_artists(["Andrew Wedderburn"])
         abt.set_translator_credits(_("translator-credits"))
