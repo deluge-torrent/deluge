@@ -1,2 +1,6 @@
-for 0.5.6
-    1. fix ratio saving
+for 0.5.7
+    1. manual recheck
+    2. preference for .torrent location
+    3. tweak about menu for description
+    4. have blocklist detect 7zip files and popup a warning instead of crashing
+    5. add auto-pickup folder
