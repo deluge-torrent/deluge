@@ -11,3 +11,5 @@
 * Restart daemon function
 * Docstrings!
 * Update libtorrent and bindings for sparse_mode allocation and remove_torrent options
+* Implement caching in client.py
+* Create a new add torrent dialog

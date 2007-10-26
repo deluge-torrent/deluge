@@ -67,6 +67,7 @@ class ConnectionManager(component.Component):
     
         self.window = component.get("MainWindow")
         self.config = ConfigManager("hostlist.conf", DEFAULT_CONFIG)
+        self.gtkui_config = ConfigManager("gtkui.conf")
         self.connection_manager = self.glade.get_widget("connection_manager")
         self.hostlist = self.glade.get_widget("hostlist")
         self.connection_manager.set_icon(deluge.common.get_logo(32))
@@ -98,6 +99,9 @@ class ConnectionManager(component.Component):
                 self.on_button_startdaemon_clicked,
             "on_button_close_clicked": self.on_button_close_clicked,
             "on_button_connect_clicked": self.on_button_connect_clicked,
+            "on_chk_autoconnect_toggled": self.on_chk_autoconnect_toggled,
+            "on_chk_autostart_toggled": self.on_chk_autostart_toggled,
+            "on_chk_donotshow_toggled": self.on_chk_donotshow_toggled
         })
         
         self.connection_manager.connect("delete-event", self.on_delete_event)
@@ -106,14 +110,58 @@ class ConnectionManager(component.Component):
         self.hostlist.get_selection().connect("changed", 
                                     self.on_selection_changed)
         
+        # Auto connect to a host if applicable
+        if self.gtkui_config["autoconnect"] and \
+            self.gtkui_config["autoconnect_host_uri"] != None:
+            uri = self.gtkui_config["autoconnect_host_uri"]
+            # Make sure the uri is proper
+            if uri[:7] != "http://":
+                uri = "http://" + uri
+            if self.test_online_status(uri):
+                # Host is online, so lets connect
+                client.set_core_uri(uri)
+                self.hide()
+            elif self.gtkui_config["autostart_localhost"]:
+                # Check to see if we are trying to connect to a localhost
+                if uri[7:].split(":")[0] == "localhost" or \
+                    uri[7:].split(":")[0] == "127.0.0.1":
+                    # This is a localhost, so lets try to start it
+                    port = uri[7:].split(":")[1]
+                    os.popen("deluged -p %s" % port)
+                    # We need to wait for the host to start before connecting
+                    while not self.test_online_status(uri):
+                        sleep(10)
+                    client.set_core_uri(uri)
+                    self.hide()
+        
+    def start(self):
+        if self.gtkui_config["autoconnect"]:
+            # We need to update the autoconnect_host_uri on connection to host
+            # start() gets called whenever we get a new connection to a host
+            self.gtkui_config["autoconnect_host_uri"] = client.get_core_uri()
+            
     def show(self):
+        # Set the checkbuttons according to config
+        self.glade.get_widget("chk_autoconnect").set_active(
+            self.gtkui_config["autoconnect"])
+        self.glade.get_widget("chk_autostart").set_active(
+            self.gtkui_config["autostart_localhost"])
+        self.glade.get_widget("chk_donotshow").set_active(
+            not self.gtkui_config["show_connection_manager_on_start"])
+        
+        # Setup timer to update host status
         self._update_timer = gobject.timeout_add(1000, self._update)
         self._update()
         self.connection_manager.show_all()
         
     def hide(self):
         self.connection_manager.hide()
-        gobject.source_remove(self._update_timer)
+        try:
+            gobject.source_remove(self._update_timer)
+        except AttributeError:
+            # We are probably trying to hide the window without having it showed
+            # first.  OK to ignore.
+            pass
 
     def _update(self):
         """Updates the host status"""
@@ -310,9 +358,27 @@ class ConnectionManager(component.Component):
 
         # Status is OK, so lets change to this host
         client.set_core_uri(uri)
-        self.window.start()
         self.hide()
 
+    def on_chk_autoconnect_toggled(self, widget):
+        log.debug("on_chk_autoconnect_toggled")
+        value = widget.get_active()
+        self.gtkui_config["autoconnect"] = value
+        # If we are currently connected to a host, set that as the autoconnect
+        # host.
+        if client.get_core_uri() != None:
+            self.gtkui_config["autoconnect_host_uri"] = client.get_core_uri()
+
+    def on_chk_autostart_toggled(self, widget):
+        log.debug("on_chk_autostart_toggled")
+        value = widget.get_active()
+        self.gtkui_config["autostart_localhost"] = value
+
+    def on_chk_donotshow_toggled(self, widget):
+        log.debug("on_chk_donotshow_toggled")
+        value = widget.get_active()
+        self.gtkui_config["show_connection_manager_on_start"] = not value
+        
     def on_selection_changed(self, treeselection):
         log.debug("on_selection_changed")
         self.update_buttons()

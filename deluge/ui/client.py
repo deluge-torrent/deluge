@@ -131,7 +131,8 @@ def shutdown():
     """Shutdown the core daemon"""
     try:
         get_core().shutdown()
-    except (AttributeError, socket.error):
+    except:
+        # Ignore everything
         set_core_uri(None)
      
 def add_torrent_file(torrent_files):

@@ -77,7 +77,11 @@ DEFAULT_PREFS = {
     "window_pane_position": -1,
     "tray_download_speed_list" : [5.0, 10.0, 30.0, 80.0, 300.0],
     "tray_upload_speed_list" : [5.0, 10.0, 30.0, 80.0, 300.0],
-    "enabled_plugins": []
+    "enabled_plugins": [],
+    "show_connection_manager_on_start": True,
+    "autoconnect": False,
+    "autoconnect_host_uri": None,
+    "autostart_localhost": False
 }
 
 class GtkUI:
@@ -112,7 +116,6 @@ class GtkUI:
         self.preferences = Preferences()
         self.systemtray = SystemTray()
         self.statusbar = StatusBar()
-        self.connectionmanager = ConnectionManager()
 
         # Start the signal receiver
         self.signal_receiver = Signals()
@@ -121,7 +124,9 @@ class GtkUI:
         self.plugins = PluginManager(self)
         
         # Show the connection manager
-        self.connectionmanager.show()
+        self.connectionmanager = ConnectionManager()
+        if config["show_connection_manager_on_start"]:
+            self.connectionmanager.show()
                 
         # Start the gtk main loop
         gtk.gdk.threads_init()
