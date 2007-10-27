@@ -85,7 +85,7 @@ DEFAULT_PREFS = {
 }
 
 class GtkUI:
-    def __init__(self):
+    def __init__(self, args):
         # Initialize gettext
         locale.setlocale(locale.LC_MESSAGES, '')
         locale.bindtextdomain("deluge", 

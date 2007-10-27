@@ -58,7 +58,7 @@ def start_ui():
 
     from deluge.ui.ui import UI
     log.info("Starting ui..")
-    UI()
+    UI(args)
                                                       
 def start_daemon():
     """Entry point for daemon script"""

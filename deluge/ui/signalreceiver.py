@@ -93,7 +93,11 @@ class SignalReceiver(
         # shutdowns.. This is because handle_request() is a blocking call.
         receiver = xmlrpclib.ServerProxy("http://localhost:" + str(self.port),
             allow_none=True)
-        receiver.emit_signal("shutdown", None)
+        try:
+            receiver.emit_signal("shutdown", None)
+        except:
+            # We don't care about errors at this point
+            pass
         
     def run(self):
         """This gets called when we start the thread"""

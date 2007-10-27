@@ -40,11 +40,11 @@ DEFAULT_PREFS = {
 }
 
 class UI:
-    def __init__(self):
+    def __init__(self, args):
         log.debug("UI init..")
         self.config = ConfigManager("ui.conf", DEFAULT_PREFS)
         
         if self.config["selected_ui"] == "gtk":
             log.info("Starting GtkUI..")
             from deluge.ui.gtkui.gtkui import GtkUI
-            ui = GtkUI()
+            ui = GtkUI(args)
