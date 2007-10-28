@@ -367,7 +367,7 @@ data = [('share/deluge/glade',  glob.glob('glade/*.glade')),
 # New code to glob plugins and include subdirs:
 for o in os.walk('plugins'):
     path = o[0]
-    if not path.count('/.'):
+    if not path.count('/.') and not path.count('\\.'):
         items = o[2]
         for x in range(len(items)):
             items[x] = path + '/' + items[x]
