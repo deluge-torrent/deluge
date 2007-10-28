@@ -29,40 +29,96 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
+"""
+initializes config,render and proxy.
+contains all hacks to support running in process0.5 ,run inside-gtk0.5 and
+ run in process0.6
+"""
+
 import os
 import deluge
-from deluge.common import INSTALL_PREFIX
 import random
 import pickle
+import sys
 from webpy022 import template
-
 random.seed()
+path = os.path.dirname(__file__)
 
-config_file = deluge.common.CONFIG_DIR + "/webui.conf"
+try:
+    _('translate something')
+except:
+    import gettext
+    gettext.install('~/') #no translations :(
 
-#a bit hacky way of detecting i'm in the deluge gui or in a process :(
-if not hasattr(deluge,'pref'):
+try:
+    config_dir = deluge.common.CONFIG_DIR
+except:
+    config_dir = os.path.expanduser("~/.config/deluge")
+
+config_file = os.path.join(config_dir,'webui.conf')
+session_file = os.path.join(config_dir,'webui.sessions')
+
+
+class subclassed_render(object):
+    """
+    try to use the html template in configured dir.
+    not available : use template in /deluge/
+    """
+    def __init__(self, template_dirname, cache=False):
+        self.base_template = template.render(
+            os.path.join(path, 'templates/deluge/'),
+            cache=cache)
+
+        self.sub_template = template.render(
+            os.path.join(path, 'templates/%s/' % template_dirname),
+            cache=cache)
+
+    def __getattr__(self, attr):
+        if hasattr(self.sub_template, attr):
+            return getattr(self.sub_template, attr)
+        else:
+            return getattr(self.base_template, attr)
+
+def init_process():
+    globals()['config'] = pickle.load(open(config_file))
+    globals()['render'] = subclassed_render(config.get('template'),
+        config.get('cache_templates'))
+
+def init_06():
+    import deluge.ui.client as proxy
+    proxy.set_core_uri('http://localhost:58846') #How to configure this?
+
+    init_process()
+    globals()['proxy'] = proxy
+
+def init_05():
     import dbus
+    init_process()
     bus = dbus.SessionBus()
     proxy = bus.get_object("org.deluge_torrent.dbusplugin"
         , "/org/deluge_torrent/DelugeDbusPlugin")
-    config = pickle.load(open(config_file))
-    render = template.render('templates/%s/' % config.get('template'),
-        cache=config.get('cache_templates'))
+    globals()['proxy'] = proxy
 
-def init():
+def init_gtk_05():
     #appy possibly changed config-vars, only called in when runing inside gtk.
-    path = os.path.dirname(__file__)
     from dbus_interface import get_dbus_manager
     globals()['proxy'] =  get_dbus_manager()
     globals()['config']  = deluge.pref.Preferences(config_file, False)
-    globals()['render'] = template.render(os.path.join(path, 'templates/%s/' %
-        config.get('template')), cache=config.get('cache_templates'))
+    globals()['render'] = subclassed_render(config.get('template'),
+        config.get('cache_templates'))
 
 
+#hacks to determine environment, TODO: clean up.
+if 'env=0.5' in sys.argv:
+    init_05()
+elif not hasattr(deluge, 'common'):
+    init_06()
+elif not hasattr(deluge,'pref'):
+    init_05()
 
 
-REVNO = '0.56.stable.' + open(os.path.join(os.path.dirname(__file__),'revno')).read()
+#constants
+REVNO = open(os.path.join(os.path.dirname(__file__),'revno')).read()
 VERSION = open(os.path.join(os.path.dirname(__file__),'version')).read()
 
 TORRENT_KEYS = ['distributed_copies', 'download_payload_rate',
@@ -82,3 +138,30 @@ STATE_MESSAGES = (_("Queued"),
     _("Finished"),
     _("Seeding"),
     _("Allocating"))
+
+SPEED_VALUES = [
+        (-1, 'Unlimited'),
+        (5, '5.0 Kib/sec'),
+        (10, '10.0 Kib/sec'),
+        (15, '15.0 Kib/sec'),
+        (25, '25.0 Kib/sec'),
+        (30, '30.0 Kib/sec'),
+        (50, '50.0 Kib/sec'),
+        (80, '80.0 Kib/sec'),
+        (300, '300.0 Kib/sec'),
+        (500, '500.0 Kib/sec')
+    ]
+
+COOKIE_DEFAULTS = {
+    'auto_refresh_secs':'10'
+}
+
+try:
+    SESSIONS = pickle.load(open(session_file))
+except:
+    SESSIONS = []
+
+
+
+
+

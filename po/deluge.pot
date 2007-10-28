@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-25 21:56-0500\n"
+"POT-Creation-Date: 2007-10-27 20:34-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -88,7 +88,7 @@ msgstr ""
 msgid "<b>Torrent Info</b>"
 msgstr ""
 
-#: glade/delugegtk.glade:750
+#: glade/delugegtk.glade:750 plugins/WebUi/scripts/template_strings.py:8
 msgid "Details"
 msgstr ""
 
@@ -149,11 +149,13 @@ msgid "Status"
 msgstr ""
 
 #: glade/delugegtk.glade:965 src/interface.py:602
+#: plugins/WebUi/scripts/template_strings.py:19
 msgid "Seeders"
 msgstr ""
 
 #: glade/delugegtk.glade:974 src/interface.py:605
 #: plugins/TorrentPeers/__init__.py:72
+#: plugins/WebUi/scripts/template_strings.py:15
 msgid "Peers"
 msgstr ""
 
@@ -171,11 +173,11 @@ msgstr ""
 msgid "Time Remaining"
 msgstr ""
 
-#: glade/delugegtk.glade:1010
+#: glade/delugegtk.glade:1010 plugins/WebUi/scripts/template_strings.py:4
 msgid "Availability"
 msgstr ""
 
-#: glade/delugegtk.glade:1019
+#: glade/delugegtk.glade:1019 plugins/WebUi/scripts/template_strings.py:21
 msgid "Share Ratio"
 msgstr ""
 
@@ -211,7 +213,7 @@ msgstr ""
 msgid "Remove Torrent"
 msgstr ""
 
-#: glade/delugegtk.glade:1157
+#: glade/delugegtk.glade:1157 plugins/WebUi/scripts/template_strings.py:18
 msgid "Remove"
 msgstr ""
 
@@ -278,7 +280,7 @@ msgstr ""
 msgid "Delete downloaded files"
 msgstr ""
 
-#: glade/dgtkpopups.glade:88
+#: glade/dgtkpopups.glade:88 plugins/WebUi/scripts/template_strings.py:6
 msgid "Delete .torrent file"
 msgstr ""
 
@@ -294,7 +296,7 @@ msgstr ""
 msgid "Clear Finished"
 msgstr ""
 
-#: glade/dgtkpopups.glade:241
+#: glade/dgtkpopups.glade:241 plugins/WebUi/scripts/template_strings.py:22
 msgid "Speed"
 msgstr ""
 
@@ -542,6 +544,7 @@ msgid "<b>Seeding</b>"
 msgstr ""
 
 #: glade/preferences_dialog.glade:964 src/core.py:91
+#: plugins/WebUi/webserver_common.py:139
 msgid "Seeding"
 msgstr ""
 
@@ -646,6 +649,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1478 glade/preferences_dialog.glade:1672
 #: glade/preferences_dialog.glade:1866 glade/preferences_dialog.glade:2060
+#: plugins/WebUi/scripts/template_strings.py:13
 msgid "Password"
 msgstr ""
 
@@ -1004,7 +1008,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: src/interface.py:614
+#: src/interface.py:614 plugins/WebUi/scripts/template_strings.py:10
 msgid "ETA"
 msgstr ""
 
@@ -1088,31 +1092,32 @@ msgstr ""
 msgid "Are you sure that you want to remove all seeding torrents?"
 msgstr ""
 
-#: src/core.py:85
+#: src/core.py:85 plugins/WebUi/webserver_common.py:133
 msgid "Queued"
 msgstr ""
 
-#: src/core.py:86
+#: src/core.py:86 plugins/WebUi/webserver_common.py:134
 msgid "Checking"
 msgstr ""
 
-#: src/core.py:87
+#: src/core.py:87 plugins/WebUi/webserver_common.py:135
 msgid "Connecting"
 msgstr ""
 
-#: src/core.py:88
+#: src/core.py:88 plugins/WebUi/webserver_common.py:136
 msgid "Downloading Metadata"
 msgstr ""
 
 #: src/core.py:89 plugins/BlocklistImport/ui.py:117
+#: plugins/WebUi/webserver_common.py:137
 msgid "Downloading"
 msgstr ""
 
-#: src/core.py:90
+#: src/core.py:90 plugins/WebUi/webserver_common.py:138
 msgid "Finished"
 msgstr ""
 
-#: src/core.py:92
+#: src/core.py:92 plugins/WebUi/webserver_common.py:140
 msgid "Allocating"
 msgstr ""
 
@@ -1390,66 +1395,66 @@ msgstr ""
 msgid "Torrent Creator"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:103
+#: plugins/TorrentCreator/torrentcreator.glade:102
 msgid "This torrent will be made from a single file"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:104
+#: plugins/TorrentCreator/torrentcreator.glade:103
 msgid "File:"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:120
+#: plugins/TorrentCreator/torrentcreator.glade:119
 msgid "This torrent will be made from a directory"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:121
+#: plugins/TorrentCreator/torrentcreator.glade:120
 msgid "Folder:"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:138
+#: plugins/TorrentCreator/torrentcreator.glade:137
 msgid "<b>Source</b>"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:184
+#: plugins/TorrentCreator/torrentcreator.glade:182
 msgid "Save Torrent File As:"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:237
+#: plugins/TorrentCreator/torrentcreator.glade:235
 msgid "Load this torrent into Deluge for seeding"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:238
+#: plugins/TorrentCreator/torrentcreator.glade:236
 msgid "Add new torrent to queue"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:257
+#: plugins/TorrentCreator/torrentcreator.glade:255
 msgid "<b>Torrent File</b>"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:305
+#: plugins/TorrentCreator/torrentcreator.glade:302
 msgid "<b>Trackers</b>"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:352
+#: plugins/TorrentCreator/torrentcreator.glade:348
 msgid "<b>Comments</b>"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:389
+#: plugins/TorrentCreator/torrentcreator.glade:384
 msgid "<b>Author</b>"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:425
+#: plugins/TorrentCreator/torrentcreator.glade:423
 msgid "Set Private Flag"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:441
-#: plugins/TorrentCreator/torrentcreator.glade:461
+#: plugins/TorrentCreator/torrentcreator.glade:436
+#: plugins/TorrentCreator/torrentcreator.glade:457
 msgid ""
 "The smaller the piece sizes, the more efficient the transfers will be, but "
 "the actual \".torrent\" file will be larger"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:442
+#: plugins/TorrentCreator/torrentcreator.glade:437
 msgid ""
 "32 KiB\n"
 "64 KiB\n"
@@ -1457,13 +1462,14 @@ msgid ""
 "256 KiB\n"
 "512 KiB\n"
 "1024 KiB\n"
+"2048 KiB\n"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:463
+#: plugins/TorrentCreator/torrentcreator.glade:459
 msgid "Piece Size:"
 msgstr ""
 
-#: plugins/TorrentCreator/torrentcreator.glade:477
+#: plugins/TorrentCreator/torrentcreator.glade:473
 msgid "<b>Advanced</b>"
 msgstr ""
 
@@ -2101,4 +2107,172 @@ msgstr ""
 msgid ""
 "When set to -1 (unlimited), the global limits in Deluge's preferences will "
 "be obeyed."
+msgstr ""
+
+#: plugins/WebUi/__init__.py:31
+msgid "Web User Interface"
+msgstr ""
+
+#: plugins/WebUi/__init__.py:34
+msgid ""
+"A Web based User Interface\n"
+"\n"
+"Firefox greasemonkey script: http://userscripts.org/scripts/show/12639\n"
+"\n"
+"Remotely add a file: \"curl -F torrent=@./test1.torrent -F pwd=deluge http://"
+"localhost:8112/remote/torrent/add\"\n"
+"\n"
+"There is support for multiple templates, but just one is included.\n"
+"\n"
+"Other contributors:\n"
+"*somedude : template enhancements.\n"
+"*markybob : stability : synced with his changes in deluge-svn.\n"
+msgstr ""
+
+#: plugins/WebUi/__init__.py:179
+msgid "WebUi Config"
+msgstr ""
+
+#: plugins/WebUi/__init__.py:187
+msgid "Port Number"
+msgstr ""
+
+#: plugins/WebUi/__init__.py:188
+msgid "New Password"
+msgstr ""
+
+#: plugins/WebUi/__init__.py:189
+msgid "New Password(confirm)"
+msgstr ""
+
+#: plugins/WebUi/__init__.py:190
+msgid "Template"
+msgstr ""
+
+#: plugins/WebUi/__init__.py:191
+msgid "Button Style"
+msgstr ""
+
+#: plugins/WebUi/__init__.py:193
+msgid "Cache Templates"
+msgstr ""
+
+#: plugins/WebUi/__init__.py:209
+msgid "Text and image"
+msgstr ""
+
+#: plugins/WebUi/__init__.py:209
+msgid "Image Only"
+msgstr ""
+
+#: plugins/WebUi/__init__.py:209
+msgid "Text Only"
+msgstr ""
+
+#: plugins/WebUi/__init__.py:243
+msgid "Confirmed Password <> New Password\n"
+msgstr ""
+
+#: plugins/WebUi/webserver_common.py:48
+msgid "translate something"
+msgstr ""
+
+#: plugins/WebUi/deluge_webserver.py:142
+msgid "Choose an url or a torrent, not both."
+msgstr ""
+
+#: plugins/WebUi/deluge_webserver.py:153
+msgid "no data."
+msgstr ""
+
+#: plugins/WebUi/deluge_webserver.py:230
+msgid "refresh must be > 0"
+msgstr ""
+
+#: plugins/WebUi/deluge_webserver.py:238
+msgid "Download Speed Limit"
+msgstr ""
+
+#: plugins/WebUi/deluge_webserver.py:242
+msgid "Upload Speed Limit"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:1
+msgid "# Of Files"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:2
+msgid "About"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:3
+msgid "Auto refresh:"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:5
+msgid "Debug:Data Dump"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:7
+msgid "Delete downloaded files."
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:9
+msgid "Downloaded"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:11
+msgid "Next Announce"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:12
+msgid "Off"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:14
+msgid "Password is invalid,try again"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:16
+msgid "Pieces"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:17
+msgid "Refresh page every:"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:20
+msgid "Set"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:23
+msgid "Submit"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:24
+msgid "Total Size"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:25
+msgid "Tracker"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:26
+msgid "Tracker Status"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:27
+msgid "Upload torrent"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:28
+msgid "Uploaded"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:29
+msgid "Url"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:30
+msgid "seconds"
 msgstr ""

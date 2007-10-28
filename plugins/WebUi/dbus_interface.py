@@ -68,7 +68,7 @@ class DbusManager(dbus.service.Object):
 
     @dbus.service.method(dbus_interface=dbus_interface,
         in_signature="",out_signature="as")
-    def get_torrent_state(self):
+    def get_session_state(self):
         """Returns a list of torrent_ids in the session.
         same as 0.6, but returns type "as" instead of a pickle
         """
@@ -129,18 +129,20 @@ class DbusManager(dbus.service.Object):
         return status_subset
 
     @dbus.service.method(dbus_interface=dbus_interface,
-        in_signature="s",out_signature="")
-    def pause_torrent(self, torrent_id):
+        in_signature="as",out_signature="")
+    def pause_torrent(self, torrents):
         """same as 0.6 interface"""
-        torrent_id = int(torrent_id)
-        self.core.set_user_pause(torrent_id,True)
+        for torrent_id in torrents:
+            torrent_id = int(torrent_id)
+            self.core.set_user_pause(torrent_id,True)
 
     @dbus.service.method(dbus_interface=dbus_interface,
-        in_signature="s", out_signature="")
-    def resume_torrent(self, torrent_id):
+        in_signature="as", out_signature="")
+    def resume_torrent(self, torrents):
         """same as 0.6 interface"""
-        torrent_id = int(torrent_id)
-        self.core.set_user_pause(torrent_id,False)
+        for torrent_id in torrents:
+            torrent_id = int(torrent_id)
+            self.core.set_user_pause(torrent_id,False)
 
     @dbus.service.method(dbus_interface=dbus_interface,
         in_signature="sbb", out_signature="")
@@ -157,7 +159,6 @@ class DbusManager(dbus.service.Object):
     @dbus.service.method(dbus_interface=dbus_interface,
         in_signature="s", out_signature="b")
     def add_torrent_url(self, url):
-        """not available in deluge 0.6 interface"""
         filename = fetch_url(url)
         self._add_torrent(filename)
         return True
@@ -182,8 +183,8 @@ class DbusManager(dbus.service.Object):
         #name = fillename without directory
         name =  name.replace('\\','/')
         name = 'deluge_' + str(random.random()) + '_'  + name.split('/')[-1]
+        filename = os.path.join(self.core.config.get("default_download_path"), name)
 
-        filename = os.path.join(self.config.get("torrent_dir"),name)
         filecontent = base64.b64decode(filecontent_b64)
         f = open(filename,"wb") #no with statement, that's py 2.5+
         f.write(filecontent)
@@ -192,11 +193,42 @@ class DbusManager(dbus.service.Object):
         self._add_torrent(filename)
         return True
 
+
+    @dbus.service.method(dbus_interface=dbus_interface,
+        in_signature="", out_signature="a{sv}")
+    def get_config(self):
+        return  self.core.config.mapping
+
+    @dbus.service.method(dbus_interface=dbus_interface,
+        in_signature="s", out_signature="v")
+    def get_config_value(self,key):
+        return  self.core.config.mapping[pythonize(key)] #ugly!
+
+    @dbus.service.method(dbus_interface=dbus_interface,
+        in_signature="a{sv}", out_signature="")
+    def set_config(self, config):
+        """Set the config with values from dictionary"""
+        config = deluge.common.pythonize(config)
+        # Load all the values into the configuration
+        for key in self.core.config.keys():
+            self.core.config[key] = config[key]
+        self.core.apply_prefs()
+
+    @dbus.service.method(dbus_interface=dbus_interface,
+        in_signature="", out_signature="v")
+    def get_download_rate(self):
+        return self.core.get_state()['download_rate']
+
+    @dbus.service.method(dbus_interface=dbus_interface,
+        in_signature="", out_signature="v")
+    def get_upload_rate(self):
+        return self.core.get_state()['upload_rate']
+
+
     #internal
     def _add_torrent(self, filename):
-        #dbus types break pickle, again.....
         filename = unicode(filename)
-        target = self.config.get("download_dir")
+        target = self.core.config.get("default_download_path")
 
         torrent_id = self.core.add_torrent(filename, target,
             self.interface.config.get("use_compact_storage"))

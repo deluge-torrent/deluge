@@ -31,67 +31,15 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-
-from webserver_common import TORRENT_KEYS, STATE_MESSAGES
 import webserver_common as ws
 from webserver_framework import *
 
-
 import webpy022 as web
 from webpy022.http import seeother, url
-from webpy022.utils import Storage
 
-from md5 import md5
 import base64
-from deluge.common import fsize
 from operator import attrgetter
-
-#utils:
-def check_pwd(pwd):
-    m = md5()
-    m.update(ws.config.get('pwd_salt'))
-    m.update(pwd)
-    return (m.digest() == ws.config.get('pwd_md5'))
-
-def get_torrent_status(torrent_id):
-    """
-    helper method.
-    enhance ws.proxy.get_torrent_status with some extra data
-    """
-    status = ws.proxy.get_torrent_status(torrent_id,TORRENT_KEYS)
-    status["id"] = torrent_id
-
-    #for naming the status-images
-    status["calc_state_str"] = "downloading"
-    if status["paused"]:
-        status["calc_state_str"] = "inactive"
-    elif status["is_seed"]:
-        status["calc_state_str"] = "seeding"
-
-    #action for torrent_pause
-    if status["calc_state_str"] == "inactive":
-        status["action"] = "start"
-    else:
-        status["action"] = "stop"
-
-    if status["paused"]:
-        status["message"] = _("Paused %s%%") % status['progress']
-    else:
-        status["message"] = "%s %i%%" % (STATE_MESSAGES[status["state"]]
-        , status['progress'])
-
-    #add some pre-calculated values
-    status.update({
-        "calc_total_downloaded"  : (fsize(status["total_done"])
-            + " (" + fsize(status["total_download"]) + ")"),
-        "calc_total_uploaded": (fsize(status['uploaded_memory']
-            + status["total_payload_upload"]) + " ("
-            + fsize(status["total_upload"]) + ")"),
-    })
-
-    return Storage(status) #Storage for easy templating.
-
-#/utils
+import os
 
 #routing:
 urls = (
@@ -107,15 +55,21 @@ urls = (
     "/resume_all(.*)", "resume_all",
     "/refresh/set(.*)", "refresh_set",
     "/refresh/(.*)", "refresh",
+    "/config(.*)","config",
     "/home(.*)", "home",
     "/about(.*)", "about",
+    "/logout(.*)", "logout",
     #default-pages
-    "/", "login",
-    "", "login",
+    "/", "home",
+    "", "home",
     #remote-api:
-    "/remote/torrent/add(.*)", "remote_torrent_add"
-)
+    "/remote/torrent/add(.*)", "remote_torrent_add",
+    #static:
+    "/static/(.*)","static",
+    "/template/static/(.*)","template_static",
+    #"/downloads/(.*)","downloads" disabled until it can handle large downloads.
 
+)
 #/routing
 
 #pages:
@@ -133,14 +87,9 @@ class login:
             start_session()
             do_redirect()
         elif vars.redir:
-            seeother(url('/login',error=1,redir=vars.redir))
+            seeother(url('/login',error=1, redir=vars.redir))
         else:
             seeother('/login?error=1')
-
-class home:
-    @check_session
-    def GET(self, name):
-        do_redirect()
 
 class index:
     "page containing the torrent list."
@@ -150,7 +99,7 @@ class index:
         vars = web.input(sort=None, order=None)
 
         status_rows = [get_torrent_status(torrent_id)
-            for torrent_id in ws.proxy.get_torrent_state()]
+            for torrent_id in ws.proxy.get_session_state()]
 
         #sorting:
         if vars.sort:
@@ -164,21 +113,19 @@ class index:
         return ws.render.index(status_rows)
 
 class torrent_info:
-    "torrent details"
     @auto_refreshed
     @deluge_page
     def GET(self, torrent_id):
         return ws.render.torrent_info(get_torrent_status(torrent_id))
 
 class torrent_pause:
-    "start/stop a torrent"
     @check_session
     def POST(self, name):
         vars = web.input(stop = None, start = None, redir = None)
         if vars.stop:
-            ws.proxy.pause_torrent(vars.stop)
+            ws.proxy.pause_torrent([vars.stop])
         elif vars.start:
-            ws.proxy.resume_torrent(vars.start)
+            ws.proxy.resume_torrent([vars.start])
 
         do_redirect()
 
@@ -194,7 +141,7 @@ class torrent_add:
         if vars.url and vars.torrent.filename:
             error_page(_("Choose an url or a torrent, not both."))
         if vars.url:
-            ws.proxy.add_torrent_url(vars.url)
+            ws.proxy.add_torrent_url(vars.url )
             do_redirect()
         elif vars.torrent.filename:
             data = vars.torrent.file.read()
@@ -227,8 +174,7 @@ class torrent_delete:
         return ws.render.torrent_delete(get_torrent_status(torrent_id))
 
     @check_session
-    def POST(self, name):
-        torrent_id = name
+    def POST(self, torrent_id):
         vars = web.input(data_also = None, torrent_also = None)
         data_also = bool(vars.data_also)
         torrent_also = bool(vars.torrent_also)
@@ -238,30 +184,26 @@ class torrent_delete:
 
 class torrent_queue_up:
     @check_session
-    def POST(self, name):
-        torrent_id = name
+    def POST(self, torrent_id):
         ws.proxy.queue_up(torrent_id)
         do_redirect()
 
 class torrent_queue_down:
     @check_session
-    def POST(self, name):
-        torrent_id = name
+    def POST(self, torrent_id):
         ws.proxy.queue_down(torrent_id)
         do_redirect()
 
 class pause_all:
     @check_session
     def POST(self, name):
-        for torrent_id in ws.proxy.get_torrent_state():
-            ws.proxy.pause_torrent(torrent_id)
+        ws.proxy.pause_torrent(ws.proxy.get_session_state())
         do_redirect()
 
 class resume_all:
     @check_session
     def POST(self, name):
-        for torrent_id in ws.proxy.get_torrent_state():
-            ws.proxy.resume_torrent(torrent_id)
+        ws.proxy.resume_torrent(ws.proxy.get_session_state())
         do_redirect()
 
 class refresh:
@@ -287,13 +229,61 @@ class refresh_set:
         else:
             error_page(_('refresh must be > 0'))
 
+class config:
+    """core config
+    TODO:good validation.
+    """
+    cfg_form = web.form.Form(
+        web.form.Dropdown('max_download', ws.SPEED_VALUES,
+            description=_('Download Speed Limit'),
+            post='%s Kib/sec' % ws.proxy.get_config_value('max_download_speed')
+        )
+        ,web.form.Dropdown('max_upload', ws.SPEED_VALUES,
+            description=_('Upload Speed Limit'),
+            post='%s Kib/sec' %  ws.proxy.get_config_value('max_upload_speed')
+        )
+    )
+
+    @deluge_page
+    def GET(self, name):
+        return ws.render.config(self.cfg_form())
+
+    def POST(self, name):
+        vars = web.input(max_download=None, max_upload=None)
+
+        #self.config.set("max_download_speed", float(str_bwdown))
+        raise NotImplementedError('todo')
+
+class home:
+    @check_session
+    def GET(self, name):
+        do_redirect()
+
 class about:
     @deluge_page_noauth
     def GET(self, name):
         return ws.render.about()
 
-#/pages
+class logout:
+    def POST(self, name):
+        end_session()
+        seeother('/login')
 
+class static(static_handler):
+    base_dir = os.path.join(os.path.dirname(__file__),'static')
+
+class template_static(static_handler):
+    def get_base_dir(self):
+        return os.path.join(os.path.dirname(__file__),
+                'templates/%s/static' % ws.config.get('template'))
+
+class downloads(static_handler):
+    def GET(self, name):
+        self.base_dir = ws.proxy.get_config_value('default_download_path')
+        if not ws.config.get('share_downloads'):
+            raise Exception('Access to downloads is forbidden.')
+        return static_handler.GET(self, name)
+#/pages
 
 def WebServer():
     return create_webserver(urls, globals())
@@ -307,4 +297,3 @@ def run():
 
 if __name__ == "__main__":
     run()
-

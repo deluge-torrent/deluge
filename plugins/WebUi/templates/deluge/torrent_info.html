@@ -84,6 +84,7 @@ $:render.part_button('GET', '/torrent/delete/' + str(torrent.id), _('Remove'), '
 
 
 <br>
+<!--
 [<a onclick="javascript:toggle_dump()">$_('Debug:Data Dump')</a>]
 
 <pre style="background-color:white;color:black;display:none" id="data_dump">
@@ -102,6 +103,8 @@ function toggle_dump(){
     }
 }
 </script>
+-->
+
 </div>
 
 
@@ -114,6 +117,6 @@ $:render.part_button('POST', '/torrent/queue/up/' + str(torrent.id), _('Queue Up
 $:render.part_button('POST', '/torrent/queue/down/' + str(torrent.id), _('Queue Down'), 'tango/down.png')
 </div>
 
-$:render.part_refresh()
+$:part_stats()
 
 $:render.footer()
