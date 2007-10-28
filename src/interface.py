@@ -947,11 +947,17 @@ window, please enter your password"))
             unique_id = self.manager.get_torrent_unique_id(torrent)
             try:
                 if self.manager.unique_IDs[unique_id].trackers:
-                    self.manager.replace_trackers(unique_id, \
+                    try:
+                        self.manager.replace_trackers(unique_id, \
                         self.manager.unique_IDs[unique_id].trackers)
+                    except:
+                        pass
                 if self.manager.unique_IDs[unique_id].uploaded_memory:
-                    self.manager.unique_IDs[unique_id].initial_uploaded_memory \
+                    try:
+                        self.manager.unique_IDs[unique_id].initial_uploaded_memory \
                    = self.manager.unique_IDs[unique_id].uploaded_memory
+                    except:
+                        pass
             except AttributeError:
                 pass
 

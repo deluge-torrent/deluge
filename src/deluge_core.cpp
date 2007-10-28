@@ -1778,8 +1778,7 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
   if (PyErr_Occurred())
     return NULL;
 
-  torrent_handle& h = M_torrents->at(index).handle;
-  if (h.is_valid()){
+  if (M_torrents->at(index).handle.is_valid()){
       std::vector<libtorrent::announce_entry> trackerlist;
       std::istringstream trackers(tracker);
       std::string line;
@@ -1787,8 +1786,8 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
         libtorrent::announce_entry a_entry(line);
         trackerlist.push_back(a_entry);
       }
-      h.replace_trackers(trackerlist);
-      h.force_reannounce();
+      M_torrents->at(index).handle.replace_trackers(trackerlist);
+      M_torrents->at(index).handle.force_reannounce();
   }
   Py_INCREF(Py_None); return Py_None;
 }
