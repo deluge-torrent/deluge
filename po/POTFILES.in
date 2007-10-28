@@ -54,3 +54,4 @@ plugins/WebSeed/__init__.py
 plugins/WebSeed/webseed.glade
 plugins/Scheduler/__init__.py
 plugins/Scheduler/plugin.py
+plugins/WebUI/__init__.py

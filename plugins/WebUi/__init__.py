@@ -28,10 +28,10 @@
 #  but you are not obligated to do so. If you do not wish to do so, delete
 #  this exception statement from your version. If you delete this exception
 
-plugin_name = "Web User Interface"
-plugin_author = "Martijn Voncken"
+plugin_name = _("Web User Interface")
+plugin_author = _("Martijn Voncken")
 plugin_version = "rev."
-plugin_description = """A Web based User Interface
+plugin_description = _("""A Web based User Interface
 
 Firefox greasemonkey script: http://userscripts.org/scripts/show/12639
 
@@ -42,7 +42,7 @@ There is support for multiple templates, but just one is included.
 Other contributors:
 *somedude : template enhancements.
 
-"""
+""")
 
 import deluge.common
 import deluge.pref
