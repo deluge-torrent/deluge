@@ -169,8 +169,11 @@ class Torrent:
         # Create the desired status dictionary and return it
         status_dict = {}
         
-        for key in keys:
-            if key in full_status:
-                status_dict[key] = full_status[key]
+        if len(keys) == 0:
+            status_dict = full_status
+        else:
+            for key in keys:
+                if key in full_status:
+                    status_dict[key] = full_status[key]
 
         return status_dict
