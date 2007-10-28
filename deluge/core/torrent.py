@@ -94,7 +94,19 @@ class Torrent:
             return 0.0
 
         return ratio
-                    
+
+    def get_files(self):
+        """Returns a list of files this torrent contains"""
+        ret = []
+        files = self.handle.torrent_info().files()
+        for file in files:
+            ret.append({
+                'path': file.path,
+                'size': file.size,
+                'offset': file.offset
+            })
+        return ret
+        
     def get_status(self, keys):
         """Returns the status of the torrent based on the keys provided"""
         # Create the full dictionary
@@ -150,7 +162,8 @@ class Torrent:
             "ratio": self.get_ratio(),
             "tracker": status.current_tracker,
             "tracker_status": self.tracker_status,
-            "save_path": self.save_path
+            "save_path": self.save_path,
+            "files": self.get_files()
         }
         
         # Create the desired status dictionary and return it
