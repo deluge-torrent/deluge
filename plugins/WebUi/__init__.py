@@ -28,10 +28,10 @@
 #  but you are not obligated to do so. If you do not wish to do so, delete
 #  this exception statement from your version. If you delete this exception
 
-plugin_name = "Web User Interface"
+plugin_name = _("Web User Interface")
 plugin_author = "Martijn Voncken"
 plugin_version = "rev."
-plugin_description = """A Web based User Interface
+plugin_description = _("""A Web based User Interface
 
 Firefox greasemonkey script: http://userscripts.org/scripts/show/12639
 
@@ -41,8 +41,8 @@ There is support for multiple templates, but just one is included.
 
 Other contributors:
 *somedude : template enhancements.
-
-"""
+*markybob : stability : synced with his changes in deluge-svn.
+""")
 
 import deluge.common
 import deluge.pref
@@ -80,9 +80,10 @@ class plugin_WebUi(object):
         self.web_server = None
         if not deluge.common.windows_check():
             import commands
-            status = commands.getstatusoutput('ps x |grep -v grep |grep run_webserver')
+            status = commands.getstatusoutput(
+                'ps x |grep -v grep |grep run_webserver')
             if status[0] == 0:
-                os.kill(status[1].split()[0], 9)
+                os.kill(int(status[1].split()[0]), 9)
                 time.sleep(1) #safe time to wait for kill to finish.
         self.config_file = deluge.common.CONFIG_DIR + "/webui.conf"
         self.config = deluge.pref.Preferences(self.config_file, False)
@@ -95,9 +96,6 @@ class plugin_WebUi(object):
         if not self.config.get('port'): #ugly way to detect new config file.
             #set default values:
             self.config.set("port", 8112)
-            #future->use deluge-core setting for download_dir (if it is set)
-            self.config.set("download_dir", os.path.expanduser("~"))
-            self.config.set("torrent_dir", os.path.expanduser("~"))
             self.config.set("button_style", 2)
             self.config.set("auto_refresh", False)
             self.config.set("auto_refresh_secs", 4)
@@ -112,11 +110,9 @@ class plugin_WebUi(object):
             self.config.set("cache_templates", True)
 
         if deluge.common.windows_check():
-            if self.config.get("run_in_thread") == None:
-                self.config.set("run_in_thread", True)
+            self.config.set("run_in_thread", True)
         else:
-            if self.config.get("run_in_thread") == None:
-                self.config.set("run_in_thread", False)        
+            self.config.set("run_in_thread", False)
 
         self.dbus_manager = get_dbus_manager(deluge_core, deluge_interface,
             self.config, self.config_file)
@@ -141,8 +137,8 @@ class plugin_WebUi(object):
         self.kill_server()
 
         if self.config.get("run_in_thread"):
-            print 'start Webui(inside gtk)..'
-            webserver_common.init() #reload changed config.
+            print 'Start Webui(inside gtk)..'
+            webserver_common.init_gtk_05() #reload changed config.
             from deluge_webserver import WebServer #only import in threaded mode
 
 
@@ -150,11 +146,9 @@ class plugin_WebUi(object):
             self.web_server.start_gtk()
 
         else:
-            print 'start Webui(in process)..'
-            path = os.path.dirname(__file__)
-            server_bin = path + '/run_webserver'
-            port = str(self.config.get('port'))
-            self.proc = Popen((server_bin, port),cwd=path)
+            print 'Start Webui(in process)..'
+            server_bin = os.path.dirname(__file__) + '/run_webserver'
+            self.proc = Popen((server_bin,'env=0.5'))
 
     def kill_server(self):
         if self.web_server:
@@ -187,7 +181,8 @@ class ConfigDialog(gtk.Dialog):
         template_path = os.path.join(os.path.dirname(__file__), 'templates')
         self.templates = [dirname for dirname
             in os.listdir(template_path)
-            if os.path.isdir(os.path.join(template_path, dirname))]
+            if os.path.isdir(os.path.join(template_path, dirname))
+                and not dirname.startswith('.')]
 
         self.port = self.add_widget(_('Port Number'), gtk.SpinButton())
         self.pwd1 = self.add_widget(_('New Password'), gtk.Entry())
@@ -195,16 +190,11 @@ class ConfigDialog(gtk.Dialog):
         self.template = self.add_widget(_('Template'), gtk.combo_box_new_text())
         self.button_style = self.add_widget(_('Button Style'),
             gtk.combo_box_new_text())
-        self.download_dir = self.add_widget(_('Download Directory'),
-            gtk.FileChooserButton(_('Download Directory')))
-        self.torrent_dir = self.add_widget(_('Torrent Directory'),
-            gtk.FileChooserButton(_('Torrent Directory')))
         self.cache_templates = self.add_widget(_('Cache Templates'),
             gtk.CheckButton())
-        self.run_in_thread = self.add_widget(_('Run inside GTK'), gtk.CheckButton())
+        #self.share_downloads = self.add_widget(_('Share Download Directory'),
+        #    gtk.CheckButton())
 
-        self.download_dir.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
-        self.torrent_dir.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
         self.port.set_range(80, 65536)
         self.port.set_increments(1, 10)
         self.pwd1.set_visibility(False)
@@ -218,23 +208,16 @@ class ConfigDialog(gtk.Dialog):
 
         for item in [_('Text and image'), _('Image Only'), _('Text Only')]:
             self.button_style.append_text(item)
-        if not self.config.get("button_style"):
+        if self.config.get("button_style") == None:
             self.config.set("button_style", 2)
 
         self.port.set_value(int(self.config.get("port")))
         self.template.set_active(
             self.templates.index(self.config.get("template")))
         self.button_style.set_active(self.config.get("button_style"))
+        #self.share_downloads.set_active(
+        #    bool(self.config.get("share_downloads")))
 
-        self.torrent_dir.set_filename(self.config.get("torrent_dir"))
-        self.download_dir.set_filename(self.config.get("download_dir"))
-
-        if deluge.common.windows_check():
-            self.run_in_thread.set_active(True)
-            self.run_in_thread.set_sensitive(False)
-        else:
-            self.run_in_thread.set_active(False)
-            self.run_in_thread.set_sensitive(False)
         self.cache_templates.set_active(self.config.get("cache_templates"))
 
         self.vbox.pack_start(self.vb, True, True, 0)
@@ -270,9 +253,7 @@ class ConfigDialog(gtk.Dialog):
         self.config.set("port", int(self.port.get_value()))
         self.config.set("template", self.template.get_active_text())
         self.config.set("button_style", self.button_style.get_active())
-        self.config.set("torrent_dir", self.torrent_dir.get_filename())
-        self.config.set("download_dir",self.download_dir.get_filename())
         self.config.set("cache_templates", self.cache_templates.get_active())
-        self.config.set("run_in_thread", self.run_in_thread.get_active())
+        #self.config.set("share_downloads", self.share_downloads.get_active())
         self.config.save(self.plugin.config_file)
         self.plugin.start_server() #restarts server

@@ -646,7 +646,6 @@ static PyObject *torrent_set_max_connections_global(PyObject *self, PyObject *ar
 
     //    printf("Setting max connections: %d\r\n", max_conn);
     M_ses->set_max_connections(max_conn);
-
     Py_INCREF(Py_None); return Py_None;
 }
 
@@ -1217,11 +1216,12 @@ static PyObject *torrent_get_session_info(PyObject *self, PyObject *args)
 {
     session_status s = M_ses->status();
 
-    return Py_BuildValue("{s:l,s:f,s:f,s:l,s:f,s:f}",
+    return Py_BuildValue("{s:l,s:f,s:f,s:ls:l,s:f,s:f}",
         "has_incoming_connections", long(s.has_incoming_connections),
         "upload_rate",          float(s.payload_upload_rate),
         "download_rate",        float(s.payload_download_rate),
         "num_peers",            long(s.num_peers),
+        "num_connections",      long(M_ses->num_connections()),
         "total_downloaded",     float(s.total_payload_download),
         "total_uploaded",       float(s.total_payload_upload));
 }
@@ -1778,8 +1778,7 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
   if (PyErr_Occurred())
     return NULL;
 
-  torrent_handle& h = M_torrents->at(index).handle;
-  if (h.is_valid()){
+  if (M_torrents->at(index).handle.is_valid()){
       std::vector<libtorrent::announce_entry> trackerlist;
       std::istringstream trackers(tracker);
       std::string line;
@@ -1787,8 +1786,8 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
         libtorrent::announce_entry a_entry(line);
         trackerlist.push_back(a_entry);
       }
-      h.replace_trackers(trackerlist);
-      h.force_reannounce();
+      M_torrents->at(index).handle.replace_trackers(trackerlist);
+      M_torrents->at(index).handle.force_reannounce();
   }
   Py_INCREF(Py_None); return Py_None;
 }

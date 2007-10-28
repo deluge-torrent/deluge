@@ -45,15 +45,21 @@ import webpy022 as web
 from webpy022.webapi import cookies, setcookie as w_setcookie
 from webpy022.http import seeother, url
 from webpy022 import template,changequery as self_url
+from webpy022.utils import Storage
+from static_handler import static_handler
+
+from deluge.common import fsize,fspeed
 
 import traceback
 import random
 from operator import attrgetter
+import datetime
+import pickle
+from md5 import md5
 
 from deluge import common
-from webserver_common import  REVNO, VERSION
+from webserver_common import  REVNO, VERSION, COOKIE_DEFAULTS
 import webserver_common as ws
-
 from debugerror import deluge_debugerror
 
 #init:
@@ -65,14 +71,22 @@ def setcookie(key, val):
     """add 30 days expires header for persistent cookies"""
     return w_setcookie(key, val , expires=2592000)
 
-SESSIONS = [] #dumb sessions.
+#really simple sessions, to bad i had to implement them myself.
 def start_session():
     session_id = str(random.random())
-    SESSIONS.append(session_id)
+    ws.SESSIONS.append(session_id)
+    if len(ws.SESSIONS) > 20:  #save max 20 sessions?
+        ws.SESSIONS = ws.SESSIONS[-20:]
+    #not thread safe! , but a verry rare bug.
+    pickle.dump(ws.SESSIONS, open(ws.session_file,'wb'))
     setcookie("session_id", session_id)
 
-    if getcookie('auto_refresh_secs') == None:
-        setcookie('auto_refresh_secs','10')
+def end_session():
+    session_id = getcookie("session_id")
+    if session_id in ws.SESSIONS:
+        ws.SESSIONS.remove(session_id)
+        #not thread safe! , but a verry rare bug.
+        pickle.dump(ws.SESSIONS, open(ws.session_file,'wb'))
 
 def do_redirect():
     """for redirects after a POST"""
@@ -92,7 +106,6 @@ def error_page(error):
     print ws.render.error(error)
 
 def getcookie(key, default=None):
-    COOKIE_DEFAULTS = {'auto_refresh_secs':'10'}
     key = str(key).strip()
     ck = cookies()
     val = ck.get(key, default)
@@ -120,9 +133,8 @@ def check_session(func):
     """
     def deco(self, name):
         vars = web.input(redir_after_login=None)
-
         ck = cookies()
-        if ck.has_key("session_id") and ck["session_id"] in SESSIONS:
+        if ck.has_key("session_id") and ck["session_id"] in ws.SESSIONS:
             return func(self, name) #ok, continue..
         elif vars.redir_after_login:
             seeother(url("/login",redir=self_url()))
@@ -154,6 +166,77 @@ def remote(func):
             print  traceback.format_exc()
     return deco
 
+#utils:
+def check_pwd(pwd):
+    m = md5()
+    m.update(ws.config.get('pwd_salt'))
+    m.update(pwd)
+    return (m.digest() == ws.config.get('pwd_md5'))
+
+def get_stats():
+    stats = Storage({
+    'download_rate':fspeed(ws.proxy.get_download_rate()),
+    'upload_rate':fspeed(ws.proxy.get_upload_rate()),
+    'max_download':ws.proxy.get_config_value('max_download_speed_bps'),
+    'max_upload':ws.proxy.get_config_value('max_upload_speed_bps'),
+    })
+    if stats.max_upload < 0:
+        stats.max_upload = _("Unlimited")
+    else:
+        stats.max_upload = fspeed(stats.max_upload)
+
+    if stats.max_download < 0:
+        stats.max_download = _("Unlimited")
+    else:
+        stats.max_download = fspeed(stats.max_download)
+
+    return stats
+
+
+def get_torrent_status(torrent_id):
+    """
+    helper method.
+    enhance ws.proxy.get_torrent_status with some extra data
+    """
+    status = Storage(ws.proxy.get_torrent_status(torrent_id,ws.TORRENT_KEYS))
+
+    #add missing values for deluge 0.6:
+    for key in ws.TORRENT_KEYS:
+        if not key in status:
+            status[key] = 0
+
+    status["id"] = torrent_id
+
+    #for naming the status-images
+    status["calc_state_str"] = "downloading"
+    if status["paused"]:
+        status["calc_state_str"] = "inactive"
+    elif status["is_seed"]:
+        status["calc_state_str"] = "seeding"
+
+    #action for torrent_pause
+    if status["calc_state_str"] == "inactive":
+        status["action"] = "start"
+    else:
+        status["action"] = "stop"
+
+    if status["paused"]:
+        status["message"] = _("Paused %s%%") % status['progress']
+    else:
+        status["message"] = "%s %i%%" % (ws.STATE_MESSAGES[status["state"]]
+        , status['progress'])
+
+    #add some pre-calculated values
+    status.update({
+        "calc_total_downloaded"  : (fsize(status["total_done"])
+            + " (" + fsize(status["total_download"]) + ")"),
+        "calc_total_uploaded": (fsize(status['uploaded_memory']
+            + status["total_payload_upload"]) + " ("
+            + fsize(status["total_upload"]) + ")"),
+    })
+    return status
+#/utils
+
 #template-defs:
 def template_crop(text, end):
     if len(text) > end:
@@ -176,12 +259,15 @@ def template_sort_head(id,name):
 
     return ws.render.sort_column_head(id, name, order, active_up, active_down)
 
+def template_part_stats():
+    return ws.render.part_stats(get_stats())
 
 def get_config(var):
     return ws.config.get(var)
 
 template.Template.globals.update({
     'sort_head': template_sort_head,
+    'part_stats':template_part_stats,
     'crop': template_crop,
     '_': _ , #gettext/translations
     'str': str, #because % in templetor is broken.
@@ -198,145 +284,20 @@ template.Template.globals.update({
 })
 #/template-defs
 
+def create_webserver(urls, methods):
+    from webpy022.request import webpyfunc
+    from webpy022 import webapi
+    from gtk_cherrypy_wsgiserver import CherryPyWSGIServer
 
-
-#------------------------------------------------------------------------------
-#Some copy and paste from web.py
-#mostly caused by /static
-#TODO : FIX THIS.
-#static-files serving should be moved to the normal webserver!
-from SimpleHTTPServer import SimpleHTTPRequestHandler
-from BaseHTTPServer import BaseHTTPRequestHandler
-from gtk_cherrypy_wsgiserver import CherryPyWSGIServer
-from BaseHTTPServer import BaseHTTPRequestHandler
-
-from webpy022.request import webpyfunc
-from webpy022 import webapi
-import os
-
-import posixpath
-import urllib
-import urlparse
-
-class RelativeHandler(SimpleHTTPRequestHandler):
-    def translate_path(self, path):
-        """Translate a /-separated PATH to the local filename syntax.
-
-        Components that mean special things to the local file system
-        (e.g. drive or directory names) are ignored.  (XXX They should
-        probably be diagnosed.)
-
-        """
-        # abandon query parameters
-        path = urlparse.urlparse(path)[2]
-        path = posixpath.normpath(urllib.unquote(path))
-        words = path.split('/')
-        words = filter(None, words)
-        path = os.path.dirname(__file__)
-        for word in words:
-            drive, word = os.path.splitdrive(word)
-            head, word = os.path.split(word)
-            if word in (os.curdir, os.pardir): continue
-            path = os.path.join(path, word)
-        return path
-
-class StaticApp(RelativeHandler):
-    """WSGI application for serving static files."""
-    def __init__(self, environ, start_response):
-        self.headers = []
-        self.environ = environ
-        self.start_response = start_response
-
-    def send_response(self, status, msg=""):
-        self.status = str(status) + " " + msg
-
-    def send_header(self, name, value):
-        self.headers.append((name, value))
-
-    def end_headers(self):
-        pass
-
-    def log_message(*a): pass
-
-    def __iter__(self):
-        environ = self.environ
-
-        self.path = environ.get('PATH_INFO', '')
-        self.client_address = environ.get('REMOTE_ADDR','-'), \
-                              environ.get('REMOTE_PORT','-')
-        self.command = environ.get('REQUEST_METHOD', '-')
-
-        from cStringIO import StringIO
-        self.wfile = StringIO() # for capturing error
-
-        f = self.send_head()
-        self.start_response(self.status, self.headers)
-
-        if f:
-            block_size = 16 * 1024
-            while True:
-                buf = f.read(block_size)
-                if not buf:
-                    break
-                yield buf
-            f.close()
-        else:
-            value = self.wfile.getvalue()
-            yield value
-
-class WSGIWrapper(BaseHTTPRequestHandler):
-    """WSGI wrapper for logging the status and serving static files."""
-    def __init__(self, app):
-        self.app = app
-        self.format = '%s - - [%s] "%s %s %s" - %s'
-
-    def __call__(self, environ, start_response):
-        def xstart_response(status, response_headers, *args):
-            write = start_response(status, response_headers, *args)
-            self.log(status, environ)
-            return write
-
-        path = environ.get('PATH_INFO', '')
-        if path.startswith('/static/'):
-            return StaticApp(environ, xstart_response)
-        else:
-            return self.app(environ, xstart_response)
-
-    def log(self, status, environ):
-        #mvoncken,no logging..
-        return
-
-        outfile = environ.get('wsgi.errors', web.debug)
-        req = environ.get('PATH_INFO', '_')
-        protocol = environ.get('ACTUAL_SERVER_PROTOCOL', '-')
-        method = environ.get('REQUEST_METHOD', '-')
-        host = "%s:%s" % (environ.get('REMOTE_ADDR','-'),
-                          environ.get('REMOTE_PORT','-'))
-
-        #@@ It is really bad to extend from
-        #@@ BaseHTTPRequestHandler just for this method
-        time = self.log_date_time_string()
-
-        print >> outfile, self.format % (host, time, protocol,
-                                         method, req, status)
-
-def create_webserver(urls,methods):
-    func = webapi.wsgifunc(webpyfunc(urls,methods, False))
-    server_address=("0.0.0.0",ws.config.get('port'))
-
-    func = WSGIWrapper(func)
+    func = webapi.wsgifunc(webpyfunc(urls, methods, False))
+    server_address=("0.0.0.0", int(ws.config.get('port')))
     server = CherryPyWSGIServer(server_address, func, server_name="localhost")
-
-
-    print "(created) http://%s:%d/" % server_address
-
+    print "http://%s:%d/" % server_address
     return server
 
 #------
 __all__ = ['deluge_page_noauth', 'deluge_page', 'remote',
     'auto_refreshed', 'check_session',
     'do_redirect', 'error_page','start_session','getcookie'
-    ,'create_webserver','setcookie']
-
-
-
+    ,'setcookie','create_webserver','end_session',
+    'get_torrent_status', 'check_pwd','static_handler']

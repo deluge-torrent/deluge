@@ -1526,7 +1526,7 @@ namespace libtorrent
 		INVARIANT_CHECK;
 
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		(*m_ses.m_logger) << time_now_string() << " resolving: " << url << "\n";
+		(*m_ses.m_logger) << time_now_string() << " resolving web seed: " << url << "\n";
 #endif
 
 		m_resolving_web_seeds.insert(url);
@@ -3055,7 +3055,7 @@ namespace libtorrent
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
 	void torrent::debug_log(const std::string& line)
 	{
-		(*m_ses.m_logger) << line << "\n";
+		(*m_ses.m_logger) << time_now_string() << " " << line << "\n";
 	}
 #endif
 

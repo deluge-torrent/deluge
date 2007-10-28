@@ -947,11 +947,17 @@ window, please enter your password"))
             unique_id = self.manager.get_torrent_unique_id(torrent)
             try:
                 if self.manager.unique_IDs[unique_id].trackers:
-                    self.manager.replace_trackers(unique_id, \
+                    try:
+                        self.manager.replace_trackers(unique_id, \
                         self.manager.unique_IDs[unique_id].trackers)
+                    except:
+                        pass
                 if self.manager.unique_IDs[unique_id].uploaded_memory:
-                    self.manager.unique_IDs[unique_id].initial_uploaded_memory \
+                    try:
+                        self.manager.unique_IDs[unique_id].initial_uploaded_memory \
                    = self.manager.unique_IDs[unique_id].uploaded_memory
+                    except:
+                        pass
             except AttributeError:
                 pass
 
@@ -1091,7 +1097,7 @@ window, please enter your password"))
     def update_statusbar_and_tray(self):
         plugin_messages = self.plugins.get_plugin_tray_messages()
         core_state = self.manager.get_state()
-        connections = core_state['num_peers']
+        connections = core_state['num_connections']
         if self.config.get("max_connections_global") < 0 :
             max_connections = _("Unlimited")
         else:

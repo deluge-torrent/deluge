@@ -82,7 +82,7 @@ class TorrentCreator:
       self.glade = gtk.glade.XML(self.path + "/torrentcreator.glade")
   
       self.dialog = self.glade.get_widget("torrentcreator")
-      self.glade.get_widget("piece_size_combobox").set_active(0)
+      self.glade.get_widget("piece_size_combobox").set_active(3)
       self.glade.get_widget("torrent_chooserbutton").connect("clicked", self.torrent_chooserbutton_clicked)
       self.glade.get_widget("ok_button").connect("clicked", self.create_torrent)
       self.glade.get_widget("close_button").connect("clicked", self.destroy)
