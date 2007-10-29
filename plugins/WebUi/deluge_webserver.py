@@ -59,16 +59,15 @@ urls = (
     "/home(.*)", "home",
     "/about(.*)", "about",
     "/logout(.*)", "logout",
-    #default-pages
-    "/", "home",
-    "", "home",
     #remote-api:
     "/remote/torrent/add(.*)", "remote_torrent_add",
     #static:
     "/static/(.*)","static",
     "/template/static/(.*)","template_static",
     #"/downloads/(.*)","downloads" disabled until it can handle large downloads.
-
+    #default-pages
+    "/(.*)", "home",
+    "(.*)", "home"    
 )
 #/routing
 
@@ -93,8 +92,8 @@ class login:
 
 class index:
     "page containing the torrent list."
-    @auto_refreshed
     @deluge_page
+    @auto_refreshed    
     def GET(self, name):
         vars = web.input(sort=None, order=None)
 
@@ -113,8 +112,8 @@ class index:
         return ws.render.index(status_rows)
 
 class torrent_info:
-    @auto_refreshed
     @deluge_page
+    @auto_refreshed    
     def GET(self, torrent_id):
         return ws.render.torrent_info(get_torrent_status(torrent_id))
 

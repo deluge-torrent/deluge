@@ -75,18 +75,23 @@ def setcookie(key, val):
 def start_session():
     session_id = str(random.random())
     ws.SESSIONS.append(session_id)
-    if len(ws.SESSIONS) > 20:  #save max 20 sessions?
-        ws.SESSIONS = ws.SESSIONS[-20:]
+    #if len(ws.SESSIONS) > 20:  #save max 20 sessions?
+    #    ws.SESSIONS = ws.SESSIONS[-20:]
     #not thread safe! , but a verry rare bug.
-    pickle.dump(ws.SESSIONS, open(ws.session_file,'wb'))
+    #f = open(ws.session_file,'wb')
+    #pickle.dump(ws.SESSIONS, f)
+    #f.close()
     setcookie("session_id", session_id)
 
 def end_session():
-    session_id = getcookie("session_id")
-    if session_id in ws.SESSIONS:
-        ws.SESSIONS.remove(session_id)
+    session_id = getcookie("session_id")    
+    #if session_id in ws.SESSIONS:
+    #    ws.SESSIONS.remove(session_id)
         #not thread safe! , but a verry rare bug.
-        pickle.dump(ws.SESSIONS, open(ws.session_file,'wb'))
+        #f = open(ws.session_file,'wb')
+        #pickle.dump(ws.SESSIONS, f)
+        #f.close()
+    setcookie("session_id","")
 
 def do_redirect():
     """for redirects after a POST"""

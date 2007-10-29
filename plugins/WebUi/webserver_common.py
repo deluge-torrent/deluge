@@ -156,10 +156,10 @@ COOKIE_DEFAULTS = {
     'auto_refresh_secs':'10'
 }
 
-try:
-    SESSIONS = pickle.load(open(session_file))
-except:
-    SESSIONS = []
+#try:
+#    SESSIONS = pickle.load(open(session_file))
+#except:
+SESSIONS = []
 
 
 
