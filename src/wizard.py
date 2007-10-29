@@ -176,7 +176,7 @@ class WizardGTK:
                 float('130'))
             self.wtree.get_widget('spin_max_upload_slots_global').set_value(\
                 float('3'))
-            self.wtree.get_widget('spin_max_upload').set_value(float('17'))
+            self.wtree.get_widget('spin_max_upload').set_value(float('22'))
             self.wtree.get_widget('spin_torrents').set_value(float('1'))
         elif self.wtree.get_widget('combo_upload_line').get_active_text() == \
             "384k":
