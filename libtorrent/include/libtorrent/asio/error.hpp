@@ -61,7 +61,7 @@ enum basic_errors
   /// Address family not supported by protocol.
   address_family_not_supported = ASIO_SOCKET_ERROR(EAFNOSUPPORT),
 
-  /// Address already in use.
+  /// Port already in use.
   address_in_use = ASIO_SOCKET_ERROR(EADDRINUSE),
 
   /// Transport endpoint is already connected.
@@ -82,7 +82,7 @@ enum basic_errors
   /// Bad file descriptor.
   bad_descriptor = ASIO_SOCKET_ERROR(EBADF),
 
-  /// Bad address.
+  /// Bad port.
   fault = ASIO_SOCKET_ERROR(EFAULT),
 
   /// No route to host.
@@ -197,6 +197,10 @@ enum misc_errors
   not_found
 };
 
+enum ssl_errors
+{
+};
+
 // boostify: error category definitions go here.
 
 inline asio::error_code make_error_code(basic_errors e)
@@ -217,6 +221,11 @@ inline asio::error_code make_error_code(addrinfo_errors e)
 inline asio::error_code make_error_code(misc_errors e)
 {
   return asio::error_code(static_cast<int>(e), misc_category);
+}
+
+inline asio::error_code make_error_code(ssl_errors e)
+{
+  return asio::error_code(static_cast<int>(e), ssl_category);
 }
 
 } // namespace error
