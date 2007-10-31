@@ -149,19 +149,23 @@ class TorrentNotification:
     
     def play_sound(self):
         if not deluge.common.windows_check():
-            import pygame
-            import os.path
-            import sys
-            pygame.init()
             try:
-                name = self.config.get("sound_path")
+                import pygame
             except:
-                print "no file set"
-            try:
-                alert_sound = pygame.mixer.music
-                alert_sound.load(name)
-                alert_sound.play()
-            except pygame.error, message:
-                print 'Cannot load sound:'
+                pass
+            else:
+                import os.path
+                import sys
+                pygame.init()
+                try:
+                    name = self.config.get("sound_path")
+                except:
+                    print "no file set"
+                try:
+                    alert_sound = pygame.mixer.music
+                    alert_sound.load(name)
+                    alert_sound.play()
+                except pygame.error, message:
+                    print 'Cannot load sound:'
         else:
             pass
