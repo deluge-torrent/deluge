@@ -123,6 +123,7 @@ class TorrentNotification:
             self.glade.get_widget("chk_notification").set_active(False)
             self.glade.get_widget("chk_notification").set_sensitive(False)
             self.glade.get_widget("chk_sound").set_active(False)
+            self.glade.get_widget("chk_sound").set_sensitive(False)
             self.glade.get_widget("sound_path_button").set_sensitive(False)
         else:
             self.glade.get_widget("chk_notification").set_active(self.config.get("enable_notification"))
