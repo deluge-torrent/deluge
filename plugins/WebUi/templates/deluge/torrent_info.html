@@ -56,7 +56,7 @@ $fspeed(torrent.download_rate)</td></td></tr>
 <table>
 
 <tr><td class="info_label">$_('Total Size'):</td>
-<td class="info_value">$fspeed(torrent.total_size)</td></tr>
+<td class="info_value">$fsize(torrent.total_size)</td></tr>
 
 <tr><td class="info_label">$_('# Of Files'):</td>
 <td class="info_value">$torrent.num_files</td></tr>
@@ -81,7 +81,7 @@ class="deluge_button">
 </form>
 
 $:render.part_button('GET', '/torrent/delete/' + str(torrent.id), _('Remove'), 'tango/user-trash.png')
-
+$:render.part_button('POST', '/torrent/reannounce/' + str(torrent.id), _('Reannounce'), 'tango/view-refresh.png')
 
 <br>
 <!--

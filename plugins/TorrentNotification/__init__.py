@@ -97,19 +97,22 @@ class TorrentNotification:
 
     def show_notification(self, event):
         if not deluge.common.windows_check():
-            import pynotify
-            file_info = self.interface.manager.get_torrent_file_info(event['unique_ID'])
-            filelist = ""
-            for file in file_info[:10]:
-                filelist += file['path'] + "\n"
-            if len(file_info) > 10:
-                filelist += '...'
-               
-            if pynotify.init("Deluge"):
-                n = pynotify.Notification(_("Torrent complete"), 
-                    _("Files") + ":\n" + filelist)
-                n.set_icon_from_pixbuf(deluge.common.get_logo(48))
-                n.show()
+            try:
+                import pynotify
+            except:
+                pass
+            else:
+                file_info = self.interface.manager.get_torrent_file_info(event['unique_ID'])
+                filelist = ""
+                for file in file_info[:10]:
+                    filelist += file['path'] + "\n"
+                if len(file_info) > 10:
+                    filelist += '...'
+                if pynotify.init("Deluge"):
+                    n = pynotify.Notification(_("Torrent complete"), 
+                        _("Files") + ":\n" + filelist)
+                    n.set_icon_from_pixbuf(deluge.common.get_logo(48))
+                    n.show()
         else:
             pass
 
@@ -119,11 +122,13 @@ class TorrentNotification:
         if deluge.common.windows_check():
             self.glade.get_widget("chk_notification").set_active(False)
             self.glade.get_widget("chk_notification").set_sensitive(False)
+            self.glade.get_widget("chk_sound").set_active(False)
+            self.glade.get_widget("sound_path_button").set_sensitive(False)
         else:
             self.glade.get_widget("chk_notification").set_active(self.config.get("enable_notification"))
-        self.glade.get_widget("chk_sound").set_active(self.config.get("enable_sound"))
-        self.glade.get_widget("sound_path_button").set_sensitive(self.config.get("enable_sound"))
-        self.glade.get_widget("sound_path_button").set_filename(self.config.get("sound_path"))
+            self.glade.get_widget("chk_sound").set_active(self.config.get("enable_sound"))
+            self.glade.get_widget("sound_path_button").set_sensitive(self.config.get("enable_sound"))
+            self.glade.get_widget("sound_path_button").set_filename(self.config.get("sound_path"))
         self.dialog.set_transient_for(window)
         self.dialog.show()
 
@@ -144,19 +149,23 @@ class TorrentNotification:
     
     def play_sound(self):
         if not deluge.common.windows_check():
-            import pygame
-            import os.path
-            import sys
-            pygame.init()
             try:
-                name = self.config.get("sound_path")
+                import pygame
             except:
-                print "no file set"
-            try:
-                alert_sound = pygame.mixer.music
-                alert_sound.load(name)
-                alert_sound.play()
-            except pygame.error, message:
-                print 'Cannot load sound:'
+                pass
+            else:
+                import os.path
+                import sys
+                pygame.init()
+                try:
+                    name = self.config.get("sound_path")
+                except:
+                    print "no file set"
+                try:
+                    alert_sound = pygame.mixer.music
+                    alert_sound.load(name)
+                    alert_sound.play()
+                except pygame.error, message:
+                    print 'Cannot load sound:'
         else:
             pass

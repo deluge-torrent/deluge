@@ -84,7 +84,7 @@ def start_session():
     setcookie("session_id", session_id)
 
 def end_session():
-    session_id = getcookie("session_id")    
+    session_id = getcookie("session_id")
     #if session_id in ws.SESSIONS:
     #    ws.SESSIONS.remove(session_id)
         #not thread safe! , but a verry rare bug.
@@ -136,7 +136,7 @@ def check_session(func):
     a decorator
     return func if session is valid, else redirect to login page.
     """
-    def deco(self, name):
+    def deco(self, name=None):
         vars = web.input(redir_after_login=None)
         ck = cookies()
         if ck.has_key("session_id") and ck["session_id"] in ws.SESSIONS:
@@ -153,7 +153,7 @@ def deluge_page(func):
 #combi-deco's:
 def auto_refreshed(func):
     "decorator:adds a refresh header"
-    def deco(self, name):
+    def deco(self, name=None):
         if getcookie('auto_refresh') == '1':
             web.header("Refresh", "%i ; url=%s" %
                 (int(getcookie('auto_refresh_secs',10)),self_url()))
@@ -162,7 +162,7 @@ def auto_refreshed(func):
 
 def remote(func):
     "decorator for remote api's"
-    def deco(self, name):
+    def deco(self, name=None):
         try:
             print func(self, name)
         except Exception, e:

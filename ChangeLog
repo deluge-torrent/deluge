@@ -1,6 +1,14 @@
-Deluge 0.5.7 (xx November 2007)
+Deluge 0.5.6.2 (31 October 2007)
   * Set default piece size to 256-KiB in TorrentCreator plugin and add 2048KiB
   as a size option.
+  * Fix a bug in Debian package that caused the UI to completely freeze when a 
+  torrent finished
+  * Find and fix another shutdown bug that mostly Gutsy users were incountering
+  * Fix a couple of WebUI bugs, including the "index" page erroring out
+
+Deluge 0.5.6.1 (28 October 2007)
+  * Fix invalid handle error
+  * Fix shutdown hang
 
 Deluge 0.5.6 (24 October 2007)
   * Web Interface Plugin
