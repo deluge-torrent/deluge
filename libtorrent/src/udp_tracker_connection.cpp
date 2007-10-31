@@ -96,9 +96,7 @@ namespace libtorrent
 		m_name_lookup.async_resolve(q
 			, m_strand.wrap(boost::bind(
 			&udp_tracker_connection::name_lookup, self(), _1, _2)));
-		set_timeout(req.event == tracker_request::stopped
-			? m_settings.stop_tracker_timeout
-			: m_settings.tracker_completion_timeout
+		set_timeout(m_settings.tracker_completion_timeout
 			, m_settings.tracker_receive_timeout);
 	}
 
@@ -158,18 +156,9 @@ namespace libtorrent
 
 	void udp_tracker_connection::on_timeout()
 	{
-		asio::error_code ec;
-		m_socket.close(ec);
+		m_socket.close();
 		m_name_lookup.cancel();
 		fail_timeout();
-	}
-
-	void udp_tracker_connection::close()
-	{
-		asio::error_code ec;
-		m_socket.close(ec);
-		m_name_lookup.cancel();
-		tracker_connection::close();
 	}
 
 	void udp_tracker_connection::send_udp_connect()
@@ -479,7 +468,6 @@ namespace libtorrent
 			, complete, incomplete);
 
 		m_man.remove_request(this);
-		close();
 		return;
 	}
 	catch (std::exception& e)
@@ -555,7 +543,6 @@ namespace libtorrent
 		if (!cb)
 		{
 			m_man.remove_request(this);
-			close();
 			return;
 		}
 		
@@ -564,7 +551,6 @@ namespace libtorrent
 			, complete, incomplete);
 
 		m_man.remove_request(this);
-		close();
 	}
 	catch (std::exception& e)
 	{
