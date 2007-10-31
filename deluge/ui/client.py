@@ -298,6 +298,20 @@ def get_num_connections():
         set_core_uri(None)
         num_connections = 0
     return num_connections
+
+def enable_plugin(plugin):
+    try:
+        return get_core().enable_plugin(plugin)
+    except (AttributeError, socket.error):
+        set_core_uri(None)
+        return
+            
+def disable_plugin(plugin):
+    try:
+        return get_core().disable_plugin(plugin)
+    except (AttributeError, socket.error):
+        set_core_uri(None)
+        return
         
 def open_url_in_browser(url):
     """Opens link in the desktop's default browser"""

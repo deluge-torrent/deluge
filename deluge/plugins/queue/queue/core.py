@@ -31,62 +31,52 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import dbus
-import dbus.service
-from dbus.mainloop.glib import DBusGMainLoop
-DBusGMainLoop(set_as_default=True)
-
 from torrentqueue import TorrentQueue
 from deluge.log import LOG as log
 
-class Core(dbus.service.Object):
-    def __init__(self, plugin, path="/org/deluge_torrent/Plugin/Queue"):
+class Core:
+    def __init__(self, plugin):
         # Get the pluginmanager reference
         self.plugin = plugin
 
-        # Setup DBUS
-        bus_name = dbus.service.BusName("org.deluge_torrent.Deluge", 
-                                                        bus=dbus.SessionBus())
-
-        dbus.service.Object.__init__(self, bus_name, path)
-       
         # Instantiate the TorrentQueue object
         self.queue = TorrentQueue()
         
         # Register core hooks
-        self.plugin.register_hook("post_torrent_add", self.post_torrent_add)
+        self.plugin.register_hook("post_torrent_add", self._post_torrent_add)
         self.plugin.register_hook("post_torrent_remove", 
-                                                    self.post_torrent_remove)
+                                                    self._post_torrent_remove)
 
         # Register the 'queue' status field
-        self.plugin.register_status_field("queue", self.status_field_queue)
+        self.plugin.register_status_field("queue", self._status_field_queue)
         
         log.info("Queue Core plugin initialized..")
     
+    def disable(self):
+        pass
+        
     def shutdown(self):
         # Save the queue state
         self.queue.save_state()
-    
+
     ## Hooks for core ##
-    def post_torrent_add(self, torrent_id):
+    def _post_torrent_add(self, torrent_id):
         if torrent_id is not None:
             self.queue.append(torrent_id)
     
-    def post_torrent_remove(self, torrent_id):
+    def _post_torrent_remove(self, torrent_id):
         if torrent_id is not None:
             self.queue.remove(torrent_id)
     
     ## Status field function ##
-    def status_field_queue(self, torrent_id):
+    def _status_field_queue(self, torrent_id):
         try:
             return self.queue[torrent_id]+1
         except TypeError:
             return None
         
     ## Queueing functions ##
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge.Queue", 
-                                    in_signature="s", out_signature="")
-    def queue_top(self, torrent_id):
+    def export_queue_top(self, torrent_id):
         log.debug("Attempting to queue %s to top", torrent_id)
         try:
             # If the queue method returns True, then we should emit a signal
@@ -96,9 +86,7 @@ class Core(dbus.service.Object):
             log.warning("torrent_id: %s does not exist in the queue", 
                                                                     torrent_id)
 
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge.Queue", 
-                                    in_signature="s", out_signature="")
-    def queue_up(self, torrent_id):
+    def export_queue_up(self, torrent_id):
         log.debug("Attempting to queue %s to up", torrent_id)
         try:
             # If the queue method returns True, then we should emit a signal
@@ -107,10 +95,8 @@ class Core(dbus.service.Object):
         except KeyError:
             log.warning("torrent_id: %s does not exist in the queue", 
                                                                     torrent_id)
-           
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge.Queue", 
-                                    in_signature="s", out_signature="")
-    def queue_down(self, torrent_id):
+
+    def export_queue_down(self, torrent_id):
         log.debug("Attempting to queue %s to down", torrent_id)
         try:
             # If the queue method returns True, then we should emit a signal
@@ -120,9 +106,7 @@ class Core(dbus.service.Object):
             log.warning("torrent_id: %s does not exist in the queue", 
                                                                     torrent_id)
 
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge.Queue", 
-                                    in_signature="s", out_signature="")
-    def queue_bottom(self, torrent_id):
+    def export_queue_bottom(self, torrent_id):
         log.debug("Attempting to queue %s to bottom", torrent_id)
         try:
             # If the queue method returns True, then we should emit a signal
@@ -132,24 +116,18 @@ class Core(dbus.service.Object):
             log.warning("torrent_id: %s does not exist in the queue", 
                                                                     torrent_id)
     
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge.Queue",
-                                    in_signature="", out_signature="as")
-    def get_queue_list(self):
+    def export_get_queue_list(self):
         """Returns the queue list.
         """
         log.debug("Getting queue list")
         return self.queue.queue
     
-    @dbus.service.method(dbus_interface="org.deluge_torrent.Deluge.Queue",
-                                    in_signature="s", out_signature="i")
-    def get_position(self, torrent_id):
+    def export_get_position(self, torrent_id):
         """Returns the queue position of torrent_id"""
         log.debug("Getting queue position for %s", torrent_id)
         return self.queue[torrent_id]
        
     ## Signals ##
-    @dbus.service.signal(dbus_interface="org.deluge_torrent.Deluge.Queue",
-                                             signature="")
-    def torrent_queue_changed(self):
+    def _torrent_queue_changed(self):
         """Emitted when a torrent queue position is changed"""
         log.debug("torrent_queue_changed signal emitted")

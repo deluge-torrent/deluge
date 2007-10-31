@@ -56,6 +56,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
     def register_status_field(self, field, function):
         """Register a new status field.  This can be used in the same way the
         client requests other status information from core."""
+        log.debug("Registering status field %s with PluginManager", field)
         self.status_fields[field] = function
     
     def get_status(self, torrent_id, fields):
@@ -66,7 +67,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
                 status[field] = self.status_fields[field](torrent_id)
             except KeyError:
                 log.warning("Status field %s is not registered with the\
-                                                                PluginManager.")
+                    PluginManager.", field)
         return status
         
     def register_hook(self, hook, function):

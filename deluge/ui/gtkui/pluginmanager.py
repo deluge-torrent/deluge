@@ -46,6 +46,9 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
         # Register a callback with the client        
         client.connect_on_new_core(self.start)
     
+        deluge.pluginmanagerbase.PluginManagerBase.__init__(
+            self, "gtkui.conf", "deluge.plugin.gtkui")
+            
     def start(self):
         """Start the plugin manager"""
         # Update the enabled_plugins from the core

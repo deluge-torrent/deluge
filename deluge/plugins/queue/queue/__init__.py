@@ -40,6 +40,9 @@ class CorePlugin:
     def __init__(self, plugin_manager):
         # Load the Core portion of the plugin
         self.core = Core(plugin_manager)
+        
+    def disable(self):
+        pass
 
 class GtkUIPlugin:
     def __init__(self, plugin_manager):

@@ -31,10 +31,6 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import dbus
-from dbus.mainloop.glib import DBusGMainLoop
-DBusGMainLoop(set_as_default=True)
-
 import pkg_resources
 import gtk.glade
 import gettext
@@ -58,11 +54,6 @@ class GtkUI:
                                             "deluge", "i18n"))
         log.debug("Queue GtkUI plugin initalized..")
         self.plugin = plugin_manager
-        # Get a reference to the core portion of the plugin
-        bus = dbus.SessionBus()
-        proxy = bus.get_object("org.deluge_torrent.Deluge", 
-                               "/org/deluge_torrent/Plugin/Queue")
-        self.core = dbus.Interface(proxy, "org.deluge_torrent.Deluge.Queue")
         
         # Get the queue menu from the glade file
         menu_glade = gtk.glade.XML(pkg_resources.resource_filename("queue", 
@@ -81,8 +72,8 @@ class GtkUI:
         menu = menu_glade.get_widget("menu_queue")
         
         # Connect to the 'torrent_queue_changed' signal
-        self.core.connect_to_signal("torrent_queue_changed", 
-                                        self.torrent_queue_changed_signal)
+        #self.core.connect_to_signal("torrent_queue_changed", 
+        #                                self.torrent_queue_changed_signal)
         
         # Get the torrentview component from the plugin manager
         self.torrentview = self.plugin.get_torrentview()
