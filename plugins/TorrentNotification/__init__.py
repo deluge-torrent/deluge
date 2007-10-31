@@ -97,19 +97,22 @@ class TorrentNotification:
 
     def show_notification(self, event):
         if not deluge.common.windows_check():
-            import pynotify
-            file_info = self.interface.manager.get_torrent_file_info(event['unique_ID'])
-            filelist = ""
-            for file in file_info[:10]:
-                filelist += file['path'] + "\n"
-            if len(file_info) > 10:
-                filelist += '...'
-               
-            if pynotify.init("Deluge"):
-                n = pynotify.Notification(_("Torrent complete"), 
-                    _("Files") + ":\n" + filelist)
-                n.set_icon_from_pixbuf(deluge.common.get_logo(48))
-                n.show()
+            try:
+                import pynotify
+            except:
+                pass
+            else:
+                file_info = self.interface.manager.get_torrent_file_info(event['unique_ID'])
+                filelist = ""
+                for file in file_info[:10]:
+                    filelist += file['path'] + "\n"
+                if len(file_info) > 10:
+                    filelist += '...'
+                if pynotify.init("Deluge"):
+                    n = pynotify.Notification(_("Torrent complete"), 
+                        _("Files") + ":\n" + filelist)
+                    n.set_icon_from_pixbuf(deluge.common.get_logo(48))
+                    n.show()
         else:
             pass
 
