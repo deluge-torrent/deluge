@@ -47,18 +47,19 @@ urls = (
     "/index(.*)", "index",
     "/torrent/info/(.*)", "torrent_info",
     "/torrent/pause(.*)", "torrent_pause",
+    "/torrent/reannounce/(.*)", "torrent_reannounce",
     "/torrent/add(.*)", "torrent_add",
     "/torrent/delete/(.*)", "torrent_delete",
     "/torrent/queue/up/(.*)", "torrent_queue_up",
     "/torrent/queue/down/(.*)", "torrent_queue_down",
-    "/pause_all(.*)", "pause_all",
-    "/resume_all(.*)", "resume_all",
+    "/pause_all", "pause_all",
+    "/resume_all", "resume_all",
     "/refresh/set(.*)", "refresh_set",
     "/refresh/(.*)", "refresh",
-    "/config(.*)","config",
-    "/home(.*)", "home",
-    "/about(.*)", "about",
-    "/logout(.*)", "logout",
+    "/config","config",
+    "/home", "home",
+    "/about", "about",
+    "/logout", "logout",
     #remote-api:
     "/remote/torrent/add(.*)", "remote_torrent_add",
     #static:
@@ -66,8 +67,8 @@ urls = (
     "/template/static/(.*)","template_static",
     #"/downloads/(.*)","downloads" disabled until it can handle large downloads.
     #default-pages
-    "/(.*)", "home",
-    "(.*)", "home"    
+    "/", "home",
+    "", "home"
 )
 #/routing
 
@@ -93,7 +94,7 @@ class login:
 class index:
     "page containing the torrent list."
     @deluge_page
-    @auto_refreshed    
+    @auto_refreshed
     def GET(self, name):
         vars = web.input(sort=None, order=None)
 
@@ -113,7 +114,7 @@ class index:
 
 class torrent_info:
     @deluge_page
-    @auto_refreshed    
+    @auto_refreshed
     def GET(self, torrent_id):
         return ws.render.torrent_info(get_torrent_status(torrent_id))
 
@@ -125,7 +126,12 @@ class torrent_pause:
             ws.proxy.pause_torrent([vars.stop])
         elif vars.start:
             ws.proxy.resume_torrent([vars.start])
+        do_redirect()
 
+class torrent_reannounce:
+    @check_session
+    def POST(self, torrent_id):
+        ws.proxy.force_reannounce([torrent_id])
         do_redirect()
 
 class torrent_add:

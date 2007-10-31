@@ -134,7 +134,7 @@ class DbusManager(dbus.service.Object):
         """same as 0.6 interface"""
         for torrent_id in torrents:
             torrent_id = int(torrent_id)
-            self.core.set_user_pause(torrent_id,True)
+            self.core.set_user_pause(torrent_id, True)
 
     @dbus.service.method(dbus_interface=dbus_interface,
         in_signature="as", out_signature="")
@@ -142,7 +142,15 @@ class DbusManager(dbus.service.Object):
         """same as 0.6 interface"""
         for torrent_id in torrents:
             torrent_id = int(torrent_id)
-            self.core.set_user_pause(torrent_id,False)
+            self.core.set_user_pause(torrent_id, False)
+
+    @dbus.service.method(dbus_interface=dbus_interface,
+        in_signature="as", out_signature="")
+    def force_reannounce(self, torrents):
+        """same as 0.6 interface"""
+        for torrent_id in torrents:
+            torrent_id = int(torrent_id)
+            self.core.update_tracker(torrent_id)
 
     @dbus.service.method(dbus_interface=dbus_interface,
         in_signature="sbb", out_signature="")

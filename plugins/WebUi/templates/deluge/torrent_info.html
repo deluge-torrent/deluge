@@ -81,7 +81,7 @@ class="deluge_button">
 </form>
 
 $:render.part_button('GET', '/torrent/delete/' + str(torrent.id), _('Remove'), 'tango/user-trash.png')
-
+$:render.part_button('POST', '/torrent/reannounce/' + str(torrent.id), _('Reannounce'), 'tango/view-refresh.png')
 
 <br>
 <!--
