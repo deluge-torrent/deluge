@@ -119,11 +119,13 @@ class TorrentNotification:
         if deluge.common.windows_check():
             self.glade.get_widget("chk_notification").set_active(False)
             self.glade.get_widget("chk_notification").set_sensitive(False)
+            self.glade.get_widget("chk_sound").set_active(False)
+            self.glade.get_widget("sound_path_button").set_sensitive(False)
         else:
             self.glade.get_widget("chk_notification").set_active(self.config.get("enable_notification"))
-        self.glade.get_widget("chk_sound").set_active(self.config.get("enable_sound"))
-        self.glade.get_widget("sound_path_button").set_sensitive(self.config.get("enable_sound"))
-        self.glade.get_widget("sound_path_button").set_filename(self.config.get("sound_path"))
+            self.glade.get_widget("chk_sound").set_active(self.config.get("enable_sound"))
+            self.glade.get_widget("sound_path_button").set_sensitive(self.config.get("enable_sound"))
+            self.glade.get_widget("sound_path_button").set_filename(self.config.get("sound_path"))
         self.dialog.set_transient_for(window)
         self.dialog.show()
 
