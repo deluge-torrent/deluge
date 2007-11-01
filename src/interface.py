@@ -71,8 +71,8 @@ class DelugeGTK:
         self.window.connect("window-state-event", self.window_state_event)
         self.window.connect("configure-event", self.window_configure_event)
         self.window.set_title(common.PROGRAM_NAME)
-        self.window.set_icon(common.get_logo(32))
-        
+        if not common.windows_check():
+            self.window.set_icon(common.get_logo(32))
         # self.notebook is used by plugins
         self.notebook = self.wtree.get_widget("torrent_info")
         self.notebook.connect("switch-page", self.notebook_switch_page)
