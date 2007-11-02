@@ -279,10 +279,6 @@ class Manager:
             self.state = persistent_state()
 
     def quit(self):
-        # Pickle the prefs
-        print "Saving prefs..."
-        self.config.save()
-
         # Pickle the state
         self.pickle_state()
 
