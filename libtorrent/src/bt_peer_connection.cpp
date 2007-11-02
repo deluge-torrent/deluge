@@ -582,9 +582,8 @@ namespace libtorrent
 	{
 		TORRENT_ASSERT(buf);
 		TORRENT_ASSERT(size > 0);
-		TORRENT_ASSERT(!m_rc4_encrypted || m_encrypted);
 
-		if (m_rc4_encrypted)
+		if (m_encrypted && m_rc4_encrypted)
 			m_RC4_handler->encrypt(buf, size);
 		
 		peer_connection::send_buffer(buf, size);
@@ -592,9 +591,7 @@ namespace libtorrent
 
 	buffer::interval bt_peer_connection::allocate_send_buffer(int size)
 	{
-		TORRENT_ASSERT(!m_rc4_encrypted || m_encrypted);
-
-		if (m_rc4_encrypted)
+		if (m_encrypted && m_rc4_encrypted)
 		{
 			TORRENT_ASSERT(m_enc_send_buffer.left() == 0);
 			m_enc_send_buffer = peer_connection::allocate_send_buffer(size);
@@ -609,9 +606,7 @@ namespace libtorrent
 	
 	void bt_peer_connection::setup_send()
 	{
-		TORRENT_ASSERT(!m_rc4_encrypted || m_encrypted);
-
- 		if (m_rc4_encrypted && m_enc_send_buffer.left())
+ 		if (m_encrypted && m_rc4_encrypted && m_enc_send_buffer.left())
 		{
 			TORRENT_ASSERT(m_enc_send_buffer.begin);
 			TORRENT_ASSERT(m_enc_send_buffer.end);
@@ -1208,11 +1203,11 @@ namespace libtorrent
 		// there is supposed to be a remote listen port
 		if (entry* listen_port = root.find_key("p"))
 		{
-			if (listen_port->type() == entry::int_t)
+			if (listen_port->type() == entry::int_t
+				&& peer_info_struct() != 0)
 			{
-				tcp::endpoint adr(remote().address()
-					, (unsigned short)listen_port->integer());
-				t->get_policy().peer_from_tracker(adr, pid(), peer_info::incoming, 0);
+				t->get_policy().update_peer_port(listen_port->integer()
+					, peer_info_struct(), peer_info::incoming);
 			}
 		}
 		// there should be a version too

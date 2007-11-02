@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-10-27 20:34-0500\n"
+"POT-Creation-Date: 2007-11-01 18:39-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -88,7 +88,7 @@ msgstr ""
 msgid "<b>Torrent Info</b>"
 msgstr ""
 
-#: glade/delugegtk.glade:750 plugins/WebUi/scripts/template_strings.py:8
+#: glade/delugegtk.glade:750 plugins/WebUi/scripts/template_strings.py:9
 msgid "Details"
 msgstr ""
 
@@ -149,23 +149,25 @@ msgid "Status"
 msgstr ""
 
 #: glade/delugegtk.glade:965 src/interface.py:602
-#: plugins/WebUi/scripts/template_strings.py:19
+#: plugins/WebUi/scripts/template_strings.py:21
 msgid "Seeders"
 msgstr ""
 
 #: glade/delugegtk.glade:974 src/interface.py:605
 #: plugins/TorrentPeers/__init__.py:72
-#: plugins/WebUi/scripts/template_strings.py:15
+#: plugins/WebUi/scripts/template_strings.py:17
 msgid "Peers"
 msgstr ""
 
-#: glade/delugegtk.glade:983 src/interface.py:608 src/interface.py:1114
-#: src/interface.py:1145 plugins/TorrentPeers/tab_peers.py:89
+#: glade/delugegtk.glade:983 src/interface.py:608 src/interface.py:1103
+#: src/interface.py:1134 plugins/TorrentPeers/tab_peers.py:89
+#: plugins/WebUi/scripts/template_strings.py:10
 msgid "Down Speed"
 msgstr ""
 
-#: glade/delugegtk.glade:992 src/interface.py:611 src/interface.py:1115
-#: src/interface.py:1146 plugins/TorrentPeers/tab_peers.py:91
+#: glade/delugegtk.glade:992 src/interface.py:611 src/interface.py:1104
+#: src/interface.py:1135 plugins/TorrentPeers/tab_peers.py:91
+#: plugins/WebUi/scripts/template_strings.py:29
 msgid "Up Speed"
 msgstr ""
 
@@ -173,11 +175,11 @@ msgstr ""
 msgid "Time Remaining"
 msgstr ""
 
-#: glade/delugegtk.glade:1010 plugins/WebUi/scripts/template_strings.py:4
+#: glade/delugegtk.glade:1010 plugins/WebUi/scripts/template_strings.py:5
 msgid "Availability"
 msgstr ""
 
-#: glade/delugegtk.glade:1019 plugins/WebUi/scripts/template_strings.py:21
+#: glade/delugegtk.glade:1019 plugins/WebUi/scripts/template_strings.py:23
 msgid "Share Ratio"
 msgstr ""
 
@@ -213,7 +215,7 @@ msgstr ""
 msgid "Remove Torrent"
 msgstr ""
 
-#: glade/delugegtk.glade:1157 plugins/WebUi/scripts/template_strings.py:18
+#: glade/delugegtk.glade:1157 plugins/WebUi/scripts/template_strings.py:20
 msgid "Remove"
 msgstr ""
 
@@ -280,7 +282,7 @@ msgstr ""
 msgid "Delete downloaded files"
 msgstr ""
 
-#: glade/dgtkpopups.glade:88 plugins/WebUi/scripts/template_strings.py:6
+#: glade/dgtkpopups.glade:88 plugins/WebUi/scripts/template_strings.py:7
 msgid "Delete .torrent file"
 msgstr ""
 
@@ -296,7 +298,7 @@ msgstr ""
 msgid "Clear Finished"
 msgstr ""
 
-#: glade/dgtkpopups.glade:241 plugins/WebUi/scripts/template_strings.py:22
+#: glade/dgtkpopups.glade:241 plugins/WebUi/scripts/template_strings.py:24
 msgid "Speed"
 msgstr ""
 
@@ -649,7 +651,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1478 glade/preferences_dialog.glade:1672
 #: glade/preferences_dialog.glade:1866 glade/preferences_dialog.glade:2060
-#: plugins/WebUi/scripts/template_strings.py:13
+#: plugins/WebUi/scripts/template_strings.py:15
 msgid "Password"
 msgstr ""
 
@@ -960,8 +962,8 @@ msgid "KiB/s"
 msgstr ""
 
 #: src/interface.py:289 src/interface.py:350 src/interface.py:376
-#: src/interface.py:1096 src/interface.py:1103 src/interface.py:1108
-#: src/interface.py:1136 src/interface.py:1138
+#: src/interface.py:1085 src/interface.py:1092 src/interface.py:1097
+#: src/interface.py:1125 src/interface.py:1127
 #: plugins/SpeedLimiter/__init__.py:137 plugins/SpeedLimiter/__init__.py:169
 msgid "Unlimited"
 msgstr ""
@@ -1008,7 +1010,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: src/interface.py:614 plugins/WebUi/scripts/template_strings.py:10
+#: src/interface.py:614 plugins/WebUi/scripts/template_strings.py:12
 msgid "ETA"
 msgstr ""
 
@@ -1025,70 +1027,70 @@ msgstr ""
 msgid "Paused %s"
 msgstr ""
 
-#: src/interface.py:1114
+#: src/interface.py:1103
 msgid "Connections"
 msgstr ""
 
-#: src/interface.py:1132
+#: src/interface.py:1121
 msgid "DHT"
 msgstr ""
 
-#: src/interface.py:1141 plugins/TorrentCreator/__init__.py:148
+#: src/interface.py:1130 plugins/TorrentCreator/__init__.py:148
 msgid "Deluge"
 msgstr ""
 
-#: src/interface.py:1141
+#: src/interface.py:1130
 msgid "Download"
 msgstr ""
 
-#: src/interface.py:1142
+#: src/interface.py:1131
 msgid "Upload"
 msgstr ""
 
-#: src/interface.py:1145
+#: src/interface.py:1134
 msgid "Deluge Bittorrent Client"
 msgstr ""
 
-#: src/interface.py:1222
+#: src/interface.py:1211
 msgid "Choose a download directory"
 msgstr ""
 
-#: src/interface.py:1249
+#: src/interface.py:1238
 msgid ""
 "An error occured while trying to add the torrent. It's possible your ."
 "torrent file is corrupted."
 msgstr ""
 
-#: src/interface.py:1274
+#: src/interface.py:1263
 msgid "Unknown duplicate torrent error."
 msgstr ""
 
-#: src/interface.py:1279
+#: src/interface.py:1268
 msgid ""
 "There is not enough free                disk space to complete your download."
 msgstr ""
 
-#: src/interface.py:1281
+#: src/interface.py:1270
 msgid "Space Needed:"
 msgstr ""
 
-#: src/interface.py:1282
+#: src/interface.py:1271
 msgid "Available Space:"
 msgstr ""
 
-#: src/interface.py:1299
+#: src/interface.py:1288
 msgid "Add torrent from URL"
 msgstr ""
 
-#: src/interface.py:1303
+#: src/interface.py:1292
 msgid "Enter the URL of the .torrent to download"
 msgstr ""
 
-#: src/interface.py:1364
+#: src/interface.py:1353
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr ""
 
-#: src/interface.py:1375
+#: src/interface.py:1364
 msgid "Are you sure that you want to remove all seeding torrents?"
 msgstr ""
 
@@ -1172,19 +1174,19 @@ msgid ""
 "re-add this torrent."
 msgstr ""
 
-#: src/dialogs.py:68
+#: src/dialogs.py:69
 msgid "Plugin"
 msgstr ""
 
-#: src/dialogs.py:70
+#: src/dialogs.py:71
 msgid "Enabled"
 msgstr ""
 
-#: src/dialogs.py:435
+#: src/dialogs.py:438
 msgid "translator-credits"
 msgstr ""
 
-#: src/dialogs.py:436
+#: src/dialogs.py:439
 msgid ""
 "Deluge is free software, you can redistribute it and/or\n"
 "modify it under the terms of the GNU General Public\n"
@@ -1201,15 +1203,15 @@ msgid ""
 "1301 USA"
 msgstr ""
 
-#: src/dialogs.py:476
+#: src/dialogs.py:480
 msgid "Choose a .torrent file"
 msgstr ""
 
-#: src/dialogs.py:481
+#: src/dialogs.py:485
 msgid "Torrent files"
 msgstr ""
 
-#: src/dialogs.py:485
+#: src/dialogs.py:489
 msgid "All files"
 msgstr ""
 
@@ -1639,11 +1641,11 @@ msgid ""
 "notification"
 msgstr ""
 
-#: plugins/TorrentNotification/__init__.py:109
+#: plugins/TorrentNotification/__init__.py:112
 msgid "Torrent complete"
 msgstr ""
 
-#: plugins/TorrentNotification/__init__.py:110
+#: plugins/TorrentNotification/__init__.py:113
 #: plugins/TorrentFiles/__init__.py:71
 msgid "Files"
 msgstr ""
@@ -2109,26 +2111,6 @@ msgid ""
 "be obeyed."
 msgstr ""
 
-#: plugins/WebUi/__init__.py:31
-msgid "Web User Interface"
-msgstr ""
-
-#: plugins/WebUi/__init__.py:34
-msgid ""
-"A Web based User Interface\n"
-"\n"
-"Firefox greasemonkey script: http://userscripts.org/scripts/show/12639\n"
-"\n"
-"Remotely add a file: \"curl -F torrent=@./test1.torrent -F pwd=deluge http://"
-"localhost:8112/remote/torrent/add\"\n"
-"\n"
-"There is support for multiple templates, but just one is included.\n"
-"\n"
-"Other contributors:\n"
-"*somedude : template enhancements.\n"
-"*markybob : stability : synced with his changes in deluge-svn.\n"
-msgstr ""
-
 #: plugins/WebUi/__init__.py:179
 msgid "WebUi Config"
 msgstr ""
@@ -2177,23 +2159,23 @@ msgstr ""
 msgid "translate something"
 msgstr ""
 
-#: plugins/WebUi/deluge_webserver.py:142
+#: plugins/WebUi/deluge_webserver.py:147
 msgid "Choose an url or a torrent, not both."
 msgstr ""
 
-#: plugins/WebUi/deluge_webserver.py:153
+#: plugins/WebUi/deluge_webserver.py:158
 msgid "no data."
 msgstr ""
 
-#: plugins/WebUi/deluge_webserver.py:230
+#: plugins/WebUi/deluge_webserver.py:235
 msgid "refresh must be > 0"
 msgstr ""
 
-#: plugins/WebUi/deluge_webserver.py:238
+#: plugins/WebUi/deluge_webserver.py:243
 msgid "Download Speed Limit"
 msgstr ""
 
-#: plugins/WebUi/deluge_webserver.py:242
+#: plugins/WebUi/deluge_webserver.py:247
 msgid "Upload Speed Limit"
 msgstr ""
 
@@ -2206,73 +2188,77 @@ msgid "About"
 msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:3
+msgid "Apply"
+msgstr ""
+
+#: plugins/WebUi/scripts/template_strings.py:4
 msgid "Auto refresh:"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:5
+#: plugins/WebUi/scripts/template_strings.py:6
 msgid "Debug:Data Dump"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:7
+#: plugins/WebUi/scripts/template_strings.py:8
 msgid "Delete downloaded files."
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:9
+#: plugins/WebUi/scripts/template_strings.py:11
 msgid "Downloaded"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:11
+#: plugins/WebUi/scripts/template_strings.py:13
 msgid "Next Announce"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:12
+#: plugins/WebUi/scripts/template_strings.py:14
 msgid "Off"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:14
+#: plugins/WebUi/scripts/template_strings.py:16
 msgid "Password is invalid,try again"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:16
+#: plugins/WebUi/scripts/template_strings.py:18
 msgid "Pieces"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:17
+#: plugins/WebUi/scripts/template_strings.py:19
 msgid "Refresh page every:"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:20
+#: plugins/WebUi/scripts/template_strings.py:22
 msgid "Set"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:23
+#: plugins/WebUi/scripts/template_strings.py:25
 msgid "Submit"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:24
+#: plugins/WebUi/scripts/template_strings.py:26
 msgid "Total Size"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:25
+#: plugins/WebUi/scripts/template_strings.py:27
 msgid "Tracker"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:26
+#: plugins/WebUi/scripts/template_strings.py:28
 msgid "Tracker Status"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:27
+#: plugins/WebUi/scripts/template_strings.py:30
 msgid "Upload torrent"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:28
+#: plugins/WebUi/scripts/template_strings.py:31
 msgid "Uploaded"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:29
+#: plugins/WebUi/scripts/template_strings.py:32
 msgid "Url"
 msgstr ""
 
-#: plugins/WebUi/scripts/template_strings.py:30
+#: plugins/WebUi/scripts/template_strings.py:33
 msgid "seconds"
 msgstr ""
