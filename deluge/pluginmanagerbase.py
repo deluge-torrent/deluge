@@ -90,34 +90,38 @@ class PluginManagerBase:
 
         self.available_plugins = []
         for name in self.pkg_env:
-            pkg_name = str(self.pkg_env[name][0]).split()[0]
+            pkg_name = str(self.pkg_env[name][0]).split()[0].replace("-", " ")
             pkg_version = str(self.pkg_env[name][0]).split()[1]
-            
             log.debug("Found plugin: %s %s", pkg_name, pkg_version)
             self.available_plugins.append(pkg_name)
 
-    def enable_plugin(self, name):
+    def enable_plugin(self, plugin_name):
         """Enables a plugin"""
-        if name not in self.available_plugins:
+        if plugin_name not in self.available_plugins:
             log.warning("Cannot enable non-existant plugin %s", name)
             return
-            
-        egg = self.pkg_env[name][0]
+
+        plugin_name = plugin_name.replace(" ", "-")            
+        egg = self.pkg_env[plugin_name][0]
         egg.activate()
         for name in egg.get_entry_map(self.entry_name):
             entry_point = egg.get_entry_info(self.entry_name, name)
             cls = entry_point.load()
             instance = cls(self)
-            self.plugins[name] = instance
-            log.info("Plugin %s enabled..", name)
+            plugin_name = plugin_name.replace("-", " ")
+            self.plugins[plugin_name] = instance
+            if plugin_name not in self.config["enabled_plugins"]:
+                self.config["enabled_plugins"].append(plugin_name)
+            log.info("Plugin %s enabled..", plugin_name)
             
     def disable_plugin(self, name):
         """Disables a plugin"""
 
         self.plugins[name].disable()
-            
-        del self.plugins[name]
-#        except:
- #           log.warning("Unable to disable non-existant plugin %s", name)
-        
+        try:
+            del self.plugins[name]
+            self.config["enabled_plugins"].remove(plugin_name)
+        except KeyError:
+            log.warning("Plugin %s is not enabled..", name)
+
         log.info("Plugin %s disabled..", name)

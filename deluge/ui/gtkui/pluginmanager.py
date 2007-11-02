@@ -37,17 +37,11 @@ import deluge.ui.client as client
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
-class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
-    def __init__(self, gtkui):
-        
+class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, 
+    component.Component):
+    def __init__(self):
+        component.Component.__init__(self, "PluginManager")
         self.config = ConfigManager("gtkui.conf")
-        self._gtkui = gtkui
-
-        # Register a callback with the client        
-        client.connect_on_new_core(self.start)
-    
-        deluge.pluginmanagerbase.PluginManagerBase.__init__(
-            self, "gtkui.conf", "deluge.plugin.gtkui")
             
     def start(self):
         """Start the plugin manager"""
@@ -58,29 +52,24 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
         self.config["enabled_plugins"] = enabled_plugins
         
         deluge.pluginmanagerbase.PluginManagerBase.__init__(
-            self, "gtkui.conf", "deluge.plugin.ui.gtk")
+            self, "gtkui.conf", "deluge.plugin.gtkui")
     
     def get_torrentview(self):
         """Returns a reference to the torrentview component"""
-        #return self._gtkui.mainwindow.torrentview
         return component.get("TorrentView")
 
     def get_toolbar(self):
         """Returns a reference to the toolbar component"""
-#        return self._gtkui.mainwindow.toolbar
         return component.get("ToolBar")
      
     def get_menubar(self):
         """Returns a reference to the menubar component"""
- #       return self._gtkui.mainwindow.menubar
         return component.get("MenuBar")
     
     def get_torrentmenu(self):
         """Returns a reference to the torrentmenu component"""
-#        return self._gtkui.mainwindow.menubar.torrentmenu
         return component.get("MenuBar").torrentmenu
         
     def get_selected_torrents(self):
         """Returns a list of the selected torrent_ids"""
-#        return self._gtkui.mainwindow.torrentview.get_selected_torrents()
         return component.get("TorrentView").get_selected_torrents()

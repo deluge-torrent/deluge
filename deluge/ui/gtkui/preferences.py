@@ -438,8 +438,10 @@ class Preferences(component.Component):
         self.plugin_liststore.set_value(row, 1, not value)
         if not value:
             client.enable_plugin(name)
+            component.get("PluginManager").enable_plugin(name)
         else:
             client.disable_plugin(name)
+            component.get("PluginManager").disable_plugin(name)
         
     def on_plugin_selection_changed(self, treeselection):
         log.debug("on_plugin_selection_changed")

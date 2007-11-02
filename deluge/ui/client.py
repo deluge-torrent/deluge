@@ -217,6 +217,10 @@ def get_torrent_status(torrent_id, keys):
     except (AttributeError, socket.error):
         set_core_uri(None)
         return {}
+    
+    if status == None:
+        return {}
+    
     return pickle.loads(status.data)
     
 def get_session_state():
@@ -301,17 +305,15 @@ def get_num_connections():
 
 def enable_plugin(plugin):
     try:
-        return get_core().enable_plugin(plugin)
+        get_core().enable_plugin(plugin)
     except (AttributeError, socket.error):
         set_core_uri(None)
-        return
             
 def disable_plugin(plugin):
     try:
-        return get_core().disable_plugin(plugin)
+        get_core().disable_plugin(plugin)
     except (AttributeError, socket.error):
         set_core_uri(None)
-        return
         
 def open_url_in_browser(url):
     """Opens link in the desktop's default browser"""

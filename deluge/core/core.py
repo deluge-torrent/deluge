@@ -375,9 +375,11 @@ class Core(
 
     def export_enable_plugin(self, plugin):
         self.plugins.enable_plugin(plugin)
-
+        return None
+        
     def export_disable_plugin(self, plugin):
         self.plugins.disable_plugin(plugin)
+        return None
         
     # Signals
     def torrent_added(self, torrent_id):

@@ -121,7 +121,7 @@ class GtkUI:
         self.signal_receiver = Signals()
 
         # Initalize the plugins
-        self.plugins = PluginManager(self)
+        self.plugins = PluginManager()
         
         # Show the connection manager
         self.connectionmanager = ConnectionManager()
