@@ -427,7 +427,8 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
 static PyObject *torrent_quit(PyObject *self, PyObject *args)
 {
-    M_settings->stop_tracker_timeout = 5;
+    M_settings->stop_tracker_timeout = 3;
+    M_settings->tracker_receive_timeout = 3;
     M_ses->set_settings(*M_settings);
     printf("core: removing torrents...\r\n");
     delete M_torrents;
@@ -566,6 +567,9 @@ static PyObject *torrent_get_per_upload_rate_limit(PyObject *self, PyObject *arg
         
     if (M_torrents->at(index).handle.is_valid())
         return Py_BuildValue("i", (python_long)M_torrents->at(index).handle.upload_limit());
+    else{
+        Py_INCREF(Py_None); return Py_None;
+    }
 }
 
 static PyObject *torrent_set_per_download_rate_limit(PyObject *self, PyObject *args)
@@ -597,6 +601,8 @@ static PyObject *torrent_get_per_download_rate_limit(PyObject *self, PyObject *a
         return NULL;
     if (M_torrents->at(index).handle.is_valid())
         return Py_BuildValue("i", (python_long)M_torrents->at(index).handle.download_limit());
+    else
+        Py_INCREF(Py_None); return Py_None;
 }
 
 static PyObject *torrent_set_listen_on(PyObject *self, PyObject *args)
