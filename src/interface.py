@@ -1584,6 +1584,7 @@ want to remove all seeding torrents?")):
         self.save_window_settings()
         self.save_tabs_order()
         gtk.main_quit()
+        enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
         self.config.set('enabled_plugins', enabled_plugins)
         self.config.save()
         self.plugins.shutdown_all_plugins()
@@ -1592,7 +1593,6 @@ want to remove all seeding torrents?")):
             unique_id = self.manager.get_torrent_unique_id(torrent)
             trackerslist = self.manager.get_trackers(unique_id)
             self.manager.unique_IDs[unique_id].trackers = trackerslist
-        enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
         self.tray_icon.set_visible(False)
         self.manager.quit()
 
