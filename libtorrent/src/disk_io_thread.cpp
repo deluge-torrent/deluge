@@ -344,7 +344,6 @@ namespace libtorrent
 
 #ifndef NDEBUG
 			m_current.storage = 0;
-			m_current.callback.clear();
 #endif
 			
 			if (j.buffer && free_buffer)

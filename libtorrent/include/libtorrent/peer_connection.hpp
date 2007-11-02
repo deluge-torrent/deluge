@@ -367,12 +367,8 @@ namespace libtorrent
 			return boost::optional<piece_block_progress>();
 		}
 
-		// these functions are virtual to let bt_peer_connection hook into them
-		// and encrypt the content
-		virtual void send_buffer(char const* begin, int size);
-		virtual buffer::interval allocate_send_buffer(int size);
-		virtual void setup_send();
-
+		void send_buffer(char const* begin, int size);
+		buffer::interval allocate_send_buffer(int size);
 		template <class Destructor>
 		void append_send_buffer(char* buffer, int size, Destructor const& destructor)
 		{
@@ -382,6 +378,7 @@ namespace libtorrent
 			m_ses.log_buffer_usage();
 #endif
 		}
+		void setup_send();
 
 #ifndef TORRENT_DISABLE_RESOLVE_COUNTRIES	
 		void set_country(char const* c)
@@ -469,6 +466,9 @@ namespace libtorrent
 		// the peer belongs to.
 		aux::session_impl& m_ses;
 
+		boost::intrusive_ptr<peer_connection> self()
+		{ return boost::intrusive_ptr<peer_connection>(this); }
+		
 		// called from the main loop when this connection has any
 		// work to do.
 		void on_send_data(asio::error_code const& error

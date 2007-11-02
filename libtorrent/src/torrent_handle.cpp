@@ -908,7 +908,7 @@ namespace libtorrent
 		for (torrent::const_peer_iterator i = t->begin();
 			i != t->end(); ++i)
 		{
-			peer_connection* peer = *i;
+			peer_connection* peer = i->second;
 
 			// incoming peers that haven't finished the handshake should
 			// not be included in this list

@@ -296,20 +296,18 @@ namespace libtorrent
 		, m_timeout(str.io_service())
 		, m_completion_timeout(0)
 		, m_read_timeout(0)
-		, m_abort(false)
 	{}
 
 	void timeout_handler::set_timeout(int completion_timeout, int read_timeout)
 	{
 		m_completion_timeout = completion_timeout;
 		m_read_timeout = read_timeout;
-		m_start_time = m_read_time = time_now();
+		m_start_time = time_now();
+		m_read_time = time_now();
 
-		if (m_abort) return;
-
-		int timeout = (std::min)(
-			m_read_timeout, (std::min)(m_completion_timeout, m_read_timeout));
-		m_timeout.expires_at(m_read_time + seconds(timeout));
+		m_timeout.expires_at((std::min)(
+			m_read_time + seconds(m_read_timeout)
+			, m_start_time + seconds(m_completion_timeout)));
 		m_timeout.async_wait(m_strand.wrap(bind(
 			&timeout_handler::timeout_callback, self(), _1)));
 	}
@@ -321,7 +319,6 @@ namespace libtorrent
 
 	void timeout_handler::cancel()
 	{
-		m_abort = true;
 		m_completion_timeout = 0;
 		m_timeout.cancel();
 	}
@@ -344,11 +341,9 @@ namespace libtorrent
 			return;
 		}
 
-		if (m_abort) return;
-
-		int timeout = (std::min)(
-			m_read_timeout, (std::min)(m_completion_timeout, m_read_timeout));
-		m_timeout.expires_at(m_read_time + seconds(timeout));
+		m_timeout.expires_at((std::min)(
+			m_read_time + seconds(m_read_timeout)
+			, m_start_time + seconds(m_completion_timeout)));
 		m_timeout.async_wait(m_strand.wrap(
 			bind(&timeout_handler::timeout_callback, self(), _1)));
 	}
