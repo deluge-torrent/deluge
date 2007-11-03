@@ -46,7 +46,7 @@ setup(
     entry_points="""
     [deluge.plugin.core]
     Queue = queue:CorePlugin
-    [deluge.plugin.ui.gtk]
+    [deluge.plugin.gtkui]
     Queue = queue:GtkUIPlugin
     """
 )

@@ -108,6 +108,7 @@ class PluginManagerBase:
             entry_point = egg.get_entry_info(self.entry_name, name)
             cls = entry_point.load()
             instance = cls(self)
+            instance.enable()
             plugin_name = plugin_name.replace("-", " ")
             self.plugins[plugin_name] = instance
             if plugin_name not in self.config["enabled_plugins"]:
@@ -116,11 +117,10 @@ class PluginManagerBase:
             
     def disable_plugin(self, name):
         """Disables a plugin"""
-
-        self.plugins[name].disable()
         try:
+            self.plugins[name].disable()
             del self.plugins[name]
-            self.config["enabled_plugins"].remove(plugin_name)
+            self.config["enabled_plugins"].remove(name)
         except KeyError:
             log.warning("Plugin %s is not enabled..", name)
 

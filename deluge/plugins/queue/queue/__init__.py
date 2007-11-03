@@ -31,20 +31,24 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-from core import Core
-from gtkui import GtkUI
-
 from deluge.log import LOG as log
 
-class CorePlugin:
-    def __init__(self, plugin_manager):
-        # Load the Core portion of the plugin
-        self.core = Core(plugin_manager)
-        
-    def disable(self):
-        pass
+from deluge.plugins.init import PluginBase
 
-class GtkUIPlugin:
-    def __init__(self, plugin_manager):
+class CorePlugin(PluginBase):
+    def __init__(self, plugin_api):
+        # Load the Core portion of the plugin
+        try:
+            from core import Core
+            self.plugin = Core(plugin_api)
+        except Exception, e:
+            log.debug("Did not load a Core plugin: %s", e)
+
+class GtkUIPlugin(PluginBase):
+    def __init__(self, plugin_api):
         # Load the GtkUI portion of the plugin
-        self.gtkui = GtkUI(plugin_manager)
+        try:
+            from gtkui import GtkUI
+            self.plugin = GtkUI(plugin_api)
+        except Exception, e:
+            log.debug("Did not load a GtkUI plugin: %s", e)

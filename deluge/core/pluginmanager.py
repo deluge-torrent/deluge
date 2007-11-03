@@ -59,6 +59,14 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
         log.debug("Registering status field %s with PluginManager", field)
         self.status_fields[field] = function
     
+    def deregister_status_field(self, field):
+        """Deregisters a status field"""
+        log.debug("Deregistering status field %s with PluginManager", field)
+        try:
+            del self.status_fields[field]
+        except:
+            log.warning("Unable to deregister status field %s", field)
+            
     def get_status(self, torrent_id, fields):
         """Return the value of status fields for the selected torrent_id."""
         status = {}
@@ -76,7 +84,14 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
             self.hooks[hook].append(function)
         except KeyError:
             log.warning("Plugin attempting to register invalid hook.")
-          
+    
+    def deregister_hook(self, hook, function):
+        """Deregisters a hook function"""
+        try:
+            self.hooks[hook].remove(function)
+        except:
+            log.warning("Unable to deregister hook %s", hook)
+            
     def run_post_torrent_add(self, torrent_id):
         """This hook is run after a torrent has been added to the session."""
         log.debug("run_post_torrent_add")

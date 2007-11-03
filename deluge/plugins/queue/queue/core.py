@@ -35,10 +35,12 @@ from torrentqueue import TorrentQueue
 from deluge.log import LOG as log
 
 class Core:
-    def __init__(self, plugin):
-        # Get the pluginmanager reference
-        self.plugin = plugin
+    def __init__(self, plugin_api):
+        # Get the plugin_api
+        self.plugin = plugin_api
+        log.info("Queue Core plugin initialized..")
 
+    def enable(self):
         # Instantiate the TorrentQueue object
         self.queue = TorrentQueue()
         
@@ -50,14 +52,21 @@ class Core:
         # Register the 'queue' status field
         self.plugin.register_status_field("queue", self._status_field_queue)
         
-        log.info("Queue Core plugin initialized..")
+        log.debug("Queue Core plugin enabled..")
     
     def disable(self):
-        pass
-        
-    def shutdown(self):
-        # Save the queue state
+        # Save queue state
         self.queue.save_state()
+        # Delete the queue
+        del self.queue
+        self.queue = None
+        # De-register hooks
+        self.plugin.deregister_hook("post_torrent_add", self._post_torrent_add)
+        self.plugin.deregister_hook("post_torrent_remove",
+            self._post_torrent_remove)
+        
+        # De-register status fields
+        self.plugin.deregister_status_field("queue")
 
     ## Hooks for core ##
     def _post_torrent_add(self, torrent_id):

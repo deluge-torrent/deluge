@@ -108,7 +108,7 @@ class ToolBar(component.Component):
         # Show the new toolbutton
         toolbutton.show()
         
-        return
+        return toolbutton
     
     def add_separator(self, position=None):
         """Adds a separator toolitem"""
@@ -118,8 +118,15 @@ class ToolBar(component.Component):
         else:
             # Append the separator
             self.toolbar.insert(sep, -1)
-        return
+
+        sep.show()
         
+        return sep
+    
+    def remove(self, widget):
+        """Removes a widget from the toolbar"""
+        self.toolbar.remove(widget)
+            
     ### Callbacks ###
     def on_toolbutton_add_clicked(self, data):
         log.debug("on_toolbutton_add_clicked")

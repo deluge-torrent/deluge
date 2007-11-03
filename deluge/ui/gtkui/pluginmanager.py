@@ -53,23 +53,33 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         
         deluge.pluginmanagerbase.PluginManagerBase.__init__(
             self, "gtkui.conf", "deluge.plugin.gtkui")
-    
-    def get_torrentview(self):
-        """Returns a reference to the torrentview component"""
-        return component.get("TorrentView")
 
-    def get_toolbar(self):
-        """Returns a reference to the toolbar component"""
-        return component.get("ToolBar")
-     
-    def get_menubar(self):
-        """Returns a reference to the menubar component"""
-        return component.get("MenuBar")
-    
-    def get_torrentmenu(self):
-        """Returns a reference to the torrentmenu component"""
-        return component.get("MenuBar").torrentmenu
+    ## Plugin functions.. will likely move to own class..
         
+    def add_torrentview_text_column(self, *args, **kwargs):
+        return component.get("TorrentView").add_text_column(*args, **kwargs)
+    
+    def remove_torrentview_column(self, *args):
+        return component.get("TorrentView").remove_column(*args)
+           
+    def add_toolbar_separator(self):
+        return component.get("ToolBar").add_separator()
+    
+    def add_toolbar_button(self, *args, **kwargs):
+        return component.get("ToolBar").add_toolbutton(*args, **kwargs)
+    
+    def remove_toolbar_button(self, *args):
+        return component.get("ToolBar").remove(*args)
+    
+    def add_torrentmenu_menu(self, *args):
+        return component.get("MenuBar").torrentmenu.append(*args)
+    
+    def remove_torrentmenu_menu(self, *args):
+        return component.get("MenuBar").torrentmenu.remove(*args)
+    
+    def update_torrent_view(self, *args):
+        return component.get("TorrentView").update(*args)
+
     def get_selected_torrents(self):
         """Returns a list of the selected torrent_ids"""
         return component.get("TorrentView").get_selected_torrents()

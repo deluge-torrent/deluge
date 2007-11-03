@@ -34,7 +34,7 @@
 from deluge.log import LOG as log
 
 class Core:
-    def __init__(self):
+    def __init__(self, plugin_api):
         pass
     
     def enable(self):
