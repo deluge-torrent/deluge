@@ -190,10 +190,17 @@ class Manager:
     # completely fresh. When quitting, the old files will be overwritten
     def __init__(self, client_ID, version, user_agent, base_dir, blank_slate=False):
         self.base_dir = base_dir
+        # Keeps track of DHT running state
+        self.dht_running = False
+
+        # Load the preferences
+        self.config = pref.Preferences(os.path.join(self.base_dir, PREFS_FILENAME))
+        
+        TORRENTS_SUBDIR = self.config.get("default_torrent_path")
 
         # Ensure directories exist
-        if not TORRENTS_SUBDIR in os.listdir(self.base_dir):
-            os.mkdir(os.path.join(self.base_dir, TORRENTS_SUBDIR))
+        if not os.path.exists(TORRENTS_SUBDIR):
+            os.mkdir(TORRENTS_SUBDIR)
 
         # Pre-initialize the core's data structures
         deluge_core.pre_init(DelugeError,
@@ -233,16 +240,10 @@ class Manager:
         # manner.
         self.cached_core_torrent_file_infos = \
             cached_data(deluge_core.get_file_info)
-        
-        # Keeps track of DHT running state
-        self.dht_running = False
 
-        # Load the preferences
-        self.config = pref.Preferences(os.path.join(self.base_dir, PREFS_FILENAME))
-        
         # Apply preferences. Note that this is before any torrents are added
         self.apply_prefs()
-
+        
         # Event callbacks for use with plugins
         self.event_callbacks = {}
 
@@ -368,10 +369,10 @@ class Manager:
     # A function to try and reload a torrent from a previous session. This is
     # used in the event that Deluge crashes and a blank state is loaded.
     def add_old_torrent(self, filename, save_dir, compact):
-        if not filename in os.listdir(os.path.join(self.base_dir, TORRENTS_SUBDIR)):
+        if not filename in os.listdir(self.config.get("default_torrent_path")):
             raise InvalidTorrentError(_("File was not found") + ": " + filename)
 
-        full_new_name = os.path.join(self.base_dir, TORRENTS_SUBDIR, filename)
+        full_new_name = os.path.join(self.config.get("default_torrent_path"), filename)
 
         # Create torrent object
         new_torrent = torrent_info(full_new_name, save_dir, compact)
@@ -801,7 +802,7 @@ class Manager:
         # if filename_short in os.listdir(self.base_dir + "/" + TORRENTS_SUBDIR):
         #     raise DuplicateTorrentError("Duplicate Torrent, it appears: " + filename_short)
 
-        full_new_name = os.path.join(self.base_dir, TORRENTS_SUBDIR, filename_short)
+        full_new_name = os.path.join(self.config.get("default_torrent_path"), filename_short)
 
         try:
             shutil.copy(filename, full_new_name)

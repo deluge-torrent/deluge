@@ -1,5 +1,4 @@
 for 0.5.7
-    1. manual recheck
-    2. preference for .torrent location
-    4. add auto-pickup folder
-    5. remap filenames
+    * manual recheck
+    * add auto-pickup folder
+    * remap filenames

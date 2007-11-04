@@ -1,6 +1,7 @@
 Deluge 0.5.7 (xx November 2007)
   * Blocklist plugin will now display errors, instead of just crashing on a bad
   list
+  * Add preference for the location of torrent files
 
 Deluge 0.5.6.2 (31 October 2007)
   * Set default piece size to 256-KiB in TorrentCreator plugin and add 2048KiB
