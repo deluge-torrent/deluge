@@ -6,6 +6,7 @@
 from exceptions import Exception
 from struct import unpack
 import gzip, socket
+import ui
 
 class PGException(Exception):
     pass
@@ -17,8 +18,11 @@ class PGReader:
     def __init__(self, filename):
         print "PGReader loading",filename
 
-        # FIXME: Catch and convert exception?
-        self.fd = gzip.open(filename, "rb")
+        try:
+            self.fd = gzip.open(filename, "rb")
+        except IOError, e:
+            ui.GTKError(_("We were expecting a gzip file, but didn't get that, \
+or possibly the file is corrupt.  Please edit your Blocklist preferences"))
 
         # 4 bytes, should be 0xffffffff
         buf = self.fd.read(4)

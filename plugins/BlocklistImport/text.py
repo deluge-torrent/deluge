@@ -9,7 +9,7 @@ import re, gzip, os
 from socket import inet_aton
 from struct import unpack
 from zipfile import ZipFile
-
+import ui
 
 class TextException(Exception):
     pass
@@ -34,13 +34,17 @@ class TextBase:
 
         match = self.re.search(txt)
         if not match:
-            raise FormatException(_("Couldn't match on line") + " %d: %s (%s)"%(self.count,txt,txt))
+            ui.GTKError(_("Wrong file type or corrupted blocklist file."))
 
-        g = match.groups()
-        start = ".".join(g[0:4])
-        end = ".".join(g[4:8])
+        try:
+            g = match.groups()
+        except AttributeError:
+            pass
+        else:
+            start = ".".join(g[0:4])
+            end = ".".join(g[4:8])
 
-        return (start, end)
+            return (start, end)
 
     def close(self):
         self.fd.close()
@@ -60,7 +64,10 @@ class TextReader(PGTextReader):
 
     def __init__(self, filename):
         print "TextReader loading",filename
-        PGTextReader.__init__(self, open(filename, 'r'))
+        try:
+            PGTextReader.__init__(self, open(filename, 'r'))
+        except:
+            ui.GTKError(_("Wrong file type or corrupted blocklist file."))
 
 
 # Reads Emule style blocklists (aka nipfilter)
@@ -75,7 +82,10 @@ class GZMuleReader(MuleReader):
 
     def __init__(self, filename):
         print "GZMuleReader loading",filename
-        MuleReader.__init__(self, gzip.open(filename, "r"))
+        try:
+            MuleReader.__init__(self, gzip.open(filename, "r"))
+        except:
+            ui.GTKError(_("Wrong file type or corrupted blocklist file."))
 
 
 # Reads zip files from SafePeer style files 
@@ -83,10 +93,13 @@ class PGZip(TextBase):
 
     def __init__(self, filename):
         # Open zip and extract first file
-        self.zfd = ZipFile(filename, 'r')
-        self.files = self.zfd.namelist()
-
-        self.opennext()
+        try:
+            self.zfd = ZipFile(filename, 'r')
+        except:
+            ui.GTKError(_("Wrong file type or corrupted blocklist file."))
+        else:
+            self.files = self.zfd.namelist()
+            self.opennext()
 
     def opennext(self):
         self.tmp = os.tmpfile()
@@ -112,14 +125,19 @@ class PGZip(TextBase):
                     return False
             return ret
         
-        except FormatException, (e):
-            print "Got format exception for zipfile:",e
+        except FormatException, e:
+            ui.GTKError(_("Got format exception for zipfile:",e))
             # Just skip
             if len(self.files) > 0:
                 self.opennext()
                 return self.next()
             else:
                 return False
+        except AttributeError:
+            pass
 
     def close(self):
-        self.zfd.close()
+        try:
+            self.zfd.close()
+        except AttributeError:
+            pass

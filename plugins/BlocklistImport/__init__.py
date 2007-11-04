@@ -88,8 +88,8 @@ class BlocklistImport:
                 filename, headers = urllib.urlretrieve(self.config.get('url'),
                                                     filename=self.blockfile,
                                                     reporthook=self._download_update)
-            except IOError, (errno, strerr):
-                err = ui.GTKError(_("Couldn't download URL") + ": %s"%strerr)
+            except IOError, e:
+                err = ui.GTKError(_("Couldn't download URL") + ": %s"%e)
                 self.gtkprog.stop()
                 return
 
@@ -101,13 +101,16 @@ class BlocklistImport:
 
         try:
             reader = readers[ltype][1](self.blockfile)
-        except IOError, (errno, strerr):
-            err = ui.GTKError(_("Couldn't open blocklist file") + ": %s"%strerr)
+        except IOError, e:
+            err = ui.GTKError(_("Couldn't open blocklist file") + ": %s"%e)
             self.gtkprog.stop()
             return
 
         print "Starting import"
-        ips = reader.next()
+        try:
+            ips = reader.next()
+        except:
+            ui.GTKError(_("Wrong file type or corrupted blocklist file."))
         curr = 0
         try:
             while ips and not self.cancelled:
@@ -119,8 +122,7 @@ class BlocklistImport:
                 else:
 	            self.gtkprog.import_prog()
 
-        except FormatException, (ex):
-            err = ui.GTKError(_("Format error in blocklist") + ": %s"%ex)
+        except:
             self.gtkprog.stop()
             reader.close()
             return
