@@ -33,13 +33,9 @@
 
 from torrentqueue import TorrentQueue
 from deluge.log import LOG as log
+from deluge.plugins.corepluginbase import CorePluginBase
 
-class Core:
-    def __init__(self, plugin_api):
-        # Get the plugin_api
-        self.plugin = plugin_api
-        log.info("Queue Core plugin initialized..")
-
+class Core(CorePluginBase):
     def enable(self):
         # Instantiate the TorrentQueue object
         self.queue = TorrentQueue()
@@ -90,7 +86,7 @@ class Core:
         try:
             # If the queue method returns True, then we should emit a signal
             if self.queue.top(torrent_id):
-                self.torrent_queue_changed()
+                self._torrent_queue_changed()
         except KeyError:
             log.warning("torrent_id: %s does not exist in the queue", 
                                                                     torrent_id)
@@ -100,7 +96,7 @@ class Core:
         try:
             # If the queue method returns True, then we should emit a signal
             if self.queue.up(torrent_id):
-                self.torrent_queue_changed()
+                self._torrent_queue_changed()
         except KeyError:
             log.warning("torrent_id: %s does not exist in the queue", 
                                                                     torrent_id)
@@ -110,7 +106,7 @@ class Core:
         try:
             # If the queue method returns True, then we should emit a signal
             if self.queue.down(torrent_id):
-                self.torrent_queue_changed()
+                self._torrent_queue_changed()
         except KeyError:
             log.warning("torrent_id: %s does not exist in the queue", 
                                                                     torrent_id)
@@ -120,7 +116,7 @@ class Core:
         try:
             # If the queue method returns True, then we should emit a signal
             if self.queue.bottom(torrent_id):
-                self.torrent_queue_changed()
+                self._torrent_queue_changed()
         except KeyError:
             log.warning("torrent_id: %s does not exist in the queue", 
                                                                     torrent_id)

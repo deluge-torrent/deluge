@@ -34,10 +34,11 @@
 import gettext
 import locale
 import pkg_resources
+import deluge.ui.client as client
 from deluge.log import LOG as log
 
 class UI:
-    def __init__(self, plugin_api):
+    def __init__(self, plugin_api, plugin_name):
         self.plugin = plugin_api
         # Initialize gettext
         locale.setlocale(locale.LC_MESSAGES, '')
@@ -67,7 +68,7 @@ class UI:
     def unload_interface(self):
         pass
         
-    def update_interface(self):
+    def update(self):
         pass
         
     ## Menu callbacks ##
@@ -76,7 +77,10 @@ class UI:
         # Get the selected torrents
         torrent_ids = self.plugin.get_selected_torrents()
         for torrent_id in torrent_ids:
-            self.core.queue_top(torrent_id)
+            try:
+                client.get_core().queue_queue_top(torrent_id)
+            except Exception, e:
+                log.debug("Unable to queue top torrent: %s", e)
         return
                 
     def on_queueup_activate(self, data=None):
@@ -84,7 +88,10 @@ class UI:
         # Get the selected torrents
         torrent_ids = self.plugin.get_selected_torrents()
         for torrent_id in torrent_ids:
-            self.core.queue_up(torrent_id)
+            try:
+                client.get_core().queue_queue_up(torrent_id)
+            except Exception, e:
+                log.debug("Unable to queue up torrent: %s", e)
         return
         
     def on_queuedown_activate(self, data=None):
@@ -92,7 +99,10 @@ class UI:
         # Get the selected torrents
         torrent_ids = self.plugin.get_selected_torrents()
         for torrent_id in torrent_ids:
-            self.core.queue_down(torrent_id)
+            try:
+                client.get_core().queue_queue_down(torrent_id)
+            except Exception, e:
+                log.debug("Unable to queue down torrent: %s", e)
         return
                 
     def on_queuebottom_activate(self, data=None):
@@ -100,7 +110,10 @@ class UI:
         # Get the selected torrents
         torrent_ids = self.plugin.get_selected_torrents()
         for torrent_id in torrent_ids:
-            self.core.queue_bottom(torrent_id)
+            try:
+                client.get_core().queue_queue_bottom(torrent_id)
+            except Exception, e:
+                log.debug("Unable to queue bottom torrent: %s", e)
         return
     
     ## Signals ##
@@ -110,7 +123,6 @@ class UI:
         """
         log.debug("torrent_queue_changed signal received..")
         # We only need to update the queue column
-#       self.torrentview.update(["#"])
-        self.update_interface()
+        self.update()
         return
 

@@ -36,16 +36,16 @@ from deluge.log import LOG as log
 from deluge.plugins.init import PluginBase
 
 class CorePlugin(PluginBase):
-    def __init__(self, plugin_api):
+    def __init__(self, plugin_api, plugin_name):
         # Load the Core portion of the plugin
         try:
             from core import Core
-            self.plugin = Core(plugin_api)
+            self.plugin = Core(plugin_api, plugin_name)
         except:
             pass
 
 class GtkUIPlugin(PluginBase):
-    def __init__(self, plugin_api):
+    def __init__(self, plugin_api, plugin_name):
         # Load the GtkUI portion of the plugin
         try:
             from gtkui import GtkUI

@@ -37,10 +37,10 @@ from deluge.log import LOG as log
 import ui
 
 class GtkUI(ui.UI):
-    def __init__(self, plugin_api):
+    def __init__(self, plugin_api, plugin_name):
         log.debug("Calling UI init")
         # Call UI constructor
-        ui.UI.__init__(self, plugin_api)
+        ui.UI.__init__(self, plugin_api, plugin_name)
         log.debug("Queue GtkUI plugin initalized..")
     
     def load_interface(self):
@@ -73,7 +73,7 @@ class GtkUI(ui.UI):
                                         position=0, 
                                         status_field=["queue"])
         # Update the new column right away
-        self.update_interface()
+        self.update()
         
         # Add a toolbar buttons
         self.toolbar_sep = self.plugin.add_toolbar_separator()
@@ -105,5 +105,5 @@ class GtkUI(ui.UI):
         self.plugin.remove_toolbar_button(self.toolbutton_down)
         self.plugin.remove_torrentview_column("#")
         
-    def update_interface(self):
+    def update(self):
         self.plugin.update_torrent_view(["#"])

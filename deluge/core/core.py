@@ -179,7 +179,7 @@ class Core(
         self.torrents = TorrentManager(self.session, self.alerts)
         
         # Load plugins
-        self.plugins = PluginManager()
+        self.plugins = PluginManager(self)
        
         # Register alert handlers
         self.alerts.register_handler("torrent_paused_alert",

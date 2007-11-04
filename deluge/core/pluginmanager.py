@@ -40,7 +40,8 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
     """PluginManager handles the loading of plugins and provides plugins with
     functions to access parts of the core."""
     
-    def __init__(self):
+    def __init__(self, core):
+        self.core = core
         # Set up the hooks dictionary
         self.hooks = {
             "post_torrent_add": [],
@@ -53,6 +54,10 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
         deluge.pluginmanagerbase.PluginManagerBase.__init__(
             self, "core.conf", "deluge.plugin.core")
 
+    def get_core(self):
+        """Returns a reference to the core"""
+        return self.core
+        
     def register_status_field(self, field, function):
         """Register a new status field.  This can be used in the same way the
         client requests other status information from core."""

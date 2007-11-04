@@ -107,7 +107,7 @@ class PluginManagerBase:
         for name in egg.get_entry_map(self.entry_name):
             entry_point = egg.get_entry_info(self.entry_name, name)
             cls = entry_point.load()
-            instance = cls(self)
+            instance = cls(self, plugin_name.replace("-", "_"))
             instance.enable()
             plugin_name = plugin_name.replace("-", " ")
             self.plugins[plugin_name] = instance
