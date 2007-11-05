@@ -154,6 +154,7 @@ class DelugeGTK:
             result = 0
             def win_handler(self, ctrl_type):
                 if ctrl_type == CTRL_CLOSE_EVENT:
+                    self.window.hide()
                     self.shutdown()
                     result = 1
                     return result
@@ -545,6 +546,7 @@ window, please enter your password"))
                         "remove_torrent": self.remove_torrent_clicked,
                         "edit_trackers": self.list_of_trackers,
                         "tor_start": self.tor_start,
+                        "torrent_recheck": self.torrent_recheck,
                         "tor_pause": self.tor_pause,
                         "update_tracker": self.update_tracker,
                         "clear_finished": self.clear_finished,
@@ -737,6 +739,36 @@ window, please enter your password"))
                 common.exec_command(file_manager, torrent_path)
         except KeyError:
             pass
+
+    def torrent_recheck(self, widget):
+        unique_ids = self.get_selected_torrent_rows()
+        for uid in unique_ids:
+            torrent_state = self.manager.get_torrent_state(uid)
+            order = torrent_state['queue_pos']
+            path = self.manager.unique_IDs[uid].filename
+            save_dir = self.manager.unique_IDs[uid].save_dir
+            save_info = [path, save_dir, order]
+            import os, xdg
+            try:
+                os.remove(self.manager.unique_IDs[uid].filename + ".fastresume")
+            except:
+                pass
+            if common.windows_check():
+                self.filepath = os.path.join(os.path.expanduser("~"), 'deluge', 'saveinfo.txt')
+            else:
+                self.filepath = os.path.join(xdg.BaseDirectory.save_config_path('deluge'), 'saveinfo.txt')
+            filename = open(self.filepath, 'w')
+            import cPickle
+            cPickle.dump(save_info, filename)
+            filename.close()
+            self.manager.remove_torrent(uid, False, False)
+            self.torrent_model_remove(uid)
+            self.update()
+            filename = open(self.filepath, 'r')
+            save_info = cPickle.load(filename)
+            self.interactive_add_torrent_path(save_info[0], save_info[1])
+            filename.close()
+            os.remove(self.filepath)
 
     def tor_start(self, widget):
         unique_ids = self.get_selected_torrent_rows()
@@ -1594,7 +1626,6 @@ want to remove all seeding torrents?")):
         self.save_column_widths()
         self.save_window_settings()
         self.save_tabs_order()
-        gtk.main_quit()
         enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
         self.config.set('enabled_plugins', enabled_plugins)
         self.config.save()

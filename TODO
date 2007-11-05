@@ -1,4 +1,4 @@
 for 0.5.7
-    * manual recheck
+    * possibly add queue support to manual recheck
     * remap filenames
     * decide what to do about the progress bar patch

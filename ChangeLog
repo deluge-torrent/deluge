@@ -3,6 +3,7 @@ Deluge 0.5.7 (xx November 2007)
   list
   * Add preference for the location of torrent files
   * Add autoload folder
+  * Manual force-recheck
 
 Deluge 0.5.6.2 (31 October 2007)
   * Set default piece size to 256-KiB in TorrentCreator plugin and add 2048KiB

@@ -5,6 +5,30 @@
   <widget class="GtkMenu" id="torrent_menu">
     <property name="visible">True</property>
     <child>
+      <widget class="GtkImageMenuItem" id="menuitem3">
+        <property name="visible">True</property>
+        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+        <property name="tooltip" translatable="yes">Recheck torrent data</property>
+        <property name="label" translatable="yes">_Force Recheck</property>
+        <property name="use_underline">True</property>
+        <signal name="activate" handler="torrent_recheck"/>
+        <child internal-child="image">
+          <widget class="GtkImage" id="menu-item-image16">
+            <property name="visible">True</property>
+            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+            <property name="stock">gtk-execute</property>
+            <property name="icon_size">1</property>
+          </widget>
+        </child>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkSeparatorMenuItem" id="separatormenuitem2">
+        <property name="visible">True</property>
+        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+      </widget>
+    </child>
+    <child>
       <widget class="GtkImageMenuItem" id="menu_resume">
         <property name="visible">True</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -110,77 +134,6 @@
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
         <property name="label" translatable="yes">_Queue</property>
         <property name="use_underline">True</property>
-        <child>
-          <widget class="GtkMenu" id="menu1">
-            <property name="visible">True</property>
-            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-            <child>
-              <widget class="GtkImageMenuItem" id="menu_queue_top">
-                <property name="visible">True</property>
-                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="yes">_Top</property>
-                <property name="use_underline">True</property>
-                <signal name="activate" handler="queue_top"/>
-                <child internal-child="image">
-                  <widget class="GtkImage" id="menu-item-image10">
-                    <property name="visible">True</property>
-                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="stock">gtk-goto-top</property>
-                    <property name="icon_size">1</property>
-                  </widget>
-                </child>
-              </widget>
-            </child>
-            <child>
-              <widget class="GtkImageMenuItem" id="menu_queue_up">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">_Up</property>
-                <property name="use_underline">True</property>
-                <signal name="activate" handler="queue_up"/>
-                <child internal-child="image">
-                  <widget class="GtkImage" id="menu-item-image6">
-                    <property name="visible">True</property>
-                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="stock">gtk-go-up</property>
-                    <property name="icon_size">1</property>
-                  </widget>
-                </child>
-              </widget>
-            </child>
-            <child>
-              <widget class="GtkImageMenuItem" id="menu_queue_down">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">_Down</property>
-                <property name="use_underline">True</property>
-                <signal name="activate" handler="queue_down"/>
-                <child internal-child="image">
-                  <widget class="GtkImage" id="menu-item-image7">
-                    <property name="visible">True</property>
-                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="stock">gtk-go-down</property>
-                    <property name="icon_size">1</property>
-                  </widget>
-                </child>
-              </widget>
-            </child>
-            <child>
-              <widget class="GtkImageMenuItem" id="menu_queue_bottom">
-                <property name="visible">True</property>
-                <property name="label" translatable="yes">_Bottom</property>
-                <property name="use_underline">True</property>
-                <signal name="activate" handler="queue_bottom"/>
-                <child internal-child="image">
-                  <widget class="GtkImage" id="menu-item-image8">
-                    <property name="visible">True</property>
-                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="stock">gtk-goto-bottom</property>
-                    <property name="icon_size">1</property>
-                  </widget>
-                </child>
-              </widget>
-            </child>
-          </widget>
-        </child>
         <child internal-child="image">
           <widget class="GtkImage" id="menu-item-image11">
             <property name="visible">True</property>
