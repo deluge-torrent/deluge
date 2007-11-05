@@ -1,4 +1,4 @@
 for 0.5.7
-    * possibly add queue support to manual recheck
+    * add queue support and remembering edited trackers and uploaded memory to manual recheck
     * remap filenames
     * decide what to do about the progress bar patch
