@@ -1637,10 +1637,6 @@ want to remove all seeding torrents?")):
         self.config.save()
         self.plugins.shutdown_all_plugins()
         #for the sake of windows, hide tray_icon
-        for torrent in self.manager.get_queue():
-            unique_id = self.manager.get_torrent_unique_id(torrent)
-            trackerslist = self.manager.get_trackers(unique_id)
-            self.manager.unique_IDs[unique_id].trackers = trackerslist
         self.tray_icon.set_visible(False)
         self.manager.quit()
 
