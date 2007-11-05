@@ -743,32 +743,38 @@ window, please enter your password"))
     def torrent_recheck(self, widget):
         unique_ids = self.get_selected_torrent_rows()
         for uid in unique_ids:
+            import os, xdg, shutil
+            if common.windows_check():
+                newpath = os.path.join(os.path.expanduser("~"), 'deluge', 'tmp')
+            else:
+                newpath = os.path.join(xdg.BaseDirectory.save_config_path('deluge'), 'tmp')
+            if not os.path.exists(newpath):
+                os.mkdir(newpath)
             torrent_state = self.manager.get_torrent_state(uid)
             order = torrent_state['queue_pos']
             path = self.manager.unique_IDs[uid].filename
             save_dir = self.manager.unique_IDs[uid].save_dir
-            save_info = [path, save_dir, order]
-            import os, xdg
+            (temp, filename_short) = os.path.split(path)
+            shutil.copy(path, os.path.join(newpath, filename_short))
+            save_info = [os.path.join(newpath, filename_short), save_dir, order]
+            self.filepath = os.path.join(newpath, 'saveinfo.txt')
             try:
                 os.remove(self.manager.unique_IDs[uid].filename + ".fastresume")
             except:
                 pass
-            if common.windows_check():
-                self.filepath = os.path.join(os.path.expanduser("~"), 'deluge', 'saveinfo.txt')
-            else:
-                self.filepath = os.path.join(xdg.BaseDirectory.save_config_path('deluge'), 'saveinfo.txt')
             filename = open(self.filepath, 'w')
             import cPickle
             cPickle.dump(save_info, filename)
             filename.close()
-            self.manager.remove_torrent(uid, False, False)
+            self.manager.remove_torrent(uid, False, True)
             self.torrent_model_remove(uid)
-            self.update()
             filename = open(self.filepath, 'r')
             save_info = cPickle.load(filename)
-            self.interactive_add_torrent_path(save_info[0], save_info[1])
-            filename.close()
+            unique_id = self.manager.add_torrent(save_info[0], save_info[1], self.config.get("use_compact_storage"))
+            self.torrent_model_append(unique_id)
             os.remove(self.filepath)
+            os.remove(save_info[0])
+            filename.close()
 
     def tor_start(self, widget):
         unique_ids = self.get_selected_torrent_rows()
