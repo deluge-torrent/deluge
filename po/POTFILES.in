@@ -26,9 +26,6 @@ plugins/TorrentPeers/__init__.py
 plugins/TorrentPeers/tab_peers.py
 plugins/TorrentCreator/torrentcreator.glade
 plugins/TorrentCreator/__init__.py
-plugins/SimpleRSS/rss.glade
-plugins/SimpleRSS/__init__.py
-plugins/SimpleRSS/plugin.py
 plugins/TorrentNotification/notification_preferences.glade
 plugins/TorrentNotification/__init__.py
 plugins/NetworkHealth/__init__.py
@@ -58,3 +55,4 @@ plugins/WebUi/__init__.py
 plugins/WebUi/webserver_common.py
 plugins/WebUi/deluge_webserver.py
 plugins/WebUi/scripts/template_strings.py
+plugins/FlexRSS/FlexRSS.glade
