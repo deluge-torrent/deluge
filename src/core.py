@@ -396,19 +396,6 @@ class Manager:
                 pass
             deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
 
-    # Load all NEW torrents in a . The GUI can call this every minute or so,
-    # if one wants a directory to be 'watched' (personally, I think it should only be
-    # done on user command).os.path.join(
-    def autoload_directory(self, directory, save_dir, compact):
-        for filename in os.listdir(directory):
-            if filename[-len(".torrent"):].lower() == ".torrent":
-                try:
-                    self.add_torrent_ns(self, filename, save_dir, compact)
-                except DuplicateTorrentError:
-                    pass
-
-        self.sync()
-
     # State retrieval functions
 
     def get_state(self):
@@ -845,11 +832,10 @@ class Manager:
                     unique_ID = deluge_core.add_torrent(torrent.filename,
                                                         torrent.save_dir,
                                                         torrent.compact)
-                except DelugeError, e:
-                    print "Error:", e
+                except:
+                    print "Error probably bad torrent"
                     del self.state.torrents[torrent]
                     raise e
-#                print "Got unique ID:", unique_ID
 
                 ret = unique_ID
                 self.unique_IDs[unique_ID] = torrent

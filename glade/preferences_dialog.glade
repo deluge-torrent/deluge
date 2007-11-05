@@ -157,6 +157,73 @@
                           </packing>
                         </child>
                         <child>
+                          <widget class="GtkFrame" id="frame20">
+                            <property name="visible">True</property>
+                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                            <property name="shadow_type">GTK_SHADOW_NONE</property>
+                            <child>
+                              <widget class="GtkAlignment" id="alignment34">
+                                <property name="visible">True</property>
+                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                <property name="left_padding">12</property>
+                                <child>
+                                  <widget class="GtkTable" id="table11">
+                                    <property name="visible">True</property>
+                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                    <property name="n_rows">1</property>
+                                    <property name="n_columns">2</property>
+                                    <child>
+                                      <widget class="GtkCheckButton" id="chk_autoload">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                        <property name="label" translatable="yes">Autoload all torrent files in:</property>
+                                        <property name="response_id">0</property>
+                                        <property name="draw_indicator">True</property>
+                                      </widget>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkAlignment" id="alignment36">
+                                        <property name="visible">True</property>
+                                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                        <child>
+                                          <widget class="GtkFileChooserButton" id="autoload_path_button">
+                                            <property name="visible">True</property>
+                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                            <property name="action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
+                                            <property name="title" translatable="yes">Select A Folder</property>
+                                          </widget>
+                                        </child>
+                                      </widget>
+                                      <packing>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
+                                      </packing>
+                                    </child>
+                                  </widget>
+                                </child>
+                              </widget>
+                            </child>
+                            <child>
+                              <widget class="GtkLabel" id="label40">
+                                <property name="visible">True</property>
+                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                <property name="label" translatable="yes">&lt;b&gt;Autoload&lt;/b&gt;</property>
+                                <property name="use_markup">True</property>
+                              </widget>
+                              <packing>
+                                <property name="type">label_item</property>
+                              </packing>
+                            </child>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="padding">2</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
                           <widget class="GtkFrame" id="frame6">
                             <property name="visible">True</property>
                             <property name="shadow_type">GTK_SHADOW_NONE</property>
@@ -253,7 +320,7 @@
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="padding">2</property>
-                            <property name="position">1</property>
+                            <property name="position">2</property>
                           </packing>
                         </child>
                         <child>
@@ -335,7 +402,7 @@
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="padding">2</property>
-                            <property name="position">2</property>
+                            <property name="position">3</property>
                           </packing>
                         </child>
                       </widget>

@@ -986,6 +986,17 @@ window, please enter your password"))
 
     ## Call via a timer to update the interface
     def update(self):
+        if self.config.get("autoload") and self.config.get("default_autoload_path"):
+            for filename in os.listdir(self.config.get("default_autoload_path")):
+                if filename[-len(".torrent"):].lower() == ".torrent":
+                    try:
+                        self.interactive_add_torrent_path(os.path.join(\
+                        self.config.get("default_autoload_path"), filename), \
+                        self.config.get("default_download_path"))
+                        os.remove(os.path.join(self.config.get("default_autoload_path"), filename))
+                    except:
+                        pass
+
         # We need to apply the queue changes
         self.manager.apply_queue()
         
