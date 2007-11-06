@@ -770,7 +770,6 @@ trying to create \"%s\"\nPlease make sure you have the write permissions and the
                 pass
             self.manager.remove_torrent(uid, False, True)
             self.torrent_model_remove(uid)
-            print save_info[0]
             unique_ID = self.manager.add_torrent(save_info[0], save_info[1], self.config.get("use_compact_storage"))
             self.torrent_model_append(unique_ID)
             if save_info[4]:
