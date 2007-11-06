@@ -3,6 +3,7 @@ Deluge 0.5.7 (xx November 2007)
   * Blocklist plugin will now display errors, instead of just crashing on a bad
   list or wrong type
   * Fix ratio bugs (hopefully for the last time)
+  * UI warning on full HD - no longer just silently pauses torrents
   * Add preference for the location of torrent files
   * Add autoload folder
 
