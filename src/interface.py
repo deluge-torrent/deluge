@@ -761,10 +761,9 @@ trying to create \"%s\"\nPlease make sure you have the write permissions and the
             trackerslist = self.manager.unique_IDs[uid].trackers
             (temp, filename_short) = os.path.split(path)
             shutil.copy(path, os.path.join(newpath, filename_short))
-            initial_uploaded_memory = self.manager.unique_IDs[uid].initial_uploaded_memory
             uploaded_memory = self.manager.unique_IDs[uid].uploaded_memory
             save_info = [os.path.join(newpath, filename_short), save_dir, order,\
-                trackerslist, initial_uploaded_memory, uploaded_memory]
+                trackerslist, uploaded_memory]
             try:
                 os.remove(self.manager.unique_IDs[uid].filename + ".fastresume")
             except:
@@ -775,11 +774,8 @@ trying to create \"%s\"\nPlease make sure you have the write permissions and the
             unique_ID = self.manager.add_torrent(save_info[0], save_info[1], self.config.get("use_compact_storage"))
             self.torrent_model_append(unique_ID)
             if save_info[4]:
-                self.manager.unique_IDs[unique_ID].uploaded_memory = \
-                    save_info[4]
-            if save_info[5]:
                 self.manager.unique_IDs[unique_ID].initial_uploaded_memory = \
-                    save_info[5]
+                    save_info[4]
             if save_info[3]:
                 try:
                     self.manager.replace_trackers(unique_ID, save_info[3])
