@@ -44,7 +44,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="label">gtk-new</property>
+                    <property name="label" translatable="no">gtk-new</property>
                     <property name="use_stock">True</property>
                     <property name="response_id">0</property>
                     <signal name="pressed" handler="on_FlexRSS_Feeds_New_pressed"/>
@@ -56,7 +56,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="label">gtk-save</property>
+                    <property name="label" translatable="no">gtk-save</property>
                     <property name="use_stock">True</property>
                     <property name="response_id">0</property>
                     <signal name="pressed" handler="on_FlexRSS_Feeds_Save_pressed"/>
@@ -71,7 +71,7 @@
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                    <property name="label">gtk-delete</property>
+                    <property name="label" translatable="no">gtk-delete</property>
                     <property name="use_stock">True</property>
                     <property name="response_id">0</property>
                     <signal name="pressed" handler="on_FlexRSS_Feeds_Delete_pressed"/>
@@ -280,7 +280,7 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="label">gtk-add</property>
+                        <property name="label" translatable="no">gtk-add</property>
                         <property name="use_stock">True</property>
                         <property name="response_id">0</property>
                         <signal name="pressed" handler="on_FlexRSS_Filters_Add_pressed"/>
@@ -296,7 +296,7 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="label">gtk-delete</property>
+                        <property name="label" translatable="no">gtk-delete</property>
                         <property name="use_stock">True</property>
                         <property name="response_id">0</property>
                         <signal name="pressed" handler="on_FlexRSS_Filters_Delete_pressed"/>
@@ -485,7 +485,7 @@
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                    <property name="label">gtk-add</property>
+                                    <property name="label" translatable="no">gtk-add</property>
                                     <property name="use_stock">True</property>
                                     <property name="response_id">0</property>
                                     <signal name="pressed" handler="on_FlexRSS_Filter_Patern_Add_pressed"/>
@@ -1216,7 +1216,7 @@
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="label">gtk-save</property>
+                        <property name="label" translatable="no">gtk-save</property>
                         <property name="use_stock">True</property>
                         <property name="response_id">0</property>
                         <signal name="pressed" handler="on_FlexRSS_Action_Save_pressed"/>
@@ -1397,7 +1397,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <property name="label" translatable="yes">gtk-new</property>
+                                <property name="label" translatable="no">gtk-new</property>
                                 <property name="use_stock">True</property>
                                 <property name="response_id">0</property>
                                 <signal name="pressed" handler="on_FlexRSS_Cookie_New_pressed"/>
@@ -1409,7 +1409,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <property name="label" translatable="yes">gtk-save</property>
+                                <property name="label" translatable="no">gtk-save</property>
                                 <property name="use_stock">True</property>
                                 <property name="response_id">0</property>
                                 <signal name="pressed" handler="on_FlexRSS_Cookie_Save_pressed"/>
@@ -1424,7 +1424,7 @@
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                <property name="label" translatable="yes">gtk-delete</property>
+                                <property name="label" translatable="no">gtk-delete</property>
                                 <property name="use_stock">True</property>
                                 <property name="response_id">0</property>
                                 <signal name="pressed" handler="on_FlexRSS_Cookie_Delete_pressed"/>
