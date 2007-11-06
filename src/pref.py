@@ -41,7 +41,7 @@ import xdg
 
 if common.windows_check():
     DEFAULT_PREFS = {
-    "enabled_plugins" : "Torrent Files:Torrent Peers",
+    "enabled_plugins" : "Torrent Files:Torrent Peers:Torrent Notification",
     "file_manager" : common.FileManager.xdg,
     "open_folder_stock" : True,
     "autoload" : False,
@@ -149,7 +149,7 @@ if common.windows_check():
 }
 else:
     DEFAULT_PREFS = {
-    "enabled_plugins" : "Torrent Files:Torrent Peers",
+    "enabled_plugins" : "Torrent Files:Torrent Peers:Torrent Notification",
     "file_manager" : common.FileManager.xdg,
     "open_folder_stock" : True,
     "autoload" : False,
