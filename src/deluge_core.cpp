@@ -430,10 +430,7 @@ static PyObject *torrent_quit(PyObject *self, PyObject *args)
     M_settings->stop_tracker_timeout = 3;
     M_settings->tracker_receive_timeout = 3;
     M_ses->set_settings(*M_settings);
-    printf("core: removing torrents...\r\n");
-    delete M_torrents;
-    printf("core: removing settings...\r\n");
-    delete M_settings;
+    session_proxy sp = M_ses->abort();
     printf("core: shutting down session...\r\n");
     delete M_ses;                // 100% CPU...
     Py_DECREF(M_constants);
