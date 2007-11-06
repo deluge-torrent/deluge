@@ -56,7 +56,7 @@ $fspeed(torrent.download_rate)</td></td></tr>
 <table>
 
 <tr><td class="info_label">$_('Total Size'):</td>
-<td class="info_value">$fsize(torrent.total_size)</td></tr>
+<td class="info_value">$fspeed(torrent.total_size)</td></tr>
 
 <tr><td class="info_label">$_('# Of Files'):</td>
 <td class="info_value">$torrent.num_files</td></tr>
@@ -110,7 +110,7 @@ function toggle_dump(){
 
 
 <div class='panel'>
-Queue pos: $torrent.queue_pos
+$_('Queue pos:') $torrent.queue_pos
 
 $:render.part_button('POST', '/torrent/queue/up/' + str(torrent.id), _('Queue Up'), 'tango/up.png')
 

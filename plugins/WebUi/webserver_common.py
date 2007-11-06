@@ -152,10 +152,6 @@ SPEED_VALUES = [
         (500, '500.0 Kib/sec')
     ]
 
-COOKIE_DEFAULTS = {
-    'auto_refresh_secs':'10'
-}
-
 #try:
 #    SESSIONS = pickle.load(open(session_file))
 #except:

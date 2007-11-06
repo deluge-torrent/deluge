@@ -133,8 +133,11 @@ $def with (exception_type, exception_value, frames, exception_message, version_i
 </div>
 <div id="explanation">
   <p>
+    <!--ERROR-MARKER-->
     Oops, Deluge Broke :-( , You might have found a bug, or you did something really stupid ;-).
-    <br />If the error persists : Try downloading the latest version at
+    <br />If the error persists :<br />
+    Read the <a href="http://deluge-torrent.org/faq">Faq</a>.<br />
+    Try downloading the latest version at
     <a href="http://deluge-torrent.org">deluge-torrent.org</a>
     <br />Visit the  <a href="http://forum.deluge-torrent.org">forum</a>
     or the <a href="http://dev.deluge-torrent.org/query">buglist</a> for more info.
@@ -290,7 +293,10 @@ def djangoerror():
     exception_type, exception_value, tback = sys.exc_info()
 
     exception_message = 'Error'
-    exception_message = exception_value.message # dir(exception_value)
+    try:
+        exception_message = exception_value.message
+    except AttributeError:
+        exception_message = 'no message'
     exception_type = exception_type.__name__
 
     version_info = (
@@ -349,8 +355,9 @@ def deluge_debugerror():
     (Based on the beautiful 500 page from [Django](http://djangoproject.com/),
     designed by [Wilson Miner](http://wilsonminer.com/).)
     """
-
-    web.ctx.headers = [('Content-Type', 'text/html')]
+    web.ctx.headers = [
+    ('Content-Type', 'text/html')
+    ]
     web.ctx.output = djangoerror()
 
 if __name__ == "__main__":

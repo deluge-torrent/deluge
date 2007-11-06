@@ -232,6 +232,11 @@ class DbusManager(dbus.service.Object):
     def get_upload_rate(self):
         return self.core.get_state()['upload_rate']
 
+    @dbus.service.method(dbus_interface=dbus_interface,
+        in_signature="", out_signature="v")
+    def get_num_connections(self):
+        core_state = self.core.get_state()
+        return core_state['num_connections']
 
     #internal
     def _add_torrent(self, filename):

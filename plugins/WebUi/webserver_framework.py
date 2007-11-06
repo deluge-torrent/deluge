@@ -58,7 +58,7 @@ import pickle
 from md5 import md5
 
 from deluge import common
-from webserver_common import  REVNO, VERSION, COOKIE_DEFAULTS
+from webserver_common import  REVNO, VERSION
 import webserver_common as ws
 from debugerror import deluge_debugerror
 
@@ -110,13 +110,10 @@ def error_page(error):
     web.header("Cache-Control", "no-cache, must-revalidate")
     print ws.render.error(error)
 
-def getcookie(key, default=None):
+def getcookie(key, default = None):
     key = str(key).strip()
     ck = cookies()
-    val = ck.get(key, default)
-    if (not val) and key in COOKIE_DEFAULTS:
-        return COOKIE_DEFAULTS[key]
-    return val
+    return ck.get(key, default)
 
 #deco's:
 def deluge_page_noauth(func):
@@ -124,7 +121,7 @@ def deluge_page_noauth(func):
     add http headers
     print result of func
     """
-    def deco(self, name=None):
+    def deco(self, name = None):
             web.header("Content-Type", "text/html; charset=utf-8")
             web.header("Cache-Control", "no-cache, must-revalidate")
             res = func(self, name)
@@ -136,8 +133,8 @@ def check_session(func):
     a decorator
     return func if session is valid, else redirect to login page.
     """
-    def deco(self, name=None):
-        vars = web.input(redir_after_login=None)
+    def deco(self, name = None):
+        vars = web.input(redir_after_login = None)
         ck = cookies()
         if ck.has_key("session_id") and ck["session_id"] in ws.SESSIONS:
             return func(self, name) #ok, continue..
@@ -153,7 +150,7 @@ def deluge_page(func):
 #combi-deco's:
 def auto_refreshed(func):
     "decorator:adds a refresh header"
-    def deco(self, name=None):
+    def deco(self, name = None):
         if getcookie('auto_refresh') == '1':
             web.header("Refresh", "%i ; url=%s" %
                 (int(getcookie('auto_refresh_secs',10)),self_url()))
@@ -162,7 +159,7 @@ def auto_refreshed(func):
 
 def remote(func):
     "decorator for remote api's"
-    def deco(self, name=None):
+    def deco(self, name = None):
         try:
             print func(self, name)
         except Exception, e:
@@ -184,6 +181,8 @@ def get_stats():
     'upload_rate':fspeed(ws.proxy.get_upload_rate()),
     'max_download':ws.proxy.get_config_value('max_download_speed_bps'),
     'max_upload':ws.proxy.get_config_value('max_upload_speed_bps'),
+    'num_connections':ws.proxy.get_num_connections(),
+    'max_num_connections':ws.proxy.get_config_value('max_connections_global')
     })
     if stats.max_upload < 0:
         stats.max_upload = _("Unlimited")
@@ -213,33 +212,42 @@ def get_torrent_status(torrent_id):
     status["id"] = torrent_id
 
     #for naming the status-images
-    status["calc_state_str"] = "downloading"
-    if status["paused"]:
-        status["calc_state_str"] = "inactive"
-    elif status["is_seed"]:
-        status["calc_state_str"] = "seeding"
+    status.calc_state_str = "downloading"
+    if status.paused:
+        status.calc_state_str= "inactive"
+    elif status.is_seed:
+        status.calc_state_str = "seeding"
 
     #action for torrent_pause
-    if status["calc_state_str"] == "inactive":
-        status["action"] = "start"
+    if status.calc_state_str == "inactive":
+        status.action = "start"
     else:
-        status["action"] = "stop"
+        status.action = "stop"
 
-    if status["paused"]:
-        status["message"] = _("Paused %s%%") % status['progress']
+    if status.paused:
+        status.message = _("Paused %s%%") % status.progress
     else:
-        status["message"] = "%s %i%%" % (ws.STATE_MESSAGES[status["state"]]
-        , status['progress'])
+        status.message = "%s %i%%" % (ws.STATE_MESSAGES[status.state]
+        , status.progress)
 
     #add some pre-calculated values
     status.update({
-        "calc_total_downloaded"  : (fsize(status["total_done"])
-            + " (" + fsize(status["total_download"]) + ")"),
-        "calc_total_uploaded": (fsize(status['uploaded_memory']
-            + status["total_payload_upload"]) + " ("
-            + fsize(status["total_upload"]) + ")"),
+        "calc_total_downloaded"  : (fsize(status.total_done)
+            + " (" + fsize(status.total_download) + ")"),
+        "calc_total_uploaded": (fsize(status.uploaded_memory
+            + status.total_payload_upload) + " ("
+            + fsize(status.total_upload) + ")"),
     })
+
+    #no non-unicode string may enter the templates.
+    for k, v in status.iteritems():
+        if (not isinstance(v, unicode)) and isinstance(v, str):
+            try:
+                status[k] = unicode(v)
+            except:
+                raise Exception('Non Unicode for key:%s' % (k, ))
     return status
+
 #/utils
 
 #template-defs:
@@ -250,7 +258,7 @@ def template_crop(text, end):
 
 def template_sort_head(id,name):
     #got tired of doing these complex things inside templetor..
-    vars = web.input(sort=None, order=None)
+    vars = web.input(sort = None, order = None)
     active_up = False
     active_down = False
     order = 'down'
@@ -285,7 +293,7 @@ template.Template.globals.update({
     'rev': 'rev.%s'  % (REVNO, ),
     'version': VERSION,
     'getcookie':getcookie,
-    'get': lambda (var): getattr(web.input(**{var:None}),var) # unreadable :-(
+    'get': lambda (var): getattr(web.input(**{var:None}), var) # unreadable :-(
 })
 #/template-defs
 

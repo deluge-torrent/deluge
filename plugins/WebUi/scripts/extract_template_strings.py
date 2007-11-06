@@ -13,8 +13,8 @@ all_strings = []
 for filename in files:
     with open(filename,'r') as f:
         content = f.read()
-        all_strings += re.findall("\$\_\(\'(.*)\'\)",content)
-        all_strings += re.findall("\$\_\(\"(.*)\"\)",content)
+        all_strings += re.findall("_\(\"(.*?)\"\)",content)
+        all_strings += re.findall("_\(\'(.*?)\'\)",content)
 
 all_strings = sorted(set(all_strings))
 

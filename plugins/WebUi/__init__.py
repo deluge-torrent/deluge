@@ -47,7 +47,10 @@ Other contributors:
 import deluge.common
 import deluge.pref
 from deluge.dialogs import show_popup_warning
-from dbus_interface import get_dbus_manager
+try:
+    from dbus_interface import get_dbus_manager
+except:
+    pass #for unit-test.
 import webserver_common
 import time
 

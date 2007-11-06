@@ -43,29 +43,29 @@ import os
 
 #routing:
 urls = (
-    "/login(.*)", "login",
-    "/index(.*)", "index",
+    "/login", "login",
+    "/index", "index",
     "/torrent/info/(.*)", "torrent_info",
-    "/torrent/pause(.*)", "torrent_pause",
+    "/torrent/pause", "torrent_pause",
     "/torrent/reannounce/(.*)", "torrent_reannounce",
-    "/torrent/add(.*)", "torrent_add",
+    "/torrent/add", "torrent_add",
     "/torrent/delete/(.*)", "torrent_delete",
     "/torrent/queue/up/(.*)", "torrent_queue_up",
     "/torrent/queue/down/(.*)", "torrent_queue_down",
     "/pause_all", "pause_all",
     "/resume_all", "resume_all",
-    "/refresh/set(.*)", "refresh_set",
+    "/refresh/set", "refresh_set",
     "/refresh/(.*)", "refresh",
-    "/config","config",
+    "/config", "config",
     "/home", "home",
     "/about", "about",
     "/logout", "logout",
     #remote-api:
     "/remote/torrent/add(.*)", "remote_torrent_add",
     #static:
-    "/static/(.*)","static",
-    "/template/static/(.*)","template_static",
-    #"/downloads/(.*)","downloads" disabled until it can handle large downloads.
+    "/static/(.*)", "static",
+    "/template/static/(.*)", "template_static",
+    #"/downloads/(.*)","downloads" disabled until it can handle large downloads
     #default-pages
     "/", "home",
     "", "home"
@@ -79,15 +79,15 @@ class login:
         vars = web.input(error = None)
         return ws.render.login(vars.error)
 
-    def POST(self, name):
-        vars = web.input(pwd = None ,redir = None)
+    def POST(self):
+        vars = web.input(pwd = None, redir = None)
 
         if check_pwd(vars.pwd):
             #start new session
             start_session()
             do_redirect()
         elif vars.redir:
-            seeother(url('/login',error=1, redir=vars.redir))
+            seeother(url('/login', error=1, redir=vars.redir))
         else:
             seeother('/login?error=1')
 
@@ -146,13 +146,13 @@ class torrent_add:
         if vars.url and vars.torrent.filename:
             error_page(_("Choose an url or a torrent, not both."))
         if vars.url:
-            ws.proxy.add_torrent_url(vars.url )
+            ws.proxy.add_torrent_url(vars.url)
             do_redirect()
         elif vars.torrent.filename:
             data = vars.torrent.file.read()
             data_b64 = base64.b64encode(data)
             #b64 because of strange bug-reports related to binary data
-            ws.proxy.add_torrent_filecontent(vars.torrent.filename,data_b64)
+            ws.proxy.add_torrent_filecontent(vars.torrent.filename, data_b64)
             do_redirect()
         else:
             error_page(_("no data."))
@@ -170,7 +170,7 @@ class remote_torrent_add:
             return 'error:wrong password'
 
         data_b64 = base64.b64encode(vars.torrent.file.read())
-        ws.proxy.add_torrent_filecontent(vars.torrent.filename,data_b64)
+        ws.proxy.add_torrent_filecontent(vars.torrent.filename, data_b64)
         return 'ok'
 
 class torrent_delete:
@@ -185,7 +185,6 @@ class torrent_delete:
         torrent_also = bool(vars.torrent_also)
         ws.proxy.remove_torrent(torrent_id, data_also, torrent_also)
         do_redirect()
-
 
 class torrent_queue_up:
     @check_session
@@ -214,8 +213,10 @@ class resume_all:
 class refresh:
     @check_session
     def POST(self, name):
-        auto_refresh = {'off':'0', 'on':'1'}[name]
-        setcookie('auto_refresh',auto_refresh)
+        auto_refresh = {'off': '0', 'on': '1'}[name]
+        setcookie('auto_refresh', auto_refresh)
+        if not getcookie('auto_refresh_secs'):
+            setcookie('auto_refresh_secs', 10)
         do_redirect()
 
 class refresh_set:
@@ -228,7 +229,7 @@ class refresh_set:
         vars = web.input(refresh = 0)
         refresh = int(vars.refresh)
         if refresh > 0:
-            setcookie('auto_refresh','1')
+            setcookie('auto_refresh', '1')
             setcookie('auto_refresh_secs', str(refresh))
             do_redirect()
         else:
@@ -270,12 +271,13 @@ class about:
         return ws.render.about()
 
 class logout:
+    @check_session
     def POST(self, name):
         end_session()
         seeother('/login')
 
 class static(static_handler):
-    base_dir = os.path.join(os.path.dirname(__file__),'static')
+    base_dir = os.path.join(os.path.dirname(__file__), 'static')
 
 class template_static(static_handler):
     def get_base_dir(self):
