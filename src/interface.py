@@ -782,11 +782,16 @@ trying to create \"%s\"\nPlease make sure you have the write permissions and the
                    pass
             torrent_state = self.manager.get_torrent_state(unique_ID)
             current_order = torrent_state['queue_pos']
-            while current_order != save_info[2]:
-                if current_order > save_info[2]:
+            if current_order > save_info[2]:
+                diff = current_order - save_info[2]
+                for x in range(diff):
                     self.manager.queue_up(unique_ID)
-                else:
+                self.update()
+            else:
+                diff = save_info[2] - current_order
+                for x in range(diff):
                     self.manager.queue_down(unique_ID)
+                self.update()
             os.remove(save_info[0])
 
     def tor_start(self, widget):
