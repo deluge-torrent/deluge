@@ -48,4 +48,4 @@ else:
     gtk.glade.textdomain(APP)
 gettext.bindtextdomain(APP, DIR)
 gettext.textdomain(APP)
-gettext.install(APP, DIR)
+gettext.install(APP, DIR, unicode=1)
