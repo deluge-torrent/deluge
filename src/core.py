@@ -533,6 +533,8 @@ class Manager:
                         # We have enough free space, so lets resume this torrent
                         self.resume(unique_ID)
                     else:
+                        import ui
+                        ui.GTKError(_("You're out of HD space!  We had to pause at least one torrent"))
                         print "Not enough free space to resume this torrent!"
                 else: #We're using compact allocation so lets just resume
                     self.resume(unique_ID)
@@ -835,6 +837,7 @@ class Manager:
                 except:
                     print "Error probably bad torrent"
                     del self.state.torrents[torrent]
+                    raise e
 
                 ret = unique_ID
                 self.unique_IDs[unique_ID] = torrent
