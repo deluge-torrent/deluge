@@ -533,6 +533,12 @@ class Manager:
                         # We have enough free space, so lets resume this torrent
                         self.resume(unique_ID)
                     else:
+                        import gtk
+                        import dialogs
+                        gtk.gdk.threads_enter()
+                        result = dialogs.show_popup_warning(None, _("You're out \
+of HD space!  Oops!\nWe had to pause at least one torrent"))
+                        gtk.gdk.threads_leave()
                         print "Not enough free space to resume this torrent!"
                 else: #We're using compact allocation so lets just resume
                     self.resume(unique_ID)
