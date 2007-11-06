@@ -835,7 +835,6 @@ class Manager:
                 except:
                     print "Error probably bad torrent"
                     del self.state.torrents[torrent]
-                    raise e
 
                 ret = unique_ID
                 self.unique_IDs[unique_ID] = torrent
