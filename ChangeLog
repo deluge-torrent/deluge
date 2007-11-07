@@ -4,6 +4,7 @@ Deluge 0.5.7 (xx November 2007)
   list or wrong type
   * Fix ratio bugs (hopefully for the last time)
   * UI warning on full HD - no longer just silently pauses torrents
+  * Replace SimpleRSS with FlexRSS
   * Add preference for the location of torrent files
   * Add autoload folder
 
