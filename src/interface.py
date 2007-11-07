@@ -1647,6 +1647,7 @@ want to remove all seeding torrents?")):
                 self.shutdown()
 
     def shutdown(self):
+        self.window.hide()
         self.save_column_widths()
         self.save_window_settings()
         self.save_tabs_order()
@@ -1656,6 +1657,7 @@ want to remove all seeding torrents?")):
         self.plugins.shutdown_all_plugins()
         #for the sake of windows, hide tray_icon
         self.tray_icon.set_visible(False)
+        gtk.main_quit()
         self.manager.quit()
 
 ## For testing purposes, create a copy of the interface
