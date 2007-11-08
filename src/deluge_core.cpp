@@ -371,6 +371,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
     // Init values
 
     M_settings->user_agent = std::string(user_agent);
+    M_settings->lazy_bitfields = 1;
 #if defined(_WIN32)
     DWORD windows_version = ::GetVersion();
     if ((windows_version & 0xff) >= 6)
