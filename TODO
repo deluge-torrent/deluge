@@ -1,15 +1,21 @@
 * Add state saving to listview.. this includes saving column size and position.
 * Queue plugin 'apply_queue' stuff.. Just finishing the queue plugin and it's
     intended functionality.
-* Add plugin list and the ability to load/unload them from the preferences
-    dialog.
-* Have the UI request a list of activated plugins on start-up so it nows which
-    plugins to load.
 * Figure out easy way for user-made plugins to add i18n support.
 * Change the menubar.py gtkui component to menus.py and add support for plugins
     to add menuitems to the torrentmenu in an easy way.
 * Restart daemon function
 * Docstrings!
-* Update libtorrent and bindings for sparse_mode allocation and remove_torrent options
 * Implement caching in client.py
 * Create a new add torrent dialog
+* Create edit trackers dialog
+* Implement open folder
+* Maybe add pop-up menus to the status bar items
+* Address issue where torrents will redownload if the storage is moved outside
+    of deluge.
+* Hide open folder if not localhost
+* Modify sensitivity of torrent/tray menu based on connection state
+* Add queue preferences tab
+* Add classic/normal mode to preferences
+* Implement 'Classic' mode
+
