@@ -1,3 +1,4 @@
 for 0.5.7
     * remap filenames
     * decide what to do about the progress bar patch
+    * distinguish between total seeding torrents and total active torrents
