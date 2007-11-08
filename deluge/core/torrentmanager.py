@@ -235,8 +235,8 @@ class TorrentManager:
         try:
             # Remove from libtorrent session
             self.session.remove_torrent(self.torrents[torrent_id].handle, 0)
-        except RuntimeError, KeyError:
-            log.warning("Error removing torrent")
+        except (RuntimeError, KeyError), e:
+            log.warning("Error removing torrent: %s", e)
             return False
             
         try:
@@ -303,6 +303,71 @@ class TorrentManager:
         
         return True
 
+    def force_recheck(self, torrent_id):
+        """Forces a re-check of the torrent's data"""
+        log.debug("Doing a forced recheck on %s", torrent_id)
+        paused = self.torrents[torrent_id].handle.status().paused
+        ### Check for .torrent file prior to removing and make a copy if needed
+        ### FIXME
+        
+        try:
+            # We start by removing it from the lt session
+            self.session.remove_torrent(self.torrents[torrent_id].handle, 0)
+        except (RuntimeError, KeyError), e:
+            log.warning("Error removing torrent: %s", e)
+            return False
+        # Remove the fastresume file if there
+        self.delete_fastresume(torrent_id)
+        
+        # Get the torrent data from the torrent file
+        filename = self.torrents[torrent_id].filename
+        try:
+            log.debug("Attempting to open %s for add.", filename)
+            _file = open(
+                os.path.join(
+                    self.config["torrentfiles_location"], filename), "rb")
+            filedump = _file.read()
+            _file.close()
+        except IOError, e:
+            log.warning("Unable to open %s: e", filename, e)
+            return False
+
+        # Bdecode the filedata
+        torrent_filedump = lt.bdecode(filedump)
+        handle = None            
+
+        # Next we re-add the torrent
+        # Make sure we have a valid download_location
+        if self.torrents[torrent_id].save_path is None:
+            self.torrents[torrent_id].save_path = \
+                self.config["download_location"]
+
+        # Make sure we are adding it with the correct allocation method.
+        if self.torrents[torrent_id].compact is None:
+            self.torrents[torrent_id].compact = \
+                self.config["compact_allocation"]
+        
+        # Set the right storage_mode
+        if self.torrents[torrent_id].compact:
+            storage_mode = lt.storage_mode_t(1)
+        else:
+            storage_mode = lt.storage_mode_t(2)
+            
+        try:
+            handle = self.session.add_torrent(
+                                    lt.torrent_info(torrent_filedump), 
+                                    str(self.torrents[torrent_id].save_path),
+                                    storage_mode=storage_mode,
+                                    paused=paused)
+        except RuntimeError, e:
+            log.warning("Error adding torrent: %s", e)
+            
+        if not handle or not handle.is_valid():
+            # The torrent was not added to the session
+            return False       
+        
+        return True
+        
     def load_state(self):
         """Load the state of the TorrentManager from the torrents.state file"""
         state = TorrentManagerState()

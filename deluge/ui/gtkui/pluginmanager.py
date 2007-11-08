@@ -74,9 +74,12 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     def add_torrentmenu_menu(self, *args):
         return component.get("MenuBar").torrentmenu.append(*args)
     
-    def remove_torrentmenu_menu(self, *args):
+    def remove_torrentmenu_item(self, *args):
         return component.get("MenuBar").torrentmenu.remove(*args)
     
+    def add_torrentmenu_separator(self):
+        return component.get("MenuBar").add_torrentmenu_separator()
+        
     def update_torrent_view(self, *args):
         return component.get("TorrentView").update(*args)
 

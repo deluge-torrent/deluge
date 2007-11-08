@@ -89,6 +89,9 @@ class GtkUI(ui.UI):
                                 tooltip=_("Queue selected torrents down"),
                                 callback=self.on_queuedown_activate)
                                 
+        # Add a separator before menu
+        self.menu_sep = self.plugin.add_torrentmenu_separator()
+        
         # Add the queue menu to the torrent menu
         self.queue_menuitem = gtk.ImageMenuItem("Queue")
         queue_image = gtk.Image()
@@ -99,7 +102,8 @@ class GtkUI(ui.UI):
         self.plugin.add_torrentmenu_menu(self.queue_menuitem)
     
     def unload_interface(self):
-        self.plugin.remove_torrentmenu_menu(self.queue_menuitem)
+        self.plugin.remove_torrentmenu_item(self.menu_sep)
+        self.plugin.remove_torrentmenu_item(self.queue_menuitem)
         self.plugin.remove_toolbar_button(self.toolbar_sep)
         self.plugin.remove_toolbar_button(self.toolbutton_up)
         self.plugin.remove_toolbar_button(self.toolbutton_down)

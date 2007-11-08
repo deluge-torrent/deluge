@@ -314,7 +314,15 @@ def disable_plugin(plugin):
         get_core().disable_plugin(plugin)
     except (AttributeError, socket.error):
         set_core_uri(None)
-        
+
+def force_recheck(torrent_ids):
+    """Forces a data recheck on torrent_ids"""
+    try:
+        for torrent_id in torrent_ids:
+            get_core().force_recheck(torrent_id)
+    except (AttributeError, socket.error):
+        set_core_uri(None)
+
 def open_url_in_browser(url):
     """Opens link in the desktop's default browser"""
     def start_browser():

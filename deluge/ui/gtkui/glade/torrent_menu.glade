@@ -5,6 +5,28 @@
   <widget class="GtkMenu" id="torrent_menu">
     <property name="visible">True</property>
     <child>
+      <widget class="GtkImageMenuItem" id="menuitem_open_folder">
+        <property name="visible">True</property>
+        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+        <property name="label" translatable="yes">_Open Folder</property>
+        <property name="use_underline">True</property>
+        <signal name="activate" handler="on_menuitem_open_folder_activate"/>
+        <child internal-child="image">
+          <widget class="GtkImage" id="menu-item-image7">
+            <property name="visible">True</property>
+            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+            <property name="stock">gtk-open</property>
+            <property name="icon_size">1</property>
+          </widget>
+        </child>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkSeparatorMenuItem" id="separator4">
+        <property name="visible">True</property>
+      </widget>
+    </child>
+    <child>
       <widget class="GtkImageMenuItem" id="menuitem_pause">
         <property name="visible">True</property>
         <property name="sensitive">False</property>
@@ -97,6 +119,28 @@
             <property name="visible">True</property>
             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
             <property name="stock">gtk-remove</property>
+            <property name="icon_size">1</property>
+          </widget>
+        </child>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkSeparatorMenuItem" id="separator3">
+        <property name="visible">True</property>
+      </widget>
+    </child>
+    <child>
+      <widget class="GtkImageMenuItem" id="menuitem_recheck">
+        <property name="visible">True</property>
+        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+        <property name="label" translatable="yes">_Force Re-check</property>
+        <property name="use_underline">True</property>
+        <signal name="activate" handler="on_menuitem_recheck_activate"/>
+        <child internal-child="image">
+          <widget class="GtkImage" id="menu-item-image6">
+            <property name="visible">True</property>
+            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+            <property name="stock">gtk-redo</property>
             <property name="icon_size">1</property>
           </widget>
         </child>

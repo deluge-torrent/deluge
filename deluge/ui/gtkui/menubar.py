@@ -92,7 +92,8 @@ class MenuBar(component.Component):
             "on_menuitem_edittrackers_activate": \
                                     self.on_menuitem_edittrackers_activate,
             "on_menuitem_remove_activate": self.on_menuitem_remove_activate,
-
+            "on_menuitem_recheck_activate": self.on_menuitem_recheck_activate,
+            "on_menuitem_open_folder": self.on_menuitem_open_folder_activate
         })
         
         self.change_sensitivity = [
@@ -121,6 +122,12 @@ class MenuBar(component.Component):
         self.window.main_glade.get_widget("separatormenuitem").hide()
         self.window.main_glade.get_widget("menuitem_quitdaemon").hide()
 
+    def add_torrentmenu_separator(self):
+        sep = gtk.SeparatorMenuItem()
+        self.torrentmenu.append(sep)
+        sep.show()
+        return sep
+    
     ### Callbacks ###
     
     ## File Menu ##
@@ -162,17 +169,17 @@ class MenuBar(component.Component):
     def on_menuitem_pause_activate(self, data=None):
         log.debug("on_menuitem_pause_activate")
         client.pause_torrent(
-                            component.get("TorrentView").get_selected_torrents())
+            component.get("TorrentView").get_selected_torrents())
     
     def on_menuitem_resume_activate(self, data=None):
         log.debug("on_menuitem_resume_activate")
         client.resume_torrent(
-                            component.get("TorrentView").get_selected_torrents())
+            component.get("TorrentView").get_selected_torrents())
         
     def on_menuitem_updatetracker_activate(self, data=None):
         log.debug("on_menuitem_updatetracker_activate")
         client.force_reannounce(
-                            component.get("TorrentView").get_selected_torrents())    
+            component.get("TorrentView").get_selected_torrents())    
         
     def on_menuitem_edittrackers_activate(self, data=None):
         log.debug("on_menuitem_edittrackers_activate")
@@ -180,8 +187,16 @@ class MenuBar(component.Component):
     def on_menuitem_remove_activate(self, data=None):
         log.debug("on_menuitem_remove_activate")
         client.remove_torrent(
-                            component.get("TorrentView").get_selected_torrents())
-                
+            component.get("TorrentView").get_selected_torrents())
+
+    def on_menuitem_recheck_activate(self, data=None):
+        log.debug("on_menuitem_recheck_activate")
+        client.force_recheck(
+            component.get("TorrentView").get_selected_torrents())
+    
+    def on_menuitem_open_folder_activate(self, data=None):
+        log.debug("on_menuitem_open_folder")
+
     ## View Menu ##
     def on_menuitem_toolbar_toggled(self, value):
         log.debug("on_menuitem_toolbar_toggled")

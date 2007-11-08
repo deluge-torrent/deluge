@@ -380,6 +380,10 @@ class Core(
     def export_disable_plugin(self, plugin):
         self.plugins.disable_plugin(plugin)
         return None
+    
+    def export_force_recheck(self, torrent_id):
+        """Forces a data recheck on torrent_id"""
+        return self.torrents.force_recheck(torrent_id)
         
     # Signals
     def torrent_added(self, torrent_id):
