@@ -2,6 +2,7 @@ Deluge 0.5.7 (xx November 2007)
   * Manual force-recheck
   * Blocklist plugin will now display errors, instead of just crashing on a bad
   list or wrong type
+  * Local discovery of peers
   * Fix ratio bugs (hopefully for the last time)
   * UI warning on full HD - no longer just silently pauses torrents
   * Replace SimpleRSS with FlexRSS

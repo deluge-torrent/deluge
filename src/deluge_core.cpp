@@ -1654,6 +1654,22 @@ static PyObject *torrent_use_upnp(PyObject *self, PyObject *args)
 
 }
 
+static PyObject *torrent_use_lsd(PyObject *self, PyObject *args)
+{
+    python_long action;
+    PyArg_ParseTuple(args, "i", &action);
+
+    if (action){
+        M_ses->start_lsd();
+    }
+    else{
+        M_ses->stop_lsd();
+    }
+
+    Py_INCREF(Py_None); return Py_None;
+
+}
+
 static PyObject *torrent_use_natpmp(PyObject *self, PyObject *args)
 {
     python_long action;
@@ -2037,6 +2053,7 @@ static PyMethodDef deluge_core_methods[] =
     {"add_range_to_IP_filter",          torrent_add_range_to_IP_filter,           METH_VARARGS,   "."},
     {"set_IP_filter",                   torrent_set_IP_filter,                    METH_VARARGS,   "."},
     {"use_upnp",                        torrent_use_upnp,                         METH_VARARGS,   "."},
+    {"use_lsd",                         torrent_use_lsd,                          METH_VARARGS,   "."},
     {"use_natpmp",                      torrent_use_natpmp,                       METH_VARARGS,   "."},
     {"use_utpex",                       torrent_use_utpex,                        METH_VARARGS,   "."},
     {"set_ratio",                       torrent_set_ratio,                        METH_VARARGS,   "."},
