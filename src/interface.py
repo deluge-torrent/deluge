@@ -743,32 +743,18 @@ window, please enter your password"))
     def torrent_recheck(self, widget):
         unique_ids = self.get_selected_torrent_rows()
         for uid in unique_ids:
-            import os, xdg, shutil
-            if common.windows_check():
-                newpath = os.path.join(os.path.expanduser("~"), 'deluge', 'tmp')
-            else:
-                newpath = os.path.join(xdg.BaseDirectory.save_config_path('deluge'), 'tmp')
-            if not os.path.exists(newpath):
-                try:
-                    os.mkdir(newpath)
-                except:
-                    dialogs.show_popup_warning(self.window, _("There was an error\
-trying to create \"%s\"\nPlease make sure you have the write permissions and then try again.") %newpath)
             torrent_state = self.manager.get_torrent_state(uid)
             order = torrent_state['queue_pos']
             path = self.manager.unique_IDs[uid].filename
             save_dir = self.manager.unique_IDs[uid].save_dir
             trackerslist = self.manager.unique_IDs[uid].trackers
-            (temp, filename_short) = os.path.split(path)
-            shutil.copy(path, os.path.join(newpath, filename_short))
             uploaded_memory = self.manager.unique_IDs[uid].uploaded_memory
-            save_info = [os.path.join(newpath, filename_short), save_dir, order,\
-                trackerslist, uploaded_memory]
+            save_info = [path, save_dir, order, trackerslist, uploaded_memory]
             try:
                 os.remove(self.manager.unique_IDs[uid].filename + ".fastresume")
             except:
                 pass
-            self.manager.remove_torrent(uid, False, True)
+            self.manager.remove_torrent(uid, False, False)
             self.torrent_model_remove(uid)
             self.update()
             unique_ID = self.manager.add_torrent(save_info[0], save_info[1], self.config.get("use_compact_storage"))
@@ -793,7 +779,6 @@ trying to create \"%s\"\nPlease make sure you have the write permissions and the
                 for x in range(diff):
                     self.manager.queue_down(unique_ID)
                 self.update()
-            os.remove(save_info[0])
 
     def tor_start(self, widget):
         unique_ids = self.get_selected_torrent_rows()
