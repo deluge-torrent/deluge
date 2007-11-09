@@ -193,10 +193,30 @@ class ConnectionManager(component.Component):
         self.liststore.foreach(update_row)
         # Update the buttons
         self.update_buttons()
+        
+        # See if there is any row selected
+        paths = self.hostlist.get_selection().get_selected_rows()[1]
+        if len(paths) < 1:
+            # And there is at least 1 row
+            if self.liststore.iter_n_children(None) > 0:
+                # Then select the first row
+                self.hostlist.get_selection().select_iter(self.liststore.get_iter_first())
         return True
     
     def update_buttons(self):
         """Updates the buttons based on selection"""
+        if self.liststore.iter_n_children(None) < 1:
+            # There is nothing in the list
+            self.glade.get_widget("button_startdaemon").set_sensitive(True)
+            self.glade.get_widget("button_connect").set_sensitive(False)
+            self.glade.get_widget("button_removehost").set_sensitive(False)
+            self.glade.get_widget("image_startdaemon").set_from_stock(
+                gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
+            self.glade.get_widget("label_startdaemon").set_text(
+                "_Start Daemon")
+        self.glade.get_widget("label_startdaemon").set_use_underline(
+            True)
+                            
         # Get the selected row's URI
         paths = self.hostlist.get_selection().get_selected_rows()[1]
         # If nothing is selected, just return
@@ -213,33 +233,46 @@ class ConnectionManager(component.Component):
         
         # Make actual URI string
         uri = "http://" + uri
+
+        # Make sure buttons are sensitive at start
+        self.glade.get_widget("button_startdaemon").set_sensitive(True)
+        self.glade.get_widget("button_connect").set_sensitive(True)
+        self.glade.get_widget("button_removehost").set_sensitive(True)
         
         # See if this is the currently connected URI
         if status == HOSTLIST_STATUS.index("Connected"):
             # Display a disconnect button if we're connected to this host
             self.glade.get_widget("button_connect").set_label("gtk-disconnect")
+            self.glade.get_widget("button_removehost").set_sensitive(False)
         else:
             self.glade.get_widget("button_connect").set_label("gtk-connect")
+            if status == HOSTLIST_STATUS.index("Offline") and not localhost:
+                self.glade.get_widget("button_connect").set_sensitive(False)
 
+        # Check to see if the host is online
+        if status == HOSTLIST_STATUS.index("Connected") \
+            or status == HOSTLIST_STATUS.index("Online"):
+            self.glade.get_widget("image_startdaemon").set_from_stock(
+                gtk.STOCK_STOP, gtk.ICON_SIZE_MENU)
+            self.glade.get_widget("label_startdaemon").set_text(
+                "_Stop Daemon")
+            
         # Update the start daemon button if the selected host is localhost
-        if localhost:
-            # Check to see if the host is online
-            if status == HOSTLIST_STATUS.index("Connected") \
-                or status == HOSTLIST_STATUS.index("Online"):
-                self.glade.get_widget("image_startdaemon").set_from_stock(
-                    gtk.STOCK_STOP, gtk.ICON_SIZE_MENU)
-                self.glade.get_widget("label_startdaemon").set_text(
-                    "_Stop local daemon")
-            else:
-                # The localhost is not online
-                self.glade.get_widget("image_startdaemon").set_from_stock(
-                    gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
-                self.glade.get_widget("label_startdaemon").set_text(
-                    "_Start local daemon")
-            # Make sure label is displayed correctly using mnemonics 
-            self.glade.get_widget("label_startdaemon").set_use_underline(
-                True)
-                    
+        if localhost and status == HOSTLIST_STATUS.index("Offline"):
+            # The localhost is not online
+            self.glade.get_widget("image_startdaemon").set_from_stock(
+                gtk.STOCK_EXECUTE, gtk.ICON_SIZE_MENU)
+            self.glade.get_widget("label_startdaemon").set_text(
+                "_Start Daemon")
+        
+        if not localhost:
+            # An offline host
+            self.glade.get_widget("button_startdaemon").set_sensitive(False)
+
+        # Make sure label is displayed correctly using mnemonics 
+        self.glade.get_widget("label_startdaemon").set_use_underline(
+            True)
+                                
     def save(self):
         """Save the current host list to file"""
         def append_row(model=None, path=None, row=None, columns=None):
@@ -279,27 +312,29 @@ class ConnectionManager(component.Component):
         response = dialog.run()
         if response == 1:
             # We add the host
-            hostname = hostname_entry.get_text()
-            if hostname.startswith("http://"):
-                hostname = hostname[7:]
+            self.add_host(hostname_entry.get_text(), 
+                port_spinbutton.get_value_as_int())
 
-            # Check to make sure the hostname is at least 1 character long
-            if len(hostname) < 1:
-                dialog.hide()
-                return
-            
-            # Get the port and concatenate the hostname string                
-            port = port_spinbutton.get_value_as_int()
-            hostname = hostname + ":" + str(port)
-            row = self.liststore.append()
-            self.liststore.set_value(row, HOSTLIST_COL_URI, hostname)
-            # Save the host list to file
-            self.save()
-            # Update the status of the hosts
-            self._update()
-                    
-        dialog.hide()
+        dialog.hide()        
+        
+    def add_host(self, hostname, port):
+        """Adds the host to the list"""
+        if hostname.startswith("http://"):
+            hostname = hostname[7:]
 
+        # Check to make sure the hostname is at least 1 character long
+        if len(hostname) < 1:
+            return
+        
+        # Get the port and concatenate the hostname string                
+        hostname = hostname + ":" + str(port)
+        row = self.liststore.append()
+        self.liststore.set_value(row, HOSTLIST_COL_URI, hostname)
+        # Save the host list to file
+        self.save()
+        # Update the status of the hosts
+        self._update()
+        
     def on_button_removehost_clicked(self, widget):
         log.debug("on_button_removehost_clicked")
         # Get the selected rows
@@ -307,12 +342,24 @@ class ConnectionManager(component.Component):
         for path in paths:
             self.liststore.remove(self.liststore.get_iter(path))
         
+        # Update the hostlist
+        self._update()
+        
         # Save the host list
         self.save()
         
     def on_button_startdaemon_clicked(self, widget):
         log.debug("on_button_startdaemon_clicked")
+        if self.liststore.iter_n_children(None) < 1:
+            # There is nothing in the list, so lets create a localhost entry
+            self.add_host("localhost", 58846)
+            # ..and start the daemon.
+            self.start_localhost(58846)
+            return
+            
         paths = self.hostlist.get_selection().get_selected_rows()[1]
+        if len(paths) < 1:
+            return
         row = self.liststore.get_iter(paths[0])
         status = self.liststore.get_value(row, HOSTLIST_COL_STATUS)
         uri = self.liststore.get_value(row, HOSTLIST_COL_URI)
@@ -327,10 +374,15 @@ class ConnectionManager(component.Component):
             # Update display to show change
             self.update()
         elif HOSTLIST_STATUS[status] == "Offline":
-            log.debug("Start localhost daemon..")
-            # Spawn a local daemon
-            os.popen("deluged -p %s" % port)
+            self.start_localhost(port)
             
+    def start_localhost(self, port):
+        """Starts a localhost daemon"""
+        port = str(port)
+        log.info("Starting localhost:%s daemon..", port)
+        # Spawn a local daemon
+        os.popen("deluged -p %s" % port)
+        
     def on_button_close_clicked(self, widget):
         log.debug("on_button_close_clicked")
         self.hide()
@@ -341,6 +393,12 @@ class ConnectionManager(component.Component):
         row = self.liststore.get_iter(paths[0])
         status = self.liststore.get_value(row, HOSTLIST_COL_STATUS)
         uri = self.liststore.get_value(row, HOSTLIST_COL_URI)
+        # Determine if this is a localhost
+        localhost = False
+        port = uri.split(":")[1]
+        if uri.split(":")[0] == "localhost":
+            localhost = True
+            
         uri = "http://" + uri
         if status == HOSTLIST_STATUS.index("Connected"):
             # If we are connected to this host, then we will disconnect.
@@ -352,8 +410,19 @@ class ConnectionManager(component.Component):
         # column information because it can be up to 5 seconds out of sync.
         if not self.test_online_status(uri):
             log.warning("Host does not appear to be online..")
+            # If this is an offline localhost.. lets start it and connect
+            if localhost:
+                self.start_localhost(port)
+                # We need to wait for the host to start before connecting
+                while not self.test_online_status(uri):
+                    sleep(10)               
+                client.set_core_uri(uri)
+                self._update()
+                self.hide()
+                
             # Update the list to show proper status
             self._update()
+            
             return
 
         # Status is OK, so lets change to this host

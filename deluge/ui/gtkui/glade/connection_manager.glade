@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.2.2 on Thu Oct 25 01:07:45 2007 by andrew@fragment-->
+<!--Generated with glade3 3.2.2 on Fri Nov  9 03:49:00 2007 by andrew@fragment-->
 <glade-interface>
   <widget class="GtkDialog" id="connection_manager">
     <property name="has_focus">True</property>
@@ -270,6 +270,10 @@
                 <property name="response_id">0</property>
                 <signal name="clicked" handler="on_button_close_clicked"/>
               </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+              </packing>
             </child>
             <child>
               <widget class="GtkButton" id="button_connect">
@@ -283,6 +287,8 @@
                 <signal name="clicked" handler="on_button_connect_clicked"/>
               </widget>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>

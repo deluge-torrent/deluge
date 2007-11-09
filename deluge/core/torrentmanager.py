@@ -136,16 +136,7 @@ class TorrentManager:
                 filedump = "".join(chr(b) for b in filedump)
         else:
             # Get the data from the file
-            try:
-                log.debug("Attempting to open %s for add.", filename)
-                _file = open(
-                    os.path.join(
-                        self.config["torrentfiles_location"], filename), "rb")
-                filedump = _file.read()
-                _file.close()
-            except IOError:
-                log.warning("Unable to open %s", filename)
-                return None
+            filedump = self.load_torrent(filename)
 
         # Attempt to load fastresume data
         try:
@@ -156,12 +147,10 @@ class TorrentManager:
                     "rb")
             fastresume = lt.bdecode(_file.read())
             _file.close()
-        except IOError:
-            log.debug("Unable to load .fastresume..")
+        except IOError, e:
+            log.debug("Unable to load .fastresume: %s", e)
             fastresume = None
             
-        # Bdecode the filedata
-        torrent_filedump = lt.bdecode(filedump)
         handle = None
 
         # Make sure we have a valid download_location
@@ -180,13 +169,13 @@ class TorrentManager:
             
         try:
             handle = self.session.add_torrent(
-                                    lt.torrent_info(torrent_filedump), 
+                                    lt.torrent_info(filedump), 
                                     str(save_path),
                                     resume_data=fastresume,
                                     storage_mode=storage_mode,
                                     paused=paused)
-        except RuntimeError:
-            log.warning("Error adding torrent") 
+        except RuntimeError, e:
+            log.warning("Error adding torrent: %s", e)
             
         if not handle or not handle.is_valid():
             # The torrent was not added to the session
@@ -202,7 +191,16 @@ class TorrentManager:
         # Set per-torrent limits
         handle.set_max_connections(self.max_connections)
         handle.set_max_uploads(self.max_uploads)
-        
+
+        # Save the torrent file        
+        self.save_torrent(filename, filedump)
+
+        # Save the session state
+        self.save_state()
+        return torrent.torrent_id
+    
+    def save_torrent(self, filename, filedump):
+        """Saves a torrent file"""
         log.debug("Attempting to save torrent file: %s", filename)
         # Test if the torrentfiles_location is accessible
         if os.access(
@@ -211,25 +209,37 @@ class TorrentManager:
             # The directory probably doesn't exist, so lets create it
             try:
                os.makedirs(os.path.join(self.config["torrentfiles_location"]))
-            except IOError:
-                log.warning("Unable to create torrent files directory..")
+            except IOError, e:
+                log.warning("Unable to create torrent files directory: %s", e)
         
         # Write the .torrent file to the torrent directory
         try:
             save_file = open(os.path.join(self.config["torrentfiles_location"], 
                     filename),
                     "wb")
-            save_file.write(lt.bencode(torrent_filedump))
+            save_file.write(lt.bencode(filedump))
             save_file.close()
-        except IOError:
-            log.warning("Unable to save torrent file: %s", filename)
-        
-        log.debug("Torrent %s added.", handle.info_hash())
+        except IOError, e:
+            log.warning("Unable to save torrent file: %s", e)
 
-        # Save the session state
-        self.save_state()
-        return torrent.torrent_id
-    
+    def load_torrent(self, filename):
+        """Load a torrent file and return it's torrent info"""
+        filedump = None
+        # Get the torrent data from the torrent file
+        try:
+            log.debug("Attempting to open %s for add.", filename)
+            _file = open(
+                os.path.join(
+                    self.config["torrentfiles_location"], filename), 
+                        "rb")
+            filedump = lt.bdecode(_file.read())
+            _file.close()
+        except IOError, e:
+            log.warning("Unable to open %s: e", filename, e)
+            return False
+        
+        return filedump
+        
     def remove(self, torrent_id):
         """Remove a torrent from the manager"""
         try:
@@ -302,67 +312,52 @@ class TorrentManager:
             return False
         
         return True
-
+   
     def force_recheck(self, torrent_id):
         """Forces a re-check of the torrent's data"""
         log.debug("Doing a forced recheck on %s", torrent_id)
+        torrent = self.torrents[torrent_id]
         paused = self.torrents[torrent_id].handle.status().paused
+        torrent_info = None
         ### Check for .torrent file prior to removing and make a copy if needed
-        ### FIXME
-        
+        if os.access(os.path.join(self.config["torrentfiles_location"] +\
+                 "/" + torrent.filename), os.F_OK) is False:
+            torrent_info = torrent.handle.get_torrent_info().create_torrent()
+            self.save_torrent(torrent.filename, torrent_info)
+
+        # We start by removing it from the lt session            
         try:
-            # We start by removing it from the lt session
-            self.session.remove_torrent(self.torrents[torrent_id].handle, 0)
+            self.session.remove_torrent(torrent.handle, 0)
         except (RuntimeError, KeyError), e:
             log.warning("Error removing torrent: %s", e)
             return False
+
         # Remove the fastresume file if there
         self.delete_fastresume(torrent_id)
         
-        # Get the torrent data from the torrent file
-        filename = self.torrents[torrent_id].filename
-        try:
-            log.debug("Attempting to open %s for add.", filename)
-            _file = open(
-                os.path.join(
-                    self.config["torrentfiles_location"], filename), "rb")
-            filedump = _file.read()
-            _file.close()
-        except IOError, e:
-            log.warning("Unable to open %s: e", filename, e)
-            return False
-
-        # Bdecode the filedata
-        torrent_filedump = lt.bdecode(filedump)
-        handle = None            
+        # Load the torrent info from file if needed
+        if torrent_info == None:
+            torrent_info = self.load_torrent(torrent.filename)
 
         # Next we re-add the torrent
-        # Make sure we have a valid download_location
-        if self.torrents[torrent_id].save_path is None:
-            self.torrents[torrent_id].save_path = \
-                self.config["download_location"]
-
-        # Make sure we are adding it with the correct allocation method.
-        if self.torrents[torrent_id].compact is None:
-            self.torrents[torrent_id].compact = \
-                self.config["compact_allocation"]
         
         # Set the right storage_mode
-        if self.torrents[torrent_id].compact:
+        if torrent.compact:
             storage_mode = lt.storage_mode_t(1)
         else:
             storage_mode = lt.storage_mode_t(2)
-            
+        
+        # Add the torrent to the lt session  
         try:
-            handle = self.session.add_torrent(
-                                    lt.torrent_info(torrent_filedump), 
-                                    str(self.torrents[torrent_id].save_path),
+            torrent.handle = self.session.add_torrent(
+                                    lt.torrent_info(torrent_info),
+                                    str(torrent.save_path),
                                     storage_mode=storage_mode,
                                     paused=paused)
         except RuntimeError, e:
             log.warning("Error adding torrent: %s", e)
             
-        if not handle or not handle.is_valid():
+        if not torrent.handle or not torrent.handle.is_valid():
             # The torrent was not added to the session
             return False       
         
