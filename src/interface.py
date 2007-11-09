@@ -748,6 +748,7 @@ window, please enter your password"))
             path = self.manager.unique_IDs[uid].filename
             save_dir = self.manager.unique_IDs[uid].save_dir
             trackerslist = self.manager.unique_IDs[uid].trackers
+            self.manager.save_upmem()
             uploaded_memory = self.manager.unique_IDs[uid].uploaded_memory
             priorities = self.manager.get_priorities(uid)
             save_info = [path, save_dir, order, trackerslist, \
@@ -766,6 +767,7 @@ window, please enter your password"))
             if save_info[4]:
                 self.manager.unique_IDs[unique_ID].initial_uploaded_memory = \
                     save_info[4]
+                self.manager.save_upmem()
             if save_info[3]:
                 try:
                     self.manager.replace_trackers(unique_ID, save_info[3])

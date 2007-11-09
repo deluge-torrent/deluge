@@ -291,6 +291,10 @@ class Manager:
         print "Saving fastresume data..."
         self.save_fastresume_data()
 
+        # save upload memory
+        print "Saving uploaded memory..."
+        self.save_upmem()
+
         # Shutdown torrent core
         print "Quitting the core..."
         deluge_core.quit()
@@ -660,7 +664,6 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
     def prioritize_files(self, unique_ID, priorities, update_files_removed=False):
         assert(len(priorities) == \
                    self.get_core_torrent_state(unique_ID)['num_files'])
-
         self.unique_IDs[unique_ID].priorities = priorities[:]
         deluge_core.prioritize_files(unique_ID, priorities)
         if update_files_removed:
