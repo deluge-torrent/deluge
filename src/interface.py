@@ -1637,13 +1637,13 @@ want to remove all seeding torrents?")):
         self.save_column_widths()
         self.save_window_settings()
         self.save_tabs_order()
+        gtk.main_quit()
         enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
         self.config.set('enabled_plugins', enabled_plugins)
         self.config.save()
         self.plugins.shutdown_all_plugins()
         #for the sake of windows, hide tray_icon
         self.tray_icon.set_visible(False)
-        gtk.main_quit()
         self.manager.quit()
 
 ## For testing purposes, create a copy of the interface

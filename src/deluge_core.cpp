@@ -371,6 +371,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
     // Init values
 
     M_settings->user_agent = std::string(user_agent);
+    M_settings->stop_tracker_timeout = 3;
     M_settings->lazy_bitfields = 1;
 #if defined(_WIN32)
     DWORD windows_version = ::GetVersion();
@@ -428,9 +429,6 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
 static PyObject *torrent_quit(PyObject *self, PyObject *args)
 {
-    M_settings->stop_tracker_timeout = 3;
-    M_settings->tracker_receive_timeout = 3;
-    M_ses->set_settings(*M_settings);
     printf("core: removing torrents...\r\n");
     delete M_torrents;
     printf("core: removing settings...\r\n");
