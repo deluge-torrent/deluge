@@ -749,7 +749,9 @@ window, please enter your password"))
             save_dir = self.manager.unique_IDs[uid].save_dir
             trackerslist = self.manager.unique_IDs[uid].trackers
             uploaded_memory = self.manager.unique_IDs[uid].uploaded_memory
-            save_info = [path, save_dir, order, trackerslist, uploaded_memory]
+            priorities = self.manager.get_priorities(uid)
+            save_info = [path, save_dir, order, trackerslist, \
+                            uploaded_memory, priorities]
             try:
                 os.remove(self.manager.unique_IDs[uid].filename + ".fastresume")
             except:
@@ -759,6 +761,8 @@ window, please enter your password"))
             self.update()
             unique_ID = self.manager.add_torrent(save_info[0], save_info[1], self.config.get("use_compact_storage"))
             self.torrent_model_append(unique_ID)
+            self.update()
+            self.manager.prioritize_files(unique_ID, priorities, update_files_removed=False)
             if save_info[4]:
                 self.manager.unique_IDs[unique_ID].initial_uploaded_memory = \
                     save_info[4]
