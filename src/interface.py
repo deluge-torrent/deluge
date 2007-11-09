@@ -520,7 +520,7 @@ window, please enter your password"))
                 # Force UI update as we don't update it while minimized
                 self.update()
         else:
-            if self.config.get("lock_tray") == True:
+            if self.config.get("lock_tray"):
                 self.unlock_tray("mainwinshow")
             else:
                 self.load_window_geometry()
@@ -530,7 +530,7 @@ window, please enter your password"))
     
     def show_hide_window_toggled(self, widget):
         if widget.get_active() and not self.window.get_property("visible"):
-            if self.config.get("lock_tray") == True:
+            if self.config.get("lock_tray"):
                 self.unlock_tray("mainwinshow")
             else:
                 self.window.show()
@@ -1597,7 +1597,7 @@ want to remove all seeding torrents?")):
                 i = i + 1
 
     def window_configure_event(self, widget, event):
-        if self.config.get("window_maximized") == False:
+        if not self.config.get("window_maximized"):
             self.config.set("window_x_pos", self.window.get_position()[0])
             self.config.set("window_y_pos", self.window.get_position()[1])
             self.config.set("window_width", event.width)
@@ -1625,7 +1625,7 @@ want to remove all seeding torrents?")):
         h = self.config.get('window_height')
         self.window.move(x, y)
         self.window.resize(w, h)
-        if self.config.get("window_maximized") == True:
+        if self.config.get("window_maximized"):
             self.window.maximize()
 
     def close(self, widget, event):
@@ -1641,7 +1641,7 @@ want to remove all seeding torrents?")):
             self.window.hide()
             self.shutdown()
         else:
-            if self.config.get("lock_tray") == True:
+            if self.config.get("lock_tray"):
                 self.unlock_tray("quitus")
             else:
                 self.window.hide()

@@ -526,7 +526,7 @@ class Manager:
                     
                 # Before we resume, we should check if the torrent is using Full Allocation 
                 # and if there is enough space on to finish this file.
-                if self.unique_IDs[unique_ID].compact == False:
+                if not self.unique_IDs[unique_ID].compact:
                     avail = self.calc_free_space(directory = self.unique_IDs\
                         [unique_ID].save_dir)
                     total_needed = torrent_state["total_wanted"] - torrent_state["total_wanted_done"]
@@ -929,7 +929,7 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
         for pref in PREF_FUNCTIONS:
             if PREF_FUNCTIONS[pref] is not None:
                 if (PREF_FUNCTIONS[pref] == PREF_FUNCTIONS["listen_on"]):
-                    if self.get_pref("random_port") == False:
+                    if not self.get_pref("random_port"):
                         PREF_FUNCTIONS[pref](self.get_pref(pref))
                     else:
                         if deluge_core.listening_port() != 0:
@@ -962,11 +962,11 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
             self.get_pref("max_upload_slots_per_torrent"))
 
     def set_DHT(self, start=False):
-        if start == True and self.dht_running != True:
+        if start and not self.dht_running:
             print "Starting DHT..."
             deluge_core.start_DHT(os.path.join(self.base_dir, DHT_FILENAME))
             self.dht_running = True
-        elif start == False and self.dht_running == True:
+        elif not start and self.dht_running:
             print "Stopping DHT..."
             deluge_core.stop_DHT(os.path.join(self.base_dir, DHT_FILENAME))
             self.dht_running = False
