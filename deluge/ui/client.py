@@ -194,6 +194,20 @@ def pause_torrent(torrent_ids):
     except (AttributeError, socket.error):
         set_core_uri(None)
 
+def pause_all_torrents():
+    """Pauses all torrents"""
+    try:
+        get_core().pause_all_torrents()
+    except (AttributeError, socket.error):
+        set_core_uri(None)
+
+def resume_all_torrents():
+    """Resumes all torrents"""
+    try:
+        get_core().resume_all_torrents()
+    except (AttributeError, socket.error):
+        set_core_uri(None)
+        
 def resume_torrent(torrent_ids):
     """Resume torrent_ids"""
     try:

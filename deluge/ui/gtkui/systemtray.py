@@ -45,13 +45,26 @@ class SystemTray(component.Component):
         component.Component.__init__(self, "SystemTray")
         self.window = component.get("MainWindow")
         self.config = ConfigManager("gtkui.conf")
+        # List of widgets that need to be hidden when not connected to a host
+        self.hide_widget_list = [
+            "menuitem_add_torrent",
+            "menuitem_pause_all",
+            "menuitem_resume_all",
+            "menuitem_download_limit",
+            "menuitem_upload_limit",
+            "menuitem_quitdaemon",
+            "separatormenuitem1",
+            "separatormenuitem2",
+            "separatormenuitem3",
+            "separatormenuitem4"
+        ]
         self.config.register_set_function("enable_system_tray", 
             self.on_enable_system_tray_set)
     
     def enable(self):
         """Enables the system tray icon."""
         log.debug("Enabling the system tray icon..")
-        self.tray = gtk.status_icon_new_from_icon_name('deluge')
+        self.tray = gtk.status_icon_new_from_icon_name("deluge")
         self.tray.connect("activate", self.on_tray_clicked)
         self.tray.connect("popup-menu", self.on_tray_popup)
         
@@ -73,18 +86,37 @@ class SystemTray(component.Component):
                 self.on_menuitem_quitdaemon_activate
         })
         
-        self.tray_menu  = self.tray_glade.get_widget("tray_menu")
+        self.tray_menu = self.tray_glade.get_widget("tray_menu")
 
         self.tray_glade.get_widget("download-limit-image").set_from_file(
             deluge.common.get_pixmap("downloading16.png"))
         self.tray_glade.get_widget("upload-limit-image").set_from_file(
             deluge.common.get_pixmap("seeding16.png"))
         
+        # Hide widgets now because we're not sure if we'll be connected to a 
+        # host
+        for widget in self.hide_widget_list:
+            self.tray_glade.get_widget(widget).hide()
+            
     def start(self):
         log.debug("SystemTray start..")
-        # Build the bandwidth speed limit menus
-        self.build_tray_bwsetsubmenu()
-    
+        # Show widgets in the hide list because we've connected to a host
+        for widget in self.hide_widget_list:
+            self.tray_glade.get_widget(widget).show()
+            
+        if self.config["enable_system_tray"]:    
+            # Build the bandwidth speed limit menus
+            self.build_tray_bwsetsubmenu()
+
+    def stop(self):
+        log.debug("SystemTray stop..")
+        try:
+            # Hide widgets in hide list because we're not connected to a host
+            for widget in self.hide_widget_list:
+                self.tray_glade.get_widget(widget).hide()
+        except Exception, e:
+            log.debug("Unable to hide system tray menu widgets: %s", e)
+            
     def build_tray_bwsetsubmenu(self):
         # Create the Download speed list sub-menu
         submenu_bwdownset = self.build_menu_radio_list(
@@ -111,10 +143,14 @@ class SystemTray(component.Component):
     def disable(self):
         """Disables the system tray icon."""
         log.debug("Disabling the system tray icon..")
-        self.tray.set_visible(False)
-        del self.tray
-        del self.tray_glade
-        del self.tray_menu
+        try:
+            self.tray.set_visible(False)
+            del self.tray
+            del self.tray_glade
+            del self.tray_menu
+        except Exception, e:
+            log.warning(
+                "Unable to disable system tray, probably wasn't enabled: %s", e)
     
     def on_enable_system_tray_set(self, key, value):
         """Called whenever the 'enable_system_tray' config key is modified"""

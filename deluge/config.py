@@ -35,6 +35,7 @@
 
 import cPickle
 
+import gobject
 import deluge.common
 from deluge.log import LOG as log
 

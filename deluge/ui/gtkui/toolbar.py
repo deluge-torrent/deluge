@@ -73,6 +73,7 @@ class ToolBar(component.Component):
     def start(self):
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(True)
+        self.update_buttons()
         gobject.idle_add(self.update_buttons)
     
     def stop(self):

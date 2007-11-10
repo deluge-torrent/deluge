@@ -127,6 +127,9 @@ class ConnectionManager(component.Component):
                     uri[7:].split(":")[0] == "127.0.0.1":
                     # This is a localhost, so lets try to start it
                     port = uri[7:].split(":")[1]
+                    # First add it to the list
+                    self.add_host("localhost", port)
+                    
                     os.popen("deluged -p %s" % port)
                     # We need to wait for the host to start before connecting
                     while not self.test_online_status(uri):
@@ -328,6 +331,18 @@ class ConnectionManager(component.Component):
         
         # Get the port and concatenate the hostname string                
         hostname = hostname + ":" + str(port)
+
+        # Check to see if there is already an entry for this host and return
+        # if thats the case
+        self.hosts_liststore = []
+        def each_row(model, path, iter, data):
+            self.hosts_liststore.append(
+                model.get_value(iter, HOSTLIST_COL_URI))
+        self.liststore.foreach(each_row, None)
+        if hostname in self.hosts_liststore:
+            return
+        
+        # Host isn't in the list, so lets add it
         row = self.liststore.append()
         self.liststore.set_value(row, HOSTLIST_COL_URI, hostname)
         # Save the host list to file
