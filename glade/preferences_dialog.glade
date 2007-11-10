@@ -245,23 +245,29 @@
                                             <property name="visible">True</property>
                                             <property name="tooltip" translatable="yes">The number of active torrents that Deluge will run.  Set to -1 for unlimited.</property>
                                             <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">Maximum simultaneous active torrents:</property>
+                                            <property name="label" translatable="yes">Maximum simultaneous downloading torrents:</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkSpinButton" id="spin_torrents">
+                                          <widget class="GtkAlignment" id="alignment35">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="tooltip" translatable="yes">The number of active torrents that Deluge will run.  Set to -1 for unlimited.</property>
-                                            <property name="xalign">1</property>
-                                            <property name="adjustment">-1 -1 1000 1 10 10</property>
-                                            <property name="climb_rate">1</property>
-                                            <property name="snap_to_ticks">True</property>
-                                            <property name="update_policy">GTK_UPDATE_IF_VALID</property>
+                                            <child>
+                                              <widget class="GtkSpinButton" id="spin_torrents">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                                <property name="tooltip" translatable="yes">The number of active torrents that Deluge will run.  Set to -1 for unlimited.</property>
+                                                <property name="xalign">1</property>
+                                                <property name="adjustment">-1 -1 1000 1 10 10</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="snap_to_ticks">True</property>
+                                                <property name="update_policy">GTK_UPDATE_IF_VALID</property>
+                                              </widget>
+                                            </child>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -270,6 +276,51 @@
                                           </packing>
                                         </child>
                                       </widget>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkHBox" id="hbox11">
+                                        <property name="visible">True</property>
+                                        <property name="spacing">10</property>
+                                        <child>
+                                          <widget class="GtkLabel" id="label56">
+                                            <property name="visible">True</property>
+                                            <property name="tooltip" translatable="yes">The number of active torrents that Deluge will run.  Set to -1 for unlimited.</property>
+                                            <property name="xalign">0</property>
+                                            <property name="label" translatable="yes">Maximum simultaneous seeding torrents:</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkAlignment" id="alignment35">
+                                            <property name="visible">True</property>
+                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                            <property name="left_padding">32</property>
+                                            <child>
+                                              <widget class="GtkSpinButton" id="spin_seed">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                                <property name="tooltip" translatable="yes">The number of active torrents that Deluge will run.  Set to -1 for unlimited.</property>
+                                                <property name="xalign">1</property>
+                                                <property name="adjustment">-1 -1 1000 1 10 10</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="snap_to_ticks">True</property>
+                                                <property name="update_policy">GTK_UPDATE_IF_VALID</property>
+                                              </widget>
+                                            </child>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="padding">2</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                      <packing>
+                                        <property name="position">1</property>
+                                      </packing>
                                     </child>
                                     <child>
                                       <widget class="GtkCheckButton" id="chk_enable_files_dialog">
@@ -283,7 +334,7 @@
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
-                                        <property name="position">1</property>
+                                        <property name="position">2</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -298,7 +349,7 @@
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
-                                        <property name="position">2</property>
+                                        <property name="position">3</property>
                                       </packing>
                                     </child>
                                   </widget>
@@ -878,11 +929,18 @@ Forced</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkComboBox" id="combo_enclevel">
+                                          <widget class="GtkAlignment" id="alignment37">
                                             <property name="visible">True</property>
-                                            <property name="items" translatable="yes">Handshake
+                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                            <property name="left_padding">7</property>
+                                            <child>
+                                              <widget class="GtkComboBox" id="combo_enclevel">
+                                                <property name="visible">True</property>
+                                                <property name="items" translatable="yes">Handshake
 Full Stream
 Either</property>
+                                              </widget>
+                                            </child>
                                           </widget>
                                           <packing>
                                             <property name="padding">6</property>
@@ -1252,6 +1310,7 @@ Either</property>
                                         <property name="xalign">1</property>
                                         <property name="adjustment">0 -1 9000 1 10 10</property>
                                         <property name="climb_rate">1</property>
+                                        <property name="digits">1</property>
                                       </widget>
                                       <packing>
                                         <property name="left_attach">1</property>
@@ -1269,6 +1328,7 @@ Either</property>
                                         <property name="xalign">1</property>
                                         <property name="adjustment">0 -1 9000 1 10 10</property>
                                         <property name="climb_rate">1</property>
+                                        <property name="digits">1</property>
                                       </widget>
                                       <packing>
                                         <property name="left_attach">1</property>
