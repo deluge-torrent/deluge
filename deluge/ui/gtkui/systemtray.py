@@ -93,18 +93,18 @@ class SystemTray(component.Component):
         self.tray_glade.get_widget("upload-limit-image").set_from_file(
             deluge.common.get_pixmap("seeding16.png"))
         
-        # Hide widgets now because we're not sure if we'll be connected to a 
-        # host
-        for widget in self.hide_widget_list:
-            self.tray_glade.get_widget(widget).hide()
+        if client.get_core_uri() == None:
+        # Hide menu widgets because we're not connected to a host.
+            for widget in self.hide_widget_list:
+                self.tray_glade.get_widget(widget).hide()
             
     def start(self):
         log.debug("SystemTray start..")
-        # Show widgets in the hide list because we've connected to a host
-        for widget in self.hide_widget_list:
-            self.tray_glade.get_widget(widget).show()
-            
-        if self.config["enable_system_tray"]:    
+        if self.config["enable_system_tray"]:
+            # Show widgets in the hide list because we've connected to a host
+            for widget in self.hide_widget_list:
+                self.tray_glade.get_widget(widget).show()
+
             # Build the bandwidth speed limit menus
             self.build_tray_bwsetsubmenu()
 
@@ -149,8 +149,7 @@ class SystemTray(component.Component):
             del self.tray_glade
             del self.tray_menu
         except Exception, e:
-            log.warning(
-                "Unable to disable system tray, probably wasn't enabled: %s", e)
+            log.debug("Unable to disable system tray: %s", e)
     
     def on_enable_system_tray_set(self, key, value):
         """Called whenever the 'enable_system_tray' config key is modified"""
