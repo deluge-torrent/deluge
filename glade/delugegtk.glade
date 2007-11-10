@@ -85,9 +85,10 @@
                                             <property name="visible">True</property>
                                             <property name="spacing">5</property>
                                             <child>
-                                              <widget class="GtkHBox" id="advanced_progressbar">
+                                              <widget class="GtkViewport" id="advanced_progressbar">
                                                 <property name="visible">True</property>
-                                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                                <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK |GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                                <property name="shadow_type">GTK_SHADOW_IN</property>
                                                 <child>
                                                   <widget class="GtkDrawingArea" id="custom_progress">
                                                     <property name="height_request">25</property>
@@ -1300,3 +1301,4 @@
     </child>
   </widget>
 </glade-interface>
+
