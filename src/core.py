@@ -505,7 +505,6 @@ class Manager:
         # but having self.is_user_paused(unique_ID) == False is 
         # also considered active.
         active_torrent_cnt = 0
-        seed_torrent_cnt = 0
 
         # Pause and resume torrents
         for torrent in self.state.queue:
@@ -517,24 +516,18 @@ class Manager:
             
             if not torrent_state['is_paused'] or \
                (torrent_state['is_paused'] and not \
-                self.is_user_paused(unique_ID)) and not torrent_state['is_seed']:
+                self.is_user_paused(unique_ID)):
                 active_torrent_cnt += 1 
-
-            if not torrent_state['is_paused'] and torrent_state['is_seed'] and not self.is_user_paused(unique_ID):
-                seed_torrent_cnt += 1
-
-            if (torrent_state['is_paused'] and not \
-                self.is_user_paused(unique_ID)) and (seed_torrent_cnt <= self.get_pref('max_seeding_torrents')) or (self.get_pref('max_seeding_torrents') == -1):
-                    self.resume(unique_ID)
-
-            if not torrent_state['is_paused'] and (seed_torrent_cnt > self.get_pref('max_seeding_torrents')) and (self.get_pref('max_seeding_torrents') != -1):
-                self.pause(unique_ID)
-           
+            
             if (active_torrent_cnt <= self.get_pref('max_active_torrents') or \
                 self.get_pref('max_active_torrents') == -1) and \
                torrent_state['is_paused'] and not \
-               self.is_user_paused(unique_ID) and not torrent_state['is_seed']:
-
+               self.is_user_paused(unique_ID):
+                # This torrent is a seed so skip all the free space checking
+                if torrent_state['is_seed']:
+                    self.resume(unique_ID)
+                    continue
+                    
                 # Before we resume, we should check if the torrent is using Full Allocation 
                 # and if there is enough space on to finish this file.
                 if not self.unique_IDs[unique_ID].compact:
@@ -554,11 +547,10 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
                         print "Not enough free space to resume this torrent!"
                 else: #We're using compact allocation so lets just resume
                     self.resume(unique_ID)
-
             elif not torrent_state['is_paused'] and \
                  ((active_torrent_cnt > self.get_pref('max_active_torrents') and \
                    self.get_pref('max_active_torrents') != -1) or \
-                  self.is_user_paused(unique_ID)) and not torrent_state['is_seed']:
+                  self.is_user_paused(unique_ID)):
                 self.pause(unique_ID)
 
         # Handle autoseeding - downqueue as needed
@@ -582,7 +574,6 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
                     if ratio >= self.get_pref('auto_seed_ratio'):
                         self.removed_unique_ids[unique_ID] = 1
                         self.remove_torrent(unique_ID, False, True)
-
     # Event handling
 
     def connect_event(self, event_type, callback):
