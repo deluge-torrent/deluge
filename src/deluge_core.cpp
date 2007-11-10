@@ -929,8 +929,33 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
     total_seeds = s.num_complete != -1? s.num_complete : connected_seeds;
     total_peers = s.num_incomplete != -1? s.num_incomplete : connected_peers;
 
+	// The following section computes the ranges of pieces that have been downloaded
+	std::vector<int> downloaded_range;
+	bool range_opened=false;
+	for (unsigned int i=0; i<=s.pieces->size(); ++i) {
+		bool downloaded=(i<s.pieces->size() && s.pieces->at(i));
+		if (!range_opened) {
+			if (downloaded) {
+				range_opened=true;
+				downloaded_range.push_back(i);
+			}
+		} else {
+			if (!downloaded) {
+				range_opened=false;
+				downloaded_range.push_back(i-1);
+			}
+		}
+	}
+	PyObject *pieces_range = PyTuple_New(downloaded_range.size()/2);
+	for(unsigned long i=0; i<downloaded_range.size(); i+=2)
+	{
+		PyObject *rangepos;
+		rangepos = Py_BuildValue("[i,i]",downloaded_range[i],
+			downloaded_range[i+1]);
+		PyTuple_SetItem(pieces_range, i/2, rangepos);   
+	}
 
-    return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:b,s:f,s:L,s:L,s:s,s:s,s:f,s:L,s:L,s:l,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
+    return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:b,s:f,s:L,s:L,s:s,s:s,s:f,s:L,s:L,s:O,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
         "name",               t.handle.get_torrent_info().name().c_str(),
         "num_files",          t.handle.get_torrent_info().num_files(),
         "state",              s.state,
@@ -947,7 +972,7 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
         "progress",           s.progress,
         "total_payload_download", s.total_payload_download,
         "total_payload_upload", s.total_payload_upload,
-        "pieces",             long(s.pieces), // this is really a std::vector<bool>*
+        "pieces",             pieces_range,
         "pieces_done",        s.num_pieces,
         "block_size",         s.block_size,
         "total_size",         i.total_size(),

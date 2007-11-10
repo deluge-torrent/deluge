@@ -1001,7 +1001,7 @@ window, please enter your password"))
         # Call update now so everything is up-to-date when the window gains 
         # focus on startup
         self.update()
-        gobject.timeout_add(1000, self.update)
+        gobject.timeout_add(int(1000*self.manager.config.get("gui_update_interval")+0.5), self.update)
 
         # Load plugins after we showed main window (if not started in tray)
         self.load_plugins()

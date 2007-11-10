@@ -147,7 +147,8 @@ if common.windows_check():
     "status_width" : 150,
     "filename_f_width" : 220,
     "size_f_width" : 90,
-    "priority_f_width" : 140
+    "priority_f_width" : 140,
+    "use_advanced_bar" : False
 }
 else:
     DEFAULT_PREFS = {
@@ -257,7 +258,8 @@ else:
     "status_width" : 150,
     "filename_f_width" : 220,
     "size_f_width" : 90,
-    "priority_f_width" : 140
+    "priority_f_width" : 140,
+    "use_advanced_bar" : False
 }
 
 class Preferences:
@@ -273,6 +275,7 @@ class Preferences:
         self.config_file = filename
         if self.config_file is not None:
             self.load(self.config_file)
+        self.change_hooks=[]
     
     # Allows you to access an item in a Preferences objecy by calling
     # instance[key] rather than instance.get(key).  However, this will
@@ -280,10 +283,16 @@ class Preferences:
     # advisable to use get() if you need the value converted.
     def __getitem__(self, key):
         return self.mapping[key]
+
+    def onValueChanged(self,value,method):
+        self.change_hooks.append([value,method])
     
     def __setitem__(self, key, value):
-        self.mapping[key] = value
-    
+        if key not in self.mapping or self.mapping[key]!=value:
+            self.mapping[key] = value
+            for hook in self.change_hooks:
+                if (hook[0]==key): hook[1]()
+
     def __delitem__(self, key):
         del self.mapping[key]
     
@@ -320,8 +329,8 @@ class Preferences:
             pass
     
     def set(self, key, value):
-        self.mapping[key] = value
-    
+        self[key] = value
+
     def get(self, key):
         try:
             value = self.mapping[key]
