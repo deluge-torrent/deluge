@@ -48,6 +48,9 @@ class GtkUI(ui.UI):
         menu_glade = gtk.glade.XML(pkg_resources.resource_filename("queue", 
                                                     "glade/queuemenu.glade"))
         
+        prefs_glade = gtk.glade.XML(pkg_resources.resource_filename("queue",
+            "glade/queueprefs.glade"))
+            
         menu_glade.signal_autoconnect({
             "on_menuitem_queuetop_activate": \
                                             self.on_queuetop_activate,
@@ -63,11 +66,8 @@ class GtkUI(ui.UI):
         # Connect to the 'torrent_queue_changed' signal
         #self.core.connect_to_signal("torrent_queue_changed", 
         #                                self.torrent_queue_changed_signal)
-        
-        # Get the torrentview component from the plugin manager
-        #self.torrentview = self.plugin.get_torrentview()
+
         # Add the '#' column at the first position
-        #self.torrentview.add_text_column("#", 
         self.plugin.add_torrentview_text_column("#",
                                         col_type=int,
                                         position=0, 
@@ -100,6 +100,11 @@ class GtkUI(ui.UI):
         self.queue_menuitem.set_submenu(menu)
         self.queue_menuitem.show_all()
         self.plugin.add_torrentmenu_menu(self.queue_menuitem)
+        
+        # Add preferences page
+        self.queue_pref_page = \
+            prefs_glade.get_widget("queue_prefs_box")
+        self.plugin.add_preferences_page("Queue", self.queue_pref_page)
     
     def unload_interface(self):
         self.plugin.remove_torrentmenu_item(self.menu_sep)
@@ -108,6 +113,7 @@ class GtkUI(ui.UI):
         self.plugin.remove_toolbar_button(self.toolbutton_up)
         self.plugin.remove_toolbar_button(self.toolbutton_down)
         self.plugin.remove_torrentview_column("#")
+        self.plugin.remove_preferences_page("Queue")
         
     def update(self):
         self.plugin.update_torrent_view(["#"])

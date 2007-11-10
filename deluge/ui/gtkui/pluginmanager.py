@@ -74,12 +74,18 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     def add_torrentmenu_menu(self, *args):
         return component.get("MenuBar").torrentmenu.append(*args)
     
+    def add_torrentmenu_separator(self):
+        return component.get("MenuBar").add_torrentmenu_separator()
+
     def remove_torrentmenu_item(self, *args):
         return component.get("MenuBar").torrentmenu.remove(*args)
     
-    def add_torrentmenu_separator(self):
-        return component.get("MenuBar").add_torrentmenu_separator()
-        
+    def add_preferences_page(self, *args):
+        return component.get("Preferences").add_page(*args)
+    
+    def remove_preferences_page(self, *args):
+        return component.get("Preferences").remove_page(*args)
+                
     def update_torrent_view(self, *args):
         return component.get("TorrentView").update(*args)
 

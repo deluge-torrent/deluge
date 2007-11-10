@@ -15,7 +15,6 @@
     of deluge.
 * Hide open folder if not localhost
 * Modify sensitivity of torrent/tray menu based on connection state
-* Add queue preferences tab
 * Add classic/normal mode to preferences
 * Implement 'Classic' mode
 * Add remove torrent dialog and ability to remove data

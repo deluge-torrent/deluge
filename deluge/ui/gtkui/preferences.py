@@ -101,9 +101,53 @@ class Preferences(component.Component):
 
     def add_page(self, name, widget):
         """Add a another page to the notebook"""
-        index = self.notebook.append_page(widget)
+        # Create a header and scrolled window for the preferences tab
+        widget.unparent()
+        vbox = gtk.VBox()
+        label = gtk.Label()
+        label.set_use_markup(True)
+        label.set_markup("<b><i><big>" + name + "</big></i></b>")
+        label.set_alignment(0.05, 0.50)
+        label.set_padding(0, 10)
+        vbox.pack_start(label, False, True, 0)
+        sep = gtk.HSeparator()
+        vbox.pack_start(sep, False, True, 0)
+        align = gtk.Alignment()
+        align.set_padding(5, 0, 0, 0)
+        align.add(widget)
+        vbox.pack_start(align, False, False, 0)
+        scrolled = gtk.ScrolledWindow()
+        viewport = gtk.Viewport()
+        viewport.set_shadow_type(gtk.SHADOW_NONE)       
+        viewport.add(vbox)
+        scrolled.add(viewport)        
+        scrolled.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        scrolled.show_all()
+        # Add this page to the notebook
+        index = self.notebook.append_page(scrolled)
         self.liststore.append([index, name])
+        return name
 
+    def remove_page(self, name):
+        """Removes a page from the notebook"""
+        self.page_num_to_remove = None
+        self.iter_to_remove = None
+        
+        def check_row(model, path, iter, user_data):
+            row_name = model.get_value(iter, 1)
+            if row_name == user_data:
+                # This is the row we need to remove
+                self.page_num_to_remove = model.get_value(iter, 0)
+                self.iter_to_remove = iter
+                return
+                
+        self.liststore.foreach(check_row, name)
+        # Remove the page and row
+        if self.page_num_to_remove != None:
+            self.notebook.remove_page(self.page_num_to_remove)
+        if self.iter_to_remove != None:
+            self.liststore.remove(self.iter_to_remove)
+            
     def show(self):
         # Update the preferences dialog to reflect current config settings
         self.core_config = client.get_config()
