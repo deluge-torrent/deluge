@@ -63,7 +63,7 @@ class DetailsTabManager(object):
         self.torrent_path = glade.get_widget("summary_torrent_path")
         self.advanced_progressbar=glade.get_widget("advanced_progressbar")
 
-       	self.last_state=None
+           self.last_state=None
         self.prefchanged_progress()
         self.manager.config.onValueChanged('use_advanced_bar',self.prefchanged_progress)
 
@@ -81,42 +81,42 @@ class DetailsTabManager(object):
     #   If anybody knows of documentation which includes the expose_event
     #   in PyGtk would be glad to see it. - hirak99        
     def paint_customprogress(self,arg1=None,arg2=None):
-	# Draw the custom progress bar
-	progress_window=self.custom_progress.window
-	colormap=self.custom_progress.get_colormap()
-	gc=progress_window.new_gc()
-	size=progress_window.get_size()
-	progress_window.begin_paint_rect(gtk.gdk.Rectangle(0,0,size[0],size[1]))
-	height=size[1]
-	if height>25: height=25
-	top=(size[1]-height)/2
-	gc.set_foreground(colormap.alloc_color('#F0F0FF'))
-	progress_window.draw_rectangle(gc,True,0,top,size[0],height-1)
-	gc.set_foreground(colormap.alloc_color('#A0A0AF'))
-	progress_window.draw_line(gc,0,top+4,size[0],top+4)
-	state=self.last_state
-	if state!=None:
-		gc.set_foreground(colormap.alloc_color('#2020FF'))
-		progress_window.draw_rectangle(gc,True,0,top,int(size[0]*float(state['progress'])),4)
-		num_pieces=state["num_pieces"]
-		for pieces_range in state['pieces']:
-			range_first=pieces_range[0]*size[0]/num_pieces
-			range_length=((pieces_range[1]-pieces_range[0]+1)*size[0]/num_pieces)
-			if range_length==0:
-				range_length=1
-				gc.set_foreground(colormap.alloc_color('#8080FF'))
-			else:
-				gc.set_foreground(colormap.alloc_color('#2020FF'))
-			progress_window.draw_rectangle(gc,True,range_first,top+5,range_length,height-5)
-	gc.set_foreground(colormap.alloc_color('dim gray'))
-	progress_window.draw_line(gc,0,top,0,top+height)
-	progress_window.draw_line(gc,0,top,size[0],top)
-	gc.set_foreground(colormap.alloc_color('white'))
-	progress_window.draw_line(gc,0,top+height,size[0]-1,top+height)
-	progress_window.draw_line(gc,size[0]-1,top,size[0]-1,top+height)
-	progress_window.end_paint()
-	# Done drawing custom progress bar
-	
+    # Draw the custom progress bar
+        progress_window=self.custom_progress.window
+        colormap=self.custom_progress.get_colormap()
+        gc=progress_window.new_gc()
+        size=progress_window.get_size()
+        progress_window.begin_paint_rect(gtk.gdk.Rectangle(0,0,size[0],size[1]))
+        height=size[1]
+        if height>25: height=25
+        top=(size[1]-height)/2
+        gc.set_foreground(colormap.alloc_color('#F0F0FF'))
+        progress_window.draw_rectangle(gc,True,0,top,size[0],height-1)
+        gc.set_foreground(colormap.alloc_color('#A0A0AF'))
+        progress_window.draw_line(gc,0,top+4,size[0],top+4)
+        state=self.last_state
+        if state!=None:
+            gc.set_foreground(colormap.alloc_color('#2020FF'))
+            progress_window.draw_rectangle(gc,True,0,top,int(size[0]*float(state['progress'])),4)
+            num_pieces=state["num_pieces"]
+            for pieces_range in state['pieces']:
+                range_first=pieces_range[0]*size[0]/num_pieces
+                range_length=((pieces_range[1]-pieces_range[0]+1)*size[0]/num_pieces)
+                if range_length==0:
+                    range_length=1
+                    gc.set_foreground(colormap.alloc_color('#8080FF'))
+                else:
+                    gc.set_foreground(colormap.alloc_color('#2020FF'))
+                progress_window.draw_rectangle(gc,True,range_first,top+5,range_length,height-5)
+        gc.set_foreground(colormap.alloc_color('dim gray'))
+        progress_window.draw_line(gc,0,top,0,top+height)
+        progress_window.draw_line(gc,0,top,size[0],top)
+        gc.set_foreground(colormap.alloc_color('white'))
+        progress_window.draw_line(gc,0,top+height,size[0]-1,top+height)
+        progress_window.draw_line(gc,size[0]-1,top,size[0]-1,top+height)
+        progress_window.end_paint()
+        # Done drawing custom progress bar
+        
     def update(self, unique_id):
         state = self.manager.get_torrent_state(unique_id)
 
