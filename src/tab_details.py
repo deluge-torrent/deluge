@@ -63,7 +63,7 @@ class DetailsTabManager(object):
         self.torrent_path = glade.get_widget("summary_torrent_path")
         self.advanced_progressbar=glade.get_widget("advanced_progressbar")
 
-           self.last_state=None
+        self.last_state=None
         self.prefchanged_progress()
         self.manager.config.onValueChanged('use_advanced_bar',self.prefchanged_progress)
 
