@@ -52,10 +52,10 @@ class MenuBar(component.Component):
                                                 "glade/torrent_menu.glade"))
 
         self.torrentmenu = torrentmenu_glade.get_widget("torrent_menu")
+        self.menu_torrent = self.window.main_glade.get_widget("menu_torrent")
         
         # Attach the torrent_menu to the Torrent file menu
-        self.window.main_glade.get_widget("menu_torrent").set_submenu(
-                                                            self.torrentmenu)
+        self.menu_torrent.set_submenu(self.torrentmenu)
 
         ### Connect Signals ###
         self.window.main_glade.signal_autoconnect({
@@ -106,8 +106,8 @@ class MenuBar(component.Component):
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(True)
 
-        for child in self.torrentmenu:
-            child.set_sensitive(True)
+        # Show the Torrent menu because we're connected to a host
+        self.menu_torrent.show()
 
         self.window.main_glade.get_widget("separatormenuitem").show()
         self.window.main_glade.get_widget("menuitem_quitdaemon").show()
@@ -116,8 +116,8 @@ class MenuBar(component.Component):
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(False)
 
-        for child in self.torrentmenu:
-            child.set_sensitive(False)
+        # Hide the Torrent menu
+        self.menu_torrent.hide()
 
         self.window.main_glade.get_widget("separatormenuitem").hide()
         self.window.main_glade.get_widget("menuitem_quitdaemon").hide()

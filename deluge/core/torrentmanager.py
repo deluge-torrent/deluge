@@ -413,8 +413,8 @@ class TorrentManager:
         log.debug("Deleting fastresume file: %s", path)
         try:
             os.remove(path)
-        except IOError:
-            log.warning("Unable to delete the fastresume file: %s", path)
+        except Exception, e:
+            log.warning("Unable to delete the fastresume file: %s", e)
             
     def write_fastresume(self, torrent_id):
         """Writes the .fastresume file for the torrent"""
