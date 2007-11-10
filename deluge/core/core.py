@@ -138,6 +138,9 @@ class Core(
         # Set the user agent
         self.settings = lt.session_settings()
         self.settings.user_agent = "Deluge %s" % deluge.common.get_version()
+
+        # Set lazy bitfield
+        self.settings.lazy_bitfields = 1
         self.session.set_settings(self.settings)
         
         # Load metadata extension
