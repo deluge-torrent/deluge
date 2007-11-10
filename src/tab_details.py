@@ -166,8 +166,6 @@ class DetailsTabManager(object):
         self.upload_speed.set_text(common.fspeed(state["upload_rate"]))
         self.seeders.set_text(common.fseed(state))
         self.peers.set_text(common.fpeer(state))
-#        self.progress_bar.set_fraction(float(state['progress']))
-#        self.progress_bar.set_text(common.fpcnt(state["progress"]))
         self.last_state=state
         if self.use_advanced_bar:
             self.paint_customprogress()

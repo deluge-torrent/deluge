@@ -338,7 +338,7 @@ class PreferencesDlg:
             self.glade.get_widget('ratio_spinner').set_sensitive(value)
             self.glade.get_widget('chk_clear_max_ratio_torrents').set_sensitive(value)  
         elif widget == self.glade.get_widget('chk_seedbottom'):
-            self.glade.get_widget('chk_queue_above_completed').set_sensitive(value)  		
+            self.glade.get_widget('chk_queue_above_completed').set_sensitive(value)
         elif widget == self.glade.get_widget('chk_peer_proxy'):
                 value = self.glade.get_widget('chk_peer_proxy').get_active() 
                 for x in ['combo_peer_proxy_type', 'txt_peer_proxy_hostname', 

@@ -382,7 +382,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
     }
     else
     {
-    // on XP SP2 it's 10	
+    // on XP SP2 it's 10
     M_ses->set_max_half_open_connections(8);
     }
 #endif
@@ -500,7 +500,7 @@ static PyObject *torrent_set_max_half_open(PyObject *self, PyObject *args)
     }
     else
     {
-    // on XP SP2 it's 10	
+    // on XP SP2 it's 10
         if (arg > 8)
         {
             arg = 8;
@@ -929,31 +929,31 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
     total_seeds = s.num_complete != -1? s.num_complete : connected_seeds;
     total_peers = s.num_incomplete != -1? s.num_incomplete : connected_peers;
 
-	// The following section computes the ranges of pieces that have been downloaded
-	std::vector<int> downloaded_range;
-	bool range_opened=false;
-	for (unsigned int i=0; i<=s.pieces->size(); ++i) {
-		bool downloaded=(i<s.pieces->size() && s.pieces->at(i));
-		if (!range_opened) {
-			if (downloaded) {
-				range_opened=true;
-				downloaded_range.push_back(i);
-			}
-		} else {
-			if (!downloaded) {
-				range_opened=false;
-				downloaded_range.push_back(i-1);
-			}
-		}
-	}
-	PyObject *pieces_range = PyTuple_New(downloaded_range.size()/2);
-	for(unsigned long i=0; i<downloaded_range.size(); i+=2)
-	{
-		PyObject *rangepos;
-		rangepos = Py_BuildValue("[i,i]",downloaded_range[i],
-			downloaded_range[i+1]);
-		PyTuple_SetItem(pieces_range, i/2, rangepos);   
-	}
+    // The following section computes the ranges of pieces that have been downloaded
+    std::vector<int> downloaded_range;
+    bool range_opened=false;
+    for (unsigned int i=0; i<=s.pieces->size(); ++i) {
+    bool downloaded=(i<s.pieces->size() && s.pieces->at(i));
+    if (!range_opened) {
+            if (downloaded) {
+                range_opened=true;
+                downloaded_range.push_back(i);
+            }
+        } else {
+            if (!downloaded) {
+                range_opened=false;
+                downloaded_range.push_back(i-1);
+            }
+        }
+    }
+    PyObject *pieces_range = PyTuple_New(downloaded_range.size()/2);
+    for(unsigned long i=0; i<downloaded_range.size(); i+=2)
+    {
+        PyObject *rangepos;
+        rangepos = Py_BuildValue("[i,i]",downloaded_range[i],
+            downloaded_range[i+1]);
+        PyTuple_SetItem(pieces_range, i/2, rangepos);   
+    }
 
     return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:b,s:f,s:L,s:L,s:s,s:s,s:f,s:L,s:L,s:O,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
         "name",               t.handle.get_torrent_info().name().c_str(),
@@ -1571,13 +1571,13 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 
     try
     {
-		boost::intrusive_ptr<torrent_info> t(new torrent_info);
+        boost::intrusive_ptr<torrent_info> t(new torrent_info);
         boost::filesystem::path full_path = complete(boost::filesystem::path(input));
         boost::filesystem::ofstream out(complete(boost::filesystem::path(destination)), std::ios_base::binary);
 
 
         internal_add_files(*t, full_path.branch_path(), full_path.leaf());
-		t->set_piece_size(piece_size);
+        t->set_piece_size(piece_size);
 
         file_pool fp;
         boost::scoped_ptr<storage_interface> st(default_storage_constructor(t, full_path.branch_path(), fp));
