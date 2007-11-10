@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.2.2 on Fri Nov  9 03:49:00 2007 by andrew@fragment-->
+<!--Generated with glade3 3.4.0 on Sat Nov 10 01:44:15 2007 -->
 <glade-interface>
   <widget class="GtkDialog" id="connection_manager">
     <property name="has_focus">True</property>
@@ -11,6 +11,7 @@
     <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
     <property name="default_width">350</property>
     <property name="default_height">300</property>
+    <property name="destroy_with_parent">True</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">

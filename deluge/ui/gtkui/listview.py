@@ -200,7 +200,7 @@ class ListView:
         def copy_row(model, path, row, user_data):
             new_list, columns = user_data
             new_row = new_list.append()
-            for column in range(model.get_n_columns()):
+            for column in range(len(columns)):
                 # Get the current value of the column for this row
                 value = model.get_value(row, column)
                 # Set the value of this row and column in the new liststore
