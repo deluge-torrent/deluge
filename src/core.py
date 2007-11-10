@@ -520,13 +520,17 @@ class Manager:
                 self.is_user_paused(unique_ID)) and not torrent_state['is_seed']:
                 active_torrent_cnt += 1 
 
-            if torrent_state['is_seed'] and not self.is_user_paused(unique_ID):
+            if not torrent_state['is_paused'] and torrent_state['is_seed'] and not self.is_user_paused(unique_ID):
                 seed_torrent_cnt += 1
 
-            if (seed_torrent_cnt <= self.get_pref('max_seeding_torrents')) or (self.get_pref('max_seeding_torrents') == -1):
+            if torrent_state['is_paused'] or \
+               (torrent_state['is_paused'] and not \
+                self.is_user_paused(unique_ID)) and(seed_torrent_cnt <= self.get_pref('max_seeding_torrents')) or (self.get_pref('max_seeding_torrents') == -1):
                     self.resume(unique_ID)
 
-            if (seed_torrent_cnt > self.get_pref('max_seeding_torrents')) and (self.get_pref('max_seeding_torrents') != -1):
+            if torrent_state['is_paused'] or \
+               (torrent_state['is_paused'] and not \
+                self.is_user_paused(unique_ID)) and (seed_torrent_cnt > self.get_pref('max_seeding_torrents')) and (self.get_pref('max_seeding_torrents') != -1):
                 self.pause(unique_ID)
            
             if (active_torrent_cnt <= self.get_pref('max_active_torrents') or \
