@@ -1643,7 +1643,6 @@ want to remove all seeding torrents?")):
         self.save_column_widths()
         self.save_window_settings()
         self.save_tabs_order()
-        gtk.main_quit()
         enabled_plugins = ':'.join(self.plugins.get_enabled_plugins())
         self.config.set('enabled_plugins', enabled_plugins)
         self.config.save()
@@ -1651,6 +1650,7 @@ want to remove all seeding torrents?")):
         #for the sake of windows, hide tray_icon
         self.tray_icon.set_visible(False)
         self.manager.quit()
+        gtk.main_quit()
 
 ## For testing purposes, create a copy of the interface
 if __name__ == "__main__":
