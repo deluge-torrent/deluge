@@ -184,6 +184,7 @@ namespace libtorrent
 
 		typedef boost::mutex mutex_t;
 		mutable mutex_t m_mutex;
+		bool m_abort;
 	};
 
 	struct TORRENT_EXPORT tracker_connection
@@ -202,7 +203,7 @@ namespace libtorrent
 
 		void fail(int code, char const* msg);
 		void fail_timeout();
-		void close();
+		virtual void close();
 		address const& bind_interface() const { return m_bind_interface; }
 
 	protected:

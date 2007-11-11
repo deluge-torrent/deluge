@@ -86,6 +86,11 @@ namespace libtorrent
 		try_connect();
 	}
 
+	void connection_queue::close()
+	{
+		m_timer.cancel();
+	}
+
 	void connection_queue::limit(int limit)
 	{ m_half_open_limit = limit; }
 
@@ -111,8 +116,14 @@ namespace libtorrent
 	{
 		INVARIANT_CHECK;
 
-		if (!free_slots() || m_queue.empty())
+		if (!free_slots())
 			return;
+	
+		if (m_queue.empty())
+		{
+			m_timer.cancel();
+			return;
+		}
 
 		std::list<entry>::iterator i = std::find_if(m_queue.begin()
 			, m_queue.end(), boost::bind(&entry::connecting, _1) == false);

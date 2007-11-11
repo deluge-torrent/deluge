@@ -130,6 +130,8 @@ namespace libtorrent
 			, proxy_settings const& ps
 			, std::string const& password = "");
 
+		void close();
+
 	private:
 
 		boost::intrusive_ptr<http_tracker_connection> self()
@@ -159,7 +161,7 @@ namespace libtorrent
 		asio::strand& m_strand;
 		tcp::resolver m_name_lookup;
 		int m_port;
-		boost::shared_ptr<socket_type> m_socket;
+		socket_type m_socket;
 		int m_recv_pos;
 		std::vector<char> m_buffer;
 		std::string m_send_buffer;

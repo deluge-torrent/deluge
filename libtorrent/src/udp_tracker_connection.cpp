@@ -86,6 +86,7 @@ namespace libtorrent
 		, m_man(man)
 		, m_strand(str)
 		, m_name_lookup(m_strand.io_service())
+		, m_socket(m_strand.io_service())
 		, m_transaction_id(0)
 		, m_connection_id(0)
 		, m_settings(stn)
@@ -95,7 +96,9 @@ namespace libtorrent
 		m_name_lookup.async_resolve(q
 			, m_strand.wrap(boost::bind(
 			&udp_tracker_connection::name_lookup, self(), _1, _2)));
-		set_timeout(m_settings.tracker_completion_timeout
+		set_timeout(req.event == tracker_request::stopped
+			? m_settings.stop_tracker_timeout
+			: m_settings.tracker_completion_timeout
 			, m_settings.tracker_receive_timeout);
 	}
 
@@ -103,7 +106,7 @@ namespace libtorrent
 		, udp::resolver::iterator i) try
 	{
 		if (error == asio::error::operation_aborted) return;
-		if (!m_socket) return; // the operation was aborted
+		if (!m_socket.is_open()) return; // the operation was aborted
 		if (error || i == udp::resolver::iterator())
 		{
 			fail(-1, error.message().c_str());
@@ -143,10 +146,9 @@ namespace libtorrent
 		
 		if (cb) cb->m_tracker_address = tcp::endpoint(target_address.address(), target_address.port());
 		m_target = target_address;
-		m_socket.reset(new datagram_socket(m_name_lookup.io_service()));
-		m_socket->open(target_address.protocol());
-		m_socket->bind(udp::endpoint(bind_interface(), 0));
-		m_socket->connect(target_address);
+		m_socket.open(target_address.protocol());
+		m_socket.bind(udp::endpoint(bind_interface(), 0));
+		m_socket.connect(target_address);
 		send_udp_connect();
 	}
 	catch (std::exception& e)
@@ -156,9 +158,18 @@ namespace libtorrent
 
 	void udp_tracker_connection::on_timeout()
 	{
-		m_socket.reset();
+		asio::error_code ec;
+		m_socket.close(ec);
 		m_name_lookup.cancel();
 		fail_timeout();
+	}
+
+	void udp_tracker_connection::close()
+	{
+		asio::error_code ec;
+		m_socket.close(ec);
+		m_name_lookup.cancel();
+		tracker_connection::close();
 	}
 
 	void udp_tracker_connection::send_udp_connect()
@@ -171,7 +182,7 @@ namespace libtorrent
 				+ lexical_cast<std::string>(tracker_req().info_hash) + "]");
 		}
 #endif
-		if (!m_socket) return; // the operation was aborted
+		if (!m_socket.is_open()) return; // the operation was aborted
 
 		char send_buf[16];
 		char* ptr = send_buf;
@@ -187,10 +198,10 @@ namespace libtorrent
 		// transaction_id
 		detail::write_int32(m_transaction_id, ptr);
 
-		m_socket->send(asio::buffer((void*)send_buf, 16), 0);
+		m_socket.send(asio::buffer((void*)send_buf, 16), 0);
 		++m_attempts;
 		m_buffer.resize(udp_buffer_size);
-		m_socket->async_receive_from(asio::buffer(m_buffer), m_sender
+		m_socket.async_receive_from(asio::buffer(m_buffer), m_sender
 			, boost::bind(&udp_tracker_connection::connect_response, self(), _1, _2));
 	}
 
@@ -198,7 +209,7 @@ namespace libtorrent
 		, std::size_t bytes_transferred) try
 	{
 		if (error == asio::error::operation_aborted) return;
-		if (!m_socket) return; // the operation was aborted
+		if (!m_socket.is_open()) return; // the operation was aborted
 		if (error)
 		{
 			fail(-1, error.message().c_str());
@@ -208,7 +219,7 @@ namespace libtorrent
 		if (m_target != m_sender)
 		{
 			// this packet was not received from the tracker
-			m_socket->async_receive_from(asio::buffer(m_buffer), m_sender
+			m_socket.async_receive_from(asio::buffer(m_buffer), m_sender
 				, boost::bind(&udp_tracker_connection::connect_response, self(), _1, _2));
 			return;
 		}
@@ -284,7 +295,7 @@ namespace libtorrent
 		if (m_transaction_id == 0)
 			m_transaction_id = rand() ^ (rand() << 16);
 
-		if (!m_socket) return; // the operation was aborted
+		if (!m_socket.is_open()) return; // the operation was aborted
 
 		std::vector<char> buf;
 		std::back_insert_iterator<std::vector<char> > out(buf);
@@ -332,10 +343,10 @@ namespace libtorrent
 		}
 #endif
 
-		m_socket->send(asio::buffer(buf), 0);
+		m_socket.send(asio::buffer(buf), 0);
 		++m_attempts;
 
-		m_socket->async_receive_from(asio::buffer(m_buffer), m_sender
+		m_socket.async_receive_from(asio::buffer(m_buffer), m_sender
 			, bind(&udp_tracker_connection::announce_response, self(), _1, _2));
 	}
 
@@ -344,7 +355,7 @@ namespace libtorrent
 		if (m_transaction_id == 0)
 			m_transaction_id = rand() ^ (rand() << 16);
 
-		if (!m_socket) return; // the operation was aborted
+		if (!m_socket.is_open()) return; // the operation was aborted
 
 		std::vector<char> buf;
 		std::back_insert_iterator<std::vector<char> > out(buf);
@@ -358,10 +369,10 @@ namespace libtorrent
 		// info_hash
 		std::copy(tracker_req().info_hash.begin(), tracker_req().info_hash.end(), out);
 
-		m_socket->send(asio::buffer(&buf[0], buf.size()), 0);
+		m_socket.send(asio::buffer(&buf[0], buf.size()), 0);
 		++m_attempts;
 
-		m_socket->async_receive_from(asio::buffer(m_buffer), m_sender
+		m_socket.async_receive_from(asio::buffer(m_buffer), m_sender
 			, bind(&udp_tracker_connection::scrape_response, self(), _1, _2));
 	}
 
@@ -369,7 +380,7 @@ namespace libtorrent
 		, std::size_t bytes_transferred) try
 	{
 		if (error == asio::error::operation_aborted) return;
-		if (!m_socket) return; // the operation was aborted
+		if (!m_socket.is_open()) return; // the operation was aborted
 		if (error)
 		{
 			fail(-1, error.message().c_str());
@@ -379,7 +390,7 @@ namespace libtorrent
 		if (m_target != m_sender)
 		{
 			// this packet was not received from the tracker
-			m_socket->async_receive_from(asio::buffer(m_buffer), m_sender
+			m_socket.async_receive_from(asio::buffer(m_buffer), m_sender
 				, bind(&udp_tracker_connection::connect_response, self(), _1, _2));
 			return;
 		}
@@ -468,6 +479,7 @@ namespace libtorrent
 			, complete, incomplete);
 
 		m_man.remove_request(this);
+		close();
 		return;
 	}
 	catch (std::exception& e)
@@ -479,7 +491,7 @@ namespace libtorrent
 		, std::size_t bytes_transferred) try
 	{
 		if (error == asio::error::operation_aborted) return;
-		if (!m_socket) return; // the operation was aborted
+		if (!m_socket.is_open()) return; // the operation was aborted
 		if (error)
 		{
 			fail(-1, error.message().c_str());
@@ -489,7 +501,7 @@ namespace libtorrent
 		if (m_target != m_sender)
 		{
 			// this packet was not received from the tracker
-			m_socket->async_receive_from(asio::buffer(m_buffer), m_sender
+			m_socket.async_receive_from(asio::buffer(m_buffer), m_sender
 				, bind(&udp_tracker_connection::connect_response, self(), _1, _2));
 			return;
 		}
@@ -543,6 +555,7 @@ namespace libtorrent
 		if (!cb)
 		{
 			m_man.remove_request(this);
+			close();
 			return;
 		}
 		
@@ -551,6 +564,7 @@ namespace libtorrent
 			, complete, incomplete);
 
 		m_man.remove_request(this);
+		close();
 	}
 	catch (std::exception& e)
 	{

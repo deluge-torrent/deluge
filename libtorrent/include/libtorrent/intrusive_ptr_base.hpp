@@ -34,6 +34,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #define TORRENT_INTRUSIVE_PTR_BASE
 
 #include <boost/detail/atomic_count.hpp>
+#include <boost/checked_delete.hpp>
 #include "libtorrent/config.hpp"
 #include "libtorrent/assert.hpp"
 
@@ -45,7 +46,8 @@ namespace libtorrent
 		intrusive_ptr_base(intrusive_ptr_base<T> const&)
 			: m_refs(0) {}
 
-		intrusive_ptr_base& operator=(intrusive_ptr_base const& rhs) {}
+		intrusive_ptr_base& operator=(intrusive_ptr_base const& rhs)
+		{ return *this; }
 
 		friend void intrusive_ptr_add_ref(intrusive_ptr_base<T> const* s)
 		{
@@ -59,7 +61,7 @@ namespace libtorrent
 			TORRENT_ASSERT(s->m_refs > 0);
 			TORRENT_ASSERT(s != 0);
 			if (--s->m_refs == 0)
-				delete static_cast<T const*>(s);
+				boost::checked_delete(static_cast<T const*>(s));
 		}
 
 		boost::intrusive_ptr<T> self()

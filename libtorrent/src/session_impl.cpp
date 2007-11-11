@@ -90,6 +90,10 @@ namespace
 }
 
 #endif
+#ifdef _WIN32
+// for ERROR_SEM_TIMEOUT
+#include <winerror.h>
+#endif
 
 using boost::shared_ptr;
 using boost::weak_ptr;
@@ -543,8 +547,8 @@ namespace detail
 		, fingerprint const& cl_fprint
 		, char const* listen_interface)
 		: m_send_buffers(send_buffer_size)
-		, m_strand(m_io_service)
 		, m_files(40)
+		, m_strand(m_io_service)
 		, m_half_open(m_io_service)
 		, m_download_channel(m_io_service, peer_connection::download_channel)
 		, m_upload_channel(m_io_service, peer_connection::upload_channel)
@@ -671,6 +675,17 @@ namespace detail
 		if (m_dht) m_dht->stop();
 #endif
 		m_timer.cancel();
+
+		// close the listen sockets
+		for (std::list<listen_socket_t>::iterator i = m_listen_sockets.begin()
+			, end(m_listen_sockets.end()); i != end; ++i)
+		{
+			i->sock->close();
+		}
+
+#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+		(*m_logger) << time_now_string() << " aborting all torrents\n";
+#endif
 		// abort all torrents
 		for (torrent_map::iterator i = m_torrents.begin()
 			, end(m_torrents.end()); i != end; ++i)
@@ -678,7 +693,68 @@ namespace detail
 			i->second->abort();
 		}
 
-		m_io_service.stop(); 
+#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+		(*m_logger) << time_now_string() << " aborting all tracker requests\n";
+#endif
+		m_tracker_manager.abort_all_requests();
+
+#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+		(*m_logger) << time_now_string() << " sending event=stopped to trackers\n";
+		int counter = 0;
+#endif
+		for (torrent_map::iterator i = m_torrents.begin();
+			i != m_torrents.end(); ++i)
+		{
+			torrent& t = *i->second;
+
+			if ((!t.is_paused() || t.should_request())
+				&& !t.trackers().empty())
+			{
+#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+				++counter;
+#endif
+				tracker_request req = t.generate_tracker_request();
+				TORRENT_ASSERT(req.event == tracker_request::stopped);
+				req.listen_port = 0;
+				if (!m_listen_sockets.empty())
+					req.listen_port = m_listen_sockets.front().external_port;
+				req.key = m_key;
+				std::string login = i->second->tracker_login();
+#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+				boost::shared_ptr<tracker_logger> tl(new tracker_logger(*this));
+				m_tracker_loggers.push_back(tl);
+				m_tracker_manager.queue_request(m_strand, m_half_open, req, login
+					, m_listen_interface.address(), tl);
+#else
+				m_tracker_manager.queue_request(m_strand, m_half_open, req, login
+					, m_listen_interface.address());
+#endif
+			}
+		}
+#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+		(*m_logger) << time_now_string() << " sent " << counter << " tracker stop requests\n";
+#endif
+
+#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+		(*m_logger) << time_now_string() << " aborting all connections (" << m_connections.size() << ")\n";
+#endif
+		// abort all connections
+		while (!m_connections.empty())
+		{
+#ifndef NDEBUG
+			int conn = m_connections.size();
+#endif
+			(*m_connections.begin())->disconnect();
+			TORRENT_ASSERT(conn == int(m_connections.size()) + 1);
+		}
+
+#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+		(*m_logger) << time_now_string() << " shutting down connection queue\n";
+#endif
+		m_half_open.close();
+
+		m_download_channel.close();
+		m_upload_channel.close();
 
 		mutex::scoped_lock l2(m_checker_impl.m_mutex);
 		// abort the checker thread
@@ -898,8 +974,8 @@ namespace detail
 
 	void session_impl::async_accept(boost::shared_ptr<socket_acceptor> const& listener)
 	{
-		shared_ptr<socket_type> c(new socket_type(m_io_service));
-		c->instantiate<stream_socket>();
+		shared_ptr<socket_type> c(new socket_type);
+		c->instantiate<stream_socket>(m_io_service);
 		listener->async_accept(c->get<stream_socket>()
 			, bind(&session_impl::on_incoming_connection, this, c
 			, boost::weak_ptr<socket_acceptor>(listener), _1));
@@ -924,6 +1000,15 @@ namespace detail
 			std::string msg = "error accepting connection on '"
 				+ boost::lexical_cast<std::string>(ep) + "' " + e.message();
 			(*m_logger) << msg << "\n";
+#endif
+#ifdef _WIN32
+			// Windows sometimes generates this error. It seems to be
+			// non-fatal and we have to do another async_accept.
+			if (e.value() == ERROR_SEM_TIMEOUT)
+			{
+				async_accept(listener);
+				return;
+			}
 #endif
 			if (m_alerts.should_post(alert::fatal))
 			{
@@ -964,6 +1049,17 @@ namespace detail
 			return;
 		}
 
+		// don't allow more connections than the max setting
+		if (num_connections() > max_connections())
+		{
+#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+			(*m_logger) << "number of connections limit exceeded (conns: "
+				<< num_connections() << ", limit: " << max_connections()
+				<< "), connection rejected\n";
+#endif
+			return;
+		}
+
 		// check if we have any active torrents
 		// if we don't reject the connection
 		if (m_torrents.empty()) return;
@@ -986,7 +1082,7 @@ namespace detail
 		c->m_in_constructor = false;
 #endif
 
-		m_connections.insert(std::make_pair(s, c));
+		m_connections.insert(c);
 	}
 	catch (std::exception& exc)
 	{
@@ -995,7 +1091,7 @@ namespace detail
 #endif
 	};
 	
-	void session_impl::connection_failed(boost::shared_ptr<socket_type> const& s
+	void session_impl::connection_failed(boost::intrusive_ptr<peer_connection> const& peer
 		, tcp::endpoint const& a, char const* message)
 #ifndef NDEBUG
 		try
@@ -1006,7 +1102,7 @@ namespace detail
 // too expensive
 //		INVARIANT_CHECK;
 		
-		connection_map::iterator p = m_connections.find(s);
+		connection_map::iterator p = m_connections.find(peer);
 
 		// the connection may have been disconnected in the receive or send phase
 		if (p == m_connections.end()) return;
@@ -1015,15 +1111,15 @@ namespace detail
 			m_alerts.post_alert(
 				peer_error_alert(
 					a
-					, p->second->pid()
+					, (*p)->pid()
 					, message));
 		}
 
 #if defined(TORRENT_VERBOSE_LOGGING)
-		(*p->second->m_logger) << "*** CONNECTION FAILED " << message << "\n";
+		(*(*p)->m_logger) << "*** CONNECTION FAILED " << message << "\n";
 #endif
-		p->second->set_failed();
-		p->second->disconnect();
+		(*p)->set_failed();
+		(*p)->disconnect();
 	}
 #ifndef NDEBUG
 	catch (...)
@@ -1040,10 +1136,10 @@ namespace detail
 //		INVARIANT_CHECK;
 
 		TORRENT_ASSERT(p->is_disconnecting());
-		connection_map::iterator i = m_connections.find(p->get_socket());
+		connection_map::iterator i = m_connections.find(p);
 		if (i != m_connections.end())
 		{
-			if (!i->second->is_choked()) --m_num_unchoked;
+			if (!(*i)->is_choked()) --m_num_unchoked;
 			m_connections.erase(i);
 		}
 	}
@@ -1102,7 +1198,7 @@ namespace detail
 		for (connection_map::iterator i = m_connections.begin()
 			, end(m_connections.end()); i != end; ++i)
 		{
-			if (i->second->is_connecting())
+			if ((*i)->is_connecting())
 				++num_half_open;
 			else
 				++num_complete_connections;
@@ -1190,7 +1286,7 @@ namespace detail
 			++i;
 			// if this socket has timed out
 			// close it.
-			peer_connection& c = *j->second;
+			peer_connection& c = *j->get();
 			if (c.has_timed_out())
 			{
 				if (m_alerts.should_post(alert::debug))
@@ -1257,7 +1353,7 @@ namespace detail
 			for (connection_map::iterator i = m_connections.begin()
 				, end(m_connections.end()); i != end; ++i)
 			{
-				peer_connection* p = i->second.get();
+				peer_connection* p = i->get();
 				torrent* t = p->associated_torrent().lock().get();
 				if (!p->peer_info_struct()
 					|| t == 0
@@ -1267,7 +1363,7 @@ namespace detail
 					|| (p->share_diff() < -free_upload_amount
 						&& !t->is_seed()))
 				{
-					if (!i->second->is_choked() && t)
+					if (!(*i)->is_choked() && t)
 					{
 						policy::peer* pi = p->peer_info_struct();
 						if (pi && pi->optimistically_unchoked)
@@ -1276,11 +1372,11 @@ namespace detail
 							// force a new optimistic unchoke
 							m_optimistic_unchoke_time_scaler = 0;
 						}
-						t->choke_peer(*i->second);
+						t->choke_peer(*(*i));
 					}
 					continue;
 				}
-				peers.push_back(i->second.get());
+				peers.push_back(i->get());
 			}
 
 			// sort the peers that are eligible for unchoke by download rate and secondary
@@ -1352,7 +1448,7 @@ namespace detail
 				for (connection_map::iterator i = m_connections.begin()
 					, end(m_connections.end()); i != end; ++i)
 				{
-					peer_connection* p = i->second.get();
+					peer_connection* p = i->get();
 					TORRENT_ASSERT(p);
 					policy::peer* pi = p->peer_info_struct();
 					if (!pi) continue;
@@ -1383,21 +1479,21 @@ namespace detail
 				{
 					if (current_optimistic_unchoke != m_connections.end())
 					{
-						torrent* t = current_optimistic_unchoke->second->associated_torrent().lock().get();
+						torrent* t = (*current_optimistic_unchoke)->associated_torrent().lock().get();
 						TORRENT_ASSERT(t);
-						current_optimistic_unchoke->second->peer_info_struct()->optimistically_unchoked = false;
-						t->choke_peer(*current_optimistic_unchoke->second);
+						(*current_optimistic_unchoke)->peer_info_struct()->optimistically_unchoked = false;
+						t->choke_peer(*current_optimistic_unchoke->get());
 					}
 					else
 					{
 						++m_num_unchoked;
 					}
 
-					torrent* t = optimistic_unchoke_candidate->second->associated_torrent().lock().get();
+					torrent* t = (*optimistic_unchoke_candidate)->associated_torrent().lock().get();
 					TORRENT_ASSERT(t);
-					bool ret = t->unchoke_peer(*optimistic_unchoke_candidate->second);
+					bool ret = t->unchoke_peer(*optimistic_unchoke_candidate->get());
 					TORRENT_ASSERT(ret);
-					optimistic_unchoke_candidate->second->peer_info_struct()->optimistically_unchoked = true;
+					(*optimistic_unchoke_candidate)->peer_info_struct()->optimistically_unchoked = true;
 				}
 			}
 		}
@@ -1460,95 +1556,10 @@ namespace detail
 		}
 		while (!m_abort);
 
-		deadline_timer tracker_timer(m_io_service);
-		// this will remove the port mappings
-		if (m_natpmp.get())
-			m_natpmp->close();
-		if (m_upnp.get())
-			m_upnp->close();
-
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
 		(*m_logger) << time_now_string() << " locking mutex\n";
 #endif
 		session_impl::mutex_t::scoped_lock l(m_mutex);
-
-#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		(*m_logger) << time_now_string() << " aborting all tracker requests\n";
-#endif
-		m_tracker_manager.abort_all_requests();
-#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		(*m_logger) << time_now_string() << " sending stopped to all torrent's trackers\n";
-#endif
-		for (std::map<sha1_hash, boost::shared_ptr<torrent> >::iterator i =
-			m_torrents.begin(); i != m_torrents.end(); ++i)
-		{
-			i->second->abort();
-			// generate a tracker request in case the torrent is not paused
-			// (in which case it's not currently announced with the tracker)
-			// or if the torrent itself thinks we should request. Do not build
-			// a request in case the torrent doesn't have any trackers
-			if ((!i->second->is_paused() || i->second->should_request())
-				&& !i->second->trackers().empty())
-			{
-				tracker_request req = i->second->generate_tracker_request();
-				TORRENT_ASSERT(!m_listen_sockets.empty());
-				req.listen_port = 0;
-				if (!m_listen_sockets.empty())
-					req.listen_port = m_listen_sockets.front().external_port;
-				req.key = m_key;
-				std::string login = i->second->tracker_login();
-#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-				boost::shared_ptr<tracker_logger> tl(new tracker_logger(*this));
-				m_tracker_loggers.push_back(tl);
-				m_tracker_manager.queue_request(m_strand, m_half_open, req, login
-					, m_listen_interface.address(), tl);
-#else
-				m_tracker_manager.queue_request(m_strand, m_half_open, req, login
-					, m_listen_interface.address());
-#endif
-			}
-		}
-
-		// close the listen sockets
-		m_listen_sockets.clear();
-
-		ptime start(time_now());
-		l.unlock();
-
-#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		(*m_logger) << time_now_string() << " waiting for trackers to respond ("
-			<< m_settings.stop_tracker_timeout << " seconds timeout)\n";
-#endif
-
-		while (time_now() - start < seconds(
-			m_settings.stop_tracker_timeout)
-			&& !m_tracker_manager.empty())
-		{
-#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-			(*m_logger) << time_now_string() << " " << m_tracker_manager.num_requests()
-				<< " tracker requests pending\n";
-#endif
-			tracker_timer.expires_from_now(milliseconds(100));
-			tracker_timer.async_wait(m_strand.wrap(
-				bind(&io_service::stop, &m_io_service)));
-
-			m_io_service.reset();
-			m_io_service.run();
-		}
-
-#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		(*m_logger) << time_now_string() << " tracker shutdown complete, locking mutex\n";
-#endif
-
-		l.lock();
-		TORRENT_ASSERT(m_abort);
-		m_abort = true;
-
-#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-		(*m_logger) << time_now_string() << " cleaning up connections\n";
-#endif
-		while (!m_connections.empty())
-			m_connections.begin()->second->disconnect();
 
 #ifndef NDEBUG
 		for (torrent_map::iterator i = m_torrents.begin();
@@ -2077,8 +2088,8 @@ namespace detail
 
 	entry session_impl::dht_state() const
 	{
-		TORRENT_ASSERT(m_dht);
 		mutex_t::scoped_lock l(m_mutex);
+		if (!m_dht) return entry();
 		return m_dht->state();
 	}
 
@@ -2114,16 +2125,10 @@ namespace detail
 
 	session_impl::~session_impl()
 	{
-		abort();
-
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
 		(*m_logger) << time_now_string() << "\n\n *** shutting down session *** \n\n";
 #endif
-		// lock the main thread and abort it
-		mutex_t::scoped_lock l(m_mutex);
-		m_abort = true;
-		m_io_service.stop();
-		l.unlock();
+		abort();
 
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
 		(*m_logger) << time_now_string() << " waiting for main thread\n";
@@ -2364,19 +2369,20 @@ namespace detail
 		for (connection_map::const_iterator i = m_connections.begin();
 			i != m_connections.end(); ++i)
 		{
-			TORRENT_ASSERT(i->second);
-			boost::shared_ptr<torrent> t = i->second->associated_torrent().lock();
+			TORRENT_ASSERT(*i);
+			boost::shared_ptr<torrent> t = (*i)->associated_torrent().lock();
 
-			if (!i->second->is_choked()) ++unchokes;
-			if (i->second->peer_info_struct()
-				&& i->second->peer_info_struct()->optimistically_unchoked)
+			peer_connection* p = i->get();
+			if (!p->is_choked()) ++unchokes;
+			if (p->peer_info_struct()
+				&& p->peer_info_struct()->optimistically_unchoked)
 			{
 				++num_optimistic;
-				TORRENT_ASSERT(!i->second->is_choked());
+				TORRENT_ASSERT(!p->is_choked());
 			}
-			if (t && i->second->peer_info_struct())
+			if (t && p->peer_info_struct())
 			{
-				TORRENT_ASSERT(t->get_policy().has_connection(boost::get_pointer(i->second)));
+				TORRENT_ASSERT(t->get_policy().has_connection(p));
 			}
 		}
 		TORRENT_ASSERT(num_optimistic == 0 || num_optimistic == 1);
