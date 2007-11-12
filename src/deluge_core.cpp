@@ -1831,8 +1831,13 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
         libtorrent::announce_entry a_entry(line);
         trackerlist.push_back(a_entry);
       }
-      M_torrents->at(index).handle.replace_trackers(trackerlist);
-      M_torrents->at(index).handle.force_reannounce();
+      if (trackerlist.empty()){
+          printf("libtorrent didnt like that...trackers cant be empty");
+      }
+      else{
+          M_torrents->at(index).handle.replace_trackers(trackerlist);
+          M_torrents->at(index).handle.force_reannounce();
+      }
   }
   Py_INCREF(Py_None); return Py_None;
 }
