@@ -233,9 +233,9 @@ class TorrentView(listview.ListView, component.Component):
                     model.set_value(row,
                             column_index,
                             status[self.columns[column].status_field[0]])
-                except (TypeError, KeyError):
-                    log.warning("Unable to update column %s", 
-                        column)
+                except (TypeError, KeyError), e:
+                    log.warning("Unable to update column %s: %s", 
+                        column, e)
             else:
                 # We have more than 1 liststore column to update
                 for index in column_index:
