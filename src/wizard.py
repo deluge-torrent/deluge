@@ -292,7 +292,10 @@ class WizardGTK:
         saves configuration settings
         """
         import gtk
-        self.create_file()
+        try:
+            self.create_file()
+        except:
+            pass
         self.config.set("random_port", self.wtree.get_widget('chk_random_ports'\
             ).get_active())
         self.config.set("listen_on", [self.wtree.get_widget("spin_port_min")\
