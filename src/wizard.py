@@ -31,10 +31,13 @@ this is our wizard which aids configuration for new users
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
+
 class WizardGTK:
+
     """
     the main window for our configuration wizard
     """
+
     def __init__(self):
         import gtk
         import gtk.glade
@@ -42,6 +45,7 @@ class WizardGTK:
         import deluge
         import deluge.common
         import deluge.pref
+
         self.wtree = gtk.glade.XML(deluge.common.get_glade_file("wizard.glade")\
             , domain='deluge')
         self.wtree.signal_autoconnect({'apply_prefs': self.apply_prefs,
@@ -50,6 +54,7 @@ class WizardGTK:
                                 'close': self.cancel})
         #add deluge logo to headers
         self.window = self.wtree.get_widget("wizard")
+        self.manager = deluge.core
         pixmap = deluge.common.get_logo(48)
         self.window.set_page_header_image(self.wtree.get_widget('label1'), \
             pixmap)
@@ -274,9 +279,12 @@ class WizardGTK:
         """
         import os
         import deluge.common
-        firstrun = open(os.path.join(deluge.common.CONFIG_DIR, 'firstrun'), 'w')
-        firstrun.write("")
-        firstrun.close()
+        try:
+            firstrun = open(os.path.join(deluge.common.CONFIG_DIR, 'firstrun'), 'w')
+            firstrun.write("")
+            firstrun.close()
+        except:
+            pass
 
     def cancel(self, *args):
         """
@@ -292,10 +300,8 @@ class WizardGTK:
         saves configuration settings
         """
         import gtk
-        try:
-            self.create_file()
-        except:
-            pass
+        import deluge_core
+        self.create_file()
         self.config.set("random_port", self.wtree.get_widget('chk_random_ports'\
             ).get_active())
         self.config.set("listen_on", [self.wtree.get_widget("spin_port_min")\
@@ -317,4 +323,11 @@ class WizardGTK:
         self.config.set("default_download_path", self.wtree.get_widget(\
             'download_path_button').get_filename())
         self.config.save()
+        import deluge.core
+        import deluge.common
+        self.manager = deluge.core.Manager(deluge.common.CLIENT_CODE, deluge.common.CLIENT_VERSION, 
+            '%s %s' % (deluge.common.PROGRAM_NAME, deluge.common.PROGRAM_VERSION), 
+            deluge.common.CONFIG_DIR)
+        self.manager.apply_prefs()
+
         gtk.main_quit()
