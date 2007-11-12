@@ -1832,7 +1832,7 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
         trackerlist.push_back(a_entry);
       }
       if (trackerlist.empty()){
-          printf("libtorrent didnt like that...trackers cant be empty");
+          printf("libtorrent didnt like that...trackers cant be empty\n");
       }
       else{
           M_torrents->at(index).handle.replace_trackers(trackerlist);
