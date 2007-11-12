@@ -69,6 +69,8 @@ class ConnectionManager(component.Component):
         self.config = ConfigManager("hostlist.conf", DEFAULT_CONFIG)
         self.gtkui_config = ConfigManager("gtkui.conf")
         self.connection_manager = self.glade.get_widget("connection_manager")
+        # Make the Connection Manager window a transient for the main window.
+        self.connection_manager.set_transient_for(self.window.window)
         self.hostlist = self.glade.get_widget("hostlist")
         self.connection_manager.set_icon(deluge.common.get_logo(32))
         
