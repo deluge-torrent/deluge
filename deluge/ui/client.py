@@ -337,6 +337,13 @@ def force_recheck(torrent_ids):
     except (AttributeError, socket.error):
         set_core_uri(None)
 
+def set_torrent_trackers(torrent_id, trackers):
+    """Sets the torrents trackers"""
+    try:
+        get_core().set_torrent_trackers(torrent_id, trackers)
+    except (AttributeError, socket.error):
+        set_core_uri(None)
+
 def open_url_in_browser(url):
     """Opens link in the desktop's default browser"""
     def start_browser():

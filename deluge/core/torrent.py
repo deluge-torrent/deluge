@@ -38,7 +38,8 @@ import deluge.common
 class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.
     """
-    def __init__(self, filename, handle, compact, save_path, total_uploaded=0):
+    def __init__(self, filename, handle, compact, save_path, total_uploaded=0,
+        trackers=None):
         # Set the filename
         self.filename = filename
         # Set the libtorrent handle
@@ -53,7 +54,18 @@ class Torrent:
         self.save_path = save_path
         # The tracker status
         self.tracker_status = ""
-    
+        # Tracker list
+        if trackers == None:
+            self.trackers = []
+            # Create a list of trackers
+            for value in self.handle.trackers():
+                tracker = {}
+                tracker["url"] = value.url
+                tracker["tier"] = value.tier
+                self.trackers.append(tracker)
+        else:
+            self.trackers = trackers
+            
     def set_tracker_status(self, status):
         """Sets the tracker status"""
         self.tracker_status = status
@@ -62,7 +74,8 @@ class Torrent:
         """Returns the state of this torrent for saving to the session state"""
         status = self.handle.status()
         return (self.torrent_id, self.filename, self.compact, status.paused,
-            self.save_path, self.total_uploaded + status.total_payload_upload)
+            self.save_path, self.total_uploaded + status.total_payload_upload,
+            self.trackers)
         
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""
@@ -135,7 +148,7 @@ class Torrent:
         distributed_copies = status.distributed_copies
         if distributed_copies < 0:
             distributed_copies = 0.0
-               
+            
         full_status = {
             "name": self.handle.torrent_info().name(),
             "total_size": self.handle.torrent_info().total_size(),
@@ -161,6 +174,7 @@ class Torrent:
             "eta": self.get_eta(),
             "ratio": self.get_ratio(),
             "tracker": status.current_tracker,
+            "trackers": self.trackers,
             "tracker_status": self.tracker_status,
             "save_path": self.save_path,
             "files": self.get_files()

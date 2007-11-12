@@ -271,7 +271,15 @@ class TorrentView(listview.ListView, component.Component):
                 self.update()
                 break
             row = self.liststore.iter_next(row)
-                    
+    
+    def get_selected_torrent(self):
+        """Returns a torrent_id or None.  If multiple torrents are selected,
+        it will return the torrent_id of the first one."""
+        selected = self.get_selected_torrents()
+        if selected == None:
+            return selected
+        return selected[0]
+                
     def get_selected_torrents(self):
         """Returns a list of selected torrents or None"""
         torrent_ids = []

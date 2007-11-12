@@ -184,7 +184,9 @@ class MenuBar(component.Component):
     def on_menuitem_edittrackers_activate(self, data=None):
         log.debug("on_menuitem_edittrackers_activate")
         from edittrackersdialog import EditTrackersDialog
-        dialog = EditTrackersDialog(None, component.get("MainWindow").window)
+        dialog = EditTrackersDialog(
+            component.get("TorrentView").get_selected_torrent(), 
+            component.get("MainWindow").window)
         dialog.run()
         
     def on_menuitem_remove_activate(self, data=None):

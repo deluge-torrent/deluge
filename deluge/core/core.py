@@ -387,6 +387,10 @@ class Core(
     def export_force_recheck(self, torrent_id):
         """Forces a data recheck on torrent_id"""
         return self.torrents.force_recheck(torrent_id)
+    
+    def export_set_torrent_trackers(self, torrent_id, trackers):
+        """Sets a torrents tracker list.  trackers will be [{"url", "tier"}]"""
+        return self.torrents.set_trackers(torrent_id, trackers)
         
     # Signals
     def torrent_added(self, torrent_id):

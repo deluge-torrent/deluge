@@ -48,13 +48,14 @@ from deluge.log import LOG as log
 
 class TorrentState:
     def __init__(self, torrent_id, filename, compact, paused, save_path,
-        total_uploaded):
+        total_uploaded, trackers):
         self.torrent_id = torrent_id
         self.filename = filename
         self.compact = compact
         self.paused = paused
         self.save_path = save_path
         self.total_uploaded = total_uploaded
+        self.trackers = trackers
 
 class TorrentManagerState:
     def __init__(self):
@@ -121,7 +122,7 @@ class TorrentManager:
         return self.torrents.keys()
         
     def add(self, filename, filedump=None, compact=None, paused=False,
-        save_path=None, total_uploaded=0):
+        save_path=None, total_uploaded=0, trackers=None):
         """Add a torrent to the manager and returns it's torrent_id"""
         log.info("Adding torrent: %s", filename)
 
@@ -167,14 +168,14 @@ class TorrentManager:
             storage_mode = lt.storage_mode_t(1)
         else:
             storage_mode = lt.storage_mode_t(2)
-            
+        
         try:
             handle = self.session.add_torrent(
                                     lt.torrent_info(filedump), 
                                     str(save_path),
                                     resume_data=fastresume,
                                     storage_mode=storage_mode,
-                                    paused=paused)
+                                    paused=True)
         except RuntimeError, e:
             log.warning("Error adding torrent: %s", e)
             
@@ -184,15 +185,23 @@ class TorrentManager:
 
         # Create a Torrent object
         torrent = Torrent(filename, handle, compact, 
-            save_path, total_uploaded)
+            save_path, total_uploaded, trackers)
         
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
-        
+
+        # Set the trackers
+        if trackers != None:
+            self.set_trackers(str(handle.info_hash()), trackers)
+                    
         # Set per-torrent limits
         handle.set_max_connections(self.max_connections)
         handle.set_max_uploads(self.max_uploads)
 
+        # Resume the torrent if needed
+        if paused == False:
+            handle.resume()
+            
         # Save the torrent file        
         self.save_torrent(filename, filedump)
 
@@ -304,7 +313,28 @@ class TorrentManager:
                 log.warning("Unable to resume torrent %s", key)
 
         return torrent_was_resumed
-                        
+    
+    def set_trackers(self, torrent_id, trackers):
+        """Sets trackers"""
+        if trackers == [] or trackers == None:
+            return
+        log.debug("Setting trackers for %s", torrent_id)
+        tracker_list = []
+
+        for tracker in trackers:
+            new_entry = lt.announce_entry(tracker["url"])
+            new_entry.tier = tracker["tier"]
+            tracker_list.append(new_entry)
+            
+        self.torrents[torrent_id].handle.replace_trackers(tracker_list)
+        # Print out the trackers
+        for t in self.torrents[torrent_id].handle.trackers():
+            log.debug("tier: %s tracker: %s", t.tier, t.url)
+        # Set the tracker list in the torrent object
+        self.torrents[torrent_id].trackers = trackers
+        # Force a reannounce
+        self.force_reannounce(torrent_id)
+        
     def force_reannounce(self, torrent_id):
         """Force a tracker reannounce"""
         try:
@@ -381,7 +411,8 @@ class TorrentManager:
         for torrent_state in state.torrents:
             self.add(torrent_state.filename, compact=torrent_state.compact,
                 paused=torrent_state.paused, save_path=torrent_state.save_path,
-                total_uploaded=torrent_state.total_uploaded)
+                total_uploaded=torrent_state.total_uploaded,
+                trackers=torrent_state.trackers)
             
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file"""

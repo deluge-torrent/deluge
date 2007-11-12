@@ -2,20 +2,22 @@
 * Queue plugin 'apply_queue' stuff.. Just finishing the queue plugin and it's
     intended functionality.
 * Figure out easy way for user-made plugins to add i18n support.
-* Change the menubar.py gtkui component to menus.py and add support for plugins
-    to add menuitems to the torrentmenu in an easy way.
 * Restart daemon function
 * Docstrings!
 * Implement caching in client.py
 * Create a new add torrent dialog
-* Create edit trackers dialog
 * Implement open folder
 * Maybe add pop-up menus to the status bar items
 * Address issue where torrents will redownload if the storage is moved outside
     of deluge.
 * Hide open folder if not localhost
-* Modify sensitivity of torrent/tray menu based on connection state
 * Add classic/normal mode to preferences
 * Implement 'Classic' mode
 * Add remove torrent dialog and ability to remove data
-
+* Tray tooltip
+* Add DBUS to gtkui so we can add torrents to existing session
+* Add LSD
+* Add torrentfiles location config option
+* Add autoload folder
+* Add wizard
+* Add a health indication to the statusbar
