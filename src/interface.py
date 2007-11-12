@@ -1092,10 +1092,12 @@ window, please enter your password"))
                 not None)
             self.wtree.get_widget("toolbutton_pause").set_sensitive(itr is \
                 not None)
-            self.wtree.get_widget("toolbutton_up").set_sensitive(itr is \
-                not None)
-            self.wtree.get_widget("toolbutton_down").set_sensitive(itr is \
-                not None)
+            if len(self.manager.get_queue()) > 1:
+                self.wtree.get_widget("toolbutton_up").set_sensitive(True)
+                self.wtree.get_widget("toolbutton_down").set_sensitive(True)
+            else:
+                self.wtree.get_widget("toolbutton_up").set_sensitive(False)
+                self.wtree.get_widget("toolbutton_down").set_sensitive(False)
         
             if itr is None:
                 return True
