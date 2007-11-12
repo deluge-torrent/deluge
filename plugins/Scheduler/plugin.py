@@ -11,50 +11,86 @@ class plugin_Scheduler:
         self.config = deluge.pref.Preferences()
         self.button_state_temp = [[0] * 7 for dummy in xrange(24)]
         self.status = -1
-        self.globalactivetor = self.config.get("max_active_torrents")
-        self.globaldlmax = self.config.get("max_download_speed")
-        self.globalulmax = self.config.get("max_upload_speed")
+        self.prevact = None
 
         #Load config
+        self.button_state = None
+        self.dllimit = self.ullimit = None
+        self.dlmax = self.ulmax = None
         try:
             reader = open(self.conf_file, "rb")
             data = pickle.load(reader)
             self.button_state = data[0]
             self.dllimit = float(data[1][0])
             self.ullimit = float(data[1][1])
+            self.dlmax = float(data[1][2])
+            self.ulmax = float(data[1][3])
             reader.close()
         except:
-            self.button_state = [[0] * 7 for dummy in xrange(24)]
-            self.dllimit = float(self.globaldlmax)
-            self.ullimit = float(self.globalulmax)
+            if self.button_state is None:
+                self.button_state = [[0] * 7 for dummy in xrange(24)]
+            gdl = self.config.get("max_download_speed")
+            gul = self.config.get("max_upload_speed")
+            if self.dllimit is None:
+                self.dllimit = float(gdl)
+            if self.ullimit is None:
+                self.ullimit = float(gul)
+            if self.dlmax is None:
+                self.dlmax = float(gdl)
+            if self.ulmax is None:
+                self.ulmax = float(gul)
+
+        now = time.localtime(time.time())
+        self.status = self.button_state[now[3]][now[6]]
+        self.prevhour = now[3]
+
+        self._state(self.status)
         self.interface.apply_prefs()
 
     def unload(self):
         self.resume()
         self.unlimit()
 
-    def update(self):
-        time_now = time.localtime(time.time())
-        if self.status is not self.button_state[time_now[3]][time_now[6]]:
-            self.status = self.button_state[time_now[3]][time_now[6]]
+    def _getglobals(self):
+        # Grab changes in global config
+        gdl = self.config.get("max_download_speed")
+        gul = self.config.get("max_upload_speed")
+        if self.status == 0 and (self.dlmax != gdl or self.ulmax != gul):
+            self.dlmax = gdl
+            self.ulmax = gul
+        elif self.status == 1 and (self.dllimit != gdl or self.ullimit != gul):
+            self.dllimit = gdl
+            self.ullimit = gul
 
-            if self.status == 0:
-                self.resume()
-                self.unlimit()
-            elif self.status == 1:
-                self.resume()
-            elif self.status == 2:
-                self.pause()
-
-        if self.status == 1:
+    def _state(self,state):
+        if state == 0:
+            self.unlimit()
+        elif state == 1:
             self.limit()
+        elif state == 2:
+            self.pause()
+        # If we're moving from paused
+        if state < 2 and self.status == 2:
+            self.resume()
+        self.status = state
+
+
+    def update(self):
+        self._getglobals()
+        now = time.localtime(time.time())
+        if now[3] != self.prevhour:
+            self.prevhour = now[3]
+            if not self.status == self.button_state[now[3]][now[6]]:
+                self._state(self.button_state[now[3]][now[6]])
+                self.interface.apply_prefs()
 
     def pause(self):
+        self.prevact = self.config.get("max_active_torrents")
         self.config.set("max_active_torrents", 0)
         self.core.apply_queue()
 
     def resume(self):
-        self.config.set("max_active_torrents", self.globalactivetor)
+        self.config.set("max_active_torrents", self.prevact)
         self.core.apply_queue()
 
     def limit(self):
@@ -62,9 +98,8 @@ class plugin_Scheduler:
         self.config.set("max_upload_speed", float(self.ullimit))
 
     def unlimit(self):
-        self.config.set("max_download_speed", float(self.globaldlmax))
-        self.config.set("max_upload_speed", float(self.globalulmax))
-        self.interface.apply_prefs()
+        self.config.set("max_download_speed", float(self.dlmax))
+        self.config.set("max_upload_speed", float(self.ulmax))
 
     #Configuration dialog
     def configure(self, window):
@@ -83,8 +118,10 @@ class plugin_Scheduler:
         #text
         hover_text = gtk.Label()
 
-        dllimit_label = gtk.Label(_("Limit download to:"))
-        ullimit_label = gtk.Label(_("Limit upload to:"))
+        dlmax_label = gtk.Label(_("High download limit:"))
+        ulmax_label = gtk.Label(_("High upload limit:"))
+        dllimit_label = gtk.Label(_("Low download limit:"))
+        ullimit_label = gtk.Label(_("Low upload limit:"))
 
         #Select Widget
         drawing = scheduler_select(self.button_state_temp, hover_text, self.days)
@@ -95,29 +132,56 @@ class plugin_Scheduler:
         vbox_sub = gtk.VBox()
         hbox_key = gtk.HBox()
         hbox_info = gtk.HBox()
+        # max boxen
+        hbox_max = gtk.HBox()
+        ebox_max = gtk.EventBox()
+        ebox_max.add(hbox_max)
+        ebrd_max = gtk.Frame()
+        ebrd_max.add(ebox_max)
+        ebrd_max.set_border_width(2)
+        hbox_max.set_border_width(2)
+        ebox_max.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("#73D716"))
+        ebrd_max.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("#53B700"))
+        # limit boxen
         hbox_limit = gtk.HBox()
+        ebox_limit = gtk.EventBox()
+        ebox_limit.add(hbox_limit)
+        ebrd_limit = gtk.Frame()
+        ebrd_limit.add(ebox_limit)
+        ebrd_limit.set_border_width(2)
+        hbox_limit.set_border_width(2)
+        # Green
+        # Yellow
+        ebox_limit.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("#EDD400"))
+        ebrd_limit.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("#CDB400"))
 
         #seperator
         sep = gtk.HSeparator()
 
-        #spinbuttons
+        self._getglobals()
+        # max spinbuttons
+        dminput = gtk.SpinButton()
+        dminput.set_numeric(True)    
+        dminput.set_range(-1, 2048)
+        dminput.set_increments(1, 10)
+        dminput.set_value(float(self.dlmax))
+        uminput = gtk.SpinButton()
+        uminput.set_numeric(True)
+        uminput.set_range(-1, 1024)
+        uminput.set_increments(1, 10)
+        uminput.set_value(float(self.ulmax))
 
+        # limit spinbuttons
         dlinput = gtk.SpinButton()
         dlinput.set_numeric(True)    
         dlinput.set_range(-1, 2048)
         dlinput.set_increments(1, 10)
-        if self.dllimit != -1:
-            dlinput.set_value(float(self.dllimit))
-        else:
-            dlinput.set_value(float(-1))
+        dlinput.set_value(float(self.dllimit))
         ulinput = gtk.SpinButton()
         ulinput.set_numeric(True)
         ulinput.set_range(-1, 1024)
         ulinput.set_increments(1, 10)
-        if self.ullimit != -1:
-            ulinput.set_value(float(self.ullimit))
-        else:
-            ulinput.set_value(float(-1))
+        ulinput.set_value(float(self.ullimit))
 
         #pack
         dialog.vbox.pack_start(vbox_main)
@@ -127,15 +191,19 @@ class plugin_Scheduler:
         vbox_main.pack_start(hbox_key, False, True)
         vbox_main.pack_start(hbox_info, False, True)
         vbox_main.pack_start(sep, False, True)
-        vbox_main.pack_start(hbox_limit, False, True, 5)
+        vbox_main.pack_start(ebrd_max, False, True, 5)
+        vbox_main.pack_start(ebrd_limit, False, True, 5)
 
         hbox_main.pack_start(vbox_sub, False, True, 5)
         hbox_main.pack_start(drawing)
 
-        hbox_key.pack_start(gtk.Label(_("Yellow is limited, red is stopped and \
-green is unlimited.")), True, False)
-        hbox_info.pack_start(gtk.Label(_("When set to -1 (unlimited), the global limits in Deluge's preferences \
-will be obeyed.")), True, False)
+        hbox_key.pack_start(gtk.Label(_("Green is the high limits, yellow is the low limits and red is stopped")), True, False)
+        hbox_info.pack_start(gtk.Label(_("If a limit is set to -1, it is unlimitted.")), True, False)
+
+        hbox_max.pack_start(dlmax_label, True, False)
+        hbox_max.pack_start(dminput, True, False)
+        hbox_max.pack_start(ulmax_label, True, False)
+        hbox_max.pack_start(uminput, True, False)
 
         hbox_limit.pack_start(dllimit_label, True, False)
         hbox_limit.pack_start(dlinput, True, False)
@@ -150,20 +218,19 @@ will be obeyed.")), True, False)
 
         #Save config    
         if dialog.run() == -5:
-            self.status = -1
             self.button_state = copy.deepcopy(drawing.button_state)
-            if dlinput.get_value() != -1:
-                self.dllimit = float(dlinput.get_value())
-            else:
-                self.dllimit = float(dlinput.get_value())                
-            if ulinput.get_value() != -1:
-                self.ullimit = float(ulinput.get_value())
-            else:
-                self.ullimit = float(ulinput.get_value())
+            self.dlmax = float(dminput.get_value())
+            self.ulmax = float(uminput.get_value())
+
+            self.dllimit = float(dlinput.get_value())
+            self.ullimit = float(ulinput.get_value())
+
+            now = time.localtime(time.time())
+            self._state(self.button_state[now[3]][now[6]])
             self.interface.apply_prefs()
 
             writer = open(self.conf_file, "wb")
-            pickle.dump([drawing.button_state,[self.dllimit, self.ullimit]], writer)
+            pickle.dump([drawing.button_state,[self.dllimit, self.ullimit, self.dlmax, self.ulmax]], writer)
             writer.close()
 
         dialog.destroy()

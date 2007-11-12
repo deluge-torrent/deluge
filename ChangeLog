@@ -5,6 +5,7 @@ Deluge 0.5.7 (xx November 2007)
   * Local discovery of peers
   * Add advanced progress bar option - adapted from Arnab Bose
   * Fix ratio bugs (hopefully for the last time)
+  * Scheduler plugin revamp by Ben Klein
   * Fix ETA from going backwards
   * UI warning on full HD - no longer just silently pauses torrents
   * Replace SimpleRSS with FlexRSS

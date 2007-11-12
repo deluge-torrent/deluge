@@ -1,14 +1,16 @@
-# An example plugin for use with Deluge
 
-plugin_name = "Scheduler"            # The name of the plugin
-plugin_author = "Lazka - updated by markybob"           # The author's Name
-plugin_version = "0.5.6"                  # The plugin's version number
-plugin_description = "Scheduler"  # A description of the plugin
+# The name of the plugin
+plugin_name = "Scheduler"
+# The author's Name
+plugin_author = "Lazka - updated by markybob and man_in_shack"
+# The plugin's version number
+plugin_version = "0.5.6.1"
+# A description of the plugin
+plugin_description = "Scheduler"
 
 def deluge_init(deluge_path):
     global path
     path = deluge_path
-
 
 from Scheduler.plugin import plugin_Scheduler
 
