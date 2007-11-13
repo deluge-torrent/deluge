@@ -67,7 +67,6 @@ class Component:
 class ComponentRegistry:
     def __init__(self):
         self.components = {}
-        #self.component_state = {}
         self.update_timer = None
     
     def register(self, name, obj):

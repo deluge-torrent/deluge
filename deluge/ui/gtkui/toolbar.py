@@ -175,11 +175,16 @@ class ToolBar(component.Component):
         # Disable the 'Clear Seeders' button if there's no finished torrent
         finished = False
 
-        selecteds = component.get('TorrentView').get_selected_torrents()
-        if not selecteds : selecteds  = []
+        selected = component.get('TorrentView').get_selected_torrents()
+        if not selected: 
+            selected = []
 
-        for torrent in  selecteds :
-            status = client.get_torrent_status(torrent, ['state'])['state']
+        for torrent in selected:
+            try:
+                status = client.get_torrent_status(torrent, ['state'])['state']
+            except KeyError, e:
+                log.debug("Error getting torrent state: %s", e)
+                continue
             if status == self.STATE_PAUSED:
                 resume = True
             elif status in [self.STATE_FINISHED, self.STATE_SEEDING]:
@@ -187,16 +192,18 @@ class ToolBar(component.Component):
                 pause = True
             else:
                 pause = True
-            if pause and resume and finished:    break
+            if pause and resume and finished:
+                break
 
         # Enable the 'Remove Torrent' button only if there's some selected 
         # torrent.
-        remove = (len(selecteds ) > 0)
+        remove = (len(selected) > 0)
 
         if not finished:
             torrents = client.get_session_state()
             for torrent in torrents:
-                if torrent in selecteds: continue
+                if torrent in selected:
+                    continue
                 status = client.get_torrent_status(torrent, ['state'])['state']
                 if status in [self.STATE_FINISHED, self.STATE_SEEDING]:
                     finished = True

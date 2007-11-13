@@ -51,6 +51,7 @@ from statusbar import StatusBar
 from connectionmanager import ConnectionManager
 from signals import Signals
 from pluginmanager import PluginManager
+from dbusinterface import DbusInterface
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 import deluge.configmanager
@@ -86,6 +87,10 @@ DEFAULT_PREFS = {
 
 class GtkUI:
     def __init__(self, args):
+        # Start the Dbus Interface before anything else.. Just in case we are
+        # already running.
+        self.dbusinterface = DbusInterface(args)
+        
         # Initialize gettext
         locale.setlocale(locale.LC_MESSAGES, '')
         locale.bindtextdomain("deluge", 

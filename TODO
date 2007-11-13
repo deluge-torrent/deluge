@@ -15,9 +15,14 @@
 * Implement 'Classic' mode
 * Add remove torrent dialog and ability to remove data
 * Tray tooltip
-* Add DBUS to gtkui so we can add torrents to existing session
 * Add LSD
 * Add torrentfiles location config option
 * Add autoload folder
 * Add wizard
 * Add a health indication to the statusbar
+* Add sidebar for labels and other things.. Plugins should be able to add their
+    own section to this.
+* Have the dbus interface queue up torrents if we're not connected to a host.
+    Once connected it should prompt the user if they would like to add the
+    queued torrents.  Maybe add an indicator to the status bar that their are
+    queued torrents.

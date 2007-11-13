@@ -126,7 +126,13 @@ def is_localhost():
             return True
     
     return False
-    
+
+def connected():
+    """Returns True if connected to a host, and False if not."""
+    if get_core_uri() != None:
+        return True
+    return False
+            
 def shutdown():
     """Shutdown the core daemon"""
     try:
@@ -146,7 +152,12 @@ def add_torrent_file(torrent_files):
     for torrent_file in torrent_files:
         # Open the .torrent file for reading because we need to send it's
         # contents to the core.
-        f = open(torrent_file, "rb")
+        try:
+            f = open(torrent_file, "rb")
+        except Exception, e:
+            log.warning("Unable to open %s: %s", torrent_file, e)
+            continue
+            
         # Get the filename because the core doesn't want a path.
         (path, filename) = os.path.split(torrent_file)
         fdump = xmlrpclib.Binary(f.read())
