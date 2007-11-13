@@ -146,7 +146,8 @@ if common.windows_check():
     "status_width" : 150,
     "filename_f_width" : 220,
     "size_f_width" : 90,
-    "priority_f_width" : 140
+    "priority_f_width" : 140,
+    "start_paused": False
 }
 else:
     DEFAULT_PREFS = {
@@ -255,7 +256,8 @@ else:
     "status_width" : 150,
     "filename_f_width" : 220,
     "size_f_width" : 90,
-    "priority_f_width" : 140
+    "priority_f_width" : 140,
+    "start_paused": False
 }
 
 class Preferences:

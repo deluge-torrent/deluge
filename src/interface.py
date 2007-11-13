@@ -760,7 +760,8 @@ window, please enter your password"))
             self.manager.remove_torrent(uid, False, False)
             self.torrent_model_remove(uid)
             self.update()
-            unique_ID = self.manager.add_torrent(save_info[0], save_info[1], self.config.get("use_compact_storage"))
+            unique_ID = self.manager.add_torrent(save_info[0], save_info[1], \
+                self.config.get("use_compact_storage"))
             self.torrent_model_append(unique_ID)
             self.update()
             self.manager.prioritize_files(unique_ID, priorities, update_files_removed=False)
@@ -1301,7 +1302,8 @@ window, please enter your password"))
                 files_dialog = dialogs.FilesDlg(dumped_torrent)
                 if files_dialog.show(self.window) == 1:
                     unique_id = self.manager.add_torrent(torrent, path, 
-                                    self.config.get('use_compact_storage'))
+                                    self.config.get('use_compact_storage'), \
+                                    self.config.get('start_paused'))
                     self.manager.prioritize_files(unique_id, 
                         files_dialog.get_priorities())
                     if files_dialog.is_private_flag_checked():
@@ -1310,7 +1312,8 @@ window, please enter your password"))
                     return False
             else:
                 unique_id = self.manager.add_torrent(torrent, path, 
-                                self.config.get('use_compact_storage'))
+                                self.config.get('use_compact_storage'), \
+                                self.config.get('start_paused'))
         except core.InvalidEncodingError, e:
             print "InvalidEncodingError", e
             dialogs.show_popup_warning(self.window, _("An error occured while \

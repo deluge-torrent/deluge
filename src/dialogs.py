@@ -150,6 +150,7 @@ class PreferencesDlg:
             self.glade.get_widget("chk_autoseed").set_active(self.preferences.get("auto_end_seeding"))
             self.glade.get_widget("chk_clear_max_ratio_torrents").set_sensitive(self.preferences.get("auto_end_seeding"))
             self.glade.get_widget("chk_clear_max_ratio_torrents").set_active(self.preferences.get("clear_max_ratio_torrents"))
+            self.glade.get_widget("chk_paused").set_active(self.preferences.get("start_paused"))
             self.glade.get_widget("ratio_spinner").set_value(self.preferences.get("auto_seed_ratio"))
             self.glade.get_widget("chk_dht").set_active(self.preferences.get("enable_dht"))
             self.glade.get_widget("spin_gui").set_value(self.preferences.get("gui_update_interval"))
@@ -269,6 +270,7 @@ class PreferencesDlg:
         self.preferences.set("gui_update_interval", self.glade.get_widget("spin_gui").get_value())
         self.preferences.set("clear_max_ratio_torrents", self.glade.get_widget("chk_clear_max_ratio_torrents").get_active())
         self.preferences.set("queue_above_completed", self.glade.get_widget("chk_queue_above_completed").get_active())
+        self.preferences.set("start_paused", self.glade.get_widget("chk_paused").get_active())
 
         interface.apply_prefs()
         interface.config.save()

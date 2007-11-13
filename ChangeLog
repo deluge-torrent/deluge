@@ -3,7 +3,7 @@ Deluge 0.5.7 (xx November 2007)
   * Blocklist plugin will now display errors, instead of just crashing on a bad
   list or wrong type
   * Local discovery of peers
-  * Add advanced progress bar option - adapted from Arnab Bose
+  * Add torrent in paused state option
   * Fix ratio bugs (hopefully for the last time)
   * Scheduler plugin revamp by Ben Klein
   * Fix ETA from going backwards

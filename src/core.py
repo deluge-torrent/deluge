@@ -157,11 +157,11 @@ class cached_data:
 # Persistent information for a single torrent
 
 class torrent_info:
-    def __init__(self, filename, save_dir, compact):
+    def __init__(self, filename, save_dir, compact, user_paused=False):
         self.filename = filename
         self.save_dir = save_dir
         self.compact = compact
-        self.user_paused = False
+        self.user_paused = user_paused
         self.uploaded_memory = 0
         self.initial_uploaded_memory = 0
         self.upload_rate_limit = 0
@@ -352,8 +352,8 @@ class Manager:
     
     # Torrent addition and removal functions
 
-    def add_torrent(self, filename, save_dir, compact):
-        self.add_torrent_ns(filename, save_dir, compact)
+    def add_torrent(self, filename, save_dir, compact, user_paused=False):
+        self.add_torrent_ns(filename, save_dir, compact, user_paused)
         return self.sync() # Syncing will create a new torrent in the core, and return it's ID
     
     # When duplicate torrent error, use to find duplicate when merging tracker lists
@@ -791,7 +791,7 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
 
     # Non-syncing functions. Used when we loop over such events, and sync manually at the end
 
-    def add_torrent_ns(self, filename, save_dir, compact):
+    def add_torrent_ns(self, filename, save_dir, compact, user_paused):
         # Cache torrent file
         (temp, filename_short) = os.path.split(filename)
 
@@ -809,7 +809,7 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
                 raise
 
         # Create torrent object
-        new_torrent = torrent_info(full_new_name, save_dir, compact)
+        new_torrent = torrent_info(full_new_name, save_dir, compact, user_paused)
         self.state.torrents[new_torrent] = None
 
     def remove_torrent_ns(self, unique_ID, data_also):
