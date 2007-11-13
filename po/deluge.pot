@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-11-10 19:35-0600\n"
+"POT-Creation-Date: 2007-11-12 15:44-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -161,14 +161,14 @@ msgstr ""
 msgid "Peers"
 msgstr ""
 
-#: glade/delugegtk.glade:999 src/interface.py:627 src/interface.py:1179
-#: src/interface.py:1210 plugins/TorrentPeers/tab_peers.py:89
+#: glade/delugegtk.glade:999 src/interface.py:627 src/interface.py:1181
+#: src/interface.py:1212 plugins/TorrentPeers/tab_peers.py:89
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Down Speed"
 msgstr ""
 
-#: glade/delugegtk.glade:1008 src/interface.py:630 src/interface.py:1180
-#: src/interface.py:1211 plugins/TorrentPeers/tab_peers.py:91
+#: glade/delugegtk.glade:1008 src/interface.py:630 src/interface.py:1182
+#: src/interface.py:1213 plugins/TorrentPeers/tab_peers.py:91
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Up Speed"
 msgstr ""
@@ -989,8 +989,8 @@ msgid "KiB/s"
 msgstr ""
 
 #: src/interface.py:307 src/interface.py:368 src/interface.py:394
-#: src/interface.py:1161 src/interface.py:1168 src/interface.py:1173
-#: src/interface.py:1201 src/interface.py:1203
+#: src/interface.py:1163 src/interface.py:1170 src/interface.py:1175
+#: src/interface.py:1203 src/interface.py:1205
 #: plugins/SpeedLimiter/__init__.py:137 plugins/SpeedLimiter/__init__.py:169
 msgid "Unlimited"
 msgstr ""
@@ -1055,70 +1055,70 @@ msgstr ""
 msgid "Paused %s"
 msgstr ""
 
-#: src/interface.py:1179 plugins/WebUi/scripts/template_strings.py:10
+#: src/interface.py:1181 plugins/WebUi/scripts/template_strings.py:10
 msgid "Connections"
 msgstr ""
 
-#: src/interface.py:1197
+#: src/interface.py:1199
 msgid "DHT"
 msgstr ""
 
-#: src/interface.py:1206 plugins/TorrentCreator/__init__.py:148
+#: src/interface.py:1208 plugins/TorrentCreator/__init__.py:148
 msgid "Deluge"
 msgstr ""
 
-#: src/interface.py:1206 plugins/WebUi/scripts/template_strings.py:17
+#: src/interface.py:1208 plugins/WebUi/scripts/template_strings.py:17
 msgid "Download"
 msgstr ""
 
-#: src/interface.py:1207 plugins/WebUi/scripts/template_strings.py:56
+#: src/interface.py:1209 plugins/WebUi/scripts/template_strings.py:56
 msgid "Upload"
 msgstr ""
 
-#: src/interface.py:1210
+#: src/interface.py:1212
 msgid "Deluge Bittorrent Client"
 msgstr ""
 
-#: src/interface.py:1287
+#: src/interface.py:1289
 msgid "Choose a download directory"
 msgstr ""
 
-#: src/interface.py:1314
+#: src/interface.py:1316
 msgid ""
 "An error occured while trying to add the torrent. It's possible your ."
 "torrent file is corrupted."
 msgstr ""
 
-#: src/interface.py:1339
+#: src/interface.py:1341
 msgid "Unknown duplicate torrent error."
 msgstr ""
 
-#: src/interface.py:1344
+#: src/interface.py:1346
 msgid ""
 "There is not enough free                disk space to complete your download."
 msgstr ""
 
-#: src/interface.py:1346
+#: src/interface.py:1348
 msgid "Space Needed:"
 msgstr ""
 
-#: src/interface.py:1347
+#: src/interface.py:1349
 msgid "Available Space:"
 msgstr ""
 
-#: src/interface.py:1364
+#: src/interface.py:1366
 msgid "Add torrent from URL"
 msgstr ""
 
-#: src/interface.py:1368
+#: src/interface.py:1370
 msgid "Enter the URL of the .torrent to download"
 msgstr ""
 
-#: src/interface.py:1429
+#: src/interface.py:1431
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr ""
 
-#: src/interface.py:1440
+#: src/interface.py:1442
 msgid "Are you sure that you want to remove all seeding torrents?"
 msgstr ""
 
@@ -1838,7 +1838,7 @@ msgstr ""
 msgid "Name:"
 msgstr ""
 
-#: plugins/TorrentSearch/searchdlg.glade:91 plugins/WebSeed/webseed.glade:28
+#: plugins/TorrentSearch/searchdlg.glade:91 plugins/WebSeed/webseed.glade:29
 msgid "URL:"
 msgstr ""
 
@@ -2001,11 +2001,11 @@ msgstr ""
 msgid "Move completed downloads to:"
 msgstr ""
 
-#: plugins/MoveTorrent/movetorrent.glade:59 plugins/WebSeed/webseed.glade:64
+#: plugins/MoveTorrent/movetorrent.glade:59 plugins/WebSeed/webseed.glade:65
 msgid "gtk-cancel"
 msgstr ""
 
-#: plugins/MoveTorrent/movetorrent.glade:71 plugins/WebSeed/webseed.glade:72
+#: plugins/MoveTorrent/movetorrent.glade:71 plugins/WebSeed/webseed.glade:73
 msgid "gtk-ok"
 msgstr ""
 
@@ -2022,29 +2022,35 @@ msgid "_Add Web Seed"
 msgstr ""
 
 #: plugins/WebSeed/webseed.glade:7
-msgid "Open Containing Folder Preferences"
+msgid "Add Web Seed"
 msgstr ""
 
-#: plugins/Scheduler/plugin.py:76
+#: plugins/Scheduler/plugin.py:111
 msgid "Scheduler Settings"
 msgstr ""
 
-#: plugins/Scheduler/plugin.py:86
-msgid "Limit download to:"
+#: plugins/Scheduler/plugin.py:121
+msgid "High download limit:"
 msgstr ""
 
-#: plugins/Scheduler/plugin.py:87
-msgid "Limit upload to:"
+#: plugins/Scheduler/plugin.py:122
+msgid "High upload limit:"
 msgstr ""
 
-#: plugins/Scheduler/plugin.py:135
-msgid "Yellow is limited, red is stopped and green is unlimited."
+#: plugins/Scheduler/plugin.py:123
+msgid "Low download limit:"
 msgstr ""
 
-#: plugins/Scheduler/plugin.py:137
-msgid ""
-"When set to -1 (unlimited), the global limits in Deluge's preferences will "
-"be obeyed."
+#: plugins/Scheduler/plugin.py:124
+msgid "Low upload limit:"
+msgstr ""
+
+#: plugins/Scheduler/plugin.py:200
+msgid "Green is the high limits, yellow is the low limits and red is stopped"
+msgstr ""
+
+#: plugins/Scheduler/plugin.py:201
+msgid "If a limit is set to -1, it is unlimitted."
 msgstr ""
 
 #: plugins/WebUi/__init__.py:182

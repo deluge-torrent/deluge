@@ -11,6 +11,7 @@ Deluge 0.5.7 (xx November 2007)
   * Replace SimpleRSS with FlexRSS
   * Add preference for the location of torrent files
   * Add autoload folder
+  * Copy translator credits from Launchpad to our about->credits
 
 Deluge 0.5.6.2 (31 October 2007)
   * Set default piece size to 256-KiB in TorrentCreator plugin and add 2048KiB

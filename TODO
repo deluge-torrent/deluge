@@ -1,4 +1,4 @@
 for 0.5.7
     * remap filenames
     * preference for starting torrents in paused state
-    * deleting all trackers causes crash
+    * copy over active torrents when user changes location of torrent files
