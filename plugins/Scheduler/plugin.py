@@ -45,22 +45,23 @@ class plugin_Scheduler:
         self.prevhour = now[3]
 
         self._state(self.status)
-        self.interface.apply_prefs()
 
     def unload(self):
+        self.status = -1
         self.resume()
         self.unlimit()
 
     def _getglobals(self):
-        # Grab changes in global config
-        gdl = self.config.get("max_download_speed")
-        gul = self.config.get("max_upload_speed")
-        if self.status == 0 and (self.dlmax != gdl or self.ulmax != gul):
-            self.dlmax = gdl
-            self.ulmax = gul
-        elif self.status == 1 and (self.dllimit != gdl or self.ullimit != gul):
-            self.dllimit = gdl
-            self.ullimit = gul
+        # Only run if plugin is not paused
+        if self.status < 2:
+            gdl = self.config.get("max_download_speed")
+            gul = self.config.get("max_upload_speed")
+            if self.status == 0 and (self.dlmax != gdl or self.ulmax != gul):
+                self.dlmax = gdl
+                self.ulmax = gul
+            elif self.status == 1 and (self.dllimit != gdl or self.ullimit != gul):
+                self.dllimit = gdl
+                self.ullimit = gul
 
     def _state(self,state):
         if state == 0:
@@ -73,16 +74,21 @@ class plugin_Scheduler:
         if state < 2 and self.status == 2:
             self.resume()
         self.status = state
-
+        # Update the settings
+        self.interface.apply_prefs()
 
     def update(self):
+        # Only do stuff if the status is valid
+        if self.status < 0:
+            return
+
+        # Apply any changes that have been made to the global config
         self._getglobals()
         now = time.localtime(time.time())
         if now[3] != self.prevhour:
             self.prevhour = now[3]
             if not self.status == self.button_state[now[3]][now[6]]:
                 self._state(self.button_state[now[3]][now[6]])
-                self.interface.apply_prefs()
 
     def pause(self):
         self.prevact = self.config.get("max_active_torrents")
@@ -227,7 +233,6 @@ class plugin_Scheduler:
 
             now = time.localtime(time.time())
             self._state(self.button_state[now[3]][now[6]])
-            self.interface.apply_prefs()
 
             writer = open(self.conf_file, "wb")
             pickle.dump([drawing.button_state,[self.dllimit, self.ullimit, self.dlmax, self.ulmax]], writer)
