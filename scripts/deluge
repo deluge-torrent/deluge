@@ -48,7 +48,11 @@ import deluge.pref
 
 parser = OptionParser(usage="%prog [options] [torrents to add]", 
                       version=deluge.common.PROGRAM_VERSION)
+parser.add_option("-c", "--config", dest="config",  help="Sets the configuration path")
 (options, args) = parser.parse_args()
+
+if (options.config != None):
+    deluge.common.CONFIG_DIR = options.config
 
 def upgrade_old_persistent_state():
     pstate_file_path = os.path.join(deluge.common.CONFIG_DIR, 
