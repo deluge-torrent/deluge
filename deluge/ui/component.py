@@ -40,9 +40,9 @@ COMPONENT_STATE = [
 ]
 
 class Component:
-    def __init__(self, name):
+    def __init__(self, name, depend=None):
         # Register with the ComponentRegistry
-        register(name, self)
+        register(name, self, depend)
         self._state = COMPONENT_STATE.index("Stopped")
     
     def get_state(self):
@@ -67,12 +67,15 @@ class Component:
 class ComponentRegistry:
     def __init__(self):
         self.components = {}
+        self.depend = {}
         self.update_timer = None
     
-    def register(self, name, obj):
-        """Registers a component"""
+    def register(self, name, obj, depend):
+        """Registers a component.. depend must be list or None"""
         log.debug("Registered %s with ComponentRegistry..", name)
         self.components[name] = obj
+        if depend != None:
+            self.depend[name] = depend
     
     def get(self, name):
         """Returns a reference to the component 'name'"""
@@ -81,13 +84,25 @@ class ComponentRegistry:
     def start(self, update_interval=1000):
         """Starts all components"""
         for component in self.components.keys():
-            self.components[component].start()
-            self.components[component]._start()
+            self.start_component(component)
 
         # Start the update timer
         self.update_timer = gobject.timeout_add(update_interval, self.update)
         # Do an update right away
         self.update()
+    
+    def start_component(self, name):
+        """Starts a component"""
+        # Check to see if this component has any dependencies
+        if self.depend.has_key(name):
+            for depend in self.depend[name]:
+                self.start_component(depend)
+        # Only start if the component is stopped.
+        if self.components[name].get_state() == \
+            COMPONENT_STATE.index("Stopped"):
+            self.components[name].start()
+            self.components[name]._start()
+        
         
     def stop(self):
         """Stops all components"""
@@ -109,9 +124,9 @@ class ComponentRegistry:
     
 _ComponentRegistry = ComponentRegistry()
 
-def register(name, obj):
+def register(name, obj, depend=None):
     """Registers a UI component with the registry"""
-    _ComponentRegistry.register(name, obj)
+    _ComponentRegistry.register(name, obj, depend)
 
 def start():
     """Starts all components"""
