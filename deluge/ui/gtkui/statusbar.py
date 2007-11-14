@@ -86,10 +86,44 @@ class StatusBar(component.Component):
         image = gtk.Image()
         image.set_from_stock(gtk.STOCK_STOP, gtk.ICON_SIZE_MENU)
         self.hbox.pack_start(image, expand=False, fill=False)
-        label = gtk.Label("Not connected to daemon..")
+        label = gtk.Label(_("Not Connected"))
         self.hbox.pack_start(label, expand=False, fill=False)
         self.statusbar.show_all()
     
+    def add_item(self, image=None, stock=None, text=None):
+        """Adds an item to the status bar"""
+        # The return tuple.. we return whatever widgets we add
+        ret = []
+        # Add image from file or stock
+        if image != None or stock != None:
+            _image = gtk.Image()
+            if image != None:
+                _image.set_from_file(image)
+            if stock != None:
+                _image.set_from_stock(stock, gtk.ICON_SIZE_MENU)
+            self.hbox.pack_start(_image, expand=False, fill=False)
+            ret.append(_image)
+            
+        # Add text
+        if text != None:
+            label = gtk.Label(text)
+            self.hbox.pack_start(label, expand=False, fill=False)
+            ret.append(label)
+        
+        # Show the widgets
+        for widget in ret:
+            widget.show()
+            
+        # Return the widgets
+        return tuple(ret)
+    
+    def remove_item(self, widget):
+        """Removes an item from the statusbar"""
+        try:
+            self.hbox.remove(widget)
+        except Exception, e:
+            log.debug("Unable to remove widget: %s", e)
+            
     def clear_statusbar(self):
         def remove(child):
             self.hbox.remove(child)
