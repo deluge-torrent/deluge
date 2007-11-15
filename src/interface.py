@@ -1644,6 +1644,7 @@ want to remove all seeding torrents?")):
                 self.shutdown()
 
     def shutdown(self):
+        gtk.gdk.threads_enter()
         self.window.hide()
         self.save_column_widths()
         self.save_window_settings()

@@ -135,7 +135,7 @@ if not OS == "win":
         sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
 else:
     boosttype = 'mt'
-    EXTRA_COMPILE_ARGS = [  '-DBOOST_WINDOWS',
+    EXTRA_COMPILE_ARGS = [  '-O2', '-DBOOST_WINDOWS',
                             '-Wno-missing-braces',
                             '-DWIN32_LEAN_AND_MEAN',
                             '-D_WIN32_WINNT=0x0500',
