@@ -931,31 +931,30 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
 
     // The following section computes the ranges of pieces that have been downloaded
     std::vector<int> downloaded_range;
-    bool range_opened=false;
-    for (unsigned int i=0; i<=s.pieces->size(); ++i) {
-        bool downloaded=(i<s.pieces->size() && s.pieces->at(i));
+    bool range_opened = false;
+    for (unsigned int i=0; i <= s.pieces->size(); ++i) {
+        bool downloaded = (i<s.pieces->size() && s.pieces->at(i));
         if (!range_opened) {
             if (downloaded) {
-                range_opened=true;
+                range_opened = true;
                 downloaded_range.push_back(i);
             }
         } else {
             if (!downloaded) {
-                range_opened=false;
+                range_opened = false;
                 downloaded_range.push_back(i-1);
             }
         }
     }
-    PyObject *pieces_range = PyTuple_New(downloaded_range.size()/2);
-    for(unsigned long i=0; i<downloaded_range.size(); i+=2)
-    {
+    PyObject *pieces_range = PyTuple_New(downloaded_range.size() / 2);
+    for(unsigned long i=0; i < downloaded_range.size(); i+=2) {
         PyObject *rangepos;
-        rangepos = Py_BuildValue("[i,i]",downloaded_range[i],
+        rangepos = Py_BuildValue("[i,i]", downloaded_range[i],
             downloaded_range[i+1]);
         PyTuple_SetItem(pieces_range, i/2, rangepos);   
     }
 
-    return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:b,s:f,s:L,s:L,s:s,s:s,s:f,s:L,s:L,s:O,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
+    PyObject *ret = Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:b,s:f,s:L,s:L,s:s,s:s,s:f,s:L,s:L,s:O,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
         "name",               t.handle.get_torrent_info().name().c_str(),
         "num_files",          t.handle.get_torrent_info().num_files(),
         "state",              s.state,
@@ -985,6 +984,9 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
         "total_done",          s.total_done,
         "total_wanted",       s.total_wanted,
         "total_wanted_done",  s.total_wanted_done);
+        
+        Py_DECREF(pieces_range);
+        return ret;
 };
 
 static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
