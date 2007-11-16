@@ -170,7 +170,7 @@ class DelugeGTK:
                     self.manager.unique_IDs[unique_ID].initial_uploaded_memory = \
                         self.manager.unique_IDs[unique_ID].uploaded_memory
                 try:
-                    if self.manager.unique_IDs[unique_ID].trackers:
+                    if self.manager.unique_IDs[unique_ID].trackers_changed:
                         try:
                             self.manager.replace_trackers(unique_ID, \
                                 self.manager.unique_IDs[unique_ID].trackers)
@@ -747,11 +747,15 @@ window, please enter your password"))
             path = self.manager.unique_IDs[uid].filename
             save_dir = self.manager.unique_IDs[uid].save_dir
             trackerslist = self.manager.unique_IDs[uid].trackers
+            try:
+                trackers_changed = self.manager.unique_IDs[uid].trackers_changed
+            except AttributeError:
+                 trackers_changed = 0
             self.manager.save_upmem()
             uploaded_memory = self.manager.unique_IDs[uid].uploaded_memory
             priorities = self.manager.get_priorities(uid)
             save_info = [path, save_dir, order, trackerslist, \
-                            uploaded_memory, priorities]
+                            uploaded_memory, priorities, trackers_changed]
             try:
                 os.remove(self.manager.unique_IDs[uid].filename + ".fastresume")
             except:
@@ -768,7 +772,7 @@ window, please enter your password"))
                 self.manager.unique_IDs[unique_ID].initial_uploaded_memory = \
                     save_info[4]
                 self.manager.save_upmem()
-            if save_info[3]:
+            if save_info[5]:
                 try:
                     self.manager.replace_trackers(unique_ID, save_info[3])
                 except:

@@ -169,6 +169,7 @@ class torrent_info:
         self.webseed_urls = []
         self.desired_ratio = 1.0
         self.trackers = ""
+        self.trackers_changed = 0
 
         self.delete_me = False # set this to true, to delete it on next sync
         self.del_data = False # set this to true, to delete data on next sync
@@ -1017,6 +1018,7 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
 
     def replace_trackers(self, unique_ID, trackerslist):
         self.unique_IDs[unique_ID].trackers = trackerslist
+        self.unique_IDs[unique_ID].trackers_changed = 1
         try:
             return deluge_core.replace_trackers(unique_ID, trackerslist)
         except:
