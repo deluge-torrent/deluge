@@ -490,7 +490,6 @@ window, please enter your password"))
             include_hidden_chars=False).strip()
         self.manager.replace_trackers(torrent, self.textlist)
         self.edit_window.destroy()
-        self.manager.unique_IDs[torrent].trackers = self.textlist
 
     def show_edit_tracker_dialog(self, list):
         self.textbuffer = gtk.TextBuffer(table=None)

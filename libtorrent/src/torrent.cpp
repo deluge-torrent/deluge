@@ -498,7 +498,7 @@ namespace libtorrent
 	{
 		INVARIANT_CHECK;
 		
-		if (m_torrent_file->trackers().empty()) return false;
+		if (m_trackers.empty()) return false;
 
 		if (m_just_paused)
 		{
@@ -1072,7 +1072,14 @@ namespace libtorrent
 
 		if (alerts().should_post(alert::warning))
 		{
-			alerts().post_alert(torrent_deleted_alert(get_handle(), "files deleted"));
+			if (ret != 0)
+			{
+				alerts().post_alert(torrent_deleted_alert(get_handle(), "delete files failed: " + j.str));
+			}
+			else
+			{
+				alerts().post_alert(torrent_deleted_alert(get_handle(), "files deleted"));
+			}
 		}
 	}
 

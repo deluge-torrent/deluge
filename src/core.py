@@ -1010,11 +1010,15 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
         return deluge_core.pe_settings(out_enc_policy, in_enc_policy, allowed_enc_level, prefer_rc4)
 
     def get_trackers(self, unique_ID):
-        return deluge_core.get_trackers(unique_ID)
+        if self.unique_IDs[unique_ID].trackers:
+            return self.unique_IDs[unique_ID].trackers
+        else:
+            return deluge_core.get_trackers(unique_ID)
 
-    def replace_trackers(self, unique_ID, trackers):
+    def replace_trackers(self, unique_ID, trackerslist):
+        self.unique_IDs[unique_ID].trackers = trackerslist
         try:
-            return deluge_core.replace_trackers(unique_ID, trackers)
+            return deluge_core.replace_trackers(unique_ID, trackerslist)
         except:
             pass
 
