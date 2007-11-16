@@ -147,7 +147,8 @@ if common.windows_check():
     "filename_f_width" : 220,
     "size_f_width" : 90,
     "priority_f_width" : 140,
-    "start_paused": False
+    "start_paused": False,
+    "use_advanced_bar" : True
 }
 else:
     DEFAULT_PREFS = {
@@ -257,7 +258,8 @@ else:
     "filename_f_width" : 220,
     "size_f_width" : 90,
     "priority_f_width" : 140,
-    "start_paused": False
+    "start_paused": False,
+    "use_advanced_bar" : True
 }
 
 class Preferences:
@@ -287,9 +289,9 @@ class Preferences:
     
     def __setitem__(self, key, value):
         if key not in self.mapping or self.mapping[key]!=value:
-            self.mapping[key] = value
-            for hook in self.change_hooks:
-                if (hook[0]==key): hook[1]()
+            self.mapping[key] = value 
+            for hook in self.change_hooks: 
+ 	        if (hook[0]==key): hook[1]() 
 
     def __delitem__(self, key):
         del self.mapping[key]

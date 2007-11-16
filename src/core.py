@@ -1052,3 +1052,6 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
             torrent_path = os.path.join(torrent_path,
                                         file["path"].split("/", 1)[0])
         return torrent_path
+
+    def rename_file(self, unique_ID, filename, filesize):
+        return deluge_core.remap_files(unique_ID, filename, filesize)

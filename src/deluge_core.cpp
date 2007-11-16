@@ -929,8 +929,33 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
     total_seeds = s.num_complete != -1? s.num_complete : connected_seeds;
     total_peers = s.num_incomplete != -1? s.num_incomplete : connected_peers;
 
+    // The following section computes the ranges of pieces that have been downloaded
+    std::vector<int> downloaded_range;
+    bool range_opened=false;
+    for (unsigned int i=0; i<=s.pieces->size(); ++i) {
+        bool downloaded=(i<s.pieces->size() && s.pieces->at(i));
+        if (!range_opened) {
+            if (downloaded) {
+                range_opened=true;
+                downloaded_range.push_back(i);
+            }
+        } else {
+            if (!downloaded) {
+                range_opened=false;
+                downloaded_range.push_back(i-1);
+            }
+        }
+    }
+    PyObject *pieces_range = PyTuple_New(downloaded_range.size()/2);
+    for(unsigned long i=0; i<downloaded_range.size(); i+=2)
+    {
+        PyObject *rangepos;
+        rangepos = Py_BuildValue("[i,i]",downloaded_range[i],
+            downloaded_range[i+1]);
+        PyTuple_SetItem(pieces_range, i/2, rangepos);   
+    }
 
-    return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:b,s:f,s:L,s:L,s:s,s:s,s:f,s:L,s:L,s:l,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
+    return Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:b,s:f,s:L,s:L,s:s,s:s,s:f,s:L,s:L,s:O,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
         "name",               t.handle.get_torrent_info().name().c_str(),
         "num_files",          t.handle.get_torrent_info().num_files(),
         "state",              s.state,
@@ -947,7 +972,7 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
         "progress",           s.progress,
         "total_payload_download", s.total_payload_download,
         "total_payload_upload", s.total_payload_upload,
-        "pieces",             long(s.pieces), // this is really a std::vector<bool>*
+        "pieces",             pieces_range,
         "pieces_done",        s.num_pieces,
         "block_size",         s.block_size,
         "total_size",         i.total_size(),
@@ -1809,7 +1834,8 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
         trackerlist.push_back(a_entry);
       }
       if (trackerlist.empty()){
-          printf("libtorrent didnt like that...trackers cant be empty\n");
+          std::vector<libtorrent::announce_entry> empty;
+          M_torrents->at(index).handle.replace_trackers(empty);
       }
       else{
           M_torrents->at(index).handle.replace_trackers(trackerlist);
@@ -1841,19 +1867,6 @@ static PyObject *torrent_prioritize_files(PyObject *self, PyObject *args)
     }
 
     t.handle.prioritize_files(priorities_vector);
-
-    #ifndef NDEBUG
-    int num_pieces = t.handle.get_torrent_info().num_pieces();
-    
-    std::vector<int> priorities_pieces_vector(num_pieces);
-    priorities_pieces_vector = t.handle.piece_priorities();
-    
-    std::cout << "after files prioritization\n";
-    for (long i = 0; i < num_pieces; i++) {
-        std::cout << priorities_pieces_vector.at(i);
-    }
-    std::cout << "\n";
-    #endif
     
     Py_INCREF(Py_None); return Py_None;
 }
@@ -2009,6 +2022,34 @@ static PyObject *torrent_add_url_seed(PyObject *self, PyObject *args)
     Py_INCREF(Py_None); return Py_None;
 }
 
+static PyObject *torrent_remap_files(PyObject *self, PyObject *args)
+{
+  python_long unique_ID;
+  const char *file_name;
+  float file_size;
+  if (!PyArg_ParseTuple(args, "isf", &unique_ID, &file_name, &file_size))
+    return NULL;
+  long index = get_index_from_unique_ID(unique_ID);
+  if (PyErr_Occurred())
+    return NULL;
+
+  if (M_torrents->at(index).handle.is_valid()){
+      libtorrent:size_type new_size = file_size;
+      std::pair<std::string, libtorrent::size_type> list = std::make_pair(file_name, new_size);
+      std::vector<std::pair<std::string, libtorrent::size_type> > Vector;
+      Vector.push_back(list);
+      torrent_info t = M_torrents->at(index).handle.get_torrent_info();
+      bool ret = t.remap_files(Vector);
+      if (ret){
+      printf("it worked!\n");
+      }
+      else{
+      printf("it failed!\n");
+      }
+  }
+  Py_INCREF(Py_None); return Py_None;
+}
+
 //====================
 // Python Module data
 //====================
@@ -2073,6 +2114,7 @@ static PyMethodDef deluge_core_methods[] =
     {"get_piece_info",                  torrent_get_piece_info,                   METH_VARARGS,   "."},
     {"get_all_piece_info",              torrent_get_all_piece_info,               METH_VARARGS,   "."},
     {"get_file_piece_range",            torrent_get_file_piece_range,             METH_VARARGS,   "."},
+    {"remap_files",                     torrent_remap_files,                      METH_VARARGS,   "."},
     {NULL}
 };
 

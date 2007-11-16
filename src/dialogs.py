@@ -154,6 +154,7 @@ class PreferencesDlg:
             self.glade.get_widget("ratio_spinner").set_value(self.preferences.get("auto_seed_ratio"))
             self.glade.get_widget("chk_dht").set_active(self.preferences.get("enable_dht"))
             self.glade.get_widget("spin_gui").set_value(self.preferences.get("gui_update_interval"))
+            self.glade.get_widget("chk_use_advanced_bar").set_active(self.preferences.get("use_advanced_bar"))
 
             #smart dialog set sensitivities
             if(self.preferences.get("use_default_dir")):
@@ -271,6 +272,7 @@ class PreferencesDlg:
         self.preferences.set("clear_max_ratio_torrents", self.glade.get_widget("chk_clear_max_ratio_torrents").get_active())
         self.preferences.set("queue_above_completed", self.glade.get_widget("chk_queue_above_completed").get_active())
         self.preferences.set("start_paused", self.glade.get_widget("chk_paused").get_active())
+        self.preferences.set("use_advanced_bar", self.glade.get_widget("chk_use_advanced_bar").get_active())
 
         interface.apply_prefs()
         interface.config.save()

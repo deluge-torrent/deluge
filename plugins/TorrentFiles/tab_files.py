@@ -106,6 +106,43 @@ an error trying to launch the file."))
         except KeyError:
             pass
 
+    def rename_file(self, widget=None):
+        import os, gtk
+        import deluge.common
+        dlg = gtk.Dialog(_("Rename File"), None, 0,
+            (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,gtk.STOCK_OK, gtk.RESPONSE_OK))
+        dlg.set_default_response(gtk.RESPONSE_OK)
+        dlg.set_modal(True)
+        dlg.set_icon(deluge.common.get_logo(32))
+        label = gtk.Label(_("Enter the new name of the file"))
+        entry = gtk.Entry()
+        entry.connect("activate", lambda w : dlg.response(gtk.RESPONSE_OK))
+        dlg.vbox.pack_start(label)
+        dlg.vbox.pack_start(entry)
+        save_dir = self.manager.unique_IDs[self.file_unique_id].save_dir
+        selected_paths = self.file_view.get_selection().get_selected_rows()[1]
+        try:
+            for path in selected_paths:
+                child_path = self.file_store_sorted.\
+                                 convert_path_to_child_path(path)
+                file_name = self.file_store.get_value(
+                                self.file_store.get_iter(child_path), 0)
+                file_size = self.file_store.get_value(
+                                self.file_store.get_iter(child_path), 1)
+                entry.set_text(file_name)
+                gtk.gdk.threads_enter()
+                dlg.show_all()
+                response = dlg.run()
+                if response == gtk.RESPONSE_OK:
+                    new_name = entry.get_text().decode("utf_8")
+                    dlg.destroy()
+                    self.manager.rename_file(self.file_unique_id, new_name, file_size)
+                else:
+                    dlg.destroy()
+                gtk.gdk.threads_leave()
+        except:
+            pass
+
     # From core to UI
     def prepare_file_store(self):
         if not self.file_store_dict:
