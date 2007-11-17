@@ -1447,9 +1447,9 @@ this torrent will be deleted!") + "</i>")
         return False
 
     def update_tracker(self, obj=None):
-        torrent = self.get_selected_torrent()
-        if torrent is not None:
-            self.manager.update_tracker(torrent)
+        unique_ids = self.get_selected_torrent_rows()
+        for uid in unique_ids:
+            self.manager.update_tracker(uid)
     
     def clear_finished(self, obj=None):
         print "Clearing completed torrents"
