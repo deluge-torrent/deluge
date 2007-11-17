@@ -74,6 +74,9 @@ class PluginManager:
     def enable_plugin(self, name):
         plugin = self.available_plugins[name]
         self.enabled_plugins[name] = plugin.enable(self.core, self.interface)
+        enabled_plugins = ':'.join(self.get_enabled_plugins())
+        self.interface.config.set('enabled_plugins', enabled_plugins)
+        self.interface.config.save()
 
     def get_enabled_plugins(self):
         return self.enabled_plugins.keys()
@@ -83,7 +86,10 @@ class PluginManager:
         if 'unload' in dir(plugin):
             plugin.unload()
         del self.enabled_plugins[name]
-        
+        enabled_plugins = ':'.join(self.get_enabled_plugins())
+        self.interface.config.set('enabled_plugins', enabled_plugins)
+        self.interface.config.save()
+
     def configurable_plugin(self, name):
         if name in self.enabled_plugins:
             return 'configure' in dir(self.enabled_plugins[name])

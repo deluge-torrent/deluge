@@ -4,6 +4,7 @@ Deluge 0.5.7 (xx November 2007)
   list or wrong type
   * Local discovery of peers
   * Add torrent in paused state option
+  * Fix bug where loaded plugins were forgotten if Deluge crashed
   * Fix ratio bugs (hopefully for the last time)
   * Scheduler plugin revamp by Ben Klein
   * Fix ETA from going backwards
