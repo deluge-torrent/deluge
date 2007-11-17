@@ -122,7 +122,10 @@ class PluginManager:
 
     def shutdown_all_plugins(self):
         for name in self.enabled_plugins.keys():
-            self.disable_plugin(name)
+            plugin = self.enabled_plugins[name]
+            if 'unload' in dir(plugin):
+                plugin.unload()
+            del self.enabled_plugins[name]
         self.enabled_plugins.clear()
     
 
