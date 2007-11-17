@@ -1653,7 +1653,7 @@ want to remove all seeding torrents?")):
                 self.shutdown()
 
     def shutdown(self):
-        gtk.gdk.threads_enter()
+        gtk.quit_add(0, self.manager.quit)
         self.window.hide()
         self.save_column_widths()
         self.save_window_settings()
@@ -1661,7 +1661,6 @@ want to remove all seeding torrents?")):
         self.plugins.shutdown_all_plugins()
         #for the sake of windows, hide tray_icon
         self.tray_icon.set_visible(False)
-        self.manager.quit()
         gtk.main_quit()
 
 ## For testing purposes, create a copy of the interface
