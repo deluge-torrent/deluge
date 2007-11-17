@@ -316,9 +316,10 @@ class TorrentManager:
     
     def set_trackers(self, torrent_id, trackers):
         """Sets trackers"""
-        if trackers == [] or trackers == None:
-            return
-        log.debug("Setting trackers for %s", torrent_id)
+        if trackers == None:
+            trackers = []
+            
+        log.debug("Setting trackers for %s: %s", torrent_id, trackers)
         tracker_list = []
 
         for tracker in trackers:
@@ -332,8 +333,9 @@ class TorrentManager:
             log.debug("tier: %s tracker: %s", t.tier, t.url)
         # Set the tracker list in the torrent object
         self.torrents[torrent_id].trackers = trackers
-        # Force a reannounce
-        self.force_reannounce(torrent_id)
+        if len(trackers) > 0:
+            # Force a reannounce if there is at least 1 tracker
+            self.force_reannounce(torrent_id)
         
     def force_reannounce(self, torrent_id):
         """Force a tracker reannounce"""
