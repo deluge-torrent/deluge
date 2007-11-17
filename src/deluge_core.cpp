@@ -977,8 +977,8 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
         "total_size",         i.total_size(),
         "piece_length",       i.piece_length(),
         "num_pieces",         i.num_pieces(),
-    "total_peers",        total_peers,
-    "total_seeds",          total_seeds,
+        "total_peers",        total_peers,
+        "total_seeds",          total_seeds,
         "is_paused",          t.handle.is_paused(),
         "is_seed",            t.handle.is_seed(),
         "total_done",          s.total_done,
@@ -1426,21 +1426,6 @@ static PyObject *torrent_get_file_piece_range(PyObject *self, PyObject *args)
     return ret;
 };
 
-/*static PyObject *torrent_get_unique_IDs(PyObject *self, PyObject *args)
-{
-    PyObject *ret = PyTuple_New(M_torrents.size());
-    PyObject *temp;
-
-    for (unsigned long i = 0; i < M_torrents.size(); i++)
-    {
-        temp = Py_BuildValue("i", M_torrents->at(i).unique_ID)
-
-        PyTuple_SetItem(ret, i, temp);
-    };
-
-    return ret;
-};*/
-
 static PyObject *torrent_constants(PyObject *self, PyObject *args)
 {
     Py_INCREF(M_constants); return M_constants;
@@ -1525,36 +1510,9 @@ static PyObject *torrent_get_DHT_info(PyObject *self, PyObject *args)
     entry DHT_state = M_ses->dht_state();
 
     return Py_BuildValue("l", python_long(count_DHT_peers(DHT_state)));
-
-    /*
-    //    DHT_state.print(cout);
-        entry *nodes = DHT_state.find_key("nodes");
-        if (!nodes)
-            return Py_BuildValue("l", -1); // No nodes - we are just starting up...
-
-        entry::list_type &peers = nodes->list();
-        entry::list_type::const_iterator i;
-
-        python_long num_peers = 0;
-
-        i = peers.begin();
-        while (i != peers.end())
-        {
-            num_peers++;
-            i++;
-        }
-
-        return Py_BuildValue("l", num_peers);
-    */
 }
 
 
-// Create Torrents: call with something like:
-// create_torrent("mytorrent.torrent", "directory or file to make a torrent out of",
-//                "tracker1\ntracker2\ntracker3", "no comment", 256, "Deluge");
-// That makes a torrent with pieces of 256K, with "Deluge" as the creator string.
-//
-// The following function contains code by Christophe Dumez and Arvid Norberg
 static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 {
     using namespace libtorrent;
@@ -1900,15 +1858,6 @@ static PyObject *torrent_prioritize_first_last_pieces(PyObject *self,
     std::vector<int> priorities_vector(num_pieces);
     priorities_vector = t.handle.piece_priorities();
     
-    #ifndef NDEBUG
-    std::cout << "priority distribution in torrent_prioritize_first_last_pieces()\n";
-    std::cout << "before prioritization\n";
-    for (long i = 0; i < num_pieces; i++) {
-        std::cout << priorities_vector.at(i);
-    }
-    std::cout << "\n";
-    #endif
-        
     for (long i = 0; i < num_files; i++) {
         file_entry const &file = tor_info.file_at(i);
         if(file.size == 0) {
@@ -1931,11 +1880,7 @@ static PyObject *torrent_prioritize_first_last_pieces(PyObject *self,
         size_type prio_size = file.size / 100;
         int prio_pieces = tor_info.map_file(i, prio_size, 0).piece -
                               start_piece + 1;
-        
-        #ifndef NDEBUG
-        std::cout << "s=" << start_piece << ", e=" << end_piece << ", p=" << prio_pieces << "\n";
-        #endif
-        
+                
         for (int piece = 0; piece < prio_pieces; piece++) {
             priorities_vector.at(start_piece + piece) = FIRST_LAST_PRIO; 
             priorities_vector.at(end_piece - piece) = FIRST_LAST_PRIO; 
@@ -2039,9 +1984,8 @@ static PyObject *torrent_remap_files(PyObject *self, PyObject *args)
   if (M_torrents->at(index).handle.is_valid()){
 
       std::vector<std::pair<std::string, libtorrent::size_type> > remap_vector;
-
-      for (long i = 0; i < PyList_Size(file_path_object); i++) {
-          remap_vector.push_back(std::make_pair(PyString_AS_STRING(PyList_GetItem(file_path_object, i)), PyInt_AsLong(PyList_GetItem(file_size_object, i))));
+      for (long i = 0; i < PyList_Size(file_size_object); i++) {
+          remap_vector.push_back(std::make_pair(PyString_AsString(PyList_GetItem(file_path_object, i)), PyInt_AsLong(PyList_GetItem(file_size_object, i))));
       }
       torrent_info t = M_torrents->at(index).handle.get_torrent_info();
       bool ret = t.remap_files(remap_vector);
@@ -2051,7 +1995,7 @@ static PyObject *torrent_remap_files(PyObject *self, PyObject *args)
       else{
       printf("remap failed!\n");
       }
-  }
+}
   Py_INCREF(Py_None); return Py_None;
 }
 
