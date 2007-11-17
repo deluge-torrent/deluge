@@ -152,15 +152,7 @@ else:
     includedirs = ['./libtorrent', './libtorrent/include', './libtorrent/include/libtorrent', './win32/include']
 
 # NOTE: The Rasterbar Libtorrent source code is in the libtorrent/ directory
-# inside of Deluge's source tarball.  On several occasions, it has been 
-# pointed out to us that we should build against the system's installed 
-# libtorrent rather than our internal copy, and a few people even submitted
-# patches to do just that. However, as of now, this version
-# of libtorrent is not available in Debian, and as a result, Ubuntu. Once
-# libtorrent-rasterbar is available in the repositories of these distributions,
-# we will probably begin to build against a system libtorrent, but at the
-# moment, we are including the source code to make packaging on Debian and
-# Ubuntu possible.
+# inside of Deluge's source tarball.  
 if not OS == "win":
     if boosttype == "nomt":
         librariestype = ['boost_filesystem', 'boost_date_time',
