@@ -123,20 +123,29 @@ an error trying to launch the file."))
         selected_paths = self.file_view.get_selection().get_selected_rows()[1]
         try:
             for path in selected_paths:
-                child_path = self.file_store_sorted.\
+                self.new_paths = []
+                self.new_sizes = []
+                self.child_path = self.file_store_sorted.\
                                  convert_path_to_child_path(path)
-                file_name = self.file_store.get_value(
-                                self.file_store.get_iter(child_path), 0)
-                file_size = self.file_store.get_value(
-                                self.file_store.get_iter(child_path), 1)
-                entry.set_text(file_name)
+                self.file_name = self.file_store.get_value(
+                                self.file_store.get_iter(self.child_path), 0)
+                self.file_size = self.file_store.get_value(
+                                self.file_store.get_iter(self.child_path), 1)
+
+                for x in self.manager.get_torrent_file_info(self.file_unique_id):
+                    if x['path'] != self.file_name:
+                        self.new_paths.append(x['path'])
+                        self.new_sizes.append(x['size'])
+                entry.set_text(self.file_name)
                 gtk.gdk.threads_enter()
                 dlg.show_all()
                 response = dlg.run()
                 if response == gtk.RESPONSE_OK:
                     new_name = entry.get_text().decode("utf_8")
                     dlg.destroy()
-                    self.manager.rename_file(self.file_unique_id, new_name, file_size)
+                    self.new_paths.append(new_name)
+                    self.new_sizes.append(self.file_size)
+                    self.manager.rename_file(self.file_unique_id, self.new_paths, self.new_sizes)
                 else:
                     dlg.destroy()
                 gtk.gdk.threads_leave()

@@ -2027,26 +2027,29 @@ static PyObject *torrent_add_url_seed(PyObject *self, PyObject *args)
 static PyObject *torrent_remap_files(PyObject *self, PyObject *args)
 {
   python_long unique_ID;
-  const char *file_name;
-  float file_size;
-  if (!PyArg_ParseTuple(args, "isf", &unique_ID, &file_name, &file_size))
+  PyObject *file_path_object;
+  PyObject *file_size_object;
+
+  if (!PyArg_ParseTuple(args, "iOO", &unique_ID, &file_path_object, &file_size_object))
     return NULL;
   long index = get_index_from_unique_ID(unique_ID);
   if (PyErr_Occurred())
     return NULL;
 
   if (M_torrents->at(index).handle.is_valid()){
-      libtorrent:size_type new_size = file_size;
-      std::pair<std::string, libtorrent::size_type> list = std::make_pair(file_name, new_size);
-      std::vector<std::pair<std::string, libtorrent::size_type> > Vector;
-      Vector.push_back(list);
+
+      std::vector<std::pair<std::string, libtorrent::size_type> > remap_vector;
+
+      for (long i = 0; i < PyList_Size(file_path_object); i++) {
+          remap_vector.push_back(std::make_pair(PyString_AS_STRING(PyList_GetItem(file_path_object, i)), PyInt_AsLong(PyList_GetItem(file_size_object, i))));
+      }
       torrent_info t = M_torrents->at(index).handle.get_torrent_info();
-      bool ret = t.remap_files(Vector);
+      bool ret = t.remap_files(remap_vector);
       if (ret){
-      printf("it worked!\n");
+      printf("remap worked!\n");
       }
       else{
-      printf("it failed!\n");
+      printf("remap failed!\n");
       }
   }
   Py_INCREF(Py_None); return Py_None;

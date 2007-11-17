@@ -176,9 +176,17 @@ class DelugeGTK:
                                 self.manager.unique_IDs[unique_ID].trackers)
                         except:
                             pass
-                except:
-                    pass
-            except:
+                except AttributeError:
+                    try:
+                        if self.manager.unique_IDs[unique_ID].trackers:
+                            try:
+                                self.manager.replace_trackers(unique_ID, \
+                                self.manager.unique_IDs[unique_ID].trackers)
+                            except:
+                                pass
+                    except AttributeError:
+                        pass
+            except AttributeError:
                 pass
 
     def connect_signals(self):
