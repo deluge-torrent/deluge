@@ -44,24 +44,13 @@ class plugin_Scheduler:
         self.status = self.button_state[now[3]][now[6]]
         self.prevhour = now[3]
 
+        # Force speed changes when the plugin loads
         self._state(self.status)
 
     def unload(self):
         self.status = -1
         self.resume()
         self.unlimit()
-
-    def _getglobals(self):
-        # Only run if plugin is not paused
-        if self.status < 2:
-            gdl = self.config.get("max_download_speed")
-            gul = self.config.get("max_upload_speed")
-            if self.status == 0 and (self.dlmax != gdl or self.ulmax != gul):
-                self.dlmax = gdl
-                self.ulmax = gul
-            elif self.status == 1 and (self.dllimit != gdl or self.ullimit != gul):
-                self.dllimit = gdl
-                self.ullimit = gul
 
     def _state(self,state):
         if state == 0:
@@ -82,8 +71,6 @@ class plugin_Scheduler:
         if self.status < 0:
             return
 
-        # Apply any changes that have been made to the global config
-        self._getglobals()
         now = time.localtime(time.time())
         if now[3] != self.prevhour:
             self.prevhour = now[3]
@@ -164,7 +151,6 @@ class plugin_Scheduler:
         #seperator
         sep = gtk.HSeparator()
 
-        self._getglobals()
         # max spinbuttons
         dminput = gtk.SpinButton()
         dminput.set_numeric(True)    
@@ -224,15 +210,31 @@ class plugin_Scheduler:
 
         #Save config    
         if dialog.run() == -5:
-            self.button_state = copy.deepcopy(drawing.button_state)
-            self.dlmax = float(dminput.get_value())
-            self.ulmax = float(uminput.get_value())
+            # Detect changes to the config
+            changed = False
+            if not self.button_state == drawing.button_state:
+                self.button_state = copy.deepcopy(drawing.button_state)
+                changed = True
+            
+            if not self.dlmax == float(dminput.get_value()):
+                self.dlmax = float(dminput.get_value())
+                changed = True
 
-            self.dllimit = float(dlinput.get_value())
-            self.ullimit = float(ulinput.get_value())
+            if not self.ulmax == float(uminput.get_value()):
+                self.ulmax = float(uminput.get_value())
+                changed = True
+
+            if not self.dllimit == float(dlinput.get_value()):
+                self.dllimit = float(dlinput.get_value())
+                changed = True
+
+            if not self.ullimit == float(ulinput.get_value()):
+                self.ullimit = float(ulinput.get_value())
+                changed = True
 
             now = time.localtime(time.time())
-            self._state(self.button_state[now[3]][now[6]])
+            if changed:
+                self._state(self.button_state[now[3]][now[6]])
 
             writer = open(self.conf_file, "wb")
             pickle.dump([drawing.button_state,[self.dllimit, self.ullimit, self.dlmax, self.ulmax]], writer)
