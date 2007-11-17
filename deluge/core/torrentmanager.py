@@ -341,7 +341,8 @@ class TorrentManager:
         """Force a tracker reannounce"""
         try:
             self.torrents[torrent_id].handle.force_reannounce()
-        except:
+        except Exception, e:
+            log.debug("Unable to force reannounce: %s", e)
             return False
         
         return True

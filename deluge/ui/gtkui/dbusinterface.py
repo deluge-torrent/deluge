@@ -52,9 +52,7 @@ from deluge.log import LOG as log
     
 class DbusInterface(dbus.service.Object, component.Component):
     def __init__(self, args, path="/org/deluge_torrent/Deluge"):
-        component.Component.__init__(self, "DbusInterface", ["StatusBar"])
-        self.queue = []
-        self.widgets = None
+        component.Component.__init__(self, "DbusInterface")
         # Check to see if the daemon is already running and if not, start it
         bus = dbus.SessionBus()
         obj = bus.get_object("org.freedesktop.DBus", "/org/freedesktop/DBus")
@@ -89,58 +87,6 @@ class DbusInterface(dbus.service.Object, component.Component):
             bus=dbus.SessionBus())
         dbus.service.Object.__init__(self, bus_name, path)
 
-    def start(self):
-        """Called when we connect to a host"""
-        log.debug("DbusInterface start..")
-        if len(self.queue) == 0:
-            return
-        # Make sure status bar info is showing
-        self.widgets = None
-        self.update_status_bar()
-        
-    def add_to_queue(self, torrents):
-        """Adds the list of torrents to the queue"""
-        # Add to the queue while removing duplicates
-        self.queue = list(set(self.queue + torrents))
-        
-        # Update the status bar
-        self.update_status_bar()
-    
-    def update_status_bar(self):
-        """Attempts to update status bar"""
-        # If there are no queued torrents.. remove statusbar widgets and return
-        if len(self.queue) == 0:
-            if self.widgets != None:
-                for widget in self.widgets:
-                    component.get("StatusBar").remove(widget)
-            return False
-            
-        try:
-            statusbar = component.get("StatusBar")
-        except Exception, e:
-            # The statusbar hasn't been loaded yet, so we'll add a timer to
-            # update it later.
-            gobject.timeout_add(100, self.update_status_bar)
-            return False
-                
-        # Set the label text for statusbar
-        if len(self.queue) > 1:
-            label = str(len(self.queue)) + _(" Torrents Queued")
-        else:
-            label = str(len(self.queue)) + _(" Torrent Queued")
-        
-        # Add the statusbar items if needed, or just modify the label if they
-        # have already been added.
-        if self.widgets == None:
-            self.widgets = component.get("StatusBar").add_item(
-                stock=gtk.STOCK_SORT_DESCENDING, 
-                text=label)
-        else:
-            self.widgets[1].set_text(label)
-
-        # We return False so the timer stops
-        return False
-                         
     @dbus.service.method("org.deluge_torrent.Deluge", in_signature="as")
     def process_args(self, args):
         """Process arguments sent to already running Deluge"""
@@ -153,7 +99,7 @@ class DbusInterface(dbus.service.Object, component.Component):
         if not client.connected():
             # We're not connected so add these to the queue
             log.debug("Not connected to host.. Adding to queue.")
-            self.add_to_queue(args)
+            component.get("QueuedTorrents").add_to_queue(args)
             return
             
         for arg in args:

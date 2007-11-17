@@ -38,6 +38,57 @@ import deluge.common
 import deluge.ui.client as client
 from deluge.log import LOG as log
 
+class StatusBarItem:
+    def __init__(self, image=None, stock=None, text=None, callback=None):
+        self._widgets = []
+        self._ebox = gtk.EventBox()
+        self._hbox = gtk.HBox()
+        self._image = gtk.Image()
+        self._label = gtk.Label()
+        self._hbox.add(self._image)
+        self._hbox.add(self._label)
+        self._ebox.add(self._hbox)
+
+        # Add image from file or stock
+        if image != None or stock != None:
+            if image != None:
+                self.set_image_from_file(image)
+            if stock != None:
+                self.set_image_from_stock(stock)
+
+        # Add text
+        if text != None:
+            self.set_text(text)
+        
+        if callback != None:
+            self.set_callback(callback)
+        
+        self.show_all()
+                
+    def set_callback(self, callback):
+        self._ebox.connect("button-press-event", callback)
+            
+    def show_all(self):
+        self._ebox.show()
+        self._hbox.show()
+        self._image.show()
+        self._label.show()
+    
+    def set_image_from_file(self, image):
+        self._image.set_from_file(image)
+    
+    def set_image_from_stock(self, stock):
+        self._image.set_from_stock(stock, gtk.ICON_SIZE_MENU)
+        
+    def set_text(self, text):
+        self._label.set_text(text)
+        
+    def get_widgets(self):
+        return self._widgets()
+    
+    def get_eventbox(self):
+        return self._ebox
+        
 class StatusBar(component.Component):
     def __init__(self):
         component.Component.__init__(self, "StatusBar")
@@ -90,37 +141,17 @@ class StatusBar(component.Component):
         self.hbox.pack_start(label, expand=False, fill=False)
         self.statusbar.show_all()
     
-    def add_item(self, image=None, stock=None, text=None):
+    def add_item(self, image=None, stock=None, text=None, callback=None):
         """Adds an item to the status bar"""
         # The return tuple.. we return whatever widgets we add
-        ret = []
-        # Add image from file or stock
-        if image != None or stock != None:
-            _image = gtk.Image()
-            if image != None:
-                _image.set_from_file(image)
-            if stock != None:
-                _image.set_from_stock(stock, gtk.ICON_SIZE_MENU)
-            self.hbox.pack_start(_image, expand=False, fill=False)
-            ret.append(_image)
-            
-        # Add text
-        if text != None:
-            label = gtk.Label(text)
-            self.hbox.pack_start(label, expand=False, fill=False)
-            ret.append(label)
-        
-        # Show the widgets
-        for widget in ret:
-            widget.show()
-            
-        # Return the widgets
-        return tuple(ret)
+        item = StatusBarItem(image, stock, text, callback)
+        self.hbox.pack_start(item.get_eventbox(), expand=False, fill=False)
+        return item
     
-    def remove_item(self, widget):
+    def remove_item(self, item):
         """Removes an item from the statusbar"""
         try:
-            self.hbox.remove(widget)
+            self.hbox.remove(item.get_eventbox())
         except Exception, e:
             log.debug("Unable to remove widget: %s", e)
             

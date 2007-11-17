@@ -52,6 +52,7 @@ from connectionmanager import ConnectionManager
 from signals import Signals
 from pluginmanager import PluginManager
 from dbusinterface import DbusInterface
+from queuedtorrents import QueuedTorrents
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 import deluge.configmanager
@@ -87,10 +88,6 @@ DEFAULT_PREFS = {
 
 class GtkUI:
     def __init__(self, args):
-        # Start the Dbus Interface before anything else.. Just in case we are
-        # already running.
-        self.dbusinterface = DbusInterface(args)
-        
         # Initialize gettext
         locale.setlocale(locale.LC_MESSAGES, '')
         locale.bindtextdomain("deluge", 
@@ -107,7 +104,12 @@ class GtkUI:
         
         # Make sure gtkui.conf has at least the defaults set
         config = ConfigManager("gtkui.conf", DEFAULT_PREFS)
-        
+
+        # Start the Dbus Interface before anything else.. Just in case we are
+        # already running.
+        self.queuedtorrents = QueuedTorrents()
+        self.dbusinterface = DbusInterface(args)
+                
         # We make sure that the UI components start once we get a core URI
         client.connect_on_new_core(component.start)
         client.connect_on_no_core(component.stop)
