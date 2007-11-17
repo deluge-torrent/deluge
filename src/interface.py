@@ -154,7 +154,6 @@ class DelugeGTK:
             result = 0
             def win_handler(self, ctrl_type):
                 if ctrl_type == CTRL_CLOSE_EVENT:
-                    self.window.hide()
                     self.shutdown()
                     result = 1
                     return result
@@ -466,7 +465,6 @@ window, please enter your password"))
                 elif comingnext == "plugwinshow":
                     self.show_plugin_dialog()
                 elif comingnext == "quitus":
-                    self.window.hide()
                     self.shutdown()
 
         tray_lock.destroy()
@@ -1647,13 +1645,11 @@ want to remove all seeding torrents?")):
         
     def quit(self, widget=None):
         if self.window.get_property("visible"):
-            self.window.hide()
             self.shutdown()
         else:
             if self.config.get("lock_tray"):
                 self.unlock_tray("quitus")
             else:
-                self.window.hide()
                 self.shutdown()
 
     def shutdown(self):
