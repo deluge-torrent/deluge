@@ -383,6 +383,8 @@ class DelugeGTK:
             spin_title = dialog_glade.get_widget("spin_title")
             spin_title.set_text(_("Download Speed (KiB/s):"))
             spin_speed = dialog_glade.get_widget("spin_speed")
+            speed_dialog.set_transient_for(self.window)
+            speed_dialog.set_modal(True)
             spin_speed.set_value(self.config.get("max_download_speed"))
             spin_speed.select_region(0, -1)
             response = speed_dialog.run()
