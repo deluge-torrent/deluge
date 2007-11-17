@@ -433,7 +433,6 @@ static PyObject *torrent_quit(PyObject *self, PyObject *args)
     delete M_torrents;
     printf("core: removing settings...\r\n");
     delete M_settings;
-    session_proxy sp = M_ses->abort();
     printf("core: shutting down session...\r\n");
     delete M_ses;
     Py_DECREF(M_constants);
