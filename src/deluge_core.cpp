@@ -1642,15 +1642,14 @@ static PyObject *torrent_use_lsd(PyObject *self, PyObject *args)
     python_long action;
     PyArg_ParseTuple(args, "i", &action);
 
-    /* if (action){
+    if (action){
         M_ses->start_lsd();
     }
     else{
         M_ses->stop_lsd();
     }
-*/
-    Py_INCREF(Py_None); return Py_None;
 
+    Py_INCREF(Py_None); return Py_None;
 }
 
 static PyObject *torrent_use_natpmp(PyObject *self, PyObject *args)
