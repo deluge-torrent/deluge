@@ -735,15 +735,15 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
 
     def pause_all(self):
         for unique_ID in self.unique_IDs:
-            torrent_state = self.get_core_torrent_state(unique_ID)
-            if not torrent_state['is_paused']:
-                self.set_user_pause(unique_ID, True, enforce_queue=False)
+            self.config.set('max_active_torrents_tmp', \
+                self.config.get('max_active_torrents'))
+            self.config.set('max_active_torrents', 0)
+            self.apply_prefs()
 
     def resume_all(self):
-        for unique_ID in self.unique_IDs:
-            torrent_state = self.get_core_torrent_state(unique_ID)
-            if torrent_state['is_paused']:
-                self.set_user_pause(unique_ID, False, enforce_queue=True)
+        self.config.set('max_active_torrents', \
+            self.config.get('max_active_torrents_tmp')
+        self.apply_prefs()
 
     def move_storage(self, unique_ID, directory):
         deluge_core.move_storage(unique_ID, directory)
