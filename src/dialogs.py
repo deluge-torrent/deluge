@@ -126,6 +126,7 @@ class PreferencesDlg:
             self.glade.get_widget("download_path_button").set_filename(self.preferences.get("default_download_path"))
             self.glade.get_widget("torrent_path_button").set_filename(self.preferences.get("default_torrent_path"))
             self.glade.get_widget("chk_enable_files_dialog").set_active(self.preferences.get("enable_files_dialog"))
+            self.glade.get_widget("chk_enable_multi_only").set_active(self.preferences.get("enable_multi_only"))
             self.glade.get_widget("chk_prioritize_first_last_pieces").set_active(self.preferences.get("prioritize_first_last_pieces"))
             self.glade.get_widget("radio_compact_allocation").set_active(self.preferences.get("use_compact_storage"))
             self.glade.get_widget("radio_full_allocation").set_active(not self.preferences.get("use_compact_storage"))
@@ -164,6 +165,8 @@ class PreferencesDlg:
                 
             self.glade.get_widget('chk_min_on_close').set_sensitive(
                 self.glade.get_widget('chk_use_tray').get_active())
+            self.glade.get_widget('chk_enable_multi_only').set_sensitive(
+                self.glade.get_widget('chk_enable_files_dialog').get_active())
             self.glade.get_widget('chk_start_in_tray').set_sensitive(
                 self.glade.get_widget('chk_use_tray').get_active())
             self.glade.get_widget('chk_lock_tray').set_sensitive(
@@ -249,6 +252,7 @@ class PreferencesDlg:
         self.preferences.set("default_download_path", self.glade.get_widget("download_path_button").get_filename())
         self.preferences.set("default_torrent_path", self.glade.get_widget("torrent_path_button").get_filename())
         self.preferences.set("enable_files_dialog", self.glade.get_widget("chk_enable_files_dialog").get_active())
+        self.preferences.set("enable_multi_only", self.glade.get_widget("chk_enable_multi_only").get_active())
         self.preferences.set("prioritize_first_last_pieces", self.glade.get_widget("chk_prioritize_first_last_pieces").get_active())
         self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())
         self.preferences.set("auto_seed_ratio", self.glade.get_widget("ratio_spinner").get_value())
@@ -339,6 +343,8 @@ class PreferencesDlg:
             self.glade.get_widget('chk_clear_max_ratio_torrents').set_sensitive(value)  
         elif widget == self.glade.get_widget('chk_seedbottom'):
             self.glade.get_widget('chk_queue_above_completed').set_sensitive(value)
+        elif widget == self.glade.get_widget('chk_enable_files_dialog'):
+            self.glade.get_widget('chk_enable_multi_only').set_sensitive(value)
         elif widget == self.glade.get_widget('chk_peer_proxy'):
                 value = self.glade.get_widget('chk_peer_proxy').get_active() 
                 for x in ['combo_peer_proxy_type', 'txt_peer_proxy_hostname', 

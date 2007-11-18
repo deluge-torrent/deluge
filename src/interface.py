@@ -1309,7 +1309,8 @@ window, please enter your password"))
 
         try:
             dumped_torrent = self.manager.dump_torrent_file_info(torrent)
-            if (self.config.get('enable_files_dialog')) and (len(dumped_torrent) > 1):
+            if self.config.get('enable_files_dialog') and not \
+                self.config.get('enable_multi_only'):
                 files_dialog = dialogs.FilesDlg(dumped_torrent)
                 if files_dialog.show(self.window) == 1:
                     unique_id = self.manager.add_torrent(torrent, path, 
@@ -1321,7 +1322,26 @@ window, please enter your password"))
                         self.manager.set_priv(unique_id, True)
                 else:
                     return False
-            else:
+            elif self.config.get('enable_files_dialog') and \
+                self.config.get('enable_multi_only') and (len(dumped_torrent) > 1):
+                files_dialog = dialogs.FilesDlg(dumped_torrent)
+                if files_dialog.show(self.window) == 1:
+                    unique_id = self.manager.add_torrent(torrent, path, 
+                                    self.config.get('use_compact_storage'), \
+                                    self.config.get('start_paused'))
+                    self.manager.prioritize_files(unique_id, 
+                        files_dialog.get_priorities())
+                    if files_dialog.is_private_flag_checked():
+                        self.manager.set_priv(unique_id, True)
+                else:
+                    return False
+            elif self.config.get('enable_files_dialog') and \
+                self.config.get('enable_multi_only') and not (len(dumped_torrent) > 1):
+                unique_id = self.manager.add_torrent(torrent, path, 
+                                self.config.get('use_compact_storage'), \
+                                self.config.get('start_paused'))
+
+            elif not self.config.get('enable_files_dialog'):
                 unique_id = self.manager.add_torrent(torrent, path, 
                                 self.config.get('use_compact_storage'), \
                                 self.config.get('start_paused'))
