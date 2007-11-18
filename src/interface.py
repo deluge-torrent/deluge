@@ -775,12 +775,12 @@ window, please enter your password"))
                 self.config.get("use_compact_storage"))
             self.torrent_model_append(unique_ID)
             self.update()
-            self.manager.prioritize_files(unique_ID, priorities, update_files_removed=False)
+            self.manager.prioritize_files(unique_ID, save_info[5], update_files_removed=False)
             if save_info[4]:
                 self.manager.unique_IDs[unique_ID].initial_uploaded_memory = \
                     save_info[4]
                 self.manager.save_upmem()
-            if save_info[5]:
+            if save_info[6]:
                 try:
                     self.manager.replace_trackers(unique_ID, save_info[3])
                 except:
