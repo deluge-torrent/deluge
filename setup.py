@@ -112,17 +112,23 @@ if not OS == "win":
                      '/usr/include/python' + python_version]
 
     if OS == "linux":
-        if os.path.exists('/usr/lib/libboost_filesystem-mt.so'):
+        if os.path.exists(os.path.join(sysconfig.get_config_vars()['LIBDIR'], \
+            '/usr/lib/libboost_filesystem-mt.so')):
             boost_filesystem = "boost_filesystem-mt"
-        elif os.path.exists('/usr/lib/libboost_filesystem.so'):
+        elif os.path.exists(os.path.join(sysconfig.get_config_vars()['LIBDIR'], \
+            '/usr/lib/libboost_filesystem.so')):
             boost_filesystem = "boost_filesystem"
-        if os.path.exists('/usr/lib/libboost_date_time-mt.so'):
+        if os.path.exists(os.path.join(sysconfig.get_config_vars()['LIBDIR'], \
+            '/usr/lib/libboost_date_time-mt.so')):
             boost_date_time = "boost_date_time-mt"
-        elif os.path.exists('/usr/lib/libboost_date_time.so'):
+        elif os.path.exists(os.path.join(sysconfig.get_config_vars()['LIBDIR'], \
+            '/usr/lib/libboost_date_time.so')):
             boost_date_time = "boost_date_time"
-        if os.path.exists('/usr/lib/libboost_thread-mt.so'):
+        if os.path.exists(os.path.join(sysconfig.get_config_vars()['LIBDIR'], \
+            '/usr/lib/libboost_thread-mt.so')):
             boost_thread = "boost_thread-mt"
-        elif os.path.exists('/usr/lib/libboost_thread.so'):
+        elif os.path.exists(os.path.join(sysconfig.get_config_vars()['LIBDIR'], \
+            '/usr/lib/libboost_thread.so')):
             boost_thread = "boost_thread"
             
     elif OS == "freebsd":
