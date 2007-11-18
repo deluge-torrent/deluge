@@ -704,6 +704,13 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
     # Miscellaneous minor functions
 
     def set_user_pause(self, unique_ID, new_value, enforce_queue=True):
+        if not self.config.get("max_active_torrents"):
+            try:
+                self.config.set("max_active_torrents", \
+                    self.config.get("max_active_torrents_tmp")
+            except:
+                pass
+            self.apply_prefs()
         self.unique_IDs[unique_ID].user_paused = new_value
         if enforce_queue:
             self.apply_queue()
