@@ -1309,7 +1309,7 @@ window, please enter your password"))
 
         try:
             dumped_torrent = self.manager.dump_torrent_file_info(torrent)
-            if self.config.get('enable_files_dialog'):
+            if (self.config.get('enable_files_dialog')) and (len(dumped_torrent) > 1):
                 files_dialog = dialogs.FilesDlg(dumped_torrent)
                 if files_dialog.show(self.window) == 1:
                     unique_id = self.manager.add_torrent(torrent, path, 
