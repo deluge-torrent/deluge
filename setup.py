@@ -31,7 +31,7 @@ FULLNAME = "Deluge BitTorrent Client"
 VERSION    = "0.5.6.25"
 AUTHOR = "Zach Tibbitts, Alon Zakai, Marcos Pinto, Andrew Resch, Alex Dedul"
 EMAIL = "zach@collegegeek.org, kripkensteiner@gmail.com, marcospinto@dipconsultants.com, alonzakai@gmail.com, rotmer@gmail.com"
-DESCRIPTION    = "A bittorrent client written in PyGTK"
+DESCRIPTION    = "A GTK BitTorrent client written in Python and C++"
 URL = "http://deluge-torrent.org"
 LICENSE    = "GPLv2"
 
@@ -112,14 +112,30 @@ if not OS == "win":
                      '/usr/include/python' + python_version]
 
     if OS == "linux":
-        if os.WEXITSTATUS(os.system('grep -iq "Debian GNU/Linux 4.0\|Ubuntu 7.04\|Ubuntu 6.06\|Ubuntu 6.10\|Fedora Core release 6\|openSUSE 10.2\|openSUSE 10.3\|Mandriva Linux release 2007.1\|Fedora release 7\|BLAG release 60001\|Yellow Dog Linux release 5.0 (Phoenix)\|CentOS release 5 (Final)" /etc/issue')) == 0:
-            boosttype = 'nomt'
-        else:
-            boosttype = 'mt'
+        if os.path.exists('/usr/lib/libboost_filesystem-mt.so'):
+            boost_filesystem = "boost_filesystem-mt"
+        elif os.path.exists('/usr/lib/libboost_filesystem.so'):
+            boost_filesystem = "boost_filesystem"
+        if os.path.exists('/usr/lib/libboost_date_time-mt.so'):
+            boost_date_time = "boost_date_time-mt"
+        elif os.path.exists('/usr/lib/libboost_date_time.so'):
+            boost_date_time = "boost_date_time"
+        if os.path.exists('/usr/lib/libboost_thread-mt.so'):
+            boost_thread = "boost_thread-mt"
+        elif os.path.exists('/usr/lib/libboost_thread.so'):
+            boost_thread = "boost_thread"
+            
     elif OS == "freebsd":
-        boosttype = 'nomt'
+        boost_filesystem = "boost_filesystem"
+        boost_date_time = "boost_date_time"
+        boost_thread = "boost_thread"
     else:
-        boosttype = 'mt'
+        boost_filesystem = "boost_filesystem-mt"
+        boost_date_time = "boost_date_time-mt"
+        boost_thread = "boost_thread-mt"
+
+    librariestype = [boost_filesystem, boost_date_time,
+            boost_thread, 'z', 'pthread', 'ssl']
     
     removals = ['-g', '-Wstrict-prototypes']
 
@@ -134,7 +150,6 @@ if not OS == "win":
             cv_opt = cv_opt.replace(removal, " ")
         sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
 else:
-    boosttype = 'mt'
     EXTRA_COMPILE_ARGS = [  '-O2', '-DBOOST_WINDOWS',
                             '-Wno-missing-braces',
                             '-DWIN32_LEAN_AND_MEAN',
@@ -150,22 +165,11 @@ else:
                              
     EXTRA_LINK_ARGS = ['-L.\win32\lib']
     includedirs = ['./libtorrent', './libtorrent/include', './libtorrent/include/libtorrent', './win32/include']
+    librariestype = ['boost_filesystem-mt', 'boost_date_time-mt',
+        'boost_thread-mt', 'z', 'ssl' ,'wsock32' ,'crypto' ,'gdi32' ,'ws2_32']
 
 # NOTE: The Rasterbar Libtorrent source code is in the libtorrent/ directory
 # inside of Deluge's source tarball.  
-if not OS == "win":
-    if boosttype == "nomt":
-        librariestype = ['boost_filesystem', 'boost_date_time',
-            'boost_thread', 'z', 'pthread', 'ssl']
-        print 'Libraries nomt' 
-    elif boosttype == "mt":
-        librariestype = ['boost_filesystem-mt', 'boost_date_time-mt',
-            'boost_thread-mt', 'z', 'pthread', 'ssl']
-        print 'Libraries mt'
-else:
-        librariestype = ['boost_filesystem-mt', 'boost_date_time-mt',
-            'boost_thread-mt', 'z', 'ssl' ,'wsock32' ,'crypto' ,'gdi32' ,'ws2_32']
-        print 'Libraries mt'
 
 def fetchCpp():
     for root,dirs,files in os.walk('libtorrent'):
