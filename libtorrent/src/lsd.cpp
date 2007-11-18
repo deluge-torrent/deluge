@@ -183,9 +183,9 @@ void lsd::on_announce(udp::endpoint const& from, char* buffer
 
 void lsd::close()
 {
+	m_socket.close();
 	m_broadcast_timer.cancel();
 	m_disabled = true;
 	m_callback.clear();
-	m_socket.close();
 }
 

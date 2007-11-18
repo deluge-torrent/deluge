@@ -63,29 +63,6 @@
       </widget>
     </child>
     <child>
-      <widget class="GtkImageMenuItem" id="rename_file">
-        <property name="visible">True</property>
-        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-        <property name="label" translatable="yes">_Rename File</property>
-        <property name="use_underline">True</property>
-        <signal name="activate" handler="rename_file"/>
-        <child internal-child="image">
-          <widget class="GtkImage" id="menu-item-image8">
-            <property name="visible">True</property>
-            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-            <property name="stock">gtk-edit</property>
-            <property name="icon_size">1</property>
-          </widget>
-        </child>
-      </widget>
-    </child>
-    <child>
-      <widget class="GtkSeparatorMenuItem" id="rename_file_separator">
-        <property name="visible">True</property>
-        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-      </widget>
-    </child>
-    <child>
       <widget class="GtkImageMenuItem" id="priority_dont_download">
         <property name="visible">True</property>
         <property name="label" translatable="yes">Don't download</property>

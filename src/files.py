@@ -51,7 +51,6 @@ class FilesBaseManager(object):
         self.file_menu = self.glade.get_widget("file_tab_menu")
         self.glade.signal_autoconnect({
             "open_file" : self.open_file,
-            "rename_file" : self.rename_file,
             "select_all": self.file_select_all,
             "unselect_all": self.file_unselect_all,
             "priority_dont_download": self.priority_clicked,
@@ -68,9 +67,6 @@ class FilesBaseManager(object):
         self.file_store_sorted = gtk.TreeModelSort(self.file_store)
 
     def open_file(self):
-        pass
-
-    def rename_file(self):
         pass
 
     def build_file_view(self):
@@ -158,8 +154,6 @@ class FilesDialogManager(FilesBaseManager):
         # not added yet
         self.glade.get_widget("open_file").hide()
         self.glade.get_widget("open_file_separator").hide()
-        self.glade.get_widget("rename_file").hide()
-        self.glade.get_widget("rename_file_separator").hide()
     
     def prepare_file_store(self):
         for file in self.dumped_torrent:
