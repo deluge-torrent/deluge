@@ -5,6 +5,7 @@ Deluge 0.5.7 (xx November 2007)
   * Add torrent in paused state option
   * Fix bug where loaded plugins were forgotten if Deluge crashed
   * Fix ratio bugs (hopefully for the last time)
+  * Only show file selection dialog if torrent has more than 1 file
   * Scheduler plugin revamp by Ben Klein
   * Fix ETA from going backwards
   * UI warning on full HD - no longer just silently pauses torrents
