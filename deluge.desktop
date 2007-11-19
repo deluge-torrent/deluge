@@ -8,6 +8,6 @@ Exec=deluge
 Icon=deluge.png
 Terminal=false
 Type=Application
-Categories=Network
+Categories=Network;
 StartupNotify=true
 MimeType=application/x-bittorrent;
