@@ -167,7 +167,7 @@ class DetailsTabManager(object):
         else:
             self.progress_bar.set_fraction(float(state['progress']))
             self.progress_bar.set_text(common.fpcnt(state["progress"]))
-
+        self.eta.set_text(common.estimate_eta(state))
         self.share_ratio.set_text( '%.3f' % self.manager.calc_ratio(unique_id, 
                                                                     state))
         self.torrent_path.set_text(self.manager.get_torrent_path(unique_id))

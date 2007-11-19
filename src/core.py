@@ -707,7 +707,7 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
         if self.config.get("max_active_torrents") == 0:
             try:
                 self.config.set("max_active_torrents", \
-                    self.config.get("max_active_torrents_tmp")
+                    self.config.get("max_active_torrents_tmp"))
             except:
                 pass
             self.apply_prefs()
