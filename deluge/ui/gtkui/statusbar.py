@@ -43,6 +43,7 @@ class StatusBarItem:
         self._widgets = []
         self._ebox = gtk.EventBox()
         self._hbox = gtk.HBox()
+        self._hbox.set_spacing(5)
         self._image = gtk.Image()
         self._label = gtk.Label()
         self._hbox.add(self._image)
@@ -101,45 +102,39 @@ class StatusBar(component.Component):
         frame = self.statusbar.get_children()[0]
         frame.remove(frame.get_children()[0])
         frame.add(self.hbox)
+        self.statusbar.show_all()
         # Show the not connected status bar
         self.show_not_connected()
 
     def start(self):
         log.debug("StatusBar start..")
         # Add in images and labels
-        self.clear_statusbar()
-        image = gtk.Image()
-        image.set_from_stock(gtk.STOCK_NETWORK, gtk.ICON_SIZE_MENU)
-        self.hbox.pack_start(image, expand=False, fill=False)
-        self.label_connections = gtk.Label()
-        self.hbox.pack_start(self.label_connections, expand=False, fill=False)
-        image = gtk.Image()
-        image.set_from_file(deluge.common.get_pixmap("downloading16.png"))
-        self.hbox.pack_start(image, expand=False, fill=False)
-        self.label_download_speed = gtk.Label()
-        self.hbox.pack_start(self.label_download_speed, 
-            expand=False, fill=False)
-        image = gtk.Image()
-        image.set_from_file(deluge.common.get_pixmap("seeding16.png"))
-        self.hbox.pack_start(image, expand=False, fill=False)
-        self.label_upload_speed = gtk.Label()
-        self.hbox.pack_start(self.label_upload_speed, 
-            expand=False, fill=False)
-        
-        self.statusbar.show_all()
+        self.remove_item(self.not_connected_item)
+        self.connections_item = StatusBarItem(
+            stock=gtk.STOCK_NETWORK)
+        self.hbox.pack_start(
+            self.connections_item.get_eventbox(), expand=False, fill=False)
+        self.download_item = StatusBarItem(
+            image=deluge.common.get_pixmap("downloading16.png"))
+        self.hbox.pack_start(
+            self.download_item.get_eventbox(), expand=False, fill=False)
+        self.upload_item = StatusBarItem(
+            image=deluge.common.get_pixmap("seeding16.png"))
+        self.hbox.pack_start(
+            self.upload_item.get_eventbox(), expand=False, fill=False)
     
     def stop(self):
         # When stopped, we just show the not connected thingy
+        self.remove_item(self.connections_item)
+        self.remove_item(self.download_item)
+        self.remove_item(self.upload_item)
         self.show_not_connected()
         
     def show_not_connected(self):
-        self.clear_statusbar()
-        image = gtk.Image()
-        image.set_from_stock(gtk.STOCK_STOP, gtk.ICON_SIZE_MENU)
-        self.hbox.pack_start(image, expand=False, fill=False)
-        label = gtk.Label(_("Not Connected"))
-        self.hbox.pack_start(label, expand=False, fill=False)
-        self.statusbar.show_all()
+        self.not_connected_item = StatusBarItem(
+            stock=gtk.STOCK_STOP, text=_("Not Connected"))
+        self.hbox.pack_start(
+            self.not_connected_item.get_eventbox(), expand=False, fill=False)
     
     def add_item(self, image=None, stock=None, text=None, callback=None):
         """Adds an item to the status bar"""
@@ -165,8 +160,8 @@ class StatusBar(component.Component):
         max_connections = client.get_config_value("max_connections_global")
         if max_connections < 0:
             max_connections = _("Unlimited")
-            
-        self.label_connections.set_text("%s (%s)" % (
+
+        self.connections_item.set_text("%s (%s)" % (
             client.get_num_connections(), max_connections))
         
         # Set the download speed label
@@ -176,10 +171,10 @@ class StatusBar(component.Component):
         else:
             max_download_speed = "%s %s" % (max_download_speed, _("KiB/s"))
                     
-        self.label_download_speed.set_text("%s/s (%s)" % (
+        self.download_item.set_text("%s/s (%s)" % (
             deluge.common.fsize(client.get_download_rate()), 
             max_download_speed))
-        
+
         # Set the upload speed label
         max_upload_speed = client.get_config_value("max_upload_speed")
         if max_upload_speed < 0:
@@ -187,7 +182,7 @@ class StatusBar(component.Component):
         else:
             max_upload_speed = "%s %s" % (max_upload_speed, _("KiB/s"))
         
-        self.label_upload_speed.set_text("%s/s (%s)" % (
+        self.upload_item.set_text("%s/s (%s)" % (
             deluge.common.fsize(client.get_upload_rate()), 
             max_upload_speed))
 

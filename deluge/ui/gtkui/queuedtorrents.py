@@ -84,9 +84,8 @@ class QueuedTorrents(component.Component):
             self.on_button_add_clicked(None)
             return
         # Make sure status bar info is showing
-        self.status_item = None
-                    
         self.update_status_bar()
+
         # We only want the add button sensitive if we're connected to a host
         self.glade.get_widget("button_add").set_sensitive(True)
         self.run()
