@@ -835,6 +835,10 @@ window, please enter your password"))
     def run_wizard(self, arg=None):
         import wizard
         wizard.WizardGTK()
+        #reload config file
+        import pref
+        self.config = pref.Preferences(os.path.join(common.CONFIG_DIR, "prefs.state"))
+        self.apply_prefs()
 
     def show_preferences_dialog(self):
         active_port = self.manager.get_state()['port']

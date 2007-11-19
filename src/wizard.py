@@ -279,12 +279,13 @@ class WizardGTK:
         """
         import os
         import deluge.common
-        try:
-            firstrun = open(os.path.join(deluge.common.CONFIG_DIR, 'firstrun'), 'w')
-            firstrun.write("")
-            firstrun.close()
-        except:
-            pass
+        if not os.path.exists(os.path.join(deluge.common.CONFIG_DIR, 'firstrun')):
+            try:
+                firstrun = open(os.path.join(deluge.common.CONFIG_DIR, 'firstrun'), 'w')
+                firstrun.write("")
+                firstrun.close()
+            except:
+                pass
 
     def cancel(self, *args):
         """
@@ -300,10 +301,11 @@ class WizardGTK:
         saves configuration settings
         """
         import gtk
-        import deluge_core
         self.create_file()
         self.config.set("random_port", self.wtree.get_widget('chk_random_ports'\
             ).get_active())
+        self.config.set("send_info", self.wtree.get_widget("chk_send_info").\
+            get_active())
         self.config.set("listen_on", [self.wtree.get_widget("spin_port_min")\
             .get_value(), self.wtree.get_widget("spin_port_max").get_value()])
         self.config.set("send_info", self.wtree.get_widget("chk_send_info").\
@@ -323,11 +325,5 @@ class WizardGTK:
         self.config.set("default_download_path", self.wtree.get_widget(\
             'download_path_button').get_filename())
         self.config.save()
-        import deluge.core
-        import deluge.common
-        self.manager = deluge.core.Manager(deluge.common.CLIENT_CODE, deluge.common.CLIENT_VERSION, 
-            '%s %s' % (deluge.common.PROGRAM_NAME, deluge.common.PROGRAM_VERSION), 
-            deluge.common.CONFIG_DIR)
-        self.manager.apply_prefs()
 
         gtk.main_quit()
