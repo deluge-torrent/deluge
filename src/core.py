@@ -741,14 +741,14 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
         self.apply_prefs_per_torrent(unique_ID)
 
     def pause_all(self):
-        if self.config.set('max_active_torrents') != 0:
+        if self.config.get('max_active_torrents') != 0:
             self.config.set('max_active_torrents_tmp', \
                 self.config.get('max_active_torrents'))
             self.config.set('max_active_torrents', 0)
             self.apply_prefs()
 
     def resume_all(self):
-        if self.config.set('max_active_torrents') == 0:
+        if self.config.get('max_active_torrents') == 0:
             self.config.set('max_active_torrents', \
                 self.config.get('max_active_torrents_tmp'))
             self.apply_prefs()
