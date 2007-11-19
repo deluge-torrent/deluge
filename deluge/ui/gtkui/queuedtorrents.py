@@ -39,6 +39,7 @@ import pkg_resources
 import deluge.ui.component as component
 import deluge.ui.client as client
 import deluge.common
+from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
 class QueuedTorrents(component.Component):
@@ -47,10 +48,12 @@ class QueuedTorrents(component.Component):
         self.queue = []
         self.status_item = None
         
+        self.config = ConfigManager("gtkui.conf")
         self.glade = gtk.glade.XML(
                     pkg_resources.resource_filename("deluge.ui.gtkui", 
                                             "glade/queuedtorrents.glade"))
-        
+        self.glade.get_widget("chk_autoadd").set_active(
+            self.config["autoadd_queued"])        
         self.dialog = self.glade.get_widget("queued_torrents_dialog")
         self.dialog.set_icon(deluge.common.get_logo(32))
         
@@ -58,7 +61,8 @@ class QueuedTorrents(component.Component):
             "on_button_remove_clicked": self.on_button_remove_clicked,
             "on_button_clear_clicked": self.on_button_clear_clicked,
             "on_button_close_clicked": self.on_button_close_clicked,
-            "on_button_add_clicked": self.on_button_add_clicked
+            "on_button_add_clicked": self.on_button_add_clicked,
+            "on_chk_autoadd_toggled": self.on_chk_autoadd_toggled
         })
     
         self.treeview = self.glade.get_widget("treeview")
@@ -75,8 +79,13 @@ class QueuedTorrents(component.Component):
     def start(self):
         if len(self.queue) == 0:
             return
+
+        if self.config["autoadd_queued"]:
+            self.on_button_add_clicked(None)
+            return
         # Make sure status bar info is showing
         self.status_item = None
+                    
         self.update_status_bar()
         # We only want the add button sensitive if we're connected to a host
         self.glade.get_widget("button_add").set_sensitive(True)
@@ -85,6 +94,7 @@ class QueuedTorrents(component.Component):
     def stop(self):
         # We only want the add button sensitive if we're connected to a host
         self.glade.get_widget("button_add").set_sensitive(False)
+        self.update_status_bar()
            
     def add_to_queue(self, torrents):
         """Adds the list of torrents to the queue"""
@@ -164,3 +174,8 @@ class QueuedTorrents(component.Component):
         del self.queue[:]
         self.dialog.hide()
         self.update_status_bar()
+        
+    def on_chk_autoadd_toggled(self, widget):
+        self.config["autoadd_queued"] = widget.get_active()
+        
+    

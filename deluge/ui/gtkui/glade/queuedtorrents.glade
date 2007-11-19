@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.0 on Sat Nov 17 02:37:49 2007 -->
+<!--Generated with glade3 3.4.0 on Sun Nov 18 19:38:03 2007 -->
 <glade-interface>
   <widget class="GtkDialog" id="queued_torrents_dialog">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -127,6 +127,7 @@
                 <property name="label" translatable="yes">Automatically add torrents on connect</property>
                 <property name="response_id">0</property>
                 <property name="draw_indicator">True</property>
+                <signal name="toggled" handler="on_chk_autoadd_toggled"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
