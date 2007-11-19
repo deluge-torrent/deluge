@@ -134,10 +134,6 @@ class TorrentCreator:
       (start, end) = trackers.get_bounds()
       trackers = trackers.get_text(start, end).strip()
       
-      if trackers == "" or trackers == None:
-        deluge.dialogs.show_popup_warning(self.dialog, _("You must specify at least one tracker."))
-        return False
-
       comments = self.glade.get_widget("comments_textview").get_buffer()
       (start, end) = comments.get_bounds()
       comments = comments.get_text(start, end).strip()

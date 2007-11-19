@@ -7,6 +7,7 @@ Deluge 0.5.7 (xx November 2007)
   * Fix ratio bugs (hopefully for the last time)
   * Add preference to only show file selection popup if torrent has multiple files
   * Fix pause all and resume all bugs
+  * Allow torrent creation with no trackers
   * Scheduler plugin revamp by Ben Klein
   * Fix ETA from going backwards
   * UI warning on full HD - no longer just silently pauses torrents
