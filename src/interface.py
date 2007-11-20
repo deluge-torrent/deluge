@@ -1022,14 +1022,6 @@ window, please enter your password"))
         # Load plugins after we showed main window (if not started in tray)
         self.load_plugins()
         self.load_tabs_order()
-        #now we load blocklist plugin separately since it takes much longer
-        enable_plugins = self.config.get('enabled_plugins').split(':')
-
-        if "Blocklist Importer" in enable_plugins:
-            try:
-                self.plugins.enable_plugin("Blocklist Importer")
-            except KeyError:
-                pass
 
         try:
             gobject.threads_init()
@@ -1047,6 +1039,8 @@ window, please enter your password"))
                     self.plugins.enable_plugin(plugin)
                 except KeyError:
                     pass
+        if "Blocklist Importer" in enable_plugins:
+            self.plugins.enable_plugin("Blocklist Importer")
 
     ## Call via a timer to update the interface
     def update(self):
