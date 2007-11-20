@@ -288,6 +288,10 @@ class Manager:
         # Stop DHT, if needed
         self.set_DHT(False)
 
+        if self.config.get("use_compact_storage"):
+            for unique_ID in self.unique_IDs.keys():
+                self.pause(unique_ID)
+
         # Save fastresume data
         print "Saving fastresume data..."
         self.save_fastresume_data()
@@ -705,11 +709,8 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
 
     def set_user_pause(self, unique_ID, new_value, enforce_queue=True):
         if self.config.get("max_active_torrents") == 0:
-            try:
-                self.config.set("max_active_torrents", \
-                    self.config.get("max_active_torrents_tmp"))
-            except:
-                pass
+            self.config.set("max_active_torrents", \
+                self.config.get("max_active_torrents_tmp"))
             self.apply_prefs()
         self.unique_IDs[unique_ID].user_paused = new_value
         if enforce_queue:
