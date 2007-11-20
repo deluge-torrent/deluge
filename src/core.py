@@ -401,7 +401,7 @@ class Manager:
                 deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
         else:
             try:
-                os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
+                os.remove(self.unique_IDs[uid].filename + ".fastresume")
             except:
                 pass
             deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
