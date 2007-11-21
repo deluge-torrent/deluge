@@ -207,43 +207,59 @@ def exec_command(executable, *parameters):
         warning.destroy()
 
 def send_info():
-    import urllib
-    import platform
-    import gtk
-    import os
-    import common
+    import threading
+    class Send_Info_Thread(threading.Thread):
+       def __init__(self):
+           threading.Thread.__init__(self)
+       def run(self):
+           import urllib
+           import platform
+           import gtk
+           import os
+           import common
 
-    pygtk = '%i.%i.%i' %(gtk.pygtk_version[0],gtk.pygtk_version[1],gtk.pygtk_version[2])
+           pygtk = '%i.%i.%i' %(gtk.pygtk_version[0],gtk.pygtk_version[1],gtk.pygtk_version[2])
 
-    urllib.urlopen("http://download.deluge-torrent.org/stats.php?processor=" + \
-        platform.machine() + "&python=" + platform.python_version() \
-        + "&os=" + platform.system() + "&pygtk=" + pygtk)
-
-    f = open(os.path.join(CONFIG_DIR, 'infosent'), 'w')
-    f.write("")
-    f.close
+           try:
+               urllib.urlopen("http://download.deluge-torrent.org/stats.php?processor=" + \
+                   platform.machine() + "&python=" + platform.python_version() \
+                   + "&os=" + platform.system() + "&pygtk=" + pygtk)
+           except IOError:
+               print "Network error while trying to send info"
+           else:
+               f = open(os.path.join(CONFIG_DIR, 'infosent'), 'w')
+               f.write("")
+               f.close
+    Send_Info_Thread().start()
 
 def new_release_check():
-    import urllib
-    try:
-        new_release = urllib.urlopen("http://download.deluge-torrent.org/\
+    import threading
+    class ReleaseThread(threading.Thread):
+       def __init__(self):
+           threading.Thread.__init__(self)
+       def run(self):
+           import urllib
+           try:
+               new_release = urllib.urlopen("http://download.deluge-torrent.org/\
 version").read().strip()
-    except IOError:
-        print "Network error while trying to check for a newer version of \
+           except IOError:
+               print "Network error while trying to check for a newer version of \
 Deluge"
-        new_release = ""
+               new_release = ""
 
-    if new_release >  PROGRAM_VERSION:
-        import gtk
-        import dialogs
-        gtk.gdk.threads_enter()
-        result = dialogs.show_popup_question(None, _("There is a newer version \
+           if new_release >  PROGRAM_VERSION:
+               import gtk
+               import dialogs
+               gtk.gdk.threads_enter()
+               result = dialogs.show_popup_question(None, _("There is a newer version \
 of Deluge.  Would you like to be taken to our download site?"))
-        gtk.gdk.threads_leave()
-        if result:
-            open_url_in_browser('http://download.deluge-torrent.org/')
-        else:
-            pass
+               gtk.gdk.threads_leave()
+               if result:
+                   open_url_in_browser('http://download.deluge-torrent.org/')
+               else:
+                   pass
+
+    ReleaseThread().start()
 
 # Encryption States
 class EncState:

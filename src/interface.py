@@ -219,6 +219,7 @@ class DelugeGTK:
                     "tor_start": self.tor_start,
                     "tor_pause": self.tor_pause,
                     "update_tracker": self.update_tracker,
+                    "scrape_tracker": self.scrape_tracker,
                     "clear_finished": self.clear_finished,
                     "queue_up": self.q_torrent_up,
                     "queue_down": self.q_torrent_down
@@ -1468,6 +1469,11 @@ this torrent will be deleted!") + "</i>")
         unique_ids = self.get_selected_torrent_rows()
         for uid in unique_ids:
             self.manager.update_tracker(uid)
+
+    def scrape_tracker(self, obj=None):
+        unique_ids = self.get_selected_torrent_rows()
+        for uid in unique_ids:
+            self.manager.scrape_tracker(uid)
     
     def clear_finished(self, obj=None):
         print "Clearing completed torrents"
@@ -1593,7 +1599,8 @@ want to remove all seeding torrents?")):
             pref_name = columns + '_width'
             column = getattr(self, columns + '_column') 
             self.config.set(pref_name, column.get_width())
-   
+        self.config.save()
+
     # Saves the tabs order (except the 'Details' tab)
     def save_tabs_order(self):
         tabs_order = []

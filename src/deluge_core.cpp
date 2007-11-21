@@ -429,12 +429,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
 static PyObject *torrent_quit(PyObject *self, PyObject *args)
 {
-    printf("core: removing torrents...\r\n");
-    delete M_torrents;
-    printf("core: removing settings...\r\n");
-    delete M_settings;
-    printf("core: shutting down session...\r\n");
-    delete M_ses;
+    M_ses->abort();
     Py_DECREF(M_constants);
 
     printf("core shut down.\r\n");
@@ -1995,6 +1990,24 @@ static PyObject *torrent_remap_files(PyObject *self, PyObject *args)
 }
   Py_INCREF(Py_None); return Py_None;
 }
+static PyObject *torrent_scrape_tracker(PyObject *self, PyObject *args)
+{
+    python_long unique_ID;
+    if (!PyArg_ParseTuple(args, "i", &unique_ID))
+        return NULL;
+
+    long index = get_index_from_unique_ID(unique_ID);
+    if (PyErr_Occurred())
+        return NULL;
+
+    torrent_handle& h = M_torrents->at(index).handle;
+    // For valid torrents, save fastresume data
+    if (h.is_valid())
+    {
+    h.scrape_tracker();
+    }
+  Py_INCREF(Py_None); return Py_None;
+}
 
 //====================
 // Python Module data
@@ -2061,6 +2074,7 @@ static PyMethodDef deluge_core_methods[] =
     {"get_all_piece_info",              torrent_get_all_piece_info,               METH_VARARGS,   "."},
     {"get_file_piece_range",            torrent_get_file_piece_range,             METH_VARARGS,   "."},
     {"remap_files",                     torrent_remap_files,                      METH_VARARGS,   "."},
+    {"scrape_tracker",                  torrent_scrape_tracker,                   METH_VARARGS,   "."},
     {NULL}
 };
 

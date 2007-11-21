@@ -1,5 +1,7 @@
 Deluge 0.5.7 (xx November 2007)
+  * Scrape support
   * Manual force-recheck
+  * Add local peer discovery (aka local service discovery)
   * Blocklist plugin will now display errors, instead of just crashing on a bad
   list or wrong type
   * Add torrent in paused state option
@@ -7,6 +9,7 @@ Deluge 0.5.7 (xx November 2007)
   * Fix ratio bugs (hopefully for the last time)
   * Add preference to only show file selection popup if torrent has multiple files
   * Fix pause all and resume all bugs
+  * Fix client not loading if our website goes down (new version check failing)
   * Allow torrent creation with no trackers
   * Scheduler plugin revamp by Ben Klein
   * Fix ETA from going backwards

@@ -78,7 +78,7 @@ PREF_FUNCTIONS = {
     "max_upload_speed_bps" : deluge_core.set_upload_rate_limit,
     "enable_dht" : None, # not a normal pref in that is is applied only on start
     "use_upnp" : deluge_core.use_upnp,
-#    "use_lsd" : deluge_core.use_lsd,
+    "use_lsd" : deluge_core.use_lsd,
     "use_natpmp" : deluge_core.use_natpmp,
     "use_utpex" : deluge_core.use_utpex,
 }
@@ -731,6 +731,9 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
 
     def update_tracker(self, unique_ID):
         deluge_core.reannounce(unique_ID)
+
+    def scrape_tracker(self, unique_ID):
+        deluge_core.scrape_tracker(unique_ID)
 
     def pause(self, unique_ID):
         deluge_core.pause(unique_ID)
