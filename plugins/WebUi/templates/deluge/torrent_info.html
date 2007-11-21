@@ -1,87 +1,22 @@
 $def with (torrent)
+
 $:(render.header(torrent.message + '/' + torrent.name))
 <div class="panel">
 <h3>$_('Details')</h3>
-<table width="100%"><tr>
-<td colspan=3 style="background-color:#999;-moz-border-radius:5px;">
 
-    <div class="progress_bar" style="width:$torrent.progress%;
-    text-align:center;font-weight:bold;">
+$:render.tab_meta(torrent)
 
-    $torrent.progress %</div>
-</td>
-</tr><td width=30%%>
-<table>
+$if (torrent.action == 'start'):
+    $:render.part_button('POST', '/torrent/start/' + str(torrent.id), _('Resume'), 'tango/start.png')
+$else:
+    $:render.part_button('POST', '/torrent/stop/' + str(torrent.id), _('Pause'), 'tango/pause.png')
 
-<tr><td class="info_label">$_('Downloaded'):</td>
-<td class="info_value">$torrent.calc_total_downloaded</td></tr>
-
-<tr><td class="info_label">$_('Uploaded'):</td>
-<td class="info_value">$torrent.calc_total_uploaded</td>
-</tr>
-
-<tr><td class="info_label">$_('Seeders'):</td>
-<td class="info_value">$torrent.num_seeds  ($torrent.total_seeds )</td></tr>
-
-<tr><td class="info_label">$_('Share Ratio'):</td>
-<td class="info_value">$("%.3f" % torrent.ratio)</td></tr>
-
-<tr><td class="info_label">$_('Pieces'):</td>
-<td class="info_value">$torrent.num_pieces  x $fsize(torrent.piece_length) </td>
-</tr>
-
-</table>
-</td><td width=30%%>
-
-<table>
-<tr><td class="info_label">$_('Speed'):</td><td class="info_value">
-$fspeed(torrent.download_rate)</td></td></tr>
-
-<tr><td class="info_label">$_('Speed'):</td>
-<td class="info_value">$fspeed(torrent.upload_rate)</td></tr>
-
-<tr><td class="info_label">$_('Peers'):</td>
-<td class="info_value">$torrent.num_peers  ($torrent.total_peers )</td></tr>
-
-<tr><td class="info_label">$_('ETA'):</td>
-<td class="info_value">$torrent.eta </td></tr>
-
-<tr><td class="info_label">$_('Availability'):</td>
-<td class="info_value">$("%.3f" % torrent.distributed_copies)</td></td></tr>
-
-</table>
-
-</td><td width=30%%>
-
-<table>
-
-<tr><td class="info_label">$_('Total Size'):</td>
-<td class="info_value">$fspeed(torrent.total_size)</td></tr>
-
-<tr><td class="info_label">$_('# Of Files'):</td>
-<td class="info_value">$torrent.num_files</td></tr>
-
-<tr><td class="info_label">$_('Tracker'):</td>
-<td class="info_value">$(crop(torrent.tracker, 30))</td></tr>
-
-<tr><td class="info_label">$_('Tracker Status'):</td>
-<td class="info_value">$torrent.tracker_status </td></tr>
-
-<tr><td class="info_label">$_('Next Announce'):</td>
-<td class="info_value">$torrent.next_announce </td></tr>
-
-</table>
-
-</table>
-<form action="/torrent/pause?redir=/torrent/info/$torrent.id" method="POST"
-class="deluge_button">
-
-<input type="image" src="/static/images/$(torrent.calc_state_str)16.png"
-            name="$torrent.action" value="$torrent.id">
-</form>
 
 $:render.part_button('GET', '/torrent/delete/' + str(torrent.id), _('Remove'), 'tango/user-trash.png')
 $:render.part_button('POST', '/torrent/reannounce/' + str(torrent.id), _('Reannounce'), 'tango/view-refresh.png')
+
+$:render.part_button('POST', '/torrent/queue/up/' + str(torrent.id), _('Queue Up'), 'tango/queue-up.png')
+$:render.part_button('POST', '/torrent/queue/down/' + str(torrent.id), _('Queue Down'), 'tango/queue-down.png')
 
 <br>
 <!--
@@ -109,13 +44,6 @@ function toggle_dump(){
 
 
 
-<div class='panel'>
-$_('Queue pos:') $torrent.queue_pos
-
-$:render.part_button('POST', '/torrent/queue/up/' + str(torrent.id), _('Queue Up'), 'tango/up.png')
-
-$:render.part_button('POST', '/torrent/queue/down/' + str(torrent.id), _('Queue Down'), 'tango/down.png')
-</div>
 
 $:part_stats()
 

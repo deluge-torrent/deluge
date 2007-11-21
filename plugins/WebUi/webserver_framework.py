@@ -224,8 +224,10 @@ def get_torrent_status(torrent_id):
     else:
         status.action = "stop"
 
-    if status.paused:
+    if status.user_paused:
         status.message = _("Paused %s%%") % status.progress
+    elif status.paused:
+        status.message = _("Queued %s%%") % status.progress
     else:
         status.message = "%s %i%%" % (ws.STATE_MESSAGES[status.state]
         , status.progress)
@@ -293,6 +295,7 @@ template.Template.globals.update({
     'rev': 'rev.%s'  % (REVNO, ),
     'version': VERSION,
     'getcookie':getcookie,
+    'js_enabled': lambda : ws.config.get('use_javascript'),
     'get': lambda (var): getattr(web.input(**{var:None}), var) # unreadable :-(
 })
 #/template-defs
@@ -304,7 +307,12 @@ def create_webserver(urls, methods):
 
     func = webapi.wsgifunc(webpyfunc(urls, methods, False))
     server_address=("0.0.0.0", int(ws.config.get('port')))
+
     server = CherryPyWSGIServer(server_address, func, server_name="localhost")
+    if ws.config.get('use_https'):
+        server.ssl_certificate = ws.config.get('ssl_certificate')
+        server.ssl_private_key = ws.config.get('ssl_private_key')
+
     print "http://%s:%d/" % server_address
     return server
 

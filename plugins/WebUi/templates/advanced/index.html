@@ -1,0 +1,105 @@
+$def with (torrent_list)
+$:render.header(_('Torrent list'))
+
+
+<a href='/torrent/add' >[Add]</a>
+<a href='#' onclick=' toolbar_post("/torrent/queue/up/")'>[Up]</a>
+<a href='#' onclick=' toolbar_post("/torrent/queue/down/")'>[Down]</a>
+<a href='#' onclick=' toolbar_get("/torrent/delete/")'>[Delete]</a>
+<a href='#' onclick=' toolbar_get("/torrent/info/")'>[Info]</a>
+<a href='#' onclick=' toolbar_post("/torrent/stop/")'>[Pause]</a>
+<a href='#' onclick=' toolbar_post("/torrent/start/")'>[Start]</a>
+
+
+<!--
+$if getcookie('auto_refresh') == '1':
+    <a href='#' onclick=' toolbar_post("/refresh/off/")'>[Auto Refresh:disable]</a>
+    <a href='#' onclick=' toolbar_get("/refresh/set/")'>[Auto Refresh:set]</a>
+$else:
+    <a href='#' onclick=' toolbar_post("/refresh/on/")'>[Auto Refresh:enable]</a>
+$#end
+-->
+
+
+<form action="/torrent/pause" method="POST">
+
+<div id="tableContainer" class="tableContainer">
+<table class="torrent_list" border=1>
+<thead class="fixedHeader">
+<tr>
+        $:(sort_head('calc_state_str', 'S'))
+        $:(sort_head('queue_pos', '#'))
+        $:(sort_head('name', _('Name')))
+        $:(sort_head('total_size', _('Size')))
+        $:(sort_head('progress', _('Progress')))
+        $:(sort_head('num_seeds', _('Seeders')))
+        $:(sort_head('num_peers', _('Peers')))
+        $:(sort_head('download_rate', _('Download')))
+        $:(sort_head('upload_rate', _('Upload')))
+        $:(sort_head('eta', _('Eta')))
+        $:(sort_head('distributed_copies', _('Ava')))
+        $:(sort_head('ratio', _('Ratio')))
+    </tr>
+</thead>
+<tbody class="scrollContent">
+$#4-space indentation is mandatory for for-loops in templetor!
+$for torrent in torrent_list:
+    <tr class="torrent_table" onclick="on_click_row(event, '$torrent.id')" id="torrent_$torrent.id">
+    <td><input type="image"
+        src="/static/images/$(torrent.calc_state_str)16.png"
+        name="$torrent.action" value="$torrent.id"
+        onclick="state.row_js_continue = false;">
+    </td>
+    <td>$torrent.queue_pos</td>
+    <td style="width:100px; overflow:hidden;white-space: nowrap">
+        $(crop(torrent.name, 40))</td>
+    <td>$fsize(torrent.total_size)</td>
+    <td class="progress_bar">
+        <div class="progress_bar_outer">
+            <div class="progress_bar" style="width:$(torrent.progress)%">
+            $torrent.message
+            </div>
+        </div>
+    </td>
+    <td>$torrent.num_seeds ($torrent.total_seeds)</td>
+    <td>$torrent.num_peers ($torrent.total_peers)</td>
+    <td>$fspeed(torrent.download_rate)</td>
+    <td>$fspeed(torrent.upload_rate)</td>
+    <td>$torrent.eta</td>
+    <td>$("%.3f" % torrent.distributed_copies)</td>
+    <td>$("%.3f" % torrent.ratio)</td\>
+    </tr>
+</tbody>
+</table>
+</div>
+
+</form>
+
+$:part_stats()
+
+<div class="panel" id="info_panel_div">
+    <iframe
+    style="border-style:hidden;width:740px;height:200px;"
+    id="torrent_info">
+    </iframe>
+</div>
+
+
+
+<script language='javascript'>
+    /*on_click_action = open_details;*/
+    on_click_action = on_click_row_js;
+    reselect_rows();
+    var id = state.selected_rows[0];
+    if (id) {
+        open_inner_details(id);
+    }
+</script>
+
+<form id='toolbar_form' method="POST" action="changed by javascript">
+
+</form>
+
+
+$:render.footer()
+

@@ -95,7 +95,8 @@ class DbusManager(dbus.service.Object):
             "total_size": state["total_size"],
             "num_pieces": state["num_pieces"],
             "state": state['state'],
-            "paused": self.core.is_user_paused(torrent_id),
+            "user_paused": self.core.is_user_paused(torrent_id),
+            "paused":state['is_paused'],
             "progress": int(state["progress"] * 100),
             "next_announce": state["next_announce"],
             "total_payload_download":state["total_payload_download"],
@@ -153,16 +154,22 @@ class DbusManager(dbus.service.Object):
             self.core.update_tracker(torrent_id)
 
     @dbus.service.method(dbus_interface=dbus_interface,
-        in_signature="sbb", out_signature="")
-    def remove_torrent(self, torrent_id, data_also, torrent_also):
+        in_signature="asbb", out_signature="")
+    def remove_torrent(self, torrent_ids, data_also, torrent_also):
         """remove a torrent,and optionally data and torrent
         additions compared to 0.6 interface: (data_also, torrent_also)
         """
-        torrent_id = int(torrent_id)
-        self.core.remove_torrent(torrent_id, bool(data_also)
-            ,bool( torrent_also))
-        #this should not be needed:
-        self.interface.torrent_model_remove(torrent_id)
+        for torrent_id in torrent_ids:
+            torrent_id = int(torrent_id)
+            self.core.remove_torrent(torrent_id, bool(data_also)
+                ,bool( torrent_also))
+
+            #this should not be needed:
+            gtk.gdk.threads_enter()
+            try:
+                self.interface.torrent_model_remove(torrent_id)
+            except:
+                pass
 
     @dbus.service.method(dbus_interface=dbus_interface,
         in_signature="s", out_signature="b")
@@ -174,7 +181,6 @@ class DbusManager(dbus.service.Object):
     @dbus.service.method(dbus_interface=dbus_interface,
         in_signature="s", out_signature="b")
     def queue_up(self, torrent_id):
-        print 'UP!'
         self.core.queue_up(int(torrent_id))
         return True
 

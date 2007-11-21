@@ -1,0 +1,136 @@
+/*-----------------------------------------------------------Theme Name: SimpleTheme URI: http://deluge-torrent.orgDescription: Deluge ThemeVersion: 1.0-----------------------------------------------------------*/BODY { background: #304663 url(../../static/images/simple_bg.jpg) repeat-x;font-family: Bitstream Vera; font-size: 10pt; margin: 0;
+ padding:0;
+ border:0;}/* GENERIC STYLES */a img {border: 0px}hr {color: #627082; margin: 15px 0 15px 0;}
+td {font-family: Bitstream Vera;}/* STRUCTURE */#page { min-width: 800px; margin-left: auto; margin-right: auto;
+ margin: 0;
+ padding:0;
+ font-family: Bitstream Vera;}#main_content {	background:url(../../static/images/simple_line.jpg) repeat-x;
+	margin: 0;
+	padding:0;}#simple_logo {  background:url(../../static/images/simple_logo.jpg) no-repeat;}#main {
+	margin: 0;
+	padding:0;	padding-top: 20px;	color: #fff;}#main form table {	border: #2a425c 1px solid;}#main form table tr  {  border: 0px;}#main form table tr th { background: #1f3044; font-size: 16px; border: 0px;
+ white-space: nowrap;}#main form table tr td{ border: 0px; color: #fff; font-size: 12px; white-space: nowrap;}#main form table tr th a { color: #8fa6c3; font-size: 16px; white-space: nowrap;}#main form table tr th a, a:active, a:visited { color: #8fa6c3; text-decoration: none; }#main form table tr th  a:hover {color: #fff; text-decoration: underline;}#main form table tr td a { color: #fff; font-size: 12px;white-space: nowrap;}#main form table tr td a, a:active, a:visited { color: #fff; text-decoration: none;}#main form table tr td  a:hover {color: #fff; text-decoration: underline;}#main a { color: #fff; font-size: 12px;}#main a, a:active, a:visited { color: #fff; text-decoration: none;}#main  a:hover {color: #fff; text-decoration: underline;}.info { text-align: right; padding: 0 50px 0 0; color: #8fa6c3; font-size: 16px; letter-spacing: 4px; font-weight: bold;}.title { color: #dce4ee; font-size: 32px; padding: 10px 50px 0 0; text-align: right;}.title a, a:active, a:visited { color: #dce4ee; text-decoration: none;}.title a:hover {color: #fff; text-decoration: underline;}#button { border:1px solid #23344b; background: #99acc3; color: #000;
+ font-family: Bitstream Vera; font-size:10px; margin-top:5px;}INPUT{ border:1px solid #23344b; background: #99acc3; color: #000;}TEXTAREA{ border:1px solid #23344b; background: #99acc3; width:480px;}.footertext a { color: #c0c0c0; text-decoration:none;}.footertext a:visited { color: #c0c0c0; text-decoration:none;}.footertext a:active { color: #c0c0c0; text-decoration:none;}.footertext  a:hover {color: #fff; text-decoration: underline;}.footertext { text-align: center; padding: 60px 0 0 0; font-size: 8pt; left: -100px;font-family: Bitstream Vera; color: #fff; position: relative;}.clearfix:after {    content: ".";    display: block;    height: 0;    clear: both;    visibility: hidden;}div.progress_bar{	background-color:#4573a5;	/*color:blue;*/	-moz-border-radius:5px; /*ff only setting*/	}
+
+div.progress_bar_outer { /*used in table-view*/
+	width:150px;
+}
+td.progress_bar {	white-space: nowrap;}td.info_label {	 font-weight: bold;}td { font-size: 10pt; color: #d1dae5; white-space: nowrap;}tr { font-size: 10pt; color: #d1dae5;}
+
+div.panel {
+	padding:10px;
+	width:750px;
+	background-color: #37506f;
+	-moz-border-radius:10px; /*ff-only!*/
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+
+/*New styles:*/
+
+div.deluge_button {
+	display:inline;
+}
+form.deluge_button {
+	display:inline;
+}
+button.deluge_button  {
+	background-color: #37506f;
+	border:1px solid #68a;
+
+	background: #99acc3;
+	color: #000;
+	vertical-align:middle;
+	-moz-border-radius:7px;
+}
+button.deluge_button:hover {
+	background-color:#68a;
+}
+div.error {
+	background-color:#FFFFFF;
+	color:#AA0000;
+	font-weight:bold;
+	-moz-border-radius:10px;
+	width:200px;
+	margin-bottom:20px;
+	padding:10px;
+
+}
+
+tr.torrent_table:hover {
+	background-color:#68a;
+}
+
+tr.torrent_table_selected {
+	background-color:#900;
+}
+
+th.torrent_table:hover {
+	background-color:#68a;
+}
+
+img.button {
+		margin-bottom:0px;
+		padding:0px;
+		position:relative;
+		top:2px;
+}
+
+body.inner {
+		background:none;
+}
+
+#stats_panel  {
+		-moz-border-radius:0px;
+		width:100%;
+		position:fixed;
+		bottom:0px;
+		left:0px;
+        background-color:#304663;
+		margin: 0;
+		padding:0;
+		text-align:left;
+		height:20px;
+}
+
+#about {
+		position:fixed;
+		bottom:0px;
+		right:10px;
+}
+
+#info_panel_div2 {
+	position:fixed;
+	bottom:10px;
+	right:0px;
+	width:100%;
+	background-color:#304663;
+}
+
+#refresh_panel {
+		-moz-border-radius:0px;
+		width:100%;
+		position:fixed;
+		bottom:20px;
+		left:0px;
+        background-color:#304663;
+		margin: 0;
+		padding:0;
+		text-align:right;
+		height:20px;
+}
+
+#refresh_panel button {
+        background-color:#304663;
+		color:#FFFFFF;
+		border:0;
+		position:relative;
+		top:0px;
+		height:20px;
+}
+#refresh_panel button:hover {
+		text-decoration: underline;
+}
+
+/* Hides from IE-mac \*/* html .clearfix {height: 1%;}.clearfix {display: block;}/* End hide from IE-mac */
