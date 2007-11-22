@@ -16,7 +16,7 @@
 
 ### Initialization ###
 
-plugin_name = _("Torrent Creator")
+plugin_name = "Torrent Creator"
 plugin_author = "Andrew Resch"
 plugin_version = "0.1"
 plugin_description = _("A torrent creator plugin")

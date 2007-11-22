@@ -3,7 +3,7 @@
 # Distributed under the same terms as Deluge
 ##
 
-plugin_name = _("Blocklist Importer")
+plugin_name = "Blocklist Importer"
 plugin_author = "Steve 'Tarka' Smith"
 plugin_version = "0.4"
 plugin_description = _("""

@@ -30,7 +30,7 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-plugin_name = _("Torrent Search")
+plugin_name = "Torrent Search"
 plugin_author = "Zach Tibbitts"
 plugin_version = "0.5"
 plugin_description = _("A searchbar for torrent search engines")

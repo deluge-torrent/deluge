@@ -16,7 +16,7 @@
 
 ### Initialization ###
 
-plugin_name = _("Web Seed")
+plugin_name = "Web Seed"
 plugin_author = "Marcos Pinto"
 plugin_version = "0.1"
 plugin_description = _("This plugin allows users to add web seeds to their \

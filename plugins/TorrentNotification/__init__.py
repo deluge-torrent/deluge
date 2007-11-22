@@ -16,7 +16,7 @@
 
 ### Initialization ###
 
-plugin_name = _("Torrent Notification")
+plugin_name = "Torrent Notification"
 plugin_author = "Micah Bucy"
 plugin_version = "0.1"
 plugin_description = _("Make tray icon blink when torrent finishes downloading \

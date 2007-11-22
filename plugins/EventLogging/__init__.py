@@ -16,7 +16,7 @@
 
 ### Initialization ###
 
-plugin_name = _("Event Logging")
+plugin_name = "Event Logging"
 plugin_author = "Micah Bucy"
 plugin_version = "0.2"
 plugin_description = _("""

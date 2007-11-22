@@ -16,7 +16,7 @@
 
 ### Initialization ###
 
-plugin_name = _("Move Torrent")
+plugin_name = "Move Torrent"
 plugin_author = "Marcos Pinto"
 plugin_version = "0.2"
 plugin_description = _("This plugin allows users to move the torrent to a \

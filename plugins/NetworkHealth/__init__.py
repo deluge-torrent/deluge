@@ -30,7 +30,7 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-plugin_name = _("Network Health Monitor")
+plugin_name = "Network Health Monitor"
 plugin_author = "Alon Zakai, Zach Tibbitts"
 plugin_version = "0.2"
 plugin_description = _("Network Health Monitor plugin\n\nWritten by Kripkenstein")

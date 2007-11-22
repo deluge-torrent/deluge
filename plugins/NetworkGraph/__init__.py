@@ -30,9 +30,9 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-plugin_name = _("Network Activity Graph")
-plugin_author = "Alon Zakai, Zach Tibbitts"
-plugin_version = "0.2"
+plugin_name = "Network Activity Graph"
+plugin_author = "Alon Zakai, Zach Tibbitts, Cinar Sahin"
+plugin_version = "0.2.1"
 plugin_description = _("Network Activity Graph plugin\n\nWritten by Kripkenstein")
 
 
@@ -134,6 +134,11 @@ class NetworkGraph:
             else:
                 self.glade.get_widget("Line_Scale").get_adjustment().set_value(2);
 
+            if (self.config.get("length") > 59) & (self.config.get("length") < 3601):
+		self.glade.get_widget("History_Scale").get_adjustment().set_value(self.config.get("length"))
+	    else:
+		self.glade_get_widget("History_Scale").get_adjustment().set_value(60);
+
             if self.config.get("colors_set"):
                 dl_color = self.config.get("down_line_color")
                 df_color = self.config.get("down_fill_color")
@@ -177,6 +182,7 @@ class NetworkGraph:
             self.glade.get_widget("Upload_Fill").set_color(gtk.gdk.Color(21627,21627,65535))
             self.glade.get_widget("Upload_Fill").set_alpha(32768)
             self.glade.get_widget("Line_Scale").get_adjustment().set_value(4);
+	    self.glade.get_widget("History_Scale").get_adjustment().set_value(60);
             self.glade.get_widget("Mean_Speed_Check").set_active(True)
             self.glade.get_widget("Max_Speed_Check").set_active(False)
             self.glade.get_widget("Legend_Check").set_active(True)
@@ -244,6 +250,11 @@ class NetworkGraph:
             else:
                 self.tab_graph.line_size = 4
 
+            if (self.config.get("length") > 59) & (self.config.get("length") < 3601):
+                self.tab_graph.length = self.config.get("length")
+            else:
+                self.tab_graph.length = 60
+
             if self.config.get("mean_selected"):
                 self.tab_graph.enable_mean()
             else:
@@ -270,6 +281,7 @@ class NetworkGraph:
             self.tab_graph.enable_mean()
             self.tab_graph.enable_legend()
             self.tab_graph.line_size = 4
+	    self.tab_graph.length = 60
 
     def reset_download(self,src):
         self.glade.get_widget("Download_Line_Check").set_active(True)
@@ -316,6 +328,7 @@ class NetworkGraph:
 
         self.config.set("colors_set",True)
         self.config.set("line_size",self.glade.get_widget("Line_Scale").get_adjustment().get_value())
+	self.config.set("length",self.glade.get_widget("History_Scale").get_adjustment().get_value())
         self.config.set("mean_selected",self.glade.get_widget("Mean_Speed_Check").get_active())
         self.config.set("max_selected",self.glade.get_widget("Max_Speed_Check").get_active())
         self.config.set("legend_selected",self.glade.get_widget("Legend_Check").get_active())

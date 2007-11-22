@@ -31,24 +31,22 @@
 #  statement from all source files in the program, then also delete it here.
 
 import gettext
+import gtk.glade
 import locale
 import os
 import common
 
 APP = 'deluge'
 DIR = os.path.join(common.INSTALL_PREFIX, 'share', 'locale')
-if not common.windows_check():
+try:
+    locale.setlocale(locale.LC_ALL, '')
+except:
     try:
         locale.setlocale(locale.LC_MESSAGES, '')
-        locale.bindtextdomain(APP, DIR)
-        locale.textdomain(APP)
     except:
         pass
-else:
-    import gtk.glade
-    locale.setlocale(locale.LC_ALL, '')
-    gtk.glade.bindtextdomain(APP, DIR)
-    gtk.glade.textdomain(APP)
+gtk.glade.bindtextdomain(APP, DIR)
+gtk.glade.textdomain(APP)
 gettext.bindtextdomain(APP, DIR)
 gettext.textdomain(APP)
 gettext.install(APP, DIR, unicode=1)

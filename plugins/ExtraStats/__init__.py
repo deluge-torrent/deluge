@@ -16,7 +16,7 @@
 
 ### Initialization ###
 
-plugin_name = _("Extra Stats")
+plugin_name = "Extra Stats"
 plugin_author = "Micah Bucy"
 plugin_version = "0.1"
 plugin_description = _("""

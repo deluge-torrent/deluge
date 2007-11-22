@@ -16,7 +16,7 @@
 
 ### Initialization ###
 
-plugin_name = _("Desired Ratio")
+plugin_name = "Desired Ratio"
 plugin_author = "Andrew Resch"
 plugin_version = "0.1"
 plugin_description = _("Set the desired ratio for a torrent.")

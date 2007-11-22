@@ -14,7 +14,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301  USA.
 
-plugin_name = _("Speed Limiter")
+plugin_name = "Speed Limiter"
 plugin_author = "Marcos Pinto"
 plugin_version = "0.1"
 plugin_description = _("Set the desired speed limit per torrent.")
