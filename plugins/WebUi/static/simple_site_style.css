@@ -26,16 +26,11 @@ form.deluge_button {
 }
 button.deluge_button  {
 	background-color: #37506f;
-	border:1px solid #68a;
-
+	border:1px solid #23344b;
 	background: #99acc3;
 	color: #000;
-	vertical-align:middle;
-	-moz-border-radius:7px;
 }
-button.deluge_button:hover {
-	background-color:#68a;
-}
+
 div.error {
 	background-color:#FFFFFF;
 	color:#AA0000;
@@ -46,29 +41,5 @@ div.error {
 	padding:10px;
 
 }
-
-/*tr.torrent_table:hover {
-	background-color:#68a;
-}*/
-
-tr.torrent_table_selected {
-	background-color:#900;
-}
-
-th.torrent_table:hover {
-	background-color:#68a;
-}
-
-img.button {
-		margin-bottom:0px;
-		padding:0px;
-		position:relative;
-		top:2px;
-}
-
-body.inner {
-		background:none;
-}
-
 
 /* Hides from IE-mac \*/* html .clearfix {height: 1%;}.clearfix {display: block;}/* End hide from IE-mac */

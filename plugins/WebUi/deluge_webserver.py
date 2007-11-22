@@ -46,9 +46,7 @@ urls = (
     "/login", "login",
     "/index", "index",
     "/torrent/info/(.*)", "torrent_info",
-    "/torrent/info_inner/(.*)", "torrent_info_inner",
-    "/torrent/stop/(.*)", "torrent_stop",
-    "/torrent/start/(.*)", "torrent_start",
+    "/torrent/pause", "torrent_pause",
     "/torrent/reannounce/(.*)", "torrent_reannounce",
     "/torrent/add", "torrent_add",
     "/torrent/delete/(.*)", "torrent_delete",
@@ -117,37 +115,18 @@ class index:
 class torrent_info:
     @deluge_page
     @auto_refreshed
-    def GET(self, name):
-        torrent_id = name.split(',')[0]
+    def GET(self, torrent_id):
         return ws.render.torrent_info(get_torrent_status(torrent_id))
 
-class torrent_info_inner:
-    @deluge_page
-    def GET(self, torrent_ids):
-        torrent_ids = torrent_ids.split(',')
-        info = get_torrent_status(torrent_ids[0])
-        if len(torrent_ids) > 1:
-            #todo : hmm, lots of manual stuff here :(
-            pass
-
-
-        return ws.render.torrent_info_inner(info)
-
-class torrent_start:
+class torrent_pause:
     @check_session
     def POST(self, name):
-        torrent_ids = name.split(',')
-        ws.proxy.resume_torrent(torrent_ids)
+        vars = web.input(stop = None, start = None, redir = None)
+        if vars.stop:
+            ws.proxy.pause_torrent([vars.stop])
+        elif vars.start:
+            ws.proxy.resume_torrent([vars.start])
         do_redirect()
-
-class torrent_stop:
-    @check_session
-    def POST(self, name):
-        torrent_ids = name.split(',')
-        ws.proxy.pause_torrent(torrent_ids)
-        do_redirect()
-
-
 
 class torrent_reannounce:
     @check_session
@@ -196,32 +175,27 @@ class remote_torrent_add:
 
 class torrent_delete:
     @deluge_page
-    def GET(self, name):
-            torrent_ids = name.split(',')
-            torrent_list = [get_torrent_status(id) for id in torrent_ids]
-            return ws.render.torrent_delete(name, torrent_list)
+    def GET(self, torrent_id):
+        return ws.render.torrent_delete(get_torrent_status(torrent_id))
 
     @check_session
-    def POST(self, name):
-        torrent_ids = name.split(',')
+    def POST(self, torrent_id):
         vars = web.input(data_also = None, torrent_also = None)
         data_also = bool(vars.data_also)
         torrent_also = bool(vars.torrent_also)
-        ws.proxy.remove_torrent(torrent_ids, data_also, torrent_also)
+        ws.proxy.remove_torrent(torrent_id, data_also, torrent_also)
         do_redirect()
 
 class torrent_queue_up:
     @check_session
-    def POST(self, name):
-        for torrent_id in sorted(name.split(',')):
-            ws.proxy.queue_up(torrent_id)
+    def POST(self, torrent_id):
+        ws.proxy.queue_up(torrent_id)
         do_redirect()
 
 class torrent_queue_down:
     @check_session
-    def POST(self, name):
-        for torrent_id in reversed(sorted(name.split(','))):
-            ws.proxy.queue_down(torrent_id)
+    def POST(self, torrent_id):
+        ws.proxy.queue_down(torrent_id)
         do_redirect()
 
 class pause_all:

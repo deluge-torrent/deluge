@@ -44,8 +44,6 @@ from webpy022 import template
 random.seed()
 path = os.path.dirname(__file__)
 
-ENV = 'UNKNOWN'
-
 try:
     _('translate something')
 except:
@@ -92,7 +90,6 @@ def init_06():
 
     init_process()
     globals()['proxy'] = proxy
-    globals()['ENV']    = '0.6'
 
 def init_05():
     import dbus
@@ -101,7 +98,6 @@ def init_05():
     proxy = bus.get_object("org.deluge_torrent.dbusplugin"
         , "/org/deluge_torrent/DelugeDbusPlugin")
     globals()['proxy'] = proxy
-    globals()['ENV']    = '0.5_process'
 
 def init_gtk_05():
     #appy possibly changed config-vars, only called in when runing inside gtk.
@@ -110,16 +106,12 @@ def init_gtk_05():
     globals()['config']  = deluge.pref.Preferences(config_file, False)
     globals()['render'] = subclassed_render(config.get('template'),
         config.get('cache_templates'))
-    globals()['ENV']    = '0.5_gtk'
-
 
 
 #hacks to determine environment, TODO: clean up.
 if 'env=0.5' in sys.argv:
     init_05()
-elif 'env=0.6' in sys.argv:
-    init_06()
-elif hasattr(deluge, 'ui'):
+elif not hasattr(deluge, 'common'):
     init_06()
 elif not hasattr(deluge,'pref'):
     init_05()
@@ -136,7 +128,7 @@ TORRENT_KEYS = ['distributed_copies', 'download_payload_rate',
     'total_payload_download', 'total_payload_upload', 'total_peers',
     'total_seeds', 'total_size', 'total_upload', 'total_wanted',
     'tracker_status', 'upload_payload_rate', 'upload_rate',
-    'uploaded_memory','tracker','state','queue_pos','user_paused']
+    'uploaded_memory','tracker','state','queue_pos']
 
 STATE_MESSAGES = (_("Queued"),
     _("Checking"),

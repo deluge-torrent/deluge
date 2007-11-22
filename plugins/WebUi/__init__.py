@@ -45,20 +45,13 @@ Other contributors:
 """
 
 import deluge.common
-try:
-    import deluge.pref
-    from deluge.dialogs import show_popup_warning
-    import webserver_common
-except ImportError:
-    print 'WebUi:not imported as a plugin'
-
-
-
+import deluge.pref
+from deluge.dialogs import show_popup_warning
 try:
     from dbus_interface import get_dbus_manager
 except:
     pass #for unit-test.
-
+import webserver_common
 import time
 
 import gtk
@@ -124,9 +117,6 @@ class plugin_WebUi(object):
         else:
             self.config.set("run_in_thread", False)
 
-        if self.config.get("use_https") == None:
-            self.config.set("use_https", False)
-
         self.dbus_manager = get_dbus_manager(deluge_core, deluge_interface,
             self.config, self.config_file)
 
@@ -177,6 +167,8 @@ class plugin_WebUi(object):
     def __del__(self):
         self.kill_server()
 
+
+
 class ConfigDialog(gtk.Dialog):
     """
     sorry, can't get used to gui builders.
@@ -203,12 +195,6 @@ class ConfigDialog(gtk.Dialog):
             gtk.combo_box_new_text())
         self.cache_templates = self.add_widget(_('Cache Templates'),
             gtk.CheckButton())
-        """
-        temporary disable for 0.5.7
-        self.use_https = self.add_widget(_('Use https://'),
-            gtk.CheckButton())
-        """
-
         #self.share_downloads = self.add_widget(_('Share Download Directory'),
         #    gtk.CheckButton())
 
@@ -236,7 +222,6 @@ class ConfigDialog(gtk.Dialog):
         #    bool(self.config.get("share_downloads")))
 
         self.cache_templates.set_active(self.config.get("cache_templates"))
-        """0.5.7.. self.use_https.set_active(self.config.get("use_https"))"""
 
         self.vbox.pack_start(self.vb, True, True, 0)
         self.vb.show_all()
@@ -272,7 +257,6 @@ class ConfigDialog(gtk.Dialog):
         self.config.set("template", self.template.get_active_text())
         self.config.set("button_style", self.button_style.get_active())
         self.config.set("cache_templates", self.cache_templates.get_active())
-        #0.5.7.. self.config.set("use_https", self.use_https.get_active())
         #self.config.set("share_downloads", self.share_downloads.get_active())
         self.config.save(self.plugin.config_file)
         self.plugin.start_server() #restarts server
