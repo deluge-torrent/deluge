@@ -63,7 +63,7 @@ class DelugeGTK:
         self.wtree = gtk.glade.XML(common.get_glade_file("delugegtk.glade"), 
             domain='deluge')
         self.window = self.wtree.get_widget("main_window")
-        self.toolbar = self.wtree.get_widget("tb_middle")
+        self.toolbar = self.wtree.get_widget("tb_left")
         self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 
             80)], gtk.gdk.ACTION_COPY) 
         self.window.connect("delete_event", self.close)
@@ -1508,12 +1508,8 @@ want to remove all seeding torrents?")):
     def toolbar_toggle(self, widget):
         if widget.get_active():
             self.wtree.get_widget("tb_left").show()
-            self.wtree.get_widget("tb_middle").show()
-            self.wtree.get_widget("tb_right").show()
         else:
             self.wtree.get_widget("tb_left").hide()
-            self.wtree.get_widget("tb_middle").hide()
-            self.wtree.get_widget("tb_right").hide()
     
     def infopane_toggle(self, widget):
         if widget.get_active():
