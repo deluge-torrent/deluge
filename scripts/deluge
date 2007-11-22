@@ -113,24 +113,31 @@ def start_deluge():
     interface = deluge.interface.DelugeGTK()
     interface.start(get_cmd_line_torrents())
 
-bus = dbus.SessionBus()
-dbus_objects = dbus.Interface(bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus'), 'org.freedesktop.DBus').ListNames()
-
-if not "org.deluge_torrent.Deluge" in dbus_objects:
-    print "no existing Deluge session"
-    if not os.path.exists(os.path.join(deluge.common.CONFIG_DIR, 'firstrun')):
-        import deluge.wizard
-        deluge.wizard.WizardGTK()
-
-    start_deluge()
-
+try:
+    bus = dbus.SessionBus()
+except:
+    if not deluge.common.windows_check():
+        pid = os.fork()
+        if not pid:
+            os.popen('dbus-launch deluge')
 else:
-    ## This connects to the deluge interface
-    print "create proxy object"
-    proxy = bus.get_object('org.deluge_torrent.Deluge', '/org/deluge_torrent/DelugeObject')
-    print "create iface"
-    deluge_iface = dbus.Interface(proxy, 'org.deluge_torrent.Deluge')
-    print "send to iface"
+    dbus_objects = dbus.Interface(bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus'), 'org.freedesktop.DBus').ListNames()
 
-    for filename in get_cmd_line_torrents():
-        deluge_iface.interactive_add_torrent(filename)
+    if not "org.deluge_torrent.Deluge" in dbus_objects:
+        print "no existing Deluge session"
+        if not os.path.exists(os.path.join(deluge.common.CONFIG_DIR, 'firstrun')):
+            import deluge.wizard
+            deluge.wizard.WizardGTK()
+
+        start_deluge()
+
+    else:
+        ## This connects to the deluge interface
+        print "create proxy object"
+        proxy = bus.get_object('org.deluge_torrent.Deluge', '/org/deluge_torrent/DelugeObject')
+        print "create iface"
+        deluge_iface = dbus.Interface(proxy, 'org.deluge_torrent.Deluge')
+        print "send to iface"
+
+        for filename in get_cmd_line_torrents():
+            deluge_iface.interactive_add_torrent(filename)
