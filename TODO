@@ -15,7 +15,6 @@
 * Implement 'Classic' mode
 * Add remove torrent dialog and ability to remove data
 * Tray tooltip
-* Add LSD
 * Add torrentfiles location config option
 * Add autoload folder
 * Add wizard

@@ -65,6 +65,7 @@ DEFAULT_PREFS = {
     "upnp": False,
     "natpmp": False,
     "utpex": False,
+    "lsd": False,
     "enc_in_policy": 1,
     "enc_out_policy": 1,
     "enc_level": 2,
@@ -155,6 +156,7 @@ class Core(
         self.config.register_set_function("upnp", self._on_set_upnp)
         self.config.register_set_function("natpmp", self._on_set_natpmp)
         self.config.register_set_function("utpex", self._on_set_utpex)
+        self.config.register_set_function("lsd", self._on_set_lsd)
         self.config.register_set_function("enc_in_policy",
             self._on_set_encryption)
         self.config.register_set_function("enc_out_policy",
@@ -468,7 +470,14 @@ class Core(
             self.session.start_natpmp()
         else:
             self.session.stop_natpmp()
-    
+
+    def _on_set_lsd(self, key, value):
+        log.debug("lsd value set to %s", value)
+        if value:
+            self.session.start_lsd()
+        else:
+            self.session.stop_lsd()
+                
     def _on_set_utpex(self, key, value):
         log.debug("utpex value set to %s", value)
         if value:

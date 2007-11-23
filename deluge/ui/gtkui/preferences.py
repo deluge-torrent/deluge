@@ -171,6 +171,7 @@ class Preferences(component.Component):
                 "chk_upnp": ("active", self.core_config["upnp"]),
                 "chk_natpmp": ("active", self.core_config["natpmp"]),
                 "chk_utpex": ("active", self.core_config["utpex"]),
+                "chk_lsd": ("active", self.core_config["lsd"]),
                 "combo_encin": ("active", self.core_config["enc_in_policy"]),
                 "combo_encout": ("active", self.core_config["enc_out_policy"]),
                 "combo_enclevel": ("active", self.core_config["enc_level"]),
@@ -223,6 +224,7 @@ class Preferences(component.Component):
                 "chk_upnp",
                 "chk_natpmp",
                 "chk_utpex",
+                "chk_lsd",
                 "combo_encin",
                 "combo_encout",
                 "combo_enclevel",
@@ -323,8 +325,12 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_random_port").get_active()
         new_core_config["dht"] = self.glade.get_widget("chk_dht").get_active()
         new_core_config["upnp"] = self.glade.get_widget("chk_upnp").get_active()
-        new_core_config["natpmp"] = self.glade.get_widget("chk_natpmp").get_active()
-        new_core_config["utpex"] = self.glade.get_widget("chk_utpex").get_active()
+        new_core_config["natpmp"] = \
+            self.glade.get_widget("chk_natpmp").get_active()
+        new_core_config["utpex"] = \
+            self.glade.get_widget("chk_utpex").get_active()
+        new_core_config["lsd"] = \
+            self.glade.get_widget("chk_lsd").get_active()
         new_core_config["enc_in_policy"] = \
             self.glade.get_widget("combo_encin").get_active()
         new_core_config["enc_out_policy"] = \
