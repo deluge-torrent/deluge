@@ -155,10 +155,12 @@ public:
       ev.data.fd = descriptor;
 
       int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
+      if (result != 0 && errno == ENOENT)
+        result = epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, descriptor, &ev);
       if (result != 0)
       {
         asio::error_code ec(errno,
-            asio::error::system_category);
+            asio::error::get_system_category());
         read_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
@@ -189,10 +191,12 @@ public:
       ev.data.fd = descriptor;
 
       int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
+      if (result != 0 && errno == ENOENT)
+        result = epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, descriptor, &ev);
       if (result != 0)
       {
         asio::error_code ec(errno,
-            asio::error::system_category);
+            asio::error::get_system_category());
         write_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
@@ -219,10 +223,12 @@ public:
       ev.data.fd = descriptor;
 
       int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
+      if (result != 0 && errno == ENOENT)
+        result = epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, descriptor, &ev);
       if (result != 0)
       {
         asio::error_code ec(errno,
-            asio::error::system_category);
+            asio::error::get_system_category());
         except_op_queue_.dispatch_all_operations(descriptor, ec);
       }
     }
@@ -251,10 +257,12 @@ public:
       ev.data.fd = descriptor;
 
       int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
+      if (result != 0 && errno == ENOENT)
+        result = epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, descriptor, &ev);
       if (result != 0)
       {
         asio::error_code ec(errno,
-            asio::error::system_category);
+            asio::error::get_system_category());
         write_op_queue_.dispatch_all_operations(descriptor, ec);
         except_op_queue_.dispatch_all_operations(descriptor, ec);
       }
@@ -419,23 +427,40 @@ private:
         else
           more_writes = write_op_queue_.has_operation(descriptor);
 
-        epoll_event ev = { 0, { 0 } };
-        ev.events = EPOLLERR | EPOLLHUP;
-        if (more_reads)
-          ev.events |= EPOLLIN;
-        if (more_writes)
-          ev.events |= EPOLLOUT;
-        if (more_except)
-          ev.events |= EPOLLPRI;
-        ev.data.fd = descriptor;
-        int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
-        if (result != 0)
+        if ((events[i].events == EPOLLHUP)
+            && !more_except && !more_reads && !more_writes)
         {
-          ec = asio::error_code(errno,
-              asio::error::system_category);
-          read_op_queue_.dispatch_all_operations(descriptor, ec);
-          write_op_queue_.dispatch_all_operations(descriptor, ec);
-          except_op_queue_.dispatch_all_operations(descriptor, ec);
+          // If we have only an EPOLLHUP event and no operations associated
+          // with the descriptor then we need to delete the descriptor from
+          // epoll. The epoll_wait system call will produce EPOLLHUP events
+          // even if they are not specifically requested, so if we do not
+          // remove the descriptor we can end up in a tight loop of repeated
+          // calls to epoll_wait.
+          epoll_event ev = { 0, { 0 } };
+          epoll_ctl(epoll_fd_, EPOLL_CTL_DEL, descriptor, &ev);
+        }
+        else
+        {
+          epoll_event ev = { 0, { 0 } };
+          ev.events = EPOLLERR | EPOLLHUP;
+          if (more_reads)
+            ev.events |= EPOLLIN;
+          if (more_writes)
+            ev.events |= EPOLLOUT;
+          if (more_except)
+            ev.events |= EPOLLPRI;
+          ev.data.fd = descriptor;
+          int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
+          if (result != 0 && errno == ENOENT)
+            result = epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, descriptor, &ev);
+          if (result != 0)
+          {
+            ec = asio::error_code(errno,
+                asio::error::get_system_category());
+            read_op_queue_.dispatch_all_operations(descriptor, ec);
+            write_op_queue_.dispatch_all_operations(descriptor, ec);
+            except_op_queue_.dispatch_all_operations(descriptor, ec);
+          }
         }
       }
     }
@@ -493,7 +518,7 @@ private:
       boost::throw_exception(
           asio::system_error(
             asio::error_code(errno,
-              asio::error::system_category),
+              asio::error::get_system_category()),
             "epoll"));
     }
     return fd;
@@ -531,7 +556,8 @@ private:
 
     if (minimum_wait_duration > boost::posix_time::time_duration())
     {
-      return minimum_wait_duration.total_milliseconds();
+      int milliseconds = minimum_wait_duration.total_milliseconds();
+      return milliseconds > 0 ? milliseconds : 1;
     }
     else
     {

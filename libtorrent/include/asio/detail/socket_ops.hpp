@@ -26,9 +26,6 @@
 #include <cerrno>
 #include <boost/detail/workaround.hpp>
 #include <new>
-#if defined(__MACH__) && defined(__APPLE__)
-# include <AvailabilityMacros.h>
-#endif // defined(__MACH__) && defined(__APPLE__)
 #include "asio/detail/pop_options.hpp"
 
 #include "asio/error.hpp"
@@ -38,12 +35,24 @@ namespace asio {
 namespace detail {
 namespace socket_ops {
 
+#if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
+struct msghdr { int msg_namelen; };
+#endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
+
+#if defined(__hpux)
+// HP-UX doesn't declare these functions extern "C", so they are declared again
+// here to avoid linker errors about undefined symbols.
+extern "C" char* if_indextoname(unsigned int, char*);
+extern "C" unsigned int if_nametoindex(const char*);
+#endif // defined(__hpux)
+
 inline void clear_error(asio::error_code& ec)
 {
-  errno = 0;
 #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
   WSASetLastError(0);
-#endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
+#else
+  errno = 0;
+#endif
   ec = asio::error_code();
 }
 
@@ -53,22 +62,36 @@ inline ReturnType error_wrapper(ReturnType return_value,
 {
 #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
   ec = asio::error_code(WSAGetLastError(),
-      asio::error::system_category);
+      asio::error::get_system_category());
 #else
-  ec = asio::error_code(errno, asio::error::system_category);
+  ec = asio::error_code(errno,
+      asio::error::get_system_category());
 #endif
   return return_value;
 }
 
+template <typename SockLenType>
+inline socket_type call_accept(SockLenType msghdr::*,
+    socket_type s, socket_addr_type* addr, std::size_t* addrlen)
+{
+  SockLenType tmp_addrlen = addrlen ? (SockLenType)*addrlen : 0;
+  socket_type result = ::accept(s, addr, addrlen ? &tmp_addrlen : 0);
+  if (addrlen)
+    *addrlen = (std::size_t)tmp_addrlen;
+  return result;
+}
+
 inline socket_type accept(socket_type s, socket_addr_type* addr,
-    socket_addr_len_type* addrlen, asio::error_code& ec)
+    std::size_t* addrlen, asio::error_code& ec)
 {
   clear_error(ec);
-#if defined(__MACH__) && defined(__APPLE__) || defined(__FreeBSD__)
-  socket_type new_s = error_wrapper(::accept(s, addr, addrlen), ec);
+
+  socket_type new_s = error_wrapper(call_accept(
+        &msghdr::msg_namelen, s, addr, addrlen), ec);
   if (new_s == invalid_socket)
     return new_s;
 
+#if defined(__MACH__) && defined(__APPLE__) || defined(__FreeBSD__)
   int optval = 1;
   int result = error_wrapper(::setsockopt(new_s,
         SOL_SOCKET, SO_NOSIGPIPE, &optval, sizeof(optval)), ec);
@@ -77,25 +100,45 @@ inline socket_type accept(socket_type s, socket_addr_type* addr,
     ::close(new_s);
     return invalid_socket;
   }
+#endif
+
+#if defined(BOOST_WINDOWS) && defined(UNDER_CE)
+  clear_error(ec);
+#endif
 
   return new_s;
-#else
-  return error_wrapper(::accept(s, addr, addrlen), ec);
-#endif
+}
+
+template <typename SockLenType>
+inline int call_bind(SockLenType msghdr::*,
+    socket_type s, const socket_addr_type* addr, std::size_t addrlen)
+{
+  return ::bind(s, addr, (SockLenType)addrlen);
 }
 
 inline int bind(socket_type s, const socket_addr_type* addr,
-    socket_addr_len_type addrlen, asio::error_code& ec)
+    std::size_t addrlen, asio::error_code& ec)
 {
   clear_error(ec);
-  return error_wrapper(::bind(s, addr, addrlen), ec);
+  int result = error_wrapper(call_bind(
+        &msghdr::msg_namelen, s, addr, addrlen), ec);
+#if defined(BOOST_WINDOWS) && defined(UNDER_CE)
+  if (result == 0)
+    clear_error(ec);
+#endif
+  return result;
 }
 
 inline int close(socket_type s, asio::error_code& ec)
 {
   clear_error(ec);
 #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
-  return error_wrapper(::closesocket(s), ec);
+  int result = error_wrapper(::closesocket(s), ec);
+# if defined(UNDER_CE)
+  if (result == 0)
+    clear_error(ec);
+# endif
+  return result;
 #else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
   return error_wrapper(::close(s), ec);
 #endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
@@ -104,20 +147,43 @@ inline int close(socket_type s, asio::error_code& ec)
 inline int shutdown(socket_type s, int what, asio::error_code& ec)
 {
   clear_error(ec);
-  return error_wrapper(::shutdown(s, what), ec);
+  int result = error_wrapper(::shutdown(s, what), ec);
+#if defined(BOOST_WINDOWS) && defined(UNDER_CE)
+  if (result == 0)
+    clear_error(ec);
+#endif
+  return result;
+}
+
+template <typename SockLenType>
+inline int call_connect(SockLenType msghdr::*,
+    socket_type s, const socket_addr_type* addr, std::size_t addrlen)
+{
+  return ::connect(s, addr, (SockLenType)addrlen);
 }
 
 inline int connect(socket_type s, const socket_addr_type* addr,
-    socket_addr_len_type addrlen, asio::error_code& ec)
+    std::size_t addrlen, asio::error_code& ec)
 {
   clear_error(ec);
-  return error_wrapper(::connect(s, addr, addrlen), ec);
+  int result = error_wrapper(call_connect(
+        &msghdr::msg_namelen, s, addr, addrlen), ec);
+#if defined(BOOST_WINDOWS) && defined(UNDER_CE)
+  if (result == 0)
+    clear_error(ec);
+#endif
+  return result;
 }
 
 inline int listen(socket_type s, int backlog, asio::error_code& ec)
 {
   clear_error(ec);
-  return error_wrapper(::listen(s, backlog), ec);
+  int result = error_wrapper(::listen(s, backlog), ec);
+#if defined(BOOST_WINDOWS) && defined(UNDER_CE)
+  if (result == 0)
+    clear_error(ec);
+#endif
+  return result;
 }
 
 #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
@@ -148,6 +214,28 @@ inline void init_buf(buf& b, const void* data, size_t size)
 #endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
 }
 
+inline void init_msghdr_msg_name(void*& name, socket_addr_type* addr)
+{
+  name = addr;
+}
+
+inline void init_msghdr_msg_name(void*& name, const socket_addr_type* addr)
+{
+  name = const_cast<socket_addr_type*>(addr);
+}
+
+template <typename T>
+inline void init_msghdr_msg_name(T& name, socket_addr_type* addr)
+{
+  name = reinterpret_cast<T>(addr);
+}
+
+template <typename T>
+inline void init_msghdr_msg_name(T& name, const socket_addr_type* addr)
+{
+  name = reinterpret_cast<T>(const_cast<socket_addr_type*>(addr));
+}
+
 inline int recv(socket_type s, buf* bufs, size_t count, int flags,
     asio::error_code& ec)
 {
@@ -161,22 +249,20 @@ inline int recv(socket_type s, buf* bufs, size_t count, int flags,
         recv_buf_count, &bytes_transferred, &recv_flags, 0, 0), ec);
   if (result != 0)
     return -1;
+# if defined(UNDER_CE)
+  clear_error(ec);
+# endif
   return bytes_transferred;
 #else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
-  msghdr msg;
-  msg.msg_name = 0;
-  msg.msg_namelen = 0;
+  msghdr msg = msghdr();
   msg.msg_iov = bufs;
   msg.msg_iovlen = count;
-  msg.msg_control = 0;
-  msg.msg_controllen = 0;
-  msg.msg_flags = 0;
   return error_wrapper(::recvmsg(s, &msg, flags), ec);
 #endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
 }
 
 inline int recvfrom(socket_type s, buf* bufs, size_t count, int flags,
-    socket_addr_type* addr, socket_addr_len_type* addrlen,
+    socket_addr_type* addr, std::size_t* addrlen,
     asio::error_code& ec)
 {
   clear_error(ec);
@@ -185,25 +271,22 @@ inline int recvfrom(socket_type s, buf* bufs, size_t count, int flags,
   DWORD recv_buf_count = static_cast<DWORD>(count);
   DWORD bytes_transferred = 0;
   DWORD recv_flags = flags;
+  int tmp_addrlen = (int)*addrlen;
   int result = error_wrapper(::WSARecvFrom(s, bufs, recv_buf_count,
-        &bytes_transferred, &recv_flags, addr, addrlen, 0, 0), ec);
+        &bytes_transferred, &recv_flags, addr, &tmp_addrlen, 0, 0), ec);
+  *addrlen = (std::size_t)tmp_addrlen;
   if (result != 0)
     return -1;
+# if defined(UNDER_CE)
+  clear_error(ec);
+# endif
   return bytes_transferred;
 #else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
-  msghdr msg;
-#if defined(__MACH__) && defined(__APPLE__) \
-    && (MAC_OS_X_VERSION_MAX_ALLOWED < 1040)
-  msg.msg_name = reinterpret_cast<char*>(addr);
-#else
-  msg.msg_name = addr;
-#endif
+  msghdr msg = msghdr();
+  init_msghdr_msg_name(msg.msg_name, addr);
   msg.msg_namelen = *addrlen;
   msg.msg_iov = bufs;
   msg.msg_iovlen = count;
-  msg.msg_control = 0;
-  msg.msg_controllen = 0;
-  msg.msg_flags = 0;
   int result = error_wrapper(::recvmsg(s, &msg, flags), ec);
   *addrlen = msg.msg_namelen;
   return result;
@@ -223,16 +306,14 @@ inline int send(socket_type s, const buf* bufs, size_t count, int flags,
         send_buf_count, &bytes_transferred, send_flags, 0, 0), ec);
   if (result != 0)
     return -1;
+# if defined(UNDER_CE)
+  clear_error(ec);
+# endif
   return bytes_transferred;
 #else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
-  msghdr msg;
-  msg.msg_name = 0;
-  msg.msg_namelen = 0;
+  msghdr msg = msghdr();
   msg.msg_iov = const_cast<buf*>(bufs);
   msg.msg_iovlen = count;
-  msg.msg_control = 0;
-  msg.msg_controllen = 0;
-  msg.msg_flags = 0;
 #if defined(__linux__)
   flags |= MSG_NOSIGNAL;
 #endif // defined(__linux__)
@@ -241,7 +322,7 @@ inline int send(socket_type s, const buf* bufs, size_t count, int flags,
 }
 
 inline int sendto(socket_type s, const buf* bufs, size_t count, int flags,
-    const socket_addr_type* addr, socket_addr_len_type addrlen,
+    const socket_addr_type* addr, std::size_t addrlen,
     asio::error_code& ec)
 {
   clear_error(ec);
@@ -250,24 +331,20 @@ inline int sendto(socket_type s, const buf* bufs, size_t count, int flags,
   DWORD send_buf_count = static_cast<DWORD>(count);
   DWORD bytes_transferred = 0;
   int result = error_wrapper(::WSASendTo(s, const_cast<buf*>(bufs),
-        send_buf_count, &bytes_transferred, flags, addr, addrlen, 0, 0), ec);
+        send_buf_count, &bytes_transferred, flags, addr,
+        static_cast<int>(addrlen), 0, 0), ec);
   if (result != 0)
     return -1;
+# if defined(UNDER_CE)
+  clear_error(ec);
+# endif
   return bytes_transferred;
 #else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
-  msghdr msg;
-#if defined(__MACH__) && defined(__APPLE__) \
-    && (MAC_OS_X_VERSION_MAX_ALLOWED < 1040)
-  msg.msg_name = reinterpret_cast<char*>(const_cast<socket_addr_type*>(addr));
-#else
-  msg.msg_name = const_cast<socket_addr_type*>(addr);
-#endif
+  msghdr msg = msghdr();
+  init_msghdr_msg_name(msg.msg_name, addr);
   msg.msg_namelen = addrlen;
   msg.msg_iov = const_cast<buf*>(bufs);
   msg.msg_iovlen = count;
-  msg.msg_control = 0;
-  msg.msg_controllen = 0;
-  msg.msg_flags = 0;
 #if defined(__linux__)
   flags |= MSG_NOSIGNAL;
 #endif // defined(__linux__)
@@ -295,6 +372,10 @@ inline socket_type socket(int af, int type, int protocol,
         reinterpret_cast<const char*>(&optval), sizeof(optval));
   }
 
+# if defined(UNDER_CE)
+  clear_error(ec);
+# endif
+
   return s;
 #elif defined(__MACH__) && defined(__APPLE__) || defined(__FreeBSD__)
   socket_type s = error_wrapper(::socket(af, type, protocol), ec);
@@ -316,8 +397,17 @@ inline socket_type socket(int af, int type, int protocol,
 #endif
 }
 
+template <typename SockLenType>
+inline int call_setsockopt(SockLenType msghdr::*,
+    socket_type s, int level, int optname,
+    const void* optval, std::size_t optlen)
+{
+  return ::setsockopt(s, level, optname,
+      (const char*)optval, (SockLenType)optlen);
+}
+
 inline int setsockopt(socket_type s, int level, int optname,
-    const void* optval, size_t optlen, asio::error_code& ec)
+    const void* optval, std::size_t optlen, asio::error_code& ec)
 {
   if (level == custom_socket_option_level && optname == always_fail_option)
   {
@@ -342,15 +432,27 @@ inline int setsockopt(socket_type s, int level, int optname,
   }
   ec = asio::error::fault;
   return -1;
-#elif defined(BOOST_WINDOWS) || defined(__CYGWIN__)
+#else // defined(__BORLANDC__)
   clear_error(ec);
-  return error_wrapper(::setsockopt(s, level, optname,
-        reinterpret_cast<const char*>(optval), static_cast<int>(optlen)), ec);
-#else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
-  clear_error(ec);
-  return error_wrapper(::setsockopt(s, level, optname, optval,
-        static_cast<socklen_t>(optlen)), ec);
-#endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
+  int result = error_wrapper(call_setsockopt(&msghdr::msg_namelen,
+        s, level, optname, optval, optlen), ec);
+# if defined(BOOST_WINDOWS) && defined(UNDER_CE)
+  if (result == 0)
+    clear_error(ec);
+# endif
+  return result;
+#endif // defined(__BORLANDC__)
+}
+
+template <typename SockLenType>
+inline int call_getsockopt(SockLenType msghdr::*,
+    socket_type s, int level, int optname,
+    void* optval, std::size_t* optlen)
+{
+  SockLenType tmp_optlen = (SockLenType)*optlen;
+  int result = ::getsockopt(s, level, optname, (char*)optval, &tmp_optlen);
+  *optlen = (std::size_t)tmp_optlen;
+  return result;
 }
 
 inline int getsockopt(socket_type s, int level, int optname, void* optval,
@@ -394,10 +496,8 @@ inline int getsockopt(socket_type s, int level, int optname, void* optval,
   return -1;
 #elif defined(BOOST_WINDOWS) || defined(__CYGWIN__)
   clear_error(ec);
-  int tmp_optlen = static_cast<int>(*optlen);
-  int result = error_wrapper(::getsockopt(s, level, optname,
-        reinterpret_cast<char*>(optval), &tmp_optlen), ec);
-  *optlen = static_cast<size_t>(tmp_optlen);
+  int result = error_wrapper(call_getsockopt(&msghdr::msg_namelen,
+        s, level, optname, optval, optlen), ec);
   if (result != 0 && level == IPPROTO_IPV6 && optname == IPV6_V6ONLY
       && ec.value() == WSAENOPROTOOPT && *optlen == sizeof(DWORD))
   {
@@ -409,13 +509,15 @@ inline int getsockopt(socket_type s, int level, int optname, void* optval,
     *static_cast<DWORD*>(optval) = 1;
     clear_error(ec);
   }
+# if defined(UNDER_CE)
+  if (result == 0)
+    clear_error(ec);
+# endif
   return result;
 #else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
   clear_error(ec);
-  socklen_t tmp_optlen = static_cast<socklen_t>(*optlen);
-  int result = error_wrapper(::getsockopt(s, level, optname,
-        optval, &tmp_optlen), ec);
-  *optlen = static_cast<size_t>(tmp_optlen);
+  int result = error_wrapper(call_getsockopt(&msghdr::msg_namelen,
+        s, level, optname, optval, optlen), ec);
 #if defined(__linux__)
   if (result == 0 && level == SOL_SOCKET && *optlen == sizeof(int)
       && (optname == SO_SNDBUF || optname == SO_RCVBUF))
@@ -432,18 +534,50 @@ inline int getsockopt(socket_type s, int level, int optname, void* optval,
 #endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
 }
 
+template <typename SockLenType>
+inline int call_getpeername(SockLenType msghdr::*,
+    socket_type s, socket_addr_type* addr, std::size_t* addrlen)
+{
+  SockLenType tmp_addrlen = (SockLenType)*addrlen;
+  int result = ::getpeername(s, addr, &tmp_addrlen);
+  *addrlen = (std::size_t)tmp_addrlen;
+  return result;
+}
+
 inline int getpeername(socket_type s, socket_addr_type* addr,
-    socket_addr_len_type* addrlen, asio::error_code& ec)
+    std::size_t* addrlen, asio::error_code& ec)
 {
   clear_error(ec);
-  return error_wrapper(::getpeername(s, addr, addrlen), ec);
+  int result = error_wrapper(call_getpeername(
+        &msghdr::msg_namelen, s, addr, addrlen), ec);
+#if defined(BOOST_WINDOWS) && defined(UNDER_CE)
+  if (result == 0)
+    clear_error(ec);
+#endif
+  return result;
+}
+
+template <typename SockLenType>
+inline int call_getsockname(SockLenType msghdr::*,
+    socket_type s, socket_addr_type* addr, std::size_t* addrlen)
+{
+  SockLenType tmp_addrlen = (SockLenType)*addrlen;
+  int result = ::getsockname(s, addr, &tmp_addrlen);
+  *addrlen = (std::size_t)tmp_addrlen;
+  return result;
 }
 
 inline int getsockname(socket_type s, socket_addr_type* addr,
-    socket_addr_len_type* addrlen, asio::error_code& ec)
+    std::size_t* addrlen, asio::error_code& ec)
 {
   clear_error(ec);
-  return error_wrapper(::getsockname(s, addr, addrlen), ec);
+  int result = error_wrapper(call_getsockname(
+        &msghdr::msg_namelen, s, addr, addrlen), ec);
+#if defined(BOOST_WINDOWS) && defined(UNDER_CE)
+  if (result == 0)
+    clear_error(ec);
+#endif
+  return result;
 }
 
 inline int ioctl(socket_type s, long cmd, ioctl_arg_type* arg,
@@ -451,7 +585,12 @@ inline int ioctl(socket_type s, long cmd, ioctl_arg_type* arg,
 {
   clear_error(ec);
 #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
-  return error_wrapper(::ioctlsocket(s, cmd, arg), ec);
+  int result = error_wrapper(::ioctlsocket(s, cmd, arg), ec);
+# if defined(UNDER_CE)
+  if (result == 0)
+    clear_error(ec);
+# endif
+  return result;
 #else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
   return error_wrapper(::ioctl(s, cmd, arg), ec);
 #endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
@@ -482,8 +621,22 @@ inline int select(int nfds, fd_set* readfds, fd_set* writefds,
       && timeout->tv_usec > 0 && timeout->tv_usec < 1000)
     timeout->tv_usec = 1000;
 #endif // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
-  return error_wrapper(::select(nfds, readfds,
+
+#if defined(__hpux) && defined(__HP_aCC)
+  timespec ts;
+  ts.tv_sec = timeout ? timeout->tv_sec : 0;
+  ts.tv_nsec = timeout ? timeout->tv_usec * 1000 : 0;
+  return error_wrapper(::pselect(nfds, readfds,
+        writefds, exceptfds, timeout ? &ts : 0, 0), ec);
+#else
+  int result = error_wrapper(::select(nfds, readfds,
         writefds, exceptfds, timeout), ec);
+# if defined(BOOST_WINDOWS) && defined(UNDER_CE)
+  if (result >= 0)
+    clear_error(ec);
+# endif
+  return result;
+#endif
 }
 
 inline int poll_read(socket_type s, asio::error_code& ec)
@@ -493,7 +646,12 @@ inline int poll_read(socket_type s, asio::error_code& ec)
   FD_ZERO(&fds);
   FD_SET(s, &fds);
   clear_error(ec);
-  return error_wrapper(::select(s, &fds, 0, 0, 0), ec);
+  int result = error_wrapper(::select(s, &fds, 0, 0, 0), ec);
+# if defined(UNDER_CE)
+  if (result >= 0)
+    clear_error(ec);
+# endif
+  return result;
 #else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
   pollfd fds;
   fds.fd = s;
@@ -511,7 +669,12 @@ inline int poll_write(socket_type s, asio::error_code& ec)
   FD_ZERO(&fds);
   FD_SET(s, &fds);
   clear_error(ec);
-  return error_wrapper(::select(s, 0, &fds, 0, 0), ec);
+  int result = error_wrapper(::select(s, 0, &fds, 0, 0), ec);
+# if defined(UNDER_CE)
+  if (result >= 0)
+    clear_error(ec);
+# endif
+  return result;
 #else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
   pollfd fds;
   fds.fd = s;
@@ -559,9 +722,17 @@ inline const char* inet_ntop(int af, const void* src, char* dest, size_t length,
   }
 
   DWORD string_length = static_cast<DWORD>(length);
+#if defined(BOOST_NO_ANSI_APIS)
+  LPWSTR string_buffer = (LPWSTR)_alloca(length * sizeof(WCHAR));
+  int result = error_wrapper(::WSAAddressToStringW(
+        reinterpret_cast<sockaddr*>(&address),
+        address_length, 0, string_buffer, &string_length), ec);
+  ::WideCharToMultiByte(CP_ACP, 0, string_buffer, -1, dest, length, 0, 0);
+#else
   int result = error_wrapper(::WSAAddressToStringA(
         reinterpret_cast<sockaddr*>(&address),
         address_length, 0, dest, &string_length), ec);
+#endif
 
   // Windows may set error code on success.
   if (result != socket_error_retval)
@@ -605,10 +776,20 @@ inline int inet_pton(int af, const char* src, void* dest,
 
   sockaddr_storage_type address;
   int address_length = sizeof(sockaddr_storage_type);
+#if defined(BOOST_NO_ANSI_APIS)
+  int num_wide_chars = strlen(src) + 1;
+  LPWSTR wide_buffer = (LPWSTR)_alloca(num_wide_chars * sizeof(WCHAR));
+  ::MultiByteToWideChar(CP_ACP, 0, src, -1, wide_buffer, num_wide_chars);
+  int result = error_wrapper(::WSAStringToAddressW(
+        wide_buffer, af, 0,
+        reinterpret_cast<sockaddr*>(&address),
+        &address_length), ec);
+#else
   int result = error_wrapper(::WSAStringToAddressA(
         const_cast<char*>(src), af, 0,
         reinterpret_cast<sockaddr*>(&address),
         &address_length), ec);
+#endif
 
   if (af == AF_INET)
   {
@@ -642,6 +823,11 @@ inline int inet_pton(int af, const char* src, void* dest,
   if (result == socket_error_retval && !ec)
     ec = asio::error::invalid_argument;
 
+#if defined(UNDER_CE)
+  if (result != socket_error_retval)
+    clear_error(ec);
+#endif
+
   return result == socket_error_retval ? -1 : 1;
 #else // defined(BOOST_WINDOWS) || defined(__CYGWIN__)
   int result = error_wrapper(::inet_pton(af, src, dest), ec);
@@ -668,7 +854,12 @@ inline int inet_pton(int af, const char* src, void* dest,
 inline int gethostname(char* name, int namelen, asio::error_code& ec)
 {
   clear_error(ec);
-  return error_wrapper(::gethostname(name, namelen), ec);
+  int result = error_wrapper(::gethostname(name, namelen), ec);
+#if defined(BOOST_WINDOWS) && defined(UNDER_CE)
+  if (result == 0)
+    clear_error(ec);
+#endif
+  return result;
 }
 
 #if defined(BOOST_WINDOWS) || defined(__CYGWIN__) \
@@ -707,6 +898,9 @@ inline hostent* gethostbyaddr(const char* addr, int length, int af,
   hostent* retval = error_wrapper(::gethostbyaddr(addr, length, af), ec);
   if (!retval)
     return 0;
+# if defined(UNDER_CE)
+  clear_error(ec);
+# endif
   *result = *retval;
   return retval;
 #elif defined(__sun) || defined(__QNX__)
@@ -755,6 +949,9 @@ inline hostent* gethostbyname(const char* name, int af, struct hostent* result,
   hostent* retval = error_wrapper(::gethostbyname(name), ec);
   if (!retval)
     return 0;
+# if defined(UNDER_CE)
+  clear_error(ec);
+# endif
   *result = *retval;
   return result;
 #elif defined(__sun) || defined(__QNX__)
@@ -1373,7 +1570,7 @@ inline int getaddrinfo_emulation(const char* host, const char* service,
 }
 
 inline asio::error_code getnameinfo_emulation(
-    const socket_addr_type* sa, socket_addr_len_type salen, char* host,
+    const socket_addr_type* sa, std::size_t salen, char* host,
     std::size_t hostlen, char* serv, std::size_t servlen, int flags,
     asio::error_code& ec)
 {
@@ -1526,10 +1723,10 @@ inline asio::error_code translate_addrinfo_error(int error)
   default: // Possibly the non-portable EAI_SYSTEM.
 #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
     return asio::error_code(
-        WSAGetLastError(), asio::error::system_category);
+        WSAGetLastError(), asio::error::get_system_category());
 #else
     return asio::error_code(
-        errno, asio::error::system_category);
+        errno, asio::error::get_system_category());
 #endif
   }
 }
@@ -1540,7 +1737,7 @@ inline asio::error_code getaddrinfo(const char* host,
 {
   clear_error(ec);
 #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
-# if defined(_WIN32_WINNT) && (_WIN32_WINNT >= 0x0501)
+# if defined(_WIN32_WINNT) && (_WIN32_WINNT >= 0x0501) || defined(UNDER_CE)
   // Building for Windows XP, Windows Server 2003, or later.
   int error = ::getaddrinfo(host, service, hints, result);
   return ec = translate_addrinfo_error(error);
@@ -1571,7 +1768,7 @@ inline asio::error_code getaddrinfo(const char* host,
 inline void freeaddrinfo(addrinfo_type* ai)
 {
 #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
-# if defined(_WIN32_WINNT) && (_WIN32_WINNT >= 0x0501)
+# if defined(_WIN32_WINNT) && (_WIN32_WINNT >= 0x0501) || defined(UNDER_CE)
   // Building for Windows XP, Windows Server 2003, or later.
   ::freeaddrinfo(ai);
 # else
@@ -1595,11 +1792,11 @@ inline void freeaddrinfo(addrinfo_type* ai)
 }
 
 inline asio::error_code getnameinfo(const socket_addr_type* addr,
-    socket_addr_len_type addrlen, char* host, std::size_t hostlen,
+    std::size_t addrlen, char* host, std::size_t hostlen,
     char* serv, std::size_t servlen, int flags, asio::error_code& ec)
 {
 #if defined(BOOST_WINDOWS) || defined(__CYGWIN__)
-# if defined(_WIN32_WINNT) && (_WIN32_WINNT >= 0x0501)
+# if defined(_WIN32_WINNT) && (_WIN32_WINNT >= 0x0501) || defined(UNDER_CE)
   // Building for Windows XP, Windows Server 2003, or later.
   clear_error(ec);
   int error = ::getnameinfo(addr, addrlen, host, static_cast<DWORD>(hostlen),
@@ -1608,7 +1805,7 @@ inline asio::error_code getnameinfo(const socket_addr_type* addr,
 # else
   // Building for Windows 2000 or earlier.
   typedef int (WSAAPI *gni_t)(const socket_addr_type*,
-      socket_addr_len_type, char*, std::size_t, char*, std::size_t, int);
+      int, char*, std::size_t, char*, std::size_t, int);
   if (HMODULE winsock_module = ::GetModuleHandleA("ws2_32"))
   {
     if (gni_t gni = (gni_t)::GetProcAddress(winsock_module, "getnameinfo"))

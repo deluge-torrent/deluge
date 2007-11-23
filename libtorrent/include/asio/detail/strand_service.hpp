@@ -135,9 +135,9 @@ public:
     handler_base* last_waiter_;
 
     // Storage for posted handlers.
-    typedef boost::aligned_storage<64> handler_storage_type;
+    typedef boost::aligned_storage<128> handler_storage_type;
 #if defined(__BORLANDC__)
-    boost::aligned_storage<64> handler_storage_;
+    boost::aligned_storage<128> handler_storage_;
 #else
     handler_storage_type handler_storage_;
 #endif
@@ -235,7 +235,7 @@ public:
     void* do_handler_allocate(std::size_t size)
     {
 #if defined(__BORLANDC__)
-      BOOST_ASSERT(size <= boost::aligned_storage<64>::size);
+      BOOST_ASSERT(size <= boost::aligned_storage<128>::size);
 #else
       BOOST_ASSERT(size <= strand_impl::handler_storage_type::size);
 #endif
@@ -276,7 +276,7 @@ public:
           if (impl_->first_waiter_ == 0)
             impl_->last_waiter_ = 0;
           lock.unlock();
-          service_impl_.io_service().post(
+          service_impl_.get_io_service().post(
               invoke_current_handler(service_impl_, impl_));
         }
       }
@@ -429,7 +429,7 @@ public:
         // This handler now has the lock, so can be dispatched immediately.
         impl->current_handler_ = ptr.get();
         lock.unlock();
-        this->io_service().dispatch(invoke_current_handler(*this, impl));
+        this->get_io_service().dispatch(invoke_current_handler(*this, impl));
         ptr.release();
       }
       else
@@ -469,7 +469,7 @@ public:
       // This handler now has the lock, so can be dispatched immediately.
       impl->current_handler_ = ptr.get();
       lock.unlock();
-      this->io_service().post(invoke_current_handler(*this, impl));
+      this->get_io_service().post(invoke_current_handler(*this, impl));
       ptr.release();
     }
     else

@@ -327,7 +327,7 @@ public:
       ec = asio::error::bad_descriptor;
     }
     else if (FARPROC cancel_io_ex_ptr = ::GetProcAddress(
-          ::GetModuleHandle("KERNEL32"), "CancelIoEx"))
+          ::GetModuleHandleA("KERNEL32"), "CancelIoEx"))
     {
       // The version of Windows supports cancellation from any thread.
       typedef BOOL (WINAPI* cancel_io_ex_t)(HANDLE, LPOVERLAPPED);
@@ -338,7 +338,7 @@ public:
       {
         DWORD last_error = ::GetLastError();
         ec = asio::error_code(last_error,
-            asio::error::system_category);
+            asio::error::get_system_category());
       }
       else
       {
@@ -360,7 +360,7 @@ public:
       {
         DWORD last_error = ::GetLastError();
         ec = asio::error_code(last_error,
-            asio::error::system_category);
+            asio::error::get_system_category());
       }
       else
       {
@@ -561,7 +561,7 @@ public:
     }
 
     endpoint_type endpoint;
-    socket_addr_len_type addr_len = endpoint.capacity();
+    std::size_t addr_len = endpoint.capacity();
     if (socket_ops::getsockname(impl.socket_, endpoint.data(), &addr_len, ec))
       return endpoint_type();
     endpoint.resize(addr_len);
@@ -600,7 +600,7 @@ public:
     else
     {
       endpoint_type endpoint;
-      socket_addr_len_type addr_len = endpoint.capacity();
+      std::size_t addr_len = endpoint.capacity();
       if (socket_ops::getpeername(impl.socket_, endpoint.data(), &addr_len, ec))
         return endpoint_type();
       endpoint.resize(addr_len);
@@ -667,7 +667,7 @@ public:
       else if (last_error == ERROR_PORT_UNREACHABLE)
         last_error = WSAECONNREFUSED;
       ec = asio::error_code(last_error,
-          asio::error::system_category);
+          asio::error::get_system_category());
       return 0;
     }
 
@@ -719,7 +719,7 @@ public:
 
       // Map non-portable errors to their portable counterparts.
       asio::error_code ec(last_error,
-          asio::error::system_category);
+          asio::error::get_system_category());
       if (ec.value() == ERROR_NETNAME_DELETED)
       {
         if (handler_op->cancel_token_.expired())
@@ -767,7 +767,7 @@ public:
   {
     if (!is_open(impl))
     {
-      this->io_service().post(bind_handler(handler,
+      this->get_io_service().post(bind_handler(handler,
             asio::error::bad_descriptor, 0));
       return;
     }
@@ -783,7 +783,7 @@ public:
     typedef handler_alloc_traits<Handler, value_type> alloc_traits;
     raw_handler_ptr<alloc_traits> raw_ptr(handler);
     handler_ptr<alloc_traits> ptr(raw_ptr,
-        this->io_service(), impl.cancel_token_, buffers, handler);
+        this->get_io_service(), impl.cancel_token_, buffers, handler);
 
     // Copy buffers into WSABUF array.
     ::WSABUF bufs[max_buffers];
@@ -803,7 +803,7 @@ public:
     // A request to receive 0 bytes on a stream socket is a no-op.
     if (impl.protocol_.type() == SOCK_STREAM && total_buffer_size == 0)
     {
-      asio::io_service::work work(this->io_service());
+      asio::io_service::work work(this->get_io_service());
       ptr.reset();
       asio::error_code error;
       iocp_service_.post(bind_handler(handler, error, 0));
@@ -819,10 +819,10 @@ public:
     // Check if the operation completed immediately.
     if (result != 0 && last_error != WSA_IO_PENDING)
     {
-      asio::io_service::work work(this->io_service());
+      asio::io_service::work work(this->get_io_service());
       ptr.reset();
       asio::error_code ec(last_error,
-          asio::error::system_category);
+          asio::error::get_system_category());
       iocp_service_.post(bind_handler(handler, ec, bytes_transferred));
     }
     else
@@ -867,7 +867,7 @@ public:
       if (last_error == ERROR_PORT_UNREACHABLE)
         last_error = WSAECONNREFUSED;
       ec = asio::error_code(last_error,
-          asio::error::system_category);
+          asio::error::get_system_category());
       return 0;
     }
 
@@ -917,7 +917,7 @@ public:
 
       // Map non-portable errors to their portable counterparts.
       asio::error_code ec(last_error,
-          asio::error::system_category);
+          asio::error::get_system_category());
       if (ec.value() == ERROR_PORT_UNREACHABLE)
       {
         ec = asio::error::connection_refused;
@@ -958,7 +958,7 @@ public:
   {
     if (!is_open(impl))
     {
-      this->io_service().post(bind_handler(handler,
+      this->get_io_service().post(bind_handler(handler,
             asio::error::bad_descriptor, 0));
       return;
     }
@@ -974,7 +974,7 @@ public:
     typedef handler_alloc_traits<Handler, value_type> alloc_traits;
     raw_handler_ptr<alloc_traits> raw_ptr(handler);
     handler_ptr<alloc_traits> ptr(raw_ptr,
-        this->io_service(), buffers, handler);
+        this->get_io_service(), buffers, handler);
 
     // Copy buffers into WSABUF array.
     ::WSABUF bufs[max_buffers];
@@ -998,10 +998,10 @@ public:
     // Check if the operation completed immediately.
     if (result != 0 && last_error != WSA_IO_PENDING)
     {
-      asio::io_service::work work(this->io_service());
+      asio::io_service::work work(this->get_io_service());
       ptr.reset();
       asio::error_code ec(last_error,
-          asio::error::system_category);
+          asio::error::get_system_category());
       iocp_service_.post(bind_handler(handler, ec, bytes_transferred));
     }
     else
@@ -1056,7 +1056,7 @@ public:
       else if (last_error == ERROR_PORT_UNREACHABLE)
         last_error = WSAECONNREFUSED;
       ec = asio::error_code(last_error,
-          asio::error::system_category);
+          asio::error::get_system_category());
       return 0;
     }
     if (bytes_transferred == 0)
@@ -1115,7 +1115,7 @@ public:
 
       // Map non-portable errors to their portable counterparts.
       asio::error_code ec(last_error,
-          asio::error::system_category);
+          asio::error::get_system_category());
       if (ec.value() == ERROR_NETNAME_DELETED)
       {
         if (handler_op->cancel_token_.expired())
@@ -1170,7 +1170,7 @@ public:
   {
     if (!is_open(impl))
     {
-      this->io_service().post(bind_handler(handler,
+      this->get_io_service().post(bind_handler(handler,
             asio::error::bad_descriptor, 0));
       return;
     }
@@ -1186,7 +1186,7 @@ public:
     typedef handler_alloc_traits<Handler, value_type> alloc_traits;
     raw_handler_ptr<alloc_traits> raw_ptr(handler);
     handler_ptr<alloc_traits> ptr(raw_ptr,
-        this->io_service(), impl.cancel_token_, buffers, handler);
+        this->get_io_service(), impl.cancel_token_, buffers, handler);
 
     // Copy buffers into WSABUF array.
     ::WSABUF bufs[max_buffers];
@@ -1205,7 +1205,7 @@ public:
     // A request to receive 0 bytes on a stream socket is a no-op.
     if (impl.protocol_.type() == SOCK_STREAM && total_buffer_size == 0)
     {
-      asio::io_service::work work(this->io_service());
+      asio::io_service::work work(this->get_io_service());
       ptr.reset();
       asio::error_code error;
       iocp_service_.post(bind_handler(handler, error, 0));
@@ -1220,10 +1220,10 @@ public:
     DWORD last_error = ::WSAGetLastError();
     if (result != 0 && last_error != WSA_IO_PENDING)
     {
-      asio::io_service::work work(this->io_service());
+      asio::io_service::work work(this->get_io_service());
       ptr.reset();
       asio::error_code ec(last_error,
-          asio::error::system_category);
+          asio::error::get_system_category());
       iocp_service_.post(bind_handler(handler, ec, bytes_transferred));
     }
     else
@@ -1261,7 +1261,7 @@ public:
     // Receive some data.
     DWORD bytes_transferred = 0;
     DWORD recv_flags = flags;
-    int endpoint_size = sender_endpoint.capacity();
+    int endpoint_size = static_cast<int>(sender_endpoint.capacity());
     int result = ::WSARecvFrom(impl.socket_, bufs, i, &bytes_transferred,
         &recv_flags, sender_endpoint.data(), &endpoint_size, 0, 0);
     if (result != 0)
@@ -1270,7 +1270,7 @@ public:
       if (last_error == ERROR_PORT_UNREACHABLE)
         last_error = WSAECONNREFUSED;
       ec = asio::error_code(last_error,
-          asio::error::system_category);
+          asio::error::get_system_category());
       return 0;
     }
     if (bytes_transferred == 0)
@@ -1279,7 +1279,7 @@ public:
       return 0;
     }
 
-    sender_endpoint.resize(endpoint_size);
+    sender_endpoint.resize(static_cast<std::size_t>(endpoint_size));
 
     ec = asio::error_code();
     return bytes_transferred;
@@ -1299,7 +1299,7 @@ public:
           &receive_from_operation<
             MutableBufferSequence, Handler>::destroy_impl),
         endpoint_(endpoint),
-        endpoint_size_(endpoint.capacity()),
+        endpoint_size_(static_cast<int>(endpoint.capacity())),
         work_(io_service),
         buffers_(buffers),
         handler_(handler)
@@ -1337,7 +1337,7 @@ public:
 
       // Map non-portable errors to their portable counterparts.
       asio::error_code ec(last_error,
-          asio::error::system_category);
+          asio::error::get_system_category());
       if (ec.value() == ERROR_PORT_UNREACHABLE)
       {
         ec = asio::error::connection_refused;
@@ -1390,7 +1390,7 @@ public:
   {
     if (!is_open(impl))
     {
-      this->io_service().post(bind_handler(handler,
+      this->get_io_service().post(bind_handler(handler,
             asio::error::bad_descriptor, 0));
       return;
     }
@@ -1406,7 +1406,7 @@ public:
     typedef handler_alloc_traits<Handler, value_type> alloc_traits;
     raw_handler_ptr<alloc_traits> raw_ptr(handler);
     handler_ptr<alloc_traits> ptr(raw_ptr,
-        this->io_service(), sender_endp, buffers, handler);
+        this->get_io_service(), sender_endp, buffers, handler);
 
     // Copy buffers into WSABUF array.
     ::WSABUF bufs[max_buffers];
@@ -1429,10 +1429,10 @@ public:
     DWORD last_error = ::WSAGetLastError();
     if (result != 0 && last_error != WSA_IO_PENDING)
     {
-      asio::io_service::work work(this->io_service());
+      asio::io_service::work work(this->get_io_service());
       ptr.reset();
       asio::error_code ec(last_error,
-          asio::error::system_category);
+          asio::error::get_system_category());
       iocp_service_.post(bind_handler(handler, ec, bytes_transferred));
     }
     else
@@ -1463,7 +1463,7 @@ public:
     {
       asio::error_code ec;
       socket_holder new_socket;
-      socket_addr_len_type addr_len = 0;
+      std::size_t addr_len = 0;
       if (peer_endpoint)
       {
         addr_len = peer_endpoint->capacity();
@@ -1517,7 +1517,7 @@ public:
         peer_(peer),
         protocol_(protocol),
         peer_endpoint_(peer_endpoint),
-        work_(io_service.io_service()),
+        work_(io_service.get_io_service()),
         enable_connection_aborted_(enable_connection_aborted),
         handler_(handler)
     {
@@ -1618,7 +1618,8 @@ public:
         GetAcceptExSockaddrs(handler_op->output_buffer(), 0,
             handler_op->address_length(), handler_op->address_length(),
             &local_addr, &local_addr_length, &remote_addr, &remote_addr_length);
-        if (remote_addr_length > peer_endpoint.capacity())
+        if (static_cast<std::size_t>(remote_addr_length)
+            > peer_endpoint.capacity())
         {
           last_error = WSAEINVAL;
         }
@@ -1626,7 +1627,7 @@ public:
         {
           using namespace std; // For memcpy.
           memcpy(peer_endpoint.data(), remote_addr, remote_addr_length);
-          peer_endpoint.resize(remote_addr_length);
+          peer_endpoint.resize(static_cast<std::size_t>(remote_addr_length));
         }
       }
 
@@ -1670,7 +1671,7 @@ public:
 
       // Call the handler.
       asio::error_code ec(last_error,
-          asio::error::system_category);
+          asio::error::get_system_category());
       asio_handler_invoke_helpers::invoke(
           detail::bind_handler(handler, ec), &handler);
     }
@@ -1705,7 +1706,7 @@ public:
     // Check whether acceptor has been initialised.
     if (!is_open(impl))
     {
-      this->io_service().post(bind_handler(handler,
+      this->get_io_service().post(bind_handler(handler,
             asio::error::bad_descriptor));
       return;
     }
@@ -1713,7 +1714,7 @@ public:
     // Check that peer socket has not already been opened.
     if (peer.is_open())
     {
-      this->io_service().post(bind_handler(handler,
+      this->get_io_service().post(bind_handler(handler,
             asio::error::already_open));
       return;
     }
@@ -1730,7 +1731,7 @@ public:
           impl.protocol_.type(), impl.protocol_.protocol(), ec));
     if (sock.get() == invalid_socket)
     {
-      this->io_service().post(bind_handler(handler, ec));
+      this->get_io_service().post(bind_handler(handler, ec));
       return;
     }
 
@@ -1768,10 +1769,10 @@ public:
       }
       else
       {
-        asio::io_service::work work(this->io_service());
+        asio::io_service::work work(this->get_io_service());
         ptr.reset();
         asio::error_code ec(last_error,
-            asio::error::system_category);
+            asio::error::get_system_category());
         iocp_service_.post(bind_handler(handler, ec));
       }
     }
@@ -1848,7 +1849,7 @@ public:
       if (connect_error)
       {
         ec = asio::error_code(connect_error,
-            asio::error::system_category);
+            asio::error::get_system_category());
         io_service_.post(bind_handler(handler_, ec));
         return true;
       }
@@ -1887,7 +1888,7 @@ public:
   {
     if (!is_open(impl))
     {
-      this->io_service().post(bind_handler(handler,
+      this->get_io_service().post(bind_handler(handler,
             asio::error::bad_descriptor));
       return;
     }
@@ -1904,7 +1905,8 @@ public:
             reinterpret_cast<void**>(&reactor_), 0, 0));
     if (!reactor)
     {
-      reactor = &(asio::use_service<reactor_type>(this->io_service()));
+      reactor = &(asio::use_service<reactor_type>(
+            this->get_io_service()));
       interlocked_exchange_pointer(
           reinterpret_cast<void**>(&reactor_), reactor);
     }
@@ -1915,7 +1917,7 @@ public:
     asio::error_code ec;
     if (socket_ops::ioctl(impl.socket_, FIONBIO, &non_blocking, ec))
     {
-      this->io_service().post(bind_handler(handler, ec));
+      this->get_io_service().post(bind_handler(handler, ec));
       return;
     }
 
@@ -1932,7 +1934,7 @@ public:
 
       // The connect operation has finished successfully so we need to post the
       // handler immediately.
-      this->io_service().post(bind_handler(handler, ec));
+      this->get_io_service().post(bind_handler(handler, ec));
     }
     else if (ec == asio::error::in_progress
         || ec == asio::error::would_block)
@@ -1944,7 +1946,7 @@ public:
           connect_handler<Handler>(
             impl.socket_,
             (impl.flags_ & implementation_type::user_set_non_blocking) != 0,
-            completed, this->io_service(), *reactor, handler));
+            completed, this->get_io_service(), *reactor, handler));
     }
     else
     {
@@ -1957,7 +1959,7 @@ public:
       }
 
       // The connect operation has failed, so post the handler immediately.
-      this->io_service().post(bind_handler(handler, ec));
+      this->get_io_service().post(bind_handler(handler, ec));
     }
   }
 

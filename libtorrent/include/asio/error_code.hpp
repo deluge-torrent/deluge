@@ -41,10 +41,10 @@ namespace error
     system_category = ASIO_WIN_OR_POSIX(0, 0),
 
     /// Error codes from NetDB functions.
-    netdb_category = ASIO_WIN_OR_POSIX(system_category, 1),
+    netdb_category = ASIO_WIN_OR_POSIX(_system_category, 1),
 
     /// Error codes from getaddrinfo.
-    addrinfo_category = ASIO_WIN_OR_POSIX(system_category, 2),
+    addrinfo_category = ASIO_WIN_OR_POSIX(_system_category, 2),
 
     /// Miscellaneous error codes.
     misc_category = ASIO_WIN_OR_POSIX(3, 3),
@@ -52,7 +52,18 @@ namespace error
     /// SSL error codes.
     ssl_category = ASIO_WIN_OR_POSIX(4, 4)
   };
+
+  // Category getters.
+  inline error_category get_system_category() { return system_category; }
+  inline error_category get_netdb_category() { return netdb_category; }
+  inline error_category get_addrinfo_category() { return addrinfo_category; }
+  inline error_category get_misc_category() { return misc_category; }
+  inline error_category get_ssl_category() { return ssl_category; }
+
 } // namespace error
+
+/// Bring error category type into the asio namespace.
+typedef asio::error::error_category error_category;
 
 /// Class to represent an error code value.
 class error_code
@@ -69,7 +80,7 @@ public:
   }
 
   /// Construct with specific error code and category.
-  error_code(value_type v, error::error_category c)
+  error_code(value_type v, error_category c)
     : value_(v),
       category_(c)
   {
@@ -89,7 +100,7 @@ public:
   }
 
   /// Get the error category.
-  error::error_category category() const
+  error_category category() const
   {
     return category_;
   }
@@ -135,7 +146,7 @@ private:
   value_type value_;
 
   // The category associated with the error code.
-  error::error_category category_;
+  error_category category_;
 };
 
 } // namespace asio
