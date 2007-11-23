@@ -545,7 +545,11 @@ namespace detail
 	session_impl::session_impl(
 		std::pair<int, int> listen_port_range
 		, fingerprint const& cl_fprint
-		, char const* listen_interface)
+		, char const* listen_interface
+#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+		, fs::path const& logpath
+#endif
+		)
 		: m_send_buffers(send_buffer_size)
 		, m_files(40)
 		, m_strand(m_io_service)
@@ -570,6 +574,9 @@ namespace detail
 #endif
 		, m_timer(m_io_service)
 		, m_next_connect_torrent(0)
+#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+		, m_logpath(logpath)
+#endif
 		, m_checker_impl(*this)
 	{
 #ifdef WIN32
@@ -807,13 +814,15 @@ namespace detail
 		return m_ipv6_interface;
 	}
 
-	session_impl::listen_socket_t session_impl::setup_listener(tcp::endpoint ep, int retries)
+	session_impl::listen_socket_t session_impl::setup_listener(tcp::endpoint ep
+		, int retries, bool v6_only)
 	{
 		asio::error_code ec;
 		listen_socket_t s;
 		s.sock.reset(new socket_acceptor(m_io_service));
 		s.sock->open(ep.protocol(), ec);
 		s.sock->set_option(socket_acceptor::reuse_address(true), ec);
+		if (ep.protocol() == tcp::v6()) s.sock->set_option(v6only(v6_only), ec);
 		s.sock->bind(ep, ec);
 		while (ec && retries > 0)
 		{
@@ -906,7 +915,7 @@ namespace detail
 
 			s = setup_listener(
 				tcp::endpoint(address_v6::any(), m_listen_interface.port())
-				, m_listen_port_retries);
+				, m_listen_port_retries, true);
 
 			if (s.sock)
 			{
@@ -1021,7 +1030,6 @@ namespace detail
 		async_accept(listener);
 
 		// we got a connection request!
-		m_incoming_connection = true;
 		tcp::endpoint endp = s->remote_endpoint(ec);
 
 		if (ec)
@@ -1036,6 +1044,14 @@ namespace detail
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
 		(*m_logger) << endp << " <== INCOMING CONNECTION\n";
 #endif
+
+		// local addresses do not count, since it's likely
+		// coming from our own client through local service discovery
+		// and it does not reflect whether or not a router is open
+		// for incoming connections or not.
+		if (!is_local(endp.address()))
+			m_incoming_connection = true;
+
 		if (m_ip_filter.access(endp.address()) & ip_filter::blocked)
 		{
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
@@ -1602,7 +1618,7 @@ namespace detail
 		, int instance, bool append)
 	{
 		// current options are file_logger, cout_logger and null_logger
-		return boost::shared_ptr<logger>(new logger(name + ".log", instance, append));
+		return boost::shared_ptr<logger>(new logger(m_logpath, name + ".log", instance, append));
 	}
 #endif
 
@@ -2265,6 +2281,8 @@ namespace detail
 
 		INVARIANT_CHECK;
 
+		if (m_lsd) return;
+
 		m_lsd = new lsd(m_io_service
 			, m_listen_interface.address()
 			, bind(&session_impl::on_lsd_peer, this, _1, _2));
@@ -2275,6 +2293,8 @@ namespace detail
 		mutex_t::scoped_lock l(m_mutex);
 
 		INVARIANT_CHECK;
+
+		if (m_natpmp) return;
 
 		m_natpmp = new natpmp(m_io_service
 			, m_listen_interface.address()
@@ -2294,6 +2314,8 @@ namespace detail
 
 		INVARIANT_CHECK;
 
+		if (m_upnp) return;
+
 		m_upnp = new upnp(m_io_service, m_half_open
 			, m_listen_interface.address()
 			, m_settings.user_agent
@@ -2310,6 +2332,8 @@ namespace detail
 	void session_impl::stop_lsd()
 	{
 		mutex_t::scoped_lock l(m_mutex);
+		if (m_lsd.get())
+			m_lsd->close();
 		m_lsd = 0;
 	}
 	

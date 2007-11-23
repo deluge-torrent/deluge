@@ -123,11 +123,13 @@ public:
 	{
 		m_remote_endpoint = endpoint_type();
 		m_sock.close();
+		m_resolver.cancel();
 	}
 
 	void close(asio::error_code& ec)
 	{
 		m_sock.close(ec);
+		m_resolver.cancel();
 	}
 
 	endpoint_type remote_endpoint()

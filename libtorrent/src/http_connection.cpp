@@ -96,9 +96,7 @@ void http_connection::on_connect_timeout()
 	if (m_connection_ticket > -1) m_cc.done(m_connection_ticket);
 	m_connection_ticket = -1;
 
-	if (m_bottled && m_called) return;
-	m_called = true;
-	m_handler(asio::error::timed_out, m_parser, 0, 0);
+	callback(asio::error::timed_out);
 	close();
 }
 
@@ -112,14 +110,14 @@ void http_connection::on_timeout(boost::weak_ptr<http_connection> p
 
 	if (e == asio::error::operation_aborted) return;
 
-	if (c->m_bottled && c->m_called) return;
-
 	if (c->m_last_receive + c->m_timeout < time_now())
 	{
-		c->m_called = true;
-		c->m_handler(asio::error::timed_out, c->m_parser, 0, 0);
+		c->callback(asio::error::timed_out);
+		c->close();
 		return;
 	}
+
+	if (!c->m_sock.is_open()) return;
 
 	c->m_timer.expires_at(c->m_last_receive + c->m_timeout);
 	c->m_timer.async_wait(bind(&http_connection::on_timeout, p, _1));
@@ -135,6 +133,8 @@ void http_connection::close()
 
 	if (m_connection_ticket > -1) m_cc.done(m_connection_ticket);
 	m_connection_ticket = -1;
+
+	m_handler.clear();
 }
 
 void http_connection::on_resolve(asio::error_code const& e
@@ -142,10 +142,8 @@ void http_connection::on_resolve(asio::error_code const& e
 {
 	if (e)
 	{
+		callback(e);
 		close();
-		if (m_bottled && m_called) return;
-		m_called = true;
-		m_handler(e, m_parser, 0, 0);
 		return;
 	}
 	TORRENT_ASSERT(i != tcp::resolver::iterator());
@@ -181,10 +179,17 @@ void http_connection::on_connect(asio::error_code const& e
 	} 
 */	else
 	{ 
+		callback(e);
 		close();
-		if (m_bottled && m_called) return;
+	}
+}
+
+void http_connection::callback(asio::error_code const& e, char const* data, int size)
+{
+	if (!m_bottled || !m_called)
+	{
 		m_called = true;
-		m_handler(e, m_parser, 0, 0);
+		if (m_handler) m_handler(e, m_parser, data, size);
 	}
 }
 
@@ -192,10 +197,8 @@ void http_connection::on_write(asio::error_code const& e)
 {
 	if (e)
 	{
+		callback(e);
 		close();
-		if (m_bottled && m_called) return;
-		m_called = true;
-		m_handler(e, m_parser, 0, 0);
 		return;
 	}
 
@@ -230,9 +233,6 @@ void http_connection::on_read(asio::error_code const& e
 
 	if (e == asio::error::eof)
 	{
-		close();
-		if (m_bottled && m_called) return;
-		m_called = true;
 		char const* data = 0;
 		std::size_t size = 0;
 		if (m_bottled && m_parser.header_finished())
@@ -240,16 +240,15 @@ void http_connection::on_read(asio::error_code const& e
 			data = m_parser.get_body().begin;
 			size = m_parser.get_body().left();
 		}
-		m_handler(e, m_parser, data, size);
+		callback(e, data, size);
+		close();
 		return;
 	}
 
 	if (e)
 	{
+		callback(e);
 		close();
-		if (m_bottled && m_called) return;
-		m_called = true;
-		m_handler(e, m_parser, 0, 0);
 		return;
 	}
 
@@ -267,9 +266,7 @@ void http_connection::on_read(asio::error_code const& e
 			if (url.empty())
 			{
 				// missing location header
-				if (m_bottled && m_called) return;
-				m_called = true;
-				m_handler(e, m_parser, 0, 0);
+				callback(e);
 				return;
 			}
 
@@ -291,7 +288,7 @@ void http_connection::on_read(asio::error_code const& e
 		if (!m_bottled && m_parser.header_finished())
 		{
 			if (m_read_pos > m_parser.body_start())
-				m_handler(e, m_parser, &m_recvbuffer[0] + m_parser.body_start()
+				callback(e, &m_recvbuffer[0] + m_parser.body_start()
 					, m_read_pos - m_parser.body_start());
 			m_read_pos = 0;
 			m_last_receive = time_now();
@@ -299,15 +296,13 @@ void http_connection::on_read(asio::error_code const& e
 		else if (m_bottled && m_parser.finished())
 		{
 			m_timer.cancel();
-			if (m_bottled && m_called) return;
-			m_called = true;
-			m_handler(e, m_parser, m_parser.get_body().begin, m_parser.get_body().left());
+			callback(e, m_parser.get_body().begin, m_parser.get_body().left());
 		}
 	}
 	else
 	{
 		TORRENT_ASSERT(!m_bottled);
-		m_handler(e, m_parser, &m_recvbuffer[0], m_read_pos);
+		callback(e, &m_recvbuffer[0], m_read_pos);
 		m_read_pos = 0;
 		m_last_receive = time_now();
 	}
@@ -316,10 +311,8 @@ void http_connection::on_read(asio::error_code const& e
 		m_recvbuffer.resize((std::min)(m_read_pos + 2048, int(max_bottled_buffer)));
 	if (m_read_pos == max_bottled_buffer)
 	{
+		callback(asio::error::eof);
 		close();
-		if (m_bottled && m_called) return;
-		m_called = true;
-		m_handler(asio::error::eof, m_parser, 0, 0);
 		return;
 	}
 	int amount_to_read = m_recvbuffer.size() - m_read_pos;
@@ -345,8 +338,7 @@ void http_connection::on_assign_bandwidth(asio::error_code const& e)
 		&& m_limiter_timer_active)
 		|| !m_sock.is_open())
 	{
-		if (!m_bottled || !m_called)
-			m_handler(e, m_parser, 0, 0);
+		callback(asio::error::eof);
 		return;
 	}
 	m_limiter_timer_active = false;
@@ -359,6 +351,8 @@ void http_connection::on_assign_bandwidth(asio::error_code const& e)
 	int amount_to_read = m_recvbuffer.size() - m_read_pos;
 	if (amount_to_read > m_download_quota)
 		amount_to_read = m_download_quota;
+
+	if (!m_sock.is_open()) return;
 
 	m_sock.async_read_some(asio::buffer(&m_recvbuffer[0] + m_read_pos
 		, amount_to_read)
@@ -373,6 +367,8 @@ void http_connection::on_assign_bandwidth(asio::error_code const& e)
 
 void http_connection::rate_limit(int limit)
 {
+	if (!m_sock.is_open()) return;
+
 	if (!m_limiter_timer_active)
 	{
 		m_limiter_timer_active = true;
