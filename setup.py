@@ -53,7 +53,9 @@ _extra_compile_args = [
     "-DHAVE_INCLUDE_LIBTORRENT_ASIO_IP_TCP_HPP=1", 
     "-DHAVE_PTHREAD=1",
     "-DTORRENT_USE_OPENSSL=1",
-    "-DHAVE_SSL=1"
+    "-DHAVE_SSL=1",
+    "-g",
+    "-p"
 ]
 
 _include_dirs = [
