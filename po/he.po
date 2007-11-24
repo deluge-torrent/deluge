@@ -7,273 +7,273 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-11-21 17:17-0600\n"
+"POT-Creation-Date: 2007-11-23 21:57-0600\n"
 "PO-Revision-Date: 2007-11-21 18:50+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-22 11:35+0000\n"
+"X-Launchpad-Export-Date: 2007-11-24 19:24+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: glade/delugegtk.glade:147
-msgid "<b>Availability:</b>"
-msgstr "<b>זמינות:</b>"
+#: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
+msgid "Add Torrent"
+msgstr "הוסף טורנט"
 
-#: glade/delugegtk.glade:183
-msgid "<b>Pieces:</b>"
-msgstr "<b>חלקים:</b>"
+#: glade/delugegtk.glade:30
+msgid "Add"
+msgstr "הוספה"
 
-#: glade/delugegtk.glade:200
-msgid "<b>ETA:</b>"
-msgstr "<b>זמן הורדה משוער:</b>"
+#: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
+msgid "Remove Torrent"
+msgstr "הסר טורנט"
 
-#: glade/delugegtk.glade:221
-msgid "<b>Peers:</b>"
-msgstr "<b>משתפים:</b>"
+#: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:40
+msgid "Remove"
+msgstr "הסר"
 
-#: glade/delugegtk.glade:242 glade/delugegtk.glade:263
-msgid "<b>Speed:</b>"
-msgstr "‏<b>מהירות:</b>"
+#: glade/delugegtk.glade:56
+msgid "Clear Seeding Torrents"
+msgstr "פינוי טורנטים משתפים"
 
-#: glade/delugegtk.glade:281
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>יחס שיתוף:</b>"
+#: glade/delugegtk.glade:57
+msgid "Clear"
+msgstr "ניקוי"
 
-#: glade/delugegtk.glade:299
-msgid "<b>Seeders:</b>"
-msgstr "<b>מפיצים:</b>"
+#: glade/delugegtk.glade:79
+msgid "Start or Resume Torrent"
+msgstr "התחל או הפעל מחדש טורנט"
 
-#: glade/delugegtk.glade:317
-msgid "<b>Uploaded:</b>"
-msgstr "<b>הועלה:</b>"
+#: glade/delugegtk.glade:80
+msgid "Resume"
+msgstr "הפעל מחדש"
 
-#: glade/delugegtk.glade:335
-msgid "<b>Downloaded:</b>"
-msgstr "<b>ירד:</b>"
+#: glade/delugegtk.glade:93
+msgid "Pause Torrent"
+msgstr "השהה טורנט"
 
-#: glade/delugegtk.glade:447
-msgid "<b>Statistics</b>"
-msgstr "<b>סטטיסטיקה</b>"
+#: glade/delugegtk.glade:94
+msgid "Pause"
+msgstr "השהייה"
 
-#: glade/delugegtk.glade:503
-msgid "<b>Path:</b>"
-msgstr "<b>נתיב:</b>"
+#: glade/delugegtk.glade:106
+msgid "Queue Torrent Up"
+msgstr "העלה עדיפות"
 
-#: glade/delugegtk.glade:537
-msgid "<b>Total Size:</b>"
-msgstr "<b>גודל כולל:</b>"
+#: glade/delugegtk.glade:107
+msgid "Up"
+msgstr "למעלה"
 
-#: glade/delugegtk.glade:599
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>מצב טראקר:</b>"
+#: glade/delugegtk.glade:120
+msgid "Queue Torrent Down"
+msgstr "הורד עדיפות"
 
-#: glade/delugegtk.glade:632
-msgid "<b>Next Announce:</b>"
-msgstr "<b>קריאה באה:</b>"
+#: glade/delugegtk.glade:121
+msgid "Down"
+msgstr "למטה"
 
-#: glade/delugegtk.glade:671
-msgid "<b># of files:</b>"
-msgstr "<b># מהקבצים:</b>"
+#: glade/delugegtk.glade:142
+msgid "Change Deluge preferences"
+msgstr "שנה הגדרות"
 
-#: glade/delugegtk.glade:699
-msgid "<b>Tracker:</b>"
-msgstr "<b>טראקר:</b>"
+#: glade/delugegtk.glade:143
+msgid "Preferences"
+msgstr "מאפיינים"
 
-#: glade/delugegtk.glade:723
-msgid "<b>Name:</b>"
-msgstr "<b>שם:</b>"
+#: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
+#: glade/preferences_dialog.glade:2965
+msgid "Plugins"
+msgstr "תוספים"
 
-#: glade/delugegtk.glade:740
-msgid "<b>Torrent Info</b>"
-msgstr "<b>מידע על הטורנט</b>"
-
-#: glade/delugegtk.glade:766 plugins/WebUi/scripts/template_strings.py:14
-msgid "Details"
-msgstr "פרטים"
-
-#: glade/delugegtk.glade:805
+#: glade/delugegtk.glade:177
 msgid "_File"
 msgstr "_קובץ"
 
-#: glade/delugegtk.glade:812 glade/tray_menu.glade:61
+#: glade/delugegtk.glade:184 glade/tray_menu.glade:61
 msgid "_Add Torrent"
 msgstr "_הוסף טורנט"
 
-#: glade/delugegtk.glade:827
+#: glade/delugegtk.glade:199
 msgid "Add _URL"
 msgstr "_הוסף כתובת"
 
-#: glade/delugegtk.glade:835
+#: glade/delugegtk.glade:207
 msgid "_Clear Completed"
 msgstr "_פינוי טורנטים שהושלמו"
 
-#: glade/delugegtk.glade:868
+#: glade/delugegtk.glade:240
 msgid "_Edit"
 msgstr "_עריכה"
 
-#: glade/delugegtk.glade:877
+#: glade/delugegtk.glade:249
 msgid "gtk-select-all"
 msgstr "gtk-select-all"
 
-#: glade/delugegtk.glade:893
+#: glade/delugegtk.glade:265
 msgid "Plu_gins"
 msgstr "הר_חבות"
 
-#: glade/delugegtk.glade:921
+#: glade/delugegtk.glade:293
 msgid "_Torrent"
 msgstr "_טורנט"
 
-#: glade/delugegtk.glade:928
+#: glade/delugegtk.glade:300
 msgid "_View"
 msgstr "_הצגה"
 
-#: glade/delugegtk.glade:936
+#: glade/delugegtk.glade:308
 msgid "_Toolbar"
 msgstr "_סרגל כלים"
 
-#: glade/delugegtk.glade:945
+#: glade/delugegtk.glade:317
 msgid "_Details"
 msgstr "_פרטים"
 
-#: glade/delugegtk.glade:954
+#: glade/delugegtk.glade:326
 msgid "_Columns"
 msgstr "_עמודות"
 
-#: glade/delugegtk.glade:962 src/interface.py:623 src/files.py:80
+#: glade/delugegtk.glade:334 src/interface.py:623 src/files.py:80
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Size"
 msgstr "גודל"
 
-#: glade/delugegtk.glade:971 src/interface.py:627
+#: glade/delugegtk.glade:343 src/interface.py:627
 #: plugins/FlexRSS/FlexRSS.glade:138
 msgid "Status"
 msgstr "מעמד"
 
-#: glade/delugegtk.glade:980 src/interface.py:629
+#: glade/delugegtk.glade:352 src/interface.py:629
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Seeders"
 msgstr "מפיצים"
 
-#: glade/delugegtk.glade:989 src/interface.py:632
-#: plugins/TorrentPeers/__init__.py:72
+#: glade/delugegtk.glade:361 src/interface.py:632
+#: plugins/TorrentPeers/__init__.py:84
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Peers"
 msgstr "משתפים"
 
-#: glade/delugegtk.glade:998 src/interface.py:635 src/interface.py:1192
+#: glade/delugegtk.glade:370 src/interface.py:635 src/interface.py:1192
 #: src/interface.py:1223 plugins/TorrentPeers/tab_peers.py:89
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Down Speed"
 msgstr "מהירות הורדה"
 
-#: glade/delugegtk.glade:1007 src/interface.py:638 src/interface.py:1193
+#: glade/delugegtk.glade:379 src/interface.py:638 src/interface.py:1193
 #: src/interface.py:1224 plugins/TorrentPeers/tab_peers.py:91
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Up Speed"
 msgstr "מהירות העלאה"
 
-#: glade/delugegtk.glade:1016
+#: glade/delugegtk.glade:388
 msgid "Time Remaining"
 msgstr "זמן נותר"
 
-#: glade/delugegtk.glade:1025 plugins/WebUi/scripts/template_strings.py:8
+#: glade/delugegtk.glade:397 plugins/WebUi/scripts/template_strings.py:8
 msgid "Availability"
 msgstr "זמינות"
 
-#: glade/delugegtk.glade:1034 plugins/WebUi/scripts/template_strings.py:47
+#: glade/delugegtk.glade:406 plugins/WebUi/scripts/template_strings.py:47
 msgid "Share Ratio"
 msgstr "יחס שיתוף"
 
-#: glade/delugegtk.glade:1051
+#: glade/delugegtk.glade:423
 msgid "_Help"
 msgstr "_עזרה"
 
-#: glade/delugegtk.glade:1059
+#: glade/delugegtk.glade:431
 msgid "Help translate this application"
 msgstr "עזרו בתרגום התוכנה"
 
-#: glade/delugegtk.glade:1060
+#: glade/delugegtk.glade:432
 msgid "_Translate This Application..."
 msgstr "תרגם את התוכנה הזו"
 
-#: glade/delugegtk.glade:1083
+#: glade/delugegtk.glade:455
 msgid "Runs the first-time configuration wizard"
 msgstr "מריץ את אשף ההפעלה הראשונה"
 
-#: glade/delugegtk.glade:1084
+#: glade/delugegtk.glade:456
 msgid "_Run Configuration Wizard"
 msgstr "הרצת אשף ההפעלה הראשונה"
 
-#: glade/delugegtk.glade:1157 plugins/WebUi/scripts/template_strings.py:3
-msgid "Add Torrent"
-msgstr "הוסף טורנט"
+#: glade/delugegtk.glade:593
+msgid "<b>Name:</b>"
+msgstr "<b>שם:</b>"
 
-#: glade/delugegtk.glade:1158
-msgid "Add"
-msgstr "הוספה"
+#: glade/delugegtk.glade:617
+msgid "<b>Tracker:</b>"
+msgstr "<b>טראקר:</b>"
 
-#: glade/delugegtk.glade:1171 glade/dgtkpopups.glade:6
-msgid "Remove Torrent"
-msgstr "הסר טורנט"
+#: glade/delugegtk.glade:645
+msgid "<b># of files:</b>"
+msgstr "<b># מהקבצים:</b>"
 
-#: glade/delugegtk.glade:1172 plugins/WebUi/scripts/template_strings.py:40
-msgid "Remove"
-msgstr "הסר"
+#: glade/delugegtk.glade:681
+msgid "<b>Next Announce:</b>"
+msgstr "<b>קריאה באה:</b>"
 
-#: glade/delugegtk.glade:1184
-msgid "Clear Seeding Torrents"
-msgstr "פינוי טורנטים משתפים"
+#: glade/delugegtk.glade:715
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>מצב טראקר:</b>"
 
-#: glade/delugegtk.glade:1185
-msgid "Clear"
-msgstr "ניקוי"
+#: glade/delugegtk.glade:776
+msgid "<b>Total Size:</b>"
+msgstr "<b>גודל כולל:</b>"
 
-#: glade/delugegtk.glade:1207
-msgid "Start or Resume Torrent"
-msgstr "התחל או הפעל מחדש טורנט"
+#: glade/delugegtk.glade:811
+msgid "<b>Path:</b>"
+msgstr "<b>נתיב:</b>"
 
-#: glade/delugegtk.glade:1208
-msgid "Resume"
-msgstr "הפעל מחדש"
+#: glade/delugegtk.glade:843
+msgid "<b>Torrent Info</b>"
+msgstr "<b>מידע על הטורנט</b>"
 
-#: glade/delugegtk.glade:1221
-msgid "Pause Torrent"
-msgstr "השהה טורנט"
+#: glade/delugegtk.glade:1005
+msgid "<b>Downloaded:</b>"
+msgstr "<b>ירד:</b>"
 
-#: glade/delugegtk.glade:1222
-msgid "Pause"
-msgstr "השהייה"
+#: glade/delugegtk.glade:1019
+msgid "<b>Uploaded:</b>"
+msgstr "<b>הועלה:</b>"
 
-#: glade/delugegtk.glade:1234
-msgid "Queue Torrent Up"
-msgstr "העלה עדיפות"
+#: glade/delugegtk.glade:1037
+msgid "<b>Seeders:</b>"
+msgstr "<b>מפיצים:</b>"
 
-#: glade/delugegtk.glade:1235
-msgid "Up"
-msgstr "למעלה"
+#: glade/delugegtk.glade:1055
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>יחס שיתוף:</b>"
 
-#: glade/delugegtk.glade:1248
-msgid "Queue Torrent Down"
-msgstr "הורד עדיפות"
+#: glade/delugegtk.glade:1074 glade/delugegtk.glade:1093
+msgid "<b>Speed:</b>"
+msgstr "‏<b>מהירות:</b>"
 
-#: glade/delugegtk.glade:1249
-msgid "Down"
-msgstr "למטה"
+#: glade/delugegtk.glade:1114
+msgid "<b>Peers:</b>"
+msgstr "<b>משתפים:</b>"
 
-#: glade/delugegtk.glade:1270
-msgid "Change Deluge preferences"
-msgstr "שנה הגדרות"
+#: glade/delugegtk.glade:1135
+msgid "<b>ETA:</b>"
+msgstr "<b>זמן הורדה משוער:</b>"
 
-#: glade/delugegtk.glade:1271
-msgid "Preferences"
-msgstr "מאפיינים"
+#: glade/delugegtk.glade:1152
+msgid "<b>Pieces:</b>"
+msgstr "<b>חלקים:</b>"
 
-#: glade/delugegtk.glade:1284 glade/dgtkpopups.glade:209
-#: glade/preferences_dialog.glade:2936
-msgid "Plugins"
-msgstr "תוספים"
+#: glade/delugegtk.glade:1190
+msgid "<b>Availability:</b>"
+msgstr "<b>זמינות:</b>"
+
+#: glade/delugegtk.glade:1231
+msgid "<b>Statistics</b>"
+msgstr "<b>סטטיסטיקה</b>"
+
+#: glade/delugegtk.glade:1256 plugins/WebUi/scripts/template_strings.py:14
+msgid "Details"
+msgstr "פרטים"
 
 #: glade/dgtkpopups.glade:41
 msgid ""
@@ -314,19 +314,19 @@ msgstr "בחר הכל"
 msgid "Unselect All"
 msgstr "בטל סימון"
 
-#: glade/file_tab_menu.glade:68 src/core.py:101
+#: glade/file_tab_menu.glade:68 src/core.py:102
 msgid "Don't download"
 msgstr "לא להוריד"
 
-#: glade/file_tab_menu.glade:83 src/core.py:102
+#: glade/file_tab_menu.glade:83 src/core.py:103
 msgid "Normal"
 msgstr "נורמלי"
 
-#: glade/file_tab_menu.glade:98 src/core.py:103
+#: glade/file_tab_menu.glade:98 src/core.py:104
 msgid "High"
 msgstr "גבוה"
 
-#: glade/file_tab_menu.glade:113 src/core.py:104
+#: glade/file_tab_menu.glade:113 src/core.py:105
 msgid "Highest"
 msgstr "הגבוה ביותר"
 
@@ -348,17 +348,17 @@ msgstr "העדפות התוכנה"
 msgid "Ask where to save each download"
 msgstr "שאל בכל פעם לאן להוריד"
 
-#: glade/preferences_dialog.glade:76 glade/preferences_dialog.glade:125
-#: glade/preferences_dialog.glade:196 glade/wizard.glade:187
+#: glade/preferences_dialog.glade:75 glade/preferences_dialog.glade:76
+msgid "Store all downloads in:"
+msgstr "שמור את כל ההורדות ל:"
+
+#: glade/preferences_dialog.glade:90 glade/preferences_dialog.glade:118
+#: glade/preferences_dialog.glade:186 glade/wizard.glade:187
 #: plugins/MoveTorrent/movetorrent.glade:35
 msgid "Select A Folder"
 msgstr "בחר תיקייה"
 
-#: glade/preferences_dialog.glade:88 glade/preferences_dialog.glade:89
-msgid "Store all downloads in:"
-msgstr "שמור את כל ההורדות ל:"
-
-#: glade/preferences_dialog.glade:112
+#: glade/preferences_dialog.glade:131
 msgid "Store all torrent files in:"
 msgstr "אחסון כל קבצי הטורנט ב:"
 
@@ -366,7 +366,7 @@ msgstr "אחסון כל קבצי הטורנט ב:"
 msgid "<b>Download Location</b>"
 msgstr "<b>מיקום ההורדה</b>"
 
-#: glade/preferences_dialog.glade:182
+#: glade/preferences_dialog.glade:200
 msgid "Autoload all torrent files in:"
 msgstr "טעינה אוטומטית של קבצי טורנט ב:"
 
@@ -575,50 +575,12 @@ msgstr "פנה אוטומטית טורנטים שהגיעו ליחס השיתו�
 msgid "<b>Seeding</b>"
 msgstr "<b>משתף</b>"
 
-#: glade/preferences_dialog.glade:1138 src/core.py:92
-#: plugins/WebUi/webserver_common.py:147
+#: glade/preferences_dialog.glade:1138 src/core.py:93
+#: plugins/WebUi/webserver_common.py:139
 msgid "Seeding"
 msgstr "שיתוף"
 
-#: glade/preferences_dialog.glade:1184 glade/wizard.glade:257
-#: glade/wizard.glade:318
-msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
-msgstr "מספר נקודות העלאה מקסימלי עבור כל הטורנטים. -1 עבור בלתי מוגבל"
-
-#: glade/preferences_dialog.glade:1201 glade/preferences_dialog.glade:1287
-#: glade/preferences_dialog.glade:1307 glade/wizard.glade:277
-#: glade/wizard.glade:341
-msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
-msgstr "מהירות העלאה מקסימלית עבור כל הטורנטים. -1 עבור ללא הגבלה."
-
-#: glade/preferences_dialog.glade:1220 glade/preferences_dialog.glade:1237
-msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr "מהירות הורדה מקסימלית עבור כל הטורנטים. -1 עבור ללא הגבלה."
-
-#: glade/preferences_dialog.glade:1239
-msgid "Maximum Download Speed (KiB/s):"
-msgstr "מהירות הורדה מקסימלית (KiB/s):"
-
-#: glade/preferences_dialog.glade:1250 glade/preferences_dialog.glade:1269
-#: glade/wizard.glade:297 glade/wizard.glade:364
-msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "מספר החיבורים המקסימלי המותר. -1 עבור מהירות בלתי מוגבלת."
-
-#: glade/preferences_dialog.glade:1271 glade/preferences_dialog.glade:1456
-#: glade/wizard.glade:298
-msgid "Maximum Connections:"
-msgstr "מקסימום חיבורים:"
-
-#: glade/preferences_dialog.glade:1289 glade/wizard.glade:278
-msgid "Maximum Upload Speed (KiB/s):"
-msgstr "מהירות העלאה מקסימלית (KiB/s):"
-
-#: glade/preferences_dialog.glade:1309 glade/preferences_dialog.glade:1437
-#: glade/wizard.glade:258
-msgid "Maximum Upload Slots:"
-msgstr "מקסימום נקודות העלאה:"
-
-#: glade/preferences_dialog.glade:1327 glade/preferences_dialog.glade:1343
+#: glade/preferences_dialog.glade:1184 glade/preferences_dialog.glade:1205
 #: glade/wizard.glade:434 glade/wizard.glade:455
 msgid ""
 "The maximum half-open connections.  A high value may crash some cheap "
@@ -627,51 +589,105 @@ msgstr ""
 "מקסימום חיבורים חצי-פתוחים. ערך גבוהה עלול לגרום לנתבים ישנים לקרוס. -1 עבור "
 "בלתי מוגבל."
 
-#: glade/preferences_dialog.glade:1329 glade/wizard.glade:435
+#: glade/preferences_dialog.glade:1207 glade/wizard.glade:435
 msgid "Maximum Half-Open Connections:"
 msgstr "מקסימום חיבורים חצי-פתוחים:"
 
-#: glade/preferences_dialog.glade:1363
+#: glade/preferences_dialog.glade:1225 glade/preferences_dialog.glade:1245
+#: glade/preferences_dialog.glade:1325 glade/wizard.glade:277
+#: glade/wizard.glade:341
+msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
+msgstr "מהירות העלאה מקסימלית עבור כל הטורנטים. -1 עבור ללא הגבלה."
+
+#: glade/preferences_dialog.glade:1227 glade/preferences_dialog.glade:1450
+#: glade/wizard.glade:258
+msgid "Maximum Upload Slots:"
+msgstr "מקסימום נקודות העלאה:"
+
+#: glade/preferences_dialog.glade:1247 glade/wizard.glade:278
+msgid "Maximum Upload Speed (KiB/s):"
+msgstr "מהירות העלאה מקסימלית (KiB/s):"
+
+#: glade/preferences_dialog.glade:1265 glade/preferences_dialog.glade:1279
+#: glade/wizard.glade:297 glade/wizard.glade:364
+msgid "The maximum number of connections allowed.  Set -1 for unlimited."
+msgstr "מספר החיבורים המקסימלי המותר. -1 עבור מהירות בלתי מוגבלת."
+
+#: glade/preferences_dialog.glade:1267 glade/preferences_dialog.glade:1435
+#: glade/wizard.glade:298
+msgid "Maximum Connections:"
+msgstr "מקסימום חיבורים:"
+
+#: glade/preferences_dialog.glade:1293 glade/preferences_dialog.glade:1307
+msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
+msgstr "מהירות הורדה מקסימלית עבור כל הטורנטים. -1 עבור ללא הגבלה."
+
+#: glade/preferences_dialog.glade:1295
+msgid "Maximum Download Speed (KiB/s):"
+msgstr "מהירות הורדה מקסימלית (KiB/s):"
+
+#: glade/preferences_dialog.glade:1343 glade/wizard.glade:257
+#: glade/wizard.glade:318
+msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
+msgstr "מספר נקודות העלאה מקסימלי עבור כל הטורנטים. -1 עבור בלתי מוגבל"
+
+#: glade/preferences_dialog.glade:1359 glade/preferences_dialog.glade:1372
+msgid ""
+"The maximum number of connection attempts per second.  A high value may "
+"crash some cheap routers.  Set -1 for unlimited."
+msgstr ""
+
+#: glade/preferences_dialog.glade:1361
+msgid "Maximum Connection Attempts per Second:"
+msgstr ""
+
+#: glade/preferences_dialog.glade:1392
 msgid "<b>Global Bandwidth Usage</b>"
 msgstr "<b>שימוש כללי בתעבורה</b>"
 
-#: glade/preferences_dialog.glade:1400 glade/preferences_dialog.glade:1435
-msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr "מקסימום נקודות העלאה לכל טורנט. -1 עבור בלתי מוגבל."
-
-#: glade/preferences_dialog.glade:1417 glade/preferences_dialog.glade:1454
+#: glade/preferences_dialog.glade:1433 glade/preferences_dialog.glade:1463
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
 msgstr "מספר המקסימלי של חיבורים לכל טורנט. -1 עבור בלתי מוגבל."
 
-#: glade/preferences_dialog.glade:1469
+#: glade/preferences_dialog.glade:1448 glade/preferences_dialog.glade:1477
+msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
+msgstr "מקסימום נקודות העלאה לכל טורנט. -1 עבור בלתי מוגבל."
+
+#: glade/preferences_dialog.glade:1498
 msgid "<b>Per Torrent Bandwidth Usage</b>"
 msgstr "<b>שימוש בתעבורה לכל טורנט</b>"
 
-#: glade/preferences_dialog.glade:1495
+#: glade/preferences_dialog.glade:1524
 msgid "Bandwidth"
 msgstr "רוחב פס"
 
-#: glade/preferences_dialog.glade:1541 glade/preferences_dialog.glade:1736
-#: glade/preferences_dialog.glade:1931 glade/preferences_dialog.glade:2126
+#: glade/preferences_dialog.glade:1570 glade/preferences_dialog.glade:1765
+#: glade/preferences_dialog.glade:1960 glade/preferences_dialog.glade:2155
 msgid "Affects regular bittorrent peers"
 msgstr "משפיע על חיבורי ביטורנט רגילים"
 
-#: glade/preferences_dialog.glade:1542
+#: glade/preferences_dialog.glade:1571
 msgid "Peer Proxy"
 msgstr "פרוקסי למשתפים"
 
-#: glade/preferences_dialog.glade:1587 glade/preferences_dialog.glade:1782
-#: glade/preferences_dialog.glade:1977 glade/preferences_dialog.glade:2172
-msgid "Port"
-msgstr "מספר פורט"
+#: glade/preferences_dialog.glade:1613 glade/preferences_dialog.glade:1808
+#: glade/preferences_dialog.glade:2003 glade/preferences_dialog.glade:2198
+msgid "Proxy type"
+msgstr "סוג פרוקסי"
 
-#: glade/preferences_dialog.glade:1600 glade/preferences_dialog.glade:1795
-#: glade/preferences_dialog.glade:1990 glade/preferences_dialog.glade:2185
-msgid "Server"
-msgstr "שרת"
+#: glade/preferences_dialog.glade:1620 glade/preferences_dialog.glade:1815
+#: glade/preferences_dialog.glade:2010 glade/preferences_dialog.glade:2205
+msgid "Username"
+msgstr "שם משתמש"
 
-#: glade/preferences_dialog.glade:1641 glade/preferences_dialog.glade:1836
-#: glade/preferences_dialog.glade:2031 glade/preferences_dialog.glade:2226
+#: glade/preferences_dialog.glade:1631 glade/preferences_dialog.glade:1826
+#: glade/preferences_dialog.glade:2021 glade/preferences_dialog.glade:2216
+#: plugins/WebUi/scripts/template_strings.py:28
+msgid "Password"
+msgstr "סיסמה"
+
+#: glade/preferences_dialog.glade:1643 glade/preferences_dialog.glade:1838
+#: glade/preferences_dialog.glade:2033 glade/preferences_dialog.glade:2228
 msgid ""
 "None\n"
 "Socksv4\n"
@@ -687,87 +703,73 @@ msgstr ""
 "HTTP\n"
 "HTTP W/ Auth"
 
-#: glade/preferences_dialog.glade:1657 glade/preferences_dialog.glade:1852
-#: glade/preferences_dialog.glade:2047 glade/preferences_dialog.glade:2242
-#: plugins/WebUi/scripts/template_strings.py:28
-msgid "Password"
-msgstr "סיסמה"
+#: glade/preferences_dialog.glade:1688 glade/preferences_dialog.glade:1883
+#: glade/preferences_dialog.glade:2078 glade/preferences_dialog.glade:2273
+msgid "Server"
+msgstr "שרת"
 
-#: glade/preferences_dialog.glade:1668 glade/preferences_dialog.glade:1863
-#: glade/preferences_dialog.glade:2058 glade/preferences_dialog.glade:2253
-msgid "Username"
-msgstr "שם משתמש"
+#: glade/preferences_dialog.glade:1699 glade/preferences_dialog.glade:1894
+#: glade/preferences_dialog.glade:2089 glade/preferences_dialog.glade:2284
+msgid "Port"
+msgstr "מספר פורט"
 
-#: glade/preferences_dialog.glade:1679 glade/preferences_dialog.glade:1874
-#: glade/preferences_dialog.glade:2069 glade/preferences_dialog.glade:2264
-msgid "Proxy type"
-msgstr "סוג פרוקסי"
-
-#: glade/preferences_dialog.glade:1704
+#: glade/preferences_dialog.glade:1733
 msgid "<b>Peer Proxy</b>"
 msgstr "<b>פרוקסי למשתפים</b>"
 
-#: glade/preferences_dialog.glade:1737
+#: glade/preferences_dialog.glade:1766
 msgid "Tracker Proxy"
 msgstr "פרוקסי לטראקר"
 
-#: glade/preferences_dialog.glade:1899
+#: glade/preferences_dialog.glade:1928
 msgid "<b>Tracker Proxy</b>"
 msgstr "<b>פרוקסי הטראקר</b>"
 
-#: glade/preferences_dialog.glade:1932
+#: glade/preferences_dialog.glade:1961
 msgid "DHT Proxy"
 msgstr "פרוקסי DHT"
 
-#: glade/preferences_dialog.glade:2094
+#: glade/preferences_dialog.glade:2123
 msgid "<b>DHT Proxy</b>"
 msgstr "<b>פרוקסי DHT</b>"
 
-#: glade/preferences_dialog.glade:2127
+#: glade/preferences_dialog.glade:2156
 msgid "Web Seed Proxy"
 msgstr "פרוקסי לרשת מקורות"
 
-#: glade/preferences_dialog.glade:2289
+#: glade/preferences_dialog.glade:2318
 msgid "<b>Web Seed Proxy</b>"
 msgstr "<b>פרוקסי לרשת מקורות</b>"
 
-#: glade/preferences_dialog.glade:2316
+#: glade/preferences_dialog.glade:2345
 msgid "Proxies"
 msgstr "פרוקסים"
 
-#: glade/preferences_dialog.glade:2345
+#: glade/preferences_dialog.glade:2374
 msgid "Enable system tray icon"
 msgstr "הפעל סמל במגש מערכת"
 
-#: glade/preferences_dialog.glade:2361
+#: glade/preferences_dialog.glade:2390
 msgid "Minimize to tray on close"
 msgstr "הקטן למגש המערכת בסגירה"
 
-#: glade/preferences_dialog.glade:2380
+#: glade/preferences_dialog.glade:2409
 msgid "Start in tray"
 msgstr "התחל במגש המערכת"
 
-#: glade/preferences_dialog.glade:2404
+#: glade/preferences_dialog.glade:2433
 msgid "Password protect system tray"
 msgstr "הגן בסיסמה על הסמל במגש המערכת"
 
-#: glade/preferences_dialog.glade:2422
+#: glade/preferences_dialog.glade:2451
 msgid "Password:"
 msgstr "סיסמה:"
 
-#: glade/preferences_dialog.glade:2464
+#: glade/preferences_dialog.glade:2493
 msgid "<b>System Tray</b>"
 msgstr "<b>מגש מערכת</b>"
 
-#: glade/preferences_dialog.glade:2507
-msgid "Open folder with:"
-msgstr "פתיחת תיקייה בעזרת:"
-
-#: glade/preferences_dialog.glade:2524
-msgid "Custom:"
-msgstr "מותאם אישית:"
-
-#: glade/preferences_dialog.glade:2547
+#: glade/preferences_dialog.glade:2557
 msgid ""
 "Auto-detect (xdg-open)\n"
 "Konqueror\n"
@@ -779,41 +781,49 @@ msgstr ""
 "Nautilus\n"
 "Thunar"
 
-#: glade/preferences_dialog.glade:2594
+#: glade/preferences_dialog.glade:2578
+msgid "Custom:"
+msgstr "מותאם אישית:"
+
+#: glade/preferences_dialog.glade:2601
+msgid "Open folder with:"
+msgstr "פתיחת תיקייה בעזרת:"
+
+#: glade/preferences_dialog.glade:2623
 msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
 msgstr "<b>מנהל קבצים בשולחן עבודה</b> - רק בפלטפורמות שהן לא ווינדוס"
 
-#: glade/preferences_dialog.glade:2626
+#: glade/preferences_dialog.glade:2655
 msgid "GUI update interval (seconds)"
 msgstr "זמן עדכון ממשק המשתמש (שניות)"
 
-#: glade/preferences_dialog.glade:2654
+#: glade/preferences_dialog.glade:2683
 msgid "<b>Performance</b>"
 msgstr "<b>ביצועים</b>"
 
-#: glade/preferences_dialog.glade:2685
+#: glade/preferences_dialog.glade:2714
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
 msgstr "שימוש בפס התקדמות מתקדם (דורש קצת יותר CPU/RAM)"
 
-#: glade/preferences_dialog.glade:2696
+#: glade/preferences_dialog.glade:2725
 msgid "<b>Detailed Progress Bar</b>"
 msgstr "<b>פס התקדמות מפורט</b>"
 
-#: glade/preferences_dialog.glade:2730
+#: glade/preferences_dialog.glade:2759
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
 msgstr "Deluge יבדוק עכשיו את השרתים ויודיע לכם אם שוחררה גרסה חדשה"
 
-#: glade/preferences_dialog.glade:2731
+#: glade/preferences_dialog.glade:2760
 msgid "Be alerted about new releases"
 msgstr "הודיעו לי כאשר יש גרסה חדשה"
 
-#: glade/preferences_dialog.glade:2748
+#: glade/preferences_dialog.glade:2777
 msgid "<b>Updates</b>"
 msgstr "<b>עדכונים</b>"
 
-#: glade/preferences_dialog.glade:2778
+#: glade/preferences_dialog.glade:2807
 msgid ""
 "Help us improve Deluge by sending us your Python and PyGTK\n"
 "versions, OS and processor types.  Absolutely no other\n"
@@ -823,17 +833,17 @@ msgstr ""
 "שלכם, מערכת ההפעלה וסוג המעבד. כמובן ששום מידע\n"
 "נוסף לא נשלח."
 
-#: glade/preferences_dialog.glade:2791
+#: glade/preferences_dialog.glade:2820
 msgid "<b>System Information</b>"
 msgstr "<b>מידע מערכת</b>"
 
-#: glade/preferences_dialog.glade:2814
+#: glade/preferences_dialog.glade:2843
 #: plugins/EventLogging/event_logging_preferences.glade:52
 #: plugins/EventLogging/tab_log.py:218
 msgid "Other"
 msgstr "אחר"
 
-#: glade/preferences_dialog.glade:2908
+#: glade/preferences_dialog.glade:2937
 msgid "gtk-preferences"
 msgstr "gtk-preferences"
 
@@ -1162,81 +1172,81 @@ msgid ""
 msgstr ""
 "התרחשה שגיאה כשניסיתם להוסיף את הטורנט. יכול להיות שקובץ הטורנט שלכם פגום."
 
-#: src/interface.py:1374
+#: src/interface.py:1377
 msgid "Unknown duplicate torrent error."
 msgstr "שגיאת טורנט כפול לא ידועה."
 
-#: src/interface.py:1379
+#: src/interface.py:1382
 msgid ""
 "There is not enough free                disk space to complete your download."
 msgstr "אין די מקום על הכונן הקשיח שלכם כדי להשלים את ההורדה"
 
-#: src/interface.py:1381
+#: src/interface.py:1384
 msgid "Space Needed:"
 msgstr "מקום פנוי נידרש:"
 
-#: src/interface.py:1382
+#: src/interface.py:1385
 msgid "Available Space:"
 msgstr "מקום פנוי זמין:"
 
-#: src/interface.py:1399
+#: src/interface.py:1402
 msgid "Add torrent from URL"
 msgstr "הוסף טורנט מכתובת"
 
-#: src/interface.py:1403
+#: src/interface.py:1406
 msgid "Enter the URL of the .torrent to download"
 msgstr "הכנס את הכתובת של הטורנט להורדה"
 
-#: src/interface.py:1464
+#: src/interface.py:1467
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr "אזהרה - כל הקבצים שהורדו בשביל הטורנט הזה ימחקו!"
 
-#: src/interface.py:1480
+#: src/interface.py:1483
 msgid "Are you sure that you want to remove all seeding torrents?"
 msgstr "למחוק את כל הטורנטים המשתפים?"
 
-#: src/core.py:86 plugins/WebUi/webserver_common.py:141
+#: src/core.py:87 plugins/WebUi/webserver_common.py:133
 msgid "Queued"
 msgstr "ממתין"
 
-#: src/core.py:87 plugins/WebUi/webserver_common.py:142
+#: src/core.py:88 plugins/WebUi/webserver_common.py:134
 msgid "Checking"
 msgstr "בודק"
 
-#: src/core.py:88 plugins/WebUi/webserver_common.py:143
+#: src/core.py:89 plugins/WebUi/webserver_common.py:135
 msgid "Connecting"
 msgstr "מתחבר"
 
-#: src/core.py:89 plugins/WebUi/webserver_common.py:144
+#: src/core.py:90 plugins/WebUi/webserver_common.py:136
 msgid "Downloading Metadata"
 msgstr "מוריד Metadata"
 
-#: src/core.py:90 plugins/BlocklistImport/ui.py:117
-#: plugins/WebUi/webserver_common.py:145
+#: src/core.py:91 plugins/BlocklistImport/ui.py:117
+#: plugins/WebUi/webserver_common.py:137
 msgid "Downloading"
 msgstr "מוריד"
 
-#: src/core.py:91 plugins/WebUi/webserver_common.py:146
+#: src/core.py:92 plugins/WebUi/webserver_common.py:138
 msgid "Finished"
 msgstr "הסתיים"
 
-#: src/core.py:93 plugins/WebUi/webserver_common.py:148
+#: src/core.py:94 plugins/WebUi/webserver_common.py:140
 msgid "Allocating"
 msgstr "מקצה"
 
-#: src/core.py:136
+#: src/core.py:137
 msgid "bytes needed"
 msgstr "בייטים נדרשים"
 
-#: src/core.py:383
+#: src/core.py:384
 msgid "File was not found"
 msgstr "קובץ לא נמצא"
 
-#: src/core.py:426
+#: src/core.py:427
 msgid "Asked for a torrent that doesn't exist"
 msgstr "התבקש טורנט שלא קיים"
 
-#: src/core.py:549
+#: src/core.py:550
 msgid ""
 "You're out of HD space!  Oops!\n"
 "We had to pause at least one torrent"
@@ -1244,27 +1254,27 @@ msgstr ""
 "ניגמר המקום בכונן! אופס!\n"
 "נאלצנו לעצור לפחות טורנט אחד"
 
-#: src/core.py:637
+#: src/core.py:638
 msgid "Announce sent"
 msgstr "קריאה נשלחה"
 
-#: src/core.py:641
+#: src/core.py:642
 msgid "Announce OK"
 msgstr "קריאה תקינה"
 
-#: src/core.py:647
+#: src/core.py:648
 msgid "Alert"
 msgstr "התראה"
 
-#: src/core.py:648
+#: src/core.py:649
 msgid "HTTP code"
 msgstr "קוד HTTP"
 
-#: src/core.py:649
+#: src/core.py:650
 msgid "times in a row"
 msgstr "פעמים בשורה"
 
-#: src/core.py:656
+#: src/core.py:657
 msgid "Warning"
 msgstr "אזהרה"
 
@@ -1294,7 +1304,7 @@ msgstr "תוסף"
 msgid "Enabled"
 msgstr "מופעל"
 
-#: src/dialogs.py:459
+#: src/dialogs.py:461
 msgid ""
 "Deluge is free software, you can redistribute it and/or\n"
 "modify it under the terms of the GNU General Public\n"
@@ -1322,15 +1332,15 @@ msgstr ""
 "02110-\n"
 "1301 USA."
 
-#: src/dialogs.py:500
+#: src/dialogs.py:502
 msgid "Choose a .torrent file"
 msgstr "בחר קובץ טורנט"
 
-#: src/dialogs.py:505
+#: src/dialogs.py:507
 msgid "Torrent files"
 msgstr "קבצי טורנט"
 
-#: src/dialogs.py:509
+#: src/dialogs.py:511
 msgid "All files"
 msgstr "כל הקבצים"
 
@@ -1367,10 +1377,6 @@ msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
 msgstr "יש גרסה חדשה של Deluge. אתם רוצים לעבור לעמוד ההורדות שלנו?"
-
-#: plugins/BlocklistImport/__init__.py:6
-msgid "Blocklist Importer"
-msgstr "יבואן רשימות חסומים"
 
 #: plugins/BlocklistImport/__init__.py:9
 msgid ""
@@ -1487,10 +1493,6 @@ msgstr "קוד מג'יק לא תקין"
 msgid "Invalid version"
 msgstr "גרסה לא תקינה"
 
-#: plugins/DesiredRatio/__init__.py:19 plugins/DesiredRatio/__init__.py:118
-msgid "Desired Ratio"
-msgstr "יחס שיתוף רצוי"
-
 #: plugins/DesiredRatio/__init__.py:22
 msgid "Set the desired ratio for a torrent."
 msgstr "קיבוע את יחס השיתוף הרצוי לטורנט."
@@ -1507,11 +1509,11 @@ msgstr "_לא נקבע"
 msgid "Not Set"
 msgstr "לא נקבע"
 
-#: plugins/TorrentPeers/__init__.py:19
-msgid "Torrent Peers"
-msgstr "משתפי טורנט"
+#: plugins/DesiredRatio/__init__.py:118
+msgid "Desired Ratio"
+msgstr "יחס שיתוף רצוי"
 
-#: plugins/TorrentPeers/__init__.py:22
+#: plugins/TorrentPeers/__init__.py:34
 msgid ""
 "\n"
 "This shows you the peers associated with each torrent and shows you their "
@@ -1534,7 +1536,6 @@ msgid "Percent Complete"
 msgstr "אחוז הושלם"
 
 #: plugins/TorrentCreator/torrentcreator.glade:8
-#: plugins/TorrentCreator/__init__.py:19
 msgid "Torrent Creator"
 msgstr "יוצר טורנטים"
 
@@ -1670,10 +1671,6 @@ msgid ""
 "Enable popup notification (requires python-notify, not available on Win32)"
 msgstr "להפעיל התראת חלון-קובץ (python-notify נידרש, לא זמין על Win32)"
 
-#: plugins/TorrentNotification/__init__.py:19
-msgid "Torrent Notification"
-msgstr "התראות טורנטים"
-
 #: plugins/TorrentNotification/__init__.py:22
 msgid ""
 "Make tray icon blink when torrent finishes downloading and/or popup a "
@@ -1685,13 +1682,9 @@ msgid "Torrent complete"
 msgstr "התטורנט הושלם"
 
 #: plugins/TorrentNotification/__init__.py:113
-#: plugins/TorrentFiles/__init__.py:71
+#: plugins/TorrentFiles/__init__.py:83
 msgid "Files"
 msgstr "קבצים"
-
-#: plugins/NetworkHealth/__init__.py:33
-msgid "Network Health Monitor"
-msgstr "פקח תקינות הרשת"
 
 #: plugins/NetworkHealth/__init__.py:36
 msgid ""
@@ -1802,10 +1795,6 @@ msgstr "טורנט הסתיים"
 msgid "Select events to log"
 msgstr "בחרו אירוע עבור הלוג"
 
-#: plugins/EventLogging/__init__.py:19
-msgid "Event Logging"
-msgstr "רישום לוגים"
-
 #: plugins/EventLogging/__init__.py:22
 msgid ""
 "\n"
@@ -1908,10 +1897,6 @@ msgstr "אינדקס בלוקים: "
 msgid "peer speed: "
 msgstr "מהירות משתף: "
 
-#: plugins/SpeedLimiter/__init__.py:17
-msgid "Speed Limiter"
-msgstr "מגביל מהירות"
-
 #: plugins/SpeedLimiter/__init__.py:20
 msgid "Set the desired speed limit per torrent."
 msgstr "קבעו את גבול המהירות עבור כל טורנט."
@@ -1931,10 +1916,6 @@ msgstr "מהירות העלאת טורנט (KiB/s):"
 #: plugins/SpeedLimiter/__init__.py:176
 msgid "Torrent Download Speed (KiB/s):"
 msgstr "מהירות הורדת טורנט (KiB/s):"
-
-#: plugins/TorrentSearch/__init__.py:33
-msgid "Torrent Search"
-msgstr "חיפוש טורנטים"
 
 #: plugins/TorrentSearch/__init__.py:36
 msgid "A searchbar for torrent search engines"
@@ -1989,10 +1970,6 @@ msgstr ""
 msgid "Help"
 msgstr "עזרה"
 
-#: plugins/NetworkGraph/__init__.py:33
-msgid "Network Activity Graph"
-msgstr "תרשים פעילות הרשת"
-
 #: plugins/NetworkGraph/__init__.py:36
 msgid ""
 "Network Activity Graph plugin\n"
@@ -2016,11 +1993,7 @@ msgstr "התקדמות"
 msgid "There was an error trying to launch the file."
 msgstr "ארעה שגיאה בנסיון להפעיל את הקובץ."
 
-#: plugins/TorrentFiles/__init__.py:19
-msgid "Torrent Files"
-msgstr "קבצי טורנטים"
-
-#: plugins/TorrentFiles/__init__.py:22
+#: plugins/TorrentFiles/__init__.py:34
 msgid ""
 "\n"
 "This plugin shows you the files inside a torrent and allows you to set "
@@ -2030,10 +2003,6 @@ msgstr ""
 "\n"
 "ההרחבה מראה לכם את הקבצים בתוך טורנט ומאפשר לכם לקבוע להם את העדיפות של "
 "הקבצים ולבחור את אלו שאתם רוצים או לא רוצים להוריד.\n"
-
-#: plugins/ExtraStats/__init__.py:19
-msgid "Extra Stats"
-msgstr "נתונים נוספים"
 
 #: plugins/ExtraStats/__init__.py:22
 msgid ""
@@ -2087,10 +2056,6 @@ msgstr "זמן ריצה"
 msgid "Extra Stats Preferences"
 msgstr "הגדרות נתונים נוספים"
 
-#: plugins/MoveTorrent/__init__.py:19
-msgid "Move Torrent"
-msgstr "העברת טורנט"
-
 #: plugins/MoveTorrent/__init__.py:22
 msgid ""
 "This plugin allows users to move the torrent to a different directory "
@@ -2111,7 +2076,7 @@ msgstr "_העברת טורנט"
 msgid "Choose a directory to move files to"
 msgstr "בחרו בתיקייה שיועברו עליה הקבצים"
 
-#: plugins/MoveTorrent/__init__.py:129
+#: plugins/MoveTorrent/__init__.py:124
 msgid ""
 "You cannot move torrent to a different partition. Please check your "
 "preferences. Also, you cannot move a torrent's files to the same directory "
@@ -2133,10 +2098,6 @@ msgstr "gtk-cancel"
 #: plugins/MoveTorrent/movetorrent.glade:71 plugins/WebSeed/webseed.glade:73
 msgid "gtk-ok"
 msgstr "gtk-ok"
-
-#: plugins/WebSeed/__init__.py:19
-msgid "Web Seed"
-msgstr "שיתוף רשת"
 
 #: plugins/WebSeed/__init__.py:22
 msgid "This plugin allows users to add web seeds to their torrents"
@@ -2178,71 +2139,71 @@ msgstr "ירוק זה גבולות גבוהים, צהוב זה גבולות נמ
 msgid "If a limit is set to -1, it is unlimitted."
 msgstr "הוא גבול ניקבע ל -1 , אז זה ללא הגבלה."
 
-#: plugins/WebUi/__init__.py:190
+#: plugins/WebUi/__init__.py:182
 msgid "WebUi Config"
 msgstr "הגדרות ממשק רשת"
 
-#: plugins/WebUi/__init__.py:198
+#: plugins/WebUi/__init__.py:190
 msgid "Port Number"
 msgstr "מספר פורט"
 
-#: plugins/WebUi/__init__.py:199
+#: plugins/WebUi/__init__.py:191
 msgid "New Password"
 msgstr "סיסמה חדשה"
 
-#: plugins/WebUi/__init__.py:200
+#: plugins/WebUi/__init__.py:192
 msgid "New Password(confirm)"
 msgstr "סיסמה חדשה(אימות)"
 
-#: plugins/WebUi/__init__.py:201
+#: plugins/WebUi/__init__.py:193
 msgid "Template"
 msgstr "תבנית"
 
-#: plugins/WebUi/__init__.py:202
+#: plugins/WebUi/__init__.py:194
 msgid "Button Style"
 msgstr "סיגנון כפתור"
 
-#: plugins/WebUi/__init__.py:204
+#: plugins/WebUi/__init__.py:196
 msgid "Cache Templates"
 msgstr "שמור תבניות במטמון"
 
-#: plugins/WebUi/__init__.py:226
+#: plugins/WebUi/__init__.py:212
 msgid "Text and image"
 msgstr "טקסט ותמונה"
 
-#: plugins/WebUi/__init__.py:226
+#: plugins/WebUi/__init__.py:212
 msgid "Image Only"
 msgstr "רק תמונה"
 
-#: plugins/WebUi/__init__.py:226
+#: plugins/WebUi/__init__.py:212
 msgid "Text Only"
 msgstr "רק טקסט"
 
-#: plugins/WebUi/__init__.py:261
+#: plugins/WebUi/__init__.py:246
 msgid "Confirmed Password <> New Password\n"
 msgstr "אימות סיסמה <> סיסמה חדשה\n"
 
-#: plugins/WebUi/webserver_common.py:50
+#: plugins/WebUi/webserver_common.py:48
 msgid "translate something"
 msgstr "תרגום משהו"
 
-#: plugins/WebUi/deluge_webserver.py:168
+#: plugins/WebUi/deluge_webserver.py:147
 msgid "Choose an url or a torrent, not both."
 msgstr "בחר בכתובת או בטורנט, לא שניהם."
 
-#: plugins/WebUi/deluge_webserver.py:179
+#: plugins/WebUi/deluge_webserver.py:158
 msgid "no data."
 msgstr "אין נתונים."
 
-#: plugins/WebUi/deluge_webserver.py:262
+#: plugins/WebUi/deluge_webserver.py:236
 msgid "refresh must be > 0"
 msgstr "הרענון חייב להיות > 0"
 
-#: plugins/WebUi/deluge_webserver.py:270
+#: plugins/WebUi/deluge_webserver.py:244
 msgid "Download Speed Limit"
 msgstr "גבול מהירות הורדה"
 
-#: plugins/WebUi/deluge_webserver.py:274
+#: plugins/WebUi/deluge_webserver.py:248
 msgid "Upload Speed Limit"
 msgstr "גבול מהירות העלאה"
 

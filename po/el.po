@@ -7,276 +7,276 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2007-11-21 17:17-0600\n"
+"POT-Creation-Date: 2007-11-23 21:57-0600\n"
 "PO-Revision-Date: 2007-11-07 06:28+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Greek, Modern (1453-) <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-22 11:36+0000\n"
+"X-Launchpad-Export-Date: 2007-11-24 19:24+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: glade/delugegtk.glade:147
-msgid "<b>Availability:</b>"
-msgstr "<b>Διαθεσιμότητα:</b>"
+#: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
+msgid "Add Torrent"
+msgstr "Προσθήκη Torrent"
 
-#: glade/delugegtk.glade:183
-msgid "<b>Pieces:</b>"
-msgstr "<b>Κομμάτια</b>"
+#: glade/delugegtk.glade:30
+msgid "Add"
+msgstr "Προσθήκη"
 
-#: glade/delugegtk.glade:200
-msgid "<b>ETA:</b>"
-msgstr "<b>Υπόλοιπος χρόνος λήψης</b>"
+#: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
+msgid "Remove Torrent"
+msgstr "Αφαίρεση torrent"
 
-#: glade/delugegtk.glade:221
-msgid "<b>Peers:</b>"
-msgstr "<b>Υπολογιστές:</b>"
+#: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:40
+msgid "Remove"
+msgstr "Αφαίρεση"
 
-#: glade/delugegtk.glade:242 glade/delugegtk.glade:263
-msgid "<b>Speed:</b>"
-msgstr "<b>Ταχύτητα:</b>"
+#: glade/delugegtk.glade:56
+msgid "Clear Seeding Torrents"
+msgstr "Καθαρισμός Seeding Torrents"
 
-#: glade/delugegtk.glade:281
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>Αναλογία Διαμοιρασμού</b>"
+#: glade/delugegtk.glade:57
+msgid "Clear"
+msgstr "Απαλοιφή"
 
-#: glade/delugegtk.glade:299
-msgid "<b>Seeders:</b>"
-msgstr "<b>Χρήστες που διανέμουν:</b>"
+#: glade/delugegtk.glade:79
+msgid "Start or Resume Torrent"
+msgstr "Εκκίνηση ή Συνέχιση του torrent"
 
-#: glade/delugegtk.glade:317
-msgid "<b>Uploaded:</b>"
-msgstr "<b>Έχουν αποσταλεί:</b>"
+#: glade/delugegtk.glade:80
+msgid "Resume"
+msgstr "Συνέχιση"
 
-#: glade/delugegtk.glade:335
-msgid "<b>Downloaded:</b>"
-msgstr "<b>Έχουν ληφθεί:</b>"
+#: glade/delugegtk.glade:93
+msgid "Pause Torrent"
+msgstr "Παύση του torrent"
 
-#: glade/delugegtk.glade:447
-msgid "<b>Statistics</b>"
-msgstr "<b>Στατιστικά</b>"
+#: glade/delugegtk.glade:94
+msgid "Pause"
+msgstr "Παύση"
 
-#: glade/delugegtk.glade:503
-msgid "<b>Path:</b>"
-msgstr "<b>Διαδρομή:</b>"
+#: glade/delugegtk.glade:106
+msgid "Queue Torrent Up"
+msgstr "Μετακινήστε το torrent ψηλότερα στην σειρά αναμονής"
 
-#: glade/delugegtk.glade:537
-msgid "<b>Total Size:</b>"
-msgstr "<b>Συνολικό Μέγεθος</b>"
+#: glade/delugegtk.glade:107
+msgid "Up"
+msgstr "Πάνω"
 
-#: glade/delugegtk.glade:599
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>Κατάσταση Ιχνηλάτη</b>"
+#: glade/delugegtk.glade:120
+msgid "Queue Torrent Down"
+msgstr "Μετακινήστε το torrent χαμηλότερα στην σειρά αναμονής"
 
-#: glade/delugegtk.glade:632
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Επόμενη ανακοίνωση</b>"
+#: glade/delugegtk.glade:121
+msgid "Down"
+msgstr "Κάτω"
 
-#: glade/delugegtk.glade:671
-#, fuzzy
-msgid "<b># of files:</b>"
-msgstr "<b># από τα αρχεία:</b>"
+#: glade/delugegtk.glade:142
+msgid "Change Deluge preferences"
+msgstr "Αλλαγή Προτιμήσεων του Deluge"
 
-#: glade/delugegtk.glade:699
-msgid "<b>Tracker:</b>"
-msgstr "<b>Ιχνηλάτης</b>"
+#: glade/delugegtk.glade:143
+msgid "Preferences"
+msgstr "Προτιμήσεις"
 
-#: glade/delugegtk.glade:723
-msgid "<b>Name:</b>"
-msgstr "<b>Όνομα:</b>"
+#: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
+#: glade/preferences_dialog.glade:2965
+msgid "Plugins"
+msgstr "Πρόσθετα"
 
-#: glade/delugegtk.glade:740
-msgid "<b>Torrent Info</b>"
-msgstr "<b>Πληροφορίες Torrent</b>"
-
-#: glade/delugegtk.glade:766 plugins/WebUi/scripts/template_strings.py:14
-msgid "Details"
-msgstr "Λεπτομέρειες"
-
-#: glade/delugegtk.glade:805
+#: glade/delugegtk.glade:177
 msgid "_File"
 msgstr "_Αρχείο"
 
-#: glade/delugegtk.glade:812 glade/tray_menu.glade:61
+#: glade/delugegtk.glade:184 glade/tray_menu.glade:61
 msgid "_Add Torrent"
 msgstr "_Προσθήκη Τόρρεντ"
 
-#: glade/delugegtk.glade:827
+#: glade/delugegtk.glade:199
 msgid "Add _URL"
 msgstr "Προσθήκη _URL"
 
-#: glade/delugegtk.glade:835
+#: glade/delugegtk.glade:207
 msgid "_Clear Completed"
 msgstr "_Καθαρισμός Ολοκληρωμένων"
 
-#: glade/delugegtk.glade:868
+#: glade/delugegtk.glade:240
 msgid "_Edit"
 msgstr "_Επεξεργασία"
 
-#: glade/delugegtk.glade:877
+#: glade/delugegtk.glade:249
 msgid "gtk-select-all"
 msgstr "gtk-επιλογή-όλων"
 
-#: glade/delugegtk.glade:893
+#: glade/delugegtk.glade:265
 msgid "Plu_gins"
 msgstr "Plu_gins"
 
-#: glade/delugegtk.glade:921
+#: glade/delugegtk.glade:293
 msgid "_Torrent"
 msgstr "_Torrent"
 
-#: glade/delugegtk.glade:928
+#: glade/delugegtk.glade:300
 msgid "_View"
 msgstr "_Προβολή"
 
-#: glade/delugegtk.glade:936
+#: glade/delugegtk.glade:308
 msgid "_Toolbar"
 msgstr "_Γραμμή Εργαλείων"
 
-#: glade/delugegtk.glade:945
+#: glade/delugegtk.glade:317
 msgid "_Details"
 msgstr "_Λεπτομέρειες"
 
-#: glade/delugegtk.glade:954
+#: glade/delugegtk.glade:326
 msgid "_Columns"
 msgstr "_Στήλες"
 
-#: glade/delugegtk.glade:962 src/interface.py:623 src/files.py:80
+#: glade/delugegtk.glade:334 src/interface.py:623 src/files.py:80
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: glade/delugegtk.glade:971 src/interface.py:627
+#: glade/delugegtk.glade:343 src/interface.py:627
 #: plugins/FlexRSS/FlexRSS.glade:138
 msgid "Status"
 msgstr "Κατάσταση"
 
-#: glade/delugegtk.glade:980 src/interface.py:629
+#: glade/delugegtk.glade:352 src/interface.py:629
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Seeders"
 msgstr "Διαμοιραστές"
 
-#: glade/delugegtk.glade:989 src/interface.py:632
-#: plugins/TorrentPeers/__init__.py:72
+#: glade/delugegtk.glade:361 src/interface.py:632
+#: plugins/TorrentPeers/__init__.py:84
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Peers"
 msgstr "Συνδέσεις"
 
-#: glade/delugegtk.glade:998 src/interface.py:635 src/interface.py:1192
+#: glade/delugegtk.glade:370 src/interface.py:635 src/interface.py:1192
 #: src/interface.py:1223 plugins/TorrentPeers/tab_peers.py:89
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Down Speed"
 msgstr "Ταχύτητα λήψης"
 
-#: glade/delugegtk.glade:1007 src/interface.py:638 src/interface.py:1193
+#: glade/delugegtk.glade:379 src/interface.py:638 src/interface.py:1193
 #: src/interface.py:1224 plugins/TorrentPeers/tab_peers.py:91
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Up Speed"
 msgstr "Ταχύτητα αποστολής"
 
-#: glade/delugegtk.glade:1016
+#: glade/delugegtk.glade:388
 msgid "Time Remaining"
 msgstr "Χρόνος που απομένει"
 
-#: glade/delugegtk.glade:1025 plugins/WebUi/scripts/template_strings.py:8
+#: glade/delugegtk.glade:397 plugins/WebUi/scripts/template_strings.py:8
 msgid "Availability"
 msgstr "Διαθεσιμότητα"
 
-#: glade/delugegtk.glade:1034 plugins/WebUi/scripts/template_strings.py:47
+#: glade/delugegtk.glade:406 plugins/WebUi/scripts/template_strings.py:47
 #, fuzzy
 msgid "Share Ratio"
 msgstr "Αναλογία Διαμοιρασμού"
 
-#: glade/delugegtk.glade:1051
+#: glade/delugegtk.glade:423
 msgid "_Help"
 msgstr "_Βοήθεια"
 
-#: glade/delugegtk.glade:1059
+#: glade/delugegtk.glade:431
 msgid "Help translate this application"
 msgstr "Βοηθείστε να μεταφραστεί αυτή η εφαρμογή"
 
-#: glade/delugegtk.glade:1060
+#: glade/delugegtk.glade:432
 msgid "_Translate This Application..."
 msgstr "_Μεταφράστε αυτην την εφαρμογή"
 
-#: glade/delugegtk.glade:1083
+#: glade/delugegtk.glade:455
 #, fuzzy
 msgid "Runs the first-time configuration wizard"
 msgstr "Εκτελεί τον οδηγό αρχικών ρυθμίσεων"
 
-#: glade/delugegtk.glade:1084
+#: glade/delugegtk.glade:456
 msgid "_Run Configuration Wizard"
 msgstr "_Εκτέλεση Οδηγού Ρυθμίσεων"
 
-#: glade/delugegtk.glade:1157 plugins/WebUi/scripts/template_strings.py:3
-msgid "Add Torrent"
-msgstr "Προσθήκη Torrent"
+#: glade/delugegtk.glade:593
+msgid "<b>Name:</b>"
+msgstr "<b>Όνομα:</b>"
 
-#: glade/delugegtk.glade:1158
-msgid "Add"
-msgstr "Προσθήκη"
+#: glade/delugegtk.glade:617
+msgid "<b>Tracker:</b>"
+msgstr "<b>Ιχνηλάτης</b>"
 
-#: glade/delugegtk.glade:1171 glade/dgtkpopups.glade:6
-msgid "Remove Torrent"
-msgstr "Αφαίρεση torrent"
+#: glade/delugegtk.glade:645
+#, fuzzy
+msgid "<b># of files:</b>"
+msgstr "<b># από τα αρχεία:</b>"
 
-#: glade/delugegtk.glade:1172 plugins/WebUi/scripts/template_strings.py:40
-msgid "Remove"
-msgstr "Αφαίρεση"
+#: glade/delugegtk.glade:681
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Επόμενη ανακοίνωση</b>"
 
-#: glade/delugegtk.glade:1184
-msgid "Clear Seeding Torrents"
-msgstr "Καθαρισμός Seeding Torrents"
+#: glade/delugegtk.glade:715
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Κατάσταση Ιχνηλάτη</b>"
 
-#: glade/delugegtk.glade:1185
-msgid "Clear"
-msgstr "Απαλοιφή"
+#: glade/delugegtk.glade:776
+msgid "<b>Total Size:</b>"
+msgstr "<b>Συνολικό Μέγεθος</b>"
 
-#: glade/delugegtk.glade:1207
-msgid "Start or Resume Torrent"
-msgstr "Εκκίνηση ή Συνέχιση του torrent"
+#: glade/delugegtk.glade:811
+msgid "<b>Path:</b>"
+msgstr "<b>Διαδρομή:</b>"
 
-#: glade/delugegtk.glade:1208
-msgid "Resume"
-msgstr "Συνέχιση"
+#: glade/delugegtk.glade:843
+msgid "<b>Torrent Info</b>"
+msgstr "<b>Πληροφορίες Torrent</b>"
 
-#: glade/delugegtk.glade:1221
-msgid "Pause Torrent"
-msgstr "Παύση του torrent"
+#: glade/delugegtk.glade:1005
+msgid "<b>Downloaded:</b>"
+msgstr "<b>Έχουν ληφθεί:</b>"
 
-#: glade/delugegtk.glade:1222
-msgid "Pause"
-msgstr "Παύση"
+#: glade/delugegtk.glade:1019
+msgid "<b>Uploaded:</b>"
+msgstr "<b>Έχουν αποσταλεί:</b>"
 
-#: glade/delugegtk.glade:1234
-msgid "Queue Torrent Up"
-msgstr "Μετακινήστε το torrent ψηλότερα στην σειρά αναμονής"
+#: glade/delugegtk.glade:1037
+msgid "<b>Seeders:</b>"
+msgstr "<b>Χρήστες που διανέμουν:</b>"
 
-#: glade/delugegtk.glade:1235
-msgid "Up"
-msgstr "Πάνω"
+#: glade/delugegtk.glade:1055
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Αναλογία Διαμοιρασμού</b>"
 
-#: glade/delugegtk.glade:1248
-msgid "Queue Torrent Down"
-msgstr "Μετακινήστε το torrent χαμηλότερα στην σειρά αναμονής"
+#: glade/delugegtk.glade:1074 glade/delugegtk.glade:1093
+msgid "<b>Speed:</b>"
+msgstr "<b>Ταχύτητα:</b>"
 
-#: glade/delugegtk.glade:1249
-msgid "Down"
-msgstr "Κάτω"
+#: glade/delugegtk.glade:1114
+msgid "<b>Peers:</b>"
+msgstr "<b>Υπολογιστές:</b>"
 
-#: glade/delugegtk.glade:1270
-msgid "Change Deluge preferences"
-msgstr "Αλλαγή Προτιμήσεων του Deluge"
+#: glade/delugegtk.glade:1135
+msgid "<b>ETA:</b>"
+msgstr "<b>Υπόλοιπος χρόνος λήψης</b>"
 
-#: glade/delugegtk.glade:1271
-msgid "Preferences"
-msgstr "Προτιμήσεις"
+#: glade/delugegtk.glade:1152
+msgid "<b>Pieces:</b>"
+msgstr "<b>Κομμάτια</b>"
 
-#: glade/delugegtk.glade:1284 glade/dgtkpopups.glade:209
-#: glade/preferences_dialog.glade:2936
-msgid "Plugins"
-msgstr "Πρόσθετα"
+#: glade/delugegtk.glade:1190
+msgid "<b>Availability:</b>"
+msgstr "<b>Διαθεσιμότητα:</b>"
+
+#: glade/delugegtk.glade:1231
+msgid "<b>Statistics</b>"
+msgstr "<b>Στατιστικά</b>"
+
+#: glade/delugegtk.glade:1256 plugins/WebUi/scripts/template_strings.py:14
+msgid "Details"
+msgstr "Λεπτομέρειες"
 
 #: glade/dgtkpopups.glade:41
 msgid ""
@@ -318,19 +318,19 @@ msgstr "Επιλογή Όλων"
 msgid "Unselect All"
 msgstr "Αποεπιλογή ;Oλων"
 
-#: glade/file_tab_menu.glade:68 src/core.py:101
+#: glade/file_tab_menu.glade:68 src/core.py:102
 msgid "Don't download"
 msgstr "Να μήν ληφθεί"
 
-#: glade/file_tab_menu.glade:83 src/core.py:102
+#: glade/file_tab_menu.glade:83 src/core.py:103
 msgid "Normal"
 msgstr "Κανονικό"
 
-#: glade/file_tab_menu.glade:98 src/core.py:103
+#: glade/file_tab_menu.glade:98 src/core.py:104
 msgid "High"
 msgstr "Υψηλό"
 
-#: glade/file_tab_menu.glade:113 src/core.py:104
+#: glade/file_tab_menu.glade:113 src/core.py:105
 msgid "Highest"
 msgstr "Υψηλότερο"
 
@@ -353,17 +353,17 @@ msgstr "Προτιμίσεις Deluge"
 msgid "Ask where to save each download"
 msgstr "Ερώτηση για την τοποθεσία αποθήκευσης κάθε λήψης"
 
-#: glade/preferences_dialog.glade:76 glade/preferences_dialog.glade:125
-#: glade/preferences_dialog.glade:196 glade/wizard.glade:187
+#: glade/preferences_dialog.glade:75 glade/preferences_dialog.glade:76
+msgid "Store all downloads in:"
+msgstr "Αποθήκευση όλων των ληφθέντων αρχείων στο:"
+
+#: glade/preferences_dialog.glade:90 glade/preferences_dialog.glade:118
+#: glade/preferences_dialog.glade:186 glade/wizard.glade:187
 #: plugins/MoveTorrent/movetorrent.glade:35
 msgid "Select A Folder"
 msgstr "Επιλέξτε ένα φάκελο"
 
-#: glade/preferences_dialog.glade:88 glade/preferences_dialog.glade:89
-msgid "Store all downloads in:"
-msgstr "Αποθήκευση όλων των ληφθέντων αρχείων στο:"
-
-#: glade/preferences_dialog.glade:112
+#: glade/preferences_dialog.glade:131
 msgid "Store all torrent files in:"
 msgstr "Αποθήκευση όλων των αρχείων torrent σε"
 
@@ -371,7 +371,7 @@ msgstr "Αποθήκευση όλων των αρχείων torrent σε"
 msgid "<b>Download Location</b>"
 msgstr "<b>Τοποθεσία Λήψης</b>"
 
-#: glade/preferences_dialog.glade:182
+#: glade/preferences_dialog.glade:200
 msgid "Autoload all torrent files in:"
 msgstr "Αυτόματη μεταφόρτωση όλων των αρχείων του torrent σε"
 
@@ -598,110 +598,126 @@ msgstr ""
 msgid "<b>Seeding</b>"
 msgstr "<b>Διαμοιρασμός</b>"
 
-#: glade/preferences_dialog.glade:1138 src/core.py:92
-#: plugins/WebUi/webserver_common.py:147
+#: glade/preferences_dialog.glade:1138 src/core.py:93
+#: plugins/WebUi/webserver_common.py:139
 msgid "Seeding"
 msgstr "Διμοιρασμός"
 
-#: glade/preferences_dialog.glade:1184 glade/wizard.glade:257
-#: glade/wizard.glade:318
-msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Ο μέγιστος αριθμός θυρίδων αποστολής για όλα τα torrents. Ορίστε -1 για "
-"απεριόριστες."
-
-#: glade/preferences_dialog.glade:1201 glade/preferences_dialog.glade:1287
-#: glade/preferences_dialog.glade:1307 glade/wizard.glade:277
-#: glade/wizard.glade:341
-msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Η μέγιστη ταχύτητα αποστολής για όλα τα torrents. -1 για απεριόριστη."
-
-#: glade/preferences_dialog.glade:1220 glade/preferences_dialog.glade:1237
-msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr ""
-"Η μέγιστη ταχύτητα λήψης για όλα τα torrents. Ορίστε -1 για απεριόριστη."
-
-#: glade/preferences_dialog.glade:1239
-msgid "Maximum Download Speed (KiB/s):"
-msgstr "Μέγιστη Ταχύτητα Λήψης (KiB/s):"
-
-#: glade/preferences_dialog.glade:1250 glade/preferences_dialog.glade:1269
-#: glade/wizard.glade:297 glade/wizard.glade:364
-msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "Το μέγιστο επιτρεπτό πλήθος συνδέσεων. -1 για απεριόριστο."
-
-#: glade/preferences_dialog.glade:1271 glade/preferences_dialog.glade:1456
-#: glade/wizard.glade:298
-msgid "Maximum Connections:"
-msgstr "Μέγιστο πλήθος συνδέσεων"
-
-#: glade/preferences_dialog.glade:1289 glade/wizard.glade:278
-msgid "Maximum Upload Speed (KiB/s):"
-msgstr "Μέγιστη Ταχύτητα Αποστολής (KiB/s):"
-
-#: glade/preferences_dialog.glade:1309 glade/preferences_dialog.glade:1437
-#: glade/wizard.glade:258
-msgid "Maximum Upload Slots:"
-msgstr "Μέγιστος Αριθμός Θυρίδων Αποστολής:"
-
-#: glade/preferences_dialog.glade:1327 glade/preferences_dialog.glade:1343
+#: glade/preferences_dialog.glade:1184 glade/preferences_dialog.glade:1205
 #: glade/wizard.glade:434 glade/wizard.glade:455
 msgid ""
 "The maximum half-open connections.  A high value may crash some cheap "
 "routers.  Set -1 for unlimited."
 msgstr ""
 
-#: glade/preferences_dialog.glade:1329 glade/wizard.glade:435
+#: glade/preferences_dialog.glade:1207 glade/wizard.glade:435
 msgid "Maximum Half-Open Connections:"
 msgstr ""
 
-#: glade/preferences_dialog.glade:1363
+#: glade/preferences_dialog.glade:1225 glade/preferences_dialog.glade:1245
+#: glade/preferences_dialog.glade:1325 glade/wizard.glade:277
+#: glade/wizard.glade:341
+msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
+msgstr ""
+"Η μέγιστη ταχύτητα αποστολής για όλα τα torrents. -1 για απεριόριστη."
+
+#: glade/preferences_dialog.glade:1227 glade/preferences_dialog.glade:1450
+#: glade/wizard.glade:258
+msgid "Maximum Upload Slots:"
+msgstr "Μέγιστος Αριθμός Θυρίδων Αποστολής:"
+
+#: glade/preferences_dialog.glade:1247 glade/wizard.glade:278
+msgid "Maximum Upload Speed (KiB/s):"
+msgstr "Μέγιστη Ταχύτητα Αποστολής (KiB/s):"
+
+#: glade/preferences_dialog.glade:1265 glade/preferences_dialog.glade:1279
+#: glade/wizard.glade:297 glade/wizard.glade:364
+msgid "The maximum number of connections allowed.  Set -1 for unlimited."
+msgstr "Το μέγιστο επιτρεπτό πλήθος συνδέσεων. -1 για απεριόριστο."
+
+#: glade/preferences_dialog.glade:1267 glade/preferences_dialog.glade:1435
+#: glade/wizard.glade:298
+msgid "Maximum Connections:"
+msgstr "Μέγιστο πλήθος συνδέσεων"
+
+#: glade/preferences_dialog.glade:1293 glade/preferences_dialog.glade:1307
+msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
+msgstr ""
+"Η μέγιστη ταχύτητα λήψης για όλα τα torrents. Ορίστε -1 για απεριόριστη."
+
+#: glade/preferences_dialog.glade:1295
+msgid "Maximum Download Speed (KiB/s):"
+msgstr "Μέγιστη Ταχύτητα Λήψης (KiB/s):"
+
+#: glade/preferences_dialog.glade:1343 glade/wizard.glade:257
+#: glade/wizard.glade:318
+msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
+msgstr ""
+"Ο μέγιστος αριθμός θυρίδων αποστολής για όλα τα torrents. Ορίστε -1 για "
+"απεριόριστες."
+
+#: glade/preferences_dialog.glade:1359 glade/preferences_dialog.glade:1372
+msgid ""
+"The maximum number of connection attempts per second.  A high value may "
+"crash some cheap routers.  Set -1 for unlimited."
+msgstr ""
+
+#: glade/preferences_dialog.glade:1361
+msgid "Maximum Connection Attempts per Second:"
+msgstr ""
+
+#: glade/preferences_dialog.glade:1392
 #, fuzzy
 msgid "<b>Global Bandwidth Usage</b>"
 msgstr "<b>Συνολική Χρήση Εύρους Ζώνης</b>"
 
-#: glade/preferences_dialog.glade:1400 glade/preferences_dialog.glade:1435
-msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr ""
-"Ο μέγιστος αριθμός θυρίδων αποστολής ανά torrent. Ορίστε -1 για απεριόριστες."
-
-#: glade/preferences_dialog.glade:1417 glade/preferences_dialog.glade:1454
+#: glade/preferences_dialog.glade:1433 glade/preferences_dialog.glade:1463
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
 msgstr ""
 "Ο μέγιστος αριθμός συνδέσεων ανά torrent. Ορίστε -1 για απεριόριστες."
 
-#: glade/preferences_dialog.glade:1469
+#: glade/preferences_dialog.glade:1448 glade/preferences_dialog.glade:1477
+msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
+msgstr ""
+"Ο μέγιστος αριθμός θυρίδων αποστολής ανά torrent. Ορίστε -1 για απεριόριστες."
+
+#: glade/preferences_dialog.glade:1498
 msgid "<b>Per Torrent Bandwidth Usage</b>"
 msgstr "<b>Ανά Torrent Χρήση Εύρους Ζώνης</b>"
 
-#: glade/preferences_dialog.glade:1495
+#: glade/preferences_dialog.glade:1524
 msgid "Bandwidth"
 msgstr "Εύρος Ζώνης"
 
-#: glade/preferences_dialog.glade:1541 glade/preferences_dialog.glade:1736
-#: glade/preferences_dialog.glade:1931 glade/preferences_dialog.glade:2126
+#: glade/preferences_dialog.glade:1570 glade/preferences_dialog.glade:1765
+#: glade/preferences_dialog.glade:1960 glade/preferences_dialog.glade:2155
 #, fuzzy
 msgid "Affects regular bittorrent peers"
 msgstr "Επηρεάζει τις κανονικές συνδέσεις bittorrent"
 
-#: glade/preferences_dialog.glade:1542
+#: glade/preferences_dialog.glade:1571
 #, fuzzy
 msgid "Peer Proxy"
 msgstr "Διαμεσολαβητής Συνδέσεων"
 
-#: glade/preferences_dialog.glade:1587 glade/preferences_dialog.glade:1782
-#: glade/preferences_dialog.glade:1977 glade/preferences_dialog.glade:2172
-msgid "Port"
-msgstr "Θύρα"
+#: glade/preferences_dialog.glade:1613 glade/preferences_dialog.glade:1808
+#: glade/preferences_dialog.glade:2003 glade/preferences_dialog.glade:2198
+msgid "Proxy type"
+msgstr "Τύπος διαμεσολαβητή"
 
-#: glade/preferences_dialog.glade:1600 glade/preferences_dialog.glade:1795
-#: glade/preferences_dialog.glade:1990 glade/preferences_dialog.glade:2185
-msgid "Server"
-msgstr "Εξυπηρετητής"
+#: glade/preferences_dialog.glade:1620 glade/preferences_dialog.glade:1815
+#: glade/preferences_dialog.glade:2010 glade/preferences_dialog.glade:2205
+msgid "Username"
+msgstr "Όνομα Χρήστη"
 
-#: glade/preferences_dialog.glade:1641 glade/preferences_dialog.glade:1836
-#: glade/preferences_dialog.glade:2031 glade/preferences_dialog.glade:2226
+#: glade/preferences_dialog.glade:1631 glade/preferences_dialog.glade:1826
+#: glade/preferences_dialog.glade:2021 glade/preferences_dialog.glade:2216
+#: plugins/WebUi/scripts/template_strings.py:28
+msgid "Password"
+msgstr "Κωδικός Χρήστη"
+
+#: glade/preferences_dialog.glade:1643 glade/preferences_dialog.glade:1838
+#: glade/preferences_dialog.glade:2033 glade/preferences_dialog.glade:2228
 #, fuzzy
 msgid ""
 "None\n"
@@ -718,90 +734,76 @@ msgstr ""
 "HTTP\n"
 "HTTP με Κωδικό"
 
-#: glade/preferences_dialog.glade:1657 glade/preferences_dialog.glade:1852
-#: glade/preferences_dialog.glade:2047 glade/preferences_dialog.glade:2242
-#: plugins/WebUi/scripts/template_strings.py:28
-msgid "Password"
-msgstr "Κωδικός Χρήστη"
+#: glade/preferences_dialog.glade:1688 glade/preferences_dialog.glade:1883
+#: glade/preferences_dialog.glade:2078 glade/preferences_dialog.glade:2273
+msgid "Server"
+msgstr "Εξυπηρετητής"
 
-#: glade/preferences_dialog.glade:1668 glade/preferences_dialog.glade:1863
-#: glade/preferences_dialog.glade:2058 glade/preferences_dialog.glade:2253
-msgid "Username"
-msgstr "Όνομα Χρήστη"
+#: glade/preferences_dialog.glade:1699 glade/preferences_dialog.glade:1894
+#: glade/preferences_dialog.glade:2089 glade/preferences_dialog.glade:2284
+msgid "Port"
+msgstr "Θύρα"
 
-#: glade/preferences_dialog.glade:1679 glade/preferences_dialog.glade:1874
-#: glade/preferences_dialog.glade:2069 glade/preferences_dialog.glade:2264
-msgid "Proxy type"
-msgstr "Τύπος διαμεσολαβητή"
-
-#: glade/preferences_dialog.glade:1704
+#: glade/preferences_dialog.glade:1733
 msgid "<b>Peer Proxy</b>"
 msgstr "<b>Διαμεσολαβητής Συνδέσεων</b>"
 
-#: glade/preferences_dialog.glade:1737
+#: glade/preferences_dialog.glade:1766
 msgid "Tracker Proxy"
 msgstr "Διαμεσολαβητής Ιχνηλάτη"
 
-#: glade/preferences_dialog.glade:1899
+#: glade/preferences_dialog.glade:1928
 msgid "<b>Tracker Proxy</b>"
 msgstr "<b>Διαμεσολαβητής Ιχνηλάτη</b>"
 
-#: glade/preferences_dialog.glade:1932
+#: glade/preferences_dialog.glade:1961
 msgid "DHT Proxy"
 msgstr "Διαμεσολαβητής DHT"
 
-#: glade/preferences_dialog.glade:2094
+#: glade/preferences_dialog.glade:2123
 msgid "<b>DHT Proxy</b>"
 msgstr "<b>Διαμεσολαβητής DHT</b>"
 
-#: glade/preferences_dialog.glade:2127
+#: glade/preferences_dialog.glade:2156
 #, fuzzy
 msgid "Web Seed Proxy"
 msgstr "Διαμεσολαβητής Web Seed"
 
-#: glade/preferences_dialog.glade:2289
+#: glade/preferences_dialog.glade:2318
 msgid "<b>Web Seed Proxy</b>"
 msgstr "<b>Διαμεσολαβητής Web Seed</b>"
 
-#: glade/preferences_dialog.glade:2316
+#: glade/preferences_dialog.glade:2345
 msgid "Proxies"
 msgstr "Διαμεσολαβητές"
 
-#: glade/preferences_dialog.glade:2345
+#: glade/preferences_dialog.glade:2374
 msgid "Enable system tray icon"
 msgstr "Εικονίδιο στη μπάρα συστήματος"
 
-#: glade/preferences_dialog.glade:2361
+#: glade/preferences_dialog.glade:2390
 #, fuzzy
 msgid "Minimize to tray on close"
 msgstr "Ελαχιστοποίηση στην μπάρα κατά την έξοδο"
 
-#: glade/preferences_dialog.glade:2380
+#: glade/preferences_dialog.glade:2409
 msgid "Start in tray"
 msgstr "Εκκίνηση στην μπάρα συστήματος"
 
-#: glade/preferences_dialog.glade:2404
+#: glade/preferences_dialog.glade:2433
 msgid "Password protect system tray"
 msgstr "Προστασία μεγιστοποίησης από την μπάρα με κωδικό"
 
-#: glade/preferences_dialog.glade:2422
+#: glade/preferences_dialog.glade:2451
 msgid "Password:"
 msgstr "Κωδικός πρόσβασης:"
 
-#: glade/preferences_dialog.glade:2464
+#: glade/preferences_dialog.glade:2493
 #, fuzzy
 msgid "<b>System Tray</b>"
 msgstr "<b>Μπάρα Συστήματος</b>"
 
-#: glade/preferences_dialog.glade:2507
-msgid "Open folder with:"
-msgstr "Άνοιγμα φακέλου με:"
-
-#: glade/preferences_dialog.glade:2524
-msgid "Custom:"
-msgstr "Άλλος:"
-
-#: glade/preferences_dialog.glade:2547
+#: glade/preferences_dialog.glade:2557
 msgid ""
 "Auto-detect (xdg-open)\n"
 "Konqueror\n"
@@ -813,27 +815,35 @@ msgstr ""
 "Nautilus\n"
 "Thunar"
 
-#: glade/preferences_dialog.glade:2594
+#: glade/preferences_dialog.glade:2578
+msgid "Custom:"
+msgstr "Άλλος:"
+
+#: glade/preferences_dialog.glade:2601
+msgid "Open folder with:"
+msgstr "Άνοιγμα φακέλου με:"
+
+#: glade/preferences_dialog.glade:2623
 msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
 msgstr ""
 
-#: glade/preferences_dialog.glade:2626
+#: glade/preferences_dialog.glade:2655
 msgid "GUI update interval (seconds)"
 msgstr "Ρυθμός ανανέωσης γραφικού περιβάλλοντος (δευτερόλεπτα)"
 
-#: glade/preferences_dialog.glade:2654
+#: glade/preferences_dialog.glade:2683
 msgid "<b>Performance</b>"
 msgstr "<b>Απόδοση</b>"
 
-#: glade/preferences_dialog.glade:2685
+#: glade/preferences_dialog.glade:2714
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
 msgstr ""
 
-#: glade/preferences_dialog.glade:2696
+#: glade/preferences_dialog.glade:2725
 msgid "<b>Detailed Progress Bar</b>"
 msgstr ""
 
-#: glade/preferences_dialog.glade:2730
+#: glade/preferences_dialog.glade:2759
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
@@ -841,15 +851,15 @@ msgstr ""
 "Το Deluge θα ελέγχει τους εξυπηρετητές μας και θα σας ενημερώνει εάν υπάρχει "
 "νεότερη διαθέσιμη έκδοση"
 
-#: glade/preferences_dialog.glade:2731
+#: glade/preferences_dialog.glade:2760
 msgid "Be alerted about new releases"
 msgstr "Ενημέρωση για νέες εκδόσεις"
 
-#: glade/preferences_dialog.glade:2748
+#: glade/preferences_dialog.glade:2777
 msgid "<b>Updates</b>"
 msgstr "<b>Ενημερώσεις</b>"
 
-#: glade/preferences_dialog.glade:2778
+#: glade/preferences_dialog.glade:2807
 msgid ""
 "Help us improve Deluge by sending us your Python and PyGTK\n"
 "versions, OS and processor types.  Absolutely no other\n"
@@ -860,17 +870,17 @@ msgstr ""
 "τους τύπους λειτουργικού και επεξεργαστή σας. Καμία\n"
 "άλλη πληροφορία δεν πρόκειται να σταλεί."
 
-#: glade/preferences_dialog.glade:2791
+#: glade/preferences_dialog.glade:2820
 msgid "<b>System Information</b>"
 msgstr "<b>Πληροφορίες Συστήματος</b>"
 
-#: glade/preferences_dialog.glade:2814
+#: glade/preferences_dialog.glade:2843
 #: plugins/EventLogging/event_logging_preferences.glade:52
 #: plugins/EventLogging/tab_log.py:218
 msgid "Other"
 msgstr "Άλλο"
 
-#: glade/preferences_dialog.glade:2908
+#: glade/preferences_dialog.glade:2937
 msgid "gtk-preferences"
 msgstr "προτιμίσεις-gtk"
 
@@ -1190,11 +1200,11 @@ msgstr ""
 "Ένα λάθος παρατηρήθηκε κατά την προσθήκη του torrent. Είναι πιθανό το αρχείο "
 ".torrent να είναι κατεστραμμένο.."
 
-#: src/interface.py:1374
+#: src/interface.py:1377
 msgid "Unknown duplicate torrent error."
 msgstr "Άγνωστο διπλότυπο λάθος torrent."
 
-#: src/interface.py:1379
+#: src/interface.py:1382
 #, fuzzy
 msgid ""
 "There is not enough free                disk space to complete your download."
@@ -1202,100 +1212,100 @@ msgstr ""
 "Δεν υπάρχει επαρκής ελεύθερος χώρος στο δίσκο για να ολοκληρωθεί η λήψη του "
 "αρχείου."
 
-#: src/interface.py:1381
+#: src/interface.py:1384
 msgid "Space Needed:"
 msgstr "Απαιτούμενος Χώρος:"
 
-#: src/interface.py:1382
+#: src/interface.py:1385
 msgid "Available Space:"
 msgstr "Διαθέσιμος Χώρος:"
 
-#: src/interface.py:1399
+#: src/interface.py:1402
 msgid "Add torrent from URL"
 msgstr "Προσθήκη torrent από URL"
 
-#: src/interface.py:1403
+#: src/interface.py:1406
 msgid "Enter the URL of the .torrent to download"
 msgstr "Εισάγετε το URL του .torrent που θέλετε να κατεβάσετε"
 
-#: src/interface.py:1464
+#: src/interface.py:1467
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr ""
 "Προσοχή - όλα τα αρχεία αυτού του torrent που έχουν κατέβει ήδη θα "
 "διαγραφούν!"
 
-#: src/interface.py:1480
+#: src/interface.py:1483
 msgid "Are you sure that you want to remove all seeding torrents?"
 msgstr ""
 
-#: src/core.py:86 plugins/WebUi/webserver_common.py:141
+#: src/core.py:87 plugins/WebUi/webserver_common.py:133
 msgid "Queued"
 msgstr "Σε αναμονή"
 
-#: src/core.py:87 plugins/WebUi/webserver_common.py:142
+#: src/core.py:88 plugins/WebUi/webserver_common.py:134
 msgid "Checking"
 msgstr "Ελέχγεται"
 
-#: src/core.py:88 plugins/WebUi/webserver_common.py:143
+#: src/core.py:89 plugins/WebUi/webserver_common.py:135
 msgid "Connecting"
 msgstr "Γίνεται σύνδεση"
 
-#: src/core.py:89 plugins/WebUi/webserver_common.py:144
+#: src/core.py:90 plugins/WebUi/webserver_common.py:136
 msgid "Downloading Metadata"
 msgstr "Λήψη Μεταδεδομένων"
 
-#: src/core.py:90 plugins/BlocklistImport/ui.py:117
-#: plugins/WebUi/webserver_common.py:145
+#: src/core.py:91 plugins/BlocklistImport/ui.py:117
+#: plugins/WebUi/webserver_common.py:137
 msgid "Downloading"
 msgstr "Γίνεται λήψη"
 
-#: src/core.py:91 plugins/WebUi/webserver_common.py:146
+#: src/core.py:92 plugins/WebUi/webserver_common.py:138
 msgid "Finished"
 msgstr "Ολοκληρώθηκε"
 
-#: src/core.py:93 plugins/WebUi/webserver_common.py:148
+#: src/core.py:94 plugins/WebUi/webserver_common.py:140
 msgid "Allocating"
 msgstr "Ανάθεση Χώρου"
 
-#: src/core.py:136
+#: src/core.py:137
 msgid "bytes needed"
 msgstr "bytes χρειάζονται"
 
-#: src/core.py:383
+#: src/core.py:384
 msgid "File was not found"
 msgstr "Το αρχείο δεν βρέθηκε"
 
-#: src/core.py:426
+#: src/core.py:427
 msgid "Asked for a torrent that doesn't exist"
 msgstr "Ζητήθηκε torrent που δεν υπάρχει"
 
-#: src/core.py:549
+#: src/core.py:550
 msgid ""
 "You're out of HD space!  Oops!\n"
 "We had to pause at least one torrent"
 msgstr ""
 
-#: src/core.py:637
+#: src/core.py:638
 msgid "Announce sent"
 msgstr "Στάλθηκε ανακοίνωση"
 
-#: src/core.py:641
+#: src/core.py:642
 msgid "Announce OK"
 msgstr "Ανακοίνωση ΟΚ"
 
-#: src/core.py:647
+#: src/core.py:648
 msgid "Alert"
 msgstr "Συναγερμός"
 
-#: src/core.py:648
+#: src/core.py:649
 msgid "HTTP code"
 msgstr "Κωδικός HTTP"
 
-#: src/core.py:649
+#: src/core.py:650
 msgid "times in a row"
 msgstr "φορές συναπτά"
 
-#: src/core.py:656
+#: src/core.py:657
 msgid "Warning"
 msgstr "Προειδοποιήση"
 
@@ -1326,7 +1336,7 @@ msgstr "Plugin"
 msgid "Enabled"
 msgstr "Ενεργοποιήθηκε"
 
-#: src/dialogs.py:459
+#: src/dialogs.py:461
 msgid ""
 "Deluge is free software, you can redistribute it and/or\n"
 "modify it under the terms of the GNU General Public\n"
@@ -1343,15 +1353,15 @@ msgid ""
 "1301 USA"
 msgstr ""
 
-#: src/dialogs.py:500
+#: src/dialogs.py:502
 msgid "Choose a .torrent file"
 msgstr "Επιλογή αρχείου .torrent"
 
-#: src/dialogs.py:505
+#: src/dialogs.py:507
 msgid "Torrent files"
 msgstr "Αρχεία torrent"
 
-#: src/dialogs.py:509
+#: src/dialogs.py:511
 msgid "All files"
 msgstr "Όλα τα αρχεία"
 
@@ -1390,11 +1400,6 @@ msgid ""
 msgstr ""
 "Υπάρχει νεότερη έκδοση του Deluge διαθέσιμη. Θέλετε να μεταφερθείτε στη "
 "σελίδα λήψης μας;"
-
-#: plugins/BlocklistImport/__init__.py:6
-#, fuzzy
-msgid "Blocklist Importer"
-msgstr "Εισαγωγή Μαύρης Λίστας"
 
 #: plugins/BlocklistImport/__init__.py:9
 msgid ""
@@ -1516,10 +1521,6 @@ msgstr "Μη έγκυρος μαγικός κωδικός"
 msgid "Invalid version"
 msgstr "Λάθος έκδοση"
 
-#: plugins/DesiredRatio/__init__.py:19 plugins/DesiredRatio/__init__.py:118
-msgid "Desired Ratio"
-msgstr "Επιθυμητή αναλογία"
-
 #: plugins/DesiredRatio/__init__.py:22
 msgid "Set the desired ratio for a torrent."
 msgstr "Ορίστε την επιθυμητή αναλογία για ένα torrent"
@@ -1536,11 +1537,11 @@ msgstr "_Δεν έχει οριστεί"
 msgid "Not Set"
 msgstr "Δεν έχει τεθεί"
 
-#: plugins/TorrentPeers/__init__.py:19
-msgid "Torrent Peers"
-msgstr "Συνδέσεις Torrent"
+#: plugins/DesiredRatio/__init__.py:118
+msgid "Desired Ratio"
+msgstr "Επιθυμητή αναλογία"
 
-#: plugins/TorrentPeers/__init__.py:22
+#: plugins/TorrentPeers/__init__.py:34
 msgid ""
 "\n"
 "This shows you the peers associated with each torrent and shows you their "
@@ -1564,7 +1565,6 @@ msgid "Percent Complete"
 msgstr "Ποσοστό ολοκλήρωσης"
 
 #: plugins/TorrentCreator/torrentcreator.glade:8
-#: plugins/TorrentCreator/__init__.py:19
 msgid "Torrent Creator"
 msgstr "Δημιουργία Torrent"
 
@@ -1694,10 +1694,6 @@ msgid ""
 "Enable popup notification (requires python-notify, not available on Win32)"
 msgstr ""
 
-#: plugins/TorrentNotification/__init__.py:19
-msgid "Torrent Notification"
-msgstr "Ειδοποίηση Torrent"
-
 #: plugins/TorrentNotification/__init__.py:22
 msgid ""
 "Make tray icon blink when torrent finishes downloading and/or popup a "
@@ -1711,13 +1707,9 @@ msgid "Torrent complete"
 msgstr "Ολοκλήρωση torrent"
 
 #: plugins/TorrentNotification/__init__.py:113
-#: plugins/TorrentFiles/__init__.py:71
+#: plugins/TorrentFiles/__init__.py:83
 msgid "Files"
 msgstr "Αρχεία"
-
-#: plugins/NetworkHealth/__init__.py:33
-msgid "Network Health Monitor"
-msgstr "Παρακολούθηση Υγείας Δικτύου"
 
 #: plugins/NetworkHealth/__init__.py:36
 #, fuzzy
@@ -1829,10 +1821,6 @@ msgstr "Ολοκληρώθηκε το torrent"
 msgid "Select events to log"
 msgstr "Επιλογή συμβάντων προς αναφορά"
 
-#: plugins/EventLogging/__init__.py:19
-msgid "Event Logging"
-msgstr "Αναφορά συμβάντων"
-
 #: plugins/EventLogging/__init__.py:22
 msgid ""
 "\n"
@@ -1941,10 +1929,6 @@ msgstr "ευρετήριο τεμαχίων: "
 msgid "peer speed: "
 msgstr "ταχύτητα σύνδεσης: "
 
-#: plugins/SpeedLimiter/__init__.py:17
-msgid "Speed Limiter"
-msgstr "Περιορισμός Ταχύτητας"
-
 #: plugins/SpeedLimiter/__init__.py:20
 msgid "Set the desired speed limit per torrent."
 msgstr "Ορίστε το επιθυμητό όριο ταχύτητας ανά torrent."
@@ -1964,10 +1948,6 @@ msgstr "Ταχύτητα Αποστολής Torrent (KiB/s):"
 #: plugins/SpeedLimiter/__init__.py:176
 msgid "Torrent Download Speed (KiB/s):"
 msgstr "Ταχύτητα Λήψης Torrent (KiB/s):"
-
-#: plugins/TorrentSearch/__init__.py:33
-msgid "Torrent Search"
-msgstr "Αναζήτηση Torrent"
 
 #: plugins/TorrentSearch/__init__.py:36
 msgid "A searchbar for torrent search engines"
@@ -2024,10 +2004,6 @@ msgstr ""
 msgid "Help"
 msgstr "Βοήθεια"
 
-#: plugins/NetworkGraph/__init__.py:33
-msgid "Network Activity Graph"
-msgstr "Γράφημα Δραστηριότητας Δικτύου"
-
 #: plugins/NetworkGraph/__init__.py:36
 msgid ""
 "Network Activity Graph plugin\n"
@@ -2051,11 +2027,7 @@ msgstr "Πρόοδος"
 msgid "There was an error trying to launch the file."
 msgstr "Υπήρξε ένα σφάλμα κατά την εκτέλεση του αρχείου."
 
-#: plugins/TorrentFiles/__init__.py:19
-msgid "Torrent Files"
-msgstr "Αρχεία Torrent"
-
-#: plugins/TorrentFiles/__init__.py:22
+#: plugins/TorrentFiles/__init__.py:34
 msgid ""
 "\n"
 "This plugin shows you the files inside a torrent and allows you to set "
@@ -2066,10 +2038,6 @@ msgstr ""
 "Αυτό το plugin εμφανίζει τα αρχεία εντός ενός torrent και επιτρέπει να "
 "θέσετε διαφορετικές προτεραιότητες για το καθένα από αυτά, καθώς και να "
 "επιλέξετε ποια επιθυμείτε να κατεβάσετε και ποια όχι.\n"
-
-#: plugins/ExtraStats/__init__.py:19
-msgid "Extra Stats"
-msgstr "Επιπλέον Στατιστικά"
 
 #: plugins/ExtraStats/__init__.py:22
 msgid ""
@@ -2123,11 +2091,6 @@ msgstr "Συνολικός Χρόνος"
 msgid "Extra Stats Preferences"
 msgstr "Προτιμήσεις Επιπλέον Στατιστικών"
 
-#: plugins/MoveTorrent/__init__.py:19
-#, fuzzy
-msgid "Move Torrent"
-msgstr "Μετακίνηση Torrent"
-
 #: plugins/MoveTorrent/__init__.py:22
 msgid ""
 "This plugin allows users to move the torrent to a different directory "
@@ -2147,7 +2110,7 @@ msgstr "_Μετακίνηση Torrent"
 msgid "Choose a directory to move files to"
 msgstr "Επιλογή ευρετηρίου προορισμού για τη μετακίνηση των αρχείων"
 
-#: plugins/MoveTorrent/__init__.py:129
+#: plugins/MoveTorrent/__init__.py:124
 msgid ""
 "You cannot move torrent to a different partition. Please check your "
 "preferences. Also, you cannot move a torrent's files to the same directory "
@@ -2166,10 +2129,6 @@ msgstr "gtk-άκυρο"
 #: plugins/MoveTorrent/movetorrent.glade:71 plugins/WebSeed/webseed.glade:73
 msgid "gtk-ok"
 msgstr "gtk-ΟΚ"
-
-#: plugins/WebSeed/__init__.py:19
-msgid "Web Seed"
-msgstr ""
 
 #: plugins/WebSeed/__init__.py:22
 msgid "This plugin allows users to add web seeds to their torrents"
@@ -2211,71 +2170,71 @@ msgstr ""
 msgid "If a limit is set to -1, it is unlimitted."
 msgstr ""
 
-#: plugins/WebUi/__init__.py:190
+#: plugins/WebUi/__init__.py:182
 msgid "WebUi Config"
 msgstr ""
 
-#: plugins/WebUi/__init__.py:198
+#: plugins/WebUi/__init__.py:190
 msgid "Port Number"
 msgstr ""
 
-#: plugins/WebUi/__init__.py:199
+#: plugins/WebUi/__init__.py:191
 msgid "New Password"
 msgstr ""
 
-#: plugins/WebUi/__init__.py:200
+#: plugins/WebUi/__init__.py:192
 msgid "New Password(confirm)"
 msgstr ""
 
-#: plugins/WebUi/__init__.py:201
+#: plugins/WebUi/__init__.py:193
 msgid "Template"
 msgstr ""
 
-#: plugins/WebUi/__init__.py:202
+#: plugins/WebUi/__init__.py:194
 msgid "Button Style"
 msgstr ""
 
-#: plugins/WebUi/__init__.py:204
+#: plugins/WebUi/__init__.py:196
 msgid "Cache Templates"
 msgstr ""
 
-#: plugins/WebUi/__init__.py:226
+#: plugins/WebUi/__init__.py:212
 msgid "Text and image"
 msgstr ""
 
-#: plugins/WebUi/__init__.py:226
+#: plugins/WebUi/__init__.py:212
 msgid "Image Only"
 msgstr ""
 
-#: plugins/WebUi/__init__.py:226
+#: plugins/WebUi/__init__.py:212
 msgid "Text Only"
 msgstr ""
 
-#: plugins/WebUi/__init__.py:261
+#: plugins/WebUi/__init__.py:246
 msgid "Confirmed Password <> New Password\n"
 msgstr ""
 
-#: plugins/WebUi/webserver_common.py:50
+#: plugins/WebUi/webserver_common.py:48
 msgid "translate something"
 msgstr ""
 
-#: plugins/WebUi/deluge_webserver.py:168
+#: plugins/WebUi/deluge_webserver.py:147
 msgid "Choose an url or a torrent, not both."
 msgstr ""
 
-#: plugins/WebUi/deluge_webserver.py:179
+#: plugins/WebUi/deluge_webserver.py:158
 msgid "no data."
 msgstr ""
 
-#: plugins/WebUi/deluge_webserver.py:262
+#: plugins/WebUi/deluge_webserver.py:236
 msgid "refresh must be > 0"
 msgstr ""
 
-#: plugins/WebUi/deluge_webserver.py:270
+#: plugins/WebUi/deluge_webserver.py:244
 msgid "Download Speed Limit"
 msgstr ""
 
-#: plugins/WebUi/deluge_webserver.py:274
+#: plugins/WebUi/deluge_webserver.py:248
 msgid "Upload Speed Limit"
 msgstr ""
 
