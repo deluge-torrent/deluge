@@ -182,7 +182,7 @@ else:
     "gui_update_interval" : 1.0,
     "listen_on" : [6881,6889],
     "lock_tray" : False,
-    "max_half_open" : 8,
+    "max_half_open" : 20,
     "max_active_torrents" : 8,
     "max_active_torrents_tmp" : 8,
     "max_connections_global" : 200,
