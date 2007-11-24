@@ -8,6 +8,7 @@ Deluge 0.5.7 (xx November 2007)
   * Add advanced progress bar
   * Fix bug in merging trackers
   * Various updates to WebUI by vonck7
+  * Add maximum connection attempts per second preference
   * Fix bug where loaded plugins were forgotten if Deluge crashed
   * Fix ratio bugs (hopefully for the last time)
   * Add preference to only show file selection popup if torrent has multiple files
