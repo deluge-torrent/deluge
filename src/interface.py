@@ -1380,9 +1380,8 @@ torrent error."))
             nice_need = common.fsize(e.needed_space)
             nice_free = common.fsize(e.free_space)
             dialogs.show_popup_warning(self.window, _("There is not enough free\
-                disk space to complete your download.") + "\n" + \
-                _("Space Needed:") + " " + nice_need + "\n" + 
-                _("Available Space:") + " " + nice_free)
+disk space to complete your download.") + "\n" + _("Space Needed:") + " " + \
+nice_need + "\n" + _("Available Space:") + " " + nice_free)
         else:
             self.torrent_model_append(unique_id)
 
