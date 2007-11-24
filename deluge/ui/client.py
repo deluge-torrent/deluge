@@ -58,14 +58,17 @@ class CoreProxy:
             
     def set_core_uri(self, uri):
         log.info("Setting core uri as %s", uri)
-
+        
         if uri == None and self._uri != None:
             for callback in self._on_no_core_callbacks:
                 callback()
             self._uri = None
             self._core = None
             return
-
+        
+        if uri != self._uri:
+            self._core = None
+            
         self._uri = uri
         # Get a new core
         self.get_core()

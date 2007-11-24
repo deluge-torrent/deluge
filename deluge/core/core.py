@@ -56,6 +56,7 @@ from deluge.log import LOG as log
 
 DEFAULT_PREFS = {
     "daemon_port": 58846,
+    "allow_remote": False,
     "compact_allocation": True,
     "download_location": deluge.common.get_default_download_dir(),
     "listen_ports": [6881, 6891],
@@ -95,11 +96,16 @@ class Core(
         if port == None:
             port = self.config["daemon_port"]
             
+        if self.config["allow_remote"]:
+            hostname = ""
+        else:
+            hostname = "localhost"
+            
         # Setup the xmlrpc server
         try:
             log.info("Starting XMLRPC server on port %s", port)
             SimpleXMLRPCServer.SimpleXMLRPCServer.__init__(
-                self, ("localhost", port), logRequests=False, allow_none=True)
+                self, (hostname, port), logRequests=False, allow_none=True)
         except:
             log.info("Daemon already running or port not available..")
             sys.exit(0)

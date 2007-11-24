@@ -63,7 +63,7 @@ class Preferences(component.Component):
         # Add the default categories
         i = 0
         for category in ["Downloads", "Network", "Bandwidth", "Interface", 
-            "Other", "Plugins"]:
+            "Other", "Daemon", "Plugins"]:
             self.liststore.append([i, category])
             i += 1
 
@@ -189,7 +189,11 @@ class Preferences(component.Component):
                 "spin_max_connections_per_torrent": \
                     ("value", self.core_config["max_connections_per_torrent"]),
                 "spin_max_upload_slots_per_torrent": \
-                    ("value", self.core_config["max_upload_slots_per_torrent"])
+                    ("value", self.core_config["max_upload_slots_per_torrent"]),
+                "spin_daemon_port": \
+                    ("value", self.core_config["daemon_port"]),
+                "chk_allow_remote_connections": \
+                    ("active", self.core_config["allow_remote"])
             }
 
             # Update the widgets accordingly
@@ -237,7 +241,9 @@ class Preferences(component.Component):
                 "spin_max_upload",
                 "spin_max_upload_slots_global",
                 "spin_max_connections_per_torrent",
-                "spin_max_upload_slots_per_torrent"
+                "spin_max_upload_slots_per_torrent",
+                "spin_daemon_port",
+                "chk_allow_remote_connections"
             ]
             # We don't appear to be connected to a daemon
             for key in core_widget_list:
@@ -255,7 +261,7 @@ class Preferences(component.Component):
         self.glade.get_widget("chk_enable_files_dialog").set_active(
             self.gtkui_config["enable_files_dialog"])
 
-        ## Other tab ##
+        ## Interface tab ##
         self.glade.get_widget("chk_use_tray").set_active(
             self.gtkui_config["enable_system_tray"])
         self.glade.get_widget("chk_min_on_close").set_active(
@@ -272,7 +278,8 @@ class Preferences(component.Component):
             self.gtkui_config["open_folder_stock"])
         self.glade.get_widget("radio_open_folder_custom").set_active(
             not self.gtkui_config["open_folder_stock"])
-            
+
+        ## Other tab ##
         self.glade.get_widget("chk_new_releases").set_active(
             self.gtkui_config["check_new_releases"])
             
@@ -363,7 +370,7 @@ class Preferences(component.Component):
             self.glade.get_widget(
                 "spin_max_upload_slots_per_torrent").get_value_as_int()
         
-        ## Other tab ##
+        ## Interface tab ##
         new_gtkui_config["enable_system_tray"] = \
             self.glade.get_widget("chk_use_tray").get_active()
         new_gtkui_config["close_to_tray"] = \
@@ -382,13 +389,20 @@ class Preferences(component.Component):
             self.glade.get_widget("txt_open_folder_location").get_text()
         new_gtkui_config["open_folder_stock"] = \
             self.glade.get_widget("radio_open_folder_stock").get_active()
-            
+        
+        ## Other tab ##    
         new_gtkui_config["check_new_releases"] = \
             self.glade.get_widget("chk_new_releases").get_active()
             
         new_gtkui_config["send_info"] = \
             self.glade.get_widget("chk_send_info").get_active()
 
+        ## Daemon tab ##
+        new_core_config["daemon_port"] = \
+            self.glade.get_widget("spin_daemon_port").get_value_as_int()
+        new_core_config["allow_remote"] = \
+            self.glade.get_widget("chk_allow_remote_connections").get_active()
+            
         # GtkUI
         for key in new_gtkui_config.keys():
             # The values do not match so this needs to be updated
