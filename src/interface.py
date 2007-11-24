@@ -1356,20 +1356,23 @@ trying to add the torrent. It's possible your .torrent file is corrupted."))
             if is_duplicate:
                 merge_dialog = dialogs.MergeDlg()
                 if merge_dialog.show(self.window) == 1:
-                    new_trackers_as_list = self.manager.dump_trackers(torrent).\
-                        replace(' ','').splitlines(True)
+                    new_trackers_as_list = self.manager.dump_trackers(torrent)\
+                        .splitlines()
                     original_trackers_as_list = self.manager.get_trackers(
-                        unique_id).replace(' ','').splitlines(True)
-                    for index in xrange(len(new_trackers_as_list)):
-                        if original_trackers_as_list.count(
-                            new_trackers_as_list[index]) == 0:
-                            original_trackers_as_list.append(
-                                new_trackers_as_list[index])
-                    merged_trackers_as_string = ''.join([
-                        original_trackers_as_list[index] for \
-                        index in xrange(len(original_trackers_as_list))])
+                        unique_id).splitlines()
+                    merged_trackers = []
+                    for s in original_trackers_as_list, new_trackers_as_list:
+                        for x in s:
+                            merged_trackers.append(x)
+                    #remove duplicates
+                    d = {}
+                    for k in merged_trackers:
+                       d[k] = 1
+                    merged_trackers_as_string = ''
+                    for x in d.keys():
+                        merged_trackers_as_string = merged_trackers_as_string + x + '\n'
                     self.manager.replace_trackers(unique_id, 
-                        merged_trackers_as_string)
+                        merged_trackers_as_string.strip())
             else:
                 dialogs.show_popup_warning(self.window, _("Unknown duplicate \
 torrent error."))
