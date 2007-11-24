@@ -516,7 +516,7 @@ def show_file_open_dialog(parent, title=None):
     chooser.set_select_multiple(True)
     if not common.windows_check():
         chooser.set_icon(common.get_logo(32))
-    chooser.set_property("skip-taskbar-hint", True)
+        chooser.set_property("skip-taskbar-hint", True)
         
     response = chooser.run()
     if response == gtk.RESPONSE_OK:
@@ -532,7 +532,7 @@ def show_directory_chooser_dialog(parent, title):
                 buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
     if not common.windows_check():
         chooser.set_icon(common.get_logo(32))
-    chooser.set_property("skip-taskbar-hint", True)
+        chooser.set_property("skip-taskbar-hint", True)
     config = pref.Preferences()
     chooser.set_current_folder(config.get("choose_directory_dialog_path"))
     if chooser.run() == gtk.RESPONSE_OK:
