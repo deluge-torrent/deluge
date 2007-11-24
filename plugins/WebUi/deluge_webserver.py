@@ -50,7 +50,7 @@ urls = (
     "/torrent/stop/(.*)", "torrent_stop",
     "/torrent/start/(.*)", "torrent_start",
     "/torrent/reannounce/(.*)", "torrent_reannounce",
-    "/torrent/add", "torrent_add",
+    "/torrent/add(.*)", "torrent_add",
     "/torrent/delete/(.*)", "torrent_delete",
     "/torrent/queue/up/(.*)", "torrent_queue_up",
     "/torrent/queue/down/(.*)", "torrent_queue_down",
@@ -98,21 +98,36 @@ class index:
     @deluge_page
     @auto_refreshed
     def GET(self, name):
-        vars = web.input(sort=None, order=None)
+        vars = web.input(sort=None, order=None ,filter=None , category=None)
 
-        status_rows = [get_torrent_status(torrent_id)
+        torrent_list = [get_torrent_status(torrent_id)
             for torrent_id in ws.proxy.get_session_state()]
+        all_torrents = torrent_list[:]
+
+        #filter-state
+        if vars.filter:
+            torrent_list = filter_torrent_state(torrent_list, vars.filter)
+            setcookie("filter", vars.filter)
+        else:
+            setcookie("filter", "")
+
+        #filter-cat
+        if vars.category:
+            torrent_list = [t for t in torrent_list if t.category == vars.category]
+            setcookie("category", vars.category)
+        else:
+            setcookie("category", "")
 
         #sorting:
         if vars.sort:
-            status_rows.sort(key=attrgetter(vars.sort))
+            torrent_list.sort(key=attrgetter(vars.sort))
             if vars.order == 'up':
-                status_rows = reversed(status_rows)
+                torrent_list = reversed(torrent_list)
 
             setcookie("order", vars.order)
             setcookie("sort", vars.sort)
 
-        return ws.render.index(status_rows)
+        return ws.render.index(torrent_list, all_torrents)
 
 class torrent_info:
     @deluge_page
@@ -213,14 +228,24 @@ class torrent_delete:
 class torrent_queue_up:
     @check_session
     def POST(self, name):
-        for torrent_id in sorted(name.split(',')):
+        #a bit too verbose..
+        torrent_ids = name.split(',')
+        torrents = [get_torrent_status(id) for id in torrent_ids]
+        torrents.sort(lambda x, y : x.queue_pos - y.queue_pos)
+        torrent_ids = [t.id for t in torrents]
+        for torrent_id in torrent_ids:
             ws.proxy.queue_up(torrent_id)
         do_redirect()
 
 class torrent_queue_down:
     @check_session
     def POST(self, name):
-        for torrent_id in reversed(sorted(name.split(','))):
+        #a bit too verbose..
+        torrent_ids = name.split(',')
+        torrents = [get_torrent_status(id) for id in torrent_ids]
+        torrents.sort(lambda x, y : x.queue_pos - y.queue_pos)
+        torrent_ids = [t.id for t in torrents]
+        for torrent_id in reversed(torrent_ids):
             ws.proxy.queue_down(torrent_id)
         do_redirect()
 

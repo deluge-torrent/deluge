@@ -96,12 +96,7 @@ class movetorrentMenu:
         if path: 
             self.paused_or_not = {}
             for unique_id in unique_ids:
-                self.paused_or_not[unique_id] = self.core.is_user_paused(unique_id)
-                if not self.paused_or_not[unique_id]:
-                    self.core.set_user_pause(unique_id, True, enforce_queue=False)
                 self.core.move_storage(unique_id, path)
-                if not self.paused_or_not[unique_id]:
-                    self.core.set_user_pause(unique_id, False, enforce_queue=False)
 
     def configure(self, window):
         import os.path

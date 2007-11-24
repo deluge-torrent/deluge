@@ -4,7 +4,10 @@
 div.progress_bar_outer { /*used in table-view*/
 	width:150px;
 }
-td.progress_bar {	white-space: nowrap;}td.info_label {	 font-weight: bold;}td { font-size: 10pt; color: #d1dae5; white-space: nowrap;}tr { font-size: 10pt; color: #d1dae5;}
+td.progress_bar {	white-space: nowrap;}td.info_label {	 font-weight: bold;}td { font-size: 10pt; color: #d1dae5; white-space: nowrap;}tr {
+ font-size: 10pt;
+ color: #d1dae5;
+}
 
 div.panel {
 	padding:10px;
@@ -55,9 +58,6 @@ tr.torrent_table_selected {
 	background-color:#900;
 }
 
-th.torrent_table:hover {
-	background-color:#68a;
-}
 
 img.button {
 		margin-bottom:0px;
@@ -71,4 +71,21 @@ body.inner {
 }
 
 
-/* Hides from IE-mac \*/* html .clearfix {height: 1%;}.clearfix {display: block;}/* End hide from IE-mac */
+form.pause_resume {
+	margin:0;
+	padding:0;
+	border:0;
+}
+
+th {
+	 background: #1f3044;
+	 font-size: 14px;
+	 border: 0px;
+	 white-space: nowrap;
+}
+
+#torrent_table {
+	border: #2a425c 1px solid;
+}
+
+/* Hides from IE-mac \*/* html .clearfix {height: 1%;}.clearfix {display: block;}/* End hide from IE-mac */

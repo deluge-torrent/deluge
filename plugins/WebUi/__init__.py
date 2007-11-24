@@ -37,7 +37,9 @@ Firefox greasemonkey script: http://userscripts.org/scripts/show/12639
 
 Remotely add a file: "curl -F torrent=@./test1.torrent -F pwd=deluge http://localhost:8112/remote/torrent/add"
 
-There is support for multiple templates, but just one is included.
+Advanced template is only tested on firefox and garanteed not to work in IE6
+
+ssl keys are located in WebUi/ssl/
 
 Other contributors:
 *somedude : template enhancements.
@@ -203,11 +205,8 @@ class ConfigDialog(gtk.Dialog):
             gtk.combo_box_new_text())
         self.cache_templates = self.add_widget(_('Cache Templates'),
             gtk.CheckButton())
-        """
-        temporary disable for 0.5.7
-        self.use_https = self.add_widget(_('Use https://'),
+        self.use_https = self.add_widget(_('https://'),
             gtk.CheckButton())
-        """
 
         #self.share_downloads = self.add_widget(_('Share Download Directory'),
         #    gtk.CheckButton())
@@ -236,7 +235,7 @@ class ConfigDialog(gtk.Dialog):
         #    bool(self.config.get("share_downloads")))
 
         self.cache_templates.set_active(self.config.get("cache_templates"))
-        """0.5.7.. self.use_https.set_active(self.config.get("use_https"))"""
+        self.use_https.set_active(self.config.get("use_https"))
 
         self.vbox.pack_start(self.vb, True, True, 0)
         self.vb.show_all()
@@ -272,7 +271,7 @@ class ConfigDialog(gtk.Dialog):
         self.config.set("template", self.template.get_active_text())
         self.config.set("button_style", self.button_style.get_active())
         self.config.set("cache_templates", self.cache_templates.get_active())
-        #0.5.7.. self.config.set("use_https", self.use_https.get_active())
+        self.config.set("use_https", self.use_https.get_active())
         #self.config.set("share_downloads", self.share_downloads.get_active())
         self.config.save(self.plugin.config_file)
         self.plugin.start_server() #restarts server

@@ -510,6 +510,16 @@ static PyObject *torrent_set_max_half_open(PyObject *self, PyObject *args)
     Py_INCREF(Py_None); return Py_None;
 }
 
+static PyObject *torrent_connection_speed(PyObject *self, PyObject *args)
+{
+    python_long arg;
+    if (!PyArg_ParseTuple(args, "i", &arg))
+        return NULL;
+    M_settings->connection_speed = arg;
+    M_ses->set_settings(*M_settings);
+
+    Py_INCREF(Py_None); return Py_None;
+}
 
 static PyObject *torrent_set_download_rate_limit(PyObject *self, PyObject *args)
 {
@@ -2022,6 +2032,7 @@ static PyMethodDef deluge_core_methods[] =
     {"quit",                            torrent_quit,                             METH_VARARGS,   "."},
     {"save_fastresume",                 torrent_save_fastresume,                  METH_VARARGS,   "."},
     {"set_max_half_open",               torrent_set_max_half_open,                METH_VARARGS,   "."},
+    {"connection_speed",                torrent_connection_speed,                 METH_VARARGS,   "."},
     {"set_download_rate_limit",         torrent_set_download_rate_limit,          METH_VARARGS,   "."},
     {"set_upload_rate_limit",           torrent_set_upload_rate_limit,            METH_VARARGS,   "."},
     {"set_per_upload_rate_limit",       torrent_set_per_upload_rate_limit,        METH_VARARGS,   "."},

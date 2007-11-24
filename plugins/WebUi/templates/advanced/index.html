@@ -1,14 +1,49 @@
-$def with (torrent_list)
+$def with (torrent_list, all_torrents)
 $:render.header(_('Torrent list'))
 
+<div class="panel" id="toolbar">
 
-<a href='/torrent/add' >[Add]</a>
-<a href='#' onclick=' toolbar_post("/torrent/queue/up/")'>[Up]</a>
-<a href='#' onclick=' toolbar_post("/torrent/queue/down/")'>[Down]</a>
-<a href='#' onclick=' toolbar_get("/torrent/delete/")'>[Delete]</a>
-<a href='#' onclick=' toolbar_get("/torrent/info/")'>[Info]</a>
-<a href='#' onclick=' toolbar_post("/torrent/stop/")'>[Pause]</a>
-<a href='#' onclick=' toolbar_post("/torrent/start/")'>[Start]</a>
+    <a class='toolbar_btn' href="#"
+    onclick='toolbar_get("/torrent/add/")'
+    title='$_("Add")'><img class='toolbar_btn'
+    src='/static/images/tango/list-add.png'></a>
+
+    <a class='toolbar_btn' href="#"
+    onclick='toolbar_get("/torrent/delete/")'><img class='toolbar_btn'
+        src='/static/images/tango/list-remove.png'
+        title='$_("Remove")'></a>
+
+    <a class='toolbar_btn' href="#"
+    onclick='toolbar_post("/torrent/stop/")'
+    title='$_("Pause")'><img class='toolbar_btn'
+    src='/static/images/tango/pause.png'
+    ></a>
+
+    <a class='toolbar_btn' href="#"
+    onclick='toolbar_post("/torrent/start/")'
+    title='$_("Start")'><img class='toolbar_btn'
+    src='/static/images/tango/start.png'></a>
+
+    <a class='toolbar_btn' href="#"
+    onclick='toolbar_post("/torrent/queue/up/")'
+    title='$_("Up")'><img class='toolbar_btn'
+    src='/static/images/tango/queue-up.png'></a>
+
+
+    <a class='toolbar_btn' href="#"
+    onclick='toolbar_post("/torrent/queue/down/")'
+    title='$_("Down")'><img class='toolbar_btn'
+    src='/static/images/tango/queue-down.png'></a>
+
+
+    <a class='toolbar_btn' href="#"
+    onclick='toolbar_get("/torrent/info/")'
+    title='$_("Details")'><img class='toolbar_btn'
+    src='/static/images/tango/details.png'></a>
+
+    $:category_tabs(all_torrents)
+
+</div>
 
 
 <!--
@@ -21,10 +56,10 @@ $#end
 -->
 
 
-<form action="/torrent/pause" method="POST">
+
 
 <div id="tableContainer" class="tableContainer">
-<table class="torrent_list" border=1>
+<table class="torrent_list" border=1 id="torrent_list">
 <thead class="fixedHeader">
 <tr>
         $:(sort_head('calc_state_str', 'S'))
@@ -45,11 +80,14 @@ $#end
 $#4-space indentation is mandatory for for-loops in templetor!
 $for torrent in torrent_list:
     <tr class="torrent_table" onclick="on_click_row(event, '$torrent.id')" id="torrent_$torrent.id">
-    <td><input type="image"
-        src="/static/images/$(torrent.calc_state_str)16.png"
-        name="$torrent.action" value="$torrent.id"
-        onclick="state.row_js_continue = false;">
-    </td>
+    <td>
+       <form action="/torrent/$torrent.action/$torrent.id" method="POST"
+            class="pause_resume">
+            <input type="image"
+            src="/static/images/$(torrent.calc_state_str)16.png"
+            name="pauseresume" value="submit" />
+        </form>
+       </td>
     <td>$torrent.queue_pos</td>
     <td style="width:100px; overflow:hidden;white-space: nowrap">
         $(crop(torrent.name, 40))</td>
@@ -63,8 +101,18 @@ $for torrent in torrent_list:
     </td>
     <td>$torrent.num_seeds ($torrent.total_seeds)</td>
     <td>$torrent.num_peers ($torrent.total_peers)</td>
-    <td>$fspeed(torrent.download_rate)</td>
-    <td>$fspeed(torrent.upload_rate)</td>
+    <td>
+    $if (torrent.download_rate):
+        $fspeed(torrent.download_rate)
+    $else:
+        &nbsp;
+    </td>
+    <td>
+    $if (torrent.upload_rate):
+        $fspeed(torrent.upload_rate)
+    $else:
+        &nbsp;
+    </td>
     <td>$torrent.eta</td>
     <td>$("%.3f" % torrent.distributed_copies)</td>
     <td>$("%.3f" % torrent.ratio)</td\>
@@ -73,7 +121,6 @@ $for torrent in torrent_list:
 </table>
 </div>
 
-</form>
 
 $:part_stats()
 
@@ -83,6 +130,8 @@ $:part_stats()
     id="torrent_info">
     </iframe>
 </div>
+
+<br />
 
 
 

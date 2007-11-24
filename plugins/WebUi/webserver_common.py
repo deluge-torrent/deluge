@@ -42,7 +42,7 @@ import pickle
 import sys
 from webpy022 import template
 random.seed()
-path = os.path.dirname(__file__)
+webui_path = os.path.dirname(__file__)
 
 ENV = 'UNKNOWN'
 
@@ -68,11 +68,11 @@ class subclassed_render(object):
     """
     def __init__(self, template_dirname, cache=False):
         self.base_template = template.render(
-            os.path.join(path, 'templates/deluge/'),
+            os.path.join(webui_path, 'templates/deluge/'),
             cache=cache)
 
         self.sub_template = template.render(
-            os.path.join(path, 'templates/%s/' % template_dirname),
+            os.path.join(webui_path, 'templates/%s/' % template_dirname),
             cache=cache)
 
     def __getattr__(self, attr):

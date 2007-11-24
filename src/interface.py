@@ -63,7 +63,7 @@ class DelugeGTK:
         self.wtree = gtk.glade.XML(common.get_glade_file("delugegtk.glade"), 
             domain='deluge')
         self.window = self.wtree.get_widget("main_window")
-        self.toolbar = self.wtree.get_widget("tb_middle")
+        self.toolbar = self.wtree.get_widget("tb_left")
         self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 
             80)], gtk.gdk.ACTION_COPY) 
         self.window.connect("delete_event", self.close)
@@ -820,9 +820,9 @@ window, please enter your password"))
         unique_ids = self.get_selected_torrent_rows()
         try:
             for uid in unique_ids:
+                self.manager.set_user_pause(uid, True, True)
                 torrent_state = self.manager.get_torrent_state(uid)
                 if torrent_state["is_paused"] == 0:
-                    self.manager.set_user_pause(uid, True, True)
                     self.manager.save_fastresume_data(uid)
 
             self.update()
@@ -937,13 +937,16 @@ window, please enter your password"))
                     int(self.config.get("web_proxy_port")), self.config.get(
                         "web_proxy_type"), "web")
 
-    def get_message_from_state(self, torrent_state):
+    def get_message_from_state(self, unique_id, torrent_state):
         state = torrent_state['state']
         is_paused = torrent_state['is_paused']
         progress = torrent_state['progress']
         progress = '%d%%' % int(progress * 100)
         if is_paused:
-            message = _("Paused %s") % progress
+            if self.manager.is_user_paused(unique_id):
+                message = _("Paused %s") % progress
+            else:
+                message = _("Queued %s") % progress
         else:
             try:
                 message = core.STATE_MESSAGES[state]
@@ -960,7 +963,7 @@ window, please enter your password"))
         name = state['name']
         size = state['total_wanted']
         progress = float(state['progress'] * 100)
-        message = self.get_message_from_state(state)
+        message = self.get_message_from_state(unique_id, state)
         availability = state['distributed_copies']
         share = self.manager.calc_ratio(unique_id, state)
 
@@ -1140,11 +1143,13 @@ window, please enter your password"))
                 state = self.manager.get_torrent_state(unique_id)
                 if previosly_paused and state['is_paused']:
                     # For previosly and still paused torrents update only 
-                    # queue pos and selected files size, all the rest 
-                    # columns are unchanged for them.
-                    dgtk.update_store(self.torrent_model, itr, (1, 4), 
+                    # queue pos, selected files size and status message.
+                    # All the other columns are unchanged.
+                    message = self.get_message_from_state(unique_id, state)
+                    dgtk.update_store(self.torrent_model, itr, (1, 4, 6), 
                                       (state['queue_pos'], 
-                                       state['total_wanted']))
+                                       state['total_wanted'],
+                                       message))
                 else:
                     tlist = self.get_torrent_state_list(unique_id, state)
                     dgtk.update_store(self.torrent_model, itr, 
@@ -1356,20 +1361,23 @@ trying to add the torrent. It's possible your .torrent file is corrupted."))
             if is_duplicate:
                 merge_dialog = dialogs.MergeDlg()
                 if merge_dialog.show(self.window) == 1:
-                    new_trackers_as_list = self.manager.dump_trackers(torrent).\
-                        replace(' ','').splitlines(True)
+                    new_trackers_as_list = self.manager.dump_trackers(torrent)\
+                        .splitlines()
                     original_trackers_as_list = self.manager.get_trackers(
-                        unique_id).replace(' ','').splitlines(True)
-                    for index in xrange(len(new_trackers_as_list)):
-                        if original_trackers_as_list.count(
-                            new_trackers_as_list[index]) == 0:
-                            original_trackers_as_list.append(
-                                new_trackers_as_list[index])
-                    merged_trackers_as_string = ''.join([
-                        original_trackers_as_list[index] for \
-                        index in xrange(len(original_trackers_as_list))])
+                        unique_id).splitlines()
+                    merged_trackers = []
+                    for s in original_trackers_as_list, new_trackers_as_list:
+                        for x in s:
+                            merged_trackers.append(x)
+                    #remove duplicates
+                    d = {}
+                    for k in merged_trackers:
+                       d[k] = 1
+                    merged_trackers_as_string = ''
+                    for x in d.keys():
+                        merged_trackers_as_string = merged_trackers_as_string + x + '\n'
                     self.manager.replace_trackers(unique_id, 
-                        merged_trackers_as_string)
+                        merged_trackers_as_string.strip())
             else:
                 dialogs.show_popup_warning(self.window, _("Unknown duplicate \
 torrent error."))
@@ -1377,9 +1385,8 @@ torrent error."))
             nice_need = common.fsize(e.needed_space)
             nice_free = common.fsize(e.free_space)
             dialogs.show_popup_warning(self.window, _("There is not enough free\
-                disk space to complete your download.") + "\n" + \
-                _("Space Needed:") + " " + nice_need + "\n" + 
-                _("Available Space:") + " " + nice_free)
+disk space to complete your download.") + "\n" + _("Space Needed:") + " " + \
+nice_need + "\n" + _("Available Space:") + " " + nice_free)
         else:
             self.torrent_model_append(unique_id)
 
@@ -1508,12 +1515,8 @@ want to remove all seeding torrents?")):
     def toolbar_toggle(self, widget):
         if widget.get_active():
             self.wtree.get_widget("tb_left").show()
-            self.wtree.get_widget("tb_middle").show()
-            self.wtree.get_widget("tb_right").show()
         else:
             self.wtree.get_widget("tb_left").hide()
-            self.wtree.get_widget("tb_middle").hide()
-            self.wtree.get_widget("tb_right").hide()
     
     def infopane_toggle(self, widget):
         if widget.get_active():

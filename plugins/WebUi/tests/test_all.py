@@ -211,7 +211,7 @@ class TestIntegration(TestWebUiBase):
             #delete all, nice use case for refactoring delete..
             torrent_ids = ws.proxy.get_session_state()
             for torrent in torrent_ids:
-                ws.proxy.remove_torrent(torrent, False, False)
+                ws.proxy.remove_torrent([torrent], False, False)
 
             torrent_ids = ws.proxy.get_session_state()
             self.assertEqual(torrent_ids, [])
@@ -237,14 +237,14 @@ class TestIntegration(TestWebUiBase):
         #pause all
         self.assert_303('/pause_all','/index', post=1)
         #pause worked?
-        pause_status = [get_status(id)["paused"] for id in ws.proxy.get_session_state()]
+        pause_status = [get_status(id)["user_paused"] for id in ws.proxy.get_session_state()]
         for paused in pause_status:
             self.assertEqual(paused, True)
 
         #resume all
         self.assert_303('/resume_all','/index', post=1)
         #resume worked?
-        pause_status = [get_status(id)["paused"] for id in ws.proxy.get_session_state()]
+        pause_status = [get_status(id)["user_paused"] for id in ws.proxy.get_session_state()]
         for paused in pause_status:
             self.assertEqual(paused,False)
         #pause again.
@@ -253,10 +253,10 @@ class TestIntegration(TestWebUiBase):
         torrent_id = self.first_torrent_id
         #single resume.
         self.assert_303('/torrent/start/%s' % torrent_id ,'/index', post=1)
-        self.assertEqual(get_status(torrent_id)["paused"] ,False)
+        self.assertEqual(get_status(torrent_id)["user_paused"] ,False)
         #single pause
         self.assert_303('/torrent/stop/%s' % torrent_id,'/index', post=1)
-        self.assertEqual(get_status(torrent_id)["paused"] , True)
+        self.assertEqual(get_status(torrent_id)["user_paused"] , True)
 
     def testQueue(self):
         #find last:

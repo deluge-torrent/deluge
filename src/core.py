@@ -70,6 +70,7 @@ DHT_FILENAME = "dht.state"
 PREF_FUNCTIONS = {
     "listen_on" : deluge_core.set_listen_on,
     "max_half_open" : deluge_core.set_max_half_open,
+    "connection_speed" : deluge_core.connection_speed,
     "max_connections_global" : deluge_core.set_max_connections_global,
     "max_active_torrents" : None, # no need for a function, applied constantly
     "max_upload_slots_global" : deluge_core.set_max_upload_slots_global,
@@ -543,11 +544,14 @@ class Manager:
                         # We have enough free space, so lets resume this torrent
                         self.resume(unique_ID)
                     else:
+                        nice_need = common.fsize(total_needed)
+                        nice_free = common.fsize(avail)
                         import gtk
                         import dialogs
                         gtk.gdk.threads_enter()
-                        result = dialogs.show_popup_warning(None, _("You're out \
-of HD space!  Oops!\nWe had to pause at least one torrent"))
+                        dialogs.show_popup_warning(None, _("There is not enough \
+free disk space to complete your download.") + "\n" + _("Space Needed:") + " " \
++ nice_need + "\n" + _("Available Space:") + " " + nice_free)
                         gtk.gdk.threads_leave()
                         print "Not enough free space to resume this torrent!"
                 else: #We're using compact allocation so lets just resume
@@ -630,6 +634,13 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
                 # save fast resume once torrent finishes so as to not recheck
                 # seed if client crashes
                 self.save_fastresume_data(event['unique_ID'])
+
+            elif event['event_type'] is self.constants['EVENT_FILE_ERROR']:
+                import gtk
+                import dialogs
+                gtk.gdk.threads_enter()
+                dialogs.show_popup_warning(None, event['message'])
+                gtk.gdk.threads_leave()
 
             elif event['event_type'] is self.constants['EVENT_TRACKER_ANNOUNCE']:
                 self.set_supp_torrent_state_val(event['unique_ID'], 
@@ -855,7 +866,6 @@ of HD space!  Oops!\nWe had to pause at least one torrent"))
                                                         torrent.save_dir,
                                                         torrent.compact)
                 except DelugeError, e:
-                    print "Error probably bad torrent"
                     del self.state.torrents[torrent]
                     raise e
 

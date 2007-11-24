@@ -63,7 +63,7 @@ class plugin_Search:
         ### Note: All other plugins should use self.interface.toolbar
         ### when adding items to the toolbar
         self.se = ''
-        self.toolbar = self.interface.wtree.get_widget("tb_right") 
+        self.toolbar = self.interface.wtree.get_widget("tb_left")
         self.engines = deluge.pref.Preferences(self.conf_file, False)
         self.search_entry = gtk.Entry()
         self.search_entry.connect("activate", self.torrent_search) 
