@@ -188,12 +188,12 @@ def add_torrent_url(torrent_url):
     else:
         log.warning("Invalid URL %s", torrent_url)
     
-def remove_torrent(torrent_ids):
+def remove_torrent(torrent_ids, remove_torrent=False, remove_data=False):
     """Removes torrent_ids from the core.. Expects a list of torrent_ids"""
     log.debug("Attempting to removing torrents: %s", torrent_ids)
     try:
         for torrent_id in torrent_ids:
-            get_core().remove_torrent(torrent_id)
+            get_core().remove_torrent(torrent_id, remove_torrent, remove_data)
     except (AttributeError, socket.error):
         set_core_uri(None)
 

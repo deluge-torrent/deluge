@@ -250,19 +250,39 @@ class TorrentManager:
         
         return filedump
         
-    def remove(self, torrent_id):
+    def remove(self, torrent_id, remove_torrent, remove_data):
         """Remove a torrent from the manager"""
         try:
             # Remove from libtorrent session
-            self.session.remove_torrent(self.torrents[torrent_id].handle, 0)
+            option = 0
+            # Remove data if set
+            if remove_data:
+                option = 1
+            self.session.remove_torrent(self.torrents[torrent_id].handle, 
+                option)
         except (RuntimeError, KeyError), e:
             log.warning("Error removing torrent: %s", e)
             return False
             
+        # Remove the .torrent file if requested
+        if remove_torrent:
+            try:
+                torrent_file = os.path.join(
+                    self.config["torrentfiles_location"], 
+                    self.torrents[torrent_id].filename)
+                os.remove(torrent_file)
+            except Exception, e:
+                log.warning("Unable to remove .torrent file: %s", e)
+
+        # Remove the .fastresume if it exists
+        self.delete_fastresume(torrent_id)
+        
+        # Remove the torrent from deluge's session
         try:
             del self.torrents[torrent_id]
         except KeyError, ValueError:
             return False
+            
         # Save the session state
         self.save_state()
         return True
