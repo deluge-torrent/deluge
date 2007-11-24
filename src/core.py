@@ -635,6 +635,13 @@ free disk space to complete your download.") + "\n" + _("Space Needed:") + " " \
                 # seed if client crashes
                 self.save_fastresume_data(event['unique_ID'])
 
+            elif event['event_type'] is self.constants['EVENT_FILE_ERROR']:
+                import gtk
+                import dialogs
+                gtk.gdk.threads_enter()
+                dialogs.show_popup_warning(None, event['message'])
+                gtk.gdk.threads_leave()
+
             elif event['event_type'] is self.constants['EVENT_TRACKER_ANNOUNCE']:
                 self.set_supp_torrent_state_val(event['unique_ID'], 
                                                 "tracker_status",

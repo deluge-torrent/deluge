@@ -9,7 +9,11 @@ import cookielib, urllib2 , urllib
 import WebUi.webserver_common as ws
 import operator
 
+
 ws.init_05()
+print 'test-env=',ws.ENV
+
+
 
 #CONFIG:
 BASE_URL = 'http://localhost:8112'
@@ -37,6 +41,7 @@ class TestWebUiBase(unittest.TestCase):
 
     def open_url(self, page, post=None):
         url = BASE_URL + page
+
         if post == 1:
             post = {'Force_a_post' : 'spam'}
         if post:
@@ -91,6 +96,10 @@ class TestWebUiBase(unittest.TestCase):
             self.fail('page was not found "%s" (%s)' % (page, e.code))
         else:
             pass
+
+    first_torrent_id = property(lambda self: ws.proxy.get_session_state()[0])
+    first_torrent = property(lambda self: get_status(self.first_torrent_id))
+
 
 class TestNoAuth(TestWebUiBase):
     def test303(self):
@@ -202,7 +211,7 @@ class TestIntegration(TestWebUiBase):
             #delete all, nice use case for refactoring delete..
             torrent_ids = ws.proxy.get_session_state()
             for torrent in torrent_ids:
-                ws.proxy.remove_torrent(torrent, False, False)
+                ws.proxy.remove_torrent([torrent], False, False)
 
             torrent_ids = ws.proxy.get_session_state()
             self.assertEqual(torrent_ids, [])
@@ -217,33 +226,37 @@ class TestIntegration(TestWebUiBase):
 
         else:
             #test correctness of existing-list
+            #The setup makes 0.6 fail everything, added an else..
             for url in self.urls:
-                self.assert_500('/torrent/add',{'url':url,'torrent':None})
+                if ws.ENV.startswith('0.5'):
+                    self.assert_500('/torrent/add',{'url':url,'torrent':None})
+                else:
+                    self.assert_303('/torrent/add','/index',{'url':url,'torrent':None})
 
     def testPauseResume(self):
         #pause all
         self.assert_303('/pause_all','/index', post=1)
         #pause worked?
-        pause_status = [get_status(id)["paused"] for id in ws.proxy.get_session_state()]
+        pause_status = [get_status(id)["user_paused"] for id in ws.proxy.get_session_state()]
         for paused in pause_status:
             self.assertEqual(paused, True)
 
         #resume all
         self.assert_303('/resume_all','/index', post=1)
         #resume worked?
-        pause_status = [get_status(id)["paused"] for id in ws.proxy.get_session_state()]
+        pause_status = [get_status(id)["user_paused"] for id in ws.proxy.get_session_state()]
         for paused in pause_status:
             self.assertEqual(paused,False)
         #pause again.
         self.assert_303('/pause_all','/index', post=1)
 
-        torrent_id = ws.proxy.get_session_state()[0]
+        torrent_id = self.first_torrent_id
         #single resume.
-        self.assert_303('/torrent/pause','/index', post={'start':torrent_id})
-        self.assertEqual(get_status(torrent_id)["paused"] ,False)
+        self.assert_303('/torrent/start/%s' % torrent_id ,'/index', post=1)
+        self.assertEqual(get_status(torrent_id)["user_paused"] ,False)
         #single pause
-        self.assert_303('/torrent/pause','/index', post={'stop':torrent_id})
-        self.assertEqual(get_status(torrent_id)["paused"] , True)
+        self.assert_303('/torrent/stop/%s' % torrent_id,'/index', post=1)
+        self.assertEqual(get_status(torrent_id)["user_paused"] , True)
 
     def testQueue(self):
         #find last:
@@ -297,8 +310,6 @@ class TestIntegration(TestWebUiBase):
         #add torrrent-file
         #./test01.torrent
 
-    def testReannounce(self):
-        pass
 
     def test_do_redirect(self):
         self.assert_303('/home','/index')
@@ -314,23 +325,42 @@ class TestIntegration(TestWebUiBase):
         assert self.cookies['order'] == 'up'
         #redir after pause-POST? in /index.
         self.assert_exists('/index?sort=name&order=down')
-        torrent_id = ws.proxy.get_session_state()[0]
-        self.assert_303('/torrent/pause','/index?sort=name&order=down',
-            post={'stop':torrent_id})
+        torrent_id = self.first_torrent_id
+        self.assert_303('/torrent/stop/%s' % torrent_id,
+            '/index?sort=name&order=down', post=1)
         #redir in details 1
-        self.assert_303('/torrent/pause?redir=/torrent/info/' + torrent_id
-            ,'/torrent/info/' + torrent_id, post = {'stop':torrent_id})
+        self.assert_303('/torrent/stop/%s?redir=/torrent/info/%s' %(torrent_id,torrent_id)
+            ,'/torrent/info/' + torrent_id, post = 1)
         #redir in details 2
-        self.assert_303('/torrent/pause'
+        self.assert_303('/torrent/stop/%s' % torrent_id
             ,'/torrent/info/' + torrent_id ,
-            post={'stop':torrent_id,
-                    'redir': '/torrent/info/' + torrent_id})
+            post={'redir': '/torrent/info/' + torrent_id})
 
     def testRemote(self):
         pass
 
     def test_redir_after_login(self):
         pass
+
+    def testReannounce(self):
+        torrent_id = self.first_torrent_id
+        self.assert_303(
+            '/torrent/reannounce/%(id)s?redir=/torrent/info/%(id)s'
+            %  {'id':torrent_id}
+            ,'/torrent/info/' + torrent_id, post = 1)
+
+    def testRecheck(self):
+        #add test before writing code..
+        #RELEASE-->disable
+        """
+        torrent_id = self.first_torrent_id
+        self.assert_303(
+            '/torrent/recheck/%(id)s?redir=/torrent/info/%(id)s'
+            %  {'id':torrent_id}
+            ,'/torrent/info/' + torrent_id, post = 1)
+        """
+
+
 
 #
 

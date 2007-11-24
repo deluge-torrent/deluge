@@ -1,10 +1,15 @@
-$def with (torrent)
-$:render.header(_("Remove %s ") % torrent.name)
+$def with (torrent_ids, torrent_list)
+$:render.header(_("Remove torrent"))
 <div class="panel">
-<form method="POST" action='/torrent/delete/$torrent.id'>
+<form method="POST" action='/torrent/delete/$torrent_ids'>
 <div id="del_torrent">
 
-$(_("Remove %s?") % torrent.name)
+<h2>$_("Remove torrent")</h2>
+<ul>
+$for torrent in torrent_list:
+    <li>$torrent.name</li>
+</ul>
+
     <div class="form_row2">
 	<span class="form_label2">
 	<input type="checkbox" name="torrent_also" class="form_input" checked

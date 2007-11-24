@@ -29,10 +29,17 @@ function on_click_row(e,id) {
 function on_click_row_js(e, id) {
 	/*real onClick event*/
 	if (!e.ctrlKey) {
-		deselect_rows();
+		deselect_all_rows();
+		select_row(id);
+		open_inner_details(id);
 	}
-	select_row(id);
-	open_inner_details(id);
+	else if (state.selected_rows.indexOf(id) != -1) {
+		deselect_row(id);
+	}
+	else{
+		select_row(id);
+		open_inner_details(id);
+	}
 }
 
 function select_row(id){
@@ -43,19 +50,30 @@ function select_row(id){
 		setCookie('selected_rows',state.selected_rows);
 	}
 }
-function deselect_rows(){
-	for (i in state.selected_rows) {
-	    deselect_row(state.selected_rows[i]);
-	}
-	state.selected_rows = new Array();
-}
+
 function deselect_row(id){
 	var row = get_row(id);
 	if (row) {
 	    row.className = 'torrent_table'
-	    /*TODO : remove from state.selected_rows*/
+	    /*remove from state.selected_rows*/
+	    var idx = state.selected_rows.indexOf(id);
+	    state.selected_rows.splice(idx,1);
+	    setCookie('selected_rows',state.selected_rows);
 	}
 }
+
+function deselect_all_rows(){
+	/*unbind state.selected_rows from for..in:
+	there must be a better way to do this*/
+	var a = new Array()
+	for (i in state.selected_rows) {
+	    a[a.length] = state.selected_rows[i];
+	}
+	for (i in a){
+		deselect_row(a[i]);
+	}
+}
+
 function reselect_rows(){
 	var selected_rows = getCookie('selected_rows').split(',');
  	for (i in getCookie('selected_rows')) {

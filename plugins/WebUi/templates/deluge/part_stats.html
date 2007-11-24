@@ -14,7 +14,7 @@ $else:
 $#end
 </div>
 
-<div class="panel"  id='refresh_panel'>
+<div class="panel"  id='stats_panel'>
     <!--<a href='/config'>-->
 
     $_('Connections') : $stats.num_connections ($stats.max_num_connections)
@@ -26,8 +26,9 @@ $#end
 
     <!--</a>-->
 
-
-    (<a href='/about'>$_('About')</a>)
+    <span id=#about>
+        (<a href='/about'>$_('About')</a>)
+    </span>
 
 </div>
 

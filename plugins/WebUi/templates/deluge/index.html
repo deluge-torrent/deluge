@@ -1,8 +1,7 @@
-$def with (torrent_list)
+$def with (torrent_list, all_torrents)
 $:render.header(_('Torrent list'))
 
-<form action="/torrent/pause" method="POST">
-<table class="torrent_list" border=1>
+<table class="torrent_list" border=0 id='torrent_table'>
     <tr>
         $:(sort_head('calc_state_str', 'S'))
         $:(sort_head('queue_pos', '#'))
@@ -19,14 +18,16 @@ $:render.header(_('Torrent list'))
     </tr>
 $#4-space indentation is mandatory for for-loops in templetor!
 $for torrent in torrent_list:
-    <tr>
-    <td><input type="image"
-        src="/static/images/$(torrent.calc_state_str)16.png"
-        name="$torrent.action" value="$torrent.id">
-    </td>
+    <tr class="torrent_table" id="torrent_$torrent.id">
+    <td>
+        <form action="/torrent/$torrent.action/$torrent.id" method="POST" class="pause_resume">
+            <input type="image"
+            src="/static/images/$(torrent.calc_state_str)16.png"
+            name="pauseresume" value="submit" /></form></td>
     <td>$torrent.queue_pos</td>
     <td style="width:100px; overflow:hidden;white-space: nowrap">
-        <a href="/torrent/info/$torrent.id">$(crop(torrent.name, 40))</a></td>
+        <a href="/torrent/info/$torrent.id" >
+        $(crop(torrent.name, 40))</a></td>
     <td>$fsize(torrent.total_size)</td>
     <td class="progress_bar">
         <div class="progress_bar_outer">
@@ -45,12 +46,12 @@ $for torrent in torrent_list:
     </tr>
 </table>
 
-</form>
+
 
 <div class="panel">
 $:render.part_button('GET', '/torrent/add', _('Add torrent'), 'tango/list-add.png')
-$:render.part_button('POST', '/pause_all', _('Pause all'), 'tango/media-playback-pause.png')
-$:render.part_button('POST', '/resume_all', _('Resume all'), 'tango/media-playback-start.png')
+$:render.part_button('POST', '/pause_all', _('Pause all'), 'tango/pause.png')
+$:render.part_button('POST', '/resume_all', _('Resume all'), 'tango/start.png')
 <!--$:render.part_button('POST', '/logout', _('Logout'), 'tango/system-log-out.png')-->
 </div>
 

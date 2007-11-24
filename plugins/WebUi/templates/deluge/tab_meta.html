@@ -1,0 +1,85 @@
+$def with (torrent)
+<table width="100%"><tr>
+<td colspan=3 style="background-color:#999;-moz-border-radius:5px;">
+
+    <div class="progress_bar" style="width:$torrent.progress%;
+    text-align:center;font-weight:bold;">
+
+    $torrent.progress %</div>
+</td>
+</tr><td width=30%%>
+<table>
+
+<tr><td class="info_label">$_('Downloaded'):</td>
+<td class="info_value">$torrent.calc_total_downloaded</td></tr>
+
+<tr><td class="info_label">$_('Uploaded'):</td>
+<td class="info_value">$torrent.calc_total_uploaded</td>
+</tr>
+
+<tr><td class="info_label">$_('Seeders'):</td>
+<td class="info_value">$torrent.num_seeds  ($torrent.total_seeds )</td></tr>
+
+<tr><td class="info_label">$_('Share Ratio'):</td>
+<td class="info_value">$("%.3f" % torrent.ratio)</td></tr>
+
+<tr><td class="info_label">$_('Pieces'):</td>
+<td class="info_value">$torrent.num_pieces  x $fsize(torrent.piece_length) </td>
+</tr>
+
+<tr><td class="info_label">&nbsp;</td>
+<td class="info_value">&nbsp; </td>
+
+
+</table>
+</td><td width=30%%>
+
+<table>
+<tr><td class="info_label">$_('Speed'):</td><td class="info_value">
+$fspeed(torrent.download_rate)</td></td></tr>
+
+<tr><td class="info_label">$_('Speed'):</td>
+<td class="info_value">$fspeed(torrent.upload_rate)</td></tr>
+
+<tr><td class="info_label">$_('Peers'):</td>
+<td class="info_value">$torrent.num_peers  ($torrent.total_peers )</td></tr>
+
+<tr><td class="info_label">$_('ETA'):</td>
+<td class="info_value">$torrent.eta </td></tr>
+
+<tr><td class="info_label">$_('Availability'):</td>
+<td class="info_value">$("%.3f" % torrent.distributed_copies)</td></td></tr>
+
+<tr><td class="info_label">&nbsp;</td>
+<td class="info_value">&nbsp; </td>
+</tr>
+
+
+</table>
+
+</td><td width=30%%>
+
+<table>
+
+<tr><td class="info_label">$_('Total Size'):</td>
+<td class="info_value">$fspeed(torrent.total_size)</td></tr>
+
+<tr><td class="info_label">$_('# Of Files'):</td>
+<td class="info_value">$torrent.num_files</td></tr>
+
+<tr><td class="info_label">$_('Tracker'):</td>
+<td class="info_value">$(crop(torrent.tracker, 30))</td></tr>
+
+<tr><td class="info_label">$_('Tracker Status'):</td>
+<td class="info_value">$torrent.tracker_status </td></tr>
+
+<tr><td class="info_label">$_('Next Announce'):</td>
+<td class="info_value">$torrent.next_announce </td></tr>
+
+
+<tr><td class="info_label">$_('Queue Position'):</td>
+<td class="info_value">$torrent.queue_pos </td>
+</tr>
+</table>
+
+</table>

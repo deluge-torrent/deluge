@@ -56,6 +56,7 @@ from operator import attrgetter
 import datetime
 import pickle
 from md5 import md5
+from urlparse import urlparse
 
 from deluge import common
 from webserver_common import  REVNO, VERSION
@@ -97,13 +98,20 @@ def do_redirect():
     """for redirects after a POST"""
     vars = web.input(redir = None)
     ck = cookies()
+    url_vars = {}
 
     if vars.redir:
         seeother(vars.redir)
-    elif ("order" in ck and "sort" in ck):
-        seeother(url("/index", sort=ck['sort'], order=ck['order']))
-    else:
-        seeother(url("/index"))
+        return
+    #todo:cleanup
+    if ("order" in ck and "sort" in ck):
+        url_vars.update({'sort':ck['sort'] ,'order':ck['order'] })
+    if ("filter" in ck) and ck['filter']:
+        url_vars['filter'] = ck['filter']
+    if ("category" in ck) and ck['category']:
+        url_vars['category'] = ck['category']
+
+    seeother(url("/index", **url_vars))
 
 def error_page(error):
     web.header("Content-Type", "text/html; charset=utf-8")
@@ -211,6 +219,12 @@ def get_torrent_status(torrent_id):
 
     status["id"] = torrent_id
 
+    url = urlparse(status.tracker)
+    if hasattr(url,'hostname'):
+        status.category = url.hostname
+    else:
+        status.category = 'No-tracker'
+
     #for naming the status-images
     status.calc_state_str = "downloading"
     if status.paused:
@@ -219,13 +233,15 @@ def get_torrent_status(torrent_id):
         status.calc_state_str = "seeding"
 
     #action for torrent_pause
-    if status.calc_state_str == "inactive":
+    if status.user_paused:
         status.action = "start"
     else:
         status.action = "stop"
 
-    if status.paused:
+    if status.user_paused:
         status.message = _("Paused %s%%") % status.progress
+    elif status.paused:
+        status.message = _("Queued %s%%") % status.progress
     else:
         status.message = "%s %i%%" % (ws.STATE_MESSAGES[status.state]
         , status.progress)
@@ -248,9 +264,59 @@ def get_torrent_status(torrent_id):
                 raise Exception('Non Unicode for key:%s' % (k, ))
     return status
 
+def get_categories(torrent_list):
+    trackers = [torrent['category'] for torrent in torrent_list]
+    categories = {}
+    for tracker in trackers:
+        categories[tracker] = categories.get(tracker,0) + 1
+    return categories
+
+def filter_torrent_state(torrent_list,filter_name):
+    filters = {
+        'downloading': lambda t: (not t.paused and not t.is_seed)
+        ,'queued':lambda t: (t.paused and not t.user_paused)
+        ,'paused':lambda t: (t.user_paused)
+        ,'seeding':lambda t:(t.is_seed and not t.paused )
+    }
+    filter_func = filters[filter_name]
+    return [t for t in torrent_list if filter_func(t)]
+
 #/utils
 
 #template-defs:
+def category_tabs(torrent_list):
+    categories = get_categories(torrent_list)
+
+    filter_tabs = [Storage(title='All (%s)' % len(torrent_list),
+            filter=None, category=None)]
+
+    #static filters
+    for title, filter_name in [
+        (_('Downloading'),'downloading') ,
+        (_('Queued'),'queued') ,
+        (_('Paused'),'paused') ,
+        (_('Seeding'),'seeding')
+        ]:
+        title += ' (%s)' % (
+            len(filter_torrent_state(torrent_list, filter_name)), )
+        filter_tabs.append(Storage(title=title, filter=filter_name))
+
+    categories = [x for x in  get_categories(torrent_list).iteritems()]
+    categories.sort()
+
+    #trackers:
+    category_tabs = []
+    category_tabs.append(
+        Storage(title=_('Trackers'),category=None))
+    for title,count in categories:
+        category = title
+        title += ' (%s)' % (count, )
+        category_tabs.append(Storage(title=title, category=category))
+
+
+    return ws.render.part_categories(filter_tabs, category_tabs)
+
+
 def template_crop(text, end):
     if len(text) > end:
         return text[0:end - 3] + '...'
@@ -281,6 +347,7 @@ def get_config(var):
 template.Template.globals.update({
     'sort_head': template_sort_head,
     'part_stats':template_part_stats,
+    'category_tabs':category_tabs,
     'crop': template_crop,
     '_': _ , #gettext/translations
     'str': str, #because % in templetor is broken.
@@ -301,10 +368,16 @@ def create_webserver(urls, methods):
     from webpy022.request import webpyfunc
     from webpy022 import webapi
     from gtk_cherrypy_wsgiserver import CherryPyWSGIServer
+    import os
 
     func = webapi.wsgifunc(webpyfunc(urls, methods, False))
     server_address=("0.0.0.0", int(ws.config.get('port')))
+
     server = CherryPyWSGIServer(server_address, func, server_name="localhost")
+    if ws.config.get('use_https'):
+        server.ssl_certificate = os.path.join(ws.webui_path,'ssl/deluge.pem')
+        server.ssl_private_key = os.path.join(ws.webui_path,'ssl/deluge.key')
+
     print "http://%s:%d/" % server_address
     return server
 
@@ -313,4 +386,5 @@ __all__ = ['deluge_page_noauth', 'deluge_page', 'remote',
     'auto_refreshed', 'check_session',
     'do_redirect', 'error_page','start_session','getcookie'
     ,'setcookie','create_webserver','end_session',
-    'get_torrent_status', 'check_pwd','static_handler']
+    'get_torrent_status', 'check_pwd','static_handler','get_categories'
+    ,'template','filter_torrent_state']
