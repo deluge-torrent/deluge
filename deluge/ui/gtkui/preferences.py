@@ -156,6 +156,8 @@ class Preferences(component.Component):
             core_widgets = {
                 "download_path_button": \
                     ("filename", self.core_config["download_location"]),
+                "torrent_files_button": \
+                    ("filename", self.core_config["torrentfiles_location"]),
                 "radio_compact_allocation": \
                     ("active", self.core_config["compact_allocation"]),
                 "radio_full_allocation": \
@@ -213,6 +215,7 @@ class Preferences(component.Component):
         else:
             core_widget_list = [
                 "download_path_button",
+                "torrent_files_button",
                 "radio_compact_allocation",
                 "radio_full_allocation",
                 "chk_prioritize_first_last_pieces",
@@ -306,6 +309,8 @@ class Preferences(component.Component):
             self.glade.get_widget("radio_ask_save").get_active()
         new_core_config["download_location"] = \
             self.glade.get_widget("download_path_button").get_filename()
+        new_core_config["torrentfiles_location"] = \
+            self.glade.get_widget("torrent_files_button").get_filename()
         new_core_config["compact_allocation"] = \
             self.glade.get_widget("radio_compact_allocation").get_active()
         new_core_config["prioritize_first_last_pieces"] = \

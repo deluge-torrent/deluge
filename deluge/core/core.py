@@ -36,6 +36,8 @@ import locale
 import pkg_resources
 import sys
 import pickle
+import shutil
+import os
 
 import deluge.SimpleXMLRPCServer as SimpleXMLRPCServer
 from SocketServer import ThreadingMixIn
@@ -148,6 +150,8 @@ class Core(
         self.session.add_extension(lt.create_metadata_plugin)
 
         # Register set functions in the Config
+        self.config.register_set_function("torrentfiles_location",
+            self._on_set_torrentfiles_location)
         self.config.register_set_function("listen_ports", 
             self._on_set_listen_ports)
         self.config.register_set_function("random_port",
@@ -426,6 +430,31 @@ class Core(
         self.signals.emit("torrent_all_resumed", torrent_id)
         
     # Config set functions
+    def _on_set_torrentfiles_location(self, key, value):
+        try:
+            old = self.config.get_previous_config()["torrentfiles_location"]
+        except Exception, e:
+            # This probably means it's not a real change but we're just loading
+            # the config.
+            log.debug("Unable to get previous torrentfiles_location: %s", e)
+            return
+            
+        # First try to create the new directory
+        try:
+            os.makedirs(value)
+        except Exception, e:
+            log.debug("Unable to make directory: %s", e)
+
+        # Now copy all files in the old directory to the new one
+        for root, dirs, files in os.walk(old):
+            for dir in dirs:
+                os.makedirs(dir)
+            for file in files:
+                try:
+                    shutil.copy2(os.path.join(root, file), value)
+                except Exception, e:
+                    log.debug("Unable to copy file to %s: %s", value, e)
+        
     def _on_set_listen_ports(self, key, value):
         # Only set the listen ports if random_port is not true
         if self.config["random_port"] is not True:

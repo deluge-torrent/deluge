@@ -14,7 +14,6 @@
 * Add classic/normal mode to preferences
 * Implement 'Classic' mode
 * Tray tooltip
-* Add torrentfiles location config option
 * Add autoload folder
 * Add wizard
 * Add a health indication to the statusbar

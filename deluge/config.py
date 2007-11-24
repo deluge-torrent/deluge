@@ -46,6 +46,7 @@ class Config:
         log.debug("Config created with filename: %s", filename)
         log.debug("Config defaults: %s", defaults)
         self.config = {}
+        self.previous_config = {}
         self.set_functions = {}
         
         # If defaults is not None then we need to use "defaults".
@@ -115,6 +116,8 @@ class Config:
 	    # Sets the "key" with "value" in the config dict
         if self.config[key] != value:
             log.debug("Setting '%s' to %s of %s", key, value, type(value))
+            # Make a copy of the current config prior to changing it
+            self.previous_config = self.config.copy()
             self.config[key] = value
             # Run the set_function for this key if any
             try:
@@ -139,6 +142,10 @@ class Config:
         """Returns the entire configuration as a dictionary."""
         return self.config
     
+    def get_previous_config(self):
+        """Returns the config prior to the last set()"""
+        return self.previous_config
+        
     def register_set_function(self, key, function, apply_now=True):
         """Register a function to be run when a config value changes."""
         log.debug("Registering function for %s key..", key)
