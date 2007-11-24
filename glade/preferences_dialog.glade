@@ -1175,8 +1175,37 @@ Either</property>
                                   <widget class="GtkTable" id="table1">
                                     <property name="visible">True</property>
                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                    <property name="n_rows">5</property>
+                                    <property name="n_rows">6</property>
                                     <property name="n_columns">2</property>
+                                    <child>
+                                      <widget class="GtkSpinButton" id="spin_connection_speed">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="tooltip" translatable="yes">The maximum half-open connections.  A high value may crash some cheap routers.  Set -1 for unlimited.</property>
+                                        <property name="xalign">1</property>
+                                        <property name="adjustment">-1 -1 9000 1 10 10</property>
+                                        <property name="climb_rate">1</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
+                                        <property name="top_attach">5</property>
+                                        <property name="bottom_attach">6</property>
+                                        <property name="x_options">GTK_FILL</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkLabel" id="label43">
+                                        <property name="visible">True</property>
+                                        <property name="tooltip" translatable="yes">The maximum half-open connections.  A high value may crash some cheap routers.  Set -1 for unlimited.</property>
+                                        <property name="xalign">0</property>
+                                        <property name="label" translatable="yes">Maximum Connection Attempts per Second:</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="top_attach">5</property>
+                                        <property name="bottom_attach">6</property>
+                                      </packing>
+                                    </child>
                                     <child>
                                       <widget class="GtkSpinButton" id="spin_max_upload_slots_global">
                                         <property name="visible">True</property>
