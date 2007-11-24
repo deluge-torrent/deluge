@@ -221,7 +221,7 @@ def get_torrent_status(torrent_id):
 
     url = urlparse(status.tracker)
     if hasattr(url,'hostname'):
-        status.category = url.hostname
+        status.category = url.hostname or 'unknown'
     else:
         status.category = 'No-tracker'
 
@@ -265,7 +265,7 @@ def get_torrent_status(torrent_id):
     return status
 
 def get_categories(torrent_list):
-    trackers = [torrent['category'] for torrent in torrent_list]
+    trackers = [(torrent['category'] or 'unknown') for torrent in torrent_list]
     categories = {}
     for tracker in trackers:
         categories[tracker] = categories.get(tracker,0) + 1
