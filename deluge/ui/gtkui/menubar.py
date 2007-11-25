@@ -77,9 +77,14 @@ class MenuBar(component.Component):
             
             ## View Menu
             "on_menuitem_toolbar_toggled": self.on_menuitem_toolbar_toggled,
+            "on_menuitem_sidebar_toggled": self.on_menuitem_sidebar_toggled,
             "on_menuitem_infopane_toggled": self.on_menuitem_infopane_toggled,
             
             ## Help Menu
+            "on_menuitem_homepage_activate": self.on_menuitem_homepage_activate,
+            "on_menuitem_faq_activate": self.on_menuitem_faq_activate,
+            "on_menuitem_community_activate": \
+                self.on_menuitem_community_activate,
             "on_menuitem_about_activate": self.on_menuitem_about_activate
         })
         
@@ -209,12 +214,28 @@ class MenuBar(component.Component):
     def on_menuitem_toolbar_toggled(self, value):
         log.debug("on_menuitem_toolbar_toggled")
         component.get("ToolBar").visible(value.get_active())
-        
+
+    def on_menuitem_sidebar_toggled(self, value):
+        log.debug("on_menuitem_sidebar_toggled")
+        component.get("SideBar").visible(value.get_active())
+                
     def on_menuitem_infopane_toggled(self, value):
         log.debug("on_menuitem_infopane_toggled")
         component.get("TorrentDetails").visible(value.get_active())
     
     ## Help Menu ##
+    def on_menuitem_homepage_activate(self, data=None):
+        log.debug("on_menuitem_homepage_activate")
+        client.open_url_in_browser("http://deluge-torrent.org")
+
+    def on_menuitem_faq_activate(self, data=None):
+        log.debug("on_menuitem_faq_activate")
+        client.open_url_in_browser("http://deluge-torrent.org/faq")
+
+    def on_menuitem_community_activate(self, data=None):
+        log.debug("on_menuitem_community_activate")
+        client.open_url_in_browser("http://forum.deluge-torrent.org/")
+
     def on_menuitem_about_activate(self, data=None):
         log.debug("on_menuitem_about_activate")
         from aboutdialog import AboutDialog

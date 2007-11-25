@@ -52,6 +52,10 @@ class TorrentDetails(component.Component):
         self.notebook = glade.get_widget("torrent_info")
         self.details_tab = glade.get_widget("torrentdetails_tab")
     
+        # Don't show tabs if there is only 1
+        if self.notebook.get_n_pages() < 2:
+            self.notebook.set_show_tabs(False)
+            
         self.is_visible = True
         
         # Get the labels we need to update.
@@ -88,6 +92,10 @@ class TorrentDetails(component.Component):
         self.clear()
         
     def update(self):
+        # Show tabs if more than 1 page
+        if self.notebook.get_n_pages() > 1:
+            self.notebook.set_show_tabs(True)
+            
         # Only update if this page is showing
         if self.notebook.page_num(self.details_tab) is \
             self.notebook.get_current_page() and \

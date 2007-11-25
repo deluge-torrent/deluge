@@ -45,6 +45,7 @@ from menubar import MenuBar
 from toolbar import ToolBar
 from torrentview import TorrentView
 from torrentdetails import TorrentDetails
+from sidebar import SideBar
 from preferences import Preferences
 from systemtray import SystemTray
 from statusbar import StatusBar
@@ -121,6 +122,7 @@ class GtkUI:
         self.toolbar = ToolBar()
         self.torrentview = TorrentView()
         self.torrentdetails = TorrentDetails()
+        self.sidebar = SideBar()
         self.preferences = Preferences()
         self.systemtray = SystemTray()
         self.statusbar = StatusBar()

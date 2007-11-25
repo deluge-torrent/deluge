@@ -52,7 +52,7 @@ class AboutDialog:
         self.about.set_name("Deluge")
         self.about.set_version(deluge.common.get_version())
         self.about.set_authors(["Andrew Resch", "Marcos Pinto"])
-        self.about.set_artists(["Andrew Wedderburn"])
+        self.about.set_artists(["Andrew Wedderburn", "Andrew Resch"])
         self.about.set_translator_credits(_("translator-credits"))
         self.about.set_license(_("Deluge is free software, you can redistribute \
 it and/or\nmodify it under the terms of the GNU General Public\n License as \
