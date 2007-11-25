@@ -1787,23 +1787,26 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
   if (PyErr_Occurred())
     return NULL;
 
-  if (M_torrents->at(index).handle.is_valid()){
-      std::vector<libtorrent::announce_entry> trackerlist;
-      std::istringstream trackers(tracker);
-      std::string line;
-      while (std::getline(trackers, line)) {
-        libtorrent::announce_entry a_entry(line);
-        trackerlist.push_back(a_entry);
+  try {
+      if (M_torrents->at(index).handle.is_valid()){
+        std::vector<libtorrent::announce_entry> trackerlist;
+        std::istringstream trackers(tracker);
+        std::string line;
+        while (std::getline(trackers, line)) {
+          libtorrent::announce_entry a_entry(line);
+          trackerlist.push_back(a_entry);
+        }
+        if (trackerlist.empty()){
+            std::vector<libtorrent::announce_entry> empty;
+            M_torrents->at(index).handle.replace_trackers(empty);
+        }
+        else{
+            M_torrents->at(index).handle.replace_trackers(trackerlist);
+            M_torrents->at(index).handle.force_reannounce();
+        }
       }
-      if (trackerlist.empty()){
-          std::vector<libtorrent::announce_entry> empty;
-          M_torrents->at(index).handle.replace_trackers(empty);
-      }
-      else{
-          M_torrents->at(index).handle.replace_trackers(trackerlist);
-          M_torrents->at(index).handle.force_reannounce();
-      }
-  }
+    }
+  catch (libtorrent::invalid_handle&) {}
   Py_INCREF(Py_None); return Py_None;
 }
 static PyObject *torrent_prioritize_files(PyObject *self, PyObject *args)
