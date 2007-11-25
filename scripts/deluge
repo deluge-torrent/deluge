@@ -54,6 +54,10 @@ parser.add_option("-c", "--config", dest="config",  help="Sets the configuration
 if (options.config != None):
     deluge.common.CONFIG_DIR = options.config
 
+if hasattr(sys, "frozen"):
+    sys.stdout = open(os.path.join(deluge.common.CONFIG_DIR,"deluge.stdout.log"), "w")
+    sys.stderr = open(os.path.join(deluge.common.CONFIG_DIR,"deluge.stderr.log"), "w")
+
 def upgrade_old_persistent_state():
     pstate_file_path = os.path.join(deluge.common.CONFIG_DIR, 
                                     deluge.core.STATE_FILENAME)
