@@ -1,13 +1,18 @@
 from __future__ import with_statement
 import os
 import re
-template_dir = '~/prj/WebUi/templates/deluge'
-template_dir  = os.path.expanduser(template_dir )
+template_dirs = ['~/prj/WebUi/templates/deluge',
+    '~/prj/WebUi/templates/advanced']
+
+template_dirs  = [os.path.expanduser(template_dir ) for template_dir in template_dirs]
 
 
-files = [os.path.join(template_dir,fname)
-    for fname in os.listdir(template_dir)
-    if fname.endswith('.html')]
+files = []
+for template_dir in template_dirs:
+    files += [os.path.join(template_dir,fname)
+        for fname in os.listdir(template_dir)
+        if fname.endswith('.html')]
+
 
 all_strings = []
 for filename in files:
