@@ -168,23 +168,9 @@ class DelugeGTK:
                 if self.manager.unique_IDs[unique_ID].uploaded_memory:
                     self.manager.unique_IDs[unique_ID].initial_uploaded_memory = \
                         self.manager.unique_IDs[unique_ID].uploaded_memory
-                try:
-                    if self.manager.unique_IDs[unique_ID].trackers_changed:
-                        try:
-                            self.manager.replace_trackers(unique_ID, \
-                                self.manager.unique_IDs[unique_ID].trackers)
-                        except:
-                            pass
-                except AttributeError:
-                    try:
-                        if self.manager.unique_IDs[unique_ID].trackers:
-                            try:
-                                self.manager.replace_trackers(unique_ID, \
-                                self.manager.unique_IDs[unique_ID].trackers)
-                            except:
-                                pass
-                    except AttributeError:
-                        pass
+                if self.manager.unique_IDs[unique_ID].trackers_changed:
+                    self.manager.replace_trackers(unique_ID, \
+                        self.manager.unique_IDs[unique_ID].trackers)
             except AttributeError:
                 pass
 
