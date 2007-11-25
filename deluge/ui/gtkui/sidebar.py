@@ -35,6 +35,7 @@ import gtk
 import gtk.glade
 
 import deluge.ui.component as component
+import deluge.common
 from deluge.log import LOG as log
 
 class SideBar(component.Component):
@@ -49,9 +50,16 @@ class SideBar(component.Component):
 
         # Create the liststore
         self.liststore = gtk.ListStore(str, gtk.gdk.Pixbuf)
-       
+        self.liststore.append([_("All"), None])
+        self.liststore.append([_("Downloading"), 
+            gtk.gdk.pixbuf_new_from_file(
+                deluge.common.get_pixmap("downloading16.png"))])
+        self.liststore.append([_("Seeding"),
+            gtk.gdk.pixbuf_new_from_file(
+                deluge.common.get_pixmap("seeding16.png"))])
         # Create the column
         column = gtk.TreeViewColumn(_("Labels"))
+        column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
         render = gtk.CellRendererPixbuf()
         column.pack_start(render, expand=False)
         column.add_attribute(render, 'pixbuf', 1)

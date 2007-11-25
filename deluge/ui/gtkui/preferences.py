@@ -158,6 +158,10 @@ class Preferences(component.Component):
                     ("filename", self.core_config["download_location"]),
                 "torrent_files_button": \
                     ("filename", self.core_config["torrentfiles_location"]),
+                "chk_autoadd_daemon": \
+                    ("active", self.core_config["autoadd_enable"]),
+                "entry_autoadd_daemon": \
+                    ("text", self.core_config["autoadd_location"]),
                 "radio_compact_allocation": \
                     ("active", self.core_config["compact_allocation"]),
                 "radio_full_allocation": \
@@ -220,6 +224,8 @@ class Preferences(component.Component):
             core_widget_list = [
                 "download_path_button",
                 "torrent_files_button",
+                "chk_autoadd_daemon",
+                "entry_autoadd_daemon",
                 "radio_compact_allocation",
                 "radio_full_allocation",
                 "chk_prioritize_first_last_pieces",
@@ -258,6 +264,10 @@ class Preferences(component.Component):
             self.gtkui_config["interactive_add"])
         self.glade.get_widget("radio_save_all_to").set_active(
             not self.gtkui_config["interactive_add"])
+        self.glade.get_widget("chk_autoadd_folder").set_active(
+            self.gtkui_config["autoadd_enable"])
+        self.glade.get_widget("autoadd_folder_button").set_filename(    
+            self.gtkui_config["autoadd_location"])
         self.glade.get_widget("chk_enable_files_dialog").set_active(
             self.gtkui_config["enable_files_dialog"])
 
@@ -318,6 +328,14 @@ class Preferences(component.Component):
             self.glade.get_widget("download_path_button").get_filename()
         new_core_config["torrentfiles_location"] = \
             self.glade.get_widget("torrent_files_button").get_filename()
+        new_gtkui_config["autoadd_enable"] = \
+            self.glade.get_widget("chk_autoadd_folder").get_active()
+        new_gtkui_config["autoadd_location"] = \
+            self.glade.get_widget("autoadd_folder_button").get_filename()
+        new_core_config["autoadd_enable"] = \
+            self.glade.get_widget("chk_autoadd_daemon").get_active()
+        new_core_config["autoadd_location"] = \
+            self.glade.get_widget("entry_autoadd_daemon").get_text()
         new_core_config["compact_allocation"] = \
             self.glade.get_widget("radio_compact_allocation").get_active()
         new_core_config["prioritize_first_last_pieces"] = \

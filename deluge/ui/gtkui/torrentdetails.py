@@ -55,7 +55,9 @@ class TorrentDetails(component.Component):
         # Don't show tabs if there is only 1
         if self.notebook.get_n_pages() < 2:
             self.notebook.set_show_tabs(False)
-            
+        else:
+            self.notebook.set_show_tabs(True)
+                
         self.is_visible = True
         
         # Get the labels we need to update.

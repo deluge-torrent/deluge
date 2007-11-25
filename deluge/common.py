@@ -90,7 +90,7 @@ def get_pixmap(fname):
     """Returns a pixmap file included with deluge"""
     return pkg_resources.resource_filename("deluge", os.path.join("data", \
                                            "pixmaps", fname))
-    
+
 def get_logo(size):
     """Returns a deluge logo pixbuf based on the size parameter."""
     import gtk

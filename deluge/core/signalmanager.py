@@ -39,13 +39,17 @@ class SignalManager:
     def __init__(self):
         self.clients = {}
     
-    def deregister_client(self, uri):
+    def deregister_client(self, address):
         """Deregisters a client"""
-        log.debug("Deregistering %s as a signal reciever..", uri)
-        del self.clients[uri]
-        
-    def register_client(self, uri):
+        log.debug("Deregistering %s as a signal reciever..", address)
+        for client in self.clients:
+            if client[:len(address)] == address:
+                del self.clients[client]
+                break
+
+    def register_client(self, address, port):
         """Registers a client to emit signals to."""
+        uri = "http://" + str(address) + ":" + str(port)
         log.debug("Registering %s as a signal reciever..", uri)
         self.clients[uri] = xmlrpclib.ServerProxy(uri)
         

@@ -79,7 +79,9 @@ DEFAULT_PREFS = {
     "max_upload_slots_global": -1,
     "max_connections_per_torrent": -1,
     "max_upload_slots_per_torrent": -1,
-    "enabled_plugins": []
+    "enabled_plugins": [],
+    "autoadd_location": "",
+    "autoadd_enable": False
 }
         
 class Core(
@@ -90,6 +92,8 @@ class Core(
         log.debug("Core init..")
         threading.Thread.__init__(self)
  
+        self.client_address = None
+        
         # Get config
         self.config = ConfigManager("core.conf", DEFAULT_PREFS)
 
@@ -130,6 +134,14 @@ class Core(
         gettext.install("deluge",
                     pkg_resources.resource_filename(
                                             "deluge", "i18n"))
+
+    def get_request(self):
+        """Get the request and client address from the socket.
+            We override this so that we can get the ip address of the client.
+        """
+        request, client_address = self.socket.accept()
+        self.client_address = client_address[0]
+        return (request, client_address)
         
     def run(self):
         """Starts the core"""
@@ -230,14 +242,14 @@ class Core(
         # Make shutdown an async call
         gobject.idle_add(self._shutdown)
 
-    def export_register_client(self, uri):
+    def export_register_client(self, port):
         """Registers a client with the signal manager so that signals are
             sent to it."""
-        self.signals.register_client(uri)
+        self.signals.register_client(self.client_address, port)
     
-    def export_deregister_client(self, uri):
+    def export_deregister_client(self):
         """De-registers a client with the signal manager."""
-        self.signals.deregister_client(uri)
+        self.signals.deregister_client(self.client_address)
         
     def export_add_torrent_file(self, filename, save_path, filedump):
         """Adds a torrent file to the libtorrent session

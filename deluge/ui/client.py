@@ -66,9 +66,11 @@ class CoreProxy:
             self._core = None
             return
         
-        if uri != self._uri:
+        if uri != self._uri and self._uri != None:
             self._core = None
-            
+            for callback in self._on_no_core_callbacks:
+                callback()
+                            
         self._uri = uri
         # Get a new core
         self.get_core()

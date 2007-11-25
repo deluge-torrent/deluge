@@ -20,3 +20,7 @@
 * Add sidebar for labels and other things.. Plugins should be able to add their
     own section to this.
 * Option for adding torrents in paused/active state
+* Add filtering to torrentview to use with the sidebar
+* Fix up preferences for when using a remote host.. the download folders, etc..
+* Add decay items to statusbar.. items that will disappear after X seconds
+

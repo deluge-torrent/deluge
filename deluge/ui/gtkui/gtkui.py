@@ -85,7 +85,9 @@ DEFAULT_PREFS = {
     "autoconnect": False,
     "autoconnect_host_uri": None,
     "autostart_localhost": False,
-    "autoadd_queued": False
+    "autoadd_queued": False,
+    "autoadd_enable": False,
+    "autoadd_location": ""
 }
 
 class GtkUI:

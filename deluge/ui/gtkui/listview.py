@@ -306,7 +306,7 @@ class ListView:
                     self.columns[header].column_indices[text])
         elif column_type == None:
             return
-                
+       
         column.set_sort_column_id(self.columns[header].column_indices[sortid])
         column.set_clickable(True)
         column.set_resizable(True)

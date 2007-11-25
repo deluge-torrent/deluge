@@ -77,15 +77,14 @@ class SignalReceiver(
         # Register the signal receiver with the core
         # FIXME: send actual URI not localhost
         core = client.get_core()
-        core.register_client("http://localhost:" + str(port))
+        core.register_client(str(port))
         
     def shutdown(self):
         """Shutdowns receiver thread"""
         self._shutdown = True
         # De-register with the daemon so it doesn't try to send us more signals
         try:
-            client.get_core().deregister_client(
-                "http://localhost:" + str(self.port))
+            client.get_core().deregister_client()
         except (socket.error, AttributeError):
             pass
 
