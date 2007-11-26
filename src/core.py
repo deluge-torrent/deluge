@@ -1039,9 +1039,9 @@ free disk space to complete your download.") + "\n" + _("Space Needed:") + " " \
             return deluge_core.get_trackers(unique_ID)
 
     def replace_trackers(self, unique_ID, trackerslist):
-        self.unique_IDs[unique_ID].trackers = trackerslist
-        self.unique_IDs[unique_ID].trackers_changed = 1
         try:
+            self.unique_IDs[unique_ID].trackers = trackerslist
+            self.unique_IDs[unique_ID].trackers_changed = 1
             return deluge_core.replace_trackers(unique_ID, trackerslist)
         except:
             pass
