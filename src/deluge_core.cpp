@@ -238,6 +238,9 @@ boost::filesystem::path const& save_path)
     catch (invalid_encoding&)
     {
     }
+    catch (invalid_handle&)
+    {
+    }
     catch (boost::filesystem::filesystem_error&) {}
 
     // Create new torrent object
