@@ -60,7 +60,7 @@ class PluginManager:
                     # to be by design.
                     mod = __import__(modname, globals(), locals(), [''])
                     if 'deluge_init' in dir(mod):
-                        if modname != "TorrentPieces":
+                        if (modname != "TorrentPieces") and (modname != "Simple RSS"):
                             print "Initialising plugin", modname
                             try:
                                 mod.deluge_init(path)
