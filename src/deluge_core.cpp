@@ -182,10 +182,10 @@ long get_torrent_index(torrent_handle &handle)
 long get_index_from_unique_ID(long unique_ID)
 {
     try{
-        for (unsigned long i = 0; i < M_torrents->size(); i++)
-            if ((*M_torrents)[i].unique_ID == unique_ID)
-                return i;
-        RAISE_INT(DelugeError, "No such unique_ID.");
+      for (unsigned long i = 0; i < M_torrents->size(); i++)
+          if ((*M_torrents)[i].unique_ID == unique_ID)
+              return i;
+      RAISE_INT(DelugeError, "No such unique_ID.");
     }
     catch(invalid_handle&)
     {
@@ -1802,11 +1802,11 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
   const char* tracker;
   if (!PyArg_ParseTuple(args, "iz", &unique_ID, &tracker))
     return NULL;
-  long index = get_index_from_unique_ID(unique_ID);
-  if (PyErr_Occurred())
-    return NULL;
 
   try {
+      long index = get_index_from_unique_ID(unique_ID);
+      if (PyErr_Occurred())
+        return NULL;
       if (M_torrents->at(index).handle.is_valid()){
         std::vector<libtorrent::announce_entry> trackerlist;
         std::istringstream trackers(tracker);
