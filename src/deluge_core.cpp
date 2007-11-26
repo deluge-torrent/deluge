@@ -252,19 +252,27 @@ boost::filesystem::path const& save_path)
     } else {
         storage_mode = storage_mode_sparse;
     }
-    torrent_handle h = M_ses->add_torrent(t, save_path, resume_data, storage_mode);
-    //    h.set_max_connections(60); // at some point we should use this
-    h.set_max_uploads(-1);
-    h.set_ratio(preferred_ratio);
-    h.resolve_countries(true);
-    new_torrent.handle = h;
-
-    new_torrent.unique_ID = M_unique_counter;
-    M_unique_counter++;
-
-    M_torrents->push_back(new_torrent);
-
-    return (new_torrent.unique_ID);
+    try{
+        torrent_handle h = M_ses->add_torrent(t, save_path, resume_data, storage_mode);
+        //    h.set_max_connections(60); // at some point we should use this
+        h.set_max_uploads(-1);
+        h.set_ratio(preferred_ratio);
+        h.resolve_countries(true);
+        new_torrent.handle = h;
+        new_torrent.unique_ID = M_unique_counter;
+        M_unique_counter++;
+        M_torrents->push_back(new_torrent);
+        return (new_torrent.unique_ID);
+    }
+    catch (invalid_encoding&)
+    {
+    printf("invalid encoding...bad torrent\n");
+    }
+    catch (invalid_handle&)
+    {
+    printf("invalid handle.  something bad happened in libtorrent\n");
+    }
+    catch (...) {}
 }
 
 
@@ -1809,6 +1817,10 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
         }
       }
     }
+  catch (invalid_handle&)
+  {
+  printf("invalid handle.  something bad happened in libtorrent\n");
+  }
   catch (...) {}
   Py_INCREF(Py_None); return Py_None;
 }
