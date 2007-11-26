@@ -1,5 +1,5 @@
 $def with (filter_tabs, category_tabs)
-<form method="GET" id="category_form" style="display:inline;position:relative;top:-5px;padding-left:50px;>
+<form method="GET" id="category_form">
 <input type="hidden" name="sort" value="$get('sort')">
 <input type="hidden" name="order" value="$get('order')">
 <select name='filter' id='filter'
@@ -22,6 +22,11 @@ $for tab in category_tabs:
     $tab.title
     </option>
 </select>
+
+    <input type="image" id='toolbar_refresh'
+    src='/static/images/tango/view-refresh.png'
+    title='$_('Refresh')'
+    >
 
 </form>
 

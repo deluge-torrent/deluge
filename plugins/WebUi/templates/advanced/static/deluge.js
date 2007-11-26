@@ -97,19 +97,24 @@ function on_click_do_nothing(e, id){
 on_click_action = on_click_do_nothing;
 
 /*toobar buttons,  */
-function toolbar_post(url) {
-	/*this feels hacky, but it's the only way i know of*/
-	var ids = state.selected_rows.join(',');
-	var form = $('toolbar_form');
-	form.action = url  +ids;
-	form.submit();
+function toolbar_post(url, selected) {
+	if ((!selected) || (state.selected_rows.length > 0)) {
+		var ids = state.selected_rows.join(',');
+		var form = $('toolbar_form');
+		form.action = url  +ids;
+		form.submit();
+	}
 	return false;
 }
 
-function toolbar_get(url) {
-	/*this feels hacky, but it's the only way i know of*/
-	var ids = state.selected_rows.join(',');
-	window.location.href = url  +ids;
+function toolbar_get(url , selected) {
+	if (!selected) {
+		window.location.href = url
+	}
+	else if (state.selected_rows.length > 0) {
+		var ids = state.selected_rows.join(',');
+		window.location.href = url  +ids;
+	}
 	return false;
 }
 
