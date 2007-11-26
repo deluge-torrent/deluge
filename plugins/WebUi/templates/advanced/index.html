@@ -4,40 +4,40 @@ $:render.header(_('Torrent list'))
 <div class="panel" id="toolbar">
 
     <a class='toolbar_btn' href="#"
-    onclick='toolbar_get("/torrent/add/")'
+    onclick='toolbar_get("/torrent/add/",0)'
     title='$_("Add")'><img class='toolbar_btn'
     src='/static/images/tango/list-add.png'></a>
 
     <a class='toolbar_btn' href="#"
-    onclick='toolbar_get("/torrent/delete/")'><img class='toolbar_btn'
+    onclick='toolbar_get("/torrent/delete/",2)'><img class='toolbar_btn'
         src='/static/images/tango/list-remove.png'
         title='$_("Remove")'></a>
 
     <a class='toolbar_btn' href="#"
-    onclick='toolbar_post("/torrent/stop/")'
+    onclick='toolbar_post("/torrent/stop/",2)'
     title='$_("Pause")'><img class='toolbar_btn'
     src='/static/images/tango/pause.png'
     ></a>
 
     <a class='toolbar_btn' href="#"
-    onclick='toolbar_post("/torrent/start/")'
+    onclick='toolbar_post("/torrent/start/",2)'
     title='$_("Start")'><img class='toolbar_btn'
     src='/static/images/tango/start.png'></a>
 
     <a class='toolbar_btn' href="#"
-    onclick='toolbar_post("/torrent/queue/up/")'
+    onclick='toolbar_post("/torrent/queue/up/",2)'
     title='$_("Up")'><img class='toolbar_btn'
     src='/static/images/tango/queue-up.png'></a>
 
 
     <a class='toolbar_btn' href="#"
-    onclick='toolbar_post("/torrent/queue/down/")'
+    onclick='toolbar_post("/torrent/queue/down/",2)'
     title='$_("Down")'><img class='toolbar_btn'
     src='/static/images/tango/queue-down.png'></a>
 
 
     <a class='toolbar_btn' href="#"
-    onclick='toolbar_get("/torrent/info/")'
+    onclick='toolbar_get("/torrent/info/",1)'
     title='$_("Details")'><img class='toolbar_btn'
     src='/static/images/tango/details.png'></a>
 
@@ -67,6 +67,7 @@ $#end
         $:(sort_head('name', _('Name')))
         $:(sort_head('total_size', _('Size')))
         $:(sort_head('progress', _('Progress')))
+        $:(sort_head('category', _('Tracker')))
         $:(sort_head('num_seeds', _('Seeders')))
         $:(sort_head('num_peers', _('Peers')))
         $:(sort_head('download_rate', _('Download')))
@@ -99,6 +100,7 @@ $for torrent in torrent_list:
             </div>
         </div>
     </td>
+    <td>$torrent.category</td>
     <td>$torrent.num_seeds ($torrent.total_seeds)</td>
     <td>$torrent.num_peers ($torrent.total_peers)</td>
     <td>

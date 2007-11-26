@@ -163,7 +163,7 @@ body.inner {
 	padding-bottom:5px;
 	margin-bottom: 15px;
 	padding-left:32px;
-	height:16px;
+	height:20px;
 }
 
 #toolbar select{
@@ -183,12 +183,39 @@ a.toolbar_btn {
 	padding-top:7px;
 	padding-right:3px;
 	text-decoration: none;
+	margin-bottom:3px;
 }
 a.toolbar_btn:hover {
 	background-color:#68a;
 	-moz-border-radius:5px;
 	text-decoration: none;
 }
+
+
+#toolbar_refresh {
+	margin:0;
+	border:0;
+	background-color:none;
+	padding-left:2px;
+	padding-top:2px;
+	padding-right:2px;
+	text-decoration: none;
+	background-color: #37506f;
+	position:relative;
+	top:5px;
+}
+#toolbar_refresh:hover {
+	background-color:#68a;
+	-moz-border-radius:5px;
+	text-decoration: none;
+}
+#category_form{
+	display:inline;
+	position:relative;
+	top:-3px;
+	padding-left:20px;
+}
+
 
 form { /*all forms!*/
 	margin:0;

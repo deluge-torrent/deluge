@@ -177,16 +177,29 @@ class torrent_add:
 
     @check_session
     def POST(self, name):
-        vars = web.input(url = None, torrent = {})
+        """
+        allows:
+        *posting of url
+        *posting file-upload
+        *posting of data as string(for greasemonkey-private)
+        """
 
-        if vars.url and vars.torrent.filename:
+        vars = web.input(url = None, torrent = {},
+                                    torrent_name=None, torrent_data = None)
+
+        torrent_name = vars.torrent_name
+        torrent_data  = vars.torrent_data
+        if vars.torrent.filename:
+            torrent_name = vars.torrent.filename
+            torrent_data  = vars.torrent.file.read()
+
+        if vars.url and torrent_name:
             error_page(_("Choose an url or a torrent, not both."))
         if vars.url:
             ws.proxy.add_torrent_url(vars.url)
             do_redirect()
-        elif vars.torrent.filename:
-            data = vars.torrent.file.read()
-            data_b64 = base64.b64encode(data)
+        elif torrent_name:
+            data_b64 = base64.b64encode(torrent_data)
             #b64 because of strange bug-reports related to binary data
             ws.proxy.add_torrent_filecontent(vars.torrent.filename, data_b64)
             do_redirect()
