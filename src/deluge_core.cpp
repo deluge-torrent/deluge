@@ -181,11 +181,19 @@ long get_torrent_index(torrent_handle &handle)
 
 long get_index_from_unique_ID(long unique_ID)
 {
-
+    try{
     for (unsigned long i = 0; i < M_torrents->size(); i++)
         if ((*M_torrents)[i].unique_ID == unique_ID)
             return i;
-
+    }
+    catch(invalid_handle&)
+    {
+    printf("invalid handle error on get_index_from_unique_ID. call batman.\n");
+    }
+    catch(...)
+    {
+    printf("unknown error on get_index_from_unique_ID. call batman.\n");
+    }
     RAISE_INT(DelugeError, "No such unique_ID.");
 }
 
