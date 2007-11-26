@@ -75,6 +75,5 @@ class webseedMenu:
         self.dialog.hide()
         if response:
             text = self.glade.get_widget("txt_url").get_text().strip()
-            if common.is_url(text):
+            if deluge.common.is_url(text):
                 self.core.add_url_seed(self.unique_ID, text)
-
