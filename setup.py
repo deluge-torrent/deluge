@@ -28,7 +28,7 @@
 
 NAME = "deluge"
 FULLNAME = "Deluge BitTorrent Client"
-VERSION    = "0.5.6.95"
+VERSION    = "0.5.6.96"
 AUTHOR = "Zach Tibbitts, Alon Zakai, Marcos Pinto, Andrew Resch, Alex Dedul"
 EMAIL = "zach@collegegeek.org, kripkensteiner@gmail.com, marcospinto@dipconsultants.com, alonzakai@gmail.com, rotmer@gmail.com"
 DESCRIPTION    = "A GTK BitTorrent client written in Python and C++"
@@ -130,6 +130,13 @@ if not OS == "win":
         elif os.path.exists(os.path.join(sysconfig.get_config_vars()['LIBDIR'], \
             'libboost_thread.so')):
             boost_thread = "boost_thread"
+
+        if 'boost_filesystem' not in vars():
+            boost_filesystem = "boost_filesystem-mt"
+        if 'boost_date_time' not in vars():
+            boost_date_time = "boost_date_time-mt"
+        if 'boost_thread' not in vars():
+            boost_thread = "boost_thread-mt"
             
     elif OS == "freebsd":
         boost_filesystem = "boost_filesystem"
