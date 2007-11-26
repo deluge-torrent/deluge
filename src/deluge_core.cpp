@@ -743,6 +743,8 @@ static PyObject *torrent_add_torrent(PyObject *self, PyObject *args)
     }
     catch (invalid_encoding&)
         {   RAISE_PTR(InvalidEncodingError, ""); }
+    catch (invalid_handle&)
+        {   printf("invalid handle error on add_torrent"); }
     catch (invalid_torrent_file&)
         {   RAISE_PTR(InvalidTorrentError, ""); }
     catch (boost::filesystem::filesystem_error&)
