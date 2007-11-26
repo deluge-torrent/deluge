@@ -1806,7 +1806,7 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
         }
       }
     }
-  catch (libtorrent::invalid_handle&) {}
+  catch (...) {}
   Py_INCREF(Py_None); return Py_None;
 }
 static PyObject *torrent_prioritize_files(PyObject *self, PyObject *args)
