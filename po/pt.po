@@ -528,7 +528,10 @@ msgid ""
 "Disabled\n"
 "Enabled\n"
 "Forced"
-msgstr "Desactivado"
+msgstr ""
+"Desabilitado\n"
+"Habilitado\n"
+"Forçado"
 
 #: glade/preferences_dialog.glade:881
 msgid "Outbound:"
