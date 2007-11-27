@@ -8,174 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-22 19:18+0000\n"
+"PO-Revision-Date: 2007-11-27 10:40+0000\n"
 "Last-Translator: fragarray <frag_array@hotmail.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-24 19:24+0000\n"
+"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
-#~ msgid "<b>Estimated Time Remaining:</b>"
-#~ msgstr "<b>Tempo rimanente stimato:</b>"
-
-#~ msgid "<b>Total Downloaded:</b>"
-#~ msgstr "<b>Totale scaricato:</b>"
-
-#~ msgid "<b>Downloaded this session:</b>"
-#~ msgstr "<b>Scaricato in questa sessione:</b>"
-
-#~ msgid "<b>Tracker Response:</b>"
-#~ msgstr "<b>Risposta del tracker:</b>"
-
-#~ msgid "<b>Total Uploaded:</b>"
-#~ msgstr "<b>Totale inviato:</b>"
-
-#~ msgid "<b>Uploaded This Session:</b>"
-#~ msgstr "<b>Inviato in questa sessione:</b>"
-
-#~ msgid "<b>Use compact storage allocation:</b>"
-#~ msgstr "<b>Usa allocazione compatta dello spazio:</b>"
-
-#~ msgid "<b>Download Rate:</b>"
-#~ msgstr "<b>Velocità di scaricamento:</b>"
-
-#~ msgid "<b>Upload Rate:</b>"
-#~ msgstr "<b>Velocità di invio:</b>"
-
-#~ msgid "Add Torrent from URL"
-#~ msgstr "Aggiungi torrent da URL"
-
-#~ msgid "Clear Completed"
-#~ msgstr "Pulisci completati"
-
-#~ msgid "Toolbar"
-#~ msgstr "Barra degli strumenti"
-
-#~ msgid "Columns"
-#~ msgstr "Colonne"
-
-#~ msgid "Clear Finished Torrents"
-#~ msgstr "Pulisci torrent completati"
-
-#~ msgid "Start / Pause"
-#~ msgstr "Avvia / Pausa"
-
-#~ msgid "Download Speed"
-#~ msgstr "Velocità di scaricamento"
-
-#~ msgid "Upload Speed"
-#~ msgstr "Velocità di invio"
-
-#~ msgid ""
-#~ "<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
-#~ msgstr "<b>Rimuovere veramente i torrent selezionati da Deluge?</b>"
-
-#~ msgid "gtk-quit"
-#~ msgstr "gtk-quit"
-
-#~ msgid "Preferences Dialog"
-#~ msgstr "Dialogo delle preferenze"
-
-#~ msgid "Options"
-#~ msgstr "Opzioni"
-
-#~ msgid "Save all downloads to:"
-#~ msgstr "Salvare tutti i file scaricati in:"
-
-#~ msgid "Ask me where to save each download"
-#~ msgstr "Chiedere dove salvare ciascun scaricamento"
-
-#~ msgid "Save Location"
-#~ msgstr "Posizione di salvataggio"
-
-#~ msgid ""
-#~ "Stop seeding torrents when\n"
-#~ "their share ratio reaches:"
-#~ msgstr ""
-#~ "Interrompere il seeding dei torrent quando\n"
-#~ "il loro rapporto di condivisione raggiunge:"
-
-#~ msgid "Use compact storage allocation"
-#~ msgstr "Usare l'allocazione compatta dello spazio"
-
-#~ msgid "Storage"
-#~ msgstr "Memorizzazione"
-
-#~ msgid "General"
-#~ msgstr "Generale"
-
-#~ msgid "Try from:"
-#~ msgstr "Prova da:"
-
-#~ msgid "to:"
-#~ msgstr "a:"
-
-#~ msgid "Active port:"
-#~ msgstr "Porta attiva:"
-
-#~ msgid "Test Port"
-#~ msgstr "Controlla porta"
-
-#~ msgid "TCP Port"
-#~ msgstr "Porta TCP"
-
-#~ msgid "<i>(-1 is unlimited)</i>"
-#~ msgstr "<i>(-1 per illimitato)</i>"
-
-#~ msgid "KB/s"
-#~ msgstr "KB/s"
-
-#~ msgid "Maximum Download Rate:"
-#~ msgstr "Velocità massima di scaricamento:"
-
-#~ msgid "Upload Slots"
-#~ msgstr "Slot di invio"
-
-#~ msgid "Maximum Connections"
-#~ msgstr "Connessioni massime"
-
-#~ msgid "Maximum Upload Rate:"
-#~ msgstr "Velocità massima di invio:"
-
-#~ msgid "Bandwidth "
-#~ msgstr "Larghezza di banda "
-
-#~ msgid "Plugin Manager"
-#~ msgstr "Gestore plugin"
-
-#~ msgid "gtk-close"
-#~ msgstr "gtk-close"
-
-#~ msgid "Error: no webbrowser found"
-#~ msgstr "Errore: nessun browser web trovato"
-
-#~ msgid "Show / Hide Window"
-#~ msgstr "Mostra/Nascondi finestra"
-
-#~ msgid "Download Rate"
-#~ msgstr "Velocità di scaricamento"
-
-#~ msgid "Upload Rate"
-#~ msgstr "Velocità di invio"
-
-#, fuzzy
-#~ msgid "Offset"
-#~ msgstr "Scostamento"
-
-#~ msgid ""
-#~ "For some reason, the previous state could not be loaded, so a blank state "
-#~ "has been loaded for you."
-#~ msgstr ""
-#~ "Per alcuni motivi, non è possibile caricare lo stato precedente; per questo "
-#~ "motivo è stato caricato uno stato vuoto."
-
-#~ msgid "Would you like to attempt to reload the previous session's downloads?"
-#~ msgstr "Provare a ricaricare gli scaricamenti della sessione precedente?"
-
-#~ msgid "Choose the download directory for"
-#~ msgstr "Scegliere la directory di scaricamento per"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
 msgid "Add Torrent"
@@ -809,14 +649,18 @@ msgstr ""
 "Il numero totale massimo di slot per l'invio. Impostare a -1 per illimitato."
 
 #: glade/preferences_dialog.glade:1359 glade/preferences_dialog.glade:1372
+#, fuzzy
 msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"Massimo numero di tentativi di connessione al secondo. Un valore alto "
+"potrebbe mandare in crash alcuni router. Impostare -1 per illimitato."
 
 #: glade/preferences_dialog.glade:1361
+#, fuzzy
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Massimo numero di tentativi di connessione al secondo."
 
 #: glade/preferences_dialog.glade:1392
 msgid "<b>Global Bandwidth Usage</b>"
@@ -1060,8 +904,9 @@ msgid "_Edit Trackers"
 msgstr "_Modifica tracker"
 
 #: glade/torrent_menu.glade:138
+#, fuzzy
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "Raschia Tracker"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"

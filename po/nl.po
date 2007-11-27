@@ -8,315 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-16 08:19+0000\n"
+"PO-Revision-Date: 2007-11-26 17:45+0000\n"
 "Last-Translator: elparia <marco@elparia.nl>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-24 19:24+0000\n"
+"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
-
-#~ msgid "Clear Finished Torrents"
-#~ msgstr "Voltooide torrents verwijderen"
-
-#~ msgid "Start or Pause torrent"
-#~ msgstr "Torrent starten of pauzeren"
-
-#~ msgid "µTorrent Peer-Exchange"
-#~ msgstr "µTorrent peer-exchange"
-
-#~ msgid "µTorrent-PeX"
-#~ msgstr "µTorrent-PeX"
-
-#~ msgid ""
-#~ "Handshake\n"
-#~ "Either\n"
-#~ "Full Stream"
-#~ msgstr ""
-#~ "Handshake\n"
-#~ "Beide\n"
-#~ "Volledige stream"
-
-#~ msgid "<b>Desktop File Manager</b>"
-#~ msgstr "<b>Bestandsbeheerder</b>"
-
-#~ msgid "Global _Down Speed Limit"
-#~ msgstr "Maximale globale _downloadsnelheid"
-
-#~ msgid "Global _Up Speed Limit"
-#~ msgstr "Maximale globale _uploadsnelheid"
-
-#~ msgid ""
-#~ "28.8k\n"
-#~ "56k\n"
-#~ "64k\n"
-#~ "96k\n"
-#~ "128k\n"
-#~ "192k\n"
-#~ "256k\n"
-#~ "384k\n"
-#~ "512k\n"
-#~ "640k\n"
-#~ "768k\n"
-#~ "1Mbit\n"
-#~ "2Mbit\n"
-#~ "10Mbit\n"
-#~ "20Mbit\n"
-#~ "40Mbit\n"
-#~ "50Mbit\n"
-#~ "10Mbit"
-#~ msgstr ""
-#~ "28.8k\n"
-#~ "56k\n"
-#~ "64k\n"
-#~ "96k\n"
-#~ "128k\n"
-#~ "192k\n"
-#~ "256k\n"
-#~ "384k\n"
-#~ "512k\n"
-#~ "640k\n"
-#~ "768k\n"
-#~ "1Mbit\n"
-#~ "2Mbit\n"
-#~ "10Mbit\n"
-#~ "20Mbit\n"
-#~ "40Mbit\n"
-#~ "50Mbit\n"
-#~ "10Mbit"
-
-#~ msgid "translator-credits"
-#~ msgstr ""
-#~ "Launchpad Contributions:\n"
-#~ "  Balaam's Miracle https://launchpad.net/~balaam-balaamsmiracle\n"
-#~ "  Colbrac https://launchpad.net/~colbrac\n"
-#~ "  Ebuntor https://launchpad.net/~ebuntor\n"
-#~ "  Iarwain https://launchpad.net/~bdiele\n"
-#~ "  Marco de Moulin https://launchpad.net/~moulin\n"
-#~ "  PY https://launchpad.net/~piewai\n"
-#~ "  Peter Van den Bosch https://launchpad.net/~fluffysheep\n"
-#~ "  Richard https://launchpad.net/~buildid\n"
-#~ "  Roel Groeneveld https://launchpad.net/~roel-groeneveld\n"
-#~ "  Tikkel https://launchpad.net/~co-ti\n"
-#~ "  blackbird https://launchpad.net/~djongman\n"
-#~ "  elparia https://launchpad.net/~elparia\n"
-#~ "  kiersie https://launchpad.net/~ckiers\n"
-#~ "  mithras https://launchpad.net/~jurian\n"
-#~ "  mvoncken https://launchpad.net/~mvoncken\n"
-#~ "  warddr https://launchpad.net/~warddr"
-
-#~ msgid "Blocklist Importer"
-#~ msgstr "Importeer blokkeerlijst"
-
-#~ msgid "Format error in blocklist"
-#~ msgstr "Formaatfout in blokkeerlijst"
-
-#~ msgid "Couldn't match on line"
-#~ msgstr "Kon geen overeenkomst vinden op regel"
-
-#~ msgid "Torrent Peers"
-#~ msgstr "Torrent peers"
-
-#~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1024 KiB\n"
-#~ msgstr ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1024 KiB\n"
-
-#~ msgid "You must specify at least one tracker."
-#~ msgstr "U moet tenminste een tracker opgeven."
-
-#~ msgid "RSS Broadcatcher Settings"
-#~ msgstr "RSS Ontvanger instellingen"
-
-#~ msgid "Feed Name:"
-#~ msgstr "Feed-naam:"
-
-#~ msgid "Feed URL:"
-#~ msgstr "Feed-URL:"
-
-#~ msgid "Filter Exp:"
-#~ msgstr "Filter Exp:"
-
-#~ msgid "Filter Name:"
-#~ msgstr "Filternaam:"
-
-#~ msgid " Feed: "
-#~ msgstr " Bron: "
-
-#~ msgid "Torrents"
-#~ msgstr "Torrents"
-
-#~ msgid "Update Interval (seconds): "
-#~ msgstr "Update interval (seconden): "
-
-#~ msgid "Check feeds on Deluge start"
-#~ msgstr "Control"
-
-#~ msgid "Check Feeds Now"
-#~ msgstr "Controleer feeds nu"
-
-#~ msgid "Options"
-#~ msgstr "Opties"
-
-#~ msgid "Simple RSS"
-#~ msgstr "Versimpelde RSS"
-
-#~ msgid ""
-#~ "\n"
-#~ "Download Torrents automatically from SimpleRSS Feeds\n"
-#~ "\n"
-#~ "Add RSS feeds on the 'Feeds' tab, then add filters for TV shows (or "
-#~ "whatever) on the 'Filters' tab. Double-click entries on the 'Torrents' tab "
-#~ "to download extra torrents from the feeds. The Options are pretty self-"
-#~ "explanatary.\n"
-#~ "\n"
-#~ "Please message me (SatNav) on the forums and let me know how you get on..\n"
-#~ "\n"
-#~ "Enjoy!"
-#~ msgstr ""
-#~ "\n"
-#~ "Download torrents automatisch van SimpleRSS feeds."
-
-#~ msgid "Last Entry Date"
-#~ msgstr "Laatste invoer datum"
-
-#~ msgid "Date"
-#~ msgstr "Datum"
-
-#~ msgid "RSS"
-#~ msgstr "RSS"
-
-#~ msgid "SimpleRSS Broadcatcher"
-#~ msgstr "SimpleRSS Ontvanger"
-
-#~ msgid "New Filter"
-#~ msgstr "Nieuw filter"
-
-#~ msgid "All"
-#~ msgstr "Alle"
-
-#~ msgid "Enable popup notification (requires python-notify)"
-#~ msgstr "Activeer popup notificatie (python-notify is nodig)"
-
-#~ msgid "Enable event sound (requires pygame)"
-#~ msgstr "Activeer evenement geluiden (pygame is nodig)"
-
-#~ msgid "Torrent Notification"
-#~ msgstr "Torrent notificatie"
-
-#~ msgid "Network Health Monitor"
-#~ msgstr "Netwerk gezondheids monitor"
-
-#~ msgid "Event Logging"
-#~ msgstr "Gebeurtenissen registreren"
-
-#~ msgid "Speed Limiter"
-#~ msgstr "Snelheid Begrenzer"
-
-#~ msgid "Torrent Search"
-#~ msgstr "Torrents zoeken"
-
-#~ msgid "Network Activity Graph"
-#~ msgstr "Netwerkactiviteit grafiek"
-
-#~ msgid "Piece shared with next file(s)"
-#~ msgstr "Datadeel gedeeld met volgende bestand(en)"
-
-#, fuzzy
-#~ msgid "Torrent Pieces"
-#~ msgstr "Torrent stukjes"
-
-#~ msgid "Locations"
-#~ msgstr "Lokaties"
-
-#~ msgid ""
-#~ "Automagically remembers relevant settings for different locations.\n"
-#~ "\n"
-#~ "When this plugin is active, it will remember a lot of useful network-"
-#~ "specific preferences, such as up- or download limits, open ports and proxy "
-#~ "information. Just change preferences to suit each location while connected, "
-#~ "and Deluge will automagically use those settings the next time you connect "
-#~ "at that location. There is no other configuration needed.\n"
-#~ "\n"
-#~ "The plugin determines location by identifying the unique MAC address of the "
-#~ "Gateway used for the connection. It is therefore possible to have different "
-#~ "settings for home and work, or for broadband, 3G and dial-up on the fly.\n"
-#~ msgstr ""
-#~ "Onthoud automatisch alle relevante instellingen voor verschillende locaties\n"
-#~ "\n"
-#~ "Wanneer de plugin actief is worden alle nuttige netwerk specifieke "
-#~ "instellingen, zoals up of download limieten, open poorten en proxy "
-#~ "informatie onthouden. Het is mogelijk om elke instelling, behorend bij een "
-#~ "locatie te veranderen. Deluge zal automatisch deze instellingen de volgende "
-#~ "keer, als er weer een\n"
-#~ "connectie is vanaf die locatie, gebruiken. Hiervoor is dus geen andere "
-#~ "configuratie nodig.\n"
-#~ "\n"
-#~ "De plugin bepaalt de locatie via het unieke MAC adres van de gateway welke "
-#~ "gebruikt wordt voor de verbinding. Hierdoor is het mogelijk om verschillende "
-#~ "instellingen te hebben voor thuis als werk, alsmede voor breedband, 3G en "
-#~ "inbel.\n"
-
-#~ msgid "Torrent Files"
-#~ msgstr "Torrent-bestanden"
-
-#, fuzzy
-#~ msgid "Pieces Preferences"
-#~ msgstr "Voorkeursinstellingen stukken"
-
-#, fuzzy
-#~ msgid "Select number of columns"
-#~ msgstr "Selecteer de hoeveelheid kolommen"
-
-#~ msgid "Select font size"
-#~ msgstr "Kies lettertype grootte"
-
-#~ msgid "Peers Preferences"
-#~ msgstr "Peers instellingen"
-
-#~ msgid "Enable flags"
-#~ msgstr "Zet vlaggen aan"
-
-#~ msgid "Select size of flag"
-#~ msgstr "Selecteer grootte van vlag"
-
-#~ msgid "18x12"
-#~ msgstr "18x2"
-
-#~ msgid "25x15"
-#~ msgstr "25x15"
-
-#~ msgid "Extra Stats"
-#~ msgstr "Extra statistieken:"
-
-#~ msgid "Move Torrent"
-#~ msgstr "Verplaats torrent"
-
-#~ msgid ""
-#~ "You cannot move torrent to a different partition. Please check your "
-#~ "preferences. Or perhaps you are trying to move torrent's files to the same "
-#~ "directory they are already stored?"
-#~ msgstr ""
-#~ "U kunt de torrent niet naar een andere partitie verplaatsen. Bekijk a.u.b. "
-#~ "uw instellingen. Of verplaatst u de torrent bestanden naar dezelfde map "
-#~ "waarin ze al aanwezig waren?"
-
-#~ msgid "Web Seed"
-#~ msgstr "Web Seed"
-
-#~ msgid "Open Containing Folder Preferences"
-#~ msgstr "Voorkeuren voor 'Open download locatie'"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
 msgid "Add Torrent"
@@ -696,7 +395,7 @@ msgstr "Schakel bestandsselectie van torrents in alvorens te laden"
 
 #: glade/preferences_dialog.glade:310
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "Laat alleen zien als torrent meer dan 1 bestand heeft"
 
 #: glade/preferences_dialog.glade:325 glade/preferences_dialog.glade:326
 msgid "Prioritize first and last pieces of files in torrent"
@@ -949,10 +648,12 @@ msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"Maximum aantal connectie pogingen per seconde. Een hoge waarde kan "
+"goedkopere routers laten vastlopen. Zet op -1 voor oneindig."
 
 #: glade/preferences_dialog.glade:1361
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Maximum connectie pogingen per seconde"
 
 #: glade/preferences_dialog.glade:1392
 msgid "<b>Global Bandwidth Usage</b>"
@@ -1118,9 +819,9 @@ msgid "<b>Performance</b>"
 msgstr "<b>Prestaties</b>"
 
 #: glade/preferences_dialog.glade:2714
-#, fuzzy
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
-msgstr "Gebruik de uitgebreide voortgangsbalk"
+msgstr ""
+"Gebruik de uitgebreide voortgangsbalk (gebruikt iets meer cpu en geheugen)"
 
 #: glade/preferences_dialog.glade:2725
 msgid "<b>Detailed Progress Bar</b>"
@@ -2615,7 +2316,7 @@ msgstr "Activeren"
 
 #: plugins/WebUi/scripts/template_strings.py:21
 msgid "Error"
-msgstr ""
+msgstr "Fout"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Eta"
@@ -2623,11 +2324,11 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:23
 msgid "Login"
-msgstr ""
+msgstr "Inloggen"
 
 #: plugins/WebUi/scripts/template_strings.py:24
 msgid "Logout"
-msgstr ""
+msgstr "Uitloggen"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Next Announce"
@@ -2643,7 +2344,7 @@ msgstr "Het wachtwoord is ongelding, probeer het nog een keer."
 
 #: plugins/WebUi/scripts/template_strings.py:30
 msgid "Pause all"
-msgstr ""
+msgstr "Pauzeer alles"
 
 #: plugins/WebUi/scripts/template_strings.py:32
 msgid "Pieces"
@@ -2689,7 +2390,7 @@ msgstr "Instellen"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Set Timeout"
-msgstr ""
+msgstr "Stel timeout in"
 
 #: plugins/WebUi/scripts/template_strings.py:49
 msgid "Speed"
@@ -2745,11 +2446,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
-msgstr ""
+msgstr "Uitgeschakeld"
 
 #: plugins/FlexRSS/FlexRSS.glade:151
 msgid "Update Interval"
-msgstr ""
+msgstr "Vernieuw interval"
 
 #: plugins/FlexRSS/FlexRSS.glade:165
 msgid "URL"
@@ -2765,7 +2466,7 @@ msgstr "Feeds"
 
 #: plugins/FlexRSS/FlexRSS.glade:384
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: plugins/FlexRSS/FlexRSS.glade:397
 msgid "Feed"
@@ -2773,20 +2474,20 @@ msgstr "Feed"
 
 #: plugins/FlexRSS/FlexRSS.glade:439
 msgid "<b>Information</b>"
-msgstr ""
+msgstr "<b>Informatie</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:511
 msgid "<b>Patterns</b>"
-msgstr ""
+msgstr "<b>Patronen</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:549 plugins/FlexRSS/FlexRSS.glade:724
 msgid "From"
-msgstr ""
+msgstr "Van"
 
 #: plugins/FlexRSS/FlexRSS.glade:565 plugins/FlexRSS/FlexRSS.glade:641
 #: plugins/FlexRSS/FlexRSS.glade:826
 msgid "Season"
-msgstr ""
+msgstr "Seizoen"
 
 #: plugins/FlexRSS/FlexRSS.glade:594 plugins/FlexRSS/FlexRSS.glade:675
 #: plugins/FlexRSS/FlexRSS.glade:833
@@ -2795,7 +2496,7 @@ msgstr "Aflevering"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 msgid "Thru"
-msgstr ""
+msgstr "Tot"
 
 #: plugins/FlexRSS/FlexRSS.glade:766
 msgid "<b>History Restriction</b>"
@@ -2835,15 +2536,15 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
-msgstr ""
+msgstr "Download"
 
 #: plugins/FlexRSS/FlexRSS.glade:1084
 msgid "Replacement"
-msgstr ""
+msgstr "Vervanging"
 
 #: plugins/FlexRSS/FlexRSS.glade:1098
 msgid "Pattern"
-msgstr ""
+msgstr "Patroon"
 
 #: plugins/FlexRSS/FlexRSS.glade:1111
 msgid "<b>Link Rewriting</b>"
@@ -2868,7 +2569,6 @@ msgid "Choose:"
 msgstr "Kies:"
 
 #: plugins/FlexRSS/FlexRSS.glade:1190
-#, fuzzy
 msgid "<b>Output</b>"
 msgstr "<b>Uitvoer</b>"
 
@@ -2881,12 +2581,10 @@ msgid "Show a FlexRSS icon in Deluge's toolbar."
 msgstr "Toon een FlexRSS ikoon in de toolbar van deluge."
 
 #: plugins/FlexRSS/FlexRSS.glade:1283
-#, fuzzy
 msgid "Show button on toolbar."
 msgstr "Toon knop op toolbar."
 
 #: plugins/FlexRSS/FlexRSS.glade:1300
-#, fuzzy
 msgid "<b>Interface</b>"
 msgstr "<b>Interface</b>"
 
@@ -2901,9 +2599,8 @@ msgstr ""
 ", maar het kan onbetrouwbaar zijn,"
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
-#, fuzzy
 msgid "Threaded (experimental)"
-msgstr "Threaded (experimental)"
+msgstr "Threaded (experimenteel)"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"
@@ -2919,12 +2616,12 @@ msgstr "Pad"
 
 #: plugins/FlexRSS/FlexRSS.glade:1488
 msgid "Value"
-msgstr ""
+msgstr "Waarde"
 
 #: plugins/FlexRSS/FlexRSS.glade:1561
 msgid "<b>Cookies</b>"
-msgstr ""
+msgstr "<b>Cookies</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1582
 msgid "Configuration"
-msgstr ""
+msgstr "Configuratie"
