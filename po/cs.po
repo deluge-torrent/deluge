@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-22 12:58+0000\n"
+"PO-Revision-Date: 2007-11-26 15:10+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-24 19:24+0000\n"
+"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -640,10 +640,12 @@ msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"Maximální počet pokusů o spojení za sekundu. Vysoké hodnoty mohou zaseknout "
+"některé levné routery. Nastavte -1 pro neomezeně."
 
 #: glade/preferences_dialog.glade:1361
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Maximum pokusů o spojení za sekundu:"
 
 #: glade/preferences_dialog.glade:1392
 msgid "<b>Global Bandwidth Usage</b>"

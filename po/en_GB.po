@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-14 23:55+0000\n"
+"PO-Revision-Date: 2007-11-26 23:29+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-24 19:24+0000\n"
+"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -395,7 +395,7 @@ msgstr "Enable selecting files for torrents before loading"
 
 #: glade/preferences_dialog.glade:310
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "Only show if torrent has more than 1 file"
 
 #: glade/preferences_dialog.glade:325 glade/preferences_dialog.glade:326
 msgid "Prioritize first and last pieces of files in torrent"
@@ -642,10 +642,12 @@ msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"The maximum number of connection attempts per second.  A high value may "
+"crash some cheap routers.  Set -1 for unlimited."
 
 #: glade/preferences_dialog.glade:1361
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Maximum Connection Attempts per Second:"
 
 #: glade/preferences_dialog.glade:1392
 msgid "<b>Global Bandwidth Usage</b>"
@@ -874,7 +876,7 @@ msgstr "_Remove Torrent"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "_Tracker Options"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
@@ -886,7 +888,7 @@ msgstr "_Edit Trackers"
 
 #: glade/torrent_menu.glade:138
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "_Scrape Tracker"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"

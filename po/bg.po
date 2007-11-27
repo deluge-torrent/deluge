@@ -14,17 +14,26 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-24 19:24+0000\n"
+"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#~ msgid "<b>Estimated Time Remaining:</b>"
-#~ msgstr "<b>Оставащо време</b>"
+#~ msgid "Clear Finished Torrents"
+#~ msgstr "Изчистване на приключилите торенти"
 
-#~ msgid "<b>Total Downloaded:</b>"
-#~ msgstr "<b>Общо свалени:</b>"
+#~ msgid "Maximum Download Rate:"
+#~ msgstr "Максимална скорост на изтегляне:"
+
+#~ msgid "Maximum Upload Rate:"
+#~ msgstr "Максимална скорост на качване:"
+
+#~ msgid "Save all downloads to:"
+#~ msgstr "Запазване на всичко в:"
 
 #~ msgid "<b>Downloaded this session:</b>"
 #~ msgstr "<b>Свалени тази сесия:</b>"
+
+#~ msgid "<b>Total Downloaded:</b>"
+#~ msgstr "<b>Общо свалени:</b>"
 
 #~ msgid "<b>Total Uploaded:</b>"
 #~ msgstr "<b>всичко качено</b>"
@@ -32,11 +41,15 @@ msgstr ""
 #~ msgid "<b>Uploaded This Session:</b>"
 #~ msgstr "<b>качено тази сесия</b>"
 
-#~ msgid "<b>Download Rate:</b>"
-#~ msgstr "<b>свалено съотношение</b>"
+#~ msgid "Active port:"
+#~ msgstr "активен порт"
 
-#~ msgid "<b>Upload Rate:</b>"
-#~ msgstr "<b>качено съотношение</B>"
+#~ msgid "Try from:"
+#~ msgstr "опитай от"
+
+#~ msgid ""
+#~ "<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
+#~ msgstr "сигурен ли си ще се изтрие избраният торент"
 
 #~ msgid "Add Torrent from URL"
 #~ msgstr "добави торент от адрес"
@@ -50,11 +63,14 @@ msgstr ""
 #~ msgid "Columns"
 #~ msgstr "колони"
 
-#~ msgid "Clear Finished Torrents"
-#~ msgstr "Изчистване на приключилите торенти"
+#~ msgid "<b>Upload Rate:</b>"
+#~ msgstr "<b>качено съотношение</B>"
 
-#~ msgid "Start / Pause"
-#~ msgstr "старт / пауза"
+#~ msgid "<b>Download Rate:</b>"
+#~ msgstr "<b>свалено съотношение</b>"
+
+#~ msgid "<b>Estimated Time Remaining:</b>"
+#~ msgstr "<b>Оставащо време</b>"
 
 #~ msgid "Download Speed"
 #~ msgstr "скорост на сваляне"
@@ -62,18 +78,8 @@ msgstr ""
 #~ msgid "Upload Speed"
 #~ msgstr "скорост на качване"
 
-#~ msgid ""
-#~ "<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
-#~ msgstr "сигурен ли си ще се изтрие избраният торент"
-
 #~ msgid "Preferences Dialog"
 #~ msgstr "диалог настройки"
-
-#~ msgid "Options"
-#~ msgstr "Настройки"
-
-#~ msgid "Save all downloads to:"
-#~ msgstr "Запазване на всичко в:"
 
 #~ msgid "Ask me where to save each download"
 #~ msgstr "питай ме къде да запазя сваленото"
@@ -86,14 +92,8 @@ msgstr ""
 #~ "their share ratio reaches:"
 #~ msgstr "спри да сеедваш когато сееда  |nдостигне съотношение:"
 
-#~ msgid "Try from:"
-#~ msgstr "опитай от"
-
 #~ msgid "to:"
 #~ msgstr "към"
-
-#~ msgid "Active port:"
-#~ msgstr "активен порт"
 
 #~ msgid "TCP Port"
 #~ msgstr "порт"
@@ -101,32 +101,26 @@ msgstr ""
 #~ msgid "<i>(-1 is unlimited)</i>"
 #~ msgstr "<i>(-1 е безлимит)</I>"
 
-#~ msgid "Maximum Download Rate:"
-#~ msgstr "Максимална скорост на изтегляне:"
-
-#~ msgid "Maximum Connections"
-#~ msgstr "максимални връзки"
-
-#~ msgid "Maximum Upload Rate:"
-#~ msgstr "Максимална скорост на качване:"
-
 #~ msgid "Bandwidth "
 #~ msgstr "скорост "
 
-#~ msgid "Plugin Manager"
-#~ msgstr "Мениджър на приставките"
-
 #~ msgid "Error: no webbrowser found"
 #~ msgstr "грешка:няма уеб браузер"
-
-#~ msgid "Show / Hide Window"
-#~ msgstr "покажи / скрий прозореца"
 
 #~ msgid "Download Rate"
 #~ msgstr "свалено съотношение"
 
 #~ msgid "Upload Rate"
 #~ msgstr "качено съотношение"
+
+#~ msgid "Start / Pause"
+#~ msgstr "старт / пауза"
+
+#~ msgid "Show / Hide Window"
+#~ msgstr "покажи / скрий прозореца"
+
+#~ msgid "Maximum Connections"
+#~ msgstr "максимални връзки"
 
 #~ msgid ""
 #~ "For some reason, the previous state could not be loaded, so a blank state "

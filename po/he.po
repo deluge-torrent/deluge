@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-21 18:50+0000\n"
+"PO-Revision-Date: 2007-11-26 11:57+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-24 19:24+0000\n"
+"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -636,10 +636,12 @@ msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"מספר ניסיונות התחברות מקסימלי לשנייה. ערך גבוהה עלול לגרום לנתבים זולים "
+"לקרוס. רשמו -1 עבור בלתי מוגבל."
 
 #: glade/preferences_dialog.glade:1361
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "מספר ניסיונות התחברות מקסימלי לשנייה:"
 
 #: glade/preferences_dialog.glade:1392
 msgid "<b>Global Bandwidth Usage</b>"
@@ -865,7 +867,7 @@ msgstr "_הסר טורנט"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "_אפשרויות טראקר"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
@@ -877,7 +879,7 @@ msgstr "_ערוך טראקרים"
 
 #: glade/torrent_menu.glade:138
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "_קיבוץ טראקר"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"
