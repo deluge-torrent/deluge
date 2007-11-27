@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-18 09:35+0000\n"
+"PO-Revision-Date: 2007-11-26 17:53+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Serbian <sr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-24 19:24+0000\n"
+"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -36,23 +36,26 @@ msgstr "Уклони"
 #: glade/delugegtk.glade:56
 #, fuzzy
 msgid "Clear Seeding Torrents"
-msgstr "Обриши торенте у сејем"
+msgstr "Очисти сејуће торенте"
 
 #: glade/delugegtk.glade:57
+#, fuzzy
 msgid "Clear"
-msgstr "Обриши"
+msgstr "Очисти"
 
 #: glade/delugegtk.glade:79
+#, fuzzy
 msgid "Start or Resume Torrent"
-msgstr "Почни или Настави торент"
+msgstr "Покрени или настави торент"
 
 #: glade/delugegtk.glade:80
 msgid "Resume"
 msgstr "Настави"
 
 #: glade/delugegtk.glade:93
+#, fuzzy
 msgid "Pause Torrent"
-msgstr "Заустави торент"
+msgstr "Паузирај торент"
 
 #: glade/delugegtk.glade:94
 msgid "Pause"
@@ -89,11 +92,12 @@ msgstr "Додаци"
 
 #: glade/delugegtk.glade:177
 msgid "_File"
-msgstr "_Фајл"
+msgstr "_Датотека"
 
 #: glade/delugegtk.glade:184 glade/tray_menu.glade:61
+#, fuzzy
 msgid "_Add Torrent"
-msgstr "_Додај Торент"
+msgstr "Дод_ај торент"
 
 #: glade/delugegtk.glade:199
 msgid "Add _URL"
@@ -104,8 +108,9 @@ msgid "_Clear Completed"
 msgstr "_Очисти завршене"
 
 #: glade/delugegtk.glade:240
+#, fuzzy
 msgid "_Edit"
-msgstr "У_реди"
+msgstr "Ур_еђивање"
 
 #: glade/delugegtk.glade:249
 msgid "gtk-select-all"
@@ -121,7 +126,7 @@ msgstr "_Торент"
 
 #: glade/delugegtk.glade:300
 msgid "_View"
-msgstr "_Приказ"
+msgstr "_Преглед"
 
 #: glade/delugegtk.glade:308
 msgid "_Toolbar"
@@ -138,7 +143,7 @@ msgstr "_Колоне"
 #: glade/delugegtk.glade:334 src/interface.py:623 src/files.py:80
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Size"
-msgstr "Величина:"
+msgstr "Величина"
 
 #: glade/delugegtk.glade:343 src/interface.py:627
 #: plugins/FlexRSS/FlexRSS.glade:138
@@ -153,8 +158,9 @@ msgstr "Сејачи:"
 #: glade/delugegtk.glade:361 src/interface.py:632
 #: plugins/TorrentPeers/__init__.py:84
 #: plugins/WebUi/scripts/template_strings.py:31
+#, fuzzy
 msgid "Peers"
-msgstr "Вршњаци"
+msgstr "Садрузи"
 
 #: glade/delugegtk.glade:370 src/interface.py:635 src/interface.py:1192
 #: src/interface.py:1223 plugins/TorrentPeers/tab_peers.py:89
@@ -193,16 +199,18 @@ msgid "_Translate This Application..."
 msgstr "_Преведи ову апликацију..."
 
 #: glade/delugegtk.glade:455
+#, fuzzy
 msgid "Runs the first-time configuration wizard"
-msgstr "Покрени чаробњака код првог покретања"
+msgstr "Покреће чаробњака првог покретања"
 
 #: glade/delugegtk.glade:456
 msgid "_Run Configuration Wizard"
-msgstr "_Покрени Чаробњака за подешавање"
+msgstr "Пок_рени чаробњака за подешавања"
 
 #: glade/delugegtk.glade:593
+#, fuzzy
 msgid "<b>Name:</b>"
-msgstr "<b>Име:</b>"
+msgstr "<b>Назив:</b>"
 
 #: glade/delugegtk.glade:617
 msgid "<b>Tracker:</b>"
@@ -210,11 +218,11 @@ msgstr "<b>Пратилац:</b>"
 
 #: glade/delugegtk.glade:645
 msgid "<b># of files:</b>"
-msgstr "<b># фајлова:</b>"
+msgstr "<b># датотека:</b>"
 
 #: glade/delugegtk.glade:681
 msgid "<b>Next Announce:</b>"
-msgstr "<b>Следеће обавештење:</b>"
+msgstr "<b>Следећа објава:</b>"
 
 #: glade/delugegtk.glade:715
 msgid "<b>Tracker Status:</b>"
@@ -230,7 +238,7 @@ msgstr "<b>Путања:</b>"
 
 #: glade/delugegtk.glade:843
 msgid "<b>Torrent Info</b>"
-msgstr "<b>Информације о торенту</b>"
+msgstr "<b>Подаци о торенту</b>"
 
 #: glade/delugegtk.glade:1005
 msgid "<b>Downloaded:</b>"
@@ -283,7 +291,7 @@ msgid ""
 "<span size=\"large\"><b>Are you sure you want to remove the selected "
 "torrent(s) from Deluge?</b></span>"
 msgstr ""
-"<span size=\"large\"><b>Да ли сте сигзрни да желите уклонити изабране "
+"<span size=\"large\"><b>Да ли сте сигурни да желите уклонити изабране "
 "торенте из Deluge-а?</b></span>"
 
 #: glade/dgtkpopups.glade:65
@@ -292,7 +300,7 @@ msgstr "Обриши преузете датотеке"
 
 #: glade/dgtkpopups.glade:88 plugins/WebUi/scripts/template_strings.py:12
 msgid "Delete .torrent file"
-msgstr "Обриши .торрент датотеку"
+msgstr "Обриши .торент датотеку"
 
 #: glade/dgtkpopups.glade:155
 msgid "Show/Hide"
@@ -323,16 +331,19 @@ msgid "Don't download"
 msgstr "Не преузимај"
 
 #: glade/file_tab_menu.glade:83 src/core.py:103
+#, fuzzy
 msgid "Normal"
-msgstr "Нормална"
+msgstr "Нормалан"
 
 #: glade/file_tab_menu.glade:98 src/core.py:104
+#, fuzzy
 msgid "High"
-msgstr "Висок приоритет"
+msgstr "Висок"
 
 #: glade/file_tab_menu.glade:113 src/core.py:105
+#, fuzzy
 msgid "Highest"
-msgstr "Највиши приоритет"
+msgstr "Највиши"
 
 #: glade/merge_dialog.glade:7
 msgid "Deluge Merge Tracker Lists"
@@ -355,7 +366,7 @@ msgstr "Питај где сачувати за свако преузимање"
 
 #: glade/preferences_dialog.glade:75 glade/preferences_dialog.glade:76
 msgid "Store all downloads in:"
-msgstr "Складишти све преузете датотеке у:"
+msgstr "Складишти сва преузимања у:"
 
 #: glade/preferences_dialog.glade:90 glade/preferences_dialog.glade:118
 #: glade/preferences_dialog.glade:186 glade/wizard.glade:187
@@ -364,7 +375,6 @@ msgid "Select A Folder"
 msgstr "Изаберите место"
 
 #: glade/preferences_dialog.glade:131
-#, fuzzy
 msgid "Store all torrent files in:"
 msgstr "Савучај све торент датотеке у:"
 
@@ -373,12 +383,10 @@ msgid "<b>Download Location</b>"
 msgstr "<b>Место преузимања</b>"
 
 #: glade/preferences_dialog.glade:200
-#, fuzzy
 msgid "Autoload all torrent files in:"
 msgstr "Аутоматски учитај све торент датотеке из:"
 
 #: glade/preferences_dialog.glade:213
-#, fuzzy
 msgid "<b>Autoload</b>"
 msgstr "<b>Аутоматско учитавање</b>"
 
@@ -392,16 +400,16 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:251
 msgid "Maximum simultaneous active torrents:"
-msgstr "Максималан број истовремено активних торента"
+msgstr "Највећи број истовремено активних торента:"
 
 #: glade/preferences_dialog.glade:288 glade/preferences_dialog.glade:289
 #: glade/preferences_dialog.glade:309
 msgid "Enable selecting files for torrents before loading"
-msgstr "Омогући селекцију датотека за торент пре учитавања"
+msgstr "Омогући избор датотека за торент пре учитавања"
 
 #: glade/preferences_dialog.glade:310
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "Покажи само ако торент има више од 1 датотеке"
 
 #: glade/preferences_dialog.glade:325 glade/preferences_dialog.glade:326
 msgid "Prioritize first and last pieces of files in torrent"
@@ -427,7 +435,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:395
 msgid "Use Full Allocation"
-msgstr "Користи Пуну Алокацију"
+msgstr "Користи пуну алокацију"
 
 #: glade/preferences_dialog.glade:417
 #, fuzzy
@@ -436,7 +444,7 @@ msgstr "Компактна алокација одваја простор сам
 
 #: glade/preferences_dialog.glade:418
 msgid "Use Compact Allocation"
-msgstr "Користи Компактну Алокацију"
+msgstr "Користи компактну алокацију"
 
 #: glade/preferences_dialog.glade:438
 msgid "<b>Allocation</b>"
@@ -451,24 +459,24 @@ msgid ""
 "<b>Please Note - Changes to these settings will only be applied the next "
 "time Deluge is restarted.</b>"
 msgstr ""
-"<b>Обратите пажњу - Промене ових подешавања ће бити примењене након поновног "
-"покретања Deluge-а.</b>"
+"<b>Молимо обратите пажњу - промене ових подешавања ће бити примењене након "
+"поновног покретања Deluge-а.</b>"
 
 #: glade/preferences_dialog.glade:549 glade/wizard.glade:48
 msgid "From:"
-msgstr "Шаље:"
+msgstr "Од:"
 
 #: glade/preferences_dialog.glade:572 glade/wizard.glade:66
 msgid "To:"
-msgstr "Прима:"
+msgstr "За:"
 
 #: glade/preferences_dialog.glade:598
 msgid "Deluge will automatically choose a different port to use every time."
-msgstr "Deluge ће аутоматски изабрати различит прикључак сваки пут."
+msgstr "Deluge ће аутоматски ваки пут изабрати различит прикључак."
 
 #: glade/preferences_dialog.glade:599
 msgid "Random Ports"
-msgstr "Насумичан избор портова"
+msgstr "Насумични портови"
 
 #: glade/preferences_dialog.glade:616
 msgid "Test Active Port"
@@ -492,15 +500,16 @@ msgstr "Расподељена хеш таблица може побољшати
 
 #: glade/preferences_dialog.glade:707
 msgid "Enable Mainline DHT"
-msgstr "Укључи главни пут DHT-а"
+msgstr "Омогући главнотоковски DHT"
 
 #: glade/preferences_dialog.glade:720
 msgid "<b>DHT</b>"
 msgstr "<b>DHT</b>"
 
 #: glade/preferences_dialog.glade:755
+#, fuzzy
 msgid "Universal Plug and Play"
-msgstr "Користи UPnP да аутоматски проследи портове на вашем рутеру"
+msgstr "Универзални плаг енд плеј"
 
 #: glade/preferences_dialog.glade:756
 msgid "UPnP"
@@ -515,7 +524,6 @@ msgid "NAT-PMP"
 msgstr "НАТ-ПМП"
 
 #: glade/preferences_dialog.glade:786 glade/preferences_dialog.glade:787
-#, fuzzy
 msgid "Peer Exchange"
 msgstr "Размена садруга"
 
@@ -526,11 +534,11 @@ msgstr "Локално проналажење садруга"
 
 #: glade/preferences_dialog.glade:818
 msgid "<b>Network Extras</b>"
-msgstr "<b>Мрежни Додаци</b>"
+msgstr "<b>Мрежни додаци</b>"
 
 #: glade/preferences_dialog.glade:859
 msgid "Inbound:"
-msgstr "Долазећи саобраћај"
+msgstr "Долазни:"
 
 #: glade/preferences_dialog.glade:868 glade/preferences_dialog.glade:890
 msgid ""
@@ -544,7 +552,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:881
 msgid "Outbound:"
-msgstr "Одлазни саобраћај:"
+msgstr "Одлазни:"
 
 #: glade/preferences_dialog.glade:908
 msgid "Prefer to encrypt the entire stream"
@@ -555,13 +563,14 @@ msgid "Level:"
 msgstr "Ниво:"
 
 #: glade/preferences_dialog.glade:935
+#, fuzzy
 msgid ""
 "Handshake\n"
 "Full Stream\n"
 "Either"
 msgstr ""
-"Прихватање\n"
-"Цео ток\n"
+"Руковање\n"
+"Пун ток\n"
 "Оба"
 
 #: glade/preferences_dialog.glade:958
@@ -578,15 +587,15 @@ msgstr "Шаљи торенте на крај реда чекања кад по�
 
 #: glade/preferences_dialog.glade:1041
 msgid "Queue new torrents above completed ones"
-msgstr "Шаљи нове торенте изнад готових у ред чекања"
+msgstr "Шаљи нове торенте изнад завршених у реду чекања"
 
 #: glade/preferences_dialog.glade:1057
 msgid "Stop seeding torrents when their share ratio reaches:"
-msgstr "Престати сејање кад однос дељења достигне:"
+msgstr "Прекини сејање након што однос дељења достигне:"
 
 #: glade/preferences_dialog.glade:1093
 msgid "Automatically clear torrents that reach the max share ratio"
-msgstr "Аутоматски обриши торенте који доспевају максимални однос дељења"
+msgstr "Аутоматски чисти торенте који досегну максимални однос дељења"
 
 #: glade/preferences_dialog.glade:1109
 msgid "<b>Seeding</b>"
@@ -595,11 +604,10 @@ msgstr "<b>Сејање</b>"
 #: glade/preferences_dialog.glade:1138 src/core.py:93
 #: plugins/WebUi/webserver_common.py:139
 msgid "Seeding"
-msgstr "Сејем"
+msgstr "Сејање"
 
 #: glade/preferences_dialog.glade:1184 glade/preferences_dialog.glade:1205
 #: glade/wizard.glade:434 glade/wizard.glade:455
-#, fuzzy
 msgid ""
 "The maximum half-open connections.  A high value may crash some cheap "
 "routers.  Set -1 for unlimited."
@@ -608,7 +616,6 @@ msgstr ""
 "рутере. За неограничено поставите на -1."
 
 #: glade/preferences_dialog.glade:1207 glade/wizard.glade:435
-#, fuzzy
 msgid "Maximum Half-Open Connections:"
 msgstr "Највише полуотворених веза:"
 
@@ -622,16 +629,16 @@ msgstr ""
 #: glade/preferences_dialog.glade:1227 glade/preferences_dialog.glade:1450
 #: glade/wizard.glade:258
 msgid "Maximum Upload Slots:"
-msgstr ""
+msgstr "Највише слотова за слање:"
 
 #: glade/preferences_dialog.glade:1247 glade/wizard.glade:278
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr "Максимална брзина слања (КиБ/с)"
+msgstr "Максимална брзина слања (KiB/s):"
 
 #: glade/preferences_dialog.glade:1265 glade/preferences_dialog.glade:1279
 #: glade/wizard.glade:297 glade/wizard.glade:364
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "Максимални дозбољени број веза. Вредност -1 значи неограничено."
+msgstr "Максимални дозвољени број веза. Вредност -1 значи неограничено."
 
 #: glade/preferences_dialog.glade:1267 glade/preferences_dialog.glade:1435
 #: glade/wizard.glade:298
@@ -658,22 +665,25 @@ msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"Највећи број покушаја повезивања у секунди. Висока вредност би могла да "
+"обори неке јефтине рутере. За неограничено поставите на -1."
 
 #: glade/preferences_dialog.glade:1361
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Највећи број покушаја повезивања у секунди:"
 
 #: glade/preferences_dialog.glade:1392
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>Глобално заузеће протока</b>"
 
 #: glade/preferences_dialog.glade:1433 glade/preferences_dialog.glade:1463
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "Највећи број веза по торенту. За неограничено поставите на -1."
 
 #: glade/preferences_dialog.glade:1448 glade/preferences_dialog.glade:1477
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
 msgstr ""
+"Највећи број слотова за слање по торенту. За неограничено поставите на -1."
 
 #: glade/preferences_dialog.glade:1498
 msgid "<b>Per Torrent Bandwidth Usage</b>"
@@ -686,11 +696,11 @@ msgstr "Пропусни опсег"
 #: glade/preferences_dialog.glade:1570 glade/preferences_dialog.glade:1765
 #: glade/preferences_dialog.glade:1960 glade/preferences_dialog.glade:2155
 msgid "Affects regular bittorrent peers"
-msgstr "Утиче на регуларне битторент вршњаке"
+msgstr "Утиче на регуларне биторент садруге"
 
 #: glade/preferences_dialog.glade:1571
 msgid "Peer Proxy"
-msgstr "Прокси вршњака"
+msgstr "Прокси садруга"
 
 #: glade/preferences_dialog.glade:1613 glade/preferences_dialog.glade:1808
 #: glade/preferences_dialog.glade:2003 glade/preferences_dialog.glade:2198
@@ -721,9 +731,9 @@ msgstr ""
 "Ниједно\n"
 "Socksv4\n"
 "Socksv5\n"
-"Socksv5 са Ауторизацијом\n"
+"Socksv5 са ауторизацијом\n"
 "HTTP\n"
-"HTTP са Ауторизацијом"
+"HTTP са ауторизацијом"
 
 #: glade/preferences_dialog.glade:1688 glade/preferences_dialog.glade:1883
 #: glade/preferences_dialog.glade:2078 glade/preferences_dialog.glade:2273
@@ -737,7 +747,7 @@ msgstr "Порт"
 
 #: glade/preferences_dialog.glade:1733
 msgid "<b>Peer Proxy</b>"
-msgstr "<b>Proxy Вршњака</b>"
+msgstr "<b>Прокси садруга</b>"
 
 #: glade/preferences_dialog.glade:1766
 msgid "Tracker Proxy"
@@ -745,39 +755,39 @@ msgstr "Прокси пратилаца"
 
 #: glade/preferences_dialog.glade:1928
 msgid "<b>Tracker Proxy</b>"
-msgstr "<b>Proxy Пратилаца</b>"
+msgstr "<b>Прокси пратилаца</b>"
 
 #: glade/preferences_dialog.glade:1961
 msgid "DHT Proxy"
-msgstr "ДХТ прокси"
+msgstr "Прокси за DHT"
 
 #: glade/preferences_dialog.glade:2123
 msgid "<b>DHT Proxy</b>"
-msgstr "<b>DHT Proxy</b>"
+msgstr "<b>Прокси за DHT</b>"
 
 #: glade/preferences_dialog.glade:2156
 msgid "Web Seed Proxy"
-msgstr ""
+msgstr "Прокси за мрежно сејање"
 
 #: glade/preferences_dialog.glade:2318
 msgid "<b>Web Seed Proxy</b>"
-msgstr ""
+msgstr "<b>Прокси за мрежно сејање</b>"
 
 #: glade/preferences_dialog.glade:2345
 msgid "Proxies"
-msgstr "Proxies"
+msgstr "Проксији"
 
 #: glade/preferences_dialog.glade:2374
 msgid "Enable system tray icon"
-msgstr "Укључи икону у системској касети"
+msgstr "Омогући икону у обавештајној зони"
 
 #: glade/preferences_dialog.glade:2390
 msgid "Minimize to tray on close"
-msgstr "Смањи у обавештајну зону панела"
+msgstr "Смањуј у обавештајну зону панела при затварању"
 
 #: glade/preferences_dialog.glade:2409
 msgid "Start in tray"
-msgstr "Покрени у касети"
+msgstr "Покрени у обавештајној зони"
 
 #: glade/preferences_dialog.glade:2433
 msgid "Password protect system tray"
@@ -789,7 +799,7 @@ msgstr "Лозинка:"
 
 #: glade/preferences_dialog.glade:2493
 msgid "<b>System Tray</b>"
-msgstr "<b>Системска касета</b>"
+msgstr "<b>Обавештајна зона</b>"
 
 #: glade/preferences_dialog.glade:2557
 msgid ""
@@ -798,6 +808,10 @@ msgid ""
 "Nautilus\n"
 "Thunar"
 msgstr ""
+"Аутоматска детекција (xdg-open)\n"
+"Конкерор\n"
+"Наутилус\n"
+"Тунар"
 
 #: glade/preferences_dialog.glade:2578
 msgid "Custom:"
@@ -810,8 +824,8 @@ msgstr "Отвори фасциклу са:"
 #: glade/preferences_dialog.glade:2623
 msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
 msgstr ""
-"<b>Менаџер Докумената Радне површине</b> - само за оперативне системе који "
-"нису Windows"
+"<b>Руковалац докумената радне површине</b> - само за не-Windows оперативне "
+"системе"
 
 #: glade/preferences_dialog.glade:2655
 msgid "GUI update interval (seconds)"
@@ -824,20 +838,22 @@ msgstr "<b>Перформансе</b>"
 #: glade/preferences_dialog.glade:2714
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
 msgstr ""
+"Користи унапређену траку напретка (троши мало више системских ресураса)"
 
 #: glade/preferences_dialog.glade:2725
 msgid "<b>Detailed Progress Bar</b>"
-msgstr ""
+msgstr "<b>Детаљна трака напретка</b>"
 
 #: glade/preferences_dialog.glade:2759
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
-msgstr "Deluge ће проверити наше сервере и рећи ако је нова верзија доступна"
+msgstr ""
+"Deluge ће проверити наше сервере и јавити Вам ако је објављена нова верзија"
 
 #: glade/preferences_dialog.glade:2760
 msgid "Be alerted about new releases"
-msgstr "Обавести ме о новим верзијама"
+msgstr "Будите обавештени о новим верзијама"
 
 #: glade/preferences_dialog.glade:2777
 msgid "<b>Updates</b>"
@@ -849,6 +865,10 @@ msgid ""
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
+"Помозите нам да унапредимо Deluge тако што ћете\n"
+"нам послати вашу верзију Python-а и PyGTK-а,\n"
+"оперативни систем и тип процесора. Апсолутно\n"
+"ниједан други податак се не шаље."
 
 #: glade/preferences_dialog.glade:2820
 msgid "<b>System Information</b>"
@@ -858,7 +878,7 @@ msgstr "<b>Системске информације</b>"
 #: plugins/EventLogging/event_logging_preferences.glade:52
 #: plugins/EventLogging/tab_log.py:218
 msgid "Other"
-msgstr "Други"
+msgstr "Остало"
 
 #: glade/preferences_dialog.glade:2937
 msgid "gtk-preferences"
@@ -871,19 +891,19 @@ msgstr "_Форсирај проверу"
 
 #: glade/torrent_menu.glade:33
 msgid "Re_sume"
-msgstr "_Настави"
+msgstr "На_стави"
 
 #: glade/torrent_menu.glade:50
 msgid "_Pause"
-msgstr "_Пауза"
+msgstr "_Паузирај"
 
 #: glade/torrent_menu.glade:72
 msgid "_Remove Torrent"
-msgstr "_Уклони торент"
+msgstr "Уклони то_рент"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "Опције пра_тиоца"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
@@ -891,11 +911,11 @@ msgstr "_Освежи пратиоца"
 
 #: glade/torrent_menu.glade:121
 msgid "_Edit Trackers"
-msgstr "_Измени пратиоце"
+msgstr "Ур_еди пратиоце"
 
 #: glade/torrent_menu.glade:138
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "_Одбаци пратиоца"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"
@@ -907,11 +927,11 @@ msgstr "_Врх"
 
 #: glade/torrent_menu.glade:190
 msgid "_Up"
-msgstr "_Изнад"
+msgstr "_Горе"
 
 #: glade/torrent_menu.glade:206
 msgid "_Down"
-msgstr "_Испод"
+msgstr "_Доле"
 
 #: glade/torrent_menu.glade:222
 msgid "_Bottom"
@@ -919,7 +939,7 @@ msgstr "_Дно"
 
 #: glade/torrent_menu.glade:251
 msgid "_Open Containing Folder"
-msgstr "_Отвори Фасциклу документа"
+msgstr "_Отвори садржавајућу фасциклу"
 
 #: glade/tray_menu.glade:12
 msgid "_Show Deluge"
@@ -927,55 +947,49 @@ msgstr "_Прикажи Deluge"
 
 #: glade/tray_menu.glade:21
 msgid "_Resume All"
-msgstr "_Настави Све"
+msgstr "_Настави све"
 
 #: glade/tray_menu.glade:38
 msgid "_Pause All"
-msgstr "_Заустави Све"
+msgstr "_Паузирај све"
 
 #: glade/tray_menu.glade:84
 msgid "_Download Speed Limit"
-msgstr "_Ограничење Брзине Преузимања"
+msgstr "Ограничење брзине п_реузимања"
 
 #: glade/tray_menu.glade:100
 msgid "_Upload Speed Limit"
-msgstr "_Ограничење Брзине Слања"
+msgstr "Ограничење брзине _слања"
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"
-msgstr "За_твори програм"
+msgstr "_Изађи"
 
 #: glade/edit_trackers.glade:9
 msgid "Edit Trackers"
-msgstr "Подеси Пратиоце"
+msgstr "Уреди пратиоце"
 
 #: glade/edit_trackers.glade:19
-#, fuzzy
 msgid "Tracker Editing"
 msgstr "Уређивање пратиоца"
 
 #: glade/files_dialog.glade:8
-#, fuzzy
 msgid "Deluge File Selection"
 msgstr "Избор датотека за Deluge"
 
 #: glade/files_dialog.glade:42
-#, fuzzy
 msgid "Torrent will not be distributed on the trackerless (DHT) network"
 msgstr "Торент неће бити дистрибуиран на мрежи без пратиоца (DHT)"
 
 #: glade/files_dialog.glade:43
-#, fuzzy
 msgid "Set the private flag"
 msgstr "Постави ознаку за приватно"
 
 #: glade/wizard.glade:10
-#, fuzzy
 msgid "First Launch Configuration"
 msgstr "Подешавање првог покретања"
 
 #: glade/wizard.glade:20
-#, fuzzy
 msgid ""
 "This wizard will help you set up Deluge to your liking.  If you are new to "
 "Deluge, please note that most of Deluge's functionality and features come in "
@@ -984,11 +998,10 @@ msgid ""
 msgstr ""
 "Овај чаробњак ће вам помоћи да подесите Deluge по својој вољи. Ако сте нови "
 "у Deluge-у, имајте у виду да већина функционалности и могућности истог "
-"долази у облику прикључака, којима се може приступити кликом на Прикључци у "
+"долази у облику додатака, којима се може приступити кликом на Додаци у "
 "менију Уреди или на палети с алаткама."
 
 #: glade/wizard.glade:36
-#, fuzzy
 msgid ""
 "Deluge needs a range of ports that it will try to listen to for incoming "
 "connections.  The default ports for bittorrent are 6881-6889, however, most "
@@ -997,13 +1010,12 @@ msgid ""
 "ports for you."
 msgstr ""
 "Deluge-у треба опсег портова на којима ће ослушкивати долазеће везе. "
-"Подразумевани портови за биторент су 6881-68889, међутим, многи добављачи "
+"Подразумевани портови за биторент су 6881-6889, међутим, многи добављачи "
 "интернет услуга (ISP) блокирају те портове, па је препоручљиво да изаберете "
 "неке друге између 49152 и 65336. Алтернатива је да подесите да Deluge "
 "аутоматски изабира насумичан порт за вас."
 
 #: glade/wizard.glade:88
-#, fuzzy
 msgid "Use _Random Ports"
 msgstr "Ко_ристи насумичне портове"
 
@@ -1017,11 +1029,11 @@ msgstr ""
 
 #: glade/wizard.glade:141
 msgid "Ask where to save each file"
-msgstr "Питати где да сачува сваки фајл"
+msgstr "Питај где сачувати сваку датотеку"
 
 #: glade/wizard.glade:165
 msgid "Store all downloads in: "
-msgstr "Чувај преузете податке у: "
+msgstr "Смештај сва преузимања у: "
 
 #: glade/wizard.glade:215
 #, fuzzy
@@ -1034,7 +1046,7 @@ msgstr ""
 
 #: glade/wizard.glade:238
 msgid "Maximum Active Torrents:"
-msgstr "Максималан број активних торената:"
+msgstr "Највише активних торената:"
 
 #: glade/wizard.glade:386
 msgid ""
@@ -1078,7 +1090,7 @@ msgstr ""
 
 #: glade/wizard.glade:419
 msgid "Your Upload Line Speed:"
-msgstr "Брзина цлања Ваше везе"
+msgstr "Брзина слања Ваше везе:"
 
 #: glade/wizard.glade:506
 msgid ""
@@ -1128,8 +1140,8 @@ msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 msgstr ""
-"Deluge је заштићен шифром.\n"
-"Да бисте приказали прозорче Deluge-а, молимо вас укуцајте вашу шифру"
+"Deluge је заштићен лозинком.\n"
+"Да бисте приказали прозорче Deluge-а, молимо вас укуцајте вашу лозинку"
 
 #: src/interface.py:591 src/common.py:76
 msgid "Infinity"

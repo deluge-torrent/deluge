@@ -8,336 +8,17 @@ msgstr ""
 "Project-Id-Version: Deluge VERSION\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-15 04:53+0000\n"
+"PO-Revision-Date: 2007-11-26 13:45+0000\n"
 "Last-Translator: Jose Sun <josesun@gmail.com>\n"
 "Language-Team: Jose Sun <josesun@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-24 19:24+0000\n"
+"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-SourceCharset: utf-8\n"
-
-#~ msgid "Clear Finished Torrents"
-#~ msgstr "清除已完成種子"
-
-#~ msgid "Start or Pause torrent"
-#~ msgstr "開始／暫停下載"
-
-#~ msgid "µTorrent Peer-Exchange"
-#~ msgstr "µTorrent 用戶端交換"
-
-#~ msgid "µTorrent-PeX"
-#~ msgstr "µTorrent-PeX"
-
-#~ msgid ""
-#~ "Handshake\n"
-#~ "Either\n"
-#~ "Full Stream"
-#~ msgstr ""
-#~ "交握階段\n"
-#~ "兩者皆可\n"
-#~ "整個串流"
-
-#~ msgid "<b>Desktop File Manager</b>"
-#~ msgstr "<b>桌面檔案管理員</b>"
-
-#~ msgid "Global _Down Speed Limit"
-#~ msgstr "全域下載速限(_D)"
-
-#~ msgid "Global _Up Speed Limit"
-#~ msgstr "全域上傳速限(_U)"
-
-#~ msgid ""
-#~ "28.8k\n"
-#~ "56k\n"
-#~ "64k\n"
-#~ "96k\n"
-#~ "128k\n"
-#~ "192k\n"
-#~ "256k\n"
-#~ "384k\n"
-#~ "512k\n"
-#~ "640k\n"
-#~ "768k\n"
-#~ "1Mbit\n"
-#~ "2Mbit\n"
-#~ "10Mbit\n"
-#~ "20Mbit\n"
-#~ "40Mbit\n"
-#~ "50Mbit\n"
-#~ "10Mbit"
-#~ msgstr ""
-#~ "28.8k\n"
-#~ "56k\n"
-#~ "64k\n"
-#~ "96k\n"
-#~ "128k\n"
-#~ "192k\n"
-#~ "256k\n"
-#~ "384k\n"
-#~ "512k\n"
-#~ "640k\n"
-#~ "768k\n"
-#~ "1MMbit\n"
-#~ "2MMbit\n"
-#~ "10Mbit\n"
-#~ "20Mbit\n"
-#~ "40Mbit\n"
-#~ "50Mbit\n"
-#~ "10Mbit"
-
-#~ msgid "translator-credits"
-#~ msgstr ""
-#~ "如對翻譯有任何意見，請送一封電子郵件給以下地址，會盡快回覆您：Cheng-Wei Chien <e.cwchien@gmail.com>\n"
-#~ "\n"
-#~ "Launchpad Contributions:\n"
-#~ "  Chien Cheng Wei https://launchpad.net/~cwchien\n"
-#~ "  Jose Sun https://launchpad.net/~josesun\n"
-#~ "  Justzupi https://launchpad.net/~justzupi\n"
-#~ "  Ronmi https://launchpad.net/~ronmi\n"
-#~ "  josé https://launchpad.net/~jlgdot369\n"
-#~ "  kevintyk https://launchpad.net/~kevintyk"
-
-#~ msgid "Blocklist Importer"
-#~ msgstr "匯入黑名單"
-
-#~ msgid "Format error in blocklist"
-#~ msgstr "黑名單格式錯誤"
-
-#~ msgid "Couldn't match on line"
-#~ msgstr "行數不符合"
-
-#~ msgid "Torrent Peers"
-#~ msgstr "種子用戶端"
-
-#~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1024 KiB\n"
-#~ msgstr ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1024 KiB\n"
-
-#~ msgid "You must specify at least one tracker."
-#~ msgstr "你最少要指定一個伺服器。"
-
-#~ msgid "RSS Broadcatcher Settings"
-#~ msgstr "RSS 擷取器設定"
-
-#~ msgid "Feed Name:"
-#~ msgstr "名稱:"
-
-#~ msgid "Feed URL:"
-#~ msgstr "網址:"
-
-#~ msgid "Filter Exp:"
-#~ msgstr "過濾條件式:"
-
-#~ msgid "Filter Name:"
-#~ msgstr "名稱:"
-
-#~ msgid " Feed: "
-#~ msgstr " 消息來源: "
-
-#~ msgid "Torrents"
-#~ msgstr "種子"
-
-#~ msgid "Update Interval (seconds): "
-#~ msgstr "更新間隔 (秒): "
-
-#~ msgid "Check feeds on Deluge start"
-#~ msgstr "Deluge 啟動時檢查"
-
-#~ msgid "Check Feeds Now"
-#~ msgstr "立刻檢查"
-
-#~ msgid "Options"
-#~ msgstr "選項"
-
-#~ msgid "Simple RSS"
-#~ msgstr "Simple RSS"
-
-#~ msgid ""
-#~ "\n"
-#~ "Download Torrents automatically from SimpleRSS Feeds\n"
-#~ "\n"
-#~ "Add RSS feeds on the 'Feeds' tab, then add filters for TV shows (or "
-#~ "whatever) on the 'Filters' tab. Double-click entries on the 'Torrents' tab "
-#~ "to download extra torrents from the feeds. The Options are pretty self-"
-#~ "explanatary.\n"
-#~ "\n"
-#~ "Please message me (SatNav) on the forums and let me know how you get on..\n"
-#~ "\n"
-#~ "Enjoy!"
-#~ msgstr ""
-#~ "\n"
-#~ "自動從 SimpleRSS 消息來源下載種子\n"
-#~ "\n"
-#~ "於「消息來源」分頁中新增 RSS 後，在「過濾條件」分頁中設定過濾條件，再點兩下「種子」分頁中的種子就可以下載了。其他設定選項都很容易懂。\n"
-#~ "\n"
-#~ "有任何問題可以到論壇中發訊息給我 (SatNav)，並讓我知道你的使用狀況。\n"
-#~ "\n"
-#~ "好好享受吧！"
-
-#~ msgid "Last Entry Date"
-#~ msgstr "最後更新日期"
-
-#~ msgid "Date"
-#~ msgstr "日期"
-
-#~ msgid "RSS"
-#~ msgstr "RSS"
-
-#~ msgid "SimpleRSS Broadcatcher"
-#~ msgstr "SimpleRSS 擷取器"
-
-#~ msgid "New Filter"
-#~ msgstr "新過濾條件"
-
-#~ msgid "All"
-#~ msgstr "全部"
-
-#~ msgid "Enable popup notification (requires python-notify)"
-#~ msgstr "啟用彈出通知 (需要 python-notify)"
-
-#~ msgid "Enable event sound (requires pygame)"
-#~ msgstr "啟用事件音效 (需要 pygame)"
-
-#~ msgid "Torrent Notification"
-#~ msgstr "種子通知"
-
-#~ msgid "Network Health Monitor"
-#~ msgstr "網路狀態監視器"
-
-#~ msgid "Event Logging"
-#~ msgstr "事件記錄"
-
-#~ msgid "Speed Limiter"
-#~ msgstr "速度限制"
-
-#~ msgid "Torrent Search"
-#~ msgstr "種子搜尋"
-
-#~ msgid "Network Activity Graph"
-#~ msgstr "網路流量圖"
-
-#~ msgid "Piece shared with next file(s)"
-#~ msgstr "與下個檔案共享的片段"
-
-#~ msgid "Torrent Pieces"
-#~ msgstr "種子片段"
-
-#~ msgid ""
-#~ "\n"
-#~ "Pieces tab now shows percentage instead\n"
-#~ "of progress bars.  There are no longer any tooltips.\n"
-#~ "\n"
-#~ "Peer speed uses following symbols:\n"
-#~ "fast is +\n"
-#~ "medium is =\n"
-#~ "slow is -\n"
-#~ "\n"
-#~ "monospace font is required for columns to be aligned.\n"
-#~ "\n"
-#~ "Font size and number of columns are configurable in the\n"
-#~ "preferences.\n"
-#~ "\n"
-#~ "Finished torrents do not show piece information, just\n"
-#~ "a message that the torrent is complete.\n"
-#~ msgstr ""
-#~ "\n"
-#~ "「片段」分頁現在會顯示百分比取代進度列，\n"
-#~ "而不再顯示工具提示。\n"
-#~ "\n"
-#~ "用戶端速度會用下列符號表示:\n"
-#~ "快速為 +\n"
-#~ "中速為 =\n"
-#~ "低速為 -\n"
-#~ "\n"
-#~ "欄位要用等寬字體才能正確對齊。\n"
-#~ "\n"
-#~ "字體大小及欄數可以於偏好設定中選擇。\n"
-#~ "\n"
-#~ "已完成的種子不會顯示片段資訊，\n"
-#~ "只會顯示「已完成種子」。\n"
-
-#~ msgid "Locations"
-#~ msgstr "位置"
-
-#~ msgid ""
-#~ "Automagically remembers relevant settings for different locations.\n"
-#~ "\n"
-#~ "When this plugin is active, it will remember a lot of useful network-"
-#~ "specific preferences, such as up- or download limits, open ports and proxy "
-#~ "information. Just change preferences to suit each location while connected, "
-#~ "and Deluge will automagically use those settings the next time you connect "
-#~ "at that location. There is no other configuration needed.\n"
-#~ "\n"
-#~ "The plugin determines location by identifying the unique MAC address of the "
-#~ "Gateway used for the connection. It is therefore possible to have different "
-#~ "settings for home and work, or for broadband, 3G and dial-up on the fly.\n"
-#~ msgstr ""
-#~ "自動記住不同位置對應的設定。\n"
-#~ "\n"
-#~ "當此外掛模組啟用時，會記住許多有用的特定網路的設定值，像上下傳速限、開啟的通訊埠及 Proxy "
-#~ "資訊等。只要於每個位置連線的時候修改為適合該網路的設定，下次你在該處連線時，Deluge 就會自動套用適合該網路的設定值，而不需要其他額外的設定。\n"
-#~ "\n"
-#~ "本模組會用唯一 MAC 位址決定是否為同一位置，因為在家中或公司、或是寬頻連線或 3G 、撥接上網都需要不同的設定。\n"
-
-#~ msgid "Torrent Files"
-#~ msgstr "種子檔案"
-
-#~ msgid "Pieces Preferences"
-#~ msgstr "片段偏好設定"
-
-#~ msgid "Select number of columns"
-#~ msgstr "選擇欄數"
-
-#~ msgid "Select font size"
-#~ msgstr "選擇字體大小"
-
-#~ msgid "Peers Preferences"
-#~ msgstr "用戶端偏好設定"
-
-#~ msgid "Enable flags"
-#~ msgstr "啟用國旗"
-
-#~ msgid "Select size of flag"
-#~ msgstr "選擇國旗大小"
-
-#~ msgid "18x12"
-#~ msgstr "18x12"
-
-#~ msgid "25x15"
-#~ msgstr "25x15"
-
-#~ msgid "Extra Stats"
-#~ msgstr "額外狀態顯示"
-
-#~ msgid "Move Torrent"
-#~ msgstr "移動種子"
-
-#~ msgid ""
-#~ "You cannot move torrent to a different partition. Please check your "
-#~ "preferences. Or perhaps you are trying to move torrent's files to the same "
-#~ "directory they are already stored?"
-#~ msgstr "你不能移動種子到不同的分割區，請檢查你的偏好設定。或是你試圖要移動種子的檔案到相同目錄。"
-
-#~ msgid "Web Seed"
-#~ msgstr "網路種子"
-
-#~ msgid "Open Containing Folder Preferences"
-#~ msgstr "開啟下載資料夾偏好設定"
 
 #~ msgid "D/L"
 #~ msgstr "下載"
@@ -363,38 +44,14 @@ msgstr ""
 #~ msgid "IP"
 #~ msgstr "IP 位址"
 
-#~ msgid "Are you sure you want to quit Deluge?"
-#~ msgstr "您確定要結束 Deluge？"
+#~ msgid "Connections: "
+#~ msgstr "連接數： "
 
-#~ msgid "You have "
-#~ msgstr "您有 "
+#~ msgid "Download Speed:"
+#~ msgstr "下載速度："
 
-#~ msgid " active torrent"
-#~ msgstr " 下載中的種子"
-
-#~ msgid "s"
-#~ msgstr "們"
-
-#~ msgid ". Pressing 'Yes' will close Deluge and stop all torrent activity."
-#~ msgstr "。點選 '確定' 將結束 Deluge 並停止所有下載。"
-
-#~ msgid "Loaded torrents from previous session"
-#~ msgstr "已從上個作業階段載入種子"
-
-#~ msgid "No torrent is selected"
-#~ msgstr "尚未選擇種子"
-
-#~ msgid "Connections:"
-#~ msgstr "連接數："
-
-#~ msgid "Download:"
-#~ msgstr "下載："
-
-#~ msgid "Upload:"
-#~ msgstr "上傳："
-
-#~ msgid "Enter the URL of the .torrent file to open:"
-#~ msgstr "請輸入要開啟的種子檔網址："
+#~ msgid "Upload Speed:"
+#~ msgstr "上傳速度："
 
 #~ msgid "Select Torrent"
 #~ msgstr "請選擇種子"
@@ -429,38 +86,68 @@ msgstr ""
 #~ msgid "weeks"
 #~ msgstr "週"
 
-#~ msgid "No plugin is selected"
-#~ msgstr "尚未選擇插件"
+#~ msgid "Search string"
+#~ msgstr "搜尋字串"
 
-#~ msgid "You must activate a plugin before configuring it"
-#~ msgstr "您必須先啟用該插件才能設定它"
+#~ msgid "Add a Torrent"
+#~ msgstr "新增種子"
 
-#~ msgid "no information is listed for this plugin"
-#~ msgstr "沒有此插件的資訊"
+#~ msgid "Deluge Support _Forums"
+#~ msgstr "Deluge 支援論壇 (_F)"
 
-#~ msgid "The torrent file does not contain valid information."
-#~ msgstr "種子檔資訊是無效的。"
+#~ msgid "Force Pause/Resume Torrent"
+#~ msgstr "強制 暫停/恢復 下載"
 
-#~ msgid "The torrent file does not contain all necessary valid information."
-#~ msgstr "種子檔資訊部份是無效的。"
+#~ msgid "Open the online support forums in your web browser"
+#~ msgstr "在瀏覽器內開啟線上支援論壇"
 
-#~ msgid "A filesystem error occurred when trying to open the torrent file."
-#~ msgstr "試著開啟此種子檔時發生檔案系統錯誤。"
+#~ msgid "Show/Hide the Details Pane"
+#~ msgstr "顯示/隱藏詳細訊息面板"
 
-#~ msgid "The selected torrent is already present in the system."
-#~ msgstr "所選的種子已在系統中。"
+#~ msgid "Update Tracker"
+#~ msgstr "更新伺服器"
 
-#~ msgid "N-A"
-#~ msgstr "N-A"
+#~ msgid "<b>Bandwidth (KB/s):</b>"
+#~ msgstr "<b>頻寬 (KB/s)：</b>"
 
-#~ msgid "Yes"
-#~ msgstr "確定"
+#~ msgid "<b>Save Location:</b>"
+#~ msgstr "<b>儲存位置：</b>"
 
-#~ msgid "No"
-#~ msgstr "取消"
+#~ msgid "<b>Sharing:</b>"
+#~ msgstr "<b>分享：</b>"
 
-#~ msgid " is updating its tracker"
-#~ msgstr " 正在更新它的伺服器"
+#~ msgid "Automatically stop seeding torrents when their share ratio reaches:"
+#~ msgstr "當分享率達到這數值時自動停止作種："
+
+#~ msgid "Maximum Download Rate:"
+#~ msgstr "最大下載頻寬："
+
+#~ msgid "Maximum Upload Rate:"
+#~ msgstr "最大上傳頻寬："
+
+#~ msgid "Maximum number of Downloads:"
+#~ msgstr "最大同時下載數："
+
+#~ msgid "Maximum number of Uploads:"
+#~ msgstr "最大同時上傳數："
+
+#~ msgid "Save all downloads to:"
+#~ msgstr "儲存所有下載至："
+
+#~ msgid "Select a save location for each download"
+#~ msgstr "為每個下載選擇儲存位置"
+
+#~ msgid "gtk-add"
+#~ msgstr "新增"
+
+#~ msgid "gtk-remove"
+#~ msgstr "移除"
+
+#~ msgid "Force Pause"
+#~ msgstr "強制暫停"
+
+#~ msgid "Update Trackers"
+#~ msgstr "更新伺服器"
 
 #~ msgid "Paused"
 #~ msgstr "已暫停"
@@ -491,6 +178,91 @@ msgstr ""
 
 #~ msgid "Event"
 #~ msgstr "事件"
+
+#~ msgid "translator-credits"
+#~ msgstr ""
+#~ "如對翻譯有任何意見，請送一封電子郵件給以下地址，會盡快回覆您：Cheng-Wei Chien <e.cwchien@gmail.com>\n"
+#~ "\n"
+#~ "Launchpad Contributions:\n"
+#~ "  Chien Cheng Wei https://launchpad.net/~cwchien\n"
+#~ "  Jose Sun https://launchpad.net/~josesun\n"
+#~ "  Justzupi https://launchpad.net/~justzupi\n"
+#~ "  Ronmi https://launchpad.net/~ronmi\n"
+#~ "  josé https://launchpad.net/~jlgdot369\n"
+#~ "  kevintyk https://launchpad.net/~kevintyk"
+
+#~ msgid "Translate This Application..."
+#~ msgstr "翻譯這個應用程式..."
+
+#, no-c-format
+#~ msgid ""
+#~ "Add a new search engine by entering a Name and a URL.  For Name, enter the "
+#~ "name of the search engine to be used.  For URL, enter the url of the seach "
+#~ "page.  The user's search query will be added to the end of the url, or "
+#~ "replace any instances of %%query%% in the URL.\n"
+#~ "For example, a Google search would be:\n"
+#~ "Name: Google\n"
+#~ "URL: http://www.google.com/search?hl=en"
+#~ msgstr ""
+#~ "輸入一組名稱和網址即可新增搜尋引擎。前者為搜尋引擎的名稱。後者則是搜尋頁面的網址。使用者的搜尋字串會被加到網址的末端，或是取代其中的 %%query%% "
+#~ "字樣。\n"
+#~ "例如：新增 Google 搜尋將會是：\n"
+#~ "名稱：Google\n"
+#~ "網址：http://www.google.com/search?hl=en"
+
+#~ msgid "Are you sure you want to quit Deluge?"
+#~ msgstr "您確定要結束 Deluge？"
+
+#~ msgid "You have "
+#~ msgstr "您有 "
+
+#~ msgid " active torrent"
+#~ msgstr " 下載中的種子"
+
+#~ msgid "s"
+#~ msgstr "們"
+
+#~ msgid ". Pressing 'Yes' will close Deluge and stop all torrent activity."
+#~ msgstr "。點選 '確定' 將結束 Deluge 並停止所有下載。"
+
+#~ msgid "Loaded torrents from previous session"
+#~ msgstr "已從上個作業階段載入種子"
+
+#~ msgid "No torrent is selected"
+#~ msgstr "尚未選擇種子"
+
+#~ msgid "Enter the URL of the .torrent file to open:"
+#~ msgstr "請輸入要開啟的種子檔網址："
+
+#~ msgid "No plugin is selected"
+#~ msgstr "尚未選擇插件"
+
+#~ msgid "You must activate a plugin before configuring it"
+#~ msgstr "您必須先啟用該插件才能設定它"
+
+#~ msgid "no information is listed for this plugin"
+#~ msgstr "沒有此插件的資訊"
+
+#~ msgid "The torrent file does not contain valid information."
+#~ msgstr "種子檔資訊是無效的。"
+
+#~ msgid "A filesystem error occurred when trying to open the torrent file."
+#~ msgstr "試著開啟此種子檔時發生檔案系統錯誤。"
+
+#~ msgid "The selected torrent is already present in the system."
+#~ msgstr "所選的種子已在系統中。"
+
+#~ msgid "N-A"
+#~ msgstr "N-A"
+
+#~ msgid "Yes"
+#~ msgstr "確定"
+
+#~ msgid "No"
+#~ msgstr "取消"
+
+#~ msgid " is updating its tracker"
+#~ msgstr " 正在更新它的伺服器"
 
 #~ msgid "Mark 'Do Not Download'"
 #~ msgstr "標記為 '不下載'"
@@ -525,17 +297,8 @@ msgstr ""
 #~ msgid "Add a Torrent from URL..."
 #~ msgstr "從網址新增種子 ..."
 
-#~ msgid "Deluge Support _Forums"
-#~ msgstr "Deluge 支援論壇 (_F)"
-
-#~ msgid "Force Pause/Resume Torrent"
-#~ msgstr "強制 暫停/恢復 下載"
-
 #~ msgid "New Torrent..."
 #~ msgstr "新增種子 ..."
-
-#~ msgid "Open the online support forums in your web browser"
-#~ msgstr "在瀏覽器內開啟線上支援論壇"
 
 #~ msgid "Queue Torrent to Bottom"
 #~ msgstr "將種子排入佇列末端"
@@ -543,35 +306,14 @@ msgstr ""
 #~ msgid "Remove selected Torrent"
 #~ msgstr "移除所選的種子"
 
-#~ msgid "Show/Hide the Details Pane"
-#~ msgstr "顯示/隱藏詳細訊息面板"
-
-#~ msgid "Translate This Application..."
-#~ msgstr "翻譯這個應用程式..."
-
-#~ msgid "Update Tracker"
-#~ msgstr "更新伺服器"
-
 #~ msgid "_Manage Plugins"
 #~ msgstr "管理插件 (_M)"
-
-#~ msgid "Plugin Manager"
-#~ msgstr "外掛程式管理員"
 
 #~ msgid "gtk-about"
 #~ msgstr "關於"
 
 #~ msgid "<b>Advanced Network Options:</b>"
 #~ msgstr "<b>進階網路選項：</b>"
-
-#~ msgid "<b>Bandwidth (KB/s):</b>"
-#~ msgstr "<b>頻寬 (KB/s)：</b>"
-
-#~ msgid "<b>Save Location:</b>"
-#~ msgstr "<b>儲存位置：</b>"
-
-#~ msgid "<b>Sharing:</b>"
-#~ msgstr "<b>分享：</b>"
 
 #~ msgid "<b>Storage:</b>"
 #~ msgstr "<b>大小：</b>"
@@ -582,32 +324,11 @@ msgstr ""
 #~ msgid "Active port:"
 #~ msgstr "啟用的埠："
 
-#~ msgid "Automatically stop seeding torrents when their share ratio reaches:"
-#~ msgstr "當分享率達到這數值時自動停止作種："
-
 #~ msgid "Mainline DHT"
 #~ msgstr "連接 DHT (分散式雜湊表) 網絡"
 
-#~ msgid "Maximum Download Rate:"
-#~ msgstr "最大下載頻寬："
-
-#~ msgid "Maximum Upload Rate:"
-#~ msgstr "最大上傳頻寬："
-
-#~ msgid "Maximum number of Downloads:"
-#~ msgstr "最大同時下載數："
-
-#~ msgid "Maximum number of Uploads:"
-#~ msgstr "最大同時上傳數："
-
 #~ msgid "Maximum number of connections:"
 #~ msgstr "最大容許連接數："
-
-#~ msgid "Save all downloads to:"
-#~ msgstr "儲存所有下載至："
-
-#~ msgid "Select a save location for each download"
-#~ msgstr "為每個下載選擇儲存位置"
 
 #~ msgid "Test Port"
 #~ msgstr "測試連接埠"
@@ -627,14 +348,49 @@ msgstr ""
 #~ "<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
 #~ msgstr "<b>您確定要從 Deluge 中移除所選的種子(們)？</b>"
 
-#~ msgid "Force Pause"
-#~ msgstr "強制暫停"
+#, no-c-format
+#~ msgid ""
+#~ "CPU % must persist for following time (seconds) before either of the above:"
+#~ msgstr "上述事件啟動前，CPU 使用率必須持續顯示多少時間 (秒) ："
 
-#~ msgid "Add a Torrent"
-#~ msgstr "新增種子"
+#~ msgid "CPU Monitor Configuration"
+#~ msgstr "CPU 監控設定"
 
-#~ msgid "Update Trackers"
-#~ msgstr "更新伺服器"
+#, no-c-format
+#~ msgid "Fatal CPU % (Deluge will be shut down):"
+#~ msgstr "危險的 CPU 使用率 (Deluge 即將關閉)："
+
+#, no-c-format
+#~ msgid "Warning CPU % (notification only):"
+#~ msgstr "警告的 CPU 使用率 (僅顯示通知)："
+
+#~ msgid ""
+#~ "Notifications of the following Severity Level and above will be displayed:"
+#~ msgstr "危急程度高於此級的通知將會顯示："
+
+#~ msgid "Popup Notifier Configuration"
+#~ msgstr "彈出式通知設定"
+
+#~ msgid "Popup Notification"
+#~ msgstr "彈出式通知"
+
+#~ msgid "SafeDeluge Configuration"
+#~ msgstr "安全模式 Deluge 設定"
+
+#~ msgid "Use custom blocklist URL:"
+#~ msgstr "使用自訂的黑名單網址："
+
+#~ msgid "Use default blocklist URL"
+#~ msgstr "使用預設的黑名單網址"
+
+#~ msgid "Connections:"
+#~ msgstr "連接數："
+
+#~ msgid "Download:"
+#~ msgstr "下載："
+
+#~ msgid "Upload:"
+#~ msgstr "上傳："
 
 #~ msgid "There is suspicious activity in"
 #~ msgstr "發現可疑的活動於"
@@ -656,22 +412,6 @@ msgstr ""
 
 #~ msgid "CPU usage for"
 #~ msgstr "CPU 使用率於"
-
-#, no-c-format
-#~ msgid ""
-#~ "CPU % must persist for following time (seconds) before either of the above:"
-#~ msgstr "上述事件啟動前，CPU 使用率必須持續顯示多少時間 (秒) ："
-
-#~ msgid "CPU Monitor Configuration"
-#~ msgstr "CPU 監控設定"
-
-#, no-c-format
-#~ msgid "Fatal CPU % (Deluge will be shut down):"
-#~ msgstr "危險的 CPU 使用率 (Deluge 即將關閉)："
-
-#, no-c-format
-#~ msgid "Warning CPU % (notification only):"
-#~ msgstr "警告的 CPU 使用率 (僅顯示通知)："
 
 #~ msgid "No incoming connections"
 #~ msgstr "沒有可下載的連線"
@@ -707,64 +447,14 @@ msgstr ""
 #~ msgid "Fatal - normal operation will probably not continue"
 #~ msgstr "危險訊息 - 可能無法繼續正常運作"
 
-#~ msgid ""
-#~ "Notifications of the following Severity Level and above will be displayed:"
-#~ msgstr "危急程度高於此級的通知將會顯示："
-
-#~ msgid "Popup Notifier Configuration"
-#~ msgstr "彈出式通知設定"
-
-#~ msgid "Popup Notification"
-#~ msgstr "彈出式通知"
-
 #~ msgid "Retrieving blocklist from server"
 #~ msgstr "從伺服器取得黑名單"
 
 #~ msgid "Applying SafeDeluge blocklist"
 #~ msgstr "套用安全模式 Deluge 的黑名單"
 
-#~ msgid "SafeDeluge Configuration"
-#~ msgstr "安全模式 Deluge 設定"
-
-#~ msgid "Use custom blocklist URL:"
-#~ msgstr "使用自訂的黑名單網址："
-
-#~ msgid "Use default blocklist URL"
-#~ msgstr "使用預設的黑名單網址"
-
-#~ msgid "Search string"
-#~ msgstr "搜尋字串"
-
-#, no-c-format
-#~ msgid ""
-#~ "Add a new search engine by entering a Name and a URL.  For Name, enter the "
-#~ "name of the search engine to be used.  For URL, enter the url of the seach "
-#~ "page.  The user's search query will be added to the end of the url, or "
-#~ "replace any instances of %%query%% in the URL.\n"
-#~ "For example, a Google search would be:\n"
-#~ "Name: Google\n"
-#~ "URL: http://www.google.com/search?hl=en"
-#~ msgstr ""
-#~ "輸入一組名稱和網址即可新增搜尋引擎。前者為搜尋引擎的名稱。後者則是搜尋頁面的網址。使用者的搜尋字串會被加到網址的末端，或是取代其中的 %%query%% "
-#~ "字樣。\n"
-#~ "例如：新增 Google 搜尋將會是：\n"
-#~ "名稱：Google\n"
-#~ "網址：http://www.google.com/search?hl=en"
-
-#~ msgid "gtk-add"
-#~ msgstr "新增"
-
-#~ msgid "gtk-remove"
-#~ msgstr "移除"
-
-#~ msgid "Connections: "
-#~ msgstr "連接數： "
-
-#~ msgid "Download Speed:"
-#~ msgstr "下載速度："
-
-#~ msgid "Upload Speed:"
-#~ msgstr "上傳速度："
+#~ msgid "The torrent file does not contain all necessary valid information."
+#~ msgstr "種子檔資訊部份是無效的。"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
 msgid "Add Torrent"
@@ -1108,7 +798,7 @@ msgstr "選擇一個資料夾"
 
 #: glade/preferences_dialog.glade:131
 msgid "Store all torrent files in:"
-msgstr ""
+msgstr "儲存所有種子檔案於:"
 
 #: glade/preferences_dialog.glade:146
 msgid "<b>Download Location</b>"
@@ -1116,11 +806,11 @@ msgstr "<b>下載位置</b>"
 
 #: glade/preferences_dialog.glade:200
 msgid "Autoload all torrent files in:"
-msgstr ""
+msgstr "自動載入此目錄的種子檔案:"
 
 #: glade/preferences_dialog.glade:213
 msgid "<b>Autoload</b>"
-msgstr ""
+msgstr "<b>自動載入</b>"
 
 #: glade/preferences_dialog.glade:249 glade/preferences_dialog.glade:266
 #: glade/wizard.glade:237 glade/wizard.glade:478
@@ -1139,7 +829,7 @@ msgstr "載入前可選擇要下載的檔案"
 
 #: glade/preferences_dialog.glade:310
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "只在種子含有一個以上的檔案時顯示"
 
 #: glade/preferences_dialog.glade:325 glade/preferences_dialog.glade:326
 msgid "Prioritize first and last pieces of files in torrent"
@@ -1247,11 +937,11 @@ msgstr "NAT-PMP"
 
 #: glade/preferences_dialog.glade:786 glade/preferences_dialog.glade:787
 msgid "Peer Exchange"
-msgstr "Peer交換"
+msgstr "用戶交換"
 
 #: glade/preferences_dialog.glade:803
 msgid "Local Peer Discovery"
-msgstr "尋找近端的Peer"
+msgstr "近端用戶搜尋"
 
 #: glade/preferences_dialog.glade:818
 msgid "<b>Network Extras</b>"
@@ -1379,11 +1069,11 @@ msgstr "最大總上傳區段。若不限制，請設為 -1。"
 msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
-msgstr ""
+msgstr "每秒可嘗試的最大連線數，數值太高可能會讓某些廉價路由器當機。若不限制，請設為 -1。"
 
 #: glade/preferences_dialog.glade:1361
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "每秒嘗試的最大連線數:"
 
 #: glade/preferences_dialog.glade:1392
 msgid "<b>Global Bandwidth Usage</b>"
@@ -1547,11 +1237,11 @@ msgstr "<b>效能</b>"
 
 #: glade/preferences_dialog.glade:2714
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
-msgstr "使用進階的進度條(會稍稍佔用一些CPU與記憶體)"
+msgstr "使用進階的進度列 (會佔用多一點 CPU 及記憶體)"
 
 #: glade/preferences_dialog.glade:2725
 msgid "<b>Detailed Progress Bar</b>"
-msgstr ""
+msgstr "<b>詳細進度列</b>"
 
 #: glade/preferences_dialog.glade:2759
 msgid ""
@@ -1593,7 +1283,7 @@ msgstr "gtk-preferences"
 
 #: glade/torrent_menu.glade:11
 msgid "_Force Recheck"
-msgstr ""
+msgstr "強制重新檢查(_F)"
 
 #: glade/torrent_menu.glade:33
 msgid "Re_sume"
@@ -1609,7 +1299,7 @@ msgstr "移除種子(_R)"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "伺服器選項(_T)"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
@@ -1621,7 +1311,7 @@ msgstr "編輯伺服器網址(_E)"
 
 #: glade/torrent_menu.glade:138
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "向伺服器請求用戶(_S)"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"
@@ -2163,7 +1853,7 @@ msgstr "無法開啟黑名單"
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
 #: plugins/BlocklistImport/text.py:99
 msgid "Wrong file type or corrupted blocklist file."
-msgstr ""
+msgstr "檔案類型錯誤或封鎖清單檔案已損毀。"
 
 #: plugins/BlocklistImport/__init__.py:121
 msgid "Imported"
@@ -2209,7 +1899,7 @@ msgstr ""
 msgid ""
 "We were expecting a gzip file, but didn't get that, or possibly the file is "
 "corrupt.  Please edit your Blocklist preferences"
-msgstr ""
+msgstr "程式無法解壓縮 gzip 檔，檔案可能已損毀，請編輯你的封鎖清單設定。"
 
 #: plugins/BlocklistImport/peerguardian.py:32
 msgid "Invalid leader"
@@ -2841,7 +2531,7 @@ msgstr "加入網路種子(_A)"
 
 #: plugins/WebSeed/webseed.glade:7
 msgid "Add Web Seed"
-msgstr ""
+msgstr "加入網路種子"
 
 #: plugins/Scheduler/plugin.py:104
 msgid "Scheduler Settings"
@@ -2849,27 +2539,27 @@ msgstr "排程器設定"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "High download limit:"
-msgstr ""
+msgstr "下載速度上限:"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "High upload limit:"
-msgstr ""
+msgstr "上傳速度上限:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Low download limit:"
-msgstr ""
+msgstr "下載速度下限:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Low upload limit:"
-msgstr ""
+msgstr "上傳速度下限:"
 
 #: plugins/Scheduler/plugin.py:192
 msgid "Green is the high limits, yellow is the low limits and red is stopped"
-msgstr ""
+msgstr "綠色代表速度上限、黃色代表速度下限、紅色代表已停止"
 
 #: plugins/Scheduler/plugin.py:193
 msgid "If a limit is set to -1, it is unlimitted."
-msgstr ""
+msgstr "如果速限設為 -1 代表不設限。"
 
 #: plugins/WebUi/__init__.py:182
 msgid "WebUi Config"
@@ -2909,47 +2599,47 @@ msgstr "只顯示圖片"
 
 #: plugins/WebUi/__init__.py:212
 msgid "Text Only"
-msgstr ""
+msgstr "只顯示文字"
 
 #: plugins/WebUi/__init__.py:246
 msgid "Confirmed Password <> New Password\n"
-msgstr ""
+msgstr "已確認密碼 <> 新密碼\n"
 
 #: plugins/WebUi/webserver_common.py:48
 msgid "translate something"
-msgstr ""
+msgstr "翻譯成別種語言"
 
 #: plugins/WebUi/deluge_webserver.py:147
 msgid "Choose an url or a torrent, not both."
-msgstr ""
+msgstr "請選擇網址或種子，不要同時選擇"
 
 #: plugins/WebUi/deluge_webserver.py:158
 msgid "no data."
-msgstr ""
+msgstr "無資料"
 
 #: plugins/WebUi/deluge_webserver.py:236
 msgid "refresh must be > 0"
-msgstr ""
+msgstr "更新頻率要大於 0"
 
 #: plugins/WebUi/deluge_webserver.py:244
 msgid "Download Speed Limit"
-msgstr ""
+msgstr "下載速限"
 
 #: plugins/WebUi/deluge_webserver.py:248
 msgid "Upload Speed Limit"
-msgstr ""
+msgstr "上傳速限"
 
 #: plugins/WebUi/scripts/template_strings.py:1
 msgid "# Of Files"
-msgstr ""
+msgstr "檔案總數"
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
-msgstr ""
+msgstr "關於"
 
 #: plugins/WebUi/scripts/template_strings.py:4
 msgid "Add torrent"
-msgstr ""
+msgstr "新增種子"
 
 #: plugins/WebUi/scripts/template_strings.py:5
 msgid "Apply"
@@ -2961,11 +2651,11 @@ msgstr "自動更新間隔:"
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Ava"
-msgstr ""
+msgstr "可得性"
 
 #: plugins/WebUi/scripts/template_strings.py:9
 msgid "Config"
-msgstr ""
+msgstr "設定"
 
 #: plugins/WebUi/scripts/template_strings.py:11
 msgid "Debug:Data Dump"
@@ -2977,7 +2667,7 @@ msgstr "刪除已下載檔案"
 
 #: plugins/WebUi/scripts/template_strings.py:15
 msgid "Disable"
-msgstr ""
+msgstr "停用"
 
 #: plugins/WebUi/scripts/template_strings.py:18
 msgid "Downloaded"
@@ -2985,27 +2675,27 @@ msgstr "已下載"
 
 #: plugins/WebUi/scripts/template_strings.py:20
 msgid "Enable"
-msgstr ""
+msgstr "啟用"
 
 #: plugins/WebUi/scripts/template_strings.py:21
 msgid "Error"
-msgstr ""
+msgstr "錯誤"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Eta"
-msgstr ""
+msgstr "完成時間"
 
 #: plugins/WebUi/scripts/template_strings.py:23
 msgid "Login"
-msgstr ""
+msgstr "登入"
 
 #: plugins/WebUi/scripts/template_strings.py:24
 msgid "Logout"
-msgstr ""
+msgstr "登出"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Next Announce"
-msgstr "下次通知"
+msgstr "下次通告時間"
 
 #: plugins/WebUi/scripts/template_strings.py:27
 msgid "Off"
@@ -3017,7 +2707,7 @@ msgstr "密碼無效，請再試一次"
 
 #: plugins/WebUi/scripts/template_strings.py:30
 msgid "Pause all"
-msgstr ""
+msgstr "全部暫停"
 
 #: plugins/WebUi/scripts/template_strings.py:32
 msgid "Pieces"
@@ -3025,37 +2715,37 @@ msgstr "片段"
 
 #: plugins/WebUi/scripts/template_strings.py:34
 msgid "Queue Down"
-msgstr ""
+msgstr "往下移"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Queue Up"
-msgstr ""
+msgstr "往上移"
 
 #: plugins/WebUi/scripts/template_strings.py:36
 msgid "Queue pos:"
-msgstr ""
+msgstr "佇列位置:"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Reannounce"
-msgstr ""
+msgstr "重新通告"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Refresh page every:"
-msgstr "更新頁面間隔:"
+msgstr "更新頁面頻率:"
 
 #: plugins/WebUi/scripts/template_strings.py:41
 #, python-format
 msgid "Remove %s "
-msgstr ""
+msgstr "移除 %s "
 
 #: plugins/WebUi/scripts/template_strings.py:42
 #, python-format
 msgid "Remove %s?"
-msgstr ""
+msgstr "移除 %s？"
 
 #: plugins/WebUi/scripts/template_strings.py:43
 msgid "Resume all"
-msgstr ""
+msgstr "全部續傳"
 
 #: plugins/WebUi/scripts/template_strings.py:45
 msgid "Set"
@@ -3063,7 +2753,7 @@ msgstr "設定"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Set Timeout"
-msgstr ""
+msgstr "設定逾時時間"
 
 #: plugins/WebUi/scripts/template_strings.py:49
 msgid "Speed"
@@ -3075,7 +2765,7 @@ msgstr "送出"
 
 #: plugins/WebUi/scripts/template_strings.py:51
 msgid "Torrent list"
-msgstr ""
+msgstr "種子清單"
 
 #: plugins/WebUi/scripts/template_strings.py:52
 msgid "Total Size"
@@ -3091,15 +2781,15 @@ msgstr "伺服器狀態"
 
 #: plugins/WebUi/scripts/template_strings.py:57
 msgid "Upload torrent"
-msgstr ""
+msgstr "上傳種子"
 
 #: plugins/WebUi/scripts/template_strings.py:58
 msgid "Uploaded"
-msgstr ""
+msgstr "已上傳"
 
 #: plugins/WebUi/scripts/template_strings.py:59
 msgid "Url"
-msgstr ""
+msgstr "網址"
 
 #: plugins/WebUi/scripts/template_strings.py:60
 msgid "seconds"
@@ -3107,23 +2797,23 @@ msgstr "秒"
 
 #: plugins/FlexRSS/FlexRSS.glade:6
 msgid "FlexRSS"
-msgstr ""
+msgstr "FlexRSS"
 
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
-msgstr ""
+msgstr "自動依設定好的更新頻率取回消息來源"
 
 #: plugins/FlexRSS/FlexRSS.glade:115
 msgid "Feed must be refreshed manually."
-msgstr ""
+msgstr "消息來源必須手動更新"
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
-msgstr ""
+msgstr "已停用"
 
 #: plugins/FlexRSS/FlexRSS.glade:151
 msgid "Update Interval"
-msgstr ""
+msgstr "更新頻率"
 
 #: plugins/FlexRSS/FlexRSS.glade:165
 msgid "URL"
@@ -3131,7 +2821,7 @@ msgstr "網址"
 
 #: plugins/FlexRSS/FlexRSS.glade:192
 msgid "900"
-msgstr ""
+msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
 msgid "Feeds"
@@ -3139,7 +2829,7 @@ msgstr "消息來源"
 
 #: plugins/FlexRSS/FlexRSS.glade:384
 msgid "Type"
-msgstr ""
+msgstr "類型"
 
 #: plugins/FlexRSS/FlexRSS.glade:397
 msgid "Feed"
@@ -3147,103 +2837,103 @@ msgstr "消息來源"
 
 #: plugins/FlexRSS/FlexRSS.glade:439
 msgid "<b>Information</b>"
-msgstr ""
+msgstr "<b>資訊</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:511
 msgid "<b>Patterns</b>"
-msgstr ""
+msgstr "<b>比對樣式</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:549 plugins/FlexRSS/FlexRSS.glade:724
 msgid "From"
-msgstr ""
+msgstr "開始於"
 
 #: plugins/FlexRSS/FlexRSS.glade:565 plugins/FlexRSS/FlexRSS.glade:641
 #: plugins/FlexRSS/FlexRSS.glade:826
 msgid "Season"
-msgstr ""
+msgstr "第幾季"
 
 #: plugins/FlexRSS/FlexRSS.glade:594 plugins/FlexRSS/FlexRSS.glade:675
 #: plugins/FlexRSS/FlexRSS.glade:833
 msgid "Episode"
-msgstr ""
+msgstr "第幾集"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 msgid "Thru"
-msgstr ""
+msgstr "結束於"
 
 #: plugins/FlexRSS/FlexRSS.glade:766
 msgid "<b>History Restriction</b>"
-msgstr ""
+msgstr "<b>設定不下載的集數</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:810
 msgid "Doesn't Match"
-msgstr ""
+msgstr "不符合"
 
 #: plugins/FlexRSS/FlexRSS.glade:875
 msgid "Year"
-msgstr ""
+msgstr "年"
 
 #: plugins/FlexRSS/FlexRSS.glade:882
 msgid "Month"
-msgstr ""
+msgstr "月"
 
 #: plugins/FlexRSS/FlexRSS.glade:893
 msgid "Day"
-msgstr ""
+msgstr "日"
 
 #: plugins/FlexRSS/FlexRSS.glade:960
 msgid "<b>Test</b>"
-msgstr ""
+msgstr "<b>測試</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
-msgstr ""
+msgstr "將種子放到佇列最頂端"
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
-msgstr ""
+msgstr "取回種子後設為暫停狀態"
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
 msgid "Delete filter when matched."
-msgstr ""
+msgstr "找到相符的種子後刪除此條件"
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
-msgstr ""
+msgstr "<b>下載</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1084
 msgid "Replacement"
-msgstr ""
+msgstr "取代為"
 
 #: plugins/FlexRSS/FlexRSS.glade:1098
 msgid "Pattern"
-msgstr ""
+msgstr "比對樣式"
 
 #: plugins/FlexRSS/FlexRSS.glade:1111
 msgid "<b>Link Rewriting</b>"
-msgstr ""
+msgstr "<b>鏈結重新導向</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1143
 msgid ""
 "Content will be saved to Deluge's default directory, or a prompt will appear "
 "if none is set."
-msgstr ""
+msgstr "取回的內容會被存在 Deluge 的預設目錄，若未設定則提示要存到何處。"
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
 msgid "Deluge default"
-msgstr ""
+msgstr "Deluge 預設目錄"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
-msgstr ""
+msgstr "取回的內容會自動存到你指定的目錄。"
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"
-msgstr ""
+msgstr "請選擇:"
 
 #: plugins/FlexRSS/FlexRSS.glade:1190
 msgid "<b>Output</b>"
-msgstr ""
+msgstr "<b>輸出目錄</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1251
 msgid "Filters"
@@ -3251,46 +2941,46 @@ msgstr "過濾條件"
 
 #: plugins/FlexRSS/FlexRSS.glade:1282
 msgid "Show a FlexRSS icon in Deluge's toolbar."
-msgstr ""
+msgstr "於 Deluge 工具列上顯示 FlexRSS 圖示。"
 
 #: plugins/FlexRSS/FlexRSS.glade:1283
 msgid "Show button on toolbar."
-msgstr ""
+msgstr "於工具列顯示圖示"
 
 #: plugins/FlexRSS/FlexRSS.glade:1300
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>介面</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1331
 msgid ""
 "Feeds will be retrieved and parsed in their own threads. The application "
 "will not be blocked, but it can be unreliable."
-msgstr ""
+msgstr "用不同的執行緒分別取回及解析消息來源 (Feed)。選用這個選項不會讓程式當掉，但會變得很不穩定。"
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
 msgid "Threaded (experimental)"
-msgstr ""
+msgstr "多執行緒模式 (尚在測試中)"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"
-msgstr ""
+msgstr "<b>消息來源取回</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"
-msgstr ""
+msgstr "網域"
 
 #: plugins/FlexRSS/FlexRSS.glade:1462
 msgid "Path"
-msgstr ""
+msgstr "路徑"
 
 #: plugins/FlexRSS/FlexRSS.glade:1488
 msgid "Value"
-msgstr ""
+msgstr "值"
 
 #: plugins/FlexRSS/FlexRSS.glade:1561
 msgid "<b>Cookies</b>"
-msgstr ""
+msgstr "<b>Cookies</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1582
 msgid "Configuration"
-msgstr ""
+msgstr "組態設定"

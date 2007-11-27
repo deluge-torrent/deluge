@@ -3,7 +3,8 @@ $def with (filter_tabs, category_tabs)
 <input type="hidden" name="sort" value="$get('sort')">
 <input type="hidden" name="order" value="$get('order')">
 <select name='filter' id='filter'
-    onchange="document.getElementById('category_form').submit()">
+    onchange="document.getElementById('category_form').submit()"
+    title="$_('Filter on state')">
 $for tab in filter_tabs:
     <option value="$tab.filter"
     $if tab.filter == get('filter'):
@@ -13,7 +14,8 @@ $for tab in filter_tabs:
     </option>
 </select>
 <select name='category' id='category'
-onchange="document.getElementById('category_form').submit()">
+    onchange="document.getElementById('category_form').submit()"
+    title="$_('Filter on Tracker')">
 $for tab in category_tabs:
     <option value="$tab.category"
     $if tab.category == get('category'):
