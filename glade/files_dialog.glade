@@ -57,7 +57,7 @@
             <child>
               <widget class="GtkButton" id="button2">
                 <property name="visible">True</property>
-                <property name="label">gtk-cancel</property>
+                <property name="label" translatable="no">gtk-cancel</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
               </widget>
@@ -65,7 +65,7 @@
             <child>
               <widget class="GtkButton" id="button1">
                 <property name="visible">True</property>
-                <property name="label">gtk-ok</property>
+                <property name="label" translatable="no">gtk-ok</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">1</property>
               </widget>
