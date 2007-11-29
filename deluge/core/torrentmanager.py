@@ -366,7 +366,17 @@ class TorrentManager:
             return False
         
         return True
-   
+    
+    def scrape_tracker(self, torrent_id):
+        """Scrape the tracker"""
+        try:
+            self.torrents[torrent_id].handle.scrape_tracker()
+        except Exception, e:
+            log.debug("Unable to scrape tracker: %s", e)
+            return False
+        
+        return True
+        
     def force_recheck(self, torrent_id):
         """Forces a re-check of the torrent's data"""
         log.debug("Doing a forced recheck on %s", torrent_id)
@@ -514,7 +524,7 @@ class TorrentManager:
         torrent_id = str(alert.handle.info_hash())
         # Write the fastresume file
         self.write_fastresume(torrent_id)
-        
+            
     def on_alert_tracker_reply(self, alert):
         log.debug("on_alert_tracker_reply")
         # Get the torrent_id
@@ -524,6 +534,12 @@ class TorrentManager:
             self.torrents[torrent_id].set_tracker_status(_("Announce OK"))
         except KeyError:
             log.debug("torrent_id doesn't exist.")
+        
+        # Check to see if we got any peer information from the tracker
+        if alert.handle.status().num_complete == -1 or \
+            alert.handle.status().num_incomplete == -1:
+            # We didn't get peer information, so lets send a scrape request
+            self.scrape_tracker(torrent_id)
 
     def on_alert_tracker_announce(self, alert):
         log.debug("on_alert_tracker_announce")
