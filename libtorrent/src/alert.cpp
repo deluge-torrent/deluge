@@ -78,11 +78,11 @@ namespace libtorrent {
 		}
 	}
 
-	alert const* alert_manager::wait_for_alert(time_duration max_wait)
+	std::auto_ptr<alert> alert_manager::wait_for_alert(time_duration max_wait)
 	{
 		boost::mutex::scoped_lock lock(m_mutex);
 
-		if (!m_alerts.empty()) return m_alerts.front();
+		if (!m_alerts.empty()) return std::auto_ptr<alert>(m_alerts.front());
 		
 		int secs = total_seconds(max_wait);
 		max_wait -= seconds(secs);
@@ -96,10 +96,10 @@ namespace libtorrent {
 			xt.sec += 1;
 		}
 		xt.nsec = nsec;
-		if (!m_condition.timed_wait(lock, xt)) return 0;
+		if (!m_condition.timed_wait(lock, xt)) return std::auto_ptr<alert>(NULL);
 		TORRENT_ASSERT(!m_alerts.empty());
-		if (m_alerts.empty()) return 0;
-		return m_alerts.front();
+		if (m_alerts.empty()) return std::auto_ptr<alert>(NULL);
+		return std::auto_ptr<alert>(m_alerts.front());
 	}
 
 	void alert_manager::post_alert(const alert& alert_)

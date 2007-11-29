@@ -265,7 +265,7 @@ namespace libtorrent
 		std::auto_ptr<alert> pop_alert();
 		void set_severity_level(alert::severity_t s);
 
-		alert const* wait_for_alert(time_duration max_wait);
+		std::auto_ptr<alert> wait_for_alert(time_duration max_wait);
 
 		connection_queue& get_connection_queue();
 

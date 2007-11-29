@@ -100,7 +100,7 @@ namespace libtorrent {
 		void set_severity(alert::severity_t severity);
 		bool should_post(alert::severity_t severity) const;
 
-		alert const* wait_for_alert(time_duration max_wait);
+		std::auto_ptr<alert> wait_for_alert(time_duration max_wait);
 
 	private:
 		std::queue<alert*> m_alerts;

@@ -177,6 +177,9 @@ char const* session_start_natpmp_doc =
     "";
 char const* session_stop_natpmp_doc =
     "";
+char const* session_wait_for_alert_doc =
+    "";
+    
 // -- alert -----------------------------------------------------------------
 
 char const* alert_doc =
@@ -321,3 +324,13 @@ char const* fastresume_rejected_alert_doc =
 
 char const* peer_blocked_alert_doc =
     "";
+
+char const* scrape_reply_alert_doc =
+    "This alert is generated when a scrape request succeeds.\n"
+    "incomplete and complete is the data returned in the scrape\n"
+    "response. These numbers may be -1 if the reponse was malformed.";
+    
+char const* scrape_failed_alert_doc = 
+    "If a scrape request fails, this alert is generated. This might\n"
+    "be due to the tracker timing out, refusing connection or returning\n"
+    "an http response code indicating an error.";

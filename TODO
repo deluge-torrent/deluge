@@ -23,4 +23,6 @@
 * Add filtering to torrentview to use with the sidebar
 * Fix up preferences for when using a remote host.. the download folders, etc..
 * Add decay items to statusbar.. items that will disappear after X seconds
+* Do not update UI when minimized or hidden
+* Add command line option to change config dir.. --config
 

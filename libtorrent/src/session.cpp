@@ -422,7 +422,7 @@ namespace libtorrent
 		return m_impl->pop_alert();
 	}
 
-	alert const* session::wait_for_alert(time_duration max_wait)
+	std::auto_ptr<alert> session::wait_for_alert(time_duration max_wait)
 	{
 		return m_impl->wait_for_alert(max_wait);
 	}
