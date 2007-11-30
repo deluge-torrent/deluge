@@ -465,6 +465,7 @@ class Preferences(component.Component):
         
         # Disable the port spinners if random ports is selected.
         if widget == self.glade.get_widget("chk_random_port"):
+            log.debug("chk_random_port set to: %s", value)
             self.glade.get_widget("spin_port_min").set_sensitive(not value)
             self.glade.get_widget("spin_port_max").set_sensitive(not value)
         

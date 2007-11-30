@@ -127,7 +127,10 @@ def fspeed(bps):
 
 def fpeer(num_peers, total_peers):
     """Returns a formatted string num_peers (total_peers)"""
-    return str(str(num_peers) + " (" + str(total_peers) + ")")
+    if total_peers > -1:
+        return str(str(num_peers) + " (" + str(total_peers) + ")")
+    else:
+        return str(num_peers)
     
 def ftime(seconds):
     """Returns a formatted time string"""

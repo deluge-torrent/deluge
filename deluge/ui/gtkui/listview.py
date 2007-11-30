@@ -43,7 +43,10 @@ from deluge.log import LOG as log
 def cell_data_speed(column, cell, model, row, data):
     """Display value as a speed, eg. 2 KiB/s"""
     speed = int(model.get_value(row, data))
-    speed_str = deluge.common.fspeed(speed)
+    speed_str = ""
+    if speed > 0:
+        speed_str = deluge.common.fspeed(speed)
+    
     cell.set_property('text', speed_str)
 
 def cell_data_size(column, cell, model, row, data):
@@ -57,7 +60,11 @@ def cell_data_peer(column, cell, model, row, data):
     column1, column2 = data
     first = int(model.get_value(row, column1))
     second = int(model.get_value(row, column2))
-    cell.set_property('text', '%d (%d)' % (first, second))
+    # Only display a (total) if second is greater than -1
+    if second > -1:
+        cell.set_property('text', '%d (%d)' % (first, second))
+    else:
+        cell.set_property('text', '%d' % first)
         
 def cell_data_time(column, cell, model, row, data):
     """Display value as time, eg 1m10s"""

@@ -128,17 +128,6 @@ class Torrent:
         # Adjust progress to be 0-100 value
         progress = status.progress*100
         
-        # Get the total number of seeds and peers
-        if status.num_complete == -1:
-            total_seeds = status.num_seeds
-        else:
-            total_seeds = status.num_complete
-            
-        if status.num_incomplete == -1:
-            total_peers = status.num_peers - status.num_seeds
-        else:
-            total_peers = status.num_incomplete
-        
         # Set the state to 'Paused' if the torrent is paused.
         state = status.state
         if status.paused:
@@ -168,8 +157,8 @@ class Torrent:
             "upload_payload_rate": status.upload_payload_rate,
             "num_peers": status.num_peers - status.num_seeds,
             "num_seeds": status.num_seeds,
-            "total_peers": total_peers,
-            "total_seeds": total_seeds,
+            "total_peers": status.num_incomplete,
+            "total_seeds":  status.num_complete,
             "total_wanted": status.total_wanted,
             "eta": self.get_eta(),
             "ratio": self.get_ratio(),

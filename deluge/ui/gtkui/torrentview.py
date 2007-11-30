@@ -45,30 +45,40 @@ import deluge.ui.client as client
 from deluge.log import LOG as log
 import deluge.ui.gtkui.listview as listview
 
+# Status icons.. Create them from file only once to avoid constantly
+# re-creating them.
+icon_downloading = gtk.gdk.pixbuf_new_from_file(
+    deluge.common.get_pixmap("downloading16.png"))
+icon_seeding = gtk.gdk.pixbuf_new_from_file(
+    deluge.common.get_pixmap("seeding16.png"))
+icon_inactive = gtk.gdk.pixbuf_new_from_file(
+    deluge.common.get_pixmap("inactive16.png"))
+    
 def cell_data_statusicon(column, cell, model, row, data):
     """Display text with an icon"""
     state = model.get_value(row, data)
+    icon = None
     if state == deluge.common.TORRENT_STATE.index("Connecting"):
-        fname = "downloading16.png"
+        icon = icon_downloading
     if state == deluge.common.TORRENT_STATE.index("Downloading"):
-        fname = "downloading16.png"
+        icon = icon_downloading
     if state == deluge.common.TORRENT_STATE.index("Downloading Metadata"):
-        fname = "downloading16.png"
+        icon = icon_downloading
     if state == deluge.common.TORRENT_STATE.index("Queued"):
-        fname = "inactive16.png"
+        icon = icon_inactive
     if state == deluge.common.TORRENT_STATE.index("Paused"):
-        fname = "inactive16.png"
+        icon = icon_inactive
     if state == deluge.common.TORRENT_STATE.index("Checking"):
-        fname = "downloading16.png"
+        icon = icon_downloading
     if state == deluge.common.TORRENT_STATE.index("Allocating"):
-        fname = "downloading16.png"
+        icon = icon_downloading
     if state == deluge.common.TORRENT_STATE.index("Finished"):
-        fname = "seeding16.png"
+        icon = icon_seeding
     if state == deluge.common.TORRENT_STATE.index("Seeding"):
-        fname = "seeding16.png"
-        
-    icon = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap(fname))
-    cell.set_property("pixbuf", icon)
+        icon = icon_seeding
+
+    if icon != None:
+        cell.set_property("pixbuf", icon)
 
 def cell_data_progress(column, cell, model, row, data):
     """Display progress bar with text"""
