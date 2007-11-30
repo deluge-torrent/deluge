@@ -230,7 +230,7 @@ class MenuBar(component.Component):
 
     def on_menuitem_faq_activate(self, data=None):
         log.debug("on_menuitem_faq_activate")
-        client.open_url_in_browser("http://deluge-torrent.org/faq")
+        client.open_url_in_browser("http://deluge-torrent.org/faq.php")
 
     def on_menuitem_community_activate(self, data=None):
         log.debug("on_menuitem_community_activate")
