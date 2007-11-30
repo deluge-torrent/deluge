@@ -49,7 +49,7 @@ class SignalReceiver(
         ThreadingMixIn, 
         SimpleXMLRPCServer.SimpleXMLRPCServer):
     
-    def __init__(self, port):
+    def __init__(self, port, remote=False):
         log.debug("SignalReceiver init..")
         gobject.threads_init()
         threading.Thread.__init__(self)
@@ -61,10 +61,14 @@ class SignalReceiver(
         # Daemonize the thread so it exits when the main program does
         self.setDaemon(True)
         
+        host = "localhost"
+        if remote == True:
+            host = ""
+            
         # Setup the xmlrpc server
         try:
             SimpleXMLRPCServer.SimpleXMLRPCServer.__init__(
-                self, ("localhost", port), logRequests=False, allow_none=True)
+                self, (host, port), logRequests=False, allow_none=True)
         except:
             log.info("SignalReceiver already running or port not available..")
             sys.exit(0)

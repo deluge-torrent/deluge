@@ -32,6 +32,7 @@
 #    statement from all source files in the program, then also delete it here.
 
 import deluge.ui.component as component
+import deluge.ui.client as client
 from deluge.ui.signalreceiver import SignalReceiver
 from deluge.log import LOG as log
 
@@ -40,7 +41,10 @@ class Signals(component.Component):
         component.Component.__init__(self, "Signals")
 
     def start(self):
-        self.receiver = SignalReceiver(6667)
+        remote = False
+        if not client.is_localhost():
+            remote = True
+        self.receiver = SignalReceiver(6667, remote)
         self.receiver.start()
         self.receiver.connect_to_signal("torrent_added", 
             self.torrent_added_signal)
