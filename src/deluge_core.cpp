@@ -273,13 +273,15 @@ boost::filesystem::path const& save_path)
         return (new_torrent.unique_ID);
     }
     catch (invalid_encoding&)
-    {
-    printf("invalid encoding...bad torrent\n");
-    }
+        {   RAISE_PTR(InvalidEncodingError, ""); }
     catch (invalid_handle&)
-    {
-    printf("invalid handle.  something bad happened in libtorrent\n");
-    }
+        {   printf("invalid handle error on add_torrent"); }
+    catch (invalid_torrent_file&)
+        {   RAISE_PTR(InvalidTorrentError, ""); }
+    catch (boost::filesystem::filesystem_error&)
+        {   RAISE_PTR(FilesystemError, ""); }
+    catch (duplicate_torrent&)
+        {   RAISE_PTR(DuplicateTorrentError, "libtorrent reports this is a duplicate torrent"); }
     catch (...) {}
 }
 
@@ -1999,35 +2001,6 @@ static PyObject *torrent_add_url_seed(PyObject *self, PyObject *args)
     Py_INCREF(Py_None); return Py_None;
 }
 
-static PyObject *torrent_remap_files(PyObject *self, PyObject *args)
-{
-  python_long unique_ID;
-  PyObject *file_path_object;
-  PyObject *file_size_object;
-
-  if (!PyArg_ParseTuple(args, "iOO", &unique_ID, &file_path_object, &file_size_object))
-    return NULL;
-  long index = get_index_from_unique_ID(unique_ID);
-  if (PyErr_Occurred())
-    return NULL;
-
-  if (M_torrents->at(index).handle.is_valid()){
-
-      std::vector<std::pair<std::string, libtorrent::size_type> > remap_vector;
-      for (long i = 0; i < PyList_Size(file_size_object); i++) {
-          remap_vector.push_back(std::make_pair(PyString_AsString(PyList_GetItem(file_path_object, i)), PyInt_AsLong(PyList_GetItem(file_size_object, i))));
-      }
-      torrent_info t = M_torrents->at(index).handle.get_torrent_info();
-      bool ret = t.remap_files(remap_vector);
-      if (ret){
-      printf("remap worked!\n");
-      }
-      else{
-      printf("remap failed!\n");
-      }
-}
-  Py_INCREF(Py_None); return Py_None;
-}
 static PyObject *torrent_scrape_tracker(PyObject *self, PyObject *args)
 {
     python_long unique_ID;
@@ -2112,7 +2085,6 @@ static PyMethodDef deluge_core_methods[] =
     {"get_piece_info",                  torrent_get_piece_info,                   METH_VARARGS,   "."},
     {"get_all_piece_info",              torrent_get_all_piece_info,               METH_VARARGS,   "."},
     {"get_file_piece_range",            torrent_get_file_piece_range,             METH_VARARGS,   "."},
-    {"remap_files",                     torrent_remap_files,                      METH_VARARGS,   "."},
     {"scrape_tracker",                  torrent_scrape_tracker,                   METH_VARARGS,   "."},
     {NULL}
 };

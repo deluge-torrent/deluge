@@ -64,18 +64,18 @@ am__libtorrent_la_SOURCES_DIST = entry.cpp escape_string.cpp \
 	peer_connection.cpp bt_peer_connection.cpp \
 	web_peer_connection.cpp natpmp.cpp piece_picker.cpp policy.cpp \
 	session.cpp session_impl.cpp sha1.cpp stat.cpp storage.cpp \
-	torrent.cpp torrent_handle.cpp pe_crypto.cpp torrent_info.cpp \
-	tracker_manager.cpp http_connection.cpp \
-	http_tracker_connection.cpp udp_tracker_connection.cpp \
-	alert.cpp identify_client.cpp ip_filter.cpp file.cpp \
-	metadata_transfer.cpp logger.cpp file_pool.cpp ut_pex.cpp \
-	lsd.cpp upnp.cpp instantiate_connection.cpp socks5_stream.cpp \
-	socks4_stream.cpp http_stream.cpp connection_queue.cpp \
-	disk_io_thread.cpp kademlia/closest_nodes.cpp \
-	kademlia/dht_tracker.cpp kademlia/find_data.cpp \
-	kademlia/node.cpp kademlia/node_id.cpp kademlia/refresh.cpp \
-	kademlia/routing_table.cpp kademlia/rpc_manager.cpp \
-	kademlia/traversal_algorithm.cpp
+	mapped_storage.cpp torrent.cpp torrent_handle.cpp \
+	pe_crypto.cpp torrent_info.cpp tracker_manager.cpp \
+	http_connection.cpp http_tracker_connection.cpp \
+	udp_tracker_connection.cpp alert.cpp identify_client.cpp \
+	ip_filter.cpp file.cpp metadata_transfer.cpp logger.cpp \
+	file_pool.cpp ut_pex.cpp lsd.cpp upnp.cpp \
+	instantiate_connection.cpp socks5_stream.cpp socks4_stream.cpp \
+	http_stream.cpp connection_queue.cpp disk_io_thread.cpp \
+	kademlia/closest_nodes.cpp kademlia/dht_tracker.cpp \
+	kademlia/find_data.cpp kademlia/node.cpp kademlia/node_id.cpp \
+	kademlia/refresh.cpp kademlia/routing_table.cpp \
+	kademlia/rpc_manager.cpp kademlia/traversal_algorithm.cpp
 @USE_DHT_TRUE@am__objects_1 = closest_nodes.lo dht_tracker.lo \
 @USE_DHT_TRUE@	find_data.lo node.lo node_id.lo refresh.lo \
 @USE_DHT_TRUE@	routing_table.lo rpc_manager.lo \
@@ -84,8 +84,9 @@ am_libtorrent_la_OBJECTS = entry.lo escape_string.lo assert.lo \
 	enum_net.lo broadcast_socket.lo peer_connection.lo \
 	bt_peer_connection.lo web_peer_connection.lo natpmp.lo \
 	piece_picker.lo policy.lo session.lo session_impl.lo sha1.lo \
-	stat.lo storage.lo torrent.lo torrent_handle.lo pe_crypto.lo \
-	torrent_info.lo tracker_manager.lo http_connection.lo \
+	stat.lo storage.lo mapped_storage.lo torrent.lo \
+	torrent_handle.lo pe_crypto.lo torrent_info.lo \
+	tracker_manager.lo http_connection.lo \
 	http_tracker_connection.lo udp_tracker_connection.lo alert.lo \
 	identify_client.lo ip_filter.lo file.lo metadata_transfer.lo \
 	logger.lo file_pool.lo ut_pex.lo lsd.lo upnp.lo \
@@ -251,7 +252,7 @@ libtorrent_la_SOURCES = entry.cpp escape_string.cpp \
 assert.cpp enum_net.cpp broadcast_socket.cpp \
 peer_connection.cpp bt_peer_connection.cpp web_peer_connection.cpp \
 natpmp.cpp piece_picker.cpp policy.cpp session.cpp session_impl.cpp sha1.cpp \
-stat.cpp storage.cpp torrent.cpp torrent_handle.cpp pe_crypto.cpp \
+stat.cpp storage.cpp mapped_storage.cpp torrent.cpp torrent_handle.cpp pe_crypto.cpp \
 torrent_info.cpp tracker_manager.cpp http_connection.cpp \
 http_tracker_connection.cpp udp_tracker_connection.cpp \
 alert.cpp identify_client.cpp ip_filter.cpp file.cpp metadata_transfer.cpp \
@@ -422,6 +423,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ip_filter.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/logger.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lsd.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mapped_storage.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/metadata_transfer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/natpmp.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/node.Plo@am__quote@
