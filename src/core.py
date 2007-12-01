@@ -544,14 +544,17 @@ class Manager:
                         # We have enough free space, so lets resume this torrent
                         self.resume(unique_ID)
                     else:
+                        self.pause(unique_ID)
+                        self.unique_IDs[unique_ID].user_paused = True
                         nice_need = common.fsize(total_needed)
                         nice_free = common.fsize(avail)
                         import gtk
                         import dialogs
                         gtk.gdk.threads_enter()
                         dialogs.show_popup_warning(None, _("There is not enough \
-free disk space to complete your download.") + "\n" + _("Space Needed:") + " " \
-+ nice_need + "\n" + _("Available Space:") + " " + nice_free)
+free disk space to complete your download.") + "\n" + "This torrents will be \
+paused" + "\n" + _("Space Needed:") + " " + nice_need + "\n" + _("Available \
+Space:") + " " + nice_free)
                         gtk.gdk.threads_leave()
                         print "Not enough free space to resume this torrent!"
                 else: #We're using compact allocation so lets just resume
