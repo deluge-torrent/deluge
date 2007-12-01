@@ -1,4 +1,9 @@
-Deluge 0.5.7 (xx November 2007)
+Deluge 0.5.7.1 (31 November 2007)
+  * Increase tracker timeout
+  * Fixed crash and corruption of persistent.state while adding a duplicate 
+  torrent.  Also caused yet another invalid handle error.
+
+Deluge 0.5.7 (26 November 2007)
   * Scrape support
   * Manual force-recheck
   * Add local peer discovery (aka local service discovery)
