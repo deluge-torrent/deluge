@@ -1,7 +1,9 @@
 Deluge 0.5.7.1 (31 November 2007)
-  * Increase tracker timeout
+  * Tweak full hd warning so that it only displays itself once per torrent that
+  it has to pause.
   * Fixed crash and corruption of persistent.state while adding a duplicate 
   torrent.  Also caused yet another invalid handle error.
+  * Increase tracker timeout
 
 Deluge 0.5.7 (26 November 2007)
   * Scrape support
