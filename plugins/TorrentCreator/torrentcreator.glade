@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.0 on Sun Dec  2 16:02:19 2007 -->
+<!--Generated with glade3 3.4.0 on Sun Dec  2 16:53:46 2007 -->
 <glade-interface>
   <widget class="GtkDialog" id="torrentcreator">
+    <property name="height_request">550</property>
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Torrent Creator</property>
@@ -70,17 +71,28 @@
                                         <property name="n_rows">2</property>
                                         <property name="n_columns">2</property>
                                         <child>
-                                          <widget class="GtkRadioButton" id="folder_radiobutton">
+                                          <widget class="GtkFileChooserButton" id="file_chooserbutton">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="tooltip" translatable="yes">This torrent will be made from a directory</property>
-                                            <property name="label" translatable="yes">Folder:</property>
-                                            <property name="response_id">0</property>
-                                            <property name="active">True</property>
-                                            <property name="draw_indicator">True</property>
                                           </widget>
                                           <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="right_attach">2</property>
+                                            <property name="top_attach">1</property>
+                                            <property name="bottom_attach">2</property>
+                                            <property name="y_options"></property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkFileChooserButton" id="folder_chooserbutton">
+                                            <property name="visible">True</property>
+                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                            <property name="action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="right_attach">2</property>
+                                            <property name="x_options">GTK_FILL</property>
                                             <property name="y_options"></property>
                                           </packing>
                                         </child>
@@ -102,28 +114,17 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkFileChooserButton" id="folder_chooserbutton">
+                                          <widget class="GtkRadioButton" id="folder_radiobutton">
                                             <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
+                                            <property name="tooltip" translatable="yes">This torrent will be made from a directory</property>
+                                            <property name="label" translatable="yes">Folder:</property>
+                                            <property name="response_id">0</property>
+                                            <property name="active">True</property>
+                                            <property name="draw_indicator">True</property>
                                           </widget>
                                           <packing>
-                                            <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"></property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkFileChooserButton" id="file_chooserbutton">
-                                            <property name="visible">True</property>
-                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                            <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
                                             <property name="y_options"></property>
                                           </packing>
                                         </child>
@@ -171,14 +172,22 @@
                                             <property name="n_rows">1</property>
                                             <property name="n_columns">3</property>
                                             <child>
-                                              <widget class="GtkEntry" id="torrentfile_entry">
+                                              <widget class="GtkAlignment" id="alignment8">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
                                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                                <property name="xalign">0</property>
+                                                <property name="right_padding">5</property>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label2">
+                                                    <property name="visible">True</property>
+                                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                                    <property name="xalign">0</property>
+                                                    <property name="label" translatable="yes">Save Torrent File As:</property>
+                                                  </widget>
+                                                </child>
                                               </widget>
                                               <packing>
-                                                <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
+                                                <property name="x_options">GTK_FILL</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -206,22 +215,14 @@
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkAlignment" id="alignment8">
+                                              <widget class="GtkEntry" id="torrentfile_entry">
                                                 <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
                                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                                <property name="xalign">0</property>
-                                                <property name="right_padding">5</property>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label2">
-                                                    <property name="visible">True</property>
-                                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                                    <property name="xalign">0</property>
-                                                    <property name="label" translatable="yes">Save Torrent File As:</property>
-                                                  </widget>
-                                                </child>
                                               </widget>
                                               <packing>
-                                                <property name="x_options">GTK_FILL</property>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
                                               </packing>
                                             </child>
                                           </widget>
@@ -468,15 +469,17 @@
                                           <placeholder/>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label3">
+                                          <widget class="GtkCheckButton" id="chk_set_priv">
                                             <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="tooltip" translatable="yes">The smaller the piece sizes, the more efficient the transfers will be, but the actual ".torrent" file will be larger</property>
-                                            <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">Piece Size:</property>
+                                            <property name="label" translatable="yes">Set Private Flag</property>
+                                            <property name="response_id">0</property>
+                                            <property name="draw_indicator">True</property>
                                           </widget>
                                           <packing>
-                                            <property name="y_options"></property>
+                                            <property name="top_attach">1</property>
+                                            <property name="bottom_attach">2</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -501,17 +504,15 @@
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkCheckButton" id="chk_set_priv">
+                                          <widget class="GtkLabel" id="label3">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="label" translatable="yes">Set Private Flag</property>
-                                            <property name="response_id">0</property>
-                                            <property name="draw_indicator">True</property>
+                                            <property name="tooltip" translatable="yes">The smaller the piece sizes, the more efficient the transfers will be, but the actual ".torrent" file will be larger</property>
+                                            <property name="xalign">0</property>
+                                            <property name="label" translatable="yes">Piece Size:</property>
                                           </widget>
                                           <packing>
-                                            <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
+                                            <property name="y_options"></property>
                                           </packing>
                                         </child>
                                       </widget>
