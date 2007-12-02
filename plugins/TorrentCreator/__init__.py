@@ -133,6 +133,10 @@ class TorrentCreator:
       trackers = self.glade.get_widget("trackers_textview").get_buffer()
       (start, end) = trackers.get_bounds()
       trackers = trackers.get_text(start, end).strip()
+
+      webseeds = self.glade.get_widget("webseeds_textview").get_buffer()
+      (start, end) = webseeds.get_bounds()
+      webseeds = webseeds.get_text(start, end).strip()
       
       comments = self.glade.get_widget("comments_textview").get_buffer()
       (start, end) = comments.get_bounds()
@@ -150,7 +154,7 @@ class TorrentCreator:
 
       # Create the torrent and add it to the queue if necessary
       if self.core.create_torrent(torrent, source, trackers, comments, 
-                                  piece_size, author, set_private) == 1:
+                                  piece_size, author, set_private, webseeds) == 1:
         # Torrent was created successfully
         if add_torrent:
           # We need to add this torrent to the queue

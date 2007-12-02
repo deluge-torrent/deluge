@@ -1547,11 +1547,11 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 
     //path::default_name_check(no_check);
 
-    char *destination, *comment, *creator_str, *input, *trackers;
+    char *destination, *comment, *creator_str, *input, *trackers, *webseeds;
     bool *priv;
     python_long piece_size;
-    if (!PyArg_ParseTuple(args, "ssssisb",
-        &destination, &input, &trackers, &comment, &piece_size, &creator_str, &priv))
+    if (!PyArg_ParseTuple(args, "ssssisbs",
+        &destination, &input, &trackers, &comment, &piece_size, &creator_str, &priv, &webseeds))
         return NULL;
 
     piece_size = piece_size * 1024;
@@ -1579,6 +1579,19 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
                 break;
             next = stdTrackers.find("\n", index);
             if (next == std::string::npos)
+                break;
+        }
+
+        std::string stdWebseeds(webseeds);
+        unsigned long index2 = 0, next2 = stdWebseeds.find("\n");
+        while (1 == 1)
+        {
+            t->add_url_seed(stdWebseeds.substr(index2, next2-index));
+            index2 = next2 + 1;
+            if (next2 >= stdWebseeds.length())
+                break;
+            next2 = stdWebseeds.find("\n", index2);
+            if (next2 == std::string::npos)
                 break;
         }
 
