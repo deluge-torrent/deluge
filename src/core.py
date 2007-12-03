@@ -306,9 +306,13 @@ class Manager:
         deluge_core.quit()
 
         #kill dbus on windows
-        if common.windows_check(): 
+        import platform
+        if platform.system() == "Windows":
             import os
             os.popen4('tskill.exe dbus-daemon-deluge')
+        elif platform.system() == "Microsoft":
+            import os
+            os.popen4('taskkill.exe /IM dbus-daemon-deluge.exe')
 
     def pickle_state(self):
         # Pickle the state so if we experience a crash, the latest state is 
