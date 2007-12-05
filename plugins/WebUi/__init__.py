@@ -260,11 +260,14 @@ class ConfigDialog(gtk.Dialog):
                 show_popup_warning(self,_("Confirmed Password <> New Password\n"
                     + "Password was not changed"))
             else:
-                salt = str(random.getrandbits(500))
+                sm = md5()
+                sm.update(random.getrandbits(5000))
+                salt = sm.digest()
+                self.config.set("pwd_salt", salt)
+                #
                 m = md5()
                 m.update(salt)
                 m.update(unicode(self.pwd1.get_text()))
-                self.config.set("pwd_salt", salt)
                 self.config.set("pwd_md5", m.digest())
 
         self.config.set("port", int(self.port.get_value()))

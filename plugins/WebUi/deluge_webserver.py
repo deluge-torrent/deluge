@@ -58,7 +58,7 @@ urls = (
     "/resume_all", "resume_all",
     "/refresh/set", "refresh_set",
     "/refresh/(.*)", "refresh",
-    "/config", "config",
+    "/config", "config_",
     "/home", "home",
     "/about", "about",
     "/logout", "logout",
@@ -99,7 +99,6 @@ class index:
     @auto_refreshed
     def GET(self, name):
         vars = web.input(sort=None, order=None ,filter=None , category=None)
-
         torrent_list = [get_torrent_status(torrent_id)
             for torrent_id in ws.proxy.get_session_state()]
         all_torrents = torrent_list[:]
@@ -162,8 +161,6 @@ class torrent_stop:
         ws.proxy.pause_torrent(torrent_ids)
         do_redirect()
 
-
-
 class torrent_reannounce:
     @check_session
     def POST(self, torrent_id):
@@ -184,11 +181,10 @@ class torrent_add:
         *posting of data as string(for greasemonkey-private)
         """
 
-        vars = web.input(url = None, torrent = {},
-                                    torrent_name=None, torrent_data = None)
+        vars = web.input(url = None, torrent = {})
 
-        torrent_name = vars.torrent_name
-        torrent_data  = vars.torrent_data
+        torrent_name = None
+        torrent_data  = None
         if vars.torrent.filename:
             torrent_name = vars.torrent.filename
             torrent_data  = vars.torrent.file.read()
@@ -209,17 +205,25 @@ class torrent_add:
 class remote_torrent_add:
     """
     For use in remote scripts etc.
-    POST pwd and torrent
+    curl ->POST pwd and torrent as file
+    greasemonkey: POST pwd torrent_name and data_b64
     """
     @remote
     def POST(self, name):
-        vars = web.input(pwd = None, torrent = {})
+        vars = web.input(pwd = None, torrent = {},
+            data_b64 = None , torrent_name= None)
 
         if not check_pwd(vars.pwd):
             return 'error:wrong password'
 
-        data_b64 = base64.b64encode(vars.torrent.file.read())
-        ws.proxy.add_torrent_filecontent(vars.torrent.filename, data_b64)
+        if vars.data_b64: #b64 post (greasemonkey)
+            data_b64 = unicode(vars.data_b64)
+            torrent_name = vars.torrent_name
+        else:  #file-post (curl)
+            data_b64 = base64.b64encode(vars.torrent.file.read())
+            torrent_name = vars.torrent.filename
+
+        ws.proxy.add_torrent_filecontent(torrent_name, data_b64)
         return 'ok'
 
 class torrent_delete:
@@ -299,10 +303,12 @@ class refresh_set:
         else:
             error_page(_('refresh must be > 0'))
 
-class config:
+class config_: #namespace clash?
     """core config
     TODO:good validation.
     """
+    """
+    SOMEHOW ONLY BREAKS 0.6 ??
     cfg_form = web.form.Form(
         web.form.Dropdown('max_download', ws.SPEED_VALUES,
             description=_('Download Speed Limit'),
@@ -323,6 +329,7 @@ class config:
 
         #self.config.set("max_download_speed", float(str_bwdown))
         raise NotImplementedError('todo')
+    """
 
 class home:
     @check_session
@@ -356,8 +363,10 @@ class downloads(static_handler):
         return static_handler.GET(self, name)
 #/pages
 
+
 def WebServer():
     return create_webserver(urls, globals())
+
 
 def run():
     server = WebServer()

@@ -59,7 +59,7 @@ from md5 import md5
 from urlparse import urlparse
 
 from deluge import common
-from webserver_common import  REVNO, VERSION
+from webserver_common import  REVNO, VERSION, log
 import webserver_common as ws
 from debugerror import deluge_debugerror
 
@@ -74,6 +74,7 @@ def setcookie(key, val):
 
 #really simple sessions, to bad i had to implement them myself.
 def start_session():
+    log.debug('start session')
     session_id = str(random.random())
     ws.SESSIONS.append(session_id)
     #if len(ws.SESSIONS) > 20:  #save max 20 sessions?
@@ -134,6 +135,7 @@ def deluge_page_noauth(func):
             web.header("Cache-Control", "no-cache, must-revalidate")
             res = func(self, name)
             print res
+    deco.__name__ = func.__name__
     return deco
 
 def check_session(func):
@@ -142,6 +144,7 @@ def check_session(func):
     return func if session is valid, else redirect to login page.
     """
     def deco(self, name = None):
+        log.debug('%s.%s(name=%s)'  % (self.__class__.__name__,func.__name__,name))
         vars = web.input(redir_after_login = None)
         ck = cookies()
         if ck.has_key("session_id") and ck["session_id"] in ws.SESSIONS:
@@ -163,6 +166,7 @@ def auto_refreshed(func):
             web.header("Refresh", "%i ; url=%s" %
                 (int(getcookie('auto_refresh_secs',10)),self_url()))
         return func(self, name)
+    deco.__name__ = func.__name__
     return deco
 
 def remote(func):
@@ -174,6 +178,7 @@ def remote(func):
             print 'error:' + e.message
             print '-'*20
             print  traceback.format_exc()
+    deco.__name__ = func.__name__
     return deco
 
 #utils:
@@ -387,4 +392,4 @@ __all__ = ['deluge_page_noauth', 'deluge_page', 'remote',
     'do_redirect', 'error_page','start_session','getcookie'
     ,'setcookie','create_webserver','end_session',
     'get_torrent_status', 'check_pwd','static_handler','get_categories'
-    ,'template','filter_torrent_state']
+    ,'template','filter_torrent_state','log']

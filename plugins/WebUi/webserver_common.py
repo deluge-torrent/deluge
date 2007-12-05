@@ -40,17 +40,30 @@ import deluge
 import random
 import pickle
 import sys
+import base64
 from webpy022 import template
+
 random.seed()
 webui_path = os.path.dirname(__file__)
-
 ENV = 'UNKNOWN'
+config_defaults = {
+    "port":8112,
+    "button_style":2,
+    "auto_refresh":False,
+    "auto_refresh_secs": 10,
+    "template":"advanced",
+    "pwd_salt":"2540626806573060601127357001536142078273646936492343724296134859793541603059837926595027859394922651189016967573954758097008242073480355104215558310954",
+    "pwd_md5":"\xea\x8d\x90\x98^\x9f\xa9\xe2\x19l\x7f\x1a\xca\x82u%",
+    "cache_templates":False,
+    "use_https":False
+}
 
 try:
     _('translate something')
 except:
     import gettext
-    gettext.install('~/') #no translations :(
+    gettext.install('~/')
+    #log.error('no translations :(')
 
 try:
     config_dir = deluge.common.CONFIG_DIR
@@ -88,11 +101,43 @@ def init_process():
 
 def init_06():
     import deluge.ui.client as proxy
+    from deluge.log import LOG as log
+    globals()['log']    = log
+
     proxy.set_core_uri('http://localhost:58846') #How to configure this?
+
+    def add_torrent_filecontent(name , data_b64):
+        log.debug('monkeypatched add_torrent_filecontent:%s,len(data:%s))' %
+            (name , len(data_b64)))
+
+        name =  name.replace('\\','/')
+        name = 'deluge06_' + str(random.random()) + '_'  + name.split('/')[-1]
+        filename = os.path.join('/tmp', name)
+
+        log.debug('write: %s' % filename)
+        f = open(filename,"wb")
+        f.write(base64.b64decode(data_b64))
+        f.close()
+
+        proxy.add_torrent_file([filename])
+
+
+
+
+    proxy.add_torrent_filecontent = add_torrent_filecontent
+    log.debug('cfg-file %s' % config_file)
+    if not os.path.exists(config_file):
+        log.debug('create cfg file %s' % config_file)
+        #load&save defaults.
+        f = file(config_file,'wb')
+        pickle.dump(config_defaults,f)
+        f.close()
 
     init_process()
     globals()['proxy'] = proxy
     globals()['ENV']    = '0.6'
+
+
 
 def init_05():
     import dbus
@@ -100,8 +145,10 @@ def init_05():
     bus = dbus.SessionBus()
     proxy = bus.get_object("org.deluge_torrent.dbusplugin"
         , "/org/deluge_torrent/DelugeDbusPlugin")
+
     globals()['proxy'] = proxy
     globals()['ENV']    = '0.5_process'
+    init_logger()
 
 def init_gtk_05():
     #appy possibly changed config-vars, only called in when runing inside gtk.
@@ -111,7 +158,13 @@ def init_gtk_05():
     globals()['render'] = subclassed_render(config.get('template'),
         config.get('cache_templates'))
     globals()['ENV']    = '0.5_gtk'
+    init_logger()
 
+def init_logger():
+    #only for 0.5..
+    import logging
+    logging.basicConfig(level=logging.DEBUG,format="[%(levelname)-8s] %(module)s:%(lineno)d %(message)s")
+    globals()['log'] = logging
 
 
 #hacks to determine environment, TODO: clean up.

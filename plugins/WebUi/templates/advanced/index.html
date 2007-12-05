@@ -46,18 +46,6 @@ $:render.header(_('Torrent list'))
 </div>
 
 
-<!--
-$if getcookie('auto_refresh') == '1':
-    <a href='#' onclick=' toolbar_post("/refresh/off/")'>[Auto Refresh:disable]</a>
-    <a href='#' onclick=' toolbar_get("/refresh/set/")'>[Auto Refresh:set]</a>
-$else:
-    <a href='#' onclick=' toolbar_post("/refresh/on/")'>[Auto Refresh:enable]</a>
-$#end
--->
-
-
-
-
 <div id="tableContainer" class="tableContainer">
 <table class="torrent_list" border=1 id="torrent_list">
 <thead class="fixedHeader">
@@ -67,7 +55,8 @@ $#end
         $:(sort_head('name', _('Name')))
         $:(sort_head('total_size', _('Size')))
         $:(sort_head('progress', _('Progress')))
-        $:(sort_head('category', _('Tracker')))
+        $if (not get('category')):
+            $:(sort_head('category', _('Tracker')))
         $:(sort_head('num_seeds', _('Seeders')))
         $:(sort_head('num_peers', _('Peers')))
         $:(sort_head('download_rate', _('Download')))
@@ -100,7 +89,8 @@ $for torrent in torrent_list:
             </div>
         </div>
     </td>
-    <td>$torrent.category</td>
+    $if (not get('category')):
+        <td>$torrent.category</td>
     <td>$torrent.num_seeds ($torrent.total_seeds)</td>
     <td>$torrent.num_peers ($torrent.total_peers)</td>
     <td>
