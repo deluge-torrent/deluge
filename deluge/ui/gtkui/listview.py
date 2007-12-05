@@ -273,7 +273,6 @@ class ListView:
         
         # Create a new column object and add it to the list
         self.columns[header] = self.ListViewColumn(header, column_indices)
-        
            
         self.columns[header].status_field = status_field
         
@@ -285,6 +284,10 @@ class ListView:
             column.pack_start(render)
             column.add_attribute(render, "text",
                     self.columns[header].column_indices[text])
+        elif column_type == "bool":
+            column.pack_start(render)
+            column.add_attribute(render, "active",
+                    self.columns[header].column_indices[0])
         elif column_type == "func":
             column.pack_start(render, True)
             if len(self.columns[header].column_indices) > 1:
@@ -345,7 +348,18 @@ class ListView:
                     status_field, sortid, column_type=column_type)
        
         return True
-        
+    
+    def add_bool_column(self, header, col_type=bool, hidden=False,
+                                            position=None,
+                                            status_field=None,
+                                            sortid=0,
+                                            column_type="bool"):
+                                            
+        """Add a bool column to the listview"""
+        render = gtk.CellRendererToggle()
+        self.add_column(header, render, col_type, hidden, position,
+                    status_field, sortid, column_type=column_type)
+                        
     def add_func_column(self, header, function, col_types, sortid=0, 
                                 hidden=False, position=None, status_field=None,
                                 column_type="func"):

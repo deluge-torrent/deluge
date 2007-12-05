@@ -73,6 +73,13 @@ class SideBar(component.Component):
         
         self.label_view.set_model(self.liststore)
         
+        self.label_view.get_selection().connect("changed", 
+                                    self.on_selection_changed)
+        
+        # Select the 'All' label on init
+        self.label_view.get_selection().select_iter(
+            self.liststore.get_iter_first())
+        
     def visible(self, visible):
         if visible:
             self.scrolled.show()
@@ -81,4 +88,27 @@ class SideBar(component.Component):
             self.hpaned.set_position(-1)
         
         self.is_visible = visible
-            
+
+    def on_selection_changed(self, selection):
+        try:
+            (model, row) = self.label_view.get_selection().get_selected()
+        except Exception, e:
+            log.debug(e)
+            # paths is likely None .. so lets return None
+            return None
+        
+        value = model.get_value(row, 0)
+        if value == "All":
+            component.get("TorrentView").set_filter(None, None)
+        if value == "Downloading":
+            component.get("TorrentView").set_filter("state", 
+                deluge.common.TORRENT_STATE.index("Downloading"))
+           
+        if value == "Seeding":
+            component.get("TorrentView").set_filter("state", 
+                deluge.common.TORRENT_STATE.index("Seeding"))
+
+        if value == "Paused":
+            component.get("TorrentView").set_filter("state", 
+                deluge.common.TORRENT_STATE.index("Paused"))
+        

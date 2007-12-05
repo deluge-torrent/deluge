@@ -124,6 +124,7 @@ class TorrentView(listview.ListView, component.Component):
         
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
+        self.add_bool_column("filter", hidden=True)
         self.add_texticon_column(_("Name"), status_field=["state", "name"], 
                                             function=cell_data_statusicon)
         self.add_func_column(_("Size"), 
@@ -164,7 +165,16 @@ class TorrentView(listview.ListView, component.Component):
                                             listview.cell_data_ratio,
                                             [float],
                                             status_field=["distributed_copies"])
-                        
+        
+        # Set filter to None for now
+        self.filter = (None, None)
+        
+        # Set the liststore filter column
+        self.model_filter = self.liststore.filter_new()
+        self.model_filter.set_visible_column(
+            self.columns["filter"].column_indices[0])
+        self.treeview.set_model(self.model_filter)
+        
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
         # torrent menu popup.
@@ -187,21 +197,49 @@ class TorrentView(listview.ListView, component.Component):
         """Stops the torrentview"""
         # We need to clear the liststore
         self.liststore.clear()
-            
+    
+    def set_filter(self, field, condition):
+        """Sets filters for the torrentview.."""
+        self.filter = (field, condition)
+        self.update()
+                
     def update(self, columns=None):
         """Update the view.  If columns is not None, it will attempt to only
         update those columns selected.
         """
-        # Iterates through every row and updates them accordingly
-        if self.liststore is not None:
+        def foreachrow(model, path, row, data):
+            filter_column = self.columns["filter"].column_indices[0]
+            # Create a function to create a new liststore with only the
+            # desired rows based on the filter.
+            field, condition = data
+            if field == None and condition == None:
+                model.set_value(row, filter_column, True)
+                return
+                
+            torrent_id = model.get_value(row, 0)
+            value = client.get_torrent_status(torrent_id, [field])[field]
+            # Condition is True, so lets show this row, if not we hide it
+            if value == condition:
+                model.set_value(row, filter_column, True)
+            else:
+                model.set_value(row, filter_column, False)
+                
+        self.liststore.foreach(foreachrow, self.filter)
+        if self.liststore != None:
             self.liststore.foreach(self.update_row, columns)
             
     def update_row(self, model=None, path=None, row=None, columns=None):
         """Updates the column values for 'row'.  If columns is None it will
         update all visible columns."""
-    
+        
+        # Check to see if this row is visible and return if not
+        if not model.get_value(row, self.columns["filter"].column_indices[0]):
+            return
+        
+        # Get the torrent_id from the liststore
         torrent_id = model.get_value(row, 
                                 self.columns["torrent_id"].column_indices[0])
+                                
         # Store the 'status_fields' we need to send to core
         status_keys = []
         # Store the actual columns we will be updating
