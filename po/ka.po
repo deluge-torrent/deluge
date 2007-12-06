@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-18 23:12+0000\n"
+"PO-Revision-Date: 2007-12-02 02:09+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Georgian <ka@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
+"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -392,7 +392,7 @@ msgstr "ჩართე ჩამოტვირთვამდე ფაილ�
 
 #: glade/preferences_dialog.glade:310
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "აჩვენე მაშინ მხოლოდ, როცა ტორენტს აქვს ერთზე მეტი ფაილი"
 
 #: glade/preferences_dialog.glade:325 glade/preferences_dialog.glade:326
 msgid "Prioritize first and last pieces of files in torrent"
@@ -645,10 +645,12 @@ msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"შეერთების მცდელობების რაოდენობა ერთ წამში. მაღალმა მნიშვნელობამ შეიძლება "
+"გაჭედოს იაფ ფასიანი როუტერები. დააყენეთ -1 ლიმიტის მოსახსნელად."
 
 #: glade/preferences_dialog.glade:1361
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "შეერთების მცდელობების რაოდენობა ერთ წამში:"
 
 #: glade/preferences_dialog.glade:1392
 msgid "<b>Global Bandwidth Usage</b>"
@@ -879,7 +881,7 @@ msgstr "ტორენტის ამოღება"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "_მეთვალყურის პარამეტრები"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
@@ -891,7 +893,7 @@ msgstr "მეთვალყურეთა რედაქტირება"
 
 #: glade/torrent_menu.glade:138
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "მეთვალყურის გაკაწრვა"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"
@@ -959,7 +961,7 @@ msgstr "ტორენტის დისტრიბუცია მოხდ�
 
 #: glade/files_dialog.glade:43
 msgid "Set the private flag"
-msgstr ""
+msgstr "პირადად მონიშვნის დაყენება"
 
 #: glade/wizard.glade:10
 msgid "First Launch Configuration"
@@ -1153,7 +1155,7 @@ msgstr "რატიო"
 #: src/interface.py:946
 #, python-format
 msgid "Paused %s"
-msgstr ""
+msgstr "პაუზა %s"
 
 #: src/interface.py:1192 plugins/WebUi/scripts/template_strings.py:10
 msgid "Connections"
@@ -1217,11 +1219,11 @@ msgstr "შეიყვანეთ  ჩამოსატვირთი .torre
 
 #: src/interface.py:1467
 msgid "Warning - all downloaded files for this torrent will be deleted!"
-msgstr ""
+msgstr "გაფრთხილება - წაიშლება ყველა ჩამოტვირთული ფაილი ამ ტორენტისათვის."
 
 #: src/interface.py:1483
 msgid "Are you sure that you want to remove all seeding torrents?"
-msgstr ""
+msgstr "ნამდვილად გსურთ ყველა თესვადი ტორენტის ამოღება?"
 
 #: src/core.py:87 plugins/WebUi/webserver_common.py:133
 msgid "Queued"
@@ -1323,6 +1325,7 @@ msgid "Enabled"
 msgstr "ჩართულია"
 
 #: src/dialogs.py:461
+#, fuzzy
 msgid ""
 "Deluge is free software, you can redistribute it and/or\n"
 "modify it under the terms of the GNU General Public\n"
@@ -1338,6 +1341,19 @@ msgid ""
 " Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-\n"
 "1301 USA"
 msgstr ""
+"Deluge is free software, you can redistribute it and/or\n"
+"modify it under the terms of the GNU General Public\n"
+" License as published by the Free Software Foundation,\n"
+"either version 2 of the License, or (at your option) any\n"
+"later version.  Deluge is distributed in the hope that it\n"
+"will be useful, but WITHOUT ANY WARRANTY, without even \n"
+"the implied warranty of MERCHANTABILITY or FITNESS\n"
+"FOR A PARTICULAR PURPOSE.  See the GNU General\n"
+"Public License for more details.  You should have received\n"
+"a copy of the GNU General Public License along with\n"
+"Deluge, but if not, write to the Free Software Foundation,\n"
+" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-\n"
+"1301 USA"
 
 #: src/dialogs.py:502
 msgid "Choose a .torrent file"
@@ -1477,6 +1493,8 @@ msgid ""
 "We were expecting a gzip file, but didn't get that, or possibly the file is "
 "corrupt.  Please edit your Blocklist preferences"
 msgstr ""
+"მოსალოდნელი იყო gzip ფაილი, მაგრამ ვერ მივიღეთ ან ფაილი დაზიანდა. შეასწორეთ "
+"ბლოკირების სიის პარამეტრები"
 
 #: plugins/BlocklistImport/peerguardian.py:32
 msgid "Invalid leader"
@@ -1496,7 +1514,7 @@ msgstr "მიუთითეთ სასურველი რეიტინ�
 
 #: plugins/DesiredRatio/__init__.py:75
 msgid "_Desired Ratio"
-msgstr ""
+msgstr "განსაზღვრული შეფარდება"
 
 #: plugins/DesiredRatio/__init__.py:79
 msgid "_Not Set"
@@ -1563,7 +1581,7 @@ msgstr "ჩატვირთე ეს ტორენტი დელუჯშ
 
 #: plugins/TorrentCreator/torrentcreator.glade:236
 msgid "Add new torrent to queue"
-msgstr ""
+msgstr "ახალიტ რტორენტის რიგში ჩამატება"
 
 #: plugins/TorrentCreator/torrentcreator.glade:255
 msgid "<b>Torrent File</b>"
@@ -1582,8 +1600,9 @@ msgid "<b>Author</b>"
 msgstr "<b>ავტორი</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:423
+#, fuzzy
 msgid "Set Private Flag"
-msgstr ""
+msgstr "პრივატულად მონიშვნა"
 
 #: plugins/TorrentCreator/torrentcreator.glade:436
 #: plugins/TorrentCreator/torrentcreator.glade:457
@@ -1691,12 +1710,14 @@ msgstr ""
 "ავტორი: Kripkenstein"
 
 #: plugins/NetworkHealth/plugin.py:53
+#, fuzzy
 msgid "[Health: OK]"
-msgstr ""
+msgstr "[Health: OK]"
 
 #: plugins/EventLogging/event_logging_preferences.glade:7
+#, fuzzy
 msgid "Event Logging Preferences"
-msgstr ""
+msgstr "ივენთების ჟურნალის პარამეტრები"
 
 #: plugins/EventLogging/event_logging_preferences.glade:28
 msgid "Enable log files"
@@ -1734,12 +1755,12 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:136
 #: plugins/EventLogging/tab_log.py:161
 msgid "Tracker warning"
-msgstr ""
+msgstr "მეთვალყურის გაფრთხილება"
 
 #: plugins/EventLogging/event_logging_preferences.glade:150
 #: plugins/EventLogging/tab_log.py:150
 msgid "Tracker alert"
-msgstr ""
+msgstr "მეთვალყურის შეტყობინება"
 
 #: plugins/EventLogging/event_logging_preferences.glade:164
 #: plugins/EventLogging/tab_log.py:141
@@ -1862,7 +1883,7 @@ msgstr "სტატუსის კოდი: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "Times in a row: "
-msgstr ""
+msgstr "რამდენჯერ სტრიქონში: "
 
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
 msgid "block index: "
@@ -1874,7 +1895,7 @@ msgstr "პირის სიჩქარე: "
 
 #: plugins/SpeedLimiter/__init__.py:20
 msgid "Set the desired speed limit per torrent."
-msgstr ""
+msgstr "დააყენეთ განსაზღვრული სიჩქარის ლიმიტი ყოველ ტორენტზე"
 
 #: plugins/SpeedLimiter/__init__.py:80
 msgid "Torrent _Download Speed"
@@ -1886,19 +1907,19 @@ msgstr "ტორენტის ატვირთვის სიჩქარ�
 
 #: plugins/SpeedLimiter/__init__.py:144
 msgid "Torrent Upload Speed (KiB/s):"
-msgstr ""
+msgstr "ტორენტის ატვირთვის სიჩქარე (KiB/s):"
 
 #: plugins/SpeedLimiter/__init__.py:176
 msgid "Torrent Download Speed (KiB/s):"
-msgstr ""
+msgstr "ტორენტის ჩამოტვირთვის სიჩქარე (KiB/s):"
 
 #: plugins/TorrentSearch/__init__.py:36
 msgid "A searchbar for torrent search engines"
-msgstr ""
+msgstr "საძიებო პანელი ტორენტების საძიებო ძრავებისათვის"
 
 #: plugins/TorrentSearch/plugin.py:52
 msgid "Search String"
-msgstr ""
+msgstr "საძიებელი ფრაზა"
 
 #: plugins/TorrentSearch/plugin.py:74 plugins/TorrentSearch/plugin.py:164
 msgid "Choose an Engine"
@@ -2019,7 +2040,7 @@ msgstr "მუშაობის დრო"
 
 #: plugins/ExtraStats/stats_preferences.glade:7
 msgid "Extra Stats Preferences"
-msgstr ""
+msgstr "ექსტრა სტატისტიკის პარამეტრები"
 
 #: plugins/MoveTorrent/__init__.py:22
 msgid ""
@@ -2032,11 +2053,11 @@ msgstr ""
 
 #: plugins/MoveTorrent/__init__.py:76
 msgid "_Move Torrent"
-msgstr ""
+msgstr "ტორენტის გადატანა"
 
 #: plugins/MoveTorrent/__init__.py:95
 msgid "Choose a directory to move files to"
-msgstr ""
+msgstr "შეარჩიეთ დირექტორია ფაილების გადასატანად"
 
 #: plugins/MoveTorrent/__init__.py:124
 msgid ""
@@ -2052,7 +2073,7 @@ msgstr ""
 
 #: plugins/MoveTorrent/movetorrent.glade:59 plugins/WebSeed/webseed.glade:65
 msgid "gtk-cancel"
-msgstr ""
+msgstr "gtk-გაუქმება"
 
 #: plugins/MoveTorrent/movetorrent.glade:71 plugins/WebSeed/webseed.glade:73
 msgid "gtk-ok"
@@ -2072,7 +2093,7 @@ msgstr ""
 
 #: plugins/Scheduler/plugin.py:104
 msgid "Scheduler Settings"
-msgstr ""
+msgstr "ორგანიზატორის პარამეტრები"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "High download limit:"
@@ -2252,7 +2273,7 @@ msgstr "ნაჭრები"
 
 #: plugins/WebUi/scripts/template_strings.py:34
 msgid "Queue Down"
-msgstr ""
+msgstr "რიგში უკან დაწევა"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Queue Up"
@@ -2260,25 +2281,25 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:36
 msgid "Queue pos:"
-msgstr ""
+msgstr "პოზიცია რიგში:"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Reannounce"
-msgstr ""
+msgstr "ხელახალი ანონსი"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Refresh page every:"
-msgstr ""
+msgstr "გვერდის განახლება ყოველ:"
 
 #: plugins/WebUi/scripts/template_strings.py:41
 #, python-format
 msgid "Remove %s "
-msgstr ""
+msgstr "ამოაგდე %s "
 
 #: plugins/WebUi/scripts/template_strings.py:42
 #, python-format
 msgid "Remove %s?"
-msgstr ""
+msgstr "ამოვაგდო %s?"
 
 #: plugins/WebUi/scripts/template_strings.py:43
 msgid "Resume all"
@@ -2338,11 +2359,12 @@ msgstr "FlexRSS"
 
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
-msgstr ""
+msgstr "ლენტა ავტომატურად განახლდება, მითითებული ინტერვალის მიხედვით"
 
 #: plugins/FlexRSS/FlexRSS.glade:115
+#, fuzzy
 msgid "Feed must be refreshed manually."
-msgstr ""
+msgstr "ლენტის განახლება უნდა მოხდეს ხელოვნურად"
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
@@ -2424,7 +2446,7 @@ msgstr "<b>ტესტი</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
-msgstr ""
+msgstr "ტორენტის პირველ რიგში დამატება"
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
@@ -2482,7 +2504,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1283
 msgid "Show button on toolbar."
-msgstr ""
+msgstr "აჩვენე ღილაკი პანელზე"
 
 #: plugins/FlexRSS/FlexRSS.glade:1300
 msgid "<b>Interface</b>"

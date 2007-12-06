@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-08 15:28+0000\n"
+"PO-Revision-Date: 2007-12-02 18:10+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
+"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -367,7 +367,7 @@ msgstr "Vælg en mappe"
 
 #: glade/preferences_dialog.glade:131
 msgid "Store all torrent files in:"
-msgstr ""
+msgstr "Gem alle torrentfiler i"
 
 #: glade/preferences_dialog.glade:146
 msgid "<b>Download Location</b>"

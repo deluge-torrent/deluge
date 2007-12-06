@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-10-18 01:27+0000\n"
+"PO-Revision-Date: 2007-11-29 10:16+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
+"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -23,7 +23,7 @@ msgstr "토런트 더하기"
 
 #: glade/delugegtk.glade:30
 msgid "Add"
-msgstr ""
+msgstr "더하기"
 
 #: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
@@ -35,15 +35,15 @@ msgstr "삭제"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
-msgstr ""
+msgstr "뿌리고 있는 토런트 비우기"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
-msgstr ""
+msgstr "비우기"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
-msgstr ""
+msgstr "토런트 시작 또는 재시작"
 
 #: glade/delugegtk.glade:80
 msgid "Resume"
@@ -51,11 +51,11 @@ msgstr "재시작"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
-msgstr ""
+msgstr "토런트 잠시 멈춤"
 
 #: glade/delugegtk.glade:94
 msgid "Pause"
-msgstr ""
+msgstr "잠시 멈춤"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
@@ -79,12 +79,12 @@ msgstr ""
 
 #: glade/delugegtk.glade:143
 msgid "Preferences"
-msgstr ""
+msgstr "기본 설정"
 
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
 #: glade/preferences_dialog.glade:2965
 msgid "Plugins"
-msgstr ""
+msgstr "플러그인"
 
 #: glade/delugegtk.glade:177
 msgid "_File"
@@ -92,15 +92,15 @@ msgstr "파일(_F)"
 
 #: glade/delugegtk.glade:184 glade/tray_menu.glade:61
 msgid "_Add Torrent"
-msgstr ""
+msgstr "토런트 더하기(_A)"
 
 #: glade/delugegtk.glade:199
 msgid "Add _URL"
-msgstr ""
+msgstr "_URL 더하기"
 
 #: glade/delugegtk.glade:207
 msgid "_Clear Completed"
-msgstr ""
+msgstr "완료된 것 빼기(_C)"
 
 #: glade/delugegtk.glade:240
 msgid "_Edit"
@@ -116,11 +116,11 @@ msgstr ""
 
 #: glade/delugegtk.glade:293
 msgid "_Torrent"
-msgstr ""
+msgstr "토런트(_T)"
 
 #: glade/delugegtk.glade:300
 msgid "_View"
-msgstr ""
+msgstr "보기(_V)"
 
 #: glade/delugegtk.glade:308
 msgid "_Toolbar"
@@ -128,11 +128,11 @@ msgstr ""
 
 #: glade/delugegtk.glade:317
 msgid "_Details"
-msgstr ""
+msgstr "자세히 보기(_D)"
 
 #: glade/delugegtk.glade:326
 msgid "_Columns"
-msgstr ""
+msgstr "열(_C)"
 
 #: glade/delugegtk.glade:334 src/interface.py:623 src/files.py:80
 #: plugins/WebUi/scripts/template_strings.py:48
@@ -142,7 +142,7 @@ msgstr "크기"
 #: glade/delugegtk.glade:343 src/interface.py:627
 #: plugins/FlexRSS/FlexRSS.glade:138
 msgid "Status"
-msgstr ""
+msgstr "상태"
 
 #: glade/delugegtk.glade:352 src/interface.py:629
 #: plugins/WebUi/scripts/template_strings.py:44
@@ -159,25 +159,25 @@ msgstr "또래목록"
 #: src/interface.py:1223 plugins/TorrentPeers/tab_peers.py:89
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Down Speed"
-msgstr ""
+msgstr "내려받기 속도"
 
 #: glade/delugegtk.glade:379 src/interface.py:638 src/interface.py:1193
 #: src/interface.py:1224 plugins/TorrentPeers/tab_peers.py:91
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Up Speed"
-msgstr ""
+msgstr "올리기 속도"
 
 #: glade/delugegtk.glade:388
 msgid "Time Remaining"
-msgstr ""
+msgstr "남은 시간"
 
 #: glade/delugegtk.glade:397 plugins/WebUi/scripts/template_strings.py:8
 msgid "Availability"
-msgstr ""
+msgstr "가용성"
 
 #: glade/delugegtk.glade:406 plugins/WebUi/scripts/template_strings.py:47
 msgid "Share Ratio"
-msgstr ""
+msgstr "공유비"
 
 #: glade/delugegtk.glade:423
 msgid "_Help"
@@ -185,19 +185,19 @@ msgstr "도움말(_H)"
 
 #: glade/delugegtk.glade:431
 msgid "Help translate this application"
-msgstr ""
+msgstr "이 프로그램 번역 돕기"
 
 #: glade/delugegtk.glade:432
 msgid "_Translate This Application..."
-msgstr ""
+msgstr "이 프로그램 번역하기(_T)"
 
 #: glade/delugegtk.glade:455
 msgid "Runs the first-time configuration wizard"
-msgstr ""
+msgstr "최초 설정 마법사 실행"
 
 #: glade/delugegtk.glade:456
 msgid "_Run Configuration Wizard"
-msgstr ""
+msgstr "설정 마법사 실행(_R)"
 
 #: glade/delugegtk.glade:593
 msgid "<b>Name:</b>"
@@ -279,7 +279,7 @@ msgstr "자세히 보기"
 msgid ""
 "<span size=\"large\"><b>Are you sure you want to remove the selected "
 "torrent(s) from Deluge?</b></span>"
-msgstr ""
+msgstr "<span size=\"large\"><b>선택한 토런트를 Deluge에서 제거할까요?</b></span>"
 
 #: glade/dgtkpopups.glade:65
 msgid "Delete downloaded files"
@@ -287,15 +287,15 @@ msgstr "내려받은 파일들 지우기"
 
 #: glade/dgtkpopups.glade:88 plugins/WebUi/scripts/template_strings.py:12
 msgid "Delete .torrent file"
-msgstr ""
+msgstr ".torrent 파일 지우기"
 
 #: glade/dgtkpopups.glade:155
 msgid "Show/Hide"
-msgstr ""
+msgstr "보이기/숨기기"
 
 #: glade/dgtkpopups.glade:163
 msgid "Add a Torrent..."
-msgstr ""
+msgstr "토런트 더하기..."
 
 #: glade/dgtkpopups.glade:179
 msgid "Clear Finished"
@@ -303,15 +303,15 @@ msgstr "완료된 것 비우기"
 
 #: glade/file_tab_menu.glade:11
 msgid "_Open File"
-msgstr ""
+msgstr "파일 열기(_O)"
 
 #: glade/file_tab_menu.glade:33
 msgid "Select All"
-msgstr ""
+msgstr "모두 선택"
 
 #: glade/file_tab_menu.glade:48
 msgid "Unselect All"
-msgstr ""
+msgstr "모두 선택 해제"
 
 #: glade/file_tab_menu.glade:68 src/core.py:102
 msgid "Don't download"
@@ -319,15 +319,15 @@ msgstr ""
 
 #: glade/file_tab_menu.glade:83 src/core.py:103
 msgid "Normal"
-msgstr ""
+msgstr "보통"
 
 #: glade/file_tab_menu.glade:98 src/core.py:104
 msgid "High"
-msgstr ""
+msgstr "높음"
 
 #: glade/file_tab_menu.glade:113 src/core.py:105
 msgid "Highest"
-msgstr ""
+msgstr "가장 높음"
 
 #: glade/merge_dialog.glade:7
 msgid "Deluge Merge Tracker Lists"
@@ -345,43 +345,43 @@ msgstr "Deluge 기본 설정"
 
 #: glade/preferences_dialog.glade:58
 msgid "Ask where to save each download"
-msgstr ""
+msgstr "각 내려받기 저장소 물어보기"
 
 #: glade/preferences_dialog.glade:75 glade/preferences_dialog.glade:76
 msgid "Store all downloads in:"
-msgstr ""
+msgstr "모든 내려받기를 여기에 저장:"
 
 #: glade/preferences_dialog.glade:90 glade/preferences_dialog.glade:118
 #: glade/preferences_dialog.glade:186 glade/wizard.glade:187
 #: plugins/MoveTorrent/movetorrent.glade:35
 msgid "Select A Folder"
-msgstr ""
+msgstr "폴더 선택하기"
 
 #: glade/preferences_dialog.glade:131
 msgid "Store all torrent files in:"
-msgstr ""
+msgstr "모든 토런트 파일을 여기에 저장:"
 
 #: glade/preferences_dialog.glade:146
 msgid "<b>Download Location</b>"
-msgstr ""
+msgstr "<b>내려받기 위치</b>"
 
 #: glade/preferences_dialog.glade:200
 msgid "Autoload all torrent files in:"
-msgstr ""
+msgstr "여기에 있는 모든 토런트 파일을 자동으로 불러오기:"
 
 #: glade/preferences_dialog.glade:213
 msgid "<b>Autoload</b>"
-msgstr ""
+msgstr "<b>자동으로 불러오기</b>"
 
 #: glade/preferences_dialog.glade:249 glade/preferences_dialog.glade:266
 #: glade/wizard.glade:237 glade/wizard.glade:478
 msgid ""
 "The number of active torrents that Deluge will run.  Set to -1 for unlimited."
-msgstr ""
+msgstr "활성 토런트 수 제한. 무제한은 -1로 설정."
 
 #: glade/preferences_dialog.glade:251
 msgid "Maximum simultaneous active torrents:"
-msgstr ""
+msgstr "동시 활성 토런트 최대 개수:"
 
 #: glade/preferences_dialog.glade:288 glade/preferences_dialog.glade:289
 #: glade/preferences_dialog.glade:309
@@ -390,7 +390,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:310
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "한 개 이상의 파일을 가진 토런트만 보이기"
 
 #: glade/preferences_dialog.glade:325 glade/preferences_dialog.glade:326
 msgid "Prioritize first and last pieces of files in torrent"
@@ -398,7 +398,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:340
 msgid "Start torrents in paused state"
-msgstr ""
+msgstr "멈춤 상태에서 토런트를 시작하기"
 
 #: glade/preferences_dialog.glade:355
 msgid "<b>Torrents</b>"
@@ -438,23 +438,23 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:549 glade/wizard.glade:48
 msgid "From:"
-msgstr ""
+msgstr "보내는 이 :"
 
 #: glade/preferences_dialog.glade:572 glade/wizard.glade:66
 msgid "To:"
-msgstr "끝번호:"
+msgstr "받는 이:"
 
 #: glade/preferences_dialog.glade:598
 msgid "Deluge will automatically choose a different port to use every time."
-msgstr ""
+msgstr "Deluge는 매번 자동으로 다른 포트를 사용하도록 선택합니다."
 
 #: glade/preferences_dialog.glade:599
 msgid "Random Ports"
-msgstr ""
+msgstr "무작위 포트"
 
 #: glade/preferences_dialog.glade:616
 msgid "Test Active Port"
-msgstr ""
+msgstr "활성 포트 검사하기"
 
 #: glade/preferences_dialog.glade:642
 msgid "<b>TCP</b>"
@@ -462,7 +462,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:654
 msgid "Active Port:"
-msgstr ""
+msgstr "활성 포트:"
 
 #: glade/preferences_dialog.glade:667
 msgid "0000"

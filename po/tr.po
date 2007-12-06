@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-21 11:42+0000\n"
+"PO-Revision-Date: 2007-12-04 20:31+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
+"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -34,8 +34,9 @@ msgid "Remove"
 msgstr "Kaldır"
 
 #: glade/delugegtk.glade:56
+#, fuzzy
 msgid "Clear Seeding Torrents"
-msgstr ""
+msgstr "Gönderilen Torrentleri Temizle"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
@@ -43,15 +44,15 @@ msgstr "Temizle"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
-msgstr ""
+msgstr "Torrenti Başlat yada Devam Et"
 
 #: glade/delugegtk.glade:80
 msgid "Resume"
-msgstr ""
+msgstr "Devam et"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
-msgstr ""
+msgstr "Torrenti Duraklat"
 
 #: glade/delugegtk.glade:94
 msgid "Pause"
@@ -79,7 +80,7 @@ msgstr "Deluge seçeneklerini değiştir"
 
 #: glade/delugegtk.glade:143
 msgid "Preferences"
-msgstr "Yeğlenenler"
+msgstr "Seçenekler"
 
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
 #: glade/preferences_dialog.glade:2965
@@ -175,7 +176,7 @@ msgstr "Kalan Süre"
 
 #: glade/delugegtk.glade:397 plugins/WebUi/scripts/template_strings.py:8
 msgid "Availability"
-msgstr "Ulaşılabilirlik"
+msgstr "Erişilebilirlik"
 
 #: glade/delugegtk.glade:406 plugins/WebUi/scripts/template_strings.py:47
 msgid "Share Ratio"
@@ -234,13 +235,12 @@ msgid "<b>Torrent Info</b>"
 msgstr "<b>Torrent Bilgisi</b>"
 
 #: glade/delugegtk.glade:1005
-#, fuzzy
 msgid "<b>Downloaded:</b>"
-msgstr "İndirilen"
+msgstr "<b>İndirilen:</b>"
 
 #: glade/delugegtk.glade:1019
 msgid "<b>Uploaded:</b>"
-msgstr "Gönderilen"
+msgstr "<b>Gönderilen:</b>"
 
 #: glade/delugegtk.glade:1037
 msgid "<b>Seeders:</b>"
@@ -268,7 +268,7 @@ msgstr "<b>Parçalar:</b>"
 
 #: glade/delugegtk.glade:1190
 msgid "<b>Availability:</b>"
-msgstr "<b>Kullanılabilirlik:</b>"
+msgstr "<b>Erişilebilirlik:</b>"
 
 #: glade/delugegtk.glade:1231
 msgid "<b>Statistics</b>"
@@ -313,7 +313,7 @@ msgstr "Dosya _Aç"
 
 #: glade/file_tab_menu.glade:33
 msgid "Select All"
-msgstr "Hepsini Seç"
+msgstr "Tümünü Seç"
 
 #: glade/file_tab_menu.glade:48
 msgid "Unselect All"
@@ -325,25 +325,25 @@ msgstr "İndirme"
 
 #: glade/file_tab_menu.glade:83 src/core.py:103
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 #: glade/file_tab_menu.glade:98 src/core.py:104
 msgid "High"
-msgstr ""
+msgstr "Yüksek"
 
 #: glade/file_tab_menu.glade:113 src/core.py:105
 msgid "Highest"
-msgstr ""
+msgstr "En yüksek"
 
 #: glade/merge_dialog.glade:7
 msgid "Deluge Merge Tracker Lists"
-msgstr ""
+msgstr "Deluge İzleyici Listesine Dahil Et"
 
 #: glade/merge_dialog.glade:23
 msgid ""
 "Torrent already detected in Deluge, would you like to merge the tracker "
 "lists?"
-msgstr ""
+msgstr "Torrent Deluge de mevcut, izleyici listesine dahil edilsinmi?"
 
 #: glade/preferences_dialog.glade:9
 msgid "Deluge Preferences"
@@ -355,7 +355,7 @@ msgstr "Her İndirlenin Nereye Kaydedileceğni Sor"
 
 #: glade/preferences_dialog.glade:75 glade/preferences_dialog.glade:76
 msgid "Store all downloads in:"
-msgstr ""
+msgstr "Bütün indirilenleri buraya sakla:"
 
 #: glade/preferences_dialog.glade:90 glade/preferences_dialog.glade:118
 #: glade/preferences_dialog.glade:186 glade/wizard.glade:187
@@ -365,7 +365,7 @@ msgstr "Bir Klasör Seç"
 
 #: glade/preferences_dialog.glade:131
 msgid "Store all torrent files in:"
-msgstr ""
+msgstr "Bütün torrent dosyalarını buraya kaydet:"
 
 #: glade/preferences_dialog.glade:146
 msgid "<b>Download Location</b>"
@@ -373,38 +373,39 @@ msgstr "<b>İndirme Yeri</b>"
 
 #: glade/preferences_dialog.glade:200
 msgid "Autoload all torrent files in:"
-msgstr ""
+msgstr "Tüm torrent dosyalarını buradan otomatik yükle:"
 
 #: glade/preferences_dialog.glade:213
 msgid "<b>Autoload</b>"
-msgstr ""
+msgstr "<b>Otomatik Yğkleme</b>"
 
 #: glade/preferences_dialog.glade:249 glade/preferences_dialog.glade:266
 #: glade/wizard.glade:237 glade/wizard.glade:478
 msgid ""
 "The number of active torrents that Deluge will run.  Set to -1 for unlimited."
 msgstr ""
+"Deluge indirecegi aktif torrent sayısını girin.Sınırsız için -1 yazınız."
 
 #: glade/preferences_dialog.glade:251
 msgid "Maximum simultaneous active torrents:"
-msgstr ""
+msgstr "Aktif torrentte maksimum eş:"
 
 #: glade/preferences_dialog.glade:288 glade/preferences_dialog.glade:289
 #: glade/preferences_dialog.glade:309
 msgid "Enable selecting files for torrents before loading"
-msgstr ""
+msgstr "Torrenti indirmeye başlamadan önce dosya seçimine izin ver"
 
 #: glade/preferences_dialog.glade:310
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "Torrent bir dosyadan fazla ise sadece göster"
 
 #: glade/preferences_dialog.glade:325 glade/preferences_dialog.glade:326
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr ""
+msgstr "İlk ve son parçalara öncelik ver"
 
 #: glade/preferences_dialog.glade:340
 msgid "Start torrents in paused state"
-msgstr ""
+msgstr "Torrenti Kaldığı yerden devam ettir."
 
 #: glade/preferences_dialog.glade:355
 msgid "<b>Torrents</b>"
@@ -447,27 +448,27 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:549 glade/wizard.glade:48
 msgid "From:"
-msgstr ""
+msgstr "Gönderen:"
 
 #: glade/preferences_dialog.glade:572 glade/wizard.glade:66
 msgid "To:"
-msgstr ""
+msgstr "Alıcı:"
 
 #: glade/preferences_dialog.glade:598
 msgid "Deluge will automatically choose a different port to use every time."
-msgstr ""
+msgstr "Deluge her zaman otomatik olarak farklı bir port kullansın."
 
 #: glade/preferences_dialog.glade:599
 msgid "Random Ports"
-msgstr ""
+msgstr "Rastgale Ports"
 
 #: glade/preferences_dialog.glade:616
 msgid "Test Active Port"
-msgstr ""
+msgstr "Aktif Portu Test Et"
 
 #: glade/preferences_dialog.glade:642
 msgid "<b>TCP</b>"
-msgstr ""
+msgstr "<b>TCP</b>"
 
 #: glade/preferences_dialog.glade:654
 msgid "Active Port:"
@@ -487,15 +488,15 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:720
 msgid "<b>DHT</b>"
-msgstr ""
+msgstr "<b>DHT</b>"
 
 #: glade/preferences_dialog.glade:755
 msgid "Universal Plug and Play"
-msgstr ""
+msgstr "Genel Tak ve Çalıştır"
 
 #: glade/preferences_dialog.glade:756
 msgid "UPnP"
-msgstr ""
+msgstr "UPnP"
 
 #: glade/preferences_dialog.glade:770
 msgid "NAT Port Mapping Protocol"
@@ -503,11 +504,11 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:771
 msgid "NAT-PMP"
-msgstr ""
+msgstr "NAT-PMP"
 
 #: glade/preferences_dialog.glade:786 glade/preferences_dialog.glade:787
 msgid "Peer Exchange"
-msgstr ""
+msgstr "Eş değişimi"
 
 #: glade/preferences_dialog.glade:803
 msgid "Local Peer Discovery"
@@ -515,11 +516,11 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:818
 msgid "<b>Network Extras</b>"
-msgstr ""
+msgstr "<b>Ağ için Ekstralar</b>"
 
 #: glade/preferences_dialog.glade:859
 msgid "Inbound:"
-msgstr ""
+msgstr "Gelen:"
 
 #: glade/preferences_dialog.glade:868 glade/preferences_dialog.glade:890
 msgid ""
@@ -527,10 +528,13 @@ msgid ""
 "Enabled\n"
 "Forced"
 msgstr ""
+"Kapalı\n"
+"Açık\n"
+"Zorunlu"
 
 #: glade/preferences_dialog.glade:881
 msgid "Outbound:"
-msgstr ""
+msgstr "Giden:"
 
 #: glade/preferences_dialog.glade:908
 msgid "Prefer to encrypt the entire stream"
@@ -538,7 +542,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:921
 msgid "Level:"
-msgstr ""
+msgstr "Seviye:"
 
 #: glade/preferences_dialog.glade:935
 msgid ""
@@ -546,6 +550,9 @@ msgid ""
 "Full Stream\n"
 "Either"
 msgstr ""
+"Elsıkışma\n"
+"Tamamı bağlı\n"
+"İkisinden biri"
 
 #: glade/preferences_dialog.glade:958
 #, fuzzy
@@ -561,20 +568,23 @@ msgid "Queue torrents to bottom when they begin seeding"
 msgstr ""
 
 #: glade/preferences_dialog.glade:1041
+#, fuzzy
 msgid "Queue new torrents above completed ones"
-msgstr ""
+msgstr "Yeni torrentler sıraya alındı,"
 
 #: glade/preferences_dialog.glade:1057
+#, fuzzy
 msgid "Stop seeding torrents when their share ratio reaches:"
-msgstr ""
+msgstr "Paylaşım oranına ulaşınca torrentleri durdur:"
 
 #: glade/preferences_dialog.glade:1093
+#, fuzzy
 msgid "Automatically clear torrents that reach the max share ratio"
-msgstr ""
+msgstr "Azami paylaşım oranına ulaşınca torrentleri temizle"
 
 #: glade/preferences_dialog.glade:1109
 msgid "<b>Seeding</b>"
-msgstr ""
+msgstr "<b>Gönderiliyor</b>"
 
 #: glade/preferences_dialog.glade:1138 src/core.py:93
 #: plugins/WebUi/webserver_common.py:139
@@ -587,25 +597,30 @@ msgid ""
 "The maximum half-open connections.  A high value may crash some cheap "
 "routers.  Set -1 for unlimited."
 msgstr ""
+"Maksimum yarı-açık bağlantılar.Yüksek bir değer router inize zarar "
+"verebilir.Limitsiz için -1 yazınız."
 
 #: glade/preferences_dialog.glade:1207 glade/wizard.glade:435
+#, fuzzy
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "Azami Yarım-Açık Bağlantı:"
 
 #: glade/preferences_dialog.glade:1225 glade/preferences_dialog.glade:1245
 #: glade/preferences_dialog.glade:1325 glade/wizard.glade:277
 #: glade/wizard.glade:341
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
+"Bütün torrentler için maksimum gönderim hızı. Sınırsız için -1 yazınız."
 
 #: glade/preferences_dialog.glade:1227 glade/preferences_dialog.glade:1450
 #: glade/wizard.glade:258
+#, fuzzy
 msgid "Maximum Upload Slots:"
-msgstr ""
+msgstr "Azami Gönderme Yuvası:"
 
 #: glade/preferences_dialog.glade:1247 glade/wizard.glade:278
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr ""
+msgstr "Maksimum Gönderme Hızı (KB/sn)"
 
 #: glade/preferences_dialog.glade:1265 glade/preferences_dialog.glade:1279
 #: glade/wizard.glade:297 glade/wizard.glade:364
@@ -622,46 +637,54 @@ msgstr "En Çok Bağlantı"
 #: glade/preferences_dialog.glade:1293 glade/preferences_dialog.glade:1307
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
+"Bütün torrentler için maksimum indirme hızı. Sınırsız için -1 yazınız."
 
 #: glade/preferences_dialog.glade:1295
 msgid "Maximum Download Speed (KiB/s):"
-msgstr ""
+msgstr "Maksimum İndirme Hızı (KB/sn)"
 
 #: glade/preferences_dialog.glade:1343 glade/wizard.glade:257
 #: glade/wizard.glade:318
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr ""
+"Bütün torrent ler için maksimum gönderim slotu. Sınırsız için -1 yazınız."
 
 #: glade/preferences_dialog.glade:1359 glade/preferences_dialog.glade:1372
+#, fuzzy
 msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"Saniyede denenecek maksimum bağlantı sayısı.Yüksek değerler Routers ınızda "
+"bozulmalar meydana getirebilir. Sınırsız için -1 yazınız."
 
 #: glade/preferences_dialog.glade:1361
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Saniyede Denenecek Maksimum Bağlantı Sayısı:"
 
 #: glade/preferences_dialog.glade:1392
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr ""
+msgstr "Genel Bantgenişliği Kullanımı"
 
 #: glade/preferences_dialog.glade:1433 glade/preferences_dialog.glade:1463
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
 msgstr ""
+"Torrent başına yapılacak Maksimum bağlantı sayısı. Sınırsız için -1 yazınız."
 
 #: glade/preferences_dialog.glade:1448 glade/preferences_dialog.glade:1477
+#, fuzzy
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
 msgstr ""
+"Torrent başına açılacak Maksimum upload Slotu. Sınırsız için -1 yazınız."
 
 #: glade/preferences_dialog.glade:1498
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>Bir torrentin Bantgenişliği Kullanımı</b>"
 
 #: glade/preferences_dialog.glade:1524
 #, fuzzy
 msgid "Bandwidth"
-msgstr "Bant Genişliği"
+msgstr "Bantgenişliği"
 
 #: glade/preferences_dialog.glade:1570 glade/preferences_dialog.glade:1765
 #: glade/preferences_dialog.glade:1960 glade/preferences_dialog.glade:2155
@@ -669,13 +692,15 @@ msgid "Affects regular bittorrent peers"
 msgstr ""
 
 #: glade/preferences_dialog.glade:1571
+#, fuzzy
 msgid "Peer Proxy"
-msgstr ""
+msgstr "Paylaşımcı Vekil Sunucusu"
 
 #: glade/preferences_dialog.glade:1613 glade/preferences_dialog.glade:1808
 #: glade/preferences_dialog.glade:2003 glade/preferences_dialog.glade:2198
+#, fuzzy
 msgid "Proxy type"
-msgstr ""
+msgstr "Vekil Sunucu tipi"
 
 #: glade/preferences_dialog.glade:1620 glade/preferences_dialog.glade:1815
 #: glade/preferences_dialog.glade:2010 glade/preferences_dialog.glade:2205
@@ -699,36 +724,44 @@ msgid ""
 "HTTP\n"
 "HTTP W/ Auth"
 msgstr ""
+"Hiçbiri\n"
+"Socksv4\n"
+"Socksv5\n"
+"Socksv5 W/ Auth\n"
+"HTTP\n"
+"HTTP W/ Auth"
 
 #: glade/preferences_dialog.glade:1688 glade/preferences_dialog.glade:1883
 #: glade/preferences_dialog.glade:2078 glade/preferences_dialog.glade:2273
 msgid "Server"
-msgstr ""
+msgstr "Sunucu"
 
 #: glade/preferences_dialog.glade:1699 glade/preferences_dialog.glade:1894
 #: glade/preferences_dialog.glade:2089 glade/preferences_dialog.glade:2284
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: glade/preferences_dialog.glade:1733
+#, fuzzy
 msgid "<b>Peer Proxy</b>"
-msgstr ""
+msgstr "<b<Eş Proxy</b>"
 
 #: glade/preferences_dialog.glade:1766
+#, fuzzy
 msgid "Tracker Proxy"
-msgstr ""
+msgstr "İzleyici için Proxy"
 
 #: glade/preferences_dialog.glade:1928
 msgid "<b>Tracker Proxy</b>"
-msgstr ""
+msgstr "<b>İzleyici Proxy</b>"
 
 #: glade/preferences_dialog.glade:1961
 msgid "DHT Proxy"
-msgstr ""
+msgstr "DHT Vekil Sunucusu"
 
 #: glade/preferences_dialog.glade:2123
 msgid "<b>DHT Proxy</b>"
-msgstr ""
+msgstr "<b>DHT Vekil Sunucusu</b>"
 
 #: glade/preferences_dialog.glade:2156
 msgid "Web Seed Proxy"
@@ -739,8 +772,9 @@ msgid "<b>Web Seed Proxy</b>"
 msgstr ""
 
 #: glade/preferences_dialog.glade:2345
+#, fuzzy
 msgid "Proxies"
-msgstr ""
+msgstr "Vekil sunucular"
 
 #: glade/preferences_dialog.glade:2374
 msgid "Enable system tray icon"
@@ -752,7 +786,7 @@ msgstr "Kapattığımda simge durumuna küçült"
 
 #: glade/preferences_dialog.glade:2409
 msgid "Start in tray"
-msgstr ""
+msgstr "Görev çubuğunda başlat"
 
 #: glade/preferences_dialog.glade:2433
 msgid "Password protect system tray"
@@ -760,23 +794,28 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2451
 msgid "Password:"
-msgstr ""
+msgstr "Parola:"
 
 #: glade/preferences_dialog.glade:2493
 msgid "<b>System Tray</b>"
 msgstr ""
 
 #: glade/preferences_dialog.glade:2557
+#, fuzzy
 msgid ""
 "Auto-detect (xdg-open)\n"
 "Konqueror\n"
 "Nautilus\n"
 "Thunar"
 msgstr ""
+"Otomatik (xdg-open)\n"
+"Konqueror\n"
+"Nautilus\n"
+"Thunar"
 
 #: glade/preferences_dialog.glade:2578
 msgid "Custom:"
-msgstr ""
+msgstr "Özel:"
 
 #: glade/preferences_dialog.glade:2601
 msgid "Open folder with:"
@@ -792,15 +831,16 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2683
 msgid "<b>Performance</b>"
-msgstr ""
+msgstr "<b>Performans</b>"
 
 #: glade/preferences_dialog.glade:2714
+#, fuzzy
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
-msgstr ""
+msgstr "Gelişmiş ilerleme çubuğunu kullan (biraz İşlemci/Bellek kullanır)"
 
 #: glade/preferences_dialog.glade:2725
 msgid "<b>Detailed Progress Bar</b>"
-msgstr ""
+msgstr "<b>Ayrıntılı İlerleme Çubuğu</b>"
 
 #: glade/preferences_dialog.glade:2759
 msgid ""
@@ -810,11 +850,11 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2760
 msgid "Be alerted about new releases"
-msgstr ""
+msgstr "Yeni sürüm hakkında beni uyar"
 
 #: glade/preferences_dialog.glade:2777
 msgid "<b>Updates</b>"
-msgstr ""
+msgstr "<b>Güncellemeler</b>"
 
 #: glade/preferences_dialog.glade:2807
 msgid ""
@@ -825,109 +865,112 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2820
 msgid "<b>System Information</b>"
-msgstr ""
+msgstr "<b>Sistem Bilgisi</b>"
 
 #: glade/preferences_dialog.glade:2843
 #: plugins/EventLogging/event_logging_preferences.glade:52
 #: plugins/EventLogging/tab_log.py:218
 msgid "Other"
-msgstr ""
+msgstr "Diğer"
 
 #: glade/preferences_dialog.glade:2937
 msgid "gtk-preferences"
 msgstr "gtk-tercihleri"
 
 #: glade/torrent_menu.glade:11
+#, fuzzy
 msgid "_Force Recheck"
-msgstr ""
+msgstr "_Yeniden Denetlemeye Zorla"
 
 #: glade/torrent_menu.glade:33
 msgid "Re_sume"
-msgstr ""
+msgstr "De_vam"
 
 #: glade/torrent_menu.glade:50
 msgid "_Pause"
-msgstr ""
+msgstr "_Duraksat"
 
 #: glade/torrent_menu.glade:72
 msgid "_Remove Torrent"
-msgstr ""
+msgstr "_Torrenti Kaldır"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "_İzleyici Tercihleri"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
-msgstr ""
+msgstr "_İzleyiciyi güncelle"
 
 #: glade/torrent_menu.glade:121
+#, fuzzy
 msgid "_Edit Trackers"
-msgstr ""
+msgstr "_İzleyiciyi Düzenle"
 
 #: glade/torrent_menu.glade:138
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "_İzleyici Kaldır"
 
 #: glade/torrent_menu.glade:164
+#, fuzzy
 msgid "_Queue"
-msgstr ""
+msgstr "_Sıralama"
 
 #: glade/torrent_menu.glade:174
 msgid "_Top"
-msgstr ""
+msgstr "Ü_st"
 
 #: glade/torrent_menu.glade:190
 msgid "_Up"
-msgstr ""
+msgstr "_Yukarı"
 
 #: glade/torrent_menu.glade:206
 msgid "_Down"
-msgstr ""
+msgstr "_Aşağı"
 
 #: glade/torrent_menu.glade:222
 msgid "_Bottom"
-msgstr ""
+msgstr "_Alt"
 
 #: glade/torrent_menu.glade:251
 msgid "_Open Containing Folder"
-msgstr ""
+msgstr "_İçerdiği Klasörü Aç"
 
 #: glade/tray_menu.glade:12
 msgid "_Show Deluge"
-msgstr ""
+msgstr "_Deluge Göster"
 
 #: glade/tray_menu.glade:21
 msgid "_Resume All"
-msgstr ""
+msgstr "_Tümüne Devam Et"
 
 #: glade/tray_menu.glade:38
 msgid "_Pause All"
-msgstr ""
+msgstr "_Tümünü Duraksat"
 
 #: glade/tray_menu.glade:84
 msgid "_Download Speed Limit"
-msgstr ""
+msgstr "_İndirme Hız Limiti"
 
 #: glade/tray_menu.glade:100
 msgid "_Upload Speed Limit"
-msgstr ""
+msgstr "_Gönderme Hız Limiti"
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"
-msgstr ""
+msgstr "Çık"
 
 #: glade/edit_trackers.glade:9
 msgid "Edit Trackers"
-msgstr ""
+msgstr "İzleyicileri Düzenle"
 
 #: glade/edit_trackers.glade:19
 msgid "Tracker Editing"
-msgstr ""
+msgstr "İzleyici Düzenlemesi"
 
 #: glade/files_dialog.glade:8
 msgid "Deluge File Selection"
-msgstr ""
+msgstr "Deluge Dosya Seçimi"
 
 #: glade/files_dialog.glade:42
 msgid "Torrent will not be distributed on the trackerless (DHT) network"
@@ -973,8 +1016,9 @@ msgid "Ask where to save each file"
 msgstr ""
 
 #: glade/wizard.glade:165
+#, fuzzy
 msgid "Store all downloads in: "
-msgstr ""
+msgstr "İndirilen bütün dosyaların saklanacağı dizin: "
 
 #: glade/wizard.glade:215
 msgid ""
@@ -984,7 +1028,7 @@ msgstr ""
 
 #: glade/wizard.glade:238
 msgid "Maximum Active Torrents:"
-msgstr ""
+msgstr "Maksimum Aktif Torrent Sayısı:"
 
 #: glade/wizard.glade:386
 msgid ""
@@ -1007,10 +1051,28 @@ msgid ""
 "50Mbit\n"
 "100Mbit"
 msgstr ""
+"28.8k\n"
+"56k\n"
+"64k\n"
+"96k\n"
+"128k\n"
+"192k\n"
+"256k\n"
+"384k\n"
+"512k\n"
+"640k\n"
+"768k\n"
+"1Mbit\n"
+"2Mbit\n"
+"10Mbit\n"
+"20Mbit\n"
+"40Mbit\n"
+"50Mbit\n"
+"100Mbit"
 
 #: glade/wizard.glade:419
 msgid "Your Upload Line Speed:"
-msgstr ""
+msgstr "Gönderim Hızınız:"
 
 #: glade/wizard.glade:506
 msgid ""
@@ -1024,42 +1086,47 @@ msgstr ""
 #: plugins/SpeedLimiter/__init__.py:92 plugins/SpeedLimiter/__init__.py:136
 #: plugins/SpeedLimiter/__init__.py:168
 msgid "KiB/s"
-msgstr ""
+msgstr "KB/sn"
 
 #: src/interface.py:315 src/interface.py:376 src/interface.py:404
 #: src/interface.py:1174 src/interface.py:1181 src/interface.py:1186
 #: src/interface.py:1214 src/interface.py:1216
 #: plugins/SpeedLimiter/__init__.py:137 plugins/SpeedLimiter/__init__.py:169
 msgid "Unlimited"
-msgstr ""
+msgstr "Sınırsız"
 
 #: src/interface.py:318
 msgid "Activated"
-msgstr ""
+msgstr "Etkinleştirildi"
 
 #: src/interface.py:367 src/interface.py:379 src/interface.py:407
 #: plugins/DesiredRatio/__init__.py:114 plugins/SpeedLimiter/__init__.py:140
 #: plugins/SpeedLimiter/__init__.py:172
 msgid "Other..."
-msgstr ""
+msgstr "Diğer..."
 
 #: src/interface.py:384
 msgid "Download Speed (KiB/s):"
-msgstr ""
+msgstr "İndirme Hızı (KB/sn):"
 
 #: src/interface.py:412
+#, fuzzy
 msgid "Upload Speed (KiB/s):"
 msgstr ""
+"Gönderim Hızı (KB/sn):\n"
+"Gönderme Hızı (KB/sn):"
 
 #: src/interface.py:441
 msgid "Deluge is locked"
-msgstr ""
+msgstr "Deluge Kilitli"
 
 #: src/interface.py:444
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 msgstr ""
+"Deluge şifre ile Korunmakta.\n"
+"Deluge Penceresini açmak için, lütfen şifrenizi giriniz"
 
 #: src/interface.py:591 src/common.py:76
 msgid "Infinity"
@@ -1082,7 +1149,7 @@ msgstr "Kalan Süre"
 
 #: src/interface.py:644
 msgid "Avail."
-msgstr ""
+msgstr "Oran"
 
 #: src/interface.py:646 plugins/WebUi/scripts/template_strings.py:37
 msgid "Ratio"
@@ -1091,7 +1158,7 @@ msgstr "Oran"
 #: src/interface.py:946
 #, python-format
 msgid "Paused %s"
-msgstr ""
+msgstr "Duraksatıldı %s"
 
 #: src/interface.py:1192 plugins/WebUi/scripts/template_strings.py:10
 msgid "Connections"
@@ -1099,11 +1166,11 @@ msgstr "Bağlantılar"
 
 #: src/interface.py:1210
 msgid "DHT"
-msgstr ""
+msgstr "DHT"
 
 #: src/interface.py:1219 plugins/TorrentCreator/__init__.py:144
 msgid "Deluge"
-msgstr ""
+msgstr "Deluge"
 
 #: src/interface.py:1219 plugins/WebUi/scripts/template_strings.py:17
 msgid "Download"
@@ -1131,20 +1198,20 @@ msgstr ""
 
 #: src/interface.py:1377
 msgid "Unknown duplicate torrent error."
-msgstr ""
+msgstr "Bilinmeyen Eş hatası"
 
 #: src/interface.py:1382
 msgid ""
 "There is not enough free                disk space to complete your download."
-msgstr ""
+msgstr "İndirmeyi tamamlamak için yeteli disk alanınız yok."
 
 #: src/interface.py:1384
 msgid "Space Needed:"
-msgstr ""
+msgstr "Bu kadar Alan Gerekli:"
 
 #: src/interface.py:1385
 msgid "Available Space:"
-msgstr ""
+msgstr "Kullanılabilir Alan:"
 
 #: src/interface.py:1402
 msgid "Add torrent from URL"
@@ -1160,32 +1227,32 @@ msgstr "Uyarı - Bu torrente ait indirilen dosyaların tümü silinecek!"
 
 #: src/interface.py:1483
 msgid "Are you sure that you want to remove all seeding torrents?"
-msgstr ""
+msgstr "Paylaşılan bütün torrent leri kaldırmak istediğinizden eminmisiniz."
 
 #: src/core.py:87 plugins/WebUi/webserver_common.py:133
 msgid "Queued"
-msgstr ""
+msgstr "Sıraya Eklendi"
 
 #: src/core.py:88 plugins/WebUi/webserver_common.py:134
 msgid "Checking"
-msgstr ""
+msgstr "Denetleniyor"
 
 #: src/core.py:89 plugins/WebUi/webserver_common.py:135
 msgid "Connecting"
-msgstr ""
+msgstr "Bağlanıyor"
 
 #: src/core.py:90 plugins/WebUi/webserver_common.py:136
 msgid "Downloading Metadata"
-msgstr ""
+msgstr "Metadata İndiriliyor"
 
 #: src/core.py:91 plugins/BlocklistImport/ui.py:117
 #: plugins/WebUi/webserver_common.py:137
 msgid "Downloading"
-msgstr ""
+msgstr "İndiriliyor"
 
 #: src/core.py:92 plugins/WebUi/webserver_common.py:138
 msgid "Finished"
-msgstr ""
+msgstr "Tamamlandı"
 
 #: src/core.py:94 plugins/WebUi/webserver_common.py:140
 msgid "Allocating"
@@ -1193,7 +1260,7 @@ msgstr ""
 
 #: src/core.py:137
 msgid "bytes needed"
-msgstr ""
+msgstr "bytes gerekli"
 
 #: src/core.py:384
 msgid "File was not found"
@@ -1201,29 +1268,32 @@ msgstr "Dosya Bulunamadı"
 
 #: src/core.py:427
 msgid "Asked for a torrent that doesn't exist"
-msgstr ""
+msgstr "Bulunmayan torrent için sor"
 
 #: src/core.py:550
 msgid ""
 "You're out of HD space!  Oops!\n"
 "We had to pause at least one torrent"
 msgstr ""
+"Oops! Diskinizde gerekli yer kalmamış!\n"
+"Son Torrent dosyası duraklatıldı"
 
 #: src/core.py:638
 msgid "Announce sent"
-msgstr ""
+msgstr "Duyuru gönder"
 
 #: src/core.py:642
 msgid "Announce OK"
-msgstr ""
+msgstr "Duyuru TAMAM"
 
 #: src/core.py:648
 msgid "Alert"
-msgstr ""
+msgstr "Uyarı"
 
 #: src/core.py:649
+#, fuzzy
 msgid "HTTP code"
-msgstr ""
+msgstr "HTTP kodu"
 
 #: src/core.py:650
 msgid "times in a row"
@@ -1231,7 +1301,7 @@ msgstr ""
 
 #: src/core.py:657
 msgid "Warning"
-msgstr ""
+msgstr "Uyarı"
 
 #: src/files.py:77
 msgid "Filename"
@@ -1239,7 +1309,7 @@ msgstr "Dosya adı"
 
 #: src/files.py:82
 msgid "Priority"
-msgstr ""
+msgstr "Öncelik"
 
 #: src/files.py:104
 msgid ""
@@ -1257,6 +1327,7 @@ msgid "Enabled"
 msgstr "Etkin"
 
 #: src/dialogs.py:461
+#, fuzzy
 msgid ""
 "Deluge is free software, you can redistribute it and/or\n"
 "modify it under the terms of the GNU General Public\n"
@@ -1272,6 +1343,18 @@ msgid ""
 " Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-\n"
 "1301 USA"
 msgstr ""
+"Deluge özgür yazılımdır, Free Software Foundation\n"
+"tarafınca yayınlanmış GNU Genel Kamu Lisansı ikinci\n"
+"sürüm ya da (seçiminize istinaden) sonraki  bir sürüm\n"
+"şartlarınca değiştirilebilir ve dağıtılabilir. Deluge\n"
+"kullanışlı olması maksadıyla dağıtılmaktadır, ancak\n"
+"HİÇBİR GARANTİSİ YOKTUR; aynı zamanda BİR AMACA\n"
+"UYGUNLUĞU ya da SATILABİLİRLİĞİ garanti etmez.\n"
+"Daha fazla ayrıntı için GNU Genel Kamu Lisansını inceleyin.\n"
+"GNU Genel Kamu Lisansı'nın bir kopyasını Deluge ile almış\n"
+"olmalısınız; eğer almadıysanız Free Software Foundation,\n"
+" Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA\n"
+"adresine yazın."
 
 #: src/dialogs.py:502
 msgid "Choose a .torrent file"
@@ -1287,23 +1370,23 @@ msgstr "Tüm dosyalar"
 
 #: src/common.py:90
 msgid "KiB"
-msgstr ""
+msgstr "KB"
 
 #: src/common.py:93
 msgid "MiB"
-msgstr ""
+msgstr "MB"
 
 #: src/common.py:96
 msgid "GiB"
-msgstr ""
+msgstr "GB"
 
 #: src/common.py:99
 msgid "TiB"
-msgstr ""
+msgstr "TB"
 
 #: src/common.py:101
 msgid "PiB"
-msgstr ""
+msgstr "PB"
 
 #: src/common.py:203
 msgid "External command"
@@ -1311,7 +1394,7 @@ msgstr ""
 
 #: src/common.py:204
 msgid "not found"
-msgstr ""
+msgstr "bulunamadı"
 
 #: src/common.py:254
 msgid ""
@@ -1345,7 +1428,7 @@ msgstr ""
 
 #: plugins/BlocklistImport/__init__.py:42
 msgid "Emule IP list (GZip)"
-msgstr ""
+msgstr "Emule IP Listesi (GZip)"
 
 #: plugins/BlocklistImport/__init__.py:43
 msgid "SafePeer Text (Zipped)"
@@ -1353,37 +1436,37 @@ msgstr ""
 
 #: plugins/BlocklistImport/__init__.py:92
 msgid "Couldn't download URL"
-msgstr ""
+msgstr "Adres indirilemiyor"
 
 #: plugins/BlocklistImport/__init__.py:105
 msgid "Couldn't open blocklist file"
-msgstr ""
+msgstr "Karaliste dosyası açılamıyor"
 
 #: plugins/BlocklistImport/__init__.py:113 plugins/BlocklistImport/text.py:37
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
 #: plugins/BlocklistImport/text.py:99
 msgid "Wrong file type or corrupted blocklist file."
-msgstr ""
+msgstr "Yanlış dosya tipi yada bozuk karaliste dosyası."
 
 #: plugins/BlocklistImport/__init__.py:121
 msgid "Imported"
-msgstr ""
+msgstr "İçe Aktarılanlar"
 
 #: plugins/BlocklistImport/__init__.py:121
 msgid "IPs"
-msgstr ""
+msgstr "IPs"
 
 #: plugins/BlocklistImport/__init__.py:164
 msgid "Blocklist"
-msgstr ""
+msgstr "Karaliste"
 
 #: plugins/BlocklistImport/__init__.py:164
 msgid "entries"
-msgstr ""
+msgstr "girdi"
 
 #: plugins/BlocklistImport/ui.py:25
 msgid "Blocklist URL"
-msgstr ""
+msgstr "Karaliste URL"
 
 #: plugins/BlocklistImport/ui.py:50
 msgid "Download on start"
@@ -1391,15 +1474,15 @@ msgstr ""
 
 #: plugins/BlocklistImport/ui.py:105
 msgid "Loading and installing blocklist"
-msgstr ""
+msgstr "Karaliste yükle ve kur"
 
 #: plugins/BlocklistImport/ui.py:128
 msgid "Importing"
-msgstr ""
+msgstr "İçe aktarılıyor"
 
 #: plugins/BlocklistImport/ui.py:139
 msgid "Complete"
-msgstr ""
+msgstr "Tamamlandı"
 
 #: plugins/BlocklistImport/text.py:129
 msgid "Got format exception for zipfile:"
@@ -1420,12 +1503,13 @@ msgid "Invalid magic code"
 msgstr ""
 
 #: plugins/BlocklistImport/peerguardian.py:41
+#, fuzzy
 msgid "Invalid version"
-msgstr ""
+msgstr "Geçersiz versiyon"
 
 #: plugins/DesiredRatio/__init__.py:22
 msgid "Set the desired ratio for a torrent."
-msgstr ""
+msgstr "Torrent için oran belirleyin."
 
 #: plugins/DesiredRatio/__init__.py:75
 msgid "_Desired Ratio"
@@ -1433,22 +1517,26 @@ msgstr ""
 
 #: plugins/DesiredRatio/__init__.py:79
 msgid "_Not Set"
-msgstr ""
+msgstr "_Ayarlanmamış"
 
 #: plugins/DesiredRatio/__init__.py:111
 msgid "Not Set"
-msgstr ""
+msgstr "Ayarlanmamış"
 
 #: plugins/DesiredRatio/__init__.py:118
 msgid "Desired Ratio"
-msgstr ""
+msgstr "Geçerli Oran"
 
 #: plugins/TorrentPeers/__init__.py:34
+#, fuzzy
 msgid ""
 "\n"
 "This shows you the peers associated with each torrent and shows you their "
 "ip, country, client, percent complete and upload and download speeds.\n"
 msgstr ""
+"\n"
+"Size gösterilecek olan ortak eşlerin IP si, ve buna göre, Ülkesi, Kullandığı "
+"istemci, Yüzdelik olarak indirmesi ve göndermesi ve indirme hızları.\n"
 
 #: plugins/TorrentPeers/tab_peers.py:84
 msgid "IP Address"
@@ -1464,31 +1552,31 @@ msgstr "Tamamlanma Yüzdesi"
 
 #: plugins/TorrentCreator/torrentcreator.glade:8
 msgid "Torrent Creator"
-msgstr ""
+msgstr "Torrent Oluşturucu"
 
 #: plugins/TorrentCreator/torrentcreator.glade:102
 msgid "This torrent will be made from a single file"
-msgstr ""
+msgstr "Bu torrent tek dosya halindedir."
 
 #: plugins/TorrentCreator/torrentcreator.glade:103
 msgid "File:"
-msgstr ""
+msgstr "Dosya:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:119
 msgid "This torrent will be made from a directory"
-msgstr ""
+msgstr "Bu torrent bir klasör halindedir."
 
 #: plugins/TorrentCreator/torrentcreator.glade:120
 msgid "Folder:"
-msgstr ""
+msgstr "Dizin:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:137
 msgid "<b>Source</b>"
-msgstr ""
+msgstr "<b>Kaynak</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:182
 msgid "Save Torrent File As:"
-msgstr ""
+msgstr "Torrenti Farklı Kaydet"
 
 #: plugins/TorrentCreator/torrentcreator.glade:235
 msgid "Load this torrent into Deluge for seeding"
@@ -1500,23 +1588,23 @@ msgstr ""
 
 #: plugins/TorrentCreator/torrentcreator.glade:255
 msgid "<b>Torrent File</b>"
-msgstr ""
+msgstr "<b>Torrent Dosyası</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:302
 msgid "<b>Trackers</b>"
-msgstr ""
+msgstr "<b>İzleyiciler</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:348
 msgid "<b>Comments</b>"
-msgstr ""
+msgstr "<b>Yorumlar</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:384
 msgid "<b>Author</b>"
-msgstr ""
+msgstr "<b>Sahibi</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:423
 msgid "Set Private Flag"
-msgstr ""
+msgstr "Özel Bayrak Ver"
 
 #: plugins/TorrentCreator/torrentcreator.glade:436
 #: plugins/TorrentCreator/torrentcreator.glade:457
@@ -1535,59 +1623,70 @@ msgid ""
 "1024 KiB\n"
 "2048 KiB\n"
 msgstr ""
+"32 KB\n"
+"64 KB\n"
+"128 KB\n"
+"256 KB\n"
+"512 KB\n"
+"1024 KB\n"
+"2048 KB\n"
 
 #: plugins/TorrentCreator/torrentcreator.glade:459
 msgid "Piece Size:"
-msgstr ""
+msgstr "Parça Boyutu:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:473
 msgid "<b>Advanced</b>"
-msgstr ""
+msgstr "<b>Gelişmiş</b>"
 
 #: plugins/TorrentCreator/__init__.py:22
 msgid "A torrent creator plugin"
-msgstr ""
+msgstr "Torrent oluşturucu eklenti"
 
 #: plugins/TorrentCreator/__init__.py:50
 msgid "_New Torrent"
-msgstr ""
+msgstr "_Yeni Torrent"
 
 #: plugins/TorrentCreator/__init__.py:60
 msgid "New Torrent"
-msgstr ""
+msgstr "Yeni Torrent"
 
 #: plugins/TorrentCreator/__init__.py:62
 msgid "Create New Torrent"
-msgstr ""
+msgstr "Yeni Torrent Oluştur"
 
 #: plugins/TorrentCreator/__init__.py:98
 msgid "Save file as..."
-msgstr ""
+msgstr "Dosyayı farklı kaydet..."
 
 #: plugins/TorrentCreator/__init__.py:120
 msgid "You must select a source for the torrent."
-msgstr ""
+msgstr "Torrent için bir kaynak belirtmelisiniz."
 
 #: plugins/TorrentCreator/__init__.py:127
 msgid "You must select a file to save the torrent as."
-msgstr ""
+msgstr "Torrenti farklı kaydetmek için dosya seçmelisiniz."
 
 #: plugins/TorrentNotification/notification_preferences.glade:7
 msgid "Torrent Notification Preferences"
-msgstr ""
+msgstr "Torrent Uyarı Tercihleri"
 
 #: plugins/TorrentNotification/notification_preferences.glade:32
 msgid "Enable event sound (requires pygame, not available on Win32)"
 msgstr ""
+"Olay Seslerini Aç ( pygame gerektirir, bu özellik Windows için "
+"bulunmamaktadır.)"
 
 #: plugins/TorrentNotification/notification_preferences.glade:59
 msgid "Enable blinking tray icon"
-msgstr ""
+msgstr "Görev Çubuğu Ikon simgesi Aktif"
 
 #: plugins/TorrentNotification/notification_preferences.glade:69
 msgid ""
 "Enable popup notification (requires python-notify, not available on Win32)"
 msgstr ""
+"Açılır pencerede uyarılar aktif (python-notify gerektirir, bu özellik "
+"Windows için bulunmamaktadır.)"
 
 #: plugins/TorrentNotification/__init__.py:22
 msgid ""
@@ -1597,7 +1696,7 @@ msgstr ""
 
 #: plugins/TorrentNotification/__init__.py:112
 msgid "Torrent complete"
-msgstr ""
+msgstr "Torrent tamamlandı"
 
 #: plugins/TorrentNotification/__init__.py:113
 #: plugins/TorrentFiles/__init__.py:83
@@ -1610,22 +1709,27 @@ msgid ""
 "\n"
 "Written by Kripkenstein"
 msgstr ""
+"Ağ Sağlık Durumu eklentisi\n"
+"\n"
+"YazanKripkenstein"
 
 #: plugins/NetworkHealth/plugin.py:53
 msgid "[Health: OK]"
-msgstr ""
+msgstr "[Sağlık: TAMAM]"
 
 #: plugins/EventLogging/event_logging_preferences.glade:7
 msgid "Event Logging Preferences"
 msgstr ""
 
 #: plugins/EventLogging/event_logging_preferences.glade:28
+#, fuzzy
 msgid "Enable log files"
-msgstr ""
+msgstr "Günlük dosyalarını etkinleştir"
 
 #: plugins/EventLogging/event_logging_preferences.glade:41
+#, fuzzy
 msgid "Log files"
-msgstr ""
+msgstr "Günlük dosyaları"
 
 #: plugins/EventLogging/event_logging_preferences.glade:66
 #: plugins/EventLogging/tab_log.py:210
@@ -1655,22 +1759,22 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:136
 #: plugins/EventLogging/tab_log.py:161
 msgid "Tracker warning"
-msgstr ""
+msgstr "İzleyici Tehlikesi"
 
 #: plugins/EventLogging/event_logging_preferences.glade:150
 #: plugins/EventLogging/tab_log.py:150
 msgid "Tracker alert"
-msgstr ""
+msgstr "İzleyici Uyarısı"
 
 #: plugins/EventLogging/event_logging_preferences.glade:164
 #: plugins/EventLogging/tab_log.py:141
 msgid "Tracker reply"
-msgstr ""
+msgstr "İzleyici Cevabı"
 
 #: plugins/EventLogging/event_logging_preferences.glade:178
 #: plugins/EventLogging/tab_log.py:132
 msgid "Tracker announce"
-msgstr ""
+msgstr "İzleyici Duyurusu"
 
 #: plugins/EventLogging/event_logging_preferences.glade:192
 #: plugins/EventLogging/tab_log.py:123
@@ -1690,25 +1794,26 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:234
 #: plugins/EventLogging/tab_log.py:95
 msgid "File error"
-msgstr ""
+msgstr "Dosya hatası"
 
 #: plugins/EventLogging/event_logging_preferences.glade:248
 #: plugins/EventLogging/tab_log.py:86
 msgid "Invalid request"
-msgstr ""
+msgstr "Geçersiz talep"
 
 #: plugins/EventLogging/event_logging_preferences.glade:262
+#, fuzzy
 msgid "Peer messages"
-msgstr ""
+msgstr "Paylaşımcı mesajları"
 
 #: plugins/EventLogging/event_logging_preferences.glade:276
 #: plugins/EventLogging/tab_log.py:70
 msgid "Torrent finished"
-msgstr ""
+msgstr "Torrent tamamlandı"
 
 #: plugins/EventLogging/event_logging_preferences.glade:289
 msgid "Select events to log"
-msgstr ""
+msgstr "Log lanacak olayları seçin"
 
 #: plugins/EventLogging/__init__.py:22
 msgid ""
@@ -1736,7 +1841,7 @@ msgstr ""
 
 #: plugins/EventLogging/__init__.py:88
 msgid "Event Log"
-msgstr ""
+msgstr "Olay Günlüğü"
 
 #: plugins/EventLogging/tab_log.py:70 plugins/EventLogging/tab_log.py:78
 #: plugins/EventLogging/tab_log.py:86 plugins/EventLogging/tab_log.py:95
@@ -1747,7 +1852,7 @@ msgstr ""
 #: plugins/EventLogging/tab_log.py:189 plugins/EventLogging/tab_log.py:200
 #: plugins/EventLogging/tab_log.py:210 plugins/EventLogging/tab_log.py:218
 msgid "event message: "
-msgstr ""
+msgstr "Olay mesajı: "
 
 #: plugins/EventLogging/tab_log.py:71 plugins/EventLogging/tab_log.py:95
 #: plugins/EventLogging/tab_log.py:105 plugins/EventLogging/tab_log.py:115
@@ -1757,29 +1862,29 @@ msgstr ""
 #: plugins/EventLogging/tab_log.py:180 plugins/EventLogging/tab_log.py:190
 #: plugins/EventLogging/tab_log.py:201
 msgid "torrent: "
-msgstr ""
+msgstr "torrent: "
 
 #: plugins/EventLogging/tab_log.py:78
 msgid "Peer message"
-msgstr ""
+msgstr "Paylaşımcı mesajı"
 
 #: plugins/EventLogging/tab_log.py:78 plugins/EventLogging/tab_log.py:114
 #: plugins/EventLogging/tab_log.py:211
 msgid "ip address: "
-msgstr ""
+msgstr "ip adresi: "
 
 #: plugins/EventLogging/tab_log.py:79 plugins/EventLogging/tab_log.py:86
 msgid "client: "
-msgstr ""
+msgstr "istemci: "
 
 #: plugins/EventLogging/tab_log.py:106 plugins/EventLogging/tab_log.py:181
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
 msgid "piece index: "
-msgstr ""
+msgstr "parça içeriği: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "status code: "
-msgstr ""
+msgstr "durum kodu: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "Times in a row: "
@@ -1787,11 +1892,11 @@ msgstr ""
 
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
 msgid "block index: "
-msgstr ""
+msgstr "Engellenen İçerik: "
 
 #: plugins/EventLogging/tab_log.py:192
 msgid "peer speed: "
-msgstr ""
+msgstr "Eş Hızı: "
 
 #: plugins/SpeedLimiter/__init__.py:20
 msgid "Set the desired speed limit per torrent."
@@ -1799,19 +1904,19 @@ msgstr ""
 
 #: plugins/SpeedLimiter/__init__.py:80
 msgid "Torrent _Download Speed"
-msgstr ""
+msgstr "Torrent _İndirme Hızı"
 
 #: plugins/SpeedLimiter/__init__.py:90
 msgid "Torrent Upload _Speed"
-msgstr ""
+msgstr "Torrent Gönderme _Hızı"
 
 #: plugins/SpeedLimiter/__init__.py:144
 msgid "Torrent Upload Speed (KiB/s):"
-msgstr ""
+msgstr "Torrent Gönderme Hızı (KB/sn):"
 
 #: plugins/SpeedLimiter/__init__.py:176
 msgid "Torrent Download Speed (KiB/s):"
-msgstr ""
+msgstr "Torrent İndirme Hızı (KB/sn):"
 
 #: plugins/TorrentSearch/__init__.py:36
 msgid "A searchbar for torrent search engines"
@@ -1819,23 +1924,24 @@ msgstr ""
 
 #: plugins/TorrentSearch/plugin.py:52
 msgid "Search String"
-msgstr ""
+msgstr "Arama dizgisi"
 
 #: plugins/TorrentSearch/plugin.py:74 plugins/TorrentSearch/plugin.py:164
 msgid "Choose an Engine"
-msgstr ""
+msgstr "Motor Seçin"
 
 #: plugins/TorrentSearch/plugin.py:78
 msgid "Manage Engines"
-msgstr ""
+msgstr "Motorları Yönet"
 
 #: plugins/TorrentSearch/plugin.py:185
 msgid "Search "
-msgstr ""
+msgstr "Ara "
 
 #: plugins/TorrentSearch/searchdlg.glade:7
+#, fuzzy
 msgid "Manage Search Plugins"
-msgstr ""
+msgstr "Ayama Eklentilerini Yönet"
 
 #: plugins/TorrentSearch/searchdlg.glade:79
 msgid "Name:"
@@ -1868,8 +1974,9 @@ msgid ""
 msgstr ""
 
 #: plugins/NetworkGraph/__init__.py:89
+#, fuzzy
 msgid "Graph"
-msgstr ""
+msgstr "Grafik"
 
 #: plugins/TorrentFiles/tab_files.py:59
 #: plugins/WebUi/scripts/template_strings.py:33
@@ -1909,36 +2016,39 @@ msgstr ""
 
 #: plugins/ExtraStats/__init__.py:175
 #: plugins/ExtraStats/stats_preferences.glade:28
+#, fuzzy
 msgid "Total Downloaded"
-msgstr ""
+msgstr "Toplam İndirilen"
 
 #: plugins/ExtraStats/__init__.py:181
 #: plugins/ExtraStats/stats_preferences.glade:38
+#, fuzzy
 msgid "Total Uploaded"
-msgstr ""
+msgstr "Toplam Gönderilen"
 
 #: plugins/ExtraStats/__init__.py:187 plugins/ExtraStats/__init__.py:191
 msgid "Undefined"
-msgstr ""
+msgstr "Tanımlanmamış"
 
 #: plugins/ExtraStats/__init__.py:195
 #: plugins/ExtraStats/stats_preferences.glade:52
+#, fuzzy
 msgid "Overall Ratio"
-msgstr ""
+msgstr "Genel Paylaşım Oranı"
 
 #: plugins/ExtraStats/__init__.py:200
 #: plugins/ExtraStats/stats_preferences.glade:66
 msgid "Torrents Completed"
-msgstr ""
+msgstr "Torrent Hazır"
 
 #: plugins/ExtraStats/__init__.py:206
 #: plugins/ExtraStats/stats_preferences.glade:80
 msgid "Running Time"
-msgstr ""
+msgstr "Süre"
 
 #: plugins/ExtraStats/stats_preferences.glade:7
 msgid "Extra Stats Preferences"
-msgstr ""
+msgstr "Ekstra İstatis. Tercihleri"
 
 #: plugins/MoveTorrent/__init__.py:22
 msgid ""
@@ -1951,23 +2061,28 @@ msgstr ""
 
 #: plugins/MoveTorrent/__init__.py:76
 msgid "_Move Torrent"
-msgstr ""
+msgstr "Torrenti _Taşı"
 
 #: plugins/MoveTorrent/__init__.py:95
 msgid "Choose a directory to move files to"
-msgstr ""
+msgstr "Taşınacak dosyalar için dizin belirtin"
 
 #: plugins/MoveTorrent/__init__.py:124
+#, fuzzy
 msgid ""
 "You cannot move torrent to a different partition. Please check your "
 "preferences. Also, you cannot move a torrent's files to the same directory "
 "that they are already stored or move a torrent's files before any of its "
 "files have actually been created."
 msgstr ""
+"Torrenti farklı bir bölüme taşıyamazsınız. Lütfen sistem tercihlerinizi "
+"kontrol edin. Torrent dosyalarınız farklı bir klasöre taşıyamazsınız, farklı "
+"bir bölüme taşıyabilmeniz için torrent dosyanızın yeniden oluşturulması "
+"gereklidir."
 
 #: plugins/MoveTorrent/movetorrent.glade:25
 msgid "Move completed downloads to:"
-msgstr ""
+msgstr "Tamamlanmış indirmeleri buraya taşı:"
 
 #: plugins/MoveTorrent/movetorrent.glade:59 plugins/WebSeed/webseed.glade:65
 msgid "gtk-cancel"
@@ -1991,7 +2106,7 @@ msgstr ""
 
 #: plugins/Scheduler/plugin.py:104
 msgid "Scheduler Settings"
-msgstr ""
+msgstr "Zamanlayıcı Ayarları"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "High download limit:"
@@ -2007,59 +2122,63 @@ msgstr ""
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Low upload limit:"
-msgstr ""
+msgstr "Düşük gönderim limiti:"
 
 #: plugins/Scheduler/plugin.py:192
 msgid "Green is the high limits, yellow is the low limits and red is stopped"
-msgstr ""
+msgstr "Yeşil yüksek limit, sarı dürük limit ve kırmızı durdurulmuş"
 
 #: plugins/Scheduler/plugin.py:193
 msgid "If a limit is set to -1, it is unlimitted."
-msgstr ""
+msgstr "Eğer limiti -1 olarak belirtirseniz, Limit koymamış olursunuz."
 
 #: plugins/WebUi/__init__.py:182
 msgid "WebUi Config"
-msgstr ""
+msgstr "Web Arayüzü Ayarları"
 
 #: plugins/WebUi/__init__.py:190
 msgid "Port Number"
-msgstr ""
+msgstr "Port Numarası"
 
 #: plugins/WebUi/__init__.py:191
 msgid "New Password"
-msgstr ""
+msgstr "Yeni Parola"
 
 #: plugins/WebUi/__init__.py:192
+#, fuzzy
 msgid "New Password(confirm)"
 msgstr ""
+"Yeni Parola(onayla)\n"
+"Yeni Parola(doğrula)"
 
 #: plugins/WebUi/__init__.py:193
 msgid "Template"
-msgstr ""
+msgstr "Şablon"
 
 #: plugins/WebUi/__init__.py:194
 msgid "Button Style"
-msgstr ""
+msgstr "Buton Stili"
 
 #: plugins/WebUi/__init__.py:196
 msgid "Cache Templates"
-msgstr ""
+msgstr "ÖnBellek Şablonları"
 
 #: plugins/WebUi/__init__.py:212
 msgid "Text and image"
-msgstr ""
+msgstr "Yazı ve resim"
 
 #: plugins/WebUi/__init__.py:212
 msgid "Image Only"
-msgstr ""
+msgstr "Sadece Resim"
 
 #: plugins/WebUi/__init__.py:212
 msgid "Text Only"
-msgstr ""
+msgstr "Sadece Yazı"
 
 #: plugins/WebUi/__init__.py:246
+#, fuzzy
 msgid "Confirmed Password <> New Password\n"
-msgstr ""
+msgstr "Onaylanmış Parola <> Yeni Parola\n"
 
 #: plugins/WebUi/webserver_common.py:48
 msgid "translate something"
@@ -2067,11 +2186,11 @@ msgstr ""
 
 #: plugins/WebUi/deluge_webserver.py:147
 msgid "Choose an url or a torrent, not both."
-msgstr ""
+msgstr "URL adresi yada torrent belirtin, biri yeterli."
 
 #: plugins/WebUi/deluge_webserver.py:158
 msgid "no data."
-msgstr ""
+msgstr "data yok"
 
 #: plugins/WebUi/deluge_webserver.py:236
 msgid "refresh must be > 0"
@@ -2079,11 +2198,11 @@ msgstr ""
 
 #: plugins/WebUi/deluge_webserver.py:244
 msgid "Download Speed Limit"
-msgstr ""
+msgstr "İndirme Hız Limiti"
 
 #: plugins/WebUi/deluge_webserver.py:248
 msgid "Upload Speed Limit"
-msgstr ""
+msgstr "Gönderme Hız Limiti"
 
 #: plugins/WebUi/scripts/template_strings.py:1
 msgid "# Of Files"
@@ -2091,19 +2210,19 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
-msgstr ""
+msgstr "Hakkında"
 
 #: plugins/WebUi/scripts/template_strings.py:4
 msgid "Add torrent"
-msgstr ""
+msgstr "Torrent ekle"
 
 #: plugins/WebUi/scripts/template_strings.py:5
 msgid "Apply"
-msgstr ""
+msgstr "Uygula"
 
 #: plugins/WebUi/scripts/template_strings.py:6
 msgid "Auto refresh:"
-msgstr ""
+msgstr "Otomatik tazeleme:"
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Ava"
@@ -2111,7 +2230,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:9
 msgid "Config"
-msgstr ""
+msgstr "Yapılandırma"
 
 #: plugins/WebUi/scripts/template_strings.py:11
 msgid "Debug:Data Dump"
@@ -2119,35 +2238,37 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:13
 msgid "Delete downloaded files."
-msgstr ""
+msgstr "İndirilmiş dosyaları sil."
 
 #: plugins/WebUi/scripts/template_strings.py:15
 msgid "Disable"
-msgstr ""
+msgstr "Devre dışı bırak"
 
 #: plugins/WebUi/scripts/template_strings.py:18
 msgid "Downloaded"
-msgstr ""
+msgstr "İndirilenler"
 
 #: plugins/WebUi/scripts/template_strings.py:20
 msgid "Enable"
-msgstr ""
+msgstr "Etkinleştir"
 
 #: plugins/WebUi/scripts/template_strings.py:21
 msgid "Error"
-msgstr ""
+msgstr "Hata"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Eta"
 msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:23
+#, fuzzy
 msgid "Login"
-msgstr ""
+msgstr "Giriş"
 
 #: plugins/WebUi/scripts/template_strings.py:24
+#, fuzzy
 msgid "Logout"
-msgstr ""
+msgstr "Çıkış"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Next Announce"
@@ -2155,31 +2276,32 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:27
 msgid "Off"
-msgstr ""
+msgstr "Kapalı"
 
 #: plugins/WebUi/scripts/template_strings.py:29
 msgid "Password is invalid,try again"
 msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:30
+#, fuzzy
 msgid "Pause all"
-msgstr ""
+msgstr "Hepsini duraklat"
 
 #: plugins/WebUi/scripts/template_strings.py:32
 msgid "Pieces"
-msgstr ""
+msgstr "Parçalar"
 
 #: plugins/WebUi/scripts/template_strings.py:34
 msgid "Queue Down"
-msgstr ""
+msgstr "Sıra Aşağı"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Queue Up"
-msgstr ""
+msgstr "Sıra Yukarı"
 
 #: plugins/WebUi/scripts/template_strings.py:36
 msgid "Queue pos:"
-msgstr ""
+msgstr "Sıralama sırası:"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Reannounce"
@@ -2192,24 +2314,25 @@ msgstr ""
 #: plugins/WebUi/scripts/template_strings.py:41
 #, python-format
 msgid "Remove %s "
-msgstr ""
+msgstr "Kaldır %s "
 
 #: plugins/WebUi/scripts/template_strings.py:42
 #, python-format
 msgid "Remove %s?"
-msgstr ""
+msgstr "Kaldır %s?"
 
 #: plugins/WebUi/scripts/template_strings.py:43
 msgid "Resume all"
-msgstr ""
+msgstr "Hepsine Devam Et"
 
 #: plugins/WebUi/scripts/template_strings.py:45
+#, fuzzy
 msgid "Set"
-msgstr ""
+msgstr "Ayarla"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Set Timeout"
-msgstr ""
+msgstr "Zamanaşımı belirle"
 
 #: plugins/WebUi/scripts/template_strings.py:49
 msgid "Speed"
@@ -2217,35 +2340,35 @@ msgstr "Hız"
 
 #: plugins/WebUi/scripts/template_strings.py:50
 msgid "Submit"
-msgstr ""
+msgstr "Gönder"
 
 #: plugins/WebUi/scripts/template_strings.py:51
 msgid "Torrent list"
-msgstr ""
+msgstr "Torrent listesi"
 
 #: plugins/WebUi/scripts/template_strings.py:52
 msgid "Total Size"
-msgstr ""
+msgstr "Toplam Boyut"
 
 #: plugins/WebUi/scripts/template_strings.py:53
 msgid "Tracker"
-msgstr ""
+msgstr "İzleyici"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Tracker Status"
-msgstr ""
+msgstr "İzleyici Durumu"
 
 #: plugins/WebUi/scripts/template_strings.py:57
 msgid "Upload torrent"
-msgstr ""
+msgstr "Torrent Yayımla"
 
 #: plugins/WebUi/scripts/template_strings.py:58
 msgid "Uploaded"
-msgstr ""
+msgstr "Gönderilenler"
 
 #: plugins/WebUi/scripts/template_strings.py:59
 msgid "Url"
-msgstr ""
+msgstr "Adres"
 
 #: plugins/WebUi/scripts/template_strings.py:60
 msgid "seconds"
@@ -2253,7 +2376,7 @@ msgstr "saniye"
 
 #: plugins/FlexRSS/FlexRSS.glade:6
 msgid "FlexRSS"
-msgstr ""
+msgstr "FlexRSS"
 
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
@@ -2265,53 +2388,53 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
-msgstr ""
+msgstr "Kapalı"
 
 #: plugins/FlexRSS/FlexRSS.glade:151
 msgid "Update Interval"
-msgstr ""
+msgstr "Güncelleme Aralığı"
 
 #: plugins/FlexRSS/FlexRSS.glade:165
 msgid "URL"
-msgstr ""
+msgstr "Adres"
 
 #: plugins/FlexRSS/FlexRSS.glade:192
 msgid "900"
-msgstr ""
+msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
 msgid "Feeds"
-msgstr ""
+msgstr "Haber Kaynakları"
 
 #: plugins/FlexRSS/FlexRSS.glade:384
 msgid "Type"
-msgstr ""
+msgstr "Tür"
 
 #: plugins/FlexRSS/FlexRSS.glade:397
 msgid "Feed"
-msgstr ""
+msgstr "Haber"
 
 #: plugins/FlexRSS/FlexRSS.glade:439
 msgid "<b>Information</b>"
-msgstr ""
+msgstr "<b>Bilgi</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:511
 msgid "<b>Patterns</b>"
-msgstr ""
+msgstr "<b>Desenler</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:549 plugins/FlexRSS/FlexRSS.glade:724
 msgid "From"
-msgstr ""
+msgstr "Gönderen"
 
 #: plugins/FlexRSS/FlexRSS.glade:565 plugins/FlexRSS/FlexRSS.glade:641
 #: plugins/FlexRSS/FlexRSS.glade:826
 msgid "Season"
-msgstr ""
+msgstr "Sezon"
 
 #: plugins/FlexRSS/FlexRSS.glade:594 plugins/FlexRSS/FlexRSS.glade:675
 #: plugins/FlexRSS/FlexRSS.glade:833
 msgid "Episode"
-msgstr ""
+msgstr "Bölüm"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 msgid "Thru"
@@ -2319,27 +2442,27 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:766
 msgid "<b>History Restriction</b>"
-msgstr ""
+msgstr "<b>Sınırlama Geçmişi</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:810
 msgid "Doesn't Match"
-msgstr ""
+msgstr "Uyuşmuyor"
 
 #: plugins/FlexRSS/FlexRSS.glade:875
 msgid "Year"
-msgstr ""
+msgstr "Yıl"
 
 #: plugins/FlexRSS/FlexRSS.glade:882
 msgid "Month"
-msgstr ""
+msgstr "Ay"
 
 #: plugins/FlexRSS/FlexRSS.glade:893
 msgid "Day"
-msgstr ""
+msgstr "Gün"
 
 #: plugins/FlexRSS/FlexRSS.glade:960
 msgid "<b>Test</b>"
-msgstr ""
+msgstr "<b>Test</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
@@ -2347,7 +2470,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
-msgstr ""
+msgstr "Duraksatma Süresi verin."
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
 msgid "Delete filter when matched."
@@ -2355,15 +2478,16 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
-msgstr ""
+msgstr "<b>İndir</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1084
+#, fuzzy
 msgid "Replacement"
-msgstr ""
+msgstr "Yer değiştir"
 
 #: plugins/FlexRSS/FlexRSS.glade:1098
 msgid "Pattern"
-msgstr ""
+msgstr "Desen"
 
 #: plugins/FlexRSS/FlexRSS.glade:1111
 msgid "<b>Link Rewriting</b>"
@@ -2376,36 +2500,38 @@ msgid ""
 msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
+#, fuzzy
 msgid "Deluge default"
-msgstr ""
+msgstr "Deluge öntanımlı"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
 msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
+#, fuzzy
 msgid "Choose:"
-msgstr ""
+msgstr "Seç:"
 
 #: plugins/FlexRSS/FlexRSS.glade:1190
 msgid "<b>Output</b>"
-msgstr ""
+msgstr "<b>Çıktı</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1251
 msgid "Filters"
-msgstr ""
+msgstr "Filtreler"
 
 #: plugins/FlexRSS/FlexRSS.glade:1282
 msgid "Show a FlexRSS icon in Deluge's toolbar."
-msgstr ""
+msgstr "Deluge araççubuğunda FlexRSS ikonunu göster."
 
 #: plugins/FlexRSS/FlexRSS.glade:1283
 msgid "Show button on toolbar."
-msgstr ""
+msgstr "Düğmeleri araç çubuğunda göster."
 
 #: plugins/FlexRSS/FlexRSS.glade:1300
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>Arayüz</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1331
 msgid ""
@@ -2423,20 +2549,20 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"
-msgstr ""
+msgstr "Alan Adı"
 
 #: plugins/FlexRSS/FlexRSS.glade:1462
 msgid "Path"
-msgstr ""
+msgstr "Yol"
 
 #: plugins/FlexRSS/FlexRSS.glade:1488
 msgid "Value"
-msgstr ""
+msgstr "Değer"
 
 #: plugins/FlexRSS/FlexRSS.glade:1561
 msgid "<b>Cookies</b>"
-msgstr ""
+msgstr "<b>Çerezler</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1582
 msgid "Configuration"
-msgstr ""
+msgstr "Yapılandırma"

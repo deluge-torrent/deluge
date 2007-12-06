@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-07 06:28+0000\n"
+"PO-Revision-Date: 2007-12-02 16:14+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Greek, Modern (1453-) <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
+"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -27,19 +27,19 @@ msgstr "Προσθήκη"
 
 #: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
-msgstr "Αφαίρεση torrent"
+msgstr "Αφαίρεση Torrent"
 
 #: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:40
 msgid "Remove"
-msgstr "Αφαίρεση"
+msgstr "Κατάργηση"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
-msgstr "Καθαρισμός Seeding Torrents"
+msgstr "Αφαίρεση Torrents που ανεβάζουν"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
-msgstr "Απαλοιφή"
+msgstr "Καθαρισμός"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
@@ -210,7 +210,6 @@ msgid "<b>Tracker:</b>"
 msgstr "<b>Ιχνηλάτης</b>"
 
 #: glade/delugegtk.glade:645
-#, fuzzy
 msgid "<b># of files:</b>"
 msgstr "<b># από τα αρχεία:</b>"
 
@@ -406,7 +405,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:340
 msgid "Start torrents in paused state"
-msgstr ""
+msgstr "Εκκίνηση torrent σε κατάσταση παύσης"
 
 #: glade/preferences_dialog.glade:355
 #, fuzzy
@@ -548,7 +547,7 @@ msgstr "Εξερχόμενα:"
 #: glade/preferences_dialog.glade:908
 #, fuzzy
 msgid "Prefer to encrypt the entire stream"
-msgstr "Προτίμηση της κρυπτογράφησης όλων των δεδομένων"
+msgstr "Προτίμηση κρυπτογράφησης όλων των δεδομένων"
 
 #: glade/preferences_dialog.glade:921
 msgid "Level:"
@@ -577,7 +576,6 @@ msgstr ""
 "ουράς"
 
 #: glade/preferences_dialog.glade:1041
-#, fuzzy
 msgid "Queue new torrents above completed ones"
 msgstr "Προσθήκη νέων torrents πάνω από τα ολοκληρωμένα"
 
@@ -605,14 +603,19 @@ msgstr "Διμοιρασμός"
 
 #: glade/preferences_dialog.glade:1184 glade/preferences_dialog.glade:1205
 #: glade/wizard.glade:434 glade/wizard.glade:455
+#, fuzzy
 msgid ""
 "The maximum half-open connections.  A high value may crash some cheap "
 "routers.  Set -1 for unlimited."
 msgstr ""
+"Το μέγιστο πλήθος μισο-ανοιχτών συνδέσεων. Ένα μεγάλο νουμερο μπορεί να "
+"προκαλέσει την κατάρευση κάποιων φθηνών δρομολογητών. Θέστε -1 για "
+"απεριόριστες."
 
 #: glade/preferences_dialog.glade:1207 glade/wizard.glade:435
+#, fuzzy
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "Μέγιστο πλήθος μισο-ανοιχτών συνδέσεων:"
 
 #: glade/preferences_dialog.glade:1225 glade/preferences_dialog.glade:1245
 #: glade/preferences_dialog.glade:1325 glade/wizard.glade:277
@@ -1205,7 +1208,6 @@ msgid "Unknown duplicate torrent error."
 msgstr "Άγνωστο διπλότυπο λάθος torrent."
 
 #: src/interface.py:1382
-#, fuzzy
 msgid ""
 "There is not enough free                disk space to complete your download."
 msgstr ""
@@ -1447,7 +1449,6 @@ msgid "SafePeer Text (Zipped)"
 msgstr "Κείμενο SafePeer (Συμπιεσμένο)"
 
 #: plugins/BlocklistImport/__init__.py:92
-#, fuzzy
 msgid "Couldn't download URL"
 msgstr "Αδυναμία λήψης του URL"
 
@@ -1669,7 +1670,6 @@ msgid "Save file as..."
 msgstr "Αποθήκευση αρχείου ως..."
 
 #: plugins/TorrentCreator/__init__.py:120
-#, fuzzy
 msgid "You must select a source for the torrent."
 msgstr "Πρέπει να επιλέξετε μια πηγή για το torrent."
 
@@ -2101,14 +2101,13 @@ msgid ""
 msgstr ""
 
 #: plugins/MoveTorrent/__init__.py:76
-#, fuzzy
 msgid "_Move Torrent"
 msgstr "_Μετακίνηση Torrent"
 
 #: plugins/MoveTorrent/__init__.py:95
 #, fuzzy
 msgid "Choose a directory to move files to"
-msgstr "Επιλογή ευρετηρίου προορισμού για τη μετακίνηση των αρχείων"
+msgstr "Επιλογή προορισμού για τη μετακίνηση των αρχείων"
 
 #: plugins/MoveTorrent/__init__.py:124
 msgid ""

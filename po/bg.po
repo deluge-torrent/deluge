@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-06 12:36+0000\n"
+"PO-Revision-Date: 2007-11-28 03:10+0000\n"
 "Last-Translator: Evgeni Spasov <evgeni@svilen.com>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
+"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #~ msgid "Clear Finished Torrents"
@@ -151,7 +151,7 @@ msgstr "Премахване"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
-msgstr ""
+msgstr "Изчистване на качваните торенти"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
@@ -159,7 +159,7 @@ msgstr "Изчистване"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
-msgstr ""
+msgstr "Стартиране или продължаване на торент"
 
 #: glade/delugegtk.glade:80
 msgid "Resume"
@@ -167,7 +167,7 @@ msgstr "Продължаване"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
-msgstr ""
+msgstr "Спиране на торент"
 
 #: glade/delugegtk.glade:94
 msgid "Pause"
@@ -269,7 +269,7 @@ msgstr "Качващи"
 #: plugins/TorrentPeers/__init__.py:84
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Peers"
-msgstr "Теглещи"
+msgstr "Потребители"
 
 #: glade/delugegtk.glade:370 src/interface.py:635 src/interface.py:1192
 #: src/interface.py:1223 plugins/TorrentPeers/tab_peers.py:89
@@ -369,11 +369,11 @@ msgstr "<b>Скорост:</b>"
 
 #: glade/delugegtk.glade:1114
 msgid "<b>Peers:</b>"
-msgstr "<b>Теглещи:</b>"
+msgstr "<b>Потребители:</b>"
 
 #: glade/delugegtk.glade:1135
 msgid "<b>ETA:</b>"
-msgstr ""
+msgstr "<b>Оставащо време:</b>"
 
 #: glade/delugegtk.glade:1152
 msgid "<b>Pieces:</b>"
@@ -478,7 +478,7 @@ msgstr "Избор на папка"
 
 #: glade/preferences_dialog.glade:131
 msgid "Store all torrent files in:"
-msgstr ""
+msgstr "Складирай всички торент-файлове в:"
 
 #: glade/preferences_dialog.glade:146
 msgid "<b>Download Location</b>"
@@ -486,11 +486,11 @@ msgstr "<b>Място за изтеглянето</b>"
 
 #: glade/preferences_dialog.glade:200
 msgid "Autoload all torrent files in:"
-msgstr ""
+msgstr "Автоматично зареждане на всички торент-файлове в:"
 
 #: glade/preferences_dialog.glade:213
 msgid "<b>Autoload</b>"
-msgstr ""
+msgstr "<b>Автоматично зареждане</b>"
 
 #: glade/preferences_dialog.glade:249 glade/preferences_dialog.glade:266
 #: glade/wizard.glade:237 glade/wizard.glade:478
@@ -510,7 +510,7 @@ msgstr "Позволяване избирането на файлове от т�
 
 #: glade/preferences_dialog.glade:310
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "Показване само ако торента съдържа повече от 1 файл"
 
 #: glade/preferences_dialog.glade:325 glade/preferences_dialog.glade:326
 msgid "Prioritize first and last pieces of files in torrent"
@@ -518,7 +518,7 @@ msgstr "Изтегляне първо на началната и крайна ч
 
 #: glade/preferences_dialog.glade:340
 msgid "Start torrents in paused state"
-msgstr ""
+msgstr "Стартиране на торентите в спряно състояние"
 
 #: glade/preferences_dialog.glade:355
 msgid "<b>Torrents</b>"
@@ -626,11 +626,11 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:803
 msgid "Local Peer Discovery"
-msgstr ""
+msgstr "Откриване на потребители в частна мрежа"
 
 #: glade/preferences_dialog.glade:818
 msgid "<b>Network Extras</b>"
-msgstr ""
+msgstr "<b>Мрежови разширения</b>"
 
 #: glade/preferences_dialog.glade:859
 msgid "Inbound:"

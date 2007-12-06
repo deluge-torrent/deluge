@@ -8,107 +8,107 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-06-21 11:38+0000\n"
+"PO-Revision-Date: 2007-12-05 13:56+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Tamil <ta@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
+"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
 msgid "Add Torrent"
-msgstr ""
+msgstr "டோர்றேன்ட் ஐ சேர்க்கவும்"
 
 #: glade/delugegtk.glade:30
 msgid "Add"
-msgstr ""
+msgstr "சேர்க்கவும்"
 
 #: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
-msgstr ""
+msgstr "டோர்றேன்ட் ஐ நீக்கவும்"
 
 #: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:40
 msgid "Remove"
-msgstr ""
+msgstr "நீக்கவும்"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
-msgstr ""
+msgstr "சீடிங் டோர்றேன்ட் - களை காலியாக்கு"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
-msgstr ""
+msgstr "காலியாக்கு"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
-msgstr ""
+msgstr "டோர்றேன்ட் ஐ  துவக்க / மீண்டும் துவக்க"
 
 #: glade/delugegtk.glade:80
 msgid "Resume"
-msgstr ""
+msgstr "மீண்டும் துவக்க"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
-msgstr ""
+msgstr "டோர்றேன்ட் ஐ தற்காலிகமாக நிறுத்துக"
 
 #: glade/delugegtk.glade:94
 msgid "Pause"
-msgstr ""
+msgstr "தற்காலிகமாக நிறுத்து"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
-msgstr ""
+msgstr "டோர்றேன்ட் - களை மேல் நோக்கி வரிசைப்படுத்துக"
 
 #: glade/delugegtk.glade:107
 msgid "Up"
-msgstr ""
+msgstr "மேல்"
 
 #: glade/delugegtk.glade:120
 msgid "Queue Torrent Down"
-msgstr ""
+msgstr "டோர்றேன்ட் - களை கீழ் நோக்கி வரிசைப்படுத்துக"
 
 #: glade/delugegtk.glade:121
 msgid "Down"
-msgstr ""
+msgstr "கீழ்"
 
 #: glade/delugegtk.glade:142
 msgid "Change Deluge preferences"
-msgstr ""
+msgstr "ட்டிலுஜ் விருப்பங்களை மாற்றுக"
 
 #: glade/delugegtk.glade:143
 msgid "Preferences"
-msgstr "விருப்பத் தேர்வுகள்"
+msgstr "விருப்பங்கள்"
 
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
 #: glade/preferences_dialog.glade:2965
 msgid "Plugins"
-msgstr ""
+msgstr "சொருகுபொருள்கள்"
 
 #: glade/delugegtk.glade:177
 msgid "_File"
-msgstr ""
+msgstr "கோப்பு (_F)"
 
 #: glade/delugegtk.glade:184 glade/tray_menu.glade:61
 msgid "_Add Torrent"
-msgstr ""
+msgstr "_டோர்றேன்ட் ஐ சேர்க்கவும்"
 
 #: glade/delugegtk.glade:199
 msgid "Add _URL"
-msgstr ""
+msgstr "யு ஆர் எல்  - ஐ சேர்க்கவும்"
 
 #: glade/delugegtk.glade:207
 msgid "_Clear Completed"
-msgstr ""
+msgstr "_முடித்தவற்றை காலியாக்குக"
 
 #: glade/delugegtk.glade:240
 msgid "_Edit"
-msgstr ""
+msgstr "(_E)திருத்து"
 
 #: glade/delugegtk.glade:249
 msgid "gtk-select-all"
-msgstr ""
+msgstr "ஜி டி கே - அனைத்தையும் தேர்வு செய்க"
 
 #: glade/delugegtk.glade:265
 msgid "Plu_gins"

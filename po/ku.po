@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-01 02:50+0000\n"
+"PO-Revision-Date: 2007-11-30 11:54+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Kurdish <ku@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
+"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -55,7 +55,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:94
 msgid "Pause"
-msgstr ""
+msgstr "Behndan"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
@@ -79,7 +79,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:143
 msgid "Preferences"
-msgstr ""
+msgstr "Vebijark"
 
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
 #: glade/preferences_dialog.glade:2965
@@ -225,7 +225,7 @@ msgstr "<b>Mezinahî:</b>"
 
 #: glade/delugegtk.glade:811
 msgid "<b>Path:</b>"
-msgstr ""
+msgstr "<b>Rêç:</b>"
 
 #: glade/delugegtk.glade:843
 msgid "<b>Torrent Info</b>"
@@ -291,11 +291,11 @@ msgstr "Pelê .torrent jê bibe"
 
 #: glade/dgtkpopups.glade:155
 msgid "Show/Hide"
-msgstr ""
+msgstr "Nîşandan/Veşartin"
 
 #: glade/dgtkpopups.glade:163
 msgid "Add a Torrent..."
-msgstr ""
+msgstr "Torrentekê lê zêde bike..."
 
 #: glade/dgtkpopups.glade:179
 msgid "Clear Finished"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-10-05 07:02+0000\n"
+"PO-Revision-Date: 2007-11-28 17:26+0000\n"
 "Last-Translator: Robert Hrovat <robi@hipnos.net>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
+"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -34,24 +34,27 @@ msgid "Remove"
 msgstr "Odstrani"
 
 #: glade/delugegtk.glade:56
+#, fuzzy
 msgid "Clear Seeding Torrents"
-msgstr ""
+msgstr "Počisti sejalni torrent"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
 msgstr "Počisti"
 
 #: glade/delugegtk.glade:79
+#, fuzzy
 msgid "Start or Resume Torrent"
-msgstr ""
+msgstr "Začni ali obnovi"
 
 #: glade/delugegtk.glade:80
 msgid "Resume"
 msgstr "Nadaljuj"
 
 #: glade/delugegtk.glade:93
+#, fuzzy
 msgid "Pause Torrent"
-msgstr ""
+msgstr "Premor"
 
 #: glade/delugegtk.glade:94
 msgid "Pause"
@@ -361,19 +364,20 @@ msgstr "Izberi mapo"
 
 #: glade/preferences_dialog.glade:131
 msgid "Store all torrent files in:"
-msgstr ""
+msgstr "Shrani vse torrent datoteke v:"
 
 #: glade/preferences_dialog.glade:146
 msgid "<b>Download Location</b>"
 msgstr "<b>Mesto shranjevanja</b>"
 
 #: glade/preferences_dialog.glade:200
+#, fuzzy
 msgid "Autoload all torrent files in:"
-msgstr ""
+msgstr "Samodejno naloži vse torrent datoteke iz:"
 
 #: glade/preferences_dialog.glade:213
 msgid "<b>Autoload</b>"
-msgstr ""
+msgstr "Samodejno naloži"
 
 #: glade/preferences_dialog.glade:249 glade/preferences_dialog.glade:266
 #: glade/wizard.glade:237 glade/wizard.glade:478
@@ -393,7 +397,7 @@ msgstr "Omogoči izbiranje datotek pred prenosom torrentov"
 
 #: glade/preferences_dialog.glade:310
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "Pokaži samo, če ima torrent več kot eno datoteko"
 
 #: glade/preferences_dialog.glade:325 glade/preferences_dialog.glade:326
 msgid "Prioritize first and last pieces of files in torrent"
@@ -401,7 +405,7 @@ msgstr "Najprej prenesi prve in zadnje koščke torrenta"
 
 #: glade/preferences_dialog.glade:340
 msgid "Start torrents in paused state"
-msgstr ""
+msgstr "Zaženi torrente v premoru"
 
 #: glade/preferences_dialog.glade:355
 msgid "<b>Torrents</b>"
@@ -506,11 +510,12 @@ msgstr "NAT-PMP"
 
 #: glade/preferences_dialog.glade:786 glade/preferences_dialog.glade:787
 msgid "Peer Exchange"
-msgstr ""
+msgstr "Izmenjava vrstnikov"
 
 #: glade/preferences_dialog.glade:803
+#, fuzzy
 msgid "Local Peer Discovery"
-msgstr ""
+msgstr "Poišči lokalne vrstnike"
 
 #: glade/preferences_dialog.glade:818
 msgid "<b>Network Extras</b>"
@@ -917,11 +922,11 @@ msgstr "_Premor vseh"
 
 #: glade/tray_menu.glade:84
 msgid "_Download Speed Limit"
-msgstr ""
+msgstr "Omejitev hitrosti sprejema"
 
 #: glade/tray_menu.glade:100
 msgid "_Upload Speed Limit"
-msgstr ""
+msgstr "Omejitev hitrosti nalaganja"
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"
@@ -1204,7 +1209,7 @@ msgstr "Opozorilo - vse prejete datoteke za ta torrent bodo izbrisane!"
 
 #: src/interface.py:1483
 msgid "Are you sure that you want to remove all seeding torrents?"
-msgstr ""
+msgstr "Ali res želite odstraniti vse sejalne torrente?"
 
 #: src/core.py:87 plugins/WebUi/webserver_common.py:133
 msgid "Queued"
@@ -1248,10 +1253,13 @@ msgid "Asked for a torrent that doesn't exist"
 msgstr "Zahtevam torrent, ki ne obstaja"
 
 #: src/core.py:550
+#, fuzzy
 msgid ""
 "You're out of HD space!  Oops!\n"
 "We had to pause at least one torrent"
 msgstr ""
+"Na trdem disku je zmanjkalo prostora.\n"
+"Vsaj en torrent je v premoru"
 
 #: src/core.py:638
 msgid "Announce sent"
@@ -1611,6 +1619,13 @@ msgid ""
 "1024 KiB\n"
 "2048 KiB\n"
 msgstr ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1024 KiB\n"
+"2048 KiB\n"
 
 #: plugins/TorrentCreator/torrentcreator.glade:459
 msgid "Piece Size:"
@@ -2151,19 +2166,19 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:182
 msgid "WebUi Config"
-msgstr ""
+msgstr "WebUi nastavitve"
 
 #: plugins/WebUi/__init__.py:190
 msgid "Port Number"
-msgstr ""
+msgstr "Številka porta"
 
 #: plugins/WebUi/__init__.py:191
 msgid "New Password"
-msgstr ""
+msgstr "Novo geslo"
 
 #: plugins/WebUi/__init__.py:192
 msgid "New Password(confirm)"
-msgstr ""
+msgstr "Novo geslo (potrdi)"
 
 #: plugins/WebUi/__init__.py:193
 msgid "Template"
@@ -2187,7 +2202,7 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:212
 msgid "Text Only"
-msgstr ""
+msgstr "Samo besedilo"
 
 #: plugins/WebUi/__init__.py:246
 msgid "Confirmed Password <> New Password\n"
@@ -2203,7 +2218,7 @@ msgstr ""
 
 #: plugins/WebUi/deluge_webserver.py:158
 msgid "no data."
-msgstr ""
+msgstr "ni podatkov."
 
 #: plugins/WebUi/deluge_webserver.py:236
 msgid "refresh must be > 0"
@@ -2219,7 +2234,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:1
 msgid "# Of Files"
-msgstr ""
+msgstr "# datotek"
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"

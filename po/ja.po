@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-05-20 22:16+0000\n"
+"PO-Revision-Date: 2007-12-05 04:52+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
+"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -23,7 +23,7 @@ msgstr "Torrentを追加"
 
 #: glade/delugegtk.glade:30
 msgid "Add"
-msgstr ""
+msgstr "追加"
 
 #: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
@@ -31,55 +31,58 @@ msgstr "Torrentを削除"
 
 #: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:40
 msgid "Remove"
-msgstr ""
+msgstr "削除"
 
 #: glade/delugegtk.glade:56
+#, fuzzy
 msgid "Clear Seeding Torrents"
-msgstr ""
+msgstr "シーディングTorrentをクリア"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
-msgstr ""
+msgstr "クリア"
 
 #: glade/delugegtk.glade:79
+#, fuzzy
 msgid "Start or Resume Torrent"
-msgstr ""
+msgstr "Torrent開始/再開"
 
 #: glade/delugegtk.glade:80
 msgid "Resume"
-msgstr ""
+msgstr "再開"
 
 #: glade/delugegtk.glade:93
+#, fuzzy
 msgid "Pause Torrent"
-msgstr ""
+msgstr "Torrentを一時停止"
 
 #: glade/delugegtk.glade:94
 msgid "Pause"
-msgstr ""
+msgstr "一時停止"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
-msgstr "Torrentの列を上げる"
+msgstr "上に移動"
 
 #: glade/delugegtk.glade:107
 msgid "Up"
-msgstr ""
+msgstr "上"
 
 #: glade/delugegtk.glade:120
 msgid "Queue Torrent Down"
-msgstr "Torrentの列下げる"
+msgstr "下に移動"
 
 #: glade/delugegtk.glade:121
 msgid "Down"
-msgstr ""
+msgstr "下"
 
 #: glade/delugegtk.glade:142
 msgid "Change Deluge preferences"
-msgstr ""
+msgstr "Deluge設定を変更する"
 
 #: glade/delugegtk.glade:143
 msgid "Preferences"
-msgstr ""
+msgstr "設定"
 
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
 #: glade/preferences_dialog.glade:2965
@@ -92,15 +95,15 @@ msgstr "ファイル(_F)"
 
 #: glade/delugegtk.glade:184 glade/tray_menu.glade:61
 msgid "_Add Torrent"
-msgstr ""
+msgstr "Torrentを追加（_A）"
 
 #: glade/delugegtk.glade:199
 msgid "Add _URL"
-msgstr ""
+msgstr "URLを追加(_U)"
 
 #: glade/delugegtk.glade:207
 msgid "_Clear Completed"
-msgstr ""
+msgstr "ダウンロード済をクリア（_C）"
 
 #: glade/delugegtk.glade:240
 msgid "_Edit"
@@ -112,11 +115,11 @@ msgstr ""
 
 #: glade/delugegtk.glade:265
 msgid "Plu_gins"
-msgstr ""
+msgstr "プラグイン(_g)"
 
 #: glade/delugegtk.glade:293
 msgid "_Torrent"
-msgstr ""
+msgstr "トレント(_T)"
 
 #: glade/delugegtk.glade:300
 msgid "_View"
@@ -124,15 +127,15 @@ msgstr "ビュー(_V)"
 
 #: glade/delugegtk.glade:308
 msgid "_Toolbar"
-msgstr ""
+msgstr "ツールバー(_T)"
 
 #: glade/delugegtk.glade:317
 msgid "_Details"
-msgstr ""
+msgstr "詳細(_D)"
 
 #: glade/delugegtk.glade:326
 msgid "_Columns"
-msgstr ""
+msgstr "列(_C)"
 
 #: glade/delugegtk.glade:334 src/interface.py:623 src/files.py:80
 #: plugins/WebUi/scripts/template_strings.py:48
@@ -147,97 +150,102 @@ msgstr "状態"
 #: glade/delugegtk.glade:352 src/interface.py:629
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Seeders"
-msgstr "シーダー"
+msgstr "シーダー数"
 
 #: glade/delugegtk.glade:361 src/interface.py:632
 #: plugins/TorrentPeers/__init__.py:84
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Peers"
-msgstr "ピア"
+msgstr "ピア数"
 
 #: glade/delugegtk.glade:370 src/interface.py:635 src/interface.py:1192
 #: src/interface.py:1223 plugins/TorrentPeers/tab_peers.py:89
 #: plugins/WebUi/scripts/template_strings.py:16
+#, fuzzy
 msgid "Down Speed"
-msgstr ""
+msgstr "下り速度"
 
 #: glade/delugegtk.glade:379 src/interface.py:638 src/interface.py:1193
 #: src/interface.py:1224 plugins/TorrentPeers/tab_peers.py:91
 #: plugins/WebUi/scripts/template_strings.py:55
+#, fuzzy
 msgid "Up Speed"
-msgstr ""
+msgstr "上り速度"
 
 #: glade/delugegtk.glade:388
 msgid "Time Remaining"
 msgstr "残り時間"
 
 #: glade/delugegtk.glade:397 plugins/WebUi/scripts/template_strings.py:8
+#, fuzzy
 msgid "Availability"
-msgstr ""
+msgstr "可用性"
 
 #: glade/delugegtk.glade:406 plugins/WebUi/scripts/template_strings.py:47
 msgid "Share Ratio"
-msgstr ""
+msgstr "共有比"
 
 #: glade/delugegtk.glade:423
 msgid "_Help"
 msgstr "ヘルプ(_H)"
 
 #: glade/delugegtk.glade:431
+#, fuzzy
 msgid "Help translate this application"
-msgstr ""
+msgstr "このアプリケーションを翻訳する"
 
 #: glade/delugegtk.glade:432
 msgid "_Translate This Application..."
-msgstr ""
+msgstr "このアプリケーションを翻訳する（_T）"
 
 #: glade/delugegtk.glade:455
 msgid "Runs the first-time configuration wizard"
-msgstr ""
+msgstr "最初の設定ウイザードを実行"
 
 #: glade/delugegtk.glade:456
 msgid "_Run Configuration Wizard"
-msgstr ""
+msgstr "設定ウイザードを実行（_R）"
 
 #: glade/delugegtk.glade:593
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>ファイル名:</b>"
 
 #: glade/delugegtk.glade:617
 msgid "<b>Tracker:</b>"
 msgstr "<b>トラッカー:</b>"
 
 #: glade/delugegtk.glade:645
+#, fuzzy
 msgid "<b># of files:</b>"
-msgstr ""
+msgstr "<b>ファイル数:</b>"
 
 #: glade/delugegtk.glade:681
 msgid "<b>Next Announce:</b>"
-msgstr ""
+msgstr "<b>次のアナウンス：</b>"
 
 #: glade/delugegtk.glade:715
 msgid "<b>Tracker Status:</b>"
-msgstr "<b>トラッカーのステータス：</b>"
+msgstr "<b>トラッカー状態：</b>"
 
 #: glade/delugegtk.glade:776
 msgid "<b>Total Size:</b>"
-msgstr "<b>サイズ:</b>"
+msgstr "<b>合計サイズ:</b>"
 
 #: glade/delugegtk.glade:811
 msgid "<b>Path:</b>"
-msgstr ""
+msgstr "<b>パス:</b>"
 
 #: glade/delugegtk.glade:843
 msgid "<b>Torrent Info</b>"
-msgstr ""
+msgstr "<b>Torrent情報</b>"
 
 #: glade/delugegtk.glade:1005
 msgid "<b>Downloaded:</b>"
-msgstr ""
+msgstr "<b>ダウンロード量:</b>"
 
 #: glade/delugegtk.glade:1019
 msgid "<b>Uploaded:</b>"
-msgstr ""
+msgstr "<b>アップロード量:</b>"
 
 #: glade/delugegtk.glade:1037
 msgid "<b>Seeders:</b>"
@@ -245,19 +253,19 @@ msgstr "<b>シーダー:</b>"
 
 #: glade/delugegtk.glade:1055
 msgid "<b>Share Ratio:</b>"
-msgstr ""
+msgstr "<b>共有比:</b>"
 
 #: glade/delugegtk.glade:1074 glade/delugegtk.glade:1093
 msgid "<b>Speed:</b>"
-msgstr ""
+msgstr "<b>速度：</b>"
 
 #: glade/delugegtk.glade:1114
 msgid "<b>Peers:</b>"
-msgstr "<b>ピア:</b>"
+msgstr "<b>ピア数:</b>"
 
 #: glade/delugegtk.glade:1135
 msgid "<b>ETA:</b>"
-msgstr ""
+msgstr "<ｂ>ETA</b>"
 
 #: glade/delugegtk.glade:1152
 msgid "<b>Pieces:</b>"
@@ -265,21 +273,22 @@ msgstr "<b>ピース数:</b>"
 
 #: glade/delugegtk.glade:1190
 msgid "<b>Availability:</b>"
-msgstr ""
+msgstr "<b>可用性:</b>"
 
 #: glade/delugegtk.glade:1231
 msgid "<b>Statistics</b>"
-msgstr ""
+msgstr "<b>統計</b>"
 
 #: glade/delugegtk.glade:1256 plugins/WebUi/scripts/template_strings.py:14
 msgid "Details"
 msgstr "詳細"
 
 #: glade/dgtkpopups.glade:41
+#, fuzzy
 msgid ""
 "<span size=\"large\"><b>Are you sure you want to remove the selected "
 "torrent(s) from Deluge?</b></span>"
-msgstr ""
+msgstr "<span size=\"large\"><b>選択されたトレントをDelugeから削除してよろしいですか？</b></span>"
 
 #: glade/dgtkpopups.glade:65
 msgid "Delete downloaded files"
@@ -287,7 +296,7 @@ msgstr "ダウンロードしたファイルを削除"
 
 #: glade/dgtkpopups.glade:88 plugins/WebUi/scripts/template_strings.py:12
 msgid "Delete .torrent file"
-msgstr ""
+msgstr ".torrentファイルを削除"
 
 #: glade/dgtkpopups.glade:155
 msgid "Show/Hide"
@@ -299,35 +308,35 @@ msgstr "Torrentを追加..."
 
 #: glade/dgtkpopups.glade:179
 msgid "Clear Finished"
-msgstr "終了したら削除"
+msgstr "完了済のトレントを削除"
 
 #: glade/file_tab_menu.glade:11
 msgid "_Open File"
-msgstr ""
+msgstr "ファイルを開く(_O)"
 
 #: glade/file_tab_menu.glade:33
 msgid "Select All"
-msgstr ""
+msgstr "すべて選択"
 
 #: glade/file_tab_menu.glade:48
 msgid "Unselect All"
-msgstr ""
+msgstr "すべて選択解除"
 
 #: glade/file_tab_menu.glade:68 src/core.py:102
 msgid "Don't download"
-msgstr ""
+msgstr "ダウンロードしない"
 
 #: glade/file_tab_menu.glade:83 src/core.py:103
 msgid "Normal"
-msgstr ""
+msgstr "通常"
 
 #: glade/file_tab_menu.glade:98 src/core.py:104
 msgid "High"
-msgstr ""
+msgstr "高"
 
 #: glade/file_tab_menu.glade:113 src/core.py:105
 msgid "Highest"
-msgstr ""
+msgstr "最高"
 
 #: glade/merge_dialog.glade:7
 msgid "Deluge Merge Tracker Lists"
@@ -337,51 +346,52 @@ msgstr ""
 msgid ""
 "Torrent already detected in Deluge, would you like to merge the tracker "
 "lists?"
-msgstr ""
+msgstr "このトレントがDelugeに既存する為、トラッカーをマージしますか？"
 
 #: glade/preferences_dialog.glade:9
 msgid "Deluge Preferences"
-msgstr ""
+msgstr "Delugeの設定"
 
 #: glade/preferences_dialog.glade:58
 msgid "Ask where to save each download"
-msgstr ""
+msgstr "ファイルパスを毎回指定する"
 
 #: glade/preferences_dialog.glade:75 glade/preferences_dialog.glade:76
 msgid "Store all downloads in:"
-msgstr ""
+msgstr "固定ファイルパス："
 
 #: glade/preferences_dialog.glade:90 glade/preferences_dialog.glade:118
 #: glade/preferences_dialog.glade:186 glade/wizard.glade:187
 #: plugins/MoveTorrent/movetorrent.glade:35
 msgid "Select A Folder"
-msgstr ""
+msgstr "フォルダーを指定する"
 
 #: glade/preferences_dialog.glade:131
 msgid "Store all torrent files in:"
-msgstr ""
+msgstr "トレントファイルを保存パス："
 
 #: glade/preferences_dialog.glade:146
 msgid "<b>Download Location</b>"
-msgstr ""
+msgstr "<ｂ>ダウンロード場所</b>"
 
 #: glade/preferences_dialog.glade:200
+#, fuzzy
 msgid "Autoload all torrent files in:"
-msgstr ""
+msgstr "自動ダウンロードの保存パス："
 
 #: glade/preferences_dialog.glade:213
 msgid "<b>Autoload</b>"
-msgstr ""
+msgstr "<b>自動ダウンロード</b>"
 
 #: glade/preferences_dialog.glade:249 glade/preferences_dialog.glade:266
 #: glade/wizard.glade:237 glade/wizard.glade:478
 msgid ""
 "The number of active torrents that Deluge will run.  Set to -1 for unlimited."
-msgstr ""
+msgstr "同時にアクティブトレントの最大数（-1は無限の意味です）"
 
 #: glade/preferences_dialog.glade:251
 msgid "Maximum simultaneous active torrents:"
-msgstr ""
+msgstr "同時アクティブトレントの最大数："
 
 #: glade/preferences_dialog.glade:288 glade/preferences_dialog.glade:289
 #: glade/preferences_dialog.glade:309
@@ -398,11 +408,11 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:340
 msgid "Start torrents in paused state"
-msgstr ""
+msgstr "一時停止状態でトレントを開始する"
 
 #: glade/preferences_dialog.glade:355
 msgid "<b>Torrents</b>"
-msgstr ""
+msgstr "<b>トレント</b>"
 
 #: glade/preferences_dialog.glade:394
 msgid ""

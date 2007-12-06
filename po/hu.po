@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-10-27 06:26+0000\n"
+"PO-Revision-Date: 2007-11-30 19:23+0000\n"
 "Last-Translator: Bajusz Tamás btami@enternet.hu\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
+"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -508,7 +508,7 @@ msgstr "NAT-PMP"
 
 #: glade/preferences_dialog.glade:786 glade/preferences_dialog.glade:787
 msgid "Peer Exchange"
-msgstr ""
+msgstr "Partnercsere"
 
 #: glade/preferences_dialog.glade:803
 msgid "Local Peer Discovery"
@@ -812,6 +812,8 @@ msgstr "<b>Teljesítmény</b>"
 #: glade/preferences_dialog.glade:2714
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
 msgstr ""
+"A fejlettebb folyamatjelző csík használata (kissé nagyobb CPU/RAM "
+"felhasználás)"
 
 #: glade/preferences_dialog.glade:2725
 msgid "<b>Detailed Progress Bar</b>"
@@ -926,11 +928,11 @@ msgstr "Mindet _Megállít"
 
 #: glade/tray_menu.glade:84
 msgid "_Download Speed Limit"
-msgstr ""
+msgstr "_Letöltési sebességkorlátozás"
 
 #: glade/tray_menu.glade:100
 msgid "_Upload Speed Limit"
-msgstr ""
+msgstr "_Feltöltési sebességkorlátozás"
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"

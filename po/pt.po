@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-27 12:31+0000\n"
+"PO-Revision-Date: 2007-11-29 14:07+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
+"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -332,7 +332,6 @@ msgid "Highest"
 msgstr "Mais elevado"
 
 #: glade/merge_dialog.glade:7
-#, fuzzy
 msgid "Deluge Merge Tracker Lists"
 msgstr "Juntar Listas do Tracker Deluge"
 
@@ -492,9 +491,8 @@ msgid "<b>DHT</b>"
 msgstr "<b>DHT</b>"
 
 #: glade/preferences_dialog.glade:755
-#, fuzzy
 msgid "Universal Plug and Play"
-msgstr "Plug and Play Universal"
+msgstr "Universal Plug and Play"
 
 #: glade/preferences_dialog.glade:756
 msgid "UPnP"
@@ -612,7 +610,6 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1227 glade/preferences_dialog.glade:1450
 #: glade/wizard.glade:258
-#, fuzzy
 msgid "Maximum Upload Slots:"
 msgstr "Número Máximo de Envios:"
 
@@ -645,7 +642,6 @@ msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr "O número máximo de envios para os torrents. (-1 para ilimitados)"
 
 #: glade/preferences_dialog.glade:1359 glade/preferences_dialog.glade:1372
-#, fuzzy
 msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
@@ -658,7 +654,6 @@ msgid "Maximum Connection Attempts per Second:"
 msgstr "Número Máximo de Tentativas de Ligação por Segundo:"
 
 #: glade/preferences_dialog.glade:1392
-#, fuzzy
 msgid "<b>Global Bandwidth Usage</b>"
 msgstr "<b>Uso de Banda Global</b>"
 
@@ -667,12 +662,10 @@ msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
 msgstr "O número máximo de ligações por torrent. (-1 para ilimitadas)"
 
 #: glade/preferences_dialog.glade:1448 glade/preferences_dialog.glade:1477
-#, fuzzy
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr "O número máximo de envio por torrent. (-1 para ilimitado)"
+msgstr "O número máximo de envios por torrent. (-1 para ilimitado)"
 
 #: glade/preferences_dialog.glade:1498
-#, fuzzy
 msgid "<b>Per Torrent Bandwidth Usage</b>"
 msgstr "<b>Uso de Banda Por Torrent</b>"
 
@@ -957,7 +950,6 @@ msgid "Tracker Editing"
 msgstr "Edição de Trackers"
 
 #: glade/files_dialog.glade:8
-#, fuzzy
 msgid "Deluge File Selection"
 msgstr "Selecionador de ficheiros do Deluge"
 
@@ -1525,7 +1517,6 @@ msgstr ""
 "bloqueios."
 
 #: plugins/BlocklistImport/peerguardian.py:32
-#, fuzzy
 msgid "Invalid leader"
 msgstr "Invalid leader"
 
@@ -1609,9 +1600,8 @@ msgid "Save Torrent File As:"
 msgstr "Guardar Torrent Como:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:235
-#, fuzzy
 msgid "Load this torrent into Deluge for seeding"
-msgstr "Carrega o torrent para o Deluge para semear"
+msgstr "Carrega o torrent no Deluge para semear"
 
 #: plugins/TorrentCreator/torrentcreator.glade:236
 msgid "Add new torrent to queue"
@@ -1699,7 +1689,7 @@ msgstr "Têm de seleccionar uma fonte para o torrent."
 #: plugins/TorrentCreator/__init__.py:127
 #, fuzzy
 msgid "You must select a file to save the torrent as."
-msgstr "Têm de seleccionar um ficheiro para salvar como o torrent."
+msgstr "Deve seleccionar um ficheiro para salvar o torrent."
 
 #: plugins/TorrentNotification/notification_preferences.glade:7
 msgid "Torrent Notification Preferences"
@@ -1775,7 +1765,6 @@ msgstr "Bloqueio terminado"
 
 #: plugins/EventLogging/event_logging_preferences.glade:94
 #: plugins/EventLogging/tab_log.py:189
-#, fuzzy
 msgid "Block downloading"
 msgstr "Transferência de bloco"
 
@@ -1807,7 +1796,6 @@ msgstr "Resposta do Tracker"
 
 #: plugins/EventLogging/event_logging_preferences.glade:178
 #: plugins/EventLogging/tab_log.py:132
-#, fuzzy
 msgid "Tracker announce"
 msgstr "Anunciar no tracker"
 
@@ -2411,7 +2399,6 @@ msgid "Set"
 msgstr "Seleccionar"
 
 #: plugins/WebUi/scripts/template_strings.py:46
-#, fuzzy
 msgid "Set Timeout"
 msgstr "Definir tempo de esgotamento"
 
@@ -2584,7 +2571,6 @@ msgstr ""
 "pedido se este não estiver definido."
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
-#, fuzzy
 msgid "Deluge default"
 msgstr "Padrão Deluge"
 
@@ -2626,7 +2612,6 @@ msgstr ""
 "não irá bloquear, mas pode não ser fiável."
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
-#, fuzzy
 msgid "Threaded (experimental)"
 msgstr "Threaded (experimental)"
 

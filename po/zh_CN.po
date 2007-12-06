@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-19 15:04+0000\n"
-"Last-Translator: Aarons Wang Shi <aarons.wang@gmail.com>\n"
+"PO-Revision-Date: 2007-12-04 06:06+0000\n"
+"Last-Translator: Aaron Wang Shi <aarons.wang@gmail.com>\n"
 "Language-Team: Chinese (China) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
+"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #~ msgid "Clear Finished Torrents"
@@ -71,6 +71,26 @@ msgstr ""
 #~ "  smoke <https://launchpad.net/~minir4id>\n"
 #~ "  xyb <https://launchpad.net/~xieyanbo>\n"
 #~ "  zissan <https://launchpad.net/~zissan>\n"
+#~ "\n"
+#~ "Launchpad Contributions:\n"
+#~ "  Aaron Wang Shi https://launchpad.net/~aarons-wang\n"
+#~ "  Abcx https://launchpad.net/~xinwen87-gmail\n"
+#~ "  Jack Shen https://launchpad.net/~anticlockwise5\n"
+#~ "  Wentao Tang https://launchpad.net/~wisetang\n"
+#~ "  XavierToo https://launchpad.net/~xaviertoo\n"
+#~ "  Xiaodong Xu https://launchpad.net/~xxdlhy\n"
+#~ "  Zissan https://launchpad.net/~zissan\n"
+#~ "  butely https://launchpad.net/~moosefly\n"
+#~ "  darh00 https://launchpad.net/~darren-hoo\n"
+#~ "  duan https://launchpad.net/~duanzhiwei\n"
+#~ "  ibear https://launchpad.net/~bearsprite\n"
+#~ "  laughterwym https://launchpad.net/~edwin.wang\n"
+#~ "  oldbeggar https://launchpad.net/~chen-gang1983\n"
+#~ "  qubicllj https://launchpad.net/~qubicllj-gmail\n"
+#~ "  rainofchaos https://launchpad.net/~rainofchaos\n"
+#~ "  smoke https://launchpad.net/~minir4id\n"
+#~ "  xyb https://launchpad.net/~xieyanbo\n"
+#~ "  zhuqin_83 https://launchpad.net/~zhuqin-83\n"
 #~ "\n"
 #~ "Launchpad Contributions:\n"
 #~ "  Aaron Wang Shi https://launchpad.net/~aarons-wang\n"
@@ -1160,11 +1180,11 @@ msgstr "全局最大上传通道。-1为不限制。"
 msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
-msgstr ""
+msgstr "每秒尝试连接的最大数量。太高的数值可能会导致某些便宜的路由器崩溃。-1为不限制。"
 
 #: glade/preferences_dialog.glade:1361
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "每秒最大尝试连接数："
 
 #: glade/preferences_dialog.glade:1392
 msgid "<b>Global Bandwidth Usage</b>"
@@ -1389,7 +1409,7 @@ msgstr "删除种子(_R)"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "Tracker选项(_T)"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
@@ -1401,7 +1421,7 @@ msgstr "编辑Trackers(_E)"
 
 #: glade/torrent_menu.glade:138
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "去除Tracker(_S)"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"
@@ -1979,7 +1999,7 @@ msgstr "完成"
 
 #: plugins/BlocklistImport/text.py:129
 msgid "Got format exception for zipfile:"
-msgstr ""
+msgstr "发现压缩包格式异常："
 
 #: plugins/BlocklistImport/peerguardian.py:24
 msgid ""
@@ -2714,7 +2734,7 @@ msgstr "上传速度限制"
 
 #: plugins/WebUi/scripts/template_strings.py:1
 msgid "# Of Files"
-msgstr ""
+msgstr "# 的文件"
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
@@ -2734,7 +2754,7 @@ msgstr "自动刷新"
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Ava"
-msgstr ""
+msgstr "健康度"
 
 #: plugins/WebUi/scripts/template_strings.py:9
 msgid "Config"
@@ -2782,7 +2802,7 @@ msgstr "下一次通讯"
 
 #: plugins/WebUi/scripts/template_strings.py:27
 msgid "Off"
-msgstr ""
+msgstr "关闭"
 
 #: plugins/WebUi/scripts/template_strings.py:29
 msgid "Password is invalid,try again"
@@ -2806,11 +2826,11 @@ msgstr "队列向下移动"
 
 #: plugins/WebUi/scripts/template_strings.py:36
 msgid "Queue pos:"
-msgstr ""
+msgstr "队列位置："
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Reannounce"
-msgstr ""
+msgstr "重新发布"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Refresh page every:"
@@ -2880,11 +2900,11 @@ msgstr "秒"
 
 #: plugins/FlexRSS/FlexRSS.glade:6
 msgid "FlexRSS"
-msgstr ""
+msgstr "FlexRSS"
 
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
-msgstr ""
+msgstr "升级过程中Feed种子会被自动升级。"
 
 #: plugins/FlexRSS/FlexRSS.glade:115
 msgid "Feed must be refreshed manually."
@@ -2938,11 +2958,12 @@ msgstr "季度"
 #: plugins/FlexRSS/FlexRSS.glade:594 plugins/FlexRSS/FlexRSS.glade:675
 #: plugins/FlexRSS/FlexRSS.glade:833
 msgid "Episode"
-msgstr ""
+msgstr "剧集"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
+#, fuzzy
 msgid "Thru"
-msgstr ""
+msgstr "全部"
 
 #: plugins/FlexRSS/FlexRSS.glade:766
 msgid "<b>History Restriction</b>"
@@ -2977,8 +2998,9 @@ msgid "Set state to paused."
 msgstr "设置为暂停状态"
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
+#, fuzzy
 msgid "Delete filter when matched."
-msgstr ""
+msgstr "匹配后删除过滤器"
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
@@ -3038,11 +3060,11 @@ msgstr "<b>界面</b>"
 msgid ""
 "Feeds will be retrieved and parsed in their own threads. The application "
 "will not be blocked, but it can be unreliable."
-msgstr ""
+msgstr "Feed种子会在单独的线程里被恢复和转换。主程序不会被阻塞，但可能会不可靠。"
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
 msgid "Threaded (experimental)"
-msgstr ""
+msgstr "线程化（实验阶段）"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"

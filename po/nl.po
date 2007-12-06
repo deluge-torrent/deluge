@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-26 17:45+0000\n"
+"PO-Revision-Date: 2007-12-02 19:44+0000\n"
 "Last-Translator: elparia <marco@elparia.nl>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-11-27 19:13+0000\n"
+"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -43,7 +43,7 @@ msgstr "Leegmaken"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
-msgstr "Start of resumeer torrent"
+msgstr "Start of hervat torrent"
 
 #: glade/delugegtk.glade:80
 msgid "Resume"
@@ -209,7 +209,7 @@ msgstr "<b>Tracker:</b>"
 
 #: glade/delugegtk.glade:645
 msgid "<b># of files:</b>"
-msgstr "<b># van de bestanden:</b>"
+msgstr "<b># bestanden:</b>"
 
 #: glade/delugegtk.glade:681
 msgid "<b>Next Announce:</b>"
@@ -885,7 +885,7 @@ msgstr "Torrent ve_rwijderen"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "_Tracker opties"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
@@ -2168,7 +2168,7 @@ msgstr "_Voeg Web Seed toe"
 
 #: plugins/WebSeed/webseed.glade:7
 msgid "Add Web Seed"
-msgstr ""
+msgstr "Web seed toevoegen"
 
 #: plugins/Scheduler/plugin.py:104
 msgid "Scheduler Settings"
@@ -2320,7 +2320,7 @@ msgstr "Fout"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Eta"
-msgstr ""
+msgstr "Resterende tijd"
 
 #: plugins/WebUi/scripts/template_strings.py:23
 msgid "Login"
@@ -2360,11 +2360,11 @@ msgstr "Omhoog in wachtrij"
 
 #: plugins/WebUi/scripts/template_strings.py:36
 msgid "Queue pos:"
-msgstr ""
+msgstr "Wachtrij positie:"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Reannounce"
-msgstr ""
+msgstr "Opnieuw aankondigen"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Refresh page every:"
@@ -2439,10 +2439,11 @@ msgstr "FlexRSS"
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
 msgstr ""
+"Feed zal automatisch opgehaald worden, afhankelijk van de update interval."
 
 #: plugins/FlexRSS/FlexRSS.glade:115
 msgid "Feed must be refreshed manually."
-msgstr ""
+msgstr "Feed moet handmatig ververst worden."
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
@@ -2458,7 +2459,7 @@ msgstr "URL"
 
 #: plugins/FlexRSS/FlexRSS.glade:192
 msgid "900"
-msgstr ""
+msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
 msgid "Feeds"
@@ -2500,7 +2501,7 @@ msgstr "Tot"
 
 #: plugins/FlexRSS/FlexRSS.glade:766
 msgid "<b>History Restriction</b>"
-msgstr ""
+msgstr "<b>Geschiedenis beperking</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:810
 msgid "Doesn't Match"
@@ -2524,7 +2525,7 @@ msgstr "<b>Test</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
-msgstr "Torrernt invoegen aan het begin van de wachtrij"
+msgstr "Torrent invoegen aan het begin van de wachtrij."
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
@@ -2532,7 +2533,7 @@ msgstr "Zet status naar pauze."
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
 msgid "Delete filter when matched."
-msgstr ""
+msgstr "Verwijder filter wanneer die overeen komt."
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
@@ -2548,21 +2549,23 @@ msgstr "Patroon"
 
 #: plugins/FlexRSS/FlexRSS.glade:1111
 msgid "<b>Link Rewriting</b>"
-msgstr ""
+msgstr "<b>Link herschrijving</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1143
 msgid ""
 "Content will be saved to Deluge's default directory, or a prompt will appear "
 "if none is set."
 msgstr ""
+"Inhoud zal opgeslagen worden in Deluge's standaard map, of een vraag zal "
+"verschijnen als niets is ingesteld."
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
 msgid "Deluge default"
-msgstr ""
+msgstr "Deluge standaard"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
-msgstr ""
+msgstr "Inhoud zal automatisch worden gedownload naar de opgegeven map."
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"
@@ -2593,10 +2596,8 @@ msgid ""
 "Feeds will be retrieved and parsed in their own threads. The application "
 "will not be blocked, but it can be unreliable."
 msgstr ""
-"eeds will be retrieved and parsed in their own threads. The application will "
-"not be blocked, but it can be unreliable.\n"
-"Feeds worden opgehaald in hun eigen thread. De applicatie zal niet blokkeren "
-", maar het kan onbetrouwbaar zijn,"
+"Feeds worden opgehaald in hun eigen draad. De applicatie zal niet "
+"geblokkeerd worden, maar kan onbetrouwbaar zijn."
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
 msgid "Threaded (experimental)"
@@ -2604,7 +2605,7 @@ msgstr "Threaded (experimenteel)"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"
-msgstr "<b>Ophalwen van Feeds</b>"
+msgstr "<b>Ophalen van feeds</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"
