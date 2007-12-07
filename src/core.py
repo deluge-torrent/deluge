@@ -289,6 +289,9 @@ class Manager:
         # Stop DHT, if needed
         self.set_DHT(False)
 
+        #close upnp
+        deluge_core.use_upnp(0)
+
         if self.config.get("use_compact_storage"):
             for unique_ID in self.unique_IDs.keys():
                 self.pause(unique_ID)
