@@ -183,6 +183,7 @@ class ListView:
         """Load the listview state from filename."""
         # Get the config location for loading the state file
         config_location = ConfigManager("gtkui.conf")["config_location"]
+        state = None
         
         try:
             log.debug("Loading ListView state file: %s", filename)
@@ -374,7 +375,6 @@ class ListView:
         elif column_type == None:
             return
        
-        column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
         column.set_sort_column_id(self.columns[header].column_indices[sortid])
         column.set_clickable(True)
         column.set_resizable(True)
@@ -384,15 +384,17 @@ class ListView:
         column.set_visible(not hidden)
 
         # Check for loaded state and apply
-        for column_state in self.state:
-            if header == column_state.name:
-                # We found a loaded state
-                if column_state.width > 0:
-                    column.set_fixed_width(column_state.width)
-                column.set_sort_indicator(column_state.sort)
-                column.set_sort_order(column_state.sort_order)
-                column.set_visible(column_state.visible)
-                position = column_state.position
+        if self.state != None:
+            for column_state in self.state:
+                if header == column_state.name:
+                    # We found a loaded state
+                    if column_state.width > 0:
+                        column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
+                        column.set_fixed_width(column_state.width)
+                    column.set_sort_indicator(column_state.sort)
+                    column.set_sort_order(column_state.sort_order)
+                    column.set_visible(column_state.visible)
+                    position = column_state.position
 
         if position is not None:
             self.treeview.insert_column(column, position)
