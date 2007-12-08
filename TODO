@@ -11,7 +11,6 @@
 * Address issue where torrents will redownload if the storage is moved outside
     of deluge.
 * Hide open folder if not localhost
-* Add classic/normal mode to preferences
 * Implement 'Classic' mode
 * Tray tooltip
 * Add autoload folder
