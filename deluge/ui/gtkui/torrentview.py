@@ -170,9 +170,10 @@ class TorrentView(listview.ListView, component.Component):
         self.filter = (None, None)
         
         # Set the liststore filter column
-        self.model_filter = self.liststore.filter_new()
-        self.model_filter.set_visible_column(
+        model_filter = self.liststore.filter_new()
+        model_filter.set_visible_column(
             self.columns["filter"].column_indices[0])
+        self.model_filter = gtk.TreeModelSort(model_filter)
         self.treeview.set_model(self.model_filter)
         
         ### Connect Signals ###
@@ -192,7 +193,7 @@ class TorrentView(listview.ListView, component.Component):
         session_state = client.get_session_state()
         for torrent_id in session_state:
             self.add_row(torrent_id)
-    
+
     def stop(self):
         """Stops the torrentview"""
         # We need to clear the liststore
