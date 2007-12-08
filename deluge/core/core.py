@@ -55,6 +55,7 @@ from deluge.core.signalmanager import SignalManager
 from deluge.log import LOG as log
 
 DEFAULT_PREFS = {
+    "config_location": deluge.common.get_config_dir(),
     "daemon_port": 58846,
     "allow_remote": False,
     "compact_allocation": True,

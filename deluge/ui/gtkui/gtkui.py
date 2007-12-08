@@ -55,10 +55,12 @@ from pluginmanager import PluginManager
 from dbusinterface import DbusInterface
 from queuedtorrents import QueuedTorrents
 from deluge.configmanager import ConfigManager
+import deluge.common
 from deluge.log import LOG as log
 import deluge.configmanager
 
 DEFAULT_PREFS = {
+    "config_location": deluge.common.get_config_dir(),
     "interactive_add": False,
     "enable_files_dialog": False,
     "enable_system_tray": True,
@@ -151,6 +153,8 @@ class GtkUI:
         del config
         
         # Clean-up
+        # Shutdown all components
+        component.shutdown()
         del self.mainwindow
         del self.systemtray
         del self.menubar

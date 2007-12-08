@@ -116,7 +116,9 @@ class TorrentView(listview.ListView, component.Component):
         listview.ListView.__init__(self, 
                             self.window.main_glade.get_widget("torrent_view"))
         log.debug("TorrentView Init..")
-
+        # Try to load the state file if available
+        self.load_state("torrentview.state")
+        
         # Register the columns menu with the listview so it gets updated
         # accordingly.
         self.register_checklist_menu(
@@ -185,7 +187,7 @@ class TorrentView(listview.ListView, component.Component):
         # changes.
         self.treeview.get_selection().connect("changed", 
                                     self.on_selection_changed)
-                                    
+                                  
     def start(self):
         """Start the torrentview"""
         # We need to get the core session state to know which torrents are in
@@ -198,7 +200,11 @@ class TorrentView(listview.ListView, component.Component):
         """Stops the torrentview"""
         # We need to clear the liststore
         self.liststore.clear()
-    
+
+    def shutdown(self):
+        """Called when GtkUi is exiting"""
+        self.save_state("torrentview.state")
+        
     def set_filter(self, field, condition):
         """Sets filters for the torrentview.."""
         self.filter = (field, condition)

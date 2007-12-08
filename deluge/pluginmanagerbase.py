@@ -63,7 +63,6 @@ class PluginManagerBase:
             self.enable_plugin(name)
            
     def shutdown(self):
-        log.debug("PluginManager shutting down..")
         for plugin in self.plugins.values():
             plugin.disable()
         del self.plugins

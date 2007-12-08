@@ -99,7 +99,6 @@ class SystemTray(component.Component):
                 self.tray_glade.get_widget(widget).hide()
             
     def start(self):
-        log.debug("SystemTray start..")
         if self.config["enable_system_tray"]:
             # Show widgets in the hide list because we've connected to a host
             for widget in self.hide_widget_list:
@@ -109,7 +108,6 @@ class SystemTray(component.Component):
             self.build_tray_bwsetsubmenu()
 
     def stop(self):
-        log.debug("SystemTray stop..")
         try:
             # Hide widgets in hide list because we're not connected to a host
             for widget in self.hide_widget_list:

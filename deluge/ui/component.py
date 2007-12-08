@@ -60,6 +60,9 @@ class Component:
     def _stop(self):
         self._state = COMPONENT_STATE.index("Stopped")
         
+    def shutdown(self):
+        pass
+        
     def update(self):
         pass
         
@@ -100,6 +103,7 @@ class ComponentRegistry:
         # Only start if the component is stopped.
         if self.components[name].get_state() == \
             COMPONENT_STATE.index("Stopped"):
+            log.debug("Starting component %s..", name)
             self.components[name].start()
             self.components[name]._start()
         
@@ -107,6 +111,7 @@ class ComponentRegistry:
     def stop(self):
         """Stops all components"""
         for component in self.components.keys():
+            log.debug("Stopping component %s..", component)
             self.components[component].stop()
             self.components[component]._stop()
         # Stop the update timer
@@ -122,6 +127,17 @@ class ComponentRegistry:
          
         return True
     
+    def shutdown(self):
+        """Shuts down all components.  This should be called when the program
+        exits so that components can do any necessary clean-up."""
+        for component in self.components.keys():
+            log.debug("Shutting down component %s..", component)
+            try:
+                self.components[component].shutdown()
+            except Exception, e:
+                log.debug("Unable to call shutdown(): %s", e)
+                
+            
 _ComponentRegistry = ComponentRegistry()
 
 def register(name, obj, depend=None):
@@ -140,6 +156,10 @@ def update():
     """Updates all components"""
     _ComponentRegistry.update()
 
+def shutdown():
+    """Shutdowns all components"""
+    _ComponentRegistry.shutdown()
+    
 def get(component):
     """Return a reference to the component"""
     return _ComponentRegistry.get(component)

@@ -31,11 +31,15 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
+import cPickle
+import os.path
+
 import pygtk
 pygtk.require('2.0')
 import gtk
 import gettext
 
+from deluge.configmanager import ConfigManager
 import deluge.common
 from deluge.log import LOG as log
 
@@ -84,6 +88,16 @@ def cell_data_ratio(column, cell, model, row, data):
         ratio_str = "%.3f" % ratio
         cell.set_property('text', ratio_str)
 
+class ListViewColumnState:
+    """Used for saving/loading column state"""
+    def __init__(self, name, position, width, visible, sort, sort_order):
+        self.name = name
+        self.position = position
+        self.width = width
+        self.visible = visible
+        self.sort = sort
+        self.sort_order = sort_order
+        
 class ListView:
     """ListView is used to make custom GtkTreeViews.  It supports the adding
     and removing of columns, creating a menu for a column toggle list and
@@ -106,8 +120,7 @@ class ListView:
             # If column is 'hidden' then it will not be visible and will not
             # show up in any menu listing;  it cannot be shown ever.
             self.hidden = False
-            
-    
+                
     def __init__(self, treeview_widget=None):
         log.debug("ListView initialized..")
         
@@ -138,6 +151,50 @@ class ListView:
         # created.
         self.checklist_menus = []
     
+    def save_state(self, filename):
+        """Saves the listview state (column positions and visibility) to
+            filename."""
+        # A list of ListViewColumnStates
+        state = []
+        
+        # Get the list of TreeViewColumns from the TreeView
+        treeview_columns = self.treeview.get_columns()
+        counter = 0
+        for column in treeview_columns:
+            # Append a new column state to the state list
+            state.append(ListViewColumnState(column.get_title(), counter, 
+                column.get_width(), column.get_visible(), 
+                column.get_sort_indicator(), int(column.get_sort_order())))
+            # Increase the counter because this is how we determine position
+            counter += 1
+            
+        # Get the config location for saving the state file
+        config_location = ConfigManager("gtkui.conf")["config_location"]
+
+        try:
+            log.debug("Saving ListView state file: %s", filename)
+            state_file = open(os.path.join(config_location, filename), "wb")
+            cPickle.dump(state, state_file)
+            state_file.close()
+        except IOError, e:
+            log.warning("Unable to save state file: %s", e)
+        
+    def load_state(self, filename):
+        """Load the listview state from filename."""
+        # Get the config location for loading the state file
+        config_location = ConfigManager("gtkui.conf")["config_location"]
+        
+        try:
+            log.debug("Loading ListView state file: %s", filename)
+            state_file = open(os.path.join(config_location, filename), "rb")
+            state = cPickle.load(state_file)
+            state_file.close()
+        except IOError:
+            log.warning("Unable to load state file: %s", e)
+        
+        # Keep the state in self.state so we can access it as we add new columns
+        self.state = state
+        
     def set_treeview(self, treeview_widget):
         """Set the treeview widget that this listview uses."""
         self.treeview = treeview_widget
@@ -317,6 +374,7 @@ class ListView:
         elif column_type == None:
             return
        
+        column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
         column.set_sort_column_id(self.columns[header].column_indices[sortid])
         column.set_clickable(True)
         column.set_resizable(True)
@@ -324,10 +382,23 @@ class ListView:
         column.set_min_width(10)
         column.set_reorderable(True)
         column.set_visible(not hidden)
+
+        # Check for loaded state and apply
+        for column_state in self.state:
+            if header == column_state.name:
+                # We found a loaded state
+                if column_state.width > 0:
+                    column.set_fixed_width(column_state.width)
+                column.set_sort_indicator(column_state.sort)
+                column.set_sort_order(column_state.sort_order)
+                column.set_visible(column_state.visible)
+                position = column_state.position
+
         if position is not None:
             self.treeview.insert_column(column, position)
         else:
             self.treeview.append_column(column)
+
         # Set hidden in the column
         self.columns[header].hidden = hidden
         self.columns[header].column = column

@@ -107,7 +107,6 @@ class StatusBar(component.Component):
         self.show_not_connected()
 
     def start(self):
-        log.debug("StatusBar start..")
         # Add in images and labels
         self.remove_item(self.not_connected_item)
         self.connections_item = StatusBarItem(
