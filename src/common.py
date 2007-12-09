@@ -190,7 +190,7 @@ def exec_command(executable, *parameters):
     command = [executable]
     command.extend(parameters)
     try:
-        os.WEXITSTATUS(os.system(command[0] +" "+ command[1]))
+        os.WEXITSTATUS(os.system(command[0] + " \"%s\"" %command[1]))
     except OSError:
         import gtk
          
