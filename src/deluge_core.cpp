@@ -392,7 +392,7 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
     // Init values
 
     M_settings->user_agent = std::string(user_agent);
-    M_settings->stop_tracker_timeout = 3;
+    M_settings->stop_tracker_timeout = 5;
     M_settings->lazy_bitfields = 1;
 #if defined(_WIN32)
     DWORD windows_version = ::GetVersion();
