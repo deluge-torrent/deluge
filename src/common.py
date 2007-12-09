@@ -186,12 +186,11 @@ def fetch_url(url):
     return None
 
 def exec_command(executable, *parameters):
-    from subprocess import Popen
-
+    import os
     command = [executable]
     command.extend(parameters)
     try:
-        Popen(command)
+        os.WEXITSTATUS(os.system(command[0] +" "+ command[1]))
     except OSError:
         import gtk
          
