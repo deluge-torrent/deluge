@@ -42,6 +42,7 @@ import gobject
 import deluge.libtorrent as lt
 
 import deluge.common
+import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.core.torrent import Torrent
 from deluge.log import LOG as log
@@ -61,12 +62,13 @@ class TorrentManagerState:
     def __init__(self):
         self.torrents = []
 
-class TorrentManager:
+class TorrentManager(component.Component):
     """TorrentManager contains a list of torrents in the current libtorrent
     session.  This object is also responsible for saving the state of the
     session for use on restart."""
     
     def __init__(self, session, alerts):
+        component.Component.__init__(self, "TorrentManager")
         log.debug("TorrentManager init..")
         # Set the libtorrent session
         self.session = session
@@ -79,11 +81,6 @@ class TorrentManager:
         self.max_uploads = -1
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
-        # Try to load the state from file
-        self.load_state()
-        
-        # Save the state every 5 minutes
-        self.save_state_timer = gobject.timeout_add(300000, self.save_state)
     
         # Register set functions
         self.config.register_set_function("max_connections_per_torrent",
@@ -103,9 +100,15 @@ class TorrentManager:
         self.alerts.register_handler("tracker_alert", self.on_alert_tracker)
         self.alerts.register_handler("tracker_warning_alert",
             self.on_alert_tracker_warning)
-            
-    def shutdown(self):
-        log.debug("TorrentManager shutting down..")
+
+    def start(self):
+        # Try to load the state from file
+        self.load_state()
+
+        # Save the state every 5 minutes
+        self.save_state_timer = gobject.timeout_add(300000, self.save_state)
+                    
+    def stop(self):
         # Save state on shutdown
         self.save_state()
         # Pause all torrents and save the .fastresume files
@@ -113,6 +116,9 @@ class TorrentManager:
         for key in self.torrents.keys():
             self.write_fastresume(key)
         
+    def shutdown(self):
+        self.stop()
+                        
     def __getitem__(self, torrent_id):
         """Return the Torrent with torrent_id"""
         return self.torrents[torrent_id]

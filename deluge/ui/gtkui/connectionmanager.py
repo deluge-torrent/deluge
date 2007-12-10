@@ -37,7 +37,7 @@ import gobject
 import socket
 import os
 
-import deluge.ui.component as component
+import deluge.component as component
 import deluge.xmlrpclib as xmlrpclib
 import deluge.common
 import deluge.ui.client as client

@@ -48,6 +48,7 @@ import threading
 import deluge.libtorrent as lt
 from deluge.configmanager import ConfigManager
 import deluge.common
+import deluge.component as component
 from deluge.core.torrentmanager import TorrentManager
 from deluge.core.pluginmanager import PluginManager
 from deluge.core.alertmanager import AlertManager
@@ -213,6 +214,8 @@ class Core(
         self.alerts.register_handler("torrent_paused_alert",
             self._on_alert_torrent_paused)
         
+        component.start()
+        
         t = threading.Thread(target=self.serve_forever)
         t.setDaemon(True)
         t.start()
@@ -224,8 +227,7 @@ class Core(
     def _shutdown(self):
         """This is called by a thread from shutdown()"""
         log.info("Shutting down core..")
-        self.plugins.shutdown()
-        self.torrents.shutdown()
+        component.shutdown()
         # Make sure the config file has been saved
         self.config.save()
         del self.config

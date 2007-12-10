@@ -33,12 +33,17 @@
 
 import xmlrpclib
 
+import deluge.component as component
 from deluge.log import LOG as log
 
-class SignalManager:
+class SignalManager(component.Component):
     def __init__(self):
+        component.Component.__init__(self, "SignalManager")
         self.clients = {}
     
+    def shutdown(self):
+        del self.clients
+        
     def deregister_client(self, address):
         """Deregisters a client"""
         log.debug("Deregistering %s as a signal reciever..", address)

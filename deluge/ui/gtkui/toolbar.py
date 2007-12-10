@@ -36,7 +36,7 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import gobject
 
-import deluge.ui.component as component
+import deluge.component as component
 from deluge.log import LOG as log
 from deluge.common import TORRENT_STATE
 import deluge.ui.client as client

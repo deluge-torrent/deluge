@@ -33,7 +33,7 @@
 
 import gtk
 
-import deluge.ui.component as component
+import deluge.component as component
 import deluge.common
 import deluge.ui.client as client
 from deluge.log import LOG as log

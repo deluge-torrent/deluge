@@ -38,7 +38,7 @@ import gobject
 import pkg_resources
 
 import deluge.ui.client as client
-import deluge.ui.component as component
+import deluge.component as component
 from deluge.configmanager import ConfigManager
 
 import deluge.common

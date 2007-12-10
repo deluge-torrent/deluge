@@ -34,7 +34,7 @@
 import gtk
 import pkg_resources
 
-import deluge.ui.component as component
+import deluge.component as component
 import deluge.ui.client as client
 import deluge.common
 from deluge.configmanager import ConfigManager

@@ -101,6 +101,10 @@ def get_logo(size):
         return gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap("deluge.svg"), \
             size, size)
 
+def open_file(path):
+    """Opens a file or folder."""
+    os.popen("xdg-open %s" % path)
+    
 ## Formatting text functions
 
 def fsize(fsize_b):

@@ -38,7 +38,7 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import gettext
 
-import deluge.ui.component as component
+import deluge.component as component
 import deluge.ui.client as client
 import deluge.common
 from deluge.log import LOG as log

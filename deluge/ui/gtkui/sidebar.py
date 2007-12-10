@@ -34,7 +34,7 @@
 import gtk
 import gtk.glade
 
-import deluge.ui.component as component
+import deluge.component as component
 import deluge.common
 from deluge.log import LOG as log
 

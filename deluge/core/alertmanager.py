@@ -35,19 +35,31 @@
 
 import gobject
 
+import deluge.component as component
 import deluge.libtorrent as lt
 from deluge.log import LOG as log
 
-class AlertManager:
+class AlertManager(component.Component):
     def __init__(self, session):
         log.debug("AlertManager initialized..")
+        component.Component.__init__(self, "AlertManager")
         self.session = session
         self.session.set_severity_level(lt.alert.severity_levels.info)
         # handlers is a dictionary of lists {"alert_type": [handler1,h2,..]}
         self.handlers = {}
+
+    def start(self):
         # Handle the alerts every 50 milliseconds
-        gobject.timeout_add(50, self.handle_alerts)
+        self.timer = gobject.timeout_add(50, self.handle_alerts)
     
+    def stop(self):
+        gobject.source_remove(self.timer)
+        
+    def shutdown(self):
+        self.stop()
+        del self.session
+        del self.handlers
+        
     def register_handler(self, alert_type, handler):
         """Registers a function that will be called when 'alert_type' is pop'd
         in handle_alerts.  The handler function should look like:

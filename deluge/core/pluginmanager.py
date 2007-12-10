@@ -34,13 +34,16 @@
 """PluginManager for Core"""
 
 import deluge.pluginmanagerbase
+import deluge.component as component
 from deluge.log import LOG as log
 
-class PluginManager(deluge.pluginmanagerbase.PluginManagerBase):
+class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, 
+    component.Component):
     """PluginManager handles the loading of plugins and provides plugins with
     functions to access parts of the core."""
     
     def __init__(self, core):
+        component.Component.__init__(self, "PluginManager")
         self.core = core
         # Set up the hooks dictionary
         self.hooks = {
