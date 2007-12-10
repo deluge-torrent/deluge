@@ -141,7 +141,7 @@ class ComponentRegistry:
 _ComponentRegistry = ComponentRegistry()
 
 def register(name, obj, depend=None):
-    """Registers a UI component with the registry"""
+    """Registers a component with the registry"""
     _ComponentRegistry.register(name, obj, depend)
 
 def start():
