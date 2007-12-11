@@ -37,10 +37,19 @@ import deluge.common
 from deluge.log import LOG as log
 
 class TorrentQueue:
-    def __init__(self):
-        self.queue = []
+    def __init__(self, torrent_list):
         # Try to load the queue state from file
-        self.load_state()
+        self.queue = self.load_state()
+        # First remove any torrent_ids in self.queue that are not in the current
+        # session list.
+        for torrent_id in self.queue:
+            if torrent_id not in torrent_list:
+                self.queue.remove(torrent_id)
+        
+        # Next we append any torrents in the session list to self.queue
+        for torrent_id in torrent_list:
+            if torrent_id not in self.queue:
+                self.queue.append(torrent_id)
 
     def __getitem__(self, torrent_id):
         """Return the queue position of the torrent_id"""
@@ -57,9 +66,11 @@ class TorrentQueue:
                                                                         "rb")
             state = pickle.load(state_file)
             state_file.close()
-            self.queue = state
-        except IOError:
-            log.warning("Unable to load queue state file.")
+            return state
+        except IOError, e:
+            log.warning("Unable to load queue state file: %s", e)
+        
+        return []
         
     def save_state(self):
         """Save the queue state"""

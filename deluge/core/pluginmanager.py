@@ -112,4 +112,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         log.debug("run_post_torrent_remove")
         for function in self.hooks["post_torrent_remove"]:
             function(torrent_id)
-   
+
+    def get_torrent_list(self):
+        """Returns a list of torrent_id's in the current session."""
+        return component.get("TorrentManager").get_torrent_list()   

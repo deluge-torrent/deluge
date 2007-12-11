@@ -37,8 +37,10 @@ from deluge.plugins.corepluginbase import CorePluginBase
 
 class Core(CorePluginBase):
     def enable(self):
-        # Instantiate the TorrentQueue object
-        self.queue = TorrentQueue()
+        # Get a list of torrent_ids in the session
+        # We give this to the TorrentQueue to compare with the saved state
+        # and create the queuing order.
+        self.queue = TorrentQueue(self.plugin.get_torrent_list())
         
         # Register core hooks
         self.plugin.register_hook("post_torrent_add", self._post_torrent_add)
