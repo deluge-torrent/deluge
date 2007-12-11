@@ -58,14 +58,15 @@ class PluginManagerBase:
         # Scan the plugin folders for plugins
         self.scan_for_plugins()
 
+    def enable_plugins(self):
         # Load plugins that are enabled in the config.
         for name in self.config["enabled_plugins"]:
             self.enable_plugin(name)
-           
-    def shutdown(self):
-        for plugin in self.plugins.values():
-            plugin.disable()
-        del self.plugins
+
+    def disable_plugins(self):
+        # Disable all plugins that are enabled
+        for key in self.plugins.keys():
+            self.plugins[key].disable()
             
     def __getitem__(self, key):
         return self.plugins[key]
@@ -111,6 +112,8 @@ class PluginManagerBase:
             plugin_name = plugin_name.replace("-", " ")
             self.plugins[plugin_name] = instance
             if plugin_name not in self.config["enabled_plugins"]:
+                log.debug("Adding %s to enabled_plugins list in config", 
+                    plugin_name)
                 self.config["enabled_plugins"].append(plugin_name)
             log.info("Plugin %s enabled..", plugin_name)
             

@@ -40,6 +40,7 @@ class TorrentQueue:
     def __init__(self, torrent_list):
         # Try to load the queue state from file
         self.queue = self.load_state()
+
         # First remove any torrent_ids in self.queue that are not in the current
         # session list.
         for torrent_id in self.queue:
@@ -50,7 +51,7 @@ class TorrentQueue:
         for torrent_id in torrent_list:
             if torrent_id not in self.queue:
                 self.queue.append(torrent_id)
-
+        
     def __getitem__(self, torrent_id):
         """Return the queue position of the torrent_id"""
         try:

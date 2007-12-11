@@ -42,7 +42,9 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     def __init__(self):
         component.Component.__init__(self, "PluginManager")
         self.config = ConfigManager("gtkui.conf")
-            
+        deluge.pluginmanagerbase.PluginManagerBase.__init__(
+            self, "gtkui.conf", "deluge.plugin.gtkui")
+                        
     def start(self):
         """Start the plugin manager"""
         # Update the enabled_plugins from the core
@@ -51,9 +53,13 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         enabled_plugins = list(set(enabled_plugins))
         self.config["enabled_plugins"] = enabled_plugins
         
-        deluge.pluginmanagerbase.PluginManagerBase.__init__(
-            self, "gtkui.conf", "deluge.plugin.gtkui")
+        # Enable the plugins that are enabled in the config and core
+        self.enable_plugins()
 
+    def stop(self):
+        # Disable the plugins
+        self.disable_plugins()
+        
     ## Plugin functions.. will likely move to own class..
         
     def add_torrentview_text_column(self, *args, **kwargs):

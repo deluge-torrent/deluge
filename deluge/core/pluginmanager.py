@@ -33,6 +33,8 @@
 
 """PluginManager for Core"""
 
+import gobject
+
 import deluge.pluginmanagerbase
 import deluge.component as component
 from deluge.log import LOG as log
@@ -52,10 +54,34 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         }
         
         self.status_fields = {}
-        
+
         # Call the PluginManagerBase constructor
         deluge.pluginmanagerbase.PluginManagerBase.__init__(
             self, "core.conf", "deluge.plugin.core")
+
+    def start(self):
+        # Enable plugins that are enabled in the config
+        self.enable_plugins()
+                            
+        # Set update timer to call update() in plugins every second
+        self.update_timer = gobject.timeout_add(1000, self.update_plugins)
+
+    def stop(self):
+        # Disable all enabled plugins
+        self.disable_plugins()      
+        # Stop the update timer
+        gobject.source_remove(self.update_timer)
+        
+    def shutdown(self):
+        self.stop()
+        
+    def update_plugins(self):
+        for plugin in self.plugins.keys():
+            try:
+                self.plugins[plugin].update()
+            except AttributeError:
+                # We don't care if this doesn't work
+                pass
 
     def get_core(self):
         """Returns a reference to the core"""

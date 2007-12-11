@@ -66,6 +66,9 @@ class Core(CorePluginBase):
         # De-register status fields
         self.plugin.deregister_status_field("queue")
 
+    def update(self):
+        pass
+        
     ## Hooks for core ##
     def _post_torrent_add(self, torrent_id):
         if torrent_id is not None:

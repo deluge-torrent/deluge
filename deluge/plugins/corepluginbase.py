@@ -45,3 +45,4 @@ class CorePluginBase:
                     getattr(self, "%s" % func), plugin_name.lower()\
                          + "_" + func[7:])
         log.debug("CorePlugin initialized..")
+
