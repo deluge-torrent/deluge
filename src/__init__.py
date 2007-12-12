@@ -31,6 +31,8 @@
 #  statement from all source files in the program, then also delete it here.
 
 import gettext
+import pygtk
+pygtk.require('2.0')
 import gtk.glade
 import locale
 import os
