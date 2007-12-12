@@ -450,7 +450,12 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
 static PyObject *torrent_quit(PyObject *self, PyObject *args)
 {
-    M_ses->abort();
+    printf("core: removing torrents...\r\n");
+    delete M_torrents;
+    printf("core: removing settings...\r\n");
+    delete M_settings;
+    printf("core: shutting down session...\r\n");
+    delete M_ses;                // 100% CPU...
     Py_DECREF(M_constants);
 
     printf("core shut down.\r\n");
