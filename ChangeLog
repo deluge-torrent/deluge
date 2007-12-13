@@ -1,3 +1,10 @@
+Deluge 0.5.8 (xx December 2007)
+  * Fix total uploaded display bug
+  * Fix seeding ratio stop on finished torrents
+  * Fix zombie processes from occuring
+  * Fix saying goodbye to trackers
+  * Fix init script error on exotic systems
+
 Deluge 0.5.7.1 (01 December 2007)
   * Tweak full hd warning so that it only displays itself once per torrent that
   it has to pause.
