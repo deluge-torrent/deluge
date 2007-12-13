@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-10-22 07:50+0000\n"
+"PO-Revision-Date: 2007-12-06 19:36+0000\n"
 "Last-Translator: Martin <loptosko@gmail.com>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
+"X-Launchpad-Export-Date: 2007-12-13 06:33+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -361,7 +361,7 @@ msgstr "Vybrať priečinok"
 
 #: glade/preferences_dialog.glade:131
 msgid "Store all torrent files in:"
-msgstr ""
+msgstr "Ukladaj všetky torrenty v:"
 
 #: glade/preferences_dialog.glade:146
 msgid "<b>Download Location</b>"
@@ -369,11 +369,11 @@ msgstr "<b>Miesto pre sťahovania</b>"
 
 #: glade/preferences_dialog.glade:200
 msgid "Autoload all torrent files in:"
-msgstr ""
+msgstr "Automaticky načítať všetky torenty v:"
 
 #: glade/preferences_dialog.glade:213
 msgid "<b>Autoload</b>"
-msgstr ""
+msgstr "<b>Automatické načítanie</b>"
 
 #: glade/preferences_dialog.glade:249 glade/preferences_dialog.glade:266
 #: glade/wizard.glade:237 glade/wizard.glade:478
@@ -393,7 +393,7 @@ msgstr "Zapnúť výber súborov pre torrenty pred sťahovaním"
 
 #: glade/preferences_dialog.glade:310
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "Ukáž, iba ak torrent obsahuje viac ako 1 súbor"
 
 #: glade/preferences_dialog.glade:325 glade/preferences_dialog.glade:326
 msgid "Prioritize first and last pieces of files in torrent"
@@ -401,7 +401,7 @@ msgstr "Prioritu pre prvý a posledný diel"
 
 #: glade/preferences_dialog.glade:340
 msgid "Start torrents in paused state"
-msgstr ""
+msgstr "Spusti torrenty v pozastavenom móde"
 
 #: glade/preferences_dialog.glade:355
 msgid "<b>Torrents</b>"
@@ -505,11 +505,11 @@ msgstr "NAT-PMP"
 
 #: glade/preferences_dialog.glade:786 glade/preferences_dialog.glade:787
 msgid "Peer Exchange"
-msgstr ""
+msgstr "Výmena medzi peermi"
 
 #: glade/preferences_dialog.glade:803
 msgid "Local Peer Discovery"
-msgstr ""
+msgstr "Hľladanie miestnych peerov"
 
 #: glade/preferences_dialog.glade:818
 msgid "<b>Network Extras</b>"
@@ -647,10 +647,12 @@ msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"Maximálny počet pokusov o spojenie za sekundu. Veľká hodnota môže zahltiť "
+"menej výkonné smerovače. Nastavte -1 pre neobmedzené."
 
 #: glade/preferences_dialog.glade:1361
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Maximálny počet pokusov o spojenie za sekundu:"
 
 #: glade/preferences_dialog.glade:1392
 msgid "<b>Global Bandwidth Usage</b>"
@@ -816,11 +818,11 @@ msgstr "<b>Výkon</b>"
 
 #: glade/preferences_dialog.glade:2714
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
-msgstr ""
+msgstr "Použi rozšírený ukazovatľ priebehu (použije viac výkonu/pamäte)"
 
 #: glade/preferences_dialog.glade:2725
 msgid "<b>Detailed Progress Bar</b>"
-msgstr ""
+msgstr "<b>Podrobný pás priebehu</b>"
 
 #: glade/preferences_dialog.glade:2759
 msgid ""
@@ -863,7 +865,7 @@ msgstr "gtk-preferences"
 
 #: glade/torrent_menu.glade:11
 msgid "_Force Recheck"
-msgstr ""
+msgstr "S_kontrolovať"
 
 #: glade/torrent_menu.glade:33
 msgid "Re_sume"
@@ -879,7 +881,7 @@ msgstr "_Odstrániť torrent"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "Možnosti _trackeru"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
@@ -891,7 +893,7 @@ msgstr "_Upraviť trackery"
 
 #: glade/torrent_menu.glade:138
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "Opustiť tracker"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"
@@ -1269,6 +1271,8 @@ msgid ""
 "You're out of HD space!  Oops!\n"
 "We had to pause at least one torrent"
 msgstr ""
+"Došlo vám miesto na disku!  Ups!\n"
+"Potrebujete zastaviť aspoň jeden torrent"
 
 #: src/core.py:638
 msgid "Announce sent"
@@ -1454,7 +1458,7 @@ msgstr "Nepodarilo sa otvoriť súbor so zoznamom blokovaní"
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
 #: plugins/BlocklistImport/text.py:99
 msgid "Wrong file type or corrupted blocklist file."
-msgstr ""
+msgstr "Nesprávny typ súboru alebo poškodený súbor zoznamu blokovaných."
 
 #: plugins/BlocklistImport/__init__.py:121
 msgid "Imported"
@@ -1494,13 +1498,15 @@ msgstr "Dokončené"
 
 #: plugins/BlocklistImport/text.py:129
 msgid "Got format exception for zipfile:"
-msgstr ""
+msgstr "Výnimka formátu pre súbor:"
 
 #: plugins/BlocklistImport/peerguardian.py:24
 msgid ""
 "We were expecting a gzip file, but didn't get that, or possibly the file is "
 "corrupt.  Please edit your Blocklist preferences"
 msgstr ""
+"Prichádzajúci súbor nie je v požadovanom formáte gzip, alebo je poškodený. "
+"Prosím upravte nastavenia vášho zoznamu blokovaných."
 
 #: plugins/BlocklistImport/peerguardian.py:32
 msgid "Invalid leader"
@@ -1631,6 +1637,13 @@ msgid ""
 "1024 KiB\n"
 "2048 KiB\n"
 msgstr ""
+"32 KB\n"
+"64 KB\n"
+"128 KB\n"
+"256 KB\n"
+"512 KB\n"
+"1024 KB\n"
+"2048 KB\n"
 
 #: plugins/TorrentCreator/torrentcreator.glade:459
 msgid "Piece Size:"
@@ -2150,7 +2163,7 @@ msgstr "_Pridať web seed"
 
 #: plugins/WebSeed/webseed.glade:7
 msgid "Add Web Seed"
-msgstr ""
+msgstr "Pridaj web seeda"
 
 #: plugins/Scheduler/plugin.py:104
 msgid "Scheduler Settings"
@@ -2158,175 +2171,176 @@ msgstr "Nastavenia plánovača"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "High download limit:"
-msgstr ""
+msgstr "Rýchly limit sťahovania:"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "High upload limit:"
-msgstr ""
+msgstr "Rýchly limit odosielania:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Low download limit:"
-msgstr ""
+msgstr "Pomalý limit sťahovania:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Low upload limit:"
-msgstr ""
+msgstr "Pomalý limit odosielania:"
 
 #: plugins/Scheduler/plugin.py:192
 msgid "Green is the high limits, yellow is the low limits and red is stopped"
 msgstr ""
+"Zelené sú rýchle limity, žlté sú pomalé limity a červené je zastavené."
 
 #: plugins/Scheduler/plugin.py:193
 msgid "If a limit is set to -1, it is unlimitted."
-msgstr ""
+msgstr "Pokiaľ je limit nastavený na -1, je to neobmedzené."
 
 #: plugins/WebUi/__init__.py:182
 msgid "WebUi Config"
-msgstr ""
+msgstr "WebUi Konfigurácia"
 
 #: plugins/WebUi/__init__.py:190
 msgid "Port Number"
-msgstr ""
+msgstr "Číslo portu"
 
 #: plugins/WebUi/__init__.py:191
 msgid "New Password"
-msgstr ""
+msgstr "Nové heslo"
 
 #: plugins/WebUi/__init__.py:192
 msgid "New Password(confirm)"
-msgstr ""
+msgstr "Nové heslo (potvrdenie)"
 
 #: plugins/WebUi/__init__.py:193
 msgid "Template"
-msgstr ""
+msgstr "Šablóna"
 
 #: plugins/WebUi/__init__.py:194
 msgid "Button Style"
-msgstr ""
+msgstr "Štýl tlačidiel"
 
 #: plugins/WebUi/__init__.py:196
 msgid "Cache Templates"
-msgstr ""
+msgstr "Šablóny cache"
 
 #: plugins/WebUi/__init__.py:212
 msgid "Text and image"
-msgstr ""
+msgstr "Text a obrázok"
 
 #: plugins/WebUi/__init__.py:212
 msgid "Image Only"
-msgstr ""
+msgstr "Iba obrázok"
 
 #: plugins/WebUi/__init__.py:212
 msgid "Text Only"
-msgstr ""
+msgstr "Iba text"
 
 #: plugins/WebUi/__init__.py:246
 msgid "Confirmed Password <> New Password\n"
-msgstr ""
+msgstr "Potvrdené heslo <> Nové heslo\n"
 
 #: plugins/WebUi/webserver_common.py:48
 msgid "translate something"
-msgstr ""
+msgstr "preložte niečo"
 
 #: plugins/WebUi/deluge_webserver.py:147
 msgid "Choose an url or a torrent, not both."
-msgstr ""
+msgstr "Vyberte url alebo torrent, nie oboje."
 
 #: plugins/WebUi/deluge_webserver.py:158
 msgid "no data."
-msgstr ""
+msgstr "žiadne dáta"
 
 #: plugins/WebUi/deluge_webserver.py:236
 msgid "refresh must be > 0"
-msgstr ""
+msgstr "obnovovanie musí byť > 0"
 
 #: plugins/WebUi/deluge_webserver.py:244
 msgid "Download Speed Limit"
-msgstr ""
+msgstr "Rýchlostný limit sťahovania"
 
 #: plugins/WebUi/deluge_webserver.py:248
 msgid "Upload Speed Limit"
-msgstr ""
+msgstr "Rýchlostný limit odosielania"
 
 #: plugins/WebUi/scripts/template_strings.py:1
 msgid "# Of Files"
-msgstr ""
+msgstr "Počet súborov"
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
-msgstr ""
+msgstr "Informácie"
 
 #: plugins/WebUi/scripts/template_strings.py:4
 msgid "Add torrent"
-msgstr ""
+msgstr "Pridať torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:5
 msgid "Apply"
-msgstr ""
+msgstr "Použiť"
 
 #: plugins/WebUi/scripts/template_strings.py:6
 msgid "Auto refresh:"
-msgstr ""
+msgstr "Automatické obnovenie:"
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Ava"
-msgstr ""
+msgstr "Dost."
 
 #: plugins/WebUi/scripts/template_strings.py:9
 msgid "Config"
-msgstr ""
+msgstr "Nastavenie"
 
 #: plugins/WebUi/scripts/template_strings.py:11
 msgid "Debug:Data Dump"
-msgstr ""
+msgstr "Ladiace dáta"
 
 #: plugins/WebUi/scripts/template_strings.py:13
 msgid "Delete downloaded files."
-msgstr ""
+msgstr "Odstrániť stiahnuté súbory."
 
 #: plugins/WebUi/scripts/template_strings.py:15
 msgid "Disable"
-msgstr ""
+msgstr "Vypnúť"
 
 #: plugins/WebUi/scripts/template_strings.py:18
 msgid "Downloaded"
-msgstr ""
+msgstr "Stiahnuté"
 
 #: plugins/WebUi/scripts/template_strings.py:20
 msgid "Enable"
-msgstr ""
+msgstr "Povoliť"
 
 #: plugins/WebUi/scripts/template_strings.py:21
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Eta"
-msgstr ""
+msgstr "Zostávajúci čas"
 
 #: plugins/WebUi/scripts/template_strings.py:23
 msgid "Login"
-msgstr ""
+msgstr "Prihlásiť sa"
 
 #: plugins/WebUi/scripts/template_strings.py:24
 msgid "Logout"
-msgstr ""
+msgstr "Odhlásiť sa"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Next Announce"
-msgstr ""
+msgstr "Nasledujúce ohlásenie"
 
 #: plugins/WebUi/scripts/template_strings.py:27
 msgid "Off"
-msgstr ""
+msgstr "Vypnúť"
 
 #: plugins/WebUi/scripts/template_strings.py:29
 msgid "Password is invalid,try again"
-msgstr ""
+msgstr "Heslo je neplatné, skúste znova"
 
 #: plugins/WebUi/scripts/template_strings.py:30
 msgid "Pause all"
-msgstr ""
+msgstr "Pozastaviť všetky"
 
 #: plugins/WebUi/scripts/template_strings.py:32
 msgid "Pieces"
@@ -2334,45 +2348,45 @@ msgstr "Časti"
 
 #: plugins/WebUi/scripts/template_strings.py:34
 msgid "Queue Down"
-msgstr ""
+msgstr "Posunúť v rade dole"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Queue Up"
-msgstr ""
+msgstr "Vyššie vo fronte"
 
 #: plugins/WebUi/scripts/template_strings.py:36
 msgid "Queue pos:"
-msgstr ""
+msgstr "Poradie vo fronte:"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Reannounce"
-msgstr ""
+msgstr "Znovuohlásiť"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Refresh page every:"
-msgstr ""
+msgstr "Obnoviť stránku každých:"
 
 #: plugins/WebUi/scripts/template_strings.py:41
 #, python-format
 msgid "Remove %s "
-msgstr ""
+msgstr "Odstránenie %s "
 
 #: plugins/WebUi/scripts/template_strings.py:42
 #, python-format
 msgid "Remove %s?"
-msgstr ""
+msgstr "Odstrániť %s?"
 
 #: plugins/WebUi/scripts/template_strings.py:43
 msgid "Resume all"
-msgstr ""
+msgstr "Pokračovať vo všetkých"
 
 #: plugins/WebUi/scripts/template_strings.py:45
 msgid "Set"
-msgstr ""
+msgstr "Nastaviť"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Set Timeout"
-msgstr ""
+msgstr "Nastaviť interval"
 
 #: plugins/WebUi/scripts/template_strings.py:49
 msgid "Speed"
@@ -2380,59 +2394,59 @@ msgstr "Rýchlosť"
 
 #: plugins/WebUi/scripts/template_strings.py:50
 msgid "Submit"
-msgstr ""
+msgstr "Vložiť"
 
 #: plugins/WebUi/scripts/template_strings.py:51
 msgid "Torrent list"
-msgstr ""
+msgstr "Zoznam torrentov"
 
 #: plugins/WebUi/scripts/template_strings.py:52
 msgid "Total Size"
-msgstr ""
+msgstr "Celková veľkosť"
 
 #: plugins/WebUi/scripts/template_strings.py:53
 msgid "Tracker"
-msgstr ""
+msgstr "Tracker"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Tracker Status"
-msgstr ""
+msgstr "Stav trackeru"
 
 #: plugins/WebUi/scripts/template_strings.py:57
 msgid "Upload torrent"
-msgstr ""
+msgstr "Nahraj torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:58
 msgid "Uploaded"
-msgstr ""
+msgstr "Nahratý"
 
 #: plugins/WebUi/scripts/template_strings.py:59
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: plugins/WebUi/scripts/template_strings.py:60
 msgid "seconds"
-msgstr ""
+msgstr "sekúnd"
 
 #: plugins/FlexRSS/FlexRSS.glade:6
 msgid "FlexRSS"
-msgstr ""
+msgstr "FlexRSS"
 
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
-msgstr ""
+msgstr "Kanál bude získavaný automaticky v stanovenom intervale obnovovania."
 
 #: plugins/FlexRSS/FlexRSS.glade:115
 msgid "Feed must be refreshed manually."
-msgstr ""
+msgstr "Kanál musí byť obnovovaný automaricky."
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
-msgstr ""
+msgstr "Vypnuté"
 
 #: plugins/FlexRSS/FlexRSS.glade:151
 msgid "Update Interval"
-msgstr ""
+msgstr "Interval obnovovania"
 
 #: plugins/FlexRSS/FlexRSS.glade:165
 msgid "URL"
@@ -2440,7 +2454,7 @@ msgstr "URL"
 
 #: plugins/FlexRSS/FlexRSS.glade:192
 msgid "900"
-msgstr ""
+msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
 msgid "Feeds"
@@ -2448,7 +2462,7 @@ msgstr "Feedy"
 
 #: plugins/FlexRSS/FlexRSS.glade:384
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: plugins/FlexRSS/FlexRSS.glade:397
 msgid "Feed"
@@ -2456,103 +2470,105 @@ msgstr "Feed"
 
 #: plugins/FlexRSS/FlexRSS.glade:439
 msgid "<b>Information</b>"
-msgstr ""
+msgstr "<b>Informácie</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:511
 msgid "<b>Patterns</b>"
-msgstr ""
+msgstr "<b>Vzorky</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:549 plugins/FlexRSS/FlexRSS.glade:724
 msgid "From"
-msgstr ""
+msgstr "Od"
 
 #: plugins/FlexRSS/FlexRSS.glade:565 plugins/FlexRSS/FlexRSS.glade:641
 #: plugins/FlexRSS/FlexRSS.glade:826
 msgid "Season"
-msgstr ""
+msgstr "Sezóna"
 
 #: plugins/FlexRSS/FlexRSS.glade:594 plugins/FlexRSS/FlexRSS.glade:675
 #: plugins/FlexRSS/FlexRSS.glade:833
 msgid "Episode"
-msgstr ""
+msgstr "Epizóda"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 msgid "Thru"
-msgstr ""
+msgstr "Cez"
 
 #: plugins/FlexRSS/FlexRSS.glade:766
 msgid "<b>History Restriction</b>"
-msgstr ""
+msgstr "<b>Obmedzenie histórie</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:810
 msgid "Doesn't Match"
-msgstr ""
+msgstr "Nezhoduje sa"
 
 #: plugins/FlexRSS/FlexRSS.glade:875
 msgid "Year"
-msgstr ""
+msgstr "Rok"
 
 #: plugins/FlexRSS/FlexRSS.glade:882
 msgid "Month"
-msgstr ""
+msgstr "Mesiac"
 
 #: plugins/FlexRSS/FlexRSS.glade:893
 msgid "Day"
-msgstr ""
+msgstr "Deň"
 
 #: plugins/FlexRSS/FlexRSS.glade:960
 msgid "<b>Test</b>"
-msgstr ""
+msgstr "<b>Test</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
-msgstr ""
+msgstr "Vlož torrent na vrchol poradia"
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
-msgstr ""
+msgstr "Zmeniť stav na pozastavený."
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
 msgid "Delete filter when matched."
-msgstr ""
+msgstr "Odstrániť filter ak sa zhoduje."
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
-msgstr ""
+msgstr "<b>Stiahnuť</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1084
 msgid "Replacement"
-msgstr ""
+msgstr "Náhrada"
 
 #: plugins/FlexRSS/FlexRSS.glade:1098
 msgid "Pattern"
-msgstr ""
+msgstr "Vzorka"
 
 #: plugins/FlexRSS/FlexRSS.glade:1111
 msgid "<b>Link Rewriting</b>"
-msgstr ""
+msgstr "<b>Prijímanie odkazov</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1143
 msgid ""
 "Content will be saved to Deluge's default directory, or a prompt will appear "
 "if none is set."
 msgstr ""
+"Obsah bude uložený do štandardného priečinku Deluge, ak nie je nastavený "
+"zobrazí sa výzva."
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
 msgid "Deluge default"
-msgstr ""
+msgstr "Predvolené v programe Deluge"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
-msgstr ""
+msgstr "Obsah bude automaticky stiahnutý do zvoleného adresára."
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"
-msgstr ""
+msgstr "Vyberte:"
 
 #: plugins/FlexRSS/FlexRSS.glade:1190
 msgid "<b>Output</b>"
-msgstr ""
+msgstr "<b>Výstup</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1251
 msgid "Filters"
@@ -2560,46 +2576,48 @@ msgstr "Filtre"
 
 #: plugins/FlexRSS/FlexRSS.glade:1282
 msgid "Show a FlexRSS icon in Deluge's toolbar."
-msgstr ""
+msgstr "Zobraziť ikonu FlexRSS na paneli programu Deluge."
 
 #: plugins/FlexRSS/FlexRSS.glade:1283
 msgid "Show button on toolbar."
-msgstr ""
+msgstr "Ukáž tlačidlo na paneli."
 
 #: plugins/FlexRSS/FlexRSS.glade:1300
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>Rozhranie</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1331
 msgid ""
 "Feeds will be retrieved and parsed in their own threads. The application "
 "will not be blocked, but it can be unreliable."
 msgstr ""
+"Kanály budú prijímané a spracované vo svojich vláknach. Aplikácia sa "
+"nezablokuje, ale môže byť nespoľahlivá."
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
 msgid "Threaded (experimental)"
-msgstr ""
+msgstr "Vo vláknach (experimentálne)"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"
-msgstr ""
+msgstr "<b>Preberanie kanálu</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"
-msgstr ""
+msgstr "Doména"
 
 #: plugins/FlexRSS/FlexRSS.glade:1462
 msgid "Path"
-msgstr ""
+msgstr "Umiestnenie"
 
 #: plugins/FlexRSS/FlexRSS.glade:1488
 msgid "Value"
-msgstr ""
+msgstr "Hodnota"
 
 #: plugins/FlexRSS/FlexRSS.glade:1561
 msgid "<b>Cookies</b>"
-msgstr ""
+msgstr "<b>Cookies</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1582
 msgid "Configuration"
-msgstr ""
+msgstr "Nastavenia"

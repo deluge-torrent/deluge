@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-09-20 23:46+0000\n"
+"PO-Revision-Date: 2007-12-12 12:49+0000\n"
 "Last-Translator: Peep Oks <peepus@hot.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
+"X-Launchpad-Export-Date: 2007-12-13 06:33+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -35,7 +35,7 @@ msgstr "Eemalda"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
-msgstr ""
+msgstr "Puhasta jagavad torrentid"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
@@ -43,7 +43,7 @@ msgstr "Eemalda"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
-msgstr ""
+msgstr "Alusta või jätka torrentit"
 
 #: glade/delugegtk.glade:80
 msgid "Resume"
@@ -51,7 +51,7 @@ msgstr "Jätka"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
-msgstr ""
+msgstr "Peata torrent"
 
 #: glade/delugegtk.glade:94
 msgid "Pause"
@@ -366,7 +366,7 @@ msgstr "Vali kaust"
 
 #: glade/preferences_dialog.glade:131
 msgid "Store all torrent files in:"
-msgstr ""
+msgstr "Salvesta kõik torrenti failid:"
 
 #: glade/preferences_dialog.glade:146
 msgid "<b>Download Location</b>"
@@ -374,11 +374,11 @@ msgstr "<b>Allalaadimise koht</b>"
 
 #: glade/preferences_dialog.glade:200
 msgid "Autoload all torrent files in:"
-msgstr ""
+msgstr "Lae automaatselt torrentid:"
 
 #: glade/preferences_dialog.glade:213
 msgid "<b>Autoload</b>"
-msgstr ""
+msgstr "<b>Automaatlaadimine</b>"
 
 #: glade/preferences_dialog.glade:249 glade/preferences_dialog.glade:266
 #: glade/wizard.glade:237 glade/wizard.glade:478
@@ -398,7 +398,7 @@ msgstr "Luba failide valik torrenti jaoks enne laadimist"
 
 #: glade/preferences_dialog.glade:310
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "Näita juhul, kui torrentis on rohkem kui 1 fail"
 
 #: glade/preferences_dialog.glade:325 glade/preferences_dialog.glade:326
 #, fuzzy
@@ -407,7 +407,7 @@ msgstr "Prioritiseeri torrenti esimeste ja viimaste failide tükid"
 
 #: glade/preferences_dialog.glade:340
 msgid "Start torrents in paused state"
-msgstr ""
+msgstr "Alusta torrentid peatatuna"
 
 #: glade/preferences_dialog.glade:355
 msgid "<b>Torrents</b>"
@@ -511,7 +511,7 @@ msgstr "NAT-PMP"
 
 #: glade/preferences_dialog.glade:786 glade/preferences_dialog.glade:787
 msgid "Peer Exchange"
-msgstr ""
+msgstr "Lähtemasina vahetus"
 
 #: glade/preferences_dialog.glade:803
 msgid "Local Peer Discovery"
@@ -821,11 +821,11 @@ msgstr "<b>Jõudlus</b>"
 
 #: glade/preferences_dialog.glade:2714
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
-msgstr ""
+msgstr "Kasuta arenenud edenemise riba (kasutab pisut rohkem CPU/RAM)"
 
 #: glade/preferences_dialog.glade:2725
 msgid "<b>Detailed Progress Bar</b>"
-msgstr ""
+msgstr "<b>Detailne edenemise riba</b>"
 
 #: glade/preferences_dialog.glade:2759
 msgid ""
@@ -849,6 +849,9 @@ msgid ""
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
+"Aita meil täiustada Deluge klienti ja saada oma Pythoni ja PyGTK\n"
+"versioonid, OS ja protsessori tüübid. Absoluutselt muud\n"
+"andmeid ei edastata."
 
 #: glade/preferences_dialog.glade:2820
 msgid "<b>System Information</b>"
@@ -883,7 +886,7 @@ msgstr "_Eemalda torrent"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "_Jälitaja valikud"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
@@ -935,11 +938,11 @@ msgstr "_Peata kõik"
 
 #: glade/tray_menu.glade:84
 msgid "_Download Speed Limit"
-msgstr ""
+msgstr "_Allalaadimise kiirusepiirang"
 
 #: glade/tray_menu.glade:100
 msgid "_Upload Speed Limit"
-msgstr ""
+msgstr "_Üleslaadimise kiirusepiirang"
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"
@@ -955,7 +958,7 @@ msgstr "Jälitajate Muutmine"
 
 #: glade/files_dialog.glade:8
 msgid "Deluge File Selection"
-msgstr ""
+msgstr "Deluge failide valik"
 
 #: glade/files_dialog.glade:42
 msgid "Torrent will not be distributed on the trackerless (DHT) network"
@@ -963,7 +966,7 @@ msgstr ""
 
 #: glade/files_dialog.glade:43
 msgid "Set the private flag"
-msgstr ""
+msgstr "Aseta privaatne lipp"
 
 #: glade/wizard.glade:10
 msgid "First Launch Configuration"
@@ -1039,6 +1042,24 @@ msgid ""
 "50Mbit\n"
 "100Mbit"
 msgstr ""
+"28.8k\n"
+"56k\n"
+"64k\n"
+"96k\n"
+"128k\n"
+"192k\n"
+"256k\n"
+"384k\n"
+"512k\n"
+"640k\n"
+"768k\n"
+"1Mbit\n"
+"2Mbit\n"
+"10Mbit\n"
+"20Mbit\n"
+"40Mbit\n"
+"50Mbit\n"
+"100Mbit"
 
 #: glade/wizard.glade:419
 msgid "Your Upload Line Speed:"
@@ -1198,7 +1219,7 @@ msgstr "Hoiatus - kõik allalaetud faild selle torrenti jaoks kustutatakse!"
 
 #: src/interface.py:1483
 msgid "Are you sure that you want to remove all seeding torrents?"
-msgstr ""
+msgstr "Kindlasti eemaldada kõik jagavad torrentid?"
 
 #: src/core.py:87 plugins/WebUi/webserver_common.py:133
 msgid "Queued"
@@ -1245,7 +1266,7 @@ msgstr "Küsiti torrentit, mida ei eksisteeri"
 msgid ""
 "You're out of HD space!  Oops!\n"
 "We had to pause at least one torrent"
-msgstr ""
+msgstr "Kõvaketas täis! Ups!"
 
 #: src/core.py:638
 msgid "Announce sent"
@@ -1345,7 +1366,7 @@ msgstr "PiB"
 
 #: src/common.py:203
 msgid "External command"
-msgstr ""
+msgstr "Väline käsk"
 
 #: src/common.py:204
 msgid "not found"
@@ -1401,7 +1422,7 @@ msgstr "Musta nimekirja ei õnnestu avada"
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
 #: plugins/BlocklistImport/text.py:99
 msgid "Wrong file type or corrupted blocklist file."
-msgstr ""
+msgstr "Vale faili tüüp või rikutud blokklisti fail."
 
 #: plugins/BlocklistImport/__init__.py:121
 msgid "Imported"
@@ -1455,7 +1476,7 @@ msgstr ""
 
 #: plugins/BlocklistImport/peerguardian.py:36
 msgid "Invalid magic code"
-msgstr ""
+msgstr "Kehtetu võlukood"
 
 #: plugins/BlocklistImport/peerguardian.py:41
 msgid "Invalid version"
@@ -1487,6 +1508,9 @@ msgid ""
 "This shows you the peers associated with each torrent and shows you their "
 "ip, country, client, percent complete and upload and download speeds.\n"
 msgstr ""
+"\n"
+"Näitab iga torrenti ühendusi ja nende IP-d, päritolu maad, klienti, tõmmatud "
+"protsenti ning alla- ja üleslaadimiste kiirusi.\n"
 
 #: plugins/TorrentPeers/tab_peers.py:84
 msgid "IP Address"
@@ -1502,11 +1526,11 @@ msgstr "Protsenti Lõpetatud"
 
 #: plugins/TorrentCreator/torrentcreator.glade:8
 msgid "Torrent Creator"
-msgstr ""
+msgstr "Torrenti looja"
 
 #: plugins/TorrentCreator/torrentcreator.glade:102
 msgid "This torrent will be made from a single file"
-msgstr ""
+msgstr "Torrent tehakse ühest failist"
 
 #: plugins/TorrentCreator/torrentcreator.glade:103
 msgid "File:"
@@ -1514,7 +1538,7 @@ msgstr "Fail:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:119
 msgid "This torrent will be made from a directory"
-msgstr ""
+msgstr "Torrent tehakse ühest kaustast"
 
 #: plugins/TorrentCreator/torrentcreator.glade:120
 msgid "Folder:"
@@ -1554,7 +1578,7 @@ msgstr "<b>Autor</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:423
 msgid "Set Private Flag"
-msgstr ""
+msgstr "Aseta privaatne lipp"
 
 #: plugins/TorrentCreator/torrentcreator.glade:436
 #: plugins/TorrentCreator/torrentcreator.glade:457
@@ -1575,6 +1599,13 @@ msgid ""
 "1024 KiB\n"
 "2048 KiB\n"
 msgstr ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1024 KiB\n"
+"2048 KiB\n"
 
 #: plugins/TorrentCreator/torrentcreator.glade:459
 msgid "Piece Size:"
@@ -1614,26 +1645,28 @@ msgstr "Vali failinimi millena torrent salvestada."
 
 #: plugins/TorrentNotification/notification_preferences.glade:7
 msgid "Torrent Notification Preferences"
-msgstr ""
+msgstr "Torrenti teavituse eelistused"
 
 #: plugins/TorrentNotification/notification_preferences.glade:32
 msgid "Enable event sound (requires pygame, not available on Win32)"
-msgstr ""
+msgstr "Luba sündmuste helid (vajab pygame, Win32 pole saadaval)"
 
 #: plugins/TorrentNotification/notification_preferences.glade:59
 msgid "Enable blinking tray icon"
-msgstr ""
+msgstr "Luba vilkuv süsteemse salve ikoon"
 
 #: plugins/TorrentNotification/notification_preferences.glade:69
 msgid ""
 "Enable popup notification (requires python-notify, not available on Win32)"
-msgstr ""
+msgstr "Luba popup teavitamine (vajab python-notify, Win32 pole saadaval)"
 
 #: plugins/TorrentNotification/__init__.py:22
 msgid ""
 "Make tray icon blink when torrent finishes downloading and/or popup a "
 "notification"
 msgstr ""
+"Allalaadimise lõppedes vilguta süsteemse salve ikooni ja/või näita popup "
+"teavitust"
 
 #: plugins/TorrentNotification/__init__.py:112
 msgid "Torrent complete"
@@ -1672,7 +1705,7 @@ msgstr "Logi failid"
 #: plugins/EventLogging/event_logging_preferences.glade:66
 #: plugins/EventLogging/tab_log.py:210
 msgid "Peer blocked"
-msgstr ""
+msgstr "Ühendus blokeeritud"
 
 #: plugins/EventLogging/event_logging_preferences.glade:80
 #: plugins/EventLogging/tab_log.py:200
@@ -1821,7 +1854,7 @@ msgstr "tüki indeks: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "status code: "
-msgstr ""
+msgstr "seisundi kood: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "Times in a row: "
@@ -1829,7 +1862,7 @@ msgstr ""
 
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
 msgid "block index: "
-msgstr ""
+msgstr "bloki indeks: "
 
 #: plugins/EventLogging/tab_log.py:192
 msgid "peer speed: "
@@ -1922,7 +1955,7 @@ msgstr "Progress"
 
 #: plugins/TorrentFiles/tab_files.py:100
 msgid "There was an error trying to launch the file."
-msgstr ""
+msgstr "Faili käivitamisel tekkis tõrge."
 
 #: plugins/TorrentFiles/__init__.py:34
 msgid ""
@@ -1931,6 +1964,9 @@ msgid ""
 "priorities for them and choose which ones you want or don't want to "
 "download.\n"
 msgstr ""
+"\n"
+"Näitab torrentis olevaid faile, võimaldab seada neile erinevaid tõmbamise "
+"prioriteete ning valida millised faile tõmmata ja milliseid mitte.\n"
 
 #: plugins/ExtraStats/__init__.py:22
 msgid ""
@@ -2039,51 +2075,52 @@ msgstr ""
 
 #: plugins/Scheduler/plugin.py:114
 msgid "High download limit:"
-msgstr ""
+msgstr "Kõrgeim allalaadimiskiiruse limiit:"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "High upload limit:"
-msgstr ""
+msgstr "Kõrgeim üleslaadimiskiiruse limiit:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Low download limit:"
-msgstr ""
+msgstr "Madalaim allalaadimiskiiruse limiit:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Low upload limit:"
-msgstr ""
+msgstr "Madalaim üleslaadimiskiiruse limiit"
 
 #: plugins/Scheduler/plugin.py:192
 msgid "Green is the high limits, yellow is the low limits and red is stopped"
 msgstr ""
+"Roheline on kõrgem limiit, kollane madalaim limiit ning punane peatatud"
 
 #: plugins/Scheduler/plugin.py:193
 msgid "If a limit is set to -1, it is unlimitted."
-msgstr ""
+msgstr "Kui limiit on -1, siis on see piiramatu."
 
 #: plugins/WebUi/__init__.py:182
 msgid "WebUi Config"
-msgstr ""
+msgstr "WebUi seaded"
 
 #: plugins/WebUi/__init__.py:190
 msgid "Port Number"
-msgstr ""
+msgstr "Port"
 
 #: plugins/WebUi/__init__.py:191
 msgid "New Password"
-msgstr ""
+msgstr "Uus parool"
 
 #: plugins/WebUi/__init__.py:192
 msgid "New Password(confirm)"
-msgstr ""
+msgstr "Uus parool (uuesti)"
 
 #: plugins/WebUi/__init__.py:193
 msgid "Template"
-msgstr ""
+msgstr "Mall"
 
 #: plugins/WebUi/__init__.py:194
 msgid "Button Style"
-msgstr ""
+msgstr "Nupu stiil"
 
 #: plugins/WebUi/__init__.py:196
 msgid "Cache Templates"
@@ -2091,15 +2128,15 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:212
 msgid "Text and image"
-msgstr ""
+msgstr "Tekst ja pilt"
 
 #: plugins/WebUi/__init__.py:212
 msgid "Image Only"
-msgstr ""
+msgstr "Ainult pilt"
 
 #: plugins/WebUi/__init__.py:212
 msgid "Text Only"
-msgstr ""
+msgstr "Ainult tekst"
 
 #: plugins/WebUi/__init__.py:246
 msgid "Confirmed Password <> New Password\n"
@@ -2107,47 +2144,47 @@ msgstr ""
 
 #: plugins/WebUi/webserver_common.py:48
 msgid "translate something"
-msgstr ""
+msgstr "tõlgi midagi"
 
 #: plugins/WebUi/deluge_webserver.py:147
 msgid "Choose an url or a torrent, not both."
-msgstr ""
+msgstr "Vali url või torrent, mitte mõlemat."
 
 #: plugins/WebUi/deluge_webserver.py:158
 msgid "no data."
-msgstr ""
+msgstr "andmed puuduvad."
 
 #: plugins/WebUi/deluge_webserver.py:236
 msgid "refresh must be > 0"
-msgstr ""
+msgstr "uuendus peab olema > 0"
 
 #: plugins/WebUi/deluge_webserver.py:244
 msgid "Download Speed Limit"
-msgstr ""
+msgstr "Allalaadimiskiiruse limiit"
 
 #: plugins/WebUi/deluge_webserver.py:248
 msgid "Upload Speed Limit"
-msgstr ""
+msgstr "Üleslaadimiskiiruse limiit"
 
 #: plugins/WebUi/scripts/template_strings.py:1
 msgid "# Of Files"
-msgstr ""
+msgstr "Failide arv"
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
-msgstr ""
+msgstr "Programmist"
 
 #: plugins/WebUi/scripts/template_strings.py:4
 msgid "Add torrent"
-msgstr ""
+msgstr "Lisa torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:5
 msgid "Apply"
-msgstr ""
+msgstr "Rakenda"
 
 #: plugins/WebUi/scripts/template_strings.py:6
 msgid "Auto refresh:"
-msgstr ""
+msgstr "Uuenda automaatselt:"
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Ava"
@@ -2155,7 +2192,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:9
 msgid "Config"
-msgstr ""
+msgstr "Seadistus"
 
 #: plugins/WebUi/scripts/template_strings.py:11
 msgid "Debug:Data Dump"
@@ -2163,23 +2200,23 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:13
 msgid "Delete downloaded files."
-msgstr ""
+msgstr "Kustuta alla laetud failid."
 
 #: plugins/WebUi/scripts/template_strings.py:15
 msgid "Disable"
-msgstr ""
+msgstr "Keela"
 
 #: plugins/WebUi/scripts/template_strings.py:18
 msgid "Downloaded"
-msgstr ""
+msgstr "Alla laetud"
 
 #: plugins/WebUi/scripts/template_strings.py:20
 msgid "Enable"
-msgstr ""
+msgstr "Luba"
 
 #: plugins/WebUi/scripts/template_strings.py:21
 msgid "Error"
-msgstr ""
+msgstr "Viga"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Eta"
@@ -2187,11 +2224,11 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:23
 msgid "Login"
-msgstr ""
+msgstr "Logi sisse"
 
 #: plugins/WebUi/scripts/template_strings.py:24
 msgid "Logout"
-msgstr ""
+msgstr "Lahku"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Next Announce"
@@ -2199,15 +2236,15 @@ msgstr "Järgmine Teatamine"
 
 #: plugins/WebUi/scripts/template_strings.py:27
 msgid "Off"
-msgstr ""
+msgstr "Väljas"
 
 #: plugins/WebUi/scripts/template_strings.py:29
 msgid "Password is invalid,try again"
-msgstr ""
+msgstr "Vale parool, proovi uuesti"
 
 #: plugins/WebUi/scripts/template_strings.py:30
 msgid "Pause all"
-msgstr ""
+msgstr "Peata kõik"
 
 #: plugins/WebUi/scripts/template_strings.py:32
 msgid "Pieces"
@@ -2215,41 +2252,41 @@ msgstr "Tükke"
 
 #: plugins/WebUi/scripts/template_strings.py:34
 msgid "Queue Down"
-msgstr ""
+msgstr "Liiguta alla"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Queue Up"
-msgstr ""
+msgstr "Liiguta üles"
 
 #: plugins/WebUi/scripts/template_strings.py:36
 msgid "Queue pos:"
-msgstr ""
+msgstr "Järjekorra nr:"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Reannounce"
-msgstr ""
+msgstr "Teadusta uuesti"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Refresh page every:"
-msgstr ""
+msgstr "Uuenda lehte iga:"
 
 #: plugins/WebUi/scripts/template_strings.py:41
 #, python-format
 msgid "Remove %s "
-msgstr ""
+msgstr "Eemalda %s "
 
 #: plugins/WebUi/scripts/template_strings.py:42
 #, python-format
 msgid "Remove %s?"
-msgstr ""
+msgstr "Kustuta %s?"
 
 #: plugins/WebUi/scripts/template_strings.py:43
 msgid "Resume all"
-msgstr ""
+msgstr "Jätka kõiki"
 
 #: plugins/WebUi/scripts/template_strings.py:45
 msgid "Set"
-msgstr ""
+msgstr "Sea"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Set Timeout"
@@ -2261,11 +2298,11 @@ msgstr "Kiirus"
 
 #: plugins/WebUi/scripts/template_strings.py:50
 msgid "Submit"
-msgstr ""
+msgstr "Sisesta"
 
 #: plugins/WebUi/scripts/template_strings.py:51
 msgid "Torrent list"
-msgstr ""
+msgstr "Torrenti nimekiri"
 
 #: plugins/WebUi/scripts/template_strings.py:52
 msgid "Total Size"
@@ -2285,7 +2322,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:58
 msgid "Uploaded"
-msgstr ""
+msgstr "Üles laetud"
 
 #: plugins/WebUi/scripts/template_strings.py:59
 msgid "Url"
@@ -2309,11 +2346,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
-msgstr ""
+msgstr "Väljas"
 
 #: plugins/FlexRSS/FlexRSS.glade:151
 msgid "Update Interval"
-msgstr ""
+msgstr "Uuendamise intervall"
 
 #: plugins/FlexRSS/FlexRSS.glade:165
 msgid "URL"
@@ -2321,7 +2358,7 @@ msgstr "Veebiaadress"
 
 #: plugins/FlexRSS/FlexRSS.glade:192
 msgid "900"
-msgstr ""
+msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
 msgid "Feeds"
@@ -2329,7 +2366,7 @@ msgstr "Kanalid"
 
 #: plugins/FlexRSS/FlexRSS.glade:384
 msgid "Type"
-msgstr ""
+msgstr "Tüüp"
 
 #: plugins/FlexRSS/FlexRSS.glade:397
 msgid "Feed"
@@ -2337,15 +2374,15 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:439
 msgid "<b>Information</b>"
-msgstr ""
+msgstr "<b>Teave</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:511
 msgid "<b>Patterns</b>"
-msgstr ""
+msgstr "<b>Mustrid</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:549 plugins/FlexRSS/FlexRSS.glade:724
 msgid "From"
-msgstr ""
+msgstr "Kasutajalt"
 
 #: plugins/FlexRSS/FlexRSS.glade:565 plugins/FlexRSS/FlexRSS.glade:641
 #: plugins/FlexRSS/FlexRSS.glade:826
@@ -2355,7 +2392,7 @@ msgstr ""
 #: plugins/FlexRSS/FlexRSS.glade:594 plugins/FlexRSS/FlexRSS.glade:675
 #: plugins/FlexRSS/FlexRSS.glade:833
 msgid "Episode"
-msgstr ""
+msgstr "Episood"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 msgid "Thru"
@@ -2367,47 +2404,47 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:810
 msgid "Doesn't Match"
-msgstr ""
+msgstr "Vaste puudub"
 
 #: plugins/FlexRSS/FlexRSS.glade:875
 msgid "Year"
-msgstr ""
+msgstr "Aasta"
 
 #: plugins/FlexRSS/FlexRSS.glade:882
 msgid "Month"
-msgstr ""
+msgstr "Kuu"
 
 #: plugins/FlexRSS/FlexRSS.glade:893
 msgid "Day"
-msgstr ""
+msgstr "Päev"
 
 #: plugins/FlexRSS/FlexRSS.glade:960
 msgid "<b>Test</b>"
-msgstr ""
+msgstr "<b>Test</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
-msgstr ""
+msgstr "Lisa torrent järjekorra tippu"
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
-msgstr ""
+msgstr "Pane peatatud staatusesse,"
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
 msgid "Delete filter when matched."
-msgstr ""
+msgstr "Kustuta filter, kui vaste leitud."
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
-msgstr ""
+msgstr "<b>Allalaadimine</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1084
 msgid "Replacement"
-msgstr ""
+msgstr "Asendus"
 
 #: plugins/FlexRSS/FlexRSS.glade:1098
 msgid "Pattern"
-msgstr ""
+msgstr "Muster"
 
 #: plugins/FlexRSS/FlexRSS.glade:1111
 msgid "<b>Link Rewriting</b>"
@@ -2421,7 +2458,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
 msgid "Deluge default"
-msgstr ""
+msgstr "Deluge vaikimisi"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
@@ -2429,11 +2466,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"
-msgstr ""
+msgstr "Vali:"
 
 #: plugins/FlexRSS/FlexRSS.glade:1190
 msgid "<b>Output</b>"
-msgstr ""
+msgstr "<b>Väljund</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1251
 msgid "Filters"
@@ -2445,11 +2482,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1283
 msgid "Show button on toolbar."
-msgstr ""
+msgstr "Näita nuppu tööriistaribal"
 
 #: plugins/FlexRSS/FlexRSS.glade:1300
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>Liides</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1331
 msgid ""
@@ -2467,20 +2504,20 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"
-msgstr ""
+msgstr "Domeen"
 
 #: plugins/FlexRSS/FlexRSS.glade:1462
 msgid "Path"
-msgstr ""
+msgstr "Asukoht"
 
 #: plugins/FlexRSS/FlexRSS.glade:1488
 msgid "Value"
-msgstr ""
+msgstr "Väärtus"
 
 #: plugins/FlexRSS/FlexRSS.glade:1561
 msgid "<b>Cookies</b>"
-msgstr ""
+msgstr "<b>Küpsised</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1582
 msgid "Configuration"
-msgstr ""
+msgstr "Seadistus"

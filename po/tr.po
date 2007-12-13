@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-12-04 20:31+0000\n"
+"PO-Revision-Date: 2007-12-09 23:26+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-12-06 02:49+0000\n"
+"X-Launchpad-Export-Date: 2007-12-13 06:33+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -110,7 +110,7 @@ msgstr "_Düzenle"
 
 #: glade/delugegtk.glade:249
 msgid "gtk-select-all"
-msgstr ""
+msgstr "gtk-hepsini-seç"
 
 #: glade/delugegtk.glade:265
 msgid "Plu_gins"
@@ -412,26 +412,33 @@ msgid "<b>Torrents</b>"
 msgstr "<b>Torrentler</b>"
 
 #: glade/preferences_dialog.glade:394
+#, fuzzy
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
+"Tam alan tahsisi torrent için gerekli disk alanının tamamını önceden ayırır "
+"ve disk parçalanmasını engeller"
 
 #: glade/preferences_dialog.glade:395
+#, fuzzy
 msgid "Use Full Allocation"
-msgstr ""
+msgstr "Tam alan tahsisi yap"
 
 #: glade/preferences_dialog.glade:417
+#, fuzzy
 msgid "Compact allocation only allocates space as needed"
-msgstr ""
+msgstr "Yoğun alan tahsisi sadece ihtiyaç kadar disk alanı ayırır"
 
 #: glade/preferences_dialog.glade:418
+#, fuzzy
 msgid "Use Compact Allocation"
-msgstr ""
+msgstr "Yoğun alan tahsisi yap"
 
 #: glade/preferences_dialog.glade:438
+#, fuzzy
 msgid "<b>Allocation</b>"
-msgstr ""
+msgstr "Alan tahsisi"
 
 #: glade/preferences_dialog.glade:462
 #, fuzzy
@@ -479,8 +486,9 @@ msgid "0000"
 msgstr "0000"
 
 #: glade/preferences_dialog.glade:706
+#, fuzzy
 msgid "Distributed hash table may improve the amount of active connections."
-msgstr ""
+msgstr "Dağıtılmış yığın tablosu aktif bağlantı sayısını artırabilir"
 
 #: glade/preferences_dialog.glade:707
 msgid "Enable Mainline DHT"
@@ -818,16 +826,19 @@ msgid "Custom:"
 msgstr "Özel:"
 
 #: glade/preferences_dialog.glade:2601
+#, fuzzy
 msgid "Open folder with:"
-msgstr ""
+msgstr "Klasörü birlikte aç:"
 
 #: glade/preferences_dialog.glade:2623
 msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
 msgstr ""
+"<b>Masaüstü Dosya Yöneticisi</b> - sadece Windows-dışı platformlar için"
 
 #: glade/preferences_dialog.glade:2655
+#, fuzzy
 msgid "GUI update interval (seconds)"
-msgstr ""
+msgstr "GUI güncelleme aralığı (saniye)"
 
 #: glade/preferences_dialog.glade:2683
 msgid "<b>Performance</b>"
@@ -843,10 +854,12 @@ msgid "<b>Detailed Progress Bar</b>"
 msgstr "<b>Ayrıntılı İlerleme Çubuğu</b>"
 
 #: glade/preferences_dialog.glade:2759
+#, fuzzy
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
 msgstr ""
+"Deluge sunucuları kontrol ederek yeni versiyon çıktığında size bildirecek"
 
 #: glade/preferences_dialog.glade:2760
 msgid "Be alerted about new releases"
@@ -862,6 +875,8 @@ msgid ""
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
+"Python ve PyGTK sürümünüz, işletim sisteminiz ve işlemci türünüze ait "
+"bilgileri bize göndererek Deluge'u geliştirmemize yardımcı olun"
 
 #: glade/preferences_dialog.glade:2820
 msgid "<b>System Information</b>"
@@ -974,25 +989,30 @@ msgstr "Deluge Dosya Seçimi"
 
 #: glade/files_dialog.glade:42
 msgid "Torrent will not be distributed on the trackerless (DHT) network"
-msgstr ""
+msgstr "Torrent dosyası izleyicisiz ağlar (DTH) üzerinden dağıtılmayacak"
 
 #: glade/files_dialog.glade:43
 msgid "Set the private flag"
-msgstr ""
+msgstr "Özel bayrağınızı belirleyin"
 
 #: glade/wizard.glade:10
 msgid "First Launch Configuration"
-msgstr ""
+msgstr "İlk çalıştırma yapılandırması"
 
 #: glade/wizard.glade:20
+#, fuzzy
 msgid ""
 "This wizard will help you set up Deluge to your liking.  If you are new to "
 "Deluge, please note that most of Deluge's functionality and features come in "
 "the form of plugins, which can be accessed by clicking on Plugins in the "
 "Edit menu or the toolbar."
 msgstr ""
+"Bu sihirbaz Deluge'yi istediğiniz gibi yapılandırmanıza yardım edecek. Eğer "
+"Deluge'de yeniyseniz şunu unutmayın ki, Deluge'nin işlevselliğini ve "
+"özelliklerini büyük ölçüde Eklentiler sağlar."
 
 #: glade/wizard.glade:36
+#, fuzzy
 msgid ""
 "Deluge needs a range of ports that it will try to listen to for incoming "
 "connections.  The default ports for bittorrent are 6881-6889, however, most "
@@ -1000,6 +1020,11 @@ msgid ""
 "and 65535.  Alternatively, you can have Deluge automatically pick random "
 "ports for you."
 msgstr ""
+"Deluge dışarıdan gelen bağlantıları beklemek için bir port aralığına ihtiyaç "
+"duyar. Bittorent için önceden belirlenen portlar 6881-6889 aralığıdır. Ancak "
+"bir çok ISP bu portları blokladığı için 49152 ile 65535 aralığında kendinize "
+"yeni portlar seçmenizi öneririz. Bunun dışında, Deluge'nin sizin için her "
+"seferinde rastgele port seçmesini de sağlayabilirsiniz."
 
 #: glade/wizard.glade:88
 msgid "Use _Random Ports"
@@ -1470,7 +1495,7 @@ msgstr "Karaliste URL"
 
 #: plugins/BlocklistImport/ui.py:50
 msgid "Download on start"
-msgstr ""
+msgstr "Başlangıçta indir"
 
 #: plugins/BlocklistImport/ui.py:105
 msgid "Loading and installing blocklist"
@@ -1493,6 +1518,8 @@ msgid ""
 "We were expecting a gzip file, but didn't get that, or possibly the file is "
 "corrupt.  Please edit your Blocklist preferences"
 msgstr ""
+"Dosya beklediğimiz gibi Gzip arşivi değil ya da bozulmuş. Lütfen Bloklistesi "
+"seçeneklerinizi düzenleyin"
 
 #: plugins/BlocklistImport/peerguardian.py:32
 msgid "Invalid leader"
@@ -1513,7 +1540,7 @@ msgstr "Torrent için oran belirleyin."
 
 #: plugins/DesiredRatio/__init__.py:75
 msgid "_Desired Ratio"
-msgstr ""
+msgstr "_İstenen Oran"
 
 #: plugins/DesiredRatio/__init__.py:79
 msgid "_Not Set"
@@ -1689,10 +1716,11 @@ msgstr ""
 "Windows için bulunmamaktadır.)"
 
 #: plugins/TorrentNotification/__init__.py:22
+#, fuzzy
 msgid ""
 "Make tray icon blink when torrent finishes downloading and/or popup a "
 "notification"
-msgstr ""
+msgstr "Dosya indiğinde ya da bir uyarı geldiğinde simge bana göz kırpsın"
 
 #: plugins/TorrentNotification/__init__.py:112
 msgid "Torrent complete"
@@ -1719,7 +1747,7 @@ msgstr "[Sağlık: TAMAM]"
 
 #: plugins/EventLogging/event_logging_preferences.glade:7
 msgid "Event Logging Preferences"
-msgstr ""
+msgstr "Olay Raporlama Seçenekleri"
 
 #: plugins/EventLogging/event_logging_preferences.glade:28
 #, fuzzy
@@ -1734,27 +1762,27 @@ msgstr "Günlük dosyaları"
 #: plugins/EventLogging/event_logging_preferences.glade:66
 #: plugins/EventLogging/tab_log.py:210
 msgid "Peer blocked"
-msgstr ""
+msgstr "Eş blonlandı"
 
 #: plugins/EventLogging/event_logging_preferences.glade:80
 #: plugins/EventLogging/tab_log.py:200
 msgid "Block finished"
-msgstr ""
+msgstr "Blok bitti"
 
 #: plugins/EventLogging/event_logging_preferences.glade:94
 #: plugins/EventLogging/tab_log.py:189
 msgid "Block downloading"
-msgstr ""
+msgstr "Blok indiriliyor"
 
 #: plugins/EventLogging/event_logging_preferences.glade:108
 #: plugins/EventLogging/tab_log.py:179
 msgid "Piece finished"
-msgstr ""
+msgstr "Parça bitti"
 
 #: plugins/EventLogging/event_logging_preferences.glade:122
 #: plugins/EventLogging/tab_log.py:170
 msgid "Storage moved"
-msgstr ""
+msgstr "Depolama taşındı"
 
 #: plugins/EventLogging/event_logging_preferences.glade:136
 #: plugins/EventLogging/tab_log.py:161
