@@ -36,7 +36,7 @@ import pkg_resources
 
 import deluge.common
 import deluge.ui.client as client
-import deluge.ui.component as component
+import deluge.component as component
 from deluge.log import LOG as log
 
 class EditTrackersDialog:
