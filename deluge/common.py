@@ -67,7 +67,10 @@ def get_config_dir(filename=None):
 
 def get_default_download_dir():
     """Returns the default download directory"""
-    return os.environ.get("HOME")
+    if common.windows_check():
+        return os.path.expanduser("~")
+    else:
+        return os.environ.get("HOME")
 
 def get_default_torrent_dir():
     """Returns the default torrent directory"""
