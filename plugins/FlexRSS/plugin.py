@@ -1145,9 +1145,10 @@ class plugin_FlexRSS:
 	def configure_ui_show_toolbar_button(self):
 		if self.toolbar_button == None:
 			import gtk
+            import os
 
 			icon = gtk.Image()
-			icon.set_from_file(self.path + "/FlexRSS.png")
+			icon.set_from_file(os.path.join(self.path, "FlexRSS.png"))
 			self.toolbar_button = gtk.ToolButton(icon_widget=icon, label="FlexRSS")
 			self.toolbar_button.connect("clicked", self.configure_cb_toolbar_clicked)
 			self.interface.toolbar.add(self.toolbar_button)
