@@ -9,7 +9,6 @@
 * Maybe add pop-up menus to the status bar items
 * Address issue where torrents will redownload if the storage is moved outside
     of deluge.
-* Hide open folder if not localhost
 * Implement 'Classic' mode
 * Tray tooltip
 * Add autoload folder

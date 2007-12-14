@@ -32,12 +32,11 @@ import ez_setup
 ez_setup.use_setuptools()
 
 from setuptools import setup, find_packages, Extension
-from distutils import cmd 
+from distutils import cmd, sysconfig
 from distutils.command.build import build as _build
 from distutils.command.install import install as _install
 from distutils.command.install_data import install_data as _install_data
 import msgfmt
-
 
 import platform
 import glob
@@ -54,10 +53,22 @@ _extra_compile_args = [
     "-DHAVE_PTHREAD=1",
     "-DTORRENT_USE_OPENSSL=1",
     "-DHAVE_SSL=1",
-    "-g",
-    "-p"
+    "-O2"
 ]
 
+removals = ["-Wstrict-prototypes"]
+
+if python_version == '2.5':
+    cv_opt = sysconfig.get_config_vars()["CFLAGS"]
+    for removal in removals:
+        cv_opt = cv_opt.replace(removal, " ")
+    sysconfig.get_config_vars()["CFLAGS"] = " ".join(cv_opt.split())
+else:
+    cv_opt = sysconfig.get_config_vars()["OPT"]
+    for removal in removals:
+        cv_opt = cv_opt.replace(removal, " ")
+    sysconfig.get_config_vars()["OPT"] = " ".join(cv_opt.split())
+    
 _include_dirs = [
     './libtorrent',
     './libtorrent/include',

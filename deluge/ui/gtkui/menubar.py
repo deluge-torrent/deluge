@@ -47,11 +47,11 @@ class MenuBar(component.Component):
         component.Component.__init__(self, "MenuBar")
         self.window = component.get("MainWindow")
         # Get the torrent menu from the glade file
-        torrentmenu_glade = gtk.glade.XML(
+        self.torrentmenu_glade = gtk.glade.XML(
                     pkg_resources.resource_filename("deluge.ui.gtkui", 
                                                 "glade/torrent_menu.glade"))
 
-        self.torrentmenu = torrentmenu_glade.get_widget("torrent_menu")
+        self.torrentmenu = self.torrentmenu_glade.get_widget("torrent_menu")
         self.menu_torrent = self.window.main_glade.get_widget("menu_torrent")
         
         # Attach the torrent_menu to the Torrent file menu
@@ -88,7 +88,7 @@ class MenuBar(component.Component):
             "on_menuitem_about_activate": self.on_menuitem_about_activate
         })
         
-        torrentmenu_glade.signal_autoconnect({
+        self.torrentmenu_glade.signal_autoconnect({
             ## Torrent Menu
             "on_menuitem_pause_activate": self.on_menuitem_pause_activate,
             "on_menuitem_resume_activate": self.on_menuitem_resume_activate,
@@ -111,6 +111,20 @@ class MenuBar(component.Component):
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(True)
 
+        # Hide the Open Folder menuitem and separator if not connected to a 
+        # localhost.
+        non_remote_items = [
+            "menuitem_open_folder",
+            "separator4"
+        ]
+        if not client.is_localhost():
+            for widget in non_remote_items:
+                self.torrentmenu_glade.get_widget(widget).hide()
+                self.torrentmenu_glade.get_widget(widget).set_no_show_all(True)
+        else:
+            for widget in non_remote_items:
+                self.torrentmenu_glade.get_widget(widget).set_no_show_all(False)
+            
         # Show the Torrent menu because we're connected to a host
         self.menu_torrent.show()
 
