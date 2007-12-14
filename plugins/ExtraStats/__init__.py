@@ -57,7 +57,7 @@ class ExtraStats:
         print "Loading ExtraStats plugin..."
         self.manager = core
         # Create an options file and try to load existing Values
-        self.config_file = deluge.common.CONFIG_DIR + "/extra_stats.conf"
+        self.config_file = os.path.join(deluge.common.CONFIG_DIR, "extra_stats.conf")
         self.config = deluge.pref.Preferences(self.config_file, False,
                           {'enable_downloaded': True,
                            'enable_uploaded': True,
@@ -70,7 +70,7 @@ class ExtraStats:
         except IOError:
             # File does not exist
             pass
-        self.glade = gtk.glade.XML(path + "/stats_preferences.glade")
+        self.glade = gtk.glade.XML(os.path.join(path, "stats_preferences.glade"))
         self.dialog = self.glade.get_widget("dialog")
         self.dialog.set_position(gtk.WIN_POS_CENTER)
         self.glade.signal_autoconnect({

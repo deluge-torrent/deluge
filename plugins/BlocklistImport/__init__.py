@@ -34,6 +34,7 @@ import urllib, deluge.common, deluge.pref
 from peerguardian import PGReader, PGException
 from text import TextReader, GZMuleReader, PGZip
 from ui import GTKConfig, GTKProgress
+import os.path
 
 # List of formats supported.  This is used to generate the UI list and
 # specify the reader class.  The last entry is for storage by the UI.
@@ -55,9 +56,9 @@ class BlocklistImport:
         self.gtkprog = GTKProgress(self)
         self.nimported = 0
 
-        self.blockfile = deluge.common.CONFIG_DIR + "/blocklist.cache"
+        self.blockfile = os.path.join(deluge.common.CONFIG_DIR, "blocklist.cache")
 
-        conffile = deluge.common.CONFIG_DIR + "/blocklist.conf"
+        conffile = os.path.join(deluge.common.CONFIG_DIR, "blocklist.conf")
         self.config = deluge.pref.Preferences(filename=conffile,
                                               global_defaults=False)
         self.config.load()

@@ -36,6 +36,7 @@ DEFAULT_PREFS = {
 
 import deluge
 import gtk, gtk.glade
+import os.path
 
 class DesiredSpeed:
     
@@ -47,7 +48,7 @@ class DesiredSpeed:
         self.set_down_speeds = {}
         self.callback_ids = []
      
-        self.config = deluge.pref.Preferences(filename=deluge.common.CONFIG_DIR + "/desired_speed.conf", global_defaults=False, defaults=DEFAULT_PREFS)
+        self.config = deluge.pref.Preferences(filename=os.path.join(deluge.common.CONFIG_DIR, "desired_speed.conf"), global_defaults=False, defaults=DEFAULT_PREFS)
 
         self.callback_ids.append(self.interface.torrent_menu.connect_after("realize", self.torrent_menu_show))
         self.callback_ids.append(self.interface.torrent_menu.connect("show", self.torrent_menu_show))

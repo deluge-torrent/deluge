@@ -34,6 +34,7 @@ def enable(core, interface):
 import deluge
 import deluge.common
 import gtk
+import os.path
 
 class TorrentNotification:
 
@@ -48,7 +49,7 @@ class TorrentNotification:
         self.core.connect_event(self.core.constants['EVENT_FINISHED'], self.handle_event)
 
         # Create an options file and try to load existing Values
-        self.config_file = deluge.common.CONFIG_DIR + "/notification.conf"
+        self.config_file = os.path.join(deluge.common.CONFIG_DIR, "notification.conf")
         if deluge.common.windows_check():
             self.config = deluge.pref.Preferences(self.config_file, False,
                             defaults={'enable_tray_blink' : True,
@@ -66,7 +67,7 @@ class TorrentNotification:
         except IOError:
             pass
         
-        self.glade = gtk.glade.XML(path + "/notification_preferences.glade")
+        self.glade = gtk.glade.XML(os.path.join(path, "notification_preferences.glade"))
         self.dialog = self.glade.get_widget("dialog")
         self.dialog.set_position(gtk.WIN_POS_CENTER)
         self.glade.signal_autoconnect({
@@ -117,7 +118,6 @@ class TorrentNotification:
             pass
 
     def configure(self, window):
-        import os.path
         self.glade.get_widget("chk_tray_blink").set_active(self.config.get("enable_tray_blink"))
         if deluge.common.windows_check():
             self.glade.get_widget("chk_notification").set_active(False)
@@ -155,7 +155,6 @@ class TorrentNotification:
             except:
                 pass
             else:
-                import os.path
                 import sys
                 pygame.init()
                 try:

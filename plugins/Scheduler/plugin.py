@@ -1,4 +1,5 @@
 import deluge.common, deluge.pref, gtk, copy, pickle, time
+import os.path
 
 class plugin_Scheduler:
     def __init__(self, path, deluge_core, deluge_interface):
@@ -7,7 +8,7 @@ class plugin_Scheduler:
         self.interface = deluge_interface
 
         self.days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-        self.conf_file = deluge.common.CONFIG_DIR + "/scheduler.conf"
+        self.conf_file = os.path.join(deluge.common.CONFIG_DIR, "scheduler.conf")
         self.config = deluge.pref.Preferences()
         self.button_state_temp = [[0] * 7 for dummy in xrange(24)]
         self.status = -1

@@ -37,10 +37,10 @@ def enable(core, interface):
 import deluge
 from deluge import dialogs
 import gtk
-import os
+import os.path
 
 DEFAULT_PREFS = {
-    "default_finished_path": os.path.expanduser("~/"), 
+    "default_finished_path": os.path.expanduser("~"), 
     "enable_move_completed": False
 }
 
@@ -55,7 +55,7 @@ class movetorrentMenu:
         self.dialogs = deluge.dialogs
         self.core.connect_event(self.core.constants['EVENT_STORAGE_MOVED'], self.handle_event)
         self.core.connect_event(self.core.constants['EVENT_FINISHED'], self.handle_event)
-        self.glade = gtk.glade.XML(path + "/movetorrent.glade")
+        self.glade = gtk.glade.XML(os.path.join(path, "movetorrent.glade"))
         self.glade.signal_autoconnect({
                                         'dialog_ok': self.dialog_ok,
                                         'dialog_cancel': self.dialog_cancel
@@ -63,7 +63,7 @@ class movetorrentMenu:
         self.dialog = self.glade.get_widget("dialog")
         self.dialog.set_position(gtk.WIN_POS_CENTER)
 
-        self.config_file = deluge.common.CONFIG_DIR + "/move_torrent.conf"
+        self.config_file = os.path.join(deluge.common.CONFIG_DIR, "move_torrent.conf")
         self.config = deluge.pref.Preferences(self.config_file, global_defaults=False, defaults=DEFAULT_PREFS)
         try:
             self.config.load()
@@ -99,7 +99,6 @@ class movetorrentMenu:
                 self.core.move_storage(unique_id, path)
 
     def configure(self, window):
-        import os.path
         try:
             self.glade.get_widget("chk_move_completed").set_active(self.config.get("enable_move_completed"))
             self.glade.get_widget("finished_path_button").set_filename(self.config.get("default_finished_path"))

@@ -48,6 +48,7 @@ from NetworkGraph.tab_graph import GraphTabManager
 
 import gtk
 import deluge
+import os.path
 
 class NetworkGraph:
     def __init__(self, path, core, interface):
@@ -55,7 +56,7 @@ class NetworkGraph:
         self.location = path
         self.manager = core
         self.dialog_initialize = True
-        self.glade = gtk.glade.XML(path + "/graph_preferences.glade")
+        self.glade = gtk.glade.XML(os.path.join(path, "graph_preferences.glade"))
         self.dialog = self.glade.get_widget("dialog")
         self.glade.signal_autoconnect({
                                         'on_Reset_Download_released' : self.reset_download,
@@ -64,7 +65,7 @@ class NetworkGraph:
                                         'on_button_ok_pressed': self.ok_pressed
                                         })
 
-        self.config_file = deluge.common.CONFIG_DIR + "/graph.conf"
+        self.config_file = os.path.join(deluge.common.CONFIG_DIR, "graph.conf")
         self.config = deluge.pref.Preferences(self.config_file, False)
         try:
             self.config.load()

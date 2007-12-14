@@ -37,6 +37,7 @@ DEFAULT_PREFS = {
 
 import deluge
 import gtk, gtk.glade
+import os.path
 
 class DesiredRatio:
     
@@ -48,7 +49,7 @@ class DesiredRatio:
         self.callback_ids = []
      
         # Setup preferences
-        self.config = deluge.pref.Preferences(filename=deluge.common.CONFIG_DIR + "/desired_ratio.conf", global_defaults=False, defaults=DEFAULT_PREFS)
+        self.config = deluge.pref.Preferences(filename=os.path.join(deluge.common.CONFIG_DIR, "desired_ratio.conf"), global_defaults=False, defaults=DEFAULT_PREFS)
 
     # Connect to events for the torrent menu so we know when to build and remove our sub-menu
         self.callback_ids.append(self.interface.torrent_menu.connect_after("realize", self.torrent_menu_show))

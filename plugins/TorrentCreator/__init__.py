@@ -33,6 +33,7 @@ def enable(core, interface):
 
 import deluge
 import gtk, gtk.glade
+import os.path
 
 class TorrentCreator:
 
@@ -79,7 +80,7 @@ class TorrentCreator:
 
     def new_torrent_clicked(self, widget, data=None):
       # Show the torrent creator dialog
-      self.glade = gtk.glade.XML(self.path + "/torrentcreator.glade")
+      self.glade = gtk.glade.XML(os.path.join(self.path, "torrentcreator.glade"))
   
       self.dialog = self.glade.get_widget("torrentcreator")
       self.glade.get_widget("piece_size_combobox").set_active(3)

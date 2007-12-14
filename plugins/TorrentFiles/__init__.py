@@ -49,13 +49,14 @@ import gtk
 
 import deluge
 from TorrentFiles.tab_files import FilesTabManager
+import os.path
 
 class TorrentFiles:
     def __init__(self, path, core, interface):
         print "Loading TorrentFiles plugin..."
         self.parent = interface
         self.manager = core
-        config_file = deluge.common.CONFIG_DIR + "/files.conf"
+        config_file = os.path.join(deluge.common.CONFIG_DIR, "files.conf")
         self.config = deluge.pref.Preferences(config_file, False, 
                           defaults={'file_viewer': 'xdg-open'})
         try:
@@ -64,7 +65,7 @@ class TorrentFiles:
             # File does not exist
             pass
 
-        self.glade = gtk.glade.XML(path + "/files_preferences.glade")
+        self.glade = gtk.glade.XML(os.path.join(path, "files_preferences.glade"))
         self.dialog = self.glade.get_widget("dialog")
         self.glade.signal_autoconnect({
                                         'on_button_cancel_clicked': self.on_button_cancel_clicked,

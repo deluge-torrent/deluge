@@ -49,6 +49,7 @@ import gtk
 
 import deluge
 from TorrentPeers.tab_peers import PeersTabManager
+import os.path
 
 class TorrentPeers:
 
@@ -56,7 +57,7 @@ class TorrentPeers:
         print "Loading TorrentPeers plugin..."
         self.parent = interface
         self.manager = core
-        self.config_file = deluge.common.CONFIG_DIR + "/peers.conf"
+        self.config_file = os.path.join(deluge.common.CONFIG_DIR, "peers.conf")
         self.config = deluge.pref.Preferences(self.config_file, False,
                         defaults={'enable_flags' : True,
                                     'size_18' : True})
@@ -66,7 +67,7 @@ class TorrentPeers:
             # File does not exist
             pass
         self.dialog_initialize = True
-        self.glade = gtk.glade.XML(path + "/peers_preferences.glade")
+        self.glade = gtk.glade.XML(os.path.join(path, "peers_preferences.glade"))
         self.dialog = self.glade.get_widget("dialog")
         self.glade.signal_autoconnect({
                                         'toggle_ui': self.toggle_ui,

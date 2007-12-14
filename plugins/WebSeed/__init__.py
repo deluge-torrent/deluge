@@ -33,7 +33,7 @@ def enable(core, interface):
 
 import deluge
 import gtk
-import os
+import os.path
 
 class webseedMenu:
     
@@ -42,7 +42,7 @@ class webseedMenu:
         self.path = path
         self.core = core
         self.interface = interface
-        self.glade = gtk.glade.XML(path + "/webseed.glade")
+        self.glade = gtk.glade.XML(os.path.join(path, "webseed.glade"))
         self.dialog = self.glade.get_widget("dialog")
         # Add menu item to torrent context menu
         self.menuitem_image = gtk.Image()

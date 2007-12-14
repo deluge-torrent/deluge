@@ -52,6 +52,7 @@ def enable(core, interface):
 ### The Plugin ###
 import deluge
 import gtk
+import os.path
 from EventLogging.tab_log import LogTabManager
 
 class EventLogging:
@@ -61,7 +62,7 @@ class EventLogging:
         self.manager = core
         self.parent = interface
         # Create an options file and try to load existing Values
-        self.config_file = deluge.common.CONFIG_DIR + "/event_logging.conf"
+        self.config_file = os.path.join(deluge.common.CONFIG_DIR, "event_logging.conf")
         self.config = deluge.pref.Preferences(self.config_file, False)
         try:
             self.config.load()
@@ -69,7 +70,7 @@ class EventLogging:
             # File does not exist
             pass
         self.dialog_initialize = True
-        self.glade = gtk.glade.XML(path + "/event_logging_preferences.glade")
+        self.glade = gtk.glade.XML(os.path.join(path, "event_logging_preferences.glade"))
         self.dialog = self.glade.get_widget("dialog")
         self.dialog.set_position(gtk.WIN_POS_CENTER)
         self.glade.signal_autoconnect({
