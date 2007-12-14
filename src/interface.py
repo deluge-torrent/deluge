@@ -1588,7 +1588,6 @@ want to remove all seeding torrents?")):
             pref_name = columns + '_width'
             column = getattr(self, columns + '_column') 
             self.config.set(pref_name, column.get_width())
-        self.config.save()
 
     # Saves the tabs order (except the 'Details' tab)
     def save_tabs_order(self):
@@ -1672,6 +1671,7 @@ want to remove all seeding torrents?")):
         self.save_column_widths()
         self.save_window_settings()
         self.save_tabs_order()
+        self.config.save()
         self.plugins.shutdown_all_plugins()
         #for the sake of windows, hide tray_icon
         self.tray_icon.set_visible(False)
