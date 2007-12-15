@@ -113,6 +113,7 @@ class GTKProgress(gtk.Dialog):
 
         self.connect('response', self.response)
         self.connect('close', self.cancel)
+        self.connect("delete_event", self.cancel)
 
         self.hide_all()
 
@@ -147,10 +148,12 @@ class GTKProgress(gtk.Dialog):
     def response(self, dialog, response):
         self.cancel(dialog)
 
-    def cancel(self, dialog):
+    def cancel(self, dialog, signal=None):
         print "Cancelling"
         self.plugin.cancelled = True
         self.hide_all()
+        if signal:
+            return True
 
     def start(self):
         self.show_all()
@@ -181,11 +184,14 @@ class GTKError(gtk.Dialog):
 
         self.connect('response', self.ok)
         self.connect('close', self.cancel)
+        self.connect("delete_event", self.cancel)
 
         self.show_all()
 
     def ok(self, dialog, response):
         self.hide_all()
 
-    def cancel(self, dialog):
+    def cancel(self, dialog, signal):
         self.hide_all()
+        if signal:
+            return True
