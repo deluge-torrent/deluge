@@ -52,6 +52,7 @@ class GTKConfig(gtk.Dialog):
 
         self.connect('response', self.ok)
         self.connect('close', self.cancel)
+        self.connect("delete_event", self.cancel)
 
         self.hide_all()
 
@@ -71,8 +72,10 @@ class GTKConfig(gtk.Dialog):
         self.plugin.setconfig(url, los, ltype)
 
 
-    def cancel(self, dialog):
+    def cancel(self, dialog, signal=None):
         self.hide_all()
+        if signal:
+            return True
 
     def start(self, ltype, url, load, window):
         self.set_transient_for(window)
