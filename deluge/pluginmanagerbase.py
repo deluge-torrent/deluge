@@ -87,7 +87,7 @@ class PluginManagerBase:
         pkg_resources.working_set.add_entry(plugin_dir)
         pkg_resources.working_set.add_entry(user_plugin_dir)
         self.pkg_env = pkg_resources.Environment([plugin_dir, user_plugin_dir])
-
+        
         self.available_plugins = []
         for name in self.pkg_env:
             pkg_name = str(self.pkg_env[name][0]).split()[0].replace("-", " ")

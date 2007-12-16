@@ -49,8 +49,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         """Start the plugin manager"""
         # Update the enabled_plugins from the core
         enabled_plugins = client.get_enabled_plugins()
-        enabled_plugins += self.config["enabled_plugins"]
-        enabled_plugins = list(set(enabled_plugins))
+        log.debug("Core has these plugins enabled: %s", enabled_plugins)
         self.config["enabled_plugins"] = enabled_plugins
         
         # Enable the plugins that are enabled in the config and core
