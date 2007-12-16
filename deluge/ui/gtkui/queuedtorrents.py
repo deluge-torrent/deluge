@@ -34,6 +34,7 @@
 import os.path
 
 import gtk, gtk.glade
+import gobject
 import pkg_resources
 
 import deluge.component as component
