@@ -67,7 +67,7 @@ def get_config_dir(filename=None):
 
 def get_default_download_dir():
     """Returns the default download directory"""
-    if common.windows_check():
+    if windows_check():
         return os.path.expanduser("~")
     else:
         return os.environ.get("HOME")
