@@ -74,7 +74,52 @@ class cache:
         ret = self.func(*__args, **__kw)
         self.cache_values[(args, kw)] = [time.time(), ret]
         return ret
-            
+
+class cache_dict:
+    """Special cache decorator for get_torrent_status and the like.. It expects
+    passing a str, list and returns a dict"""
+    def __init__(self, func):
+        self.func = func
+        self.cache_values = {}
+    
+    def __call__(self, *__args, **__kw):
+        if __args == ():
+            return
+        # Check for a cache value for these parameters
+        if self.cache_values.has_key(__args[0]):
+            # Check the timestamp on the value to ensure it's still valid
+            if time.time() - self.cache_values[__args[0]][0] < CACHE_TTL:
+                # Check to see if we have the right keys in cache
+                cache_dict = self.cache_values[__args[0]][1]
+                if cache_dict == None:
+                    cache_dict = {}
+                keys = __args[1]
+                non_cached = []
+                ret_dict = {}
+                for key in keys:
+                    if key in cache_dict.keys():
+                        ret_dict[key] = cache_dict[key]
+                    else:
+                        non_cached.append(key)
+                
+                # If there aren't any non_cached keys then lets just return
+                # cached values
+                if len(non_cached) == 0:
+                    return ret_dict
+        
+                # We need to request the remaining non-cached keys from the func
+                ret = self.func(*(__args[0], non_cached), **__kw)
+                if ret == None:
+                    return ret
+                ret.update(ret_dict)
+                self.cache_values[__args[0]] = [time.time(), ret]
+                return ret
+                
+        # Not cached
+        ret = self.func(*__args, **__kw)
+        self.cache_values[__args[0]] = [time.time(), ret]
+        return ret                    
+                    
 class CoreProxy(gobject.GObject):
     __gsignals__ = { 
         "new_core" : ( 
@@ -269,6 +314,7 @@ def force_reannounce(torrent_ids):
     except (AttributeError, socket.error):
         set_core_uri(None)
 
+@cache_dict
 def get_torrent_status(torrent_id, keys):
     """Builds the status dictionary and returns it"""
     try:
@@ -396,14 +442,3 @@ def set_torrent_trackers(torrent_id, trackers):
         get_core().set_torrent_trackers(torrent_id, trackers)
     except (AttributeError, socket.error):
         set_core_uri(None)
-
-def open_url_in_browser(url):
-    """Opens link in the desktop's default browser"""
-    def start_browser():
-        import webbrowser
-        log.debug("Opening webbrowser with url: %s", url)
-        webbrowser.open(url)
-        return False
-        
-    import gobject
-    gobject.idle_add(start_browser)

@@ -107,7 +107,18 @@ def get_logo(size):
 def open_file(path):
     """Opens a file or folder."""
     os.popen("xdg-open %s" % path)
-    
+
+def open_url_in_browser(url):
+    """Opens link in the desktop's default browser"""
+    def start_browser():
+        import webbrowser
+        log.debug("Opening webbrowser with url: %s", url)
+        webbrowser.open(url)
+        return False
+        
+    import gobject
+    gobject.idle_add(start_browser)
+        
 ## Formatting text functions
 
 def fsize(fsize_b):
