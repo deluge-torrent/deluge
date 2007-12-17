@@ -117,8 +117,8 @@ class GtkUI:
         self.dbusinterface = DbusInterface(args)
                 
         # We make sure that the UI components start once we get a core URI
-        client.connect_on_new_core(component.start)
-        client.connect_on_no_core(component.stop)
+        client.connect_on_new_core(self._on_new_core)
+        client.connect_on_no_core(self._on_no_core)
         
         # Initialize various components of the gtkui
         self.mainwindow = MainWindow()
@@ -165,3 +165,10 @@ class GtkUI:
         del self.signal_receiver
         del self.plugins
         del deluge.configmanager
+
+    def _on_new_core(self, data):
+        component.start()
+        
+    def _on_no_core(self, data):
+        component.stop()
+        

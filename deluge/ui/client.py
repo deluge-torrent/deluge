@@ -36,6 +36,8 @@ import pickle
 import socket
 import time
 
+import gobject
+
 import deluge.xmlrpclib as xmlrpclib
 
 import deluge.common
@@ -49,11 +51,6 @@ class cache:
 
         #self.cache_values = {(args, kwargs): (time, ret)}
         self.cache_values = {}
-        
-        self.args = None
-        self.kwargs = None
-        self.ret = None
-        self.time = None
         
     def __call__(self, *__args, **__kw):
         # Turn the arguments into hashable values
@@ -75,41 +72,34 @@ class cache:
         
         # No return value in cache
         ret = self.func(*__args, **__kw)
-        self.cache_values[(args, kw)] = [None, None]
-        self.cache_values[(args, kw)][1] = ret
-        self.cache_values[(args, kw)][0] = time.time()
+        self.cache_values[(args, kw)] = [time.time(), ret]
         return ret
             
-class CoreProxy:
+class CoreProxy(gobject.GObject):
+    __gsignals__ = { 
+        "new_core" : ( 
+            gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, []),
+        "no_core" : ( 
+            gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, []), 
+    }
     def __init__(self):
+        log.debug("CoreProxy init..")
+        gobject.GObject.__init__(self)
         self._uri = None
         self._core = None
-        self._on_new_core_callbacks = []
-        self._on_no_core_callbacks = []
-            
-    def connect_on_new_core(self, callback):
-        """Connect a callback to be called when a new core is connected to."""
-        self._on_new_core_callbacks.append(callback)
-    
-    def connect_on_no_core(self, callback):
-        """Connect a callback to be called when the current core is disconnected
-        from."""
-        self._on_no_core_callbacks.append(callback)
             
     def set_core_uri(self, uri):
         log.info("Setting core uri as %s", uri)
         
         if uri == None and self._uri != None:
-            for callback in self._on_no_core_callbacks:
-                callback()
+            self.emit("no_core")
             self._uri = None
             self._core = None
             return
         
         if uri != self._uri and self._uri != None:
             self._core = None
-            for callback in self._on_no_core_callbacks:
-                callback()
+            self.emit("no_core")
                             
         self._uri = uri
         # Get a new core
@@ -124,8 +114,7 @@ class CoreProxy:
             log.debug("Creating ServerProxy..")
             self._core = xmlrpclib.ServerProxy(self._uri)
             # Call any callbacks registered
-            for callback in self._on_new_core_callbacks:
-                callback()
+            self.emit("new_core")
         
         return self._core
                
@@ -146,12 +135,12 @@ def get_core_plugin(plugin):
 
 def connect_on_new_core(callback):
     """Connect a callback whenever a new core is connected to."""
-    return _core.connect_on_new_core(callback)
+    return _core.connect("new_core", callback)
 
 def connect_on_no_core(callback):
     """Connect a callback whenever the core is disconnected from."""
-    return _core.connect_on_no_core(callback)
-    
+    return _core.connect("no_core", callback)
+  
 def set_core_uri(uri):
     """Sets the core uri"""
     return _core.set_core_uri(uri)
