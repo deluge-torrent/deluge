@@ -34,12 +34,52 @@
 import os.path
 import pickle
 import socket
+import time
 
 import deluge.xmlrpclib as xmlrpclib
 
 import deluge.common
 from deluge.log import LOG as log
 
+CACHE_TTL = 0.5 # seconds
+
+class cache:
+    def __init__(self, func):
+        self.func = func
+
+        #self.cache_values = {(args, kwargs): (time, ret)}
+        self.cache_values = {}
+        
+        self.args = None
+        self.kwargs = None
+        self.ret = None
+        self.time = None
+        
+    def __call__(self, *__args, **__kw):
+        # Turn the arguments into hashable values
+        if __args == ():
+            args = None
+        else:
+            args = __args
+        
+        if __kw == {}:
+            kw = None
+        else:
+            kw = __kw
+            
+        # See if there is a cached return value for this call
+        if self.cache_values.has_key((args, kw)):
+            # Check the timestamp on the value to ensure it's still valid
+            if time.time() - self.cache_values[(args, kw)][0] < CACHE_TTL:
+                return self.cache_values[(args, kw)][1]
+        
+        # No return value in cache
+        ret = self.func(*__args, **__kw)
+        self.cache_values[(args, kw)] = [None, None]
+        self.cache_values[(args, kw)][1] = ret
+        self.cache_values[(args, kw)][0] = time.time()
+        return ret
+            
 class CoreProxy:
     def __init__(self):
         self._uri = None
@@ -252,7 +292,8 @@ def get_torrent_status(torrent_id, keys):
         return {}
     
     return pickle.loads(status.data)
-    
+
+@cache
 def get_session_state():
     try:
         state = get_core().get_session_state()
@@ -260,7 +301,8 @@ def get_session_state():
         set_core_uri(None)
         state = []
     return state
-    
+
+@cache
 def get_config():
     try:
         config = get_core().get_config()
@@ -268,7 +310,8 @@ def get_config():
         set_core_uri(None)
         config = {}
     return config
-    
+
+@cache
 def get_config_value(key):
     try:
         config_value = get_core().get_config_value(key)
@@ -284,7 +327,7 @@ def set_config(config):
         get_core().set_config(config)
     except (AttributeError, socket.error):
         set_core_uri(None)
-    
+@cache
 def get_listen_port():
     try:
         port = get_core().get_listen_port()
@@ -293,6 +336,7 @@ def get_listen_port():
         port = 0
     return int(port)
 
+@cache
 def get_available_plugins():
     try:
         available = get_core().get_available_plugins()
@@ -300,7 +344,8 @@ def get_available_plugins():
         set_core_uri(None)
         available = []
     return available
-    
+
+@cache
 def get_enabled_plugins():
     try:
         enabled = get_core().get_enabled_plugins()
@@ -308,7 +353,8 @@ def get_enabled_plugins():
         set_core_uri(None)
         enabled = []
     return enabled
-    
+
+@cache
 def get_download_rate():
     try:
         rate = get_core().get_download_rate()
@@ -316,7 +362,8 @@ def get_download_rate():
         set_core_uri(None)
         rate = -1
     return rate
-    
+
+@cache    
 def get_upload_rate():
     try:
         rate = get_core().get_upload_rate()
@@ -325,6 +372,7 @@ def get_upload_rate():
         rate = -1
     return rate
 
+@cache
 def get_num_connections():
     try:
         num_connections = get_core().get_num_connections()
