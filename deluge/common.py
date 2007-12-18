@@ -112,7 +112,6 @@ def open_url_in_browser(url):
     """Opens link in the desktop's default browser"""
     def start_browser():
         import webbrowser
-        log.debug("Opening webbrowser with url: %s", url)
         webbrowser.open(url)
         return False
         

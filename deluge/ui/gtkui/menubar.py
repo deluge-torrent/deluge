@@ -38,6 +38,7 @@ import pkg_resources
 
 import deluge.component as component
 import deluge.ui.client as client
+import deluge.common as common
 
 from deluge.log import LOG as log
 
@@ -240,15 +241,15 @@ class MenuBar(component.Component):
     ## Help Menu ##
     def on_menuitem_homepage_activate(self, data=None):
         log.debug("on_menuitem_homepage_activate")
-        client.open_url_in_browser("http://deluge-torrent.org")
+        common.open_url_in_browser("http://deluge-torrent.org")
 
     def on_menuitem_faq_activate(self, data=None):
         log.debug("on_menuitem_faq_activate")
-        client.open_url_in_browser("http://deluge-torrent.org/faq.php")
+        common.open_url_in_browser("http://deluge-torrent.org/faq.php")
 
     def on_menuitem_community_activate(self, data=None):
         log.debug("on_menuitem_community_activate")
-        client.open_url_in_browser("http://forum.deluge-torrent.org/")
+        common.open_url_in_browser("http://forum.deluge-torrent.org/")
 
     def on_menuitem_about_activate(self, data=None):
         log.debug("on_menuitem_about_activate")
