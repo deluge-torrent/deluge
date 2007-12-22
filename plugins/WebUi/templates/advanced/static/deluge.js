@@ -45,9 +45,6 @@ function on_click_row_js(e, id) {
 function select_row(id){
 	var row = get_row(id);
 	if (row) {
-		if (!(row.default_class_name)) {
-			row.default_class_name = row.className;
-		}
 		row.className = 'torrent_table_selected';
 		state.selected_rows[state.selected_rows.length] = id;
 		setCookie('selected_rows',state.selected_rows);
@@ -57,7 +54,7 @@ function select_row(id){
 function deselect_row(id){
 	var row = get_row(id);
 	if (row) {
-	    row.className = row.default_class_name
+	    row.className = 'torrent_table'
 	    /*remove from state.selected_rows*/
 	    var idx = state.selected_rows.indexOf(id);
 	    state.selected_rows.splice(idx,1);

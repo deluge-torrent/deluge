@@ -11,9 +11,9 @@ http://www.xfree86.org/3.3.6/COPYRIGHT2.html#5
 __all__ = ["debugerror", "djangoerror"]
 
 import sys, urlparse, pprint
-from lib.webpy022.net import websafe
-from lib.webpy022.template import Template
-import lib.webpy022.webapi as web
+from webpy022.net import websafe
+from webpy022.template import Template
+import webpy022.webapi as web
 import webserver_common as ws
 from traceback import format_tb
 

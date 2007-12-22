@@ -40,13 +40,13 @@ Todo's before stable:
 -clear finished?
 -torrent files.
 """
-import lib.webpy022 as web
+import webpy022 as web
 
-from lib.webpy022.webapi import cookies, setcookie as w_setcookie
-from lib.webpy022.http import seeother, url
-from lib.webpy022 import template,changequery as self_url
-from lib.webpy022.utils import Storage
-from lib.static_handler import static_handler
+from webpy022.webapi import cookies, setcookie as w_setcookie
+from webpy022.http import seeother, url
+from webpy022 import template,changequery as self_url
+from webpy022.utils import Storage
+from static_handler import static_handler
 
 from deluge.common import fsize,fspeed
 
@@ -144,8 +144,7 @@ def check_session(func):
     return func if session is valid, else redirect to login page.
     """
     def deco(self, name = None):
-        log.debug('%s.%s(name=%s)'  % (self.__class__.__name__, func.__name__,
-            name))
+        log.debug('%s.%s(name=%s)'  % (self.__class__.__name__,func.__name__,name))
         vars = web.input(redir_after_login = None)
         ck = cookies()
         if ck.has_key("session_id") and ck["session_id"] in ws.SESSIONS:
@@ -283,7 +282,6 @@ def filter_torrent_state(torrent_list,filter_name):
         ,'queued':lambda t: (t.paused and not t.user_paused)
         ,'paused':lambda t: (t.user_paused)
         ,'seeding':lambda t:(t.is_seed and not t.paused )
-        ,'active':lambda t: (t.download_rate > 0 or t.upload_rate > 0)
     }
     filter_func = filters[filter_name]
     return [t for t in torrent_list if filter_func(t)]
@@ -302,8 +300,7 @@ def category_tabs(torrent_list):
         (_('Downloading'),'downloading') ,
         (_('Queued'),'queued') ,
         (_('Paused'),'paused') ,
-        (_('Seeding'),'seeding'),
-        (_('Active'),'active')
+        (_('Seeding'),'seeding')
         ]:
         title += ' (%s)' % (
             len(filter_torrent_state(torrent_list, filter_name)), )
@@ -352,17 +349,6 @@ def template_part_stats():
 def get_config(var):
     return ws.config.get(var)
 
-irow = 0
-def altrow(reset = False):
-    global irow
-    if reset:
-        irow = 1
-        return
-    irow +=1
-    irow = irow % 2
-    return "altrow%s" % irow
-
-
 template.Template.globals.update({
     'sort_head': template_sort_head,
     'part_stats':template_part_stats,
@@ -371,7 +357,6 @@ template.Template.globals.update({
     '_': _ , #gettext/translations
     'str': str, #because % in templetor is broken.
     'sorted': sorted,
-    'altrow':altrow,
     'get_config': get_config,
     'self_url': self_url,
     'fspeed': common.fspeed,
@@ -385,9 +370,9 @@ template.Template.globals.update({
 #/template-defs
 
 def create_webserver(urls, methods):
-    from lib.webpy022.request import webpyfunc
-    from lib.webpy022 import webapi
-    from lib.gtk_cherrypy_wsgiserver import CherryPyWSGIServer
+    from webpy022.request import webpyfunc
+    from webpy022 import webapi
+    from gtk_cherrypy_wsgiserver import CherryPyWSGIServer
     import os
 
     func = webapi.wsgifunc(webpyfunc(urls, methods, False))
