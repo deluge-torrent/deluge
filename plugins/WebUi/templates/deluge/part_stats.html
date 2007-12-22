@@ -1,0 +1,35 @@
+$def with (stats)
+
+
+<div class="panel"  id='refresh_panel'>
+
+$_('Auto refresh:')
+$if getcookie('auto_refresh') == '1':
+    ($getcookie('auto_refresh_secs')) $_('seconds') &nbsp;
+    $:render.part_button('GET', '/refresh/set', _('Set'), 'tango/preferences-system.png')
+    $:render.part_button('POST', '/refresh/off', _('Disable'), 'tango/process-stop.png')
+$else:
+    $_('Off') &nbsp;
+    $:render.part_button('POST', '/refresh/on', _('Enable'), 'tango/view-refresh.png')
+$#end
+</div>
+
+<div class="panel"  id='stats_panel'>
+    <!--<a href='/config'>-->
+
+    $_('Connections') : $stats.num_connections ($stats.max_num_connections)
+
+    $_('Down Speed') : $stats.download_rate  ($stats.max_download)
+
+    $_('Up Speed') : $stats.upload_rate  ($stats.max_upload)
+
+
+    <!--</a>-->
+
+    <span id=#about>
+        (<a href='/about'>$_('About')</a>)
+    </span>
+
+</div>
+
+
