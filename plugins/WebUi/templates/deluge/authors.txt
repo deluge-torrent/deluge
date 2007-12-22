@@ -1,5 +1,0 @@
--first layout taken from deluge website
-improved by:
--mvoncken
--somedude
-
