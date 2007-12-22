@@ -114,7 +114,25 @@ class SystemTray(component.Component):
                 self.tray_glade.get_widget(widget).hide()
         except Exception, e:
             log.debug("Unable to hide system tray menu widgets: %s", e)
+    
+    def update(self):
+        # Set the tool tip text
+        max_download_speed = client.get_config_value("max_download_speed")
+        max_upload_speed = client.get_config_value("max_upload_speed")
+        
+        if max_download_speed == -1:
+            max_download_speed = _("Unlimited")
+        if max_upload_speed == -1:
+            max_upload_speed = _("Unlimited")
             
+        msg = '%s\n%s: %s (%s)\n%s: %s (%s)' % (\
+            _("Deluge Bittorrent Client"), _("Down Speed"), \
+            client.get_download_rate(), max_download_speed, _("Up Speed"), \
+            client.get_upload_rate(), max_upload_speed)
+            
+        # Set the tooltip
+        self.tray.set_tooltip(msg)
+        
     def build_tray_bwsetsubmenu(self):
         # Create the Download speed list sub-menu
         submenu_bwdownset = self.build_menu_radio_list(

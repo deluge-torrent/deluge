@@ -3,14 +3,12 @@
 * Figure out easy way for user-made plugins to add i18n support.
 * Restart daemon function
 * Docstrings!
-* Implement caching in client.py
 * Create a new add torrent dialog
 * Implement open folder
 * Maybe add pop-up menus to the status bar items
 * Address issue where torrents will redownload if the storage is moved outside
     of deluge.
 * Implement 'Classic' mode
-* Tray tooltip
 * Add autoload folder
 * Add wizard
 * Add a health indication to the statusbar
@@ -21,3 +19,4 @@
 * Add command line option to change config dir.. --config
 * Add method for plugins to add labels
 * Add context menus for labels.. ie. setting options for all torrents in label
+* Create asynchronous batch torrent status method

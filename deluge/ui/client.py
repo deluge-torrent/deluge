@@ -43,7 +43,7 @@ import deluge.xmlrpclib as xmlrpclib
 import deluge.common
 from deluge.log import LOG as log
 
-CACHE_TTL = 0.5 # seconds
+CACHE_TTL = 1.5 # seconds
 
 class cache:
     def __init__(self, func):
@@ -119,7 +119,7 @@ class cache_dict:
         ret = self.func(*__args, **__kw)
         self.cache_values[__args[0]] = [time.time(), ret]
         return ret                    
-                    
+                            
 class CoreProxy(gobject.GObject):
     __gsignals__ = { 
         "new_core" : ( 
