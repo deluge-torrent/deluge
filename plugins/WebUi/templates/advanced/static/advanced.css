@@ -78,12 +78,28 @@ tr.torrent_table:hover {
 	background-color:#68a;
 }
 
+tr.altrow0:hover {
+	background-color:#68a;
+}
+tr.altrow1:hover {
+	background-color:#68a;
+}
+
+tr.altrow1{
+	background-color: #37506f;
+}
+
+
+
 tr.torrent_table_selected {
 	background-color:#900;
 }
 
 th.torrent_table:hover {
 	background-color:#68a;
+}
+th.torrent_table {
+	background-color: #37506f;
 }
 
 img.button {

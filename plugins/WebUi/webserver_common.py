@@ -31,8 +31,8 @@
 
 """
 initializes config,render and proxy.
-contains all hacks to support running in process0.5 ,run inside-gtk0.5 and
- run in process0.6
+All hacks go here, so this is a really ugly source-file..
+Support running in process0.5 ,run inside-gtk0.5 and run in process0.6
 """
 
 import os
@@ -41,7 +41,7 @@ import random
 import pickle
 import sys
 import base64
-from webpy022 import template
+from lib.webpy022 import template
 
 random.seed()
 webui_path = os.path.dirname(__file__)
@@ -163,7 +163,8 @@ def init_gtk_05():
 def init_logger():
     #only for 0.5..
     import logging
-    logging.basicConfig(level=logging.DEBUG,format="[%(levelname)-8s] %(module)s:%(lineno)d %(message)s")
+    logging.basicConfig(level=logging.DEBUG,
+        format="[%(levelname)s] %(message)s")
     globals()['log'] = logging
 
 

@@ -97,7 +97,7 @@ class plugin_WebUi(object):
             if status[0] == 0:
                 os.kill(int(status[1].split()[0]), 9)
                 time.sleep(1) #safe time to wait for kill to finish.
-        self.config_file = os.path.join(deluge.common.CONFIG_DIR, "webui.conf")
+        self.config_file = deluge.common.CONFIG_DIR + "/webui.conf"
         self.config = deluge.pref.Preferences(self.config_file, False)
         try:
             self.config.load()
@@ -162,7 +162,7 @@ class plugin_WebUi(object):
 
         else:
             print 'Start Webui(in process)..'
-            server_bin = os.path.join(os.path.dirname(__file__), 'run_webserver')
+            server_bin = os.path.dirname(__file__) + '/run_webserver'
             self.proc = Popen((server_bin,'env=0.5'))
 
     def kill_server(self):

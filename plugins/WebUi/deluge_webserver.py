@@ -34,12 +34,14 @@
 import webserver_common as ws
 from webserver_framework import *
 
-import webpy022 as web
-from webpy022.http import seeother, url
+import lib.webpy022 as web
+from lib.webpy022.http import seeother, url
 
 import base64
 from operator import attrgetter
 import os
+
+from json_api import json_api
 
 #routing:
 urls = (
@@ -64,6 +66,7 @@ urls = (
     "/logout", "logout",
     #remote-api:
     "/remote/torrent/add(.*)", "remote_torrent_add",
+    "/json/(.*)","json_api",
     #static:
     "/static/(.*)", "static",
     "/template/static/(.*)", "template_static",
