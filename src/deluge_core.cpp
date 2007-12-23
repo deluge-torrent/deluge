@@ -837,11 +837,20 @@ static PyObject *torrent_pause(PyObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
     
-    long index = get_index_from_unique_ID(unique_ID);
-    if (PyErr_Occurred())
-        return NULL;
+    try {
+        long index = get_index_from_unique_ID(unique_ID);
+        if (PyErr_Occurred())
+            return NULL;
+        torrent_handle& h = M_torrents->at(index).handle;
+        if (h.is_valid()){
+            h.pause();
+        }
 
-    M_torrents->at(index).handle.pause();
+    }
+    catch (invalid_handle&){
+        printf("invalid handle.  something bad happened in libtorrent\n");
+    }
+    catch (...){}
     
     Py_INCREF(Py_None); return Py_None;
 }
@@ -853,11 +862,20 @@ static PyObject *torrent_resume(PyObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
 
-    long index = get_index_from_unique_ID(unique_ID);
-    if (PyErr_Occurred())
-        return NULL;
+    try {
+        long index = get_index_from_unique_ID(unique_ID);
+        if (PyErr_Occurred())
+            return NULL;
+        torrent_handle& h = M_torrents->at(index).handle;
+        if (h.is_valid()){
+            h.resume();
+        }
 
-    M_torrents->at(index).handle.resume();
+    }
+    catch (invalid_handle&){
+        printf("invalid handle.  something bad happened in libtorrent\n");
+    }
+    catch (...){}
 
     Py_INCREF(Py_None); return Py_None;
 }
@@ -1800,22 +1818,30 @@ static PyObject *torrent_get_trackers(PyObject *self, PyObject *args)
     python_long unique_ID;
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
+    try {
+        long index = get_index_from_unique_ID(unique_ID);
+        if (PyErr_Occurred())
+            return NULL;
 
-    long index = get_index_from_unique_ID(unique_ID);
-    if (PyErr_Occurred())
-        return NULL;
-
-    torrent_handle& h = M_torrents->at(index).handle;
-    std::string trackerslist;
-    if (h.is_valid() && h.has_metadata())
-        {
-        for (std::vector<announce_entry>::const_iterator i = h.trackers().begin(); 
-            i != h.trackers().end(); ++i)
+        torrent_handle& h = M_torrents->at(index).handle;
+        std::string trackerslist;
+        if (h.is_valid() && h.has_metadata())
             {
-            trackerslist = trackerslist + i->url +"\n";
+            for (std::vector<announce_entry>::const_iterator i = h.trackers().begin(); 
+                i != h.trackers().end(); ++i)
+                {
+                trackerslist = trackerslist + i->url +"\n";
+                }
+            return Py_BuildValue("s",trackerslist.c_str());
             }
+        else{
+            Py_INCREF(Py_None); return Py_None;
         }
-    return Py_BuildValue("s",trackerslist.c_str());
+    }
+    catch (...){
+        printf("error getting trackers, probably invalid handle\n");
+        Py_INCREF(Py_None); return Py_None;
+    }
 }
 
 static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
@@ -1849,7 +1875,7 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
     }
   catch (invalid_handle&)
   {
-  printf("invalid handle.  something bad happened in libtorrent\n");
+      printf("invalid handle.  something bad happened in libtorrent\n");
   }
   catch (...) {}
   Py_INCREF(Py_None); return Py_None;

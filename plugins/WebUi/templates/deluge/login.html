@@ -1,0 +1,25 @@
+$def with (error)
+$:render.header(_('Login'))
+<div class="panel">
+$if error > 0:
+    <div class="error">$_("Password is invalid,try again")</div>
+
+<form method="POST" id="loginform" action='/login'>
+<input type="hidden" name="redir" value="$get('redir')">
+<div id="loginpanel">
+    <div class="form_row">
+	<span class="form_label">$_('Password')</span>
+	<input type="password" name="pwd" id="pwd" class="form_input">
+    </div>
+    <div class="form_row">
+	<span class="form_label"></span>
+	<input type="submit" name="submit"
+	id="submit" value="Submit" class="form_input">
+    </div>
+
+    <br />
+    <a href="/about">$_('About')</a>
+</div>
+</form>
+</div>
+$:render.footer()

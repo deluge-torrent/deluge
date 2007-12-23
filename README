@@ -33,6 +33,7 @@ make
 python-all-dev
 python-all version >= 2.4
 python-dbus
+python-gnome2-extras
 python-gtk2 version >= 2.9
 python-notify
 python-pyopenssl

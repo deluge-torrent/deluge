@@ -1,0 +1,10 @@
+$def with (form)
+$:render.header(_('Config'))
+
+<div class="error">Not Implemented!</div>
+<form method="POST">
+$:form.render()
+<input type="submit" value="$_('Apply')"/>
+</form>
+
+$:render.footer()

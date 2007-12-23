@@ -1,12 +1,26 @@
-Deluge 0.5.8 (xx December 2007)
+Deluge 0.5.8RC1 (22 December 2007)
+  * Key bindings: 
+    ctrl+a adds a torrent
+    ctrl+l adds a torrent via URL
+    ctrl+p pauses torrent(s)
+    ctrl+r resumes torrent(s)
+    delete removes torrent(s)
   * Fix total uploaded display bug
   * Fix seeding ratio stop on finished torrents
   * Fix zombie processes from occuring
   * Fix saying goodbye to trackers
+  * Increase auto remove ratio to 100
+  * Fix problem on Windows with filenames that have special characters
   * Fix saving of which columns to show
   * Fix init script error on exotic systems
   * Add web seed to Torrent Creator plugin
   * TorrentSearch is now built-in
+  * Add internal anonymizing browser - Key bindings for that are as follows:
+    ctrl+l focus on location bar
+    ctrl+k focus on search bar
+    ctrl+r refreshes current page
+    ctrl+enter adds 'www.' and '.com' to url string
+    shift+enter adds 'www.' and '.net' to url string
 
 Deluge 0.5.7.1 (01 December 2007)
   * Tweak full hd warning so that it only displays itself once per torrent that

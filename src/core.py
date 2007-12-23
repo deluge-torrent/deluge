@@ -321,7 +321,7 @@ class Manager:
         # Pickle the state so if we experience a crash, the latest state is 
         # available
         print "Pickling state..."
-        
+
         output = open(os.path.join(self.base_dir, STATE_FILENAME), 'wb')
         pickle.dump(self.state, output)
         output.close()
@@ -757,13 +757,19 @@ Space:") + " " + nice_free)
         deluge_core.scrape_tracker(unique_ID)
 
     def pause(self, unique_ID):
-        deluge_core.pause(unique_ID)
+        try:
+            deluge_core.pause(unique_ID)
+        except:
+            print "pause failed\n"
 
     def resume(self, unique_ID):
-        deluge_core.resume(unique_ID)
-        # We have to re-apply per torrent settings after resume. This has to
-        # be done until ticket #118 in libtorrent is fixed.
-        self.apply_prefs_per_torrent(unique_ID)
+        try:
+            deluge_core.resume(unique_ID)
+            # We have to re-apply per torrent settings after resume. This has to
+            # be done until ticket #118 in libtorrent is fixed.
+            self.apply_prefs_per_torrent(unique_ID)
+        except:
+            print "pause failed\n"
 
     def pause_all(self):
         if self.config.get('max_active_torrents') != 0:

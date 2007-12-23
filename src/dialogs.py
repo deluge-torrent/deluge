@@ -46,7 +46,7 @@ class PreferencesDlg:
             self.glade.get_widget("notebook").set_current_page(6)
         self.dialog.set_position(gtk.WIN_POS_CENTER)
         if not common.windows_check():
-            self.dialog.set_icon(common.get_logo(32))
+            self.dialog.set_icon(common.get_logo(18))
         self.glade.signal_autoconnect({
                                         'toggle_ui': self.toggle_ui,
                                         'on_btn_testport_clicked': self.TestPort,
@@ -153,9 +153,10 @@ class PreferencesDlg:
             self.glade.get_widget("chk_clear_max_ratio_torrents").set_sensitive(self.preferences.get("auto_end_seeding"))
             self.glade.get_widget("chk_clear_max_ratio_torrents").set_active(self.preferences.get("clear_max_ratio_torrents"))
             self.glade.get_widget("chk_paused").set_active(self.preferences.get("start_paused"))
+            self.glade.get_widget("chk_show_search").set_active(self.preferences.get("show_search"))
+            self.glade.get_widget("chk_use_internal").set_active(self.preferences.get("use_internal"))
             self.glade.get_widget("ratio_spinner").set_value(self.preferences.get("auto_seed_ratio"))
             self.glade.get_widget("chk_dht").set_active(self.preferences.get("enable_dht"))
-            self.glade.get_widget("spin_gui").set_value(self.preferences.get("gui_update_interval"))
             self.glade.get_widget("chk_use_advanced_bar").set_active(self.preferences.get("use_advanced_bar"))
 
             #smart dialog set sensitivities
@@ -274,7 +275,8 @@ class PreferencesDlg:
         self.preferences.set("max_active_torrents", int(self.glade.get_widget("spin_torrents").get_value()))
         self.preferences.set("queue_seeds_to_bottom", self.glade.get_widget("chk_seedbottom").get_active())
         self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
-        self.preferences.set("gui_update_interval", self.glade.get_widget("spin_gui").get_value())
+        self.preferences.set("show_search", self.glade.get_widget("chk_show_search").get_active())
+        self.preferences.set("use_internal", self.glade.get_widget("chk_use_internal").get_active())
         self.preferences.set("clear_max_ratio_torrents", self.glade.get_widget("chk_clear_max_ratio_torrents").get_active())
         self.preferences.set("queue_above_completed", self.glade.get_widget("chk_queue_above_completed").get_active())
         self.preferences.set("start_paused", self.glade.get_widget("chk_paused").get_active())
@@ -402,7 +404,7 @@ class MergeDlg:
         self.dialog = self.glade.get_widget("merge_dialog")
         self.dialog.set_position(gtk.WIN_POS_CENTER)
         if not common.windows_check():
-            self.dialog.set_icon(common.get_logo(32))
+            self.dialog.set_icon(common.get_logo(18))
     
     def show(self, window):
         self.dialog.set_transient_for(window)
@@ -419,7 +421,7 @@ class FilesDlg:
         self.dialog = self.glade.get_widget("file_dialog")
         self.dialog.set_position(gtk.WIN_POS_CENTER)
         if not common.windows_check():
-            self.dialog.set_icon(common.get_logo(32))
+            self.dialog.set_icon(common.get_logo(18))
         
         self.files_manager = files.FilesDialogManager(
                                  self.glade.get_widget("file_view"),
@@ -461,7 +463,7 @@ def show_about_dialog(window):
         abt.set_website("http://deluge-torrent.org")
         abt.set_website_label("http://deluge-torrent.org")
         if not common.windows_check():
-            abt.set_icon(common.get_logo(32))
+            abt.set_icon(common.get_logo(18))
         abt.set_logo(gtk.gdk.pixbuf_new_from_file(
                 common.get_pixmap("deluge-about.png")))
         abt.show_all()
@@ -514,7 +516,7 @@ def show_file_open_dialog(parent, title=None):
     chooser.add_filter(f1)
     chooser.set_select_multiple(True)
     if not common.windows_check():
-        chooser.set_icon(common.get_logo(32))
+        chooser.set_icon(common.get_logo(18))
         chooser.set_property("skip-taskbar-hint", True)
         
     response = chooser.run()
@@ -530,7 +532,7 @@ def show_directory_chooser_dialog(parent, title):
     chooser = gtk.FileChooserDialog(title, parent, gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
                 buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
     if not common.windows_check():
-        chooser.set_icon(common.get_logo(32))
+        chooser.set_icon(common.get_logo(18))
         chooser.set_property("skip-taskbar-hint", True)
     config = pref.Preferences()
     chooser.set_current_folder(config.get("choose_directory_dialog_path"))

@@ -55,6 +55,7 @@ class WizardGTK:
         #add deluge logo to headers
         self.window = self.wtree.get_widget("wizard")
         self.manager = deluge.core
+        self.window.set_icon(deluge.common.get_logo(18))
         pixmap = deluge.common.get_logo(48)
         self.window.set_page_header_image(self.wtree.get_widget('label1'), \
             pixmap)

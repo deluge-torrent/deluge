@@ -1,0 +1,10 @@
+#!/bin/bash
+
+pwd=deluge
+url=http://localhost:8112
+
+for arg in "$@"
+do
+	curl -F torrent=@"$arg" -F pwd=$pwd $url/remote/torrent/add
+done
+

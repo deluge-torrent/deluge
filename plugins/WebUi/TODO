@@ -1,0 +1,20 @@
+0.5.7
+SSL
+torrent/add http-post for private sites
+rename reannounce->update-tracker.
+queued displays as seeding/downloading
+
+
+0.5.7 advanced layout
+fonts
+fix auto-refresh-layout
+buttons
+hide 0.0 kbps like in gtk-ui
+update-tracker.
+
+0.6
+prepare for cat:
+	filters on status (prepare for cat)
+	filters on tracker
+categories
+greasemonkey : private sites.

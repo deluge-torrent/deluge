@@ -64,20 +64,32 @@ class DelugeGTK:
             domain='deluge')
         self.window = self.wtree.get_widget("main_window")
         self.toolbar = self.wtree.get_widget("tb_left")
+        self.browserbutton_image = gtk.Image()
+        self.browserbutton_image.set_from_pixbuf(\
+            gtk.gdk.pixbuf_new_from_file_at_size(\
+                common.get_pixmap('browser.png'), 18, 18))
+        self.browserbutton = gtk.ToolButton(self.browserbutton_image, _("Browser"))
+        self.browserbutton_tip = gtk.Tooltips()
+        self.browserbutton.set_tooltip(self.browserbutton_tip, _("Launch Browser"))
+        self.browserbutton.connect("clicked", self.launch_browser_clicked)
+        self.wtree.get_widget("tb_left").add(self.browserbutton)
+        self.browserbutton.show_all()
         self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 
             80)], gtk.gdk.ACTION_COPY) 
         self.window.connect("delete_event", self.close)
+        self.window.connect("key_press_event", self.key_pressed)
         self.window.connect("drag_data_received", self.on_drag_data)
         self.window.connect("window-state-event", self.window_state_event)
         self.window.connect("configure-event", self.window_configure_event)
         self.window.set_title(common.PROGRAM_NAME)
         if not common.windows_check():
-            self.window.set_icon(common.get_logo(32))
+            self.window.set_icon(common.get_logo(48))
         # self.notebook is used by plugins
         self.notebook = self.wtree.get_widget("torrent_info")
         self.notebook.connect("switch-page", self.notebook_switch_page)
         self.notebook.connect("page-reordered", self.notebook_page_reordered)
         self.notebook.connect("page-added", self.notebook_page_added)
+        
 
         # Tabs
         self.tab_details = tab_details.DetailsTabManager(self.wtree,
@@ -112,9 +124,6 @@ class DelugeGTK:
         # Boolean set to true if window is not minimized and is "visible"
         self.update_interface = True
 
-        def new_release_check():
-            common.new_release_check()
-
         def send_info():
             import time
             
@@ -129,9 +138,6 @@ class DelugeGTK:
                     _run_script()
             else:
                 _run_script()        
-
-        if self.config.get("new_releases"):
-            new_release_check()
 
         if self.config.get("send_info"):
             send_info()
@@ -159,6 +165,10 @@ class DelugeGTK:
                     return result
             SetConsoleCtrlHandler(win_handler)
 
+        if self.config.get("show_search"):
+            import search
+            search.Search(self)
+
         self.dht_timer = 0
         self.dht_skip = False
         self.memory_timer = 0
@@ -173,6 +183,15 @@ class DelugeGTK:
                         self.manager.unique_IDs[unique_ID].trackers)
             except AttributeError:
                 pass
+
+        def new_release_check():
+            try:
+                common.new_release_check()
+            except:
+                pass
+
+        if self.config.get("new_releases"):
+            new_release_check()
 
     def connect_signals(self):
         self.wtree.signal_autoconnect({
@@ -198,6 +217,9 @@ class DelugeGTK:
                     "availability_toggle": self.availability_toggle,
                     "share_toggle": self.share_toggle,
                     ## Help Menu
+                    "launch_homepage": self.launch_homepage,
+                    "launch_community": self.launch_community,
+                    "launch_faq": self.launch_faq,
                     "show_about_dialog": self.show_about_dialog,
                     "launchpad": self.launchpad,
                     "run_wizard": self.run_wizard,
@@ -232,8 +254,29 @@ class DelugeGTK:
     def pause_all_clicked(self, arg=None):
         self.manager.pause_all()
 
+    def launch_browser_clicked(self, arg=None):
+        import browser
+        browser.Browser()
+
     def resume_all_clicked(self, arg=None):
         self.manager.resume_all()
+
+    def key_pressed(self, widget, key):
+        """captures keys"""
+        if key.keyval == gtk.keysyms.Delete:
+            self.remove_torrent_clicked()
+        elif key.keyval in (gtk.keysyms.A, gtk.keysyms.a) and (key.state & \
+            gtk.gdk.CONTROL_MASK) != 0:
+            self.add_torrent_clicked()
+        elif key.keyval in (gtk.keysyms.L, gtk.keysyms.l) and (key.state & \
+            gtk.gdk.CONTROL_MASK) != 0:
+            self.add_torrent_url_clicked()
+        elif key.keyval in (gtk.keysyms.P, gtk.keysyms.p) and (key.state & \
+            gtk.gdk.CONTROL_MASK) != 0:
+            self.tor_pause(widget)
+        elif key.keyval in (gtk.keysyms.R, gtk.keysyms.r) and (key.state & \
+            gtk.gdk.CONTROL_MASK) != 0:
+            self.tor_start(widget)
 
     def build_tray_icon(self):
         self.tray_icon = gtk.status_icon_new_from_icon_name('deluge')
@@ -1013,6 +1056,7 @@ window, please enter your password"))
         self.load_plugins()
         self.load_tabs_order()
 
+
         try:
             gobject.threads_init()
             gtk.gdk.threads_enter()
@@ -1381,6 +1425,15 @@ nice_need + "\n" + _("Available Space:") + " " + nice_free)
     def launchpad(self, obj=None):
         common.open_url_in_browser('https://translations.launchpad.net/deluge/\
 trunk/+pots/deluge')
+
+    def launch_faq(self, obj=None):
+        common.open_url_in_browser('http://deluge-torrent.org/faq.php')
+
+    def launch_community(self, obj=None):
+        common.open_url_in_browser('http://forum.deluge-torrent.org/')
+
+    def launch_homepage(self, obj=None):
+        common.open_url_in_browser('http://deluge-torrent.org/')
             
     def add_torrent_clicked(self, obj=None):
         torrent = dialogs.show_file_open_dialog(self.window)
@@ -1392,7 +1445,7 @@ trunk/+pots/deluge')
         dlg = gtk.Dialog(_("Add torrent from URL"), self.window, 0,
             (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,gtk.STOCK_OK, gtk.RESPONSE_OK))
         dlg.set_default_response(gtk.RESPONSE_OK)
-        dlg.set_icon(common.get_logo(32))
+        dlg.set_icon(common.get_logo(18))
         label = gtk.Label(_("Enter the URL of the .torrent to download"))
         entry = gtk.Entry()
         entry.connect("activate", lambda w : dlg.response(gtk.RESPONSE_OK))
@@ -1424,7 +1477,7 @@ trunk/+pots/deluge')
         glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"), 
                     domain='deluge')
         asker = glade.get_widget("remove_torrent_dlg")
-        asker.set_icon(common.get_logo(32))
+        asker.set_icon(common.get_logo(18))
 
         warning = glade.get_widget("warning")
         warning.set_text(" ")
@@ -1553,8 +1606,7 @@ want to remove all seeding torrents?")):
             "show_peers"))
         self.wtree.get_widget("chk_download").set_active(self.config.get(
             "show_dl"))
-        self.wtree.get_widget("chk_upload").set_active(self.config.get(
-            "show_ul"))
+        self.wtree.get_widget("chk_upload").set_active(self.config.get("show_ul"))
         self.wtree.get_widget("chk_eta").set_active(self.config.get("show_eta"))
         self.wtree.get_widget("chk_availability").set_active(self.config.get(
             "show_availability"))
@@ -1568,7 +1620,8 @@ want to remove all seeding torrents?")):
             get_active())
         self.config.set("show_toolbar", self.wtree.get_widget("chk_toolbar").\
             get_active())
-        self.config.set("show_size", self.size_column.get_visible())
+        self.config.set("show_size", self.wtree.get_widget("chk_size").\
+            get_active())
         self.config.set("show_status", self.status_column.get_visible())
         self.config.set("show_seeders", self.seed_column.get_visible())
         self.config.set("show_peers", self.peer_column.get_visible())

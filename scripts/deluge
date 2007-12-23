@@ -46,6 +46,16 @@ import deluge._dbus as dbus
 import deluge.interface
 import deluge.pref
 
+print "checking for ubuntu..."
+if not deluge.common.windows_check():
+    if os.WEXITSTATUS(os.system('grep -iq "Ubuntu" /etc/issue')) == 0:
+        print "found and fixing ubuntu"
+        if os.environ.get("MOZILLA_FIVE_HOME") != "/usr/lib/firefox":
+            os.environ["MOZILLA_FIVE_HOME"] = "/usr/lib/firefox"
+            os.environ["LD_LIBRARY_PATH"] = "/usr/lib/firefox"
+            os.system("/usr/bin/deluge")
+            raise SystemExit
+
 parser = OptionParser(usage="%prog [options] [torrents to add]", 
                       version=deluge.common.PROGRAM_VERSION)
 parser.add_option("-c", "--config", dest="config",  help="Sets the configuration path")

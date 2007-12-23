@@ -32,7 +32,7 @@ import os
 import xdg.BaseDirectory
 
 PROGRAM_NAME = "Deluge"
-PROGRAM_VERSION = "0.5.7.9"
+PROGRAM_VERSION = "0.5.7.95"
 
 CLIENT_CODE = "DE"
 CLIENT_VERSION = "".join(PROGRAM_VERSION.split('.'))+"0"*(4 - len(PROGRAM_VERSION.split('.')))
@@ -154,15 +154,21 @@ def get_logo(size):
             size, size)
     
 def open_url_in_browser(link):
-    import threading
-    import webbrowser
-    class BrowserThread(threading.Thread):
-       def __init__(self, link):
-           threading.Thread.__init__(self)
-           self.url = link
-       def run(self):
-           webbrowser.open(self.url)
-    BrowserThread(link).start()
+    import pref
+    config = pref.Preferences(os.path.join(os.path.expanduser("~"), 'deluge', "prefs.state"))
+    if config.get("use_internal"):
+        import browser
+        browser.Browser(link)
+    else:
+        import threading
+        import webbrowser
+        class BrowserThread(threading.Thread):
+           def __init__(self, link):
+               threading.Thread.__init__(self)
+               self.url = link
+           def run(self):
+               webbrowser.open(self.url)
+        BrowserThread(link).start()
 
 def is_url(url):
     import re
@@ -244,7 +250,7 @@ version").read().strip()
 Deluge"
                new_release = ""
 
-           if new_release >  PROGRAM_VERSION:
+           if new_release > PROGRAM_VERSION:
                import gtk
                import dialogs
                gtk.gdk.threads_enter()
@@ -255,8 +261,8 @@ of Deluge.  Would you like to be taken to our download site?"))
                    open_url_in_browser('http://download.deluge-torrent.org/')
                else:
                    pass
-
     ReleaseThread().start()
+    return True
 
 # Encryption States
 class EncState:
