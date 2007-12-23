@@ -64,16 +64,17 @@ class DelugeGTK:
             domain='deluge')
         self.window = self.wtree.get_widget("main_window")
         self.toolbar = self.wtree.get_widget("tb_left")
-        self.browserbutton_image = gtk.Image()
-        self.browserbutton_image.set_from_pixbuf(\
-            gtk.gdk.pixbuf_new_from_file_at_size(\
-                common.get_pixmap('browser.png'), 18, 18))
-        self.browserbutton = gtk.ToolButton(self.browserbutton_image, _("Browser"))
-        self.browserbutton_tip = gtk.Tooltips()
-        self.browserbutton.set_tooltip(self.browserbutton_tip, _("Launch Browser"))
-        self.browserbutton.connect("clicked", self.launch_browser_clicked)
-        self.wtree.get_widget("tb_left").add(self.browserbutton)
-        self.browserbutton.show_all()
+        if self.config.get("use_internal"):
+            self.browserbutton_image = gtk.Image()
+            self.browserbutton_image.set_from_pixbuf(\
+                gtk.gdk.pixbuf_new_from_file_at_size(\
+                    common.get_pixmap('browser.png'), 18, 18))
+            self.browserbutton = gtk.ToolButton(self.browserbutton_image, _("Browser"))
+            self.browserbutton_tip = gtk.Tooltips()
+            self.browserbutton.set_tooltip(self.browserbutton_tip, _("Launch Browser"))
+            self.browserbutton.connect("clicked", self.launch_browser_clicked)
+            self.wtree.get_widget("tb_left").add(self.browserbutton)
+            self.browserbutton.show_all()
         self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 
             80)], gtk.gdk.ACTION_COPY) 
         self.window.connect("delete_event", self.close)
@@ -265,7 +266,7 @@ class DelugeGTK:
         """captures keys"""
         if key.keyval == gtk.keysyms.Delete:
             self.remove_torrent_clicked()
-        elif key.keyval in (gtk.keysyms.A, gtk.keysyms.a) and (key.state & \
+        elif key.keyval in (gtk.keysyms.N, gtk.keysyms.n) and (key.state & \
             gtk.gdk.CONTROL_MASK) != 0:
             self.add_torrent_clicked()
         elif key.keyval in (gtk.keysyms.L, gtk.keysyms.l) and (key.state & \
