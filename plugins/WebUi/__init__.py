@@ -112,7 +112,7 @@ class plugin_WebUi(object):
             self.config.set("button_style", 2)
             self.config.set("auto_refresh", False)
             self.config.set("auto_refresh_secs", 4)
-            self.config.set("template", "deluge")
+            self.config.set("template", "advanced")
             self.config.save(self.config_file)
 
         if not self.config.get("pwd_salt"):
