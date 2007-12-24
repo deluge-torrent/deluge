@@ -1069,13 +1069,15 @@ window, please enter your password"))
     def load_plugins(self):
         enable_plugins = self.config.get('enabled_plugins').split(':')
         for plugin in enable_plugins:
-            if plugin != "Blocklist Importer" and plugin != "Torrent Pieces":
+            if plugin != "Blocklist Importer" and plugin != "Torrent Pieces" and plugin != "FlexRSS":
                 try:
                     self.plugins.enable_plugin(plugin)
                 except KeyError:
                     pass
         if "Blocklist Importer" in enable_plugins:
             self.plugins.enable_plugin("Blocklist Importer")
+        if "FlexRSS" in enable_plugins:
+            self.plugins.enable_plugin("FlexRSS")
 
     ## Call via a timer to update the interface
     def update(self):
