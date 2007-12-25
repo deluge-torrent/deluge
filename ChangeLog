@@ -7,6 +7,9 @@ Deluge 0.5.8RC2 (25 December 2007)
   external browser
   * Fix removing torrents from deluge template of webui - vonck7
   * Set the advanced webui template as default
+  * Cut down significantly on the memory usage of the blocklist plugin
+  * Fix some UPnP bugs
+  * Prioritizes local peers over non-local ones when finding connect
   * Wish everyone a happy holiday :)
 
 
