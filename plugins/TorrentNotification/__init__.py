@@ -103,9 +103,9 @@ class TorrentNotification:
             except:
                 pass
             else:
-                file_info = self.interface.manager.get_torrent_file_info(event['unique_ID'])
+                state = self.interface.manager.get_torrent_state(event['unique_ID'])
                 if pynotify.init("Deluge"):
-                    n = pynotify.Notification(_("Torrent complete"))
+                    n = pynotify.Notification(_("Torrent complete"), state['name'])
                     n.set_icon_from_pixbuf(deluge.common.get_logo(48))
                     n.show()
         else:
