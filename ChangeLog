@@ -1,3 +1,15 @@
+Deluge 0.5.8RC2 (25 December 2007)
+  * Change add torrent to ctrl+n
+  * Change notification plugin to not show the file list, but only the torrent 
+  name
+  * Allow removal of browser icon from toolbar
+  * Add buttons to browser to launch the main and footer frames into an 
+  external browser
+  * Fix removing torrents from deluge template of webui - vonck7
+  * Set the advanced webui template as default
+  * Wish everyone a happy holiday :)
+
+
 Deluge 0.5.8RC1 (22 December 2007)
   * Key bindings: 
     ctrl+a adds a torrent
