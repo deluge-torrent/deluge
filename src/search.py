@@ -83,7 +83,7 @@ class Search:
         self.menu = gtk.Menu()
         self.manage_item = gtk.ImageMenuItem(_("Manage Engines"))
         self.image = gtk.Image()
-        self.image.set_from_stock(gtk.STOCK_PREFERENCES, gtk.ICON_SIZE_LARGE_TOOLBAR)
+        self.image.set_from_stock(gtk.STOCK_PREFERENCES, gtk.ICON_SIZE_SMALL_TOOLBAR)
         self.manage_item.set_image(self.image)
         self.manage_item.connect("activate", self.configure)
         self.menu.add(self.manage_item)
