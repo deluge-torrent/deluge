@@ -235,35 +235,6 @@ def send_info():
                f.close
     Send_Info_Thread().start()
 
-def new_release_check():
-    import threading
-    class ReleaseThread(threading.Thread):
-       def __init__(self):
-           threading.Thread.__init__(self)
-       def run(self):
-           import urllib
-           try:
-               new_release = urllib.urlopen("http://download.deluge-torrent.org/\
-version").read().strip()
-           except IOError:
-               print "Network error while trying to check for a newer version of \
-Deluge"
-               new_release = ""
-
-           if new_release > PROGRAM_VERSION:
-               import gtk
-               import dialogs
-               gtk.gdk.threads_enter()
-               result = dialogs.show_popup_question(None, _("There is a newer version \
-of Deluge.  Would you like to be taken to our download site?"))
-               gtk.gdk.threads_leave()
-               if result:
-                   open_url_in_browser('http://download.deluge-torrent.org/')
-               else:
-                   pass
-    ReleaseThread().start()
-    return True
-
 # Encryption States
 class EncState:
     forced, enabled, disabled = range(3)

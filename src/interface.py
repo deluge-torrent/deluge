@@ -183,15 +183,6 @@ class DelugeGTK:
             except AttributeError:
                 pass
 
-        def new_release_check():
-            try:
-                common.new_release_check()
-            except:
-                pass
-
-        if self.config.get("new_releases"):
-            new_release_check()
-
     def connect_signals(self):
         self.wtree.signal_autoconnect({
                     ## File Menu
@@ -1036,15 +1027,15 @@ window, please enter your password"))
         if cmd_line_torrents is None:
             cmd_line_torrents = []
         
-        if not(self.config.get("start_in_tray") and \
-               self.config.get("enable_system_tray") and 
-               self.has_tray) and not self.window.get_property("visible"):
-            print "Showing window"
         if self.config.get("use_internal"):
             self.browserbutton.show_all()
         else:
             self.browserbutton.hide_all()
 
+        if not(self.config.get("start_in_tray") and \
+               self.config.get("enable_system_tray") and 
+               self.has_tray) and not self.window.get_property("visible"):
+            print "Showing window"
             self.window.show()
         
         ## add torrents in manager's queue to interface
@@ -1063,7 +1054,7 @@ window, please enter your password"))
         # Load plugins after we showed main window (if not started in tray)
         self.load_plugins()
         self.load_tabs_order()
-
+        self.new_release_check()
 
         try:
             gobject.threads_init()
@@ -1072,6 +1063,35 @@ window, please enter your password"))
             gtk.gdk.threads_leave()
         except KeyboardInterrupt:
             self.manager.quit()
+
+    def new_release_check(self):
+        import socket
+        import urllib2
+        timeout = 5
+        socket.setdefaulttimeout(timeout)
+        try:
+            gtk.gdk.threads_enter()
+        except:
+            pass
+        try:
+            req = urllib2.Request("http://download.deluge-torrent.org/version")
+            new_release = urllib2.urlopen(req).read().strip()
+        except IOError:
+            print "Network error while trying to check for a newer version of \
+Deluge"
+            new_release = ""
+
+        if new_release > common.PROGRAM_VERSION:
+            result = dialogs.show_popup_question(None, _("There is a newer version \
+of Deluge.  Would you like to be taken to our download site?"))
+            if result:
+                common.open_url_in_browser('http://download.deluge-torrent.org/')
+            else:
+                pass
+        try:
+            gtk.gdk.threads_leave()
+        except:
+            pass
 
     def load_plugins(self):
         enable_plugins = self.config.get('enabled_plugins').split(':')
