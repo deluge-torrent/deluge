@@ -457,7 +457,7 @@ user_pref("network.proxy.type", 1);
         if not common.windows_check():
             self.link = self.gtkmoz.get_location()
         else:
-            self.link = self.pBrowser.self.pBrowser.LocationURL
+            self.link = self.pBrowser.LocationURL
 
         class BrowserThread(threading.Thread):
            def __init__(self, link):
@@ -475,7 +475,7 @@ user_pref("network.proxy.type", 1);
         if not common.windows_check():
             self.link = self.gtkmoz2.get_location()
         else:
-            self.link = self.pBrowser2.self.pBrowser.LocationURL
+            self.link = self.pBrowser2.LocationURL
 
         class BrowserThread(threading.Thread):
            def __init__(self, link):

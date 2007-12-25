@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.0 on Mon Dec 24 20:24:43 2007 -->
+<!--Generated with glade3 3.4.0 on Mon Dec 24 21:29:57 2007 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -170,7 +170,7 @@
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                 <property name="tooltip" translatable="yes">Launch Main Externally</property>
                 <property name="label" translatable="yes">Launch Main</property>
-                <property name="stock_id">gtk-sort-ascending</property>
+                <property name="stock_id">gtk-goto-top</property>
                 <signal name="clicked" handler="launch_main"/>
               </widget>
               <packing>
@@ -184,7 +184,7 @@
                 <property name="has_tooltip">True</property>
                 <property name="tooltip" translatable="yes">Launch Footer Externally</property>
                 <property name="label" translatable="yes">Launch Footer</property>
-                <property name="stock_id">gtk-sort-descending</property>
+                <property name="stock_id">gtk-goto-bottom</property>
                 <signal name="clicked" handler="launch_footer"/>
               </widget>
               <packing>
