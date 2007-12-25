@@ -80,6 +80,8 @@ class Browser:
                             "go_back2" : self.go_back2,
                             "go_forward2" : self.go_forward2,
                             "stop_load" : self.stop_load,
+                            "launch_main" : self.launch_main,
+                            "launch_footer" : self.launch_footer,
                             "list_bookmarks" : self.bookmark_manager }
         self.widgets.signal_autoconnect(self.signal_dic)
 
@@ -447,6 +449,42 @@ user_pref("network.proxy.type", 1);
             self.gtkmoz.reload(0)
         else:
             self.pBrowser.refresh()
+
+    def launch_main(self, widget=None):
+        """loads frame into external browser"""
+        import threading
+        import webbrowser
+        if not common.windows_check():
+            self.link = self.gtkmoz.get_location()
+        else:
+            self.link = self.pBrowser.self.pBrowser.LocationURL
+
+        class BrowserThread(threading.Thread):
+           def __init__(self, link):
+               threading.Thread.__init__(self)
+               self.url = link
+           def run(self):
+               webbrowser.open(self.url)
+        BrowserThread(self.link).start()
+        return True
+
+    def launch_footer(self, widget=None):
+        """loads frame into external browser"""
+        import threading
+        import webbrowser
+        if not common.windows_check():
+            self.link = self.gtkmoz2.get_location()
+        else:
+            self.link = self.pBrowser2.self.pBrowser.LocationURL
+
+        class BrowserThread(threading.Thread):
+           def __init__(self, link):
+               threading.Thread.__init__(self)
+               self.url = link
+           def run(self):
+               webbrowser.open(self.url)
+        BrowserThread(self.link).start()
+        return True
 
     def go_back(self, widget=None):
         """go a page back"""
