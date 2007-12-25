@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.0 on Mon Dec 24 20:20:31 2007 -->
+<!--Generated with glade3 3.4.0 on Mon Dec 24 20:24:10 2007 -->
 <glade-interface>
   <widget class="GtkWindow" id="window1">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -12,7 +12,7 @@
           <widget class="GtkToolbar" id="toolbar3">
             <property name="visible">True</property>
             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-            <property name="icon_size">GTK_ICON_SIZE_SMALL_TOOLBAR</property>
+            <property name="icon_size">GTK_ICON_SIZE_MENU</property>
             <property name="icon_size_set">True</property>
             <child>
               <widget class="GtkToolButton" id="toolbutton_back">
