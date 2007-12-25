@@ -64,17 +64,15 @@ class DelugeGTK:
             domain='deluge')
         self.window = self.wtree.get_widget("main_window")
         self.toolbar = self.wtree.get_widget("tb_left")
-        if self.config.get("use_internal"):
-            self.browserbutton_image = gtk.Image()
-            self.browserbutton_image.set_from_pixbuf(\
-                gtk.gdk.pixbuf_new_from_file_at_size(\
-                    common.get_pixmap('browser.png'), 18, 18))
-            self.browserbutton = gtk.ToolButton(self.browserbutton_image, _("Browser"))
-            self.browserbutton_tip = gtk.Tooltips()
-            self.browserbutton.set_tooltip(self.browserbutton_tip, _("Launch Browser"))
-            self.browserbutton.connect("clicked", self.launch_browser_clicked)
-            self.wtree.get_widget("tb_left").add(self.browserbutton)
-            self.browserbutton.show_all()
+        self.browserbutton_image = gtk.Image()
+        self.browserbutton_image.set_from_pixbuf(\
+            gtk.gdk.pixbuf_new_from_file_at_size(\
+                common.get_pixmap('browser.png'), 18, 18))
+        self.browserbutton = gtk.ToolButton(self.browserbutton_image, _("Browser"))
+        self.browserbutton_tip = gtk.Tooltips()
+        self.browserbutton.set_tooltip(self.browserbutton_tip, _("Launch Browser"))
+        self.browserbutton.connect("clicked", self.launch_browser_clicked)
+        self.wtree.get_widget("tb_left").add(self.browserbutton)
         self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 
             80)], gtk.gdk.ACTION_COPY) 
         self.window.connect("delete_event", self.close)
@@ -966,6 +964,10 @@ window, please enter your password"))
                     "web_proxy_password"), 
                     int(self.config.get("web_proxy_port")), self.config.get(
                         "web_proxy_type"), "web")
+        if self.config.get("use_internal"):
+            self.browserbutton.show_all()
+        else:
+            self.browserbutton.hide_all()
 
     def get_message_from_state(self, unique_id, torrent_state):
         state = torrent_state['state']
@@ -1038,6 +1040,11 @@ window, please enter your password"))
                self.config.get("enable_system_tray") and 
                self.has_tray) and not self.window.get_property("visible"):
             print "Showing window"
+        if self.config.get("use_internal"):
+            self.browserbutton.show_all()
+        else:
+            self.browserbutton.hide_all()
+
             self.window.show()
         
         ## add torrents in manager's queue to interface
