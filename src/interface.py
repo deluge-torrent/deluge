@@ -1066,7 +1066,7 @@ window, please enter your password"))
 
     def new_release_check(self):
         import socket
-        import urllib2
+        import urllib
         timeout = 5
         socket.setdefaulttimeout(timeout)
         try:
@@ -1074,8 +1074,7 @@ window, please enter your password"))
         except:
             pass
         try:
-            req = urllib2.Request("http://download.deluge-torrent.org/version")
-            new_release = urllib2.urlopen(req).read().strip()
+            new_release = urllib.urlopen("http://download.deluge-torrent.org/version").read().strip()
         except IOError:
             print "Network error while trying to check for a newer version of \
 Deluge"
