@@ -153,10 +153,10 @@ def get_logo(size):
         return gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap("deluge.svg"), \
             size, size)
     
-def open_url_in_browser(link):
+def open_url_in_browser(link, force_ext=None):
     import pref
     config = pref.Preferences(os.path.join(os.path.expanduser("~"), 'deluge', "prefs.state"))
-    if config.get("use_internal"):
+    if config.get("use_internal") and not force_ext:
         import browser
         browser.Browser(link)
     else:
@@ -195,19 +195,26 @@ def exec_command(executable, *parameters):
     import os
     command = [executable]
     command.extend(parameters)
-    try:
-        os.WEXITSTATUS(os.system(command[0] + " \"%s\"" %command[1]))
-    except OSError:
-        import gtk
+    if windows_check():
+        try:
+            from subprocess import Popen
+            Popen(command)
+        except:
+            pass
+    else:
+        try:
+            os.WEXITSTATUS(os.system(command[0] + " \"%s\"" %command[1]))
+        except OSError:
+            import gtk
          
-        warning = gtk.MessageDialog(parent = None, 
-                      flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, 
-                      buttons= gtk.BUTTONS_OK, 
-                      message_format='%s %s %s' % (_("External command"),
+            warning = gtk.MessageDialog(parent = None, 
+                          flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT, 
+                          buttons= gtk.BUTTONS_OK, 
+                          message_format='%s %s %s' % (_("External command"),
                                                    executable, _("not found")), 
-                      type = gtk.MESSAGE_WARNING) 
-        warning.run()
-        warning.destroy()
+                          type = gtk.MESSAGE_WARNING) 
+            warning.run()
+            warning.destroy()
 
 def send_info():
     import threading
