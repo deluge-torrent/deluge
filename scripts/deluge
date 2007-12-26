@@ -72,11 +72,11 @@ if not deluge.common.windows_check():
             os.environ["MOZILLA_FIVE_HOME"] = "/usr/local/lib/firefox"
             os.environ["LD_LIBRARY_PATH"] = "/usr/local/lib/firefox"
             if config in options:
-                os.system("/usr/bin/deluge %s %s" %(options, args))
+                os.system("/usr/local/bin/deluge %s %s" %(options, args))
             elif args:
-                os.system("/usr/bin/deluge %s" %(args))
+                os.system("/usr/local/bin/deluge %s" %(args))
             else:
-                os.system("/usr/bin/deluge")
+                os.system("/usr/local/bin/deluge")
             raise SystemExit
 
 if (options.config != None):
