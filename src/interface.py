@@ -245,8 +245,13 @@ class DelugeGTK:
         self.manager.pause_all()
 
     def launch_browser_clicked(self, arg=None):
-        import browser
-        browser.Browser()
+        try:
+            import browser
+            browser.Browser()
+        except:
+            dialogs.show_popup_warning(self.window, _("Unable to state browser.  \
+Make sure you have python-gnome2-extras installed or try setting your LD_LIBRARY_PATH \
+and MOZILLA_FIVE_HOME environment variables to /usr/lib/firefox"))
 
     def resume_all_clicked(self, arg=None):
         self.manager.resume_all()
