@@ -60,8 +60,8 @@ if not deluge.common.windows_check():
             if os.environ.get("MOZILLA_FIVE_HOME") != "/usr/lib/firefox":
                 os.environ["MOZILLA_FIVE_HOME"] = "/usr/lib/firefox"
                 os.environ["LD_LIBRARY_PATH"] = "/usr/lib/firefox"
-                if config in options:
-                    os.system("/usr/bin/deluge %s %s" %(options, args))
+                if (options.config != None):
+                    os.system("/usr/bin/deluge --config %s %s" %(options.config, args))
                 elif args:
                     os.system("/usr/bin/deluge %s" %(args))
                 else:
@@ -71,8 +71,8 @@ if not deluge.common.windows_check():
         if os.environ.get("MOZILLA_FIVE_HOME") != "/usr/local/lib/firefox":
             os.environ["MOZILLA_FIVE_HOME"] = "/usr/local/lib/firefox"
             os.environ["LD_LIBRARY_PATH"] = "/usr/local/lib/firefox"
-            if config in options:
-                os.system("/usr/local/bin/deluge %s %s" %(options, args))
+            if (options.config != None):
+                os.system("/usr/local/bin/deluge --config %s %s" %(options.config, args))
             elif args:
                 os.system("/usr/local/bin/deluge %s" %(args))
             else:
