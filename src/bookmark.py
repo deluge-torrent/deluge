@@ -108,12 +108,13 @@ class BookmarkManager:
         else:
             path = os.path.join(common.CONFIG_DIR, "mozilla", "bookmarks.save")
 
-        try:
-            bookmark_file = open(path, "rb")
-            bookmarks = cPickle.load(bookmark_file)
-            bookmark_file.close()
-        except Exception, e:
-            print "Unable to load bookmarks file: %s", e
+        if os.path.exists(path):
+            try:
+                bookmark_file = open(path, "rb")
+                bookmarks = cPickle.load(bookmark_file)
+                bookmark_file.close()
+            except Exception, e:
+                print "Unable to load bookmarks file: %s", e
         
         if bookmarks == None:
             return
