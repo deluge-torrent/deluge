@@ -55,7 +55,7 @@ if not deluge.common.windows_check():
     import platform
     if platform.system() == "Linux": # Add this, FreeBSD and other OSs than Linux do not have /etc/issue.
         print "checking for ubuntu..."
-        if os.WEXITSTATUS(os.system('grep -iq "Debian" /etc/issue')) == 0:
+        if os.WEXITSTATUS(os.system('grep -iq "Ubuntu" /etc/issue')) == 0:
             if os.environ.get("MOZILLA_FIVE_HOME") != "/usr/lib/firefox":
                 print "found and fixing ubuntu"
                 os.environ["MOZILLA_FIVE_HOME"] = "/usr/lib/firefox"
