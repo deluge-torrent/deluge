@@ -52,8 +52,6 @@ parser.add_option("-c", "--config", dest="config",  help="Sets the configuration
 (options, args) = parser.parse_args()
 
 print "checking for ubuntu..."
-print options
-print args
 if not deluge.common.windows_check():
     import platform
     if platform.system() == "Linux": # Add this, FreeBSD and other OSs than Linux do not have /etc/issue.
@@ -62,13 +60,23 @@ if not deluge.common.windows_check():
             if os.environ.get("MOZILLA_FIVE_HOME") != "/usr/lib/firefox":
                 os.environ["MOZILLA_FIVE_HOME"] = "/usr/lib/firefox"
                 os.environ["LD_LIBRARY_PATH"] = "/usr/lib/firefox"
-                os.system("/usr/bin/deluge %s %s" %(options, args))
+                if config in options:
+                    os.system("/usr/bin/deluge %s %s" %(options, args))
+                elif args:
+                    os.system("/usr/bin/deluge %s" %(args))
+                else:
+                    os.system("/usr/bin/deluge")
                 raise SystemExit
     elif platform.system() == "FreeBSD":
         if os.environ.get("MOZILLA_FIVE_HOME") != "/usr/local/lib/firefox":
             os.environ["MOZILLA_FIVE_HOME"] = "/usr/local/lib/firefox"
             os.environ["LD_LIBRARY_PATH"] = "/usr/local/lib/firefox"
-            os.system("/usr/local/bin/deluge %s %s" %(options, args))
+            if config in options:
+                os.system("/usr/bin/deluge %s %s" %(options, args))
+            elif args:
+                os.system("/usr/bin/deluge %s" %(args))
+            else:
+                os.system("/usr/bin/deluge")
             raise SystemExit
 
 if (options.config != None):
