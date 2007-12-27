@@ -65,7 +65,11 @@ class Torrent:
                 self.trackers.append(tracker)
         else:
             self.trackers = trackers
-            
+        
+        # Holds status info so that we don't need to keep getting it from lt
+        self.status = None
+        self.torrent_info = None
+        
     def set_tracker_status(self, status):
         """Sets the tracker status"""
         self.tracker_status = status
@@ -76,26 +80,35 @@ class Torrent:
         return (self.torrent_id, self.filename, self.compact, status.paused,
             self.save_path, self.total_uploaded + status.total_payload_upload,
             self.trackers)
-        
+
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""
-        left = self.handle.status().total_wanted \
-                - self.handle.status().total_done
+        if self.status == None:
+            status = self.handle.status()
+        else:
+            status = self.status
         
-        if left == 0 or self.handle.status().download_payload_rate == 0:
+        left = status.total_wanted - status.total_done
+        
+        if left == 0 or status.download_payload_rate == 0:
             return 0
         
         try:
-            eta = left / self.handle.status().download_payload_rate
+            eta = left / status.download_payload_rate
         except ZeroDivisionError:
             eta = 0
             
         return eta
-    
+
     def get_ratio(self):
         """Returns the ratio for this torrent"""
-        up = self.total_uploaded + self.handle.status().total_payload_upload
-        down = self.handle.status().total_done
+        if self.status == None:
+            status = self.handle.status()
+        else:
+            status = self.status
+            
+        up = self.total_uploaded + status.total_payload_upload
+        down = status.total_done
         
         # Convert 'up' and 'down' to floats for proper calculation
         up = float(up)
@@ -110,8 +123,13 @@ class Torrent:
 
     def get_files(self):
         """Returns a list of files this torrent contains"""
+        if self.torrent_info == None:
+            torrent_info = self.handle.torrent_info()
+        else:
+            torrent_info = self.torrent_info
+            
         ret = []
-        files = self.handle.torrent_info().files()
+        files = torrent_info.files()
         for file in files:
             ret.append({
                 'path': file.path,
@@ -119,58 +137,62 @@ class Torrent:
                 'offset': file.offset
             })
         return ret
-        
+    
+    @tit    
     def get_status(self, keys):
         """Returns the status of the torrent based on the keys provided"""
         # Create the full dictionary
-        status = self.handle.status()
+        self.status = self.handle.status()
+        self.torrent_info = self.handle.torrent_info()
         
         # Adjust progress to be 0-100 value
-        progress = status.progress*100
+        progress = self.status.progress * 100
         
         # Set the state to 'Paused' if the torrent is paused.
-        state = status.state
-        if status.paused:
+        state = self.status.state
+        if self.status.paused:
             state = deluge.common.TORRENT_STATE.index("Paused")
         
         # Adjust status.distributed_copies to return a non-negative value
-        distributed_copies = status.distributed_copies
+        distributed_copies = self.status.distributed_copies
         if distributed_copies < 0:
             distributed_copies = 0.0
             
         full_status = {
-            "name": self.handle.torrent_info().name(),
-            "total_size": self.handle.torrent_info().total_size(),
-            "num_files": self.handle.torrent_info().num_files(),
-            "num_pieces": self.handle.torrent_info().num_pieces(),
-            "piece_length": self.handle.torrent_info().piece_length(),
+            "name": self.torrent_info.name(),
+            "total_size": self.torrent_info.total_size(),
+            "num_files": self.torrent_info.num_files(),
+            "num_pieces": self.torrent_info.num_pieces(),
+            "piece_length": self.torrent_info.piece_length(),
             "distributed_copies": distributed_copies,
-            "total_done": status.total_done,
-            "total_uploaded": self.total_uploaded + status.total_payload_upload,
+            "total_done": self.status.total_done,
+            "total_uploaded": self.total_uploaded + self.status.total_payload_upload,
             "state": int(state),
-            "paused": status.paused,
+            "paused": self.status.paused,
             "progress": progress,
-            "next_announce": status.next_announce.seconds,
-            "total_payload_download": status.total_payload_download,
-            "total_payload_upload": status.total_payload_upload,
-            "download_payload_rate": status.download_payload_rate,
-            "upload_payload_rate": status.upload_payload_rate,
-            "num_peers": status.num_peers - status.num_seeds,
-            "num_seeds": status.num_seeds,
-            "total_peers": status.num_incomplete,
-            "total_seeds":  status.num_complete,
-            "total_wanted": status.total_wanted,
+            "next_announce": self.status.next_announce.seconds,
+            "total_payload_download": self.status.total_payload_download,
+            "total_payload_upload": self.status.total_payload_upload,
+            "download_payload_rate": self.status.download_payload_rate,
+            "upload_payload_rate": self.status.upload_payload_rate,
+            "num_peers": self.status.num_peers - self.status.num_seeds,
+            "num_seeds": self.status.num_seeds,
+            "total_peers": self.status.num_incomplete,
+            "total_seeds":  self.status.num_complete,
+            "total_wanted": self.status.total_wanted,
             "eta": self.get_eta(),
             "ratio": self.get_ratio(),
-            "tracker": status.current_tracker,
+            "tracker": self.status.current_tracker,
             "trackers": self.trackers,
             "tracker_status": self.tracker_status,
             "save_path": self.save_path,
             "files": self.get_files()
         }
+        self.status = None
+        self.torrent_info = None
         
         # Create the desired status dictionary and return it
-        status_dict = {}
+        status_dict = {}.fromkeys(keys)
         
         if len(keys) == 0:
             status_dict = full_status

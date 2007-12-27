@@ -33,6 +33,8 @@
 
 import xmlrpclib
 
+import gobject
+
 import deluge.component as component
 from deluge.log import LOG as log
 
@@ -60,8 +62,11 @@ class SignalManager(component.Component):
         
     def emit(self, signal, data):
         for client in self.clients.values():
-            try:
-                client.emit_signal(signal, data)
-            except:
-                log.warning("Unable to emit signal to client %s", client)
+            gobject.idle_add(self._emit, client, signal, data)
                 
+    def _emit(self, client, signal, data):
+        try:
+            client.emit_signal(signal, data)
+        except:
+            log.warning("Unable to emit signal to client %s", client)
+        
