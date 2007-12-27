@@ -137,8 +137,7 @@ class Torrent:
                 'offset': file.offset
             })
         return ret
-    
-    @tit    
+   
     def get_status(self, keys):
         """Returns the status of the torrent based on the keys provided"""
         # Create the full dictionary
