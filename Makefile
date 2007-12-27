@@ -13,8 +13,7 @@ tarball:
 	mv dist/deluge-*.tar.gz $(DESTDIR)
 
 install:
-	python setup.py install --prefix=$(PREFIX);
-    -/usr/bin/update-desktop-database
+	python setup.py install --prefix=$(PREFIX) && /usr/bin/update-desktop-database;
 
 clean:
 	python setup.py clean
