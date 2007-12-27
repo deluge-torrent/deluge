@@ -321,7 +321,8 @@ class Manager:
         # Pickle the state so if we experience a crash, the latest state is 
         # available
         print "Pickling state..."
-
+        if not os.path.exists(self.base_dir):
+            os.makedirs(self.base_dir)
         output = open(os.path.join(self.base_dir, STATE_FILENAME), 'wb')
         pickle.dump(self.state, output)
         output.close()

@@ -75,6 +75,8 @@ class WizardGTK:
         self.window.set_page_complete(self.wtree.get_widget('vbox3'), True)
         self.window.set_page_complete(self.wtree.get_widget('chk_send_info'), \
             True)
+        if not os.path.exists(deluge.common.CONFIG_DIR):
+            os.makedirs(deluge.common.CONFIG_DIR)
         config_file = deluge.common.CONFIG_DIR + "/prefs.state"
         self.config = deluge.pref.Preferences(config_file, False, 
             defaults={"listen_on" : [6881,6889],

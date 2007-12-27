@@ -46,13 +46,13 @@ import deluge._dbus as dbus
 import deluge.interface
 import deluge.pref
 
-parser = OptionParser(usage="%prog [options] [torrents to add]", 
-                      version=deluge.common.PROGRAM_VERSION)
-parser.add_option("-c", "--config", dest="config",  help="Sets the configuration path")
-(options, args) = parser.parse_args()
-
 if not deluge.common.windows_check():
     import platform
+    i = 1
+    arguments = ""
+    while i < len(sys.argv):
+        arguments = arguments + " " + sys.argv[i]
+        i+=1
     if platform.system() == "Linux": # Add this, FreeBSD and other OSs than Linux do not have /etc/issue.
         print "checking for ubuntu..."
         if os.WEXITSTATUS(os.system('grep -iq "Ubuntu" /etc/issue')) == 0:
@@ -60,25 +60,20 @@ if not deluge.common.windows_check():
                 print "found and fixing ubuntu"
                 os.environ["MOZILLA_FIVE_HOME"] = "/usr/lib/firefox"
                 os.environ["LD_LIBRARY_PATH"] = "/usr/lib/firefox"
-                if (options.config != None):
-                    os.system("/usr/bin/deluge --config %s %s" %(options.config, args))
-                elif args:
-                    os.system("/usr/bin/deluge %s" %(args))
-                else:
-                    os.system("/usr/bin/deluge")
+                os.system("/usr/bin/deluge %s" % arguments)
                 raise SystemExit
     elif platform.system() == "FreeBSD":
         if os.environ.get("MOZILLA_FIVE_HOME") != "/usr/local/lib/firefox":
             print "found and fixing freebsd..."
             os.environ["MOZILLA_FIVE_HOME"] = "/usr/local/lib/firefox"
             os.environ["LD_LIBRARY_PATH"] = "/usr/local/lib/firefox"
-            if (options.config != None):
-                os.system("/usr/local/bin/deluge --config %s %s" %(options.config, args))
-            elif args:
-                os.system("/usr/local/bin/deluge %s" %(args))
-            else:
-                os.system("/usr/local/bin/deluge")
+            os.system("/usr/local/bin/deluge %s" % arguments)
             raise SystemExit
+
+parser = OptionParser(usage="%prog [options] [torrents to add]", 
+                      version=deluge.common.PROGRAM_VERSION)
+parser.add_option("-c", "--config", dest="config",  help="Sets the configuration path")
+(options, args) = parser.parse_args()
 
 if (options.config != None):
     deluge.common.CONFIG_DIR = options.config
@@ -126,7 +121,6 @@ Continuing...""" % pstate_file_path
 
 def get_cmd_line_torrents():
     cmd_line_torrents = []
-
     for torrent in args:
         if deluge.common.is_url(torrent):
             filename = deluge.common.fetch_url(torrent)
@@ -137,7 +131,6 @@ def get_cmd_line_torrents():
                 print "Error,", torrent, " does not seem to be a .torrent file"
             else:        
                 cmd_line_torrents.append(os.path.abspath(torrent))
-
     return cmd_line_torrents
 
 def start_deluge():
@@ -150,12 +143,12 @@ try:
     bus = dbus.SessionBus()
 except:
     if not deluge.common.windows_check():
+        while i < len(sys.argv):
+            arguments = arguments + " " + sys.argv[i]
+            i+=1
         pid = os.fork()
         if not pid:
-            if args:
-                os.popen('dbus-launch deluge %s' %args)
-            else:
-                os.popen('dbus-launch deluge')
+            os.popen('dbus-launch deluge %s' %arguments)
 else:
     dbus_objects = dbus.Interface(bus.get_object('org.freedesktop.DBus', '/org/freedesktop/DBus'), 'org.freedesktop.DBus').ListNames()
 

@@ -237,6 +237,8 @@ def send_info():
            except IOError:
                print "Network error while trying to send info"
            else:
+               if not os.path.exists(CONFIG_DIR):
+                   os.makedirs(CONFIG_DIR)
                f = open(os.path.join(CONFIG_DIR, 'infosent'), 'w')
                f.write("")
                f.close
