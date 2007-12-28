@@ -127,8 +127,9 @@ class SystemTray(component.Component):
             
         msg = '%s\n%s: %s (%s)\n%s: %s (%s)' % (\
             _("Deluge Bittorrent Client"), _("Down Speed"), \
-            client.get_download_rate(), max_download_speed, _("Up Speed"), \
-            client.get_upload_rate(), max_upload_speed)
+            deluge.common.fspeed(client.get_download_rate()), 
+            max_download_speed, _("Up Speed"), \
+            deluge.common.fspeed(client.get_upload_rate()), max_upload_speed)
             
         # Set the tooltip
         self.tray.set_tooltip(msg)
