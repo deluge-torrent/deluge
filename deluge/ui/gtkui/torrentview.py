@@ -299,14 +299,18 @@ class TorrentView(listview.ListView, component.Component):
         # This is to prevent updating stuff we don't need to and should save
         # GTK from redrawing needlessly.
         new_status = {}
+
         for torrent_id in status.keys():
             if torrent_id in self.previous_batched_status.keys():
                 old = self.previous_batched_status[torrent_id]
                 new = status[torrent_id]
+                
                 diff = {}
                 for key in new.keys():
                     if not key in old.keys():
+                        diff[key] = new[key]
                         continue
+                        
                     # There is a difference, so lets add it to our new dict
                     if new[key] != old[key]:
                         diff[key] = new[key]
@@ -317,7 +321,7 @@ class TorrentView(listview.ListView, component.Component):
                 new_status[torrent_id] = status[torrent_id]
 
         self.previous_batched_status = status
-        
+
         row = self.liststore.get_iter_first()
         while row != None:
             torrent_id = self.liststore.get_value(
