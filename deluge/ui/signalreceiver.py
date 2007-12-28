@@ -79,7 +79,6 @@ class SignalReceiver(
         self.register_function(self.emit_signal)
         
         # Register the signal receiver with the core
-        # FIXME: send actual URI not localhost
         core = client.get_core()
         core.register_client(str(port))
         
@@ -115,7 +114,6 @@ class SignalReceiver(
             
     def emit_signal(self, signal, data):
         """Exported method used by the core to emit a signal to the client"""
-        log.debug("Received signal %s with data %s from core..", signal, data)
         try:
             if data != None:
                 for callback in self.signals[signal]:

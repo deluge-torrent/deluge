@@ -56,7 +56,7 @@ _extra_compile_args = [
     "-O2"
 ]
 
-removals = ["-g", "-p", "-Wstrict-prototypes"]
+removals = ["-Wstrict-prototypes"]
 
 if python_version == '2.5':
     cv_opt = sysconfig.get_config_vars()["CFLAGS"]

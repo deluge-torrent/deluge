@@ -326,8 +326,19 @@ def get_torrent_status(torrent_id, keys):
     if status == None:
         return {}
     
-    return pickle.loads(status.data)
+    return pickle.loads(status)
 
+def get_torrents_status(torrent_ids, keys):
+    """Builds a dictionary of torrent_ids status.  Expects 2 lists.  This is
+    asynchronous so the return value will be sent as the signal
+    'torrent_status'"""
+    try:
+        get_core().get_torrents_status(torrent_ids, keys)
+    except (AttributeError, socket.error):
+        set_core_uri(None)
+
+    return None
+        
 @cache
 def get_session_state():
     try:

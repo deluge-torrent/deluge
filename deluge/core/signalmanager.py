@@ -32,6 +32,7 @@
 #    statement from all source files in the program, then also delete it here.
 
 import xmlrpclib
+import socket
 
 import gobject
 
@@ -67,6 +68,6 @@ class SignalManager(component.Component):
     def _emit(self, client, signal, data):
         try:
             client.emit_signal(signal, data)
-        except:
-            log.warning("Unable to emit signal to client %s", client)
+        except (socket.error, Exception), e:
+            log.warning("Unable to emit signal to client %s: %s", client, e)
         

@@ -19,4 +19,6 @@
 * Add command line option to change config dir.. --config
 * Add method for plugins to add labels
 * Add context menus for labels.. ie. setting options for all torrents in label
-* Create asynchronous batch torrent status method
+* Implement caching in core
+* Use the batch torrent status info as a cache for other torrent status requests
+* Don't save fastresume files on exit for finished or paused torrents

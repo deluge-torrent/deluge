@@ -38,6 +38,7 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import gettext
 import gobject
+import cPickle as pickle
 
 import deluge.common
 import deluge.component as component
@@ -118,6 +119,8 @@ class TorrentView(listview.ListView, component.Component):
         log.debug("TorrentView Init..")
         # Try to load the state file if available
         self.load_state("torrentview.state")
+        
+        self.status_signal_received = True
         
         # Register the columns menu with the listview so it gets updated
         # accordingly.
@@ -230,27 +233,18 @@ class TorrentView(listview.ListView, component.Component):
                 model.set_value(row, filter_column, True)
             else:
                 model.set_value(row, filter_column, False)
-                
+
         self.liststore.foreach(foreachrow, self.filter)
-        if self.liststore != None:
-            self.liststore.foreach(self.update_row, columns)
-            
-    def update_row(self, model=None, path=None, row=None, columns=None):
-        """Updates the column values for 'row'.  If columns is None it will
-        update all visible columns."""
         
-        # Check to see if this row is visible and return if not
-        if not model.get_value(row, self.columns["filter"].column_indices[0]):
+        # We will only send another status request if we have received the
+        # previous.  This is to prevent things from going out of sync.
+        if not self.status_signal_received:
             return
-        
-        # Get the torrent_id from the liststore
-        torrent_id = model.get_value(row, 
-                                self.columns["torrent_id"].column_indices[0])
-                                
+            
         # Store the 'status_fields' we need to send to core
         status_keys = []
         # Store the actual columns we will be updating
-        columns_to_update = []
+        self.columns_to_update = []
         
         if columns is None:
             # We need to iterate through all columns
@@ -265,10 +259,10 @@ class TorrentView(listview.ListView, component.Component):
                 and self.columns[column].status_field is not None:
                 for field in self.columns[column].status_field:
                     status_keys.append(field)
-                    columns_to_update.append(column)
+                    self.columns_to_update.append(column)
         
         # Remove duplicate keys
-        columns_to_update = list(set(columns_to_update))
+        self.columns_to_update = list(set(self.columns_to_update))    
 
         # If there is nothing in status_keys then we must not continue
         if status_keys is []:
@@ -276,32 +270,63 @@ class TorrentView(listview.ListView, component.Component):
             
         # Remove duplicates from status_key list
         status_keys = list(set(status_keys))
-        status = client.get_torrent_status(torrent_id,
-                status_keys)
-
-        # Set values for each column in the row
-        for column in columns_to_update:
-            column_index = self.get_column_index(column)
-            if type(column_index) is not list:
-                # We only have a single list store column we need to update
-                try:
-                    model.set_value(row,
-                            column_index,
-                            status[self.columns[column].status_field[0]])
-                except (TypeError, KeyError), e:
-                    log.warning("Unable to update column %s: %s", 
-                        column, e)
-            else:
-                # We have more than 1 liststore column to update
-                for index in column_index:
-                    # Only update the column if the status field exists
-                    try:
-                        model.set_value(row,
-                            index,
-                            status[self.columns[column].status_field[
-                                                    column_index.index(index)]])
-                    except:
-                        pass
+                
+        # Create list of torrent_ids in need of status updates
+        torrent_ids = []
+        row = self.liststore.get_iter_first()
+        while row != None:
+            # Only add this torrent_id if it's not filtered
+            if self.liststore.get_value(
+                row, self.columns["filter"].column_indices[0]) == True:
+                torrent_ids.append(self.liststore.get_value(
+                    row, self.columns["torrent_id"].column_indices[0]))
+            row = self.liststore.iter_next(row)
+        
+        if torrent_ids == []:
+            return
+        
+        # Request the statuses for all these torrent_ids, this is async so we
+        # will deal with the return in a signal callback.
+        self.status_signal_received = False
+        client.get_torrents_status(torrent_ids, status_keys)
+    
+    def on_torrent_status_signal(self, status):
+        """Callback function for get_torrents_status().  'status' should be a
+        dictionary of {torrent_id: {key, value}}."""
+        status = pickle.loads(status)
+        row = self.liststore.get_iter_first()
+        while row != None:
+            torrent_id = self.liststore.get_value(
+                row, self.columns["torrent_id"].column_indices[0])
+            if torrent_id in status.keys():
+                # Set values for each column in the row
+                for column in self.columns_to_update:
+                    column_index = self.get_column_index(column)
+                    if type(column_index) is not list:
+                        # We only have a single list store column we need to 
+                        # update
+                        try:
+                            self.liststore.set_value(row,
+                                column_index,
+                                status[torrent_id][
+                                    self.columns[column].status_field[0]])
+                        except (TypeError, KeyError), e:
+                            log.warning("Unable to update column %s: %s", 
+                                column, e)
+                    else:
+                        # We have more than 1 liststore column to update
+                        for index in column_index:
+                            # Only update the column if the status field exists
+                            try:
+                                self.liststore.set_value(row,
+                                    index,
+                                    status[torrent_id][
+                                        self.columns[column].status_field[
+                                            column_index.index(index)]])
+                            except:
+                                pass
+            row = self.liststore.iter_next(row)
+        self.status_signal_received = True
                         
     def add_row(self, torrent_id):
         """Adds a new torrent row to the treeview"""
@@ -312,8 +337,6 @@ class TorrentView(listview.ListView, component.Component):
                     row,
                     self.columns["torrent_id"].column_indices[0], 
                     torrent_id)
-        # Update the new row so 
-        self.update_row(model=self.liststore, row=row)
         
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""

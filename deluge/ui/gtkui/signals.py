@@ -56,7 +56,9 @@ class Signals(component.Component):
         self.receiver.connect_to_signal("torrent_all_paused", 
             self.torrent_all_paused)
         self.receiver.connect_to_signal("torrent_all_resumed", 
-            self.torrent_all_resumed)    
+            self.torrent_all_resumed)
+        self.receiver.connect_to_signal("torrent_status",
+            self.torrent_status)
     
     def stop(self):
         self.receiver.shutdown()
@@ -94,3 +96,6 @@ class Signals(component.Component):
         log.debug("torrent_all_resumed signal received..")
         component.get("TorrentView").update()
         component.get("ToolBar").update_buttons()
+    
+    def torrent_status(self, status):
+        component.get("TorrentView").on_torrent_status_signal(status)
