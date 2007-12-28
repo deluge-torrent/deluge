@@ -305,6 +305,8 @@ class TorrentView(listview.ListView, component.Component):
                 new = status[torrent_id]
                 diff = {}
                 for key in new.keys():
+                    if not key in old.keys():
+                        continue
                     # There is a difference, so lets add it to our new dict
                     if new[key] != old[key]:
                         diff[key] = new[key]
