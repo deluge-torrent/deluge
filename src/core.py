@@ -877,7 +877,6 @@ Space:") + " " + nice_free)
                 del self.state.torrents[torrent]
                 continue
             if torrent not in self.unique_IDs.values():
-#                print "Adding torrent to core:", torrent.filename, torrent.save_dir, torrent.compact
                 try:
                     unique_ID = deluge_core.add_torrent(torrent.filename,
                                                         torrent.save_dir,

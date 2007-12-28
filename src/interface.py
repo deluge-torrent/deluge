@@ -746,7 +746,7 @@ window, please enter your password"))
     def double_click_folder(self, tree, path, view_column):
         self.open_folder(view_column)
 
-    def open_folder(self, widget):
+    def open_folder(self, widget, uids=None):
         if not common.windows_check():
             if self.config.get("open_folder_stock"):
                 if self.config.get("file_manager") == common.FileManager.xdg:
@@ -763,8 +763,11 @@ window, please enter your password"))
         else:
             file_manager = "explorer.exe"
 
-        
-        unique_ids = self.get_selected_torrent_rows()
+        if not uids:
+            unique_ids = self.get_selected_torrent_rows()
+        else:
+            unique_ids = uids
+
         try:
             for uid in unique_ids:
                 torrent_path = self.manager.get_torrent_path(uid)
