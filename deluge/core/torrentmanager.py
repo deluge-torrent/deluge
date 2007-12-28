@@ -171,9 +171,9 @@ class TorrentManager(component.Component):
         
         # Set the right storage_mode
         if compact:
-            storage_mode = lt.storage_mode_t(1)
-        else:
             storage_mode = lt.storage_mode_t(2)
+        else:
+            storage_mode = lt.storage_mode_t(1)
         
         try:
             handle = self.session.add_torrent(
