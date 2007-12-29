@@ -1454,6 +1454,8 @@ torrent error."))
             dialogs.show_popup_warning(self.window, _("There is not enough free\
 disk space to complete your download.") + "\n" + _("Space Needed:") + " " + \
 nice_need + "\n" + _("Available Space:") + " " + nice_free)
+        except core.InvalidEncodingError, e:
+            print "invalid encoding\n"
         else:
             self.torrent_model_append(unique_id)
 

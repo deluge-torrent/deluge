@@ -212,8 +212,7 @@ torrent_info internal_get_torrent_info(std::string const& torrent_name)
 {
     std::ifstream in(torrent_name.c_str(), std::ios_base::binary);
     in.unsetf(std::ios_base::skipws);
-    entry e;
-    e = bdecode(std::istream_iterator<char>(in), std::istream_iterator<char>());
+    entry e = bdecode(std::istream_iterator<char>(in), std::istream_iterator<char>());
 
     torrent_info t(e);
 
@@ -691,27 +690,32 @@ static PyObject *torrent_dump_file_info(PyObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "s", &name))
         return NULL;
 
-    torrent_info t = internal_get_torrent_info(name);
+    try{
+        torrent_info t = internal_get_torrent_info(name);
     
-    PyObject *file_info;
-    long file_index = 0;
-    PyObject *ret = PyTuple_New(t.num_files());
-
-    for(torrent_info::file_iterator i = t.begin_files(); i != t.end_files(); ++i)
-    {
-        file_entry const &currFile = (*i);
-
-        file_info = Py_BuildValue(
-            "{s:s,s:L}",
-            "path",     currFile.path.string().c_str(),
-            "size",     currFile.size
-            );
-            
-        PyTuple_SetItem(ret, file_index, file_info);   
-        file_index++;
-    };
-
-    return ret;
+        PyObject *file_info;
+        long file_index = 0;
+        PyObject *ret = PyTuple_New(t.num_files());
+    
+        for(torrent_info::file_iterator i = t.begin_files(); i != t.end_files(); ++i)
+        {
+            file_entry const &currFile = (*i);
+    
+            file_info = Py_BuildValue(
+                "{s:s,s:L}",
+                "path",     currFile.path.string().c_str(),
+                "size",     currFile.size
+                );
+                
+            PyTuple_SetItem(ret, file_index, file_info);   
+            file_index++;
+        };
+    
+        return ret;
+    }
+    catch(invalid_encoding&){
+        return NULL;
+    }
 }
 
 static PyObject *torrent_dump_trackers(PyObject *self, PyObject *args)

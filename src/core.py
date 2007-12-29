@@ -358,8 +358,13 @@ class Manager:
     
     # Dump torrent info without adding
     def dump_torrent_file_info(self, torrent):
-        return deluge_core.dump_file_info(torrent)
-    
+        try:
+            ret = deluge_core.dump_file_info(torrent)
+        except SystemError:
+            print "invalid file"
+        else:
+            return ret
+
     # Dump trackers from torrent file
     def dump_trackers(self, torrent):
         return deluge_core.dump_trackers(torrent)
