@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-24 10:18+0000\n"
+"PO-Revision-Date: 2007-12-23 18:11+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-12-13 06:33+0000\n"
+"X-Launchpad-Export-Date: 2007-12-29 21:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -348,7 +348,7 @@ msgstr "Preferencias de Deluge"
 
 #: glade/preferences_dialog.glade:58
 msgid "Ask where to save each download"
-msgstr "Preguntar donde guardar cada descarga"
+msgstr "Preguntar dónde guardar cada descarga"
 
 #: glade/preferences_dialog.glade:75 glade/preferences_dialog.glade:76
 msgid "Store all downloads in:"
@@ -399,7 +399,7 @@ msgstr "Mostrar sólo si el torrent tiene más de 1 archivo"
 
 #: glade/preferences_dialog.glade:325 glade/preferences_dialog.glade:326
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr "Priorizar primera y ultima parte de los ficheros del torrent"
+msgstr "Priorizar primera y última parte de los archivos del torrent"
 
 #: glade/preferences_dialog.glade:340
 msgid "Start torrents in paused state"
@@ -597,12 +597,12 @@ msgid ""
 "The maximum half-open connections.  A high value may crash some cheap "
 "routers.  Set -1 for unlimited."
 msgstr ""
-"Las máximas conexiones Half-open. Un mayor valor puede  algunos routers "
-"baratos. Poner -1 para ilimitado"
+"La máxima cantidad de conexiones half-open. Un valor alto puede bloquear "
+"algunos routers baratos. Use -1 si desea ilimitada."
 
 #: glade/preferences_dialog.glade:1207 glade/wizard.glade:435
 msgid "Maximum Half-Open Connections:"
-msgstr "Máximas conexiones Half-open"
+msgstr "Máximas conexiones half-open:"
 
 #: glade/preferences_dialog.glade:1225 glade/preferences_dialog.glade:1245
 #: glade/preferences_dialog.glade:1325 glade/wizard.glade:277
@@ -1198,7 +1198,7 @@ msgid ""
 ".torrent file is corrupted."
 msgstr ""
 "Un error ha ocurrido mientras se intentaba añadir el torrent. Es posible que "
-"el fichero .torrent esté corrupto."
+"el archivo .torrent esté corrupto."
 
 #: src/interface.py:1377
 msgid "Unknown duplicate torrent error."
@@ -1284,7 +1284,7 @@ msgid ""
 "We had to pause at least one torrent"
 msgstr ""
 "¡Se ha quedado sin espacio en el disco duro! ¡Uuups!\n"
-"Tenderemos que parar al menos un torrent"
+"Tendremos que detener al menos un torrent"
 
 #: src/core.py:638
 msgid "Announce sent"
@@ -1355,17 +1355,16 @@ msgid ""
 msgstr ""
 "Deluge es software libre, puedes distribuirlo y/o\n"
 "modificarlo bajo los términos de la GNU General Public\n"
-" License publicada por la Free Software Foundation,\n"
-"versión 2 de de la Licencia, o (a tu elección) cualquier\n"
+"License publicada por la Free Software Foundation,\n"
+"versión 2 de la Licencia, o (a tu elección) cualquier\n"
 "versión posterior. Deluge es distribuido con la esperanza\n"
-"de que sea útil, pero SIN GARANTÍA, incluso sin la \n"
-"tácita de la MERCANTILIDAD o PROPOSITO\n"
-"PARTICULAR. Lea la GNU General Public\n"
-"License para mayores detalles. Deberías haber recibido\n"
-"una copia de GNU General Public License con Deluge,\n"
-"pero si no es así, escribe a Free Software Foundation,\n"
-" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-\n"
-"1301 USA"
+"de que sea útil, pero SIN GARANTÍA, incluso sin la\n"
+"tácita de la MERCANTILIDAD o PROPOSITO PARTICULAR.\n"
+"Lea la GNU General Public License para mayores detalles.\n"
+"Deberías haber recibido una copia de GNU General Public\n"
+"License con Deluge, pero si no es así, escribe a Free\n"
+"Software Foundation, Inc., 51 Franklin St, Fifth Floor,\n"
+"Boston, MA 02110-1301 USA"
 
 #: src/dialogs.py:502
 msgid "Choose a .torrent file"
@@ -1434,8 +1433,8 @@ msgstr ""
 "\n"
 "Actualmente este complemento puede manejar listas de PeerGuardian\n"
 "(binario y texto), SafePeer y eMule. El formato 7zip de PeerGuardian\n"
-"no está soportado. Los ficheros deben ser especificados como URLs o\n"
-"localizaciones en el sitema de ficheros local.\n"
+"no está soportado. Los archivos deben ser especificados como URLs o\n"
+"rutas en el sistema de archivos local.\n"
 "\n"
 "Hay en el wiki una página para la descarga de las listas de bloqueo:\n"
 "\n"
@@ -1463,13 +1462,13 @@ msgstr "No se puede descargar la URL"
 
 #: plugins/BlocklistImport/__init__.py:105
 msgid "Couldn't open blocklist file"
-msgstr "No se puede abrir el fichero de lista de bloqueo"
+msgstr "No se puede abrir el archivo de lista de bloqueo"
 
 #: plugins/BlocklistImport/__init__.py:113 plugins/BlocklistImport/text.py:37
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
 #: plugins/BlocklistImport/text.py:99
 msgid "Wrong file type or corrupted blocklist file."
-msgstr "Tipo de fichero de listas de bloqueo erróneo o corrupto."
+msgstr "Tipo de archivo de lista de bloqueo erróneo o corrupto."
 
 #: plugins/BlocklistImport/__init__.py:121
 msgid "Imported"
@@ -1516,8 +1515,8 @@ msgid ""
 "We were expecting a gzip file, but didn't get that, or possibly the file is "
 "corrupt.  Please edit your Blocklist preferences"
 msgstr ""
-"Esperábamos un archivo gzip, pero no lo obtuvimos, o posiblemente el archivo "
-"este corrupto. Pro favor edite las preferencias de su lista de bloqueo."
+"Esperábamos un archivo gzip, pero no lo obtuvimos o el archivo está "
+"corrupto. Por favor edite las preferencias de su lista de bloqueo."
 
 #: plugins/BlocklistImport/peerguardian.py:32
 msgid "Invalid leader"
@@ -1579,15 +1578,15 @@ msgstr "Creador de torrents"
 
 #: plugins/TorrentCreator/torrentcreator.glade:102
 msgid "This torrent will be made from a single file"
-msgstr "Este torrent será creado de un único fichero."
+msgstr "Este torrent será creado a partir de un único archivo."
 
 #: plugins/TorrentCreator/torrentcreator.glade:103
 msgid "File:"
-msgstr "Fichero"
+msgstr "Archivo:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:119
 msgid "This torrent will be made from a directory"
-msgstr "Este torrent será creado de un directorio."
+msgstr "Este torrent será creado a partir de un directorio."
 
 #: plugins/TorrentCreator/torrentcreator.glade:120
 msgid "Folder:"
@@ -1611,7 +1610,7 @@ msgstr "Añadir nuevo torrent a la cola"
 
 #: plugins/TorrentCreator/torrentcreator.glade:255
 msgid "<b>Torrent File</b>"
-msgstr "<b>Fichero torrent</b>"
+msgstr "<b>Archivo torrent</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:302
 msgid "<b>Trackers</b>"
@@ -1635,8 +1634,8 @@ msgid ""
 "The smaller the piece sizes, the more efficient the transfers will be, but "
 "the actual \".torrent\" file will be larger"
 msgstr ""
-"Las piezas más pequeñas. serán más eficientes en transferir, pero el fichero "
-"\".torrent\" actual será más largo"
+"Cuanto más pequeñas sean las partes, más eficiente será la transferencia, "
+"pero el archivo \".torrent\" real será más grande"
 
 #: plugins/TorrentCreator/torrentcreator.glade:437
 msgid ""
@@ -1658,7 +1657,7 @@ msgstr ""
 
 #: plugins/TorrentCreator/torrentcreator.glade:459
 msgid "Piece Size:"
-msgstr "Tamaño de la parte"
+msgstr "Tamaño de la parte:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:473
 msgid "<b>Advanced</b>"
@@ -1690,7 +1689,7 @@ msgstr "Debe seleccionar una fuente para el torrent."
 
 #: plugins/TorrentCreator/__init__.py:127
 msgid "You must select a file to save the torrent as."
-msgstr "Debe seleccionar un fichero para grabar el torrent."
+msgstr "Debe seleccionar un archivo para grabar el torrent."
 
 #: plugins/TorrentNotification/notification_preferences.glade:7
 msgid "Torrent Notification Preferences"
@@ -1835,7 +1834,7 @@ msgstr "Torrent finalizado"
 
 #: plugins/EventLogging/event_logging_preferences.glade:289
 msgid "Select events to log"
-msgstr "Sleccionar eventos a registrar"
+msgstr "Seleccionar eventos a registrar"
 
 #: plugins/EventLogging/__init__.py:22
 msgid ""
@@ -1865,19 +1864,17 @@ msgstr ""
 "\n"
 "Los mensajes de eventos provienen de alertas de libtorrent.\n"
 "Si quieres traducir esos eventos a tu idioma,\n"
-"tendrás que reportar la cuestión a libtorrent, no a deluge.\n"
+"tendrás que reportar el problema a libtorrent, no a deluge.\n"
 "\n"
-"Con respecto a los archivos de registros, los registros se guardan en un "
-"directorio\n"
-"de registros dentro del directorio de configuración de deluge. Los mensajes\n"
-"de eventos de torrents específicos se guardan en archivos de registro\n"
-"individuales con el mismo nombre que el archivo .torrent\n"
-"asociado. Los mensajes de eventos que no son específicos a ningún torrent "
-"se\n"
-"guardan en registros con ek nombre de los eventos\n"
-"(ejemplo, peer_messages.log).\n"
-"Los mensajes de eventos en los archivos de registros incluyen además una "
-"marca de tiempo.\n"
+"Con respecto a los archivos de registros, los registros se guardan en\n"
+"un directorio de registros dentro del directorio de configuración de\n"
+"deluge. Los mensajes de eventos de torrents específicos se guardan\n"
+"en archivos de registro individuales con el mismo nombre que el archivo\n"
+".torrent asociado. Los mensajes de eventos que no son específicos a\n"
+"ningún torrent se guardan en registros con el nombre de los eventos\n"
+"(por ejemplo, peer_messages.log).\n"
+"Los mensajes de eventos en los archivos de registros incluyen además\n"
+"una marca de tiempo.\n"
 "El usuario es el responsable de limpiar los registros.\n"
 "\n"
 "Sobre v0.2\n"
@@ -1898,7 +1895,7 @@ msgstr "Registro de eventos"
 #: plugins/EventLogging/tab_log.py:189 plugins/EventLogging/tab_log.py:200
 #: plugins/EventLogging/tab_log.py:210 plugins/EventLogging/tab_log.py:218
 msgid "event message: "
-msgstr "mensaje de evento "
+msgstr "mensaje de evento: "
 
 #: plugins/EventLogging/tab_log.py:71 plugins/EventLogging/tab_log.py:95
 #: plugins/EventLogging/tab_log.py:105 plugins/EventLogging/tab_log.py:115
@@ -2049,8 +2046,8 @@ msgid ""
 "download.\n"
 msgstr ""
 "\n"
-"Este complemento muestra los archivos dentro de un torrent y permite "
-"establecer su prioridad y elegir cuales quiere descargar y cuales no.\n"
+"Este complemento muestra los archivos dentro de un torrent, permite "
+"establecer su prioridad y elegir cuáles quieres descargar y cuáles no.\n"
 
 #: plugins/ExtraStats/__init__.py:22
 msgid ""
@@ -2071,14 +2068,14 @@ msgid ""
 "would be 5 GiB across sessions and 4 MiB within session\n"
 msgstr ""
 "\n"
-"Añadir información a la bandeja del sistema.\n"
-"Añadir las estadísticas.\n"
-"bytes totales descargados\n"
-"bytes totales subidos\n"
+"Añade información a la bandeja del sistema.\n"
+"Añade las siguientes estadísticas.\n"
+"total de bytes descargados\n"
+"total de bytes subidos\n"
 "ratio global\n"
 "torrents completados\n"
 "\n"
-"Todas esas estadísticas se muestran en pares:\n"
+"Todas estas estadísticas se muestran en pares:\n"
 "estadísticas de todas las sesiones y de la sesión actual.\n"
 "Por defecto, los pares están activados pero pueden ser desactivados en las "
 "preferencias del complemento.\n"
@@ -2140,7 +2137,7 @@ msgstr "_Mover torrent"
 
 #: plugins/MoveTorrent/__init__.py:95
 msgid "Choose a directory to move files to"
-msgstr "Elige un directorio al que mover los ficheros"
+msgstr "Elige un directorio al que mover los archivos"
 
 #: plugins/MoveTorrent/__init__.py:124
 msgid ""
@@ -2150,9 +2147,9 @@ msgid ""
 "files have actually been created."
 msgstr ""
 "No puedes mover el torrent a una partición diferente. Por favor comprueba "
-"tus preferencias. Además, no puedes mover los archivos  torrent al mismo "
-"directorio donde ya están almacenados ni moverlos antes de que sus archivos "
-"hayan sido creados."
+"tus preferencias. Además, no puedes mover los archivos del torrent al mismo "
+"directorio donde ya están almacenados ni moverlos antes de que hayan sido "
+"creados."
 
 #: plugins/MoveTorrent/movetorrent.glade:25
 msgid "Move completed downloads to:"
@@ -2234,7 +2231,7 @@ msgstr "Aspecto del botón"
 
 #: plugins/WebUi/__init__.py:196
 msgid "Cache Templates"
-msgstr "Plantillas de la caché"
+msgstr "Cachear las plantillas"
 
 #: plugins/WebUi/__init__.py:212
 msgid "Text and image"
@@ -2246,7 +2243,7 @@ msgstr "Sólo imagen"
 
 #: plugins/WebUi/__init__.py:212
 msgid "Text Only"
-msgstr "Sólo Texto"
+msgstr "Sólo texto"
 
 #: plugins/WebUi/__init__.py:246
 msgid "Confirmed Password <> New Password\n"
@@ -2342,7 +2339,7 @@ msgstr "Finalizar sesión"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Next Announce"
-msgstr "Siguiente Anuncio"
+msgstr "Siguiente anuncio"
 
 #: plugins/WebUi/scripts/template_strings.py:27
 msgid "Off"
@@ -2536,11 +2533,11 @@ msgstr "<b>Prueba</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
-msgstr "Insertar el torrent el primero de la cola."
+msgstr "Insertar el torrent al principio de la cola."
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
-msgstr "Establecer estado ha pausado."
+msgstr "Establecer estado a pausado."
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
 msgid "Delete filter when matched."
@@ -2572,7 +2569,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
 msgid "Deluge default"
-msgstr "Deluge por defecto"
+msgstr "Predeterminado de Deluge"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."

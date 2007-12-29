@@ -1,4 +1,7 @@
 glade/delugegtk.glade
+glade/browser.glade
+glade/browserwin.glade
+glade/searchdlg.glade
 glade/dgtkpopups.glade
 glade/file_tab_menu.glade
 glade/merge_dialog.glade
@@ -12,6 +15,8 @@ glade/wizard.glade
 src/tab_details.py
 src/interface.py
 src/plugins.py
+src/browser.py
+src/search.py
 src/core.py
 src/files.py
 src/dialogs.py
@@ -33,9 +38,6 @@ plugins/EventLogging/event_logging_preferences.glade
 plugins/EventLogging/__init__.py
 plugins/EventLogging/tab_log.py
 plugins/SpeedLimiter/__init__.py
-plugins/TorrentSearch/__init__.py
-plugins/TorrentSearch/plugin.py
-plugins/TorrentSearch/searchdlg.glade
 plugins/NetworkGraph/tab_graph.py
 plugins/NetworkGraph/__init__.py
 plugins/TorrentFiles/tab_files.py

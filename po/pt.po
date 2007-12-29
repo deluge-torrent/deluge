@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-29 14:07+0000\n"
+"PO-Revision-Date: 2007-12-16 12:08+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-12-13 06:33+0000\n"
+"X-Launchpad-Export-Date: 2007-12-29 21:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -962,7 +962,6 @@ msgid "Set the private flag"
 msgstr "Definir como privado"
 
 #: glade/wizard.glade:10
-#, fuzzy
 msgid "First Launch Configuration"
 msgstr "Configuração Inicial"
 
@@ -1293,7 +1292,6 @@ msgid "HTTP code"
 msgstr "Codigo HTTP"
 
 #: src/core.py:650
-#, fuzzy
 msgid "times in a row"
 msgstr "vezes numa coluna"
 
@@ -1934,7 +1932,6 @@ msgid "Times in a row: "
 msgstr "Vezes numa linha: "
 
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
-#, fuzzy
 msgid "block index: "
 msgstr "Índice de blocos: "
 

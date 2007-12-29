@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-12-01 04:55+0000\n"
+"PO-Revision-Date: 2007-12-20 11:36+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-12-13 06:33+0000\n"
+"X-Launchpad-Export-Date: 2007-12-29 21:48+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -59,19 +59,19 @@ msgstr "Призупинити"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
-msgstr ""
+msgstr "Підняти Торрент в Черзі Вгору"
 
 #: glade/delugegtk.glade:107
 msgid "Up"
-msgstr ""
+msgstr "Вгору"
 
 #: glade/delugegtk.glade:120
 msgid "Queue Torrent Down"
-msgstr ""
+msgstr "Опустити Торрент в Черзі Вниз"
 
 #: glade/delugegtk.glade:121
 msgid "Down"
-msgstr ""
+msgstr "Вниз"
 
 #: glade/delugegtk.glade:142
 msgid "Change Deluge preferences"
@@ -100,11 +100,11 @@ msgstr "Додати _URL"
 
 #: glade/delugegtk.glade:207
 msgid "_Clear Completed"
-msgstr ""
+msgstr "_Видалити Завершені"
 
 #: glade/delugegtk.glade:240
 msgid "_Edit"
-msgstr ""
+msgstr "_Редагувати"
 
 #: glade/delugegtk.glade:249
 msgid "gtk-select-all"
@@ -116,100 +116,100 @@ msgstr ""
 
 #: glade/delugegtk.glade:293
 msgid "_Torrent"
-msgstr ""
+msgstr "_Торрент"
 
 #: glade/delugegtk.glade:300
 msgid "_View"
-msgstr ""
+msgstr "_Вигляд"
 
 #: glade/delugegtk.glade:308
 msgid "_Toolbar"
-msgstr ""
+msgstr "_Панель Інструментів"
 
 #: glade/delugegtk.glade:317
 msgid "_Details"
-msgstr ""
+msgstr "_Подробиці"
 
 #: glade/delugegtk.glade:326
 msgid "_Columns"
-msgstr ""
+msgstr "_Стовпчики"
 
 #: glade/delugegtk.glade:334 src/interface.py:623 src/files.py:80
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Size"
-msgstr ""
+msgstr "Розмір"
 
 #: glade/delugegtk.glade:343 src/interface.py:627
 #: plugins/FlexRSS/FlexRSS.glade:138
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 #: glade/delugegtk.glade:352 src/interface.py:629
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Seeders"
-msgstr ""
+msgstr "Роздаючі"
 
 #: glade/delugegtk.glade:361 src/interface.py:632
 #: plugins/TorrentPeers/__init__.py:84
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Peers"
-msgstr ""
+msgstr "Качаючі"
 
 #: glade/delugegtk.glade:370 src/interface.py:635 src/interface.py:1192
 #: src/interface.py:1223 plugins/TorrentPeers/tab_peers.py:89
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Down Speed"
-msgstr ""
+msgstr "Швидкість Звантаження"
 
 #: glade/delugegtk.glade:379 src/interface.py:638 src/interface.py:1193
 #: src/interface.py:1224 plugins/TorrentPeers/tab_peers.py:91
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Up Speed"
-msgstr ""
+msgstr "Швидкість Вивантаження"
 
 #: glade/delugegtk.glade:388
 msgid "Time Remaining"
-msgstr ""
+msgstr "Залишилось Часу"
 
 #: glade/delugegtk.glade:397 plugins/WebUi/scripts/template_strings.py:8
 msgid "Availability"
-msgstr ""
+msgstr "Доступність"
 
 #: glade/delugegtk.glade:406 plugins/WebUi/scripts/template_strings.py:47
 msgid "Share Ratio"
-msgstr ""
+msgstr "Коефіцієнт Звант./Вивант."
 
 #: glade/delugegtk.glade:423
 msgid "_Help"
-msgstr ""
+msgstr "_Допомога"
 
 #: glade/delugegtk.glade:431
 msgid "Help translate this application"
-msgstr ""
+msgstr "Допоможіть перевести цю Програму"
 
 #: glade/delugegtk.glade:432
 msgid "_Translate This Application..."
-msgstr ""
+msgstr "_Переведіть Цю Програму..."
 
 #: glade/delugegtk.glade:455
 msgid "Runs the first-time configuration wizard"
-msgstr ""
+msgstr "Запуск Помічника Початкових Налаштувань"
 
 #: glade/delugegtk.glade:456
 msgid "_Run Configuration Wizard"
-msgstr ""
+msgstr "_Запуск Помічника Налаштувань"
 
 #: glade/delugegtk.glade:593
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Назва:</b>"
 
 #: glade/delugegtk.glade:617
 msgid "<b>Tracker:</b>"
-msgstr ""
+msgstr "<b>Трекер:</b>"
 
 #: glade/delugegtk.glade:645
 msgid "<b># of files:</b>"
-msgstr ""
+msgstr "<b>к-ть файлів:</b>"
 
 #: glade/delugegtk.glade:681
 msgid "<b>Next Announce:</b>"
@@ -217,43 +217,43 @@ msgstr "<b>Наступний анонс:</b>"
 
 #: glade/delugegtk.glade:715
 msgid "<b>Tracker Status:</b>"
-msgstr ""
+msgstr "<b>Статус Трекера:</b>"
 
 #: glade/delugegtk.glade:776
 msgid "<b>Total Size:</b>"
-msgstr ""
+msgstr "<b>Загальний Розмір:</b>"
 
 #: glade/delugegtk.glade:811
 msgid "<b>Path:</b>"
-msgstr ""
+msgstr "<b>Шлях:</b>"
 
 #: glade/delugegtk.glade:843
 msgid "<b>Torrent Info</b>"
-msgstr ""
+msgstr "<b>Торрент Інфо</b>"
 
 #: glade/delugegtk.glade:1005
 msgid "<b>Downloaded:</b>"
-msgstr ""
+msgstr "<b>Зкачано:</b>"
 
 #: glade/delugegtk.glade:1019
 msgid "<b>Uploaded:</b>"
-msgstr ""
+msgstr "<b>Віддано:</b>"
 
 #: glade/delugegtk.glade:1037
 msgid "<b>Seeders:</b>"
-msgstr ""
+msgstr "<b>Роздаючі:</b>"
 
 #: glade/delugegtk.glade:1055
 msgid "<b>Share Ratio:</b>"
-msgstr ""
+msgstr "<b>Рейтинг Звант./Вивант.:</b>"
 
 #: glade/delugegtk.glade:1074 glade/delugegtk.glade:1093
 msgid "<b>Speed:</b>"
-msgstr ""
+msgstr "<b>Швидкість:</b>"
 
 #: glade/delugegtk.glade:1114
 msgid "<b>Peers:</b>"
-msgstr ""
+msgstr "<b>Викачуючі:</b>"
 
 #: glade/delugegtk.glade:1135
 msgid "<b>ETA:</b>"
@@ -261,41 +261,43 @@ msgstr ""
 
 #: glade/delugegtk.glade:1152
 msgid "<b>Pieces:</b>"
-msgstr ""
+msgstr "<b>Кавалки:</b>"
 
 #: glade/delugegtk.glade:1190
 msgid "<b>Availability:</b>"
-msgstr ""
+msgstr "<b>Доступність:</b>"
 
 #: glade/delugegtk.glade:1231
 msgid "<b>Statistics</b>"
-msgstr ""
+msgstr "<b>Статистика</b>"
 
 #: glade/delugegtk.glade:1256 plugins/WebUi/scripts/template_strings.py:14
 msgid "Details"
-msgstr ""
+msgstr "Докладніше"
 
 #: glade/dgtkpopups.glade:41
 msgid ""
 "<span size=\"large\"><b>Are you sure you want to remove the selected "
 "torrent(s) from Deluge?</b></span>"
 msgstr ""
+"<span size=\"large\"><b>Ви впевнені, що хочете видалити обраний торрент(и) з "
+"Deluge?</b></span>"
 
 #: glade/dgtkpopups.glade:65
 msgid "Delete downloaded files"
-msgstr ""
+msgstr "Видалити звантажені файли"
 
 #: glade/dgtkpopups.glade:88 plugins/WebUi/scripts/template_strings.py:12
 msgid "Delete .torrent file"
-msgstr ""
+msgstr "Видалити .torrent файл"
 
 #: glade/dgtkpopups.glade:155
 msgid "Show/Hide"
-msgstr ""
+msgstr "Показати/Сховати"
 
 #: glade/dgtkpopups.glade:163
 msgid "Add a Torrent..."
-msgstr ""
+msgstr "Додати Торрент..."
 
 #: glade/dgtkpopups.glade:179
 msgid "Clear Finished"
@@ -303,53 +305,54 @@ msgstr ""
 
 #: glade/file_tab_menu.glade:11
 msgid "_Open File"
-msgstr ""
+msgstr "_Відкрити Файл"
 
 #: glade/file_tab_menu.glade:33
 msgid "Select All"
-msgstr ""
+msgstr "Вибрати Все"
 
 #: glade/file_tab_menu.glade:48
 msgid "Unselect All"
-msgstr ""
+msgstr "Зняти Виділення"
 
 #: glade/file_tab_menu.glade:68 src/core.py:102
 msgid "Don't download"
-msgstr ""
+msgstr "Не Викачувати"
 
 #: glade/file_tab_menu.glade:83 src/core.py:103
 msgid "Normal"
-msgstr ""
+msgstr "Звичайна"
 
 #: glade/file_tab_menu.glade:98 src/core.py:104
 msgid "High"
-msgstr ""
+msgstr "Високий"
 
 #: glade/file_tab_menu.glade:113 src/core.py:105
 msgid "Highest"
-msgstr ""
+msgstr "Найвищий"
 
 #: glade/merge_dialog.glade:7
 msgid "Deluge Merge Tracker Lists"
-msgstr ""
+msgstr "Deluge Обєднання списків трекерів"
 
 #: glade/merge_dialog.glade:23
 msgid ""
 "Torrent already detected in Deluge, would you like to merge the tracker "
 "lists?"
 msgstr ""
+"Торрент вже присутній в Deluge, хочете добавити нові трекери в нього?"
 
 #: glade/preferences_dialog.glade:9
 msgid "Deluge Preferences"
-msgstr ""
+msgstr "Налаштування Deluge"
 
 #: glade/preferences_dialog.glade:58
 msgid "Ask where to save each download"
-msgstr ""
+msgstr "Питати Куди Зерігати кожне Звантаження"
 
 #: glade/preferences_dialog.glade:75 glade/preferences_dialog.glade:76
 msgid "Store all downloads in:"
-msgstr ""
+msgstr "Зберігати Всі Звантаження в:"
 
 #: glade/preferences_dialog.glade:90 glade/preferences_dialog.glade:118
 #: glade/preferences_dialog.glade:186 glade/wizard.glade:187

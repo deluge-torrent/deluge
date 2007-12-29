@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: Deluge VERSION\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-26 13:45+0000\n"
+"PO-Revision-Date: 2007-12-23 09:32+0000\n"
 "Last-Translator: Jose Sun <josesun@gmail.com>\n"
 "Language-Team: Jose Sun <josesun@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-12-13 06:33+0000\n"
+"X-Launchpad-Export-Date: 2007-12-29 21:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-Language: Chinese\n"
@@ -184,6 +184,7 @@ msgstr ""
 #~ "如對翻譯有任何意見，請送一封電子郵件給以下地址，會盡快回覆您：Cheng-Wei Chien <e.cwchien@gmail.com>\n"
 #~ "\n"
 #~ "Launchpad Contributions:\n"
+#~ "  Accord Tsai https://launchpad.net/~accordtsai\n"
 #~ "  Chien Cheng Wei https://launchpad.net/~cwchien\n"
 #~ "  Jose Sun https://launchpad.net/~josesun\n"
 #~ "  Justzupi https://launchpad.net/~justzupi\n"
@@ -1893,7 +1894,7 @@ msgstr "已完成"
 
 #: plugins/BlocklistImport/text.py:129
 msgid "Got format exception for zipfile:"
-msgstr ""
+msgstr "Zip 檔案的格式例外錯誤:"
 
 #: plugins/BlocklistImport/peerguardian.py:24
 msgid ""
@@ -2086,7 +2087,7 @@ msgstr "啟用閃爍系統列圖示"
 #: plugins/TorrentNotification/notification_preferences.glade:69
 msgid ""
 "Enable popup notification (requires python-notify, not available on Win32)"
-msgstr "啟用彈出視窗提示 (需要python-notify, Win32 無法使用)"
+msgstr "啟用彈出視窗提示 (需要 python-notify, Win32 無法使用)"
 
 #: plugins/TorrentNotification/__init__.py:22
 msgid ""
@@ -2555,7 +2556,7 @@ msgstr "上傳速度下限:"
 
 #: plugins/Scheduler/plugin.py:192
 msgid "Green is the high limits, yellow is the low limits and red is stopped"
-msgstr "綠色代表速度上限、黃色代表速度下限、紅色代表已停止"
+msgstr "綠色代表此時段採用速度上限、黃色代表採用速度下限、紅色代表不設限"
 
 #: plugins/Scheduler/plugin.py:193
 msgid "If a limit is set to -1, it is unlimitted."

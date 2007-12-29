@@ -8,164 +8,165 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-10-22 13:54+0000\n"
+"PO-Revision-Date: 2007-12-27 13:30+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-12-13 06:33+0000\n"
+"X-Launchpad-Export-Date: 2007-12-29 21:48+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
 msgid "Add Torrent"
-msgstr ""
+msgstr "Aldoni torenton"
 
 #: glade/delugegtk.glade:30
 msgid "Add"
-msgstr ""
+msgstr "Aldoni"
 
 #: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
-msgstr ""
+msgstr "Forigi torenton"
 
 #: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:40
 msgid "Remove"
-msgstr ""
+msgstr "Forigi"
 
 #: glade/delugegtk.glade:56
+#, fuzzy
 msgid "Clear Seeding Torrents"
-msgstr ""
+msgstr "Viŝi fontsendantajn torentojn"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
-msgstr ""
+msgstr "Viŝi"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
-msgstr ""
+msgstr "Komenci aŭ reaktivigi torenton"
 
 #: glade/delugegtk.glade:80
 msgid "Resume"
-msgstr ""
+msgstr "Reaktivigi"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
-msgstr ""
+msgstr "Paŭzigi torenton"
 
 #: glade/delugegtk.glade:94
 msgid "Pause"
-msgstr ""
+msgstr "Paŭzigi"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
-msgstr ""
+msgstr "Supren en la atendovico"
 
 #: glade/delugegtk.glade:107
 msgid "Up"
-msgstr ""
+msgstr "Supren"
 
 #: glade/delugegtk.glade:120
 msgid "Queue Torrent Down"
-msgstr ""
+msgstr "Malsupren en la atendovico"
 
 #: glade/delugegtk.glade:121
 msgid "Down"
-msgstr ""
+msgstr "Malsupren"
 
 #: glade/delugegtk.glade:142
 msgid "Change Deluge preferences"
-msgstr ""
+msgstr "Agordi Diluvon"
 
 #: glade/delugegtk.glade:143
 msgid "Preferences"
-msgstr ""
+msgstr "Agordoj"
 
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
 #: glade/preferences_dialog.glade:2965
 msgid "Plugins"
-msgstr ""
+msgstr "Kromprogramoj"
 
 #: glade/delugegtk.glade:177
 msgid "_File"
-msgstr ""
+msgstr "_Dosiero"
 
 #: glade/delugegtk.glade:184 glade/tray_menu.glade:61
 msgid "_Add Torrent"
-msgstr ""
+msgstr "_Aldoni torenton"
 
 #: glade/delugegtk.glade:199
 msgid "Add _URL"
-msgstr ""
+msgstr "Aldoni _URL-on"
 
 #: glade/delugegtk.glade:207
 msgid "_Clear Completed"
-msgstr ""
+msgstr "_Viŝi finiĝintajn"
 
 #: glade/delugegtk.glade:240
 msgid "_Edit"
-msgstr ""
+msgstr "_Redakti"
 
 #: glade/delugegtk.glade:249
 msgid "gtk-select-all"
-msgstr ""
+msgstr "gtk-select-all"
 
 #: glade/delugegtk.glade:265
 msgid "Plu_gins"
-msgstr ""
+msgstr "Krompro_gramoj"
 
 #: glade/delugegtk.glade:293
 msgid "_Torrent"
-msgstr ""
+msgstr "_Torento"
 
 #: glade/delugegtk.glade:300
 msgid "_View"
-msgstr ""
+msgstr "_Vidi"
 
 #: glade/delugegtk.glade:308
 msgid "_Toolbar"
-msgstr ""
+msgstr "_Ilobreto"
 
 #: glade/delugegtk.glade:317
 msgid "_Details"
-msgstr ""
+msgstr "_Detaloj"
 
 #: glade/delugegtk.glade:326
 msgid "_Columns"
-msgstr ""
+msgstr "_Kolumnoj"
 
 #: glade/delugegtk.glade:334 src/interface.py:623 src/files.py:80
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Size"
-msgstr ""
+msgstr "Grando"
 
 #: glade/delugegtk.glade:343 src/interface.py:627
 #: plugins/FlexRSS/FlexRSS.glade:138
 msgid "Status"
-msgstr ""
+msgstr "Stato"
 
 #: glade/delugegtk.glade:352 src/interface.py:629
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Seeders"
-msgstr ""
+msgstr "Fontoj"
 
 #: glade/delugegtk.glade:361 src/interface.py:632
 #: plugins/TorrentPeers/__init__.py:84
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Peers"
-msgstr ""
+msgstr "Samtavolanoj"
 
 #: glade/delugegtk.glade:370 src/interface.py:635 src/interface.py:1192
 #: src/interface.py:1223 plugins/TorrentPeers/tab_peers.py:89
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Down Speed"
-msgstr ""
+msgstr "Elŝutrapido"
 
 #: glade/delugegtk.glade:379 src/interface.py:638 src/interface.py:1193
 #: src/interface.py:1224 plugins/TorrentPeers/tab_peers.py:91
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Up Speed"
-msgstr ""
+msgstr "Alŝutrapido"
 
 #: glade/delugegtk.glade:388
 msgid "Time Remaining"
@@ -173,7 +174,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:397 plugins/WebUi/scripts/template_strings.py:8
 msgid "Availability"
-msgstr ""
+msgstr "Disponebleco"
 
 #: glade/delugegtk.glade:406 plugins/WebUi/scripts/template_strings.py:47
 msgid "Share Ratio"
@@ -181,11 +182,11 @@ msgstr ""
 
 #: glade/delugegtk.glade:423
 msgid "_Help"
-msgstr ""
+msgstr "_Helpo"
 
 #: glade/delugegtk.glade:431
 msgid "Help translate this application"
-msgstr ""
+msgstr "Helpu traduki tiun programon"
 
 #: glade/delugegtk.glade:432
 msgid "_Translate This Application..."
@@ -201,23 +202,23 @@ msgstr ""
 
 #: glade/delugegtk.glade:593
 msgid "<b>Name:</b>"
-msgstr ""
+msgstr "<b>Nomo:</b>"
 
 #: glade/delugegtk.glade:617
 msgid "<b>Tracker:</b>"
-msgstr ""
+msgstr "<b>Kunordiga servilo:</b>"
 
 #: glade/delugegtk.glade:645
 msgid "<b># of files:</b>"
-msgstr ""
+msgstr "<b>Dosiernombro:</b>"
 
 #: glade/delugegtk.glade:681
 msgid "<b>Next Announce:</b>"
-msgstr ""
+msgstr "<b>Sekva konekto:</b>"
 
 #: glade/delugegtk.glade:715
 msgid "<b>Tracker Status:</b>"
-msgstr ""
+msgstr "<b>Servila stato:</b>"
 
 #: glade/delugegtk.glade:776
 msgid "<b>Total Size:</b>"
@@ -225,23 +226,23 @@ msgstr ""
 
 #: glade/delugegtk.glade:811
 msgid "<b>Path:</b>"
-msgstr ""
+msgstr "<b>Dosierindiko:</b>"
 
 #: glade/delugegtk.glade:843
 msgid "<b>Torrent Info</b>"
-msgstr ""
+msgstr "<B>Torent-informoj</b>"
 
 #: glade/delugegtk.glade:1005
 msgid "<b>Downloaded:</b>"
-msgstr "<b>Elŝutita :</b>"
+msgstr "<b>Elŝutite:</b>"
 
 #: glade/delugegtk.glade:1019
 msgid "<b>Uploaded:</b>"
-msgstr "<b>Alŝutita :</b>"
+msgstr "<b>Alŝutite:</b>"
 
 #: glade/delugegtk.glade:1037
 msgid "<b>Seeders:</b>"
-msgstr ""
+msgstr "<b>Fontoj:</b>"
 
 #: glade/delugegtk.glade:1055
 msgid "<b>Share Ratio:</b>"
@@ -249,117 +250,119 @@ msgstr ""
 
 #: glade/delugegtk.glade:1074 glade/delugegtk.glade:1093
 msgid "<b>Speed:</b>"
-msgstr ""
+msgstr "<b>Rapido:</b>"
 
 #: glade/delugegtk.glade:1114
 msgid "<b>Peers:</b>"
-msgstr ""
+msgstr "<b>Samtavolanoj:</b>"
 
 #: glade/delugegtk.glade:1135
 msgid "<b>ETA:</b>"
-msgstr ""
+msgstr "<b>Restanta tempo:</b>"
 
 #: glade/delugegtk.glade:1152
 msgid "<b>Pieces:</b>"
-msgstr ""
+msgstr "<b>Pecoj:</b>"
 
 #: glade/delugegtk.glade:1190
 msgid "<b>Availability:</b>"
-msgstr ""
+msgstr "<b>Havebleco:</b>"
 
 #: glade/delugegtk.glade:1231
 msgid "<b>Statistics</b>"
-msgstr ""
+msgstr "<b>Statistikoj</b>"
 
 #: glade/delugegtk.glade:1256 plugins/WebUi/scripts/template_strings.py:14
 msgid "Details"
-msgstr ""
+msgstr "Detaloj"
 
 #: glade/dgtkpopups.glade:41
 msgid ""
 "<span size=\"large\"><b>Are you sure you want to remove the selected "
 "torrent(s) from Deluge?</b></span>"
 msgstr ""
+"<span size=\"large\"><b>Ĉu vi vere volas forigi la elektitajn torentojn de "
+"Diluvo?</b></span>"
 
 #: glade/dgtkpopups.glade:65
 msgid "Delete downloaded files"
-msgstr ""
+msgstr "Forviŝi elŝutitajn dosierojn"
 
 #: glade/dgtkpopups.glade:88 plugins/WebUi/scripts/template_strings.py:12
 msgid "Delete .torrent file"
-msgstr ""
+msgstr "Forviŝi .torrent-dosieron"
 
 #: glade/dgtkpopups.glade:155
 msgid "Show/Hide"
-msgstr ""
+msgstr "(Mal)kaŝi"
 
 #: glade/dgtkpopups.glade:163
 msgid "Add a Torrent..."
-msgstr ""
+msgstr "Aldoni torenton..."
 
 #: glade/dgtkpopups.glade:179
 msgid "Clear Finished"
-msgstr ""
+msgstr "Viŝi finiĝintajn"
 
 #: glade/file_tab_menu.glade:11
 msgid "_Open File"
-msgstr ""
+msgstr "Malfermi d_osieron"
 
 #: glade/file_tab_menu.glade:33
 msgid "Select All"
-msgstr ""
+msgstr "Elekti ĉiujn"
 
 #: glade/file_tab_menu.glade:48
 msgid "Unselect All"
-msgstr ""
+msgstr "Malelekti ĉiujn"
 
 #: glade/file_tab_menu.glade:68 src/core.py:102
 msgid "Don't download"
-msgstr ""
+msgstr "Ne elŝuti"
 
 #: glade/file_tab_menu.glade:83 src/core.py:103
 msgid "Normal"
-msgstr ""
+msgstr "Normala"
 
 #: glade/file_tab_menu.glade:98 src/core.py:104
 msgid "High"
-msgstr ""
+msgstr "Grava"
 
 #: glade/file_tab_menu.glade:113 src/core.py:105
 msgid "Highest"
-msgstr ""
+msgstr "Gravega"
 
 #: glade/merge_dialog.glade:7
 msgid "Deluge Merge Tracker Lists"
-msgstr ""
+msgstr "Kunigi servilarojn"
 
 #: glade/merge_dialog.glade:23
 msgid ""
 "Torrent already detected in Deluge, would you like to merge the tracker "
 "lists?"
-msgstr ""
+msgstr "Jam ezistas tiu torento en Diluvo. Ĉu mi kunigu lla servilarojn?"
 
 #: glade/preferences_dialog.glade:9
 msgid "Deluge Preferences"
-msgstr ""
+msgstr "Agordi Diluvon"
 
 #: glade/preferences_dialog.glade:58
 msgid "Ask where to save each download"
-msgstr ""
+msgstr "Demandi, kien konservi ĉiun elŝuton"
 
 #: glade/preferences_dialog.glade:75 glade/preferences_dialog.glade:76
 msgid "Store all downloads in:"
-msgstr ""
+msgstr "Konservi ĉiujn elŝutojn en:"
 
 #: glade/preferences_dialog.glade:90 glade/preferences_dialog.glade:118
 #: glade/preferences_dialog.glade:186 glade/wizard.glade:187
 #: plugins/MoveTorrent/movetorrent.glade:35
 msgid "Select A Folder"
-msgstr ""
+msgstr "Elektu dosieron"
 
 #: glade/preferences_dialog.glade:131
 msgid "Store all torrent files in:"
-msgstr ""
+msgstr "Konservi ĉiujn .torent-dosierojn en:"
 
 #: glade/preferences_dialog.glade:146
 msgid "<b>Download Location</b>"
@@ -367,106 +370,111 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:200
 msgid "Autoload all torrent files in:"
-msgstr ""
+msgstr "Aŭtomate elŝuti ĉiujn torent-dosierojn en:"
 
 #: glade/preferences_dialog.glade:213
 msgid "<b>Autoload</b>"
-msgstr ""
+msgstr "<b>Aŭtomate ŝargi</b>"
 
 #: glade/preferences_dialog.glade:249 glade/preferences_dialog.glade:266
 #: glade/wizard.glade:237 glade/wizard.glade:478
 msgid ""
 "The number of active torrents that Deluge will run.  Set to -1 for unlimited."
 msgstr ""
+"La kvanto da aktivaj torentoj, kiun Diluvo ekrulos. Metu -1 por senlima."
 
 #: glade/preferences_dialog.glade:251
 msgid "Maximum simultaneous active torrents:"
-msgstr ""
+msgstr "Maksimumo da samtempe aktivaj torentoj:"
 
 #: glade/preferences_dialog.glade:288 glade/preferences_dialog.glade:289
 #: glade/preferences_dialog.glade:309
 msgid "Enable selecting files for torrents before loading"
-msgstr ""
+msgstr "Ebligi elektadon de dosieroj por torentoj antaŭ ol ŝargi"
 
 #: glade/preferences_dialog.glade:310
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "Nur montri se torento havas pli ol 1 dosiero"
 
 #: glade/preferences_dialog.glade:325 glade/preferences_dialog.glade:326
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr ""
+msgstr "Provu elŝuti la unuan kaj lastan pecojn unue"
 
 #: glade/preferences_dialog.glade:340
 msgid "Start torrents in paused state"
-msgstr ""
+msgstr "Ekigu torentojn en paŭzita stato"
 
 #: glade/preferences_dialog.glade:355
 msgid "<b>Torrents</b>"
-msgstr ""
+msgstr "<b>Torentoj</b>"
 
 #: glade/preferences_dialog.glade:394
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
+"Kun plena disponigo ĉiom el la bezonata spaco por torento antaŭokupiĝas "
+"dekomence por eviti diskfragmentiĝon"
 
 #: glade/preferences_dialog.glade:395
 msgid "Use Full Allocation"
-msgstr ""
+msgstr "Uzu plenan spacdisponigon"
 
 #: glade/preferences_dialog.glade:417
 msgid "Compact allocation only allocates space as needed"
-msgstr ""
+msgstr "Kun kompakta disponigo la diskospaco nur okupiĝas laŭbezone"
 
 #: glade/preferences_dialog.glade:418
 msgid "Use Compact Allocation"
-msgstr ""
+msgstr "Uzu kompaktan spacdisponigon"
 
 #: glade/preferences_dialog.glade:438
 msgid "<b>Allocation</b>"
-msgstr ""
+msgstr "<b>Spacokupado</b>"
 
 #: glade/preferences_dialog.glade:462
 msgid "Downloads"
-msgstr ""
+msgstr "Elŝutoj"
 
 #: glade/preferences_dialog.glade:506
 msgid ""
 "<b>Please Note - Changes to these settings will only be applied the next "
 "time Deluge is restarted.</b>"
 msgstr ""
+"<b>Bonvolu noti, ke ŝanĝoj al tiuj agordoj nur plenumiĝos post restartigi "
+"Diluvon.</b>"
 
 #: glade/preferences_dialog.glade:549 glade/wizard.glade:48
 msgid "From:"
-msgstr ""
+msgstr "De:"
 
 #: glade/preferences_dialog.glade:572 glade/wizard.glade:66
 msgid "To:"
-msgstr ""
+msgstr "Al:"
 
 #: glade/preferences_dialog.glade:598
 msgid "Deluge will automatically choose a different port to use every time."
-msgstr ""
+msgstr "Diluvo aŭtomate elektos malsaman porton ĉiufoje."
 
 #: glade/preferences_dialog.glade:599
 msgid "Random Ports"
-msgstr ""
+msgstr "Hazardaj pordoj"
 
 #: glade/preferences_dialog.glade:616
 msgid "Test Active Port"
-msgstr ""
+msgstr "Provi aktivan pordon"
 
 #: glade/preferences_dialog.glade:642
 msgid "<b>TCP</b>"
-msgstr ""
+msgstr "<b>TCP-protokolo</b>"
 
 #: glade/preferences_dialog.glade:654
 msgid "Active Port:"
-msgstr ""
+msgstr "Aktiva pordo:"
 
 #: glade/preferences_dialog.glade:667
 msgid "0000"
-msgstr ""
+msgstr "0000"
 
 #: glade/preferences_dialog.glade:706
 msgid "Distributed hash table may improve the amount of active connections."
@@ -498,7 +506,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:786 glade/preferences_dialog.glade:787
 msgid "Peer Exchange"
-msgstr ""
+msgstr "Konektado de samtavolanoj"
 
 #: glade/preferences_dialog.glade:803
 msgid "Local Peer Discovery"
@@ -529,26 +537,30 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:921
 msgid "Level:"
-msgstr ""
+msgstr "Nivelo:"
 
 #: glade/preferences_dialog.glade:935
+#, fuzzy
 msgid ""
 "Handshake\n"
 "Full Stream\n"
 "Either"
 msgstr ""
+"Kvitanca reĝimo\n"
+"Plena datumstrio\n"
+"Aŭ aŭ"
 
 #: glade/preferences_dialog.glade:958
 msgid "<b>Encryption</b>"
-msgstr ""
+msgstr "<b>Ĉifrado</b>"
 
 #: glade/preferences_dialog.glade:988
 msgid "Network"
-msgstr ""
+msgstr "Reto"
 
 #: glade/preferences_dialog.glade:1029
 msgid "Queue torrents to bottom when they begin seeding"
-msgstr ""
+msgstr "Malsuprenigi torentojn en la atendovico kiam ili ekfontsendas"
 
 #: glade/preferences_dialog.glade:1041
 msgid "Queue new torrents above completed ones"
@@ -564,7 +576,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1109
 msgid "<b>Seeding</b>"
-msgstr ""
+msgstr "<b>Fontsendas</b>"
 
 #: glade/preferences_dialog.glade:1138 src/core.py:93
 #: plugins/WebUi/webserver_common.py:139

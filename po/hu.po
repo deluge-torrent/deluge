@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-11-30 19:23+0000\n"
+"PO-Revision-Date: 2007-12-29 18:08+0000\n"
 "Last-Translator: Bajusz Tamás btami@enternet.hu\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-12-13 06:33+0000\n"
+"X-Launchpad-Export-Date: 2007-12-29 21:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:3
@@ -335,10 +335,9 @@ msgstr "Legmagasabb"
 
 #: glade/merge_dialog.glade:7
 msgid "Deluge Merge Tracker Lists"
-msgstr ""
+msgstr "Deluge Letöltési Tracker Listája"
 
 #: glade/merge_dialog.glade:23
-#, fuzzy
 msgid ""
 "Torrent already detected in Deluge, would you like to merge the tracker "
 "lists?"
@@ -365,8 +364,9 @@ msgid "Select A Folder"
 msgstr "Válasszon egy mappát"
 
 #: glade/preferences_dialog.glade:131
+#, fuzzy
 msgid "Store all torrent files in:"
-msgstr ""
+msgstr "Az összes torrent fájl tárolása:"
 
 #: glade/preferences_dialog.glade:146
 msgid "<b>Download Location</b>"
@@ -374,11 +374,12 @@ msgstr "Letöltések helye"
 
 #: glade/preferences_dialog.glade:200
 msgid "Autoload all torrent files in:"
-msgstr ""
+msgstr "Torrentek automatikus betöltése innen:"
 
 #: glade/preferences_dialog.glade:213
+#, fuzzy
 msgid "<b>Autoload</b>"
-msgstr ""
+msgstr "<b>Automata Betöltés</b>"
 
 #: glade/preferences_dialog.glade:249 glade/preferences_dialog.glade:266
 #: glade/wizard.glade:237 glade/wizard.glade:478
@@ -397,7 +398,7 @@ msgstr "Letöltendő fájlok kiválasztása betöltéskor"
 
 #: glade/preferences_dialog.glade:310
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "Csak akkor mutasd, ha a torrent egynél több fájlt tartalmaz"
 
 #: glade/preferences_dialog.glade:325 glade/preferences_dialog.glade:326
 msgid "Prioritize first and last pieces of files in torrent"
@@ -405,7 +406,7 @@ msgstr "Az első és az utolsó darabot töltse először"
 
 #: glade/preferences_dialog.glade:340
 msgid "Start torrents in paused state"
-msgstr ""
+msgstr "Torrentek indítása megállított állapotban"
 
 #: glade/preferences_dialog.glade:355
 msgid "<b>Torrents</b>"
@@ -512,7 +513,7 @@ msgstr "Partnercsere"
 
 #: glade/preferences_dialog.glade:803
 msgid "Local Peer Discovery"
-msgstr ""
+msgstr "Helyi peer keresése"
 
 #: glade/preferences_dialog.glade:818
 msgid "<b>Network Extras</b>"
@@ -545,7 +546,6 @@ msgid "Level:"
 msgstr "Szint"
 
 #: glade/preferences_dialog.glade:935
-#, fuzzy
 msgid ""
 "Handshake\n"
 "Full Stream\n"
@@ -594,10 +594,12 @@ msgid ""
 "The maximum half-open connections.  A high value may crash some cheap "
 "routers.  Set -1 for unlimited."
 msgstr ""
+"Maximum félig-nyitott kapcsolatok. Magas értékre állítva pár olcsó router "
+"összeomlását okozhatja. Végtelenhez állítsd -1 -re."
 
 #: glade/preferences_dialog.glade:1207 glade/wizard.glade:435
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "Maximum félig-nyitott kapcsolatok:"
 
 #: glade/preferences_dialog.glade:1225 glade/preferences_dialog.glade:1245
 #: glade/preferences_dialog.glade:1325 glade/wizard.glade:277
@@ -642,17 +644,19 @@ msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"Maximum kapcsolódási próbálkozások száma egyetlen másodpercen belül. Magas "
+"értékre állítva pár olcsó router összeomlását okozhatja. Végtelenhez állítsd "
+"-1 -re."
 
 #: glade/preferences_dialog.glade:1361
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Másodpercenkénti maximum kapcsolódási kísérlet"
 
 #: glade/preferences_dialog.glade:1392
 msgid "<b>Global Bandwidth Usage</b>"
 msgstr "<b>Sávszélesség kihasználása</b>"
 
 #: glade/preferences_dialog.glade:1433 glade/preferences_dialog.glade:1463
-#, fuzzy
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
 msgstr "Kapcsolatok maximális száma torrentenként. Korlátlanhoz -1."
 
@@ -671,7 +675,7 @@ msgstr "Sávszélesség"
 #: glade/preferences_dialog.glade:1570 glade/preferences_dialog.glade:1765
 #: glade/preferences_dialog.glade:1960 glade/preferences_dialog.glade:2155
 msgid "Affects regular bittorrent peers"
-msgstr ""
+msgstr "Kihat a szabályos bittorent letöltőkre"
 
 #: glade/preferences_dialog.glade:1571
 msgid "Peer Proxy"
@@ -797,7 +801,6 @@ msgid "Open folder with:"
 msgstr "Mappa megnyitása ezzel:"
 
 #: glade/preferences_dialog.glade:2623
-#, fuzzy
 msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
 msgstr "<b>Asztali fájlkezelő</b> - csak nem-Windows platformoknak"
 
@@ -817,7 +820,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2725
 msgid "<b>Detailed Progress Bar</b>"
-msgstr ""
+msgstr "Részletes folyamatjelző"
 
 #: glade/preferences_dialog.glade:2759
 msgid ""
@@ -860,7 +863,7 @@ msgstr "gtk-preferences"
 
 #: glade/torrent_menu.glade:11
 msgid "_Force Recheck"
-msgstr ""
+msgstr "Gyors _Újraellenőrzés"
 
 #: glade/torrent_menu.glade:33
 msgid "Re_sume"
@@ -876,7 +879,7 @@ msgstr "Torrent _Eltávolítása"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "_Tracker Beállítások"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
@@ -888,7 +891,7 @@ msgstr "Tracker Szerkesztése"
 
 #: glade/torrent_menu.glade:138
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "Tracker Scrape"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"
@@ -1262,7 +1265,7 @@ msgstr "A kért torrent nem létezik"
 msgid ""
 "You're out of HD space!  Oops!\n"
 "We had to pause at least one torrent"
-msgstr ""
+msgstr "Kevés a hely a háttértárolódon!"
 
 #: src/core.py:638
 msgid "Announce sent"
@@ -1433,7 +1436,7 @@ msgstr "Nem sikerült megnyitni a blokklista fájlt"
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
 #: plugins/BlocklistImport/text.py:99
 msgid "Wrong file type or corrupted blocklist file."
-msgstr ""
+msgstr "Rossz fájltípus vagy hibás blocklist fájl."
 
 #: plugins/BlocklistImport/__init__.py:121
 msgid "Imported"
@@ -1473,21 +1476,24 @@ msgstr "Befejezett"
 
 #: plugins/BlocklistImport/text.py:129
 msgid "Got format exception for zipfile:"
-msgstr ""
+msgstr ".ZIP állományok típuskezeléshez szerezze be"
 
 #: plugins/BlocklistImport/peerguardian.py:24
+#, fuzzy
 msgid ""
 "We were expecting a gzip file, but didn't get that, or possibly the file is "
 "corrupt.  Please edit your Blocklist preferences"
 msgstr ""
+"Egy gzip fájlt vártunk, de nem kaptuk meg, vagy valószínűleg sérült a fájl. "
+"Kérlek ellenőrizd a Blocklist beállításaid."
 
 #: plugins/BlocklistImport/peerguardian.py:32
 msgid "Invalid leader"
-msgstr ""
+msgstr "Helytelen vezető"
 
 #: plugins/BlocklistImport/peerguardian.py:36
 msgid "Invalid magic code"
-msgstr ""
+msgstr "Helyteles varázskód"
 
 #: plugins/BlocklistImport/peerguardian.py:41
 msgid "Invalid version"
@@ -1610,6 +1616,13 @@ msgid ""
 "1024 KiB\n"
 "2048 KiB\n"
 msgstr ""
+"32 KB\n"
+"64 KB\n"
+"128 KB\n"
+"256 KB\n"
+"512 KB\n"
+"1024 KB\n"
+"2048 KB\n"
 
 #: plugins/TorrentCreator/torrentcreator.glade:459
 msgid "Piece Size:"
@@ -1653,7 +1666,7 @@ msgstr "Torrent Figyelmeztetések Beállításai"
 
 #: plugins/TorrentNotification/notification_preferences.glade:32
 msgid "Enable event sound (requires pygame, not available on Win32)"
-msgstr ""
+msgstr "Eseményhang engedélyezése (szükséges pygame, nem érhető el Win32)"
 
 #: plugins/TorrentNotification/notification_preferences.glade:59
 msgid "Enable blinking tray icon"
@@ -1663,6 +1676,8 @@ msgstr "Villogó tálca ikon engedélyezése"
 msgid ""
 "Enable popup notification (requires python-notify, not available on Win32)"
 msgstr ""
+"Felugró figyelmeztetések engedélyezése (python-notify -t igényel, Win32 "
+"alatt nem működik)"
 
 #: plugins/TorrentNotification/__init__.py:22
 msgid ""
@@ -1728,8 +1743,9 @@ msgstr "Darab kész"
 
 #: plugins/EventLogging/event_logging_preferences.glade:122
 #: plugins/EventLogging/tab_log.py:170
+#, fuzzy
 msgid "Storage moved"
-msgstr ""
+msgstr "Tároló eltávolítva"
 
 #: plugins/EventLogging/event_logging_preferences.glade:136
 #: plugins/EventLogging/tab_log.py:161
@@ -1759,7 +1775,7 @@ msgstr "Gyors folytatási hiba"
 #: plugins/EventLogging/event_logging_preferences.glade:206
 #: plugins/EventLogging/tab_log.py:114
 msgid "Peer ban error"
-msgstr ""
+msgstr "Peer bann hiba"
 
 #: plugins/EventLogging/event_logging_preferences.glade:220
 #: plugins/EventLogging/tab_log.py:104
@@ -1862,7 +1878,7 @@ msgstr "állapot kód: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "Times in a row: "
-msgstr ""
+msgstr "Hátralévő idő a sorban "
 
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
 msgid "block index: "
@@ -1949,6 +1965,9 @@ msgid ""
 "\n"
 "Written by Kripkenstein"
 msgstr ""
+"Hálózati Aktivitás Grafikon plugin\n"
+"\n"
+"Írta Kripkenstein"
 
 #: plugins/NetworkGraph/__init__.py:89
 msgid "Graph"
@@ -2054,6 +2073,10 @@ msgid ""
 "that they are already stored or move a torrent's files before any of its "
 "files have actually been created."
 msgstr ""
+"Nem helyezheti át a torrent fájlt egy másik meghajtóra. Kérem ellenőrizze a "
+"beállításait. Bővebben: nem helyezti át a letöltött állományokat egy "
+"ugyanolyan mappába, ami már létre lett hozva vagy oda át lettek mozgatva a "
+"letöltött fájlok mielőtt bármilyen fájl létre nem lesz hozva."
 
 #: plugins/MoveTorrent/movetorrent.glade:25
 msgid "Move completed downloads to:"
@@ -2075,11 +2098,11 @@ msgstr ""
 
 #: plugins/WebSeed/__init__.py:51
 msgid "_Add Web Seed"
-msgstr ""
+msgstr "_Web Seed hozzáadása"
 
 #: plugins/WebSeed/webseed.glade:7
 msgid "Add Web Seed"
-msgstr ""
+msgstr "Web Seed hozzáadása"
 
 #: plugins/Scheduler/plugin.py:104
 msgid "Scheduler Settings"
@@ -2087,115 +2110,116 @@ msgstr "Időzítő beállítások"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "High download limit:"
-msgstr ""
+msgstr "Felső letöltési korlát:"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "High upload limit:"
-msgstr ""
+msgstr "Felső feltöltési korlát:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Low download limit:"
-msgstr ""
+msgstr "Alsó letöltési korlát:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Low upload limit:"
-msgstr ""
+msgstr "Alsó felöltési korlát:"
 
 #: plugins/Scheduler/plugin.py:192
 msgid "Green is the high limits, yellow is the low limits and red is stopped"
 msgstr ""
+"A zöld a felső határ, a sárga az alsó határ, és a piros a megállított."
 
 #: plugins/Scheduler/plugin.py:193
 msgid "If a limit is set to -1, it is unlimitted."
-msgstr ""
+msgstr "A -1 -re állítot limit végtelennek számít."
 
 #: plugins/WebUi/__init__.py:182
 msgid "WebUi Config"
-msgstr ""
+msgstr "WebUI Config"
 
 #: plugins/WebUi/__init__.py:190
 msgid "Port Number"
-msgstr ""
+msgstr "Port Szám"
 
 #: plugins/WebUi/__init__.py:191
 msgid "New Password"
-msgstr ""
+msgstr "Új Jelszó"
 
 #: plugins/WebUi/__init__.py:192
 msgid "New Password(confirm)"
-msgstr ""
+msgstr "Új Jelszó(megerősítés)"
 
 #: plugins/WebUi/__init__.py:193
 msgid "Template"
-msgstr ""
+msgstr "Sablon"
 
 #: plugins/WebUi/__init__.py:194
 msgid "Button Style"
-msgstr ""
+msgstr "Gomb Stílus"
 
 #: plugins/WebUi/__init__.py:196
 msgid "Cache Templates"
-msgstr ""
+msgstr "Minták cache-elése"
 
 #: plugins/WebUi/__init__.py:212
 msgid "Text and image"
-msgstr ""
+msgstr "Szöveg és kép"
 
 #: plugins/WebUi/__init__.py:212
 msgid "Image Only"
-msgstr ""
+msgstr "Csak Kép"
 
 #: plugins/WebUi/__init__.py:212
 msgid "Text Only"
-msgstr ""
+msgstr "csak szöveget"
 
 #: plugins/WebUi/__init__.py:246
 msgid "Confirmed Password <> New Password\n"
-msgstr ""
+msgstr "Megerősített jelszó <> Új jelszó\n"
 
 #: plugins/WebUi/webserver_common.py:48
 msgid "translate something"
-msgstr ""
+msgstr "Lefordít valamit"
 
 #: plugins/WebUi/deluge_webserver.py:147
 msgid "Choose an url or a torrent, not both."
-msgstr ""
+msgstr "Válassz egy url-t vagy egy torrentet, nem mindkettőt."
 
 #: plugins/WebUi/deluge_webserver.py:158
 msgid "no data."
-msgstr ""
+msgstr "nincs adat."
 
 #: plugins/WebUi/deluge_webserver.py:236
 msgid "refresh must be > 0"
-msgstr ""
+msgstr "A frissítésnek nagyobbnak kell lenni, mint 0."
 
 #: plugins/WebUi/deluge_webserver.py:244
 msgid "Download Speed Limit"
-msgstr ""
+msgstr "Letöltési Sebesség Limit"
 
 #: plugins/WebUi/deluge_webserver.py:248
 msgid "Upload Speed Limit"
-msgstr ""
+msgstr "Feltöltési Sebesség Limit"
 
 #: plugins/WebUi/scripts/template_strings.py:1
 msgid "# Of Files"
-msgstr ""
+msgstr "darab fájl"
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
-msgstr ""
+msgstr "Névjegy"
 
 #: plugins/WebUi/scripts/template_strings.py:4
 msgid "Add torrent"
-msgstr ""
+msgstr "Torrent hozzáadása"
 
 #: plugins/WebUi/scripts/template_strings.py:5
 msgid "Apply"
-msgstr ""
+msgstr "Alkalmaz"
 
 #: plugins/WebUi/scripts/template_strings.py:6
 msgid "Auto refresh:"
-msgstr ""
+msgstr "Automata frissítés:"
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Ava"
@@ -2203,59 +2227,59 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:9
 msgid "Config"
-msgstr ""
+msgstr "Beállítás"
 
 #: plugins/WebUi/scripts/template_strings.py:11
 msgid "Debug:Data Dump"
-msgstr ""
+msgstr "Debug: Adat dump"
 
 #: plugins/WebUi/scripts/template_strings.py:13
 msgid "Delete downloaded files."
-msgstr ""
+msgstr "Letöltött fájlok törlése"
 
 #: plugins/WebUi/scripts/template_strings.py:15
 msgid "Disable"
-msgstr ""
+msgstr "Tiltás"
 
 #: plugins/WebUi/scripts/template_strings.py:18
 msgid "Downloaded"
-msgstr ""
+msgstr "Letöltve"
 
 #: plugins/WebUi/scripts/template_strings.py:20
 msgid "Enable"
-msgstr ""
+msgstr "Engedélyez"
 
 #: plugins/WebUi/scripts/template_strings.py:21
 msgid "Error"
-msgstr ""
+msgstr "Hiba"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Eta"
-msgstr ""
+msgstr "Hátralévő idő"
 
 #: plugins/WebUi/scripts/template_strings.py:23
 msgid "Login"
-msgstr ""
+msgstr "Bejelentkezés"
 
 #: plugins/WebUi/scripts/template_strings.py:24
 msgid "Logout"
-msgstr ""
+msgstr "Kijelentkezés"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Next Announce"
-msgstr ""
+msgstr "Következő frissítés"
 
 #: plugins/WebUi/scripts/template_strings.py:27
 msgid "Off"
-msgstr ""
+msgstr "Ki"
 
 #: plugins/WebUi/scripts/template_strings.py:29
 msgid "Password is invalid,try again"
-msgstr ""
+msgstr "Érvénytelen jelszó, próbáld újra"
 
 #: plugins/WebUi/scripts/template_strings.py:30
 msgid "Pause all"
-msgstr ""
+msgstr "Mindet megállít"
 
 #: plugins/WebUi/scripts/template_strings.py:32
 msgid "Pieces"
@@ -2263,41 +2287,41 @@ msgstr "Darabok"
 
 #: plugins/WebUi/scripts/template_strings.py:34
 msgid "Queue Down"
-msgstr ""
+msgstr "Eggyel lejjebb"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Queue Up"
-msgstr ""
+msgstr "Eggyel feljebb"
 
 #: plugins/WebUi/scripts/template_strings.py:36
 msgid "Queue pos:"
-msgstr ""
+msgstr "Pozicíió"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Reannounce"
-msgstr ""
+msgstr "Tracker frissítése"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Refresh page every:"
-msgstr ""
+msgstr "Oldal frissítése minden:"
 
 #: plugins/WebUi/scripts/template_strings.py:41
 #, python-format
 msgid "Remove %s "
-msgstr ""
+msgstr "Törli %s "
 
 #: plugins/WebUi/scripts/template_strings.py:42
 #, python-format
 msgid "Remove %s?"
-msgstr ""
+msgstr "Törli %s"
 
 #: plugins/WebUi/scripts/template_strings.py:43
 msgid "Resume all"
-msgstr ""
+msgstr "Az összes folytatása"
 
 #: plugins/WebUi/scripts/template_strings.py:45
 msgid "Set"
-msgstr ""
+msgstr "Alkalmaz"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Set Timeout"
@@ -2309,35 +2333,35 @@ msgstr "Sebesség"
 
 #: plugins/WebUi/scripts/template_strings.py:50
 msgid "Submit"
-msgstr ""
+msgstr "Elküld"
 
 #: plugins/WebUi/scripts/template_strings.py:51
 msgid "Torrent list"
-msgstr ""
+msgstr "Torrent lista"
 
 #: plugins/WebUi/scripts/template_strings.py:52
 msgid "Total Size"
-msgstr ""
+msgstr "Teljes méret"
 
 #: plugins/WebUi/scripts/template_strings.py:53
 msgid "Tracker"
-msgstr ""
+msgstr "Tracker"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Tracker Status"
-msgstr ""
+msgstr "Tracker Státusz"
 
 #: plugins/WebUi/scripts/template_strings.py:57
 msgid "Upload torrent"
-msgstr ""
+msgstr "Torrent feltöltése"
 
 #: plugins/WebUi/scripts/template_strings.py:58
 msgid "Uploaded"
-msgstr ""
+msgstr "Feltöltve"
 
 #: plugins/WebUi/scripts/template_strings.py:59
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: plugins/WebUi/scripts/template_strings.py:60
 msgid "seconds"
@@ -2345,23 +2369,24 @@ msgstr "másodperc"
 
 #: plugins/FlexRSS/FlexRSS.glade:6
 msgid "FlexRSS"
-msgstr ""
+msgstr "FlexRSS"
 
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
-msgstr ""
+msgstr "A Feed automatán letöltődik a frissítési időközöknek megfelelően."
 
 #: plugins/FlexRSS/FlexRSS.glade:115
 msgid "Feed must be refreshed manually."
-msgstr ""
+msgstr "RSSFeed frissítése kézzel történik"
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
-msgstr ""
+msgstr "Kikapcsolva"
 
 #: plugins/FlexRSS/FlexRSS.glade:151
+#, fuzzy
 msgid "Update Interval"
-msgstr ""
+msgstr "Frissítés Gyakorisága"
 
 #: plugins/FlexRSS/FlexRSS.glade:165
 msgid "URL"
@@ -2369,7 +2394,7 @@ msgstr "URL"
 
 #: plugins/FlexRSS/FlexRSS.glade:192
 msgid "900"
-msgstr ""
+msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
 msgid "Feeds"
@@ -2377,7 +2402,7 @@ msgstr "Feed"
 
 #: plugins/FlexRSS/FlexRSS.glade:384
 msgid "Type"
-msgstr ""
+msgstr "Tipus"
 
 #: plugins/FlexRSS/FlexRSS.glade:397
 msgid "Feed"
@@ -2385,25 +2410,25 @@ msgstr "Feed"
 
 #: plugins/FlexRSS/FlexRSS.glade:439
 msgid "<b>Information</b>"
-msgstr ""
+msgstr "<b>Információ</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:511
 msgid "<b>Patterns</b>"
-msgstr ""
+msgstr "<b>Minták</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:549 plugins/FlexRSS/FlexRSS.glade:724
 msgid "From"
-msgstr ""
+msgstr "Küldi"
 
 #: plugins/FlexRSS/FlexRSS.glade:565 plugins/FlexRSS/FlexRSS.glade:641
 #: plugins/FlexRSS/FlexRSS.glade:826
 msgid "Season"
-msgstr ""
+msgstr "Évad"
 
 #: plugins/FlexRSS/FlexRSS.glade:594 plugins/FlexRSS/FlexRSS.glade:675
 #: plugins/FlexRSS/FlexRSS.glade:833
 msgid "Episode"
-msgstr ""
+msgstr "Epizód"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 msgid "Thru"
@@ -2411,77 +2436,79 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:766
 msgid "<b>History Restriction</b>"
-msgstr ""
+msgstr "<b>Előzmények korlátozása</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:810
 msgid "Doesn't Match"
-msgstr ""
+msgstr "Nem egyezik meg"
 
 #: plugins/FlexRSS/FlexRSS.glade:875
 msgid "Year"
-msgstr ""
+msgstr "Év"
 
 #: plugins/FlexRSS/FlexRSS.glade:882
 msgid "Month"
-msgstr ""
+msgstr "Hónap"
 
 #: plugins/FlexRSS/FlexRSS.glade:893
 msgid "Day"
-msgstr ""
+msgstr "nap"
 
 #: plugins/FlexRSS/FlexRSS.glade:960
 msgid "<b>Test</b>"
-msgstr ""
+msgstr "<b>Kipróbál</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
-msgstr ""
+msgstr "Torrent beillesztése a sor elejére"
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
-msgstr ""
+msgstr "Szüneteltet"
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
 msgid "Delete filter when matched."
-msgstr ""
+msgstr "Törölje a szűrést, ha megegyezik"
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
-msgstr ""
+msgstr "<b>Letöltés</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1084
 msgid "Replacement"
-msgstr ""
+msgstr "Csere"
 
 #: plugins/FlexRSS/FlexRSS.glade:1098
 msgid "Pattern"
-msgstr ""
+msgstr "Minta"
 
 #: plugins/FlexRSS/FlexRSS.glade:1111
 msgid "<b>Link Rewriting</b>"
-msgstr ""
+msgstr "Link újraírása"
 
 #: plugins/FlexRSS/FlexRSS.glade:1143
 msgid ""
 "Content will be saved to Deluge's default directory, or a prompt will appear "
 "if none is set."
 msgstr ""
+"A tartalom a Deluge alap mappájába lesz elmentve, vagy egy kérdést fog "
+"feltenni, ha nincs beállítva semmi."
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
 msgid "Deluge default"
-msgstr ""
+msgstr "Deluge alapbeállítás"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
-msgstr ""
+msgstr "A tartalom automatikusan le lesz töltve a megadott mappába."
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"
-msgstr ""
+msgstr "Kiválszt:"
 
 #: plugins/FlexRSS/FlexRSS.glade:1190
 msgid "<b>Output</b>"
-msgstr ""
+msgstr "<b>Kimenet</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1251
 msgid "Filters"
@@ -2489,15 +2516,15 @@ msgstr "Szűrők"
 
 #: plugins/FlexRSS/FlexRSS.glade:1282
 msgid "Show a FlexRSS icon in Deluge's toolbar."
-msgstr ""
+msgstr "FlexRSS mutatása az eszköztáron"
 
 #: plugins/FlexRSS/FlexRSS.glade:1283
 msgid "Show button on toolbar."
-msgstr ""
+msgstr "Gomb mutatása az eszköztáron"
 
 #: plugins/FlexRSS/FlexRSS.glade:1300
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>Felület</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1331
 msgid ""
@@ -2515,20 +2542,20 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"
-msgstr ""
+msgstr "Tartomány"
 
 #: plugins/FlexRSS/FlexRSS.glade:1462
 msgid "Path"
-msgstr ""
+msgstr "Elérési út"
 
 #: plugins/FlexRSS/FlexRSS.glade:1488
 msgid "Value"
-msgstr ""
+msgstr "Érték"
 
 #: plugins/FlexRSS/FlexRSS.glade:1561
 msgid "<b>Cookies</b>"
-msgstr ""
+msgstr "<b>Sütik</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1582
 msgid "Configuration"
-msgstr ""
+msgstr "Beállítás"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-11-23 21:57-0600\n"
-"PO-Revision-Date: 2007-12-04 06:06+0000\n"
+"PO-Revision-Date: 2007-12-29 15:43+0000\n"
 "Last-Translator: Aaron Wang Shi <aarons.wang@gmail.com>\n"
 "Language-Team: Chinese (China) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2007-12-13 06:33+0000\n"
+"X-Launchpad-Export-Date: 2007-12-29 21:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #~ msgid "Clear Finished Torrents"
@@ -650,7 +650,7 @@ msgstr "添加 URL(_U)"
 
 #: glade/delugegtk.glade:207
 msgid "_Clear Completed"
-msgstr "完成清除(_C)"
+msgstr "清除已完成的(_C)"
 
 #: glade/delugegtk.glade:240
 msgid "_Edit"
@@ -658,7 +658,7 @@ msgstr "编辑(_E)"
 
 #: glade/delugegtk.glade:249
 msgid "gtk-select-all"
-msgstr "全部选中"
+msgstr "gtk-全选"
 
 #: glade/delugegtk.glade:265
 msgid "Plu_gins"
@@ -670,7 +670,7 @@ msgstr "种子(_T)"
 
 #: glade/delugegtk.glade:300
 msgid "_View"
-msgstr "视图(_V)"
+msgstr "查看(_V)"
 
 #: glade/delugegtk.glade:308
 msgid "_Toolbar"
@@ -739,15 +739,15 @@ msgstr "帮助翻译此程序"
 
 #: glade/delugegtk.glade:432
 msgid "_Translate This Application..."
-msgstr "帮助翻译这个程序(_T)..."
+msgstr "翻译此程序(_T)"
 
 #: glade/delugegtk.glade:455
 msgid "Runs the first-time configuration wizard"
-msgstr "运行首次运行向导"
+msgstr "运行首次配置向导"
 
 #: glade/delugegtk.glade:456
 msgid "_Run Configuration Wizard"
-msgstr "首次运行向导 (_R)"
+msgstr "运行配置向导(_R)"
 
 #: glade/delugegtk.glade:593
 msgid "<b>Name:</b>"
@@ -755,7 +755,7 @@ msgstr "<b>名称:</b>"
 
 #: glade/delugegtk.glade:617
 msgid "<b>Tracker:</b>"
-msgstr "<b>Tracker服务器:</b>"
+msgstr "<b>Tracker:</b>"
 
 #: glade/delugegtk.glade:645
 msgid "<b># of files:</b>"
@@ -775,7 +775,7 @@ msgstr "<b>总大小:</b>"
 
 #: glade/delugegtk.glade:811
 msgid "<b>Path:</b>"
-msgstr "<b>目录:</b>"
+msgstr "<b>路径：</b>"
 
 #: glade/delugegtk.glade:843
 msgid "<b>Torrent Info</b>"
@@ -1004,7 +1004,7 @@ msgstr "随机端口"
 
 #: glade/preferences_dialog.glade:616
 msgid "Test Active Port"
-msgstr "测试端口"
+msgstr "测试活动端口"
 
 #: glade/preferences_dialog.glade:642
 msgid "<b>TCP</b>"
@@ -1032,7 +1032,7 @@ msgstr "<b>DHT</b>"
 
 #: glade/preferences_dialog.glade:755
 msgid "Universal Plug and Play"
-msgstr "自动端口映射"
+msgstr "UPnP"
 
 #: glade/preferences_dialog.glade:756
 msgid "UPnP"
@@ -1078,11 +1078,11 @@ msgstr "外部网络:"
 
 #: glade/preferences_dialog.glade:908
 msgid "Prefer to encrypt the entire stream"
-msgstr "选择加密传输的数据流"
+msgstr "优先加密整个数据流(RC4)"
 
 #: glade/preferences_dialog.glade:921
 msgid "Level:"
-msgstr "级别:"
+msgstr "机密级别"
 
 #: glade/preferences_dialog.glade:935
 msgid ""
@@ -1090,9 +1090,9 @@ msgid ""
 "Full Stream\n"
 "Either"
 msgstr ""
-"握手\n"
-"数据\n"
-"全部"
+"握手(简单加密)\n"
+"全数据流(RC4加密)\n"
+"两者择一"
 
 #: glade/preferences_dialog.glade:958
 msgid "<b>Encryption</b>"
@@ -1156,7 +1156,7 @@ msgstr "最大上传速度(KiB/s):"
 #: glade/preferences_dialog.glade:1265 glade/preferences_dialog.glade:1279
 #: glade/wizard.glade:297 glade/wizard.glade:364
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "全局最大连接数。-1为不限制。"
+msgstr "全局最大连接数。-1为无限制。"
 
 #: glade/preferences_dialog.glade:1267 glade/preferences_dialog.glade:1435
 #: glade/wizard.glade:298
@@ -1165,7 +1165,7 @@ msgstr "最大连接数:"
 
 #: glade/preferences_dialog.glade:1293 glade/preferences_dialog.glade:1307
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr "全局最大下载速度。-1为不限制。"
+msgstr "全局最大下载速度。-1为无限制。"
 
 #: glade/preferences_dialog.glade:1295
 msgid "Maximum Download Speed (KiB/s):"
@@ -1174,13 +1174,13 @@ msgstr "最大下载速度(KiB/s):"
 #: glade/preferences_dialog.glade:1343 glade/wizard.glade:257
 #: glade/wizard.glade:318
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
-msgstr "全局最大上传通道。-1为不限制。"
+msgstr "全局最大上传通道。-1为无限制。"
 
 #: glade/preferences_dialog.glade:1359 glade/preferences_dialog.glade:1372
 msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
-msgstr "每秒尝试连接的最大数量。太高的数值可能会导致某些便宜的路由器崩溃。-1为不限制。"
+msgstr "每秒尝试连接的最大数量。太高的数值可能会导致某些便宜的路由器崩溃。-1为无限制。"
 
 #: glade/preferences_dialog.glade:1361
 msgid "Maximum Connection Attempts per Second:"
@@ -1188,19 +1188,19 @@ msgstr "每秒最大尝试连接数："
 
 #: glade/preferences_dialog.glade:1392
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr "<b>全局带宽用况</b>"
+msgstr "<b>全局带宽使用情况</b>"
 
 #: glade/preferences_dialog.glade:1433 glade/preferences_dialog.glade:1463
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr "每个种子的最大连接数 (设置 -1 为不限制)"
+msgstr "每个种子的最大连接数。-1为无限制。"
 
 #: glade/preferences_dialog.glade:1448 glade/preferences_dialog.glade:1477
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr "每个种子的最大上传通道。-1为不限制。"
+msgstr "每个种子的最大上传通道。-1为无限制。"
 
 #: glade/preferences_dialog.glade:1498
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr "<b>单个种子带宽用况</b>"
+msgstr "<b>每个种子的带宽使用情况</b>"
 
 #: glade/preferences_dialog.glade:1524
 msgid "Bandwidth"
@@ -1209,7 +1209,7 @@ msgstr "带宽"
 #: glade/preferences_dialog.glade:1570 glade/preferences_dialog.glade:1765
 #: glade/preferences_dialog.glade:1960 glade/preferences_dialog.glade:2155
 msgid "Affects regular bittorrent peers"
-msgstr "这样会影响常规用户"
+msgstr "影响常规BT用户"
 
 #: glade/preferences_dialog.glade:1571
 msgid "Peer Proxy"
@@ -1321,7 +1321,7 @@ msgid ""
 "Nautilus\n"
 "Thunar"
 msgstr ""
-"Auto-detect (xdg-open)\n"
+"自动检测(xdg-open)\n"
 "Konqueror\n"
 "Nautilus\n"
 "Thunar"
@@ -1358,7 +1358,7 @@ msgstr "<b>细节进度条</b>"
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
-msgstr "Deluge会自动检查服务器，当有新版本发布时及时通知您"
+msgstr "Deluge会自动检查我们的服务器，当有新版本发布时会通知您"
 
 #: glade/preferences_dialog.glade:2760
 msgid "Be alerted about new releases"
@@ -1374,8 +1374,8 @@ msgid ""
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
-"请把您的Python和PyGTK版本号、操作系统和处理器类型发给我们，\n"
-"以帮助改进Deluge。一定不要发送多余的信息。"
+"请把您的Python和PyGTK版本号、操作系统和处理器型号发给我们，\n"
+"以帮助改进Deluge。一定不会发送多余的信息。"
 
 #: glade/preferences_dialog.glade:2820
 msgid "<b>System Information</b>"
@@ -1389,11 +1389,11 @@ msgstr "其他"
 
 #: glade/preferences_dialog.glade:2937
 msgid "gtk-preferences"
-msgstr "gtk-设定"
+msgstr "gtk-首选项"
 
 #: glade/torrent_menu.glade:11
 msgid "_Force Recheck"
-msgstr "_强制重新检查"
+msgstr "强制重新检查(_F)"
 
 #: glade/torrent_menu.glade:33
 msgid "Re_sume"
@@ -1461,11 +1461,11 @@ msgstr "全部暂停(_P)"
 
 #: glade/tray_menu.glade:84
 msgid "_Download Speed Limit"
-msgstr "_限制下载速度"
+msgstr "限制下载速度(_D)"
 
 #: glade/tray_menu.glade:100
 msgid "_Upload Speed Limit"
-msgstr "_限制上传速度"
+msgstr "限制上传速度(_U)"
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"
@@ -1542,7 +1542,7 @@ msgstr "请选择上传速度，依此我们将自动为下面的设置提出建
 
 #: glade/wizard.glade:238
 msgid "Maximum Active Torrents:"
-msgstr "最大同时下载："
+msgstr "最大活动种子数："
 
 #: glade/wizard.glade:386
 msgid ""
@@ -1613,7 +1613,7 @@ msgstr "无限制"
 
 #: src/interface.py:318
 msgid "Activated"
-msgstr "活动状态"
+msgstr "活动的"
 
 #: src/interface.py:367 src/interface.py:379 src/interface.py:407
 #: plugins/DesiredRatio/__init__.py:114 plugins/SpeedLimiter/__init__.py:140
@@ -1637,7 +1637,9 @@ msgstr "Deluge已被锁定"
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
-msgstr "Deluge已被锁定，请输入您的密码"
+msgstr ""
+"Deluge已被密码保护。\n"
+"如要显示Deluge窗口，请输入您的密码"
 
 #: src/interface.py:591 src/common.py:76
 msgid "Infinity"
@@ -1660,7 +1662,7 @@ msgstr "估计剩余时间"
 
 #: src/interface.py:644
 msgid "Avail."
-msgstr "可用。"
+msgstr "可用"
 
 #: src/interface.py:646 plugins/WebUi/scripts/template_strings.py:37
 msgid "Ratio"
@@ -1826,7 +1828,7 @@ msgid ""
 "re-add this torrent."
 msgstr ""
 "仅当设置为完全分配磁盘空间才可以设置文件优先级。\n"
-"请将您的设置修改为禁用紧凑分配，并删除然后重新添加该种子。"
+"请将您的设置修改为禁用紧凑分配，然后删除并重新添加该种子。"
 
 #: src/dialogs.py:69
 msgid "Plugin"
@@ -1895,7 +1897,7 @@ msgstr "PiB"
 
 #: src/common.py:203
 msgid "External command"
-msgstr "外部程序"
+msgstr "外部命令"
 
 #: src/common.py:204
 msgid "not found"
@@ -1905,7 +1907,7 @@ msgstr "未找到"
 msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
-msgstr "更新版本的Deluge发布了。您想现在浏览我们的下载网站吗？"
+msgstr "新版本Deluge发布。您想现在浏览我们的下载网站吗？"
 
 #: plugins/BlocklistImport/__init__.py:9
 msgid ""
@@ -1925,31 +1927,33 @@ msgstr ""
 "\n"
 "下载并加载不同的 IP 黑名单。\n"
 "\n"
-"目前本插件支持 PeerGuardian（程序和文件），SafePeer 和 eMule 列表，但不支持 7zip 格式的 PeerGuardian "
-"规则。\n"
+"目前本插件支持 PeerGuardian(二进制和文件)，\n"
+"SafePeer 和 eMule 列表。但不支持 7zip 格式的 PeerGuardian 规则。\n"
+"文件可以是指定的URL或者本地文件。\n"
 "\n"
-"该文件可以是指定的URL或者本地文件。wiki上有提供下载：\n"
-"<http://dev.deluge-torrent.org/wiki/BlocklistPlugin>\n"
+"wiki上有提供下载：\n"
+"\n"
+"http://dev.deluge-torrent.org/wiki/BlocklistPlugin\n"
 
 #: plugins/BlocklistImport/__init__.py:40
 msgid "PeerGuardian P2B (GZip)"
-msgstr "PeerGuardian P2B (gz 格式)"
+msgstr "PeerGuardian P2B (GZip)"
 
 #: plugins/BlocklistImport/__init__.py:41
 msgid "PeerGuardian Text (Uncompressed)"
-msgstr "PeerGuardian 文件 (已解压缩)"
+msgstr "PeerGuardian 文本 (已解压缩)"
 
 #: plugins/BlocklistImport/__init__.py:42
 msgid "Emule IP list (GZip)"
-msgstr "eMule 的 ip 黑名单 (gz 格式)"
+msgstr "Emule IP 列表 (GZip)"
 
 #: plugins/BlocklistImport/__init__.py:43
 msgid "SafePeer Text (Zipped)"
-msgstr "SafePeer 文件(zip 格式)"
+msgstr "SafePeer 文本 (zip 格式)"
 
 #: plugins/BlocklistImport/__init__.py:92
 msgid "Couldn't download URL"
-msgstr "不能从该URL下载"
+msgstr "不能下载URL"
 
 #: plugins/BlocklistImport/__init__.py:105
 msgid "Couldn't open blocklist file"
@@ -1959,7 +1963,7 @@ msgstr "不能打开过滤列表文件"
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
 #: plugins/BlocklistImport/text.py:99
 msgid "Wrong file type or corrupted blocklist file."
-msgstr "错误的文件类型或损坏的段列表文件"
+msgstr "错误的文件类型或损坏的过滤列表文件。"
 
 #: plugins/BlocklistImport/__init__.py:121
 msgid "Imported"
@@ -2005,7 +2009,7 @@ msgstr "发现压缩包格式异常："
 msgid ""
 "We were expecting a gzip file, but didn't get that, or possibly the file is "
 "corrupt.  Please edit your Blocklist preferences"
-msgstr "我们并没有得到预期的gzip文件，或者可能该文件已损坏。请编辑您的段列表首选项"
+msgstr "我们并没有得到预期的gzip文件，或者该文件可能已损坏。请编辑您的过滤列表首选项"
 
 #: plugins/BlocklistImport/peerguardian.py:32
 msgid "Invalid leader"
@@ -2013,7 +2017,7 @@ msgstr "无效引导"
 
 #: plugins/BlocklistImport/peerguardian.py:36
 msgid "Invalid magic code"
-msgstr "无效代码"
+msgstr "无效magic代码"
 
 #: plugins/BlocklistImport/peerguardian.py:41
 msgid "Invalid version"
@@ -2098,15 +2102,15 @@ msgstr "添加一个种子到队列"
 
 #: plugins/TorrentCreator/torrentcreator.glade:255
 msgid "<b>Torrent File</b>"
-msgstr "种子文件"
+msgstr "<b>种子文件</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:302
 msgid "<b>Trackers</b>"
-msgstr "<b>服务器</b>"
+msgstr "<b>Trackers</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:348
 msgid "<b>Comments</b>"
-msgstr "备注"
+msgstr "<b>评论</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:384
 msgid "<b>Author</b>"
@@ -2147,7 +2151,7 @@ msgstr "块大小"
 
 #: plugins/TorrentCreator/torrentcreator.glade:473
 msgid "<b>Advanced</b>"
-msgstr "高级"
+msgstr "<b>高级</b>"
 
 #: plugins/TorrentCreator/__init__.py:22
 msgid "A torrent creator plugin"
@@ -2179,7 +2183,7 @@ msgstr "你必须选择一个文件以保存该种子。"
 
 #: plugins/TorrentNotification/notification_preferences.glade:7
 msgid "Torrent Notification Preferences"
-msgstr "完成种子时提示的选项"
+msgstr "种子提示插件首选项"
 
 #: plugins/TorrentNotification/notification_preferences.glade:32
 msgid "Enable event sound (requires pygame, not available on Win32)"
@@ -2187,7 +2191,7 @@ msgstr "启用事件声音（需要pygame，Win32平台不可用）"
 
 #: plugins/TorrentNotification/notification_preferences.glade:59
 msgid "Enable blinking tray icon"
-msgstr "闪烁任务栏图标"
+msgstr "启用闪烁托盘图标"
 
 #: plugins/TorrentNotification/notification_preferences.glade:69
 msgid ""
@@ -2198,11 +2202,11 @@ msgstr "启用弹出通告（需要python-notify，Win32平台不可用）"
 msgid ""
 "Make tray icon blink when torrent finishes downloading and/or popup a "
 "notification"
-msgstr "当完成种子时闪烁任务栏图标并且（或者）弹出一个提示"
+msgstr "当完成种子时闪烁托盘图标并且（或者）弹出一个提示"
 
 #: plugins/TorrentNotification/__init__.py:112
 msgid "Torrent complete"
-msgstr "完成种子"
+msgstr "种子完成"
 
 #: plugins/TorrentNotification/__init__.py:113
 #: plugins/TorrentFiles/__init__.py:83
@@ -2215,13 +2219,13 @@ msgid ""
 "\n"
 "Written by Kripkenstein"
 msgstr ""
-"网络健康状况插件 \n"
+"网络状况监视器\n"
 "\n"
 "作者：Kripkenstein"
 
 #: plugins/NetworkHealth/plugin.py:53
 msgid "[Health: OK]"
-msgstr "[健康度: OK]"
+msgstr "[健康度: 好]"
 
 #: plugins/EventLogging/event_logging_preferences.glade:7
 msgid "Event Logging Preferences"
@@ -2229,7 +2233,7 @@ msgstr "事件日志选项"
 
 #: plugins/EventLogging/event_logging_preferences.glade:28
 msgid "Enable log files"
-msgstr "日志文件生效"
+msgstr "启用日志文件"
 
 #: plugins/EventLogging/event_logging_preferences.glade:41
 msgid "Log files"
@@ -2253,12 +2257,12 @@ msgstr "阻止下载"
 #: plugins/EventLogging/event_logging_preferences.glade:108
 #: plugins/EventLogging/tab_log.py:179
 msgid "Piece finished"
-msgstr "分片已完成"
+msgstr "分块已完成"
 
 #: plugins/EventLogging/event_logging_preferences.glade:122
 #: plugins/EventLogging/tab_log.py:170
 msgid "Storage moved"
-msgstr "移除已下载文件"
+msgstr "已下载文件已移动"
 
 #: plugins/EventLogging/event_logging_preferences.glade:136
 #: plugins/EventLogging/tab_log.py:161
@@ -2288,12 +2292,12 @@ msgstr "快速恢复拒绝错误"
 #: plugins/EventLogging/event_logging_preferences.glade:206
 #: plugins/EventLogging/tab_log.py:114
 msgid "Peer ban error"
-msgstr "被用户禁止连接"
+msgstr "用户禁止错误"
 
 #: plugins/EventLogging/event_logging_preferences.glade:220
 #: plugins/EventLogging/tab_log.py:104
 msgid "Hash failed error"
-msgstr "Hash 验证失败"
+msgstr "Hash验证错误"
 
 #: plugins/EventLogging/event_logging_preferences.glade:234
 #: plugins/EventLogging/tab_log.py:95
@@ -2316,7 +2320,7 @@ msgstr "种子完成"
 
 #: plugins/EventLogging/event_logging_preferences.glade:289
 msgid "Select events to log"
-msgstr "选择将时间记录到日志"
+msgstr "选择事件记录到日志"
 
 #: plugins/EventLogging/__init__.py:22
 msgid ""
@@ -2342,16 +2346,21 @@ msgid ""
 "New events are now displayed at the top.\n"
 msgstr ""
 "\n"
-"添加选择事件日志标签。\n"
+"添加选择事件日志的标签。\n"
 "\n"
-"来自libtorrent提示的时间信息。如果你想让字符串翻译成你的语言。你得报告问题给libtorrent，而不是deluge。\n"
+"事件信息来自于libtorrent提示。\n"
+"如果你想让这些字符串翻译成你的语言，\n"
+"你需要将问题报告给libtorrent而非deluge。\n"
 "\n"
-"关于日志文件，日志会保存在deluge配置目录下面的日志目录里。特定种子的事件消息会保存在独立的日志文件里，文件名于.torrent文件同名。与特定种子无"
-"关的事件消息将保存在以事件命名的日志文件里（如peer_messages.log）。\n"
+"至于日志文件，日志将被保存到一个日志文件夹，因为特定的种子将\n"
+"被保存到独立的日志文件，文件名与种子同。与特定种子不相关的事件信息\n"
+"将被保存到以事件命名的日志中（比如peer_messages.log）。\n"
+"日志文件中的事件信息含时间戳。\n"
+"由用户负责清理日志。\n"
 "\n"
-"日志文件里的事件消息包含时间戳。用户需要清理日志。\n"
-"\n"
-"和v0.2一样，事件现在截断显示，但日志文件不是这样。新时间现在显示在顶部。\n"
+"0.2版本\n"
+"事件现已截断显示。日志文件不同。\n"
+"新的事件现于顶部显示。\n"
 
 #: plugins/EventLogging/__init__.py:88
 msgid "Event Log"
@@ -2366,7 +2375,7 @@ msgstr "事件日志"
 #: plugins/EventLogging/tab_log.py:189 plugins/EventLogging/tab_log.py:200
 #: plugins/EventLogging/tab_log.py:210 plugins/EventLogging/tab_log.py:218
 msgid "event message: "
-msgstr "时间消息： "
+msgstr "事件信息： "
 
 #: plugins/EventLogging/tab_log.py:71 plugins/EventLogging/tab_log.py:95
 #: plugins/EventLogging/tab_log.py:105 plugins/EventLogging/tab_log.py:115
@@ -2434,7 +2443,7 @@ msgstr "种子下载速度 (KiB/s):"
 
 #: plugins/TorrentSearch/__init__.py:36
 msgid "A searchbar for torrent search engines"
-msgstr "用于搜索种子的搜索栏"
+msgstr "种子搜索引擎的搜索栏"
 
 #: plugins/TorrentSearch/plugin.py:52
 msgid "Search String"
@@ -2474,11 +2483,11 @@ msgid ""
 "Name: Google\n"
 "URL: http://www.google.com/search?q=${query}"
 msgstr ""
-"输入名字和URL来添加新的搜索引擎。名字请输入所家搜索引擎所用的名字，URL请输入搜索页的url。用户的搜索队列会替换这个URL里所有的${query}。"
+"入名称和URL来添加新的搜索引擎。名称请输入搜索引擎所用的名称，URL请输入搜索页的url。用户的搜索队列会替换这个URL里${query}中的任何实例。"
 "\n"
 "例如，Google搜索是：\n"
 "名字：Google\n"
-"URL:http://www.google.com/search?q=${query}"
+"URL: http://www.google.com/search?q=${query}"
 
 #: plugins/TorrentSearch/searchdlg.glade:133
 msgid "Help"
@@ -2496,7 +2505,7 @@ msgstr ""
 
 #: plugins/NetworkGraph/__init__.py:89
 msgid "Graph"
-msgstr "图"
+msgstr "图表"
 
 #: plugins/TorrentFiles/tab_files.py:59
 #: plugins/WebUi/scripts/template_strings.py:33
@@ -2582,7 +2591,7 @@ msgstr "已运行时间"
 
 #: plugins/ExtraStats/stats_preferences.glade:7
 msgid "Extra Stats Preferences"
-msgstr "额外统计参数"
+msgstr "额外状态插件首选项"
 
 #: plugins/MoveTorrent/__init__.py:22
 msgid ""
@@ -2618,11 +2627,11 @@ msgstr "把下载完的文件移动到:"
 
 #: plugins/MoveTorrent/movetorrent.glade:59 plugins/WebSeed/webseed.glade:65
 msgid "gtk-cancel"
-msgstr "取消"
+msgstr "gtk-取消"
 
 #: plugins/MoveTorrent/movetorrent.glade:71 plugins/WebSeed/webseed.glade:73
 msgid "gtk-ok"
-msgstr "好"
+msgstr "gtk-确定"
 
 #: plugins/WebSeed/__init__.py:22
 msgid "This plugin allows users to add web seeds to their torrents"
@@ -2718,7 +2727,7 @@ msgstr "选择一个url或一个种子，不能同时选择。"
 
 #: plugins/WebUi/deluge_webserver.py:158
 msgid "no data."
-msgstr "无数据"
+msgstr "无数据。"
 
 #: plugins/WebUi/deluge_webserver.py:236
 msgid "refresh must be > 0"
@@ -2750,7 +2759,7 @@ msgstr "应用"
 
 #: plugins/WebUi/scripts/template_strings.py:6
 msgid "Auto refresh:"
-msgstr "自动刷新"
+msgstr "自动刷新："
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Ava"
@@ -2766,7 +2775,7 @@ msgstr "调试：数据丢弃"
 
 #: plugins/WebUi/scripts/template_strings.py:13
 msgid "Delete downloaded files."
-msgstr "删除下载的文件"
+msgstr "删除已下载的文件"
 
 #: plugins/WebUi/scripts/template_strings.py:15
 msgid "Disable"
@@ -2786,7 +2795,7 @@ msgstr "错误"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Eta"
-msgstr "剩余时间"
+msgstr "估计剩余时间"
 
 #: plugins/WebUi/scripts/template_strings.py:23
 msgid "Login"
@@ -2798,7 +2807,7 @@ msgstr "注销"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Next Announce"
-msgstr "下一次通讯"
+msgstr "下次通告"
 
 #: plugins/WebUi/scripts/template_strings.py:27
 msgid "Off"
@@ -2830,7 +2839,7 @@ msgstr "队列位置："
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Reannounce"
-msgstr "重新发布"
+msgstr "再次通告"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Refresh page every:"
@@ -2904,7 +2913,7 @@ msgstr "FlexRSS"
 
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
-msgstr "升级过程中Feed种子会被自动升级。"
+msgstr "Feed将会按升级间隔自动下载。"
 
 #: plugins/FlexRSS/FlexRSS.glade:115
 msgid "Feed must be refreshed manually."
@@ -2912,7 +2921,7 @@ msgstr "Feed必须手动刷新"
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
-msgstr "禁用"
+msgstr "已禁用"
 
 #: plugins/FlexRSS/FlexRSS.glade:151
 msgid "Update Interval"
@@ -2928,7 +2937,7 @@ msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
 msgid "Feeds"
-msgstr "Feeds"
+msgstr "Feed"
 
 #: plugins/FlexRSS/FlexRSS.glade:384
 msgid "Type"
@@ -2958,7 +2967,7 @@ msgstr "季度"
 #: plugins/FlexRSS/FlexRSS.glade:594 plugins/FlexRSS/FlexRSS.glade:675
 #: plugins/FlexRSS/FlexRSS.glade:833
 msgid "Episode"
-msgstr "剧集"
+msgstr "节"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 #, fuzzy
@@ -3046,7 +3055,7 @@ msgstr "过滤器"
 
 #: plugins/FlexRSS/FlexRSS.glade:1282
 msgid "Show a FlexRSS icon in Deluge's toolbar."
-msgstr "在Deluge的工具栏上显示FlexRSS图标"
+msgstr "在Deluge工具栏上显示FlexRSS图标"
 
 #: plugins/FlexRSS/FlexRSS.glade:1283
 msgid "Show button on toolbar."
@@ -3060,7 +3069,7 @@ msgstr "<b>界面</b>"
 msgid ""
 "Feeds will be retrieved and parsed in their own threads. The application "
 "will not be blocked, but it can be unreliable."
-msgstr "Feed种子会在单独的线程里被恢复和转换。主程序不会被阻塞，但可能会不可靠。"
+msgstr "Feed将在单独的线程里被获取和解读。程序不会被阻碍，但可能会不稳定。"
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
 msgid "Threaded (experimental)"
