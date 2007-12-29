@@ -144,14 +144,14 @@ class DelugeGTK:
         try:
             import gnome.ui
             self.client = gnome.ui.Client()
-            self.client.connect("save_yourself", self.manager.quit)
+            self.client.connect("save_yourself", self.shutdown)
         except:
             pass
 
-        signal.signal(signal.SIGINT, self.manager.quit)
-        signal.signal(signal.SIGTERM, self.manager.quit)
+        signal.signal(signal.SIGINT, self.shutdown)
+        signal.signal(signal.SIGTERM, self.shutdown)
         if not common.windows_check(): 
-            signal.signal(signal.SIGHUP, self.manager.quit)
+            signal.signal(signal.SIGHUP, self.shutdown)
         else:
             from win32api import SetConsoleCtrlHandler
             from win32con import CTRL_CLOSE_EVENT
