@@ -143,11 +143,10 @@ class DelugeGTK:
 
         try:
             import gnome.ui
-        except:
-            pass
-        else:
             self.client = gnome.ui.Client()
             self.client.connect("save_yourself", self.manager.quit)
+        except:
+            pass
 
         signal.signal(signal.SIGINT, self.manager.quit)
         signal.signal(signal.SIGTERM, self.manager.quit)
