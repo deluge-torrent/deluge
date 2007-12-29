@@ -1124,6 +1124,8 @@ of Deluge.  Would you like to be taken to our download site?"))
                         os.remove(os.path.join(self.config.get("default_autoload_path"), filename))
                     except:
                         pass
+        # Handle the events
+        self.manager.handle_events()
 
         # We need to apply the queue changes
         self.manager.apply_queue()
@@ -1134,8 +1136,6 @@ of Deluge.  Would you like to be taken to our download site?"))
         if (self.memory_timer == 60):
             self.manager.save_upmem()
             self.memory_timer = 0
-        # Handle the events
-        self.manager.handle_events()
         
         # Make sure that the interface still exists
         try:
