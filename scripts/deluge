@@ -62,13 +62,6 @@ if not deluge.common.windows_check():
                 os.environ["LD_LIBRARY_PATH"] = "/usr/lib/firefox"
                 os.system("/usr/bin/deluge %s &" % arguments)
                 raise SystemExit
-    elif platform.system() == "FreeBSD":
-        if os.environ.get("MOZILLA_FIVE_HOME") != "/usr/local/lib/firefox":
-            print "found and fixing freebsd..."
-            os.environ["MOZILLA_FIVE_HOME"] = "/usr/local/lib/firefox"
-            os.environ["LD_LIBRARY_PATH"] = "/usr/local/lib/firefox"
-            os.system("/usr/local/bin/deluge %s &" % arguments)
-            raise SystemExit
 
 parser = OptionParser(usage="%prog [options] [torrents to add]", 
                       version=deluge.common.PROGRAM_VERSION)
