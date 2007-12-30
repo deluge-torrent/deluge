@@ -38,7 +38,7 @@ class Search:
         self.interface = deluge_interface
         self.config_file = os.path.join(deluge.common.CONFIG_DIR, "newsearch.conf")
         self.config = deluge.pref.Preferences(self.config_file, False,
-                      defaults={'Pirate Bay' : 'http://thepiratebay.org/search/${query}/0/3/0',
+                      defaults={'Pirate Bay' : 'http://thepiratebay.org/search/${query}/0/7/0',
                                 'Google' : "http://www.google.com/cse?cx=010331601\
 931556850092%3Apfadwhze_jy&q=${query}&sa=Search&cof=FORID%3A1",
                                 'Mininova' : 'http://www.mininova.org/search/?search=${query}/seeds',
