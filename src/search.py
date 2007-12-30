@@ -41,7 +41,7 @@ class Search:
                       defaults={'Pirate Bay' : 'http://thepiratebay.org/search/${query}/0/3/0',
                                 'Google' : "http://www.google.com/cse?cx=010331601\
 931556850092%3Apfadwhze_jy&q=${query}&sa=Search&cof=FORID%3A1",
-                                'Mininova' : 'http://www.mininova.org/search/?search=${query}',
+                                'Mininova' : 'http://www.mininova.org/search/?search=${query}/seeds',
                                 'isoHunt' : "http://isohunt.com/torrents/?ihq=${query}"})
         try:
             self.config.load()
