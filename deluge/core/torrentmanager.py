@@ -141,7 +141,11 @@ class TorrentManager(component.Component):
             # joined.
             if type(filedump) is not str:
                 filedump = "".join(chr(b) for b in filedump)
-            filedump = lt.bdecode(filedump)
+            try:
+                filedump = lt.bdecode(filedump)
+            except RuntimeError, e:
+                log.warn("Unable to decode torrent file: %s", e)
+                return None
         else:
             # Get the data from the file
             filedump = self.load_torrent(filename)
