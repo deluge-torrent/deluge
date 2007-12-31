@@ -1399,10 +1399,8 @@ namespace libtorrent
 		
 			if (t->alerts().should_post(alert::fatal))
 			{
-                if (j.str != "write failed: No space left on device"){
-    				std::string err = "torrent paused: disk write error, " + j.str;
-	    			t->alerts().post_alert(file_error_alert(t->get_handle(), err));
-                }
+				std::string err = "torrent paused: disk write error, " + j.str;
+				t->alerts().post_alert(file_error_alert(t->get_handle(), err));
 			}
 			t->pause();
 			return;
@@ -2564,6 +2562,7 @@ namespace libtorrent
 // return value is destructed
 	buffer::interval peer_connection::allocate_send_buffer(int size)
 	{
+		TORRENT_ASSERT(size > 0);
 		char* insert = m_send_buffer.allocate_appendix(size);
 		if (insert == 0)
 		{
@@ -2871,6 +2870,13 @@ namespace libtorrent
 #ifndef NDEBUG
 	void peer_connection::check_invariant() const
 	{
+		for (int i = 0; i < 2; ++i)
+		{
+			// this peer is in the bandwidth history iff max_assignable < limit
+			TORRENT_ASSERT((m_bandwidth_limit[i].max_assignable() < m_bandwidth_limit[i].throttle())
+				== m_ses.m_bandwidth_manager[i]->is_in_history(this)
+				|| m_bandwidth_limit[i].throttle() == bandwidth_limit::inf);
+		}
 		if (m_peer_info)
 		{
 			TORRENT_ASSERT(m_peer_info->connection == this
