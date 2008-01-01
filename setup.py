@@ -174,6 +174,8 @@ else:
                             '-DBOOST_ALL_NO_LIB',
                             '-D_FILE_OFFSET_BITS=64',
                             '-DBOOST_THREAD_USE_LIB',
+                            '-DTORRENT_BUILDING_SHARED',
+                            '-DTORRENT_LINKING_SHARED',
                             '-DTORRENT_USE_OPENSSL=1',
                             '-DNDEBUG=1']
                              
