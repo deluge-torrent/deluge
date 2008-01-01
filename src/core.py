@@ -315,7 +315,7 @@ class Manager:
             os.popen4('tskill.exe dbus-daemon-deluge')
         elif platform.system() == "Microsoft":
             import os
-            os.popen4('taskkill.exe /IM dbus-daemon-deluge.exe')
+            os.popen4('taskkill.exe /IM dbus-daemon-deluge.exe /F')
 
     def pickle_state(self):
         # Pickle the state so if we experience a crash, the latest state is 
