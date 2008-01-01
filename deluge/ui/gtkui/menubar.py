@@ -154,7 +154,8 @@ class MenuBar(component.Component):
     def on_menuitem_addtorrent_activate(self, data=None):
         log.debug("on_menuitem_addtorrent_activate")
         from addtorrentdialog import AddTorrentDialog
-        client.add_torrent_file(AddTorrentDialog().run())
+        #client.add_torrent_file(AddTorrentDialog().run())
+        AddTorrentDialog().show()
         
     def on_menuitem_addurl_activate(self, data=None):
         log.debug("on_menuitem_addurl_activate")

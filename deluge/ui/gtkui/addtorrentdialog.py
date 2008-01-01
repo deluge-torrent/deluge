@@ -36,52 +36,225 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import gettext
 
+import pkg_resources
+
+import deluge.component as component
+import deluge.ui.gtkui.listview as listview
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 import deluge.common
 
 class AddTorrentDialog:
     def __init__(self, parent=None):
+        self.glade = gtk.glade.XML(
+            pkg_resources.resource_filename(
+                "deluge.ui.gtkui", "glade/add_torrent_dialog.glade"))
+        
+        self.dialog = self.glade.get_widget("dialog_add_torrent")
+        
+        self.dialog.set_transient_for(component.get("MainWindow").window)
+        
+        self.glade.signal_autoconnect({
+            "on_button_file_clicked": self._on_button_file_clicked,
+            "on_button_url_clicked": self._on_button_url_clicked,
+            "on_button_hash_clicked": self._on_button_hash_clicked,
+            "on_button_remove_clicked": self._on_button_remove_clicked,
+            "on_button_trackers_clicked": self._on_button_trackers_clicked,
+            "on_button_cancel_clicked": self._on_button_cancel_clicked,
+            "on_button_add_clicked": self._on_button_add_clicked
+        })
+
+        
+        self.torrent_liststore = gtk.ListStore(str, str)
+        self.files_liststore = gtk.ListStore(bool, str, int)
+        # Holds the files info
+        self.files = {}
+        
+        self.listview_torrents = self.glade.get_widget("listview_torrents")
+        self.listview_files = self.glade.get_widget("listview_files")
+
+        render = gtk.CellRendererText()
+        column = gtk.TreeViewColumn(_("Torrent"), render, text=1)
+        self.listview_torrents.append_column(column)
+
+        render = gtk.CellRendererToggle()
+        render.connect("toggled", self._on_file_toggled)
+        column = gtk.TreeViewColumn(None, render, active=0)
+        self.listview_files.append_column(column)
+        
+        render = gtk.CellRendererText()
+        column = gtk.TreeViewColumn(_("Filename"), render, text=1)
+        column.set_expand(True)
+        self.listview_files.append_column(column)
+
+        render = gtk.CellRendererText()
+        column = gtk.TreeViewColumn(_("Size"))
+        column.pack_start(render)
+        column.set_cell_data_func(render, listview.cell_data_size, 2)
+        self.listview_files.append_column(column)
+        
+        self.listview_torrents.set_model(self.torrent_liststore)
+        self.listview_files.set_model(self.files_liststore)
+
+        self.listview_torrents.get_selection().connect("changed", 
+                                    self._on_torrent_changed)
+
+    def show(self):
+        self.dialog.show_all()
+        return None
+    
+    def hide(self):
+        self.dialog.destroy()
+        return None
+    
+    def add_to_torrent_list(self, filenames):
+        import deluge.libtorrent as lt
+        import os.path
+
+        for filename in filenames:
+            # Get the torrent data from the torrent file
+            try:
+                log.debug("Attempting to open %s for add.", filename)
+                _file = open(filename, "rb")
+                filedump = lt.bdecode(_file.read())
+                _file.close()
+            except IOError, e:
+                log.warning("Unable to open %s: e", filename, e)
+                continue
+            
+            info = lt.torrent_info(filedump)
+
+            # Get list of files from torrent info
+            files = []
+            for f in info.files():
+                files.append({
+                    'path': f.path,
+                    'size': f.size,
+                    'download': True
+                })
+
+            name = os.path.split(filename)[-1] + ": " + info.name()
+            self.torrent_liststore.append([str(info.info_hash()), name])
+            self.files[str(info.info_hash())] = files
+
+
+    def _on_torrent_changed(self, treeselection):
+        (model, row) = treeselection.get_selected()
+        self.files_liststore.clear()
+        
+        if row is None:
+            return
+            
+        files_list = self.files[model.get_value(row, 0)]
+
+        for file_dict in files_list:
+            self.files_liststore.append([
+                file_dict["download"], 
+                file_dict["path"], 
+                file_dict["size"]
+                ])
+    
+    def _on_file_toggled(self, render, path):
+        row = self.files_liststore.get_iter(path)
+        self.files_liststore.set_value(
+            row, 0, not self.files_liststore.get_value(row, 0))
+        
+    def _on_button_file_clicked(self, widget):
+        log.debug("_on_button_file_clicked")
         # Setup the filechooserdialog
-        self.chooser = gtk.FileChooserDialog(_("Choose a .torrent file"),
-            parent,
+        chooser = gtk.FileChooserDialog(_("Choose a .torrent file"),
+            None,
             gtk.FILE_CHOOSER_ACTION_OPEN,
             buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, 
                         gtk.RESPONSE_OK))
 
-        self.chooser.set_icon(deluge.common.get_logo(32))
-        self.chooser.set_select_multiple(True)
-        self.chooser.set_property("skip-taskbar-hint", True)
+        chooser.set_transient_for(self.dialog)
+        chooser.set_select_multiple(True)
+        chooser.set_property("skip-taskbar-hint", True)
         
         # Add .torrent and * file filters
         file_filter = gtk.FileFilter()
         file_filter.set_name(_("Torrent files"))
         file_filter.add_pattern("*." + "torrent")
-        self.chooser.add_filter(file_filter)
+        chooser.add_filter(file_filter)
         file_filter = gtk.FileFilter()
         file_filter.set_name(_("All files"))
         file_filter.add_pattern("*")
-        self.chooser.add_filter(file_filter)
+        chooser.add_filter(file_filter)
 
         # Load the 'default_load_path' from the config
         self.config = ConfigManager("gtkui.conf")
         if self.config.get("default_load_path") is not None:
-            self.chooser.set_current_folder(
-                                        self.config.get("default_load_path"))
+            chooser.set_current_folder(self.config.get("default_load_path"))
 
-    def run(self):
-        """Returns a list of selected files or None if no files were selected.
-        """
         # Run the dialog
-        response = self.chooser.run()
+        response = chooser.run()
 
         if response == gtk.RESPONSE_OK:
-            result = self.chooser.get_filenames()
-            self.config.set("default_load_path", 
-                                self.chooser.get_current_folder())
+            result = chooser.get_filenames()
+            self.config.set("default_load_path", chooser.get_current_folder())
         else:
-            result = None
+            chooser.destroy()
+            return
 
-        self.chooser.destroy()
-        del self.config
-        return result
+        chooser.destroy()
+        self.add_to_torrent_list(result)
+                                        
+    def _on_button_url_clicked(self, widget):
+        log.debug("_on_button_url_clicked")
+        dialog = self.glade.get_widget("url_dialog")
+        entry = self.glade.get_widget("entry_url")
+
+        dialog.set_default_response(gtk.RESPONSE_OK)
+        dialog.set_transient_for(self.dialog)
+
+        if deluge.common.windows_check():
+            import win32clipboard as clip 
+            import win32con
+            clip.OpenClipboard() 
+            text = clip.GetClipboardData(win32con.CF_UNICODETEXT) 
+            clip.CloseClipboard() 
+        else:
+            clip = gtk.clipboard_get(selection='PRIMARY')
+            text = clip.wait_for_text()
+        if text:
+            text = text.strip()
+            if deluge.common.is_url(text):
+                entry.set_text(text)
+
+        dialog.show_all()
+        response = dialog.run()
+
+        if response == gtk.RESPONSE_OK:
+            url = entry.get_text().decode("utf_8")
+        else:
+            url = None
+
+        log.debug("url: %s", url)
+        dialog.hide()
+
+
+    def _on_button_hash_clicked(self, widget):
+        log.debug("_on_button_hash_clicked")
+
+    def _on_button_remove_clicked(self, widget):
+        log.debug("_on_button_remove_clicked")
+        (model, row) = self.listview_torrents.get_selection().get_selected()
+        if row is None:
+            return
+            
+        torrent_id = model.get_value(row, 0)
+        
+        model.remove(row)
+        del self.files[torrent_id]
+
+    def _on_button_trackers_clicked(self, widget):
+        log.debug("_on_button_trackers_clicked")
+
+    def _on_button_cancel_clicked(self, widget):
+        log.debug("_on_button_cancel_clicked")
+        self.hide()
+
+    def _on_button_add_clicked(self, widget):
+        log.debug("_on_button_add_clicked")
+
