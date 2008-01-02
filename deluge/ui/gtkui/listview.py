@@ -464,7 +464,7 @@ class ListView:
         return True
         
     def add_texticon_column(self, header, col_types=[int, str],
-                                            sortid=0,
+                                            sortid=1,
                                             hidden=False, 
                                             position=None, 
                                             status_field=None,
