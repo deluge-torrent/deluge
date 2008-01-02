@@ -65,10 +65,13 @@ class Torrent:
                 self.trackers.append(tracker)
         else:
             self.trackers = trackers
-        
+
         # Holds status info so that we don't need to keep getting it from lt
         self.status = None
         self.torrent_info = None
+                
+        # Files dictionary
+        self.files = self.get_files()
         
     def set_tracker_status(self, status):
         """Sets the tracker status"""
@@ -185,7 +188,7 @@ class Torrent:
             "trackers": self.trackers,
             "tracker_status": self.tracker_status,
             "save_path": self.save_path,
-            "files": self.get_files()
+            "files": self.files
         }
         self.status = None
         self.torrent_info = None
