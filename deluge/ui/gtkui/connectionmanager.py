@@ -135,7 +135,7 @@ class ConnectionManager(component.Component):
                     os.popen("deluged -p %s" % port)
                     # We need to wait for the host to start before connecting
                     while not self.test_online_status(uri):
-                        sleep(10)
+                        time.sleep(0.01)
                     client.set_core_uri(uri)
                     self.hide()
         
@@ -432,7 +432,7 @@ class ConnectionManager(component.Component):
                 self.start_localhost(port)
                 # We need to wait for the host to start before connecting
                 while not self.test_online_status(uri):
-                    sleep(10)               
+                    time.sleep(0.01)               
                 client.set_core_uri(uri)
                 self._update()
                 self.hide()
