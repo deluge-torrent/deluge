@@ -125,13 +125,13 @@ def fsize(fsize_b):
        fsize_b should be in bytes
        Returned value will be in either KB, MB, or GB
     """    
-    fsize_kb = float (fsize_b / 1024.0)
+    fsize_kb = fsize_b / 1024.0
     if fsize_kb < 1000:
         return "%.1f KiB" % fsize_kb
-    fsize_mb = float (fsize_kb / 1024.0)
+    fsize_mb = fsize_kb / 1024.0
     if fsize_mb < 1000:
         return "%.1f MiB" % fsize_mb
-    fsize_gb = float (fsize_mb / 1024.0)
+    fsize_gb = fsize_mb / 1024.0
     return "%.1f GiB" % fsize_gb
 
 def fpcnt(dec):
@@ -145,29 +145,29 @@ def fspeed(bps):
 def fpeer(num_peers, total_peers):
     """Returns a formatted string num_peers (total_peers)"""
     if total_peers > -1:
-        return str(str(num_peers) + " (" + str(total_peers) + ")")
+        return "%d (%d)" % (num_peers, total_peers)
     else:
-        return str(num_peers)
+        return "%d" % num_peers
     
 def ftime(seconds):
     """Returns a formatted time string"""
-    if seconds is 0:
+    if seconds == 0:
         return "Infinity"
     if seconds < 60:
         return '%ds' % (seconds)
-    minutes = int(seconds/60)
+    minutes = seconds / 60
     seconds = seconds % 60
     if minutes < 60:
         return '%dm %ds' % (minutes, seconds)
-    hours = int(minutes/60)
+    hours = minutes / 60
     minutes = minutes % 60
     if hours < 24:
         return '%dh %dm' % (hours, minutes)
-    days = int(hours/24)
+    days = hours / 24
     hours = hours % 24
     if days < 7:
         return '%dd %dh' % (days, hours)
-    weeks = int(days/7)
+    weeks = days / 7
     days = days % 7
     if weeks < 10:
         return '%dw %dd' % (weeks, days)
