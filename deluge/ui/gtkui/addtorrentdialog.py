@@ -38,6 +38,7 @@ import gettext
 
 import pkg_resources
 
+import deluge.ui.client as client
 import deluge.component as component
 import deluge.ui.gtkui.listview as listview
 from deluge.configmanager import ConfigManager
@@ -64,11 +65,15 @@ class AddTorrentDialog:
             "on_button_add_clicked": self._on_button_add_clicked
         })
 
-        
         self.torrent_liststore = gtk.ListStore(str, str)
         self.files_liststore = gtk.ListStore(bool, str, int)
         # Holds the files info
         self.files = {}
+        self.infos = {}
+        self.core_config = {}
+        self.options = {}
+        self.previous_selected_torrent = None
+        
         
         self.listview_torrents = self.glade.get_widget("listview_torrents")
         self.listview_files = self.glade.get_widget("listview_files")
@@ -96,9 +101,28 @@ class AddTorrentDialog:
         self.listview_torrents.set_model(self.torrent_liststore)
         self.listview_files.set_model(self.files_liststore)
 
+        self.listview_files.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         self.listview_torrents.get_selection().connect("changed", 
                                     self._on_torrent_changed)
 
+        # Get default config values from the core
+        self.core_keys = [
+            "compact_allocation",
+            "max_connections_per_torrent",
+            "max_upload_slots_per_torrent",
+            "max_upload_speed_per_torrent",
+            "max_download_speed_per_torrent",
+            "prioritize_first_last_pieces",
+            "download_location",
+            "add_paused",
+            "default_private"
+        ]
+        
+        for key in self.core_keys:
+            self.core_config[key] = client.get_config_value(key)
+
+        self.set_default_options()
+        
     def show(self):
         self.dialog.show_all()
         return None
@@ -136,7 +160,7 @@ class AddTorrentDialog:
             name = os.path.split(filename)[-1] + ": " + info.name()
             self.torrent_liststore.append([str(info.info_hash()), name])
             self.files[str(info.info_hash())] = files
-
+            self.infos[str(info.info_hash())] = info
 
     def _on_torrent_changed(self, treeselection):
         (model, row) = treeselection.get_selected()
@@ -144,7 +168,8 @@ class AddTorrentDialog:
         
         if row is None:
             return
-            
+        
+        # Update files list    
         files_list = self.files[model.get_value(row, 0)]
 
         for file_dict in files_list:
@@ -153,11 +178,73 @@ class AddTorrentDialog:
                 file_dict["path"], 
                 file_dict["size"]
                 ])
-    
+
+        # Update the options frame
+        self.update_torrent_options()
+        self.set_default_options()
+        
+        self.previous_selected_torrent = row
+
+    def update_torrent_options(self):
+        # Keeps the torrent options dictionary up-to-date with what the user has
+        # selected.
+        row = self.previous_selected_torrent
+        if row is None or not self.torrent_liststore.iter_is_valid(row):
+            return
+            
+        torrent_id = self.torrent_liststore.get_value(row, 0)
+ 
+        options = {}       
+        options["download_location"] = \
+            self.glade.get_widget("button_location").get_current_folder()
+        options["compact_allocation"] = \
+            self.glade.get_widget("radio_compact").get_active()
+        options["max_download_speed_per_torrent"] = \
+            self.glade.get_widget("spin_maxdown").get_value()
+        options["max_upload_speed_per_torrent"] = \
+            self.glade.get_widget("spin_maxup").get_value()
+        options["max_connections_per_torrent"] = \
+            self.glade.get_widget("spin_maxconnections").get_value()
+        options["max_upload_slots_per_torrent"] = \
+            self.glade.get_widget("spin_maxupslots").get_value()
+        options["add_paused"] = \
+            self.glade.get_widget("chk_paused").get_active()
+        options["prioritize_first_last_pieces"] = \
+            self.glade.get_widget("chk_prioritize").get_active()
+        options["default_private"] = \
+            self.glade.get_widget("chk_private")
+            
+        self.options[torrent_id] = options
+        
+    def set_default_options(self):
+        # FIXME: does not account for remote core
+        self.glade.get_widget("button_location").set_current_folder(
+            self.core_config["download_location"])
+        self.glade.get_widget("radio_compact").set_active(
+            self.core_config["compact_allocation"])
+        self.glade.get_widget("spin_maxdown").set_value(
+            self.core_config["max_download_speed_per_torrent"])
+        self.glade.get_widget("spin_maxup").set_value(
+            self.core_config["max_upload_speed_per_torrent"])
+        self.glade.get_widget("spin_maxconnections").set_value(
+            self.core_config["max_connections_per_torrent"])
+        self.glade.get_widget("spin_maxupslots").set_value(
+            self.core_config["max_upload_slots_per_torrent"])
+        self.glade.get_widget("chk_paused").set_active(
+            self.core_config["add_paused"])
+        self.glade.get_widget("chk_prioritize").set_active(
+            self.core_config["prioritize_first_last_pieces"])
+        self.glade.get_widget("chk_private").set_active(
+            self.core_config["default_private"])
+            #self.infos[model.get_value(row, 0)].priv())
+            
+        
+            
     def _on_file_toggled(self, render, path):
-        row = self.files_liststore.get_iter(path)
-        self.files_liststore.set_value(
-            row, 0, not self.files_liststore.get_value(row, 0))
+        (model, paths) = self.listview_files.get_selection().get_selected_rows()
+        for path in paths:
+            row = model.get_iter(path)
+            model.set_value(row, 0, not model.get_value(row, 0))
         
     def _on_button_file_clicked(self, widget):
         log.debug("_on_button_file_clicked")

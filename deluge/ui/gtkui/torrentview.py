@@ -54,31 +54,24 @@ icon_seeding = gtk.gdk.pixbuf_new_from_file(
     deluge.common.get_pixmap("seeding16.png"))
 icon_inactive = gtk.gdk.pixbuf_new_from_file(
     deluge.common.get_pixmap("inactive16.png"))
-    
+
+# Holds the info for which status icon to display based on state
+ICON_STATE = [
+    icon_inactive,
+    icon_downloading,
+    icon_downloading,
+    icon_downloading,
+    icon_downloading,
+    icon_seeding,
+    icon_seeding,
+    icon_downloading,
+    icon_inactive
+]
+ 
 def cell_data_statusicon(column, cell, model, row, data):
     """Display text with an icon"""
-    state = model.get_value(row, data)
-    icon = None
-    if state == deluge.common.TORRENT_STATE.index("Connecting"):
-        icon = icon_downloading
-    if state == deluge.common.TORRENT_STATE.index("Downloading"):
-        icon = icon_downloading
-    if state == deluge.common.TORRENT_STATE.index("Downloading Metadata"):
-        icon = icon_downloading
-    if state == deluge.common.TORRENT_STATE.index("Queued"):
-        icon = icon_inactive
-    if state == deluge.common.TORRENT_STATE.index("Paused"):
-        icon = icon_inactive
-    if state == deluge.common.TORRENT_STATE.index("Checking"):
-        icon = icon_downloading
-    if state == deluge.common.TORRENT_STATE.index("Allocating"):
-        icon = icon_downloading
-    if state == deluge.common.TORRENT_STATE.index("Finished"):
-        icon = icon_seeding
-    if state == deluge.common.TORRENT_STATE.index("Seeding"):
-        icon = icon_seeding
-
-    if icon != None:
+    icon = ICON_STATE[model.get_value(row, data)]
+    if cell.get_property("pixbuf") != icon:
         cell.set_property("pixbuf", icon)
 
 def cell_data_progress(column, cell, model, row, data):
@@ -95,18 +88,14 @@ def cell_data_progress(column, cell, model, row, data):
         _("Allocating"),
         _("Paused")
     ]
-    column1, column2 = data
-    value = model.get_value(row, column1)
-    text = model.get_value(row, column2)
-    cell.set_property("value", value)
+    (value, text) = model.get(row, *data)
+    if cell.get_property("value") != value:
+        cell.set_property("value", value)
     textstr = "%s" % TORRENT_STATE[text]
-    if TORRENT_STATE[text] == "Downloading" or\
-            TORRENT_STATE[text] == "Downloading Metadata" or\
-            TORRENT_STATE[text] == "Checking" or\
-            TORRENT_STATE[text] == "Allocating" or\
-            (TORRENT_STATE[text] == "Paused" and value < 100):
-        textstr = textstr + " %.2f%%" % value
-    cell.set_property("text", textstr)
+    if TORRENT_STATE[text] != "Seeding" and TORRENT_STATE[text] != "Finished":
+        textstr = textstr + " %.2f%%" % value        
+    if cell.get_property("text") != textstr:
+        cell.set_property("text", textstr)
     
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""

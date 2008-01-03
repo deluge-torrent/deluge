@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.0 on Mon Dec 31 17:01:48 2007 -->
+<!--Generated with glade3 3.4.0 on Mon Dec 31 18:34:13 2007 -->
 <glade-interface>
   <widget class="GtkDialog" id="dialog_add_torrent">
     <property name="height_request">560</property>
@@ -815,12 +815,13 @@
                                 <property name="visible">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                 <child>
-                                  <widget class="GtkButton" id="button2">
+                                  <widget class="GtkButton" id="button_revert">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                     <property name="response_id">0</property>
+                                    <signal name="clicked" handler="on_button_revert_clicked"/>
                                     <child>
                                       <widget class="GtkHBox" id="hbox10">
                                         <property name="visible">True</property>
@@ -866,12 +867,13 @@
                                 <property name="visible">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                 <child>
-                                  <widget class="GtkButton" id="button1">
+                                  <widget class="GtkButton" id="button_apply">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">True</property>
                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                     <property name="response_id">0</property>
+                                    <signal name="clicked" handler="on_button_apply_clicked"/>
                                     <child>
                                       <widget class="GtkHBox" id="hbox9">
                                         <property name="visible">True</property>
