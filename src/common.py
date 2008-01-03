@@ -83,19 +83,19 @@ def get_eta(size, done, speed):
 # fsize_b should be in bytes
 # Returned value will be in either KB, MB, or GB
 def fsize(fsize_b):
-    fsize_kb = float (fsize_b / 1024.0)
+    fsize_kb = fsize_b / 1024.0
     if fsize_kb < 1000:
         return "%.1f %s" % (fsize_kb, _("KiB"))
-    fsize_mb = float (fsize_kb / 1024.0)
+    fsize_mb = fsize_kb / 1024.0
     if fsize_mb < 1000:
         return "%.1f %s" % (fsize_mb, _("MiB"))
-    fsize_gb = float (fsize_mb / 1024.0)
+    fsize_gb = fsize_mb / 1024.0
     if fsize_gb < 1000:
         return "%.1f %s" % (fsize_gb, _("GiB"))
-    fsize_tb = float (fsize_gb / 1024.0)
+    fsize_tb = fsize_gb / 1024.0
     if fsize_tb < 1000:
         return "%.1f %s" % (fsize_tb, _("TiB"))
-    fsize_pb = float (fsize_tb / 1024.0)
+    fsize_pb = fsize_tb / 1024.0
     return "%.1f %s" % (fsize_pb, _("PiB"))
 
 # Returns a formatted string representing a percentage
@@ -115,19 +115,19 @@ def fpeer(state):
 def ftime(seconds):
     if seconds < 60:
         return '%ds'%(seconds)
-    minutes = int(seconds/60)
+    minutes = seconds / 60
     seconds = seconds % 60
     if minutes < 60:
         return '%dm %ds'%(minutes, seconds)
-    hours = int(minutes/60)
+    hours = minutes / 60
     minutes = minutes % 60
     if hours < 24:
         return '%dh %dm'%(hours, minutes)
-    days = int(hours/24)
+    days = hours / 24
     hours = hours % 24
     if days < 7:
         return '%dd %dh'%(days, hours)
-    weeks = int(days/7)
+    weeks = days / 7
     days = days % 7
     if weeks < 10:
         return '%dw %dd'%(weeks, days)
