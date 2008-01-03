@@ -46,7 +46,7 @@ from deluge.log import LOG as log
 # Cell data functions to pass to add_func_column()
 def cell_data_speed(column, cell, model, row, data):
     """Display value as a speed, eg. 2 KiB/s"""
-    speed = int(model.get_value(row, data))
+    speed = model.get_value(row, data)
     speed_str = ""
     if speed > 0:
         speed_str = deluge.common.fspeed(speed)
@@ -55,15 +55,13 @@ def cell_data_speed(column, cell, model, row, data):
 
 def cell_data_size(column, cell, model, row, data):
     """Display value in terms of size, eg. 2 MB"""
-    size = long(model.get_value(row, data))
+    size = model.get_value(row, data)
     size_str = deluge.common.fsize(size)
     cell.set_property('text', size_str)
 
 def cell_data_peer(column, cell, model, row, data):
     """Display values as 'value1 (value2)'"""
-    column1, column2 = data
-    first = int(model.get_value(row, column1))
-    second = int(model.get_value(row, column2))
+    (first, second) = model.get(row, *data)
     # Only display a (total) if second is greater than -1
     if second > -1:
         cell.set_property('text', '%d (%d)' % (first, second))
@@ -72,8 +70,8 @@ def cell_data_peer(column, cell, model, row, data):
         
 def cell_data_time(column, cell, model, row, data):
     """Display value as time, eg 1m10s"""
-    time = int(model.get_value(row, data))
-    if time < 0 or time == 0:
+    time = model.get_value(row, data)
+    if time <= 0:
         time_str = _("Infinity")
     else:
         time_str = deluge.common.ftime(time)
@@ -81,12 +79,13 @@ def cell_data_time(column, cell, model, row, data):
             
 def cell_data_ratio(column, cell, model, row, data):
     """Display value as a ratio with a precision of 3."""
-    ratio = float(model.get_value(row, data))
+    ratio = model.get_value(row, data)
     if ratio == -1:
         ratio_str = _("Unknown")
     else:
         ratio_str = "%.3f" % ratio
-        cell.set_property('text', ratio_str)
+    
+    cell.set_property('text', ratio_str)
 
 class ListViewColumnState:
     """Used for saving/loading column state"""
