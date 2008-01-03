@@ -92,7 +92,7 @@ class DetailsTabManager(object):
         state = self.last_state
         if state != None:
             gc.set_foreground(colormap.alloc_color('#2020FF'))
-            progress_window.draw_rectangle(gc, True, 0, top, int(size[0] * float(state['progress'])), 4)
+            progress_window.draw_rectangle(gc, True, 0, top, size[0] * state['progress'], 4)
             num_pieces = state["num_pieces"]
             for pieces_range in state['pieces']:
                 range_first = pieces_range[0] * size[0] / num_pieces

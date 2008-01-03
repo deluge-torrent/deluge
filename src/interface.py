@@ -604,12 +604,12 @@ window, please enter your password"))
 
         def peer(column, cell, model, iter, data):
             c1, c2 = data
-            a = int(model.get_value(iter, c1))
-            b = int(model.get_value(iter, c2))
+            a = model.get_value(iter, c1)
+            b = model.get_value(iter, c2)
             cell.set_property('text', '%d (%d)'%(a, b))
         
         def time(column, cell, model, iter, data):
-            time = int(model.get_value(iter, data))
+            time = model.get_value(iter, data)
             if time < 0 or time == 0:
                 time_str = _("Infinity")
             else:
@@ -617,11 +617,11 @@ window, please enter your password"))
             cell.set_property('text', time_str)
             
         def availability(column, cell, model, iter, data):
-            availability_str = float(model.get_value(iter, data))
+            availability_str = model.get_value(iter, data)
             cell.set_property('text', "%.3f" % availability_str)
             
         def ratio(column, cell, model, iter, data):
-            ratio = float(model.get_value(iter, data))
+            ratio = model.get_value(iter, data)
             if ratio == -1:
                 ratio_str = _("Unknown")
             else:
@@ -723,8 +723,7 @@ window, please enter your password"))
     
     def torrent_view_clicked(self, widget, event):
         if event.button == 3:
-            data = self.torrent_view.get_path_at_pos(int(event.x), 
-                                                     int(event.y))
+            data = self.torrent_view.get_path_at_pos(event.x, event.y)
             if data is None:
                 return True
             
@@ -971,7 +970,7 @@ window, please enter your password"))
         state = torrent_state['state']
         is_paused = torrent_state['is_paused']
         progress = torrent_state['progress']
-        progress = '%d%%' % int(progress * 100)
+        progress = '%d%%' % (progress * 100)
         if is_paused:
             if self.manager.is_user_paused(unique_id):
                 message = _("Paused %s") % progress
@@ -992,7 +991,7 @@ window, please enter your password"))
         queue = state['queue_pos']
         name = state['name']
         size = state['total_wanted']
-        progress = float(state['progress'] * 100)
+        progress = state['progress'] * 100
         message = self.get_message_from_state(unique_id, state)
         availability = state['distributed_copies']
         share = self.manager.calc_ratio(unique_id, state)
@@ -1005,12 +1004,12 @@ window, please enter your password"))
             # Set status icon as pause
             status_icon = self.status_icons['paused']
         else:
-            seeds = int(state['num_seeds'])
-            seeds_t = int(state['total_seeds'])
-            peers = int(state['num_peers'])
-            peers_t = int(state['total_peers'])
-            dl_speed = int(state['download_rate'])
-            ul_speed = int(state['upload_rate'])
+            seeds = state['num_seeds']
+            seeds_t = state['total_seeds']
+            peers = state['num_peers']
+            peers_t = state['total_peers']
+            dl_speed = state['download_rate']
+            ul_speed = state['upload_rate']
             try:
                 eta = common.get_eta(size, state["total_wanted_done"], 
                                      dl_speed)
@@ -1023,7 +1022,7 @@ window, please enter your password"))
             else:
                 status_icon = self.status_icons['downloading']
     
-        rlist =  [int(unique_id), queue, status_icon, name, size, progress, 
+        rlist =  [unique_id, queue, status_icon, name, size, progress, 
                   message, seeds, seeds_t, peers, peers_t, dl_speed, ul_speed, 
                   eta, availability, share]
 
@@ -1245,7 +1244,7 @@ of Deluge.  Would you like to be taken to our download site?"))
         if self.config.get("max_connections_global") < 0 :
             max_connections = _("Unlimited")
         else:
-            max_connections = int(self.config.get("max_connections_global"))
+            max_connections = self.config.get("max_connections_global")
         dlspeed = common.fspeed(core_state['download_rate'])
         ulspeed = common.fspeed(core_state['upload_rate'])
 

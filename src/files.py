@@ -123,7 +123,7 @@ class FilesBaseManager(object):
 
     def mouse_clicked(self, widget, event):
         if event.button == 3:
-            data = self.file_view.get_path_at_pos(int(event.x), int(event.y))
+            data = self.file_view.get_path_at_pos(event.x, event.y)
             if data is None:
                 return True
             
