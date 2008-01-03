@@ -148,7 +148,7 @@ if not OS == "win":
         boost_thread = "boost_thread-mt"
 
     librariestype = [boost_filesystem, boost_date_time,
-            boost_thread, 'z', 'pthread', 'ssl']
+            boost_thread, 'z', 'pthread', 'ssl', 'rt', 'crypto']
     
     removals = ['-g', '-Wstrict-prototypes']
 
