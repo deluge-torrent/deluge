@@ -1135,6 +1135,7 @@ of Deluge.  Would you like to be taken to our download site?"))
         self.memory_timer += 1 
         if (self.memory_timer == 60):
             self.manager.save_upmem()
+            self.manager.save_fastresume_data()
             self.memory_timer = 0
         
         # Make sure that the interface still exists
