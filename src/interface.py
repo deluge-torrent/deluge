@@ -723,7 +723,7 @@ window, please enter your password"))
     
     def torrent_view_clicked(self, widget, event):
         if event.button == 3:
-            data = self.torrent_view.get_path_at_pos(event.x, event.y)
+            data = self.torrent_view.get_path_at_pos(int(event.x), int(event.y))
             if data is None:
                 return True
             
@@ -1008,8 +1008,8 @@ window, please enter your password"))
             seeds_t = state['total_seeds']
             peers = state['num_peers']
             peers_t = state['total_peers']
-            dl_speed = state['download_rate']
-            ul_speed = state['upload_rate']
+            dl_speed = int(state['download_rate'])
+            ul_speed = int(state['upload_rate'])
             try:
                 eta = common.get_eta(size, state["total_wanted_done"], 
                                      dl_speed)
