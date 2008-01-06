@@ -1,3 +1,2 @@
-for 0.5.7
-    * remap filenames
-    * copy over active torrents when user changes location of torrent files
+fix multiple trackers with torrent creator
+remember last used search engine on restart
