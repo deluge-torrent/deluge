@@ -186,6 +186,7 @@ class ConfigDialog(gtk.Dialog):
     from what I read glade is better, but i dont want to invest time in them.
     """
     def __init__(self, config, plugin, parent):
+        print "Found WebUI plugin..."
         gtk.Dialog.__init__(self ,parent=parent)
         self.config = config
         self.plugin = plugin

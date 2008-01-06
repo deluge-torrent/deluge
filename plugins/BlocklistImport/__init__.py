@@ -46,7 +46,7 @@ readers = {'p2bgz':[_("PeerGuardian P2B (GZip)"), PGReader, None],
 class BlocklistImport:
 
     def __init__(self, path, core, interface):
-        print "Loading blocklist plugin ..."
+        print "Found blocklist plugin ..."
         # Save the path, interface, and core so they can be used later
         self.path = path
         self.core = core

@@ -52,6 +52,7 @@ import os.path
 
 class NetworkGraph:
     def __init__(self, path, core, interface):
+        print "Found NetworkGraph plugin..."
         self.parent   = interface
         self.location = path
         self.manager = core

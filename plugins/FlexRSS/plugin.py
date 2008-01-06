@@ -1712,6 +1712,7 @@ class plugin_FlexRSS:
             return 0
 
     def __init__(self, path, core, interface, defaults):
+        print "Found FlexRSS plugin..."
         self.path = path
         self.core = core
         self.interface = interface

@@ -38,7 +38,7 @@ import os.path
 class TorrentCreator:
 
     def __init__(self, path, core, interface):
-      print "Loading TorrentCreator plugin..."
+      print "Found TorrentCreator plugin..."
       self.path = path
       self.core = core
       self.interface = interface

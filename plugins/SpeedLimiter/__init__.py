@@ -41,6 +41,7 @@ import os.path
 class DesiredSpeed:
     
     def __init__(self, path, core, interface):
+        print "Found SpeedLimiter plugin..."
         self.path = path
         self.core = core
         self.interface = interface

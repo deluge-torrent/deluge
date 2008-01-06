@@ -38,7 +38,7 @@ import os.path
 class webseedMenu:
     
     def __init__(self, path, core, interface):
-        print "Loading Web Seed plugin..."
+        print "Found Web Seed plugin..."
         self.path = path
         self.core = core
         self.interface = interface

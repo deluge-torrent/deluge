@@ -3,6 +3,7 @@ import os.path
 
 class plugin_Scheduler:
     def __init__(self, path, deluge_core, deluge_interface):
+        print "Found Scheduler plugin..."
         self.path = path
         self.core = deluge_core
         self.interface = deluge_interface

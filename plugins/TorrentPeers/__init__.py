@@ -54,7 +54,7 @@ import os.path
 class TorrentPeers:
 
     def __init__(self, path, core, interface):
-        print "Loading TorrentPeers plugin..."
+        print "Found TorrentPeers plugin..."
         self.parent = interface
         self.manager = core
         self.config_file = os.path.join(deluge.common.CONFIG_DIR, "peers.conf")

@@ -23,7 +23,7 @@ plugin_description = _("This plugin allows users to move the torrent to a \
 different directory without having to remove and re-add the torrent.  This \
 feature can be found by right-clicking on a torrent.\nFurthermore, it \
 allows the user to automatically have finished torrents moved to a different \
-folder.")
+folder.\nNote: Files can currently only be moved within the same partition")
 
 def deluge_init(deluge_path):
     global path
@@ -47,7 +47,7 @@ DEFAULT_PREFS = {
 class movetorrentMenu:
     
     def __init__(self, path, core, interface):
-        print "Loading Move Torrent plugin..."
+        print "Found MoveTorrent plugin..."
         self.path = path
         self.core = core
         self.interface = interface

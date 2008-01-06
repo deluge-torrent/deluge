@@ -53,7 +53,7 @@ import os.path
 
 class TorrentFiles:
     def __init__(self, path, core, interface):
-        print "Loading TorrentFiles plugin..."
+        print "Found TorrentFiles plugin..."
         self.parent = interface
         self.manager = core
         config_file = os.path.join(deluge.common.CONFIG_DIR, "files.conf")

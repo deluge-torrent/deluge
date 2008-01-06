@@ -58,7 +58,7 @@ from EventLogging.tab_log import LogTabManager
 class EventLogging:
 
     def __init__(self, path, core, interface):
-        print "Loading LogEvents plugin..."
+        print "Found LogEvents plugin..."
         self.manager = core
         self.parent = interface
         # Create an options file and try to load existing Values

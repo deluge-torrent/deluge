@@ -39,7 +39,7 @@ import os.path
 class TorrentNotification:
 
     def __init__(self, path, core, interface):
-        print "Loading TorrentNotification plugin..."
+        print "Found TorrentNotification plugin..."
         import os.path
         self.path = path
         self.core = core
@@ -107,7 +107,8 @@ class TorrentNotification:
                 if pynotify.init("Deluge"):
                     n = pynotify.Notification(_("Torrent complete"), state['name'])
                     n.set_icon_from_pixbuf(deluge.common.get_logo(48))
-                    n.show()
+                    if not n.show():
+                        print "Failed to send notification"
         else:
             pass
 

@@ -42,6 +42,7 @@ import os.path
 class DesiredRatio:
     
     def __init__(self, path, core, interface):
+        print "Found DesiredRatio plugin..."
         self.path = path
         self.core = core
         self.interface = interface

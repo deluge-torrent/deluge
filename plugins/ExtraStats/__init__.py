@@ -54,7 +54,7 @@ from deluge import common
 
 class ExtraStats:
     def __init__(self, path, core, interface):
-        print "Loading ExtraStats plugin..."
+        print "Found ExtraStats plugin..."
         self.manager = core
         # Create an options file and try to load existing Values
         self.config_file = os.path.join(deluge.common.CONFIG_DIR, "extra_stats.conf")

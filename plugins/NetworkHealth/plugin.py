@@ -32,6 +32,7 @@
 
 class plugin_NetworkHealth:
     def __init__(self, path, deluge_core, deluge_interface):
+        print "Found NetworkHealth plugin..."
         self.parent = deluge_interface # Using this, you can access the Deluge client
         self.core = deluge_core
         self.location = path
