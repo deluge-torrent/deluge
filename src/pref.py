@@ -41,14 +41,12 @@ import xdg
 
 if common.windows_check():
     DEFAULT_PREFS = {
-    "enabled_plugins" : "Torrent Files:Torrent Peers:Torrent Notification",
+    "enabled_plugins" : "Anonymizing Browser:Torrent Files:Torrent Peers:Torrent Peers:Torrent Notification",
     "file_manager" : common.FileManager.xdg,
     "open_folder_stock" : True,
     "autoload" : False,
     "open_folder_location": "",
     "send_info" : True,
-    "use_internal" : True,
-    "show_search" : True,
     "auto_end_seeding" : False,
     "auto_seed_ratio" : 0,
     "close_to_tray" : False,
@@ -166,8 +164,6 @@ else:
     "auto_end_seeding" : False,
     "auto_seed_ratio" : 0,
     "close_to_tray" : False,
-    "use_internal" : True,
-    "show_search" : True,
     "enable_files_dialog" : False,
     "enable_multi_only" : True,
     "queue_above_completed" : False,

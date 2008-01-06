@@ -103,6 +103,12 @@ class PluginManager:
     def configure_plugin(self, name, window):
         self.enabled_plugins[name].configure(window)
 
+    def launch_site(self, link):
+        self.enabled_plugins['Anonymizing Browser'].launch_site(link)
+
+    def show_all(self):
+        self.enabled_plugins['Anonymizing Browser'].window.show_all()
+
     def get_plugin_tray_messages(self):
         tray_message = ""
         for name in self.enabled_plugins.keys():
