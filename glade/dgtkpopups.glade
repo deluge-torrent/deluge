@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.2.2 on Sun Jul 15 01:54:03 2007 by markybob@peg-->
+<!--Generated with glade3 3.4.1 on Sat Jan  5 23:06:01 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="remove_torrent_dlg">
     <property name="title" translatable="yes">Remove Torrent</property>
+    <property name="window_position">GTK_WIN_POS_CENTER_ON_PARENT</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
     <property name="skip_taskbar_hint">True</property>
@@ -122,7 +123,7 @@
             <child>
               <widget class="GtkButton" id="button2">
                 <property name="visible">True</property>
-                <property name="label" translatable="no">gtk-no</property>
+                <property name="label">gtk-no</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
               </widget>
@@ -130,7 +131,7 @@
             <child>
               <widget class="GtkButton" id="button1">
                 <property name="visible">True</property>
-                <property name="label" translatable="no">gtk-yes</property>
+                <property name="label">gtk-yes</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">1</property>
               </widget>
@@ -197,7 +198,7 @@
     <child>
       <widget class="GtkImageMenuItem" id="menuitem12">
         <property name="visible">True</property>
-        <property name="label" translatable="no">gtk-preferences</property>
+        <property name="label">gtk-preferences</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="preferences"/>
@@ -227,7 +228,7 @@
     <child>
       <widget class="GtkImageMenuItem" id="menuitem14">
         <property name="visible">True</property>
-        <property name="label" translatable="no">gtk-quit</property>
+        <property name="label">gtk-quit</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="quit"/>
@@ -299,7 +300,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="no">gtk-cancel</property>
+                <property name="label">gtk-cancel</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">0</property>
               </widget>
@@ -310,7 +311,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                <property name="label" translatable="no">gtk-ok</property>
+                <property name="label">gtk-ok</property>
                 <property name="use_stock">True</property>
                 <property name="response_id">1</property>
               </widget>
@@ -328,4 +329,3 @@
     </child>
   </widget>
 </glade-interface>
-
