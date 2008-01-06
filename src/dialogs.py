@@ -153,8 +153,6 @@ class PreferencesDlg:
             self.glade.get_widget("chk_clear_max_ratio_torrents").set_sensitive(self.preferences.get("auto_end_seeding"))
             self.glade.get_widget("chk_clear_max_ratio_torrents").set_active(self.preferences.get("clear_max_ratio_torrents"))
             self.glade.get_widget("chk_paused").set_active(self.preferences.get("start_paused"))
-            self.glade.get_widget("chk_show_search").set_active(self.preferences.get("show_search"))
-            self.glade.get_widget("chk_use_internal").set_active(self.preferences.get("use_internal"))
             self.glade.get_widget("ratio_spinner").set_value(self.preferences.get("auto_seed_ratio"))
             self.glade.get_widget("chk_dht").set_active(self.preferences.get("enable_dht"))
             self.glade.get_widget("chk_use_advanced_bar").set_active(self.preferences.get("use_advanced_bar"))
@@ -275,8 +273,6 @@ class PreferencesDlg:
         self.preferences.set("max_active_torrents", int(self.glade.get_widget("spin_torrents").get_value()))
         self.preferences.set("queue_seeds_to_bottom", self.glade.get_widget("chk_seedbottom").get_active())
         self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
-        self.preferences.set("show_search", self.glade.get_widget("chk_show_search").get_active())
-        self.preferences.set("use_internal", self.glade.get_widget("chk_use_internal").get_active())
         self.preferences.set("clear_max_ratio_torrents", self.glade.get_widget("chk_clear_max_ratio_torrents").get_active())
         self.preferences.set("queue_above_completed", self.glade.get_widget("chk_queue_above_completed").get_active())
         self.preferences.set("start_paused", self.glade.get_widget("chk_paused").get_active())
@@ -334,7 +330,7 @@ class PreferencesDlg:
         self.plugins.configure_plugin(plugin_name, self.dialog)
 
     def TestPort(self, widget):
-        common.open_url_in_browser('http://www.deluge-torrent.org/test-port.php?port=%s' % self.active_port, True)
+        common.open_url_in_browser('http://www.deluge-torrent.org/test-port.php?port=%s' % self.active_port, self.plugins, force_ext=True)
     
     def toggle_ui(self, widget):
         value = widget.get_active()

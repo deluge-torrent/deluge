@@ -153,12 +153,13 @@ def get_logo(size):
         return gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap("deluge.svg"), \
             size, size)
     
-def open_url_in_browser(link, force_ext=None):
+def open_url_in_browser(link, plugins, force_ext=None):
     import pref
     config = pref.Preferences(os.path.join(os.path.expanduser("~"), 'deluge', "prefs.state"))
-    if config.get("use_internal") and not force_ext:
-        import browser
-        browser.Browser(link)
+    enabled = config.get('enabled_plugins').split(':')
+    if ("Anonymizing Browser" in enabled) and not force_ext and plugins:
+        plugins.launch_site(link)
+        plugins.show_all()
     else:
         import threading
         import webbrowser
