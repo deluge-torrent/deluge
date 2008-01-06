@@ -1,7 +1,4 @@
 glade/delugegtk.glade
-glade/browser.glade
-glade/browserwin.glade
-glade/searchdlg.glade
 glade/dgtkpopups.glade
 glade/file_tab_menu.glade
 glade/merge_dialog.glade
@@ -15,8 +12,6 @@ glade/wizard.glade
 src/tab_details.py
 src/interface.py
 src/plugins.py
-src/browser.py
-src/search.py
 src/core.py
 src/files.py
 src/dialogs.py
@@ -55,3 +50,10 @@ plugins/WebUi/webserver_common.py
 plugins/WebUi/deluge_webserver.py
 plugins/WebUi/scripts/template_strings.py
 plugins/FlexRSS/FlexRSS.glade
+plugins/AnonymizingBrowser/browser.glade
+plugins/AnonymizingBrowser/__init__.py
+plugins/AnonymizingBrowser/bookmark.py
+plugins/AnonymizingBrowser/list_bookmarks.glade
+plugins/AnonymizingBrowser/browserwin.glade
+plugins/Search/searchdlg.glade
+plugins/Search/__init__.py
