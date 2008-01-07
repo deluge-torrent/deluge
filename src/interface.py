@@ -64,15 +64,6 @@ class DelugeGTK:
             domain='deluge')
         self.window = self.wtree.get_widget("main_window")
         self.toolbar = self.wtree.get_widget("tb_left")
-        self.browserbutton_image = gtk.Image()
-        self.browserbutton_image.set_from_pixbuf(\
-            gtk.gdk.pixbuf_new_from_file_at_size(\
-                common.get_pixmap('browser.png'), 18, 18))
-        self.browserbutton = gtk.ToolButton(self.browserbutton_image, _("Browser"))
-        self.browserbutton_tip = gtk.Tooltips()
-        self.browserbutton.set_tooltip(self.browserbutton_tip, _("Launch Browser"))
-        self.browserbutton.connect("clicked", self.launch_browser_clicked)
-        self.wtree.get_widget("tb_left").add(self.browserbutton)
         self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 
             80)], gtk.gdk.ACTION_COPY) 
         self.window.connect("delete_event", self.close)
@@ -163,10 +154,6 @@ class DelugeGTK:
                     return result
             SetConsoleCtrlHandler(win_handler)
 
-        if self.config.get("show_search"):
-            import search
-            search.Search(self)
-
         self.dht_timer = 0
         self.dht_skip = False
         self.memory_timer = 0
@@ -209,6 +196,7 @@ class DelugeGTK:
                     "launch_homepage": self.launch_homepage,
                     "launch_community": self.launch_community,
                     "launch_faq": self.launch_faq,
+                    "launch_donate": self.launch_donate,
                     "show_about_dialog": self.show_about_dialog,
                     "launchpad": self.launchpad,
                     "run_wizard": self.run_wizard,
@@ -961,10 +949,6 @@ window, please enter your password"))
                     "web_proxy_password"), 
                     int(self.config.get("web_proxy_port")), self.config.get(
                         "web_proxy_type"), "web")
-        if self.config.get("use_internal"):
-            self.browserbutton.show_all()
-        else:
-            self.browserbutton.hide_all()
 
     def get_message_from_state(self, unique_id, torrent_state):
         state = torrent_state['state']
@@ -1033,11 +1017,6 @@ window, please enter your password"))
         if cmd_line_torrents is None:
             cmd_line_torrents = []
         
-        if self.config.get("use_internal"):
-            self.browserbutton.show_all()
-        else:
-            self.browserbutton.hide_all()
-
         if not(self.config.get("start_in_tray") and \
                self.config.get("enable_system_tray") and 
                self.has_tray) and not self.window.get_property("visible"):
@@ -1463,16 +1442,19 @@ nice_need + "\n" + _("Available Space:") + " " + nice_free)
             
     def launchpad(self, obj=None):
         common.open_url_in_browser('https://translations.launchpad.net/deluge/\
-trunk/+pots/deluge')
+trunk/+pots/deluge', self.plugins)
 
     def launch_faq(self, obj=None):
-        common.open_url_in_browser('http://deluge-torrent.org/faq.php')
+        common.open_url_in_browser('http://deluge-torrent.org/faq.php', self.plugins)
+
+    def launch_donate(self, obj=None):
+        common.open_url_in_browser('http://deluge-torrent.org/downloads.php', self.plugins)
 
     def launch_community(self, obj=None):
-        common.open_url_in_browser('http://forum.deluge-torrent.org/')
+        common.open_url_in_browser('http://forum.deluge-torrent.org/', self.plugins)
 
     def launch_homepage(self, obj=None):
-        common.open_url_in_browser('http://deluge-torrent.org/')
+        common.open_url_in_browser('http://deluge-torrent.org/', self.plugins)
             
     def add_torrent_clicked(self, obj=None):
         torrent = dialogs.show_file_open_dialog(self.window)
@@ -1516,7 +1498,9 @@ trunk/+pots/deluge')
         glade = gtk.glade.XML(common.get_glade_file("dgtkpopups.glade"), 
                     domain='deluge')
         asker = glade.get_widget("remove_torrent_dlg")
-        asker.set_icon(common.get_logo(18))
+        if not common.windows_check():
+            asker.set_icon(common.get_logo(18))
+        asker.set_transient_for(self.window)
 
         warning = glade.get_widget("warning")
         warning.set_text(" ")

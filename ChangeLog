@@ -1,3 +1,11 @@
+Deluge 0.5.9 (xx Januarary 2007)
+  * Change how we handle fastresume - should prevent rechecking
+  * New theme for windows
+  * Built with Visual Studio 2005 on windows, which should prevent a lot of those
+  runtime errors that some people were having
+  * Performance enhancements by removing needless casts
+  * Search & Anonymizing Browser are now plugins
+
 Deluge 0.5.8 (29 December 2007)
   * Fix handling of corrupt torrent files
   * Fix having two instances of Deluge running on Ubuntu

@@ -181,8 +181,8 @@ else:
                              
     EXTRA_LINK_ARGS = ['-L.\win32\lib']
     includedirs = ['./libtorrent', './libtorrent/include', './libtorrent/include/libtorrent', './win32/include']
-    librariestype = ['boost_filesystem-mt', 'boost_date_time-mt',
-        'boost_thread-mt', 'z', 'ssl' ,'wsock32' ,'crypto' ,'gdi32' ,'ws2_32']
+    librariestype = ['boost_filesystem', 'boost_date_time',
+        'boost_thread', 'rt', 'z', 'ssl' ,'wsock32' ,'crypto' ,'gdi32' ,'ws2_32']
 
 # NOTE: The Rasterbar Libtorrent source code is in the libtorrent/ directory
 # inside of Deluge's source tarball.  
