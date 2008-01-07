@@ -157,7 +157,7 @@ class CoreProxy(gobject.GObject):
     def get_core(self):
         if self._core is None and self._uri is not None:
             log.debug("Creating ServerProxy..")
-            self._core = xmlrpclib.ServerProxy(self._uri)
+            self._core = xmlrpclib.ServerProxy(self._uri, allow_none=True)
             # Call any callbacks registered
             self.emit("new_core")
         
@@ -220,9 +220,10 @@ def shutdown():
         # Ignore everything
         set_core_uri(None)
      
-def add_torrent_file(torrent_files):
+def add_torrent_file(torrent_files, torrent_options=None):
     """Adds torrent files to the core
         Expects a list of torrent files
+        A list of torrent_option dictionaries in the same order of torrent_files
     """
     if torrent_files is None:
         log.debug("No torrent files selected..")
@@ -241,8 +242,19 @@ def add_torrent_file(torrent_files):
         (path, filename) = os.path.split(torrent_file)
         fdump = xmlrpclib.Binary(f.read())
         f.close()
+        
+        # Get the options for the torrent
+        if torrent_options != None:
+            try:
+                options = torrent_options[torrent_files.index(torrent_file)]
+            except:
+                options = None
+        else:
+            options = None
+            
         try:
-            result = get_core().add_torrent_file(filename, str(), fdump)
+            result = get_core().add_torrent_file(
+                filename, str(), fdump, options)
         except (AttributeError, socket.error):
             set_core_uri(None)
             result = False

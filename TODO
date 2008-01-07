@@ -3,7 +3,6 @@
 * Figure out easy way for user-made plugins to add i18n support.
 * Restart daemon function
 * Docstrings!
-* Create a new add torrent dialog
 * Implement open folder
 * Maybe add pop-up menus to the status bar items
 * Address issue where torrents will redownload if the storage is moved outside
@@ -22,3 +21,5 @@
 * Implement caching in core
 * Use the batch torrent status info as a cache for other torrent status requests
 * Don't save fastresume files on exit for finished or paused torrents
+* Clean-up TorrentManager and state saving.. Maybe use an 'options' dictionary
+    similar to one used when adding new torrents.

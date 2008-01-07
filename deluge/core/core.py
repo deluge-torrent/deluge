@@ -81,9 +81,13 @@ DEFAULT_PREFS = {
     "max_upload_slots_global": -1,
     "max_connections_per_torrent": -1,
     "max_upload_slots_per_torrent": -1,
+    "max_upload_speed_per_torrent": -1,
+    "max_download_speed_per_torrent": -1,
     "enabled_plugins": [],
     "autoadd_location": "",
-    "autoadd_enable": False
+    "autoadd_enable": False,
+    "add_paused": False,
+    "default_private": False
 }
         
 class Core(
@@ -254,7 +258,7 @@ class Core(
         """De-registers a client with the signal manager."""
         self.signals.deregister_client(self.client_address)
         
-    def export_add_torrent_file(self, filename, save_path, filedump):
+    def export_add_torrent_file(self, filename, save_path, filedump, options):
         """Adds a torrent file to the libtorrent session
             This requires the torrents filename and a dump of it's content
         """
@@ -266,7 +270,7 @@ class Core(
             filedump = filedump.data
 
         torrent_id = self.torrents.add(filename, filedump=filedump, 
-            save_path=save_path)
+            save_path=save_path, options=options)
 
         # Run the plugin hooks for 'post_torrent_add'
         self.plugins.run_post_torrent_add(torrent_id)

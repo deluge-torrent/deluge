@@ -127,8 +127,9 @@ class TorrentManager(component.Component):
         """Returns a list of torrent_ids"""
         return self.torrents.keys()
         
-    def add(self, filename, filedump=None, compact=None, paused=False,
-        save_path=None, total_uploaded=0, trackers=None):
+    def add(self, filename, filedump=None, options=None, 
+        compact=None, paused=None, save_path=None, total_uploaded=0, 
+        trackers=None):
         """Add a torrent to the manager and returns it's torrent_id"""
         log.info("Adding torrent: %s", filename)
 
@@ -165,13 +166,33 @@ class TorrentManager(component.Component):
             
         handle = None
 
+        # Check if options is None and load defaults
+        if options == None:
+            options_keys = [
+                "compact_allocation",
+                "max_connections_per_torrent",
+                "max_upload_slots_per_torrent",
+                "max_upload_speed_per_torrent",
+                "max_download_speed_per_torrent",
+                "prioritize_first_last_pieces",
+                "download_location",
+                "add_paused",
+                "default_private"
+            ]
+            options = {}
+            for key in options_keys:
+                options[key] = self.config[key]
+
+        if paused is None:
+            paused = options["add_paused"]
+
         # Make sure we have a valid download_location
         if save_path is None:
-            save_path = self.config["download_location"]
+            save_path = options["download_location"]
 
         # Make sure we are adding it with the correct allocation method.
         if compact is None:
-            compact = self.config["compact_allocation"]
+            compact = options["compact_allocation"]
         
         # Set the right storage_mode
         if compact:
@@ -204,9 +225,15 @@ class TorrentManager(component.Component):
         if trackers != None:
             self.set_trackers(str(handle.info_hash()), trackers)
                     
-        # Set per-torrent limits
-        handle.set_max_connections(self.max_connections)
-        handle.set_max_uploads(self.max_uploads)
+        # Set per-torrent options
+        torrent.set_max_connections(options["max_connections_per_torrent"])
+        torrent.set_max_upload_slots(options["max_upload_slots_per_torrent"])
+        torrent.set_max_upload_speed(options["max_upload_speed_per_torrent"])
+        torrent.set_max_download_speed(
+            options["max_download_speed_per_torrent"])
+        torrent.set_prioritize_first_last(
+            options["prioritize_first_last_pieces"])
+        torrent.set_private_flag(options["default_private"])
 
         # Resume the torrent if needed
         if paused == False:
@@ -510,14 +537,14 @@ class TorrentManager(component.Component):
         log.debug("max_connections_per_torrent set to %s..", value)
         self.max_connections = value
         for key in self.torrents.keys():
-            self.torrents[key].handle.set_max_connections(value)
+            self.torrents[key].set_max_connections(value)
         
     def on_set_max_upload_slots_per_torrent(self, key, value):
         """Sets the per-torrent upload slot limit"""
         log.debug("max_upload_slots_per_torrent set to %s..", value)
         self.max_uploads = value
         for key in self.torrents.keys():
-            self.torrents[key].handle.set_max_uploads(value)
+            self.torrents[key].set_max_uploads(value)
     
     ## Alert handlers ##
     def on_alert_torrent_finished(self, alert):

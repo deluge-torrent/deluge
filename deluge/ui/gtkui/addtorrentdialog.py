@@ -62,10 +62,12 @@ class AddTorrentDialog:
             "on_button_remove_clicked": self._on_button_remove_clicked,
             "on_button_trackers_clicked": self._on_button_trackers_clicked,
             "on_button_cancel_clicked": self._on_button_cancel_clicked,
-            "on_button_add_clicked": self._on_button_add_clicked
+            "on_button_add_clicked": self._on_button_add_clicked,
+            "on_button_apply_clicked": self._on_button_apply_clicked,
+            "on_button_revert_clicked": self._on_button_revert_clicked
         })
 
-        self.torrent_liststore = gtk.ListStore(str, str)
+        self.torrent_liststore = gtk.ListStore(str, str, str)
         self.files_liststore = gtk.ListStore(bool, str, int)
         # Holds the files info
         self.files = {}
@@ -157,8 +159,9 @@ class AddTorrentDialog:
                     'download': True
                 })
 
-            name = os.path.split(filename)[-1] + ": " + info.name()
-            self.torrent_liststore.append([str(info.info_hash()), name])
+            name = "%s (%s)" % (info.name(), os.path.split(filename)[-1])
+            self.torrent_liststore.append(
+                [str(info.info_hash()), name, filename])
             self.files[str(info.info_hash())] = files
             self.infos[str(info.info_hash())] = info
 
@@ -179,16 +182,44 @@ class AddTorrentDialog:
                 file_dict["size"]
                 ])
 
+        # Save the previous torrents options
+        self.save_torrent_options()
         # Update the options frame
-        self.update_torrent_options()
-        self.set_default_options()
-        
+        self.update_torrent_options(model.get_value(row, 0))
+
         self.previous_selected_torrent = row
 
-    def update_torrent_options(self):
+    def update_torrent_options(self, torrent_id):
+        if torrent_id not in self.options:
+            self.set_default_options()
+            return
+        
+        options = self.options[torrent_id]
+        
+        self.glade.get_widget("button_location").set_current_folder(
+            options["download_location"])
+        self.glade.get_widget("radio_compact").set_active(
+            options["compact_allocation"])
+        self.glade.get_widget("spin_maxdown").set_value(
+            options["max_download_speed_per_torrent"])
+        self.glade.get_widget("spin_maxup").set_value(
+            options["max_upload_speed_per_torrent"])
+        self.glade.get_widget("spin_maxconnections").set_value(
+            options["max_connections_per_torrent"])
+        self.glade.get_widget("spin_maxupslots").set_value(
+            options["max_upload_slots_per_torrent"])
+        self.glade.get_widget("chk_paused").set_active(
+            options["add_paused"])
+        self.glade.get_widget("chk_prioritize").set_active(
+            options["prioritize_first_last_pieces"])
+        self.glade.get_widget("chk_private").set_active(
+            options["default_private"])
+            
+    def save_torrent_options(self, row=None):
         # Keeps the torrent options dictionary up-to-date with what the user has
         # selected.
-        row = self.previous_selected_torrent
+        if row is None:
+            row = self.previous_selected_torrent
         if row is None or not self.torrent_liststore.iter_is_valid(row):
             return
             
@@ -204,15 +235,15 @@ class AddTorrentDialog:
         options["max_upload_speed_per_torrent"] = \
             self.glade.get_widget("spin_maxup").get_value()
         options["max_connections_per_torrent"] = \
-            self.glade.get_widget("spin_maxconnections").get_value()
+            self.glade.get_widget("spin_maxconnections").get_value_as_int()
         options["max_upload_slots_per_torrent"] = \
-            self.glade.get_widget("spin_maxupslots").get_value()
+            self.glade.get_widget("spin_maxupslots").get_value_as_int()
         options["add_paused"] = \
             self.glade.get_widget("chk_paused").get_active()
         options["prioritize_first_last_pieces"] = \
             self.glade.get_widget("chk_prioritize").get_active()
         options["default_private"] = \
-            self.glade.get_widget("chk_private")
+            self.glade.get_widget("chk_private").get_active()
             
         self.options[torrent_id] = options
         
@@ -236,9 +267,6 @@ class AddTorrentDialog:
             self.core_config["prioritize_first_last_pieces"])
         self.glade.get_widget("chk_private").set_active(
             self.core_config["default_private"])
-            #self.infos[model.get_value(row, 0)].priv())
-            
-        
             
     def _on_file_toggled(self, render, path):
         (model, paths) = self.listview_files.get_selection().get_selected_rows()
@@ -317,6 +345,8 @@ class AddTorrentDialog:
         else:
             url = None
 
+        # This is where we need to fetch the .torrent file from the URL and
+        # add it to the list.
         log.debug("url: %s", url)
         dialog.hide()
 
@@ -344,4 +374,53 @@ class AddTorrentDialog:
 
     def _on_button_add_clicked(self, widget):
         log.debug("_on_button_add_clicked")
+        # Save the options for selected torrent prior to adding
+        (model, row) = self.listview_torrents.get_selection().get_selected()
+        if row is not None:
+            self.save_torrent_options(row)
 
+        torrent_filenames = []
+        torrent_options = []
+        
+        row = self.torrent_liststore.get_iter_first()
+        while row != None:
+            filename = self.torrent_liststore.get_value(row, 2)
+            try:
+                options = self.options[
+                    self.torrent_liststore.get_value(row, 0)]
+            except:
+                options = None
+            
+            torrent_filenames.append(filename)
+            torrent_options.append(options)
+            
+            row = self.torrent_liststore.iter_next(row)
+            
+        client.add_torrent_file(torrent_filenames, torrent_options)
+
+    def _on_button_apply_clicked(self, widget):
+        log.debug("_on_button_apply_clicked")
+        (model, row) = self.listview_torrents.get_selection().get_selected()
+        if row is None:
+            return
+        
+        self.save_torrent_options(row)
+        
+        # The options we want all the torrents to have
+        options = self.options[model.get_value(row, 0)]
+        
+        # Set all the torrent options
+        row = model.get_iter_first()
+        while row != None:
+            torrent_id = model.get_value(row, 0)
+            self.options[torrent_id] = options
+            row = model.iter_next(row)
+            
+    def _on_button_revert_clicked(self, widget):
+        log.debug("_on_button_revert_clicked")
+        (model, row) = self.listview_torrents.get_selection().get_selected()
+        if row is None:
+            return
+        
+        del self.options[model.get_value(row, 0)]
+        self.set_default_options()

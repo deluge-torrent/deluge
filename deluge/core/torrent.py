@@ -52,6 +52,14 @@ class Torrent:
         self.compact = compact
         # Where the torrent is being saved to
         self.save_path = save_path
+        
+        self.max_connections = -1
+        self.max_upload_slots = -1
+        self.max_upload_speed = -1
+        self.max_download_speed = -1
+        self.private = False
+        self.prioritize = False
+        
         # The tracker status
         self.tracker_status = ""
         # Tracker list
@@ -76,7 +84,30 @@ class Torrent:
     def set_tracker_status(self, status):
         """Sets the tracker status"""
         self.tracker_status = status
+    
+    def set_max_connections(self, max_connections):
+        self.max_connections = max_connections
+        self.handle.set_max_connections(max_connections)
+    
+    def set_max_upload_slots(self, max_slots):
+        self.max_upload_slots = max_slots
+        self.handle.set_max_uploads(max_slots)
         
+    def set_max_upload_speed(self, m_up_speed):
+        self.set_max_upload_speed = m_up_speed
+        self.handle.set_upload_limit(int(m_up_speed * 1024))
+    
+    def set_max_download_speed(self, m_down_speed):
+        self.set_max_download_speed = m_down_speed
+        self.handle.set_download_limit(int(m_down_speed * 1024))
+    
+    def set_private_flag(self, private):
+        self.private = private
+        self.handle.torrent_info().set_priv(private)
+    
+    def set_prioritize_first_last(self, prioritize):
+        pass
+            
     def get_state(self):
         """Returns the state of this torrent for saving to the session state"""
         status = self.handle.status()
