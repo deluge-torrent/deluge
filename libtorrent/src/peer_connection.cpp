@@ -2668,6 +2668,7 @@ namespace libtorrent
 #ifdef TORRENT_VERBOSE_LOGGING
 			(*m_logger) << "**ERROR**: " << error.message() << "[in peer_connection::on_receive_data]\n";
 #endif
+			set_failed();
 			on_receive(error, bytes_transferred);
 			throw std::runtime_error(error.message());
 		}
@@ -2828,6 +2829,7 @@ namespace libtorrent
 			(*m_ses.m_logger) << "CONNECTION FAILED: " << m_remote.address().to_string()
 				<< ": " << e.message() << "\n";
 #endif
+			set_failed();
 			m_ses.connection_failed(self(), m_remote, e.message().c_str());
 			return;
 		}
@@ -2888,6 +2890,7 @@ namespace libtorrent
 #ifdef TORRENT_VERBOSE_LOGGING
 			(*m_logger) << "**ERROR**: " << error.message() << " [in peer_connection::on_send_data]\n";
 #endif
+			set_failed();
 			throw std::runtime_error(error.message());
 		}
 		if (m_disconnecting) return;
