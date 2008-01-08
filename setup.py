@@ -164,6 +164,7 @@ if not OS == "win":
         sysconfig.get_config_vars()["OPT"] = ' '.join(cv_opt.split())
 else:
     EXTRA_COMPILE_ARGS = [  '-O2', '-DBOOST_WINDOWS',
+                            '-fno-strict-aliasing',
                             '-Wno-missing-braces',
                             '-DWIN32_LEAN_AND_MEAN',
                             '-D_WIN32_WINNT=0x0500',
