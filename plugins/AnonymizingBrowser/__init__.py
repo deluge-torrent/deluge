@@ -91,6 +91,7 @@ class Browser:
         self.widgets.get_widget("window1").set_title("Deluge Web Browser")
         self.txt_google = self.widgets.get_widget("entry2")
         self.window = self.widgets.get_widget("window1")
+        self.notebook = self.widgets.get_widget("notebook1")
         self.window.set_default_size(940, 700)
         self.window.set_position(gtk.WIN_POS_CENTER_ALWAYS)
         self.window.set_focus(self.txt_url)
@@ -117,13 +118,14 @@ class Browser:
             self.create_prefs_js()
             self.create_mime()
             gtkmozembed.set_profile_path(deluge.common.CONFIG_DIR, "mozilla")
-            self.gtkmoz = gtkmozembed.MozEmbed()
-            self.gtkmoz2 = gtkmozembed.MozEmbed()
-            self.gtkmoz.load_url("http://deluge-torrent.org/google_search.htm")
-            self.gtkmoz2.load_url("http://deluge-torrent.org/google.php")
-            self.widgets.get_widget("frame1").add(self.gtkmoz)
-            self.widgets.get_widget("frame2").add(self.gtkmoz2)
-            self.txt_url.set_text(self.gtkmoz.get_location())
+            self.gtkmoz0 = gtkmozembed.MozEmbed()
+            self.gtkmozad = gtkmozembed.MozEmbed()
+            self.linpage = "self.gtkmoz%i" % self.notebook.get_current_page()
+            self.gtkmoz0.load_url("http://deluge-torrent.org/google_search.htm")
+            self.gtkmozad.load_url("http://deluge-torrent.org/google.php")
+            self.widgets.get_widget("frame0").add(self.gtkmoz0)
+            self.widgets.get_widget("ad").add(self.gtkmozad)
+            self.txt_url.set_text(self.gtkmoz0.get_location())
     
         else:
             #
@@ -211,6 +213,7 @@ class Browser:
 
             self.container = self.widgets.get_widget('drawingarea1')
             self.container2 = self.widgets.get_widget('drawingarea2')
+            self.winpage = "self.pBrowser%i" % self.notebook.get_current_page()
             self.container.realize()
             self.container2.realize()
             self.container.show()
@@ -371,37 +374,38 @@ user_pref("network.proxy.type", 1);
 
     def update(self):
         """updates the GUI"""
-        if self.window.get_focus() != self.txt_url:
-            if not deluge.common.windows_check():
-                self.txt_url.set_text(self.gtkmoz.get_location())
-                try:
-                    self.widgets.get_widget("window1").set_title("Deluge Web Browser " \
-                        + self.gtkmoz.get_title())
-                except:
-                    pass
-                if self.gtkmoz.can_go_back():
-                    self.widgets.get_widget("toolbutton_back").set_sensitive(True)
-                else:
-                    self.widgets.get_widget("toolbutton_back").set_sensitive(False)
-                if self.gtkmoz.can_go_forward():
-                    self.widgets.get_widget("toolbutton_forward").set_sensitive(True)
-                else:
-                    self.widgets.get_widget("toolbutton_forward").set_sensitive(False)
-                if self.gtkmoz2.can_go_back():
-                    self.widgets.get_widget("toolbutton_back2").set_sensitive(True)
-                else:
-                    self.widgets.get_widget("toolbutton_back2").set_sensitive(False)
-                if self.gtkmoz2.can_go_forward():
-                    self.widgets.get_widget("toolbutton_forward2").set_sensitive(True)
-                else:
-                    self.widgets.get_widget("toolbutton_forward2").set_sensitive(False)
+        self.linpage = "self.gtkmoz%i" % self.notebook.get_current_page()
+        if not deluge.common.windows_check():
+            if self.window.get_focus() != self.txt_url:
+                self.txt_url.set_text(eval(self.linpage).get_location())
+            try:
+                self.widgets.get_widget("window1").set_title("Deluge Web Browser " \
+                    + eval(self.linpage).get_title())
+            except:
+                pass
+            if eval(self.linpage).can_go_back():
+                self.widgets.get_widget("toolbutton_back").set_sensitive(True)
             else:
-                self.txt_url.set_text(self.pBrowser.LocationURL)
-                try:
-                    self.widgets.get_widget("window1").set_title("Deluge Web Browser " \
-                    + self.pBrowser.LocationName)
-                except:
-                    pass
+                self.widgets.get_widget("toolbutton_back").set_sensitive(False)
+            if eval(self.linpage).can_go_forward():
+                self.widgets.get_widget("toolbutton_forward").set_sensitive(True)
+            else:
+                self.widgets.get_widget("toolbutton_forward").set_sensitive(False)
+            if self.gtkmozad.can_go_back():
+                self.widgets.get_widget("toolbutton_back2").set_sensitive(True)
+            else:
+               self.widgets.get_widget("toolbutton_back2").set_sensitive(False)
+            if self.gtkmozad.can_go_forward():
+                self.widgets.get_widget("toolbutton_forward2").set_sensitive(True)
+            else:
+                self.widgets.get_widget("toolbutton_forward2").set_sensitive(False)
+        else:
+            self.txt_url.set_text(self.pBrowser.LocationURL)
+            try:
+                self.widgets.get_widget("window1").set_title("Deluge Web Browser " \
+                + self.pBrowser.LocationName)
+            except:
+                pass
         return True
 
     def key_pressed(self, widget, key):
@@ -415,22 +419,22 @@ user_pref("network.proxy.type", 1);
         elif key.keyval in (gtk.keysyms.R, gtk.keysyms.r) and (key.state & \
             gtk.gdk.CONTROL_MASK) != 0:
             if not deluge.common.windows_check():
-                self.gtkmoz.reload(0)
+                eval(self.linpage).reload(0)
             else:
                 self.pBrowser.refresh()
         elif key.keyval == gtk.keysyms.Return and (key.state & \
             gtk.gdk.CONTROL_MASK) != 0:
             if not deluge.common.windows_check():
-                self.gtkmoz.load_url("http://www.%s.com" % (self.txt_url.get_text()))
-                self.txt_url.set_text(self.gtkmoz.get_location())
+                eval(self.linpage).load_url("http://www.%s.com" % (self.txt_url.get_text()))
+                self.txt_url.set_text(eval(self.linpage).get_location())
             else:
                 v = byref(VARIANT())
                 self.pBrowser.Navigate("http://www.%s.com" % (self.txt_url.get_text()), v, v, v, v)
         elif key.keyval == gtk.keysyms.Return and (key.state & \
             gtk.gdk.SHIFT_MASK) != 0:
             if not deluge.common.windows_check():
-                self.gtkmoz.load_url("http://www.%s.net" % (self.txt_url.get_text()))
-                self.txt_url.set_text(self.gtkmoz.get_location())
+                self.eval(self.linpage).load_url("http://www.%s.net" % (self.txt_url.get_text()))
+                self.txt_url.set_text(eval(self.linpage).get_location())
             else:
                 v = byref(VARIANT())
                 self.pBrowser.Navigate("http://www.%s.net" % (self.txt_url.get_text()), v, v, v, v)                
@@ -442,11 +446,11 @@ user_pref("network.proxy.type", 1);
     def search(self, widget=None):
         """open a new search page"""
         if not deluge.common.windows_check():
-            self.gtkmoz.load_url("http://www.google.com/cse?cx=0103316019315568500"
+            eval(self.linpage).load_url("http://www.google.com/cse?cx=0103316019315568500"
                 + "92%3Apfadwhze_jy&q=" + self.txt_google.get_text() + "&sa=Search&cof=FORID%3A1")
             try:
                 self.widgets.get_widget("window1").set_title("Deluge Web Browser " \
-                + self.gtkmoz.get_title())
+                + eval(self.linpage).get_title())
             except:
                 pass
         else:
@@ -457,10 +461,10 @@ user_pref("network.proxy.type", 1);
     def load_url(self, widget=None):
         """open a new url"""
         if not deluge.common.windows_check():
-            self.gtkmoz.load_url(self.txt_url.get_text())
+            eval(self.linpage).load_url(self.txt_url.get_text())
             try:
                 self.widgets.get_widget("window1").set_title("Deluge Web Browser " \
-                + self.gtkmoz.get_title())
+                + eval(self.linpage).get_title())
             except:
                 pass
         else:
@@ -470,10 +474,10 @@ user_pref("network.proxy.type", 1);
     def launch_site(self, url):
         """open a new url"""
         if not deluge.common.windows_check():
-            self.gtkmoz.load_url(url)
+            eval(self.linpage).load_url(url)
             try:
                 self.widgets.get_widget("window1").set_title("Deluge Web Browser " \
-                + self.gtkmoz.get_title())
+                + eval(self.linpage).get_title())
             except:
                 pass
         else:
@@ -483,7 +487,7 @@ user_pref("network.proxy.type", 1);
     def reload_url(self, widget=None):
         """refresh the current url"""
         if not deluge.common.windows_check():
-            self.gtkmoz.reload(0)
+            eval(self.linpage).reload(0)
         else:
             self.pBrowser.refresh()
 
@@ -492,7 +496,7 @@ user_pref("network.proxy.type", 1);
         import threading
         import webbrowser
         if not deluge.common.windows_check():
-            self.link = self.gtkmoz.get_location()
+            self.link = eval(self.linpage).get_location()
         else:
             self.link = self.pBrowser.LocationURL
 
@@ -510,7 +514,7 @@ user_pref("network.proxy.type", 1);
         import threading
         import webbrowser
         if not deluge.common.windows_check():
-            self.link = self.gtkmoz2.get_location()
+            self.link = self.gtkmozad.get_location()
         else:
             self.link = self.pBrowser2.LocationURL
 
@@ -526,12 +530,12 @@ user_pref("network.proxy.type", 1);
     def go_back(self, widget=None):
         """go a page back"""
         if not deluge.common.windows_check():
-            if self.gtkmoz.can_go_back():
-                self.gtkmoz.go_back()
-                self.txt_url.set_text(self.gtkmoz.get_location())
+            if eval(self.linpage).can_go_back():
+                eval(self.linpage).go_back()
+                self.txt_url.set_text(eval(self.linpage).get_location())
             try:
                 self.widgets.get_widget("window1").set_title("Deluge Web Browser " \
-                    + self.gtkmoz.get_title())
+                    + eval(self.linpage).get_title())
             except:
                 pass
         else:
@@ -546,12 +550,12 @@ user_pref("network.proxy.type", 1);
     def go_forward(self, widget=None):
         """go a page ahead"""
         if not deluge.common.windows_check():
-            if self.gtkmoz.can_go_forward():
-                self.gtkmoz.go_forward()
-                self.txt_url.set_text(self.gtkmoz.get_location())
+            if eval(self.linpage).can_go_forward():
+                eval(self.linpage).go_forward()
+                self.txt_url.set_text(eval(self.linpage).get_location())
             try:
                 self.widgets.get_widget("window1").set_title("Deluge Web Browser " \
-                + self.gtkmoz.get_title())
+                + eval(self.linpage).get_title())
             except:
                 pass
         else:
@@ -566,23 +570,23 @@ user_pref("network.proxy.type", 1);
     def go_back2(self, widget=None):
         """go a page back"""
         if not deluge.common.windows_check():
-            if self.gtkmoz2.can_go_back():
-                self.gtkmoz2.go_back()
+            if self.gtkmozad.can_go_back():
+                self.gtkmozad.go_back()
         else:
             self.pBrowser2.GoBack()
 
     def go_forward2(self, widget=None):
         """go a page ahead"""
         if not deluge.common.windows_check():
-            if self.gtkmoz2.can_go_forward():
-                self.gtkmoz2.go_forward()
+            if self.gtkmozad.can_go_forward():
+                self.gtkmozad.go_forward()
         else:
             self.pBrowser2.GoForward()
 
     def stop_load(self, widget=None):
         """stop loading current page"""
         if not deluge.common.windows_check():
-            self.gtkmoz.stop_load()
+            eval(self.linpage).stop_load()
         else:
             self.pBrowser.Stop()
 
