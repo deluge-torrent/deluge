@@ -535,9 +535,9 @@ window, please enter your password"))
             if self.window.is_active():
                 self.window.hide()
             else:
-                self.window.present()
                 # Force UI update as we don't update it while minimized
                 self.update()
+                self.window.present()
         else:
             if self.config.get("lock_tray"):
                 self.unlock_tray("mainwinshow")
