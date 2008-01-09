@@ -1039,8 +1039,7 @@ window, please enter your password"))
         # Load plugins after we showed main window (if not started in tray)
         self.load_plugins()
         self.load_tabs_order()
-        if self.config.get("new_releases"):
-            self.new_release_check()
+        self.new_release_check()
 
         try:
             gobject.threads_init()
