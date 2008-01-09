@@ -120,7 +120,6 @@ class Browser:
             gtkmozembed.set_profile_path(deluge.common.CONFIG_DIR, "mozilla")
             self.gtkmoz0 = gtkmozembed.MozEmbed()
             self.gtkmozad = gtkmozembed.MozEmbed()
-            self.linpage = "self.gtkmoz%i" % self.notebook.get_current_page()
             self.gtkmoz0.load_url("http://deluge-torrent.org/google_search.htm")
             self.gtkmozad.load_url("http://deluge-torrent.org/google.php")
             self.widgets.get_widget("frame0").add(self.gtkmoz0)
@@ -272,6 +271,15 @@ class Browser:
 
     def launch_browser_clicked(self, arg=None):
         self.window.show_all()
+
+    def new_tab(self, arg=None):
+        num = "self.gtkmoz%i" % self.notebook.get_n_pages()
+        exec "%s = gtkmozembed.MozEmbed()" % num
+        eval(num).load_url("http://deluge-torrent.org/google_search.htm")
+        self.frame = gtk.Frame()
+        self.frame.add(eval(num))
+        self.notebook.append_page(self.frame, gtk.Label(_("Label")))
+        self.frame.show_all()
         
     def unload(self, arg=None):
         self.toolbar.remove(self.browserbutton)
@@ -410,6 +418,7 @@ user_pref("network.proxy.type", 1);
 
     def key_pressed(self, widget, key):
         """captures ctrl+ keys and sets focus accordingly, or quits"""
+        self.linpage = "self.gtkmoz%i" % self.notebook.get_current_page()
         if key.keyval in (gtk.keysyms.L, gtk.keysyms.l) and (key.state & \
             gtk.gdk.CONTROL_MASK) != 0:
             self.window.set_focus(self.txt_url)
@@ -446,6 +455,7 @@ user_pref("network.proxy.type", 1);
     def search(self, widget=None):
         """open a new search page"""
         if not deluge.common.windows_check():
+            self.linpage = "self.gtkmoz%i" % self.notebook.get_current_page()
             eval(self.linpage).load_url("http://www.google.com/cse?cx=0103316019315568500"
                 + "92%3Apfadwhze_jy&q=" + self.txt_google.get_text() + "&sa=Search&cof=FORID%3A1")
             try:
@@ -461,6 +471,7 @@ user_pref("network.proxy.type", 1);
     def load_url(self, widget=None):
         """open a new url"""
         if not deluge.common.windows_check():
+            self.linpage = "self.gtkmoz%i" % self.notebook.get_current_page()
             eval(self.linpage).load_url(self.txt_url.get_text())
             try:
                 self.widgets.get_widget("window1").set_title("Deluge Web Browser " \
@@ -487,6 +498,8 @@ user_pref("network.proxy.type", 1);
     def reload_url(self, widget=None):
         """refresh the current url"""
         if not deluge.common.windows_check():
+            self.linpage = "self.gtkmoz%i" % self.notebook.get_current_page()
+            print "self.gtkmoz%i" % self.notebook.get_current_page()
             eval(self.linpage).reload(0)
         else:
             self.pBrowser.refresh()
@@ -530,6 +543,7 @@ user_pref("network.proxy.type", 1);
     def go_back(self, widget=None):
         """go a page back"""
         if not deluge.common.windows_check():
+            self.linpage = "self.gtkmoz%i" % self.notebook.get_current_page()
             if eval(self.linpage).can_go_back():
                 eval(self.linpage).go_back()
                 self.txt_url.set_text(eval(self.linpage).get_location())
@@ -550,6 +564,7 @@ user_pref("network.proxy.type", 1);
     def go_forward(self, widget=None):
         """go a page ahead"""
         if not deluge.common.windows_check():
+            self.linpage = "self.gtkmoz%i" % self.notebook.get_current_page()
             if eval(self.linpage).can_go_forward():
                 eval(self.linpage).go_forward()
                 self.txt_url.set_text(eval(self.linpage).get_location())
@@ -586,6 +601,7 @@ user_pref("network.proxy.type", 1);
     def stop_load(self, widget=None):
         """stop loading current page"""
         if not deluge.common.windows_check():
+            self.linpage = "self.gtkmoz%i" % self.notebook.get_current_page()
             eval(self.linpage).stop_load()
         else:
             self.pBrowser.Stop()
