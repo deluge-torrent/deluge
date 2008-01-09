@@ -30,6 +30,9 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
+#ifndef TORRENT_DISK_IO_THREAD
+#define TORRENT_DISK_IO_THREAD
+
 #ifdef TORRENT_DISK_STATS
 #include <fstream>
 #endif
@@ -99,7 +102,9 @@ namespace libtorrent
 		int disk_allocations() const
 		{ return m_allocations; }
 #endif
-	
+
+		void join();
+
 		// aborts read operations
 		void stop(boost::intrusive_ptr<piece_manager> s);
 		void add_job(disk_io_job const& j
@@ -151,4 +156,6 @@ namespace libtorrent
 	};
 
 }
+
+#endif
 

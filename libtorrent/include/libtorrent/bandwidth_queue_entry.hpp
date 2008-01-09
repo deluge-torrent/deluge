@@ -30,20 +30,25 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifndef TORRENT_ASSERT
+#ifndef TORRENT_BANDWIDTH_QUEUE_ENTRY_HPP_INCLUDED
+#define TORRENT_BANDWIDTH_QUEUE_ENTRY_HPP_INCLUDED
 
-#include "libtorrent/config.hpp"
-#include <cassert>
+#include <boost/intrusive_ptr.hpp>
 
-#if (defined __linux__ || defined __MACH__) && defined __GNUC__ && !defined(NDEBUG)
+namespace libtorrent {
 
-TORRENT_EXPORT void assert_fail(const char* expr, int line, char const* file, char const* function);
-#define TORRENT_ASSERT(x) if (x) {} else assert_fail(#x, __LINE__, __FILE__, __PRETTY_FUNCTION__)
+template<class PeerConnection>
+struct bw_queue_entry
+{
+	bw_queue_entry(boost::intrusive_ptr<PeerConnection> const& pe
+		, int blk, bool no_prio)
+		: peer(pe), max_block_size(blk), non_prioritized(no_prio) {}
+	boost::intrusive_ptr<PeerConnection> peer;
+	int max_block_size;
+	bool non_prioritized;
+};
 
-#else
-#include <cassert>
-#define TORRENT_ASSERT(x) assert(x)
-#endif
+}
 
 #endif
 

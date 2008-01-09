@@ -68,13 +68,14 @@ class upnp : public intrusive_ptr_base<upnp>
 public:
 	upnp(io_service& ios, connection_queue& cc
 		, address const& listen_interface, std::string const& user_agent
-		, portmap_callback_t const& cb);
+		, portmap_callback_t const& cb, bool ignore_nonrouters);
 	~upnp();
 
 	// maps the ports, if a port is set to 0
 	// it will not be mapped
 	void set_mappings(int tcp, int udp);
 
+	void discover_device();
 	void close();
 
 private:
@@ -89,7 +90,6 @@ private:
 	void resend_request(asio::error_code const& e);
 	void on_reply(udp::endpoint const& from, char* buffer
 		, std::size_t bytes_transferred);
-	void discover_device();
 
 	struct rootdevice;
 	
@@ -232,6 +232,8 @@ private:
 	bool m_closing;
 
 	connection_queue& m_cc;
+
+	std::vector<address> m_filter;
 
 #ifdef TORRENT_UPNP_LOGGING
 	std::ofstream m_log;

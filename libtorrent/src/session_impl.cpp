@@ -2198,6 +2198,11 @@ namespace detail
 #endif
 		m_checker_thread->join();
 
+#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+		(*m_logger) << time_now_string() << " waiting for disk io thread\n";
+#endif
+		m_disk_thread.join();
+
 		TORRENT_ASSERT(m_torrents.empty());
 		TORRENT_ASSERT(m_connections.empty());
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
@@ -2345,8 +2350,10 @@ namespace detail
 			, m_listen_interface.address()
 			, m_settings.user_agent
 			, bind(&session_impl::on_port_mapping
-				, this, _1, _2, _3));
+				, this, _1, _2, _3)
+			, m_settings.upnp_ignore_nonrouters);
 
+		m_upnp->discover_device();
 		m_upnp->set_mappings(m_listen_interface.port(), 
 #ifndef TORRENT_DISABLE_DHT
 			m_dht ? m_dht_settings.service_port : 
@@ -2385,7 +2392,11 @@ namespace detail
 	
 	std::pair<char*, int> session_impl::allocate_buffer(int size)
 	{
+		TORRENT_ASSERT(size > 0);
 		int num_buffers = (size + send_buffer_size - 1) / send_buffer_size;
+		TORRENT_ASSERT(num_buffers > 0);
+
+		boost::mutex::scoped_lock l(m_send_buffer_mutex);
 #ifdef TORRENT_STATS
 		m_buffer_allocations += num_buffers;
 		m_buffer_usage_logger << log_time() << " protocol_buffer: "
@@ -2397,8 +2408,12 @@ namespace detail
 
 	void session_impl::free_buffer(char* buf, int size)
 	{
+		TORRENT_ASSERT(size > 0);
 		TORRENT_ASSERT(size % send_buffer_size == 0);
 		int num_buffers = size / send_buffer_size;
+		TORRENT_ASSERT(num_buffers > 0);
+
+		boost::mutex::scoped_lock l(m_send_buffer_mutex);
 #ifdef TORRENT_STATS
 		m_buffer_allocations -= num_buffers;
 		TORRENT_ASSERT(m_buffer_allocations >= 0);

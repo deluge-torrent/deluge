@@ -38,6 +38,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/http_tracker_connection.hpp"
 #include "libtorrent/xml_parse.hpp"
 #include "libtorrent/connection_queue.hpp"
+#include "libtorrent/enum_net.hpp"
 
 #include <boost/bind.hpp>
 #include <boost/ref.hpp>
@@ -61,7 +62,7 @@ namespace libtorrent
 
 upnp::upnp(io_service& ios, connection_queue& cc
 	, address const& listen_interface, std::string const& user_agent
-	, portmap_callback_t const& cb)
+	, portmap_callback_t const& cb, bool ignore_nonrouters)
 	: m_udp_local_port(0)
 	, m_tcp_local_port(0)
 	, m_user_agent(user_agent)
@@ -81,7 +82,21 @@ upnp::upnp(io_service& ios, connection_queue& cc
 	m_log.open("upnp.log", std::ios::in | std::ios::out | std::ios::trunc);
 #endif
 	m_retry_count = 0;
-	discover_device();
+
+	if (ignore_nonrouters)
+	{
+		asio::error_code ec;
+		std::vector<address> const& net = enum_net_interfaces(m_io_service, ec);
+		m_filter.reserve(net.size());
+		for (std::vector<address>::const_iterator i = net.begin()
+			, end(net.end()); i != end; ++i)
+		{
+			asio::error_code e;
+			address a = router_for_interface(*i, e);
+			if (e || is_loopback(a)) continue;
+			m_filter.push_back(a);
+		}
+	}
 }
 
 upnp::~upnp()
@@ -266,6 +281,18 @@ try
 	Server:Microsoft-Windows-NT/5.1 UPnP/1.0 UPnP-Device-Host/1.0
 
 */
+	if (!m_filter.empty() && std::find(m_filter.begin(), m_filter.end()
+		, from.address()) == m_filter.end())
+	{
+		// this upnp device is filtered because it's not in the
+		// list of configured routers
+#ifdef TORRENT_UPNP_LOGGING
+		m_log << time_now_string() << " <== (" << from << ") Rootdevice "
+			"ignored because it's not out router" << std::endl;
+#endif
+		return;
+	}
+
 	http_parser p;
 	try
 	{
@@ -663,7 +690,7 @@ void upnp::on_upnp_xml(asio::error_code const& e
 	parse_state s;
 	s.reset("urn:schemas-upnp-org:service:WANIPConnection:1");
 	xml_parse((char*)p.get_body().begin, (char*)p.get_body().end
-		, m_strand.wrap(bind(&find_control_url, _1, _2, boost::ref(s))));
+		, bind(&find_control_url, _1, _2, boost::ref(s)));
 	if (s.found_service)
 	{
 		d.service_namespace = s.service_type;
@@ -674,7 +701,7 @@ void upnp::on_upnp_xml(asio::error_code const& e
 		// a PPP connection
 		s.reset("urn:schemas-upnp-org:service:WANPPPConnection:1");
 		xml_parse((char*)p.get_body().begin, (char*)p.get_body().end
-			, m_strand.wrap(bind(&find_control_url, _1, _2, boost::ref(s))));
+			, bind(&find_control_url, _1, _2, boost::ref(s)));
 		if (s.found_service)
 		{
 			d.service_namespace = s.service_type;
@@ -821,7 +848,7 @@ void upnp::on_upnp_map_response(asio::error_code const& e
 
 	error_code_parse_state s;
 	xml_parse((char*)p.get_body().begin, (char*)p.get_body().end
-		, m_strand.wrap(bind(&find_error_code, _1, _2, boost::ref(s))));
+		, bind(&find_error_code, _1, _2, boost::ref(s)));
 
 #ifdef TORRENT_UPNP_LOGGING
 	if (s.error_code != -1)
