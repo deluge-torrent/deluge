@@ -36,6 +36,7 @@ import pkg_resources
 import gobject
 import socket
 import os
+import time
 
 import deluge.component as component
 import deluge.xmlrpclib as xmlrpclib

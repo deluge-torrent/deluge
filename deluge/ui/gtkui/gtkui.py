@@ -94,6 +94,9 @@ DEFAULT_PREFS = {
 
 class GtkUI:
     def __init__(self, args):
+        # Initialize gdk threading
+        gtk.gdk.threads_init()
+
         # Initialize gettext
         locale.setlocale(locale.LC_MESSAGES, '')
         locale.bindtextdomain("deluge", 
@@ -143,7 +146,6 @@ class GtkUI:
             self.connectionmanager.show()
                 
         # Start the gtk main loop
-        gtk.gdk.threads_init()
         gtk.main()
         
         log.debug("gtkui shutting down..")
