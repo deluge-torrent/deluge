@@ -407,21 +407,18 @@ class Manager:
     # A separate function, because people may want to call it from time to time
     def save_fastresume_data(self, uid=None):
         if uid == None:
-            for unique_ID in self.unique_IDs:
-                try:
+            try:
+                for unique_ID in self.unique_IDs:
                     os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
-                except:
-                    pass
-                try:
                     deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
-                except:
-                    pass
+            except:
+                pass
         else:
             try:
                 os.remove(self.unique_IDs[uid].filename + ".fastresume")
+                deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
             except:
                 pass
-            deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
 
     # State retrieval functions
 
@@ -742,10 +739,13 @@ Space:") + " " + nice_free)
             self.config.set("max_active_torrents", \
                 self.config.get("max_active_torrents_tmp"))
             self.apply_prefs()
-        self.unique_IDs[unique_ID].user_paused = new_value
-        if enforce_queue:
-            self.apply_queue()
-        self.pickle_state()
+        try:
+            self.unique_IDs[unique_ID].user_paused = new_value
+            if enforce_queue:
+                self.apply_queue()
+            self.pickle_state()
+        except:
+            print "pause failed\n"
 
     def set_ratio(self, unique_ID, num):
         deluge_core.set_ratio(unique_ID, float(num))
@@ -766,12 +766,12 @@ Space:") + " " + nice_free)
         deluge_core.scrape_tracker(unique_ID)
 
     def pause(self, unique_ID):
-        state = self.get_torrent_state(unique_ID)
-        if not state["is_paused"]:
-            try:
+        try:
+            state = self.get_torrent_state(unique_ID)
+            if not state["is_paused"]:
                 deluge_core.pause(unique_ID)
-            except:
-                print "pause failed\n"
+        except:
+            print "pause failed\n"
 
     def resume(self, unique_ID):
         state = self.get_torrent_state(unique_ID)

@@ -830,17 +830,15 @@ window, please enter your password"))
             pass
 
     def tor_pause(self, widget):
-        unique_ids = self.get_selected_torrent_rows()
         try:
+            unique_ids = self.get_selected_torrent_rows()
             for uid in unique_ids:
                 self.manager.set_user_pause(uid, True, True)
                 torrent_state = self.manager.get_torrent_state(uid)
                 if torrent_state["is_paused"] == 0:
                     self.manager.save_fastresume_data(uid)
-
             self.update()
-
-        except KeyError:
+        except:
             pass
 
     def show_about_dialog(self, arg=None):
@@ -1039,7 +1037,8 @@ window, please enter your password"))
         # Load plugins after we showed main window (if not started in tray)
         self.load_plugins()
         self.load_tabs_order()
-        self.new_release_check()
+        if self.config.get("new_releases"):
+            self.new_release_check()
 
         try:
             gobject.threads_init()
