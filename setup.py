@@ -53,7 +53,8 @@ _extra_compile_args = [
     "-DHAVE_PTHREAD=1",
     "-DTORRENT_USE_OPENSSL=1",
     "-DHAVE_SSL=1",
-    "-O2"
+    "-O2",
+    "-DNDEBUG"
 ]
 
 removals = ["-Wstrict-prototypes"]
