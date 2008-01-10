@@ -827,7 +827,10 @@ Space:") + " " + nice_free)
     def calc_free_space(self, directory):
         if not common.windows_check(): 
             import statvfs
-            dir_stats = os.statvfs(directory)
+            try:
+                dir_stats = os.statvfs(directory)
+            except:
+                return 0
             block_size = dir_stats[statvfs.F_BSIZE]
             avail_blocks = dir_stats[statvfs.F_BAVAIL]
             return long(block_size * avail_blocks)
