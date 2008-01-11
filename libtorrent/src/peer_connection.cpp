@@ -2073,7 +2073,8 @@ namespace libtorrent
 
 	bool peer_connection::on_local_network() const
 	{
-		if (libtorrent::is_local(m_remote.address())) return true;
+		if (libtorrent::is_local(m_remote.address())
+			|| is_loopback(m_remote.address())) return true;
 		return false;
 	}
 
@@ -2156,6 +2157,7 @@ namespace libtorrent
 		}
 
 		p.send_buffer_size = m_send_buffer.capacity();
+		p.used_send_buffer = m_send_buffer.size();
 	}
 
 	void peer_connection::cut_receive_buffer(int size, int packet_size)
