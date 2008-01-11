@@ -173,7 +173,18 @@ setup(
                                 "data/pixmaps/logo.svg",
                                 "plugins/*.egg",
                                 "i18n/*.pot",
-                                "i18n/*/LC_MESSAGES/*.mo"]},
+                                "i18n/*/LC_MESSAGES/*.mo",
+                                "ui/webui/webui_plugin/LICENSE",
+                                "ui/webui/webui_plugin/scripts/*",
+                                "ui/webui/webui_plugin/ssl/*",
+                                "ui/webui/webui_plugin/static/*.css",
+                                "ui/webui/webui_plugin/static/images/*.png",
+                                "ui/webui/webui_plugin/static/images/*.jpg",
+                                "ui/webui/webui_plugin/static/images/tango/*.png",
+                                "ui/webui/webui_plugin/templates/deluge/*",
+                                "ui/webui/webui_plugin/templates/advanced/*.html",
+                                "ui/webui/webui_plugin/templates/advanced/static/*"
+                                ]},
     data_files = [('/usr/share/icons/scalable/apps', [
                          'deluge/data/icons/scalable/apps/deluge.svg']),
                 ('/usr/share/icons/hicolor/128x128/apps', [

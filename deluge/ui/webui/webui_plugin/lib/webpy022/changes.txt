@@ -1,0 +1,5 @@
+1:Commented out some code to enable a relative redirect.
+This is not according to HTTP/1.1 Spec
+But many deluge users will want to route the webui through firewalls/routers or use apache redirects.
+
+2:Disabled logging in the builtin http-server.

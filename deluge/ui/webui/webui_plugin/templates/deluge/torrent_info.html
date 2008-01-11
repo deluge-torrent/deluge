@@ -1,0 +1,50 @@
+$def with (torrent)
+
+$:(render.header(torrent.message + '/' + torrent.name))
+<div class="panel">
+<h3>$_('Details')</h3>
+
+$:render.tab_meta(torrent)
+
+$if (torrent.action == 'start'):
+    $:render.part_button('POST', '/torrent/start/' + str(torrent.id), _('Resume'), 'tango/start.png')
+$else:
+    $:render.part_button('POST', '/torrent/stop/' + str(torrent.id), _('Pause'), 'tango/pause.png')
+
+
+$:render.part_button('GET', '/torrent/delete/' + str(torrent.id), _('Remove'), 'tango/list-remove.png')
+$:render.part_button('POST', '/torrent/reannounce/' + str(torrent.id), _('Reannounce'), 'tango/view-refresh.png')
+
+$:render.part_button('POST', '/torrent/queue/up/' + str(torrent.id), _('Queue Up'), 'tango/queue-up.png')
+$:render.part_button('POST', '/torrent/queue/down/' + str(torrent.id), _('Queue Down'), 'tango/queue-down.png')
+
+<br>
+<!--
+[<a onclick="javascript:toggle_dump()">$_('Debug:Data Dump')</a>]
+
+<pre style="background-color:white;color:black;display:none" id="data_dump">
+$for key in sorted(torrent):
+    $key : $torrent[key]
+</pre>
+
+<script language="javascript">
+function toggle_dump(){
+    el = document.getElementById("data_dump");
+    if (el.style.display == "block"){
+        el.style.display = "none";
+    }
+    else{
+        el.style.display = "block";
+    }
+}
+</script>
+-->
+
+</div>
+
+
+
+
+$:part_stats()
+
+$:render.footer()

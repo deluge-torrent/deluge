@@ -1,0 +1,1 @@
+curl -F torrent=@./test1.torrent -F pwd=deluge http://localhost:8112/remote/torrent/add  

@@ -1,5 +1,5 @@
 #
-# ui.py
+# webui.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
@@ -31,32 +31,11 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-from deluge.configmanager import ConfigManager
+class WebUI:
+    def __init__(self, args):
+        from webui_plugin.webserver_common import ws
+        ws.init_06(uri="http://localhost:58846")
 
-from deluge.log import LOG as log
-
-DEFAULT_PREFS = {
-    "selected_ui": "gtk"
-}
-
-class UI:
-    def __init__(self, options, args):
-        log.debug("UI init..")
-        config = ConfigManager("ui.conf", DEFAULT_PREFS)
+        import webui_plugin.deluge_webserver
+        webui_plugin.deluge_webserver.run()
         
-        if options.ui != None:
-            config["selected_ui"] = options.ui
-        
-        selected_ui = config["selected_ui"]
-        config.save()
-        del config
-        
-        if selected_ui == "gtk":
-            log.info("Starting GtkUI..")
-            from deluge.ui.gtkui.gtkui import GtkUI
-            ui = GtkUI(args)
-        elif selected_ui == "web":
-            log.info("Starting WebUI..")
-            from deluge.ui.webui.webui import WebUI
-            ui = WebUI(args)
-            

@@ -1,0 +1,39 @@
+Quickstart:
+Just copy and rename an existing template.
+-The settings panel will see all directory's in this folder ,and let you choose your new template.
+-Clicking Ok in the settings panel will restart the webserver and reload your template.
+
+Limited "Subclassing":
+All templates are "subclassed" from the /deluge/ template.
+If a html file is not found in the template dir, the file from /deluge/ will be used.
+
+
+Notes:
+Please configure your editor to use 4-space indents instead of tabs.
+Or use scite and my config: http://mvoncken.sohosted.com/deluge/SciTEUser.properties.txt
+
+template language: http://webpy.org/templetor
+
+Exposed methods and variables (c&p from webserver_framework.py):
+ template.Template.globals.update({
+    'sort_head': template_sort_head,
+    'part_stats':template_part_stats,
+    'crop': template_crop,
+    '_': _ , #gettext/translations
+    'str': str, #because % in templetor is broken.
+    'sorted': sorted,
+    'get_config': get_config,
+    'self_url': self_url,
+    'fspeed': common.fspeed,
+    'fsize': common.fsize,
+    'render': ws.render, #for easy resuse of templates
+    'rev': 'rev.%s'  % (REVNO, ),
+    'version': VERSION,
+    'getcookie':getcookie,
+    'get': lambda (var): getattr(web.input(**{var:None}), var) # unreadable :-(
+})
+
+I will update this file if there is interest in making templates.
+
+
+

@@ -47,6 +47,9 @@ def start_ui():
     parser = OptionParser(usage="%prog [options] [actions]", 
                                            version=deluge.common.get_version())
 
+    parser.add_option("-u", "--ui", dest="ui",
+        help="The UI that you wish to launch", action="store", type="str")
+        
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
 
@@ -58,7 +61,7 @@ def start_ui():
 
     from deluge.ui.ui import UI
     log.info("Starting ui..")
-    UI(args)
+    UI(options, args)
                                                       
 def start_daemon():
     """Entry point for daemon script"""
