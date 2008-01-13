@@ -46,11 +46,13 @@ Other contributors:
 *markybob : stability : synced with his changes in deluge-svn.
 """
 
+
 import deluge.common
+from webserver_common import ws,REVNO,VERSION
+
 try:
     import deluge.pref
     from deluge.dialogs import show_popup_warning
-    from webserver_common import ws
 except ImportError:
     print 'WebUi:not imported as a plugin'
 
@@ -72,15 +74,8 @@ from threading import Thread
 import random
 random.seed()
 
-try:
-    plugin_version += open(os.path.join(os.path.dirname(__file__),'revno')).read()
-except:
-    plugin_version = "No Version"
-try:
-    plugin_description += (
-        open(os.path.join(os.path.dirname(__file__),'version')).read())
-except:
-    plugin_description = "No Version"
+plugin_version += REVNO
+plugin_description += VERSION
 
 def deluge_init(deluge_path):
     global path

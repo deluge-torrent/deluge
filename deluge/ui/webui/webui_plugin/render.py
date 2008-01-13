@@ -44,13 +44,17 @@ class subclassed_render(object):
     try to use the html template in configured dir.
     not available : use template in /deluge/
     """
-    def __init__(self, template_dirname, cache=False):
+    def __init__(self):
+        self.apply_cfg()
+
+    def apply_cfg(self):
+        cache = ws.config.get('cache_templates')
         self.base_template = template.render(
             os.path.join(ws.webui_path, 'templates/deluge/'),
             cache=cache)
 
         self.sub_template = template.render(
-            os.path.join(ws.webui_path, 'templates/%s/' % template_dirname),
+            os.path.join(ws.webui_path, 'templates/%s/' % ws.config.get('template')),
             cache=cache)
 
     def __getattr__(self, attr):
@@ -59,9 +63,7 @@ class subclassed_render(object):
         else:
             return getattr(self.base_template, attr)
 
-render = subclassed_render(
-    ws.config.get('template'),
-    ws.config.get('cache_templates'))
+render = subclassed_render()
 
 def error_page(error):
     web.header("Content-Type", "text/html; charset=utf-8")

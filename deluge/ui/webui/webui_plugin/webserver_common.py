@@ -166,7 +166,7 @@ class Ws:
         self.log.debug('cfg-file %s' % self.config_file)
 
         if not os.path.exists(self.config_file):
-            self.log.debug('create cfg file %s' % config_file)
+            self.log.debug('create cfg file %s' % self.config_file)
             #load&save defaults.
             f = file(self.config_file,'wb')
             pickle.dump(CONFIG_DEFAULTS,f)
@@ -192,7 +192,7 @@ class Ws:
         #other bug: must warn if blocklist plugin is active!
         from dbus_interface import get_dbus_manager
         self.proxy =  get_dbus_manager()
-        self.config  = deluge.pref.Preferences(config_file, False)
+        self.config  = deluge.pref.Preferences(self.config_file, False)
         self.env = '0.5_gtk'
         self.init_logger()
 

@@ -35,6 +35,7 @@ from webserver_common import ws
 from utils import *
 from render import render, error_page
 import page_decorators as deco
+import forms
 
 import lib.webpy022 as web
 from lib.webpy022.http import seeother, url
@@ -63,7 +64,7 @@ urls = (
     "/resume_all", "resume_all",
     "/refresh/set", "refresh_set",
     "/refresh/(.*)", "refresh",
-    "/config", "config_",
+    "/config", "config",
     "/home", "home",
     "/about", "about",
     "/logout", "logout",
@@ -304,33 +305,20 @@ class refresh_set:
         else:
             error_page(_('refresh must be > 0'))
 
-class config_: #namespace clash?
+class config: #namespace clash?
     """core config
     TODO:good validation.
     """
-    """
-    SOMEHOW ONLY BREAKS 0.6 ??
-    cfg_form = web.form.Form(
-        web.form.Dropdown('max_download',SPEED_VALUES,
-            description=_('Download Speed Limit'),
-            post='%s Kib/sec' % ws.proxy.get_config_value('max_download_speed')
-        )
-        ,web.form.Dropdown('max_upload', ws.SPEED_VALUES,
-            description=_('Upload Speed Limit'),
-            post='%s Kib/sec' %  ws.proxy.get_config_value('max_upload_speed')
-        )
-    )
-
     @deco.deluge_page
     def GET(self, name):
-        return render.config(self.cfg_form())
+        return render.config(forms.bandwith())
 
-    def POST(self, name):
+    def POST(self):
         vars = web.input(max_download=None, max_upload=None)
 
         #self.config.set("max_download_speed", float(str_bwdown))
         raise NotImplementedError('todo')
-    """
+
 
 class home:
     @deco.check_session
