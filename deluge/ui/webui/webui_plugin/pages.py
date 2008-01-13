@@ -35,7 +35,7 @@ from webserver_common import ws
 from utils import *
 from render import render, error_page
 import page_decorators as deco
-import forms
+#import forms
 
 import lib.webpy022 as web
 from lib.webpy022.http import seeother, url
