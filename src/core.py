@@ -259,28 +259,56 @@ class Manager:
         PREF_FUNCTIONS["enable_dht"] = self.set_DHT 
 
         # Unpickle the state, or create a new one
+        self.state = persistent_state()
         if not blank_slate:
             try:
                 pkl_file = open(os.path.join(self.base_dir, STATE_FILENAME), 
                                 'rb')
-                self.state = pickle.load(pkl_file)
+                state = pickle.load(pkl_file)
                 pkl_file.close()
                 
-                if isinstance(self.state.torrents, list):
+                if isinstance(state.torrents, list):
                     # One time convert of old torrents list to dict
-                    self.state.torrents = dict((x, None) for x in 
-                                                   self.state.torrents)
+                    state.torrents = dict((x, None) for x in 
+                                                   state.torrents)
+                # Add torrents to core and unique_IDs
+                for torrent in state.torrents:
+                    if not os.path.exists(torrent.filename):
+                        print "Missing file: %s" % torrent.filename
+                        continue
+                    if torrent not in self.unique_IDs.values():
+                        try:
+                            unique_ID = deluge_core.add_torrent(torrent.filename,
+                                                                torrent.save_dir,
+                                                                torrent.compact)
+                        except Exception, e:
+                            print "Unable to add torrent: ", e
+
+                        self.unique_IDs[unique_ID] = torrent
+                        self.state.torrents[torrent] = unique_ID
+                        
+                        # Apply per torrent prefs after torrent added to core
+                        self.apply_prefs_per_torrent(unique_ID)
+                        #remove fastresume for non-seed
+                        try:
+                            torrent_state = self.get_core_torrent_state(unique_ID)
+                        except:
+                            pass
+                        else:
+                            if not torrent_state['is_seed']:
+                                try:
+                                    os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
+                                except:
+                                    pass
 
                 # Sync with the core: tell core about torrents, and get 
                 # unique_IDs
-                self.sync(True)
+                self.sync()
 
                 # Apply the queue at this time, after all is loaded and ready
                 self.apply_queue()
-            except IOError:
-                self.state = persistent_state()
-        else:
-            self.state = persistent_state()
+            except:
+                pass
 
     def quit(self):
         # Pickle the state
