@@ -71,7 +71,6 @@ def add_func_column(view, header, func, data, sortid=None, width=None):
             column.set_clickable(True)
             column.set_sort_column_id(data)
     column.set_resizable(True)
-    column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
     if width:
         column.set_fixed_width(width)
     column.set_expand(False)
@@ -91,7 +90,6 @@ def add_text_column(view, header, cid, width=None):
     if width:
         column.set_fixed_width(width)
     column.set_min_width(10)
-    column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
     column.set_reorderable(True)
     view.append_column(column)
     return column
@@ -107,7 +105,6 @@ def add_progress_column(view, header, pid, mid, width=None):
     if width:
         column.set_fixed_width(width)
     column.set_reorderable(True)
-    column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
     view.append_column(column)
     return column
 
@@ -140,7 +137,6 @@ def add_texticon_column(view, header, icon_col, text_col, width=None):
     column.pack_start(render, expand=False)
     column.add_attribute(render, 'pixbuf', icon_col)
     render = gtk.CellRendererText()
-    column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
     column.pack_start(render, expand=True)
     column.add_attribute(render, 'text', text_col)
     view.append_column(column)
