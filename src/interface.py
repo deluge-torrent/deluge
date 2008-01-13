@@ -135,7 +135,7 @@ class DelugeGTK:
         try:
             import gnome.ui
             self.client = gnome.ui.Client()
-            self.client.connect("save_yourself", self.shutdown)
+            self.client.connect("die", self.shutdown)
         except:
             pass
 
@@ -1739,7 +1739,7 @@ want to remove all seeding torrents?")):
             else:
                 self.shutdown()
 
-    def shutdown(self):
+    def shutdown(self, arg=None):
         gtk.quit_add(0, self.manager.quit)
         self.window.hide()
         self.save_column_widths()
