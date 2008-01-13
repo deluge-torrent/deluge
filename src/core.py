@@ -913,20 +913,23 @@ Space:") + " " + nice_free)
         ret = None # We return new added unique ID(s), or None
         no_space = False
 
+        to_remove = []
         # Add torrents to core and unique_IDs
         for torrent in self.state.torrents:
             if not os.path.exists(torrent.filename):
                 print "Missing file: %s" % torrent.filename
-                del self.state.torrents[torrent]
+                to_remove.append(torrent)
                 continue
             if torrent not in self.unique_IDs.values():
                 try:
                     unique_ID = deluge_core.add_torrent(torrent.filename,
                                                         torrent.save_dir,
                                                         torrent.compact)
-                except DelugeError, e:
-                    del self.state.torrents[torrent]
-                    raise e
+                except Exception, e:
+                    print "Unable to add torrent: ", e
+                    to_remove.append(torrent)
+                    continue
+                    
                 ret = unique_ID
                 self.unique_IDs[unique_ID] = torrent
                 self.state.torrents[torrent] = unique_ID
@@ -944,6 +947,11 @@ Space:") + " " + nice_free)
                             os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
                         except:
                             pass
+        
+        # Remove torrents from self.state because they were not added to the
+        # libtorrent session.
+        for torrent in to_remove:
+            del self.state.torrents[torrent]
 
         # Remove torrents from core, unique_IDs and queue
         to_delete = []
