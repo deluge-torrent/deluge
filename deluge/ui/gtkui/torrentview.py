@@ -284,69 +284,47 @@ class TorrentView(listview.ListView, component.Component):
         """Callback function for get_torrents_status().  'status' should be a
         dictionary of {torrent_id: {key, value}}."""
         status = pickle.loads(status)
-        # Extract differences in this batch against the previous one.
-        # This is to prevent updating stuff we don't need to and should save
-        # GTK from redrawing needlessly.
-        new_status = {}
-
-        for torrent_id in status.keys():
-            if torrent_id in self.previous_batched_status.keys():
-                old = self.previous_batched_status[torrent_id]
-                new = status[torrent_id]
-                
-                diff = {}
-                for key in new.keys():
-                    if not key in old.keys():
-                        diff[key] = new[key]
-                        continue
-                        
-                    # There is a difference, so lets add it to our new dict
-                    if new[key] != old[key]:
-                        diff[key] = new[key]
-                if len(diff.keys()) > 0:
-                    new_status[torrent_id] = diff
-            else:
-                # The torrent_id is not in the previous status
-                new_status[torrent_id] = status[torrent_id]
-
-        self.previous_batched_status = status
-
         row = self.liststore.get_iter_first()
         while row != None:
             torrent_id = self.liststore.get_value(
                 row, self.columns["torrent_id"].column_indices[0])
-            if torrent_id in new_status.keys():
+            if torrent_id in status.keys():
                 # Set values for each column in the row
                 for column in self.columns_to_update:
                     column_index = self.get_column_index(column)
                     if type(column_index) is not list:
                         # We only have a single list store column we need to 
                         # update
-                        if self.columns[column].status_field[0] in \
-                            new_status[torrent_id]:
-                            try:
+                        try:
+                            # Only update if different
+                            if self.liststore.get_value(row, column_index) != \
+                                status[torrent_id][
+                                    self.columns[column].status_field[0]]:
                                 self.liststore.set_value(row,
                                     column_index,
-                                    new_status[torrent_id][
+                                    status[torrent_id][
                                         self.columns[column].status_field[0]])
-                            except (TypeError, KeyError), e:
-                                log.warning("Unable to update column %s: %s", 
-                                    column, e)
+                        except (TypeError, KeyError), e:
+                            log.warning("Unable to update column %s: %s", 
+                                column, e)
                     else:
                         # We have more than 1 liststore column to update
                         for index in column_index:
                             # Only update the column if the status field exists
-                            if self.columns[column].status_field[
-                                column_index.index(index)] in \
-                                    new_status[torrent_id]:
-                                try:
+                            try:
+                                # Only update if different
+                                if self.liststore.get_value(row, index) != \
+                                    status[torrent_id][
+                                        self.columns[column].status_field[
+                                            column_index.index(index)]]:
+                                            
                                     self.liststore.set_value(row,
                                         index,
-                                        new_status[torrent_id][
+                                        status[torrent_id][
                                             self.columns[column].status_field[
                                                 column_index.index(index)]])
-                                except:
-                                    pass
+                            except:
+                                pass
             row = self.liststore.iter_next(row)
         self.status_signal_received = True
                         
