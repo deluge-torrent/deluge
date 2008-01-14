@@ -64,13 +64,18 @@ class SystemTray(component.Component):
     def enable(self):
         """Enables the system tray icon."""
         log.debug("Enabling the system tray icon..")
-        self.tray = gtk.status_icon_new_from_icon_name("deluge")
-        self.tray.connect("activate", self.on_tray_clicked)
-        self.tray.connect("popup-menu", self.on_tray_popup)
-        
         self.tray_glade = gtk.glade.XML(
             pkg_resources.resource_filename("deluge.ui.gtkui", 
                                             "glade/tray_menu.glade"))
+        try:
+            self.tray = gtk.status_icon_new_from_icon_name("deluge")
+        except:
+            log.warning("Update PyGTK to 2.10 or greater for SystemTray..")
+            return
+            
+        self.tray.connect("activate", self.on_tray_clicked)
+        self.tray.connect("popup-menu", self.on_tray_popup)
+        
         
         self.tray_glade.signal_autoconnect({
             "on_menuitem_show_deluge_activate": \
