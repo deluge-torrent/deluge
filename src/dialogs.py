@@ -531,7 +531,9 @@ def show_directory_chooser_dialog(parent, title):
         chooser.set_icon(common.get_logo(18))
         chooser.set_property("skip-taskbar-hint", True)
     config = pref.Preferences()
-    chooser.set_current_folder(config.get("choose_directory_dialog_path"))
+    current_folder = config.get("choose_directory_dialog_path")
+    if current_folder != None:
+        chooser.set_current_folder(current_folder)
     if chooser.run() == gtk.RESPONSE_OK:
         result = chooser.get_filename()
         config.set("choose_directory_dialog_path", result)
