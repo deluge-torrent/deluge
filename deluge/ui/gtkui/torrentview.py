@@ -39,6 +39,7 @@ import gtk, gtk.glade
 import gettext
 import gobject
 import cPickle as pickle
+import time
 
 import deluge.common
 import deluge.component as component
@@ -110,6 +111,7 @@ class TorrentView(listview.ListView, component.Component):
         self.load_state("torrentview.state")
         
         self.status_signal_received = True
+        self.status_signal_sent_time = 0
         self.previous_batched_status = {}
         
         # Register the columns menu with the listview so it gets updated
@@ -229,7 +231,8 @@ class TorrentView(listview.ListView, component.Component):
         # We will only send another status request if we have received the
         # previous.  This is to prevent things from going out of sync.
         if not self.status_signal_received:
-            return
+            if time.time() - self.status_signal_sent_time < 2:
+                return
             
         # Store the 'status_fields' we need to send to core
         status_keys = []
@@ -274,11 +277,12 @@ class TorrentView(listview.ListView, component.Component):
         
         if torrent_ids == []:
             return
-        
+
         # Request the statuses for all these torrent_ids, this is async so we
         # will deal with the return in a signal callback.
         self.status_signal_received = False
         client.get_torrents_status(torrent_ids, status_keys)
+        self.status_signal_sent_time = time.time()
     
     def on_torrent_status_signal(self, status):
         """Callback function for get_torrents_status().  'status' should be a
@@ -337,6 +341,7 @@ class TorrentView(listview.ListView, component.Component):
                     row,
                     self.columns["torrent_id"].column_indices[0], 
                     torrent_id)
+        self.update()
         
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""
