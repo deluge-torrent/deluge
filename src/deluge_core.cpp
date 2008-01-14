@@ -640,8 +640,14 @@ static PyObject *torrent_set_listen_on(PyObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "O", &port_vec))
         return NULL;
 
-    M_ses->listen_on(std::make_pair( PyInt_AsLong(PyList_GetItem(port_vec, 0)),
-        PyInt_AsLong(PyList_GetItem(port_vec, 1))), "");
+    try {
+        M_ses->listen_on(std::make_pair( PyInt_AsLong(PyList_GetItem(port_vec, 0)),
+            PyInt_AsLong(PyList_GetItem(port_vec, 1))), "");
+    }
+    catch (...) {
+        //Can't listen on that port, so lets try a range of 40000-60000
+        M_ses->listen_on(std::make_pair(40000, 60000), "");
+    }
 
     Py_INCREF(Py_None); return Py_None;
 }
