@@ -180,6 +180,7 @@ setup(
                                 "ui/webui/webui_plugin/static/*.css",
                                 "ui/webui/webui_plugin/static/images/*.png",
                                 "ui/webui/webui_plugin/static/images/*.jpg",
+                                "ui/webui/webui_plugin/static/images/*.gif",
                                 "ui/webui/webui_plugin/static/images/tango/*.png",
                                 "ui/webui/webui_plugin/templates/deluge/*",
                                 "ui/webui/webui_plugin/templates/advanced/*.html",
