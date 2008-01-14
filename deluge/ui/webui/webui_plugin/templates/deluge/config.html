@@ -1,10 +1,39 @@
-$def with (form)
-$:render.header(_('Config'))
+$def with (groups, pages, form, selected, message, error)
 
-<div class="error">Not Implemented!</div>
+$:render.header(_("Config"))
+
+<!--left block-->
+<div  class="panel" id="config_chooser">
+$for group in groups:
+    <h3>$group</h3>
+    <ul>
+    $for page in pages:
+        $if pages[page].group == group:
+            $if page == selected:
+                <li class="selected"><a href="/config/$page" >$pages[page].title</a></li>
+            $else:
+                <li><a href="/config/$page">$pages[page].title</a></li>
+    </ul>
+</div>
+
+<!--form block-->
+<div class="panel" id="config_panel">
+<h2>$form.group / $form.title</h2>
+<div id="info">$form.info</div>
 <form method="POST">
-$:form.render()
-<input type="submit" value="$_('Apply')"/>
+<table id="config_table">
+$:form.as_table()
+</table>
+$if message:
+    <div id="message">$message</div>
+$if error:
+    <div class="error">$error</div>
+
+<input type="submit" name="submit" id="submit" value='$_("Save")'>
+
+
+
 </form>
 
+</div>
 $:render.footer()

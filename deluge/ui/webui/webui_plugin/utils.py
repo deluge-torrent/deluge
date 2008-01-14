@@ -44,7 +44,6 @@ import random
 from operator import attrgetter
 import datetime
 import pickle
-from md5 import md5
 from urlparse import urlparse
 
 from webserver_common import  REVNO, VERSION, TORRENT_KEYS, STATE_MESSAGES
@@ -107,12 +106,6 @@ def getcookie(key, default = None):
     ck = cookies()
     return ck.get(key, default)
 
-#utils:
-def check_pwd(pwd):
-    m = md5()
-    m.update(ws.config.get('pwd_salt'))
-    m.update(pwd)
-    return (m.digest() == ws.config.get('pwd_md5'))
 
 def get_stats():
     stats = Storage({
@@ -260,8 +253,3 @@ def get_category_choosers(torrent_list):
 
 #/utils
 
-__all__ = [
-    'do_redirect', 'start_session','getcookie'
-    ,'setcookie','end_session',
-    'get_torrent_status', 'check_pwd','get_categories'
-    ,'filter_torrent_state','web','get_category_choosers','get_stats']

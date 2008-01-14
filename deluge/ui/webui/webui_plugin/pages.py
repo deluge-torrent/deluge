@@ -35,6 +35,9 @@ from webserver_common import ws
 from utils import *
 from render import render, error_page
 import page_decorators as deco
+import config_tabs_webui #auto registers
+import config_tabs_deluge #auto registers
+from config import config_page
 #import forms
 
 import lib.webpy022 as web
@@ -64,7 +67,7 @@ urls = (
     "/resume_all", "resume_all",
     "/refresh/set", "refresh_set",
     "/refresh/(.*)", "refresh",
-    "/config", "config",
+    "/config/(.*)", "config_page",
     "/home", "home",
     "/about", "about",
     "/logout", "logout",
@@ -91,7 +94,7 @@ class login:
     def POST(self):
         vars = web.input(pwd = None, redir = None)
 
-        if check_pwd(vars.pwd):
+        if ws.check_pwd(vars.pwd):
             #start new session
             start_session()
             do_redirect()
@@ -215,7 +218,7 @@ class remote_torrent_add:
         vars = web.input(pwd = None, torrent = {},
             data_b64 = None , torrent_name= None)
 
-        if not check_pwd(vars.pwd):
+        if not ws.check_pwd(vars.pwd):
             return 'error:wrong password'
 
         if vars.data_b64: #b64 post (greasemonkey)
@@ -304,21 +307,6 @@ class refresh_set:
             do_redirect()
         else:
             error_page(_('refresh must be > 0'))
-
-class config: #namespace clash?
-    """core config
-    TODO:good validation.
-    """
-    @deco.deluge_page
-    def GET(self, name):
-        return render.config(forms.bandwith())
-
-    def POST(self):
-        vars = web.input(max_download=None, max_upload=None)
-
-        #self.config.set("max_download_speed", float(str_bwdown))
-        raise NotImplementedError('todo')
-
 
 class home:
     @deco.check_session

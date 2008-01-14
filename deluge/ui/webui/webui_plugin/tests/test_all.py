@@ -12,8 +12,6 @@ import operator
 ws.init_06()
 print 'test-env=',ws.env
 
-
-
 #CONFIG:
 BASE_URL = 'http://localhost:8112'
 PWD = 'deluge'
@@ -358,6 +356,11 @@ class TestIntegration(TestWebUiBase):
 
 
 #
+if True:
+    cfg =  ws.proxy.get_config()
+    for key in sorted(cfg.keys()):
+        print key,cfg[key]
+
 
 if False:
     suiteFew = unittest.TestSuite()

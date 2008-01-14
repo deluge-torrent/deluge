@@ -41,6 +41,7 @@ import random
 import pickle
 import sys
 import base64
+from md5 import md5
 
 random.seed()
 
@@ -202,6 +203,39 @@ class Ws:
         logging.basicConfig(level=logging.DEBUG,
             format="[%(levelname)s] %(message)s")
         self.log = logging
+
+
+    #utils for config:
+    def get_templates(self):
+        template_path = os.path.join(os.path.dirname(__file__), 'templates')
+        return [dirname for dirname
+            in os.listdir(template_path)
+            if os.path.isdir(os.path.join(template_path, dirname))
+                and not dirname.startswith('.')]
+
+    def save_config(self):
+        self.log.debug('Save Webui Config')
+        data = pickle.dumps(self.config)
+        f = open(self.config_file,'wb')
+        f.write(data)
+        f.close()
+
+    def update_pwd(self,pwd):
+        sm = md5()
+        sm.update(str(random.getrandbits(5000)))
+        salt = sm.digest()
+        self.config["pwd_salt"] =  salt
+        #
+        m = md5()
+        m.update(salt)
+        m.update(pwd)
+        self.config["pwd_md5"] =  m.digest()
+
+    def check_pwd(self,pwd):
+        m = md5()
+        m.update(self.config.get('pwd_salt'))
+        m.update(pwd)
+        return (m.digest() == self.config.get('pwd_md5'))
 
 ws =Ws()
 

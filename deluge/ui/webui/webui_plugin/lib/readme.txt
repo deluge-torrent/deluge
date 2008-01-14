@@ -6,3 +6,9 @@ Disclaimer:
 Some may have been adapted to work better with deluge.
 But they will import other parts of deluge or Webui.
 
+LICENCE:
+All components are GPL compatible.
+All these components are Licensed under their original license.
+See docstring or LICENSE files.
+
+
