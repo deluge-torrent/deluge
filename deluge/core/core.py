@@ -283,7 +283,7 @@ class Core(
             # Return False because the torrent was not added successfully
             return False
 
-    def export_add_torrent_url(self, url, save_path):
+    def export_add_torrent_url(self, url, save_path, options):
         log.info("Attempting to add url %s", url)
         
         # Get the actual filename of the torrent from the url provided.
@@ -302,7 +302,8 @@ class Core(
             return False
             
         # Add the torrent to session
-        return self.export_add_torrent_file(filename, save_path, filedump)
+        return self.export_add_torrent_file(
+            filename, save_path, filedump, options)
         
     def export_remove_torrent(self, torrent_id, remove_torrent, remove_data):
         log.debug("Removing torrent %s from the core.", torrent_id)

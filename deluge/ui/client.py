@@ -263,12 +263,12 @@ def add_torrent_file(torrent_files, torrent_options=None):
             # The torrent was not added successfully.
             log.warning("Torrent %s was not added successfully.", filename)
 
-def add_torrent_url(torrent_url):
+def add_torrent_url(torrent_url, options=None):
     """Adds torrents to the core via url"""
     from deluge.common import is_url
     if is_url(torrent_url):
         try:
-            result = get_core().add_torrent_url(torrent_url, str())
+            result = get_core().add_torrent_url(torrent_url, str(), options)
         except (AttributeError, socket.error):
             set_core_uri(None)
             result = False
