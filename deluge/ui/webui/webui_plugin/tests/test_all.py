@@ -222,9 +222,10 @@ class TestIntegration(TestWebUiBase):
             self.assertEqual(len(self.torrent_ids), 3)
 
         else:
-            #test correctness of existing-list
-            for url in self.urls:
-                self.assert_500('/torrent/add',{'url':url,'torrent':None})
+            if ws.env <> '0.6':
+                #test correctness of existing-list
+                for url in self.urls:
+                    self.assert_500('/torrent/add',{'url':url,'torrent':None})
 
     def testPauseResume(self):
         #pause all
@@ -353,13 +354,24 @@ class TestIntegration(TestWebUiBase):
             ,'/torrent/info/' + torrent_id, post = 1)
         """
 
+    def testConfig(self):
+        #0.6 only
+        if ws.env <> '0.6':
+            return
+        #
+        import WebUi.config_tabs_webui #auto registers
+        import WebUi.config_tabs_deluge #auto registers
+        import WebUi.config as config
+
+        for name in config.blocks:
+            self.assert_exists("/config/%s" % name)
+
+            #todo->post page with current values.
 
 
-#
-if True:
-    cfg =  ws.proxy.get_config()
-    for key in sorted(cfg.keys()):
-        print key,cfg[key]
+
+
+
 
 
 

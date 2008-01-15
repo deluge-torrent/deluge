@@ -34,7 +34,7 @@
 import lib.newforms as forms
 import config
 import utils
-
+from webserver_common import ws
 
 
 class ServerFolderField(forms.CharField):
@@ -54,10 +54,12 @@ class NetworkPorts(config.CfgForm ):
         return data
 
     def save(self,data):
-        data['listen_ports'] = [data['_port_from'] , data['_port_to'] ]
         if (data['_port_to'] < data['_port_from']):
             raise ValidationError('"Port from" must be greater than "Port to"')
-        config.CfgForm.save()
+        data['listen_ports'] = [data['_port_from'] , data['_port_to'] ]
+        del(data['_port_from'])
+        del(data['_port_to'])
+        config.CfgForm.save(self, data)
 
 config.register_block('network','ports', NetworkPorts)
 
@@ -121,4 +123,10 @@ class Daemon(config.CfgForm):
 
 config.register_block('deluge','daemon', Daemon)
 
+class Plugins(config.CfgForm):
+    title = _("Enabled Plugins")
 
+    _choices = [(p,p) for p in ws.proxy.get_available_plugins()]
+    enabled_plugins = config.MultipleChoice(_(""), _choices)
+
+config.register_block('deluge','plugins', Plugins)

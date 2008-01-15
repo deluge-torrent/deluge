@@ -81,6 +81,20 @@ class WebCfgForm(Form):
     def post_save(self):
         pass
 
+class CookieCfgForm(Form):
+    "config base for webui"
+    def initial_data(self):
+        return ws.config
+
+    def save(self, data):
+        ws.config.update(data)
+        ws.save_config()
+        self.post_save()
+
+    def post_save(self):
+        pass
+
+
 
 class CfgForm(Form):
     "config base for deluge-cfg"
@@ -90,8 +104,7 @@ class CfgForm(Form):
         ws.proxy.set_config(dict(data))
 
 
-#convenience Fields.
-
+#convenience Input Fields.
 class _IntInput(forms.TextInput):
     """
     because deluge-floats are edited as ints.
@@ -99,6 +112,8 @@ class _IntInput(forms.TextInput):
     def render(self, name, value, attrs=None):
         try:
             value = int(float(value))
+            if value == -1:
+                value = _("Unlimited")
         except:
             pass
         return forms.TextInput.render(self, name, value, attrs)
@@ -125,10 +140,23 @@ class DelugeInt(forms.IntegerField):
         forms.IntegerField.__init__(self, label=label, min_value=-1,
             max_value=sys.maxint, widget=_IntInput, **kwargs)
 
+    def clean(self, value):
+        if str(value).lower() == _('Unlimited').lower():
+            value = -1
+        return int(forms.IntegerField.clean(self, value))
+
 class DelugeFloat(DelugeInt):
     def clean(self, value):
         return int(DelugeInt.clean(self, value))
 
+class MultipleChoice(forms.MultipleChoiceField):
+    #temp/test
+    def __init__(self, label, choices, **kwargs):
+        forms.MultipleChoiceField.__init__(self, label=label, choices=choices,
+            widget=forms.CheckboxSelectMultiple, required=False)
+
+
+#/fields
 
 class config_page:
     """
@@ -159,6 +187,11 @@ class config_page:
         vars = web.input()
         for field in fields:
             form_data[field] = vars.get(field)
+            #DIRTY HACK: (for multiple-select)
+            if isinstance(form_class.base_fields[field],
+                    forms.MultipleChoiceField):
+                form_data[field] = web.input(**{field:[]})[field]
+            #/DIRTY HACK
 
         form = form_class(form_data)
         if form.is_valid():
@@ -170,7 +203,7 @@ class config_page:
                 ws.log.debug(e.message)
                 return self.render(form , name, error = e.message)
         else:
-            return self.render(form , name, error= _('Please correct the errors above and try again'))
+            return self.render(form , name, error= _('Correct the errors above and try again'))
 
     def render(self, f , name , message = '' , error=''):
         return render.config(groups, blocks, f, name , message , error)

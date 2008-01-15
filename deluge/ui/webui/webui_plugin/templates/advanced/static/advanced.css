@@ -289,6 +289,9 @@ form { /*all forms!*/
 
 #config_panel {
 		height:60%;
+		float:left;
+		width:500px;
+		margin-left:20px;
 }
 #config_panel th {
 		font-size: 12px;
