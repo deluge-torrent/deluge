@@ -36,11 +36,89 @@ import config
 import utils
 
 
-class BandWidth(config.CfgForm):
-    title = _("Bandwidth")
-    up = forms.IntegerField(label = "TODO")
 
-config.register_block('deluge','bandwidth',BandWidth)
+class ServerFolderField(forms.CharField):
+    pass
 
+
+class NetworkPorts(config.CfgForm ):
+    title = _("Ports")
+    info = _("Restart daemon after changing these values.")
+    _port_from =  forms.IntegerField(_("From"))
+    _port_to = forms.IntegerField(_("To"))
+    random_port = config.CheckBox(_("Random"))
+
+    def initial_data(self):
+        data = config.CfgForm.initial_data(self)
+        data['_port_from'] , data['_port_to'] = data['listen_ports']
+        return data
+
+    def save(self,data):
+        data['listen_ports'] = [data['_port_from'] , data['_port_to'] ]
+        if (data['_port_to'] < data['_port_from']):
+            raise ValidationError('"Port from" must be greater than "Port to"')
+        config.CfgForm.save()
+
+config.register_block('network','ports', NetworkPorts)
+
+class NetworkExtra(config.CfgForm ):
+    title = _("Extra's")
+    dht = config.CheckBox(_("Mainline DHT"))
+    upnp = config.CheckBox(_("UpNP"))
+    natpmp = config.CheckBox(_("NAT-PMP"))
+    utpex = config.CheckBox(_("Peer-Exchange"))
+    lsd = config.CheckBox(_("LSD"))
+
+config.register_block('network','extra', NetworkExtra)
+
+class NetworkEnc(config.CfgForm ):
+    title = _("Encryption")
+
+    _enc_choices = [_("Forced"),_("Enabled"),_("Disabled")]
+    _level_choices = [_("Handshake"), _("Full") , _("Either")]
+
+    enc_in_policy = config.IntCombo(_("Inbound"), _enc_choices)
+    enc_out_policy = config.IntCombo(_("Outbound"), _enc_choices)
+    enc_level = config.IntCombo(_("Level"), _level_choices)
+    enc_prefer_rc4 =  config.CheckBox("Prefer to encrypt entire stream")
+
+config.register_block('network','encryption', NetworkEnc)
+
+
+class BandwithGlobal(config.CfgForm):
+    title = _("Global")
+    info = _("-1 = Unlimited")
+    max_connections_global = config.DelugeInt(_("Maximum Connections"))
+    max_download_speed = config.DelugeFloat(_("Maximum Download Speed (Kib/s)"))
+    max_upload_speed = config.DelugeFloat(_("Maximum Upload Speed (Kib/s)"))
+    max_upload_slots_global = config.DelugeInt(_("Maximum Upload Slots"))
+
+config.register_block('bandwidth','global', BandwithGlobal)
+
+class BandwithTorrent(config.CfgForm):
+    title = _("Per Torrent")
+    info = _("-1 = Unlimited")
+    max_connections_per_torrent = config.DelugeInt(_("Maximum Connections"))
+    max_upload_slots_per_torrent = config.DelugeInt(_("Maximum Upload Slots"))
+
+config.register_block('bandwidth','torrent', BandwithTorrent)
+
+
+class Download(config.CfgForm):
+    title = _("Download")
+    download_location = ServerFolderField(_("Store all downoads in"))
+    torrentfiles_location = ServerFolderField(_("Save .torrent files to"))
+    autoadd_location = ServerFolderField(_("Auto Add folder") , required=False)
+    compact_allocation = config.CheckBox(_('Use Compact Allocation'))
+    prioritize_first_last_pieces = config.CheckBox(_('Prioritize first and last pieces'))
+
+config.register_block('deluge','download', Download)
+
+class Daemon(config.CfgForm):
+    title = _("Daemon")
+    daemon_port     = forms.IntegerField(_("Port"))
+    allow_remote = config.CheckBox(_("Allow Remote Connections"))
+
+config.register_block('deluge','daemon', Daemon)
 
 

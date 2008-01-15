@@ -37,6 +37,7 @@ import lib.webpy022 as web
 from webserver_common import ws
 from render import render
 from lib.webpy022.http import seeother
+import sys
 
 groups = []
 blocks = forms.utils.datastructures.SortedDict()
@@ -85,8 +86,48 @@ class CfgForm(Form):
     "config base for deluge-cfg"
     def initial_data(self):
         return ws.proxy.get_config()
-    def save(data):
-        ws.proxy.set_config(data)
+    def save(self, data):
+        ws.proxy.set_config(dict(data))
+
+
+#convenience Fields.
+
+class _IntInput(forms.TextInput):
+    """
+    because deluge-floats are edited as ints.
+    """
+    def render(self, name, value, attrs=None):
+        try:
+            value = int(float(value))
+        except:
+            pass
+        return forms.TextInput.render(self, name, value, attrs)
+
+class CheckBox(forms.BooleanField):
+    "Non Required ChoiceField"
+    def __init__(self,label, **kwargs):
+        forms.BooleanField.__init__(self,label=label,required=False,**kwargs)
+
+class IntCombo(forms.ChoiceField):
+    """
+    choices are the display-values
+    returns int for the chosen display-value.
+    """
+    def __init__(self, label, choices, **kwargs):
+        forms.ChoiceField.__init__(self, label=label, choices=enumerate(choices)
+            , **kwargs)
+
+    def clean(self, value):
+        return int(forms.ChoiceField.clean(self, value))
+
+class DelugeInt(forms.IntegerField):
+    def __init__(self, label , **kwargs):
+        forms.IntegerField.__init__(self, label=label, min_value=-1,
+            max_value=sys.maxint, widget=_IntInput, **kwargs)
+
+class DelugeFloat(DelugeInt):
+    def clean(self, value):
+        return int(DelugeInt.clean(self, value))
 
 
 class config_page:
@@ -129,7 +170,7 @@ class config_page:
                 ws.log.debug(e.message)
                 return self.render(form , name, error = e.message)
         else:
-            return self.render(form , name, _('Please correct errors and try again'))
+            return self.render(form , name, error= _('Please correct the errors above and try again'))
 
     def render(self, f , name , message = '' , error=''):
         return render.config(groups, blocks, f, name , message , error)

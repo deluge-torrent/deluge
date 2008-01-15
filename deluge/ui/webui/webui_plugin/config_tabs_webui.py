@@ -41,42 +41,40 @@ from webserver_common import ws
 class Template(config.WebCfgForm):
     title = _("Template")
 
-    template = forms.ChoiceField( label=_("Template"),
-        choices = [(t,t) for t in ws.get_templates()])
+    _templates = [(t,t) for t in ws.get_templates()]
+    _button_choices = [_('Text and image'), _('Image Only'), _('Text Only')]
 
-    button_style = forms.ChoiceField( label=_("Button style"),
-        choices=[
-            (0,_('Text and image')),
-            (1, _('Image Only')),
-            (2, _('Text Only'))])
-
-    cache_templates = forms.BooleanField(label = _("Cache templates"),
-        required=False)
+    template = forms.ChoiceField( label=_("Template"), choices = _templates)
+    button_style = config.IntCombo(_("Button style"),_button_choices)
+    cache_templates = config.CheckBox(_("Cache templates"))
 
     def post_save(self):
         render.apply_cfg()
 
 
 class Server(config.WebCfgForm):
-    info = _("Restart webui after changing these values.")
     title = _("Server")
 
     port = forms.IntegerField(label = _("Port"),min_value=80)
-    use_https = forms.BooleanField(label = _("Use https") , required=False)
+    use_https = config.CheckBox(_("Use https"))
+
+    def post_save(self):
+        pass
+        #raise forms.ValidationError(_("Manually restart server to apply these changes."))
 
 class Password(config.Form):
     title = _("Password")
     old_pwd = forms.CharField(widget = forms.PasswordInput
-        ,label = _("Current Password"), required=False)
+        ,label = _("Current Password"))
 
     new1 = forms.CharField(widget = forms.PasswordInput
-        ,label = _("New Password"), required=False)
+        ,label = _("New Password"))
 
     new2 = forms.CharField(widget = forms.PasswordInput
-        ,label = _("New Password (Confirm)"), required=False)
+        ,label = _("New Password (Confirm)"))
 
     def initial_data(self):
-        return {}
+        return None
 
     def save(self,data):
         if not ws.check_pwd(data.old_pwd):
@@ -87,8 +85,10 @@ class Password(config.Form):
         ws.update_pwd(data.new1)
         ws.save_config()
 
+
     def post_save(self):
         utils.end_session()
+        #raise forms.ValidationError(_("Password changed,please login again"))
 
 config.register_block('webui','template', Template)
 config.register_block('webui','server',Server)

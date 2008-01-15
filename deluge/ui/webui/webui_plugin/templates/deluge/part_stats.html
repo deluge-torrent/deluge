@@ -26,9 +26,10 @@ $#end
 
     <!--</a>-->
 
-    <span id=#about>
-        (<a href='/about'>$_('About')</a>)
-    </span>
+$if env == '0.6':
+    $:render.part_button('GET', '/config/', _('Settings'), 'tango/preferences-system.png')
+
+
 
 </div>
 

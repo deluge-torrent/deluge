@@ -165,13 +165,29 @@ body.inner {
 		border:0;
 		position:relative;
 		top:0px;
-		height:20px;
+		height:15px;
 		background-color:#ddd;
-		color:#000;
+		color:#00F;
 }
+
 #refresh_panel button:hover {
 		text-decoration: underline;
 }
+
+#stats_panel  button {
+        background-color:#304663;
+		color:#FFFFFF;
+		border:0;
+		position:relative;
+		top:0px;
+		height:20px;
+		background-color:#ddd;
+		color:#00F;
+}
+#stats_panel button:hover {
+		text-decoration: underline;
+}
+
 
 #category_panel  {
 	margin-bottom:0;

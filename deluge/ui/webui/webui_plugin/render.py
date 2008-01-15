@@ -133,7 +133,8 @@ template.Template.globals.update({
     'rev': 'rev.%s'  % (REVNO, ),
     'version': VERSION,
     'getcookie':getcookie,
-    'get': lambda (var): getattr(web.input(**{var:None}), var) # unreadable :-(
+    'get': lambda (var): getattr(web.input(**{var:None}), var), # unreadable :-(
+    'env':ws.env
 })
 #/template-defs
 

@@ -12,16 +12,21 @@ $else:
     $_('Off') &nbsp;
     $:render.part_button('POST', '/refresh/on', _('Enable'), 'tango/view-refresh.png')
 $#end
+
 </div>
 
 <div class="panel"  id='stats_panel'>
     <!--<a href='/config'>-->
+$if env == '0.6':
+    $:render.part_button('GET', '/config/', _('Settings'), 'tango/preferences-system.png')
 
-    $_('Connections') : $stats.num_connections ($stats.max_num_connections)
+$_('Connections') : $stats.num_connections ($stats.max_num_connections)
 
-    $_('Down Speed') : $stats.download_rate  ($stats.max_download)
+$_('Down Speed') : $stats.download_rate  ($stats.max_download)
 
-    $_('Up Speed') : $stats.upload_rate  ($stats.max_upload)
+$_('Up Speed') : $stats.upload_rate  ($stats.max_upload)
+
+
 
 
     <!--</a>-->
