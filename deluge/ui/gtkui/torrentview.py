@@ -110,9 +110,8 @@ class TorrentView(listview.ListView, component.Component):
         # Try to load the state file if available
         self.load_state("torrentview.state")
         
-        self.status_signal_received = True
-        self.status_signal_sent_time = 0
-        self.previous_batched_status = {}
+        # This is where status updates are put
+        self.status = {}
         
         # Register the columns menu with the listview so it gets updated
         # accordingly.
@@ -204,36 +203,8 @@ class TorrentView(listview.ListView, component.Component):
         """Sets filters for the torrentview.."""
         self.filter = (field, condition)
         self.update()
-                
-    def update(self, columns=None):
-        """Update the view.  If columns is not None, it will attempt to only
-        update those columns selected.
-        """
-        def foreachrow(model, path, row, data):
-            filter_column = self.columns["filter"].column_indices[0]
-            # Create a function to create a new liststore with only the
-            # desired rows based on the filter.
-            field, condition = data
-            if field == None and condition == None:
-                model.set_value(row, filter_column, True)
-                return
-                
-            torrent_id = model.get_value(row, 0)
-            value = client.get_torrent_status(torrent_id, [field])[field]
-            # Condition is True, so lets show this row, if not we hide it
-            if value == condition:
-                model.set_value(row, filter_column, True)
-            else:
-                model.set_value(row, filter_column, False)
-
-        self.liststore.foreach(foreachrow, self.filter)
-        
-        # We will only send another status request if we have received the
-        # previous.  This is to prevent things from going out of sync.
-        if not self.status_signal_received:
-            if time.time() - self.status_signal_sent_time < 2:
-                return
-            
+    
+    def send_status_request(self, columns=None):
         # Store the 'status_fields' we need to send to core
         status_keys = []
         # Store the actual columns we will be updating
@@ -280,14 +251,33 @@ class TorrentView(listview.ListView, component.Component):
 
         # Request the statuses for all these torrent_ids, this is async so we
         # will deal with the return in a signal callback.
-        self.status_signal_received = False
         client.get_torrents_status(torrent_ids, status_keys)
-        self.status_signal_sent_time = time.time()
-    
-    def on_torrent_status_signal(self, status):
-        """Callback function for get_torrents_status().  'status' should be a
-        dictionary of {torrent_id: {key, value}}."""
-        status = pickle.loads(status)
+                            
+    def update(self, columns=None):
+        """Update the view.  If columns is not None, it will attempt to only
+        update those columns selected.
+        """
+        def foreachrow(model, path, row, data):
+            filter_column = self.columns["filter"].column_indices[0]
+            # Create a function to create a new liststore with only the
+            # desired rows based on the filter.
+            field, condition = data
+            if field == None and condition == None:
+                model.set_value(row, filter_column, True)
+                return
+                
+            torrent_id = model.get_value(row, 0)
+            value = client.get_torrent_status(torrent_id, [field])[field]
+            # Condition is True, so lets show this row, if not we hide it
+            if value == condition:
+                model.set_value(row, filter_column, True)
+            else:
+                model.set_value(row, filter_column, False)
+
+        self.liststore.foreach(foreachrow, self.filter)
+        
+        # Update the torrent view model with data we've received
+        status = self.status
         row = self.liststore.get_iter_first()
         while row != None:
             torrent_id = self.liststore.get_value(
@@ -330,7 +320,14 @@ class TorrentView(listview.ListView, component.Component):
                             except:
                                 pass
             row = self.liststore.iter_next(row)
-        self.status_signal_received = True
+ 
+        # Send a request for a status update
+        self.send_status_request(columns)
+    
+    def on_torrent_status_signal(self, status):
+        """Callback function for get_torrents_status().  'status' should be a
+        dictionary of {torrent_id: {key, value}}."""
+        self.status = pickle.loads(status)
                         
     def add_row(self, torrent_id):
         """Adds a new torrent row to the treeview"""
