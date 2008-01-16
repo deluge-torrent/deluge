@@ -37,6 +37,7 @@ import gobject
 import socket
 import os
 import time
+import threading
 
 import deluge.component as component
 import deluge.xmlrpclib as xmlrpclib
@@ -80,6 +81,9 @@ class ConnectionManager(component.Component):
         
         self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, int)
 
+        # Holds the online status of hosts
+        self.online_status = {}
+        
         # Fill in hosts from config file
         for host in self.config["hosts"]:
             row = self.liststore.append()
@@ -174,7 +178,11 @@ class ConnectionManager(component.Component):
         def update_row(model=None, path=None, row=None, columns=None):
             uri = model.get_value(row, HOSTLIST_COL_URI)
             uri = "http://" + uri
-            online = self.test_online_status(uri)
+            threading.Thread(target=self.test_online_status, args=(uri,)).start()
+            try:
+                online = self.online_status[uri]
+            except:
+                online = False
             
             if online:
                 image = gtk.STOCK_YES
@@ -301,7 +309,7 @@ class ConnectionManager(component.Component):
             online = False
 
         del host
-        
+        self.online_status[uri] = online
         return online
         
     ## Callbacks
