@@ -123,10 +123,17 @@ class Daemon(config.CfgForm):
 
 config.register_block('deluge','daemon', Daemon)
 
-class Plugins(config.CfgForm):
+class Plugins(config.Form):
     title = _("Enabled Plugins")
-
     _choices = [(p,p) for p in ws.proxy.get_available_plugins()]
     enabled_plugins = config.MultipleChoice(_(""), _choices)
+
+    def initial_data(self):
+        return {'enabled_plugins':ws.proxy.get_enabled_plugins()}
+
+    def save(self, value):
+        raise NotImplementedError("TODO")
+
+
 
 config.register_block('deluge','plugins', Plugins)
