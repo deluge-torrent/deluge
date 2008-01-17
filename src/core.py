@@ -438,15 +438,15 @@ class Manager:
             try:
                 for unique_ID in self.unique_IDs:
                     os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
-                    deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
             except:
                 pass
+            deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
         else:
             try:
                 os.remove(self.unique_IDs[uid].filename + ".fastresume")
-                deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
             except:
                 pass
+            deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
 
     # State retrieval functions
 
