@@ -37,10 +37,6 @@ import utils
 from webserver_common import ws
 
 
-class ServerFolderField(forms.CharField):
-    pass
-
-
 class NetworkPorts(config.CfgForm ):
     title = _("Ports")
     info = _("Restart daemon after changing these values.")
@@ -54,12 +50,14 @@ class NetworkPorts(config.CfgForm ):
         return data
 
     def save(self,data):
-        if (data['_port_to'] < data['_port_from']):
-            raise ValidationError('"Port from" must be greater than "Port to"')
         data['listen_ports'] = [data['_port_from'] , data['_port_to'] ]
         del(data['_port_from'])
         del(data['_port_to'])
         config.CfgForm.save(self, data)
+
+    def validate(self, data):
+        if (data['_port_to'] < data['_port_from']):
+            raise ValidationError('"Port from" must be greater than "Port to"')
 
 config.register_block('network','ports', NetworkPorts)
 
@@ -108,11 +106,12 @@ config.register_block('bandwidth','torrent', BandwithTorrent)
 
 class Download(config.CfgForm):
     title = _("Download")
-    download_location = ServerFolderField(_("Store all downoads in"))
-    torrentfiles_location = ServerFolderField(_("Save .torrent files to"))
-    autoadd_location = ServerFolderField(_("Auto Add folder") , required=False)
+    download_location = config.ServerFolder(_("Store all downoads in"))
+    torrentfiles_location = config.ServerFolder(_("Save .torrent files to"))
+    autoadd_location = config.ServerFolder(_("Auto Add folder"), required=False)
     compact_allocation = config.CheckBox(_('Use Compact Allocation'))
-    prioritize_first_last_pieces = config.CheckBox(_('Prioritize first and last pieces'))
+    prioritize_first_last_pieces = config.CheckBox(
+        _('Prioritize first and last pieces'))
 
 config.register_block('deluge','download', Download)
 
@@ -132,8 +131,6 @@ class Plugins(config.Form):
         return {'enabled_plugins':ws.proxy.get_enabled_plugins()}
 
     def save(self, value):
-        raise NotImplementedError("TODO")
-
-
+        raise forms.ValidationError("SAVE:TODO")
 
 config.register_block('deluge','plugins', Plugins)

@@ -38,6 +38,7 @@ from webserver_common import ws
 from render import render
 from lib.webpy022.http import seeother
 import sys
+import os
 
 groups = []
 blocks = forms.utils.datastructures.SortedDict()
@@ -52,11 +53,13 @@ class Form(forms.Form):
 
     def initial_data(self):
         "override in subclass"
-        raise NotImplementedError()
+        return None
 
     def start_save(self):
         "called by config_page"
-        self.save(web.Storage(self.clean_data))
+        data = web.Storage(self.clean_data)
+        self.validate(data)
+        self.save(data)
         self.post_save()
 
     def save(self, vars):
@@ -64,7 +67,9 @@ class Form(forms.Form):
         raise NotImplementedError()
 
     def post_save(self):
-        "override in subclass"
+        pass
+
+    def validate(self, data):
         pass
 
 
@@ -76,10 +81,6 @@ class WebCfgForm(Form):
     def save(self, data):
         ws.config.update(data)
         ws.save_config()
-        self.post_save()
-
-    def post_save(self):
-        pass
 
 class CookieCfgForm(Form):
     "config base for webui"
@@ -89,11 +90,6 @@ class CookieCfgForm(Form):
     def save(self, data):
         ws.config.update(data)
         ws.save_config()
-        self.post_save()
-
-    def post_save(self):
-        pass
-
 
 
 class CfgForm(Form):
@@ -129,8 +125,8 @@ class IntCombo(forms.ChoiceField):
     returns int for the chosen display-value.
     """
     def __init__(self, label, choices, **kwargs):
-        forms.ChoiceField.__init__(self, label=label, choices=enumerate(choices)
-            , **kwargs)
+        forms.ChoiceField.__init__(self, label=label,
+            choices=enumerate(choices), **kwargs)
 
     def clean(self, value):
         return int(forms.ChoiceField.clean(self, value))
@@ -155,6 +151,23 @@ class MultipleChoice(forms.MultipleChoiceField):
         forms.MultipleChoiceField.__init__(self, label=label, choices=choices,
             widget=forms.CheckboxSelectMultiple, required=False)
 
+class ServerFolder(forms.CharField):
+    def __init__(self, label, **kwargs):
+        forms.CharField.__init__(self, label=label,**kwargs)
+
+    def clean(self, value):
+        value = value.rstrip('/').rstrip('\\')
+        self.validate(value)
+        return forms.CharField.clean(self, value)
+
+    def validate(self, value):
+        if (value and not os.path.isdir(value)):
+            raise forms.ValidationError(_("This folder does not exist."))
+
+class Password(forms.CharField):
+    def __init__(self, label, **kwargs):
+        forms.CharField.__init__(self, label=label, widget=forms.PasswordInput,
+            **kwargs)
 
 #/fields
 
@@ -203,7 +216,8 @@ class config_page:
                 ws.log.debug(e.message)
                 return self.render(form , name, error = e.message)
         else:
-            return self.render(form , name, error= _('Correct the errors above and try again'))
+            return self.render(form , name,
+                error= _('Correct the errors above and try again'))
 
     def render(self, f , name , message = '' , error=''):
         return render.config(groups, blocks, f, name , message , error)
@@ -213,6 +227,11 @@ def register_block(group, name, form):
         groups.append(group)
     form.group = group
     blocks[name] = form
+
+def unregister_block(name):
+    del blocks[name]
+
+
 
 
 

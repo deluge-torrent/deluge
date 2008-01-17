@@ -34,7 +34,6 @@
 import lib.newforms as forms
 import config
 import utils
-from render import render
 from webserver_common import ws
 
 
@@ -49,6 +48,7 @@ class Template(config.WebCfgForm):
     cache_templates = config.CheckBox(_("Cache templates"))
 
     def post_save(self):
+        from render import render
         render.apply_cfg()
 
 
@@ -60,31 +60,26 @@ class Server(config.WebCfgForm):
 
     def post_save(self):
         pass
-        #raise forms.ValidationError(_("Manually restart server to apply these changes."))
+        #raise forms.ValidationError(
+        #       _("Manually restart server to apply these changes."))
 
 class Password(config.Form):
     title = _("Password")
-    old_pwd = forms.CharField(widget = forms.PasswordInput
-        ,label = _("Current Password"))
 
-    new1 = forms.CharField(widget = forms.PasswordInput
-        ,label = _("New Password"))
-
-    new2 = forms.CharField(widget = forms.PasswordInput
-        ,label = _("New Password (Confirm)"))
-
-    def initial_data(self):
-        return None
+    old_pwd = config.Password(_("Current Password"))
+    new1 = config.Password(_("New Password"))
+    new2 = config.Password(_("New Password (Confirm)"))
 
     def save(self,data):
-        if not ws.check_pwd(data.old_pwd):
-            raise forms.ValidationError(_("Old password is invalid"))
-        if data.new1 <> data.new2:
-            raise forms.ValidationError(_("New Password is not equal to New Password(confirm)"))
-
         ws.update_pwd(data.new1)
         ws.save_config()
 
+    def validate(self, data):
+        if not ws.check_pwd(data.old_pwd):
+            raise forms.ValidationError(_("Old password is invalid"))
+        if data.new1 <> data.new2:
+            raise forms.ValidationError(
+                _("New Password is not equal to New Password(confirm)"))
 
     def post_save(self):
         utils.end_session()

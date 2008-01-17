@@ -164,7 +164,7 @@ body.inner {
 		color:#FFFFFF;
 		border:0;
 		position:relative;
-		top:0px;
+		top:-2px;
 		height:15px;
 		background-color:#ddd;
 		color:#00F;
@@ -179,8 +179,8 @@ body.inner {
 		color:#FFFFFF;
 		border:0;
 		position:relative;
-		top:0px;
-		height:20px;
+		top:-2px;
+		height:15px;
 		background-color:#ddd;
 		color:#00F;
 }
@@ -269,6 +269,7 @@ form { /*all forms!*/
 }
 
 #config_chooser {
+	margin-left:20px;
 	float: left;
 	width:150px;
 	text-align:left;
@@ -278,6 +279,7 @@ form { /*all forms!*/
 #config_chooser ul {
 	list-style-type: none;
 }
+
 
 #config_chooser li:hover {
 	background-color:#68a;
