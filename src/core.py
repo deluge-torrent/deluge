@@ -435,12 +435,12 @@ class Manager:
     # A separate function, because people may want to call it from time to time
     def save_fastresume_data(self, uid=None):
         if uid == None:
-            try:
-                for unique_ID in self.unique_IDs:
+            for unique_ID in self.unique_IDs:
+                try:
                     os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
-            except:
-                pass
-            deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
+                except:
+                    pass
+                deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
         else:
             try:
                 os.remove(self.unique_IDs[uid].filename + ".fastresume")
