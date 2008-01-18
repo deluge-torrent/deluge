@@ -378,11 +378,17 @@ class Manager:
     
     # Get file piece range
     def get_file_piece_range(self, unique_id):
-        return deluge_core.get_file_piece_range(unique_id)
+        try:
+            return deluge_core.get_file_piece_range(unique_id)
+        except Exception, e:
+            print "Unable to get file piece range:", e
     
     # Check if piece is finished
     def has_piece(self, unique_id, piece_index):
-        return deluge_core.has_piece(unique_id, piece_index)
+        try:
+            return deluge_core.has_piece(unique_id, piece_index)
+        except Exception, e:
+            print "Unable to get has piece:", e
     
     # Dump torrent info without adding
     def dump_torrent_file_info(self, torrent):
@@ -395,7 +401,10 @@ class Manager:
 
     # Dump trackers from torrent file
     def dump_trackers(self, torrent):
-        return deluge_core.dump_trackers(torrent)
+        try:
+            return deluge_core.dump_trackers(torrent)
+        except Exception, e:
+            print "Unable to dump trackers:", e
     
     # Torrent addition and removal functions
 
@@ -405,12 +414,17 @@ class Manager:
     
     # When duplicate torrent error, use to find duplicate when merging tracker lists
     def test_duplicate(self, torrent, unique_id):
-        return deluge_core.test_duplicate(torrent, unique_id)
+        try:
+            return deluge_core.test_duplicate(torrent, unique_id)
+        except Exception, e:
+            print "Unable to test duplicate:", e
 
     def remove_torrent(self, unique_ID, data_also, torrent_also):
         temp = self.unique_IDs[unique_ID]
-        temp_fileinfo = deluge_core.get_file_info(unique_ID)
-
+        try:
+            temp_fileinfo = deluge_core.get_file_info(unique_ID)
+        except Exception, e:
+            print "Unable to get file info:", e
         self.remove_torrent_ns(unique_ID, data_also)
         self.sync()
 
@@ -422,7 +436,9 @@ class Manager:
     # used in the event that Deluge crashes and a blank state is loaded.
     def add_old_torrent(self, filename, save_dir, compact):
         if not filename in os.listdir(self.config.get("default_torrent_path")):
-            raise InvalidTorrentError(_("File was not found") + ": " + filename)
+            #raise InvalidTorrentError(_("File was not found") + ": " + filename)
+            print "File not found: ", filename
+            return
 
         full_new_name = os.path.join(self.config.get("default_torrent_path"), filename)
 
@@ -440,13 +456,19 @@ class Manager:
                     os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
                 except:
                     pass
-                deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
+                try:
+                    deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
+                except Exception, e:
+                    print "Unable to save fastresume: ", e
         else:
             try:
                 os.remove(self.unique_IDs[uid].filename + ".fastresume")
             except:
                 pass
-            deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
+            try:
+                deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
+            except Exception, e:
+                print "Unable to save fastresume: ", e
 
     # State retrieval functions
 
@@ -488,10 +510,16 @@ class Manager:
         return self.get_core_torrent_file_info(unique_ID)
 
     def get_piece_info(self, unique_ID, piece_index):
-        return deluge_core.get_piece_info(unique_ID, piece_index)
+        try:
+            return deluge_core.get_piece_info(unique_ID, piece_index)
+        except Exception, e:
+            print "Unable to get piece info:", e
 
     def get_all_piece_info(self, unique_ID):
-        return deluge_core.get_all_piece_info(unique_ID)
+        try:
+            return deluge_core.get_all_piece_info(unique_ID)
+        except Exception, e:
+            print "Unable to get all piece info:", e
     
     def get_torrent_unique_id(self, torrent):
         return self.state.torrents[torrent]
@@ -726,7 +754,11 @@ Space:") + " " + nice_free)
         assert(len(priorities) == \
                    self.get_core_torrent_state(unique_ID)['num_files'])
         self.unique_IDs[unique_ID].priorities = priorities[:]
-        deluge_core.prioritize_files(unique_ID, priorities)
+        try:
+            deluge_core.prioritize_files(unique_ID, priorities)
+        except Exception, e:
+            print "Unable to prioritize files:", e
+            
         if update_files_removed:
             self.update_files_removed[unique_ID] = 1
         
@@ -749,8 +781,11 @@ Space:") + " " + nice_free)
         of each file in the torrent
         
         """
-        deluge_core.prioritize_first_last_pieces(unique_ID, 
+        try:
+            deluge_core.prioritize_first_last_pieces(unique_ID, 
             self.unique_IDs[unique_ID].priorities)
+        except Exception, e:
+            print "Unable to prioritize first and last pieces:", e
 
     # Advanced statistics - these may be SLOW. The client should call these only
     # when needed, and perhaps only once in a long while (they are mostly just
@@ -778,7 +813,10 @@ Space:") + " " + nice_free)
             print "pause failed\n"
 
     def set_ratio(self, unique_ID, num):
-        deluge_core.set_ratio(unique_ID, float(num))
+        try:
+            deluge_core.set_ratio(unique_ID, float(num))
+        except Exception, e:
+            print "Unable to set ratio: ", e
 
     def is_user_paused(self, unique_ID):
         return self.unique_IDs[unique_ID].user_paused
@@ -790,10 +828,16 @@ Space:") + " " + nice_free)
         return self.state.queue
 
     def update_tracker(self, unique_ID):
-        deluge_core.reannounce(unique_ID)
+        try:
+            deluge_core.reannounce(unique_ID)
+        except Exception, e:
+            print "Unable to reannounce: ", e
 
     def scrape_tracker(self, unique_ID):
-        deluge_core.scrape_tracker(unique_ID)
+        try:
+            deluge_core.scrape_tracker(unique_ID)
+        except Exception, e:
+            print "Unable to scrape tracker ", e
 
     def pause(self, unique_ID):
         try:
@@ -828,7 +872,10 @@ Space:") + " " + nice_free)
             self.apply_prefs()
 
     def move_storage(self, unique_ID, directory):
-        deluge_core.move_storage(unique_ID, directory)
+        try:
+            deluge_core.move_storage(unique_ID, directory)
+        except Exception, e:
+            print "Unable to move storage: ", e
 
     ####################
     # Internal functions
