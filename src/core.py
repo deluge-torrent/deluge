@@ -465,18 +465,20 @@ class Manager:
     def get_torrent_state(self, unique_ID):
         # Check to see if unique_ID exists:
         if unique_ID not in self.unique_IDs:
-            raise InvalidUniqueIDError(_("Asked for a torrent that doesn't exist"))
-         
-        ret = self.get_core_torrent_state(unique_ID).copy()
+            print "Asked for a torrent that doesn't exist"
+            return
+        try:
+            ret = self.get_core_torrent_state(unique_ID).copy()
 
-        # Add the deluge-level things to the deluge_core data
-        ret.update(self.get_supp_torrent_state(unique_ID))
+            # Add the deluge-level things to the deluge_core data
+            ret.update(self.get_supp_torrent_state(unique_ID))
 
-        # Get queue position
-        torrent = self.unique_IDs[unique_ID]
-        ret['queue_pos'] = self.state.queue.index(torrent) + 1
-
-        return ret
+            # Get queue position
+            torrent = self.unique_IDs[unique_ID]
+            ret['queue_pos'] = self.state.queue.index(torrent) + 1
+            return ret
+        except:
+            return None
 
     def get_torrent_peer_info(self, unique_ID):
         # Perhaps at some time we may add info here
