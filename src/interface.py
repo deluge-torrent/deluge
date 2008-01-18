@@ -1433,6 +1433,8 @@ disk space to complete your download.") + "\n" + _("Space Needed:") + " " + \
 nice_need + "\n" + _("Available Space:") + " " + nice_free)
         except core.InvalidEncodingError, e:
             print "invalid encoding\n"
+        except Exception, e:
+            print "Unable to add torrent:", e
         else:
             self.torrent_model_append(unique_id)
 
