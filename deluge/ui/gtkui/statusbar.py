@@ -82,7 +82,8 @@ class StatusBarItem:
         self._image.set_from_stock(stock, gtk.ICON_SIZE_MENU)
         
     def set_text(self, text):
-        self._label.set_text(text)
+        if self._label.get_text() != text:
+            self._label.set_text(text)
         
     def get_widgets(self):
         return self._widgets()
@@ -95,6 +96,14 @@ class StatusBar(component.Component):
         component.Component.__init__(self, "StatusBar")
         self.window = component.get("MainWindow")
         self.statusbar = self.window.main_glade.get_widget("statusbar")
+        
+        # Status variables that are updated via callback
+        self.max_connections = -1
+        self.num_connections = 0
+        self.max_download_speed = -1.0
+        self.download_rate = 0.0
+        self.max_upload_speed = -1.0
+        self.upload_rate = 0.0
         
         # Add a HBox to the statusbar after removing the initial label widget
         self.hbox = gtk.HBox()
@@ -121,6 +130,8 @@ class StatusBar(component.Component):
             image=deluge.common.get_pixmap("seeding16.png"))
         self.hbox.pack_start(
             self.upload_item.get_eventbox(), expand=False, fill=False)
+        
+        self.send_status_request()
     
     def stop(self):
         # When stopped, we just show the not connected thingy
@@ -153,35 +164,65 @@ class StatusBar(component.Component):
         def remove(child):
             self.hbox.remove(child)
         self.hbox.foreach(remove)
+    
+    def send_status_request(self):
+        # Sends an async request for data from the core
+        client.get_config_value(
+            self._on_max_connections_global, "max_connections_global")
+        client.get_num_connections(self._on_get_num_connections)
+        client.get_config_value(
+            self._on_max_download_speed, "max_download_speed")
+        client.get_download_rate(self._on_get_download_rate)
+        client.get_config_value(
+            self._on_max_upload_speed, "max_upload_speed")
+        client.get_upload_rate(self._on_get_upload_rate)
+
+    def _on_max_connections_global(self, max_connections):
+        self.max_connections = max_connections
         
+    def _on_get_num_connections(self, num_connections):
+        self.num_connections = num_connections
+        
+    def _on_max_download_speed(self, max_download_speed):
+        self.max_download_speed = max_download_speed
+    
+    def _on_get_download_rate(self, download_rate):
+        self.download_rate = deluge.common.fsize(download_rate)
+    
+    def _on_max_upload_speed(self, max_upload_speed):
+        self.max_upload_speed = max_upload_speed
+    
+    def _on_get_upload_rate(self, upload_rate):
+        self.upload_rate = deluge.common.fsize(upload_rate)
+                
     def update(self):
         # Set the max connections label
-        max_connections = client.get_config_value("max_connections_global")
+        max_connections = self.max_connections
         if max_connections < 0:
             max_connections = _("Unlimited")
 
         self.connections_item.set_text("%s (%s)" % (
-            client.get_num_connections(), max_connections))
+            self.num_connections, max_connections))
         
         # Set the download speed label
-        max_download_speed = client.get_config_value("max_download_speed")
+        max_download_speed = self.max_download_speed
         if max_download_speed < 0:
             max_download_speed = _("Unlimited")
         else:
             max_download_speed = "%s %s" % (max_download_speed, _("KiB/s"))
                     
         self.download_item.set_text("%s/s (%s)" % (
-            deluge.common.fsize(client.get_download_rate()), 
-            max_download_speed))
+            self.download_rate, max_download_speed))
 
         # Set the upload speed label
-        max_upload_speed = client.get_config_value("max_upload_speed")
+        max_upload_speed = self.max_upload_speed
         if max_upload_speed < 0:
             max_upload_speed = _("Unlimited")
         else:
             max_upload_speed = "%s %s" % (max_upload_speed, _("KiB/s"))
         
         self.upload_item.set_text("%s/s (%s)" % (
-            deluge.common.fsize(client.get_upload_rate()), 
+            self.upload_rate, 
             max_upload_speed))
-
+        
+        self.send_status_request()

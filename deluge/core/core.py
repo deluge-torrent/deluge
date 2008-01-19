@@ -35,7 +35,6 @@ import gettext
 import locale
 import pkg_resources
 import sys
-import cPickle as pickle
 import shutil
 import os
 
@@ -119,7 +118,9 @@ class Core(
         except:
             log.info("Daemon already running or port not available..")
             sys.exit(0)
-            
+
+        self.register_multicall_functions()
+        
         # Register all export_* functions
         for func in dir(self):
             if func.startswith("export_"):
@@ -350,14 +351,9 @@ class Core(
         leftover_fields = list(set(keys) - set(status.keys()))
         if len(leftover_fields) > 0:
             status.update(self.plugins.get_status(torrent_id, leftover_fields))
-        return pickle.dumps(status)
+        return status
     
     def export_get_torrents_status(self, torrent_ids, keys):
-        """Returns dictionary of statuses for torrent_ids"""
-        # This is an async command, so we want to return right away
-        gobject.idle_add(self._get_torrents_status, torrent_ids, keys)
-
-    def _get_torrents_status(self, torrent_ids, keys):
         status_dict = {}.fromkeys(torrent_ids)
 
         # Get the torrent status for each torrent_id
@@ -374,9 +370,8 @@ class Core(
             
             status_dict[torrent_id] = status
         # Emit the torrent_status signal to the clients
-        self.torrent_status(pickle.dumps(status_dict))
-        return False
-        
+        return status_dict
+            
     def export_get_session_state(self):
         """Returns a list of torrent_ids in the session."""
         # Get the torrent list from the TorrentManager
@@ -477,11 +472,7 @@ class Core(
         """Emitted when all torrents have been resumed"""
         log.debug("torrent_all_resumed signal emitted")
         self.signals.emit("torrent_all_resumed", torrent_id)
-    
-    def torrent_status(self, status):
-        """Emitted when the torrent statuses are ready to be sent"""
-        self.signals.emit("torrent_status", status)
-        
+
     # Config set functions
     def _on_set_torrentfiles_location(self, key, value):
         try:

@@ -119,10 +119,14 @@ class AddTorrentDialog:
             "add_paused",
             "default_private"
         ]
+        self.core_config = {}
         
+        # Send requests to the core for these config values
         for key in self.core_keys:
-            self.core_config[key] = client.get_config_value(key)
+            client.get_config_value(self._on_config_value, key)
 
+        # Force a call to the core because we need this data now
+        client.force_call()
         self.set_default_options()
         
     def show(self):
@@ -133,6 +137,12 @@ class AddTorrentDialog:
         self.dialog.destroy()
         return None
     
+    def _on_config_value(self, value):
+        for key in self.core_keys:
+            if not self.core_config.has_key(key):
+                self.core_config[key] = value
+                break
+                
     def add_to_torrent_list(self, filenames):
         import deluge.libtorrent as lt
         import os.path

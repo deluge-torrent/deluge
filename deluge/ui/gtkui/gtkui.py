@@ -152,21 +152,9 @@ class GtkUI:
 
         # Make sure the config is saved.
         config.save()
-        del config
         
-        # Clean-up
         # Shutdown all components
         component.shutdown()
-        del self.mainwindow
-        del self.systemtray
-        del self.menubar
-        del self.toolbar
-        del self.torrentview
-        del self.torrentdetails
-        del self.preferences
-        del self.signal_receiver
-        del self.plugins
-        del deluge.configmanager
 
     def _on_new_core(self, data):
         component.start()

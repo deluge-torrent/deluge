@@ -132,7 +132,42 @@ class CoreProxy(gobject.GObject):
         gobject.GObject.__init__(self)
         self._uri = None
         self._core = None
+        self._multi = None
+        self._callbacks = []
+        gobject.timeout_add(10, self.do_multicall)
+
+    def call(self, func, callback, *args):
+        if self._core is None or self._multi is None:
+            if self.get_core() is None:
+                return
+        _func = getattr(self._multi, func)
+
+        if _func is not None:
+            if len(args) == 0:
+                _func()
+            else:
+                _func(*args)
+        self._callbacks.append(callback)
+
+
+    def do_multicall(self, block=False):
+        if len(self._callbacks) == 0:
+            return True
             
+        if self._multi is not None:
+            for i, ret in enumerate(self._multi()):
+                try:
+                    if block == False:
+                        gobject.idle_add(self._callbacks[i], ret)
+                    else:
+                        self._callbacks[i](ret)
+                except:
+                    pass
+                    
+        self._callbacks = []
+        self._multi = xmlrpclib.MultiCall(self._core)
+        return True
+        
     def set_core_uri(self, uri):
         log.info("Setting core uri as %s", uri)
         
@@ -158,26 +193,18 @@ class CoreProxy(gobject.GObject):
         if self._core is None and self._uri is not None:
             log.debug("Creating ServerProxy..")
             self._core = xmlrpclib.ServerProxy(self._uri, allow_none=True)
+            self._multi = xmlrpclib.MultiCall(self._core)
             # Call any callbacks registered
             self.emit("new_core")
         
         return self._core
-               
+                      
 _core = CoreProxy()
 
 def get_core():
     """Get the core object and return it"""
-    return _core.get_core()
+    return _core
     
-def get_core_plugin(plugin):
-    """Get the core plugin object and return it"""
-    log.debug("Getting core plugin %s from DBUS..", plugin)
-    bus = dbus.SessionBus()
-    proxy = bus.get_object("org.deluge_torrent.Deluge", 
-                               "/org/deluge_torrent/Plugin/" + plugin)
-    core = dbus.Interface(proxy, "org.deluge_torrent.Deluge." + plugin)
-    return core
-
 def connect_on_new_core(callback):
     """Connect a callback whenever a new core is connected to."""
     return _core.connect("new_core", callback)
@@ -211,15 +238,27 @@ def connected():
     if get_core_uri() != None:
         return True
     return False
-            
+
+def register_client(port):
+    get_core().call("register_client", None, port)
+
+def deregister_client():
+    get_core().call("deregister_client", None)
+                
 def shutdown():
     """Shutdown the core daemon"""
     try:
-        get_core().shutdown()
+        get_core().call("shutdown", None)
+        force_call(block=False)
     except:
         # Ignore everything
         set_core_uri(None)
-     
+
+def force_call(block=True):
+    """Forces the multicall batch to go now and not wait for the timer.  This
+    call also blocks until all callbacks have been dealt with."""
+    get_core().do_multicall(block=block)
+       
 def add_torrent_file(torrent_files, torrent_options=None):
     """Adds torrent files to the core
         Expects a list of torrent files
@@ -252,216 +291,101 @@ def add_torrent_file(torrent_files, torrent_options=None):
         else:
             options = None
             
-        try:
-            result = get_core().add_torrent_file(
-                filename, str(), fdump, options)
-        except (AttributeError, socket.error):
-            set_core_uri(None)
-            result = False
-            
-        if result is False:
-            # The torrent was not added successfully.
-            log.warning("Torrent %s was not added successfully.", filename)
+        get_core().call("add_torrent_file", None,
+            filename, str(), fdump, options)
 
 def add_torrent_url(torrent_url, options=None):
     """Adds torrents to the core via url"""
     from deluge.common import is_url
     if is_url(torrent_url):
-        try:
-            result = get_core().add_torrent_url(torrent_url, str(), options)
-        except (AttributeError, socket.error):
-            set_core_uri(None)
-            result = False
-            
-        if result is False:
-            # The torrent url was not added successfully.
-            log.warning("Torrent %s was not added successfully.", torrent_url)
+        get_core().call("add_torrent_url", None, 
+            torrent_url, str(), options)
     else:
         log.warning("Invalid URL %s", torrent_url)
     
 def remove_torrent(torrent_ids, remove_torrent=False, remove_data=False):
     """Removes torrent_ids from the core.. Expects a list of torrent_ids"""
     log.debug("Attempting to removing torrents: %s", torrent_ids)
-    try:
-        for torrent_id in torrent_ids:
-            get_core().remove_torrent(torrent_id, remove_torrent, remove_data)
-    except (AttributeError, socket.error):
-        set_core_uri(None)
+    for torrent_id in torrent_ids:
+        get_core().call("remove_torrent", None, torrent_id, remove_torrent, remove_data)
 
 def pause_torrent(torrent_ids):
     """Pauses torrent_ids"""
-    try:
-        for torrent_id in torrent_ids:
-            get_core().pause_torrent(torrent_id)
-    except (AttributeError, socket.error):
-        set_core_uri(None)
+    for torrent_id in torrent_ids:
+        get_core().call("pause_torrent", None, torrent_id)
 
 def pause_all_torrents():
     """Pauses all torrents"""
-    try:
-        get_core().pause_all_torrents()
-    except (AttributeError, socket.error):
-        set_core_uri(None)
+    get_core().call("pause_all_torrents", None)
 
 def resume_all_torrents():
     """Resumes all torrents"""
-    try:
-        get_core().resume_all_torrents()
-    except (AttributeError, socket.error):
-        set_core_uri(None)
+    get_core().call("resume_all_torrents", None)
         
 def resume_torrent(torrent_ids):
     """Resume torrent_ids"""
-    try:
-        for torrent_id in torrent_ids:
-            get_core().resume_torrent(torrent_id)
-    except (AttributeError, socket.error):
-        set_core_uri(None)
+    for torrent_id in torrent_ids:
+        get_core().call("resume_torrent", None, torrent_id)
         
 def force_reannounce(torrent_ids):
     """Reannounce to trackers"""
-    try:
-        for torrent_id in torrent_ids:
-            get_core().force_reannounce(torrent_id)
-    except (AttributeError, socket.error):
-        set_core_uri(None)
+    for torrent_id in torrent_ids:
+        get_core().call("force_reannounce", None, torrent_id)
 
-@cache_dict
-def get_torrent_status(torrent_id, keys):
+def get_torrent_status(callback, torrent_id, keys):
     """Builds the status dictionary and returns it"""
-    try:
-        status = get_core().get_torrent_status(torrent_id, keys)
-    except (AttributeError, socket.error):
-        set_core_uri(None)
-        return {}
-    
-    if status == None:
-        return {}
-    
-    return pickle.loads(status)
+    get_core().call("get_torrent_status", callback, torrent_id, keys)
 
-def get_torrents_status(torrent_ids, keys):
+def get_torrents_status(callback, torrent_ids, keys):
     """Builds a dictionary of torrent_ids status.  Expects 2 lists.  This is
     asynchronous so the return value will be sent as the signal
     'torrent_status'"""
-    try:
-        get_core().get_torrents_status(torrent_ids, keys)
-    except (AttributeError, socket.error):
-        set_core_uri(None)
+    get_core().call("get_torrents_status", callback, torrent_ids, keys)
 
-    return None
-        
-@cache
-def get_session_state():
-    try:
-        state = get_core().get_session_state()
-    except (AttributeError, socket.error):
-        set_core_uri(None)
-        state = []
-    return state
+def get_session_state(callback):
+    get_core().call("get_session_state", callback)
 
-@cache
-def get_config():
-    try:
-        config = get_core().get_config()
-    except (AttributeError, socket.error):
-        set_core_uri(None)
-        config = {}
-    return config
+def get_config(callback):
+    get_core().call("get_config", callback)
 
-@cache
-def get_config_value(key):
-    try:
-        config_value = get_core().get_config_value(key)
-    except (AttributeError, socket.error):
-        set_core_uri(None)
-        config_value = None
-    return config_value
+def get_config_value(callback, key):
+    get_core().call("get_config_value", callback, key)
     
 def set_config(config):
     if config == {}:
         return
-    try:
-        get_core().set_config(config)
-    except (AttributeError, socket.error):
-        set_core_uri(None)
-@cache
-def get_listen_port():
-    try:
-        port = get_core().get_listen_port()
-    except (AttributeError, socket.error):
-        set_core_uri(None)
-        port = 0
-    return int(port)
+    get_core().call("set_config", None, config)
 
-@cache
-def get_available_plugins():
-    try:
-        available = get_core().get_available_plugins()
-    except (AttributeError, socket.error):
-        set_core_uri(None)
-        available = []
-    return available
+def get_listen_port(callback):
+    get_core().call("get_listen_port", callback)
 
-@cache
-def get_enabled_plugins():
-    try:
-        enabled = get_core().get_enabled_plugins()
-    except (AttributeError, socket.error):
-        set_core_uri(None)
-        enabled = []
-    return enabled
+def get_available_plugins(callback):
+    get_core().call("get_available_plugins", callback)
 
-@cache
-def get_download_rate():
-    try:
-        rate = get_core().get_download_rate()
-    except (AttributeError, socket.error):
-        set_core_uri(None)
-        rate = -1
-    return rate
+def get_enabled_plugins(callback):
+    get_core().call("get_enabled_plugins", callback)
 
-@cache    
-def get_upload_rate():
-    try:
-        rate = get_core().get_upload_rate()
-    except (AttributeError, socket.error):
-        set_core_uri(None)
-        rate = -1
-    return rate
+def get_download_rate(callback):
+    get_core().call("get_download_rate", callback)
 
-@cache
-def get_num_connections():
-    try:
-        num_connections = get_core().get_num_connections()
-    except (AttributeError, socket.error):
-        set_core_uri(None)
-        num_connections = 0
-    return num_connections
+def get_upload_rate(callback):
+    get_core().call("get_upload_rate", callback)
+
+def get_num_connections(callback):
+    get_core().call("get_num_connections", callback)
 
 def enable_plugin(plugin):
-    try:
-        get_core().enable_plugin(plugin)
-    except (AttributeError, socket.error):
-        set_core_uri(None)
+    get_core().call("enable_plugin", None, plugin)
             
 def disable_plugin(plugin):
-    try:
-        get_core().disable_plugin(plugin)
-    except (AttributeError, socket.error):
-        set_core_uri(None)
+    get_core().call("disable_plugin", None, plugin)
 
 def force_recheck(torrent_ids):
     """Forces a data recheck on torrent_ids"""
-    try:
-        for torrent_id in torrent_ids:
-            get_core().force_recheck(torrent_id)
-    except (AttributeError, socket.error):
-        set_core_uri(None)
+    for torrent_id in torrent_ids:
+        get_core().call("force_recheck", None, torrent_id)
 
 def set_torrent_trackers(torrent_id, trackers):
     """Sets the torrents trackers"""
-    try:
-        get_core().set_torrent_trackers(torrent_id, trackers)
-    except (AttributeError, socket.error):
-        set_core_uri(None)
+    get_core().call("set_torrent_trackers", None, torrent_id, trackers)
+

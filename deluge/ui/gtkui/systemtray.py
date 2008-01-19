@@ -60,6 +60,11 @@ class SystemTray(component.Component):
         ]
         self.config.register_set_function("enable_system_tray", 
             self.on_enable_system_tray_set)
+
+        self.max_download_speed = -1.0
+        self.download_rate = 0.0
+        self.max_upload_speed = -1.0
+        self.upload_rate = 0.0
     
     def enable(self):
         """Enables the system tray icon."""
@@ -111,6 +116,8 @@ class SystemTray(component.Component):
 
             # Build the bandwidth speed limit menus
             self.build_tray_bwsetsubmenu()
+            
+            self.send_status_request()
 
     def stop(self):
         try:
@@ -120,36 +127,62 @@ class SystemTray(component.Component):
         except Exception, e:
             log.debug("Unable to hide system tray menu widgets: %s", e)
     
+    def send_status_request(self):
+        client.get_config_value(
+            self._on_max_download_speed, "max_download_speed")
+        client.get_download_rate(self._on_get_download_rate)
+        client.get_config_value(
+            self._on_max_upload_speed, "max_upload_speed")
+        client.get_upload_rate(self._on_get_upload_rate)
+
+    def _on_max_download_speed(self, max_download_speed):
+        if self.max_download_speed != max_download_speed:
+            self.max_download_speed = max_download_speed
+            self.build_tray_bwsetsubmenu()
+    
+    def _on_get_download_rate(self, download_rate):
+        self.download_rate = deluge.common.fsize(download_rate)
+    
+    def _on_max_upload_speed(self, max_upload_speed):
+        if self.max_upload_speed != max_upload_speed:
+            self.max_upload_speed = max_upload_speed
+            self.build_tray_bwsetsubmenu()
+    
+    def _on_get_upload_rate(self, upload_rate):
+        self.upload_rate = deluge.common.fsize(upload_rate)
+                
     def update(self):
         # Set the tool tip text
-        max_download_speed = client.get_config_value("max_download_speed")
-        max_upload_speed = client.get_config_value("max_upload_speed")
+        max_download_speed = self.max_download_speed
+        max_upload_speed = self.max_upload_speed
         
         if max_download_speed == -1:
             max_download_speed = _("Unlimited")
         if max_upload_speed == -1:
             max_upload_speed = _("Unlimited")
             
-        msg = '%s\n%s: %s (%s)\n%s: %s (%s)' % (\
-            _("Deluge Bittorrent Client"), _("Down Speed"), \
-            deluge.common.fspeed(client.get_download_rate()), 
-            max_download_speed, _("Up Speed"), \
-            deluge.common.fspeed(client.get_upload_rate()), max_upload_speed)
+        msg = '%s\n%s: %s (%s)\n%s: %s (%s)' % (
+            _("Deluge Bittorrent Client"), _("Down Speed"),
+            self.download_rate, 
+            max_download_speed, _("Up Speed"), 
+            self.upload_rate, max_upload_speed)
             
         # Set the tooltip
         self.tray.set_tooltip(msg)
+        
+        self.send_status_request()
         
     def build_tray_bwsetsubmenu(self):
         # Create the Download speed list sub-menu
         submenu_bwdownset = self.build_menu_radio_list(
                 self.config["tray_download_speed_list"], self.tray_setbwdown,
-                client.get_config_value("max_download_speed"),
+                self.max_download_speed,
                      _("KiB/s"), show_notset=True, show_other=True)
         
         # Create the Upload speed list sub-menu
         submenu_bwupset = self.build_menu_radio_list(
                 self.config["tray_upload_speed_list"], self.tray_setbwup, 
-                client.get_config_value("max_upload_speed"),
+                self.max_upload_speed,
                 _("KiB/s"), show_notset=True, show_other=True)
         
         # Add the sub-menus to the tray menu

@@ -92,7 +92,7 @@ class TorrentDetails(component.Component):
         
     def stop(self):
         self.clear()
-        
+
     def update(self):
         # Show tabs if more than 1 page
         if self.notebook.get_n_pages() > 1:
@@ -107,7 +107,7 @@ class TorrentDetails(component.Component):
             selected = component.get("TorrentView").get_selected_torrents()
             
             # Only use the first torrent in the list or return if None selected
-            if selected is not None:
+            if len(selected) != 0:
                 selected = selected[0]
             else:
                 # No torrent is selected in the torrentview
@@ -121,50 +121,54 @@ class TorrentDetails(component.Component):
                 "upload_payload_rate", "num_peers", "num_seeds", "total_peers",
                 "total_seeds", "eta", "ratio", "tracker", "next_announce",
                 "tracker_status", "save_path"]
-            status = client.get_torrent_status(selected, status_keys)
+            client.get_torrent_status(
+                self._on_get_torrent_status, selected, status_keys)
+                    
+    def _on_get_torrent_status(self, status):
+        # Check to see if we got valid data from the core
+        if status is None:
+            return
             
-            # Check to see if we got valid data from the core
-            if status is None:
-                return
-                
-            # We need to adjust the value core gives us for progress
-            try:
-                progress = status["progress"]/100
-                
-                self.progress_bar.set_fraction(progress)
-                self.progress_bar.set_text(deluge.common.fpcnt(progress))
-                
-                self.name.set_text(status["name"])
-                self.total_size.set_text(
-                    deluge.common.fsize(status["total_size"]))
-                self.num_files.set_text(str(status["num_files"]))
-                self.pieces.set_text("%s (%s)" % (status["num_pieces"],
-                    deluge.common.fsize(status["piece_length"])))
-                self.availability.set_text(
-                    "%.3f" % status["distributed_copies"])
-                self.total_downloaded.set_text("%s (%s)" % \
-                    (deluge.common.fsize(status["total_done"]),
-                    deluge.common.fsize(status["total_payload_download"])))
-                self.total_uploaded.set_text("%s (%s)" % \
-                    (deluge.common.fsize(status["total_uploaded"]),
-                    deluge.common.fsize(status["total_payload_upload"])))
-                self.download_speed.set_text(
-                    deluge.common.fspeed(status["download_payload_rate"]))
-                self.upload_speed.set_text(
-                    deluge.common.fspeed(status["upload_payload_rate"]))
-                self.seeders.set_text(deluge.common.fpeer(status["num_seeds"],
-                                                        status["total_seeds"]))
-                self.peers.set_text(deluge.common.fpeer(status["num_peers"],
-                                                        status["total_peers"]))
-                self.eta.set_text(deluge.common.ftime(status["eta"]))
-                self.share_ratio.set_text("%.3f" % status["ratio"])
-                self.tracker.set_text(status["tracker"])
-                self.tracker_status.set_text(status["tracker_status"])
-                self.next_announce.set_text(
-                    deluge.common.ftime(status["next_announce"]))
-                self.torrent_path.set_text(status["save_path"])
-            except KeyError, e:
-                log.debug(e)
+        # We need to adjust the value core gives us for progress
+        try:
+            progress = status["progress"]/100
+            
+            self.progress_bar.set_fraction(progress)
+            self.progress_bar.set_text(deluge.common.fpcnt(progress))
+            
+            self.name.set_text(status["name"])
+            self.total_size.set_text(
+                deluge.common.fsize(status["total_size"]))
+            self.num_files.set_text(str(status["num_files"]))
+            self.pieces.set_text("%s (%s)" % (status["num_pieces"],
+                deluge.common.fsize(status["piece_length"])))
+            self.availability.set_text(
+                "%.3f" % status["distributed_copies"])
+            self.total_downloaded.set_text("%s (%s)" % \
+                (deluge.common.fsize(status["total_done"]),
+                deluge.common.fsize(status["total_payload_download"])))
+            self.total_uploaded.set_text("%s (%s)" % \
+                (deluge.common.fsize(status["total_uploaded"]),
+                deluge.common.fsize(status["total_payload_upload"])))
+            self.download_speed.set_text(
+                deluge.common.fspeed(status["download_payload_rate"]))
+            self.upload_speed.set_text(
+                deluge.common.fspeed(status["upload_payload_rate"]))
+            self.seeders.set_text(deluge.common.fpeer(status["num_seeds"],
+                                                    status["total_seeds"]))
+            self.peers.set_text(deluge.common.fpeer(status["num_peers"],
+                                                    status["total_peers"]))
+            self.eta.set_text(deluge.common.ftime(status["eta"]))
+            self.share_ratio.set_text("%.3f" % status["ratio"])
+            self.tracker.set_text(status["tracker"])
+            self.tracker_status.set_text(status["tracker_status"])
+            self.next_announce.set_text(
+                deluge.common.ftime(status["next_announce"]))
+            self.torrent_path.set_text(status["save_path"])
+        except KeyError, e:
+            log.debug(e)
+        
+
 
     def clear(self):
         # Only update if this page is showing

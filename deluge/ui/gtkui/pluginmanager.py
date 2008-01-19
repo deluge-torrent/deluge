@@ -48,17 +48,19 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     def start(self):
         """Start the plugin manager"""
         # Update the enabled_plugins from the core
-        enabled_plugins = client.get_enabled_plugins()
+        client.get_enabled_plugins(self._on_get_enabled_plugins)
+
+    def stop(self):
+        # Disable the plugins
+        self.disable_plugins()
+    
+    def _on_get_enabled_plugins(self, enabled_plugins):
         log.debug("Core has these plugins enabled: %s", enabled_plugins)
         self.config["enabled_plugins"] = enabled_plugins
         
         # Enable the plugins that are enabled in the config and core
         self.enable_plugins()
-
-    def stop(self):
-        # Disable the plugins
-        self.disable_plugins()
-        
+                
     ## Plugin functions.. will likely move to own class..
         
     def add_torrentview_text_column(self, *args, **kwargs):

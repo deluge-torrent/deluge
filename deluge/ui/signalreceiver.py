@@ -79,17 +79,13 @@ class SignalReceiver(
         self.register_function(self.emit_signal)
         
         # Register the signal receiver with the core
-        core = client.get_core()
-        core.register_client(str(port))
+        client.register_client(str(port))
         
     def shutdown(self):
         """Shutdowns receiver thread"""
         self._shutdown = True
         # De-register with the daemon so it doesn't try to send us more signals
-        try:
-            client.get_core().deregister_client()
-        except (socket.error, AttributeError):
-            pass
+        client.deregister_client()
 
         # Hacky.. sends a request to our local receiver to ensure that it
         # shutdowns.. This is because handle_request() is a blocking call.

@@ -147,10 +147,28 @@ class Preferences(component.Component):
             self.notebook.remove_page(self.page_num_to_remove)
         if self.iter_to_remove != None:
             self.liststore.remove(self.iter_to_remove)
-            
+    
+    def _on_get_config(self, config):
+        self.core_config = config
+    
+    def _on_get_available_plugins(self, plugins):
+        self.all_plugins = plugins
+    
+    def _on_get_enabled_plugins(self, plugins):
+        self.enabled_plugins = plugins
+    
+    def _on_get_listen_port(self, port):
+        self.active_port = port
+                    
     def show(self):
         # Update the preferences dialog to reflect current config settings
-        self.core_config = client.get_config()
+        self.core_config = {}
+        client.get_config(self._on_get_config)
+        client.get_available_plugins(self._on_get_available_plugins)
+        client.get_enabled_plugins(self._on_get_enabled_plugins)
+        client.get_listen_port(self._on_get_listen_port)
+        # Force these calls and block until we've done them all
+        client.force_call()
 
         if self.core_config != {} and self.core_config != None:
             core_widgets = {
@@ -171,7 +189,7 @@ class Preferences(component.Component):
                         self.core_config["prioritize_first_last_pieces"]),
                 "spin_port_min": ("value", self.core_config["listen_ports"][0]),
                 "spin_port_max": ("value", self.core_config["listen_ports"][1]),
-                "active_port_label": ("text", str(client.get_listen_port())),
+                "active_port_label": ("text", str(self.active_port)),
                 "chk_random_port": ("active", self.core_config["random_port"]),
                 "chk_dht": ("active", self.core_config["dht"]),
                 "chk_upnp": ("active", self.core_config["upnp"]),
@@ -297,8 +315,8 @@ class Preferences(component.Component):
             self.gtkui_config["send_info"])
         
         ## Plugins tab ##
-        all_plugins = client.get_available_plugins()
-        enabled_plugins = client.get_enabled_plugins()
+        all_plugins = self.all_plugins
+        enabled_plugins = self.enabled_plugins
         # Clear the existing list so we don't duplicate entries.
         self.plugin_liststore.clear()
         # Iterate through the lists and add them to the liststore

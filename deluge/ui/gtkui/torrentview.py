@@ -40,6 +40,7 @@ import gettext
 import gobject
 import cPickle as pickle
 import time
+import traceback
 
 import deluge.common
 import deluge.component as component
@@ -186,10 +187,14 @@ class TorrentView(listview.ListView, component.Component):
         """Start the torrentview"""
         # We need to get the core session state to know which torrents are in
         # the session so we can add them to our list.
-        session_state = client.get_session_state()
-        for torrent_id in session_state:
-            self.add_row(torrent_id)
+        client.get_session_state(self._on_session_state)
 
+    def _on_session_state(self, state):
+        for torrent_id in state:
+            self.add_row(torrent_id)
+            
+        self.update()
+        
     def stop(self):
         """Stops the torrentview"""
         # We need to clear the liststore
@@ -245,18 +250,17 @@ class TorrentView(listview.ListView, component.Component):
                 torrent_ids.append(self.liststore.get_value(
                     row, self.columns["torrent_id"].column_indices[0]))
             row = self.liststore.iter_next(row)
-        
+
         if torrent_ids == []:
             return
 
         # Request the statuses for all these torrent_ids, this is async so we
         # will deal with the return in a signal callback.
-        client.get_torrents_status(torrent_ids, status_keys)
-                            
-    def update(self, columns=None):
-        """Update the view.  If columns is not None, it will attempt to only
-        update those columns selected.
-        """
+        client.get_torrents_status(
+            self._on_get_torrents_status, torrent_ids, status_keys)
+    
+    def update(self):
+        # Update the filter view
         def foreachrow(model, path, row, data):
             filter_column = self.columns["filter"].column_indices[0]
             # Create a function to create a new liststore with only the
@@ -275,7 +279,13 @@ class TorrentView(listview.ListView, component.Component):
                 model.set_value(row, filter_column, False)
 
         self.liststore.foreach(foreachrow, self.filter)
+        # Send a status request
+        self.send_status_request()
         
+    def update_view(self, columns=None):
+        """Update the view.  If columns is not None, it will attempt to only
+        update those columns selected.
+        """
         # Update the torrent view model with data we've received
         status = self.status
         row = self.liststore.get_iter_first()
@@ -320,15 +330,18 @@ class TorrentView(listview.ListView, component.Component):
                             except:
                                 pass
             row = self.liststore.iter_next(row)
- 
-        # Send a request for a status update
-        self.send_status_request(columns)
-    
-    def on_torrent_status_signal(self, status):
+
+    def _on_get_torrents_status(self, status):
         """Callback function for get_torrents_status().  'status' should be a
         dictionary of {torrent_id: {key, value}}."""
-        self.status = pickle.loads(status)
-                        
+        if status != None:
+            self.status = status
+        else:
+            self.status = {}
+        
+        if self.status != {}:
+            self.update_view()
+        
     def add_row(self, torrent_id):
         """Adds a new torrent row to the treeview"""
         # Insert a new row to the liststore
@@ -338,7 +351,6 @@ class TorrentView(listview.ListView, component.Component):
                     row,
                     self.columns["torrent_id"].column_indices[0], 
                     torrent_id)
-        self.update()
         
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""
@@ -366,22 +378,31 @@ class TorrentView(listview.ListView, component.Component):
         try:
             paths = self.treeview.get_selection().get_selected_rows()[1]
         except AttributeError:
-            # paths is likely None .. so lets return None
-            return None
+            # paths is likely None .. so lets return []
+            return []
         try:
             for path in paths:
                 torrent_ids.append(
-                    self.liststore.get_value(
-                        self.liststore.get_iter(path), 0))
+                    self.model_filter.get_value(
+                        self.model_filter.get_iter(path), 0))
             
             if len(torrent_ids) is 0:
-                # Only return a list if there is something in it.
-                return None
+                return []
             
             return torrent_ids
         except ValueError:
-            return None
-                
+            return []
+    
+    def get_torrent_status(self, torrent_id):
+        """Returns data stored in self.status, it may not be complete"""
+        try:
+            return self.status[torrent_id]
+        except:
+            return {}
+    
+    def get_visible_torrents(self):
+        return self.status.keys()
+        
     ### Callbacks ###                             
     def on_button_press_event(self, widget, event):
         """This is a callback for showing the right-click context menu."""

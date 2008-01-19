@@ -72,7 +72,7 @@ def cell_data_time(column, cell, model, row, data):
     """Display value as time, eg 1m10s"""
     time = model.get_value(row, data)
     if time <= 0:
-        time_str = _("Infinity")
+        time_str = ""
     else:
         time_str = deluge.common.ftime(time)
     cell.set_property('text', time_str)
