@@ -54,7 +54,6 @@ class ToolBar(component.Component):
         self.window.main_glade.signal_autoconnect({
             "on_toolbutton_add_clicked": self.on_toolbutton_add_clicked,
             "on_toolbutton_remove_clicked": self.on_toolbutton_remove_clicked,
-            "on_toolbutton_clear_clicked": self.on_toolbutton_clear_clicked,
             "on_toolbutton_pause_clicked": self.on_toolbutton_pause_clicked,
             "on_toolbutton_resume_clicked": self.on_toolbutton_resume_clicked,
             "on_toolbutton_preferences_clicked": \
@@ -65,7 +64,6 @@ class ToolBar(component.Component):
         self.change_sensitivity = [
             "toolbutton_add",
             "toolbutton_remove",
-            "toolbutton_clear",
             "toolbutton_pause",
             "toolbutton_resume"
         ]
@@ -139,11 +137,6 @@ class ToolBar(component.Component):
         # Use the menubar's callbacks
         component.get("MenuBar").on_menuitem_remove_activate(data)
 
-    def on_toolbutton_clear_clicked(self, data):
-        log.debug("on_toolbutton_clear_clicked")
-        # Use the menubar's callbacks
-        component.get("MenuBar").on_menuitem_clear_activate(data)
-        
     def on_toolbutton_pause_clicked(self, data):
         log.debug("on_toolbutton_pause_clicked")
         # Use the menubar's callbacks

@@ -63,9 +63,6 @@ class MenuBar(component.Component):
             ## File Menu
             "on_menuitem_addtorrent_activate": \
                                         self.on_menuitem_addtorrent_activate,
-            "on_menuitem_addurl_activate": self.on_menuitem_addurl_activate,
-            "on_menuitem_clear_activate": \
-                                            self.on_menuitem_clear_activate,
             "on_menuitem_quitdaemon_activate": \
                                         self.on_menuitem_quitdaemon_activate,
             "on_menuitem_quit_activate": self.on_menuitem_quit_activate,
@@ -103,9 +100,7 @@ class MenuBar(component.Component):
         })
         
         self.change_sensitivity = [
-            "menuitem_addtorrent",
-            "menuitem_addurl",
-            "menuitem_clear"
+            "menuitem_addtorrent"
         ]
     
     def start(self):
@@ -157,16 +152,6 @@ class MenuBar(component.Component):
         #client.add_torrent_file(AddTorrentDialog().run())
         AddTorrentDialog().show()
         
-    def on_menuitem_addurl_activate(self, data=None):
-        log.debug("on_menuitem_addurl_activate")
-        from addtorrenturl import AddTorrentUrl
-        result = AddTorrentUrl().run()
-        if result is not None:
-            client.add_torrent_url(result)
-        
-    def on_menuitem_clear_activate(self, data=None):
-        log.debug("on_menuitem_clear_activate")
-    
     def on_menuitem_quitdaemon_activate(self, data=None):
         log.debug("on_menuitem_quitdaemon_activate")
         # Tell the core to shutdown

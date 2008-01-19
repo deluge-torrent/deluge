@@ -286,8 +286,6 @@ class Preferences(component.Component):
             self.gtkui_config["autoadd_enable"])
         self.glade.get_widget("autoadd_folder_button").set_filename(    
             self.gtkui_config["autoadd_location"])
-        self.glade.get_widget("chk_enable_files_dialog").set_active(
-            self.gtkui_config["enable_files_dialog"])
 
         ## Interface tab ##
         self.glade.get_widget("chk_use_tray").set_active(
