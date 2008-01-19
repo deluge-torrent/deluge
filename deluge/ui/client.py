@@ -155,16 +155,21 @@ class CoreProxy(gobject.GObject):
             return True
             
         if self._multi is not None:
-            for i, ret in enumerate(self._multi()):
-                try:
-                    if block == False:
-                        gobject.idle_add(self._callbacks[i], ret)
-                    else:
-                        self._callbacks[i](ret)
-                except:
-                    pass
-                    
-        self._callbacks = []
+            try:
+                for i, ret in enumerate(self._multi()):
+                    try:
+                        if block == False:
+                            gobject.idle_add(self._callbacks[i], ret)
+                        else:
+                            self._callbacks[i](ret)
+                    except:
+                        pass
+            except socket.error, e:
+                log.warning("Could not contact daemon: %s", e)
+                self.set_core_uri(None)
+            finally:                        
+                self._callbacks = []
+                
         self._multi = xmlrpclib.MultiCall(self._core)
         return True
         
