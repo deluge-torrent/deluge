@@ -84,7 +84,8 @@ _libraries = [
     'boost_python',
     'z',
     'pthread',
-    'ssl'
+    'ssl',
+
 ]
 			
 _sources = glob.glob("./libtorrent/src/*.cpp") + \
@@ -213,7 +214,8 @@ setup(
                 ('/usr/share/icons/hicolor/96x96/apps', [
                         'deluge/data/icons/hicolor/96x96/apps/deluge.png']),
                 ('/usr/share/applications', [
-                        'deluge/data/share/applications/deluge.desktop'])],
+                        'deluge/data/share/applications/deluge.desktop']),
+                ('/usr/share/pixmaps' , ['deluge.png'])],
     ext_package = "deluge",
     ext_modules = [libtorrent],
     packages = find_packages(exclude=["plugins"]),
