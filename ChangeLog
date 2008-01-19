@@ -1,10 +1,13 @@
-Deluge 0.5.9 (xx Januarary 2007)
+Deluge 0.5.8.1 (18 Januarary 2007)
+  * Catch various exceptions from possibly corrupted persistent.state
+  * Use pieces wanted instead of total pieces to draw adv progress bar
+  * Properly catch 'address already in use' error when trying to use a port that is in use
+  * Attempt to fix issue where all the columns start very small
   * Change how we handle fastresume - should prevent rechecking
   * New theme for windows
-  * Built with Visual Studio 2005 on windows, which should prevent a lot of those
-  runtime errors that some people were having
   * Performance enhancements by removing needless casts
-  * Search & Anonymizing Browser are now plugins
+  * Search is now a plugin
+  * Browser removed
 
 Deluge 0.5.8 (29 December 2007)
   * Fix handling of corrupt torrent files
