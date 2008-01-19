@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-06 04:21-0600\n"
+"POT-Creation-Date: 2008-01-18 22:55-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -157,14 +157,14 @@ msgstr ""
 msgid "Peers"
 msgstr ""
 
-#: glade/delugegtk.glade:1011 src/interface.py:646 src/interface.py:1243
-#: src/interface.py:1274 plugins/TorrentPeers/tab_peers.py:89
+#: glade/delugegtk.glade:1011 src/interface.py:646 src/interface.py:1241
+#: src/interface.py:1272 plugins/TorrentPeers/tab_peers.py:89
 #: plugins/WebUi/scripts/template_strings.py:18
 msgid "Down Speed"
 msgstr ""
 
-#: glade/delugegtk.glade:1020 src/interface.py:649 src/interface.py:1244
-#: src/interface.py:1275 plugins/TorrentPeers/tab_peers.py:91
+#: glade/delugegtk.glade:1020 src/interface.py:649 src/interface.py:1242
+#: src/interface.py:1273 plugins/TorrentPeers/tab_peers.py:91
 #: plugins/WebUi/scripts/template_strings.py:60
 msgid "Up Speed"
 msgstr ""
@@ -1023,8 +1023,8 @@ msgid "KiB/s"
 msgstr ""
 
 #: src/interface.py:326 src/interface.py:387 src/interface.py:415
-#: src/interface.py:1225 src/interface.py:1232 src/interface.py:1237
-#: src/interface.py:1265 src/interface.py:1267
+#: src/interface.py:1223 src/interface.py:1230 src/interface.py:1235
+#: src/interface.py:1263 src/interface.py:1265
 #: plugins/SpeedLimiter/__init__.py:139 plugins/SpeedLimiter/__init__.py:171
 msgid "Unlimited"
 msgstr ""
@@ -1083,69 +1083,69 @@ msgstr ""
 msgid "Ratio"
 msgstr ""
 
-#: src/interface.py:960
+#: src/interface.py:958
 #, python-format
 msgid "Paused %s"
 msgstr ""
 
-#: src/interface.py:962
+#: src/interface.py:960
 #, python-format
 msgid "Queued %s"
 msgstr ""
 
-#: src/interface.py:1070
+#: src/interface.py:1068
 msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
 msgstr ""
 
-#: src/interface.py:1243 plugins/WebUi/scripts/template_strings.py:11
+#: src/interface.py:1241 plugins/WebUi/scripts/template_strings.py:11
 msgid "Connections"
 msgstr ""
 
-#: src/interface.py:1261
+#: src/interface.py:1259
 msgid "DHT"
 msgstr ""
 
-#: src/interface.py:1270 plugins/TorrentCreator/__init__.py:149
+#: src/interface.py:1268 plugins/TorrentCreator/__init__.py:149
 msgid "Deluge"
 msgstr ""
 
-#: src/interface.py:1270 plugins/WebUi/scripts/template_strings.py:19
+#: src/interface.py:1268 plugins/WebUi/scripts/template_strings.py:19
 msgid "Download"
 msgstr ""
 
-#: src/interface.py:1271 plugins/WebUi/scripts/template_strings.py:61
+#: src/interface.py:1269 plugins/WebUi/scripts/template_strings.py:61
 msgid "Upload"
 msgstr ""
 
-#: src/interface.py:1274
+#: src/interface.py:1272
 msgid "Deluge Bittorrent Client"
 msgstr ""
 
-#: src/interface.py:1351
+#: src/interface.py:1349
 msgid "Choose a download directory"
 msgstr ""
 
-#: src/interface.py:1400
+#: src/interface.py:1398
 msgid ""
 "An error occured while trying to add the torrent. It's possible your ."
 "torrent file is corrupted."
 msgstr ""
 
-#: src/interface.py:1428
+#: src/interface.py:1426
 msgid "Unknown duplicate torrent error."
 msgstr ""
 
-#: src/interface.py:1433
+#: src/interface.py:1431
 msgid "There is not enough freedisk space to complete your download."
 msgstr ""
 
-#: src/interface.py:1434 src/core.py:572
+#: src/interface.py:1432 src/core.py:627
 msgid "Space Needed:"
 msgstr ""
 
-#: src/interface.py:1435 src/core.py:572
+#: src/interface.py:1433 src/core.py:627
 msgid "Available Space:"
 msgstr ""
 
@@ -1198,39 +1198,31 @@ msgstr ""
 msgid "bytes needed"
 msgstr ""
 
-#: src/core.py:397
-msgid "File was not found"
-msgstr ""
-
-#: src/core.py:443
-msgid "Asked for a torrent that doesn't exist"
-msgstr ""
-
-#: src/core.py:570
+#: src/core.py:625
 msgid "There is not enough free disk space to complete your download."
 msgstr ""
 
-#: src/core.py:667
+#: src/core.py:722
 msgid "Announce sent"
 msgstr ""
 
-#: src/core.py:671
+#: src/core.py:726
 msgid "Announce OK"
 msgstr ""
 
-#: src/core.py:677
+#: src/core.py:732
 msgid "Alert"
 msgstr ""
 
-#: src/core.py:678
+#: src/core.py:733
 msgid "HTTP code"
 msgstr ""
 
-#: src/core.py:679
+#: src/core.py:734
 msgid "times in a row"
 msgstr ""
 
-#: src/core.py:686
+#: src/core.py:741
 msgid "Warning"
 msgstr ""
 
@@ -1922,16 +1914,10 @@ msgid "Move completed downloads to:"
 msgstr ""
 
 #: plugins/MoveTorrent/movetorrent.glade:59 plugins/WebSeed/webseed.glade:65
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:165
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:364
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:565
 msgid "gtk-cancel"
 msgstr ""
 
 #: plugins/MoveTorrent/movetorrent.glade:71 plugins/WebSeed/webseed.glade:73
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:177
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:378
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:579
 msgid "gtk-ok"
 msgstr ""
 
@@ -1947,10 +1933,7 @@ msgstr ""
 msgid "Add Web Seed"
 msgstr ""
 
-#: plugins/WebSeed/webseed.glade:29
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:289
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:490
-#: plugins/Search/searchdlg.glade:91
+#: plugins/WebSeed/webseed.glade:29 plugins/Search/searchdlg.glade:91
 msgid "URL:"
 msgstr ""
 
@@ -2400,89 +2383,12 @@ msgstr ""
 msgid "Configuration"
 msgstr ""
 
-#: plugins/AnonymizingBrowser/browser.glade:85
-#: plugins/AnonymizingBrowser/browserwin.glade:85
-msgid "Go"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/browser.glade:118
-#: plugins/AnonymizingBrowser/browserwin.glade:118
-msgid "Bookmarks"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/browser.glade:171
-#: plugins/AnonymizingBrowser/browserwin.glade:171
-msgid "Launch Main Externally"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/browser.glade:172
-#: plugins/AnonymizingBrowser/browserwin.glade:172
-msgid "Launch Main"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/browser.glade:185
-#: plugins/AnonymizingBrowser/browserwin.glade:184
-msgid "Launch Footer Externally"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/browser.glade:186
-#: plugins/AnonymizingBrowser/browserwin.glade:185
-msgid "Launch Footer"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/__init__.py:36
-msgid "Browser websites anonymously"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/__init__.py:83
-msgid "Browser"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/__init__.py:85
-msgid "Launch Anonymizing Browser"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:10
-msgid "Edit Bookmarks"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:52
-msgid "<big><b>Edit Bookmarks</b></big>"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:101
-msgid "gtk-add"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:113
-msgid "gtk-edit"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:128
-msgid "gtk-remove"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:199
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:400
-msgid "Add Bookmark"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:238
-msgid "<b>Add Bookmark</b>"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:278
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:479
-#: plugins/Search/searchdlg.glade:79
-msgid "Name:"
-msgstr ""
-
-#: plugins/AnonymizingBrowser/list_bookmarks.glade:439
-msgid "<b>Edit Bookmark</b>"
-msgstr ""
-
 #: plugins/Search/searchdlg.glade:7
 msgid "Manage Search Plugins"
+msgstr ""
+
+#: plugins/Search/searchdlg.glade:79
+msgid "Name:"
 msgstr ""
 
 #: plugins/Search/searchdlg.glade:123
