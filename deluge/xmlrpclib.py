@@ -657,8 +657,8 @@ class Marshaller:
         dispatch[bool] = dump_bool
 
     def dump_long(self, value, write):
-        if value > MAXINT or value < MININT:
-            raise OverflowError, "long int exceeds XML-RPC limits"
+        #if value > MAXINT or value < MININT:
+        #    raise OverflowError, "long int exceeds XML-RPC limits"
         write("<value><int>")
         write(str(int(value)))
         write("</int></value>\n")
