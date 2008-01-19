@@ -271,7 +271,10 @@ class TorrentView(listview.ListView, component.Component):
                 return
                 
             torrent_id = model.get_value(row, 0)
-            value = client.get_torrent_status(torrent_id, [field])[field]
+            try:
+                value = self.status[torrent_id][field]
+            except:
+                return
             # Condition is True, so lets show this row, if not we hide it
             if value == condition:
                 model.set_value(row, filter_column, True)
