@@ -469,34 +469,29 @@ static PyObject *torrent_save_fastresume(PyObject *self, PyObject *args)
     if (!PyArg_ParseTuple(args, "is", &unique_ID, &torrent_name))
         return NULL;
 
-    long index = get_index_from_unique_ID(unique_ID);
-    if (PyErr_Occurred())
-        return NULL;
+    try{
+        long index = get_index_from_unique_ID(unique_ID);
+        if (PyErr_Occurred())
+            return NULL;
 
-    torrent_handle& h = M_torrents->at(index).handle;
-    // For valid torrents, save fastresume data
-    if (h.is_valid() && h.has_metadata())
-    {
-        h.pause();
+        torrent_handle& h = M_torrents->at(index).handle;
+        // For valid torrents, save fastresume data
+        if (h.is_valid() && h.has_metadata())
+            {
+            entry data = h.write_resume_data();
+            std::stringstream s;
+            s << torrent_name << ".fastresume";
+            boost::filesystem::ofstream out(s.str(), std::ios_base::binary);
+            out.unsetf(std::ios_base::skipws);
+            bencode(std::ostream_iterator<char>(out), data);
 
-        entry data = h.write_resume_data();
-
-        std::stringstream s;
-        s << torrent_name << ".fastresume";
-
-        boost::filesystem::ofstream out(s.str(), std::ios_base::binary);
-
-        out.unsetf(std::ios_base::skipws);
-
-        bencode(std::ostream_iterator<char>(out), data);
-
-        h.resume();
-
-        Py_INCREF(Py_None); return Py_None;
-    } else
-    RAISE_PTR(DelugeError, "Invalid handle or no metadata for fastresume.");
+            } 
+    }
+    catch(...){
+        printf("Fast resume saving failed\n");
+    }
+    Py_INCREF(Py_None); return Py_None;
 }
-
 
 static PyObject *torrent_set_max_half_open(PyObject *self, PyObject *args)
 {
