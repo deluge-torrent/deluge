@@ -1068,7 +1068,7 @@ namespace detail
 		}
 
 		// don't allow more connections than the max setting
-		if (num_connections() > max_connections())
+		if (num_connections() >= max_connections())
 		{
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
 			(*m_logger) << "number of connections limit exceeded (conns: "
@@ -2015,6 +2015,10 @@ namespace detail
 //		INVARIANT_CHECK;
 
 		session_status s;
+
+		s.up_bandwidth_queue = m_upload_channel.queue_size();
+		s.down_bandwidth_queue = m_download_channel.queue_size();
+
 		s.has_incoming_connections = m_incoming_connection;
 		s.num_peers = (int)m_connections.size();
 
