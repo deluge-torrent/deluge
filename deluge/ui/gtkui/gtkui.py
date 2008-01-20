@@ -32,7 +32,10 @@
 #    statement from all source files in the program, then also delete it here.
 
 import pygtk
-pygtk.require('2.0')
+try:
+    pygtk.require('2.0')
+else:
+    pass
 import gtk, gtk.glade
 import gettext
 import locale
