@@ -156,17 +156,18 @@ class CoreProxy(gobject.GObject):
             
         if self._multi is not None:
             try:
-                for i, ret in enumerate(self._multi()):
-                    try:
-                        if block == False:
-                            gobject.idle_add(self._callbacks[i], ret)
-                        else:
-                            self._callbacks[i](ret)
-                    except:
-                        pass
-            except socket.error, e:
-                log.warning("Could not contact daemon: %s", e)
-                self.set_core_uri(None)
+                try:
+                    for i, ret in enumerate(self._multi()):
+                        try:
+                            if block == False:
+                                gobject.idle_add(self._callbacks[i], ret)
+                            else:
+                                self._callbacks[i](ret)
+                        except:
+                            pass
+                except socket.error, e:
+                    log.warning("Could not contact daemon: %s", e)
+                    self.set_core_uri(None)
             finally:                        
                 self._callbacks = []
                 
