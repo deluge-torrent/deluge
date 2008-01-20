@@ -31,11 +31,12 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
+from deluge.log import LOG as log
 import pygtk
 try:
     pygtk.require('2.0')
 except:
-    pass
+    log.warning("It is suggested that you upgrade your PyGTK to 2.10 or greater.")
 import gtk, gtk.glade
 import gettext
 import locale
@@ -59,7 +60,6 @@ from dbusinterface import DbusInterface
 from queuedtorrents import QueuedTorrents
 from deluge.configmanager import ConfigManager
 import deluge.common
-from deluge.log import LOG as log
 import deluge.configmanager
 
 DEFAULT_PREFS = {
