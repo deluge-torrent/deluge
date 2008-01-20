@@ -642,8 +642,8 @@ class Marshaller:
 
     def dump_int(self, value, write):
         # in case ints are > 32 bits
-        if value > MAXINT or value < MININT:
-            raise OverflowError, "int exceeds XML-RPC limits"
+        #if value > MAXINT or value < MININT:
+        #    raise OverflowError, "int exceeds XML-RPC limits"
         write("<value><int>")
         write(str(value))
         write("</int></value>\n")
