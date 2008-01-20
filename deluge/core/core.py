@@ -37,7 +37,7 @@ import pkg_resources
 import sys
 import shutil
 import os
-
+import signal
 import deluge.SimpleXMLRPCServer as SimpleXMLRPCServer
 from SocketServer import ThreadingMixIn
 import deluge.xmlrpclib as xmlrpclib
@@ -141,6 +141,27 @@ class Core(
         gettext.install("deluge",
                     pkg_resources.resource_filename(
                                             "deluge", "i18n"))
+        try:
+            import gnome.ui
+            self.client = gnome.ui.Client()
+            self.client.connect("save_yourself", self._shutdown)
+        except:
+            pass
+
+        signal.signal(signal.SIGINT, self._shutdown)
+        signal.signal(signal.SIGTERM, self._shutdown)
+        if not deluge.common.windows_check(): 
+            signal.signal(signal.SIGHUP, self._shutdown)
+        else:
+            from win32api import SetConsoleCtrlHandler
+            from win32con import CTRL_CLOSE_EVENT
+            result = 0
+            def win_handler(self, ctrl_type):
+                if ctrl_type == CTRL_CLOSE_EVENT:
+                    self._shutdown()
+                    result = 1
+                    return result
+            SetConsoleCtrlHandler(win_handler)
 
     def get_request(self):
         """Get the request and client address from the socket.
