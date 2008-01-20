@@ -71,7 +71,8 @@ def add_func_column(view, header, func, data, sortid=None, width=None):
             column.set_clickable(True)
             column.set_sort_column_id(data)
     column.set_resizable(True)
-    if width:
+    if width > 0:
+        column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED) 
         column.set_fixed_width(width)
     column.set_expand(False)
     column.set_min_width(10)
@@ -87,7 +88,8 @@ def add_text_column(view, header, cid, width=None):
     column.set_sort_column_id(cid)
     column.set_resizable(True)
     column.set_expand(False)
-    if width:
+    if width > 0:
+        column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED) 
         column.set_fixed_width(width)
     column.set_min_width(10)
     column.set_reorderable(True)
@@ -102,7 +104,8 @@ def add_progress_column(view, header, pid, mid, width=None):
     column.set_resizable(True)
     column.set_expand(False)
     column.set_min_width(10)
-    if width:
+    if width > 0:
+        column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED) 
         column.set_fixed_width(width)
     column.set_reorderable(True)
     view.append_column(column)
@@ -115,7 +118,8 @@ def add_toggle_column(view, header, cid, toggled_signal=None, width=None):
     column.set_clickable(True)
     column.set_resizable(True)
     column.set_expand(False)
-    if width:
+    if width > 0:
+        column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED) 
         column.set_fixed_width(width)
     column.set_min_width(10)
     column.set_reorderable(True)
@@ -129,7 +133,8 @@ def add_texticon_column(view, header, icon_col, text_col, width=None):
     column.set_clickable(True)
     column.set_resizable(True)
     column.set_expand(False)
-    if width:
+    if width > 0:
+        column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
         column.set_fixed_width(width)
     column.set_min_width(10)
     column.set_reorderable(True)
