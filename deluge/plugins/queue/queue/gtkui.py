@@ -116,4 +116,4 @@ class GtkUI(ui.UI):
         self.plugin.remove_preferences_page("Queue")
         
     def update(self):
-        self.plugin.update_torrent_view(["#"])
+        self.plugin.update_torrent_view()

@@ -225,7 +225,7 @@ class Torrent:
         self.torrent_info = None
         
         # Create the desired status dictionary and return it
-        status_dict = {}.fromkeys(keys)
+        status_dict = {}
         
         if len(keys) == 0:
             status_dict = full_status

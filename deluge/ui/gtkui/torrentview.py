@@ -239,7 +239,7 @@ class TorrentView(listview.ListView, component.Component):
             
         # Remove duplicates from status_key list
         status_keys = list(set(status_keys))
-                
+    
         # Create list of torrent_ids in need of status updates
         torrent_ids = []
         row = self.liststore.get_iter_first()
