@@ -142,8 +142,8 @@ class Core(
         # Setup signals
         try:
             import gnome.ui
-            self.client = gnome.ui.Client()
-            self.client.connect("die", self._shutdown)
+            self.gnome_client = gnome.ui.Client()
+            self.gnome_client.connect("die", self._shutdown)
         except:
             pass
 
@@ -262,6 +262,10 @@ class Core(
         del deluge.configmanager
         del self.session
         self.loop.quit()
+        try:
+            self.gnome_client.disconnect()
+        except:
+            pass
         
     # Exported Methods
     def export_ping(self):
