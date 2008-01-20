@@ -357,8 +357,6 @@ class Preferences(component.Component):
         new_core_config["prioritize_first_last_pieces"] = \
             self.glade.get_widget(
                 "chk_prioritize_first_last_pieces").get_active()
-        new_gtkui_config["enable_files_dialog"] = \
-            self.glade.get_widget("chk_enable_files_dialog").get_active()
 
         ## Network tab ##
         listen_ports = []
