@@ -94,7 +94,6 @@ class Core(
         SimpleXMLRPCServer.SimpleXMLRPCServer):
     def __init__(self, port):
         log.debug("Core init..")
-        #threading.Thread.__init__(self)
  
         self.client_address = None
         
@@ -248,7 +247,10 @@ class Core(
         gobject.threads_init()
 
         self.loop = gobject.MainLoop()
-        self.loop.run()
+        try:
+            self.loop.run()
+        except KeyboardInterrupt:
+            self._shutdown()
     
     def _shutdown(self, data=None):
         """This is called by a thread from shutdown()"""
