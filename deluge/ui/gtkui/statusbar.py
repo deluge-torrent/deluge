@@ -105,6 +105,11 @@ class StatusBar(component.Component):
         self.max_upload_speed = -1.0
         self.upload_rate = 0.0
         
+        self.config_value_changed_dict = {
+            "max_connections_global": self._on_max_connections_global,
+            "max_download_speed": self._on_max_download_speed,
+            "max_upload_speed": self._on_max_upload_speed
+        }
         # Add a HBox to the statusbar after removing the initial label widget
         self.hbox = gtk.HBox()
         self.hbox.set_spacing(5)
@@ -130,6 +135,14 @@ class StatusBar(component.Component):
             image=deluge.common.get_pixmap("seeding16.png"))
         self.hbox.pack_start(
             self.upload_item.get_eventbox(), expand=False, fill=False)
+
+        # Get some config values
+        client.get_config_value(
+            self._on_max_connections_global, "max_connections_global")
+        client.get_config_value(
+            self._on_max_download_speed, "max_download_speed")
+        client.get_config_value(
+            self._on_max_upload_speed, "max_upload_speed")
         
         self.send_status_request()
     
@@ -167,16 +180,17 @@ class StatusBar(component.Component):
     
     def send_status_request(self):
         # Sends an async request for data from the core
-        client.get_config_value(
-            self._on_max_connections_global, "max_connections_global")
         client.get_num_connections(self._on_get_num_connections)
-        client.get_config_value(
-            self._on_max_download_speed, "max_download_speed")
         client.get_download_rate(self._on_get_download_rate)
-        client.get_config_value(
-            self._on_max_upload_speed, "max_upload_speed")
         client.get_upload_rate(self._on_get_upload_rate)
 
+    def config_value_changed(self, key, value):
+        """This is called when we received a config_value_changed signal from
+        the core."""
+        
+        if key in self.config_value_changed_dict.keys():
+            self.config_value_changed_dict[key](value)
+            
     def _on_max_connections_global(self, max_connections):
         self.max_connections = max_connections
         

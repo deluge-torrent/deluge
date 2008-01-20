@@ -61,13 +61,13 @@ class SignalManager(component.Component):
         log.debug("Registering %s as a signal reciever..", uri)
         self.clients[uri] = xmlrpclib.ServerProxy(uri)
         
-    def emit(self, signal, data):
+    def emit(self, signal, *data):
         for client in self.clients.values():
-            gobject.idle_add(self._emit, client, signal, data)
+            gobject.idle_add(self._emit, client, signal, *data)
                 
-    def _emit(self, client, signal, data):
+    def _emit(self, client, signal, *data):
         try:
-            client.emit_signal(signal, data)
+            client.emit_signal(signal, *data)
         except (socket.error, Exception), e:
             log.warning("Unable to emit signal to client %s: %s", client, e)
         

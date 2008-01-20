@@ -989,6 +989,9 @@ class MultiCall:
 
         return MultiCallIterator(self.__server.system.multicall(marshalled_list))
 
+    def get_call_list(self):
+        return self.__call_list
+        
 # --------------------------------------------------------------------
 # convenience functions
 

@@ -48,6 +48,7 @@ class Config:
         self.config = {}
         self.previous_config = {}
         self.set_functions = {}
+        self._change_callback = None
         
         # If defaults is not None then we need to use "defaults".
         if defaults != None:
@@ -121,8 +122,12 @@ class Config:
             self.config[key] = value
             # Run the set_function for this key if any
             try:
-                self.set_functions[key](key, value)
+                gobject.idle_add(self.set_functions[key], key, value)
             except KeyError:
+                pass
+            try:
+                gobject.idle_add(self._change_callback, key, value)
+            except:
                 pass
 
     def get(self, key):
@@ -145,7 +150,11 @@ class Config:
     def get_previous_config(self):
         """Returns the config prior to the last set()"""
         return self.previous_config
-        
+    
+    def register_change_callback(self, callback):
+        """Registers a callback that will be called when a value is changed"""
+        self._change_callback = callback
+            
     def register_set_function(self, key, function, apply_now=True):
         """Register a function to be run when a config value changes."""
         log.debug("Registering function for %s key..", key)

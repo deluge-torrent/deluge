@@ -223,6 +223,7 @@ class Core(
         self.config.register_set_function("max_upload_slots_global",
             self._on_set_max_upload_slots_global)
 
+        self.config.register_change_callback(self._on_config_value_change)
         # Start the AlertManager
         self.alerts = AlertManager(self.session)
         
@@ -500,7 +501,15 @@ class Core(
         log.debug("torrent_all_resumed signal emitted")
         self.signals.emit("torrent_all_resumed", torrent_id)
 
+    def config_value_changed(self, key, value):
+        """Emitted when a config value has changed"""
+        log.debug("config_value_changed signal emitted")
+        self.signals.emit("config_value_changed", key, value)
+        
     # Config set functions
+    def _on_config_value_change(self, key, value):
+        self.config_value_changed(key, value)
+        
     def _on_set_torrentfiles_location(self, key, value):
         try:
             old = self.config.get_previous_config()["torrentfiles_location"]

@@ -57,6 +57,8 @@ class Signals(component.Component):
             self.torrent_all_paused)
         self.receiver.connect_to_signal("torrent_all_resumed", 
             self.torrent_all_resumed)
+        self.receiver.connect_to_signal("config_value_changed",
+            self.config_value_changed)
     
     def stop(self):
         self.receiver.shutdown()
@@ -95,3 +97,7 @@ class Signals(component.Component):
         component.get("TorrentView").update()
         component.get("ToolBar").update_buttons("resumed")
 
+    def config_value_changed(self, key, value):
+        log.debug("config_value_changed signal received..")
+        component.get("StatusBar").config_value_changed(key, value)
+        component.get("SystemTray").config_value_changed(key, value)

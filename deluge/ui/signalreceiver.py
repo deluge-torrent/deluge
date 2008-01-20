@@ -108,13 +108,13 @@ class SignalReceiver(
         self._shutdown = False
         self.server_close()
             
-    def emit_signal(self, signal, data):
+    def emit_signal(self, signal, *data):
         """Exported method used by the core to emit a signal to the client"""
         try:
             if data != None:
                 for callback in self.signals[signal]:
                     try:
-                        gobject.idle_add(callback, data)
+                        gobject.idle_add(callback, *data)
                     except:
                         log.warning("Unable to call callback for signal %s", 
                             signal)

@@ -65,7 +65,12 @@ class SystemTray(component.Component):
         self.download_rate = 0.0
         self.max_upload_speed = -1.0
         self.upload_rate = 0.0
-    
+
+        self.config_value_changed_dict = {
+            "max_download_speed": self._on_max_download_speed,
+            "max_upload_speed": self._on_max_upload_speed
+        }
+            
     def enable(self):
         """Enables the system tray icon."""
         log.debug("Enabling the system tray icon..")
@@ -117,6 +122,11 @@ class SystemTray(component.Component):
             # Build the bandwidth speed limit menus
             self.build_tray_bwsetsubmenu()
             
+            # Get some config values
+            client.get_config_value(
+                self._on_max_download_speed, "max_download_speed")
+            client.get_config_value(
+                self._on_max_upload_speed, "max_upload_speed")
             self.send_status_request()
 
     def stop(self):
@@ -128,13 +138,16 @@ class SystemTray(component.Component):
             log.debug("Unable to hide system tray menu widgets: %s", e)
     
     def send_status_request(self):
-        client.get_config_value(
-            self._on_max_download_speed, "max_download_speed")
         client.get_download_rate(self._on_get_download_rate)
-        client.get_config_value(
-            self._on_max_upload_speed, "max_upload_speed")
         client.get_upload_rate(self._on_get_upload_rate)
 
+    def config_value_changed(self, key, value):
+        """This is called when we received a config_value_changed signal from
+        the core."""
+        
+        if key in self.config_value_changed_dict.keys():
+            self.config_value_changed_dict[key](value)
+            
     def _on_max_download_speed(self, max_download_speed):
         if self.max_download_speed != max_download_speed:
             self.max_download_speed = max_download_speed
@@ -158,8 +171,12 @@ class SystemTray(component.Component):
         
         if max_download_speed == -1:
             max_download_speed = _("Unlimited")
+        else:
+            max_download_speed = "%s KiB/s" % (max_download_speed)
         if max_upload_speed == -1:
             max_upload_speed = _("Unlimited")
+        else:
+            max_upload_speed = "%s KiB/s" % (max_upload_speed)
             
         msg = '%s\n%s: %s (%s)\n%s: %s (%s)' % (
             _("Deluge Bittorrent Client"), _("Down Speed"),
