@@ -85,7 +85,8 @@ class plugin_Scheduler:
         self.core.apply_queue()
 
     def resume(self):
-        self.config.set("max_active_torrents", self.prevact)
+        if self.prevact != None:
+            self.config.set("max_active_torrents", self.prevact)
         self.core.apply_queue()
 
     def limit(self):
