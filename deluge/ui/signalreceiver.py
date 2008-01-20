@@ -33,6 +33,7 @@
 
 import sys
 import socket
+import random
 
 import gobject
 
@@ -49,14 +50,13 @@ class SignalReceiver(
         ThreadingMixIn, 
         SimpleXMLRPCServer.SimpleXMLRPCServer):
     
-    def __init__(self, port, remote=False):
+    def __init__(self, remote=False):
         log.debug("SignalReceiver init..")
         gobject.threads_init()
         threading.Thread.__init__(self)
     
         # Set to true so that the receiver thread will exit
         self._shutdown = False
-        self.port = port
 
         # Daemonize the thread so it exits when the main program does
         self.setDaemon(True)
@@ -66,12 +66,20 @@ class SignalReceiver(
             host = ""
             
         # Setup the xmlrpc server
-        try:
-            SimpleXMLRPCServer.SimpleXMLRPCServer.__init__(
-                self, (host, port), logRequests=False, allow_none=True)
-        except:
-            log.info("SignalReceiver already running or port not available..")
-            sys.exit(0)
+        server_ready = False
+        while not server_ready:
+            port = random.randint(40000, 65535)
+            try:
+                SimpleXMLRPCServer.SimpleXMLRPCServer.__init__(
+                    self, (host, port), logRequests=False, allow_none=True)
+            except socket.error, e:
+                log.debug("Trying again with another port: %s", e)
+            except:
+                log.error("Could not start SignalReceiver XMLRPC server: %s", e)
+                sys.exit(0)
+            else:
+                self.port = port
+                server_ready = True
         
         self.signals = {}
         
@@ -79,7 +87,7 @@ class SignalReceiver(
         self.register_function(self.emit_signal)
         
         # Register the signal receiver with the core
-        client.register_client(str(port))
+        client.register_client(str(self.port))
         
     def shutdown(self):
         """Shutdowns receiver thread"""
