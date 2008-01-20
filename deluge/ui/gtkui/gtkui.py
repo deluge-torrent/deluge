@@ -34,7 +34,7 @@
 import pygtk
 try:
     pygtk.require('2.0')
-else:
+except:
     pass
 import gtk, gtk.glade
 import gettext
