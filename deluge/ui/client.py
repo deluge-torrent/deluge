@@ -134,7 +134,7 @@ class CoreProxy(gobject.GObject):
         self._core = None
         self._multi = None
         self._callbacks = []
-        gobject.timeout_add(10, self.do_multicall)
+        gobject.timeout_add(200, self.do_multicall)
 
     def call(self, func, callback, *args):
         if self._core is None or self._multi is None:
@@ -143,26 +143,31 @@ class CoreProxy(gobject.GObject):
         _func = getattr(self._multi, func)
 
         if _func is not None:
-            if len(args) == 0:
-                _func()
+            if (func, args) in self._multi.get_call_list():
+                index = self._multi.get_call_list().index((func, args))
+                self._callbacks[index].append(callback)
             else:
-                _func(*args)
-        self._callbacks.append(callback)
-
+                if len(args) == 0:
+                    _func()
+                else:
+                    _func(*args)
+                
+                self._callbacks.append([callback])
 
     def do_multicall(self, block=False):
         if len(self._callbacks) == 0:
             return True
-            
+        
         if self._multi is not None:
             try:
                 try:
                     for i, ret in enumerate(self._multi()):
                         try:
-                            if block == False:
-                                gobject.idle_add(self._callbacks[i], ret)
-                            else:
-                                self._callbacks[i](ret)
+                            for callback in self._callbacks[i]:
+                                if block == False:
+                                    gobject.idle_add(callback, ret)
+                                else:
+                                    callback(ret)
                         except:
                             pass
                 except socket.error, e:
