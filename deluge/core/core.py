@@ -90,12 +90,11 @@ DEFAULT_PREFS = {
 }
         
 class Core(
-        threading.Thread, 
         ThreadingMixIn, 
         SimpleXMLRPCServer.SimpleXMLRPCServer):
     def __init__(self, port):
         log.debug("Core init..")
-        threading.Thread.__init__(self)
+        #threading.Thread.__init__(self)
  
         self.client_address = None
         
@@ -141,6 +140,7 @@ class Core(
         gettext.install("deluge",
                     pkg_resources.resource_filename(
                                             "deluge", "i18n"))
+        # Setup signals
         try:
             import gnome.ui
             self.client = gnome.ui.Client()
@@ -162,7 +162,7 @@ class Core(
                     result = 1
                     return result
             SetConsoleCtrlHandler(win_handler)
-
+            
     def get_request(self):
         """Get the request and client address from the socket.
             We override this so that we can get the ip address of the client.
@@ -173,7 +173,7 @@ class Core(
         
     def run(self):
         """Starts the core"""
-        
+
         # Create the client fingerprint
         version = []
         for value in deluge.common.get_version().split("."):
@@ -250,7 +250,7 @@ class Core(
         self.loop = gobject.MainLoop()
         self.loop.run()
     
-    def _shutdown(self):
+    def _shutdown(self, data=None):
         """This is called by a thread from shutdown()"""
         log.info("Shutting down core..")
         component.shutdown()
