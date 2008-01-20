@@ -144,7 +144,7 @@ class Core(
         try:
             import gnome.ui
             self.client = gnome.ui.Client()
-            self.client.connect("save_yourself", self._shutdown)
+            self.client.connect("die", self._shutdown)
         except:
             pass
 
