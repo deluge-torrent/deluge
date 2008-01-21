@@ -43,6 +43,18 @@ import deluge.ui.client as client
 import deluge.common
 from deluge.log import LOG as log
 
+def fpeer_sized(first, second):
+    return "%s (%s)" % (deluge.common.fsize(first), deluge.common.fsize(second))
+
+def fpeer_size_second(first, second):
+    return "%s (%s)" % (first, deluge.common.fsize(second))
+
+def fratio(value):
+    return "%.3f" % value
+
+def fpcnt(value):
+    return "%.2f%%" % value
+    
 class TorrentDetails(component.Component):
     def __init__(self):
         component.Component.__init__(self, "TorrentDetails")
@@ -61,25 +73,27 @@ class TorrentDetails(component.Component):
         self.is_visible = True
         
         # Get the labels we need to update.
-        self.progress_bar = glade.get_widget("progressbar")
-        self.name = glade.get_widget("summary_name")
-        self.total_size = glade.get_widget("summary_total_size")
-        self.num_files = glade.get_widget("summary_num_files")
-        self.pieces = glade.get_widget("summary_pieces")
-        self.availability = glade.get_widget("summary_availability")
-        self.total_downloaded = glade.get_widget("summary_total_downloaded")
-        self.total_uploaded = glade.get_widget("summary_total_uploaded")
-        self.download_speed = glade.get_widget("summary_download_speed")
-        self.upload_speed = glade.get_widget("summary_upload_speed")
-        self.seeders = glade.get_widget("summary_seeders")
-        self.peers = glade.get_widget("summary_peers")
-        self.percentage_done = glade.get_widget("summary_percentage_done")
-        self.share_ratio = glade.get_widget("summary_share_ratio")
-        self.tracker = glade.get_widget("summary_tracker")
-        self.tracker_status = glade.get_widget("summary_tracker_status")
-        self.next_announce = glade.get_widget("summary_next_announce")
-        self.eta = glade.get_widget("summary_eta")
-        self.torrent_path = glade.get_widget("summary_torrent_path")
+        # widgetname, modifier function, status keys
+        self.label_widgets = [
+            (glade.get_widget("summary_name"), None, ("name",)),
+            (glade.get_widget("summary_total_size"), deluge.common.fsize, ("total_size",)),
+            (glade.get_widget("summary_num_files"), str, ("num_files",)),
+            (glade.get_widget("summary_pieces"), fpeer_size_second, ("num_pieces", "piece_length")),
+            (glade.get_widget("summary_availability"), fratio, ("distributed_copies",)),
+            (glade.get_widget("summary_total_downloaded"), fpeer_sized, ("total_done", "total_payload_download")),
+            (glade.get_widget("summary_total_uploaded"), fpeer_sized, ("total_uploaded", "total_payload_upload")),
+            (glade.get_widget("summary_download_speed"), deluge.common.fspeed, ("download_payload_rate",)),
+            (glade.get_widget("summary_upload_speed"), deluge.common.fspeed, ("upload_payload_rate",)),
+            (glade.get_widget("summary_seeders"), deluge.common.fpeer, ("num_seeds", "total_seeds")),
+            (glade.get_widget("summary_peers"), deluge.common.fpeer, ("num_peers", "total_peers")),
+            (glade.get_widget("summary_eta"), deluge.common.ftime, ("eta",)),
+            (glade.get_widget("summary_share_ratio"), fratio, ("ratio",)),
+            (glade.get_widget("summary_tracker"), None, ("tracker",)),
+            (glade.get_widget("summary_tracker_status"), None, ("tracker_status",)),
+            (glade.get_widget("summary_next_announce"), deluge.common.ftime, ("next_announce",)),
+            (glade.get_widget("summary_torrent_path"), None, ("save_path",)),
+            (glade.get_widget("progressbar"), fpcnt, ("progress",))
+        ]
     
     def visible(self, visible):
         if visible:
@@ -103,7 +117,6 @@ class TorrentDetails(component.Component):
             self.notebook.get_current_page() and \
                 self.notebook.get_property("visible"):
             # Get the first selected torrent
-            #selected = self.window.torrentview.get_selected_torrents()
             selected = component.get("TorrentView").get_selected_torrents()
             
             # Only use the first torrent in the list or return if None selected
@@ -128,68 +141,37 @@ class TorrentDetails(component.Component):
         # Check to see if we got valid data from the core
         if status is None:
             return
-            
-        # We need to adjust the value core gives us for progress
-        try:
-            progress = status["progress"]/100
-            
-            self.progress_bar.set_fraction(progress)
-            self.progress_bar.set_text(deluge.common.fpcnt(progress))
-            
-            self.name.set_text(status["name"])
-            self.total_size.set_text(
-                deluge.common.fsize(status["total_size"]))
-            self.num_files.set_text(str(status["num_files"]))
-            self.pieces.set_text("%s (%s)" % (status["num_pieces"],
-                deluge.common.fsize(status["piece_length"])))
-            self.availability.set_text(
-                "%.3f" % status["distributed_copies"])
-            self.total_downloaded.set_text("%s (%s)" % \
-                (deluge.common.fsize(status["total_done"]),
-                deluge.common.fsize(status["total_payload_download"])))
-            self.total_uploaded.set_text("%s (%s)" % \
-                (deluge.common.fsize(status["total_uploaded"]),
-                deluge.common.fsize(status["total_payload_upload"])))
-            self.download_speed.set_text(
-                deluge.common.fspeed(status["download_payload_rate"]))
-            self.upload_speed.set_text(
-                deluge.common.fspeed(status["upload_payload_rate"]))
-            self.seeders.set_text(deluge.common.fpeer(status["num_seeds"],
-                                                    status["total_seeds"]))
-            self.peers.set_text(deluge.common.fpeer(status["num_peers"],
-                                                    status["total_peers"]))
-            self.eta.set_text(deluge.common.ftime(status["eta"]))
-            self.share_ratio.set_text("%.3f" % status["ratio"])
-            self.tracker.set_text(status["tracker"])
-            self.tracker_status.set_text(status["tracker_status"])
-            self.next_announce.set_text(
-                deluge.common.ftime(status["next_announce"]))
-            self.torrent_path.set_text(status["save_path"])
-        except KeyError, e:
-            log.debug(e)
+       
+        # Update all the label widgets        
+        for widget in self.label_widgets:
+            if widget[1] != None:
+                args = []
+                try:
+                    for key in widget[2]:
+                        args.append(status[key])
+                except Exception, e:
+                    log.debug("Unable to get status value: %s", e)
+                    continue
+                    
+                txt = widget[1](*args)
+            else:
+                txt = status[widget[2][0]]
+
+            if widget[0].get_text() != txt:
+                widget[0].set_text(txt)
         
-
-
+        # Do the progress bar because it's a special case (not a label)
+        w = self.window.main_glade.get_widget("progressbar")
+        fraction = status["progress"] / 100
+        if w.get_fraction() != fraction:
+            w.set_fraction(fraction)
+                    
     def clear(self):
         # Only update if this page is showing
         if self.notebook.page_num(self.details_tab) is \
                                             self.notebook.get_current_page():
-            self.name.set_text("")
-            self.total_size.set_text("")
-            self.num_files.set_text("")
-            self.pieces.set_text("")
-            self.availability.set_text("")
-            self.total_downloaded.set_text("")
-            self.total_uploaded.set_text("")
-            self.download_speed.set_text("")
-            self.upload_speed.set_text("")
-            self.seeders.set_text("")
-            self.peers.set_text("")
-            self.progress_bar.set_fraction(0.0)
-            self.progress_bar.set_text("")
-            self.share_ratio.set_text("")
-            self.tracker.set_text("")
-            self.tracker_status.set_text("")
-            self.next_announce.set_text("")
-            self.eta.set_text("")
-            self.torrent_path.set_text("")
+
+            for widget in self.label_widgets:
+                widget[0].set_text("")
+                
+            self.window.main_glade.get_widget("progressbar").set_fraction(0.0)
