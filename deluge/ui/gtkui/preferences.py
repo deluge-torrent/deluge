@@ -459,9 +459,6 @@ class Preferences(component.Component):
         # Re-show the dialog to make sure everything has been updated
         self.show()
         
-        # Update the UI
-        self.window.update()
-        
     def hide(self):
         self.pref_dialog.hide()
     

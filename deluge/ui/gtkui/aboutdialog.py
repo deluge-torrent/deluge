@@ -50,7 +50,7 @@ class AboutDialog:
             "aboutdialog")
         self.about.set_position(gtk.WIN_POS_CENTER)
         self.about.set_name("Deluge")
-        self.about.set_version(deluge.common.get_version())
+        self.about.set_version(deluge.common.get_version() + "r" + deluge.common.get_revision())
         self.about.set_authors(["Andrew Resch", "Marcos Pinto"])
         self.about.set_artists(["Andrew Wedderburn", "Andrew Resch"])
         self.about.set_translator_credits(_("translator-credits"))
