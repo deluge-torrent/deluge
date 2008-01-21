@@ -1,14 +1,41 @@
 """
-pretty debug errors
-(part of web.py)
+adapted for deluge-webui:
+-edit-box with traceback for cut+paste.
+-pretty errors for well known exceptions.
 
+
+web.py :
 adapted from Django <djangoproject.com>
 Copyright (c) 2005, the Lawrence Journal-World
 Used under the modified BSD license:
 http://www.xfree86.org/3.3.6/COPYRIGHT2.html#5
 """
-
 __all__ = ["debugerror", "djangoerror"]
+
+import utils
+print utils
+print dir(utils)
+
+
+pretty_errors_str = {
+"org.freedesktop.DBus.Error.ServiceUnknown":
+    """ Webui Lost the connection to deluge <br \>
+    Unable to reconnect, please restart deluge.
+    <!--<a href="/kill">click here to stop the webui</a>-->""",
+"InvalidUniqueIDError:":
+    """
+    this torrent was removed,
+    <a href="/home">click here to go to the torrent-list</a>
+    """
+}
+
+
+pretty_errors_cls = {
+    type(utils.UnknownTorrentError):"""
+    this torrent was removed,
+    <a href="/home">click here to go to the torrent-list</a>
+        """
+}
 
 import sys, urlparse, pprint
 from lib.webpy022.net import websafe
@@ -298,6 +325,16 @@ def djangoerror():
     except AttributeError:
         exception_message = 'no message'
     exception_type = exception_type.__name__
+
+    """
+    for err_str in pretty_errors:
+        if err_str in exception_message:
+            #from render import render
+            return render.error(pretty_errors[err_str])
+    """
+    if exception_type in pretty_errors_cls:
+        from render import render
+        return render.error(pretty_errors_cls[exception_type])
 
     version_info = (
     "WebUi : rev." + ws.REVNO

@@ -1,6 +1,15 @@
 $def with (torrent_list, all_torrents)
 $:render.header(_('Torrent list'))
 
+<script language="javascript">
+/*for select_all shortcut/button*/
+var all_torrents = [
+$for t in torrent_list:
+    "$t.id",
+]
+</script>
+
+
 <div class="panel" id="toolbar">
 
     <a class='toolbar_btn' href="#"
@@ -44,7 +53,6 @@ $:render.header(_('Torrent list'))
     $:category_tabs(all_torrents)
 
 </div>
-
 
 <div id="tableContainer" class="tableContainer">
 <table class="torrent_list" border=0 cellspacing=0 cellpadding=2  id="torrent_list">
@@ -142,6 +150,6 @@ $:part_stats()
 
 </form>
 
-
 $:render.footer()
+
 

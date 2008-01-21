@@ -55,8 +55,15 @@ class Template(config.WebCfgForm):
 class Server(config.WebCfgForm):
     title = _("Server")
 
+    try:
+        import OpenSSL
+    except ImportError:
+        info = _("pyopenssl not installed, install this for https.")
+
     port = forms.IntegerField(label = _("Port"),min_value=80)
+
     use_https = config.CheckBox(_("Use https"))
+
 
     def post_save(self):
         pass

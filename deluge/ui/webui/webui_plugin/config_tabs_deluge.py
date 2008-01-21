@@ -134,3 +134,23 @@ class Plugins(config.Form):
         raise forms.ValidationError("SAVE:TODO")
 
 config.register_block('deluge','plugins', Plugins)
+
+
+class Queue(config.Form):
+    title = _("Queue")
+    info = _("queue-cfg not finished")
+
+    queue_top = config.CheckBox(_("Queue new torrents to top"))
+    total_active = config.DelugeInt(_("Total active torrents"))
+    total_seeding = config.DelugeInt(_("Total active seeding"))
+    total_downloading = config.DelugeInt(_("Total active downloading"))
+
+    queue_bottom = config.CheckBox(_("Queue completed torrents to bottom"))
+    stop_on_ratio = config.CheckBox(_("Stop seeding when ratio reaches"))
+    stop_ratio = config.DelugeInt(_("TODO:float-edit-box"))
+    remove_after_stop = config.CheckBox(_("Remve torrent when ratio reached"))
+
+    def save(self, value):
+        raise forms.ValidationError("SAVE:TODO")
+
+config.register_block('plugins','queue', Queue)

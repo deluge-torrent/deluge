@@ -39,6 +39,10 @@ import config_tabs_webui #auto registers
 import config_tabs_deluge #auto registers
 from config import config_page
 #import forms
+#
+from debugerror import deluge_debugerror
+web.webapi.internalerror = deluge_debugerror
+#
 
 import lib.webpy022 as web
 from lib.webpy022.http import seeother, url

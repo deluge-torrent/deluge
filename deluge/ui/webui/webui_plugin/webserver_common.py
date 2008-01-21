@@ -108,6 +108,36 @@ CONFIG_DEFAULTS = {
 #/constants
 
 
+class SyncProxyFunction():
+    """
+    helper class for SyncProxy
+    """
+    def __init__(self,client, func_name):
+        self.func_name = func_name
+        self.client = client
+
+    def __call__(self,*args,**kwargs):
+        sync_result = []
+
+        def callback( result):
+            sync_result.append(result)
+        func = getattr(self.client,self.func_name)
+
+        func(callback,*args)
+
+        self.client.force_call(block=True)
+
+        return sync_result[0]
+
+class SyncProxy(object):
+    """acts like the old synchonous proxy"""
+    def __init__(self, client):
+        self.client = client
+
+    def __getattr__(self, attr,*args,**kwargs):
+        return SyncProxyFunction(self.client, attr)
+
+
 class Ws:
     """
     singleton
@@ -141,11 +171,15 @@ class Ws:
         self.config = pickle.load(open(self.config_file))
 
     def init_06(self, uri = 'http://localhost:58846'):
-        import deluge.ui.client as proxy
+        import deluge.ui.client as async_proxy
         from deluge.log import LOG as log
         self.log = log
-        proxy.set_core_uri(uri)
-        self.proxy = proxy
+        async_proxy.set_core_uri(uri)
+        self.async_proxy = async_proxy
+
+        self.proxy = SyncProxy(self.async_proxy)
+
+
 
         #MONKEY PATCH, TODO->REMOVE!!!
         def add_torrent_filecontent(name , data_b64):
@@ -174,7 +208,6 @@ class Ws:
             f.close()
 
         self.init_process()
-        self.proxy = proxy
         self.env   = '0.6'
 
     def init_05(self):

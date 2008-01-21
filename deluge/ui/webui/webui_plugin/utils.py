@@ -48,10 +48,7 @@ from urlparse import urlparse
 
 from webserver_common import  REVNO, VERSION, TORRENT_KEYS, STATE_MESSAGES
 from webserver_common import ws
-from debugerror import deluge_debugerror
 
-#init:
-web.webapi.internalerror = deluge_debugerror
 debug_unicode = False
 
 #methods:
@@ -145,6 +142,10 @@ def get_torrent_status(torrent_id):
             status[key] = 0
             ws.log.warning('torrent_status:None key in status:%s' % key)
 
+
+    if status.tracker == 0:
+        #0.6 does not raise a decent error on non-existing torrent.
+        raise UnknownTorrentError(torrent_id)
 
     status["id"] = torrent_id
 
@@ -253,3 +254,10 @@ def get_category_choosers(torrent_list):
 
 #/utils
 
+class WebUiError(Exception):
+    """the message of these exceptions will be rendered in
+    render.error(e.message) in debugerror.py"""
+    pass
+
+class UnknownTorrentError(WebUiError):
+    pass
