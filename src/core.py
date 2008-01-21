@@ -727,15 +727,19 @@ Space:") + " " + nice_free)
             elif event['event_type'] is self.constants['EVENT_TRACKER_ALERT']:
                 match = re.search('tracker:\s*".*"\s*(.*)', event["message"])
                 message = match and match.groups()[0] or ""
-                    
-                tracker_status = "%s: %s (%s=%s, %s=%s)" % \
-                    (_("Alert"), message, 
-                     _("HTTP code"), event["status_code"], 
-                     _("times in a row"), event["times_in_row"])
+                try:
+                    tracker_status = "%s: %s (%s=%s, %s=%s)" % \
+                        (_("Alert"), message, 
+                         _("HTTP code"), event["status_code"], 
+                         _("times in a row"), event["times_in_row"])
                         
-                self.set_supp_torrent_state_val(event['unique_ID'], 
+                    self.set_supp_torrent_state_val(event['unique_ID'], 
                                                 "tracker_status",
                                                 tracker_status)
+                except Exception, e:
+                    print "There was a problem displaying a tracker alert. Most\
+likely the tracker did not responsd in utf-8.", e
+
             elif event['event_type'] is self.constants['EVENT_TRACKER_WARNING']:
                 # Probably will need proper formatting later, not tested yet
                 tracker_status = '%s: %s' % (_("Warning"), event["message"])
