@@ -633,4 +633,4 @@ class Core(
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Emit torrent_paused signal
-        self.torrent_paused(torrent_id)  
+        self.torrent_paused(torrent_id)

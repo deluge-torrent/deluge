@@ -100,6 +100,8 @@ class TorrentManager(component.Component):
         self.alerts.register_handler("tracker_alert", self.on_alert_tracker)
         self.alerts.register_handler("tracker_warning_alert",
             self.on_alert_tracker_warning)
+        self.alerts.register_handler("storage_moved_alert",
+            self.on_alert_storage_moved)
 
     def start(self):
         # Try to load the state from file
@@ -611,3 +613,13 @@ class TorrentManager(component.Component):
             self.torrents[torrent_id].set_tracker_status(tracker_status)
         except KeyError:
             log.debug("torrent_id doesn't exist.")
+            
+    def on_alert_storage_moved(self, alert):
+        log.debug("on_alert_storage_moved")
+        # Get the torrent_id
+        torrent_id = str(alert.handle.info_hash())
+        try:
+            self.torrents[torrent_id].set_save_path(alert.handle.save_path())
+        except KeyError:
+            log.debug("torrent_id doesn't exist.")
+                    
