@@ -53,7 +53,10 @@ TORRENT_STATE = [
 
 def get_version():
     """Returns the program version from the egg metadata"""
-    return pkg_resources.require("Deluge")[0].version
+    return pkg_resources.require("Deluge")[0].version.split("r")[0]
+
+def get_revision():
+    return pkg_resources.require("Deluge")[0].version.split("r")[1]
     
 def get_config_dir(filename=None):
     """ Returns the config path if no filename is specified
