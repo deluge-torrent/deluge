@@ -44,6 +44,17 @@ import os
 
 python_version = platform.python_version()[0:3]
 
+# Try to get SVN revision number to append to version
+revision_string = ""
+try:
+    stdout = os.popen("svn info")
+    for line in stdout:
+        if line.split(" ")[0] == "Revision:":
+            revision_string = "r%s" % line.split(" ")[1].strip()
+            break
+except:
+    pass
+
 # The libtorrent extension
 _extra_compile_args = [
     "-Wno-missing-braces",
@@ -162,7 +173,7 @@ for path in glob.glob('deluge/plugins/*'):
 setup(
     name = "deluge",
     fullname = "Deluge Bittorent Client",
-    version = "0.6.0.0",
+    version = "0.6.0.0" + revision_string,
     author = "Andrew Resch, Marcos Pinto",
     author_email = "andrewresch@gmail.com, markybob@dipconsultants.com",
     description = "GTK+ bittorrent client",
