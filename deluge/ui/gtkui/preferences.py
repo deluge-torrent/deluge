@@ -95,6 +95,10 @@ class Preferences(component.Component):
             "on_toggle": self.on_toggle,
             "on_test_port_clicked": self.on_test_port_clicked
         })
+
+        # These get updated by requests done to the core        
+        self.all_plugins = []
+        self.enabled_plugins = []
     
     def __del__(self):
         del self.gtkui_config
@@ -212,6 +216,10 @@ class Preferences(component.Component):
                     ("value", self.core_config["max_connections_per_torrent"]),
                 "spin_max_upload_slots_per_torrent": \
                     ("value", self.core_config["max_upload_slots_per_torrent"]),
+                "spin_max_download_per_torrent": \
+                    ("value", self.core_config["max_download_speed_per_torrent"]),
+                "spin_max_upload_per_torrent": \
+                    ("value", self.core_config["max_upload_speed_per_torrent"]),
                 "spin_daemon_port": \
                     ("value", self.core_config["daemon_port"]),
                 "chk_allow_remote_connections": \
@@ -266,6 +274,8 @@ class Preferences(component.Component):
                 "spin_max_upload_slots_global",
                 "spin_max_connections_per_torrent",
                 "spin_max_upload_slots_per_torrent",
+                "spin_max_download_per_torrent",
+                "spin_max_upload_per_torrent",
                 "spin_daemon_port",
                 "chk_allow_remote_connections"
             ]
