@@ -42,6 +42,7 @@ import pickle
 import sys
 import base64
 from md5 import md5
+import inspect
 
 random.seed()
 
@@ -118,16 +119,21 @@ class SyncProxyFunction():
 
     def __call__(self,*args,**kwargs):
         sync_result = []
-
-        def callback( result):
-            sync_result.append(result)
         func = getattr(self.client,self.func_name)
 
-        func(callback,*args)
+        if self.has_callback(func):
+            func(sync_result.append,*args, **kwargs)
+            self.client.force_call(block=True)
+            return sync_result[0]
+        else:
+            ws.log.debug('no-cb: %s' % self.func_name)
+            func(*args, **kwargs)
+            self.client.force_call(block=True)
+            return
 
-        self.client.force_call(block=True)
-
-        return sync_result[0]
+    @staticmethod
+    def has_callback(func):
+        return  "callback" in inspect.getargspec(func)[0]
 
 class SyncProxy(object):
     """acts like the old synchonous proxy"""

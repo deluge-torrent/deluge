@@ -51,6 +51,12 @@ from webserver_common import ws
 
 debug_unicode = False
 
+#async-proxy: map callback to a a dict-setter
+def dict_cb(key,d):
+    def callback(result):
+        d[key] = result
+    return callback
+
 #methods:
 def setcookie(key, val):
     """add 30 days expires header for persistent cookies"""
@@ -105,23 +111,37 @@ def getcookie(key, default = None):
 
 
 def get_stats():
-    stats = Storage({
-    'download_rate':fspeed(ws.proxy.get_download_rate()),
-    'upload_rate':fspeed(ws.proxy.get_upload_rate()),
-    'max_download':ws.proxy.get_config_value('max_download_speed_bps'),
-    'max_upload':ws.proxy.get_config_value('max_upload_speed_bps'),
-    'num_connections':ws.proxy.get_num_connections(),
-    'max_num_connections':ws.proxy.get_config_value('max_connections_global')
-    })
+    stats = Storage()
+
+    ws.async_proxy.get_download_rate(dict_cb('download_rate',stats))
+    ws.async_proxy.get_upload_rate(dict_cb('upload_rate',stats))
+    ws.async_proxy.get_config_value(dict_cb('max_download',stats)
+        ,"max_download_speed")
+    ws.async_proxy.get_config_value(dict_cb('max_upload',stats)
+        ,"max_upload_speed")
+    ws.async_proxy.get_num_connections(dict_cb("num_connections",stats))
+    ws.async_proxy.get_config_value(dict_cb('max_num_connections',stats)
+        ,"max_connections_global")
+
+    ws.async_proxy.force_call(block=True)
+
+    ws.log.debug(str(stats))
+
+    stats.download_rate = fspeed(stats.download_rate)
+    stats.upload_rate = fspeed(stats.upload_rate)
+    #stats.max_upload = stats.max_upload
+    #stats.max_download = stats.max_download
+
+
     if stats.max_upload < 0:
         stats.max_upload = _("Unlimited")
     else:
-        stats.max_upload = fspeed(stats.max_upload)
+        stats.max_upload = "%s KiB/s" % stats.max_upload
 
     if stats.max_download < 0:
         stats.max_download = _("Unlimited")
     else:
-        stats.max_download = fspeed(stats.max_download)
+        stats.max_download = "%s KiB/s" % stats.max_download
 
     return stats
 
@@ -167,7 +187,7 @@ def get_torrent_status(torrent_id):
         status.calc_state_str = "seeding"
 
     #action for torrent_pause
-    if status.user_paused:
+    if status.paused: #no user-paused in 0.6 !!!
         status.action = "start"
     else:
         status.action = "stop"
