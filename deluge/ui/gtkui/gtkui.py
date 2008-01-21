@@ -42,7 +42,6 @@ import gettext
 import locale
 import pkg_resources
 import signal
-import os.path
 
 import deluge.component as component
 import deluge.ui.client as client
@@ -95,7 +94,7 @@ DEFAULT_PREFS = {
     "autoadd_queued": False,
     "autoadd_enable": False,
     "autoadd_location": "",
-    "choose_directory_dialog_path": os.path.expanduser("~")
+    "choose_directory_dialog_path": deluge.common.get_default_download_dir()
 }
 
 class GtkUI:
