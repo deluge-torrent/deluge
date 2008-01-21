@@ -145,7 +145,8 @@ class CoreProxy(gobject.GObject):
         if _func is not None:
             if (func, args) in self._multi.get_call_list():
                 index = self._multi.get_call_list().index((func, args))
-                self._callbacks[index].append(callback)
+                if callback not in self._callbacks[index]:
+                    self._callbacks[index].append(callback)
             else:
                 if len(args) == 0:
                     _func()
