@@ -41,6 +41,7 @@ import gtk, gtk.glade
 import gettext
 import locale
 import pkg_resources
+import signal
 
 import deluge.component as component
 import deluge.ui.client as client
@@ -114,8 +115,18 @@ class GtkUI:
                     pkg_resources.resource_filename(
                                             "deluge", "i18n"))
         
+        # Setup signals
+        try:
+            import gnome.ui
+            self.gnome_client = gnome.ui.Client()
+            self.gnome_client.connect("die", self.shutdown)
+        except:
+            pass
+        signal.signal(signal.SIGINT, self.shutdown)
+        signal.signal(signal.SIGTERM, self.shutdown)
+
         # Make sure gtkui.conf has at least the defaults set
-        config = ConfigManager("gtkui.conf", DEFAULT_PREFS)
+        self.config = ConfigManager("gtkui.conf", DEFAULT_PREFS)
 
         # Start the Dbus Interface before anything else.. Just in case we are
         # already running.
@@ -145,16 +156,22 @@ class GtkUI:
         
         # Show the connection manager
         self.connectionmanager = ConnectionManager()
-        if config["show_connection_manager_on_start"]:
+        if self.config["show_connection_manager_on_start"]:
             self.connectionmanager.show()
                 
         # Start the gtk main loop
-        gtk.main()
-        
+        try:
+            gtk.main()
+        except KeyboardInterrupt:
+            self.shutdown()
+        else:           
+            self.shutdown()
+
+    def shutdown(self, data=None):
         log.debug("gtkui shutting down..")
 
         # Make sure the config is saved.
-        config.save()
+        self.config.save()
         
         # Shutdown all components
         component.shutdown()
