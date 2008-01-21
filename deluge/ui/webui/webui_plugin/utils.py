@@ -145,14 +145,11 @@ def get_stats():
 
     return stats
 
-
-def get_torrent_status(torrent_id):
+def enhance_torrent_status(torrent_id,status):
     """
-    helper method.
-    enhance ws.proxy.get_torrent_status with some extra data
+    in: raw torrent_status
+    out: enhanced torrent_staus
     """
-    status = Storage(ws.proxy.get_torrent_status(torrent_id,TORRENT_KEYS))
-
     #add missing values for deluge 0.6:
     for key in TORRENT_KEYS:
         if not key in status:
@@ -209,7 +206,7 @@ def get_torrent_status(torrent_id):
     })
 
     #no non-unicode string may enter the templates.
-    #FIXED,l was a translation bug..
+    #FIXED, was a translation bug..
     if debug_unicode:
         for k, v in status.iteritems():
             if (not isinstance(v, unicode)) and isinstance(v, str):
@@ -218,6 +215,16 @@ def get_torrent_status(torrent_id):
                 except:
                     raise Exception('Non Unicode for key:%s' % (k, ))
     return status
+
+def get_torrent_status(torrent_id):
+    """
+    helper method.
+    enhance ws.proxy.get_torrent_status with some extra data
+    """
+    status = Storage(ws.proxy.get_torrent_status(torrent_id,TORRENT_KEYS))
+
+    return enhance_torrent_status(torrent_id, status)
+
 
 def get_categories(torrent_list):
     trackers = [(torrent['category'] or 'unknown') for torrent in torrent_list]
