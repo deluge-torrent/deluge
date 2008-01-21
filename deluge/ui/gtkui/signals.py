@@ -61,7 +61,10 @@ class Signals(component.Component):
             self.config_value_changed)
     
     def stop(self):
-        self.receiver.shutdown()
+        try:
+            self.receiver.shutdown()
+        except:
+            pass
         
     def torrent_added_signal(self, torrent_id):
         log.debug("torrent_added signal received..")

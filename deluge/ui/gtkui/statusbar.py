@@ -148,9 +148,13 @@ class StatusBar(component.Component):
     
     def stop(self):
         # When stopped, we just show the not connected thingy
-        self.remove_item(self.connections_item)
-        self.remove_item(self.download_item)
-        self.remove_item(self.upload_item)
+        try:
+            self.remove_item(self.connections_item)
+            self.remove_item(self.download_item)
+            self.remove_item(self.upload_item)
+            self.remove_item(self.not_connected_item)
+        except:
+            pass
         self.show_not_connected()
         
     def show_not_connected(self):
