@@ -45,7 +45,7 @@ from deluge.log import LOG as log
 
 class QueuedTorrents(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "QueuedTorrents", ["StatusBar"])
+        component.Component.__init__(self, "QueuedTorrents", depend=["StatusBar"])
         self.queue = []
         self.status_item = None
         

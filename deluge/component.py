@@ -40,9 +40,11 @@ COMPONENT_STATE = [
 ]
 
 class Component:
-    def __init__(self, name, depend=None):
+    def __init__(self, name, interval=1000, depend=None):
         # Register with the ComponentRegistry
         register(name, self, depend)
+        self._interval = interval
+        self._timer = None
         self._state = COMPONENT_STATE.index("Stopped")
     
     def get_state(self):
@@ -53,25 +55,36 @@ class Component:
     
     def _start(self):
         self._state = COMPONENT_STATE.index("Started")
+        if self._update():
+            self._timer = gobject.timeout_add(self._interval, self._update)
         
     def stop(self):
         pass
 
     def _stop(self):
+        try:
+            gobject.source_remove(self._timer)
+        except:
+            pass
         self._state = COMPONENT_STATE.index("Stopped")
         
     def shutdown(self):
         pass
-        
-    def update(self):
-        pass
+    
+    def _update(self):
+        try:
+            self.update()
+        except AttributeError:
+            # This will stop the timer since the component doesn't have an
+            # update method.
+            return False
+        return True
         
         
 class ComponentRegistry:
     def __init__(self):
         self.components = {}
         self.depend = {}
-        self.update_timer = None
     
     def register(self, name, obj, depend):
         """Registers a component.. depend must be list or None"""
@@ -84,15 +97,10 @@ class ComponentRegistry:
         """Returns a reference to the component 'name'"""
         return self.components[name]
         
-    def start(self, update_interval=1000):
+    def start(self):
         """Starts all components"""
         for component in self.components.keys():
             self.start_component(component)
-
-        # Start the update timer
-        self.update_timer = gobject.timeout_add(update_interval, self.update)
-        # Do an update right away
-        self.update()
     
     def start_component(self, name):
         """Starts a component"""
@@ -107,15 +115,14 @@ class ComponentRegistry:
             self.components[name].start()
             self.components[name]._start()
         
-        
     def stop(self):
         """Stops all components"""
         for component in self.components.keys():
-            log.debug("Stopping component %s..", component)
-            self.components[component].stop()
-            self.components[component]._stop()
-        # Stop the update timer
-        gobject.source_remove(self.update_timer)
+            if self.components[component].get_state != \
+                    COMPONENT_STATE.index("Stopped"):
+                log.debug("Stopping component %s..", component)
+                self.components[component].stop()
+                self.components[component]._stop()
 
     def update(self):
         """Updates all components"""
@@ -130,6 +137,8 @@ class ComponentRegistry:
     def shutdown(self):
         """Shuts down all components.  This should be called when the program
         exits so that components can do any necessary clean-up."""
+        # Stop all components first
+        self.stop()
         for component in self.components.keys():
             log.debug("Shutting down component %s..", component)
             try:
