@@ -132,8 +132,6 @@ class MainWindow(component.Component):
             else:
                 log.debug("MainWindow is not minimized..")
                 self.is_minimized = False
-                # Force UI update as we don't update it while minimized
-                self.update()
         return False
 
     def on_window_delete_event(self, widget, event):
