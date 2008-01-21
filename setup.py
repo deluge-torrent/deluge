@@ -50,10 +50,14 @@ try:
     stdout = os.popen("svn info")
     for line in stdout:
         if line.split(" ")[0] == "Revision:":
-            revision_string = "r%s" % line.split(" ")[1].strip()
+            revision_string = line.split(" ")[1].strip()
             break
+    f = open("deluge/data/revision", "w")
+    f.write(revision_string)
+    f.close()
 except:
     pass
+
 
 # The libtorrent extension
 _extra_compile_args = [
@@ -173,7 +177,7 @@ for path in glob.glob('deluge/plugins/*'):
 setup(
     name = "deluge",
     fullname = "Deluge Bittorent Client",
-    version = "0.6.0.0" + revision_string,
+    version = "0.6.0.0",
     author = "Andrew Resch, Marcos Pinto",
     author_email = "andrewresch@gmail.com, markybob@dipconsultants.com",
     description = "GTK+ bittorrent client",
@@ -183,6 +187,7 @@ setup(
     package_data = {"deluge": ["ui/gtkui/glade/*.glade", 
                                 "data/pixmaps/*.png",
                                 "data/pixmaps/deluge.svg",
+                                "data/revision",
                                 "plugins/*.egg",
                                 "i18n/*.pot",
                                 "i18n/*/LC_MESSAGES/*.mo",

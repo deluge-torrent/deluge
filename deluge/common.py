@@ -56,7 +56,15 @@ def get_version():
     return pkg_resources.require("Deluge")[0].version.split("r")[0]
 
 def get_revision():
-    return pkg_resources.require("Deluge")[0].version.split("r")[1]
+    revision = ""
+    try:
+        f = open(pkg_resources.resource_filename("deluge", os.path.join("data", "revision")))
+        revision = f.read()
+        f.close()
+    except IOError, e:
+        log.debug("Could not open revision file: %s", e)
+        
+    return revision
     
 def get_config_dir(filename=None):
     """ Returns the config path if no filename is specified

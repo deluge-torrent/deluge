@@ -50,10 +50,14 @@ class AboutDialog:
             "aboutdialog")
         self.about.set_position(gtk.WIN_POS_CENTER)
         self.about.set_name("Deluge")
-        try:
-            self.about.set_version(deluge.common.get_version() + "r" + deluge.common.get_revision())
-        except IndexError:
-            self.about.set_version(deluge.common.get_version())
+
+        # Get the version and revision numbers
+        rev = deluge.common.get_revision()
+        version = deluge.common.get_version()
+        if rev != "":
+            version = version + "r" + rev
+
+        self.about.set_version(version)
         self.about.set_authors(["Andrew Resch", "Marcos Pinto"])
         self.about.set_artists(["Andrew Wedderburn", "Andrew Resch"])
         self.about.set_translator_credits(_("translator-credits"))
