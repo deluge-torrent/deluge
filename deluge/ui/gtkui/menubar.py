@@ -96,7 +96,8 @@ class MenuBar(component.Component):
                                     self.on_menuitem_edittrackers_activate,
             "on_menuitem_remove_activate": self.on_menuitem_remove_activate,
             "on_menuitem_recheck_activate": self.on_menuitem_recheck_activate,
-            "on_menuitem_open_folder": self.on_menuitem_open_folder_activate
+            "on_menuitem_open_folder": self.on_menuitem_open_folder_activate,
+            "on_menuitem_move_activate": self.on_menuitem_move_activate
         })
         
         self.change_sensitivity = [
@@ -210,6 +211,25 @@ class MenuBar(component.Component):
     
     def on_menuitem_open_folder_activate(self, data=None):
         log.debug("on_menuitem_open_folder")
+
+    def on_menuitem_move_activate(self, data=None):
+        log.debug("on_menuitem_move_activate")
+        from deluge.configmanager import ConfigManager
+        config = ConfigManager("gtkui.conf")
+        chooser = gtk.FileChooserDialog(_("Choose a directory to move files to"\
+            ) , component.get("MainWindow").window, \
+            gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, buttons=(gtk.STOCK_CANCEL, \
+            gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
+        if not common.windows_check():
+            chooser.set_icon(common.get_logo(18))
+            chooser.set_property("skip-taskbar-hint", True)
+        chooser.set_current_folder(config["choose_directory_dialog_path"])
+        if chooser.run() == gtk.RESPONSE_OK:
+            result = chooser.get_filename()
+            config["choose_directory_dialog_path"] = result
+            client.move_torrent(
+                component.get("TorrentView").get_selected_torrents(), result)
+        chooser.destroy()
 
     ## View Menu ##
     def on_menuitem_toolbar_toggled(self, value):

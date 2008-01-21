@@ -326,6 +326,11 @@ def pause_torrent(torrent_ids):
     for torrent_id in torrent_ids:
         get_core().call("pause_torrent", None, torrent_id)
 
+def move_torrent(torrent_ids, folder):
+    """Pauses torrent_ids"""
+    for torrent_id in torrent_ids:
+        get_core().call("move_torrent", None, torrent_id, folder)
+
 def pause_all_torrents():
     """Pauses all torrents"""
     get_core().call("pause_all_torrents", None)

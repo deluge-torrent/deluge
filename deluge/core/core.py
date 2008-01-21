@@ -351,6 +351,11 @@ class Core(
         if not self.torrents.pause(torrent_id):
             log.warning("Error pausing torrent %s", torrent_id)
     
+    def export_move_torrent(self, torrent_id, folder):
+        log.debug("Moving torrent %s to %s", torrent_id, folder)
+        if not self.torrents.move(torrent_id, folder):
+            log.warning("Error moving torrent %s to %s", torrent_id, folder)
+    
     def export_pause_all_torrents(self):
         """Pause all torrents in the session"""
         if not self.torrents.pause_all():

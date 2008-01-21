@@ -335,6 +335,15 @@ class TorrentManager(component.Component):
             
         return True
     
+    def move(self, torrent_id, folder):
+        """Move a torrent"""
+        try:
+            self.torrents[torrent_id].handle.move_storage(folder)
+        except:
+            return False
+
+        return True
+    
     def pause_all(self):
         """Pauses all torrents.. Returns a list of torrents paused."""
         torrent_was_paused = False
