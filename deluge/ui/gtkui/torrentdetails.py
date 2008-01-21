@@ -57,7 +57,7 @@ def fpcnt(value):
     
 class TorrentDetails(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "TorrentDetails")
+        component.Component.__init__(self, "TorrentDetails", interval=2000)
         self.window = component.get("MainWindow")
         glade = self.window.main_glade
         

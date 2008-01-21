@@ -102,7 +102,7 @@ def cell_data_progress(column, cell, model, row, data):
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
-        component.Component.__init__(self, "TorrentView")
+        component.Component.__init__(self, "TorrentView", interval=2000)
         self.window = component.get("MainWindow")
         # Call the ListView constructor
         listview.ListView.__init__(self, 
@@ -113,7 +113,7 @@ class TorrentView(listview.ListView, component.Component):
         
         # This is where status updates are put
         self.status = {}
-        
+
         # Register the columns menu with the listview so it gets updated
         # accordingly.
         self.register_checklist_menu(

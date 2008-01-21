@@ -93,7 +93,7 @@ class StatusBarItem:
         
 class StatusBar(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "StatusBar")
+        component.Component.__init__(self, "StatusBar", interval=3000)
         self.window = component.get("MainWindow")
         self.statusbar = self.window.main_glade.get_widget("statusbar")
         
@@ -193,23 +193,26 @@ class StatusBar(component.Component):
             
     def _on_max_connections_global(self, max_connections):
         self.max_connections = max_connections
+        self.update_connections_label()
         
     def _on_get_num_connections(self, num_connections):
         self.num_connections = num_connections
         
     def _on_max_download_speed(self, max_download_speed):
         self.max_download_speed = max_download_speed
+        self.update_download_label()
     
     def _on_get_download_rate(self, download_rate):
         self.download_rate = deluge.common.fsize(download_rate)
     
     def _on_max_upload_speed(self, max_upload_speed):
         self.max_upload_speed = max_upload_speed
-    
+        self.update_upload_label()
+        
     def _on_get_upload_rate(self, upload_rate):
         self.upload_rate = deluge.common.fsize(upload_rate)
-                
-    def update(self):
+    
+    def update_connections_label(self):
         # Set the max connections label
         max_connections = self.max_connections
         if max_connections < 0:
@@ -217,7 +220,8 @@ class StatusBar(component.Component):
 
         self.connections_item.set_text("%s (%s)" % (
             self.num_connections, max_connections))
-        
+            
+    def update_download_label(self):
         # Set the download speed label
         max_download_speed = self.max_download_speed
         if max_download_speed < 0:
@@ -227,7 +231,8 @@ class StatusBar(component.Component):
                     
         self.download_item.set_text("%s/s (%s)" % (
             self.download_rate, max_download_speed))
-
+            
+    def update_upload_label(self):
         # Set the upload speed label
         max_upload_speed = self.max_upload_speed
         if max_upload_speed < 0:
@@ -238,5 +243,12 @@ class StatusBar(component.Component):
         self.upload_item.set_text("%s/s (%s)" % (
             self.upload_rate, 
             max_upload_speed))
+                           
+    def update(self):
+        # Update the labels
+        self.update_connections_label()
+        self.update_download_label()
+        self.update_upload_label()
         
+        # Send status request
         self.send_status_request()
