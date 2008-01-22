@@ -129,6 +129,7 @@ template.Template.globals.update({
     'self_url': self_url,
     'fspeed': common.fspeed,
     'fsize': common.fsize,
+    'ftime':common.ftime,
     'render': render, #for easy resuse of templates
     'rev': 'rev.%s'  % (REVNO, ),
     'version': VERSION,

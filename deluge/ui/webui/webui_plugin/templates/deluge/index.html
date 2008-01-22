@@ -40,7 +40,7 @@ $for torrent in torrent_list:
     <td>$torrent.num_peers ($torrent.total_peers)</td>
     <td>$fspeed(torrent.download_rate)</td>
     <td>$fspeed(torrent.upload_rate)</td>
-    <td>$torrent.eta</td>
+    <td>$ftime(torrent.eta)</td>
     <td>$("%.3f" % torrent.distributed_copies)</td>
     <td>$("%.3f" % torrent.ratio)</td\>
     </tr>

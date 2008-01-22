@@ -114,7 +114,7 @@ $for torrent in torrent_list:
     $else:
         &nbsp;
     </td>
-    <td>$torrent.eta</td>
+    <td>$ftime(torrent.eta)</td>
     <td>$("%.3f" % torrent.distributed_copies)</td>
     <td>$("%.3f" % torrent.ratio)</td\>
     </tr>

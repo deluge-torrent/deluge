@@ -45,7 +45,7 @@ $fspeed(torrent.download_rate)</td></td></tr>
 <td class="info_value">$torrent.num_peers  ($torrent.total_peers )</td></tr>
 
 <tr><td class="info_label">$_('ETA'):</td>
-<td class="info_value">$torrent.eta </td></tr>
+<td class="info_value">$ftime(torrent.eta) </td></tr>
 
 <tr><td class="info_label">$_('Availability'):</td>
 <td class="info_value">$("%.3f" % torrent.distributed_copies)</td></td></tr>
@@ -62,7 +62,7 @@ $fspeed(torrent.download_rate)</td></td></tr>
 <table>
 
 <tr><td class="info_label">$_('Total Size'):</td>
-<td class="info_value">$fspeed(torrent.total_size)</td></tr>
+<td class="info_value">$fsize(torrent.total_size)</td></tr>
 
 <tr><td class="info_label">$_('# Of Files'):</td>
 <td class="info_value">$torrent.num_files</td></tr>

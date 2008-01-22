@@ -37,7 +37,7 @@ from lib.webpy022 import changequery as self_url, template
 from lib.webpy022.utils import Storage
 from lib.webpy022.http import seeother, url
 
-from deluge.common import fsize,fspeed
+from deluge.common import fsize,fspeed,ftime
 
 import traceback
 import random
