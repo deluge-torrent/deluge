@@ -70,7 +70,8 @@ def start_daemon():
                                            version=deluge.common.get_version())
     parser.add_option("-p", "--port", dest="port", 
         help="Port daemon will listen on", action="store", type="int")
-
+    parser.add_option("-d", "--do-not-daemonize", dest="donot",
+        help="Do not daemonize", action="store_true", default=False)
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
 
@@ -81,8 +82,13 @@ def start_daemon():
     log.debug("args: %s", args)
 
     from deluge.core.daemon import Daemon
-            
-    log.info("Starting daemon..")
-    pid = os.fork()
-    if not pid:
+    
+    if options.donot:
+        log.info("Starting daemon..")
         Daemon(options.port)
+    else:
+        cmd = "deluged -d " + "".join(a for a in args)
+        if options.port != None:
+            cmd = cmd + " -p %s" % options.port
+
+        os.popen2(cmd)
