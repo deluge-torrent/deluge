@@ -176,8 +176,9 @@ class EditTrackersDialog:
         
     def on_button_add_ok_clicked(self, widget):
         log.debug("on_button_add_ok_clicked")
+        import re
         tracker = self.glade.get_widget("entry_tracker").get_text()
-        if tracker[:7] != "http://" or tracker[:8] != "https://":
+        if not re.search("https?://", tracker):
             # Bad url.. lets prepend http://
             tracker = "http://" + tracker
         
