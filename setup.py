@@ -241,10 +241,3 @@ setup(
             deluge = deluge.main:start_ui
             deluged = deluge.main:start_daemon
     """)
-    
-try:
-    f = open("deluge/data/revision", "w")
-    f.write("")
-    f.close()
-except:
-    pass
