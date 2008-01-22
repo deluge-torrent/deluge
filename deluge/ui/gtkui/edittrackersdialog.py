@@ -86,12 +86,19 @@ class EditTrackersDialog:
             return
             
         # Get the trackers for this torrent
-        trackers = client.get_torrent_status(self.torrent_id, ["trackers"])
-        for tracker in trackers["trackers"]:
+
+        client.get_torrent_status(self._on_get_torrent_status, self.torrent_id,\
+                                    ["trackers"])
+
+    def _on_get_torrent_status(self, status):
+        """Display trackers dialog"""
+        for tracker in status["trackers"]:
             self.add_tracker(tracker["tier"], tracker["url"])
             
         self.dialog.show()
-    
+
+       
+
     def add_tracker(self, tier, url):
         """Adds a tracker to the list"""
         self.liststore.append([tier, url])
