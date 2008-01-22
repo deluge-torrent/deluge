@@ -150,6 +150,7 @@ def enhance_torrent_status(torrent_id,status):
     in: raw torrent_status
     out: enhanced torrent_staus
     """
+    status = Storage(status)
     #add missing values for deluge 0.6:
     for key in TORRENT_KEYS:
         if not key in status:
@@ -221,9 +222,27 @@ def get_torrent_status(torrent_id):
     helper method.
     enhance ws.proxy.get_torrent_status with some extra data
     """
-    status = Storage(ws.proxy.get_torrent_status(torrent_id,TORRENT_KEYS))
+    status = ws.proxy.get_torrent_status(torrent_id,TORRENT_KEYS)
 
     return enhance_torrent_status(torrent_id, status)
+
+
+
+def get_torrent_list():
+    """
+    uses async.
+    """
+    torrent_ids  = ws.proxy.get_session_state() #Syc-api.
+    torrent_dict = {}
+    for id in torrent_ids:
+        ws.async_proxy.get_torrent_status(dict_cb(id,torrent_dict), id, [])
+    ws.async_proxy.force_call(block=True)
+
+    return [enhance_torrent_status(id, status)
+            for id, status in torrent_dict.iteritems()]
+
+
+
 
 
 def get_categories(torrent_list):

@@ -66,13 +66,16 @@ print torrent_list
 start = time.time()
 
 torrent_ids  = ws.proxy.get_session_state() #Syc-api.
-torrent_list = []
+torrent_dict = {}
 for id in torrent_ids:
-    async_proxy.get_torrent_status(torrent_list.append, id, [])
+    async_proxy.get_torrent_status(dict_cb(id,torrent_dict), id, [])
 async_proxy.force_call(block=True)
 
 print "Async-list:",time.time() - start
-print torrent_list
+print torrent_dict
+
+
+print sorted(torrent_list[0].keys())
 
 
 

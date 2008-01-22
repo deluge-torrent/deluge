@@ -113,8 +113,8 @@ class index:
     @deco.auto_refreshed
     def GET(self, name):
         vars = web.input(sort=None, order=None ,filter=None , category=None)
-        torrent_list = [get_torrent_status(torrent_id)
-            for torrent_id in ws.proxy.get_session_state()]
+
+        torrent_list = get_torrent_list()
         all_torrents = torrent_list[:]
 
         #filter-state
