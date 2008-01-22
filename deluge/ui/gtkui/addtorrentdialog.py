@@ -170,10 +170,15 @@ class AddTorrentDialog:
                 })
 
             name = "%s (%s)" % (info.name(), os.path.split(filename)[-1])
-            self.torrent_liststore.append(
+            new_row = self.torrent_liststore.append(
                 [str(info.info_hash()), name, filename])
             self.files[str(info.info_hash())] = files
             self.infos[str(info.info_hash())] = info
+
+        (model, row) = self.listview_torrents.get_selection().get_selected()
+        if row == None:
+            self.listview_torrents.get_selection().select_iter(new_row)
+                
 
     def _on_torrent_changed(self, treeselection):
         (model, row) = treeselection.get_selected()
