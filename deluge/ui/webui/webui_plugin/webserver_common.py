@@ -109,7 +109,7 @@ CONFIG_DEFAULTS = {
 #/constants
 
 
-class SyncProxyFunction():
+class SyncProxyFunction:
     """
     helper class for SyncProxy
     """
