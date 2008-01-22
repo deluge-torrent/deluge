@@ -52,11 +52,19 @@ try:
         if line.split(" ")[0] == "Revision:":
             revision_string = line.split(" ")[1].strip()
             break
+    # Try to get the SVN revision on Gentoo systems
+    if revision_string == "":
+        stdout = os.popen("svn info /usr/portage/distfiles/svn-src/deluge/deluge-0.6")
+        for line in stdout:
+            if line.split(" ")[0] == "Revision:":
+                revision_string = line.split(" ")[1].strip()
+                break
+        
     f = open("deluge/data/revision", "w")
     f.write(revision_string)
     f.close()
-except Exception, e:
-    print "Unable to get or write revision: ", e
+except:
+    pass
 
 
 # The libtorrent extension
@@ -241,3 +249,10 @@ setup(
             deluge = deluge.main:start_ui
             deluged = deluge.main:start_daemon
     """)
+    
+try:
+    f = open("deluge/data/revision", "w")
+    f.write("")
+    f.close()
+except:
+    pass
