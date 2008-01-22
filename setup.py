@@ -55,8 +55,8 @@ try:
     f = open("deluge/data/revision", "w")
     f.write(revision_string)
     f.close()
-except:
-    pass
+except Exception, e:
+    print "Unable to get or write revision: ", e
 
 
 # The libtorrent extension
