@@ -64,7 +64,7 @@ DEFAULT_PREFS = {
     "torrentfiles_location": deluge.common.get_default_torrent_dir(),
     "plugins_location": deluge.common.get_default_plugin_dir(),
     "prioritize_first_last_pieces": False,
-    "random_port": False,
+    "random_port": True,
     "dht": False,
     "upnp": False,
     "natpmp": False,
