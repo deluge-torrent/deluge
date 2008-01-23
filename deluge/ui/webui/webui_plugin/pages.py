@@ -248,7 +248,7 @@ class torrent_delete:
         vars = web.input(data_also = None, torrent_also = None)
         data_also = bool(vars.data_also)
         torrent_also = bool(vars.torrent_also)
-        ws.proxy.remove_torrent(torrent_ids, data_also, torrent_also)
+        ws.proxy.remove_torrent(torrent_ids, torrent_also, data_also)
         do_redirect()
 
 class torrent_queue_up:
