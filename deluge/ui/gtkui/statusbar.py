@@ -117,6 +117,9 @@ class StatusBar(component.Component):
         frame.remove(frame.get_children()[0])
         frame.add(self.hbox)
         self.statusbar.show_all()
+        # Create the not connected item
+        self.not_connected_item = StatusBarItem(
+            stock=gtk.STOCK_STOP, text=_("Not Connected"))
         # Show the not connected status bar
         self.show_not_connected()
 
@@ -153,13 +156,11 @@ class StatusBar(component.Component):
             self.remove_item(self.download_item)
             self.remove_item(self.upload_item)
             self.remove_item(self.not_connected_item)
-        except:
-            pass
-        self.show_not_connected()
+        except Exception, e:
+            log.debug("Unable to remove StatusBar item: %s", e)
+        self.show_not_connected()        
         
     def show_not_connected(self):
-        self.not_connected_item = StatusBarItem(
-            stock=gtk.STOCK_STOP, text=_("Not Connected"))
         self.hbox.pack_start(
             self.not_connected_item.get_eventbox(), expand=False, fill=False)
     
@@ -172,10 +173,11 @@ class StatusBar(component.Component):
     
     def remove_item(self, item):
         """Removes an item from the statusbar"""
-        try:
-            self.hbox.remove(item.get_eventbox())
-        except Exception, e:
-            log.debug("Unable to remove widget: %s", e)
+        if item.get_eventbox() in self.hbox.get_children():
+            try:
+                self.hbox.remove(item.get_eventbox())
+            except Exception, e:
+                log.debug("Unable to remove widget: %s", e)
             
     def clear_statusbar(self):
         def remove(child):
