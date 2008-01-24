@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: Michał Kaliszka <desmont@gmail.com>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-02 17:23+0000\n"
+"PO-Revision-Date: 2008-01-24 19:09+0000\n"
 "Last-Translator: Michał Kaliszka <desmont@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-19 04:53+0000\n"
+"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -63,7 +63,7 @@ msgstr "Przenieś o jedno miejsce w kolejce w górę"
 
 #: glade/delugegtk.glade:107 plugins/WebUi/scripts/template_strings.py:59
 msgid "Up"
-msgstr "Przesuń do góry"
+msgstr "W górę"
 
 #: glade/delugegtk.glade:120
 msgid "Queue Torrent Down"
@@ -595,9 +595,9 @@ msgid ""
 "Enabled\n"
 "Forced"
 msgstr ""
-"Wyłączony\n"
-"Włączony\n"
-"Wymuszony"
+"Wyłączone\n"
+"Włączone\n"
+"Wymuszone"
 
 #: glade/preferences_dialog.glade:877
 msgid "Outbound:"
@@ -617,8 +617,8 @@ msgid ""
 "Full Stream\n"
 "Either"
 msgstr ""
-"Negocjacja połaczenia\n"
-"Cały Strumień\n"
+"Negocjacja połączenia\n"
+"Cały strumień\n"
 "Obydwa"
 
 #: glade/preferences_dialog.glade:954
@@ -884,7 +884,7 @@ msgstr "<b>Menadżer plików</b> - tylko systemy nie-windowsowe"
 
 #: glade/preferences_dialog.glade:2649
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
-msgstr "Użyj zaawansowanego paska postępu (nieco większe zużycie CPU/RAM)"
+msgstr "Szczegółowy pasek postępu (nieco większe zużycie CPU/RAM)"
 
 #: glade/preferences_dialog.glade:2660
 msgid "<b>Detailed Progress Bar</b>"
@@ -1582,7 +1582,7 @@ msgstr "Zaimportowano"
 
 #: plugins/BlocklistImport/__init__.py:122
 msgid "IPs"
-msgstr "Adresy IP"
+msgstr "adresów IP"
 
 #: plugins/BlocklistImport/__init__.py:165
 msgid "Blocklist"
@@ -1885,7 +1885,7 @@ msgstr "Część ukończona"
 #: plugins/EventLogging/event_logging_preferences.glade:122
 #: plugins/EventLogging/tab_log.py:170
 msgid "Storage moved"
-msgstr ""
+msgstr "Zasób przeniesiony"
 
 #: plugins/EventLogging/event_logging_preferences.glade:136
 #: plugins/EventLogging/tab_log.py:161

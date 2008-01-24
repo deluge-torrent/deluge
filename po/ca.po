@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-01 20:27+0000\n"
+"PO-Revision-Date: 2008-01-21 17:48+0000\n"
 "Last-Translator: Joan Duran <jodufi@gmail.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-19 04:53+0000\n"
+"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -292,12 +292,14 @@ msgid "Bookmarks"
 msgstr "Adreces d'interès"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
+#, fuzzy
 msgid "Launch Main Externally"
-msgstr ""
+msgstr "Llançament principal externament"
 
 #: glade/browser.glade:172 glade/browserwin.glade:172
+#, fuzzy
 msgid "Launch Main"
-msgstr ""
+msgstr "Llançar principal"
 
 #: glade/browser.glade:185 glade/browserwin.glade:184
 msgid "Launch Footer Externally"
@@ -1175,11 +1177,15 @@ msgid "Launch Browser"
 msgstr "Executa el navegador"
 
 #: src/interface.py:251
+#, fuzzy
 msgid ""
 "Unable to state browser.  Make sure you have python-gnome2-extras installed "
 "or try setting your LD_LIBRARY_PATH and MOZILLA_FIVE_HOME environment "
 "variables to /usr/lib/firefox"
 msgstr ""
+"Incapaç de mostrar l'estat del navegador. Assegura't de tenir python-gnome2-"
+"extras instal·lat o prova de configurar les variables LD_LIBRARY_PATH i "
+"MOZILLA_FIVE_HOME a /usr/lib/firefox"
 
 #: src/interface.py:311 src/interface.py:317 src/interface.py:398
 #: src/interface.py:426 plugins/SpeedLimiter/__init__.py:83

@@ -6,32 +6,32 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: Lê Bình <lebinh.it@gmail.com>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2007-10-17 16:51+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2008-01-19 23:09+0000\n"
+"Last-Translator: Lê Bình <lebinh.it@gmail.com>\n"
 "Language-Team: Vietnamese <vi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-19 04:53+0000\n"
+"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
 msgid "Add Torrent"
-msgstr ""
+msgstr "Thêm Torrent"
 
 #: glade/delugegtk.glade:30 plugins/WebUi/scripts/template_strings.py:3
 msgid "Add"
-msgstr ""
+msgstr "Thêm"
 
 #: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
-msgstr ""
+msgstr "Loại bỏ Torrent"
 
 #: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:43
 msgid "Remove"
-msgstr ""
+msgstr "Loại bỏ"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
@@ -43,19 +43,19 @@ msgstr ""
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
-msgstr ""
+msgstr "Bắt đầu hay tiếp tục Torrent"
 
 #: glade/delugegtk.glade:80 plugins/WebUi/scripts/template_strings.py:45
 msgid "Resume"
-msgstr ""
+msgstr "Tiếp tục"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
-msgstr ""
+msgstr "Tạm dừng Torrent"
 
 #: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
 msgid "Pause"
-msgstr ""
+msgstr "Tạm dừng"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
@@ -63,7 +63,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:107 plugins/WebUi/scripts/template_strings.py:59
 msgid "Up"
-msgstr ""
+msgstr "Lên"
 
 #: glade/delugegtk.glade:120
 msgid "Queue Torrent Down"
@@ -71,20 +71,20 @@ msgstr ""
 
 #: glade/delugegtk.glade:121 plugins/WebUi/scripts/template_strings.py:17
 msgid "Down"
-msgstr ""
+msgstr "Xuống"
 
 #: glade/delugegtk.glade:142
 msgid "Change Deluge preferences"
-msgstr ""
+msgstr "Thay đổi tuỳ thích của Deluge"
 
 #: glade/delugegtk.glade:143
 msgid "Preferences"
-msgstr ""
+msgstr "Tuỳ thích"
 
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
 #: glade/preferences_dialog.glade:2982
 msgid "Plugins"
-msgstr ""
+msgstr "Phần bổ sung"
 
 #: glade/delugegtk.glade:186
 msgid "_File"
@@ -100,7 +100,7 @@ msgstr "Thêm _URL"
 
 #: glade/delugegtk.glade:216
 msgid "_Clear Completed"
-msgstr "_Xoá cái đã hoàn tất"
+msgstr "_Xoá torrent đã hoàn tất"
 
 #: glade/delugegtk.glade:249
 msgid "_Edit"
@@ -108,7 +108,7 @@ msgstr "_Hiệu chỉnh"
 
 #: glade/delugegtk.glade:274
 msgid "Plu_gins"
-msgstr "_Phụ kiện"
+msgstr "_Phần bổ sung"
 
 #: glade/delugegtk.glade:302
 msgid "_Torrent"
@@ -128,17 +128,17 @@ msgstr "_Chi tiết"
 
 #: glade/delugegtk.glade:335
 msgid "_Columns"
-msgstr ""
+msgstr "_Cột"
 
 #: glade/delugegtk.glade:343 src/interface.py:646 src/files.py:80
 #: plugins/WebUi/scripts/template_strings.py:51
 msgid "Size"
-msgstr ""
+msgstr "Kích cỡ"
 
 #: glade/delugegtk.glade:352 src/interface.py:650
 #: plugins/FlexRSS/FlexRSS.glade:138
 msgid "Status"
-msgstr ""
+msgstr "Trạng thái"
 
 #: glade/delugegtk.glade:361 src/interface.py:652
 #: plugins/WebUi/scripts/template_strings.py:47
@@ -155,17 +155,17 @@ msgstr ""
 #: src/interface.py:1294 plugins/TorrentPeers/tab_peers.py:89
 #: plugins/WebUi/scripts/template_strings.py:18
 msgid "Down Speed"
-msgstr ""
+msgstr "Tốc độ tải xuống"
 
 #: glade/delugegtk.glade:388 src/interface.py:661 src/interface.py:1264
 #: src/interface.py:1295 plugins/TorrentPeers/tab_peers.py:91
 #: plugins/WebUi/scripts/template_strings.py:60
 msgid "Up Speed"
-msgstr ""
+msgstr "Tốc độ tải lên"
 
 #: glade/delugegtk.glade:397
 msgid "Time Remaining"
-msgstr ""
+msgstr "Thời gian còn lại"
 
 #: glade/delugegtk.glade:406 plugins/WebUi/scripts/template_strings.py:9
 msgid "Availability"
@@ -173,31 +173,31 @@ msgstr ""
 
 #: glade/delugegtk.glade:415 plugins/WebUi/scripts/template_strings.py:50
 msgid "Share Ratio"
-msgstr ""
+msgstr "Tỷ lệ chia sẻ"
 
 #: glade/delugegtk.glade:432
 msgid "_Help"
-msgstr ""
+msgstr "_Trợ giúp"
 
 #: glade/delugegtk.glade:440
 msgid "_Homepage"
-msgstr ""
+msgstr "_Trang chủ"
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
-msgstr ""
+msgstr "_FAQ"
 
 #: glade/delugegtk.glade:474
 msgid "_Community"
-msgstr ""
+msgstr "_Cộng đồng"
 
 #: glade/delugegtk.glade:497
 msgid "Help translate this application"
-msgstr ""
+msgstr "Hỗ trợ chuyển ngữ chương trình này"
 
 #: glade/delugegtk.glade:498
 msgid "_Translate This Application..."
-msgstr ""
+msgstr "_Chuyển ngữ chương trình này"
 
 #: glade/delugegtk.glade:521
 msgid "Runs the first-time configuration wizard"
@@ -209,79 +209,79 @@ msgstr ""
 
 #: glade/delugegtk.glade:659
 msgid "<b>Name:</b>"
-msgstr "Tên"
+msgstr "<b>Tên:</b>"
 
 #: glade/delugegtk.glade:683
 msgid "<b>Tracker:</b>"
-msgstr "Người theo dõi"
+msgstr "<b>Người theo dõi:<b>"
 
 #: glade/delugegtk.glade:711
 msgid "<b># of files:</b>"
-msgstr "Số tệp"
+msgstr "<b>Số tập tin:</b>"
 
 #: glade/delugegtk.glade:748
 msgid "<b>Next Announce:</b>"
-msgstr "Thông báo kế"
+msgstr "<b>Thông báo kế:</b>"
 
 #: glade/delugegtk.glade:783
 msgid "<b>Tracker Status:</b>"
-msgstr "Trạng thái người theo dõi"
+msgstr "<b>Trạng thái người theo dõi:</b>"
 
 #: glade/delugegtk.glade:847
 msgid "<b>Total Size:</b>"
-msgstr "Kích thước"
+msgstr "<b>Kích thước tổng:</b>"
 
 #: glade/delugegtk.glade:883
 msgid "<b>Path:</b>"
-msgstr "Đường dẫn"
+msgstr "<b>Đường dẫn:</b>"
 
 #: glade/delugegtk.glade:916
 msgid "<b>Torrent Info</b>"
-msgstr "Thông tin torrent"
+msgstr "<b>Thông tin torrent</b>"
 
 #: glade/delugegtk.glade:1078
 msgid "<b>Downloaded:</b>"
-msgstr "Tải xuống"
+msgstr "<b>Đã tải xuống:</b>"
 
 #: glade/delugegtk.glade:1092
 msgid "<b>Uploaded:</b>"
-msgstr "Tải lên"
+msgstr "<b>Đã tải lên:</b>"
 
 #: glade/delugegtk.glade:1110
 #, fuzzy
 msgid "<b>Seeders:</b>"
-msgstr "Người cung cấp"
+msgstr "<b>Người cung cấp:</b>"
 
 #: glade/delugegtk.glade:1128
 msgid "<b>Share Ratio:</b>"
-msgstr "Mức độ chia sẻ"
+msgstr "<b>Tỷ lệ chia sẻ:</b>"
 
 #: glade/delugegtk.glade:1147 glade/delugegtk.glade:1166
 msgid "<b>Speed:</b>"
-msgstr "Tốc độ"
+msgstr "<b>Tốc độ:</b>"
 
 #: glade/delugegtk.glade:1187
 #, fuzzy
 msgid "<b>Peers:</b>"
-msgstr "Đối tác"
+msgstr "<b>Đối tác:</b>"
 
 #: glade/delugegtk.glade:1208
 #, fuzzy
 msgid "<b>ETA:</b>"
-msgstr "Ước lượng"
+msgstr "<b>Ước lượng:</b>"
 
 #: glade/delugegtk.glade:1225
 msgid "<b>Pieces:</b>"
-msgstr "Số phân mảnh"
+msgstr "<b>Số phân mảnh:</b>"
 
 #: glade/delugegtk.glade:1263
 #, fuzzy
 msgid "<b>Availability:</b>"
-msgstr "Mức khả dụng"
+msgstr "<b>Mức khả dụng:</b>"
 
 #: glade/delugegtk.glade:1304
 msgid "<b>Statistics</b>"
-msgstr "Thống kê"
+msgstr "<b>Thống kê</b>"
 
 #: glade/delugegtk.glade:1329 plugins/WebUi/scripts/template_strings.py:15
 msgid "Details"
@@ -289,11 +289,11 @@ msgstr "Chi tiết"
 
 #: glade/browser.glade:85 glade/browserwin.glade:85
 msgid "Go"
-msgstr ""
+msgstr "Đi"
 
 #: glade/browser.glade:118 glade/browserwin.glade:118
 msgid "Bookmarks"
-msgstr ""
+msgstr "Đánh dấu"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
 msgid "Launch Main Externally"
@@ -313,15 +313,15 @@ msgstr ""
 
 #: glade/searchdlg.glade:7
 msgid "Manage Search Plugins"
-msgstr ""
+msgstr "Quản lý công cụ tìm kiếm bổ sung"
 
 #: glade/searchdlg.glade:79
 msgid "Name:"
-msgstr ""
+msgstr "Tên:"
 
 #: glade/searchdlg.glade:91 plugins/WebSeed/webseed.glade:29
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: glade/searchdlg.glade:123
 msgid ""
@@ -333,127 +333,139 @@ msgid ""
 "Name: Google\n"
 "URL: http://www.google.com/search?q=${query}"
 msgstr ""
+"Thêm một máy tìm kiếm mới bằng cách nhập vào Tên và URL của nó.Với phần Tên, "
+"nhập vào tên mà bạn muốn sử dụng cho máy tìm kiếm.Với phần URL, nhập vào URL "
+"của trang tìm kiếm; truy vấn của bạn sẽ được thay thế bất cứ chuỗi ${query} "
+"nào trong URL.\n"
+"Ví dụ, để tìm kiếm sử dụng Google:\n"
+"Name: Google\n"
+"URL: http://www.google.com/search?q=${query}"
 
 #: glade/searchdlg.glade:133
 msgid "Help"
-msgstr ""
+msgstr "Trợ giúp"
 
 #: glade/dgtkpopups.glade:41
 msgid ""
 "<span size=\"large\"><b>Are you sure you want to remove the selected "
 "torrent(s) from Deluge?</b></span>"
 msgstr ""
+"<span size=\"large\"><b>Bạn có chắc chắn là muốn loại bỏ những torrentđã lựa "
+"chọn khỏi Deluge?</b></span>"
 
 #: glade/dgtkpopups.glade:65
 msgid "Delete downloaded files"
-msgstr ""
+msgstr "Xoá tập tin đã tải xuống"
 
 #: glade/dgtkpopups.glade:88 plugins/WebUi/scripts/template_strings.py:13
 msgid "Delete .torrent file"
-msgstr ""
+msgstr "Xoá tập tin .torrent"
 
 #: glade/dgtkpopups.glade:155
 msgid "Show/Hide"
-msgstr ""
+msgstr "Hiện/Ẩn"
 
 #: glade/dgtkpopups.glade:163
 msgid "Add a Torrent..."
-msgstr ""
+msgstr "Thêm một Torrent..."
 
 #: glade/dgtkpopups.glade:179
 msgid "Clear Finished"
-msgstr ""
+msgstr "Xoá những torrent đã hoàn tất"
 
 #: glade/file_tab_menu.glade:11
 msgid "_Open File"
-msgstr ""
+msgstr "_Mở tập tin"
 
 #: glade/file_tab_menu.glade:33
 msgid "Select All"
-msgstr ""
+msgstr "Chọn tất cả"
 
 #: glade/file_tab_menu.glade:48
 msgid "Unselect All"
-msgstr ""
+msgstr "Bỏ chọn tất cả"
 
 #: glade/file_tab_menu.glade:68 src/core.py:102
 msgid "Don't download"
-msgstr ""
+msgstr "Đừng tải xuống"
 
 #: glade/file_tab_menu.glade:83 src/core.py:103
 msgid "Normal"
-msgstr ""
+msgstr "Thường"
 
 #: glade/file_tab_menu.glade:98 src/core.py:104
 msgid "High"
-msgstr ""
+msgstr "Cao"
 
 #: glade/file_tab_menu.glade:113 src/core.py:105
 msgid "Highest"
-msgstr ""
+msgstr "Cao nhất"
 
 #: glade/merge_dialog.glade:7
 msgid "Deluge Merge Tracker Lists"
-msgstr ""
+msgstr "Trộn danh sách tracker - Deluge"
 
 #: glade/merge_dialog.glade:23
 msgid ""
 "Torrent already detected in Deluge, would you like to merge the tracker "
 "lists?"
 msgstr ""
+"Phát hiện torrent đã có trong Deluge, bạn có muốn trộn danh sách trackerlại?"
 
 #: glade/preferences_dialog.glade:9
 msgid "Deluge Preferences"
-msgstr ""
+msgstr "Tuỳ thích Deluge"
 
 #: glade/preferences_dialog.glade:58
 msgid "Ask where to save each download"
-msgstr ""
+msgstr "Hỏi địa điểm để lưu mỗi khi tải xuống"
 
 #: glade/preferences_dialog.glade:76 glade/preferences_dialog.glade:77
 msgid "Store all downloads in:"
-msgstr ""
+msgstr "Lưu toàn bộ tải xuống trong:"
 
 #: glade/preferences_dialog.glade:92 glade/preferences_dialog.glade:116
 #: glade/preferences_dialog.glade:177 glade/wizard.glade:187
 #: plugins/MoveTorrent/movetorrent.glade:35
 msgid "Select A Folder"
-msgstr ""
+msgstr "Lựa chọn một thư mục"
 
 #: glade/preferences_dialog.glade:104
 msgid "Store all torrent files in:"
-msgstr ""
+msgstr "Lưu toàn bộ tập tin torrent trong:"
 
 #: glade/preferences_dialog.glade:137
 msgid "<b>Download Location</b>"
-msgstr ""
+msgstr "<b>Địa điểm tải xuống</b>"
 
 #: glade/preferences_dialog.glade:191
 msgid "Autoload all torrent files in:"
-msgstr ""
+msgstr "Tự động nạp tất cả tập tin torrent trong:"
 
 #: glade/preferences_dialog.glade:205
 msgid "<b>Autoload</b>"
-msgstr ""
+msgstr "<b>Tự động nạp</b>"
 
 #: glade/preferences_dialog.glade:241 glade/preferences_dialog.glade:258
 #: glade/wizard.glade:237 glade/wizard.glade:478
 msgid ""
 "The number of active torrents that Deluge will run.  Set to -1 for unlimited."
 msgstr ""
+"Số lượng torrent tích cực mà Deluge sẽ chạy. Thiết lập bằng -1 để không giới "
+"hạn."
 
 #: glade/preferences_dialog.glade:243
 msgid "Maximum simultaneous active torrents:"
-msgstr ""
+msgstr "Số lượng tối đa torren tích cực cùng lúc:"
 
 #: glade/preferences_dialog.glade:280 glade/preferences_dialog.glade:281
 #: glade/preferences_dialog.glade:302
 msgid "Enable selecting files for torrents before loading"
-msgstr ""
+msgstr "Cho phép lựa chọn tập tin cho torrent trước khi tải"
 
 #: glade/preferences_dialog.glade:303
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "Chỉ hiện nếu torrent có nhiều hơn 1 tập tin"
 
 #: glade/preferences_dialog.glade:319 glade/preferences_dialog.glade:320
 msgid "Prioritize first and last pieces of files in torrent"
@@ -461,51 +473,55 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:335
 msgid "Start torrents in paused state"
-msgstr ""
+msgstr "Bắt đầu torrent trong trạng thái tạm dừng"
 
 #: glade/preferences_dialog.glade:351
 msgid "<b>Torrents</b>"
-msgstr ""
+msgstr "<b>Torrents</b>"
 
 #: glade/preferences_dialog.glade:390
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
+"Cấp pháp toàn bộ sẽ cấp phát trước toàn bộ dung lượng đĩa cần thiết cho "
+"torrentvà ngăn ngừa được sự phân mảnh tập tin"
 
 #: glade/preferences_dialog.glade:391
 msgid "Use Full Allocation"
-msgstr ""
+msgstr "Sử dụng cấp phát toàn bộ"
 
 #: glade/preferences_dialog.glade:413
 msgid "Compact allocation only allocates space as needed"
-msgstr ""
+msgstr "Cấp phát rút gọn chỉ cấp phát đúng dung lượng cần thiết tạm thời"
 
 #: glade/preferences_dialog.glade:414
 msgid "Use Compact Allocation"
-msgstr ""
+msgstr "Sử dụng cấp phát rút gọn"
 
 #: glade/preferences_dialog.glade:434
 msgid "<b>Allocation</b>"
-msgstr ""
+msgstr "<b>Cấp phát</b>"
 
 #: glade/preferences_dialog.glade:458
 msgid "Downloads"
-msgstr ""
+msgstr "Tải xuống"
 
 #: glade/preferences_dialog.glade:502
 msgid ""
 "<b>Please Note - Changes to these settings will only be applied the next "
 "time Deluge is restarted.</b>"
 msgstr ""
+"<b>Vui lòng chú ý - Thay đổi những thiết lập này chỉ có hiệu lực sau khi "
+"đãkhởi động lại Deluge.</b>"
 
 #: glade/preferences_dialog.glade:545 glade/wizard.glade:48
 msgid "From:"
-msgstr ""
+msgstr "Từ:"
 
 #: glade/preferences_dialog.glade:568 glade/wizard.glade:66
 msgid "To:"
-msgstr ""
+msgstr "Tới:"
 
 #: glade/preferences_dialog.glade:594
 msgid "Deluge will automatically choose a different port to use every time."
@@ -513,27 +529,27 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:595
 msgid "Random Ports"
-msgstr ""
+msgstr "Cổng ngẫu nhiên"
 
 #: glade/preferences_dialog.glade:612
 msgid "Test Active Port"
-msgstr ""
+msgstr "Thử cổng tích cực"
 
 #: glade/preferences_dialog.glade:638
 msgid "<b>TCP</b>"
-msgstr ""
+msgstr "<b>TCP</b>"
 
 #: glade/preferences_dialog.glade:650
 msgid "Active Port:"
-msgstr ""
+msgstr "Cổng tích cực:"
 
 #: glade/preferences_dialog.glade:663
 msgid "0000"
-msgstr ""
+msgstr "0000"
 
 #: glade/preferences_dialog.glade:702
 msgid "Distributed hash table may improve the amount of active connections."
-msgstr ""
+msgstr "Bảng băm phân tán (DHT) có thể cải thiện số lượng kết nối tích cực."
 
 #: glade/preferences_dialog.glade:703
 msgid "Enable Mainline DHT"
@@ -541,7 +557,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:716
 msgid "<b>DHT</b>"
-msgstr ""
+msgstr "<b>DHT</b>"
 
 #: glade/preferences_dialog.glade:751
 msgid "Universal Plug and Play"
@@ -896,27 +912,27 @@ msgstr ""
 
 #: glade/torrent_menu.glade:33
 msgid "Re_sume"
-msgstr ""
+msgstr "Tiếp tụ_c"
 
 #: glade/torrent_menu.glade:50
 msgid "_Pause"
-msgstr ""
+msgstr "Tạm _dừng"
 
 #: glade/torrent_menu.glade:72
 msgid "_Remove Torrent"
-msgstr ""
+msgstr "_Loại bỏ Torrent"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "_Thiết lập tracker"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
-msgstr ""
+msgstr "_Cập nhật Tracker"
 
 #: glade/torrent_menu.glade:121
 msgid "_Edit Trackers"
-msgstr ""
+msgstr "_Biên tập các Tracker"
 
 #: glade/torrent_menu.glade:138
 msgid "_Scrape Tracker"
@@ -924,55 +940,55 @@ msgstr ""
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"
-msgstr ""
+msgstr "_Hàng đợi"
 
 #: glade/torrent_menu.glade:174
 msgid "_Top"
-msgstr ""
+msgstr "_Trên cùng"
 
 #: glade/torrent_menu.glade:190
 msgid "_Up"
-msgstr ""
+msgstr "_Lên"
 
 #: glade/torrent_menu.glade:206
 msgid "_Down"
-msgstr ""
+msgstr "_Xuống"
 
 #: glade/torrent_menu.glade:222
 msgid "_Bottom"
-msgstr ""
+msgstr "_Dưới cùng"
 
 #: glade/torrent_menu.glade:251
 msgid "_Open Containing Folder"
-msgstr ""
+msgstr "_Mở thư mục chứa"
 
 #: glade/tray_menu.glade:12
 msgid "_Show Deluge"
-msgstr ""
+msgstr "_Hiện Deluge"
 
 #: glade/tray_menu.glade:21
 msgid "_Resume All"
-msgstr ""
+msgstr "_Tiếp tục tất cả"
 
 #: glade/tray_menu.glade:38
 msgid "_Pause All"
-msgstr ""
+msgstr "Tạm _dừng tất cả"
 
 #: glade/tray_menu.glade:84
 msgid "_Download Speed Limit"
-msgstr ""
+msgstr "_Giới hạn tốc độ tải xuống"
 
 #: glade/tray_menu.glade:100
 msgid "_Upload Speed Limit"
-msgstr ""
+msgstr "Giới _hạn tốc độ tải lên"
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"
-msgstr ""
+msgstr "_Thoát"
 
 #: glade/edit_trackers.glade:9
 msgid "Edit Trackers"
-msgstr ""
+msgstr "Biên tập các Tracker"
 
 #: glade/edit_trackers.glade:19
 msgid "Tracker Editing"
@@ -2449,7 +2465,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
 msgid "Threaded (experimental)"
-msgstr ""
+msgstr "Đa luồng (thử nghiệm)"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"
@@ -2461,7 +2477,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1462
 msgid "Path"
-msgstr ""
+msgstr "Đường dẫn"
 
 #: plugins/FlexRSS/FlexRSS.glade:1488
 msgid "Value"

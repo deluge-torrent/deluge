@@ -10,13 +10,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-05 12:23+0000\n"
+"PO-Revision-Date: 2008-01-23 22:29+0000\n"
 "Last-Translator: Jonas Granqvist <jonas.granqvist@gmail.com>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-19 04:53+0000\n"
+"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -57,7 +57,7 @@ msgstr "Pausa torrent"
 
 #: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
 msgid "Pause"
-msgstr "Gör paus"
+msgstr "Pausa"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
@@ -2587,6 +2587,7 @@ msgstr "Deluge standard"
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
 msgstr ""
+"Innehållet kommer automatiskt att laddas ner till specifierad katalog."
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"
@@ -2594,7 +2595,7 @@ msgstr "Välj:"
 
 #: plugins/FlexRSS/FlexRSS.glade:1190
 msgid "<b>Output</b>"
-msgstr ""
+msgstr "<b>Utmatning</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1251
 msgid "Filters"
@@ -2602,7 +2603,7 @@ msgstr "Filter"
 
 #: plugins/FlexRSS/FlexRSS.glade:1282
 msgid "Show a FlexRSS icon in Deluge's toolbar."
-msgstr ""
+msgstr "Visa en FlexRSS-ikon på Deluge's verktygsfält."
 
 #: plugins/FlexRSS/FlexRSS.glade:1283
 msgid "Show button on toolbar."
@@ -2610,25 +2611,28 @@ msgstr "Visa knapp på verktygsfältet."
 
 #: plugins/FlexRSS/FlexRSS.glade:1300
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>Gränssnitt</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1331
+#, fuzzy
 msgid ""
 "Feeds will be retrieved and parsed in their own threads. The application "
 "will not be blocked, but it can be unreliable."
 msgstr ""
+"Matningen kommer att hämtas och tolkas i deras egna trådar. Applikationen "
+"kommer inte att blokeras, men det kan vara opålitligt."
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
 msgid "Threaded (experimental)"
-msgstr ""
+msgstr "Trådad (experimental)"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"
-msgstr ""
+msgstr "<b>Matningshämtning</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"
-msgstr ""
+msgstr "Domän"
 
 #: plugins/FlexRSS/FlexRSS.glade:1462
 msgid "Path"
@@ -2640,7 +2644,7 @@ msgstr "Värde"
 
 #: plugins/FlexRSS/FlexRSS.glade:1561
 msgid "<b>Cookies</b>"
-msgstr ""
+msgstr "<b>Kakor</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1582
 msgid "Configuration"

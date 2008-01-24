@@ -37,8 +37,6 @@ plugins/NetworkGraph/tab_graph.py
 plugins/NetworkGraph/__init__.py
 plugins/TorrentFiles/tab_files.py
 plugins/TorrentFiles/__init__.py
-plugins/ExtraStats/__init__.py
-plugins/ExtraStats/stats_preferences.glade
 plugins/MoveTorrent/__init__.py
 plugins/MoveTorrent/movetorrent.glade
 plugins/WebSeed/__init__.py

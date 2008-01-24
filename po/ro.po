@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-09 22:25+0000\n"
+"PO-Revision-Date: 2008-01-21 15:27+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-19 04:53+0000\n"
+"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -183,15 +183,15 @@ msgstr "_Ajutor"
 
 #: glade/delugegtk.glade:440
 msgid "_Homepage"
-msgstr ""
+msgstr "Pagina principală"
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
-msgstr ""
+msgstr "Întrebări frecvente"
 
 #: glade/delugegtk.glade:474
 msgid "_Community"
-msgstr ""
+msgstr "Comunitate"
 
 #: glade/delugegtk.glade:497
 #, fuzzy
@@ -292,11 +292,11 @@ msgstr "Detalii"
 
 #: glade/browser.glade:85 glade/browserwin.glade:85
 msgid "Go"
-msgstr ""
+msgstr "Mergi la"
 
 #: glade/browser.glade:118 glade/browserwin.glade:118
 msgid "Bookmarks"
-msgstr ""
+msgstr "Favorite"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
 msgid "Launch Main Externally"
@@ -304,7 +304,7 @@ msgstr ""
 
 #: glade/browser.glade:172 glade/browserwin.glade:172
 msgid "Launch Main"
-msgstr ""
+msgstr "Lansează fereastra principală"
 
 #: glade/browser.glade:185 glade/browserwin.glade:184
 msgid "Launch Footer Externally"
@@ -474,7 +474,7 @@ msgstr "Activeaza opţiunea de selectare a fisierelor inainte de incarcare."
 
 #: glade/preferences_dialog.glade:303
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "Arată numai dacă torrentul are mai mult de un fişier"
 
 #: glade/preferences_dialog.glade:319 glade/preferences_dialog.glade:320
 msgid "Prioritize first and last pieces of files in torrent"
@@ -928,11 +928,11 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2731
 msgid "Show the search bar on the toolbar"
-msgstr ""
+msgstr "Arată bara de căutare pe bara de unelte"
 
 #: glade/preferences_dialog.glade:2742
 msgid "<b>Search Bar</b> - restart required"
-msgstr ""
+msgstr "b>Bara de căutare</b> - repornire necesară"
 
 #: glade/preferences_dialog.glade:2776
 msgid ""
@@ -989,7 +989,7 @@ msgstr "Ste_rge Torent"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "Opţiuni tracker"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
@@ -1189,11 +1189,11 @@ msgstr ""
 
 #: src/interface.py:71
 msgid "Browser"
-msgstr ""
+msgstr "Navigator"
 
 #: src/interface.py:73
 msgid "Launch Browser"
-msgstr ""
+msgstr "Lanseaza browser"
 
 #: src/interface.py:251
 msgid ""
@@ -1283,7 +1283,7 @@ msgstr "Intrerupt %s"
 #: src/interface.py:979
 #, python-format
 msgid "Queued %s"
-msgstr ""
+msgstr "La coadă %s"
 
 #: src/interface.py:1091
 msgid ""
@@ -1336,6 +1336,7 @@ msgstr "Eroare necunoscuta de torent duplicat."
 #: src/interface.py:1453
 msgid "There is not enough freedisk space to complete your download."
 msgstr ""
+"Nu este destul spaţiu liber pe Hard dic pentru a continua descarcarea"
 
 #: src/interface.py:1454 src/core.py:569
 msgid "Space Needed:"
@@ -1423,6 +1424,7 @@ msgstr "S-a cerut un torent ce nu exista"
 #: src/core.py:567
 msgid "There is not enough free disk space to complete your download."
 msgstr ""
+"Nu este destul spaţiu liber pe Hard dic pentru a continua descarcarea"
 
 #: src/core.py:664
 msgid "Announce sent"

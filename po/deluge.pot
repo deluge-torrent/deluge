@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-18 22:55-0600\n"
+"POT-Creation-Date: 2008-01-24 17:16-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1222,7 +1222,7 @@ msgstr ""
 msgid "times in a row"
 msgstr ""
 
-#: src/core.py:741
+#: src/core.py:745
 msgid "Warning"
 msgstr ""
 
@@ -1831,58 +1831,6 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: plugins/ExtraStats/__init__.py:22
-msgid ""
-"\n"
-"Adds info to tray tooltip.\n"
-"Adds these stats.\n"
-"total bytes downloaded\n"
-"total bytes uploaded\n"
-"overall ratio\n"
-"torrents completed\n"
-"\n"
-"All of these stats come in pairs:\n"
-"across sessions stat and within session stat.\n"
-"By default, all pairs enabled, but can be disabled in plugin preferences.\n"
-"\n"
-"session data always shows up within parenthesis\n"
-"eg.  Total Downloaded: 5 GiB (4 MiB)\n"
-"would be 5 GiB across sessions and 4 MiB within session\n"
-msgstr ""
-
-#: plugins/ExtraStats/__init__.py:175
-#: plugins/ExtraStats/stats_preferences.glade:28
-msgid "Total Downloaded"
-msgstr ""
-
-#: plugins/ExtraStats/__init__.py:181
-#: plugins/ExtraStats/stats_preferences.glade:38
-msgid "Total Uploaded"
-msgstr ""
-
-#: plugins/ExtraStats/__init__.py:187 plugins/ExtraStats/__init__.py:191
-msgid "Undefined"
-msgstr ""
-
-#: plugins/ExtraStats/__init__.py:195
-#: plugins/ExtraStats/stats_preferences.glade:52
-msgid "Overall Ratio"
-msgstr ""
-
-#: plugins/ExtraStats/__init__.py:200
-#: plugins/ExtraStats/stats_preferences.glade:66
-msgid "Torrents Completed"
-msgstr ""
-
-#: plugins/ExtraStats/__init__.py:206
-#: plugins/ExtraStats/stats_preferences.glade:80
-msgid "Running Time"
-msgstr ""
-
-#: plugins/ExtraStats/stats_preferences.glade:7
-msgid "Extra Stats Preferences"
-msgstr ""
-
 #: plugins/MoveTorrent/__init__.py:22
 msgid ""
 "This plugin allows users to move the torrent to a different directory "
@@ -1937,31 +1885,31 @@ msgstr ""
 msgid "URL:"
 msgstr ""
 
-#: plugins/Scheduler/plugin.py:106
+#: plugins/Scheduler/plugin.py:107
 msgid "Scheduler Settings"
 msgstr ""
 
-#: plugins/Scheduler/plugin.py:116
+#: plugins/Scheduler/plugin.py:117
 msgid "High download limit:"
 msgstr ""
 
-#: plugins/Scheduler/plugin.py:117
+#: plugins/Scheduler/plugin.py:118
 msgid "High upload limit:"
 msgstr ""
 
-#: plugins/Scheduler/plugin.py:118
+#: plugins/Scheduler/plugin.py:119
 msgid "Low download limit:"
 msgstr ""
 
-#: plugins/Scheduler/plugin.py:119
+#: plugins/Scheduler/plugin.py:120
 msgid "Low upload limit:"
 msgstr ""
 
-#: plugins/Scheduler/plugin.py:194
+#: plugins/Scheduler/plugin.py:195
 msgid "Green is the high limits, yellow is the low limits and red is stopped"
 msgstr ""
 
-#: plugins/Scheduler/plugin.py:195
+#: plugins/Scheduler/plugin.py:196
 msgid "If a limit is set to -1, it is unlimitted."
 msgstr ""
 
