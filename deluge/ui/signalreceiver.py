@@ -94,7 +94,8 @@ class SignalReceiver(
         self._shutdown = True
         # De-register with the daemon so it doesn't try to send us more signals
         client.deregister_client()
-
+        client.force_call()
+        
         # Hacky.. sends a request to our local receiver to ensure that it
         # shutdowns.. This is because handle_request() is a blocking call.
         receiver = xmlrpclib.ServerProxy("http://localhost:" + str(self.port),

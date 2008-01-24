@@ -50,8 +50,8 @@ class SignalManager(component.Component):
     def deregister_client(self, address):
         """Deregisters a client"""
         log.debug("Deregistering %s as a signal reciever..", address)
-        for client in self.clients:
-            if client[:len(address)] == address:
+        for client in self.clients.keys():
+            if client.split("//")[1].split(":")[0] == address:
                 del self.clients[client]
                 break
 
