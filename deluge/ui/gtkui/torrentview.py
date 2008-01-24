@@ -366,7 +366,7 @@ class TorrentView(listview.ListView, component.Component):
                 self.update()
                 break
             row = self.liststore.iter_next(row)
-    
+        
     def get_selected_torrent(self):
         """Returns a torrent_id or None.  If multiple torrents are selected,
         it will return the torrent_id of the first one."""
@@ -385,15 +385,25 @@ class TorrentView(listview.ListView, component.Component):
             return []
         try:
             for path in paths:
-                torrent_ids.append(
-                    self.model_filter.get_value(
-                        self.model_filter.get_iter(path), 0))
-            
-            if len(torrent_ids) is 0:
+                try:
+                    row = self.model_filter.get_iter(path)
+                except Exception, e:
+                    log.debug("Unable to get iter from path: %s", e)
+
+                child_row = self.model_filter.convert_iter_to_child_iter(None, row)
+                child_row = self.model_filter.get_model().convert_iter_to_child_iter(child_row)
+                if self.liststore.iter_is_valid(child_row):
+                    try:
+                        value = self.liststore.get_value(child_row, 0)
+                    except Exception, e:
+                        log.debug("Unable to get value from row: %s", e)
+                    else:
+                        torrent_ids.append(value)
+            if len(torrent_ids) == 0:
                 return []
             
             return torrent_ids
-        except ValueError:
+        except ValueError, TypeError:
             return []
     
     def get_torrent_status(self, torrent_id):
