@@ -1,4 +1,11 @@
-Deluge 0.5.8.1 (18 Januarary 2007)
+Deluge 0.5.8.2 (24 janurary 2008)
+  * Fix column width saving
+  * Option to download new blocklist after certain number of days - Patch from Mark Stahler 
+  * Fix ui-locking when tracker responded in non-utf8 encoding
+  * Remove Extra Stats plugin
+  * Prevent Scheduler plugin from setting an invalid 'max_active_torrents'
+
+Deluge 0.5.8.1 (18 Januarary 2008)
   * Catch various exceptions from possibly corrupted persistent.state
   * Use pieces wanted instead of total pieces to draw adv progress bar
   * Properly catch 'address already in use' error when trying to use a port that is in use
