@@ -65,8 +65,8 @@ import deluge.configmanager
 
 DEFAULT_PREFS = {
     "config_location": deluge.common.get_config_dir(),
-    "interactive_add": False,
-    "enable_files_dialog": False,
+    "interactive_add": True,
+    "focus_add_dialog": True,
     "enable_system_tray": True,
     "close_to_tray": True,
     "start_in_tray": False,

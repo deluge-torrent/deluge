@@ -191,6 +191,8 @@ class Preferences(component.Component):
                 "chk_prioritize_first_last_pieces": \
                     ("active", 
                         self.core_config["prioritize_first_last_pieces"]),
+                "chk_private": \
+                    ("active", self.core_config["default_private"]),
                 "spin_port_min": ("value", self.core_config["listen_ports"][0]),
                 "spin_port_max": ("value", self.core_config["listen_ports"][1]),
                 "active_port_label": ("text", str(self.active_port)),
@@ -255,6 +257,7 @@ class Preferences(component.Component):
                 "radio_compact_allocation",
                 "radio_full_allocation",
                 "chk_prioritize_first_last_pieces",
+                "chk_private",
                 "spin_port_min",
                 "spin_port_max",
                 "active_port_label",
@@ -288,10 +291,10 @@ class Preferences(component.Component):
                 widget.set_sensitive(False)
 
         ## Downloads tab ##
-        self.glade.get_widget("radio_ask_save").set_active(
+        self.glade.get_widget("chk_show_dialog").set_active(
             self.gtkui_config["interactive_add"])
-        self.glade.get_widget("radio_save_all_to").set_active(
-            not self.gtkui_config["interactive_add"])
+        self.glade.get_widget("chk_focus_dialog").set_active(
+            self.gtkui_config["focus_add_dialog"])
         self.glade.get_widget("chk_autoadd_folder").set_active(
             self.gtkui_config["autoadd_enable"])
         self.glade.get_widget("autoadd_folder_button").set_filename(    
@@ -349,7 +352,9 @@ class Preferences(component.Component):
         
         ## Downloads tab ##
         new_gtkui_config["interactive_add"] = \
-            self.glade.get_widget("radio_ask_save").get_active()
+            self.glade.get_widget("chk_show_dialog").get_active()
+        new_gtkui_config["focus_add_dialog"] = \
+            self.glade.get_widget("chk_focus_dialog").get_active()
         new_core_config["download_location"] = \
             self.glade.get_widget("download_path_button").get_filename()
         new_core_config["torrentfiles_location"] = \
@@ -367,6 +372,8 @@ class Preferences(component.Component):
         new_core_config["prioritize_first_last_pieces"] = \
             self.glade.get_widget(
                 "chk_prioritize_first_last_pieces").get_active()
+        new_core_config["default_private"] = \
+            self.glade.get_widget("chk_private").get_active()
 
         ## Network tab ##
         listen_ports = []
@@ -479,11 +486,11 @@ class Preferences(component.Component):
     def on_toggle(self, widget):
         """Handles widget sensitivity based on radio/check button values."""
         value = widget.get_active()
-        # Disable the download path button if user wants to pick where each
-        # new torrent is saved.
-        if widget == self.glade.get_widget("radio_save_all_to"):
-            self.glade.get_widget("download_path_button").set_sensitive(value)
-        
+
+        # Disable the focus dialog checkbox if the show dialog isn't active.        
+        if widget == self.glade.get_widget("chk_show_dialog"):
+            self.glade.get_widget("chk_focus_dialog").set_sensitive(value)
+            
         # Disable the port spinners if random ports is selected.
         if widget == self.glade.get_widget("chk_random_port"):
             log.debug("chk_random_port set to: %s", value)
