@@ -41,14 +41,29 @@ class GTKConfig(gtk.Dialog):
 
         hbox = gtk.HBox(False, 6)
         hbox.pack_start(label)
-        hbox.pack_start(self.url)
+        hbox.pack_end(self.url, expand=True, fill=True)
 
         self.vbox.pack_start(self.listtype)
         self.vbox.pack_start(hbox)
 
         # Load on start
-        self.load_on_start = gtk.CheckButton(_("Download on start"))
-        self.vbox.pack_start(self.load_on_start)
+        # gtk.SpinButton(adjustment=None, climb_rate=0.0, digits=0)
+        label2 = gtk.Label()
+        label2.set_markup('<b>' + _("Download new blocklist every") + '</b>')
+        
+        self.load_after_days = gtk.SpinButton(None, 1.0, 0)
+        self.load_after_days.set_increments(1, 3)
+        self.load_after_days.set_range(-1, 14)
+        
+        label3 = gtk.Label()
+        label3.set_markup('<b>' + _("days") + '</b>')
+        
+        hbox2 = gtk.HBox(False, 6)
+        hbox2.pack_start(label2)
+        hbox2.pack_start(self.load_after_days)
+        hbox2.pack_start(label3)
+        
+        self.vbox.pack_start(hbox2)
 
         self.connect('response', self.ok)
         self.connect('close', self.cancel)
@@ -67,9 +82,9 @@ class GTKConfig(gtk.Dialog):
         ls = self.listtype.get_model()
         ltype = ls[self.listtype.get_active()][1]
         url = self.url.get_text()
-        los = self.load_on_start.get_active()
+        days = self.load_after_days.get_value()
         
-        self.plugin.setconfig(url, los, ltype)
+        self.plugin.setconfig(url, days, ltype)
 
 
     def cancel(self, dialog, signal=None):
@@ -77,7 +92,7 @@ class GTKConfig(gtk.Dialog):
         if signal:
             return True
 
-    def start(self, ltype, url, load, window):
+    def start(self, ltype, url, days, window):
         self.set_transient_for(window)
         if ltype:
             path = BlocklistImport.readers[ltype][2]
@@ -87,8 +102,8 @@ class GTKConfig(gtk.Dialog):
         if url:
             self.url.set_text(url)
 
-        if load:
-            self.load_on_start.set_active(load)
+        if days:
+            self.load_after_days.set_value(days)
 
         self.show_all()
 

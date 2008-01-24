@@ -4,8 +4,8 @@
 ##
 
 plugin_name = "Blocklist Importer"
-plugin_author = "Steve 'Tarka' Smith"
-plugin_version = "0.4"
+plugin_author = "Steve 'Tarka' Smith, updated by Mark Stahler"
+plugin_version = "0.45"
 plugin_description = _("""
 Download and import various IP blocklists.
 
@@ -34,7 +34,7 @@ import urllib, deluge.common, deluge.pref
 from peerguardian import PGReader, PGException
 from text import TextReader, GZMuleReader, PGZip
 from ui import GTKConfig, GTKProgress
-import os.path
+import os.path, os, time
 
 # List of formats supported.  This is used to generate the UI list and
 # specify the reader class.  The last entry is for storage by the UI.
@@ -64,14 +64,14 @@ class BlocklistImport:
         self.config.load()
 
         if self.config.has_key('url'):
-            self.loadlist(fetch=self.config.get('load_on_start'))
+            self.loadlist(fetch=self.config.get('load_after_days'))
 
 
     def _download_update(self, curr, chunksize, size):
         incs = float(size) / float(chunksize)
         self.gtkprog.download_prog(curr/incs)
 
-    def loadlist(self, fetch=False):
+    def loadlist(self, fetch=-1):
         # Stop all torrents
         self.paused_or_not = {}
         for unique_ID in self.core.unique_IDs:
@@ -80,9 +80,27 @@ class BlocklistImport:
                 self.core.set_user_pause(unique_ID, True, enforce_queue=False)
 
         self.gtkprog.start()
+        
+        # Compare modified time with load_after_days
+        try:
+            liststats = os.stat(self.blockfile)
+            list_timestamp = liststats.st_mtime
+            now_timestamp = time.time()
+            days_update = self.config.get('load_after_days')
 
+            # Seconds in a day = 86400
+            # Check to see if todays timestamp is older than the list plus days in config
+            
+            if now_timestamp >= (list_timestamp + (86400 * days_update)):
+                fetch = -1
+                print 'New Blocklist required...'
+        
+        # If blocklist doesnt exist    
+        except OSError, e:
+            pass
+        
         # Attempt initial import
-        if fetch:
+        if fetch == -1:
             print "Fetching",self.config.get('url')
             self.gtkprog.start_download()
             try:
@@ -144,16 +162,16 @@ class BlocklistImport:
     def configure(self, window):
         self.gtkconf.start(self.config.get('listtype'),
                            self.config.get('url'),
-                           self.config.get('load_on_start'),
+                           self.config.get('load_after_days'),
                            window)
 
-    def setconfig(self, url, load_on_start, listtype):
+    def setconfig(self, url, load_after_days, listtype):
         self.config.set('url', url)
-        self.config.set('load_on_start', load_on_start)
+        self.config.set('load_after_days', load_after_days)
         self.config.set('listtype', listtype)
         self.config.save()
 
-        self.loadlist(fetch=True)
+        self.loadlist()
 
     def disable(self):
         self.core.reset_ip_filter()
