@@ -409,8 +409,6 @@ class SystemTray(component.Component):
             self.config[ui_key].pop()
             # Re-build the menu
             self.build_tray_bwsetsubmenu()
-            # Update the UI
-            self.window.update()
             
     def unlock_tray(self, comingnext, is_showing_dlg=[False]):
         import sha
