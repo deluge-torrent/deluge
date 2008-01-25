@@ -11,7 +11,6 @@
 * Add autoload folder
 * Add wizard
 * Add a health indication to the statusbar
-* Option for adding torrents in paused/active state
 * Fix up preferences for when using a remote host.. the download folders, etc..
 * Add decay items to statusbar.. items that will disappear after X seconds
 * Do not update UI when minimized or hidden
@@ -23,3 +22,12 @@
 * Don't save fastresume files on exit for finished or paused torrents
 * Clean-up TorrentManager and state saving.. Maybe use an 'options' dictionary
     similar to one used when adding new torrents.
+* Add Files and Peers tabs, but make them optional through View menu
+* Add per-torrent speed settings to the torrent menu
+* Add per-torrent settings to the details pane.. max_download_speed, etc.. So
+    the user know what limits are set on the torrent.
+* Come up with our own torrent states to replace libtorrents as they are not
+    really compatible with our system.
+* Add number of torrents to labels
+* Add a 'move storage' on completion option
+
