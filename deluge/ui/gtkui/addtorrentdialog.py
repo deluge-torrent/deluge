@@ -262,6 +262,17 @@ class AddTorrentDialog:
             
         self.options[torrent_id] = options
         
+        # Save the file priorities
+        row = self.files_liststore.get_iter_first()
+        files_priorities = []
+        while row != None:
+            download = self.files_liststore.get_value(row, 0)
+            files_priorities.append(download)
+            row = self.files_liststore.iter_next(row)
+        
+        for i, file_dict in enumerate(self.files[torrent_id]):
+            file_dict["download"] = files_priorities[i]
+        
     def set_default_options(self):
         # FIXME: does not account for remote core
         self.glade.get_widget("button_location").set_current_folder(
@@ -282,10 +293,26 @@ class AddTorrentDialog:
             self.core_config["prioritize_first_last_pieces"])
         self.glade.get_widget("chk_private").set_active(
             self.core_config["default_private"])
-            
+    
+    def get_file_priorities(self, torrent_id):
+        # A list of priorities
+        files_list = []
+
+        for file_dict in self.files[torrent_id]:
+            if file_dict["download"] == False:
+                files_list.append(0)
+            else:
+                files_list.append(1)
+        
+        return files_list
+        
     def _on_file_toggled(self, render, path):
         (model, paths) = self.listview_files.get_selection().get_selected_rows()
-        for path in paths:
+        if len(paths) > 1:
+            for path in paths:
+                row = model.get_iter(path)
+                model.set_value(row, 0, not model.get_value(row, 0))
+        else:
             row = model.get_iter(path)
             model.set_value(row, 0, not model.get_value(row, 0))
         
@@ -399,13 +426,17 @@ class AddTorrentDialog:
         
         row = self.torrent_liststore.get_iter_first()
         while row != None:
+            torrent_id = self.torrent_liststore.get_value(row, 0)
             filename = self.torrent_liststore.get_value(row, 2)
             try:
-                options = self.options[
-                    self.torrent_liststore.get_value(row, 0)]
+                options = self.options[torrent_id]
             except:
                 options = None
             
+            file_priorities = self.get_file_priorities(torrent_id)
+            if options != None:
+                options["file_priorities"] = file_priorities
+                
             torrent_filenames.append(filename)
             torrent_options.append(options)
             

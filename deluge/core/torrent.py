@@ -110,7 +110,11 @@ class Torrent:
             
     def set_save_path(self, save_path):
         self.save_path = save_path
-        
+    
+    def set_file_priorities(self, file_priorities):
+        self.file_priorities = file_priorities
+        self.handle.prioritize_files(file_priorities)
+            
     def get_state(self):
         """Returns the state of this torrent for saving to the session state"""
         status = self.handle.status()

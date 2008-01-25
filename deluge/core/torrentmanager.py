@@ -134,7 +134,7 @@ class TorrentManager(component.Component):
         trackers=None):
         """Add a torrent to the manager and returns it's torrent_id"""
         log.info("Adding torrent: %s", filename)
-
+        log.debug("options: %s", options)
         # Make sure 'filename' is a python string
         filename = str(filename)
 
@@ -214,7 +214,7 @@ class TorrentManager(component.Component):
             
         if not handle or not handle.is_valid():
             # The torrent was not added to the session
-            return None       
+            return None
 
         # Create a Torrent object
         torrent = Torrent(filename, handle, compact, 
@@ -237,6 +237,11 @@ class TorrentManager(component.Component):
             options["prioritize_first_last_pieces"])
         torrent.set_private_flag(options["default_private"])
 
+        if options.has_key("file_priorities"):
+            if options["file_priorities"] != None:
+                log.debug("set file priorities: %s", options["file_priorities"])
+                torrent.set_file_priorities(options["file_priorities"])
+        
         # Resume the torrent if needed
         if paused == False:
             handle.resume()
