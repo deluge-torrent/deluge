@@ -237,15 +237,11 @@ class SystemTray(component.Component):
                 self.window.hide()
             else:
                 self.window.present()
-                # Force UI update as we don't update it while minimized
-                self.window.update()
         else:
             if self.config["lock_tray"] == True:
                 self.unlock_tray("mainwinshow")
             else:
                 self.window.show()
-                # Force UI update as we don't update it while in tray
-                self.window.update()
     
     def on_tray_popup(self, status_icon, button, activate_time):
         """Called when the tray icon is right clicked."""

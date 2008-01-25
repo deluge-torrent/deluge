@@ -111,4 +111,4 @@ class SideBar(component.Component):
         if value == "Paused":
             component.get("TorrentView").set_filter("state", 
                 deluge.common.TORRENT_STATE.index("Paused"))
-        
+

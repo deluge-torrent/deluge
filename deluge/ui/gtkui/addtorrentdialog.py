@@ -412,6 +412,7 @@ class AddTorrentDialog:
             row = self.torrent_liststore.iter_next(row)
             
         client.add_torrent_file(torrent_filenames, torrent_options)
+        client.force_call()
         self.dialog.destroy()
 
     def _on_button_apply_clicked(self, widget):
