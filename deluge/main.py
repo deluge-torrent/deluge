@@ -55,7 +55,11 @@ def start_ui():
 
     from deluge.log import LOG as log
 
-    log.info("Deluge ui %s", deluge.common.get_version())        
+    version = deluge.common.get_version()
+    if deluge.common.get_revision() != "":
+        version = version + "r" + deluge.common.get_revision()
+        
+    log.info("Deluge ui %s", version)
     log.debug("options: %s", options)
     log.debug("args: %s", args)
 
@@ -76,8 +80,12 @@ def start_daemon():
     (options, args) = parser.parse_args()
 
     from deluge.log import LOG as log
-    
-    log.info("Deluge daemon %s", deluge.common.get_version())        
+
+    version = deluge.common.get_version()
+    if deluge.common.get_revision() != "":
+        version = version + "r" + deluge.common.get_revision()
+        
+    log.info("Deluge daemon %s", version)
     log.debug("options: %s", options)
     log.debug("args: %s", args)
 
