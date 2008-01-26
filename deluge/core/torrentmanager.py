@@ -292,7 +292,7 @@ class TorrentManager(component.Component):
             filedump = lt.bdecode(_file.read())
             _file.close()
         except (IOError, RuntimeError), e:
-            log.warning("Unable to open %s: e", filename, e)
+            log.warning("Unable to open %s: %s", filename, e)
             return False
         
         return filedump
