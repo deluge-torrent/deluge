@@ -62,7 +62,7 @@ def get_revision():
         revision = f.read()
         f.close()
     except IOError, e:
-        log.debug("Could not open revision file: %s", e)
+        pass
         
     return revision
     
