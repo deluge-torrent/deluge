@@ -152,6 +152,9 @@ class TorrentManager(component.Component):
         else:
             # Get the data from the file
             filedump = self.load_torrent(filename)
+            if not filedump:
+                log.warning("Unable to load torrent file..")
+                return None               
 
         # Attempt to load fastresume data
         try:
@@ -288,7 +291,7 @@ class TorrentManager(component.Component):
                         "rb")
             filedump = lt.bdecode(_file.read())
             _file.close()
-        except IOError, e:
+        except (IOError, RuntimeError), e:
             log.warning("Unable to open %s: e", filename, e)
             return False
         
