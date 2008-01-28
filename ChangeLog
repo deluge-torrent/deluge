@@ -1,4 +1,9 @@
-Deluge 0.5.8.2 (24 janurary 2008)
+Deluge 0.5.8.3 (28 Janurary 2008)
+  * Fix remote exploit which could crash Deluge
+  * Fix high cpu spikes
+  * Fix torrent order between sessions
+
+Deluge 0.5.8.2 (24 Janurary 2008)
   * Fix column width saving
   * Option to download new blocklist after certain number of days - Patch from Mark Stahler 
   * Fix ui-locking when tracker responded in non-utf8 encoding
