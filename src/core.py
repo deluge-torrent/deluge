@@ -301,6 +301,13 @@ class Manager:
                                 except:
                                     pass
 
+                # Make sure the Queue is in the correct order and remove any
+                # entries that were not added to the session due to error.
+                self.state.queue = state.queue[:]
+                for uid in state.queue:
+                    if uid not in self.state.torrents:
+                        self.state.queue.remove(uid)
+                    
                 # Sync with the core: tell core about torrents, and get 
                 # unique_IDs
                 self.sync()
