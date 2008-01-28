@@ -503,7 +503,7 @@ namespace libtorrent
 		session_impl::mutex_t::scoped_lock l(m_ses->m_mutex);
 		mutex::scoped_lock l2(m_chk->m_mutex);
 
-		boost::shared_ptr<torrent> t = m_ses->find_torrent(m_info_hash).lock();
+		torrent* t = find_torrent(m_ses, m_chk, m_info_hash);
 		if (!t || !t->valid_metadata())
 #ifdef BOOST_NO_EXCEPTIONS
 			return entry();
@@ -599,11 +599,13 @@ namespace libtorrent
 		for (policy::iterator i = pol.begin_peer()
 			, end(pol.end_peer()); i != end; ++i)
 		{
+			asio::error_code ec;
 			if (i->second.banned)
 			{
 				tcp::endpoint ip = i->second.ip;
 				entry peer(entry::dictionary_t);
-				peer["ip"] = ip.address().to_string();
+				peer["ip"] = ip.address().to_string(ec);
+				if (ec) continue;
 				peer["port"] = ip.port();
 				banned_peer_list.push_back(peer);
 				continue;
@@ -619,7 +621,8 @@ namespace libtorrent
 
 			tcp::endpoint ip = i->second.ip;
 			entry peer(entry::dictionary_t);
-			peer["ip"] = ip.address().to_string();
+			peer["ip"] = ip.address().to_string(ec);
+			if (ec) continue;
 			peer["port"] = ip.port();
 			peer_list.push_back(peer);
 		}
