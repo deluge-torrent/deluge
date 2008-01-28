@@ -1062,7 +1062,11 @@ window, please enter your password"))
         except IOError:
             print "Network error while trying to check for a newer version of \
 Deluge"
-            new_release = ""
+            try:
+                gtk.gdk.threads_leave()
+            except:
+                pass
+            return
 
         if new_release > common.PROGRAM_VERSION:
             result = dialogs.show_popup_question(None, _("There is a newer version \
