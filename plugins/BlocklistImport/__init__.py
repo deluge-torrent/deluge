@@ -63,6 +63,11 @@ class BlocklistImport:
                                               global_defaults=False)
         self.config.load()
 
+        try:
+            load_after_days = self.config.get("load_after_days")
+        except:
+            self.config.set("load_after_days", -1)
+            
         if self.config.has_key('url'):
             self.loadlist(fetch=self.config.get('load_after_days'))
 
