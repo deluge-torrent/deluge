@@ -742,11 +742,15 @@ likely the tracker did not responsd in utf-8."
 
             elif event['event_type'] is self.constants['EVENT_TRACKER_WARNING']:
                 # Probably will need proper formatting later, not tested yet
-                tracker_status = '%s: %s' % (_("Warning"), event["message"])
+                try:
+                    tracker_status = '%s: %s' % (_("Warning"), event["message"])
                 
-                self.set_supp_torrent_state_val(event['unique_ID'], 
+                    self.set_supp_torrent_state_val(event['unique_ID'], 
                                                 "tracker_status",
                                                 tracker_status)
+                except UnicodeDecodeError:
+                    print "There was a problem displaying a tracker alert. Most\
+likely the tracker did not responsd in utf-8."
 
         return ret
 
