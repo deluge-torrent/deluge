@@ -105,6 +105,7 @@ class StatusBar(component.Component):
         self.max_upload_speed = -1.0
         self.upload_rate = 0.0
         self.dht_nodes = 0
+        self.dht_status = False
         
         self.config_value_changed_dict = {
             "max_connections_global": self._on_max_connections_global,
@@ -194,8 +195,8 @@ class StatusBar(component.Component):
     def send_status_request(self):
         # Sends an async request for data from the core
         client.get_num_connections(self._on_get_num_connections)
-        client.get_config_value(self._on_dht, "dht")
-        client.get_dht_nodes(self._on_get_dht_nodes)
+        if self.dht_status:
+            client.get_dht_nodes(self._on_get_dht_nodes)
         client.get_download_rate(self._on_get_download_rate)
         client.get_upload_rate(self._on_get_upload_rate)
 
@@ -216,12 +217,13 @@ class StatusBar(component.Component):
     def _on_get_dht_nodes(self, dht_nodes):
         self.dht_nodes = dht_nodes
         
-    def _on_dht(self, dht_nodes):
-        if dht_nodes == False:
-            self.remove_item(self.dht_item)
-        else:
+    def _on_dht(self, value):
+        self.dht_status = value
+        if value:
             self.hbox.pack_start(
                 self.dht_item.get_eventbox(), expand=False, fill=False)
+        else:
+            self.remove_item(self.dht_item)
 
     def _on_max_download_speed(self, max_download_speed):
         self.max_download_speed = max_download_speed
@@ -276,7 +278,7 @@ class StatusBar(component.Component):
     def update(self):
         # Update the labels
         self.update_connections_label()
-        if self.dht_nodes != False:
+        if self.dht_status:
             self.update_dht_label()
         self.update_download_label()
         self.update_upload_label()
