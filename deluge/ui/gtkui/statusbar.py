@@ -110,7 +110,7 @@ class StatusBar(component.Component):
             "max_connections_global": self._on_max_connections_global,
             "max_download_speed": self._on_max_download_speed,
             "max_upload_speed": self._on_max_upload_speed,
-            "dht": self._on_get_dht_nodes
+            "dht": self._on_dht
         }
         # Add a HBox to the statusbar after removing the initial label widget
         self.hbox = gtk.HBox()
@@ -215,6 +215,14 @@ class StatusBar(component.Component):
     def _on_get_dht_nodes(self, dht_nodes):
         self.dht_nodes = dht_nodes
         
+    def _on_dht(self, dht_nodes):
+        if dht_nodes == False:
+            self.remove_item(self.dht_item)
+        else:
+            self.hbox.pack_start(
+                self.dht_item.get_eventbox(), expand=False, fill=False)
+
+
     def _on_max_download_speed(self, max_download_speed):
         self.max_download_speed = max_download_speed
         self.update_download_label()
