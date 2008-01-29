@@ -109,7 +109,8 @@ class StatusBar(component.Component):
         self.config_value_changed_dict = {
             "max_connections_global": self._on_max_connections_global,
             "max_download_speed": self._on_max_download_speed,
-            "max_upload_speed": self._on_max_upload_speed
+            "max_upload_speed": self._on_max_upload_speed,
+            "dht": self._on_get_dht_nodes
         }
         # Add a HBox to the statusbar after removing the initial label widget
         self.hbox = gtk.HBox()
