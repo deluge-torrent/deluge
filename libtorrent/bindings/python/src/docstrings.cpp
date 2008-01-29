@@ -96,6 +96,8 @@ char const* session_stop_dht_doc =
     "";
 char const* session_dht_state_doc = 
     "";
+char const* session_add_dht_router_doc = 
+    "add dht router";
 
 char const* session_add_torrent_doc = 
     "Adds a new torrent to the session. Return a `torrent_handle`.\n"
