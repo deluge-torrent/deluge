@@ -393,6 +393,9 @@ def get_upload_rate(callback):
 def get_num_connections(callback):
     get_core().call("get_num_connections", callback)
 
+def get_dht_nodes(callback):
+    get_core().call("get_dht_nodes", callback)
+
 def enable_plugin(plugin):
     get_core().call("enable_plugin", None, plugin)
             

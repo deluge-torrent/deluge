@@ -443,6 +443,10 @@ class Core(
         """Returns the current number of connections"""
         return self.session.num_connections()
     
+    def export_get_dht_nodes(self):
+        """Returns the number of dht nodes"""
+        return self.session.status().dht_nodes
+
     def export_get_download_rate(self):
         """Returns the payload download rate"""
         return self.session.status().payload_download_rate
@@ -568,6 +572,9 @@ class Core(
         log.debug("dht value set to %s", value)
         if value:
             self.session.start_dht(None)
+            self.session.add_dht_router("router.bittorrent.com", 6881)
+            self.session.add_dht_router("router.utorrent.com", 6881)
+            self.session.add_dht_router("router.bitcomet.com", 6881)
         else:
             self.session.stop_dht()
     

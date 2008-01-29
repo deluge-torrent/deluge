@@ -104,6 +104,7 @@ class StatusBar(component.Component):
         self.download_rate = 0.0
         self.max_upload_speed = -1.0
         self.upload_rate = 0.0
+        self.dht_nodes = 0
         
         self.config_value_changed_dict = {
             "max_connections_global": self._on_max_connections_global,
@@ -138,6 +139,10 @@ class StatusBar(component.Component):
             image=deluge.common.get_pixmap("seeding16.png"))
         self.hbox.pack_start(
             self.upload_item.get_eventbox(), expand=False, fill=False)
+        self.dht_item = StatusBarItem(
+            image=deluge.common.get_pixmap("dht16.png"))
+        self.hbox.pack_start(
+            self.dht_item.get_eventbox(), expand=False, fill=False)
 
         # Get some config values
         client.get_config_value(
@@ -153,6 +158,7 @@ class StatusBar(component.Component):
         # When stopped, we just show the not connected thingy
         try:
             self.remove_item(self.connections_item)
+            self.remove_item(self.dht_item)
             self.remove_item(self.download_item)
             self.remove_item(self.upload_item)
             self.remove_item(self.not_connected_item)
@@ -187,6 +193,7 @@ class StatusBar(component.Component):
     def send_status_request(self):
         # Sends an async request for data from the core
         client.get_num_connections(self._on_get_num_connections)
+        client.get_dht_nodes(self._on_get_dht_nodes)
         client.get_download_rate(self._on_get_download_rate)
         client.get_upload_rate(self._on_get_upload_rate)
 
@@ -203,6 +210,9 @@ class StatusBar(component.Component):
         
     def _on_get_num_connections(self, num_connections):
         self.num_connections = num_connections
+        
+    def _on_get_dht_nodes(self, dht_nodes):
+        self.dht_nodes = dht_nodes
         
     def _on_max_download_speed(self, max_download_speed):
         self.max_download_speed = max_download_speed
@@ -226,6 +236,10 @@ class StatusBar(component.Component):
 
         self.connections_item.set_text("%s (%s)" % (
             self.num_connections, max_connections))
+            
+    def update_dht_label(self):
+        # Set the max connections label
+        self.dht_item.set_text("%s" % (self.dht_nodes))
             
     def update_download_label(self):
         # Set the download speed label
@@ -253,6 +267,7 @@ class StatusBar(component.Component):
     def update(self):
         # Update the labels
         self.update_connections_label()
+        self.update_dht_label()
         self.update_download_label()
         self.update_upload_label()
         
