@@ -213,15 +213,18 @@ class StatusBar(component.Component):
         
     def _on_get_num_connections(self, num_connections):
         self.num_connections = num_connections
+        self.update_connections_label()
         
     def _on_get_dht_nodes(self, dht_nodes):
         self.dht_nodes = dht_nodes
+        self.update_dht_label()
         
     def _on_dht(self, value):
         self.dht_status = value
         if value:
             self.hbox.pack_start(
                 self.dht_item.get_eventbox(), expand=False, fill=False)
+            client.get_dht_nodes(self._on_get_dht_nodes)
         else:
             self.remove_item(self.dht_item)
 
@@ -231,13 +234,15 @@ class StatusBar(component.Component):
     
     def _on_get_download_rate(self, download_rate):
         self.download_rate = deluge.common.fsize(download_rate)
-    
+        self.update_download_label()
+
     def _on_max_upload_speed(self, max_upload_speed):
         self.max_upload_speed = max_upload_speed
         self.update_upload_label()
         
     def _on_get_upload_rate(self, upload_rate):
         self.upload_rate = deluge.common.fsize(upload_rate)
+        self.update_upload_label()
     
     def update_connections_label(self):
         # Set the max connections label
@@ -276,12 +281,5 @@ class StatusBar(component.Component):
             max_upload_speed))
                            
     def update(self):
-        # Update the labels
-        self.update_connections_label()
-        if self.dht_status:
-            self.update_dht_label()
-        self.update_download_label()
-        self.update_upload_label()
-        
         # Send status request
         self.send_status_request()
