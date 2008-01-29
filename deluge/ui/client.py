@@ -187,10 +187,12 @@ class CoreProxy(gobject.GObject):
             self.emit("no_core")
             self._uri = None
             self._core = None
+            self._multi = None
             return
         
         if uri != self._uri and self._uri != None:
             self._core = None
+            self._multi = None
             self.emit("no_core")
                             
         self._uri = uri
