@@ -141,9 +141,10 @@ class StatusBar(component.Component):
         self.hbox.pack_start(
             self.upload_item.get_eventbox(), expand=False, fill=False)
         self.dht_item = StatusBarItem(
-            image=deluge.common.get_pixmap("dht16.png"))
-        self.hbox.pack_start(
-            self.dht_item.get_eventbox(), expand=False, fill=False)
+                image=deluge.common.get_pixmap("dht16.png"))
+        if client.get_config("dht"):
+            self.hbox.pack_start(
+                self.dht_item.get_eventbox(), expand=False, fill=False)
 
         # Get some config values
         client.get_config_value(
@@ -152,6 +153,8 @@ class StatusBar(component.Component):
             self._on_max_download_speed, "max_download_speed")
         client.get_config_value(
             self._on_max_upload_speed, "max_upload_speed")
+        client.get_config_value(
+            self._on_dht, "dht")
         
         self.send_status_request()
     
@@ -276,7 +279,8 @@ class StatusBar(component.Component):
     def update(self):
         # Update the labels
         self.update_connections_label()
-        self.update_dht_label()
+        if self.dht_nodes != False:
+            self.update_dht_label()
         self.update_download_label()
         self.update_upload_label()
         
