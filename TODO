@@ -13,7 +13,6 @@
 * Add a health indication to the statusbar
 * Fix up preferences for when using a remote host.. the download folders, etc..
 * Add decay items to statusbar.. items that will disappear after X seconds
-* Do not update UI when minimized or hidden
 * Add command line option to change config dir.. --config
 * Add method for plugins to add labels
 * Add context menus for labels.. ie. setting options for all torrents in label

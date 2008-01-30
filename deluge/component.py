@@ -118,12 +118,15 @@ class ComponentRegistry:
     def stop(self):
         """Stops all components"""
         for component in self.components.keys():
-            if self.components[component].get_state != \
-                    COMPONENT_STATE.index("Stopped"):
-                log.debug("Stopping component %s..", component)
-                self.components[component].stop()
-                self.components[component]._stop()
-
+            self.stop_component(component)
+                
+    def stop_component(self, component):
+        if self.components[component].get_state != \
+                COMPONENT_STATE.index("Stopped"):
+            log.debug("Stopping component %s..", component)
+            self.components[component].stop()
+            self.components[component]._stop()
+        
     def update(self):
         """Updates all components"""
         for component in self.components.keys():
@@ -153,13 +156,19 @@ def register(name, obj, depend=None):
     """Registers a component with the registry"""
     _ComponentRegistry.register(name, obj, depend)
 
-def start():
+def start(component=None):
     """Starts all components"""
-    _ComponentRegistry.start()
+    if component == None:
+        _ComponentRegistry.start()
+    else:
+        _ComponentRegistry.start_component(component)
 
-def stop():
-    """Stops all components"""
-    _ComponentRegistry.stop()
+def stop(component=None):
+    """Stops all or specified components"""
+    if component == None:
+        _ComponentRegistry.stop()
+    else:
+        _ComponentRegistry.stop_component(component)
 
 def update():
     """Updates all components"""
