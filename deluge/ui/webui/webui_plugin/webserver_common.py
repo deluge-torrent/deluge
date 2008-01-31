@@ -118,12 +118,14 @@ class SyncProxyFunction:
         self.client = client
 
     def __call__(self,*args,**kwargs):
-        sync_result = []
         func = getattr(self.client,self.func_name)
 
         if self.has_callback(func):
+            sync_result = []
             func(sync_result.append,*args, **kwargs)
             self.client.force_call(block=True)
+            if not  sync_result:
+                return None
             return sync_result[0]
         else:
             ws.log.debug('no-cb: %s' % self.func_name)
