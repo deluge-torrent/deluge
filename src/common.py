@@ -153,23 +153,16 @@ def get_logo(size):
         return gtk.gdk.pixbuf_new_from_file_at_size(get_pixmap("deluge.svg"), \
             size, size)
     
-def open_url_in_browser(link, plugins, force_ext=None):
-    import pref
-    config = pref.Preferences(os.path.join(os.path.expanduser("~"), 'deluge', "prefs.state"))
-    enabled = config.get('enabled_plugins').split(':')
-    if ("Anonymizing Browser" in enabled) and not force_ext and plugins:
-        plugins.launch_site(link)
-        plugins.show_all()
-    else:
-        import threading
-        import webbrowser
-        class BrowserThread(threading.Thread):
-           def __init__(self, link):
-               threading.Thread.__init__(self)
-               self.url = link
-           def run(self):
-               webbrowser.open(self.url)
-        BrowserThread(link).start()
+def open_url_in_browser(link):
+    import threading
+    import webbrowser
+    class BrowserThread(threading.Thread):
+        def __init__(self, link):
+            threading.Thread.__init__(self)
+            self.url = link
+        def run(self):
+            webbrowser.open(self.url)
+    BrowserThread(link).start()
 
 def is_url(url):
     import re

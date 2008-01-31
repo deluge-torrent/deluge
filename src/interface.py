@@ -1446,19 +1446,19 @@ nice_need + "\n" + _("Available Space:") + " " + nice_free)
             
     def launchpad(self, obj=None):
         common.open_url_in_browser('https://translations.launchpad.net/deluge/\
-trunk/+pots/deluge', self.plugins)
+trunk/+pots/deluge')
 
     def launch_faq(self, obj=None):
-        common.open_url_in_browser('http://deluge-torrent.org/faq.php', self.plugins)
+        common.open_url_in_browser('http://deluge-torrent.org/faq.php')
 
     def launch_donate(self, obj=None):
-        common.open_url_in_browser('http://deluge-torrent.org/downloads.php', self.plugins)
+        common.open_url_in_browser('http://deluge-torrent.org/downloads.php')
 
     def launch_community(self, obj=None):
-        common.open_url_in_browser('http://forum.deluge-torrent.org/', self.plugins)
+        common.open_url_in_browser('http://forum.deluge-torrent.org/')
 
     def launch_homepage(self, obj=None):
-        common.open_url_in_browser('http://deluge-torrent.org/', self.plugins)
+        common.open_url_in_browser('http://deluge-torrent.org/')
             
     def add_torrent_clicked(self, obj=None):
         torrent = dialogs.show_file_open_dialog(self.window)

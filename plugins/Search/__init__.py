@@ -177,7 +177,7 @@ class Search:
             url = url.replace('${query}', entry)
             print 'URL =', url
             print 'Entry =', entry
-            common.open_url_in_browser(url, self.interface.plugins)
+            common.open_url_in_browser(url)
         
     def populate_search_menu(self):
         import gtk

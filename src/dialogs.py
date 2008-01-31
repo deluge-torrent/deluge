@@ -330,7 +330,7 @@ class PreferencesDlg:
         self.plugins.configure_plugin(plugin_name, self.dialog)
 
     def TestPort(self, widget):
-        common.open_url_in_browser('http://www.deluge-torrent.org/test-port.php?port=%s' % self.active_port, self.plugins, force_ext=True)
+        common.open_url_in_browser('http://www.deluge-torrent.org/test-port.php?port=%s' % self.active_port)
     
     def toggle_ui(self, widget):
         value = widget.get_active()
