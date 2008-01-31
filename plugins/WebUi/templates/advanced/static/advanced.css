@@ -167,11 +167,12 @@ body.inner {
 		color:#FFFFFF;
 		border:0;
 		position:relative;
-		top:0px;
-		height:20px;
+		top:-2px;
+		height:15px;
 		background-color:#ddd;
-		color:#000;
+		color:#00F;
 }
+
 #refresh_panel button:hover {
 		text-decoration: underline;
 }

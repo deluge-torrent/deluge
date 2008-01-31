@@ -41,8 +41,6 @@ import base64
 from operator import attrgetter
 import os
 
-from json_api import json_api
-
 #routing:
 urls = (
     "/login", "login",
@@ -66,7 +64,6 @@ urls = (
     "/logout", "logout",
     #remote-api:
     "/remote/torrent/add(.*)", "remote_torrent_add",
-    "/json/(.*)","json_api",
     #static:
     "/static/(.*)", "static",
     "/template/static/(.*)", "template_static",
