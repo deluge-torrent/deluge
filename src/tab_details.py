@@ -94,15 +94,16 @@ class DetailsTabManager(object):
             gc.set_foreground(colormap.alloc_color('#2020FF'))
             progress_window.draw_rectangle(gc, True, 0, top, int(size[0] * state['progress']), 4)
             num_pieces = state["total_wanted"] / state["piece_length"]
-            for pieces_range in state['pieces']:
-                range_first = pieces_range[0] * size[0] / num_pieces
-                range_length = ((pieces_range[1] - pieces_range[0] + 1) * size[0] / num_pieces)
-                if range_length == 0:
-                    range_length = 1
-                    gc.set_foreground(colormap.alloc_color('#8080FF'))
-                else:
-                    gc.set_foreground(colormap.alloc_color('#2020FF'))
-                progress_window.draw_rectangle(gc, True, range_first, top + 5, range_length, height - 5)
+            if num_pieces > 0:
+                for pieces_range in state['pieces']:
+                    range_first = pieces_range[0] * size[0] / num_pieces
+                    range_length = ((pieces_range[1] - pieces_range[0] + 1) * size[0] / num_pieces)
+                    if range_length == 0:
+                        range_length = 1
+                        gc.set_foreground(colormap.alloc_color('#8080FF'))
+                    else:
+                        gc.set_foreground(colormap.alloc_color('#2020FF'))
+                    progress_window.draw_rectangle(gc, True, range_first, top + 5, range_length, height - 5)
         gc.set_foreground(colormap.alloc_color('dim gray'))
         progress_window.draw_line(gc, 0, top, 0, top + height)
         progress_window.draw_line(gc, 0, top, size[0], top)
