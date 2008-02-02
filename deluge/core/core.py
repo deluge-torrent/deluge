@@ -344,17 +344,17 @@ class Core(
             
     def export_force_reannounce(self, torrent_id):
         log.debug("Forcing reannouncment to trackers of torrent %s", torrent_id)
-        self.torrents.force_reannounce(torrent_id)
+        self.torrents[torrent_id].force_reannounce()
 
     def export_pause_torrent(self, torrent_id):
         log.debug("Pausing torrent %s", torrent_id)
-        if not self.torrents.pause(torrent_id):
+        if not self.torrents[torrent_id].pause():
             log.warning("Error pausing torrent %s", torrent_id)
     
-    def export_move_torrent(self, torrent_id, folder):
-        log.debug("Moving torrent %s to %s", torrent_id, folder)
-        if not self.torrents.move(torrent_id, folder):
-            log.warning("Error moving torrent %s to %s", torrent_id, folder)
+    def export_move_torrent(self, torrent_id, dest):
+        log.debug("Moving torrent %s to %s", torrent_id, dest)
+        if not self.torrents[torrent_id].move(dest):
+            log.warning("Error moving torrent %s to %s", torrent_id, dest)
     
     def export_pause_all_torrents(self):
         """Pause all torrents in the session"""
@@ -369,7 +369,7 @@ class Core(
         
     def export_resume_torrent(self, torrent_id):
         log.debug("Resuming torrent %s", torrent_id)
-        if self.torrents.resume(torrent_id):
+        if self.torrents[torrent_id].resume():
             self.torrent_resumed(torrent_id)
 
     def export_get_torrent_status(self, torrent_id, keys):
@@ -477,7 +477,7 @@ class Core(
     
     def export_set_torrent_trackers(self, torrent_id, trackers):
         """Sets a torrents tracker list.  trackers will be [{"url", "tier"}]"""
-        return self.torrents.set_trackers(torrent_id, trackers)
+        return self.torrents[torrent_id].set_trackers(trackers)
         
     # Signals
     def torrent_added(self, torrent_id):

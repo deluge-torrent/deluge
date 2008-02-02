@@ -48,6 +48,8 @@ import deluge.ui.client as client
 from deluge.log import LOG as log
 import deluge.ui.gtkui.listview as listview
 
+TORRENT_STATE = deluge.common.TORRENT_STATE
+
 # Status icons.. Create them from file only once to avoid constantly
 # re-creating them.
 icon_downloading = gtk.gdk.pixbuf_new_from_file(
@@ -56,18 +58,17 @@ icon_seeding = gtk.gdk.pixbuf_new_from_file(
     deluge.common.get_pixmap("seeding16.png"))
 icon_inactive = gtk.gdk.pixbuf_new_from_file(
     deluge.common.get_pixmap("inactive16.png"))
+icon_alert = gtk.gdk.pixbuf_new_from_file(
+    deluge.common.get_pixmap("alert16.png"))
 
 # Holds the info for which status icon to display based on state
 ICON_STATE = [
     icon_inactive,
-    icon_downloading,
-    icon_downloading,
-    icon_downloading,
+    icon_inactive,
     icon_downloading,
     icon_seeding,
-    icon_seeding,
-    icon_downloading,
-    icon_inactive
+    icon_inactive,
+    icon_alert
 ]
  
 def cell_data_statusicon(column, cell, model, row, data):
@@ -78,23 +79,16 @@ def cell_data_statusicon(column, cell, model, row, data):
 
 def cell_data_progress(column, cell, model, row, data):
     """Display progress bar with text"""
-    # Translated state strings
-    TORRENT_STATE = [
-        _("Queued"),
-        _("Checking"),
-        _("Connecting"),
-        _("Downloading Metadata"),
-        _("Downloading"),
-        _("Finished"),
-        _("Seeding"),
-        _("Allocating"),
-        _("Paused")
-    ]
     (value, text) = model.get(row, *data)
     if cell.get_property("value") != value:
         cell.set_property("value", value)
-    textstr = "%s" % TORRENT_STATE[text]
-    if TORRENT_STATE[text] != "Seeding" and TORRENT_STATE[text] != "Finished":
+    state_str = ""
+    for key in TORRENT_STATE.keys():
+        if TORRENT_STATE[key] == text:
+            state_str = key
+            break
+    textstr = "%s" % state_str
+    if state_str != "Seeding" and state_str != "Finished" and value < 100:
         textstr = textstr + " %.2f%%" % value        
     if cell.get_property("text") != textstr:
         cell.set_property("text", textstr)

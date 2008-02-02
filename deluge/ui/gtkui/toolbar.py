@@ -42,9 +42,6 @@ from deluge.common import TORRENT_STATE
 import deluge.ui.client as client
 
 class ToolBar(component.Component):
-    STATE_FINISHED = TORRENT_STATE.index("Finished")
-    STATE_SEEDING = TORRENT_STATE.index("Seeding")
-    STATE_PAUSED = TORRENT_STATE.index("Paused")
     def __init__(self):
         component.Component.__init__(self, "ToolBar")
         log.debug("ToolBar Init..")
@@ -175,7 +172,7 @@ class ToolBar(component.Component):
                 except KeyError, e:
                     log.debug("Error getting torrent state: %s", e)
                     continue
-                if status == self.STATE_PAUSED:
+                if status == TORRENT_STATE["Paused"]:
                     resume = True
                 else:
                     pause = True

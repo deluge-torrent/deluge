@@ -33,13 +33,23 @@
 
 """Internal Torrent class"""
 
+import os
+
+import deluge.libtorrent as lt
 import deluge.common
+from deluge.configmanager import ConfigManager
+from deluge.log import LOG as log
+
+TORRENT_STATE = deluge.common.TORRENT_STATE
 
 class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.
     """
     def __init__(self, filename, handle, compact, save_path, total_uploaded=0,
         trackers=None):
+        # Get the core config
+        self.config = ConfigManager("core.conf")
+        
         # Set the filename
         self.filename = filename
         # Set the libtorrent handle
@@ -52,7 +62,22 @@ class Torrent:
         self.compact = compact
         # Where the torrent is being saved to
         self.save_path = save_path
+        # The state of the torrent
+        self.state = None
         
+        # Holds status info so that we don't need to keep getting it from lt
+        self.status = self.handle.status()
+        self.torrent_info = self.handle.torrent_info()
+        
+        # Set the initial state
+        if self.status.state == deluge.common.LT_TORRENT_STATE["Allocating"]:
+            self.set_state("Allocating")
+        elif self.status.state == deluge.common.LT_TORRENT_STATE["Checking"]:
+            self.set_state("Checking")
+        else:
+            self.set_state("Paused")
+        
+        # Various torrent options
         self.max_connections = -1
         self.max_upload_slots = -1
         self.max_upload_speed = -1
@@ -73,10 +98,6 @@ class Torrent:
                 self.trackers.append(tracker)
         else:
             self.trackers = trackers
-
-        # Holds status info so that we don't need to keep getting it from lt
-        self.status = None
-        self.torrent_info = None
                 
         # Files dictionary
         self.files = self.get_files()
@@ -114,8 +135,21 @@ class Torrent:
     def set_file_priorities(self, file_priorities):
         self.file_priorities = file_priorities
         self.handle.prioritize_files(file_priorities)
-            
-    def get_state(self):
+    
+    def set_state(self, state):
+        """Accepts state strings, ie, "Paused", "Seeding", etc."""
+
+        # Only set 'Downloading' or 'Seeding' state if not paused
+        if state == "Downloading" or state == "Seeding":
+            if self.handle.is_paused():
+                state = "Paused"
+               
+        try:
+            self.state = TORRENT_STATE[state]
+        except:
+            pass
+        
+    def get_save_info(self):
         """Returns the state of this torrent for saving to the session state"""
         status = self.handle.status()
         return (self.torrent_id, self.filename, self.compact, status.paused,
@@ -188,11 +222,6 @@ class Torrent:
         # Adjust progress to be 0-100 value
         progress = self.status.progress * 100
         
-        # Set the state to 'Paused' if the torrent is paused.
-        state = self.status.state
-        if self.status.paused:
-            state = deluge.common.TORRENT_STATE.index("Paused")
-        
         # Adjust status.distributed_copies to return a non-negative value
         distributed_copies = self.status.distributed_copies
         if distributed_copies < 0:
@@ -207,7 +236,7 @@ class Torrent:
             "distributed_copies": distributed_copies,
             "total_done": self.status.total_done,
             "total_uploaded": self.total_uploaded + self.status.total_payload_upload,
-            "state": int(state),
+            "state": self.state,
             "paused": self.status.paused,
             "progress": progress,
             "next_announce": self.status.next_announce.seconds,
@@ -242,3 +271,139 @@ class Torrent:
                     status_dict[key] = full_status[key]
 
         return status_dict
+        
+    def pause(self):
+        """Pause this torrent"""
+        try:
+            self.handle.pause()
+        except Exception, e:
+            log.debug("Unable to pause torrent: %s", e)
+            return False
+        
+        return True
+    
+    def resume(self):
+        """Resumes this torrent"""
+        if self.state != TORRENT_STATE["Paused"]:
+            return False
+        
+        try:
+            self.handle.resume()
+        except:
+            return False
+        
+        # Set the state
+        if self.handle.is_seed():
+            self.set_state("Seeding")
+        else:
+            self.set_state("Downloading")
+        
+        status = self.get_status(["total_done", "total_wanted"])
+        
+        # Only delete the .fastresume file if we're still downloading stuff
+        if status["total_done"] < status["total_wanted"]:
+            self.delete_fastresume()
+        return True
+        
+    def move_storage(self, dest):
+        """Move a torrent's storage location"""
+        try:
+            self.handle.move_storage(dest)
+        except:
+            return False
+
+        return True
+
+    def write_fastresume(self):
+        """Writes the .fastresume file for the torrent"""
+        resume_data = lt.bencode(self.handle.write_resume_data())
+        path = "%s/%s.fastresume" % (
+            self.config["torrentfiles_location"], 
+            self.filename)
+        log.debug("Saving fastresume file: %s", path)
+        try:
+            fastresume = open(path, "wb")
+            fastresume.write(resume_data)
+            fastresume.close()
+        except IOError:
+            log.warning("Error trying to save fastresume file")        
+
+    def delete_fastresume(self):
+        """Deletes the .fastresume file"""
+        path = "%s/%s.fastresume" % (
+            self.config["torrentfiles_location"], 
+            self.filename)
+        log.debug("Deleting fastresume file: %s", path)
+        try:
+            os.remove(path)
+        except Exception, e:
+            log.warning("Unable to delete the fastresume file: %s", e)
+
+    def force_reannounce(self):
+        """Force a tracker reannounce"""
+        try:
+            self.handle.force_reannounce()
+        except Exception, e:
+            log.debug("Unable to force reannounce: %s", e)
+            return False
+        
+        return True
+    
+    def scrape_tracker(self):
+        """Scrape the tracker"""
+        try:
+            self.handle.scrape_tracker()
+        except Exception, e:
+            log.debug("Unable to scrape tracker: %s", e)
+            return False
+        
+        return True
+        
+    def set_trackers(self, trackers):
+        """Sets trackers"""
+        if trackers == None:
+            trackers = []
+            
+        log.debug("Setting trackers for %s: %s", self.torrent_id, trackers)
+        tracker_list = []
+
+        for tracker in trackers:
+            new_entry = lt.announce_entry(tracker["url"])
+            new_entry.tier = tracker["tier"]
+            tracker_list.append(new_entry)
+            
+        self.handle.replace_trackers(tracker_list)
+        
+        # Print out the trackers
+        for t in self.handle.trackers():
+            log.debug("tier: %s tracker: %s", t.tier, t.url)
+        # Set the tracker list in the torrent object
+        self.trackers = trackers
+        if len(trackers) > 0:
+            # Force a reannounce if there is at least 1 tracker
+            self.force_reannounce()
+
+    def save_torrent_file(self, filedump=None):
+        """Saves a torrent file"""
+        log.debug("Attempting to save torrent file: %s", self.filename)
+        # Test if the torrentfiles_location is accessible
+        if os.access(
+            os.path.join(self.config["torrentfiles_location"]), os.F_OK) \
+                                                                    is False:
+            # The directory probably doesn't exist, so lets create it
+            try:
+               os.makedirs(os.path.join(self.config["torrentfiles_location"]))
+            except IOError, e:
+                log.warning("Unable to create torrent files directory: %s", e)
+        
+        # Write the .torrent file to the torrent directory
+        try:
+            save_file = open(os.path.join(self.config["torrentfiles_location"], 
+                    self.filename),
+                    "wb")
+            if filedump == None:
+                filedump = self.handle.torrent_info().create_torrent()
+            save_file.write(lt.bencode(filedump))
+            save_file.close()
+        except IOError, e:
+            log.warning("Unable to save torrent file: %s", e)

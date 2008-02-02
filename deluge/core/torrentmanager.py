@@ -93,6 +93,8 @@ class TorrentManager(component.Component):
             self.on_alert_torrent_finished)
         self.alerts.register_handler("torrent_paused_alert",
             self.on_alert_torrent_paused)
+        self.alerts.register_handler("torrent_checked_alert",
+            self.on_alert_torrent_checked)
         self.alerts.register_handler("tracker_reply_alert",
             self.on_alert_tracker_reply)
         self.alerts.register_handler("tracker_announce_alert",
@@ -116,7 +118,7 @@ class TorrentManager(component.Component):
         # Pause all torrents and save the .fastresume files
         self.pause_all()
         for key in self.torrents.keys():
-            self.write_fastresume(key)
+            self.torrents[key].write_fastresume()
         
     def shutdown(self):
         self.stop()
@@ -228,7 +230,7 @@ class TorrentManager(component.Component):
 
         # Set the trackers
         if trackers != None:
-            self.set_trackers(str(handle.info_hash()), trackers)
+            torrent.set_trackers(trackers)
                     
         # Set per-torrent options
         torrent.set_max_connections(options["max_connections_per_torrent"])
@@ -250,34 +252,11 @@ class TorrentManager(component.Component):
             handle.resume()
             
         # Save the torrent file        
-        self.save_torrent(filename, filedump)
+        torrent.save_torrent_file(filedump)
 
         # Save the session state
         self.save_state()
         return torrent.torrent_id
-    
-    def save_torrent(self, filename, filedump):
-        """Saves a torrent file"""
-        log.debug("Attempting to save torrent file: %s", filename)
-        # Test if the torrentfiles_location is accessible
-        if os.access(
-            os.path.join(self.config["torrentfiles_location"]), os.F_OK) \
-                                                                    is False:
-            # The directory probably doesn't exist, so lets create it
-            try:
-               os.makedirs(os.path.join(self.config["torrentfiles_location"]))
-            except IOError, e:
-                log.warning("Unable to create torrent files directory: %s", e)
-        
-        # Write the .torrent file to the torrent directory
-        try:
-            save_file = open(os.path.join(self.config["torrentfiles_location"], 
-                    filename),
-                    "wb")
-            save_file.write(lt.bencode(filedump))
-            save_file.close()
-        except IOError, e:
-            log.warning("Unable to save torrent file: %s", e)
 
     def load_torrent(self, filename):
         """Load a torrent file and return it's torrent info"""
@@ -322,7 +301,7 @@ class TorrentManager(component.Component):
                 log.warning("Unable to remove .torrent file: %s", e)
 
         # Remove the .fastresume if it exists
-        self.delete_fastresume(torrent_id)
+        self.torrents[torrent_id].delete_fastresume()
         
         # Remove the torrent from deluge's session
         try:
@@ -332,24 +311,6 @@ class TorrentManager(component.Component):
             
         # Save the session state
         self.save_state()
-        return True
-
-    def pause(self, torrent_id):
-        """Pause a torrent"""
-        try:
-            self.torrents[torrent_id].handle.pause()
-        except:
-            return False
-            
-        return True
-    
-    def move(self, torrent_id, folder):
-        """Move a torrent"""
-        try:
-            self.torrents[torrent_id].handle.move_storage(folder)
-        except:
-            return False
-
         return True
     
     def pause_all(self):
@@ -363,24 +324,9 @@ class TorrentManager(component.Component):
                 log.warning("Unable to pause torrent %s", key)
         
         return torrent_was_paused
-        
-    def resume(self, torrent_id):
-        """Resume a torrent"""
-        try:
-            self.torrents[torrent_id].handle.resume()
-        except:
-            return False
-        
-        status = self.torrents[torrent_id].get_status(
-            ["total_done", "total_wanted"])
-        
-        # Only delete the .fastresume file if we're still downloading stuff
-        if status["total_done"] < status["total_wanted"]:
-            self.delete_fastresume(torrent_id)
-        return True
 
     def resume_all(self):
-        """Resumes all torrents.. Returns a list of torrents resumed"""
+        """Resumes all torrents.. Returns True if at least 1 torrent is resumed"""
         torrent_was_resumed = False
         for key in self.torrents.keys():
             if self.resume(key):
@@ -389,50 +335,7 @@ class TorrentManager(component.Component):
                 log.warning("Unable to resume torrent %s", key)
 
         return torrent_was_resumed
-    
-    def set_trackers(self, torrent_id, trackers):
-        """Sets trackers"""
-        if trackers == None:
-            trackers = []
-            
-        log.debug("Setting trackers for %s: %s", torrent_id, trackers)
-        tracker_list = []
-
-        for tracker in trackers:
-            new_entry = lt.announce_entry(tracker["url"])
-            new_entry.tier = tracker["tier"]
-            tracker_list.append(new_entry)
-            
-        self.torrents[torrent_id].handle.replace_trackers(tracker_list)
-        # Print out the trackers
-        for t in self.torrents[torrent_id].handle.trackers():
-            log.debug("tier: %s tracker: %s", t.tier, t.url)
-        # Set the tracker list in the torrent object
-        self.torrents[torrent_id].trackers = trackers
-        if len(trackers) > 0:
-            # Force a reannounce if there is at least 1 tracker
-            self.force_reannounce(torrent_id)
-        
-    def force_reannounce(self, torrent_id):
-        """Force a tracker reannounce"""
-        try:
-            self.torrents[torrent_id].handle.force_reannounce()
-        except Exception, e:
-            log.debug("Unable to force reannounce: %s", e)
-            return False
-        
-        return True
-    
-    def scrape_tracker(self, torrent_id):
-        """Scrape the tracker"""
-        try:
-            self.torrents[torrent_id].handle.scrape_tracker()
-        except Exception, e:
-            log.debug("Unable to scrape tracker: %s", e)
-            return False
-        
-        return True
-        
+       
     def force_recheck(self, torrent_id):
         """Forces a re-check of the torrent's data"""
         log.debug("Doing a forced recheck on %s", torrent_id)
@@ -443,7 +346,7 @@ class TorrentManager(component.Component):
         if os.access(os.path.join(self.config["torrentfiles_location"] +\
                  "/" + torrent.filename), os.F_OK) is False:
             torrent_info = torrent.handle.get_torrent_info().create_torrent()
-            self.save_torrent(torrent.filename, torrent_info)
+            torrent.save_torrent_file()
 
         # We start by removing it from the lt session            
         try:
@@ -453,7 +356,7 @@ class TorrentManager(component.Component):
             return False
 
         # Remove the fastresume file if there
-        self.delete_fastresume(torrent_id)
+        torrent.delete_fastresume()
         
         # Load the torrent info from file if needed
         if torrent_info == None:
@@ -480,6 +383,9 @@ class TorrentManager(component.Component):
         if not torrent.handle or not torrent.handle.is_valid():
             # The torrent was not added to the session
             return False       
+        
+        # Set the state to Checking
+        torrent.set_state("Checking")
         
         return True
         
@@ -508,7 +414,7 @@ class TorrentManager(component.Component):
         state = TorrentManagerState()
         # Create the state for each Torrent and append to the list
         for torrent in self.torrents.values():
-            torrent_state = TorrentState(*torrent.get_state())
+            torrent_state = TorrentState(*torrent.get_save_info())
             state.torrents.append(torrent_state)
         
         # Pickle the TorrentManagerState object
@@ -524,33 +430,6 @@ class TorrentManager(component.Component):
         # We return True so that the timer thread will continue
         return True
     
-    def delete_fastresume(self, torrent_id):
-        """Deletes the .fastresume file"""
-        torrent = self.torrents[torrent_id]
-        path = "%s/%s.fastresume" % (
-            self.config["torrentfiles_location"], 
-            torrent.filename)
-        log.debug("Deleting fastresume file: %s", path)
-        try:
-            os.remove(path)
-        except Exception, e:
-            log.warning("Unable to delete the fastresume file: %s", e)
-            
-    def write_fastresume(self, torrent_id):
-        """Writes the .fastresume file for the torrent"""
-        torrent = self.torrents[torrent_id]
-        resume_data = lt.bencode(torrent.handle.write_resume_data())
-        path = "%s/%s.fastresume" % (
-            self.config["torrentfiles_location"], 
-            torrent.filename)
-        log.debug("Saving fastresume file: %s", path)
-        try:
-            fastresume = open(path,"wb")
-            fastresume.write(resume_data)
-            fastresume.close()
-        except IOError:
-            log.warning("Error trying to save fastresume file")
-
     def on_set_max_connections_per_torrent(self, key, value):
         """Sets the per-torrent connection limit"""
         log.debug("max_connections_per_torrent set to %s..", value)
@@ -571,16 +450,27 @@ class TorrentManager(component.Component):
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         log.debug("%s is finished..", torrent_id)
+        # Set the torrent state
+        self.torrents[torrent_id].set_state("Seeding")
         # Write the fastresume file
-        self.write_fastresume(torrent_id)
+        self.torrents[torrent_id].write_fastresume()
         
     def on_alert_torrent_paused(self, alert):
         log.debug("on_alert_torrent_paused")
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
+        # Set the torrent state
+        self.torrents[torrent_id].set_state("Paused")
         # Write the fastresume file
-        self.write_fastresume(torrent_id)
+        self.torrents[torrent_id].write_fastresume()
             
+    def on_alert_torrent_checked(self, alert):
+        log.debug("on_alert_torrent_checked")
+        # Get the torrent_id
+        torrent_id = str(alert.handle.info_hash())
+        # Set the torrent state
+        self.torrents[torrent_id].set_state("Downloading")
+                
     def on_alert_tracker_reply(self, alert):
         log.debug("on_alert_tracker_reply")
         # Get the torrent_id

@@ -39,18 +39,26 @@ import pkg_resources
 import xdg, xdg.BaseDirectory
 
 
-TORRENT_STATE = [
-    "Queued",
-    "Checking",
-    "Connecting",
-    "Downloading Metadata",
-    "Downloading",
-    "Finished",
-    "Seeding",
-    "Allocating",
-    "Paused"
-]
+LT_TORRENT_STATE = {
+    "Queued": 0,
+    "Checking": 1,
+    "Connecting": 2,
+    "Downloading Metadata": 3,
+    "Downloading": 4,
+    "Finished": 5,
+    "Seeding": 6,
+    "Allocating": 7,
+    "Paused": 8
+}
 
+TORRENT_STATE = {
+    "Allocating": 0,
+    "Checking": 1,
+    "Downloading": 2,
+    "Seeding": 3,
+    "Paused": 4,
+    "Error": 5
+}
 def get_version():
     """Returns the program version from the egg metadata"""
     return pkg_resources.require("Deluge")[0].version.split("r")[0]
