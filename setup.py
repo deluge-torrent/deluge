@@ -121,6 +121,9 @@ if not windows_check():
 _extra_link_args = [
 ]
 
+_library_dirs = [
+]
+
 _include_dirs = [
     './libtorrent',
     './libtorrent/include',
@@ -138,7 +141,8 @@ _libraries = [
 
 if windows_check():
     _extra_link_args += ['-L./win32/lib']
-    _include_dirs += ['./win32/include']
+    _include_dirs += ['./win32/include', 'C:/Program Files/boost/boost_1_34_1']
+    _library_dirs += ['C:/Program Files/boost/boost_1_34_1/lib']
     _libraries += [
         'ssleay32MT',
         'libeay32MT',
@@ -165,6 +169,7 @@ if not windows_check():
 libtorrent = Extension(
     'libtorrent',
     include_dirs = _include_dirs,
+    library_dirs = _library_dirs,
     libraries = _libraries,
     extra_compile_args = _extra_compile_args,
     extra_link_args = _extra_link_args,
