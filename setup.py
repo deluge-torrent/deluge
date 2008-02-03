@@ -137,7 +137,7 @@ if windows_check():
     _libraries = [
         'boost_filesystem-vc71-mt-1_34_1',
         'boost_date_time-vc71-mt-1_34_1',
-        'boost_thread-vc71-mt-1_34_1
+        'boost_thread-vc71-mt-1_34_1',
         'zlib',
         'ssleay32MT',
         'libeay32MT',
