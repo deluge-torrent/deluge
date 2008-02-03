@@ -44,6 +44,13 @@ import os
 
 python_version = platform.python_version()[0:3]
 
+def windows_check():
+    import platform
+    if platform.system() in ('Windows', 'Microsoft'):
+        return True
+    else:
+        return False
+
 # Try to get SVN revision number to append to version
 revision_string = ""
 try:
@@ -78,28 +85,47 @@ _extra_compile_args = [
     "-DHAVE_SSL=1",
     "-O2",
     "-DNDEBUG"
-]
+    ]
+if windows_check():
+    _extra_compile_args.remove("-Wno-missing-braces")
+    _extra_compile_args = _extra_compile_args + [ 
+        "-DBOOST_WINDOWS",
+        "-DWIN32_LEAN_AND_MEAN",
+        "-D_WIN32_WINNT=0x0500",
+        "-D__USE_W32_SOCKETS",
+        "-D_WIN32",
+        "-DWIN32",
+        "-DUNICODE",
+        "-DBOOST_ALL_NO_LIB",
+        "-D_FILE_OFFSET_BITS=64",
+        "-DBOOST_THREAD_USE_LIB",
+        "-DTORRENT_BUILDING_SHARED",
+        "-DTORRENT_LINKING_SHARED",
+        ]
 
 removals = ["-Wstrict-prototypes"]
 
-if python_version == '2.5':
-    cv_opt = sysconfig.get_config_vars()["CFLAGS"]
-    for removal in removals:
-        cv_opt = cv_opt.replace(removal, " ")
-    sysconfig.get_config_vars()["CFLAGS"] = " ".join(cv_opt.split())
-else:
-    cv_opt = sysconfig.get_config_vars()["OPT"]
-    for removal in removals:
-        cv_opt = cv_opt.replace(removal, " ")
-    sysconfig.get_config_vars()["OPT"] = " ".join(cv_opt.split())
+if not windows_check():
+    if python_version == '2.5':
+        cv_opt = sysconfig.get_config_vars()["CFLAGS"]
+        for removal in removals:
+            cv_opt = cv_opt.replace(removal, " ")
+        sysconfig.get_config_vars()["CFLAGS"] = " ".join(cv_opt.split())
+    else:
+        cv_opt = sysconfig.get_config_vars()["OPT"]
+        for removal in removals:
+            cv_opt = cv_opt.replace(removal, " ")
+        sysconfig.get_config_vars()["OPT"] = " ".join(cv_opt.split())
     
+_extra_link_args = [
+]
 _include_dirs = [
     './libtorrent',
     './libtorrent/include',
     './libtorrent/include/libtorrent',
     '/usr/include/python' + python_version
 ]
-                        
+
 _libraries = [
     'boost_filesystem',
     'boost_date_time',
@@ -108,24 +134,43 @@ _libraries = [
     'z',
     'pthread',
     'ssl',
-
 ]
-			
+
+if windows_check():
+    _extra_link_args = _extra_link_args + [
+        '-L./win32/lib'
+    ]
+    _include_dirs.remove('/usr/include/python' + python_version)
+    _include_dirs = _include_dirs + [
+        './win32/include'
+    ]
+    _libraries.remove('ssl')
+    _libraries = _libraries + [
+        'ssleay32MT',
+        'libeay32MT',
+        'advapi32',
+        'wsock32',
+        'gdi32',
+        'ws2_32'
+    ]
+
 _sources = glob.glob("./libtorrent/src/*.cpp") + \
                         glob.glob("./libtorrent/src/kademlia/*.cpp") + \
                         glob.glob("./libtorrent/bindings/python/src/*.cpp")
 
-# Remove file_win.cpp as it is only for Windows builds
-for source in _sources:
-    if "file_win.cpp" in source:
-        _sources.remove(source)
-        break
+# Remove file_win.cpp if not on windows
+if not windows_check():
+    for source in _sources:
+        if "file_win.cpp" in source:
+            _sources.remove(source)
+            break
 
 libtorrent = Extension(
     'libtorrent',
     include_dirs = _include_dirs,
     libraries = _libraries,
     extra_compile_args = _extra_compile_args,
+    extra_link_args = _extra_link_args,
     sources = _sources
 )
 
