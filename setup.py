@@ -148,7 +148,7 @@ if windows_check():
     ]
 else:
     _include_dirs += ['/usr/include/python' + python_version]
-    _libraries += [
+    _libraries = [
         'boost_filesystem',
         'boost_date_time',
         'boost_thread',
