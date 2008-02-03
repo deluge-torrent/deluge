@@ -135,15 +135,15 @@ _libraries = [
     'boost_date_time',
     'boost_thread',
     'boost_python',
-    'z',
     'pthread',
 ]
 
 if windows_check():
     _extra_link_args += ['-L./win32/lib']
-    _include_dirs += ['./win32/include', 'C:/Program Files/boost/boost_1_34_1']
+    _include_dirs += ['./win32/include/zlib', 'C:/Program Files/boost/boost_1_34_1']
     _library_dirs += ['C:/Program Files/boost/boost_1_34_1/lib']
     _libraries += [
+        'zlib',
         'ssleay32MT',
         'libeay32MT',
         'advapi32',
@@ -153,7 +153,10 @@ if windows_check():
     ]
 else:
     _include_dirs += ['/usr/include/python' + python_version]
-    _libraries += ['ssl']
+    _libraries += [
+        'ssl',
+        'z'
+        ]
     
 _sources = glob.glob("./libtorrent/src/*.cpp") + \
                         glob.glob("./libtorrent/src/kademlia/*.cpp") + \
