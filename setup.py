@@ -130,19 +130,14 @@ _include_dirs = [
     './libtorrent/include/libtorrent',
 ]
 
-_libraries = [
-    'boost_filesystem',
-    'boost_date_time',
-    'boost_thread',
-    'boost_python',
-    'pthread',
-]
-
 if windows_check():
     _extra_link_args += ['-L./win32/lib']
     _include_dirs += ['./win32/include/zlib', 'C:/Program Files/boost/boost_1_34_1']
     _library_dirs += ['C:/Program Files/boost/boost_1_34_1/lib']
-    _libraries += [
+    _libraries = [
+        'boost_filesystem-vc71-mt-1_34_1',
+        'boost_date_time-vc71-mt-1_34_1',
+        'boost_thread-vc71-mt-1_34_1
         'zlib',
         'ssleay32MT',
         'libeay32MT',
@@ -154,6 +149,11 @@ if windows_check():
 else:
     _include_dirs += ['/usr/include/python' + python_version]
     _libraries += [
+        'boost_filesystem',
+        'boost_date_time',
+        'boost_thread',
+        'boost_python',
+        'pthread',
         'ssl',
         'z'
         ]
