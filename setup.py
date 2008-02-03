@@ -76,7 +76,6 @@ except:
 
 # The libtorrent extension
 _extra_compile_args = [
-    "-Wno-missing-braces",
     "-DHAVE_INCLUDE_LIBTORRENT_ASIO____ASIO_HPP=1", 
     "-DHAVE_INCLUDE_LIBTORRENT_ASIO_SSL_STREAM_HPP=1", 
     "-DHAVE_INCLUDE_LIBTORRENT_ASIO_IP_TCP_HPP=1", 
@@ -86,9 +85,9 @@ _extra_compile_args = [
     "-O2",
     "-DNDEBUG"
     ]
+
 if windows_check():
-    _extra_compile_args.remove("-Wno-missing-braces")
-    _extra_compile_args = _extra_compile_args + [ 
+    _extra_compile_args += [ 
         "-DBOOST_WINDOWS",
         "-DWIN32_LEAN_AND_MEAN",
         "-D_WIN32_WINNT=0x0500",
@@ -102,7 +101,9 @@ if windows_check():
         "-DTORRENT_BUILDING_SHARED",
         "-DTORRENT_LINKING_SHARED",
         ]
-
+else:
+    _extra_compile_args += ["-Wno-missing-braces"]
+    
 removals = ["-Wstrict-prototypes"]
 
 if not windows_check():
@@ -119,11 +120,11 @@ if not windows_check():
     
 _extra_link_args = [
 ]
+
 _include_dirs = [
     './libtorrent',
     './libtorrent/include',
     './libtorrent/include/libtorrent',
-    '/usr/include/python' + python_version
 ]
 
 _libraries = [
@@ -133,19 +134,12 @@ _libraries = [
     'boost_python',
     'z',
     'pthread',
-    'ssl',
 ]
 
 if windows_check():
-    _extra_link_args = _extra_link_args + [
-        '-L./win32/lib'
-    ]
-    _include_dirs.remove('/usr/include/python' + python_version)
-    _include_dirs = _include_dirs + [
-        './win32/include'
-    ]
-    _libraries.remove('ssl')
-    _libraries = _libraries + [
+    _extra_link_args += ['-L./win32/lib']
+    _include_dirs += ['./win32/include']
+    _libraries += [
         'ssleay32MT',
         'libeay32MT',
         'advapi32',
@@ -153,7 +147,10 @@ if windows_check():
         'gdi32',
         'ws2_32'
     ]
-
+else:
+    _include_dirs += ['/usr/include/python' + python_version]
+    _libraries += ['ssl']
+    
 _sources = glob.glob("./libtorrent/src/*.cpp") + \
                         glob.glob("./libtorrent/src/kademlia/*.cpp") + \
                         glob.glob("./libtorrent/bindings/python/src/*.cpp")
