@@ -163,7 +163,12 @@ _sources = glob.glob("./libtorrent/src/*.cpp") + \
                         glob.glob("./libtorrent/bindings/python/src/*.cpp")
 
 # Remove file_win.cpp if not on windows
-if not windows_check():
+if windows_check():
+    for source in _sources:
+        if "file.cpp" in source:
+            _sources.remove(source)
+            break
+else:
     for source in _sources:
         if "file_win.cpp" in source:
             _sources.remove(source)
