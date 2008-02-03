@@ -486,7 +486,7 @@ class TorrentManager(component.Component):
         if alert.handle.status().num_complete == -1 or \
             alert.handle.status().num_incomplete == -1:
             # We didn't get peer information, so lets send a scrape request
-            self.scrape_tracker(torrent_id)
+            self.torrents[torrent_id].scrape_tracker()
 
     def on_alert_tracker_announce(self, alert):
         log.debug("on_alert_tracker_announce")
