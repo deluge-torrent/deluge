@@ -220,7 +220,6 @@ torrent_info internal_get_torrent_info(std::string const& torrent_name)
 }
 
 long internal_add_torrent(std::string const&    torrent_name,
-float   preferred_ratio,
 bool    compact_mode,
 boost::filesystem::path const& save_path)
 {
@@ -263,7 +262,6 @@ boost::filesystem::path const& save_path)
         torrent_handle h = M_ses->add_torrent(t, save_path, resume_data, storage_mode);
         //    h.set_max_connections(60); // at some point we should use this
         h.set_max_uploads(-1);
-        h.set_ratio(preferred_ratio);
         h.resolve_countries(true);
         new_torrent.handle = h;
         new_torrent.unique_ID = M_unique_counter;
@@ -747,7 +745,7 @@ static PyObject *torrent_add_torrent(PyObject *self, PyObject *args)
     boost::filesystem::path save_dir_2  (save_dir, empty_name_check);
     try
     {
-        long ret = internal_add_torrent(name, 1.0, compact, save_dir_2);
+        long ret = internal_add_torrent(name, compact, save_dir_2);
         if (PyErr_Occurred())
             return NULL;
         else
