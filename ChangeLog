@@ -1,3 +1,8 @@
+Deluge 0.5.8.3 (XX February 2008)
+  * Randomize encryption pad size to evade throttling
+  * Add logout to WebUI
+  * Only draw the advanced progress bar if 'num_pieces' is greater than 0 - prevents crash
+
 Deluge 0.5.8.3 (28 January 2008)
   * Fix remote exploit which could crash Deluge
   * Fix high cpu spikes
