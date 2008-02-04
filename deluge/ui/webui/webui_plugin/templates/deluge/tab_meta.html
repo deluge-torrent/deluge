@@ -5,7 +5,7 @@ $def with (torrent)
     <div class="progress_bar" style="width:$torrent.progress%;
     text-align:center;font-weight:bold;">
 
-    $torrent.progress %</div>
+    $("%.2f" % torrent.progress) %</div>
 </td>
 </tr><td width=30%%>
 <table>
