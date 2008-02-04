@@ -383,7 +383,8 @@ class TorrentView(listview.ListView, component.Component):
                     row = self.model_filter.get_iter(path)
                 except Exception, e:
                     log.debug("Unable to get iter from path: %s", e)
-
+                    continue
+                    
                 child_row = self.model_filter.convert_iter_to_child_iter(None, row)
                 child_row = self.model_filter.get_model().convert_iter_to_child_iter(child_row)
                 if self.liststore.iter_is_valid(child_row):
