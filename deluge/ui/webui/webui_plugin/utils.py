@@ -122,6 +122,8 @@ def get_stats():
     ws.async_proxy.get_num_connections(dict_cb("num_connections",stats))
     ws.async_proxy.get_config_value(dict_cb('max_num_connections',stats)
         ,"max_connections_global")
+    ws.async_proxy.get_dht_nodes(dict_cb('dht_nodes',stats))
+
 
     ws.async_proxy.force_call(block=True)
 

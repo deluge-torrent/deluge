@@ -115,6 +115,11 @@ def altrow(reset = False):
     irow = irow % 2
     return "altrow%s" % irow
 
+def deluge_int(val):
+    if val == -1 :
+        return _("Unlimited")
+    return val
+
 template.Template.globals.update({
     'sort_head': template_sort_head,
     'part_stats':template_part_stats,
@@ -123,6 +128,7 @@ template.Template.globals.update({
     '_': _ , #gettext/translations
     'str': str, #because % in templetor is broken.
     'int':int,
+    'deluge_int':deluge_int,
     'sorted': sorted,
     'altrow':altrow,
     'get_config': get_config,

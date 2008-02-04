@@ -19,16 +19,17 @@ $:render.part_button('POST', '/logout', _('Logout'), 'tango/system-log-out.png')
 
 <div class="panel"  id='stats_panel'>
     <!--<a href='/config'>-->
-$if env == '0.6':
-    $:render.part_button('GET', '/config/', _('Settings'), 'tango/preferences-system.png')
-
-$_('Connections') : $stats.num_connections ($stats.max_num_connections)
-
-$_('Down Speed') : $stats.download_rate  ($stats.max_download)
-
-$_('Up Speed') : $stats.upload_rate  ($stats.max_upload)
 
 
+<img src="/static/images/tango/connections.png" title="$_('Connections')"> $stats.num_connections ($deluge_int(stats.max_num_connections))
+
+<img src="/static/images/downloading16.png" title="$_('Down Speed')"> $stats.download_rate  ($deluge_int(stats.max_download))
+
+<img src="/static/images/seeding16.png" title="$_('Up Speed')"> $stats.upload_rate  ($deluge_int(stats.max_upload))
+
+DHT: $stats.dht_nodes
+
+$:render.part_button('GET', '/config/', _('Settings'), 'tango/preferences-system.png')
 
 
     <!--</a>-->
