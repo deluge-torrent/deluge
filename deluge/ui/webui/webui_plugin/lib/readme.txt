@@ -4,7 +4,7 @@ They should be usable outside of deluge.
 Disclaimer:
 
 Some may have been adapted to work better with deluge.
-But they will import other parts of deluge or Webui.
+But they will not import other parts of deluge or Webui.
 
 LICENCE:
 All components are GPL compatible.
