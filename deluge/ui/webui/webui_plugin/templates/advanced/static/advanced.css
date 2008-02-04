@@ -145,7 +145,7 @@ body.inner {
 
 #refresh_panel {
 		-moz-border-radius:0px;
-		width:350px;
+		width:500px;
 		position:fixed;
 		bottom:0px;
 		right:0px;
@@ -186,6 +186,10 @@ body.inner {
 }
 #stats_panel button:hover {
 		text-decoration: underline;
+}
+#stats_panel img{
+		position:relative;
+		top:3px;
 }
 
 
