@@ -15,6 +15,7 @@ $#end
 
 $:render.part_button('POST', '/logout', _('Logout'), 'tango/system-log-out.png')
 
+$:render.part_button('GET', '/config/', _('Settings'), 'tango/preferences-system.png')
 </div>
 
 <div class="panel"  id='stats_panel'>
@@ -29,7 +30,7 @@ $:render.part_button('POST', '/logout', _('Logout'), 'tango/system-log-out.png')
 
 <img src="/static/images/dht16.png" title="$_('DHT Nodes')"> $stats.dht_nodes
 
-$:render.part_button('GET', '/config/', _('Settings'), 'tango/preferences-system.png')
+
 
 
     <!--</a>-->
