@@ -101,6 +101,7 @@ class Torrent:
                 
         # Files dictionary
         self.files = self.get_files()
+        self.file_priorities = []
         
     def set_tracker_status(self, status):
         """Sets the tracker status"""
