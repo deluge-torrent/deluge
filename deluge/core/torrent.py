@@ -256,7 +256,7 @@ class Torrent:
             "tracker_status": self.tracker_status,
             "save_path": self.save_path,
             "files": self.files,
-            "file_priorities":, self.file_priorities
+            "file_priorities": self.file_priorities
         }
         self.status = None
         self.torrent_info = None
