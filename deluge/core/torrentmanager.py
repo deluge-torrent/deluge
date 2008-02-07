@@ -174,22 +174,27 @@ class TorrentManager(component.Component):
         handle = None
 
         # Check if options is None and load defaults
+        options_keys = [
+            "compact_allocation",
+            "max_connections_per_torrent",
+            "max_upload_slots_per_torrent",
+            "max_upload_speed_per_torrent",
+            "max_download_speed_per_torrent",
+            "prioritize_first_last_pieces",
+            "download_location",
+            "add_paused",
+            "default_private"
+        ]
+
         if options == None:
-            options_keys = [
-                "compact_allocation",
-                "max_connections_per_torrent",
-                "max_upload_slots_per_torrent",
-                "max_upload_speed_per_torrent",
-                "max_download_speed_per_torrent",
-                "prioritize_first_last_pieces",
-                "download_location",
-                "add_paused",
-                "default_private"
-            ]
             options = {}
             for key in options_keys:
                 options[key] = self.config[key]
-
+        else:
+            for key in options_keys:
+                if not options.has_key(key):
+                    options[key] = self.config[key]
+                    
         if paused is None:
             paused = options["add_paused"]
 
