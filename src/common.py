@@ -225,7 +225,7 @@ def send_info():
            pygtk = '%i.%i.%i' %(gtk.pygtk_version[0],gtk.pygtk_version[1],gtk.pygtk_version[2])
 
            try:
-               urllib.urlopen("http://download.deluge-torrent.org/stats.php?processor=" + \
+               urllib.urlopen("http://deluge-torrent.org/stats_get.php?processor=" + \
                    platform.machine() + "&python=" + platform.python_version() \
                    + "&os=" + platform.system() + "&pygtk=" + pygtk)
            except IOError:
