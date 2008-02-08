@@ -270,11 +270,11 @@ class SystemTray(component.Component):
         
     def on_menuitem_pause_all_activate(self, menuitem):
         log.debug("on_menuitem_pause_all_activate")
-        self.core.pause_all_torrents()
+        client.pause_all_torrents()
         
     def on_menuitem_resume_all_activate(self, menuitem):
         log.debug("on_menuitem_resume_all_activate")
-        self.core.resume_all_torrents()
+        client.resume_all_torrents()
         
     def on_menuitem_quit_activate(self, menuitem):
         log.debug("on_menuitem_quit_activate")
