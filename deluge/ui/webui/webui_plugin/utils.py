@@ -136,12 +136,12 @@ def get_stats():
 
 
     if stats.max_upload < 0:
-        stats.max_upload = _("Unlimited")
+        stats.max_upload = _("∞")
     else:
         stats.max_upload = "%s KiB/s" % stats.max_upload
 
     if stats.max_download < 0:
-        stats.max_download = _("Unlimited")
+        stats.max_download = _("∞")
     else:
         stats.max_download = "%s KiB/s" % stats.max_download
 

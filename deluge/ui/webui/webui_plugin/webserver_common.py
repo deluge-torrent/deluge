@@ -82,18 +82,6 @@ STATE_MESSAGES = (_("Queued"),
     _("Seeding"),
     _("Allocating"))
 
-SPEED_VALUES = [
-        (-1, 'Unlimited'),
-        (5, '5.0 Kib/sec'),
-        (10, '10.0 Kib/sec'),
-        (15, '15.0 Kib/sec'),
-        (25, '25.0 Kib/sec'),
-        (30, '30.0 Kib/sec'),
-        (50, '50.0 Kib/sec'),
-        (80, '80.0 Kib/sec'),
-        (300, '300.0 Kib/sec'),
-        (500, '500.0 Kib/sec')
-    ]
 CONFIG_DEFAULTS = {
     "port":8112,
     "button_style":2,

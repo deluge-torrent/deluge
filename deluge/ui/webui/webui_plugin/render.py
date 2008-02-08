@@ -117,7 +117,12 @@ def altrow(reset = False):
 
 def deluge_int(val):
     if val == -1 :
-        return _("Unlimited")
+        return "∞"
+    return val
+
+def ftime(val):
+    if val <= 0:
+        return _("∞")
     return val
 
 template.Template.globals.update({
@@ -135,7 +140,7 @@ template.Template.globals.update({
     'self_url': self_url,
     'fspeed': common.fspeed,
     'fsize': common.fsize,
-    'ftime':common.ftime,
+    'ftime':ftime,
     'render': render, #for easy resuse of templates
     'rev': 'rev.%s'  % (REVNO, ),
     'version': VERSION,
