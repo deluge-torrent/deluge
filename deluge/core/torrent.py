@@ -229,11 +229,6 @@ class Torrent:
             distributed_copies = 0.0
             
         full_status = {
-            "name": self.torrent_info.name(),
-            "total_size": self.torrent_info.total_size(),
-            "num_files": self.torrent_info.num_files(),
-            "num_pieces": self.torrent_info.num_pieces(),
-            "piece_length": self.torrent_info.piece_length(),
             "distributed_copies": distributed_copies,
             "total_done": self.status.total_done,
             "total_uploaded": self.total_uploaded + self.status.total_payload_upload,
@@ -250,8 +245,6 @@ class Torrent:
             "total_peers": self.status.num_incomplete,
             "total_seeds":  self.status.num_complete,
             "total_wanted": self.status.total_wanted,
-            "eta": self.get_eta(),
-            "ratio": self.get_ratio(),
             "tracker": self.status.current_tracker,
             "trackers": self.trackers,
             "tracker_status": self.tracker_status,
@@ -259,6 +252,18 @@ class Torrent:
             "files": self.files,
             "file_priorities": self.file_priorities
         }
+        
+        fns = {
+            "name" : self.torrent_info.name,
+            "total_size" :  self.torrent_info.total_size,
+            "num_files" :  self.torrent_info.num_files,
+            "num_pieces" :  self.torrent_info.num_pieces,
+            "piece_length" :  self.torrent_info.piece_length,
+            "eta" :  self.get_eta,
+            "ratio" :  self.get_ratio,
+            "file_progress" : self.handle.file_progress
+        }
+
         self.status = None
         self.torrent_info = None
         
@@ -271,6 +276,8 @@ class Torrent:
             for key in keys:
                 if key in full_status:
                     status_dict[key] = full_status[key]
+                elif key in fns:
+                    status_dict[key] = fns[key]()
 
         return status_dict
         
