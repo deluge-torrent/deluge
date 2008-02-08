@@ -104,24 +104,24 @@ $for torrent in torrent_list:
     $if torrent.total_seeds != -1:
         $torrent.num_seeds ($torrent.total_seeds)
     $else:
-        -
+        0
     </td>
     <td>
     $if torrent.total_peers != -1:
         $torrent.num_peers ($torrent.total_peers)</td>
     $else:
-        -
+        0
     <td>
     $if (torrent.download_rate):
         $fspeed(torrent.download_rate)
     $else:
-        -
+        &nbsp;
     </td>
     <td>
     $if (torrent.upload_rate):
         $fspeed(torrent.upload_rate)
     $else:
-       -
+       &nbsp;
     </td>
     <td>$ftime(torrent.eta)</td>
     <td>$("%.3f" % torrent.distributed_copies)</td>
