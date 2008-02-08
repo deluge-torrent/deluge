@@ -323,7 +323,7 @@ class TorrentManager(component.Component):
         torrent_was_paused = False
         for key in self.torrents.keys():
             try:
-                self.torrents[key].handle.pause()
+                self.torrents[key].pause()
                 torrent_was_paused = True
             except:
                 log.warning("Unable to pause torrent %s", key)
@@ -334,7 +334,7 @@ class TorrentManager(component.Component):
         """Resumes all torrents.. Returns True if at least 1 torrent is resumed"""
         torrent_was_resumed = False
         for key in self.torrents.keys():
-            if self.resume(key):
+            if self.torrents[key].resume():
                 torrent_was_resumed = True
             else:
                 log.warning("Unable to resume torrent %s", key)
