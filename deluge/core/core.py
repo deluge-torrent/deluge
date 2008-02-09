@@ -503,12 +503,12 @@ class Core(
     def torrent_all_paused(self):
         """Emitted when all torrents have been paused"""
         log.debug("torrent_all_paused signal emitted")
-        self.signals.emit("torrent_all_paused", torrent_id)
+        self.signals.emit("torrent_all_paused")
 
     def torrent_all_resumed(self):
         """Emitted when all torrents have been resumed"""
         log.debug("torrent_all_resumed signal emitted")
-        self.signals.emit("torrent_all_resumed", torrent_id)
+        self.signals.emit("torrent_all_resumed")
 
     def config_value_changed(self, key, value):
         """Emitted when a config value has changed"""
