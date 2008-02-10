@@ -66,6 +66,8 @@ class SignalManager(component.Component):
             gobject.idle_add(self._emit, uri, signal, 1, *data)
 
     def _emit(self, uri, signal, count, *data):
+        if uri not in self.clients:
+            return
         client = self.clients[uri]
         try:
             client.emit_signal(signal, *data)
