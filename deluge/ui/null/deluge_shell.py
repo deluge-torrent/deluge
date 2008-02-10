@@ -291,9 +291,13 @@ class NullUI:
 		readline.read_init_file()
 
 		while True:
-			inp = raw_input("> ")
-			if len(inp) == 0:	break
-			inp = inp.strip().split(" ")
+			try:
+				inp = raw_input("> ").strip()
+			except:
+				inp = 'quit'
+
+			if len(inp) == 0:	continue
+			inp = inp.split(" ")
 
 			print ""
 			cmd = inp[0]
