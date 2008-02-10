@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-14 17:14+0000\n"
+"PO-Revision-Date: 2008-02-05 19:36+0000\n"
 "Last-Translator: Evgeni Spasov <evgeni@svilen.com>\n"
 "Language-Team: Bulgarian <bg@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
+"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #~ msgid "Clear Finished Torrents"
@@ -711,7 +711,7 @@ msgstr "Изходящ:"
 
 #: glade/preferences_dialog.glade:904
 msgid "Prefer to encrypt the entire stream"
-msgstr ""
+msgstr "Предпочитано шифриране на целия поток"
 
 #: glade/preferences_dialog.glade:917
 msgid "Level:"
@@ -978,7 +978,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2618
 msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
-msgstr ""
+msgstr "<b>Настолен файлов мениджър</b> - само за не-уиндоуски платформи"
 
 #: glade/preferences_dialog.glade:2649
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
@@ -990,19 +990,19 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2690
 msgid "Use and show the anonymizing internal browser"
-msgstr ""
+msgstr "Ползване и показване на анонимизиращия вграден браузър"
 
 #: glade/preferences_dialog.glade:2701
 msgid "<b>Internal Browser</b>"
-msgstr ""
+msgstr "<b>Вграден браузър</b>"
 
 #: glade/preferences_dialog.glade:2731
 msgid "Show the search bar on the toolbar"
-msgstr ""
+msgstr "Показване на поле за търсене в лентата"
 
 #: glade/preferences_dialog.glade:2742
 msgid "<b>Search Bar</b> - restart required"
-msgstr ""
+msgstr "<b>Поле за търсене</b> - нужно е презареждане"
 
 #: glade/preferences_dialog.glade:2776
 msgid ""
@@ -1057,7 +1057,7 @@ msgstr "_Премахване на торента"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "_Настройки на следящия сървър"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
@@ -1093,7 +1093,7 @@ msgstr "На_й-долу"
 
 #: glade/torrent_menu.glade:251
 msgid "_Open Containing Folder"
-msgstr ""
+msgstr "_Отваряне на папката"
 
 #: glade/tray_menu.glade:12
 msgid "_Show Deluge"
@@ -1133,7 +1133,7 @@ msgstr "Deluge - избор на файл"
 
 #: glade/files_dialog.glade:42
 msgid "Torrent will not be distributed on the trackerless (DHT) network"
-msgstr ""
+msgstr "Торентът няма да се разпространява в мрежата без следящ сървър (DHT)"
 
 #: glade/files_dialog.glade:43
 msgid "Set the private flag"
@@ -1150,6 +1150,9 @@ msgid ""
 "the form of plugins, which can be accessed by clicking on Plugins in the "
 "Edit menu or the toolbar."
 msgstr ""
+"Този помощник ще ви помогне да настроите програмата. Ако ползвате за първи "
+"път Deluge, имайте предвид, че повечето функционалности са изнесени в "
+"приставки, които са достъпни от менюто Редактиране -> Приставки."
 
 #: glade/wizard.glade:36
 msgid ""
@@ -1248,7 +1251,7 @@ msgstr "Браузър"
 
 #: src/interface.py:73
 msgid "Launch Browser"
-msgstr ""
+msgstr "Зареждане на браузър"
 
 #: src/interface.py:251
 msgid ""
@@ -1318,11 +1321,11 @@ msgstr "Име"
 
 #: src/interface.py:664 plugins/WebUi/scripts/template_strings.py:21
 msgid "ETA"
-msgstr ""
+msgstr "Оставащо време"
 
 #: src/interface.py:667
 msgid "Avail."
-msgstr ""
+msgstr "Наличност"
 
 #: src/interface.py:669 plugins/WebUi/scripts/template_strings.py:40
 msgid "Ratio"
@@ -1331,12 +1334,12 @@ msgstr "Съотношение"
 #: src/interface.py:977
 #, python-format
 msgid "Paused %s"
-msgstr ""
+msgstr "%s е спряно"
 
 #: src/interface.py:979
 #, python-format
 msgid "Queued %s"
-msgstr ""
+msgstr "%s е на опашка"
 
 #: src/interface.py:1091
 msgid ""
@@ -1351,7 +1354,7 @@ msgstr "Връзки"
 
 #: src/interface.py:1281
 msgid "DHT"
-msgstr ""
+msgstr "DHT (децентрализирана размяна)"
 
 #: src/interface.py:1290 plugins/TorrentCreator/__init__.py:149
 msgid "Deluge"
@@ -1378,10 +1381,11 @@ msgid ""
 "An error occured while trying to add the torrent. It's possible your "
 ".torrent file is corrupted."
 msgstr ""
+"Грешка при опит за добавяне на торента. Възможно е файлът да е повреден."
 
 #: src/interface.py:1448
 msgid "Unknown duplicate torrent error."
-msgstr ""
+msgstr "Неизвестна грешка от дублиране на торент."
 
 #: src/interface.py:1453
 msgid "There is not enough freedisk space to complete your download."
@@ -1409,7 +1413,7 @@ msgstr "Внимание- Всички свалени файлове на тоз
 
 #: src/interface.py:1564
 msgid "Are you sure that you want to remove all seeding torrents?"
-msgstr ""
+msgstr "Наистина ли искате да премахнете всички излъчвани торенти?"
 
 #: src/search.py:59
 msgid "Search String"
@@ -1466,7 +1470,7 @@ msgstr "Файлът не е намерен"
 
 #: src/core.py:440
 msgid "Asked for a torrent that doesn't exist"
-msgstr ""
+msgstr "Поискан е торент, който не съществува"
 
 #: src/core.py:567
 msgid "There is not enough free disk space to complete your download."
@@ -1478,7 +1482,7 @@ msgstr "Обявяването е изпратено"
 
 #: src/core.py:668
 msgid "Announce OK"
-msgstr ""
+msgstr "Успешно обявяване"
 
 #: src/core.py:674
 msgid "Alert"
@@ -1614,13 +1618,13 @@ msgstr "Грешка при изтеглянето на URL"
 
 #: plugins/BlocklistImport/__init__.py:106
 msgid "Couldn't open blocklist file"
-msgstr ""
+msgstr "Грешка при отваряне файла с черния списък"
 
 #: plugins/BlocklistImport/__init__.py:114 plugins/BlocklistImport/text.py:37
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
 #: plugins/BlocklistImport/text.py:99
 msgid "Wrong file type or corrupted blocklist file."
-msgstr ""
+msgstr "Грешен вид или повреден файл с черен списък"
 
 #: plugins/BlocklistImport/__init__.py:122
 msgid "Imported"
@@ -1632,7 +1636,7 @@ msgstr "IP-адреси"
 
 #: plugins/BlocklistImport/__init__.py:165
 msgid "Blocklist"
-msgstr ""
+msgstr "Черен списък"
 
 #: plugins/BlocklistImport/__init__.py:165
 msgid "entries"
@@ -1648,7 +1652,7 @@ msgstr "Изтеглане при зареждане"
 
 #: plugins/BlocklistImport/ui.py:108
 msgid "Loading and installing blocklist"
-msgstr ""
+msgstr "Зареждане и инсталиране на черен списък"
 
 #: plugins/BlocklistImport/ui.py:132
 msgid "Importing"
@@ -1717,7 +1721,7 @@ msgstr "Клиент"
 
 #: plugins/TorrentPeers/tab_peers.py:87
 msgid "Percent Complete"
-msgstr ""
+msgstr "Изпълнение в проценти"
 
 #: plugins/TorrentCreator/torrentcreator.glade:9
 msgid "Torrent Creator"
@@ -1882,7 +1886,7 @@ msgstr "[Здраве: ОК]"
 
 #: plugins/EventLogging/event_logging_preferences.glade:7
 msgid "Event Logging Preferences"
-msgstr ""
+msgstr "Настройки за записи на събития"
 
 #: plugins/EventLogging/event_logging_preferences.glade:28
 msgid "Enable log files"
@@ -1895,7 +1899,7 @@ msgstr "Журнални файлове"
 #: plugins/EventLogging/event_logging_preferences.glade:66
 #: plugins/EventLogging/tab_log.py:210
 msgid "Peer blocked"
-msgstr ""
+msgstr "Потребителят е блокиран"
 
 #: plugins/EventLogging/event_logging_preferences.glade:80
 #: plugins/EventLogging/tab_log.py:200
@@ -2099,7 +2103,7 @@ msgstr "Напредък"
 
 #: plugins/TorrentFiles/tab_files.py:100
 msgid "There was an error trying to launch the file."
-msgstr ""
+msgstr "Грешка при изпълнението на файла."
 
 #: plugins/TorrentFiles/__init__.py:34
 msgid ""
@@ -2297,23 +2301,23 @@ msgstr ""
 
 #: plugins/WebUi/deluge_webserver.py:196
 msgid "Choose an url or a torrent, not both."
-msgstr ""
+msgstr "Изберете адрес или торент-файл, не и двете."
 
 #: plugins/WebUi/deluge_webserver.py:206
 msgid "no data."
-msgstr ""
+msgstr "няма данни"
 
 #: plugins/WebUi/deluge_webserver.py:307
 msgid "refresh must be > 0"
-msgstr ""
+msgstr "обновяването трябва да е по-голямо от 0"
 
 #: plugins/WebUi/scripts/template_strings.py:1
 msgid "# Of Files"
-msgstr ""
+msgstr "Брой файлове"
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
-msgstr ""
+msgstr "Относно"
 
 #: plugins/WebUi/scripts/template_strings.py:5
 msgid "Add torrent"
@@ -2329,11 +2333,11 @@ msgstr "Автоматично обновяване"
 
 #: plugins/WebUi/scripts/template_strings.py:8
 msgid "Ava"
-msgstr ""
+msgstr "Наличност"
 
 #: plugins/WebUi/scripts/template_strings.py:10
 msgid "Config"
-msgstr ""
+msgstr "Настройка"
 
 #: plugins/WebUi/scripts/template_strings.py:12
 msgid "Debug:Data Dump"
@@ -2349,7 +2353,7 @@ msgstr "Изключване"
 
 #: plugins/WebUi/scripts/template_strings.py:20
 msgid "Downloaded"
-msgstr ""
+msgstr "Изтеглено"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Enable"
@@ -2361,7 +2365,7 @@ msgstr "Грешка"
 
 #: plugins/WebUi/scripts/template_strings.py:24
 msgid "Eta"
-msgstr ""
+msgstr "Оставащо време"
 
 #: plugins/WebUi/scripts/template_strings.py:25
 msgid "Login"
@@ -2381,11 +2385,11 @@ msgstr "Изкл."
 
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Password is invalid,try again"
-msgstr ""
+msgstr "Паролата е неправилна, опитайте отново"
 
 #: plugins/WebUi/scripts/template_strings.py:33
 msgid "Pause all"
-msgstr ""
+msgstr "Спиране на всички"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Pieces"
@@ -2393,19 +2397,19 @@ msgstr "Части"
 
 #: plugins/WebUi/scripts/template_strings.py:37
 msgid "Queue Down"
-msgstr ""
+msgstr "Надолу в опашката"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Queue Position"
-msgstr ""
+msgstr "Място в опашката"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Queue Up"
-msgstr ""
+msgstr "Нагоре в опашката"
 
 #: plugins/WebUi/scripts/template_strings.py:41
 msgid "Reannounce"
-msgstr ""
+msgstr "Повторно обявяване"
 
 #: plugins/WebUi/scripts/template_strings.py:42
 msgid "Refresh page every:"
@@ -2417,7 +2421,7 @@ msgstr "Премахване на торента"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Resume all"
-msgstr ""
+msgstr "Продължаване на всички"
 
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Set"
@@ -2437,7 +2441,7 @@ msgstr "Стартирай"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Submit"
-msgstr ""
+msgstr "Изпращане"
 
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Torrent list"
@@ -2477,11 +2481,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
-msgstr ""
+msgstr "Емисията ще се обнови автоматично според интервала на обновяване."
 
 #: plugins/FlexRSS/FlexRSS.glade:115
 msgid "Feed must be refreshed manually."
-msgstr ""
+msgstr "Емисията ще трябва да се обнови ръчно."
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
@@ -2526,12 +2530,12 @@ msgstr ""
 #: plugins/FlexRSS/FlexRSS.glade:565 plugins/FlexRSS/FlexRSS.glade:641
 #: plugins/FlexRSS/FlexRSS.glade:826
 msgid "Season"
-msgstr ""
+msgstr "Сезон"
 
 #: plugins/FlexRSS/FlexRSS.glade:594 plugins/FlexRSS/FlexRSS.glade:675
 #: plugins/FlexRSS/FlexRSS.glade:833
 msgid "Episode"
-msgstr ""
+msgstr "Епизод"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 msgid "Thru"
@@ -2571,11 +2575,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
 msgid "Delete filter when matched."
-msgstr ""
+msgstr "Изтриване на филтъра при съвпадение"
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
-msgstr ""
+msgstr "<b>Изтегляне</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1084
 msgid "Replacement"
@@ -2594,18 +2598,20 @@ msgid ""
 "Content will be saved to Deluge's default directory, or a prompt will appear "
 "if none is set."
 msgstr ""
+"Съдържанието ще се записва в подразбиращата се папка или ще се пита, ако "
+"няма такава."
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
 msgid "Deluge default"
-msgstr ""
+msgstr "По подразбиране за Deluge"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
-msgstr ""
+msgstr "Съдържанието автоматично ще се изтегля в указаната папка."
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"
-msgstr ""
+msgstr "Изберете:"
 
 #: plugins/FlexRSS/FlexRSS.glade:1190
 msgid "<b>Output</b>"
@@ -2621,7 +2627,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1283
 msgid "Show button on toolbar."
-msgstr ""
+msgstr "Показване бутон на лентата"
 
 #: plugins/FlexRSS/FlexRSS.glade:1300
 msgid "<b>Interface</b>"
@@ -2635,11 +2641,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
 msgid "Threaded (experimental)"
-msgstr ""
+msgstr "Нишково (изпитва се все още)"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"
-msgstr ""
+msgstr "<b>Изтегляне на емисията</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"
@@ -2659,4 +2665,4 @@ msgstr "<b>Бисквитки</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1582
 msgid "Configuration"
-msgstr ""
+msgstr "Настройка"

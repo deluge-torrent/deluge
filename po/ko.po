@@ -8,34 +8,47 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2007-11-29 10:16+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2008-01-31 03:01+0000\n"
+"Last-Translator: ChangHyo Jeong <gweere@gmail.com>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
+"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+
+#~ msgid "Donate to Deluge Development"
+#~ msgstr "Deluge 개발자에게 기부하기"
+
+#~ msgid "_Donate"
+#~ msgstr "기부하기(_D)"
+
+#~ msgid ""
+#~ "msgidDeluge is password protected.\n"
+#~ "To show the Deluge window, please enter your password"
+#~ msgstr ""
+#~ "msgstrDeluge는 암호로 보호되고 있습니다.\n"
+#~ "Deluge 창을 보시려면 암호를 입력해 주세요."
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
 msgid "Add Torrent"
-msgstr "토런트 더하기"
+msgstr "토런트 추가"
 
 #: glade/delugegtk.glade:30 plugins/WebUi/scripts/template_strings.py:3
 msgid "Add"
-msgstr "더하기"
+msgstr "추가"
 
 #: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
-msgstr "토런트 삭제"
+msgstr "토런트 제거"
 
 #: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:43
 msgid "Remove"
-msgstr "삭제"
+msgstr "제거"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
-msgstr "뿌리고 있는 토런트 비우기"
+msgstr "배포중인 토런트 비우기"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
@@ -51,11 +64,11 @@ msgstr "재시작"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
-msgstr "토런트 잠시 멈춤"
+msgstr "토런트 일시정지"
 
 #: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
 msgid "Pause"
-msgstr "잠시 멈춤"
+msgstr "일시정지"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
@@ -63,7 +76,7 @@ msgstr "토런트 대기 순서 올리기"
 
 #: glade/delugegtk.glade:107 plugins/WebUi/scripts/template_strings.py:59
 msgid "Up"
-msgstr ""
+msgstr "위로"
 
 #: glade/delugegtk.glade:120
 msgid "Queue Torrent Down"
@@ -71,11 +84,11 @@ msgstr "토런트 대기 순서 내리기"
 
 #: glade/delugegtk.glade:121 plugins/WebUi/scripts/template_strings.py:17
 msgid "Down"
-msgstr ""
+msgstr "아래로"
 
 #: glade/delugegtk.glade:142
 msgid "Change Deluge preferences"
-msgstr ""
+msgstr "Deluge 기본 설정 변경"
 
 #: glade/delugegtk.glade:143
 msgid "Preferences"
@@ -92,15 +105,15 @@ msgstr "파일(_F)"
 
 #: glade/delugegtk.glade:193 glade/tray_menu.glade:61
 msgid "_Add Torrent"
-msgstr "토런트 더하기(_A)"
+msgstr "토런트 추가(_A)"
 
 #: glade/delugegtk.glade:208
 msgid "Add _URL"
-msgstr "_URL 더하기"
+msgstr "_URL 추가"
 
 #: glade/delugegtk.glade:216
 msgid "_Clear Completed"
-msgstr "완료된 것 빼기(_C)"
+msgstr "완료된 것 비우기(_C)"
 
 #: glade/delugegtk.glade:249
 msgid "_Edit"
@@ -108,7 +121,7 @@ msgstr "편집(_E)"
 
 #: glade/delugegtk.glade:274
 msgid "Plu_gins"
-msgstr ""
+msgstr "플러그인(_G)"
 
 #: glade/delugegtk.glade:302
 msgid "_Torrent"
@@ -120,11 +133,11 @@ msgstr "보기(_V)"
 
 #: glade/delugegtk.glade:317
 msgid "_Toolbar"
-msgstr ""
+msgstr "도구 모음(_T)"
 
 #: glade/delugegtk.glade:326
 msgid "_Details"
-msgstr "자세히 보기(_D)"
+msgstr "상세 정보(_D)"
 
 #: glade/delugegtk.glade:335
 msgid "_Columns"
@@ -143,25 +156,25 @@ msgstr "상태"
 #: glade/delugegtk.glade:361 src/interface.py:652
 #: plugins/WebUi/scripts/template_strings.py:47
 msgid "Seeders"
-msgstr "씨뿌림이목록"
+msgstr "배포자"
 
 #: glade/delugegtk.glade:370 src/interface.py:655
 #: plugins/TorrentPeers/__init__.py:85
 #: plugins/WebUi/scripts/template_strings.py:34
 msgid "Peers"
-msgstr "또래목록"
+msgstr "피어"
 
 #: glade/delugegtk.glade:379 src/interface.py:658 src/interface.py:1263
 #: src/interface.py:1294 plugins/TorrentPeers/tab_peers.py:89
 #: plugins/WebUi/scripts/template_strings.py:18
 msgid "Down Speed"
-msgstr "내려받기 속도"
+msgstr "다운 속도"
 
 #: glade/delugegtk.glade:388 src/interface.py:661 src/interface.py:1264
 #: src/interface.py:1295 plugins/TorrentPeers/tab_peers.py:91
 #: plugins/WebUi/scripts/template_strings.py:60
 msgid "Up Speed"
-msgstr "올리기 속도"
+msgstr "업 속도"
 
 #: glade/delugegtk.glade:397
 msgid "Time Remaining"
@@ -169,11 +182,11 @@ msgstr "남은 시간"
 
 #: glade/delugegtk.glade:406 plugins/WebUi/scripts/template_strings.py:9
 msgid "Availability"
-msgstr "가용성"
+msgstr "유효성"
 
 #: glade/delugegtk.glade:415 plugins/WebUi/scripts/template_strings.py:50
 msgid "Share Ratio"
-msgstr "공유비"
+msgstr "공유 비율"
 
 #: glade/delugegtk.glade:432
 msgid "_Help"
@@ -181,15 +194,15 @@ msgstr "도움말(_H)"
 
 #: glade/delugegtk.glade:440
 msgid "_Homepage"
-msgstr ""
+msgstr "홈페이지(_H)"
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
-msgstr ""
+msgstr "빈번한 질문들(_F)"
 
 #: glade/delugegtk.glade:474
 msgid "_Community"
-msgstr ""
+msgstr "커뮤니티(_C)"
 
 #: glade/delugegtk.glade:497
 msgid "Help translate this application"
@@ -201,7 +214,7 @@ msgstr "이 프로그램 번역하기(_T)"
 
 #: glade/delugegtk.glade:521
 msgid "Runs the first-time configuration wizard"
-msgstr "최초 설정 마법사 실행"
+msgstr "처음 설정 마법사 실행"
 
 #: glade/delugegtk.glade:522
 msgid "_Run Configuration Wizard"
@@ -209,23 +222,23 @@ msgstr "설정 마법사 실행(_R)"
 
 #: glade/delugegtk.glade:659
 msgid "<b>Name:</b>"
-msgstr "<b>파일이름:</b>"
+msgstr "<b>파일 이름:</b>"
 
 #: glade/delugegtk.glade:683
 msgid "<b>Tracker:</b>"
-msgstr "<b>추적자:</b>"
+msgstr "<b>트래커:</b>"
 
 #: glade/delugegtk.glade:711
 msgid "<b># of files:</b>"
-msgstr "<b> 파일개수:</b>"
+msgstr "<b>파일 개수:</b>"
 
 #: glade/delugegtk.glade:748
 msgid "<b>Next Announce:</b>"
-msgstr "<b>다음 공지:</b>"
+msgstr "<b>다음 알림:</b>"
 
 #: glade/delugegtk.glade:783
 msgid "<b>Tracker Status:</b>"
-msgstr "<b>추적자 상태:</b>"
+msgstr "<b>트래커 상태:</b>"
 
 #: glade/delugegtk.glade:847
 msgid "<b>Total Size:</b>"
@@ -241,19 +254,19 @@ msgstr "<b>토런트 정보</b>"
 
 #: glade/delugegtk.glade:1078
 msgid "<b>Downloaded:</b>"
-msgstr "<b>내려받은 양:</b>"
+msgstr "<b>다운로드 양:</b>"
 
 #: glade/delugegtk.glade:1092
 msgid "<b>Uploaded:</b>"
-msgstr "<b>올려놓은 양:</b>"
+msgstr "<b>업로드 양:</b>"
 
 #: glade/delugegtk.glade:1110
 msgid "<b>Seeders:</b>"
-msgstr "<b>제공중인 이들:</b>"
+msgstr "<b>배포자 수:</b>"
 
 #: glade/delugegtk.glade:1128
 msgid "<b>Share Ratio:</b>"
-msgstr "<b>공유비:</b>"
+msgstr "<b>공유 비율:</b>"
 
 #: glade/delugegtk.glade:1147 glade/delugegtk.glade:1166
 msgid "<b>Speed:</b>"
@@ -261,19 +274,19 @@ msgstr "<b>속도:</b>"
 
 #: glade/delugegtk.glade:1187
 msgid "<b>Peers:</b>"
-msgstr "<b>함께받는 이들:</b>"
+msgstr "<b>피어 수:</b>"
 
 #: glade/delugegtk.glade:1208
 msgid "<b>ETA:</b>"
-msgstr "<b>완료예상시간</b>"
+msgstr "<b>남은시간:</b>"
 
 #: glade/delugegtk.glade:1225
 msgid "<b>Pieces:</b>"
-msgstr "<b>조각들:</b>"
+msgstr "<b>조각 개수:</b>"
 
 #: glade/delugegtk.glade:1263
 msgid "<b>Availability:</b>"
-msgstr "<b>가용성:</b>"
+msgstr "<b>유효성:</b>"
 
 #: glade/delugegtk.glade:1304
 msgid "<b>Statistics</b>"
@@ -281,15 +294,15 @@ msgstr "<b>통계</b>"
 
 #: glade/delugegtk.glade:1329 plugins/WebUi/scripts/template_strings.py:15
 msgid "Details"
-msgstr "자세히 보기"
+msgstr "상세 정보"
 
 #: glade/browser.glade:85 glade/browserwin.glade:85
 msgid "Go"
-msgstr ""
+msgstr "이동"
 
 #: glade/browser.glade:118 glade/browserwin.glade:118
 msgid "Bookmarks"
-msgstr ""
+msgstr "북마크"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
 msgid "Launch Main Externally"
@@ -309,7 +322,7 @@ msgstr ""
 
 #: glade/searchdlg.glade:7
 msgid "Manage Search Plugins"
-msgstr "검색 플러그인 관리하기"
+msgstr "검색 플러그인 관리"
 
 #: glade/searchdlg.glade:79
 msgid "Name:"
@@ -329,6 +342,11 @@ msgid ""
 "Name: Google\n"
 "URL: http://www.google.com/search?q=${query}"
 msgstr ""
+"새로운 검색 엔진의 이름과 URL을 추가하세요. 이름은 사용할 검색 엔진의 이름을 입력하면 됩니다. URL은 검색 페이지의 url을 "
+"입력하면 됩니다. 사용자 검색 쿼리는 URL에 ${query} 형식을 적절한 위치에 배치하여 만들수 있습니다.\n"
+"예를 들어, 구글로 검색하려면:\n"
+"이름: 구글\n"
+"URL: http://www.google.com/search?q=${query}"
 
 #: glade/searchdlg.glade:133
 msgid "Help"
@@ -338,15 +356,15 @@ msgstr "도움말"
 msgid ""
 "<span size=\"large\"><b>Are you sure you want to remove the selected "
 "torrent(s) from Deluge?</b></span>"
-msgstr "<span size=\"large\"><b>선택한 토런트를 Deluge에서 제거할까요?</b></span>"
+msgstr "<span size=\"large\"><b>선택한 토런트를 Deluge에서 제거 하시겠습니까?</b></span>"
 
 #: glade/dgtkpopups.glade:65
 msgid "Delete downloaded files"
-msgstr "내려받은 파일들 지우기"
+msgstr "다운로드한 파일들 삭제"
 
 #: glade/dgtkpopups.glade:88 plugins/WebUi/scripts/template_strings.py:13
 msgid "Delete .torrent file"
-msgstr ".torrent 파일 지우기"
+msgstr ".torrent 파일 삭제"
 
 #: glade/dgtkpopups.glade:155
 msgid "Show/Hide"
@@ -354,7 +372,7 @@ msgstr "보이기/숨기기"
 
 #: glade/dgtkpopups.glade:163
 msgid "Add a Torrent..."
-msgstr "토런트 더하기..."
+msgstr "토런트 추가..."
 
 #: glade/dgtkpopups.glade:179
 msgid "Clear Finished"
@@ -374,7 +392,7 @@ msgstr "모두 선택 해제"
 
 #: glade/file_tab_menu.glade:68 src/core.py:102
 msgid "Don't download"
-msgstr ""
+msgstr "다운로드 제외"
 
 #: glade/file_tab_menu.glade:83 src/core.py:103
 msgid "Normal"
@@ -390,13 +408,13 @@ msgstr "가장 높음"
 
 #: glade/merge_dialog.glade:7
 msgid "Deluge Merge Tracker Lists"
-msgstr ""
+msgstr "Deluge의 트래커 목록에 병합."
 
 #: glade/merge_dialog.glade:23
 msgid ""
 "Torrent already detected in Deluge, would you like to merge the tracker "
 "lists?"
-msgstr ""
+msgstr "Deluge에서 동일한 토런트가 발견되었습니다. 기존의 트래커 목록에 추가하시겠습니까?"
 
 #: glade/preferences_dialog.glade:9
 msgid "Deluge Preferences"
@@ -404,29 +422,29 @@ msgstr "Deluge 기본 설정"
 
 #: glade/preferences_dialog.glade:58
 msgid "Ask where to save each download"
-msgstr "각 내려받기 저장소 물어보기"
+msgstr "다운로드시 저장할 위치를 물어보기"
 
 #: glade/preferences_dialog.glade:76 glade/preferences_dialog.glade:77
 msgid "Store all downloads in:"
-msgstr "모든 내려받기를 여기에 저장:"
+msgstr "모든 다운로드를 이곳에 저장:"
 
 #: glade/preferences_dialog.glade:92 glade/preferences_dialog.glade:116
 #: glade/preferences_dialog.glade:177 glade/wizard.glade:187
 #: plugins/MoveTorrent/movetorrent.glade:35
 msgid "Select A Folder"
-msgstr "폴더 선택하기"
+msgstr "폴더 선택"
 
 #: glade/preferences_dialog.glade:104
 msgid "Store all torrent files in:"
-msgstr "모든 토런트 파일을 여기에 저장:"
+msgstr "모든 토런트 파일을 여기에 보관:"
 
 #: glade/preferences_dialog.glade:137
 msgid "<b>Download Location</b>"
-msgstr "<b>내려받기 위치</b>"
+msgstr "<b>다운로드 위치</b>"
 
 #: glade/preferences_dialog.glade:191
 msgid "Autoload all torrent files in:"
-msgstr "여기에 있는 모든 토런트 파일을 자동으로 불러오기:"
+msgstr "이곳의 모든 토런트 파일들을 자동으로 불러오기:"
 
 #: glade/preferences_dialog.glade:205
 msgid "<b>Autoload</b>"
@@ -436,76 +454,76 @@ msgstr "<b>자동으로 불러오기</b>"
 #: glade/wizard.glade:237 glade/wizard.glade:478
 msgid ""
 "The number of active torrents that Deluge will run.  Set to -1 for unlimited."
-msgstr "활성 토런트 수 제한. 무제한은 -1로 설정."
+msgstr "Deluge는 지정된 개수까지만 토런트를 활성화 할 것입니다. 무제한은 -1로 설정."
 
 #: glade/preferences_dialog.glade:243
 msgid "Maximum simultaneous active torrents:"
-msgstr "동시 활성 토런트 최대 개수:"
+msgstr "최대 동시 활성 토런트 개수:"
 
 #: glade/preferences_dialog.glade:280 glade/preferences_dialog.glade:281
 #: glade/preferences_dialog.glade:302
 msgid "Enable selecting files for torrents before loading"
-msgstr ""
+msgstr "토런트를 불러오기 전에 다운로드할 파일을 선택하도록 설정"
 
 #: glade/preferences_dialog.glade:303
 msgid "Only show if torrent has more than 1 file"
-msgstr "한 개 이상의 파일을 가진 토런트만 보이기"
+msgstr "토런트에 두 개 이상의 파일이 포함되었을 때만 사용"
 
 #: glade/preferences_dialog.glade:319 glade/preferences_dialog.glade:320
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr ""
+msgstr "토런트내 파일들의 처음과 마지막 조각을 더 우선함"
 
 #: glade/preferences_dialog.glade:335
 msgid "Start torrents in paused state"
-msgstr "멈춤 상태에서 토런트를 시작하기"
+msgstr "일시정지 상태로 토런트를 시작"
 
 #: glade/preferences_dialog.glade:351
 msgid "<b>Torrents</b>"
-msgstr ""
+msgstr "<b>토런트 목록</b>"
 
 #: glade/preferences_dialog.glade:390
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
-msgstr ""
+msgstr "전체 할당을 사용하면 토런트에서 필요로 하는 모든 공간을 미리 할당 받습니다. 디스크의 단편화를 최소화 할 수 있습니다."
 
 #: glade/preferences_dialog.glade:391
 msgid "Use Full Allocation"
-msgstr ""
+msgstr "전체 할당 사용 (권장)"
 
 #: glade/preferences_dialog.glade:413
 msgid "Compact allocation only allocates space as needed"
-msgstr ""
+msgstr "단순 할당을 사용하면 필요할 때만 공간을 할당 받습니다."
 
 #: glade/preferences_dialog.glade:414
 msgid "Use Compact Allocation"
-msgstr ""
+msgstr "단순 할당 사용"
 
 #: glade/preferences_dialog.glade:434
 msgid "<b>Allocation</b>"
-msgstr ""
+msgstr "<b>저장공간 할당 방식</b>"
 
 #: glade/preferences_dialog.glade:458
 msgid "Downloads"
-msgstr "내려받기 수"
+msgstr "다운로드"
 
 #: glade/preferences_dialog.glade:502
 msgid ""
 "<b>Please Note - Changes to these settings will only be applied the next "
 "time Deluge is restarted.</b>"
-msgstr ""
+msgstr "<b>안내 - 이곳에서 변경된 설정 사항들은 Deluge를 재시작해야 적용됩니다.</b>"
 
 #: glade/preferences_dialog.glade:545 glade/wizard.glade:48
 msgid "From:"
-msgstr "보내는 이 :"
+msgstr "보내는 곳:"
 
 #: glade/preferences_dialog.glade:568 glade/wizard.glade:66
 msgid "To:"
-msgstr "받는 이:"
+msgstr "받는 곳:"
 
 #: glade/preferences_dialog.glade:594
 msgid "Deluge will automatically choose a different port to use every time."
-msgstr "Deluge는 매번 자동으로 다른 포트를 사용하도록 선택합니다."
+msgstr "Deluge가 매번 자동으로 다른 포트를 선택하도록 합니다."
 
 #: glade/preferences_dialog.glade:595
 msgid "Random Ports"
@@ -513,11 +531,11 @@ msgstr "무작위 포트"
 
 #: glade/preferences_dialog.glade:612
 msgid "Test Active Port"
-msgstr "활성 포트 검사하기"
+msgstr "포트 활성화 검사"
 
 #: glade/preferences_dialog.glade:638
 msgid "<b>TCP</b>"
-msgstr ""
+msgstr "<b>TCP</b>"
 
 #: glade/preferences_dialog.glade:650
 msgid "Active Port:"
@@ -525,7 +543,7 @@ msgstr "활성 포트:"
 
 #: glade/preferences_dialog.glade:663
 msgid "0000"
-msgstr ""
+msgstr "0000"
 
 #: glade/preferences_dialog.glade:702
 msgid "Distributed hash table may improve the amount of active connections."
@@ -533,43 +551,43 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:703
 msgid "Enable Mainline DHT"
-msgstr ""
+msgstr "DHT 사용"
 
 #: glade/preferences_dialog.glade:716
 msgid "<b>DHT</b>"
-msgstr ""
+msgstr "<b>DHT</b>"
 
 #: glade/preferences_dialog.glade:751
 msgid "Universal Plug and Play"
-msgstr ""
+msgstr "범용 플러그 앤 플레이"
 
 #: glade/preferences_dialog.glade:752
 msgid "UPnP"
-msgstr ""
+msgstr "UPnP"
 
 #: glade/preferences_dialog.glade:766
 msgid "NAT Port Mapping Protocol"
-msgstr ""
+msgstr "NAT 포트 맵핑 프로토콜"
 
 #: glade/preferences_dialog.glade:767
 msgid "NAT-PMP"
-msgstr ""
+msgstr "NAT-PMP"
 
 #: glade/preferences_dialog.glade:782 glade/preferences_dialog.glade:783
 msgid "Peer Exchange"
-msgstr ""
+msgstr "피어 교환"
 
 #: glade/preferences_dialog.glade:799
 msgid "Local Peer Discovery"
-msgstr ""
+msgstr "로컬에서 피어 찾기"
 
 #: glade/preferences_dialog.glade:814
 msgid "<b>Network Extras</b>"
-msgstr ""
+msgstr "<b>기타 네트워크</b>"
 
 #: glade/preferences_dialog.glade:855
 msgid "Inbound:"
-msgstr ""
+msgstr "들여오기:"
 
 #: glade/preferences_dialog.glade:864 glade/preferences_dialog.glade:886
 msgid ""
@@ -577,18 +595,21 @@ msgid ""
 "Enabled\n"
 "Forced"
 msgstr ""
+"사용하지 않음\n"
+"사용\n"
+"강제 사용"
 
 #: glade/preferences_dialog.glade:877
 msgid "Outbound:"
-msgstr ""
+msgstr "내보내기:"
 
 #: glade/preferences_dialog.glade:904
 msgid "Prefer to encrypt the entire stream"
-msgstr ""
+msgstr "선호하는 전체 스트림 암호화 방식"
 
 #: glade/preferences_dialog.glade:917
 msgid "Level:"
-msgstr ""
+msgstr "수준:"
 
 #: glade/preferences_dialog.glade:931
 msgid ""
@@ -596,10 +617,13 @@ msgid ""
 "Full Stream\n"
 "Either"
 msgstr ""
+"핸드쉐이크\n"
+"스트림 전체\n"
+"모두 사용"
 
 #: glade/preferences_dialog.glade:954
 msgid "<b>Encryption</b>"
-msgstr ""
+msgstr "<b>암호화</b>"
 
 #: glade/preferences_dialog.glade:984
 msgid "Network"
@@ -607,103 +631,105 @@ msgstr "네트워크"
 
 #: glade/preferences_dialog.glade:1025
 msgid "Queue torrents to bottom when they begin seeding"
-msgstr ""
+msgstr "배포를 시작할 때 토런트를 대기열의 제일 아래쪽으로 옮김"
 
 #: glade/preferences_dialog.glade:1037
 msgid "Queue new torrents above completed ones"
-msgstr ""
+msgstr "새 토런트를 완료된 것들보다 위쪽에 대기시킴"
 
 #: glade/preferences_dialog.glade:1053
 msgid "Stop seeding torrents when their share ratio reaches:"
-msgstr ""
+msgstr "공유 비율이 다음에 도달하면 토런트의 배포를 중단:"
 
 #: glade/preferences_dialog.glade:1089
 msgid "Automatically clear torrents that reach the max share ratio"
-msgstr ""
+msgstr "최대 공유 비율에 도달하면 자동으로 토런트 비우기"
 
 #: glade/preferences_dialog.glade:1105
 msgid "<b>Seeding</b>"
-msgstr ""
+msgstr "<b>배포중</b>"
 
 #: glade/preferences_dialog.glade:1134 src/core.py:93
 #: plugins/WebUi/webserver_common.py:201
 msgid "Seeding"
-msgstr "뿌리는 중"
+msgstr "배포중"
 
 #: glade/preferences_dialog.glade:1180 glade/preferences_dialog.glade:1201
 #: glade/wizard.glade:434 glade/wizard.glade:455
 msgid ""
 "The maximum half-open connections.  A high value may crash some cheap "
 "routers.  Set -1 for unlimited."
-msgstr ""
+msgstr "최대 단방향 연결 개수입니다. 높은 값으로 설정하면 몇몇 저급 라우터들은 고장을 일으킬수 있습니다. 무제한은 -1로 설정."
 
 #: glade/preferences_dialog.glade:1203 glade/wizard.glade:435
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "최대 단방향 연결 개수:"
 
 #: glade/preferences_dialog.glade:1221 glade/preferences_dialog.glade:1241
 #: glade/preferences_dialog.glade:1321 glade/wizard.glade:277
 #: glade/wizard.glade:341
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
-msgstr ""
+msgstr "전체 토런트의 최대 업로드 속도입니다. 무제한은 -1로 설정."
 
 #: glade/preferences_dialog.glade:1223 glade/preferences_dialog.glade:1446
 #: glade/wizard.glade:258
 msgid "Maximum Upload Slots:"
-msgstr ""
+msgstr "최대 업로드 개수:"
 
 #: glade/preferences_dialog.glade:1243 glade/wizard.glade:278
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr ""
+msgstr "최대 업로드 속도 (KiB/s):"
 
 #: glade/preferences_dialog.glade:1261 glade/preferences_dialog.glade:1275
 #: glade/wizard.glade:297 glade/wizard.glade:364
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr ""
+msgstr "연결을 허용할 최대 개수입니다. 무제한은 -1로 설정."
 
 #: glade/preferences_dialog.glade:1263 glade/preferences_dialog.glade:1431
 #: glade/wizard.glade:298
 msgid "Maximum Connections:"
-msgstr ""
+msgstr "최대 연결 개수:"
 
 #: glade/preferences_dialog.glade:1289 glade/preferences_dialog.glade:1303
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr ""
+msgstr "전체 토런트의 최대 다운로드 속도입니다. 무제한은 -1로 설정."
 
 #: glade/preferences_dialog.glade:1291
 msgid "Maximum Download Speed (KiB/s):"
-msgstr ""
+msgstr "최대 다운로드 속도 (KiB/s):"
 
 #: glade/preferences_dialog.glade:1339 glade/wizard.glade:257
 #: glade/wizard.glade:318
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
-msgstr ""
+msgstr "전체 토런트의 최대 업로드 개수입니다. 무제한은 -1로 설정."
 
 #: glade/preferences_dialog.glade:1355 glade/preferences_dialog.glade:1368
 msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"초당 연결을 시도할 수 있는 최대 횟수입니다. 높은 값으로 설정하면 몇몇 저급 라우터들은 고장을 일으킬수도 있습니다. 무제한은 -1로 "
+"설정."
 
 #: glade/preferences_dialog.glade:1357
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "초당 최대 연결 시도:"
 
 #: glade/preferences_dialog.glade:1388
 msgid "<b>Global Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>전체 대역폭 사용량</b>"
 
 #: glade/preferences_dialog.glade:1429 glade/preferences_dialog.glade:1459
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "토런트 하나당 연결 가능한 최대 개수입니다. 무제한은 -1로 설정."
 
 #: glade/preferences_dialog.glade:1444 glade/preferences_dialog.glade:1473
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "토런트 하나당 최대 업로드 개수입니다. 무제한은 -1로 설정."
 
 #: glade/preferences_dialog.glade:1494
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>토런트당 대역폭 사용량</b>"
 
 #: glade/preferences_dialog.glade:1520
 msgid "Bandwidth"
@@ -716,23 +742,23 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1567
 msgid "Peer Proxy"
-msgstr ""
+msgstr "피어 프록시"
 
 #: glade/preferences_dialog.glade:1609 glade/preferences_dialog.glade:1804
 #: glade/preferences_dialog.glade:1999 glade/preferences_dialog.glade:2194
 msgid "Proxy type"
-msgstr ""
+msgstr "프록시 종류"
 
 #: glade/preferences_dialog.glade:1616 glade/preferences_dialog.glade:1811
 #: glade/preferences_dialog.glade:2006 glade/preferences_dialog.glade:2201
 msgid "Username"
-msgstr ""
+msgstr "사용자이름"
 
 #: glade/preferences_dialog.glade:1627 glade/preferences_dialog.glade:1822
 #: glade/preferences_dialog.glade:2017 glade/preferences_dialog.glade:2212
 #: plugins/WebUi/scripts/template_strings.py:30
 msgid "Password"
-msgstr ""
+msgstr "암호"
 
 #: glade/preferences_dialog.glade:1639 glade/preferences_dialog.glade:1834
 #: glade/preferences_dialog.glade:2029 glade/preferences_dialog.glade:2224
@@ -744,80 +770,86 @@ msgid ""
 "HTTP\n"
 "HTTP W/ Auth"
 msgstr ""
+"없음\n"
+"Socksv4\n"
+"Socksv5\n"
+"Socksv5 W/ Auth\n"
+"HTTP\n"
+"HTTP W/ Auth"
 
 #: glade/preferences_dialog.glade:1684 glade/preferences_dialog.glade:1879
 #: glade/preferences_dialog.glade:2074 glade/preferences_dialog.glade:2269
 msgid "Server"
-msgstr ""
+msgstr "서버"
 
 #: glade/preferences_dialog.glade:1695 glade/preferences_dialog.glade:1890
 #: glade/preferences_dialog.glade:2085 glade/preferences_dialog.glade:2280
 msgid "Port"
-msgstr ""
+msgstr "포트"
 
 #: glade/preferences_dialog.glade:1729
 msgid "<b>Peer Proxy</b>"
-msgstr ""
+msgstr "<b>피어 프록시</b>"
 
 #: glade/preferences_dialog.glade:1762
 msgid "Tracker Proxy"
-msgstr ""
+msgstr "트래커 프록시"
 
 #: glade/preferences_dialog.glade:1924
 msgid "<b>Tracker Proxy</b>"
-msgstr ""
+msgstr "<b>트래커 프록시</b>"
 
 #: glade/preferences_dialog.glade:1957
 msgid "DHT Proxy"
-msgstr ""
+msgstr "DHT 프록시"
 
 #: glade/preferences_dialog.glade:2119
 msgid "<b>DHT Proxy</b>"
-msgstr ""
+msgstr "<b>DHT 프록시</b>"
 
 #: glade/preferences_dialog.glade:2152
 msgid "Web Seed Proxy"
-msgstr ""
+msgstr "웹 배포 프록시"
 
 #: glade/preferences_dialog.glade:2314
 msgid "<b>Web Seed Proxy</b>"
-msgstr ""
+msgstr "<b>웹 배포 프록시</b>"
 
 #: glade/preferences_dialog.glade:2341
 msgid "Proxies"
-msgstr ""
+msgstr "프록시"
 
 #: glade/preferences_dialog.glade:2370
 msgid "Enable system tray icon"
-msgstr ""
+msgstr "시스템 알림 영역에 아이콘 표시"
 
 #: glade/preferences_dialog.glade:2387
 msgid "Minimize to tray on close"
-msgstr ""
+msgstr "닫으면 알림 영역으로 최소화"
 
 #: glade/preferences_dialog.glade:2407
 msgid "Start in tray"
-msgstr ""
+msgstr "알림 영역에서 시작"
 
 #: glade/preferences_dialog.glade:2432
 msgid "Password protect system tray"
-msgstr ""
+msgstr "알림 영역에 있을때 암호로 보호"
 
 #: glade/preferences_dialog.glade:2456
 msgid "Password:"
-msgstr ""
+msgstr "암호:"
 
 #: glade/preferences_dialog.glade:2500
 msgid "<b>System Tray</b>"
-msgstr ""
+msgstr "<b>시스템 알림 영역</b>"
 
 #: glade/preferences_dialog.glade:2539
 msgid "Custom:"
-msgstr ""
+msgstr "사용자 선택:"
 
 #: glade/preferences_dialog.glade:2556
 msgid "Open folder with:"
-msgstr ""
+msgstr "다음으로 폴더 열기:"
 
 #: glade/preferences_dialog.glade:2571
 msgid ""
@@ -826,18 +858,22 @@ msgid ""
 "Nautilus\n"
 "Thunar"
 msgstr ""
+"자동인식(xdg-open)\n"
+"Konqueror\n"
+"노틸러스\n"
+"Thunar"
 
 #: glade/preferences_dialog.glade:2618
 msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
-msgstr ""
+msgstr "<b>데스크탑 파일 관리자</b> - Windows 이외의 플랫폼만 해당"
 
 #: glade/preferences_dialog.glade:2649
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
-msgstr ""
+msgstr "고급 진행상황 막대를 사용 (CPU와 RAM을 조금 더 사용)"
 
 #: glade/preferences_dialog.glade:2660
 msgid "<b>Detailed Progress Bar</b>"
-msgstr ""
+msgstr "<b>상세한 진행상황 막대</b>"
 
 #: glade/preferences_dialog.glade:2690
 msgid "Use and show the anonymizing internal browser"
@@ -849,25 +885,25 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2731
 msgid "Show the search bar on the toolbar"
-msgstr ""
+msgstr "도구모음에 검색창 보이기"
 
 #: glade/preferences_dialog.glade:2742
 msgid "<b>Search Bar</b> - restart required"
-msgstr ""
+msgstr "<b>검색 창</b> - 다시 요청"
 
 #: glade/preferences_dialog.glade:2776
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
-msgstr ""
+msgstr "Deluge가 서버를 확인하여 새로운 버전이 발견되면 당신에게 알려줍니다."
 
 #: glade/preferences_dialog.glade:2777
 msgid "Be alerted about new releases"
-msgstr ""
+msgstr "새 버전이 배포되면 알림"
 
 #: glade/preferences_dialog.glade:2794
 msgid "<b>Updates</b>"
-msgstr ""
+msgstr "<b>업데이트</b>"
 
 #: glade/preferences_dialog.glade:2824
 msgid ""
@@ -875,10 +911,12 @@ msgid ""
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
+"Deluge의 개선을 돕기 위해 Python과 pyGTK의 버전, OS와 프로세서의\n"
+"종류를 제작자에게 보냅니다. 이외의 정보는 절대로 전송하지 않습니다."
 
 #: glade/preferences_dialog.glade:2837
 msgid "<b>System Information</b>"
-msgstr ""
+msgstr "<b>시스템 정보</b>"
 
 #: glade/preferences_dialog.glade:2860
 #: plugins/EventLogging/event_logging_preferences.glade:52
@@ -888,107 +926,107 @@ msgstr "기타"
 
 #: glade/torrent_menu.glade:11
 msgid "_Force Recheck"
-msgstr ""
+msgstr "강제 재검사(_F)"
 
 #: glade/torrent_menu.glade:33
 msgid "Re_sume"
-msgstr ""
+msgstr "다시시작(_S)"
 
 #: glade/torrent_menu.glade:50
 msgid "_Pause"
-msgstr ""
+msgstr "일시정지(_P)"
 
 #: glade/torrent_menu.glade:72
 msgid "_Remove Torrent"
-msgstr ""
+msgstr "토런트 제거(_R)"
 
 #: glade/torrent_menu.glade:95
 msgid "_Tracker Options"
-msgstr ""
+msgstr "트래커 옵션(_T)"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
-msgstr "추적자 업데이트(_U)"
+msgstr "트래커 업데이트(_U)"
 
 #: glade/torrent_menu.glade:121
 msgid "_Edit Trackers"
-msgstr ""
+msgstr "트래커 수정(_E)"
 
 #: glade/torrent_menu.glade:138
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "트래커 스크랩(_S)"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"
-msgstr ""
+msgstr "대기열(_Q)"
 
 #: glade/torrent_menu.glade:174
 msgid "_Top"
-msgstr ""
+msgstr "제일 위로(_T)"
 
 #: glade/torrent_menu.glade:190
 msgid "_Up"
-msgstr ""
+msgstr "위로(_T)"
 
 #: glade/torrent_menu.glade:206
 msgid "_Down"
-msgstr ""
+msgstr "아래로(_D)"
 
 #: glade/torrent_menu.glade:222
 msgid "_Bottom"
-msgstr ""
+msgstr "제일 아래로(_B)"
 
 #: glade/torrent_menu.glade:251
 msgid "_Open Containing Folder"
-msgstr ""
+msgstr "저장된 폴더 열기(_O)"
 
 #: glade/tray_menu.glade:12
 msgid "_Show Deluge"
-msgstr ""
+msgstr "Deluge 보기이(_S)"
 
 #: glade/tray_menu.glade:21
 msgid "_Resume All"
-msgstr ""
+msgstr "모두 재시작(_R)"
 
 #: glade/tray_menu.glade:38
 msgid "_Pause All"
-msgstr ""
+msgstr "모두 일시정지(_P)"
 
 #: glade/tray_menu.glade:84
 msgid "_Download Speed Limit"
-msgstr ""
+msgstr "다운로드 속도 제한(_D)"
 
 #: glade/tray_menu.glade:100
 msgid "_Upload Speed Limit"
-msgstr ""
+msgstr "업로드 속도 제한(_U)"
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"
-msgstr ""
+msgstr "종료(_Q)"
 
 #: glade/edit_trackers.glade:9
 msgid "Edit Trackers"
-msgstr ""
+msgstr "트래커 수정"
 
 #: glade/edit_trackers.glade:19
 msgid "Tracker Editing"
-msgstr ""
+msgstr "트래커 수정중"
 
 #: glade/files_dialog.glade:8
 msgid "Deluge File Selection"
-msgstr ""
+msgstr "Deluge 파일 선택"
 
 #: glade/files_dialog.glade:42
 msgid "Torrent will not be distributed on the trackerless (DHT) network"
-msgstr ""
+msgstr "트래커가 없는 네트워크(DHT)에서는 토런트가 공유되지 않도록 합니다."
 
 #: glade/files_dialog.glade:43
 msgid "Set the private flag"
-msgstr ""
+msgstr "비공개 플래그 설정"
 
 #: glade/wizard.glade:10
 msgid "First Launch Configuration"
-msgstr ""
+msgstr "최초 실행시 설정사항"
 
 #: glade/wizard.glade:20
 msgid ""
@@ -997,6 +1035,8 @@ msgid ""
 "the form of plugins, which can be accessed by clicking on Plugins in the "
 "Edit menu or the toolbar."
 msgstr ""
+"마법사가 Deluge의 연결 설정을 도와 드립니다. Deluge를 처음 이용한신다면 Deluge의 다양한 기능과 플러그인의 추가 기능을 "
+"잘 살펴 보세요. 편집 메뉴나 도구 모음에서 있는 플러그인을 클릭하면 확인 할 수 있습니다."
 
 #: glade/wizard.glade:36
 msgid ""
@@ -1006,34 +1046,38 @@ msgid ""
 "and 65535.  Alternatively, you can have Deluge automatically pick random "
 "ports for you."
 msgstr ""
+"Deluge는 들어오는 연결을 청취하기 위해 포트를 필요로 합니다. 비트토런트의 기본 포트 범위는 6881-6889 인데 대부분의 "
+"ISP들이 이 포트를 막아두고 있습니다. 때문에 49152에서 65535 사이의 다른 포트를 이용하길 권장합니다. Deluge가 자동으로 "
+"무작위로 포트를 선택하도록 할 수 있습니다."
 
 #: glade/wizard.glade:88
 msgid "Use _Random Ports"
-msgstr ""
+msgstr "무작위 포트 사용(_R)"
 
 #: glade/wizard.glade:116
 msgid ""
 "Would you like Deluge to automatically download to a predefined location, or "
 "would you like to specify the download location every time?"
 msgstr ""
+"Deluge가 미리 지정한 위치로 자동적으로 다운로드하길 원하십니까? 아니면 다운로드시 매번 다운로드할 위치를 묻기를 원하십니까?"
 
 #: glade/wizard.glade:141
 msgid "Ask where to save each file"
-msgstr ""
+msgstr "각 파일을 어디에 저장할지 묻습니다."
 
 #: glade/wizard.glade:165
 msgid "Store all downloads in: "
-msgstr ""
+msgstr "기본 다운로드 경로: "
 
 #: glade/wizard.glade:215
 msgid ""
 "Please select the upload speed of your connection, which we will then use to "
 "automatically make suggestions for the settings below"
-msgstr ""
+msgstr "인터넷 회선 속도를  선택하세요. 자동으로 최적의 상태로 맞추어 드립니다."
 
 #: glade/wizard.glade:238
 msgid "Maximum Active Torrents:"
-msgstr ""
+msgstr "최대 활성 토런트:"
 
 #: glade/wizard.glade:386
 msgid ""
@@ -1056,10 +1100,28 @@ msgid ""
 "50Mbit\n"
 "100Mbit"
 msgstr ""
+"28.8k\n"
+"56k\n"
+"64k\n"
+"96k\n"
+"128k\n"
+"192k\n"
+"256k\n"
+"384k\n"
+"512k\n"
+"640k\n"
+"768k\n"
+"1Mbit\n"
+"2Mbit\n"
+"10Mbit\n"
+"20Mbit\n"
+"40Mbit\n"
+"50Mbit\n"
+"100Mbit"
 
 #: glade/wizard.glade:419
 msgid "Your Upload Line Speed:"
-msgstr ""
+msgstr "당신의 업로드 회선 속도:"
 
 #: glade/wizard.glade:506
 msgid ""
@@ -1067,14 +1129,16 @@ msgid ""
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
+"Deluge의 개선을 돕기 위해 Python과 pyGTK의 버전, OS와 프로세서의\n"
+"종류를 제작자에게 보냅니다. 이외의 정보는 절대로 전송하지 않습니다.(_H)"
 
 #: src/interface.py:71
 msgid "Browser"
-msgstr ""
+msgstr "브라우저"
 
 #: src/interface.py:73
 msgid "Launch Browser"
-msgstr ""
+msgstr "브라우저 실행"
 
 #: src/interface.py:251
 msgid ""
@@ -1082,52 +1146,56 @@ msgid ""
 "or try setting your LD_LIBRARY_PATH and MOZILLA_FIVE_HOME environment "
 "variables to /usr/lib/firefox"
 msgstr ""
+"브라우저 찾을 수 없습니다. python-gnome2-extras가 설치되어 있는지 확인하거나 환경 변수 LD_LIBRARY_PATH와 "
+"MOZILLA_FIVE_HOME을 /usr/lib/firefox로 설정 하십시오."
 
 #: src/interface.py:311 src/interface.py:317 src/interface.py:398
 #: src/interface.py:426 plugins/SpeedLimiter/__init__.py:83
 #: plugins/SpeedLimiter/__init__.py:93 plugins/SpeedLimiter/__init__.py:137
 #: plugins/SpeedLimiter/__init__.py:169
 msgid "KiB/s"
-msgstr ""
+msgstr "KiB/s"
 
 #: src/interface.py:338 src/interface.py:399 src/interface.py:427
 #: src/interface.py:1245 src/interface.py:1252 src/interface.py:1257
 #: src/interface.py:1285 src/interface.py:1287
 #: plugins/SpeedLimiter/__init__.py:138 plugins/SpeedLimiter/__init__.py:170
 msgid "Unlimited"
-msgstr ""
+msgstr "무제한"
 
 #: src/interface.py:341
 msgid "Activated"
-msgstr ""
+msgstr "활성화됨"
 
 #: src/interface.py:390 src/interface.py:402 src/interface.py:430
 #: plugins/DesiredRatio/__init__.py:115 plugins/SpeedLimiter/__init__.py:141
 #: plugins/SpeedLimiter/__init__.py:173
 msgid "Other..."
-msgstr ""
+msgstr "사용자 지정"
 
 #: src/interface.py:407
 msgid "Download Speed (KiB/s):"
-msgstr ""
+msgstr "다운로드 속도 (KiB/s):"
 
 #: src/interface.py:435
 msgid "Upload Speed (KiB/s):"
-msgstr ""
+msgstr "업로드 속도 (KiB/s):"
 
 #: src/interface.py:464
 msgid "Deluge is locked"
-msgstr ""
+msgstr "Deluge가 잠겨 있습니다."
 
 #: src/interface.py:467
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 msgstr ""
+"Deluge는 암호로 보호되고 있습니다.\n"
+"Deluge 창을 보시려면 암호를 입력해주세요."
 
 #: src/interface.py:614 src/common.py:74
 msgid "Infinity"
-msgstr ""
+msgstr "무한대"
 
 #: src/interface.py:626
 msgid "Unknown"
@@ -1142,65 +1210,65 @@ msgstr "이름"
 
 #: src/interface.py:664 plugins/WebUi/scripts/template_strings.py:21
 msgid "ETA"
-msgstr "추정남은시간"
+msgstr "남은시간"
 
 #: src/interface.py:667
 msgid "Avail."
-msgstr ""
+msgstr "유효성"
 
 #: src/interface.py:669 plugins/WebUi/scripts/template_strings.py:40
 msgid "Ratio"
-msgstr ""
+msgstr "비율"
 
 #: src/interface.py:977
 #, python-format
 msgid "Paused %s"
-msgstr ""
+msgstr "일시정시 %s"
 
 #: src/interface.py:979
 #, python-format
 msgid "Queued %s"
-msgstr ""
+msgstr "대기열 %s"
 
 #: src/interface.py:1091
 msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
-msgstr ""
+msgstr "새로운 버전의 Deluge가 있습니다. 다운로드 사이트로 이동하시겠습니까?"
 
 #: src/interface.py:1263 plugins/WebUi/scripts/template_strings.py:11
 msgid "Connections"
-msgstr "연결목록"
+msgstr "연결 수"
 
 #: src/interface.py:1281
 msgid "DHT"
-msgstr ""
+msgstr "DHT"
 
 #: src/interface.py:1290 plugins/TorrentCreator/__init__.py:149
 msgid "Deluge"
-msgstr ""
+msgstr "Deluge"
 
 #: src/interface.py:1290 plugins/WebUi/scripts/template_strings.py:19
 msgid "Download"
-msgstr "내려받기"
+msgstr "다운로드"
 
 #: src/interface.py:1291 plugins/WebUi/scripts/template_strings.py:61
 msgid "Upload"
-msgstr "올리기"
+msgstr "업로드"
 
 #: src/interface.py:1294
 msgid "Deluge Bittorrent Client"
-msgstr "Deluge 비트토런트 받기 프로그램"
+msgstr "Deluge 비트토런트 클라이언트"
 
 #: src/interface.py:1371
 msgid "Choose a download directory"
-msgstr ""
+msgstr "다운로드 위치 선택"
 
 #: src/interface.py:1420
 msgid ""
 "An error occured while trying to add the torrent. It's possible your "
 ".torrent file is corrupted."
-msgstr ""
+msgstr "토런트를 추가하는 중에 오류가 발생했습니다. 이 .torrent 파일에 오류가 있을 가능성이 있습니다."
 
 #: src/interface.py:1448
 msgid "Unknown duplicate torrent error."
@@ -1208,47 +1276,47 @@ msgstr ""
 
 #: src/interface.py:1453
 msgid "There is not enough freedisk space to complete your download."
-msgstr ""
+msgstr "다운로드를 완료하기에는 저장공간이 부족합니다."
 
 #: src/interface.py:1454 src/core.py:569
 msgid "Space Needed:"
-msgstr ""
+msgstr "필요한 공간:"
 
 #: src/interface.py:1455 src/core.py:569
 msgid "Available Space:"
-msgstr ""
+msgstr "이용 가능한 공간:"
 
 #: src/interface.py:1483
 msgid "Add torrent from URL"
-msgstr ""
+msgstr "URL로 토런트 추가"
 
 #: src/interface.py:1487
 msgid "Enter the URL of the .torrent to download"
-msgstr ""
+msgstr "다운로드할 .torrent의 URL을 입력"
 
 #: src/interface.py:1548
 msgid "Warning - all downloaded files for this torrent will be deleted!"
-msgstr "경고 - 내려받은 이 토런트의 파일들이 전부 지워지게 됩니다!"
+msgstr "경고 - 이 토런트로 다운로드한 모든 파일이 삭제됩니다!"
 
 #: src/interface.py:1564
 msgid "Are you sure that you want to remove all seeding torrents?"
-msgstr ""
+msgstr "정말로 배포중인 토런트를 모두 제거 하시겠습니까?"
 
 #: src/search.py:59
 msgid "Search String"
-msgstr ""
+msgstr "문자열 찾기"
 
 #: src/search.py:80 src/search.py:158
 msgid "Choose an Engine"
-msgstr ""
+msgstr "엔진 선택"
 
 #: src/search.py:84
 msgid "Manage Engines"
-msgstr ""
+msgstr "엔진 관리"
 
 #: src/search.py:179
 msgid "Search "
-msgstr ""
+msgstr "검색 "
 
 #: src/core.py:87 plugins/WebUi/webserver_common.py:195
 msgid "Queued"
@@ -1260,16 +1328,16 @@ msgstr "검사중"
 
 #: src/core.py:89 plugins/WebUi/webserver_common.py:197
 msgid "Connecting"
-msgstr ""
+msgstr "연결 시도중"
 
 #: src/core.py:90 plugins/WebUi/webserver_common.py:198
 msgid "Downloading Metadata"
-msgstr ""
+msgstr "메타데이터 다운로드중"
 
 #: src/core.py:91 plugins/BlocklistImport/ui.py:121
 #: plugins/WebUi/webserver_common.py:199
 msgid "Downloading"
-msgstr "내려받는 중"
+msgstr "다운로드중"
 
 #: src/core.py:92 plugins/WebUi/webserver_common.py:200
 msgid "Finished"
@@ -1281,11 +1349,11 @@ msgstr "할당중"
 
 #: src/core.py:137
 msgid "bytes needed"
-msgstr ""
+msgstr "bytes가 필요함"
 
 #: src/core.py:397
 msgid "File was not found"
-msgstr ""
+msgstr "파일을 찾을수 없습니다"
 
 #: src/core.py:440
 msgid "Asked for a torrent that doesn't exist"
@@ -1293,39 +1361,39 @@ msgstr ""
 
 #: src/core.py:567
 msgid "There is not enough free disk space to complete your download."
-msgstr ""
+msgstr "다운로드를 완료하기에는 빈 공간이 부족합니다."
 
 #: src/core.py:664
 msgid "Announce sent"
-msgstr ""
+msgstr "알림 보냄"
 
 #: src/core.py:668
 msgid "Announce OK"
-msgstr ""
+msgstr "알림 정상"
 
 #: src/core.py:674
 msgid "Alert"
-msgstr ""
+msgstr "경고"
 
 #: src/core.py:675
 msgid "HTTP code"
-msgstr ""
+msgstr "HTTP 코드"
 
 #: src/core.py:676
 msgid "times in a row"
-msgstr ""
+msgstr "시도 횟수"
 
 #: src/core.py:683
 msgid "Warning"
-msgstr ""
+msgstr "경고"
 
 #: src/files.py:77
 msgid "Filename"
-msgstr ""
+msgstr "파일이름"
 
 #: src/files.py:82
 msgid "Priority"
-msgstr ""
+msgstr "우선순위"
 
 #: src/files.py:104
 msgid ""
@@ -1333,14 +1401,16 @@ msgid ""
 "Please change your preference to disable compact allocation, then remove and "
 "re-add this torrent."
 msgstr ""
+"파일 우선순위는 전체 할당을 사용중일때만 설정할 수 있습니다.\n"
+"기본 설정에서 단순 할당으로 되어있는 설정을 전체 할당으로 변경하신 후 토런트를 제거하고 다시 추가 하십시오."
 
 #: src/dialogs.py:69
 msgid "Plugin"
-msgstr ""
+msgstr "플러그인"
 
 #: src/dialogs.py:71 plugins/FlexRSS/FlexRSS.glade:104
 msgid "Enabled"
-msgstr ""
+msgstr "사용"
 
 #: src/dialogs.py:462
 msgid ""
@@ -1361,11 +1431,11 @@ msgstr ""
 
 #: src/dialogs.py:503
 msgid "Choose a .torrent file"
-msgstr ""
+msgstr ".torrent 파일 선택"
 
 #: src/dialogs.py:508
 msgid "Torrent files"
-msgstr ""
+msgstr "토런트 파일"
 
 #: src/dialogs.py:512
 msgid "All files"
@@ -1373,23 +1443,23 @@ msgstr "모든 파일"
 
 #: src/common.py:88
 msgid "KiB"
-msgstr ""
+msgstr "KiB"
 
 #: src/common.py:91
 msgid "MiB"
-msgstr ""
+msgstr "MiB"
 
 #: src/common.py:94
 msgid "GiB"
-msgstr ""
+msgstr "GiB"
 
 #: src/common.py:97
 msgid "TiB"
-msgstr ""
+msgstr "TiB"
 
 #: src/common.py:99
 msgid "PiB"
-msgstr ""
+msgstr "PiB"
 
 #: src/common.py:213
 msgid "External command"
@@ -1397,7 +1467,7 @@ msgstr ""
 
 #: src/common.py:214
 msgid "not found"
-msgstr ""
+msgstr "찾을 수 없습니다."
 
 #: plugins/BlocklistImport/__init__.py:9
 msgid ""
@@ -1417,27 +1487,27 @@ msgstr ""
 
 #: plugins/BlocklistImport/__init__.py:41
 msgid "PeerGuardian P2B (GZip)"
-msgstr ""
+msgstr "PeerGuardian P2B (GZip)"
 
 #: plugins/BlocklistImport/__init__.py:42
 msgid "PeerGuardian Text (Uncompressed)"
-msgstr ""
+msgstr "PeerGuardian Text (Uncompressed)"
 
 #: plugins/BlocklistImport/__init__.py:43
 msgid "Emule IP list (GZip)"
-msgstr ""
+msgstr "Emule IP list (GZip)"
 
 #: plugins/BlocklistImport/__init__.py:44
 msgid "SafePeer Text (Zipped)"
-msgstr ""
+msgstr "SafePeer Text (Zipped)"
 
 #: plugins/BlocklistImport/__init__.py:93
 msgid "Couldn't download URL"
-msgstr ""
+msgstr "URL로부터 다운로드 할 수 없습니다."
 
 #: plugins/BlocklistImport/__init__.py:106
 msgid "Couldn't open blocklist file"
-msgstr ""
+msgstr "차단목록 파일을 열수 없습니다."
 
 #: plugins/BlocklistImport/__init__.py:114 plugins/BlocklistImport/text.py:37
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
@@ -1447,15 +1517,15 @@ msgstr ""
 
 #: plugins/BlocklistImport/__init__.py:122
 msgid "Imported"
-msgstr ""
+msgstr "가져오기 완료"
 
 #: plugins/BlocklistImport/__init__.py:122
 msgid "IPs"
-msgstr ""
+msgstr "IPs"
 
 #: plugins/BlocklistImport/__init__.py:165
 msgid "Blocklist"
-msgstr ""
+msgstr "차단목록"
 
 #: plugins/BlocklistImport/__init__.py:165
 msgid "entries"
@@ -1463,23 +1533,23 @@ msgstr ""
 
 #: plugins/BlocklistImport/ui.py:25
 msgid "Blocklist URL"
-msgstr ""
+msgstr "차단목록 URL"
 
 #: plugins/BlocklistImport/ui.py:50
 msgid "Download on start"
-msgstr ""
+msgstr "다운로드 시작"
 
 #: plugins/BlocklistImport/ui.py:108
 msgid "Loading and installing blocklist"
-msgstr ""
+msgstr "차단목록을 불러들여 설치"
 
 #: plugins/BlocklistImport/ui.py:132
 msgid "Importing"
-msgstr ""
+msgstr "가져오는 중"
 
 #: plugins/BlocklistImport/ui.py:143
 msgid "Complete"
-msgstr ""
+msgstr "완료"
 
 #: plugins/BlocklistImport/text.py:129
 msgid "Got format exception for zipfile:"
@@ -1501,27 +1571,27 @@ msgstr ""
 
 #: plugins/BlocklistImport/peerguardian.py:41
 msgid "Invalid version"
-msgstr ""
+msgstr "버전이 올바르지 않습니다."
 
 #: plugins/DesiredRatio/__init__.py:22
 msgid "Set the desired ratio for a torrent."
-msgstr ""
+msgstr "토런트에 희망 비율 설정."
 
 #: plugins/DesiredRatio/__init__.py:76
 msgid "_Desired Ratio"
-msgstr ""
+msgstr "희망 비율(_D)"
 
 #: plugins/DesiredRatio/__init__.py:80
 msgid "_Not Set"
-msgstr ""
+msgstr "설정하지 않음(_N)"
 
 #: plugins/DesiredRatio/__init__.py:112
 msgid "Not Set"
-msgstr ""
+msgstr "설정하지 않음"
 
 #: plugins/DesiredRatio/__init__.py:119
 msgid "Desired Ratio"
-msgstr ""
+msgstr "희망 비율"
 
 #: plugins/TorrentPeers/__init__.py:34
 msgid ""
@@ -1532,43 +1602,43 @@ msgstr ""
 
 #: plugins/TorrentPeers/tab_peers.py:84
 msgid "IP Address"
-msgstr ""
+msgstr "IP 주소"
 
 #: plugins/TorrentPeers/tab_peers.py:86
 msgid "Client"
-msgstr "사용프로그램"
+msgstr "클라이언트"
 
 #: plugins/TorrentPeers/tab_peers.py:87
 msgid "Percent Complete"
-msgstr ""
+msgstr "완료 비율"
 
 #: plugins/TorrentCreator/torrentcreator.glade:9
 msgid "Torrent Creator"
-msgstr ""
+msgstr "토런트 생성기"
 
 #: plugins/TorrentCreator/torrentcreator.glade:104
 msgid "This torrent will be made from a single file"
-msgstr ""
+msgstr "파일로부터 토런트를 생성합니다."
 
 #: plugins/TorrentCreator/torrentcreator.glade:105
 msgid "File:"
-msgstr ""
+msgstr "파일:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:121
 msgid "This torrent will be made from a directory"
-msgstr ""
+msgstr "디렉토리로 부터 토런트를 생성합니다."
 
 #: plugins/TorrentCreator/torrentcreator.glade:122
 msgid "Folder:"
-msgstr ""
+msgstr "폴더:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:139
 msgid "<b>Source</b>"
-msgstr ""
+msgstr "<b>소스</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:185
 msgid "Save Torrent File As:"
-msgstr ""
+msgstr "토런트를 저장할 위치:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:238
 msgid "Load this torrent into Deluge for seeding"
@@ -1576,31 +1646,31 @@ msgstr ""
 
 #: plugins/TorrentCreator/torrentcreator.glade:239
 msgid "Add new torrent to queue"
-msgstr ""
+msgstr "생성된 토런트를 대기열에 추가"
 
 #: plugins/TorrentCreator/torrentcreator.glade:258
 msgid "<b>Torrent File</b>"
-msgstr ""
+msgstr "<b>토런트 파일</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:306
 msgid "<b>Trackers</b>"
-msgstr ""
+msgstr "<b>트래커</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:353
 msgid "<b>Web Seeds</b>"
-msgstr ""
+msgstr "<b>웹 배포</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:400
 msgid "<b>Comments</b>"
-msgstr ""
+msgstr "<b>설명</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:437
 msgid "<b>Author</b>"
-msgstr ""
+msgstr "<b>제작자</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:476
 msgid "Set Private Flag"
-msgstr ""
+msgstr "비공개 플래그 설정"
 
 #: plugins/TorrentCreator/torrentcreator.glade:489
 #: plugins/TorrentCreator/torrentcreator.glade:510
@@ -1619,38 +1689,45 @@ msgid ""
 "1024 KiB\n"
 "2048 KiB\n"
 msgstr ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1024 KiB\n"
+"2048 KiB\n"
 
 #: plugins/TorrentCreator/torrentcreator.glade:512
 msgid "Piece Size:"
-msgstr ""
+msgstr "조각의 크기:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:526
 msgid "<b>Advanced</b>"
-msgstr ""
+msgstr "<b>고급 설정</b>"
 
 #: plugins/TorrentCreator/__init__.py:22
 msgid "A torrent creator plugin"
-msgstr ""
+msgstr "토런트 제작 플러그인"
 
 #: plugins/TorrentCreator/__init__.py:51
 msgid "_New Torrent"
-msgstr ""
+msgstr "새 토런트(_N)"
 
 #: plugins/TorrentCreator/__init__.py:61
 msgid "New Torrent"
-msgstr ""
+msgstr "새 토런트"
 
 #: plugins/TorrentCreator/__init__.py:63
 msgid "Create New Torrent"
-msgstr ""
+msgstr "새 토런트 만들기"
 
 #: plugins/TorrentCreator/__init__.py:99
 msgid "Save file as..."
-msgstr ""
+msgstr "저장.."
 
 #: plugins/TorrentCreator/__init__.py:121
 msgid "You must select a source for the torrent."
-msgstr ""
+msgstr "토런트의 소스를 선택해야 합니다."
 
 #: plugins/TorrentCreator/__init__.py:128
 msgid "You must select a file to save the torrent as."
@@ -1658,7 +1735,7 @@ msgstr ""
 
 #: plugins/TorrentNotification/notification_preferences.glade:7
 msgid "Torrent Notification Preferences"
-msgstr ""
+msgstr "토런트 공지 기본 설정"
 
 #: plugins/TorrentNotification/notification_preferences.glade:32
 msgid "Enable event sound (requires pygame, not available on Win32)"
@@ -1666,22 +1743,22 @@ msgstr ""
 
 #: plugins/TorrentNotification/notification_preferences.glade:59
 msgid "Enable blinking tray icon"
-msgstr ""
+msgstr "알림 영역의 아이콘를 깜빡거림"
 
 #: plugins/TorrentNotification/notification_preferences.glade:69
 msgid ""
 "Enable popup notification (requires python-notify, not available on Win32)"
-msgstr ""
+msgstr "풍선 알림창 사용 (python-notify를 필요로 하며, Win32에서는 사용할수 없음)"
 
 #: plugins/TorrentNotification/__init__.py:22
 msgid ""
 "Make tray icon blink when torrent finishes downloading and/or popup a "
 "notification"
-msgstr ""
+msgstr "다운로드가 완료되면 알림 영역의 아이콘을 깜빡이거나 풍선 알림으로 알리도록 합니다."
 
 #: plugins/TorrentNotification/__init__.py:108
 msgid "Torrent complete"
-msgstr ""
+msgstr "토런트 완료"
 
 #: plugins/NetworkHealth/__init__.py:36
 msgid ""
@@ -1689,32 +1766,35 @@ msgid ""
 "\n"
 "Written by Kripkenstein"
 msgstr ""
+"네트워크 상태 점검 플러그인\n"
+"\n"
+"제작자 Kripkenstein"
 
 #: plugins/NetworkHealth/plugin.py:53
 msgid "[Health: OK]"
-msgstr ""
+msgstr "[네트워크 상태: 정상]"
 
 #: plugins/EventLogging/event_logging_preferences.glade:7
 msgid "Event Logging Preferences"
-msgstr ""
+msgstr "이벤트 기록 설정"
 
 #: plugins/EventLogging/event_logging_preferences.glade:28
 msgid "Enable log files"
-msgstr ""
+msgstr "로그 파일 사용"
 
 #: plugins/EventLogging/event_logging_preferences.glade:41
 msgid "Log files"
-msgstr ""
+msgstr "로그 파일"
 
 #: plugins/EventLogging/event_logging_preferences.glade:66
 #: plugins/EventLogging/tab_log.py:210
 msgid "Peer blocked"
-msgstr ""
+msgstr "배포가 차단됨"
 
 #: plugins/EventLogging/event_logging_preferences.glade:80
 #: plugins/EventLogging/tab_log.py:200
 msgid "Block finished"
-msgstr ""
+msgstr "차단 완료됨"
 
 #: plugins/EventLogging/event_logging_preferences.glade:94
 #: plugins/EventLogging/tab_log.py:189
@@ -1724,32 +1804,32 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:108
 #: plugins/EventLogging/tab_log.py:179
 msgid "Piece finished"
-msgstr ""
+msgstr "조각이 완성됨"
 
 #: plugins/EventLogging/event_logging_preferences.glade:122
 #: plugins/EventLogging/tab_log.py:170
 msgid "Storage moved"
-msgstr ""
+msgstr "저장 위치 옮김"
 
 #: plugins/EventLogging/event_logging_preferences.glade:136
 #: plugins/EventLogging/tab_log.py:161
 msgid "Tracker warning"
-msgstr ""
+msgstr "트래커 경고"
 
 #: plugins/EventLogging/event_logging_preferences.glade:150
 #: plugins/EventLogging/tab_log.py:150
 msgid "Tracker alert"
-msgstr ""
+msgstr "트래커 경고"
 
 #: plugins/EventLogging/event_logging_preferences.glade:164
 #: plugins/EventLogging/tab_log.py:141
 msgid "Tracker reply"
-msgstr ""
+msgstr "트래커 응답"
 
 #: plugins/EventLogging/event_logging_preferences.glade:178
 #: plugins/EventLogging/tab_log.py:132
 msgid "Tracker announce"
-msgstr ""
+msgstr "트래커 알림"
 
 #: plugins/EventLogging/event_logging_preferences.glade:192
 #: plugins/EventLogging/tab_log.py:123
@@ -1759,12 +1839,12 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:206
 #: plugins/EventLogging/tab_log.py:114
 msgid "Peer ban error"
-msgstr ""
+msgstr "피어 차단 오류"
 
 #: plugins/EventLogging/event_logging_preferences.glade:220
 #: plugins/EventLogging/tab_log.py:104
 msgid "Hash failed error"
-msgstr ""
+msgstr "해시 실패 오류"
 
 #: plugins/EventLogging/event_logging_preferences.glade:234
 #: plugins/EventLogging/tab_log.py:95
@@ -1778,16 +1858,16 @@ msgstr "잘못된 요청"
 
 #: plugins/EventLogging/event_logging_preferences.glade:262
 msgid "Peer messages"
-msgstr ""
+msgstr "피어 메시지"
 
 #: plugins/EventLogging/event_logging_preferences.glade:276
 #: plugins/EventLogging/tab_log.py:70
 msgid "Torrent finished"
-msgstr ""
+msgstr "토런트 끝마침"
 
 #: plugins/EventLogging/event_logging_preferences.glade:289
 msgid "Select events to log"
-msgstr ""
+msgstr "이벤트 로그 선택"
 
 #: plugins/EventLogging/__init__.py:22
 msgid ""
@@ -1815,7 +1895,7 @@ msgstr ""
 
 #: plugins/EventLogging/__init__.py:89
 msgid "Event Log"
-msgstr ""
+msgstr "이벤트 기록"
 
 #: plugins/EventLogging/tab_log.py:70 plugins/EventLogging/tab_log.py:78
 #: plugins/EventLogging/tab_log.py:86 plugins/EventLogging/tab_log.py:95
@@ -1826,7 +1906,7 @@ msgstr ""
 #: plugins/EventLogging/tab_log.py:189 plugins/EventLogging/tab_log.py:200
 #: plugins/EventLogging/tab_log.py:210 plugins/EventLogging/tab_log.py:218
 msgid "event message: "
-msgstr ""
+msgstr "이벤트 메시지: "
 
 #: plugins/EventLogging/tab_log.py:71 plugins/EventLogging/tab_log.py:95
 #: plugins/EventLogging/tab_log.py:105 plugins/EventLogging/tab_log.py:115
@@ -1836,61 +1916,61 @@ msgstr ""
 #: plugins/EventLogging/tab_log.py:180 plugins/EventLogging/tab_log.py:190
 #: plugins/EventLogging/tab_log.py:201
 msgid "torrent: "
-msgstr ""
+msgstr "토런트: "
 
 #: plugins/EventLogging/tab_log.py:78
 msgid "Peer message"
-msgstr ""
+msgstr "피어 메시지"
 
 #: plugins/EventLogging/tab_log.py:78 plugins/EventLogging/tab_log.py:114
 #: plugins/EventLogging/tab_log.py:211
 msgid "ip address: "
-msgstr ""
+msgstr "ip 주소: "
 
 #: plugins/EventLogging/tab_log.py:79 plugins/EventLogging/tab_log.py:86
 msgid "client: "
-msgstr ""
+msgstr "클라이언트: "
 
 #: plugins/EventLogging/tab_log.py:106 plugins/EventLogging/tab_log.py:181
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
 msgid "piece index: "
-msgstr ""
+msgstr "조각 인덱스: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "status code: "
-msgstr ""
+msgstr "상태 코드: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "Times in a row: "
-msgstr ""
+msgstr "시도 횟수: "
 
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
 msgid "block index: "
-msgstr ""
+msgstr "차단 인덱스: "
 
 #: plugins/EventLogging/tab_log.py:192
 msgid "peer speed: "
-msgstr ""
+msgstr "피어 속도: "
 
 #: plugins/SpeedLimiter/__init__.py:20
 msgid "Set the desired speed limit per torrent."
-msgstr ""
+msgstr "토런트 하나당 희망하는 제한 속도 설정."
 
 #: plugins/SpeedLimiter/__init__.py:81
 msgid "Torrent _Download Speed"
-msgstr ""
+msgstr "토런트 다운로드 속도(_D)"
 
 #: plugins/SpeedLimiter/__init__.py:91
 msgid "Torrent Upload _Speed"
-msgstr ""
+msgstr "토런트 업로드 속도(_S)"
 
 #: plugins/SpeedLimiter/__init__.py:145
 msgid "Torrent Upload Speed (KiB/s):"
-msgstr ""
+msgstr "토런트 업로드 속도 (KiB/s):"
 
 #: plugins/SpeedLimiter/__init__.py:177
 msgid "Torrent Download Speed (KiB/s):"
-msgstr ""
+msgstr "토런트 다운로드 속도(KiB/s):"
 
 #: plugins/NetworkGraph/__init__.py:36
 msgid ""
@@ -1898,15 +1978,18 @@ msgid ""
 "\n"
 "Written by Kripkenstein"
 msgstr ""
+"네트워크 활성 그래프 플러그인\n"
+"\n"
+"제작자 Kripkenstein"
 
 #: plugins/NetworkGraph/__init__.py:90
 msgid "Graph"
-msgstr ""
+msgstr "그래프"
 
 #: plugins/TorrentFiles/tab_files.py:59
 #: plugins/WebUi/scripts/template_strings.py:36
 msgid "Progress"
-msgstr ""
+msgstr "진행 상황"
 
 #: plugins/TorrentFiles/tab_files.py:100
 msgid "There was an error trying to launch the file."
@@ -1922,7 +2005,7 @@ msgstr ""
 
 #: plugins/TorrentFiles/__init__.py:84
 msgid "Files"
-msgstr ""
+msgstr "파일"
 
 #: plugins/ExtraStats/__init__.py:22
 msgid ""
@@ -1987,11 +2070,11 @@ msgstr ""
 
 #: plugins/MoveTorrent/__init__.py:76
 msgid "_Move Torrent"
-msgstr ""
+msgstr "토런트 옮기기(_M)"
 
 #: plugins/MoveTorrent/__init__.py:95
 msgid "Choose a directory to move files to"
-msgstr ""
+msgstr "파일을 옮겨놓을 디렉토리"
 
 #: plugins/MoveTorrent/__init__.py:123
 msgid ""
@@ -2003,7 +2086,7 @@ msgstr ""
 
 #: plugins/MoveTorrent/movetorrent.glade:25
 msgid "Move completed downloads to:"
-msgstr ""
+msgstr "다운로드가 완료되면 다음 위치로 옮김:"
 
 #: plugins/MoveTorrent/movetorrent.glade:59 plugins/WebSeed/webseed.glade:65
 msgid "gtk-cancel"
@@ -2019,55 +2102,55 @@ msgstr ""
 
 #: plugins/WebSeed/__init__.py:51
 msgid "_Add Web Seed"
-msgstr ""
+msgstr "웹 배포 추가(_A)"
 
 #: plugins/WebSeed/webseed.glade:7
 msgid "Add Web Seed"
-msgstr ""
+msgstr "웹 배포 추가"
 
 #: plugins/Scheduler/plugin.py:105
 msgid "Scheduler Settings"
-msgstr ""
+msgstr "스케줄러 설정"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "High download limit:"
-msgstr ""
+msgstr "최대 다운로드 제한:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "High upload limit:"
-msgstr ""
+msgstr "최대 업로드 제한:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Low download limit:"
-msgstr ""
+msgstr "최소 다운로드 제한:"
 
 #: plugins/Scheduler/plugin.py:118
 msgid "Low upload limit:"
-msgstr ""
+msgstr "최소 업로드 제한:"
 
 #: plugins/Scheduler/plugin.py:193
 msgid "Green is the high limits, yellow is the low limits and red is stopped"
-msgstr ""
+msgstr "녹색은 최대 제한, 노랑은 최소 제한, 빨강은 정지."
 
 #: plugins/Scheduler/plugin.py:194
 msgid "If a limit is set to -1, it is unlimitted."
-msgstr ""
+msgstr "무제한은 -1로 설정."
 
 #: plugins/WebUi/__init__.py:193
 msgid "WebUi Config"
-msgstr ""
+msgstr "WebUI 설정"
 
 #: plugins/WebUi/__init__.py:201
 msgid "Port Number"
-msgstr ""
+msgstr "포트 번호"
 
 #: plugins/WebUi/__init__.py:202
 msgid "New Password"
-msgstr ""
+msgstr "새 패스워드"
 
 #: plugins/WebUi/__init__.py:203
 msgid "New Password(confirm)"
-msgstr ""
+msgstr "새 패스워드(확인)"
 
 #: plugins/WebUi/__init__.py:204
 msgid "Template"
@@ -2075,7 +2158,7 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:205
 msgid "Button Style"
-msgstr ""
+msgstr "버튼 모양"
 
 #: plugins/WebUi/__init__.py:207
 msgid "Cache Templates"
@@ -2083,23 +2166,23 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:209
 msgid "https://"
-msgstr ""
+msgstr "https://"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text and image"
-msgstr ""
+msgstr "글자와 그림"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Image Only"
-msgstr ""
+msgstr "그림만"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text Only"
-msgstr ""
+msgstr "글자만"
 
 #: plugins/WebUi/__init__.py:261
 msgid "Confirmed Password <> New Password\n"
-msgstr ""
+msgstr "현재 패스워드 <> 새 패스워드\n"
 
 #: plugins/WebUi/webserver_common.py:62
 msgid "translate something"
@@ -2111,7 +2194,7 @@ msgstr ""
 
 #: plugins/WebUi/deluge_webserver.py:206
 msgid "no data."
-msgstr ""
+msgstr "데이터 없음."
 
 #: plugins/WebUi/deluge_webserver.py:307
 msgid "refresh must be > 0"
@@ -2119,163 +2202,163 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:1
 msgid "# Of Files"
-msgstr ""
+msgstr "파일 개수"
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
-msgstr ""
+msgstr "프로그램 정보"
 
 #: plugins/WebUi/scripts/template_strings.py:5
 msgid "Add torrent"
-msgstr ""
+msgstr "토런트 추가"
 
 #: plugins/WebUi/scripts/template_strings.py:6
 msgid "Apply"
-msgstr ""
+msgstr "적용"
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Auto refresh:"
-msgstr ""
+msgstr "자동 새로고침:"
 
 #: plugins/WebUi/scripts/template_strings.py:8
 msgid "Ava"
-msgstr ""
+msgstr "유효성"
 
 #: plugins/WebUi/scripts/template_strings.py:10
 msgid "Config"
-msgstr ""
+msgstr "설정"
 
 #: plugins/WebUi/scripts/template_strings.py:12
 msgid "Debug:Data Dump"
-msgstr ""
+msgstr "Debug:데이터 덤프"
 
 #: plugins/WebUi/scripts/template_strings.py:14
 msgid "Delete downloaded files."
-msgstr ""
+msgstr "다운로드한 파일을 삭제:"
 
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Disable"
-msgstr ""
+msgstr "사용 안함"
 
 #: plugins/WebUi/scripts/template_strings.py:20
 msgid "Downloaded"
-msgstr ""
+msgstr "다운로드 양"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Enable"
-msgstr ""
+msgstr "사용"
 
 #: plugins/WebUi/scripts/template_strings.py:23
 msgid "Error"
-msgstr ""
+msgstr "오류"
 
 #: plugins/WebUi/scripts/template_strings.py:24
 msgid "Eta"
-msgstr ""
+msgstr "남은시간"
 
 #: plugins/WebUi/scripts/template_strings.py:25
 msgid "Login"
-msgstr ""
+msgstr "로그인"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Logout"
-msgstr ""
+msgstr "로그아웃"
 
 #: plugins/WebUi/scripts/template_strings.py:28
 msgid "Next Announce"
-msgstr ""
+msgstr "다음 알림"
 
 #: plugins/WebUi/scripts/template_strings.py:29
 msgid "Off"
-msgstr ""
+msgstr "꺼짐"
 
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Password is invalid,try again"
-msgstr ""
+msgstr "패스워드가 틀립니다. 다시 입력하세요."
 
 #: plugins/WebUi/scripts/template_strings.py:33
 msgid "Pause all"
-msgstr ""
+msgstr "모두 일시정지"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Pieces"
-msgstr ""
+msgstr "조각들"
 
 #: plugins/WebUi/scripts/template_strings.py:37
 msgid "Queue Down"
-msgstr ""
+msgstr "대기열 내리기"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Queue Position"
-msgstr ""
+msgstr "대기열 위치"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Queue Up"
-msgstr ""
+msgstr "대기열 올리기"
 
 #: plugins/WebUi/scripts/template_strings.py:41
 msgid "Reannounce"
-msgstr ""
+msgstr "다시 알림"
 
 #: plugins/WebUi/scripts/template_strings.py:42
 msgid "Refresh page every:"
-msgstr ""
+msgstr "페이지 새로고침 간격:"
 
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Remove torrent"
-msgstr ""
+msgstr "토런트 제거"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Resume all"
-msgstr ""
+msgstr "모두 다시시작"
 
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Set"
-msgstr ""
+msgstr "설정"
 
 #: plugins/WebUi/scripts/template_strings.py:49
 msgid "Set Timeout"
-msgstr ""
+msgstr "시간초과 설정"
 
 #: plugins/WebUi/scripts/template_strings.py:52
 msgid "Speed"
-msgstr ""
+msgstr "속도"
 
 #: plugins/WebUi/scripts/template_strings.py:53
 msgid "Start"
-msgstr ""
+msgstr "시작"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Submit"
-msgstr ""
+msgstr "전송"
 
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Torrent list"
-msgstr ""
+msgstr "토런트 목록"
 
 #: plugins/WebUi/scripts/template_strings.py:56
 msgid "Total Size"
-msgstr ""
+msgstr "전체 크기"
 
 #: plugins/WebUi/scripts/template_strings.py:57
 msgid "Tracker"
-msgstr ""
+msgstr "트래커"
 
 #: plugins/WebUi/scripts/template_strings.py:58
 msgid "Tracker Status"
-msgstr ""
+msgstr "트래커 상태"
 
 #: plugins/WebUi/scripts/template_strings.py:62
 msgid "Upload torrent"
-msgstr ""
+msgstr "업로드 토런트"
 
 #: plugins/WebUi/scripts/template_strings.py:63
 msgid "Uploaded"
-msgstr ""
+msgstr "업로드 양"
 
 #: plugins/WebUi/scripts/template_strings.py:64
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: plugins/WebUi/scripts/template_strings.py:65
 msgid "seconds"
@@ -2283,7 +2366,7 @@ msgstr "초"
 
 #: plugins/FlexRSS/FlexRSS.glade:6
 msgid "FlexRSS"
-msgstr ""
+msgstr "FlexRSS"
 
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
@@ -2295,53 +2378,53 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
-msgstr ""
+msgstr "비활성"
 
 #: plugins/FlexRSS/FlexRSS.glade:151
 msgid "Update Interval"
-msgstr ""
+msgstr "업데이트 간격"
 
 #: plugins/FlexRSS/FlexRSS.glade:165
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: plugins/FlexRSS/FlexRSS.glade:192
 msgid "900"
-msgstr ""
+msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
 msgid "Feeds"
-msgstr ""
+msgstr "피드 목록"
 
 #: plugins/FlexRSS/FlexRSS.glade:384
 msgid "Type"
-msgstr ""
+msgstr "종류"
 
 #: plugins/FlexRSS/FlexRSS.glade:397
 msgid "Feed"
-msgstr ""
+msgstr "피드"
 
 #: plugins/FlexRSS/FlexRSS.glade:439
 msgid "<b>Information</b>"
-msgstr ""
+msgstr "<b>정보</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:511
 msgid "<b>Patterns</b>"
-msgstr ""
+msgstr "<b>형식</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:549 plugins/FlexRSS/FlexRSS.glade:724
 msgid "From"
-msgstr ""
+msgstr "보낸이"
 
 #: plugins/FlexRSS/FlexRSS.glade:565 plugins/FlexRSS/FlexRSS.glade:641
 #: plugins/FlexRSS/FlexRSS.glade:826
 msgid "Season"
-msgstr ""
+msgstr "시즌"
 
 #: plugins/FlexRSS/FlexRSS.glade:594 plugins/FlexRSS/FlexRSS.glade:675
 #: plugins/FlexRSS/FlexRSS.glade:833
 msgid "Episode"
-msgstr ""
+msgstr "에피소드"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 msgid "Thru"
@@ -2353,23 +2436,23 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:810
 msgid "Doesn't Match"
-msgstr ""
+msgstr "일치하지 않습니다."
 
 #: plugins/FlexRSS/FlexRSS.glade:875
 msgid "Year"
-msgstr ""
+msgstr "년"
 
 #: plugins/FlexRSS/FlexRSS.glade:882
 msgid "Month"
-msgstr ""
+msgstr "월"
 
 #: plugins/FlexRSS/FlexRSS.glade:893
 msgid "Day"
-msgstr ""
+msgstr "일"
 
 #: plugins/FlexRSS/FlexRSS.glade:960
 msgid "<b>Test</b>"
-msgstr ""
+msgstr "<b>시험</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
@@ -2377,27 +2460,27 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
-msgstr ""
+msgstr "일시정지 상태로 설정."
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
 msgid "Delete filter when matched."
-msgstr ""
+msgstr "필터와 일치하면 삭제"
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
-msgstr ""
+msgstr "<b>다운로드</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1084
 msgid "Replacement"
-msgstr ""
+msgstr "재설정"
 
 #: plugins/FlexRSS/FlexRSS.glade:1098
 msgid "Pattern"
-msgstr ""
+msgstr "패턴"
 
 #: plugins/FlexRSS/FlexRSS.glade:1111
 msgid "<b>Link Rewriting</b>"
-msgstr ""
+msgstr "<b>링크 다시쓰기</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1143
 msgid ""
@@ -2407,35 +2490,35 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
 msgid "Deluge default"
-msgstr ""
+msgstr "Deluge 디폴트"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
-msgstr ""
+msgstr "컨텐츠를 자동으로 지정된 디렉토리로 다운로드 합니다."
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"
-msgstr ""
+msgstr "선택:"
 
 #: plugins/FlexRSS/FlexRSS.glade:1190
 msgid "<b>Output</b>"
-msgstr ""
+msgstr "<b>출력</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1251
 msgid "Filters"
-msgstr ""
+msgstr "필터"
 
 #: plugins/FlexRSS/FlexRSS.glade:1282
 msgid "Show a FlexRSS icon in Deluge's toolbar."
-msgstr ""
+msgstr "Deluge의 도구 모음에 FlexRSS의 아이콘을 표시."
 
 #: plugins/FlexRSS/FlexRSS.glade:1283
 msgid "Show button on toolbar."
-msgstr ""
+msgstr "도구 모음에 버튼을 표시."
 
 #: plugins/FlexRSS/FlexRSS.glade:1300
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>인터페이스</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1331
 msgid ""
@@ -2449,24 +2532,24 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"
-msgstr ""
+msgstr "<b>피드 검색</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"
-msgstr ""
+msgstr "도메인"
 
 #: plugins/FlexRSS/FlexRSS.glade:1462
 msgid "Path"
-msgstr ""
+msgstr "경로"
 
 #: plugins/FlexRSS/FlexRSS.glade:1488
 msgid "Value"
-msgstr ""
+msgstr "값"
 
 #: plugins/FlexRSS/FlexRSS.glade:1561
 msgid "<b>Cookies</b>"
-msgstr ""
+msgstr "<b>쿠키 목록</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1582
 msgid "Configuration"
-msgstr ""
+msgstr "구성"

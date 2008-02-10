@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-03 02:36+0000\n"
+"PO-Revision-Date: 2008-02-07 10:20+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Malay <ms@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
+"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -176,7 +176,7 @@ msgstr "Masa Tinggal"
 
 #: glade/delugegtk.glade:406 plugins/WebUi/scripts/template_strings.py:9
 msgid "Availability"
-msgstr ""
+msgstr "kesedia adaan"
 
 #: glade/delugegtk.glade:415 plugins/WebUi/scripts/template_strings.py:50
 msgid "Share Ratio"
@@ -188,7 +188,7 @@ msgstr "_Bantuan"
 
 #: glade/delugegtk.glade:440
 msgid "_Homepage"
-msgstr ""
+msgstr "_halamanrumah"
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
@@ -196,7 +196,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:474
 msgid "_Community"
-msgstr ""
+msgstr "_komuniti"
 
 #: glade/delugegtk.glade:497
 #, fuzzy
@@ -299,19 +299,19 @@ msgstr "Keterangan"
 
 #: glade/browser.glade:85 glade/browserwin.glade:85
 msgid "Go"
-msgstr ""
+msgstr "Maju"
 
 #: glade/browser.glade:118 glade/browserwin.glade:118
 msgid "Bookmarks"
-msgstr ""
+msgstr "Penanda buku"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
 msgid "Launch Main Externally"
-msgstr ""
+msgstr "Mulakan applikasi utama luaran"
 
 #: glade/browser.glade:172 glade/browserwin.glade:172
 msgid "Launch Main"
-msgstr ""
+msgstr "Mulakan applikasi utama"
 
 #: glade/browser.glade:185 glade/browserwin.glade:184
 msgid "Launch Footer Externally"
@@ -753,7 +753,7 @@ msgstr "Bandwidth"
 #: glade/preferences_dialog.glade:1566 glade/preferences_dialog.glade:1761
 #: glade/preferences_dialog.glade:1956 glade/preferences_dialog.glade:2151
 msgid "Affects regular bittorrent peers"
-msgstr ""
+msgstr "Memberi kesan pada kawan bittorrent biasa"
 
 #: glade/preferences_dialog.glade:1567
 msgid "Peer Proxy"
@@ -911,6 +911,8 @@ msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
 msgstr ""
+"Deluge akan memeriksa pelayan kami dan akan memberitahu anda jika versi baru "
+"telah dikeluarkan."
 
 #: glade/preferences_dialog.glade:2777
 msgid "Be alerted about new releases"
@@ -926,6 +928,8 @@ msgid ""
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
+"Bantulah kami membaiki deluge dengan menghantar versi Python dan PyGTK, OS "
+"dan jenis prosessor anda. Tiada informasi lain akan dihantar."
 
 #: glade/preferences_dialog.glade:2837
 msgid "<b>System Information</b>"
@@ -939,7 +943,7 @@ msgstr ""
 
 #: glade/torrent_menu.glade:11
 msgid "_Force Recheck"
-msgstr ""
+msgstr "_Memaksa pemeriksaan semula"
 
 #: glade/torrent_menu.glade:33
 msgid "Re_sume"
@@ -1003,15 +1007,15 @@ msgstr "_Resume All"
 
 #: glade/tray_menu.glade:38
 msgid "_Pause All"
-msgstr ""
+msgstr "_Hentikan semua sementara"
 
 #: glade/tray_menu.glade:84
 msgid "_Download Speed Limit"
-msgstr ""
+msgstr "_Had laju muat turun"
 
 #: glade/tray_menu.glade:100
 msgid "_Upload Speed Limit"
-msgstr ""
+msgstr "_Had laju muat atas"
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"
@@ -1034,8 +1038,9 @@ msgid "Torrent will not be distributed on the trackerless (DHT) network"
 msgstr ""
 
 #: glade/files_dialog.glade:43
+#, fuzzy
 msgid "Set the private flag"
-msgstr ""
+msgstr "setkan bendera peribadi"
 
 #: glade/wizard.glade:10
 #, fuzzy
@@ -1071,7 +1076,7 @@ msgstr ""
 
 #: glade/wizard.glade:141
 msgid "Ask where to save each file"
-msgstr ""
+msgstr "Tanyakan setiap kali mana fail akan disimpan"
 
 #: glade/wizard.glade:165
 msgid "Store all downloads in: "
@@ -1140,11 +1145,11 @@ msgstr ""
 
 #: src/interface.py:71
 msgid "Browser"
-msgstr ""
+msgstr "Pelayar"
 
 #: src/interface.py:73
 msgid "Launch Browser"
-msgstr ""
+msgstr "Mulakan pelayar"
 
 #: src/interface.py:251
 msgid ""
@@ -1230,15 +1235,16 @@ msgid "Paused %s"
 msgstr "Paused %s"
 
 #: src/interface.py:979
-#, python-format
+#, fuzzy, python-format
 msgid "Queued %s"
-msgstr ""
+msgstr "Aturan %s"
 
 #: src/interface.py:1091
 msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
 msgstr ""
+"Terdapat versi baru Deluge. Mahukah anda melawat halaman muatturun kami ?"
 
 #: src/interface.py:1263 plugins/WebUi/scripts/template_strings.py:11
 msgid "Connections"
@@ -1282,15 +1288,15 @@ msgstr "Unknown duplicate torrent error."
 
 #: src/interface.py:1453
 msgid "There is not enough freedisk space to complete your download."
-msgstr ""
+msgstr "Tidak terdapat ruang cukup untuk menamatkan muatturun anda."
 
 #: src/interface.py:1454 src/core.py:569
 msgid "Space Needed:"
-msgstr ""
+msgstr "Ruang diperlukan"
 
 #: src/interface.py:1455 src/core.py:569
 msgid "Available Space:"
-msgstr ""
+msgstr "Ruang yang ada"
 
 #: src/interface.py:1483
 msgid "Add torrent from URL"
@@ -1316,7 +1322,7 @@ msgstr ""
 
 #: src/search.py:80 src/search.py:158
 msgid "Choose an Engine"
-msgstr ""
+msgstr "Pilih enjin anda"
 
 #: src/search.py:84
 msgid "Manage Engines"
@@ -1324,7 +1330,7 @@ msgstr ""
 
 #: src/search.py:179
 msgid "Search "
-msgstr ""
+msgstr "Carian "
 
 #: src/core.py:87 plugins/WebUi/webserver_common.py:195
 msgid "Queued"
@@ -1366,11 +1372,11 @@ msgstr "Fail tidak dijumpai"
 
 #: src/core.py:440
 msgid "Asked for a torrent that doesn't exist"
-msgstr ""
+msgstr "Torrent yang diminta tidak wujud"
 
 #: src/core.py:567
 msgid "There is not enough free disk space to complete your download."
-msgstr ""
+msgstr "Tidak terdapat ruang cukup untuk menamatkan muatturun anda."
 
 #: src/core.py:664
 msgid "Announce sent"
@@ -1514,13 +1520,13 @@ msgstr "tidak dapat muat-turun URL"
 
 #: plugins/BlocklistImport/__init__.py:106
 msgid "Couldn't open blocklist file"
-msgstr ""
+msgstr "Tidak dapat membuka fail senarai sekatan"
 
 #: plugins/BlocklistImport/__init__.py:114 plugins/BlocklistImport/text.py:37
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
 #: plugins/BlocklistImport/text.py:99
 msgid "Wrong file type or corrupted blocklist file."
-msgstr ""
+msgstr "Fail salah jenis atau fail senarai sekatan yang rosak"
 
 #: plugins/BlocklistImport/__init__.py:122
 msgid "Imported"
@@ -1528,11 +1534,11 @@ msgstr ""
 
 #: plugins/BlocklistImport/__init__.py:122
 msgid "IPs"
-msgstr ""
+msgstr "IP-IP"
 
 #: plugins/BlocklistImport/__init__.py:165
 msgid "Blocklist"
-msgstr ""
+msgstr "Senarai Sekatan"
 
 #: plugins/BlocklistImport/__init__.py:165
 msgid "entries"
@@ -1540,7 +1546,7 @@ msgstr ""
 
 #: plugins/BlocklistImport/ui.py:25
 msgid "Blocklist URL"
-msgstr ""
+msgstr "Pautan-pautan senarai sekatan"
 
 #: plugins/BlocklistImport/ui.py:50
 msgid "Download on start"
@@ -1556,17 +1562,20 @@ msgstr ""
 
 #: plugins/BlocklistImport/ui.py:143
 msgid "Complete"
-msgstr ""
+msgstr "Selesai"
 
 #: plugins/BlocklistImport/text.py:129
 msgid "Got format exception for zipfile:"
 msgstr ""
 
 #: plugins/BlocklistImport/peerguardian.py:24
+#, fuzzy
 msgid ""
 "We were expecting a gzip file, but didn't get that, or possibly the file is "
 "corrupt.  Please edit your Blocklist preferences"
 msgstr ""
+"Kami mengharapkan fail gzip tetapi bukan itu yang dihantar, mungkin fail "
+"rosak. Cuba olah senarai sekatan."
 
 #: plugins/BlocklistImport/peerguardian.py:32
 msgid "Invalid leader"
@@ -1574,11 +1583,11 @@ msgstr ""
 
 #: plugins/BlocklistImport/peerguardian.py:36
 msgid "Invalid magic code"
-msgstr ""
+msgstr "Kod magik salah"
 
 #: plugins/BlocklistImport/peerguardian.py:41
 msgid "Invalid version"
-msgstr ""
+msgstr "Versi salah"
 
 #: plugins/DesiredRatio/__init__.py:22
 msgid "Set the desired ratio for a torrent."
@@ -1609,19 +1618,19 @@ msgstr ""
 
 #: plugins/TorrentPeers/tab_peers.py:84
 msgid "IP Address"
-msgstr ""
+msgstr "Alamat IP"
 
 #: plugins/TorrentPeers/tab_peers.py:86
 msgid "Client"
-msgstr ""
+msgstr "Klien"
 
 #: plugins/TorrentPeers/tab_peers.py:87
 msgid "Percent Complete"
-msgstr ""
+msgstr "Peratusan Siap"
 
 #: plugins/TorrentCreator/torrentcreator.glade:9
 msgid "Torrent Creator"
-msgstr ""
+msgstr "Pencipta torrent"
 
 #: plugins/TorrentCreator/torrentcreator.glade:104
 msgid "This torrent will be made from a single file"
@@ -1633,19 +1642,19 @@ msgstr ""
 
 #: plugins/TorrentCreator/torrentcreator.glade:121
 msgid "This torrent will be made from a directory"
-msgstr ""
+msgstr "Torrent ini akan dibuat daripada direktori"
 
 #: plugins/TorrentCreator/torrentcreator.glade:122
 msgid "Folder:"
-msgstr ""
+msgstr "Folder:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:139
 msgid "<b>Source</b>"
-msgstr ""
+msgstr "<b>Sumber</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:185
 msgid "Save Torrent File As:"
-msgstr ""
+msgstr "Simpan fail torrent sebagai:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:238
 msgid "Load this torrent into Deluge for seeding"
@@ -1653,11 +1662,11 @@ msgstr ""
 
 #: plugins/TorrentCreator/torrentcreator.glade:239
 msgid "Add new torrent to queue"
-msgstr ""
+msgstr "Tambah torrent baru pada aturan"
 
 #: plugins/TorrentCreator/torrentcreator.glade:258
 msgid "<b>Torrent File</b>"
-msgstr ""
+msgstr "<b>Fail torrent</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:306
 msgid "<b>Trackers</b>"
@@ -1669,11 +1678,11 @@ msgstr ""
 
 #: plugins/TorrentCreator/torrentcreator.glade:400
 msgid "<b>Comments</b>"
-msgstr ""
+msgstr "<b>Komen-komen</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:437
 msgid "<b>Author</b>"
-msgstr ""
+msgstr "<b>Penulis</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:476
 msgid "Set Private Flag"
@@ -1699,7 +1708,7 @@ msgstr ""
 
 #: plugins/TorrentCreator/torrentcreator.glade:512
 msgid "Piece Size:"
-msgstr ""
+msgstr "Saiz kepingan"
 
 #: plugins/TorrentCreator/torrentcreator.glade:526
 msgid "<b>Advanced</b>"
@@ -1711,27 +1720,28 @@ msgstr ""
 
 #: plugins/TorrentCreator/__init__.py:51
 msgid "_New Torrent"
-msgstr ""
+msgstr "_Torrent Baru"
 
 #: plugins/TorrentCreator/__init__.py:61
 msgid "New Torrent"
-msgstr ""
+msgstr "Torrent Baru"
 
 #: plugins/TorrentCreator/__init__.py:63
 msgid "Create New Torrent"
-msgstr ""
+msgstr "Cipta Torrent Baru"
 
 #: plugins/TorrentCreator/__init__.py:99
 msgid "Save file as..."
-msgstr ""
+msgstr "Simpan fail ini sebagai..."
 
 #: plugins/TorrentCreator/__init__.py:121
 msgid "You must select a source for the torrent."
-msgstr ""
+msgstr "Anda perlu memilih salah sumber bagi torrent ini"
 
 #: plugins/TorrentCreator/__init__.py:128
+#, fuzzy
 msgid "You must select a file to save the torrent as."
-msgstr ""
+msgstr "Anda harus memilih fail yang anda hendak menyimpan torrent sebagai"
 
 #: plugins/TorrentNotification/notification_preferences.glade:7
 msgid "Torrent Notification Preferences"
@@ -1758,7 +1768,7 @@ msgstr ""
 
 #: plugins/TorrentNotification/__init__.py:108
 msgid "Torrent complete"
-msgstr ""
+msgstr "Torrent habis"
 
 #: plugins/NetworkHealth/__init__.py:36
 msgid ""
@@ -1769,7 +1779,7 @@ msgstr ""
 
 #: plugins/NetworkHealth/plugin.py:53
 msgid "[Health: OK]"
-msgstr ""
+msgstr "[Kesihatan: OK]"
 
 #: plugins/EventLogging/event_logging_preferences.glade:7
 msgid "Event Logging Preferences"
@@ -1786,17 +1796,17 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:66
 #: plugins/EventLogging/tab_log.py:210
 msgid "Peer blocked"
-msgstr ""
+msgstr "Kawan disekat"
 
 #: plugins/EventLogging/event_logging_preferences.glade:80
 #: plugins/EventLogging/tab_log.py:200
 msgid "Block finished"
-msgstr ""
+msgstr "Sekatan habis"
 
 #: plugins/EventLogging/event_logging_preferences.glade:94
 #: plugins/EventLogging/tab_log.py:189
 msgid "Block downloading"
-msgstr ""
+msgstr "Muatturun disekat"
 
 #: plugins/EventLogging/event_logging_preferences.glade:108
 #: plugins/EventLogging/tab_log.py:179
@@ -1851,11 +1861,11 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:248
 #: plugins/EventLogging/tab_log.py:86
 msgid "Invalid request"
-msgstr ""
+msgstr "Permintaan salah"
 
 #: plugins/EventLogging/event_logging_preferences.glade:262
 msgid "Peer messages"
-msgstr ""
+msgstr "Pesanan dari kawan"
 
 #: plugins/EventLogging/event_logging_preferences.glade:276
 #: plugins/EventLogging/tab_log.py:70
@@ -1926,7 +1936,7 @@ msgstr ""
 
 #: plugins/EventLogging/tab_log.py:79 plugins/EventLogging/tab_log.py:86
 msgid "client: "
-msgstr ""
+msgstr "klien "
 
 #: plugins/EventLogging/tab_log.py:106 plugins/EventLogging/tab_log.py:181
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
@@ -1935,7 +1945,7 @@ msgstr ""
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "status code: "
-msgstr ""
+msgstr "kod status "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "Times in a row: "
@@ -1947,7 +1957,7 @@ msgstr ""
 
 #: plugins/EventLogging/tab_log.py:192
 msgid "peer speed: "
-msgstr ""
+msgstr "kelajuan kawan: "
 
 #: plugins/SpeedLimiter/__init__.py:20
 msgid "Set the desired speed limit per torrent."
@@ -1967,7 +1977,7 @@ msgstr ""
 
 #: plugins/SpeedLimiter/__init__.py:177
 msgid "Torrent Download Speed (KiB/s):"
-msgstr ""
+msgstr "Kelajuan Muatturun torrent (KiB/s):"
 
 #: plugins/NetworkGraph/__init__.py:36
 msgid ""
@@ -1978,16 +1988,16 @@ msgstr ""
 
 #: plugins/NetworkGraph/__init__.py:90
 msgid "Graph"
-msgstr ""
+msgstr "Graf"
 
 #: plugins/TorrentFiles/tab_files.py:59
 #: plugins/WebUi/scripts/template_strings.py:36
 msgid "Progress"
-msgstr ""
+msgstr "Progres"
 
 #: plugins/TorrentFiles/tab_files.py:100
 msgid "There was an error trying to launch the file."
-msgstr ""
+msgstr "Terdapat masalah semasa memulakan fail"
 
 #: plugins/TorrentFiles/__init__.py:34
 msgid ""
@@ -1999,7 +2009,7 @@ msgstr ""
 
 #: plugins/TorrentFiles/__init__.py:84
 msgid "Files"
-msgstr ""
+msgstr "Fail-fail"
 
 #: plugins/ExtraStats/__init__.py:22
 msgid ""
@@ -2023,16 +2033,16 @@ msgstr ""
 #: plugins/ExtraStats/__init__.py:175
 #: plugins/ExtraStats/stats_preferences.glade:28
 msgid "Total Downloaded"
-msgstr ""
+msgstr "Jumlah muatturun"
 
 #: plugins/ExtraStats/__init__.py:181
 #: plugins/ExtraStats/stats_preferences.glade:38
 msgid "Total Uploaded"
-msgstr ""
+msgstr "Jumlah muatatas"
 
 #: plugins/ExtraStats/__init__.py:187 plugins/ExtraStats/__init__.py:191
 msgid "Undefined"
-msgstr ""
+msgstr "Tak tertakrif"
 
 #: plugins/ExtraStats/__init__.py:195
 #: plugins/ExtraStats/stats_preferences.glade:52
@@ -2047,7 +2057,7 @@ msgstr ""
 #: plugins/ExtraStats/__init__.py:206
 #: plugins/ExtraStats/stats_preferences.glade:80
 msgid "Running Time"
-msgstr ""
+msgstr "Masa beroperasi"
 
 #: plugins/ExtraStats/stats_preferences.glade:7
 msgid "Extra Stats Preferences"
@@ -2088,7 +2098,7 @@ msgstr ""
 
 #: plugins/MoveTorrent/movetorrent.glade:71 plugins/WebSeed/webseed.glade:73
 msgid "gtk-ok"
-msgstr ""
+msgstr "gtk-ok"
 
 #: plugins/WebSeed/__init__.py:22
 msgid "This plugin allows users to add web seeds to their torrents"
@@ -2096,11 +2106,11 @@ msgstr ""
 
 #: plugins/WebSeed/__init__.py:51
 msgid "_Add Web Seed"
-msgstr ""
+msgstr "_Tambah benih jaringan"
 
 #: plugins/WebSeed/webseed.glade:7
 msgid "Add Web Seed"
-msgstr ""
+msgstr "Tambah benih jaringan"
 
 #: plugins/Scheduler/plugin.py:105
 msgid "Scheduler Settings"
@@ -2108,11 +2118,11 @@ msgstr ""
 
 #: plugins/Scheduler/plugin.py:115
 msgid "High download limit:"
-msgstr ""
+msgstr "Had tinggi muatturun"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "High upload limit:"
-msgstr ""
+msgstr "Had tinggi muatatas"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Low download limit:"
@@ -2136,23 +2146,23 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:201
 msgid "Port Number"
-msgstr ""
+msgstr "Nombor port"
 
 #: plugins/WebUi/__init__.py:202
 msgid "New Password"
-msgstr ""
+msgstr "Kata Laluan Baru"
 
 #: plugins/WebUi/__init__.py:203
 msgid "New Password(confirm)"
-msgstr ""
+msgstr "Kata Laluan Baru(sahkan)"
 
 #: plugins/WebUi/__init__.py:204
 msgid "Template"
-msgstr ""
+msgstr "Templat"
 
 #: plugins/WebUi/__init__.py:205
 msgid "Button Style"
-msgstr ""
+msgstr "Gaya Butang"
 
 #: plugins/WebUi/__init__.py:207
 msgid "Cache Templates"
@@ -2168,7 +2178,7 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:226
 msgid "Image Only"
-msgstr ""
+msgstr "Gambar sahaja"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text Only"
@@ -2176,11 +2186,11 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:261
 msgid "Confirmed Password <> New Password\n"
-msgstr ""
+msgstr "Sahkan kata laluan <> kata Laluan Baru\n"
 
 #: plugins/WebUi/webserver_common.py:62
 msgid "translate something"
-msgstr ""
+msgstr "alih bahasa sesuatu"
 
 #: plugins/WebUi/deluge_webserver.py:196
 msgid "Choose an url or a torrent, not both."
@@ -2188,7 +2198,7 @@ msgstr ""
 
 #: plugins/WebUi/deluge_webserver.py:206
 msgid "no data."
-msgstr ""
+msgstr "tiada data"
 
 #: plugins/WebUi/deluge_webserver.py:307
 msgid "refresh must be > 0"
@@ -2200,15 +2210,15 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
-msgstr ""
+msgstr "Tentang"
 
 #: plugins/WebUi/scripts/template_strings.py:5
 msgid "Add torrent"
-msgstr ""
+msgstr "Tambah torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:6
 msgid "Apply"
-msgstr ""
+msgstr "Laksanakan"
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Auto refresh:"
@@ -2228,11 +2238,11 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:14
 msgid "Delete downloaded files."
-msgstr ""
+msgstr "Buang file yang dimuatturun"
 
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Disable"
-msgstr ""
+msgstr "Matikan"
 
 #: plugins/WebUi/scripts/template_strings.py:20
 msgid "Downloaded"
@@ -2240,11 +2250,11 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Enable"
-msgstr ""
+msgstr "Hidupkan"
 
 #: plugins/WebUi/scripts/template_strings.py:23
 msgid "Error"
-msgstr ""
+msgstr "Ralat"
 
 #: plugins/WebUi/scripts/template_strings.py:24
 msgid "Eta"
@@ -2268,11 +2278,11 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Password is invalid,try again"
-msgstr ""
+msgstr "Kata Laluan salah, cuba lagi"
 
 #: plugins/WebUi/scripts/template_strings.py:33
 msgid "Pause all"
-msgstr ""
+msgstr "Hentikan semua sementara"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Pieces"
@@ -2284,7 +2294,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Queue Position"
-msgstr ""
+msgstr "Posisi di aturan"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Queue Up"
@@ -2300,11 +2310,11 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Remove torrent"
-msgstr ""
+msgstr "Buang torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Resume all"
-msgstr ""
+msgstr "Mulakan semua balik"
 
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Set"
@@ -2320,11 +2330,11 @@ msgstr "Kelajuan"
 
 #: plugins/WebUi/scripts/template_strings.py:53
 msgid "Start"
-msgstr ""
+msgstr "Mula"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Submit"
-msgstr ""
+msgstr "Hantar"
 
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Torrent list"
@@ -2332,23 +2342,23 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:56
 msgid "Total Size"
-msgstr ""
+msgstr "Jumlah Saiz"
 
 #: plugins/WebUi/scripts/template_strings.py:57
 msgid "Tracker"
-msgstr ""
+msgstr "Penjejak"
 
 #: plugins/WebUi/scripts/template_strings.py:58
 msgid "Tracker Status"
-msgstr ""
+msgstr "Status penjejak"
 
 #: plugins/WebUi/scripts/template_strings.py:62
 msgid "Upload torrent"
-msgstr ""
+msgstr "Muat atas torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:63
 msgid "Uploaded"
-msgstr ""
+msgstr "Telah dimuatatas"
 
 #: plugins/WebUi/scripts/template_strings.py:64
 msgid "Url"
@@ -2356,7 +2366,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:65
 msgid "seconds"
-msgstr ""
+msgstr "saat"
 
 #: plugins/FlexRSS/FlexRSS.glade:6
 msgid "FlexRSS"

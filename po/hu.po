@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-18 21:19+0000\n"
+"PO-Revision-Date: 2008-02-10 18:01+0000\n"
 "Last-Translator: Bajusz Tamás btami@enternet.hu\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
+"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -36,7 +36,7 @@ msgstr "Eltávolítás"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
-msgstr "Kész torrentek törlése"
+msgstr "Befejezett torrentek törlése"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
@@ -93,7 +93,7 @@ msgstr "_Fájl"
 
 #: glade/delugegtk.glade:193 glade/tray_menu.glade:61
 msgid "_Add Torrent"
-msgstr "Hozzáadás _Fájlból"
+msgstr "Hozzáadás _fájlból"
 
 #: glade/delugegtk.glade:208
 msgid "Add _URL"
@@ -101,7 +101,7 @@ msgstr "Hozzáadás _URL-ből"
 
 #: glade/delugegtk.glade:216
 msgid "_Clear Completed"
-msgstr "Készek törlése"
+msgstr "Befejezettek tör_lése"
 
 #: glade/delugegtk.glade:249
 msgid "_Edit"
@@ -194,11 +194,11 @@ msgstr "_Közösség"
 
 #: glade/delugegtk.glade:497
 msgid "Help translate this application"
-msgstr "Segíts lefordítani ezt az alkalmazást"
+msgstr "Segítség a program lefordításában"
 
 #: glade/delugegtk.glade:498
 msgid "_Translate This Application..."
-msgstr "_Lefordítom Ezt A Programot"
+msgstr "_Segítek a program fordításában"
 
 #: glade/delugegtk.glade:521
 msgid "Runs the first-time configuration wizard"
@@ -206,7 +206,7 @@ msgstr "Elindítja a beállítás varázslót"
 
 #: glade/delugegtk.glade:522
 msgid "_Run Configuration Wizard"
-msgstr "Beállítás _Varázsló"
+msgstr "Beállítás _varázsló futtatása"
 
 #: glade/delugegtk.glade:659
 msgid "<b>Name:</b>"
@@ -238,7 +238,7 @@ msgstr "<b>Útvonal:</b>"
 
 #: glade/delugegtk.glade:916
 msgid "<b>Torrent Info</b>"
-msgstr "<b>Torrent Info</b>"
+msgstr "<b>Torrent információ</b>"
 
 #: glade/delugegtk.glade:1078
 msgid "<b>Downloaded:</b>"
@@ -312,7 +312,7 @@ msgstr "Lábléc megnyitása"
 
 #: glade/searchdlg.glade:7
 msgid "Manage Search Plugins"
-msgstr "Kereső pluginok rendezése"
+msgstr "Kereső bővítmények rendezése"
 
 #: glade/searchdlg.glade:79
 msgid "Name:"
@@ -332,8 +332,8 @@ msgid ""
 "Name: Google\n"
 "URL: http://www.google.com/search?q=${query}"
 msgstr ""
-"Új kereső hozzáadásához add meg a Nevet és az URL-t. Az URL-ben ${query} ki "
-"lesz cserélve a keresendő kifejezésre.\n"
+"Új kereső hozzáadásához adja meg a kereső nevét,  és az URL-t. Az URL-ben "
+"${query} ki lesz cserélve a keresendő kifejezésre.\n"
 "Például egy Google keresés így néz ki:\n"
 "http://www.google.com/search?q=${query}"
 
@@ -379,15 +379,15 @@ msgstr "Összes Kijelölése"
 
 #: glade/file_tab_menu.glade:48
 msgid "Unselect All"
-msgstr "Kijelölés megszüntetése"
+msgstr "Összes kijelölés megszüntetése"
 
 #: glade/file_tab_menu.glade:68 src/core.py:102
 msgid "Don't download"
-msgstr "Ne töltsd"
+msgstr "Ne legyen letöltve"
 
 #: glade/file_tab_menu.glade:83 src/core.py:103
 msgid "Normal"
-msgstr "Szokványos"
+msgstr "Normál"
 
 #: glade/file_tab_menu.glade:98 src/core.py:104
 msgid "High"
@@ -460,7 +460,7 @@ msgstr "Letöltendő fájlok kiválasztása betöltéskor"
 
 #: glade/preferences_dialog.glade:303
 msgid "Only show if torrent has more than 1 file"
-msgstr "Csak akkor mutasd, ha a torrent egynél több fájlt tartalmaz"
+msgstr "Csak akkor mutassa, ha a torrent egynél több fájlt tartalmaz"
 
 #: glade/preferences_dialog.glade:319 glade/preferences_dialog.glade:320
 msgid "Prioritize first and last pieces of files in torrent"
@@ -475,23 +475,24 @@ msgid "<b>Torrents</b>"
 msgstr "<b>Torrentek</b>"
 
 #: glade/preferences_dialog.glade:390
+#, fuzzy
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
-"Ha egyszerre foglalod le a területet kisebb lesz a lemez töredezettsége"
+"Előre lefoglalja a szükséges területet, így megelőzi a lemez töredezését"
 
 #: glade/preferences_dialog.glade:391
 msgid "Use Full Allocation"
-msgstr "Egyszerre az egészet"
+msgstr "Teljes lefoglalás használata"
 
 #: glade/preferences_dialog.glade:413
 msgid "Compact allocation only allocates space as needed"
-msgstr "Csak a már letöltött adat területét foglalja le"
+msgstr "Csak annyi helyet foglal, amennyit már letöltött"
 
 #: glade/preferences_dialog.glade:414
 msgid "Use Compact Allocation"
-msgstr "Csak a már letöltöttnek"
+msgstr "Terület lefoglalása menet közben"
 
 #: glade/preferences_dialog.glade:434
 msgid "<b>Allocation</b>"
@@ -506,28 +507,28 @@ msgid ""
 "<b>Please Note - Changes to these settings will only be applied the next "
 "time Deluge is restarted.</b>"
 msgstr ""
-"<b>Kérlek vedd figyelembe, hogy ezek a beállítások csak a következő "
-"indításkor lépnek életbe</b>"
+"<b>Vegye figyelembe, hogy ezek a beállítások csak a Deluge következő "
+"indításakor lépnek életbe</b>"
 
 #: glade/preferences_dialog.glade:545 glade/wizard.glade:48
 msgid "From:"
-msgstr "Tól:"
+msgstr "Kezdet:"
 
 #: glade/preferences_dialog.glade:568 glade/wizard.glade:66
 msgid "To:"
-msgstr "Ig:"
+msgstr "Vég:"
 
 #: glade/preferences_dialog.glade:594
 msgid "Deluge will automatically choose a different port to use every time."
-msgstr "A Deluge minden indításkor új portot választ"
+msgstr "A Deluge minden indításkor másik portot fog használni."
 
 #: glade/preferences_dialog.glade:595
 msgid "Random Ports"
-msgstr "Véletlenszerű Portok"
+msgstr "Véletlenszerű portok"
 
 #: glade/preferences_dialog.glade:612
 msgid "Test Active Port"
-msgstr "Aktív Port Tesztelése"
+msgstr "Aktív port tesztelése"
 
 #: glade/preferences_dialog.glade:638
 msgid "<b>TCP</b>"
@@ -571,7 +572,7 @@ msgstr "NAT-PMP"
 
 #: glade/preferences_dialog.glade:782 glade/preferences_dialog.glade:783
 msgid "Peer Exchange"
-msgstr "Partnercsere"
+msgstr "Peer cserélés"
 
 #: glade/preferences_dialog.glade:799
 msgid "Local Peer Discovery"
@@ -627,15 +628,15 @@ msgstr "Hálózat"
 
 #: glade/preferences_dialog.glade:1025
 msgid "Queue torrents to bottom when they begin seeding"
-msgstr "Az elkészült torrentek a lista végére kerüljenek"
+msgstr "A befejezett torrentek kerüljenek a lista végére"
 
 #: glade/preferences_dialog.glade:1037
 msgid "Queue new torrents above completed ones"
-msgstr "Az új torrentek a készek elé kerüljenek"
+msgstr "Az új torrentek kerüljenek a lista elejére"
 
 #: glade/preferences_dialog.glade:1053
 msgid "Stop seeding torrents when their share ratio reaches:"
-msgstr "Megosztás befejezése ha elérik ezt az arányt:"
+msgstr "Megosztás befejezése ha az arány:"
 
 #: glade/preferences_dialog.glade:1089
 msgid "Automatically clear torrents that reach the max share ratio"
@@ -741,7 +742,7 @@ msgstr "Kihat a szabályos bittorent letöltőkre"
 
 #: glade/preferences_dialog.glade:1567
 msgid "Peer Proxy"
-msgstr "Kliens Proxy"
+msgstr "Partner proxy"
 
 #: glade/preferences_dialog.glade:1609 glade/preferences_dialog.glade:1804
 #: glade/preferences_dialog.glade:1999 glade/preferences_dialog.glade:2194
@@ -779,7 +780,7 @@ msgstr ""
 #: glade/preferences_dialog.glade:1684 glade/preferences_dialog.glade:1879
 #: glade/preferences_dialog.glade:2074 glade/preferences_dialog.glade:2269
 msgid "Server"
-msgstr "Szerver"
+msgstr "Kiszolgáló"
 
 #: glade/preferences_dialog.glade:1695 glade/preferences_dialog.glade:1890
 #: glade/preferences_dialog.glade:2085 glade/preferences_dialog.glade:2280
@@ -788,23 +789,23 @@ msgstr "Port"
 
 #: glade/preferences_dialog.glade:1729
 msgid "<b>Peer Proxy</b>"
-msgstr "<b>Peer Proxy</b>"
+msgstr "<b>Partner proxy</b>"
 
 #: glade/preferences_dialog.glade:1762
 msgid "Tracker Proxy"
-msgstr "Tracker Proxy"
+msgstr "Tracker proxy"
 
 #: glade/preferences_dialog.glade:1924
 msgid "<b>Tracker Proxy</b>"
-msgstr "<b>Tracker Proxy</b>"
+msgstr "<b>Tracker proxy</b>"
 
 #: glade/preferences_dialog.glade:1957
 msgid "DHT Proxy"
-msgstr "DHT Proxy"
+msgstr "DHT proxy"
 
 #: glade/preferences_dialog.glade:2119
 msgid "<b>DHT Proxy</b>"
-msgstr "<b>DHT Proxy</b>"
+msgstr "<b>DHT proxy</b>"
 
 #: glade/preferences_dialog.glade:2152
 msgid "Web Seed Proxy"
@@ -816,15 +817,15 @@ msgstr "<b>Web Seed Proxy</b>"
 
 #: glade/preferences_dialog.glade:2341
 msgid "Proxies"
-msgstr "Proxy"
+msgstr "Proxyk"
 
 #: glade/preferences_dialog.glade:2370
 msgid "Enable system tray icon"
-msgstr "Ikon megjelenítése a tálcán"
+msgstr "Ikon megjelenítése az értesítési területen"
 
 #: glade/preferences_dialog.glade:2387
 msgid "Minimize to tray on close"
-msgstr "Bezáráskor a tálcára"
+msgstr "Minimalizáskor menjen az értesítési területre"
 
 #: glade/preferences_dialog.glade:2407
 msgid "Start in tray"
@@ -857,7 +858,7 @@ msgid ""
 "Nautilus\n"
 "Thunar"
 msgstr ""
-"Autómatikus (xdg-open)\n"
+"Automatikus detektálás (xdg-open)\n"
 "Konqueror\n"
 "Nautilus\n"
 "Thunar"
@@ -874,7 +875,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2660
 msgid "<b>Detailed Progress Bar</b>"
-msgstr "Részletes folyamatjelző"
+msgstr "<b>Részletes folyamatjelző</b>"
 
 #: glade/preferences_dialog.glade:2690
 msgid "Use and show the anonymizing internal browser"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-08 19:36+0000\n"
+"PO-Revision-Date: 2008-01-27 19:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
+"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -181,15 +181,15 @@ msgstr "_Žinynas"
 
 #: glade/delugegtk.glade:440
 msgid "_Homepage"
-msgstr ""
+msgstr "_Namų tinklalapis"
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
-msgstr ""
+msgstr "_DUK"
 
 #: glade/delugegtk.glade:474
 msgid "_Community"
-msgstr ""
+msgstr "_Bendruomenė"
 
 #: glade/delugegtk.glade:497
 msgid "Help translate this application"
@@ -200,8 +200,9 @@ msgid "_Translate This Application..."
 msgstr "_Išversti šią programą"
 
 #: glade/delugegtk.glade:521
+#, fuzzy
 msgid "Runs the first-time configuration wizard"
-msgstr ""
+msgstr "Paleidžia pirmojo karto konfigūracijos vedlį"
 
 #: glade/delugegtk.glade:522
 msgid "_Run Configuration Wizard"
@@ -233,7 +234,7 @@ msgstr "<b>Bendras dydis:</b>"
 
 #: glade/delugegtk.glade:883
 msgid "<b>Path:</b>"
-msgstr ""
+msgstr "<b>Kelias:</b>"
 
 #: glade/delugegtk.glade:916
 msgid "<b>Torrent Info</b>"
@@ -289,7 +290,7 @@ msgstr ""
 
 #: glade/browser.glade:118 glade/browserwin.glade:118
 msgid "Bookmarks"
-msgstr ""
+msgstr "Adresynas"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
 msgid "Launch Main Externally"
@@ -422,7 +423,7 @@ msgstr "Pasirinkite aplanką"
 
 #: glade/preferences_dialog.glade:104
 msgid "Store all torrent files in:"
-msgstr ""
+msgstr "Visų „torrent“ failų saugojimo vieta:"
 
 #: glade/preferences_dialog.glade:137
 msgid "<b>Download Location</b>"
@@ -430,11 +431,11 @@ msgstr "<b>Siuntimo vieta</b>"
 
 #: glade/preferences_dialog.glade:191
 msgid "Autoload all torrent files in:"
-msgstr ""
+msgstr "Vieta, iš kurios automatiškai įkeliami „torrent“ failai:"
 
 #: glade/preferences_dialog.glade:205
 msgid "<b>Autoload</b>"
-msgstr ""
+msgstr "<b>Autoįkėlimas</b>"
 
 #: glade/preferences_dialog.glade:241 glade/preferences_dialog.glade:258
 #: glade/wizard.glade:237 glade/wizard.glade:478
@@ -454,7 +455,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:303
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "Rodyti tik tuomet, kai torrente yra daugiau kaip 1 failas"
 
 #: glade/preferences_dialog.glade:319 glade/preferences_dialog.glade:320
 msgid "Prioritize first and last pieces of files in torrent"
@@ -462,7 +463,7 @@ msgstr "Padidinti prioritetą pirmai ir paskutinei daliai failams torrente"
 
 #: glade/preferences_dialog.glade:335
 msgid "Start torrents in paused state"
-msgstr ""
+msgstr "Pradėti torrentus pristabdytus"
 
 #: glade/preferences_dialog.glade:351
 msgid "<b>Torrents</b>"
@@ -476,19 +477,20 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:391
 msgid "Use Full Allocation"
-msgstr ""
+msgstr "Naudoti pilną paskirstymą"
 
 #: glade/preferences_dialog.glade:413
 msgid "Compact allocation only allocates space as needed"
 msgstr ""
+"Kompaktiškas paskirstymas paskirsto disko vietą tik tuomet, kai ji reikalinga"
 
 #: glade/preferences_dialog.glade:414
 msgid "Use Compact Allocation"
-msgstr ""
+msgstr "Naudoti kompaktišką paskirstymą"
 
 #: glade/preferences_dialog.glade:434
 msgid "<b>Allocation</b>"
-msgstr ""
+msgstr "<b>Paskirstymas</b>"
 
 #: glade/preferences_dialog.glade:458
 msgid "Downloads"
@@ -564,11 +566,11 @@ msgstr "NAT-PMP"
 
 #: glade/preferences_dialog.glade:782 glade/preferences_dialog.glade:783
 msgid "Peer Exchange"
-msgstr ""
+msgstr "Siuntėjų apsikeitimas"
 
 #: glade/preferences_dialog.glade:799
 msgid "Local Peer Discovery"
-msgstr ""
+msgstr "Vietinių siuntėjų atpažinimas"
 
 #: glade/preferences_dialog.glade:814
 msgid "<b>Network Extras</b>"
@@ -601,11 +603,15 @@ msgid "Level:"
 msgstr "Lygis:"
 
 #: glade/preferences_dialog.glade:931
+#, fuzzy
 msgid ""
 "Handshake\n"
 "Full Stream\n"
 "Either"
 msgstr ""
+"Patvirtinimas\n"
+"Visas srautas\n"
+"Bet kuris"
 
 #: glade/preferences_dialog.glade:954
 msgid "<b>Encryption</b>"
@@ -647,10 +653,12 @@ msgid ""
 "The maximum half-open connections.  A high value may crash some cheap "
 "routers.  Set -1 for unlimited."
 msgstr ""
+"Maksimalus pusiau atvirų susijungimų skaičius. Didesnė reikšmė gali sukelti "
+"kai kurių pigių maršrutizatorių lūžį. Kai reikšmė „-1“, tuomet neribojama."
 
 #: glade/preferences_dialog.glade:1203 glade/wizard.glade:435
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "Maksimalus pusiau atvirų susijungimų skaičius:"
 
 #: glade/preferences_dialog.glade:1221 glade/preferences_dialog.glade:1241
 #: glade/preferences_dialog.glade:1321 glade/wizard.glade:277
@@ -695,10 +703,13 @@ msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"Maksimalus susijungimo bandymų per sekundę skaičius. Didesnė reikšmė gali "
+"sukelti kai kurių pigių maršrutizatorių lūžį. Kai reikšmė „-1“, tuomet "
+"neribojama."
 
 #: glade/preferences_dialog.glade:1357
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Maksimalus susijungimo bandymų skaičius per sekundę"
 
 #: glade/preferences_dialog.glade:1388
 msgid "<b>Global Bandwidth Usage</b>"
@@ -814,7 +825,7 @@ msgstr "Užveriant nukelti į sistemos dėklą"
 
 #: glade/preferences_dialog.glade:2407
 msgid "Start in tray"
-msgstr ""
+msgstr "Paleisti sisteminiame skydelyje"
 
 #: glade/preferences_dialog.glade:2432
 msgid "Password protect system tray"
@@ -830,7 +841,7 @@ msgstr "<b>Sistemos dėkliukas</b>"
 
 #: glade/preferences_dialog.glade:2539
 msgid "Custom:"
-msgstr ""
+msgstr "Pasirinktinis:"
 
 #: glade/preferences_dialog.glade:2556
 msgid "Open folder with:"
@@ -843,34 +854,40 @@ msgid ""
 "Nautilus\n"
 "Thunar"
 msgstr ""
+"Automatiškai aptinkama (xdg-open)\n"
+"Konqueror\n"
+"Nautilus\n"
+"Thunar"
 
 #: glade/preferences_dialog.glade:2618
 msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
-msgstr ""
+msgstr "<b>Failų tvarkytuvė</b> - tik ne Windows platformoms"
 
 #: glade/preferences_dialog.glade:2649
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
 msgstr ""
+"Naudoti tobulesnę progreso juostą (naudoja šiek tiek daugiau CPU/RAM)"
 
 #: glade/preferences_dialog.glade:2660
 msgid "<b>Detailed Progress Bar</b>"
-msgstr ""
+msgstr "<b>Detali progreso juosta</b>"
 
 #: glade/preferences_dialog.glade:2690
+#, fuzzy
 msgid "Use and show the anonymizing internal browser"
-msgstr ""
+msgstr "Naudoti ir rodyti anonimišką vidinę naršyklę"
 
 #: glade/preferences_dialog.glade:2701
 msgid "<b>Internal Browser</b>"
-msgstr ""
+msgstr "<b>Vidinė naršyklė</b>"
 
 #: glade/preferences_dialog.glade:2731
 msgid "Show the search bar on the toolbar"
-msgstr ""
+msgstr "Rodyti paieškos juostą įrankių juostoje"
 
 #: glade/preferences_dialog.glade:2742
 msgid "<b>Search Bar</b> - restart required"
-msgstr ""
+msgstr "<b>Paieškos juosta</b> - reikia iš naujo paleisti"
 
 #: glade/preferences_dialog.glade:2776
 msgid ""
@@ -907,7 +924,7 @@ msgstr "Kita"
 
 #: glade/torrent_menu.glade:11
 msgid "_Force Recheck"
-msgstr ""
+msgstr "_Priverstinai pertikrinti"
 
 #: glade/torrent_menu.glade:33
 msgid "Re_sume"
@@ -922,8 +939,9 @@ msgid "_Remove Torrent"
 msgstr "_Pašalinti Torrentą"
 
 #: glade/torrent_menu.glade:95
+#, fuzzy
 msgid "_Tracker Options"
-msgstr ""
+msgstr "_Trackerio nustatymai"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
@@ -975,11 +993,11 @@ msgstr "_Sustabdyti visus"
 
 #: glade/tray_menu.glade:84
 msgid "_Download Speed Limit"
-msgstr ""
+msgstr "_Atsiuntimo greičio riba"
 
 #: glade/tray_menu.glade:100
 msgid "_Upload Speed Limit"
-msgstr ""
+msgstr "_Išsiuntimo greičio riba"
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"
@@ -987,27 +1005,28 @@ msgstr "_Išeiti"
 
 #: glade/edit_trackers.glade:9
 msgid "Edit Trackers"
-msgstr ""
+msgstr "Redaguoti trackerius"
 
 #: glade/edit_trackers.glade:19
 msgid "Tracker Editing"
-msgstr ""
+msgstr "Trackerio redagavimas"
 
 #: glade/files_dialog.glade:8
 msgid "Deluge File Selection"
-msgstr ""
+msgstr "Deluge failų pasirinkimas"
 
 #: glade/files_dialog.glade:42
 msgid "Torrent will not be distributed on the trackerless (DHT) network"
-msgstr ""
+msgstr "Torrent failas nebus platinamas tinkle be trackerių (DHT)"
 
 #: glade/files_dialog.glade:43
+#, fuzzy
 msgid "Set the private flag"
-msgstr ""
+msgstr "Nustatyti privačią vėliavėlę"
 
 #: glade/wizard.glade:10
 msgid "First Launch Configuration"
-msgstr ""
+msgstr "Pirmojo paleidimo derinimas"
 
 #: glade/wizard.glade:20
 msgid ""
@@ -1028,7 +1047,7 @@ msgstr ""
 
 #: glade/wizard.glade:88
 msgid "Use _Random Ports"
-msgstr ""
+msgstr "Naudoti a_tsitiktinius prievadus"
 
 #: glade/wizard.glade:116
 msgid ""
@@ -1038,11 +1057,11 @@ msgstr ""
 
 #: glade/wizard.glade:141
 msgid "Ask where to save each file"
-msgstr ""
+msgstr "Kiekvienąkart klausti, kur išsaugoti failą"
 
 #: glade/wizard.glade:165
 msgid "Store all downloads in: "
-msgstr ""
+msgstr "Visų atsiuntimų saugojimo vieta: "
 
 #: glade/wizard.glade:215
 msgid ""
@@ -1052,7 +1071,7 @@ msgstr ""
 
 #: glade/wizard.glade:238
 msgid "Maximum Active Torrents:"
-msgstr ""
+msgstr "Maksimalus aktyvių torrentų skaičius:"
 
 #: glade/wizard.glade:386
 msgid ""
@@ -1075,6 +1094,24 @@ msgid ""
 "50Mbit\n"
 "100Mbit"
 msgstr ""
+"28.8k\n"
+"56k\n"
+"64k\n"
+"96k\n"
+"128k\n"
+"192k\n"
+"256k\n"
+"384k\n"
+"512k\n"
+"640k\n"
+"768k\n"
+"1Mbit\n"
+"2Mbit\n"
+"10Mbit\n"
+"20Mbit\n"
+"40Mbit\n"
+"50Mbit\n"
+"100Mbit"
 
 #: glade/wizard.glade:419
 msgid "Your Upload Line Speed:"
@@ -1089,11 +1126,11 @@ msgstr ""
 
 #: src/interface.py:71
 msgid "Browser"
-msgstr ""
+msgstr "Naršyklė"
 
 #: src/interface.py:73
 msgid "Launch Browser"
-msgstr ""
+msgstr "Paleisti naršyklę"
 
 #: src/interface.py:251
 msgid ""
@@ -1181,7 +1218,7 @@ msgstr "Sustabdyta %s"
 #: src/interface.py:979
 #, python-format
 msgid "Queued %s"
-msgstr ""
+msgstr "Eilėje %s"
 
 #: src/interface.py:1091
 msgid ""
@@ -1231,7 +1268,7 @@ msgstr ""
 
 #: src/interface.py:1453
 msgid "There is not enough freedisk space to complete your download."
-msgstr ""
+msgstr "Nėra pakankamai laisvos disko vietos šio atsiuntimo užbaigimui."
 
 #: src/interface.py:1454 src/core.py:569
 msgid "Space Needed:"
@@ -1255,7 +1292,7 @@ msgstr "Perspėjimas - visi šio torrento parsiųsti failai bus ištrinti!"
 
 #: src/interface.py:1564
 msgid "Are you sure that you want to remove all seeding torrents?"
-msgstr ""
+msgstr "Ar tikrai norite pašalinti visus skleidžiamuosius torrentus?"
 
 #: src/search.py:59
 msgid "Search String"
@@ -1356,6 +1393,10 @@ msgid ""
 "Please change your preference to disable compact allocation, then remove and "
 "re-add this torrent."
 msgstr ""
+"Failų prioritetai gali būti naudojami tik tuomet, kai įjungtas pilnas "
+"paskirstymas.\n"
+"Nustatymuose pakeiskite šį pasirinkimą išjungdami kompaktišką paskirstymą, "
+"tuomet pašalinkite ir iš naujo pridėkite šį torrentą."
 
 #: src/dialogs.py:69
 msgid "Plugin"
@@ -1416,11 +1457,11 @@ msgstr "PiB"
 
 #: src/common.py:213
 msgid "External command"
-msgstr ""
+msgstr "Išorinė komanda"
 
 #: src/common.py:214
 msgid "not found"
-msgstr ""
+msgstr "nerasta"
 
 #: plugins/BlocklistImport/__init__.py:9
 msgid ""
@@ -1471,13 +1512,13 @@ msgstr "Nepavyko parsiųsti iš adreso"
 
 #: plugins/BlocklistImport/__init__.py:106
 msgid "Couldn't open blocklist file"
-msgstr ""
+msgstr "Nepavyko atverti juodojo sąrašo failo"
 
 #: plugins/BlocklistImport/__init__.py:114 plugins/BlocklistImport/text.py:37
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
 #: plugins/BlocklistImport/text.py:99
 msgid "Wrong file type or corrupted blocklist file."
-msgstr ""
+msgstr "Netinkamas failo tipas arba sugadintas juodojo sąrašo failas."
 
 #: plugins/BlocklistImport/__init__.py:122
 msgid "Imported"
@@ -1622,7 +1663,7 @@ msgstr "<b>Trackeriai</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:353
 msgid "<b>Web Seeds</b>"
-msgstr ""
+msgstr "<b>Web skleidėjai</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:400
 msgid "<b>Comments</b>"
@@ -1633,8 +1674,9 @@ msgid "<b>Author</b>"
 msgstr "<b>Autorius</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:476
+#, fuzzy
 msgid "Set Private Flag"
-msgstr ""
+msgstr "Nustatyti privačią vėliavėlę"
 
 #: plugins/TorrentCreator/torrentcreator.glade:489
 #: plugins/TorrentCreator/torrentcreator.glade:510
@@ -1655,6 +1697,13 @@ msgid ""
 "1024 KiB\n"
 "2048 KiB\n"
 msgstr ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1024 KiB\n"
+"2048 KiB\n"
 
 #: plugins/TorrentCreator/torrentcreator.glade:512
 msgid "Piece Size:"
@@ -1699,6 +1748,7 @@ msgstr "Torrentų perspėjimo nustatymai"
 #: plugins/TorrentNotification/notification_preferences.glade:32
 msgid "Enable event sound (requires pygame, not available on Win32)"
 msgstr ""
+"Įjungti garsus įvykiams (reikainga „pygame“, negalima Win32 sistemoje)"
 
 #: plugins/TorrentNotification/notification_preferences.glade:59
 msgid "Enable blinking tray icon"
@@ -1708,12 +1758,16 @@ msgstr "Įjungti mirksintį sistemos dėklo ženkliuką"
 msgid ""
 "Enable popup notification (requires python-notify, not available on Win32)"
 msgstr ""
+"Įjungti iššokantįjį pranešimą (reikalinga „python-notify“, negalima Win32 "
+"sistemoje)"
 
 #: plugins/TorrentNotification/__init__.py:22
 msgid ""
 "Make tray icon blink when torrent finishes downloading and/or popup a "
 "notification"
 msgstr ""
+"Mirksinti sisteminio skydelio piktogramą, kai torrentas baigtas siųsti "
+"ir/arba iššokus pranešimui"
 
 #: plugins/TorrentNotification/__init__.py:108
 msgid "Torrent complete"
@@ -1735,15 +1789,15 @@ msgstr "[Sveikumas: Geras]"
 
 #: plugins/EventLogging/event_logging_preferences.glade:7
 msgid "Event Logging Preferences"
-msgstr ""
+msgstr "Įvykių vedimo į žurnalą nustatymai"
 
 #: plugins/EventLogging/event_logging_preferences.glade:28
 msgid "Enable log files"
-msgstr ""
+msgstr "Vesti įvykių žurnalą į failus"
 
 #: plugins/EventLogging/event_logging_preferences.glade:41
 msgid "Log files"
-msgstr ""
+msgstr "Žurnalo failai"
 
 #: plugins/EventLogging/event_logging_preferences.glade:66
 #: plugins/EventLogging/tab_log.py:210
@@ -1778,7 +1832,7 @@ msgstr "Trackerio perspėjimas"
 #: plugins/EventLogging/event_logging_preferences.glade:150
 #: plugins/EventLogging/tab_log.py:150
 msgid "Tracker alert"
-msgstr ""
+msgstr "Trackerio įspėjimas"
 
 #: plugins/EventLogging/event_logging_preferences.glade:164
 #: plugins/EventLogging/tab_log.py:141
@@ -1798,7 +1852,7 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:206
 #: plugins/EventLogging/tab_log.py:114
 msgid "Peer ban error"
-msgstr ""
+msgstr "Siuntėjo užblokavimo klaida"
 
 #: plugins/EventLogging/event_logging_preferences.glade:220
 #: plugins/EventLogging/tab_log.py:104
@@ -1817,7 +1871,7 @@ msgstr "Neteisinga užklausa"
 
 #: plugins/EventLogging/event_logging_preferences.glade:262
 msgid "Peer messages"
-msgstr ""
+msgstr "Siuntėjų pranešimai"
 
 #: plugins/EventLogging/event_logging_preferences.glade:276
 #: plugins/EventLogging/tab_log.py:70
@@ -1826,7 +1880,7 @@ msgstr "Torrentas baigtas"
 
 #: plugins/EventLogging/event_logging_preferences.glade:289
 msgid "Select events to log"
-msgstr ""
+msgstr "Pasirinkti įvykius žurnalui"
 
 #: plugins/EventLogging/__init__.py:22
 msgid ""
@@ -2002,21 +2056,21 @@ msgstr "Nenustatyta"
 #: plugins/ExtraStats/__init__.py:195
 #: plugins/ExtraStats/stats_preferences.glade:52
 msgid "Overall Ratio"
-msgstr ""
+msgstr "Bendras santykis"
 
 #: plugins/ExtraStats/__init__.py:200
 #: plugins/ExtraStats/stats_preferences.glade:66
 msgid "Torrents Completed"
-msgstr ""
+msgstr "Užbaigta torrentų"
 
 #: plugins/ExtraStats/__init__.py:206
 #: plugins/ExtraStats/stats_preferences.glade:80
 msgid "Running Time"
-msgstr ""
+msgstr "Programos veikimo trukmė"
 
 #: plugins/ExtraStats/stats_preferences.glade:7
 msgid "Extra Stats Preferences"
-msgstr ""
+msgstr "Papildomų statistinių rodiklių nustatymai"
 
 #: plugins/MoveTorrent/__init__.py:22
 msgid ""
@@ -2029,11 +2083,11 @@ msgstr ""
 
 #: plugins/MoveTorrent/__init__.py:76
 msgid "_Move Torrent"
-msgstr ""
+msgstr "_Perkelti torrentą"
 
 #: plugins/MoveTorrent/__init__.py:95
 msgid "Choose a directory to move files to"
-msgstr ""
+msgstr "Pasirinkite aplanką, į kurį perkelsite failus"
 
 #: plugins/MoveTorrent/__init__.py:123
 msgid ""
@@ -2069,7 +2123,7 @@ msgstr ""
 
 #: plugins/Scheduler/plugin.py:105
 msgid "Scheduler Settings"
-msgstr ""
+msgstr "Planuoklio nustatymai"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "High download limit:"
@@ -2101,23 +2155,23 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:201
 msgid "Port Number"
-msgstr ""
+msgstr "Prievado numeris"
 
 #: plugins/WebUi/__init__.py:202
 msgid "New Password"
-msgstr ""
+msgstr "Naujas slaptažodis"
 
 #: plugins/WebUi/__init__.py:203
 msgid "New Password(confirm)"
-msgstr ""
+msgstr "Pakartokite slaptažodį"
 
 #: plugins/WebUi/__init__.py:204
 msgid "Template"
-msgstr ""
+msgstr "Šablonas"
 
 #: plugins/WebUi/__init__.py:205
 msgid "Button Style"
-msgstr ""
+msgstr "Mygtukų stilius"
 
 #: plugins/WebUi/__init__.py:207
 msgid "Cache Templates"
@@ -2125,19 +2179,19 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:209
 msgid "https://"
-msgstr ""
+msgstr "https://"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text and image"
-msgstr ""
+msgstr "Tekstas ir paveikslėliai"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Image Only"
-msgstr ""
+msgstr "Tik paveikslėliai"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text Only"
-msgstr ""
+msgstr "Tik tekstas"
 
 #: plugins/WebUi/__init__.py:261
 msgid "Confirmed Password <> New Password\n"
@@ -2153,7 +2207,7 @@ msgstr ""
 
 #: plugins/WebUi/deluge_webserver.py:206
 msgid "no data."
-msgstr ""
+msgstr "jokių duomenų."
 
 #: plugins/WebUi/deluge_webserver.py:307
 msgid "refresh must be > 0"
@@ -2161,19 +2215,19 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:1
 msgid "# Of Files"
-msgstr ""
+msgstr "Failų skaičius"
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
-msgstr ""
+msgstr "Apie"
 
 #: plugins/WebUi/scripts/template_strings.py:5
 msgid "Add torrent"
-msgstr ""
+msgstr "Pridėti torrentą"
 
 #: plugins/WebUi/scripts/template_strings.py:6
 msgid "Apply"
-msgstr ""
+msgstr "Pritaikyti"
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Auto refresh:"
@@ -2193,51 +2247,51 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:14
 msgid "Delete downloaded files."
-msgstr ""
+msgstr "Ištrinti atsiųstus failus."
 
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Disable"
-msgstr ""
+msgstr "Išjungti"
 
 #: plugins/WebUi/scripts/template_strings.py:20
 msgid "Downloaded"
-msgstr ""
+msgstr "Atsiųsta"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Enable"
-msgstr ""
+msgstr "Įjungti"
 
 #: plugins/WebUi/scripts/template_strings.py:23
 msgid "Error"
-msgstr ""
+msgstr "Klaida"
 
 #: plugins/WebUi/scripts/template_strings.py:24
 msgid "Eta"
-msgstr ""
+msgstr "Liko"
 
 #: plugins/WebUi/scripts/template_strings.py:25
 msgid "Login"
-msgstr ""
+msgstr "Prisijungti"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Logout"
-msgstr ""
+msgstr "Atsijungti"
 
 #: plugins/WebUi/scripts/template_strings.py:28
 msgid "Next Announce"
-msgstr ""
+msgstr "Kitas pranešimas"
 
 #: plugins/WebUi/scripts/template_strings.py:29
 msgid "Off"
-msgstr ""
+msgstr "Išjungta"
 
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Password is invalid,try again"
-msgstr ""
+msgstr "Slaptažodis neteisingas, bandykite dar kartą"
 
 #: plugins/WebUi/scripts/template_strings.py:33
 msgid "Pause all"
-msgstr ""
+msgstr "Pauzė visiems"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Pieces"
@@ -2245,19 +2299,19 @@ msgstr "Dalys"
 
 #: plugins/WebUi/scripts/template_strings.py:37
 msgid "Queue Down"
-msgstr ""
+msgstr "Perkelti eilėje žemiau"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Queue Position"
-msgstr ""
+msgstr "Eilės pozicija"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Queue Up"
-msgstr ""
+msgstr "Perkelti eilėje aukščiau"
 
 #: plugins/WebUi/scripts/template_strings.py:41
 msgid "Reannounce"
-msgstr ""
+msgstr "Iš naujo paskelbti"
 
 #: plugins/WebUi/scripts/template_strings.py:42
 msgid "Refresh page every:"
@@ -2265,15 +2319,15 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Remove torrent"
-msgstr ""
+msgstr "Pašalinti torrentą"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Resume all"
-msgstr ""
+msgstr "Pratęsti visus"
 
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Set"
-msgstr ""
+msgstr "Nustatyti"
 
 #: plugins/WebUi/scripts/template_strings.py:49
 msgid "Set Timeout"
@@ -2285,7 +2339,7 @@ msgstr "Greitis"
 
 #: plugins/WebUi/scripts/template_strings.py:53
 msgid "Start"
-msgstr ""
+msgstr "Pradėti"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Submit"
@@ -2293,31 +2347,31 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Torrent list"
-msgstr ""
+msgstr "Torrentų sąrašas"
 
 #: plugins/WebUi/scripts/template_strings.py:56
 msgid "Total Size"
-msgstr ""
+msgstr "Visas dydis"
 
 #: plugins/WebUi/scripts/template_strings.py:57
 msgid "Tracker"
-msgstr ""
+msgstr "Trackeris"
 
 #: plugins/WebUi/scripts/template_strings.py:58
 msgid "Tracker Status"
-msgstr ""
+msgstr "Trackerio būsena"
 
 #: plugins/WebUi/scripts/template_strings.py:62
 msgid "Upload torrent"
-msgstr ""
+msgstr "Išsiųsti torrentą"
 
 #: plugins/WebUi/scripts/template_strings.py:63
 msgid "Uploaded"
-msgstr ""
+msgstr "Išsiųsta"
 
 #: plugins/WebUi/scripts/template_strings.py:64
 msgid "Url"
-msgstr ""
+msgstr "URL"
 
 #: plugins/WebUi/scripts/template_strings.py:65
 msgid "seconds"
@@ -2333,15 +2387,15 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:115
 msgid "Feed must be refreshed manually."
-msgstr ""
+msgstr "Srautas turi būti atnaujintas rankiniu būdu."
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
-msgstr ""
+msgstr "Išjungta"
 
 #: plugins/FlexRSS/FlexRSS.glade:151
 msgid "Update Interval"
-msgstr ""
+msgstr "Atnaujinimo intervalas"
 
 #: plugins/FlexRSS/FlexRSS.glade:165
 msgid "URL"
@@ -2349,23 +2403,23 @@ msgstr "URL"
 
 #: plugins/FlexRSS/FlexRSS.glade:192
 msgid "900"
-msgstr ""
+msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
 msgid "Feeds"
-msgstr ""
+msgstr "Naujienų kanalai"
 
 #: plugins/FlexRSS/FlexRSS.glade:384
 msgid "Type"
-msgstr ""
+msgstr "Tipas"
 
 #: plugins/FlexRSS/FlexRSS.glade:397
 msgid "Feed"
-msgstr ""
+msgstr "Kanalas"
 
 #: plugins/FlexRSS/FlexRSS.glade:439
 msgid "<b>Information</b>"
-msgstr ""
+msgstr "<b>Informacija</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:511
 msgid "<b>Patterns</b>"
@@ -2373,17 +2427,17 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:549 plugins/FlexRSS/FlexRSS.glade:724
 msgid "From"
-msgstr ""
+msgstr "Iš"
 
 #: plugins/FlexRSS/FlexRSS.glade:565 plugins/FlexRSS/FlexRSS.glade:641
 #: plugins/FlexRSS/FlexRSS.glade:826
 msgid "Season"
-msgstr ""
+msgstr "Sezonas"
 
 #: plugins/FlexRSS/FlexRSS.glade:594 plugins/FlexRSS/FlexRSS.glade:675
 #: plugins/FlexRSS/FlexRSS.glade:833
 msgid "Episode"
-msgstr ""
+msgstr "Epizodas"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 msgid "Thru"
@@ -2395,19 +2449,19 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:810
 msgid "Doesn't Match"
-msgstr ""
+msgstr "Neatitinka"
 
 #: plugins/FlexRSS/FlexRSS.glade:875
 msgid "Year"
-msgstr ""
+msgstr "Metai"
 
 #: plugins/FlexRSS/FlexRSS.glade:882
 msgid "Month"
-msgstr ""
+msgstr "Mėnuo"
 
 #: plugins/FlexRSS/FlexRSS.glade:893
 msgid "Day"
-msgstr ""
+msgstr "Diena"
 
 #: plugins/FlexRSS/FlexRSS.glade:960
 msgid "<b>Test</b>"
@@ -2415,15 +2469,15 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
-msgstr ""
+msgstr "Įterpti torrentą eilės viršuje."
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
-msgstr ""
+msgstr "Nustatyti pauzės būseną."
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
 msgid "Delete filter when matched."
-msgstr ""
+msgstr "Kai atitinka, ištrinti filtrą."
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
@@ -2431,7 +2485,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1084
 msgid "Replacement"
-msgstr ""
+msgstr "Pakeitimas"
 
 #: plugins/FlexRSS/FlexRSS.glade:1098
 msgid "Pattern"
@@ -2439,33 +2493,35 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1111
 msgid "<b>Link Rewriting</b>"
-msgstr ""
+msgstr "<b>Nuorodų perrašymas</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1143
 msgid ""
 "Content will be saved to Deluge's default directory, or a prompt will appear "
 "if none is set."
 msgstr ""
+"Turinys bus išsaugotas Deluge numatytajam aplanke, o jei toks nenustatytas, "
+"bus paklausta, kurį aplanką pasirinkti."
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
 msgid "Deluge default"
-msgstr ""
+msgstr "Deluge numatytasis"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
-msgstr ""
+msgstr "Turinys bus automatiškai atsiųstas į nurodytą aplanką."
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"
-msgstr ""
+msgstr "Pasirinkti:"
 
 #: plugins/FlexRSS/FlexRSS.glade:1190
 msgid "<b>Output</b>"
-msgstr ""
+msgstr "<b>Išvedimas</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1251
 msgid "Filters"
-msgstr ""
+msgstr "Filtrai"
 
 #: plugins/FlexRSS/FlexRSS.glade:1282
 msgid "Show a FlexRSS icon in Deluge's toolbar."
@@ -2473,11 +2529,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1283
 msgid "Show button on toolbar."
-msgstr ""
+msgstr "Rodyti mygtuką priemonių juostoje."
 
 #: plugins/FlexRSS/FlexRSS.glade:1300
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>Sąsaja</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1331
 msgid ""
@@ -2487,28 +2543,28 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
 msgid "Threaded (experimental)"
-msgstr ""
+msgstr "Gijomis (eksperimentinė)"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"
-msgstr ""
+msgstr "<b>Kanalų gavimas</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"
-msgstr ""
+msgstr "Sritis"
 
 #: plugins/FlexRSS/FlexRSS.glade:1462
 msgid "Path"
-msgstr ""
+msgstr "Kelias"
 
 #: plugins/FlexRSS/FlexRSS.glade:1488
 msgid "Value"
-msgstr ""
+msgstr "Reikšmė"
 
 #: plugins/FlexRSS/FlexRSS.glade:1561
 msgid "<b>Cookies</b>"
-msgstr ""
+msgstr "<b>Slapukai</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1582
 msgid "Configuration"
-msgstr ""
+msgstr "Konfigūracija"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: Michał Kaliszka <desmont@gmail.com>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-24 19:09+0000\n"
+"PO-Revision-Date: 2008-02-06 20:56+0000\n"
 "Last-Translator: Michał Kaliszka <desmont@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
+"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -88,7 +88,7 @@ msgstr "Wtyczki"
 
 #: glade/delugegtk.glade:186
 msgid "_File"
-msgstr "Plik"
+msgstr "_Plik"
 
 #: glade/delugegtk.glade:193 glade/tray_menu.glade:61
 msgid "_Add Torrent"
@@ -96,7 +96,7 @@ msgstr "_Dodaj torrent"
 
 #: glade/delugegtk.glade:208
 msgid "Add _URL"
-msgstr "Dodal _URL"
+msgstr "Dodaj _URL"
 
 #: glade/delugegtk.glade:216
 msgid "_Clear Completed"
@@ -347,7 +347,7 @@ msgid ""
 "torrent(s) from Deluge?</b></span>"
 msgstr ""
 "<span size=\"large\"><b>Czy jesteś pewien, że chcesz usunąć zaznaczony "
-"torrent/y</b></span>"
+"torrent(y)</b></span>"
 
 #: glade/dgtkpopups.glade:65
 msgid "Delete downloaded files"
@@ -639,8 +639,7 @@ msgstr "Ustawiaj nowe torrenty powyżej ukończonych"
 
 #: glade/preferences_dialog.glade:1053
 msgid "Stop seeding torrents when their share ratio reaches:"
-msgstr ""
-"Zatrzymaj rozsiewanie torrentów, kiedy ich współczynnik udziału osiągnie:"
+msgstr "Zatrzymaj rozsiewanie torrenta, gdy jego ratio osiagnie:"
 
 #: glade/preferences_dialog.glade:1089
 msgid "Automatically clear torrents that reach the max share ratio"
@@ -971,8 +970,9 @@ msgid "_Edit Trackers"
 msgstr "_Edycja trackerów"
 
 #: glade/torrent_menu.glade:138
+#, fuzzy
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "_Kłopotliwy Tracker"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"
@@ -1199,7 +1199,7 @@ msgstr "Aktywne"
 #: plugins/DesiredRatio/__init__.py:115 plugins/SpeedLimiter/__init__.py:141
 #: plugins/SpeedLimiter/__init__.py:173
 msgid "Other..."
-msgstr "Inne..."
+msgstr "Inna..."
 
 #: src/interface.py:407
 msgid "Download Speed (KiB/s):"
@@ -1631,8 +1631,9 @@ msgid "Invalid leader"
 msgstr ""
 
 #: plugins/BlocklistImport/peerguardian.py:36
+#, fuzzy
 msgid "Invalid magic code"
-msgstr ""
+msgstr "Niepoprawny kod magiczny"
 
 #: plugins/BlocklistImport/peerguardian.py:41
 msgid "Invalid version"
@@ -2564,7 +2565,7 @@ msgstr "Przez"
 
 #: plugins/FlexRSS/FlexRSS.glade:766
 msgid "<b>History Restriction</b>"
-msgstr ""
+msgstr "<b>Restrykcje historii</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:810
 msgid "Doesn't Match"

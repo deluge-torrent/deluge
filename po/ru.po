@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-03 20:05+0000\n"
-"Last-Translator: Dmitriy Geels <dmitriy.geels@gmail.com>\n"
+"PO-Revision-Date: 2008-02-03 02:18+0000\n"
+"Last-Translator: Vadim Gusev <frosty.ptz@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
+"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
@@ -431,7 +431,7 @@ msgstr "Выберите папку"
 
 #: glade/preferences_dialog.glade:104
 msgid "Store all torrent files in:"
-msgstr "Сохранять файлы торрента в:"
+msgstr "Сохранять все .torrent файлы в:"
 
 #: glade/preferences_dialog.glade:137
 msgid "<b>Download Location</b>"
@@ -453,7 +453,7 @@ msgstr "Количество активных торрентов. Установ
 
 #: glade/preferences_dialog.glade:243
 msgid "Maximum simultaneous active torrents:"
-msgstr "Максимальное количество потоков на активный торрент:"
+msgstr "Максимальное количество активных торрентов:"
 
 #: glade/preferences_dialog.glade:280 glade/preferences_dialog.glade:281
 #: glade/preferences_dialog.glade:302
@@ -517,7 +517,7 @@ msgstr "От:"
 
 #: glade/preferences_dialog.glade:568 glade/wizard.glade:66
 msgid "To:"
-msgstr "до:"
+msgstr "До:"
 
 #: glade/preferences_dialog.glade:594
 msgid "Deluge will automatically choose a different port to use every time."
@@ -860,7 +860,7 @@ msgstr "Другой:"
 
 #: glade/preferences_dialog.glade:2556
 msgid "Open folder with:"
-msgstr "Открыть каталог с:"
+msgstr "Открыть каталог в:"
 
 #: glade/preferences_dialog.glade:2571
 msgid ""
@@ -966,7 +966,7 @@ msgstr "П_равить трекеры"
 
 #: glade/torrent_menu.glade:138
 msgid "_Scrape Tracker"
-msgstr "_Проверять состояние"
+msgstr "_Проверить состояние"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"
@@ -1249,7 +1249,7 @@ msgstr "Пауза %s"
 #: src/interface.py:979
 #, python-format
 msgid "Queued %s"
-msgstr ""
+msgstr "В очереди %s"
 
 #: src/interface.py:1091
 msgid ""

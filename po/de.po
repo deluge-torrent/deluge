@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2007-12-31 12:47+0000\n"
+"PO-Revision-Date: 2008-02-06 00:53+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
+"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -292,24 +292,28 @@ msgid "Bookmarks"
 msgstr "Lesezeichen"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
+#, fuzzy
 msgid "Launch Main Externally"
-msgstr ""
+msgstr "Main extern starten"
 
 #: glade/browser.glade:172 glade/browserwin.glade:172
+#, fuzzy
 msgid "Launch Main"
-msgstr ""
+msgstr "Main starten"
 
 #: glade/browser.glade:185 glade/browserwin.glade:184
+#, fuzzy
 msgid "Launch Footer Externally"
-msgstr ""
+msgstr "Fußzeile extern starten"
 
 #: glade/browser.glade:186 glade/browserwin.glade:185
+#, fuzzy
 msgid "Launch Footer"
-msgstr ""
+msgstr "Fußzeile starten"
 
 #: glade/searchdlg.glade:7
 msgid "Manage Search Plugins"
-msgstr "Such-Erweiterungen verwalten"
+msgstr "Erweiterungen für die Suche verwalten"
 
 #: glade/searchdlg.glade:79
 msgid "Name:"
@@ -344,8 +348,8 @@ msgid ""
 "<span size=\"large\"><b>Are you sure you want to remove the selected "
 "torrent(s) from Deluge?</b></span>"
 msgstr ""
-"<span size=\"large\"><b>Sind Sie sicher, dass Sie die ausgewählten "
-"Torrent(s) aus Deluge entfernen möchten?</b></span>"
+"<span size=\"large\"><b>Möchtest du die heruntergeladenen Dateien wirklich "
+"entfernen?</b></span>"
 
 #: glade/dgtkpopups.glade:65
 msgid "Delete downloaded files"
@@ -885,7 +889,6 @@ msgid "<b>Detailed Progress Bar</b>"
 msgstr "<b>Detailierter Fortschrittsbalken</b>"
 
 #: glade/preferences_dialog.glade:2690
-#, fuzzy
 msgid "Use and show the anonymizing internal browser"
 msgstr "Benutze und zeige den internen Anonymisierungs-Browser"
 
@@ -1642,8 +1645,9 @@ msgid "Set the desired ratio for a torrent."
 msgstr "Setze das gewünschte Tauschverhältnis für einen Torrent."
 
 #: plugins/DesiredRatio/__init__.py:76
+#, fuzzy
 msgid "_Desired Ratio"
-msgstr "_Gewünschtes Tauschverhältnis"
+msgstr "Gewünschtes Down-/Upload-Verhältnis"
 
 #: plugins/DesiredRatio/__init__.py:80
 msgid "_Not Set"

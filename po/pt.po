@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-14 20:21+0000\n"
+"PO-Revision-Date: 2008-01-29 13:46+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
+"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -185,11 +185,11 @@ msgstr ""
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
-msgstr ""
+msgstr "_FAQ"
 
 #: glade/delugegtk.glade:474
 msgid "_Community"
-msgstr ""
+msgstr "_Comunidade"
 
 #: glade/delugegtk.glade:497
 msgid "Help translate this application"
@@ -285,11 +285,11 @@ msgstr "Detalhes"
 
 #: glade/browser.glade:85 glade/browserwin.glade:85
 msgid "Go"
-msgstr ""
+msgstr "Ir"
 
 #: glade/browser.glade:118 glade/browserwin.glade:118
 msgid "Bookmarks"
-msgstr ""
+msgstr "Marcadores"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
 msgid "Launch Main Externally"
@@ -887,11 +887,11 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2701
 msgid "<b>Internal Browser</b>"
-msgstr ""
+msgstr "<b>Navegador Interno</b>"
 
 #: glade/preferences_dialog.glade:2731
 msgid "Show the search bar on the toolbar"
-msgstr ""
+msgstr "Mostrar a barra de pesquisa na barra de ferramentas"
 
 #: glade/preferences_dialog.glade:2742
 msgid "<b>Search Bar</b> - restart required"
@@ -1153,7 +1153,7 @@ msgstr ""
 
 #: src/interface.py:71
 msgid "Browser"
-msgstr ""
+msgstr "Navegador"
 
 #: src/interface.py:73
 msgid "Launch Browser"
@@ -1297,7 +1297,7 @@ msgstr "Erro desconhecido de torrente duplicado."
 
 #: src/interface.py:1453
 msgid "There is not enough freedisk space to complete your download."
-msgstr ""
+msgstr "Não existe espaço suficiente no disco para completar o download."
 
 #: src/interface.py:1454 src/core.py:569
 msgid "Space Needed:"
@@ -2285,7 +2285,7 @@ msgstr "Arquivo de Modelos"
 
 #: plugins/WebUi/__init__.py:209
 msgid "https://"
-msgstr ""
+msgstr "https://"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text and image"
@@ -2409,7 +2409,7 @@ msgstr "Descer na Lista"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Queue Position"
-msgstr ""
+msgstr "Posição na fila"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Queue Up"
@@ -2425,7 +2425,7 @@ msgstr "Actualizar página a cada:"
 
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Remove torrent"
-msgstr ""
+msgstr "Remover torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Resume all"
@@ -2445,7 +2445,7 @@ msgstr "Velocidade"
 
 #: plugins/WebUi/scripts/template_strings.py:53
 msgid "Start"
-msgstr ""
+msgstr "Iniciar"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Submit"

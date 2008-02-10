@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-21 15:27+0000\n"
+"PO-Revision-Date: 2008-02-03 23:09+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
+"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -300,7 +300,7 @@ msgstr "Favorite"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
 msgid "Launch Main Externally"
-msgstr ""
+msgstr "Lansează Fereastra Principală Extern"
 
 #: glade/browser.glade:172 glade/browserwin.glade:172
 msgid "Launch Main"
@@ -483,7 +483,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:335
 msgid "Start torrents in paused state"
-msgstr ""
+msgstr "Porneşte Torrentele în starea de pauză"
 
 #: glade/preferences_dialog.glade:351
 msgid "<b>Torrents</b>"
@@ -748,10 +748,12 @@ msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"Numarul maxim de incercari pe secunda. O valoare mare poate duce la cedarea "
+"unor rutere ieftine. Setati -1 pentru nelimitat"
 
 #: glade/preferences_dialog.glade:1357
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Numarul maxim de incercari de conexiune pe secunda:"
 
 #: glade/preferences_dialog.glade:1388
 #, fuzzy
@@ -912,19 +914,19 @@ msgstr "<b>File Manager Desktop</b> - doar pentru platforme non-Windows"
 
 #: glade/preferences_dialog.glade:2649
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
-msgstr ""
+msgstr "Foloseste bara de progres avansata (foloseste ceva mai mult CPU/RAM)"
 
 #: glade/preferences_dialog.glade:2660
 msgid "<b>Detailed Progress Bar</b>"
-msgstr ""
+msgstr "<b>Bara de Progres Detaliata</b>"
 
 #: glade/preferences_dialog.glade:2690
 msgid "Use and show the anonymizing internal browser"
-msgstr ""
+msgstr "Foloseşte şi arată browserul intern anonim"
 
 #: glade/preferences_dialog.glade:2701
 msgid "<b>Internal Browser</b>"
-msgstr ""
+msgstr "<b>Browser intern</b>"
 
 #: glade/preferences_dialog.glade:2731
 msgid "Show the search bar on the toolbar"
@@ -1738,7 +1740,7 @@ msgstr "<b>Trackere</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:353
 msgid "<b>Web Seeds</b>"
-msgstr ""
+msgstr "<b>Seederi Web</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:400
 msgid "<b>Comments</b>"
@@ -2203,7 +2205,7 @@ msgstr ""
 
 #: plugins/MoveTorrent/movetorrent.glade:25
 msgid "Move completed downloads to:"
-msgstr ""
+msgstr "Muta downloadurile terminate in:"
 
 #: plugins/MoveTorrent/movetorrent.glade:59 plugins/WebSeed/webseed.glade:65
 msgid "gtk-cancel"
@@ -2215,43 +2217,46 @@ msgstr "gtk-ok"
 
 #: plugins/WebSeed/__init__.py:22
 msgid "This plugin allows users to add web seeds to their torrents"
-msgstr ""
+msgstr "Acest plugin permite userilor sa adauge seederi web la torrente"
 
 #: plugins/WebSeed/__init__.py:51
 msgid "_Add Web Seed"
-msgstr ""
+msgstr "_Adauga Seederi Web"
 
 #: plugins/WebSeed/webseed.glade:7
 msgid "Add Web Seed"
-msgstr ""
+msgstr "Adauga Seederi Web"
 
 #: plugins/Scheduler/plugin.py:105
 msgid "Scheduler Settings"
-msgstr ""
+msgstr "Setări programate"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "High download limit:"
-msgstr ""
+msgstr "Limita superioara de download:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "High upload limit:"
-msgstr ""
+msgstr "Limita superioara de upload:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Low download limit:"
-msgstr ""
+msgstr "Limita inferioara de download:"
 
 #: plugins/Scheduler/plugin.py:118
 msgid "Low upload limit:"
-msgstr ""
+msgstr "Limita inferioara de upload:"
 
 #: plugins/Scheduler/plugin.py:193
+#, fuzzy
 msgid "Green is the high limits, yellow is the low limits and red is stopped"
 msgstr ""
+"Verde reprezinta limita superioara, galben reprezinta limita inferioara si "
+"rosu este oprit."
 
 #: plugins/Scheduler/plugin.py:194
 msgid "If a limit is set to -1, it is unlimitted."
-msgstr ""
+msgstr "Dacă limita este setată -1,atunci e nelimitat"
 
 #: plugins/WebUi/__init__.py:193
 msgid "WebUi Config"
@@ -2283,31 +2288,31 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:209
 msgid "https://"
-msgstr ""
+msgstr "https://"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text and image"
-msgstr ""
+msgstr "Text si imagine"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Image Only"
-msgstr ""
+msgstr "Doar imagine"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text Only"
-msgstr ""
+msgstr "Doar text"
 
 #: plugins/WebUi/__init__.py:261
 msgid "Confirmed Password <> New Password\n"
-msgstr ""
+msgstr "Parolă Confirmată <> Parolă Nouă\n"
 
 #: plugins/WebUi/webserver_common.py:62
 msgid "translate something"
-msgstr ""
+msgstr "tradu ceva"
 
 #: plugins/WebUi/deluge_webserver.py:196
 msgid "Choose an url or a torrent, not both."
-msgstr ""
+msgstr "Alege un URL sau un torrent, nu amandoua"
 
 #: plugins/WebUi/deluge_webserver.py:206
 msgid "no data."
@@ -2351,27 +2356,27 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:14
 msgid "Delete downloaded files."
-msgstr ""
+msgstr "Sterge fisierele descarcate."
 
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Disable"
-msgstr ""
+msgstr "Dezactivează"
 
 #: plugins/WebUi/scripts/template_strings.py:20
 msgid "Downloaded"
-msgstr ""
+msgstr "Descărcat"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Enable"
-msgstr ""
+msgstr "Activează"
 
 #: plugins/WebUi/scripts/template_strings.py:23
 msgid "Error"
-msgstr ""
+msgstr "Eroare"
 
 #: plugins/WebUi/scripts/template_strings.py:24
 msgid "Eta"
-msgstr ""
+msgstr "ETA"
 
 #: plugins/WebUi/scripts/template_strings.py:25
 msgid "Login"
@@ -2383,11 +2388,11 @@ msgstr "Deconectare"
 
 #: plugins/WebUi/scripts/template_strings.py:28
 msgid "Next Announce"
-msgstr ""
+msgstr "Urmatorul Anunt"
 
 #: plugins/WebUi/scripts/template_strings.py:29
 msgid "Off"
-msgstr ""
+msgstr "Dezactivat"
 
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Password is invalid,try again"
@@ -2423,7 +2428,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Remove torrent"
-msgstr ""
+msgstr "Şterge Torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Resume all"
@@ -2443,7 +2448,7 @@ msgstr "Vitezã"
 
 #: plugins/WebUi/scripts/template_strings.py:53
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Submit"
@@ -2455,7 +2460,7 @@ msgstr "Lista torrentelor"
 
 #: plugins/WebUi/scripts/template_strings.py:56
 msgid "Total Size"
-msgstr ""
+msgstr "Mărimea totală"
 
 #: plugins/WebUi/scripts/template_strings.py:57
 msgid "Tracker"
@@ -2475,15 +2480,15 @@ msgstr "Uploadat"
 
 #: plugins/WebUi/scripts/template_strings.py:64
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: plugins/WebUi/scripts/template_strings.py:65
 msgid "seconds"
-msgstr ""
+msgstr "secunde"
 
 #: plugins/FlexRSS/FlexRSS.glade:6
 msgid "FlexRSS"
-msgstr ""
+msgstr "FlexRSS"
 
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
@@ -2553,7 +2558,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:810
 msgid "Doesn't Match"
-msgstr ""
+msgstr "Nu Se Potriveşte"
 
 #: plugins/FlexRSS/FlexRSS.glade:875
 msgid "Year"
@@ -2573,7 +2578,7 @@ msgstr "<b>Test</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
-msgstr ""
+msgstr "Introduce Torrent La capătul Coyii"
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2007-12-02 19:44+0000\n"
+"PO-Revision-Date: 2008-01-26 21:31+0000\n"
 "Last-Translator: elparia <marco@elparia.nl>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
+"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -181,11 +181,11 @@ msgstr "_Help"
 
 #: glade/delugegtk.glade:440
 msgid "_Homepage"
-msgstr ""
+msgstr "_Homepage"
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
-msgstr ""
+msgstr "_FAQ"
 
 #: glade/delugegtk.glade:474
 msgid "_Community"
@@ -285,11 +285,11 @@ msgstr "Details"
 
 #: glade/browser.glade:85 glade/browserwin.glade:85
 msgid "Go"
-msgstr ""
+msgstr "Ga"
 
 #: glade/browser.glade:118 glade/browserwin.glade:118
 msgid "Bookmarks"
-msgstr ""
+msgstr "Bladwijzers"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
 msgid "Launch Main Externally"

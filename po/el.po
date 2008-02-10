@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2007-12-02 16:14+0000\n"
+"PO-Revision-Date: 2008-02-06 23:59+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Greek, Modern (1453-) <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
+"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -43,7 +43,7 @@ msgstr "Καθαρισμός"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
-msgstr "Εκκίνηση ή Συνέχιση του torrent"
+msgstr "Εκκίνηση ή Συνέχιση του Torrent"
 
 #: glade/delugegtk.glade:80 plugins/WebUi/scripts/template_strings.py:45
 msgid "Resume"
@@ -51,7 +51,7 @@ msgstr "Συνέχιση"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
-msgstr "Παύση του torrent"
+msgstr "Παύση του Torrent"
 
 #: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
 msgid "Pause"
@@ -186,7 +186,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
-msgstr ""
+msgstr "_Συχνές ερωτήσεις"
 
 #: glade/delugegtk.glade:474
 msgid "_Community"
@@ -287,11 +287,11 @@ msgstr "Λεπτομέρειες"
 
 #: glade/browser.glade:85 glade/browserwin.glade:85
 msgid "Go"
-msgstr ""
+msgstr "Μετάβαση"
 
 #: glade/browser.glade:118 glade/browserwin.glade:118
 msgid "Bookmarks"
-msgstr ""
+msgstr "Σελιδοδείκτες"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
 msgid "Launch Main Externally"
@@ -462,7 +462,7 @@ msgstr "Ενεργοποίηση επιλογής αρχείων για τα tor
 
 #: glade/preferences_dialog.glade:303
 msgid "Only show if torrent has more than 1 file"
-msgstr ""
+msgstr "Προβολή μόνο αν το torrent έχει περισσότερα του ενός αρχεία"
 
 #: glade/preferences_dialog.glade:319 glade/preferences_dialog.glade:320
 msgid "Prioritize first and last pieces of files in torrent"
@@ -582,7 +582,7 @@ msgstr "NAT-PMP"
 
 #: glade/preferences_dialog.glade:782 glade/preferences_dialog.glade:783
 msgid "Peer Exchange"
-msgstr ""
+msgstr "Ανταλλαγή μεταξύ υπολογιστών"
 
 #: glade/preferences_dialog.glade:799
 msgid "Local Peer Discovery"
@@ -731,10 +731,13 @@ msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"Ο μέγιστος αριθμός προσπαθειών σύνδεσης ανά δευτερόλεπτο. Μεγάλες τιμές εδώ "
+"μπορεί να κολλήσουν καποιους φθηνούς δρομολογητές (routers). -1 για "
+"απεριόριστες."
 
 #: glade/preferences_dialog.glade:1357
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Μέγιστος αριθμός προσπαθειών σύνδεσης ανά δευτερόλεπτο."
 
 #: glade/preferences_dialog.glade:1388
 #, fuzzy
@@ -895,7 +898,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2618
 msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
-msgstr ""
+msgstr "<b>Διαχειριστής αρχείων</b> - μόνο σε πλατφόρμες εκτός Windows"
 
 #: glade/preferences_dialog.glade:2649
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
@@ -903,7 +906,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2660
 msgid "<b>Detailed Progress Bar</b>"
-msgstr ""
+msgstr "<b>Λεπτομερής μπάρα προόδου</b>"
 
 #: glade/preferences_dialog.glade:2690
 msgid "Use and show the anonymizing internal browser"
@@ -1146,6 +1149,24 @@ msgid ""
 "50Mbit\n"
 "100Mbit"
 msgstr ""
+"28.8k\n"
+"56k\n"
+"64k\n"
+"96k\n"
+"128k\n"
+"192k\n"
+"256k\n"
+"384k\n"
+"512k\n"
+"640k\n"
+"768k\n"
+"1Mbit\n"
+"2Mbit\n"
+"10Mbit\n"
+"20Mbit\n"
+"40Mbit\n"
+"50Mbit\n"
+"100Mbit"
 
 #: glade/wizard.glade:419
 msgid "Your Upload Line Speed:"
@@ -1164,7 +1185,7 @@ msgstr ""
 
 #: src/interface.py:71
 msgid "Browser"
-msgstr ""
+msgstr "Πρόγραμμα περιήγησης"
 
 #: src/interface.py:73
 msgid "Launch Browser"
@@ -1256,7 +1277,7 @@ msgstr "Παύση %s"
 #: src/interface.py:979
 #, python-format
 msgid "Queued %s"
-msgstr ""
+msgstr "Σε ουρά %s"
 
 #: src/interface.py:1091
 msgid ""
@@ -1747,6 +1768,13 @@ msgid ""
 "1024 KiB\n"
 "2048 KiB\n"
 msgstr ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1024 KiB\n"
+"2048 KiB\n"
 
 #: plugins/TorrentCreator/torrentcreator.glade:512
 msgid "Piece Size:"
@@ -2230,15 +2258,15 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:202
 msgid "New Password"
-msgstr ""
+msgstr "Νέος Κωδικός"
 
 #: plugins/WebUi/__init__.py:203
 msgid "New Password(confirm)"
-msgstr ""
+msgstr "Νέος Κωδικός(επιβεβαίωση)"
 
 #: plugins/WebUi/__init__.py:204
 msgid "Template"
-msgstr ""
+msgstr "Πρότυπο"
 
 #: plugins/WebUi/__init__.py:205
 msgid "Button Style"
@@ -2250,19 +2278,19 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:209
 msgid "https://"
-msgstr ""
+msgstr "https://"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text and image"
-msgstr ""
+msgstr "Κείμενο και Εικόνα"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Image Only"
-msgstr ""
+msgstr "Μόνο Εικόνα"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text Only"
-msgstr ""
+msgstr "Μόνο κείμενο"
 
 #: plugins/WebUi/__init__.py:261
 msgid "Confirmed Password <> New Password\n"
@@ -2274,7 +2302,7 @@ msgstr ""
 
 #: plugins/WebUi/deluge_webserver.py:196
 msgid "Choose an url or a torrent, not both."
-msgstr ""
+msgstr "Επιλέξτε είτε url είτε torrent, όχι και τα δύο"
 
 #: plugins/WebUi/deluge_webserver.py:206
 msgid "no data."
@@ -2290,19 +2318,19 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
-msgstr ""
+msgstr "Περί"
 
 #: plugins/WebUi/scripts/template_strings.py:5
 msgid "Add torrent"
-msgstr ""
+msgstr "Προσθήκη torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:6
 msgid "Apply"
-msgstr ""
+msgstr "Εφαρμογή"
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Auto refresh:"
-msgstr ""
+msgstr "Αύτοματη ανανέωση:"
 
 #: plugins/WebUi/scripts/template_strings.py:8
 msgid "Ava"
@@ -2310,7 +2338,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:10
 msgid "Config"
-msgstr ""
+msgstr "Ρύθμιση"
 
 #: plugins/WebUi/scripts/template_strings.py:12
 msgid "Debug:Data Dump"
@@ -2322,19 +2350,19 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Disable"
-msgstr ""
+msgstr "Απενεργοποίηση"
 
 #: plugins/WebUi/scripts/template_strings.py:20
 msgid "Downloaded"
-msgstr ""
+msgstr "Λήφθηκαν"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Enable"
-msgstr ""
+msgstr "Ενεργοποίηση"
 
 #: plugins/WebUi/scripts/template_strings.py:23
 msgid "Error"
-msgstr ""
+msgstr "Σφάλμα"
 
 #: plugins/WebUi/scripts/template_strings.py:24
 msgid "Eta"
@@ -2342,11 +2370,11 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:25
 msgid "Login"
-msgstr ""
+msgstr "Σύνδεση"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Logout"
-msgstr ""
+msgstr "Έξοδος"
 
 #: plugins/WebUi/scripts/template_strings.py:28
 msgid "Next Announce"

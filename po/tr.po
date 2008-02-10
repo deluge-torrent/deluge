@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2007-12-19 14:34+0000\n"
+"PO-Revision-Date: 2008-02-08 09:15+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-01-24 23:13+0000\n"
+"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -184,15 +184,15 @@ msgstr "_Yardım"
 
 #: glade/delugegtk.glade:440
 msgid "_Homepage"
-msgstr ""
+msgstr "_Anasayfa"
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
-msgstr ""
+msgstr "_SSS"
 
 #: glade/delugegtk.glade:474
 msgid "_Community"
-msgstr ""
+msgstr "_Topluluk"
 
 #: glade/delugegtk.glade:497
 msgid "Help translate this application"
@@ -288,19 +288,19 @@ msgstr "Detaylar"
 
 #: glade/browser.glade:85 glade/browserwin.glade:85
 msgid "Go"
-msgstr ""
+msgstr "Devam"
 
 #: glade/browser.glade:118 glade/browserwin.glade:118
 msgid "Bookmarks"
-msgstr ""
+msgstr "Yer imleri"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
 msgid "Launch Main Externally"
-msgstr ""
+msgstr "Aslını Harici Başlat"
 
 #: glade/browser.glade:172 glade/browserwin.glade:172
 msgid "Launch Main"
-msgstr ""
+msgstr "Aslını Başlat"
 
 #: glade/browser.glade:185 glade/browserwin.glade:184
 msgid "Launch Footer Externally"
@@ -552,7 +552,7 @@ msgstr "Dağıtılmış yığın tablosu aktif bağlantı sayısını artırabil
 
 #: glade/preferences_dialog.glade:703
 msgid "Enable Mainline DHT"
-msgstr ""
+msgstr "Anahat DHT Etkinleştir"
 
 #: glade/preferences_dialog.glade:716
 msgid "<b>DHT</b>"
@@ -568,7 +568,7 @@ msgstr "UPnP"
 
 #: glade/preferences_dialog.glade:766
 msgid "NAT Port Mapping Protocol"
-msgstr ""
+msgstr "NAT Port Haritalama Protokolü"
 
 #: glade/preferences_dialog.glade:767
 msgid "NAT-PMP"
@@ -580,7 +580,7 @@ msgstr "Eş değişimi"
 
 #: glade/preferences_dialog.glade:799
 msgid "Local Peer Discovery"
-msgstr ""
+msgstr "Yerel Dağıtımcı Araştırması"
 
 #: glade/preferences_dialog.glade:814
 msgid "<b>Network Extras</b>"
@@ -606,7 +606,7 @@ msgstr "Giden:"
 
 #: glade/preferences_dialog.glade:904
 msgid "Prefer to encrypt the entire stream"
-msgstr ""
+msgstr "Tüm aktarımı şifrelemeyi tercih et"
 
 #: glade/preferences_dialog.glade:917
 msgid "Level:"
@@ -757,7 +757,7 @@ msgstr "Bantgenişliği"
 #: glade/preferences_dialog.glade:1566 glade/preferences_dialog.glade:1761
 #: glade/preferences_dialog.glade:1956 glade/preferences_dialog.glade:2151
 msgid "Affects regular bittorrent peers"
-msgstr ""
+msgstr "Sıradan bittorrent bağlantılarını etkiler"
 
 #: glade/preferences_dialog.glade:1567
 #, fuzzy
@@ -858,7 +858,7 @@ msgstr "Görev çubuğunda başlat"
 
 #: glade/preferences_dialog.glade:2432
 msgid "Password protect system tray"
-msgstr ""
+msgstr "Sistem çekmecesi şifre koruması"
 
 #: glade/preferences_dialog.glade:2456
 msgid "Password:"
@@ -866,7 +866,7 @@ msgstr "Parola:"
 
 #: glade/preferences_dialog.glade:2500
 msgid "<b>System Tray</b>"
-msgstr ""
+msgstr "Sistem Çekmecesi"
 
 #: glade/preferences_dialog.glade:2539
 msgid "Custom:"
@@ -910,15 +910,15 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2701
 msgid "<b>Internal Browser</b>"
-msgstr ""
+msgstr "Dahili Tarayıcı"
 
 #: glade/preferences_dialog.glade:2731
 msgid "Show the search bar on the toolbar"
-msgstr ""
+msgstr "Araç çubuğunda arama çubuğunu göster"
 
 #: glade/preferences_dialog.glade:2742
 msgid "<b>Search Bar</b> - restart required"
-msgstr ""
+msgstr "Arama Çubuğu"
 
 #: glade/preferences_dialog.glade:2776
 #, fuzzy
@@ -1098,10 +1098,12 @@ msgid ""
 "Would you like Deluge to automatically download to a predefined location, or "
 "would you like to specify the download location every time?"
 msgstr ""
+"Deluge indirilen  dosyaları öntanımlı bir klasöre mi kaydetsin ya da her "
+"seferinde indirilecek konumu siz mi seçmek istersiniz?"
 
 #: glade/wizard.glade:141
 msgid "Ask where to save each file"
-msgstr ""
+msgstr "Her dosyayı nereye kaydedeceğini sorsun"
 
 #: glade/wizard.glade:165
 #, fuzzy
@@ -1113,6 +1115,8 @@ msgid ""
 "Please select the upload speed of your connection, which we will then use to "
 "automatically make suggestions for the settings below"
 msgstr ""
+"Lütfen buradan upload hızınızı seçin ve böylece aşağıda size otomatik "
+"öneriler sunulacaktır"
 
 #: glade/wizard.glade:238
 msgid "Maximum Active Torrents:"
@@ -1168,14 +1172,18 @@ msgid ""
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
+"Deluge gelişiminde bize yardımcı olabilirsiniz. Bunun için:\n"
+"Python ve PyGTK sürümünüzü, işletim sistemi\n"
+"ve işlemci türünüzü bize yollayabilirsiniz. Kesinlikle\n"
+"başka bir bilgi gönderilmeyecektir."
 
 #: src/interface.py:71
 msgid "Browser"
-msgstr ""
+msgstr "Tarayıcı"
 
 #: src/interface.py:73
 msgid "Launch Browser"
-msgstr ""
+msgstr "Tarayıcıyı Başlat"
 
 #: src/interface.py:251
 msgid ""
@@ -1266,13 +1274,15 @@ msgstr "Duraksatıldı %s"
 #: src/interface.py:979
 #, python-format
 msgid "Queued %s"
-msgstr ""
+msgstr "Kuyrukta %s"
 
 #: src/interface.py:1091
 msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
 msgstr ""
+"Deluge daha yeni bir sürüme güncellenebilir. İndirme sayfamızı görmek ister "
+"misiniz?"
 
 #: src/interface.py:1263 plugins/WebUi/scripts/template_strings.py:11
 msgid "Connections"
@@ -1316,7 +1326,7 @@ msgstr "Bilinmeyen Eş hatası"
 
 #: src/interface.py:1453
 msgid "There is not enough freedisk space to complete your download."
-msgstr ""
+msgstr "İndirdiğiniz veriyi tamamlayabilmek için yeterli disk alanı yok."
 
 #: src/interface.py:1454 src/core.py:569
 msgid "Space Needed:"
@@ -1385,7 +1395,7 @@ msgstr "Tamamlandı"
 
 #: src/core.py:94 plugins/WebUi/webserver_common.py:202
 msgid "Allocating"
-msgstr ""
+msgstr "Ayrılıyor"
 
 #: src/core.py:137
 msgid "bytes needed"
@@ -1401,7 +1411,7 @@ msgstr "Bulunmayan torrent için sor"
 
 #: src/core.py:567
 msgid "There is not enough free disk space to complete your download."
-msgstr ""
+msgstr "İndirme işinizi tamamlamak için yeterli disk alanı yok."
 
 #: src/core.py:664
 msgid "Announce sent"
@@ -1515,7 +1525,7 @@ msgstr "PB"
 
 #: src/common.py:213
 msgid "External command"
-msgstr ""
+msgstr "Harici komut"
 
 #: src/common.py:214
 msgid "not found"
@@ -1543,7 +1553,7 @@ msgstr ""
 
 #: plugins/BlocklistImport/__init__.py:42
 msgid "PeerGuardian Text (Uncompressed)"
-msgstr ""
+msgstr "PeerGuardian Yazı (Sıkıştırılmamış)"
 
 #: plugins/BlocklistImport/__init__.py:43
 msgid "Emule IP list (GZip)"
@@ -1705,7 +1715,7 @@ msgstr ""
 
 #: plugins/TorrentCreator/torrentcreator.glade:239
 msgid "Add new torrent to queue"
-msgstr ""
+msgstr "Kuyruğa yeni torrent ekle"
 
 #: plugins/TorrentCreator/torrentcreator.glade:258
 msgid "<b>Torrent File</b>"
@@ -1717,7 +1727,7 @@ msgstr "<b>İzleyiciler</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:353
 msgid "<b>Web Seeds</b>"
-msgstr ""
+msgstr "Ağ Dağıtıcıları"
 
 #: plugins/TorrentCreator/torrentcreator.glade:400
 msgid "<b>Comments</b>"
