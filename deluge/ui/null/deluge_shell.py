@@ -26,6 +26,7 @@ deluge-shell: Deluge shell.
 import deluge.ui.client as client
 import deluge.common as common
 import readline
+import logging
 
 import sys
 
@@ -280,6 +281,7 @@ commands = {
 	'del' : CommandRemove(),
 }
 
+logging.disable(logging.ERROR)
 client.set_core_uri("http://localhost:58846")
 
 class NullUI:
