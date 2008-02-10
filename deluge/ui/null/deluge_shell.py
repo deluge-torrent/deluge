@@ -219,25 +219,27 @@ commands = (('add', add_torrent, 'Add a torrent'),
 
 client.set_core_uri("http://localhost:58846")
 
-print "Welcome to deluge-shell. Type 'help' to see a list of available commands."
+class NullUI:
+	def __init__(self, args):
+		print "Welcome to deluge-shell. Type 'help' to see a list of available commands."
 
-readline.read_init_file()
-while True:
-	inp = raw_input("> ")
-	if len(inp) == 0:	break
-	inp = inp.strip().split(" ")
+		readline.read_init_file()
+		while True:
+			inp = raw_input("> ")
+			if len(inp) == 0:	break
+			inp = inp.strip().split(" ")
 
-	print ""
-	cmd = inp[0]
-	found = False
-	for command, action, help in commands:
-		if command != cmd:
-			continue
-		action(inp)
-		found = True
-		break
-	if not found:
-		print "Invalid command!"
-		show_help([])
+			print ""
+			cmd = inp[0]
+			found = False
+			for command, action, help in commands:
+				if command != cmd:
+					continue
+				action(inp)
+				found = True
+				break
+			if not found:
+				print "Invalid command!"
+				show_help([])
 
-print "Thanks."
+		print "Thanks."

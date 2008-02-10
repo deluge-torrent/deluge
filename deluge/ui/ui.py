@@ -59,4 +59,8 @@ class UI:
             log.info("Starting WebUI..")
             from deluge.ui.webui.webui import WebUI
             ui = WebUI(args)
-            
+        elif selected_ui == "null":
+            log.info("Starting NullUI..")
+            from deluge.ui.null.deluge_shell import NullUI
+            ui = NullUI(args)
+
