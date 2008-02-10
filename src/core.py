@@ -459,7 +459,8 @@ class Manager:
     def save_fastresume_data(self, uid=None):
         if uid == None:
             for unique_ID in self.unique_IDs:
-                if not self.get_core_torrent_state(unique_ID, True)['is_seed']:
+                state = self.get_core_torrent_state(unique_ID, True)
+                if not state['is_seed'] and state['state'] != 0 and state['state'] != 1:
                     try:
                         os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
                     except:
@@ -469,6 +470,10 @@ class Manager:
                     except Exception, e:
                         print "Unable to save fastresume: ", e
         else:
+            # Do not save fastresume if torrent is Queued for checking or being checked
+            state = self.get_core_torrent_state(uid, True)
+            if state['state'] == 0 or state['state'] == 1:
+                return
             try:
                 os.remove(self.unique_IDs[uid].filename + ".fastresume")
             except:
