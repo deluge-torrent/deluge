@@ -469,15 +469,14 @@ class Manager:
                     except Exception, e:
                         print "Unable to save fastresume: ", e
         else:
-            if not self.get_core_torrent_state(uid, True)['is_seed']:
-                try:
-                    os.remove(self.unique_IDs[uid].filename + ".fastresume")
-                except:
-                    pass
-                try:
-                    deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
-                except Exception, e:
-                    print "Unable to save fastresume: ", e
+            try:
+                os.remove(self.unique_IDs[uid].filename + ".fastresume")
+            except:
+                pass
+            try:
+                deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
+            except Exception, e:
+                print "Unable to save fastresume: ", e
 
     # State retrieval functions
 
