@@ -318,6 +318,10 @@ class Manager:
                 pass
 
     def quit(self):
+        # save upload memory
+        print "Saving uploaded memory..."
+        self.save_upmem()
+        
         # Pickle the state
         self.pickle_state()
 
@@ -334,10 +338,6 @@ class Manager:
         # Save fastresume data
         print "Saving fastresume data..."
         self.save_fastresume_data()
-
-        # save upload memory
-        print "Saving uploaded memory..."
-        self.save_upmem()
 
         # Shutdown torrent core
         print "Quitting the core..."
