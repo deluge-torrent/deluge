@@ -268,6 +268,35 @@ class CommandRemove(Command):
 	def help(self):
 		print "Remove a torrent"
 
+class CommandHalt(Command):
+	def execute(self, cmd):
+		client.shutdown()
+
+	def help(self):
+		print "Shutdown the deluge server."
+
+class CommandConnect(Command):
+	def execute(self, cmd):
+		host = 'localhost'
+		port = 58846
+		if len(cmd) > 1:
+			host = cmd[1]
+		if len(cmd) > 2:
+			port = int(cmd[2])
+
+		if host[:7] != "http://":
+			host = "http://" + host
+
+		client.set_core_uri("%s:%d" % (host, port))
+
+	def usage(self):
+		print "Usage: connect [<host> [<port>]]"
+		print "       'localhost' is the default server. 58846 is the default port."
+		print ""
+
+	def help(self):
+		print "Connect to a new deluge server."
+
 commands = {
 	'add' : CommandAdd(),
 	'configs' : CommandConfig(),
@@ -279,6 +308,8 @@ commands = {
 	'resume' : CommandResume(),
 	'rm' : CommandRemove(),
 	'del' : CommandRemove(),
+	'halt' : CommandHalt(),
+	'connect' : CommandConnect(),
 }
 
 logging.disable(logging.ERROR)
