@@ -25,6 +25,7 @@ deluge-shell: Deluge shell.
 
 import deluge.ui.client as client
 import deluge.common as common
+import deluge.error
 import readline
 import logging
 
@@ -338,7 +339,13 @@ class NullUI:
 				commands['help'].execute([])
 			else:
 				command = commands[cmd]
-				command.execute(inp)
-				client.force_call()
+				try:
+					command.execute(inp)
+					client.force_call()
+				except deluge.error.NoCoreError, e:
+					print "*** Operation failed. You are not connected to a deluge daemon."
+					print "    Perhaps you want to 'connect' first."
+					print ""
 
 		print "Thanks."
+
