@@ -1046,7 +1046,7 @@ window, please enter your password"))
             gtk.main()
             gtk.gdk.threads_leave()
         except KeyboardInterrupt:
-            self.manager.quit()
+            self.shutdown()
 
     def new_release_check(self):
         import socket
