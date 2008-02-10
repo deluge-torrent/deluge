@@ -43,10 +43,10 @@ class SignalManager(component.Component):
     def __init__(self):
         component.Component.__init__(self, "SignalManager")
         self.clients = {}
-    
+
     def shutdown(self):
         del self.clients
-        
+
     def deregister_client(self, address):
         """Deregisters a client"""
         log.debug("Deregistering %s as a signal reciever..", address)
@@ -60,14 +60,20 @@ class SignalManager(component.Component):
         uri = "http://" + str(address) + ":" + str(port)
         log.debug("Registering %s as a signal reciever..", uri)
         self.clients[uri] = xmlrpclib.ServerProxy(uri)
-        
+
     def emit(self, signal, *data):
-        for client in self.clients.values():
-            gobject.idle_add(self._emit, client, signal, *data)
-                
-    def _emit(self, client, signal, *data):
+        for uri in self.clients:
+            gobject.idle_add(self._emit, uri, signal, 1, *data)
+
+    def _emit(self, uri, signal, count, *data):
+        client = self.clients[uri]
         try:
             client.emit_signal(signal, *data)
         except (socket.error, Exception), e:
-            log.warning("Unable to emit signal to client %s: %s", client, e)
-        
+            log.warning("Unable to emit signal to client %s: %s (%d)", client, e, count)
+            if count < 30:
+                gobject.timeout_add(1000, self._emit, uri, signal, count + 1, *data)
+            else:
+                log.info("Removing %s because it couldn't be reached..", uri)
+                del self.clients[uri]
+

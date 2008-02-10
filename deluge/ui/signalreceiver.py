@@ -135,7 +135,7 @@ class SignalReceiver(
                         log.warning("Unable to call callback for signal %s",
                             signal)
         except KeyError:
-            log.debug("There are no callbacks registered for this signal..")
+            log.debug("There are no callbacks registered for signal '%s'", signal)
         
     def connect_to_signal(self, signal, callback):
         """Connect to a signal"""
