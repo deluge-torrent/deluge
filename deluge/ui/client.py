@@ -41,85 +41,20 @@ import gobject
 import deluge.xmlrpclib as xmlrpclib
 
 import deluge.common
+import deluge.error
 from deluge.log import LOG as log
 
-CACHE_TTL = 1.5 # seconds
-
-class cache:
+class no_core_error:
+    # This decorator class will throw a NoCoreError exception if core is None
     def __init__(self, func):
         self.func = func
-
-        #self.cache_values = {(args, kwargs): (time, ret)}
-        self.cache_values = {}
-        
-    def __call__(self, *__args, **__kw):
-        # Turn the arguments into hashable values
-        if __args == ():
-            args = None
-        else:
-            args = __args
-        
-        if __kw == {}:
-            kw = None
-        else:
-            kw = __kw
-            
-        # See if there is a cached return value for this call
-        if self.cache_values.has_key((args, kw)):
-            # Check the timestamp on the value to ensure it's still valid
-            if time.time() - self.cache_values[(args, kw)][0] < CACHE_TTL:
-                return self.cache_values[(args, kw)][1]
-        
-        # No return value in cache
-        ret = self.func(*__args, **__kw)
-        self.cache_values[(args, kw)] = [time.time(), ret]
-        return ret
-
-class cache_dict:
-    """Special cache decorator for get_torrent_status and the like.. It expects
-    passing a str, list and returns a dict"""
-    def __init__(self, func):
-        self.func = func
-        self.cache_values = {}
     
     def __call__(self, *__args, **__kw):
-        if __args == ():
-            return
-        # Check for a cache value for these parameters
-        if self.cache_values.has_key(__args[0]):
-            # Check the timestamp on the value to ensure it's still valid
-            if time.time() - self.cache_values[__args[0]][0] < CACHE_TTL:
-                # Check to see if we have the right keys in cache
-                cache_dict = self.cache_values[__args[0]][1]
-                if cache_dict == None:
-                    cache_dict = {}
-                keys = __args[1]
-                non_cached = []
-                ret_dict = {}
-                for key in keys:
-                    if key in cache_dict.keys():
-                        ret_dict[key] = cache_dict[key]
-                    else:
-                        non_cached.append(key)
-                
-                # If there aren't any non_cached keys then lets just return
-                # cached values
-                if len(non_cached) == 0:
-                    return ret_dict
-        
-                # We need to request the remaining non-cached keys from the func
-                ret = self.func(*(__args[0], non_cached), **__kw)
-                if ret == None:
-                    return ret
-                ret.update(ret_dict)
-                self.cache_values[__args[0]] = [time.time(), ret]
-                return ret
-                
-        # Not cached
-        ret = self.func(*__args, **__kw)
-        self.cache_values[__args[0]] = [time.time(), ret]
-        return ret                    
-                            
+        if _core.get_core() == None:
+            raise deluge.error.NoCoreError("The core proxy is invalid.")
+        else:
+            return self.func(*__args, **__kw)
+               
 class CoreProxy(gobject.GObject):
     __gsignals__ = { 
         "new_core" : ( 
@@ -253,12 +188,15 @@ def connected():
         return True
     return False
 
+@no_core_error
 def register_client(port):
     get_core().call("register_client", None, port)
 
+@no_core_error
 def deregister_client():
     get_core().call("deregister_client", None)
-                
+
+@no_core_error  
 def shutdown():
     """Shutdown the core daemon"""
     try:
@@ -268,11 +206,13 @@ def shutdown():
         # Ignore everything
         set_core_uri(None)
 
+@no_core_error
 def force_call(block=True):
     """Forces the multicall batch to go now and not wait for the timer.  This
     call also blocks until all callbacks have been dealt with."""
     get_core().do_multicall(block=block)
-       
+
+@no_core_error
 def add_torrent_file(torrent_files, torrent_options=None):
     """Adds torrent files to the core
         Expects a list of torrent files
@@ -308,6 +248,7 @@ def add_torrent_file(torrent_files, torrent_options=None):
         get_core().call("add_torrent_file", None,
             filename, str(), fdump, options)
 
+@no_core_error
 def add_torrent_url(torrent_url, options=None):
     """Adds torrents to the core via url"""
     from deluge.common import is_url
@@ -316,97 +257,121 @@ def add_torrent_url(torrent_url, options=None):
             torrent_url, str(), options)
     else:
         log.warning("Invalid URL %s", torrent_url)
-    
+
+@no_core_error    
 def remove_torrent(torrent_ids, remove_torrent=False, remove_data=False):
     """Removes torrent_ids from the core.. Expects a list of torrent_ids"""
     log.debug("Attempting to removing torrents: %s", torrent_ids)
     for torrent_id in torrent_ids:
         get_core().call("remove_torrent", None, torrent_id, remove_torrent, remove_data)
 
+@no_core_error
 def pause_torrent(torrent_ids):
     """Pauses torrent_ids"""
     for torrent_id in torrent_ids:
         get_core().call("pause_torrent", None, torrent_id)
 
+@no_core_error
 def move_torrent(torrent_ids, folder):
     """Pauses torrent_ids"""
     for torrent_id in torrent_ids:
         get_core().call("move_torrent", None, torrent_id, folder)
 
+@no_core_error
 def pause_all_torrents():
     """Pauses all torrents"""
     get_core().call("pause_all_torrents", None)
 
+@no_core_error
 def resume_all_torrents():
     """Resumes all torrents"""
     get_core().call("resume_all_torrents", None)
-        
+
+@no_core_error        
 def resume_torrent(torrent_ids):
     """Resume torrent_ids"""
     for torrent_id in torrent_ids:
         get_core().call("resume_torrent", None, torrent_id)
-        
+
+@no_core_error        
 def force_reannounce(torrent_ids):
     """Reannounce to trackers"""
     for torrent_id in torrent_ids:
         get_core().call("force_reannounce", None, torrent_id)
 
+@no_core_error
 def get_torrent_status(callback, torrent_id, keys):
     """Builds the status dictionary and returns it"""
     get_core().call("get_torrent_status", callback, torrent_id, keys)
 
+@no_core_error
 def get_torrents_status(callback, torrent_ids, keys):
     """Builds a dictionary of torrent_ids status.  Expects 2 lists.  This is
     asynchronous so the return value will be sent as the signal
     'torrent_status'"""
     get_core().call("get_torrents_status", callback, torrent_ids, keys)
 
+@no_core_error
 def get_session_state(callback):
     get_core().call("get_session_state", callback)
 
+@no_core_error
 def get_config(callback):
     get_core().call("get_config", callback)
 
+@no_core_error
 def get_config_value(callback, key):
     get_core().call("get_config_value", callback, key)
-    
+
+@no_core_error    
 def set_config(config):
     if config == {}:
         return
     get_core().call("set_config", None, config)
 
+@no_core_error
 def get_listen_port(callback):
     get_core().call("get_listen_port", callback)
 
+@no_core_error
 def get_available_plugins(callback):
     get_core().call("get_available_plugins", callback)
 
+@no_core_error
 def get_enabled_plugins(callback):
     get_core().call("get_enabled_plugins", callback)
 
+@no_core_error
 def get_download_rate(callback):
     get_core().call("get_download_rate", callback)
 
+@no_core_error
 def get_upload_rate(callback):
     get_core().call("get_upload_rate", callback)
 
+@no_core_error
 def get_num_connections(callback):
     get_core().call("get_num_connections", callback)
 
+@no_core_error
 def get_dht_nodes(callback):
     get_core().call("get_dht_nodes", callback)
 
+@no_core_error
 def enable_plugin(plugin):
     get_core().call("enable_plugin", None, plugin)
-            
+
+@no_core_error            
 def disable_plugin(plugin):
     get_core().call("disable_plugin", None, plugin)
 
+@no_core_error
 def force_recheck(torrent_ids):
     """Forces a data recheck on torrent_ids"""
     for torrent_id in torrent_ids:
         get_core().call("force_recheck", None, torrent_id)
 
+@no_core_error
 def set_torrent_trackers(torrent_id, trackers):
     """Sets the torrents trackers"""
     get_core().call("set_torrent_trackers", None, torrent_id, trackers)
