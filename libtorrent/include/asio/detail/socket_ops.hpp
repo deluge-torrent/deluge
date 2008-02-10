@@ -1124,8 +1124,12 @@ inline void gai_free(void* p)
 inline void gai_strcpy(char* target, const char* source, std::size_t max_size)
 {
   using namespace std;
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1400) && !defined(UNDER_CE)
+  strcpy_s(target, max_size, source);
+#else
   *target = 0;
   strncat(target, source, max_size);
+#endif
 }
 
 enum { gai_clone_flag = 1 << 30 };
@@ -1658,7 +1662,11 @@ inline asio::error_code getnameinfo_emulation(
       {
         return ec = asio::error::no_buffer_space;
       }
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1400) && !defined(UNDER_CE)
+      sprintf_s(serv, servlen, "%u", ntohs(port));
+#else
       sprintf(serv, "%u", ntohs(port));
+#endif
     }
     else
     {
@@ -1677,7 +1685,11 @@ inline asio::error_code getnameinfo_emulation(
         {
           return ec = asio::error::no_buffer_space;
         }
+#if BOOST_WORKAROUND(BOOST_MSVC, >= 1400) && !defined(UNDER_CE)
+        sprintf_s(serv, servlen, "%u", ntohs(port));
+#else
         sprintf(serv, "%u", ntohs(port));
+#endif
       }
 #if defined(BOOST_HAS_THREADS) && defined(BOOST_HAS_PTHREADS)
       ::pthread_mutex_unlock(&mutex);
@@ -1799,19 +1811,22 @@ inline asio::error_code getnameinfo(const socket_addr_type* addr,
 # if defined(_WIN32_WINNT) && (_WIN32_WINNT >= 0x0501) || defined(UNDER_CE)
   // Building for Windows XP, Windows Server 2003, or later.
   clear_error(ec);
-  int error = ::getnameinfo(addr, addrlen, host, static_cast<DWORD>(hostlen),
+  int error = ::getnameinfo(addr, static_cast<socklen_t>(addrlen),
+      host, static_cast<DWORD>(hostlen),
       serv, static_cast<DWORD>(servlen), flags);
   return ec = translate_addrinfo_error(error);
 # else
   // Building for Windows 2000 or earlier.
   typedef int (WSAAPI *gni_t)(const socket_addr_type*,
-      int, char*, std::size_t, char*, std::size_t, int);
+      int, char*, DWORD, char*, DWORD, int);
   if (HMODULE winsock_module = ::GetModuleHandleA("ws2_32"))
   {
     if (gni_t gni = (gni_t)::GetProcAddress(winsock_module, "getnameinfo"))
     {
       clear_error(ec);
-      int error = gni(addr, addrlen, host, hostlen, serv, servlen, flags);
+      int error = gni(addr, static_cast<int>(addrlen),
+          host, static_cast<DWORD>(hostlen),
+          serv, static_cast<DWORD>(servlen), flags);
       return ec = translate_addrinfo_error(error);
     }
   }
