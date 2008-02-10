@@ -42,6 +42,9 @@
 #  undef socklen_t
 # endif
 #endif
+#ifdef DELUGE_CORE_DEBUG
+#include <time.h>
+#endif
 #include <boost/filesystem/exception.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
@@ -153,12 +156,26 @@ static PyObject *InvalidTorrentError   = NULL;
 
 bool empty_name_check(const std::string & name)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " empty_name_check()" << std::endl;
+#endif
     return 1;
 }
 
 
 long handle_exists(torrent_handle &handle)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " handle_exists()" << std::endl;
+#endif
     for (unsigned long i = 0; i < M_torrents->size(); i++)
         if ((*M_torrents)[i].handle == handle)
             return 1;
@@ -169,6 +186,13 @@ long handle_exists(torrent_handle &handle)
 
 long get_torrent_index(torrent_handle &handle)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " get_torrent_index()" << std::endl;
+#endif
     for (unsigned long i = 0; i < M_torrents->size(); i++)
         if ((*M_torrents)[i].handle == handle)
     {
@@ -181,6 +205,13 @@ long get_torrent_index(torrent_handle &handle)
 
 long get_index_from_unique_ID(long unique_ID)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " get_index_from_unique_ID()" << std::endl;
+#endif
     try{
       for (unsigned long i = 0; i < M_torrents->size(); i++)
           if ((*M_torrents)[i].unique_ID == unique_ID)
@@ -199,6 +230,13 @@ long get_index_from_unique_ID(long unique_ID)
 
 partial_piece_info internal_get_piece_info(torrent_handle h, long piece_index)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " internal_get_piece_info()" << std::endl;
+#endif
     std::vector<partial_piece_info> queue;
     std::vector<partial_piece_info>& q = queue;
     h.get_download_queue(q);
@@ -210,6 +248,13 @@ partial_piece_info internal_get_piece_info(torrent_handle h, long piece_index)
 
 torrent_info internal_get_torrent_info(std::string const& torrent_name)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " internal_get_torrent_info()" << std::endl;
+#endif
     std::ifstream in(torrent_name.c_str(), std::ios_base::binary);
     in.unsetf(std::ios_base::skipws);
     entry e = bdecode(std::istream_iterator<char>(in), std::istream_iterator<char>());
@@ -223,6 +268,13 @@ long internal_add_torrent(std::string const&    torrent_name,
 bool    compact_mode,
 boost::filesystem::path const& save_path)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " internal_add_torrent()" << std::endl;
+#endif
 
     std::ifstream in(torrent_name.c_str(), std::ios_base::binary);
     in.unsetf(std::ios_base::skipws);
@@ -285,6 +337,13 @@ boost::filesystem::path const& save_path)
 
 void internal_remove_torrent(long index, int delete_files)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " internal_remove_torrent()" << std::endl;
+#endif
     assert(index < M_torrents->size());
 
     torrent_handle& h = M_torrents->at(index).handle;
@@ -297,6 +356,13 @@ void internal_remove_torrent(long index, int delete_files)
 
 long get_peer_index(tcp::endpoint addr, std::vector<peer_info> const& peers)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " get_peer_index()" << std::endl;
+#endif
     long index = -1;
 
     for (unsigned long i = 0; i < peers.size(); i++)
@@ -308,6 +374,13 @@ long get_peer_index(tcp::endpoint addr, std::vector<peer_info> const& peers)
 
 bool internal_has_piece(std::vector<bool> const& pieces, long index)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " internal_has_piece()" << std::endl;
+#endif
     return pieces[index];
 }
 
@@ -316,6 +389,13 @@ void internal_add_files(torrent_info&   t,
 boost::filesystem::path const& p,
 boost::filesystem::path const& l)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " internal_add_files()" << std::endl;
+#endif
                                  // change default checker, perhaps?
     boost::filesystem::path f(p / l);
     if (is_directory(f))
@@ -329,6 +409,13 @@ boost::filesystem::path const& l)
 
 long count_DHT_peers(entry &state)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " count_DHT_peers()" << std::endl;
+#endif
     long num_peers = 0;
     entry *nodes = state.find_key("nodes");
     if (nodes)
@@ -348,6 +435,13 @@ long count_DHT_peers(entry &state)
 
 static PyObject *torrent_pre_init(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_pre_init()" << std::endl;
+#endif
     if (!PyArg_ParseTuple(args, "OOOOOO", &DelugeError,
         &InvalidEncodingError,
         &SystemError,
@@ -362,6 +456,13 @@ static PyObject *torrent_pre_init(PyObject *self, PyObject *args)
 
 static PyObject *torrent_init(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_init()" << std::endl;
+#endif
     printf("deluge_core; using libtorrent %s. Compiled %s NDEBUG.\r\n",
         LIBTORRENT_VERSION,
 #ifdef NDEBUG
@@ -447,6 +548,13 @@ static PyObject *torrent_init(PyObject *self, PyObject *args)
 
 static PyObject *torrent_quit(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_quit()" << std::endl;
+#endif
     printf("core: removing torrents...\r\n");
     delete M_torrents;
     printf("core: removing settings...\r\n");
@@ -462,6 +570,13 @@ static PyObject *torrent_quit(PyObject *self, PyObject *args)
 
 static PyObject *torrent_save_fastresume(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_save_fastresume()" << std::endl;
+#endif
     python_long unique_ID;
     const char *torrent_name;
     if (!PyArg_ParseTuple(args, "is", &unique_ID, &torrent_name))
@@ -493,6 +608,13 @@ static PyObject *torrent_save_fastresume(PyObject *self, PyObject *args)
 
 static PyObject *torrent_set_max_half_open(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_set_max_half_open()" << std::endl;
+#endif
     python_long arg;
     if (!PyArg_ParseTuple(args, "i", &arg))
         return NULL;
@@ -530,6 +652,13 @@ static PyObject *torrent_set_max_half_open(PyObject *self, PyObject *args)
 
 static PyObject *torrent_connection_speed(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_connection_speed()" << std::endl;
+#endif
     python_long arg;
     if (!PyArg_ParseTuple(args, "i", &arg))
         return NULL;
@@ -541,6 +670,13 @@ static PyObject *torrent_connection_speed(PyObject *self, PyObject *args)
 
 static PyObject *torrent_set_download_rate_limit(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_set_download_rate_limit()" << std::endl;
+#endif
     python_long arg;
     if (!PyArg_ParseTuple(args, "i", &arg))
         return NULL;
@@ -552,6 +688,13 @@ static PyObject *torrent_set_download_rate_limit(PyObject *self, PyObject *args)
 
 static PyObject *torrent_set_upload_rate_limit(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_set_upload_rate_limit()" << std::endl;
+#endif
     python_long arg;
     if (!PyArg_ParseTuple(args, "i", &arg))
         return NULL;
@@ -562,6 +705,13 @@ static PyObject *torrent_set_upload_rate_limit(PyObject *self, PyObject *args)
 
 static PyObject *torrent_set_per_upload_rate_limit(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_set_per_upload_rate_limit()" << std::endl;
+#endif
     python_long unique_ID, speed;
     if (!PyArg_ParseTuple(args, "ii", &unique_ID, &speed))
         return NULL;
@@ -579,6 +729,13 @@ static PyObject *torrent_set_per_upload_rate_limit(PyObject *self, PyObject *arg
 
 static PyObject *torrent_get_per_upload_rate_limit(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_get_per_upload_rate_limit()" << std::endl;
+#endif
     python_long unique_ID;
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
@@ -596,6 +753,13 @@ static PyObject *torrent_get_per_upload_rate_limit(PyObject *self, PyObject *arg
 
 static PyObject *torrent_set_per_download_rate_limit(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_set_per_download_rate_limit()" << std::endl;
+#endif
     python_long unique_ID, speed;
 
     if (!PyArg_ParseTuple(args, "ii", &unique_ID, &speed))
@@ -613,6 +777,13 @@ static PyObject *torrent_set_per_download_rate_limit(PyObject *self, PyObject *a
 
 static PyObject *torrent_get_per_download_rate_limit(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_get_per_download_rate_limit()" << std::endl;
+#endif
     python_long unique_ID;
 
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
@@ -629,6 +800,13 @@ static PyObject *torrent_get_per_download_rate_limit(PyObject *self, PyObject *a
 
 static PyObject *torrent_set_listen_on(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_set_listen_on()" << std::endl;
+#endif
     PyObject *port_vec;
     if (!PyArg_ParseTuple(args, "O", &port_vec))
         return NULL;
@@ -648,6 +826,13 @@ static PyObject *torrent_set_listen_on(PyObject *self, PyObject *args)
 
 static PyObject *torrent_is_listening(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_is_listening()" << std::endl;
+#endif
     long ret = (M_ses->is_listening() != 0);
 
     return Py_BuildValue("i", ret);
@@ -656,12 +841,26 @@ static PyObject *torrent_is_listening(PyObject *self, PyObject *args)
 
 static PyObject *torrent_listening_port(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_listening_port()" << std::endl;
+#endif
     return Py_BuildValue("i", (python_long)M_ses->listen_port());
 }
 
 
 static PyObject *torrent_set_max_upload_slots_global(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_set_max_upload_slots_global()" << std::endl;
+#endif
     python_long max_up;
     if (!PyArg_ParseTuple(args, "i", &max_up))
         return NULL;
@@ -674,6 +873,13 @@ static PyObject *torrent_set_max_upload_slots_global(PyObject *self, PyObject *a
 
 static PyObject *torrent_set_max_connections_global(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_set_max_connections_global()" << std::endl;
+#endif
     python_long max_conn;
     if (!PyArg_ParseTuple(args, "i", &max_conn))
         return NULL;
@@ -685,6 +891,13 @@ static PyObject *torrent_set_max_connections_global(PyObject *self, PyObject *ar
 
 static PyObject *torrent_dump_file_info(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_dump_file_info()" << std::endl;
+#endif
     const char *name;
     if (!PyArg_ParseTuple(args, "s", &name))
         return NULL;
@@ -719,6 +932,13 @@ static PyObject *torrent_dump_file_info(PyObject *self, PyObject *args)
 
 static PyObject *torrent_dump_trackers(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_dump_trackers()" << std::endl;
+#endif
     const char *name;
     if (!PyArg_ParseTuple(args, "s", &name))
         return NULL;
@@ -737,6 +957,13 @@ static PyObject *torrent_dump_trackers(PyObject *self, PyObject *args)
 
 static PyObject *torrent_add_torrent(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_add_torrent()" << std::endl;
+#endif
     const char *name, *save_dir;
     python_long compact;
     if (!PyArg_ParseTuple(args, "ssi", &name, &save_dir, &compact))
@@ -765,6 +992,13 @@ static PyObject *torrent_add_torrent(PyObject *self, PyObject *args)
 
 static PyObject *torrent_test_duplicate(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_test_duplicate()" << std::endl;
+#endif
     const char *name;
     python_long unique_ID;
     if (!PyArg_ParseTuple(args, "si", &name, &unique_ID))
@@ -781,6 +1015,13 @@ static PyObject *torrent_test_duplicate(PyObject *self, PyObject *args)
 
 static PyObject *torrent_move_storage(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_move_storage()" << std::endl;
+#endif
     const char *move_dir;
     python_long unique_ID;
     if (!PyArg_ParseTuple(args, "is", &unique_ID, &move_dir))
@@ -798,6 +1039,13 @@ static PyObject *torrent_move_storage(PyObject *self, PyObject *args)
 
 static PyObject *torrent_remove_torrent(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_remove_torrent()" << std::endl;
+#endif
     python_long unique_ID, delete_files;
     if (!PyArg_ParseTuple(args, "ii", &unique_ID, &delete_files))
         return NULL;
@@ -814,12 +1062,26 @@ static PyObject *torrent_remove_torrent(PyObject *self, PyObject *args)
 
 static PyObject *torrent_get_num_torrents(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_get_num_torrents()" << std::endl;
+#endif
     return Py_BuildValue("i", M_torrents->size());
 }
 
 
 static PyObject *torrent_reannounce(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_reannounce()" << std::endl;
+#endif
     python_long unique_ID;
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
@@ -836,6 +1098,13 @@ static PyObject *torrent_reannounce(PyObject *self, PyObject *args)
 
 static PyObject *torrent_pause(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_pause()" << std::endl;
+#endif
     python_long unique_ID;
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
@@ -861,6 +1130,13 @@ static PyObject *torrent_pause(PyObject *self, PyObject *args)
 
 static PyObject *torrent_resume(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_resume()" << std::endl;
+#endif
     python_long unique_ID;
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
@@ -885,6 +1161,13 @@ static PyObject *torrent_resume(PyObject *self, PyObject *args)
 
 static PyObject *torrent_has_piece(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_has_piece()" << std::endl;
+#endif
     python_long unique_ID;
     long piece_index;
     bool has_piece;
@@ -904,6 +1187,13 @@ static PyObject *torrent_has_piece(PyObject *self, PyObject *args)
 
 static PyObject *torrent_get_all_piece_info(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_get_all_piece_info()" << std::endl;
+#endif
    python_long unique_ID;
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
@@ -935,6 +1225,13 @@ static PyObject *torrent_get_all_piece_info(PyObject *self, PyObject *args)
 
 static PyObject *torrent_get_piece_info(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_get_piece_info()" << std::endl;
+#endif
     python_long unique_ID;
     long piece_index;
     if (!PyArg_ParseTuple(args, "ii", &unique_ID, &piece_index))
@@ -959,6 +1256,13 @@ static PyObject *torrent_get_piece_info(PyObject *self, PyObject *args)
 
 static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_get_torrent_state()" << std::endl;
+#endif
     python_long unique_ID;
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
@@ -1044,6 +1348,13 @@ static PyObject *torrent_get_torrent_state(PyObject *self, PyObject *args)
 
 static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_pop_event()" << std::endl;
+#endif
     std::auto_ptr<alert> a;
 
     a = M_ses->pop_alert();
@@ -1300,6 +1611,13 @@ static PyObject *torrent_pop_event(PyObject *self, PyObject *args)
 
 static PyObject *torrent_get_session_info(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_get_session_info()" << std::endl;
+#endif
     session_status s = M_ses->status();
 
     return Py_BuildValue("{s:l,s:f,s:f,s:ls:l,s:f,s:f}",
@@ -1315,6 +1633,13 @@ static PyObject *torrent_get_session_info(PyObject *self, PyObject *args)
 
 static PyObject *torrent_get_peer_info(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_get_peer_info()" << std::endl;
+#endif
     python_long unique_ID;
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
@@ -1387,6 +1712,13 @@ static PyObject *torrent_get_peer_info(PyObject *self, PyObject *args)
 
 static PyObject *torrent_get_file_info(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_get_file_info()" << std::endl;
+#endif
     python_long unique_ID;
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
@@ -1437,6 +1769,13 @@ static PyObject *torrent_get_file_info(PyObject *self, PyObject *args)
 
 static PyObject *torrent_get_file_piece_range(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_get_file_piece_range()" << std::endl;
+#endif
     python_long unique_ID;
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
@@ -1481,12 +1820,26 @@ static PyObject *torrent_get_file_piece_range(PyObject *self, PyObject *args)
 
 static PyObject *torrent_constants(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_constants()" << std::endl;
+#endif
     Py_INCREF(M_constants); return M_constants;
 }
 
 
 static PyObject *torrent_start_DHT(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_start_DHT()" << std::endl;
+#endif
     const char *DHT_path;
     if (!PyArg_ParseTuple(args, "s", &DHT_path))
         return NULL;
@@ -1528,6 +1881,13 @@ static PyObject *torrent_start_DHT(PyObject *self, PyObject *args)
 
 static PyObject *torrent_stop_DHT(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_stop_DHT()" << std::endl;
+#endif
     const char *DHT_path;
     if (!PyArg_ParseTuple(args, "s", &DHT_path))
         return NULL;
@@ -1560,6 +1920,13 @@ static PyObject *torrent_stop_DHT(PyObject *self, PyObject *args)
 
 static PyObject *torrent_get_DHT_info(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_get_DHT_info()" << std::endl;
+#endif
     entry DHT_state = M_ses->dht_state();
 
     return Py_BuildValue("l", python_long(count_DHT_peers(DHT_state)));
@@ -1568,6 +1935,13 @@ static PyObject *torrent_get_DHT_info(PyObject *self, PyObject *args)
 
 static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_create_torrent()" << std::endl;
+#endif
     using namespace libtorrent;
     using namespace boost::filesystem;
 
@@ -1648,6 +2022,13 @@ static PyObject *torrent_create_torrent(PyObject *self, PyObject *args)
 
 static PyObject *torrent_reset_IP_filter(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_reset_IP_filter()" << std::endl;
+#endif
     // Remove existing filter, if there is one
     if (M_the_filter != NULL)
         delete M_the_filter;
@@ -1662,6 +2043,13 @@ static PyObject *torrent_reset_IP_filter(PyObject *self, PyObject *args)
 
 static PyObject *torrent_add_range_to_IP_filter(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_add_range_to_IP_filter()" << std::endl;
+#endif
     if (M_the_filter == NULL) {
         RAISE_PTR(DelugeError, "No filter defined, use reset_IP_filter");
     }
@@ -1679,6 +2067,13 @@ static PyObject *torrent_add_range_to_IP_filter(PyObject *self, PyObject *args)
 
 static PyObject *torrent_set_IP_filter(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_set_IP_filter()" << std::endl;
+#endif
     if (M_the_filter == NULL) {
         RAISE_PTR(DelugeError, "No filter defined, use reset_IP_filter");
     }
@@ -1690,6 +2085,13 @@ static PyObject *torrent_set_IP_filter(PyObject *self, PyObject *args)
 
 static PyObject *torrent_use_upnp(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_use_upnp()" << std::endl;
+#endif
     python_long action;
     PyArg_ParseTuple(args, "i", &action);
 
@@ -1706,6 +2108,13 @@ static PyObject *torrent_use_upnp(PyObject *self, PyObject *args)
 
 static PyObject *torrent_use_lsd(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_use_lsd()" << std::endl;
+#endif
     python_long action;
     PyArg_ParseTuple(args, "i", &action);
 
@@ -1720,6 +2129,13 @@ static PyObject *torrent_use_lsd(PyObject *self, PyObject *args)
 
 static PyObject *torrent_use_natpmp(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_use_natpmp()" << std::endl;
+#endif
     python_long action;
 
     PyArg_ParseTuple(args, "i", &action);
@@ -1736,6 +2152,13 @@ static PyObject *torrent_use_natpmp(PyObject *self, PyObject *args)
 
 static PyObject *torrent_use_utpex(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_use_utpex()" << std::endl;
+#endif
     python_long action;
 
     PyArg_ParseTuple(args, "i", &action);
@@ -1749,6 +2172,13 @@ static PyObject *torrent_use_utpex(PyObject *self, PyObject *args)
 
 static PyObject *torrent_pe_settings(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_pe_settings()" << std::endl;
+#endif
     M_pe_settings = new pe_settings();
     libtorrent::pe_settings::enc_policy out, in, prefer;
     libtorrent::pe_settings::enc_level    level;
@@ -1767,6 +2197,13 @@ static PyObject *torrent_pe_settings(PyObject *self, PyObject *args)
 
 static PyObject *torrent_set_ratio(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_set_ratio()" << std::endl;
+#endif
     python_long unique_ID;
     float num;
     if (!PyArg_ParseTuple(args, "if", &unique_ID, &num))
@@ -1783,6 +2220,13 @@ static PyObject *torrent_set_ratio(PyObject *self, PyObject *args)
 
 static PyObject *torrent_proxy_settings(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_proxy_settings()" << std::endl;
+#endif
     char *server, *login, *pasw;
     int portnum;
     libtorrent::proxy_settings::proxy_type proxytype;
@@ -1818,6 +2262,13 @@ static PyObject *torrent_proxy_settings(PyObject *self, PyObject *args)
 
 static PyObject *torrent_get_trackers(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_get_trackers()" << std::endl;
+#endif
     python_long unique_ID;
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
@@ -1849,6 +2300,13 @@ static PyObject *torrent_get_trackers(PyObject *self, PyObject *args)
 
 static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_replace_trackers()" << std::endl;
+#endif
   python_long unique_ID;
   const char* tracker;
   if (!PyArg_ParseTuple(args, "iz", &unique_ID, &tracker))
@@ -1885,6 +2343,13 @@ static PyObject *torrent_replace_trackers(PyObject *self, PyObject *args)
 }
 static PyObject *torrent_prioritize_files(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_prioritize_files()" << std::endl;
+#endif
     python_long unique_ID;
     PyObject *priorities_list_object;
     
@@ -1914,6 +2379,13 @@ static PyObject *torrent_prioritize_first_last_pieces(PyObject *self,
                                                       PyObject *args)
 {
 #define FIRST_LAST_PRIO 6
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_prioritize_first_last_pieces()" << std::endl;
+#endif
     
     // Prioritize first and last 1% of file size bytes in each file of torrent
     // with unique_ID
@@ -1982,6 +2454,13 @@ static PyObject *torrent_prioritize_first_last_pieces(PyObject *self,
 
 static PyObject *torrent_set_priv(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_set_priv()" << std::endl;
+#endif
     using namespace libtorrent;
     python_long unique_ID;
     bool onoff;
@@ -2002,6 +2481,13 @@ static PyObject *torrent_set_priv(PyObject *self, PyObject *args)
 
 static PyObject *torrent_set_max_connections_per_torrent(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_set_max_connections_per_torrent()" << std::endl;
+#endif
     python_long unique_ID, max_connections;
     
     if (!PyArg_ParseTuple(args, "ii", &unique_ID, &max_connections))
@@ -2018,6 +2504,13 @@ static PyObject *torrent_set_max_connections_per_torrent(PyObject *self, PyObjec
 
 static PyObject *torrent_set_max_upload_slots_per_torrent(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_set_max_upload_slots_per_torrent()" << std::endl;
+#endif
     python_long unique_ID, max_upload_slots;
     
     if (!PyArg_ParseTuple(args, "ii", &unique_ID, &max_upload_slots))
@@ -2034,6 +2527,13 @@ static PyObject *torrent_set_max_upload_slots_per_torrent(PyObject *self, PyObje
 
 static PyObject *torrent_add_url_seed(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_add_url_seed()" << std::endl;
+#endif
     python_long unique_ID;
     char *address;
     
@@ -2050,6 +2550,13 @@ static PyObject *torrent_add_url_seed(PyObject *self, PyObject *args)
 
 static PyObject *torrent_scrape_tracker(PyObject *self, PyObject *args)
 {
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_scrape_tracker()" << std::endl;
+#endif
     python_long unique_ID;
     if (!PyArg_ParseTuple(args, "i", &unique_ID))
         return NULL;
