@@ -542,9 +542,11 @@ class Preferences(component.Component):
 
     def on_test_port_clicked(self, data):
         log.debug("on_test_port_clicked")
-        url = "http://deluge-torrent.org/test-port.php?port=%s" % \
-            client.get_listen_port()
-        client.open_url_in_browser(url)
+        def on_get_listen_port(port):
+            deluge.common.open_url_in_browser(
+                "http://deluge-torrent.org/test-port.php?port=%s" % port)
+        client.get_listen_port(on_get_listen_port)
+        client.force_call()
     
     def on_plugin_toggled(self, renderer, path):
         log.debug("on_plugin_toggled")
