@@ -1,6 +1,8 @@
 Deluge 0.5.8.3 (XX February 2008)
   * Randomize encryption pad size to evade throttling
   * https support
+  * Fix alignment of torrent info
+  * Don't resave fast-resume for seeding torrents
   * Add logout to WebUI
   * Only draw the advanced progress bar if 'num_pieces' is greater than 0 - prevents crash
 
