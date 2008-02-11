@@ -50,7 +50,7 @@ namespace libtorrent
 	{
 		std::vector<address> ret;
 
-#if defined __linux__ || defined __MACH__ || defined(__FreeBSD__)
+#if defined __linux__ || defined __MACH__ || defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 		int s = socket(AF_INET, SOCK_DGRAM, 0);
 		if (s < 0)
 		{
@@ -90,7 +90,7 @@ namespace libtorrent
 				ret.push_back(address_v6(b));
 			}
 
-#if defined __MACH__ || defined(__FreeBSD__)
+#if defined __MACH__ || defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
 			int current_size = item.ifr_addr.sa_len + IFNAMSIZ;
 #elif defined __linux__
 			int current_size = sizeof(ifreq);
