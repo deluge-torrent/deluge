@@ -31,7 +31,7 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import lib.newforms as forms
+import lib.newforms_plus as forms
 import config
 import utils
 from webserver_common import ws
@@ -42,7 +42,7 @@ class NetworkPorts(config.CfgForm ):
     info = _("Restart daemon after changing these values.")
     _port_from =  forms.IntegerField(_("From"))
     _port_to = forms.IntegerField(_("To"))
-    random_port = config.CheckBox(_("Random"))
+    random_port = forms.CheckBox(_("Random"))
 
     def initial_data(self):
         data = config.CfgForm.initial_data(self)
@@ -63,24 +63,24 @@ config.register_block('network','ports', NetworkPorts)
 
 class NetworkExtra(config.CfgForm ):
     title = _("Extra's")
-    dht = config.CheckBox(_("Mainline DHT"))
-    upnp = config.CheckBox(_("UpNP"))
-    natpmp = config.CheckBox(_("NAT-PMP"))
-    utpex = config.CheckBox(_("Peer-Exchange"))
-    lsd = config.CheckBox(_("LSD"))
+    dht = forms.CheckBox(_("Mainline DHT"))
+    upnp = forms.CheckBox(_("UpNP"))
+    natpmp = forms.CheckBox(_("NAT-PMP"))
+    utpex = forms.CheckBox(_("Peer-Exchange"))
+    lsd = forms.CheckBox(_("LSD"))
 
 config.register_block('network','extra', NetworkExtra)
 
 class NetworkEnc(config.CfgForm ):
     title = _("Encryption")
 
-    _enc_choices = [_("Forced"),_("Enabled"),_("Disabled")]
-    _level_choices = [_("Handshake"), _("Full") , _("Either")]
+    _enc_choices = list(enumerate([_("Forced"),_("Enabled"),_("Disabled")]))
+    _level_choices = list(enumerate([_("Handshake"), _("Full") , _("Either")]))
 
-    enc_in_policy = config.IntCombo(_("Inbound"), _enc_choices)
-    enc_out_policy = config.IntCombo(_("Outbound"), _enc_choices)
-    enc_level = config.IntCombo(_("Level"), _level_choices)
-    enc_prefer_rc4 =  config.CheckBox("Prefer to encrypt entire stream")
+    enc_in_policy = forms.IntChoiceField(_("Inbound"), _enc_choices)
+    enc_out_policy = forms.IntChoiceField(_("Outbound"), _enc_choices)
+    enc_level = forms.IntChoiceField(_("Level"), _level_choices)
+    enc_prefer_rc4 =  forms.CheckBox("Prefer to encrypt entire stream")
 
 config.register_block('network','encryption', NetworkEnc)
 
@@ -88,44 +88,45 @@ config.register_block('network','encryption', NetworkEnc)
 class BandwithGlobal(config.CfgForm):
     title = _("Global")
     info = _("-1 = Unlimited")
-    max_connections_global = config.DelugeInt(_("Maximum Connections"))
-    max_download_speed = config.DelugeFloat(_("Maximum Download Speed (Kib/s)"))
-    max_upload_speed = config.DelugeFloat(_("Maximum Upload Speed (Kib/s)"))
-    max_upload_slots_global = config.DelugeInt(_("Maximum Upload Slots"))
+    max_connections_global = forms.DelugeInt(_("Maximum Connections"))
+    max_download_speed = forms.DelugeFloat(_("Maximum Download Speed (Kib/s)"))
+    max_upload_speed = forms.DelugeFloat(_("Maximum Upload Speed (Kib/s)"))
+    max_upload_slots_global = forms.DelugeInt(_("Maximum Upload Slots"))
 
 config.register_block('bandwidth','global', BandwithGlobal)
 
 class BandwithTorrent(config.CfgForm):
     title = _("Per Torrent")
     info = _("-1 = Unlimited")
-    max_connections_per_torrent = config.DelugeInt(_("Maximum Connections"))
-    max_upload_slots_per_torrent = config.DelugeInt(_("Maximum Upload Slots"))
+    max_connections_per_torrent = forms.DelugeInt(_("Maximum Connections"))
+    max_upload_slots_per_torrent = forms.DelugeInt(_("Maximum Upload Slots"))
 
 config.register_block('bandwidth','torrent', BandwithTorrent)
 
 
 class Download(config.CfgForm):
     title = _("Download")
-    download_location = config.ServerFolder(_("Store all downoads in"))
-    torrentfiles_location = config.ServerFolder(_("Save .torrent files to"))
-    autoadd_location = config.ServerFolder(_("Auto Add folder"), required=False)
-    compact_allocation = config.CheckBox(_('Use Compact Allocation'))
-    prioritize_first_last_pieces = config.CheckBox(
+    download_location = forms.ServerFolder(_("Store all downoads in"))
+    torrentfiles_location = forms.ServerFolder(_("Save .torrent files to"))
+    autoadd_location = forms.ServerFolder(_("Auto Add folder"), required=False)
+    compact_allocation = forms.CheckBox(_('Use Compact Allocation'))
+    prioritize_first_last_pieces = forms.CheckBox(
         _('Prioritize first and last pieces'))
 
 config.register_block('deluge','download', Download)
 
 class Daemon(config.CfgForm):
     title = _("Daemon")
+    info = _("Restart daemon and webui after changing these settings")
     daemon_port     = forms.IntegerField(_("Port"))
-    allow_remote = config.CheckBox(_("Allow Remote Connections"))
+    allow_remote = forms.CheckBox(_("Allow Remote Connections"))
 
 config.register_block('deluge','daemon', Daemon)
 
-class Plugins(config.Form):
+class Plugins(forms.Form):
     title = _("Enabled Plugins")
     _choices = [(p,p) for p in ws.proxy.get_available_plugins()]
-    enabled_plugins = config.MultipleChoice(_(""), _choices)
+    enabled_plugins = forms.MultipleChoice(_(""), _choices)
 
     def initial_data(self):
         return {'enabled_plugins':ws.proxy.get_enabled_plugins()}
@@ -136,19 +137,19 @@ class Plugins(config.Form):
 config.register_block('deluge','plugins', Plugins)
 
 
-class Queue(config.Form):
+class Queue(forms.Form):
     title = _("Queue")
     info = _("queue-cfg not finished")
 
-    queue_top = config.CheckBox(_("Queue new torrents to top"))
-    total_active = config.DelugeInt(_("Total active torrents"))
-    total_seeding = config.DelugeInt(_("Total active seeding"))
-    total_downloading = config.DelugeInt(_("Total active downloading"))
+    queue_top = forms.CheckBox(_("Queue new torrents to top"))
+    total_active = forms.DelugeInt(_("Total active torrents"))
+    total_seeding = forms.DelugeInt(_("Total active seeding"))
+    total_downloading = forms.DelugeInt(_("Total active downloading"))
 
-    queue_bottom = config.CheckBox(_("Queue completed torrents to bottom"))
-    stop_on_ratio = config.CheckBox(_("Stop seeding when ratio reaches"))
-    stop_ratio = config.DelugeInt(_("TODO:float-edit-box"))
-    remove_after_stop = config.CheckBox(_("Remve torrent when ratio reached"))
+    queue_bottom = forms.CheckBox(_("Queue completed torrents to bottom"))
+    stop_on_ratio = forms.CheckBox(_("Stop seeding when ratio reaches"))
+    stop_ratio = forms.DelugeInt(_("TODO:float-edit-box"))
+    remove_after_stop = forms.CheckBox(_("Remve torrent when ratio reached"))
 
     def save(self, value):
         raise forms.ValidationError("SAVE:TODO")

@@ -31,7 +31,7 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import lib.newforms as forms
+import lib.newforms_plus as forms
 import page_decorators as deco
 import lib.webpy022 as web
 from webserver_common import ws
@@ -43,37 +43,7 @@ import os
 groups = []
 blocks = forms.utils.datastructures.SortedDict()
 
-class Form(forms.Form):
-    info = ""
-    title = "No Title"
-    def __init__(self,data = None):
-        if data == None:
-            data = self.initial_data()
-        forms.Form.__init__(self,data)
-
-    def initial_data(self):
-        "override in subclass"
-        return None
-
-    def start_save(self):
-        "called by config_page"
-        data = web.Storage(self.clean_data)
-        self.validate(data)
-        self.save(data)
-        self.post_save()
-
-    def save(self, vars):
-        "override in subclass"
-        raise NotImplementedError()
-
-    def post_save(self):
-        pass
-
-    def validate(self, data):
-        pass
-
-
-class WebCfgForm(Form):
+class WebCfgForm(forms.Form):
     "config base for webui"
     def initial_data(self):
         return ws.config
@@ -82,7 +52,7 @@ class WebCfgForm(Form):
         ws.config.update(data)
         ws.save_config()
 
-class CookieCfgForm(Form):
+class CookieCfgForm(forms.Form):
     "config base for webui"
     def initial_data(self):
         return ws.config
@@ -92,84 +62,12 @@ class CookieCfgForm(Form):
         ws.save_config()
 
 
-class CfgForm(Form):
+class CfgForm(forms.Form):
     "config base for deluge-cfg"
     def initial_data(self):
         return ws.proxy.get_config()
     def save(self, data):
         ws.proxy.set_config(dict(data))
-
-
-#convenience Input Fields.
-class _IntInput(forms.TextInput):
-    """
-    because deluge-floats are edited as ints.
-    """
-    def render(self, name, value, attrs=None):
-        try:
-            value = int(float(value))
-            if value == -1:
-                value = _("Unlimited")
-        except:
-            pass
-        return forms.TextInput.render(self, name, value, attrs)
-
-class CheckBox(forms.BooleanField):
-    "Non Required ChoiceField"
-    def __init__(self,label, **kwargs):
-        forms.BooleanField.__init__(self,label=label,required=False,**kwargs)
-
-class IntCombo(forms.ChoiceField):
-    """
-    choices are the display-values
-    returns int for the chosen display-value.
-    """
-    def __init__(self, label, choices, **kwargs):
-        forms.ChoiceField.__init__(self, label=label,
-            choices=enumerate(choices), **kwargs)
-
-    def clean(self, value):
-        return int(forms.ChoiceField.clean(self, value))
-
-class DelugeInt(forms.IntegerField):
-    def __init__(self, label , **kwargs):
-        forms.IntegerField.__init__(self, label=label, min_value=-1,
-            max_value=sys.maxint, widget=_IntInput, **kwargs)
-
-    def clean(self, value):
-        if str(value).lower() == _('Unlimited').lower():
-            value = -1
-        return int(forms.IntegerField.clean(self, value))
-
-class DelugeFloat(DelugeInt):
-    def clean(self, value):
-        return int(DelugeInt.clean(self, value))
-
-class MultipleChoice(forms.MultipleChoiceField):
-    #temp/test
-    def __init__(self, label, choices, **kwargs):
-        forms.MultipleChoiceField.__init__(self, label=label, choices=choices,
-            widget=forms.CheckboxSelectMultiple, required=False)
-
-class ServerFolder(forms.CharField):
-    def __init__(self, label, **kwargs):
-        forms.CharField.__init__(self, label=label,**kwargs)
-
-    def clean(self, value):
-        value = value.rstrip('/').rstrip('\\')
-        self.validate(value)
-        return forms.CharField.clean(self, value)
-
-    def validate(self, value):
-        if (value and not os.path.isdir(value)):
-            raise forms.ValidationError(_("This folder does not exist."))
-
-class Password(forms.CharField):
-    def __init__(self, label, **kwargs):
-        forms.CharField.__init__(self, label=label, widget=forms.PasswordInput,
-            **kwargs)
-
-#/fields
 
 class config_page:
     """

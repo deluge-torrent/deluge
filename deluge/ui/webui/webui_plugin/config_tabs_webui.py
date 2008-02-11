@@ -31,7 +31,7 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import lib.newforms as forms
+import lib.newforms_plus as forms
 import config
 import utils
 from webserver_common import ws
@@ -41,11 +41,12 @@ class Template(config.WebCfgForm):
     title = _("Template")
 
     _templates = [(t,t) for t in ws.get_templates()]
-    _button_choices = [_('Text and image'), _('Image Only'), _('Text Only')]
+    _button_choices = enumerate([_('Text and image'),  _('Image Only')
+        ,  _('Text Only')])
 
     template = forms.ChoiceField( label=_("Template"), choices = _templates)
-    button_style = config.IntCombo(_("Button style"),_button_choices)
-    cache_templates = config.CheckBox(_("Cache templates"))
+    button_style = forms.IntChoiceField(_("Button style"),_button_choices)
+    cache_templates = forms.CheckBox(_("Cache templates"))
 
     def post_save(self):
         from render import render
@@ -62,7 +63,7 @@ class Server(config.WebCfgForm):
 
     port = forms.IntegerField(label = _("Port"),min_value=80)
 
-    use_https = config.CheckBox(_("Use https"))
+    use_https = forms.CheckBox(_("Use https"))
 
 
     def post_save(self):
@@ -70,12 +71,12 @@ class Server(config.WebCfgForm):
         #raise forms.ValidationError(
         #       _("Manually restart server to apply these changes."))
 
-class Password(config.Form):
+class Password(forms.Form):
     title = _("Password")
 
-    old_pwd = config.Password(_("Current Password"))
-    new1 = config.Password(_("New Password"))
-    new2 = config.Password(_("New Password (Confirm)"))
+    old_pwd = forms.Password(_("Current Password"))
+    new1 = forms.Password(_("New Password"))
+    new2 = forms.Password(_("New Password (Confirm)"))
 
     def save(self,data):
         ws.update_pwd(data.new1)

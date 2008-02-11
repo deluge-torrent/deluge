@@ -9,7 +9,7 @@ from widgets import TextInput, Textarea, HiddenInput, MultipleHiddenInput
 from util import flatatt, StrAndUnicode, ErrorDict, ErrorList, ValidationError
 import copy
 
-__all__ = ('BaseForm', 'Form')
+#__all__ = ('BaseForm', 'Form')
 
 NON_FIELD_ERRORS = '__all__'
 
