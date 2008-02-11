@@ -797,12 +797,13 @@ namespace detail
 
 		INVARIANT_CHECK;
 
-		TORRENT_ASSERT(s.connection_speed > 0);
 		TORRENT_ASSERT(s.file_pool_size > 0);
 
 		// less than 5 seconds unchoke interval is insane
 		TORRENT_ASSERT(s.unchoke_interval >= 5);
 		m_settings = s;
+		if (m_settings.connection_speed <= 0) m_settings.connection_speed = 200;
+
 		m_files.resize(m_settings.file_pool_size);
 		// replace all occurances of '\n' with ' '.
 		std::string::iterator i = m_settings.user_agent.begin();
@@ -2643,20 +2644,23 @@ namespace detail
 
 					TORRENT_ASSERT(*slot_iter == p.index);
 					int slot_index = static_cast<int>(slot_iter - tmp_pieces.begin());
-					unsigned long adler
-						= torrent_ptr->filesystem().piece_crc(
-							slot_index
-							, torrent_ptr->block_size()
-							, p.info);
-
-					const entry& ad = (*i)["adler32"];
+					const entry* ad = i->find_key("adler32");
 	
-					// crc's didn't match, don't use the resume data
-					if (ad.integer() != entry::integer_type(adler))
+					if (ad && ad->type() == entry::int_t)
 					{
-						error = "checksum mismatch on piece "
-							+ boost::lexical_cast<std::string>(p.index);
-						return;
+						unsigned long adler
+							= torrent_ptr->filesystem().piece_crc(
+								slot_index
+								, torrent_ptr->block_size()
+								, p.info);
+
+						// crc's didn't match, don't use the resume data
+						if (ad->integer() != entry::integer_type(adler))
+						{
+							error = "checksum mismatch on piece "
+								+ boost::lexical_cast<std::string>(p.index);
+							return;
+						}
 					}
 
 					tmp_unfinished.push_back(p);
