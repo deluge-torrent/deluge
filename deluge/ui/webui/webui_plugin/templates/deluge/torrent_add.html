@@ -1,9 +1,15 @@
-$def with (add_form)
+$def with (add_form, options_form)
 $:render.header(_("Add Torrent"))
 <div class="panel">
 <form method="POST" action="/torrent/add"  ENCTYPE="multipart/form-data">
 <input type="hidden" name="redir" value="$get('redir')">
-<div id="torrent_add">
+
+
+<div id="torrent_add" >
+    <table>
+    $:add_form.as_table()
+    </table>
+<!--OLD stuff :
     <div class="form_row">
 	<span class="form_label">$_('Url')</span>
 	<input type="text" name="url" class="form_input" size=60
@@ -13,6 +19,15 @@ $:render.header(_("Add Torrent"))
 	<span class="form_label">$_('Upload torrent')</span>
 	<input type="file" name="torrent" class="form_input" size=50>
     </div>
+
+    <div class="form_row">
+	<span class="form_label">$_('Hash')</span>
+	<input type="text" name="hash" class="form_input" size=60
+        value="$get('hash')" >
+    </div>
+-->
+
+
 <!--
     <div class="form_row">
 	<input type="checkbox" name="add_another" class="form_input"
@@ -23,35 +38,55 @@ $if get_config('add_another'):
 
     </div>
 -->
-    <div class="form_row">
-    <span class="form_label"></span>
-    <input type="submit" name="submit"
-    value="$_('Submit')" class="form_input">
+<a onclick="javascript:toggle_options()">$_('Options')</a>
+<!--todo: cookie setting for last-used options display or not-->
 
-<h2>Options</h2>
-<div class="error">Options are not used yet!</div>
+<br>
 
-    <h3>$_("Allocation/Location")</h3>
+<div id="torrent_add_options" style="display:none">
+<!--
+it's possible to use blocks with options_form, but not now.
     <table>
-    $:add_form.as_table(["download_location", "compact_allocation"])
-
+    $:options_form.as_table(["download_location", "compact_allocation"])
 
     </table>
 
 <h3>$_("BandWidth")</h3>
     <table>
-$:add_form.as_table(["max_download_speed_per_torrent", "max_upload_speed_per_torrent", "max_connections_per_torrent", "max_upload_slots_per_torrent"])
+$:options_form.as_table(["max_download_speed_per_torrent", "max_upload_speed_per_torrent", "max_connections_per_torrent", "max_upload_slots_per_torrent"])
     </table>
 </td>
 
     <h3>$_("General")</h3>
     <table>
-    $:add_form.as_table(["prioritize_first_last_pieces", "add_paused", "default_private"])
+    $:options_form.as_table(["prioritize_first_last_pieces", "add_paused", "default_private"])
     </table>
+-->
+<table>
+$:options_form.as_table()
+</table>
 
 
-    </div>
 </div>
+
+    <div class="form_row">
+    <span class="form_label"></span>
+    <input type="submit" name="submit"
+    value="$_('Submit')" class="form_input">
+    </div>
+
 </form>
 </div>
+
+<script language="javascript">
+function toggle_options(){
+    el = document.getElementById("torrent_add_options");
+    if (el.style.display == "block"){
+        el.style.display = "none";
+    }
+    else{
+        el.style.display = "block";
+    }
+}
+</script>
 $:render.footer()

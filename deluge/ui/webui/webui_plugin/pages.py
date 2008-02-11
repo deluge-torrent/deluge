@@ -48,7 +48,7 @@ import lib.webpy022 as web
 from lib.webpy022.http import seeother, url
 from lib.static_handler import static_handler
 
-import base64
+
 from operator import attrgetter
 import os
 

@@ -1,5 +1,0 @@
-#!/usr/bin/env python
-import deluge_webserver
-deluge_webserver.ws.init_05()
-deluge_webserver.run()
-
