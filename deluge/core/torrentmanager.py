@@ -119,9 +119,6 @@ class TorrentManager(component.Component):
         self.pause_all()
         for key in self.torrents.keys():
             self.torrents[key].write_fastresume()
-        
-    def shutdown(self):
-        self.stop()
                         
     def __getitem__(self, torrent_id):
         """Return the Torrent with torrent_id"""
