@@ -58,9 +58,9 @@ class FilteredForm(newforms.Form):
                 output.append(str_hidden)
         return u'\n'.join(output)
 
-    def as_table(self , filter = None):
+    def as_table(self , filter = None): #add class="newforms"
         "Returns this form rendered as HTML <tr>s -- excluding the <table></table>."
-        return self._html_output_filtered(u'<tr><th>%(label)s</th><td>%(errors)s%(field)s%(help_text)s</td></tr>', u'<tr><td colspan="2">%s</td></tr>', '</td></tr>', u'<br />%s', False, filter)
+        return self._html_output_filtered(u'<tr><th class="newforms">%(label)s</th><td class="newforms">%(errors)s%(field)s%(help_text)s</td></tr>', u'<tr><td colspan="2">%s</td></tr>', '</td></tr>', u'<br />%s', False, filter)
 
     def as_ul(self, filter = None):
         "Returns this form rendered as HTML <li>s -- excluding the <ul></ul>."
@@ -70,7 +70,7 @@ class FilteredForm(newforms.Form):
         "Returns this form rendered as HTML <p>s."
         return self._html_output_filtered(u'<p>%(label)s %(field)s%(help_text)s</p>', u'<p>%s</p>', '</p>', u' %s', True, filter)
 
-class Form(newforms.Form):
+class Form(FilteredForm):
     info = ""
     title = "No Title"
     def __init__(self,data = None):

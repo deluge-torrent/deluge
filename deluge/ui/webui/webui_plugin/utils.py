@@ -237,15 +237,11 @@ def get_torrent_list():
     torrent_ids  = ws.proxy.get_session_state() #Syc-api.
     torrent_dict = {}
     for id in torrent_ids:
-        ws.async_proxy.get_torrent_status(dict_cb(id,torrent_dict), id, [])
+        ws.async_proxy.get_torrent_status(dict_cb(id,torrent_dict), id,
+            TORRENT_KEYS)
     ws.async_proxy.force_call(block=True)
-
     return [enhance_torrent_status(id, status)
             for id, status in torrent_dict.iteritems()]
-
-
-
-
 
 def get_categories(torrent_list):
     trackers = [(torrent['category'] or 'unknown') for torrent in torrent_list]

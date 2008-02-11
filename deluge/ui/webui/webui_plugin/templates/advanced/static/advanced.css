@@ -318,6 +318,12 @@ ul.errorlist {
 #torrent_list {
 	-moz-border-radius:7px;
 }
+
+th.newforms {
+	font-size: 12px;
+	text-align:right;
+	color:#FFFFFF;
+}
 /* Hides from IE-mac \*/* html .clearfix {height: 1%;}.clearfix {display: block;}/* End hide from IE-mac */
 
 

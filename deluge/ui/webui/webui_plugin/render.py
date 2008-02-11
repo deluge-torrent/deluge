@@ -48,6 +48,9 @@ class subclassed_render(object):
         self.apply_cfg()
 
     def apply_cfg(self):
+        if not hasattr(ws,"config"):
+            print "render.py: WARNING,no config"
+            return
         cache = ws.config.get('cache_templates')
         self.base_template = template.render(
             os.path.join(ws.webui_path, 'templates/deluge/'),
@@ -79,8 +82,11 @@ def category_tabs(torrent_list):
 
 
 def template_crop(text, end):
-    if len(text) > end:
-        return text[0:end - 3] + '...'
+    try:
+        if len(text) > end:
+            return text[0:end - 3] + '...'
+    except:
+        return "[ERROR NOT A STRING:(%s)]" % text
     return text
 
 def template_sort_head(id,name):

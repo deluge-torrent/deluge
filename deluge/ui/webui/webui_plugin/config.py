@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# deluge_webserver.py
-#
 # Copyright (C) Martijn Voncken 2008 <mvoncken@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify

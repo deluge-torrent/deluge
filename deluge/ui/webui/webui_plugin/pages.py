@@ -54,6 +54,9 @@ import os
 
 from json_api import json_api
 
+#special/complex pages:
+from torrent_add import torrent_add
+
 #routing:
 urls = (
     "/login", "login",
@@ -175,41 +178,6 @@ class torrent_reannounce:
     def POST(self, torrent_id):
         ws.proxy.force_reannounce([torrent_id])
         do_redirect()
-
-class torrent_add:
-    @deco.deluge_page
-    def GET(self, name):
-        return render.torrent_add()
-
-    @deco.check_session
-    def POST(self, name):
-        """
-        allows:
-        *posting of url
-        *posting file-upload
-        *posting of data as string(for greasemonkey-private)
-        """
-
-        vars = web.input(url = None, torrent = {})
-
-        torrent_name = None
-        torrent_data  = None
-        if vars.torrent.filename:
-            torrent_name = vars.torrent.filename
-            torrent_data  = vars.torrent.file.read()
-
-        if vars.url and torrent_name:
-            error_page(_("Choose an url or a torrent, not both."))
-        if vars.url:
-            ws.proxy.add_torrent_url(vars.url)
-            do_redirect()
-        elif torrent_name:
-            data_b64 = base64.b64encode(torrent_data)
-            #b64 because of strange bug-reports related to binary data
-            ws.proxy.add_torrent_filecontent(vars.torrent.filename, data_b64)
-            do_redirect()
-        else:
-            error_page(_("no data."))
 
 class remote_torrent_add:
     """

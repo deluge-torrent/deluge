@@ -1,3 +1,4 @@
+$def with (add_form)
 $:render.header(_("Add Torrent"))
 <div class="panel">
 <form method="POST" action="/torrent/add"  ENCTYPE="multipart/form-data">
@@ -26,6 +27,28 @@ $if get_config('add_another'):
     <span class="form_label"></span>
     <input type="submit" name="submit"
     value="$_('Submit')" class="form_input">
+
+<h2>Options</h2>
+<div class="error">Options are not used yet!</div>
+
+    <h3>$_("Allocation/Location")</h3>
+    <table>
+    $:add_form.as_table(["download_location", "compact_allocation"])
+
+
+    </table>
+
+<h3>$_("BandWidth")</h3>
+    <table>
+$:add_form.as_table(["max_download_speed_per_torrent", "max_upload_speed_per_torrent", "max_connections_per_torrent", "max_upload_slots_per_torrent"])
+    </table>
+</td>
+
+    <h3>$_("General")</h3>
+    <table>
+    $:add_form.as_table(["prioritize_first_last_pieces", "add_paused", "default_private"])
+    </table>
+
 
     </div>
 </div>
