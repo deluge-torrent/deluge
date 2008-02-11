@@ -156,7 +156,6 @@ class DelugeGTK:
 
         self.dht_timer = 0
         self.dht_skip = False
-        self.memory_timer = 0
         for torrent in self.manager.get_queue():
             unique_ID = self.manager.get_torrent_unique_id(torrent)
             try:
@@ -1033,6 +1032,8 @@ window, please enter your password"))
         # focus on startup
         self.update()
         gobject.timeout_add(int(1000*self.manager.config.get("gui_update_interval")), self.update)
+        gobject.timeout_add(60000, self.manager.save_upmem)
+        gobject.timeout_add(300000, self.manager.save_fastresume_data)
 
         # Load plugins after we showed main window (if not started in tray)
         self.load_plugins()
@@ -1113,11 +1114,6 @@ of Deluge.  Would you like to be taken to our download site?"))
         
         self.update_interface = self.window.get_property("visible") and not \
             self.is_minimized
-        self.memory_timer += 1 
-        if (self.memory_timer == 60):
-            self.manager.save_upmem()
-            self.manager.save_fastresume_data()
-            self.memory_timer = 0
         
         # Make sure that the interface still exists
         try:
