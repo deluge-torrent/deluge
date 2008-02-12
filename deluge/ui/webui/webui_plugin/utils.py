@@ -224,7 +224,7 @@ def get_torrent_status(torrent_id):
     helper method.
     enhance ws.proxy.get_torrent_status with some extra data
     """
-    status = ws.proxy.get_torrent_status(torrent_id,TORRENT_KEYS)
+    status = ws.proxy.get_torrent_status(torrent_id,[])
 
     return enhance_torrent_status(torrent_id, status)
 
@@ -303,10 +303,11 @@ def get_newforms_data(form_class):
     """
     import lib.newforms_plus as forms
     fields = form_class.base_fields.keys()
-    form_data = web.Storage()
+    form_data = {}
     vars = web.input()
     for field in fields:
         form_data[field] = vars.get(field)
+        #ws.log.debug("form-field:%s=%s" %  (field, form_data[field]))
         #DIRTY HACK: (for multiple-select)
         if isinstance(form_class.base_fields[field],
                 forms.MultipleChoiceField):

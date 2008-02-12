@@ -89,11 +89,12 @@ class torrent_add:
         *posting of data as string(for greasemonkey-private)
         """
 
-        options = dict(utils.get_newforms_data(OptionsForm))
-        options_form = OptionsForm(options)
+        options_form = OptionsForm(utils.get_newforms_data(OptionsForm))
         if not options_form.is_valid():
             print self.add_page(error = _("Error in torrent options."))
             return
+
+        options = options_form.clean_data
 
 
         vars = web.input(url = None, torrent = {})
@@ -108,7 +109,7 @@ class torrent_add:
             print self.add_page(error = _("Choose an url or a torrent, not both."))
             return
         if vars.url:
-            ws.proxy.add_torrent_url(vars.url, options)
+            ws.proxy.add_torrent_url(vars.url,options)
             utils.do_redirect()
         elif torrent_name:
             data_b64 = base64.b64encode(torrent_data)

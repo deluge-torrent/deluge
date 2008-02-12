@@ -190,8 +190,8 @@ class Ws:
             f = open(filename,"wb")
             f.write(base64.b64decode(data_b64))
             f.close()
-
-            self.proxy.add_torrent_file([filename] , options)
+            self.log.debug("options:%s" % options)
+            self.proxy.add_torrent_file([filename] , [options])
 
         self.proxy.add_torrent_filecontent = add_torrent_filecontent
         self.log.debug('cfg-file %s' % self.config_file)

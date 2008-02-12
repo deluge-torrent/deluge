@@ -91,7 +91,7 @@ class config_page:
     @deco.deluge_page
     def POST(self,name):
 
-        form_data = utils.get_newforms_data(form_class)
+        form_data = web.Storage(utils.get_newforms_data(form_class))
         form = form_class(form_data)
         if form.is_valid():
             ws.log.debug('save config %s' % form_data)
