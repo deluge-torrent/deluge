@@ -1,0 +1,9 @@
+$def with (torrent)
+
+
+<table width="100%">
+$altrow(True)
+<tr class="tab_$altrow()"><th>$_("File")</th><th>$_("Size")</th></tr>
+$for file in torrent.files:
+    <tr class="tab_$altrow()"  title="$file["path"]"><td>$(crop_right(file["path"], 70))</td><td>$fsize(file["size"])</td></tr>
+</table>
