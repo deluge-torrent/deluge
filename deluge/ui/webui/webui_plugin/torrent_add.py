@@ -28,34 +28,15 @@
 #  but you are not obligated to do so. If you do not wish to do so, delete
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
-
+#
 from webserver_common import ws
 from utils import *
 from render import render, error_page
 import page_decorators as deco
 import lib.newforms_plus as forms
+import base64
 
-"""
-        self.glade.get_widget("button_location").set_current_folder(
-            options["download_location"])
-        self.glade.get_widget("radio_compact").set_active(
-            options["compact_allocation"])
-        self.glade.get_widget("spin_maxdown").set_value(
-            options["max_download_speed_per_torrent"])
-        self.glade.get_widget("spin_maxup").set_value(
-            options["max_upload_speed_per_torrent"])
-        self.glade.get_widget("spin_maxconnections").set_value(
-            options["max_connections_per_torrent"])
-        self.glade.get_widget("spin_maxupslots").set_value(
-            options["max_upload_slots_per_torrent"])
-        self.glade.get_widget("chk_paused").set_active(
-            options["add_paused"])
-        self.glade.get_widget("chk_prioritize").set_active(
-            options["prioritize_first_last_pieces"])
-        self.glade.get_widget("chk_private").set_active(
-            options["default_private"])
-"""
-class AddForm(forms.Form):
+class OptionsForm(forms.Form):
     download_location =  forms.ServerFolder(_("Download Location"))
     compact_allocation = forms.CheckBox(_("Compact Allocation"))
 
@@ -75,11 +56,20 @@ class AddForm(forms.Form):
     def initial_data(self):
         return ws.proxy.get_config()
 
+class AddForm(forms.Form):
+    url = forms.CharField(label=_("Url"),
+        widget=forms.TextInput(attrs={'size':60}))
+    torrent = forms.CharField(label=_("Upload torrent"),
+        widget=forms.FileInput(attrs={'size':60}))
+    hash = forms.CharField(label=_("Hash"),
+        widget=forms.TextInput(attrs={'size':60}))
+    ret = forms.CheckBox(_('Add more'))
+
 class torrent_add:
 
     @deco.deluge_page
     def GET(self, name):
-        return render.torrent_add(AddForm())
+        return render.torrent_add(AddForm(),OptionsForm())
 
     @deco.check_session
     def POST(self, name):
@@ -109,4 +99,4 @@ class torrent_add:
             ws.proxy.add_torrent_filecontent(vars.torrent.filename, data_b64)
             do_redirect()
         else:
-            error_page(_("no data."))
+            error_page(_("no data, press back button and try again"))
