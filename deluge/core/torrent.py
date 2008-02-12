@@ -272,6 +272,8 @@ class Torrent:
         
         if len(keys) == 0:
             status_dict = full_status
+            for key in fns:
+                status_dict[key] = fns[key]()
         else:
             for key in keys:
                 if key in full_status:
