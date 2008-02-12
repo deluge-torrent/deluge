@@ -76,9 +76,7 @@ class TorrentManager(component.Component):
         self.alerts = alerts
         # Get the core config
         self.config = ConfigManager("core.conf")
-        # Per torrent connection limit and upload slot limit
-        self.max_connections = -1
-        self.max_uploads = -1
+
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
     
@@ -87,7 +85,11 @@ class TorrentManager(component.Component):
             self.on_set_max_connections_per_torrent)
         self.config.register_set_function("max_upload_slots_per_torrent",
             self.on_set_max_upload_slots_per_torrent)
-            
+        self.config.register_set_function("max_upload_speed_per_torrent",
+            self.on_set_max_upload_speed_per_torrent)
+        self.config.register_set_function("max_download_speed_per_torrent",
+            self.on_set_max_download_speed_per_torrent)
+                        
         # Register alert functions
         self.alerts.register_handler("torrent_finished_alert", 
             self.on_alert_torrent_finished)
@@ -435,17 +437,25 @@ class TorrentManager(component.Component):
     def on_set_max_connections_per_torrent(self, key, value):
         """Sets the per-torrent connection limit"""
         log.debug("max_connections_per_torrent set to %s..", value)
-        self.max_connections = value
         for key in self.torrents.keys():
             self.torrents[key].set_max_connections(value)
         
     def on_set_max_upload_slots_per_torrent(self, key, value):
         """Sets the per-torrent upload slot limit"""
         log.debug("max_upload_slots_per_torrent set to %s..", value)
-        self.max_uploads = value
         for key in self.torrents.keys():
-            self.torrents[key].set_max_uploads(value)
+            self.torrents[key].set_max_upload_slots(value)
     
+    def on_set_max_upload_speed_per_torrent(self, key, value):
+        log.debug("max_upload_speed_per_torrent set to %s..", value)
+        for key in self.torrents.keys():
+            self.torrents[key].set_max_upload_speed(value)
+    
+    def on_set_max_download_speed_per_torrent(self, key, value):
+        log.debug("max_download_speed_per_torrent set to %s..", value)
+        for key in self.torrents.keys():
+            self.torrents[key].set_max_download_speed(value)
+
     ## Alert handlers ##
     def on_alert_torrent_finished(self, alert):
         log.debug("on_alert_torrent_finished")

@@ -418,6 +418,12 @@ class Preferences(component.Component):
         new_core_config["max_upload_slots_per_torrent"] = \
             self.glade.get_widget(
                 "spin_max_upload_slots_per_torrent").get_value_as_int()
+        new_core_config["max_upload_speed_per_torrent"] = \
+            self.glade.get_widget(
+                "spin_max_upload_per_torrent").get_value()
+        new_core_config["max_download_speed_per_torrent"] = \
+            self.glade.get_widget(
+                "spin_max_download_per_torrent").get_value()
         
         ## Interface tab ##
         new_gtkui_config["enable_system_tray"] = \

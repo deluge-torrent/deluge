@@ -116,11 +116,11 @@ class Torrent:
         self.handle.set_max_uploads(max_slots)
         
     def set_max_upload_speed(self, m_up_speed):
-        self.set_max_upload_speed = m_up_speed
+        self.max_upload_speed = m_up_speed
         self.handle.set_upload_limit(int(m_up_speed * 1024))
     
     def set_max_download_speed(self, m_down_speed):
-        self.set_max_download_speed = m_down_speed
+        self.max_download_speed = m_down_speed
         self.handle.set_download_limit(int(m_down_speed * 1024))
     
     def set_private_flag(self, private):
