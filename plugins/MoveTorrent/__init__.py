@@ -70,20 +70,27 @@ class movetorrentMenu:
         except IOError:
             pass
 
-        self.menuitem_image = gtk.Image()
-        self.menuitem_image.set_from_stock(gtk.STOCK_SAVE_AS, gtk.ICON_SIZE_MENU)
-
-        self.menuitem = gtk.ImageMenuItem(_("_Move Torrent"))
-        self.menuitem.set_image(self.menuitem_image)
-        self.menuitem.connect("activate", self.movetorrent_clicked)
-        self.interface.torrent_menu.append(self.menuitem)
-        self.menuitem.show_all()
+        self.moveitem_image = gtk.Image()
+        self.moveitem_image.set_from_stock(gtk.STOCK_SAVE_AS, gtk.ICON_SIZE_MENU)
+        self.moveitem = gtk.ImageMenuItem(_("_Move Torrent"))
+        self.moveitem.set_image(self.moveitem_image)
+        self.moveitem.connect("activate", self.movetorrent_clicked)
+        self.interface.torrent_menu.append(self.moveitem)
+        self.moveitem.show_all()
+        self.switchitem_image = gtk.Image()
+        self.switchitem_image.set_from_stock(gtk.STOCK_CONVERT, gtk.ICON_SIZE_MENU)
+        self.switchitem = gtk.ImageMenuItem(_("_Switch Torrent Source"))
+        self.switchitem.set_image(self.switchitem_image)
+        self.switchitem.connect("activate", self.switchtorrent_clicked)
+        self.interface.torrent_menu.append(self.switchitem)
+        self.switchitem.show_all()
         
     def update(self):
         pass
     
     def unload(self):
-        self.interface.torrent_menu.remove(self.menuitem)
+        self.interface.torrent_menu.remove(self.moveitem)
+        self.interface.torrent_menu.remove(self.switchitem)
         self.core.disconnect_event(self.core.constants['EVENT_STORAGE_MOVED'], self.handle_event)
         self.core.disconnect_event(self.core.constants['EVENT_FINISHED'], self.handle_event)
         self.config.save(self.config_file)
@@ -97,6 +104,9 @@ class movetorrentMenu:
             self.paused_or_not = {}
             for unique_id in unique_ids:
                 self.core.move_storage(unique_id, path)
+
+    def switchtorrent_clicked(self, widget):
+        self.interface.torrent_switch_recheck(switch=True)
 
     def configure(self, window):
         try:

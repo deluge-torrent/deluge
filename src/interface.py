@@ -564,7 +564,7 @@ window, please enter your password"))
                         "remove_torrent": self.remove_torrent_clicked,
                         "edit_trackers": self.list_of_trackers,
                         "tor_start": self.tor_start,
-                        "torrent_recheck": self.torrent_recheck,
+                        "torrent_switch_recheck": self.torrent_switch_recheck,
                         "tor_pause": self.tor_pause,
                         "update_tracker": self.update_tracker,
                         "clear_finished": self.clear_finished,
@@ -760,57 +760,72 @@ window, please enter your password"))
         except KeyError:
             pass
 
-    def torrent_recheck(self, widget):
+    def torrent_switch_recheck(self, widget=None, switch=False):
         unique_ids = self.get_selected_torrent_rows()
         for uid in unique_ids:
             torrent_state = self.manager.get_torrent_state(uid)
             order = torrent_state['queue_pos']
             path = self.manager.unique_IDs[uid].filename
-            save_dir = self.manager.unique_IDs[uid].save_dir
-            trackerslist = self.manager.unique_IDs[uid].trackers
-            try:
-                trackers_changed = self.manager.unique_IDs[uid].trackers_changed
-            except AttributeError:
-                 trackers_changed = 0
-            self.manager.save_upmem()
-            uploaded_memory = self.manager.unique_IDs[uid].uploaded_memory
-            priorities = self.manager.get_priorities(uid)
-            save_info = [path, save_dir, order, trackerslist, \
-                            uploaded_memory, priorities, trackers_changed]
-            try:
-                os.remove(self.manager.unique_IDs[uid].filename + ".fastresume")
-            except:
-                pass
-            self.manager.remove_torrent(uid, False, False)
-            self.torrent_model_remove(uid)
-            self.update()
-            unique_ID = self.manager.add_torrent(save_info[0], save_info[1], \
-                self.config.get("use_compact_storage"))
-            self.torrent_model_append(unique_ID)
-            self.update()
-            self.manager.prioritize_files(unique_ID, save_info[5], update_files_removed=False)
-            if save_info[4]:
-                self.manager.unique_IDs[unique_ID].initial_uploaded_memory = \
-                    save_info[4]
-                self.manager.save_upmem()
-            if save_info[6]:
-                try:
-                    self.manager.replace_trackers(unique_ID, save_info[3])
-                except:
-                   pass
-            torrent_state = self.manager.get_torrent_state(unique_ID)
-            current_order = torrent_state['queue_pos']
-            if current_order > save_info[2]:
-                diff = current_order - save_info[2]
-                for x in range(diff):
-                    self.manager.queue_up(unique_ID)
-                self.update()
+            if not switch:
+                save_dir = self.manager.unique_IDs[uid].save_dir
             else:
-                diff = save_info[2] - current_order
-                for x in range(diff):
-                    self.manager.queue_down(unique_ID)
+                save_dir = dialogs.show_directory_chooser_dialog(self.window, \
+                _("Choose a directory to switch torrent source to" + " - %s" % \
+                    self.manager.get_torrent_state(uid)['name']))
+                if save_dir:
+                    delete_old = dialogs.show_popup_question(self.window, \
+                        _("Delete the old torrent source?"))
+                else:
+                    delete_old = False
+            if save_dir:
+                trackerslist = self.manager.unique_IDs[uid].trackers
+                try:
+                    trackers_changed = self.manager.unique_IDs[uid].trackers_changed
+                except AttributeError:
+                     trackers_changed = 0
+                self.manager.save_upmem()
+                uploaded_memory = self.manager.unique_IDs[uid].uploaded_memory
+                priorities = self.manager.get_priorities(uid)
+                save_info = [path, save_dir, order, trackerslist, \
+                                uploaded_memory, priorities, trackers_changed, \
+                            delete_old]
+                try:
+                    os.remove(self.manager.unique_IDs[uid].filename + ".fastresume")
+                except:
+                    pass
+                if save_info[7]:
+                    self.manager.remove_torrent(uid, True, False)
+                else:
+                    self.manager.remove_torrent(uid, False, False)
+                self.torrent_model_remove(uid)
                 self.update()
-
+                unique_ID = self.manager.add_torrent(save_info[0], save_info[1], \
+                    self.config.get("use_compact_storage"))
+                self.torrent_model_append(unique_ID)
+                self.update()
+                self.manager.prioritize_files(unique_ID, save_info[5], update_files_removed=False)
+                if save_info[4]:
+                    self.manager.unique_IDs[unique_ID].initial_uploaded_memory = \
+                        save_info[4]
+                    self.manager.save_upmem()
+                if save_info[6]:
+                    try:
+                        self.manager.replace_trackers(unique_ID, save_info[3])
+                    except:
+                       pass
+                torrent_state = self.manager.get_torrent_state(unique_ID)
+                current_order = torrent_state['queue_pos']
+                if current_order > save_info[2]:
+                    diff = current_order - save_info[2]
+                    for x in range(diff):
+                        self.manager.queue_up(unique_ID)
+                    self.update()
+                else:
+                    diff = save_info[2] - current_order
+                    for x in range(diff):
+                        self.manager.queue_down(unique_ID)
+                    self.update()
+    
     def tor_start(self, widget):
         unique_ids = self.get_selected_torrent_rows()
         try:
