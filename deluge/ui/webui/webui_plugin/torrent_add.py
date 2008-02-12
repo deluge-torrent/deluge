@@ -62,9 +62,10 @@ class AddForm(forms.Form):
         widget=forms.TextInput(attrs={'size':60}))
     torrent = forms.CharField(label=_("Upload torrent"), required=False,
         widget=forms.FileInput(attrs={'size':60}))
-    hash = forms.CharField(label=_("Hash"), required=False,
-        widget=forms.TextInput(attrs={'size':60}))
-    ret = forms.CheckBox(_('Add more'))
+
+    #hash = forms.CharField(label=_("Hash"), required=False,
+    #    widget=forms.TextInput(attrs={'size':60}))
+    #ret = forms.CheckBox(_('Add more'))
 
 class torrent_add:
 
@@ -93,7 +94,6 @@ class torrent_add:
         if not options_form.is_valid():
             print self.add_page(error = _("Error in torrent options."))
             return
-
         options = options_form.clean_data
 
 

@@ -91,6 +91,7 @@ class config_page:
     @deco.deluge_page
     def POST(self,name):
 
+        form_class = self.get_form_class(name)
         form_data = web.Storage(utils.get_newforms_data(form_class))
         form = form_class(form_data)
         if form.is_valid():
