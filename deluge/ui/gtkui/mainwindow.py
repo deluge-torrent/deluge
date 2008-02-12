@@ -105,7 +105,6 @@ class MainWindow(component.Component):
                
     def quit(self):
         del self.config
-        self.hide()
         gtk.main_quit()
     
     def load_window_state(self):
