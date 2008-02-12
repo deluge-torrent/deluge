@@ -287,19 +287,15 @@ class Core(
         """De-registers a client with the signal manager."""
         self.signals.deregister_client(self.client_address)
         
-    def export_add_torrent_file(self, filename, save_path, filedump, options):
+    def export_add_torrent_file(self, filename, filedump, options):
         """Adds a torrent file to the libtorrent session
             This requires the torrents filename and a dump of it's content
         """
-        if save_path == "":
-            save_path = None
-        
         # Make sure we are sending a string to add()
         if not isinstance(filedump, str):
             filedump = filedump.data
 
-        torrent_id = self.torrents.add(filename, filedump=filedump, 
-            save_path=save_path, options=options)
+        torrent_id = self.torrents.add(filename, filedump=filedump, options=options)
 
         # Run the plugin hooks for 'post_torrent_add'
         self.plugins.run_post_torrent_add(torrent_id)

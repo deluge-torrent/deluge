@@ -83,7 +83,7 @@ class Torrent:
         self.max_upload_speed = -1
         self.max_download_speed = -1
         self.private = False
-        self.prioritize = False
+        self.prioritize_first_last = False
         
         # The tracker status
         self.tracker_status = ""
@@ -98,10 +98,12 @@ class Torrent:
                 self.trackers.append(tracker)
         else:
             self.trackers = trackers
-                
+            self.set_trackers(self.trackers)
+            
         # Files dictionary
         self.files = self.get_files()
-        self.file_priorities = []
+        # Set the default file priorities to normal
+        self.file_priorities = [1]* len(self.files)
         
     def set_tracker_status(self, status):
         """Sets the tracker status"""
@@ -128,7 +130,7 @@ class Torrent:
         self.handle.torrent_info().set_priv(private)
     
     def set_prioritize_first_last(self, prioritize):
-        pass
+        self.prioritize_first_last = prioritize
             
     def set_save_path(self, save_path):
         self.save_path = save_path

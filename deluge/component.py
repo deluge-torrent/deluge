@@ -62,11 +62,11 @@ class Component:
         pass
 
     def _stop(self):
+        self._state = COMPONENT_STATE.index("Stopped")
         try:
             gobject.source_remove(self._timer)
         except:
             pass
-        self._state = COMPONENT_STATE.index("Stopped")
         
     def shutdown(self):
         pass
@@ -121,7 +121,7 @@ class ComponentRegistry:
             self.stop_component(component)
                 
     def stop_component(self, component):
-        if self.components[component].get_state != \
+        if self.components[component].get_state() != \
                 COMPONENT_STATE.index("Stopped"):
             log.debug("Stopping component %s..", component)
             self.components[component].stop()

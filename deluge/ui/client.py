@@ -58,7 +58,7 @@ class CoreProxy(gobject.GObject):
         self._core = None
         self._multi = None
         self._callbacks = []
-        gobject.timeout_add(200, self.do_multicall)
+        self._multi_timer = None
 
     def call(self, func, callback, *args):
         if self._core is None or self._multi is None:
@@ -84,7 +84,7 @@ class CoreProxy(gobject.GObject):
         if len(self._callbacks) == 0:
             return True
         
-        if self._multi is not None:
+        if self._multi is not None and self._core is not None:
             try:
                 try:
                     for i, ret in enumerate(self._multi()):
@@ -109,15 +109,23 @@ class CoreProxy(gobject.GObject):
         log.info("Setting core uri as %s", uri)
         
         if uri == None and self._uri != None:
-            self.emit("no_core")
             self._uri = None
             self._core = None
             self._multi = None
+            try:
+                gobject.source_remove(self._multi_timer)
+            except:
+                pass
+            self.emit("no_core")
             return
         
         if uri != self._uri and self._uri != None:
             self._core = None
             self._multi = None
+            try:
+                gobject.source_remove(self._multi_timer)
+            except:
+                pass
             self.emit("no_core")
                             
         self._uri = uri
@@ -133,6 +141,7 @@ class CoreProxy(gobject.GObject):
             log.debug("Creating ServerProxy..")
             self._core = xmlrpclib.ServerProxy(self._uri, allow_none=True)
             self._multi = xmlrpclib.MultiCall(self._core)
+            self._multi_timer = gobject.timeout_add(200, self.do_multicall)
             # Call any callbacks registered
             self.emit("new_core")
         
@@ -189,8 +198,7 @@ def shutdown():
     try:
         get_core().call("shutdown", None)
         force_call(block=False)
-    except:
-        # Ignore everything
+    finally:
         set_core_uri(None)
 
 def force_call(block=True):
@@ -231,7 +239,7 @@ def add_torrent_file(torrent_files, torrent_options=None):
             options = None
             
         get_core().call("add_torrent_file", None,
-            filename, str(), fdump, options)
+            filename, fdump, options)
 
 def add_torrent_url(torrent_url, options=None):
     """Adds torrents to the core via url"""

@@ -19,8 +19,6 @@
 * Implement caching in core
 * Use the batch torrent status info as a cache for other torrent status requests
 * Don't save fastresume files on exit for finished or paused torrents
-* Clean-up TorrentManager and state saving.. Maybe use an 'options' dictionary
-    similar to one used when adding new torrents.
 * Add Files and Peers tabs, but make them optional through View menu
 * Add per-torrent speed settings to the torrent menu
 * Add per-torrent settings to the details pane.. max_download_speed, etc.. So

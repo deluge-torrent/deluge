@@ -48,15 +48,36 @@ from deluge.core.torrent import Torrent
 from deluge.log import LOG as log
 
 class TorrentState:
-    def __init__(self, torrent_id, filename, compact, paused, save_path,
-        total_uploaded, trackers):
-        self.torrent_id = torrent_id
+    def __init__(self, 
+            filename, 
+            total_uploaded, 
+            trackers,
+            compact, 
+            paused, 
+            save_path,
+            max_connections,
+            max_upload_slots,
+            max_upload_speed,
+            max_download_speed,
+            prioritize_first_last,
+            private,
+            file_priorities
+        ):
         self.filename = filename
+        self.total_uploaded = total_uploaded
+        self.trackers = trackers
+
+        # Options
         self.compact = compact
         self.paused = paused
         self.save_path = save_path
-        self.total_uploaded = total_uploaded
-        self.trackers = trackers
+        self.max_connections = max_connections
+        self.max_upload_slots = max_upload_slots
+        self.max_upload_speed = max_upload_speed
+        self.max_download_speed = max_download_speed
+        self.prioritize_first_last = prioritize_first_last
+        self.private = private
+        self.file_priorities = file_priorities
 
 class TorrentManagerState:
     def __init__(self):
@@ -130,9 +151,7 @@ class TorrentManager(component.Component):
         """Returns a list of torrent_ids"""
         return self.torrents.keys()
         
-    def add(self, filename, filedump=None, options=None, 
-        compact=None, paused=None, save_path=None, total_uploaded=0, 
-        trackers=None):
+    def add(self, filename, filedump=None, options=None, total_uploaded=0, trackers=None):
         """Add a torrent to the manager and returns it's torrent_id"""
         log.info("Adding torrent: %s", filename)
         log.debug("options: %s", options)
@@ -193,20 +212,9 @@ class TorrentManager(component.Component):
             for key in options_keys:
                 if not options.has_key(key):
                     options[key] = self.config[key]
-                    
-        if paused is None:
-            paused = options["add_paused"]
-
-        # Make sure we have a valid download_location
-        if save_path is None:
-            save_path = options["download_location"]
-
-        # Make sure we are adding it with the correct allocation method.
-        if compact is None:
-            compact = options["compact_allocation"]
         
         # Set the right storage_mode
-        if compact:
+        if options["compact_allocation"]:
             storage_mode = lt.storage_mode_t(2)
         else:
             storage_mode = lt.storage_mode_t(1)
@@ -214,7 +222,7 @@ class TorrentManager(component.Component):
         try:
             handle = self.session.add_torrent(
                                     lt.torrent_info(filedump), 
-                                    str(save_path),
+                                    str(options["download_location"]),
                                     resume_data=fastresume,
                                     storage_mode=storage_mode,
                                     paused=True)
@@ -226,15 +234,11 @@ class TorrentManager(component.Component):
             return None
 
         # Create a Torrent object
-        torrent = Torrent(filename, handle, compact, 
-            save_path, total_uploaded, trackers)
+        torrent = Torrent(filename, handle, options["compact_allocation"], 
+            options["download_location"], total_uploaded, trackers)
         
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
-
-        # Set the trackers
-        if trackers != None:
-            torrent.set_trackers(trackers)
                     
         # Set per-torrent options
         torrent.set_max_connections(options["max_connections_per_torrent"])
@@ -252,7 +256,7 @@ class TorrentManager(component.Component):
                 torrent.set_file_priorities(options["file_priorities"])
         
         # Resume the torrent if needed
-        if paused == False:
+        if options["add_paused"] == False:
             handle.resume()
             
         # Save the torrent file        
@@ -408,17 +412,48 @@ class TorrentManager(component.Component):
 
         # Try to add the torrents in the state to the session        
         for torrent_state in state.torrents:
-            self.add(torrent_state.filename, compact=torrent_state.compact,
-                paused=torrent_state.paused, save_path=torrent_state.save_path,
-                total_uploaded=torrent_state.total_uploaded,
-                trackers=torrent_state.trackers)
+            try:
+                options = {
+                    "compact_allocation": torrent_state.compact,
+                    "max_connections_per_torrent": torrent_state.max_connections,
+                    "max_upload_slots_per_torrent": torrent_state.max_upload_slots,
+                    "max_upload_speed_per_torrent": torrent_state.max_upload_speed,
+                    "max_download_speed_per_torrent": torrent_state.max_download_speed,
+                    "prioritize_first_last_pieces": torrent_state.prioritize_first_last,
+                    "download_location": torrent_state.save_path,
+                    "add_paused": torrent_state.paused,
+                    "default_private": torrent_state.private,
+                    "file_priorities": torrent_state.file_priorities
+                }
+                self.add(
+                    torrent_state.filename,
+                    options=options,
+                    total_uploaded=torrent_state.total_uploaded,
+                    trackers=torrent_state.trackers)
+            except AttributeError, e:
+                log.error("Torrent state file is either corrupt or incompatible!")
+                break
             
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file"""
         state = TorrentManagerState()
         # Create the state for each Torrent and append to the list
         for torrent in self.torrents.values():
-            torrent_state = TorrentState(*torrent.get_save_info())
+            torrent_state = TorrentState(
+                torrent.filename, 
+                torrent.get_status(["total_uploaded"])["total_uploaded"], 
+                torrent.trackers,
+                torrent.compact, 
+                torrent.get_status(["paused"])["paused"], 
+                torrent.save_path,
+                torrent.max_connections,
+                torrent.max_upload_slots,
+                torrent.max_upload_speed,
+                torrent.max_download_speed,
+                torrent.prioritize_first_last,
+                torrent.private,
+                torrent.file_priorities
+            )
             state.torrents.append(torrent_state)
         
         # Pickle the TorrentManagerState object
