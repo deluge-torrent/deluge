@@ -178,7 +178,7 @@ class Ws:
 
 
         #MONKEY PATCH, TODO->REMOVE!!!
-        def add_torrent_filecontent(name , data_b64):
+        def add_torrent_filecontent(name , data_b64, options):
             self.log.debug('monkeypatched add_torrent_filecontent:%s,len(data:%s))' %
                 (name , len(data_b64)))
 
@@ -191,7 +191,7 @@ class Ws:
             f.write(base64.b64decode(data_b64))
             f.close()
 
-            self.proxy.add_torrent_file([filename])
+            self.proxy.add_torrent_file([filename] , options)
 
         self.proxy.add_torrent_filecontent = add_torrent_filecontent
         self.log.debug('cfg-file %s' % self.config_file)

@@ -296,6 +296,24 @@ def get_category_choosers(torrent_list):
 
     return  filter_tabs, category_tabs
 
+def get_newforms_data(form_class):
+    """
+    glue for using web.py and newforms.
+    returns a storified dict with name/value of the post-data.
+    """
+    import lib.newforms_plus as forms
+    fields = form_class.base_fields.keys()
+    form_data = web.Storage()
+    vars = web.input()
+    for field in fields:
+        form_data[field] = vars.get(field)
+        #DIRTY HACK: (for multiple-select)
+        if isinstance(form_class.base_fields[field],
+                forms.MultipleChoiceField):
+            form_data[field] = web.input(**{field:[]})[field]
+        #/DIRTY HACK
+    return form_data
+
 #/utils
 
 class WebUiError(Exception):

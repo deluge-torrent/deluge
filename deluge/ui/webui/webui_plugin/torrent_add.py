@@ -30,10 +30,11 @@
 #  statement from all source files in the program, then also delete it here.
 #
 from webserver_common import ws
-from utils import *
+import utils
 from render import render, error_page
 import page_decorators as deco
 import lib.newforms_plus as forms
+import lib.webpy022 as web
 import base64
 
 class OptionsForm(forms.Form):
@@ -57,19 +58,27 @@ class OptionsForm(forms.Form):
         return ws.proxy.get_config()
 
 class AddForm(forms.Form):
-    url = forms.CharField(label=_("Url"),
+    url = forms.CharField(label=_("Url"), required=False,
         widget=forms.TextInput(attrs={'size':60}))
-    torrent = forms.CharField(label=_("Upload torrent"),
+    torrent = forms.CharField(label=_("Upload torrent"), required=False,
         widget=forms.FileInput(attrs={'size':60}))
-    hash = forms.CharField(label=_("Hash"),
+    hash = forms.CharField(label=_("Hash"), required=False,
         widget=forms.TextInput(attrs={'size':60}))
     ret = forms.CheckBox(_('Add more'))
 
 class torrent_add:
 
+    def add_page(self,error = None):
+        form_data = utils.get_newforms_data(AddForm)
+        options_data = None
+        if error:
+            options_data = utils.get_newforms_data(OptionsForm)
+        return render.torrent_add(AddForm(form_data),OptionsForm(options_data), error)
+
     @deco.deluge_page
     def GET(self, name):
-        return render.torrent_add(AddForm(),OptionsForm())
+        return self.add_page()
+
 
     @deco.check_session
     def POST(self, name):
@@ -80,8 +89,14 @@ class torrent_add:
         *posting of data as string(for greasemonkey-private)
         """
 
-        vars = web.input(url = None, torrent = {})
+        options = dict(utils.get_newforms_data(OptionsForm))
+        options_form = OptionsForm(options)
+        if not options_form.is_valid():
+            print self.add_page(error = _("Error in torrent options."))
+            return
 
+
+        vars = web.input(url = None, torrent = {})
         torrent_name = None
         torrent_data  = None
         if vars.torrent.filename:
@@ -89,14 +104,17 @@ class torrent_add:
             torrent_data  = vars.torrent.file.read()
 
         if vars.url and torrent_name:
-            error_page(_("Choose an url or a torrent, not both."))
+            #error_page(_("Choose an url or a torrent, not both."))
+            print self.add_page(error = _("Choose an url or a torrent, not both."))
+            return
         if vars.url:
-            ws.proxy.add_torrent_url(vars.url)
-            do_redirect()
+            ws.proxy.add_torrent_url(vars.url, options)
+            utils.do_redirect()
         elif torrent_name:
             data_b64 = base64.b64encode(torrent_data)
             #b64 because of strange bug-reports related to binary data
-            ws.proxy.add_torrent_filecontent(vars.torrent.filename, data_b64)
-            do_redirect()
+            ws.proxy.add_torrent_filecontent(vars.torrent.filename, data_b64, options)
+            utils.do_redirect()
         else:
-            error_page(_("no data, press back button and try again"))
+            print self.add_page(error = _("No data"))
+            return

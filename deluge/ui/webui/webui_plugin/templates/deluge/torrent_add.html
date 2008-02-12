@@ -1,10 +1,12 @@
-$def with (add_form, options_form)
+$def with (add_form, options_form, error)
 $:render.header(_("Add Torrent"))
 <div class="panel">
 <form method="POST" action="/torrent/add"  ENCTYPE="multipart/form-data">
 <input type="hidden" name="redir" value="$get('redir')">
 
 
+$if error:
+    <div class="error">$error</div>
 <div id="torrent_add" >
     <table>
     $:add_form.as_table()
@@ -83,10 +85,17 @@ function toggle_options(){
     el = document.getElementById("torrent_add_options");
     if (el.style.display == "block"){
         el.style.display = "none";
+        setCookie("torrent_add_options","hide");
     }
     else{
         el.style.display = "block";
+        setCookie("torrent_add_options","show");
     }
+}
+
+if (getCookie("torrent_add_options") == "show") {
+    el = document.getElementById("torrent_add_options");
+    el.style.display = "block";
 }
 </script>
 $:render.footer()

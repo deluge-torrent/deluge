@@ -37,6 +37,7 @@ from render import render
 from lib.webpy022.http import seeother
 import sys
 import os
+import utils
 
 groups = []
 blocks = forms.utils.datastructures.SortedDict()
@@ -90,18 +91,7 @@ class config_page:
     @deco.deluge_page
     def POST(self,name):
 
-        form_class = self.get_form_class(name)
-        fields = form_class.base_fields.keys()
-        form_data = web.Storage()
-        vars = web.input()
-        for field in fields:
-            form_data[field] = vars.get(field)
-            #DIRTY HACK: (for multiple-select)
-            if isinstance(form_class.base_fields[field],
-                    forms.MultipleChoiceField):
-                form_data[field] = web.input(**{field:[]})[field]
-            #/DIRTY HACK
-
+        form_data = utils.get_newforms_data(form_class)
         form = form_class(form_data)
         if form.is_valid():
             ws.log.debug('save config %s' % form_data)

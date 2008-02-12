@@ -93,7 +93,7 @@ $for torrent in torrent_list:
     <td>$fsize(torrent.total_size)</td>
     <td class="progress_bar">
         <div class="progress_bar_outer">
-            <div class="progress_bar" style="width:$(torrent.progress)%">
+            <div class="progress_bar" style="width:$(torrent.progress)%;overflow:hidden">
             $torrent.message $int(torrent.progress) %
             </div>
         </div>
