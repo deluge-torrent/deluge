@@ -71,7 +71,7 @@ TORRENT_KEYS = ['distributed_copies', 'download_payload_rate',
     'total_payload_download', 'total_payload_upload', 'total_peers',
     'total_seeds', 'total_size', 'total_upload', 'total_wanted',
     'tracker_status', 'upload_payload_rate',
-    'uploaded_memory','tracker','state','queue_pos','user_paused']
+    'uploaded_memory','tracker','state','queue_pos','user_paused','files']
 
 STATE_MESSAGES = (_("Queued"),
     _("Checking"),

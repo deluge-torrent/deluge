@@ -2,8 +2,8 @@ $def with (torrent)
 
 $:(render.header(torrent.message + '/' + torrent.name))
 <div class="panel">
-<h3>$_('Details')</h3>
 
+<h3>$_('Details')</h3>
 $:render.tab_meta(torrent)
 
 $if (torrent.action == 'start'):
@@ -17,6 +17,9 @@ $:render.part_button('POST', '/torrent/reannounce/' + str(torrent.id), _('Reanno
 
 $:render.part_button('POST', '/torrent/queue/up/' + str(torrent.id), _('Queue Up'), 'tango/queue-up.png')
 $:render.part_button('POST', '/torrent/queue/down/' + str(torrent.id), _('Queue Down'), 'tango/queue-down.png')
+
+<br>
+$:render.tab_files(torrent)
 
 <br>
 <!--

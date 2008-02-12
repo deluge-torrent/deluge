@@ -89,6 +89,15 @@ def template_crop(text, end):
         return "[ERROR NOT A STRING:(%s)]" % text
     return text
 
+def template_crop_right(text, maxlen):
+    try:
+        if len(text) > maxlen:
+            return "..." + text[-(maxlen + 3):]
+    except:
+        return "[ERROR NOT A STRING:(%s)]" % text
+    return text
+
+
 def template_sort_head(id,name):
     #got tired of doing these complex things inside templetor..
     vars = web.input(sort = None, order = None)
@@ -136,6 +145,7 @@ template.Template.globals.update({
     'part_stats':template_part_stats,
     'category_tabs':category_tabs,
     'crop': template_crop,
+    'crop_right': template_crop_right,
     '_': _ , #gettext/translations
     'str': str, #because % in templetor is broken.
     'int':int,

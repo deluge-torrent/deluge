@@ -224,7 +224,7 @@ def get_torrent_status(torrent_id):
     helper method.
     enhance ws.proxy.get_torrent_status with some extra data
     """
-    status = ws.proxy.get_torrent_status(torrent_id,[])
+    status = ws.proxy.get_torrent_status(torrent_id,TORRENT_KEYS)
 
     return enhance_torrent_status(torrent_id, status)
 
