@@ -1,6 +1,7 @@
-Deluge 0.5.8.4 (11 February 2008)
+Deluge 0.5.8.4 (14 February 2008)
   * Randomize encryption pad size to evade throttling
   * https support
+  * Add "seed time" to preferences
   * Add switch torrent source to "Move Torrent" plugin
   * Fix alignment of torrent info
   * Fix possible hang with torrents with many pieces
