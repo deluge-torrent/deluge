@@ -150,10 +150,14 @@ class PreferencesDlg:
             self.glade.get_widget("chk_queue_above_completed").set_sensitive(self.preferences.get("queue_seeds_to_bottom"))
             self.glade.get_widget("chk_queue_above_completed").set_active(self.preferences.get("queue_above_completed"))
             self.glade.get_widget("chk_autoseed").set_active(self.preferences.get("auto_end_seeding"))
+            self.glade.get_widget("chk_autotime").set_active(self.preferences.get("auto_time_end_seeding"))
             self.glade.get_widget("chk_clear_max_ratio_torrents").set_sensitive(self.preferences.get("auto_end_seeding"))
             self.glade.get_widget("chk_clear_max_ratio_torrents").set_active(self.preferences.get("clear_max_ratio_torrents"))
+            self.glade.get_widget("chk_clear_max_time_torrents").set_sensitive(self.preferences.get("auto_time_end_seeding"))
+            self.glade.get_widget("chk_clear_max_time_torrents").set_active(self.preferences.get("clear_max_time_torrents"))
             self.glade.get_widget("chk_paused").set_active(self.preferences.get("start_paused"))
             self.glade.get_widget("ratio_spinner").set_value(self.preferences.get("auto_seed_ratio"))
+            self.glade.get_widget("time_spinner").set_value(self.preferences.get("auto_seed_time"))
             self.glade.get_widget("chk_dht").set_active(self.preferences.get("enable_dht"))
             self.glade.get_widget("chk_use_advanced_bar").set_active(self.preferences.get("use_advanced_bar"))
 
@@ -255,7 +259,8 @@ class PreferencesDlg:
         self.preferences.set("enable_multi_only", self.glade.get_widget("chk_enable_multi_only").get_active())
         self.preferences.set("prioritize_first_last_pieces", self.glade.get_widget("chk_prioritize_first_last_pieces").get_active())
         self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())
-        self.preferences.set("auto_seed_ratio", self.glade.get_widget("ratio_spinner").get_value())
+        self.preferences.set("auto_time_end_seeding", self.glade.get_widget("chk_autotime").get_active())
+        self.preferences.set("auto_seed_time", self.glade.get_widget("time_spinner").get_value())
         self.preferences.set("use_compact_storage", self.glade.get_widget("radio_compact_allocation").get_active())
         self.preferences.set("listen_on", [self.glade.get_widget("spin_port_min").get_value(), self.glade.get_widget("spin_port_max").get_value()])
         self.preferences.set("max_upload_speed", self.glade.get_widget("spin_max_upload").get_value())
@@ -274,6 +279,7 @@ class PreferencesDlg:
         self.preferences.set("queue_seeds_to_bottom", self.glade.get_widget("chk_seedbottom").get_active())
         self.preferences.set("enable_dht", self.glade.get_widget("chk_dht").get_active())
         self.preferences.set("clear_max_ratio_torrents", self.glade.get_widget("chk_clear_max_ratio_torrents").get_active())
+        self.preferences.set("clear_max_time_torrents", self.glade.get_widget("chk_clear_max_time_torrents").get_active())
         self.preferences.set("queue_above_completed", self.glade.get_widget("chk_queue_above_completed").get_active())
         self.preferences.set("start_paused", self.glade.get_widget("chk_paused").get_active())
         self.preferences.set("use_advanced_bar", self.glade.get_widget("chk_use_advanced_bar").get_active())
@@ -341,6 +347,9 @@ class PreferencesDlg:
         elif widget == self.glade.get_widget('chk_autoseed'):
             self.glade.get_widget('ratio_spinner').set_sensitive(value)
             self.glade.get_widget('chk_clear_max_ratio_torrents').set_sensitive(value)  
+        elif widget == self.glade.get_widget('chk_autotime'):
+            self.glade.get_widget('time_spinner').set_sensitive(value)
+            self.glade.get_widget('chk_clear_max_time_torrents').set_sensitive(value)  
         elif widget == self.glade.get_widget('chk_seedbottom'):
             self.glade.get_widget('chk_queue_above_completed').set_sensitive(value)
         elif widget == self.glade.get_widget('chk_enable_files_dialog'):

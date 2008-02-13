@@ -75,6 +75,7 @@ PREF_FUNCTIONS = {
     "max_active_torrents" : None, # no need for a function, applied constantly
     "max_upload_slots_global" : deluge_core.set_max_upload_slots_global,
     "auto_seed_ratio" : None, # no need for a function, applied constantly
+    "auto_seed_time" : None, # no need for a function, applied constantly
     "max_download_speed_bps" : deluge_core.set_download_rate_limit,
     "max_upload_speed_bps" : deluge_core.set_upload_rate_limit,
     "enable_dht" : None, # not a normal pref in that is is applied only on start
@@ -171,6 +172,7 @@ class torrent_info:
         self.desired_ratio = 1.0
         self.trackers = ""
         self.trackers_changed = 0
+        self.seed_time = 0
 
         self.delete_me = False # set this to true, to delete it on next sync
         self.del_data = False # set this to true, to delete data on next sync
@@ -653,7 +655,6 @@ Space:") + " " + nice_free)
         if not self.get_pref('clear_max_ratio_torrents') \
             and self.get_pref('auto_seed_ratio') > 0 \
             and self.get_pref('auto_end_seeding'):
-
             for unique_ID in self.unique_IDs:
                 torrent_state = self.get_core_torrent_state(unique_ID)
                 if (torrent_state["total_wanted"] - torrent_state["total_wanted_done"] == 0) and not torrent_state['is_paused']:
@@ -661,13 +662,34 @@ Space:") + " " + nice_free)
                     if ratio >= self.get_pref('auto_seed_ratio'):
                         self.queue_bottom(unique_ID, enforce_queue=False) # don't recurse!
                         self.set_user_pause(unique_ID, True, enforce_queue=False)
+
+        if not self.get_pref('clear_max_rtime_torrents') \
+            and self.get_pref('auto_seed_time') > 0 \
+            and self.get_pref('auto_time_end_seeding'):
+            for unique_ID in self.unique_IDs:
+                torrent_state = self.get_core_torrent_state(unique_ID)
+                if (torrent_state["total_wanted"] - torrent_state["total_wanted_done"] == 0) and not torrent_state['is_paused']:
+                    seed_time = self.unique_IDs[unique_ID].seed_time 
+                    now = time.time()
+                    if (now - seed_time) >= (self.get_pref('auto_seed_time') * 3600):
+                        self.queue_bottom(unique_ID, enforce_queue=False) # don't recurse!
+                        self.set_user_pause(unique_ID, True, enforce_queue=False)
         
-        if self.get_pref('clear_max_ratio_torrents'):
+        if self.get_pref('clear_max_ratio_torrents') and self.get_pref('auto_end_seeding'):
             for unique_ID in self.unique_IDs.keys():
                 torrent_state = self.get_core_torrent_state(unique_ID)
                 if (torrent_state["total_wanted"] - torrent_state["total_wanted_done"] == 0):
                     ratio = self.calc_ratio(unique_ID, torrent_state)
                     if ratio >= self.get_pref('auto_seed_ratio'):
+                        self.removed_unique_ids[unique_ID] = 1
+                        self.remove_torrent(unique_ID, False, True)
+        if self.get_pref('clear_max_time_torrents') and self.get_pref('auto_time_end_seeding'):
+            for unique_ID in self.unique_IDs.keys():
+                torrent_state = self.get_core_torrent_state(unique_ID)
+                if (torrent_state["total_wanted"] - torrent_state["total_wanted_done"] == 0):
+                    seed_time = self.unique_IDs[unique_ID].seed_time 
+                    now = time.time()
+                    if (now - seed_time) >= (self.get_pref('auto_seed_time') * 3600):
                         self.removed_unique_ids[unique_ID] = 1
                         self.remove_torrent(unique_ID, False, True)
     # Event handling
@@ -721,6 +743,7 @@ Space:") + " " + nice_free)
                 # save fast resume once torrent finishes so as to not recheck
                 # seed if client crashes
                 self.save_fastresume_data(event['unique_ID'])
+                self.unique_IDs[event['unique_ID']].seed_time = time.time()
 
             elif event['event_type'] is self.constants['EVENT_FILE_ERROR']:
                 import gtk
