@@ -3,3 +3,16 @@ deluge/ui/gtkui/glade/preferences_dialog.glade
 deluge/plugins/queue/queue/gtkui.py
 deluge/ui/gtkui/torrentview.py
 deluge/core/torrentmanager.py
+deluge/ui/webui/webui_plugin/config.py
+deluge/ui/webui/webui_plugin/config_tabs_deluge.py
+deluge/ui/webui/webui_plugin/config_tabs_webui.py
+deluge/ui/webui/webui_plugin/dbus_interface.py
+deluge/ui/webui/webui_plugin/debugerror.py
+deluge/ui/webui/webui_plugin/deluge_webserver.py
+deluge/ui/webui/webui_plugin/page_decorators.py
+deluge/ui/webui/webui_plugin/pages.py
+deluge/ui/webui/webui_plugin/render.py
+deluge/ui/webui/webui_plugin/scripts/template_strings.py
+deluge/ui/webui/webui_plugin/torrent_add.py
+deluge/ui/webui/webui_plugin/utils.py
+deluge/ui/webui/webui_plugin/webserver_common.py
