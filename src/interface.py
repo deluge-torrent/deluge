@@ -118,7 +118,7 @@ class DelugeGTK:
             import time
             
             def _run_script():
-                common.send_info()
+                common.send_info(self.config.get("enabled_plugins"))
             
             info_file = os.path.join(common.CONFIG_DIR, 'infosent')
             

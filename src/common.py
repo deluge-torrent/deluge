@@ -210,7 +210,7 @@ def exec_command(executable, *parameters):
             warning.run()
             warning.destroy()
 
-def send_info():
+def send_info(plugins=None):
     import threading
     class Send_Info_Thread(threading.Thread):
        def __init__(self):
@@ -227,7 +227,7 @@ def send_info():
            try:
                urllib.urlopen("http://deluge-torrent.org/stats_get.php?processor=" + \
                    platform.machine() + "&python=" + platform.python_version() \
-                   + "&os=" + platform.system() + "&pygtk=" + pygtk)
+                   + "&os=" + platform.system() + "&pygtk=" + pygtk + "&plugins=" + plugins)
            except IOError:
                print "Network error while trying to send info"
            else:
