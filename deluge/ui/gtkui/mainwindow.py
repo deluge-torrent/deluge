@@ -78,8 +78,8 @@ class MainWindow(component.Component):
 
     def show(self):
         try:
-            component.get("TorrentView").start()
-            component.get("StatusBar").start()
+            component.start("TorrentView")
+            component.start("StatusBar")
         except:
             pass
 
