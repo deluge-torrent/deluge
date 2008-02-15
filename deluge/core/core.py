@@ -474,7 +474,31 @@ class Core(
     def export_set_torrent_trackers(self, torrent_id, trackers):
         """Sets a torrents tracker list.  trackers will be [{"url", "tier"}]"""
         return self.torrents[torrent_id].set_trackers(trackers)
+    
+    def export_set_torrent_max_connections(self, torrent_id, value):
+        """Sets a torrents max number of connections"""
+        return self.torrents[torrent_id].set_max_connections(value)
+    
+    def export_set_torrent_max_upload_slots(self, torrent_id, value):
+        """Sets a torrents max number of upload slots"""
+        return self.torrents[torrent_id].set_max_upload_slots(value)
         
+    def export_set_torrent_max_upload_speed(self, torrent_id, value):
+        """Sets a torrents max upload speed"""
+        return self.torrents[torrent_id].set_max_upload_speed(value)
+        
+    def export_set_torrent_max_download_speed(self, torrent_id, value):
+        """Sets a torrents max download speed"""
+        return self.torrents[torrent_id].set_max_download_speed(value)
+    
+    def export_set_torrent_private_flag(self, torrent_id, value):
+        """Sets a torrents private flag"""
+        return self.torrents[torrent_id].set_private_flag(value)
+    
+    def export_set_torrent_file_priorities(self, torrent_id, priorities):
+        """Sets a torrents file priorities"""
+        return self.torrents[torrent_id].set_file_priorities(priorities)
+            
     # Signals
     def torrent_added(self, torrent_id):
         """Emitted when a new torrent is added to the core"""

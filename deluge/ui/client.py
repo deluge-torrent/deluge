@@ -344,3 +344,26 @@ def set_torrent_trackers(torrent_id, trackers):
     """Sets the torrents trackers"""
     get_core().call("set_torrent_trackers", None, torrent_id, trackers)
 
+def set_torrent_max_connections(torrent_id, value):
+    """Sets a torrents max number of connections"""
+    get_core().call("set_torrent_max_connections", None, torrent_id, value)
+
+def set_torrent_max_upload_slots(torrent_id, value):
+    """Sets a torrents max number of upload slots"""
+    get_core().call("set_torrent_max_upload_slots", None, torrent_id, value)
+        
+def set_torrent_max_upload_speed(torrent_id, value):
+    """Sets a torrents max upload speed"""
+    get_core().call("set_torrent_max_upload_speed", None, torrent_id, value)
+        
+def set_torrent_max_download_speed(torrent_id, value):
+    """Sets a torrents max download speed"""
+    get_core().call("set_torrent_max_download_speed", None, torrent_id, value)
+
+def set_torrent_private_flag(torrent_id, value):
+    """Sets a torrents private flag"""
+    get_core().call("set_torrent_private_flag", None, torrent_id, value)
+
+def set_torrent_file_priorities(torrent_id, priorities):
+    """Sets a torrents file priorities"""
+    get_core().call("set_torrent_file_priorities", None, torrent_id, priorities)
