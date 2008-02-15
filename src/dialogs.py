@@ -99,6 +99,7 @@ class PreferencesDlg:
             self.glade.get_widget("chk_peer_proxy").set_active(self.preferences.get("peer_proxy"))
             self.glade.get_widget("chk_tracker_proxy").set_active(self.preferences.get("tracker_proxy"))
             self.glade.get_widget("chk_dht_proxy").set_active(self.preferences.get("dht_proxy"))
+            self.glade.get_widget("chk_web_proxy").set_active(self.preferences.get("web_proxy"))
             self.glade.get_widget("chk_upnp").set_active(self.preferences.get("use_upnp"))
             self.glade.get_widget("chk_lsd").set_active(self.preferences.get("use_lsd"))
             self.glade.get_widget("chk_random_port").set_active(self.preferences.get("random_port"))
