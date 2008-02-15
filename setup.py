@@ -43,7 +43,7 @@ if platform.machine() == "i386" or platform.machine() == "i686":
 elif platform.machine() == "x86_64" or platform.machine() == "amd64":
     print "64bit x86_64 system detected"
     ARCH = "x64"
-elif platform.machine() == "ppc":
+elif platform.machine() == "Power Macintosh":
     print "PowerPC system detected"
     ARCH = "ppc"
 else:
