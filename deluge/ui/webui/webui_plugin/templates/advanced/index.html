@@ -50,6 +50,12 @@ $for t in torrent_list:
     title='$_("Details")'><img class='toolbar_btn'
     src='/static/images/tango/details.png'></a>
 
+
+    <a class='toolbar_btn' href="#"
+    onclick='toolbar_get("/torrent/move/",2)'
+    title='$_("Move")'><img class='toolbar_btn'
+    src='/static/images/tango/move.png'></a>
+
     $:category_tabs(all_torrents)
 
 </div>

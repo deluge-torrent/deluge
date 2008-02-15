@@ -70,7 +70,12 @@ class AddForm(forms.Form):
 class torrent_add:
 
     def add_page(self,error = None):
-        form_data = utils.get_newforms_data(AddForm)
+        #form_data = utils.get_newforms_data(AddForm)
+
+        #TODO: CLEANUP!!!
+        vars  = web.input(url = None)
+        form_data = {'url':vars.url}
+
         options_data = None
         if error:
             options_data = utils.get_newforms_data(OptionsForm)

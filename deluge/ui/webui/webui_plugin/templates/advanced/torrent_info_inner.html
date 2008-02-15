@@ -1,15 +1,22 @@
-$def with (torrent)
+$def with (torrent, active_tab)
 <!--for iframe in javascript mode.-->
-<html><head>
 <html>
 <head>
     <title>Deluge:$torrent.name</title>
-    <link rel="icon" href="/static/images/deluge_icon.gif" type="image/gif" />
-    <link rel="shortcut icon" href="/static/images/deluge_icon.gif" type="image/gif" />
-<link rel="stylesheet" type="text/css" href="/static/simple_site_style.css" />
+    <link rel="stylesheet" type="text/css" href="/template/static/advanced.css" />
 </head>
 <body class="inner">
-<!--[Tab :Details] [Tab : Files] [Tab : Peers]-->
-$:render.tab_meta(torrent)
 
-$:render.footer()
+$:render.part_tab_button('details', _("Details"), active_tab)
+$:render.part_tab_button('files', _("Files"), active_tab)
+$:render.part_tab_button('options', _("Options"), active_tab)
+
+$if active_tab == 'details':
+    $:render.tab_meta(torrent)
+$if active_tab == 'files':
+    $:render.tab_files(torrent)
+$if active_tab == 'options':
+    $:render.tab_options(torrent)
+
+</body>
+</html>

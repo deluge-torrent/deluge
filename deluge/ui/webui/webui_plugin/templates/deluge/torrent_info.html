@@ -3,9 +3,6 @@ $def with (torrent)
 $:(render.header(torrent.message + '/' + torrent.name))
 <div class="panel">
 
-<h3>$_('Details')</h3>
-$:render.tab_meta(torrent)
-
 $if (torrent.action == 'start'):
     $:render.part_button('POST', '/torrent/start/' + str(torrent.id), _('Resume'), 'tango/start.png')
 $else:
@@ -18,8 +15,19 @@ $:render.part_button('POST', '/torrent/reannounce/' + str(torrent.id), _('Reanno
 $:render.part_button('POST', '/torrent/queue/up/' + str(torrent.id), _('Queue Up'), 'tango/queue-up.png')
 $:render.part_button('POST', '/torrent/queue/down/' + str(torrent.id), _('Queue Down'), 'tango/queue-down.png')
 
-<br>
+$:render.part_button('GET', '/torrent/move/' + str(torrent.id), _('Move'), 'tango/move.png')
+
+<h3>$_('Details')</h3>
+$:render.tab_meta(torrent)
+
+
+<h3>$_('Files')</h3>
+
 $:render.tab_files(torrent)
+
+<h3>$_('Options')</h3>
+
+$:render.tab_options(torrent)
 
 <br>
 <!--

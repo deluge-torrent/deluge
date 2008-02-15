@@ -120,4 +120,8 @@ th {
 		background-color:none;
 }
 
+h3 {
+		background-color:#68a;
+		text-align:left;
+}
 /* Hides from IE-mac \*/* html .clearfix {height: 1%;}.clearfix {display: block;}/* End hide from IE-mac */

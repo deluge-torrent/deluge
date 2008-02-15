@@ -332,6 +332,32 @@ th.newforms {
 	text-align:right;
 	color:#FFFFFF;
 }
+
+a.tab_button {
+	color:#FFFFFF;
+	text-decoration:none;
+}
+a.tab_button:visited {
+	color:#FFFFFF;
+}
+a.tab_button:hover {
+	background-color:#68a;
+}
+
+a.tab_button_active {
+	background-color:#900;
+	text-decoration:none;
+	color:#FFFFFF;
+}
+a.tab_button_active:visited {
+	background-color:#900;
+	color:#FFFFFF;
+}
+
+h3 {
+		background-color:#68a;
+		text-align:left;
+}
 /* Hides from IE-mac \*/* html .clearfix {height: 1%;}.clearfix {display: block;}/* End hide from IE-mac */
 
 

@@ -89,7 +89,7 @@ def template_crop(text, end):
         return "[ERROR NOT A STRING:(%s)]" % text
     return text
 
-def template_crop_right(text, maxlen):
+def template_crop_left(text, maxlen):
     try:
         if len(text) > maxlen:
             return "..." + text[-(maxlen + 3):]
@@ -145,7 +145,7 @@ template.Template.globals.update({
     'part_stats':template_part_stats,
     'category_tabs':category_tabs,
     'crop': template_crop,
-    'crop_right': template_crop_right,
+    'crop_left': template_crop_left,
     '_': _ , #gettext/translations
     'str': str, #because % in templetor is broken.
     'int':int,
@@ -162,7 +162,10 @@ template.Template.globals.update({
     'version': VERSION,
     'getcookie':getcookie,
     'get': lambda (var): getattr(web.input(**{var:None}), var), # unreadable :-(
-    'env':ws.env
+    'env':ws.env,
+    'forms':web.Storage(),
+    'enumerate':enumerate
+
 })
 #/template-defs
 

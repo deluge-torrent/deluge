@@ -38,6 +38,8 @@ import page_decorators as deco
 import config_tabs_webui #auto registers
 import config_tabs_deluge #auto registers
 from config import config_page
+import torrent_options
+from torrent_move import torrent_move
 #import forms
 #
 from debugerror import deluge_debugerror
@@ -68,6 +70,7 @@ urls = (
     "/torrent/reannounce/(.*)", "torrent_reannounce",
     "/torrent/add(.*)", "torrent_add",
     "/torrent/delete/(.*)", "torrent_delete",
+    "/torrent/move/(.*)", "torrent_move",
     "/torrent/queue/up/(.*)", "torrent_queue_up",
     "/torrent/queue/down/(.*)", "torrent_queue_down",
     "/pause_all", "pause_all",
@@ -155,9 +158,15 @@ class torrent_info:
 class torrent_info_inner:
     @deco.deluge_page
     def GET(self, torrent_ids):
+        vars = web.input(tab = None)
+        if vars.tab:
+            active_tab = vars.tab
+        else:
+            active_tab =  getcookie("torrent_info_tab") or "details"
+        setcookie("torrent_info_tab", active_tab)
         torrent_ids = torrent_ids.split(',')
         info = get_torrent_status(torrent_ids[0])
-        return render.torrent_info_inner(info)
+        return render.torrent_info_inner(info, active_tab)
 
 class torrent_start:
     @deco.check_session
@@ -218,6 +227,7 @@ class torrent_delete:
         torrent_also = bool(vars.torrent_also)
         ws.proxy.remove_torrent(torrent_ids, torrent_also, data_also)
         do_redirect()
+
 
 class torrent_queue_up:
     @deco.check_session

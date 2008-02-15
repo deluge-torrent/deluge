@@ -64,14 +64,26 @@ try:
 except:
     VERSION = '<unknown:bzr-branch?>'
 
-TORRENT_KEYS = ['distributed_copies', 'download_payload_rate',
-    'eta', 'is_seed', 'name', 'next_announce',
-    'num_files', 'num_peers', 'num_pieces', 'num_seeds', 'paused',
-    'piece_length','progress', 'ratio', 'total_done', 'total_download',
-    'total_payload_download', 'total_payload_upload', 'total_peers',
-    'total_seeds', 'total_size', 'total_upload', 'total_wanted',
-    'tracker_status', 'upload_payload_rate',
-    'uploaded_memory','tracker','state','queue_pos','user_paused','files']
+
+TORRENT_KEYS = ['name', 'total_size', 'num_files', 'num_pieces', 'piece_length',
+    'eta', 'ratio', 'file_progress', 'distributed_copies', 'total_done',
+    'total_uploaded', 'state', 'paused', 'progress', 'next_announce',
+    'total_payload_download', 'total_payload_upload', 'download_payload_rate',
+    'upload_payload_rate', 'num_peers', 'num_seeds', 'total_peers', 'total_seeds',
+    'total_wanted', 'tracker', 'trackers', 'tracker_status', 'save_path',
+    'files', 'file_priorities', 'compact', 'max_connections',
+    'max_upload_slots', 'max_download_speed', 'prioritize_first_last',
+    'private','max_upload_speed',
+
+    #REMOVE:
+    "is_seed","total_download","total_upload","uploaded_memory","queue_pos",
+    "user_paused"
+
+    ]
+"""
+NOT:is_seed,total_download,total_upload,uploaded_memory,queue_pos,user_paused
+"""
+
 
 STATE_MESSAGES = (_("Queued"),
     _("Checking"),

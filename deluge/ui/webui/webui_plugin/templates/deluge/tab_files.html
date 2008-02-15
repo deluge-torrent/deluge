@@ -4,6 +4,17 @@ $def with (torrent)
 <table width="100%">
 $altrow(True)
 <tr class="tab_$altrow()"><th>$_("File")</th><th>$_("Size")</th></tr>
-$for file in torrent.files:
-    <tr class="tab_$altrow()"  title="$file["path"]"><td>$(crop_right(file["path"], 70))</td><td>$fsize(file["size"])</td></tr>
+$for i, file in enumerate(torrent.files):
+    <tr class="tab_$altrow()"  >
+<td title="$file['path']">
+<input type="checkbox"
+$if (torrent.file_priorities[i]):
+    checked
+>
+$(crop_left(file["path"], 70))
+
+</td>
+    <td>$fsize(file["size"])</td></tr>
 </table>
+
+<div class="error">Save/update: Todo</div>

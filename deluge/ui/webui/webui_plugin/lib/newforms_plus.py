@@ -133,6 +133,8 @@ class ServerFolder(newforms.CharField):
         newforms.CharField.__init__(self, label=label,**kwargs)
 
     def clean(self, value):
+        if value == None:
+            value = ""
         value = value.rstrip('/').rstrip('\\')
         self.validate(value)
         return newforms.CharField.clean(self, value)
