@@ -6,16 +6,16 @@ $def with (stats)
 $_('Auto refresh:')
 $if getcookie('auto_refresh') == '1':
     ($getcookie('auto_refresh_secs')) $_('seconds') &nbsp;
-    $:render.part_button('GET', '/refresh/set', _('Set'), 'tango/preferences-system.png')
-    $:render.part_button('POST', '/refresh/off', _('Disable'), 'tango/process-stop.png')
+    <a href="/refresh/set">$_('Set')</a>
+    <a href="/refresh/off">$_('Disable')</a><!--WRONG, setting things on a GET-->
 $else:
     $_('Off') &nbsp;
-    $:render.part_button('POST', '/refresh/on', _('Enable'), 'tango/view-refresh.png')
+    <a href="/refresh/on">$_('Enable')</a><!--WRONG, setting things on a GET-->
 ]
 
-$:render.part_button('POST', '/logout', _('Logout'), 'tango/system-log-out.png')
+<a href="/logout">$_('Logout')</a><!--WRONG, setting things on a GET-->
+<a href="/config/">$_('Settings')</a>
 
-$:render.part_button('GET', '/config/', _('Settings'), 'tango/preferences-system.png')
 </div>
 
 <div class="panel"  id='stats_panel'>

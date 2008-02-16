@@ -282,6 +282,10 @@ class resume_all:
         do_redirect()
 
 class refresh:
+    def GET(self, name):
+        return self.POST(name)
+        #WRONG, but makes it easyer to link with <a href in the status-bar
+
     @deco.check_session
     def POST(self, name):
         auto_refresh = {'off': '0', 'on': '1'}[name]
@@ -317,6 +321,10 @@ class about:
         return render.about()
 
 class logout:
+    def GET(self):
+        return self.POST()
+        #WRONG, but makes it easyer to link with <a href in the status-bar
+
     @deco.check_session
     def POST(self, name):
         end_session()

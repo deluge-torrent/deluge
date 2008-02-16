@@ -167,19 +167,17 @@ body.inner {
 		z-index:999;
 }
 
-#refresh_panel button {
-        background-color:#304663;
-		color:#FFFFFF;
-		border:0;
-		position:relative;
-		top:-2px;
-		height:15px;
-		background-color:#ddd;
-		color:#00F;
+#refresh_panel a {
+	color:0000FF;
+	text-decoration:none;
 }
 
-#refresh_panel button:hover {
-		text-decoration: underline;
+#refresh_panel a:visited {
+	color:0000FF;
+}
+
+#refresh_panel a:hover {
+	color:0000FF;
 }
 
 #stats_panel  button {
