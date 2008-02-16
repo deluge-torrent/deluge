@@ -91,7 +91,8 @@ urls = (
     #"/downloads/(.*)","downloads" disabled until it can handle large downloads
     #default-pages
     "/", "home",
-    "", "home"
+    "", "home",
+    "/robots.txt","robots"
 )
 #/routing
 
@@ -345,5 +346,12 @@ class downloads(static_handler):
         if not ws.config.get('share_downloads'):
             raise Exception('Access to downloads is forbidden.')
         return static_handler.GET(self, name)
+
+class robots:
+    def GET(self):
+        "no robots/prevent searchengines from indexing"
+        web.header("Content-Type", "text/plain")
+        print "User-agent: *\nDisallow:\n"
+
 #/pages
 
