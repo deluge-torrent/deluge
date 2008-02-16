@@ -351,7 +351,7 @@ class robots:
     def GET(self):
         "no robots/prevent searchengines from indexing"
         web.header("Content-Type", "text/plain")
-        print "User-agent: *\nDisallow:\n"
+        print "User-agent: *\nDisallow:/\n"
 
 #/pages
 
