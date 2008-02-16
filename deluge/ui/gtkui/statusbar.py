@@ -115,7 +115,7 @@ class StatusBar(component.Component):
         }
         # Add a HBox to the statusbar after removing the initial label widget
         self.hbox = gtk.HBox()
-        self.hbox.set_spacing(5)
+        self.hbox.set_spacing(10)
         frame = self.statusbar.get_children()[0]
         frame.remove(frame.get_children()[0])
         frame.add(self.hbox)
@@ -246,12 +246,12 @@ class StatusBar(component.Component):
     
     def update_connections_label(self):
         # Set the max connections label
-        max_connections = self.max_connections
-        if max_connections < 0:
-            max_connections = _("Unlimited")
+        if self.max_connections < 0:
+            label_string = "%s" % self.num_connections
+        else:
+            label_string = "%s (%s)" % (self.num_connections, self.max_connections)
 
-        self.connections_item.set_text("%s (%s)" % (
-            self.num_connections, max_connections))
+        self.connections_item.set_text(label_string)
             
     def update_dht_label(self):
         # Set the max connections label
@@ -259,26 +259,23 @@ class StatusBar(component.Component):
             
     def update_download_label(self):
         # Set the download speed label
-        max_download_speed = self.max_download_speed
-        if max_download_speed < 0:
-            max_download_speed = _("Unlimited")
+        if self.max_download_speed < 0:
+            label_string = "%s/s" % self.download_rate
         else:
-            max_download_speed = "%s %s" % (max_download_speed, _("KiB/s"))
-                    
-        self.download_item.set_text("%s/s (%s)" % (
-            self.download_rate, max_download_speed))
+            label_string = "%s/s (%s %s)" % (
+                self.download_rate, self.max_download_speed, _("KiB/s"))
+
+        self.download_item.set_text(label_string)
             
     def update_upload_label(self):
         # Set the upload speed label
-        max_upload_speed = self.max_upload_speed
-        if max_upload_speed < 0:
-            max_upload_speed = _("Unlimited")
+        if self.max_upload_speed < 0:
+            label_string = "%s/s" % self.upload_rate
         else:
-            max_upload_speed = "%s %s" % (max_upload_speed, _("KiB/s"))
+            label_string = "%s/s (%s %s)" % (
+                self.upload_rate, self.max_upload_speed, _("KiB/s"))
         
-        self.upload_item.set_text("%s/s (%s)" % (
-            self.upload_rate, 
-            max_upload_speed))
+        self.upload_item.set_text(label_string)
                            
     def update(self):
         # Send status request
