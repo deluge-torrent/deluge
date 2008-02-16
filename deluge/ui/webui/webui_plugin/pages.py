@@ -68,6 +68,7 @@ urls = (
     "/torrent/stop/(.*)", "torrent_stop",
     "/torrent/start/(.*)", "torrent_start",
     "/torrent/reannounce/(.*)", "torrent_reannounce",
+    "/torrent/recheck/(.*)", "torrent_recheck",
     "/torrent/add(.*)", "torrent_add",
     "/torrent/delete/(.*)", "torrent_delete",
     "/torrent/move/(.*)", "torrent_move",
@@ -167,9 +168,9 @@ class torrent_info_inner:
         else:
             active_tab =  getcookie("torrent_info_tab") or "details"
         setcookie("torrent_info_tab", active_tab)
-
         return render.torrent_info_inner(torrent, active_tab)
 
+#next 4 classes: a pattern is emerging here.
 class torrent_start:
     @deco.check_session
     @deco.torrent_ids
@@ -186,33 +187,17 @@ class torrent_stop:
 
 class torrent_reannounce:
     @deco.check_session
-    def POST(self, torrent_id):
-        ws.proxy.force_reannounce([torrent_id])
+    @deco.torrent_ids
+    def POST(self, torrent_ids):
+        ws.proxy.force_reannounce(torrent_ids)
         do_redirect()
 
-class remote_torrent_add:
-    """
-    For use in remote scripts etc.
-    curl ->POST pwd and torrent as file
-    greasemonkey: POST pwd torrent_name and data_b64
-    """
-    @deco.remote
-    def POST(self, name):
-        vars = web.input(pwd = None, torrent = {},
-            data_b64 = None , torrent_name= None)
-
-        if not ws.check_pwd(vars.pwd):
-            return 'error:wrong password'
-
-        if vars.data_b64: #b64 post (greasemonkey)
-            data_b64 = unicode(vars.data_b64)
-            torrent_name = vars.torrent_name
-        else:  #file-post (curl)
-            data_b64 = base64.b64encode(vars.torrent.file.read())
-            torrent_name = vars.torrent.filename
-
-        ws.proxy.add_torrent_filecontent(torrent_name, data_b64)
-        return 'ok'
+class torrent_recheck:
+    @deco.check_session
+    @deco.torrent_ids
+    def POST(self, torrent_ids):
+        ws.proxy.force_recheck(torrent_ids)
+        do_redirect()
 
 class torrent_delete:
     @deco.deluge_page
@@ -258,14 +243,11 @@ class torrent_files:
     def POST(self, torrent_id):
         torrent = get_torrent_status(torrent_id)
         file_priorities = web.input(file_priorities=[]).file_priorities
-
-        #ws.log.debug("file-prio:%s" % file_priorities)
         #file_priorities contains something like ['0','2','3','4']
-        #transform to: [1,0,1,1,1]
+        #transform to: [1,0,0,1,1,1]
         proxy_prio = [0 for x in xrange(len(torrent.file_priorities))]
         for pos in file_priorities:
             proxy_prio[int(pos)] = 1
-        #ws.log.debug("proxy-prio:%s" % proxy_prio)
 
         ws.proxy.set_torrent_file_priorities(torrent_id, proxy_prio)
         do_redirect()
@@ -331,6 +313,29 @@ class logout:
         end_session()
         seeother('/login')
 
+#other stuff:
+class remote_torrent_add:
+    """
+    For use in remote scripts etc.
+    curl ->POST pwd and torrent as file
+    greasemonkey: POST pwd torrent_name and data_b64
+    """
+    @deco.remote
+    def POST(self, name):
+        vars = web.input(pwd = None, torrent = {},
+            data_b64 = None , torrent_name= None)
+
+        if not ws.check_pwd(vars.pwd):
+            return 'error:wrong password'
+
+        if vars.data_b64: #b64 post (greasemonkey)
+            data_b64 = unicode(vars.data_b64)
+            torrent_name = vars.torrent_name
+        else:  #file-post (curl)
+            data_b64 = base64.b64encode(vars.torrent.file.read())
+            torrent_name = vars.torrent.filename
+        ws.proxy.add_torrent_filecontent(torrent_name, data_b64)
+        return 'ok'
 
 class static(static_handler):
     base_dir = os.path.join(os.path.dirname(__file__), 'static')

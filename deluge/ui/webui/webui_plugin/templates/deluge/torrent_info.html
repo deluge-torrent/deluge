@@ -11,6 +11,7 @@ $else:
 
 $:render.part_button('GET', '/torrent/delete/' + str(torrent.id), _('Remove'), 'tango/list-remove.png')
 $:render.part_button('POST', '/torrent/reannounce/' + str(torrent.id), _('Reannounce'), 'tango/view-refresh.png')
+$:render.part_button('POST', '/torrent/recheck/' + str(torrent.id), _('Recheck'), 'tango/view-refresh.png')
 
 $:render.part_button('POST', '/torrent/queue/up/' + str(torrent.id), _('Queue Up'), 'tango/queue-up.png')
 $:render.part_button('POST', '/torrent/queue/down/' + str(torrent.id), _('Queue Down'), 'tango/queue-down.png')

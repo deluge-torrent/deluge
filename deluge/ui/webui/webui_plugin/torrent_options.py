@@ -48,7 +48,7 @@ class TorrentOptionsForm(forms.Form):
     #general
     prioritize_first_last = forms.CheckBox(
         _('Prioritize first and last pieces'))
-    private = forms.CheckBox(_('Private Flag'))
+    private = forms.CheckBox(_('Private'))
 
 template.Template.globals["forms"].torrent_options = lambda torrent : TorrentOptionsForm(torrent)
 
