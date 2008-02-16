@@ -1019,7 +1019,7 @@ likely the tracker did not responsd in utf-8."
                                                         torrent.save_dir,
                                                         torrent.compact)
                 except DelugeError, e:
-                    to_remove.append(torrent)
+                    del self.state.torrents[torrent]
                     raise e
                     continue
                 except Exception, e:
