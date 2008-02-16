@@ -245,7 +245,14 @@ class Torrent:
             "tracker_status": self.tracker_status,
             "save_path": self.save_path,
             "files": self.files,
-            "file_priorities": self.file_priorities
+            "file_priorities": self.file_priorities,
+            "compact":self.compact,
+            "max_connections":self.max_connections,
+            "max_upload_slots":self.max_upload_slots,
+            "max_upload_speed":self.max_upload_speed,
+            "max_download_speed":self.max_download_speed,
+            "prioritize_first_last":self.prioritize_first_last,
+            "private":self.private
         }
         
         fns = {
