@@ -1018,6 +1018,9 @@ likely the tracker did not responsd in utf-8."
                     unique_ID = deluge_core.add_torrent(torrent.filename,
                                                         torrent.save_dir,
                                                         torrent.compact)
+                except DelugeError, e:
+                    to_remove.append(torrent)
+                    raise e
                 except Exception, e:
                     print "Unable to add torrent: ", e
                     to_remove.append(torrent)
