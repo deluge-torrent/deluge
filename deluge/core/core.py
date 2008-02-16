@@ -328,7 +328,7 @@ class Core(
             
         # Add the torrent to session
         return self.export_add_torrent_file(
-            filename, save_path, filedump, options)
+            filename, filedump, options)
         
     def export_remove_torrent(self, torrent_id, remove_torrent, remove_data):
         log.debug("Removing torrent %s from the core.", torrent_id)
@@ -349,7 +349,7 @@ class Core(
     
     def export_move_torrent(self, torrent_id, dest):
         log.debug("Moving torrent %s to %s", torrent_id, dest)
-        if not self.torrents[torrent_id].move(dest):
+        if not self.torrents[torrent_id].move_storage(dest):
             log.warning("Error moving torrent %s to %s", torrent_id, dest)
     
     def export_pause_all_torrents(self):
