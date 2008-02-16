@@ -1021,6 +1021,7 @@ likely the tracker did not responsd in utf-8."
                 except DelugeError, e:
                     to_remove.append(torrent)
                     raise e
+                    continue
                 except Exception, e:
                     print "Unable to add torrent: ", e
                     to_remove.append(torrent)
