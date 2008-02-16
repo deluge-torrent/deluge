@@ -1,20 +1,27 @@
 $def with (torrent)
 
+<form method="POST" action="/torrent/files/$torrent.id">
+<input type="hidden" name="redir" value="$self_url()">
+<table width="95%">
 
-<table width="100%">
 $altrow(True)
-<tr class="tab_$altrow()"><th>$_("File")</th><th>$_("Size")</th></tr>
+<tr class="tab_$altrow()">
+    <th width="100%">$_("File")</th>
+    <th width="50px">$_("Size")</th>
+    <th width="50px">$_("Progress")</th></tr>
 $for i, file in enumerate(torrent.files):
     <tr class="tab_$altrow()"  >
-<td title="$file['path']">
-<input type="checkbox"
-$if (torrent.file_priorities[i]):
-    checked
->
-$(crop_left(file["path"], 70))
-
-</td>
-    <td>$fsize(file["size"])</td></tr>
+    <td title="$file['path']">
+    <input type="checkbox" name="file_priorities" id="file_priorities" value="$i"
+    $if (torrent.file_priorities[i]):
+        checked
+    >
+    $(crop_left(file["path"], 60))
+    </td>
+        <td>$fsize(file["size"])</td>
+        <td align="right">$int(torrent.file_progress[i] * 100)%</td>
+    </tr>
 </table>
+<input type="submit" value="$_('Update')" name="submit_files">
+</form>
 
-<div class="error">Save/update: Todo</div>

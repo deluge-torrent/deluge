@@ -20,14 +20,15 @@ $:render.part_button('GET', '/torrent/move/' + str(torrent.id), _('Move'), 'tang
 <h3>$_('Details')</h3>
 $:render.tab_meta(torrent)
 
+<h3>$_('Options')</h3>
+
+$:render.tab_options(torrent)
+
 
 <h3>$_('Files')</h3>
 
 $:render.tab_files(torrent)
 
-<h3>$_('Options')</h3>
-
-$:render.tab_options(torrent)
 
 <br>
 <!--

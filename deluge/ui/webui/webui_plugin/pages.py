@@ -73,6 +73,7 @@ urls = (
     "/torrent/move/(.*)", "torrent_move",
     "/torrent/queue/up/(.*)", "torrent_queue_up",
     "/torrent/queue/down/(.*)", "torrent_queue_down",
+    "/torrent/files/(.*)","torrent_files",
     "/pause_all", "pause_all",
     "/resume_all", "resume_all",
     "/refresh/set", "refresh_set",
@@ -151,34 +152,34 @@ class index:
 class torrent_info:
     @deco.deluge_page
     @deco.auto_refreshed
-    def GET(self, name):
-        torrent_id = name.split(',')[0]
-        return render.torrent_info(get_torrent_status(torrent_id))
+    @deco.torrent
+    def GET(self, torrent):
+        return render.torrent_info(torrent)
 
 class torrent_info_inner:
     @deco.deluge_page
-    def GET(self, torrent_ids):
+    @deco.torrent
+    def GET(self, torrent):
         vars = web.input(tab = None)
         if vars.tab:
             active_tab = vars.tab
         else:
             active_tab =  getcookie("torrent_info_tab") or "details"
         setcookie("torrent_info_tab", active_tab)
-        torrent_ids = torrent_ids.split(',')
-        info = get_torrent_status(torrent_ids[0])
-        return render.torrent_info_inner(info, active_tab)
+
+        return render.torrent_info_inner(torrent, active_tab)
 
 class torrent_start:
     @deco.check_session
-    def POST(self, name):
-        torrent_ids = name.split(',')
+    @deco.torrent_ids
+    def POST(self, torrent_ids):
         ws.proxy.resume_torrent(torrent_ids)
         do_redirect()
 
 class torrent_stop:
     @deco.check_session
-    def POST(self, name):
-        torrent_ids = name.split(',')
+    @deco.torrent_ids
+    def POST(self, torrent_ids):
         ws.proxy.pause_torrent(torrent_ids)
         do_redirect()
 
@@ -214,43 +215,58 @@ class remote_torrent_add:
 
 class torrent_delete:
     @deco.deluge_page
-    def GET(self, name):
-            torrent_ids = name.split(',')
-            torrent_list = [get_torrent_status(id) for id in torrent_ids]
-            return render.torrent_delete(name, torrent_list)
+    @deco.torrent_list
+    def GET(self, torrent_list):
+            torrent_str = ",".join([t.id for t in torrent_list])
+            #todo: remove the ",".join!
+            return render.torrent_delete(torrent_str, torrent_list)
 
     @deco.check_session
-    def POST(self, name):
-        torrent_ids = name.split(',')
+    @deco.torrent_ids
+    def POST(self, torrent_ids):
         vars = web.input(data_also = None, torrent_also = None)
         data_also = bool(vars.data_also)
         torrent_also = bool(vars.torrent_also)
         ws.proxy.remove_torrent(torrent_ids, torrent_also, data_also)
         do_redirect()
 
-
 class torrent_queue_up:
     @deco.check_session
-    def POST(self, name):
+    @deco.torrent_list
+    def POST(self, torrent_list):
         #a bit too verbose..
-        torrent_ids = name.split(',')
-        torrents = [get_torrent_status(id) for id in torrent_ids]
-        torrents.sort(lambda x, y : x.queue_pos - y.queue_pos)
-        torrent_ids = [t.id for t in torrents]
+        torrent_list.sort(lambda x, y : x.queue_pos - y.queue_pos)
+        torrent_ids = [t.id for t in torrent_list]
         for torrent_id in torrent_ids:
             ws.proxy.queue_up(torrent_id)
         do_redirect()
 
 class torrent_queue_down:
     @deco.check_session
-    def POST(self, name):
+    @deco.torrent_list
+    def POST(self, torrent_list):
         #a bit too verbose..
-        torrent_ids = name.split(',')
-        torrents = [get_torrent_status(id) for id in torrent_ids]
-        torrents.sort(lambda x, y : x.queue_pos - y.queue_pos)
-        torrent_ids = [t.id for t in torrents]
+        torrent_list.sort(lambda x, y : x.queue_pos - y.queue_pos)
+        torrent_ids = [t.id for t in torrent_list]
         for torrent_id in reversed(torrent_ids):
             ws.proxy.queue_down(torrent_id)
+        do_redirect()
+
+class torrent_files:
+    @deco.check_session
+    def POST(self, torrent_id):
+        torrent = get_torrent_status(torrent_id)
+        file_priorities = web.input(file_priorities=[]).file_priorities
+
+        #ws.log.debug("file-prio:%s" % file_priorities)
+        #file_priorities contains something like ['0','2','3','4']
+        #transform to: [1,0,1,1,1]
+        proxy_prio = [0 for x in xrange(len(torrent.file_priorities))]
+        for pos in file_priorities:
+            proxy_prio[int(pos)] = 1
+        #ws.log.debug("proxy-prio:%s" % proxy_prio)
+
+        ws.proxy.set_torrent_file_priorities(torrent_id, proxy_prio)
         do_redirect()
 
 class pause_all:
@@ -305,6 +321,7 @@ class logout:
     def POST(self, name):
         end_session()
         seeother('/login')
+
 
 class static(static_handler):
     base_dir = os.path.join(os.path.dirname(__file__), 'static')

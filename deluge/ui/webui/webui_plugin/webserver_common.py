@@ -85,14 +85,17 @@ NOT:is_seed,total_download,total_upload,uploaded_memory,queue_pos,user_paused
 """
 
 
-STATE_MESSAGES = (_("Queued"),
-    _("Checking"),
-    _("Connecting"),
-    _("Downloading Metadata"),
-    _("Downloading"),
-    _("Finished"),
-    _("Seeding"),
-    _("Allocating"))
+
+
+STATE_MESSAGES = [
+    "Allocating",
+    "Checking",
+    "Downloading",
+    "Seeding",
+    "Paused",
+    "Error"
+    ]
+
 
 CONFIG_DEFAULTS = {
     "port":8112,

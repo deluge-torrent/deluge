@@ -14,8 +14,7 @@ from lib.webpy022 import changequery as self_url
 #deco's:
 def deluge_page_noauth(func):
     """
-    add http headers
-    print result of func
+    add http headers;print result of func
     """
     def deco(self, name = None):
             web.header("Content-Type", "text/html; charset=utf-8")
@@ -27,8 +26,8 @@ def deluge_page_noauth(func):
 
 def check_session(func):
     """
-    a decorator
     return func if session is valid, else redirect to login page.
+    mostly used for POST-pages.
     """
     def deco(self, name = None):
         ws.log.debug('%s.%s(name=%s)'  % (self.__class__.__name__, func.__name__,
@@ -41,14 +40,49 @@ def check_session(func):
             seeother(url("/login",redir=self_url()))
         else:
             seeother("/login") #do not continue, and redirect to login page
+    deco.__name__ = func.__name__
     return deco
 
 def deluge_page(func):
+    "deluge_page_noauth+check_session"
     return check_session(deluge_page_noauth(func))
 
 #combi-deco's:
+#decorators to use in combination with the ones above.
+def torrent_ids(func):
+    """
+    change page(self, name) to page(self, torrent_ids)
+    for pages that allow a list of torrents.
+    """
+    def deco(self, name):
+        return func (self, name.split(','))
+    deco.__name__ = func.__name__
+    return deco
+
+def torrent_list(func):
+    """
+    change page(self, name) to page(self, torrent_ids)
+    for pages that allow a list of torrents.
+    """
+    def deco(self, name):
+        torrent_list = [get_torrent_status(id) for id in name.split(',')]
+        return func (self, torrent_list)
+    deco.__name__ = func.__name__
+    return deco
+
+def torrent(func):
+    """
+    change page(self, name) to page(self, get_torrent_status(torrent_id))
+    """
+    def deco(self, name):
+        torrent_id = name.split(',')[0]
+        torrent =get_torrent_status(torrent_id)
+        return func (self, torrent)
+    deco.__name__ = func.__name__
+    return deco
+
 def auto_refreshed(func):
-    "decorator:adds a refresh header"
+    "adds a refresh header"
     def deco(self, name = None):
         if getcookie('auto_refresh') == '1':
             web.header("Refresh", "%i ; url=%s" %
@@ -58,7 +92,7 @@ def auto_refreshed(func):
     return deco
 
 def remote(func):
-    "decorator for remote api's"
+    "decorator for remote (string) api's"
     def deco(self, name = None):
         try:
             ws.log.debug('%s.%s(%s)' ,self.__class__.__name__, func.__name__,name )

@@ -156,7 +156,7 @@ class _DelugeIntInput(newforms.TextInput):
     def render(self, name, value, attrs=None):
         try:
             value = int(float(value))
-            if value == -1:
+            if value == -1 or value == None:
                 value = _("Unlimited")
         except:
             pass

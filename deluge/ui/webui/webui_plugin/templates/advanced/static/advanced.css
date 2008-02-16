@@ -286,7 +286,7 @@ form { /*all forms!*/
 	float: left;
 	width:150px;
 	text-align:left;
-	height:60%;
+	height:none;
 }
 
 #config_chooser ul {
@@ -303,7 +303,7 @@ form { /*all forms!*/
 }
 
 #config_panel {
-		height:60%;
+		height:none;
 		float:left;
 		width:500px;
 		margin-left:20px;
