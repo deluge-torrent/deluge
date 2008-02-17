@@ -39,12 +39,12 @@ from deluge.log import LOG as log
 class Signals(component.Component):
     def __init__(self):
         component.Component.__init__(self, "Signals")
+        self.receiver = SignalReceiver()
 
     def start(self):
-        remote = False
         if not client.is_localhost():
-            remote = True
-        self.receiver = SignalReceiver(remote)
+            self.receiver.set_remote(True)
+
         self.receiver.start()
         self.receiver.connect_to_signal("torrent_added", 
             self.torrent_added_signal)
@@ -65,7 +65,11 @@ class Signals(component.Component):
             self.receiver.shutdown()
         except:
             pass
-        
+    
+    def connect_to_signal(self, signal, callback):
+        """Connects a callback to a signal"""
+        self.receiver.connect_to_signal(signal, callback)
+            
     def torrent_added_signal(self, torrent_id):
         log.debug("torrent_added signal received..")
         log.debug("torrent id: %s", torrent_id)
