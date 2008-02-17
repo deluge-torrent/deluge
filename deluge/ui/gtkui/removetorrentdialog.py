@@ -40,8 +40,11 @@ import deluge.component as component
 from deluge.log import LOG as log
 
 class RemoveTorrentDialog:
-    def __init__(self, torrent_ids):
+    def __init__(self, torrent_ids, remove_torrentfile=False, remove_data=False):
         self.torrent_ids = torrent_ids
+        self.remove_torrentfile = remove_torrentfile
+        self.remove_data = remove_data
+        
         self.glade = gtk.glade.XML(
             pkg_resources.resource_filename("deluge.ui.gtkui", 
                 "glade/remove_torrent_dialog.glade"))
@@ -54,6 +57,20 @@ class RemoveTorrentDialog:
             "on_button_ok_clicked": self.on_button_ok_clicked,
             "on_button_cancel_clicked": self.on_button_cancel_clicked
         })
+        
+        if len(self.torrent_ids) > 1:
+            # We need to pluralize the dialog
+            self.dialog.set_title("Remove Torrents?")
+            self.glade.get_widget("label_title").set_markup(
+                _("<big><b>Are you sure you want to remove the selected torrents?</b></big>"))
+            self.glade.get_widget("button_ok").set_label(_("Remove Selected Torrents"))
+        
+        if self.remove_torrentfile or self.remove_data:
+            self.glade.get_widget("hseparator1").show()
+        if self.remove_torrentfile:
+            self.glade.get_widget("hbox_torrentfile").show()
+        if self.remove_data:
+            self.glade.get_widget("hbox_data").show()
 
     def run(self):
         if self.torrent_ids == None or self.torrent_ids == []:
@@ -62,9 +79,10 @@ class RemoveTorrentDialog:
         self.dialog.show()
     
     def on_button_ok_clicked(self, widget):
-        data = self.glade.get_widget("chk_data").get_active()
-        torrent = self.glade.get_widget("chk_torrents").get_active()
-        client.remove_torrent(self.torrent_ids, torrent, data)
+        #data = self.glade.get_widget("chk_data").get_active()
+        #torrent = self.glade.get_widget("chk_torrents").get_active()
+        client.remove_torrent(
+            self.torrent_ids, self.remove_torrentfile, self.remove_data)
         self.dialog.destroy()
         
     def on_button_cancel_clicked(self, widget):

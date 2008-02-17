@@ -59,9 +59,9 @@ from signals import Signals
 from pluginmanager import PluginManager
 from dbusinterface import DbusInterface
 from queuedtorrents import QueuedTorrents
+from coreconfig import CoreConfig
 from deluge.configmanager import ConfigManager
 import deluge.common
-import deluge.configmanager
 
 DEFAULT_PREFS = {
     "config_location": deluge.common.get_config_dir(),
@@ -151,7 +151,8 @@ class GtkUI:
 
         # Start the signal receiver
         self.signal_receiver = Signals()
-
+        self.coreconfig = CoreConfig()
+        
         # Initalize the plugins
         self.plugins = PluginManager()
         
