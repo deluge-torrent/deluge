@@ -367,3 +367,7 @@ def set_torrent_private_flag(torrent_id, value):
 def set_torrent_file_priorities(torrent_id, priorities):
     """Sets a torrents file priorities"""
     get_core().call("set_torrent_file_priorities", None, torrent_id, priorities)
+
+def block_ip_range(range):
+    """Blocks a ip range.. (start, end)"""
+    get_core().call("block_ip_range", None, range)

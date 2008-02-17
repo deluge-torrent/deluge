@@ -187,6 +187,10 @@ class Core(
         self.settings = lt.session_settings()
         self.settings.user_agent = "Deluge %s" % deluge.common.get_version()
 
+        # Create the IP Filter
+        self.ip_filter = lt.ip_filter()
+        self.session.set_ip_filter(self.ip_filter)
+        
         # Set lazy bitfield
         self.settings.lazy_bitfields = 1
         self.session.set_settings(self.settings)
@@ -498,7 +502,11 @@ class Core(
     def export_set_torrent_file_priorities(self, torrent_id, priorities):
         """Sets a torrents file priorities"""
         return self.torrents[torrent_id].set_file_priorities(priorities)
-            
+    
+    def export_block_ip_range(self, range):
+        """Block an ip range"""
+        self.ip_filter.add_rule(range[0], range[1], 1)
+        
     # Signals
     def torrent_added(self, torrent_id):
         """Emitted when a new torrent is added to the core"""
