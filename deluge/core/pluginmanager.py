@@ -141,4 +141,9 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
 
     def get_torrent_list(self):
         """Returns a list of torrent_id's in the current session."""
-        return component.get("TorrentManager").get_torrent_list()   
+        return component.get("TorrentManager").get_torrent_list()
+    
+    def block_ip_range(self, range):
+        """Blocks the ip range in the core"""
+        return self.core.export_block_ip_range(range)
+        
