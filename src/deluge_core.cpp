@@ -536,6 +536,8 @@ std::cout << asctime(timeinfo) << " torrent_init()" << std::endl;
         "EVENT_BLOCK_FINISHED",               EVENT_BLOCK_FINISHED,
         "EVENT_PEER_BLOCKED",                 EVENT_PEER_BLOCKED,
         "EVENT_LISTEN_FAILED",                EVENT_LISTEN_FAILED,
+        "EVENT_FINISHED_CHECKING",            EVENT_FINISHED_CHECKING,
+        "EVENT_TORRENT_PAUSED",               EVENT_TORRENT_PAUSED,
         "STATE_QUEUED",                       STATE_QUEUED,
         "STATE_CHECKING",                     STATE_CHECKING,
         "STATE_CONNECTING",                   STATE_CONNECTING,
