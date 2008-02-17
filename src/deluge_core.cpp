@@ -95,6 +95,8 @@ using namespace libtorrent;
 #define EVENT_BLOCK_FINISHED        17
 #define EVENT_PEER_BLOCKED          18
 #define EVENT_LISTEN_FAILED         19
+#define EVENT_FINISHED_CHECKING     20
+#define EVENT_TORRENT_PAUSED        21
 
 #define STATE_QUEUED                0
 #define STATE_CHECKING              1
@@ -1602,8 +1604,37 @@ std::cout << asctime(timeinfo) << " torrent_pop_event()" << std::endl;
                 "message",          a->msg().c_str());
         else
             { Py_INCREF(Py_None); return Py_None; }
-    }
+    } else if (dynamic_cast<torrent_checked_alert*>(popped_alert))
+    {
+        torrent_handle handle = (dynamic_cast<torrent_checked_alert*>(popped_alert))->handle;
 
+        long index = get_torrent_index(handle);
+        if (PyErr_Occurred())
+            return NULL;
+
+        if (handle_exists(handle))
+            return Py_BuildValue("{s:i,s:i,s:s}", 
+                "event_type", EVENT_FINISHED_CHECKING,
+                "unique_ID", M_torrents->at(index).unique_ID,
+                "message", a->msg().c_str());
+        else
+            { Py_INCREF(Py_None); return Py_None; }
+    } else if (dynamic_cast<torrent_paused_alert*>(popped_alert))
+    {
+        torrent_handle handle = (dynamic_cast<torrent_paused_alert*>(popped_alert))->handle;
+
+        long index = get_torrent_index(handle);
+        if (PyErr_Occurred())
+            return NULL;
+
+        if (handle_exists(handle))
+            return Py_BuildValue("{s:i,s:i,s:s}", 
+                "event_type", EVENT_TORRENT_PAUSED,
+                "unique_ID", M_torrents->at(index).unique_ID,
+                "message", a->msg().c_str());
+        else
+            { Py_INCREF(Py_None); return Py_None; }
+    }
     return Py_BuildValue("{s:i,s:s}", "event_type", EVENT_OTHER,
         "message",   a->msg().c_str()     );
 }
