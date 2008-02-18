@@ -4,7 +4,7 @@ $:render.header(_('Torrent list'))
 <table class="torrent_list" border=0 id='torrent_table'>
     <tr>
         $:(sort_head('calc_state_str', 'S'))
-        $:(sort_head('queue_pos', '#'))
+        $:(sort_head('queue', '#'))
         $:(sort_head('name', _('Name')))
         $:(sort_head('total_size', _('Size')))
         $:(sort_head('progress', _('Progress')))

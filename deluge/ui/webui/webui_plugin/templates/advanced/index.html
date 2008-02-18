@@ -65,7 +65,7 @@ $for t in torrent_list:
 <thead class="fixedHeader">
 <tr>
         $:(sort_head('calc_state_str', 'S'))
-        $:(sort_head('queue_pos', '#'))
+        $:(sort_head('queue', '#'))
         $:(sort_head('name', _('Name')))
         $:(sort_head('total_size', _('Size')))
         $:(sort_head('progress', _('Progress')))
@@ -93,7 +93,7 @@ $for torrent in torrent_list:
             name="pauseresume" value="submit" />
         </form>
        </td>
-    <td>$torrent.queue_pos</td>
+    <td>$torrent.queue</td>
     <td style="width:100px; overflow:hidden;white-space: nowrap">
         $(crop(torrent.name, 40))</td>
     <td>$fsize(torrent.total_size)</td>

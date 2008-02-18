@@ -50,5 +50,12 @@ class TorrentOptionsForm(forms.Form):
         _('Prioritize first and last pieces'))
     private = forms.CheckBox(_('Private'))
 
-template.Template.globals["forms"].torrent_options = lambda torrent : TorrentOptionsForm(torrent)
+class torrent_options:
+    @deco.check_session
+    @deco.torrent
+    def POST(self, torrent):
+        pass
 
+
+
+template.Template.globals["forms"].torrent_options = lambda torrent : TorrentOptionsForm(torrent)

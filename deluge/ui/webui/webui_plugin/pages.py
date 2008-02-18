@@ -38,7 +38,7 @@ import page_decorators as deco
 import config_tabs_webui #auto registers
 import config_tabs_deluge #auto registers
 from config import config_page
-import torrent_options
+from torrent_options import torrent_options
 from torrent_move import torrent_move
 #import forms
 #
@@ -75,6 +75,7 @@ urls = (
     "/torrent/queue/up/(.*)", "torrent_queue_up",
     "/torrent/queue/down/(.*)", "torrent_queue_down",
     "/torrent/files/(.*)","torrent_files",
+    "/torrent/options/(.*)","torrent_options",
     "/pause_all", "pause_all",
     "/resume_all", "resume_all",
     "/refresh/set", "refresh_set",
@@ -171,6 +172,7 @@ class torrent_info_inner:
         return render.torrent_info_inner(torrent, active_tab)
 
 #next 4 classes: a pattern is emerging here.
+#todo: DRY (in less lines of code)
 class torrent_start:
     @deco.check_session
     @deco.torrent_ids
@@ -221,10 +223,10 @@ class torrent_queue_up:
     @deco.torrent_list
     def POST(self, torrent_list):
         #a bit too verbose..
-        torrent_list.sort(lambda x, y : x.queue_pos - y.queue_pos)
+        torrent_list.sort(lambda x, y : x.queue - y.queue)
         torrent_ids = [t.id for t in torrent_list]
         for torrent_id in torrent_ids:
-            ws.proxy.queue_up(torrent_id)
+            ws.proxy.queue_queue_up(torrent_id)
         do_redirect()
 
 class torrent_queue_down:
@@ -232,10 +234,10 @@ class torrent_queue_down:
     @deco.torrent_list
     def POST(self, torrent_list):
         #a bit too verbose..
-        torrent_list.sort(lambda x, y : x.queue_pos - y.queue_pos)
+        torrent_list.sort(lambda x, y : x.queue - y.queue)
         torrent_ids = [t.id for t in torrent_list]
         for torrent_id in reversed(torrent_ids):
-            ws.proxy.queue_down(torrent_id)
+            ws.proxy.queue_queue_down(torrent_id)
         do_redirect()
 
 class torrent_files:
@@ -267,7 +269,7 @@ class resume_all:
 class refresh:
     def GET(self, name):
         return self.POST(name)
-        #WRONG, but makes it easyer to link with <a href in the status-bar
+        #WRONG, but makes it easyer to link with <a href> in the status-bar
 
     @deco.check_session
     def POST(self, name):
@@ -306,7 +308,7 @@ class about:
 class logout:
     def GET(self):
         return self.POST()
-        #WRONG, but makes it easyer to link with <a href in the status-bar
+        #WRONG, but makes it easyer to link with <a href> in the status-bar
 
     @deco.check_session
     def POST(self, name):
