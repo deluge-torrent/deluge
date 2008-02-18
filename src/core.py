@@ -732,8 +732,12 @@ Space:") + " " + nice_free)
             if event['event_type'] in self.event_callbacks:
                 for callback in self.event_callbacks[event['event_type']]:
                     callback(event)
+            
+            if event['event_type'] is self.constants['EVENT_TORRENT_PAUSED'] or \
+                event['event_type'] is self.constants['EVENT_FINISHED_CHECKING']:
+                self.save_fastresume_data(event['unique_ID'])
 
-            if event['event_type'] is self.constants['EVENT_FINISHED']: 
+            if event['event_type'] is self.constants['EVENT_FINISHED']:
                 if event['message'] == "torrent has finished downloading":
 
                     # Queue seeding torrent to bottom if needed
