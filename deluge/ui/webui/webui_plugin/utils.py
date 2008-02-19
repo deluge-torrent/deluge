@@ -127,7 +127,7 @@ def get_stats():
 
     ws.async_proxy.force_call(block=True)
 
-    ws.log.debug(str(stats))
+    #ws.log.debug(str(stats))
 
     stats.download_rate = fspeed(stats.download_rate)
     stats.upload_rate = fspeed(stats.upload_rate)
@@ -157,10 +157,10 @@ def enhance_torrent_status(torrent_id,status):
     for key in TORRENT_KEYS:
         if not key in status:
             status[key] = 0
-            ws.log.warning('torrent_status:empty key in status:%s' % key)
+            #ws.log.warning('torrent_status:empty key in status:%s' % key)
         elif status[key] == None:
             status[key] = 0
-            ws.log.warning('torrent_status:None key in status:%s' % key)
+            #ws.log.warning('torrent_status:None key in status:%s' % key)
 
 
     if status.tracker == 0:

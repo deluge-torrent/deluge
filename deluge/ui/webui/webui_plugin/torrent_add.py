@@ -55,7 +55,9 @@ class OptionsForm(forms.Form):
     default_private = forms.CheckBox(_('Set Private Flag'))
 
     def initial_data(self):
-        return ws.proxy.get_config()
+        data = ws.proxy.get_config()
+        ws.log.debug("add:Init options with:%s" % data)
+        return data
 
 class AddForm(forms.Form):
     url = forms.CharField(label=_("Url"), required=False,
@@ -71,7 +73,7 @@ class torrent_add:
 
     def add_page(self,error = None):
         #form_data = utils.get_newforms_data(AddForm)
-
+        ws.log.debug("add-page")
         #TODO: CLEANUP!!!
         vars  = web.input(url = None)
         form_data = {'url':vars.url}
@@ -79,6 +81,7 @@ class torrent_add:
         options_data = None
         if error:
             options_data = utils.get_newforms_data(OptionsForm)
+            ws.log.debug("add:(error-state):Init options with:%s" % options_data)
         return render.torrent_add(AddForm(form_data),OptionsForm(options_data), error)
 
     @deco.deluge_page
@@ -92,7 +95,6 @@ class torrent_add:
         allows:
         *posting of url
         *posting file-upload
-        *posting of data as string(for greasemonkey-private)
         """
 
         options_form = OptionsForm(utils.get_newforms_data(OptionsForm))
@@ -115,11 +117,13 @@ class torrent_add:
             return
         if vars.url:
             ws.proxy.add_torrent_url(vars.url,options)
+            ws.log.debug("add-url:options :%s" % options)
             utils.do_redirect()
         elif torrent_name:
             data_b64 = base64.b64encode(torrent_data)
             #b64 because of strange bug-reports related to binary data
             ws.proxy.add_torrent_filecontent(vars.torrent.filename, data_b64, options)
+            ws.log.debug("add-file:options :%s" % options)
             utils.do_redirect()
         else:
             print self.add_page(error = _("No data"))

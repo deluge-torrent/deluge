@@ -24,7 +24,7 @@ $for torrent in torrent_list:
             <input type="image"
             src="/static/images/$(torrent.calc_state_str)16.png"
             name="pauseresume" value="submit" /></form></td>
-    <td>$torrent.queue_pos</td>
+    <td>$torrent.queue</td>
     <td style="width:100px; overflow:hidden;white-space: nowrap">
         <a href="/torrent/info/$torrent.id" >
         $(crop(torrent.name, 40))</a></td>

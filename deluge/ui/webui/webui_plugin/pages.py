@@ -84,6 +84,7 @@ urls = (
     "/home", "home",
     "/about", "about",
     "/logout", "logout",
+    "/connect","connect",
     #remote-api:
     "/remote/torrent/add(.*)", "remote_torrent_add",
     "/json/(.*)","json_api",
@@ -173,6 +174,7 @@ class torrent_info_inner:
 
 #next 4 classes: a pattern is emerging here.
 #todo: DRY (in less lines of code)
+#deco.deluge_command, or a subclass?
 class torrent_start:
     @deco.check_session
     @deco.torrent_ids
@@ -226,7 +228,7 @@ class torrent_queue_up:
         torrent_list.sort(lambda x, y : x.queue - y.queue)
         torrent_ids = [t.id for t in torrent_list]
         for torrent_id in torrent_ids:
-            ws.proxy.queue_queue_up(torrent_id)
+            ws.async_proxy.get_core().call("queue_queue_up", None, torrent_id)
         do_redirect()
 
 class torrent_queue_down:
@@ -237,7 +239,7 @@ class torrent_queue_down:
         torrent_list.sort(lambda x, y : x.queue - y.queue)
         torrent_ids = [t.id for t in torrent_list]
         for torrent_id in reversed(torrent_ids):
-            ws.proxy.queue_queue_down(torrent_id)
+            ws.async_proxy.get_core().call("queue_queue_down", None, torrent_id)
         do_redirect()
 
 class torrent_files:
@@ -309,11 +311,34 @@ class logout:
     def GET(self):
         return self.POST()
         #WRONG, but makes it easyer to link with <a href> in the status-bar
-
     @deco.check_session
     def POST(self, name):
         end_session()
         seeother('/login')
+
+class connect:
+    @deco.deluge_page
+    def GET(self, name):
+        #if ws.proxy.connected():
+        #       error = _("Not Connected to a daemon")
+        #else:
+        error = None
+        connect_list = ["http://localhost:58846"]
+        return render.connect(connect_list, error)
+
+    def POST(self):
+        vars = web.input(uri = None, other_uri = None)
+        uri = ''
+        if vars.uri == 'other_uri':
+            if not vars.other:
+                return error_page(_("no uri"))
+            url = vars.other
+        else:
+            uri = vars.uri
+        #TODO: more error-handling
+        ws.init_06(uri)
+        do_redirect()
+
 
 #other stuff:
 class remote_torrent_add:
