@@ -43,6 +43,8 @@ import sys
 import base64
 from md5 import md5
 import inspect
+from deluge.ui import client
+from deluge.log import LOG as log
 
 random.seed()
 
@@ -80,12 +82,6 @@ TORRENT_KEYS = ['name', 'total_size', 'num_files', 'num_pieces', 'piece_length',
     "user_paused"
 
     ]
-"""
-NOT:is_seed,total_download,total_upload,uploaded_memory,queue_pos,user_paused
-"""
-
-
-
 
 STATE_MESSAGES = [
     "Allocating",
@@ -111,29 +107,28 @@ CONFIG_DEFAULTS = {
 
 #/constants
 
-
-class SyncProxyFunction:
+#some magic to transform the async-proxy back to sync:
+class SyncProxyMethod:
     """
     helper class for SyncProxy
     """
-    def __init__(self,client, func_name):
+    def __init__(self, func_name):
         self.func_name = func_name
-        self.client = client
 
     def __call__(self,*args,**kwargs):
-        func = getattr(self.client,self.func_name)
+        func = getattr(client,self.func_name)
 
         if self.has_callback(func):
+            #(ab)using list.append as a builtin callback method
             sync_result = []
             func(sync_result.append,*args, **kwargs)
-            self.client.force_call(block=True)
+            client.force_call(block=True)
             if not  sync_result:
                 return None
             return sync_result[0]
         else:
-            ws.log.debug('no-cb: %s' % self.func_name)
             func(*args, **kwargs)
-            self.client.force_call(block=True)
+            client.force_call(block=True)
             return
 
     @staticmethod
@@ -142,11 +137,14 @@ class SyncProxyFunction:
 
 class SyncProxy(object):
     """acts like the old synchonous proxy"""
-    def __init__(self, client):
-        self.client = client
+    def __getattr__(self, attr):
+        return SyncProxyMethod(attr)
 
-    def __getattr__(self, attr,*args,**kwargs):
-        return SyncProxyFunction(self.client, attr)
+#moving stuff from WS to module
+#goal: eliminate WS, because the 05 compatiblilty is not needed anymore
+proxy = SyncProxy()
+async_proxy = client
+#log is already imported.
 
 
 class Ws:
@@ -182,37 +180,31 @@ class Ws:
         self.config = pickle.load(open(self.config_file))
 
     def init_06(self, uri = 'http://localhost:58846'):
-        import deluge.ui.client as async_proxy
-        from deluge.log import LOG as log
-        self.log = log
-        async_proxy.set_core_uri(uri)
-        self.async_proxy = async_proxy
-
-        self.proxy = SyncProxy(self.async_proxy)
-
+        client.set_core_uri(uri)
+        self.async_proxy = client
 
 
         #MONKEY PATCH, TODO->REMOVE!!!
         def add_torrent_filecontent(name , data_b64, options):
-            self.log.debug('monkeypatched add_torrent_filecontent:%s,len(data:%s))' %
+            log.debug('monkeypatched add_torrent_filecontent:%s,len(data:%s))' %
                 (name , len(data_b64)))
 
             name =  name.replace('\\','/')
             name = 'deluge06_' + str(random.random()) + '_'  + name.split('/')[-1]
             filename = os.path.join('/tmp', name)
 
-            self.log.debug('write: %s' % filename)
+            log.debug('write: %s' % filename)
             f = open(filename,"wb")
             f.write(base64.b64decode(data_b64))
             f.close()
-            self.log.debug("options:%s" % options)
+            log.debug("options:%s" % options)
             self.proxy.add_torrent_file([filename] , [options])
 
-        self.proxy.add_torrent_filecontent = add_torrent_filecontent
-        self.log.debug('cfg-file %s' % self.config_file)
+        proxy.add_torrent_filecontent = add_torrent_filecontent
+        log.debug('cfg-file %s' % self.config_file)
 
         if not os.path.exists(self.config_file):
-            self.log.debug('create cfg file %s' % self.config_file)
+            log.debug('create cfg file %s' % self.config_file)
             #load&save defaults.
             f = file(self.config_file,'wb')
             pickle.dump(CONFIG_DEFAULTS,f)
@@ -220,34 +212,6 @@ class Ws:
 
         self.init_process()
         self.env   = '0.6'
-
-    def init_05(self):
-        import dbus
-        self.init_process()
-        bus = dbus.SessionBus()
-        self.proxy = bus.get_object("org.deluge_torrent.dbusplugin"
-            , "/org/deluge_torrent/DelugeDbusPlugin")
-
-        self.env = '0.5_process'
-        self.init_logger()
-
-    def init_gtk_05(self):
-        #appy possibly changed config-vars, only called in when runing inside gtk.
-        #new bug ws.render will not update!!!!
-        #other bug: must warn if blocklist plugin is active!
-        from dbus_interface import get_dbus_manager
-        self.proxy =  get_dbus_manager()
-        self.config  = deluge.pref.Preferences(self.config_file, False)
-        self.env = '0.5_gtk'
-        self.init_logger()
-
-    def init_logger(self):
-        #only for 0.5..
-        import logging
-        logging.basicConfig(level=logging.DEBUG,
-            format="[%(levelname)s] %(message)s")
-        self.log = logging
-
 
     #utils for config:
     def get_templates(self):
@@ -258,7 +222,7 @@ class Ws:
                 and not dirname.startswith('.')]
 
     def save_config(self):
-        self.log.debug('Save Webui Config')
+        log.debug('Save Webui Config')
         data = pickle.dumps(self.config)
         f = open(self.config_file,'wb')
         f.write(data)

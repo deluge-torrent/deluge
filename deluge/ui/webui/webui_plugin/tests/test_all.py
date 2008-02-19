@@ -6,7 +6,7 @@ unittest the right way feels so unpythonic :(
 """
 import unittest
 import cookielib, urllib2 , urllib
-from WebUi.webserver_common import ws,TORRENT_KEYS
+from WebUi.webserver_common import ws,TORRENT_KEYS, proxy
 import operator
 
 ws.init_06()
@@ -17,7 +17,7 @@ BASE_URL = 'http://localhost:8112'
 PWD = 'deluge'
 
 def get_status(id):
-    return ws.proxy.get_torrent_status(id,TORRENT_KEYS)
+    return proxy.get_torrent_status(id,TORRENT_KEYS)
 
 #BASE:
 #303 = see other
@@ -94,7 +94,7 @@ class TestWebUiBase(unittest.TestCase):
         else:
             pass
 
-    first_torrent_id = property(lambda self: ws.proxy.get_session_state()[0])
+    first_torrent_id = property(lambda self: proxy.get_session_state()[0])
     first_torrent = property(lambda self: get_status(self.first_torrent_id))
 
 
@@ -200,17 +200,17 @@ class TestIntegration(TestWebUiBase):
         'http://torrents.aelitis.com:88/torrents/azautoseeder_0.1.1.jar.torrent'
         ])
 
-        torrent_ids = ws.proxy.get_session_state()
+        torrent_ids = proxy.get_session_state()
 
         #avoid hammering, investigate current torrent-list and do not re-add.
         #correct means : 3 torrent's in list (for now)
         if len(torrent_ids) <> 3:
             #delete all, nice use case for refactoring delete..
-            torrent_ids = ws.proxy.get_session_state()
+            torrent_ids = proxy.get_session_state()
             for torrent in torrent_ids:
-                ws.proxy.remove_torrent([torrent], False, False)
+                proxy.remove_torrent([torrent], False, False)
 
-            torrent_ids = ws.proxy.get_session_state()
+            torrent_ids = proxy.get_session_state()
             self.assertEqual(torrent_ids, [])
 
             #add 3 using url.
@@ -218,7 +218,7 @@ class TestIntegration(TestWebUiBase):
                 self.assert_303('/torrent/add','/index',{'url':url,'torrent':None})
 
             #added?
-            self.torrent_ids = ws.proxy.get_session_state()
+            self.torrent_ids = proxy.get_session_state()
             self.assertEqual(len(self.torrent_ids), 3)
 
         else:
@@ -231,14 +231,14 @@ class TestIntegration(TestWebUiBase):
         #pause all
         self.assert_303('/pause_all','/index', post=1)
         #pause worked?
-        pause_status = [get_status(id)["user_paused"] for id in ws.proxy.get_session_state()]
+        pause_status = [get_status(id)["user_paused"] for id in proxy.get_session_state()]
         for paused in pause_status:
             self.assertEqual(paused, True)
 
         #resume all
         self.assert_303('/resume_all','/index', post=1)
         #resume worked?
-        pause_status = [get_status(id)["user_paused"] for id in ws.proxy.get_session_state()]
+        pause_status = [get_status(id)["user_paused"] for id in proxy.get_session_state()]
         for paused in pause_status:
             self.assertEqual(paused,False)
         #pause again.
@@ -254,7 +254,7 @@ class TestIntegration(TestWebUiBase):
 
     def testQueue(self):
         #find last:
-        torrent_id = [id for id in ws.proxy.get_session_state()
+        torrent_id = [id for id in proxy.get_session_state()
             if (get_status(id)['queue_pos'] ==3 )][0]
 
         #queue
@@ -285,7 +285,7 @@ class TestIntegration(TestWebUiBase):
 
     def testMeta(self):
         #info available?
-        for torrent_id in ws.proxy.get_session_state():
+        for torrent_id in proxy.get_session_state():
             self.assert_exists('/torrent/info/%s' % torrent_id)
             self.assert_exists('/torrent/delete/%s' % torrent_id)
 

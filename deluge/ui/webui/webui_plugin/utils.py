@@ -47,7 +47,7 @@ import pickle
 from urlparse import urlparse
 
 from webserver_common import  REVNO, VERSION, TORRENT_KEYS, STATE_MESSAGES
-from webserver_common import ws
+from webserver_common import ws, proxy, async_proxy, log
 
 debug_unicode = False
 
@@ -64,7 +64,7 @@ def setcookie(key, val):
 
 #really simple sessions, to bad i had to implement them myself.
 def start_session():
-    ws.log.debug('start session')
+    log.debug('start session')
     session_id = str(random.random())
     ws.SESSIONS.append(session_id)
     #if len(ws.SESSIONS) > 20:  #save max 20 sessions?
@@ -113,21 +113,21 @@ def getcookie(key, default = None):
 def get_stats():
     stats = Storage()
 
-    ws.async_proxy.get_download_rate(dict_cb('download_rate',stats))
-    ws.async_proxy.get_upload_rate(dict_cb('upload_rate',stats))
-    ws.async_proxy.get_config_value(dict_cb('max_download',stats)
+    async_proxy.get_download_rate(dict_cb('download_rate',stats))
+    async_proxy.get_upload_rate(dict_cb('upload_rate',stats))
+    async_proxy.get_config_value(dict_cb('max_download',stats)
         ,"max_download_speed")
-    ws.async_proxy.get_config_value(dict_cb('max_upload',stats)
+    async_proxy.get_config_value(dict_cb('max_upload',stats)
         ,"max_upload_speed")
-    ws.async_proxy.get_num_connections(dict_cb("num_connections",stats))
-    ws.async_proxy.get_config_value(dict_cb('max_num_connections',stats)
+    async_proxy.get_num_connections(dict_cb("num_connections",stats))
+    async_proxy.get_config_value(dict_cb('max_num_connections',stats)
         ,"max_connections_global")
-    ws.async_proxy.get_dht_nodes(dict_cb('dht_nodes',stats))
+    async_proxy.get_dht_nodes(dict_cb('dht_nodes',stats))
 
 
-    ws.async_proxy.force_call(block=True)
+    async_proxy.force_call(block=True)
 
-    #ws.log.debug(str(stats))
+    #log.debug(str(stats))
 
     stats.download_rate = fspeed(stats.download_rate)
     stats.upload_rate = fspeed(stats.upload_rate)
@@ -157,10 +157,10 @@ def enhance_torrent_status(torrent_id,status):
     for key in TORRENT_KEYS:
         if not key in status:
             status[key] = 0
-            #ws.log.warning('torrent_status:empty key in status:%s' % key)
+            #log.warning('torrent_status:empty key in status:%s' % key)
         elif status[key] == None:
             status[key] = 0
-            #ws.log.warning('torrent_status:None key in status:%s' % key)
+            #log.warning('torrent_status:None key in status:%s' % key)
 
 
     if status.tracker == 0:
@@ -222,9 +222,9 @@ def enhance_torrent_status(torrent_id,status):
 def get_torrent_status(torrent_id):
     """
     helper method.
-    enhance ws.proxy.get_torrent_status with some extra data
+    enhance proxy.get_torrent_status with some extra data
     """
-    status = ws.proxy.get_torrent_status(torrent_id,TORRENT_KEYS)
+    status = proxy.get_torrent_status(torrent_id,TORRENT_KEYS)
 
     return enhance_torrent_status(torrent_id, status)
 
@@ -234,12 +234,12 @@ def get_torrent_list():
     """
     uses async.
     """
-    torrent_ids  = ws.proxy.get_session_state() #Syc-api.
+    torrent_ids  = proxy.get_session_state() #Syc-api.
     torrent_dict = {}
     for id in torrent_ids:
-        ws.async_proxy.get_torrent_status(dict_cb(id,torrent_dict), id,
+        async_proxy.get_torrent_status(dict_cb(id,torrent_dict), id,
             TORRENT_KEYS)
-    ws.async_proxy.force_call(block=True)
+    async_proxy.force_call(block=True)
     return [enhance_torrent_status(id, status)
             for id, status in torrent_dict.iteritems()]
 
@@ -307,7 +307,7 @@ def get_newforms_data(form_class):
     vars = web.input()
     for field in fields:
         form_data[field] = vars.get(field)
-        #ws.log.debug("form-field:%s=%s" %  (field, form_data[field]))
+        #log.debug("form-field:%s=%s" %  (field, form_data[field]))
         #DIRTY HACK: (for multiple-select)
         if isinstance(form_class.base_fields[field],
                 forms.MultipleChoiceField):

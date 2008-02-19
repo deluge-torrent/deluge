@@ -32,7 +32,7 @@
 import lib.newforms_plus as forms
 import page_decorators as deco
 import lib.webpy022 as web
-from webserver_common import ws
+from webserver_common import ws, proxy, log
 from render import render
 from lib.webpy022.http import seeother
 import sys
@@ -64,9 +64,9 @@ class CookieCfgForm(forms.Form):
 class CfgForm(forms.Form):
     "config base for deluge-cfg"
     def initial_data(self):
-        return ws.proxy.get_config()
+        return proxy.get_config()
     def save(self, data):
-        ws.proxy.set_config(dict(data))
+        proxy.set_config(dict(data))
 
 class config_page:
     """
@@ -95,12 +95,12 @@ class config_page:
         form_data = web.Storage(utils.get_newforms_data(form_class))
         form = form_class(form_data)
         if form.is_valid():
-            ws.log.debug('save config %s' % form_data)
+            log.debug('save config %s' % form_data)
             try:
                 form.start_save()
                 return self.render(form , name, _('These changes were saved'))
             except forms.ValidationError, e:
-                ws.log.debug(e.message)
+                log.debug(e.message)
                 return self.render(form , name, error = e.message)
         else:
             return self.render(form , name,

@@ -3,7 +3,7 @@ decorators for html-pages.
 """
 #relative imports
 from render import render
-from webserver_common import ws
+from webserver_common import ws, log
 from utils import *
 #/relative
 
@@ -30,7 +30,7 @@ def check_session(func):
     mostly used for POST-pages.
     """
     def deco(self, name = None):
-        ws.log.debug('%s.%s(name=%s)'  % (self.__class__.__name__, func.__name__,
+        log.debug('%s.%s(name=%s)'  % (self.__class__.__name__, func.__name__,
             name))
         vars = web.input(redir_after_login = None)
         ck = cookies()
@@ -95,7 +95,7 @@ def remote(func):
     "decorator for remote (string) api's"
     def deco(self, name = None):
         try:
-            ws.log.debug('%s.%s(%s)' ,self.__class__.__name__, func.__name__,name )
+            log.debug('%s.%s(%s)' ,self.__class__.__name__, func.__name__,name )
             print func(self, name)
         except Exception, e:
             print 'error:%s' % e.message

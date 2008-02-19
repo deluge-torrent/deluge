@@ -38,11 +38,11 @@ it would be possible not to include the python-json dependency.
 
 from new import instancemethod
 from inspect import getargspec
-from utils import ws,get_torrent_status,get_category_choosers, get_stats,filter_torrent_state,fsize,fspeed
+from utils import get_torrent_status,get_category_choosers, get_stats,filter_torrent_state,fsize,fspeed
 from page_decorators import remote
 from operator import attrgetter
 import lib.webpy022 as web
-proxy = ws.proxy
+from webserver_common import proxy, log
 
 def to_json(obj):
     from lib.pythonize import pythonize
@@ -80,7 +80,7 @@ class json_api:
 
         method = getattr(self,name)
         vars = web.input(kwargs= None)
-        ws.log.debug('vars=%s' % vars)
+        log.debug('vars=%s' % vars)
         if vars.kwargs:
             kwargs = json.read(vars.kwargs)
         else:
@@ -118,7 +118,7 @@ class json_api:
     #extra's:
     def list_torrents(self):
         return [get_torrent_status(torrent_id)
-            for torrent_id in ws.proxy.get_session_state()]
+            for torrent_id in proxy.get_session_state()]
 
     def simplify_torrent_status(self, torrent):
         """smaller subset and preformatted data for the treelist"""

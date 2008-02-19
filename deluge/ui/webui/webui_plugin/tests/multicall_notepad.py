@@ -3,9 +3,8 @@ test multicall.
 """
 import time
 
-from WebUi.webserver_common import ws
+from WebUi.webserver_common import ws, proxy, async_proxy
 ws.init_06()
-async_proxy = ws.async_proxy
 
 TORRENT_KEYS = ['name', 'total_size', 'num_files', 'num_pieces', 'piece_length',
     'eta', 'ratio', 'file_progress', 'distributed_copies', 'total_done',
@@ -17,21 +16,18 @@ TORRENT_KEYS = ['name', 'total_size', 'num_files', 'num_pieces', 'piece_length',
     'max_upload_slots', 'max_download_speed', 'prioritize_first_last', 'private'
     ]
 
-
-
-
 if False:
     #
     #A: translate this into 1 multicall:
 
     start = time.time()
     stats = {
-        'download_rate':ws.proxy.get_download_rate(),
-        'upload_rate':ws.proxy.get_upload_rate(),
-        'max_download':ws.proxy.get_config_value('max_download_speed'),
-        'max_upload':ws.proxy.get_config_value('max_upload_speed'),
-        'num_connections':ws.proxy.get_num_connections(),
-        'max_num_connections':ws.proxy.get_config_value('max_connections_global')
+        'download_rate':proxy.get_download_rate(),
+        'upload_rate':proxy.get_upload_rate(),
+        'max_download':proxy.get_config_value('max_download_speed'),
+        'max_upload':proxy.get_config_value('max_upload_speed'),
+        'num_connections':proxy.get_num_connections(),
+        'max_num_connections':proxy.get_config_value('max_connections_global')
     }
 
     print "sync-stats:",time.time() - start
@@ -66,8 +62,8 @@ if False:
     #old-sync:
     start = time.time()
 
-    torrent_list = [ws.proxy.get_torrent_status(id, TORRENT_KEYS )
-        for id in ws.proxy.get_session_state()
+    torrent_list = [proxy.get_torrent_status(id, TORRENT_KEYS )
+        for id in proxy.get_session_state()
         ]
 
     print "sync-list:",time.time() - start
@@ -87,7 +83,7 @@ if False:
 
     start = time.time()
 
-    torrent_ids  = ws.proxy.get_session_state() #Syc-api.
+    torrent_ids  = proxy.get_session_state() #Syc-api.
     torrent_dict = {}
     for id in torrent_ids:
         async_proxy.get_torrent_status(dict_cb(id,torrent_dict), id, TORRENT_KEYS )
@@ -98,9 +94,9 @@ if False:
     print torrent_dict[torrent_ids[0]]
 
 if False:
-    print ws.proxy.get_config_value('download_location')
+    print proxy.get_config_value('download_location')
 
 if True:
-        torrent_id = ws.proxy.get_session_state()[0]
+        torrent_id = proxy.get_session_state()[0]
         print torrent_id
-        ws.proxy.move_torrent([torrent_id],"/media/sdb1/test")
+        proxy.move_torrent([torrent_id],"/media/sdb1/test")

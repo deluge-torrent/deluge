@@ -30,7 +30,7 @@
 #  statement from all source files in the program, then also delete it here.
 #
 
-from webserver_common import ws
+from webserver_common import ws, proxy
 import utils
 from render import render
 import page_decorators as deco
@@ -42,7 +42,7 @@ import lib.webpy022 as web
 class MoveForm(forms.Form):
     save_path = forms.ServerFolder(_("Move To"))
     def initial_data(self):
-        return {'save_path':ws.proxy.get_config_value('download_location')}
+        return {'save_path':proxy.get_config_value('download_location')}
 
 class torrent_move:
 
@@ -70,5 +70,5 @@ class torrent_move:
             print self.move_page(name, error = _("Error in Path."))
             return
         save_path = form.clean_data["save_path"]
-        ws.proxy.move_torrent(torrent_ids, save_path)
+        proxy.move_torrent(torrent_ids, save_path)
         utils.do_redirect()

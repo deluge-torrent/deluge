@@ -34,7 +34,7 @@
 import lib.newforms_plus as forms
 import config
 import utils
-from webserver_common import ws
+from webserver_common import ws, proxy , log
 
 
 class NetworkPorts(config.CfgForm ):
@@ -126,15 +126,15 @@ config.register_block('deluge','daemon', Daemon)
 class Plugins(forms.Form):
     title = _("Enabled Plugins")
     try:
-        _choices = [(p,p) for p in ws.proxy.get_available_plugins()]
+        _choices = [(p,p) for p in proxy.get_available_plugins()]
         enabled_plugins = forms.MultipleChoice(_(""), _choices)
     except:
-        ws.log.error("Not connected to daemon, Unable to load plugin-list")
+        log.error("Not connected to daemon, Unable to load plugin-list")
         #TODO: reload on reconnect!
 
 
     def initial_data(self):
-        return {'enabled_plugins':ws.proxy.get_enabled_plugins()}
+        return {'enabled_plugins':proxy.get_enabled_plugins()}
 
     def save(self, value):
         raise forms.ValidationError("SAVE:TODO")

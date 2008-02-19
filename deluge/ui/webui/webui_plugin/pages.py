@@ -31,7 +31,7 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 #
-from webserver_common import ws
+from webserver_common import ws, proxy, log
 from utils import *
 from render import render, error_page
 import page_decorators as deco
@@ -179,28 +179,28 @@ class torrent_start:
     @deco.check_session
     @deco.torrent_ids
     def POST(self, torrent_ids):
-        ws.proxy.resume_torrent(torrent_ids)
+        proxy.resume_torrent(torrent_ids)
         do_redirect()
 
 class torrent_stop:
     @deco.check_session
     @deco.torrent_ids
     def POST(self, torrent_ids):
-        ws.proxy.pause_torrent(torrent_ids)
+        proxy.pause_torrent(torrent_ids)
         do_redirect()
 
 class torrent_reannounce:
     @deco.check_session
     @deco.torrent_ids
     def POST(self, torrent_ids):
-        ws.proxy.force_reannounce(torrent_ids)
+        proxy.force_reannounce(torrent_ids)
         do_redirect()
 
 class torrent_recheck:
     @deco.check_session
     @deco.torrent_ids
     def POST(self, torrent_ids):
-        ws.proxy.force_recheck(torrent_ids)
+        proxy.force_recheck(torrent_ids)
         do_redirect()
 
 class torrent_delete:
@@ -217,7 +217,7 @@ class torrent_delete:
         vars = web.input(data_also = None, torrent_also = None)
         data_also = bool(vars.data_also)
         torrent_also = bool(vars.torrent_also)
-        ws.proxy.remove_torrent(torrent_ids, torrent_also, data_also)
+        proxy.remove_torrent(torrent_ids, torrent_also, data_also)
         do_redirect()
 
 class torrent_queue_up:
@@ -228,7 +228,7 @@ class torrent_queue_up:
         torrent_list.sort(lambda x, y : x.queue - y.queue)
         torrent_ids = [t.id for t in torrent_list]
         for torrent_id in torrent_ids:
-            ws.async_proxy.get_core().call("queue_queue_up", None, torrent_id)
+            async_proxy.get_core().call("queue_queue_up", None, torrent_id)
         do_redirect()
 
 class torrent_queue_down:
@@ -239,7 +239,7 @@ class torrent_queue_down:
         torrent_list.sort(lambda x, y : x.queue - y.queue)
         torrent_ids = [t.id for t in torrent_list]
         for torrent_id in reversed(torrent_ids):
-            ws.async_proxy.get_core().call("queue_queue_down", None, torrent_id)
+            async_proxy.get_core().call("queue_queue_down", None, torrent_id)
         do_redirect()
 
 class torrent_files:
@@ -253,19 +253,19 @@ class torrent_files:
         for pos in file_priorities:
             proxy_prio[int(pos)] = 1
 
-        ws.proxy.set_torrent_file_priorities(torrent_id, proxy_prio)
+        proxy.set_torrent_file_priorities(torrent_id, proxy_prio)
         do_redirect()
 
 class pause_all:
     @deco.check_session
     def POST(self, name):
-        ws.proxy.pause_torrent(ws.proxy.get_session_state())
+        proxy.pause_torrent(proxy.get_session_state())
         do_redirect()
 
 class resume_all:
     @deco.check_session
     def POST(self, name):
-        ws.proxy.resume_torrent(ws.proxy.get_session_state())
+        proxy.resume_torrent(proxy.get_session_state())
         do_redirect()
 
 class refresh:
@@ -319,7 +319,7 @@ class logout:
 class connect:
     @deco.deluge_page
     def GET(self, name):
-        #if ws.proxy.connected():
+        #if proxy.connected():
         #       error = _("Not Connected to a daemon")
         #else:
         error = None
@@ -361,7 +361,7 @@ class remote_torrent_add:
         else:  #file-post (curl)
             data_b64 = base64.b64encode(vars.torrent.file.read())
             torrent_name = vars.torrent.filename
-        ws.proxy.add_torrent_filecontent(torrent_name, data_b64)
+        proxy.add_torrent_filecontent(torrent_name, data_b64)
         return 'ok'
 
 class static(static_handler):
@@ -374,7 +374,7 @@ class template_static(static_handler):
 
 class downloads(static_handler):
     def GET(self, name):
-        self.base_dir = ws.proxy.get_config_value('default_download_path')
+        self.base_dir = proxy.get_config_value('default_download_path')
         if not ws.config.get('share_downloads'):
             raise Exception('Access to downloads is forbidden.')
         return static_handler.GET(self, name)
