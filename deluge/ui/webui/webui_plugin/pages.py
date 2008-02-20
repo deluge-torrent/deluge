@@ -229,7 +229,7 @@ class torrent_queue_up:
         torrent_ids = [t.id for t in torrent_list]
         for torrent_id in torrent_ids:
             #async_proxy.get_core().call("queue_queue_up", None, torrent_id)
-            proxy.queue_queue_up(torrent_id)
+            async_proxy.queue_queue_up(None, torrent_id)
         do_redirect()
 
 class torrent_queue_down:
@@ -241,7 +241,7 @@ class torrent_queue_down:
         torrent_ids = [t.id for t in torrent_list]
         for torrent_id in reversed(torrent_ids):
             #async_proxy.get_core().call("queue_queue_down", None, torrent_id)
-            proxy.queue_queue_down(torrent_id)
+            async_proxy.queue_queue_down(None, torrent_id)
         do_redirect()
 
 class torrent_files:

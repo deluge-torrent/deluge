@@ -99,8 +99,8 @@ CONFIG_DEFAULTS = {
     "auto_refresh":False,
     "auto_refresh_secs": 10,
     "template":"advanced",
-    "pwd_salt":"2540626806573060601127357001536142078273646936492343724296134859793541603059837926595027859394922651189016967573954758097008242073480355104215558310954",
-    "pwd_md5":"\xea\x8d\x90\x98^\x9f\xa9\xe2\x19l\x7f\x1a\xca\x82u%",
+    "pwd_salt":"2\xe8\xc7\xa6(n\x81_\x8f\xfc\xdf\x8b\xd1\x1e\xd5\x90",
+    "pwd_md5":".\xe8w\\+\xec\xdb\xf2id4F\xdb\rUc",
     "cache_templates":False,
     "use_https":False
 }
@@ -142,23 +142,26 @@ class CoreMethod:
     """
     def __init__(self, method_name):
         self.method_name = method_name
-        self.result = None
 
-    def __call__(self,*args,**kwargs):
-        client.get_core().call(self.method_name, self.callback ,*args, **kwargs)
-        return self.result
-
-    def callback(self, result):
-        self.result = result
+    def __call__(self, callback, *args,**kwargs):
+        client.get_core().call(self.method_name, callback ,*args, **kwargs)
 
 class BlockingCoreMethod(CoreMethod):
     """
     for syncProcy
     """
+    def __init__(self, method_name):
+        self.method_name = method_name
+        self.result = None
+
     def __call__(self,*args,**kwargs):
         client.get_core().call(self.method_name, self.callback ,*args, **kwargs)
         client.force_call(block=True)
         return self.result
+
+    def callback(self, result):
+        self.result = result
+
 
 class SyncProxy(object):
     """acts like the old synchonous proxy"""
