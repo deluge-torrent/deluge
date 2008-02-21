@@ -330,27 +330,31 @@ class Core(
         return self.export_add_torrent_file(
             filename, filedump, options)
         
-    def export_remove_torrent(self, torrent_id, remove_torrent, remove_data):
-        log.debug("Removing torrent %s from the core.", torrent_id)
-        if self.torrents.remove(torrent_id, remove_torrent, remove_data):
-            # Run the plugin hooks for 'post_torrent_remove'
-            self.plugins.run_post_torrent_remove(torrent_id)
-            # Emit the torrent_removed signal
-            self.torrent_removed(torrent_id)
+    def export_remove_torrent(self, torrent_ids, remove_torrent, remove_data):
+        log.debug("Removing torrent %s from the core.", torrent_ids)
+        for torrent_id in torrent_ids:
+            if self.torrents.remove(torrent_id, remove_torrent, remove_data):
+                # Run the plugin hooks for 'post_torrent_remove'
+                self.plugins.run_post_torrent_remove(torrent_id)
+                # Emit the torrent_removed signal
+                self.torrent_removed(torrent_id)
             
-    def export_force_reannounce(self, torrent_id):
-        log.debug("Forcing reannouncment to trackers of torrent %s", torrent_id)
-        self.torrents[torrent_id].force_reannounce()
+    def export_force_reannounce(self, torrent_ids):
+        log.debug("Forcing reannouncment to: %s", torrent_ids)
+        for torrent_id in torrent_ids:
+            self.torrents[torrent_id].force_reannounce()
 
-    def export_pause_torrent(self, torrent_id):
-        log.debug("Pausing torrent %s", torrent_id)
-        if not self.torrents[torrent_id].pause():
-            log.warning("Error pausing torrent %s", torrent_id)
+    def export_pause_torrent(self, torrent_ids):
+        log.debug("Pausing: %s", torrent_ids)
+        for torrent_id in torrent_ids:
+            if not self.torrents[torrent_id].pause():
+                log.warning("Error pausing torrent %s", torrent_id)
     
-    def export_move_torrent(self, torrent_id, dest):
-        log.debug("Moving torrent %s to %s", torrent_id, dest)
-        if not self.torrents[torrent_id].move_storage(dest):
-            log.warning("Error moving torrent %s to %s", torrent_id, dest)
+    def export_move_torrent(self, torrent_ids, dest):
+        log.debug("Moving torrents %s to %s", torrent_id, dest)
+        for torrent_id in torrent_ids:
+            if not self.torrents[torrent_id].move_storage(dest):
+                log.warning("Error moving torrent %s to %s", torrent_id, dest)
     
     def export_pause_all_torrents(self):
         """Pause all torrents in the session"""
@@ -363,10 +367,11 @@ class Core(
             # Emit the 'torrent_all_resumed' signal
             self.torrent_all_resumed()
         
-    def export_resume_torrent(self, torrent_id):
-        log.debug("Resuming torrent %s", torrent_id)
-        if self.torrents[torrent_id].resume():
-            self.torrent_resumed(torrent_id)
+    def export_resume_torrent(self, torrent_ids):
+        log.debug("Resuming: %s", torrent_ids)
+        for torrent_id in torrent_ids:
+            if self.torrents[torrent_id].resume():
+                self.torrent_resumed(torrent_id)
 
     def export_get_torrent_status(self, torrent_id, keys):
         # Build the status dictionary
@@ -467,9 +472,10 @@ class Core(
         self.plugins.disable_plugin(plugin)
         return None
     
-    def export_force_recheck(self, torrent_id):
-        """Forces a data recheck on torrent_id"""
-        return self.torrents.force_recheck(torrent_id)
+    def export_force_recheck(self, torrent_ids):
+        """Forces a data recheck on torrent_ids"""
+        for torrent_id in torrent_ids:
+            gobject.idle_add(self.torrents.force_recheck, torrent_id)
     
     def export_set_torrent_trackers(self, torrent_id, trackers):
         """Sets a torrents tracker list.  trackers will be [{"url", "tier"}]"""

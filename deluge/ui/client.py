@@ -187,12 +187,6 @@ def connected():
         return True
     return False
 
-def register_client(port):
-    get_core().call("register_client", None, port)
-
-def deregister_client():
-    get_core().call("deregister_client", None)
-                
 def shutdown():
     """Shutdown the core daemon"""
     try:
@@ -205,7 +199,15 @@ def force_call(block=True):
     """Forces the multicall batch to go now and not wait for the timer.  This
     call also blocks until all callbacks have been dealt with."""
     get_core().do_multicall(block=block)
-       
+
+## Core methods ##
+
+def register_client(port):
+    get_core().call("register_client", None, port)
+
+def deregister_client():
+    get_core().call("deregister_client", None)
+           
 def add_torrent_file(torrent_files, torrent_options=None):
     """Adds torrent files to the core
         Expects a list of torrent files
@@ -252,19 +254,16 @@ def add_torrent_url(torrent_url, options=None):
     
 def remove_torrent(torrent_ids, remove_torrent=False, remove_data=False):
     """Removes torrent_ids from the core.. Expects a list of torrent_ids"""
-    log.debug("Attempting to removing torrents: %s", torrent_ids)
-    for torrent_id in torrent_ids:
-        get_core().call("remove_torrent", None, torrent_id, remove_torrent, remove_data)
+    log.debug("Attempting to remove torrents: %s", torrent_ids)
+    get_core().call("remove_torrent", None, torrent_ids, remove_torrent, remove_data)
 
 def pause_torrent(torrent_ids):
     """Pauses torrent_ids"""
-    for torrent_id in torrent_ids:
-        get_core().call("pause_torrent", None, torrent_id)
+    get_core().call("pause_torrent", None, torrent_ids)
 
 def move_torrent(torrent_ids, folder):
     """Pauses torrent_ids"""
-    for torrent_id in torrent_ids:
-        get_core().call("move_torrent", None, torrent_id, folder)
+    get_core().call("move_torrent", None, torrent_ids, folder)
 
 def pause_all_torrents():
     """Pauses all torrents"""
@@ -276,13 +275,11 @@ def resume_all_torrents():
         
 def resume_torrent(torrent_ids):
     """Resume torrent_ids"""
-    for torrent_id in torrent_ids:
-        get_core().call("resume_torrent", None, torrent_id)
+    get_core().call("resume_torrent", None, torrent_ids)
         
 def force_reannounce(torrent_ids):
     """Reannounce to trackers"""
-    for torrent_id in torrent_ids:
-        get_core().call("force_reannounce", None, torrent_id)
+    get_core().call("force_reannounce", None, torrent_ids)
 
 def get_torrent_status(callback, torrent_id, keys):
     """Builds the status dictionary and returns it"""
@@ -337,8 +334,7 @@ def disable_plugin(plugin):
 
 def force_recheck(torrent_ids):
     """Forces a data recheck on torrent_ids"""
-    for torrent_id in torrent_ids:
-        get_core().call("force_recheck", None, torrent_id)
+    get_core().call("force_recheck", None, torrent_ids)
 
 def set_torrent_trackers(torrent_id, trackers):
     """Sets the torrents trackers"""
