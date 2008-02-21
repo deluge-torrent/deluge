@@ -764,6 +764,9 @@ Space:") + " " + nice_free)
                 self.set_supp_torrent_state_val(event['unique_ID'], 
                                                 "tracker_status",
                                                 _("Announce OK"))
+                if event['num_complete'] == -1 or event['num_incomplete'] == -1:
+                    self.scrape_tracker(event['unique_ID'])
+                    
             elif event['event_type'] is self.constants['EVENT_TRACKER_ALERT']:
                 match = re.search('tracker:\s*".*"\s*(.*)', event["message"])
                 message = match and match.groups()[0] or ""

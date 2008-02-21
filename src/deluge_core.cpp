@@ -1584,10 +1584,11 @@ std::cout << asctime(timeinfo) << " torrent_pop_event()" << std::endl;
             return NULL;
 
         if (handle_exists(handle))
-            return Py_BuildValue("{s:i,s:i,s:s}",
+            return Py_BuildValue("{s:i,s:i,s:i,s:i,s:s}",
                 "event_type",       EVENT_TRACKER_REPLY,
-                "unique_ID",
-                M_torrents->at(index).unique_ID,
+                "unique_ID",        M_torrents->at(index).unique_ID,
+                "num_complete",     handle.status().num_complete,
+                "num_incomplete",   handle.status().num_incomplete,
                 "message",          a->msg().c_str());
         else
             { Py_INCREF(Py_None); return Py_None; }
