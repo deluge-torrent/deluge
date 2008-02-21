@@ -146,4 +146,8 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
     def block_ip_range(self, range):
         """Blocks the ip range in the core"""
         return self.core.export_block_ip_range(range)
+    
+    def reset_ip_filter(self):
+        """Resets the ip filter"""
+        return self.core.export_reset_ip_filter()
         
