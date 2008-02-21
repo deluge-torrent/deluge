@@ -186,10 +186,6 @@ class Core(
         # Set the user agent
         self.settings = lt.session_settings()
         self.settings.user_agent = "Deluge %s" % deluge.common.get_version()
-
-        # Create the IP Filter
-        self.ip_filter = lt.ip_filter()
-        self.session.set_ip_filter(self.ip_filter)
         
         # Set lazy bitfield
         self.settings.lazy_bitfields = 1
@@ -505,7 +501,16 @@ class Core(
     
     def export_block_ip_range(self, range):
         """Block an ip range"""
-        self.ip_filter.add_rule(range[0], range[1], 1)
+        try:
+            self.ip_filter.add_rule(range[0], range[1], 1)
+        except AttributeError:
+            self.export_reset_ip_filter()
+            self.ip_filter.add_rule(range[0], range[1], 1)
+    
+    def export_reset_ip_filter(self):
+        """Clears the ip filter"""
+        self.ip_filter = lt.ip_filter()
+        self.session.set_ip_filter(self.ip_filter)
         
     # Signals
     def torrent_added(self, torrent_id):
