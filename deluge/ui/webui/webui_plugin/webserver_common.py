@@ -236,7 +236,7 @@ class Ws:
             f.write(base64.b64decode(data_b64))
             f.close()
             log.debug("options:%s" % options)
-            self.proxy.add_torrent_file([filename] , [options])
+            proxy.add_torrent_file([filename] , [options])
 
         proxy.add_torrent_filecontent = add_torrent_filecontent
         log.debug('cfg-file %s' % self.config_file)
