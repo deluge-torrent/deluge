@@ -2,6 +2,7 @@ Deluge 0.5.8.5 (xx March 2008)
   * Auto scraping of tracker if it doesn't report number of peers on reply
   * Fix web seed proxy preference
   * Fix adding of duplicate torrents
+  * Fix timers for saving fastresume and uploaded memory
   * UPnP fixes
   * Fix possible libtorrent crash in storage
 
