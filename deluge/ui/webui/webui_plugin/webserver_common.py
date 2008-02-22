@@ -43,8 +43,11 @@ import sys
 import base64
 from md5 import md5
 import inspect
-from deluge.ui import client
+
 from deluge.log import LOG as log
+
+from deluge.ui.client import sclient as proxy
+from deluge.ui.client import aclient as async_proxy
 
 random.seed()
 
@@ -107,83 +110,6 @@ CONFIG_DEFAULTS = {
 
 #/constants
 
-#some magic to transform the async-proxy back to sync:
-class BlockingMethod:
-    """
-    helper class for SyncProxy
-    """
-    def __init__(self, method_name):
-        self.method_name = method_name
-        self.result = None
-
-    def __call__(self, *args, **kwargs):
-        func = getattr(client, self.method_name)
-
-        if self.has_callback(func):
-            func(self.callback ,*args, **kwargs)
-            client.force_call(block=True)
-            return self.result
-        else:
-            func(*args, **kwargs)
-            client.force_call(block=True)
-            return
-
-    def callback(self, result):
-        self.result = result
-
-    @staticmethod
-    def has_callback(func):
-        return  "callback" in inspect.getargspec(func)[0]
-
-class CoreMethod:
-    """
-    plugins etc are not exposed in client.py
-    wrapper to make plugin methods behave like the ones in client.py
-    """
-    def __init__(self, method_name):
-        self.method_name = method_name
-
-    def __call__(self, callback, *args,**kwargs):
-        client.get_core().call(self.method_name, callback ,*args, **kwargs)
-
-class BlockingCoreMethod(CoreMethod):
-    """
-    for syncProcy
-    """
-    def __init__(self, method_name):
-        self.method_name = method_name
-        self.result = None
-
-    def __call__(self,*args,**kwargs):
-        client.get_core().call(self.method_name, self.callback ,*args, **kwargs)
-        client.force_call(block=True)
-        return self.result
-
-    def callback(self, result):
-        self.result = result
-
-
-class SyncProxy(object):
-    """acts like the old synchonous proxy"""
-    def __getattr__(self, method_name):
-        if hasattr(client, method_name):
-            return BlockingMethod(method_name)
-        else:
-            return BlockingCoreMethod( method_name )
-
-class ASyncProxy(object):
-    def __getattr__(self, method_name):
-        if hasattr(client, method_name):
-            return getattr(client, method_name)
-        else:
-            return CoreMethod( method_name )
-
-#moving stuff from WS to module
-#goal: eliminate WS, because the 05 compatiblilty is not needed anymore
-proxy = SyncProxy()
-async_proxy = ASyncProxy()
-#log is already imported.
-
 
 class Ws:
     """
@@ -218,8 +144,7 @@ class Ws:
         self.config = pickle.load(open(self.config_file))
 
     def init_06(self, uri = 'http://localhost:58846'):
-        client.set_core_uri(uri)
-        self.async_proxy = client
+        proxy.set_core_uri(uri)
 
 
         #MONKEY PATCH, TODO->REMOVE!!!
@@ -236,6 +161,8 @@ class Ws:
             f.write(base64.b64decode(data_b64))
             f.close()
             log.debug("options:%s" % options)
+
+            log.debug("TF:%s" % proxy.add_torrent_file)
             proxy.add_torrent_file([filename] , [options])
 
         proxy.add_torrent_filecontent = add_torrent_filecontent
