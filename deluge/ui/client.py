@@ -227,7 +227,7 @@ class BaseClient(object):
 
     #utility:
     def has_callback(self, method_name):
-        return (method_name in self.no_callback_list)
+        return not (method_name in self.no_callback_list)
 
     def is_localhost(self):
         """Returns True if core is a localhost"""
@@ -283,7 +283,7 @@ class AClient(BaseClient):
     async proxy
     """
     def get_method(self, method_name):
-        if self.has_callback(method_name):
+        if not self.has_callback(method_name):
             def async_proxy_nocb(*args, **kwargs):
                 return self.core.call(method_name,None, *args, **kwargs)
             return async_proxy_nocb
