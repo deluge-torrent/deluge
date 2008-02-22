@@ -374,6 +374,7 @@ class Manager:
                 self.get_core_torrent_state(unique_ID, False)['total_upload']
             except AttributeError:
                 self.unique_IDs[unique_ID].initial_uploaded_memory = 0
+        return True
 
     # Preference management functions
 
@@ -484,6 +485,7 @@ class Manager:
                 deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
             except Exception, e:
                 print "Unable to save fastresume: ", e
+        return True
 
     # State retrieval functions
 
