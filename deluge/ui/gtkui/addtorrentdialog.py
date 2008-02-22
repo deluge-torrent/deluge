@@ -38,7 +38,7 @@ import gettext
 
 import pkg_resources
 
-import deluge.ui.client as client
+from deluge.ui.client import aclient as client
 import deluge.component as component
 import deluge.ui.gtkui.listview as listview
 from deluge.configmanager import ConfigManager

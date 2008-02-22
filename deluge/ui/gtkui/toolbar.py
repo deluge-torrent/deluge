@@ -39,7 +39,7 @@ import gobject
 import deluge.component as component
 from deluge.log import LOG as log
 from deluge.common import TORRENT_STATE
-import deluge.ui.client as client
+from deluge.ui.client import aclient as client
 
 class ToolBar(component.Component):
     def __init__(self):

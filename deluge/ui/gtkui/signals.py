@@ -32,7 +32,7 @@
 #    statement from all source files in the program, then also delete it here.
 
 import deluge.component as component
-import deluge.ui.client as client
+from deluge.ui.client import aclient as client
 from deluge.ui.signalreceiver import SignalReceiver
 from deluge.log import LOG as log
 

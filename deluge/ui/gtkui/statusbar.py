@@ -35,7 +35,7 @@ import gtk
 
 import deluge.component as component
 import deluge.common
-import deluge.ui.client as client
+from deluge.ui.client import aclient as client
 from deluge.log import LOG as log
 
 class StatusBarItem:

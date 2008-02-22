@@ -34,7 +34,7 @@
 import gettext
 import locale
 import pkg_resources
-import deluge.ui.client as client
+from deluge.ui.client import aclient as client
 from deluge.log import LOG as log
 
 class UI:
@@ -78,7 +78,7 @@ class UI:
         torrent_ids = self.plugin.get_selected_torrents()
         for torrent_id in torrent_ids:
             try:
-                client.get_core().queue_queue_top(torrent_id)
+                client.queue_queue_top(torrent_id)
             except Exception, e:
                 log.debug("Unable to queue top torrent: %s", e)
         return
@@ -89,7 +89,7 @@ class UI:
         torrent_ids = self.plugin.get_selected_torrents()
         for torrent_id in torrent_ids:
             try:
-                client.get_core().queue_queue_up(torrent_id)
+                client.queue_queue_up(torrent_id)
             except Exception, e:
                 log.debug("Unable to queue up torrent: %s", e)
         return
@@ -100,7 +100,7 @@ class UI:
         torrent_ids = self.plugin.get_selected_torrents()
         for torrent_id in torrent_ids:
             try:
-                client.get_core().queue_queue_down(torrent_id)
+                client.queue_queue_down(torrent_id)
             except Exception, e:
                 log.debug("Unable to queue down torrent: %s", e)
         return
@@ -111,7 +111,7 @@ class UI:
         torrent_ids = self.plugin.get_selected_torrents()
         for torrent_id in torrent_ids:
             try:
-                client.get_core().queue_queue_bottom(torrent_id)
+                client.queue_queue_bottom(torrent_id)
             except Exception, e:
                 log.debug("Unable to queue bottom torrent: %s", e)
         return

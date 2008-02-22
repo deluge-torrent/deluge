@@ -37,7 +37,7 @@ import random
 
 import gobject
 
-import deluge.ui.client as client
+from deluge.ui.client import aclient as client
 import deluge.SimpleXMLRPCServer as SimpleXMLRPCServer
 from SocketServer import ThreadingMixIn
 import deluge.xmlrpclib as xmlrpclib

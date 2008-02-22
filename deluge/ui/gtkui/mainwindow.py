@@ -37,7 +37,7 @@ import gtk, gtk.glade
 import gobject
 import pkg_resources
 
-import deluge.ui.client as client
+from deluge.ui.client import aclient as client
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 

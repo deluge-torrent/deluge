@@ -44,7 +44,7 @@ import pkg_resources
 import signal
 
 import deluge.component as component
-import deluge.ui.client as client
+from deluge.ui.client import aclient as client
 from mainwindow import MainWindow
 from menubar import MenuBar
 from toolbar import ToolBar

@@ -1,20 +1,21 @@
 #
 # client.py
 #
-# Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+# Copyright (C) 2007/2008 Andrew Resch ('andar') <andrewresch@gmail.com>
+# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 2 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -43,26 +44,26 @@ import deluge.xmlrpclib as xmlrpclib
 import deluge.common
 import deluge.error
 from deluge.log import LOG as log
-                            
+
 class CoreProxy(gobject.GObject):
-    __gsignals__ = { 
-        "new_core" : ( 
+    __gsignals__ = {
+        "new_core" : (
             gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, []),
-        "no_core" : ( 
-            gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, []), 
+        "no_core" : (
+            gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, []),
     }
     def __init__(self):
         log.debug("CoreProxy init..")
         gobject.GObject.__init__(self)
         self._uri = None
-        self._core = None
+        self.rpc_core = None
         self._multi = None
         self._callbacks = []
         self._multi_timer = None
 
     def call(self, func, callback, *args):
-        if self._core is None or self._multi is None:
-            if self.get_core() is None:
+        if self.rpc_core is None or self._multi is None:
+            if self.rpc_core is None:
                 raise deluge.error.NoCoreError("The core proxy is invalid.")
                 return
         _func = getattr(self._multi, func)
@@ -77,14 +78,14 @@ class CoreProxy(gobject.GObject):
                     _func()
                 else:
                     _func(*args)
-                
+
                 self._callbacks.append([callback])
 
     def do_multicall(self, block=False):
         if len(self._callbacks) == 0:
             return True
-        
-        if self._multi is not None and self._core is not None:
+
+        if self._multi is not None and self.rpc_core is not None:
             try:
                 try:
                     for i, ret in enumerate(self._multi()):
@@ -99,18 +100,18 @@ class CoreProxy(gobject.GObject):
                 except socket.error, e:
                     log.warning("Could not contact daemon: %s", e)
                     self.set_core_uri(None)
-            finally:                        
+            finally:
                 self._callbacks = []
-                
-        self._multi = xmlrpclib.MultiCall(self._core)
+
+        self._multi = xmlrpclib.MultiCall(self.rpc_core)
         return True
-        
+
     def set_core_uri(self, uri):
         log.info("Setting core uri as %s", uri)
-        
+
         if uri == None and self._uri != None:
             self._uri = None
-            self._core = None
+            self.rpc_core = None
             self._multi = None
             try:
                 gobject.source_remove(self._multi_timer)
@@ -118,252 +119,266 @@ class CoreProxy(gobject.GObject):
                 pass
             self.emit("no_core")
             return
-        
+
         if uri != self._uri and self._uri != None:
-            self._core = None
+            self.rpc_core = None
             self._multi = None
             try:
                 gobject.source_remove(self._multi_timer)
             except:
                 pass
             self.emit("no_core")
-                            
+
         self._uri = uri
         # Get a new core
-        self.get_core()
-    
+        self.get_rpc_core()
+
     def get_core_uri(self):
         """Returns the URI of the core currently being used."""
         return self._uri
-            
-    def get_core(self):
-        if self._core is None and self._uri is not None:
+
+    def get_rpc_core(self):
+        if self.rpc_core is None and self._uri is not None:
             log.debug("Creating ServerProxy..")
-            self._core = xmlrpclib.ServerProxy(self._uri, allow_none=True)
-            self._multi = xmlrpclib.MultiCall(self._core)
+            self.rpc_core = xmlrpclib.ServerProxy(self._uri, allow_none=True)
+            self._multi = xmlrpclib.MultiCall(self.rpc_core)
             self._multi_timer = gobject.timeout_add(200, self.do_multicall)
             # Call any callbacks registered
             self.emit("new_core")
-        
-        return self._core
-                      
+
+        return self.rpc_core
+
 _core = CoreProxy()
 
-def get_core():
-    """Get the core object and return it"""
-    return _core
-    
-def connect_on_new_core(callback):
-    """Connect a callback whenever a new core is connected to."""
-    return _core.connect("new_core", callback)
+class BaseClient(object):
+    """
+    wraps all calls to core/coreproxy
+    base for AClient and SClient
+    """
+    no_callback_list = [ "add_torrent_url", "pause_all_torrents",
+            "resume_all_torrent", "set_config", "enable_plugin",
+            "disable_plugin", "set_torrent_trackers",
+            "set_torrent_max_connections", "set_torrent_max_upload_slots",
+            "set_torrent_max_upload_speed", "set_torrent_max_download_speed",
+            "set_torrent_private_flag", "set_torrent_file_priorities",
+            "block_ip_range",
+            "remove_torrent", "pause_torrent", "move_torrent" ,
+            "resume_torrent","force_reannounce", "force_recheck",
+            "deregister_client","register_client",
+            "add_torrent_file"]
 
-def connect_on_no_core(callback):
-    """Connect a callback whenever the core is disconnected from."""
-    return _core.connect("no_core", callback)
-  
-def set_core_uri(uri):
-    """Sets the core uri"""
-    return _core.set_core_uri(uri)
+    def __init__(self):
+        self.core = _core
 
-def get_core_uri():
-    """Get the core URI"""
-    return _core.get_core_uri()
+    #xml-rpc introspection
+    def list_methods(self):
+        registered = self.core.rpc_core.system.listMethods(  )
+        return sorted(registered)
 
-def is_localhost():
-    """Returns True if core is a localhost"""
-    # Get the uri
-    uri = _core.get_core_uri()
-    if uri != None:
-        # Get the host
-        host = uri[7:].split(":")[0]
-        if host == "localhost" or host == "127.0.0.1":
-            return True
-    
-    return False
+    def methodSignature(self, method_name):
+        "broken :("
+        return self.core.rpc_core.system.methodSignature(method_name)
 
-def connected():
-    """Returns True if connected to a host, and False if not."""
-    if get_core_uri() != None:
-        return True
-    return False
+    def methodHelp(self, method_name):
+        return self.core.rpc_core.system.methodHelp(method_name)
 
-def shutdown():
-    """Shutdown the core daemon"""
-    try:
-        get_core().call("shutdown", None)
-        force_call(block=False)
-    finally:
-        set_core_uri(None)
+    #wrappers, getattr
+    def get_method(self, method_name):
+        "Override this in subclass."
+        raise NotImplementedError()
 
-def force_call(block=True):
-    """Forces the multicall batch to go now and not wait for the timer.  This
-    call also blocks until all callbacks have been dealt with."""
-    get_core().do_multicall(block=block)
+    def __getattr__(self, method_name):
+        return  self.get_method(method_name)
+        #raise AttributeError("no attr/method named:%s" % attr)
 
-## Core methods ##
-
-def register_client(port):
-    get_core().call("register_client", None, port)
-
-def deregister_client():
-    get_core().call("deregister_client", None)
-           
-def add_torrent_file(torrent_files, torrent_options=None):
-    """Adds torrent files to the core
+    #custom wrapped methods:
+    def add_torrent_file(self, torrent_files, torrent_options=None):
+        """Adds torrent files to the core
         Expects a list of torrent files
         A list of torrent_option dictionaries in the same order of torrent_files
-    """
-    if torrent_files is None:
-        log.debug("No torrent files selected..")
-        return
-    log.debug("Attempting to add torrent files: %s", torrent_files)
-    for torrent_file in torrent_files:
-        # Open the .torrent file for reading because we need to send it's
-        # contents to the core.
-        try:
-            f = open(torrent_file, "rb")
-        except Exception, e:
-            log.warning("Unable to open %s: %s", torrent_file, e)
-            continue
-            
-        # Get the filename because the core doesn't want a path.
-        (path, filename) = os.path.split(torrent_file)
-        fdump = xmlrpclib.Binary(f.read())
-        f.close()
-        
-        # Get the options for the torrent
-        if torrent_options != None:
+        """
+        if torrent_files is None:
+            log.debug("No torrent files selected..")
+            return
+        log.debug("Attempting to add torrent files: %s", torrent_files)
+        for torrent_file in torrent_files:
+            # Open the .torrent file for reading because we need to send it's
+            # contents to the core.
             try:
-                options = torrent_options[torrent_files.index(torrent_file)]
-            except:
+                f = open(torrent_file, "rb")
+            except Exception, e:
+                log.warning("Unable to open %s: %s", torrent_file, e)
+                continue
+
+            # Get the filename because the core doesn't want a path.
+            (path, filename) = os.path.split(torrent_file)
+            fdump = xmlrpclib.Binary(f.read())
+            f.close()
+
+            # Get the options for the torrent
+            if torrent_options != None:
+                try:
+                    options = torrent_options[torrent_files.index(torrent_file)]
+                except:
+                    options = None
+            else:
                 options = None
+            self.get_method("add_torrent_file")(filename, fdump, options)
+
+    #utility:
+    def has_callback(self, method_name):
+        return (method_name in self.no_callback_list)
+
+    def is_localhost(self):
+        """Returns True if core is a localhost"""
+        # Get the uri
+        uri = self.core.get_core_uri()
+        if uri != None:
+            # Get the host
+            host = uri[7:].split(":")[0]
+            if host == "localhost" or host == "127.0.0.1":
+                return True
+        return False
+
+    def get_core_uri(self):
+        """Get the core URI"""
+        return self.core.get_core_uri()
+
+    def set_core_uri(self, uri = 'http://localhost:58846'):
+        """Sets the core uri"""
+        return self.core.set_core_uri(uri)
+
+    def connected(self):
+        """Returns True if connected to a host, and False if not."""
+        if self.get_core_uri() != None:
+            return True
+        return False
+
+    def shutdown(self):
+        """Shutdown the core daemon"""
+        try:
+            self.core.call("shutdown", None)
+            self.core.force_call(block=False)
+        finally:
+            self.set_core_uri(None)
+
+    #events:
+    def connect_on_new_core(self, callback):
+        """Connect a callback whenever a new core is connected to."""
+        return self.core.connect("new_core", callback)
+
+    def connect_on_no_core(self, callback):
+        """Connect a callback whenever the core is disconnected from."""
+        return self.core.connect("no_core", callback)
+
+class SClient(BaseClient):
+    """
+    sync proxy
+    """
+    def get_method(self, method_name):
+        return getattr(self.core.rpc_core, method_name)
+
+class AClient(BaseClient):
+    """
+    async proxy
+    """
+    def get_method(self, method_name):
+        if self.has_callback(method_name):
+            def async_proxy_nocb(*args, **kwargs):
+                return self.core.call(method_name,None, *args, **kwargs)
+            return async_proxy_nocb
         else:
-            options = None
-            
-        get_core().call("add_torrent_file", None,
-            filename, fdump, options)
+            def async_proxy(*args, **kwargs):
+                return self.core.call(method_name, *args, **kwargs)
+            return async_proxy
 
-def add_torrent_url(torrent_url, options=None):
-    """Adds torrents to the core via url"""
-    from deluge.common import is_url
-    if is_url(torrent_url):
-        get_core().call("add_torrent_url", None, 
-            torrent_url, str(), options)
-    else:
-        log.warning("Invalid URL %s", torrent_url)
-    
-def remove_torrent(torrent_ids, remove_torrent=False, remove_data=False):
-    """Removes torrent_ids from the core.. Expects a list of torrent_ids"""
-    log.debug("Attempting to remove torrents: %s", torrent_ids)
-    get_core().call("remove_torrent", None, torrent_ids, remove_torrent, remove_data)
+    def force_call(self, block=True):
+        """Forces the multicall batch to go now and not wait for the timer.  This
+        call also blocks until all callbacks have been dealt with."""
+        self.core.do_multicall(block=block)
 
-def pause_torrent(torrent_ids):
-    """Pauses torrent_ids"""
-    get_core().call("pause_torrent", None, torrent_ids)
+sclient = SClient()
+aclient = AClient()
 
-def move_torrent(torrent_ids, folder):
-    """Pauses torrent_ids"""
-    get_core().call("move_torrent", None, torrent_ids, folder)
+#------------------------------------------------------------------------------
+#tests:
+#------------------------------------------------------------------------------
 
-def pause_all_torrents():
-    """Pauses all torrents"""
-    get_core().call("pause_all_torrents", None)
+def test_introspection():
+    print "*start introspection test*"
+    sclient.set_core_uri()
+    print "list_methods", sclient.list_methods()
+    print "sig of block_ip_range", sclient.methodSignature('block_ip_range')
+    print "doc of block_ip_range",  sclient.methodHelp('block_ip_range')
 
-def resume_all_torrents():
-    """Resumes all torrents"""
-    get_core().call("resume_all_torrents", None)
-        
-def resume_torrent(torrent_ids):
-    """Resume torrent_ids"""
-    get_core().call("resume_torrent", None, torrent_ids)
-        
-def force_reannounce(torrent_ids):
-    """Reannounce to trackers"""
-    get_core().call("force_reannounce", None, torrent_ids)
+def test_sync():
+    print "*start sync test*"
+    sclient.set_core_uri()
 
-def get_torrent_status(callback, torrent_id, keys):
-    """Builds the status dictionary and returns it"""
-    get_core().call("get_torrent_status", callback, torrent_id, keys)
+    #get list of torrents and display the 1st.
+    torrent_ids = sclient.get_session_state()
+    print "session_state():", torrent_ids
+    print ("get_torrent_status(%s):" %  torrent_ids[0],
+        sclient.get_torrent_status(torrent_ids[0], []))
 
-def get_torrents_status(callback, torrent_ids, keys):
-    """Builds a dictionary of torrent_ids status.  Expects 2 lists.  This is
-    asynchronous so the return value will be sent as the signal
-    'torrent_status'"""
-    get_core().call("get_torrents_status", callback, torrent_ids, keys)
+    sclient.pause_torrent(torrent_ids)
 
-def get_session_state(callback):
-    get_core().call("get_session_state", callback)
+    print "paused:", [
+        sclient.get_torrent_status(id, ['paused'])['paused']
+        for id in torrent_ids]
 
-def get_config(callback):
-    get_core().call("get_config", callback)
+    sclient.resume_torrent(torrent_ids)
+    print "resumed:", [
+        sclient.get_torrent_status(id, ['paused'])['paused']
+        for id in torrent_ids]
 
-def get_config_value(callback, key):
-    get_core().call("get_config_value", callback, key)
-    
-def set_config(config):
-    if config == {}:
-        return
-    get_core().call("set_config", None, config)
+def test_async():
+    print "*start async test*"
+    torrent_ids = []
 
-def get_listen_port(callback):
-    get_core().call("get_listen_port", callback)
+    #callbacks:
+    def cb_session_state(temp_torrent_list):
+        print "session_state:" , temp_torrent_list
+        torrent_ids.extend(temp_torrent_list)
 
-def get_available_plugins(callback):
-    get_core().call("get_available_plugins", callback)
+    def cb_torrent_status_full(status):
+        print "\ntorrent_status_full=", status
 
-def get_enabled_plugins(callback):
-    get_core().call("get_enabled_plugins", callback)
+    def cb_torrent_status_paused(torrent_state):
+        print "(paused=%s)," % torrent_state['paused'],
 
-def get_download_rate(callback):
-    get_core().call("get_download_rate", callback)
+    #/callbacks
 
-def get_upload_rate(callback):
-    get_core().call("get_upload_rate", callback)
+    aclient.set_core_uri()
+    aclient.get_session_state(cb_session_state)
 
-def get_num_connections(callback):
-    get_core().call("get_num_connections", callback)
+    print "force_call 1"
+    aclient.force_call(block=True)
+    print "end force_call 1:", len(torrent_ids)
 
-def get_dht_nodes(callback):
-    get_core().call("get_dht_nodes", callback)
 
-def enable_plugin(plugin):
-    get_core().call("enable_plugin", None, plugin)
-            
-def disable_plugin(plugin):
-    get_core().call("disable_plugin", None, plugin)
+    #has_callback+multicall
+    aclient.pause_torrent(torrent_ids)
+    aclient.force_call(block=True)
+    for id in torrent_ids:
+        aclient.get_torrent_status(cb_torrent_status_paused, id , ['paused'])
 
-def force_recheck(torrent_ids):
-    """Forces a data recheck on torrent_ids"""
-    get_core().call("force_recheck", None, torrent_ids)
+    aclient.get_torrent_status(cb_torrent_status_full, torrent_ids[0], [])
 
-def set_torrent_trackers(torrent_id, trackers):
-    """Sets the torrents trackers"""
-    get_core().call("set_torrent_trackers", None, torrent_id, trackers)
+    print "force_call 2"
+    aclient.force_call(block=True)
+    print "end force-call 2"
 
-def set_torrent_max_connections(torrent_id, value):
-    """Sets a torrents max number of connections"""
-    get_core().call("set_torrent_max_connections", None, torrent_id, value)
 
-def set_torrent_max_upload_slots(torrent_id, value):
-    """Sets a torrents max number of upload slots"""
-    get_core().call("set_torrent_max_upload_slots", None, torrent_id, value)
-        
-def set_torrent_max_upload_speed(torrent_id, value):
-    """Sets a torrents max upload speed"""
-    get_core().call("set_torrent_max_upload_speed", None, torrent_id, value)
-        
-def set_torrent_max_download_speed(torrent_id, value):
-    """Sets a torrents max download speed"""
-    get_core().call("set_torrent_max_download_speed", None, torrent_id, value)
 
-def set_torrent_private_flag(torrent_id, value):
-    """Sets a torrents private flag"""
-    get_core().call("set_torrent_private_flag", None, torrent_id, value)
+    print "resume:"
+    aclient.resume_torrent(torrent_ids)
+    for id in torrent_ids:
+        aclient.get_torrent_status(cb_torrent_status_paused, id , ['paused'])
 
-def set_torrent_file_priorities(torrent_id, priorities):
-    """Sets a torrents file priorities"""
-    get_core().call("set_torrent_file_priorities", None, torrent_id, priorities)
+    aclient.force_call(block=True)
 
-def block_ip_range(range):
-    """Blocks a ip range.. (start, end)"""
-    get_core().call("block_ip_range", None, range)
+if __name__ == "__main__":
+    test_introspection()
+    test_sync()
+    test_async()

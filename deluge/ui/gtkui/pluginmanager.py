@@ -33,7 +33,7 @@
 
 import deluge.component as component
 import deluge.pluginmanagerbase
-import deluge.ui.client as client
+from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 

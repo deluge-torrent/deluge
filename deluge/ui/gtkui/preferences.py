@@ -38,7 +38,7 @@ import pkg_resources
 
 import deluge.component as component
 from deluge.log import LOG as log
-import deluge.ui.client as client
+from deluge.ui.client import aclient as client
 import deluge.common
 from deluge.configmanager import ConfigManager
 

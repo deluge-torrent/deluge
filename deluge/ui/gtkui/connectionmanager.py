@@ -42,7 +42,7 @@ import threading
 import deluge.component as component
 import deluge.xmlrpclib as xmlrpclib
 import deluge.common
-import deluge.ui.client as client
+from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 

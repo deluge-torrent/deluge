@@ -44,7 +44,7 @@ import traceback
 
 import deluge.common
 import deluge.component as component
-import deluge.ui.client as client
+from deluge.ui.client import aclient as client
 from deluge.log import LOG as log
 import deluge.ui.gtkui.listview as listview
 

@@ -23,7 +23,7 @@ deluge-shell: Deluge shell.
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02111-1301
 # USA
 
-import deluge.ui.client as client
+from deluge.ui.client import aclient as client
 import deluge.common as common
 import deluge.error
 import readline

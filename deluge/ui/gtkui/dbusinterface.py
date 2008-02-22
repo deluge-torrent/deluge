@@ -46,7 +46,7 @@ elif dbus.version >= (0,80,0):
     DBusGMainLoop(set_as_default=True)
 
 import deluge.component as component
-import deluge.ui.client as client
+from deluge.ui.client import aclient as client
 import deluge.common
 from deluge.log import LOG as log
     
