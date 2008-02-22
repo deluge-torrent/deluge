@@ -55,6 +55,12 @@ def fratio(value):
 def fpcnt(value):
     return "%.2f%%" % value
     
+def fspeed(value, max_value=-1):
+    if max_value > -1:
+        return "%s [%s KiB/s]" % (deluge.common.fspeed(value), max_value)
+    else:
+        return deluge.common.fspeed(value)
+
 class TorrentDetails(component.Component):
     def __init__(self):
         component.Component.__init__(self, "TorrentDetails", interval=2000)
@@ -82,8 +88,8 @@ class TorrentDetails(component.Component):
             (glade.get_widget("summary_availability"), fratio, ("distributed_copies",)),
             (glade.get_widget("summary_total_downloaded"), fpeer_sized, ("total_done", "total_payload_download")),
             (glade.get_widget("summary_total_uploaded"), fpeer_sized, ("total_uploaded", "total_payload_upload")),
-            (glade.get_widget("summary_download_speed"), deluge.common.fspeed, ("download_payload_rate",)),
-            (glade.get_widget("summary_upload_speed"), deluge.common.fspeed, ("upload_payload_rate",)),
+            (glade.get_widget("summary_download_speed"), fspeed, ("download_payload_rate", "max_download_speed")),
+            (glade.get_widget("summary_upload_speed"), fspeed, ("upload_payload_rate", "max_upload_speed")),
             (glade.get_widget("summary_seeders"), deluge.common.fpeer, ("num_seeds", "total_seeds")),
             (glade.get_widget("summary_peers"), deluge.common.fpeer, ("num_peers", "total_peers")),
             (glade.get_widget("summary_eta"), deluge.common.ftime, ("eta",)),
@@ -133,7 +139,9 @@ class TorrentDetails(component.Component):
                 "total_payload_upload", "download_payload_rate", 
                 "upload_payload_rate", "num_peers", "num_seeds", "total_peers",
                 "total_seeds", "eta", "ratio", "tracker", "next_announce",
-                "tracker_status", "save_path"]
+                "tracker_status", "save_path", "max_connections", 
+                "max_upload_slots", "max_upload_speed", "max_download_speed",
+                "private"]
             client.get_torrent_status(
                 self._on_get_torrent_status, selected, status_keys)
                     
