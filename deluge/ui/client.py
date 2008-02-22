@@ -33,9 +33,7 @@
 #    statement from all source files in the program, then also delete it here.
 
 import os.path
-import pickle
 import socket
-import time
 
 import gobject
 
@@ -155,24 +153,22 @@ class BaseClient(object):
     wraps all calls to core/coreproxy
     base for AClient and SClient
     """
-    no_callback_list = [ "add_torrent_url", "pause_all_torrents",
+    no_callback_list = ["add_torrent_url", "pause_all_torrents",
             "resume_all_torrent", "set_config", "enable_plugin",
             "disable_plugin", "set_torrent_trackers",
             "set_torrent_max_connections", "set_torrent_max_upload_slots",
             "set_torrent_max_upload_speed", "set_torrent_max_download_speed",
             "set_torrent_private_flag", "set_torrent_file_priorities",
-            "block_ip_range",
-            "remove_torrent", "pause_torrent", "move_torrent" ,
-            "resume_torrent","force_reannounce", "force_recheck",
-            "deregister_client","register_client",
-            "add_torrent_file"]
+            "block_ip_range", "remove_torrent", "pause_torrent", "move_torrent",
+            "resume_torrent", "force_reannounce", "force_recheck",
+            "deregister_client", "register_client", "add_torrent_file"]
 
     def __init__(self):
         self.core = _core
 
     #xml-rpc introspection
     def list_methods(self):
-        registered = self.core.rpc_core.system.listMethods(  )
+        registered = self.core.rpc_core.system.listMethods()
         return sorted(registered)
 
     def methodSignature(self, method_name):
@@ -244,7 +240,7 @@ class BaseClient(object):
         """Get the core URI"""
         return self.core.get_core_uri()
 
-    def set_core_uri(self, uri = 'http://localhost:58846'):
+    def set_core_uri(self, uri='http://localhost:58846'):
         """Sets the core uri"""
         return self.core.set_core_uri(uri)
 
@@ -285,7 +281,7 @@ class AClient(BaseClient):
     def get_method(self, method_name):
         if not self.has_callback(method_name):
             def async_proxy_nocb(*args, **kwargs):
-                return self.core.call(method_name,None, *args, **kwargs)
+                return self.core.call(method_name, None, *args, **kwargs)
             return async_proxy_nocb
         else:
             def async_proxy(*args, **kwargs):
