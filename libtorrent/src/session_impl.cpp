@@ -617,6 +617,7 @@ namespace detail
 			"\n";
 		m_buffer_usage_logger.open("buffer_stats.log", std::ios::trunc);
 		m_second_counter = 0;
+		m_buffer_allocations = 0;
 #endif
 
 		// ---- generate a peer id ----
@@ -797,12 +798,13 @@ namespace detail
 
 		INVARIANT_CHECK;
 
-		TORRENT_ASSERT(s.connection_speed > 0);
 		TORRENT_ASSERT(s.file_pool_size > 0);
 
 		// less than 5 seconds unchoke interval is insane
 		TORRENT_ASSERT(s.unchoke_interval >= 5);
 		m_settings = s;
+		if (m_settings.connection_speed <= 0) m_settings.connection_speed = 200;
+
 		m_files.resize(m_settings.file_pool_size);
 		// replace all occurances of '\n' with ' '.
 		std::string::iterator i = m_settings.user_agent.begin();
@@ -959,12 +961,14 @@ namespace detail
 			{
 				// if we're listening on any IPv6 address, enumerate them and
 				// pick the first non-local address
-				std::vector<address> const& ifs = enum_net_interfaces(m_io_service, ec);
-				for (std::vector<address>::const_iterator i = ifs.begin()
+				std::vector<ip_interface> const& ifs = enum_net_interfaces(m_io_service, ec);
+				for (std::vector<ip_interface>::const_iterator i = ifs.begin()
 					, end(ifs.end()); i != end; ++i)
 				{
-					if (i->is_v4() || i->to_v6().is_link_local() || i->to_v6().is_loopback()) continue;
-					m_ipv6_interface = tcp::endpoint(*i, ep.port());
+					if (i->interface_address.is_v4()
+						|| i->interface_address.to_v6().is_link_local()
+						|| i->interface_address.to_v6().is_loopback()) continue;
+					m_ipv6_interface = tcp::endpoint(i->interface_address, ep.port());
 					break;
 				}
 				break;
@@ -2643,20 +2647,23 @@ namespace detail
 
 					TORRENT_ASSERT(*slot_iter == p.index);
 					int slot_index = static_cast<int>(slot_iter - tmp_pieces.begin());
-					unsigned long adler
-						= torrent_ptr->filesystem().piece_crc(
-							slot_index
-							, torrent_ptr->block_size()
-							, p.info);
-
-					const entry& ad = (*i)["adler32"];
+					const entry* ad = i->find_key("adler32");
 	
-					// crc's didn't match, don't use the resume data
-					if (ad.integer() != entry::integer_type(adler))
+					if (ad && ad->type() == entry::int_t)
 					{
-						error = "checksum mismatch on piece "
-							+ boost::lexical_cast<std::string>(p.index);
-						return;
+						unsigned long adler
+							= torrent_ptr->filesystem().piece_crc(
+								slot_index
+								, torrent_ptr->block_size()
+								, p.info);
+
+						// crc's didn't match, don't use the resume data
+						if (ad->integer() != entry::integer_type(adler))
+						{
+							error = "checksum mismatch on piece "
+								+ boost::lexical_cast<std::string>(p.index);
+							return;
+						}
 					}
 
 					tmp_unfinished.push_back(p);

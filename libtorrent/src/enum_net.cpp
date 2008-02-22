@@ -30,11 +30,13 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#if defined __linux__ || defined __MACH__
+#include "libtorrent/config.hpp"
+
+#if defined TORRENT_BSD || defined TORRENT_LINUX
 #include <sys/ioctl.h>
 #include <netinet/in.h>
 #include <net/if.h>
-#elif defined WIN32
+#elif defined TORRENT_WINDOWS
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
 #endif
@@ -46,11 +48,58 @@ POSSIBILITY OF SUCH DAMAGE.
 
 namespace libtorrent
 {
-	std::vector<address> enum_net_interfaces(asio::io_service& ios, asio::error_code& ec)
+	namespace
 	{
-		std::vector<address> ret;
+		address sockaddr_to_address(sockaddr const* sin)
+		{
+			if (sin->sa_family == AF_INET)
+			{
+				typedef asio::ip::address_v4::bytes_type bytes_t;
+				bytes_t b;
+				memcpy(&b[0], &((sockaddr_in const*)sin)->sin_addr, b.size());
+				return address_v4(b);
+			}
+			else if (sin->sa_family == AF_INET6)
+			{
+				typedef asio::ip::address_v6::bytes_type bytes_t;
+				bytes_t b;
+				memcpy(&b[0], &((sockaddr_in6 const*)sin)->sin6_addr, b.size());
+				return address_v6(b);
+			}
+			return address();
+		}
+	}
+	
+	bool in_subnet(address const& addr, ip_interface const& iface)
+	{
+		if (addr.is_v4() != iface.interface_address.is_v4()) return false;
+		// since netmasks seems unreliable for IPv6 interfaces
+		// (MacOS X returns AF_INET addresses as bitmasks) assume
+		// that any IPv6 address belongs to the subnet of any
+		// interface with an IPv6 address
+		if (addr.is_v6()) return true;
 
-#if defined __linux__ || defined __MACH__ || defined(__FreeBSD__)
+		return (addr.to_v4().to_ulong() & iface.netmask.to_v4().to_ulong())
+			== (iface.interface_address.to_v4().to_ulong() & iface.netmask.to_v4().to_ulong());
+	}
+
+	bool in_local_network(asio::io_service& ios, address const& addr, asio::error_code& ec)
+	{
+		std::vector<ip_interface> const& net = enum_net_interfaces(ios, ec);
+		if (ec) return false;
+		for (std::vector<ip_interface>::const_iterator i = net.begin()
+			, end(net.end()); i != end; ++i)
+		{
+			if (in_subnet(addr, *i)) return true;
+		}
+		return false;
+	}
+	
+	std::vector<ip_interface> enum_net_interfaces(asio::io_service& ios, asio::error_code& ec)
+	{
+		std::vector<ip_interface> ret;
+
+#if defined TORRENT_LINUX || defined TORRENT_BSD
 		int s = socket(AF_INET, SOCK_DGRAM, 0);
 		if (s < 0)
 		{
@@ -63,11 +112,10 @@ namespace libtorrent
 		ifc.ifc_buf = buf;
 		if (ioctl(s, SIOCGIFCONF, &ifc) < 0)
 		{
+			ec = asio::error_code(errno, asio::error::system_category);
 			close(s);
-			ec = asio::error::fault;
 			return ret;
 		}
-		close(s);
 
 		char *ifr = (char*)ifc.ifc_req;
 		int remaining = ifc.ifc_len;
@@ -75,36 +123,51 @@ namespace libtorrent
 		while (remaining)
 		{
 			ifreq const& item = *reinterpret_cast<ifreq*>(ifr);
-			if (item.ifr_addr.sa_family == AF_INET)
+
+			if (item.ifr_addr.sa_family == AF_INET
+				|| item.ifr_addr.sa_family == AF_INET6)
 			{
-				typedef asio::ip::address_v4::bytes_type bytes_t;
-				bytes_t b;
-				memcpy(&b[0], &((sockaddr_in const*)&item.ifr_addr)->sin_addr, b.size());
-				ret.push_back(address_v4(b));
-			}
-			else if (item.ifr_addr.sa_family == AF_INET6)
-			{
-				typedef asio::ip::address_v6::bytes_type bytes_t;
-				bytes_t b;
-				memcpy(&b[0], &((sockaddr_in6 const*)&item.ifr_addr)->sin6_addr, b.size());
-				ret.push_back(address_v6(b));
+				ip_interface iface;
+				iface.interface_address = sockaddr_to_address(&item.ifr_addr);
+
+				ifreq netmask = item;
+				if (ioctl(s, SIOCGIFNETMASK, &netmask) < 0)
+				{
+					if (iface.interface_address.is_v6())
+					{
+						// this is expected to fail (at least on MacOS X)
+						iface.netmask = address_v6::any();
+					}
+					else
+					{
+						ec = asio::error_code(errno, asio::error::system_category);
+						close(s);
+						return ret;
+					}
+				}
+				else
+				{
+					iface.netmask = sockaddr_to_address(&netmask.ifr_addr);
+				}
+				ret.push_back(iface);
 			}
 
-#if defined __MACH__ || defined(__FreeBSD__)
+#if defined TORRENT_BSD
 			int current_size = item.ifr_addr.sa_len + IFNAMSIZ;
-#elif defined __linux__
+#elif defined TORRENT_LINUX
 			int current_size = sizeof(ifreq);
 #endif
 			ifr += current_size;
 			remaining -= current_size;
 		}
+		close(s);
 
-#elif defined WIN32
+#elif defined TORRENT_WINDOWS
 
 		SOCKET s = socket(AF_INET, SOCK_DGRAM, 0);
 		if (s == SOCKET_ERROR)
 		{
-			ec = asio::error::fault;
+			ec = asio::error_code(WSAGetLastError(), asio::error::system_category);
 			return ret;
 		}
 
@@ -114,29 +177,36 @@ namespace libtorrent
 		if (WSAIoctl(s, SIO_GET_INTERFACE_LIST, 0, 0, buffer,
 			sizeof(buffer), &size, 0, 0) != 0)
 		{
+			ec = asio::error_code(WSAGetLastError(), asio::error::system_category);
 			closesocket(s);
-			ec = asio::error::fault;
 			return ret;
 		}
 		closesocket(s);
 
 		int n = size / sizeof(INTERFACE_INFO);
 
+		ip_interface iface;
 		for (int i = 0; i < n; ++i)
 		{
-			sockaddr_in *sockaddr = (sockaddr_in*)&buffer[i].iiAddress;
-			address a(address::from_string(inet_ntoa(sockaddr->sin_addr)));
-			if (a == address_v4::any()) continue;
-			ret.push_back(a);
+			iface.interface_address = sockaddr_to_address(&buffer[i].iiAddress.Address);
+			iface.netmask = sockaddr_to_address(&buffer[i].iiNetmask.Address);
+			if (iface.interface_address == address_v4::any()) continue;
+			ret.push_back(iface);
 		}
 
 #else
+#warning THIS OS IS NOT RECOGNIZED, enum_net_interfaces WILL PROBABLY NOT WORK
 		// make a best guess of the interface we're using and its IP
 		udp::resolver r(ios);
-		udp::resolver::iterator i = r.resolve(udp::resolver::query(asio::ip::host_name(), "0"));
+		udp::resolver::iterator i = r.resolve(udp::resolver::query(asio::ip::host_name(ec), "0"));
+		if (ec) return ret;
+		ip_interface iface;
 		for (;i != udp::resolver_iterator(); ++i)
 		{
-			ret.push_back(i->endpoint().address());
+			iface.interface_address = i->endpoint().address();
+			if (iface.interface_address.is_v4())
+				iface.netmask = address_v4::netmask(iface.interface_address.to_v4());
+			ret.push_back(iface);
 		}
 #endif
 		return ret;
@@ -144,7 +214,7 @@ namespace libtorrent
 
 	address router_for_interface(address const interface, asio::error_code& ec)
 	{
-#ifdef WIN32
+#ifdef TORRENT_WINDOWS
 
 		// Load Iphlpapi library
 		HMODULE iphlp = LoadLibraryA("Iphlpapi.dll");
@@ -184,15 +254,22 @@ namespace libtorrent
 		address ret;
 		if (GetAdaptersInfo(adapter_info, &out_buf_size) == NO_ERROR)
 		{
-			PIP_ADAPTER_INFO adapter = adapter_info;
-			while (adapter != 0)
+
+			for (PIP_ADAPTER_INFO adapter = adapter_info;
+				adapter != 0; adapter = adapter->Next)
 			{
-				if (interface == address::from_string(adapter->IpAddressList.IpAddress.String, ec))
+				address iface = address::from_string(adapter->IpAddressList.IpAddress.String, ec);
+				if (ec)
+				{
+					ec = asio::error_code();
+					continue;
+				}
+				if (is_loopback(iface) || is_any(iface)) continue;
+				if (interface == address() || interface == iface)
 				{
 					ret = address::from_string(adapter->GatewayList.IpAddress.String, ec);
 					break;
 				}
-				adapter = adapter->Next;
 			}
 		}
    

@@ -569,7 +569,7 @@ namespace libtorrent
 					TORRENT_ASSERT(bits == 8 || j == num_bitmask_bytes - 1);
 				}
 				piece_struct["bitmask"] = bitmask;
-
+/*
 				TORRENT_ASSERT(t->filesystem().slot_for(i->index) >= 0);
 				unsigned long adler
 					= t->filesystem().piece_crc(
@@ -578,7 +578,7 @@ namespace libtorrent
 						, i->info);
 
 				piece_struct["adler32"] = adler;
-
+*/
 				// push the struct onto the unfinished-piece list
 				up.push_back(piece_struct);
 			}
@@ -595,6 +595,8 @@ namespace libtorrent
 		entry::list_type& banned_peer_list = ret["banned_peers"].list();
 		
 		policy& pol = t->get_policy();
+
+		int max_failcount = t->settings().max_failcount;
 
 		for (policy::iterator i = pol.begin_peer()
 			, end(pol.end_peer()); i != end; ++i)
@@ -618,6 +620,9 @@ namespace libtorrent
 			// don't know its listen port) or if it has
 			// been banned, don't save it.
 			if (i->second.type == policy::peer::not_connectable) continue;
+
+			// don't save peers that doesn't work
+			if (i->second.failcount >= max_failcount) continue;
 
 			tcp::endpoint ip = i->second.ip;
 			entry peer(entry::dictionary_t);
