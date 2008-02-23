@@ -173,7 +173,11 @@ $def with (exception_type, exception_value, frames, exception_message, version_i
 
 
 <div id="summary">
-Paste the contents of this text-box when you are asked for a traceback:<br>
+Paste the contents of this text-box when you are asked for a traceback.<br>
+Try to explain what you where doing,
+and how you could work around the problem.<br>
+Don't paste without context and expect us to know what went wrong.
+<br>
 
 <!--
 <form action="http://pastebin.ca/index.php" method=POST>
@@ -199,6 +203,8 @@ $tback_txt
 
 </textarea><br />
 <font color=red>Use a <a href="http://pastebin.ca/">pastebin</a> on IRC!</font><br>
+
+
 <!--
 <input type=submit name="Submit" value="Click here to paste to http://pastebin.ca">
 -->

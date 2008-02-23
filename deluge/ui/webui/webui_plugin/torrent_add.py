@@ -35,7 +35,6 @@ from render import render, error_page
 import page_decorators as deco
 import lib.newforms_plus as forms
 import lib.webpy022 as web
-import base64
 
 class OptionsForm(forms.Form):
     download_location =  forms.ServerFolder(_("Download Location"))
@@ -120,9 +119,7 @@ class torrent_add:
             log.debug("add-url:options :%s" % options)
             utils.do_redirect()
         elif torrent_name:
-            data_b64 = base64.b64encode(torrent_data)
-            #b64 because of strange bug-reports related to binary data
-            proxy.add_torrent_filecontent(vars.torrent.filename, data_b64, options)
+            proxy.add_torrent_file_binary(vars.torrent.filename, torrent_data, options)
             log.debug("add-file:options :%s" % options)
             utils.do_redirect()
         else:

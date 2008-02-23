@@ -146,26 +146,6 @@ class Ws:
     def init_06(self, uri = 'http://localhost:58846'):
         proxy.set_core_uri(uri)
 
-
-        #MONKEY PATCH, TODO->REMOVE!!!
-        def add_torrent_filecontent(name , data_b64, options):
-            log.debug('monkeypatched add_torrent_filecontent:%s,len(data:%s))' %
-                (name , len(data_b64)))
-
-            name =  name.replace('\\','/')
-            name = 'deluge06_' + str(random.random()) + '_'  + name.split('/')[-1]
-            filename = os.path.join('/tmp', name)
-
-            log.debug('write: %s' % filename)
-            f = open(filename,"wb")
-            f.write(base64.b64decode(data_b64))
-            f.close()
-            log.debug("options:%s" % options)
-
-            log.debug("TF:%s" % proxy.add_torrent_file)
-            proxy.add_torrent_file([filename] , [options])
-
-        proxy.add_torrent_filecontent = add_torrent_filecontent
         log.debug('cfg-file %s' % self.config_file)
 
         if not os.path.exists(self.config_file):
@@ -211,6 +191,3 @@ class Ws:
         return (m.digest() == self.config.get('pwd_md5'))
 
 ws =Ws()
-
-
-
