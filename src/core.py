@@ -749,7 +749,8 @@ Space:") + " " + nice_free)
                 # save fast resume once torrent finishes so as to not recheck
                 # seed if client crashes
                 self.save_fastresume_data(event['unique_ID'])
-                self.unique_IDs[event['unique_ID']].seed_time = time.time()
+                uid = event['unique_ID']
+                self.unique_IDs[uid].seed_time = time.time()
 
             elif event['event_type'] is self.constants['EVENT_FILE_ERROR']:
                 import gtk
