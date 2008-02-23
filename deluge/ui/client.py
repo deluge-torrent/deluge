@@ -221,6 +221,15 @@ class BaseClient(object):
                 options = None
             self.get_method("add_torrent_file")(filename, fdump, options)
 
+    def add_torrent_file_binary(self, filename, fdump, options = None):
+        """
+        Core-wrapper.
+        Adds 1 torrent file to the core.
+        Expects fdump as a bytestring (== result of f.read()).
+        """
+        fdump_xmlrpc = xmlrpclib.Binary(fdump)
+        self.get_method("add_torrent_file")(filename, fdump_xmlrpc, options)
+
     #utility:
     def has_callback(self, method_name):
         return not (method_name in self.no_callback_list)
