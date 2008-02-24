@@ -3,7 +3,7 @@ decorators for html-pages.
 """
 #relative imports
 from render import render
-from webserver_common import ws, log
+from webserver_common import ws, log, proxy
 from utils import *
 #/relative
 
@@ -35,7 +35,7 @@ def check_session(func):
         vars = web.input(redir_after_login = None)
         ck = cookies()
         if ck.has_key("session_id") and ck["session_id"] in ws.SESSIONS:
-            return func(self, name) #ok, continue..
+            return func(self, name) #check_session:ok
         elif vars.redir_after_login:
             seeother(url("/login",redir=self_url()))
         else:
@@ -43,9 +43,26 @@ def check_session(func):
     deco.__name__ = func.__name__
     return deco
 
+def check_connected(func):
+    def deco(self, name = None):
+        connected = False
+        try:
+            proxy.ping()
+            connected = True
+        except:
+            pass
+        if connected:
+            return func(self, name) #check_connected:ok
+        else:
+            seeother("/connect")
+
+
+    deco.__name__ = func.__name__
+    return deco
+
 def deluge_page(func):
-    "deluge_page_noauth+check_session"
-    return check_session(deluge_page_noauth(func))
+    "deluge_page_noauth+check_session+check connected"
+    return check_session(check_connected(deluge_page_noauth(func)))
 
 #combi-deco's:
 #decorators to use in combination with the ones above.

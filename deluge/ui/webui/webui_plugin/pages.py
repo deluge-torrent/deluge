@@ -319,12 +319,13 @@ class logout:
         seeother('/login')
 
 class connect:
-    @deco.deluge_page
+    @deco.check_session
+    @deco.deluge_page_noauth
     def GET(self, name):
-        #if proxy.connected():
-        #       error = _("Not Connected to a daemon")
-        #else:
-        error = None
+        if proxy.connected():
+               error = _("Not Connected to a daemon")
+        else:
+            error = None
         connect_list = ["http://localhost:58846"]
         return render.connect(connect_list, error)
 
@@ -338,7 +339,7 @@ class connect:
         else:
             uri = vars.uri
         #TODO: more error-handling
-        ws.init_06(uri)
+        proxy.set_core_uri(uri)
         do_redirect()
 
 
