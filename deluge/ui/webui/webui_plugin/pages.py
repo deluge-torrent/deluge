@@ -224,6 +224,7 @@ class torrent_queue_up:
     @deco.check_session
     @deco.torrent_list
     def POST(self, torrent_list):
+        return error_page('Queue is broken, we know about it.')
         #a bit too verbose..
         torrent_list.sort(lambda x, y : x.queue - y.queue)
         torrent_ids = [t.id for t in torrent_list]
@@ -236,6 +237,7 @@ class torrent_queue_down:
     @deco.check_session
     @deco.torrent_list
     def POST(self, torrent_list):
+        return error_page('Queue is broken, we know about it.')
         #a bit too verbose..
         torrent_list.sort(lambda x, y : x.queue - y.queue)
         torrent_ids = [t.id for t in torrent_list]

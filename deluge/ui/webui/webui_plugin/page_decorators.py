@@ -19,7 +19,7 @@ def deluge_page_noauth(func):
     def deco(self, name = None):
             web.header("Content-Type", "text/html; charset=utf-8")
             web.header("Cache-Control", "no-cache, must-revalidate")
-            res = func(self, name)
+            res = func(self, name) #deluge_page_noauth
             print res
     deco.__name__ = func.__name__
     return deco
@@ -49,8 +49,8 @@ def check_connected(func):
         try:
             proxy.ping()
             connected = True
-        except:
-            pass
+        except Exception, e:
+            log.debug("not_connected: %s" % e)
         if connected:
             return func(self, name) #check_connected:ok
         else:
@@ -72,7 +72,7 @@ def torrent_ids(func):
     for pages that allow a list of torrents.
     """
     def deco(self, name):
-        return func (self, name.split(','))
+        return func (self, name.split(',')) #torrent_ids
     deco.__name__ = func.__name__
     return deco
 
@@ -83,7 +83,7 @@ def torrent_list(func):
     """
     def deco(self, name):
         torrent_list = [get_torrent_status(id) for id in name.split(',')]
-        return func (self, torrent_list)
+        return func (self, torrent_list) #torrent_list
     deco.__name__ = func.__name__
     return deco
 
@@ -94,7 +94,7 @@ def torrent(func):
     def deco(self, name):
         torrent_id = name.split(',')[0]
         torrent =get_torrent_status(torrent_id)
-        return func (self, torrent)
+        return func (self, torrent) #torrent
     deco.__name__ = func.__name__
     return deco
 
@@ -104,7 +104,7 @@ def auto_refreshed(func):
         if getcookie('auto_refresh') == '1':
             web.header("Refresh", "%i ; url=%s" %
                 (int(getcookie('auto_refresh_secs',10)),self_url()))
-        return func(self, name)
+        return func(self, name) #auto_refreshed
     deco.__name__ = func.__name__
     return deco
 
@@ -113,7 +113,7 @@ def remote(func):
     def deco(self, name = None):
         try:
             log.debug('%s.%s(%s)' ,self.__class__.__name__, func.__name__,name )
-            print func(self, name)
+            print func(self, name) #remote
         except Exception, e:
             print 'error:%s' % e.message
             print '-'*20
