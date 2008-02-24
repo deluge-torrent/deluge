@@ -263,7 +263,7 @@ class BaseClient(object):
         """Shutdown the core daemon"""
         try:
             self.core.call("shutdown", None)
-            self.core.force_call(block=False)
+            self.core.do_multicall(block=False)
         finally:
             self.set_core_uri(None)
 
