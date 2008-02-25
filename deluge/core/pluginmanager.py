@@ -50,7 +50,8 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         # Set up the hooks dictionary
         self.hooks = {
             "post_torrent_add": [],
-            "post_torrent_remove": []
+            "post_torrent_remove": [],
+            "post_session_load": []
         }
         
         self.status_fields = {}
@@ -139,6 +140,14 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         for function in self.hooks["post_torrent_remove"]:
             function(torrent_id)
 
+    def run_post_session_load(self):
+        """This hook is run after all the torrents have been loaded into the
+        session from the saved state.  It is called prior to resuming the
+        torrents and they all will have a 'Paused' state."""
+        log.debug("run_post_session_load")
+        for function in self.hooks["post_session_load"]:
+            function()
+        
     def get_torrent_list(self):
         """Returns a list of torrent_id's in the current session."""
         return component.get("TorrentManager").get_torrent_list()

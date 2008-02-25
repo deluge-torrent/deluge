@@ -48,7 +48,8 @@ from deluge.core.torrent import Torrent
 from deluge.log import LOG as log
 
 class TorrentState:
-    def __init__(self, 
+    def __init__(self,
+            torrent_id, 
             filename, 
             total_uploaded, 
             trackers,
@@ -63,6 +64,7 @@ class TorrentState:
             private,
             file_priorities
         ):
+        self.torrent_id = torrent_id
         self.filename = filename
         self.total_uploaded = total_uploaded
         self.trackers = trackers
@@ -129,6 +131,9 @@ class TorrentManager(component.Component):
             self.on_alert_storage_moved)
 
     def start(self):
+        # Get the pluginmanager reference
+        self.plugins = component.get("PluginManager")
+        
         # Try to load the state from file
         self.load_state()
 
@@ -151,7 +156,8 @@ class TorrentManager(component.Component):
         """Returns a list of torrent_ids"""
         return self.torrents.keys()
         
-    def add(self, filename, filedump=None, options=None, total_uploaded=0, trackers=None):
+    def add(self, filename, filedump=None, options=None, total_uploaded=0, 
+            trackers=None, save_state=True):
         """Add a torrent to the manager and returns it's torrent_id"""
         log.info("Adding torrent: %s", filename)
         log.debug("options: %s", options)
@@ -262,8 +268,10 @@ class TorrentManager(component.Component):
         # Save the torrent file        
         torrent.save_torrent_file(filedump)
 
-        # Save the session state
-        self.save_state()
+        if save_state:
+            # Save the session state
+            self.save_state()
+         
         return torrent.torrent_id
 
     def load_torrent(self, filename):
@@ -410,7 +418,8 @@ class TorrentManager(component.Component):
         except IOError:
             log.warning("Unable to load state file.")
 
-        # Try to add the torrents in the state to the session        
+        # Try to add the torrents in the state to the session
+        add_paused = {}
         for torrent_state in state.torrents:
             try:
                 options = {
@@ -421,25 +430,37 @@ class TorrentManager(component.Component):
                     "max_download_speed_per_torrent": torrent_state.max_download_speed,
                     "prioritize_first_last_pieces": torrent_state.prioritize_first_last,
                     "download_location": torrent_state.save_path,
-                    "add_paused": torrent_state.paused,
+                    "add_paused": True,
                     "default_private": torrent_state.private,
                     "file_priorities": torrent_state.file_priorities
                 }
+                # We need to resume all non-add_paused torrents after plugin hook
+                add_paused[torrent_state.torrent_id] = torrent_state.paused
                 self.add(
                     torrent_state.filename,
                     options=options,
                     total_uploaded=torrent_state.total_uploaded,
-                    trackers=torrent_state.trackers)
+                    trackers=torrent_state.trackers,
+                    save_state=False)
             except AttributeError, e:
                 log.error("Torrent state file is either corrupt or incompatible!")
                 break
-            
+           
+        # Run the post_session_load plugin hooks
+        self.plugins.run_post_session_load()
+        
+        # Resume any torrents that need to be resumed
+        for key in add_paused.keys():
+            if add_paused[key] == True:
+                self.torrents[key].handle.resume()
+             
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file"""
         state = TorrentManagerState()
         # Create the state for each Torrent and append to the list
         for torrent in self.torrents.values():
             torrent_state = TorrentState(
+                torrent.torrent_id,
                 torrent.filename, 
                 torrent.get_status(["total_uploaded"])["total_uploaded"], 
                 torrent.trackers,

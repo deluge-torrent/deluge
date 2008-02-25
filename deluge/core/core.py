@@ -229,12 +229,12 @@ class Core(
         
         # Start the SignalManager
         self.signals = SignalManager()                    
-        
-        # Start the TorrentManager
-        self.torrents = TorrentManager(self.session, self.alerts)
-        
+
         # Load plugins
         self.plugins = PluginManager(self)
+                
+        # Start the TorrentManager
+        self.torrents = TorrentManager(self.session, self.alerts)
        
         # Register alert handlers
         self.alerts.register_handler("torrent_paused_alert",
@@ -517,7 +517,47 @@ class Core(
         """Clears the ip filter"""
         self.ip_filter = lt.ip_filter()
         self.session.set_ip_filter(self.ip_filter)
-        
+
+    ## Queueing functions ##
+    def export_queue_top(self, torrent_id):
+        log.debug("Attempting to queue %s to top", torrent_id)
+        try:
+            # If the queue method returns True, then we should emit a signal
+            if self.torrents.queue.top(torrent_id):
+                self._torrent_queue_changed(torrent_id)
+        except KeyError:
+            log.warning("torrent_id: %s does not exist in the queue", 
+                                                                    torrent_id)
+
+    def export_queue_up(self, torrent_id):
+        log.debug("Attempting to queue %s to up", torrent_id)
+        try:
+            # If the queue method returns True, then we should emit a signal
+            if self.torrents.queue.up(torrent_id):
+                self._torrent_queue_changed(torrent_id)
+        except KeyError:
+            log.warning("torrent_id: %s does not exist in the queue", 
+                                                                    torrent_id)
+
+    def export_queue_down(self, torrent_id):
+        log.debug("Attempting to queue %s to down", torrent_id)
+        try:
+            # If the queue method returns True, then we should emit a signal
+            if self.torrents.queue.down(torrent_id):
+                self._torrent_queue_changed(torrent_id)
+        except KeyError:
+            log.warning("torrent_id: %s does not exist in the queue", 
+                                                                    torrent_id)
+
+    def export_queue_bottom(self, torrent_id):
+        log.debug("Attempting to queue %s to bottom", torrent_id)
+        try:
+            # If the queue method returns True, then we should emit a signal
+            if self.torrents.queue.bottom(torrent_id):
+                self._torrent_queue_changed(torrent_id)
+        except KeyError:
+            log.warning("torrent_id: %s does not exist in the queue", 
+                                                                    torrent_id)
     # Signals
     def torrent_added(self, torrent_id):
         """Emitted when a new torrent is added to the core"""
@@ -553,6 +593,10 @@ class Core(
         """Emitted when a config value has changed"""
         log.debug("config_value_changed signal emitted")
         self.signals.emit("config_value_changed", key, value)
+
+    def _torrent_queue_changed(self):
+        """Emitted when a torrent queue position is changed"""
+        log.debug("torrent_queue_changed signal emitted")
         
     # Config set functions
     def _on_config_value_change(self, key, value):

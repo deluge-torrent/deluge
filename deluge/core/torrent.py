@@ -252,7 +252,8 @@ class Torrent:
             "max_upload_speed": self.max_upload_speed,
             "max_download_speed": self.max_download_speed,
             "prioritize_first_last": self.prioritize_first_last,
-            "private": self.private
+            "private": self.private,
+            "queue": 0
         }
         
         fns = {
