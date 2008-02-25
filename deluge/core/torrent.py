@@ -110,12 +110,12 @@ class Torrent:
         self.tracker_status = status
     
     def set_max_connections(self, max_connections):
-        self.max_connections = max_connections
-        self.handle.set_max_connections(max_connections)
+        self.max_connections = int(max_connections)
+        self.handle.set_max_connections(self.max_connections)
     
     def set_max_upload_slots(self, max_slots):
-        self.max_upload_slots = max_slots
-        self.handle.set_max_uploads(max_slots)
+        self.max_upload_slots = int(max_slots)
+        self.handle.set_max_uploads(self.max_upload_slots)
         
     def set_max_upload_speed(self, m_up_speed):
         self.max_upload_speed = m_up_speed
