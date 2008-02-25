@@ -35,6 +35,7 @@ import pygtk
 pygtk.require('2.0')
 import gtk, gtk.glade
 import gettext
+import gobject
 
 import pkg_resources
 
@@ -68,7 +69,7 @@ class AddTorrentDialog:
         })
 
         self.torrent_liststore = gtk.ListStore(str, str, str)
-        self.files_liststore = gtk.ListStore(bool, str, int)
+        self.files_liststore = gtk.ListStore(bool, str, gobject.TYPE_UINT64)
         # Holds the files info
         self.files = {}
         self.infos = {}
