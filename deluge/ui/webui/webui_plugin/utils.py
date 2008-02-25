@@ -232,14 +232,12 @@ def get_torrent_status(torrent_id):
 
 def get_torrent_list():
     """
-    uses async.
+    returns a list of storified-torrent-dicts.
     """
-    torrent_ids  = proxy.get_session_state() #Syc-api.
-    torrent_dict = {}
-    for id in torrent_ids:
-        async_proxy.get_torrent_status(dict_cb(id,torrent_dict), id,
-            TORRENT_KEYS)
-    async_proxy.force_call(block=True)
+    torrent_ids  = proxy.get_session_state()
+
+    torrent_dict = proxy.get_torrents_status(torrent_ids, TORRENT_KEYS)
+
     return [enhance_torrent_status(id, status)
             for id, status in torrent_dict.iteritems()]
 

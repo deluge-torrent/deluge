@@ -14,7 +14,6 @@ $for group in groups:
             $else:
                 <li><a href="/config/$page">$pages[page].title</a></li>
     </ul>
-</div>
 
 <!--form block-->
 <div class="panel" id="config_panel">
@@ -30,8 +29,6 @@ $if error:
     <div class="error">$error</div>
 
 <input type="submit" name="submit" id="submit" value='$_("Save")'>
-
-
 
 </form>
 
