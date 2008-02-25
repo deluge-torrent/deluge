@@ -60,7 +60,17 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         
         # Enable the plugins that are enabled in the config and core
         self.enable_plugins()
-                
+    
+    def apply_prefs(self):
+        """Attempts to call 'apply_prefs()' in each enabled plugin.  This is 
+        called when a user clicks OK or Apply in the preferences window and is
+        designed to give plugins the opportunity to save their prefs."""
+        for key in self.plugins.keys():
+            try:
+                self.plugins[key].apply_prefs()
+            except AttributeError:
+                pass
+
     ## Plugin functions.. will likely move to own class..
         
     def add_torrentview_text_column(self, *args, **kwargs):
