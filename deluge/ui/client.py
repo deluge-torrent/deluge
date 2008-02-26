@@ -95,7 +95,7 @@ class CoreProxy(gobject.GObject):
                                     callback(ret)
                         except:
                             pass
-                except socket.error, e:
+                except (socket.error, xmlrpc.ProtocolError), e:
                     log.warning("Could not contact daemon: %s", e)
                     self.set_core_uri(None)
             finally:
