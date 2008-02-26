@@ -32,13 +32,12 @@
 #    statement from all source files in the program, then also delete it here.
 
 from deluge.log import LOG as log
+from deluge.plugins.corepluginbase import CorePluginBase
 
-class Core:
-    def __init__(self, plugin_api):
-        pass
-    
+class Core(CorePluginBase):
     def enable(self):
         pass
     
     def disable(self):
         pass
+
