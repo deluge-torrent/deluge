@@ -144,7 +144,11 @@ class index:
 
         #sorting:
         if vars.sort:
-            torrent_list.sort(key=attrgetter(vars.sort))
+            try:
+                torrent_list.sort(key=attrgetter(vars.sort))
+            except:
+                log.debug('Sorting Failed')
+
             if vars.order == 'up':
                 torrent_list = reversed(torrent_list)
 
