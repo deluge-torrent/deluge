@@ -44,6 +44,24 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         self.config = ConfigManager("gtkui.conf")
         deluge.pluginmanagerbase.PluginManagerBase.__init__(
             self, "gtkui.conf", "deluge.plugin.gtkui")
+
+        self.hooks = {
+            "on_apply_prefs": []
+        }
+
+    def register_hook(self, hook, function):
+        """Register a hook function with the plugin manager"""
+        try:
+            self.hooks[hook].append(function)
+        except KeyError:
+            log.warning("Plugin attempting to register invalid hook.")
+    
+    def deregister_hook(self, hook, function):
+        """Deregisters a hook function"""
+        try:
+            self.hooks[hook].remove(function)
+        except:
+            log.warning("Unable to deregister hook %s", hook)
                         
     def start(self):
         """Start the plugin manager"""
@@ -60,17 +78,16 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         
         # Enable the plugins that are enabled in the config and core
         self.enable_plugins()
-    
-    def apply_prefs(self):
-        """Attempts to call 'apply_prefs()' in each enabled plugin.  This is 
-        called when a user clicks OK or Apply in the preferences window and is
-        designed to give plugins the opportunity to save their prefs."""
-        for key in self.plugins.keys():
-            try:
-                self.plugins[key].apply_prefs()
-            except AttributeError:
-                pass
 
+    ## Hook functions
+    def run_on_apply_prefs(self):
+        """This hook is run after the user clicks Apply or OK in the preferences
+        dialog.
+        """
+        log.debug("run_on_apply_prefs")
+        for function in self.hooks["on_apply_prefs"]:
+            function()
+            
     ## Plugin functions.. will likely move to own class..
         
     def add_torrentview_text_column(self, *args, **kwargs):

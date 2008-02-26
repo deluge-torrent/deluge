@@ -529,14 +529,14 @@ class Preferences(component.Component):
     def on_button_ok_clicked(self, data):
         log.debug("on_button_ok_clicked")
         self.set_config()
-        component.get("PluginManager").apply_prefs()
+        component.get("PluginManager").run_on_apply_prefs()
         self.hide()
         return True
 
     def on_button_apply_clicked(self, data):
         log.debug("on_button_apply_clicked")
         self.set_config()
-        component.get("PluginManager").apply_prefs()
+        component.get("PluginManager").run_on_apply_prefs()
 
     def on_button_cancel_clicked(self, data):
         log.debug("on_button_cancel_clicked")
