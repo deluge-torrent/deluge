@@ -124,7 +124,6 @@ def get_stats():
         ,"max_connections_global")
     async_proxy.get_dht_nodes(dict_cb('dht_nodes',stats))
 
-
     async_proxy.force_call(block=True)
 
     #log.debug(str(stats))
@@ -161,7 +160,6 @@ def enhance_torrent_status(torrent_id,status):
         elif status[key] == None:
             status[key] = 0
             #log.warning('torrent_status:None key in status:%s' % key)
-
 
     if status.tracker == 0:
         #0.6 does not raise a decent error on non-existing torrent.
@@ -225,19 +223,14 @@ def get_torrent_status(torrent_id):
     enhance proxy.get_torrent_status with some extra data
     """
     status = proxy.get_torrent_status(torrent_id,TORRENT_KEYS)
-
     return enhance_torrent_status(torrent_id, status)
-
-
 
 def get_torrent_list():
     """
     returns a list of storified-torrent-dicts.
     """
-    torrent_ids  = proxy.get_session_state()
-
-    torrent_dict = proxy.get_torrents_status(torrent_ids, TORRENT_KEYS)
-
+    torrent_dict = proxy.get_torrents_status(
+        proxy.get_session_state(), TORRENT_KEYS)
     return [enhance_torrent_status(id, status)
             for id, status in torrent_dict.iteritems()]
 
