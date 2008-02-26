@@ -259,6 +259,7 @@ class PreferencesDlg:
         self.preferences.set("enable_files_dialog", self.glade.get_widget("chk_enable_files_dialog").get_active())
         self.preferences.set("enable_multi_only", self.glade.get_widget("chk_enable_multi_only").get_active())
         self.preferences.set("prioritize_first_last_pieces", self.glade.get_widget("chk_prioritize_first_last_pieces").get_active())
+        self.preferences.set("auto_seed_ratio", self.glade.get_widget("ratio_spinner").get_value())
         self.preferences.set("auto_end_seeding", self.glade.get_widget("chk_autoseed").get_active())
         self.preferences.set("auto_time_end_seeding", self.glade.get_widget("chk_autotime").get_active())
         self.preferences.set("auto_seed_time", self.glade.get_widget("time_spinner").get_value())
