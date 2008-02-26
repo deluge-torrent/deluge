@@ -1,6 +1,9 @@
 $def with (connect_list, error)
 
 $:render.header(_("Connect to Daemon"))
+
+$:render.admin_toolbar('connect')
+
 <div class="panel" align="left">
 $if error:
     <div class="error">$error</div>

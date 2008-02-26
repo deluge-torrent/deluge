@@ -2,6 +2,7 @@ $def with (groups, pages, form, selected, message, error)
 
 $:render.header(_("Config"))
 
+$:render.admin_toolbar('config')
 <!--left block-->
 <div  class="panel" id="config_chooser">
 $for group in groups:
