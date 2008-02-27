@@ -78,8 +78,8 @@ class MainWindow(component.Component):
 
     def show(self):
         try:
-            component.start("TorrentView")
-            component.start("StatusBar")
+            component.resume("TorrentView")
+            component.resume("StatusBar")
         except:
             pass
 
@@ -88,8 +88,8 @@ class MainWindow(component.Component):
         self.window.show()
     
     def hide(self):
-        component.stop("TorrentView")
-        component.stop("StatusBar")
+        component.pause("TorrentView")
+        component.pause("StatusBar")
         self.window.hide()
     
     def present(self):
@@ -135,14 +135,14 @@ class MainWindow(component.Component):
         if event.changed_mask & gtk.gdk.WINDOW_STATE_ICONIFIED:
             if event.new_window_state & gtk.gdk.WINDOW_STATE_ICONIFIED:
                 log.debug("MainWindow is minimized..")
-                component.stop("TorrentView")
-                component.stop("StatusBar")
+                component.pause("TorrentView")
+                component.pause("StatusBar")
                 self.is_minimized = True
             else:
                 log.debug("MainWindow is not minimized..")
                 try:
-                    component.start("TorrentView")
-                    component.start("StatusBar")
+                    component.resume("TorrentView")
+                    component.resume("StatusBar")
                 except:
                     pass
                 self.is_minimized = False

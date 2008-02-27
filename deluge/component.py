@@ -36,7 +36,8 @@ from deluge.log import LOG as log
 
 COMPONENT_STATE = [
     "Stopped",
-    "Started"
+    "Started",
+    "Paused"
 ]
 
 class Component:
@@ -67,7 +68,17 @@ class Component:
             gobject.source_remove(self._timer)
         except:
             pass
-        
+    
+    def _pause(self):
+        self._state = COMPONENT_STATE.index("Paused")
+        try:
+            gobject.source_remove(self._timer)
+        except:
+            pass
+    
+    def _resume(self):
+        self._start()
+            
     def shutdown(self):
         pass
     
@@ -126,7 +137,28 @@ class ComponentRegistry:
             log.debug("Stopping component %s..", component)
             self.components[component].stop()
             self.components[component]._stop()
-        
+    
+    def pause(self):
+        """Pauses all components.  Stops calling update()"""
+        for component in self.components.keys():
+            self.pause_component(component)
+    
+    def pause_component(self, component):
+        if self.components[component].get_state() not in \
+            [COMPONENT_STATE.index("Paused"), COMPONENT_STATE.index("Stopped")]:
+            log.debug("Pausing component %s..", component)
+            self.components[component]._pause()
+
+    def resume(self):
+        """Resumes all components.  Starts calling update()"""
+        for component in self.components.keys():
+            self.resume_component(component)
+    
+    def resume_component(self, component):
+        if self.components[component].get_state() == COMPONENT_STATE.index("Paused"):
+            log.debug("Resuming component %s..", component)
+            self.components[component]._resume()            
+
     def update(self):
         """Updates all components"""
         for component in self.components.keys():
@@ -170,6 +202,20 @@ def stop(component=None):
     else:
         _ComponentRegistry.stop_component(component)
 
+def pause(component=None):
+    """Pauses all or specificed components"""
+    if component == None:
+        _ComponentRegistry.pause()
+    else:
+        _ComponentRegistry.pause_component(component)
+
+def resume(component=None):
+    """Resumes all or specificed components"""
+    if component == None:
+        _ComponentRegistry.resume()
+    else:
+        _ComponentRegistry.resume_component(component)
+        
 def update():
     """Updates all components"""
     _ComponentRegistry.update()
