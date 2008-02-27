@@ -116,6 +116,7 @@ class TorrentView(listview.ListView, component.Component):
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
         self.add_bool_column("filter", hidden=True)
+        self.add_text_column("#", col_type=int, status_field=["queue"])
         self.add_texticon_column(_("Name"), status_field=["state", "name"], 
                                             function=cell_data_statusicon)
         self.add_func_column(_("Size"), 

@@ -56,6 +56,9 @@ class MenuBar(component.Component):
         self.torrentmenu_glade.get_widget("menuitem_remove").set_submenu(
             self.torrentmenu_glade.get_widget("remove_torrent_menu"))
         
+        self.torrentmenu_glade.get_widget("menuitem_queue").set_submenu(
+            self.torrentmenu_glade.get_widget("queue_torrent_menu"))
+            
         # Attach options torrent menu
         self.torrentmenu_glade.get_widget("menuitem_options").set_submenu(
             self.torrentmenu_glade.get_widget("options_torrent_menu"))
