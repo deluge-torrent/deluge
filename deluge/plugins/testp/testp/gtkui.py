@@ -35,9 +35,13 @@ from deluge.log import LOG as log
 import ui
 
 class GtkUI(ui.UI):
-    def __init__(self):
-        ui.UI.__init__(self)
-        log.debug("gtkui plugin initialized..")
+    def __init__(self, plugin_api, plugin_name):
+        log.debug("Calling UI init")
+        # Call UI constructor
+        ui.UI.__init__(self, plugin_api, plugin_name)
+        log.debug("test plugin initialized..")
+        self.plugin.register_hook("on_apply_prefs", self.apply_prefs)
         
     
-
+    def apply_prefs(self):
+        log.debug("applying prefs in test plugin!!")

@@ -41,14 +41,14 @@ class CorePlugin(PluginBase):
         try:
             from core import Core
             self.plugin = Core(plugin_api, plugin_name)
-        except:
-            pass
+        except Exception, e:
+            log.debug("Did not load a Core plugin: %s", e)
 
 class GtkUIPlugin(PluginBase):
     def __init__(self, plugin_api, plugin_name):
         # Load the GtkUI portion of the plugin
         try:
             from gtkui import GtkUI
-            self.plugin = GtkUI()
-        except:
-            pass        
+            self.plugin = GtkUI(plugin_api, plugin_name)
+        except Exception, e:
+            log.debug("Did not load a GtkUI plugin: %s", e)
