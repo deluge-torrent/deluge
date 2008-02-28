@@ -35,10 +35,11 @@ from webserver_common import ws
 from lib.webpy022.request import webpyfunc
 from lib.webpy022 import webapi
 from lib.gtk_cherrypy_wsgiserver import CherryPyWSGIServer
+import lib.webpy022 as web
 import os
 
-def create_webserver(urls, methods):
-    func = webapi.wsgifunc(webpyfunc(urls, methods, False))
+def create_webserver(urls, methods, middleware):
+    func = webapi.wsgifunc(webpyfunc(urls, methods, False), *middleware)
     server_address=("0.0.0.0", int(ws.config.get('port')))
 
     server = CherryPyWSGIServer(server_address, func, server_name="localhost")
@@ -49,14 +50,18 @@ def create_webserver(urls, methods):
     print "http://%s:%d/" % server_address
     return server
 
-def WebServer():
-    import pages
-    return create_webserver(pages.urls, pages)
+def WebServer(debug = False):
+    if debug:
+        middleware = [web.reloader]
+    else:
+        middleware = []
 
-def run():
-    server = WebServer()
+    import pages
+    return create_webserver(pages.urls, pages, middleware)
+
+def run(debug = False):
+    server = WebServer(debug)
     try:
         server.start()
     except KeyboardInterrupt:
         server.stop()
-

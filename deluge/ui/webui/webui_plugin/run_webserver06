@@ -1,5 +1,6 @@
 #!/usr/bin/env python
+#only for development/debugging.
 import deluge_webserver
 
 deluge_webserver.ws.init_06(uri = 'http://localhost:58846')
-deluge_webserver.run()
+deluge_webserver.run(debug = True)

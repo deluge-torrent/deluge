@@ -33,6 +33,7 @@
 #
 from webserver_common import ws, proxy, log
 from utils import *
+import utils #todo remove the line above.
 from render import render, error_page
 import page_decorators as deco
 import config_tabs_webui #auto registers
@@ -40,6 +41,7 @@ import config_tabs_deluge #auto registers
 from config import config_page
 from torrent_options import torrent_options
 from torrent_move import torrent_move
+
 #import forms
 #
 from debugerror import deluge_debugerror
@@ -54,7 +56,7 @@ from lib.static_handler import static_handler
 from operator import attrgetter
 import os
 
-from json_api import json_api
+#from json_api import json_api #secuity leak, todo:fix
 
 #special/complex pages:
 from torrent_add import torrent_add
@@ -85,9 +87,10 @@ urls = (
     "/about", "about",
     "/logout", "logout",
     "/connect","connect",
+    "/daemon/control/(.*)","daemon_control",
     #remote-api:
     "/remote/torrent/add(.*)", "remote_torrent_add",
-    "/json/(.*)","json_api",
+    #"/json/(.*)","json_api",
     #static:
     "/static/(.*)", "static",
     "/template/static/(.*)", "template_static",
@@ -328,12 +331,14 @@ class connect:
     @deco.check_session
     @deco.deluge_page_noauth
     def GET(self, name):
-        if proxy.connected():
-               error = _("Not Connected to a daemon")
-        else:
-            error = None
+        try:
+            proxy.ping()
+            connected = proxy.get_core_uri()
+        except:
+            connected = None
+
         connect_list = ["http://localhost:58846"]
-        return render.connect(connect_list, error)
+        return render.connect(connect_list, connected)
 
     def POST(self):
         vars = web.input(uri = None, other_uri = None)
@@ -347,6 +352,34 @@ class connect:
         #TODO: more error-handling
         proxy.set_core_uri(uri)
         do_redirect()
+
+class daemon_control:
+    @deco.check_session
+    def POST(self, command):
+        if command == 'stop':
+            proxy.shutdown()
+        elif command == 'start':
+            self.start()
+        elif command == 'restart':
+            proxy.shutdown()
+            self.start()
+        else:
+            raise Exception('Unknown command:"%s"' % command)
+
+        seeother('/connect')
+
+    def start(self):
+        import time
+        uri = web.input(uri = None).uri
+        if not uri:
+            uri = 'http://localhost:58846'
+
+        port = int(uri.split(':')[2])
+        utils.daemon_start_localhost(port)
+
+        time.sleep(1)  #pause a while to let it start?
+        proxy.set_core_uri( uri )
+
 
 
 #other stuff:

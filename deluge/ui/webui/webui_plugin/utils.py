@@ -308,6 +308,30 @@ def get_newforms_data(form_class):
 
 #/utils
 
+#generic/ non-webui utils todo: move to trunk/core.
+def daemon_test_online_status(uri):
+    """Tests the status of URI.. Returns True or False depending on status.
+    """
+    online = True
+    host = None
+    try:
+        host = xmlrpclib.ServerProxy(uri)
+        host.ping()
+    except socket.error:
+        online = False
+
+    del host
+    self.online_status[uri] = online
+    return online
+
+def daemon_start_localhost(port):
+    """Starts a localhost daemon"""
+    port = str(port)
+    log.info("Starting localhost:%s daemon..", port)
+    # Spawn a local daemon
+    os.popen("deluged -p %s" % port)
+
+#exceptions:
 class WebUiError(Exception):
     """the message of these exceptions will be rendered in
     render.error(e.message) in debugerror.py"""
