@@ -451,7 +451,7 @@ class TorrentManager(component.Component):
         
         # Resume any torrents that need to be resumed
         for key in add_paused.keys():
-            if add_paused[key] == True:
+            if add_paused[key] == False:
                 self.torrents[key].handle.resume()
              
     def save_state(self):
