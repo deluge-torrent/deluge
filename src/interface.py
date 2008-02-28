@@ -768,6 +768,7 @@ window, please enter your password"))
             path = self.manager.unique_IDs[uid].filename
             if not switch:
                 save_dir = self.manager.unique_IDs[uid].save_dir
+                delete_old = False
             else:
                 save_dir = dialogs.show_directory_chooser_dialog(self.window, \
                 _("Choose a directory to switch torrent source to" + " - %s" % \

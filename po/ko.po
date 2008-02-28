@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-31 03:01+0000\n"
-"Last-Translator: ChangHyo Jeong <gweere@gmail.com>\n"
+"PO-Revision-Date: 2008-02-18 05:53+0000\n"
+"Last-Translator: Mike Sierra <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
+"X-Launchpad-Export-Date: 2008-02-28 06:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #~ msgid "Donate to Deluge Development"
@@ -1463,7 +1463,7 @@ msgstr "PiB"
 
 #: src/common.py:213
 msgid "External command"
-msgstr ""
+msgstr "외부 명령어 ="
 
 #: src/common.py:214
 msgid "not found"
