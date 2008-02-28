@@ -12,51 +12,14 @@ $for t in torrent_list:
 
 <div class="panel" id="toolbar">
 
-    <a class='toolbar_btn' href="#"
-    onclick='toolbar_get("/torrent/add/",0)'
-    title='$_("Add")'><img class='toolbar_btn'
-    src='/static/images/tango/list-add.png'></a>
+$for id, title, image, flag, method, url, important in toolbar_items:
+    $if important:
+        <a class='toolbar_btn' href="#"
+        onclick='toolbar_$(method.lower()) ("$url",$flag)'
+        title='$title'><img class='toolbar_btn'
+        src='/static/images/tango/$image'></a>
 
-    <a class='toolbar_btn' href="#"
-    onclick='toolbar_get("/torrent/delete/",2)'><img class='toolbar_btn'
-        src='/static/images/tango/list-remove.png'
-        title='$_("Remove")'></a>
-
-    <a class='toolbar_btn' href="#"
-    onclick='toolbar_post("/torrent/stop/",2)'
-    title='$_("Pause")'><img class='toolbar_btn'
-    src='/static/images/tango/pause.png'
-    ></a>
-
-    <a class='toolbar_btn' href="#"
-    onclick='toolbar_post("/torrent/start/",2)'
-    title='$_("Start")'><img class='toolbar_btn'
-    src='/static/images/tango/start.png'></a>
-
-    <a class='toolbar_btn' href="#"
-    onclick='toolbar_post("/torrent/queue/up/",2)'
-    title='$_("Up")'><img class='toolbar_btn'
-    src='/static/images/tango/queue-up.png'></a>
-
-
-    <a class='toolbar_btn' href="#"
-    onclick='toolbar_post("/torrent/queue/down/",2)'
-    title='$_("Down")'><img class='toolbar_btn'
-    src='/static/images/tango/queue-down.png'></a>
-
-
-    <a class='toolbar_btn' href="#"
-    onclick='toolbar_get("/torrent/info/",1)'
-    title='$_("Details")'><img class='toolbar_btn'
-    src='/static/images/tango/details.png'></a>
-
-
-    <a class='toolbar_btn' href="#"
-    onclick='toolbar_get("/torrent/move/",2)'
-    title='$_("Move")'><img class='toolbar_btn'
-    src='/static/images/tango/move.png'></a>
-
-    $:category_tabs(all_torrents)
+$:category_tabs(all_torrents)
 
 </div>
 

@@ -29,6 +29,8 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
+#TODO: rename to config_manager.py
+
 import lib.newforms_plus as forms
 import page_decorators as deco
 import lib.webpy022 as web

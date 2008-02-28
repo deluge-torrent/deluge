@@ -1,10 +1,10 @@
 $def with (active_tab)
 <div id="admin_toolbar" class="panel" style="width:98%;text-align:left">
-    <a href='/config/'>Config</a>
-    <!--<a href='/log'>Log</a>
-    <a href='/alerts'>Alerts</a>-->
-    <a href='/connect'>Connect</a>
-    <a href='/about'>About</a>
-    <a href='/logout'>Logout</a>
+$for id, title, url in admin_pages:
+    <a
+    $if id == active_tab:
+         class="tab_button_active"
+    $else:
+        class="tab_button"
+    href='$url'>$title</a>
 </div>
-

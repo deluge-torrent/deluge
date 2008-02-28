@@ -2,34 +2,13 @@ $def with (torrent)
 
 $:(render.header(torrent.message + '/' + torrent.name))
 <div class="panel">
+$for id, title, image, flag, method, url, important in toolbar_items:
+    $if (flag > 0) and (id != 'details'):
+        $:render.part_button(method, (url + str(torrent.id)), title, 'tango/' + image)
 
-$if (torrent.action == 'start'):
-    $:render.part_button('POST', '/torrent/start/' + str(torrent.id), _('Resume'), 'tango/start.png')
-$else:
-    $:render.part_button('POST', '/torrent/stop/' + str(torrent.id), _('Pause'), 'tango/pause.png')
-
-
-$:render.part_button('GET', '/torrent/delete/' + str(torrent.id), _('Remove'), 'tango/list-remove.png')
-$:render.part_button('POST', '/torrent/reannounce/' + str(torrent.id), _('Reannounce'), 'tango/view-refresh.png')
-$:render.part_button('POST', '/torrent/recheck/' + str(torrent.id), _('Recheck'), 'tango/view-refresh.png')
-
-$:render.part_button('POST', '/torrent/queue/up/' + str(torrent.id), _('Queue Up'), 'tango/queue-up.png')
-$:render.part_button('POST', '/torrent/queue/down/' + str(torrent.id), _('Queue Down'), 'tango/queue-down.png')
-
-$:render.part_button('GET', '/torrent/move/' + str(torrent.id), _('Move'), 'tango/move.png')
-
-<h3>$_('Details')</h3>
-$:render.tab_meta(torrent)
-
-<h3>$_('Options')</h3>
-
-$:render.tab_options(torrent)
-
-
-<h3>$_('Files')</h3>
-
-$:render.tab_files(torrent)
-
+$for id, title, tab in detail_tabs:
+    <h3>$title</h3>
+    $:render[tab](torrent)
 
 <br>
 <!--

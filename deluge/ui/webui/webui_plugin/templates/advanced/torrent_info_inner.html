@@ -7,16 +7,12 @@ $def with (torrent, active_tab)
 </head>
 <body class="inner">
 
-$:render.part_tab_button('details', _("Details"), active_tab)
-$:render.part_tab_button('files', _("Files"), active_tab)
-$:render.part_tab_button('options', _("Options"), active_tab)
+$for id, title, tab in detail_tabs:
+    $:render.part_tab_button(id, title, active_tab)
 
-$if active_tab == 'details':
-    $:render.tab_meta(torrent)
-$if active_tab == 'files':
-    $:render.tab_files(torrent)
-$if active_tab == 'options':
-    $:render.tab_options(torrent)
+$for id, title, tab in detail_tabs:
+    $if active_tab == id:
+        $:render[tab](torrent)
 
 </body>
 </html>

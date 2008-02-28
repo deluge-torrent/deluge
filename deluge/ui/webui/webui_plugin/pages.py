@@ -42,6 +42,11 @@ from config import config_page
 from torrent_options import torrent_options
 from torrent_move import torrent_move
 
+
+#plugin like api's
+import menu_manager
+from menu_manager import TB
+
 #import forms
 #
 from debugerror import deluge_debugerror
@@ -60,6 +65,39 @@ import os
 
 #special/complex pages:
 from torrent_add import torrent_add
+
+#plugin-like api's : register
+
+menu_manager.register_admin_page("config", _("Config"), "/config/")
+menu_manager.register_admin_page("connect", _("Connect"), "/connect")
+menu_manager.register_admin_page("about", _("About"), "/about")
+menu_manager.register_admin_page("logout", _("Logout"), "/logout")
+
+menu_manager.register_detail_tab("details", _("Details"), "tab_meta")
+menu_manager.register_detail_tab("files", _("Files"), "tab_files")
+menu_manager.register_detail_tab("options", _("Options"), "tab_options")
+
+menu_manager.register_toolbar_item("add", _("Add"), "list-add.png" , TB.generic,
+    "GET","/torrent/add/", True)
+menu_manager.register_toolbar_item("delete",_("Delete"), "list-remove.png" ,TB.torrent_list,
+    "GET","/torrent/delete/" , True)
+menu_manager.register_toolbar_item("stop",_("Stop"), "pause.png" ,TB.torrent_list,
+    "POST","/torrent/stop/", True)
+menu_manager.register_toolbar_item("start",_("Start"), "start.png" ,TB.torrent_list,
+    "POST","/torrent/start/", True)
+menu_manager.register_toolbar_item("queue_up",_("Up"), "queue-up.png" ,TB.torrent_list,
+    "POST","/torrent/queue/up/", True)
+menu_manager.register_toolbar_item("queue_down",_("Down"), "queue-down.png" ,TB.torrent_list,
+    "POST","/torrent/queue/down/", True)
+menu_manager.register_toolbar_item("details",_("Details"), "details.png" ,TB.torrent,
+    "GET","/torrent/info/", True)
+menu_manager.register_toolbar_item("move",_("Move"), "move.png" ,TB.torrent_list,
+    "POST","/torrent/move/", True)
+
+menu_manager.register_toolbar_item("reannounce",_("Reannounce"), "view-refresh.png" ,TB.torrent_list,
+    "POST","'/torrent/reannounce/", False)
+menu_manager.register_toolbar_item("recheck",_("Recheck"), "view-refresh.png" ,TB.torrent_list,
+    "POST","'/torrent/recheck/", False)
 
 #routing:
 urls = (

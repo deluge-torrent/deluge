@@ -66,6 +66,10 @@ class subclassed_render(object):
         else:
             return getattr(self.base_template, attr)
 
+    def __getitem__(self, item):
+        "for plugins/templates"
+        return getattr(self, item)
+
 render = subclassed_render()
 
 def error_page(error):

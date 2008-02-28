@@ -331,6 +331,15 @@ def daemon_start_localhost(port):
     # Spawn a local daemon
     os.popen("deluged -p %s" % port)
 
+def logcall(func):
+    "log a function/method-call"
+    def deco(*args, **kwargs):
+        log.debug("call: %s<%s,%s>"  % (func.__name__, args, kwargs))
+        return func(*args, **kwargs) #logdeco
+
+    return deco
+
+
 #exceptions:
 class WebUiError(Exception):
     """the message of these exceptions will be rendered in

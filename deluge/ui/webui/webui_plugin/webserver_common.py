@@ -56,7 +56,7 @@ try:
 except:
     import gettext
     gettext.install('~/')
-    #log.error('no translations :(')
+    log.error('no translations :(')
 
 
 #constants
