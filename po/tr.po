@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-02-08 09:15+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2008-02-12 23:36+0000\n"
+"Last-Translator: ras0ir <ras0ir@eventualis.org>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-02-10 21:53+0000\n"
+"X-Launchpad-Export-Date: 2008-02-28 06:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -313,7 +313,7 @@ msgstr ""
 #: glade/searchdlg.glade:7
 #, fuzzy
 msgid "Manage Search Plugins"
-msgstr "Ayama Eklentilerini Yönet"
+msgstr "Arama Eklentilerini Yönet"
 
 #: glade/searchdlg.glade:79
 msgid "Name:"
@@ -333,6 +333,13 @@ msgid ""
 "Name: Google\n"
 "URL: http://www.google.com/search?q=${query}"
 msgstr ""
+"URL ve İsim ekleyerek yeni bir arama motoru ekleyebilirsiniz. İsim için, "
+"kullanmak istediğiniz arama motorunun adını yazınız. URL için, arama "
+"sayfasının adresini yazınız. Kullanıcının arama sorgusu adresteki ${query} "
+"değerinin yerini alacaktır.\n"
+"Örnek olarak, Google şöyle eklenebilir:\n"
+"İsim: Google\n"
+"URL: http://www.google.com/search?q=${query}"
 
 #: glade/searchdlg.glade:133
 msgid "Help"
@@ -638,7 +645,7 @@ msgstr "İndirilmesi bitmiş torrentler gönderime başlayınca en alta taşı"
 #: glade/preferences_dialog.glade:1037
 #, fuzzy
 msgid "Queue new torrents above completed ones"
-msgstr "Yeni torrentler sıraya alındı,"
+msgstr "Yeni torrentleri tamamlanan indirilenlerin üzerinde sırala"
 
 #: glade/preferences_dialog.glade:1053
 #, fuzzy
@@ -812,7 +819,7 @@ msgstr "Port"
 #: glade/preferences_dialog.glade:1729
 #, fuzzy
 msgid "<b>Peer Proxy</b>"
-msgstr "<b<Eş Proxy</b>"
+msgstr "<b>Eş Proxy</b>"
 
 #: glade/preferences_dialog.glade:1762
 #, fuzzy
@@ -898,7 +905,8 @@ msgstr ""
 #: glade/preferences_dialog.glade:2649
 #, fuzzy
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
-msgstr "Gelişmiş ilerleme çubuğunu kullan (biraz İşlemci/Bellek kullanır)"
+msgstr ""
+"Gelişmiş ilerleme çubuğunu kullan (Normalden fazla İşlemci/Bellek kullanır)"
 
 #: glade/preferences_dialog.glade:2660
 msgid "<b>Detailed Progress Bar</b>"
@@ -1636,7 +1644,7 @@ msgstr ""
 #: plugins/BlocklistImport/peerguardian.py:41
 #, fuzzy
 msgid "Invalid version"
-msgstr "Geçersiz versiyon"
+msgstr "Geçersiz sürüm"
 
 #: plugins/DesiredRatio/__init__.py:22
 msgid "Set the desired ratio for a torrent."
@@ -1828,7 +1836,9 @@ msgstr ""
 msgid ""
 "Make tray icon blink when torrent finishes downloading and/or popup a "
 "notification"
-msgstr "Dosya indiğinde ya da bir uyarı geldiğinde simge bana göz kırpsın"
+msgstr ""
+"Dosya indirme işlemi bittiğinde bilgilendirme penceresi aç veya sistem "
+"tepsisinde uyarı göster"
 
 #: plugins/TorrentNotification/__init__.py:108
 msgid "Torrent complete"
@@ -2285,11 +2295,11 @@ msgstr "data yok"
 
 #: plugins/WebUi/deluge_webserver.py:307
 msgid "refresh must be > 0"
-msgstr ""
+msgstr "Tazeleme süresi > 0 olmalıdır"
 
 #: plugins/WebUi/scripts/template_strings.py:1
 msgid "# Of Files"
-msgstr ""
+msgstr "Dosya Sayısı"
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
@@ -2363,7 +2373,7 @@ msgstr "Kapalı"
 
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Password is invalid,try again"
-msgstr ""
+msgstr "Geçersiz şifre, tekrar deneyin"
 
 #: plugins/WebUi/scripts/template_strings.py:33
 #, fuzzy
@@ -2392,11 +2402,12 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:42
 msgid "Refresh page every:"
-msgstr ""
+msgstr "Sayfayı yenile:"
 
 #: plugins/WebUi/scripts/template_strings.py:44
+#, fuzzy
 msgid "Remove torrent"
-msgstr ""
+msgstr "Torrenti kaldır"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Resume all"
@@ -2417,7 +2428,7 @@ msgstr "Hız"
 
 #: plugins/WebUi/scripts/template_strings.py:53
 msgid "Start"
-msgstr ""
+msgstr "Başlat"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Submit"
