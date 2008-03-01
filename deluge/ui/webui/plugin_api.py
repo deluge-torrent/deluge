@@ -35,6 +35,7 @@ import lib.webpy022 as web
 import lib.newforms_plus as forms
 from render import render
 from utils import logcall
+import page_decorators as deco
 
 from config import register_block as register_config_block
 from config import unregister_block as unregister_config_block

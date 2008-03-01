@@ -189,7 +189,7 @@ class index:
                 log.debug('Sorting Failed')
 
             if vars.order == 'up':
-                torrent_list = reversed(torrent_list)
+                torrent_list = list(reversed(torrent_list))
 
             setcookie("order", vars.order)
             setcookie("sort", vars.sort)
