@@ -471,8 +471,9 @@ def register_page(url, klass):
     urls.append(klass.__name__)
     page_classes[klass.__name__] = klass
 
-def unregister_page(url, klass):
-    page_classes[klass.__name__] = None
+def unregister_page(url):
+    raise NotImplemenetedError()
+    #page_classes[klass.__name__] = None
 
 """
 class test:

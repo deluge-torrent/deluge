@@ -181,7 +181,7 @@ def enhance_torrent_status(torrent_id,status):
     status.calc_state_str = "downloading"
     if status.paused:
         status.calc_state_str= "inactive"
-    elif status.is_seed:
+    elif status.state <> 2:
         status.calc_state_str = "seeding"
 
     #action for torrent_pause
@@ -190,20 +190,17 @@ def enhance_torrent_status(torrent_id,status):
     else:
         status.action = "stop"
 
-    if status.user_paused:
-        status.message = _("Paused")
-    elif status.paused:
-        status.message = _("Queued")
-    else:
-        status.message = (STATE_MESSAGES[status.state])
+    status.message = (STATE_MESSAGES[status.state])
 
     #add some pre-calculated values
     status.update({
         "calc_total_downloaded"  : (fsize(status.total_done)
-            + " (" + fsize(status.total_download) + ")"),
-        "calc_total_uploaded": (fsize(status.uploaded_memory
-            + status.total_payload_upload) + " ("
-            + fsize(status.total_upload) + ")"),
+            + " (" + "??" + ")"
+            ),
+        "calc_total_uploaded": (fsize(
+            #status.uploaded_memory +
+            status.total_payload_upload) + " ("
+            + "??" + ")"),
     })
 
     #no non-unicode string may enter the templates.
@@ -242,12 +239,15 @@ def get_categories(torrent_list):
     return categories
 
 def filter_torrent_state(torrent_list,filter_name):
+    #redesign filters on status field.
     filters = {
-        'downloading': lambda t: (not t.paused and not t.is_seed)
-        ,'queued':lambda t: (t.paused and not t.user_paused)
-        ,'paused':lambda t: (t.user_paused)
-        ,'seeding':lambda t:(t.is_seed and not t.paused )
-        ,'traffic':lambda t: (t.download_rate > 0 or t.upload_rate > 0)
+        'allocating': lambda t: (t.state == 0),
+        'checking': lambda t: (t.state == 1),
+        'downloading': lambda t: (t.state == 2),
+        'seeding':lambda t: (t.state == 3),
+        'paused':lambda t: (t.state == 4),
+        'error':lambda t: (t.state == 5),
+        'traffic':lambda t: (t.download_rate > 0 or  t.upload_rate  > 0)
     }
     filter_func = filters[filter_name]
     return [t for t in torrent_list if filter_func(t)]
@@ -263,10 +263,11 @@ def get_category_choosers(torrent_list):
 
     #static filters
     for title, filter_name in [
+        (_('Allocating'),'allocating') ,
+        (_('Checking'),'checking') ,
         (_('Downloading'),'downloading') ,
-        (_('Queued'),'queued') ,
-        (_('Paused'),'paused') ,
-        (_('Seeding'),'seeding'),
+        (_('Paused'),'paused'),
+        (_('Error'),'error'),
         (_('Traffic'),'traffic')
         ]:
         title += ' (%s)' % (
