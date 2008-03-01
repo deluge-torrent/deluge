@@ -69,9 +69,10 @@ def register_admin_page(id, title, url):
 
 @logcall
 def unregister_admin_page(page_id):
-    for (i, (id, title, url)) in enumerate(admin_pages):
+    for (i, (id, title, url)) in list(enumerate(admin_pages)):
         if id == page_id:
             del admin_pages[i]
+            return
 
 #detail:
 @logcall
@@ -80,9 +81,16 @@ def register_detail_tab(id, title, page):
 
 @logcall
 def unregister_detail_tab(tab_id):
-    for (i, (id, title, tab)) in enumerate(detail_tabs):
+    for (i, (id, title, tab)) in list(enumerate(detail_tabs)):
         if id == tab_id:
             del detail_tabs[i]
+            return
+
+
+#def register_page
+def register_page(url, method):
+    pass #TODO :(
+
 
 #register vars in template.
 template.Template.globals["admin_pages"] = admin_pages

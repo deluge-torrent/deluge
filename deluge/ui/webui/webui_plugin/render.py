@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# webserver_framework.py
 #
-# Copyright (C) Martijn Voncken 2007 <mvoncken@gmail.com>
+# Copyright (C) Martijn Voncken 2008 <mvoncken@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +29,6 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-
 #relative:
 from webserver_common import ws,REVNO,VERSION
 from utils import *
@@ -48,23 +46,40 @@ class subclassed_render(object):
         self.apply_cfg()
 
     def apply_cfg(self):
-        if not hasattr(ws,"config"):
-            print "render.py: WARNING,no config"
-            return
-        cache = ws.config.get('cache_templates')
-        self.base_template = template.render(
-            os.path.join(ws.webui_path, 'templates/deluge/'),
-            cache=cache)
+        self.cache = ws.config.get('cache_templates')
+        self.renderers = []
+        self.plugin_renderers = []
+        self.template_cache = {}
 
-        self.sub_template = template.render(
+        #future: better/more subclassing.
+        self.renderers.append(template.render(
             os.path.join(ws.webui_path, 'templates/%s/' % ws.config.get('template')),
-            cache=cache)
+            cache=False))
+
+        self.renderers.append(template.render(
+            os.path.join(ws.webui_path, 'templates/deluge/'),cache=False))
+
+    @logcall
+    def register_template_path(self, path):
+        self.plugin_renderers.append(template.render(path))
+
+    @logcall
+    def unregister_template_path(self, path):
+        for i, renderer in list(ennumerate(self.plugin_renderers)):
+            if renderer.loc == path:
+                del self.plugin_renderers[i]
+                return
 
     def __getattr__(self, attr):
-        if hasattr(self.sub_template, attr):
-            return getattr(self.sub_template, attr)
-        else:
-            return getattr(self.base_template, attr)
+        if self.cache and attr in self.template_cache:
+            return self.template_cache[attr]
+
+        for renderer in self.renderers + self.plugin_renderers:
+            if hasattr(renderer, attr):
+                self.template_cache[attr] = getattr(renderer, attr)
+                return getattr(renderer, attr)
+
+        raise AttributeError, 'no template named "%s" '  % attr
 
     def __getitem__(self, item):
         "for plugins/templates"
@@ -79,11 +94,9 @@ def error_page(error):
 
 #template-defs:
 
-
 def category_tabs(torrent_list):
     filter_tabs, category_tabs = get_category_choosers(torrent_list)
     return render.part_categories(filter_tabs, category_tabs)
-
 
 def template_crop(text, end):
     try:

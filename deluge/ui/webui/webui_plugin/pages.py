@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# deluge_webserver.py
 #
-# Copyright (C) Martijn Voncken 2007 <mvoncken@gmail.com>
+# Copyright (C) Martijn Voncken 2008 <mvoncken@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -36,22 +35,13 @@ from utils import *
 import utils #todo remove the line above.
 from render import render, error_page
 import page_decorators as deco
-import config_tabs_webui #auto registers
-import config_tabs_deluge #auto registers
 from config import config_page
 from torrent_options import torrent_options
 from torrent_move import torrent_move
 
-
-#plugin like api's
-import menu_manager
-from menu_manager import TB
-
-#import forms
-#
+#debugerror
 from debugerror import deluge_debugerror
 web.webapi.internalerror = deluge_debugerror
-#
 
 import lib.webpy022 as web
 from lib.webpy022.http import seeother, url
@@ -63,8 +53,14 @@ import os
 
 #from json_api import json_api #secuity leak, todo:fix
 
-#special/complex pages:
-from torrent_add import torrent_add
+#self registering pages:
+import config_tabs_webui #auto registers
+import config_tabs_deluge #auto registers
+from torrent_add import torrent_add #todo: self-register.
+
+#plugin like api's
+import menu_manager
+from menu_manager import TB
 
 #plugin-like api's : register
 
@@ -100,7 +96,7 @@ menu_manager.register_toolbar_item("recheck",_("Recheck"), "view-refresh.png" ,T
     "POST","'/torrent/recheck/", False)
 
 #routing:
-urls = (
+urls = [
     "/login", "login",
     "/index", "index",
     "/torrent/info/(.*)", "torrent_info",
@@ -137,8 +133,10 @@ urls = (
     "/", "home",
     "", "home",
     "/robots.txt","robots"
-)
+]
 #/routing
+
+
 
 #pages:
 class login:
@@ -418,8 +416,6 @@ class daemon_control:
         time.sleep(1)  #pause a while to let it start?
         proxy.set_core_uri( uri )
 
-
-
 #other stuff:
 class remote_torrent_add:
     """
@@ -467,3 +463,28 @@ class robots:
 
 #/pages
 
+#for plugins..
+page_classes = dict(globals()) #test-1
+
+def register_page(url, klass):
+    urls.append(url)
+    urls.append(klass.__name__)
+    page_classes[klass.__name__] = klass
+
+def unregister_page(url, klass):
+    page_classes[klass.__name__] = None
+
+"""
+class test:
+    @deco.deluge_page
+    def GET(self, name):
+        return "HI"
+
+
+register_page('/test(.*)', test)
+
+
+print urls
+print page_classes['index']
+print page_classes['test']
+"""

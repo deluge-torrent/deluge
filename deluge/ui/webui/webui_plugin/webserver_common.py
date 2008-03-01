@@ -130,6 +130,7 @@ class Ws:
     def __init__(self):
         self.webui_path = os.path.dirname(__file__)
         self.env = 'UNKNOWN'
+        self.config = {}
 
         try:
             self.config_dir = deluge.common.CONFIG_DIR

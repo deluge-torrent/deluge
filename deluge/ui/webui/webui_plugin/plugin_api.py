@@ -1,7 +1,8 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
-# webserver_framework.py
 #
-# Copyright (C) Martijn Voncken 2007 <mvoncken@gmail.com>
+# Copyright (C) Martijn Voncken 2008 <mvoncken@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,40 +29,24 @@
 #  but you are not obligated to do so. If you do not wish to do so, delete
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
+#
 
-
-from webserver_common import ws
-
-from lib.webpy022.request import webpyfunc
-from lib.webpy022 import webapi
-from lib.gtk_cherrypy_wsgiserver import CherryPyWSGIServer
 import lib.webpy022 as web
-import os
+import lib.newforms_plus as forms
+from render import render
+from utils import logcall
 
-def create_webserver(urls, methods, middleware):
-    func = webapi.wsgifunc(webpyfunc(urls, methods, False), *middleware)
-    server_address=("0.0.0.0", int(ws.config.get('port')))
+from config import register_block as register_config_block
+from config import unregister_block as unregister_config_block
 
-    server = CherryPyWSGIServer(server_address, func, server_name="localhost")
-    if ws.config.get('use_https'):
-        server.ssl_certificate = os.path.join(ws.webui_path,'ssl/deluge.pem')
-        server.ssl_private_key = os.path.join(ws.webui_path,'ssl/deluge.key')
+from pages import register_page, unregister_page
+from pages import register_page, unregister_page
 
-    print "http://%s:%d/" % server_address
-    return server
+from menu_manager import TB
+from menu_manager import register_admin_page, unregister_admin_page
+from menu_manager import register_toolbar_item, unregister_toolbar_item
 
-def WebServer(debug = False):
-    if debug:
-        middleware = [web.reloader]
-    else:
-        middleware = []
+register_template_path = render.register_template_path
+unregister_template_path = render.unregister_template_path
 
-    import pages
-    return create_webserver(pages.urls, pages.page_classes, middleware)
 
-def run(debug = False):
-    server = WebServer(debug)
-    try:
-        server.start()
-    except KeyboardInterrupt:
-        server.stop()
