@@ -43,6 +43,7 @@ import deluge.libtorrent as lt
 
 import deluge.common
 import deluge.component as component
+from deluge.core.torrentqueue import TorrentQueue
 from deluge.configmanager import ConfigManager
 from deluge.core.torrent import Torrent
 from deluge.log import LOG as log
@@ -62,12 +63,14 @@ class TorrentState:
             max_download_speed,
             prioritize_first_last,
             private,
-            file_priorities
+            file_priorities,
+            queue
         ):
         self.torrent_id = torrent_id
         self.filename = filename
         self.total_uploaded = total_uploaded
         self.trackers = trackers
+        self.queue = queue
 
         # Options
         self.compact = compact
@@ -99,6 +102,8 @@ class TorrentManager(component.Component):
         self.alerts = alerts
         # Get the core config
         self.config = ConfigManager("core.conf")
+        # Create the TorrentQueue object
+        self.queue = TorrentQueue()
 
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
@@ -157,7 +162,7 @@ class TorrentManager(component.Component):
         return self.torrents.keys()
         
     def add(self, filename, filedump=None, options=None, total_uploaded=0, 
-            trackers=None, save_state=True):
+            trackers=None, queue=-1, save_state=True):
         """Add a torrent to the manager and returns it's torrent_id"""
         log.info("Adding torrent: %s", filename)
         log.debug("options: %s", options)
@@ -242,10 +247,13 @@ class TorrentManager(component.Component):
         # Create a Torrent object
         torrent = Torrent(filename, handle, options["compact_allocation"], 
             options["download_location"], total_uploaded, trackers)
-        
+
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
-                    
+
+        # Add the torrent to the queue
+        self.queue.insert(queue, torrent.torrent_id)
+                            
         # Set per-torrent options
         torrent.set_max_connections(options["max_connections_per_torrent"])
         torrent.set_max_upload_slots(options["max_upload_slots_per_torrent"])
@@ -420,6 +428,10 @@ class TorrentManager(component.Component):
 
         # Try to add the torrents in the state to the session
         add_paused = {}
+        # First lets clear the queue and make it the correct length.. This will
+        # help with inserting values at the right position.
+        self.queue.set_size(len(state.torrents))
+
         for torrent_state in state.torrents:
             try:
                 options = {
@@ -441,11 +453,14 @@ class TorrentManager(component.Component):
                     options=options,
                     total_uploaded=torrent_state.total_uploaded,
                     trackers=torrent_state.trackers,
+                    queue=torrent_state.queue,
                     save_state=False)
+                
             except AttributeError, e:
                 log.error("Torrent state file is either corrupt or incompatible!")
+                add_paused = {}
                 break
-           
+       
         # Run the post_session_load plugin hooks
         self.plugins.run_post_session_load()
         
@@ -473,7 +488,8 @@ class TorrentManager(component.Component):
                 torrent.max_download_speed,
                 torrent.prioritize_first_last,
                 torrent.private,
-                torrent.file_priorities
+                torrent.file_priorities,
+                torrent.get_status(["queue"])["queue"] - 1 # We subtract 1 due to augmentation
             )
             state.torrents.append(torrent_state)
         

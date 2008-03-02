@@ -37,6 +37,7 @@ import os
 
 import deluge.libtorrent as lt
 import deluge.common
+import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
@@ -49,6 +50,9 @@ class Torrent:
         trackers=None):
         # Get the core config
         self.config = ConfigManager("core.conf")
+        
+        # Get a reference to the TorrentQueue
+        self.torrentqueue = component.get("TorrentQueue")
         
         # Set the filename
         self.filename = filename
@@ -151,7 +155,7 @@ class Torrent:
             self.state = TORRENT_STATE[state]
         except:
             pass
-
+        
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""
         if self.status == None:
@@ -208,7 +212,13 @@ class Torrent:
                 'offset': file.offset
             })
         return ret
-   
+
+    def get_queue_position(self):
+        # We augment the queue position + 1 so that the user sees a 1 indexed
+        # list.
+        
+        return self.torrentqueue[self.torrent_id] + 1
+        
     def get_status(self, keys):
         """Returns the status of the torrent based on the keys provided"""
         # Create the full dictionary
@@ -252,8 +262,7 @@ class Torrent:
             "max_upload_speed": self.max_upload_speed,
             "max_download_speed": self.max_download_speed,
             "prioritize_first_last": self.prioritize_first_last,
-            "private": self.private,
-            "queue": 0
+            "private": self.private
         }
         
         fns = {
@@ -264,7 +273,8 @@ class Torrent:
             "piece_length": self.torrent_info.piece_length,
             "eta": self.get_eta,
             "ratio": self.get_ratio,
-            "file_progress": self.handle.file_progress
+            "file_progress": self.handle.file_progress,
+            "queue": self.get_queue_position
         }
 
         self.status = None

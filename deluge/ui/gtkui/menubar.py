@@ -144,7 +144,12 @@ class MenuBar(component.Component):
 
             "on_menuitem_recheck_activate": self.on_menuitem_recheck_activate,
             "on_menuitem_open_folder": self.on_menuitem_open_folder_activate,
-            "on_menuitem_move_activate": self.on_menuitem_move_activate
+            "on_menuitem_move_activate": self.on_menuitem_move_activate,
+            "on_menuitem_queue_top_activate": self.on_menuitem_queue_top_activate,
+            "on_menuitem_queue_up_activate": self.on_menuitem_queue_up_activate,
+            "on_menuitem_queue_down_activate": self.on_menuitem_queue_down_activate,
+            "on_menuitem_queue_bottom_activate": self.on_menuitem_queue_bottom_activate,
+            
         })
         
         self.change_sensitivity = [
@@ -298,6 +303,22 @@ class MenuBar(component.Component):
                 component.get("TorrentView").get_selected_torrents(), result)
         chooser.destroy()
 
+    def on_menuitem_queue_top_activate(self, value):
+        log.debug("on_menuitem_queue_top_activate")
+        client.queue_top(None, component.get("TorrentView").get_selected_torrents())
+
+    def on_menuitem_queue_up_activate(self, value):
+        log.debug("on_menuitem_queue_up_activate")
+        client.queue_up(None, component.get("TorrentView").get_selected_torrents())
+        
+    def on_menuitem_queue_down_activate(self, value):
+        log.debug("on_menuitem_queue_down_activate")
+        client.queue_down(None, component.get("TorrentView").get_selected_torrents())
+        
+    def on_menuitem_queue_bottom_activate(self, value):
+        log.debug("on_menuitem_queue_bottom_activate")
+        client.queue_bottom(None, component.get("TorrentView").get_selected_torrents())
+                
     ## View Menu ##
     def on_menuitem_toolbar_toggled(self, value):
         log.debug("on_menuitem_toolbar_toggled")

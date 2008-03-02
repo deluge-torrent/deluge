@@ -56,7 +56,9 @@ class ToolBar(component.Component):
             "on_toolbutton_preferences_clicked": \
                 self.on_toolbutton_preferences_clicked,
             "on_toolbutton_connectionmanager_clicked": \
-                self.on_toolbutton_connectionmanager_clicked
+                self.on_toolbutton_connectionmanager_clicked,
+            "on_toolbutton_queue_up_clicked": self.on_toolbutton_queue_up_clicked,
+            "on_toolbutton_queue_down_clicked": self.on_toolbutton_queue_down_clicked
         })
         self.change_sensitivity = [
             "toolbutton_add",
@@ -153,7 +155,15 @@ class ToolBar(component.Component):
         log.debug("on_toolbutton_connectionmanager_clicked")
         # Use the menubar's callbacks
         component.get("MenuBar").on_menuitem_connectionmanager_activate(data)
-
+    
+    def on_toolbutton_queue_up_clicked(self, data):
+        log.debug("on_toolbutton_queue_up_clicked")
+        component.get("MenuBar").on_menuitem_queue_up_activate(data)
+        
+    def on_toolbutton_queue_down_clicked(self, data):
+        log.debug("on_toolbutton_queue_down_clicked")
+        component.get("MenuBar").on_menuitem_queue_down_activate(data)
+        
     def update_buttons(self, action=None, torrent_id=None):
         if action == None:
             # If all the selected torrents are paused, then disable the 'Pause' 
