@@ -117,6 +117,8 @@ class ConnectionManager(component.Component):
         self.hostlist.get_selection().connect("changed", 
                                     self.on_selection_changed)
         
+        self._update()
+        
         # Auto connect to a host if applicable
         if self.gtkui_config["autoconnect"] and \
             self.gtkui_config["autoconnect_host_uri"] != None:
