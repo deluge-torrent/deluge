@@ -67,7 +67,7 @@ class Torrent:
         # Where the torrent is being saved to
         self.save_path = save_path
         # The state of the torrent
-        self.state = None
+        self.state = "Paused"
         
         # Holds status info so that we don't need to keep getting it from lt
         self.status = self.handle.status()
@@ -146,15 +146,16 @@ class Torrent:
     def set_state(self, state):
         """Accepts state strings, ie, "Paused", "Seeding", etc."""
 
+        if state not in TORRENT_STATE:
+            log.debug("Trying to set an invalid state %s", state)
+            return
+            
         # Only set 'Downloading' or 'Seeding' state if not paused
         if state == "Downloading" or state == "Seeding":
             if self.handle.is_paused():
                 state = "Paused"
                
-        try:
-            self.state = TORRENT_STATE[state]
-        except:
-            pass
+        self.state = state
         
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""
@@ -308,7 +309,7 @@ class Torrent:
     
     def resume(self):
         """Resumes this torrent"""
-        if self.state != TORRENT_STATE["Paused"]:
+        if self.state != "Paused":
             return False
         
         try:

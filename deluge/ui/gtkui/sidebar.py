@@ -38,8 +38,6 @@ import deluge.component as component
 import deluge.common
 from deluge.log import LOG as log
 
-TORRENT_STATE = deluge.common.TORRENT_STATE
-
 class SideBar(component.Component):
     def __init__(self):
         component.Component.__init__(self, "SideBar")
@@ -104,11 +102,11 @@ class SideBar(component.Component):
             component.get("TorrentView").set_filter(None, None)
         if value == "Downloading":
             component.get("TorrentView").set_filter("state", 
-                TORRENT_STATE["Downloading"])
+                "Downloading")
         if value == "Seeding":
             component.get("TorrentView").set_filter("state", 
-                TORRENT_STATE["Seeding"])
+                "Seeding")
         if value == "Paused":
             component.get("TorrentView").set_filter("state", 
-                TORRENT_STATE["Paused"])
+                "Paused")
 

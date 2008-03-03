@@ -51,14 +51,16 @@ LT_TORRENT_STATE = {
     "Paused": 8
 }
 
-TORRENT_STATE = {
-    "Allocating": 0,
-    "Checking": 1,
-    "Downloading": 2,
-    "Seeding": 3,
-    "Paused": 4,
-    "Error": 5
-}
+TORRENT_STATE = [
+    "Allocating",
+    "Checking",
+    "Downloading",
+    "Seeding",
+    "Paused",
+    "Error",
+    "Queued"
+]
+
 def get_version():
     """Returns the program version from the egg metadata"""
     return pkg_resources.require("Deluge")[0].version.split("r")[0]

@@ -48,8 +48,6 @@ from deluge.ui.client import aclient as client
 from deluge.log import LOG as log
 import deluge.ui.gtkui.listview as listview
 
-TORRENT_STATE = deluge.common.TORRENT_STATE
-
 # Status icons.. Create them from file only once to avoid constantly
 # re-creating them.
 icon_downloading = gtk.gdk.pixbuf_new_from_file(
@@ -60,35 +58,37 @@ icon_inactive = gtk.gdk.pixbuf_new_from_file(
     deluge.common.get_pixmap("inactive16.png"))
 icon_alert = gtk.gdk.pixbuf_new_from_file(
     deluge.common.get_pixmap("alert16.png"))
-
+icon_queued = gtk.gdk.pixbuf_new_from_file(
+    deluge.common.get_pixmap("queued16.png"))
+    
 # Holds the info for which status icon to display based on state
-ICON_STATE = [
-    icon_inactive,
-    icon_inactive,
-    icon_downloading,
-    icon_seeding,
-    icon_inactive,
-    icon_alert
-]
+ICON_STATE = {
+    "Allocating": icon_inactive,
+    "Checking": icon_inactive,
+    "Downloading": icon_downloading,
+    "Seeding": icon_seeding,
+    "Paused": icon_inactive,
+    "Error": icon_alert,
+    "Queued": icon_queued
+}
  
 def cell_data_statusicon(column, cell, model, row, data):
     """Display text with an icon"""
-    icon = ICON_STATE[model.get_value(row, data)]
-    if cell.get_property("pixbuf") != icon:
-        cell.set_property("pixbuf", icon)
-
+    try:
+        icon = ICON_STATE[model.get_value(row, data)]
+        if cell.get_property("pixbuf") != icon:
+            cell.set_property("pixbuf", icon)
+    except KeyError:
+        pass
+        
 def cell_data_progress(column, cell, model, row, data):
     """Display progress bar with text"""
-    (value, text) = model.get(row, *data)
+    (value, state_str) = model.get(row, *data)
     if cell.get_property("value") != value:
         cell.set_property("value", value)
-    state_str = ""
-    for key in TORRENT_STATE.keys():
-        if TORRENT_STATE[key] == text:
-            state_str = key
-            break
+
     textstr = "%s" % state_str
-    if state_str != "Seeding" and state_str != "Finished" and value < 100:
+    if state_str != "Seeding" and value < 100:
         textstr = textstr + " %.2f%%" % value        
     if cell.get_property("text") != textstr:
         cell.set_property("text", textstr)
@@ -125,7 +125,7 @@ class TorrentView(listview.ListView, component.Component):
                                             status_field=["total_size"])
         self.add_progress_column(_("Progress"), 
                                     status_field=["progress", "state"],
-                                    col_types=[float, int],
+                                    col_types=[float, str],
                                     function=cell_data_progress)
         self.add_func_column(_("Seeders"),
                                         listview.cell_data_peer,

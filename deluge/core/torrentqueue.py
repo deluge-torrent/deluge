@@ -40,7 +40,17 @@ class TorrentQueue(component.Component):
         component.Component.__init__(self, "TorrentQueue", depend=["TorrentManager"])
         # This is a list of torrent_ids in the queueing order
         self.queue = []
-    
+        
+        self.torrents = component.get("TorrentManager")
+        
+    def update(self):
+        pass
+      #  seeding = []
+      #  downloading = []
+
+      #  for torrent_id in self.torrents.get_torrent_list():
+     #       if self.torrents[torrent_id].get_status(["state"], 
+        
     def set_size(self, size):
         """Clear and set the self.queue list to the length of size"""
         log.debug("Setting queue size to %s..", size)
