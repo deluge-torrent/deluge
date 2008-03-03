@@ -86,7 +86,14 @@ DEFAULT_PREFS = {
     "autoadd_location": "",
     "autoadd_enable": False,
     "add_paused": False,
-    "default_private": False
+    "default_private": False,
+    "max_active_seeding": -1,
+    "max_active_downloading": -1,
+    "queue_new_to_top": False,
+    "queue_finished_to_bottom": False,
+    "stop_seed_at_ratio": False,
+    "remove_seed_at_ratio": False,
+    "stop_seed_ratio": 1.00
 }
         
 class Core(
