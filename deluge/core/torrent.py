@@ -275,7 +275,8 @@ class Torrent:
             "eta": self.get_eta,
             "ratio": self.get_ratio,
             "file_progress": self.handle.file_progress,
-            "queue": self.get_queue_position
+            "queue": self.get_queue_position,
+            "is_seed": self.handle.is_seed,
         }
 
         self.status = None

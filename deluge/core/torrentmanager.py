@@ -327,12 +327,15 @@ class TorrentManager(component.Component):
         # Remove the .fastresume if it exists
         self.torrents[torrent_id].delete_fastresume()
         
+        # Remove the torrent from the queue
+        self.queue.remove(torrent_id)
+        
         # Remove the torrent from deluge's session
         try:
             del self.torrents[torrent_id]
         except KeyError, ValueError:
             return False
-            
+        
         # Save the session state
         self.save_state()
         return True

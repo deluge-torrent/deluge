@@ -33,6 +33,7 @@
 
 import deluge.component as component
 import deluge.common
+from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
 class TorrentQueue(component.Component):
@@ -42,15 +43,67 @@ class TorrentQueue(component.Component):
         self.queue = []
         
         self.torrents = component.get("TorrentManager")
+        self.config = ConfigManager("core.conf")
         
     def update(self):
-        pass
-      #  seeding = []
-      #  downloading = []
-
-      #  for torrent_id in self.torrents.get_torrent_list():
-     #       if self.torrents[torrent_id].get_status(["state"], 
+        seeding = []
+        queued_seeding = []
+        downloading = []
+        queued_downloading = []
         
+        for torrent_id in self.torrents.get_torrent_list():
+            if self.torrents[torrent_id].get_status(["state"])["state"] == "Seeding":
+                seeding.append((self.queue.index(torrent_id), torrent_id))
+            elif self.torrents[torrent_id].get_status(["state"])["state"] == "Downloading":
+                downloading.append((self.queue.index(torrent_id), torrent_id))
+            elif self.torrents[torrent_id].get_status(["state"])["state"] == "Queued":
+                if self.torrents[torrent_id].get_status(["is_seed"])["is_seed"]:
+                    queued_seeding.append((self.queue.index(torrent_id), torrent_id))
+                else:
+                    queued_downloading.append((self.queue.index(torrent_id), torrent_id))
+                    
+        # We need to sort these lists by queue position
+        seeding.sort()
+        downloading.sort()
+        queued_downloading.sort()
+        queued_seeding.sort()
+        
+#        log.debug("total seeding: %s", len(seeding))
+#        log.debug("total downloading: %s", len(downloading))
+        
+        if self.config["max_active_seeding"] > -1:
+            if len(seeding) > self.config["max_active_seeding"]:
+                # We need to queue some more torrents because we're over the active limit
+                num_to_queue = len(seeding) - self.config["max_active_seeding"]
+                for (pos, torrent_id) in seeding[-num_to_queue:]:
+                    self.torrents[torrent_id].set_state("Queued")
+            else:
+                # We need to unqueue more torrents if possible
+                num_to_unqueue = self.config["max_active_seeding"] - len(seeding)
+                to_unqueue = []
+                if num_to_unqueue <= len(queued_seeding):
+                    to_unqueue = queued_seeding[:num_to_unqueue]
+                else:
+                    to_unqueue = queued_seeding
+                for (pos, torrent_id) in to_unqueue:
+                    self.torrents[torrent_id].set_state("Seeding")
+                    
+        if self.config["max_active_downloading"] > -1:
+            if len(downloading) > self.config["max_active_downloading"]:
+                num_to_queue = len(downloading) - self.config["max_active_downloading"]
+                for (pos, torrent_id) in downloading[-num_to_queue:]:
+                    self.torrents[torrent_id].set_state("Queued")
+            else:
+                # We need to unqueue more torrents if possible
+                num_to_unqueue = self.config["max_active_downloading"] - len(downloading)
+                to_unqueue = []
+                if num_to_unqueue <= len(queued_downloading):
+                    to_unqueue = queued_downloading[:num_to_unqueue]
+                else:
+                    to_unqueue = queued_downloading
+                for (pos, torrent_id) in to_unqueue:
+                    self.torrents[torrent_id].set_state("Downloading")
+                            
     def set_size(self, size):
         """Clear and set the self.queue list to the length of size"""
         log.debug("Setting queue size to %s..", size)
