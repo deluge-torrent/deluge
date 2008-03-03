@@ -187,7 +187,8 @@ class TorrentView(listview.ListView, component.Component):
     def _on_session_state(self, state):
         for torrent_id in state:
             self.add_row(torrent_id)
-            
+        
+        self.update_filter()    
         self.update()
         
     def stop(self):
@@ -201,7 +202,12 @@ class TorrentView(listview.ListView, component.Component):
         
     def set_filter(self, field, condition):
         """Sets filters for the torrentview.."""
+        if self.filter != (None, None):
+            self.filter = (None, None)
+            self.update_filter()
+        
         self.filter = (field, condition)
+        self.update_filter()
         self.update()
     
     def send_status_request(self, columns=None):
@@ -254,7 +260,7 @@ class TorrentView(listview.ListView, component.Component):
         client.get_torrents_status(
             self._on_get_torrents_status, torrent_ids, status_keys)
     
-    def update(self):
+    def update_filter(self):
         # Update the filter view
         def foreachrow(model, path, row, data):
             filter_column = self.columns["filter"].column_indices[0]
@@ -266,10 +272,8 @@ class TorrentView(listview.ListView, component.Component):
                 return
                 
             torrent_id = model.get_value(row, 0)
-            try:
-                value = self.status[torrent_id][field]
-            except:
-                return
+            value = model.get_value(row, self.get_state_field_column(field))
+
             # Condition is True, so lets show this row, if not we hide it
             if value == condition:
                 model.set_value(row, filter_column, True)
@@ -277,6 +281,8 @@ class TorrentView(listview.ListView, component.Component):
                 model.set_value(row, filter_column, False)
 
         self.liststore.foreach(foreachrow, self.filter)
+            
+    def update(self):
         # Send a status request
         self.send_status_request()
         
@@ -349,6 +355,7 @@ class TorrentView(listview.ListView, component.Component):
                     row,
                     self.columns["torrent_id"].column_indices[0], 
                     torrent_id)
+        self.update()
         
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""

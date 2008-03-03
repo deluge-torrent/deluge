@@ -211,6 +211,17 @@ class ListView:
         else:
             return self.columns[name].column_indices[0]
 
+    def get_state_field_column(self, field):
+        """Returns the column number for the state field"""
+        for column in self.columns.keys():
+            if self.columns[column].status_field == None:
+                continue
+                
+            for f in self.columns[column].status_field:
+                if field == f:
+                    return self.columns[column].column_indices[
+                        self.columns[column].status_field.index(f)]
+                    
     def on_menuitem_toggled(self, widget):
         """Callback for the generated column menuitems."""
         # Get the column name from the widget

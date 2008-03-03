@@ -57,6 +57,9 @@ class SideBar(component.Component):
         self.liststore.append([_("Seeding"),
             gtk.gdk.pixbuf_new_from_file(
                 deluge.common.get_pixmap("seeding16.png"))])
+        self.liststore.append([_("Queued"),
+            gtk.gdk.pixbuf_new_from_file(
+                deluge.common.get_pixmap("queued16.png"))])
         self.liststore.append([_("Paused"),
             gtk.gdk.pixbuf_new_from_file(
                 deluge.common.get_pixmap("inactive16.png"))])
@@ -104,9 +107,9 @@ class SideBar(component.Component):
             component.get("TorrentView").set_filter("state", 
                 "Downloading")
         if value == "Seeding":
-            component.get("TorrentView").set_filter("state", 
-                "Seeding")
+            component.get("TorrentView").set_filter("state", "Seeding")
+        if value == "Queued":
+            component.get("TorrentView").set_filter("state", "Queued")
         if value == "Paused":
-            component.get("TorrentView").set_filter("state", 
-                "Paused")
+            component.get("TorrentView").set_filter("state", "Paused")
 
