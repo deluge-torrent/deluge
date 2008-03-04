@@ -396,9 +396,11 @@ class daemon_control:
             proxy.shutdown()
         elif command == 'start':
             self.start()
+            return do_redirect()
         elif command == 'restart':
             proxy.shutdown()
             self.start()
+            return do_redirect()
         else:
             raise Exception('Unknown command:"%s"' % command)
 

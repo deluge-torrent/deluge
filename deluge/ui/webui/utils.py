@@ -190,7 +190,7 @@ def enhance_torrent_status(torrent_id,status):
     else:
         status.action = "stop"
 
-    status.message = (STATE_MESSAGES[status.state])
+    status.message =  _(status.state)
 
     #add some pre-calculated values
     status.update({
@@ -241,12 +241,13 @@ def get_categories(torrent_list):
 def filter_torrent_state(torrent_list,filter_name):
     #redesign filters on status field.
     filters = {
-        'allocating': lambda t: (t.state == 0),
-        'checking': lambda t: (t.state == 1),
-        'downloading': lambda t: (t.state == 2),
-        'seeding':lambda t: (t.state == 3),
-        'paused':lambda t: (t.state == 4),
-        'error':lambda t: (t.state == 5),
+        'allocating': lambda t: (t.state == 'Allocating'),
+        'checking': lambda t: (t.state == 'Checking'),
+        'downloading': lambda t: (t.state == 'Downloadig'),
+        'seeding':lambda t: (t.state == 'Seeding'),
+        'paused':lambda t: (t.state == 'Paused'),
+        'error':lambda t: (t.state == 'Error'),
+        'queued':lambda t: (t.state == 'Queued'),
         'traffic':lambda t: (t.download_rate > 0 or  t.upload_rate  > 0)
     }
     filter_func = filters[filter_name]
@@ -266,8 +267,10 @@ def get_category_choosers(torrent_list):
         (_('Allocating'),'allocating') ,
         (_('Checking'),'checking') ,
         (_('Downloading'),'downloading') ,
+        (_('Seeding'),'seeding') ,
         (_('Paused'),'paused'),
         (_('Error'),'error'),
+        (_('Queued'),'queued'),
         (_('Traffic'),'traffic')
         ]:
         title += ' (%s)' % (

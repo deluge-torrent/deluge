@@ -222,8 +222,9 @@ body.inner {
 	height:20px;
 }
 
+/*
 #toolbar select{
-	/*border:1px solid #68a;*/
+	border:1px solid #68a;
 	border:0;
 	background-color: #37506f;
 	color: #FFF;
@@ -231,7 +232,7 @@ body.inner {
 #toolbar select:hover{
 	background-color:#68a;
 }
-
+*/
 a.toolbar_btn {
 	width:20px;
 	height:20px;
