@@ -159,12 +159,6 @@ def enhance_torrent_status(torrent_id,status):
 
     status["id"] = torrent_id
 
-    url = urlparse(status.tracker)
-    if hasattr(url,'hostname'):
-        status.category = url.hostname or 'unknown'
-    else:
-        status.category = 'No-tracker'
-
     #0.5-->0.6
     status.download_rate = status.download_payload_rate
     status.upload_rate = status.upload_payload_rate

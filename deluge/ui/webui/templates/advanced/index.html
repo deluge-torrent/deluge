@@ -33,8 +33,13 @@ $if organize_filters:
         $:(sort_head('name', _('Name')))
         $:(sort_head('total_size', _('Size')))
         $:(sort_head('progress', _('Progress')))
-        $if (not get('category')):
-            $:(sort_head('category', _('Tracker')))
+
+        $if organize_filters:
+            <!--HACK:
+            abusing organize_filters to check if the Orgnize plugin is enabled
+            -->
+            $:(sort_head('tracker_name', _('Tracker')))
+
         $:(sort_head('num_seeds', _('Seeders')))
         $:(sort_head('num_peers', _('Peers')))
         $:(sort_head('download_rate', _('Download')))
@@ -68,8 +73,8 @@ $for torrent in torrent_list:
             </div>
         </div>
     </td>
-    $if (not get('category')):
-        <td>$torrent.category</td>
+    $if organize_filters:
+        <td>$torrent.tracker_name</td>
     <td>
     $if torrent.total_seeds != -1:
         $torrent.num_seeds ($torrent.total_seeds)
