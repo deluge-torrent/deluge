@@ -15,7 +15,9 @@ $for state, num in filters.state:
 </select>
 <select name='tracker' id='tracker'
     onchange="document.getElementById('category_form').submit()"
-    title="$_('Filter on Tracker')">
+    title="$_('Filter on Tracker')"
+    style="width:150px"
+    >
 <option value="">$_('Trackers')</option>
 $for tracker, num in filters.tracker:
     <option value="$tracker"
@@ -26,10 +28,14 @@ $for tracker, num in filters.tracker:
     </option>
 </select>
 
-    <input type="image" id='toolbar_refresh'
-    src='/static/images/tango/view-refresh.png'
-    title='$_('Refresh')'
-    >
+<input type="text" name="keyword" value="$get('keyword')" style="width:150px"
+title="$_('Filter on a keyword')"
+/>
+
+<input type="image" id='toolbar_refresh' name="refresh_organize"
+src='/static/images/tango/view-refresh.png'
+title='$_('Refresh')'
+>
 
 </form>
 
