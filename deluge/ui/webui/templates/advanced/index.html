@@ -1,4 +1,4 @@
-$def with (torrent_list, all_torrents)
+$def with (torrent_list, organize_filters)
 $:render.header(_('Torrent list'))
 
 <script language="javascript">
@@ -19,7 +19,8 @@ $for id, title, image, flag, method, url, important in toolbar_items:
         title='$title'><img class='toolbar_btn'
         src='/static/images/tango/$image'></a>
 
-$:category_tabs(all_torrents)
+$if organize_filters:
+    $:render.part_categories(organize_filters)
 
 </div>
 

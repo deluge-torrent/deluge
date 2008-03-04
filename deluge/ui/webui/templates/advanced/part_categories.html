@@ -1,27 +1,28 @@
-$def with (filter_tabs, category_tabs)
+$def with (filters)
 <form method="GET" id="category_form">
 <input type="hidden" name="sort" value="$get('sort')">
 <input type="hidden" name="order" value="$get('order')">
-<select name='filter' id='filter'
+<select name='state' id='state'
     onchange="document.getElementById('category_form').submit()"
     title="$_('Filter on state')">
-$for tab in filter_tabs:
-    <option value="$tab.filter"
-    $if tab.filter == get('filter'):
+$for state, num in filters.state:
+    <option value="$state"
+    $if state == get('state'):
         selected
     >
-    $tab.title
+    $_(state) ($num)
     </option>
 </select>
-<select name='category' id='category'
+<select name='tracker' id='tracker'
     onchange="document.getElementById('category_form').submit()"
     title="$_('Filter on Tracker')">
-$for tab in category_tabs:
-    <option value="$tab.category"
-    $if tab.category == get('category'):
+<option value="">$_('Trackers')</option>
+$for tracker, num in filters.tracker:
+    <option value="$tracker"
+    $if tracker == get('tracker'):
         selected
     >
-    $tab.title
+    $tracker ($num)
     </option>
 </select>
 

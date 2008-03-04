@@ -162,39 +162,53 @@ class index:
     @deco.deluge_page
     @deco.auto_refreshed
     def GET(self, name):
-        vars = web.input(sort=None, order=None ,filter=None , category=None)
+        vars = web.input(sort=None, order=None ,state=None , tracker=None,keyword=None)
 
-        torrent_list = get_torrent_list()
-        all_torrents = torrent_list[:]
+        organize_filters = {}
+        if 'Organize' in proxy.get_enabled_plugins():
+            filter_dict = {}
+            #organize-filters
+            #todo: DRY (in less lines of code)
+            if vars.state:
+                filter_dict['state'] = vars.state
+                setcookie("state", vars.state)
+            else:
+                setcookie("filter", "")
 
-        #filter-state
-        if vars.filter:
-            torrent_list = filter_torrent_state(torrent_list, vars.filter)
-            setcookie("filter", vars.filter)
+            if vars.tracker:
+                filter_dict['tracker'] = vars.tracker
+                setcookie("tracker", vars.tracker)
+            else:
+                setcookie("tracker", "")
+
+            if vars.keyword:
+                filter_dict['keyword'] = vars.keyword
+                setcookie("keyword", vars.keyword)
+            else:
+                setcookie("keyword", "")
+
+            torrent_ids =  proxy.organize_get_session_state(filter_dict)
+            organize_filters = Storage(proxy.organize_all_filter_items())
+
         else:
-            setcookie("filter", "")
+            torrent_ids =  proxy.get_session_state()
 
-        #filter-cat
-        if vars.category:
-            torrent_list = [t for t in torrent_list if t.category == vars.category]
-            setcookie("category", vars.category)
-        else:
-            setcookie("category", "")
+        torrent_list = utils.get_enhanced_torrent_list(torrent_ids)
 
         #sorting:
         if vars.sort:
             try:
                 torrent_list.sort(key=attrgetter(vars.sort))
             except:
-                log.debug('Sorting Failed')
+                log.error('Sorting Failed')
 
             if vars.order == 'up':
                 torrent_list = list(reversed(torrent_list))
 
             setcookie("order", vars.order)
             setcookie("sort", vars.sort)
-
-        return render.index(torrent_list, all_torrents)
+        log.debug("filters=%s,plugins=%s" % (organize_filters, proxy.get_enabled_plugins()))
+        return render.index(torrent_list, organize_filters)
 
 class torrent_info:
     @deco.deluge_page

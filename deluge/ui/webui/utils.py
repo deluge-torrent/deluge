@@ -67,22 +67,10 @@ def start_session():
     log.debug('start session')
     session_id = str(random.random())
     ws.SESSIONS.append(session_id)
-    #if len(ws.SESSIONS) > 20:  #save max 20 sessions?
-    #    ws.SESSIONS = ws.SESSIONS[-20:]
-    #not thread safe! , but a verry rare bug.
-    #f = open(ws.session_file,'wb')
-    #pickle.dump(ws.SESSIONS, f)
-    #f.close()
     setcookie("session_id", session_id)
 
 def end_session():
     session_id = getcookie("session_id")
-    #if session_id in ws.SESSIONS:
-    #    ws.SESSIONS.remove(session_id)
-        #not thread safe! , but a verry rare bug.
-        #f = open(ws.session_file,'wb')
-        #pickle.dump(ws.SESSIONS, f)
-        #f.close()
     setcookie("session_id","")
 
 def do_redirect():
@@ -91,24 +79,32 @@ def do_redirect():
     ck = cookies()
     url_vars = {}
 
+    #redirect to a non-default page.
     if vars.redir:
         seeother(vars.redir)
         return
-    #todo:cleanup
+
+    #for the filters:
     if ("order" in ck and "sort" in ck):
         url_vars.update({'sort':ck['sort'] ,'order':ck['order'] })
-    if ("filter" in ck) and ck['filter']:
-        url_vars['filter'] = ck['filter']
-    if ("category" in ck) and ck['category']:
-        url_vars['category'] = ck['category']
 
+    if 'Organize' in proxy.get_enabled_plugins():
+        #todo:DRY
+        if ("state" in ck) and ck['state']:
+            url_vars['state'] = ck['state']
+        if ("tracker" in ck) and ck['tracker']:
+            url_vars['tracker'] = ck['tracker']
+        if ("keyword" in ck) and ck['keyword']:
+            url_vars['keyword'] = ck['keyword']
+
+    #redirect.
     seeother(url("/index", **url_vars))
 
 def getcookie(key, default = None):
+    "because i'm too lazy to type 3 lines for something this simple"
     key = str(key).strip()
     ck = cookies()
     return ck.get(key, default)
-
 
 def get_stats():
     stats = Storage()
@@ -126,13 +122,8 @@ def get_stats():
 
     async_proxy.force_call(block=True)
 
-    #log.debug(str(stats))
-
     stats.download_rate = fspeed(stats.download_rate)
     stats.upload_rate = fspeed(stats.upload_rate)
-    #stats.max_upload = stats.max_upload
-    #stats.max_download = stats.max_download
-
 
     if stats.max_upload < 0:
         stats.max_upload = _("∞")
@@ -153,6 +144,7 @@ def enhance_torrent_status(torrent_id,status):
     """
     status = Storage(status)
     #add missing values for deluge 0.6:
+    #todo : Remove this!, and clean up the rest
     for key in TORRENT_KEYS:
         if not key in status:
             status[key] = 0
@@ -222,74 +214,13 @@ def get_torrent_status(torrent_id):
     status = proxy.get_torrent_status(torrent_id,TORRENT_KEYS)
     return enhance_torrent_status(torrent_id, status)
 
-def get_torrent_list():
+def get_enhanced_torrent_list(torrent_ids):
     """
     returns a list of storified-torrent-dicts.
     """
-    torrent_dict = proxy.get_torrents_status(
-        proxy.get_session_state(), TORRENT_KEYS)
+    torrent_dict = proxy.get_torrents_status(torrent_ids, TORRENT_KEYS)
     return [enhance_torrent_status(id, status)
             for id, status in torrent_dict.iteritems()]
-
-def get_categories(torrent_list):
-    trackers = [(torrent['category'] or 'unknown') for torrent in torrent_list]
-    categories = {}
-    for tracker in trackers:
-        categories[tracker] = categories.get(tracker,0) + 1
-    return categories
-
-def filter_torrent_state(torrent_list,filter_name):
-    #redesign filters on status field.
-    filters = {
-        'allocating': lambda t: (t.state == 'Allocating'),
-        'checking': lambda t: (t.state == 'Checking'),
-        'downloading': lambda t: (t.state == 'Downloadig'),
-        'seeding':lambda t: (t.state == 'Seeding'),
-        'paused':lambda t: (t.state == 'Paused'),
-        'error':lambda t: (t.state == 'Error'),
-        'queued':lambda t: (t.state == 'Queued'),
-        'traffic':lambda t: (t.download_rate > 0 or  t.upload_rate  > 0)
-    }
-    filter_func = filters[filter_name]
-    return [t for t in torrent_list if filter_func(t)]
-
-def get_category_choosers(torrent_list):
-    """
-    todo: split into 2 parts...
-    """
-    categories = get_categories(torrent_list)
-
-    filter_tabs = [Storage(title='All (%s)' % len(torrent_list),
-            filter='', category=None)]
-
-    #static filters
-    for title, filter_name in [
-        (_('Allocating'),'allocating') ,
-        (_('Checking'),'checking') ,
-        (_('Downloading'),'downloading') ,
-        (_('Seeding'),'seeding') ,
-        (_('Paused'),'paused'),
-        (_('Error'),'error'),
-        (_('Queued'),'queued'),
-        (_('Traffic'),'traffic')
-        ]:
-        title += ' (%s)' % (
-            len(filter_torrent_state(torrent_list, filter_name)), )
-        filter_tabs.append(Storage(title=title, filter=filter_name))
-
-    categories = [x for x in  get_categories(torrent_list).iteritems()]
-    categories.sort()
-
-    #trackers:
-    category_tabs = []
-    category_tabs.append(
-        Storage(title=_('Trackers'),category=''))
-    for title,count in categories:
-        category = title
-        title += ' (%s)' % (count, )
-        category_tabs.append(Storage(title=title, category=category))
-
-    return  filter_tabs, category_tabs
 
 def get_newforms_data(form_class):
     """
