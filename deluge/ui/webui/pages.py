@@ -228,7 +228,7 @@ class torrent_info_inner:
         setcookie("torrent_info_tab", active_tab)
         return render.torrent_info_inner(torrent, active_tab)
 
-#next 4 classes: a pattern is emerging here.
+#next 6 classes: a pattern is emerging here.
 #todo: DRY (in less lines of code)
 #deco.deluge_command, or a subclass?
 class torrent_start:
@@ -259,6 +259,20 @@ class torrent_recheck:
         proxy.force_recheck(torrent_ids)
         do_redirect()
 
+class torrent_queue_up:
+    @deco.check_session
+    @deco.torrent_ids
+    def POST(self, torrent_ids):
+        proxy.queue_up(torrent_ids)
+        do_redirect()
+
+class torrent_queue_down:
+    @deco.check_session
+    @deco.torrent_ids
+    def POST(self, torrent_ids):
+        proxy.queue_down(torrent_ids)
+        do_redirect()
+
 class torrent_delete:
     @deco.deluge_page
     @deco.torrent_list
@@ -274,32 +288,6 @@ class torrent_delete:
         data_also = bool(vars.data_also)
         torrent_also = bool(vars.torrent_also)
         proxy.remove_torrent(torrent_ids, torrent_also, data_also)
-        do_redirect()
-
-class torrent_queue_up:
-    @deco.check_session
-    @deco.torrent_list
-    def POST(self, torrent_list):
-        return error_page('Queue is broken, we know about it.')
-        #a bit too verbose..
-        torrent_list.sort(lambda x, y : x.queue - y.queue)
-        torrent_ids = [t.id for t in torrent_list]
-        for torrent_id in torrent_ids:
-            #async_proxy.get_core().call("queue_queue_up", None, torrent_id)
-            async_proxy.queue_queue_up(None, torrent_id)
-        do_redirect()
-
-class torrent_queue_down:
-    @deco.check_session
-    @deco.torrent_list
-    def POST(self, torrent_list):
-        return error_page('Queue is broken, we know about it.')
-        #a bit too verbose..
-        torrent_list.sort(lambda x, y : x.queue - y.queue)
-        torrent_ids = [t.id for t in torrent_list]
-        for torrent_id in reversed(torrent_ids):
-            #async_proxy.get_core().call("queue_queue_down", None, torrent_id)
-            async_proxy.queue_queue_down(None, torrent_id)
         do_redirect()
 
 class torrent_files:
