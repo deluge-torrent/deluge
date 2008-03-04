@@ -56,6 +56,4 @@ class torrent_options:
     def POST(self, torrent):
         pass
 
-
-
 template.Template.globals["forms"].torrent_options = lambda torrent : TorrentOptionsForm(torrent)

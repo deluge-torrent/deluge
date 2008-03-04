@@ -207,7 +207,6 @@ class index:
 
             setcookie("order", vars.order)
             setcookie("sort", vars.sort)
-        log.debug("filters=%s,plugins=%s" % (organize_filters, proxy.get_enabled_plugins()))
         return render.index(torrent_list, organize_filters)
 
 class torrent_info:

@@ -100,18 +100,11 @@ def category_tabs(torrent_list):
     return render.part_categories(filter_tabs, category_tabs)
 """
 
-def template_crop(text, end):
-    try:
-        if len(text) > end:
-            return text[0:end - 3] + '...'
-    except:
-        return "[ERROR NOT A STRING:(%s)]" % text
-    return text
-
-def template_crop_left(text, maxlen):
+def template_crop_middle(text, maxlen):
     try:
         if len(text) > maxlen:
-            return "..." + text[-(maxlen + 3):]
+            half = (maxlen / 2) - 2
+            return text[0:half ] + '...' + text[-half:]
     except:
         return "[ERROR NOT A STRING:(%s)]" % text
     return text
@@ -162,8 +155,8 @@ def ftime(val):
 template.Template.globals.update({
     'sort_head': template_sort_head,
     'part_stats':template_part_stats,
-    'crop': template_crop,
-    'crop_left': template_crop_left,
+    'crop': template_crop_middle,
+    'crop_left': template_crop_middle,
     '_': _ , #gettext/translations
     'str': str, #because % in templetor is broken.
     'int':int,
