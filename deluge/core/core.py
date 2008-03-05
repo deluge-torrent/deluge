@@ -538,6 +538,8 @@ class Core(
 
     def export_queue_up(self, torrent_ids):
         log.debug("Attempting to queue %s to up", torrent_ids)
+        #torrent_ids must be sorted before moving.
+        torrent_ids.sort(key = lambda id: self.torrents.torrents[id].get_queue_position())
         for torrent_id in torrent_ids:
             try:
                 # If the queue method returns True, then we should emit a signal
@@ -548,6 +550,8 @@ class Core(
 
     def export_queue_down(self, torrent_ids):
         log.debug("Attempting to queue %s to down", torrent_ids)
+        #torrent_ids must be sorted before moving.
+        torrent_ids.sort(key = lambda id: -self.torrents.torrents[id].get_queue_position())
         for torrent_id in torrent_ids:
             try:
                 # If the queue method returns True, then we should emit a signal
