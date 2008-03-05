@@ -462,26 +462,20 @@ class Manager:
     def save_fastresume_data(self, uid=None):
         if uid == None:
             for unique_ID in self.unique_IDs:
-                state = deluge_core.get_torrent_state(unique_ID)
-                if not state['is_seed'] and state['state'] != 0 and state['state'] != 1:
-                    try:
-                        os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
-                    except:
-                        pass
-                    try:
-                        deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
-                    except Exception, e:
-                        print "Unable to save fastresume: ", e
+                try:
+                    state = deluge_core.get_torrent_state(unique_ID)
+                    if not state['is_seed'] and state['state'] != 0 and state['state'] != 1:
+                      os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
+                      deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
+                except Exception, e:
+                  print "Unable to save fastresume: ", e
         else:
             # Do not save fastresume if torrent is Queued for checking or being checked
-            state = deluge_core.get_torrent_state(uid)
-            if state['state'] == 0 or state['state'] == 1:
-                return
             try:
+                state = deluge_core.get_torrent_state(uid)
+                if state['state'] == 0 or state['state'] == 1:
+                    return
                 os.remove(self.unique_IDs[uid].filename + ".fastresume")
-            except:
-                pass
-            try:
                 deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
             except Exception, e:
                 print "Unable to save fastresume: ", e
@@ -742,15 +736,14 @@ Space:") + " " + nice_free)
             if event['event_type'] is self.constants['EVENT_FINISHED']:
                 if event['message'] == "torrent has finished downloading":
 
+                    # save fast resume once torrent finishes so as to not recheck
+                    # seed if client crashes
+                    self.save_fastresume_data(event['unique_ID'])
+                    self.unique_IDs[event['unique_ID']].seed_time = time.time()
                     # Queue seeding torrent to bottom if needed
                     if self.get_pref('queue_seeds_to_bottom'):
                         self.queue_bottom(event['unique_ID'])
                     
-                # save fast resume once torrent finishes so as to not recheck
-                # seed if client crashes
-                self.save_fastresume_data(event['unique_ID'])
-                uid = event['unique_ID']
-                self.unique_IDs[uid].seed_time = time.time()
 
             elif event['event_type'] is self.constants['EVENT_FILE_ERROR']:
                 import gtk
