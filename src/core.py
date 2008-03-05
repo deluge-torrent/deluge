@@ -172,7 +172,7 @@ class torrent_info:
         self.desired_ratio = 1.0
         self.trackers = ""
         self.trackers_changed = 0
-        self.seed_time = 0
+        self.seed_time = 0.0
 
         self.delete_me = False # set this to true, to delete it on next sync
         self.del_data = False # set this to true, to delete data on next sync
