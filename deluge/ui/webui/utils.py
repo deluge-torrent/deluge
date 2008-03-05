@@ -88,7 +88,13 @@ def do_redirect():
     if ("order" in ck and "sort" in ck):
         url_vars.update({'sort':ck['sort'] ,'order':ck['order'] })
 
-    if 'Organize' in proxy.get_enabled_plugins():
+    organize = False
+    try:
+        organize = ('Organize' in proxy.get_enabled_plugins())
+    except:
+        pass
+
+    if organize:
         #todo:DRY
         if ("state" in ck) and ck['state']:
             url_vars['state'] = ck['state']
