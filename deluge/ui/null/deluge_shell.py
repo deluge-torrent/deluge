@@ -192,15 +192,12 @@ class CommandInfo(Command):
 		print "Show information about the torrents"
 
 	def show_info(self, torrent, brief):
-		def show_state(state):
-			ts = common.TORRENT_STATE
-			return ts.keys()[ts.values().index(state)]
 		def _got_torrent_status(state):
 			print "*** ID:", torrent
 			print "*** Name:", state['name']
 			print "*** Path:", state['save_path']
 			print "*** Completed:", common.fsize(state['total_done']) + "/" + common.fsize(state['total_size'])
-			print "*** Status:", show_state(state['state'])
+			print "*** Status:", state['state']
 			if state['state'] in [3, 4, 5, 6]:
 				print "*** Download Speed:", common.fspeed(state['download_payload_rate'])
 				print "*** Upload Speed:", common.fspeed(state['upload_payload_rate'])
@@ -346,6 +343,10 @@ class NullUI:
 					print "*** Operation failed. You are not connected to a deluge daemon."
 					print "    Perhaps you want to 'connect' first."
 					print ""
+				#except deluge.error.InvalidTorrent, e:
+				#	print "*** Operation failed. You tried to perform an operation on a non-existent torrent."
+				#	print "    Use the 'info' command for the list of torrents."
+				#	print ""
 
 		print "Thanks."
 
