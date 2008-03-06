@@ -784,7 +784,7 @@ window, please enter your password"))
                     trackers_changed = self.manager.unique_IDs[uid].trackers_changed
                 except AttributeError:
                      trackers_changed = 0
-                self.manager.save_upmem()
+                self.manager.pickle_state()
                 uploaded_memory = self.manager.unique_IDs[uid].uploaded_memory
                 priorities = self.manager.get_priorities(uid)
                 save_info = [path, save_dir, order, trackerslist, \
@@ -808,7 +808,7 @@ window, please enter your password"))
                 if save_info[4]:
                     self.manager.unique_IDs[unique_ID].initial_uploaded_memory = \
                         save_info[4]
-                    self.manager.save_upmem()
+                    self.manager.pickle_state()
                 if save_info[6]:
                     try:
                         self.manager.replace_trackers(unique_ID, save_info[3])
@@ -1042,7 +1042,7 @@ window, please enter your password"))
         # focus on startup
         self.update()
         gobject.timeout_add(int(1000*self.manager.config.get("gui_update_interval")), self.update)
-        gobject.timeout_add(60000, self.manager.save_upmem)
+        gobject.timeout_add(250000, self.manager.pickle_state)
         gobject.timeout_add(300000, self.manager.save_fastresume_data)
 
         # Load plugins after we showed main window (if not started in tray)

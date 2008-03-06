@@ -327,10 +327,6 @@ class Manager:
                 pass
 
     def quit(self):
-        # save upload memory
-        print "Saving uploaded memory..."
-        self.save_upmem()
-        
         # Pickle the state
         self.pickle_state()
 
@@ -362,17 +358,7 @@ class Manager:
             os.popen4('taskkill.exe /IM dbus-daemon-deluge.exe /F')
 
     def pickle_state(self):
-        # Pickle the state so if we experience a crash, the latest state is 
-        # available
-        print "Pickling state..."
-        if not os.path.exists(self.base_dir):
-            os.makedirs(self.base_dir)
-        output = open(os.path.join(self.base_dir, STATE_FILENAME), 'wb')
-        pickle.dump(self.state, output)
-        output.close()
-
-    def save_upmem(self):
-        # Save the uploaded data from this session to the existing upload memory
+        print "save uploaded memory"
         for unique_ID in self.unique_IDs.keys():
             # self.get_core_torrent_state purposefully not cached.
             try:
@@ -381,7 +367,14 @@ class Manager:
                 self.get_core_torrent_state(unique_ID, False)['total_upload']
             except AttributeError:
                 self.unique_IDs[unique_ID].initial_uploaded_memory = 0
-        return True
+        # Pickle the state so if we experience a crash, the latest state is 
+        # available
+        print "Pickling state..."
+        if not os.path.exists(self.base_dir):
+            os.makedirs(self.base_dir)
+        output = open(os.path.join(self.base_dir, STATE_FILENAME), 'wb')
+        pickle.dump(self.state, output)
+        output.close()
 
     # Preference management functions
 
