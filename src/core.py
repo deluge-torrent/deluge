@@ -465,10 +465,13 @@ class Manager:
                 try:
                     state = deluge_core.get_torrent_state(unique_ID)
                     if not state['is_seed'] and state['state'] != 0 and state['state'] != 1:
-                      os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
-                      deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
+                        os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
+                        deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
                 except Exception, e:
-                  print "Unable to save fastresume: ", e
+                    if "No such file or directory" in e:
+                        print "no old fastresume to delete"
+                    else:
+                        print "Unable to save fastresume: ", e
         else:
             # Do not save fastresume if torrent is Queued for checking or being checked
             try:
@@ -478,7 +481,10 @@ class Manager:
                 os.remove(self.unique_IDs[uid].filename + ".fastresume")
                 deluge_core.save_fastresume(uid, self.unique_IDs[uid].filename)
             except Exception, e:
-                print "Unable to save fastresume: ", e
+               if "No such file or directory" in e:
+                  print "no old fastresume to delete"
+               else:
+                  print "Unable to save fastresume: ", e
         return True
 
     # State retrieval functions
