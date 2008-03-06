@@ -271,10 +271,17 @@ class Manager:
                 
                 if isinstance(state.torrents, list):
                     # One time convert of old torrents list to dict
-                    state.torrents = dict((x, None) for x in 
-                                                   state.torrents)
-                # Add torrents to core and unique_IDs
+                    state.torrents = dict((x, None) for x in state.torrents)
+                
+                fr_sorted = []
                 for torrent in state.torrents:
+                    if os.path.exists(torrent.filename + ".fastresume")
+                        fr_sorted.insert(0, torrent)
+                    else:
+                        fr_sorted.append(torrent)
+                        
+                # Add torrents to core and unique_IDs
+                for torrent in fr_sorted:
                     if not os.path.exists(torrent.filename):
                         print "Missing file: %s" % torrent.filename
                         continue
