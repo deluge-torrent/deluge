@@ -275,7 +275,7 @@ class Manager:
                 
                 fr_sorted = []
                 for torrent in state.torrents:
-                    if os.path.exists(torrent.filename + ".fastresume")
+                    if os.path.exists(torrent.filename + ".fastresume"):
                         fr_sorted.insert(0, torrent)
                     else:
                         fr_sorted.append(torrent)
