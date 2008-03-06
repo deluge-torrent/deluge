@@ -1043,6 +1043,7 @@ window, please enter your password"))
         self.update()
         gobject.timeout_add(int(1000*self.manager.config.get("gui_update_interval")), self.update)
         gobject.timeout_add(60000, self.manager.save_upmem)
+        gobject.timeout_add(300000, self.manager.save_fastresume_data)
 
         # Load plugins after we showed main window (if not started in tray)
         self.load_plugins()
