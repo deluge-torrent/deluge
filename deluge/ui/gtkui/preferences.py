@@ -164,7 +164,14 @@ class Preferences(component.Component):
     def _on_get_listen_port(self, port):
         self.active_port = port
                     
-    def show(self):
+    def show(self, page=None):
+        """Page should be the string in the left list.. ie, 'Network' or 'Bandwidth'"""
+        if page != None:
+            for (index, string) in self.liststore:
+                if page == string:
+                    self.notebook.set_current_page(index)
+                    break
+                    
         # Update the preferences dialog to reflect current config settings
         self.core_config = {}
         client.get_config(self._on_get_config)
