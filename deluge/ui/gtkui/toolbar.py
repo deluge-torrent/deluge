@@ -87,7 +87,9 @@ class ToolBar(component.Component):
                                                          tooltip=None):
         """Adds a toolbutton to the toolbar"""
         # Create the button
-        toolbutton = gtk.ToolButton(stock)
+        toolbutton = gtk.ToolButton()
+        if stock is not None:
+            toolbutton.set_stock_id(stock)
         if label is not None:
             toolbutton.set_label(label)
         if image is not None:
@@ -104,7 +106,7 @@ class ToolBar(component.Component):
         self.toolbar.insert(toolbutton, -1)
         
         # Show the new toolbutton
-        toolbutton.show()
+        toolbutton.show_all()
         
         return toolbutton
     
