@@ -169,7 +169,7 @@ class Preferences(component.Component):
         if page != None:
             for (index, string) in self.liststore:
                 if page == string:
-                    self.notebook.set_current_page(index)
+                    self.treeview.get_selection().select_path(index)
                     break
                     
         # Update the preferences dialog to reflect current config settings
