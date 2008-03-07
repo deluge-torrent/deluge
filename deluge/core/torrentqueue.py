@@ -86,7 +86,7 @@ class TorrentQueue(component.Component):
                 else:
                     to_unqueue = queued_seeding
                 for (pos, torrent_id) in to_unqueue:
-                    self.torrents[torrent_id].set_state("Seeding")
+                    self.torrents[torrent_id].resume()
                     
         if self.config["max_active_downloading"] > -1:
             if len(downloading) > self.config["max_active_downloading"]:
@@ -102,8 +102,8 @@ class TorrentQueue(component.Component):
                 else:
                     to_unqueue = queued_downloading
                 for (pos, torrent_id) in to_unqueue:
-                    self.torrents[torrent_id].set_state("Downloading")
-                            
+                    self.torrents[torrent_id].resume()
+                                                
     def set_size(self, size):
         """Clear and set the self.queue list to the length of size"""
         log.debug("Setting queue size to %s..", size)

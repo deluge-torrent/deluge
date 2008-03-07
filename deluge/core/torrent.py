@@ -154,7 +154,11 @@ class Torrent:
         if state == "Downloading" or state == "Seeding":
             if self.handle.is_paused():
                 state = "Paused"
-               
+        
+        if state == "Queued":
+            component.get("TorrentManager").append_not_state_paused(self.torrent_id)
+            self.pause()
+                   
         self.state = state
         
     def get_eta(self):
@@ -300,6 +304,10 @@ class Torrent:
         
     def pause(self):
         """Pause this torrent"""
+        if self.state == "Queued":
+            self.set_state("Paused")
+            return True
+            
         try:
             self.handle.pause()
         except Exception, e:
@@ -310,8 +318,8 @@ class Torrent:
     
     def resume(self):
         """Resumes this torrent"""
-        if self.state != "Paused":
-            return False
+        #if not self.status.paused:
+        #    return False
         
         try:
             self.handle.resume()

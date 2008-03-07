@@ -108,6 +108,9 @@ class TorrentManager(component.Component):
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
     
+        # List of torrents to note set state 'Paused' on lt alert
+        self.not_state_paused = []
+        
         # Register set functions
         self.config.register_set_function("max_connections_per_torrent",
             self.on_set_max_connections_per_torrent)
@@ -160,7 +163,13 @@ class TorrentManager(component.Component):
     def get_torrent_list(self):
         """Returns a list of torrent_ids"""
         return self.torrents.keys()
-        
+    
+    def append_not_state_paused(self, torrent_id):
+        """Appends to a list of torrents that we will not set state Paused to
+        when we receive the paused alert from libtorrent.  The torrents are removed
+        from this list once we receive the alert they have been paused in libtorrent."""
+        self.not_state_paused.append(torrent_id)
+            
     def add(self, filename, filedump=None, options=None, total_uploaded=0, 
             trackers=None, queue=-1, save_state=True):
         """Add a torrent to the manager and returns it's torrent_id"""
@@ -547,7 +556,11 @@ class TorrentManager(component.Component):
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the torrent state
-        self.torrents[torrent_id].set_state("Paused")
+        if not torrent_id in self.not_state_paused:
+            self.torrents[torrent_id].set_state("Paused")
+        else:
+            self.not_state_paused.remove(torrent_id)
+            
         # Write the fastresume file
         self.torrents[torrent_id].write_fastresume()
             
