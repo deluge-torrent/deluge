@@ -78,8 +78,10 @@ class TorrentQueue(component.Component):
         self.queued_downloading.sort()
         self.queued_seeding.sort()
         
-        #log.debug("total seeding: %s", len(self.seeding))
-        #log.debug("total downloading: %s", len(self.downloading))
+#        log.debug("total seeding: %s", len(self.seeding))
+#        log.debug("total downloading: %s", len(self.downloading))
+#        log.debug("queued seeding: %s", len(self.queued_seeding))
+#        log.debug("queued downloading: %s", len(self.queued_downloading))
 
     def update_order(self):
         self.update_state_lists()
@@ -100,7 +102,7 @@ class TorrentQueue(component.Component):
                 self.update_state_lists()
                 self.update_max_active()
         
-    def update_max_active(self):        
+    def update_max_active(self):
         if self.config["max_active_seeding"] > -1:
             if len(self.seeding) > self.config["max_active_seeding"]:
                 # We need to queue some more torrents because we're over the active limit
@@ -116,7 +118,8 @@ class TorrentQueue(component.Component):
                 else:
                     to_unqueue = self.queued_seeding
                 for (pos, torrent_id) in to_unqueue:
-                    self.torrents[torrent_id].set_state("Seeding")
+                    #self.torrents[torrent_id].set_state("Seeding")
+                    self.torrents[torrent_id].resume()
                     
         if self.config["max_active_downloading"] > -1:
             if len(self.downloading) > self.config["max_active_downloading"]:
@@ -132,17 +135,20 @@ class TorrentQueue(component.Component):
                 else:
                     to_unqueue = self.queued_downloading
                 for (pos, torrent_id) in to_unqueue:
-                    self.torrents[torrent_id].set_state("Downloading")
-                                                
+                    #self.torrents[torrent_id].set_state("Downloading")
+                    self.torrents[torrent_id].resume()
+                    
     def set_size(self, size):
         """Clear and set the self.queue list to the length of size"""
         log.debug("Setting queue size to %s..", size)
         self.queue = [None] * size
     
     def get_num_seeding(self):
+        self.update_state_lists()
         return len(self.seeding)
     
     def get_num_downloading(self):
+        self.update_state_lists()
         return len(self.downloading)
         
     def __getitem__(self, torrent_id):

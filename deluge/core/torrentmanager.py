@@ -55,7 +55,7 @@ class TorrentState:
             total_uploaded, 
             trackers,
             compact, 
-            paused, 
+            state, 
             save_path,
             max_connections,
             max_upload_slots,
@@ -74,7 +74,7 @@ class TorrentState:
 
         # Options
         self.compact = compact
-        self.paused = paused
+        self.state = state
         self.save_path = save_path
         self.max_connections = max_connections
         self.max_upload_slots = max_upload_slots
@@ -171,7 +171,7 @@ class TorrentManager(component.Component):
         self.not_state_paused.append(torrent_id)
             
     def add(self, filename, filedump=None, options=None, total_uploaded=0, 
-            trackers=None, queue=-1, save_state=True):
+            trackers=None, queue=-1, state=None, save_state=True):
         """Add a torrent to the manager and returns it's torrent_id"""
         log.info("Adding torrent: %s", filename)
         log.debug("options: %s", options)
@@ -279,8 +279,10 @@ class TorrentManager(component.Component):
                 torrent.set_file_priorities(options["file_priorities"])
         
         # Resume the torrent if needed
-        if options["add_paused"] == False:
-            handle.resume()
+        if state == "Queued":
+            torrent.state = "Queued"
+        elif state == "Paused":
+            torrent.state = "Paused"
             
         # Save the torrent file        
         torrent.save_torrent_file(filedump)
@@ -459,13 +461,19 @@ class TorrentManager(component.Component):
                     "file_priorities": torrent_state.file_priorities
                 }
                 # We need to resume all non-add_paused torrents after plugin hook
-                add_paused[torrent_state.torrent_id] = torrent_state.paused
+                if torrent_state.state == "Paused" or torrent_state.state == "Queued":
+                    log.debug("torrent state: %s", torrent_state.state)
+                    add_paused[torrent_state.torrent_id] = True
+                else:
+                    add_paused[torrent_state.torrent_id] = False
+                
                 self.add(
                     torrent_state.filename,
                     options=options,
                     total_uploaded=torrent_state.total_uploaded,
                     trackers=torrent_state.trackers,
                     queue=torrent_state.queue,
+                    state=torrent_state.state,
                     save_state=False)
                 
             except AttributeError, e:
@@ -477,9 +485,14 @@ class TorrentManager(component.Component):
         self.plugins.run_post_session_load()
         
         # Resume any torrents that need to be resumed
+        log.debug("add_paused: %s", add_paused)
         for key in add_paused.keys():
             if add_paused[key] == False:
                 self.torrents[key].handle.resume()
+                if self.torrents[key].get_status(["is_seed"])["is_seed"]:
+                    self.torrents[key].state = "Seeding"
+                else:
+                    self.torrents[key].state = "Downloading"
              
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file"""
@@ -492,7 +505,7 @@ class TorrentManager(component.Component):
                 torrent.get_status(["total_uploaded"])["total_uploaded"], 
                 torrent.trackers,
                 torrent.compact, 
-                torrent.get_status(["paused"])["paused"], 
+                torrent.state, 
                 torrent.save_path,
                 torrent.max_connections,
                 torrent.max_upload_slots,

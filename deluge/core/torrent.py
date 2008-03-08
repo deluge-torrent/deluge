@@ -152,14 +152,13 @@ class Torrent:
             
         # Only set 'Downloading' or 'Seeding' state if not paused
         if state == "Downloading" or state == "Seeding":
-            if self.state == "Queued":
-                self.handle.resume()
-                self.state = state
-                self.torrentqueue.update_order()
+            # If we're Queued we need to resume the torrent first
+            if self.state != "Queued":
+                if self.handle.is_paused():
+                    state = "Paused"
+            else:
+                return
                 
-            if self.handle.is_paused():
-                state = "Paused"
-            
         if state == "Queued" and not self.handle.is_paused():
             component.get("TorrentManager").append_not_state_paused(self.torrent_id)
             self.handle.pause()
@@ -358,7 +357,24 @@ class Torrent:
                 self.state = "Downloading"
 
             return True
-                
+
+        elif self.state == "Queued":
+            if self.handle.is_seed():
+                if self.torrentqueue.get_num_seeding() < self.config["max_active_seeding"]:
+                    self.handle.resume()
+                    self.state = "Seeding"
+                    self.torrentqueue.update_order()
+                else:
+                    return False
+            else:
+                if self.torrentqueue.get_num_downloading() < self.config["max_active_downloading"]:
+                    self.handle.resume()
+                    self.state = "Downloading"
+                    self.torrentqueue.update_order()
+                else:
+                    return False
+                    
+            
     def move_storage(self, dest):
         """Move a torrent's storage location"""
         try:
