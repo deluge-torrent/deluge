@@ -2,7 +2,7 @@
 // win_iocp_io_service.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2007 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2008 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -420,11 +420,11 @@ private:
         {
           asio::detail::mutex::scoped_lock lock(timer_mutex_);
           timer_queues_copy_ = timer_queues_;
-          for (std::size_t i = 0; i < timer_queues_.size(); ++i)
+          for (std::size_t i = 0; i < timer_queues_copy_.size(); ++i)
           {
-            timer_queues_[i]->dispatch_timers();
-            timer_queues_[i]->dispatch_cancellations();
-            timer_queues_[i]->cleanup_timers();
+            timer_queues_copy_[i]->dispatch_timers();
+            timer_queues_copy_[i]->dispatch_cancellations();
+            timer_queues_copy_[i]->cleanup_timers();
           }
         }
         catch (...)
