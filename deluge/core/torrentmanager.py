@@ -261,7 +261,10 @@ class TorrentManager(component.Component):
         self.torrents[torrent.torrent_id] = torrent
 
         # Add the torrent to the queue
-        self.queue.insert(queue, torrent.torrent_id)
+        if queue == -1 and self.config["queue_new_to_top"]:
+            self.queue.insert(0, torrent.torrent_id)
+        else:
+            self.queue.insert(queue, torrent.torrent_id)
                             
         # Set per-torrent options
         torrent.set_max_connections(options["max_connections_per_torrent"])
@@ -283,6 +286,8 @@ class TorrentManager(component.Component):
             torrent.state = "Queued"
         elif state == "Paused":
             torrent.state = "Paused"
+        elif state == None and not options["add_paused"]:
+            torrent.handle.resume()
             
         # Save the torrent file        
         torrent.save_torrent_file(filedump)
