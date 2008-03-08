@@ -352,9 +352,13 @@ class Torrent:
             
             if self.handle.is_seed():
                 self.state = "Seeding"
+                # Only delete the .fastresume file if we're still downloading stuff
+                self.delete_fastresume()
             else:
                 self.state = "Downloading"
-        
+
+            return True
+                
     def move_storage(self, dest):
         """Move a torrent's storage location"""
         try:
