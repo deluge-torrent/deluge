@@ -152,13 +152,21 @@ class Torrent:
             
         # Only set 'Downloading' or 'Seeding' state if not paused
         if state == "Downloading" or state == "Seeding":
+            if self.state == "Queued":
+                self.handle.resume()
+                self.state = state
+                self.torrentqueue.update_order()
+                
             if self.handle.is_paused():
                 state = "Paused"
-        
-        if state == "Queued":
+            
+        if state == "Queued" and not self.handle.is_paused():
             component.get("TorrentManager").append_not_state_paused(self.torrent_id)
-            self.pause()
-                   
+            self.handle.pause()
+        
+        if state == "Paused":
+            self.torrentqueue.update_order()
+                       
         self.state = state
         
     def get_eta(self):
@@ -318,26 +326,34 @@ class Torrent:
     
     def resume(self):
         """Resumes this torrent"""
-        #if not self.status.paused:
-        #    return False
-        
-        try:
-            self.handle.resume()
-        except:
-            return False
-        
-        # Set the state
-        if self.handle.is_seed():
-            self.set_state("Seeding")
-        else:
-            self.set_state("Downloading")
-        
-        status = self.get_status(["total_done", "total_wanted"])
-        
-        # Only delete the .fastresume file if we're still downloading stuff
-        if status["total_done"] < status["total_wanted"]:
-            self.delete_fastresume()
-        return True
+        if self.state == "Paused":
+
+            if self.handle.is_seed():
+                # If the torrent is a seed and there are already the max number of seeds
+                # active, then just change it to a Queued state.
+                if self.torrentqueue.get_num_seeding() >= self.config["max_active_seeding"]:
+                    self.set_state("Queued")
+                                    
+                    # Update the queuing order if necessary
+                    self.torrentqueue.update_order()
+                    return True
+            else:
+                if self.torrentqueue.get_num_downloading() >= self.config["max_active_downloading"]:
+                    self.set_state("Queued")
+            
+                    # Update the queuing order if necessary
+                    self.torrentqueue.update_order()
+                    return True
+            
+            try:
+                self.handle.resume()
+            except:
+                pass
+            
+            if self.handle.is_seed():
+                self.state = "Seeding"
+            else:
+                self.state = "Downloading"
         
     def move_storage(self, dest):
         """Move a torrent's storage location"""

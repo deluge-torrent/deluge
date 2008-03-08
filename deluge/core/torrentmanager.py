@@ -556,8 +556,11 @@ class TorrentManager(component.Component):
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the torrent state
+        log.debug("not_state_paused: %s", self.not_state_paused)
         if not torrent_id in self.not_state_paused:
+            log.debug("Setting state 'Paused'..")
             self.torrents[torrent_id].set_state("Paused")
+            component.get("SignalManager").emit("torrent_paused", torrent_id)
         else:
             self.not_state_paused.remove(torrent_id)
             

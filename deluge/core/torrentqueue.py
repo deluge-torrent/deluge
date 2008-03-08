@@ -41,73 +41,109 @@ class TorrentQueue(component.Component):
         component.Component.__init__(self, "TorrentQueue", depend=["TorrentManager"])
         # This is a list of torrent_ids in the queueing order
         self.queue = []
-        
+
+        # These lists keep track of the torrent states
+        self.seeding = []
+        self.queued_seeding = []
+        self.downloading = []
+        self.queued_downloading = []
+                
         self.torrents = component.get("TorrentManager")
         self.config = ConfigManager("core.conf")
         
     def update(self):
-        seeding = []
-        queued_seeding = []
-        downloading = []
-        queued_downloading = []
+        self.update_state_lists()
+        self.update_max_active()
+        
+    def update_state_lists(self):
+        self.seeding = []
+        self.queued_seeding = []
+        self.downloading = []
+        self.queued_downloading = []
         
         for torrent_id in self.torrents.get_torrent_list():
             if self.torrents[torrent_id].get_status(["state"])["state"] == "Seeding":
-                seeding.append((self.queue.index(torrent_id), torrent_id))
+                self.seeding.append((self.queue.index(torrent_id), torrent_id))
             elif self.torrents[torrent_id].get_status(["state"])["state"] == "Downloading":
-                downloading.append((self.queue.index(torrent_id), torrent_id))
+                self.downloading.append((self.queue.index(torrent_id), torrent_id))
             elif self.torrents[torrent_id].get_status(["state"])["state"] == "Queued":
                 if self.torrents[torrent_id].get_status(["is_seed"])["is_seed"]:
-                    queued_seeding.append((self.queue.index(torrent_id), torrent_id))
+                    self.queued_seeding.append((self.queue.index(torrent_id), torrent_id))
                 else:
-                    queued_downloading.append((self.queue.index(torrent_id), torrent_id))
+                    self.queued_downloading.append((self.queue.index(torrent_id), torrent_id))
                     
         # We need to sort these lists by queue position
-        seeding.sort()
-        downloading.sort()
-        queued_downloading.sort()
-        queued_seeding.sort()
+        self.seeding.sort()
+        self.downloading.sort()
+        self.queued_downloading.sort()
+        self.queued_seeding.sort()
         
-#        log.debug("total seeding: %s", len(seeding))
-#        log.debug("total downloading: %s", len(downloading))
+        #log.debug("total seeding: %s", len(self.seeding))
+        #log.debug("total downloading: %s", len(self.downloading))
+
+    def update_order(self):
+        self.update_state_lists()
+        #try:
+        #    log.debug("max(seeding): %s", max(self.seeding)[0])
+        #    log.debug("min(queued_seeding): %s", min(self.queued_seeding)[0])
+        #except:
+        #    pass
         
+        if self.seeding != [] and self.queued_seeding != []:
+            if min(self.queued_seeding)[0] < max(self.seeding)[0]:
+                num_to_queue = max(self.seeding)[0] - min(self.queued_seeding)[0]
+                log.debug("queueing: %s", self.seeding[-num_to_queue:])
+                
+                for (pos, torrent_id) in self.seeding[-num_to_queue:]:
+                    self.torrents[torrent_id].set_state("Queued")
+                
+                self.update_state_lists()
+                self.update_max_active()
+        
+    def update_max_active(self):        
         if self.config["max_active_seeding"] > -1:
-            if len(seeding) > self.config["max_active_seeding"]:
+            if len(self.seeding) > self.config["max_active_seeding"]:
                 # We need to queue some more torrents because we're over the active limit
-                num_to_queue = len(seeding) - self.config["max_active_seeding"]
-                for (pos, torrent_id) in seeding[-num_to_queue:]:
+                num_to_queue = len(self.seeding) - self.config["max_active_seeding"]
+                for (pos, torrent_id) in self.seeding[-num_to_queue:]:
                     self.torrents[torrent_id].set_state("Queued")
             else:
                 # We need to unqueue more torrents if possible
-                num_to_unqueue = self.config["max_active_seeding"] - len(seeding)
+                num_to_unqueue = self.config["max_active_seeding"] - len(self.seeding)
                 to_unqueue = []
-                if num_to_unqueue <= len(queued_seeding):
-                    to_unqueue = queued_seeding[:num_to_unqueue]
+                if num_to_unqueue <= len(self.queued_seeding):
+                    to_unqueue = self.queued_seeding[:num_to_unqueue]
                 else:
-                    to_unqueue = queued_seeding
+                    to_unqueue = self.queued_seeding
                 for (pos, torrent_id) in to_unqueue:
-                    self.torrents[torrent_id].resume()
+                    self.torrents[torrent_id].set_state("Seeding")
                     
         if self.config["max_active_downloading"] > -1:
-            if len(downloading) > self.config["max_active_downloading"]:
-                num_to_queue = len(downloading) - self.config["max_active_downloading"]
-                for (pos, torrent_id) in downloading[-num_to_queue:]:
+            if len(self.downloading) > self.config["max_active_downloading"]:
+                num_to_queue = len(self.downloading) - self.config["max_active_downloading"]
+                for (pos, torrent_id) in self.downloading[-num_to_queue:]:
                     self.torrents[torrent_id].set_state("Queued")
             else:
                 # We need to unqueue more torrents if possible
-                num_to_unqueue = self.config["max_active_downloading"] - len(downloading)
+                num_to_unqueue = self.config["max_active_downloading"] - len(self.downloading)
                 to_unqueue = []
-                if num_to_unqueue <= len(queued_downloading):
-                    to_unqueue = queued_downloading[:num_to_unqueue]
+                if num_to_unqueue <= len(self.queued_downloading):
+                    to_unqueue = self.queued_downloading[:num_to_unqueue]
                 else:
-                    to_unqueue = queued_downloading
+                    to_unqueue = self.queued_downloading
                 for (pos, torrent_id) in to_unqueue:
-                    self.torrents[torrent_id].resume()
+                    self.torrents[torrent_id].set_state("Downloading")
                                                 
     def set_size(self, size):
         """Clear and set the self.queue list to the length of size"""
         log.debug("Setting queue size to %s..", size)
         self.queue = [None] * size
+    
+    def get_num_seeding(self):
+        return len(self.seeding)
+    
+    def get_num_downloading(self):
+        return len(self.downloading)
         
     def __getitem__(self, torrent_id):
         """Return the queue position of the torrent_id"""
@@ -171,7 +207,7 @@ class TorrentQueue(component.Component):
         
         # Pop and insert the torrent_id at index - 1
         self.queue.insert(index - 1, self.queue.pop(index))
-
+        self.update_order()
         return True
         
     def top(self, torrent_id):
@@ -189,7 +225,7 @@ class TorrentQueue(component.Component):
             return False
         
         self.queue.insert(0, self.queue.pop(index))
-        
+        self.update_order()        
         return True
                 
     def down(self, torrent_id):
@@ -208,7 +244,7 @@ class TorrentQueue(component.Component):
             
         # Pop and insert the torrent_id at index + 1
         self.queue.insert(index + 1, self.queue.pop(index))
-
+        self.update_order()
         return True
         
     def bottom(self, torrent_id):
@@ -227,5 +263,5 @@ class TorrentQueue(component.Component):
         
         # Pop and append the torrent_id
         self.append(self.queue.pop(index))
-           
+        self.update_order()
         return True

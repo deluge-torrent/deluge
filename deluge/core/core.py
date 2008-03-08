@@ -242,10 +242,6 @@ class Core(
                 
         # Start the TorrentManager
         self.torrents = TorrentManager(self.session, self.alerts)
-       
-        # Register alert handlers
-        self.alerts.register_handler("torrent_paused_alert",
-            self._on_alert_torrent_paused)
         
         component.start()
         
@@ -734,11 +730,3 @@ class Core(
     def _on_set_max_upload_slots_global(self, key, value):
         log.debug("max_upload_slots_global set to %s..", value)
         self.session.set_max_uploads(value)
-    
-    ## Alert handlers ##
-    def _on_alert_torrent_paused(self, alert):
-        log.debug("on_alert_torrent_paused")
-        # Get the torrent_id
-        torrent_id = str(alert.handle.info_hash())
-        # Emit torrent_paused signal
-        self.torrent_paused(torrent_id)
