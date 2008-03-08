@@ -356,6 +356,7 @@ class TorrentView(listview.ListView, component.Component):
                     self.columns["torrent_id"].column_indices[0], 
                     torrent_id)
         self.update()
+        self.update_filter()
         
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""
@@ -366,6 +367,7 @@ class TorrentView(listview.ListView, component.Component):
                 self.liststore.remove(row)
                 # Force an update of the torrentview
                 self.update()
+                self.update_filter()
                 break
             row = self.liststore.iter_next(row)
         
