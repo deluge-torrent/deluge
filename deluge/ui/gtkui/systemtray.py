@@ -313,6 +313,10 @@ class SystemTray(component.Component):
         menu = gtk.Menu()
         group = None
         if show_activated is False:
+            if pref_value > -1 and pref_value not in value_list:
+                value_list.pop()
+                value_list.append(pref_value)
+                
             for value in sorted(value_list):
                 if suffix != None:
                     menuitem = gtk.RadioMenuItem(group, str(value) + " " + \
