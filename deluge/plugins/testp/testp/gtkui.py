@@ -40,8 +40,12 @@ class GtkUI(ui.UI):
         # Call UI constructor
         ui.UI.__init__(self, plugin_api, plugin_name)
         log.debug("test plugin initialized..")
+
+    def enable(self):
         self.plugin.register_hook("on_apply_prefs", self.apply_prefs)
         
-    
+    def disable(self):
+        self.plugin.deregister_hook("on_apply_prefs", self.apply_prefs)
+            
     def apply_prefs(self):
         log.debug("applying prefs in test plugin!!")
