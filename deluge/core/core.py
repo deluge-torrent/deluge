@@ -98,10 +98,11 @@ DEFAULT_PREFS = {
         
 class Core(
         ThreadingMixIn, 
-        SimpleXMLRPCServer.SimpleXMLRPCServer):
+        SimpleXMLRPCServer.SimpleXMLRPCServer,
+        component.Component):
     def __init__(self, port):
         log.debug("Core init..")
- 
+        component.Component.__init__(self, "Core")
         self.client_address = None
         
         # Get config
