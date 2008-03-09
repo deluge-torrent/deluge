@@ -245,6 +245,24 @@ class Preferences(component.Component):
                 "spin_share_ratio": ("value", self.core_config["stop_seed_ratio"]),
                 "chk_remove_ratio": ("active", self.core_config["remove_seed_at_ratio"])
             }
+            
+            # Change a few widgets if we're connected to a remote host
+            if not client.is_localhost():
+                self.glade.get_widget("entry_download_path").show()
+                self.glade.get_widget("download_path_button").hide()
+                core_widgets.pop("download_path_button")
+                core_widgets["entry_download_path"] = ("text", self.core_config["download_location"])
+
+                self.glade.get_widget("entry_torrents_path").show()
+                self.glade.get_widget("torrent_files_button").hide()
+                core_widgets.pop("torrent_files_button")
+                core_widgets["entry_torrents_path"] = ("text", self.core_config["torrentfiles_location"])
+            else:
+                self.glade.get_widget("entry_download_path").hide()
+                self.glade.get_widget("download_path_button").show()
+                self.glade.get_widget("entry_torrents_path").hide()
+                self.glade.get_widget("torrent_files_button").show()
+                    
 
             # Update the widgets accordingly
             for key in core_widgets.keys():
@@ -380,10 +398,17 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_show_dialog").get_active()
         new_gtkui_config["focus_add_dialog"] = \
             self.glade.get_widget("chk_focus_dialog").get_active()
-        new_core_config["download_location"] = \
-            self.glade.get_widget("download_path_button").get_filename()
-        new_core_config["torrentfiles_location"] = \
-            self.glade.get_widget("torrent_files_button").get_filename()
+        if client.is_localhost():
+            new_core_config["download_location"] = \
+                self.glade.get_widget("download_path_button").get_filename()
+            new_core_config["torrentfiles_location"] = \
+                self.glade.get_widget("torrent_files_button").get_filename()
+        else:
+            new_core_config["download_location"] = \
+                self.glade.get_widget("entry_download_path").get_text()
+            new_core_config["torrentfiles_location"] = \
+                self.glade.get_widget("entry_torrents_path").get_text()
+            
         new_gtkui_config["autoadd_enable"] = \
             self.glade.get_widget("chk_autoadd_folder").get_active()
         new_gtkui_config["autoadd_location"] = \
