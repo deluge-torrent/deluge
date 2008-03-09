@@ -35,6 +35,7 @@ import gtk
 
 import deluge.component as component
 import deluge.common
+from deluge.configmanager import ConfigManager
 from deluge.ui.client import aclient as client
 from deluge.log import LOG as log
 
@@ -96,6 +97,7 @@ class StatusBar(component.Component):
         component.Component.__init__(self, "StatusBar", interval=3000)
         self.window = component.get("MainWindow")
         self.statusbar = self.window.main_glade.get_widget("statusbar")
+        self.config = ConfigManager("gtkui.conf")
         
         # Status variables that are updated via callback
         self.max_connections = -1
@@ -130,15 +132,18 @@ class StatusBar(component.Component):
         # Add in images and labels
         self.remove_item(self.not_connected_item)
         self.connections_item = StatusBarItem(
-            stock=gtk.STOCK_NETWORK)
+            stock=gtk.STOCK_NETWORK,
+            callback=self._on_connection_item_clicked)
         self.hbox.pack_start(
             self.connections_item.get_eventbox(), expand=False, fill=False)
         self.download_item = StatusBarItem(
-            image=deluge.common.get_pixmap("downloading16.png"))
+            image=deluge.common.get_pixmap("downloading16.png"),
+            callback=self._on_download_item_clicked)
         self.hbox.pack_start(
             self.download_item.get_eventbox(), expand=False, fill=False)
         self.upload_item = StatusBarItem(
-            image=deluge.common.get_pixmap("seeding16.png"))
+            image=deluge.common.get_pixmap("seeding16.png"),
+            callback=self._on_upload_item_clicked)
         self.hbox.pack_start(
             self.upload_item.get_eventbox(), expand=False, fill=False)
         self.dht_item = StatusBarItem(
@@ -280,3 +285,90 @@ class StatusBar(component.Component):
     def update(self):
         # Send status request
         self.send_status_request()
+        
+    def _on_download_item_clicked(self, widget, event):
+        menu = deluge.common.build_menu_radio_list(
+            self.config["tray_download_speed_list"], 
+            self._on_set_download_speed,
+            self.max_download_speed,
+            _("KiB/s"), show_notset=True, show_other=True)
+        menu.show_all()
+        menu.popup(None, None, None, event.button, event.time)
+
+    def _on_set_download_speed(self, widget):
+        log.debug("_on_set_download_speed")
+        value = widget.get_children()[0].get_text().split(" ")[0]
+        log.debug("value: %s", value)
+        if value == "Unlimited":
+            value = -1
+
+        if value == _("Other..."):
+            value = deluge.common.show_other_speed_dialog(
+                _("Download Speed (KiB/s):"), self.max_download_speed)
+            if value == None:
+                return
+        
+        # Set the config in the core
+        value = float(value)
+        
+        if value != self.max_download_speed:
+            client.set_config({"max_download_speed": value})
+
+    def _on_upload_item_clicked(self, widget, event):
+        menu = deluge.common.build_menu_radio_list(
+            self.config["tray_upload_speed_list"], 
+            self._on_set_upload_speed,
+            self.max_upload_speed,
+            _("KiB/s"), show_notset=True, show_other=True)
+        menu.show_all()
+        menu.popup(None, None, None, event.button, event.time)
+
+    def _on_set_upload_speed(self, widget):
+        log.debug("_on_set_upload_speed")
+        value = widget.get_children()[0].get_text().split(" ")[0]
+        log.debug("value: %s", value)
+                        
+        if value == "Unlimited":
+            value = -1
+
+        if value == _("Other..."):
+            value = deluge.common.show_other_speed_dialog(
+                _("Upload Speed (KiB/s):"), self.max_upload_speed)
+            if value == None:
+                return
+        
+        # Set the config in the core
+        value = float(value)
+        
+        if value != self.max_upload_speed:
+            client.set_config({"max_upload_speed": value})
+
+    def _on_connection_item_clicked(self, widget, event):
+        menu = deluge.common.build_menu_radio_list(
+            self.config["connection_limit_list"], 
+            self._on_set_connection_limit,
+            self.max_connections, show_notset=True, show_other=True)
+        menu.show_all()
+        menu.popup(None, None, None, event.button, event.time)
+   
+    def _on_set_connection_limit(self, widget):
+        log.debug("_on_set_connection_limit")
+        value = widget.get_children()[0].get_text().split(" ")[0]
+        log.debug("value: %s", value)
+                        
+        if value == "Unlimited":
+            value = -1
+
+        if value == _("Other..."):
+            value = deluge.common.show_other_dialog(
+                _("Connection Limit:"), self.max_connections)
+            if value == None:
+                return
+        
+        # Set the config in the core
+        value = int(value)
+        
+        if value != self.max_connections:
+            client.set_config({"max_connections_global": value})
+        
+        

@@ -86,6 +86,7 @@ DEFAULT_PREFS = {
     "window_pane_position": -1,
     "tray_download_speed_list" : [5.0, 10.0, 30.0, 80.0, 300.0],
     "tray_upload_speed_list" : [5.0, 10.0, 30.0, 80.0, 300.0],
+    "connection_limit_list": [50, 100, 200, 300, 500],
     "enabled_plugins": [],
     "show_connection_manager_on_start": True,
     "autoconnect": False,

@@ -191,13 +191,13 @@ class SystemTray(component.Component):
         
     def build_tray_bwsetsubmenu(self):
         # Create the Download speed list sub-menu
-        submenu_bwdownset = self.build_menu_radio_list(
+        submenu_bwdownset = deluge.common.build_menu_radio_list(
                 self.config["tray_download_speed_list"], self.tray_setbwdown,
                 self.max_download_speed,
                      _("KiB/s"), show_notset=True, show_other=True)
         
         # Create the Upload speed list sub-menu
-        submenu_bwupset = self.build_menu_radio_list(
+        submenu_bwupset = deluge.common.build_menu_radio_list(
                 self.config["tray_upload_speed_list"], self.tray_setbwup, 
                 self.max_upload_speed,
                 _("KiB/s"), show_notset=True, show_other=True)
@@ -298,121 +298,32 @@ class SystemTray(component.Component):
                 self.window.quit()
                 client.shutdown()
         
-    def build_menu_radio_list(self, value_list, callback, pref_value=None, 
-        suffix=None, show_notset=False, notset_label=None, notset_lessthan=0, 
-        show_other=False, show_activated=False, activated_label=None):
-        # Build a menu with radio menu items from a list and connect them to 
-        # the callback. The pref_value is what you would like to test for the 
-        # default active radio item.
-        if notset_label is None:
-            notset_label = _("Unlimited")
-
-        if activated_label is None:
-            activated_label = _("Activated")
-
-        menu = gtk.Menu()
-        group = None
-        if show_activated is False:
-            if pref_value > -1 and pref_value not in value_list:
-                value_list.pop()
-                value_list.append(pref_value)
-                
-            for value in sorted(value_list):
-                if suffix != None:
-                    menuitem = gtk.RadioMenuItem(group, str(value) + " " + \
-                        suffix)
-                else:
-                    menuitem = gtk.RadioMenuItem(group, str(value))
-            
-                group = menuitem
-
-                if value == pref_value and pref_value != None:
-                    menuitem.set_active(True)
-
-                if callback != None:
-                    menuitem.connect("toggled", callback)
-
-                menu.append(menuitem)
-
-        if show_activated is True:
-            for value in sorted(value_list):
-                menuitem = gtk.RadioMenuItem(group, str(activated_label))
-            
-                group = menuitem
-
-                if value == pref_value and pref_value != None:
-                    menuitem.set_active(True)
-
-                if callback != None:
-                    menuitem.connect("toggled", callback)
-
-                menu.append(menuitem)
-
-        if show_notset:
-            menuitem = gtk.RadioMenuItem(group, notset_label)
-            if pref_value < notset_lessthan and pref_value != None:
-                menuitem.set_active(True)
-            if show_activated and pref_value == 1:
-                menuitem.set_active(True)
-            menuitem.connect("toggled", callback)
-            menu.append(menuitem)
-            
-        # Add the Other... menuitem
-        if show_other is True:
-            menuitem = gtk.SeparatorMenuItem()
-            menu.append(menuitem)
-            menuitem = gtk.MenuItem(_("Other..."))
-            menuitem.connect("activate", callback)
-            menu.append(menuitem)
-                    
-        return menu
-        
     def tray_setbwdown(self, widget, data=None):    
         self.setbwlimit(widget, _("Download"), "max_download_speed", 
-            "tray_download_speed_list")
+            "tray_download_speed_list", self.max_download_speed)
         
     def tray_setbwup(self, widget, data=None):
         self.setbwlimit(widget, _("Upload"), "max_upload_speed",
-            "tray_upload_speed_list")
+            "tray_upload_speed_list", self.max_upload_speed)
                 
-    def setbwlimit(self, widget, string, core_key, ui_key):
+    def setbwlimit(self, widget, string, core_key, ui_key, default):
         """Sets the bandwidth limit based on the user selection."""
-        value = widget.get_children()[0].get_text().rstrip(" " + 
-                        _("KiB/s"))
+        value = widget.get_children()[0].get_text().rstrip(" " + _("KiB/s"))
         if value == _("Unlimited"):
             value = -1
         
         if value == _("Other..."):
-            dialog_glade = gtk.glade.XML(
-                pkg_resources.resource_filename("deluge.ui.gtkui", 
-                                            "glade/dgtkpopups.glade"))
-            speed_dialog = dialog_glade.get_widget("speed_dialog")
-            spin_title = dialog_glade.get_widget("spin_title")
-            spin_title.set_text(_("%s Speed (KiB/s):" % string))
-            spin_speed = dialog_glade.get_widget("spin_speed")
-            spin_speed.set_value(
-                client.get_config_value(core_key))
-            spin_speed.select_region(0, -1)
-            response = speed_dialog.run()
-            if response == 1: # OK Response
-                value = spin_speed.get_value()
-            else:
-                speed_dialog.destroy()
+            value = deluge.common.show_other_speed_dialog(
+                string + " Speed (KiB/s):", default)
+            if value == None:
                 return
-            speed_dialog.destroy()
         
         # Set the config in the core
         value = float(value)
         config_to_set = {core_key: value}
         client.set_config(config_to_set)
 
-        # Update the tray speed limit list
-        if value not in self.config[ui_key] and value >= 0:
-            # We prepend this value and remove the last value in the list
-            self.config[ui_key].insert(0, value)
-            self.config[ui_key].pop()
-            # Re-build the menu
-            self.build_tray_bwsetsubmenu()
+        self.build_tray_bwsetsubmenu()
             
     def unlock_tray(self, comingnext, is_showing_dlg=[False]):
         import sha
