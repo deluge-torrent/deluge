@@ -46,20 +46,15 @@ import threading
 from deluge.log import LOG as log
 
 class SignalReceiver(
-        threading.Thread, 
         ThreadingMixIn, 
         SimpleXMLRPCServer.SimpleXMLRPCServer):
     
     def __init__(self):
         log.debug("SignalReceiver init..")
         gobject.threads_init()
-        threading.Thread.__init__(self)
     
         # Set to true so that the receiver thread will exit
         self._shutdown = False
-
-        # Daemonize the thread so it exits when the main program does
-        self.setDaemon(True)
 
         self.signals = {}
     
@@ -125,7 +120,6 @@ class SignalReceiver(
         while not self._shutdown:
             self.handle_request()
         self._shutdown = False
-        self.server_close()
             
     def emit_signal(self, signal, *data):
         """Exported method used by the core to emit a signal to the client"""

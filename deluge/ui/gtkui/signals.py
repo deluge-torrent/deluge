@@ -45,7 +45,7 @@ class Signals(component.Component):
         if not client.is_localhost():
             self.receiver.set_remote(True)
 
-        self.receiver.start()
+        self.receiver.run()
         self.receiver.connect_to_signal("torrent_added", 
             self.torrent_added_signal)
         self.receiver.connect_to_signal("torrent_removed", 
