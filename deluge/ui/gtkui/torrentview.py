@@ -158,6 +158,9 @@ class TorrentView(listview.ListView, component.Component):
                                             [float],
                                             status_field=["distributed_copies"])
         
+        # Set default sort column to #
+        self.liststore.set_sort_column_id(self.get_column_index("#"), gtk.SORT_ASCENDING)
+
         # Set filter to None for now
         self.filter = (None, None)
         
