@@ -360,14 +360,16 @@ class Torrent:
 
         elif self.state == "Queued":
             if self.handle.is_seed():
-                if self.torrentqueue.get_num_seeding() < self.config["max_active_seeding"]:
+                if self.torrentqueue.get_num_seeding() < self.config["max_active_seeding"] or\
+                        self.config["max_active_seeding"] == -1:
                     self.handle.resume()
                     self.state = "Seeding"
                     self.torrentqueue.update_order()
                 else:
                     return False
             else:
-                if self.torrentqueue.get_num_downloading() < self.config["max_active_downloading"]:
+                if self.torrentqueue.get_num_downloading() < self.config["max_active_downloading"] or\
+                        self.config["max_active_downloading"] == -1:
                     self.handle.resume()
                     self.state = "Downloading"
                     self.torrentqueue.update_order()

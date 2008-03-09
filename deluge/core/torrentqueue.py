@@ -118,9 +118,13 @@ class TorrentQueue(component.Component):
                 else:
                     to_unqueue = self.queued_seeding
                 for (pos, torrent_id) in to_unqueue:
-                    #self.torrents[torrent_id].set_state("Seeding")
                     self.torrents[torrent_id].resume()
-                    
+        else:
+            # The max_active_seeding is set to unlimited, so lets make sure
+            # all queued seeds are activated.
+            for (pos, torrent_id) in self.queued_seeding:
+                self.torrents[torrent_id].resume()
+
         if self.config["max_active_downloading"] > -1:
             if len(self.downloading) > self.config["max_active_downloading"]:
                 num_to_queue = len(self.downloading) - self.config["max_active_downloading"]
@@ -135,8 +139,11 @@ class TorrentQueue(component.Component):
                 else:
                     to_unqueue = self.queued_downloading
                 for (pos, torrent_id) in to_unqueue:
-                    #self.torrents[torrent_id].set_state("Downloading")
                     self.torrents[torrent_id].resume()
+        else:
+            # Unlimited downloading torrents set
+            for (pos, torrent_id) in self.queued_downloading:
+                self.torrents[torrent_id].resume()
                     
     def set_size(self, size):
         """Clear and set the self.queue list to the length of size"""
