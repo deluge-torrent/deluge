@@ -49,7 +49,7 @@ from text import TextReader, GZMuleReader, PGZip
 
 BLOCKLIST_PREFS = {
         "url": "http://www.bluetack.co.uk/config/pipfilter.dat.gz",
-        "load_on_start": "True",
+        "load_on_start": True,
         "check_after_days": 2,
         "listtype": "gzmule",
         "timeout": 180,
@@ -118,7 +118,6 @@ class TorrentBlockList:
     def __init__(self, coreplugin):       
         self.plugin = coreplugin    # reference from plugin core
         log.info('Blocklist: TorrentBlockList instantiated')
-        deluge.component.get("Core").session.set_max_connections(0)
         self.config = deluge.configmanager.ConfigManager("blocklist.conf", BLOCKLIST_PREFS)
         self.curr = 0
         self.load_options()
@@ -167,7 +166,7 @@ class TorrentBlockList:
         # Load newly set options to core plugin
         self.load_options()
         
-    def check_update(self):
+    def check_update(self, force_check=False):
         log.info('Blocklist: Checking for updates')  
         
         try:
@@ -193,7 +192,7 @@ class TorrentBlockList:
             check_newer = False
                 
         # If the program decides it is time to get a new list
-        if check_newer == True:
+        if check_newer == True or force_check == True:
             log.debug('Blocklist: Attempting check')
     
             j = 0    # counter for loop
@@ -300,6 +299,9 @@ class TorrentBlockList:
             # CHECKSUM 
             
             log.info('Blocklist: List downloaded sucessfully')
+            break
+        
+        # Download completed
                
                 
     def import_list(self):

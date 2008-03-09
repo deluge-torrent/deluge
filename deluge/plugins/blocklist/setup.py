@@ -44,7 +44,7 @@ setup(
     description=__doc__,
     author=__author__,
     packages=["blocklist"],
-    package_data = {"blocklist": ["glade/*.glade"]},
+    package_data = {"blocklist": ["data/*"]},
     entry_points="""
     [deluge.plugin.core]
     Blocklist = blocklist:CorePlugin

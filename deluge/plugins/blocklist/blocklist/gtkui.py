@@ -33,9 +33,9 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import pkg_resources    # remove possibly, double check
+import os
+import pkg_resources    # access plugin egg
 from deluge.log import LOG as log
-import deluge.common # for pixmap
 import deluge.component    # for systray
 import ui
 import gtk, gobject
@@ -71,6 +71,10 @@ class GtkUI(ui.UI):
     def disable(self):
         deluge.component.get("StatusBar").remove_item(self.blocklist_status)
         self.plugin.deregister_hook("on_apply_prefs", self.apply_prefs)
+        
+    def get_pixmap(self, fname):
+        """Returns a pixmap file included with plugin"""
+        return pkg_resources.resource_filename("blocklist", os.path.join("data", fname))
                 
     def add_status_icon(self, ip_count):
         try:
@@ -78,7 +82,7 @@ class GtkUI(ui.UI):
         except:
             pass
         # self, image=None, stock=None, text=None, callback=None
-        self.blocklist_status = deluge.component.get("StatusBar").add_item(deluge.common.get_pixmap("blocklist16.png"), None, str(ip_count) + " Blocked IP Ranges ", None)
+        self.blocklist_status = deluge.component.get("StatusBar").add_item(self.get_pixmap("blocklist16.png"), None, str(ip_count) + " Blocked IP Ranges ", None)
         
     def get_ip_count(self):
         ui.client.block_list_count_ips(self.add_status_icon)
@@ -88,6 +92,11 @@ class GtkUI(ui.UI):
         ui.client.block_list_import_list(None)
         log.debug('Blocklist: Import button')
         gobject.timeout_add(20000, self.get_ip_count)
+        
+    def download_list(self, widget, data=None):
+        self.apply_prefs()
+        ui.client.block_list_download_list(None)
+        log.debug('Blocklist: Download button')
         
     def unload_interface(self):
         self.plugin.remove_preferences_page("Blocklist")
@@ -113,7 +122,7 @@ class GtkUI(ui.UI):
         alignment = gtk.Alignment(0.5, 0.5, 1, 1)
         alignment.set_padding(8, 5, 5, 5)
                 
-        table = gtk.Table(7, 2, False)
+        table = gtk.Table(8, 2, False)
         table.set_col_spacings(8)
         table.set_row_spacings(10)
 
@@ -198,22 +207,30 @@ class GtkUI(ui.UI):
         hbox2.pack_start(self.try_times)
         
         table.attach(hbox2, 0, 2, 4, 5)
-        
+
         # sixth row        
         self.load_on_start = gtk.CheckButton('Import blocklist on daemon startup')
         table.attach(self.load_on_start, 0, 2, 5, 6)
         
-        # DO I NEED THIS STILL I DONT KNOW THINK ABOUT IT AND ASK MYSELF AGAIN LATER K THX BYE
+        # download new list button
+        download_button = gtk.Button("_Download Blocklist", None, True)
+        download_button.connect("clicked", self.download_list, None)
         
-#        # import button (Check and possibly download)
+        pixbuf = gtk.gdk.pixbuf_new_from_file(self.get_pixmap("blocklist_download24.png"))
+        image = gtk.image_new_from_pixbuf(pixbuf)
+        download_button.set_image(image)
+        table.attach(download_button, 0, 2, 6, 7)
+        
+        # import button (Check and possibly download)
         import_button = gtk.Button("_Import Blocklist", None, True)
         import_button.connect("clicked", self.start_import, None)
         
-        pixbuf = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("blocklist_import24.png"))
+        pixbuf = gtk.gdk.pixbuf_new_from_file(self.get_pixmap("blocklist_import24.png"))
         image = gtk.image_new_from_pixbuf(pixbuf)
         import_button.set_image(image)
         
-        table.attach(import_button, 0, 2, 6, 7)
+        table.attach(import_button, 0, 2, 7, 8)
+        
         
         # finish frame
         frame.set_label_widget(label)
@@ -247,7 +264,7 @@ class GtkUI(ui.UI):
                          }
         ui.client.block_list_set_options(None, settings_dict)
         # Needs to go in another thread or wait until window is closed
-        gobject.idle_add(self.call_critical_setting)
+        #gobject.idle_add(self.call_critical_setting)
     
     def call_critical_setting(self):
         ui.client.block_list_critical_setting(None)        # This checks to see if url or listtype changed, if so download & import

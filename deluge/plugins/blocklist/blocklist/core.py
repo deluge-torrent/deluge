@@ -33,12 +33,14 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
+import deluge.component
 from torrentblocklist import TorrentBlockList
 from deluge.log import LOG as log
 from deluge.plugins.corepluginbase import CorePluginBase
 
 class Core(CorePluginBase):    
     def enable(self):
+        deluge.component.get("Core").session.set_max_connections(0)
         self.blocklist = TorrentBlockList(self.plugin)
         self.plugin.register_hook("post_session_load", self._post_session_load)           
         log.debug('Blocklist: Plugin enabled..')
@@ -57,7 +59,7 @@ class Core(CorePluginBase):
     ## Hooks for core ##
     def _post_session_load(self):
         log.info('Blocklist: Session load hook caught')
-        if self.blocklist.load_on_start == True or self.blocklist.load_on_start == 'True':
+        if self.blocklist.load_on_start == True:
             # Wait until an idle time to load block list
             import gobject
             gobject.idle_add(self.blocklist.import_list)
@@ -86,6 +88,17 @@ class Core(CorePluginBase):
     def export_import_list(self):
         log.debug('Blocklist: Import started from GTK UI')
         self.blocklist.import_list()
+        
+    def export_download_list(self):
+        log.debug('Blocklist: Download started from GTK UI')
+        force_check = True
+        self.blocklist.check_update(force_check)
+        # Initialize download attempt
+        self.blocklist.attempt = 0
+        
+        if self.blocklist.fetch == True:
+            self.blocklist.download()
+
     
     def export_set_options(self, settings):
         log.debug("Blocklist: Set Options")
