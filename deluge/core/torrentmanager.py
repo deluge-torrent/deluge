@@ -564,8 +564,18 @@ class TorrentManager(component.Component):
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         log.debug("%s is finished..", torrent_id)
+        # Queue to bottom if enabled
+        if alert.msg() == "torrent has finished downloading":
+            if self.config["queue_finished_to_bottom"]:
+                self.queue.bottom(torrent_id)
+
         # Set the torrent state
-        self.torrents[torrent_id].set_state("Seeding")
+        if self.queue.get_num_seeding() < self.config["max_active_seeding"] or\
+                self.config["max_active_seeding"] == -1:
+            self.torrents[torrent_id].set_state("Seeding")
+        else:
+            self.torrents[torrent_id].set_state("Queued")
+            
         # Write the fastresume file
         self.torrents[torrent_id].write_fastresume()
         

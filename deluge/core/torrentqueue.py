@@ -51,6 +51,12 @@ class TorrentQueue(component.Component):
         self.torrents = component.get("TorrentManager")
         self.config = ConfigManager("core.conf")
         
+        # Register config set functions
+        self.config.register_set_function("max_active_seeding",
+            self._on_set_max_active_seeding, False)
+        self.config.register_set_function("max_active_downloading",
+            self._on_set_max_active_downloading, False)
+        
     def update(self):
         self.update_state_lists()
         self.update_max_active()
@@ -278,3 +284,9 @@ class TorrentQueue(component.Component):
         self.append(self.queue.pop(index))
         self.update_order()
         return True
+        
+    def _on_set_max_active_seeding(self, key, value):
+        self.update()
+    
+    def _on_set_max_active_downloading(self, key, value):
+        self.update()
