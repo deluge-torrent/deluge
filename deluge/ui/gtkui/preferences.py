@@ -40,6 +40,7 @@ import deluge.component as component
 from deluge.log import LOG as log
 from deluge.ui.client import aclient as client
 import deluge.common
+import deluge.error
 from deluge.configmanager import ConfigManager
 
 class Preferences(component.Component):
@@ -174,12 +175,15 @@ class Preferences(component.Component):
                     
         # Update the preferences dialog to reflect current config settings
         self.core_config = {}
-        client.get_config(self._on_get_config)
-        client.get_available_plugins(self._on_get_available_plugins)
-        client.get_enabled_plugins(self._on_get_enabled_plugins)
-        client.get_listen_port(self._on_get_listen_port)
-        # Force these calls and block until we've done them all
-        client.force_call()
+        try:
+            client.get_config(self._on_get_config)
+            client.get_available_plugins(self._on_get_available_plugins)
+            client.get_enabled_plugins(self._on_get_enabled_plugins)
+            client.get_listen_port(self._on_get_listen_port)
+            # Force these calls and block until we've done them all
+            client.force_call()
+        except deluge.error.NoCoreError:
+            log.debug("Not connected to a daemon..")
 
         if self.core_config != {} and self.core_config != None:
             core_widgets = {
