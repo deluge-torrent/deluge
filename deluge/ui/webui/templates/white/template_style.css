@@ -6,7 +6,7 @@ avoid copy and paste of colours.
 
 
 /*global:*/
-body, th, td,tr ,hr, div,table , div{
+body, th, td,tr , div,table , div{
 	font-family: Bitstream Vera Sans, verdana, arial, sans-serif;
 	font-size:12px;
 	padding:0px;
@@ -103,6 +103,14 @@ div.progress_bar{
 	-moz-border-radius:8px;
 	/*float: right;*/
 }
+
+#torrent_info_tabs {
+	/*background-color#B5EDBC;*/
+	background-color#F00;
+}
+
+
+
 
 #organize_block {
 	border-style:solid;
