@@ -1,112 +1,16 @@
 $def with (torrent_list, organize_filters)
 $:render.header(_('Torrent list'))
 
-<script language="javascript">
-/*for select_all shortcut/button*/
-var all_torrents = [
-$for t in torrent_list:
-    "$t.id",
-]
-</script>
-
 
 <div class="panel" id="toolbar">
-
-$for id, title, image, flag, method, url, important in toolbar_items:
-    $if important:
-        <a class='toolbar_btn' href="#"
-        onclick='toolbar_$(method.lower()) ("$url",$flag)'
-        title='$title'><img class='toolbar_btn'
-        src='/static/images/tango/$image'></a>
-
+$:render.part_toolbar()
 $if organize_filters:
-    $:render.part_categories(organize_filters)
-
+    $:render.part_organize(organize_filters)
 </div>
 
-<div id="tableContainer" class="tableContainer">
-<table class="torrent_list" border=0 cellspacing=0 cellpadding=2  id="torrent_list" >
-<thead class="fixedHeader">
-<tr>
-        $:(sort_head('calc_state_str', 'S'))
-        $:(sort_head('queue', '#'))
-        $:(sort_head('name', _('Name')))
-        $:(sort_head('total_size', _('Size')))
-        $:(sort_head('progress', _('Progress')))
+$:render.part_torrent_list(torrent_list, organize_filters)
 
-        $if organize_filters:
-            <!--HACK:
-            abusing organize_filters to check if the Orgnize plugin is enabled
-            -->
-            $:(sort_head('tracker_name', _('Tracker')))
-
-        $:(sort_head('num_seeds', _('Seeders')))
-        $:(sort_head('num_peers', _('Peers')))
-        $:(sort_head('download_rate', _('Download')))
-        $:(sort_head('upload_rate', _('Upload')))
-        $:(sort_head('eta', _('Eta')))
-        $:(sort_head('distributed_copies', _('Ava')))
-        $:(sort_head('ratio', _('Ratio')))
-    </tr>
-</thead>
-<tbody class="scrollContent">
-$altrow(True)
-$#4-space indentation is mandatory for for-loops in templetor!
-$for torrent in torrent_list:
-    <tr class="$altrow()" onclick="on_click_row(event, '$torrent.id')" id="torrent_$torrent.id">
-    <td>
-       <form action="/torrent/$torrent.action/$torrent.id" method="POST"
-            class="pause_resume">
-            <input type="image"
-            src="/static/images/$(torrent.calc_state_str)16.png"
-            name="pauseresume" value="submit" />
-        </form>
-       </td>
-    <td>$torrent.queue</td>
-    <td style="width:100px; overflow:hidden;white-space: nowrap">
-        $(crop(torrent.name, 40))</td>
-    <td>$fsize(torrent.total_size)</td>
-    <td class="progress_bar">
-        <div class="progress_bar_outer">
-            <div class="progress_bar" style="width:$(torrent.progress)%;overflow:hidden">
-            $torrent.message $int(torrent.progress) %
-            </div>
-        </div>
-    </td>
-    $if organize_filters:
-        <td>$torrent.tracker_name</td>
-    <td>
-    $if torrent.total_seeds != -1:
-        $torrent.num_seeds ($torrent.total_seeds)
-    $else:
-        0
-    </td>
-    <td>
-    $if torrent.total_peers != -1:
-        $torrent.num_peers ($torrent.total_peers)</td>
-    $else:
-        0
-    <td>
-    $if (torrent.download_rate):
-        $fspeed(torrent.download_rate)
-    $else:
-        &nbsp;
-    </td>
-    <td>
-    $if (torrent.upload_rate):
-        $fspeed(torrent.upload_rate)
-    $else:
-       &nbsp;
-    </td>
-    <td>$ftime(torrent.eta)</td>
-    <td>$("%.3f" % torrent.distributed_copies)</td>
-    <td>$("%.3f" % torrent.ratio)</td\>
-    </tr>
-</tbody>
-</table>
-</div>
-
-
+$:render.part_auto_refresh()
 $:part_stats()
 
 <div class="panel" id="info_panel_div">

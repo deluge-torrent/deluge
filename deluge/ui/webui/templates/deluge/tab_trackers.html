@@ -1,0 +1,16 @@
+$def with (torrent)
+
+<table width="95%">
+$altrow(True)
+<tr class="tab_$altrow()">
+    <th width="10px">#</th>
+    <th width="100%">$_("Tracker")</th>
+$for tracker in torrent.trackers:
+    <tr class="tab_$altrow()" >
+    <td >
+    $tracker['tier']
+    </td>
+        <td title="tracker">$crop(tracker['url'], 60)</td>
+    </tr>
+</table>
+

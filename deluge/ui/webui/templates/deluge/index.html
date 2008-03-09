@@ -1,5 +1,9 @@
-$def with (torrent_list, organize_filter)
-$:render.header(_('Torrent list'))
+$def with (torrent_list, organize_filters)
+$:render.header(_('Torrent list'), 'home')
+
+
+$if organize_filters:
+    $:render.part_organize(organize_filters)
 
 <table class="torrent_list" border=0 id='torrent_table'>
     <tr>

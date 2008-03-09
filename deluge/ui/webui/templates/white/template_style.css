@@ -1,0 +1,115 @@
+$def with (style)
+/*
+preprocessed style.
+avoid copy and paste of colours.
+*/
+
+
+/*global:*/
+body, th, td,tr ,hr, div,table , div{
+	font-family: Bitstream Vera Sans, verdana, arial, sans-serif;
+	font-size:12px;
+	padding:0px;
+	margin:0px;
+	border-style: hidden;
+	border-spacing:0px;
+}
+
+a { color: #0000AA;}
+a:visited { color: #0000AA;}
+
+th {font-weight:normal}
+
+form {
+	display:inline;
+}
+
+img{
+	border:0;
+}
+
+/*controls:*/
+a.tab_button_active {
+	color: #0000AA;
+	text-decoration:none;
+	font-weight:bold;
+	color:#000;
+}
+
+div.deluge_button{
+	display:inline;
+}
+
+
+/*page from top to bottom:*/
+
+
+/*top part :*/
+#admin_toolbar {
+	text-align:right;
+	float;
+}
+
+#home_top {
+	text-align:left;
+	float;
+}
+
+/*toolbar*/
+#toolbar {
+	background-color:#E0ECFF;
+}
+
+#torrent_list_block{
+	border-style:solid;
+	border-width:12px;
+	border-color:#C3D9FF;
+	-moz-border-radius:8px;
+	/*float: right;*/
+}
+
+/*torrent table*/
+XX#torrent_table td {
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+	border-bottom-color:#000000;
+}
+
+#torrent_table th {
+	background-color:#C3D9FF;
+}
+
+tr.altrow1 {
+		background-color:#F0F0F0;
+}
+
+
+tr.torrent_table_selected {
+	background-color:#FFFFCC;
+}
+
+div.progress_bar{
+	background-color:#E0ECFF;
+	/*color:blue;*/
+	/*-moz-border-radius:5px;*/ /*ff only setting*/
+	}
+
+
+/*info panel:*/
+#info_panel_div {
+	border-style:solid;
+	border-width:12px;
+	border-color:#B5EDBC;
+	-moz-border-radius:8px;
+	/*float: right;*/
+}
+
+#organize_block {
+	border-style:solid;
+	border-width:12px;
+	border-color:#B5EDBC;
+	-moz-border-radius:8px;
+	float: left;
+}
+
+/*config:*/

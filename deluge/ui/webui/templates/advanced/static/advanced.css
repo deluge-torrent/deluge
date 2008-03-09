@@ -71,7 +71,7 @@ div.error {
 
 }
 
-tr.torrent_table:hover {
+#torrent_table tr:hover {
 	background-color:#68a;
 }
 

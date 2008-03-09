@@ -34,13 +34,13 @@ from webserver_common import ws,REVNO,VERSION
 from utils import *
 #/relative
 from deluge import common
-from lib.webpy022 import changequery as self_url, template
+from lib.webpy022 import changequery as self_url, template, Storage
 import os
 
 class subclassed_render(object):
     """
-    try to use the html template in configured dir.
-    not available : use template in /deluge/
+    adds limited subclassing for templates.
+    see: meta.cfg in the template-directory.
     """
     def __init__(self):
         self.apply_cfg()
@@ -51,13 +51,15 @@ class subclassed_render(object):
         self.plugin_renderers = []
         self.template_cache = {}
 
-        #future: better/more subclassing.
-        self.renderers.append(template.render(
-            os.path.join(ws.webui_path, 'templates/%s/' % ws.config.get('template')),
-            cache=False))
+        #load template-meta-data
+        cfg_template = ws.config.get('template')
+        template_path = os.path.join(ws.webui_path, 'templates/%s/' % cfg_template)
+        self.meta = Storage(eval(open(os.path.join(template_path,'meta.cfg')).read()))
 
-        self.renderers.append(template.render(
-            os.path.join(ws.webui_path, 'templates/deluge/'),cache=False))
+        #load renerders
+        for template_name in [cfg_template] + list(reversed(self.meta.inherits)):
+            self.renderers.append(template.render(
+                os.path.join(ws.webui_path, 'templates/%s/' % template_name),cache=False))
 
     @logcall
     def register_template_path(self, path):

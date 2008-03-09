@@ -72,6 +72,7 @@ menu_manager.register_admin_page("logout", _("Logout"), "/logout")
 menu_manager.register_detail_tab("details", _("Details"), "tab_meta")
 menu_manager.register_detail_tab("files", _("Files"), "tab_files")
 menu_manager.register_detail_tab("options", _("Options"), "tab_options")
+menu_manager.register_detail_tab("trackers", _("Trackers"), "tab_trackers")
 
 menu_manager.register_toolbar_item("add", _("Add"), "list-add.png" , TB.generic,
     "GET","/torrent/add/", True)
@@ -132,7 +133,8 @@ urls = [
     #default-pages
     "/", "home",
     "", "home",
-    "/robots.txt","robots"
+    "/robots.txt","robots",
+    "/template_style.css","template_style"
 ]
 #/routing
 
@@ -463,6 +465,12 @@ class robots:
         "no robots/prevent searchengines from indexing"
         web.header("Content-Type", "text/plain")
         print "User-agent: *\nDisallow:/\n"
+
+class template_style:
+    def GET(self):
+        web.header("Content-Type", "text/css")
+        style = Storage()
+        print render.template_style(style)
 
 #/pages
 

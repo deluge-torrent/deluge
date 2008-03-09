@@ -1,23 +1,6 @@
 $def with (stats)
 
 
-<div class="panel"  id='refresh_panel'>
-[
-$_('Auto refresh:')
-$if getcookie('auto_refresh') == '1':
-    ($getcookie('auto_refresh_secs')) $_('seconds') &nbsp;
-    <a href="/refresh/set">$_('Set')</a>
-    <a href="/refresh/off">$_('Disable')</a><!--WRONG, setting things on a GET-->
-$else:
-    $_('Off') &nbsp;
-    <a href="/refresh/on">$_('Enable')</a><!--WRONG, setting things on a GET-->
-]
-
-
-<a href="/config/">$_('Admin')  </a>&nbsp;
-
-</div>
-
 <div class="panel"  id='stats_panel'>
     <!--<a href='/config'>-->
 
@@ -36,10 +19,3 @@ $else:
     <!--</a>-->
 
 </div>
-
-<div id='about'>
-   <a href='/about'>$_('About')</a>
-</div>
-
-
-
