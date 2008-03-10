@@ -218,6 +218,10 @@ class TorrentQueue(component.Component):
                 if q == None:
                     self.queue[self.queue.index(q)] = torrent_id
                     return self.queue.index(q)
+            
+            self.queue.append(torrent_id)
+            return self.queue.index(torrent_id)
+            
         else:
             if position > (len(self.queue) - 1):
                 self.queue.insert(position, torrent_id)
