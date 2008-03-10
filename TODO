@@ -7,7 +7,6 @@
 * Implement 'Classic' mode
 * Add autoload folder
 * Add wizard
-* Add decay items to statusbar.. items that will disappear after X seconds
 * Add command line option to change config dir.. --config
 * Add method for plugins to add labels
 * Add context menus for labels.. ie. setting options for all torrents in label

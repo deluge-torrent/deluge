@@ -32,6 +32,7 @@
 #    statement from all source files in the program, then also delete it here.
 
 import gtk
+import gobject
 
 import deluge.component as component
 import deluge.common
@@ -91,6 +92,9 @@ class StatusBarItem:
     
     def get_eventbox(self):
         return self._ebox
+    
+    def get_text(self):
+        return self._label.get_text()
         
 class StatusBar(component.Component):
     def __init__(self):
@@ -116,6 +120,7 @@ class StatusBar(component.Component):
             "max_upload_speed": self._on_max_upload_speed,
             "dht": self._on_dht
         }
+        self.current_warnings = []
         # Add a HBox to the statusbar after removing the initial label widget
         self.hbox = gtk.HBox()
         self.hbox.set_spacing(10)
@@ -150,7 +155,7 @@ class StatusBar(component.Component):
         self.dht_item = StatusBarItem(
             image=deluge.common.get_pixmap("dht16.png"))
         self.health_item = self.add_item(
-                stock=gtk.STOCK_NO,
+                stock=gtk.STOCK_DIALOG_ERROR,
                 text=_("No Incoming Connections!"),
                 callback=self._on_health_icon_clicked)
           
@@ -199,7 +204,25 @@ class StatusBar(component.Component):
                 self.hbox.remove(item.get_eventbox())
             except Exception, e:
                 log.debug("Unable to remove widget: %s", e)
-            
+
+    def add_timeout_item(self, seconds=3, image=None, stock=None, text=None, callback=None):
+        """Adds an item to the StatusBar for seconds"""
+        item = self.add_item(image, stock, text, callback)
+        # Start a timer to remove this item in seconds
+        gobject.timeout_add(seconds * 1000, self.remove_item, item)
+    
+    def display_warning(self, text, callback=None):
+        """Displays a warning to the user in the status bar"""
+        if text not in self.current_warnings:
+            item = self.add_item(
+                stock=gtk.STOCK_DIALOG_WARNING, text=text, callback=callback)
+            self.current_warnings.append(text)
+            gobject.timeout_add(3000, self.remove_warning, item)
+    
+    def remove_warning(self, item):
+        self.current_warnings.remove(item.get_text())
+        self.remove_item(item)
+        
     def clear_statusbar(self):
         def remove(child):
             self.hbox.remove(child)

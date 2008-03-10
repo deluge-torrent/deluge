@@ -53,6 +53,7 @@ class Torrent:
         
         # Get a reference to the TorrentQueue
         self.torrentqueue = component.get("TorrentQueue")
+        self.signals = component.get("SignalManager")
         
         # Set the filename
         self.filename = filename
@@ -323,6 +324,7 @@ class Torrent:
                 # If the torrent has already reached it's 'stop_seed_ratio' then do not do anything
                 if self.config["stop_seed_at_ratio"]:
                     if self.get_ratio() >= self.config["stop_seed_ratio"]:
+                        self.signals.emit("torrent_resume_at_stop_ratio")
                         return
                         
                 # If the torrent is a seed and there are already the max number of seeds

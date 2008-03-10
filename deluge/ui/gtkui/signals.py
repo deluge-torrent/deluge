@@ -31,6 +31,8 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
+import gtk
+
 import deluge.component as component
 from deluge.ui.client import aclient as client
 from deluge.ui.signalreceiver import SignalReceiver
@@ -61,6 +63,8 @@ class Signals(component.Component):
             self.config_value_changed)
         self.receiver.connect_to_signal("torrent_queue_changed",
             self.torrent_queue_changed)
+        self.receiver.connect_to_signal("torrent_resume_at_stop_ratio",
+            self.torrent_resume_at_stop_ratio)
     
     def stop(self):
         try:
@@ -114,4 +118,8 @@ class Signals(component.Component):
     def torrent_queue_changed(self):
         log.debug("torrent_queue_changed signal received..")
         component.get("TorrentView").update()
-        
+    
+    def torrent_resume_at_stop_ratio(self):
+        log.debug("torrent_resume_at_stop_ratio")
+        component.get("StatusBar").display_warning(
+            text=_("Torrent is past stop ratio."))
