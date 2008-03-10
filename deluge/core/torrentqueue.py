@@ -57,23 +57,26 @@ class TorrentQueue(component.Component):
         self.config.register_set_function("max_active_downloading",
             self._on_set_max_active_downloading, False)
         
-    def update(self):
+    def _update(self):
+        # Updates the queueing order and max active states
         self.update_state_lists()
+        self.update_order()
         self.update_max_active()
-        
+
     def update_state_lists(self):
+        # Get ordered lists of torrents
         self.seeding = []
         self.queued_seeding = []
         self.downloading = []
         self.queued_downloading = []
         
         for torrent_id in self.torrents.get_torrent_list():
-            if self.torrents[torrent_id].get_status(["state"])["state"] == "Seeding":
+            if self.torrents[torrent_id].state == "Seeding":
                 self.seeding.append((self.queue.index(torrent_id), torrent_id))
-            elif self.torrents[torrent_id].get_status(["state"])["state"] == "Downloading":
+            elif self.torrents[torrent_id].state == "Downloading":
                 self.downloading.append((self.queue.index(torrent_id), torrent_id))
-            elif self.torrents[torrent_id].get_status(["state"])["state"] == "Queued":
-                if self.torrents[torrent_id].get_status(["is_seed"])["is_seed"]:
+            elif self.torrents[torrent_id].state == "Queued":
+                if self.torrents[torrent_id].handle.is_seed():
                     self.queued_seeding.append((self.queue.index(torrent_id), torrent_id))
                 else:
                     self.queued_downloading.append((self.queue.index(torrent_id), torrent_id))
@@ -90,7 +93,8 @@ class TorrentQueue(component.Component):
 #        log.debug("queued downloading: %s", len(self.queued_downloading))
 
     def update_order(self):
-        self.update_state_lists()
+        # This will queue/resume torrents if the queueing order changes
+        
         #try:
         #    log.debug("max(seeding): %s", max(self.seeding)[0])
         #    log.debug("min(queued_seeding): %s", min(self.queued_seeding)[0])
@@ -106,7 +110,16 @@ class TorrentQueue(component.Component):
                     self.torrents[torrent_id].set_state("Queued")
                 
                 self.update_state_lists()
-                self.update_max_active()
+
+        if self.downloading != [] and self.queued_downloading != []:
+            if min(self.queued_downloading)[0] < max(self.downloading)[0]:
+                num_to_queue = max(self.downloading)[0] - min(self.queued_downloading)[0]
+                log.debug("queueing: %s", self.downloading[-num_to_queue:])
+                
+                for (pos, torrent_id) in self.downloading[-num_to_queue:]:
+                    self.torrents[torrent_id].set_state("Queued")
+                
+                self.update_state_lists()
         
     def update_max_active(self):
         if self.config["max_active_seeding"] > -1:
@@ -226,7 +239,7 @@ class TorrentQueue(component.Component):
         
         # Pop and insert the torrent_id at index - 1
         self.queue.insert(index - 1, self.queue.pop(index))
-        self.update_order()
+        self._update()
         return True
         
     def top(self, torrent_id):
@@ -244,7 +257,7 @@ class TorrentQueue(component.Component):
             return False
         
         self.queue.insert(0, self.queue.pop(index))
-        self.update_order()        
+        self._update()
         return True
                 
     def down(self, torrent_id):
@@ -263,7 +276,7 @@ class TorrentQueue(component.Component):
             
         # Pop and insert the torrent_id at index + 1
         self.queue.insert(index + 1, self.queue.pop(index))
-        self.update_order()
+        self._update()
         return True
         
     def bottom(self, torrent_id):
@@ -282,11 +295,11 @@ class TorrentQueue(component.Component):
         
         # Pop and append the torrent_id
         self.append(self.queue.pop(index))
-        self.update_order()
+        self._update()
         return True
         
     def _on_set_max_active_seeding(self, key, value):
-        self.update()
+        self._update()
     
     def _on_set_max_active_downloading(self, key, value):
-        self.update()
+        self._update()

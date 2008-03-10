@@ -149,24 +149,15 @@ class Torrent:
         if state not in TORRENT_STATE:
             log.debug("Trying to set an invalid state %s", state)
             return
-            
-        # Only set 'Downloading' or 'Seeding' state if not paused
-        if state == "Downloading" or state == "Seeding":
-            # If we're Queued we need to resume the torrent first
-            if self.state != "Queued":
-                if self.handle.is_paused():
-                    state = "Paused"
-            else:
-                return
-                
+
         if state == "Queued" and not self.handle.is_paused():
             component.get("TorrentManager").append_not_state_paused(self.torrent_id)
             self.handle.pause()
-        
-        if state == "Paused":
-            self.torrentqueue.update_order()
-                       
+
         self.state = state
+
+        # Update the torrentqueue on any state changes
+        self.torrentqueue._update()
         
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""

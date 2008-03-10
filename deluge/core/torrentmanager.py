@@ -611,7 +611,11 @@ class TorrentManager(component.Component):
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the torrent state
-        self.torrents[torrent_id].set_state("Downloading")
+        if not self.torrents[torrent_id].handle.is_paused():
+            if self.torrents[torrent_id].handle.is_seed():
+                self.torrents[torrent_id].set_state("Seeding")
+            else:
+                self.torrents[torrent_id].set_state("Downloading")
                 
     def on_alert_tracker_reply(self, alert):
         log.debug("on_alert_tracker_reply")
