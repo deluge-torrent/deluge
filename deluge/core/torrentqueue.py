@@ -65,13 +65,14 @@ class TorrentQueue(component.Component):
         stop_ratio = self.config["stop_seed_ratio"]
 
         for torrent_id in self.torrents.get_torrent_list():
-            if self.torrents[torrent_id].get_ratio() >= stop_ratio:
-                # This torrent is at or exceeding the stop ratio so we need to
-                # pause or remove it from the session.
-                if self.config["remove_seed_at_ratio"]:
-                    self.torrents.remove(torrent_id, False, False)
-                else:
-                    self.torrents[torrent_id].pause()
+            if self.torrents[torrent_id].handle.is_seed():
+                if self.torrents[torrent_id].get_ratio() >= stop_ratio:
+                    # This torrent is at or exceeding the stop ratio so we need to
+                    # pause or remove it from the session.
+                    if self.config["remove_seed_at_ratio"]:
+                        self.torrents.remove(torrent_id, False, False)
+                    else:
+                        self.torrents[torrent_id].pause()
                     
     def update_queue(self):
         # Updates the queueing order and max active states
