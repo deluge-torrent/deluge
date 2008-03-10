@@ -157,7 +157,7 @@ class Torrent:
         self.state = state
 
         # Update the torrentqueue on any state changes
-        self.torrentqueue._update()
+        self.torrentqueue.update_queue()
         
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""
@@ -319,6 +319,11 @@ class Torrent:
         if self.state == "Paused":
 
             if self.handle.is_seed():
+                # If the torrent has already reached it's 'stop_seed_ratio' then do not do anything
+                if self.config["stop_seed_at_ratio"]:
+                    if self.get_ratio() >= self.config["stop_seed_ratio"]:
+                        return
+                        
                 # If the torrent is a seed and there are already the max number of seeds
                 # active, then just change it to a Queued state.
                 if self.torrentqueue.get_num_seeding() >= self.config["max_active_seeding"]:

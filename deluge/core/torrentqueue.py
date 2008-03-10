@@ -57,8 +57,25 @@ class TorrentQueue(component.Component):
         self.config.register_set_function("max_active_downloading",
             self._on_set_max_active_downloading, False)
         
-    def _update(self):
+    def update(self):
+        # If we're not checking share ratios, just return
+        if not self.config["stop_seed_at_ratio"]:
+            return
+        
+        stop_ratio = self.config["stop_seed_ratio"]
+
+        for torrent_id in self.torrents.get_torrent_list():
+            if self.torrents[torrent_id].get_ratio() >= stop_ratio:
+                # This torrent is at or exceeding the stop ratio so we need to
+                # pause or remove it from the session.
+                if self.config["remove_seed_at_ratio"]:
+                    self.torrents.remove(torrent_id, False, False)
+                else:
+                    self.torrents[torrent_id].pause()
+                    
+    def update_queue(self):
         # Updates the queueing order and max active states
+        # This only gets called when necessary
         self.update_state_lists()
         self.update_order()
         self.update_max_active()
@@ -239,7 +256,7 @@ class TorrentQueue(component.Component):
         
         # Pop and insert the torrent_id at index - 1
         self.queue.insert(index - 1, self.queue.pop(index))
-        self._update()
+        self.update_queue()
         return True
         
     def top(self, torrent_id):
@@ -257,7 +274,7 @@ class TorrentQueue(component.Component):
             return False
         
         self.queue.insert(0, self.queue.pop(index))
-        self._update()
+        self.update_queue()
         return True
                 
     def down(self, torrent_id):
@@ -276,7 +293,7 @@ class TorrentQueue(component.Component):
             
         # Pop and insert the torrent_id at index + 1
         self.queue.insert(index + 1, self.queue.pop(index))
-        self._update()
+        self.update_queue()
         return True
         
     def bottom(self, torrent_id):
@@ -295,11 +312,11 @@ class TorrentQueue(component.Component):
         
         # Pop and append the torrent_id
         self.append(self.queue.pop(index))
-        self._update()
+        self.update_queue()
         return True
         
     def _on_set_max_active_seeding(self, key, value):
-        self._update()
+        self.update_queue()
     
     def _on_set_max_active_downloading(self, key, value):
-        self._update()
+        self.update_queue()
