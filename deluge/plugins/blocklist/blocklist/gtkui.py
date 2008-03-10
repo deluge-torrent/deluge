@@ -71,6 +71,7 @@ class GtkUI(ui.UI):
     def disable(self):
         deluge.component.get("StatusBar").remove_item(self.blocklist_status)
         self.plugin.deregister_hook("on_apply_prefs", self.apply_prefs)
+        self.plugin.remove_preferences_page("Blocklist")
         
     def get_pixmap(self, fname):
         """Returns a pixmap file included with plugin"""

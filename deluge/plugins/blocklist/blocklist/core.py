@@ -33,14 +33,12 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-import deluge.component
 from torrentblocklist import TorrentBlockList
 from deluge.log import LOG as log
 from deluge.plugins.corepluginbase import CorePluginBase
 
 class Core(CorePluginBase):    
     def enable(self):
-        deluge.component.get("Core").session.set_max_connections(0)
         self.blocklist = TorrentBlockList(self.plugin)
         self.plugin.register_hook("post_session_load", self._post_session_load)           
         log.debug('Blocklist: Plugin enabled..')
