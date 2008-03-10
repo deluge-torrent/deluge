@@ -108,6 +108,7 @@ class StatusBar(component.Component):
         self.upload_rate = 0.0
         self.dht_nodes = 0
         self.dht_status = False
+        self.health = False
         
         self.config_value_changed_dict = {
             "max_connections_global": self._on_max_connections_global,
@@ -147,7 +148,12 @@ class StatusBar(component.Component):
         self.hbox.pack_start(
             self.upload_item.get_eventbox(), expand=False, fill=False)
         self.dht_item = StatusBarItem(
-                image=deluge.common.get_pixmap("dht16.png"))
+            image=deluge.common.get_pixmap("dht16.png"))
+        self.health_item = self.add_item(
+                stock=gtk.STOCK_NO,
+                text=_("No Incoming Connections!"),
+                callback=self._on_health_icon_clicked)
+          
 
         # Get some config values
         client.get_config_value(
@@ -158,6 +164,7 @@ class StatusBar(component.Component):
             self._on_max_upload_speed, "max_upload_speed")
         client.get_config_value(
             self._on_dht, "dht")
+        client.get_health(self._on_get_health)
         
         self.send_status_request()
     
@@ -169,6 +176,7 @@ class StatusBar(component.Component):
             self.remove_item(self.download_item)
             self.remove_item(self.upload_item)
             self.remove_item(self.not_connected_item)
+            self.remove_item(self.heath_item)
         except Exception, e:
             log.debug("Unable to remove StatusBar item: %s", e)
         self.show_not_connected()        
@@ -204,6 +212,9 @@ class StatusBar(component.Component):
             client.get_dht_nodes(self._on_get_dht_nodes)
         client.get_download_rate(self._on_get_download_rate)
         client.get_upload_rate(self._on_get_upload_rate)
+        if not self.health:
+            # Only request health status while False
+            client.get_health(self._on_get_health)
 
     def config_value_changed(self, key, value):
         """This is called when we received a config_value_changed signal from
@@ -249,6 +260,11 @@ class StatusBar(component.Component):
         self.upload_rate = deluge.common.fsize(upload_rate)
         self.update_upload_label()
     
+    def _on_get_health(self, value):
+        self.health = value
+        if self.health:
+            self.remove_item(self.health_item)            
+            
     def update_connections_label(self):
         # Set the max connections label
         if self.max_connections < 0:
@@ -371,4 +387,5 @@ class StatusBar(component.Component):
         if value != self.max_connections:
             client.set_config({"max_connections_global": value})
         
-        
+    def _on_health_icon_clicked(self, widget, event):
+        component.get("Preferences").show("Network")

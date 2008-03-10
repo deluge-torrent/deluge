@@ -125,8 +125,6 @@ class TorrentQueue(component.Component):
                 
                 for (pos, torrent_id) in self.seeding[-num_to_queue:]:
                     self.torrents[torrent_id].set_state("Queued")
-                
-                self.update_state_lists()
 
         if self.downloading != [] and self.queued_downloading != []:
             if min(self.queued_downloading)[0] < max(self.downloading)[0]:
@@ -135,8 +133,6 @@ class TorrentQueue(component.Component):
                 
                 for (pos, torrent_id) in self.downloading[-num_to_queue:]:
                     self.torrents[torrent_id].set_state("Queued")
-                
-                self.update_state_lists()
         
     def update_max_active(self):
         if self.config["max_active_seeding"] > -1:
@@ -221,19 +217,23 @@ class TorrentQueue(component.Component):
             for q in self.queue:
                 if q == None:
                     self.queue[self.queue.index(q)] = torrent_id
-                    break
+                    return self.queue.index(q)
         else:
-            if self.queue[position] == None:
+            if position > (len(self.queue) - 1):
+                self.queue.insert(position, torrent_id)
+                
+            try:
+                value = self.queue[position]
+            except KeyError:
+                self.queue.insert(position, torrent_id)
+                return position
+            
+            if value == None:
                 self.queue[position] = torrent_id
             else:
                 self.queue.insert(position, torrent_id)
-                
-
-        try:
-            return self.queue.index(torrent_id)
-        except ValueError:
-            self.queue.append(torrent_id)
-            return self.queue.index(torrent_id)
+            
+            return position
         
     def remove(self, torrent_id):
         """Removes torrent_id from the list"""

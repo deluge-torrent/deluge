@@ -521,6 +521,10 @@ class Core(
         """Clears the ip filter"""
         self.ip_filter = lt.ip_filter()
         self.session.set_ip_filter(self.ip_filter)
+    
+    def export_get_health(self):
+        """Returns True if we have established incoming connections"""
+        return self.session.status().has_incoming_connections
 
     ## Queueing functions ##
     def export_queue_top(self, torrent_ids):

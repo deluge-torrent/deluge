@@ -154,10 +154,11 @@ class Torrent:
             component.get("TorrentManager").append_not_state_paused(self.torrent_id)
             self.handle.pause()
 
-        self.state = state
+        if state != self.state:
+            self.state = state
 
-        # Update the torrentqueue on any state changes
-        self.torrentqueue.update_queue()
+            # Update the torrentqueue on any state changes
+            self.torrentqueue.update_queue()
         
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""

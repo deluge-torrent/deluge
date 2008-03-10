@@ -1,17 +1,12 @@
-* Queue plugin 'apply_queue' stuff.. Just finishing the queue plugin and it's
-    intended functionality.
 * Figure out easy way for user-made plugins to add i18n support.
 * Restart daemon function
 * Docstrings!
 * Implement open folder
-* Maybe add pop-up menus to the status bar items
 * Address issue where torrents will redownload if the storage is moved outside
     of deluge.
 * Implement 'Classic' mode
 * Add autoload folder
 * Add wizard
-* Add a health indication to the statusbar
-* Fix up preferences for when using a remote host.. the download folders, etc..
 * Add decay items to statusbar.. items that will disappear after X seconds
 * Add command line option to change config dir.. --config
 * Add method for plugins to add labels
@@ -20,7 +15,6 @@
 * Use the batch torrent status info as a cache for other torrent status requests
 * Don't save fastresume files on exit for finished or paused torrents
 * Add Files and Peers tabs, but make them optional through View menu
-* Add per-torrent speed settings to the torrent menu
 * Add per-torrent settings to the details pane.. max_download_speed, etc.. So
     the user know what limits are set on the torrent.
 * Add number of torrents to labels
