@@ -1,7 +1,7 @@
 #
 # systemtray.py
 #
-# Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
+# Copyright (C) 2007, 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
 # Deluge is free software.
 # 
