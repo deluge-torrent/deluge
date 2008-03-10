@@ -450,8 +450,19 @@ class TorrentManager(component.Component):
         # First lets clear the queue and make it the correct length.. This will
         # help with inserting values at the right position.
         self.queue.set_size(len(state.torrents))
-
+        
+        # Reorder the state.torrents list to add torrents with .fastresume files
+        # first.
+        fr_first = []
         for torrent_state in state.torrents:
+            if os.path.exists(os.path.join(
+                    self.config["torrentfiles_location"], 
+                    torrent_state.filename, ".fastresume")):
+                fr_first.insert(0, torrent_state)
+            else:
+                fr_first.append(torrent_state)
+                   
+        for torrent_state in fr_first:
             try:
                 options = {
                     "compact_allocation": torrent_state.compact,
