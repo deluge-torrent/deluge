@@ -1,4 +1,10 @@
-Deluge 0.5.8.5 (xx March 2008)
+Deluge 0.5.8.6 (11 March 2008)
+  * Fix fast-resume deletion on shutdown
+  * Tweak saving of uploaded memory (more effective ratio)
+  * Add torrents with .fastresume files before torrents that don't
+  * Fix a UI hang (bug #72)
+
+Deluge 0.5.8.5 (28 February 2008)
   * Fix force recheck
   * Auto scraping of tracker if it doesn't report number of peers on reply
   * Fix web seed proxy preference

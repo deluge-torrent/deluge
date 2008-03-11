@@ -31,7 +31,7 @@ POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "libtorrent/pch.hpp"
-//test comment
+
 #include <iostream>
 
 #ifdef _MSC_VER
