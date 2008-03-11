@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-02-18 05:53+0000\n"
+"PO-Revision-Date: 2008-03-10 09:11+0000\n"
 "Last-Translator: Mike Sierra <Unknown>\n"
 "Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-02-28 06:56+0000\n"
+"X-Launchpad-Export-Date: 2008-03-11 19:09+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #~ msgid "Donate to Deluge Development"
@@ -60,7 +60,7 @@ msgstr "토런트 시작 또는 재시작"
 
 #: glade/delugegtk.glade:80 plugins/WebUi/scripts/template_strings.py:45
 msgid "Resume"
-msgstr "재시작"
+msgstr "계속받기"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
@@ -342,8 +342,8 @@ msgid ""
 "Name: Google\n"
 "URL: http://www.google.com/search?q=${query}"
 msgstr ""
-"새로운 검색 엔진의 이름과 URL을 추가하세요. 이름은 사용할 검색 엔진의 이름을 입력하면 됩니다. URL은 검색 페이지의 url을 "
-"입력하면 됩니다. 사용자 검색 쿼리는 URL에 ${query} 형식을 적절한 위치에 배치하여 만들수 있습니다.\n"
+"이름과 URL을 입력하여 새로운 검색 엔진을 추가할 수 있습니다. 이름에는 사용할 검색 엔진의 이름을 입력하세요. URL에는 검색 "
+"페이지의 url을 입력하세요. 사용자의 검색 쿼리는 URL에 ${query} 형식을 적절한 위치에 배치하여 만들수 있습니다.\n"
 "예를 들어, 구글로 검색하려면:\n"
 "이름: 구글\n"
 "URL: http://www.google.com/search?q=${query}"
@@ -454,7 +454,7 @@ msgstr "<b>자동으로 불러오기</b>"
 #: glade/wizard.glade:237 glade/wizard.glade:478
 msgid ""
 "The number of active torrents that Deluge will run.  Set to -1 for unlimited."
-msgstr "Deluge는 지정된 개수까지만 토런트를 활성화 할 것입니다. 무제한은 -1로 설정."
+msgstr "Deluge는 지정한 개수까지만 토런트를 활성화 할 것입니다. 무제한은 -1로 설정."
 
 #: glade/preferences_dialog.glade:243
 msgid "Maximum simultaneous active torrents:"
@@ -515,11 +515,11 @@ msgstr "<b>안내 - 이곳에서 변경된 설정 사항들은 Deluge를 재시�
 
 #: glade/preferences_dialog.glade:545 glade/wizard.glade:48
 msgid "From:"
-msgstr "보내는 곳:"
+msgstr "범위:"
 
 #: glade/preferences_dialog.glade:568 glade/wizard.glade:66
 msgid "To:"
-msgstr "받는 곳:"
+msgstr "~"
 
 #: glade/preferences_dialog.glade:594
 msgid "Deluge will automatically choose a different port to use every time."
@@ -2038,22 +2038,22 @@ msgstr ""
 
 #: plugins/ExtraStats/__init__.py:187 plugins/ExtraStats/__init__.py:191
 msgid "Undefined"
-msgstr ""
+msgstr "정의되지 않음"
 
 #: plugins/ExtraStats/__init__.py:195
 #: plugins/ExtraStats/stats_preferences.glade:52
 msgid "Overall Ratio"
-msgstr ""
+msgstr "총 비율"
 
 #: plugins/ExtraStats/__init__.py:200
 #: plugins/ExtraStats/stats_preferences.glade:66
 msgid "Torrents Completed"
-msgstr ""
+msgstr "완료된 토런트들"
 
 #: plugins/ExtraStats/__init__.py:206
 #: plugins/ExtraStats/stats_preferences.glade:80
 msgid "Running Time"
-msgstr ""
+msgstr "소요 시간"
 
 #: plugins/ExtraStats/stats_preferences.glade:7
 msgid "Extra Stats Preferences"
@@ -2067,6 +2067,8 @@ msgid ""
 "Furthermore, it allows the user to automatically have finished torrents "
 "moved to a different folder."
 msgstr ""
+"이 플러그인은 사용자가 토런트를 제거하거나 다시 더하지 않고도 다른 폴더로 옮길 수 있게 해줍니다. 이 기능은 토런트 파일위에서 오른쪽 "
+"버튼을 누르면 사용할 수 있습니다. 이 플러그인은 내려받기가 끝난 토런트를 다른 폴더로 자동이동하게 할 수 있게 해줍니다."
 
 #: plugins/MoveTorrent/__init__.py:76
 msgid "_Move Torrent"
@@ -2083,6 +2085,8 @@ msgid ""
 "that they are already stored or move a torrent's files before any of its "
 "files have actually been created."
 msgstr ""
+"토런트를 다른 파티션으로 옮길 수 없습니다. 설정을 확인하십시오. 또한 작성중인 토런트를 현재 저장된 폴더와 같은 폴더로 저장 또는 옮길 "
+"수 없습니다."
 
 #: plugins/MoveTorrent/movetorrent.glade:25
 msgid "Move completed downloads to:"

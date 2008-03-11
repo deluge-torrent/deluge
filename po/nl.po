@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-26 21:31+0000\n"
+"PO-Revision-Date: 2008-03-10 21:41+0000\n"
 "Last-Translator: elparia <marco@datarek.nl>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-02-28 06:57+0000\n"
+"X-Launchpad-Export-Date: 2008-03-11 19:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -891,7 +891,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2701
 msgid "<b>Internal Browser</b>"
-msgstr ""
+msgstr "<b>Interne browser</b>"
 
 #: glade/preferences_dialog.glade:2731
 msgid "Show the search bar on the toolbar"
@@ -899,7 +899,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2742
 msgid "<b>Search Bar</b> - restart required"
-msgstr ""
+msgstr "<b>Zoekbalk</b> - herstart vereist"
 
 #: glade/preferences_dialog.glade:2776
 msgid ""
@@ -1157,7 +1157,7 @@ msgstr ""
 
 #: src/interface.py:71
 msgid "Browser"
-msgstr ""
+msgstr "Browser"
 
 #: src/interface.py:73
 msgid "Launch Browser"
@@ -1300,7 +1300,7 @@ msgstr "Onbekende dubbele torrent fout."
 
 #: src/interface.py:1453
 msgid "There is not enough freedisk space to complete your download."
-msgstr ""
+msgstr "Er is niet genoeg vrije ruimte om de download te voltooien."
 
 #: src/interface.py:1454 src/core.py:569
 msgid "Space Needed:"
@@ -2280,7 +2280,7 @@ msgstr "Cache Templates"
 
 #: plugins/WebUi/__init__.py:209
 msgid "https://"
-msgstr ""
+msgstr "https://"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text and image"
@@ -2420,7 +2420,7 @@ msgstr "Ververs iedere:"
 
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Remove torrent"
-msgstr ""
+msgstr "Verwijder torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Resume all"
@@ -2440,7 +2440,7 @@ msgstr "Snelheid"
 
 #: plugins/WebUi/scripts/template_strings.py:53
 msgid "Start"
-msgstr ""
+msgstr "Start"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Submit"

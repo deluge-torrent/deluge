@@ -7,18 +7,18 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-02-15 14:38+0000\n"
-"Last-Translator: ZanDaTHraX <zandathrax@hotmail.com>\n"
+"PO-Revision-Date: 2008-02-28 11:55+0000\n"
+"Last-Translator: Rat <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-02-28 06:56+0000\n"
+"X-Launchpad-Export-Date: 2008-03-11 19:09+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
 msgid "Add Torrent"
-msgstr "Ajouter un torrent"
+msgstr "Ajouter Torrent"
 
 #: glade/delugegtk.glade:30 plugins/WebUi/scripts/template_strings.py:3
 msgid "Add"
@@ -26,7 +26,7 @@ msgstr "Ajouter"
 
 #: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
-msgstr "Supprimer le torrent"
+msgstr "Supprimer Torrent"
 
 #: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:43
 msgid "Remove"
@@ -34,7 +34,7 @@ msgstr "Supprimer"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
-msgstr "Nettoyer les torrents en source"
+msgstr "Nettoyer Torrents en Source"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
@@ -42,7 +42,7 @@ msgstr "Nettoyer"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
-msgstr "Démarrer ou reprendre un torrent"
+msgstr "Démarrer ou Continuer Torrent"
 
 #: glade/delugegtk.glade:80 plugins/WebUi/scripts/template_strings.py:45
 msgid "Resume"
@@ -50,7 +50,7 @@ msgstr "Reprendre"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
-msgstr "Mettre le torrent en pause"
+msgstr "Mettre en Pause Torrent"
 
 #: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
 msgid "Pause"

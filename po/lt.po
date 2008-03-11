@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-27 19:15+0000\n"
-"Last-Translator: Jonas Slivka <jonas.slivka@gmail.com>\n"
+"PO-Revision-Date: 2008-03-05 11:55+0000\n"
+"Last-Translator: Tomas Valentukevičius <Unknown>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-02-28 06:57+0000\n"
+"X-Launchpad-Export-Date: 2008-03-11 19:09+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -206,7 +206,7 @@ msgstr "Paleidžia pirmojo karto konfigūracijos vedlį"
 
 #: glade/delugegtk.glade:522
 msgid "_Run Configuration Wizard"
-msgstr ""
+msgstr "_Paleisti konfigūracijos vediklį"
 
 #: glade/delugegtk.glade:659
 msgid "<b>Name:</b>"
@@ -286,7 +286,7 @@ msgstr "Detalės"
 
 #: glade/browser.glade:85 glade/browserwin.glade:85
 msgid "Go"
-msgstr ""
+msgstr "Vykdyti"
 
 #: glade/browser.glade:118 glade/browserwin.glade:118
 msgid "Bookmarks"
@@ -321,6 +321,7 @@ msgid "URL:"
 msgstr "Adresas:"
 
 #: glade/searchdlg.glade:123
+#, fuzzy
 msgid ""
 "Add a new search engine by entering a Name and a URL.  For Name, enter the "
 "name of the search engine to be used.  For URL, enter the url of the seach "
@@ -330,6 +331,10 @@ msgid ""
 "Name: Google\n"
 "URL: http://www.google.com/search?q=${query}"
 msgstr ""
+"Pridėti naują paieškos sistemą įvedant jos pavadinimą ir universalųjį adresą "
+"(URL). Vartotojo užklausa paieškos metu pakeis ${query} dalį universaliajame "
+"adrese. Paieškos sistemos pavyzdys: Pavadinimas - Google, URL - "
+"http://www.google.com/search?q=${query} ."
 
 #: glade/searchdlg.glade:133
 msgid "Help"
@@ -470,10 +475,13 @@ msgid "<b>Torrents</b>"
 msgstr "<b>Torrentai</b>"
 
 #: glade/preferences_dialog.glade:390
+#, fuzzy
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
+"Tikslus paskirstymas rezervuoja visą reikiamą vietą torrent'o išsaugojimui "
+"taip užkirsdamas kelią disko fragmentavimuisi."
 
 #: glade/preferences_dialog.glade:391
 msgid "Use Full Allocation"

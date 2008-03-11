@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2007-12-12 12:49+0000\n"
+"PO-Revision-Date: 2008-03-03 14:29+0000\n"
 "Last-Translator: Rene Pärts <Unknown>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-02-28 06:56+0000\n"
+"X-Launchpad-Export-Date: 2008-03-11 19:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -181,15 +181,15 @@ msgstr "_Abi"
 
 #: glade/delugegtk.glade:440
 msgid "_Homepage"
-msgstr ""
+msgstr "Kodu_leht"
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
-msgstr ""
+msgstr "_KKK"
 
 #: glade/delugegtk.glade:474
 msgid "_Community"
-msgstr ""
+msgstr "Ko_mmuun"
 
 #: glade/delugegtk.glade:497
 msgid "Help translate this application"
@@ -200,7 +200,6 @@ msgid "_Translate This Application..."
 msgstr "_Tõlgi seda programmi"
 
 #: glade/delugegtk.glade:521
-#, fuzzy
 msgid "Runs the first-time configuration wizard"
 msgstr "Käivitab esmase konfiguratsiooni abimehe"
 
@@ -287,11 +286,11 @@ msgstr "Detailid"
 
 #: glade/browser.glade:85 glade/browserwin.glade:85
 msgid "Go"
-msgstr ""
+msgstr "Mine"
 
 #: glade/browser.glade:118 glade/browserwin.glade:118
 msgid "Bookmarks"
-msgstr ""
+msgstr "Järjehoidjad"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
 msgid "Launch Main Externally"
@@ -393,7 +392,6 @@ msgid "Highest"
 msgstr "Kõrgeim"
 
 #: glade/merge_dialog.glade:7
-#, fuzzy
 msgid "Deluge Merge Tracker Lists"
 msgstr "Deluge ühenda jälitajate nimekiri"
 
@@ -460,7 +458,6 @@ msgid "Only show if torrent has more than 1 file"
 msgstr "Näita juhul, kui torrentis on rohkem kui 1 fail"
 
 #: glade/preferences_dialog.glade:319 glade/preferences_dialog.glade:320
-#, fuzzy
 msgid "Prioritize first and last pieces of files in torrent"
 msgstr "Prioritiseeri torrenti esimeste ja viimaste failide tükid"
 
@@ -499,13 +496,12 @@ msgid "Downloads"
 msgstr "Allalaadimised"
 
 #: glade/preferences_dialog.glade:502
-#, fuzzy
 msgid ""
 "<b>Please Note - Changes to these settings will only be applied the next "
 "time Deluge is restarted.</b>"
 msgstr ""
-"<b>Pane Tähele - Nende seadete muudatused rakendatakse ainult järgmisel "
-"korral, kui Deluge on taaskäivitatud.</b>"
+"<b>Pane Tähele - Nende seadete muudatused rakendatakse peale Deluge "
+"taaskäivitamist.</b>"
 
 #: glade/preferences_dialog.glade:545 glade/wizard.glade:48
 msgid "From:"
@@ -585,13 +581,12 @@ msgid "Inbound:"
 msgstr "Sisenev:"
 
 #: glade/preferences_dialog.glade:864 glade/preferences_dialog.glade:886
-#, fuzzy
 msgid ""
 "Disabled\n"
 "Enabled\n"
 "Forced"
 msgstr ""
-"Blokeeritud\n"
+"Keelatud\n"
 "Lubatud\n"
 "Sunnitud"
 
@@ -600,7 +595,6 @@ msgid "Outbound:"
 msgstr "Väljuv:"
 
 #: glade/preferences_dialog.glade:904
-#, fuzzy
 msgid "Prefer to encrypt the entire stream"
 msgstr "Eelista krüpteerida kogu voog"
 
@@ -655,10 +649,12 @@ msgid ""
 "The maximum half-open connections.  A high value may crash some cheap "
 "routers.  Set -1 for unlimited."
 msgstr ""
+"Maksimaalne pool-avatud ühenduste arv. Suurt väärtus võib krahhida mõningaid "
+"odavamaid ruutereid. Määra -1 piiramatu puhul."
 
 #: glade/preferences_dialog.glade:1203 glade/wizard.glade:435
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "Maksimaalselt pool-avatud ühendusi:"
 
 #: glade/preferences_dialog.glade:1221 glade/preferences_dialog.glade:1241
 #: glade/preferences_dialog.glade:1321 glade/wizard.glade:277
@@ -709,10 +705,12 @@ msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"Maksimaalne ühendamise katsete arv sekundis. Suur väärtus võib krahhida "
+"mõningaid odavamaid ruutereid. Määra -1 piiramatu puhul."
 
 #: glade/preferences_dialog.glade:1357
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Maksimaalne ühenduste arv sekundis:"
 
 #: glade/preferences_dialog.glade:1388
 msgid "<b>Global Bandwidth Usage</b>"
@@ -835,7 +833,7 @@ msgstr "Alusta salves"
 
 #: glade/preferences_dialog.glade:2432
 msgid "Password protect system tray"
-msgstr "Parooliga kaitstud süsteemi salv"
+msgstr "Parooliga kaitstud süsteemisalv"
 
 #: glade/preferences_dialog.glade:2456
 msgid "Password:"
@@ -850,7 +848,6 @@ msgid "Custom:"
 msgstr "Kohandatud:"
 
 #: glade/preferences_dialog.glade:2556
-#, fuzzy
 msgid "Open folder with:"
 msgstr "Ava kaust koos:"
 
@@ -868,7 +865,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2618
 msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
-msgstr ""
+msgstr "<b>Töölaua failihaldur</b> - ainult mitte-Windows platvormide puhul"
 
 #: glade/preferences_dialog.glade:2649
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
@@ -884,15 +881,15 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2701
 msgid "<b>Internal Browser</b>"
-msgstr ""
+msgstr "<b>Sisebrauser</b>"
 
 #: glade/preferences_dialog.glade:2731
 msgid "Show the search bar on the toolbar"
-msgstr ""
+msgstr "Näita otsingulahtrit"
 
 #: glade/preferences_dialog.glade:2742
 msgid "<b>Search Bar</b> - restart required"
-msgstr ""
+msgstr "<b>Otsingulahter</b> - vajalik restart"
 
 #: glade/preferences_dialog.glade:2776
 msgid ""
@@ -932,7 +929,7 @@ msgstr "Muu"
 
 #: glade/torrent_menu.glade:11
 msgid "_Force Recheck"
-msgstr ""
+msgstr "_Kontrolli uuesti"
 
 #: glade/torrent_menu.glade:33
 msgid "Re_sume"
@@ -1081,7 +1078,7 @@ msgstr ""
 
 #: glade/wizard.glade:238
 msgid "Maximum Active Torrents:"
-msgstr "Maksimaalse"
+msgstr "Maksimaalselt aktiivseid torrenteid:"
 
 #: glade/wizard.glade:386
 msgid ""
@@ -1139,11 +1136,11 @@ msgstr ""
 
 #: src/interface.py:71
 msgid "Browser"
-msgstr ""
+msgstr "Brauser"
 
 #: src/interface.py:73
 msgid "Launch Browser"
-msgstr ""
+msgstr "Käivita brauser"
 
 #: src/interface.py:251
 msgid ""
@@ -1281,7 +1278,7 @@ msgstr "Tundmatu torrenti koopia viga."
 
 #: src/interface.py:1453
 msgid "There is not enough freedisk space to complete your download."
-msgstr ""
+msgstr "Allalaadimise lõpetamiseks puudub vajalik kettamaht."
 
 #: src/interface.py:1454 src/core.py:569
 msgid "Space Needed:"
@@ -1292,9 +1289,8 @@ msgid "Available Space:"
 msgstr "Saadaolev Ruum:"
 
 #: src/interface.py:1483
-#, fuzzy
 msgid "Add torrent from URL"
-msgstr "Lisa torrent URL"
+msgstr "Lisa torrenti URL"
 
 #: src/interface.py:1487
 msgid "Enter the URL of the .torrent to download"
@@ -1386,8 +1382,9 @@ msgid "HTTP code"
 msgstr "HTTP kood"
 
 #: src/core.py:676
+#, fuzzy
 msgid "times in a row"
-msgstr ""
+msgstr "korda reas"
 
 #: src/core.py:683
 msgid "Warning"
@@ -1819,7 +1816,7 @@ msgstr "TÜkk lõpetatud"
 #: plugins/EventLogging/event_logging_preferences.glade:122
 #: plugins/EventLogging/tab_log.py:170
 msgid "Storage moved"
-msgstr ""
+msgstr "Ladustus liigutatud"
 
 #: plugins/EventLogging/event_logging_preferences.glade:136
 #: plugins/EventLogging/tab_log.py:161
@@ -1930,7 +1927,7 @@ msgstr "torrent: "
 
 #: plugins/EventLogging/tab_log.py:78
 msgid "Peer message"
-msgstr ""
+msgstr "Masina sõnum"
 
 #: plugins/EventLogging/tab_log.py:78 plugins/EventLogging/tab_log.py:114
 #: plugins/EventLogging/tab_log.py:211
@@ -1952,7 +1949,7 @@ msgstr "seisundi kood: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "Times in a row: "
-msgstr ""
+msgstr "Kordi reas: "
 
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
 msgid "block index: "
@@ -2122,7 +2119,7 @@ msgstr ""
 
 #: plugins/Scheduler/plugin.py:105
 msgid "Scheduler Settings"
-msgstr ""
+msgstr "Ajakava seaded"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "High download limit:"
@@ -2175,11 +2172,11 @@ msgstr "Nupu stiil"
 
 #: plugins/WebUi/__init__.py:207
 msgid "Cache Templates"
-msgstr ""
+msgstr "Puhvri mall"
 
 #: plugins/WebUi/__init__.py:209
 msgid "https://"
-msgstr ""
+msgstr "https://"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text and image"
@@ -2303,7 +2300,7 @@ msgstr "Liiguta alla"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Queue Position"
-msgstr ""
+msgstr "Järjekorra positsioon"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Queue Up"
@@ -2319,7 +2316,7 @@ msgstr "Uuenda lehte iga:"
 
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Remove torrent"
-msgstr ""
+msgstr "Eemalda torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Resume all"
@@ -2371,7 +2368,7 @@ msgstr "Üles laetud"
 
 #: plugins/WebUi/scripts/template_strings.py:64
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: plugins/WebUi/scripts/template_strings.py:65
 msgid "seconds"
@@ -2379,7 +2376,7 @@ msgstr "sekundit"
 
 #: plugins/FlexRSS/FlexRSS.glade:6
 msgid "FlexRSS"
-msgstr ""
+msgstr "FlexRSS"
 
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
@@ -2415,7 +2412,7 @@ msgstr "Tüüp"
 
 #: plugins/FlexRSS/FlexRSS.glade:397
 msgid "Feed"
-msgstr ""
+msgstr "Kanal"
 
 #: plugins/FlexRSS/FlexRSS.glade:439
 msgid "<b>Information</b>"
@@ -2432,7 +2429,7 @@ msgstr "Kasutajalt"
 #: plugins/FlexRSS/FlexRSS.glade:565 plugins/FlexRSS/FlexRSS.glade:641
 #: plugins/FlexRSS/FlexRSS.glade:826
 msgid "Season"
-msgstr ""
+msgstr "Hooaeg"
 
 #: plugins/FlexRSS/FlexRSS.glade:594 plugins/FlexRSS/FlexRSS.glade:675
 #: plugins/FlexRSS/FlexRSS.glade:833
@@ -2441,7 +2438,7 @@ msgstr "Episood"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 msgid "Thru"
-msgstr ""
+msgstr "Läbi"
 
 #: plugins/FlexRSS/FlexRSS.glade:766
 msgid "<b>History Restriction</b>"
@@ -2507,7 +2504,7 @@ msgstr "Deluge vaikimisi"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
-msgstr ""
+msgstr "Sisu laetakse automaatselt määratud kausta."
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"
@@ -2523,7 +2520,7 @@ msgstr "Filtrid"
 
 #: plugins/FlexRSS/FlexRSS.glade:1282
 msgid "Show a FlexRSS icon in Deluge's toolbar."
-msgstr ""
+msgstr "Näita FlexRSS ikooni Deluge tööriistaribal."
 
 #: plugins/FlexRSS/FlexRSS.glade:1283
 msgid "Show button on toolbar."

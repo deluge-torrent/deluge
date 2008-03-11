@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2007-12-31 02:03+0000\n"
-"Last-Translator: zekopeko <zekopeko@gmail.com>\n"
+"PO-Revision-Date: 2008-03-02 20:13+0000\n"
+"Last-Translator: Tomislav Plavčić <tplavcic@gmail.com>\n"
 "Language-Team: Croatian <hr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-02-28 06:56+0000\n"
+"X-Launchpad-Export-Date: 2008-03-11 19:09+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -185,7 +185,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
-msgstr ""
+msgstr "_FAQ"
 
 #: glade/delugegtk.glade:474
 msgid "_Community"
@@ -201,7 +201,7 @@ msgstr "_Prevedi Ovu Aplikaciju..."
 
 #: glade/delugegtk.glade:521
 msgid "Runs the first-time configuration wizard"
-msgstr ""
+msgstr "Pokreće čarobnjaka za konfiguriranje"
 
 #: glade/delugegtk.glade:522
 msgid "_Run Configuration Wizard"
@@ -233,7 +233,7 @@ msgstr "<b>Ukupna Veličina:</b>"
 
 #: glade/delugegtk.glade:883
 msgid "<b>Path:</b>"
-msgstr ""
+msgstr "<b>Putanja:</b>"
 
 #: glade/delugegtk.glade:916
 msgid "<b>Torrent Info</b>"
@@ -289,7 +289,7 @@ msgstr "Kreni"
 
 #: glade/browser.glade:118 glade/browserwin.glade:118
 msgid "Bookmarks"
-msgstr ""
+msgstr "Favoriti"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
 msgid "Launch Main Externally"
@@ -480,22 +480,24 @@ msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
+"Puna alokacija odmah zauzima sav prostor potreban za torrent i spriječava "
+"fragmentaciju diska"
 
 #: glade/preferences_dialog.glade:391
 msgid "Use Full Allocation"
-msgstr ""
+msgstr "Koristi punu alokaciju"
 
 #: glade/preferences_dialog.glade:413
 msgid "Compact allocation only allocates space as needed"
-msgstr ""
+msgstr "Kompaktna alokacija zauzima potreban prostor prema potrebi"
 
 #: glade/preferences_dialog.glade:414
 msgid "Use Compact Allocation"
-msgstr ""
+msgstr "Koristi kompaktnu alokaciju"
 
 #: glade/preferences_dialog.glade:434
 msgid "<b>Allocation</b>"
-msgstr ""
+msgstr "<b>Alokacija</b>"
 
 #: glade/preferences_dialog.glade:458
 msgid "Downloads"
@@ -850,7 +852,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2556
 msgid "Open folder with:"
-msgstr ""
+msgstr "Otvori folder s:"
 
 #: glade/preferences_dialog.glade:2571
 msgid ""
@@ -859,10 +861,14 @@ msgid ""
 "Nautilus\n"
 "Thunar"
 msgstr ""
+"Automatska-detekcija (xdg-open)\n"
+"Konqueror\n"
+"Nautilus\n"
+"Thunar"
 
 #: glade/preferences_dialog.glade:2618
 msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
-msgstr ""
+msgstr "<b>Upravitelj datotekama</b> - samo za ne-Windows platforme"
 
 #: glade/preferences_dialog.glade:2649
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
@@ -878,11 +884,11 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2701
 msgid "<b>Internal Browser</b>"
-msgstr ""
+msgstr "<b>Interni preglednik</b>"
 
 #: glade/preferences_dialog.glade:2731
 msgid "Show the search bar on the toolbar"
-msgstr ""
+msgstr "Prikaži traku za pretraživanje na alatnoj traci"
 
 #: glade/preferences_dialog.glade:2742
 msgid "<b>Search Bar</b> - restart required"
@@ -893,14 +899,15 @@ msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
 msgstr ""
+"Deluge će provjeriti naše servere i prijaviti ako je izdana novija verzija"
 
 #: glade/preferences_dialog.glade:2777
 msgid "Be alerted about new releases"
-msgstr ""
+msgstr "Budi upozoren na nove verzije"
 
 #: glade/preferences_dialog.glade:2794
 msgid "<b>Updates</b>"
-msgstr ""
+msgstr "<b>Nadogradnje</b>"
 
 #: glade/preferences_dialog.glade:2824
 msgid ""
@@ -908,6 +915,10 @@ msgid ""
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
+"Pomognite nam da unaprijedimo Deluge tako što nam šaljete verzije Pythona i "
+"PyGTK\n"
+"koje koristite. OS i vrstu procesora. Druge informacije\n"
+"se ne šalju."
 
 #: glade/preferences_dialog.glade:2837
 #, fuzzy
@@ -1050,14 +1061,16 @@ msgid ""
 "Would you like Deluge to automatically download to a predefined location, or "
 "would you like to specify the download location every time?"
 msgstr ""
+"Želite li da Deluge automatski snima na predefiniranu lokaciju ili želite "
+"svaki puta odrediti lokaciju?"
 
 #: glade/wizard.glade:141
 msgid "Ask where to save each file"
-msgstr ""
+msgstr "Pitaj gdje snimiti svaku datoteku"
 
 #: glade/wizard.glade:165
 msgid "Store all downloads in: "
-msgstr ""
+msgstr "Snimaj sve datoteke u: "
 
 #: glade/wizard.glade:215
 msgid ""
@@ -1067,7 +1080,7 @@ msgstr ""
 
 #: glade/wizard.glade:238
 msgid "Maximum Active Torrents:"
-msgstr ""
+msgstr "Maksimalni broj aktivnih torrenta:"
 
 #: glade/wizard.glade:386
 msgid ""
@@ -1090,6 +1103,24 @@ msgid ""
 "50Mbit\n"
 "100Mbit"
 msgstr ""
+"28.8k\n"
+"56k\n"
+"64k\n"
+"96k\n"
+"128k\n"
+"192k\n"
+"256k\n"
+"384k\n"
+"512k\n"
+"640k\n"
+"768k\n"
+"1Mbit\n"
+"2Mbit\n"
+"10Mbit\n"
+"20Mbit\n"
+"40Mbit\n"
+"50Mbit\n"
+"100Mbit"
 
 #: glade/wizard.glade:419
 msgid "Your Upload Line Speed:"
@@ -1104,11 +1135,11 @@ msgstr ""
 
 #: src/interface.py:71
 msgid "Browser"
-msgstr ""
+msgstr "Preglednik"
 
 #: src/interface.py:73
 msgid "Launch Browser"
-msgstr ""
+msgstr "Pokreni preglednik"
 
 #: src/interface.py:251
 msgid ""
@@ -1203,6 +1234,8 @@ msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
 msgstr ""
+"Postoji novija verzija Deluge-a. Želite li otvoriti našu stranicu za "
+"skidanje?"
 
 #: src/interface.py:1263 plugins/WebUi/scripts/template_strings.py:11
 msgid "Connections"
@@ -1246,7 +1279,7 @@ msgstr "Nepoznata torrent pogreška."
 
 #: src/interface.py:1453
 msgid "There is not enough freedisk space to complete your download."
-msgstr ""
+msgstr "Ne postoji dovoljno slobodnog prostora za dovršenje vašeg downloada."
 
 #: src/interface.py:1454 src/core.py:569
 msgid "Space Needed:"
@@ -1434,11 +1467,11 @@ msgstr ""
 
 #: src/common.py:213
 msgid "External command"
-msgstr ""
+msgstr "Eksterna naredba"
 
 #: src/common.py:214
 msgid "not found"
-msgstr ""
+msgstr "nije pronađeno"
 
 #: plugins/BlocklistImport/__init__.py:9
 msgid ""
@@ -1653,7 +1686,7 @@ msgstr "<b>Autor</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:476
 msgid "Set Private Flag"
-msgstr ""
+msgstr "Postavi privatnu zastavicu"
 
 #: plugins/TorrentCreator/torrentcreator.glade:489
 #: plugins/TorrentCreator/torrentcreator.glade:510
@@ -1674,6 +1707,13 @@ msgid ""
 "1024 KiB\n"
 "2048 KiB\n"
 msgstr ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB\n"
+"1024 KiB\n"
+"2048 KiB\n"
 
 #: plugins/TorrentCreator/torrentcreator.glade:512
 msgid "Piece Size:"
@@ -1717,7 +1757,7 @@ msgstr ""
 
 #: plugins/TorrentNotification/notification_preferences.glade:32
 msgid "Enable event sound (requires pygame, not available on Win32)"
-msgstr ""
+msgstr "Uključi zvukove (zahtjeva pygame, nije raspoloživo na Win32)"
 
 #: plugins/TorrentNotification/notification_preferences.glade:59
 msgid "Enable blinking tray icon"
@@ -1736,7 +1776,7 @@ msgstr ""
 
 #: plugins/TorrentNotification/__init__.py:108
 msgid "Torrent complete"
-msgstr ""
+msgstr "Torrent završen"
 
 #: plugins/NetworkHealth/__init__.py:36
 msgid ""
@@ -1832,7 +1872,7 @@ msgstr "Greška datoteke"
 #: plugins/EventLogging/event_logging_preferences.glade:248
 #: plugins/EventLogging/tab_log.py:86
 msgid "Invalid request"
-msgstr ""
+msgstr "Neispravan zahtjev"
 
 #: plugins/EventLogging/event_logging_preferences.glade:262
 msgid "Peer messages"
@@ -1841,7 +1881,7 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:276
 #: plugins/EventLogging/tab_log.py:70
 msgid "Torrent finished"
-msgstr ""
+msgstr "Torrent završen"
 
 #: plugins/EventLogging/event_logging_preferences.glade:289
 msgid "Select events to log"
@@ -1873,7 +1913,7 @@ msgstr ""
 
 #: plugins/EventLogging/__init__.py:89
 msgid "Event Log"
-msgstr ""
+msgstr "Zapisnik"
 
 #: plugins/EventLogging/tab_log.py:70 plugins/EventLogging/tab_log.py:78
 #: plugins/EventLogging/tab_log.py:86 plugins/EventLogging/tab_log.py:95
@@ -1894,7 +1934,7 @@ msgstr ""
 #: plugins/EventLogging/tab_log.py:180 plugins/EventLogging/tab_log.py:190
 #: plugins/EventLogging/tab_log.py:201
 msgid "torrent: "
-msgstr ""
+msgstr "torrent: "
 
 #: plugins/EventLogging/tab_log.py:78
 msgid "Peer message"
@@ -1903,11 +1943,11 @@ msgstr ""
 #: plugins/EventLogging/tab_log.py:78 plugins/EventLogging/tab_log.py:114
 #: plugins/EventLogging/tab_log.py:211
 msgid "ip address: "
-msgstr ""
+msgstr "ip adresa: "
 
 #: plugins/EventLogging/tab_log.py:79 plugins/EventLogging/tab_log.py:86
 msgid "client: "
-msgstr ""
+msgstr "klijent: "
 
 #: plugins/EventLogging/tab_log.py:106 plugins/EventLogging/tab_log.py:181
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
@@ -1916,7 +1956,7 @@ msgstr ""
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "status code: "
-msgstr ""
+msgstr "status: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "Times in a row: "
@@ -1971,7 +2011,7 @@ msgstr "Napredak"
 
 #: plugins/TorrentFiles/tab_files.py:100
 msgid "There was an error trying to launch the file."
-msgstr ""
+msgstr "Greška prilikom pokretanja datoteke."
 
 #: plugins/TorrentFiles/__init__.py:34
 msgid ""
@@ -2021,7 +2061,7 @@ msgstr ""
 #: plugins/ExtraStats/__init__.py:195
 #: plugins/ExtraStats/stats_preferences.glade:52
 msgid "Overall Ratio"
-msgstr ""
+msgstr "Ukupan omjer"
 
 #: plugins/ExtraStats/__init__.py:200
 #: plugins/ExtraStats/stats_preferences.glade:66
@@ -2052,7 +2092,7 @@ msgstr ""
 
 #: plugins/MoveTorrent/__init__.py:95
 msgid "Choose a directory to move files to"
-msgstr ""
+msgstr "Odaberi direktorij za premještanje datoteka"
 
 #: plugins/MoveTorrent/__init__.py:123
 msgid ""
@@ -2112,31 +2152,31 @@ msgstr ""
 
 #: plugins/Scheduler/plugin.py:194
 msgid "If a limit is set to -1, it is unlimitted."
-msgstr ""
+msgstr "Ako je limit postavljen na -1 tada je neograničeno."
 
 #: plugins/WebUi/__init__.py:193
 msgid "WebUi Config"
-msgstr ""
+msgstr "WebUi konfiguracija"
 
 #: plugins/WebUi/__init__.py:201
 msgid "Port Number"
-msgstr ""
+msgstr "Broj porta"
 
 #: plugins/WebUi/__init__.py:202
 msgid "New Password"
-msgstr ""
+msgstr "Nova lozinka"
 
 #: plugins/WebUi/__init__.py:203
 msgid "New Password(confirm)"
-msgstr ""
+msgstr "Nova lozinka(potvrda)"
 
 #: plugins/WebUi/__init__.py:204
 msgid "Template"
-msgstr ""
+msgstr "Predložak"
 
 #: plugins/WebUi/__init__.py:205
 msgid "Button Style"
-msgstr ""
+msgstr "Stil dugmadi"
 
 #: plugins/WebUi/__init__.py:207
 msgid "Cache Templates"
@@ -2144,35 +2184,35 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:209
 msgid "https://"
-msgstr ""
+msgstr "https://"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text and image"
-msgstr ""
+msgstr "Tekst i slika"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Image Only"
-msgstr ""
+msgstr "Samo slika"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text Only"
-msgstr ""
+msgstr "Samo tekst"
 
 #: plugins/WebUi/__init__.py:261
 msgid "Confirmed Password <> New Password\n"
-msgstr ""
+msgstr "Potvrda lozinke <> Nova lozinka\n"
 
 #: plugins/WebUi/webserver_common.py:62
 msgid "translate something"
-msgstr ""
+msgstr "prevedi nešto"
 
 #: plugins/WebUi/deluge_webserver.py:196
 msgid "Choose an url or a torrent, not both."
-msgstr ""
+msgstr "Odaberi url ili torrent, ne oboje."
 
 #: plugins/WebUi/deluge_webserver.py:206
 msgid "no data."
-msgstr ""
+msgstr "nema podataka."
 
 #: plugins/WebUi/deluge_webserver.py:307
 msgid "refresh must be > 0"
@@ -2180,19 +2220,19 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:1
 msgid "# Of Files"
-msgstr ""
+msgstr "# datoteka"
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
-msgstr ""
+msgstr "O programu..."
 
 #: plugins/WebUi/scripts/template_strings.py:5
 msgid "Add torrent"
-msgstr ""
+msgstr "Dodaj torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:6
 msgid "Apply"
-msgstr ""
+msgstr "Primjeni"
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Auto refresh:"
@@ -2204,7 +2244,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:10
 msgid "Config"
-msgstr ""
+msgstr "Konfiguracija"
 
 #: plugins/WebUi/scripts/template_strings.py:12
 msgid "Debug:Data Dump"
@@ -2212,23 +2252,23 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:14
 msgid "Delete downloaded files."
-msgstr ""
+msgstr "Obriši preuzete datoteke."
 
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Disable"
-msgstr ""
+msgstr "Onemogući"
 
 #: plugins/WebUi/scripts/template_strings.py:20
 msgid "Downloaded"
-msgstr ""
+msgstr "Preuzeto"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Enable"
-msgstr ""
+msgstr "Uključi"
 
 #: plugins/WebUi/scripts/template_strings.py:23
 msgid "Error"
-msgstr ""
+msgstr "Greška"
 
 #: plugins/WebUi/scripts/template_strings.py:24
 msgid "Eta"
@@ -2236,27 +2276,27 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:25
 msgid "Login"
-msgstr ""
+msgstr "Korisničko ime"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Logout"
-msgstr ""
+msgstr "Odjava"
 
 #: plugins/WebUi/scripts/template_strings.py:28
 msgid "Next Announce"
-msgstr ""
+msgstr "Iduća najava"
 
 #: plugins/WebUi/scripts/template_strings.py:29
 msgid "Off"
-msgstr ""
+msgstr "Isključeno"
 
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Password is invalid,try again"
-msgstr ""
+msgstr "Kriva lozinka, pokušajte ponovno"
 
 #: plugins/WebUi/scripts/template_strings.py:33
 msgid "Pause all"
-msgstr ""
+msgstr "Pauziraj sve"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Pieces"
@@ -2264,35 +2304,35 @@ msgstr "Komadi"
 
 #: plugins/WebUi/scripts/template_strings.py:37
 msgid "Queue Down"
-msgstr ""
+msgstr "Pomakni u redu dolje"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Queue Position"
-msgstr ""
+msgstr "Pozicija u redu"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Queue Up"
-msgstr ""
+msgstr "Pomakni u redu gore"
 
 #: plugins/WebUi/scripts/template_strings.py:41
 msgid "Reannounce"
-msgstr ""
+msgstr "Ponovno najavi"
 
 #: plugins/WebUi/scripts/template_strings.py:42
 msgid "Refresh page every:"
-msgstr ""
+msgstr "Osvježi stranicu svakih:"
 
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Remove torrent"
-msgstr ""
+msgstr "Ukloni torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Resume all"
-msgstr ""
+msgstr "Nastavi sve"
 
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Set"
-msgstr ""
+msgstr "Postavi"
 
 #: plugins/WebUi/scripts/template_strings.py:49
 msgid "Set Timeout"
@@ -2308,15 +2348,15 @@ msgstr "Pokreni"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Submit"
-msgstr ""
+msgstr "Pošalji"
 
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Torrent list"
-msgstr ""
+msgstr "Lista torrenta"
 
 #: plugins/WebUi/scripts/template_strings.py:56
 msgid "Total Size"
-msgstr ""
+msgstr "Ukupna veličina"
 
 #: plugins/WebUi/scripts/template_strings.py:57
 msgid "Tracker"
@@ -2336,7 +2376,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:64
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: plugins/WebUi/scripts/template_strings.py:65
 msgid "seconds"
@@ -2344,7 +2384,7 @@ msgstr "sekunda"
 
 #: plugins/FlexRSS/FlexRSS.glade:6
 msgid "FlexRSS"
-msgstr ""
+msgstr "FlexRSS"
 
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
@@ -2356,11 +2396,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
-msgstr ""
+msgstr "Isključeno"
 
 #: plugins/FlexRSS/FlexRSS.glade:151
 msgid "Update Interval"
-msgstr ""
+msgstr "Interval ažuriranja"
 
 #: plugins/FlexRSS/FlexRSS.glade:165
 msgid "URL"
@@ -2368,7 +2408,7 @@ msgstr "URL"
 
 #: plugins/FlexRSS/FlexRSS.glade:192
 msgid "900"
-msgstr ""
+msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
 msgid "Feeds"
@@ -2376,7 +2416,7 @@ msgstr "Kanali"
 
 #: plugins/FlexRSS/FlexRSS.glade:384
 msgid "Type"
-msgstr ""
+msgstr "Vrsta"
 
 #: plugins/FlexRSS/FlexRSS.glade:397
 msgid "Feed"
@@ -2384,25 +2424,25 @@ msgstr "Kanal"
 
 #: plugins/FlexRSS/FlexRSS.glade:439
 msgid "<b>Information</b>"
-msgstr ""
+msgstr "<b>Informacije</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:511
 msgid "<b>Patterns</b>"
-msgstr ""
+msgstr "<b>Uzorci</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:549 plugins/FlexRSS/FlexRSS.glade:724
 msgid "From"
-msgstr ""
+msgstr "Od"
 
 #: plugins/FlexRSS/FlexRSS.glade:565 plugins/FlexRSS/FlexRSS.glade:641
 #: plugins/FlexRSS/FlexRSS.glade:826
 msgid "Season"
-msgstr ""
+msgstr "Sezona"
 
 #: plugins/FlexRSS/FlexRSS.glade:594 plugins/FlexRSS/FlexRSS.glade:675
 #: plugins/FlexRSS/FlexRSS.glade:833
 msgid "Episode"
-msgstr ""
+msgstr "Epizoda"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 msgid "Thru"
@@ -2414,31 +2454,31 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:810
 msgid "Doesn't Match"
-msgstr ""
+msgstr "Ne odgovara"
 
 #: plugins/FlexRSS/FlexRSS.glade:875
 msgid "Year"
-msgstr ""
+msgstr "Godina"
 
 #: plugins/FlexRSS/FlexRSS.glade:882
 msgid "Month"
-msgstr ""
+msgstr "Mjesec"
 
 #: plugins/FlexRSS/FlexRSS.glade:893
 msgid "Day"
-msgstr ""
+msgstr "Dan"
 
 #: plugins/FlexRSS/FlexRSS.glade:960
 msgid "<b>Test</b>"
-msgstr ""
+msgstr "<b>Test</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
-msgstr ""
+msgstr "Dodaj torrent na vrh reda"
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
-msgstr ""
+msgstr "Postavi stanje na pauzirano."
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
 msgid "Delete filter when matched."
@@ -2446,15 +2486,15 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
-msgstr ""
+msgstr "<b>Preuzimanje</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1084
 msgid "Replacement"
-msgstr ""
+msgstr "Zamjena"
 
 #: plugins/FlexRSS/FlexRSS.glade:1098
 msgid "Pattern"
-msgstr ""
+msgstr "Uzorak"
 
 #: plugins/FlexRSS/FlexRSS.glade:1111
 msgid "<b>Link Rewriting</b>"
@@ -2468,7 +2508,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
 msgid "Deluge default"
-msgstr ""
+msgstr "Deluge uobičajeno"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
@@ -2476,11 +2516,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"
-msgstr ""
+msgstr "Odaberi:"
 
 #: plugins/FlexRSS/FlexRSS.glade:1190
 msgid "<b>Output</b>"
-msgstr ""
+msgstr "<b>Izlaz</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1251
 msgid "Filters"
@@ -2492,11 +2532,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1283
 msgid "Show button on toolbar."
-msgstr ""
+msgstr "Pokaži dugme na alatnoj traci."
 
 #: plugins/FlexRSS/FlexRSS.glade:1300
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>Sučelje</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1331
 msgid ""
@@ -2514,20 +2554,20 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"
-msgstr ""
+msgstr "Domena"
 
 #: plugins/FlexRSS/FlexRSS.glade:1462
 msgid "Path"
-msgstr ""
+msgstr "Putanja"
 
 #: plugins/FlexRSS/FlexRSS.glade:1488
 msgid "Value"
-msgstr ""
+msgstr "Vrijednost"
 
 #: plugins/FlexRSS/FlexRSS.glade:1561
 msgid "<b>Cookies</b>"
-msgstr ""
+msgstr "<b>Kolačići</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1582
 msgid "Configuration"
-msgstr ""
+msgstr "Konfiguracija"

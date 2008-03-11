@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-02-06 23:59+0000\n"
-"Last-Translator: Spyros Theodoritsis <madmetal75@gmail.com>\n"
+"PO-Revision-Date: 2008-03-07 04:41+0000\n"
+"Last-Translator: Philippides Homer <pherecrates@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-02-28 06:57+0000\n"
+"X-Launchpad-Export-Date: 2008-03-11 19:09+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -39,7 +39,7 @@ msgstr "Αφαίρεση Torrents που ανεβάζουν"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
-msgstr "Καθαρισμός"
+msgstr "Εκκαθάριση"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"

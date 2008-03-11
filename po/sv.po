@@ -10,13 +10,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-02-21 21:51+0000\n"
-"Last-Translator: David Eurenius <Unknown>\n"
+"PO-Revision-Date: 2008-03-10 20:19+0000\n"
+"Last-Translator: davidhjelm <Unknown>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-02-28 06:57+0000\n"
+"X-Launchpad-Export-Date: 2008-03-11 19:09+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -1602,7 +1602,7 @@ msgstr "Färdig"
 
 #: plugins/BlocklistImport/text.py:129
 msgid "Got format exception for zipfile:"
-msgstr ""
+msgstr "Fick formatundantag för zipfil:"
 
 #: plugins/BlocklistImport/peerguardian.py:24
 msgid ""
@@ -2198,7 +2198,7 @@ msgstr "_Lägg till webb distribution"
 
 #: plugins/WebSeed/webseed.glade:7
 msgid "Add Web Seed"
-msgstr ""
+msgstr "Lägg till Web Seed"
 
 #: plugins/Scheduler/plugin.py:105
 msgid "Scheduler Settings"
@@ -2223,6 +2223,7 @@ msgstr "Låg uppladdningsgräns:"
 #: plugins/Scheduler/plugin.py:193
 msgid "Green is the high limits, yellow is the low limits and red is stopped"
 msgstr ""
+"Grön är de höga gränserna, gula de låga gränserna och röd betyder stoppad."
 
 #: plugins/Scheduler/plugin.py:194
 #, fuzzy
@@ -2231,7 +2232,7 @@ msgstr "Om en begränsning är satt till -1, är den obegränsad."
 
 #: plugins/WebUi/__init__.py:193
 msgid "WebUi Config"
-msgstr ""
+msgstr "Konfiguration av WebUi"
 
 #: plugins/WebUi/__init__.py:201
 msgid "Port Number"
@@ -2259,7 +2260,7 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:209
 msgid "https://"
-msgstr ""
+msgstr "https://"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text and image"
@@ -2283,7 +2284,7 @@ msgstr "översätt någonting"
 
 #: plugins/WebUi/deluge_webserver.py:196
 msgid "Choose an url or a torrent, not both."
-msgstr ""
+msgstr "Välj en url eller en torrent, inte båda."
 
 #: plugins/WebUi/deluge_webserver.py:206
 #, fuzzy
@@ -2387,7 +2388,7 @@ msgstr "Kön Nere"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Queue Position"
-msgstr ""
+msgstr "Köposition"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Queue Up"
@@ -2395,23 +2396,23 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:41
 msgid "Reannounce"
-msgstr ""
+msgstr "Återannonsera"
 
 #: plugins/WebUi/scripts/template_strings.py:42
 msgid "Refresh page every:"
-msgstr ""
+msgstr "Läs om sidan varje:"
 
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Remove torrent"
-msgstr ""
+msgstr "Ta bort torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Resume all"
-msgstr ""
+msgstr "Återstarta alla"
 
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Set"
-msgstr ""
+msgstr "Ange"
 
 #: plugins/WebUi/scripts/template_strings.py:49
 msgid "Set Timeout"
@@ -2427,7 +2428,7 @@ msgstr "Starta"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Submit"
-msgstr ""
+msgstr "Skicka"
 
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Torrent list"
@@ -2456,7 +2457,7 @@ msgstr "Uppladdat"
 
 #: plugins/WebUi/scripts/template_strings.py:64
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: plugins/WebUi/scripts/template_strings.py:65
 msgid "seconds"
@@ -2464,7 +2465,7 @@ msgstr "sekunder"
 
 #: plugins/FlexRSS/FlexRSS.glade:6
 msgid "FlexRSS"
-msgstr ""
+msgstr "FlexRSS"
 
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
@@ -2480,7 +2481,7 @@ msgstr "Inaktiverad"
 
 #: plugins/FlexRSS/FlexRSS.glade:151
 msgid "Update Interval"
-msgstr ""
+msgstr "Updatera Intervall"
 
 #: plugins/FlexRSS/FlexRSS.glade:165
 msgid "URL"
@@ -2488,7 +2489,7 @@ msgstr "Webbadress"
 
 #: plugins/FlexRSS/FlexRSS.glade:192
 msgid "900"
-msgstr ""
+msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
 msgid "Feeds"
@@ -2496,7 +2497,7 @@ msgstr "Flöden"
 
 #: plugins/FlexRSS/FlexRSS.glade:384
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 #: plugins/FlexRSS/FlexRSS.glade:397
 msgid "Feed"
@@ -2504,11 +2505,11 @@ msgstr "Flöde"
 
 #: plugins/FlexRSS/FlexRSS.glade:439
 msgid "<b>Information</b>"
-msgstr ""
+msgstr "<b>Information</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:511
 msgid "<b>Patterns</b>"
-msgstr ""
+msgstr "<b>Mönster</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:549 plugins/FlexRSS/FlexRSS.glade:724
 msgid "From"
@@ -2534,7 +2535,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:810
 msgid "Doesn't Match"
-msgstr ""
+msgstr "Matchar inte"
 
 #: plugins/FlexRSS/FlexRSS.glade:875
 msgid "Year"
@@ -2550,7 +2551,7 @@ msgstr "Dag"
 
 #: plugins/FlexRSS/FlexRSS.glade:960
 msgid "<b>Test</b>"
-msgstr ""
+msgstr "<b>Test</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
@@ -2558,7 +2559,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
-msgstr ""
+msgstr "Sätt status till pausad."
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
 msgid "Delete filter when matched."
@@ -2566,15 +2567,15 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
-msgstr ""
+msgstr "<b>Hämta</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1084
 msgid "Replacement"
-msgstr ""
+msgstr "Ersättning"
 
 #: plugins/FlexRSS/FlexRSS.glade:1098
 msgid "Pattern"
-msgstr ""
+msgstr "Mönster"
 
 #: plugins/FlexRSS/FlexRSS.glade:1111
 msgid "<b>Link Rewriting</b>"
