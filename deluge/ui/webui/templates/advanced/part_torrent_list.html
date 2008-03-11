@@ -42,7 +42,7 @@ $for torrent in torrent_list:
        <form action="/torrent/$torrent.action/$torrent.id" method="POST"
             class="pause_resume">
             <input type="image"
-            src="/static/images/$(torrent.calc_state_str)16.png"
+            src="/pixmaps/$(torrent.calc_state_str)16.png"
             name="pauseresume" value="submit" />
         </form>
        </td>

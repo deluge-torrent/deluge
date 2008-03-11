@@ -39,6 +39,8 @@ from config import config_page
 from torrent_options import torrent_options
 from torrent_move import torrent_move
 
+from deluge.common import get_pixmap
+
 #debugerror
 from debugerror import deluge_debugerror
 web.webapi.internalerror = deluge_debugerror
@@ -134,7 +136,8 @@ urls = [
     "/", "home",
     "", "home",
     "/robots.txt","robots",
-    "/template_style.css","template_style"
+    "/template_style.css","template_style",
+    "/pixmaps/(.*)","pixmaps"
 ]
 #/routing
 
@@ -472,10 +475,18 @@ class template_style:
         style = Storage()
         print render.template_style(style)
 
+class pixmaps:
+    "use the deluge-images. located in data/pixmaps"
+    def GET(self, name):
+        web.header("Content-Type", "image/png")
+        f = open(get_pixmap(name) ,'rb')
+        print f.read()
+        f.close()
+
 #/pages
 
-#for plugins..
-page_classes = dict(globals()) #test-1
+#for plugins:
+page_classes = dict(globals())
 
 def register_page(url, klass):
     urls.append(url)
@@ -486,17 +497,3 @@ def unregister_page(url):
     raise NotImplemenetedError()
     #page_classes[klass.__name__] = None
 
-"""
-class test:
-    @deco.deluge_page
-    def GET(self, name):
-        return "HI"
-
-
-register_page('/test(.*)', test)
-
-
-print urls
-print page_classes['index']
-print page_classes['test']
-"""

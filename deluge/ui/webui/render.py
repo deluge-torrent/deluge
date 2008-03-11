@@ -162,6 +162,7 @@ template.Template.globals.update({
     '_': _ , #gettext/translations
     'str': str, #because % in templetor is broken.
     'int':int,
+    'len':len,
     'deluge_int':deluge_int,
     'sorted': sorted,
     'altrow':altrow,
