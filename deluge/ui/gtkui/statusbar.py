@@ -342,7 +342,7 @@ class StatusBar(component.Component):
             value = -1
 
         if value == _("Other..."):
-            value = deluge.common.show_other_speed_dialog(
+            value = deluge.common.show_other_dialog(
                 _("Download Speed (KiB/s):"), self.max_download_speed)
             if value == None:
                 return
@@ -371,7 +371,7 @@ class StatusBar(component.Component):
             value = -1
 
         if value == _("Other..."):
-            value = deluge.common.show_other_speed_dialog(
+            value = deluge.common.show_other_dialog(
                 _("Upload Speed (KiB/s):"), self.max_upload_speed)
             if value == None:
                 return
