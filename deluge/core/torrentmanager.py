@@ -239,6 +239,9 @@ class TorrentManager(component.Component):
         else:
             storage_mode = lt.storage_mode_t(1)
         
+        # We need to pause the AlertManager momentarily to prevent alerts
+        # for this torrent being generated before a Torrent object is created.
+        component.pause("AlertManager")
         try:
             handle = self.session.add_torrent(
                                     lt.torrent_info(filedump), 
@@ -251,12 +254,15 @@ class TorrentManager(component.Component):
             
         if not handle or not handle.is_valid():
             # The torrent was not added to the session
+            component.resume("AlertManager")
             return None
 
         # Create a Torrent object
         torrent = Torrent(filename, handle, options["compact_allocation"], 
             options["download_location"], total_uploaded, trackers)
-
+        
+        component.resume("AlertManager")
+        
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
 

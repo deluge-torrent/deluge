@@ -42,21 +42,16 @@ from deluge.log import LOG as log
 class AlertManager(component.Component):
     def __init__(self, session):
         log.debug("AlertManager initialized..")
-        component.Component.__init__(self, "AlertManager")
+        component.Component.__init__(self, "AlertManager", interval=50)
         self.session = session
         self.session.set_severity_level(lt.alert.severity_levels.info)
         # handlers is a dictionary of lists {"alert_type": [handler1,h2,..]}
         self.handlers = {}
 
-    def start(self):
-        # Handle the alerts every 50 milliseconds
-        self.timer = gobject.timeout_add(50, self.handle_alerts)
-    
-    def stop(self):
-        gobject.source_remove(self.timer)
+    def update(self):
+        self.handle_alerts()
         
     def shutdown(self):
-        self.stop()
         del self.session
         del self.handlers
         
