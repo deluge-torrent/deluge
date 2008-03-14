@@ -1,0 +1,52 @@
+$def with (filters)
+<form method="GET" id="category_form">
+<input type="hidden" name="sort" value="$get('sort')">
+<input type="hidden" name="order" value="$get('order')">
+
+<div id="organize_block">
+<div id="organize_state">
+<div class="title">$_('State')</div>
+<ul>
+$for state, num in filters.state:
+    <li
+    $if state == get('state'):
+        class="selected"
+    >
+    <img src="/pixmaps/$state.lower() ">
+    <a href="$self_url(state=state)">$_(state) ($num)</a>
+    </li>
+</ul>
+
+<div class="title">$_('Trackers')</div>
+<ul>
+    <li
+    $if not get('tracker'):
+         class="selected"
+    >
+    <a href="$self_url(tracker='')">All</a>
+    </li>
+$for tracker, num in filters.tracker:
+    <li
+    $if tracker == get('tracker'):
+         class="selected"
+    >
+    <a href="$self_url(tracker=tracker)">$tracker ($num)</a>
+    </li>
+</ul>
+
+
+<div class="title">$_('Keyword')</div>
+<input type="text" name="keyword" value="$get('keyword')" style="width:100px"
+title="$_('Filter on a keyword')"
+/>
+$if get('keyword'):
+    selected
+
+</div>
+</form>
+<!--
+<img src="/pixmaps/deluge.png">
+-->
+</div>
+
+

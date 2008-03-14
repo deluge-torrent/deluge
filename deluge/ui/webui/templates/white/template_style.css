@@ -5,6 +5,7 @@ avoid copy and paste of colours.
 */
 
 
+
 /*global:*/
 body, th, td,tr , div,table , div{
 	font-family: Bitstream Vera Sans, verdana, arial, sans-serif;
@@ -40,9 +41,7 @@ div.deluge_button{
 	display:inline;
 }
 
-
 /*page from top to bottom:*/
-
 
 /*top part :*/
 #admin_toolbar {
@@ -60,15 +59,63 @@ div.deluge_button{
 	background-color:#E0ECFF;
 }
 
+
+#organize_block {
+	width:170px;
+	height:300px;
+	/*border-style:solid;
+	border-width:2px;
+	border-color:#B5EDBC;
+	-moz-border-radius:8px;*/
+	float: left;
+	margin-left: 10px;
+	margin-top:20px;
+}
+
+
+#organize_state div.title {
+	background-color:#E0ECFF;
+	margin-right:2px;
+	text-indent: 10px;
+}
+
+#organize_state ul {
+	list-style-type: none;
+	padding: 0;
+	margin-top:0px;
+}
+
+#organize_state li {
+	margin-top: 2px;
+	text-indent: 10px;
+	height:20px;
+
+}
+#organize_state li:hover {
+	/*background-color:#68a;*/
+}
+
+#organize_state li.selected {
+	background-color:#C3D9FF;
+	-moz-border-radius:5 0 0 5;
+}
+
+
+
+
+
+/*torrent table*/
+
 #torrent_list_block{
 	border-style:solid;
-	border-width:12px;
+	border-width:2 2 2 12;
 	border-color:#C3D9FF;
-	-moz-border-radius:8px;
+	-moz-border-radius:5px;
+	height:400px;
 	/*float: right;*/
 }
 
-/*torrent table*/
+
 XX#torrent_table td {
 	border-bottom-style:solid;
 	border-bottom-width:1px;
@@ -83,7 +130,6 @@ tr.altrow1 {
 		background-color:#FAFAFA; /*offf-topic-hint:allo allo*/
 }
 
-
 tr.torrent_table_selected {
 	background-color:#FFFFCC;
 }
@@ -92,32 +138,26 @@ div.progress_bar{
 	background-color:#E0ECFF;
 	/*color:blue;*/
 	/*-moz-border-radius:5px;*/ /*ff only setting*/
-	}
-
+}
 
 /*info panel:*/
 #info_panel_div {
+	width:100%;
+	margin-top:20px;
 	border-style:solid;
-	border-width:12px;
-	border-color:#B5EDBC;
-	-moz-border-radius:8px;
+	/*border-width:2 2 0 0;*/
+	border-width:2 2 2 12;
+	border-color:#74DD82;
+	-moz-border-radius:5px;
 	/*float: right;*/
 }
 
-#torrent_info_tabs {
-	/*background-color#B5EDBC;*/
-	background-color#F00;
+#torrent_info_tabs{
+	background-color:#B5EDBC;
 }
 
 
 
 
-#organize_block {
-	border-style:solid;
-	border-width:12px;
-	border-color:#B5EDBC;
-	-moz-border-radius:8px;
-	float: left;
-}
 
 /*config:*/

@@ -478,6 +478,16 @@ class template_style:
 class pixmaps:
     "use the deluge-images. located in data/pixmaps"
     def GET(self, name):
+        if not name.endswith('.png'):
+            if name == 'paused':
+                name = 'inactive'
+            if name == 'error':
+                name = 'alert'
+            name =  name + '16.png'
+
+        if not os.path.exists(get_pixmap(name)):
+            name = 'dht16.png'
+
         web.header("Content-Type", "image/png")
         f = open(get_pixmap(name) ,'rb')
         print f.read()

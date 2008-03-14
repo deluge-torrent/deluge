@@ -1,4 +1,6 @@
-/*-----------------------------------------------------------Theme Name: SimpleTheme URI: http://deluge-torrent.orgDescription: Deluge ThemeVersion: 1.0-----------------------------------------------------------*/BODY { background: #304663 url(../../static/images/simple_bg.jpg) repeat-x; font-family: Bitstream Vera,Verdana; font-size: 10pt; margin: 0;
+$def with (style)
+/*dirty css.
+*/BODY { background: #304663 url(../../static/images/simple_bg.jpg) repeat-x; font-family: Bitstream Vera,Verdana; font-size: 10pt; margin: 0;
  padding:0;
  border:0;}/* GENERIC STYLES */a img {border: 0px}hr {color: #627082; margin: 15px 0 15px 0;}
 td {font-family: Bitstream Vera,Verdana;}
