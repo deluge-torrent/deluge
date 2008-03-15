@@ -48,6 +48,7 @@ class Torrent:
     """
     def __init__(self, filename, handle, compact, save_path, total_uploaded=0,
         trackers=None):
+        log.debug("Creating torrent object %s", str(handle.info_hash()))
         # Get the core config
         self.config = ConfigManager("core.conf")
         
@@ -67,21 +68,18 @@ class Torrent:
         self.compact = compact
         # Where the torrent is being saved to
         self.save_path = save_path
-        # The state of the torrent
-        self.state = "Paused"
         
         # Holds status info so that we don't need to keep getting it from lt
         self.status = self.handle.status()
         self.torrent_info = self.handle.torrent_info()
         
         # Set the initial state
-        if self.status.state == deluge.common.LT_TORRENT_STATE["Allocating"]:
-            self.set_state("Allocating")
-        elif self.status.state == deluge.common.LT_TORRENT_STATE["Checking"]:
-            self.set_state("Checking")
+        self.state = "Checking"
+        if self.handle.is_seed():
+            self.state = "Seeding"
         else:
-            self.set_state("Paused")
-        
+            self.state = "Downloading"
+            
         # Various torrent options
         self.max_connections = -1
         self.max_upload_slots = -1
@@ -109,6 +107,8 @@ class Torrent:
         self.files = self.get_files()
         # Set the default file priorities to normal
         self.file_priorities = [1]* len(self.files)
+        
+        log.debug("Torrent object created.")
         
     def set_tracker_status(self, status):
         """Sets the tracker status"""

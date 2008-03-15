@@ -108,7 +108,7 @@ class TorrentManager(component.Component):
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
     
-        # List of torrents to note set state 'Paused' on lt alert
+        # List of torrents to not set state 'Paused' on lt alert
         self.not_state_paused = []
         
         # Register set functions
@@ -251,8 +251,10 @@ class TorrentManager(component.Component):
                                     paused=True)
         except RuntimeError, e:
             log.warning("Error adding torrent: %s", e)
-            
+        
+        log.debug("after torrent add")  
         if not handle or not handle.is_valid():
+            log.debug("torrent handle is invalid!")
             # The torrent was not added to the session
             component.resume("AlertManager")
             return None
@@ -260,12 +262,12 @@ class TorrentManager(component.Component):
         # Create a Torrent object
         torrent = Torrent(filename, handle, options["compact_allocation"], 
             options["download_location"], total_uploaded, trackers)
-        
-        component.resume("AlertManager")
-        
+        log.debug("torrent: %s", torrent)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
-
+        log.debug("self.torrents: %s", self.torrents)
+        component.resume("AlertManager")
+        
         # Add the torrent to the queue
         if queue == -1 and self.config["queue_new_to_top"]:
             self.queue.insert(0, torrent.torrent_id)
@@ -292,8 +294,10 @@ class TorrentManager(component.Component):
             torrent.state = "Queued"
         elif state == "Paused":
             torrent.state = "Paused"
-        elif state == None and not options["add_paused"]:
+        if state == None and not options["add_paused"]:
             torrent.handle.resume()
+        if state == None and options["add_paused"]:
+            torrent.state = "Paused"
             
         # Save the torrent file        
         torrent.save_torrent_file(filedump)
@@ -617,6 +621,7 @@ class TorrentManager(component.Component):
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the torrent state
+        log.debug("self.torrents: %s", self.torrents)
         if not self.torrents[torrent_id].handle.is_paused():
             if self.torrents[torrent_id].handle.is_seed():
                 self.torrents[torrent_id].set_state("Seeding")
