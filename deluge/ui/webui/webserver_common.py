@@ -98,10 +98,10 @@ CONFIG_DEFAULTS = {
     "button_style":2,
     "auto_refresh":False,
     "auto_refresh_secs": 10,
-    "template":"advanced",
+    "template":"white",
     "pwd_salt":"2\xe8\xc7\xa6(n\x81_\x8f\xfc\xdf\x8b\xd1\x1e\xd5\x90",
     "pwd_md5":".\xe8w\\+\xec\xdb\xf2id4F\xdb\rUc",
-    "cache_templates":False,
+    "cache_templates":True,
     "use_https":False
 }
 

@@ -8,13 +8,16 @@ $def with (filters)
 <div class="title">$_('State')</div>
 <ul>
 $for state, num in filters.state:
-    <li
-    $if state == get('state'):
-        class="selected"
-    >
-    <img src="/pixmaps/$state.lower() ">
-    <a href="$self_url(state=state)">$_(state) ($num)</a>
-    </li>
+    $if (num > 0) or (state == get('state')):
+        <li
+        $if state == get('state'):
+            class="selected"
+        >
+        <img src="/pixmaps/$state.lower() ">
+        <a href="$self_url(state=state)">$_(state) ($num)</a>
+        </li>
+    $else:
+        <!--ignore states with no count $state -->
 </ul>
 
 <div class="title">$_('Trackers')</div>
