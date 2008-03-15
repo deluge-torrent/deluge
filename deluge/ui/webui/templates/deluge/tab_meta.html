@@ -11,10 +11,10 @@ $def with (torrent)
 <table>
 
 <tr><td class="info_label">$_('Downloaded'):</td>
-<td class="info_value">$torrent.calc_total_downloaded</td></tr>
+<td class="info_value">$fsize(torrent.total_done)</td></tr>
 
 <tr><td class="info_label">$_('Uploaded'):</td>
-<td class="info_value">$torrent.calc_total_uploaded</td>
+<td class="info_value">$fsize(torrent.total_payload_upload)</td>
 </tr>
 
 <tr><td class="info_label">$_('Seeders'):</td>
@@ -41,10 +41,10 @@ $else:
 
 <table>
 <tr><td class="info_label">$_('Speed'):</td><td class="info_value">
-$fspeed(torrent.download_rate)</td></td></tr>
+$fspeed(torrent.download_payload_rate)</td></td></tr>
 
 <tr><td class="info_label">$_('Speed'):</td>
-<td class="info_value">$fspeed(torrent.upload_rate)</td></tr>
+<td class="info_value">$fspeed(torrent.upload_payload_rate)</td></tr>
 
 <tr><td class="info_label">$_('Peers'):</td>
 <td class="info_value">$torrent.num_peers  ($torrent.total_peers )</td></tr>

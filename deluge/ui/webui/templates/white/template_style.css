@@ -16,7 +16,9 @@ body, th, td,tr , div,table , div{
 	border-spacing:0px;
 }
 
-a { color: #0000AA;}
+a {
+	color: #0000AA;
+	}
 a:visited { color: #0000AA;}
 
 th {font-weight:normal}
@@ -39,6 +41,14 @@ a.tab_button_active {
 
 div.deluge_button{
 	display:inline;
+}
+
+div.panel {
+	border-style:solid;
+	border-width:12 2 2 12;
+	border-color:#C3D9FF;
+	-moz-border-radius:5px;
+	width:700px;
 }
 
 /*page from top to bottom:*/

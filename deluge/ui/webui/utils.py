@@ -149,15 +149,7 @@ def enhance_torrent_status(torrent_id,status):
     out: enhanced torrent_staus
     """
     status = Storage(status)
-    #add missing values for deluge 0.6:
-    #todo : Remove this!, and clean up the rest
-    for key in TORRENT_KEYS:
-        if not key in status:
-            status[key] = 0
-            #log.warning('torrent_status:empty key in status:%s' % key)
-        elif status[key] == None:
-            status[key] = 0
-            #log.warning('torrent_status:None key in status:%s' % key)
+
 
     if status.tracker == 0:
         #0.6 does not raise a decent error on non-existing torrent.
@@ -165,45 +157,12 @@ def enhance_torrent_status(torrent_id,status):
 
     status["id"] = torrent_id
 
-    #0.5-->0.6
-    status.download_rate = status.download_payload_rate
-    status.upload_rate = status.upload_payload_rate
-
-    #for naming the status-images
-    status.calc_state_str = "downloading"
-    if status.paused:
-        status.calc_state_str= "inactive"
-    elif status.state <> 2:
-        status.calc_state_str = "seeding"
-
     #action for torrent_pause
     if status.paused: #no user-paused in 0.6 !!!
         status.action = "start"
     else:
         status.action = "stop"
 
-    status.message =  _(status.state)
-
-    #add some pre-calculated values
-    status.update({
-        "calc_total_downloaded"  : (fsize(status.total_done)
-            + " (" + "??" + ")"
-            ),
-        "calc_total_uploaded": (fsize(
-            #status.uploaded_memory +
-            status.total_payload_upload) + " ("
-            + "??" + ")"),
-    })
-
-    #no non-unicode string may enter the templates.
-    #FIXED, was a translation bug..
-    if debug_unicode:
-        for k, v in status.iteritems():
-            if (not isinstance(v, unicode)) and isinstance(v, str):
-                try:
-                    status[k] = unicode(v)
-                except:
-                    raise Exception('Non Unicode for key:%s' % (k, ))
     return status
 
 def get_torrent_status(torrent_id):

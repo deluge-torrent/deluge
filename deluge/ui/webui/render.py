@@ -129,7 +129,10 @@ def template_sort_head(id,name):
     return render.sort_column_head(id, name, order, active_up, active_down)
 
 def template_part_stats():
-    return render.part_stats(get_stats())
+    try:
+        return render.part_stats(get_stats())
+    except Exception:
+        return '[not connected]'
 
 def get_config(var):
     return ws.config.get(var)

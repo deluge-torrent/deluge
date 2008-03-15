@@ -1,6 +1,6 @@
 $def with (torrent)
 
-$:(render.header(torrent.message + '/' + torrent.name))
+$:(render.header(_(torrent.state) + '/' + torrent.name))
 <div class="panel">
 $for id, title, image, flag, method, url, important in toolbar_items:
     $if (flag > 0) and (id != 'details'):
@@ -11,27 +11,6 @@ $for id, title, tab in detail_tabs:
     $:render[tab](torrent)
 
 <br>
-<!--
-[<a onclick="javascript:toggle_dump()">$_('Debug:Data Dump')</a>]
-
-<pre style="background-color:white;color:black;display:none" id="data_dump">
-$for key in sorted(torrent):
-    $key : $torrent[key]
-</pre>
-
-<script language="javascript">
-function toggle_dump(){
-    el = document.getElementById("data_dump");
-    if (el.style.display == "block"){
-        el.style.display = "none";
-    }
-    else{
-        el.style.display = "block";
-    }
-}
-</script>
--->
-
 </div>
 
 $:render.footer()
