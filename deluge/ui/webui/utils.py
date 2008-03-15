@@ -150,12 +150,11 @@ def enhance_torrent_status(torrent_id,status):
     """
     status = Storage(status)
 
-
     if status.tracker == 0:
         #0.6 does not raise a decent error on non-existing torrent.
         raise UnknownTorrentError(torrent_id)
 
-    status["id"] = torrent_id
+    status.id = torrent_id
 
     #action for torrent_pause
     if status.paused: #no user-paused in 0.6 !!!

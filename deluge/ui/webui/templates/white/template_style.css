@@ -1,7 +1,7 @@
 $def with (style)
 /*
 preprocessed style.
-avoid copy and paste of colours.
+avoid copy and pase of colours.
 */
 
 
@@ -45,10 +45,14 @@ div.deluge_button{
 
 div.panel {
 	border-style:solid;
-	border-width:12 2 2 12;
+	border-width:2px;
 	border-color:#C3D9FF;
+	background-color:#E0ECFF;
 	-moz-border-radius:5px;
 	width:700px;
+	margin-left:20px;
+	margin-top:20px;
+
 }
 
 /*page from top to bottom:*/
@@ -165,7 +169,56 @@ div.progress_bar{
 #torrent_info_tabs{
 	background-color:#B5EDBC;
 }
+/*config:*/
+#config_chooser {
+	margin-left:20px;
+	float: left;
+	width:150px;
+	text-align:left;
+	height:none;
+	background-color:#FFFFFF;
+	border:none;
+}
 
+#config_chooser ul {
+	list-style-type: none;
+	padding: 0;
+	margin-top:0px;
+}
+#config_chooser h3 {
+	background-color:#E0ECFF;
+	margin-right:2px;
+	text-indent: 10px;
+	font-size:12px;
+	font-weight:normal;
+}
+
+
+#config_chooser li {
+	margin-top: 2px;
+	text-indent: 10px;
+	height:20px;
+}
+#config_chooser li.selected {
+	background-color:#C3D9FF;
+	-moz-border-radius:5 0 0 5;
+}
+
+#config_panel {
+		height:none;
+		float:left;
+		width:500px;
+		height:500px;
+		margin-left:0px;
+		border-width:2px 2px 2px 12px;
+}
+#config_panel th {
+		text-align:right;
+}
+
+#config_panel table {
+		background-color:none;
+}
 
 
 
