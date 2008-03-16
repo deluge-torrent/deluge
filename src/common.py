@@ -228,7 +228,6 @@ def send_info(plugins=None):
                url = "http://deluge-torrent.org/stats_get.php?processor=" + \
                    platform.machine() + "&python=" + platform.python_version() \
                    + "&os=" + platform.system() + "&pygtk=" + pygtk + "&plugins=" + urllib.quote_plus(plugins)
-               print url
                urllib.urlopen(url)
            except IOError:
                print "Network error while trying to send info"
