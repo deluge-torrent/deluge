@@ -132,6 +132,13 @@ class AddTorrentDialog:
         
     def show(self):
         self.dialog.show_all()
+        if client.is_localhost():
+            self.glade.get_widget("button_location").show()
+            self.glade.get_widget("entry_download_path").hide()
+        else:
+            self.glade.get_widget("button_location").hide()
+            self.glade.get_widget("entry_download_path").show()       
+            
         return None
     
     def hide(self):
@@ -212,8 +219,13 @@ class AddTorrentDialog:
         
         options = self.options[torrent_id]
         
-        self.glade.get_widget("button_location").set_current_folder(
-            options["download_location"])
+        if client.is_localhost():
+            self.glade.get_widget("button_location").set_current_folder(
+                options["download_location"])
+        else:
+            self.glade.get_widget("entry_download_path").set_text(
+                options["download_location"])
+                
         self.glade.get_widget("radio_compact").set_active(
             options["compact_allocation"])
         self.glade.get_widget("spin_maxdown").set_value(
@@ -242,8 +254,12 @@ class AddTorrentDialog:
         torrent_id = self.torrent_liststore.get_value(row, 0)
  
         options = {}       
-        options["download_location"] = \
-            self.glade.get_widget("button_location").get_current_folder()
+        if client.is_localhost():
+            options["download_location"] = \
+                self.glade.get_widget("button_location").get_current_folder()
+        else:
+            options["download_location"] = \
+                self.glade.get_widget("entry_download_path").get_text()
         options["compact_allocation"] = \
             self.glade.get_widget("radio_compact").get_active()
         options["max_download_speed_per_torrent"] = \
@@ -275,9 +291,13 @@ class AddTorrentDialog:
             file_dict["download"] = files_priorities[i]
         
     def set_default_options(self):
-        # FIXME: does not account for remote core
-        self.glade.get_widget("button_location").set_current_folder(
-            self.core_config["download_location"])
+        if client.is_localhost():
+            self.glade.get_widget("button_location").set_current_folder(
+                self.core_config["download_location"])
+        else:
+            self.glade.get_widget("entry_download_path").set_text(
+                self.core_config["download_location"])
+               
         self.glade.get_widget("radio_compact").set_active(
             self.core_config["compact_allocation"])
         self.glade.get_widget("spin_maxdown").set_value(
