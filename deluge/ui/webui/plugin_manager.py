@@ -53,7 +53,7 @@ class PluginManager(pluginmanagerbase.PluginManagerBase,
         self.disable_plugins()
 
     def _on_get_enabled_plugins(self, enabled_plugins):
-        log.debug("Core has these plugins enabled: %s", enabled_plugins)
+        log.debug("Webui has these plugins enabled: %s", enabled_plugins)
         self.config["enabled_plugins"] = enabled_plugins
 
         # Enable the plugins that are enabled in the config and core

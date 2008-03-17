@@ -10,13 +10,7 @@ from newforms.forms import BoundField
 
 import sys, os
 
-import webpy022 as web #todo:remove this dependency.
-
-
-
-
-
-
+import web
 
 #Form
 class FilteredForm(newforms.Form):

@@ -41,7 +41,7 @@ from inspect import getargspec
 from utils import get_torrent_status,get_category_choosers, get_stats,filter_torrent_state,fsize,fspeed
 from page_decorators import remote
 from operator import attrgetter
-import lib.webpy022 as web
+import web
 from webserver_common import proxy, log
 
 def to_json(obj):

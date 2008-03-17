@@ -41,13 +41,18 @@ import config_tabs_webui #auto registers in ConfigUiManager
 import config_tabs_deluge #auto registers in ConfigUiManager
 import register_menu
 
+#debugerror
+from debugerror import deluge_debugerror
+import web
+web.webapi.internalerror = deluge_debugerror
+
 from webserver_common import ws #todo: remove ws.
 
 
 def create_webserver(urls, methods, middleware):
     from webserver_common import ws
-    from lib.webpy022.request import webpyfunc
-    from lib.webpy022 import webapi
+    from web import webpyfunc
+    from web import webapi
     from lib.gtk_cherrypy_wsgiserver import CherryPyWSGIServer
     import os
 
@@ -63,7 +68,7 @@ def create_webserver(urls, methods, middleware):
     return server
 
 def WebServer(debug = False):
-    import lib.webpy022 as web
+    import web
     from deluge import component
     if debug:
         middleware = [web.reloader]

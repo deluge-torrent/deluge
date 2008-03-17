@@ -34,7 +34,7 @@ import utils
 from render import template
 import page_decorators as deco
 import lib.newforms_plus as forms
-import lib.webpy022 as web
+import web
 
 class TorrentOptionsForm(forms.Form):
 

@@ -38,11 +38,13 @@ pretty_errors_cls = {
 }
 
 import sys, urlparse, pprint
-from lib.webpy022.net import websafe
-from lib.webpy022.template import Template
-import lib.webpy022.webapi as web
+from web import websafe
+from web import  template
+import web #import lib.webpy022.webapi as web
 import webserver_common as ws
 from traceback import format_tb
+
+Template = template.Template
 
 import os, os.path
 whereami = os.path.join(os.getcwd(), __file__)

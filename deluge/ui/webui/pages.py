@@ -45,12 +45,8 @@ from torrent_move import torrent_move
 
 from deluge.common import get_pixmap
 
-#debugerror
-from debugerror import deluge_debugerror
-web.webapi.internalerror = deluge_debugerror
-
-import lib.webpy022 as web
-from lib.webpy022.http import seeother, url
+import web
+from web import seeother, url
 from lib.static_handler import static_handler
 from torrent_add import torrent_add
 
@@ -61,7 +57,6 @@ from deluge import component
 page_manager = component.get("PageManager")
 
 #from json_api import json_api #secuity leak, todo:fix
-
 
 #routing:
 urls = [

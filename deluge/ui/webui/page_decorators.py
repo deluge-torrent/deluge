@@ -7,9 +7,9 @@ from webserver_common import ws, log, proxy
 from utils import *
 #/relative
 
-from lib.webpy022.webapi import cookies, setcookie as w_setcookie
-from lib.webpy022.http import seeother, url
-from lib.webpy022 import changequery as self_url
+from web import cookies, setcookie as w_setcookie
+from web import seeother, url
+from web import changequery as self_url
 
 #deco's:
 def deluge_page_noauth(func):

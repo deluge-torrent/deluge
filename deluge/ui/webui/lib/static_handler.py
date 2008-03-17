@@ -6,8 +6,8 @@
 static fileserving for web.py
 without the need for wsgi wrapper magic.
 """
-import webpy022 as web
-from webpy022.http import seeother, url
+import web
+from web import seeother, url
 
 import posixpath
 import urlparse

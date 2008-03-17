@@ -30,12 +30,12 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import lib.webpy022 as web
+import web
 import os
-from lib.webpy022.webapi import cookies, setcookie as w_setcookie
-from lib.webpy022 import changequery as self_url, template
-from lib.webpy022.utils import Storage
-from lib.webpy022.http import seeother, url
+from web import cookies, setcookie as w_setcookie
+from web import changequery as self_url, template
+from web import Storage
+from web import seeother, url
 
 from deluge.common import fsize,fspeed,ftime
 

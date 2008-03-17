@@ -33,10 +33,10 @@
 
 import lib.newforms_plus as forms
 import page_decorators as deco
-import lib.webpy022 as web
+import web
 from webserver_common import ws, proxy, log
 from render import render
-from lib.webpy022.http import seeother
+from web import seeother
 import sys
 import os
 import utils

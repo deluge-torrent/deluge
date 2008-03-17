@@ -34,7 +34,7 @@ from webserver_common import ws,REVNO,VERSION
 from utils import *
 #/relative
 from deluge import common
-from lib.webpy022 import changequery as self_url, template, Storage
+from web import changequery as self_url, template, Storage
 import os
 
 class subclassed_render(object):

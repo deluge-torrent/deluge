@@ -35,7 +35,7 @@ import utils
 from render import render
 import page_decorators as deco
 import lib.newforms_plus as forms
-import lib.webpy022 as web
+import web
 
 #Too much boilerplate code here, todo : fix it.
 
