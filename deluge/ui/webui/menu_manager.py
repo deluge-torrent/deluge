@@ -37,52 +37,56 @@ future : required for plugin-api.
 """
 from utils import logcall
 from render import template
+from deluge import component
 
-admin_pages = [] #[(title, url),..]
-detail_tabs = [] #[(title, url),..]
-toolbar_items = [] #((id,title ,flag ,method ,url ,image ),.. )
-
-#a storage+sorteddict ==  evildict.
-
-#toolbar:
-
-class TB:
+class TOOLBAR_FLAGS:
     generic = 0
     torrent = 1
     torrent_list = 2
 
-def register_toolbar_item(id, title, image, flag, method, url, important):
-    toolbar_items.append((id, title, image, flag, method, url, important))
-    #todo: remove lower hack.
+class MenuManager(component.Component):
+    TOOLBAR_FLAGS = TOOLBAR_FLAGS
+    def __init__(self):
+        component.Component.__init__(self, "MenuManager")
+        self.admin_pages = [] #[(title, url),..]
+        self.detail_tabs = [] #[(title, url),..]
+        self.toolbar_items = [] #((id,title ,flag ,method ,url ,image ),.. )
 
-def unregister_toolbar_item(item_id):
-    for (i, toolbar) in enumerate(admin_pages):
-        if toolbar[0] == item_id:
-            del toolbar_items[i]
 
-#admin:
+        #register vars in template.
+        template.Template.globals["admin_pages"] = self.admin_pages
+        template.Template.globals["detail_tabs"] = self.detail_tabs
+        template.Template.globals["toolbar_items"] = self.toolbar_items
 
-def register_admin_page(id, title, url):
-    admin_pages.append((id, title, url))
 
-def unregister_admin_page(page_id):
-    for (i, (id, title, url)) in list(enumerate(admin_pages)):
-        if id == page_id:
-            del admin_pages[i]
-            return
+    def register_toolbar_item(self, id, title, image, flag, method, url, important):
+        self.toolbar_items.append((id, title, image, flag, method, url, important))
+        #todo: remove lower hack.
 
-#detail:
+    def unregister_toolbar_item(self, item_id):
+        for (i, toolbar) in enumerate(admin_pages):
+            if toolbar[0] == item_id:
+                del self.toolbar_items[i]
 
-def register_detail_tab(id, title, page):
-    detail_tabs.append((id, title, page))
+    #admin:
+    def register_admin_page(self, id, title, url):
+        self.admin_pages.append((id, title, url))
 
-def unregister_detail_tab(tab_id):
-    for (i, (id, title, tab)) in list(enumerate(detail_tabs)):
-        if id == tab_id:
-            del detail_tabs[i]
-            return
+    def unregister_admin_page(page_id):
+        for (i, (id, title, url)) in list(enumerate(admin_pages)):
+            if id == page_id:
+                del self.admin_pages[i]
+                return
 
-#register vars in template.
-template.Template.globals["admin_pages"] = admin_pages
-template.Template.globals["detail_tabs"] = detail_tabs
-template.Template.globals["toolbar_items"] = toolbar_items
+    #detail:
+    def register_detail_tab(self, id, title, page):
+        self.detail_tabs.append((id, title, page))
+
+    def unregister_detail_tab(self, tab_id):
+        for (i, (id, title, tab)) in list(enumerate(detail_tabs)):
+            if id == tab_id:
+                del self.detail_tabs[i]
+                return
+
+__menu_manager = MenuManager()
+

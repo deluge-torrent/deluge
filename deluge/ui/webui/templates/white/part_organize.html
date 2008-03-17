@@ -39,11 +39,13 @@ $for tracker, num in filters.tracker:
 
 
 <div class="title">$_('Keyword')</div>
+$if get('keyword'):
+    <div style="background-color:#F00">
 <input type="text" name="keyword" value="$get('keyword')" style="width:100px"
 title="$_('Filter on a keyword')"
 />
 $if get('keyword'):
-    selected
+    </div>
 
 </div>
 </form>

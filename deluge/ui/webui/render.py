@@ -54,6 +54,8 @@ class subclassed_render(object):
         #load template-meta-data
         cfg_template = ws.config.get('template')
         template_path = os.path.join(ws.webui_path, 'templates/%s/' % cfg_template)
+        if not os.path.exists(template_path):
+            template_path = os.path.join(ws.webui_path, 'templates/deluge/')
         self.meta = Storage(eval(open(os.path.join(template_path,'meta.cfg')).read()))
 
         #load renerders
@@ -185,6 +187,5 @@ template.Template.globals.update({
 
 })
 #/template-defs
-
 
 __all__ = ['render']

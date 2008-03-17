@@ -31,29 +31,16 @@
 #  statement from all source files in the program, then also delete it here.
 #
 
-import deluge.component as component
-import deluge.pluginmanagerbase
+from deluge import component, pluginmanagerbase
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
-import lib.webpy022 as web
-import lib.newforms_plus as forms
-from render import render
-from utils import logcall
-import page_decorators as deco
-
-import pages
-import config
-
-from menu_manager import TB
-import menu_manager
-
-class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
+class PluginManager(pluginmanagerbase.PluginManagerBase,
     component.Component):
     def __init__(self):
-        component.Component.__init__(self, "PluginManager")
-        self.config = ConfigManager("gtkui.conf")
-        deluge.pluginmanagerbase.PluginManagerBase.__init__(
+        component.Component.__init__(self, "WebPluginManager")
+        self.config = ConfigManager("webui.conf")
+        pluginmanagerbase.PluginManagerBase.__init__(
             self, "webui.conf", "deluge.plugin.webui")
 
     def start(self):
@@ -73,22 +60,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         self.enable_plugins()
 
 
-    register_template_path = staticmethod(render.register_template_path)
-    unregister_template_path = staticmethod(render.unregister_template_path)
+__plugin_manager = PluginManager()
 
-    register_admin_page = staticmethod(menu_manager.register_admin_page)
-    unregister_admin_page = staticmethod(menu_manager.unregister_admin_page)
-
-    register_toolbar_item = staticmethod(menu_manager.register_toolbar_item)
-    unregister_toolbar_item = staticmethod(menu_manager.register_toolbar_item)
-
-    register_page = staticmethod(pages.register_page)
-    unregister_page = staticmethod(pages.unregister_page)
-
-    register_config_form = staticmethod(config.register_block)
-    unregister_config_form = staticmethod(config.unregister_block)
-
-
-__all__ = ['PluginManager','web','forms','render','logcall','deco','TB']
 
 

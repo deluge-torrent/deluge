@@ -141,6 +141,11 @@ class Ws:
     def init_process(self):
         self.config = pickle.load(open(self.config_file))
 
+        if self.config.get('enabled_plugins') == None:
+            self.config['enabled_plugins'] = []
+        self.save_config()
+
+
     def init_06(self, uri = 'http://localhost:58846'):
         proxy.set_core_uri(uri)
 
@@ -153,8 +158,11 @@ class Ws:
             pickle.dump(CONFIG_DEFAULTS,f)
             f.close()
 
+
         self.init_process()
         self.env   = '0.6'
+        from render import render
+        render.apply_cfg()
 
     #utils for config:
     def get_templates(self):

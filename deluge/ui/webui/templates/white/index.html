@@ -1,4 +1,6 @@
 $def with (torrent_list, organize_filters)
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html>
 <head>
     <title>Deluge:$_('Torrent list')</title>
@@ -34,6 +36,7 @@ $if organize_filters:
     $:render.part_organize(organize_filters)
 
 
+
 <table id="torrent_list_block" width="70%">
 <tr><td>
     <div id="toolbar">
@@ -44,11 +47,10 @@ $if organize_filters:
 
 </td></tr><tr><td height=100%>
 
-<!-- torrent info here?-->
+
 
 </td></tr>
 </table>
-
 
 <div class="panel" id="info_panel_div" style="width:740px;">
     <iframe
@@ -57,7 +59,10 @@ $if organize_filters:
     </iframe>
 </div>
 
+
+
 <br />
+
 
 
 

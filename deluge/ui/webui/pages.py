@@ -30,12 +30,16 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 #
+
+
+#todo: remove useless imports.
+
 from webserver_common import ws, proxy, log
 from utils import *
 import utils #todo remove the line above.
 from render import render, error_page
 import page_decorators as deco
-from config import config_page
+from config_forms import config_page
 from torrent_options import torrent_options
 from torrent_move import torrent_move
 
@@ -48,55 +52,16 @@ web.webapi.internalerror = deluge_debugerror
 import lib.webpy022 as web
 from lib.webpy022.http import seeother, url
 from lib.static_handler import static_handler
-
+from torrent_add import torrent_add
 
 from operator import attrgetter
 import os
+from deluge import component
+
+page_manager = component.get("PageManager")
 
 #from json_api import json_api #secuity leak, todo:fix
 
-#self registering pages:
-import config_tabs_webui #auto registers
-import config_tabs_deluge #auto registers
-from torrent_add import torrent_add #todo: self-register.
-
-#plugin like api's
-import menu_manager
-from menu_manager import TB
-
-#plugin-like api's : register
-
-menu_manager.register_admin_page("config", _("Config"), "/config/")
-menu_manager.register_admin_page("connect", _("Connect"), "/connect")
-menu_manager.register_admin_page("about", _("About"), "/about")
-menu_manager.register_admin_page("logout", _("Logout"), "/logout")
-
-menu_manager.register_detail_tab("details", _("Details"), "tab_meta")
-menu_manager.register_detail_tab("files", _("Files"), "tab_files")
-menu_manager.register_detail_tab("options", _("Options"), "tab_options")
-menu_manager.register_detail_tab("trackers", _("Trackers"), "tab_trackers")
-
-menu_manager.register_toolbar_item("add", _("Add"), "list-add.png" , TB.generic,
-    "GET","/torrent/add/", True)
-menu_manager.register_toolbar_item("delete",_("Delete"), "list-remove.png" ,TB.torrent_list,
-    "GET","/torrent/delete/" , True)
-menu_manager.register_toolbar_item("stop",_("Stop"), "pause.png" ,TB.torrent_list,
-    "POST","/torrent/stop/", True)
-menu_manager.register_toolbar_item("start",_("Start"), "start.png" ,TB.torrent_list,
-    "POST","/torrent/start/", True)
-menu_manager.register_toolbar_item("queue_up",_("Up"), "queue-up.png" ,TB.torrent_list,
-    "POST","/torrent/queue/up/", True)
-menu_manager.register_toolbar_item("queue_down",_("Down"), "queue-down.png" ,TB.torrent_list,
-    "POST","/torrent/queue/down/", True)
-menu_manager.register_toolbar_item("details",_("Details"), "details.png" ,TB.torrent,
-    "GET","/torrent/info/", True)
-menu_manager.register_toolbar_item("move",_("Move"), "move.png" ,TB.torrent_list,
-    "POST","/torrent/move/", True)
-
-menu_manager.register_toolbar_item("reannounce",_("Reannounce"), "view-refresh.png" ,TB.torrent_list,
-    "POST","'/torrent/reannounce/", False)
-menu_manager.register_toolbar_item("recheck",_("Recheck"), "view-refresh.png" ,TB.torrent_list,
-    "POST","'/torrent/recheck/", False)
 
 #routing:
 urls = [
@@ -140,7 +105,6 @@ urls = [
     "/pixmaps/(.*)","pixmaps"
 ]
 #/routing
-
 
 
 #pages:
@@ -495,15 +459,4 @@ class pixmaps:
 
 #/pages
 
-#for plugins:
-page_classes = dict(globals())
-
-def register_page(url, klass):
-    urls.append(url)
-    urls.append(klass.__name__)
-    page_classes[klass.__name__] = klass
-
-def unregister_page(url):
-    raise NotImplemenetedError()
-    #page_classes[klass.__name__] = None
-
+page_manager.register_pages(urls,globals())

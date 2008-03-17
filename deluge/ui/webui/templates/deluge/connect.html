@@ -1,10 +1,11 @@
 $def with (connect_list, connected)
 
-$:render.header(_("Connect to Daemon"), 'connect')
+$:render.header(_("Connect to Daemon"), 'Connect')
 
 $:render.admin_toolbar('connect')
 
 <div class="panel" align="left">
+<h2>$_("Connect")</h2>
 $if connected:
     <table><tr>
     <td>

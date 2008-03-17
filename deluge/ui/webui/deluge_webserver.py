@@ -29,16 +29,28 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
+#initialize components:
+import menu_manager #registers as "MenuManager"
+import config_page_manager #registers  as "ConfigPageManager"
+import plugin_manager #registers  as "WebPluginManager"
+import page_manager #registers as "PageManager"
 
-from webserver_common import ws
+#self registering pages etc.
+import pages
+import config_tabs_webui #auto registers in ConfigUiManager
+import config_tabs_deluge #auto registers in ConfigUiManager
+import register_menu
 
-from lib.webpy022.request import webpyfunc
-from lib.webpy022 import webapi
-from lib.gtk_cherrypy_wsgiserver import CherryPyWSGIServer
-import lib.webpy022 as web
-import os
+from webserver_common import ws #todo: remove ws.
+
 
 def create_webserver(urls, methods, middleware):
+    from webserver_common import ws
+    from lib.webpy022.request import webpyfunc
+    from lib.webpy022 import webapi
+    from lib.gtk_cherrypy_wsgiserver import CherryPyWSGIServer
+    import os
+
     func = webapi.wsgifunc(webpyfunc(urls, methods, False), *middleware)
     server_address=("0.0.0.0", int(ws.config.get('port')))
 
@@ -51,13 +63,14 @@ def create_webserver(urls, methods, middleware):
     return server
 
 def WebServer(debug = False):
+    import lib.webpy022 as web
+    from deluge import component
     if debug:
         middleware = [web.reloader]
     else:
         middleware = []
-
-    import pages
-    return create_webserver(pages.urls, pages.page_classes, middleware)
+    pagemanager = component.get("PageManager")
+    return create_webserver(pagemanager.urls, pagemanager.page_classes, middleware)
 
 def run(debug = False):
     server = WebServer(debug)

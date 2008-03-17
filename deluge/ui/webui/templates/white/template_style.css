@@ -32,6 +32,22 @@ img{
 }
 
 /*controls:*/
+div.error {
+	background-color:#FFFFFF;
+	color:#AA0000;
+	font-weight:bold;
+	-moz-border-radius:10px;
+	width:200px;
+	margin-bottom:20px;
+	padding:10px;
+
+}
+div.info {
+	background-color:#FFFFFF;
+    color: #0000AA;
+	font-weight:bold;
+}
+
 a.tab_button_active {
 	color: #0000AA;
 	text-decoration:none;
@@ -47,13 +63,24 @@ div.panel {
 	border-style:solid;
 	border-width:2px;
 	border-color:#C3D9FF;
-	background-color:#E0ECFF;
+	background-color:#FAFAFA; /*offf-topic-hint:allo allo*/
 	-moz-border-radius:5px;
 	width:700px;
 	margin-left:20px;
 	margin-top:20px;
 
 }
+
+h2 {
+		background-color:#E0ECFF;
+		margin:0;
+}
+
+h3 {
+		background-color:#E0ECFF;
+		margin:0;
+}
+
 
 /*page from top to bottom:*/
 
@@ -216,9 +243,6 @@ div.progress_bar{
 		text-align:right;
 }
 
-#config_panel table {
-		background-color:none;
-}
 
 
 

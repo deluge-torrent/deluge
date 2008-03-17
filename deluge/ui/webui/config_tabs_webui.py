@@ -31,13 +31,17 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import lib.newforms_plus as forms
-import config
+
 import utils
-from webserver_common import ws
+from webserver_common import ws, log
+import lib.newforms_plus as forms
+import config_forms
+from deluge import component
 
+config_page = component.get("ConfigPageManager")
+plugins = component.get("WebPluginManager")
 
-class Template(config.WebCfgForm):
+class Template(config_forms.WebCfgForm):
     title = _("Template")
 
     _templates = [(t,t) for t in ws.get_templates()]
@@ -52,19 +56,15 @@ class Template(config.WebCfgForm):
         from render import render
         render.apply_cfg()
 
-
-class Server(config.WebCfgForm):
+class Server(config_forms.WebCfgForm):
     title = _("Server")
+    port = forms.IntegerField(label = _("Port"),min_value=80)
+    use_https = forms.CheckBox(_("Use https"))
 
     try:
         import OpenSSL
     except ImportError:
         info = _("pyopenssl not installed, install this for https.")
-
-    port = forms.IntegerField(label = _("Port"),min_value=80)
-
-    use_https = forms.CheckBox(_("Use https"))
-
 
     def post_save(self):
         pass
@@ -93,6 +93,21 @@ class Password(forms.Form):
         utils.end_session()
         #raise forms.ValidationError(_("Password changed,please login again"))
 
-config.register_block('webui','template', Template)
-config.register_block('webui','server',Server)
-config.register_block('webui','password',Password)
+class WebUiPlugins(forms.Form):
+    title = _("WebUi Plugins")
+
+    _choices = [(p,p) for p in plugins.get_available_plugins()]
+    enabled_plugins = forms.MultipleChoice(_(""), _choices)
+
+    def initial_data(self):
+        return {'enabled_plugins':plugins.get_enabled_plugins()}
+
+    def save(self, data):
+        log.debug()
+        for plugin_name in data['enabled_plugins']:
+            plugins.enable_plugin(plugin_name)
+
+config_page.register('webui','template', Template)
+config_page.register('webui','server',Server)
+config_page.register('webui','password',Password)
+config_page.register('webui','webuiplugins',WebUiPlugins)

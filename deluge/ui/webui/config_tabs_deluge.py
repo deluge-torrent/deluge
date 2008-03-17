@@ -31,13 +31,16 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import lib.newforms_plus as forms
-import config
 import utils
 from webserver_common import ws, proxy , log
+import lib.newforms_plus as forms
+import config_forms
+from deluge import component
+
+config_page = component.get("ConfigPageManager")
 
 
-class NetworkPorts(config.CfgForm ):
+class NetworkPorts(config_forms.CfgForm ):
     title = _("Ports")
     info = _("Restart daemon after changing these values.")
     _port_from =  forms.IntegerField(_("From"))
@@ -45,7 +48,7 @@ class NetworkPorts(config.CfgForm ):
     random_port = forms.CheckBox(_("Random"))
 
     def initial_data(self):
-        data = config.CfgForm.initial_data(self)
+        data = config_forms.CfgForm.initial_data(self)
         data['_port_from'] , data['_port_to'] = data['listen_ports']
         return data
 
@@ -53,15 +56,15 @@ class NetworkPorts(config.CfgForm ):
         data['listen_ports'] = [data['_port_from'] , data['_port_to'] ]
         del(data['_port_from'])
         del(data['_port_to'])
-        config.CfgForm.save(self, data)
+        config_forms.config.CfgForm.save(self, data)
 
     def validate(self, data):
         if (data['_port_to'] < data['_port_from']):
             raise ValidationError('"Port from" must be greater than "Port to"')
 
-config.register_block('network','ports', NetworkPorts)
+config_page.register('network','ports', NetworkPorts)
 
-class NetworkExtra(config.CfgForm ):
+class NetworkExtra(config_forms.CfgForm ):
     title = _("Extra's")
     dht = forms.CheckBox(_("Mainline DHT"))
     upnp = forms.CheckBox(_("UpNP"))
@@ -69,9 +72,9 @@ class NetworkExtra(config.CfgForm ):
     utpex = forms.CheckBox(_("Peer-Exchange"))
     lsd = forms.CheckBox(_("LSD"))
 
-config.register_block('network','extra', NetworkExtra)
+config_page.register('network','extra', NetworkExtra)
 
-class NetworkEnc(config.CfgForm ):
+class NetworkEnc(config_forms.CfgForm ):
     title = _("Encryption")
 
     _enc_choices = list(enumerate([_("Forced"),_("Enabled"),_("Disabled")]))
@@ -82,10 +85,10 @@ class NetworkEnc(config.CfgForm ):
     enc_level = forms.IntChoiceField(_("Level"), _level_choices)
     enc_prefer_rc4 =  forms.CheckBox("Prefer to encrypt entire stream")
 
-config.register_block('network','encryption', NetworkEnc)
+config_page.register('network','encryption', NetworkEnc)
 
 
-class BandwithGlobal(config.CfgForm):
+class BandwithGlobal(config_forms.CfgForm):
     title = _("Global")
     info = _("-1 = Unlimited")
     max_connections_global = forms.DelugeInt(_("Maximum Connections"))
@@ -93,18 +96,18 @@ class BandwithGlobal(config.CfgForm):
     max_upload_speed = forms.DelugeFloat(_("Maximum Upload Speed (Kib/s)"))
     max_upload_slots_global = forms.DelugeInt(_("Maximum Upload Slots"))
 
-config.register_block('bandwidth','global', BandwithGlobal)
+config_page.register('bandwidth','global', BandwithGlobal)
 
-class BandwithTorrent(config.CfgForm):
+class BandwithTorrent(config_forms.CfgForm):
     title = _("Per Torrent")
     info = _("-1 = Unlimited")
     max_connections_per_torrent = forms.DelugeInt(_("Maximum Connections"))
     max_upload_slots_per_torrent = forms.DelugeInt(_("Maximum Upload Slots"))
 
-config.register_block('bandwidth','torrent', BandwithTorrent)
+config_page.register('bandwidth','torrent', BandwithTorrent)
 
 
-class Download(config.CfgForm):
+class Download(config_forms.CfgForm):
     title = _("Download")
     download_location = forms.ServerFolder(_("Store all downoads in"))
     torrentfiles_location = forms.ServerFolder(_("Save .torrent files to"))
@@ -113,15 +116,15 @@ class Download(config.CfgForm):
     prioritize_first_last_pieces = forms.CheckBox(
         _('Prioritize first and last pieces'))
 
-config.register_block('deluge','download', Download)
+config_page.register('deluge','download', Download)
 
-class Daemon(config.CfgForm):
+class Daemon(config_forms.CfgForm):
     title = _("Daemon")
     info = _("Restart daemon and webui after changing these settings")
     daemon_port     = forms.IntegerField(_("Port"))
     allow_remote = forms.CheckBox(_("Allow Remote Connections"))
 
-config.register_block('deluge','daemon', Daemon)
+config_page.register('deluge','daemon', Daemon)
 
 class Plugins(forms.Form):
     title = _("Enabled Plugins")
@@ -139,9 +142,9 @@ class Plugins(forms.Form):
     def save(self, value):
         raise forms.ValidationError("SAVE:TODO")
 
-config.register_block('deluge','plugins', Plugins)
+config_page.register('deluge','plugins', Plugins)
 
-
+"""
 class Queue(forms.Form):
     title = _("Queue")
     info = _("queue-cfg not finished")
@@ -159,4 +162,5 @@ class Queue(forms.Form):
     def save(self, value):
         raise forms.ValidationError("SAVE:TODO")
 
-config.register_block('plugins','queue', Queue)
+config_page.register('plugins','queue', Queue)
+"""

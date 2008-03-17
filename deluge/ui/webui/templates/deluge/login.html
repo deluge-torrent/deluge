@@ -1,6 +1,8 @@
 $def with (error)
 $:render.header(_('Login'))
 <div class="panel">
+<h2>$_("Deluge Login")</h2>
+
 $if error > 0:
     <div class="error">$_("Password is invalid,try again")</div>
 

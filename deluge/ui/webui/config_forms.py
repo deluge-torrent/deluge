@@ -40,9 +40,9 @@ from lib.webpy022.http import seeother
 import sys
 import os
 import utils
+from deluge import component
 
-groups = []
-blocks = forms.utils.datastructures.SortedDict()
+config_page_manager = component.get("ConfigPageManager")
 
 class WebCfgForm(forms.Form):
     "config base for webui"
@@ -76,9 +76,9 @@ class config_page:
     """
     def get_form_class(self,name):
         try:
-            return blocks[name]
+            return config_page_manager.blocks[name]
         except KeyError:
-            raise Exception('no config page named:"%s"')
+            raise Exception('no config page named:"%s"' % name)
 
     @deco.deluge_page
     def GET(self, name):
@@ -109,18 +109,4 @@ class config_page:
                 error= _('Correct the errors above and try again'))
 
     def render(self, f , name , message = '' , error=''):
-        return render.config(groups, blocks, f, name , message , error)
-
-def register_block(group, name, form):
-    if not group in groups:
-        groups.append(group)
-    form.group = group
-    blocks[name] = form
-
-def unregister_block(name):
-    del blocks[name]
-
-
-
-
-
+        return render.config(config_page_manager.groups, config_page_manager.blocks, f, name , message , error)
