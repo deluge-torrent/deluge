@@ -130,7 +130,8 @@ class StatusBar(component.Component):
         self.statusbar.show_all()
         # Create the not connected item
         self.not_connected_item = StatusBarItem(
-            stock=gtk.STOCK_STOP, text=_("Not Connected"))
+            stock=gtk.STOCK_STOP, text=_("Not Connected"), 
+            callback=self._on_notconnected_item_clicked)
         # Show the not connected status bar
         self.show_not_connected()
 
@@ -412,3 +413,6 @@ class StatusBar(component.Component):
         
     def _on_health_icon_clicked(self, widget, event):
         component.get("Preferences").show("Network")
+
+    def _on_notconnected_item_clicked(self, widget, event):
+        component.get("ConnectionManager").show()
