@@ -64,7 +64,9 @@ class ToolBar(component.Component):
             "toolbutton_add",
             "toolbutton_remove",
             "toolbutton_pause",
-            "toolbutton_resume"
+            "toolbutton_resume",
+            "toolbutton_queue_up",
+            "toolbutton_queue_down"
         ]
         
         # Set the Remove Torrent toolbuttons drop-down menu

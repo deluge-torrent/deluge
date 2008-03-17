@@ -102,7 +102,11 @@ class MainWindow(component.Component):
     def visible(self):
         """Returns True if window is visible, False if not."""
         return self.window.get_property("visible")
-               
+    
+    def get_glade(self):
+        """Returns a reference to the main window glade object."""
+        return self.main_glade
+                   
     def quit(self):
         del self.config
         gtk.main_quit()
