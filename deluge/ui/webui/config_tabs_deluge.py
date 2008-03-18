@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 # deluge_webserver.py
@@ -38,7 +37,6 @@ import config_forms
 from deluge import component
 
 config_page = component.get("ConfigPageManager")
-
 
 class NetworkPorts(config_forms.CfgForm ):
     title = _("Ports")
@@ -105,7 +103,6 @@ class BandwithTorrent(config_forms.CfgForm):
     max_upload_slots_per_torrent = forms.DelugeInt(_("Maximum Upload Slots"))
 
 config_page.register('bandwidth','torrent', BandwithTorrent)
-
 
 class Download(config_forms.CfgForm):
     title = _("Download")

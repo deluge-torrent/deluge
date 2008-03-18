@@ -10,7 +10,7 @@ from newforms.forms import BoundField
 
 import sys, os
 
-import web
+import webpy022 as web
 
 #Form
 class FilteredForm(newforms.Form):
