@@ -103,7 +103,7 @@ class WebUiPlugins(forms.Form):
         return {'enabled_plugins':plugins.get_enabled_plugins()}
 
     def save(self, data):
-        log.debug()
+        log.debug(data)
         for plugin_name in data['enabled_plugins']:
             plugins.enable_plugin(plugin_name)
 

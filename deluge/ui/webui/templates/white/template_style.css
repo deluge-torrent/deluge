@@ -5,7 +5,6 @@ avoid copy and pase of colours.
 */
 
 
-
 /*global:*/
 body, th, td,tr , div,table , div{
 	font-family: Bitstream Vera Sans, verdana, arial, sans-serif;
@@ -138,7 +137,7 @@ h3 {
 
 #organize_state li.selected {
 	background-color:#C3D9FF;
-	-moz-border-radius:5 0 0 5;
+	-moz-border-radius:5px 0px 0px 5px;
 }
 
 
@@ -149,7 +148,7 @@ h3 {
 
 #torrent_list_block{
 	border-style:solid;
-	border-width:2 2 2 12;
+	border-width:2px 2px 2px 12px;
 	border-color:#C3D9FF;
 	-moz-border-radius:5px;
 	height:400px;
