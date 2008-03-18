@@ -168,7 +168,8 @@ class TorrentManager(component.Component):
         """Appends to a list of torrents that we will not set state Paused to
         when we receive the paused alert from libtorrent.  The torrents are removed
         from this list once we receive the alert they have been paused in libtorrent."""
-        self.not_state_paused.append(torrent_id)
+        if torrent_id not in self.not_state_paused:
+            self.not_state_paused.append(torrent_id)
             
     def add(self, filename, filedump=None, options=None, total_uploaded=0, 
             trackers=None, queue=-1, state=None, save_state=True):

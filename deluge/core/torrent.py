@@ -151,11 +151,11 @@ class Torrent:
             log.debug("Trying to set an invalid state %s", state)
             return
 
-        if state == "Queued" and not self.handle.is_paused():
-            component.get("TorrentManager").append_not_state_paused(self.torrent_id)
-            self.handle.pause()
-
         if state != self.state:
+            if state == "Queued" and not self.handle.is_paused():
+                component.get("TorrentManager").append_not_state_paused(self.torrent_id)
+                self.handle.pause()
+
             self.state = state
 
             # Update the torrentqueue on any state changes
