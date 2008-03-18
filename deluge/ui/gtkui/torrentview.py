@@ -246,14 +246,10 @@ class TorrentView(listview.ListView, component.Component):
     
         # Create list of torrent_ids in need of status updates
         torrent_ids = []
-        row = self.liststore.get_iter_first()
-        while row != None:
+        for row in self.liststore:
             # Only add this torrent_id if it's not filtered
-            if self.liststore.get_value(
-                row, self.columns["filter"].column_indices[0]) == True:
-                torrent_ids.append(self.liststore.get_value(
-                    row, self.columns["torrent_id"].column_indices[0]))
-            row = self.liststore.iter_next(row)
+            if row[self.columns["filter"].column_indices[0]] == True:
+                torrent_ids.append(row[self.columns["torrent_id"].column_indices[0]])
 
         if torrent_ids == []:
             return
@@ -265,25 +261,22 @@ class TorrentView(listview.ListView, component.Component):
     
     def update_filter(self):
         # Update the filter view
-        def foreachrow(model, path, row, data):
+        for row in self.liststore:
             filter_column = self.columns["filter"].column_indices[0]
             # Create a function to create a new liststore with only the
             # desired rows based on the filter.
-            field, condition = data
+            field, condition = self.filter
             if field == None and condition == None:
-                model.set_value(row, filter_column, True)
-                return
-                
-            torrent_id = model.get_value(row, 0)
-            value = model.get_value(row, self.get_state_field_column(field))
+                row[filter_column] = True
+                continue
+
+            value = row[self.get_state_field_column(field)]
 
             # Condition is True, so lets show this row, if not we hide it
             if value == condition:
-                model.set_value(row, filter_column, True)
+                row[filter_column] = True
             else:
-                model.set_value(row, filter_column, False)
-
-        self.liststore.foreach(foreachrow, self.filter)
+                row[filter_column] = False
             
     def update(self):
         # Send a status request
@@ -295,10 +288,8 @@ class TorrentView(listview.ListView, component.Component):
         """
         # Update the torrent view model with data we've received
         status = self.status
-        row = self.liststore.get_iter_first()
-        while row != None:
-            torrent_id = self.liststore.get_value(
-                row, self.columns["torrent_id"].column_indices[0])
+        for row in self.liststore:
+            torrent_id = row[self.columns["torrent_id"].column_indices[0]]
             if torrent_id in status.keys():
                 # Set values for each column in the row
                 for column in self.columns_to_update:
@@ -308,13 +299,10 @@ class TorrentView(listview.ListView, component.Component):
                         # update
                         try:
                             # Only update if different
-                            if self.liststore.get_value(row, column_index) != \
-                                status[torrent_id][
-                                    self.columns[column].status_field[0]]:
-                                self.liststore.set_value(row,
-                                    column_index,
-                                    status[torrent_id][
-                                        self.columns[column].status_field[0]])
+                            if row[column_index] != \
+                                status[torrent_id][self.columns[column].status_field[0]]:
+                                row[column_index] = status[torrent_id][
+                                        self.columns[column].status_field[0]]
                         except (TypeError, KeyError), e:
                             log.warning("Unable to update column %s: %s", 
                                 column, e)
@@ -324,19 +312,17 @@ class TorrentView(listview.ListView, component.Component):
                             # Only update the column if the status field exists
                             try:
                                 # Only update if different
-                                if self.liststore.get_value(row, index) != \
+                                if row[index] != \
                                     status[torrent_id][
                                         self.columns[column].status_field[
                                             column_index.index(index)]]:
                                             
-                                    self.liststore.set_value(row,
-                                        index,
+                                    row[index] = \
                                         status[torrent_id][
                                             self.columns[column].status_field[
-                                                column_index.index(index)]])
+                                                column_index.index(index)]]
                             except:
                                 pass
-            row = self.liststore.iter_next(row)
 
     def _on_get_torrents_status(self, status):
         """Callback function for get_torrents_status().  'status' should be a
@@ -363,16 +349,14 @@ class TorrentView(listview.ListView, component.Component):
         
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""
-        row = self.liststore.get_iter_first()
-        while row is not None:
+        for row in self.liststore:
             # Check if this row is the row we want to remove
-            if self.liststore.get_value(row, 0) == torrent_id:
-                self.liststore.remove(row)
+            if row[0] == torrent_id:
+                self.liststore.remove(row.iter)
                 # Force an update of the torrentview
                 self.update()
                 self.update_filter()
                 break
-            row = self.liststore.iter_next(row)
         
     def get_selected_torrent(self):
         """Returns a torrent_id or None.  If multiple torrents are selected,
