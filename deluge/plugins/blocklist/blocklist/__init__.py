@@ -4,19 +4,19 @@
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # Copyright (C) 2008 Mark Stahler ('kramed') <markstahler@gmail.com>
 
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 2 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 #     The Free Software Foundation, Inc.,
@@ -48,9 +48,19 @@ class CorePlugin(PluginBase):
 
 class GtkUIPlugin(PluginBase):
     def __init__(self, plugin_api, plugin_name):
-        # Load the GtkUI portion of the plugin        
+        # Load the GtkUI portion of the plugin
         try:
             from gtkui import GtkUI
             self.plugin = GtkUI(plugin_api, plugin_name)
         except Exception, e:
             log.debug("Did not load a GtkUI plugin: %s", e)
+
+class WebUIPlugin(PluginBase):
+    def __init__(self, plugin_api, plugin_name):
+        # Load the GtkUI portion of the plugin
+        try:
+            from webui import WebUI
+            self.plugin = WebUI(plugin_api, plugin_name)
+        except Exception, e:
+            log.debug("Did not load a WebUI plugin: %s", e)
+
