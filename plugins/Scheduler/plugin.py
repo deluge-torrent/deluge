@@ -13,34 +13,43 @@ class plugin_Scheduler:
         self.config = deluge.pref.Preferences()
         self.button_state_temp = [[0] * 7 for dummy in xrange(24)]
         self.status = -1
-        self.prevact = None
 
         #Load config
         self.button_state = None
-        self.dllimit = self.ullimit = None
-        self.dlmax = self.ulmax = None
+        self.settings_structure = [["low_down", "max_download_speed", float], 
+                                   ["low_up", "max_upload_speed", float], 
+                                   ["high_down", "max_download_speed", float], 
+                                   ["high_up", "max_upload_speed", float],
+                                   ["low_activetorrents", "max_active_torrents", float],
+                                   ["low_numslots", "max_upload_slots_global", float],
+                                   ["low_maxconns", "max_connections_global", float],
+                                   ["high_activetorrents", "max_active_torrents", float],
+                                   ["high_numslots", "max_upload_slots_global", float],
+                                   ["high_maxconns", "max_connections_global", float]]
+                
+        self.settings = {}
+        
         try:
             reader = open(self.conf_file, "rb")
             data = pickle.load(reader)
+            
             self.button_state = data[0]
-            self.dllimit = float(data[1][0])
-            self.ullimit = float(data[1][1])
-            self.dlmax = float(data[1][2])
-            self.ulmax = float(data[1][3])
+            for i, item in enumerate(self.settings_structure):
+                self.settings[item[0]] = data[1][i]
+
             reader.close()
         except:
             if self.button_state is None:
                 self.button_state = [[0] * 7 for dummy in xrange(24)]
-            gdl = self.config.get("max_download_speed")
-            gul = self.config.get("max_upload_speed")
-            if self.dllimit is None:
-                self.dllimit = float(gdl)
-            if self.ullimit is None:
-                self.ullimit = float(gul)
-            if self.dlmax is None:
-                self.dlmax = float(gdl)
-            if self.ulmax is None:
-                self.ulmax = float(gul)
+                
+            for item in self.settings_structure:
+                if item[0] not in self.settings:
+                    temp = self.config.get(item[1])
+                    
+                    if item[2] is not None:
+                        temp = item[2](temp)
+                    
+                    self.settings[item[0]] = temp
 
         now = time.localtime(time.time())
         self.status = self.button_state[now[3]][now[6]]
@@ -48,25 +57,21 @@ class plugin_Scheduler:
 
         # Force speed changes when the plugin loads
         self._state(self.status)
-
+    
     def unload(self):
         self.status = -1
-        self.resume()
         self.unlimit()
 
-    def _state(self,state):
+    def _state(self, state):
         if state == 0:
             self.unlimit()
         elif state == 1:
             self.limit()
         elif state == 2:
             self.pause()
-        # If we're moving from paused
-        if state < 2 and self.status == 2:
-            self.resume()
-        self.status = state
+        
         # Update the settings
-        self.interface.apply_prefs()
+        self.status = state
 
     def update(self):
         # Only do stuff if the status is valid
@@ -80,29 +85,37 @@ class plugin_Scheduler:
                 self._state(self.button_state[now[3]][now[6]])
 
     def pause(self):
-        self.prevact = self.config.get("max_active_torrents")
         self.config.set("max_active_torrents", 0)
-        self.core.apply_queue()
-
-    def resume(self):
-        if self.prevact != None:
-            self.config.set("max_active_torrents", self.prevact)
-        self.core.apply_queue()
 
     def limit(self):
-        self.config.set("max_download_speed", float(self.dllimit))
-        self.config.set("max_upload_speed", float(self.ullimit))
+        self.apply_configuration("low")
 
     def unlimit(self):
-        self.config.set("max_download_speed", float(self.dlmax))
-        self.config.set("max_upload_speed", float(self.ulmax))
+        self.apply_configuration("high")
 
+    def apply_configuration(self, type):
+        for item in self.settings_structure:
+            if item[0].find(type) == 0:
+                self.config.set(item[1], self.settings[item[0]])
+        
+        self.core.apply_queue()
+        self.interface.apply_prefs()
+    
     #Configuration dialog
     def configure(self, window):
         global scheduler_select
 
         self.button_state_temp = copy.deepcopy(self.button_state)
-
+        
+        #data
+        spin = {}
+        boxen = [
+                 ["down", _("Download limit:"), -1, 2048], 
+                 ["up", _("Upload limit:"), -1, 1024],
+                 ["activetorrents", _("Active torrents:"), 0, 128],
+                 ["numslots", _("Upload Slots:"), 0, 128],
+                 ["maxconns", _("Max Connections:"), 0, 1024]]
+        
         #dialog
         dialog = gtk.Dialog(_("Scheduler Settings"))
         dialog.set_default_size(600, 270)
@@ -114,11 +127,6 @@ class plugin_Scheduler:
         #text
         hover_text = gtk.Label()
 
-        dlmax_label = gtk.Label(_("High download limit:"))
-        ulmax_label = gtk.Label(_("High upload limit:"))
-        dllimit_label = gtk.Label(_("Low download limit:"))
-        ullimit_label = gtk.Label(_("Low upload limit:"))
-
         #Select Widget
         drawing = scheduler_select(self.button_state_temp, hover_text, self.days)
 
@@ -128,56 +136,33 @@ class plugin_Scheduler:
         vbox_sub = gtk.VBox()
         hbox_key = gtk.HBox()
         hbox_info = gtk.HBox()
-        # max boxen
-        hbox_max = gtk.HBox()
-        ebox_max = gtk.EventBox()
-        ebox_max.add(hbox_max)
-        ebrd_max = gtk.Frame()
-        ebrd_max.add(ebox_max)
-        ebrd_max.set_border_width(2)
-        hbox_max.set_border_width(2)
-        ebox_max.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("#73D716"))
-        ebrd_max.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("#53B700"))
-        # limit boxen
-        hbox_limit = gtk.HBox()
-        ebox_limit = gtk.EventBox()
-        ebox_limit.add(hbox_limit)
-        ebrd_limit = gtk.Frame()
-        ebrd_limit.add(ebox_limit)
-        ebrd_limit.set_border_width(2)
-        hbox_limit.set_border_width(2)
+        hbox_settings = gtk.HBox()
+        # high boxen
+        tbl_high = gtk.Table(len(boxen), 2)
+        ebox_high = gtk.EventBox()
+        ebox_high.add(tbl_high)
+        ebrd_high = gtk.Frame()
+        ebrd_high.add(ebox_high)
+        ebrd_high.set_border_width(2)
+        tbl_high.set_border_width(2)
+        ebox_high.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("#73D716"))
+        ebrd_high.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("#53B700"))
+        # low boxen
+        tbl_low = gtk.Table(len(boxen), 2)
+        ebox_low = gtk.EventBox()
+        ebox_low.add(tbl_low)
+        ebrd_low = gtk.Frame()
+        ebrd_low.add(ebox_low)
+        ebrd_low.set_border_width(2)
+        tbl_low.set_border_width(2)
         # Green
         # Yellow
-        ebox_limit.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("#EDD400"))
-        ebrd_limit.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("#CDB400"))
+        ebox_low.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("#EDD400"))
+        ebrd_low.modify_bg(gtk.STATE_NORMAL,gtk.gdk.color_parse("#CDB400"))
 
         #seperator
         sep = gtk.HSeparator()
-
-        # max spinbuttons
-        dminput = gtk.SpinButton()
-        dminput.set_numeric(True)    
-        dminput.set_range(-1, 2048)
-        dminput.set_increments(1, 10)
-        dminput.set_value(float(self.dlmax))
-        uminput = gtk.SpinButton()
-        uminput.set_numeric(True)
-        uminput.set_range(-1, 1024)
-        uminput.set_increments(1, 10)
-        uminput.set_value(float(self.ulmax))
-
-        # limit spinbuttons
-        dlinput = gtk.SpinButton()
-        dlinput.set_numeric(True)    
-        dlinput.set_range(-1, 2048)
-        dlinput.set_increments(1, 10)
-        dlinput.set_value(float(self.dllimit))
-        ulinput = gtk.SpinButton()
-        ulinput.set_numeric(True)
-        ulinput.set_range(-1, 1024)
-        ulinput.set_increments(1, 10)
-        ulinput.set_value(float(self.ullimit))
-
+        
         #pack
         dialog.vbox.pack_start(vbox_main)
 
@@ -186,24 +171,34 @@ class plugin_Scheduler:
         vbox_main.pack_start(hbox_key, False, True)
         vbox_main.pack_start(hbox_info, False, True)
         vbox_main.pack_start(sep, False, True)
-        vbox_main.pack_start(ebrd_max, False, True, 5)
-        vbox_main.pack_start(ebrd_limit, False, True, 5)
+        vbox_main.pack_start(hbox_settings)
 
         hbox_main.pack_start(vbox_sub, False, True, 5)
         hbox_main.pack_start(drawing)
 
         hbox_key.pack_start(gtk.Label(_("Green is the high limits, yellow is the low limits and red is stopped")), True, False)
         hbox_info.pack_start(gtk.Label(_("If a limit is set to -1, it is unlimitted.")), True, False)
-
-        hbox_max.pack_start(dlmax_label, True, False)
-        hbox_max.pack_start(dminput, True, False)
-        hbox_max.pack_start(ulmax_label, True, False)
-        hbox_max.pack_start(uminput, True, False)
-
-        hbox_limit.pack_start(dllimit_label, True, False)
-        hbox_limit.pack_start(dlinput, True, False)
-        hbox_limit.pack_start(ullimit_label, True, False)
-        hbox_limit.pack_start(ulinput, True, False)
+        
+        hbox_settings.pack_start(ebrd_high, True, True, 5)
+        hbox_settings.pack_start(gtk.Label())
+        hbox_settings.pack_start(ebrd_low, True, True, 5)
+                     
+        for box in [tbl_high, tbl_low]:
+            for y, val in enumerate(boxen):
+                if box is tbl_high: type = "high"
+                else: type = "low"
+                key = type + "_" + val[0]
+                
+                label = gtk.Label(val[1])
+                label.set_alignment(0.0, 0.6)
+                spin[key] = gtk.SpinButton()
+                spin[key].set_numeric(True)    
+                spin[key].set_range(val[2], val[3])
+                spin[key].set_increments(1, 10)
+                spin[key].set_value(self.settings[key])
+                
+                box.attach(label, 0, 1, y, y + 1)
+                box.attach(spin[key], 1, 2, y, y + 1, False, False)
 
         for index in xrange(len(self.days)):
             vbox_sub.pack_start(gtk.Label(self.days[index]))
@@ -219,30 +214,25 @@ class plugin_Scheduler:
                 self.button_state = copy.deepcopy(drawing.button_state)
                 changed = True
             
-            if not self.dlmax == float(dminput.get_value()):
-                self.dlmax = float(dminput.get_value())
-                changed = True
-
-            if not self.ulmax == float(uminput.get_value()):
-                self.ulmax = float(uminput.get_value())
-                changed = True
-
-            if not self.dllimit == float(dlinput.get_value()):
-                self.dllimit = float(dlinput.get_value())
-                changed = True
-
-            if not self.ullimit == float(ulinput.get_value()):
-                self.ullimit = float(ulinput.get_value())
-                changed = True
+            for key in spin.keys():
+                if not self.settings[key] == spin[key].get_value():
+                    self.settings[key] = spin[key].get_value()
+                    changed = True
 
             now = time.localtime(time.time())
             if changed:
                 self._state(self.button_state[now[3]][now[6]])
 
             writer = open(self.conf_file, "wb")
-            pickle.dump([drawing.button_state,[self.dllimit, self.ullimit, self.dlmax, self.ulmax]], writer)
+            
+            out = []
+            
+            for item in self.settings_structure:
+                out.append(self.settings[item[0]])
+                
+            pickle.dump([drawing.button_state, out], writer)
             writer.close()
-
+            
         dialog.destroy()
 
 class scheduler_select(gtk.DrawingArea):

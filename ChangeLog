@@ -3,6 +3,7 @@ Deluge 0.5.8.7 (xx March 2008)
   * Bandwidth limiter fix
   * DHT routing table fix
   * Fix keyboard scrolling of plugins
+  * Scheduler can now handle number of active torrents, upload slots and max connections - Ben
 
 Deluge 0.5.8.6 (11 March 2008)
   * Fix fast-resume deletion on shutdown
