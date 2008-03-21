@@ -77,8 +77,6 @@ utils.set_config_defaults()
 sclient.set_core_uri(config.get('daemon'))
 
 
-
-
 def create_webserver(urls, methods, middleware):
     from web import webpyfunc, wsgifunc
     from lib.gtk_cherrypy_wsgiserver import CherryPyWSGIServer
