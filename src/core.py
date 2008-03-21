@@ -1005,7 +1005,7 @@ likely the tracker did not responsd in utf-8."
         new_torrent = torrent_info(full_new_name, save_dir, compact, user_paused)
         self.state.torrents[new_torrent] = None
 
-    def remove_torrent_ns(self, unique_ID, data_also, torrent_also):
+    def remove_torrent_ns(self, unique_ID, data_also, torrent_also=False):
         self.unique_IDs[unique_ID].delete_me = True
         self.unique_IDs[unique_ID].del_data = data_also
         self.unique_IDs[unique_ID].del_torrent = torrent_also
