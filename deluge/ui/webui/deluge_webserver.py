@@ -34,6 +34,7 @@ import locale
 from deluge.configmanager import ConfigManager
 import pkg_resources
 from deluge.ui.client import sclient
+import components
 
 # Initialize gettext
 locale.setlocale(locale.LC_MESSAGES, '')
@@ -49,12 +50,7 @@ gettext.install("deluge",
             pkg_resources.resource_filename(
                                     "deluge", "i18n"))
 
-
-#self registering components:
-import plugin_manager #registers  as "WebPluginManager"
-import menu_manager #registers as "MenuManager"
-import config_page_manager #registers  as "ConfigPageManager"
-import page_manager #registers as "PageManager"
+components.register() #after gettext!!
 
 from debugerror import deluge_debugerror
 from render import render
