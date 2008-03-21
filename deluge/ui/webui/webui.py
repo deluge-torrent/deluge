@@ -34,6 +34,5 @@
 class WebUI:
     def __init__(self, args):
         import deluge_webserver
-        deluge_webserver.ws.init_06(uri = 'http://localhost:58846')
         deluge_webserver.run(debug = False)
 
