@@ -3,8 +3,10 @@ decorators for html-pages.
 """
 #relative imports
 from render import render
-from webserver_common import ws, log, proxy
 from utils import *
+import utils
+from deluge.ui.client import sclient as proxy
+from deluge.log import LOG as log
 #/relative
 
 from web import cookies, setcookie as w_setcookie
@@ -34,7 +36,7 @@ def check_session(func):
             name))
         vars = web.input(redir_after_login = None)
         ck = cookies()
-        if ck.has_key("session_id") and ck["session_id"] in ws.SESSIONS:
+        if ck.has_key("session_id") and ck["session_id"] in utils.SESSIONS:
             return func(self, name) #check_session:ok
         elif vars.redir_after_login:
             seeother(url("/login",redir=self_url()))

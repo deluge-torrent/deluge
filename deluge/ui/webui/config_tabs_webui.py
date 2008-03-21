@@ -31,12 +31,14 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
+from deluge.ui.client import sclient as proxy
+from deluge.log import LOG as log
 
 import utils
-from webserver_common import ws, log
 import lib.newforms_plus as forms
 import config_forms
 from deluge import component
+from render import render
 
 config_page = component.get("ConfigPageManager")
 plugins = component.get("WebPluginManager")
@@ -44,7 +46,7 @@ plugins = component.get("WebPluginManager")
 class Template(config_forms.WebCfgForm):
     title = _("Template")
 
-    _templates = [(t,t) for t in ws.get_templates()]
+    _templates = [(t,t) for t in render.get_templates()]
     _button_choices = enumerate([_('Text and image'),  _('Image Only')
         ,  _('Text Only')])
 
@@ -93,21 +95,6 @@ class Password(forms.Form):
         utils.end_session()
         #raise forms.ValidationError(_("Password changed,please login again"))
 
-class WebUiPlugins(forms.Form):
-    title = _("WebUi Plugins")
-
-    _choices = [(p,p) for p in plugins.get_available_plugins()]
-    enabled_plugins = forms.MultipleChoice(_(""), _choices)
-
-    def initial_data(self):
-        return {'enabled_plugins':plugins.get_enabled_plugins()}
-
-    def save(self, data):
-        log.debug(data)
-        for plugin_name in data['enabled_plugins']:
-            plugins.enable_plugin(plugin_name)
-
 config_page.register('webui','template', Template)
 config_page.register('webui','server',Server)
 config_page.register('webui','password',Password)
-config_page.register('webui','webuiplugins',WebUiPlugins)

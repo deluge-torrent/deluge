@@ -10,7 +10,7 @@ from newforms.forms import BoundField
 
 import sys, os
 
-import webpy022 as web
+import web
 
 #Form
 class FilteredForm(newforms.Form):
@@ -115,13 +115,6 @@ class IntChoiceField(newforms.ChoiceField):
     def clean(self, value):
         return int(newforms.ChoiceField.clean(self, value))
 
-class MultipleChoice(newforms.MultipleChoiceField):
-    #temp/test/debug!!
-    "Non Required MultipleChoiceField,why the f is it required by default?"
-    def __init__(self, label, choices, **kwargs):
-        newforms.MultipleChoiceField.__init__(self, label=label, choices=choices,
-            widget=newforms.CheckboxSelectMultiple, required=False)
-
 class ServerFolder(newforms.CharField):
     def __init__(self, label, **kwargs):
         newforms.CharField.__init__(self, label=label,**kwargs)
@@ -142,8 +135,44 @@ class Password(newforms.CharField):
         newforms.CharField.__init__(self, label=label, widget=newforms.PasswordInput,
             **kwargs)
 
+#Lazy multiple select:
+class _LazyCheckboxSelectMultiple(newforms.CheckboxSelectMultiple):
+    """
+    choices are not know at define-time
+    choices_getter returns self.choices.
+    """
+    def __init__(self, attrs=None,choices_getter = None):
+        self.choices_getter = choices_getter
+        newforms.CheckboxSelectMultiple.__init__(self,attrs)
+
+    def render(self, name, value, attrs=None, choices=()):
+        self.choices = self.choices_getter()
+        return newforms.CheckboxSelectMultiple.render(self, name, value, attrs, choices)
+
+
+class LazyMultipleChoice(newforms.MultipleChoiceField):
+    """
+    choices are not know at define-time
+    choices_getter returns self.choices.
+    defaults to non-required.
+    """
+    def __init__(self, label = "",widget=_LazyCheckboxSelectMultiple,
+            choices_getter = None, **kwargs):
+
+        self.choices_getter = choices_getter
+        #default to non-required
+        if not 'required' in kwargs:
+            kwargs['required'] = False
+        #init, and pass get_choices to the widget.
+        newforms.MultipleChoiceField.__init__(self, label=label,
+            widget=widget(choices_getter=choices_getter),**kwargs)
+
+    def clean(self, value):
+        self.choices = self.choices_getter()
+        return newforms.MultipleChoiceField.clean(self, value)
+
 #Deluge specific:
-class _DelugeIntInput(newforms.TextInput):
+class _DelugeIntInputWidget(newforms.TextInput):
     """
     because deluge-floats are edited as ints.
     """
@@ -159,7 +188,7 @@ class _DelugeIntInput(newforms.TextInput):
 class DelugeInt(newforms.IntegerField):
     def __init__(self, label , **kwargs):
         newforms.IntegerField.__init__(self, label=label, min_value=-1,
-            max_value=sys.maxint, widget=_DelugeIntInput, **kwargs)
+            max_value=sys.maxint, widget=_DelugeIntInputWidget, **kwargs)
 
     def clean(self, value):
         if str(value).lower() == _('Unlimited').lower():

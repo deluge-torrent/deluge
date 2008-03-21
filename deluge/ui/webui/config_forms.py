@@ -32,33 +32,39 @@
 import lib.newforms_plus as forms
 import page_decorators as deco
 import web
-from webserver_common import ws, proxy, log
+from deluge.ui.client import sclient as proxy
+from deluge.log import LOG as log
+
 from render import render
 from web import seeother
 import sys
 import os
 import utils
-from deluge import component
 
+
+from deluge import component
+from deluge.configmanager import ConfigManager
+config = ConfigManager("webui.conf")
 config_page_manager = component.get("ConfigPageManager")
 
 class WebCfgForm(forms.Form):
     "config base for webui"
     def initial_data(self):
-        return ws.config
+        return config.get_config()
 
     def save(self, data):
-        ws.config.update(data)
-        ws.save_config()
+        for key, value in data.iteritems():
+            config.set(key, value)
+        config.save()
 
 class CookieCfgForm(forms.Form):
     "config base for webui"
     def initial_data(self):
-        return ws.config
+        return dict(config)
 
     def save(self, data):
-        ws.config.update(data)
-        ws.save_config()
+        config.update(data)
+        config.save_config()
 
 
 class CfgForm(forms.Form):

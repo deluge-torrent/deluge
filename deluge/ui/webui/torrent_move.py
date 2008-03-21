@@ -30,12 +30,13 @@
 #  statement from all source files in the program, then also delete it here.
 #
 
-from webserver_common import ws, proxy
+from deluge.ui.client import sclient as proxy
+from deluge.log import LOG as log
+
 import utils
 from render import render
 import page_decorators as deco
 import lib.newforms_plus as forms
-import web
 
 #Too much boilerplate code here, todo : fix it.
 

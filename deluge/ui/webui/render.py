@@ -30,12 +30,15 @@
 #  statement from all source files in the program, then also delete it here.
 
 #relative:
-from webserver_common import ws,REVNO,VERSION
+from webserver_common import REVNO, VERSION
 from utils import *
 #/relative
 from deluge import common
 from web import changequery as self_url, template, Storage
 import os
+
+from deluge.configmanager import ConfigManager
+config = ConfigManager("webui.conf")
 
 class subclassed_render(object):
     """
@@ -46,22 +49,23 @@ class subclassed_render(object):
         self.apply_cfg()
 
     def apply_cfg(self):
-        self.cache = ws.config.get('cache_templates')
+        self.cache = config.get('cache_templates')
         self.renderers = []
         self.plugin_renderers = []
         self.template_cache = {}
+        self.webui_path = os.path.dirname(__file__)
 
         #load template-meta-data
-        cfg_template = ws.config.get('template')
-        template_path = os.path.join(ws.webui_path, 'templates/%s/' % cfg_template)
+        cfg_template = config.get('template')
+        template_path = os.path.join(self.webui_path, 'templates/%s/' % cfg_template)
         if not os.path.exists(template_path):
-            template_path = os.path.join(ws.webui_path, 'templates/deluge/')
+            template_path = os.path.join(self.webui_path, 'templates/deluge/')
         self.meta = Storage(eval(open(os.path.join(template_path,'meta.cfg')).read()))
 
         #load renerders
         for template_name in [cfg_template] + list(reversed(self.meta.inherits)):
             self.renderers.append(template.render(
-                os.path.join(ws.webui_path, 'templates/%s/' % template_name),cache=False))
+                os.path.join(self.webui_path, 'templates/%s/' % template_name),cache=False))
 
     @logcall
     def register_template_path(self, path):
@@ -88,6 +92,16 @@ class subclassed_render(object):
     def __getitem__(self, item):
         "for plugins/templates"
         return getattr(self, item)
+
+    @staticmethod
+    def get_templates():
+        "utility method."
+        template_path = os.path.join(os.path.dirname(__file__), 'templates')
+        return [dirname for dirname
+            in os.listdir(template_path)
+            if os.path.isdir(os.path.join(template_path, dirname))
+                and not dirname.startswith('.')]
+
 
 render = subclassed_render()
 
@@ -137,7 +151,7 @@ def template_part_stats():
         return '[not connected]'
 
 def get_config(var):
-    return ws.config.get(var)
+    return config.get(var)
 
 irow = 0
 def altrow(reset = False):
@@ -181,7 +195,7 @@ template.Template.globals.update({
     'version': VERSION,
     'getcookie':getcookie,
     'get': lambda (var): getattr(web.input(**{var:None}), var), # unreadable :-(
-    'env':ws.env,
+    'env':'0.6',
     'forms':web.Storage(),
     'enumerate':enumerate
 

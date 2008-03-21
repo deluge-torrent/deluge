@@ -38,6 +38,7 @@ from web import Storage
 from web import seeother, url
 
 from deluge.common import fsize,fspeed,ftime
+from deluge.log import LOG as log
 
 import traceback
 import random
@@ -45,11 +46,18 @@ from operator import attrgetter
 import datetime
 import pickle
 from urlparse import urlparse
+from md5 import md5
 
-from webserver_common import  REVNO, VERSION, TORRENT_KEYS, STATE_MESSAGES
-from webserver_common import ws, proxy, async_proxy, log
+from webserver_common import  REVNO, VERSION, TORRENT_KEYS, STATE_MESSAGES, CONFIG_DEFAULTS
+from deluge.ui.client import sclient as proxy
+from deluge.ui.client import aclient as async_proxy
 
-debug_unicode = False
+
+from deluge import component
+from deluge.configmanager import ConfigManager
+
+webui_plugin_manager = component.get("WebPluginManager")
+config = ConfigManager("webui.conf")
 
 #async-proxy: map callback to a a dict-setter
 def dict_cb(key,d):
@@ -62,16 +70,18 @@ def setcookie(key, val):
     """add 30 days expires header for persistent cookies"""
     return w_setcookie(key, val , expires=2592000)
 
+
 #really simple sessions, to bad i had to implement them myself.
+SESSIONS = []
 def start_session():
-    log.debug('start session')
     session_id = str(random.random())
-    ws.SESSIONS.append(session_id)
+    SESSIONS.append(session_id)
     setcookie("session_id", session_id)
 
 def end_session():
     session_id = getcookie("session_id")
     setcookie("session_id","")
+#/sessions
 
 def do_redirect():
     """for redirects after a POST"""
@@ -201,7 +211,7 @@ def get_newforms_data(form_class):
 
 #/utils
 
-#generic/ non-webui utils todo: move to trunk/core.
+#daemon:
 def daemon_test_online_status(uri):
     """Tests the status of URI.. Returns True or False depending on status.
     """
@@ -224,13 +234,51 @@ def daemon_start_localhost(port):
     # Spawn a local daemon
     os.popen("deluged -p %s" % port)
 
+def daemon_connect(uri):
+    if config.get('daemon') <> uri:
+        config.set('daemon', uri)
+        config.save()
+
+    proxy.set_core_uri(uri)
+    webui_plugin_manager.start()
+
+#generic:
 def logcall(func):
-    "log a function/method-call"
+    "deco to log a function/method-call"
     def deco(*args, **kwargs):
         log.debug("call: %s<%s,%s>"  % (func.__name__, args, kwargs))
         return func(*args, **kwargs) #logdeco
 
     return deco
+
+#c&p from ws:
+def update_pwd(pwd):
+    sm = md5()
+    sm.update(str(random.getrandbits(5000)))
+    salt = sm.digest()
+    config["pwd_salt"] =  salt
+    #
+    m = md5()
+    m.update(salt)
+    m.update(pwd)
+    config["pwd_md5"] =  m.digest()
+
+def check_pwd(pwd):
+    m = md5()
+    m.update(config.get('pwd_salt'))
+    m.update(pwd)
+    return (m.digest() == config.get('pwd_md5'))
+
+def set_config_defaults():
+    changed = False
+    for key, value in CONFIG_DEFAULTS.iteritems():
+        if not key in config.config:
+            config.config[key] = value
+            changed = True
+    if changed:
+        config.save()
+
+
 
 
 #exceptions:

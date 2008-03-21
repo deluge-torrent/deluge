@@ -34,7 +34,6 @@
 
 #todo: remove useless imports.
 
-from webserver_common import ws, proxy, log
 from utils import *
 import utils #todo remove the line above.
 from render import render, error_page
@@ -44,6 +43,7 @@ from torrent_options import torrent_options
 from torrent_move import torrent_move
 
 from deluge.common import get_pixmap
+from deluge.log import LOG as log
 
 import web
 from web import seeother, url
@@ -53,6 +53,7 @@ from torrent_add import torrent_add
 from operator import attrgetter
 import os
 from deluge import component
+from deluge.ui.client import sclient as proxy
 
 page_manager = component.get("PageManager")
 
@@ -112,7 +113,7 @@ class login:
     def POST(self):
         vars = web.input(pwd = None, redir = None)
 
-        if ws.check_pwd(vars.pwd):
+        if utils.check_pwd(vars.pwd):
             #start new session
             start_session()
             do_redirect()
@@ -347,11 +348,11 @@ class connect:
         if vars.uri == 'other_uri':
             if not vars.other:
                 return error_page(_("no uri"))
-            url = vars.other
+            uri = vars.other
         else:
             uri = vars.uri
         #TODO: more error-handling
-        proxy.set_core_uri(uri)
+        utils.daemon_connect(uri)
         do_redirect()
 
 class daemon_control:
@@ -372,16 +373,16 @@ class daemon_control:
         seeother('/connect')
 
     def start(self):
-        import time
         uri = web.input(uri = None).uri
         if not uri:
             uri = 'http://localhost:58846'
 
         port = int(uri.split(':')[2])
         utils.daemon_start_localhost(port)
-
         time.sleep(1)  #pause a while to let it start?
-        proxy.set_core_uri( uri )
+
+        utils.daemon_connect( uri )
+
 
 #other stuff:
 class remote_torrent_add:
@@ -395,7 +396,7 @@ class remote_torrent_add:
         vars = web.input(pwd = None, torrent = {},
             data_b64 = None , torrent_name= None)
 
-        if not ws.check_pwd(vars.pwd):
+        if not utils.check_pwd(vars.pwd):
             return 'error:wrong password'
 
         if vars.data_b64: #b64 post (greasemonkey)

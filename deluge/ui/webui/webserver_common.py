@@ -30,34 +30,10 @@
 #  statement from all source files in the program, then also delete it here.
 
 """
-initializes config,render and proxy.
-All hacks go here, so this is a really ugly source-file..
-Support running in process0.5 ,run inside-gtk0.5 and run in process0.6
+webui constants
 """
 
 import os
-import deluge
-import random
-import pickle
-import sys
-import base64
-from md5 import md5
-import inspect
-
-from deluge.log import LOG as log
-
-from deluge.ui.client import sclient as proxy
-from deluge.ui.client import aclient as async_proxy
-
-random.seed()
-
-try:
-    _('translate something')
-except:
-    import gettext
-    gettext.install('~/')
-    log.error('no translations :(')
-
 
 #constants
 try:
@@ -102,98 +78,10 @@ CONFIG_DEFAULTS = {
     "pwd_salt":"2\xe8\xc7\xa6(n\x81_\x8f\xfc\xdf\x8b\xd1\x1e\xd5\x90",
     "pwd_md5":".\xe8w\\+\xec\xdb\xf2id4F\xdb\rUc",
     "cache_templates":True,
-    "use_https":False
+    "use_https":False,
+    "daemon":"http://localhost:58846"
 }
 
 #/constants
 
 
-class Ws:
-    """
-    singleton
-    important attributes here are environment dependent.
-
-    Most important public attrs:
-    ws.proxy
-    ws.log
-    ws.config
-
-    Other:
-    ws.env
-    ws.config_dir
-    ws.session_file
-    ws.SESSIONS
-    """
-    def __init__(self):
-        self.webui_path = os.path.dirname(__file__)
-        self.env = 'UNKNOWN'
-        self.config = {}
-
-        try:
-            self.config_dir = deluge.common.CONFIG_DIR
-        except:
-            self.config_dir = os.path.expanduser("~/.config/deluge")
-
-        self.config_file = os.path.join(self.config_dir,'webui.conf')
-        self.session_file = os.path.join(self.config_dir,'webui.sessions')
-        self.SESSIONS = []
-
-    def init_process(self):
-        self.config = pickle.load(open(self.config_file))
-
-        if self.config.get('enabled_plugins') == None:
-            self.config['enabled_plugins'] = []
-        self.save_config()
-
-
-    def init_06(self, uri = 'http://localhost:58846'):
-        proxy.set_core_uri(uri)
-
-        log.debug('cfg-file %s' % self.config_file)
-
-        if not os.path.exists(self.config_file):
-            log.debug('create cfg file %s' % self.config_file)
-            #load&save defaults.
-            f = file(self.config_file,'wb')
-            pickle.dump(CONFIG_DEFAULTS,f)
-            f.close()
-
-
-        self.init_process()
-        self.env   = '0.6'
-        from render import render
-        render.apply_cfg()
-
-    #utils for config:
-    def get_templates(self):
-        template_path = os.path.join(os.path.dirname(__file__), 'templates')
-        return [dirname for dirname
-            in os.listdir(template_path)
-            if os.path.isdir(os.path.join(template_path, dirname))
-                and not dirname.startswith('.')]
-
-    def save_config(self):
-        log.debug('Save Webui Config')
-        data = pickle.dumps(self.config)
-        f = open(self.config_file,'wb')
-        f.write(data)
-        f.close()
-
-    def update_pwd(self,pwd):
-        sm = md5()
-        sm.update(str(random.getrandbits(5000)))
-        salt = sm.digest()
-        self.config["pwd_salt"] =  salt
-        #
-        m = md5()
-        m.update(salt)
-        m.update(pwd)
-        self.config["pwd_md5"] =  m.digest()
-
-    def check_pwd(self,pwd):
-        m = md5()
-        m.update(self.config.get('pwd_salt'))
-        m.update(pwd)
-        return (m.digest() == self.config.get('pwd_md5'))
-
-ws =Ws()

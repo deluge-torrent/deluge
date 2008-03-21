@@ -34,6 +34,8 @@
 from deluge import component, pluginmanagerbase
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
+from deluge.ui.client import aclient as client
+
 
 class PluginManager(pluginmanagerbase.PluginManagerBase,
     component.Component):
@@ -51,6 +53,7 @@ class PluginManager(pluginmanagerbase.PluginManagerBase,
     def stop(self):
         # Disable the plugins
         self.disable_plugins()
+
 
     def _on_get_enabled_plugins(self, enabled_plugins):
         log.debug("Webui has these plugins enabled: %s", enabled_plugins)

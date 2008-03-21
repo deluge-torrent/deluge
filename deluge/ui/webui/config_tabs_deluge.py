@@ -30,8 +30,11 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
+from deluge.ui.client import sclient as proxy
+from deluge.log import LOG as log
+
 import utils
-from webserver_common import ws, proxy , log
+
 import lib.newforms_plus as forms
 import config_forms
 from deluge import component
@@ -125,13 +128,10 @@ config_page.register('deluge','daemon', Daemon)
 
 class Plugins(forms.Form):
     title = _("Enabled Plugins")
-    try:
-        _choices = [(p,p) for p in proxy.get_available_plugins()]
-        enabled_plugins = forms.MultipleChoice(_(""), _choices)
-    except:
-        log.error("Not connected to daemon, Unable to load plugin-list")
-        #TODO: reload on reconnect!
 
+    enabled_plugins = forms.LazyMultipleChoice(
+        choices_getter = lambda: [(p,p) for p in proxy.get_available_plugins()]
+    )
 
     def initial_data(self):
         return {'enabled_plugins':proxy.get_enabled_plugins()}

@@ -27,11 +27,44 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-#initialize components:
+import web
+import random
+import gettext
+import locale
+from deluge.configmanager import ConfigManager
+import pkg_resources
+from deluge.ui.client import sclient
+
+# Initialize gettext
+locale.setlocale(locale.LC_MESSAGES, '')
+locale.bindtextdomain("deluge",
+            pkg_resources.resource_filename(
+                                    "deluge", "i18n"))
+locale.textdomain("deluge")
+gettext.bindtextdomain("deluge",
+            pkg_resources.resource_filename(
+                                    "deluge", "i18n"))
+gettext.textdomain("deluge")
+gettext.install("deluge",
+            pkg_resources.resource_filename(
+                                    "deluge", "i18n"))
+
+
+#self registering components:
+import plugin_manager #registers  as "WebPluginManager"
 import menu_manager #registers as "MenuManager"
 import config_page_manager #registers  as "ConfigPageManager"
-import plugin_manager #registers  as "WebPluginManager"
 import page_manager #registers as "PageManager"
+
+from debugerror import deluge_debugerror
+from render import render
+import utils
+
+
+## Init ##
+config = ConfigManager("webui.conf")
+random.seed()
+web.webapi.internalerror = deluge_debugerror
 
 #self registering pages etc.
 import pages
@@ -39,28 +72,26 @@ import config_tabs_webui #auto registers in ConfigUiManager
 import config_tabs_deluge #auto registers in ConfigUiManager
 import register_menu
 
-#debugerror
-from debugerror import deluge_debugerror
-import web
-web.webapi.internalerror = deluge_debugerror
+utils.set_config_defaults()
 
-from webserver_common import ws #todo: remove ws.
+sclient.set_core_uri(config.get('daemon'))
+
+
 
 
 def create_webserver(urls, methods, middleware):
-    from webserver_common import ws
-    from web import webpyfunc
-    from web import webapi
+    from web import webpyfunc, wsgifunc
     from lib.gtk_cherrypy_wsgiserver import CherryPyWSGIServer
     import os
 
-    func = webapi.wsgifunc(webpyfunc(urls, methods, False), *middleware)
-    server_address=("0.0.0.0", int(ws.config.get('port')))
+    func = wsgifunc(webpyfunc(urls, methods, False), *middleware)
+    server_address=("0.0.0.0", int(config.get('port')))
 
     server = CherryPyWSGIServer(server_address, func, server_name="localhost")
-    if ws.config.get('use_https'):
+    """if config.get('use_https'):
         server.ssl_certificate = os.path.join(ws.webui_path,'ssl/deluge.pem')
         server.ssl_private_key = os.path.join(ws.webui_path,'ssl/deluge.key')
+    """
 
     print "http://%s:%d/" % server_address
     return server
