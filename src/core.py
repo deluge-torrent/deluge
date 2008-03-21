@@ -176,6 +176,7 @@ class torrent_info:
 
         self.delete_me = False # set this to true, to delete it on next sync
         self.del_data = False # set this to true, to delete data on next sync
+        self.del_torrent = False # set this to true, to delete torrent on next sync
 
 # The persistent state of the torrent system. Everything in this will be pickled
 
@@ -590,7 +591,7 @@ class Manager:
         for unique_ID in self.unique_IDs:
             torrent_state = self.get_core_torrent_state(unique_ID)
             if torrent_state['progress'] == 1.0:
-                self.remove_torrent_ns(unique_ID, False)
+                self.remove_torrent_ns(unique_ID, False, True)
                 self.removed_unique_ids[unique_ID] = 1
 
         self.sync()
@@ -1004,9 +1005,10 @@ likely the tracker did not responsd in utf-8."
         new_torrent = torrent_info(full_new_name, save_dir, compact, user_paused)
         self.state.torrents[new_torrent] = None
 
-    def remove_torrent_ns(self, unique_ID, data_also):
+    def remove_torrent_ns(self, unique_ID, data_also, torrent_also):
         self.unique_IDs[unique_ID].delete_me = True
-        self.unique_IDs[unique_ID].del_data = data_also        
+        self.unique_IDs[unique_ID].del_data = data_also
+        self.unique_IDs[unique_ID].del_torrent = torrent_also
 
     # Sync the state.torrents and unique_IDs lists with the core
     # ___ALL syncing code with the core is here, and ONLY here___
@@ -1077,6 +1079,11 @@ likely the tracker did not responsd in utf-8."
         for unique_ID in to_delete:
             del self.state.torrents[self.unique_IDs[unique_ID]]
             self.state.queue.remove(self.unique_IDs[unique_ID])
+            try:
+                if self.unique_IDs[unique_ID].del_torrent:
+                    os.remove(self.unique_IDs[unique_ID].filename)
+            except:
+                pass
             # Remove .fastresume
             try:
                 # Must be after removal of the torrent, because that saves a new .fastresume
