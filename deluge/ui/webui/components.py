@@ -153,7 +153,7 @@ class ConfigPageManager(component.Component):
     def __init__(self):
         component.Component.__init__(self, "ConfigPageManager")
         self.groups = []
-        self.blocks = forms.utils.datastructures.SortedDict()
+        self.blocks = forms.django.utils.datastructures.SortedDict()
 
     def register(self, group, name, form):
         if not group in self.groups:

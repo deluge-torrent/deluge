@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) Martijn Voncken 2008 <mvoncken@gmail.com>
-# Django Lisence, see ./newforms/LICENCE
+# Django Licence, see ./newforms_portable/LICENCE
 #
 
-from newforms import *
-import newforms
-from newforms.forms import BoundField
+from newforms_portable import *
+import newforms_portable as newforms
+from newforms_portable.forms import BoundField
+from newforms_portable.util import ErrorList, escape
+
 
 import sys, os
 
@@ -83,7 +85,7 @@ class Form(FilteredForm):
 
     def start_save(self):
         "called by config_page"
-        data = web.Storage(self.clean_data)
+        data = web.Storage(self.cleaned_data)
         self.validate(data)
         self.save(data)
         self.post_save()

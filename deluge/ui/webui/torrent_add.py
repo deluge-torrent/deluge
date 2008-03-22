@@ -102,7 +102,7 @@ class torrent_add:
         if not options_form.is_valid():
             print self.add_page(error = _("Error in torrent options."))
             return
-        options = options_form.clean_data
+        options = options_form.cleaned_data
 
 
         vars = web.input(url = None, torrent = {})

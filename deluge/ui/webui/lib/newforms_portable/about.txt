@@ -1,0 +1,3 @@
+based on django rev.7350
+,/django/ contains the parts of django required to run newforms.
+

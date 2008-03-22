@@ -70,6 +70,6 @@ class torrent_move:
         if not form.is_valid():
             print self.move_page(name, error = _("Error in Path."))
             return
-        save_path = form.clean_data["save_path"]
+        save_path = form.cleaned_data["save_path"]
         proxy.move_torrent(torrent_ids, save_path)
         utils.do_redirect()

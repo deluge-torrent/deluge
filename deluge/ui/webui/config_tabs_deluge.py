@@ -57,7 +57,7 @@ class NetworkPorts(config_forms.CfgForm ):
         data['listen_ports'] = [data['_port_from'] , data['_port_to'] ]
         del(data['_port_from'])
         del(data['_port_to'])
-        config_forms.config.CfgForm.save(self, data)
+        config_forms.CfgForm.save(self, data)
 
     def validate(self, data):
         if (data['_port_to'] < data['_port_from']):
