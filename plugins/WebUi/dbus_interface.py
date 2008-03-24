@@ -91,7 +91,7 @@ class DbusManager(dbus.service.Object):
         torrent = self.core.unique_IDs[torrent_id]
 
         status = {
-            "name": state["name"],
+            "name": state["name"].decode('utf-8','ignore'),
             "total_size": state["total_size"],
             "num_pieces": state["num_pieces"],
             "state": state['state'],
@@ -109,15 +109,16 @@ class DbusManager(dbus.service.Object):
             "eta": common.estimate_eta(state),
             "ratio": self.interface.manager.calc_ratio(torrent_id,state),
             #non 0.6 values follow here:
-            "tracker_status": state.get("tracker_status","?"),
+            "tracker_status": state.get("tracker_status","?").decode('utf-8','ignore'),
             "uploaded_memory": torrent.uploaded_memory,
+            "tracker":state["tracker"].decode('utf-8','ignore')
         }
         #more non 0.6 values
         for key in ["total_seeds", "total_peers","is_seed", "total_done",
                 "total_download", "total_upload"
                 #, "download_rate","upload_rate"
                 , "num_files", "piece_length", "distributed_copies"
-                ,"next_announce","tracker","queue_pos"]:
+                ,"next_announce","queue_pos"]:
             status[key] = state[key]
 
         #print 'all_keys:',sorted(status.keys())
