@@ -129,11 +129,11 @@ class index:
     def GET(self, name):
         vars = web.input(sort=None, order=None)
 
+        #organize-filters
         organize_filters = {}
         if 'Organize' in proxy.get_enabled_plugins():
             filter_dict = {}
 
-            #organize-filters
             for filter_name in ["state","tracker","keyword"]:
                 value = getattr(web.input(**{filter_name:None}), filter_name)
                 if value and value <> "All":
@@ -142,7 +142,6 @@ class index:
                 else:
                     setcookie(filter_name, "")
 
-            log.debug(filter_dict)
             torrent_ids =  proxy.organize_get_session_state(filter_dict)
             organize_filters = Storage(proxy.organize_all_filter_items())
 
@@ -165,6 +164,23 @@ class index:
             setcookie("sort", vars.sort)
         return render.index(torrent_list, organize_filters)
 
+#simple proxy's to deluge.ui.client
+#execute a command on torrent(s) and redirect to index page.
+def torrents_command(command):
+    class torrents_command_inner:
+        @deco.check_session
+        @deco.torrent_ids
+        def POST(self, torrent_ids):
+            getattr(proxy, command)(torrent_ids)
+            do_redirect()
+    return torrents_command_inner
+
+torrent_start = torrents_command("resume_torrent")
+torrent_stop = torrents_command("pause_torrent")
+torrent_reannounce = torrents_command("force_reannounce")
+torrent_recheck = torrents_command("force_recheck")
+torrent_queue_down = torrents_command("queue_down")
+torrent_queue_up = torrents_command("queue_up")
 
 class torrent_info:
     @deco.deluge_page
@@ -184,67 +200,6 @@ class torrent_info_inner:
             active_tab =  getcookie("torrent_info_tab") or "details"
         setcookie("torrent_info_tab", active_tab)
         return render.torrent_info_inner(torrent, active_tab)
-
-#next 6 classes: a pattern is emerging here.
-#todo: DRY (in less lines of code)
-#deco.deluge_command, or a subclass?
-"""
-def torrents_command(command):
-    class torrents_command_inner:
-        @deco.check_session
-        @deco.torrent_ids
-        def POST(self, torrent_ids):
-            proxy.getattr(command).(torrent_ids)
-            do_redirect()
-
-torrent_start = torrents_command("resume_torrent")
-torrent_stop = torrents_command("pause_torrent")
-torrent_reannounce = torrents_command("force_reannounce")
-torrent_recheck = torrents_command("force_recheck")
-torrent_queue_down = torrents_command("queue_down")
-torrent_queue_up = torrents_command("queue_up")
-"""
-class torrent_start:
-    @deco.check_session
-    @deco.torrent_ids
-    def POST(self, torrent_ids):
-        proxy.resume_torrent(torrent_ids)
-        do_redirect()
-
-class torrent_stop:
-    @deco.check_session
-    @deco.torrent_ids
-    def POST(self, torrent_ids):
-        proxy.pause_torrent(torrent_ids)
-        do_redirect()
-
-class torrent_reannounce:
-    @deco.check_session
-    @deco.torrent_ids
-    def POST(self, torrent_ids):
-        proxy.force_reannounce(torrent_ids)
-        do_redirect()
-
-class torrent_recheck:
-    @deco.check_session
-    @deco.torrent_ids
-    def POST(self, torrent_ids):
-        proxy.force_recheck(torrent_ids)
-        do_redirect()
-
-class torrent_queue_up:
-    @deco.check_session
-    @deco.torrent_ids
-    def POST(self, torrent_ids):
-        proxy.queue_up(torrent_ids)
-        do_redirect()
-
-class torrent_queue_down:
-    @deco.check_session
-    @deco.torrent_ids
-    def POST(self, torrent_ids):
-        proxy.queue_down(torrent_ids)
-        do_redirect()
 
 class torrent_delete:
     @deco.deluge_page
