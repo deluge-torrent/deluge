@@ -40,8 +40,6 @@ from render import render, error_page
 import time
 import page_decorators as deco
 from config_forms import config_page
-from torrent_options import torrent_options
-from torrent_move import torrent_move
 
 from deluge.common import get_pixmap
 from deluge.log import LOG as log
@@ -49,7 +47,6 @@ from deluge.log import LOG as log
 import web
 from web import seeother, url
 from lib.static_handler import static_handler
-from torrent_add import torrent_add
 
 from operator import attrgetter
 import os
@@ -70,13 +67,10 @@ urls = [
     "/torrent/start/(.*)", "torrent_start",
     "/torrent/reannounce/(.*)", "torrent_reannounce",
     "/torrent/recheck/(.*)", "torrent_recheck",
-    "/torrent/add(.*)", "torrent_add",
     "/torrent/delete/(.*)", "torrent_delete",
-    "/torrent/move/(.*)", "torrent_move",
     "/torrent/queue/up/(.*)", "torrent_queue_up",
     "/torrent/queue/down/(.*)", "torrent_queue_down",
     "/torrent/files/(.*)","torrent_files",
-    "/torrent/options/(.*)","torrent_options",
     "/pause_all", "pause_all",
     "/resume_all", "resume_all",
     "/refresh/set", "refresh_set",
@@ -224,7 +218,7 @@ class torrent_files:
         torrent = get_torrent_status(torrent_id)
         file_priorities = web.input(file_priorities=[]).file_priorities
         #file_priorities contains something like ['0','2','3','4']
-        #transform to: [1,0,0,1,1,1]
+        #transform to: [1,0,1,1,1]
         proxy_prio = [0 for x in xrange(len(torrent.file_priorities))]
         for pos in file_priorities:
             proxy_prio[int(pos)] = 1
@@ -419,8 +413,6 @@ class pixmaps:
         web.header("Content-Length", str(fs[6]))
         web.header("Cache-Control" , "public, must-revalidate, max-age=86400")
         print content
-
-
 #/pages
 
 page_manager.register_pages(urls,globals())

@@ -29,13 +29,18 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 #
+from deluge.ui.client import sclient as proxy
+from deluge.log import LOG as log
+from deluge import component
+
 from render import template
 import page_decorators as deco
 import lib.newforms_plus as forms
 
-class TorrentOptionsForm(forms.Form):
+page_manager = component.get("PageManager")
 
-#download
+class TorrentOptionsForm(forms.Form):
+    #download
     max_download_speed = forms.DelugeFloat(
         _("Maximum Down Speed"))
     max_upload_speed = forms.DelugeFloat(
@@ -54,3 +59,5 @@ class torrent_options:
         pass
 
 template.Template.globals["forms"].torrent_options = lambda torrent : TorrentOptionsForm(torrent)
+
+page_manager.register_page("/torrent/options/(.*)",torrent_options)

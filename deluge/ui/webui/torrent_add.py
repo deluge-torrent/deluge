@@ -31,12 +31,15 @@
 #
 from deluge.ui.client import sclient as proxy
 from deluge.log import LOG as log
+from deluge import component
 
 import utils
 from render import render, error_page
 import page_decorators as deco
 import lib.newforms_plus as forms
 import web
+
+page_manager = component.get("PageManager")
 
 class OptionsForm(forms.Form):
     download_location =  forms.ServerFolder(_("Download Location"))
@@ -127,3 +130,5 @@ class torrent_add:
         else:
             print self.add_page(error = _("No data"))
             return
+
+page_manager.register_page("/torrent/add/(.*)",torrent_add)

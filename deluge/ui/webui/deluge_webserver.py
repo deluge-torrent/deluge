@@ -67,6 +67,12 @@ import pages
 import config_tabs_webui #auto registers in ConfigUiManager
 import config_tabs_deluge #auto registers in ConfigUiManager
 import register_menu
+#
+import torrent_add
+import torrent_options
+import torrent_move
+#/self registering pages.
+
 
 utils.set_config_defaults()
 sclient.set_core_uri(config.get('daemon'))

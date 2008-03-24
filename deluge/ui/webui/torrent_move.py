@@ -32,11 +32,14 @@
 
 from deluge.ui.client import sclient as proxy
 from deluge.log import LOG as log
+from deluge import component
 
 import utils
 from render import render
 import page_decorators as deco
 import lib.newforms_plus as forms
+
+page_manager = component.get("PageManager")
 
 #Too much boilerplate code here, todo : fix it.
 
@@ -73,3 +76,5 @@ class torrent_move:
         save_path = form.cleaned_data["save_path"]
         proxy.move_torrent(torrent_ids, save_path)
         utils.do_redirect()
+
+page_manager.register_page("/torrent/move/(.*)",torrent_move)
