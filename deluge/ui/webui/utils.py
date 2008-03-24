@@ -193,7 +193,7 @@ def get_enhanced_torrent_list(torrent_ids):
 def get_newforms_data(form_class):
     """
     glue for using web.py and newforms.
-    returns a storified dict with name/value of the post-data.
+    returns a dict with name/value of the post-data.
     """
     import lib.newforms_plus as forms
     fields = form_class.base_fields.keys()

@@ -50,7 +50,8 @@ class static_handler:
         web.header("Content-type", ctype)
         fs = os.fstat(f.fileno())
         web.header("Content-Length", str(fs[6]))
-        web.lastmodified(datetime.datetime.fromtimestamp(fs.st_mtime))
+        web.header("Cache-Control" , "public, must-revalidate, max-age=86400")
+        #web.lastmodified(datetime.datetime.fromtimestamp(fs.st_mtime))
         print f.read()
 
     def translate_path(self, path):

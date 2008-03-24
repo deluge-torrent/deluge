@@ -196,6 +196,22 @@ class torrent_info_inner:
 #next 6 classes: a pattern is emerging here.
 #todo: DRY (in less lines of code)
 #deco.deluge_command, or a subclass?
+"""
+def torrents_command(command):
+    class torrents_command_inner:
+        @deco.check_session
+        @deco.torrent_ids
+        def POST(self, torrent_ids):
+            proxy.getattr(command).(torrent_ids)
+            do_redirect()
+
+torrent_start = torrents_command("resume_torrent")
+torrent_stop = torrents_command("pause_torrent")
+torrent_reannounce = torrents_command("force_reannounce")
+torrent_recheck = torrents_command("force_recheck")
+torrent_queue_down = torrents_command("queue_down")
+torrent_queue_up = torrents_command("queue_up")
+"""
 class torrent_start:
     @deco.check_session
     @deco.torrent_ids
@@ -448,10 +464,15 @@ class pixmaps:
         if not os.path.exists(get_pixmap(name)):
             name = 'dht16.png'
 
-        web.header("Content-Type", "image/png")
         f = open(get_pixmap(name) ,'rb')
-        print f.read()
+        fs = os.fstat(f.fileno())
+        content = f.read()
         f.close()
+        web.header("Content-Type", "image/png")
+        web.header("Content-Length", str(fs[6]))
+        web.header("Cache-Control" , "public, must-revalidate, max-age=86400")
+        print content
+
 
 #/pages
 
