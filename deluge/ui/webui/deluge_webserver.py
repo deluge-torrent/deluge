@@ -69,19 +69,34 @@ import config_tabs_deluge #auto registers in ConfigUiManager
 import register_menu
 
 utils.set_config_defaults()
-
 sclient.set_core_uri(config.get('daemon'))
 
 
-def create_webserver(urls, methods, middleware):
+def WsgiApplication(middleware):
     from web import webpyfunc, wsgifunc
+    from deluge import component
+
+    pagemanager = component.get("PageManager")
+    return wsgifunc(webpyfunc(pagemanager.urls, pagemanager.page_classes, False), *middleware)
+
+def WebServer(debug = False):
+    "starts builtin webserver"
+    import web
+
     from lib.gtk_cherrypy_wsgiserver import CherryPyWSGIServer
-    import os
 
-    func = wsgifunc(webpyfunc(urls, methods, False), *middleware)
+
+    if debug:
+        middleware = [web.reloader]
+    else:
+        middleware = []
+
+
+    wsgi_app = WsgiApplication(middleware)
+
     server_address=("0.0.0.0", int(config.get('port')))
+    server = CherryPyWSGIServer(server_address, wsgi_app, server_name="localhost")
 
-    server = CherryPyWSGIServer(server_address, func, server_name="localhost")
     """if config.get('use_https'):
         server.ssl_certificate = os.path.join(ws.webui_path,'ssl/deluge.pem')
         server.ssl_private_key = os.path.join(ws.webui_path,'ssl/deluge.key')
@@ -89,16 +104,6 @@ def create_webserver(urls, methods, middleware):
 
     print "http://%s:%d/" % server_address
     return server
-
-def WebServer(debug = False):
-    import web
-    from deluge import component
-    if debug:
-        middleware = [web.reloader]
-    else:
-        middleware = []
-    pagemanager = component.get("PageManager")
-    return create_webserver(pagemanager.urls, pagemanager.page_classes, middleware)
 
 def run(debug = False):
     server = WebServer(debug)
