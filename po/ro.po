@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-02-03 23:09+0000\n"
-"Last-Translator: Blutheo <Unknown>\n"
+"PO-Revision-Date: 2008-03-24 18:25+0000\n"
+"Last-Translator: Clusty <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-11 19:09+0000\n"
+"X-Launchpad-Export-Date: 2008-03-25 01:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
 msgid "Add Torrent"
-msgstr "Adaugă Torrent"
+msgstr "Adaugă Torent"
 
 #: glade/delugegtk.glade:30 plugins/WebUi/scripts/template_strings.py:3
 msgid "Add"
@@ -27,7 +27,7 @@ msgstr "Adaugă"
 
 #: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
-msgstr "Elimină Torrent"
+msgstr "Elimină Torent"
 
 #: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:43
 msgid "Remove"
@@ -36,11 +36,11 @@ msgstr "Elimină"
 #: glade/delugegtk.glade:56
 #, fuzzy
 msgid "Clear Seeding Torrents"
-msgstr "Elimină torrentele complete"
+msgstr "Elimină torrentii completi"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
-msgstr "Curăţă"
+msgstr "Şterge"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
@@ -48,7 +48,7 @@ msgstr "Porneste sau Continuă Torentul"
 
 #: glade/delugegtk.glade:80 plugins/WebUi/scripts/template_strings.py:45
 msgid "Resume"
-msgstr "Continuă"
+msgstr "Reia"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
@@ -56,11 +56,11 @@ msgstr "Întrerupe Torrent"
 
 #: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
 msgid "Pause"
-msgstr "Întrerupre"
+msgstr "Pauză"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
-msgstr "Mută Torrent în sus"
+msgstr "Mută Torentul în sus"
 
 #: glade/delugegtk.glade:107 plugins/WebUi/scripts/template_strings.py:59
 msgid "Up"
@@ -68,7 +68,7 @@ msgstr "În sus"
 
 #: glade/delugegtk.glade:120
 msgid "Queue Torrent Down"
-msgstr "Mută Torrent în jos"
+msgstr "Mută Torentul în jos"
 
 #: glade/delugegtk.glade:121 plugins/WebUi/scripts/template_strings.py:17
 msgid "Down"
@@ -80,7 +80,7 @@ msgstr "Schimbă setările Deluge"
 
 #: glade/delugegtk.glade:143
 msgid "Preferences"
-msgstr "Setări"
+msgstr "Preferinţe"
 
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
 #: glade/preferences_dialog.glade:2982
@@ -105,7 +105,7 @@ msgstr "Șterge torenții _compleți"
 
 #: glade/delugegtk.glade:249
 msgid "_Edit"
-msgstr "_Editare"
+msgstr "_Modifică"
 
 #: glade/delugegtk.glade:274
 msgid "Plu_gins"
@@ -117,7 +117,7 @@ msgstr "_Torent"
 
 #: glade/delugegtk.glade:309
 msgid "_View"
-msgstr "_Vizualizare"
+msgstr "_Afișare"
 
 #: glade/delugegtk.glade:317
 msgid "_Toolbar"

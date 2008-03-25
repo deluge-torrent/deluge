@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-02-23 23:30+0000\n"
-"Last-Translator: Masoud Kalali <Unknown>\n"
+"PO-Revision-Date: 2008-03-20 20:05+0000\n"
+"Last-Translator: Artin <Unknown>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-11 19:09+0000\n"
+"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -257,7 +257,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:1147 glade/delugegtk.glade:1166
 msgid "<b>Speed:</b>"
-msgstr ""
+msgstr "<b>سرعت:<b/>"
 
 #: glade/delugegtk.glade:1187
 msgid "<b>Peers:</b>"
@@ -350,7 +350,7 @@ msgstr ""
 
 #: glade/dgtkpopups.glade:155
 msgid "Show/Hide"
-msgstr ""
+msgstr "آشکار/مخفی"
 
 #: glade/dgtkpopups.glade:163
 msgid "Add a Torrent..."
@@ -487,7 +487,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:458
 msgid "Downloads"
-msgstr ""
+msgstr "بارگیری‌ها"
 
 #: glade/preferences_dialog.glade:502
 msgid ""
@@ -497,11 +497,11 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:545 glade/wizard.glade:48
 msgid "From:"
-msgstr ""
+msgstr "از:"
 
 #: glade/preferences_dialog.glade:568 glade/wizard.glade:66
 msgid "To:"
-msgstr ""
+msgstr "به:"
 
 #: glade/preferences_dialog.glade:594
 msgid "Deluge will automatically choose a different port to use every time."
@@ -521,11 +521,11 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:650
 msgid "Active Port:"
-msgstr ""
+msgstr "درگاه فعال:"
 
 #: glade/preferences_dialog.glade:663
 msgid "0000"
-msgstr ""
+msgstr "0000"
 
 #: glade/preferences_dialog.glade:702
 msgid "Distributed hash table may improve the amount of active connections."
@@ -545,7 +545,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:752
 msgid "UPnP"
-msgstr ""
+msgstr "UPnP"
 
 #: glade/preferences_dialog.glade:766
 msgid "NAT Port Mapping Protocol"
@@ -588,7 +588,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:917
 msgid "Level:"
-msgstr ""
+msgstr "سطح:"
 
 #: glade/preferences_dialog.glade:931
 msgid ""
@@ -603,7 +603,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:984
 msgid "Network"
-msgstr ""
+msgstr "شبکه"
 
 #: glade/preferences_dialog.glade:1025
 msgid "Queue torrents to bottom when they begin seeding"
@@ -707,7 +707,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1520
 msgid "Bandwidth"
-msgstr ""
+msgstr "پهنای باند"
 
 #: glade/preferences_dialog.glade:1566 glade/preferences_dialog.glade:1761
 #: glade/preferences_dialog.glade:1956 glade/preferences_dialog.glade:2151
@@ -726,13 +726,13 @@ msgstr ""
 #: glade/preferences_dialog.glade:1616 glade/preferences_dialog.glade:1811
 #: glade/preferences_dialog.glade:2006 glade/preferences_dialog.glade:2201
 msgid "Username"
-msgstr ""
+msgstr "نام کاربری"
 
 #: glade/preferences_dialog.glade:1627 glade/preferences_dialog.glade:1822
 #: glade/preferences_dialog.glade:2017 glade/preferences_dialog.glade:2212
 #: plugins/WebUi/scripts/template_strings.py:30
 msgid "Password"
-msgstr ""
+msgstr "کلمه عبور"
 
 #: glade/preferences_dialog.glade:1639 glade/preferences_dialog.glade:1834
 #: glade/preferences_dialog.glade:2029 glade/preferences_dialog.glade:2224
@@ -744,16 +744,22 @@ msgid ""
 "HTTP\n"
 "HTTP W/ Auth"
 msgstr ""
+"هیچ کدام\n"
+"Socksv4\n"
+"Socksv5\n"
+"Socksv5 W/ Auth\n"
+"HTTP\n"
+"HTTP W/ Auth"
 
 #: glade/preferences_dialog.glade:1684 glade/preferences_dialog.glade:1879
 #: glade/preferences_dialog.glade:2074 glade/preferences_dialog.glade:2269
 msgid "Server"
-msgstr ""
+msgstr "کارگزار"
 
 #: glade/preferences_dialog.glade:1695 glade/preferences_dialog.glade:1890
 #: glade/preferences_dialog.glade:2085 glade/preferences_dialog.glade:2280
 msgid "Port"
-msgstr ""
+msgstr "درگاه‌"
 
 #: glade/preferences_dialog.glade:1729
 msgid "<b>Peer Proxy</b>"
@@ -805,7 +811,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2456
 msgid "Password:"
-msgstr ""
+msgstr "رمز عبور:"
 
 #: glade/preferences_dialog.glade:2500
 msgid "<b>System Tray</b>"
@@ -813,11 +819,11 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2539
 msgid "Custom:"
-msgstr ""
+msgstr "سفارشی:‌"
 
 #: glade/preferences_dialog.glade:2556
 msgid "Open folder with:"
-msgstr ""
+msgstr "پوشه را باز کن به وسیله:"
 
 #: glade/preferences_dialog.glade:2571
 msgid ""
@@ -884,7 +890,7 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:52
 #: plugins/EventLogging/tab_log.py:218
 msgid "Other"
-msgstr ""
+msgstr "غیره"
 
 #: glade/torrent_menu.glade:11
 msgid "_Force Recheck"
@@ -896,7 +902,7 @@ msgstr ""
 
 #: glade/torrent_menu.glade:50
 msgid "_Pause"
-msgstr ""
+msgstr "_مکث"
 
 #: glade/torrent_menu.glade:72
 msgid "_Remove Torrent"
@@ -924,19 +930,19 @@ msgstr ""
 
 #: glade/torrent_menu.glade:174
 msgid "_Top"
-msgstr ""
+msgstr "_بالا"
 
 #: glade/torrent_menu.glade:190
 msgid "_Up"
-msgstr ""
+msgstr "_بالا"
 
 #: glade/torrent_menu.glade:206
 msgid "_Down"
-msgstr ""
+msgstr "_پایین"
 
 #: glade/torrent_menu.glade:222
 msgid "_Bottom"
-msgstr ""
+msgstr "_پایین"
 
 #: glade/torrent_menu.glade:251
 msgid "_Open Containing Folder"
@@ -964,7 +970,7 @@ msgstr ""
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"
-msgstr ""
+msgstr "_خروج"
 
 #: glade/edit_trackers.glade:9
 msgid "Edit Trackers"
@@ -1056,6 +1062,24 @@ msgid ""
 "50Mbit\n"
 "100Mbit"
 msgstr ""
+"28.8کیلوبیت\n"
+"56کیلوبیت\n"
+"64کیلوبیت\n"
+"96کیلوبایت\n"
+"128کیلوبایت\n"
+"192کیلوبایت\n"
+"256کیلوبایت\n"
+"384کیلوبایت\n"
+"512کیلوبایت\n"
+"640کیلوبایت\n"
+"768کیلوبایت\n"
+"1مگابیت\n"
+"2مگابیت\n"
+"10مگابیت\n"
+"20مگابیت\n"
+"40مگابیت\n"
+"50مگابیت\n"
+"100مگابیت"
 
 #: glade/wizard.glade:419
 msgid "Your Upload Line Speed:"
@@ -1070,7 +1094,7 @@ msgstr ""
 
 #: src/interface.py:71
 msgid "Browser"
-msgstr ""
+msgstr "مرورگر"
 
 #: src/interface.py:73
 msgid "Launch Browser"
@@ -1095,17 +1119,17 @@ msgstr ""
 #: src/interface.py:1285 src/interface.py:1287
 #: plugins/SpeedLimiter/__init__.py:138 plugins/SpeedLimiter/__init__.py:170
 msgid "Unlimited"
-msgstr ""
+msgstr "نامحدود"
 
 #: src/interface.py:341
 msgid "Activated"
-msgstr ""
+msgstr "فعال شده"
 
 #: src/interface.py:390 src/interface.py:402 src/interface.py:430
 #: plugins/DesiredRatio/__init__.py:115 plugins/SpeedLimiter/__init__.py:141
 #: plugins/SpeedLimiter/__init__.py:173
 msgid "Other..."
-msgstr ""
+msgstr "غیره..."
 
 #: src/interface.py:407
 msgid "Download Speed (KiB/s):"
@@ -1127,18 +1151,18 @@ msgstr ""
 
 #: src/interface.py:614 src/common.py:74
 msgid "Infinity"
-msgstr ""
+msgstr "بی‌نهایت"
 
 #: src/interface.py:626
 msgid "Unknown"
-msgstr ""
+msgstr "ناشناخته"
 
 #: src/interface.py:643 src/search.py:58
 #: plugins/WebUi/scripts/template_strings.py:27
 #: plugins/FlexRSS/FlexRSS.glade:179 plugins/FlexRSS/FlexRSS.glade:373
 #: plugins/FlexRSS/FlexRSS.glade:1475
 msgid "Name"
-msgstr ""
+msgstr "نام"
 
 #: src/interface.py:664 plugins/WebUi/scripts/template_strings.py:21
 msgid "ETA"
@@ -1150,7 +1174,7 @@ msgstr ""
 
 #: src/interface.py:669 plugins/WebUi/scripts/template_strings.py:40
 msgid "Ratio"
-msgstr ""
+msgstr "نسبت"
 
 #: src/interface.py:977
 #, python-format
@@ -1170,7 +1194,7 @@ msgstr ""
 
 #: src/interface.py:1263 plugins/WebUi/scripts/template_strings.py:11
 msgid "Connections"
-msgstr ""
+msgstr "اتصال‌ها"
 
 #: src/interface.py:1281
 msgid "DHT"
@@ -1182,11 +1206,11 @@ msgstr ""
 
 #: src/interface.py:1290 plugins/WebUi/scripts/template_strings.py:19
 msgid "Download"
-msgstr ""
+msgstr "بارگیری"
 
 #: src/interface.py:1291 plugins/WebUi/scripts/template_strings.py:61
 msgid "Upload"
-msgstr ""
+msgstr "بارگذاری"
 
 #: src/interface.py:1294
 msgid "Deluge Bittorrent Client"
@@ -1252,15 +1276,15 @@ msgstr ""
 
 #: src/core.py:87 plugins/WebUi/webserver_common.py:195
 msgid "Queued"
-msgstr ""
+msgstr "صف‌شده"
 
 #: src/core.py:88 plugins/WebUi/webserver_common.py:196
 msgid "Checking"
-msgstr ""
+msgstr "در حال چک کردن"
 
 #: src/core.py:89 plugins/WebUi/webserver_common.py:197
 msgid "Connecting"
-msgstr ""
+msgstr "در حال اتصال‌"
 
 #: src/core.py:90 plugins/WebUi/webserver_common.py:198
 msgid "Downloading Metadata"
@@ -1269,11 +1293,11 @@ msgstr ""
 #: src/core.py:91 plugins/BlocklistImport/ui.py:121
 #: plugins/WebUi/webserver_common.py:199
 msgid "Downloading"
-msgstr ""
+msgstr "در حال بارگیری"
 
 #: src/core.py:92 plugins/WebUi/webserver_common.py:200
 msgid "Finished"
-msgstr ""
+msgstr "تمام شده‌"
 
 #: src/core.py:94 plugins/WebUi/webserver_common.py:202
 msgid "Allocating"
@@ -1305,7 +1329,7 @@ msgstr ""
 
 #: src/core.py:674
 msgid "Alert"
-msgstr ""
+msgstr "هشدار"
 
 #: src/core.py:675
 msgid "HTTP code"
@@ -1317,15 +1341,15 @@ msgstr ""
 
 #: src/core.py:683
 msgid "Warning"
-msgstr ""
+msgstr "اخطار"
 
 #: src/files.py:77
 msgid "Filename"
-msgstr ""
+msgstr "نام پرونده"
 
 #: src/files.py:82
 msgid "Priority"
-msgstr ""
+msgstr "اولویت"
 
 #: src/files.py:104
 msgid ""
@@ -1340,7 +1364,7 @@ msgstr ""
 
 #: src/dialogs.py:71 plugins/FlexRSS/FlexRSS.glade:104
 msgid "Enabled"
-msgstr ""
+msgstr "فعال"
 
 #: src/dialogs.py:462
 msgid ""
@@ -1365,11 +1389,11 @@ msgstr ""
 
 #: src/dialogs.py:508
 msgid "Torrent files"
-msgstr ""
+msgstr "پرونده‌های Torrent"
 
 #: src/dialogs.py:512
 msgid "All files"
-msgstr ""
+msgstr "همه‌ی پرونده‌ها"
 
 #: src/common.py:88
 msgid "KiB"
@@ -1393,11 +1417,11 @@ msgstr ""
 
 #: src/common.py:213
 msgid "External command"
-msgstr ""
+msgstr "دستور خارجی"
 
 #: src/common.py:214
 msgid "not found"
-msgstr ""
+msgstr "پیدا نشد"
 
 #: plugins/BlocklistImport/__init__.py:9
 msgid ""
@@ -1447,11 +1471,11 @@ msgstr ""
 
 #: plugins/BlocklistImport/__init__.py:122
 msgid "Imported"
-msgstr ""
+msgstr "واردشده"
 
 #: plugins/BlocklistImport/__init__.py:122
 msgid "IPs"
-msgstr ""
+msgstr "IP ها"
 
 #: plugins/BlocklistImport/__init__.py:165
 msgid "Blocklist"
@@ -1475,11 +1499,11 @@ msgstr ""
 
 #: plugins/BlocklistImport/ui.py:132
 msgid "Importing"
-msgstr ""
+msgstr "در حال وارد کردن"
 
 #: plugins/BlocklistImport/ui.py:143
 msgid "Complete"
-msgstr ""
+msgstr "کامل"
 
 #: plugins/BlocklistImport/text.py:129
 msgid "Got format exception for zipfile:"
@@ -1540,11 +1564,11 @@ msgstr ""
 
 #: plugins/TorrentPeers/tab_peers.py:87
 msgid "Percent Complete"
-msgstr ""
+msgstr "تکمیل درصد"
 
 #: plugins/TorrentCreator/torrentcreator.glade:9
 msgid "Torrent Creator"
-msgstr ""
+msgstr "سازنده Torrent"
 
 #: plugins/TorrentCreator/torrentcreator.glade:104
 msgid "This torrent will be made from a single file"
@@ -1552,7 +1576,7 @@ msgstr ""
 
 #: plugins/TorrentCreator/torrentcreator.glade:105
 msgid "File:"
-msgstr ""
+msgstr "پرونده:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:121
 msgid "This torrent will be made from a directory"
@@ -1560,11 +1584,11 @@ msgstr ""
 
 #: plugins/TorrentCreator/torrentcreator.glade:122
 msgid "Folder:"
-msgstr ""
+msgstr "پوشه:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:139
 msgid "<b>Source</b>"
-msgstr ""
+msgstr "<b>منبع</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:185
 msgid "Save Torrent File As:"
@@ -1626,7 +1650,7 @@ msgstr ""
 
 #: plugins/TorrentCreator/torrentcreator.glade:526
 msgid "<b>Advanced</b>"
-msgstr ""
+msgstr "<b>پیش رفته</b>"
 
 #: plugins/TorrentCreator/__init__.py:22
 msgid "A torrent creator plugin"
@@ -1634,11 +1658,11 @@ msgstr ""
 
 #: plugins/TorrentCreator/__init__.py:51
 msgid "_New Torrent"
-msgstr ""
+msgstr "ـتورنت جدید"
 
 #: plugins/TorrentCreator/__init__.py:61
 msgid "New Torrent"
-msgstr ""
+msgstr "تورنت جدید"
 
 #: plugins/TorrentCreator/__init__.py:63
 msgid "Create New Torrent"
@@ -1646,11 +1670,11 @@ msgstr ""
 
 #: plugins/TorrentCreator/__init__.py:99
 msgid "Save file as..."
-msgstr ""
+msgstr "ذخیرۀ پرونده به عنوان..."
 
 #: plugins/TorrentCreator/__init__.py:121
 msgid "You must select a source for the torrent."
-msgstr ""
+msgstr "شما باید یک منبع برای تورنت انتخاب کنید"
 
 #: plugins/TorrentCreator/__init__.py:128
 msgid "You must select a file to save the torrent as."
@@ -1769,7 +1793,7 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:234
 #: plugins/EventLogging/tab_log.py:95
 msgid "File error"
-msgstr ""
+msgstr "خطا در پرونده"
 
 #: plugins/EventLogging/event_logging_preferences.glade:248
 #: plugins/EventLogging/tab_log.py:86
@@ -1815,7 +1839,7 @@ msgstr ""
 
 #: plugins/EventLogging/__init__.py:89
 msgid "Event Log"
-msgstr ""
+msgstr "ثبت رویداد"
 
 #: plugins/EventLogging/tab_log.py:70 plugins/EventLogging/tab_log.py:78
 #: plugins/EventLogging/tab_log.py:86 plugins/EventLogging/tab_log.py:95
@@ -1906,7 +1930,7 @@ msgstr ""
 #: plugins/TorrentFiles/tab_files.py:59
 #: plugins/WebUi/scripts/template_strings.py:36
 msgid "Progress"
-msgstr ""
+msgstr "پیشرفت"
 
 #: plugins/TorrentFiles/tab_files.py:100
 msgid "There was an error trying to launch the file."
@@ -1922,7 +1946,7 @@ msgstr ""
 
 #: plugins/TorrentFiles/__init__.py:84
 msgid "Files"
-msgstr ""
+msgstr "پرونده‌ها"
 
 #: plugins/ExtraStats/__init__.py:22
 msgid ""
@@ -1946,7 +1970,7 @@ msgstr ""
 #: plugins/ExtraStats/__init__.py:175
 #: plugins/ExtraStats/stats_preferences.glade:28
 msgid "Total Downloaded"
-msgstr ""
+msgstr "مجموع بارگیری"
 
 #: plugins/ExtraStats/__init__.py:181
 #: plugins/ExtraStats/stats_preferences.glade:38
@@ -1955,7 +1979,7 @@ msgstr ""
 
 #: plugins/ExtraStats/__init__.py:187 plugins/ExtraStats/__init__.py:191
 msgid "Undefined"
-msgstr ""
+msgstr "تعریف نشده"
 
 #: plugins/ExtraStats/__init__.py:195
 #: plugins/ExtraStats/stats_preferences.glade:52
@@ -2063,15 +2087,15 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:202
 msgid "New Password"
-msgstr ""
+msgstr "کلمه عبور جدید"
 
 #: plugins/WebUi/__init__.py:203
 msgid "New Password(confirm)"
-msgstr ""
+msgstr "کلمه عبور جدید (تکرار)"
 
 #: plugins/WebUi/__init__.py:204
 msgid "Template"
-msgstr ""
+msgstr "قالب"
 
 #: plugins/WebUi/__init__.py:205
 msgid "Button Style"
@@ -2083,19 +2107,19 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:209
 msgid "https://"
-msgstr ""
+msgstr "https://"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text and image"
-msgstr ""
+msgstr "متن و عکس"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Image Only"
-msgstr ""
+msgstr "فقط عکس"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text Only"
-msgstr ""
+msgstr "فقط متن"
 
 #: plugins/WebUi/__init__.py:261
 msgid "Confirmed Password <> New Password\n"
@@ -2123,15 +2147,15 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
-msgstr ""
+msgstr "درباره"
 
 #: plugins/WebUi/scripts/template_strings.py:5
 msgid "Add torrent"
-msgstr ""
+msgstr "اضافه کردن تورنت"
 
 #: plugins/WebUi/scripts/template_strings.py:6
 msgid "Apply"
-msgstr ""
+msgstr "اِعمال"
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Auto refresh:"
@@ -2143,7 +2167,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:10
 msgid "Config"
-msgstr ""
+msgstr "پیکربندی"
 
 #: plugins/WebUi/scripts/template_strings.py:12
 msgid "Debug:Data Dump"
@@ -2155,19 +2179,19 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Disable"
-msgstr ""
+msgstr "غیرفعال کردن‌"
 
 #: plugins/WebUi/scripts/template_strings.py:20
 msgid "Downloaded"
-msgstr ""
+msgstr "بارگیری‌شده"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Enable"
-msgstr ""
+msgstr "فعال‌سازی"
 
 #: plugins/WebUi/scripts/template_strings.py:23
 msgid "Error"
-msgstr ""
+msgstr "خطا"
 
 #: plugins/WebUi/scripts/template_strings.py:24
 msgid "Eta"
@@ -2175,31 +2199,31 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:25
 msgid "Login"
-msgstr ""
+msgstr "ورود"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Logout"
-msgstr ""
+msgstr "خروج"
 
 #: plugins/WebUi/scripts/template_strings.py:28
 msgid "Next Announce"
-msgstr ""
+msgstr "اعلامیه بعدی"
 
 #: plugins/WebUi/scripts/template_strings.py:29
 msgid "Off"
-msgstr ""
+msgstr "خاموش"
 
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Password is invalid,try again"
-msgstr ""
+msgstr "کلمه عبور اشتباه می باشد, مجددا سعی کنید"
 
 #: plugins/WebUi/scripts/template_strings.py:33
 msgid "Pause all"
-msgstr ""
+msgstr "مکث کردن همه"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Pieces"
-msgstr ""
+msgstr "تکه‌ها"
 
 #: plugins/WebUi/scripts/template_strings.py:37
 msgid "Queue Down"
@@ -2231,7 +2255,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Set"
-msgstr ""
+msgstr "تنظیم"
 
 #: plugins/WebUi/scripts/template_strings.py:49
 msgid "Set Timeout"
@@ -2239,47 +2263,47 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:52
 msgid "Speed"
-msgstr ""
+msgstr "سرعت‌"
 
 #: plugins/WebUi/scripts/template_strings.py:53
 msgid "Start"
-msgstr ""
+msgstr "شروع"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Submit"
-msgstr ""
+msgstr "ارسال"
 
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Torrent list"
-msgstr ""
+msgstr "فهرست تورنت"
 
 #: plugins/WebUi/scripts/template_strings.py:56
 msgid "Total Size"
-msgstr ""
+msgstr "اندازۀ کل"
 
 #: plugins/WebUi/scripts/template_strings.py:57
 msgid "Tracker"
-msgstr ""
+msgstr "ردیاب"
 
 #: plugins/WebUi/scripts/template_strings.py:58
 msgid "Tracker Status"
-msgstr ""
+msgstr "وضعیت ردیاب"
 
 #: plugins/WebUi/scripts/template_strings.py:62
 msgid "Upload torrent"
-msgstr ""
+msgstr "بارگزاری تورنت"
 
 #: plugins/WebUi/scripts/template_strings.py:63
 msgid "Uploaded"
-msgstr ""
+msgstr "بارگذاری‌شده"
 
 #: plugins/WebUi/scripts/template_strings.py:64
 msgid "Url"
-msgstr ""
+msgstr "نشانی وب"
 
 #: plugins/WebUi/scripts/template_strings.py:65
 msgid "seconds"
-msgstr ""
+msgstr "ثانیه"
 
 #: plugins/FlexRSS/FlexRSS.glade:6
 msgid "FlexRSS"
@@ -2295,7 +2319,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
-msgstr ""
+msgstr "از کار افتاده"
 
 #: plugins/FlexRSS/FlexRSS.glade:151
 msgid "Update Interval"
@@ -2303,27 +2327,27 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:165
 msgid "URL"
-msgstr ""
+msgstr "نشانی اینترنتی"
 
 #: plugins/FlexRSS/FlexRSS.glade:192
 msgid "900"
-msgstr ""
+msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
 msgid "Feeds"
-msgstr ""
+msgstr "خوراکها"
 
 #: plugins/FlexRSS/FlexRSS.glade:384
 msgid "Type"
-msgstr ""
+msgstr "نوع‌"
 
 #: plugins/FlexRSS/FlexRSS.glade:397
 msgid "Feed"
-msgstr ""
+msgstr "خوراک"
 
 #: plugins/FlexRSS/FlexRSS.glade:439
 msgid "<b>Information</b>"
-msgstr ""
+msgstr "<b>اطلاعات</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:511
 msgid "<b>Patterns</b>"
@@ -2345,7 +2369,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 msgid "Thru"
-msgstr ""
+msgstr "بواسطه"
 
 #: plugins/FlexRSS/FlexRSS.glade:766
 msgid "<b>History Restriction</b>"
@@ -2357,19 +2381,19 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:875
 msgid "Year"
-msgstr ""
+msgstr "سال"
 
 #: plugins/FlexRSS/FlexRSS.glade:882
 msgid "Month"
-msgstr ""
+msgstr "ماه‌"
 
 #: plugins/FlexRSS/FlexRSS.glade:893
 msgid "Day"
-msgstr ""
+msgstr "روز"
 
 #: plugins/FlexRSS/FlexRSS.glade:960
 msgid "<b>Test</b>"
-msgstr ""
+msgstr "<b>آزمایش</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
@@ -2389,11 +2413,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1084
 msgid "Replacement"
-msgstr ""
+msgstr "جایگزینی"
 
 #: plugins/FlexRSS/FlexRSS.glade:1098
 msgid "Pattern"
-msgstr ""
+msgstr "الگو"
 
 #: plugins/FlexRSS/FlexRSS.glade:1111
 msgid "<b>Link Rewriting</b>"
@@ -2419,11 +2443,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1190
 msgid "<b>Output</b>"
-msgstr ""
+msgstr "<b>خروجی</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1251
 msgid "Filters"
-msgstr ""
+msgstr "صافی‌ها"
 
 #: plugins/FlexRSS/FlexRSS.glade:1282
 msgid "Show a FlexRSS icon in Deluge's toolbar."
@@ -2435,7 +2459,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1300
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>واسط</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1331
 msgid ""
@@ -2453,15 +2477,15 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"
-msgstr ""
+msgstr "دامنه"
 
 #: plugins/FlexRSS/FlexRSS.glade:1462
 msgid "Path"
-msgstr ""
+msgstr "مسیر"
 
 #: plugins/FlexRSS/FlexRSS.glade:1488
 msgid "Value"
-msgstr ""
+msgstr "مقدار"
 
 #: plugins/FlexRSS/FlexRSS.glade:1561
 msgid "<b>Cookies</b>"
@@ -2469,4 +2493,4 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1582
 msgid "Configuration"
-msgstr ""
+msgstr "پیکربندی"

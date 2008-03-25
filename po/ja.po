@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-07 15:48+0000\n"
+"PO-Revision-Date: 2008-03-24 09:07+0000\n"
 "Last-Translator: sanafrato <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-11 19:09+0000\n"
+"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -221,7 +221,7 @@ msgstr "<b>ファイル数:</b>"
 
 #: glade/delugegtk.glade:748
 msgid "<b>Next Announce:</b>"
-msgstr "<b>次の告知：</b>"
+msgstr "<b>次のアナウンス：</b>"
 
 #: glade/delugegtk.glade:783
 msgid "<b>Tracker Status:</b>"
@@ -293,19 +293,19 @@ msgstr "ブックマーク"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
 msgid "Launch Main Externally"
-msgstr ""
+msgstr "外部メイン起動"
 
 #: glade/browser.glade:172 glade/browserwin.glade:172
 msgid "Launch Main"
-msgstr ""
+msgstr "メイン起動"
 
 #: glade/browser.glade:185 glade/browserwin.glade:184
 msgid "Launch Footer Externally"
-msgstr ""
+msgstr "Launch Footer Externally"
 
 #: glade/browser.glade:186 glade/browserwin.glade:185
 msgid "Launch Footer"
-msgstr ""
+msgstr "Launch Footer"
 
 #: glade/searchdlg.glade:7
 msgid "Manage Search Plugins"
@@ -393,7 +393,6 @@ msgid "Deluge Merge Tracker Lists"
 msgstr "トラッカーリストをマージする"
 
 #: glade/merge_dialog.glade:23
-#, fuzzy
 msgid ""
 "Torrent already detected in Deluge, would you like to merge the tracker "
 "lists?"
@@ -405,7 +404,7 @@ msgstr "Delugeの設定"
 
 #: glade/preferences_dialog.glade:58
 msgid "Ask where to save each download"
-msgstr "保存先を毎回指定"
+msgstr "保存先を毎回尋ねる"
 
 #: glade/preferences_dialog.glade:76 glade/preferences_dialog.glade:77
 msgid "Store all downloads in:"
@@ -426,7 +425,6 @@ msgid "<b>Download Location</b>"
 msgstr "<b>保存先</b>"
 
 #: glade/preferences_dialog.glade:191
-#, fuzzy
 msgid "Autoload all torrent files in:"
 msgstr "オートロードの指定先:"
 
@@ -436,21 +434,18 @@ msgstr "<b>オートロード</b>"
 
 #: glade/preferences_dialog.glade:241 glade/preferences_dialog.glade:258
 #: glade/wizard.glade:237 glade/wizard.glade:478
-#, fuzzy
 msgid ""
 "The number of active torrents that Deluge will run.  Set to -1 for unlimited."
-msgstr "アクティブトレントの最大数（-1は無制限）"
+msgstr "アクティヴなトレント数（-1は無制限）"
 
 #: glade/preferences_dialog.glade:243
-#, fuzzy
 msgid "Maximum simultaneous active torrents:"
-msgstr "最大アクティブトレント数:"
+msgstr "最大同時アクティヴトレント数:"
 
 #: glade/preferences_dialog.glade:280 glade/preferences_dialog.glade:281
 #: glade/preferences_dialog.glade:302
-#, fuzzy
 msgid "Enable selecting files for torrents before loading"
-msgstr "ロード前のトレントファイル選択を有効"
+msgstr "ロード時のトレントファイル選択を有効"
 
 #: glade/preferences_dialog.glade:303
 msgid "Only show if torrent has more than 1 file"
@@ -472,19 +467,19 @@ msgstr "<b>トレント</b>"
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
-msgstr "「Full allocation」はトレントに必要なスペースをあらかじめ確保し、ディスクの断片化を防ぎます。"
+msgstr "Full allocationはトレントに必要なスペースをあらかじめ確保し、ディスクの断片化を防ぎます"
 
 #: glade/preferences_dialog.glade:391
 msgid "Use Full Allocation"
-msgstr "「Full allocation」を使用"
+msgstr "Full allocationを使用"
 
 #: glade/preferences_dialog.glade:413
 msgid "Compact allocation only allocates space as needed"
-msgstr "「Compact allocation」は最低限必要なスペースだけを確保します。"
+msgstr "Compact allocationは最低限必要なスペースだけを確保します"
 
 #: glade/preferences_dialog.glade:414
 msgid "Use Compact Allocation"
-msgstr "「Compact allocation」を使用"
+msgstr "Compact allocationを使用"
 
 #: glade/preferences_dialog.glade:434
 msgid "<b>Allocation</b>"
@@ -498,7 +493,7 @@ msgstr "ダウンロード"
 msgid ""
 "<b>Please Note - Changes to these settings will only be applied the next "
 "time Deluge is restarted.</b>"
-msgstr "<b>注意 - 再起動時に適用</b>"
+msgstr "<b>注意 - 変更した設定は再起動した時に適用されます</b>"
 
 #: glade/preferences_dialog.glade:545 glade/wizard.glade:48
 msgid "From:"
@@ -518,7 +513,7 @@ msgstr "ランダムポート"
 
 #: glade/preferences_dialog.glade:612
 msgid "Test Active Port"
-msgstr "ポートテスト"
+msgstr "使用ポートをテスト"
 
 #: glade/preferences_dialog.glade:638
 msgid "<b>TCP</b>"
@@ -534,7 +529,7 @@ msgstr "0000"
 
 #: glade/preferences_dialog.glade:702
 msgid "Distributed hash table may improve the amount of active connections."
-msgstr "「DHT」はアクティブな接続数の改善が見込めるかもしれません"
+msgstr "DHTはアクティブな接続数の改善が見込めるかもしれません"
 
 #: glade/preferences_dialog.glade:703
 msgid "Enable Mainline DHT"
@@ -566,15 +561,13 @@ msgstr "ピア交換"
 
 #: glade/preferences_dialog.glade:799
 msgid "Local Peer Discovery"
-msgstr "Local Peer Discovery"
+msgstr "ローカルピアを発見"
 
 #: glade/preferences_dialog.glade:814
-#, fuzzy
 msgid "<b>Network Extras</b>"
 msgstr "<b>ネットワーク詳細</b>"
 
 #: glade/preferences_dialog.glade:855
-#, fuzzy
 msgid "Inbound:"
 msgstr "インバウンド:"
 
@@ -589,13 +582,12 @@ msgstr ""
 "Forced"
 
 #: glade/preferences_dialog.glade:877
-#, fuzzy
 msgid "Outbound:"
 msgstr "アウトバウンド:"
 
 #: glade/preferences_dialog.glade:904
 msgid "Prefer to encrypt the entire stream"
-msgstr ""
+msgstr "全体の暗号化を優先"
 
 #: glade/preferences_dialog.glade:917
 msgid "Level:"
@@ -621,41 +613,39 @@ msgstr "ネットワーク"
 
 #: glade/preferences_dialog.glade:1025
 msgid "Queue torrents to bottom when they begin seeding"
-msgstr "シード時、トレントのキューを最下部へ移動"
+msgstr "シーディングする時にトレントのキューを最下部へ移動"
 
 #: glade/preferences_dialog.glade:1037
 msgid "Queue new torrents above completed ones"
-msgstr "完了時、新しいトレントのキューを最上部へ移動"
+msgstr "完了した時に新しいトレントのキューを最上部へ移動"
 
 #: glade/preferences_dialog.glade:1053
 msgid "Stop seeding torrents when their share ratio reaches:"
-msgstr "共有比が設定値に達したらシードを停止"
+msgstr "設定した共有比に達したらシーディングを停止:"
 
 #: glade/preferences_dialog.glade:1089
 msgid "Automatically clear torrents that reach the max share ratio"
-msgstr "共有比が設定値に達したらシードを自動的にクリア"
+msgstr "最大共有比に達したら自動的にトレントをクリア"
 
 #: glade/preferences_dialog.glade:1105
 msgid "<b>Seeding</b>"
-msgstr "<b>シード</b>"
+msgstr "<b>シーディング</b>"
 
 #: glade/preferences_dialog.glade:1134 src/core.py:93
 #: plugins/WebUi/webserver_common.py:201
 msgid "Seeding"
-msgstr "シード時"
+msgstr "シーディング"
 
 #: glade/preferences_dialog.glade:1180 glade/preferences_dialog.glade:1201
 #: glade/wizard.glade:434 glade/wizard.glade:455
-#, fuzzy
 msgid ""
 "The maximum half-open connections.  A high value may crash some cheap "
 "routers.  Set -1 for unlimited."
 msgstr "最大半開接続数。高値はルーターに高負荷なので注意（-1は無制限）"
 
 #: glade/preferences_dialog.glade:1203 glade/wizard.glade:435
-#, fuzzy
 msgid "Maximum Half-Open Connections:"
-msgstr "最大半開接続数"
+msgstr "最大半開接続数:"
 
 #: glade/preferences_dialog.glade:1221 glade/preferences_dialog.glade:1241
 #: glade/preferences_dialog.glade:1321 glade/wizard.glade:277
@@ -675,7 +665,7 @@ msgstr "最大上り速度 (KiB/s):"
 #: glade/preferences_dialog.glade:1261 glade/preferences_dialog.glade:1275
 #: glade/wizard.glade:297 glade/wizard.glade:364
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "最大接続数（-1は無制限）"
+msgstr "最大許容接続数（-1は無制限）"
 
 #: glade/preferences_dialog.glade:1263 glade/preferences_dialog.glade:1431
 #: glade/wizard.glade:298
@@ -711,15 +701,15 @@ msgstr "<b>全体の帯域幅</b>"
 
 #: glade/preferences_dialog.glade:1429 glade/preferences_dialog.glade:1459
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr "トレント毎の最大接続数（-1は無制限）"
+msgstr "各トレントの最大接続数（-1は無制限）"
 
 #: glade/preferences_dialog.glade:1444 glade/preferences_dialog.glade:1473
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr "トレント毎の最大上りスロット数（-1は無制限）"
+msgstr "各トレントの最大上りスロット数（-1は無制限）"
 
 #: glade/preferences_dialog.glade:1494
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr "<b>トレント毎の帯域幅</b>"
+msgstr "<b>各トレントの帯域幅</b>"
 
 #: glade/preferences_dialog.glade:1520
 msgid "Bandwidth"
@@ -727,29 +717,28 @@ msgstr "帯域幅"
 
 #: glade/preferences_dialog.glade:1566 glade/preferences_dialog.glade:1761
 #: glade/preferences_dialog.glade:1956 glade/preferences_dialog.glade:2151
-#, fuzzy
 msgid "Affects regular bittorrent peers"
-msgstr "正式なビットトレントピアに作用します"
+msgstr "正式なビットトレントピアに影響"
 
 #: glade/preferences_dialog.glade:1567
 msgid "Peer Proxy"
-msgstr "ピアプロキシ"
+msgstr "Peer Proxy"
 
 #: glade/preferences_dialog.glade:1609 glade/preferences_dialog.glade:1804
 #: glade/preferences_dialog.glade:1999 glade/preferences_dialog.glade:2194
 msgid "Proxy type"
-msgstr "プロキシタイプ"
+msgstr "Proxy type"
 
 #: glade/preferences_dialog.glade:1616 glade/preferences_dialog.glade:1811
 #: glade/preferences_dialog.glade:2006 glade/preferences_dialog.glade:2201
 msgid "Username"
-msgstr "ユーザー名"
+msgstr "Username"
 
 #: glade/preferences_dialog.glade:1627 glade/preferences_dialog.glade:1822
 #: glade/preferences_dialog.glade:2017 glade/preferences_dialog.glade:2212
 #: plugins/WebUi/scripts/template_strings.py:30
 msgid "Password"
-msgstr "パスワード"
+msgstr "Password"
 
 #: glade/preferences_dialog.glade:1639 glade/preferences_dialog.glade:1834
 #: glade/preferences_dialog.glade:2029 glade/preferences_dialog.glade:2224
@@ -771,40 +760,40 @@ msgstr ""
 #: glade/preferences_dialog.glade:1684 glade/preferences_dialog.glade:1879
 #: glade/preferences_dialog.glade:2074 glade/preferences_dialog.glade:2269
 msgid "Server"
-msgstr "サーバー"
+msgstr "Server"
 
 #: glade/preferences_dialog.glade:1695 glade/preferences_dialog.glade:1890
 #: glade/preferences_dialog.glade:2085 glade/preferences_dialog.glade:2280
 msgid "Port"
-msgstr "ポート"
+msgstr "Port"
 
 #: glade/preferences_dialog.glade:1729
 msgid "<b>Peer Proxy</b>"
-msgstr "<b>ピアプロキシ</b>"
+msgstr "<b>Peer Proxy</b>"
 
 #: glade/preferences_dialog.glade:1762
 msgid "Tracker Proxy"
-msgstr "トラッカープロキシ"
+msgstr "Tracker Proxy"
 
 #: glade/preferences_dialog.glade:1924
 msgid "<b>Tracker Proxy</b>"
-msgstr "<b>トラッカープロキシ</b>"
+msgstr "<b>Tracker Proxy</b>"
 
 #: glade/preferences_dialog.glade:1957
 msgid "DHT Proxy"
-msgstr "DHTプロキシ"
+msgstr "DHT Proxy"
 
 #: glade/preferences_dialog.glade:2119
 msgid "<b>DHT Proxy</b>"
-msgstr "<b>DHTプロキシ</b>"
+msgstr "<b>DHT Proxy</b>"
 
 #: glade/preferences_dialog.glade:2152
 msgid "Web Seed Proxy"
-msgstr "ウェブシードプロキシ"
+msgstr "Web Seed Proxy"
 
 #: glade/preferences_dialog.glade:2314
 msgid "<b>Web Seed Proxy</b>"
-msgstr "<b>ウェブシードプロキシ</b>"
+msgstr "<b>Web Seed Proxy</b>"
 
 #: glade/preferences_dialog.glade:2341
 msgid "Proxies"
@@ -824,7 +813,7 @@ msgstr "最小化で開始"
 
 #: glade/preferences_dialog.glade:2432
 msgid "Password protect system tray"
-msgstr "トレイから復帰時、パスワードを使用"
+msgstr "トレイ復帰時にパスワードを使用"
 
 #: glade/preferences_dialog.glade:2456
 msgid "Password:"
@@ -839,7 +828,6 @@ msgid "Custom:"
 msgstr "カスタム:"
 
 #: glade/preferences_dialog.glade:2556
-#, fuzzy
 msgid "Open folder with:"
 msgstr "ファイルマネージャ選択:"
 
@@ -857,7 +845,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2618
 msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
-msgstr "<b>デスクトップファイルマネジャー</b> - Windows環境以外"
+msgstr "<b>デスクトップファイルマネージャ</b> - 非Windows環境のみ有効"
 
 #: glade/preferences_dialog.glade:2649
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
@@ -869,7 +857,7 @@ msgstr "<b>プログレスバー</b>"
 
 #: glade/preferences_dialog.glade:2690
 msgid "Use and show the anonymizing internal browser"
-msgstr ""
+msgstr "匿名性のある内部ブラウザを使用/表示"
 
 #: glade/preferences_dialog.glade:2701
 msgid "<b>Internal Browser</b>"
@@ -903,6 +891,9 @@ msgid ""
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
+"Delugeの改良を助ける為に、PythonとPyGTKのバージョン、\n"
+"OSとプロセッサタイプを開発者へ送ります\n"
+"その他の情報は絶対に送りません"
 
 #: glade/preferences_dialog.glade:2837
 msgid "<b>System Information</b>"
@@ -1000,21 +991,19 @@ msgstr "トラッカーを編集"
 
 #: glade/edit_trackers.glade:19
 msgid "Tracker Editing"
-msgstr "トラッカーを編集"
+msgstr "トラッカー編集中"
 
 #: glade/files_dialog.glade:8
-#, fuzzy
 msgid "Deluge File Selection"
 msgstr "Deluge File Selection"
 
 #: glade/files_dialog.glade:42
-#, fuzzy
 msgid "Torrent will not be distributed on the trackerless (DHT) network"
 msgstr "トレントはDHTネットワークを使用していません"
 
 #: glade/files_dialog.glade:43
 msgid "Set the private flag"
-msgstr ""
+msgstr "プライベートフラッグをセット"
 
 #: glade/wizard.glade:10
 msgid "First Launch Configuration"
@@ -1027,9 +1016,10 @@ msgid ""
 "the form of plugins, which can be accessed by clicking on Plugins in the "
 "Edit menu or the toolbar."
 msgstr ""
+"このウィザードはDelugeをあなた好みに設定する手助けをします。あなたがDelugeを使うのが初めてなら、Delugeの最も大きな特徴であるプラグイン設"
+"定に注意を払ってください。プラグインは編集メニューからか、メニューバーの「プラグイン」をクリックする事で設定できます。"
 
 #: glade/wizard.glade:36
-#, fuzzy
 msgid ""
 "Deluge needs a range of ports that it will try to listen to for incoming "
 "connections.  The default ports for bittorrent are 6881-6889, however, most "
@@ -1038,7 +1028,7 @@ msgid ""
 "ports for you."
 msgstr ""
 "Delugeは接続要求に多くのポートを必要とします。ビットトレントはデフォルトで6881-"
-"6889のポートを使用します。しかし、多くのISPがそれらのポートをブロックしています。したがって、49152-"
+"6889のポートを使用します。しかし多くのISPがそれらのポートをブロックしています。したがって49152-"
 "65535のポートを使用する事が推奨されています。Delugeは自動的に49152-65535のポートからランダムに選択する事が可能です。"
 
 #: glade/wizard.glade:88
@@ -1046,11 +1036,10 @@ msgid "Use _Random Ports"
 msgstr "ランダムポートを使用"
 
 #: glade/wizard.glade:116
-#, fuzzy
 msgid ""
 "Would you like Deluge to automatically download to a predefined location, or "
 "would you like to specify the download location every time?"
-msgstr "ダウンロード場所を固定しますか？　それとも毎回指定しますか？"
+msgstr "ダウンロードの保存先を固定しますか？　それとも毎回指定しますか？"
 
 #: glade/wizard.glade:141
 msgid "Ask where to save each file"
@@ -1061,16 +1050,14 @@ msgid "Store all downloads in: "
 msgstr "保存先を指定: "
 
 #: glade/wizard.glade:215
-#, fuzzy
 msgid ""
 "Please select the upload speed of your connection, which we will then use to "
 "automatically make suggestions for the settings below"
 msgstr "あなたの回線の上り速度を以下の設定から選んでください。自動的に最適値が設定されます"
 
 #: glade/wizard.glade:238
-#, fuzzy
 msgid "Maximum Active Torrents:"
-msgstr "最大アクティブトレント:"
+msgstr "最大アクティヴトレント数:"
 
 #: glade/wizard.glade:386
 msgid ""
@@ -1113,9 +1100,8 @@ msgstr ""
 "100Mbit"
 
 #: glade/wizard.glade:419
-#, fuzzy
 msgid "Your Upload Line Speed:"
-msgstr "回線の上り速度"
+msgstr "回線の上り上限速度:"
 
 #: glade/wizard.glade:506
 msgid ""
@@ -1123,10 +1109,13 @@ msgid ""
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
+"Delugeの改良を助ける為に、PythonとPyGTKのバージョン、\n"
+"OSとプロセッサタイプを開発者へ送ります\n"
+"その他の情報は絶対に送りません(_H)"
 
 #: src/interface.py:71
 msgid "Browser"
-msgstr "ブラウザ"
+msgstr "Browser"
 
 #: src/interface.py:73
 msgid "Launch Browser"
@@ -1155,7 +1144,7 @@ msgstr "無制限"
 
 #: src/interface.py:341
 msgid "Activated"
-msgstr ""
+msgstr "活性化"
 
 #: src/interface.py:390 src/interface.py:402 src/interface.py:430
 #: plugins/DesiredRatio/__init__.py:115 plugins/SpeedLimiter/__init__.py:141
@@ -1172,18 +1161,16 @@ msgid "Upload Speed (KiB/s):"
 msgstr "上り速度 (KiB/s):"
 
 #: src/interface.py:464
-#, fuzzy
 msgid "Deluge is locked"
 msgstr "Delugeはロックされています"
 
 #: src/interface.py:467
-#, fuzzy
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 msgstr ""
-"Delugeはパスワードによってロックされています。\n"
-"Delugeを表示したいなら、パスワードを入力して下さい。"
+"Delugeはパスワードによってロックされています\n"
+"Delugeを表示したいなら、パスワードを入力して下さい"
 
 #: src/interface.py:614 src/common.py:74
 msgid "Infinity"
@@ -1202,7 +1189,7 @@ msgstr "名前"
 
 #: src/interface.py:664 plugins/WebUi/scripts/template_strings.py:21
 msgid "ETA"
-msgstr "ETA"
+msgstr "残り時間"
 
 #: src/interface.py:667
 msgid "Avail."
@@ -1257,29 +1244,24 @@ msgid "Choose a download directory"
 msgstr "保存先を選択"
 
 #: src/interface.py:1420
-#, fuzzy
 msgid ""
 "An error occured while trying to add the torrent. It's possible your "
 ".torrent file is corrupted."
-msgstr "トレントを追加中にエラーが発生しました。トレントファイルが壊れているかもしれません。"
+msgstr "トレントを追加中にエラーが発生しました。トレントファイルが壊れているかもしれません"
 
 #: src/interface.py:1448
-#, fuzzy
 msgid "Unknown duplicate torrent error."
-msgstr "不明な複製トレントエラーです。"
+msgstr "不明な複製トレントエラーです"
 
 #: src/interface.py:1453
-#, fuzzy
 msgid "There is not enough freedisk space to complete your download."
-msgstr "ダウンロードに必要なスペースが不足しています。"
+msgstr "ダウンロードに必要なスペースが不足しています"
 
 #: src/interface.py:1454 src/core.py:569
-#, fuzzy
 msgid "Space Needed:"
 msgstr "必要なスペース:"
 
 #: src/interface.py:1455 src/core.py:569
-#, fuzzy
 msgid "Available Space:"
 msgstr "利用可能なスペース:"
 
@@ -1288,26 +1270,22 @@ msgid "Add torrent from URL"
 msgstr "URLからトレントを追加"
 
 #: src/interface.py:1487
-#, fuzzy
 msgid "Enter the URL of the .torrent to download"
 msgstr "トレントファイルのURLを入力"
 
 #: src/interface.py:1548
-#, fuzzy
 msgid "Warning - all downloaded files for this torrent will be deleted!"
-msgstr "警告 - このトレントの全ダウンロードファイルは削除されます！"
+msgstr "警告 - このトレントの全てのダウンロードファイルは削除されます！"
 
 #: src/interface.py:1564
-#, fuzzy
 msgid "Are you sure that you want to remove all seeding torrents?"
-msgstr "シード中の全トレントを削除しますか？"
+msgstr "シーディングしている全てのトレントを削除しますか？"
 
 #: src/search.py:59
 msgid "Search String"
 msgstr "文字列検索"
 
 #: src/search.py:80 src/search.py:158
-#, fuzzy
 msgid "Choose an Engine"
 msgstr "エンジン選択"
 
@@ -1324,7 +1302,6 @@ msgid "Queued"
 msgstr "キュー済み"
 
 #: src/core.py:88 plugins/WebUi/webserver_common.py:196
-#, fuzzy
 msgid "Checking"
 msgstr "チェック中"
 
@@ -1333,18 +1310,17 @@ msgid "Connecting"
 msgstr "接続中"
 
 #: src/core.py:90 plugins/WebUi/webserver_common.py:198
-#, fuzzy
 msgid "Downloading Metadata"
-msgstr "メタデータをダウンロード"
+msgstr "メタデータをダウンロード中"
 
 #: src/core.py:91 plugins/BlocklistImport/ui.py:121
 #: plugins/WebUi/webserver_common.py:199
 msgid "Downloading"
-msgstr "Downloading"
+msgstr "ダウンロード中"
 
 #: src/core.py:92 plugins/WebUi/webserver_common.py:200
 msgid "Finished"
-msgstr "完了"
+msgstr "完了済み"
 
 #: src/core.py:94 plugins/WebUi/webserver_common.py:202
 msgid "Allocating"
@@ -1352,7 +1328,7 @@ msgstr "確保中"
 
 #: src/core.py:137
 msgid "bytes needed"
-msgstr ""
+msgstr "必要なバイト数"
 
 #: src/core.py:397
 msgid "File was not found"
@@ -1367,7 +1343,6 @@ msgid "There is not enough free disk space to complete your download."
 msgstr "ダウンロードに必要な空きスペースがありません"
 
 #: src/core.py:664
-#, fuzzy
 msgid "Announce sent"
 msgstr "アナウンスしました"
 
@@ -1377,7 +1352,7 @@ msgstr "アナウンスOK"
 
 #: src/core.py:674
 msgid "Alert"
-msgstr "警告"
+msgstr "注意"
 
 #: src/core.py:675
 msgid "HTTP code"
@@ -1385,7 +1360,7 @@ msgstr "HTTP code"
 
 #: src/core.py:676
 msgid "times in a row"
-msgstr ""
+msgstr "連続回数"
 
 #: src/core.py:683
 msgid "Warning"
@@ -1405,6 +1380,8 @@ msgid ""
 "Please change your preference to disable compact allocation, then remove and "
 "re-add this torrent."
 msgstr ""
+"ファイル優先度はfull allocationを使用する場合だけ設定可能です\n"
+"compact allocationが無効である事を確認して下さい。その際、このトレントを削除、または再度追加して下さい"
 
 #: src/dialogs.py:69
 msgid "Plugin"
@@ -1430,6 +1407,19 @@ msgid ""
 " Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-\n"
 "1301 USA"
 msgstr ""
+"Deluge is free software, you can redistribute it and/or\n"
+"modify it under the terms of the GNU General Public\n"
+" License as published by the Free Software Foundation,\n"
+"either version 2 of the License, or (at your option) any\n"
+"later version.  Deluge is distributed in the hope that it\n"
+"will be useful, but WITHOUT ANY WARRANTY, without even \n"
+"the implied warranty of MERCHANTABILITY or FITNESS\n"
+"FOR A PARTICULAR PURPOSE.  See the GNU General\n"
+"Public License for more details.  You should have received\n"
+"a copy of the GNU General Public License along with\n"
+"Deluge, but if not, write to the Free Software Foundation,\n"
+" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-\n"
+"1301 USA"
 
 #: src/dialogs.py:503
 msgid "Choose a .torrent file"
@@ -1468,7 +1458,6 @@ msgid "External command"
 msgstr "外部コマンド"
 
 #: src/common.py:214
-#, fuzzy
 msgid "not found"
 msgstr "見つかりません"
 
@@ -1493,7 +1482,6 @@ msgid "PeerGuardian P2B (GZip)"
 msgstr "PeerGuardian P2B (GZip)"
 
 #: plugins/BlocklistImport/__init__.py:42
-#, fuzzy
 msgid "PeerGuardian Text (Uncompressed)"
 msgstr "PeerGuardian Text (非圧縮)"
 
@@ -1540,12 +1528,10 @@ msgid "Blocklist URL"
 msgstr "ブロックリストURL"
 
 #: plugins/BlocklistImport/ui.py:50
-#, fuzzy
 msgid "Download on start"
-msgstr "ダウンロード開始"
+msgstr "開始時にダウンロード"
 
 #: plugins/BlocklistImport/ui.py:108
-#, fuzzy
 msgid "Loading and installing blocklist"
 msgstr "ブロックリストのロードとインストール"
 
@@ -1559,7 +1545,7 @@ msgstr "完了"
 
 #: plugins/BlocklistImport/text.py:129
 msgid "Got format exception for zipfile:"
-msgstr ""
+msgstr "ZIPファイルの例外的なフォーマットを検出しました:"
 
 #: plugins/BlocklistImport/peerguardian.py:24
 msgid ""
@@ -1569,23 +1555,21 @@ msgstr ""
 
 #: plugins/BlocklistImport/peerguardian.py:32
 msgid "Invalid leader"
-msgstr ""
+msgstr "無効なリーダー"
 
 #: plugins/BlocklistImport/peerguardian.py:36
 msgid "Invalid magic code"
-msgstr ""
+msgstr "無効なマジックコード"
 
 #: plugins/BlocklistImport/peerguardian.py:41
 msgid "Invalid version"
 msgstr "無効なバージョン"
 
 #: plugins/DesiredRatio/__init__.py:22
-#, fuzzy
 msgid "Set the desired ratio for a torrent."
 msgstr "希望する共有比を設定"
 
 #: plugins/DesiredRatio/__init__.py:76
-#, fuzzy
 msgid "_Desired Ratio"
 msgstr "希望共有比(_D)"
 
@@ -1598,7 +1582,6 @@ msgid "Not Set"
 msgstr "未設定"
 
 #: plugins/DesiredRatio/__init__.py:119
-#, fuzzy
 msgid "Desired Ratio"
 msgstr "希望共有比"
 
@@ -1623,10 +1606,9 @@ msgstr "進捗率"
 
 #: plugins/TorrentCreator/torrentcreator.glade:9
 msgid "Torrent Creator"
-msgstr "Torrent作成者"
+msgstr "トレントクリエイター"
 
 #: plugins/TorrentCreator/torrentcreator.glade:104
-#, fuzzy
 msgid "This torrent will be made from a single file"
 msgstr "このトレントは1つのファイルで構成されています"
 
@@ -1635,7 +1617,6 @@ msgid "File:"
 msgstr "ファイル:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:121
-#, fuzzy
 msgid "This torrent will be made from a directory"
 msgstr "このトレントはディレクトリで構成されています"
 
@@ -1653,7 +1634,7 @@ msgstr "トレントファイルを保存:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:238
 msgid "Load this torrent into Deluge for seeding"
-msgstr ""
+msgstr "シーディングする為に、このトレントをDelugeでロード"
 
 #: plugins/TorrentCreator/torrentcreator.glade:239
 msgid "Add new torrent to queue"
@@ -1668,9 +1649,8 @@ msgid "<b>Trackers</b>"
 msgstr "<b>トラッカー</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:353
-#, fuzzy
 msgid "<b>Web Seeds</b>"
-msgstr "<b>Webシード</b>"
+msgstr "<b>Web Seeds</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:400
 msgid "<b>Comments</b>"
@@ -1682,15 +1662,14 @@ msgstr "<b>作成者</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:476
 msgid "Set Private Flag"
-msgstr ""
+msgstr "プライベートフラッグを設定"
 
 #: plugins/TorrentCreator/torrentcreator.glade:489
 #: plugins/TorrentCreator/torrentcreator.glade:510
-#, fuzzy
 msgid ""
 "The smaller the piece sizes, the more efficient the transfers will be, but "
 "the actual \".torrent\" file will be larger"
-msgstr "小さいピースサイズは、転送が効率的になりますが、実際のトレントファイルが大きくなるでしょう"
+msgstr "小さいピースサイズは転送が効率的になりますが、実際のトレントファイルが大きくなるでしょう"
 
 #: plugins/TorrentCreator/torrentcreator.glade:490
 msgid ""
@@ -1720,7 +1699,7 @@ msgstr "<b>詳細</b>"
 
 #: plugins/TorrentCreator/__init__.py:22
 msgid "A torrent creator plugin"
-msgstr ""
+msgstr "トレントクリエイタープラグイン"
 
 #: plugins/TorrentCreator/__init__.py:51
 msgid "_New Torrent"
@@ -1735,27 +1714,24 @@ msgid "Create New Torrent"
 msgstr "新しいトレントを作成"
 
 #: plugins/TorrentCreator/__init__.py:99
-#, fuzzy
 msgid "Save file as..."
 msgstr "ファイルに名前を付けて保存..."
 
 #: plugins/TorrentCreator/__init__.py:121
-#, fuzzy
 msgid "You must select a source for the torrent."
-msgstr "トレントのソースを選択しなければなりません"
+msgstr "トレントのソースを選択しなくてはいけません"
 
 #: plugins/TorrentCreator/__init__.py:128
 msgid "You must select a file to save the torrent as."
-msgstr ""
+msgstr "トレントを保存しなくてはいけません"
 
 #: plugins/TorrentNotification/notification_preferences.glade:7
-#, fuzzy
 msgid "Torrent Notification Preferences"
 msgstr "トレント通知選択"
 
 #: plugins/TorrentNotification/notification_preferences.glade:32
 msgid "Enable event sound (requires pygame, not available on Win32)"
-msgstr "イベント音を有効（Pygameが必要。Win32では使用不可）"
+msgstr "イベント音を有効（Pygameが必要、Win32では使用不可）"
 
 #: plugins/TorrentNotification/notification_preferences.glade:59
 msgid "Enable blinking tray icon"
@@ -1767,11 +1743,10 @@ msgid ""
 msgstr "ポップアップ通知を有効（python-notifyが必要。Win32では使用不可）"
 
 #: plugins/TorrentNotification/__init__.py:22
-#, fuzzy
 msgid ""
 "Make tray icon blink when torrent finishes downloading and/or popup a "
 "notification"
-msgstr "トレントがダウンロード完了した時に、トレイアイコンを明滅/ポップアップ通知する"
+msgstr "トレントのダウンロードが完了した際、トレイアイコンを明滅/ポップアップ通知する"
 
 #: plugins/TorrentNotification/__init__.py:108
 msgid "Torrent complete"
@@ -1783,6 +1758,9 @@ msgid ""
 "\n"
 "Written by Kripkenstein"
 msgstr ""
+"Network Health Monitor plugin\n"
+"\n"
+"Written by Kripkenstein"
 
 #: plugins/NetworkHealth/plugin.py:53
 msgid "[Health: OK]"
@@ -1802,9 +1780,8 @@ msgstr "ログファイル"
 
 #: plugins/EventLogging/event_logging_preferences.glade:66
 #: plugins/EventLogging/tab_log.py:210
-#, fuzzy
 msgid "Peer blocked"
-msgstr "ピアをブロック"
+msgstr "ピアブロック"
 
 #: plugins/EventLogging/event_logging_preferences.glade:80
 #: plugins/EventLogging/tab_log.py:200
@@ -1814,7 +1791,7 @@ msgstr "ブロック完了"
 #: plugins/EventLogging/event_logging_preferences.glade:94
 #: plugins/EventLogging/tab_log.py:189
 msgid "Block downloading"
-msgstr "ダウンロードをブロック"
+msgstr "ダウンロードブロック"
 
 #: plugins/EventLogging/event_logging_preferences.glade:108
 #: plugins/EventLogging/tab_log.py:179
@@ -1823,38 +1800,33 @@ msgstr "ピース完了"
 
 #: plugins/EventLogging/event_logging_preferences.glade:122
 #: plugins/EventLogging/tab_log.py:170
-#, fuzzy
 msgid "Storage moved"
-msgstr "ストレージ移動済み"
+msgstr "ストレージ移動"
 
 #: plugins/EventLogging/event_logging_preferences.glade:136
 #: plugins/EventLogging/tab_log.py:161
-#, fuzzy
 msgid "Tracker warning"
 msgstr "トラッカー警戒"
 
 #: plugins/EventLogging/event_logging_preferences.glade:150
 #: plugins/EventLogging/tab_log.py:150
-#, fuzzy
 msgid "Tracker alert"
 msgstr "トラッカー警告"
 
 #: plugins/EventLogging/event_logging_preferences.glade:164
 #: plugins/EventLogging/tab_log.py:141
-#, fuzzy
 msgid "Tracker reply"
 msgstr "トラッカー応答"
 
 #: plugins/EventLogging/event_logging_preferences.glade:178
 #: plugins/EventLogging/tab_log.py:132
-#, fuzzy
 msgid "Tracker announce"
-msgstr "トラッカー告知"
+msgstr "トラッカーアナウンス"
 
 #: plugins/EventLogging/event_logging_preferences.glade:192
 #: plugins/EventLogging/tab_log.py:123
 msgid "Fastresume rejected error"
-msgstr ""
+msgstr "ファストレジュームエラー"
 
 #: plugins/EventLogging/event_logging_preferences.glade:206
 #: plugins/EventLogging/tab_log.py:114
@@ -1886,7 +1858,6 @@ msgid "Torrent finished"
 msgstr "トレント完了"
 
 #: plugins/EventLogging/event_logging_preferences.glade:289
-#, fuzzy
 msgid "Select events to log"
 msgstr "イベントログを選択"
 
@@ -1963,7 +1934,7 @@ msgstr "ステイタスコード: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "Times in a row: "
-msgstr ""
+msgstr "連続回数: "
 
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
 msgid "block index: "
@@ -1974,27 +1945,24 @@ msgid "peer speed: "
 msgstr "ピア速度: "
 
 #: plugins/SpeedLimiter/__init__.py:20
-#, fuzzy
 msgid "Set the desired speed limit per torrent."
-msgstr "トレント毎の希望速度制限を設定"
+msgstr "各トレントの希望速度制限を設定"
 
 #: plugins/SpeedLimiter/__init__.py:81
-#, fuzzy
 msgid "Torrent _Download Speed"
-msgstr "トレントダウンロード速度(_D)"
+msgstr "トレント下り速度(_D)"
 
 #: plugins/SpeedLimiter/__init__.py:91
-#, fuzzy
 msgid "Torrent Upload _Speed"
-msgstr "トレントアップロード速度(_S)"
+msgstr "トレント上り速度(_S)"
 
 #: plugins/SpeedLimiter/__init__.py:145
 msgid "Torrent Upload Speed (KiB/s):"
-msgstr "トレントアップロード(KiB/s):"
+msgstr "トレント上り速度(KiB/s):"
 
 #: plugins/SpeedLimiter/__init__.py:177
 msgid "Torrent Download Speed (KiB/s):"
-msgstr "トレントダウンロード速度(KiB/s):"
+msgstr "トレント下り速度(KiB/s):"
 
 #: plugins/NetworkGraph/__init__.py:36
 msgid ""
@@ -2002,6 +1970,9 @@ msgid ""
 "\n"
 "Written by Kripkenstein"
 msgstr ""
+"Network Activity Graph plugin\n"
+"\n"
+"Written by Kripkenstein"
 
 #: plugins/NetworkGraph/__init__.py:90
 msgid "Graph"
@@ -2010,10 +1981,9 @@ msgstr "グラフ"
 #: plugins/TorrentFiles/tab_files.py:59
 #: plugins/WebUi/scripts/template_strings.py:36
 msgid "Progress"
-msgstr "プログレス"
+msgstr "進捗"
 
 #: plugins/TorrentFiles/tab_files.py:100
-#, fuzzy
 msgid "There was an error trying to launch the file."
 msgstr "ファイル実行時にエラーが発生しました"
 
@@ -2064,13 +2034,11 @@ msgstr "未定義"
 
 #: plugins/ExtraStats/__init__.py:195
 #: plugins/ExtraStats/stats_preferences.glade:52
-#, fuzzy
 msgid "Overall Ratio"
 msgstr "総合共有比"
 
 #: plugins/ExtraStats/__init__.py:200
 #: plugins/ExtraStats/stats_preferences.glade:66
-#, fuzzy
 msgid "Torrents Completed"
 msgstr "トレント完了済み"
 
@@ -2080,7 +2048,6 @@ msgid "Running Time"
 msgstr "実行時間"
 
 #: plugins/ExtraStats/stats_preferences.glade:7
-#, fuzzy
 msgid "Extra Stats Preferences"
 msgstr "詳細統計選択"
 
@@ -2122,9 +2089,8 @@ msgid "gtk-ok"
 msgstr "gtk-ok"
 
 #: plugins/WebSeed/__init__.py:22
-#, fuzzy
 msgid "This plugin allows users to add web seeds to their torrents"
-msgstr "このプラグインはトレントをWebシードに追加するのを許可します"
+msgstr "このプラグインはトレントをWebシードに追加するのを許容します"
 
 #: plugins/WebSeed/__init__.py:51
 msgid "_Add Web Seed"
@@ -2208,14 +2174,13 @@ msgstr "テキストのみ"
 
 #: plugins/WebUi/__init__.py:261
 msgid "Confirmed Password <> New Password\n"
-msgstr ""
+msgstr "確認されたパスワード <> 新しいパスワード\n"
 
 #: plugins/WebUi/webserver_common.py:62
 msgid "translate something"
 msgstr ""
 
 #: plugins/WebUi/deluge_webserver.py:196
-#, fuzzy
 msgid "Choose an url or a torrent, not both."
 msgstr "トレントかURLを片方のみ選択"
 
@@ -2229,7 +2194,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:1
 msgid "# Of Files"
-msgstr ""
+msgstr "ファイル数"
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
@@ -2249,7 +2214,7 @@ msgstr "オートリフレッシュ:"
 
 #: plugins/WebUi/scripts/template_strings.py:8
 msgid "Ava"
-msgstr ""
+msgstr "可用性"
 
 #: plugins/WebUi/scripts/template_strings.py:10
 msgid "Config"
@@ -2257,11 +2222,11 @@ msgstr "コンフィグ"
 
 #: plugins/WebUi/scripts/template_strings.py:12
 msgid "Debug:Data Dump"
-msgstr ""
+msgstr "デバッグ:データダンプ"
 
 #: plugins/WebUi/scripts/template_strings.py:14
 msgid "Delete downloaded files."
-msgstr "ダウンロードファイルを削除"
+msgstr "ダウンロード済みファイルを削除"
 
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Disable"
@@ -2280,7 +2245,6 @@ msgid "Error"
 msgstr "エラー"
 
 #: plugins/WebUi/scripts/template_strings.py:24
-#, fuzzy
 msgid "Eta"
 msgstr "残り時間"
 
@@ -2294,11 +2258,11 @@ msgstr "ログアウト"
 
 #: plugins/WebUi/scripts/template_strings.py:28
 msgid "Next Announce"
-msgstr "次の通知"
+msgstr "次のアナウンス"
 
 #: plugins/WebUi/scripts/template_strings.py:29
 msgid "Off"
-msgstr "Off"
+msgstr "オフ"
 
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Password is invalid,try again"
@@ -2306,7 +2270,7 @@ msgstr "無効なパスワードです。もう一度試してください"
 
 #: plugins/WebUi/scripts/template_strings.py:33
 msgid "Pause all"
-msgstr "全て停止"
+msgstr "全て休止"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Pieces"
@@ -2326,11 +2290,11 @@ msgstr "キューを上げる"
 
 #: plugins/WebUi/scripts/template_strings.py:41
 msgid "Reannounce"
-msgstr "再通知"
+msgstr "再アナウンス"
 
 #: plugins/WebUi/scripts/template_strings.py:42
 msgid "Refresh page every:"
-msgstr ""
+msgstr "毎回ページリフレッシュする:"
 
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Remove torrent"
@@ -2342,7 +2306,7 @@ msgstr "全て再開"
 
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Set"
-msgstr "セット"
+msgstr "設定"
 
 #: plugins/WebUi/scripts/template_strings.py:49
 msgid "Set Timeout"
@@ -2350,7 +2314,7 @@ msgstr "タイムアウトを設定"
 
 #: plugins/WebUi/scripts/template_strings.py:52
 msgid "Speed"
-msgstr "スピード"
+msgstr "速度"
 
 #: plugins/WebUi/scripts/template_strings.py:53
 msgid "Start"
@@ -2377,7 +2341,6 @@ msgid "Tracker Status"
 msgstr "トラッカーステイタス"
 
 #: plugins/WebUi/scripts/template_strings.py:62
-#, fuzzy
 msgid "Upload torrent"
 msgstr "トレントをアップロード"
 
@@ -2398,12 +2361,10 @@ msgid "FlexRSS"
 msgstr "FlexRSS"
 
 #: plugins/FlexRSS/FlexRSS.glade:103
-#, fuzzy
 msgid "Feed will be retrieved automatically, based on the update interval."
 msgstr "フィードはアップデート間隔に基づいて自動的に検索されます"
 
 #: plugins/FlexRSS/FlexRSS.glade:115
-#, fuzzy
 msgid "Feed must be refreshed manually."
 msgstr "フィードを手動でリフレッシュして下さい"
 
@@ -2424,7 +2385,6 @@ msgid "900"
 msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
-#, fuzzy
 msgid "Feeds"
 msgstr "フィード"
 
@@ -2441,7 +2401,6 @@ msgid "<b>Information</b>"
 msgstr "<b>情報</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:511
-#, fuzzy
 msgid "<b>Patterns</b>"
 msgstr "<b>パターン</b>"
 
@@ -2451,40 +2410,35 @@ msgstr "From"
 
 #: plugins/FlexRSS/FlexRSS.glade:565 plugins/FlexRSS/FlexRSS.glade:641
 #: plugins/FlexRSS/FlexRSS.glade:826
-#, fuzzy
 msgid "Season"
 msgstr "シーズン"
 
 #: plugins/FlexRSS/FlexRSS.glade:594 plugins/FlexRSS/FlexRSS.glade:675
 #: plugins/FlexRSS/FlexRSS.glade:833
-#, fuzzy
 msgid "Episode"
 msgstr "エピソード"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 msgid "Thru"
-msgstr ""
+msgstr "徹底的"
 
 #: plugins/FlexRSS/FlexRSS.glade:766
-#, fuzzy
 msgid "<b>History Restriction</b>"
 msgstr "<b>履歴制限</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:810
 msgid "Doesn't Match"
-msgstr ""
+msgstr "マッチしません"
 
 #: plugins/FlexRSS/FlexRSS.glade:875
 msgid "Year"
 msgstr "年"
 
 #: plugins/FlexRSS/FlexRSS.glade:882
-#, fuzzy
 msgid "Month"
 msgstr "月"
 
 #: plugins/FlexRSS/FlexRSS.glade:893
-#, fuzzy
 msgid "Day"
 msgstr "日"
 
@@ -2493,35 +2447,32 @@ msgid "<b>Test</b>"
 msgstr "<b>テスト</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
-#, fuzzy
 msgid "Insert torrent at top of queue."
 msgstr "トレントをキューの最上部へ挿入"
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
-msgstr "停止状態に設定"
+msgstr "休止状態に設定"
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
 msgid "Delete filter when matched."
-msgstr ""
+msgstr "適合した場合、フィルターを削除"
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
 msgstr "<b>ダウンロード</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1084
-#, fuzzy
 msgid "Replacement"
 msgstr "置換"
 
 #: plugins/FlexRSS/FlexRSS.glade:1098
-#, fuzzy
 msgid "Pattern"
 msgstr "パターン"
 
 #: plugins/FlexRSS/FlexRSS.glade:1111
 msgid "<b>Link Rewriting</b>"
-msgstr ""
+msgstr "<b>Link Rewriting</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1143
 msgid ""
@@ -2531,11 +2482,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
 msgid "Deluge default"
-msgstr ""
+msgstr "Deluge default"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
-msgstr ""
+msgstr "コンテンツは指定されたディレクトリに自動的にダウンロードされます"
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"
@@ -2569,11 +2520,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
 msgid "Threaded (experimental)"
-msgstr ""
+msgstr "Threaded (実験的)"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"
-msgstr ""
+msgstr "<b>Feed Retrieval</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"

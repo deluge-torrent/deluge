@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-06 05:23+0000\n"
-"Last-Translator: gdevitis <Unknown>\n"
+"PO-Revision-Date: 2008-03-24 17:15+0000\n"
+"Last-Translator: berto89 <lorenzo.bertolotto@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-11 19:09+0000\n"
+"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -80,16 +80,16 @@ msgstr "Cambia le preferenze di Deluge"
 
 #: glade/delugegtk.glade:143
 msgid "Preferences"
-msgstr "Preferenze"
+msgstr "Impostazioni"
 
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
 #: glade/preferences_dialog.glade:2982
 msgid "Plugins"
-msgstr "Plugin"
+msgstr "Moduli"
 
 #: glade/delugegtk.glade:186
 msgid "_File"
-msgstr "_File"
+msgstr "_Archivio"
 
 #: glade/delugegtk.glade:193 glade/tray_menu.glade:61
 msgid "_Add Torrent"
@@ -101,7 +101,7 @@ msgstr "Aggiungi _URL"
 
 #: glade/delugegtk.glade:216
 msgid "_Clear Completed"
-msgstr "_Pulisci completati"
+msgstr "Rimuovi completati"
 
 #: glade/delugegtk.glade:249
 msgid "_Edit"
@@ -144,7 +144,7 @@ msgstr "Stato"
 #: glade/delugegtk.glade:361 src/interface.py:652
 #: plugins/WebUi/scripts/template_strings.py:47
 msgid "Seeders"
-msgstr "Seeder"
+msgstr "Distributori"
 
 #: glade/delugegtk.glade:370 src/interface.py:655
 #: plugins/TorrentPeers/__init__.py:85
@@ -166,7 +166,7 @@ msgstr "Velocità invio"
 
 #: glade/delugegtk.glade:397
 msgid "Time Remaining"
-msgstr "Tempo rimanente"
+msgstr "Tempo Rimasto"
 
 #: glade/delugegtk.glade:406 plugins/WebUi/scripts/template_strings.py:9
 msgid "Availability"
@@ -182,7 +182,7 @@ msgstr "A_iuto"
 
 #: glade/delugegtk.glade:440
 msgid "_Homepage"
-msgstr "_Homepage"
+msgstr "Pagina Iniziale"
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
@@ -372,11 +372,11 @@ msgstr "Aggiungi un torrent..."
 
 #: glade/dgtkpopups.glade:179
 msgid "Clear Finished"
-msgstr "Pulisci completati"
+msgstr "RImuovi completati"
 
 #: glade/file_tab_menu.glade:11
 msgid "_Open File"
-msgstr "_Apri file"
+msgstr "Apri Documento"
 
 #: glade/file_tab_menu.glade:33
 msgid "Select All"
@@ -610,7 +610,7 @@ msgstr "In uscita:"
 
 #: glade/preferences_dialog.glade:904
 msgid "Prefer to encrypt the entire stream"
-msgstr "Preferire la cifratura dell'intero stream"
+msgstr "Preferire la cifratura dell'intera corrente"
 
 #: glade/preferences_dialog.glade:917
 msgid "Level:"
@@ -622,9 +622,9 @@ msgid ""
 "Full Stream\n"
 "Either"
 msgstr ""
-"Handshake\n"
-"Intero stream\n"
-"Entrambi"
+"Stretta di mano\n"
+"Corrente intera\n"
+"Entrabi"
 
 #: glade/preferences_dialog.glade:954
 msgid "<b>Encryption</b>"
@@ -762,7 +762,7 @@ msgstr "Influenza in normali nodi bittorrent"
 
 #: glade/preferences_dialog.glade:1567
 msgid "Peer Proxy"
-msgstr "Proxy per peer"
+msgstr ""
 
 #: glade/preferences_dialog.glade:1609 glade/preferences_dialog.glade:1804
 #: glade/preferences_dialog.glade:1999 glade/preferences_dialog.glade:2194
@@ -778,7 +778,7 @@ msgstr "Note utente"
 #: glade/preferences_dialog.glade:2017 glade/preferences_dialog.glade:2212
 #: plugins/WebUi/scripts/template_strings.py:30
 msgid "Password"
-msgstr "Password"
+msgstr "Parola d'ordine"
 
 #: glade/preferences_dialog.glade:1639 glade/preferences_dialog.glade:1834
 #: glade/preferences_dialog.glade:2029 glade/preferences_dialog.glade:2224

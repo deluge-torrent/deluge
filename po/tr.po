@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-02-12 23:36+0000\n"
-"Last-Translator: ras0ir <ras0ir@eventualis.org>\n"
+"PO-Revision-Date: 2008-03-12 22:24+0000\n"
+"Last-Translator: Mert Bozkurt <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-11 19:09+0000\n"
+"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -1098,8 +1098,9 @@ msgstr ""
 "seferinde rastgele port seçmesini de sağlayabilirsiniz."
 
 #: glade/wizard.glade:88
+#, fuzzy
 msgid "Use _Random Ports"
-msgstr ""
+msgstr "Rastgele port"
 
 #: glade/wizard.glade:116
 msgid ""
@@ -1719,7 +1720,7 @@ msgstr "Torrenti Farklı Kaydet"
 
 #: plugins/TorrentCreator/torrentcreator.glade:238
 msgid "Load this torrent into Deluge for seeding"
-msgstr ""
+msgstr "Torrent yayımlanmak için Deluge'ye yükleniyor."
 
 #: plugins/TorrentCreator/torrentcreator.glade:239
 msgid "Add new torrent to queue"
@@ -2207,11 +2208,11 @@ msgstr "Zamanlayıcı Ayarları"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "High download limit:"
-msgstr ""
+msgstr "En yüksek indirme hız limiti"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "High upload limit:"
-msgstr ""
+msgstr "En yükek gönderme hız limiti"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Low download limit:"
@@ -2558,7 +2559,7 @@ msgstr "<b>Test</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
-msgstr ""
+msgstr "Torrenti sıranın başına koy."
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
@@ -2598,7 +2599,7 @@ msgstr "Deluge öntanımlı"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
-msgstr ""
+msgstr "İçerik otomatik olarak belirlenen dizine indirilecek."
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 #, fuzzy

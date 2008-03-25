@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-10 17:04+0000\n"
-"Last-Translator: fjetland <andreas.fjetland@gmail.com>\n"
+"PO-Revision-Date: 2008-03-16 12:28+0000\n"
+"Last-Translator: Tor Erling H. Opsahl <tor.erling.opsahl@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-11 19:09+0000\n"
+"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -31,7 +31,7 @@ msgstr "Fjern Torrent"
 
 #: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:43
 msgid "Remove"
-msgstr "_Fjern"
+msgstr "Fjern"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
@@ -39,7 +39,7 @@ msgstr "Fjern delte Torrenter"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
-msgstr "Fjern"
+msgstr "Tøm"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
@@ -47,7 +47,7 @@ msgstr "Start eller fortsett torrenten"
 
 #: glade/delugegtk.glade:80 plugins/WebUi/scripts/template_strings.py:45
 msgid "Resume"
-msgstr "Fortsett"
+msgstr "Gjenoppta"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
@@ -59,7 +59,7 @@ msgstr "Pause"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
-msgstr "Flytt Torrent Opp i Kø"
+msgstr "Flytt torrent opp i kø"
 
 #: glade/delugegtk.glade:107 plugins/WebUi/scripts/template_strings.py:59
 msgid "Up"
@@ -67,7 +67,7 @@ msgstr "Opp"
 
 #: glade/delugegtk.glade:120
 msgid "Queue Torrent Down"
-msgstr "Flytt Torrent Ned i Kø"
+msgstr "Flytt torrent ned i kø"
 
 #: glade/delugegtk.glade:121 plugins/WebUi/scripts/template_strings.py:17
 msgid "Down"
@@ -75,16 +75,16 @@ msgstr "Ned"
 
 #: glade/delugegtk.glade:142
 msgid "Change Deluge preferences"
-msgstr "Forandre Deluges alternativer"
+msgstr "Forandre deluges innstillinger"
 
 #: glade/delugegtk.glade:143
 msgid "Preferences"
-msgstr "Alternativer"
+msgstr "Innstillinger"
 
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
 #: glade/preferences_dialog.glade:2982
 msgid "Plugins"
-msgstr "Programtillegg"
+msgstr "Programutvidelser"
 
 #: glade/delugegtk.glade:186
 msgid "_File"
@@ -100,7 +100,7 @@ msgstr "Legg til _URL"
 
 #: glade/delugegtk.glade:216
 msgid "_Clear Completed"
-msgstr "_Fjern Ferdige"
+msgstr "_Fjern ferdige"
 
 #: glade/delugegtk.glade:249
 msgid "_Edit"
@@ -108,7 +108,7 @@ msgstr "_Rediger"
 
 #: glade/delugegtk.glade:274
 msgid "Plu_gins"
-msgstr "Plu_gins"
+msgstr "Utvidelser"
 
 #: glade/delugegtk.glade:302
 msgid "_Torrent"
@@ -193,11 +193,11 @@ msgstr "Brukersamfunn"
 
 #: glade/delugegtk.glade:497
 msgid "Help translate this application"
-msgstr "Hjelp til å oversette dette programmet"
+msgstr "Hjelp til med å oversette dette programmet"
 
 #: glade/delugegtk.glade:498
 msgid "_Translate This Application..."
-msgstr "Hjelp til å overse_tte dette programmet"
+msgstr "Hjelp til med å overse_tte dette programmet"
 
 #: glade/delugegtk.glade:521
 msgid "Runs the first-time configuration wizard"
@@ -229,7 +229,7 @@ msgstr "<b>Tracker Status:</b>"
 
 #: glade/delugegtk.glade:847
 msgid "<b>Total Size:</b>"
-msgstr "<b>Total Størrelse</b>"
+msgstr "<b>Total Størrelse:</b>"
 
 #: glade/delugegtk.glade:883
 msgid "<b>Path:</b>"
@@ -237,19 +237,19 @@ msgstr "<b>Sti:</b>"
 
 #: glade/delugegtk.glade:916
 msgid "<b>Torrent Info</b>"
-msgstr "<b>Torrent-informasjon</b>"
+msgstr "<b>Torrentinformasjon</b>"
 
 #: glade/delugegtk.glade:1078
 msgid "<b>Downloaded:</b>"
-msgstr "<b>Nedlastet:</b>"
+msgstr "<b>Lastet ned:</b>"
 
 #: glade/delugegtk.glade:1092
 msgid "<b>Uploaded:</b>"
-msgstr "<b>Opplastet:</b>"
+msgstr "<b>Lastet opp:</b>"
 
 #: glade/delugegtk.glade:1110
 msgid "<b>Seeders:</b>"
-msgstr "<b>Sendere:</b>"
+msgstr "<b>Delere</b>"
 
 #: glade/delugegtk.glade:1128
 msgid "<b>Share Ratio:</b>"
@@ -266,7 +266,7 @@ msgstr "<b>Nedlastere:</b>"
 #: glade/delugegtk.glade:1208
 #, fuzzy
 msgid "<b>ETA:</b>"
-msgstr "<b>Estimat:</b>"
+msgstr ""
 
 #: glade/delugegtk.glade:1225
 msgid "<b>Pieces:</b>"
@@ -286,19 +286,21 @@ msgstr "Detaljer"
 
 #: glade/browser.glade:85 glade/browserwin.glade:85
 msgid "Go"
-msgstr ""
+msgstr "Utfør"
 
 #: glade/browser.glade:118 glade/browserwin.glade:118
 msgid "Bookmarks"
 msgstr "Bokmerker"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
+#, fuzzy
 msgid "Launch Main Externally"
-msgstr ""
+msgstr "Kjør hovedprogrammet eksternt"
 
 #: glade/browser.glade:172 glade/browserwin.glade:172
+#, fuzzy
 msgid "Launch Main"
-msgstr ""
+msgstr "Kjør hovedprogrammet"
 
 #: glade/browser.glade:185 glade/browserwin.glade:184
 msgid "Launch Footer Externally"
@@ -332,7 +334,7 @@ msgid ""
 msgstr ""
 "Legg til en ny søkemotor ved å skrive inn Navn og URL. For Navn skriver du "
 "inn navnet på søkemotoren som du skal bruke. For URL skriver du inn URL til "
-"søkemotor. Det brukeren søker etter vil erstatte alle instanser av ${query} "
+"søkesiden. Det brukeren søker etter vil erstatte alle instanser av ${query} "
 "i URL\n"
 "Et eksempel, Google Søk, ville blitt:\n"
 "Navn: Google\n"
@@ -376,11 +378,11 @@ msgstr "_Åpne fil"
 
 #: glade/file_tab_menu.glade:33
 msgid "Select All"
-msgstr "Merk alt"
+msgstr "Velg alle"
 
 #: glade/file_tab_menu.glade:48
 msgid "Unselect All"
-msgstr "Avmerker alt"
+msgstr "Velg bort alle"
 
 #: glade/file_tab_menu.glade:68 src/core.py:102
 msgid "Don't download"
@@ -388,7 +390,7 @@ msgstr "Ikke last ned"
 
 #: glade/file_tab_menu.glade:83 src/core.py:103
 msgid "Normal"
-msgstr "Vanlig"
+msgstr "Normal"
 
 #: glade/file_tab_menu.glade:98 src/core.py:104
 msgid "High"
@@ -400,22 +402,22 @@ msgstr "Høyest"
 
 #: glade/merge_dialog.glade:7
 msgid "Deluge Merge Tracker Lists"
-msgstr "Deluge Flett Trackerliste"
+msgstr "Flett deluge trackerlister"
 
 #: glade/merge_dialog.glade:23
 msgid ""
 "Torrent already detected in Deluge, would you like to merge the tracker "
 "lists?"
 msgstr ""
-"Torrenten er allerede oppdaget av Deluge. Ønsker du å flette trackerlistene?"
+"Torrenten er allerede oppdaget i Deluge. Ønsker du å flette trackerlistene?"
 
 #: glade/preferences_dialog.glade:9
 msgid "Deluge Preferences"
-msgstr "Deluges Alternativer"
+msgstr "Deluge instillinger"
 
 #: glade/preferences_dialog.glade:58
 msgid "Ask where to save each download"
-msgstr "Spør hvor nedlastingen skal lagres"
+msgstr "Spør hvor hver nedlasting skal lagres"
 
 #: glade/preferences_dialog.glade:76 glade/preferences_dialog.glade:77
 msgid "Store all downloads in:"
@@ -433,7 +435,7 @@ msgstr "Lagre alle torrentfiler i:"
 
 #: glade/preferences_dialog.glade:137
 msgid "<b>Download Location</b>"
-msgstr "<"
+msgstr "<b>Nedlastingsplassering</b>"
 
 #: glade/preferences_dialog.glade:191
 msgid "Autoload all torrent files in:"
@@ -447,20 +449,21 @@ msgstr "<b>Last automatisk</b>"
 #: glade/wizard.glade:237 glade/wizard.glade:478
 msgid ""
 "The number of active torrents that Deluge will run.  Set to -1 for unlimited."
-msgstr "Antallet aktive torrenter Deluge"
+msgstr ""
+"Antallet aktive torrenter Deluge vil kjøre, Sett til -1 for uendelig."
 
 #: glade/preferences_dialog.glade:243
 msgid "Maximum simultaneous active torrents:"
-msgstr "Maksimum samtidige aktive torrents:"
+msgstr "Flest aktive torrents på samme tid:"
 
 #: glade/preferences_dialog.glade:280 glade/preferences_dialog.glade:281
 #: glade/preferences_dialog.glade:302
 msgid "Enable selecting files for torrents before loading"
-msgstr "Aktiver valg av filer for torrenter før lasting:"
+msgstr "Aktivér valg av filer for torrenter før lasting:"
 
 #: glade/preferences_dialog.glade:303
 msgid "Only show if torrent has more than 1 file"
-msgstr "Kun vis om torrenten har mer enn 1 fil"
+msgstr "Vis kun hvis torrenten har mer enn 1 fil"
 
 #: glade/preferences_dialog.glade:319 glade/preferences_dialog.glade:320
 msgid "Prioritize first and last pieces of files in torrent"
@@ -468,35 +471,35 @@ msgstr "Prioritér de første og siste bitene av filene i torrenten"
 
 #: glade/preferences_dialog.glade:335
 msgid "Start torrents in paused state"
-msgstr "Start torrenter i pause modus"
+msgstr "Start torrenter i pausemodus"
 
 #: glade/preferences_dialog.glade:351
 msgid "<b>Torrents</b>"
-msgstr "<b> Torrents </b>"
+msgstr "<b>Torrenter</b>"
 
 #: glade/preferences_dialog.glade:390
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
 msgstr ""
-"Full allokering allokerer all nødvendig diskplass på forhånd, slik at man "
+"Full reservasjon reserverer all nødvendig diskplass på forhånd, slik at man "
 "ungår fragmentering."
 
 #: glade/preferences_dialog.glade:391
 msgid "Use Full Allocation"
-msgstr "Bruk Full Allokering"
+msgstr "Bruk full reservasjon"
 
 #: glade/preferences_dialog.glade:413
 msgid "Compact allocation only allocates space as needed"
-msgstr "Kompakt allokering allokerer diskplass etter behov"
+msgstr "Kompakt reservasjon reserverer diskplass etter behov"
 
 #: glade/preferences_dialog.glade:414
 msgid "Use Compact Allocation"
-msgstr "Bruk kompakt lagring"
+msgstr "Bruk kompakt reservasjon"
 
 #: glade/preferences_dialog.glade:434
 msgid "<b>Allocation</b>"
-msgstr "<b>Lagring</b>"
+msgstr "<b>Reservasjon</b>"
 
 #: glade/preferences_dialog.glade:458
 msgid "Downloads"
@@ -543,7 +546,7 @@ msgstr "0000"
 
 #: glade/preferences_dialog.glade:702
 msgid "Distributed hash table may improve the amount of active connections."
-msgstr "Distribuert hashtabell kan forbedre menden av aktive tilkoblinger"
+msgstr "Distribuert hashtabell kan forbedre mengden av aktive tilkoblinger"
 
 #: glade/preferences_dialog.glade:703
 #, fuzzy
@@ -573,15 +576,15 @@ msgstr "NAT-PMP"
 
 #: glade/preferences_dialog.glade:782 glade/preferences_dialog.glade:783
 msgid "Peer Exchange"
-msgstr "Peer-utveksling"
+msgstr "Nedlasterutveksling"
 
 #: glade/preferences_dialog.glade:799
 msgid "Local Peer Discovery"
-msgstr "Lokal Peer-oppdagelse"
+msgstr "Lokal nedlasteroppdagelse"
 
 #: glade/preferences_dialog.glade:814
 msgid "<b>Network Extras</b>"
-msgstr "<b>Nettverks Ekstra</b>"
+msgstr "<b>Nettverks Ekstraer</b>"
 
 #: glade/preferences_dialog.glade:855
 msgid "Inbound:"
@@ -603,7 +606,7 @@ msgstr "Utgående:"
 
 #: glade/preferences_dialog.glade:904
 msgid "Prefer to encrypt the entire stream"
-msgstr "Foretrekk å kryptere hele strømmen"
+msgstr "foretrekk kryptering av hele strømmen"
 
 #: glade/preferences_dialog.glade:917
 msgid "Level:"
@@ -629,19 +632,19 @@ msgstr "Nettverk"
 
 #: glade/preferences_dialog.glade:1025
 msgid "Queue torrents to bottom when they begin seeding"
-msgstr "Flytt torrents til bunnen av køen når de begynner å dele"
+msgstr "Flytt torrenter til bunnen av køen når de begynner å dele"
 
 #: glade/preferences_dialog.glade:1037
 msgid "Queue new torrents above completed ones"
-msgstr "Legg til nye torrents foran ferdige i køen"
+msgstr "Legg til nye torrenter foran ferdige i køen"
 
 #: glade/preferences_dialog.glade:1053
 msgid "Stop seeding torrents when their share ratio reaches:"
-msgstr "Stopp deling av torrents når delingsraten når:"
+msgstr "Stopp deling av torrenter når delingsraten når:"
 
 #: glade/preferences_dialog.glade:1089
 msgid "Automatically clear torrents that reach the max share ratio"
-msgstr "Automatisk fjern torrents som har nått maks delingsrate"
+msgstr "Automatisk fjern torrenter som har nådd valgte delingsrate"
 
 #: glade/preferences_dialog.glade:1105
 msgid "<b>Seeding</b>"
@@ -658,59 +661,67 @@ msgid ""
 "The maximum half-open connections.  A high value may crash some cheap "
 "routers.  Set -1 for unlimited."
 msgstr ""
+"Høyeste antall halvåpne tilkoblinger, En høy verdi kan krasje noen billige "
+"rutere. Sett til -1 for uendelig"
 
 #: glade/preferences_dialog.glade:1203 glade/wizard.glade:435
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "Høyeste antall halvåpne tilkoblinger:"
 
 #: glade/preferences_dialog.glade:1221 glade/preferences_dialog.glade:1241
 #: glade/preferences_dialog.glade:1321 glade/wizard.glade:277
 #: glade/wizard.glade:341
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Maksimal opphastighet for samtlige torrents. Sett til -1 for uendelig."
+"Høyeste opphastighet for samtlige torrenter. Sett til -1 for uendelig."
 
 #: glade/preferences_dialog.glade:1223 glade/preferences_dialog.glade:1446
 #: glade/wizard.glade:258
 msgid "Maximum Upload Slots:"
-msgstr "Maksimal mendge opplastinger"
+msgstr "Høyeste antall upplastningsplasser:"
 
 #: glade/preferences_dialog.glade:1243 glade/wizard.glade:278
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr "Maksimal opplastingshastighet (KiB/s)"
+msgstr "Høyeste opplastningshastighet (KiB/s)"
 
 #: glade/preferences_dialog.glade:1261 glade/preferences_dialog.glade:1275
 #: glade/wizard.glade:297 glade/wizard.glade:364
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "Maksimalt antall tillate tilkoblinger. Sett til -1 for uendelig"
+msgstr "Høyeste antall tillatte tilkoblinger. Sett til -1 for uendelig."
 
 #: glade/preferences_dialog.glade:1263 glade/preferences_dialog.glade:1431
 #: glade/wizard.glade:298
 msgid "Maximum Connections:"
-msgstr "Maksimum Tilkoblinger"
+msgstr "Høyeste antall tilkoblinger:"
 
 #: glade/preferences_dialog.glade:1289 glade/preferences_dialog.glade:1303
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr "Maksimal nedlastingshastighet for alle torrents. -1 betyr uendelig."
+msgstr ""
+"Høyeste nedlastingshastigheten for samtilge torrenter. Sett til -1 for "
+"uendelig."
 
 #: glade/preferences_dialog.glade:1291
 msgid "Maximum Download Speed (KiB/s):"
-msgstr "Maksimun nedlastningsfart (KiB/s):"
+msgstr "Høyeste nedlastingshastighet (KiB/s):"
 
 #: glade/preferences_dialog.glade:1339 glade/wizard.glade:257
 #: glade/wizard.glade:318
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr ""
+"Høyeste antall opplastinagsplasser for alle torrenter. Sett til -1 for "
+"uendelig."
 
 #: glade/preferences_dialog.glade:1355 glade/preferences_dialog.glade:1368
 msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
+"Høyeste antall tilkoblingsforsøk per sekund. En høy verdi kan krasje noen "
+"billige rutere. Sett til -1 for uendelig."
 
 #: glade/preferences_dialog.glade:1357
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "Høyeste antall tilkoblingsforsøk per sekund:"
 
 #: glade/preferences_dialog.glade:1388
 msgid "<b>Global Bandwidth Usage</b>"
@@ -718,15 +729,16 @@ msgstr "<b>Global bruk av båndbredde</b>"
 
 #: glade/preferences_dialog.glade:1429 glade/preferences_dialog.glade:1459
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "Høyeste antall tilkoblinger per torrent. Sett til -1 for uendelig."
 
 #: glade/preferences_dialog.glade:1444 glade/preferences_dialog.glade:1473
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
 msgstr ""
+"Høyeste antall opplastingsplasser per torrent. Sett til -1 for uendelig"
 
 #: glade/preferences_dialog.glade:1494
 msgid "<b>Per Torrent Bandwidth Usage</b>"
-msgstr ""
+msgstr "<b>Båndbreddebruk per torrent</b>"
 
 #: glade/preferences_dialog.glade:1520
 msgid "Bandwidth"

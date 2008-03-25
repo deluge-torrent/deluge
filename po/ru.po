@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-10 17:45+0000\n"
-"Last-Translator: A.Matveev <Unknown>\n"
+"PO-Revision-Date: 2008-03-17 06:28+0000\n"
+"Last-Translator: Alexander Ilyashov <alexander.ilyashov@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-11 19:09+0000\n"
+"X-Launchpad-Export-Date: 2008-03-25 01:40+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
@@ -211,7 +211,6 @@ msgid "_Translate This Application..."
 msgstr "Перевести эту программу..."
 
 #: glade/delugegtk.glade:521
-#, fuzzy
 msgid "Runs the first-time configuration wizard"
 msgstr "Запустить мастер первоначальной настройки"
 
@@ -241,14 +240,12 @@ msgid "<b>Tracker Status:</b>"
 msgstr "<b>Состояние трекера:</b>"
 
 #: glade/delugegtk.glade:847
-#, fuzzy
 msgid "<b>Total Size:</b>"
-msgstr "Общий размер"
+msgstr "<b>Общий размер:</b>"
 
 #: glade/delugegtk.glade:883
-#, fuzzy
 msgid "<b>Path:</b>"
-msgstr "Расположение файла"
+msgstr "<b>Путь:</b>"
 
 #: glade/delugegtk.glade:916
 msgid "<b>Torrent Info</b>"
@@ -444,7 +441,6 @@ msgid "Ask where to save each download"
 msgstr "Каждый раз запрашивать о месте сохранения торрента"
 
 #: glade/preferences_dialog.glade:76 glade/preferences_dialog.glade:77
-#, fuzzy
 msgid "Store all downloads in:"
 msgstr "Сохранять все загрузки в:"
 

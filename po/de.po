@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-08 20:56+0000\n"
-"Last-Translator: Martin Lettner <m.lettner@gmail.com>\n"
+"PO-Revision-Date: 2008-03-24 15:14+0000\n"
+"Last-Translator: Achim Zien <achimzien@googlemail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-11 19:09+0000\n"
+"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -1647,7 +1647,7 @@ msgstr "Setze das gewünschte Tauschverhältnis für einen Torrent."
 #: plugins/DesiredRatio/__init__.py:76
 #, fuzzy
 msgid "_Desired Ratio"
-msgstr "Gewünschtes _Verteilungs-Verhältnis"
+msgstr "_Gewünschte Verteilungsrate"
 
 #: plugins/DesiredRatio/__init__.py:80
 msgid "_Not Set"

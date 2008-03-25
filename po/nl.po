@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-10 21:41+0000\n"
-"Last-Translator: elparia <marco@datarek.nl>\n"
+"PO-Revision-Date: 2008-03-17 15:16+0000\n"
+"Last-Translator: Jacks0nxD <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-11 19:08+0000\n"
+"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -188,8 +188,9 @@ msgid "_FAQ"
 msgstr "_FAQ"
 
 #: glade/delugegtk.glade:474
+#, fuzzy
 msgid "_Community"
-msgstr ""
+msgstr "_Gemeenschap"
 
 #: glade/delugegtk.glade:497
 msgid "Help translate this application"
@@ -292,20 +293,24 @@ msgid "Bookmarks"
 msgstr "Bladwijzers"
 
 #: glade/browser.glade:171 glade/browserwin.glade:171
+#, fuzzy
 msgid "Launch Main Externally"
-msgstr ""
+msgstr "Start algemeen extern"
 
 #: glade/browser.glade:172 glade/browserwin.glade:172
+#, fuzzy
 msgid "Launch Main"
-msgstr ""
+msgstr "Start algemeen"
 
 #: glade/browser.glade:185 glade/browserwin.glade:184
+#, fuzzy
 msgid "Launch Footer Externally"
-msgstr ""
+msgstr "Start bodem extern"
 
 #: glade/browser.glade:186 glade/browserwin.glade:185
+#, fuzzy
 msgid "Launch Footer"
-msgstr ""
+msgstr "Start bodem"
 
 #: glade/searchdlg.glade:7
 msgid "Manage Search Plugins"
@@ -886,16 +891,18 @@ msgid "<b>Detailed Progress Bar</b>"
 msgstr "Gedetailleerde voortgangsbalk"
 
 #: glade/preferences_dialog.glade:2690
+#, fuzzy
 msgid "Use and show the anonymizing internal browser"
-msgstr ""
+msgstr "Gebruik en weergeef de anonieme interne browser"
 
 #: glade/preferences_dialog.glade:2701
 msgid "<b>Internal Browser</b>"
 msgstr "<b>Interne browser</b>"
 
 #: glade/preferences_dialog.glade:2731
+#, fuzzy
 msgid "Show the search bar on the toolbar"
-msgstr ""
+msgstr "Weergeef de zoekbalk in de toolbar"
 
 #: glade/preferences_dialog.glade:2742
 msgid "<b>Search Bar</b> - restart required"
@@ -966,8 +973,9 @@ msgid "_Edit Trackers"
 msgstr "Trackers b_ewerken"
 
 #: glade/torrent_menu.glade:138
+#, fuzzy
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "_Schrap Tracker"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"
@@ -1161,14 +1169,18 @@ msgstr "Browser"
 
 #: src/interface.py:73
 msgid "Launch Browser"
-msgstr ""
+msgstr "Start browser"
 
 #: src/interface.py:251
+#, fuzzy
 msgid ""
 "Unable to state browser.  Make sure you have python-gnome2-extras installed "
 "or try setting your LD_LIBRARY_PATH and MOZILLA_FIVE_HOME environment "
 "variables to /usr/lib/firefox"
 msgstr ""
+"Niet mogelijk de browser vast te stellen. Controlleer of python-gnome2-"
+"extras is geïnstalleerd of probeer de LD_LIBRARY_PATH en MOZILLA_FIVE_HOME "
+"variabelen te plaatsen in /usr/lib/firefox"
 
 #: src/interface.py:311 src/interface.py:317 src/interface.py:398
 #: src/interface.py:426 plugins/SpeedLimiter/__init__.py:83
@@ -1247,9 +1259,9 @@ msgid "Paused %s"
 msgstr "%s gepauzeerd"
 
 #: src/interface.py:979
-#, python-format
+#, fuzzy, python-format
 msgid "Queued %s"
-msgstr ""
+msgstr "In wachtrij %s"
 
 #: src/interface.py:1091
 msgid ""
@@ -1712,8 +1724,9 @@ msgid "<b>Trackers</b>"
 msgstr "<b>Trackers</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:353
+#, fuzzy
 msgid "<b>Web Seeds</b>"
-msgstr ""
+msgstr "<b>Web Seeds</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:400
 msgid "<b>Comments</b>"
@@ -2335,8 +2348,9 @@ msgid "Auto refresh:"
 msgstr "Verversen"
 
 #: plugins/WebUi/scripts/template_strings.py:8
+#, fuzzy
 msgid "Ava"
-msgstr ""
+msgstr "Avatar"
 
 #: plugins/WebUi/scripts/template_strings.py:10
 msgid "Config"
@@ -2403,8 +2417,9 @@ msgid "Queue Down"
 msgstr "Omlaag in wachtrij"
 
 #: plugins/WebUi/scripts/template_strings.py:38
+#, fuzzy
 msgid "Queue Position"
-msgstr ""
+msgstr "Wachtrij positie"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Queue Up"
