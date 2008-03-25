@@ -74,6 +74,13 @@ class TorrentDetails(component.Component):
             self.window.vpaned.set_position(-1)
         
     def stop(self):
+        # Save the state of the tabs
+        for tab in self.tabs:
+            try:
+                tab.save_state()
+            except AttributeError:
+                pass
+            
         self.clear()
 
     def update(self):
