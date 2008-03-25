@@ -58,7 +58,60 @@ list get_peer_info(torrent_handle const& handle)
 
     for (std::vector<peer_info>::iterator i = pi.begin(); i != pi.end(); ++i)
     {
-        result.append(*i);
+        dict peer;
+        peer["flags"] = i->flags;
+        peer["ip"] = i->ip.address().to_string();
+        peer["up_speed"] = i->up_speed;
+        peer["down_speed"] = i->down_speed;
+        peer["payload_up_speed"] = i->payload_up_speed;
+        peer["payload_down_speed"] = i->payload_down_speed;
+        peer["total_download"] = i->total_download;
+        peer["total_upload"] = i->total_upload;
+        peer["pid"] = i->pid;
+        list pieces;
+        for (std::vector<bool>::const_iterator p = i->pieces.begin(); p != i->pieces.end(); ++p)
+            pieces.append(*p);
+            
+        peer["pieces"] = pieces;
+        peer["upload_limit"] = i->upload_limit;
+        peer["download_limit"] = i->download_limit;
+        peer["load_balancing"] = i->load_balancing;
+        peer["download_queue_length"] = i->download_queue_length;
+        peer["upload_queue_length"] = i->upload_queue_length;
+        peer["downloading_piece_index"] = i->downloading_piece_index;
+        peer["downloading_block_index"] = i->downloading_block_index;
+        peer["downloading_progess"] = i->downloading_progress;
+        peer["downloading_total"] = i->downloading_total;
+        peer["client"] = i->client;
+        peer["connection_type"] = i->connection_type;
+        peer["source"] = i->source;
+        peer["country"] = i->country;
+        peer["interesting"] = (int)i->interesting;
+        peer["choked"] = (int)i->choked;
+        peer["remote_interested"] = (int)i->remote_interested;
+        peer["remote_choked"] = (int)i->remote_choked;
+        peer["supports_extensions"] = (int)i->supports_extensions;
+        peer["local_connection"] = (int)i->local_connection;
+        peer["handshake"] = (int)i->handshake;
+        peer["connecting"] = (int)i->connecting;
+        peer["queued"] = (int)i->queued;
+        peer["on_parole"] = (int)i->on_parole;
+        peer["seed"] = (int)i->seed;
+#ifndef TORRENT_DISABLE_ENCRYPTION
+        peer["rc4_encrypted"] = (int)i->rc4_encrypted;
+        peer["plaintext_encrypted"] = (int)i->plaintext_encrypted;
+#endif
+
+        peer["standard_bittorrent"] = 0;
+        peer["web_seed"] = 1;
+
+        peer["tracker"] = 0x1;
+        peer["dht"] = 0x2;
+        peer["pex"] = 0x4;
+        peer["lsd"] = 0x8;
+        peer["resume_data"] = 0x10;
+
+        result.append(peer);
     }
 
     return result;
