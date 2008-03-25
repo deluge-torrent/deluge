@@ -360,14 +360,13 @@ class Manager:
 
     def pickle_state(self):
         print "save uploaded memory"
-        for unique_ID in self.unique_IDs.keys():
-            # self.get_core_torrent_state purposefully not cached.
+        for torrent in self.state.torrents:
+            uid = self.state.torrents[torrent]
             try:
-                self.unique_IDs[unique_ID].uploaded_memory = \
-                self.unique_IDs[unique_ID].initial_uploaded_memory + \
-                self.get_core_torrent_state(unique_ID, False)['total_upload']
+                torrent.uploaded_memory = self.unique_IDs[uid].uploaded_memory +\
+                    self.get_core_torrent_state(uid, False)['total_upload']
             except AttributeError:
-                self.unique_IDs[unique_ID].initial_uploaded_memory = 0
+                torrent.uploaded_memory = 0
         # Pickle the state so if we experience a crash, the latest state is 
         # available
         print "Pickling state..."
