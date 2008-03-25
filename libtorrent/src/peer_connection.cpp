@@ -1434,10 +1434,8 @@ namespace libtorrent
 		
 			if (t->alerts().should_post(alert::fatal))
 			{
-				if (j.str != "write failed: No space left on device"){
-					std::string err = "torrent paused: disk write error, " + j.str;
-					t->alerts().post_alert(file_error_alert(t->get_handle(), err));
-				}
+				std::string err = "torrent paused: disk write error, " + j.str;
+				t->alerts().post_alert(file_error_alert(t->get_handle(), err));
 			}
 			t->pause();
 			return;
@@ -2402,6 +2400,7 @@ namespace libtorrent
 
 		if (ret != r.length || m_torrent.expired())
 		{
+			if (j.buffer) m_ses.free_disk_buffer(j.buffer);
 			boost::shared_ptr<torrent> t = m_torrent.lock();
 			if (!t)
 			{
