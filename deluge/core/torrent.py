@@ -40,6 +40,7 @@ import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
+import deluge.xmlrpclib
 
 TORRENT_STATE = deluge.common.TORRENT_STATE
 
@@ -223,6 +224,29 @@ class Torrent:
         # list.
         
         return self.torrentqueue[self.torrent_id] + 1
+    
+    def get_peers(self):
+        """Returns a list of peers and various information about them"""
+        ret = []
+        peers = self.handle.get_peer_info()
+        
+        for peer in peers:
+            # Find the progress
+            num_pieces_complete = 0
+            for piece in peer["pieces"]:
+                if piece:
+                    num_pieces_complete += 1
+            progress = num_pieces_complete / len(peer["pieces"]) * 100
+            ret.append({
+                "ip": peer["ip"],
+                "up_speed": peer["up_speed"],
+                "down_speed": peer["down_speed"],
+                "country": peer["country"],
+                "client": deluge.xmlrpclib.Binary(peer["client"]),
+                "progress": progress
+            })
+
+        return ret
         
     def get_status(self, keys):
         """Returns the status of the torrent based on the keys provided"""
@@ -281,6 +305,7 @@ class Torrent:
             "file_progress": self.handle.file_progress,
             "queue": self.get_queue_position,
             "is_seed": self.handle.is_seed,
+            "peers": self.get_peers
         }
 
         self.status = None

@@ -41,7 +41,6 @@ from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
 import deluge.component as component
 import deluge.common
-import deluge.ui.gtkui.listview
 
 from deluge.log import LOG as log
 
