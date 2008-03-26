@@ -1,7 +1,10 @@
-Deluge 0.5.8.7 (xx March 2008)
+Deluge 0.5.8.7 (25 March 2008)
   * UPnP fixes
   * Bandwidth limiter fix
-  * DHT routing table fix
+  * Various DHT fixes
+  * Fix upload ratio not saving
+  * Fix WebUI crash (ticket #89)
+  * Clear seeding torrents now deletes the ".torrent" file
   * Fix keyboard scrolling of plugins
   * Scheduler can now handle number of active torrents, upload slots and max connections - Ben
 
