@@ -95,7 +95,7 @@ class index:
                 value = getattr(web.input(**{filter_name:None}), filter_name)
                 if value and value <> "All":
                     filter_dict[filter_name] = value
-                    setcookie(filter_name, vars.state)
+                    setcookie(filter_name, getattr(vars, filter_name))
                 else:
                     setcookie(filter_name, "")
 
