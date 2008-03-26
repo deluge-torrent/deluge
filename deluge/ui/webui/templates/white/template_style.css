@@ -242,8 +242,23 @@ div.progress_bar{
 		text-align:right;
 }
 
-
-
-
-
 /*config:*/
+
+/*newforms*/
+ul.errorlist {
+	display:inline;
+	float:right;
+	height:15px;
+	padding:5px;
+	margin:0px;
+	padding-left:10px;
+}
+
+ul.errorlist > li {
+		background-color:#FFFFFF;
+		color:#AA0000;
+		display:inline;
+		padding:0px;
+		margin:0px;
+
+}

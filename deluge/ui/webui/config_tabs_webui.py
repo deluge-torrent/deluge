@@ -81,11 +81,10 @@ class Password(forms.Form):
     new2 = forms.Password(_("New Password (Confirm)"))
 
     def save(self,data):
-        ws.update_pwd(data.new1)
-        ws.save_config()
+        utils.update_pwd(data.new1)
 
     def validate(self, data):
-        if not ws.check_pwd(data.old_pwd):
+        if not utils.check_pwd(data.old_pwd):
             raise forms.ValidationError(_("Old password is invalid"))
         if data.new1 <> data.new2:
             raise forms.ValidationError(

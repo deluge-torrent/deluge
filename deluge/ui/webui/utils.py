@@ -256,12 +256,13 @@ def update_pwd(pwd):
     sm = md5()
     sm.update(str(random.getrandbits(5000)))
     salt = sm.digest()
-    config["pwd_salt"] =  salt
-    #
     m = md5()
     m.update(salt)
     m.update(pwd)
-    config["pwd_md5"] =  m.digest()
+    #
+    config.set("pwd_salt", salt)
+    config.set("pwd_md5", m.digest())
+    config.save()
 
 def check_pwd(pwd):
     m = md5()

@@ -55,6 +55,7 @@ class ValidationError(Exception):
         ValidationError can be passed any object that can be printed (usually
         a string) or a list of objects.
         """
+        self.message = message #newforms_portable!
         if isinstance(message, list):
             self.messages = ErrorList([smart_unicode(msg) for msg in message])
         else:
