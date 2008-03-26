@@ -45,6 +45,7 @@ menu.register_detail_tab("details", _("Details"), "tab_meta")
 menu.register_detail_tab("files", _("Files"), "tab_files")
 menu.register_detail_tab("options", _("Options"), "tab_options")
 menu.register_detail_tab("trackers", _("Trackers"), "tab_trackers")
+menu.register_detail_tab("peers", _("Peers"), "tab_peers")
 
 menu.register_toolbar_item("add", _("Add"), "list-add.png" , TB.generic, "GET","/torrent/add/", True)
 menu.register_toolbar_item("delete",_("Delete"), "list-remove.png" ,TB.torrent_list, "GET","/torrent/delete/" , True)

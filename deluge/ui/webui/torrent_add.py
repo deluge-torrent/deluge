@@ -130,4 +130,4 @@ class torrent_add:
             return
 
 def register():
-    component.get("PageManager").register_page("/torrent/add/(.*)",torrent_add)
+    component.get("PageManager").register_page("/torrent/add(.*)",torrent_add)
