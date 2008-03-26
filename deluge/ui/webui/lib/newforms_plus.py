@@ -199,7 +199,11 @@ class DelugeInt(newforms.IntegerField):
 
 class DelugeFloat(DelugeInt):
     def clean(self, value):
-        return int(DelugeInt.clean(self, value))
+        try:
+            value = int(float(value)) #float->int
+        except:
+            pass
+        return float(DelugeInt.clean(self, value))
 
 #/fields
 
