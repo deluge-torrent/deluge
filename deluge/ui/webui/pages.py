@@ -131,6 +131,9 @@ def reg_torrents_POST(url_name, proxy_command):
         def POST(self, torrent_ids):
             getattr(proxy, proxy_command)(torrent_ids)
             do_redirect()
+
+    _page_class.__name__ = "TORRENTS_POST:" + proxy_command
+
     route("/torrent/%s/(.*)" % url_name, _page_class)
 
 reg_torrents_POST("start", "resume_torrent")
