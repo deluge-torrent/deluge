@@ -11,7 +11,7 @@ $altrow(True)
     <th>$_("Down Speed")</th>
     <th>$_("Country")</th>
     <th>$_("Client")</th>
-    <th>$_("progress")</th>
+    <th>$_("Progress")</th>
 
 $for peer in torrent.peers:
     <tr class="tab_$altrow()"  >
@@ -20,7 +20,13 @@ $for peer in torrent.peers:
     <td>$fspeed(peer['down_speed'])</td>
     <td>$peer['country']</td>
     <td>$peer['client']</td>
-    <td>$peer['progress']%</td>
+    <td class="progress_bar">
+        <div class="progress_bar_outer">
+            <div class="progress_bar" style="width:$(peer['progress'])%;overflow:hidden">
+            $int(peer['progress']) %
+            </div>
+        </div>
+    </td>
     </tr>
 </table>
 </form>

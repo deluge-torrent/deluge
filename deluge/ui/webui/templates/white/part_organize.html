@@ -26,14 +26,14 @@ $for state, num in filters.state:
     $if not get('tracker'):
          class="selected"
     >
-    <a href="$self_url(tracker='')">All</a>
+    <a href="$self_url(tracker='')" title="$_('All')">$_("All")</a>
     </li>
 $for tracker, num in filters.tracker:
     <li
     $if tracker == get('tracker'):
          class="selected"
     >
-    <a href="$self_url(tracker=tracker)">$tracker ($num)</a>
+    <a href="$self_url(tracker=tracker)" title="$tracker  ($num)">$crop(tracker, 20) ($num)</a>
     </li>
 </ul>
 

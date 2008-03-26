@@ -20,7 +20,10 @@ a {
 	}
 a:visited { color: #0000AA;}
 
-th {font-weight:normal}
+th {
+	font-weight:normal;
+	text-align: left;
+	}
 
 form {
 	display:inline;
@@ -169,6 +172,20 @@ XX#torrent_table td {
 tr.altrow1 {
 		background-color:#FAFAFA; /*offf-topic-hint:allo allo*/
 }
+
+th {
+		padding-left:3px;
+}
+tr.altrow1 > td {
+	padding-left:3px;
+}
+tr.altrow0 > td {
+	padding-left:3px;
+}
+tr.torrent_table_selected > td {
+	padding-left:3px;
+}
+
 
 tr.torrent_table_selected {
 	background-color:#FFFFCC;
