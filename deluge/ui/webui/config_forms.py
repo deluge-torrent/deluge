@@ -41,9 +41,9 @@ import sys
 import os
 import utils
 
-
 from deluge import component
 from deluge.configmanager import ConfigManager
+
 config = ConfigManager("webui.conf")
 config_page_manager = component.get("ConfigPageManager")
 
@@ -114,3 +114,7 @@ class config_page:
 
     def render(self, f , name , message = '' , error=''):
         return render.config(config_page_manager.groups, config_page_manager.blocks, f, name , message , error)
+
+def register():
+    component.get("PageManager").register_page("/config/(.*)", config_page)
+

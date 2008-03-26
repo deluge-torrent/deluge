@@ -39,8 +39,6 @@ import page_decorators as deco
 import lib.newforms_plus as forms
 import web
 
-page_manager = component.get("PageManager")
-
 class OptionsForm(forms.Form):
     download_location =  forms.ServerFolder(_("Download Location"))
     compact_allocation = forms.CheckBox(_("Compact Allocation"))
@@ -131,4 +129,5 @@ class torrent_add:
             print self.add_page(error = _("No data"))
             return
 
-page_manager.register_page("/torrent/add/(.*)",torrent_add)
+def register():
+    component.get("PageManager").register_page("/torrent/add/(.*)",torrent_add)

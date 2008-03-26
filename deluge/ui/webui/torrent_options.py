@@ -29,15 +29,12 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 #
-from deluge.ui.client import sclient as proxy
+from deluge.ui.client import sclient
 from deluge.log import LOG as log
 from deluge import component
 
-from render import template
 import page_decorators as deco
 import lib.newforms_plus as forms
-
-page_manager = component.get("PageManager")
 
 class TorrentOptionsForm(forms.Form):
     #download
@@ -58,6 +55,7 @@ class torrent_options:
     def POST(self, torrent):
         pass
 
-template.Template.globals["forms"].torrent_options = lambda torrent : TorrentOptionsForm(torrent)
-
-page_manager.register_page("/torrent/options/(.*)",torrent_options)
+def register():
+    from render import template
+    template.Template.globals["forms"].torrent_options = lambda torrent : TorrentOptionsForm(torrent)
+    component.get("PageManager").register_page("/torrent/options/(.*)", torrent_options)

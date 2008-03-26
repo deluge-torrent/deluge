@@ -39,8 +39,6 @@ from render import render
 import page_decorators as deco
 import lib.newforms_plus as forms
 
-page_manager = component.get("PageManager")
-
 #Too much boilerplate code here, todo : fix it.
 
 class MoveForm(forms.Form):
@@ -77,4 +75,5 @@ class torrent_move:
         proxy.move_torrent(torrent_ids, save_path)
         utils.do_redirect()
 
-page_manager.register_page("/torrent/move/(.*)",torrent_move)
+def register():
+    component.get("PageManager").register_page("/torrent/move/(.*)",torrent_move)

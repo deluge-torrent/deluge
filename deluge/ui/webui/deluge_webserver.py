@@ -71,6 +71,11 @@ import register_menu
 import torrent_add
 import torrent_options
 import torrent_move
+import config_forms
+torrent_add.register()
+torrent_options.register()
+torrent_move.register()
+config_forms.register()
 #/self registering pages.
 
 

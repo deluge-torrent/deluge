@@ -37,9 +37,7 @@
 from utils import *
 import utils #todo remove the line above.
 from render import render, error_page
-import time
 import page_decorators as deco
-from config_forms import config_page
 
 from deluge.common import get_pixmap
 from deluge.log import LOG as log
@@ -54,48 +52,12 @@ from deluge import component
 from deluge.ui.client import sclient as proxy
 
 page_manager = component.get("PageManager")
-
-#from json_api import json_api #secuity leak, todo:fix
-
-#routing:
-urls = [
-    "/login", "login",
-    "/index", "index",
-    "/torrent/info/(.*)", "torrent_info",
-    "/torrent/info_inner/(.*)", "torrent_info_inner",
-    "/torrent/stop/(.*)", "torrent_stop",
-    "/torrent/start/(.*)", "torrent_start",
-    "/torrent/reannounce/(.*)", "torrent_reannounce",
-    "/torrent/recheck/(.*)", "torrent_recheck",
-    "/torrent/delete/(.*)", "torrent_delete",
-    "/torrent/queue/up/(.*)", "torrent_queue_up",
-    "/torrent/queue/down/(.*)", "torrent_queue_down",
-    "/torrent/files/(.*)","torrent_files",
-    "/pause_all", "pause_all",
-    "/resume_all", "resume_all",
-    "/refresh/set", "refresh_set",
-    "/refresh/(.*)", "refresh",
-    "/config/(.*)", "config_page",
-    "/home", "home",
-    "/about", "about",
-    "/logout", "logout",
-    "/connect","connect",
-    "/daemon/control/(.*)","daemon_control",
-    #remote-api:
-    "/remote/torrent/add(.*)", "remote_torrent_add",
-    #"/json/(.*)","json_api",
-    #static:
-    "/static/(.*)", "static",
-    "/template/static/(.*)", "template_static",
-    #"/downloads/(.*)","downloads" disabled until it can handle large downloads
-    #default-pages
-    "/", "home",
-    "", "home",
-    "/robots.txt","robots",
-    "/template_style.css","template_style",
-    "/pixmaps/(.*)","pixmaps"
-]
-#/routing
+def route(url, klass):
+    """
+    url-mapping is using page_manager
+    not the default web.py way ; I want class decorators!
+    """
+    page_manager.register_page(url, klass)
 
 #pages:
 class login:
@@ -115,6 +77,7 @@ class login:
             seeother(url('/login', error=1, redir=vars.redir))
         else:
             seeother('/login?error=1')
+route('/login',login)
 
 class index:
     "page containing the torrent list."
@@ -157,24 +120,25 @@ class index:
             setcookie("order", vars.order)
             setcookie("sort", vars.sort)
         return render.index(torrent_list, organize_filters)
+route('/index',index)
 
 #simple proxy's to deluge.ui.client
 #execute a command on torrent(s) and redirect to index page.
-def torrents_command(command):
-    class torrents_command_inner:
+def reg_torrents_POST(url_name, proxy_command):
+    class _page_class:
         @deco.check_session
         @deco.torrent_ids
         def POST(self, torrent_ids):
-            getattr(proxy, command)(torrent_ids)
+            getattr(proxy, proxy_command)(torrent_ids)
             do_redirect()
-    return torrents_command_inner
+    route("/torrent/%s/(.*)" % url_name, _page_class)
 
-torrent_start = torrents_command("resume_torrent")
-torrent_stop = torrents_command("pause_torrent")
-torrent_reannounce = torrents_command("force_reannounce")
-torrent_recheck = torrents_command("force_recheck")
-torrent_queue_down = torrents_command("queue_down")
-torrent_queue_up = torrents_command("queue_up")
+reg_torrents_POST("start", "resume_torrent")
+reg_torrents_POST("stop", "pause_torrent")
+reg_torrents_POST("recheck", "force_recheck")
+reg_torrents_POST("reannounce", "force_reannounce")
+reg_torrents_POST("queue/up", "queue_up")
+reg_torrents_POST("queue/down", "queue_down")
 
 class torrent_info:
     @deco.deluge_page
@@ -182,6 +146,7 @@ class torrent_info:
     @deco.torrent
     def GET(self, torrent):
         return render.torrent_info(torrent)
+route("/torrent/info/(.*)", torrent_info)
 
 class torrent_info_inner:
     @deco.deluge_page
@@ -194,6 +159,7 @@ class torrent_info_inner:
             active_tab =  getcookie("torrent_info_tab") or "details"
         setcookie("torrent_info_tab", active_tab)
         return render.torrent_info_inner(torrent, active_tab)
+route("/torrent/info_inner/(.*)", torrent_info_inner)
 
 class torrent_delete:
     @deco.deluge_page
@@ -211,6 +177,7 @@ class torrent_delete:
         torrent_also = bool(vars.torrent_also)
         proxy.remove_torrent(torrent_ids, torrent_also, data_also)
         do_redirect()
+route("/torrent/delete/(.*)",torrent_delete)
 
 class torrent_files:
     @deco.check_session
@@ -222,21 +189,23 @@ class torrent_files:
         proxy_prio = [0 for x in xrange(len(torrent.file_priorities))]
         for pos in file_priorities:
             proxy_prio[int(pos)] = 1
-
         proxy.set_torrent_file_priorities(torrent_id, proxy_prio)
         do_redirect()
+route("/torrent/files/(.*)", torrent_files)
 
 class pause_all:
     @deco.check_session
     def POST(self, name):
         proxy.pause_torrent(proxy.get_session_state())
         do_redirect()
+route("/pause_all", pause_all)
 
 class resume_all:
     @deco.check_session
     def POST(self, name):
         proxy.resume_torrent(proxy.get_session_state())
         do_redirect()
+route("/resume_all", resume_all)
 
 class refresh:
     def GET(self, name):
@@ -250,6 +219,7 @@ class refresh:
         if not getcookie('auto_refresh_secs'):
             setcookie('auto_refresh_secs', 10)
         do_redirect()
+route("/refresh/(.*)", refresh)
 
 class refresh_set:
     @deco.deluge_page
@@ -266,16 +236,20 @@ class refresh_set:
             do_redirect()
         else:
             error_page(_('refresh must be > 0'))
+route("/refresh/set", refresh_set)
 
 class home:
     @deco.check_session
     def GET(self, name):
         do_redirect()
+route('/home', home)
+route('/', home)
 
 class about:
     @deco.deluge_page_noauth
     def GET(self, name):
         return render.about()
+route('/about', about)
 
 class logout:
     def GET(self):
@@ -285,6 +259,7 @@ class logout:
     def POST(self, name):
         end_session()
         seeother('/login')
+route('/logout', logout)
 
 class connect:
     @deco.check_session
@@ -311,6 +286,7 @@ class connect:
         #TODO: more error-handling
         utils.daemon_connect(uri)
         do_redirect()
+route('/connect', connect)
 
 class daemon_control:
     @deco.check_session
@@ -330,16 +306,15 @@ class daemon_control:
         seeother('/connect')
 
     def start(self):
+        import time
         uri = web.input(uri = None).uri
         if not uri:
             uri = 'http://localhost:58846'
-
         port = int(uri.split(':')[2])
         utils.daemon_start_localhost(port)
         time.sleep(1)  #pause a while to let it start?
-
         utils.daemon_connect( uri )
-
+route("/daemon/control/(.*)", daemon_control)
 
 #other stuff:
 class remote_torrent_add:
@@ -364,33 +339,31 @@ class remote_torrent_add:
             torrent_name = vars.torrent.filename
         proxy.add_torrent_filecontent(torrent_name, data_b64)
         return 'ok'
+route("/remote/torrent/add(.*)", remote_torrent_add)
 
 class static(static_handler):
     base_dir = os.path.join(os.path.dirname(__file__), 'static')
+route("/static/(.*)", static)
 
 class template_static(static_handler):
     def get_base_dir(self):
         return os.path.join(os.path.dirname(__file__),
                 'templates/%s/static' % ws.config.get('template'))
-
-class downloads(static_handler):
-    def GET(self, name):
-        self.base_dir = proxy.get_config_value('default_download_path')
-        if not ws.config.get('share_downloads'):
-            raise Exception('Access to downloads is forbidden.')
-        return static_handler.GET(self, name)
+route("/template/static/(.*)", template_static)
 
 class robots:
     def GET(self):
         "no robots/prevent searchengines from indexing"
         web.header("Content-Type", "text/plain")
         print "User-agent: *\nDisallow:/\n"
+route("/robots.txt", robots)
 
 class template_style:
     def GET(self):
         web.header("Content-Type", "text/css")
         style = Storage()
         print render.template_style(style)
+route("/template_style.css", template_style)
 
 class pixmaps:
     "use the deluge-images. located in data/pixmaps"
@@ -413,6 +386,4 @@ class pixmaps:
         web.header("Content-Length", str(fs[6]))
         web.header("Cache-Control" , "public, must-revalidate, max-age=86400")
         print content
-#/pages
-
-page_manager.register_pages(urls,globals())
+route("/pixmaps/(.*)", pixmaps)
