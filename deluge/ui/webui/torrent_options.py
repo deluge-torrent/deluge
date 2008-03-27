@@ -1,40 +1,14 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#
 # Copyright (C) Martijn Voncken 2008 <mvoncken@gmail.com>
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2, or (at your option)
-# any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, write to:
-#     The Free Software Foundation, Inc.,
-#     51 Franklin Street, Fifth Floor
-#     Boston, MA  02110-1301, USA.
-#
-#  In addition, as a special exception, the copyright holders give
-#  permission to link the code of portions of this program with the OpenSSL
-#  library.
-#  You must obey the GNU General Public License in all respects for all of
-#  the code used other than OpenSSL. If you modify file(s) with this
-#  exception, you may extend this exception to your version of the file(s),
-#  but you are not obligated to do so. If you do not wish to do so, delete
-#  this exception statement from your version. If you delete this exception
-#  statement from all source files in the program, then also delete it here.
-#
-from deluge.ui.client import sclient
+# License: GPL v2(+OpenSSL exception), see LICENSE file in base directory.
+
+from deluge.ui.client import sclient, aclient
 from deluge.log import LOG as log
 from deluge import component
 
 import page_decorators as deco
 import lib.newforms_plus as forms
+from render import error_page
+import utils
 
 class TorrentOptionsForm(forms.Form):
     #download
@@ -46,14 +20,35 @@ class TorrentOptionsForm(forms.Form):
     max_upload_slots = forms.DelugeInt(_("Maximum Upload Slots"))
     #general
     prioritize_first_last = forms.CheckBox(
-        _('Prioritize first and last pieces'))
+        _('Prioritize first and last pieces [TODO!]'))
     private = forms.CheckBox(_('Private'))
 
 class torrent_options:
     @deco.check_session
     @deco.torrent
     def POST(self, torrent):
-        pass
+        options_form = TorrentOptionsForm(utils.get_newforms_data(TorrentOptionsForm))
+        if not options_form.is_valid():
+            #!!!!!!!!!!!!!
+            #todo:user-friendly error-handling.
+            #!!!!!!!!
+            return error_page(_("Error in torrent options."))
+        options = options_form.cleaned_data
+
+
+        #options['prioritize_first_last']
+        aclient.set_torrent_max_connections(torrent.id, options['max_connections'])
+        aclient.set_torrent_max_download_speed(torrent.id, options['max_download_speed'])
+        aclient.set_torrent_max_upload_slots(torrent.id, options['max_upload_slots'])
+        aclient.set_torrent_max_upload_speed(torrent.id, options['max_upload_speed'])
+        aclient.set_torrent_private_flag(torrent.id,  options['private'])
+
+        aclient.force_call()
+
+        utils.do_redirect()
+
+
+
 
 def register():
     from render import template
