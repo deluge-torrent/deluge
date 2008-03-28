@@ -132,8 +132,15 @@ def open_file(path):
 def open_url_in_browser(url):
     """Opens link in the desktop's default browser"""
     def start_browser():
+        import threading
         import webbrowser
-        webbrowser.open(url)
+        class BrowserThread(threading.Thread):
+            def __init__(self, url):
+                threading.Thread.__init__(self)
+                self.url = url
+            def run(self):
+                webbrowser.open(self.url)
+        BrowserThread(url).start()
         return False
         
     import gobject
