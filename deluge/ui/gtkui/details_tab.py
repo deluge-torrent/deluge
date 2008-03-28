@@ -48,7 +48,8 @@ class DetailsTab:
             (glade.get_widget("summary_total_size"), deluge.common.fsize, ("total_size",)),
             (glade.get_widget("summary_num_files"), str, ("num_files",)),
             (glade.get_widget("summary_tracker"), None, ("tracker",)),
-            (glade.get_widget("summary_torrent_path"), None, ("save_path",))
+            (glade.get_widget("summary_torrent_path"), None, ("save_path",)),
+            (glade.get_widget("summary_private"), str, ("private",))
         ]
         
     def update(self):
