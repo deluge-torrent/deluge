@@ -213,12 +213,11 @@ class PeersTab:
             # We only want to do this if the torrent_id has changed
             self.liststore.clear()
             self.torrent_id = torrent_id
-        log.debug("torrent_id: %s", torrent_id)
+
         client.get_torrent_status(self._on_get_torrent_status, torrent_id, ["peers"])
 
     def _on_get_torrent_status(self, status):
         self.liststore.clear()
-        log.debug("status: %s", status)
         for peer in status["peers"]:
             self.liststore.append([
                 peer["country"], 
