@@ -72,7 +72,7 @@ class Torrent:
         
         # Holds status info so that we don't need to keep getting it from lt
         self.status = self.handle.status()
-        self.torrent_info = self.handle.torrent_info()
+        self.torrent_info = self.handle.get_torrent_info()
         
         # Set the initial state
         self.state = "Checking"
@@ -133,7 +133,7 @@ class Torrent:
     
     def set_private_flag(self, private):
         self.private = private
-        self.handle.torrent_info().set_priv(private)
+        self.handle.get_torrent_info().set_priv(private)
     
     def set_prioritize_first_last(self, prioritize):
         self.prioritize_first_last = prioritize
@@ -205,7 +205,7 @@ class Torrent:
     def get_files(self):
         """Returns a list of files this torrent contains"""
         if self.torrent_info == None:
-            torrent_info = self.handle.torrent_info()
+            torrent_info = self.handle.get_torrent_info()
         else:
             torrent_info = self.torrent_info
             
@@ -233,16 +233,16 @@ class Torrent:
         for peer in peers:
             # Find the progress
             num_pieces_complete = 0
-            for piece in peer["pieces"]:
+            for piece in peer.pieces:
                 if piece:
                     num_pieces_complete += 1
-            progress = num_pieces_complete / len(peer["pieces"]) * 100
+            progress = num_pieces_complete / len(peer.pieces) * 100
             ret.append({
-                "ip": peer["ip"],
-                "up_speed": peer["up_speed"],
-                "down_speed": peer["down_speed"],
-                "country": peer["country"],
-                "client": deluge.xmlrpclib.Binary(peer["client"]),
+                "ip": peer.ip,
+                "up_speed": peer.up_speed,
+                "down_speed": peer.down_speed,
+                "country": peer.country,
+                "client": deluge.xmlrpclib.Binary(peer.client),
                 "progress": progress
             })
 
@@ -252,7 +252,7 @@ class Torrent:
         """Returns the status of the torrent based on the keys provided"""
         # Create the full dictionary
         self.status = self.handle.status()
-        self.torrent_info = self.handle.torrent_info()
+        self.torrent_info = self.handle.get_torrent_info()
         
         # Adjust progress to be 0-100 value
         progress = self.status.progress * 100
@@ -498,7 +498,7 @@ class Torrent:
                     self.filename),
                     "wb")
             if filedump == None:
-                filedump = self.handle.torrent_info().create_torrent()
+                filedump = self.handle.get_torrent_info().create_torrent()
             save_file.write(lt.bencode(filedump))
             save_file.close()
         except IOError, e:
