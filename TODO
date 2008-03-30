@@ -1,21 +1,34 @@
+For 0.6 release:
+* Add autoload folder
+* Implement open folder
+* Add per-torrent settings to the details pane.. max_download_speed, etc.. So
+    the user know what limits are set on the torrent.
+* Add a 'move storage' on completion option
+* Address issue where torrents will redownload if the storage is moved outside
+    of deluge.
+* Use the alert icon for file alerts from libtorrent
+* Add a torrent status message to the details tab to indicate errors (with alert icon)
+* Implement prioritize first/last pieces
+* Anonymous stats
+* Update checking
+* Translations
+* Show proper priority levels in Files tab, plus add menu to alter priorities
+* Edit tracker dialog needs fixin'
+* Implement add by url and add by hash
+
+After 0.6 release:
 * Figure out easy way for user-made plugins to add i18n support.
 * Restart daemon function
 * Docstrings!
-* Implement open folder
-* Address issue where torrents will redownload if the storage is moved outside
-    of deluge.
 * Implement 'Classic' mode
-* Add autoload folder
 * Add wizard
 * Add command line option to change config dir.. --config
 * Add method for plugins to add labels
 * Add context menus for labels.. ie. setting options for all torrents in label
 * Implement caching in core
 * Use the batch torrent status info as a cache for other torrent status requests
-* Don't save fastresume files on exit for finished or paused torrents
-* Add Files and Peers tabs, but make them optional through View menu
-* Add per-torrent settings to the details pane.. max_download_speed, etc.. So
-    the user know what limits are set on the torrent.
 * Add number of torrents to labels
-* Add a 'move storage' on completion option
+* Proxy stuff
+* Webseed
+* Notifications
 
