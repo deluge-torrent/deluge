@@ -154,7 +154,7 @@ class TorrentManager(component.Component):
         for key in self.torrents.keys():
             if not self.torrents[key].handle.is_paused() and \
                 not self.torrents[key].handle.is_seed():
-                if self.torrents[key].get_status("compact"):
+                if self.torrents[key].compact:
                     try:
                         self.torrents[key].pause()
                     except:
