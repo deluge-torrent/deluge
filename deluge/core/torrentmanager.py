@@ -151,10 +151,15 @@ class TorrentManager(component.Component):
     def stop(self):
         # Save state on shutdown
         self.save_state()
-        # Pause all torrents and save the .fastresume files
-        self.pause_all()
         for key in self.torrents.keys():
-            self.torrents[key].write_fastresume()
+            if not self.torrents[key].handle.is_paused() and \
+                not self.torrents[key].handle.is_seed():
+                if self.torrents[key].get_status("compact"):
+                    try:
+                        self.torrents[key].pause()
+                    except:
+                        log.warning("Unable to pause torrent %s", key)
+                self.torrents[key].write_fastresume()
                         
     def __getitem__(self, torrent_id):
         """Return the Torrent with torrent_id"""
