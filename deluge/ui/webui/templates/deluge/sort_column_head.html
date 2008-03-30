@@ -1,11 +1,11 @@
 $def with (column_id, column_name, order, active_up, active_down)
 <th class="torrent_table">
-<a href="/index?sort=$column_id&order=$order&state=$get('state')&tracker=$get('tracker')&keyword=$get('keyword')"">
+<a href="$base/index?sort=$column_id&order=$order&state=$get('state')&tracker=$get('tracker')&keyword=$get('keyword')"">
 $column_name\
 $if active_up:
-    <img src="/static/images/tango/up.png" />
+    <img src="$base/static/images/tango/up.png" />
 $if active_down:
-    <img src="/static/images/tango/down.png" />
+    <img src="$base/static/images/tango/down.png" />
 </a>
 </th>
 

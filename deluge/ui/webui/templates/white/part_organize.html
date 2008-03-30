@@ -13,7 +13,7 @@ $for state, num in filters.state:
         $if state == get('state'):
             class="selected"
         >
-        <img src="/pixmaps/$state.lower() ">
+        <img src="$base/pixmaps/$state.lower() ">
         <a href="$self_url(state=state)">$_(state) ($num)</a>
         </li>
     $else:
@@ -49,9 +49,6 @@ $if get('keyword'):
 
 </div>
 </form>
-<!--
-<img src="/pixmaps/deluge.png">
--->
 </div>
 
 

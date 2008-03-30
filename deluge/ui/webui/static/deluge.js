@@ -7,8 +7,9 @@ so i'd rather start from scratch,
 Probably broken in an unexpected way , but worksforme.
 */
 state = {
-	'row_js_continue':true
-	,'selected_rows': new Array()
+	'row_js_continue':true,
+	'selected_rows': new Array(),
+	'base_url':''
 };
 
 function $(el_id){
@@ -91,7 +92,7 @@ function open_details(e, id){
 
 function open_inner_details(id){
 	/*probably broken for IE, use FF!*/
-	$('torrent_info').src = '/torrent/info_inner/' + id;
+	$('torrent_info').src = state.base_url + '/torrent/info_inner/' + id;
 }
 
 function on_click_do_nothing(e, id){

@@ -6,7 +6,9 @@ var all_torrents = [
 $for t in torrent_list:
     "$t.id",
 ]
+state.base_url = '$base';
 </script>
+
 
 
 <table class="torrent_list" id="torrent_table" border=0 cellspacing=0 cellpadding=2  id="torrent_list" >
@@ -39,10 +41,10 @@ $#4-space indentation is mandatory for for-loops in templetor!
 $for torrent in torrent_list:
     <tr class="$altrow()" onclick="on_click_row(event, '$torrent.id')" id="torrent_$torrent.id">
     <td>
-       <form action="/torrent/$torrent.action/$torrent.id" method="POST"
+       <form action="$base/torrent/$torrent.action/$torrent.id" method="POST"
             class="pause_resume">
             <input type="image"
-            src="/pixmaps/$torrent.state.lower()"
+            src="$base/pixmaps/$torrent.state.lower()"
             name="pauseresume" value="submit" />
         </form>
        </td>

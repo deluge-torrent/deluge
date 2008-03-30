@@ -36,7 +36,7 @@ from deluge.ui.client import sclient as proxy
 from deluge.log import LOG as log
 
 from render import render
-from web import seeother
+from utils import seeother
 import sys
 import os
 import utils

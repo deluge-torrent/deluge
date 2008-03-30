@@ -1,6 +1,6 @@
 $for id, title, image, flag, method, url, important in toolbar_items:
     $if important:
         <a class='toolbar_btn' href="#"
-        onclick='toolbar_$(method.lower()) ("$url",$flag)'
+        onclick='toolbar_$(method.lower()) ("$base$url",$flag)'
         title='$title'><img class='toolbar_btn'
-        src='/static/images/tango/$image'></a>
+        src='$base/static/images/tango/$image'></a>

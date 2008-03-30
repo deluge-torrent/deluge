@@ -79,11 +79,9 @@ config_forms.register()
 #/self registering pages.
 
 
-utils.set_config_defaults()
-sclient.set_core_uri(config.get('daemon'))
-
-
-def WsgiApplication(middleware):
+def WsgiApplication(middleware = None):
+    if not middleware:
+        middleware = []
     from web import webpyfunc, wsgifunc
     from deluge import component
 
@@ -92,16 +90,20 @@ def WsgiApplication(middleware):
 
 def WebServer(debug = False):
     "starts builtin webserver"
+
+    utils.set_config_defaults()
+    config.set('base','')
+    config.set('disallow',{})
+    utils.apply_config()
+
     import web
 
     from lib.gtk_cherrypy_wsgiserver import CherryPyWSGIServer
-
 
     if debug:
         middleware = [web.reloader]
     else:
         middleware = []
-
 
     wsgi_app = WsgiApplication(middleware)
 
@@ -115,6 +117,9 @@ def WebServer(debug = False):
 
     print "http://%s:%d/" % server_address
     return server
+
+def mod_wsgi_application(sub_dir, config_dir , template_dir):
+    pass
 
 def run(debug = False):
     server = WebServer(debug)

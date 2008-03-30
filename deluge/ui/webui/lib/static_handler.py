@@ -7,7 +7,7 @@ static fileserving for web.py
 without the need for wsgi wrapper magic.
 """
 import web
-from web import seeother, url
+from web import url
 
 import posixpath
 import urlparse

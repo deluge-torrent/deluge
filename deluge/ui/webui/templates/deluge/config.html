@@ -11,9 +11,9 @@ $for group in groups:
     $for page in pages:
         $if pages[page].group == group:
             $if page == selected:
-                <li class="selected"><a href="/config/$page" >$pages[page].title</a></li>
+                <li class="selected"><a href="$base/config/$page" >$pages[page].title</a></li>
             $else:
-                <li><a href="/config/$page">$pages[page].title</a></li>
+                <li><a href="$base/config/$page">$pages[page].title</a></li>
     </ul>
 </div>
 <!--form block-->

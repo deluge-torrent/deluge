@@ -32,10 +32,8 @@
 """
 webui constants
 """
-
 import os
 
-#constants
 try:
     REVNO = open(os.path.join(os.path.dirname(__file__),'revno')).read()
 except:
@@ -59,16 +57,6 @@ TORRENT_KEYS = ['name', 'total_size', 'num_files', 'num_pieces', 'piece_length',
     'tracker_name' #organize-plugin
     ]
 
-STATE_MESSAGES = [
-    "Allocating",
-    "Checking",
-    "Downloading",
-    "Seeding",
-    "Paused",
-    "Error"
-    ]
-
-
 CONFIG_DEFAULTS = {
     "port":8112,
     "button_style":2,
@@ -79,9 +67,7 @@ CONFIG_DEFAULTS = {
     "pwd_md5":".\xe8w\\+\xec\xdb\xf2id4F\xdb\rUc",
     "cache_templates":True,
     "use_https":False,
-    "daemon":"http://localhost:58846"
+    "daemon":"http://localhost:58846",
+    "base":"",
+    "disallow":{}
 }
-
-#/constants
-
-

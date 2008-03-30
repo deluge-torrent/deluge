@@ -43,7 +43,7 @@ from deluge.common import get_pixmap
 from deluge.log import LOG as log
 
 import web
-from web import seeother, url
+from web import url
 from lib.static_handler import static_handler
 
 from operator import attrgetter
@@ -74,9 +74,10 @@ class login:
             start_session()
             do_redirect()
         elif vars.redir:
-            seeother(url('/login', error=1, redir=vars.redir))
+            utils.seeother(url('/login', error=1, redir=vars.redir))
         else:
-            seeother('/login?error=1')
+            utils.seeother('/login?error=1')
+
 route('/login',login)
 
 class index:
@@ -259,7 +260,7 @@ class logout:
     @deco.check_session
     def POST(self, name):
         end_session()
-        seeother('/login')
+        utils.seeother('/login')
 route('/logout', logout)
 
 class connect:
@@ -304,7 +305,7 @@ class daemon_control:
         else:
             raise Exception('Unknown command:"%s"' % command)
 
-        seeother('/connect')
+        utils.seeother('/connect')
 
     def start(self):
         import time
@@ -388,3 +389,13 @@ class pixmaps:
         web.header("Cache-Control" , "public, must-revalidate, max-age=86400")
         print content
 route("/pixmaps/(.*)", pixmaps)
+
+"""
+#debug:
+class catch_all:
+    @deco.deluge_page_noauth
+    def GET(self, name):
+        log.debug("xname=" + name)
+        print "name=" + name
+route("(.*)", catch_all)
+"""

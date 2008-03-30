@@ -4,10 +4,10 @@ $def with (title, active_tab="NONE")
 <html>
 <head>
     <title>Deluge:$_('Torrent list')</title>
-    <link rel="icon" href="/static/images/deluge_icon.gif" type="image/gif" />
-    <link rel="shortcut icon" href="/static/images/deluge_icon.gif" type="image/gif" />
-    <link rel="stylesheet" type="text/css" href="/template_style.css" />
-    <script language="javascript" src="/static/deluge.js"></script>
+    <link rel="icon" href="$base/static/images/deluge_icon.gif" type="image/gif" />
+    <link rel="shortcut icon" href="$base/static/images/deluge_icon.gif" type="image/gif" />
+    <link rel="stylesheet" type="text/css" href="$base/template_style.css" />
+    <script language="javascript" src="$base/static/deluge.js"></script>
 </head>
 
 <body>
@@ -22,7 +22,7 @@ $def with (title, active_tab="NONE")
          class="tab_button_active"
     $else:
         class="tab_button"
-    href='/home'>Home</a>
+    href='$base/home'>Home</a>
 
 <!--ADMIN-TABS-->
 $for id, title, url in admin_pages:
@@ -31,7 +31,7 @@ $for id, title, url in admin_pages:
          class="tab_button_active"
     $else:
         class="tab_button"
-    href='$url'>$title</a>
+    href='$base$url'>$title</a>
 </div>
 
 </td><td align="right">

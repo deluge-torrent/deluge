@@ -4,10 +4,10 @@ $def with (torrent_list, organize_filters)
 <html>
 <head>
     <title>Deluge:$_('Torrent list')</title>
-    <link rel="icon" href="/static/images/deluge_icon.gif" type="image/gif" />
-    <link rel="shortcut icon" href="/static/images/deluge_icon.gif" type="image/gif" />
-    <link rel="stylesheet" type="text/css" href="/template_style.css" />
-    <script language="javascript" src="/static/deluge.js"></script>
+    <link rel="icon" href="$base/static/images/deluge_icon.gif" type="image/gif" />
+    <link rel="shortcut icon" href="$base/static/images/deluge_icon.gif" type="image/gif" />
+    <link rel="stylesheet" type="text/css" href="$base/template_style.css" />
+    <script language="javascript" src="$base/static/deluge.js"></script>
 </head>
 
 <body>
@@ -16,9 +16,9 @@ $def with (torrent_list, organize_filters)
 <table width="100%"><tr>
 <td>
     <div id="home_top">
-        <a class="tab_button_active" href='/home'>Home</a>
+        <a class="tab_button_active" href='$base/home'>Home</a>
     $for id, title, url in admin_pages:
-        <a class="tab_button" href='$url'>$title</a>
+        <a class="tab_button" href='$base$url'>$title</a>
 
 
 </td><td>
@@ -28,8 +28,6 @@ $def with (torrent_list, organize_filters)
 </td></tr></table>
 
 <hr>
-
-
 
 
 $if organize_filters:

@@ -10,8 +10,9 @@ from deluge.log import LOG as log
 #/relative
 
 from web import cookies, setcookie as w_setcookie
-from web import seeother, url
-from web import changequery as self_url
+from web import url, changequery
+from utils import self_url
+from render import error_page
 
 #deco's:
 def deluge_page_noauth(func):
@@ -28,20 +29,32 @@ def deluge_page_noauth(func):
 
 def check_session(func):
     """
+    1:check session
+    2:block urls in config.disallow
     return func if session is valid, else redirect to login page.
     mostly used for POST-pages.
     """
     def deco(self, name = None):
         log.debug('%s.%s(name=%s)'  % (self.__class__.__name__, func.__name__,
             name))
+        #check disallow config
+        current_url = changequery()
+        for blocked in utils.config["disallow"]:
+            if current_url.startswith(blocked):
+                return error_page("Not allowed to : '%s' , Reason: '%s'" %
+                    (blocked , utils.config["disallow"][blocked]))
+        #/check disallow
+
+        #check session:
         vars = web.input(redir_after_login = None)
         ck = cookies()
         if ck.has_key("session_id") and ck["session_id"] in utils.SESSIONS:
             return func(self, name) #check_session:ok
         elif vars.redir_after_login:
-            seeother(url("/login",redir=self_url()))
+            utils.seeother(url("/login",redir=self_url()))
         else:
-            seeother("/login") #do not continue, and redirect to login page
+            utils.seeother("/login") #do not continue, and redirect to login page
+        #/check session
     deco.__name__ = func.__name__
     return deco
 
@@ -56,9 +69,7 @@ def check_connected(func):
         if connected:
             return func(self, name) #check_connected:ok
         else:
-            seeother("/connect")
-
-
+            utils.seeother("/connect")
     deco.__name__ = func.__name__
     return deco
 
@@ -122,3 +133,16 @@ def remote(func):
             print  traceback.format_exc()
     deco.__name__ = func.__name__
     return deco
+
+"""
+obsolete: -> using check-session.
+def check_allowed(capability):
+    def check_allowed_inner(func):
+        def deco(self, name = None): #check allowed (capablity)
+            if capability in config.get("disallow"):
+                return error_page("Not allowed to: '%s' , because:'%s'"
+                    % (capability , config.get("disallow")[capability]))
+            return func(self, name)
+        return deco
+    return check_allowed_inner
+"""

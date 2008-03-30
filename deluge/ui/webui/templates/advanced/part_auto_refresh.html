@@ -3,14 +3,14 @@
 $_('Auto refresh:')
 $if getcookie('auto_refresh') == '1':
     ($getcookie('auto_refresh_secs')) $_('seconds') &nbsp;
-    <a href="/refresh/set">$_('Set')</a>
-    <a href="/refresh/off">$_('Disable')</a><!--WRONG, setting things on a GET-->
+    <a href="$base/refresh/set">$_('Set')</a>
+    <a href="$base/refresh/off">$_('Disable')</a><!--WRONG, setting things on a GET-->
 $else:
     $_('Off') &nbsp;
-    <a href="/refresh/on">$_('Enable')</a><!--WRONG, setting things on a GET-->
+    <a href="$base/refresh/on">$_('Enable')</a><!--WRONG, setting things on a GET-->
 ]
 
 
-<a href="/config/">$_('Admin')  </a>&nbsp;
+<a href="$base/config/">$_('Admin')  </a>&nbsp;
 
 </div>

@@ -18,7 +18,6 @@ $:render.part_button('POST', '/logout', _('Logout'), 'tango/system-log-out.png')
 </div>
 
 <div class="panel"  id='stats_panel'>
-    <!--<a href='/config'>-->
 
     $_('Connections') : $stats.num_connections ($stats.max_num_connections)
 
@@ -26,13 +25,7 @@ $:render.part_button('POST', '/logout', _('Logout'), 'tango/system-log-out.png')
 
     $_('Up Speed') : $stats.upload_rate  ($stats.max_upload)
 
-
-    <!--</a>-->
-
-$if env == '0.6':
     $:render.part_button('GET', '/config/', _('Settings'), 'tango/preferences-system.png')
-
-
 
 </div>
 

@@ -32,9 +32,10 @@
 #relative:
 from webserver_common import REVNO, VERSION
 from utils import *
+import utils
 #/relative
 from deluge import common
-from web import changequery as self_url, template, Storage
+from web import template, Storage
 import os
 
 from deluge.configmanager import ConfigManager
@@ -56,14 +57,14 @@ class subclassed_render(object):
         self.webui_path = os.path.dirname(__file__)
 
         #load template-meta-data
-        cfg_template = config.get('template')
-        template_path = os.path.join(self.webui_path, 'templates/%s/' % cfg_template)
+        self.cfg_template = config.get('template')
+        template_path = os.path.join(self.webui_path, 'templates/%s/' % self.cfg_template)
         if not os.path.exists(template_path):
             template_path = os.path.join(self.webui_path, 'templates/deluge/')
         self.meta = Storage(eval(open(os.path.join(template_path,'meta.cfg')).read()))
 
         #load renerders
-        for template_name in [cfg_template] + list(reversed(self.meta.inherits)):
+        for template_name in [self.cfg_template] + list(reversed(self.meta.inherits)):
             self.renderers.append(template.render(
                 os.path.join(self.webui_path, 'templates/%s/' % template_name),cache=False))
 
@@ -86,8 +87,7 @@ class subclassed_render(object):
             if hasattr(renderer, attr):
                 self.template_cache[attr] = getattr(renderer, attr)
                 return getattr(renderer, attr)
-
-        raise AttributeError, 'no template named "%s" '  % attr
+        raise AttributeError, 'no template named "%s" in base path "%s"'  % (attr, self.webui_path)
 
     def __getitem__(self, item):
         "for plugins/templates"
@@ -102,6 +102,9 @@ class subclassed_render(object):
             if os.path.isdir(os.path.join(template_path, dirname))
                 and not dirname.startswith('.')]
 
+    @staticmethod
+    def set_global(key, val):
+        template.Template.globals[key] = val
 
 render = subclassed_render()
 
@@ -186,7 +189,7 @@ template.Template.globals.update({
     'sorted': sorted,
     'altrow':altrow,
     'get_config': get_config,
-    'self_url': self_url,
+    'self_url': utils.self_url,
     'fspeed': common.fspeed,
     'fsize': common.fsize,
     'ftime':ftime,
@@ -195,10 +198,10 @@ template.Template.globals.update({
     'version': VERSION,
     'getcookie':getcookie,
     'get': lambda (var): getattr(web.input(**{var:None}), var), # unreadable :-(
-    'env':'0.6',
+    #'env':'0.6',
     'forms':web.Storage(),
-    'enumerate':enumerate
-
+    'enumerate':enumerate,
+    'base':'' #updated when running within apache.
 })
 #/template-defs
 

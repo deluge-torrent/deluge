@@ -1,7 +1,7 @@
 $def with (torrent_ids, torrent_list, form, error)
 $:render.header(_("Remove torrent"))
 <div class="panel">
-<form method="POST" action='/torrent/move/$torrent_ids'>
+<form method="POST" action='$base/torrent/move/$torrent_ids'>
 <div id="del_torrent">
 <h2>$_("Move torrent")</h2>
 <ul>

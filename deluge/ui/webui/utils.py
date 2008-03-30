@@ -30,16 +30,7 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-import web
 import os
-from web import cookies, setcookie as w_setcookie
-from web import changequery as self_url, template
-from web import Storage
-from web import seeother, url
-
-from deluge.common import fsize,fspeed,ftime
-from deluge.log import LOG as log
-
 import traceback
 import random
 from operator import attrgetter
@@ -48,13 +39,18 @@ import pickle
 from urlparse import urlparse
 from md5 import md5
 
-from webserver_common import  REVNO, VERSION, TORRENT_KEYS, STATE_MESSAGES, CONFIG_DEFAULTS
-from deluge.ui.client import sclient as proxy
-from deluge.ui.client import aclient as async_proxy
+import web
+from web import changequery , template , url , Storage
+from web import cookies, setcookie as w_setcookie
+from web import seeother as w_seeother
 
-
+from deluge.common import fsize, fspeed, ftime
 from deluge import component
+from deluge.log import LOG as log
 from deluge.configmanager import ConfigManager
+
+from webserver_common import  REVNO, VERSION, TORRENT_KEYS, CONFIG_DEFAULTS
+from deluge.ui.client import sclient, aclient
 
 webui_plugin_manager = component.get("WebPluginManager")
 config = ConfigManager("webui.conf")
@@ -70,7 +66,6 @@ def setcookie(key, val):
     """add 30 days expires header for persistent cookies"""
     return w_setcookie(key, val , expires=2592000)
 
-
 #really simple sessions, to bad i had to implement them myself.
 SESSIONS = []
 def start_session():
@@ -83,6 +78,14 @@ def end_session():
     setcookie("session_id","")
 #/sessions
 
+def seeother(url, *args, **kwargs):
+    url_with_base = config["base"] + url
+    log.debug("seeother:%s" % url_with_base)
+    return w_seeother(url_with_base, *args, **kwargs)
+
+def self_url(**kwargs):
+    return config["base"]  + changequery(**kwargs)
+
 def do_redirect():
     """for redirects after a POST"""
     vars = web.input(redir = None)
@@ -91,7 +94,7 @@ def do_redirect():
 
     #redirect to a non-default page.
     if vars.redir:
-        seeother(vars.redir)
+        w_seeother(vars.redir) #redir variable contains base
         return
 
     #for the filters:
@@ -100,7 +103,7 @@ def do_redirect():
 
     organize = False
     try:
-        organize = ('Organize' in proxy.get_enabled_plugins())
+        organize = ('Organize' in sclient.get_enabled_plugins())
     except:
         pass
 
@@ -114,7 +117,7 @@ def do_redirect():
             url_vars['keyword'] = ck['keyword']
 
     #redirect.
-    seeother(url("/index", **url_vars))
+    w_seeother(url("/index", **url_vars))
 
 def getcookie(key, default = None):
     "because i'm too lazy to type 3 lines for something this simple"
@@ -125,18 +128,18 @@ def getcookie(key, default = None):
 def get_stats():
     stats = Storage()
 
-    async_proxy.get_download_rate(dict_cb('download_rate',stats))
-    async_proxy.get_upload_rate(dict_cb('upload_rate',stats))
-    async_proxy.get_config_value(dict_cb('max_download',stats)
+    aclient.get_download_rate(dict_cb('download_rate',stats))
+    aclient.get_upload_rate(dict_cb('upload_rate',stats))
+    aclient.get_config_value(dict_cb('max_download',stats)
         ,"max_download_speed")
-    async_proxy.get_config_value(dict_cb('max_upload',stats)
+    aclient.get_config_value(dict_cb('max_upload',stats)
         ,"max_upload_speed")
-    async_proxy.get_num_connections(dict_cb("num_connections",stats))
-    async_proxy.get_config_value(dict_cb('max_num_connections',stats)
+    aclient.get_num_connections(dict_cb("num_connections",stats))
+    aclient.get_config_value(dict_cb('max_num_connections',stats)
         ,"max_connections_global")
-    async_proxy.get_dht_nodes(dict_cb('dht_nodes',stats))
+    aclient.get_dht_nodes(dict_cb('dht_nodes',stats))
 
-    async_proxy.force_call(block=True)
+    aclient.force_call(block=True)
 
     stats.download_rate = fspeed(stats.download_rate)
     stats.upload_rate = fspeed(stats.upload_rate)
@@ -177,16 +180,16 @@ def enhance_torrent_status(torrent_id,status):
 def get_torrent_status(torrent_id):
     """
     helper method.
-    enhance proxy.get_torrent_status with some extra data
+    enhance sclient.get_torrent_status with some extra data
     """
-    status = proxy.get_torrent_status(torrent_id,TORRENT_KEYS)
+    status = sclient.get_torrent_status(torrent_id,TORRENT_KEYS)
     return enhance_torrent_status(torrent_id, status)
 
 def get_enhanced_torrent_list(torrent_ids):
     """
     returns a list of storified-torrent-dicts.
     """
-    torrent_dict = proxy.get_torrents_status(torrent_ids, TORRENT_KEYS)
+    torrent_dict = sclient.get_torrents_status(torrent_ids, TORRENT_KEYS)
     return [enhance_torrent_status(id, status)
             for id, status in torrent_dict.iteritems()]
 
@@ -239,7 +242,7 @@ def daemon_connect(uri):
         config.set('daemon', uri)
         config.save()
 
-    proxy.set_core_uri(uri)
+    sclient.set_core_uri(uri)
     webui_plugin_manager.start()
 
 #generic:
@@ -279,8 +282,12 @@ def set_config_defaults():
     if changed:
         config.save()
 
-
-
+def apply_config():
+    #etc, mostly for apache:
+    from render import render
+    sclient.set_core_uri(config.get('daemon'))
+    render.set_global('base', config.get('base'))
+    render.apply_cfg()
 
 #exceptions:
 class WebUiError(Exception):
@@ -290,3 +297,4 @@ class WebUiError(Exception):
 
 class UnknownTorrentError(WebUiError):
     pass
+

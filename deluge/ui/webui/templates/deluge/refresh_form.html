@@ -1,6 +1,6 @@
 $:render.header(_('Set Timeout'))
 <div class="panel">
-<form action="/refresh/set" method="POST">
+<form action="$base/refresh/set" method="POST">
     $_('Refresh page every:')
     <input type="text" name="refresh" value="$getcookie('auto_refresh_secs')"
     size="3">
