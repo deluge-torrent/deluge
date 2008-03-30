@@ -50,7 +50,7 @@ from text import TextReader, GZMuleReader, PGZip
 
 BLOCKLIST_PREFS = {
         "url": "http://www.bluetack.co.uk/config/pipfilter.dat.gz",
-        "load_on_start": True,
+        "load_on_start": False,
         "check_after_days": 2,
         "listtype": "gzmule",
         "timeout": 180,
