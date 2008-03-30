@@ -238,10 +238,10 @@ class Torrent:
                     num_pieces_complete += 1
             progress = num_pieces_complete / len(peer.pieces) * 100
             ret.append({
-                "ip": peer.ip,
+                "ip": "%s:%s" % (peer.ip[0], peer.ip[1]),
                 "up_speed": peer.up_speed,
                 "down_speed": peer.down_speed,
-                "country": peer.country,
+                "country": deluge.xmlrpclib.Binary(peer.country),
                 "client": deluge.xmlrpclib.Binary(peer.client),
                 "progress": progress
             })
