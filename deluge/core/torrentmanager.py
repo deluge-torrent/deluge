@@ -394,7 +394,7 @@ class TorrentManager(component.Component):
         """Forces a re-check of the torrent's data"""
         log.debug("Doing a forced recheck on %s", torrent_id)
         torrent = self.torrents[torrent_id]
-        paused = self.torrents[torrent_id].handle.status().paused
+        paused = self.torrents[torrent_id].handle.is_paused()
         torrent_info = None
         ### Check for .torrent file prior to removing and make a copy if needed
         if os.access(os.path.join(self.config["torrentfiles_location"] +\
@@ -420,9 +420,9 @@ class TorrentManager(component.Component):
         
         # Set the right storage_mode
         if torrent.compact:
-            storage_mode = lt.storage_mode_t(1)
-        else:
             storage_mode = lt.storage_mode_t(2)
+        else:
+            storage_mode = lt.storage_mode_t(1)
         
         # Add the torrent to the lt session  
         try:
@@ -433,15 +433,13 @@ class TorrentManager(component.Component):
                                     paused=paused)
         except RuntimeError, e:
             log.warning("Error adding torrent: %s", e)
-            
+
         if not torrent.handle or not torrent.handle.is_valid():
             # The torrent was not added to the session
             return False       
         
         # Set the state to Checking
         torrent.set_state("Checking")
-        
-        return True
         
     def load_state(self):
         """Load the state of the TorrentManager from the torrents.state file"""
