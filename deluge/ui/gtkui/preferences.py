@@ -191,10 +191,10 @@ class Preferences(component.Component):
                     ("filename", self.core_config["download_location"]),
                 "torrent_files_button": \
                     ("filename", self.core_config["torrentfiles_location"]),
-                "chk_autoadd_daemon": \
+                "chk_autoadd": \
                     ("active", self.core_config["autoadd_enable"]),
-                "entry_autoadd_daemon": \
-                    ("text", self.core_config["autoadd_location"]),
+                "folder_autoadd": \
+                    ("filename", self.core_config["autoadd_location"]),
                 "radio_compact_allocation": \
                     ("active", self.core_config["compact_allocation"]),
                 "radio_full_allocation": \
@@ -257,12 +257,18 @@ class Preferences(component.Component):
                 self.glade.get_widget("torrent_files_button").hide()
                 core_widgets.pop("torrent_files_button")
                 core_widgets["entry_torrents_path"] = ("text", self.core_config["torrentfiles_location"])
+
+                self.glade.get_widget("entry_autoadd").show()
+                self.glade.get_widget("folder_autoadd").hide()
+                core_widgets.pop("folder_autoadd")
+                core_widgets["entry_autoadd"] = ("text", self.core_config["autoadd_location"])
             else:
                 self.glade.get_widget("entry_download_path").hide()
                 self.glade.get_widget("download_path_button").show()
                 self.glade.get_widget("entry_torrents_path").hide()
                 self.glade.get_widget("torrent_files_button").show()
-                    
+                self.glade.get_widget("entry_autoadd").hide()
+                self.glade.get_widget("folder_autoadd").show()                    
 
             # Update the widgets accordingly
             for key in core_widgets.keys():
@@ -288,8 +294,8 @@ class Preferences(component.Component):
             core_widget_list = [
                 "download_path_button",
                 "torrent_files_button",
-                "chk_autoadd_daemon",
-                "entry_autoadd_daemon",
+                "chk_autoadd",
+                "folder_autoadd",
                 "radio_compact_allocation",
                 "radio_full_allocation",
                 "chk_prioritize_first_last_pieces",
@@ -338,10 +344,6 @@ class Preferences(component.Component):
             self.gtkui_config["interactive_add"])
         self.glade.get_widget("chk_focus_dialog").set_active(
             self.gtkui_config["focus_add_dialog"])
-        self.glade.get_widget("chk_autoadd_folder").set_active(
-            self.gtkui_config["autoadd_enable"])
-        self.glade.get_widget("autoadd_folder_button").set_filename(    
-            self.gtkui_config["autoadd_location"])
 
         ## Interface tab ##
         self.glade.get_widget("chk_use_tray").set_active(
@@ -409,14 +411,15 @@ class Preferences(component.Component):
             new_core_config["torrentfiles_location"] = \
                 self.glade.get_widget("entry_torrents_path").get_text()
             
-        new_gtkui_config["autoadd_enable"] = \
-            self.glade.get_widget("chk_autoadd_folder").get_active()
-        new_gtkui_config["autoadd_location"] = \
-            self.glade.get_widget("autoadd_folder_button").get_filename()
         new_core_config["autoadd_enable"] = \
-            self.glade.get_widget("chk_autoadd_daemon").get_active()
-        new_core_config["autoadd_location"] = \
-            self.glade.get_widget("entry_autoadd_daemon").get_text()
+            self.glade.get_widget("chk_autoadd").get_active()
+        if client.is_localhost():
+            new_core_config["autoadd_location"] = \
+                self.glade.get_widget("folder_autoadd").get_filename()
+        else:
+            new_core_config["autoadd_location"] = \
+                self.glade.get_widget("entry_autoadd_daemon").get_text()
+                
         new_core_config["compact_allocation"] = \
             self.glade.get_widget("radio_compact_allocation").get_active()
         new_core_config["prioritize_first_last_pieces"] = \
@@ -541,7 +544,7 @@ class Preferences(component.Component):
 
             # Set each changed config value in the core
             client.set_config(config_to_set)
-
+            client.force_call(True)
             # Update the configuration
             self.core_config.update(config_to_set)
         

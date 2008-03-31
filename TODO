@@ -1,5 +1,4 @@
 For 0.6 release:
-* Add autoload folder
 * Implement open folder
 * Add per-torrent settings to the details pane.. max_download_speed, etc.. So
     the user know what limits are set on the torrent.

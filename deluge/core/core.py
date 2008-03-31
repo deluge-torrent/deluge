@@ -304,14 +304,6 @@ class Core(
         # Run the plugin hooks for 'post_torrent_add'
         self.plugins.run_post_torrent_add(torrent_id)
 
-        if torrent_id is not None:
-            # Emit the torrent_added signal
-            self.torrent_added(torrent_id)
-            return True
-        else:
-            # Return False because the torrent was not added successfully
-            return False
-
     def export_add_torrent_url(self, url, save_path, options):
         log.info("Attempting to add url %s", url)
         
@@ -572,11 +564,6 @@ class Core(
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
 
     # Signals
-    def torrent_added(self, torrent_id):
-        """Emitted when a new torrent is added to the core"""
-        log.debug("torrent_added signal emitted")
-        self.signals.emit("torrent_added", torrent_id)
-
     def torrent_removed(self, torrent_id):
         """Emitted when a torrent has been removed from the core"""
         log.debug("torrent_remove signal emitted")

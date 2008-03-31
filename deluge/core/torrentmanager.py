@@ -46,6 +46,7 @@ import deluge.component as component
 from deluge.core.torrentqueue import TorrentQueue
 from deluge.configmanager import ConfigManager
 from deluge.core.torrent import Torrent
+from deluge.core.autoadd import AutoAdd
 from deluge.log import LOG as log
 
 class TorrentState:
@@ -137,10 +138,15 @@ class TorrentManager(component.Component):
             self.on_alert_tracker_warning)
         self.alerts.register_handler("storage_moved_alert",
             self.on_alert_storage_moved)
+        
+        # Create the AutoAdd component
+        self.autoadd = AutoAdd()        
 
     def start(self):
         # Get the pluginmanager reference
         self.plugins = component.get("PluginManager")
+        
+        self.signals = component.get("SignalManager")
         
         # Try to load the state from file
         self.load_state()
@@ -268,10 +274,8 @@ class TorrentManager(component.Component):
         # Create a Torrent object
         torrent = Torrent(filename, handle, options["compact_allocation"], 
             options["download_location"], total_uploaded, trackers)
-        log.debug("torrent: %s", torrent)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
-        log.debug("self.torrents: %s", self.torrents)
         component.resume("AlertManager")
         
         # Add the torrent to the queue
@@ -304,6 +308,9 @@ class TorrentManager(component.Component):
             torrent.handle.resume()
         if state == None and options["add_paused"]:
             torrent.state = "Paused"
+        
+        # Emit the torrent_added signal
+        self.signals.emit("torrent_added", torrent.torrent_id)
             
         # Save the torrent file        
         torrent.save_torrent_file(filedump)
