@@ -191,7 +191,7 @@ class ToolBar(component.Component):
                 except KeyError, e:
                     log.debug("Error getting torrent state: %s", e)
                     continue
-                if status == "Paused":
+                if status == "Paused" or status == "Error":
                     resume = True
                 else:
                     pause = True

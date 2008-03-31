@@ -49,7 +49,8 @@ class DetailsTab:
             (glade.get_widget("summary_num_files"), str, ("num_files",)),
             (glade.get_widget("summary_tracker"), None, ("tracker",)),
             (glade.get_widget("summary_torrent_path"), None, ("save_path",)),
-            (glade.get_widget("summary_private"), str, ("private",))
+            (glade.get_widget("summary_private"), str, ("private",)),
+            (glade.get_widget("summary_message"), str, ("message",))
         ]
         
     def update(self):
@@ -65,7 +66,7 @@ class DetailsTab:
         
         # Get the torrent status
         status_keys = ["name", "total_size", "num_files",
-            "tracker", "save_path", "private"]
+            "tracker", "save_path", "private", "message"]
         
         client.get_torrent_status(
             self._on_get_torrent_status, selected, status_keys)

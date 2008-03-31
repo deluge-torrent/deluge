@@ -63,6 +63,9 @@ class SideBar(component.Component):
         self.liststore.append([_("Paused"),
             gtk.gdk.pixbuf_new_from_file(
                 deluge.common.get_pixmap("inactive16.png"))])
+        self.liststore.append([_("Error"),
+            gtk.gdk.pixbuf_new_from_file(
+                deluge.common.get_pixmap("alert16.png"))])
         # Create the column
         column = gtk.TreeViewColumn(_("Labels"))
         column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
@@ -112,4 +115,6 @@ class SideBar(component.Component):
             component.get("TorrentView").set_filter("state", "Queued")
         if value == "Paused":
             component.get("TorrentView").set_filter("state", "Paused")
+        if value == "Error":
+            component.get("TorrentView").set_filter("state", "Error")
 

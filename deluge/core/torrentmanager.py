@@ -138,6 +138,7 @@ class TorrentManager(component.Component):
             self.on_alert_tracker_warning)
         self.alerts.register_handler("storage_moved_alert",
             self.on_alert_storage_moved)
+        self.alerts.register_handler("file_error_alert", self.on_alert_file_error)
         
         # Create the AutoAdd component
         self.autoadd = AutoAdd()        
@@ -302,7 +303,7 @@ class TorrentManager(component.Component):
         # Resume the torrent if needed
         if state == "Queued":
             torrent.state = "Queued"
-        elif state == "Paused":
+        elif state == "Paused" or state == "Error":
             torrent.state = "Paused"
         if state == None and not options["add_paused"]:
             torrent.handle.resume()
@@ -498,7 +499,7 @@ class TorrentManager(component.Component):
                     "file_priorities": torrent_state.file_priorities
                 }
                 # We need to resume all non-add_paused torrents after plugin hook
-                if torrent_state.state == "Paused" or torrent_state.state == "Queued":
+                if torrent_state.state == "Paused" or torrent_state.state == "Queued" or torrent_state.state == "Error":
                     log.debug("torrent state: %s", torrent_state.state)
                     add_paused[torrent_state.torrent_id] = True
                 else:
@@ -697,4 +698,10 @@ class TorrentManager(component.Component):
             self.torrents[torrent_id].set_save_path(alert.handle.save_path())
         except KeyError:
             log.debug("torrent_id doesn't exist.")
-                    
+
+    def on_alert_file_error(self, alert):
+        log.debug("on_alert_file_error")
+        torrent_id = str(alert.handle.info_hash())
+        self.torrents[torrent_id].set_state("Error")
+        self.torrents[torrent_id].set_status_message(str(alert.msg()))
+        self.not_state_paused.append(torrent_id)

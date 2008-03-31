@@ -5,8 +5,6 @@ For 0.6 release:
 * Add a 'move storage' on completion option
 * Address issue where torrents will redownload if the storage is moved outside
     of deluge.
-* Use the alert icon for file alerts from libtorrent
-* Add a torrent status message to the details tab to indicate errors (with alert icon)
 * Implement prioritize first/last pieces
 * Anonymous stats
 * Update checking

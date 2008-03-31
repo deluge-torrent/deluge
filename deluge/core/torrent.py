@@ -69,6 +69,8 @@ class Torrent:
         self.compact = compact
         # Where the torrent is being saved to
         self.save_path = save_path
+        # Status message holds error info about the torrent
+        self.statusmsg = "OK"
         
         # Holds status info so that we don't need to keep getting it from lt
         self.status = self.handle.status()
@@ -161,7 +163,10 @@ class Torrent:
 
             # Update the torrentqueue on any state changes
             self.torrentqueue.update_queue()
-        
+    
+    def set_status_message(self, message):
+        self.statusmsg = message
+
     def get_eta(self):
         """Returns the ETA in seconds for this torrent"""
         if self.status == None:
@@ -291,7 +296,8 @@ class Torrent:
             "max_upload_speed": self.max_upload_speed,
             "max_download_speed": self.max_download_speed,
             "prioritize_first_last": self.prioritize_first_last,
-            "private": self.private
+            "private": self.private,
+            "message": self.statusmsg
         }
         
         fns = {
@@ -343,8 +349,10 @@ class Torrent:
     
     def resume(self):
         """Resumes this torrent"""
-        if self.state == "Paused":
-
+        if self.state == "Paused" or self.state == "Error":
+            # Reset the status message just in case of resuming an Error'd torrent
+            self.set_status_message("OK")
+            
             if self.handle.is_seed():
                 # If the torrent has already reached it's 'stop_seed_ratio' then do not do anything
                 if self.config["stop_seed_at_ratio"]:
