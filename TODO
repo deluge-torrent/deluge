@@ -10,7 +10,6 @@ For 0.6 release:
 * Update checking
 * Translations
 * Show proper priority levels in Files tab, plus add menu to alter priorities
-* Edit tracker dialog needs fixin'
 * Implement add by url and add by hash
 
 After 0.6 release:

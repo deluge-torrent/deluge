@@ -112,17 +112,7 @@ class EditTrackersDialog:
         num_rows = self.liststore.iter_n_children(None)
         if selected != None and num_rows > 1:
             tier = self.liststore.get_value(selected, 0)
-            new_tier = tier - 1
-            # Return if the tier is already at the top
-            if tier == 0:
-                return
-            # Change the tier of the tracker we're surplanting
-            def change_tier(model, path, iter, data):
-                t = model.get_value(iter, 0)
-                if t == data:
-                    model.set_value(iter, 0, data + 1)            
-            self.liststore.foreach(change_tier, new_tier)
-            
+            new_tier = tier + 1
             # Now change the tier for this tracker
             self.liststore.set_value(selected, 0, new_tier)
             
@@ -144,16 +134,9 @@ class EditTrackersDialog:
         num_rows = self.liststore.iter_n_children(None)
         if selected != None and num_rows > 1:
             tier = self.liststore.get_value(selected, 0)
-            new_tier = tier + 1
-            # This tracker is on the bottom already
-            if new_tier == num_rows:
+            if not tier > 0:
                 return
-            # Change the tier of the tracker we're surplanting
-            def change_tier(model, path, iter, data):
-                t = model.get_value(iter, 0)
-                if t == data:
-                    model.set_value(iter, 0, data - 1)
-            self.liststore.foreach(change_tier, new_tier)
+            new_tier = tier - 1
             # Now change the tier for this tracker
             self.liststore.set_value(selected, 0, new_tier)
             
