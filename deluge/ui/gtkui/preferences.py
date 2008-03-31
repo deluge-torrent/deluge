@@ -418,7 +418,7 @@ class Preferences(component.Component):
                 self.glade.get_widget("folder_autoadd").get_filename()
         else:
             new_core_config["autoadd_location"] = \
-                self.glade.get_widget("entry_autoadd_daemon").get_text()
+                self.glade.get_widget("entry_autoadd").get_text()
                 
         new_core_config["compact_allocation"] = \
             self.glade.get_widget("radio_compact_allocation").get_active()
