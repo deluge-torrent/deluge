@@ -62,6 +62,7 @@ class AutoAdd(component.Component):
         if not os.path.exists(self.config["autoadd_location"]):
             log.warning("Invalid AutoAdd folder: %s", self.config["autoadd_location"])
             component.pause("AutoAdd")
+            return
             
         for filename in os.listdir(self.config["autoadd_location"]):
             if filename.split(".")[-1] == "torrent":
