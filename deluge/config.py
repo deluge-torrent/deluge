@@ -61,7 +61,6 @@ class Config:
         self.save()
         
     def __del__(self):
-        log.debug("Config object deconstructing..")
         self.save()
             
     def load(self, filename=None):
@@ -72,7 +71,6 @@ class Config:
             filename = self.config_file
         try:
             # Un-pickle the file and update the config dictionary
-            log.debug("Opening pickled file for load..")
             pkl_file = open(filename, "rb")
             filedump = cPickle.load(pkl_file)
             self.config.update(filedump)
@@ -80,7 +78,6 @@ class Config:
         except IOError:
             log.warning("IOError: Unable to load file '%s'", filename)
         except EOFError:
-            log.debug("Closing pickled file..")
             pkl_file.close()
             
     def save(self, filename=None):
@@ -92,22 +89,18 @@ class Config:
         # Check to see if the current config differs from the one on disk
         # We will only write a new config file if there is a difference
         try:
-            log.debug("Opening pickled file for comparison..")
             pkl_file = open(filename, "rb")
             filedump = cPickle.load(pkl_file)
             pkl_file.close()
             if filedump == self.config:
                 # The config has not changed so lets just return
-                log.debug("Not writing config file due to no changes..")
                 return
         except IOError:
             log.warning("IOError: Unable to open file: '%s'", filename)
             
         try:
-            log.debug("Opening pickled file for save..")
             pkl_file = open(filename, "wb")
             cPickle.dump(self.config, pkl_file)
-            log.debug("Closing pickled file..")
             pkl_file.close()
         except IOError:
             log.warning("IOError: Unable to save file '%s'", filename)
