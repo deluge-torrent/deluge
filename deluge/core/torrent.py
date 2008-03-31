@@ -297,7 +297,8 @@ class Torrent:
             "max_download_speed": self.max_download_speed,
             "prioritize_first_last": self.prioritize_first_last,
             "private": self.private,
-            "message": self.statusmsg
+            "message": self.statusmsg,
+            "hash": self.torrent_id
         }
         
         fns = {
