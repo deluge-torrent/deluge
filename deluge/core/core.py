@@ -52,6 +52,7 @@ from deluge.core.torrentmanager import TorrentManager
 from deluge.core.pluginmanager import PluginManager
 from deluge.core.alertmanager import AlertManager
 from deluge.core.signalmanager import SignalManager
+from deluge.core.autoadd import AutoAdd
 from deluge.log import LOG as log
     
 DEFAULT_PREFS = {
@@ -244,6 +245,9 @@ class Core(
         # Start the TorrentManager
         self.torrents = TorrentManager(self.session, self.alerts)
         
+        # Create the AutoAdd component
+        self.autoadd = AutoAdd()        
+
         component.start()
         
         t = threading.Thread(target=self.serve_forever)

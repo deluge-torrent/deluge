@@ -46,7 +46,7 @@ import deluge.component as component
 from deluge.core.torrentqueue import TorrentQueue
 from deluge.configmanager import ConfigManager
 from deluge.core.torrent import Torrent
-from deluge.core.autoadd import AutoAdd
+
 from deluge.log import LOG as log
 
 class TorrentState:
@@ -140,15 +140,12 @@ class TorrentManager(component.Component):
             self.on_alert_storage_moved)
         self.alerts.register_handler("file_error_alert", self.on_alert_file_error)
         
-        # Create the AutoAdd component
-        self.autoadd = AutoAdd()        
-
     def start(self):
         # Get the pluginmanager reference
         self.plugins = component.get("PluginManager")
         
         self.signals = component.get("SignalManager")
-        
+                
         # Try to load the state from file
         self.load_state()
 
@@ -633,7 +630,6 @@ class TorrentManager(component.Component):
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the torrent state
-        log.debug("self.torrents: %s", self.torrents)
         if not self.torrents[torrent_id].handle.is_paused():
             if self.torrents[torrent_id].handle.is_seed():
                 self.torrents[torrent_id].set_state("Seeding")
