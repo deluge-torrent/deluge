@@ -35,6 +35,7 @@ from deluge.configmanager import ConfigManager
 import pkg_resources
 from deluge.ui.client import sclient
 import components
+from deluge.log import LOG as log
 
 # Initialize gettext
 locale.setlocale(locale.LC_MESSAGES, '')
@@ -80,49 +81,41 @@ config_forms.register()
 
 
 def WsgiApplication(middleware = None):
-    if not middleware:
-        middleware = []
     from web import webpyfunc, wsgifunc
     from deluge import component
 
-    pagemanager = component.get("PageManager")
+   pagemanager = component.get("PageManager")
+    if not middleware:
+        middleware = []
+
     return wsgifunc(webpyfunc(pagemanager.urls, pagemanager.page_classes, False), *middleware)
 
-def WebServer(debug = False):
+def create_webserver(debug = False):
     "starts builtin webserver"
+    import web
 
     utils.set_config_defaults()
     config.set('base','')
     config.set('disallow',{})
     utils.apply_config()
 
-    import web
 
     from lib.gtk_cherrypy_wsgiserver import CherryPyWSGIServer
 
+    middleware = None
     if debug:
         middleware = [web.reloader]
-    else:
-        middleware = []
 
     wsgi_app = WsgiApplication(middleware)
 
     server_address=("0.0.0.0", int(config.get('port')))
     server = CherryPyWSGIServer(server_address, wsgi_app, server_name="localhost")
 
-    """if config.get('use_https'):
-        server.ssl_certificate = os.path.join(ws.webui_path,'ssl/deluge.pem')
-        server.ssl_private_key = os.path.join(ws.webui_path,'ssl/deluge.key')
-    """
-
-    print "http://%s:%d/" % server_address
+    log.info("http://%s:%d/" % server_address)
     return server
 
-def mod_wsgi_application(sub_dir, config_dir , template_dir):
-    pass
-
 def run(debug = False):
-    server = WebServer(debug)
+    server = create_webserver(debug)
     try:
         server.start()
     except KeyboardInterrupt:
