@@ -389,7 +389,8 @@ class AddTorrentDialog:
 
         dialog.set_default_response(gtk.RESPONSE_OK)
         dialog.set_transient_for(self.dialog)
-
+        entry.grab_focus()
+        
         if deluge.common.windows_check():
             import win32clipboard as clip 
             import win32con
@@ -417,7 +418,8 @@ class AddTorrentDialog:
         log.debug("url: %s", url)
         if url != None:
             gobject.idle_add(self.download_from_url, url)
-            
+        
+        entry.set_text("")
         dialog.hide()
 
     def download_from_url(self, url):
@@ -438,6 +440,7 @@ class AddTorrentDialog:
         
         model.remove(row)
         del self.files[torrent_id]
+        del self.infos[torrent_id]
 
     def _on_button_trackers_clicked(self, widget):
         log.debug("_on_button_trackers_clicked")
