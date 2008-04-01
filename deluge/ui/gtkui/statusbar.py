@@ -160,7 +160,8 @@ class StatusBar(component.Component):
                 text=_("No Incoming Connections!"),
                 callback=self._on_health_icon_clicked)
           
-
+        self.health = False
+        
         # Get some config values
         client.get_config_value(
             self._on_max_connections_global, "max_connections_global")
