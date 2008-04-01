@@ -168,6 +168,10 @@ class AddTorrentDialog:
             
             info = lt.torrent_info(filedump)
 
+            if str(info.info_hash()) in self.infos:
+                log.debug("Torrent already in list!")
+                return
+                
             # Get list of files from torrent info
             files = []
             for f in info.files():
@@ -411,9 +415,16 @@ class AddTorrentDialog:
         # This is where we need to fetch the .torrent file from the URL and
         # add it to the list.
         log.debug("url: %s", url)
+        if url != None:
+            gobject.idle_add(self.download_from_url, url)
+            
         dialog.hide()
 
-
+    def download_from_url(self, url):
+        import urllib
+        filename, headers = urllib.urlretrieve(url)
+        self.add_to_torrent_list([filename])
+    
     def _on_button_hash_clicked(self, widget):
         log.debug("_on_button_hash_clicked")
 
