@@ -114,6 +114,8 @@ class FilesTab:
 
         self.listview.set_model(self.liststore)
         
+        self.listview.connect("row-activated", self.open_file)
+
         # Attempt to load state
         self.load_state()
         
@@ -206,7 +208,23 @@ class FilesTab:
         else:
             client.get_torrent_status(self._on_get_torrent_status, self.torrent_id, ["file_progress", "file_priorities"])
             client.force_call(True)
-        
+
+    def open_file(self, tree, path, view_column):
+        if client.is_localhost:
+            client.get_torrent_status(self._on_open_file, self.torrent_id, ["save_path", "files", "num_files"])
+            client.force_call(False)
+
+    def _on_open_file(self, status):
+        selected = self.listview.get_selection().get_selected()[1]
+        file_name = self.liststore.get_value(selected, 0)
+        if status["num_files"] > 1:
+            file_path = os.path.join(status["save_path"],
+                status["files"][0]["path"].split("/", 1)[0], file_name)
+        else:
+            file_path = os.path.join(status["save_path"], file_name)
+        log.debug("Open file '%s'", file_name)
+        deluge.common.open_file(file_path)
+
     def update_files(self):
         # Updates the filename and size columns based on info in self.files_list
         # This assumes the list is currently empty.
