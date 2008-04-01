@@ -154,7 +154,7 @@ class BaseClient(object):
     base for AClient and SClient
     """
     no_callback_list = ["add_torrent_url", "pause_all_torrents",
-            "resume_all_torrent", "set_config", "enable_plugin",
+            "resume_all_torrents", "set_config", "enable_plugin",
             "disable_plugin", "set_torrent_trackers",
             "set_torrent_max_connections", "set_torrent_max_upload_slots",
             "set_torrent_max_upload_speed", "set_torrent_max_download_speed",
