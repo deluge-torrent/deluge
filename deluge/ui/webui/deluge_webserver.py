@@ -84,7 +84,7 @@ def WsgiApplication(middleware = None):
     from web import webpyfunc, wsgifunc
     from deluge import component
 
-   pagemanager = component.get("PageManager")
+    pagemanager = component.get("PageManager")
     if not middleware:
         middleware = []
 
