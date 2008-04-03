@@ -30,7 +30,7 @@
 #  this exception statement from your version. If you delete this exception
 #  statement from all source files in the program, then also delete it here.
 
-from deluge.ui.client import sclient as proxy
+from deluge.ui.client import sclient
 from deluge.log import LOG as log
 
 import utils
@@ -62,6 +62,14 @@ class NetworkPorts(config_forms.CfgForm ):
     def validate(self, data):
         if (data['_port_to'] < data['_port_from']):
             raise forms.ValidationError('"Port from" must be greater than "Port to"')
+
+    def extra_html(self):
+        return """
+        <ul>
+            <li>Active port:%(active_port)s </li>
+            <li><a href="http://deluge-torrent.org/test-port.php?port=%(active_port)s">Test active port</li>
+        </ul>
+        """ % {'active_port':sclient.get_listen_port()}
 
 config_page.register('network','ports', NetworkPorts)
 
@@ -103,6 +111,8 @@ class BandwithTorrent(config_forms.CfgForm):
     title = _("Per Torrent")
     info = _("-1 = Unlimited")
     max_connections_per_torrent = forms.DelugeInt(_("Maximum Connections"))
+    max_download_speed_per_torrent = forms.DelugeFloat(_("Maximum Download Speed (Kib/s)"))
+    max_upload_speed_per_torrent = forms.DelugeFloat(_("Maximum Upload Speed (Kib/s)"))
     max_upload_slots_per_torrent = forms.DelugeInt(_("Maximum Upload Slots"))
 
 config_page.register('bandwidth','torrent', BandwithTorrent)
@@ -113,8 +123,8 @@ class Download(config_forms.CfgForm):
     torrentfiles_location = forms.ServerFolder(_("Save .torrent files to"))
     autoadd_location = forms.ServerFolder(_("Auto Add folder"), required=False)
     compact_allocation = forms.CheckBox(_('Use Compact Allocation'))
-    prioritize_first_last_pieces = forms.CheckBox(
-        _('Prioritize first and last pieces'))
+    prioritize_first_last_pieces = forms.CheckBox(_('Prioritize first and last pieces'))
+    default_private = forms.CheckBox(_('Set private flag by default'))
 
 config_page.register('deluge','download', Download)
 
@@ -130,11 +140,11 @@ class Plugins(forms.Form):
     title = _("Enabled Plugins")
 
     enabled_plugins = forms.LazyMultipleChoice(
-        choices_getter = lambda: [(p,p) for p in proxy.get_available_plugins()]
+        choices_getter = lambda: [(p,p) for p in sclient.get_available_plugins()]
     )
 
     def initial_data(self):
-        return {'enabled_plugins':proxy.get_enabled_plugins()}
+        return {'enabled_plugins':sclient.get_enabled_plugins()}
 
     def save(self, value):
         raise forms.ValidationError("SAVE:TODO")

@@ -29,10 +29,15 @@ $:form.as_table()
 </tr>
 
 </table>
+
 $if message:
     <div id="message">$message</div>
 $if error:
     <div class="error">$error</div>
+
+<div>
+$:form.extra_html()
+</div>
 
 
 

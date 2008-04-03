@@ -74,6 +74,7 @@ class FilteredForm(newforms.Form):
 class Form(FilteredForm):
     info = ""
     title = "No Title"
+
     def __init__(self,data = None):
         if data == None:
             data = self.initial_data()
@@ -99,6 +100,10 @@ class Form(FilteredForm):
 
     def validate(self, data):
         pass
+
+    def extra_html(self):
+        return ''
+
 
 #convenience Input Fields.
 class CheckBox(newforms.BooleanField):

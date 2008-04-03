@@ -404,13 +404,3 @@ class pixmaps:
         web.header("Cache-Control" , "public, must-revalidate, max-age=86400")
         print content
 route("/pixmaps/(.*)", pixmaps)
-
-"""
-#debug:
-class catch_all:
-    @deco.deluge_page_noauth
-    def GET(self, name):
-        log.debug("xname=" + name)
-        print "name=" + name
-route("(.*)", catch_all)
-"""
