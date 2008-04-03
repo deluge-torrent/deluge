@@ -136,6 +136,27 @@ class Daemon(config_forms.CfgForm):
 
 config_page.register('deluge','daemon', Daemon)
 
+class Queue(config_forms.CfgForm):
+    title = _("Queue")
+    info = _("-1 = unlimited")
+
+    queue_new_to_top = forms.CheckBox(_("Queue new torrents to top"))
+    queue_finished_to_bottom = forms.CheckBox(_("Queue completed torrents to bottom"))
+
+    #total_downloading = forms.DelugeInt(_("Total active downloading"))
+    max_active_downloading = forms.DelugeInt(_("Total active torrents"))
+    max_active_seeding = forms.DelugeInt(_("Total active seeding"))
+
+
+    stop_seed_at_ratio = forms.CheckBox(_("Stop seeding when ratio reaches"))
+    #stop_ratio = forms.FloatField(min_value=-1)
+
+    remove_seed_at_ratio = forms.CheckBox(_("Remove torrent when ratio reached"))
+    stop_seed_ratio = forms.FloatField(min_value=-1)
+
+config_page.register('deluge','queue', Queue)
+
+
 class Plugins(forms.Form):
     title = _("Enabled Plugins")
 
@@ -151,23 +172,3 @@ class Plugins(forms.Form):
 
 config_page.register('deluge','plugins', Plugins)
 
-"""
-class Queue(forms.Form):
-    title = _("Queue")
-    info = _("queue-cfg not finished")
-
-    queue_top = forms.CheckBox(_("Queue new torrents to top"))
-    total_active = forms.DelugeInt(_("Total active torrents"))
-    total_seeding = forms.DelugeInt(_("Total active seeding"))
-    total_downloading = forms.DelugeInt(_("Total active downloading"))
-
-    queue_bottom = forms.CheckBox(_("Queue completed torrents to bottom"))
-    stop_on_ratio = forms.CheckBox(_("Stop seeding when ratio reaches"))
-    stop_ratio = forms.DelugeInt(_("TODO:float-edit-box"))
-    remove_after_stop = forms.CheckBox(_("Remve torrent when ratio reached"))
-
-    def save(self, value):
-        raise forms.ValidationError("SAVE:TODO")
-
-config_page.register('plugins','queue', Queue)
-"""
