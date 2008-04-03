@@ -185,7 +185,6 @@ class torrent_files:
     @deco.check_session
     @deco.torrent
     def POST(self, torrent):
-        torrent = get_torrent_status(torrent_id)
         file_priorities = web.input(file_priorities=[]).file_priorities
         #file_priorities contains something like ['0','2','3','4']
         #transform to: [1,0,1,1,1]
