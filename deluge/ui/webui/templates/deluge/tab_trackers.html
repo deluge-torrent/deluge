@@ -1,5 +1,6 @@
 $def with (torrent)
-
+<form  method="POST" action="$base/torrent/trackers/$torrent.id">
+<input type="hidden" name="redir" value="$self_url()">
 <table width="95%">
 $altrow(True)
 <tr class="tab_$altrow()">
@@ -8,9 +9,17 @@ $altrow(True)
 $for tracker in torrent.trackers:
     <tr class="tab_$altrow()" >
     <td >
-    $tracker['tier']
+    <input type="text" name="tier" value="$tracker['tier']" style="width:20px"/>
     </td>
-        <td title="tracker">$crop(tracker['url'], 60)</td>
+        <td><input type="text" name="url" value="$tracker['url']" style="width:400px"//></td>
     </tr>
-</table>
+<tr class="tab_$altrow()" >
+<td >
+<input type="text" name="tier" value="$(tracker['tier'] + 1)" style="width:20px"/>
+</td>
+    <td><input type="text" name="url" value="" style="width:400px"//></td>
+</tr>
 
+</table>
+<input type="submit" value="$_('Update')">
+</form>

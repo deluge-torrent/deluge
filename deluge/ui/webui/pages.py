@@ -183,7 +183,8 @@ route("/torrent/delete/(.*)",torrent_delete)
 
 class torrent_files:
     @deco.check_session
-    def POST(self, torrent_id):
+    @deco.torrent
+    def POST(self, torrent):
         torrent = get_torrent_status(torrent_id)
         file_priorities = web.input(file_priorities=[]).file_priorities
         #file_priorities contains something like ['0','2','3','4']
@@ -191,9 +192,23 @@ class torrent_files:
         proxy_prio = [0 for x in xrange(len(torrent.file_priorities))]
         for pos in file_priorities:
             proxy_prio[int(pos)] = 1
-        proxy.set_torrent_file_priorities(torrent_id, proxy_prio)
+        proxy.set_torrent_file_priorities(torrent.id, proxy_prio)
         do_redirect()
 route("/torrent/files/(.*)", torrent_files)
+
+class torrent_trackers:
+    @deco.check_session
+    @deco.torrent
+    def POST(self, torrent):
+        vars = web.input(tier=[], url=[])
+
+        tiers_int = [int(t) for t in vars.tier]
+        sorted_urls =  [url for num,url in sorted(zip(tiers_int, vars.url)) if url]
+        trackers = [{'tier':i , 'url':url} for i,url in enumerate(sorted_urls)]
+
+        proxy.set_torrent_trackers(torrent.id, trackers)
+        do_redirect()
+route("/torrent/trackers/(.*)", torrent_trackers)
 
 class pause_all:
     @deco.check_session
