@@ -41,7 +41,7 @@ menu.register_admin_page("connect", _("Connect"), "/connect")
 menu.register_admin_page("about", _("About"), "/about")
 menu.register_admin_page("logout", _("Logout"), "/logout")
 
-menu.register_detail_tab("details", _("Details"), "tab_meta")
+menu.register_detail_tab("details", _("Statistics"), "tab_statistics")
 menu.register_detail_tab("options", _("Options"), "tab_options")
 menu.register_detail_tab("trackers", _("Trackers"), "tab_trackers")
 menu.register_detail_tab("peers", _("Peers"), "tab_peers")
