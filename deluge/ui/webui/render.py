@@ -174,7 +174,7 @@ def deluge_int(val):
 def ftime(val):
     if val <= 0:
         return _("∞")
-    return val
+    return common.ftime(val)
 
 template.Template.globals.update({
     'sort_head': template_sort_head,
