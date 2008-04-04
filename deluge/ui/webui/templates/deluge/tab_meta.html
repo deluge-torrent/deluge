@@ -27,14 +27,6 @@ $def with (torrent)
 <td class="info_value">$torrent.num_pieces  x $fsize(torrent.piece_length) </td>
 </tr>
 
-<tr><td class="info_label">$_('Allocation'):</td>
-<td class="info_value">
-$if torrent.compact:
-    $_('Compact')
-$else:
-    $_('Full')
-</td>
-
 
 </table>
 </td><td width=30%%>
@@ -55,12 +47,6 @@ $fspeed(torrent.download_payload_rate)</td></td></tr>
 <tr><td class="info_label">$_('Availability'):</td>
 <td class="info_value">$("%.3f" % torrent.distributed_copies)</td></td></tr>
 
-</tr>
-
-<tr><td class="info_label">$_('Queue Position'):</td>
-<td class="info_value">$torrent.queue </td>
-</tr>
-
 </table>
 
 </td><td width=30%%>
@@ -73,18 +59,39 @@ $fspeed(torrent.download_payload_rate)</td></td></tr>
 <tr><td class="info_label">$_('# Of Files'):</td>
 <td class="info_value">$torrent.num_files</td></tr>
 
-<tr><td class="info_label">$_('Tracker'):</td>
-<td class="info_value" title="$torrent.tracker">$(crop(torrent.tracker, 25))</td></tr>
-
-<tr><td class="info_label">$_('Tracker Status'):</td>
-<td class="info_value" title="$torrent.tracker_status">$(crop(torrent.tracker_status, 25)) </td></tr>
-
 <tr><td class="info_label">$_('Next Announce'):</td>
 <td class="info_value">$torrent.next_announce </td></tr>
 
-<tr><td class="info_label">$('Save Path'):</td>
-<td class="info_value" title="$torrent.save_path">$crop_left(torrent.save_path, 25)</td>
-</tr>
-</table>
+<tr><td class="info_label">$_('Queue Position'):</td>
+<td class="info_value">$torrent.queue </td></tr>
 
+<tr><td class="info_label">$_('Allocation'):</td>
+<td class="info_value">
+$if torrent.compact:
+    $_('Compact')
+$else:
+    $_('Full')
+</td></tr>
+
+</table>
+</tr>
+<!--long values-->
+<tr><td>&nbsp;</td></tr>
+<tr colspan="3">
+    <table>
+    <tr><td class="info_label">$('Hash'):</td>
+        <td class="info_value">$torrent.id</td>
+    </tr>
+    <tr><td class="info_label">$_('Tracker'):</td>
+        <td class="info_value" title="$torrent.tracker">$(crop(torrent.tracker, 200))</td>
+    </tr>
+    <tr><td class="info_label">$_('Tracker Status'):</td>
+        <td class="info_value" title="$torrent.tracker_status">$(crop(torrent.tracker_status, 200)) </td>
+    </tr>
+
+    <tr>
+    <td class="info_label">$('Save Path'):</td>
+        <td class="info_value" title="$torrent.save_path">$crop_left(torrent.save_path, 200)</td>
+    </table>
+</tr>
 </table>

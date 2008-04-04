@@ -212,6 +212,11 @@ div.progress_bar{
 #torrent_info_tabs{
 	background-color:#B5EDBC;
 }
+
+td.info_label {
+		width:100px;
+}
+
 /*config:*/
 #config_chooser {
 	margin-left:20px;
