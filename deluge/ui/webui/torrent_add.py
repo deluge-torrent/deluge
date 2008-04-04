@@ -118,7 +118,7 @@ class torrent_add:
             print self.add_page(error = _("Choose an url or a torrent, not both."))
             return
         if vars.url:
-            proxy.add_torrent_url(vars.url,options)
+            proxy.add_torrent_url(vars.url, None,options)
             log.debug("add-url:options :%s" % options)
             utils.do_redirect()
         elif torrent_name:
