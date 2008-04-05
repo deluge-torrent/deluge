@@ -37,6 +37,8 @@ from deluge.ui.client import aclient as client
 import deluge.component as component
 import deluge.common
 
+from deluge.log import LOG as log
+
 class DetailsTab:
     def __init__(self):
         # Get the labels we need to update.
