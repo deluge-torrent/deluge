@@ -1,7 +1,5 @@
 For 0.6 release:
 * Implement open folder
-* Add per-torrent settings to the details pane.. max_download_speed, etc.. So
-    the user know what limits are set on the torrent.
 * Add a 'move storage' on completion option
 * Address issue where torrents will redownload if the storage is moved outside
     of deluge.
@@ -11,14 +9,15 @@ For 0.6 release:
 * Translations
 * Show proper priority levels in Files tab, plus add menu to alter priorities
 * Implement add by hash
+* Implement 'Classic' mode
+* Add tabs to view menu
+* Add command line option to change config dir.. --config
 
 After 0.6 release:
 * Figure out easy way for user-made plugins to add i18n support.
 * Restart daemon function
 * Docstrings!
-* Implement 'Classic' mode
 * Add wizard
-* Add command line option to change config dir.. --config
 * Add method for plugins to add labels
 * Add context menus for labels.. ie. setting options for all torrents in label
 * Implement caching in core

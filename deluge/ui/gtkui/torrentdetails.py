@@ -41,6 +41,7 @@ from statistics_tab import StatisticsTab
 from details_tab import DetailsTab
 from files_tab import FilesTab
 from peers_tab import PeersTab
+from options_tab import OptionsTab
 
 from deluge.log import LOG as log
 
@@ -59,12 +60,14 @@ class TorrentDetails(component.Component):
         details_tab = DetailsTab()
         files_tab = FilesTab()
         peers_tab = PeersTab()
+        options_tab = OptionsTab()
         
         self.tabs = []
         self.tabs.insert(0, statistics_tab)
         self.tabs.insert(1, details_tab)
         self.tabs.insert(2, files_tab)
         self.tabs.insert(3, peers_tab)
+        self.tabs.insert(4, options_tab)
     
     def visible(self, visible):
         if visible:
