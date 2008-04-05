@@ -49,7 +49,9 @@ def start_ui():
 
     parser.add_option("-u", "--ui", dest="ui",
         help="The UI that you wish to launch", action="store", type="str")
-        
+    parser.add_option("-c", "--config", dest="config",
+        help="Set the config location", action="store", type="str")
+                
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
 
@@ -76,6 +78,9 @@ def start_daemon():
         help="Port daemon will listen on", action="store", type="int")
     parser.add_option("-d", "--do-not-daemonize", dest="donot",
         help="Do not daemonize", action="store_true", default=False)
+    parser.add_option("-c", "--config", dest="config",
+        help="Set the config location", action="store", type="str")
+        
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
 
@@ -93,10 +98,11 @@ def start_daemon():
     
     if options.donot:
         log.info("Starting daemon..")
-        Daemon(options.port)
+        Daemon(options, args)
     else:
         cmd = "deluged -d " + "".join(a for a in args)
         if options.port != None:
             cmd = cmd + " -p %s" % options.port
-
+        if options.config != None:
+            cmd = cmd + " -c %s" % options.config
         os.popen2(cmd)

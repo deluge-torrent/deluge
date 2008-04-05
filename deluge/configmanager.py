@@ -32,7 +32,10 @@
 #    statement from all source files in the program, then also delete it here.
 
 import gobject
+import os
+import os.path
 
+import deluge.common
 from deluge.log import LOG as log
 from deluge.config import Config
 
@@ -40,6 +43,7 @@ class _ConfigManager:
     def __init__(self):
         log.debug("ConfigManager started..")
         self.config_files = {}
+        self.config_directory = deluge.common.get_default_config_dir()
         # Set a 5 minute timer to call save()
         gobject.timeout_add(300000, self.save)
 
@@ -47,6 +51,24 @@ class _ConfigManager:
         log.debug("ConfigManager stopping..")
         del self.config_files
 
+    def set_config_dir(self, directory):
+        """Sets the config directory"""
+        if directory == None:
+            return
+        log.info("Setting config directory to: %s", directory)
+        if not os.path.exists(directory):
+            # Try to create the config folder if it doesn't exist
+            try:
+                os.makedirs(directory)
+            except Exception, e:
+                log.warning("Unable to make config directory: %s", e)
+                
+        self.config_directory = directory
+    
+    def get_config_dir(self):
+        log.debug("get_config_dir: %s", self.config_directory)
+        return self.config_directory
+            
     def close(self, config):
         """Closes a config file."""
         try:
@@ -66,7 +88,7 @@ class _ConfigManager:
         log.debug("Getting config '%s'", config_file)
         # Create the config object if not already created
         if config_file not in self.config_files.keys():
-            self.config_files[config_file] = Config(config_file, defaults)
+            self.config_files[config_file] = Config(config_file, defaults, self.config_directory)
         
         return self.config_files[config_file]
         
@@ -76,5 +98,15 @@ _configmanager = _ConfigManager()
 def ConfigManager(config, defaults=None):
     return _configmanager.get_config(config, defaults)
 
+def set_config_dir(directory):
+    """Sets the config directory, else just uses default"""
+    return _configmanager.set_config_dir(directory)
+
+def get_config_dir(filename=None):
+    if filename != None:
+        return os.path.join(_configmanager.get_config_dir(), filename)
+    else:
+        return _configmanager.get_config_dir()
+        
 def close(config):
     return _configmanager.close(config)

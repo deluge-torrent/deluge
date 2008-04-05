@@ -11,7 +11,6 @@ For 0.6 release:
 * Implement add by hash
 * Implement 'Classic' mode
 * Add tabs to view menu
-* Add command line option to change config dir.. --config
 
 After 0.6 release:
 * Figure out easy way for user-made plugins to add i18n support.

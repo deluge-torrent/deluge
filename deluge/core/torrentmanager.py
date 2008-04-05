@@ -457,8 +457,8 @@ class TorrentManager(component.Component):
         
         try:
             log.debug("Opening torrent state file for load.")
-            state_file = open(deluge.common.get_config_dir("torrents.state"),
-                                                                        "rb")
+            state_file = open(
+                os.path.join(self.config["config_location"], "torrents.state"), "rb")
             state = cPickle.load(state_file)
             state_file.close()
         except IOError:
@@ -556,7 +556,8 @@ class TorrentManager(component.Component):
         # Pickle the TorrentManagerState object
         try:
             log.debug("Saving torrent state file.")
-            state_file = open(deluge.common.get_config_dir("torrents.state"), 
+            state_file = open(
+                os.path.join(self.config["config_location"], "torrents.state"), 
                                                                         "wb")
             cPickle.dump(state, state_file)
             state_file.close()

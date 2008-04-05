@@ -60,11 +60,11 @@ from pluginmanager import PluginManager
 from dbusinterface import DbusInterface
 from queuedtorrents import QueuedTorrents
 from coreconfig import CoreConfig
-from deluge.configmanager import ConfigManager
+import deluge.configmanager
 import deluge.common
 
 DEFAULT_PREFS = {
-    "config_location": deluge.common.get_config_dir(),
+    "config_location": deluge.configmanager.get_config_dir(),
     "interactive_add": True,
     "focus_add_dialog": True,
     "enable_system_tray": True,
@@ -128,7 +128,7 @@ class GtkUI:
         signal.signal(signal.SIGTERM, self.shutdown)
 
         # Make sure gtkui.conf has at least the defaults set
-        self.config = ConfigManager("gtkui.conf", DEFAULT_PREFS)
+        self.config = deluge.configmanager.ConfigManager("gtkui.conf", DEFAULT_PREFS)
 
         # Start the Dbus Interface before anything else.. Just in case we are
         # already running.

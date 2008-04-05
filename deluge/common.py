@@ -38,7 +38,6 @@ import os
 import pkg_resources
 import xdg, xdg.BaseDirectory
 
-
 LT_TORRENT_STATE = {
     "Queued": 0,
     "Checking": 1,
@@ -76,13 +75,12 @@ def get_revision():
         
     return revision
     
-def get_config_dir(filename=None):
+def get_default_config_dir(filename=None):
     """ Returns the config path if no filename is specified
     Returns the config directory + filename as a path if filename is specified
     """
     if filename != None:
-        return os.path.join(xdg.BaseDirectory.save_config_path("deluge"), 
-                                                                    filename)
+        return os.path.join(xdg.BaseDirectory.save_config_path("deluge"), filename)
     else:
         return xdg.BaseDirectory.save_config_path("deluge")
 
@@ -92,14 +90,6 @@ def get_default_download_dir():
         return os.path.expanduser("~")
     else:
         return os.environ.get("HOME")
-
-def get_default_torrent_dir():
-    """Returns the default torrent directory"""
-    return os.path.join(get_config_dir(), "torrentfiles")
-    
-def get_default_plugin_dir():
-    """Returns the default plugin directory"""
-    return os.path.join(get_config_dir(), "plugins")
 
 def windows_check():
     """Checks if the current platform is Windows.  Returns True if it is Windows

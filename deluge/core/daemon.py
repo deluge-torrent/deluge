@@ -31,11 +31,15 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-from deluge.core.core import Core
+import deluge.configmanager
 from deluge.log import LOG as log
 
 class Daemon:
-    def __init__(self, port):
+    def __init__(self, options, args):
+        # Set the config directory
+        deluge.configmanager.set_config_dir(options.config)
+
+        from deluge.core.core import Core
         # Start the core as a thread and join it until it's done
-        self.core = Core(port).run()
+        self.core = Core(options.port).run()
 

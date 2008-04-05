@@ -124,7 +124,7 @@ class TorrentBlockList:
 
         # Make sure we have a current block list file locally
         self.fetch = False
-        self.local_blocklist = deluge.common.get_config_dir("blocklist.cache")
+        self.local_blocklist = deluge.configmanager.get_config_dir("blocklist.cache")
 
         # Check list for modifications from online version
         self.check_update()
@@ -280,7 +280,7 @@ class TorrentBlockList:
                 request = urllib2.Request(self.url)
                 new_list = opener.open(request)
 
-                file = open(deluge.common.get_config_dir("blocklist.cache"), 'w')
+                file = open(deluge.configmanager.get_config_dir("blocklist.cache"), 'w')
                 log.info('Blocklist: Writing blocklist to disk')
 
                 # Write new blocklist to disk

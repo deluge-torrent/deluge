@@ -34,6 +34,7 @@
 """Configuration class used to access/create/modify configuration files."""
 
 import cPickle
+import os.path
 
 import gobject
 import deluge.common
@@ -42,7 +43,7 @@ from deluge.log import LOG as log
 class Config:
     """This class is used to access configuration files."""
     
-    def __init__(self, filename, defaults=None):
+    def __init__(self, filename, defaults=None, config_dir=None):
         log.debug("Config created with filename: %s", filename)
         log.debug("Config defaults: %s", defaults)
         self.config = {}
@@ -55,7 +56,11 @@ class Config:
             self.config = defaults
 
         # Load the config from file in the config_dir
-        self.config_file = deluge.common.get_config_dir(filename)
+        if config_dir == None:
+            self.config_file = deluge.common.get_default_config_dir(filename)
+        else:
+            self.config_file = os.path.join(config_dir, filename)
+            
         self.load(self.config_file)
         # Save
         self.save()

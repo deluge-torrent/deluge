@@ -31,7 +31,7 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
-from deluge.configmanager import ConfigManager
+import deluge.configmanager
 
 from deluge.log import LOG as log
 
@@ -42,7 +42,11 @@ DEFAULT_PREFS = {
 class UI:
     def __init__(self, options, args):
         log.debug("UI init..")
-        config = ConfigManager("ui.conf", DEFAULT_PREFS)
+
+        # Set the config directory
+        deluge.configmanager.set_config_dir(options.config)
+        
+        config = deluge.configmanager.ConfigManager("ui.conf", DEFAULT_PREFS)
         
         if options.ui != None:
             config["selected_ui"] = options.ui

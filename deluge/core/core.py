@@ -37,6 +37,7 @@ import pkg_resources
 import sys
 import shutil
 import os
+import os.path
 import signal
 import deluge.SimpleXMLRPCServer as SimpleXMLRPCServer
 from SocketServer import ThreadingMixIn
@@ -45,7 +46,7 @@ import gobject
 import threading
 
 import deluge.libtorrent as lt
-from deluge.configmanager import ConfigManager
+import deluge.configmanager
 import deluge.common
 import deluge.component as component
 from deluge.core.torrentmanager import TorrentManager
@@ -56,14 +57,14 @@ from deluge.core.autoadd import AutoAdd
 from deluge.log import LOG as log
     
 DEFAULT_PREFS = {
-    "config_location": deluge.common.get_config_dir(),
+    "config_location": deluge.configmanager.get_config_dir(),
     "daemon_port": 58846,
     "allow_remote": False,
     "compact_allocation": True,
     "download_location": deluge.common.get_default_download_dir(),
     "listen_ports": [6881, 6891],
-    "torrentfiles_location": deluge.common.get_default_torrent_dir(),
-    "plugins_location": deluge.common.get_default_plugin_dir(),
+    "torrentfiles_location": os.path.join(deluge.configmanager.get_config_dir(), "torrentfiles"),
+    "plugins_location": os.path.join(deluge.configmanager.get_config_dir(), "plugins"),
     "prioritize_first_last_pieces": False,
     "random_port": True,
     "dht": False,
@@ -107,7 +108,7 @@ class Core(
         self.client_address = None
         
         # Get config
-        self.config = ConfigManager("core.conf", DEFAULT_PREFS)
+        self.config = deluge.configmanager.ConfigManager("core.conf", DEFAULT_PREFS)
 
         if port == None:
             port = self.config["daemon_port"]

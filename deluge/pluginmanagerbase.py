@@ -82,7 +82,7 @@ class PluginManagerBase:
     def scan_for_plugins(self):
         """Scans for available plugins"""
         plugin_dir = os.path.join(os.path.dirname(__file__), "plugins")
-        user_plugin_dir = os.path.join(deluge.common.get_config_dir("plugins"))
+        user_plugin_dir = os.path.join(self.config["config_location"], "plugins")
         
         pkg_resources.working_set.add_entry(plugin_dir)
         pkg_resources.working_set.add_entry(user_plugin_dir)
