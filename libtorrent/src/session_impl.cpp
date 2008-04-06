@@ -1025,6 +1025,15 @@ namespace detail
 				return;
 			}
 #endif
+#ifdef TORRENT_BSD
+			// Leopard sometimes generates an "invalid argument" error. It seems to be
+			// non-fatal and we have to do another async_accept.
+			if (e.value() == EINVAL)
+			{
+				async_accept(listener);
+				return;
+			}
+#endif
 			if (m_alerts.should_post(alert::fatal))
 			{
 				std::string msg = "error accepting connection on '"
@@ -1603,7 +1612,7 @@ namespace detail
 				nsec -= 1000000000;
 				xt.sec += 1;
 			}
-			xt.nsec = nsec;
+			xt.nsec = boost::xtime::xtime_nsec_t(nsec);
 			boost::thread::sleep(xt);
 		}
 		
