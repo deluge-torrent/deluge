@@ -255,12 +255,12 @@ class CommandRemove(Command):
 			self.usage()
 			return
 		try:
-			client.remove_torrent(cmd[1:])
+			client.remove_torrent(cmd, False, False)
 		except Exception, msg:
 			print "*** Error:", str(msg), "\n"
 
 	def usage(self):
-		print "Usage: rm <torrent-id> [<torrent-id> ...]"
+		print "Usage: rm <torrent-id>"
 		print ""
 
 	def help(self):
