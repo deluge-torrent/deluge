@@ -236,19 +236,16 @@ class Torrent:
         peers = self.handle.get_peer_info()
         
         for peer in peers:
-            # Find the progress
-            num_pieces_complete = 0
-            for piece in peer.pieces:
-                if piece:
-                    num_pieces_complete += 1
-            progress = num_pieces_complete / len(peer.pieces) * 100
+            # We do not want to report peers that are half-connected
+            if peer.flags & peer.connecting:
+                continue
+                
             ret.append({
                 "ip": "%s:%s" % (peer.ip[0], peer.ip[1]),
                 "up_speed": peer.up_speed,
                 "down_speed": peer.down_speed,
                 "country": deluge.xmlrpclib.Binary(peer.country),
                 "client": deluge.xmlrpclib.Binary(peer.client),
-                "progress": progress
             })
 
         return ret

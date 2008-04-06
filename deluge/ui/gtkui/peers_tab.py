@@ -58,7 +58,7 @@ class PeersTab:
         glade = component.get("MainWindow").get_glade()
         self.listview = glade.get_widget("peers_listview")
         # country, ip, client, progress, progress, downspeed, upspeed
-        self.liststore = gtk.ListStore(str, str, str, str, int, int, int)
+        self.liststore = gtk.ListStore(str, str, str, int, int)
         
         # Country column        
         column = gtk.TreeViewColumn()
@@ -99,25 +99,11 @@ class PeersTab:
         column.set_reorderable(True)
         self.listview.append_column(column)
 
-        # Progress column        
-        column = gtk.TreeViewColumn(_("Progress"))
-        render = gtk.CellRendererProgress()
-        column.pack_start(render)
-        column.add_attribute(render, "text", 3)
-        column.add_attribute(render, "value", 4)
-        column.set_sort_column_id(4)
-        column.set_clickable(True)
-        column.set_resizable(True)
-        column.set_expand(False)
-        column.set_min_width(10)
-        column.set_reorderable(True)
-        self.listview.append_column(column)
-        
         # Down Speed column
         column = gtk.TreeViewColumn(_("Down Speed"))
         render = gtk.CellRendererText()
         column.pack_start(render, False)
-        column.set_cell_data_func(render, cell_data_speed, 5)
+        column.set_cell_data_func(render, cell_data_speed, 3)
         column.set_sort_column_id(5)
         column.set_clickable(True)
         column.set_resizable(True)
@@ -130,7 +116,7 @@ class PeersTab:
         column = gtk.TreeViewColumn(_("Up Speed"))
         render = gtk.CellRendererText()
         column.pack_start(render, False)
-        column.set_cell_data_func(render, cell_data_speed, 6)
+        column.set_cell_data_func(render, cell_data_speed, 4)
         column.set_sort_column_id(6)
         column.set_clickable(True)
         column.set_resizable(True)
@@ -179,7 +165,11 @@ class PeersTab:
         
         if state == None:
             return
-            
+        
+        if len(state) != self.listview.get_columns():
+            log.warning("peers_tab.state is not compatible! rejecting..")
+            return
+                
         for column_state in state:
             # Find matching columns in the listview
             for (index, column) in enumerate(self.listview.get_columns()):
@@ -223,8 +213,6 @@ class PeersTab:
                 peer["country"], 
                 peer["ip"],
                 peer["client"], 
-                "%.2f%%" % peer["progress"], 
-                peer["progress"], 
                 peer["down_speed"], 
                 peer["up_speed"]])
             
