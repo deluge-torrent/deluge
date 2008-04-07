@@ -69,7 +69,9 @@ class AddTorrentDialog:
         })
 
         self.torrent_liststore = gtk.ListStore(str, str, str)
-        self.files_liststore = gtk.ListStore(bool, str, gobject.TYPE_UINT64)
+        #download?, path, filesize, sequence number, inconsistent?
+        self.files_treestore = gtk.TreeStore(bool, str, gobject.TYPE_UINT64,
+                                        gobject.TYPE_INT64, bool, str)
         # Holds the files info
         self.files = {}
         self.infos = {}
@@ -87,11 +89,16 @@ class AddTorrentDialog:
 
         render = gtk.CellRendererToggle()
         render.connect("toggled", self._on_file_toggled)
-        column = gtk.TreeViewColumn(None, render, active=0)
+        column = gtk.TreeViewColumn(None, render, active=0, inconsistent=4)
         self.listview_files.append_column(column)
-        
+
+        column = gtk.TreeViewColumn(_("Filename"))
+        render = gtk.CellRendererPixbuf()
+        column.pack_start(render, False)
+        column.add_attribute(render, "stock-id", 5)
         render = gtk.CellRendererText()
-        column = gtk.TreeViewColumn(_("Filename"), render, text=1)
+        column.pack_start(render, True)
+        column.add_attribute(render, "text", 1)
         column.set_expand(True)
         self.listview_files.append_column(column)
 
@@ -102,7 +109,7 @@ class AddTorrentDialog:
         self.listview_files.append_column(column)
         
         self.listview_torrents.set_model(self.torrent_liststore)
-        self.listview_files.set_model(self.files_liststore)
+        self.listview_files.set_model(self.files_treestore)
 
         self.listview_files.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         self.listview_torrents.get_selection().connect("changed", 
@@ -190,11 +197,10 @@ class AddTorrentDialog:
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if row == None:
             self.listview_torrents.get_selection().select_iter(new_row)
-                
-
+               
     def _on_torrent_changed(self, treeselection):
         (model, row) = treeselection.get_selected()
-        self.files_liststore.clear()
+        self.files_treestore.clear()
         
         if row is None:
             return
@@ -202,12 +208,7 @@ class AddTorrentDialog:
         # Update files list    
         files_list = self.files[model.get_value(row, 0)]
 
-        for file_dict in files_list:
-            self.files_liststore.append([
-                file_dict["download"], 
-                file_dict["path"], 
-                file_dict["size"]
-                ])
+        self.prepare_file_store(files_list)
 
         # Save the previous torrents options
         self.save_torrent_options()
@@ -215,6 +216,40 @@ class AddTorrentDialog:
         self.update_torrent_options(model.get_value(row, 0))
 
         self.previous_selected_torrent = row
+
+    def prepare_file_store(self, files):
+        split_files = { }
+        i = 0
+        for file in files:
+            self.prepare_file(file, file["path"], i, split_files)
+            i += 1
+        self.add_files(None, split_files)
+
+    def prepare_file(self, file, file_name, file_num, files_storage):
+        first_slash_index = file_name.find("/")
+        if first_slash_index == -1:
+            files_storage[file_name] = (file_num, file)
+        else:
+            file_name_chunk = file_name[:first_slash_index+1]
+            if file_name_chunk not in files_storage:
+                files_storage[file_name_chunk] = { }
+            self.prepare_file(file, file_name[first_slash_index+1:],
+                              file_num, files_storage[file_name_chunk])
+
+    def add_files(self, parent_iter, split_files):
+        ret = 0
+        for key,value in split_files.iteritems():
+            if key.endswith("/"):
+                chunk_iter = self.files_treestore.append(parent_iter,
+                                [True, key, 0, -1, False, gtk.STOCK_DIRECTORY])
+                chunk_size = self.add_files(chunk_iter, value)
+                self.files_treestore.set(chunk_iter, 2, chunk_size)
+                ret += chunk_size
+            else:
+                self.files_treestore.append(parent_iter, [True, key,
+                                        value[1]["size"], value[0], False, gtk.STOCK_FILE])
+                ret += value[1]["size"]
+        return ret
 
     def update_torrent_options(self, torrent_id):
         if torrent_id not in self.options:
@@ -284,16 +319,22 @@ class AddTorrentDialog:
         self.options[torrent_id] = options
         
         # Save the file priorities
-        row = self.files_liststore.get_iter_first()
-        files_priorities = []
-        while row != None:
-            download = self.files_liststore.get_value(row, 0)
-            files_priorities.append(download)
-            row = self.files_liststore.iter_next(row)
+        files_priorities = self.build_priorities(
+                            self.files_treestore.get_iter_first(), {})
         
         for i, file_dict in enumerate(self.files[torrent_id]):
             file_dict["download"] = files_priorities[i]
         
+    def build_priorities(self, iter, priorities):
+        while iter is not None:
+            if self.files_treestore.iter_has_child(iter):
+                self.build_priorities(self.files_treestore.iter_children(iter),
+                                          priorities)
+            elif not self.files_treestore.get_value(iter, 1).endswith("/"):
+                priorities[self.files_treestore.get_value(iter, 3)] = self.files_treestore.get_value(iter, 0)
+            iter = self.files_treestore.iter_next(iter)
+        return priorities
+
     def set_default_options(self):
         if client.is_localhost():
             self.glade.get_widget("button_location").set_current_folder(
@@ -336,11 +377,44 @@ class AddTorrentDialog:
         if len(paths) > 1:
             for path in paths:
                 row = model.get_iter(path)
-                model.set_value(row, 0, not model.get_value(row, 0))
+                self.toggle_iter(row)
         else:
             row = model.get_iter(path)
-            model.set_value(row, 0, not model.get_value(row, 0))
-        
+            self.toggle_iter(row)
+        self.update_treeview_toggles(self.files_treestore.get_iter_first())
+
+    def toggle_iter(self, iter, toggle_to=None):
+        if toggle_to is None:
+            toggle_to = not self.files_treestore.get_value(iter, 0)
+        self.files_treestore.set_value(iter, 0, toggle_to)
+        if self.files_treestore.iter_has_child(iter):
+            child = self.files_treestore.iter_children(iter)
+            while child is not None:
+                self.toggle_iter(child, toggle_to)
+                child = self.files_treestore.iter_next(child)
+
+    def update_treeview_toggles(self, iter):
+        TOGGLE_INCONSISTENT = -1
+        this_level_toggle = None
+        while iter is not None:
+            if self.files_treestore.iter_has_child(iter):
+                toggle = self.update_treeview_toggles(
+                        self.files_treestore.iter_children(iter))
+                if toggle == TOGGLE_INCONSISTENT:
+                    self.files_treestore.set_value(iter, 4, True)
+                else:
+                    self.files_treestore.set_value(iter, 0, toggle)
+                    #set inconsistent to false
+                    self.files_treestore.set_value(iter, 4, False)
+            else:
+                toggle = self.files_treestore.get_value(iter, 0)
+            if this_level_toggle is None:
+                this_level_toggle = toggle
+            elif this_level_toggle != toggle:
+                this_level_toggle = TOGGLE_INCONSISTENT
+            iter = self.files_treestore.iter_next(iter)
+        return this_level_toggle
+
     def _on_button_file_clicked(self, widget):
         log.debug("_on_button_file_clicked")
         # Setup the filechooserdialog
