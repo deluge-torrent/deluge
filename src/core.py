@@ -350,13 +350,11 @@ class Manager:
         deluge_core.quit()
 
         #kill dbus on windows
-        import platform
-        if platform.system() == "Windows":
-            import os
-            os.popen4('tskill.exe dbus-daemon-deluge')
-        elif platform.system() == "Microsoft":
-            import os
-            os.popen4('taskkill.exe /IM dbus-daemon-deluge.exe /F')
+        if common.windows_check():
+            if platform.win32_ver()[1] >= 6:
+                os.popen4('taskkill.exe /IM dbus-daemon-deluge.exe /F')
+            else:
+                os.popen4('tskill.exe dbus-daemon-deluge')
 
     def pickle_state(self):
         print "save uploaded memory"
