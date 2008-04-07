@@ -1,3 +1,10 @@
+Deluge 0.5.8.8 (08 April 2008)
+  * Fix ubuntu hardy bug sine they've renamed and broken up the packages.  Dumbasses. 
+  * Fix ratio (again)
+  * Sync with asio 1.0 release
+  * Sync with libtorrent 0.13 release
+  * Fix for vista dbus not closing bug
+
 Deluge 0.5.8.7 (25 March 2008)
   * UPnP fixes
   * Bandwidth limiter fix
