@@ -351,7 +351,7 @@ class Manager:
 
         #kill dbus on windows
         if common.windows_check():
-            if platform.win32_ver()[1] >= 6:
+            if platform.win32_ver()[1] > '6':
                 os.popen4('taskkill.exe /IM dbus-daemon-deluge.exe /F')
             else:
                 os.popen4('tskill.exe dbus-daemon-deluge')
