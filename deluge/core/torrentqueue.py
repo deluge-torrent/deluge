@@ -229,7 +229,7 @@ class TorrentQueue(component.Component):
                 
             try:
                 value = self.queue[position]
-            except KeyError:
+            except KeyError, IndexError:
                 self.queue.insert(position, torrent_id)
                 return position
             

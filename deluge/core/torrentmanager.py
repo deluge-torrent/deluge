@@ -213,7 +213,12 @@ class TorrentManager(component.Component):
                     self.config["torrentfiles_location"], 
                     filename + ".fastresume"),
                     "rb")
-            fastresume = lt.bdecode(_file.read())
+            try:
+                fastresume = lt.bdecode(_file.read())
+            except RuntimeError, e:
+                log.warning("Unable to bdecode fastresume file: %s", e)
+                fastresume = None
+                
             _file.close()
         except IOError, e:
             log.debug("Unable to load .fastresume: %s", e)
