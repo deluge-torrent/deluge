@@ -9,14 +9,12 @@ $altrow(True)
 </tr>
 $for tracker in torrent.trackers:
     <tr class="$altrow()" >
-    <td >
-    <input type="text" name="tier" value="$tracker['tier']" style="width:20px"/>
+    <td><input type="text" name="tier" value="$tracker['tier']" style="width:20px"/>
     </td>
         <td><input type="text" name="url" value="$tracker['url']" style="width:400px"//></td>
     </tr>
-<tr class="tab_$altrow()" >
-<td >
-<input type="text" name="tier" value="$(tracker['tier'] + 1)" style="width:20px"/>
+<tr class="$altrow()" >
+<td><input type="text" name="tier" value="$(tracker['tier'] + 1)" style="width:20px"/>
 </td>
     <td><input type="text" name="url" value="" style="width:400px"//></td>
 </tr>

@@ -200,6 +200,7 @@ div.progress_bar{
 }
 
 /*info panel(inner):*/
+
 #info_panel_div {
 	width:100%;
 	margin-top:20px;
@@ -209,6 +210,9 @@ div.progress_bar{
 	border-color:#74DD82;
 	-moz-border-radius:5px;
 	/*float: right;*/
+}
+#torrent_info_tabs {
+	background-color:#B5EDBC
 }
 
 #torrent_info tr.head{
@@ -220,6 +224,8 @@ div.progress_bar{
 #torrent_info div.button_bar{
 	background-color:#C3D9FF;
 }
+
+
 
 td.info_label {
 		width:100px;
