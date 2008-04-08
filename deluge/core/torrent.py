@@ -238,7 +238,7 @@ class Torrent:
         
         for peer in peers:
             # We do not want to report peers that are half-connected
-            if peer.flags & peer.connecting:
+            if peer.flags & peer.connecting or peer.flags & peer.handshake:
                 continue
             try:
                 client = str(peer.client).decode("utf-8")
