@@ -74,7 +74,6 @@ class MenuManager(component.Component):
 
     def register_toolbar_item(self, id, title, image, flag, method, url, important):
         self.toolbar_items.append((id, title, image, flag, method, url, important))
-        #todo: remove lower hack.
 
     def unregister_toolbar_item(self, item_id):
         for (i, toolbar) in enumerate(admin_pages):

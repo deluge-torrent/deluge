@@ -1,7 +1,6 @@
 0.6 :
 *plugin-config + (re)enable webui plugins.
 *Fix IE7 for advanced/white template.
-*details tabs : add css
 *white template : add auto-refresh (with a nice js-progress-bar)
 *gettext : update template_strings.py + add all .py files to gettext input files
 

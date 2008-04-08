@@ -12,9 +12,11 @@ $for id, title, tab in detail_tabs:
     $:render.part_tab_button(id, title, active_tab)
 </div>
 
+<div id="torrent_tab">
 $for id, title, tab in detail_tabs:
     $if active_tab == id:
         $:render[tab](torrent)
+</div>
 
 </body>
 </html>

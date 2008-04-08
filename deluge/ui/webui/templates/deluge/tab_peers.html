@@ -1,18 +1,17 @@
 $def with (torrent)
-
 <form method="POST" action="$base/torrent/files/$torrent.id">
 <input type="hidden" name="redir" value="$self_url()">
-<table width="95%">
+<table width="100%">
 
 $altrow(True)
-<tr class="tab_$altrow()">
+<tr class="head">
     <th>$_("Ip")</th>
     <th>$_("Up Speed")</th>
     <th>$_("Down Speed")</th>
     <th>$_("Country")</th>
     <th>$_("Client")</th>
     <th>$_("Progress")</th>
-
+</tr>
 $for peer in torrent.peers:
     <tr class="tab_$altrow()"  >
     <td>$peer['ip']</td>
@@ -30,4 +29,3 @@ $for peer in torrent.peers:
     </tr>
 </table>
 </form>
-
