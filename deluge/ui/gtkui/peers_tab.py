@@ -56,9 +56,12 @@ class PeersTab:
     def __init__(self):
         glade = component.get("MainWindow").get_glade()
         self.listview = glade.get_widget("peers_listview")
-        # country pixbuf, ip, client, progress, progress, downspeed, upspeed, country code
-        self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str, int)
+        # country pixbuf, ip, client, progress, progress, downspeed, upspeed, country code, int_ip, seed/peer icon
+        self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str, int, gtk.gdk.Pixbuf)
         self.cached_flag_pixbufs = {}
+        
+        self.seed_pixbuf = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("seeding16.png"))
+        self.peer_pixbuf = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("downloading16.png"))
 
         # Country column        
         column = gtk.TreeViewColumn()
@@ -75,6 +78,9 @@ class PeersTab:
         
         # Address column        
         column = gtk.TreeViewColumn(_("Address"))
+        render = gtk.CellRendererPixbuf()
+        column.pack_start(render, False)
+        column.add_attribute(render, "pixbuf", 7)
         render = gtk.CellRendererText()
         column.pack_start(render, False)
         column.add_attribute(render, "text", 1)
@@ -230,6 +236,11 @@ class PeersTab:
             # Create an int IP address for sorting purposes
             ip_int = sum([int(byte) << shift
                     for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
+            if peer["seed"]:
+                icon = self.seed_pixbuf
+            else:
+                icon = self.peer_pixbuf
+                
             self.liststore.append([
                 self.get_flag_pixbuf(peer["country"]), 
                 peer["ip"],
@@ -237,7 +248,8 @@ class PeersTab:
                 peer["down_speed"], 
                 peer["up_speed"],
                 peer["country"],
-                ip_int])
+                ip_int,
+                icon])
             
     def clear(self):
         self.liststore.clear()

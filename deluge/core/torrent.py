@@ -250,7 +250,8 @@ class Torrent:
                 "up_speed": peer.up_speed,
                 "down_speed": peer.down_speed,
                 "country": deluge.xmlrpclib.Binary(peer.country),
-                "client": client
+                "client": client,
+                "seed": peer.flags & peer.seed
             })
 
         return ret
