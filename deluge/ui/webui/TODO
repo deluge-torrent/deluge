@@ -4,9 +4,13 @@
 *split statistics tab into statistics , details like gtk-ui
 *details tabs : add css
 *progresss bars : fix layout
+*white template : add auto-refresh
 
 after 0.6:
+*add new major features in available gtk ui but not in webui.
 *white template:better css fluid layout or switch to tables.
 *labels (organize-plugin)
 *checkboxes for multiple select.
+*rethink details iframe.
+
 
