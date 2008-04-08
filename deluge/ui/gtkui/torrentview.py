@@ -414,7 +414,7 @@ class TorrentView(listview.ListView, component.Component):
         """This is a callback for showing the right-click context menu."""
         log.debug("on_button_press_event")
         # We only care about right-clicks
-        if event.button == 3:
+        if self.get_selected_torrents() and event.button == 3:
             # Show the Torrent menu from the MenuBar
             torrentmenu = component.get("MenuBar").torrentmenu
             torrentmenu.popup(None, None, None, event.button, event.time)
