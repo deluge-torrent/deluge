@@ -38,7 +38,7 @@ import os.path
 import pkg_resources
 
 import deluge.common
-from deluge.configmanager import ConfigManager
+import deluge.configmanager
 from deluge.log import LOG as log
 
 class PluginManagerBase:
@@ -47,7 +47,7 @@ class PluginManagerBase:
     def __init__(self, config_file, entry_name):
         log.debug("Plugin manager init..")
         
-        self.config = ConfigManager(config_file)
+        self.config = deluge.configmanager.ConfigManager(config_file)
         
         # This is the entry we want to load..
         self.entry_name = entry_name
@@ -82,7 +82,7 @@ class PluginManagerBase:
     def scan_for_plugins(self):
         """Scans for available plugins"""
         plugin_dir = os.path.join(os.path.dirname(__file__), "plugins")
-        user_plugin_dir = os.path.join(self.config["config_location"], "plugins")
+        user_plugin_dir = os.path.join(deluge.configmanager.get_config_dir(), "plugins")
         
         pkg_resources.working_set.add_entry(plugin_dir)
         pkg_resources.working_set.add_entry(user_plugin_dir)
