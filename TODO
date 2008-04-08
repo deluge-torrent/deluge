@@ -10,7 +10,7 @@ For 0.6 release:
 * Implement add by hash
 * Implement 'Classic' mode
 * Add tabs to view menu
-* Add progress bars for downloading and importing lists instead of hanging
+* Add progress bars for downloading and importing lists instead of hanging (blocklist)
 * Remember view options (show side bar, etc)
 
 After 0.6 release:
