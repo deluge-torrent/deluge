@@ -60,6 +60,17 @@ TORRENT_STATE = [
     "Queued"
 ]
 
+FILE_PRIORITY = {
+    0: "Do Not Download",
+    1: "Normal Priority",
+    2: "High Priority",
+    5: "Highest Priority",
+    "Do Not Download": 0,
+    "Normal Priority": 1,
+    "High Priority": 2,
+    "Highest Priority": 5
+}
+
 def get_version():
     """Returns the program version from the egg metadata"""
     return pkg_resources.require("Deluge")[0].version.split("r")[0]

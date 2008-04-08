@@ -216,8 +216,9 @@ class Torrent:
             
         ret = []
         files = torrent_info.files()
-        for file in files:
+        for index, file in enumerate(files):
             ret.append({
+                'index': index,
                 'path': file.path,
                 'size': file.size,
                 'offset': file.offset

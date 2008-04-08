@@ -44,6 +44,26 @@ import deluge.common
 
 from deluge.log import LOG as log
 
+def cell_priority(column, cell, model, row, data):
+    priority = model.get_value(row, data)
+    cell.set_property("text", deluge.common.FILE_PRIORITY[priority])
+
+def cell_priority_icon(column, cell, model, row, data):
+    priority = model.get_value(row, data)
+    if deluge.common.FILE_PRIORITY[priority] == "Do Not Download":
+        cell.set_property("stock-id", gtk.STOCK_STOP)
+    elif deluge.common.FILE_PRIORITY[priority] == "Normal Priority":
+        cell.set_property("stock-id", gtk.STOCK_YES)
+    elif deluge.common.FILE_PRIORITY[priority] == "High Priority":
+        cell.set_property("stock-id", gtk.STOCK_GO_UP)
+    elif deluge.common.FILE_PRIORITY[priority] == "Highest Priority":
+        cell.set_property("stock-id", gtk.STOCK_GOTO_TOP)
+
+def cell_filename(column, cell, model, row, data):
+    """Only show the tail portion of the file path"""
+    filepath = model.get_value(row, data)
+    cell.set_property("text", os.path.split(filepath)[1])
+        
 class ColumnState:
     def __init__(self, name, position, width, sort, sort_order):
         self.name = name
@@ -56,14 +76,14 @@ class FilesTab:
     def __init__(self):
         glade = component.get("MainWindow").get_glade()
         self.listview = glade.get_widget("files_listview")
-        # country, filename, size, priority
-        self.liststore = gtk.ListStore(str, gobject.TYPE_UINT64, str, int, str)
+        # filename, size, progress string, progress value, priority, file index
+        self.liststore = gtk.ListStore(str, gobject.TYPE_UINT64, str, int, int, int)
         
         # Filename column        
         column = gtk.TreeViewColumn(_("Filename"))
         render = gtk.CellRendererText()
         column.pack_start(render, False)
-        column.add_attribute(render, "text", 0)
+        column.set_cell_data_func(render, cell_filename, 0)
         column.set_sort_column_id(0)
         column.set_clickable(True)
         column.set_resizable(True)
@@ -101,9 +121,12 @@ class FilesTab:
         
         # Priority column        
         column = gtk.TreeViewColumn(_("Priority"))
+        render = gtk.CellRendererPixbuf()
+        column.pack_start(render, False)
+        column.set_cell_data_func(render, cell_priority_icon, 4)
         render = gtk.CellRendererText()
         column.pack_start(render, False)
-        column.add_attribute(render, "text", 4)
+        column.set_cell_data_func(render, cell_priority, 4)
         column.set_sort_column_id(4)
         column.set_clickable(True)
         column.set_resizable(True)
@@ -114,8 +137,20 @@ class FilesTab:
 
         self.listview.set_model(self.liststore)
         
-        self.listview.connect("row-activated", self.open_file)
+        self.listview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
+        
+        self.file_menu = glade.get_widget("menu_file_tab")
+        self.listview.connect("row-activated", self._on_row_activated)
+        self.listview.connect("button-press-event", self._on_button_press_event)
 
+        glade.signal_autoconnect({
+            "on_menuitem_open_file_activate": self._on_menuitem_open_file_activate,
+            "on_menuitem_donotdownload_activate": self._on_menuitem_donotdownload_activate,
+            "on_menuitem_normal_activate": self._on_menuitem_normal_activate,
+            "on_menuitem_high_activate": self._on_menuitem_high_activate,
+            "on_menuitem_highest_activate": self._on_menuitem_highest_activate
+        })
+        
         # Attempt to load state
         self.load_state()
         
@@ -209,21 +244,24 @@ class FilesTab:
             client.get_torrent_status(self._on_get_torrent_status, self.torrent_id, ["file_progress", "file_priorities"])
             client.force_call(True)
 
-    def open_file(self, tree, path, view_column):
+    def clear(self):
+        self.liststore.clear()
+
+    def _on_row_activated(self, tree, path, view_column):
         if client.is_localhost:
-            client.get_torrent_status(self._on_open_file, self.torrent_id, ["save_path", "files", "num_files"])
+            client.get_torrent_status(self._on_open_file, self.torrent_id, ["save_path", "files"])
             client.force_call(False)
 
     def _on_open_file(self, status):
-        selected = self.listview.get_selection().get_selected()[1]
-        file_name = self.liststore.get_value(selected, 0)
-        if status["num_files"] > 1:
-            file_path = os.path.join(status["save_path"],
-                status["files"][0]["path"].split("/", 1)[0], file_name)
-        else:
-            file_path = os.path.join(status["save_path"], file_name)
-        log.debug("Open file '%s'", file_name)
-        deluge.common.open_file(file_path)
+        paths = self.listview.get_selection().get_selected_rows()[1]
+        selected = []
+        for path in paths:
+            selected.append(self.liststore.get_iter(path))
+        
+        for select in selected:
+            filepath = os.path.join(status["save_path"], self.liststore.get_value(select, 0))
+            log.debug("Open file '%s'", filepath)
+            deluge.common.open_file(filepath)
 
     def update_files(self):
         # Updates the filename and size columns based on info in self.files_list
@@ -231,9 +269,18 @@ class FilesTab:
         for file in self.files_list[self.torrent_id]:
             row = self.liststore.append()
             # Store the torrent id
-            self.liststore.set_value(row, 0, 
-                    os.path.split(file["path"])[1])
+            self.liststore.set_value(row, 0, file["path"])
             self.liststore.set_value(row, 1, file["size"])
+            self.liststore.set_value(row, 5, file["index"])
+    
+    def get_selected_files(self):
+        """Returns a list of file indexes that are selected"""
+        selected = []
+        paths = self.listview.get_selection().get_selected_rows()[1]
+        for path in paths:
+            selected.append(self.liststore.get_value(self.liststore.get_iter(path), 5))
+
+        return selected
         
     def _on_get_torrent_files(self, status):
         self.files_list[self.torrent_id] = status["files"]
@@ -246,5 +293,47 @@ class FilesTab:
             row[3] = status["file_progress"][index] * 100
             row[4] = status["file_priorities"][index]
            
-    def clear(self):
-        self.liststore.clear()
+    def _on_button_press_event(self, widget, event):
+        """This is a callback for showing the right-click context menu."""
+        log.debug("on_button_press_event")
+        # We only care about right-clicks
+        if event.button == 3:
+            self.file_menu.popup(None, None, None, event.button, event.time)
+            return True
+            
+    def _on_menuitem_open_file_activate(self, menuitem):
+        self._on_row_activated(None, None, None)
+
+    def _set_file_priorities_on_user_change(self, selected, priority):
+        """Sets the file priorities in the core.  It will change the selected
+            with the 'priority'"""
+        file_priorities = []
+        for row in self.liststore:
+            if row[5] in selected:
+                # This is a row we're modifying
+                file_priorities.append(priority)
+            else:
+                file_priorities.append(row[4])
+                
+        client.set_torrent_file_priorities(self.torrent_id, file_priorities)
+        
+    def _on_menuitem_donotdownload_activate(self, menuitem):
+        self._set_file_priorities_on_user_change(
+            self.get_selected_files(), 
+            deluge.common.FILE_PRIORITY["Do Not Download"])
+            
+    def _on_menuitem_normal_activate(self, menuitem):
+        self._set_file_priorities_on_user_change(
+            self.get_selected_files(), 
+            deluge.common.FILE_PRIORITY["Normal Priority"])
+
+    def _on_menuitem_high_activate(self, menuitem):
+        self._set_file_priorities_on_user_change(
+            self.get_selected_files(), 
+            deluge.common.FILE_PRIORITY["High Priority"])
+
+    def _on_menuitem_highest_activate(self, menuitem):
+        self._set_file_priorities_on_user_change(
+            self.get_selected_files(), 
+            deluge.common.FILE_PRIORITY["Highest Priority"])
+
