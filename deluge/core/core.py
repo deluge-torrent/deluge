@@ -262,7 +262,7 @@ class Core(
         except KeyboardInterrupt:
             self._shutdown()
     
-    def _shutdown(self, data=None):
+    def _shutdown(self, *data):
         """This is called by a thread from shutdown()"""
         log.info("Shutting down core..")
         component.shutdown()

@@ -241,20 +241,24 @@ class PeersTab:
             if self.peers.has_key(peer["ip"]):
                 # We already have this peer in our list, so lets just update it
                 row = self.peers[peer["ip"]]
+                if not self.liststore.iter_is_valid(row):
+                    # This iter is invalid, delete it and continue to next iteration
+                    del self.peers[peer["ip"]]
+                    continue
                 values = self.liststore.get(row, 3, 4, 5, 7)
                 if peer["down_speed"] != values[0]:
-                    self.liststore.set_value(row, 3, values[0])
+                    self.liststore.set_value(row, 3, peer["down_speed"])
                 if peer["up_speed"] != values[1]:
-                    self.liststore.set_value(row, 4, values[1])
+                    self.liststore.set_value(row, 4, peer["up_speed"])
                 if peer["country"] != values[2]:
-                    self.liststore.set_value(row, 5, values[2])
+                    self.liststore.set_value(row, 5, peer["country"])
                 if peer["seed"]:
                     icon = self.seed_pixbuf
                 else:
                     icon = self.peer_pixbuf
 
-                if icon != values[2]:
-                    self.liststore.set_value(row, 7, values[3])
+                if icon != values[3]:
+                    self.liststore.set_value(row, 7, icon)
                     
             else:
                 # Peer is not in list so we need to add it
