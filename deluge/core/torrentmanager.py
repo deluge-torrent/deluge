@@ -267,7 +267,6 @@ class TorrentManager(component.Component):
         except RuntimeError, e:
             log.warning("Error adding torrent: %s", e)
         
-        log.debug("after torrent add")  
         if not handle or not handle.is_valid():
             log.debug("torrent handle is invalid!")
             # The torrent was not added to the session
@@ -286,6 +285,9 @@ class TorrentManager(component.Component):
             self.queue.insert(0, torrent.torrent_id)
         else:
             self.queue.insert(queue, torrent.torrent_id)
+        
+        # Set resolve_countries to True
+        handle.resolve_countries(True)
                             
         # Set per-torrent options
         torrent.set_max_connections(options["max_connections_per_torrent"])

@@ -34,6 +34,7 @@
 import gtk, gtk.glade
 import os.path
 import cPickle
+import pkg_resources
 
 from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
@@ -41,9 +42,6 @@ import deluge.component as component
 import deluge.common
 from deluge.ui.gtkui.listview import cell_data_speed as cell_data_speed
 from deluge.log import LOG as log
-
-def cell_data_country(column, cell, model, row, data):
-    pass
 
 class ColumnState:
     def __init__(self, name, position, width, sort, sort_order):
@@ -57,15 +55,16 @@ class PeersTab:
     def __init__(self):
         glade = component.get("MainWindow").get_glade()
         self.listview = glade.get_widget("peers_listview")
-        # country, ip, client, progress, progress, downspeed, upspeed
-        self.liststore = gtk.ListStore(str, str, str, int, int)
-        
+        # country pixbuf, ip, client, progress, progress, downspeed, upspeed, country code
+        self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str)
+        self.cached_flag_pixbufs = {}
+
         # Country column        
         column = gtk.TreeViewColumn()
         render = gtk.CellRendererPixbuf()
         column.pack_start(render, False)
-        column.set_cell_data_func(render, cell_data_country, 0)
-        column.set_sort_column_id(0)
+        column.add_attribute(render, "pixbuf", 0)
+        column.set_sort_column_id(5)
         column.set_clickable(True)
         column.set_resizable(True)
         column.set_expand(False)
@@ -206,15 +205,33 @@ class PeersTab:
 
         client.get_torrent_status(self._on_get_torrent_status, torrent_id, ["peers"])
 
+    def get_flag_pixbuf(self, country):
+        country = str(country)
+        if not country.isalpha():
+            return None
+ 
+        if not self.cached_flag_pixbufs.has_key(country):
+            # We haven't created a pixbuf for this country yet
+            try:
+                self.cached_flag_pixbufs[country] = gtk.gdk.pixbuf_new_from_file(
+                    pkg_resources.resource_filename(
+                        "deluge", 
+                         os.path.join("data", "pixmaps", "flags", country.lower() + ".png")))
+            except Exception, e:
+                log.debug("Unable to load flag: %s", e)
+                return None
+            
+        return self.cached_flag_pixbufs[country]
     def _on_get_torrent_status(self, status):
         self.liststore.clear()
         for peer in status["peers"]:
             self.liststore.append([
-                peer["country"], 
+                self.get_flag_pixbuf(peer["country"]), 
                 peer["ip"],
                 peer["client"], 
                 peer["down_speed"], 
-                peer["up_speed"]])
+                peer["up_speed"],
+                peer["country"]])
             
     def clear(self):
         self.liststore.clear()
