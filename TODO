@@ -7,7 +7,6 @@ For 0.6 release:
 * Anonymous stats
 * Update checking
 * Translations
-* Show proper priority levels in Files tab, plus add menu to alter priorities
 * Implement add by hash
 * Implement 'Classic' mode
 * Add tabs to view menu

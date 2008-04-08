@@ -281,7 +281,7 @@ class Preferences(component.Component):
                 widget.set_sensitive(True)
                 
                 if modifier == "filename":
-                    widget.set_filename(value)
+                    widget.set_current_folder(value)
                 elif modifier == "active":
                     widget.set_active(value)
                 elif modifier == "not_active":
@@ -354,14 +354,6 @@ class Preferences(component.Component):
             self.gtkui_config["start_in_tray"])
         self.glade.get_widget("chk_lock_tray").set_active(
             self.gtkui_config["lock_tray"])
-        self.glade.get_widget("combo_file_manager").set_active(
-            self.gtkui_config["stock_file_manager"])
-        self.glade.get_widget("txt_open_folder_location").set_text(
-            self.gtkui_config["open_folder_location"])
-        self.glade.get_widget("radio_open_folder_stock").set_active(
-            self.gtkui_config["open_folder_stock"])
-        self.glade.get_widget("radio_open_folder_custom").set_active(
-            not self.gtkui_config["open_folder_stock"])
 
         ## Other tab ##
         self.glade.get_widget("chk_new_releases").set_active(
@@ -491,12 +483,6 @@ class Preferences(component.Component):
             .hexdigest()
         if passhex != "c07eb5a8c0dc7bb81c217b67f11c3b7a5e95ffd7":
             new_gtkui_config["tray_password"] = passhex
-        new_gtkui_config["stock_file_manager"] = \
-            self.glade.get_widget("combo_file_manager").get_active()
-        new_gtkui_config["open_folder_location"] = \
-            self.glade.get_widget("txt_open_folder_location").get_text()
-        new_gtkui_config["open_folder_stock"] = \
-            self.glade.get_widget("radio_open_folder_stock").get_active()
         
         ## Other tab ##    
         new_gtkui_config["check_new_releases"] = \
