@@ -50,8 +50,11 @@ from operator import attrgetter
 import os
 from deluge import component
 from deluge.ui.client import sclient as proxy
+from deluge.configmanager import ConfigManager
 
 page_manager = component.get("PageManager")
+config = ConfigManager("webui.conf")
+
 def route(url, klass):
     """
     url-mapping is using page_manager
@@ -364,7 +367,7 @@ route("/static/(.*)", static)
 class template_static(static_handler):
     def get_base_dir(self):
         return os.path.join(os.path.dirname(__file__),
-                'templates/%s/static' % ws.config.get('template'))
+                'templates/%s/static' % config.get('template'))
 route("/template/static/(.*)", template_static)
 
 class robots:
