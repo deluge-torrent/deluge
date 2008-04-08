@@ -56,13 +56,16 @@ class PeersTab:
     def __init__(self):
         glade = component.get("MainWindow").get_glade()
         self.listview = glade.get_widget("peers_listview")
-        # country pixbuf, ip, client, progress, progress, downspeed, upspeed, country code, int_ip, seed/peer icon
+        # country pixbuf, ip, client, downspeed, upspeed, country code, int_ip, seed/peer icon
         self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str, int, gtk.gdk.Pixbuf)
         self.cached_flag_pixbufs = {}
         
         self.seed_pixbuf = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("seeding16.png"))
         self.peer_pixbuf = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("downloading16.png"))
 
+        # key is ip address, item is row iter
+        self.peers = {}
+        
         # Country column        
         column = gtk.TreeViewColumn()
         render = gtk.CellRendererPixbuf()
@@ -208,6 +211,7 @@ class PeersTab:
         if torrent_id != self.torrent_id:
             # We only want to do this if the torrent_id has changed
             self.liststore.clear()
+            self.peers = {}
             self.torrent_id = torrent_id
 
         client.get_torrent_status(self._on_get_torrent_status, torrent_id, ["peers"])
@@ -231,25 +235,52 @@ class PeersTab:
         return self.cached_flag_pixbufs[country]
         
     def _on_get_torrent_status(self, status):
-        self.liststore.clear()
+        new_ips = set()
         for peer in status["peers"]:
-            # Create an int IP address for sorting purposes
-            ip_int = sum([int(byte) << shift
-                    for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
-            if peer["seed"]:
-                icon = self.seed_pixbuf
+            new_ips.add(peer["ip"])
+            if self.peers.has_key(peer["ip"]):
+                # We already have this peer in our list, so lets just update it
+                row = self.peers[peer["ip"]]
+                values = self.liststore.get(row, 3, 4, 7)
+                if peer["down_speed"] != values[0]:
+                    self.liststore.set_value(row, 3, values[0])
+                if peer["up_speed"] != values[1]:
+                    self.liststore.set_value(row, 4, values[1])
+                if peer["seed"]:
+                    icon = self.seed_pixbuf
+                else:
+                    icon = self.peer_pixbuf
+
+                if icon != values[2]:
+                    self.liststore.set_value(row, 7, values[2])
+                    
             else:
-                icon = self.peer_pixbuf
+                # Peer is not in list so we need to add it
                 
-            self.liststore.append([
-                self.get_flag_pixbuf(peer["country"]), 
-                peer["ip"],
-                peer["client"],
-                peer["down_speed"], 
-                peer["up_speed"],
-                peer["country"],
-                ip_int,
-                icon])
-            
+                # Create an int IP address for sorting purposes
+                ip_int = sum([int(byte) << shift
+                    for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
+                if peer["seed"]:
+                    icon = self.seed_pixbuf
+                else:
+                    icon = self.peer_pixbuf
+                
+                row = self.liststore.append([
+                    self.get_flag_pixbuf(peer["country"]), 
+                    peer["ip"],
+                    peer["client"],
+                    peer["down_speed"], 
+                    peer["up_speed"],
+                    peer["country"],
+                    ip_int,
+                    icon])
+                
+                self.peers[peer["ip"]] = row
+                
+        # Now we need to remove any ips that were not in status["peers"] list
+        for ip in set(self.peers.keys()).difference(new_ips):
+            self.liststore.remove(self.peers[ip])
+            del self.peers[ip]
+
     def clear(self):
         self.liststore.clear()
