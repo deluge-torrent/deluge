@@ -165,7 +165,6 @@ class torrent_info:
         self.compact = compact
         self.user_paused = user_paused
         self.uploaded_memory = 0
-        self.initial_uploaded_memory = 0
         self.upload_rate_limit = 0
         self.download_rate_limit = 0
         self.webseed_urls = []
@@ -358,8 +357,12 @@ class Manager:
 
     def pickle_state(self):
         print "save uploaded memory"
-        for torrent in self.state.torrents:
-            uid = self.state.torrents[torrent]
+        state = persistent_state()
+        state.torrents = dict(self.state.torrents.iteritems())
+        state.queue = self.state.queue[:]
+        
+        for torrent in state.torrents:
+            uid = state.torrents[torrent]
             try:
                 torrent.uploaded_memory = self.unique_IDs[uid].uploaded_memory +\
                     self.get_core_torrent_state(uid, False)['total_upload']
@@ -371,11 +374,10 @@ class Manager:
         if not os.path.exists(self.base_dir):
             os.makedirs(self.base_dir)
         output = open(os.path.join(self.base_dir, STATE_FILENAME), 'wb')
-        pickle.dump(self.state, output)
+        pickle.dump(state, output)
         output.close()
 
     # Preference management functions
-
     def get_config(self):
         # This returns the preference object
         return self.config

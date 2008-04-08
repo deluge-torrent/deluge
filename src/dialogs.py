@@ -50,9 +50,6 @@ class PreferencesDlg:
         self.glade.signal_autoconnect({
                                         'toggle_ui': self.toggle_ui,
                                         'on_btn_testport_clicked': self.TestPort,
-                                        'on_combo_file_manager_entry_focus_in_event': self.on_combo_file_manager_entry_focus_in_event,
-                                        'on_txt_open_folder_location_focus_in_event': self.on_txt_open_folder_location_focus_in_event,
-                                        'on_radio_open_folder_custom_focus_in_event': self.on_radio_open_folder_custom_focus_in_event
                                       })
         
         self.preferences = preferences
@@ -77,15 +74,6 @@ class PreferencesDlg:
     def show(self, interface, window):
         # Load settings into dialog
         try:
-            self.glade.get_widget("combo_file_manager").set_active(self.preferences.get("file_manager"))
-            self.glade.get_widget("txt_open_folder_location").set_text(self.preferences.get("open_folder_location"))
-            self.glade.get_widget("radio_open_folder_stock").set_active(self.preferences.get("open_folder_stock"))
-            self.glade.get_widget("radio_open_folder_custom").set_active(not self.preferences.get("open_folder_stock"))
-            if common.windows_check():
-                self.glade.get_widget("combo_file_manager").set_sensitive(False)
-                self.glade.get_widget("txt_open_folder_location").set_sensitive(False)
-                self.glade.get_widget("radio_open_folder_stock").set_sensitive(False)
-                self.glade.get_widget("radio_open_folder_custom").set_sensitive(False)
             self.glade.get_widget("combo_encin").set_active(self.preferences.get("encin_state"))
             self.glade.get_widget("combo_encout").set_active(self.preferences.get("encout_state"))
             self.glade.get_widget("combo_enclevel").set_active(self.preferences.get("enclevel_type"))
@@ -208,9 +196,6 @@ class PreferencesDlg:
     def ok_clicked(self, source, interface):
         self.dialog.hide()
         import sha
-        self.preferences.set("file_manager", self.glade.get_widget("combo_file_manager").get_active())
-        self.preferences.set("open_folder_stock", self.glade.get_widget("radio_open_folder_stock").get_active())
-        self.preferences.set("open_folder_location", self.glade.get_widget("txt_open_folder_location").get_text())
         self.preferences.set("encin_state", self.glade.get_widget("combo_encin").get_active())
         self.preferences.set("encout_state", self.glade.get_widget("combo_encout").get_active())
         self.preferences.set("enclevel_type", self.glade.get_widget("combo_enclevel").get_active())
@@ -394,15 +379,6 @@ class PreferencesDlg:
             if not value:
                 self.glade.get_widget('spin_port_min').set_sensitive(True)
                 self.glade.get_widget('spin_port_max').set_sensitive(True)
-
-    def on_combo_file_manager_entry_focus_in_event(self, widget, event):
-        self.glade.get_widget("radio_open_folder_stock").set_active(True)
-        
-    def on_txt_open_folder_location_focus_in_event(self, widget, event):
-        self.glade.get_widget("radio_open_folder_custom").set_active(True)
-
-    def on_radio_open_folder_custom_focus_in_event(self, widget, event):
-        self.glade.get_widget("txt_open_folder_location").grab_focus()
 
 class MergeDlg:
     def __init__(self):

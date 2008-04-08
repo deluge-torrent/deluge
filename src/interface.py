@@ -159,9 +159,6 @@ class DelugeGTK:
         for torrent in self.manager.get_queue():
             unique_ID = self.manager.get_torrent_unique_id(torrent)
             try:
-                if self.manager.unique_IDs[unique_ID].uploaded_memory:
-                    self.manager.unique_IDs[unique_ID].initial_uploaded_memory = \
-                        self.manager.unique_IDs[unique_ID].uploaded_memory
                 if self.manager.unique_IDs[unique_ID].trackers_changed:
                     self.manager.replace_trackers(unique_ID, \
                         self.manager.unique_IDs[unique_ID].trackers)
@@ -732,22 +729,6 @@ window, please enter your password"))
         self.open_folder(view_column)
 
     def open_folder(self, widget, uids=None):
-        if not common.windows_check():
-            if self.config.get("open_folder_stock"):
-                if self.config.get("file_manager") == common.FileManager.xdg:
-                    file_manager = "xdg-open"
-                elif self.config.get("file_manager") == common.FileManager.\
-                    konqueror:
-                    file_manager = "konqueror"
-                elif self.config.get("file_manager") == common.FileManager.nautilus:
-                    file_manager = "nautilus"
-                elif self.config.get("file_manager") == common.FileManager.thunar:
-                    file_manager = "thunar"
-            else:
-                file_manager = self.config.get("open_folder_location")
-        else:
-            file_manager = "explorer.exe"
-
         if not uids:
             unique_ids = self.get_selected_torrent_rows()
         else:
@@ -756,7 +737,12 @@ window, please enter your password"))
         try:
             for uid in unique_ids:
                 torrent_path = self.manager.get_torrent_path(uid)
-                common.exec_command(file_manager, torrent_path)
+                if not common.windows_check():
+                    file_manager = "xdg-open"
+                    common.exec_command(file_manager, torrent_path)
+                else:
+                    common.exec_command(executable=None, parameters=torrent_path)
+                    
         except KeyError:
             pass
 
@@ -806,7 +792,7 @@ window, please enter your password"))
                 self.update()
                 self.manager.prioritize_files(unique_ID, save_info[5], update_files_removed=False)
                 if save_info[4]:
-                    self.manager.unique_IDs[unique_ID].initial_uploaded_memory = \
+                    self.manager.unique_IDs[unique_ID].uploaded_memory = \
                         save_info[4]
                     self.manager.pickle_state()
                 if save_info[6]:
