@@ -362,9 +362,10 @@ class TorrentView(listview.ListView, component.Component):
         """Returns a torrent_id or None.  If multiple torrents are selected,
         it will return the torrent_id of the first one."""
         selected = self.get_selected_torrents()
-        if selected == None:
+        if selected:
+            return selected[0]
+        else:
             return selected
-        return selected[0]
                 
     def get_selected_torrents(self):
         """Returns a list of selected torrents or None"""
