@@ -29,7 +29,7 @@ $def with (torrent)
 
 
 </table>
-</td><td width=30%%>
+</td><td width=30%>
 
 <table>
 <tr><td class="info_label">$_('Speed'):</td><td class="info_value">
@@ -74,24 +74,4 @@ $else:
 </td></tr>
 
 </table>
-</tr>
-<!--long values-->
-<tr><td>&nbsp;</td></tr>
-<tr colspan="3">
-    <table>
-    <tr><td class="info_label">$('Hash'):</td>
-        <td class="info_value">$torrent.id</td>
-    </tr>
-    <tr><td class="info_label">$_('Tracker'):</td>
-        <td class="info_value" title="$torrent.tracker">$(crop(torrent.tracker, 200))</td>
-    </tr>
-    <tr><td class="info_label">$_('Tracker Status'):</td>
-        <td class="info_value" title="$torrent.tracker_status">$(crop(torrent.tracker_status, 200)) </td>
-    </tr>
-
-    <tr>
-    <td class="info_label">$('Save Path'):</td>
-        <td class="info_value" title="$torrent.save_path">$crop_left(torrent.save_path, 200)</td>
-    </table>
-</tr>
 </table>

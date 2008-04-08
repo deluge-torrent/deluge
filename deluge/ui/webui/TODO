@@ -1,15 +1,22 @@
 0.6 :
 *plugin-config + (re)enable webui plugins.
 *Fix IE7 for advanced/white template.
-*split statistics tab into statistics , details like gtk-ui
 *details tabs : add css
-*white template : add auto-refresh
+*white template : add auto-refresh (with a nice js-progress-bar)
+*gettext : update template_strings.py + add all .py files to gettext input files
 
-after 0.6:
+after 0.6 :
+*hide-option for details iframe.
 *add new major features in available gtk ui but not in webui.
 *white template:better css fluid layout or switch to tables.
 *labels (organize-plugin)
 *checkboxes for multiple select.
 *rethink details iframe.
+*persistent sessions
+
+maybe/ideas/after 0.6.1:
+*switch to webpy 0.3
+*right-click menu on torrent-rows
+*multi row template like transmission etc.
 
 

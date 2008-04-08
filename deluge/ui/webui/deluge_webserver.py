@@ -100,7 +100,7 @@ def create_webserver(debug = False):
     utils.apply_config()
 
 
-    from lib.gtk_cherrypy_wsgiserver import CherryPyWSGIServer
+    from lib.webpy022.wsgiserver import CherryPyWSGIServer
 
     middleware = None
     if debug:
