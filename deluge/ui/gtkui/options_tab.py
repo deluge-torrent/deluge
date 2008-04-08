@@ -47,6 +47,11 @@ class OptionsTab:
         self.prev_torrent_id = None
         self.prev_status = None
         
+        glade.signal_autoconnect({
+            "on_button_apply_clicked": self._on_button_apply_clicked,
+            "on_button_edit_trackers_clicked": self._on_button_edit_trackers_clicked
+        })
+        
     def update(self):
         # Get the first selected torrent
         torrent_id = component.get("TorrentView").get_selected_torrents()
@@ -69,7 +74,10 @@ class OptionsTab:
             "private",
             "prioritize_first_last"])
         self.prev_torrent_id = torrent_id
-    
+
+    def clear(self):
+        pass
+            
     def _on_get_torrent_status(self, status):
         # We only want to update values that have been applied in the core.  This
         # is so we don't overwrite the user changes that haven't been applied yet.
@@ -91,5 +99,23 @@ class OptionsTab:
                 self.chk_prioritize_first_last.set_active(status["prioritize_first_last"])
             self.prev_status = status
         
-    def clear(self):
-        pass
+    def _on_button_apply_clicked(self, button):
+        if self.spin_max_download.get_value() != self.prev_status["max_download_speed"]:
+            client.set_torrent_max_download_speed(self.prev_torrent_id, self.spin_max_download.get_value())
+        if self.spin_max_upload.get_value() != self.prev_status["max_upload_speed"]:
+            client.set_torrent_max_upload_speed(self.prev_torrent_id, self.spin_max_upload.get_value())
+        if self.spin_max_connections.get_value_as_int() != self.prev_status["max_connections"]:
+            client.set_torrent_max_connections(self.prev_torrent_id, self.spin_max_connections.get_value_as_int())
+        if self.spin_max_upload_slots.get_value_as_int() != self.prev_status["max_upload_slots"]:
+            client.set_torrent_max_upload_slots(self.prev_torrent_id, self.spin_max_upload_slots.get_value_as_int())
+        if self.chk_private.get_active() != self.prev_status["private"]:
+            client.set_torrent_private_flag(self.prev_torrent_id, self.chk_private.get_active())
+        if self.chk_prioritize_first_last.get_active() != self.prev_status["prioritize_first_last"]:
+            client.set_torrent_prioritize_first_last(self.prev_torrent_id, self.chk_prioritize_first_last.get_active())
+            
+    def _on_button_edit_trackers_clicked(self, button):
+        from edittrackersdialog import EditTrackersDialog
+        dialog = EditTrackersDialog(
+            self.prev_torrent_id,
+            component.get("MainWindow").window)
+        dialog.run()
