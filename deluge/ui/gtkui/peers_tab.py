@@ -35,6 +35,7 @@ import gtk, gtk.glade
 import os.path
 import cPickle
 import pkg_resources
+from itertools import izip
 
 from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
@@ -56,7 +57,7 @@ class PeersTab:
         glade = component.get("MainWindow").get_glade()
         self.listview = glade.get_widget("peers_listview")
         # country pixbuf, ip, client, progress, progress, downspeed, upspeed, country code
-        self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str)
+        self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str, int)
         self.cached_flag_pixbufs = {}
 
         # Country column        
@@ -77,7 +78,7 @@ class PeersTab:
         render = gtk.CellRendererText()
         column.pack_start(render, False)
         column.add_attribute(render, "text", 1)
-        column.set_sort_column_id(1)
+        column.set_sort_column_id(6)
         column.set_clickable(True)
         column.set_resizable(True)
         column.set_expand(False)
@@ -222,16 +223,21 @@ class PeersTab:
                 return None
             
         return self.cached_flag_pixbufs[country]
+        
     def _on_get_torrent_status(self, status):
         self.liststore.clear()
         for peer in status["peers"]:
+            # Create an int IP address for sorting purposes
+            ip_int = sum([int(byte) << shift
+                    for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
             self.liststore.append([
                 self.get_flag_pixbuf(peer["country"]), 
                 peer["ip"],
-                peer["client"], 
+                peer["client"],
                 peer["down_speed"], 
                 peer["up_speed"],
-                peer["country"]])
+                peer["country"],
+                ip_int])
             
     def clear(self):
         self.liststore.clear()

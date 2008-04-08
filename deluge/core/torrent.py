@@ -240,13 +240,17 @@ class Torrent:
             # We do not want to report peers that are half-connected
             if peer.flags & peer.connecting:
                 continue
+            try:
+                client = str(peer.client).decode("utf-8")
+            except UnicodeDecodeError:
+                client = str(peer.client).decode("latin-1")
                 
             ret.append({
                 "ip": "%s:%s" % (peer.ip[0], peer.ip[1]),
                 "up_speed": peer.up_speed,
                 "down_speed": peer.down_speed,
                 "country": deluge.xmlrpclib.Binary(peer.country),
-                "client": deluge.xmlrpclib.Binary(peer.client),
+                "client": client
             })
 
         return ret
