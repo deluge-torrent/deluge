@@ -1,0 +1,12 @@
+0.6 :
+*plugin-config + (re)enable webui plugins.
+*Fix IE7 for advanced/white template.
+*split statistics tab into statistics , details like gtk-ui
+*details tabs : add css
+*progresss bars : fix layout
+
+after 0.6:
+*white template:better css fluid layout or switch to tables.
+*labels (organize-plugin)
+*checkboxes for multiple select.
+
