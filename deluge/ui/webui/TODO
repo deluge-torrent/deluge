@@ -3,7 +3,6 @@
 *Fix IE7 for advanced/white template.
 *split statistics tab into statistics , details like gtk-ui
 *details tabs : add css
-*progresss bars : fix layout
 *white template : add auto-refresh
 
 after 0.6:

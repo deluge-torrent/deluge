@@ -25,7 +25,8 @@ input{
 
 input:hover {
 	background-color:#68a;
-}TEXTAREA{ border:1px solid #23344b; background: #99acc3; width:480px;}*/.footertext a { color: #c0c0c0; text-decoration:none;}.footertext a:visited { color: #c0c0c0; text-decoration:none;}.footertext a:active { color: #c0c0c0; text-decoration:none;}.footertext  a:hover {color: #fff; text-decoration: underline;}.footertext { text-align: center; padding: 60px 0 0 0; font-size: 8pt; left: -100px; font-family: Bitstream Vera,Verdana; color: #fff; position: relative;}.clearfix:after {    content: ".";    display: block;    height: 0;    clear: both;    visibility: hidden;}div.progress_bar{	background-color:#4573a5;	/*color:blue;*/	-moz-border-radius:5px; /*ff only setting*/	}
+}TEXTAREA{ border:1px solid #23344b; background: #99acc3; width:480px;}*/.footertext a { color: #c0c0c0; text-decoration:none;}.footertext a:visited { color: #c0c0c0; text-decoration:none;}.footertext a:active { color: #c0c0c0; text-decoration:none;}.footertext  a:hover {color: #fff; text-decoration: underline;}.footertext { text-align: center; padding: 60px 0 0 0; font-size: 8pt; left: -100px; font-family: Bitstream Vera,Verdana; color: #fff; position: relative;}.clearfix:after {    content: ".";    display: block;    height: 0;    clear: both;    visibility: hidden;}div.progress_bar{	background-color:#4573a5;	overflow:visible;
+	white-space: nowrap;	-moz-border-radius:5px; /*ff only setting*/	}
 
 div.progress_bar_outer { /*used in table-view*/
 	width:150px;

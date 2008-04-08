@@ -193,6 +193,8 @@ tr.torrent_table_selected {
 
 div.progress_bar{
 	background-color:#E0ECFF;
+	overflow:visible;
+	white-space: nowrap;
 	/*color:blue;*/
 	/*-moz-border-radius:5px;*/ /*ff only setting*/
 }
