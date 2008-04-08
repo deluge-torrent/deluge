@@ -417,6 +417,7 @@ class TorrentView(listview.ListView, component.Component):
             # Show the Torrent menu from the MenuBar
             torrentmenu = component.get("MenuBar").torrentmenu
             torrentmenu.popup(None, None, None, event.button, event.time)
+            return True
     
     def on_selection_changed(self, treeselection):
         """This callback is know when the selection has changed."""
