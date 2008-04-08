@@ -297,7 +297,7 @@ class FilesTab:
         """This is a callback for showing the right-click context menu."""
         log.debug("on_button_press_event")
         # We only care about right-clicks
-        if event.button == 3:
+        if self.get_selected_files() and event.button == 3:
             self.file_menu.popup(None, None, None, event.button, event.time)
             return True
             
