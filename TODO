@@ -10,6 +10,7 @@ For 0.6 release:
 * Implement add by hash
 * Implement 'Classic' mode
 * Add tabs to view menu
+* Remember view options (show side bar, etc)
 
 After 0.6 release:
 * Figure out easy way for user-made plugins to add i18n support.
