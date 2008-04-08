@@ -506,6 +506,10 @@ class Core(
         """Sets a torrents file priorities"""
         return self.torrents[torrent_id].set_file_priorities(priorities)
     
+    def export_set_torrent_prioritize_first_last(self, torrent_id, value):
+        """Sets a higher priority to the first and last pieces"""
+        return self.torrents[torrent_id].set_prioritize_first_last(value)
+        
     def export_block_ip_range(self, range):
         """Block an ip range"""
         try:
