@@ -217,10 +217,9 @@ class PeersTab:
         client.get_torrent_status(self._on_get_torrent_status, torrent_id, ["peers"])
 
     def get_flag_pixbuf(self, country):
-        country = str(country)
-        if not country.isalpha():
+        if country == "  ":
             return None
- 
+            
         if not self.cached_flag_pixbufs.has_key(country):
             # We haven't created a pixbuf for this country yet
             try:
@@ -266,13 +265,14 @@ class PeersTab:
                 # Create an int IP address for sorting purposes
                 ip_int = sum([int(byte) << shift
                     for byte, shift in izip(peer["ip"].split(":")[0].split("."), (24, 16, 8, 0))])
+
                 if peer["seed"]:
                     icon = self.seed_pixbuf
                 else:
                     icon = self.peer_pixbuf
                 
                 row = self.liststore.append([
-                    self.get_flag_pixbuf(peer["country"]), 
+                    self.get_flag_pixbuf(peer["country"]),
                     peer["ip"],
                     peer["client"],
                     peer["down_speed"], 

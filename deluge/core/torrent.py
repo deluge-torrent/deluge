@@ -244,12 +244,20 @@ class Torrent:
                 client = str(peer.client).decode("utf-8")
             except UnicodeDecodeError:
                 client = str(peer.client).decode("latin-1")
-                
+            
+            # Make country a proper string
+            country = str()
+            for c in peer.country:
+                if not c.isalpha():
+                    country += " "
+                else:
+                    country += c
+
             ret.append({
                 "ip": "%s:%s" % (peer.ip[0], peer.ip[1]),
                 "up_speed": peer.up_speed,
                 "down_speed": peer.down_speed,
-                "country": deluge.xmlrpclib.Binary(peer.country),
+                "country": country,
                 "client": client,
                 "seed": peer.flags & peer.seed
             })
