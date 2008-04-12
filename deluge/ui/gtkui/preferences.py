@@ -281,7 +281,8 @@ class Preferences(component.Component):
                 widget.set_sensitive(True)
                 
                 if modifier == "filename":
-                    widget.set_current_folder(value)
+                    if value:
+                        widget.set_current_folder(value)
                 elif modifier == "active":
                     widget.set_active(value)
                 elif modifier == "not_active":
