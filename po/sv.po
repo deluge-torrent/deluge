@@ -10,13 +10,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-10 20:19+0000\n"
-"Last-Translator: davidhjelm <Unknown>\n"
+"PO-Revision-Date: 2008-04-06 09:13+0000\n"
+"Last-Translator: Joar Bagge <Unknown>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-25 01:40+0000\n"
+"X-Launchpad-Export-Date: 2008-04-13 22:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -722,8 +722,8 @@ msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
-"Max antal uppkopligsförsök per sekund. Ett högt nummer kan orsaka problem "
-"med billigare routrar. Sätt -1 för obegränsat"
+"Maximalt antal uppkopplingsförsök per sekund. Ett högt värde kan krascha "
+"vissa billigare routrar. Ställ in -1 för obegränsat."
 
 #: glade/preferences_dialog.glade:1357
 msgid "Maximum Connection Attempts per Second:"
@@ -1439,6 +1439,9 @@ msgid ""
 "Please change your preference to disable compact allocation, then remove and "
 "re-add this torrent."
 msgstr ""
+"Filprioritet kan bara ställas in när full allokering används.\n"
+"Stäng av kompakt allokering i inställningarna, ta sedan bort den här torrent-"
+"filen och lägg till den på nytt."
 
 #: src/dialogs.py:69
 msgid "Plugin"
@@ -1896,7 +1899,7 @@ msgstr "Bevakarannonsering"
 #: plugins/EventLogging/tab_log.py:123
 #, fuzzy
 msgid "Fastresume rejected error"
-msgstr "Snabbåterhämtnings fel"
+msgstr "Snabbåterhämtningsfel"
 
 #: plugins/EventLogging/event_logging_preferences.glade:206
 #: plugins/EventLogging/tab_log.py:114
@@ -2087,7 +2090,7 @@ msgid ""
 msgstr ""
 "\n"
 "Detta insticksprogram visar filerna i en torrent och låter dig sätta "
-"prioritet på dem eller välja att inte ladda ner dem alls.\n"
+"prioritet på dem och välja vilka du vill eller inte vill ladda ner.\n"
 
 #: plugins/TorrentFiles/__init__.py:84
 msgid "Files"
@@ -2276,7 +2279,7 @@ msgstr "Endast Text"
 
 #: plugins/WebUi/__init__.py:261
 msgid "Confirmed Password <> New Password\n"
-msgstr ""
+msgstr "Bekräftat lösenord <> Nytt lösenord\n"
 
 #: plugins/WebUi/webserver_common.py:62
 msgid "translate something"
@@ -2626,8 +2629,8 @@ msgid ""
 "Feeds will be retrieved and parsed in their own threads. The application "
 "will not be blocked, but it can be unreliable."
 msgstr ""
-"Matningen kommer att hämtas och tolkas i deras egna trådar. Applikationen "
-"kommer inte att blokeras, men det kan vara opålitligt."
+"Matningen kommer att hämtas och tolkas i sina egna trådar. Applikationen "
+"kommer inte att blockeras, men det kan vara opålitligt."
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
 msgid "Threaded (experimental)"

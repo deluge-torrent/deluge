@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-20 17:20+0000\n"
-"Last-Translator: villads hamann <Unknown>\n"
+"PO-Revision-Date: 2008-04-09 17:12+0000\n"
+"Last-Translator: Rune Svendsen <Unknown>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
+"X-Launchpad-Export-Date: 2008-04-13 22:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -84,7 +84,7 @@ msgstr "Indstillinger"
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
 #: glade/preferences_dialog.glade:2982
 msgid "Plugins"
-msgstr "Moduler"
+msgstr "Tilføjelser"
 
 #: glade/delugegtk.glade:186
 msgid "_File"
@@ -122,7 +122,7 @@ msgstr "_Vis"
 
 #: glade/delugegtk.glade:317
 msgid "_Toolbar"
-msgstr "_Værktøjslinjen"
+msgstr "_Værktøjslinje"
 
 #: glade/delugegtk.glade:326
 msgid "_Details"
@@ -183,7 +183,7 @@ msgstr "_Hjælp"
 
 #: glade/delugegtk.glade:440
 msgid "_Homepage"
-msgstr "_Webside"
+msgstr "_Hjemmeside"
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
@@ -191,7 +191,7 @@ msgstr "_Ofte stillede spørgsmål"
 
 #: glade/delugegtk.glade:474
 msgid "_Community"
-msgstr ""
+msgstr "Fællesskab"
 
 #: glade/delugegtk.glade:497
 msgid "Help translate this application"

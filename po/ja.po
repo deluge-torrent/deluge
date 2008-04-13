@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-24 09:07+0000\n"
+"PO-Revision-Date: 2008-04-03 13:09+0000\n"
 "Last-Translator: sanafrato <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
+"X-Launchpad-Export-Date: 2008-04-13 22:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -35,7 +35,7 @@ msgstr "削除"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
-msgstr "シード中のトレントをクリア"
+msgstr "シーディングトレントをクリア"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
@@ -197,15 +197,15 @@ msgstr "このアプリケーションを翻訳する"
 
 #: glade/delugegtk.glade:498
 msgid "_Translate This Application..."
-msgstr "アプリケーションの翻訳(_T)"
+msgstr "このアプリケーションを翻訳する(_T)..."
 
 #: glade/delugegtk.glade:521
 msgid "Runs the first-time configuration wizard"
-msgstr "最初の設定ウィザードを実行"
+msgstr "初使用時の環境設定ウィザードを実行する"
 
 #: glade/delugegtk.glade:522
 msgid "_Run Configuration Wizard"
-msgstr "設定ウィザード(_R)"
+msgstr "環境設定ウィザードの実行(_R)"
 
 #: glade/delugegtk.glade:659
 msgid "<b>Name:</b>"
@@ -301,11 +301,11 @@ msgstr "メイン起動"
 
 #: glade/browser.glade:185 glade/browserwin.glade:184
 msgid "Launch Footer Externally"
-msgstr "Launch Footer Externally"
+msgstr "外部フッター起動"
 
 #: glade/browser.glade:186 glade/browserwin.glade:185
 msgid "Launch Footer"
-msgstr "Launch Footer"
+msgstr "フッター起動"
 
 #: glade/searchdlg.glade:7
 msgid "Manage Search Plugins"
@@ -445,7 +445,7 @@ msgstr "最大同時アクティヴトレント数:"
 #: glade/preferences_dialog.glade:280 glade/preferences_dialog.glade:281
 #: glade/preferences_dialog.glade:302
 msgid "Enable selecting files for torrents before loading"
-msgstr "ロード時のトレントファイル選択を有効"
+msgstr "トレント読み込み時のファイル選択を有効"
 
 #: glade/preferences_dialog.glade:303
 msgid "Only show if torrent has more than 1 file"
@@ -467,23 +467,23 @@ msgstr "<b>トレント</b>"
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
-msgstr "Full allocationはトレントに必要なスペースをあらかじめ確保し、ディスクの断片化を防ぎます"
+msgstr "フルアロケーションはトレントに必要なスペースをあらかじめ確保し、ディスクの断片化を防ぎます"
 
 #: glade/preferences_dialog.glade:391
 msgid "Use Full Allocation"
-msgstr "Full allocationを使用"
+msgstr "フルアロケーションを使用"
 
 #: glade/preferences_dialog.glade:413
 msgid "Compact allocation only allocates space as needed"
-msgstr "Compact allocationは最低限必要なスペースだけを確保します"
+msgstr "コンパクトアロケーションは最低限必要なスペースだけを確保します"
 
 #: glade/preferences_dialog.glade:414
 msgid "Use Compact Allocation"
-msgstr "Compact allocationを使用"
+msgstr "コンパクトアロケーションを使用"
 
 #: glade/preferences_dialog.glade:434
 msgid "<b>Allocation</b>"
-msgstr "<b>Allocation</b>"
+msgstr "<b>アロケーション</b>"
 
 #: glade/preferences_dialog.glade:458
 msgid "Downloads"
@@ -561,7 +561,7 @@ msgstr "ピア交換"
 
 #: glade/preferences_dialog.glade:799
 msgid "Local Peer Discovery"
-msgstr "ローカルピアを発見"
+msgstr "Local Peer Discovery"
 
 #: glade/preferences_dialog.glade:814
 msgid "<b>Network Extras</b>"
@@ -577,9 +577,9 @@ msgid ""
 "Enabled\n"
 "Forced"
 msgstr ""
-"Disabled\n"
-"Enabled\n"
-"Forced"
+"無効\n"
+"有効\n"
+"強制"
 
 #: glade/preferences_dialog.glade:877
 msgid "Outbound:"
@@ -613,11 +613,11 @@ msgstr "ネットワーク"
 
 #: glade/preferences_dialog.glade:1025
 msgid "Queue torrents to bottom when they begin seeding"
-msgstr "シーディングする時にトレントのキューを最下部へ移動"
+msgstr "シーディングする際、トレントのキューを最下部へ移動"
 
 #: glade/preferences_dialog.glade:1037
 msgid "Queue new torrents above completed ones"
-msgstr "完了した時に新しいトレントのキューを最上部へ移動"
+msgstr "完了した際、新しいトレントのキューを最上部へ移動"
 
 #: glade/preferences_dialog.glade:1053
 msgid "Stop seeding torrents when their share ratio reaches:"
@@ -625,7 +625,7 @@ msgstr "設定した共有比に達したらシーディングを停止:"
 
 #: glade/preferences_dialog.glade:1089
 msgid "Automatically clear torrents that reach the max share ratio"
-msgstr "最大共有比に達したら自動的にトレントをクリア"
+msgstr "設定した共有比に達したら自動的にトレントをクリア"
 
 #: glade/preferences_dialog.glade:1105
 msgid "<b>Seeding</b>"
@@ -838,7 +838,7 @@ msgid ""
 "Nautilus\n"
 "Thunar"
 msgstr ""
-"Auto-detect (xdg-open)\n"
+"自動-検出 (xdg-open)\n"
 "Konqueror\n"
 "Nautilus\n"
 "Thunar"
@@ -849,11 +849,11 @@ msgstr "<b>デスクトップファイルマネージャ</b> - 非Windows環境�
 
 #: glade/preferences_dialog.glade:2649
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
-msgstr "高度なプログレスバーを使用（CPU/RAMを余分に使用）"
+msgstr "高度な進歩バーを使用（CPU/RAMを余分に使用）"
 
 #: glade/preferences_dialog.glade:2660
 msgid "<b>Detailed Progress Bar</b>"
-msgstr "<b>プログレスバー</b>"
+msgstr "<b>進歩バー</b>"
 
 #: glade/preferences_dialog.glade:2690
 msgid "Use and show the anonymizing internal browser"
@@ -1115,7 +1115,7 @@ msgstr ""
 
 #: src/interface.py:71
 msgid "Browser"
-msgstr "Browser"
+msgstr "ブラウザ"
 
 #: src/interface.py:73
 msgid "Launch Browser"
@@ -1202,12 +1202,12 @@ msgstr "共有比"
 #: src/interface.py:977
 #, python-format
 msgid "Paused %s"
-msgstr ""
+msgstr "休止 %s"
 
 #: src/interface.py:979
 #, python-format
 msgid "Queued %s"
-msgstr ""
+msgstr "キュー済み %s"
 
 #: src/interface.py:1091
 msgid ""
@@ -1217,7 +1217,7 @@ msgstr "最新版のDelugeがあります。ウェブサイトからダウンロ
 
 #: src/interface.py:1263 plugins/WebUi/scripts/template_strings.py:11
 msgid "Connections"
-msgstr "接続"
+msgstr "接続数"
 
 #: src/interface.py:1281
 msgid "DHT"
@@ -1275,7 +1275,7 @@ msgstr "トレントファイルのURLを入力"
 
 #: src/interface.py:1548
 msgid "Warning - all downloaded files for this torrent will be deleted!"
-msgstr "警告 - このトレントの全てのダウンロードファイルは削除されます！"
+msgstr "警戒 - このトレントの全てのダウンロードファイルは削除されます！"
 
 #: src/interface.py:1564
 msgid "Are you sure that you want to remove all seeding torrents?"
@@ -1352,7 +1352,7 @@ msgstr "アナウンスOK"
 
 #: src/core.py:674
 msgid "Alert"
-msgstr "注意"
+msgstr "警告"
 
 #: src/core.py:675
 msgid "HTTP code"
@@ -1364,7 +1364,7 @@ msgstr "連続回数"
 
 #: src/core.py:683
 msgid "Warning"
-msgstr "警告"
+msgstr "警戒"
 
 #: src/files.py:77
 msgid "Filename"
@@ -1380,8 +1380,8 @@ msgid ""
 "Please change your preference to disable compact allocation, then remove and "
 "re-add this torrent."
 msgstr ""
-"ファイル優先度はfull allocationを使用する場合だけ設定可能です\n"
-"compact allocationが無効である事を確認して下さい。その際、このトレントを削除、または再度追加して下さい"
+"ファイル優先度はフルアロケーションを使用する場合だけ設定可能です\n"
+"コンパクトアロケーションが無効である事を確認して下さい。その際、このトレントを削除、または再度追加して下さい"
 
 #: src/dialogs.py:69
 msgid "Plugin"
@@ -1476,6 +1476,18 @@ msgid ""
 "\n"
 "http://dev.deluge-torrent.org/wiki/BlocklistPlugin\n"
 msgstr ""
+"\n"
+"様々なIPブロックリストのダウンロードとインポート\n"
+"\n"
+"現在、このプラグインはPeerGuardian(バイナリとテキスト)、SafePeer、\n"
+"Emule listsを扱うことができます。PeerGuardianの7zip形式ファイルは\n"
+"サポートしていません。ファイルはURLかローカルファイルシステム上の\n"
+"位置として指定できるかもしれません。\n"
+"\n"
+"ブロックリストのダウンロードサイトの情報は、以下のウィキで入手可能\n"
+"です:\n"
+"\n"
+"http://dev.deluge-torrent.org/wiki/BlocklistPlugin\n"
 
 #: plugins/BlocklistImport/__init__.py:41
 msgid "PeerGuardian P2B (GZip)"
@@ -1551,7 +1563,7 @@ msgstr "ZIPファイルの例外的なフォーマットを検出しました:"
 msgid ""
 "We were expecting a gzip file, but didn't get that, or possibly the file is "
 "corrupt.  Please edit your Blocklist preferences"
-msgstr ""
+msgstr "gzipファイルを想定していましたが、得られませんでした。またはファイルが違います。ブロックリスト設定を編集して下さい。"
 
 #: plugins/BlocklistImport/peerguardian.py:32
 msgid "Invalid leader"
@@ -1618,7 +1630,7 @@ msgstr "ファイル:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:121
 msgid "This torrent will be made from a directory"
-msgstr "このトレントはディレクトリで構成されています"
+msgstr "このトレントはディレクトリから構成されています"
 
 #: plugins/TorrentCreator/torrentcreator.glade:122
 msgid "Folder:"
@@ -1650,7 +1662,7 @@ msgstr "<b>トラッカー</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:353
 msgid "<b>Web Seeds</b>"
-msgstr "<b>Web Seeds</b>"
+msgstr "<b>Webシード</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:400
 msgid "<b>Comments</b>"

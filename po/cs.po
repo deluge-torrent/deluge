@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-05 21:48+0000\n"
+"PO-Revision-Date: 2008-04-11 11:56+0000\n"
 "Last-Translator: Kamil Páral <ripper42@gmail.com>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
+"X-Launchpad-Export-Date: 2008-04-13 22:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -1215,11 +1215,11 @@ msgstr "Název"
 
 #: src/interface.py:664 plugins/WebUi/scripts/template_strings.py:21
 msgid "ETA"
-msgstr "ETA"
+msgstr "Zbývající čas"
 
 #: src/interface.py:667
 msgid "Avail."
-msgstr "Dostupné"
+msgstr "Dostupnost"
 
 #: src/interface.py:669 plugins/WebUi/scripts/template_strings.py:40
 msgid "Ratio"

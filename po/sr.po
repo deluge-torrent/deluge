@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-01-18 02:42+0000\n"
-"Last-Translator: Saša Bodiroža <jazzva@gmail.com>\n"
+"PO-Revision-Date: 2008-04-01 13:23+0000\n"
+"Last-Translator: Vladimir Lazic <vlazic@gmail.com>\n"
 "Language-Team: Serbian <sr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
+"X-Launchpad-Export-Date: 2008-04-13 22:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -184,15 +184,15 @@ msgstr "П_омоћ"
 
 #: glade/delugegtk.glade:440
 msgid "_Homepage"
-msgstr ""
+msgstr "_Веб страница"
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
-msgstr ""
+msgstr "_FAQ"
 
 #: glade/delugegtk.glade:474
 msgid "_Community"
-msgstr ""
+msgstr "_Заједница"
 
 #: glade/delugegtk.glade:497
 msgid "Help translate this application"
@@ -908,11 +908,11 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:2731
 msgid "Show the search bar on the toolbar"
-msgstr ""
+msgstr "Прикажи поље за претрагу на траци са алаткама"
 
 #: glade/preferences_dialog.glade:2742
 msgid "<b>Search Bar</b> - restart required"
-msgstr ""
+msgstr "<b>Поље за претрагу</b> - поновно покретање програма је неопходно"
 
 #: glade/preferences_dialog.glade:2776
 msgid ""
@@ -1315,7 +1315,7 @@ msgstr "Грешка непознатог дуплираног торента."
 
 #: src/interface.py:1453
 msgid "There is not enough freedisk space to complete your download."
-msgstr ""
+msgstr "Нема довољно простора на диску да би се довршило преузимање."
 
 #: src/interface.py:1454 src/core.py:569
 msgid "Space Needed:"
@@ -2276,7 +2276,7 @@ msgstr "Шаблони кеша"
 
 #: plugins/WebUi/__init__.py:209
 msgid "https://"
-msgstr ""
+msgstr "https://"
 
 #: plugins/WebUi/__init__.py:226
 msgid "Text and image"

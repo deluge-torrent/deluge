@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-24 17:15+0000\n"
-"Last-Translator: berto89 <lorenzo.bertolotto@gmail.com>\n"
+"PO-Revision-Date: 2008-04-06 15:57+0000\n"
+"Last-Translator: texxxxxx <Unknown>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
+"X-Launchpad-Export-Date: 2008-04-13 22:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -34,29 +34,31 @@ msgid "Remove"
 msgstr "Rimuovi"
 
 #: glade/delugegtk.glade:56
+#, fuzzy
 msgid "Clear Seeding Torrents"
-msgstr "Pulisci torrent in seeding"
+msgstr "Libera la lista dai torrent in seeding"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
 msgstr "Pulisci"
 
 #: glade/delugegtk.glade:79
+#, fuzzy
 msgid "Start or Resume Torrent"
-msgstr "Avvia o riprendi torrent"
+msgstr "Avvia o Riprendi un torrent"
 
 #: glade/delugegtk.glade:80 plugins/WebUi/scripts/template_strings.py:45
 msgid "Resume"
 msgstr "Riprendi"
 
 #: glade/delugegtk.glade:93
+#, fuzzy
 msgid "Pause Torrent"
-msgstr "Metti in pausa torrent"
+msgstr "Sospendi Torrent"
 
 #: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
-#, fuzzy
 msgid "Pause"
-msgstr "Metti in pausa"
+msgstr "Sospendi"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
@@ -80,12 +82,12 @@ msgstr "Cambia le preferenze di Deluge"
 
 #: glade/delugegtk.glade:143
 msgid "Preferences"
-msgstr "Impostazioni"
+msgstr "Preferenze"
 
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
 #: glade/preferences_dialog.glade:2982
 msgid "Plugins"
-msgstr "Moduli"
+msgstr "Plugin"
 
 #: glade/delugegtk.glade:186
 msgid "_File"
@@ -181,8 +183,9 @@ msgid "_Help"
 msgstr "A_iuto"
 
 #: glade/delugegtk.glade:440
+#, fuzzy
 msgid "_Homepage"
-msgstr "Pagina Iniziale"
+msgstr "Pagina iniziale"
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
@@ -372,11 +375,11 @@ msgstr "Aggiungi un torrent..."
 
 #: glade/dgtkpopups.glade:179
 msgid "Clear Finished"
-msgstr "RImuovi completati"
+msgstr "Rimuovi completati"
 
 #: glade/file_tab_menu.glade:11
 msgid "_Open File"
-msgstr "Apri Documento"
+msgstr "_Apri file"
 
 #: glade/file_tab_menu.glade:33
 msgid "Select All"
@@ -609,22 +612,24 @@ msgid "Outbound:"
 msgstr "In uscita:"
 
 #: glade/preferences_dialog.glade:904
+#, fuzzy
 msgid "Prefer to encrypt the entire stream"
-msgstr "Preferire la cifratura dell'intera corrente"
+msgstr ""
 
 #: glade/preferences_dialog.glade:917
 msgid "Level:"
 msgstr "Livello:"
 
 #: glade/preferences_dialog.glade:931
+#, fuzzy
 msgid ""
 "Handshake\n"
 "Full Stream\n"
 "Either"
 msgstr ""
-"Stretta di mano\n"
-"Corrente intera\n"
-"Entrabi"
+"Stretta di Mano\n"
+"Flusso Colmpleto\n"
+"Entrambi"
 
 #: glade/preferences_dialog.glade:954
 msgid "<b>Encryption</b>"
@@ -761,8 +766,9 @@ msgid "Affects regular bittorrent peers"
 msgstr "Influenza in normali nodi bittorrent"
 
 #: glade/preferences_dialog.glade:1567
+#, fuzzy
 msgid "Peer Proxy"
-msgstr ""
+msgstr "Peer Proxy"
 
 #: glade/preferences_dialog.glade:1609 glade/preferences_dialog.glade:1804
 #: glade/preferences_dialog.glade:1999 glade/preferences_dialog.glade:2194

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-11 20:56+0000\n"
-"Last-Translator: bronze <bronze@gmail.com>\n"
+"PO-Revision-Date: 2008-04-12 13:14+0000\n"
+"Last-Translator: Sukarn Maini <Unknown>\n"
 "Language-Team: Hindi <hi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
+"X-Launchpad-Export-Date: 2008-04-13 22:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -53,8 +53,9 @@ msgid "Resume"
 msgstr "पुनरारंभ करे"
 
 #: glade/delugegtk.glade:93
+#, fuzzy
 msgid "Pause Torrent"
-msgstr ""
+msgstr "टॉरेन्ट ठहरें"
 
 #: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
 msgid "Pause"
@@ -62,7 +63,7 @@ msgstr "ठहरें"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
-msgstr ""
+msgstr "टॉरेन्ट कतार में ऊपर करें"
 
 #: glade/delugegtk.glade:107 plugins/WebUi/scripts/template_strings.py:59
 msgid "Up"
@@ -70,7 +71,7 @@ msgstr "ऊपर"
 
 #: glade/delugegtk.glade:120
 msgid "Queue Torrent Down"
-msgstr ""
+msgstr "टॉरेन्ट कतार में नीचे करें"
 
 #: glade/delugegtk.glade:121 plugins/WebUi/scripts/template_strings.py:17
 msgid "Down"
@@ -78,7 +79,7 @@ msgstr "नीचे"
 
 #: glade/delugegtk.glade:142
 msgid "Change Deluge preferences"
-msgstr ""
+msgstr "डिलय्ज की पसन्द बदलें"
 
 #: glade/delugegtk.glade:143
 msgid "Preferences"
@@ -96,7 +97,7 @@ msgstr "संचिका (_F)"
 
 #: glade/delugegtk.glade:193 glade/tray_menu.glade:61
 msgid "_Add Torrent"
-msgstr ""
+msgstr "टॉरेन्ट जोडें"
 
 #: glade/delugegtk.glade:208
 msgid "Add _URL"

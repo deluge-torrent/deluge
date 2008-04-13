@@ -8,14 +8,17 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-17 11:04+0000\n"
-"Last-Translator: Robert Hrovat <Unknown>\n"
+"PO-Revision-Date: 2008-03-28 13:09+0000\n"
+"Last-Translator: Robert Hrovat <robi@hipnos.net>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-25 01:40+0000\n"
+"X-Launchpad-Export-Date: 2008-04-13 22:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
+"X-Poedit-Country: SLOVENIA\n"
+"X-Poedit-Language: Slovenian\n"
+"X-Poedit-SourceCharset: utf-8\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
 msgid "Add Torrent"
@@ -52,9 +55,8 @@ msgid "Resume"
 msgstr "Nadaljuj"
 
 #: glade/delugegtk.glade:93
-#, fuzzy
 msgid "Pause Torrent"
-msgstr "Začasno ustavi torrent"
+msgstr "Začasno ustavi torrenta"
 
 #: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
 msgid "Pause"
@@ -415,7 +417,7 @@ msgstr "Deluge nastavitve"
 
 #: glade/preferences_dialog.glade:58
 msgid "Ask where to save each download"
-msgstr "Za vsak prenos vprašaj kam shranim datoteko"
+msgstr "Za vsak prenos določi mapo"
 
 #: glade/preferences_dialog.glade:76 glade/preferences_dialog.glade:77
 msgid "Store all downloads in:"
@@ -453,7 +455,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:243
 msgid "Maximum simultaneous active torrents:"
-msgstr "Največje število hkrati aktivnih torrentov:"
+msgstr "Največ hkrati aktivnih torrentov:"
 
 #: glade/preferences_dialog.glade:280 glade/preferences_dialog.glade:281
 #: glade/preferences_dialog.glade:302
@@ -470,7 +472,7 @@ msgstr "Najprej prenesi prve in zadnje koščke torrenta"
 
 #: glade/preferences_dialog.glade:335
 msgid "Start torrents in paused state"
-msgstr "Zaženi torrente v premoru"
+msgstr "Zaženi torrente kot začasno ustavljene"
 
 #: glade/preferences_dialog.glade:351
 msgid "<b>Torrents</b>"
@@ -509,8 +511,8 @@ msgid ""
 "<b>Please Note - Changes to these settings will only be applied the next "
 "time Deluge is restarted.</b>"
 msgstr ""
-"<b>Opomba: Spremembe teh nastavitev bodo uveljavljene šele ob naslednjem "
-"zagonu programa Deluge.</b>"
+"<b>Opomba: Spremembe teh nastavitev bodo uveljavljene ob naslednjem zagonu "
+"programa Deluge.</b>"
 
 #: glade/preferences_dialog.glade:545 glade/wizard.glade:48
 msgid "From:"
@@ -530,7 +532,7 @@ msgstr "Naključna vrata"
 
 #: glade/preferences_dialog.glade:612
 msgid "Test Active Port"
-msgstr "Testiraj vrata"
+msgstr "Preveri vrata"
 
 #: glade/preferences_dialog.glade:638
 msgid "<b>TCP</b>"
@@ -629,23 +631,23 @@ msgstr "Omrežje"
 
 #: glade/preferences_dialog.glade:1025
 msgid "Queue torrents to bottom when they begin seeding"
-msgstr "Prestavi torrente na dno pred začetkom sejanja"
+msgstr "Pred začetkom sejanja postavi torrente na dno"
 
 #: glade/preferences_dialog.glade:1037
 msgid "Queue new torrents above completed ones"
-msgstr "Prestavi nove torrente nad tiste, ki so že končani"
+msgstr "Postavi nove torrente nad končane"
 
 #: glade/preferences_dialog.glade:1053
 msgid "Stop seeding torrents when their share ratio reaches:"
-msgstr "Prenehaj sejanje torrentov, ko njihovo delilno razmerje doseže:"
+msgstr "Ustavi sejanje torrentov, ko njihovo delilno razmerje doseže:"
 
 #: glade/preferences_dialog.glade:1089
 msgid "Automatically clear torrents that reach the max share ratio"
-msgstr "Samodejno odstrani torrente, ko dosežejo najvišje delilno razmerje"
+msgstr "Samodejno počisti torrente, ko dosežejo najvišje delilno razmerje"
 
 #: glade/preferences_dialog.glade:1105
 msgid "<b>Seeding</b>"
-msgstr "<b>Sejem</b>"
+msgstr "<b>Sejanje</b>"
 
 #: glade/preferences_dialog.glade:1134 src/core.py:93
 #: plugins/WebUi/webserver_common.py:201
@@ -658,12 +660,12 @@ msgid ""
 "The maximum half-open connections.  A high value may crash some cheap "
 "routers.  Set -1 for unlimited."
 msgstr ""
-"Maksimalno število napol odprtih povezav. Visoka vrednost lahko povzroči "
-"nestabilno delovanje poceni usmerjevalnikov. Postavite -1 za neskončno."
+"Največ napol odprtih povezav. Visoka vrednost lahko povzroči nestabilno "
+"delovanje nekaterih usmerjevalnikov. Postavite -1 za neomejeno."
 
 #: glade/preferences_dialog.glade:1203 glade/wizard.glade:435
 msgid "Maximum Half-Open Connections:"
-msgstr "Največje število napol odprtih povezav"
+msgstr "Največ napol odprtih povezav:"
 
 #: glade/preferences_dialog.glade:1221 glade/preferences_dialog.glade:1241
 #: glade/preferences_dialog.glade:1321 glade/wizard.glade:277
@@ -678,7 +680,7 @@ msgstr "Največje število nalaganj:"
 
 #: glade/preferences_dialog.glade:1243 glade/wizard.glade:278
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr "Najvišja hitrost nalganja (KiB/s):"
+msgstr "Najvišja hitrost nalaganja (KiB/s):"
 
 #: glade/preferences_dialog.glade:1261 glade/preferences_dialog.glade:1275
 #: glade/wizard.glade:297 glade/wizard.glade:364
@@ -708,8 +710,8 @@ msgid ""
 "The maximum number of connection attempts per second.  A high value may "
 "crash some cheap routers.  Set -1 for unlimited."
 msgstr ""
-"Največje stevilo poskusov povezav na sekundo. Visoka vrednost lahko povzroči "
-"nestabilno delovanje poceni usmerjevalnikov. Postavite -1 za neskončno."
+"Največje število poskusov povezav na sekundo. Visoka vrednost lahko povzroči "
+"nestabilno delovanje nekaterih usmerjevalnikov. Postavite -1 za neomejeno."
 
 #: glade/preferences_dialog.glade:1357
 msgid "Maximum Connection Attempts per Second:"
@@ -870,8 +872,7 @@ msgstr "<b>Raziskovalec</b> - samo za ne-Windows platforme"
 #: glade/preferences_dialog.glade:2649
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
 msgstr ""
-"Uporabi napredni indikator poteka (porabi malo vec procesorja in delovnega "
-"pomnilnika)"
+"Uporabi napredni indikator poteka (malo večja poraba CPE in pomnilnika)"
 
 #: glade/preferences_dialog.glade:2660
 msgid "<b>Detailed Progress Bar</b>"
@@ -879,7 +880,7 @@ msgstr "<b>Napredni indikator napredka</b>"
 
 #: glade/preferences_dialog.glade:2690
 msgid "Use and show the anonymizing internal browser"
-msgstr ""
+msgstr "Uporabi in prikaži anonimni interni brskalnik"
 
 #: glade/preferences_dialog.glade:2701
 msgid "<b>Internal Browser</b>"
@@ -913,9 +914,9 @@ msgid ""
 "versions, OS and processor types.  Absolutely no other\n"
 "information is sent."
 msgstr ""
-"Pomagajte nam izboljšati Deluge tako, da nam sporočiterazličice Python in "
-"PyGTK, operacijski sistem in vrsto\n"
-"procesorja. Nobena druga informacija ne bo poslana."
+"Pomagajte nam izboljšati Deluge tako, da nam sporočite različice Python in\n"
+" PyGTK, operacijski sistem in vrsto procesorja.\n"
+"Nobena druga informacija ne bo poslana."
 
 #: glade/preferences_dialog.glade:2837
 msgid "<b>System Information</b>"
@@ -929,7 +930,7 @@ msgstr "Ostali"
 
 #: glade/torrent_menu.glade:11
 msgid "_Force Recheck"
-msgstr ""
+msgstr "_Vsili ponovno preverjanje"
 
 #: glade/torrent_menu.glade:33
 msgid "Re_sume"
@@ -937,7 +938,7 @@ msgstr "_Nadaljuj"
 
 #: glade/torrent_menu.glade:50
 msgid "_Pause"
-msgstr "_Premor"
+msgstr "_Začasno ustavi"
 
 #: glade/torrent_menu.glade:72
 msgid "_Remove Torrent"
@@ -993,7 +994,7 @@ msgstr "_Nadaljevanje vseh"
 
 #: glade/tray_menu.glade:38
 msgid "_Pause All"
-msgstr "_Premor vseh"
+msgstr "_Začasno ustavi vse"
 
 #: glade/tray_menu.glade:84
 msgid "_Download Speed Limit"
@@ -1156,6 +1157,9 @@ msgid ""
 "or try setting your LD_LIBRARY_PATH and MOZILLA_FIVE_HOME environment "
 "variables to /usr/lib/firefox"
 msgstr ""
+"Ne morem uporabiti spletnega brskalnika. Preverite, da imate nameščen paket "
+"python-gnome2-extras ali pa določite LD_LIBRARY_PATH in MOZZILA_FIVE_HOME "
+"sistemski spremenljivki v /usr/lib/firefox"
 
 #: src/interface.py:311 src/interface.py:317 src/interface.py:398
 #: src/interface.py:426 plugins/SpeedLimiter/__init__.py:83
@@ -1231,7 +1235,7 @@ msgstr "Razmerje"
 #: src/interface.py:977
 #, python-format
 msgid "Paused %s"
-msgstr "S premorom %s"
+msgstr "Začasno ustavljenih %s"
 
 #: src/interface.py:979
 #, python-format
@@ -1546,7 +1550,7 @@ msgstr "Ne morem odpreti seznama blokiranj"
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
 #: plugins/BlocklistImport/text.py:99
 msgid "Wrong file type or corrupted blocklist file."
-msgstr ""
+msgstr "Napačna vrsta datoteke oziroma napaka v datoteki s črnim seznamom."
 
 #: plugins/BlocklistImport/__init__.py:122
 msgid "Imported"
@@ -1586,13 +1590,15 @@ msgstr "Končano"
 
 #: plugins/BlocklistImport/text.py:129
 msgid "Got format exception for zipfile:"
-msgstr ""
+msgstr "Izjema v zip datoteki:"
 
 #: plugins/BlocklistImport/peerguardian.py:24
 msgid ""
 "We were expecting a gzip file, but didn't get that, or possibly the file is "
 "corrupt.  Please edit your Blocklist preferences"
 msgstr ""
+"Pričakovana je bila gzip datoteka, ki ni ustrezala tej vrsti ali pa je "
+"poškodovana. Prosim uredite lastnosti črnega seznama."
 
 #: plugins/BlocklistImport/peerguardian.py:32
 msgid "Invalid leader"
@@ -1788,6 +1794,8 @@ msgstr "Omogoči utripajočo ikono na pladnju"
 msgid ""
 "Enable popup notification (requires python-notify, not available on Win32)"
 msgstr ""
+"Omogoči obvestila v ojavnem oknu (zahteva paket python-notify, ni na voljo "
+"na Win32)"
 
 #: plugins/TorrentNotification/__init__.py:22
 msgid ""
@@ -2196,7 +2204,7 @@ msgstr "Dodaj omrežno seme"
 
 #: plugins/Scheduler/plugin.py:105
 msgid "Scheduler Settings"
-msgstr ""
+msgstr "Nastavitve razporeda"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "High download limit:"
@@ -2250,7 +2258,7 @@ msgstr "Stil gumba"
 
 #: plugins/WebUi/__init__.py:207
 msgid "Cache Templates"
-msgstr ""
+msgstr "Predloge predpomnilnika"
 
 #: plugins/WebUi/__init__.py:209
 msgid "https://"
@@ -2306,11 +2314,11 @@ msgstr "Uporabi"
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Auto refresh:"
-msgstr "Avtomatska osvežitev"
+msgstr "Samodejno osveževanje:"
 
 #: plugins/WebUi/scripts/template_strings.py:8
 msgid "Ava"
-msgstr ""
+msgstr "Pov"
 
 #: plugins/WebUi/scripts/template_strings.py:10
 msgid "Config"
@@ -2458,7 +2466,7 @@ msgstr "FlexRSS"
 
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
-msgstr "Vsebina se bo povrnila avtomatsko, glede na interval posodobitve."
+msgstr "Vir se bo, glede na interval posodobitve, povrnil samodejno."
 
 #: plugins/FlexRSS/FlexRSS.glade:115
 msgid "Feed must be refreshed manually."
@@ -2584,7 +2592,7 @@ msgstr "Privzeto Deluge"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
-msgstr "Vsebina bo avtomatsko shranjena v določen direktorij."
+msgstr "Vsebina bo samodejno shranjena v izbrano mapo."
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"

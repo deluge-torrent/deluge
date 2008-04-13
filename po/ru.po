@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-17 06:28+0000\n"
-"Last-Translator: Alexander Ilyashov <alexander.ilyashov@gmail.com>\n"
+"PO-Revision-Date: 2008-04-04 20:48+0000\n"
+"Last-Translator: Sabirov Mikhail <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-25 01:40+0000\n"
+"X-Launchpad-Export-Date: 2008-04-13 22:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
@@ -104,7 +104,7 @@ msgstr "Добавить торрент-файл"
 #: glade/delugegtk.glade:208
 #, fuzzy
 msgid "Add _URL"
-msgstr "Добавить ссылку"
+msgstr "Добавить _ссылку"
 
 #: glade/delugegtk.glade:216
 msgid "_Clear Completed"
@@ -116,7 +116,7 @@ msgstr "_Редактировать"
 
 #: glade/delugegtk.glade:274
 msgid "Plu_gins"
-msgstr "_Модули"
+msgstr "Мод_ули"
 
 #: glade/delugegtk.glade:302
 msgid "_Torrent"
@@ -189,18 +189,16 @@ msgid "_Help"
 msgstr "Справка"
 
 #: glade/delugegtk.glade:440
-#, fuzzy
 msgid "_Homepage"
-msgstr "Домашняя страница"
+msgstr "_Домашная страница"
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
-msgstr "ЧАВО"
+msgstr "_ЧаВо"
 
 #: glade/delugegtk.glade:474
-#, fuzzy
 msgid "_Community"
-msgstr "Сообщество"
+msgstr "_Сообщество"
 
 #: glade/delugegtk.glade:497
 msgid "Help translate this application"
@@ -208,7 +206,7 @@ msgstr "Помогите перевести эту программу"
 
 #: glade/delugegtk.glade:498
 msgid "_Translate This Application..."
-msgstr "Перевести эту программу..."
+msgstr "_Перевести это приложение..."
 
 #: glade/delugegtk.glade:521
 msgid "Runs the first-time configuration wizard"
@@ -217,7 +215,7 @@ msgstr "Запустить мастер первоначальной настр�
 #: glade/delugegtk.glade:522
 #, fuzzy
 msgid "_Run Configuration Wizard"
-msgstr "Мастер настройки"
+msgstr "_Запустить мастер настройки"
 
 #: glade/delugegtk.glade:659
 msgid "<b>Name:</b>"
@@ -279,16 +277,15 @@ msgstr "<b>Пиры:</b>"
 #: glade/delugegtk.glade:1208
 #, fuzzy
 msgid "<b>ETA:</b>"
-msgstr "Осталось времени"
+msgstr "<b>Осталось времени:</b>"
 
 #: glade/delugegtk.glade:1225
 msgid "<b>Pieces:</b>"
 msgstr "<b>Частей:</b>"
 
 #: glade/delugegtk.glade:1263
-#, fuzzy
 msgid "<b>Availability:</b>"
-msgstr "Доступно"
+msgstr "<b>Доступно:</b>"
 
 #: glade/delugegtk.glade:1304
 msgid "<b>Statistics</b>"
@@ -336,9 +333,8 @@ msgid "Name:"
 msgstr "Название:"
 
 #: glade/searchdlg.glade:91 plugins/WebSeed/webseed.glade:29
-#, fuzzy
 msgid "URL:"
-msgstr "URL-адрес:"
+msgstr "Адрес(URL):"
 
 #: glade/searchdlg.glade:123
 msgid ""
@@ -376,7 +372,7 @@ msgstr "Удалить загруженные файлы"
 
 #: glade/dgtkpopups.glade:88 plugins/WebUi/scripts/template_strings.py:13
 msgid "Delete .torrent file"
-msgstr "удалить торрент-файл"
+msgstr "Удалить торрент"
 
 #: glade/dgtkpopups.glade:155
 msgid "Show/Hide"
@@ -392,7 +388,7 @@ msgstr "Удалить завершённые"
 
 #: glade/file_tab_menu.glade:11
 msgid "_Open File"
-msgstr "Открыть файл"
+msgstr "_Открыть файл"
 
 #: glade/file_tab_menu.glade:33
 msgid "Select All"
@@ -431,7 +427,6 @@ msgstr ""
 "Этот торрент-файл уже был добавлен в программу. Хотите ли вы обновить его?"
 
 #: glade/preferences_dialog.glade:9
-#, fuzzy
 msgid "Deluge Preferences"
 msgstr "Настройки программы"
 

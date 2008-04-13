@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: Michał Kaliszka <desmont@gmail.com>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-22 18:30+0000\n"
-"Last-Translator: Marek Dębowski <Unknown>\n"
+"PO-Revision-Date: 2008-03-29 15:55+0000\n"
+"Last-Translator: Przemysław Kulczycki <przemekkulczycki@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
+"X-Launchpad-Export-Date: 2008-04-13 22:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -646,7 +646,6 @@ msgid "Automatically clear torrents that reach the max share ratio"
 msgstr "Automatycznie czyść torrenty, które osiągną maksymalne ratio"
 
 #: glade/preferences_dialog.glade:1105
-#, fuzzy
 msgid "<b>Seeding</b>"
 msgstr "<b>Rozsiewanie</b>"
 
@@ -1565,16 +1564,14 @@ msgid "Couldn't download URL"
 msgstr "Nie można pobrać adresu URL"
 
 #: plugins/BlocklistImport/__init__.py:106
-#, fuzzy
 msgid "Couldn't open blocklist file"
-msgstr "Nie moge otworzyć pliku z czarną listą"
+msgstr "Nie można otworzyć pliku z czarną listą"
 
 #: plugins/BlocklistImport/__init__.py:114 plugins/BlocklistImport/text.py:37
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
 #: plugins/BlocklistImport/text.py:99
-#, fuzzy
 msgid "Wrong file type or corrupted blocklist file."
-msgstr "Nieprawidłowy typ pliku lub zepsuty plik czarnej listy."
+msgstr "Nieprawidłowy typ pliku lub uszkodzony plik czarnej listy."
 
 #: plugins/BlocklistImport/__init__.py:122
 msgid "Imported"
@@ -1593,7 +1590,6 @@ msgid "entries"
 msgstr "wpisy"
 
 #: plugins/BlocklistImport/ui.py:25
-#, fuzzy
 msgid "Blocklist URL"
 msgstr "URL czarnej listy"
 
@@ -1602,7 +1598,6 @@ msgid "Download on start"
 msgstr "Pobieraj przy uruchomieniu"
 
 #: plugins/BlocklistImport/ui.py:108
-#, fuzzy
 msgid "Loading and installing blocklist"
 msgstr "Ładowanie i instalacja czarnej listy"
 
@@ -1656,20 +1651,18 @@ msgid "Not Set"
 msgstr "Nie ustawiono"
 
 #: plugins/DesiredRatio/__init__.py:119
-#, fuzzy
 msgid "Desired Ratio"
 msgstr "Żądane ratio"
 
 #: plugins/TorrentPeers/__init__.py:34
-#, fuzzy
 msgid ""
 "\n"
 "This shows you the peers associated with each torrent and shows you their "
 "ip, country, client, percent complete and upload and download speeds.\n"
 msgstr ""
 "\n"
-"Pokazuje klientów ściągających dany torrent, informuje o ich IP, kraju, "
-"wersji klienta, kompletności pliu, prędkości ściągania.\n"
+"Pokazuje klientów ściągających dany torrent, pokazuje ich IP, kraj, wersję "
+"klienta, kompletność pliku oraz prędkość ściągania i wysyłania.\n"
 
 #: plugins/TorrentPeers/tab_peers.py:84
 msgid "IP Address"
@@ -2035,9 +2028,8 @@ msgid "piece index: "
 msgstr "numer części: "
 
 #: plugins/EventLogging/tab_log.py:152
-#, fuzzy
 msgid "status code: "
-msgstr "kod statusu "
+msgstr "kod statusu: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "Times in a row: "
@@ -2052,9 +2044,8 @@ msgid "peer speed: "
 msgstr "prędkość pobierającego "
 
 #: plugins/SpeedLimiter/__init__.py:20
-#, fuzzy
 msgid "Set the desired speed limit per torrent."
-msgstr "Ustaw żądany limit prękości na torrent"
+msgstr "Ustaw żądany limit prędkości na torrent"
 
 #: plugins/SpeedLimiter/__init__.py:81
 msgid "Torrent _Download Speed"
@@ -2172,7 +2163,6 @@ msgstr "Zakończone torrenty"
 
 #: plugins/ExtraStats/__init__.py:206
 #: plugins/ExtraStats/stats_preferences.glade:80
-#, fuzzy
 msgid "Running Time"
 msgstr "Czas pracy"
 

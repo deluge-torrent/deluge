@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-23 18:43+0000\n"
-"Last-Translator: Cédric.h <cedhuf@gmail.com>\n"
+"PO-Revision-Date: 2008-04-10 08:16+0000\n"
+"Last-Translator: Vincent Garibal <vincent.garibal@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
+"X-Launchpad-Export-Date: 2008-04-13 22:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -26,7 +26,7 @@ msgstr "Ajouter"
 
 #: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
-msgstr "Supprimer Torrent"
+msgstr "Supprimer le torrent"
 
 #: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:43
 msgid "Remove"
@@ -34,7 +34,7 @@ msgstr "Supprimer"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
-msgstr "Nettoyer Torrents en Source"
+msgstr "Nettoyer les torrents en source"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
@@ -50,7 +50,7 @@ msgstr "Reprendre"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
-msgstr "Mettre en Pause Torrent"
+msgstr "Mettre en pause le torrent"
 
 #: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
 msgid "Pause"
@@ -83,7 +83,7 @@ msgstr "Préférences"
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:209
 #: glade/preferences_dialog.glade:2982
 msgid "Plugins"
-msgstr "Modules"
+msgstr "Greffons"
 
 #: glade/delugegtk.glade:186
 msgid "_File"
@@ -2490,7 +2490,7 @@ msgstr "FlexRSS"
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
 msgstr ""
-"Les flux seront relevés automatiquement, suivant l'intervalle de mise à jour."
+"Les flux seront relevés automatiquement, selon l'intervalle de mise à jour."
 
 #: plugins/FlexRSS/FlexRSS.glade:115
 msgid "Feed must be refreshed manually."
@@ -2617,7 +2617,7 @@ msgstr "Paramètres par défaut de Deluge"
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
 msgstr ""
-"Le contenu sera automatiquement téléchargédans le répertoire spécifié."
+"Le contenu sera automatiquement téléchargé dans le répertoire spécifié."
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"

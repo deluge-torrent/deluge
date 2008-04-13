@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2007-12-29 16:00-0600\n"
-"PO-Revision-Date: 2008-03-11 23:32+0000\n"
-"Last-Translator: Spyros Theodoritsis <madmetal75@gmail.com>\n"
+"PO-Revision-Date: 2008-03-30 10:51+0000\n"
+"Last-Translator: Dialecti Valsamou <Unknown>\n"
 "Language-Team: Greek, Modern (1453-) <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-03-25 01:41+0000\n"
+"X-Launchpad-Export-Date: 2008-04-13 22:52+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -182,7 +182,7 @@ msgstr "_Βοήθεια"
 
 #: glade/delugegtk.glade:440
 msgid "_Homepage"
-msgstr ""
+msgstr "_Αρχική Σελίδα"
 
 #: glade/delugegtk.glade:457
 msgid "_FAQ"
@@ -190,7 +190,7 @@ msgstr "_Συχνές ερωτήσεις"
 
 #: glade/delugegtk.glade:474
 msgid "_Community"
-msgstr ""
+msgstr "_Κοινότητα"
 
 #: glade/delugegtk.glade:497
 msgid "Help translate this application"
@@ -585,8 +585,9 @@ msgid "Peer Exchange"
 msgstr "Ανταλλαγή μεταξύ υπολογιστών"
 
 #: glade/preferences_dialog.glade:799
+#, fuzzy
 msgid "Local Peer Discovery"
-msgstr ""
+msgstr "Ανακάλυψη τοπικών ομοτίμων"
 
 #: glade/preferences_dialog.glade:814
 msgid "<b>Network Extras</b>"
@@ -901,28 +902,32 @@ msgid "<b>Desktop File Manager</b> - only for non-Windows platforms"
 msgstr "<b>Διαχειριστής αρχείων</b> - μόνο σε πλατφόρμες εκτός Windows"
 
 #: glade/preferences_dialog.glade:2649
+#, fuzzy
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
 msgstr ""
+"Χρήση της προηγμένης μπάρας προόδου (χρησιμοποιείται ελαφρώς περισσότερη "
+"επεξεργαστική ισχύς και μνήμη)"
 
 #: glade/preferences_dialog.glade:2660
 msgid "<b>Detailed Progress Bar</b>"
 msgstr "<b>Λεπτομερής μπάρα προόδου</b>"
 
 #: glade/preferences_dialog.glade:2690
+#, fuzzy
 msgid "Use and show the anonymizing internal browser"
-msgstr ""
+msgstr "Χρήση και προβολή του εσωτερικού φυλλομετρητή ανωνυμίας"
 
 #: glade/preferences_dialog.glade:2701
 msgid "<b>Internal Browser</b>"
-msgstr ""
+msgstr "<b>Εσωτερικός Φυλλομετρητής</b>"
 
 #: glade/preferences_dialog.glade:2731
 msgid "Show the search bar on the toolbar"
-msgstr ""
+msgstr "Εμφάνιση της μπάρας αναζήτησης στην μπάρα εργαλείων"
 
 #: glade/preferences_dialog.glade:2742
 msgid "<b>Search Bar</b> - restart required"
-msgstr ""
+msgstr "<b>Μπάρα Αναζήτησης</b> - απαιτείται επανεκκίνηση"
 
 #: glade/preferences_dialog.glade:2776
 msgid ""
@@ -1031,11 +1036,11 @@ msgstr "_Παύση Όλων"
 
 #: glade/tray_menu.glade:84
 msgid "_Download Speed Limit"
-msgstr ""
+msgstr "Όριο Ταχύτητας _Κατεβάσματος"
 
 #: glade/tray_menu.glade:100
 msgid "_Upload Speed Limit"
-msgstr ""
+msgstr "Όριο Ταχύτητας _Ανεβάσματος"
 
 #: glade/tray_menu.glade:122
 msgid "_Quit"
@@ -1189,7 +1194,7 @@ msgstr "Πρόγραμμα περιήγησης"
 
 #: src/interface.py:73
 msgid "Launch Browser"
-msgstr ""
+msgstr "Εκκίνηση Φυλλομετρητή"
 
 #: src/interface.py:251
 msgid ""
@@ -1197,6 +1202,9 @@ msgid ""
 "or try setting your LD_LIBRARY_PATH and MOZILLA_FIVE_HOME environment "
 "variables to /usr/lib/firefox"
 msgstr ""
+"Είναι αδύνατο να εντοπιστή ο φυλλομετρητής. Βεβαιωθείτε ότι έχετε "
+"εγκαταστήσει το πακέτο python-gnome2-extras ή δοκιμάστε να θέσετε τις "
+"μεταβλητές  LD_LIBRARY_PATH και MOZILLA_FIVE_HOME στην τιμή /usr/lib/firefox"
 
 #: src/interface.py:311 src/interface.py:317 src/interface.py:398
 #: src/interface.py:426 plugins/SpeedLimiter/__init__.py:83
@@ -1330,6 +1338,8 @@ msgstr "Άγνωστο διπλότυπο λάθος torrent."
 #: src/interface.py:1453
 msgid "There is not enough freedisk space to complete your download."
 msgstr ""
+"Δεν υπάρχει αρκετός ελεύθερος χώρος στο δίσκο για να ολοκληρωθεί το "
+"κατέβασμα του αρχείου σας"
 
 #: src/interface.py:1454 src/core.py:569
 msgid "Space Needed:"
@@ -1356,6 +1366,7 @@ msgstr ""
 #: src/interface.py:1564
 msgid "Are you sure that you want to remove all seeding torrents?"
 msgstr ""
+"Είστε σίγουροι ότι θέλετε να αφαιρεθούν όλα τα torrents που διαμοιράζουν;"
 
 #: src/search.py:59
 msgid "Search String"
@@ -1603,8 +1614,9 @@ msgstr "Αδυναμία ανοίγματος του αρχείου μαύρης
 #: plugins/BlocklistImport/__init__.py:114 plugins/BlocklistImport/text.py:37
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
 #: plugins/BlocklistImport/text.py:99
+#, fuzzy
 msgid "Wrong file type or corrupted blocklist file."
-msgstr ""
+msgstr "Λάθος τύπος αρχείου ή κατεστραμμένο αρχείο blocklist"
 
 #: plugins/BlocklistImport/__init__.py:122
 msgid "Imported"
@@ -1651,6 +1663,8 @@ msgid ""
 "We were expecting a gzip file, but didn't get that, or possibly the file is "
 "corrupt.  Please edit your Blocklist preferences"
 msgstr ""
+"Περιμέναμε ένα αρχείου gzip, αλλά δεν λάβαμε τέτοιο, ή πιθανώς το αρχείο "
+"είναι κατεστραμμένο. Παρακαλούμε διορθώστε τις επιλογές Blocklist σας."
 
 #: plugins/BlocklistImport/peerguardian.py:32
 #, fuzzy
@@ -1838,6 +1852,7 @@ msgstr "Επιλογές Ειδοποιήσεων Torrents"
 #: plugins/TorrentNotification/notification_preferences.glade:32
 msgid "Enable event sound (requires pygame, not available on Win32)"
 msgstr ""
+"Ενεργοποίηση ήχου συμβάντων (απαιτεί το pygame, μη διαθέσιμο σε Win32)"
 
 #: plugins/TorrentNotification/notification_preferences.glade:59
 msgid "Enable blinking tray icon"
@@ -1847,6 +1862,8 @@ msgstr "Ενεργοποίηση τρεμοπαίγματος εικονιδίο
 msgid ""
 "Enable popup notification (requires python-notify, not available on Win32)"
 msgstr ""
+"Ενεργοποίηση αναδυόμενης ειδοποίησης (απαιτεί python-notify, μη διαθέσιμο σε "
+"Win32)"
 
 #: plugins/TorrentNotification/__init__.py:22
 msgid ""
