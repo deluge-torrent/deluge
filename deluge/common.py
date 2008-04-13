@@ -47,7 +47,16 @@ LT_TORRENT_STATE = {
     "Finished": 5,
     "Seeding": 6,
     "Allocating": 7,
-    "Paused": 8
+    "Paused": 8,
+    0: "Queued",
+    1: "Checking",
+    2: "Connecting",
+    3: "Downloading Metadata",
+    4: "Downloading",
+    5: "Finished",
+    6: "Seeding",
+    7: "Allocating",
+    8: "Paused"
 }
 
 TORRENT_STATE = [

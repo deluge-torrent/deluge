@@ -72,17 +72,13 @@ class Torrent:
         # Status message holds error info about the torrent
         self.statusmsg = "OK"
         
+        # The torrents state
+        self.state = ""
+        
         # Holds status info so that we don't need to keep getting it from lt
         self.status = self.handle.status()
         self.torrent_info = self.handle.get_torrent_info()
-        
-        # Set the initial state
-        self.state = "Checking"
-        if self.handle.is_seed():
-            self.state = "Seeding"
-        else:
-            self.state = "Downloading"
-            
+
         # Various torrent options
         self.max_connections = -1
         self.max_upload_slots = -1
@@ -159,6 +155,21 @@ class Torrent:
                     
         self.file_priorities = file_priorities
         self.handle.prioritize_files(file_priorities)
+    
+    def set_state_based_on_ltstate(self):
+        """Updates the state based on what libtorrent's state for the torrent is"""
+        # Set the initial state based on the lt state
+        LTSTATE = deluge.common.LT_TORRENT_STATE
+        ltstate = self.handle.status().state
+        if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:
+            self.set_state("Checking")
+        elif ltstate == LTSTATE["Connecting"] or ltstate == LTSTATE["Downloading"] or\
+                    ltstate == LTSTATE["Downloading Metadata"]:
+            self.set_state("Downloading")
+        elif ltstate == LTSTATE["Finished"] or ltstate == LTSTATE["Seeding"]:
+            self.set_state("Seeding")
+        elif ltstate == LTSTATE["Allocating"]:
+            self.set_state("Allocating")
     
     def set_state(self, state):
         """Accepts state strings, ie, "Paused", "Seeding", etc."""
@@ -388,7 +399,7 @@ class Torrent:
             # Reset the status message just in case of resuming an Error'd torrent
             self.set_status_message("OK")
             
-            if self.handle.is_seed():
+            if self.handle.is_finished():
                 # If the torrent has already reached it's 'stop_seed_ratio' then do not do anything
                 if self.config["stop_seed_at_ratio"]:
                     if self.get_ratio() >= self.config["stop_seed_ratio"]:
@@ -416,17 +427,17 @@ class Torrent:
             except:
                 pass
             
-            if self.handle.is_seed():
+            if self.handle.is_finished():
                 self.state = "Seeding"
+            else:
                 # Only delete the .fastresume file if we're still downloading stuff
                 self.delete_fastresume()
-            else:
                 self.state = "Downloading"
 
             return True
 
         elif self.state == "Queued":
-            if self.handle.is_seed():
+            if self.handle.is_finished():
                 if self.torrentqueue.get_num_seeding() < self.config["max_active_seeding"] or\
                         self.config["max_active_seeding"] == -1:
                     self.handle.resume()
