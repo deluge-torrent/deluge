@@ -110,6 +110,9 @@ class Torrent:
         self.files = self.get_files()
         # Set the default file priorities to normal
         self.file_priorities = [1]* len(self.files)
+
+        # Set resolve_countries to True
+        self.handle.resolve_countries(True)
         
         log.debug("Torrent object created.")
         
@@ -344,6 +347,16 @@ class Torrent:
                     status_dict[key] = fns[key]()
 
         return status_dict
+
+    def apply_options(self):
+        """Applies the per-torrent options that are set."""
+        self.handle.set_max_connections(self.max_connections)
+        self.handle.set_max_uploads(self.max_upload_slots)
+        self.handle.set_upload_limit(int(self.max_upload_speed * 1024))
+        self.handle.set_download_limit(int(self.max_download_speed * 1024))
+        self.handle.get_torrent_info().set_priv(self.private)
+        self.handle.prioritize_files(self.file_priorities)
+        self.handle.resolve_countries(True)
         
     def pause(self):
         """Pause this torrent"""

@@ -285,10 +285,7 @@ class TorrentManager(component.Component):
             self.queue.insert(0, torrent.torrent_id)
         else:
             self.queue.insert(queue, torrent.torrent_id)
-        
-        # Set resolve_countries to True
-        handle.resolve_countries(True)
-                            
+
         # Set per-torrent options
         torrent.set_max_connections(options["max_connections_per_torrent"])
         torrent.set_max_upload_slots(options["max_upload_slots_per_torrent"])
@@ -454,6 +451,9 @@ class TorrentManager(component.Component):
         if not torrent.handle or not torrent.handle.is_valid():
             # The torrent was not added to the session
             return False       
+        
+        # Set all the per-torrent options
+        torrent.apply_options()
         
         # Set the state to Checking
         torrent.set_state("Checking")
