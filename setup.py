@@ -265,6 +265,8 @@ setup(
                                 "ui/webui/static/images/tango/*.png",
                                 "ui/webui/templates/deluge/*",
                                 "ui/webui/templates/advanced/*.html",
+                                "ui/webui/templates/advanced/*.css",
+                                "ui/webui/templates/advanced/*.cfg",
                                 "ui/webui/templates/advanced/static/*",
                                 "ui/webui/templates/white/*"
                                 ]},
