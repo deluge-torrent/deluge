@@ -304,7 +304,7 @@ class Manager:
                         except:
                             pass
                         else:
-                            if not torrent_state['is_seed']:
+                            if not torrent_state['is_finished']:
                                 try:
                                     os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
                                 except:
@@ -464,7 +464,7 @@ class Manager:
             for unique_ID in self.unique_IDs:
                 try:
                     state = deluge_core.get_torrent_state(unique_ID)
-                    if not state['is_seed'] and state['state'] != 0 and state['state'] != 1:
+                    if not state['is_finished'] and state['state'] != 0 and state['state'] != 1:
                         os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
                         deluge_core.save_fastresume(unique_ID, self.unique_IDs[unique_ID].filename)
                 except OSError:
@@ -624,7 +624,7 @@ class Manager:
                torrent_state['is_paused'] and not \
                self.is_user_paused(unique_ID):
                 # This torrent is a seed so skip all the free space checking
-                if torrent_state['is_seed']:
+                if torrent_state['is_finished']:
                     self.resume(unique_ID)
                     continue
                     
@@ -1055,7 +1055,7 @@ likely the tracker did not responsd in utf-8."
                 except:
                     pass
                 else:
-                    if not torrent_state['is_seed']:
+                    if not torrent_state['is_finished']:
                         try:
                             os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
                         except:

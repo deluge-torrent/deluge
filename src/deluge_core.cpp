@@ -1315,7 +1315,7 @@ std::cout << asctime(timeinfo) << " torrent_get_torrent_state()" << std::endl;
         PyTuple_SetItem(pieces_range, i/2, rangepos);   
     }
 
-    PyObject *ret = Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:b,s:f,s:L,s:L,s:s,s:s,s:f,s:L,s:L,s:O,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L}",
+    PyObject *ret = Py_BuildValue("{s:s,s:i,s:i,s:l,s:l,s:f,s:f,s:b,s:f,s:L,s:L,s:s,s:s,s:f,s:L,s:L,s:O,s:i,s:i,s:L,s:L,s:i,s:l,s:l,s:b,s:b,s:L,s:L,s:L,s:b}",
         "name",               t.handle.get_torrent_info().name().c_str(),
         "num_files",          t.handle.get_torrent_info().num_files(),
         "state",              s.state,
@@ -1344,7 +1344,8 @@ std::cout << asctime(timeinfo) << " torrent_get_torrent_state()" << std::endl;
         "is_seed",            t.handle.is_seed(),
         "total_done",          s.total_done,
         "total_wanted",       s.total_wanted,
-        "total_wanted_done",  s.total_wanted_done);
+        "total_wanted_done",  s.total_wanted_done,
+        "is_finished",            t.handle.is_finished());
         
         Py_DECREF(pieces_range);
         return ret;
