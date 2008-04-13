@@ -1,3 +1,9 @@
+Deluge 0.5.8.9 (14 April 2008)
+  * Fix segfault caused in 0.5.8.8 when adding torrents
+  * Change fast resume to use is_finished
+  * LT - Fix private flag
+  * LT - Verify url before connection to web seed
+
 Deluge 0.5.8.8 (08 April 2008)
   * Fix ubuntu hardy bug sine they've renamed and broken up the packages.
   * Fix ratio (again)
