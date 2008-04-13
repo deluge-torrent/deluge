@@ -147,6 +147,16 @@ class Torrent:
         self.save_path = save_path
     
     def set_file_priorities(self, file_priorities):
+        log.debug("setting %s's file priorities: %s", self.torrent_id, file_priorities)
+        if 0 in self.file_priorities:
+            # We have previously marked a file 'Do Not Download'
+            # Check to see if we have changed any 0's to >0 and change state accordingly
+            for index, priority in enumerate(self.file_priorities):
+                if priority == 0 and file_priorities[index] > 0:
+                    # We have a changed 'Do Not Download' to a download priority
+                    self.set_state("Downloading")
+                    break
+                    
         self.file_priorities = file_priorities
         self.handle.prioritize_files(file_priorities)
     
