@@ -259,6 +259,7 @@ setup(
                                 "ui/webui/scripts/*",
                                 "ui/webui/ssl/*",
                                 "ui/webui/static/*.css",
+                                "ui/webui/static/*.js",
                                 "ui/webui/static/images/*.png",
                                 "ui/webui/static/images/*.jpg",
                                 "ui/webui/static/images/*.gif",
