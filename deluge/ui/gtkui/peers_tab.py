@@ -35,6 +35,7 @@ import gtk, gtk.glade
 import os.path
 import cPickle
 import pkg_resources
+import gobject
 from itertools import izip
 
 from deluge.ui.client import aclient as client
@@ -57,7 +58,7 @@ class PeersTab:
         glade = component.get("MainWindow").get_glade()
         self.listview = glade.get_widget("peers_listview")
         # country pixbuf, ip, client, downspeed, upspeed, country code, int_ip, seed/peer icon
-        self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str, int, gtk.gdk.Pixbuf)
+        self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str, gobject.TYPE_UINT, gtk.gdk.Pixbuf)
         self.cached_flag_pixbufs = {}
         
         self.seed_pixbuf = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("seeding16.png"))
