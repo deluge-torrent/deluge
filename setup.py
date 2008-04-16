@@ -83,6 +83,7 @@ _extra_compile_args = [
     "-DTORRENT_USE_OPENSSL=1",
     "-DHAVE_SSL=1",
     "-O2",
+    "-D_FILE_OFFSET_BITS=64",
     "-DNDEBUG"
     ]
 
@@ -96,7 +97,6 @@ if windows_check():
         "-DWIN32",
         "-DUNICODE",
         "-DBOOST_ALL_NO_LIB",
-        "-D_FILE_OFFSET_BITS=64",
         "-DBOOST_THREAD_USE_LIB",
         "-DTORRENT_BUILDING_SHARED",
         "-DTORRENT_LINKING_SHARED",
