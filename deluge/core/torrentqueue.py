@@ -65,7 +65,7 @@ class TorrentQueue(component.Component):
         stop_ratio = self.config["stop_seed_ratio"]
 
         for torrent_id in self.torrents.get_torrent_list():
-            if self.torrents[torrent_id].handle.is_seed():
+            if self.torrents[torrent_id].handle.is_finished():
                 if self.torrents[torrent_id].get_ratio() >= stop_ratio:
                     # This torrent is at or exceeding the stop ratio so we need to
                     # pause or remove it from the session.
@@ -94,7 +94,7 @@ class TorrentQueue(component.Component):
             elif self.torrents[torrent_id].state == "Downloading":
                 self.downloading.append((self.queue.index(torrent_id), torrent_id))
             elif self.torrents[torrent_id].state == "Queued":
-                if self.torrents[torrent_id].handle.is_seed():
+                if self.torrents[torrent_id].handle.is_finished():
                     self.queued_seeding.append((self.queue.index(torrent_id), torrent_id))
                 else:
                     self.queued_downloading.append((self.queue.index(torrent_id), torrent_id))
@@ -105,10 +105,10 @@ class TorrentQueue(component.Component):
         self.queued_downloading.sort()
         self.queued_seeding.sort()
         
-#        log.debug("total seeding: %s", len(self.seeding))
-#        log.debug("total downloading: %s", len(self.downloading))
-#        log.debug("queued seeding: %s", len(self.queued_seeding))
-#        log.debug("queued downloading: %s", len(self.queued_downloading))
+        #log.debug("total seeding: %s", len(self.seeding))
+        #log.debug("total downloading: %s", len(self.downloading))
+        #log.debug("queued seeding: %s", len(self.queued_seeding))
+        #log.debug("queued downloading: %s", len(self.queued_downloading))
 
     def update_order(self):
         # This will queue/resume torrents if the queueing order changes
@@ -118,6 +118,9 @@ class TorrentQueue(component.Component):
         #    log.debug("min(queued_seeding): %s", min(self.queued_seeding)[0])
         #except:
         #    pass
+
+        #log.debug("queued seeding: %s", self.queued_seeding)
+        #log.debug("queued downloading: %s", self.queued_downloading)
         
         if self.seeding != [] and self.queued_seeding != []:
             if min(self.queued_seeding)[0] < max(self.seeding)[0]:
@@ -137,6 +140,7 @@ class TorrentQueue(component.Component):
         
     def update_max_active(self):
         if self.config["max_active_seeding"] > -1:
+            log.debug("max_active_seeding: %s", self.config["max_active_seeding"])
             if len(self.seeding) > self.config["max_active_seeding"]:
                 # We need to queue some more torrents because we're over the active limit
                 num_to_queue = len(self.seeding) - self.config["max_active_seeding"]

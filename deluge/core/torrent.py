@@ -160,16 +160,19 @@ class Torrent:
         """Updates the state based on what libtorrent's state for the torrent is"""
         # Set the initial state based on the lt state
         LTSTATE = deluge.common.LT_TORRENT_STATE
-        ltstate = self.handle.status().state
+        ltstate = int(self.handle.status().state)
+        
+        log.debug("set_state_based_on_ltstate: %s", ltstate)
+        
         if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:
-            self.set_state("Checking")
+            self.state = "Checking"
         elif ltstate == LTSTATE["Connecting"] or ltstate == LTSTATE["Downloading"] or\
                     ltstate == LTSTATE["Downloading Metadata"]:
-            self.set_state("Downloading")
+            self.state = "Downloading"
         elif ltstate == LTSTATE["Finished"] or ltstate == LTSTATE["Seeding"]:
-            self.set_state("Seeding")
+            self.state = "Seeding"
         elif ltstate == LTSTATE["Allocating"]:
-            self.set_state("Allocating")
+            self.state = "Allocating"
     
     def set_state(self, state):
         """Accepts state strings, ie, "Paused", "Seeding", etc."""
@@ -183,6 +186,7 @@ class Torrent:
                 component.get("TorrentManager").append_not_state_paused(self.torrent_id)
                 self.handle.pause()
 
+            log.debug("Setting %s's state to %s", self.torrent_id, state)
             self.state = state
 
             # Update the torrentqueue on any state changes
@@ -276,7 +280,7 @@ class Torrent:
                     country += " "
                 else:
                     country += c
-
+            
             ret.append({
                 "ip": "%s:%s" % (peer.ip[0], peer.ip[1]),
                 "up_speed": peer.up_speed,
@@ -428,11 +432,11 @@ class Torrent:
                 pass
             
             if self.handle.is_finished():
-                self.state = "Seeding"
+                self.set_state("Seeding")
             else:
                 # Only delete the .fastresume file if we're still downloading stuff
                 self.delete_fastresume()
-                self.state = "Downloading"
+                self.set_state("Downloading")
 
             return True
 

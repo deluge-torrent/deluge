@@ -153,12 +153,14 @@ else:
         'boost_date_time',
         'boost_thread',
         'boost_python',
+        'boost_iostreams',
         'pthread',
         'ssl',
         'z'
         ]
     
 _sources = glob.glob("./libtorrent/src/*.cpp") + \
+                        glob.glob("./libtorrent/src/*.c") + \
                         glob.glob("./libtorrent/src/kademlia/*.cpp") + \
                         glob.glob("./libtorrent/bindings/python/src/*.cpp")
 

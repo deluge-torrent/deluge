@@ -71,9 +71,6 @@ namespace libtorrent
 	struct timeout_handler;
 	struct tracker_connection;
 
-	// encodes a string using the base64 scheme
-	TORRENT_EXPORT std::string base64encode(const std::string& s);
-
 	// returns -1 if gzip header is invalid or the header size in bytes
 	TORRENT_EXPORT int gzip_header(const char* buf, int size);
 
@@ -129,7 +126,8 @@ namespace libtorrent
 			, std::vector<peer_entry>& peers
 			, int interval
 			, int complete
-			, int incomplete) = 0;
+			, int incomplete
+			, address const& external_ip) = 0;
 		virtual void tracker_request_timed_out(
 			tracker_request const&) = 0;
 		virtual void tracker_request_error(
@@ -139,24 +137,18 @@ namespace libtorrent
 
 		tcp::endpoint m_tracker_address;
 
-#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+#if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_LOGGING || defined TORRENT_ERROR_LOGGING
 		virtual void debug_log(const std::string& line) = 0;
 #endif
 	private:
 		tracker_manager* m_manager;
 	};
 
-	TORRENT_EXPORT bool inflate_gzip(
-		std::vector<char>& buffer
-		, tracker_request const& req
-		, request_callback* requester
-		, int maximum_tracker_response_length);
-
 	struct TORRENT_EXPORT timeout_handler
 		: intrusive_ptr_base<timeout_handler>
 		, boost::noncopyable
 	{
-		timeout_handler(asio::strand& str);
+		timeout_handler(io_service& str);
 
 		void set_timeout(int completion_timeout, int read_timeout);
 		void restart_read_timeout();
@@ -172,7 +164,6 @@ namespace libtorrent
 		boost::intrusive_ptr<timeout_handler> self()
 		{ return boost::intrusive_ptr<timeout_handler>(this); }
 
-		asio::strand& m_strand;
 		// used for timeouts
 		// this is set when the request has been sent
 		ptime m_start_time;
@@ -194,7 +185,7 @@ namespace libtorrent
 	{
 		tracker_connection(tracker_manager& man
 			, tracker_request const& req
-			, asio::strand& str
+			, io_service& ios
 			, address bind_interface
 			, boost::weak_ptr<request_callback> r);
 
@@ -226,7 +217,7 @@ namespace libtorrent
 	  		, m_abort(false) {}
 
 		void queue_request(
-			asio::strand& str
+			io_service& ios
 			, connection_queue& cc
 			, tracker_request r
 			, std::string const& auth

@@ -102,6 +102,8 @@ namespace libtorrent
 			, boost::shared_ptr<socket_type> s
 			, policy::peer* peerinfo);
 
+		void start();
+
 		~bt_peer_connection();
 		
 #ifndef TORRENT_DISABLE_ENCRYPTION
@@ -208,7 +210,7 @@ namespace libtorrent
 		void write_cancel(peer_request const& r);
 		void write_bitfield(std::vector<bool> const& bitfield);
 		void write_have(int index);
-		void write_piece(peer_request const& r, char* buffer);
+		void write_piece(peer_request const& r, disk_buffer_holder& buffer);
 		void write_handshake();
 #ifndef TORRENT_DISABLE_EXTENSIONS
 		void write_extensions();
@@ -267,6 +269,8 @@ namespace libtorrent
 		// initializes m_RC4_handler
 		void init_pe_RC4_handler(char const* secret, sha1_hash const& stream_key);
 
+public:
+
 		// these functions encrypt the send buffer if m_rc4_encrypted
 		// is true, otherwise it passes the call to the
 		// peer_connection functions of the same names
@@ -282,6 +286,8 @@ namespace libtorrent
 			peer_connection::append_send_buffer(buffer, size, destructor);
 		}
 		void setup_send();
+
+private:
 
 		// Returns offset at which bytestream (src, src + src_size)
 		// matches bytestream(target, target + target_size).

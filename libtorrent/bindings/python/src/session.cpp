@@ -106,6 +106,32 @@ namespace
     return s.add_torrent(ti, save, resume, storage_mode, paused, default_storage_constructor);
   }
   
+  void start_natpmp(session& s)
+  {
+      allow_threading_guard guard;
+      s.start_natpmp();
+      return;
+  }
+
+  void start_upnp(session& s)
+  {
+      allow_threading_guard guard;
+      s.start_upnp();
+      return;
+  }
+#ifndef TORRENT_DISABLE_GEO_IP
+  bool load_asnum_db(session& s, std::string file)
+  {
+      allow_threading_guard guard;
+      return s.load_asnum_db(file.c_str());
+  }
+
+  bool load_country_db(session& s, std::string file)
+  {
+      allow_threading_guard guard;
+      return s.load_country_db(file.c_str());
+  }
+#endif
 } // namespace unnamed
 
 void bind_session()
@@ -250,6 +276,12 @@ void bind_session()
         .def("set_pe_settings", allow_threads(&session::set_pe_settings), session_set_pe_settings_doc)
         .def("get_pe_settings", allow_threads(&session::get_pe_settings), return_value_policy<copy_const_reference>())
 #endif
+#ifndef TORRENT_DISABLE_GEO_IP
+        .def("load_asnum_db", &load_asnum_db)
+        .def("load_country_db", &load_country_db)
+#endif
+        .def("load_state", allow_threads(&session::load_state))
+        .def("state", allow_threads(&session::state))
         .def(
             "set_severity_level", allow_threads(&session::set_severity_level)
           , session_set_severity_level_doc
@@ -259,11 +291,11 @@ void bind_session()
         .def("set_peer_proxy", allow_threads(&session::set_peer_proxy))
         .def("set_tracker_proxy", allow_threads(&session::set_tracker_proxy))
         .def("set_web_seed_proxy", allow_threads(&session::set_web_seed_proxy))
-        .def("start_upnp", allow_threads(&session::start_upnp), session_start_upnp_doc)
+        .def("start_upnp", &start_upnp, session_start_upnp_doc)
         .def("stop_upnp", allow_threads(&session::stop_upnp), session_stop_upnp_doc)
         .def("start_lsd", allow_threads(&session::start_lsd), session_start_lsd_doc)
         .def("stop_lsd", allow_threads(&session::stop_lsd), session_stop_lsd_doc)
-        .def("start_natpmp", allow_threads(&session::start_natpmp), session_start_natpmp_doc)
+        .def("start_natpmp", &start_natpmp, session_start_natpmp_doc)
         .def("stop_natpmp", allow_threads(&session::stop_natpmp), session_stop_natpmp_doc)
         .def("set_ip_filter", allow_threads(&session::set_ip_filter), session_set_ip_filter_doc)
         ;

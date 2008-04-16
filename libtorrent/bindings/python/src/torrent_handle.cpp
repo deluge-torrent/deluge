@@ -291,7 +291,7 @@ void bind_torrent_handle()
         .def("upload_limit", _(&torrent_handle::upload_limit))
         .def("set_download_limit", _(&torrent_handle::set_download_limit))
         .def("download_limit", _(&torrent_handle::download_limit))
-        .def("set_sequenced_download_threshold", _(&torrent_handle::set_sequenced_download_threshold))
+        .def("set_sequential_download", _(&torrent_handle::set_sequential_download))
         .def("set_peer_upload_limit", set_peer_upload_limit)
         .def("set_peer_download_limit", set_peer_download_limit)
         .def("connect_peer", connect_peer)
@@ -301,7 +301,7 @@ void bind_torrent_handle()
         .def("set_max_connections", _(&torrent_handle::set_max_connections))
         .def("set_tracker_login", _(&torrent_handle::set_tracker_login))
         .def("move_storage", _(&torrent_handle::move_storage))
-        .def("info_hash", _(&torrent_handle::info_hash), copy)
+        .def("info_hash", _(&torrent_handle::info_hash))
         ;
 }
 

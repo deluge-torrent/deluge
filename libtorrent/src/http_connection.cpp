@@ -31,6 +31,10 @@ POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "libtorrent/http_connection.hpp"
+#include "libtorrent/escape_string.hpp"
+#include "libtorrent/instantiate_connection.hpp"
+#include "libtorrent/gzip.hpp"
+#include "libtorrent/tracker_manager.hpp"
 
 #include <boost/bind.hpp>
 #include <boost/lexical_cast.hpp>
@@ -39,13 +43,14 @@ POSSIBILITY OF SUCH DAMAGE.
 
 using boost::bind;
 
-namespace libtorrent
-{
+namespace libtorrent {
 
-	enum { max_bottled_buffer = 1024 * 1024 };
+enum { max_bottled_buffer = 1024 * 1024 };
 
-void http_connection::get(std::string const& url, time_duration timeout
-	, int handle_redirects)
+
+void http_connection::get(std::string const& url, time_duration timeout, int prio
+	, proxy_settings const* ps, int handle_redirects, std::string const& user_agent
+	, address const& bind_addr)
 {
 	std::string protocol;
 	std::string auth;
@@ -53,37 +58,125 @@ void http_connection::get(std::string const& url, time_duration timeout
 	std::string path;
 	int port;
 	boost::tie(protocol, auth, hostname, port, path) = parse_url_components(url);
+
+	TORRENT_ASSERT(prio >= 0 && prio < 2);
+
+	bool ssl = false;
+	if (protocol == "https") ssl = true;
+#ifndef TORRENT_USE_OPENSSL
+	if (ssl)
+	{
+		callback(asio::error::socket_type_not_supported);
+		return;
+	}
+#endif
+	
 	std::stringstream headers;
-	headers << "GET " << path << " HTTP/1.0\r\n"
-		"Host:" << hostname <<
-		"\r\nConnection: close\r\n";
+	if (ps && (ps->type == proxy_settings::http
+		|| ps->type == proxy_settings::http_pw)
+		&& !ssl)
+	{
+		// if we're using an http proxy and not an ssl
+		// connection, just do a regular http proxy request
+		headers << "GET " << url << " HTTP/1.0\r\n";
+		if (ps->type == proxy_settings::http_pw)
+			headers << "Proxy-Authorization: Basic " << base64encode(
+				ps->username + ":" + ps->password) << "\r\n";
+		hostname = ps->hostname;
+		port = ps->port;
+		ps = 0;
+	}
+	else
+	{
+		headers << "GET " << path << " HTTP/1.0\r\n"
+			"Host:" << hostname << "\r\n";
+	}
+
 	if (!auth.empty())
 		headers << "Authorization: Basic " << base64encode(auth) << "\r\n";
-	headers << "\r\n";
+
+	if (!user_agent.empty())
+		headers << "User-Agent: " << user_agent << "\r\n";
+	
+	headers <<
+		"Connection: close\r\n"
+		"Accept-Encoding: gzip\r\n"
+		"\r\n";
+
 	sendbuffer = headers.str();
- 	start(hostname, boost::lexical_cast<std::string>(port), timeout, handle_redirects);
+	start(hostname, boost::lexical_cast<std::string>(port), timeout, prio
+		, ps, ssl, handle_redirects, bind_addr);
 }
 
 void http_connection::start(std::string const& hostname, std::string const& port
- 	, time_duration timeout, int handle_redirects)
+	, time_duration timeout, int prio, proxy_settings const* ps, bool ssl, int handle_redirects
+	, address const& bind_addr)
 {
- 	m_redirects = handle_redirects;
+	TORRENT_ASSERT(prio >= 0 && prio < 2);
+
+	m_redirects = handle_redirects;
+	if (ps) m_proxy = *ps;
+
 	m_timeout = timeout;
-	m_timer.expires_from_now(m_timeout);
+	asio::error_code ec;
+	m_timer.expires_from_now(m_timeout, ec);
 	m_timer.async_wait(bind(&http_connection::on_timeout
 		, boost::weak_ptr<http_connection>(shared_from_this()), _1));
 	m_called = false;
- 	m_parser.reset();
- 	m_recvbuffer.clear();
- 	m_read_pos = 0;
-	if (m_sock.is_open() && m_hostname == hostname && m_port == port)
+	m_parser.reset();
+	m_recvbuffer.clear();
+	m_read_pos = 0;
+	m_priority = prio;
+
+	if (ec)
+	{
+		callback(ec);
+		return;
+	}
+
+	if (m_sock.is_open() && m_hostname == hostname && m_port == port
+		&& m_ssl == ssl && m_bind_addr == bind_addr)
 	{
 		asio::async_write(m_sock, asio::buffer(sendbuffer)
 			, bind(&http_connection::on_write, shared_from_this(), _1));
 	}
 	else
 	{
-		m_sock.close();
+		m_ssl = ssl;
+		m_bind_addr = bind_addr;
+		asio::error_code ec;
+		m_sock.close(ec);
+
+#ifdef TORRENT_USE_OPENSSL
+		if (m_ssl)
+		{
+			m_sock.instantiate<ssl_stream<socket_type> >(m_resolver.get_io_service());
+			ssl_stream<socket_type>& s = m_sock.get<ssl_stream<socket_type> >();
+			bool ret = instantiate_connection(m_resolver.get_io_service(), m_proxy, s.next_layer());
+			TORRENT_ASSERT(ret);
+		}
+		else
+		{
+			m_sock.instantiate<socket_type>(m_resolver.get_io_service());
+			bool ret = instantiate_connection(m_resolver.get_io_service()
+				, m_proxy, m_sock.get<socket_type>());
+			TORRENT_ASSERT(ret);
+		}
+#else
+		bool ret = instantiate_connection(m_resolver.get_io_service(), m_proxy, m_sock);
+		TORRENT_ASSERT(ret);
+#endif
+		if (m_bind_addr != address_v4::any())
+		{
+			asio::error_code ec;
+			m_sock.bind(tcp::endpoint(m_bind_addr, 0), ec);
+			if (ec)
+			{
+				callback(ec);
+				return;
+			}
+		}
+
 		tcp::resolver::query query(hostname, port);
 		m_resolver.async_resolve(query, bind(&http_connection::on_resolve
 			, shared_from_this(), _1, _2));
@@ -119,16 +212,17 @@ void http_connection::on_timeout(boost::weak_ptr<http_connection> p
 	}
 
 	if (!c->m_sock.is_open()) return;
-
-	c->m_timer.expires_at(c->m_last_receive + c->m_timeout);
+	asio::error_code ec;
+	c->m_timer.expires_at(c->m_last_receive + c->m_timeout, ec);
 	c->m_timer.async_wait(bind(&http_connection::on_timeout, p, _1));
 }
 
 void http_connection::close()
 {
-	m_timer.cancel();
-	m_limiter_timer.cancel();
-	m_sock.close();
+	asio::error_code ec;
+	m_timer.cancel(ec);
+	m_limiter_timer.cancel(ec);
+	m_sock.close(ec);
 	m_hostname.clear();
 	m_port.clear();
 
@@ -139,7 +233,7 @@ void http_connection::close()
 }
 
 void http_connection::on_resolve(asio::error_code const& e
-		, tcp::resolver::iterator i)
+	, tcp::resolver::iterator i)
 {
 	if (e)
 	{
@@ -148,9 +242,24 @@ void http_connection::on_resolve(asio::error_code const& e
 		return;
 	}
 	TORRENT_ASSERT(i != tcp::resolver::iterator());
-	m_cc.enqueue(bind(&http_connection::connect, shared_from_this(), _1, *i)
+
+	// look for an address that has the same kind as the one
+	// we're binding to. To make sure a tracker get our
+	// correct listening address.
+	tcp::resolver::iterator target = i;
+	tcp::resolver::iterator end;
+	tcp::endpoint target_address = *i;
+	for (; target != end && target->endpoint().address().is_v4()
+		!= m_bind_addr.is_v4(); ++target);
+
+	if (target != end)
+	{
+		target_address = *target;
+	}
+	
+	m_cc.enqueue(bind(&http_connection::connect, shared_from_this(), _1, target_address)
 		, bind(&http_connection::on_connect_timeout, shared_from_this())
-		, m_timeout);
+		, m_timeout, m_priority);
 }
 
 void http_connection::connect(int ticket, tcp::endpoint target_address)
@@ -176,7 +285,7 @@ void http_connection::on_connect(asio::error_code const& e
 		m_sock.close();
 		m_cc.enqueue(bind(&http_connection::connect, shared_from_this(), _1, *i)
 			, bind(&http_connection::on_connect_timeout, shared_from_this())
-			, m_timeout);
+			, m_timeout, m_priority);
 	} 
 */	else
 	{ 
@@ -189,7 +298,25 @@ void http_connection::callback(asio::error_code const& e, char const* data, int 
 {
 	if (!m_bottled || !m_called)
 	{
+		std::vector<char> buf;
+		if (m_bottled && m_parser.finished())
+		{
+			std::string const& encoding = m_parser.header("content-encoding");
+			if (encoding == "gzip" || encoding == "x-gzip")
+			{
+				std::string error;
+				if (inflate_gzip(data, size, buf, max_bottled_buffer, error))
+				{
+					callback(asio::error::fault, data, size);
+					close();
+					return;
+				}
+				data = &buf[0];
+				size = int(buf.size());
+			}
+		}
 		m_called = true;
+		m_timer.cancel();
 		if (m_handler) m_handler(e, m_parser, data, size);
 	}
 }
@@ -262,15 +389,13 @@ void http_connection::on_read(asio::error_code const& e
 	{
 		libtorrent::buffer::const_interval rcv_buf(&m_recvbuffer[0]
 			, &m_recvbuffer[0] + m_read_pos);
-		try
+		bool error = false;
+		m_parser.incoming(rcv_buf, error);
+		if (error)
 		{
-			m_parser.incoming(rcv_buf);
-		}
-		catch (std::exception&)
-		{
-			m_timer.cancel();
-			m_handler(asio::error::fault, m_parser, 0, 0);
-			m_handler.clear();
+			// HTTP parse error
+			asio::error_code ec = asio::error::fault;
+			callback(ec, 0, 0);
 			return;
 		}
 
@@ -292,7 +417,7 @@ void http_connection::on_read(asio::error_code const& e
 
 				asio::error_code ec;
 				m_sock.close(ec);
-				get(url, m_timeout, m_redirects - 1);
+				get(url, m_timeout, m_priority, &m_proxy, m_redirects - 1);
 				return;
 			}
 	
@@ -309,7 +434,8 @@ void http_connection::on_read(asio::error_code const& e
 		}
 		else if (m_bottled && m_parser.finished())
 		{
-			m_timer.cancel();
+			asio::error_code ec;
+			m_timer.cancel(ec);
 			callback(e, m_parser.get_body().begin, m_parser.get_body().left());
 		}
 	}
@@ -373,8 +499,9 @@ void http_connection::on_assign_bandwidth(asio::error_code const& e)
 		, bind(&http_connection::on_read
 		, shared_from_this(), _1, _2));
 
+	asio::error_code ec;
 	m_limiter_timer_active = true;
-	m_limiter_timer.expires_from_now(milliseconds(250));
+	m_limiter_timer.expires_from_now(milliseconds(250), ec);
 	m_limiter_timer.async_wait(bind(&http_connection::on_assign_bandwidth
 		, shared_from_this(), _1));
 }
@@ -385,8 +512,9 @@ void http_connection::rate_limit(int limit)
 
 	if (!m_limiter_timer_active)
 	{
+		asio::error_code ec;
 		m_limiter_timer_active = true;
-		m_limiter_timer.expires_from_now(milliseconds(250));
+		m_limiter_timer.expires_from_now(milliseconds(250), ec);
 		m_limiter_timer.async_wait(bind(&http_connection::on_assign_bandwidth
 			, shared_from_this(), _1));
 	}

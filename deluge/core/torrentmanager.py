@@ -305,15 +305,15 @@ class TorrentManager(component.Component):
         
         # Resume the torrent if needed
         if state == "Queued":
-            torrent.set_state("Queued")
+            torrent.state = "Queued"
         elif state == "Paused" or state == "Error":
-            torrent.set_state("Paused")
+            torrent.state = "Paused"
         if state == None and not options["add_paused"]:
             torrent.handle.resume()
             # We set the state based on libtorrent's state
             torrent.set_state_based_on_ltstate()
         if state == None and options["add_paused"]:
-            torrent.set_state("Paused")
+            torrent.set_state = "Paused"
         
         # Emit the torrent_added signal
         self.signals.emit("torrent_added", torrent.torrent_id)

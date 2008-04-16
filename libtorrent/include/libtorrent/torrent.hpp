@@ -98,20 +98,19 @@ namespace libtorrent
 
 		torrent(
 			aux::session_impl& ses
-			, aux::checker_impl& checker
 			, boost::intrusive_ptr<torrent_info> tf
 			, fs::path const& save_path
 			, tcp::endpoint const& net_interface
 			, storage_mode_t m_storage_mode
 			, int block_size
 			, storage_constructor_type sc
-			, bool paused);
+			, bool paused
+			, entry const& resume_data);
 
 		// used with metadata-less torrents
 		// (the metadata is downloaded from the peers)
 		torrent(
 			aux::session_impl& ses
-			, aux::checker_impl& checker
 			, char const* tracker_url
 			, sha1_hash const& info_hash
 			, char const* name
@@ -120,7 +119,8 @@ namespace libtorrent
 			, storage_mode_t m_storage_mode
 			, int block_size
 			, storage_constructor_type sc
-			, bool paused);
+			, bool paused
+			, entry const& resume_data);
 
 		~torrent();
 
@@ -133,10 +133,21 @@ namespace libtorrent
 			, void* userdata);
 #endif
 
+#ifndef NDEBUG
+		bool has_peer(peer_connection* p) const
+		{ return m_connections.find(p) != m_connections.end(); }
+#endif
+
 		// this is called when the torrent has metadata.
 		// it will initialize the storage and the piece-picker
 		void init();
 
+		void on_resume_data_checked(int ret, disk_io_job const& j);
+		void on_piece_checked(int ret, disk_io_job const& j);
+		void files_checked();
+		void start_checking();
+
+		storage_mode_t storage_mode() const { return m_storage_mode; }
 		// this will flag the torrent as aborted. The main
 		// loop in session_impl will check for this state
 		// on all torrents once every second, and take
@@ -144,30 +155,18 @@ namespace libtorrent
 		void abort();
 		bool is_aborted() const { return m_abort; }
 
-		// returns true if this torrent is being allocated
-		// by the checker thread.
-		bool is_allocating() const;
-		
 		session_settings const& settings() const;
 		
 		aux::session_impl& session() { return m_ses; }
 		
-		void set_sequenced_download_threshold(int threshold);
+		void set_sequential_download(bool sd);
 	
-		bool verify_resume_data(entry& rd, std::string& error)
-		{ TORRENT_ASSERT(m_storage); return m_storage->verify_resume_data(rd, error); }
-
 		void second_tick(stat& accumulator, float tick_interval);
 
 		// debug purpose only
 		void print(std::ostream& os) const;
 
 		std::string name() const;
-
-		bool check_fastresume(aux::piece_checker_data&);
-		std::pair<bool, float> check_files();
-		void files_checked(std::vector<piece_picker::downloading_piece> const&
-			unfinished_pieces);
 
 		stat statistics() const { return m_stat; }
 		size_type bytes_left() const;
@@ -179,6 +178,7 @@ namespace libtorrent
 		void pause();
 		void resume();
 		bool is_paused() const { return m_paused; }
+		void save_resume_data();
 
 		void delete_files();
 
@@ -229,12 +229,12 @@ namespace libtorrent
 
 		void request_bandwidth(int channel
 			, boost::intrusive_ptr<peer_connection> const& p
-			, int priority);
+			, int max_block_size, int priority);
 
 		void perform_bandwidth_request(int channel
 			, boost::intrusive_ptr<peer_connection> const& p
 			, int block_size, int priority);
-
+		
 		void expire_bandwidth(int channel, int amount);
 		void assign_bandwidth(int channel, int amount, int blk);
 		
@@ -242,6 +242,8 @@ namespace libtorrent
 
 		int max_assignable_bandwidth(int channel) const
 		{ return m_bandwidth_limit[channel].max_assignable(); }
+
+		int bandwidth_queue_size(int channel) const;
 
 // --------------------------------------------
 		// PEER MANAGEMENT
@@ -268,7 +270,8 @@ namespace libtorrent
 		// used by peer_connection to attach itself to a torrent
 		// since incoming connections don't know what torrent
 		// they're a part of until they have received an info_hash.
-		void attach_peer(peer_connection* p);
+		// false means attach failed
+		bool attach_peer(peer_connection* p);
 
 		// this will remove the peer and make sure all
 		// the pieces it had have their reference counter
@@ -279,6 +282,7 @@ namespace libtorrent
 
 		bool want_more_peers() const;
 		bool try_connect_peer();
+		void give_connect_points(int points);
 
 		// the number of peers that belong to this torrent
 		int num_peers() const { return (int)m_connections.size(); }
@@ -295,6 +299,7 @@ namespace libtorrent
 
 		void resolve_peer_country(boost::intrusive_ptr<peer_connection> const& p) const;
 
+		void get_full_peer_list(std::vector<peer_list_entry>& v) const;
 		void get_peer_info(std::vector<peer_info>& v);
 		void get_download_queue(std::vector<partial_piece_info>& queue);
 
@@ -308,7 +313,7 @@ namespace libtorrent
 		virtual void tracker_response(
 			tracker_request const& r
 			, std::vector<peer_entry>& e, int interval
-			, int complete, int incomplete);
+			, int complete, int incomplete, address const& external_ip);
 		virtual void tracker_request_timed_out(
 			tracker_request const& r);
 		virtual void tracker_request_error(tracker_request const& r
@@ -364,8 +369,7 @@ namespace libtorrent
 
 		int num_pieces() const { return m_num_pieces; }
 
-		// when we get a have- or bitfield- messages, this is called for every
-		// piece a peer has gained.
+		// when we get a have message, this is called for that piece
 		void peer_has(int index)
 		{
 			if (m_picker.get())
@@ -382,6 +386,22 @@ namespace libtorrent
 #endif
 		}
 		
+		// when we get a bitfield message, this is called for that piece
+		void peer_has(std::vector<bool> const& bitfield)
+		{
+			if (m_picker.get())
+			{
+				TORRENT_ASSERT(!is_seed());
+				m_picker->inc_refcount(bitfield);
+			}
+#ifndef NDEBUG
+			else
+			{
+				TORRENT_ASSERT(is_seed());
+			}
+#endif
+		}
+
 		void peer_has_all()
 		{
 			if (m_picker.get())
@@ -397,7 +417,6 @@ namespace libtorrent
 #endif
 		}
 
-		// when peer disconnects, this is called for every piece it had
 		void peer_lost(int index)
 		{
 			if (m_picker.get())
@@ -450,12 +469,12 @@ namespace libtorrent
 		// completed() is called immediately after it.
 		void finished();
 
-		void async_verify_piece(int piece_index, boost::function<void(bool)> const&);
+		void async_verify_piece(int piece_index, boost::function<void(int)> const&);
 
 		// this is called from the peer_connection
 		// each time a piece has failed the hash
 		// test
-		void piece_finished(int index, bool passed_hash_check);
+		void piece_finished(int index, int passed_hash_check);
 		void piece_failed(int index);
 		void received_redundant_data(int num_bytes)
 		{ TORRENT_ASSERT(num_bytes > 0); m_total_redundant_bytes += num_bytes; }
@@ -496,10 +515,12 @@ namespace libtorrent
 
 		void replace_trackers(std::vector<announce_entry> const& urls);
 
-		torrent_handle get_handle() const;
+		torrent_handle get_handle();
+
+		void write_resume_data(entry& rd) const;
 
 		// LOGGING
-#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
+#if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_LOGGING || defined TORRENT_ERROR_LOGGING
 		virtual void debug_log(const std::string& line);
 #endif
 
@@ -536,7 +557,8 @@ namespace libtorrent
 		// bencoded tree and moves the torrent
 		// to the checker thread for initial checking
 		// of the storage.
-		void set_metadata(entry const&);
+		// a return value of false indicates an error
+		bool set_metadata(entry const& metadata, std::string& error);
 
 	private:
 
@@ -544,9 +566,10 @@ namespace libtorrent
 		void on_files_released(int ret, disk_io_job const& j);
 		void on_torrent_paused(int ret, disk_io_job const& j);
 		void on_storage_moved(int ret, disk_io_job const& j);
+		void on_save_resume_data(int ret, disk_io_job const& j);
 
 		void on_piece_verified(int ret, disk_io_job const& j
-			, boost::function<void(bool)> f);
+			, boost::function<void(int)> f);
 	
 		void try_next_tracker();
 		int prioritize_tracker(int tracker_index);
@@ -554,7 +577,7 @@ namespace libtorrent
 			, boost::intrusive_ptr<peer_connection> p) const;
 		bool request_bandwidth_from_session(int channel) const;
 
-		void update_peer_interest();
+		void update_peer_interest(bool was_finished);
 
 		boost::intrusive_ptr<torrent_info> m_torrent_file;
 
@@ -683,7 +706,6 @@ namespace libtorrent
 		// a back reference to the session
 		// this torrent belongs to.
 		aux::session_impl& m_ses;
-		aux::checker_impl& m_checker;
 
 		boost::scoped_ptr<piece_picker> m_picker;
 
@@ -717,7 +739,7 @@ namespace libtorrent
 		// in case the piece picker hasn't been constructed
 		// when this settings is set, this variable will keep
 		// its value until the piece picker is created
-		int m_sequenced_download_threshold;
+		bool m_sequential_download;
 
 		// is false by default and set to
 		// true when the first tracker reponse
@@ -745,6 +767,12 @@ namespace libtorrent
 
 		// determines the storage state for this torrent.
 		storage_mode_t m_storage_mode;
+
+		// the state of this torrent (queued, checking, downloading)
+		torrent_status::state_t m_state;
+		float m_progress;
+
+		entry m_resume_data;
 
 		// defaults to 16 kiB, but can be set by the user
 		// when creating the torrent
@@ -795,6 +823,19 @@ namespace libtorrent
 		// total_done - m_initial_done <= total_payload_download
 		size_type m_initial_done;
 #endif
+		// this is the deficit counter in the Deficit Round Robin
+		// used to determine which torrent gets the next
+		// connection attempt. See:
+		// http://www.ecs.umass.edu/ece/wolf/courses/ECE697J/papers/DRR.pdf
+		// The quanta assigned to each torrent depends on the torrents
+		// priority, whether it's seed and the number of connected
+		// peers it has. This has the effect that some torrents
+		// will have more connection attempts than other. Each
+		// connection attempt costs 100 points from the deficit
+		// counter. points are deducted in try_connect_peer and
+		// increased in give_connect_points. Outside of the
+		// torrent object, these points are called connect_points.
+		int m_deficit_counter;
 
 		policy m_policy;
 	};
