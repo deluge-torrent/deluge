@@ -252,6 +252,7 @@ class PeersTab:
                     self.liststore.set_value(row, 4, peer["up_speed"])
                 if peer["country"] != values[2]:
                     self.liststore.set_value(row, 5, peer["country"])
+                    self.liststore.set_value(row, 0, self.get_flag_pixbuf(peer["country"]))
                 if peer["seed"]:
                     icon = self.seed_pixbuf
                 else:
