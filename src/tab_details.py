@@ -154,13 +154,7 @@ class DetailsTabManager(object):
         self.total_downloaded.set_text('%s (%s)' % \
             (common.fsize(state["total_done"]),
              common.fsize(state["total_payload_download"])))
-        try:
-            self.total_uploaded.set_text('%s (%s)' % \
-            (common.fsize(self.manager.unique_IDs[unique_id].initial_uploaded_memory+\
-                          state["total_payload_upload"]),
-             common.fsize(state["total_payload_upload"])))
-        except AttributeError:
-            self.total_uploaded.set_text('%s (%s)' % \
+        self.total_uploaded.set_text('%s (%s)' % \
             (common.fsize(self.manager.unique_IDs[unique_id].uploaded_memory+\
                           state["total_payload_upload"]),
              common.fsize(state["total_payload_upload"])))            
