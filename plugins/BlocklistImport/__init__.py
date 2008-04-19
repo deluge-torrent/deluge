@@ -92,6 +92,8 @@ class BlocklistImport:
             list_timestamp = liststats.st_mtime
             now_timestamp = time.time()
             days_update = self.config.get('load_after_days')
+            if days_update == None:
+                 days_update = 0
 
             # Seconds in a day = 86400
             # Check to see if todays timestamp is older than the list plus days in config
