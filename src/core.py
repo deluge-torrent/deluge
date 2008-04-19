@@ -268,18 +268,18 @@ class Manager:
                                 'rb')
                 state = pickle.load(pkl_file)
                 pkl_file.close()
-                
+
                 if isinstance(state.torrents, list):
                     # One time convert of old torrents list to dict
                     state.torrents = dict((x, None) for x in state.torrents)
-                
+
                 fr_sorted = []
                 for torrent in state.torrents:
                     if os.path.exists(torrent.filename + ".fastresume"):
                         fr_sorted.insert(0, torrent)
                     else:
                         fr_sorted.append(torrent)
-                        
+                 
                 # Add torrents to core and unique_IDs
                 for torrent in fr_sorted:
                     if not os.path.exists(torrent.filename):
@@ -298,17 +298,6 @@ class Manager:
                         
                         # Apply per torrent prefs after torrent added to core
                         self.apply_prefs_per_torrent(unique_ID)
-                        #remove fastresume for non-seed
-                        try:
-                            torrent_state = self.get_core_torrent_state(unique_ID)
-                        except:
-                            pass
-                        else:
-                            if not torrent_state['is_finished']:
-                                try:
-                                    os.remove(self.unique_IDs[unique_ID].filename + ".fastresume")
-                                except:
-                                    pass
 
                 # Make sure the Queue is in the correct order and remove any
                 # entries that were not added to the session due to error.
@@ -357,17 +346,20 @@ class Manager:
 
     def pickle_state(self):
         print "save uploaded memory"
+        import copy
         state = persistent_state()
-        state.torrents = dict(self.state.torrents.iteritems())
-        state.queue = self.state.queue[:]
-        
-        for torrent in state.torrents:
-            uid = state.torrents[torrent]
+        state.queue = self.state.queue
+                
+        for torrent in self.state.torrents:
+            uid = self.state.torrents[torrent]
+            t = copy.copy(torrent)
             try:
-                torrent.uploaded_memory = self.unique_IDs[uid].uploaded_memory +\
-                    self.get_core_torrent_state(uid, False)['total_upload']
+                t.uploaded_memory = self.unique_IDs[uid].uploaded_memory +\
+                    self.get_core_torrent_state(uid, False)['total_payload_upload']
             except AttributeError:
-                torrent.uploaded_memory = 0
+                t.uploaded_memory = 0
+            state.torrents[t] = uid
+        
         # Pickle the state so if we experience a crash, the latest state is 
         # available
         print "Pickling state..."
@@ -746,11 +738,10 @@ Space:") + " " + nice_free)
                 self.save_fastresume_data(event['unique_ID'])
 
             if event['event_type'] is self.constants['EVENT_FINISHED']:
+                # save fast resume once torrent finishes so as to not recheck
+                # seed if client crashes
+                self.save_fastresume_data(event['unique_ID'])
                 if event['message'] == "torrent has finished downloading":
-
-                    # save fast resume once torrent finishes so as to not recheck
-                    # seed if client crashes
-                    self.save_fastresume_data(event['unique_ID'])
                     self.unique_IDs[event['unique_ID']].seed_time = time.time()
                     # Queue seeding torrent to bottom if needed
                     if self.get_pref('queue_seeds_to_bottom'):
