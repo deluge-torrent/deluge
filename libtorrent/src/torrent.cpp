@@ -206,6 +206,10 @@ namespace libtorrent
 		, m_max_connections((std::numeric_limits<int>::max)())
 		, m_deficit_counter(0)
 		, m_policy(this)
+		, m_active_time(seconds(0))
+		, m_seeding_time(seconds(0))
+		, m_total_uploaded(0)
+		, m_total_downloaded(0)
 	{
 #ifndef NDEBUG
 		m_files_checked = false;
@@ -271,6 +275,10 @@ namespace libtorrent
 		, m_max_connections((std::numeric_limits<int>::max)())
 		, m_deficit_counter(0)
 		, m_policy(this)
+		, m_active_time(seconds(0))
+		, m_seeding_time(seconds(0))
+		, m_total_uploaded(0)
+		, m_total_downloaded(0)
 	{
 #ifndef NDEBUG
 		m_files_checked = false;
@@ -1149,7 +1157,9 @@ namespace libtorrent
 
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
 		(*m_ses.m_logger) << time_now_string() << " *** PIECE_FINISHED [ p: "
-			<< index << " chk: " << (passed_hash_check?"passed":"failed") << " ]\n";
+			<< index << " chk: " << ((passed_hash_check == 0)
+				?"passed":passed_hash_check == -1
+				?"disk failed":"failed") << " ]\n";
 #endif
 
 		bool was_seed = is_seed();
@@ -2981,6 +2991,14 @@ namespace libtorrent
 #endif
 			}
 		}
+
+		if (m_ses.m_alerts.should_post(alert::info))
+		{
+			m_ses.m_alerts.post_alert(torrent_checked_alert(
+				get_handle()
+				, "torrent finished checking"));
+		}
+		
 #ifndef NDEBUG
 		m_files_checked = true;
 #endif

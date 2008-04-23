@@ -119,6 +119,19 @@ namespace
       s.start_upnp();
       return;
   }
+  
+  list get_torrents(session& s)
+  {
+     list ret;
+     std::vector<torrent_handle> torrents = s.get_torrents();
+
+     for (std::vector<torrent_handle>::iterator i = torrents.begin(); i != torrents.end(); ++i)
+     {
+       ret.append(*i);
+     }
+     return ret;
+  }
+  
 #ifndef TORRENT_DISABLE_GEO_IP
   bool load_asnum_db(session& s, std::string file)
   {
@@ -298,6 +311,8 @@ void bind_session()
         .def("start_natpmp", &start_natpmp, session_start_natpmp_doc)
         .def("stop_natpmp", allow_threads(&session::stop_natpmp), session_stop_natpmp_doc)
         .def("set_ip_filter", allow_threads(&session::set_ip_filter), session_set_ip_filter_doc)
+        .def("find_torrent", allow_threads(&session::find_torrent))
+        .def("get_torrents", &get_torrents)
         ;
 
     register_ptr_to_python<std::auto_ptr<alert> >();

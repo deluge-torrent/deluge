@@ -159,7 +159,7 @@ namespace aux {
 		, m_num_unchoked(0)
 		, m_unchoke_time_scaler(0)
 		, m_optimistic_unchoke_time_scaler(0)
-		, m_disconnect_time_scaler(0)
+		, m_disconnect_time_scaler(90)
 		, m_incoming_connection(false)
 		, m_last_tick(time_now())
 #ifndef TORRENT_DISABLE_DHT
@@ -1355,7 +1355,7 @@ namespace aux {
 		--m_disconnect_time_scaler;
 		if (m_disconnect_time_scaler <= 0)
 		{
-			m_disconnect_time_scaler = 60;
+			m_disconnect_time_scaler = 90;
 
 			// every 60 seconds, disconnect the worst peer
 			// if we have reached the connection limit
@@ -1366,6 +1366,7 @@ namespace aux {
 					< bind(&torrent::num_peers, bind(&torrent_map::value_type::second, _2)));
 			
 				TORRENT_ASSERT(i != m_torrents.end());
+				// TODO: make the number of peers a percentage of the number of connected peers
 				i->second->get_policy().disconnect_one_peer();
 			}
 		}
@@ -1565,13 +1566,6 @@ namespace aux {
 		m_queued_for_checking.pop_front();
 		if (!m_queued_for_checking.empty())
 			m_queued_for_checking.front()->start_checking();
-
-		if (m_alerts.should_post(alert::info))
-		{
-			m_alerts.post_alert(torrent_checked_alert(
-				t->get_handle()
-				, "torrent finished checking"));
-		}
 	}
 
 	torrent_handle session_impl::add_torrent(
