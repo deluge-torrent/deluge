@@ -74,6 +74,15 @@ except:
     pass
 
 
+if not os.environ.has_key("CC"):
+    os.environ["CC"] = "gcc"
+
+if not os.environ.has_key("CXX"):
+    os.environ["CXX"] = "gcc"
+    
+if not os.environ.has_key("CPP"):
+    os.environ["CPP"] = "g++"
+    
 # The libtorrent extension
 _extra_compile_args = [
     "-DHAVE_INCLUDE_LIBTORRENT_ASIO____ASIO_HPP=1", 
