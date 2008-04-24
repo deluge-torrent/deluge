@@ -662,7 +662,12 @@ class TorrentManager(component.Component):
     def on_alert_tracker_announce(self, alert):
         log.debug("on_alert_tracker_announce")
         # Get the torrent_id
-        torrent_id = str(alert.handle.info_hash())
+        try:
+            torrent_id = str(alert.handle.info_hash())
+        except RuntimeError:
+            log.debug("Invalid torrent handle.")
+            return
+            
         # Set the tracker status for the torrent
         try:
             self.torrents[torrent_id].set_tracker_status(_("Announce Sent"))
