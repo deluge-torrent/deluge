@@ -157,11 +157,14 @@ namespace libtorrent
 		, int block_size
 		, storage_constructor_type sc
 		, bool paused
-		, entry const& resume_data)
+		, entry const* resume_data
+		, int seq
+		, bool auto_managed)
 		: m_torrent_file(tf)
 		, m_abort(false)
 		, m_paused(paused)
 		, m_just_paused(false)
+		, m_auto_managed(auto_managed)
 		, m_event(tracker_request::started)
 		, m_block_size(0)
 		, m_storage(0)
@@ -196,7 +199,6 @@ namespace libtorrent
 		, m_storage_mode(storage_mode)
 		, m_state(torrent_status::queued_for_checking)
 		, m_progress(0.f)
-		, m_resume_data(resume_data)
 		, m_default_block_size(block_size)
 		, m_connections_initialized(true)
 		, m_settings(ses.settings())
@@ -206,11 +208,13 @@ namespace libtorrent
 		, m_max_connections((std::numeric_limits<int>::max)())
 		, m_deficit_counter(0)
 		, m_policy(this)
+		, m_sequence_number(seq)
 		, m_active_time(seconds(0))
 		, m_seeding_time(seconds(0))
 		, m_total_uploaded(0)
 		, m_total_downloaded(0)
 	{
+		if (resume_data) m_resume_data = *resume_data;
 #ifndef NDEBUG
 		m_files_checked = false;
 #endif
@@ -227,11 +231,14 @@ namespace libtorrent
 		, int block_size
 		, storage_constructor_type sc
 		, bool paused
-		, entry const& resume_data)
+		, entry const* resume_data
+		, int seq
+		, bool auto_managed)
 		: m_torrent_file(new torrent_info(info_hash))
 		, m_abort(false)
 		, m_paused(paused)
 		, m_just_paused(false)
+		, m_auto_managed(auto_managed)
 		, m_event(tracker_request::started)
 		, m_block_size(0)
 		, m_storage(0)
@@ -265,7 +272,6 @@ namespace libtorrent
 		, m_storage_mode(storage_mode)
 		, m_state(torrent_status::queued_for_checking)
 		, m_progress(0.f)
-		, m_resume_data(resume_data)
 		, m_default_block_size(block_size)
 		, m_connections_initialized(false)
 		, m_settings(ses.settings())
@@ -275,11 +281,13 @@ namespace libtorrent
 		, m_max_connections((std::numeric_limits<int>::max)())
 		, m_deficit_counter(0)
 		, m_policy(this)
+		, m_sequence_number(seq)
 		, m_active_time(seconds(0))
 		, m_seeding_time(seconds(0))
 		, m_total_uploaded(0)
 		, m_total_downloaded(0)
 	{
+		if (resume_data) m_resume_data = *resume_data;
 #ifndef NDEBUG
 		m_files_checked = false;
 #endif
@@ -453,6 +461,7 @@ namespace libtorrent
 			}
 			std::fill(m_have_pieces.begin(), m_have_pieces.end(), false);
 			m_num_pieces = 0;
+			auto_managed(false);
 			pause();
 			return;
 		}
@@ -633,6 +642,7 @@ namespace libtorrent
 			}
 			std::fill(m_have_pieces.begin(), m_have_pieces.end(), false);
 			m_num_pieces = 0;
+			auto_managed(false);
 			pause();
 			m_ses.done_checking(shared_from_this());
 			return;
@@ -727,7 +737,7 @@ namespace libtorrent
 		if (m_ses.m_alerts.should_post(alert::info))
 		{
 			m_ses.m_alerts.post_alert(tracker_reply_alert(
-				get_handle(), peers.size(), "Got peers from DHT"));
+				get_handle(), peers.size(), "DHT", "Got peers from DHT"));
 		}
 		std::for_each(peers.begin(), peers.end(), bind(
 			&policy::peer_from_tracker, boost::ref(m_policy), _1, peer_id(0)
@@ -767,7 +777,7 @@ namespace libtorrent
 		return !m_paused && m_next_request < time_now();
 	}
 
-	void torrent::tracker_warning(std::string const& msg)
+	void torrent::tracker_warning(tracker_request const& req, std::string const& msg)
 	{
 		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 
@@ -775,7 +785,7 @@ namespace libtorrent
 
 		if (m_ses.m_alerts.should_post(alert::warning))
 		{
-			m_ses.m_alerts.post_alert(tracker_warning_alert(get_handle(), msg));
+			m_ses.m_alerts.post_alert(tracker_warning_alert(get_handle(), req.url, msg));
 		}
 	}
 	
@@ -792,10 +802,8 @@ namespace libtorrent
  
  		if (m_ses.m_alerts.should_post(alert::info))
  		{
- 			std::stringstream s;
- 			s << "Got scrape response from tracker: " << req.url;
  			m_ses.m_alerts.post_alert(scrape_reply_alert(
- 				get_handle(), m_incomplete, m_complete, s.str()));
+ 				get_handle(), m_incomplete, m_complete, req.url, "got scrape response from tracker"));
  		}
  	}
  
@@ -891,10 +899,8 @@ namespace libtorrent
 
 		if (m_ses.m_alerts.should_post(alert::info))
 		{
-			std::stringstream s;
-			s << "Got response from tracker: " << r.url;
 			m_ses.m_alerts.post_alert(tracker_reply_alert(
-				get_handle(), peer_list.size(), s.str()));
+				get_handle(), peer_list.size(), r.url, "got response from tracker"));
 		}
 		m_got_tracker_response = true;
 	}
@@ -3268,6 +3274,42 @@ namespace libtorrent
 		}
 	}
 
+	void torrent::auto_managed(bool a)
+	{
+		INVARIANT_CHECK;
+
+		if (m_auto_managed == a) return;
+		m_auto_managed = a;
+		// recalculate which torrents should be
+		// paused
+		m_ses.m_auto_manage_time_scaler = 0;
+	}
+
+	float torrent::seed_cycles(session_settings const& s) const
+	{
+		if (!is_seed()) return 0.f;
+
+		int seeding = total_seconds(m_seeding_time);
+		int downloading = total_seconds(m_active_time) - seeding;
+
+		// if the seed time limit is set to less than 60 minutes
+		// use 60 minutes, to avoid oscillation
+		float ret = seeding / float((std::max)(s.seed_time_limit, 60 * 60));
+
+		// if it took less than 30 minutes to download, disregard the
+		// seed_time_ratio_limit, since it would make it oscillate too frequent
+		if (downloading > 30 * 60 && s.seed_time_ratio_limit >= 1.f)
+			ret = (std::max)(ret, (seeding / downloading
+				/ s.seed_time_ratio_limit));
+
+		size_type downloaded = (std::max)(m_total_downloaded, m_torrent_file->total_size());
+		if (downloaded > 0 && s.share_ratio_limit >= 1.f)
+			ret = (std::max)(ret, float(m_total_uploaded) / downloaded
+				/ s.share_ratio_limit);
+
+		return ret;
+	}
+
 	// this is an async operation triggered by the client	
 	void torrent::save_resume_data()
 	{
@@ -3612,6 +3654,7 @@ namespace libtorrent
 		st.list_peers = m_policy.num_peers();
 		st.list_seeds = m_policy.num_seeds();
 		st.connect_candidates = m_policy.num_connect_candidates();
+		st.seed_cycles = seed_cycles(m_ses.m_settings);
 
 		st.all_time_upload = m_total_uploaded;
 		st.all_time_download = m_total_downloaded;
@@ -3740,16 +3783,14 @@ namespace libtorrent
 
 		if (m_ses.m_alerts.should_post(alert::warning))
 		{
-			std::stringstream s;
-			s << "tracker: \"" << r.url << "\" timed out";
 			if (r.kind == tracker_request::announce_request)
 			{
-				m_ses.m_alerts.post_alert(tracker_alert(get_handle()
-					, m_failed_trackers + 1, 0, s.str()));
+				m_ses.m_alerts.post_alert(tracker_error_alert(get_handle()
+					, m_failed_trackers + 1, 0, r.url, "tracker timed out"));
 			}
 			else if (r.kind == tracker_request::scrape_request)
 			{
-				m_ses.m_alerts.post_alert(scrape_failed_alert(get_handle(), s.str()));
+				m_ses.m_alerts.post_alert(scrape_failed_alert(get_handle(), r.url, "tracker timed out"));
 			}
 		}
 
@@ -3772,16 +3813,14 @@ namespace libtorrent
 #endif
 		if (m_ses.m_alerts.should_post(alert::warning))
 		{
-			std::stringstream s;
-			s << "tracker: \"" << r.url << "\" " << str;
 			if (r.kind == tracker_request::announce_request)
 			{
-				m_ses.m_alerts.post_alert(tracker_alert(get_handle()
-					, m_failed_trackers + 1, response_code, s.str()));
+				m_ses.m_alerts.post_alert(tracker_error_alert(get_handle()
+					, m_failed_trackers + 1, response_code, r.url, str));
 			}
 			else if (r.kind == tracker_request::scrape_request)
 			{
-				m_ses.m_alerts.post_alert(scrape_failed_alert(get_handle(), s.str()));
+				m_ses.m_alerts.post_alert(scrape_failed_alert(get_handle(), r.url, str));
 			}
 		}
 
