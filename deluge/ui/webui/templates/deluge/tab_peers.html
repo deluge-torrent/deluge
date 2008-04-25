@@ -20,10 +20,15 @@ $for peer in torrent.peers:
     <td>$peer['country']</td>
     <td>$peer['client']</td>
     <td class="progress_bar">
+    $if peer.get('progress'):
         <div class="progress_bar_outer">
             <div class="progress_bar" style="width:$(peer['progress'])%;overflow:hidden">
             $int(peer['progress']) %
             </div>
+        </div>
+    $else:
+        <div class="progress_bar_outer">
+            ? %
         </div>
     </td>
     </tr>
