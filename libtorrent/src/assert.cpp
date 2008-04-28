@@ -34,6 +34,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include <cxxabi.h>
 #include <string>
+#include <ctring>
 #include <stdlib.h>
 
 std::string demangle(char const* name)
