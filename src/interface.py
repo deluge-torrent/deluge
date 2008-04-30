@@ -739,9 +739,9 @@ window, please enter your password"))
                 torrent_path = self.manager.get_torrent_path(uid)
                 if not common.windows_check():
                     file_manager = "xdg-open"
-                    common.exec_command(file_manager, torrent_path)
                 else:
-                    common.exec_command(executable=None, parameters=torrent_path)
+                    file_namager = "explorer.exe"
+                    common.exec_command(file_manager, torrent_path)
                     
         except KeyError:
             pass

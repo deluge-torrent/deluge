@@ -185,16 +185,17 @@ def fetch_url(url):
             
     return None
 
-def exec_command(executable=None, *parameters):
+def exec_command(executable, *parameters):
     import os
+    command = [executable] 
+    command.extend(parameters) 
     if windows_check():
         try:
-            os.startfile(parameters)
+            from subprocess import Popen 
+            Popen(command)
         except:
             pass
     else:
-        command = [executable]
-        command.extend(parameters)
         try:
             os.WEXITSTATUS(os.system(command[0] + " \"%s\"" %command[1]))
         except OSError:
