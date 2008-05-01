@@ -1,3 +1,8 @@
+Deluge 0.5.9.0 (30 April 2008)
+  * Fix ratio
+  * Fix opening folers/files on windows
+  * Move all packages to use Python 2.5
+
 Deluge 0.5.8.9 (14 April 2008)
   * Fix segfault caused in 0.5.8.8 when adding torrents
   * Change fast resume to use is_finished
