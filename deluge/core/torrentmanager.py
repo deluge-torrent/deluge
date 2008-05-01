@@ -452,14 +452,14 @@ class TorrentManager(component.Component):
         # Add the torrent to the lt session  
 
         # Create the torrent parameters struct for the torrent's options
-        t_params = lt.add_torrent_params()
+        t_params = {}
         
-        t_params.ti = lt.torrent_info(torrent_info)
-        t_params.save_path = str(torrent.save_path)
-        t_params.storage_mode = storage_mode
-        t_params.paused = paused
-        t_params.auto_managed = False
-        t_params.duplicate_is_error = True
+        t_params["ti"] = lt.torrent_info(torrent_info)
+        t_params["save_path"] = str(torrent.save_path)
+        t_params["storage_mode"] = storage_mode
+        t_params["paused"] = paused
+        t_params["auto_managed"] = False
+        t_params["duplicate_is_error"] = True
         
         try:
             handle = self.session.add_torrent(t_params)
