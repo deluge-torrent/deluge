@@ -257,16 +257,23 @@ class TorrentManager(component.Component):
         # We need to pause the AlertManager momentarily to prevent alerts
         # for this torrent being generated before a Torrent object is created.
         component.pause("AlertManager")
+        
+        # Create the torrent parameters struct for the torrent's options
+        t_params = {}
+        
+        t_params["ti"] = lt.torrent_info(filedump)
+        t_params["save_path"] = str(options["download_location"])
+        t_params["resume_data"] = fastresume
+        t_params["storage_mode"] = storage_mode
+        t_params["paused"] = True
+        t_params["auto_managed"] = False
+        t_params["duplicate_is_error"] = True
+        
         try:
-            handle = self.session.add_torrent(
-                                    lt.torrent_info(filedump), 
-                                    str(options["download_location"]),
-                                    resume_data=fastresume,
-                                    storage_mode=storage_mode,
-                                    paused=True)
+            handle = self.session.add_torrent(t_params)
         except RuntimeError, e:
             log.warning("Error adding torrent: %s", e)
-        
+            
         if not handle or not handle.is_valid():
             log.debug("torrent handle is invalid!")
             # The torrent was not added to the session
@@ -443,12 +450,19 @@ class TorrentManager(component.Component):
             storage_mode = lt.storage_mode_t(1)
         
         # Add the torrent to the lt session  
+
+        # Create the torrent parameters struct for the torrent's options
+        t_params = lt.add_torrent_params()
+        
+        t_params.ti = lt.torrent_info(torrent_info)
+        t_params.save_path = str(torrent.save_path)
+        t_params.storage_mode = storage_mode
+        t_params.paused = paused
+        t_params.auto_managed = False
+        t_params.duplicate_is_error = True
+        
         try:
-            torrent.handle = self.session.add_torrent(
-                                    lt.torrent_info(torrent_info),
-                                    str(torrent.save_path),
-                                    storage_mode=storage_mode,
-                                    paused=paused)
+            handle = self.session.add_torrent(t_params)
         except RuntimeError, e:
             log.warning("Error adding torrent: %s", e)
 
