@@ -97,13 +97,41 @@ namespace
       allow_threading_guard guard;
       s.add_extension(invoke_extension_factory(e));
   }
-
-  torrent_handle add_torrent(session& s, torrent_info const& ti
-    , boost::filesystem::path const& save, entry const& resume
-    , storage_mode_t storage_mode, bool paused)
+ 
+  torrent_handle add_torrent(session& s, dict params)
   {
-    allow_threading_guard guard;
-    return s.add_torrent(ti, save, resume, storage_mode, paused, default_storage_constructor);
+    add_torrent_params p;
+    
+    if (params.has_key("ti"))
+    {
+      boost::intrusive_ptr<torrent_info> ti = new torrent_info(
+        extract<torrent_info const&>(params["ti"]));
+      p.ti = ti;
+    }
+    if (params.has_key("tracker_url"))
+    {
+      std::string url = extract<std::string>(params["tracker_url"]);
+      p.tracker_url = url.c_str();
+    }
+    if (params.has_key("info_hash"))
+    {
+      sha1_hash info_hash = extract<sha1_hash>(params["info_hash"]);
+      p.info_hash = info_hash;
+    }
+    if (params.has_key("name"))
+    {
+      std::string name = extract<std::string>(params["name"]);
+      p.name = name.c_str();
+    }
+    p.save_path = fs::path(extract<std::string>(params["save_path"]));
+    entry resume = extract<entry>(params["resume_data"]);
+    p.resume_data = &resume;
+    p.storage_mode = extract<storage_mode_t>(params["storage_mode"]);
+    p.paused = params["paused"];
+    p.auto_managed = params["auto_managed"];
+    p.duplicate_is_error = params["duplicate_is_error"];
+
+    return s.add_torrent(p);
   }
   
   void start_natpmp(session& s)
@@ -216,7 +244,7 @@ void bind_session()
         .value("none", session::none)
         .value("delete_files", session::delete_files)
     ;
-	 
+
     class_<session, boost::noncopyable>("session", session_doc, no_init)
         .def(
             init<fingerprint>(arg("fingerprint")=fingerprint("LT",0,1,0,0), session_init_doc)
@@ -240,14 +268,7 @@ void bind_session()
         .def("dht_state", allow_threads(&session::dht_state), session_dht_state_doc)
         .def("set_dht_proxy", allow_threads(&session::set_dht_proxy))
 #endif
-        .def(
-            "add_torrent", &add_torrent
-          , (
-                arg("resume_data") = entry(), arg("storage_mode") = storage_mode_sparse,
-                arg("paused") = false
-            )
-          , session_add_torrent_doc
-        )
+        .def("add_torrent", &add_torrent, session_add_torrent_doc)
         .def("remove_torrent", allow_threads(&session::remove_torrent), arg("option") = session::none
 			  , session_remove_torrent_doc)
         .def(
