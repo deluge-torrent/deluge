@@ -193,14 +193,16 @@ class persistent_state:
 class Manager:
     # blank_slate mode ignores the two pickle files and DHT state file, i.e. you start
     # completely fresh. When quitting, the old files will be overwritten
-    def __init__(self, client_ID, version, user_agent, base_dir, blank_slate=False):
+    def __init__(self, client_ID, version, user_agent, base_dir, blank_slate=False, base_change=False):
         self.base_dir = base_dir
         # Keeps track of DHT running state
         self.dht_running = False
 
         # Load the preferences
         self.config = pref.Preferences(os.path.join(self.base_dir, PREFS_FILENAME))
-        
+        if base_change:
+            self.config.set("default_torrent_path", os.path.join(self.base_dir, "torrentfiles"))
+            self.config.save()
         TORRENTS_SUBDIR = self.config.get("default_torrent_path")
 
         # Ensure directories exist

@@ -49,11 +49,13 @@ class DelugeGTK:
     def __init__(self, config_dir=None):
         if config_dir:
             common.CONFIG_DIR = config_dir
+            base_change = True
         self.ipc_manager = ipc_manager.Manager(self)
         #Start the Deluge Manager:
         self.manager = core.Manager(common.CLIENT_CODE, common.CLIENT_VERSION, 
             '%s %s' % (common.PROGRAM_NAME, common.PROGRAM_VERSION), 
-            common.CONFIG_DIR)
+            common.CONFIG_DIR, base_change=base_change)
+
         self.plugins = plugins.PluginManager(self.manager, self)
         self.plugins.add_plugin_dir(common.PLUGIN_DIR)
         if os.path.isdir(os.path.join(common.CONFIG_DIR , 'plugins')):

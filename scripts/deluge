@@ -45,7 +45,6 @@ import deluge.common
 import deluge.core
 import deluge._dbus as dbus
 import deluge.interface
-import deluge.pref
 
 parser = OptionParser(usage="%prog [options] [torrents to add]", 
                       version=deluge.common.PROGRAM_VERSION)
