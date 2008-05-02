@@ -113,7 +113,7 @@ def get_cmd_line_torrents():
 def start_deluge():
     print "Starting new Deluge session..."
     upgrade_old_persistent_state()
-    interface = deluge.interface.DelugeGTK()
+    interface = deluge.interface.DelugeGTK(config_dir=deluge.common.CONFIG_DIR)
     interface.start(get_cmd_line_torrents())
 
 try:

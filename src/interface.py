@@ -37,8 +37,8 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 
-import core
 import common
+import core
 import dialogs
 import dgtk
 import ipc_manager
@@ -46,7 +46,9 @@ import plugins
 import tab_details
 
 class DelugeGTK:
-    def __init__(self):
+    def __init__(self, config_dir=None):
+        if config_dir:
+            common.CONFIG_DIR = config_dir
         self.ipc_manager = ipc_manager.Manager(self)
         #Start the Deluge Manager:
         self.manager = core.Manager(common.CLIENT_CODE, common.CLIENT_VERSION, 
@@ -1009,7 +1011,6 @@ window, please enter your password"))
     def start(self, cmd_line_torrents=None):
         if cmd_line_torrents is None:
             cmd_line_torrents = []
-        
         if not(self.config.get("start_in_tray") and \
                self.config.get("enable_system_tray") and 
                self.has_tray) and not self.window.get_property("visible"):
