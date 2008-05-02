@@ -41,7 +41,7 @@ import xdg
 
 if common.windows_check():
     DEFAULT_PREFS = {
-    "enabled_plugins" : "Anonymizing Browser:Torrent Files:Torrent Peers:Torrent Peers:Torrent Notification",
+    "enabled_plugins" : "Torrent Files:Torrent Peers:Torrent Peers:Torrent Notification",
     "file_manager" : common.FileManager.xdg,
     "open_folder_stock" : True,
     "autoload" : False,
@@ -58,7 +58,7 @@ if common.windows_check():
     "clear_max_ratio_torrents" : False,
     "clear_max_time_torrents" : False,
     "default_autoload_path" : os.path.expanduser("~"),
-    "default_torrent_path" : os.path.join(os.path.expanduser("~"), 'deluge', 'torrentfiles'),
+    "default_torrent_path" : os.path.join(common.CONFIG_DIR, 'torrentfiles'),
     "default_download_path" : os.path.expanduser("~"),
     "open_torrent_dialog_path" : os.path.expanduser("~"),
     "choose_directory_dialog_path": os.path.expanduser("~"),
@@ -177,7 +177,7 @@ else:
     "clear_max_ratio_torrents" : False,
     "clear_max_time_torrents" : False,
     "default_autoload_path" : os.path.expanduser("~"),
-    "default_torrent_path" : os.path.join(xdg.BaseDirectory.save_config_path('deluge'), 'torrentfiles'),
+    "default_torrent_path" : os.path.join(common.CONFIG_DIR, 'torrentfiles'),
     "default_download_path" : os.path.expanduser("~"),
     "open_torrent_dialog_path" : os.path.expanduser("~"),
     "choose_directory_dialog_path": os.path.expanduser("~"),
