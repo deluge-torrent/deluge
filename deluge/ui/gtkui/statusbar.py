@@ -183,7 +183,7 @@ class StatusBar(component.Component):
             self.remove_item(self.download_item)
             self.remove_item(self.upload_item)
             self.remove_item(self.not_connected_item)
-            self.remove_item(self.heath_item)
+            self.remove_item(self.health_item)
         except Exception, e:
             log.debug("Unable to remove StatusBar item: %s", e)
         self.show_not_connected()        
