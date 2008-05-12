@@ -201,9 +201,7 @@ class MenuBar(component.Component):
     ## File Menu ##
     def on_menuitem_addtorrent_activate(self, data=None):
         log.debug("on_menuitem_addtorrent_activate")
-        from addtorrentdialog import AddTorrentDialog
-        #client.add_torrent_file(AddTorrentDialog().run())
-        AddTorrentDialog().show()
+        component.get("AddTorrentDialog").show()
         
     def on_menuitem_quitdaemon_activate(self, data=None):
         log.debug("on_menuitem_quitdaemon_activate")

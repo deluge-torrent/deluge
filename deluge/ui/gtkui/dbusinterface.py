@@ -48,11 +48,13 @@ elif dbus.version >= (0,80,0):
 import deluge.component as component
 from deluge.ui.client import aclient as client
 import deluge.common
+from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
     
 class DbusInterface(dbus.service.Object, component.Component):
     def __init__(self, args, path="/org/deluge_torrent/Deluge"):
         component.Component.__init__(self, "DbusInterface")
+        self.config = ConfigManager("gtkui.conf")
         # Check to see if the daemon is already running and if not, start it
         bus = dbus.SessionBus()
         obj = bus.get_object("org.freedesktop.DBus", "/org/freedesktop/DBus")
@@ -106,10 +108,18 @@ class DbusInterface(dbus.service.Object, component.Component):
             if deluge.common.is_url(arg):
                 log.debug("Attempting to add %s from external source..",
                     arg)
-                client.add_torrent_url(arg)
+                if self.config["interactive_add"]:
+                    component.get("AddTorrentDialog").add_from_url(arg)
+                    component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
+                else:
+                    client.add_torrent_url(arg)
             else:
                 # Just a file
                 log.debug("Attempting to add %s from external source..", 
                     os.path.abspath(arg))
-                client.add_torrent_file([os.path.abspath(arg)])
+                if self.config["interactive_add"]:
+                    component.get("AddTorrentDialog").add_from_files([os.path.abspath(arg)])
+                    component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
+                else:
+                    client.add_torrent_file([os.path.abspath(arg)])
             

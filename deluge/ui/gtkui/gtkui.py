@@ -59,6 +59,7 @@ from signals import Signals
 from pluginmanager import PluginManager
 from dbusinterface import DbusInterface
 from queuedtorrents import QueuedTorrents
+from addtorrentdialog import AddTorrentDialog
 from coreconfig import CoreConfig
 import deluge.configmanager
 import deluge.common
@@ -146,6 +147,7 @@ class GtkUI:
         self.preferences = Preferences()
         self.systemtray = SystemTray()
         self.statusbar = StatusBar()
+        self.addtorrentdialog = AddTorrentDialog()
 
         # Start the signal receiver
         self.signal_receiver = Signals()

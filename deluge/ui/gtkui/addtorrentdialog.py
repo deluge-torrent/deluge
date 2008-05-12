@@ -46,15 +46,14 @@ from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 import deluge.common
 
-class AddTorrentDialog:
-    def __init__(self, parent=None):
+class AddTorrentDialog(component.Component):
+    def __init__(self):
+        component.Component.__init__(self, "AddTorrentDialog")
         self.glade = gtk.glade.XML(
             pkg_resources.resource_filename(
                 "deluge.ui.gtkui", "glade/add_torrent_dialog.glade"))
         
         self.dialog = self.glade.get_widget("dialog_add_torrent")
-        
-        self.dialog.set_transient_for(component.get("MainWindow").window)
         
         self.glade.signal_autoconnect({
             "on_button_file_clicked": self._on_button_file_clicked,
@@ -128,7 +127,39 @@ class AddTorrentDialog:
             "default_private"
         ]
         self.core_config = {}
+            
+    def start(self):
+        self.update_core_config()
         
+    def show(self, focus=False):
+        self.update_core_config()
+
+        if client.is_localhost():
+            self.glade.get_widget("button_location").show()
+            self.glade.get_widget("entry_download_path").hide()
+        else:
+            self.glade.get_widget("button_location").hide()
+            self.glade.get_widget("entry_download_path").show()       
+        
+        self.dialog.set_transient_for(component.get("MainWindow").window)  
+        self.dialog.present()
+        if focus:
+            self.dialog.window.focus()
+        
+        return None
+    
+    def hide(self):
+        self.dialog.hide()
+        self.files = {}
+        self.infos = {}
+        self.options = {}
+        self.previous_selected_torrent = None
+        self.torrent_liststore.clear()
+        self.files_treestore.clear()
+        self.dialog.set_transient_for(component.get("MainWindow").window)    
+        return None
+    
+    def update_core_config(self):
         # Send requests to the core for these config values
         for key in self.core_keys:
             client.get_config_value(self._on_config_value, key)
@@ -136,29 +167,14 @@ class AddTorrentDialog:
         # Force a call to the core because we need this data now
         client.force_call()
         self.set_default_options()
-        
-    def show(self):
-        self.dialog.show_all()
-        if client.is_localhost():
-            self.glade.get_widget("button_location").show()
-            self.glade.get_widget("entry_download_path").hide()
-        else:
-            self.glade.get_widget("button_location").hide()
-            self.glade.get_widget("entry_download_path").show()       
-            
-        return None
-    
-    def hide(self):
-        self.dialog.destroy()
-        return None
-    
+                
     def _on_config_value(self, value):
         for key in self.core_keys:
             if not self.core_config.has_key(key):
                 self.core_config[key] = value
                 break
                 
-    def add_to_torrent_list(self, filenames):
+    def add_from_files(self, filenames):
         import deluge.libtorrent as lt
         import os.path
 
@@ -210,6 +226,9 @@ class AddTorrentDialog:
 
         self.prepare_file_store(files_list)
 
+        if self.core_config == {}:
+            self.update_core_config()
+            
         # Save the previous torrents options
         self.save_torrent_options()
         # Update the options frame
@@ -454,7 +473,7 @@ class AddTorrentDialog:
             return
 
         chooser.destroy()
-        self.add_to_torrent_list(result)
+        self.add_from_files(result)
                                         
     def _on_button_url_clicked(self, widget):
         log.debug("_on_button_url_clicked")
@@ -491,15 +510,18 @@ class AddTorrentDialog:
         # add it to the list.
         log.debug("url: %s", url)
         if url != None:
-            gobject.idle_add(self.download_from_url, url)
+            self.add_from_url(url)
         
         entry.set_text("")
         dialog.hide()
 
-    def download_from_url(self, url):
+    def add_from_url(self, url):
+        gobject.idle_add(self._download_from_url, url)
+
+    def _download_from_url(self, url):
         import urllib
         filename, headers = urllib.urlretrieve(url)
-        self.add_to_torrent_list([filename])
+        self.add_from_files([filename])
     
     def _on_button_hash_clicked(self, widget):
         log.debug("_on_button_hash_clicked")
@@ -553,7 +575,7 @@ class AddTorrentDialog:
             
         client.add_torrent_file(torrent_filenames, torrent_options)
         client.force_call()
-        self.dialog.destroy()
+        self.hide()
 
     def _on_button_apply_clicked(self, widget):
         log.debug("_on_button_apply_clicked")
