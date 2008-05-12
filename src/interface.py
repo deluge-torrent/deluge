@@ -744,8 +744,8 @@ window, please enter your password"))
                 if not common.windows_check():
                     file_manager = "xdg-open"
                 else:
-                    file_namager = "explorer.exe"
-                    common.exec_command(file_manager, torrent_path)
+                    file_manager = "explorer.exe"
+                common.exec_command(file_manager, torrent_path)
                     
         except KeyError:
             pass
