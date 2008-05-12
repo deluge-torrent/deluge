@@ -304,6 +304,7 @@ class Manager:
                 # Make sure the Queue is in the correct order and remove any
                 # entries that were not added to the session due to error.
                 self.state.queue = state.queue[:]
+
                 for uid in state.queue:
                     if uid not in self.state.torrents:
                         self.state.queue.remove(uid)
@@ -350,7 +351,7 @@ class Manager:
         print "save uploaded memory"
         import copy
         state = persistent_state()
-        state.queue = self.state.queue
+        state.queue = self.state.queue[:]
                 
         for torrent in self.state.torrents:
             uid = self.state.torrents[torrent]
@@ -361,6 +362,7 @@ class Manager:
             except AttributeError:
                 t.uploaded_memory = 0
             state.torrents[t] = uid
+            state.queue[state.queue.index(torrent)] = t
         
         # Pickle the state so if we experience a crash, the latest state is 
         # available
