@@ -929,6 +929,9 @@ std::cout << asctime(timeinfo) << " torrent_dump_file_info()" << std::endl;
     
         return ret;
     }
+    catch(invalid_torrent_file&){
+        return NULL;
+    }
     catch(invalid_encoding&){
         return NULL;
     }
