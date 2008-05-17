@@ -427,6 +427,10 @@ class TorrentManager(component.Component):
             torrent_info = torrent.handle.get_torrent_info().create_torrent()
             torrent.save_torrent_file()
 
+        # We need to pause the AlertManager momentarily to prevent alerts
+        # for this torrent being generated before a Torrent object is created.
+        component.pause("AlertManager")
+        
         # We start by removing it from the lt session            
         try:
             self.session.remove_torrent(torrent.handle, 0)
@@ -460,9 +464,10 @@ class TorrentManager(component.Component):
         t_params["paused"] = paused
         t_params["auto_managed"] = False
         t_params["duplicate_is_error"] = True
+        t_params["resume_data"] = None
         
         try:
-            handle = self.session.add_torrent(t_params)
+            torrent.handle = self.session.add_torrent(t_params)
         except RuntimeError, e:
             log.warning("Error adding torrent: %s", e)
 
@@ -470,6 +475,7 @@ class TorrentManager(component.Component):
             # The torrent was not added to the session
             return False       
         
+        component.resume("AlertManager")
         # Set all the per-torrent options
         torrent.apply_options()
         
