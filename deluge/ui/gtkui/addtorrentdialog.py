@@ -160,6 +160,7 @@ class AddTorrentDialog(component.Component):
         return None
     
     def update_core_config(self):
+        self.core_config = {}
         # Send requests to the core for these config values
         for key in self.core_keys:
             client.get_config_value(self._on_config_value, key)
