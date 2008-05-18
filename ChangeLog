@@ -1,4 +1,4 @@
-Deluge 0.5.9.1 (xx May 2008)
+Deluge 0.5.9.1 (19 May 2008)
   * Fix queue reordering on startup
   * Fix open folder
   * Fix advanced progress bar when only 1 piece in torrent
