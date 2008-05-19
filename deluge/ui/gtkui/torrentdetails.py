@@ -162,6 +162,19 @@ class TorrentDetails(component.Component):
     def generate_menu(self):
         """Generates the checklist menu for all the tabs and attaches it"""
         menu = gtk.Menu()
+        # Create 'All' menuitem and a separator
+        menuitem = gtk.CheckMenuItem("All")
+        menuitem.connect("toggled", self._on_menuitem_toggled)
+        if len(self.hidden_tabs) > 0:
+            menuitem.set_active(False)
+        else:
+            menuitem.set_active(True)
+
+        menu.append(menuitem)
+        
+        menuitem = gtk.SeparatorMenuItem()
+        menu.append(menuitem)
+        
         # Add all the tabs to the menu
         for tab in self.tab_index:
             menuitem = gtk.CheckMenuItem(tab)
@@ -175,7 +188,7 @@ class TorrentDetails(component.Component):
             menuitem.connect("toggled", self._on_menuitem_toggled)
             menuitem.set_active(False)
             # Try to keep position in sync
-            menu.insert(menuitem, self.hidden_tabs[tab][1])
+            menu.insert(menuitem, self.hidden_tabs[tab][1] + 2)
         
         self.menu_tabs.set_submenu(menu)
         self.menu_tabs.show_all()
@@ -231,8 +244,11 @@ class TorrentDetails(component.Component):
                     
     def clear(self):
         # Get the tab name
-        name = self.tab_index[self.notebook.get_current_page()]
-        self.tabs[name].clear()
+        try:
+            name = self.tab_index[self.notebook.get_current_page()]
+            self.tabs[name].clear()
+        except Exception, e:
+            log.debug("Unable to clear torrentdetails: %s", e)
 
     def _on_switch_page(self, notebook, page, page_num):
         self.update(page_num)
@@ -241,6 +257,19 @@ class TorrentDetails(component.Component):
     def _on_menuitem_toggled(self, widget):
         # Get the tab name
         name = widget.get_child().get_text()
+        if name == "All":
+            if self.menu_tabs.get_submenu() is not None:
+                # Widget has been changed to active which means we need to 
+                # show all the tabs.
+                for tab in self.menu_tabs.get_submenu().get_children():
+                    if isinstance(tab, gtk.SeparatorMenuItem):
+                        continue
+                    if tab.get_child().get_text() == "All" or tab is gtk.SeparatorMenuItem:
+                        continue
+                    
+                    tab.set_active(widget.get_active())
+            return
+                
         self.set_tab_visible(name, widget.get_active())
         
     def save_state(self):
