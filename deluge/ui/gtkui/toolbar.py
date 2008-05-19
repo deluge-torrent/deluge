@@ -78,8 +78,7 @@ class ToolBar(component.Component):
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(True)
         self.update_buttons()
-        gobject.idle_add(self.update_buttons)
-    
+        
     def stop(self):
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(False)
@@ -103,9 +102,7 @@ class ToolBar(component.Component):
             toolbutton.set_icon_widget(image)
         # Set the tooltip
         if tooltip is not None:
-            tip = gtk.Tooltips()
-            tip.set_tip(toolbutton, tooltip)
-        
+            toolbutton.set_tooltip_text(tooltip)
         # Connect the 'clicked' event callback
         toolbutton.connect("clicked", callback)
         
@@ -172,7 +169,7 @@ class ToolBar(component.Component):
     def on_toolbutton_queue_down_clicked(self, data):
         log.debug("on_toolbutton_queue_down_clicked")
         component.get("MenuBar").on_menuitem_queue_down_activate(data)
-        
+
     def update_buttons(self, action=None, torrent_id=None):
         if action == None:
             # If all the selected torrents are paused, then disable the 'Pause' 
@@ -206,6 +203,7 @@ class ToolBar(component.Component):
                                     ("toolbutton_resume", resume),
                                     ("toolbutton_remove", remove)):
                 self.window.main_glade.get_widget(name).set_sensitive(sensitive)
+                
                     
             return False
             
