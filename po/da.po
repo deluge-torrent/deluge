@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-25 08:56+0000\n"
+"PO-Revision-Date: 2008-04-30 07:29+0000\n"
 "Last-Translator: Hans-Jørgen Martinus Hansen <trans666@hotmail.com>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-04-28 23:06+0000\n"
+"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -893,7 +893,7 @@ msgstr "_Redigér trackere"
 
 #: glade/torrent_menu.glade:138
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "_Skrabning af Tracker"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"
@@ -1512,7 +1512,7 @@ msgstr "Fuldendt"
 
 #: plugins/BlocklistImport/text.py:129
 msgid "Got format exception for zipfile:"
-msgstr ""
+msgstr "Har untagelse for zipfiler:"
 
 #: plugins/BlocklistImport/peerguardian.py:24
 msgid ""
@@ -1989,6 +1989,12 @@ msgid ""
 "moved to a different folder.\n"
 "Note: Files can currently only be moved within the same partition"
 msgstr ""
+"Dette plugin giver brugeren mulighed for at flytte torrenten til en anden "
+"mappe uden at skulle gentilføje torrenten. Denne funktion kan blive fundet "
+"ved at højre-klikke på en torrent.\n"
+"Endvidere tillader det brugeren automatisk at flytte færdige torrents til en "
+"anden mappe.\n"
+"Bemærk: Filer kan kun blive flyttet på samme partion på nuværende tidspunkt."
 
 #: plugins/MoveTorrent/__init__.py:75
 msgid "_Move Torrent"
@@ -2105,7 +2111,7 @@ msgstr "Knap stil"
 
 #: plugins/WebUi/__init__.py:208
 msgid "Cache Templates"
-msgstr ""
+msgstr "Gem skarbelon"
 
 #: plugins/WebUi/__init__.py:210
 msgid "https://"
@@ -2436,6 +2442,8 @@ msgid ""
 "Content will be saved to Deluge's default directory, or a prompt will appear "
 "if none is set."
 msgstr ""
+"Indholdet vil blive gem i Deluges standart mappe, ellers vil en prompt komme "
+"frem hvis ingen standart mappe er sat."
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
 msgid "Deluge default"
@@ -2476,12 +2484,13 @@ msgid ""
 msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
+#, fuzzy
 msgid "Threaded (experimental)"
-msgstr ""
+msgstr "Trække (eksperimental)"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"
-msgstr ""
+msgstr "<b>enfind"
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"

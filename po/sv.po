@@ -10,13 +10,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-06 09:13+0000\n"
-"Last-Translator: Joar Bagge <Unknown>\n"
+"PO-Revision-Date: 2008-05-18 21:48+0000\n"
+"Last-Translator: semsomi <semsomi@gmail.com>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-04-28 23:05+0000\n"
+"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -183,11 +183,11 @@ msgstr "_Hjälp"
 
 #: glade/delugegtk.glade:440
 msgid "Donate to Deluge Development"
-msgstr ""
+msgstr "Donera till Deluge Development"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
-msgstr ""
+msgstr "_Donera"
 
 #: glade/delugegtk.glade:458
 msgid "_Homepage"
@@ -601,16 +601,18 @@ msgstr ""
 "Töm automatiskt torrent-filer som når sitt högsta utdelningsförhållande"
 
 #: glade/preferences_dialog.glade:1105
+#, fuzzy
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr ""
+msgstr "Sluta distributera torrents när distributationstiden når:"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
-msgstr ""
+msgstr "Antal timmar:"
 
 #: glade/preferences_dialog.glade:1142
+#, fuzzy
 msgid "Automatically clear torrents that reach the max seed time"
-msgstr ""
+msgstr "Ränsa automatiskt torrents som når den maximala distributationstiden"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -896,7 +898,7 @@ msgstr "_Redigera bevakare"
 
 #: glade/torrent_menu.glade:138
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "_Skrapa Tracker"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"
@@ -1167,7 +1169,7 @@ msgstr ""
 
 #: src/interface.py:764
 msgid "Delete the old torrent source?"
-msgstr ""
+msgstr "Ta bort den gamla torrentkällan?"
 
 #: src/interface.py:953
 #, python-format
@@ -1613,7 +1615,7 @@ msgstr "<b>Bevakare</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:353
 msgid "<b>Web Seeds</b>"
-msgstr ""
+msgstr "<b>Nät Distributörer</b>"
 
 #: plugins/TorrentCreator/torrentcreator.glade:400
 msgid "<b>Comments</b>"
@@ -2010,7 +2012,7 @@ msgstr "_Flytta torrent"
 
 #: plugins/MoveTorrent/__init__.py:82
 msgid "_Switch Torrent Source"
-msgstr ""
+msgstr "_Byt Torrentkälla"
 
 #: plugins/MoveTorrent/__init__.py:102
 msgid "Choose a directory to move files to"
@@ -2056,15 +2058,15 @@ msgstr "Webbadress:"
 
 #: plugins/Scheduler/plugin.py:113
 msgid "Download limit:"
-msgstr ""
+msgstr "Nerladdningsgräns"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "Upload limit:"
-msgstr ""
+msgstr "Uppladningsgräns"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "Active torrents:"
-msgstr ""
+msgstr "Aktiva torrents:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Upload Slots:"
@@ -2072,7 +2074,7 @@ msgstr "Sändningsplatser:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Max Connections:"
-msgstr ""
+msgstr "Maximala Anslutningar"
 
 #: plugins/Scheduler/plugin.py:120
 msgid "Scheduler Settings"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: Michał Kaliszka <desmont@gmail.com>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-28 13:28+0000\n"
-"Last-Translator: Michał Tokarczyk <misz4velop@gmail.com>\n"
+"PO-Revision-Date: 2008-05-06 10:15+0000\n"
+"Last-Translator: Marcin <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-04-28 23:04+0000\n"
+"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -186,7 +186,7 @@ msgstr "Wesprzyj rozwój Deluge"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
-msgstr ""
+msgstr "_Dofinansuj"
 
 #: glade/delugegtk.glade:458
 msgid "_Homepage"
@@ -598,11 +598,11 @@ msgstr "Automatycznie czyść torrenty, które osiągną maksymalne ratio"
 
 #: glade/preferences_dialog.glade:1105
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr ""
+msgstr "Zaprzestań seedować torenty kiedy czas ich seedowania osiągnie:"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
-msgstr ""
+msgstr "Liczba godzin"
 
 #: glade/preferences_dialog.glade:1142
 #, fuzzy
@@ -1165,11 +1165,11 @@ msgstr "Ratio"
 
 #: src/interface.py:760
 msgid "Choose a directory to switch torrent source to"
-msgstr ""
+msgstr "Wybierz katalog, na który chcesz zmienić źródło torrenta"
 
 #: src/interface.py:764
 msgid "Delete the old torrent source?"
-msgstr ""
+msgstr "Usunąć stare źródło torrenta?"
 
 #: src/interface.py:953
 #, python-format
@@ -1494,8 +1494,9 @@ msgid "Blocklist URL"
 msgstr "URL czarnej listy"
 
 #: plugins/BlocklistImport/ui.py:52
+#, fuzzy
 msgid "Download new blocklist every"
-msgstr ""
+msgstr "Pobierz nową listę blokowania co"
 
 #: plugins/BlocklistImport/ui.py:59
 msgid "days"
@@ -1989,7 +1990,7 @@ msgstr "Postęp"
 
 #: plugins/TorrentFiles/tab_files.py:100
 msgid "There was an error trying to launch the file."
-msgstr "Wystąpił błąd podczas próby uruchamiania pliku."
+msgstr "Wystąpił błąd przy próbie uruchomienia pliku."
 
 #: plugins/TorrentFiles/__init__.py:34
 msgid ""
@@ -2008,6 +2009,7 @@ msgid "Files"
 msgstr "Pliki"
 
 #: plugins/MoveTorrent/__init__.py:22
+#, fuzzy
 msgid ""
 "This plugin allows users to move the torrent to a different directory "
 "without having to remove and re-add the torrent.  This feature can be found "
@@ -2016,6 +2018,13 @@ msgid ""
 "moved to a different folder.\n"
 "Note: Files can currently only be moved within the same partition"
 msgstr ""
+"Ten plugin umożliwia przenoszenie torrentów do innego katalogu bez "
+"konieczności usuwania i ponownego dodawania torrenta. Funkcję tę można "
+"odnaleźć po prawym kliknięciu na torrencie.\n"
+"Ponadto, plugin umożliwia automatyczne przenoszenie pobranych torrentów do "
+"innego katalogu.\n"
+"Uwaga: Obecnie torrenty mogą być przenoszone tylko w obrębie tej samej "
+"partycji"
 
 #: plugins/MoveTorrent/__init__.py:75
 msgid "_Move Torrent"
@@ -2023,7 +2032,7 @@ msgstr "_Przenieś torrent"
 
 #: plugins/MoveTorrent/__init__.py:82
 msgid "_Switch Torrent Source"
-msgstr ""
+msgstr "Zmień źródło torrenta"
 
 #: plugins/MoveTorrent/__init__.py:102
 msgid "Choose a directory to move files to"
@@ -2071,15 +2080,15 @@ msgstr "URL:"
 
 #: plugins/Scheduler/plugin.py:113
 msgid "Download limit:"
-msgstr ""
+msgstr "Limit pobierania:"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "Upload limit:"
-msgstr ""
+msgstr "Limit wysyłania:"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "Active torrents:"
-msgstr ""
+msgstr "Aktywne torrenty:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Upload Slots:"
@@ -2087,7 +2096,7 @@ msgstr "Sloty dla wysyłania:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Max Connections:"
-msgstr ""
+msgstr "Maksymalna liczba połączeń:"
 
 #: plugins/Scheduler/plugin.py:120
 msgid "Scheduler Settings"
@@ -2464,7 +2473,7 @@ msgstr "Domyślne Deluge"
 
 #: plugins/FlexRSS/FlexRSS.glade:1159
 msgid "Content will be automatically downloaded to the specified directory."
-msgstr "Zawartość będzie automatycznie ściągana do określonego katalogu."
+msgstr "Zawartość będzie automatycznie pobierana do wybranego katalogu."
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"
@@ -2558,7 +2567,7 @@ msgstr "Pomoc"
 
 #: plugins/Search/__init__.py:37
 msgid "Search for torrents anonymously"
-msgstr ""
+msgstr "Anonimowo szukaj torrentów"
 
 #: plugins/Search/__init__.py:80
 msgid "Search String"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-27 18:00+0000\n"
-"Last-Translator: Mauro de Carvalho <mauro.dec@gmail.com>\n"
+"PO-Revision-Date: 2008-05-17 00:43+0000\n"
+"Last-Translator: crom <colaetxeam@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-04-28 23:04+0000\n"
+"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -610,6 +610,8 @@ msgstr "Número de horas"
 #: glade/preferences_dialog.glade:1142
 msgid "Automatically clear torrents that reach the max seed time"
 msgstr ""
+"Automáticamente eliminar torrents que han llegado a su tiempo de "
+"compartición máximo"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -2231,7 +2233,7 @@ msgstr "Inicio de sesión"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Logout"
-msgstr "Finalizar sesión"
+msgstr "Cerrar sesión"
 
 #: plugins/WebUi/scripts/template_strings.py:28
 msgid "Next Announce"
@@ -2239,7 +2241,7 @@ msgstr "Siguiente anuncio"
 
 #: plugins/WebUi/scripts/template_strings.py:29
 msgid "Off"
-msgstr "Apagado"
+msgstr "Desactivado"
 
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Password is invalid,try again"
@@ -2271,7 +2273,7 @@ msgstr "Reanunciar"
 
 #: plugins/WebUi/scripts/template_strings.py:42
 msgid "Refresh page every:"
-msgstr "Refrescar página cada:"
+msgstr "Actualizar pág. cada:"
 
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Remove torrent"
@@ -2279,11 +2281,11 @@ msgstr "Eliminar torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Resume all"
-msgstr "Continuar todo"
+msgstr "Reanudar todo"
 
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Set"
-msgstr "Establecer"
+msgstr "Definir"
 
 #: plugins/WebUi/scripts/template_strings.py:49
 msgid "Set Timeout"
@@ -2295,7 +2297,7 @@ msgstr "Velocidad"
 
 #: plugins/WebUi/scripts/template_strings.py:53
 msgid "Start"
-msgstr "Comenzar"
+msgstr "Iniciar"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Submit"
@@ -2349,7 +2351,7 @@ msgstr "La alimentación será actualizada manualmente."
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
-msgstr "Desactivado"
+msgstr "Inhabilitado"
 
 #: plugins/FlexRSS/FlexRSS.glade:151
 msgid "Update Interval"
@@ -2458,8 +2460,8 @@ msgid ""
 "Content will be saved to Deluge's default directory, or a prompt will appear "
 "if none is set."
 msgstr ""
-"El contenido será grabado al directorio por defecto de Deluge, o una ventana "
-"aparecerá si no está configurado."
+"El contenido será guardado al directorio predeterminado de Deluge, o un "
+"mensaje aparecerá si ninguno está configurado."
 
 #: plugins/FlexRSS/FlexRSS.glade:1144
 msgid "Deluge default"

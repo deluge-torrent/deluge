@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-03-03 14:29+0000\n"
-"Last-Translator: Rene Pärts <Unknown>\n"
+"PO-Revision-Date: 2008-05-16 13:32+0000\n"
+"Last-Translator: boss01 <jt1@hot.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-04-28 23:04+0000\n"
+"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -181,11 +181,11 @@ msgstr "_Abi"
 
 #: glade/delugegtk.glade:440
 msgid "Donate to Deluge Development"
-msgstr ""
+msgstr "Anneta Deluge arendusse"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
-msgstr ""
+msgstr "_Anneta"
 
 #: glade/delugegtk.glade:458
 msgid "_Homepage"
@@ -526,8 +526,9 @@ msgid "Peer Exchange"
 msgstr "Lähtemasina vahetus"
 
 #: glade/preferences_dialog.glade:799
+#, fuzzy
 msgid "Local Peer Discovery"
-msgstr ""
+msgstr "Otsi kohalike kliente"
 
 #: glade/preferences_dialog.glade:814
 msgid "<b>Network Extras</b>"
@@ -560,11 +561,15 @@ msgid "Level:"
 msgstr "Tase:"
 
 #: glade/preferences_dialog.glade:931
+#, fuzzy
 msgid ""
 "Handshake\n"
 "Full Stream\n"
 "Either"
 msgstr ""
+"Käepigistus\n"
+"Täis vool\n"
+"Mitte kumbgi"
 
 #: glade/preferences_dialog.glade:954
 msgid "<b>Encryption</b>"
@@ -593,15 +598,16 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1105
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr ""
+msgstr "Lõpeta jagamine kui jagamis aeg ületab:"
 
 #: glade/preferences_dialog.glade:1120
+#, fuzzy
 msgid "Number of hours"
-msgstr ""
+msgstr "Tunnid"
 
 #: glade/preferences_dialog.glade:1142
 msgid "Automatically clear torrents that reach the max seed time"
-msgstr ""
+msgstr "Automaagiliselt eemalda torrentid mis ületavad maksimum jagamis aja"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -949,8 +955,9 @@ msgid "Deluge File Selection"
 msgstr "Deluge failide valik"
 
 #: glade/files_dialog.glade:42
+#, fuzzy
 msgid "Torrent will not be distributed on the trackerless (DHT) network"
-msgstr ""
+msgstr "Torrentit ei jagata trackerita võrgus (DHT)"
 
 #: glade/files_dialog.glade:43
 msgid "Set the private flag"

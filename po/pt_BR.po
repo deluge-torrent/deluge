@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-03-15 20:05+0000\n"
-"Last-Translator: Alexandre Sapata Carbonell <alexandrenescau@gmail.com>\n"
+"PO-Revision-Date: 2008-05-05 19:19+0000\n"
+"Last-Translator: Daniel Demarco <Unknown>\n"
 "Language-Team: Portuguese (Brazil) <pt_BR@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-04-28 23:05+0000\n"
+"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -181,11 +181,11 @@ msgstr "A_juda"
 
 #: glade/delugegtk.glade:440
 msgid "Donate to Deluge Development"
-msgstr ""
+msgstr "Doar e ajudar o Deluge"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
-msgstr ""
+msgstr "Faça uma _Doação"
 
 #: glade/delugegtk.glade:458
 msgid "_Homepage"
@@ -602,15 +602,16 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1105
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr ""
+msgstr "Parar de semear torrents quando o tempo de semeamento atingir:"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
-msgstr ""
+msgstr "Número de horas"
 
 #: glade/preferences_dialog.glade:1142
 msgid "Automatically clear torrents that reach the max seed time"
 msgstr ""
+"Limpar automaticamente torrents que atinjam o tempo máximo de semeamento"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -1159,11 +1160,11 @@ msgstr "Razão"
 
 #: src/interface.py:760
 msgid "Choose a directory to switch torrent source to"
-msgstr ""
+msgstr "Escolha um local para trocar onde o torrent foi salvo"
 
 #: src/interface.py:764
 msgid "Delete the old torrent source?"
-msgstr ""
+msgstr "Deletar os arquivos do local prévio?"
 
 #: src/interface.py:953
 #, python-format
@@ -1492,7 +1493,7 @@ msgstr "URL da lista de bloqueios"
 
 #: plugins/BlocklistImport/ui.py:52
 msgid "Download new blocklist every"
-msgstr ""
+msgstr "Baixar nova lista de bloqueio (blocklist) a cada"
 
 #: plugins/BlocklistImport/ui.py:59
 msgid "days"
@@ -2010,6 +2011,12 @@ msgid ""
 "moved to a different folder.\n"
 "Note: Files can currently only be moved within the same partition"
 msgstr ""
+"Este plugin permite ao usuário mover o torrent a um local diferente sem ter "
+"que remover e readicionar o torrent. Esta característica pode ser "
+"encontranda clicando com o botão direito sobre um torrent.\n"
+"Além disso, permite ao usuário que os torrents terminados sejam "
+"automaticamente movidos para uma pasta diferente.\n"
+"Nota: No momento, arquivos só podem ser movidos dentro da mesma partição."
 
 #: plugins/MoveTorrent/__init__.py:75
 msgid "_Move Torrent"
@@ -2017,7 +2024,7 @@ msgstr "_Mover Torrent"
 
 #: plugins/MoveTorrent/__init__.py:82
 msgid "_Switch Torrent Source"
-msgstr ""
+msgstr "Trocar onde o torrent foi salvo"
 
 #: plugins/MoveTorrent/__init__.py:102
 msgid "Choose a directory to move files to"
@@ -2066,15 +2073,15 @@ msgstr "URL:"
 
 #: plugins/Scheduler/plugin.py:113
 msgid "Download limit:"
-msgstr ""
+msgstr "Limite de download:"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "Upload limit:"
-msgstr ""
+msgstr "Limite de upload:"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "Active torrents:"
-msgstr ""
+msgstr "Torrents ativos:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Upload Slots:"
@@ -2082,7 +2089,7 @@ msgstr "Slots de Upload:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Max Connections:"
-msgstr ""
+msgstr "Máximo de conexões:"
 
 #: plugins/Scheduler/plugin.py:120
 msgid "Scheduler Settings"
@@ -2555,7 +2562,7 @@ msgstr "Ajuda"
 
 #: plugins/Search/__init__.py:37
 msgid "Search for torrents anonymously"
-msgstr ""
+msgstr "Buscar anonimamente por torrents"
 
 #: plugins/Search/__init__.py:80
 msgid "Search String"

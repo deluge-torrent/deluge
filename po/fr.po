@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-23 23:49+0000\n"
-"Last-Translator: Eric <1ericrobert@gmail.com>\n"
+"PO-Revision-Date: 2008-05-05 15:42+0000\n"
+"Last-Translator: Théophane Anestis <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-04-28 23:05+0000\n"
+"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -180,11 +180,11 @@ msgstr "_Aide"
 
 #: glade/delugegtk.glade:440
 msgid "Donate to Deluge Development"
-msgstr ""
+msgstr "Faire un don à l'équipe de développement de Deluge"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
-msgstr ""
+msgstr "_Faire un don"
 
 #: glade/delugegtk.glade:458
 msgid "_Homepage"
@@ -598,7 +598,7 @@ msgstr "Effacer automatiquement les torrents qui atteignent le ratio maximal"
 
 #: glade/preferences_dialog.glade:1105
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr ""
+msgstr "Arrêter les torrents après un temps de transfert de:"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
@@ -607,6 +607,8 @@ msgstr "Nombre d'heures"
 #: glade/preferences_dialog.glade:1142
 msgid "Automatically clear torrents that reach the max seed time"
 msgstr ""
+"Effacer automatiquement les torrents terminés une fois que le temps de "
+"transfert maximum a été atteint"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -1159,7 +1161,7 @@ msgstr "Ratio"
 
 #: src/interface.py:760
 msgid "Choose a directory to switch torrent source to"
-msgstr ""
+msgstr "Choisir un dossier afin de changer la source du torrent"
 
 #: src/interface.py:764
 msgid "Delete the old torrent source?"
@@ -1491,7 +1493,7 @@ msgstr "URL de la liste noire"
 
 #: plugins/BlocklistImport/ui.py:52
 msgid "Download new blocklist every"
-msgstr ""
+msgstr "Télécharger une nouvelle liste noire tous les"
 
 #: plugins/BlocklistImport/ui.py:59
 msgid "days"
@@ -2022,7 +2024,7 @@ msgstr "_Déplacer le torrent"
 
 #: plugins/MoveTorrent/__init__.py:82
 msgid "_Switch Torrent Source"
-msgstr ""
+msgstr "_Changer la source du Torrent"
 
 #: plugins/MoveTorrent/__init__.py:102
 msgid "Choose a directory to move files to"
@@ -2088,7 +2090,7 @@ msgstr "Slots d'émission:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Max Connections:"
-msgstr ""
+msgstr "Nombre maximum de connexions:"
 
 #: plugins/Scheduler/plugin.py:120
 msgid "Scheduler Settings"

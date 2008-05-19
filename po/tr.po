@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-15 10:22+0000\n"
-"Last-Translator: Mert Bozkurt <Unknown>\n"
+"PO-Revision-Date: 2008-05-04 09:10+0000\n"
+"Last-Translator: Osman Tosun <rainman.neu@gmail.com>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-04-28 23:05+0000\n"
+"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -75,12 +75,14 @@ msgid "Down"
 msgstr "Aşağı"
 
 #: glade/delugegtk.glade:142
+#, fuzzy
 msgid "Change Deluge preferences"
-msgstr "Deluge seçeneklerini değiştir"
+msgstr "Deluge tercihlerini değiştir"
 
 #: glade/delugegtk.glade:143
+#, fuzzy
 msgid "Preferences"
-msgstr "Seçenekler"
+msgstr "Tercihler"
 
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:210
 #: glade/preferences_dialog.glade:2844
@@ -184,11 +186,11 @@ msgstr "_Yardım"
 
 #: glade/delugegtk.glade:440
 msgid "Donate to Deluge Development"
-msgstr ""
+msgstr "Deluge Gelişimine Bağışta Bulun"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
-msgstr ""
+msgstr "_Bağış Yap"
 
 #: glade/delugegtk.glade:458
 msgid "_Homepage"
@@ -608,11 +610,12 @@ msgstr "Azami paylaşım oranına ulaşınca torrentleri temizle"
 
 #: glade/preferences_dialog.glade:1105
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr ""
+msgstr "Dağıtma zamanı aşıldığında torrent dağıtımını durdur:"
 
 #: glade/preferences_dialog.glade:1120
+#, fuzzy
 msgid "Number of hours"
-msgstr ""
+msgstr "Saatlerin sayısı"
 
 #: glade/preferences_dialog.glade:1142
 msgid "Automatically clear torrents that reach the max seed time"
@@ -1190,7 +1193,7 @@ msgstr ""
 
 #: src/interface.py:764
 msgid "Delete the old torrent source?"
-msgstr ""
+msgstr "Eski torrent kaynağı silinsin mi?"
 
 #: src/interface.py:953
 #, python-format
@@ -1463,7 +1466,7 @@ msgstr "Emule IP Listesi (GZip)"
 
 #: plugins/BlocklistImport/__init__.py:44
 msgid "SafePeer Text (Zipped)"
-msgstr ""
+msgstr "SafePeer Yazı (Sıkıştırılmış)"
 
 #: plugins/BlocklistImport/__init__.py:118
 msgid "Couldn't download URL"
@@ -1533,11 +1536,11 @@ msgstr ""
 
 #: plugins/BlocklistImport/peerguardian.py:32
 msgid "Invalid leader"
-msgstr ""
+msgstr "Yanlış yönlendirici"
 
 #: plugins/BlocklistImport/peerguardian.py:36
 msgid "Invalid magic code"
-msgstr ""
+msgstr "Yanlış sihir kodu"
 
 #: plugins/BlocklistImport/peerguardian.py:41
 #, fuzzy

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-18 02:08+0000\n"
-"Last-Translator: Γιάννης Κατσαμπίρης <juankatsampirhs@gmail.com>\n"
+"PO-Revision-Date: 2008-05-07 17:43+0000\n"
+"Last-Translator: Michalis <makmichalis@gmail.com>\n"
 "Language-Team: Greek, Modern (1453-) <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-04-28 23:05+0000\n"
+"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -31,15 +31,15 @@ msgstr "Αφαίρεση Torrent"
 
 #: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:43
 msgid "Remove"
-msgstr "Κατάργηση"
+msgstr "Αφαίρεση"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
-msgstr "Αφαίρεση Torrents που ανεβάζουν"
+msgstr "Αφαίρεση torrents που διαμοιράζονται"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
-msgstr "Εκκαθάριση"
+msgstr "Καθαρισμός"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
@@ -181,11 +181,11 @@ msgstr "_Βοήθεια"
 
 #: glade/delugegtk.glade:440
 msgid "Donate to Deluge Development"
-msgstr ""
+msgstr "Προσφέρετε χρήματα στην ανάπτυξη του Deluge"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
-msgstr ""
+msgstr "_Προσφέρετε χρήματα"
 
 #: glade/delugegtk.glade:458
 msgid "_Homepage"
@@ -601,14 +601,16 @@ msgstr ""
 #: glade/preferences_dialog.glade:1105
 msgid "Stop seeding torrents when their seed time reaches:"
 msgstr ""
+"Διακοπή διαμοιρασμού torrents όταν ο χρόνος διαμοιρασμού τους φτάσει:"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
-msgstr ""
+msgstr "Αριθμός ωρών"
 
 #: glade/preferences_dialog.glade:1142
 msgid "Automatically clear torrents that reach the max seed time"
 msgstr ""
+"Αυτόματη εκκαθάριση torrents που φτάνουν το μέγιστο χρόνο διαμοιρασμού"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -868,7 +870,7 @@ msgstr "Άλλο"
 
 #: glade/torrent_menu.glade:11
 msgid "_Force Recheck"
-msgstr ""
+msgstr "_Άμεσος Επανέλεγχος"
 
 #: glade/torrent_menu.glade:33
 msgid "Re_sume"
@@ -1511,7 +1513,7 @@ msgstr "URL Μαύρης Λίστας"
 
 #: plugins/BlocklistImport/ui.py:52
 msgid "Download new blocklist every"
-msgstr ""
+msgstr "Κατέβασμα νέας λίστας μπλοκαρισμένων διευθύνσεων κάθε"
 
 #: plugins/BlocklistImport/ui.py:59
 msgid "days"
@@ -2088,15 +2090,15 @@ msgstr "URL"
 
 #: plugins/Scheduler/plugin.py:113
 msgid "Download limit:"
-msgstr ""
+msgstr "Όριο κατεβάσματος:"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "Upload limit:"
-msgstr ""
+msgstr "Όριο ανεβάσματος:"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "Active torrents:"
-msgstr ""
+msgstr "Ενεργά torrents:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Upload Slots:"

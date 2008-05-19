@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-12 11:31+0000\n"
-"Last-Translator: gergo86 <Unknown>\n"
+"PO-Revision-Date: 2008-05-18 10:54+0000\n"
+"Last-Translator: muczy <Unknown>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-04-28 23:04+0000\n"
+"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -182,11 +182,11 @@ msgstr "_Segítség"
 
 #: glade/delugegtk.glade:440
 msgid "Donate to Deluge Development"
-msgstr ""
+msgstr "Támogatás a Deluge fejlesztőinek"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
-msgstr ""
+msgstr "_Támogatás"
 
 #: glade/delugegtk.glade:458
 msgid "_Homepage"
@@ -593,16 +593,18 @@ msgid "Automatically clear torrents that reach the max share ratio"
 msgstr "Torrentek automatikus törlése ha elérik a kívánt megosztási arányt"
 
 #: glade/preferences_dialog.glade:1105
+#, fuzzy
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr ""
+msgstr "A torrentek seedelésének megszakítása, ha a seed time eléri:"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
-msgstr ""
+msgstr "Órák száma"
 
 #: glade/preferences_dialog.glade:1142
+#, fuzzy
 msgid "Automatically clear torrents that reach the max seed time"
-msgstr ""
+msgstr "Automatikusan törölje a torrenteket ha a seed time eléri a maximumot"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -1071,6 +1073,9 @@ msgid ""
 "or try setting your LD_LIBRARY_PATH and MOZILLA_FIVE_HOME environment "
 "variables to /usr/lib/firefox"
 msgstr ""
+"Nem található böngésző. Bizonyosodjon meg róla, hogy a python-gnome2-extras "
+"fel van telepítve vagy próbálja meg beállítani az LD_LIBRARY_PATH és "
+"MOZILLA_FIVE_HOM környezeti változókat /usr/lib/firefox -hoz."
 
 #: src/interface.py:295 src/interface.py:301 src/interface.py:382
 #: src/interface.py:410 plugins/SpeedLimiter/__init__.py:84
@@ -1147,8 +1152,9 @@ msgid "Choose a directory to switch torrent source to"
 msgstr ""
 
 #: src/interface.py:764
+#, fuzzy
 msgid "Delete the old torrent source?"
-msgstr ""
+msgstr "Töröljem a régen letöltött torrent forrásokat?"
 
 #: src/interface.py:953
 #, python-format
@@ -1321,6 +1327,7 @@ msgid "Enabled"
 msgstr "Engedélyezve"
 
 #: src/dialogs.py:445
+#, fuzzy
 msgid ""
 "Deluge is free software, you can redistribute it and/or\n"
 "modify it under the terms of the GNU General Public\n"
@@ -1336,6 +1343,19 @@ msgid ""
 " Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-\n"
 "1301 USA"
 msgstr ""
+"Deluge is free software, you can redistribute it and/or\n"
+"modify it under the terms of the GNU General Public\n"
+" License as published by the Free Software Foundation,\n"
+"either version 2 of the License, or (at your option) any\n"
+"later version.  Deluge is distributed in the hope that it\n"
+"will be useful, but WITHOUT ANY WARRANTY, without even \n"
+"the implied warranty of MERCHANTABILITY or FITNESS\n"
+"FOR A PARTICULAR PURPOSE.  See the GNU General\n"
+"Public License for more details.  You should have received\n"
+"a copy of the GNU General Public License along with\n"
+"Deluge, but if not, write to the Free Software Foundation,\n"
+" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-\n"
+"1301 USA"
 
 #: src/dialogs.py:486
 msgid "Choose a .torrent file"
@@ -1457,7 +1477,7 @@ msgstr "Blokklista URL"
 
 #: plugins/BlocklistImport/ui.py:52
 msgid "Download new blocklist every"
-msgstr ""
+msgstr "Töltse le az új feketelistát minden"
 
 #: plugins/BlocklistImport/ui.py:59
 msgid "days"
@@ -2010,23 +2030,23 @@ msgstr "URL:"
 
 #: plugins/Scheduler/plugin.py:113
 msgid "Download limit:"
-msgstr ""
+msgstr "Letöltési korlát:"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "Upload limit:"
-msgstr ""
+msgstr "Feltöltési korlát:"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "Active torrents:"
-msgstr ""
+msgstr "Aktív torrentek:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Upload Slots:"
-msgstr ""
+msgstr "Feltöltési slotok:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Max Connections:"
-msgstr ""
+msgstr "Kapcsolatok maximuma:"
 
 #: plugins/Scheduler/plugin.py:120
 msgid "Scheduler Settings"
@@ -2435,7 +2455,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
 msgid "Threaded (experimental)"
-msgstr ""
+msgstr "Több szálas mód (kísérleti)"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"
@@ -2489,8 +2509,9 @@ msgid "Help"
 msgstr "Segítség"
 
 #: plugins/Search/__init__.py:37
+#, fuzzy
 msgid "Search for torrents anonymously"
-msgstr ""
+msgstr "Torrentfájlok keresése névtelenül"
 
 #: plugins/Search/__init__.py:80
 msgid "Search String"

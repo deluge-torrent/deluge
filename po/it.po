@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-26 18:56+0000\n"
-"Last-Translator: Avoledo Marco <deepred86@gmail.com>\n"
+"PO-Revision-Date: 2008-05-04 18:50+0000\n"
+"Last-Translator: Matteo Settenvini <matteo-ml@member.fsf.org>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-04-28 23:05+0000\n"
+"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -34,7 +34,6 @@ msgid "Remove"
 msgstr "Rimuovi"
 
 #: glade/delugegtk.glade:56
-#, fuzzy
 msgid "Clear Seeding Torrents"
 msgstr "Libera la lista dai torrent in seeding"
 
@@ -43,18 +42,16 @@ msgid "Clear"
 msgstr "Pulisci"
 
 #: glade/delugegtk.glade:79
-#, fuzzy
 msgid "Start or Resume Torrent"
-msgstr "Avvia o Riprendi un torrent"
+msgstr "Avvia o riprendi il trasferimento"
 
 #: glade/delugegtk.glade:80 plugins/WebUi/scripts/template_strings.py:45
 msgid "Resume"
 msgstr "Riprendi"
 
 #: glade/delugegtk.glade:93
-#, fuzzy
 msgid "Pause Torrent"
-msgstr "Sospendi Torrent"
+msgstr "Metti in pausa il trasferimento"
 
 #: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
 msgid "Pause"
@@ -188,12 +185,11 @@ msgstr "Dona per lo sviluppo di Deluge"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
-msgstr ""
+msgstr "_Dona"
 
 #: glade/delugegtk.glade:458
-#, fuzzy
 msgid "_Homepage"
-msgstr "Pagina iniziale"
+msgstr "Sito web"
 
 #: glade/delugegtk.glade:475
 msgid "_FAQ"
@@ -558,24 +554,22 @@ msgid "Outbound:"
 msgstr "In uscita:"
 
 #: glade/preferences_dialog.glade:904
-#, fuzzy
 msgid "Prefer to encrypt the entire stream"
-msgstr ""
+msgstr "Cerca di crittografare l'intero stream"
 
 #: glade/preferences_dialog.glade:917
 msgid "Level:"
 msgstr "Livello:"
 
 #: glade/preferences_dialog.glade:931
-#, fuzzy
 msgid ""
 "Handshake\n"
 "Full Stream\n"
 "Either"
 msgstr ""
-"Stretta di Mano\n"
-"Flusso Colmpleto\n"
-"Entrambi"
+"Handshake\n"
+"Intera connessione\n"
+"Ambedue"
 
 #: glade/preferences_dialog.glade:954
 msgid "<b>Encryption</b>"
@@ -605,10 +599,8 @@ msgstr ""
 "massimo"
 
 #: glade/preferences_dialog.glade:1105
-#, fuzzy
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr ""
-"Smetti di condividere torrents quando il loro tempo di seed raggiunge:"
+msgstr "Smetti di condividere torrent dopo essere stati in seeding per:"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
@@ -617,6 +609,7 @@ msgstr "Numero di ore"
 #: glade/preferences_dialog.glade:1142
 msgid "Automatically clear torrents that reach the max seed time"
 msgstr ""
+"Pulisci automaticamente i torrent che raggiungono il tempo di max seed"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -1175,12 +1168,13 @@ msgid "Ratio"
 msgstr "Rapporto"
 
 #: src/interface.py:760
+#, fuzzy
 msgid "Choose a directory to switch torrent source to"
-msgstr ""
+msgstr "Scegliere una directory per cambiare il sorgente del torrent a"
 
 #: src/interface.py:764
 msgid "Delete the old torrent source?"
-msgstr ""
+msgstr "Cancellare i vecchi torrent?"
 
 #: src/interface.py:953
 #, python-format
@@ -2036,6 +2030,14 @@ msgid ""
 "moved to a different folder.\n"
 "Note: Files can currently only be moved within the same partition"
 msgstr ""
+"Questo modulo permette agli utenti di spostare i file di un torrent in "
+"un'altra cartella, senza bisogno di rimuovere e aggiungere nuovamente il "
+"torrent. Questa funzionalità può essere trovata cliccando col tasto destro "
+"del mouse su un torrent.\n"
+"Inoltre, permette all'utente di spostare i file correttamente completati in "
+"un'altra cartella.\n"
+"Nota: I file possono essere spostati unicamente all'interno della stessa "
+"partizione"
 
 #: plugins/MoveTorrent/__init__.py:75
 msgid "_Move Torrent"
@@ -2043,7 +2045,7 @@ msgstr "_Sposta torrent"
 
 #: plugins/MoveTorrent/__init__.py:82
 msgid "_Switch Torrent Source"
-msgstr ""
+msgstr "_Scambia sorgente torrent"
 
 #: plugins/MoveTorrent/__init__.py:102
 msgid "Choose a directory to move files to"

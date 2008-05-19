@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-26 23:05+0000\n"
-"Last-Translator: Stefan Horning <Unknown>\n"
+"PO-Revision-Date: 2008-05-09 19:11+0000\n"
+"Last-Translator: Janek Thomaschewski <janek@php4you.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-04-28 23:06+0000\n"
+"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -601,17 +601,16 @@ msgstr "Torrents entfernen, wenn max. Tauschverhältnis erreicht"
 #: glade/preferences_dialog.glade:1105
 #, fuzzy
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr "Seeden von Torrents stoppen wenn die Zeit erreicht ist"
+msgstr "Wenn die Zeit erreicht ist, Seeden von Torrents stoppen"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
 msgstr "Anzahl der Stunden"
 
 #: glade/preferences_dialog.glade:1142
-#, fuzzy
 msgid "Automatically clear torrents that reach the max seed time"
 msgstr ""
-"Torrents die die maximale Seed-Zeit erreicht haben automatisch säubern"
+"Torrents die die maximale Seed-Dauer erreicht haben automatisch löschen"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
