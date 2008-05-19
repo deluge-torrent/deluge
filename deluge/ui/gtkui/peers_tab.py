@@ -43,6 +43,7 @@ from deluge.configmanager import ConfigManager
 import deluge.component as component
 import deluge.common
 from deluge.ui.gtkui.listview import cell_data_speed as cell_data_speed
+from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.log import LOG as log
 
 class ColumnState:
@@ -53,9 +54,14 @@ class ColumnState:
         self.sort = sort
         self.sort_order = sort_order
             
-class PeersTab:
+class PeersTab(Tab):
     def __init__(self):
         glade = component.get("MainWindow").get_glade()
+
+        self._name = "Peers"
+        self._child_widget = glade.get_widget("peers_tab")
+        self._tab_label = glade.get_widget("peers_tab_label")
+        
         self.listview = glade.get_widget("peers_listview")
         # country pixbuf, ip, client, downspeed, upspeed, country code, int_ip, seed/peer icon
         self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str, gobject.TYPE_UINT, gtk.gdk.Pixbuf)

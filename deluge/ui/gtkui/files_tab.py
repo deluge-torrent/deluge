@@ -37,6 +37,7 @@ import gettext
 import os.path
 import cPickle
 
+from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
 import deluge.component as component
@@ -72,9 +73,14 @@ class ColumnState:
         self.sort = sort
         self.sort_order = sort_order
 
-class FilesTab:
+class FilesTab(Tab):
     def __init__(self):
         glade = component.get("MainWindow").get_glade()
+
+        self._name = "Files"
+        self._child_widget = glade.get_widget("files_tab")
+        self._tab_label = glade.get_widget("files_tab_label")
+
         self.listview = glade.get_widget("files_listview")
         # filename, size, progress string, progress value, priority, file index
         self.liststore = gtk.ListStore(str, gobject.TYPE_UINT64, str, int, int, int)

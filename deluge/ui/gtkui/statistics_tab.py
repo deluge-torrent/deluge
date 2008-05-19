@@ -36,6 +36,7 @@ import gtk, gtk.glade
 from deluge.ui.client import aclient as client
 import deluge.component as component
 import deluge.common
+from deluge.ui.gtkui.torrentdetails import Tab
 
 def fpeer_sized(first, second):
     return "%s (%s)" % (deluge.common.fsize(first), deluge.common.fsize(second))
@@ -55,11 +56,15 @@ def fspeed(value, max_value=-1):
     else:
         return deluge.common.fspeed(value)
         
-class StatisticsTab:
+class StatisticsTab(Tab):
     def __init__(self):
         # Get the labels we need to update.
         # widgetname, modifier function, status keys
         glade = component.get("MainWindow").main_glade
+        
+        self._name = "Statistics"
+        self._child_widget = glade.get_widget("statistics_tab")
+        self._tab_label = glade.get_widget("statistics_tab_label")
         
         self.label_widgets = [
             (glade.get_widget("summary_pieces"), fpeer_size_second, ("num_pieces", "piece_length")),

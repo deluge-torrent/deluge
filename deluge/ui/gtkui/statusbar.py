@@ -187,7 +187,13 @@ class StatusBar(component.Component):
         except Exception, e:
             log.debug("Unable to remove StatusBar item: %s", e)
         self.show_not_connected()        
-        
+    
+    def visible(self, visible):
+        if visible:
+            self.statusbar.show()
+        else:
+            self.statusbar.hide()
+            
     def show_not_connected(self):
         self.hbox.pack_start(
             self.not_connected_item.get_eventbox(), expand=False, fill=False)

@@ -36,14 +36,19 @@ import gtk, gtk.glade
 from deluge.ui.client import aclient as client
 import deluge.component as component
 import deluge.common
+from deluge.ui.gtkui.torrentdetails import Tab
 
 from deluge.log import LOG as log
 
-class DetailsTab:
+class DetailsTab(Tab):
     def __init__(self):
         # Get the labels we need to update.
         # widgetname, modifier function, status keys
         glade = component.get("MainWindow").main_glade
+        
+        self._name = "Details"
+        self._child_widget = glade.get_widget("details_tab")
+        self._tab_label = glade.get_widget("details_tab_label")
         
         self.label_widgets = [
             (glade.get_widget("summary_name"), None, ("name",)),
@@ -51,11 +56,10 @@ class DetailsTab:
             (glade.get_widget("summary_num_files"), str, ("num_files",)),
             (glade.get_widget("summary_tracker"), None, ("tracker",)),
             (glade.get_widget("summary_torrent_path"), None, ("save_path",)),
-            (glade.get_widget("summary_private"), str, ("private",)),
             (glade.get_widget("summary_message"), str, ("message",)),
             (glade.get_widget("summary_hash"), str, ("hash",))
         ]
-        
+    
     def update(self):
         # Get the first selected torrent
         selected = component.get("TorrentView").get_selected_torrents()
@@ -65,15 +69,16 @@ class DetailsTab:
             selected = selected[0]
         else:
             # No torrent is selected in the torrentview
+            self.clear()
             return
         
         # Get the torrent status
         status_keys = ["name", "total_size", "num_files",
-            "tracker", "save_path", "private", "message", "hash"]
+            "tracker", "save_path", "message", "hash"]
         
         client.get_torrent_status(
             self._on_get_torrent_status, selected, status_keys)
-            
+                    
     def _on_get_torrent_status(self, status):
         # Check to see if we got valid data from the core
         if status is None:

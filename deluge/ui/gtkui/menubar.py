@@ -114,8 +114,8 @@ class MenuBar(component.Component):
             
             ## View Menu
             "on_menuitem_toolbar_toggled": self.on_menuitem_toolbar_toggled,
-            "on_menuitem_sidebar_toggled": self.on_menuitem_sidebar_toggled,
-            "on_menuitem_infopane_toggled": self.on_menuitem_infopane_toggled,
+            "on_menuitem_labels_toggled": self.on_menuitem_labels_toggled,
+            "on_menuitem_statusbar_toggled": self.on_menuitem_statusbar_toggled,
             
             ## Help Menu
             "on_menuitem_homepage_activate": self.on_menuitem_homepage_activate,
@@ -322,14 +322,14 @@ class MenuBar(component.Component):
         log.debug("on_menuitem_toolbar_toggled")
         component.get("ToolBar").visible(value.get_active())
 
-    def on_menuitem_sidebar_toggled(self, value):
-        log.debug("on_menuitem_sidebar_toggled")
+    def on_menuitem_labels_toggled(self, value):
+        log.debug("on_menuitem_labels_toggled")
         component.get("SideBar").visible(value.get_active())
                 
-    def on_menuitem_infopane_toggled(self, value):
-        log.debug("on_menuitem_infopane_toggled")
-        component.get("TorrentDetails").visible(value.get_active())
-    
+    def on_menuitem_statusbar_toggled(self, value):
+        log.debug("on_menuitem_statusbar_toggled")
+        component.get("StatusBar").visible(value.get_active())
+
     ## Help Menu ##
     def on_menuitem_homepage_activate(self, data=None):
         log.debug("on_menuitem_homepage_activate")

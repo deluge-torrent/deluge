@@ -33,10 +33,16 @@
 
 import deluge.component as component
 from deluge.ui.client import aclient as client
+from deluge.ui.gtkui.torrentdetails import Tab
 
-class OptionsTab:
+class OptionsTab(Tab):
     def __init__(self):
         glade = component.get("MainWindow").get_glade()
+        
+        self._name = "Options"
+        self._child_widget = glade.get_widget("options_tab")
+        self._tab_label = glade.get_widget("options_tab_label")
+        
         self.spin_max_download = glade.get_widget("spin_max_download")
         self.spin_max_upload = glade.get_widget("spin_max_upload")
         self.spin_max_connections = glade.get_widget("spin_max_connections")
