@@ -305,7 +305,7 @@ class Preferences:
         if key not in self.mapping or self.mapping[key]!=value:
             self.mapping[key] = value 
             for hook in self.change_hooks: 
- 	        if (hook[0]==key): hook[1]() 
+                if (hook[0]==key): hook[1]() 
 
     def __delitem__(self, key):
         del self.mapping[key]
