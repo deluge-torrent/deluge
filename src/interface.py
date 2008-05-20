@@ -776,6 +776,7 @@ window, please enter your password"))
                      trackers_changed = 0
                 self.manager.pickle_state()
                 uploaded_memory = self.manager.unique_IDs[uid].uploaded_memory
+                uploaded_memory += self.manager.get_core_torrent_state(uid, False)['total_payload_upload']
                 priorities = self.manager.get_priorities(uid)
                 save_info = [path, save_dir, order, trackerslist, \
                                 uploaded_memory, priorities, trackers_changed, \
