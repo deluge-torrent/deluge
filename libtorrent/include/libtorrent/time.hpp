@@ -86,7 +86,11 @@ namespace libtorrent
 
 #else
 
+#if BOOST_VERSION < 103500
 #include <asio/time_traits.hpp>
+#else
+#include <boost/asio/time_traits.hpp>
+#endif
 #include <boost/cstdint.hpp>
 #include "libtorrent/assert.hpp"
 
@@ -152,6 +156,9 @@ namespace libtorrent
 }
 
 // asio time_traits
+#if BOOST_VERSION >= 103500
+namespace boost { 
+#endif
 namespace asio
 {
 	template<>
@@ -172,6 +179,9 @@ namespace asio
 		{ return boost::posix_time::microseconds(libtorrent::total_microseconds(d)); }
 	};
 }
+#if BOOST_VERSION >= 103500
+}
+#endif
 
 #if defined(__MACH__)
 

@@ -187,6 +187,7 @@ namespace libtorrent
 			std::pair<char const*, lazy_entry>* tmp = new (std::nothrow) std::pair<char const*, lazy_entry>[capacity];
 			if (tmp == 0) return 0;
 			std::memcpy(tmp, m_data.dict, sizeof(std::pair<char const*, lazy_entry>) * m_size);
+			for (int i = 0; i < m_size; ++i) m_data.dict[i].second.release();
 			delete[] m_data.dict;
 			m_data.dict = tmp;
 			m_capacity = capacity;
@@ -299,6 +300,7 @@ namespace libtorrent
 			lazy_entry* tmp = new (std::nothrow) lazy_entry[capacity];
 			if (tmp == 0) return 0;
 			std::memcpy(tmp, m_data.list, sizeof(lazy_entry) * m_size);
+			for (int i = 0; i < m_size; ++i) m_data.list[i].release();
 			delete[] m_data.list;
 			m_data.list = tmp;
 			m_capacity = capacity;
@@ -330,6 +332,7 @@ namespace libtorrent
 			case dict_t: delete[] m_data.dict; break;
 			default: break;
 		}
+		m_data.start = 0;
 		m_size = 0;
 		m_capacity = 0;
 		m_type = none_t;
@@ -370,7 +373,8 @@ namespace libtorrent
 				bool one_liner = (e.list_size() == 0
 					|| e.list_at(0)->type() == lazy_entry::int_t
 					|| (e.list_at(0)->type() == lazy_entry::string_t
-						&& e.list_at(0)->string_length() < 10))
+						&& (e.list_at(0)->string_length() < 10
+							|| e.list_size() < 2)))
 					&& e.list_size() < 5;
 				if (!one_liner) os << "\n";
 				for (int i = 0; i < e.list_size(); ++i)
@@ -388,7 +392,7 @@ namespace libtorrent
 				bool one_liner = (e.dict_size() == 0
 					|| e.dict_at(0).second->type() == lazy_entry::int_t
 					|| (e.dict_at(0).second->type() == lazy_entry::string_t
-						&& e.dict_at(0).second->string_length() < 10)
+						&& e.dict_at(0).second->string_length() < 30)
 					|| e.dict_at(0).first.size() < 10)
 					&& e.dict_size() < 5;
 

@@ -35,8 +35,10 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <algorithm>
 #include <iostream>
 #include <iomanip>
+#include <boost/bind.hpp>
 #include "libtorrent/entry.hpp"
 #include "libtorrent/config.hpp"
+#include "libtorrent/escape_string.hpp"
 
 #if defined(_MSC_VER)
 namespace std
@@ -54,19 +56,6 @@ namespace
 		TORRENT_ASSERT(o);
 		o->~T();
 	}
-
-	struct compare_string
-	{
-		compare_string(char const* s): m_str(s)  {}
-	
-		bool operator()(
-			std::pair<std::string
-			, libtorrent::entry> const& e) const
-		{
-			return m_str && e.first == m_str;
-		}
-		char const* m_str;
-	};
 }
 
 namespace libtorrent
@@ -99,28 +88,42 @@ namespace libtorrent
 		if (i != dict().end()) return i->second;
 		dictionary_type::iterator ret = dict().insert(
 			dict().begin()
+			, std::make_pair(key, entry()));
+		return ret->second;
+	}
+
+	entry& entry::operator[](std::string const& key)
+	{
+		dictionary_type::iterator i = dict().find(key);
+		if (i != dict().end()) return i->second;
+		dictionary_type::iterator ret = dict().insert(
+			dict().begin()
 			, std::make_pair(std::string(key), entry()));
 		return ret->second;
 	}
 
-
-	entry& entry::operator[](std::string const& key)
-	{
-		return (*this)[key.c_str()];
-	}
-
 	entry* entry::find_key(char const* key)
 	{
-		dictionary_type::iterator i = std::find_if(
-			dict().begin()
-			, dict().end()
-			, compare_string(key));
+		dictionary_type::iterator i = dict().find(key);
 		if (i == dict().end()) return 0;
 		return &i->second;
-	
 	}
 
 	entry const* entry::find_key(char const* key) const
+	{
+		dictionary_type::const_iterator i = dict().find(key);
+		if (i == dict().end()) return 0;
+		return &i->second;
+	}
+	
+	entry* entry::find_key(std::string const& key)
+	{
+		dictionary_type::iterator i = dict().find(key);
+		if (i == dict().end()) return 0;
+		return &i->second;
+	}
+
+	entry const* entry::find_key(std::string const& key) const
 	{
 		dictionary_type::const_iterator i = dict().find(key);
 		if (i == dict().end()) return 0;
@@ -370,21 +373,8 @@ namespace libtorrent
 						break;
 					}
 				}
-				if (binary_string)
-				{
-					os.unsetf(std::ios_base::dec);
-					os.setf(std::ios_base::hex);
-					for (std::string::const_iterator i = string().begin(); i != string().end(); ++i)
-						os << std::setfill('0') << std::setw(2)
-							<< static_cast<unsigned int>((unsigned char)*i);
-					os.unsetf(std::ios_base::hex);
-					os.setf(std::ios_base::dec);
-					os << "\n";
-				}
-				else
-				{
-					os << string() << "\n";
-				}
+				if (binary_string) os << to_hex(string()) << "\n";
+				else os << string() << "\n";
 			} break;
 		case list_t:
 			{
@@ -399,8 +389,21 @@ namespace libtorrent
 				os << "dictionary\n";
 				for (dictionary_type::const_iterator i = dict().begin(); i != dict().end(); ++i)
 				{
+					bool binary_string = false;
+					for (std::string::const_iterator k = i->first.begin(); k != i->first.end(); ++k)
+					{
+						if (!std::isprint(static_cast<unsigned char>(*k)))
+						{
+							binary_string = true;
+							break;
+						}
+					}
 					for (int j = 0; j < indent+1; ++j) os << " ";
-					os << "[" << i->first << "]";
+					os << "[";
+					if (binary_string) os << to_hex(i->first);
+					else os << i->first;
+					os << "]";
+
 					if (i->second.type() != entry::string_t
 						&& i->second.type() != entry::int_t)
 						os << "\n";

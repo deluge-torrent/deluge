@@ -40,8 +40,13 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include <boost/bind.hpp>
 #include <boost/ref.hpp>
+#if BOOST_VERSION < 103500
 #include <asio/ip/host_name.hpp>
 #include <asio/ip/multicast.hpp>
+#else
+#include <boost/asio/ip/host_name.hpp>
+#include <boost/asio/ip/multicast.hpp>
+#endif
 #include <boost/thread/mutex.hpp>
 #include <cstdlib>
 #include <boost/config.hpp>
@@ -52,7 +57,7 @@ using namespace libtorrent;
 namespace libtorrent
 {
 	// defined in broadcast_socket.cpp
-	address guess_local_address(asio::io_service&);
+	address guess_local_address(io_service&);
 }
 
 lsd::lsd(io_service& ios, address const& listen_interface
@@ -84,7 +89,7 @@ void lsd::announce(sha1_hash const& ih, int listen_port)
 	std::string const& msg = btsearch.str();
 
 	m_retry_count = 1;
-	asio::error_code ec;
+	error_code ec;
 	m_socket.send(msg.c_str(), int(msg.size()), ec);
 	if (ec)
 	{
@@ -101,11 +106,11 @@ void lsd::announce(sha1_hash const& ih, int listen_port)
 	m_broadcast_timer.async_wait(bind(&lsd::resend_announce, self(), _1, msg));
 }
 
-void lsd::resend_announce(asio::error_code const& e, std::string msg)
+void lsd::resend_announce(error_code const& e, std::string msg)
 {
 	if (e) return;
 
-	asio::error_code ec;
+	error_code ec;
 	m_socket.send(msg.c_str(), int(msg.size()), ec);
 
 	++m_retry_count;
@@ -192,7 +197,7 @@ void lsd::on_announce(udp::endpoint const& from, char* buffer
 void lsd::close()
 {
 	m_socket.close();
-	asio::error_code ec;
+	error_code ec;
 	m_broadcast_timer.cancel(ec);
 	m_disabled = true;
 	m_callback.clear();

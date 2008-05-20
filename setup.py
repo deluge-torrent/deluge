@@ -85,15 +85,10 @@ if not os.environ.has_key("CPP"):
     
 # The libtorrent extension
 _extra_compile_args = [
-    "-DHAVE_INCLUDE_LIBTORRENT_ASIO____ASIO_HPP=1", 
-    "-DHAVE_INCLUDE_LIBTORRENT_ASIO_SSL_STREAM_HPP=1", 
-    "-DHAVE_INCLUDE_LIBTORRENT_ASIO_IP_TCP_HPP=1", 
-    "-DHAVE_PTHREAD=1",
     "-DTORRENT_USE_OPENSSL=1",
-    "-DHAVE_SSL=1",
     "-O2",
     "-D_FILE_OFFSET_BITS=64",
-    "-DNDEBUG"
+    "-DNDEBUG",
     ]
 
 if windows_check():

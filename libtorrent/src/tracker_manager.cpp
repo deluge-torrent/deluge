@@ -84,7 +84,7 @@ namespace libtorrent
 
 		int timeout = (std::min)(
 			m_read_timeout, (std::min)(m_completion_timeout, m_read_timeout));
-		asio::error_code ec;
+		error_code ec;
 		m_timeout.expires_at(m_read_time + seconds(timeout), ec);
 		m_timeout.async_wait(bind(
 			&timeout_handler::timeout_callback, self(), _1));
@@ -99,11 +99,11 @@ namespace libtorrent
 	{
 		m_abort = true;
 		m_completion_timeout = 0;
-		asio::error_code ec;
+		error_code ec;
 		m_timeout.cancel(ec);
 	}
 
-	void timeout_handler::timeout_callback(asio::error_code const& error)
+	void timeout_handler::timeout_callback(error_code const& error)
 	{
 		if (error) return;
 		if (m_completion_timeout == 0) return;
@@ -125,7 +125,7 @@ namespace libtorrent
 
 		int timeout = (std::min)(
 			m_read_timeout, (std::min)(m_completion_timeout, m_read_timeout));
-		asio::error_code ec;
+		error_code ec;
 		m_timeout.expires_at(m_read_time + seconds(timeout), ec);
 		m_timeout.async_wait(
 			bind(&timeout_handler::timeout_callback, self(), _1));
@@ -178,83 +178,6 @@ namespace libtorrent
 		if (i == m_connections.end()) return;
 
 		m_connections.erase(i);
-	}
-
-	// returns protocol, auth, hostname, port, path	
-	tuple<std::string, std::string, std::string, int, std::string>
-		parse_url_components(std::string url)
-	{
-		std::string hostname; // hostname only
-		std::string auth; // user:pass
-		std::string protocol; // http or https for instance
-		int port = 80;
-
-		std::string::iterator at;
-		std::string::iterator colon;
-		std::string::iterator port_pos;
-
-		// PARSE URL
-		std::string::iterator start = url.begin();
-		// remove white spaces in front of the url
-		while (start != url.end() && (*start == ' ' || *start == '\t'))
-			++start;
-		std::string::iterator end
-			= std::find(url.begin(), url.end(), ':');
-		protocol.assign(start, end);
-
-		if (protocol == "https") port = 443;
-
-		if (end == url.end()) goto exit;
-		++end;
-		if (end == url.end()) goto exit;
-		if (*end != '/') goto exit;
-		++end;
-		if (end == url.end()) goto exit;
-		if (*end != '/') goto exit;
-		++end;
-		start = end;
-
-		at = std::find(start, url.end(), '@');
-		colon = std::find(start, url.end(), ':');
-		end = std::find(start, url.end(), '/');
-
-		if (at != url.end()
-			&& colon != url.end()
-			&& colon < at
-			&& at < end)
-		{
-			auth.assign(start, at);
-			start = at;
-			++start;
-		}
-
-		// this is for IPv6 addresses
-		if (start != url.end() && *start == '[')
-		{
-			port_pos = std::find(start, url.end(), ']');
-			if (port_pos == url.end()) goto exit;
-			port_pos = std::find(port_pos, url.end(), ':');
-		}
-		else
-		{
-			port_pos = std::find(start, url.end(), ':');
-		}
-
-		if (port_pos < end)
-		{
-			hostname.assign(start, port_pos);
-			++port_pos;
-			port = atoi(std::string(port_pos, end).c_str());
-		}
-		else
-		{
-			hostname.assign(start, end);
-		}
-
-		start = end;
-exit:
-		return make_tuple(protocol, auth, hostname, port
-			, std::string(start, url.end()));
 	}
 
 	void tracker_manager::queue_request(

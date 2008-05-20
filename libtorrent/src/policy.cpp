@@ -225,7 +225,7 @@ namespace libtorrent
 		// blocks be from whole pieces, possibly by returning more blocks
 		// than we requested.
 #ifndef NDEBUG
-		asio::error_code ec;
+		error_code ec;
 		TORRENT_ASSERT(c.remote() == c.get_socket()->remote_endpoint(ec) || ec);
 #endif
 
@@ -348,6 +348,7 @@ namespace libtorrent
 		, m_torrent(t)
 		, m_available_free_upload(0)
 		, m_num_connect_candidates(0)
+		, m_num_seeds(0)
 	{ TORRENT_ASSERT(t); }
 
 	// disconnects and removes all peers that are now filtered
@@ -418,49 +419,6 @@ namespace libtorrent
 		if (ses.m_port_filter.access(p.ip.port()) & port_filter::blocked)
 			return false;
 		return true;
-	}
-
-	policy::iterator policy::find_disconnect_candidate()
-	{
-		INVARIANT_CHECK;
-
-		iterator disconnect_peer = m_peers.end();
-		double slowest_transfer_rate = (std::numeric_limits<double>::max)();
-
-		ptime now = time_now();
-
-		for (iterator i = m_peers.begin();
-			i != m_peers.end(); ++i)
-		{
-			peer_connection* c = i->second.connection;
-			if (c == 0) continue;
-			if (c->is_disconnecting()) continue;
-			
-			// never disconnect an interesting peer if we have a candidate that
-			// isn't interesting
-			if (disconnect_peer != m_peers.end()
-				&& c->is_interesting()
-				&& !disconnect_peer->second.connection->is_interesting())
-				continue;
-
-			double transferred_amount
-				= (double)c->statistics().total_payload_download();
-
-			time_duration connected_time = now - i->second.connected;
-
-			double connected_time_in_seconds = total_seconds(connected_time);
-
-			double transfer_rate
-				= transferred_amount / (connected_time_in_seconds + 1);
-
-			// prefer to disconnect uninteresting peers, and secondly slow peers
-			if (transfer_rate <= slowest_transfer_rate)
-			{
-				slowest_transfer_rate = transfer_rate;
-				disconnect_peer = i;
-			}
-		}
-		return disconnect_peer;
 	}
 
 	policy::iterator policy::find_connect_candidate()
@@ -625,7 +583,7 @@ namespace libtorrent
 
 		// TODO: only allow _one_ connection to use this
 		// override at a time
-		asio::error_code ec;
+		error_code ec;
 		TORRENT_ASSERT(c.remote() == c.get_socket()->remote_endpoint(ec) || ec);
 
 		aux::session_impl& ses = m_torrent->session();
@@ -697,7 +655,7 @@ namespace libtorrent
 		{
 			// we don't have any info about this peer.
 			// add a new entry
-			asio::error_code ec;
+			error_code ec;
 			TORRENT_ASSERT(c.remote() == c.get_socket()->remote_endpoint(ec) || ec);
 
 			peer p(c.remote(), peer::not_connectable, 0);
@@ -1073,19 +1031,6 @@ namespace libtorrent
 		return true;
 	}
 
-	bool policy::disconnect_one_peer()
-	{
-		iterator p = find_disconnect_candidate();
-		if (p == m_peers.end())
-			return false;
-#if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_ERROR_LOGGING
-		(*p->second.connection->m_logger) << "*** CLOSING CONNECTION 'too many connections'\n";
-#endif
-
-		p->second.connection->disconnect("too many connections, closing");
-		return true;
-	}
-
 	// this is called whenever a peer connection is closed
 	void policy::connection_closed(const peer_connection& c)
 	{
@@ -1156,7 +1101,7 @@ namespace libtorrent
 //		INVARIANT_CHECK;
 
 		TORRENT_ASSERT(c);
-		asio::error_code ec;
+		error_code ec;
 		TORRENT_ASSERT(c->remote() == c->get_socket()->remote_endpoint(ec) || ec);
 
 		return std::find_if(

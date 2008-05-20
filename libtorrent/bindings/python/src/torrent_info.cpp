@@ -74,13 +74,7 @@ void bind_torrent_info()
         .def(init<entry const&>())
         .def(init<sha1_hash const&>())
 
-        .def("create_torrent", &torrent_info::create_torrent)
-        .def("set_comment", &torrent_info::set_comment)
-        .def("set_piece_size", &torrent_info::set_piece_size)
-        .def("set_creator", &torrent_info::set_creator)
-        .def("set_hash", &torrent_info::set_hash)
         .def("add_tracker", &torrent_info::add_tracker, (arg("url"), arg("tier")=0))
-        .def("add_file", &torrent_info::add_file)
         .def("add_url_seed", &torrent_info::add_url_seed)
 
         .def("name", &torrent_info::name, copy)
@@ -91,7 +85,7 @@ void bind_torrent_info()
         .def("num_pieces", &torrent_info::num_pieces)
         .def("info_hash", &torrent_info::info_hash, copy)
 
-        .def("hash_for_piece", &torrent_info::hash_for_piece, copy)
+        .def("hash_for_piece", &torrent_info::hash_for_piece)
         .def("piece_size", &torrent_info::piece_size)
 
         .def("num_files", &torrent_info::num_files, (arg("storage")=false))
@@ -99,7 +93,6 @@ void bind_torrent_info()
         .def("files", &files, (arg("storage")=false))
 
         .def("priv", &torrent_info::priv)
-        .def("set_priv", &torrent_info::set_priv)
         .def("trackers", range(begin_trackers, end_trackers))
 
         .def("creation_date", &torrent_info::creation_date)

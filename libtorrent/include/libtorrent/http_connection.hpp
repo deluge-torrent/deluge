@@ -39,6 +39,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/noncopyable.hpp>
 #include <vector>
+#include <list>
 #include <string>
 
 #include "libtorrent/socket.hpp"
@@ -59,8 +60,8 @@ namespace libtorrent
 struct http_connection;
 class connection_queue;
 	
-typedef boost::function<void(asio::error_code const&
-	, http_parser const&, char const* data, int size)> http_handler;
+typedef boost::function<void(error_code const&
+	, http_parser const&, char const* data, int size, http_connection&)> http_handler;
 
 typedef boost::function<void(http_connection&)> http_connect_handler;
 
@@ -70,7 +71,7 @@ typedef boost::function<void(http_connection&)> http_connect_handler;
 // will always be 0
 struct http_connection : boost::enable_shared_from_this<http_connection>, boost::noncopyable
 {
-	http_connection(asio::io_service& ios, connection_queue& cc
+	http_connection(io_service& ios, connection_queue& cc
 		, http_handler const& handler, bool bottled = true
 		, http_connect_handler const& ch = http_connect_handler())
 		: m_sock(ios)
@@ -91,6 +92,7 @@ struct http_connection : boost::enable_shared_from_this<http_connection>, boost:
 		, m_cc(cc)
 		, m_ssl(false)
 		, m_priority(0)
+		, m_abort(false)
 	{
 		TORRENT_ASSERT(!m_handler.empty());
 	}
@@ -121,19 +123,19 @@ struct http_connection : boost::enable_shared_from_this<http_connection>, boost:
 	
 private:
 
-	void on_resolve(asio::error_code const& e
+	void on_resolve(error_code const& e
 		, tcp::resolver::iterator i);
+	void queue_connect();
 	void connect(int ticket, tcp::endpoint target_address);
 	void on_connect_timeout();
-	void on_connect(asio::error_code const& e
-/*		, tcp::resolver::iterator i*/);
-	void on_write(asio::error_code const& e);
-	void on_read(asio::error_code const& e, std::size_t bytes_transferred);
+	void on_connect(error_code const& e);
+	void on_write(error_code const& e);
+	void on_read(error_code const& e, std::size_t bytes_transferred);
 	static void on_timeout(boost::weak_ptr<http_connection> p
-		, asio::error_code const& e);
-	void on_assign_bandwidth(asio::error_code const& e);
+		, error_code const& e);
+	void on_assign_bandwidth(error_code const& e);
 
-	void callback(asio::error_code const& e, char const* data = 0, int size = 0);
+	void callback(error_code const& e, char const* data = 0, int size = 0);
 
 	std::vector<char> m_recvbuffer;
 #ifdef TORRENT_USE_OPENSSL
@@ -158,6 +160,9 @@ private:
 	bool m_called;
 	std::string m_hostname;
 	std::string m_port;
+	std::string m_url;
+
+	std::list<tcp::endpoint> m_endpoints;
 
 	// the current download limit, in bytes per second
 	// 0 is unlimited.
@@ -195,6 +200,8 @@ private:
 	// the priority we have in the connection queue.
 	// 0 is normal, 1 is high
 	int m_priority;
+
+	bool m_abort;
 };
 
 }

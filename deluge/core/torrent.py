@@ -134,7 +134,7 @@ class Torrent:
     
     def set_private_flag(self, private):
         self.private = private
-        self.handle.get_torrent_info().set_priv(private)
+        #self.handle.get_torrent_info().set_priv(private)
     
     def set_prioritize_first_last(self, prioritize):
         self.prioritize_first_last = prioritize

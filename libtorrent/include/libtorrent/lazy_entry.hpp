@@ -179,12 +179,32 @@ namespace libtorrent
 		
 		void clear();
 
+		// releases ownership of any memory allocated
+		void release()
+		{
+			m_data.start = 0;
+			m_size = 0;
+			m_capacity = 0;
+			m_type = none_t;
+		}
+
 		~lazy_entry()
 		{ clear(); }
 
 		// returns pointers into the source buffer where
 		// this entry has its bencoded data
 		std::pair<char const*, int> data_section() const;
+
+		void swap(lazy_entry& e)
+		{
+			using std::swap;
+			swap(m_type, e.m_type);
+			swap(m_data.start, e.m_data.start);
+			swap(m_size, e.m_size);
+			swap(m_capacity, e.m_capacity);
+			swap(m_begin, e.m_begin);
+			swap(m_end, e.m_end);
+		}
 
 	private:
 

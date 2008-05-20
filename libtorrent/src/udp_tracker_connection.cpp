@@ -52,6 +52,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #include "libtorrent/tracker_manager.hpp"
+#include "libtorrent/parse_url.hpp"
 #include "libtorrent/udp_tracker_connection.hpp"
 #include "libtorrent/io.hpp"
 
@@ -95,10 +96,18 @@ namespace libtorrent
 
 		std::string hostname;
 		int port;
+		char const* error;
 
 		using boost::tuples::ignore;
-		boost::tie(ignore, ignore, hostname, port, ignore) = parse_url_components(req.url);
+		boost::tie(ignore, ignore, hostname, port, ignore, error)
+			= parse_url_components(req.url);
 
+		if (error)
+		{
+			fail(-1, error);
+			return;
+		}
+		
 		udp::resolver::query q(hostname, boost::lexical_cast<std::string>(port));
 		m_name_lookup.async_resolve(q
 			, boost::bind(
@@ -113,7 +122,7 @@ namespace libtorrent
 #endif
 	}
 
-	void udp_tracker_connection::name_lookup(asio::error_code const& error
+	void udp_tracker_connection::name_lookup(error_code const& error
 		, udp::resolver::iterator i)
 	{
 		if (error == asio::error::operation_aborted) return;
@@ -156,7 +165,7 @@ namespace libtorrent
 		
 		if (cb) cb->m_tracker_address = tcp::endpoint(target_address.address(), target_address.port());
 		m_target = target_address;
-		asio::error_code ec;
+		error_code ec;
 		m_socket.bind(udp::endpoint(bind_interface(), 0), ec);
 		if (ec)
 		{
@@ -179,13 +188,13 @@ namespace libtorrent
 
 	void udp_tracker_connection::close()
 	{
-		asio::error_code ec;
+		error_code ec;
 		m_socket.close();
 		m_name_lookup.cancel();
 		tracker_connection::close();
 	}
 
-	void udp_tracker_connection::on_receive(asio::error_code const& e
+	void udp_tracker_connection::on_receive(error_code const& e
 		, udp::endpoint const& ep, char const* buf, int size)
 	{
 		// ignore resposes before we've sent any requests
@@ -305,7 +314,7 @@ namespace libtorrent
 		detail::write_int32(m_transaction_id, ptr); // transaction_id
 		TORRENT_ASSERT(ptr - buf == sizeof(buf));
 
-		asio::error_code ec;
+		error_code ec;
 		m_socket.send(m_target, buf, 16, ec);
 		m_state = action_connect;
 		++m_attempts;
@@ -334,7 +343,7 @@ namespace libtorrent
 		out += 20;
 		TORRENT_ASSERT(out - buf == sizeof(buf));
 
-		asio::error_code ec;
+		error_code ec;
 		m_socket.send(m_target, buf, sizeof(buf), ec);
 		m_state = action_scrape;
 		++m_attempts;
@@ -494,7 +503,7 @@ namespace libtorrent
 		}
 #endif
 
-		asio::error_code ec;
+		error_code ec;
 		m_socket.send(m_target, buf, sizeof(buf), ec);
 		m_state = action_announce;
 		++m_attempts;

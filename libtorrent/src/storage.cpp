@@ -527,12 +527,23 @@ namespace libtorrent
 				std::pair<iter_t, bool> ret = directories.insert((m_save_path / bp).string());
 				bp = bp.branch_path();
 			}
+#if defined(_WIN32) && defined(UNICODE)
+			try
+			{ fs::remove(safe_convert(p)); }
+			catch (std::exception& e)
+			{
+				error = e.what();
+				error_file = p;
+				result = 1;
+			}
+#else
 			if (std::remove(p.c_str()) != 0 && errno != ENOENT)
 			{
 				error = std::strerror(errno);
 				error_file = p;
 				result = errno;
 			}
+#endif
 		}
 
 		// remove the directories. Reverse order to delete
@@ -541,12 +552,23 @@ namespace libtorrent
 		for (std::set<std::string>::reverse_iterator i = directories.rbegin()
 			, end(directories.rend()); i != end; ++i)
 		{
+#if defined(_WIN32) && defined(UNICODE)
+			try
+			{ fs::remove(safe_convert(*i)); }
+			catch (std::exception& e)
+			{
+				error = e.what();
+				error_file = *i;
+				result = 1;
+			}
+#else
 			if (std::remove(i->c_str()) != 0 && errno != ENOENT)
 			{
 				error = std::strerror(errno);
 				error_file = *i;
 				result = errno;
 			}
+#endif
 		}
 
 		if (!error.empty())
@@ -1230,7 +1252,7 @@ namespace libtorrent
 	{
 		TORRENT_ASSERT(r.length <= 16 * 1024);
 		// the buffer needs to be allocated through the io_thread
-		TORRENT_ASSERT(m_io_thread.is_disk_buffer(buffer.buffer()));
+		TORRENT_ASSERT(m_io_thread.is_disk_buffer(buffer.get()));
 
 		disk_io_job j;
 		j.storage = this;
@@ -1238,7 +1260,7 @@ namespace libtorrent
 		j.piece = r.piece;
 		j.offset = r.start;
 		j.buffer_size = r.length;
-		j.buffer = buffer.buffer();
+		j.buffer = buffer.get();
 		m_io_thread.add_job(j, handler);
 		buffer.release();
 	}
@@ -2465,7 +2487,8 @@ namespace libtorrent
 			&& m_free_slots.empty()
 			&& m_state == state_finished)
 		{
-			TORRENT_ASSERT(m_storage_mode != storage_mode_compact);
+			TORRENT_ASSERT(m_storage_mode != storage_mode_compact
+				|| m_info->num_pieces() == 0);
 		}
 		
 		if (m_storage_mode != storage_mode_compact)

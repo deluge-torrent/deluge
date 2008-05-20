@@ -56,7 +56,6 @@ namespace libtorrent { namespace dht
 
 struct observer;
 
-using asio::ip::udp;
 #ifdef TORRENT_DHT_VERBOSE_LOGGING
 TORRENT_DECLARE_LOG(rpc);
 #endif
@@ -81,6 +80,8 @@ public:
 	rpc_manager(fun const& incoming_fun, node_id const& our_id
 		, routing_table& table, send_fun const& sf);
 	~rpc_manager();
+
+	void unreachable(udp::endpoint const& ep);
 
 	// returns true if the node needs a refresh
 	bool incoming(msg const&);

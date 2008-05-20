@@ -129,7 +129,7 @@ namespace libtorrent
 			, resume_data(0)
 			, storage_mode(storage_mode_sparse)
 			, paused(true)
-			, auto_managed(false)
+			, auto_managed(true)
 			, duplicate_is_error(false)
 			, storage(sc)
 			, userdata(0)
