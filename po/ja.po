@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-15 14:58+0000\n"
-"Last-Translator: sanafrato <Unknown>\n"
+"PO-Revision-Date: 2008-05-22 05:10+0000\n"
+"Last-Translator: TAS <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
+"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -181,11 +181,11 @@ msgstr "ヘルプ(_H)"
 
 #: glade/delugegtk.glade:440
 msgid "Donate to Deluge Development"
-msgstr ""
+msgstr "Deluge開発者に寄付"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
-msgstr ""
+msgstr "寄付(_D)"
 
 #: glade/delugegtk.glade:458
 msgid "_Homepage"
@@ -586,15 +586,15 @@ msgstr "設定した共有比に達したら自動的にトレントをクリア
 
 #: glade/preferences_dialog.glade:1105
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr ""
+msgstr "設定したシード時間に達したらシーディングを停止:"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
-msgstr ""
+msgstr "時間"
 
 #: glade/preferences_dialog.glade:1142
 msgid "Automatically clear torrents that reach the max seed time"
-msgstr ""
+msgstr "設定したシード時間に達したら自動的にトレントをクリア"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -1048,6 +1048,8 @@ msgid ""
 "or try setting your LD_LIBRARY_PATH and MOZILLA_FIVE_HOME environment "
 "variables to /usr/lib/firefox"
 msgstr ""
+"ブラウザ状態を取得できません。 python-gnome2-extras がインストールされているか、環境変数 LD_LIBRARY_PATH と "
+"MOZILLA_FIVE_HOME を /usr/lib/firefox に設定してみてください。"
 
 #: src/interface.py:295 src/interface.py:301 src/interface.py:382
 #: src/interface.py:410 plugins/SpeedLimiter/__init__.py:84
@@ -1445,11 +1447,11 @@ msgstr "ブロックリストURL"
 
 #: plugins/BlocklistImport/ui.py:52
 msgid "Download new blocklist every"
-msgstr ""
+msgstr "新規ブロックリストのダウンロード"
 
 #: plugins/BlocklistImport/ui.py:59
 msgid "days"
-msgstr ""
+msgstr "日毎"
 
 #: plugins/BlocklistImport/ui.py:123
 msgid "Loading and installing blocklist"
@@ -1511,6 +1513,8 @@ msgid ""
 "This shows you the peers associated with each torrent and shows you their "
 "ip, country, client, percent complete and upload and download speeds.\n"
 msgstr ""
+"\n"
+"これは各トレントのピアに関連するIP、国、クライアント、進捗率、上り速度、下り速度を表示します。\n"
 
 #: plugins/TorrentPeers/tab_peers.py:84
 msgid "IP Address"
@@ -1914,6 +1918,8 @@ msgid ""
 "priorities for them and choose which ones you want or don't want to "
 "download.\n"
 msgstr ""
+"\n"
+"このプラグインはトレントファイルの中身を表示し、ダウンロードする優先順位やダウンロードしないファイルを決めることができます。\n"
 
 #: plugins/TorrentFiles/__init__.py:84
 msgid "Files"
@@ -1935,7 +1941,7 @@ msgstr "トレントを移動(_M)"
 
 #: plugins/MoveTorrent/__init__.py:82
 msgid "_Switch Torrent Source"
-msgstr ""
+msgstr "トレントソースを切り替え(_S)"
 
 #: plugins/MoveTorrent/__init__.py:102
 msgid "Choose a directory to move files to"
@@ -1981,23 +1987,23 @@ msgstr "URL:"
 
 #: plugins/Scheduler/plugin.py:113
 msgid "Download limit:"
-msgstr ""
+msgstr "最大下り速度:"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "Upload limit:"
-msgstr ""
+msgstr "最大上り速度:"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "Active torrents:"
-msgstr ""
+msgstr "有効トレント数"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Upload Slots:"
-msgstr ""
+msgstr "上りスロット数:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Max Connections:"
-msgstr ""
+msgstr "最大接続数:"
 
 #: plugins/Scheduler/plugin.py:120
 msgid "Scheduler Settings"
@@ -2447,6 +2453,11 @@ msgid ""
 "Name: Google\n"
 "URL: http://www.google.com/search?q=${query}"
 msgstr ""
+"名前とURLを入力して新しいサーチエンジンを追加します。名前にはサーチエンジン名、URLには検索ページを入力してください。ユーザーの検索クエリーはURLの"
+"中では ${query} となります。\n"
+"例として、Googleだと以下の通り:\n"
+"Name: Google\n"
+"URL: http://www.google.com/search?q=${query}"
 
 #: plugins/Search/searchdlg.glade:133
 msgid "Help"
@@ -2454,7 +2465,7 @@ msgstr "ヘルプ"
 
 #: plugins/Search/__init__.py:37
 msgid "Search for torrents anonymously"
-msgstr ""
+msgstr "匿名のトレントを検索"
 
 #: plugins/Search/__init__.py:80
 msgid "Search String"

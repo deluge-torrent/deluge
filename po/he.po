@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-29 00:19+0000\n"
-"Last-Translator: Hezy Amiel <Unknown>\n"
+"PO-Revision-Date: 2008-05-29 09:53+0000\n"
+"Last-Translator: Mark Krapivner <mark125@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
+"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -79,7 +79,7 @@ msgstr "שנה הגדרות"
 
 #: glade/delugegtk.glade:143
 msgid "Preferences"
-msgstr "מאפיינים"
+msgstr "הגדרות"
 
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:210
 #: glade/preferences_dialog.glade:2844
@@ -133,12 +133,12 @@ msgstr "_עמודות"
 #: glade/delugegtk.glade:343 src/interface.py:630 src/files.py:80
 #: plugins/WebUi/scripts/template_strings.py:51
 msgid "Size"
-msgstr "גודל"
+msgstr "נפח"
 
 #: glade/delugegtk.glade:352 src/interface.py:634
 #: plugins/FlexRSS/FlexRSS.glade:138
 msgid "Status"
-msgstr "מעמד"
+msgstr "מצב"
 
 #: glade/delugegtk.glade:361 src/interface.py:636
 #: plugins/WebUi/scripts/template_strings.py:47
@@ -596,9 +596,8 @@ msgid "Number of hours"
 msgstr "מספר השעות"
 
 #: glade/preferences_dialog.glade:1142
-#, fuzzy
 msgid "Automatically clear torrents that reach the max seed time"
-msgstr "מחק טורנטים המגיעים לזמן הזנה מקסימלי אוטומטית"
+msgstr "מחק טורנטים המגיעים לזמן הזרעה מקסימלי באופן אוטומטי"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -1481,13 +1480,15 @@ msgstr "הושלם"
 
 #: plugins/BlocklistImport/text.py:129
 msgid "Got format exception for zipfile:"
-msgstr ""
+msgstr "התקבלה תבנית ליוצאים מן הכלל בקובץ הזיפ"
 
 #: plugins/BlocklistImport/peerguardian.py:24
 msgid ""
 "We were expecting a gzip file, but didn't get that, or possibly the file is "
 "corrupt.  Please edit your Blocklist preferences"
 msgstr ""
+"ציפינו לקבל קובץ gzip, אך קיבלנו קובץ אחר או שהקובץ פגום. אנא ערוך את הגדרות "
+"רשימת החסימות שלך."
 
 #: plugins/BlocklistImport/peerguardian.py:32
 msgid "Invalid leader"
@@ -1767,7 +1768,7 @@ msgstr "הכרזת טראקר"
 #: plugins/EventLogging/event_logging_preferences.glade:192
 #: plugins/EventLogging/tab_log.py:123
 msgid "Fastresume rejected error"
-msgstr ""
+msgstr "תקלה - חידוש מזורז נדחה"
 
 #: plugins/EventLogging/event_logging_preferences.glade:206
 #: plugins/EventLogging/tab_log.py:114
@@ -1971,6 +1972,10 @@ msgid ""
 "moved to a different folder.\n"
 "Note: Files can currently only be moved within the same partition"
 msgstr ""
+"תוסף זה מאפשר למשתמשים להעביר את הטורנט לספריה אחרת, מבלי להסיר ולהוסיף מחדש "
+"אותו. ניתן להשתמש בתכונה זו על ידי קליק ימני על הטורנט.\n"
+"מעבר לכך, התוסף מאפשר להעביר לספריה נפרדת את כל הטורנטים שהורדתם הסתיימה.\n"
+"הערה: כרגע ניתן להעביר קבצים רק לאותה מחיצה."
 
 #: plugins/MoveTorrent/__init__.py:75
 msgid "_Move Torrent"
@@ -2383,7 +2388,7 @@ msgstr "קביעת המצב כמושעה"
 
 #: plugins/FlexRSS/FlexRSS.glade:1015
 msgid "Delete filter when matched."
-msgstr ""
+msgstr "מחק את הפילטר לאחר שנמצאה התאמה."
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
@@ -2445,10 +2450,12 @@ msgid ""
 "Feeds will be retrieved and parsed in their own threads. The application "
 "will not be blocked, but it can be unreliable."
 msgstr ""
+"הזנות יאוחזרו וינותחו בשרשורים שלהן. התוכנה לא תחסם, אך היא עלולה שלא ליהיות "
+"מהימנת."
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
 msgid "Threaded (experimental)"
-msgstr ""
+msgstr "פתילים נפרדים (ניסיוני)"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"

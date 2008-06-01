@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-03-17 15:16+0000\n"
-"Last-Translator: Jacks0nxD <Unknown>\n"
+"PO-Revision-Date: 2008-05-29 13:45+0000\n"
+"Last-Translator: Theodoor <Unknown>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
+"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -181,11 +181,11 @@ msgstr "_Help"
 
 #: glade/delugegtk.glade:440
 msgid "Donate to Deluge Development"
-msgstr ""
+msgstr "Doneer aan de ontwikkeling van Deluge"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
-msgstr ""
+msgstr "_Doneer"
 
 #: glade/delugegtk.glade:458
 msgid "_Homepage"
@@ -589,12 +589,13 @@ msgstr "Zet nieuwe torrents in de wachtrij boven gereedzijnde"
 
 #: glade/preferences_dialog.glade:1053
 msgid "Stop seeding torrents when their share ratio reaches:"
-msgstr "Stop met seeden van torrents als deze deelverhouding wordt bereikt"
+msgstr ""
+"Stop met seeden van torrents als de deze deelverhouding wordt bereikt:"
 
 #: glade/preferences_dialog.glade:1089
 msgid "Automatically clear torrents that reach the max share ratio"
 msgstr ""
-"Verwijder automatisch torrents die de maximale deel-ratio hebben bereikt"
+"Verwijder automatisch torrents die de maximale deelverhouding hebben bereikt"
 
 #: glade/preferences_dialog.glade:1105
 msgid "Stop seeding torrents when their seed time reaches:"
@@ -602,7 +603,7 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
-msgstr ""
+msgstr "Aantal uren"
 
 #: glade/preferences_dialog.glade:1142
 msgid "Automatically clear torrents that reach the max seed time"
@@ -1165,7 +1166,7 @@ msgstr ""
 
 #: src/interface.py:764
 msgid "Delete the old torrent source?"
-msgstr ""
+msgstr "Verwijder de oude torrent bron?"
 
 #: src/interface.py:953
 #, python-format
@@ -1489,7 +1490,7 @@ msgstr "Url van blokkeerlijst"
 
 #: plugins/BlocklistImport/ui.py:52
 msgid "Download new blocklist every"
-msgstr ""
+msgstr "Download nieuwe blokkeringslijst elke"
 
 #: plugins/BlocklistImport/ui.py:59
 msgid "days"
@@ -2010,6 +2011,14 @@ msgid ""
 "moved to a different folder.\n"
 "Note: Files can currently only be moved within the same partition"
 msgstr ""
+"Deze plugin maakt het de gebruiker mogelijk om de torrent naar een andere "
+"map te verplaatsen zonder te hoeven verwijderen en opnieuw toevoegen van de "
+"torrent. Deze functie kan worden gevonden door met de rechtermuisknop te "
+"klikken op een torrent.\n"
+"Bovendien is de gebruiker in staat automatisch voltooide torrents te "
+"verplaatst naar een andere map.\n"
+"Opmerking: Bestanden kunnen momenteel alleen worden verplaatst binnen "
+"dezelfde partitie"
 
 #: plugins/MoveTorrent/__init__.py:75
 msgid "_Move Torrent"
@@ -2066,15 +2075,15 @@ msgstr "URL:"
 
 #: plugins/Scheduler/plugin.py:113
 msgid "Download limit:"
-msgstr ""
+msgstr "Download limiet:"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "Upload limit:"
-msgstr ""
+msgstr "Upload limiet:"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "Active torrents:"
-msgstr ""
+msgstr "Active torrents:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Upload Slots:"
@@ -2082,7 +2091,7 @@ msgstr "Upload slots:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Max Connections:"
-msgstr ""
+msgstr "Maximum verbindingen:"
 
 #: plugins/Scheduler/plugin.py:120
 msgid "Scheduler Settings"
@@ -2553,7 +2562,7 @@ msgstr "Help"
 
 #: plugins/Search/__init__.py:37
 msgid "Search for torrents anonymously"
-msgstr ""
+msgstr "Anoniem zoeken naar torrents"
 
 #: plugins/Search/__init__.py:80
 msgid "Search String"

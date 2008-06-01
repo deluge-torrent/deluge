@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-05-16 12:23+0000\n"
-"Last-Translator: Ionuț Jula <ionutjula@gmail.com>\n"
+"PO-Revision-Date: 2008-05-19 20:44+0000\n"
+"Last-Translator: leandrud <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
+"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -183,7 +183,7 @@ msgstr "_Ajutor"
 
 #: glade/delugegtk.glade:440
 msgid "Donate to Deluge Development"
-msgstr ""
+msgstr "Doneaza pentru dezvoltarea Deluge"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
@@ -617,8 +617,9 @@ msgid "Automatically clear torrents that reach the max share ratio"
 msgstr "Inlatura automat torentele care ajung la ratia maxima"
 
 #: glade/preferences_dialog.glade:1105
+#, fuzzy
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr ""
+msgstr "Opreste insamintarea torrentului cin cind timpul expira"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
@@ -626,7 +627,7 @@ msgstr "Număr de ore"
 
 #: glade/preferences_dialog.glade:1142
 msgid "Automatically clear torrents that reach the max seed time"
-msgstr ""
+msgstr "Sterge torrentul automat cind saminta ajunge la timpul maxim"
 
 #: glade/preferences_dialog.glade:1158
 #, fuzzy
@@ -923,8 +924,9 @@ msgid "_Edit Trackers"
 msgstr "Modifica Track_ere"
 
 #: glade/torrent_menu.glade:138
+#, fuzzy
 msgid "_Scrape Tracker"
-msgstr ""
+msgstr "Rade tracker-ul"
 
 #: glade/torrent_menu.glade:164
 msgid "_Queue"

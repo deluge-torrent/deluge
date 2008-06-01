@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: Deluge VERSION\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-03-12 00:00+0000\n"
-"Last-Translator: Chien Cheng Wei <e.cwchien@gmail.com>\n"
+"PO-Revision-Date: 2008-05-31 02:22+0000\n"
+"Last-Translator: Jacky Yeung <Unknown>\n"
 "Language-Team: Jose Sun <josesun@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
+"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-Language: Chinese\n"
@@ -183,6 +183,7 @@ msgstr ""
 #~ "Launchpad Contributions:\n"
 #~ "  Accord Tsai https://launchpad.net/~accordtsai\n"
 #~ "  Chien Cheng Wei https://launchpad.net/~cwchien\n"
+#~ "  Jacky Yeung https://launchpad.net/~xphk\n"
 #~ "  Jose Sun https://launchpad.net/~josesun\n"
 #~ "  Justzupi https://launchpad.net/~justzupi\n"
 #~ "  Neil Lin https://launchpad.net/~neillin\n"
@@ -619,11 +620,11 @@ msgstr "說明(_H)"
 
 #: glade/delugegtk.glade:440
 msgid "Donate to Deluge Development"
-msgstr ""
+msgstr "捐助 Deluge Development"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
-msgstr ""
+msgstr "_捐助"
 
 #: glade/delugegtk.glade:458
 msgid "_Homepage"
@@ -1024,15 +1025,17 @@ msgstr "自動清除已達到最大分享率的種子"
 
 #: glade/preferences_dialog.glade:1105
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr ""
+msgstr "當"
 
 #: glade/preferences_dialog.glade:1120
+#, fuzzy
 msgid "Number of hours"
-msgstr ""
+msgstr "小時"
 
 #: glade/preferences_dialog.glade:1142
+#, fuzzy
 msgid "Automatically clear torrents that reach the max seed time"
-msgstr ""
+msgstr "當到達最大做種時間時自動清除torrents"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -1559,12 +1562,14 @@ msgid "Ratio"
 msgstr "分享率"
 
 #: src/interface.py:760
+#, fuzzy
 msgid "Choose a directory to switch torrent source to"
-msgstr ""
+msgstr "選擇切換torrent來源目錄"
 
 #: src/interface.py:764
+#, fuzzy
 msgid "Delete the old torrent source?"
-msgstr ""
+msgstr "刪除舊的torrent來源?"
 
 #: src/interface.py:953
 #, python-format
@@ -1875,8 +1880,9 @@ msgid "Blocklist URL"
 msgstr "黑名單網址"
 
 #: plugins/BlocklistImport/ui.py:52
+#, fuzzy
 msgid "Download new blocklist every"
-msgstr ""
+msgstr "下載新的封鎖名單"
 
 #: plugins/BlocklistImport/ui.py:59
 msgid "days"
@@ -2371,6 +2377,7 @@ msgid "Files"
 msgstr "檔案"
 
 #: plugins/MoveTorrent/__init__.py:22
+#, fuzzy
 msgid ""
 "This plugin allows users to move the torrent to a different directory "
 "without having to remove and re-add the torrent.  This feature can be found "
@@ -2379,14 +2386,19 @@ msgid ""
 "moved to a different folder.\n"
 "Note: Files can currently only be moved within the same partition"
 msgstr ""
+"本外掛容許使用者在無須移除或重新加入torrent的情況下移動torrent.\n"
+"此功能可透過開啟torrent的右鍵選單而達成.\n"
+"此外,本功能容許使用者設定把已完成的torrent自動移至不同資料夾.\n"
+"注意:檔案目前只能移至相同的硬碟磁區"
 
 #: plugins/MoveTorrent/__init__.py:75
 msgid "_Move Torrent"
 msgstr "移動種子(_M)"
 
 #: plugins/MoveTorrent/__init__.py:82
+#, fuzzy
 msgid "_Switch Torrent Source"
-msgstr ""
+msgstr "_切換torrent來源"
 
 #: plugins/MoveTorrent/__init__.py:102
 msgid "Choose a directory to move files to"
@@ -2430,15 +2442,16 @@ msgstr "網址:"
 
 #: plugins/Scheduler/plugin.py:113
 msgid "Download limit:"
-msgstr ""
+msgstr "下載限制:"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "Upload limit:"
-msgstr ""
+msgstr "上載限制:"
 
 #: plugins/Scheduler/plugin.py:115
+#, fuzzy
 msgid "Active torrents:"
-msgstr ""
+msgstr "活躍的torrents:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Upload Slots:"
@@ -2446,7 +2459,7 @@ msgstr "上傳連線數："
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Max Connections:"
-msgstr ""
+msgstr "最大連接數目:"
 
 #: plugins/Scheduler/plugin.py:120
 msgid "Scheduler Settings"
@@ -2906,8 +2919,9 @@ msgid "Help"
 msgstr "說明"
 
 #: plugins/Search/__init__.py:37
+#, fuzzy
 msgid "Search for torrents anonymously"
-msgstr ""
+msgstr "匿名搜尋torrents"
 
 #: plugins/Search/__init__.py:80
 msgid "Search String"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: Michał Kaliszka <desmont@gmail.com>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-05-06 10:15+0000\n"
-"Last-Translator: Marcin <Unknown>\n"
+"PO-Revision-Date: 2008-05-24 17:28+0000\n"
+"Last-Translator: Łukasz Wyszyński <darzki@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
+"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -180,7 +180,6 @@ msgid "_Help"
 msgstr "_Pomoc"
 
 #: glade/delugegtk.glade:440
-#, fuzzy
 msgid "Donate to Deluge Development"
 msgstr "Wesprzyj rozwój Deluge"
 
@@ -1496,7 +1495,7 @@ msgstr "URL czarnej listy"
 #: plugins/BlocklistImport/ui.py:52
 #, fuzzy
 msgid "Download new blocklist every"
-msgstr "Pobierz nową listę blokowania co"
+msgstr "Pobierz nową listę blokowanych co"
 
 #: plugins/BlocklistImport/ui.py:59
 msgid "days"
@@ -2302,7 +2301,7 @@ msgstr "Prędkość"
 #: plugins/WebUi/scripts/template_strings.py:53
 #, fuzzy
 msgid "Start"
-msgstr "Zacznij"
+msgstr "Start"
 
 #: plugins/WebUi/scripts/template_strings.py:54
 msgid "Submit"

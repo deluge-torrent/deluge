@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-14 18:40+0000\n"
-"Last-Translator: Alan Pepelko <alan.pepelko@gmail.com>\n"
+"PO-Revision-Date: 2008-05-31 14:51+0000\n"
+"Last-Translator: Mario Munda <mario.munda@amis.net>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
+"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-Language: Slovenian\n"
@@ -186,11 +186,11 @@ msgstr "_Pomoč"
 
 #: glade/delugegtk.glade:440
 msgid "Donate to Deluge Development"
-msgstr ""
+msgstr "Doniraj za razvoj Deluge"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
-msgstr ""
+msgstr "_Donacije"
 
 #: glade/delugegtk.glade:458
 msgid "_Homepage"
@@ -598,15 +598,15 @@ msgstr "Samodejno počisti torrente, ko dosežejo najvišje delilno razmerje"
 
 #: glade/preferences_dialog.glade:1105
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr ""
+msgstr "Ustavi sejanje torrenta, ko čas sejanja doseže:"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
-msgstr ""
+msgstr "Ur"
 
 #: glade/preferences_dialog.glade:1142
 msgid "Automatically clear torrents that reach the max seed time"
-msgstr ""
+msgstr "Avtomatsko odstrani torrente, ki so dosegli maksimalni sejalni čas"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -2048,11 +2048,11 @@ msgstr ""
 
 #: plugins/Scheduler/plugin.py:114
 msgid "Upload limit:"
-msgstr ""
+msgstr "Omejitev nalaganja:"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "Active torrents:"
-msgstr ""
+msgstr "Aktivni torrenti:"
 
 #: plugins/Scheduler/plugin.py:116
 #, fuzzy
@@ -2061,7 +2061,7 @@ msgstr "Reže nalaganja:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Max Connections:"
-msgstr ""
+msgstr "Makimalno število povezav:"
 
 #: plugins/Scheduler/plugin.py:120
 msgid "Scheduler Settings"

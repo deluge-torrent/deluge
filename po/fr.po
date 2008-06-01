@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-05-05 15:42+0000\n"
-"Last-Translator: Théophane Anestis <Unknown>\n"
+"PO-Revision-Date: 2008-05-31 16:13+0000\n"
+"Last-Translator: orphe <pierrealexandre.stjean@gmail.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-05-18 22:12+0000\n"
+"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -26,7 +26,7 @@ msgstr "Ajouter"
 
 #: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
-msgstr "Supprimer le torrent"
+msgstr "Supprimer le Torrent"
 
 #: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:43
 msgid "Remove"
@@ -34,23 +34,23 @@ msgstr "Supprimer"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
-msgstr "Nettoyer les torrents en source"
+msgstr "Effacer les Torrents émetteurs"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
-msgstr "Nettoyer"
+msgstr "Effacer"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
-msgstr "Démarrer ou Reprendre un torrent"
+msgstr "Démarrer/Résoudre un torrent"
 
 #: glade/delugegtk.glade:80 plugins/WebUi/scripts/template_strings.py:45
 msgid "Resume"
-msgstr "Reprendre"
+msgstr "Résoudre"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
-msgstr "Mettre en pause le torrent"
+msgstr "Pause"
 
 #: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
 msgid "Pause"
@@ -58,19 +58,19 @@ msgstr "Pause"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
-msgstr "Déplacer le torrent vers le haut"
+msgstr "Mettre en file vers le haut"
 
 #: glade/delugegtk.glade:107 plugins/WebUi/scripts/template_strings.py:59
 msgid "Up"
-msgstr "Monter"
+msgstr "Vers le haut"
 
 #: glade/delugegtk.glade:120
 msgid "Queue Torrent Down"
-msgstr "Déplacer le torrent vers le bas"
+msgstr "Mettre en file vers le bas"
 
 #: glade/delugegtk.glade:121 plugins/WebUi/scripts/template_strings.py:17
 msgid "Down"
-msgstr "Descendre"
+msgstr "Vers le bas"
 
 #: glade/delugegtk.glade:142
 msgid "Change Deluge preferences"
@@ -83,7 +83,7 @@ msgstr "Préférences"
 #: glade/delugegtk.glade:156 glade/dgtkpopups.glade:210
 #: glade/preferences_dialog.glade:2844
 msgid "Plugins"
-msgstr "Greffons"
+msgstr "Modules"
 
 #: glade/delugegtk.glade:186
 msgid "_File"
@@ -91,7 +91,7 @@ msgstr "_Fichier"
 
 #: glade/delugegtk.glade:193 glade/tray_menu.glade:61
 msgid "_Add Torrent"
-msgstr "_Ajouter un torrent"
+msgstr "_Ajouter un Torrent"
 
 #: glade/delugegtk.glade:208
 msgid "Add _URL"
@@ -99,11 +99,11 @@ msgstr "Ajouter une _URL"
 
 #: glade/delugegtk.glade:216
 msgid "_Clear Completed"
-msgstr "Effa_cer les torrents terminés"
+msgstr "_Effacer les téléchargements terminés"
 
 #: glade/delugegtk.glade:249
 msgid "_Edit"
-msgstr "_Édition"
+msgstr "_Éditer"
 
 #: glade/delugegtk.glade:274
 msgid "Plu_gins"
@@ -115,11 +115,11 @@ msgstr "_Torrent"
 
 #: glade/delugegtk.glade:309
 msgid "_View"
-msgstr "Afficha_ge"
+msgstr "_Affichage"
 
 #: glade/delugegtk.glade:317
 msgid "_Toolbar"
-msgstr "Barre d'_outils"
+msgstr "_Barre d'outils"
 
 #: glade/delugegtk.glade:326
 msgid "_Details"
@@ -172,7 +172,7 @@ msgstr "Disponibilité"
 
 #: glade/delugegtk.glade:415 plugins/WebUi/scripts/template_strings.py:50
 msgid "Share Ratio"
-msgstr "Ratio"
+msgstr "Taux de partage"
 
 #: glade/delugegtk.glade:432
 msgid "_Help"
@@ -188,7 +188,7 @@ msgstr "_Faire un don"
 
 #: glade/delugegtk.glade:458
 msgid "_Homepage"
-msgstr "Page d'_accueil"
+msgstr "Page d'accueil"
 
 #: glade/delugegtk.glade:475
 msgid "_FAQ"
@@ -2078,7 +2078,7 @@ msgstr "Limite en téléchargement :"
 #: plugins/Scheduler/plugin.py:114
 #, fuzzy
 msgid "Upload limit:"
-msgstr "Limite en téléversement :"
+msgstr "Limite d'envoie"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "Active torrents:"
