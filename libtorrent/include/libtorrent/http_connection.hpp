@@ -52,7 +52,7 @@ namespace libtorrent
 struct http_connection;
 	
 typedef boost::function<void(asio::error_code const&
-	, http_parser const&, char const* data, int size)> http_handler;
+	, http_parser const&, char const* data, int size, http_connection&)> http_handler;
 
 typedef boost::function<void(http_connection&)> http_connect_handler;
 
@@ -136,6 +136,7 @@ private:
 	bool m_called;
 	std::string m_hostname;
 	std::string m_port;
+	std::string m_url;
 
 	// the current download limit, in bytes per second
 	// 0 is unlimited.

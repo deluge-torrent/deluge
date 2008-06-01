@@ -1635,8 +1635,22 @@ namespace libtorrent
 		std::string hostname;
 		int port;
 		std::string path;
-		boost::tie(protocol, auth, hostname, port, path)
-			= parse_url_components(url);
+
+		try
+		{
+			boost::tie(protocol, auth, hostname, port, path)
+				= parse_url_components(url);
+		}
+		catch (std::exception& e)
+		{
+			if (m_ses.m_alerts.should_post(alert::warning))
+			{
+				m_ses.m_alerts.post_alert(
+					url_seed_alert(get_handle(), url, e.what()));
+			}
+			remove_url_seed(url);
+			return;
+		}
 
 #ifdef TORRENT_USE_OPENSSL
 		if (protocol != "http" && protocol != "https")
@@ -1691,6 +1705,18 @@ namespace libtorrent
 		}
 		else
 		{
+			if (m_ses.m_port_filter.access(port) & port_filter::blocked)
+			{
+				if (m_ses.m_alerts.should_post(alert::warning))
+				{
+					m_ses.m_alerts.post_alert(
+						url_seed_alert(get_handle(), url, "port blocked by port-filter"));
+				}
+				// never try it again
+				remove_url_seed(url);
+				return;
+			}
+
 			tcp::resolver::query q(hostname, boost::lexical_cast<std::string>(port));
 			m_host_resolver.async_resolve(q, m_ses.m_strand.wrap(
 				bind(&torrent::on_name_lookup, shared_from_this(), _1, _2, url
@@ -1733,8 +1759,21 @@ namespace libtorrent
 		using boost::tuples::ignore;
 		std::string hostname;
 		int port;
-		boost::tie(ignore, ignore, hostname, port, ignore)
-			= parse_url_components(url);
+		try
+		{
+			boost::tie(ignore, ignore, hostname, port, ignore)
+				= parse_url_components(url);
+		}
+		catch (std::exception& e)
+		{
+			if (m_ses.m_alerts.should_post(alert::warning))
+			{
+				m_ses.m_alerts.post_alert(
+					url_seed_alert(get_handle(), url, e.what()));
+			}
+			remove_url_seed(url);
+			return;
+		}
 
 		if (m_ses.m_ip_filter.access(a.address()) & ip_filter::blocked)
 		{
@@ -1743,6 +1782,7 @@ namespace libtorrent
 				m_ses.m_alerts.post_alert(peer_blocked_alert(a.address()
 					, "proxy (" + hostname + ") blocked by IP filter"));
 			}
+			remove_url_seed(url);
 			return;
 		}
 
@@ -3226,7 +3266,7 @@ namespace libtorrent
 				--filtered_pieces;
 			}
 			
-			st.total_wanted -= filtered_pieces * m_torrent_file->piece_length();
+			st.total_wanted -= size_type(filtered_pieces) * m_torrent_file->piece_length();
 		}
 
 		TORRENT_ASSERT(st.total_wanted >= st.total_wanted_done);
@@ -3290,7 +3330,7 @@ namespace libtorrent
 			if (r.kind == tracker_request::announce_request)
 			{
 				m_ses.m_alerts.post_alert(tracker_alert(get_handle()
-					, m_failed_trackers + 1, 0, s.str()));
+					, m_failed_trackers + 1, 0, r.url, s.str()));
 			}
 			else if (r.kind == tracker_request::scrape_request)
 			{
@@ -3322,7 +3362,7 @@ namespace libtorrent
 			if (r.kind == tracker_request::announce_request)
 			{
 				m_ses.m_alerts.post_alert(tracker_alert(get_handle()
-					, m_failed_trackers + 1, response_code, s.str()));
+					, m_failed_trackers + 1, response_code, r.url, s.str()));
 			}
 			else if (r.kind == tracker_request::scrape_request)
 			{
