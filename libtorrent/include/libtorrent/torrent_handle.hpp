@@ -137,6 +137,8 @@ namespace libtorrent
 		state_t state;
 		bool paused;
 		float progress;
+		std::string error;
+
 		boost::posix_time::time_duration next_announce;
 		boost::posix_time::time_duration announce_interval;
 
@@ -198,7 +200,7 @@ namespace libtorrent
 		// we potentially could connect to
 		int connect_candidates;
 		
-		const std::vector<bool>* pieces;
+		bitfield const* pieces;
 		
 		// this is the number of pieces the client has
 		// downloaded. it is equal to:
@@ -344,6 +346,12 @@ namespace libtorrent
 		bool is_auto_managed() const;
 		void auto_managed(bool m) const;
 
+		int queue_position() const;
+		void queue_position_up() const;
+		void queue_position_down() const;
+		void queue_position_top() const;
+		void queue_position_bottom() const;
+
 #ifndef TORRENT_DISABLE_RESOLVE_COUNTRIES	
 		void resolve_countries(bool r);
 		bool resolve_countries() const;
@@ -440,6 +448,7 @@ namespace libtorrent
 
 		// post condition: save_path() == save_path if true is returned
 		void move_storage(fs::path const& save_path) const;
+		void rename_file(int index, fs::path const& new_name) const;
 
 		sha1_hash info_hash() const;
 

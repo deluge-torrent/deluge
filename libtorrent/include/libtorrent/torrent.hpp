@@ -70,6 +70,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/storage.hpp"
 #include "libtorrent/hasher.hpp"
 #include "libtorrent/assert.hpp"
+#include "libtorrent/bitfield.hpp"
 
 namespace libtorrent
 {
@@ -79,6 +80,7 @@ namespace libtorrent
 
 	class piece_manager;
 	struct torrent_plugin;
+	struct bitfield;
 
 	namespace aux
 	{
@@ -167,6 +169,9 @@ namespace libtorrent
 		
 		void set_sequential_download(bool sd);
 	
+		void set_queue_position(int p);
+		int queue_position() const { return m_sequence_number; }
+
 		void second_tick(stat& accumulator, float tick_interval);
 
 		// debug purpose only
@@ -181,6 +186,7 @@ namespace libtorrent
 
 		void ip_filter_updated() { m_policy.ip_filter_updated(); }
 
+		bool has_error() const { return !m_error.empty(); }
 		void pause();
 		void resume();
 		bool is_paused() const { return m_paused; }
@@ -375,7 +381,7 @@ namespace libtorrent
 			return m_have_pieces[index];
 		}
 
-		const std::vector<bool>& pieces() const
+		bitfield const& pieces() const
 		{ return m_have_pieces; }
 
 		int num_pieces() const { return m_num_pieces; }
@@ -398,12 +404,12 @@ namespace libtorrent
 		}
 		
 		// when we get a bitfield message, this is called for that piece
-		void peer_has(std::vector<bool> const& bitfield)
+		void peer_has(bitfield const& bits)
 		{
 			if (m_picker.get())
 			{
 				TORRENT_ASSERT(!is_seed());
-				m_picker->inc_refcount(bitfield);
+				m_picker->inc_refcount(bits);
 			}
 #ifndef NDEBUG
 			else
@@ -562,7 +568,13 @@ namespace libtorrent
 		int max_uploads() const { return m_max_uploads; }
 		void set_max_connections(int limit);
 		int max_connections() const { return m_max_connections; }
+
 		void move_storage(fs::path const& save_path);
+
+		// renames the file with the given index to the new name
+		// the name may include a directory path
+		// returns false on failure
+		bool rename_file(int index, std::string const& name);
 
 		// unless this returns true, new connections must wait
 		// with their initialization.
@@ -587,6 +599,7 @@ namespace libtorrent
 		void on_torrent_paused(int ret, disk_io_job const& j);
 		void on_storage_moved(int ret, disk_io_job const& j);
 		void on_save_resume_data(int ret, disk_io_job const& j);
+		void on_file_renamed(int ret, disk_io_job const& j);
 
 		void on_piece_verified(int ret, disk_io_job const& j
 			, boost::function<void(int)> f);
@@ -728,7 +741,7 @@ namespace libtorrent
 		// this is an index into m_trackers
 
 		// the bitmask that says which pieces we have
-		std::vector<bool> m_have_pieces;
+		bitfield m_have_pieces;
 
 		// the number of bytes that has been
 		// downloaded that failed the hash-test
@@ -749,6 +762,10 @@ namespace libtorrent
 
 		// the state of this torrent (queued, checking, downloading)
 		torrent_status::state_t m_state;
+
+		// if there's an error on this torrent, this is the
+		// error message
+		std::string m_error;
 
 		entry m_resume_data;
 

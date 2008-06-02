@@ -34,6 +34,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #define TORRENT_TIME_HPP_INCLUDED
 
 #include <ctime>
+#include <boost/version.hpp>
 
 #ifndef _WIN32
 #include <unistd.h>
