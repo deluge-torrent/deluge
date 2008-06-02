@@ -40,6 +40,7 @@ class WizardGTK:
 
     def __init__(self):
         import gtk
+        import gobject
         import gtk.glade
         import os
         import deluge
@@ -120,7 +121,10 @@ class WizardGTK:
 
         #show wizard
         self.window.show()
+        gobject.threads_init()
+        gtk.gdk.threads_enter()
         gtk.main()
+        gtk.gdk.threads_leave()
 
     def toggle(self, *args):
         """
