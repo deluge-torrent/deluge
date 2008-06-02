@@ -1,3 +1,10 @@
+Deluge 0.5.9.2 (xx June 2008)
+  * Fix uploaded_memory from reverting to state value when doing a forced recheck
+  * Fixed 64-bit overflow issues
+  * Fixed total_wanted issue for files > 2 GB
+  * Fixed entry and scrape bug
+  * Fixed issue with torrents with 0 pieces
+
 Deluge 0.5.9.1 (19 May 2008)
   * Fix queue reordering on startup
   * Fix open folder
