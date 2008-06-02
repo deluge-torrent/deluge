@@ -271,6 +271,7 @@ and MOZILLA_FIVE_HOME environment variables to /usr/lib/firefox"))
             "pause_all": self.pause_all_clicked,
             "resume_all": self.resume_all_clicked,
             "add_torrent": self.add_torrent_clicked,
+            "add_torrent_url": self.add_torrent_url_clicked,
             "show_hide_window_toggled": self.show_hide_window_toggled
         })
         

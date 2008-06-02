@@ -72,6 +72,14 @@
       </widget>
     </child>
     <child>
+      <widget class="GtkMenuItem" id="menuitem3">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">Add _URL</property>
+        <property name="use_underline">True</property>
+        <signal name="activate" handler="add_torrent_url"/>
+      </widget>
+    </child>
+    <child>
       <widget class="GtkSeparatorMenuItem" id="separatormenuitem3">
         <property name="visible">True</property>
         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
