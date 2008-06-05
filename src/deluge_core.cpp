@@ -2165,6 +2165,23 @@ std::cout << asctime(timeinfo) << " torrent_use_lsd()" << std::endl;
     Py_INCREF(Py_None); return Py_None;
 }
 
+static PyObject *torrent_send_redund(PyObject *self, PyObject *args)
+{
+#ifdef DELUGE_CORE_DEBUG
+time_t rawtime;
+struct tm *timeinfo;
+time(&rawtime);
+timeinfo = localtime(&rawtime);
+std::cout << asctime(timeinfo) << " torrent_send_redund()" << std::endl;
+#endif
+    python_long action;
+    PyArg_ParseTuple(args, "i", &action);
+
+    M_settings->send_redundant_have = action;
+    M_ses->set_settings(*M_settings);
+    Py_INCREF(Py_None); return Py_None;
+}
+
 static PyObject *torrent_use_natpmp(PyObject *self, PyObject *args)
 {
 #ifdef DELUGE_CORE_DEBUG
@@ -2662,6 +2679,7 @@ static PyMethodDef deluge_core_methods[] =
     {"set_IP_filter",                   torrent_set_IP_filter,                    METH_VARARGS,   "."},
     {"use_upnp",                        torrent_use_upnp,                         METH_VARARGS,   "."},
     {"use_lsd",                         torrent_use_lsd,                          METH_VARARGS,   "."},
+    {"send_redund",                     torrent_send_redund,                      METH_VARARGS,   "."},
     {"use_natpmp",                      torrent_use_natpmp,                       METH_VARARGS,   "."},
     {"use_utpex",                       torrent_use_utpex,                        METH_VARARGS,   "."},
     {"set_ratio",                       torrent_set_ratio,                        METH_VARARGS,   "."},

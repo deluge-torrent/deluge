@@ -83,6 +83,7 @@ PREF_FUNCTIONS = {
     "use_lsd" : deluge_core.use_lsd,
     "use_natpmp" : deluge_core.use_natpmp,
     "use_utpex" : deluge_core.use_utpex,
+    "send_redund" : deluge_core.send_redund,
 }
 
 STATE_MESSAGES = (_("Queued"),

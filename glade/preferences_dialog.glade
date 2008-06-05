@@ -911,7 +911,7 @@ Forced</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label35">
+                                          <widget class="GtkLabel" id="label1">
                                             <property name="visible">True</property>
                                             <property name="xalign">1</property>
                                             <property name="label" translatable="yes">Level:</property>
@@ -1751,7 +1751,7 @@ HTTP W/ Auth</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkLabel" id="label1">
+                                      <widget class="GtkLabel" id="label2">
                                         <property name="visible">True</property>
                                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                         <property name="label" translatable="yes">Proxy type</property>
@@ -2404,6 +2404,42 @@ HTTP W/ Auth</property>
                 <property name="visible">True</property>
                 <property name="spacing">2</property>
                 <child>
+                  <widget class="GtkFrame" id="frame3">
+                    <property name="visible">True</property>
+                    <property name="label_xalign">0</property>
+                    <property name="shadow_type">GTK_SHADOW_NONE</property>
+                    <child>
+                      <widget class="GtkAlignment" id="alignment3">
+                        <property name="visible">True</property>
+                        <property name="left_padding">12</property>
+                        <child>
+                          <widget class="GtkCheckButton" id="chk_send_redund">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="tooltip" translatable="yes">Have messages will be sent to peers that already have the piece. It adds a little overhead, but allows other clients to see our progress.</property>
+                            <property name="label" translatable="yes">Send Redundant Have</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="label36">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Peers&lt;/b&gt;</property>
+                        <property name="use_markup">True</property>
+                      </widget>
+                      <packing>
+                        <property name="type">label_item</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="expand">False</property>
+                  </packing>
+                </child>
+                <child>
                   <widget class="GtkFrame" id="frame13">
                     <property name="visible">True</property>
                     <property name="label_xalign">0</property>
@@ -2548,7 +2584,7 @@ HTTP W/ Auth</property>
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label2">
+                      <widget class="GtkLabel" id="label4">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">&lt;b&gt;System Tray&lt;/b&gt;</property>
                         <property name="use_markup">True</property>
@@ -2561,6 +2597,7 @@ HTTP W/ Auth</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="padding">2</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
                 <child>
@@ -2601,7 +2638,7 @@ HTTP W/ Auth</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">1</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
                 <child>
@@ -2653,7 +2690,7 @@ HTTP W/ Auth</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">2</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
                 <child>
@@ -2696,7 +2733,7 @@ information is sent.</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="position">3</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
                 <child>
@@ -2708,7 +2745,7 @@ information is sent.</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label2">
+              <widget class="GtkLabel" id="label23">
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                 <property name="label" translatable="yes">Other</property>
@@ -2838,7 +2875,7 @@ information is sent.</property>
               </packing>
             </child>
             <child>
-              <widget class="GtkLabel" id="label23">
+              <widget class="GtkLabel" id="label28">
                 <property name="visible">True</property>
                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                 <property name="label" translatable="yes">Plugins</property>
