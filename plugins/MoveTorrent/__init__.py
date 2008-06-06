@@ -130,7 +130,7 @@ class movetorrentMenu:
     def handle_event(self, event):
         if event['event_type'] is self.core.constants['EVENT_STORAGE_MOVED']:
             if event['message'] == self.core.unique_IDs[event['unique_ID']].save_dir:
-                self.dialogs.show_popup_warning(self.window, "An error occured while trying to move the torrent.  Please check your permissions and note that you cannot move a torrent's files to the same directory that they are already stored or move a torrent's files before any of its files have actually been created."))
+                self.dialogs.show_popup_warning(self.window, "An error occured while trying to move the torrent.  Please check your permissions and note that you cannot move a torrent's files to the same directory that they are already stored or move a torrent's files before any of its files have actually been created.")
             self.core.unique_IDs[event['unique_ID']].save_dir = event['message']
             self.core.pickle_state()
                     
