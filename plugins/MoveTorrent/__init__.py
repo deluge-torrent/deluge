@@ -23,7 +23,7 @@ plugin_description = _("This plugin allows users to move the torrent to a \
 different directory without having to remove and re-add the torrent.  This \
 feature can be found by right-clicking on a torrent.\nFurthermore, it \
 allows the user to automatically have finished torrents moved to a different \
-folder.\nNote: Files can currently only be moved within the same partition")
+folder.")
 
 def deluge_init(deluge_path):
     global path
@@ -130,7 +130,7 @@ class movetorrentMenu:
     def handle_event(self, event):
         if event['event_type'] is self.core.constants['EVENT_STORAGE_MOVED']:
             if event['message'] == self.core.unique_IDs[event['unique_ID']].save_dir:
-                self.dialogs.show_popup_warning(self.window, _("You cannot move torrent to a different partition. Please check your preferences. Also, you cannot move a torrent's files to the same directory that they are already stored or move a torrent's files before any of its files have actually been created."))
+                self.dialogs.show_popup_warning(self.window, "An error occured while trying to move the torrent.  Please check your permissions and note that you cannot move a torrent's files to the same directory that they are already stored or move a torrent's files before any of its files have actually been created."))
             self.core.unique_IDs[event['unique_ID']].save_dir = event['message']
             self.core.pickle_state()
                     

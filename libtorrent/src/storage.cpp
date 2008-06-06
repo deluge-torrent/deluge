@@ -252,6 +252,53 @@ namespace
 namespace libtorrent
 {
 
+	template <class Path>
+	void recursive_copy(Path const& old_path, Path const& new_path, std::string& error)
+	{
+		using boost::filesystem::directory_iterator;
+#ifndef BOOST_NO_EXCEPTIONS
+		try {
+#endif
+		TORRENT_ASSERT(error.empty());
+		if (is_directory(old_path))
+		{
+			create_directory(new_path);
+			for (directory_iterator i(old_path), end; i != end; ++i)
+			{
+				recursive_copy(i->path(), new_path / i->leaf(), error);
+				if (!error.empty()) return;
+			}
+		}
+		else
+		{
+			copy_file(old_path, new_path);
+		}
+#ifndef BOOST_NO_EXCEPTIONS
+		} catch (std::exception& e) { error = e.what(); }
+#endif
+	}
+
+	template <class Path>
+	void recursive_remove(Path const& old_path)
+	{
+		using boost::filesystem::directory_iterator;
+#ifndef BOOST_NO_EXCEPTIONS
+		try {
+#endif
+		if (is_directory(old_path))
+		{
+			for (directory_iterator i(old_path), end; i != end; ++i)
+				recursive_remove(i->path());
+			remove(old_path);
+		}
+		else
+		{
+			remove(old_path);
+		}
+#ifndef BOOST_NO_EXCEPTIONS
+		} catch (std::exception& e) {}
+#endif
+	}
 	std::vector<std::pair<size_type, std::time_t> > get_filesizes(
 		torrent_info const& t, fs::path p)
 	{
@@ -667,8 +714,17 @@ namespace libtorrent
 			m_save_path = save_path;
 			return true;
 		}
-		catch (std::exception&) {}
-		return false;
+		catch (std::exception& e)
+        {
+			std::string err;
+			recursive_copy(old_path, new_path, err);
+			if (!err.empty())
+			{
+				return true;
+			}
+			m_save_path = save_path;
+			recursive_remove(old_path);
+        }
 	}
 
 #ifndef NDEBUG
