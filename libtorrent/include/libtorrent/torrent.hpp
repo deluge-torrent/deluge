@@ -149,6 +149,7 @@ namespace libtorrent
 		void init();
 
 		void on_resume_data_checked(int ret, disk_io_job const& j);
+		void on_force_recheck(int ret, disk_io_job const& j);
 		void on_piece_checked(int ret, disk_io_job const& j);
 		void files_checked();
 		void start_checking();
@@ -180,6 +181,7 @@ namespace libtorrent
 		std::string name() const;
 
 		stat statistics() const { return m_stat; }
+		void add_stats(stat const& s) { m_stat += s; }
 		size_type bytes_left() const;
 		boost::tuples::tuple<size_type, size_type> bytes_done() const;
 		size_type quantized_bytes_done() const;
@@ -190,6 +192,7 @@ namespace libtorrent
 		void pause();
 		void resume();
 		bool is_paused() const { return m_paused; }
+		void force_recheck();
 		void save_resume_data();
 
 		bool is_auto_managed() const { return m_auto_managed; }
@@ -377,14 +380,15 @@ namespace libtorrent
 		// returns true if we have downloaded the given piece
 		bool have_piece(int index) const
 		{
-			TORRENT_ASSERT(index >= 0 && index < (signed)m_have_pieces.size());
-			return m_have_pieces[index];
+			return has_picker()?m_picker->have_piece(index):true;
 		}
 
-		bitfield const& pieces() const
-		{ return m_have_pieces; }
-
-		int num_pieces() const { return m_num_pieces; }
+		int num_have() const
+		{
+			return has_picker()
+				?m_picker->num_have()
+				:m_torrent_file->num_pieces();
+		}
 
 		// when we get a have message, this is called for that piece
 		void peer_has(int index)
@@ -392,7 +396,6 @@ namespace libtorrent
 			if (m_picker.get())
 			{
 				TORRENT_ASSERT(!is_seed());
-				TORRENT_ASSERT(index >= 0 && index < (signed)m_have_pieces.size());
 				m_picker->inc_refcount(index);
 			}
 #ifndef NDEBUG
@@ -439,7 +442,6 @@ namespace libtorrent
 			if (m_picker.get())
 			{
 				TORRENT_ASSERT(!is_seed());
-				TORRENT_ASSERT(index >= 0 && index < (signed)m_have_pieces.size());
 				m_picker->dec_refcount(index);
 			}
 #ifndef NDEBUG
@@ -506,7 +508,9 @@ namespace libtorrent
 		bool is_seed() const
 		{
 			return valid_metadata()
-				&& m_num_pieces == m_torrent_file->num_pieces();
+				&& (!m_picker
+				|| m_state == torrent_status::seeding
+				|| m_picker->num_have() == m_picker->num_pieces());
 		}
 
 		// this is true if we have all the pieces that we want
@@ -514,7 +518,7 @@ namespace libtorrent
 		{
 			if (is_seed()) return true;
 			return valid_metadata() && m_torrent_file->num_pieces()
-				- m_num_pieces - m_picker->num_filtered() == 0;
+				- m_picker->num_have() - m_picker->num_filtered() == 0;
 		}
 
 		fs::path save_path() const;
@@ -740,9 +744,6 @@ namespace libtorrent
 		std::vector<announce_entry> m_trackers;
 		// this is an index into m_trackers
 
-		// the bitmask that says which pieces we have
-		bitfield m_have_pieces;
-
 		// the number of bytes that has been
 		// downloaded that failed the hash-test
 		size_type m_total_failed_bytes;
@@ -780,11 +781,6 @@ namespace libtorrent
 		storage_constructor_type m_storage_constructor;
 
 		float m_progress;
-
-		// the number of pieces we have. The same as
-		// std::accumulate(m_have_pieces.begin(),
-		// m_have_pieces.end(), 0)
-		int m_num_pieces;
 
 		// the upload/download ratio that each peer
 		// tries to maintain.
@@ -908,9 +904,14 @@ namespace libtorrent
 		// has been initialized with files_checked().
 		bool m_connections_initialized:1;
 
-#ifndef NDEBUG
+		// is set to true every time there is an incoming
+		// connection to this torrent
+		bool m_has_incoming:1;
+
+		// this is set to true when the files are checked
+		// before the files are checked, we don't try to
+		// connect to peers
 		bool m_files_checked:1;
-#endif
 	};
 
 	inline ptime torrent::next_announce() const

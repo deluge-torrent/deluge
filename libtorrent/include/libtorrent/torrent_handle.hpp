@@ -100,7 +100,6 @@ namespace libtorrent
 			, num_incomplete(-1)
 			, list_seeds(0)
 			, list_peers(0)
-			, pieces(0)
 			, num_pieces(0)
 			, total_done(0)
 			, total_wanted_done(0)
@@ -120,6 +119,7 @@ namespace libtorrent
 			, seeding_time(0)
 			, seed_rank(0)
 			, last_scrape(0)
+			, has_incoming(false)
 		{}
 
 		enum state_t
@@ -200,7 +200,7 @@ namespace libtorrent
 		// we potentially could connect to
 		int connect_candidates;
 		
-		bitfield const* pieces;
+		bitfield pieces;
 		
 		// this is the number of pieces the client has
 		// downloaded. it is equal to:
@@ -266,6 +266,10 @@ namespace libtorrent
 		// number of seconds since last scrape, or -1 if
 		// there hasn't been a scrape
 		int last_scrape;
+
+		// true if there are incoming connections to this
+		// torrent
+		bool has_incoming;
 	};
 
 	struct TORRENT_EXPORT block_info
@@ -341,6 +345,7 @@ namespace libtorrent
 		bool is_paused() const;
 		void pause() const;
 		void resume() const;
+		void force_recheck() const;
 		void save_resume_data() const;
 
 		bool is_auto_managed() const;

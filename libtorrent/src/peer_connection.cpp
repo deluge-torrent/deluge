@@ -326,15 +326,19 @@ namespace libtorrent
 		TORRENT_ASSERT(t);
 
 		bool interested = false;
-		bitfield const& we_have = t->pieces();
-		for (int j = 0; j != (int)we_have.size(); ++j)
+		if (!t->is_finished())
 		{
-			if (!we_have[j]
-				&& t->piece_priority(j) > 0
-				&& m_have_piece[j])
+			piece_picker const& p = t->picker();
+			int num_pieces = p.num_pieces();
+			for (int j = 0; j != num_pieces; ++j)
 			{
-				interested = true;
-				break;
+				if (!p.have_piece(j)
+					&& t->piece_priority(j) > 0
+					&& m_have_piece[j])
+				{
+					interested = true;
+					break;
+				}
 			}
 		}
 		try
@@ -2218,6 +2222,10 @@ namespace libtorrent
 
 		if (t)
 		{
+			// make sure we keep all the stats!
+			calc_ip_overhead();
+			t->add_stats(statistics());
+
 			if (t->has_picker())
 			{
 				piece_picker& picker = t->picker();
