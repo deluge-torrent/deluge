@@ -47,8 +47,7 @@ TORRENT_STATE = deluge.common.TORRENT_STATE
 class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.
     """
-    def __init__(self, filename, handle, compact, save_path, total_uploaded=0,
-        trackers=None):
+    def __init__(self, handle, options, state=None):
         log.debug("Creating torrent object %s", str(handle.info_hash()))
         # Get the core config
         self.config = ConfigManager("core.conf")
@@ -56,41 +55,32 @@ class Torrent:
         # Get a reference to the TorrentQueue
         self.torrentqueue = component.get("TorrentQueue")
         self.signals = component.get("SignalManager")
-        
-        # Set the filename
-        self.filename = filename
+
         # Set the libtorrent handle
         self.handle = handle
         # Set the torrent_id for this torrent
         self.torrent_id = str(handle.info_hash())
-        # This is for saving the total uploaded between sessions
-        self.total_uploaded = total_uploaded
-        # Set the allocation mode
-        self.compact = compact
-        # Where the torrent is being saved to
-        self.save_path = save_path
-        # Status message holds error info about the torrent
-        self.statusmsg = "OK"
-        
-        # The torrents state
-        self.state = ""
-        
+
         # Holds status info so that we don't need to keep getting it from lt
         self.status = self.handle.status()
         self.torrent_info = self.handle.get_torrent_info()
 
-        # Various torrent options
-        self.max_connections = -1
-        self.max_upload_slots = -1
-        self.max_upload_speed = -1
-        self.max_download_speed = -1
-        self.private = False
-        self.prioritize_first_last = False
+        # Files dictionary
+        self.files = self.get_files()
+        # Set the default file priorities to normal
+        self.file_priorities = [1]* len(self.files)
         
-        # The tracker status
-        self.tracker_status = ""
-        # Tracker list
-        if trackers == None:
+        # Default total_uploaded to 0, this may be changed by the state
+        self.total_uploaded = 0
+        
+        # Load values from state if we have it
+        if state is not None:
+            # This is for saving the total uploaded between sessions
+            self.total_uploaded = state.total_uploaded
+            # Set the trackers
+            self.set_trackers(state.trackers)
+        else:    
+            # Tracker list
             self.trackers = []
             # Create a list of trackers
             for value in self.handle.trackers():
@@ -98,17 +88,33 @@ class Torrent:
                 tracker["url"] = value.url
                 tracker["tier"] = value.tier
                 self.trackers.append(tracker)
-        else:
-            self.trackers = trackers
-            self.set_trackers(self.trackers)
-            
-        # Files dictionary
-        self.files = self.get_files()
-        # Set the default file priorities to normal
-        self.file_priorities = [1]* len(self.files)
 
-        # Set resolve_countries to True
-        self.handle.resolve_countries(True)
+        # Various torrent options
+        self.set_max_connections(options["max_connections_per_torrent"])
+        self.set_max_upload_slots(options["max_upload_slots_per_torrent"])
+        self.set_max_upload_speed(options["max_upload_speed_per_torrent"])
+        self.set_max_download_speed(options["max_download_speed_per_torrent"])
+        self.set_prioritize_first_last(options["prioritize_first_last_pieces"])
+        self.handle.resolve_countries(True)        
+        if options.has_key("file_priorities"):
+            self.set_file_priorities(options["file_priorities"])
+            
+        # Set the allocation mode
+        self.compact = options["compact_allocation"]
+        # Where the torrent is being saved to
+        self.save_path = options["download_location"]
+        # Status message holds error info about the torrent
+        self.statusmsg = "OK"
+        
+        # The torrents state
+        self.state = ""
+        
+        # The tracker status
+        self.tracker_status = ""
+        
+        # This variable is to prevent a state change to 'Paused' when it should
+        # be 'Queued'
+        self.next_pause_is_queued = False
         
         log.debug("Torrent object created.")
         
@@ -132,10 +138,6 @@ class Torrent:
         self.max_download_speed = m_down_speed
         self.handle.set_download_limit(int(m_down_speed * 1024))
     
-    def set_private_flag(self, private):
-        self.private = private
-        #self.handle.get_torrent_info().set_priv(private)
-    
     def set_prioritize_first_last(self, prioritize):
         self.prioritize_first_last = prioritize
             
@@ -155,6 +157,30 @@ class Torrent:
                     
         self.file_priorities = file_priorities
         self.handle.prioritize_files(file_priorities)
+
+    def set_trackers(self, trackers):
+        """Sets trackers"""
+        if trackers == None:
+            trackers = []
+            
+        log.debug("Setting trackers for %s: %s", self.torrent_id, trackers)
+        tracker_list = []
+
+        for tracker in trackers:
+            new_entry = lt.announce_entry(tracker["url"])
+            new_entry.tier = tracker["tier"]
+            tracker_list.append(new_entry)
+            
+        self.handle.replace_trackers(tracker_list)
+        
+        # Print out the trackers
+        for t in self.handle.trackers():
+            log.debug("tier: %s tracker: %s", t.tier, t.url)
+        # Set the tracker list in the torrent object
+        self.trackers = trackers
+        if len(trackers) > 0:
+            # Force a reannounce if there is at least 1 tracker
+            self.force_reannounce()
     
     def set_state_based_on_ltstate(self):
         """Updates the state based on what libtorrent's state for the torrent is"""
@@ -183,8 +209,18 @@ class Torrent:
 
         if state != self.state:
             if state == "Queued" and not self.handle.is_paused():
-                component.get("TorrentManager").append_not_state_paused(self.torrent_id)
+                #component.get("TorrentManager").append_not_state_paused(self.torrent_id)
+                self.next_pause_is_queued = True
                 self.handle.pause()
+            if state == "Error" and not self.handle.is_paused():
+                self.next_pause_is_queued = True
+                
+            if state == "Paused":
+                if self.next_pause_is_queued:
+                    self.state = "Queued"
+                    self.next_pause_is_queued = False
+                else:
+                    self.state = "Paused"
 
             log.debug("Setting %s's state to %s", self.torrent_id, state)
             self.state = state
@@ -256,7 +292,6 @@ class Torrent:
     def get_queue_position(self):
         # We augment the queue position + 1 so that the user sees a 1 indexed
         # list.
-        
         return self.torrentqueue[self.torrent_id] + 1
     
     def get_peers(self):
@@ -335,13 +370,13 @@ class Torrent:
             "max_upload_speed": self.max_upload_speed,
             "max_download_speed": self.max_download_speed,
             "prioritize_first_last": self.prioritize_first_last,
-            "private": self.private,
             "message": self.statusmsg,
             "hash": self.torrent_id
         }
         
         fns = {
             "name": self.torrent_info.name,
+            "private": self.torrent_info.priv,
             "total_size": self.torrent_info.total_size,
             "num_files": self.torrent_info.num_files,
             "num_pieces": self.torrent_info.num_pieces,
@@ -372,14 +407,13 @@ class Torrent:
                     status_dict[key] = fns[key]()
 
         return status_dict
-
+        
     def apply_options(self):
         """Applies the per-torrent options that are set."""
         self.handle.set_max_connections(self.max_connections)
         self.handle.set_max_uploads(self.max_upload_slots)
         self.handle.set_upload_limit(int(self.max_upload_speed * 1024))
         self.handle.set_download_limit(int(self.max_download_speed * 1024))
-        self.handle.get_torrent_info().set_priv(self.private)
         self.handle.prioritize_files(self.file_priorities)
         self.handle.resolve_countries(True)
         
@@ -472,8 +506,8 @@ class Torrent:
         """Writes the .fastresume file for the torrent"""
         resume_data = lt.bencode(self.handle.write_resume_data())
         path = "%s/%s.fastresume" % (
-            self.config["torrentfiles_location"], 
-            self.filename)
+            self.config["state_location"],
+            self.torrent_id)
         log.debug("Saving fastresume file: %s", path)
         try:
             fastresume = open(path, "wb")
@@ -485,14 +519,25 @@ class Torrent:
     def delete_fastresume(self):
         """Deletes the .fastresume file"""
         path = "%s/%s.fastresume" % (
-            self.config["torrentfiles_location"], 
-            self.filename)
+            self.config["state_location"],
+            self.torrent_id)
         log.debug("Deleting fastresume file: %s", path)
         try:
             os.remove(path)
         except Exception, e:
             log.warning("Unable to delete the fastresume file: %s", e)
 
+    def delete_torrentfile(self):
+        """Deletes the .torrent file in the state"""
+        path = "%s/%s.torrent" % (
+            self.config["state_location"],
+            self.torrent_id)
+        log.debug("Deleting torrent file: %s", path)
+        try:
+            os.remove(path)
+        except Exception, e:
+            log.warning("Unable to delete the torrent file: %s", e)
+                    
     def force_reannounce(self):
         """Force a tracker reannounce"""
         try:
@@ -512,52 +557,3 @@ class Torrent:
             return False
         
         return True
-        
-    def set_trackers(self, trackers):
-        """Sets trackers"""
-        if trackers == None:
-            trackers = []
-            
-        log.debug("Setting trackers for %s: %s", self.torrent_id, trackers)
-        tracker_list = []
-
-        for tracker in trackers:
-            new_entry = lt.announce_entry(tracker["url"])
-            new_entry.tier = tracker["tier"]
-            tracker_list.append(new_entry)
-            
-        self.handle.replace_trackers(tracker_list)
-        
-        # Print out the trackers
-        for t in self.handle.trackers():
-            log.debug("tier: %s tracker: %s", t.tier, t.url)
-        # Set the tracker list in the torrent object
-        self.trackers = trackers
-        if len(trackers) > 0:
-            # Force a reannounce if there is at least 1 tracker
-            self.force_reannounce()
-
-    def save_torrent_file(self, filedump=None):
-        """Saves a torrent file"""
-        log.debug("Attempting to save torrent file: %s", self.filename)
-        # Test if the torrentfiles_location is accessible
-        if os.access(
-            os.path.join(self.config["torrentfiles_location"]), os.F_OK) \
-                                                                    is False:
-            # The directory probably doesn't exist, so lets create it
-            try:
-               os.makedirs(os.path.join(self.config["torrentfiles_location"]))
-            except IOError, e:
-                log.warning("Unable to create torrent files directory: %s", e)
-        
-        # Write the .torrent file to the torrent directory
-        try:
-            save_file = open(os.path.join(self.config["torrentfiles_location"], 
-                    self.filename),
-                    "wb")
-            if filedump == None:
-                filedump = self.handle.get_torrent_info().create_torrent()
-            save_file.write(lt.bencode(filedump))
-            save_file.close()
-        except IOError, e:
-            log.warning("Unable to save torrent file: %s", e)

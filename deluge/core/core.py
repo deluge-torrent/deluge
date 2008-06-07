@@ -65,6 +65,7 @@ DEFAULT_PREFS = {
     "listen_ports": [6881, 6891],
     "torrentfiles_location": os.path.join(deluge.configmanager.get_config_dir(), "torrentfiles"),
     "plugins_location": os.path.join(deluge.configmanager.get_config_dir(), "plugins"),
+    "state_location": os.path.join(deluge.configmanager.get_config_dir(), "state"),
     "prioritize_first_last_pieces": False,
     "random_port": True,
     "dht": False,
@@ -88,7 +89,6 @@ DEFAULT_PREFS = {
     "autoadd_location": "",
     "autoadd_enable": False,
     "add_paused": False,
-    "default_private": False,
     "max_active_seeding": -1,
     "max_active_downloading": -1,
     "queue_new_to_top": False,
@@ -207,6 +207,8 @@ class Core(
         # Register set functions in the Config
         self.config.register_set_function("torrentfiles_location",
             self._on_set_torrentfiles_location)
+        self.config.register_set_function("state_location",
+            self._on_set_state_location)
         self.config.register_set_function("listen_ports", 
             self._on_set_listen_ports)
         self.config.register_set_function("random_port",
@@ -300,12 +302,31 @@ class Core(
         """Adds a torrent file to the libtorrent session
             This requires the torrents filename and a dump of it's content
         """
-        # Make sure we are sending a string to add()
+        # Turn the filedump into a torrent_info
         if not isinstance(filedump, str):
             filedump = filedump.data
+#            filedump = "".join(chr(b) for b in filedump)
+        try:
+            torrent_info = lt.torrent_info(lt.bdecode(filedump))
+        except RuntimeError, e:
+            log.warn("Unable to decode torrent file: %s", e)
+            return None
+        
+        torrent_id = self.torrents.add(torrent_info=torrent_info, options=options)
 
-        torrent_id = self.torrents.add(filename, filedump=filedump, options=options)
-
+        # Here we need to save a copy of the filedump for state purposes
+        # and also if the user wishes to save a copy of the torrent elsewhere.
+        if torrent_id:
+            # Write the .torrent file to the state directory
+            try:
+                save_file = open(os.path.join(self.config["state_location"], 
+                        torrent_id + ".torrent"),
+                        "wb")
+                save_file.write(filedump)
+                save_file.close()
+            except IOError, e:
+                log.warning("Unable to save torrent file: %s", e)
+                
         # Run the plugin hooks for 'post_torrent_add'
         self.plugins.run_post_torrent_add(torrent_id)
 
@@ -497,11 +518,7 @@ class Core(
     def export_set_torrent_max_download_speed(self, torrent_id, value):
         """Sets a torrents max download speed"""
         return self.torrents[torrent_id].set_max_download_speed(value)
-    
-    def export_set_torrent_private_flag(self, torrent_id, value):
-        """Sets a torrents private flag"""
-        return self.torrents[torrent_id].set_private_flag(value)
-    
+   
     def export_set_torrent_file_priorities(self, torrent_id, priorities):
         """Sets a torrents file priorities"""
         return self.torrents[torrent_id].set_file_priorities(priorities)
@@ -636,7 +653,14 @@ class Core(
                     shutil.copy2(os.path.join(root, file), value)
                 except Exception, e:
                     log.debug("Unable to copy file to %s: %s", value, e)
-        
+    
+    def _on_set_state_location(self, key, value):
+        if not os.access(value, os.F_OK):
+            try:
+                os.makedirs(value)
+            except Exception, e:
+                log.debug("Unable to make directory: %s", e)
+                
     def _on_set_listen_ports(self, key, value):
         # Only set the listen ports if random_port is not true
         if self.config["random_port"] is not True:

@@ -200,7 +200,7 @@ class TorrentQueue(component.Component):
         try:
             return self.queue.index(torrent_id)
         except ValueError:
-            return None
+            return -1
                 
     def append(self, torrent_id):
         """Append torrent_id to the bottom of the queue"""

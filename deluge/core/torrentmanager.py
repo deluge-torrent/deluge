@@ -51,8 +51,7 @@ from deluge.log import LOG as log
 
 class TorrentState:
     def __init__(self,
-            torrent_id, 
-            filename, 
+            torrent_id,
             total_uploaded, 
             trackers,
             compact, 
@@ -63,12 +62,10 @@ class TorrentState:
             max_upload_speed,
             max_download_speed,
             prioritize_first_last,
-            private,
             file_priorities,
             queue
         ):
         self.torrent_id = torrent_id
-        self.filename = filename
         self.total_uploaded = total_uploaded
         self.trackers = trackers
         self.queue = queue
@@ -82,7 +79,6 @@ class TorrentState:
         self.max_upload_speed = max_upload_speed
         self.max_download_speed = max_download_speed
         self.prioritize_first_last = prioritize_first_last
-        self.private = private
         self.file_priorities = file_priorities
 
 class TorrentManagerState:
@@ -108,9 +104,6 @@ class TorrentManager(component.Component):
 
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
-    
-        # List of torrents to not set state 'Paused' on lt alert
-        self.not_state_paused = []
         
         # Register set functions
         self.config.register_set_function("max_connections_per_torrent",
@@ -172,105 +165,119 @@ class TorrentManager(component.Component):
     def get_torrent_list(self):
         """Returns a list of torrent_ids"""
         return self.torrents.keys()
+   
+    def get_torrent_info_from_file(self, filepath):
+        """Returns a torrent_info for the file specified or None"""
+        torrent_info = None
+        # Get the torrent data from the torrent file
+        try:
+            log.debug("Attempting to create torrent_info from %s", filepath)
+            _file = open(filepath, "rb")
+            torrent_info = lt.torrent_info(lt.bdecode(_file.read()))
+            _file.close()
+        except (IOError, RuntimeError), e:
+            log.warning("Unable to open %s: %s", filepath, e)
+        
+        return torrent_info
     
-    def append_not_state_paused(self, torrent_id):
-        """Appends to a list of torrents that we will not set state Paused to
-        when we receive the paused alert from libtorrent.  The torrents are removed
-        from this list once we receive the alert they have been paused in libtorrent."""
-        if torrent_id not in self.not_state_paused:
-            self.not_state_paused.append(torrent_id)
-            
-    def add(self, filename, filedump=None, options=None, total_uploaded=0, 
-            trackers=None, queue=-1, state=None, save_state=True):
-        """Add a torrent to the manager and returns it's torrent_id"""
-        log.info("Adding torrent: %s", filename)
-        log.debug("options: %s", options)
-        # Make sure 'filename' is a python string
-        filename = str(filename)
-
-        # Convert the filedump data array into a string of bytes
-        if filedump is not None:
-            # If the filedump is already of type str, then it's already been
-            # joined.
-            if type(filedump) is not str:
-                filedump = "".join(chr(b) for b in filedump)
-            try:
-                filedump = lt.bdecode(filedump)
-            except RuntimeError, e:
-                log.warn("Unable to decode torrent file: %s", e)
-                return None
-        else:
-            # Get the data from the file
-            filedump = self.load_torrent(filename)
-            if not filedump:
-                log.warning("Unable to load torrent file..")
-                return None               
-
-        # Attempt to load fastresume data
+    def get_resume_data_from_file(self, torrent_id):
+        """Returns an entry with the resume data or None"""
+        fastresume = None
         try:
             _file = open(
                 os.path.join(
-                    self.config["torrentfiles_location"], 
-                    filename + ".fastresume"),
+                    self.config["state_location"], 
+                    torrent_id + ".fastresume"),
                     "rb")
             try:
                 fastresume = lt.bdecode(_file.read())
             except RuntimeError, e:
                 log.warning("Unable to bdecode fastresume file: %s", e)
-                fastresume = None
                 
             _file.close()
         except IOError, e:
             log.debug("Unable to load .fastresume: %s", e)
-            fastresume = None
             
-        handle = None
+        return fastresume
+                                    
+    def add(self, torrent_info=None, state=None, options=None, save_state=True):
+        """Add a torrent to the manager and returns it's torrent_id"""
+        if torrent_info is None and state is None:
+            log.debug("You must specify a valid torrent_info or a torrent state object!")
+            return
 
-        # Check if options is None and load defaults
-        options_keys = [
-            "compact_allocation",
-            "max_connections_per_torrent",
-            "max_upload_slots_per_torrent",
-            "max_upload_speed_per_torrent",
-            "max_download_speed_per_torrent",
-            "prioritize_first_last_pieces",
-            "download_location",
-            "add_paused",
-            "default_private"
-        ]
+        log.debug("torrentmanager.add")
+        add_torrent_params = {}
+ 
+        if torrent_info is None:
+            # We have no torrent_info so we need to add the torrent with information
+            # from the state object.
 
-        if options == None:
+            # Populate the options dict from state
             options = {}
-            for key in options_keys:
-                options[key] = self.config[key]
+            options["max_connections_per_torrent"] = state.max_connections
+            options["max_upload_slots_per_torrent"] = state.max_upload_slots
+            options["max_upload_speed_per_torrent"] = state.max_upload_speed
+            options["max_download_speed_per_torrent"] = state.max_download_speed
+            options["prioritize_first_last_pieces"] = state.prioritize_first_last
+            options["file_priorities"] = state.file_priorities
+            options["compact_allocation"] = state.compact
+            options["download_location"] = state.save_path
+            
+            add_torrent_params["ti"] =\
+                self.get_torrent_info_from_file(
+                    os.path.join(self.config["state_location"], state.torrent_id + ".torrent"))
+            add_torrent_params["resume_data"] = self.get_resume_data_from_file(state.torrent_id)
         else:
-            for key in options_keys:
-                if not options.has_key(key):
+            # We have a torrent_info object so we're not loading from state.
+            # Check if options is None and load defaults
+            options_keys = [
+                "compact_allocation",
+                "max_connections_per_torrent",
+                "max_upload_slots_per_torrent",
+                "max_upload_speed_per_torrent",
+                "max_download_speed_per_torrent",
+                "prioritize_first_last_pieces",
+                "download_location",
+                "add_paused",
+            ]
+
+            if options == None:
+                options = {}
+                for key in options_keys:
                     options[key] = self.config[key]
-        
+            else:
+                for key in options_keys:
+                    if not options.has_key(key):
+                        options[key] = self.config[key]            
+
+            add_torrent_params["ti"] = torrent_info
+            add_torrent_params["resume_data"] = None
+            
+        #log.info("Adding torrent: %s", filename)
+        log.debug("options: %s", options)
+            
         # Set the right storage_mode
         if options["compact_allocation"]:
             storage_mode = lt.storage_mode_t(2)
         else:
             storage_mode = lt.storage_mode_t(1)
         
+        # Fill in the rest of the add_torrent_params dictionary
+        add_torrent_params["save_path"] = str(options["download_location"])
+
+        add_torrent_params["storage_mode"] = storage_mode
+        add_torrent_params["paused"] = True
+        add_torrent_params["auto_managed"] = False
+        add_torrent_params["duplicate_is_error"] = True
+        
         # We need to pause the AlertManager momentarily to prevent alerts
         # for this torrent being generated before a Torrent object is created.
         component.pause("AlertManager")
         
-        # Create the torrent parameters struct for the torrent's options
-        t_params = {}
-        
-        t_params["ti"] = lt.torrent_info(filedump)
-        t_params["save_path"] = str(options["download_location"])
-        t_params["resume_data"] = fastresume
-        t_params["storage_mode"] = storage_mode
-        t_params["paused"] = True
-        t_params["auto_managed"] = False
-        t_params["duplicate_is_error"] = True
-        
+        handle = None
         try:
-            handle = self.session.add_torrent(t_params)
+            handle = self.session.add_torrent(add_torrent_params)
         except RuntimeError, e:
             log.warning("Error adding torrent: %s", e)
             
@@ -278,76 +285,59 @@ class TorrentManager(component.Component):
             log.debug("torrent handle is invalid!")
             # The torrent was not added to the session
             component.resume("AlertManager")
-            return None
-
+            return
+        
+        log.debug("handle id: %s", str(handle.info_hash()))
         # Create a Torrent object
-        torrent = Torrent(filename, handle, options["compact_allocation"], 
-            options["download_location"], total_uploaded, trackers)
+        torrent = Torrent(handle, options, state)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
         component.resume("AlertManager")
         
         # Add the torrent to the queue
-        if queue == -1 and self.config["queue_new_to_top"]:
-            self.queue.insert(0, torrent.torrent_id)
+        if state is not None:
+            self.queue.insert(state.queue, torrent.torrent_id)
         else:
-            self.queue.insert(queue, torrent.torrent_id)
+            if self.config["queue_new_to_top"]:
+                self.queue.insert(0, torrent.torrent_id)
+            else:
+                self.queue.append(torrent.torrent_id)
 
-        # Set per-torrent options
-        torrent.set_max_connections(options["max_connections_per_torrent"])
-        torrent.set_max_upload_slots(options["max_upload_slots_per_torrent"])
-        torrent.set_max_upload_speed(options["max_upload_speed_per_torrent"])
-        torrent.set_max_download_speed(
-            options["max_download_speed_per_torrent"])
-        torrent.set_prioritize_first_last(
-            options["prioritize_first_last_pieces"])
-        torrent.set_private_flag(options["default_private"])
-
-        if options.has_key("file_priorities"):
-            if options["file_priorities"] != None:
-                log.debug("set file priorities: %s", options["file_priorities"])
-                torrent.set_file_priorities(options["file_priorities"])
-        
         log.debug("state: %s", state)
         
         # Resume the torrent if needed
-        if state == "Queued":
-            torrent.state = "Queued"
-        elif state == "Paused" or state == "Error":
+        if state == "Paused" or state == "Error":
             torrent.state = "Paused"
-        if state == None and not options["add_paused"]:
+        elif state == None and not options["add_paused"]:
             torrent.handle.resume()
             # We set the state based on libtorrent's state
             torrent.set_state_based_on_ltstate()
-        if state == None and options["add_paused"]:
+        elif state == None and options["add_paused"]:
             torrent.set_state = "Paused"
-        
-        # Emit the torrent_added signal
-        self.signals.emit("torrent_added", torrent.torrent_id)
-            
-        # Save the torrent file        
-        torrent.save_torrent_file(filedump)
 
         if save_state:
             # Save the session state
             self.save_state()
-         
+        
+        # Emit the torrent_added signal
+        self.signals.emit("torrent_added", torrent.torrent_id)
+                 
         return torrent.torrent_id
 
-    def load_torrent(self, filename):
-        """Load a torrent file and return it's torrent info"""
+    def load_torrent(self, torrent_id):
+        """Load a torrent file from state and return it's torrent info"""
         filedump = None
         # Get the torrent data from the torrent file
         try:
-            log.debug("Attempting to open %s for add.", filename)
+            log.debug("Attempting to open %s for add.", torrent_id)
             _file = open(
                 os.path.join(
-                    self.config["torrentfiles_location"], filename), 
+                    self.config["state_location"], torrent_id + ".torrent"), 
                         "rb")
             filedump = lt.bdecode(_file.read())
             _file.close()
         except (IOError, RuntimeError), e:
-            log.warning("Unable to open %s: %s", filename, e)
+            log.warning("Unable to open %s: %s", torrent_id, e)
             return False
         
         return filedump
@@ -378,6 +368,9 @@ class TorrentManager(component.Component):
 
         # Remove the .fastresume if it exists
         self.torrents[torrent_id].delete_fastresume()
+        
+        # Remove the .torrent file in the state
+        self.torrents[torrent_id].delete_torrentfile()
         
         # Remove the torrent from the queue
         self.queue.remove(torrent_id)
@@ -417,15 +410,12 @@ class TorrentManager(component.Component):
        
     def force_recheck(self, torrent_id):
         """Forces a re-check of the torrent's data"""
+        log.debug("force recheck is broken for the time being")
+        return
         log.debug("Doing a forced recheck on %s", torrent_id)
         torrent = self.torrents[torrent_id]
         paused = self.torrents[torrent_id].handle.is_paused()
-        torrent_info = None
-        ### Check for .torrent file prior to removing and make a copy if needed
-        if os.access(os.path.join(self.config["torrentfiles_location"] +\
-                 "/" + torrent.filename), os.F_OK) is False:
-            torrent_info = torrent.handle.get_torrent_info().create_torrent()
-            torrent.save_torrent_file()
+        torrent_info = torrent.handle.get_torrent_info()
 
         # We need to pause the AlertManager momentarily to prevent alerts
         # for this torrent being generated before a Torrent object is created.
@@ -439,11 +429,11 @@ class TorrentManager(component.Component):
             return False
 
         # Remove the fastresume file if there
-        torrent.delete_fastresume()
+        #torrent.delete_fastresume()
         
         # Load the torrent info from file if needed
         if torrent_info == None:
-            torrent_info = self.load_torrent(torrent.filename)
+            torrent_info = self.load_torrent(torrent.torrent_id)
 
         # Next we re-add the torrent
         
@@ -489,7 +479,7 @@ class TorrentManager(component.Component):
         try:
             log.debug("Opening torrent state file for load.")
             state_file = open(
-                os.path.join(self.config["config_location"], "torrents.state"), "rb")
+                os.path.join(self.config["state_location"], "torrents.state"), "rb")
             state = cPickle.load(state_file)
             state_file.close()
         except IOError:
@@ -506,37 +496,20 @@ class TorrentManager(component.Component):
         fr_first = []
         for torrent_state in state.torrents:
             if os.path.exists(os.path.join(
-                    self.config["torrentfiles_location"], 
-                    torrent_state.filename, ".fastresume")):
+                    self.config["state_location"],
+                    torrent_state.torrent_id, ".fastresume")):
                 fr_first.insert(0, torrent_state)
             else:
                 fr_first.append(torrent_state)
                    
         for torrent_state in fr_first:
             try:
-                options = {
-                    "compact_allocation": torrent_state.compact,
-                    "max_connections_per_torrent": torrent_state.max_connections,
-                    "max_upload_slots_per_torrent": torrent_state.max_upload_slots,
-                    "max_upload_speed_per_torrent": torrent_state.max_upload_speed,
-                    "max_download_speed_per_torrent": torrent_state.max_download_speed,
-                    "prioritize_first_last_pieces": torrent_state.prioritize_first_last,
-                    "download_location": torrent_state.save_path,
-                    "add_paused": True,
-                    "default_private": torrent_state.private,
-                    "file_priorities": torrent_state.file_priorities
-                }
                 # We need to resume all non-add_paused torrents after plugin hook
                 if torrent_state.state not in ["Paused", "Queued", "Error"]:
                     resume_torrents.append(torrent_state.torrent_id)
                 
                 self.add(
-                    torrent_state.filename,
-                    options=options,
-                    total_uploaded=torrent_state.total_uploaded,
-                    trackers=torrent_state.trackers,
-                    queue=torrent_state.queue,
-                    state=torrent_state.state,
+                    state=torrent_state,
                     save_state=False)
                 
             except AttributeError, e:
@@ -559,7 +532,6 @@ class TorrentManager(component.Component):
         for torrent in self.torrents.values():
             torrent_state = TorrentState(
                 torrent.torrent_id,
-                torrent.filename, 
                 torrent.get_status(["total_uploaded"])["total_uploaded"], 
                 torrent.trackers,
                 torrent.compact, 
@@ -570,7 +542,6 @@ class TorrentManager(component.Component):
                 torrent.max_upload_speed,
                 torrent.max_download_speed,
                 torrent.prioritize_first_last,
-                torrent.private,
                 torrent.file_priorities,
                 torrent.get_status(["queue"])["queue"] - 1 # We subtract 1 due to augmentation
             )
@@ -580,7 +551,7 @@ class TorrentManager(component.Component):
         try:
             log.debug("Saving torrent state file.")
             state_file = open(
-                os.path.join(self.config["config_location"], "torrents.state"), 
+                os.path.join(self.config["state_location"], "torrents.state"), 
                                                                         "wb")
             cPickle.dump(state, state_file)
             state_file.close()
@@ -640,13 +611,9 @@ class TorrentManager(component.Component):
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the torrent state
-        log.debug("not_state_paused: %s", self.not_state_paused)
-        if not torrent_id in self.not_state_paused:
-            log.debug("Setting state 'Paused'..")
-            self.torrents[torrent_id].set_state("Paused")
-            component.get("SignalManager").emit("torrent_paused", torrent_id)
-        else:
-            self.not_state_paused.remove(torrent_id)
+        log.debug("Setting state 'Paused'..")
+        self.torrents[torrent_id].set_state("Paused")
+        component.get("SignalManager").emit("torrent_paused", torrent_id)
             
         # Write the fastresume file
         self.torrents[torrent_id].write_fastresume()
@@ -731,4 +698,4 @@ class TorrentManager(component.Component):
         torrent_id = str(alert.handle.info_hash())
         self.torrents[torrent_id].set_state("Error")
         self.torrents[torrent_id].set_status_message(str(alert.msg()))
-        self.not_state_paused.append(torrent_id)
+
