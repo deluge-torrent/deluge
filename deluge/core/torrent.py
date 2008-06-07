@@ -557,3 +557,13 @@ class Torrent:
             return False
         
         return True
+        
+    def force_recheck(self):
+        """Forces a recheck of the torrents pieces"""
+        try:
+            self.handle.force_recheck()
+        except Exception, e:
+            log.debug("Unable to force recheck: %s", e)
+            return False
+        return True
+        

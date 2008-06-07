@@ -268,9 +268,9 @@ void bind_torrent_handle()
         .def("pause", _(&torrent_handle::pause))
         .def("resume", _(&torrent_handle::resume))
         
-        .def_readonly("is_auto_managed", _(&torrent_handle::is_auto_managed))
+        .def("is_auto_managed", _(&torrent_handle::is_auto_managed))
         .def("auto_managed", _(&torrent_handle::auto_managed))
-        .def_readonly("queue_position", _(&torrent_handle::queue_position))
+        .def("queue_position", _(&torrent_handle::queue_position))
         .def("queue_position_up", _(&torrent_handle::queue_position_up))
         .def("queue_position_down", _(&torrent_handle::queue_position_down))
         .def("queue_position_top", _(&torrent_handle::queue_position_top))
@@ -312,6 +312,7 @@ void bind_torrent_handle()
         .def("set_tracker_login", _(&torrent_handle::set_tracker_login))
         .def("move_storage", _(&torrent_handle::move_storage))
         .def("info_hash", _(&torrent_handle::info_hash))
+        .def("force_recheck", _(&torrent_handle::force_recheck))
         ;
 }
 

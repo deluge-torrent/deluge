@@ -497,7 +497,7 @@ class Core(
     def export_force_recheck(self, torrent_ids):
         """Forces a data recheck on torrent_ids"""
         for torrent_id in torrent_ids:
-            gobject.idle_add(self.torrents.force_recheck, torrent_id)
+            self.torrents[torrent_id].force_recheck()
     
     def export_set_torrent_trackers(self, torrent_id, trackers):
         """Sets a torrents tracker list.  trackers will be [{"url", "tier"}]"""
