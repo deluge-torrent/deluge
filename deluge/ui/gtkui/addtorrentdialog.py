@@ -123,8 +123,7 @@ class AddTorrentDialog(component.Component):
             "max_download_speed_per_torrent",
             "prioritize_first_last_pieces",
             "download_location",
-            "add_paused",
-            "default_private"
+            "add_paused"
         ]
         self.core_config = {}
             
@@ -299,8 +298,6 @@ class AddTorrentDialog(component.Component):
             options["add_paused"])
         self.glade.get_widget("chk_prioritize").set_active(
             options["prioritize_first_last_pieces"])
-        self.glade.get_widget("chk_private").set_active(
-            options["default_private"])
             
     def save_torrent_options(self, row=None):
         # Keeps the torrent options dictionary up-to-date with what the user has
@@ -377,8 +374,6 @@ class AddTorrentDialog(component.Component):
             self.core_config["add_paused"])
         self.glade.get_widget("chk_prioritize").set_active(
             self.core_config["prioritize_first_last_pieces"])
-        self.glade.get_widget("chk_private").set_active(
-            self.core_config["default_private"])
     
     def get_file_priorities(self, torrent_id):
         # A list of priorities
