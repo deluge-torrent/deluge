@@ -675,6 +675,12 @@ namespace libtorrent
 	{
 		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 
+		if (ret == piece_manager::disk_check_aborted)
+		{
+			m_error = "aborted";
+			m_ses.done_checking(shared_from_this());
+			return;
+		}
 		if (ret == piece_manager::fatal_disk_error)
 		{
 			if (m_ses.m_alerts.should_post(alert::fatal))
@@ -3049,6 +3055,7 @@ namespace libtorrent
 	{
 		INVARIANT_CHECK;
 	
+		TORRENT_ASSERT(!is_finished());
 		m_state = torrent_status::downloading;
 		set_queue_position((std::numeric_limits<int>::max)());
 	}
@@ -3385,6 +3392,7 @@ namespace libtorrent
 
 	void torrent::set_queue_position(int p)
 	{
+		if (is_finished() && p != -1) return;
 		if (p == m_sequence_number) return;
 
 		session_impl::torrent_map& torrents = m_ses.m_torrents;
@@ -3685,6 +3693,11 @@ namespace libtorrent
 		m_paused = false;
 		m_started = time_now();
 		m_error.clear();
+
+		if (alerts().should_post(alert::warning))
+		{
+			alerts().post_alert(torrent_resumed_alert(get_handle(), "torrent resumed"));
+		}
 
 		// tell the tracker that we're back
 		m_event = tracker_request::started;
