@@ -238,7 +238,10 @@ class Preferences(component.Component):
                 "spin_seeding": ("value", self.core_config["max_active_seeding"]),
                 "spin_downloading": ("value", self.core_config["max_active_downloading"]),
                 "chk_queue_new_top": ("active", self.core_config["queue_new_to_top"]),
-                "chk_finished_bottom": ("active", self.core_config["queue_finished_to_bottom"]),
+                "spin_share_ratio_limit": ("value", self.core_config["share_ratio_limit"]),
+                "spin_seed_time_ratio_limit": \
+                    ("value", self.core_config["seed_time_ratio_limit"]),
+                "spin_seed_time_limit": ("value", self.core_config["seed_time_limit"]),
                 "chk_seed_ratio": ("active", self.core_config["stop_seed_at_ratio"]),
                 "spin_share_ratio": ("value", self.core_config["stop_seed_ratio"]),
                 "chk_remove_ratio": ("active", self.core_config["remove_seed_at_ratio"])
@@ -324,10 +327,12 @@ class Preferences(component.Component):
                 "spin_seeding",
                 "spin_downloading",
                 "chk_queue_new_top",
-                "chk_finished_bottom",
                 "chk_seed_ratio",
                 "spin_share_ratio",
-                "chk_remove_ratio"
+                "chk_remove_ratio",
+                "spin_share_ratio_limit",
+                "spin_seed_time_ratio_limit",
+                "spin_seed_time_limit"
             ]
             # We don't appear to be connected to a daemon
             for key in core_widget_list:
@@ -500,14 +505,18 @@ class Preferences(component.Component):
             self.glade.get_widget("spin_seeding").get_value_as_int()
         new_core_config["max_active_downloading"] = \
             self.glade.get_widget("spin_downloading").get_value_as_int()
-        new_core_config["queue_finished_to_bottom"] = \
-            self.glade.get_widget("chk_finished_bottom").get_active()
         new_core_config["stop_seed_at_ratio"] = \
             self.glade.get_widget("chk_seed_ratio").get_active()
         new_core_config["remove_seed_at_ratio"] = \
             self.glade.get_widget("chk_remove_ratio").get_active()
         new_core_config["stop_seed_ratio"] = \
             self.glade.get_widget("spin_share_ratio").get_value()
+        new_core_config["share_ratio_limit"] = \
+            self.glade.get_widget("spin_share_ratio_limit").get_value()
+        new_core_config["seed_time_ratio_limit"] = \
+            self.glade.get_widget("spin_seed_time_ratio_limit").get_value()
+        new_core_config["seed_time_limit"] = \
+            self.glade.get_widget("spin_seed_time_limit").get_value()
             
         # GtkUI
         for key in new_gtkui_config.keys():

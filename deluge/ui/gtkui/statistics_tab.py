@@ -37,6 +37,7 @@ from deluge.ui.client import aclient as client
 import deluge.component as component
 import deluge.common
 from deluge.ui.gtkui.torrentdetails import Tab
+from deluge.log import LOG as log
 
 def fpeer_sized(first, second):
     return "%s (%s)" % (deluge.common.fsize(first), deluge.common.fsize(second))
@@ -79,6 +80,10 @@ class StatisticsTab(Tab):
             (glade.get_widget("summary_share_ratio"), fratio, ("ratio",)),
             (glade.get_widget("summary_tracker_status"), None, ("tracker_status",)),
             (glade.get_widget("summary_next_announce"), deluge.common.ftime, ("next_announce",)),
+            (glade.get_widget("summary_active_time"), deluge.common.ftime, ("active_time",)),
+            (glade.get_widget("summary_seed_time"), deluge.common.ftime, ("seeding_time",)),
+            (glade.get_widget("summary_seed_rank"), str, ("seed_rank",)),
+            (glade.get_widget("summary_auto_managed"), str, ("is_auto_managed",)),
             (glade.get_widget("progressbar"), fpcnt, ("progress",))
         ]
     
@@ -100,7 +105,8 @@ class StatisticsTab(Tab):
             "upload_payload_rate", "num_peers", "num_seeds", "total_peers",
             "total_seeds", "eta", "ratio", "next_announce",
             "tracker_status", "max_connections", "max_upload_slots", 
-            "max_upload_speed", "max_download_speed"]
+            "max_upload_speed", "max_download_speed", "active_time", 
+            "seeding_time", "seed_rank", "is_auto_managed"]
             
         client.get_torrent_status(
             self._on_get_torrent_status, selected, status_keys)

@@ -299,7 +299,7 @@ class TorrentDetails(component.Component):
             state_file = open(os.path.join(config_location, filename), "rb")
             state = cPickle.load(state_file)
             state_file.close()
-        except IOError, e:
+        except (EOFError, IOError), e:
             log.warning("Unable to load state file: %s", e)
         
         return state

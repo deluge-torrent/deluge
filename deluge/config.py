@@ -100,7 +100,7 @@ class Config:
             if filedump == self.config:
                 # The config has not changed so lets just return
                 return
-        except IOError:
+        except (EOFError, IOError):
             log.warning("IOError: Unable to open file: '%s'", filename)
             
         try:

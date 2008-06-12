@@ -78,7 +78,7 @@ class AlertManager(component.Component):
                 # Handler is in this alert type list
                 value.remove(handler)
                     
-    def handle_alerts(self):
+    def handle_alerts(self, wait=False):
         """Pops all libtorrent alerts in the session queue and handles them
         appropriately."""
         alert = self.session.pop_alert()
@@ -91,7 +91,10 @@ class AlertManager(component.Component):
             # Call any handlers for this alert type
             if alert_type in self.handlers.keys():
                 for handler in self.handlers[alert_type]:
-                    gobject.idle_add(handler, alert)
+                    if not wait:
+                        gobject.idle_add(handler, alert)
+                    else:
+                        handler(alert)
                     
             alert = self.session.pop_alert()
 

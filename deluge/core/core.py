@@ -60,7 +60,7 @@ DEFAULT_PREFS = {
     "config_location": deluge.configmanager.get_config_dir(),
     "daemon_port": 58846,
     "allow_remote": False,
-    "compact_allocation": True,
+    "compact_allocation": False,
     "download_location": deluge.common.get_default_download_dir(),
     "listen_ports": [6881, 6891],
     "torrentfiles_location": os.path.join(deluge.configmanager.get_config_dir(), "torrentfiles"),
@@ -68,11 +68,11 @@ DEFAULT_PREFS = {
     "state_location": os.path.join(deluge.configmanager.get_config_dir(), "state"),
     "prioritize_first_last_pieces": False,
     "random_port": True,
-    "dht": False,
-    "upnp": False,
-    "natpmp": False,
-    "utpex": False,
-    "lsd": False,
+    "dht": True,
+    "upnp": True,
+    "natpmp": True,
+    "utpex": True,
+    "lsd": True,
     "enc_in_policy": 1,
     "enc_out_policy": 1,
     "enc_level": 2,
@@ -89,13 +89,16 @@ DEFAULT_PREFS = {
     "autoadd_location": "",
     "autoadd_enable": False,
     "add_paused": False,
-    "max_active_seeding": -1,
-    "max_active_downloading": -1,
+    "max_active_seeding": 5,
+    "max_active_downloading": 8,
     "queue_new_to_top": False,
-    "queue_finished_to_bottom": False,
     "stop_seed_at_ratio": False,
     "remove_seed_at_ratio": False,
-    "stop_seed_ratio": 1.00
+    "stop_seed_ratio": 2.00,
+    "share_ratio_limit": 2.00,
+    "seed_time_ratio_limit": 7.00,
+    "seed_time_limit": 180,
+    "auto_managed": True
 }
         
 class Core(
@@ -234,6 +237,16 @@ class Core(
             self._on_set_max_download_speed)
         self.config.register_set_function("max_upload_slots_global",
             self._on_set_max_upload_slots_global)
+        self.config.register_set_function("share_ratio_limit",
+            self._on_set_share_ratio_limit)
+        self.config.register_set_function("seed_time_ratio_limit",
+            self._on_set_seed_time_ratio_limit)
+        self.config.register_set_function("seed_time_limit",
+            self._on_set_seed_time_limit)
+        self.config.register_set_function("max_active_downloading",
+            self._on_set_max_active_downloading)
+        self.config.register_set_function("max_active_seeding",
+            self._on_set_max_active_seeding)
 
         self.config.register_change_callback(self._on_config_value_change)
         # Start the AlertManager
@@ -550,7 +563,7 @@ class Core(
         for torrent_id in torrent_ids:
             try:
                 # If the queue method returns True, then we should emit a signal
-                if self.torrents.queue.top(torrent_id):
+                if self.torrents.queue_top(torrent_id):
                     self._torrent_queue_changed()
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
@@ -562,7 +575,7 @@ class Core(
         for torrent_id in torrent_ids:
             try:
                 # If the queue method returns True, then we should emit a signal
-                if self.torrents.queue.up(torrent_id):
+                if self.torrents.queue_up(torrent_id):
                     self._torrent_queue_changed()
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
@@ -574,7 +587,7 @@ class Core(
         for torrent_id in torrent_ids:
             try:
                 # If the queue method returns True, then we should emit a signal
-                if self.torrents.queue.down(torrent_id):
+                if self.torrents.queue_down(torrent_id):
                     self._torrent_queue_changed()
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
@@ -584,7 +597,7 @@ class Core(
         for torrent_id in torrent_ids:
             try:
                 # If the queue method returns True, then we should emit a signal
-                if self.torrents.queue.bottom(torrent_id):
+                if self.torrents.queue_bottom(torrent_id):
                     self._torrent_queue_changed()
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
@@ -755,3 +768,32 @@ class Core(
     def _on_set_max_upload_slots_global(self, key, value):
         log.debug("max_upload_slots_global set to %s..", value)
         self.session.set_max_uploads(value)
+
+    def _on_set_share_ratio_limit(self, key, value):
+        log.debug("%s set to %s..", key, value)
+        self.settings.share_ratio_limit = value
+        self.session.set_settings(self.settings)
+
+    def _on_set_seed_time_ratio_limit(self, key, value):
+        log.debug("%s set to %s..", key, value)
+        self.settings.seed_time_ratio_limit = value
+        self.session.set_settings(self.settings)
+
+    def _on_set_seed_time_limit(self, key, value):
+        log.debug("%s set to %s..", key, value)
+        # This value is stored in minutes in deluge, but libtorrent wants seconds
+        self.settings.seed_time_limit = int(value * 60)
+        self.session.set_settings(self.settings)
+
+    def _on_set_max_active_downloading(self, key, value):
+        log.debug("%s set to %s..", key, value)
+        log.debug("active_downloads: %s", self.settings.active_downloads)
+        self.settings.active_downloads = value
+        self.session.set_settings(self.settings)
+
+    def _on_set_max_active_seeding(self, key, value):
+        log.debug("%s set to %s..", key, value)
+        log.debug("active_seeds: %s", self.settings.active_seeds)
+        self.settings.active_seeds = value
+        self.session.set_settings(self.settings)
+

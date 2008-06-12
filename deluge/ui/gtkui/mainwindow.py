@@ -83,8 +83,6 @@ class MainWindow(component.Component):
         except:
             pass
 
-        # Load the state prior to showing
-        self.load_window_state()
         self.window.show()
     
     def hide(self):

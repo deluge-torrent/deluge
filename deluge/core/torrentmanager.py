@@ -43,7 +43,6 @@ import deluge.libtorrent as lt
 
 import deluge.common
 import deluge.component as component
-from deluge.core.torrentqueue import TorrentQueue
 from deluge.configmanager import ConfigManager
 from deluge.core.torrent import Torrent
 
@@ -55,7 +54,7 @@ class TorrentState:
             total_uploaded, 
             trackers,
             compact, 
-            state, 
+            paused, 
             save_path,
             max_connections,
             max_upload_slots,
@@ -63,7 +62,8 @@ class TorrentState:
             max_download_speed,
             prioritize_first_last,
             file_priorities,
-            queue
+            queue,
+            auto_managed
         ):
         self.torrent_id = torrent_id
         self.total_uploaded = total_uploaded
@@ -72,7 +72,7 @@ class TorrentState:
 
         # Options
         self.compact = compact
-        self.state = state
+        self.paused = paused
         self.save_path = save_path
         self.max_connections = max_connections
         self.max_upload_slots = max_upload_slots
@@ -80,6 +80,7 @@ class TorrentState:
         self.max_download_speed = max_download_speed
         self.prioritize_first_last = prioritize_first_last
         self.file_priorities = file_priorities
+        self.auto_managed = auto_managed
 
 class TorrentManagerState:
     def __init__(self):
@@ -91,7 +92,7 @@ class TorrentManager(component.Component):
     session for use on restart."""
     
     def __init__(self, session, alerts):
-        component.Component.__init__(self, "TorrentManager", depend=["PluginManager"])
+        component.Component.__init__(self, "TorrentManager", interval=5000, depend=["PluginManager"])
         log.debug("TorrentManager init..")
         # Set the libtorrent session
         self.session = session
@@ -99,8 +100,6 @@ class TorrentManager(component.Component):
         self.alerts = alerts
         # Get the core config
         self.config = ConfigManager("core.conf")
-        # Create the TorrentQueue object
-        self.queue = TorrentQueue()
 
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
@@ -131,7 +130,8 @@ class TorrentManager(component.Component):
             self.on_alert_tracker_warning)
         self.alerts.register_handler("storage_moved_alert",
             self.on_alert_storage_moved)
-        self.alerts.register_handler("file_error_alert", self.on_alert_file_error)
+        self.alerts.register_handler("torrent_resumed_alert", 
+            self.on_alert_torrent_resumed)
         
     def start(self):
         # Get the pluginmanager reference
@@ -149,14 +149,17 @@ class TorrentManager(component.Component):
         # Save state on shutdown
         self.save_state()
         for key in self.torrents.keys():
-            if not self.torrents[key].handle.is_paused() and \
-                not self.torrents[key].handle.is_finished():
-                if self.torrents[key].compact:
-                    try:
-                        self.torrents[key].pause()
-                    except:
-                        log.warning("Unable to pause torrent %s", key)
-                self.torrents[key].write_fastresume()
+            self.torrents[key].handle.pause()
+            # Wait for all alerts
+            self.alerts.handle_alerts(True)
+                        
+    def update(self):
+        if self.config["stop_seed_at_ratio"]:
+            for torrent in self.torrents:
+                if torrent.get_ratio() >= self.config["stop_seed_ratio"]:
+                    torrent.pause()
+                    if self.config["remove_seed_at_ratio"]:
+                        self.remove(torrent.torrent_id)
                         
     def __getitem__(self, torrent_id):
         """Return the Torrent with torrent_id"""
@@ -223,10 +226,16 @@ class TorrentManager(component.Component):
             options["file_priorities"] = state.file_priorities
             options["compact_allocation"] = state.compact
             options["download_location"] = state.save_path
+            options["auto_managed"] = state.auto_managed
+            options["add_paused"] = state.paused
             
             add_torrent_params["ti"] =\
                 self.get_torrent_info_from_file(
                     os.path.join(self.config["state_location"], state.torrent_id + ".torrent"))
+            if not add_torrent_params["ti"]:
+                log.error("Unable to add torrent!")
+                return
+                
             add_torrent_params["resume_data"] = self.get_resume_data_from_file(state.torrent_id)
         else:
             # We have a torrent_info object so we're not loading from state.
@@ -240,6 +249,7 @@ class TorrentManager(component.Component):
                 "prioritize_first_last_pieces",
                 "download_location",
                 "add_paused",
+                "auto_managed"
             ]
 
             if options == None:
@@ -292,28 +302,15 @@ class TorrentManager(component.Component):
         torrent = Torrent(handle, options, state)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
+        if self.config["queue_new_to_top"]:
+            handle.queue_position_top()
+            
         component.resume("AlertManager")
-        
-        # Add the torrent to the queue
-        if state is not None:
-            self.queue.insert(state.queue, torrent.torrent_id)
-        else:
-            if self.config["queue_new_to_top"]:
-                self.queue.insert(0, torrent.torrent_id)
-            else:
-                self.queue.append(torrent.torrent_id)
 
-        log.debug("state: %s", state)
-        
         # Resume the torrent if needed
-        if state == "Paused" or state == "Error":
-            torrent.state = "Paused"
-        elif state == None and not options["add_paused"]:
-            torrent.handle.resume()
-            # We set the state based on libtorrent's state
-            torrent.set_state_based_on_ltstate()
-        elif state == None and options["add_paused"]:
-            torrent.set_state = "Paused"
+        if not options["add_paused"]:
+            handle.resume()
+            handle.auto_managed(options["auto_managed"])
 
         if save_state:
             # Save the session state
@@ -342,7 +339,7 @@ class TorrentManager(component.Component):
         
         return filedump
         
-    def remove(self, torrent_id, remove_torrent, remove_data):
+    def remove(self, torrent_id, remove_torrent=False, remove_data=False):
         """Remove a torrent from the manager"""
         try:
             # Remove from libtorrent session
@@ -371,9 +368,6 @@ class TorrentManager(component.Component):
         
         # Remove the .torrent file in the state
         self.torrents[torrent_id].delete_torrentfile()
-        
-        # Remove the torrent from the queue
-        self.queue.remove(torrent_id)
         
         # Remove the torrent from deluge's session
         try:
@@ -418,60 +412,44 @@ class TorrentManager(component.Component):
                 os.path.join(self.config["state_location"], "torrents.state"), "rb")
             state = cPickle.load(state_file)
             state_file.close()
-        except IOError:
+        except (EOFError, IOError):
             log.warning("Unable to load state file.")
-
-        # Try to add the torrents in the state to the session
-        resume_torrents = []
-        # First lets clear the queue and make it the correct length.. This will
-        # help with inserting values at the right position.
-        self.queue.set_size(len(state.torrents))
         
-        # Reorder the state.torrents list to add torrents with .fastresume files
-        # first.
-        fr_first = []
+        # Reorder the state.torrents list to add torrents in the correct queue
+        # order.
+        ordered_state = []
         for torrent_state in state.torrents:
-            if os.path.exists(os.path.join(
-                    self.config["state_location"],
-                    torrent_state.torrent_id, ".fastresume")):
-                fr_first.insert(0, torrent_state)
-            else:
-                fr_first.append(torrent_state)
+            for t in ordered_state:
+                if torrent_state.queue < t.queue:
+                    ordered_state.insert(0, torrent_state)
+                    break
+            ordered_state.append(torrent_state)
                    
-        for torrent_state in fr_first:
+        for torrent_state in ordered_state:
             try:
-                # We need to resume all non-add_paused torrents after plugin hook
-                if torrent_state.state not in ["Paused", "Queued", "Error"]:
-                    resume_torrents.append(torrent_state.torrent_id)
-                
-                self.add(
-                    state=torrent_state,
-                    save_state=False)
-                
+                self.add(state=torrent_state, save_state=False)
             except AttributeError, e:
                 log.error("Torrent state file is either corrupt or incompatible!")
-                add_paused = {}
                 break
        
         # Run the post_session_load plugin hooks
         self.plugins.run_post_session_load()
-        
-        # Resume any torrents that need to be resumed
-        for torrent_id in resume_torrents:
-            self.torrents[torrent_id].handle.resume()
-            self.torrents[torrent_id].set_state_based_on_ltstate()
 
     def save_state(self):
         """Save the state of the TorrentManager to the torrents.state file"""
         state = TorrentManagerState()
         # Create the state for each Torrent and append to the list
         for torrent in self.torrents.values():
+            paused = False
+            if torrent.state == "Paused":
+                paused = True
+            
             torrent_state = TorrentState(
                 torrent.torrent_id,
                 torrent.get_status(["total_uploaded"])["total_uploaded"], 
                 torrent.trackers,
                 torrent.compact, 
-                torrent.state, 
+                paused, 
                 torrent.save_path,
                 torrent.max_connections,
                 torrent.max_upload_slots,
@@ -479,7 +457,8 @@ class TorrentManager(component.Component):
                 torrent.max_download_speed,
                 torrent.prioritize_first_last,
                 torrent.file_priorities,
-                torrent.get_status(["queue"])["queue"] - 1 # We subtract 1 due to augmentation
+                torrent.get_queue_position(),
+                torrent.auto_managed
             )
             state.torrents.append(torrent_state)
         
@@ -496,7 +475,39 @@ class TorrentManager(component.Component):
             
         # We return True so that the timer thread will continue
         return True
-    
+
+    def queue_top(self, torrent_id):
+        """Queue torrent to top"""
+        if self.torrents[torrent_id].get_queue_position() == 0:
+            return False
+
+        self.torrents[torrent_id].handle.queue_position_top()
+        return True
+
+    def queue_up(self, torrent_id):
+        """Queue torrent up one position"""
+        if self.torrents[torrent_id].get_queue_position() == 0:
+            return False
+
+        self.torrents[torrent_id].handle.queue_position_up()
+        return True
+
+    def queue_down(self, torrent_id):
+        """Queue torrent down one position"""
+        if self.torrents[torrent_id].get_queue_position() == (len(self.torrents) - 1):
+            return False
+            
+        self.torrents[torrent_id].handle.queue_position_down()
+        return True
+
+    def queue_bottom(self, torrent_id):
+        """Queue torrent to bottom"""
+        if self.torrents[torrent_id].get_queue_position() == (len(self.torrents) - 1):
+            return False
+
+        self.torrents[torrent_id].handle.queue_position_bottom()
+        return True
+        
     def on_set_max_connections_per_torrent(self, key, value):
         """Sets the per-torrent connection limit"""
         log.debug("max_connections_per_torrent set to %s..", value)
@@ -508,7 +519,7 @@ class TorrentManager(component.Component):
         log.debug("max_upload_slots_per_torrent set to %s..", value)
         for key in self.torrents.keys():
             self.torrents[key].set_max_upload_slots(value)
-    
+
     def on_set_max_upload_speed_per_torrent(self, key, value):
         log.debug("max_upload_speed_per_torrent set to %s..", value)
         for key in self.torrents.keys():
@@ -525,20 +536,7 @@ class TorrentManager(component.Component):
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         log.debug("%s is finished..", torrent_id)
-        
-        # Queue to bottom if enabled
-        if alert.msg() == "torrent has finished downloading":
-            if self.config["queue_finished_to_bottom"]:
-                self.queue.bottom(torrent_id)
-
-        # Set the torrent state if not paused        
-        if not self.torrents[torrent_id].handle.is_paused():
-            if self.queue.get_num_seeding() < self.config["max_active_seeding"] or\
-                    self.config["max_active_seeding"] == -1:
-                self.torrents[torrent_id].set_state("Seeding")
-            else:
-                self.torrents[torrent_id].set_state("Queued")
-            
+        self.torrents[torrent_id].update_state()
         # Write the fastresume file
         self.torrents[torrent_id].write_fastresume()
         
@@ -547,8 +545,7 @@ class TorrentManager(component.Component):
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the torrent state
-        log.debug("Setting state 'Paused'..")
-        self.torrents[torrent_id].set_state("Paused")
+        self.torrents[torrent_id].update_state()
         component.get("SignalManager").emit("torrent_paused", torrent_id)
             
         # Write the fastresume file
@@ -559,12 +556,8 @@ class TorrentManager(component.Component):
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the torrent state
-        if not self.torrents[torrent_id].handle.is_paused():
-            if self.torrents[torrent_id].handle.is_finished():
-                self.torrents[torrent_id].set_state("Seeding")
-            else:
-                self.torrents[torrent_id].set_state("Downloading")
-                
+        self.torrents[torrent_id].update_state()
+        
     def on_alert_tracker_reply(self, alert):
         log.debug("on_alert_tracker_reply")
         # Get the torrent_id
@@ -622,16 +615,16 @@ class TorrentManager(component.Component):
             
     def on_alert_storage_moved(self, alert):
         log.debug("on_alert_storage_moved")
+        log.debug("save_path: %s", alert.handle.save_path())
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         try:
+            log.debug("save_path2: %s", self.torrents[torrent_id].handle.save_path())
             self.torrents[torrent_id].set_save_path(alert.handle.save_path())
         except KeyError:
             log.debug("torrent_id doesn't exist.")
 
-    def on_alert_file_error(self, alert):
-        log.debug("on_alert_file_error")
+    def on_alert_torrent_resumed(self, alert):
+        log.debug("on_alert_torrent_resumed")
         torrent_id = str(alert.handle.info_hash())
-        self.torrents[torrent_id].set_state("Error")
-        self.torrents[torrent_id].set_status_message(str(alert.msg()))
-
+        self.torrents[torrent_id].update_state()

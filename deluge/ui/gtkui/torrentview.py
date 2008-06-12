@@ -92,7 +92,14 @@ def cell_data_progress(column, cell, model, row, data):
         textstr = textstr + " %.2f%%" % value        
     if cell.get_property("text") != textstr:
         cell.set_property("text", textstr)
-    
+
+def cell_data_queue(column, cell, model, row, data):
+    value = model.get_value(row, data)
+    if value < 0:
+        cell.set_property("text", "")
+    else:
+        cell.set_property("text", value + 1)
+        
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
@@ -116,7 +123,7 @@ class TorrentView(listview.ListView, component.Component):
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
         self.add_bool_column("filter", hidden=True)
-        self.add_text_column("#", col_type=int, status_field=["queue"])
+        self.add_func_column("#", cell_data_queue, [int], status_field=["queue"])
         self.add_texticon_column(_("Name"), status_field=["state", "name"], 
                                             function=cell_data_statusicon)
         self.add_func_column(_("Size"), 

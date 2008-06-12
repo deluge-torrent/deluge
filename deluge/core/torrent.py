@@ -51,9 +51,7 @@ class Torrent:
         log.debug("Creating torrent object %s", str(handle.info_hash()))
         # Get the core config
         self.config = ConfigManager("core.conf")
-        
-        # Get a reference to the TorrentQueue
-        self.torrentqueue = component.get("TorrentQueue")
+
         self.signals = component.get("SignalManager")
 
         # Set the libtorrent handle
@@ -72,6 +70,9 @@ class Torrent:
         
         # Default total_uploaded to 0, this may be changed by the state
         self.total_uploaded = 0
+        
+        # Set default auto_managed value
+        self.set_auto_managed(options["auto_managed"])
         
         # Load values from state if we have it
         if state is not None:
@@ -107,14 +108,11 @@ class Torrent:
         self.statusmsg = "OK"
         
         # The torrents state
-        self.state = ""
+        #self.state = ""
+        self.update_state()
         
         # The tracker status
         self.tracker_status = ""
-        
-        # This variable is to prevent a state change to 'Paused' when it should
-        # be 'Queued'
-        self.next_pause_is_queued = False
         
         log.debug("Torrent object created.")
         
@@ -144,6 +142,11 @@ class Torrent:
     def set_save_path(self, save_path):
         self.save_path = save_path
     
+    def set_auto_managed(self, auto_managed):
+        self.auto_managed = auto_managed
+        if not self.handle.is_paused():
+            self.handle.auto_managed(auto_managed)
+        
     def set_file_priorities(self, file_priorities):
         log.debug("setting %s's file priorities: %s", self.torrent_id, file_priorities)
         if 0 in self.file_priorities:
@@ -182,7 +185,7 @@ class Torrent:
             # Force a reannounce if there is at least 1 tracker
             self.force_reannounce()
     
-    def set_state_based_on_ltstate(self):
+    def update_state(self):
         """Updates the state based on what libtorrent's state for the torrent is"""
         # Set the initial state based on the lt state
         LTSTATE = deluge.common.LT_TORRENT_STATE
@@ -199,35 +202,26 @@ class Torrent:
             self.state = "Seeding"
         elif ltstate == LTSTATE["Allocating"]:
             self.state = "Allocating"
+        
+        if self.handle.is_paused() and len(self.handle.status().error) > 0:
+            # This is an error'd torrent
+            self.state = "Error"
+            self.set_status_message(self.handle.status().error)
+            self.handle.auto_managed(False)
+        elif self.handle.is_paused() and self.handle.is_auto_managed():
+            self.state = "Queued"
+        elif self.handle.is_paused() and not self.handle.is_auto_managed():
+            self.state = "Paused"
     
     def set_state(self, state):
         """Accepts state strings, ie, "Paused", "Seeding", etc."""
-
         if state not in TORRENT_STATE:
             log.debug("Trying to set an invalid state %s", state)
             return
 
-        if state != self.state:
-            if state == "Queued" and not self.handle.is_paused():
-                #component.get("TorrentManager").append_not_state_paused(self.torrent_id)
-                self.next_pause_is_queued = True
-                self.handle.pause()
-            if state == "Error" and not self.handle.is_paused():
-                self.next_pause_is_queued = True
-                
-            if state == "Paused":
-                if self.next_pause_is_queued:
-                    self.state = "Queued"
-                    self.next_pause_is_queued = False
-                else:
-                    self.state = "Paused"
+        self.state = state
+        return
 
-            log.debug("Setting %s's state to %s", self.torrent_id, state)
-            self.state = state
-
-            # Update the torrentqueue on any state changes
-            self.torrentqueue.update_queue()
-    
     def set_status_message(self, message):
         self.statusmsg = message
 
@@ -288,11 +282,6 @@ class Torrent:
                 'offset': file.offset
             })
         return ret
-
-    def get_queue_position(self):
-        # We augment the queue position + 1 so that the user sees a 1 indexed
-        # list.
-        return self.torrentqueue[self.torrent_id] + 1
     
     def get_peers(self):
         """Returns a list of peers and various information about them"""
@@ -326,7 +315,11 @@ class Torrent:
             })
 
         return ret
-        
+    
+    def get_queue_position(self):
+        """Returns the torrents queue position"""
+        return self.handle.queue_position()
+            
     def get_status(self, keys):
         """Returns the status of the torrent based on the keys provided"""
         # Create the full dictionary
@@ -371,7 +364,11 @@ class Torrent:
             "max_download_speed": self.max_download_speed,
             "prioritize_first_last": self.prioritize_first_last,
             "message": self.statusmsg,
-            "hash": self.torrent_id
+            "hash": self.torrent_id,
+            "active_time": self.status.active_time,
+            "seeding_time": self.status.seeding_time,
+            "seed_rank": self.status.seed_rank,
+            "is_auto_managed": self.auto_managed
         }
         
         fns = {
@@ -384,9 +381,9 @@ class Torrent:
             "eta": self.get_eta,
             "ratio": self.get_ratio,
             "file_progress": self.handle.file_progress,
-            "queue": self.get_queue_position,
+            "queue": self.handle.queue_position,
             "is_seed": self.handle.is_seed,
-            "peers": self.get_peers
+            "peers": self.get_peers,
         }
 
         self.status = None
@@ -419,10 +416,9 @@ class Torrent:
         
     def pause(self):
         """Pause this torrent"""
-        if self.state == "Queued":
-            self.set_state("Paused")
-            return True
-            
+        # Turn off auto-management so the torrent will not be unpaused by lt queueing
+        self.handle.auto_managed(False)
+
         try:
             self.handle.pause()
         except Exception, e:
@@ -443,55 +439,19 @@ class Torrent:
                     if self.get_ratio() >= self.config["stop_seed_ratio"]:
                         self.signals.emit("torrent_resume_at_stop_ratio")
                         return
-                        
-                # If the torrent is a seed and there are already the max number of seeds
-                # active, then just change it to a Queued state.
-                if self.torrentqueue.get_num_seeding() >= self.config["max_active_seeding"]:
-                    self.set_state("Queued")
-                                    
-                    # Update the queuing order if necessary
-                    self.torrentqueue.update_order()
+
                     return True
-            else:
-                if self.torrentqueue.get_num_downloading() >= self.config["max_active_downloading"]:
-                    self.set_state("Queued")
-            
-                    # Update the queuing order if necessary
-                    self.torrentqueue.update_order()
-                    return True
-            
+
+            if self.auto_managed:
+                # This torrent is to be auto-managed by lt queueing
+                self.handle.auto_managed(True)
+                
             try:
                 self.handle.resume()
             except:
                 pass
-            
-            if self.handle.is_finished():
-                self.set_state("Seeding")
-            else:
-                # Only delete the .fastresume file if we're still downloading stuff
-                self.delete_fastresume()
-                self.set_state("Downloading")
 
             return True
-
-        elif self.state == "Queued":
-            if self.handle.is_finished():
-                if self.torrentqueue.get_num_seeding() < self.config["max_active_seeding"] or\
-                        self.config["max_active_seeding"] == -1:
-                    self.handle.resume()
-                    self.state = "Seeding"
-                    self.torrentqueue.update_order()
-                else:
-                    return False
-            else:
-                if self.torrentqueue.get_num_downloading() < self.config["max_active_downloading"] or\
-                        self.config["max_active_downloading"] == -1:
-                    self.handle.resume()
-                    self.state = "Downloading"
-                    self.torrentqueue.update_order()
-                else:
-                    return False
-                    
             
     def move_storage(self, dest):
         """Move a torrent's storage location"""
@@ -566,4 +526,3 @@ class Torrent:
             log.debug("Unable to force recheck: %s", e)
             return False
         return True
-        
