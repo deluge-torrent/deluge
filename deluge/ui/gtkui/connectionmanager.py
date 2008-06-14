@@ -164,6 +164,7 @@ class ConnectionManager(component.Component):
         # Setup timer to update host status
         self._update_timer = gobject.timeout_add(1000, self._update)
         self._update()
+        self._update()
         self.connection_manager.show_all()
         
     def hide(self):
