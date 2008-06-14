@@ -231,6 +231,10 @@ class TorrentDetails(component.Component):
         self.save_state()
 
     def update(self, page_num=None):
+        if len(component.get("TorrentView").get_selected_torrents()) == 0:
+            # No torrents selected, so just clear
+            self.clear()
+            
         if self.notebook.get_property("visible"):
             if page_num == None:
                 page_num = self.notebook.get_current_page()
