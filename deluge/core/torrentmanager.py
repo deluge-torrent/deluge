@@ -203,15 +203,23 @@ class TorrentManager(component.Component):
             
         return fastresume
                                     
-    def add(self, torrent_info=None, state=None, options=None, save_state=True):
+    def add(self, torrent_info=None, state=None, options=None, save_state=True,
+            filedump=None):
         """Add a torrent to the manager and returns it's torrent_id"""
-        if torrent_info is None and state is None:
+        
+        if torrent_info is None and state is None and filedump is None:
             log.debug("You must specify a valid torrent_info or a torrent state object!")
             return
 
         log.debug("torrentmanager.add")
         add_torrent_params = {}
  
+        if filedump is not None:
+            try:
+                torrent_info = lt.torrent_info(lt.bdecode(filedump))
+            except Exception, e:
+                log.error("Unable to decode torrent file!: %s", e)
+            
         if torrent_info is None:
             # We have no torrent_info so we need to add the torrent with information
             # from the state object.
@@ -311,6 +319,17 @@ class TorrentManager(component.Component):
         if not options["add_paused"]:
             handle.resume()
             handle.auto_managed(options["auto_managed"])
+
+        # Write the .torrent file to the state directory
+        if filedump:
+            try:
+                save_file = open(os.path.join(self.config["state_location"], 
+                        torrent.torrent_id + ".torrent"),
+                        "wb")
+                save_file.write(filedump)
+                save_file.close()
+            except IOError, e:
+                log.warning("Unable to save torrent file: %s", e)
 
         if save_state:
             # Save the session state

@@ -91,9 +91,7 @@ class AutoAdd(component.Component):
                     continue
                     
                 # The torrent looks good, so lets add it to the session
-                component.get("TorrentManager").add(
-                    os.path.split(filepath)[1],
-                    filedump)
+                component.get("TorrentManager").add(filedump=filedump)
 
                 os.remove(filepath)
     

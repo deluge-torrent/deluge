@@ -325,21 +325,8 @@ class Core(
             log.warn("Unable to decode torrent file: %s", e)
             return None
         
-        torrent_id = self.torrents.add(torrent_info=torrent_info, options=options)
-
-        # Here we need to save a copy of the filedump for state purposes
-        # and also if the user wishes to save a copy of the torrent elsewhere.
-        if torrent_id:
-            # Write the .torrent file to the state directory
-            try:
-                save_file = open(os.path.join(self.config["state_location"], 
-                        torrent_id + ".torrent"),
-                        "wb")
-                save_file.write(filedump)
-                save_file.close()
-            except IOError, e:
-                log.warning("Unable to save torrent file: %s", e)
-                
+        torrent_id = self.torrents.add(filedump=filedump, options=options)
+               
         # Run the plugin hooks for 'post_torrent_add'
         self.plugins.run_post_torrent_add(torrent_id)
 
