@@ -82,6 +82,8 @@ class CoreProxy(gobject.GObject):
     def do_multicall(self, block=False):
         if len(self._callbacks) == 0:
             return True
+        # Remove the timer just in case this is a forced call..
+        gobject.source_remove(self._multi_timer)
 
         if self._multi is not None and self.rpc_core is not None:
             try:
@@ -100,6 +102,8 @@ class CoreProxy(gobject.GObject):
                     self.set_core_uri(None)
             finally:
                 self._callbacks = []
+        # Re-enable the timer
+        self._multi_timer = gobject.timeout_add(200, self.do_multicall)
 
         self._multi = xmlrpclib.MultiCall(self.rpc_core)
         return True
