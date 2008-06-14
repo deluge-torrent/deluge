@@ -50,22 +50,24 @@ from deluge.log import LOG as log
 
 class TorrentState:
     def __init__(self,
-            torrent_id,
-            total_uploaded, 
-            trackers,
-            compact, 
-            paused, 
-            save_path,
-            max_connections,
-            max_upload_slots,
-            max_upload_speed,
-            max_download_speed,
-            prioritize_first_last,
-            file_priorities,
-            queue,
-            auto_managed
+            torrent_id=None,
+            filename=None,
+            total_uploaded=None, 
+            trackers=None,
+            compact=None, 
+            paused=None, 
+            save_path=None,
+            max_connections=None,
+            max_upload_slots=None,
+            max_upload_speed=None,
+            max_download_speed=None,
+            prioritize_first_last=None,
+            file_priorities=None,
+            queue=None,
+            auto_managed=None
         ):
         self.torrent_id = torrent_id
+        self.filename = filename
         self.total_uploaded = total_uploaded
         self.trackers = trackers
         self.queue = queue
@@ -204,7 +206,7 @@ class TorrentManager(component.Component):
         return fastresume
                                     
     def add(self, torrent_info=None, state=None, options=None, save_state=True,
-            filedump=None):
+            filedump=None, filename=None):
         """Add a torrent to the manager and returns it's torrent_id"""
         
         if torrent_info is None and state is None and filedump is None:
@@ -307,7 +309,7 @@ class TorrentManager(component.Component):
         
         log.debug("handle id: %s", str(handle.info_hash()))
         # Create a Torrent object
-        torrent = Torrent(handle, options, state)
+        torrent = Torrent(handle, options, state, filename=filename)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
         if self.config["queue_new_to_top"]:
@@ -330,6 +332,18 @@ class TorrentManager(component.Component):
                 save_file.close()
             except IOError, e:
                 log.warning("Unable to save torrent file: %s", e)
+
+            # If the user has requested a copy of the torrent be saved elsewhere
+            # we need to do that.
+            if self.config["copy_torrent_file"] and filename is not None:
+                try:
+                    save_file = open(
+                        os.path.join(self.config["torrentfiles_location"], filename),
+                        "wb")
+                    save_file.write(filedump)
+                    save_file.close()
+                except IOError, e:
+                    log.warning("Unable to save torrent file: %s", e)
 
         if save_state:
             # Save the session state
@@ -424,16 +438,25 @@ class TorrentManager(component.Component):
     def load_state(self):
         """Load the state of the TorrentManager from the torrents.state file"""
         state = TorrentManagerState()
-        
+
         try:
             log.debug("Opening torrent state file for load.")
             state_file = open(
                 os.path.join(self.config["state_location"], "torrents.state"), "rb")
             state = cPickle.load(state_file)
             state_file.close()
-        except (EOFError, IOError):
-            log.warning("Unable to load state file.")
-        
+        except (EOFError, IOError, Exception), e:
+            log.warning("Unable to load state file: %s", e)
+            
+        # Try to use an old state
+        try:
+            if dir(state.torrents[0]) != dir(TorrentState()):
+                for attr in (set(dir(TorrentState())) - set(dir(state.torrents[0]))):
+                    for s in state.torrents:
+                        setattr(s, attr, getattr(TorrentState(), attr, None))
+        except Exception, e:
+            log.warning("Unable to update state file to a compatible version: %s", e)
+                            
         # Reorder the state.torrents list to add torrents in the correct queue
         # order.
         ordered_state = []
@@ -465,6 +488,7 @@ class TorrentManager(component.Component):
             
             torrent_state = TorrentState(
                 torrent.torrent_id,
+                torrent.filename,
                 torrent.get_status(["total_uploaded"])["total_uploaded"], 
                 torrent.trackers,
                 torrent.compact, 

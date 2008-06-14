@@ -47,7 +47,7 @@ TORRENT_STATE = deluge.common.TORRENT_STATE
 class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.
     """
-    def __init__(self, handle, options, state=None):
+    def __init__(self, handle, options, state=None, filename=None):
         log.debug("Creating torrent object %s", str(handle.info_hash()))
         # Get the core config
         self.config = ConfigManager("core.conf")
@@ -59,6 +59,9 @@ class Torrent:
         # Set the torrent_id for this torrent
         self.torrent_id = str(handle.info_hash())
 
+        # We store the filename just in case we need to make a copy of the torrentfile
+        self.filename = filename
+        
         # Holds status info so that we don't need to keep getting it from lt
         self.status = self.handle.status()
         self.torrent_info = self.handle.get_torrent_info()
@@ -80,6 +83,8 @@ class Torrent:
             self.total_uploaded = state.total_uploaded
             # Set the trackers
             self.set_trackers(state.trackers)
+            # Set the filename
+            self.filename = state.filename
         else:    
             # Tracker list
             self.trackers = []
@@ -108,7 +113,6 @@ class Torrent:
         self.statusmsg = "OK"
         
         # The torrents state
-        #self.state = ""
         self.update_state()
         
         # The tracker status

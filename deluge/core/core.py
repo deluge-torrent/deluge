@@ -63,7 +63,8 @@ DEFAULT_PREFS = {
     "compact_allocation": False,
     "download_location": deluge.common.get_default_download_dir(),
     "listen_ports": [6881, 6891],
-    "torrentfiles_location": os.path.join(deluge.configmanager.get_config_dir(), "torrentfiles"),
+    "copy_torrent_file": False,
+    "torrentfiles_location": os.path.join(deluge.common.get_default_download_dir(), "torrentfiles"),
     "plugins_location": os.path.join(deluge.configmanager.get_config_dir(), "plugins"),
     "state_location": os.path.join(deluge.configmanager.get_config_dir(), "state"),
     "prioritize_first_last_pieces": False,
@@ -86,7 +87,7 @@ DEFAULT_PREFS = {
     "max_upload_speed_per_torrent": -1,
     "max_download_speed_per_torrent": -1,
     "enabled_plugins": [],
-    "autoadd_location": "",
+    "autoadd_location": deluge.common.get_default_download_dir(),
     "autoadd_enable": False,
     "add_paused": False,
     "max_active_seeding": 5,
@@ -318,14 +319,13 @@ class Core(
         # Turn the filedump into a torrent_info
         if not isinstance(filedump, str):
             filedump = filedump.data
-#            filedump = "".join(chr(b) for b in filedump)
         try:
             torrent_info = lt.torrent_info(lt.bdecode(filedump))
         except RuntimeError, e:
             log.warn("Unable to decode torrent file: %s", e)
             return None
         
-        torrent_id = self.torrents.add(filedump=filedump, options=options)
+        torrent_id = self.torrents.add(filedump=filedump, options=options, filename=filename)
                
         # Run the plugin hooks for 'post_torrent_add'
         self.plugins.run_post_torrent_add(torrent_id)
@@ -630,29 +630,11 @@ class Core(
         self.config_value_changed(key, value)
         
     def _on_set_torrentfiles_location(self, key, value):
-        try:
-            old = self.config.get_previous_config()["torrentfiles_location"]
-        except Exception, e:
-            # This probably means it's not a real change but we're just loading
-            # the config.
-            log.debug("Unable to get previous torrentfiles_location: %s", e)
-            return
-            
         # First try to create the new directory
         try:
             os.makedirs(value)
         except Exception, e:
             log.debug("Unable to make directory: %s", e)
-
-        # Now copy all files in the old directory to the new one
-        for root, dirs, files in os.walk(old):
-            for dir in dirs:
-                os.makedirs(dir)
-            for file in files:
-                try:
-                    shutil.copy2(os.path.join(root, file), value)
-                except Exception, e:
-                    log.debug("Unable to copy file to %s: %s", value, e)
     
     def _on_set_state_location(self, key, value):
         if not os.access(value, os.F_OK):

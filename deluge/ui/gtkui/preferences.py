@@ -189,6 +189,8 @@ class Preferences(component.Component):
             core_widgets = {
                 "download_path_button": \
                     ("filename", self.core_config["download_location"]),
+                "chk_copy_torrent_file": \
+                    ("active", self.core_config["copy_torrent_file"]),
                 "torrent_files_button": \
                     ("filename", self.core_config["torrentfiles_location"]),
                 "chk_autoadd": \
@@ -283,7 +285,10 @@ class Preferences(component.Component):
                 
                 if modifier == "filename":
                     if value:
-                        widget.set_current_folder(value)
+                        try:
+                            widget.set_current_folder(value)
+                        except Exception, e:
+                            log.debug("Unable to set_current_folder: %s", e)
                 elif modifier == "active":
                     widget.set_active(value)
                 elif modifier == "not_active":
@@ -295,6 +300,7 @@ class Preferences(component.Component):
         else:
             core_widget_list = [
                 "download_path_button",
+                "chk_copy_torrent_file",
                 "torrent_files_button",
                 "chk_autoadd",
                 "folder_autoadd",
@@ -395,6 +401,8 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_show_dialog").get_active()
         new_gtkui_config["focus_add_dialog"] = \
             self.glade.get_widget("chk_focus_dialog").get_active()
+        new_core_config["copy_torrent_file"] = \
+            self.glade.get_widget("chk_copy_torrent_file").get_active()
         if client.is_localhost():
             new_core_config["download_location"] = \
                 self.glade.get_widget("download_path_button").get_filename()
@@ -585,7 +593,7 @@ class Preferences(component.Component):
             self.glade.get_widget("combo_file_manager").set_sensitive(not value)
             self.glade.get_widget("txt_open_folder_location").set_sensitive(
                                                                         value)
-       
+            
     def on_button_ok_clicked(self, data):
         log.debug("on_button_ok_clicked")
         self.set_config()
