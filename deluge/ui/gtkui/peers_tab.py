@@ -172,7 +172,7 @@ class PeersTab(Tab):
         state = None
         
         try:
-            log.debug("Loading FilesTab state file: %s", filename)
+            log.debug("Loading PeersTab state file: %s", filename)
             state_file = open(os.path.join(config_location, filename), "rb")
             state = cPickle.load(state_file)
             state_file.close()
@@ -182,7 +182,7 @@ class PeersTab(Tab):
         if state == None:
             return
         
-        if len(state) != self.listview.get_columns():
+        if len(state) != len(self.listview.get_columns()):
             log.warning("peers_tab.state is not compatible! rejecting..")
             return
                 
