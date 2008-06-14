@@ -114,12 +114,18 @@ class SignalReceiver(
         client.register_client(str(self.port))
         
         t = threading.Thread(target=self.handle_thread)
-        t.start()
+        try:
+            t.start()
+        except Exception, e:
+            log.debug("Thread: %s", e)
     
     def handle_thread(self):
-        while not self._shutdown:
-            self.handle_request()
-        self._shutdown = False
+        try:
+            while not self._shutdown:
+                self.handle_request()
+            self._shutdown = False
+        except Exception, e:
+            log.debug("handle_thread: %s", e)
             
     def emit_signal(self, signal, *data):
         """Exported method used by the core to emit a signal to the client"""

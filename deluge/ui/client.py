@@ -95,7 +95,7 @@ class CoreProxy(gobject.GObject):
                                     callback(ret)
                         except:
                             pass
-                except (socket.error, xmlrpclib.ProtocolError), e:
+                except (socket.error, xmlrpclib.ProtocolError, deluge.xmlrpclib.Fault), e:
                     log.warning("Could not contact daemon: %s", e)
                     self.set_core_uri(None)
             finally:
@@ -160,7 +160,7 @@ class BaseClient(object):
             "set_torrent_max_connections", "set_torrent_max_upload_slots",
             "set_torrent_max_upload_speed", "set_torrent_max_download_speed",
             "set_torrent_private_flag", "set_torrent_file_priorities",
-            "block_ip_range", "remove_torrent", "pause_torrent", "move_torrent",
+            "block_ip_range", "remove_torrent", "pause_torrent", "move_storage",
             "resume_torrent", "force_reannounce", "force_recheck",
             "deregister_client", "register_client", "add_torrent_file",
             "set_torrent_prioritize_first_last"]

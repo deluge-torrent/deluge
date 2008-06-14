@@ -309,7 +309,7 @@ class TorrentManager(component.Component):
         
         log.debug("handle id: %s", str(handle.info_hash()))
         # Create a Torrent object
-        torrent = Torrent(handle, options, state, filename=filename)
+        torrent = Torrent(handle, options, state, filename)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
         if self.config["queue_new_to_top"]:

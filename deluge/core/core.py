@@ -372,8 +372,8 @@ class Core(
             if not self.torrents[torrent_id].pause():
                 log.warning("Error pausing torrent %s", torrent_id)
     
-    def export_move_torrent(self, torrent_ids, dest):
-        log.debug("Moving torrents %s to %s", torrent_ids, dest)
+    def export_move_storage(self, torrent_ids, dest):
+        log.debug("Moving storage %s to %s", torrent_ids, dest)
         for torrent_id in torrent_ids:
             if not self.torrents[torrent_id].move_storage(dest):
                 log.warning("Error moving torrent %s to %s", torrent_id, dest)

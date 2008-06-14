@@ -274,23 +274,44 @@ class MenuBar(component.Component):
 
     def on_menuitem_move_activate(self, data=None):
         log.debug("on_menuitem_move_activate")
-        from deluge.configmanager import ConfigManager
-        config = ConfigManager("gtkui.conf")
-        chooser = gtk.FileChooserDialog(_("Choose a directory to move files to"\
-            ) , component.get("MainWindow").window, \
-            gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, buttons=(gtk.STOCK_CANCEL, \
-            gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
-        if not common.windows_check():
-            chooser.set_icon(common.get_logo(18))
-            chooser.set_property("skip-taskbar-hint", True)
-        chooser.set_current_folder(config["choose_directory_dialog_path"])
-        if chooser.run() == gtk.RESPONSE_OK:
-            result = chooser.get_filename()
-            config["choose_directory_dialog_path"] = result
-            client.move_torrent(
-                component.get("TorrentView").get_selected_torrents(), result)
-        chooser.destroy()
-
+        if client.is_localhost():
+            from deluge.configmanager import ConfigManager
+            config = ConfigManager("gtkui.conf")
+            chooser = gtk.FileChooserDialog(_("Choose a directory to move files to"\
+                ) , component.get("MainWindow").window, \
+                gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, buttons=(gtk.STOCK_CANCEL, \
+                gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
+            if not common.windows_check():
+                chooser.set_icon(common.get_logo(18))
+                chooser.set_property("skip-taskbar-hint", True)
+            chooser.set_current_folder(config["choose_directory_dialog_path"])
+            if chooser.run() == gtk.RESPONSE_OK:
+                result = chooser.get_filename()
+                config["choose_directory_dialog_path"] = result
+                client.move_storage(
+                    component.get("TorrentView").get_selected_torrents(), result)
+            chooser.destroy()
+        else:
+            client.get_torrent_status(self.show_move_storage_dialog, component.get("TorrentView").get_selected_torrent(), ["save_path"])
+            client.force_call(False)
+                
+    def show_move_storage_dialog(self, status):
+        log.debug("show_move_storage_dialog")
+        glade = gtk.glade.XML(
+                pkg_resources.resource_filename("deluge.ui.gtkui", 
+                                                "glade/move_storage_dialog.glade"))
+        dialog = glade.get_widget("move_storage_dialog")
+        dialog.set_transient_for(self.window.window)
+        entry = glade.get_widget("entry_destination")
+        entry.set_text(status["save_path"])
+        def _on_response_event(widget, response_id):
+            log.debug("Moving torrents to %s", entry.get_text())
+            path = entry.get_text()
+            client.move_storage(component.get("TorrentView").get_selected_torrents(), path)
+            dialog.hide()
+        dialog.connect("response", _on_response_event)
+        dialog.show()
+            
     def on_menuitem_queue_top_activate(self, value):
         log.debug("on_menuitem_queue_top_activate")
         client.queue_top(None, component.get("TorrentView").get_selected_torrents())
