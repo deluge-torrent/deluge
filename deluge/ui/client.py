@@ -95,7 +95,8 @@ class CoreProxy(gobject.GObject):
                                     callback(ret)
                         except:
                             pass
-                except (socket.error, xmlrpclib.ProtocolError, deluge.xmlrpclib.Fault), e:
+                except (socket.error, xmlrpclib.ProtocolError, 
+                        deluge.xmlrpclib.Fault, Exception), e:
                     log.warning("Could not contact daemon: %s", e)
                     self.set_core_uri(None)
             finally:
