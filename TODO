@@ -1,17 +1,12 @@
 For 0.6 release:
-* Implement open folder
-* Add a 'move storage' on completion option
 * Address issue where torrents will redownload if the storage is moved outside
     of deluge.
-* Implement prioritize first/last pieces
 * Anonymous stats
 * Update checking
 * Translations
 * Implement add by hash
 * Implement 'Classic' mode
-* Add tabs to view menu
 * Add progress bars for downloading and importing lists instead of hanging (blocklist)
-* Remember view options (show side bar, etc)
 
 After 0.6 release:
 * Figure out easy way for user-made plugins to add i18n support.

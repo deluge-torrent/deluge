@@ -189,6 +189,10 @@ class Preferences(component.Component):
             core_widgets = {
                 "download_path_button": \
                     ("filename", self.core_config["download_location"]),
+                "chk_move_completed": \
+                    ("active", self.core_config["move_completed"]),
+                "move_completed_path_button": \
+                    ("filename", self.core_config["move_completed_path"]),
                 "chk_copy_torrent_file": \
                     ("active", self.core_config["copy_torrent_file"]),
                 "torrent_files_button": \
@@ -256,6 +260,11 @@ class Preferences(component.Component):
                 core_widgets.pop("download_path_button")
                 core_widgets["entry_download_path"] = ("text", self.core_config["download_location"])
 
+                self.glade.get_widget("entry_move_completed_path").show()
+                self.glade.get_widget("move_completed_path_button").hide()
+                core_widgets.pop("move_completed_path_button")
+                core_widgets["entry_move_completed_path"] = ("text", self.core_config["move_completed_path"])
+                
                 self.glade.get_widget("entry_torrents_path").show()
                 self.glade.get_widget("torrent_files_button").hide()
                 core_widgets.pop("torrent_files_button")
@@ -268,6 +277,8 @@ class Preferences(component.Component):
             else:
                 self.glade.get_widget("entry_download_path").hide()
                 self.glade.get_widget("download_path_button").show()
+                self.glade.get_widget("entry_move_completed_path").hide()
+                self.glade.get_widget("move_completed_path_button").show()
                 self.glade.get_widget("entry_torrents_path").hide()
                 self.glade.get_widget("torrent_files_button").show()
                 self.glade.get_widget("entry_autoadd").hide()
@@ -300,6 +311,8 @@ class Preferences(component.Component):
         else:
             core_widget_list = [
                 "download_path_button",
+                "chk_move_completed",
+                "move_completed_path_button",
                 "chk_copy_torrent_file",
                 "torrent_files_button",
                 "chk_autoadd",
@@ -403,14 +416,20 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_focus_dialog").get_active()
         new_core_config["copy_torrent_file"] = \
             self.glade.get_widget("chk_copy_torrent_file").get_active()
+        new_core_config["move_completed"] = \
+            self.glade.get_widget("chk_move_completed").get_active()
         if client.is_localhost():
             new_core_config["download_location"] = \
                 self.glade.get_widget("download_path_button").get_filename()
+            new_core_config["move_completed_path"] = \
+                self.glade.get_widget("move_completed_path_button").get_filename()
             new_core_config["torrentfiles_location"] = \
                 self.glade.get_widget("torrent_files_button").get_filename()
         else:
             new_core_config["download_location"] = \
                 self.glade.get_widget("entry_download_path").get_text()
+            new_core_config["move_completed_path"] = \
+                self.glade.get_widget("entry_move_completed_path").get_text()
             new_core_config["torrentfiles_location"] = \
                 self.glade.get_widget("entry_torrents_path").get_text()
             

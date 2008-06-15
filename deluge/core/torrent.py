@@ -76,7 +76,11 @@ class Torrent:
         
         # Set default auto_managed value
         self.set_auto_managed(options["auto_managed"])
-        
+
+        # We need to keep track if the torrent is finished in the state to prevent
+        # some weird things on state load.
+        self.is_finished = False
+                
         # Load values from state if we have it
         if state is not None:
             # This is for saving the total uploaded between sessions
@@ -85,6 +89,7 @@ class Torrent:
             self.set_trackers(state.trackers)
             # Set the filename
             self.filename = state.filename
+            self.is_finished = state.is_finished
         else:    
             # Tracker list
             self.trackers = []
@@ -117,7 +122,7 @@ class Torrent:
         
         # The tracker status
         self.tracker_status = ""
-        
+               
         log.debug("Torrent object created.")
         
     def set_tracker_status(self, status):
@@ -159,14 +164,15 @@ class Torrent:
         
     def set_file_priorities(self, file_priorities):
         log.debug("setting %s's file priorities: %s", self.torrent_id, file_priorities)
-        if 0 in self.file_priorities:
+        # XXX: I don't think this is needed anymore since we have torrent_resumed alert
+   #     if 0 in self.file_priorities:
             # We have previously marked a file 'Do Not Download'
             # Check to see if we have changed any 0's to >0 and change state accordingly
-            for index, priority in enumerate(self.file_priorities):
-                if priority == 0 and file_priorities[index] > 0:
+    #        for index, priority in enumerate(self.file_priorities):
+     #           if priority == 0 and file_priorities[index] > 0:
                     # We have a changed 'Do Not Download' to a download priority
-                    self.set_state("Downloading")
-                    break
+      #              self.is_finished = False
+       #             break
             
         self.file_priorities = file_priorities
         self.handle.prioritize_files(file_priorities)

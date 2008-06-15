@@ -99,7 +99,9 @@ DEFAULT_PREFS = {
     "share_ratio_limit": 2.00,
     "seed_time_ratio_limit": 7.00,
     "seed_time_limit": 180,
-    "auto_managed": True
+    "auto_managed": True,
+    "move_completed": False,
+    "move_completed_path": os.path.join(deluge.common.get_default_download_dir(), "completed"),
 }
         
 class Core(

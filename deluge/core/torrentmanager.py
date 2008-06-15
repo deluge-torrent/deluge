@@ -64,13 +64,15 @@ class TorrentState:
             prioritize_first_last=None,
             file_priorities=None,
             queue=None,
-            auto_managed=None
+            auto_managed=None,
+            is_finished=False
         ):
         self.torrent_id = torrent_id
         self.filename = filename
         self.total_uploaded = total_uploaded
         self.trackers = trackers
         self.queue = queue
+        self.is_finished = is_finished
 
         # Options
         self.compact = compact
@@ -501,7 +503,8 @@ class TorrentManager(component.Component):
                 torrent.prioritize_first_last,
                 torrent.file_priorities,
                 torrent.get_queue_position(),
-                torrent.auto_managed
+                torrent.auto_managed,
+                torrent.is_finished
             )
             state.torrents.append(torrent_state)
         
@@ -578,10 +581,16 @@ class TorrentManager(component.Component):
         log.debug("on_alert_torrent_finished")
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
+        torrent = self.torrents[torrent_id]
         log.debug("%s is finished..", torrent_id)
-        self.torrents[torrent_id].update_state()
-        # Write the fastresume file
-        self.torrents[torrent_id].write_fastresume()
+        # Move completed download to completed folder if needed
+        if self.config["move_completed"] and not torrent.is_finished:
+            if torrent.save_path != self.config["move_completed_path"]:
+                torrent.move_storage(self.config["move_completed_path"])
+
+        torrent.is_finished = True
+        torrent.update_state()
+        torrent.write_fastresume()
         
     def on_alert_torrent_paused(self, alert):
         log.debug("on_alert_torrent_paused")
@@ -669,5 +678,6 @@ class TorrentManager(component.Component):
 
     def on_alert_torrent_resumed(self, alert):
         log.debug("on_alert_torrent_resumed")
-        torrent_id = str(alert.handle.info_hash())
-        self.torrents[torrent_id].update_state()
+        torrent = self.torrents[str(alert.handle.info_hash())]
+        torrent.is_finished = torrent.handle.is_seed()
+        torrent.update_state()
