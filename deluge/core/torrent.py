@@ -146,13 +146,14 @@ class Torrent:
         self.handle.set_download_limit(int(m_down_speed * 1024))
     
     def set_prioritize_first_last(self, prioritize):
-        if self.handle.get_torrent_info().num_files() == 1:
-            # We only do this if one file is in the torrent
-            self.prioritize_first_last = prioritize
-            priorities = [1] * self.handle.get_torrent_info().num_pieces()
-            priorities[0] = 7
-            priorities[-1] = 7
-            self.handle.prioritize_pieces(priorities)
+        self.prioritize_first_last = prioritize
+        if self.prioritize_first_last:
+            if self.handle.get_torrent_info().num_files() == 1:
+                # We only do this if one file is in the torrent
+                priorities = [1] * self.handle.get_torrent_info().num_pieces()
+                priorities[0] = 7
+                priorities[-1] = 7
+                self.handle.prioritize_pieces(priorities)
             
     def set_save_path(self, save_path):
         self.save_path = save_path
