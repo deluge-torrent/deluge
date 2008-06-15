@@ -79,10 +79,10 @@ class RemoveTorrentDialog:
         self.dialog.show()
     
     def on_button_ok_clicked(self, widget):
-        #data = self.glade.get_widget("chk_data").get_active()
-        #torrent = self.glade.get_widget("chk_torrents").get_active()
         client.remove_torrent(
             self.torrent_ids, self.remove_torrentfile, self.remove_data)
+        # Unselect all to avoid issues with the selection changed event
+        component.get("TorrentView").treeview.get_selection().unselect_all()
         self.dialog.destroy()
         
     def on_button_cancel_clicked(self, widget):

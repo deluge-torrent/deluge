@@ -42,22 +42,22 @@ import deluge.SimpleXMLRPCServer as SimpleXMLRPCServer
 from SocketServer import ThreadingMixIn
 import deluge.xmlrpclib as xmlrpclib
 import threading
+import socket
 
 from deluge.log import LOG as log
 
-class SignalReceiver(
-        ThreadingMixIn, 
-        SimpleXMLRPCServer.SimpleXMLRPCServer):
+class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
     
     def __init__(self):
         log.debug("SignalReceiver init..")
-        gobject.threads_init()
+       # gobject.threads_init()
     
         # Set to true so that the receiver thread will exit
         self._shutdown = False
 
         self.signals = {}
-    
+        self.emitted_signals = []
+        
         self.remote = False
 
         
@@ -68,19 +68,13 @@ class SignalReceiver(
         try:
             client.deregister_client()
             client.force_call()
-        except:
-            pass
+        except Exception, e:
+            log.debug("Unable to deregister client from server: %s", e)
+            
         log.debug("Shutting down signalreceiver")
 
-        # Hacky.. sends a request to our local receiver to ensure that it
-        # shutdowns.. This is because handle_request() is a blocking call.
-        receiver = xmlrpclib.ServerProxy("http://localhost:" + str(self.port),
-            allow_none=True)
-        try:
-            receiver.emit_signal("shutdown", None)
-        except:
-            # We don't care about errors at this point
-            pass
+        self.socket.shutdown(socket.SHUT_RDWR)
+        return
     
     def set_remote(self, remote):
         self.remote = remote
@@ -114,6 +108,9 @@ class SignalReceiver(
         client.register_client(str(self.port))
         
         t = threading.Thread(target=self.handle_thread)
+        
+        gobject.timeout_add(50, self.handle_signals)
+        
         try:
             t.start()
         except Exception, e:
@@ -129,23 +126,20 @@ class SignalReceiver(
             
     def emit_signal(self, signal, *data):
         """Exported method used by the core to emit a signal to the client"""
-        try:
-            if data != None:
+        self.emitted_signals.append((signal, data))
+        return
+
+    def handle_signals(self):
+        for signal, data in self.emitted_signals:
+            try:
                 for callback in self.signals[signal]:
-                    try:
-                        gobject.idle_add(callback, *data)
-                    except:
-                        log.warning("Unable to call callback for signal %s", 
-                            signal)
-            else:
-                for callback in self.signals[signal]:
-                    try:
-                        gobject.idle_add(callback)
-                    except:
-                        log.warning("Unable to call callback for signal %s",
-                            signal)
-        except KeyError:
-            log.debug("There are no callbacks registered for signal '%s'", signal)
+                    gobject.idle_add(callback, *data)
+                    
+            except Exception, e:
+                log.warning("Unable to call callback for signal %s: %s", signal, e)
+
+        self.emitted_signals = []
+        return True
         
     def connect_to_signal(self, signal, callback):
         """Connect to a signal"""
@@ -154,5 +148,4 @@ class SignalReceiver(
                 self.signals[signal].append(callback)
         except KeyError:
             self.signals[signal] = [callback]
-        
 

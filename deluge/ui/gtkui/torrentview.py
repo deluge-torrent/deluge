@@ -38,9 +38,6 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import gettext
 import gobject
-import cPickle as pickle
-import time
-import traceback
 
 import deluge.common
 import deluge.component as component
@@ -357,14 +354,13 @@ class TorrentView(listview.ListView, component.Component):
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""
         for row in self.liststore:
-            # Check if this row is the row we want to remove
             if row[0] == torrent_id:
                 self.liststore.remove(row.iter)
                 # Force an update of the torrentview
                 self.update()
                 self.update_filter()
                 break
-        
+            
     def get_selected_torrent(self):
         """Returns a torrent_id or None.  If multiple torrents are selected,
         it will return the torrent_id of the first one."""
@@ -432,5 +428,4 @@ class TorrentView(listview.ListView, component.Component):
         log.debug("on_selection_changed")
         component.get("TorrentDetails").update()
         component.get("ToolBar").update_buttons()
-        
         

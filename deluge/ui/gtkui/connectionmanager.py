@@ -430,6 +430,8 @@ class ConnectionManager(component.Component):
             
         uri = "http://" + uri
         if status == HOSTLIST_STATUS.index("Connected"):
+            # Stop all the components first.
+            component.stop()
             # If we are connected to this host, then we will disconnect.
             client.set_core_uri(None)
             self._update()

@@ -87,24 +87,27 @@ class Signals(component.Component):
         log.debug("torrent id: %s", torrent_id)
         # Remove the torrent from the treeview
         component.get("TorrentView").remove_row(torrent_id)
-        component.get("TorrentDetails").clear()
 
     def torrent_paused(self, torrent_id):
         log.debug("torrent_paused signal received..")
         component.get("TorrentView").update()
+        component.get("ToolBar").update_buttons()
     
     def torrent_resumed(self, torrent_id):
         log.debug("torrent_resumed signal received..")
         component.get("TorrentView").update()
-    
+        component.get("ToolBar").update_buttons()
+            
     def torrent_all_paused(self):
         log.debug("torrent_all_paused signal received..")
         component.get("TorrentView").update()
-
+        component.get("ToolBar").update_buttons()
+        
     def torrent_all_resumed(self):
         log.debug("torrent_all_resumed signal received..")
         component.get("TorrentView").update()
-
+        component.get("ToolBar").update_buttons()
+        
     def config_value_changed(self, key, value):
         log.debug("config_value_changed signal received..")
         component.get("StatusBar").config_value_changed(key, value)
