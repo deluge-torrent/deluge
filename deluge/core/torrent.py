@@ -448,6 +448,9 @@ class Torrent:
     
     def resume(self):
         """Resumes this torrent"""
+        # Update the state first just to make sure we have the most current state
+        self.update_state()
+        
         if self.state == "Paused" or self.state == "Error":
             # Reset the status message just in case of resuming an Error'd torrent
             self.set_status_message("OK")
