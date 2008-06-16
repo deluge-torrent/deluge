@@ -459,14 +459,19 @@ namespace libtorrent
 				pinged = true;
 			}
 #endif
-			// this timeout has to be customizable!
-			// don't remove banned peers, they should
-			// remain banned
+			// if the number of peers is growing large
+			// we need to start weeding.
+			// don't remove peers we're connected to
+			// don't remove peers we've never even tried
+			// don't remove banned peers unless they're 2
+			// hours old. They should remain banned for
+			// at least that long
+			// don't remove peers that we still can try again
 			if (pe.connection == 0
 				&& pe.connected != min_time()
-				&& !pe.banned
-				&& (now - pe.connected > minutes(120)
-					|| m_peers.size() >= m_torrent->settings().max_peerlist_size * 0.9))
+				&& (!pe.banned || now - pe.connected > hours(2))
+				&& !is_connect_candidate(pe, finished)
+				&& m_peers.size() >= m_torrent->settings().max_peerlist_size * 0.9)
 			{
 				erase_peer(m_round_robin++);
 				continue;
@@ -474,14 +479,13 @@ namespace libtorrent
 
 			++m_round_robin;
 
-
 			if (!is_connect_candidate(pe, finished)) continue;
 
 			if (candidate != m_peers.end()
 				&& !compare_peer(candidate->second, pe, external_ip)) continue;
 
 			if (now - pe.connected <
-				seconds(pe.failcount * min_reconnect_time))
+				seconds((pe.failcount + 1) * min_reconnect_time))
 				continue;
 
 			candidate = current;
@@ -614,6 +618,35 @@ namespace libtorrent
 
 			if (i->second.connection != 0)
 			{
+				boost::shared_ptr<socket_type> other_socket
+					= i->second.connection->get_socket();
+				boost::shared_ptr<socket_type> this_socket
+					= c.get_socket();
+
+				error_code ec1;
+				error_code ec2;
+				bool self_connection =
+					other_socket->remote_endpoint(ec2) == this_socket->local_endpoint(ec1)
+					|| other_socket->local_endpoint(ec2) == this_socket->remote_endpoint(ec1);
+
+				if (ec1)
+				{
+					c.disconnect(ec1.message().c_str());
+					return false;
+				}
+
+				if (ec2)
+				{
+					i->second.connection->disconnect(ec2.message().c_str());
+				}
+
+				if (self_connection)
+				{
+					c.disconnect("connected to ourselves", 1);
+					i->second.connection->disconnect("connected to ourselves", 1);
+					return false;
+				}
+
 				TORRENT_ASSERT(i->second.connection != &c);
 				// the new connection is a local (outgoing) connection
 				// or the current one is already connected

@@ -1308,6 +1308,11 @@ namespace aux {
 		int num_downloaders = settings().active_downloads;
 		int num_seeds = settings().active_seeds;
 
+        if (num_downloaders == -1)
+            num_downloaders = (std::numeric_limits<int>::max)();
+        if (num_seeds == -1)
+            num_seeds = (std::numeric_limits<int>::max)();
+            
 		for (torrent_map::iterator i = m_torrents.begin()
 			, end(m_torrents.end()); i != end; ++i)
 		{
@@ -1327,14 +1332,8 @@ namespace aux {
 				// this is not an auto managed torrent,
 				// if it's running, decrease the respective
 				// counters.
-				if (t->is_finished())
-				{
-					--num_seeds;
-				}
-				else
-				{
-					--num_downloaders;
-				}
+				--num_downloaders;
+				--num_seeds;
 			}
 		}
 
@@ -1358,9 +1357,12 @@ namespace aux {
 			, end(downloaders.end()); i != end; ++i)
 		{
 			torrent* t = *i;
-			if (num_downloaders > 0)
+			if (num_downloaders > 0
+				&& t->state() != torrent_status::queued_for_checking
+				&& t->state() != torrent_status::checking_files)
 			{
 				--num_downloaders;
+				--num_seeds;
 				if (t->is_paused()) t->resume();
 			}
 			else
@@ -1375,6 +1377,7 @@ namespace aux {
 			torrent* t = *i;
 			if (num_seeds > 0)
 			{
+				--num_downloaders;
 				--num_seeds;
 				if (t->is_paused()) t->resume();
 			}
