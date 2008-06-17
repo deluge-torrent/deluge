@@ -437,21 +437,29 @@ class Torrent:
         """Pause this torrent"""
         # Turn off auto-management so the torrent will not be unpaused by lt queueing
         self.handle.auto_managed(False)
-
-        try:
-            self.handle.pause()
-        except Exception, e:
-            log.debug("Unable to pause torrent: %s", e)
-            return False
+        if self.handle.is_paused():
+            # This torrent was probably paused due to being auto managed by lt
+            # Since we turned auto_managed off, we should update the state which should
+            # show it as 'Paused'.  We need to emit a torrent_paused signal because
+            # the torrent_paused alert from libtorrent will not be generated.
+            self.update_state()
+            self.signals.emit("torrent_paused", self.torrent_id)
+        else:
+            try:
+                self.handle.pause()
+            except Exception, e:
+                log.debug("Unable to pause torrent: %s", e)
+                return False
         
         return True
     
     def resume(self):
         """Resumes this torrent"""
-        # Update the state first just to make sure we have the most current state
-        self.update_state()
-        
-        if self.state == "Paused" or self.state == "Error":
+       
+        if self.handle.is_paused() and self.handle.is_auto_managed():
+            log.debug("Torrent is being auto-managed, cannot resume!")
+            return
+        else:
             # Reset the status message just in case of resuming an Error'd torrent
             self.set_status_message("OK")
             
