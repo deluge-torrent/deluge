@@ -44,6 +44,7 @@ from SocketServer import ThreadingMixIn
 import deluge.xmlrpclib as xmlrpclib
 import gobject
 import threading
+import socket
 
 import deluge.libtorrent as lt
 import deluge.configmanager
@@ -269,9 +270,11 @@ class Core(
 
         component.start()
         
-        t = threading.Thread(target=self.serve_forever)
-        t.setDaemon(True)
-        t.start()
+        self._should_shutdown = False
+        
+        self.listen_thread = threading.Thread(target=self.handle_thread)
+        self.listen_thread.setDaemon(False)
+        self.listen_thread.start()
         gobject.threads_init()
 
         self.loop = gobject.MainLoop()
@@ -279,11 +282,32 @@ class Core(
             self.loop.run()
         except KeyboardInterrupt:
             self._shutdown()
-    
+
+    def handle_thread(self):
+        try:
+            while not self._should_shutdown:
+                self.handle_request()
+            self._should_shutdown = False
+            
+        except Exception, e:
+            log.debug("handle_thread: %s", e)
+                
     def _shutdown(self, *data):
         """This is called by a thread from shutdown()"""
         log.info("Shutting down core..")
+        self._should_shutdown = True
+        # Shutdown the socket
+        try:
+            self.socket.shutdown(socket.SHUT_RDWR)
+        except Exception, e:
+            log.debug("exception in socket shutdown: %s", e)
+        log.debug("Joining listen thread to make sure it shutdowns cleanly..")
+        # Join the listen thread for a maximum of 1 second
+        self.listen_thread.join(1.0)
+
+        # Start shutting down the components
         component.shutdown()
+
         # Make sure the config file has been saved
         self.config.save()
         del self.config
