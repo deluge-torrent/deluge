@@ -470,8 +470,6 @@ class Torrent:
                         self.signals.emit("torrent_resume_at_stop_ratio")
                         return
 
-                    return True
-
             if self.auto_managed:
                 # This torrent is to be auto-managed by lt queueing
                 self.handle.auto_managed(True)
