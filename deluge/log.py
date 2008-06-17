@@ -38,7 +38,8 @@ import logging
 # Setup the logger
 logging.basicConfig(
     level=logging.DEBUG,
-    format="[%(levelname)-8s] %(module)s:%(lineno)d %(message)s"
+    format="[%(levelname)-8s] %(asctime)s %(module)s:%(lineno)d %(message)s",
+    datefmt="%H:%M:%S"
 )
 
 # Get the logger
