@@ -37,6 +37,8 @@
 """Main starting point for Deluge.  Contains the main() entry point."""
 
 import os
+import os.path
+import sys
 from optparse import OptionParser
 
 import deluge.common
@@ -71,6 +73,8 @@ def start_ui():
                                                       
 def start_daemon():
     """Entry point for daemon script"""
+    import deluge.common
+    
     # Setup the argument parser
     parser = OptionParser(usage="%prog [options] [actions]", 
                                            version=deluge.common.get_version())
@@ -80,29 +84,34 @@ def start_daemon():
         help="Do not daemonize", action="store_true", default=False)
     parser.add_option("-c", "--config", dest="config",
         help="Set the config location", action="store", type="str")
+    parser.add_option("-l", "--logfile", dest="logfile",
+        help="Set the logfile location", action="store", type="str")
         
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
 
-    from deluge.log import LOG as log
-
-    version = deluge.common.get_version()
-    if deluge.common.get_revision() != "":
-        version = version + "r" + deluge.common.get_revision()
-        
-    log.info("Deluge daemon %s", version)
-    log.debug("options: %s", options)
-    log.debug("args: %s", args)
-
-    from deluge.core.daemon import Daemon
+    # If the donot daemonize is set, then we just skip the forking
+    if not options.donot:
+        if os.fork() == 0:
+            os.setsid()
+            if os.fork() == 0:
+                if options.logfile:
+                    logfile = options.logfile
+                else:
+                    if options.config:
+                        logfile = os.path.join(options.config, "deluged.log")
+                    else:
+                        config_dir = deluge.common.get_default_config_dir()
+                        logfile = os.path.join(config_dir, "deluged.log")
+                        
+                sys.stdout = open(logfile, "w")
+                sys.stderr = sys.stdout
+                sys.stdin = None
+            else:
+                os._exit(0)
+        else:
+            os._exit(0)
     
-    if options.donot:
-        log.info("Starting daemon..")
-        Daemon(options, args)
-    else:
-        cmd = "deluged -d " + "".join(a for a in args)
-        if options.port != None:
-            cmd = cmd + " -p %s" % options.port
-        if options.config != None:
-            cmd = cmd + " -c %s" % options.config
-        os.popen2(cmd)
+    from deluge.core.daemon import Daemon
+    Daemon(options, args)
+

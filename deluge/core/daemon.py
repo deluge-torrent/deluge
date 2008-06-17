@@ -32,10 +32,18 @@
 #    statement from all source files in the program, then also delete it here.
 
 import deluge.configmanager
+import deluge.common
 from deluge.log import LOG as log
 
 class Daemon:
     def __init__(self, options, args):
+        version = deluge.common.get_version()
+        if deluge.common.get_revision() != "":
+            version = version + "r" + deluge.common.get_revision()   
+            
+        log.info("Deluge daemon %s", version)
+        log.debug("options: %s", options)
+        log.debug("args: %s", args)
         # Set the config directory
         deluge.configmanager.set_config_dir(options.config)
 
