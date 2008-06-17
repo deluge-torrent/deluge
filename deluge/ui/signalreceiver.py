@@ -74,6 +74,8 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
         log.debug("Shutting down signalreceiver")
 
         self.socket.shutdown(socket.SHUT_RDWR)
+        log.debug("Joining listening thread..")
+        self.listening_thread.join(1.0)
         return
     
     def set_remote(self, remote):
@@ -107,12 +109,12 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
         # Register the signal receiver with the core
         client.register_client(str(self.port))
         
-        t = threading.Thread(target=self.handle_thread)
+        self.listening_thread = threading.Thread(target=self.handle_thread)
         
         gobject.timeout_add(50, self.handle_signals)
         
         try:
-            t.start()
+            self.listening_thread.start()
         except Exception, e:
             log.debug("Thread: %s", e)
     
