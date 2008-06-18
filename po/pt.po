@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-23 17:19+0000\n"
-"Last-Translator: Rui Araújo <ruka.araujo@gmail.com>\n"
+"PO-Revision-Date: 2008-06-11 08:03+0000\n"
+"Last-Translator: João Santos <twocool.pt@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
+"X-Launchpad-Export-Date: 2008-06-18 22:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -188,8 +188,9 @@ msgid "_Donate"
 msgstr "_Doar"
 
 #: glade/delugegtk.glade:458
+#, fuzzy
 msgid "_Homepage"
-msgstr ""
+msgstr "Página _Web"
 
 #: glade/delugegtk.glade:475
 msgid "_FAQ"
@@ -1082,6 +1083,9 @@ msgid ""
 "or try setting your LD_LIBRARY_PATH and MOZILLA_FIVE_HOME environment "
 "variables to /usr/lib/firefox"
 msgstr ""
+"Não foi possível determinar o browser. Verifique se tem o pacote python-"
+"gnome2-extras instalado ou tente definir as suas variáveis de ambiente "
+"LD_LIBRARY_PATH e MOZILLA_FIVE_HOME para /usr/lib/fireofx"
 
 #: src/interface.py:295 src/interface.py:301 src/interface.py:382
 #: src/interface.py:410 plugins/SpeedLimiter/__init__.py:84
@@ -1488,7 +1492,7 @@ msgstr "Endereço de Lista de Bloqueados"
 
 #: plugins/BlocklistImport/ui.py:52
 msgid "Download new blocklist every"
-msgstr ""
+msgstr "Descarregar nova lista de blocos a cada"
 
 #: plugins/BlocklistImport/ui.py:59
 msgid "days"
@@ -2017,7 +2021,7 @@ msgstr "_Mover torrent"
 
 #: plugins/MoveTorrent/__init__.py:82
 msgid "_Switch Torrent Source"
-msgstr ""
+msgstr "_Mudar Fonte do Torrent"
 
 #: plugins/MoveTorrent/__init__.py:102
 msgid "Choose a directory to move files to"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: Deluge VERSION\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-05-31 02:22+0000\n"
+"PO-Revision-Date: 2008-06-06 09:18+0000\n"
 "Last-Translator: Jacky Yeung <Unknown>\n"
 "Language-Team: Jose Sun <josesun@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
+"X-Launchpad-Export-Date: 2008-06-18 22:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-Language: Chinese\n"
@@ -486,7 +486,7 @@ msgstr "開始或繼續下載"
 
 #: glade/delugegtk.glade:80 plugins/WebUi/scripts/template_strings.py:45
 msgid "Resume"
-msgstr "續傳"
+msgstr "恢復"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
@@ -527,7 +527,7 @@ msgstr "外掛模組"
 
 #: glade/delugegtk.glade:186
 msgid "_File"
-msgstr "檔案(_F)"
+msgstr "_檔案"
 
 #: glade/delugegtk.glade:193 glade/tray_menu.glade:61
 msgid "_Add Torrent"
@@ -543,7 +543,7 @@ msgstr "清除已完成檔案(_C)"
 
 #: glade/delugegtk.glade:249
 msgid "_Edit"
-msgstr "編輯(_E)"
+msgstr "_編輯"
 
 #: glade/delugegtk.glade:274
 msgid "Plu_gins"
@@ -616,7 +616,7 @@ msgstr "分享率"
 
 #: glade/delugegtk.glade:432
 msgid "_Help"
-msgstr "說明(_H)"
+msgstr "_說明"
 
 #: glade/delugegtk.glade:440
 msgid "Donate to Deluge Development"
@@ -684,7 +684,7 @@ msgstr "<b>剩餘時間: </b>"
 
 #: glade/delugegtk.glade:942
 msgid "<b>Pieces:</b>"
-msgstr "<b>片段: </b>"
+msgstr "<b>區塊：</b>"
 
 #: glade/delugegtk.glade:980
 msgid "<b>Availability:</b>"
@@ -700,7 +700,7 @@ msgstr "<b>檔案總數: </b>"
 
 #: glade/delugegtk.glade:1126
 msgid "<b>Total Size:</b>"
-msgstr "<b>總大小: </b>"
+msgstr "<b>總大小：</b>"
 
 #: glade/delugegtk.glade:1147
 msgid "<b>Tracker:</b>"
@@ -897,7 +897,7 @@ msgstr "從:"
 
 #: glade/preferences_dialog.glade:568 glade/wizard.glade:66
 msgid "To:"
-msgstr "到:"
+msgstr "至："
 
 #: glade/preferences_dialog.glade:594
 msgid "Deluge will automatically choose a different port to use every time."
@@ -1297,7 +1297,7 @@ msgstr "伺服器選項(_T)"
 
 #: glade/torrent_menu.glade:104
 msgid "_Update Tracker"
-msgstr "更新伺服器(_U)"
+msgstr "_更新伺服器"
 
 #: glade/torrent_menu.glade:121
 msgid "_Edit Trackers"
@@ -1609,7 +1609,7 @@ msgstr "上傳"
 
 #: src/interface.py:1268
 msgid "Deluge Bittorrent Client"
-msgstr "Deluge BT 客戶端"
+msgstr "Deluge BT 用戶端"
 
 #: src/interface.py:1345
 msgid "Choose a download directory"
@@ -1647,7 +1647,7 @@ msgstr "請輸入種子檔案的網址"
 
 #: src/interface.py:1529
 msgid "Warning - all downloaded files for this torrent will be deleted!"
-msgstr "警告 - 此種子下載的所有檔案會被刪除！"
+msgstr "警告 - 此種子下載的所有檔案將被刪除！"
 
 #: src/interface.py:1545
 msgid "Are you sure that you want to remove all seeding torrents?"
@@ -1659,7 +1659,7 @@ msgstr "已排入佇列"
 
 #: src/core.py:89 plugins/WebUi/webserver_common.py:196
 msgid "Checking"
-msgstr "測試中"
+msgstr "檢查中"
 
 #: src/core.py:90 plugins/WebUi/webserver_common.py:197
 msgid "Connecting"
@@ -1680,7 +1680,7 @@ msgstr "已完成"
 
 #: src/core.py:95 plugins/WebUi/webserver_common.py:202
 msgid "Allocating"
-msgstr "分配空間中"
+msgstr "正在分配空間"
 
 #: src/core.py:138
 msgid "bytes needed"
@@ -1957,7 +1957,7 @@ msgstr "IP 位址"
 
 #: plugins/TorrentPeers/tab_peers.py:86
 msgid "Client"
-msgstr "下載程式"
+msgstr "用戶端"
 
 #: plugins/TorrentPeers/tab_peers.py:87
 msgid "Percent Complete"

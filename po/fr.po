@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-05-31 16:13+0000\n"
-"Last-Translator: orphe <pierrealexandre.stjean@gmail.com>\n"
+"PO-Revision-Date: 2008-06-09 00:16+0000\n"
+"Last-Translator: Axezium <glemay@axezium.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
+"X-Launchpad-Export-Date: 2008-06-18 22:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -26,7 +26,7 @@ msgstr "Ajouter"
 
 #: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
-msgstr "Supprimer le Torrent"
+msgstr "Supprimer un Torrent"
 
 #: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:43
 msgid "Remove"
@@ -42,19 +42,19 @@ msgstr "Effacer"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
-msgstr "Démarrer/Résoudre un torrent"
+msgstr "Démarrer/Reprendre un torrent"
 
 #: glade/delugegtk.glade:80 plugins/WebUi/scripts/template_strings.py:45
 msgid "Resume"
-msgstr "Résoudre"
+msgstr "Reprendre"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
-msgstr "Pause"
+msgstr "Suspendre un Torrent"
 
 #: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
 msgid "Pause"
-msgstr "Pause"
+msgstr "Suspendre"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"
@@ -95,7 +95,7 @@ msgstr "_Ajouter un Torrent"
 
 #: glade/delugegtk.glade:208
 msgid "Add _URL"
-msgstr "Ajouter une _URL"
+msgstr "Ajouter un _URL"
 
 #: glade/delugegtk.glade:216
 msgid "_Clear Completed"

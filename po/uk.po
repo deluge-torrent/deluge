@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-04-15 09:07+0000\n"
-"Last-Translator: Knedlyk <Unknown>\n"
+"PO-Revision-Date: 2008-06-18 09:30+0000\n"
+"Last-Translator: mikhalek <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
+"X-Launchpad-Export-Date: 2008-06-18 22:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -182,11 +182,11 @@ msgstr "_Допомога"
 
 #: glade/delugegtk.glade:440
 msgid "Donate to Deluge Development"
-msgstr ""
+msgstr "Пожертви для проекту Deluge"
 
 #: glade/delugegtk.glade:441
 msgid "_Donate"
-msgstr ""
+msgstr "_Пожертвувати"
 
 #: glade/delugegtk.glade:458
 msgid "_Homepage"
@@ -609,15 +609,15 @@ msgstr ""
 
 #: glade/preferences_dialog.glade:1105
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr ""
+msgstr "Зупинити роздачу торрентів якщо час роздачі досягнув:"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
-msgstr ""
+msgstr "Кількість годин"
 
 #: glade/preferences_dialog.glade:1142
 msgid "Automatically clear torrents that reach the max seed time"
-msgstr ""
+msgstr "Автоочищення торрентів що досягнули максимуу роздачі"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -645,6 +645,8 @@ msgstr "Максимальна кількість спроб з'єднання �
 #: glade/wizard.glade:318
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr ""
+"Максимальна швидкість відвантаження для всіх торрентів. Встановити -1 для "
+"безлімітного."
 
 #: glade/preferences_dialog.glade:1279 glade/preferences_dialog.glade:1365
 #: glade/preferences_dialog.glade:1385 glade/wizard.glade:277
@@ -872,7 +874,7 @@ msgstr "_Форсувати Перевірку"
 
 #: glade/torrent_menu.glade:33
 msgid "Re_sume"
-msgstr ""
+msgstr "_Поновити"
 
 #: glade/torrent_menu.glade:50
 msgid "_Pause"
@@ -928,7 +930,7 @@ msgstr "По_казати Deluge"
 
 #: glade/tray_menu.glade:21
 msgid "_Resume All"
-msgstr ""
+msgstr "_Поновити всі"
 
 #: glade/tray_menu.glade:38
 msgid "_Pause All"
@@ -956,11 +958,11 @@ msgstr "Редагування трекера"
 
 #: glade/files_dialog.glade:8
 msgid "Deluge File Selection"
-msgstr ""
+msgstr "Вибір файлів Deluge"
 
 #: glade/files_dialog.glade:42
 msgid "Torrent will not be distributed on the trackerless (DHT) network"
-msgstr ""
+msgstr "Торрент бде розповсюджений сітці (DHT) без відслідковування"
 
 #: glade/files_dialog.glade:43
 msgid "Set the private flag"
@@ -1001,6 +1003,8 @@ msgid ""
 "Would you like Deluge to automatically download to a predefined location, or "
 "would you like to specify the download location every time?"
 msgstr ""
+"Ви бажаєте щоб Deluge автоматично завантажував до предумовленого місця чи "
+"кожен раз окремо будете вказувати місце для завантаження?"
 
 #: glade/wizard.glade:141
 msgid "Ask where to save each file"
@@ -1015,6 +1019,8 @@ msgid ""
 "Please select the upload speed of your connection, which we will then use to "
 "automatically make suggestions for the settings below"
 msgstr ""
+"Оберіть швидкість відвантаження якие потім буде автоматично використано для "
+"налаштувань нижче"
 
 #: glade/wizard.glade:238
 msgid "Maximum Active Torrents:"
@@ -1164,7 +1170,7 @@ msgstr "Призупинений %s"
 #: src/interface.py:955
 #, python-format
 msgid "Queued %s"
-msgstr ""
+msgstr "У черзі %s"
 
 #: src/interface.py:1069
 msgid ""
@@ -1182,7 +1188,7 @@ msgstr "DHT"
 
 #: src/interface.py:1264 plugins/TorrentCreator/__init__.py:149
 msgid "Deluge"
-msgstr ""
+msgstr "Deluge"
 
 #: src/interface.py:1264 plugins/WebUi/scripts/template_strings.py:19
 msgid "Download"
@@ -1237,7 +1243,7 @@ msgstr "Обережно - всі завантажені файли цього �
 
 #: src/interface.py:1545
 msgid "Are you sure that you want to remove all seeding torrents?"
-msgstr ""
+msgstr "Ви впевнені що бажаєте видалити всі торренти на роздачі?"
 
 #: src/core.py:88 plugins/WebUi/webserver_common.py:195
 msgid "Queued"
@@ -1499,7 +1505,7 @@ msgstr "Установіть бажане відношення для поток
 
 #: plugins/DesiredRatio/__init__.py:77
 msgid "_Desired Ratio"
-msgstr ""
+msgstr "_Бажаний рівень"
 
 #: plugins/DesiredRatio/__init__.py:81
 msgid "_Not Set"
@@ -1565,7 +1571,7 @@ msgstr "Зберегти файл потоку як:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:238
 msgid "Load this torrent into Deluge for seeding"
-msgstr ""
+msgstr "Завантажити цей торрент у Deluge для роздачі"
 
 #: plugins/TorrentCreator/torrentcreator.glade:239
 msgid "Add new torrent to queue"
@@ -1628,7 +1634,7 @@ msgstr "Розмір частинки:"
 
 #: plugins/TorrentCreator/torrentcreator.glade:526
 msgid "<b>Advanced</b>"
-msgstr ""
+msgstr "<b>Розширені</b>"
 
 #: plugins/TorrentCreator/__init__.py:22
 msgid "A torrent creator plugin"
@@ -1717,17 +1723,17 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:80
 #: plugins/EventLogging/tab_log.py:200
 msgid "Block finished"
-msgstr ""
+msgstr "Блокувати завершені"
 
 #: plugins/EventLogging/event_logging_preferences.glade:94
 #: plugins/EventLogging/tab_log.py:189
 msgid "Block downloading"
-msgstr ""
+msgstr "Блокувати завантаження"
 
 #: plugins/EventLogging/event_logging_preferences.glade:108
 #: plugins/EventLogging/tab_log.py:179
 msgid "Piece finished"
-msgstr ""
+msgstr "Шматок завершено"
 
 #: plugins/EventLogging/event_logging_preferences.glade:122
 #: plugins/EventLogging/tab_log.py:170
@@ -1737,7 +1743,7 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:136
 #: plugins/EventLogging/tab_log.py:161
 msgid "Tracker warning"
-msgstr ""
+msgstr "Попередження трекеру"
 
 #: plugins/EventLogging/event_logging_preferences.glade:150
 #: plugins/EventLogging/tab_log.py:150
@@ -1747,7 +1753,7 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:164
 #: plugins/EventLogging/tab_log.py:141
 msgid "Tracker reply"
-msgstr ""
+msgstr "Відповідь трекеру"
 
 #: plugins/EventLogging/event_logging_preferences.glade:178
 #: plugins/EventLogging/tab_log.py:132
@@ -1772,12 +1778,12 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:234
 #: plugins/EventLogging/tab_log.py:95
 msgid "File error"
-msgstr ""
+msgstr "Помилка файлу"
 
 #: plugins/EventLogging/event_logging_preferences.glade:248
 #: plugins/EventLogging/tab_log.py:86
 msgid "Invalid request"
-msgstr ""
+msgstr "Недійсний запит"
 
 #: plugins/EventLogging/event_logging_preferences.glade:262
 msgid "Peer messages"
@@ -1786,7 +1792,7 @@ msgstr ""
 #: plugins/EventLogging/event_logging_preferences.glade:276
 #: plugins/EventLogging/tab_log.py:70
 msgid "Torrent finished"
-msgstr ""
+msgstr "Торрент завершено"
 
 #: plugins/EventLogging/event_logging_preferences.glade:289
 msgid "Select events to log"
@@ -1848,16 +1854,16 @@ msgstr ""
 #: plugins/EventLogging/tab_log.py:78 plugins/EventLogging/tab_log.py:114
 #: plugins/EventLogging/tab_log.py:211
 msgid "ip address: "
-msgstr ""
+msgstr "ip адреса: "
 
 #: plugins/EventLogging/tab_log.py:79 plugins/EventLogging/tab_log.py:86
 msgid "client: "
-msgstr ""
+msgstr "клієнт: "
 
 #: plugins/EventLogging/tab_log.py:106 plugins/EventLogging/tab_log.py:181
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
 msgid "piece index: "
-msgstr ""
+msgstr "частина індексу: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "status code: "
@@ -1869,7 +1875,7 @@ msgstr ""
 
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
 msgid "block index: "
-msgstr ""
+msgstr "Блокувати індекс: "
 
 #: plugins/EventLogging/tab_log.py:192
 msgid "peer speed: "
@@ -1877,23 +1883,23 @@ msgstr ""
 
 #: plugins/SpeedLimiter/__init__.py:20
 msgid "Set the desired speed limit per torrent."
-msgstr ""
+msgstr "Встановіть бажаний ліміт швидкості для кожного торренту."
 
 #: plugins/SpeedLimiter/__init__.py:82
 msgid "Torrent _Download Speed"
-msgstr ""
+msgstr "Torrent _Швидкість завантаження"
 
 #: plugins/SpeedLimiter/__init__.py:92
 msgid "Torrent Upload _Speed"
-msgstr ""
+msgstr "Torrent _Швидкість відвантаження"
 
 #: plugins/SpeedLimiter/__init__.py:146
 msgid "Torrent Upload Speed (KiB/s):"
-msgstr ""
+msgstr "Швидість відвантаження торрентів (KiB/с):"
 
 #: plugins/SpeedLimiter/__init__.py:178
 msgid "Torrent Download Speed (KiB/s):"
-msgstr ""
+msgstr "Швидкість завантаження торрентів (KiB/с):"
 
 #: plugins/NetworkGraph/__init__.py:36
 msgid ""
@@ -1939,7 +1945,7 @@ msgstr ""
 
 #: plugins/MoveTorrent/__init__.py:75
 msgid "_Move Torrent"
-msgstr ""
+msgstr "_Перемістити торрент"
 
 #: plugins/MoveTorrent/__init__.py:82
 msgid "_Switch Torrent Source"
@@ -1987,15 +1993,15 @@ msgstr "URL:"
 
 #: plugins/Scheduler/plugin.py:113
 msgid "Download limit:"
-msgstr ""
+msgstr "Обмеження завантаження:"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "Upload limit:"
-msgstr ""
+msgstr "Обмеження відвантаження:"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "Active torrents:"
-msgstr ""
+msgstr "Активні торренти:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Upload Slots:"
@@ -2027,11 +2033,11 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:203
 msgid "New Password"
-msgstr ""
+msgstr "Новий пароль"
 
 #: plugins/WebUi/__init__.py:204
 msgid "New Password(confirm)"
-msgstr ""
+msgstr "Новий пароль(підтвердити)"
 
 #: plugins/WebUi/__init__.py:205
 msgid "Template"
@@ -2039,7 +2045,7 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:206
 msgid "Button Style"
-msgstr ""
+msgstr "Стиль кнопок"
 
 #: plugins/WebUi/__init__.py:208
 msgid "Cache Templates"
@@ -2047,19 +2053,19 @@ msgstr ""
 
 #: plugins/WebUi/__init__.py:210
 msgid "https://"
-msgstr ""
+msgstr "https://"
 
 #: plugins/WebUi/__init__.py:227
 msgid "Text and image"
-msgstr ""
+msgstr "Текст та зображення"
 
 #: plugins/WebUi/__init__.py:227
 msgid "Image Only"
-msgstr ""
+msgstr "Тільки зображення"
 
 #: plugins/WebUi/__init__.py:227
 msgid "Text Only"
-msgstr ""
+msgstr "Тільки текст"
 
 #: plugins/WebUi/__init__.py:262
 msgid "Confirmed Password <> New Password\n"
@@ -2067,7 +2073,7 @@ msgstr ""
 
 #: plugins/WebUi/webserver_common.py:62
 msgid "translate something"
-msgstr ""
+msgstr "перекладіть щось"
 
 #: plugins/WebUi/deluge_webserver.py:193
 msgid "Choose an url or a torrent, not both."
@@ -2075,7 +2081,7 @@ msgstr ""
 
 #: plugins/WebUi/deluge_webserver.py:203
 msgid "no data."
-msgstr ""
+msgstr "немає даних"
 
 #: plugins/WebUi/deluge_webserver.py:304
 msgid "refresh must be > 0"
@@ -2083,7 +2089,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:1
 msgid "# Of Files"
-msgstr ""
+msgstr "# файлів"
 
 #: plugins/WebUi/scripts/template_strings.py:2
 msgid "About"
@@ -2091,7 +2097,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:5
 msgid "Add torrent"
-msgstr ""
+msgstr "Додати торрент"
 
 #: plugins/WebUi/scripts/template_strings.py:6
 msgid "Apply"
@@ -2115,7 +2121,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:14
 msgid "Delete downloaded files."
-msgstr ""
+msgstr "Видалити завантажені файли."
 
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Disable"
@@ -2155,15 +2161,15 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Password is invalid,try again"
-msgstr ""
+msgstr "Неправильний пароль, спробуйте знову"
 
 #: plugins/WebUi/scripts/template_strings.py:33
 msgid "Pause all"
-msgstr ""
+msgstr "Пауза всі"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Pieces"
-msgstr ""
+msgstr "Шматки"
 
 #: plugins/WebUi/scripts/template_strings.py:37
 msgid "Queue Down"
@@ -2191,7 +2197,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:46
 msgid "Resume all"
-msgstr ""
+msgstr "Відновити всі"
 
 #: plugins/WebUi/scripts/template_strings.py:48
 msgid "Set"
@@ -2215,7 +2221,7 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Torrent list"
-msgstr ""
+msgstr "Список торрентів"
 
 #: plugins/WebUi/scripts/template_strings.py:56
 msgid "Total Size"
@@ -2223,19 +2229,19 @@ msgstr ""
 
 #: plugins/WebUi/scripts/template_strings.py:57
 msgid "Tracker"
-msgstr ""
+msgstr "Трекер"
 
 #: plugins/WebUi/scripts/template_strings.py:58
 msgid "Tracker Status"
-msgstr ""
+msgstr "Статус трекеру"
 
 #: plugins/WebUi/scripts/template_strings.py:62
 msgid "Upload torrent"
-msgstr ""
+msgstr "Відвантажити торрент"
 
 #: plugins/WebUi/scripts/template_strings.py:63
 msgid "Uploaded"
-msgstr ""
+msgstr "Відвантажено"
 
 #: plugins/WebUi/scripts/template_strings.py:64
 msgid "Url"
@@ -2271,7 +2277,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:192
 msgid "900"
-msgstr ""
+msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
 msgid "Feeds"
@@ -2309,7 +2315,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
 msgid "Thru"
-msgstr ""
+msgstr "Через"
 
 #: plugins/FlexRSS/FlexRSS.glade:766
 msgid "<b>History Restriction</b>"
@@ -2317,7 +2323,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:810
 msgid "Doesn't Match"
-msgstr ""
+msgstr "Не пасує"
 
 #: plugins/FlexRSS/FlexRSS.glade:875
 msgid "Year"
@@ -2333,11 +2339,11 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:960
 msgid "<b>Test</b>"
-msgstr ""
+msgstr "<b>Tест</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:992
 msgid "Insert torrent at top of queue."
-msgstr ""
+msgstr "Вставте торрент на початок списку"
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
@@ -2349,7 +2355,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1031
 msgid "<b>Download</b>"
-msgstr ""
+msgstr "<b>Звантажити</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1084
 msgid "Replacement"
@@ -2379,7 +2385,7 @@ msgstr ""
 
 #: plugins/FlexRSS/FlexRSS.glade:1160
 msgid "Choose:"
-msgstr ""
+msgstr "Оберіть"
 
 #: plugins/FlexRSS/FlexRSS.glade:1190
 msgid "<b>Output</b>"
@@ -2467,7 +2473,7 @@ msgstr "Довідка"
 
 #: plugins/Search/__init__.py:37
 msgid "Search for torrents anonymously"
-msgstr ""
+msgstr "Пошук торрентів приватно"
 
 #: plugins/Search/__init__.py:80
 msgid "Search String"
@@ -2475,7 +2481,7 @@ msgstr "Стрічка пошуку"
 
 #: plugins/Search/__init__.py:101 plugins/Search/__init__.py:184
 msgid "Choose an Engine"
-msgstr ""
+msgstr "Оберіть двигун"
 
 #: plugins/Search/__init__.py:105
 msgid "Manage Engines"

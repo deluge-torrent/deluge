@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-05-29 09:24+0000\n"
+"PO-Revision-Date: 2008-06-11 06:32+0000\n"
 "Last-Translator: Cybolic <cybolic@gmail.com>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
+"X-Launchpad-Export-Date: 2008-06-18 22:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -34,7 +34,6 @@ msgid "Remove"
 msgstr "Fjern"
 
 #: glade/delugegtk.glade:56
-#, fuzzy
 msgid "Clear Seeding Torrents"
 msgstr "Fjern udgivende torrents"
 
@@ -100,7 +99,6 @@ msgid "Add _URL"
 msgstr "Tilføj _URL"
 
 #: glade/delugegtk.glade:216
-#, fuzzy
 msgid "_Clear Completed"
 msgstr "_Fjern Gennemførte"
 
@@ -113,9 +111,8 @@ msgid "Plu_gins"
 msgstr "Udvidelser"
 
 #: glade/delugegtk.glade:302
-#, fuzzy
 msgid "_Torrent"
-msgstr "_Torrents"
+msgstr "_Torrent"
 
 #: glade/delugegtk.glade:309
 msgid "_View"
@@ -275,7 +272,6 @@ msgid "<b>Tracker Status:</b>"
 msgstr "<b>Trackerstatus:</b>"
 
 #: glade/delugegtk.glade:1189
-#, fuzzy
 msgid "<b>Next Announce:</b>"
 msgstr "<b>Næste Forespørgsel:</b>"
 
@@ -288,7 +284,6 @@ msgid "<b>Path:</b>"
 msgstr "<b>Sti:</b>"
 
 #: glade/delugegtk.glade:1312
-#, fuzzy
 msgid "<b>Torrent Info</b>"
 msgstr "<b>Torrent Informationer</b>"
 
@@ -537,7 +532,6 @@ msgid "Local Peer Discovery"
 msgstr "Lokal Modpart-Synlighed"
 
 #: glade/preferences_dialog.glade:814
-#, fuzzy
 msgid "<b>Network Extras</b>"
 msgstr "<b>Netværksekstra</b>"
 
@@ -734,7 +728,6 @@ msgstr "Server"
 
 #: glade/preferences_dialog.glade:1719 glade/preferences_dialog.glade:1914
 #: glade/preferences_dialog.glade:2109 glade/preferences_dialog.glade:2304
-#, fuzzy
 msgid ""
 "None\n"
 "Socksv4\n"
@@ -1083,7 +1076,6 @@ msgstr ""
 "ikke blive sendt nogen anden information."
 
 #: src/interface.py:235
-#, fuzzy
 msgid ""
 "Unable to state browser.  Make sure you have python-gnome2-extras installed "
 "or try setting your LD_LIBRARY_PATH and MOZILLA_FIVE_HOME environment "
@@ -1346,7 +1338,6 @@ msgid "Enabled"
 msgstr "Slået til"
 
 #: src/dialogs.py:445
-#, fuzzy
 msgid ""
 "Deluge is free software, you can redistribute it and/or\n"
 "modify it under the terms of the GNU General Public\n"
@@ -1471,7 +1462,6 @@ msgstr "Kunne ikke åbne blokéringsliste-filen"
 #: plugins/BlocklistImport/__init__.py:139 plugins/BlocklistImport/text.py:37
 #: plugins/BlocklistImport/text.py:70 plugins/BlocklistImport/text.py:88
 #: plugins/BlocklistImport/text.py:99
-#, fuzzy
 msgid "Wrong file type or corrupted blocklist file."
 msgstr "Forkert filtype eller ødelagt blokéringsliste-fil."
 
@@ -1678,7 +1668,7 @@ msgstr "<b>Avanceret</b>"
 
 #: plugins/TorrentCreator/__init__.py:22
 msgid "A torrent creator plugin"
-msgstr "Et torrent-opretter udvidelsesmodul"
+msgstr "Et torrent-opretter-udvidelsesmodul"
 
 #: plugins/TorrentCreator/__init__.py:51
 msgid "_New Torrent"
@@ -1710,7 +1700,7 @@ msgstr "Torrent påmindelsesindstillinger"
 
 #: plugins/TorrentNotification/notification_preferences.glade:32
 msgid "Enable event sound (requires pygame, not available on Win32)"
-msgstr "Aktiver begivenhedslyd (kræver pygame, virker ikke på Win32)"
+msgstr "Aktiver begivenhedslyd (kræver pygame, findes ikke til Win32)"
 
 #: plugins/TorrentNotification/notification_preferences.glade:59
 msgid "Enable blinking tray icon"
@@ -1739,7 +1729,7 @@ msgid ""
 "\n"
 "Written by Kripkenstein"
 msgstr ""
-"Netværkets sundhed udvidelsesmodul\n"
+"Netværks-sundheds-udvidelsesmodul\n"
 "\n"
 "Skrevet af Kripkenstein"
 
@@ -1762,7 +1752,7 @@ msgstr "Logfiler"
 #: plugins/EventLogging/event_logging_preferences.glade:66
 #: plugins/EventLogging/tab_log.py:210
 msgid "Peer blocked"
-msgstr "Peer blokeret"
+msgstr "Modpart blokeret"
 
 #: plugins/EventLogging/event_logging_preferences.glade:80
 #: plugins/EventLogging/tab_log.py:200
@@ -1797,32 +1787,32 @@ msgstr "Tracker-alarm"
 #: plugins/EventLogging/event_logging_preferences.glade:164
 #: plugins/EventLogging/tab_log.py:141
 msgid "Tracker reply"
-msgstr "Tracker svar"
+msgstr "Tracker-svar"
 
 #: plugins/EventLogging/event_logging_preferences.glade:178
 #: plugins/EventLogging/tab_log.py:132
 msgid "Tracker announce"
-msgstr "Tracker announce"
+msgstr "Tracker-annoncering"
 
 #: plugins/EventLogging/event_logging_preferences.glade:192
 #: plugins/EventLogging/tab_log.py:123
 msgid "Fastresume rejected error"
-msgstr "Fastresume afvist fejl"
+msgstr "\"Hurtig genoptagelse afvist\"-fejl"
 
 #: plugins/EventLogging/event_logging_preferences.glade:206
 #: plugins/EventLogging/tab_log.py:114
 msgid "Peer ban error"
-msgstr "Peer bandlysningsfejl"
+msgstr "Modparts-bandlysnings-fejl"
 
 #: plugins/EventLogging/event_logging_preferences.glade:220
 #: plugins/EventLogging/tab_log.py:104
 msgid "Hash failed error"
-msgstr "Hash fejl"
+msgstr "Hash-fejl"
 
 #: plugins/EventLogging/event_logging_preferences.glade:234
 #: plugins/EventLogging/tab_log.py:95
 msgid "File error"
-msgstr "Filfejl"
+msgstr "Fil-fejl"
 
 #: plugins/EventLogging/event_logging_preferences.glade:248
 #: plugins/EventLogging/tab_log.py:86
@@ -1831,7 +1821,7 @@ msgstr "Ugyldig anmodning"
 
 #: plugins/EventLogging/event_logging_preferences.glade:262
 msgid "Peer messages"
-msgstr "Peer beskeder"
+msgstr "Modparts-beskeder"
 
 #: plugins/EventLogging/event_logging_preferences.glade:276
 #: plugins/EventLogging/tab_log.py:70
@@ -1865,6 +1855,27 @@ msgid ""
 "Events are now truncated in display.  Log files are not.\n"
 "New events are now displayed at the top.\n"
 msgstr ""
+"\n"
+"Tilføjer en fane med en logbog over de valgte begivenheder.\n"
+"\n"
+"Begivenheds-beskeder kommer fra libtorrent-meddelelser.\n"
+"Hvis du ønsker disse tekststrenge oversat til din regionaldata,\n"
+"bedes du meddele problemet til libtorrent, ikke til deluge.\n"
+"\n"
+"Med hensyn til logbogs-filerne, bliver de gemt i en logbogs-\n"
+"mappe i deluge-konfigurations-mappen. Begivenheds-\n"
+"beskeder for specifikke torrenter bliver gemt i individuelle\n"
+"logbogs-filer, navngivet efter den torrent-fil de er associeret\n"
+"med. Begivenheds-beskeder som ikke er tilknyttet nogen\n"
+"torrent-fil, bliver gemt til logbøger navngivet efter den\n"
+"specifikke begivenhed (f.eks. modparts_beskeder.log).\n"
+"Begivenheds-beskeder i logbogs-filer inkluderer også en\n"
+"tidsstempling.\n"
+"Det er brugerens ansvar at rydde op i logbogs-filerne.\n"
+"\n"
+"Fra og med version 0.2\n"
+"Begivenhedsbeskeder bliver nu vist afkortet på skærmen, ikke i filen.\n"
+"De nyeste begivenheder bliver vist øverst.\n"
 
 #: plugins/EventLogging/__init__.py:89
 msgid "Event Log"
@@ -1893,12 +1904,12 @@ msgstr "torrent: "
 
 #: plugins/EventLogging/tab_log.py:78
 msgid "Peer message"
-msgstr "Peer besked"
+msgstr "Modparts-besked"
 
 #: plugins/EventLogging/tab_log.py:78 plugins/EventLogging/tab_log.py:114
 #: plugins/EventLogging/tab_log.py:211
 msgid "ip address: "
-msgstr "ip adresse: "
+msgstr "ip-adresse: "
 
 #: plugins/EventLogging/tab_log.py:79 plugins/EventLogging/tab_log.py:86
 msgid "client: "
@@ -1907,7 +1918,7 @@ msgstr "klient: "
 #: plugins/EventLogging/tab_log.py:106 plugins/EventLogging/tab_log.py:181
 #: plugins/EventLogging/tab_log.py:191 plugins/EventLogging/tab_log.py:202
 msgid "piece index: "
-msgstr "stykke indeks: "
+msgstr "stykke-indeks: "
 
 #: plugins/EventLogging/tab_log.py:152
 msgid "status code: "
@@ -1924,15 +1935,15 @@ msgstr "blokindeks: "
 #: plugins/EventLogging/tab_log.py:192
 #, fuzzy
 msgid "peer speed: "
-msgstr "Modparters Hastighed: "
+msgstr "peer hastighed "
 
 #: plugins/SpeedLimiter/__init__.py:20
 msgid "Set the desired speed limit per torrent."
-msgstr "Sæt den ønskede Hastigheds begrænsning per torrent"
+msgstr "Sæt den ønskede hastigheds-begrænsning per torrent"
 
 #: plugins/SpeedLimiter/__init__.py:82
 msgid "Torrent _Download Speed"
-msgstr "Torrent hentehastighed"
+msgstr "Torrent hentehastighe_d"
 
 #: plugins/SpeedLimiter/__init__.py:92
 msgid "Torrent Upload _Speed"
@@ -1952,7 +1963,7 @@ msgid ""
 "\n"
 "Written by Kripkenstein"
 msgstr ""
-"Netværksaktivitetsgraf udvidelsesmodul\n"
+"Netværksaktivitetsgraf-udvidelsesmodul\n"
 "\n"
 "Skrevet af Kripkenstein"
 
@@ -1963,7 +1974,7 @@ msgstr "Graf"
 #: plugins/TorrentFiles/tab_files.py:59
 #: plugins/WebUi/scripts/template_strings.py:36
 msgid "Progress"
-msgstr "Fremskridt"
+msgstr "Fremgang"
 
 #: plugins/TorrentFiles/tab_files.py:100
 msgid "There was an error trying to launch the file."
@@ -1978,8 +1989,8 @@ msgid ""
 msgstr ""
 "\n"
 "Dette udvidelsesmodul viser dig filerne inde i en torrent og lader dig sætte "
-"prioriteter for dem og vælge hvilke af dem du ønsker og hvilke du ikke vil "
-"have.\n"
+"prioriteter for dem, samt vælge hvilke af dem du ønsker at hente og hvilke "
+"du ikke vil have.\n"
 
 #: plugins/TorrentFiles/__init__.py:84
 msgid "Files"
@@ -1994,12 +2005,12 @@ msgid ""
 "moved to a different folder.\n"
 "Note: Files can currently only be moved within the same partition"
 msgstr ""
-"Dette plugin giver brugeren mulighed for at flytte torrenten til en anden "
-"mappe uden at skulle gentilføje torrenten. Denne funktion kan blive fundet "
-"ved at højre-klikke på en torrent.\n"
-"Endvidere tillader det brugeren automatisk at flytte færdige torrents til en "
-"anden mappe.\n"
-"Bemærk: Filer kan kun blive flyttet på samme partion på nuværende tidspunkt."
+"Dette udvidelsesmodul giver brugeren mulighed for at flytte torrenten til en "
+"anden mappe uden at skulle gentilføje torrenten. Denne funktion er "
+"tilgængelig ved at højre-klikke på en torrent.\n"
+"Endvidere tillader det brugeren automatisk at flytte færdige torrenter til "
+"en anden mappe.\n"
+"Bemærk: Filer kan, indtil videre, kun flyttes til mapper på samme partiton."
 
 #: plugins/MoveTorrent/__init__.py:75
 msgid "_Move Torrent"
@@ -2007,7 +2018,7 @@ msgstr "Flyt torrent"
 
 #: plugins/MoveTorrent/__init__.py:82
 msgid "_Switch Torrent Source"
-msgstr "_Skift Torrent Kilde"
+msgstr "_Skift Torrentkilde"
 
 #: plugins/MoveTorrent/__init__.py:102
 msgid "Choose a directory to move files to"
@@ -2022,8 +2033,8 @@ msgid ""
 msgstr ""
 "Du kan ikke flytte en torrent til en anden partition. Tjek venligst dine "
 "indstillinger. Du kan heller ikke flytte en torrent's filer til den samme "
-"mappe som de allerede er i eller flytte en torrent's filer før nogle af dens "
-"filer rent faktisk er blevet oprettet."
+"mappe som de allerede er i, eller flytte en torrent's filer før nogle af "
+"dens filer rent faktisk er blevet oprettet."
 
 #: plugins/MoveTorrent/movetorrent.glade:25
 msgid "Move completed downloads to:"
@@ -2038,20 +2049,19 @@ msgid "gtk-ok"
 msgstr "gtk-ok"
 
 #: plugins/WebSeed/__init__.py:22
-#, fuzzy
 msgid "This plugin allows users to add web seeds to their torrents"
 msgstr ""
-"Dette plugin giver brugere mulighed for at tilføje kilder fra nettet til "
-"deres torrents"
+"Dette udvidelsesmodul giver brugere mulighed for at tilføje kilder fra "
+"nettet til deres torrenter"
 
 #: plugins/WebSeed/__init__.py:51
 #, fuzzy
 msgid "_Add Web Seed"
-msgstr "Tilføj En Webkilde"
+msgstr "_Tilføj Webkilde"
 
 #: plugins/WebSeed/webseed.glade:7
 msgid "Add Web Seed"
-msgstr "Tilføj Web seed"
+msgstr "Tilføj Web-modpart"
 
 #: plugins/WebSeed/webseed.glade:29 plugins/Search/searchdlg.glade:91
 msgid "URL:"
@@ -2059,20 +2069,20 @@ msgstr "Adresse:"
 
 #: plugins/Scheduler/plugin.py:113
 msgid "Download limit:"
-msgstr "Download grænse:"
+msgstr "Download-grænse:"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "Upload limit:"
-msgstr "Upload grænse:"
+msgstr "Upload-grænse:"
 
 #: plugins/Scheduler/plugin.py:115
 msgid "Active torrents:"
-msgstr "aktive torrents:"
+msgstr "Aktive torrenter:"
 
 #: plugins/Scheduler/plugin.py:116
 #, fuzzy
 msgid "Upload Slots:"
-msgstr "Upload Pladser:"
+msgstr "Upload-pladser:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Max Connections:"
@@ -2096,7 +2106,7 @@ msgstr "WebUi Indstillinger"
 
 #: plugins/WebUi/__init__.py:202
 msgid "Port Number"
-msgstr "Port Nummer"
+msgstr "Port-nummer"
 
 #: plugins/WebUi/__init__.py:203
 msgid "New Password"
@@ -2112,11 +2122,11 @@ msgstr "Skabelon"
 
 #: plugins/WebUi/__init__.py:206
 msgid "Button Style"
-msgstr "Knap stil"
+msgstr "Knap-stil"
 
 #: plugins/WebUi/__init__.py:208
 msgid "Cache Templates"
-msgstr "Gem skarbelon"
+msgstr "Gem skabelon"
 
 #: plugins/WebUi/__init__.py:210
 msgid "https://"
@@ -2132,7 +2142,7 @@ msgstr "Kun billeder"
 
 #: plugins/WebUi/__init__.py:227
 msgid "Text Only"
-msgstr "Kun Tekst"
+msgstr "Kun tekst"
 
 #: plugins/WebUi/__init__.py:262
 msgid "Confirmed Password <> New Password\n"
@@ -2164,7 +2174,7 @@ msgstr "Om"
 
 #: plugins/WebUi/scripts/template_strings.py:5
 msgid "Add torrent"
-msgstr "Tilføj Torrent"
+msgstr "Tilføj torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:6
 msgid "Apply"
@@ -2172,7 +2182,7 @@ msgstr "Anvend"
 
 #: plugins/WebUi/scripts/template_strings.py:7
 msgid "Auto refresh:"
-msgstr "Automatisk genindlæsning"
+msgstr "Automatisk genindlæsning:"
 
 #: plugins/WebUi/scripts/template_strings.py:8
 msgid "Ava"
@@ -2188,15 +2198,15 @@ msgstr "Debug:Data Dump"
 
 #: plugins/WebUi/scripts/template_strings.py:14
 msgid "Delete downloaded files."
-msgstr "Slet downloadet filer."
+msgstr "Slet hentede filer."
 
 #: plugins/WebUi/scripts/template_strings.py:16
 msgid "Disable"
-msgstr "Deaktivér"
+msgstr "Deaktiver"
 
 #: plugins/WebUi/scripts/template_strings.py:20
 msgid "Downloaded"
-msgstr "Downloadet"
+msgstr "Hentet"
 
 #: plugins/WebUi/scripts/template_strings.py:22
 msgid "Enable"
@@ -2212,16 +2222,15 @@ msgstr "Eta"
 
 #: plugins/WebUi/scripts/template_strings.py:25
 msgid "Login"
-msgstr "Logind"
+msgstr "Log på"
 
 #: plugins/WebUi/scripts/template_strings.py:26
 msgid "Logout"
 msgstr "Log af"
 
 #: plugins/WebUi/scripts/template_strings.py:28
-#, fuzzy
 msgid "Next Announce"
-msgstr "Næste melde"
+msgstr "Næste annoncering"
 
 #: plugins/WebUi/scripts/template_strings.py:29
 msgid "Off"
@@ -2229,11 +2238,11 @@ msgstr "Deaktiver"
 
 #: plugins/WebUi/scripts/template_strings.py:31
 msgid "Password is invalid,try again"
-msgstr "Kodeordet er ikke validere, prøv igen"
+msgstr "Kodeordet er ikke korrekt, prøv igen"
 
 #: plugins/WebUi/scripts/template_strings.py:33
 msgid "Pause all"
-msgstr "Pause alle"
+msgstr "Paus alle"
 
 #: plugins/WebUi/scripts/template_strings.py:35
 msgid "Pieces"
@@ -2245,21 +2254,19 @@ msgstr "Flyt ned i køen"
 
 #: plugins/WebUi/scripts/template_strings.py:38
 msgid "Queue Position"
-msgstr "Standby tilstand"
+msgstr "Vente-tilstand"
 
 #: plugins/WebUi/scripts/template_strings.py:39
 msgid "Queue Up"
-msgstr "Flyp op i køen"
+msgstr "Flyt op i køen"
 
 #: plugins/WebUi/scripts/template_strings.py:41
-#, fuzzy
 msgid "Reannounce"
-msgstr "Remelde"
+msgstr "Genannoncér"
 
 #: plugins/WebUi/scripts/template_strings.py:42
-#, fuzzy
 msgid "Refresh page every:"
-msgstr "Genindlæs side hver"
+msgstr "Genindlæs side hver:"
 
 #: plugins/WebUi/scripts/template_strings.py:44
 msgid "Remove torrent"
@@ -2275,7 +2282,7 @@ msgstr "Definer"
 
 #: plugins/WebUi/scripts/template_strings.py:49
 msgid "Set Timeout"
-msgstr "Sæt timeout"
+msgstr "Sæt tidsgrænse"
 
 #: plugins/WebUi/scripts/template_strings.py:52
 msgid "Speed"
@@ -2291,11 +2298,11 @@ msgstr "Send forespørgsel"
 
 #: plugins/WebUi/scripts/template_strings.py:55
 msgid "Torrent list"
-msgstr "Torrent liste"
+msgstr "Torrent-liste"
 
 #: plugins/WebUi/scripts/template_strings.py:56
 msgid "Total Size"
-msgstr "Total størrelse"
+msgstr "Samlet størrelse"
 
 #: plugins/WebUi/scripts/template_strings.py:57
 msgid "Tracker"
@@ -2311,7 +2318,7 @@ msgstr "Upload torrent"
 
 #: plugins/WebUi/scripts/template_strings.py:63
 msgid "Uploaded"
-msgstr "Uploaded"
+msgstr "Sendt"
 
 #: plugins/WebUi/scripts/template_strings.py:64
 msgid "Url"
@@ -2328,11 +2335,11 @@ msgstr "FlexRSS"
 #: plugins/FlexRSS/FlexRSS.glade:103
 msgid "Feed will be retrieved automatically, based on the update interval."
 msgstr ""
-"Feed vil blive modtaget automatisk, baseret på opdaterings intervaller"
+"Kilde vil blive modtaget automatisk, baseret på opdaterings-intervallet."
 
 #: plugins/FlexRSS/FlexRSS.glade:115
 msgid "Feed must be refreshed manually."
-msgstr "Feed skal opdateres manuelt"
+msgstr "Kilde skal opdateres manuelt."
 
 #: plugins/FlexRSS/FlexRSS.glade:116
 msgid "Disabled"
@@ -2415,7 +2422,7 @@ msgstr "Test"
 #: plugins/FlexRSS/FlexRSS.glade:992
 #, fuzzy
 msgid "Insert torrent at top of queue."
-msgstr "Indsæt torrent top toppen af standby"
+msgstr "Indsæt torrenten øverst i køen"
 
 #: plugins/FlexRSS/FlexRSS.glade:1002
 msgid "Set state to paused."
@@ -2491,7 +2498,7 @@ msgstr ""
 #: plugins/FlexRSS/FlexRSS.glade:1332
 #, fuzzy
 msgid "Threaded (experimental)"
-msgstr "Trække (eksperimental)"
+msgstr "Threaded (eksperimental)"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"

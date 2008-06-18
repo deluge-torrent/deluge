@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-05-29 13:45+0000\n"
-"Last-Translator: Theodoor <Unknown>\n"
+"PO-Revision-Date: 2008-06-03 01:53+0000\n"
+"Last-Translator: Mathijs <mathijssch@gmail.com>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
+"X-Launchpad-Export-Date: 2008-06-18 22:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -600,6 +600,7 @@ msgstr ""
 #: glade/preferences_dialog.glade:1105
 msgid "Stop seeding torrents when their seed time reaches:"
 msgstr ""
+"Stop het seeden van torrents wanneer de seed-tijd de volgende waarde bereikt:"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
@@ -607,7 +608,7 @@ msgstr "Aantal uren"
 
 #: glade/preferences_dialog.glade:1142
 msgid "Automatically clear torrents that reach the max seed time"
-msgstr ""
+msgstr "Automatisch opschonen van torrents die de maximale seedtijd bereiken"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -1162,7 +1163,7 @@ msgstr "Verhouding"
 
 #: src/interface.py:760
 msgid "Choose a directory to switch torrent source to"
-msgstr ""
+msgstr "Kies een directory om de torrent-bron naar te veranderen"
 
 #: src/interface.py:764
 msgid "Delete the old torrent source?"
@@ -2026,7 +2027,7 @@ msgstr "_Verplaats Torrent"
 
 #: plugins/MoveTorrent/__init__.py:82
 msgid "_Switch Torrent Source"
-msgstr ""
+msgstr "_Verander Torrent Bron"
 
 #: plugins/MoveTorrent/__init__.py:102
 msgid "Choose a directory to move files to"

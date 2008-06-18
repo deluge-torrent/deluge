@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-05-04 09:30+0000\n"
-"Last-Translator: YesPoX <perusjatka@gmail.com>\n"
+"PO-Revision-Date: 2008-06-05 09:56+0000\n"
+"Last-Translator: Jukka Kauppinen <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
+"X-Launchpad-Export-Date: 2008-06-18 22:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -184,7 +184,6 @@ msgid "Donate to Deluge Development"
 msgstr "Lahjoita rahaa Delugen kehittämiseen"
 
 #: glade/delugegtk.glade:441
-#, fuzzy
 msgid "_Donate"
 msgstr "_Lahjoita"
 
@@ -586,7 +585,7 @@ msgstr "Siirrä uudet torrentit jonossa valmiiden edelle"
 
 #: glade/preferences_dialog.glade:1053
 msgid "Stop seeding torrents when their share ratio reaches:"
-msgstr "Lopeta jakaminen kun jakosuhde on:"
+msgstr "Lopeta jakaminen kun jakosuhde ylittää:"
 
 #: glade/preferences_dialog.glade:1089
 msgid "Automatically clear torrents that reach the max share ratio"
@@ -594,7 +593,7 @@ msgstr "Poista enimmäisjakosuhteen saavuttaneet torrentit automaattisesti"
 
 #: glade/preferences_dialog.glade:1105
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr "Lopeta torrentin jakaminen kun jakamisaika on täysi:"
+msgstr "Lopeta torrentin jakaminen, kun jakamisaika ylittää:"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
@@ -603,7 +602,7 @@ msgstr "Tuntien määrä"
 #: glade/preferences_dialog.glade:1142
 msgid "Automatically clear torrents that reach the max seed time"
 msgstr ""
-"Tyhjennä automaattisesti torrentit, jota saavuttavat täyden jakoajan."
+"Tyhjennä automaattisesti torrentit, jotka saavuttavat täyden jakoajan"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -1159,9 +1158,8 @@ msgid "Choose a directory to switch torrent source to"
 msgstr "Valitse kansio, jonne haluat siirtää torrentin lähteen."
 
 #: src/interface.py:764
-#, fuzzy
 msgid "Delete the old torrent source?"
-msgstr "Poista vanha torrent?"
+msgstr "Poista vanha torrentti?"
 
 #: src/interface.py:953
 #, python-format
@@ -1487,9 +1485,8 @@ msgid "Blocklist URL"
 msgstr "Estolistan URL"
 
 #: plugins/BlocklistImport/ui.py:52
-#, fuzzy
 msgid "Download new blocklist every"
-msgstr "Lataa uusi blokkilista"
+msgstr "Lataa uusi estolista välillä"
 
 #: plugins/BlocklistImport/ui.py:59
 msgid "days"
@@ -2048,19 +2045,16 @@ msgid "gtk-ok"
 msgstr "gtk-ok"
 
 #: plugins/WebSeed/__init__.py:22
-#, fuzzy
 msgid "This plugin allows users to add web seeds to their torrents"
 msgstr ""
 "Tämä liitännäinen mahdollistaa web-jakajien(web-seeds) lisäämisen "
 "torrentteihin."
 
 #: plugins/WebSeed/__init__.py:51
-#, fuzzy
 msgid "_Add Web Seed"
 msgstr "Lisää _Web-jako"
 
 #: plugins/WebSeed/webseed.glade:7
-#, fuzzy
 msgid "Add Web Seed"
 msgstr "Lisää Web-jako"
 
@@ -2070,7 +2064,7 @@ msgstr "Osoite:"
 
 #: plugins/Scheduler/plugin.py:113
 msgid "Download limit:"
-msgstr "Latausraja"
+msgstr "Latausraja:"
 
 #: plugins/Scheduler/plugin.py:114
 msgid "Upload limit:"
@@ -2082,11 +2076,11 @@ msgstr "Aktiiviset torrentit:"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Upload Slots:"
-msgstr "Lähetyspaikat"
+msgstr "Lähetyspaikat:"
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Max Connections:"
-msgstr "Yhteyksiä:"
+msgstr "Yhteyksiä enintään:"
 
 #: plugins/Scheduler/plugin.py:120
 msgid "Scheduler Settings"
@@ -2557,7 +2551,6 @@ msgid "Help"
 msgstr "Ohje"
 
 #: plugins/Search/__init__.py:37
-#, fuzzy
 msgid "Search for torrents anonymously"
 msgstr "Etsi torrentteja tuntemattomana"
 

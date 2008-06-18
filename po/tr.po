@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-05-04 09:10+0000\n"
-"Last-Translator: Osman Tosun <rainman.neu@gmail.com>\n"
+"PO-Revision-Date: 2008-06-02 10:23+0000\n"
+"Last-Translator: Mert Bozkurt <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-01 23:32+0000\n"
+"X-Launchpad-Export-Date: 2008-06-18 22:08+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -1246,8 +1246,8 @@ msgid ""
 "An error occured while trying to add the torrent. It's possible your "
 ".torrent file is corrupted."
 msgstr ""
-"Torreenti eklemeye çalışrken bir hata ortaya çıktı. Muhtemelen .torrent "
-"dosyanız bozulmuş."
+"Torrent eklenmeye çalışılırken bir hata oldu. Muhtemelen .torrent dosyanız "
+"bozulmuş."
 
 #: src/interface.py:1422
 msgid "Unknown duplicate torrent error."
@@ -1981,7 +1981,7 @@ msgstr "İlerleme"
 
 #: plugins/TorrentFiles/tab_files.py:100
 msgid "There was an error trying to launch the file."
-msgstr ""
+msgstr "Dosya başlatılırken bir hata oldu."
 
 #: plugins/TorrentFiles/__init__.py:34
 msgid ""
