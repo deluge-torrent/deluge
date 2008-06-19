@@ -328,6 +328,9 @@ class TorrentView(listview.ListView, component.Component):
                             except:
                                 pass
 
+        # Update the toolbar buttons just in case some state has changed
+        component.get("ToolBar").update_buttons()
+        
     def _on_get_torrents_status(self, status):
         """Callback function for get_torrents_status().  'status' should be a
         dictionary of {torrent_id: {key, value}}."""
