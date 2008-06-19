@@ -179,7 +179,7 @@ namespace libtorrent
 		, m_max_uploads((std::numeric_limits<int>::max)())
 		, m_num_uploads(0)
 		, m_max_connections((std::numeric_limits<int>::max)())
-		, m_block_size(block_size)
+		, m_block_size((std::min)(block_size, tf->piece_length()))
 		, m_complete(-1)
 		, m_incomplete(-1)
 		, m_deficit_counter(0)
@@ -405,13 +405,22 @@ namespace libtorrent
 		TORRENT_ASSERT(m_torrent_file->num_files() > 0);
 		TORRENT_ASSERT(m_torrent_file->total_size() >= 0);
 
+		m_block_size = (std::min)(m_block_size, m_torrent_file->piece_length());
+
+		if (m_torrent_file->num_pieces()
+			> piece_picker::max_pieces)
+		{
+			m_error = "too many pieces in torrent";
+			pause();
+		}
+
 		// the shared_from_this() will create an intentional
 		// cycle of ownership, se the hpp file for description.
 		m_owning_storage = new piece_manager(shared_from_this(), m_torrent_file
 			, m_save_path, m_ses.m_files, m_ses.m_disk_thread, m_storage_constructor
 			, m_storage_mode);
 		m_storage = m_owning_storage.get();
-		m_picker->init(m_torrent_file->piece_length() / m_block_size
+		m_picker->init((std::max)(m_torrent_file->piece_length() / m_block_size, 1)
 			, int((m_torrent_file->total_size()+m_block_size-1)/m_block_size));
 
 		std::vector<std::string> const& url_seeds = m_torrent_file->url_seeds();
@@ -619,6 +628,10 @@ namespace libtorrent
 
 	void torrent::force_recheck()
 	{
+		if (m_state == torrent_status::checking_files
+			|| m_state == torrent_status::queued_for_checking)
+			return;
+
 		disconnect_all();
 
 		m_owning_storage->async_release_files();
@@ -632,7 +645,9 @@ namespace libtorrent
 		// assume that we don't have anything
 		m_files_checked = false;
 		m_state = torrent_status::queued_for_checking;
-		set_queue_position((std::numeric_limits<int>::max)());
+
+		if (m_auto_managed)
+			set_queue_position((std::numeric_limits<int>::max)());
 
 		m_resume_data = entry();
 		m_storage->async_check_fastresume(&m_resume_data
@@ -3344,6 +3359,8 @@ namespace libtorrent
 				TORRENT_ASSERT(total_done == m_torrent_file->total_size());
 			else
 				TORRENT_ASSERT(total_done != m_torrent_file->total_size() || !m_files_checked);
+
+			TORRENT_ASSERT(m_block_size <= m_torrent_file->piece_length());
 		}
 		else
 		{
@@ -3394,7 +3411,9 @@ namespace libtorrent
 
 	void torrent::set_queue_position(int p)
 	{
-		TORRENT_ASSERT((p == -1) == is_finished());
+		TORRENT_ASSERT((p == -1) == is_finished()
+			|| (!m_auto_managed && p == -1)
+			|| (m_abort && p == -1));
 		if (is_finished() && p != -1) return;
 		if (p == m_sequence_number) return;
 

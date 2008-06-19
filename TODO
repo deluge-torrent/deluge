@@ -4,11 +4,11 @@ For 0.6 release:
 * Anonymous stats
 * Update checking
 * Translations
-* Implement add by hash
 * Implement 'Classic' mode
 * Add progress bars for downloading and importing lists instead of hanging (blocklist)
 
 After 0.6 release:
+* Implement add by hash
 * Figure out easy way for user-made plugins to add i18n support.
 * Restart daemon function
 * Docstrings!
