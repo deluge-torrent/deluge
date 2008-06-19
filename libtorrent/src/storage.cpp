@@ -1,4 +1,4 @@
-a/*
+/*
 
 Copyright (c) 2003, Arvid Norberg, Daniel Wallin
 All rights reserved.
