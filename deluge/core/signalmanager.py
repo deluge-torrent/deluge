@@ -45,7 +45,7 @@ class SignalManager(component.Component):
         self.clients = {}
 
     def shutdown(self):
-        del self.clients
+        self.clients = {}
 
     def deregister_client(self, address):
         """Deregisters a client"""

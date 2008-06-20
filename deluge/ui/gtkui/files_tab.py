@@ -46,10 +46,18 @@ import deluge.common
 from deluge.log import LOG as log
 
 def cell_priority(column, cell, model, row, data):
+    if model.get_value(row, 5) == -1:
+        # This is a folder, so lets just set it blank for now
+        cell.set_property("text", "")
+        return
     priority = model.get_value(row, data)
     cell.set_property("text", deluge.common.FILE_PRIORITY[priority])
 
 def cell_priority_icon(column, cell, model, row, data):
+    if model.get_value(row, 5) == -1:
+        # This is a folder, so lets just set it blank for now
+        cell.set_property("stock-id", None)
+        return
     priority = model.get_value(row, data)
     if deluge.common.FILE_PRIORITY[priority] == "Do Not Download":
         cell.set_property("stock-id", gtk.STOCK_STOP)
@@ -64,7 +72,18 @@ def cell_filename(column, cell, model, row, data):
     """Only show the tail portion of the file path"""
     filepath = model.get_value(row, data)
     cell.set_property("text", os.path.split(filepath)[1])
-        
+
+def cell_progress(column, cell, model, row, data):
+    if model.get_value(row, 5) == -1:
+    # This is a folder, so lets just set it blank for now
+        cell.set_property("visible", False)
+        return
+    text = model.get_value(row, data[0])
+    value = model.get_value(row, data[1])
+    cell.set_property("visible", True)
+    cell.set_property("text", text)
+    cell.set_property("value", value)
+
 class ColumnState:
     def __init__(self, name, position, width, sort, sort_order):
         self.name = name
@@ -82,14 +101,18 @@ class FilesTab(Tab):
         self._tab_label = glade.get_widget("files_tab_label")
 
         self.listview = glade.get_widget("files_listview")
-        # filename, size, progress string, progress value, priority, file index
+        # filename, size, progress string, progress value, priority, file index, icon id
         self.liststore = gtk.ListStore(str, gobject.TYPE_UINT64, str, int, int, int)
+        self.treestore = gtk.TreeStore(str, gobject.TYPE_UINT64, str, int, int, int, str)
         
         # Filename column        
         column = gtk.TreeViewColumn(_("Filename"))
-        render = gtk.CellRendererText()
+        render = gtk.CellRendererPixbuf()
         column.pack_start(render, False)
-        column.set_cell_data_func(render, cell_filename, 0)
+        column.add_attribute(render, "stock-id", 6)
+        render = gtk.CellRendererText()
+        column.pack_start(render, True)
+        column.add_attribute(render, "text", 0)
         column.set_sort_column_id(0)
         column.set_clickable(True)
         column.set_resizable(True)
@@ -115,8 +138,7 @@ class FilesTab(Tab):
         column = gtk.TreeViewColumn(_("Progress"))
         render = gtk.CellRendererProgress()
         column.pack_start(render)
-        column.add_attribute(render, "text", 2)
-        column.add_attribute(render, "value", 3)
+        column.set_cell_data_func(render, cell_progress, (2, 3))
         column.set_sort_column_id(3)
         column.set_clickable(True)
         column.set_resizable(True)
@@ -141,7 +163,7 @@ class FilesTab(Tab):
         column.set_reorderable(True)
         self.listview.append_column(column)
 
-        self.listview.set_model(self.liststore)
+        self.listview.set_model(self.treestore)
         
         self.listview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
         
@@ -226,12 +248,12 @@ class FilesTab(Tab):
             torrent_id = torrent_id[0]
         else:
             # No torrent is selected in the torrentview
-            self.liststore.clear()
+            self.treestore.clear()
             return
         
         if torrent_id != self.torrent_id:
             # We only want to do this if the torrent_id has changed
-            self.liststore.clear()
+            self.treestore.clear()
             self.torrent_id = torrent_id
             
             if self.torrent_id not in self.files_list.keys():
@@ -251,50 +273,101 @@ class FilesTab(Tab):
             client.force_call(True)
 
     def clear(self):
-        self.liststore.clear()
+        self.treestore.clear()
 
     def _on_row_activated(self, tree, path, view_column):
         if client.is_localhost:
             client.get_torrent_status(self._on_open_file, self.torrent_id, ["save_path", "files"])
             client.force_call(False)
 
+    def get_file_path(self, row, path=""):
+        if not row:
+            return path
+        
+        path = self.treestore.get_value(row, 0) + path
+        return self.get_file_path(self.treestore.iter_parent(row), path)
+        
     def _on_open_file(self, status):
         paths = self.listview.get_selection().get_selected_rows()[1]
         selected = []
         for path in paths:
-            selected.append(self.liststore.get_iter(path))
+            selected.append(self.treestore.get_iter(path))
         
         for select in selected:
-            filepath = os.path.join(status["save_path"], self.liststore.get_value(select, 0))
+            path = self.get_file_path(select).split("/")
+            filepath = os.path.join(status["save_path"], *path)
             log.debug("Open file '%s'", filepath)
             deluge.common.open_file(filepath)
 
+    ## The following 3 methods create the folder/file view in the treeview        
+    def prepare_file_store(self, files):
+        split_files = { }
+        i = 0
+        for file in files:
+            self.prepare_file(file, file["path"], i, split_files)
+            i += 1
+        self.add_files(None, split_files)
+
+    def prepare_file(self, file, file_name, file_num, files_storage):
+        first_slash_index = file_name.find("/")
+        if first_slash_index == -1:
+            files_storage[file_name] = (file_num, file)
+        else:
+            file_name_chunk = file_name[:first_slash_index+1]
+            if file_name_chunk not in files_storage:
+                files_storage[file_name_chunk] = { }
+            self.prepare_file(file, file_name[first_slash_index+1:],
+                              file_num, files_storage[file_name_chunk])
+                              
+    def add_files(self, parent_iter, split_files):
+        ret = 0
+        for key,value in split_files.iteritems():
+            if key.endswith("/"):
+                chunk_iter = self.treestore.append(parent_iter,
+                                [key, 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
+                chunk_size = self.add_files(chunk_iter, value)
+                self.treestore.set(chunk_iter, 1, chunk_size)
+                ret += chunk_size
+            else:
+                self.treestore.append(parent_iter, [key,
+                                        value[1]["size"], "", 0, 0, value[0], gtk.STOCK_FILE])
+                ret += value[1]["size"]
+        return ret
+    ###        
+
     def update_files(self):
-        # Updates the filename and size columns based on info in self.files_list
-        # This assumes the list is currently empty.
-        for file in self.files_list[self.torrent_id]:
-            row = self.liststore.append()
-            # Store the torrent id
-            self.liststore.set_value(row, 0, file["path"])
-            self.liststore.set_value(row, 1, file["size"])
-            self.liststore.set_value(row, 5, file["index"])
+        self.prepare_file_store(self.files_list[self.torrent_id])
     
     def get_selected_files(self):
         """Returns a list of file indexes that are selected"""
         selected = []
         paths = self.listview.get_selection().get_selected_rows()[1]
         for path in paths:
-            selected.append(self.liststore.get_value(self.liststore.get_iter(path), 5))
+            selected.append(self.treestore.get_value(self.treestore.get_iter(path), 5))
 
         return selected
-        
+            
     def _on_get_torrent_files(self, status):
         self.files_list[self.torrent_id] = status["files"]
         self.update_files()
         self._on_get_torrent_status(status)
+    
+    def get_files_from_tree(self, rows, files_list, indent):
+        if not rows:
+            return None
+        
+        for row in rows:
+            if row[5] > -1:
+                files_list.append((row[5], row))
+            self.get_files_from_tree(row.iterchildren(), files_list, indent+1)
+        return None
         
     def _on_get_torrent_status(self, status):
-        for index, row in enumerate(self.liststore):
+        # (index, iter)
+        files_list = []
+        self.get_files_from_tree(self.treestore, files_list, 0)
+        files_list.sort()
+        for index, row in files_list:
             row[2] = "%.2f%%" % (status["file_progress"][index] * 100)
             row[3] = status["file_progress"][index] * 100
             row[4] = status["file_priorities"][index]
@@ -314,14 +387,19 @@ class FilesTab(Tab):
         """Sets the file priorities in the core.  It will change the selected
             with the 'priority'"""
         file_priorities = []
-        for row in self.liststore:
-            if row[5] in selected:
-                # This is a row we're modifying
-                file_priorities.append(priority)
-            else:
-                file_priorities.append(row[4])
-                
-        client.set_torrent_file_priorities(self.torrent_id, file_priorities)
+        def set_file_priority(model, path, iter, data):
+            index = model.get_value(iter, 5)
+            if index in selected:
+                file_priorities.append((index, priority))
+            elif index != -1:
+                file_priorities.append((index, model.get_value(iter, 4)))
+
+        self.treestore.foreach(set_file_priority, None)
+        file_priorities.sort()
+        priorities = [p[1] for p in file_priorities]
+        log.debug("priorities: %s", priorities)
+                        
+        client.set_torrent_file_priorities(self.torrent_id, priorities)
         
     def _on_menuitem_donotdownload_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
