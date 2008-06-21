@@ -92,7 +92,9 @@ DEFAULT_PREFS = {
     "autoadd_enable": False,
     "add_paused": False,
     "max_active_seeding": 5,
-    "max_active_downloading": 8,
+    "max_active_downloading": 3,
+    "max_active_limit": 8,
+    "dont_count_slow_torrents": False,
     "queue_new_to_top": False,
     "stop_seed_at_ratio": False,
     "remove_seed_at_ratio": False,
@@ -251,6 +253,10 @@ class Core(
             self._on_set_max_active_downloading)
         self.config.register_set_function("max_active_seeding",
             self._on_set_max_active_seeding)
+        self.config.register_set_function("max_active_limit",
+            self._on_set_max_active_limit)
+        self.config.register_set_function("dont_count_slow_torrents",
+            self._on_set_dont_count_slow_torrents)
 
         self.config.register_change_callback(self._on_config_value_change)
         # Start the AlertManager
@@ -792,3 +798,14 @@ class Core(
         self.settings.active_seeds = value
         self.session.set_settings(self.settings)
 
+    def _on_set_max_active_limit(self, key, value):
+        log.debug("%s set to %s..", key, value)
+        log.debug("active_limit: %s", self.settings.active_limit)
+        self.settings.active_limit = value
+        self.session.set_settings(self.settings)
+        
+    def _on_set_dont_count_slow_torrents(self, key, value):
+        log.debug("%s set to %s..", key, value)
+        self.settings.dont_count_slow_torrents = value
+        self.session.set_settings(self.settings)
+        
