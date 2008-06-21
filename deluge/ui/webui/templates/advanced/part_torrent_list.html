@@ -48,7 +48,12 @@ $for torrent in torrent_list:
             name="pauseresume" value="submit" />
         </form>
        </td>
-    <td>$torrent.queue</td>
+    <td>
+    $if (torrent.queue == -1):
+        &#8734; <!--infinite symbol-->
+    $else:
+        $(torrent.queue + 1)
+    </td>
     <td style="width:100px; overflow:hidden;white-space: nowrap">
         $(crop(torrent.name, 30))</td>
     <td>$fsize(torrent.total_size)</td>

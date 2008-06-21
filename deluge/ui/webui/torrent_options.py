@@ -21,7 +21,7 @@ class TorrentOptionsForm(forms.Form):
     #general
     prioritize_first_last = forms.CheckBox(
         _('Prioritize first and last pieces [TODO!]'))
-    private = forms.CheckBox(_('Private'))
+    #private = forms.CheckBox(_('Private'))
 
 class torrent_options:
     @deco.check_session

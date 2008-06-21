@@ -63,7 +63,12 @@ $fspeed(torrent.download_payload_rate)</td></td></tr>
 <td class="info_value">$torrent.next_announce </td></tr>
 
 <tr><td class="info_label">$_('Queue Position'):</td>
-<td class="info_value">$torrent.queue </td></tr>
+<td class="info_value">
+$if (torrent.queue == -1):
+    &#8734; <!--infinite symbol-->
+$else:
+    $(torrent.queue + 1)
+</td></tr>
 
 <tr><td class="info_label">$_('Allocation'):</td>
 <td class="info_value">

@@ -1,7 +1,7 @@
 $def with (torrent)
 <table width="100%">
 <!--long values-->
-<tr><td>&nbsp;</td></tr>
+<!--<tr><td>&nbsp;</td></tr>-->
 <tr colspan="3">
     <table>
     <tr><td class="info_label">$('Name'):</td>
@@ -20,6 +20,12 @@ $def with (torrent)
     <tr>
     <td class="info_label"><a href="/torrent/move/$torrent.id" target="_top">$('Save Path'):</td>
         <td class="info_value" title="$torrent.save_path">$crop_left(torrent.save_path, 200)</td>
+    </tr>
+
+    <tr>
+    <td class="info_label">$_('Private'):</td>
+        <td class="info_value">$torrent.private</td>
+    </tr>
     </table>
 </tr>
 </table>
