@@ -1,0 +1,3 @@
+?package(deluge-torrent): needs="X11" section="Applications/Network/File Transfer" \
+  title="Deluge BitTorrent Client" longtitle="Bittorrent client written in Python/PyGTK" \
+  command="/usr/bin/deluge" icon="/usr/share/pixmaps/deluge.png"

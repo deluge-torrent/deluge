@@ -1,0 +1,75 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# Dpatch targets
+include /usr/share/dpatch/dpatch.make
+
+# Available python (using debian/pyversions) and destdir
+PYVERS      = 2.5
+DESTDIR     = $(CURDIR)/debian/deluge-torrent
+
+# We need to known the target arch to enable/disable amd64 hack
+ARCH	    = $(shell dpkg-architecture -qDEB_BUILD_ARCH_CPU)
+ARCH64	    = ia64 amd64 alpha kfreebsd-amd64 ppc64
+
+CFLAGS = -Wall -g
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -O2
+endif
+# python-libtorrent need to define AMD64 to work fine on a 64 bits system
+ifneq (,$(findstring $(ARCH),$(ARCH64)))
+	CFLAGS += -DAMD64
+endif
+
+build: patch-stamp $(PYVERS:%=build-stamp%)
+build-stamp%: patch-stamp
+	dh_testdir
+	CFLAGS="$(CFLAGS)" python$* setup.py build
+	touch $@
+
+clean: unpatch
+	dh_testdir
+	dh_testroot
+	rm -rf build/
+	find . -name \*.pyc | xargs rm -f
+	rm -rf build-stamp*
+	dh_clean
+
+install: build install-prereq $(PYVERS:%=install-%) install-finish
+install-prereq:
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+install-%:
+	python$* setup.py install --root=$(DESTDIR) --prefix=/usr --no-compile
+install-finish:
+	# Desktop menu
+	rm -rf $(DESTDIR)/usr/share/applications
+	install -D -m644 $(CURDIR)/deluge/data/share/applications/deluge.desktop $(DESTDIR)/usr/share/applications/deluge.desktop
+
+
+binary-indep: build install
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+	dh_installdocs
+	dh_installmenu
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_pysupport
+	dh_desktop
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install
