@@ -41,7 +41,7 @@ class torrent_options:
         aclient.set_torrent_max_download_speed(torrent.id, options['max_download_speed'])
         aclient.set_torrent_max_upload_slots(torrent.id, options['max_upload_slots'])
         aclient.set_torrent_max_upload_speed(torrent.id, options['max_upload_speed'])
-        aclient.set_torrent_private_flag(torrent.id,  options['private'])
+        #aclient.set_torrent_private_flag(torrent.id,  options['private'])
 
         aclient.force_call()
 

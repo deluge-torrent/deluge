@@ -1,13 +1,13 @@
 $def with (torrent)
 <table width="100%"><tr>
-<td colspan=3 style="background-color:#999;-moz-border-radius:5px;">
+<td colspan=4 style="background-color:#999;-moz-border-radius:5px;">
 
     <div class="progress_bar" style="width:$torrent.progress%;
     text-align:center;font-weight:bold;">
 
     $("%.2f" % torrent.progress) %</div>
 </td>
-</tr><td width=30%%>
+</tr><td width=25%%>
 <table>
 
 <tr><td class="info_label">$_('Downloaded'):</td>
@@ -17,19 +17,19 @@ $def with (torrent)
 <td class="info_value">$fsize(torrent.total_payload_upload)</td>
 </tr>
 
-<tr><td class="info_label">$_('Seeders'):</td>
-<td class="info_value">$torrent.num_seeds  ($torrent.total_seeds )</td></tr>
+
 
 <tr><td class="info_label">$_('Share Ratio'):</td>
 <td class="info_value">$("%.3f" % torrent.ratio)</td></tr>
 
-<tr><td class="info_label">$_('Pieces'):</td>
-<td class="info_value">$torrent.num_pieces  x $fsize(torrent.piece_length) </td>
-</tr>
+<tr><td class="info_label">$_('Next Announce'):</td>
+<td class="info_value">$torrent.next_announce </td></tr>
+
+
 
 
 </table>
-</td><td width=30%>
+</td><td width=25%>
 
 <table>
 <tr><td class="info_label">$_('Speed'):</td><td class="info_value">
@@ -38,29 +38,31 @@ $fspeed(torrent.download_payload_rate)</td></td></tr>
 <tr><td class="info_label">$_('Speed'):</td>
 <td class="info_value">$fspeed(torrent.upload_payload_rate)</td></tr>
 
-<tr><td class="info_label">$_('Peers'):</td>
-<td class="info_value">$torrent.num_peers  ($torrent.total_peers )</td></tr>
 
 <tr><td class="info_label">$_('ETA'):</td>
 <td class="info_value">$ftime(torrent.eta) </td></tr>
 
-<tr><td class="info_label">$_('Availability'):</td>
-<td class="info_value">$("%.3f" % torrent.distributed_copies)</td></td></tr>
+<tr><td class="info_label">$_('Pieces'):</td>
+<td class="info_value">$torrent.num_pieces  x $fsize(torrent.piece_length) </td>
+</tr>
 
 </table>
 
-</td><td width=30%%>
+
+</td><td width=25%%>
 
 <table>
+<tr><td class="info_label">$_('Seeders'):</td>
+<td class="info_value">$torrent.num_seeds  ($torrent.total_seeds )</td></tr>
 
-<tr><td class="info_label">$_('Total Size'):</td>
-<td class="info_value">$fsize(torrent.total_size)</td></tr>
+<tr><td class="info_label">$_('Peers'):</td>
+<td class="info_value">$torrent.num_peers  ($torrent.total_peers )</td></tr>
 
-<tr><td class="info_label">$_('# Of Files'):</td>
-<td class="info_value">$torrent.num_files</td></tr>
+<tr><td class="info_label">$_('Availability'):</td>
+<td class="info_value">$("%.3f" % torrent.distributed_copies)</td></td></tr>
 
-<tr><td class="info_label">$_('Next Announce'):</td>
-<td class="info_value">$torrent.next_announce </td></tr>
+
+
 
 <tr><td class="info_label">$_('Queue Position'):</td>
 <td class="info_value">
@@ -70,6 +72,21 @@ $else:
     $(torrent.queue + 1)
 </td></tr>
 
+
+</table>
+
+</td><td width=25%%>
+<table>
+
+<tr><td class="info_label">$_('Active time'):</td>
+    <td class="info_value">TODO</td>
+</tr>
+<tr><td class="info_label">$_('Seeding time'):</td>
+    <td class="info_value">TODO</td>
+</tr>
+<tr><td class="info_label">$_('Seed rank'):</td>
+    <td class="info_value">TODO</td>
+</tr>
 <tr><td class="info_label">$_('Allocation'):</td>
 <td class="info_value">
 $if torrent.compact:
@@ -78,5 +95,9 @@ $else:
     $_('Full')
 </td></tr>
 
+</table></td>
+
+
 </table>
-</table>
+
+
