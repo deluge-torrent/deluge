@@ -7,7 +7,7 @@
 include /usr/share/dpatch/dpatch.make
 
 # Available python (using debian/pyversions) and destdir
-PYVERS      = 2.4
+PYVERS      = 2.5
 DESTDIR     = $(CURDIR)/debian/deluge-torrent
 
 # We need to known the target arch to enable/disable amd64 hack
