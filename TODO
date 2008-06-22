@@ -1,7 +1,6 @@
 For 0.6 release:
 * Address issue where torrents will redownload if the storage is moved outside
     of deluge.
-* Anonymous stats
 * Update checking
 * Translations
 * Implement 'Classic' mode
