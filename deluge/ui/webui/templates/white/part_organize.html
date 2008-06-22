@@ -43,9 +43,10 @@ $for tracker, num in filters.tracker:
 title="$_('Filter on a keyword')"
 />
 $if get('keyword'):
-    <button onclick="document.getElementById('keyword').value=''" style="padding:0px;position:relative;top:2px">
-    <img src="$base/static/images/tango/edit-clear.png" alt="$_('Clear')">
-    </button>
+    <img src="$base/static/images/tango/edit-clear.png" alt="$_('Clear')"
+    onclick="el('keyword').value='';el('category_form').submit();"
+    >
+    <!--1st button widget is default , i dont want that here, using an image instead :(-->
 
 
 </div>

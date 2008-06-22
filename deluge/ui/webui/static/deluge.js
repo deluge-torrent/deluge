@@ -15,6 +15,9 @@ state = {
 function $(el_id){
 	return document.getElementById(el_id)
 }
+function el(el_id){
+	return document.getElementById(el_id)
+}
 function get_row(id){
 	return $('torrent_' + id);
 }
