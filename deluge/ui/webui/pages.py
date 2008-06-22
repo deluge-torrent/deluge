@@ -144,6 +144,9 @@ reg_torrents_POST("recheck", "force_recheck")
 reg_torrents_POST("reannounce", "force_reannounce")
 reg_torrents_POST("queue/up", "queue_up")
 reg_torrents_POST("queue/down", "queue_down")
+reg_torrents_POST("queue/top", "queue_top")
+reg_torrents_POST("queue/bottom", "queue_bottom")
+
 
 class torrent_info:
     @deco.deluge_page
