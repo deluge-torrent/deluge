@@ -284,14 +284,20 @@ class connect:
     @deco.check_session
     @deco.deluge_page_noauth
     def GET(self, name):
+        restart = False
         try:
             proxy.ping()
             connected = proxy.get_core_uri()
+            if connected.startswith("http://localhost"):
+                restart = True
         except:
             connected = None
 
         connect_list = ["http://localhost:58846"]
-        return render.connect(connect_list, connected)
+        if config.get('daemon') <> "http://localhost:58846":
+            connect_list = [config.get('daemon')] + connect_list
+
+        return render.connect(connect_list, connected ,restart)
 
     def POST(self):
         vars = web.input(uri = None, other_uri = None)

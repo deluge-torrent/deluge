@@ -1,4 +1,4 @@
-$def with (connect_list, connected)
+$def with (connect_list, connected, restart)
 
 $:render.header(_("Connect to Daemon"), 'connect')
 
@@ -12,15 +12,17 @@ $if connected:
     $_('Connected to')
     $connected
     </td><td>
+    &nbsp;
     <form method="POST" action="$base/daemon/control/stop">
     <input type="submit" name="stop"
     value="$_('Stop')">
     </form>
     </td><td>
     <form method="POST" action="$base/daemon/control/restart">
-    <input type="submit" name="restart"
-    value="$_('Restart')">
-    </form>
+    $if restart:
+        <input type="submit" name="restart"
+        value="$_('Restart')">
+        </form>
     </td></tr></table>
 $else:
     <div class="error">$_("Not Connected to a daemon")
