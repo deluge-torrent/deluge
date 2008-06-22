@@ -55,7 +55,7 @@ menu.register_toolbar_item("start",_("Start"), "start.png" ,TB.torrent_list, "PO
 menu.register_toolbar_item("queue_up",_("Queue Up"), "queue-up.png" ,TB.torrent_list, "POST","/torrent/queue/up/", True)
 menu.register_toolbar_item("queue_down",_("Queue Down"), "queue-down.png" ,TB.torrent_list, "POST","/torrent/queue/down/", True)
 menu.register_toolbar_item("queue_top",_("Queue Top"), "go-top.png" ,TB.torrent_list, "POST","/torrent/queue/top/", True)
-menu.register_toolbar_item("queue_bottom",_("Queue Down"), "go-bottom.png" ,TB.torrent_list, "POST","/torrent/queue/bottom/", True)
+menu.register_toolbar_item("queue_bottom",_("Queue Bottom"), "go-bottom.png" ,TB.torrent_list, "POST","/torrent/queue/bottom/", True)
 menu.register_toolbar_item("details",_("Details"), "details.png" ,TB.torrent, "GET","/torrent/info/", True)
 menu.register_toolbar_item("move",_("Move"), "move.png" ,TB.torrent_list,"POST","/torrent/move/", True)
 menu.register_toolbar_item("reannounce",_("Reannounce"), "view-refresh.png" ,TB.torrent_list, "POST","/torrent/reannounce/", False)
