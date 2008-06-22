@@ -59,6 +59,8 @@ from deluge.log import LOG as log
     
 DEFAULT_PREFS = {
     "config_location": deluge.configmanager.get_config_dir(),
+    "send_info": False,
+    "info_sent": 0.0,
     "daemon_port": 58846,
     "allow_remote": False,
     "compact_allocation": False,
@@ -181,6 +183,40 @@ class Core(
                     return result
             SetConsoleCtrlHandler(win_handler)
             
+    def send_info(self):
+        """sends anonymous stats home"""
+        class Send_Info_Thread(threading.Thread):
+            def __init__(self, config):
+                self.config = config
+                threading.Thread.__init__(self)
+            def run(self):
+                import time
+                now = time.time()
+                # check if we've done this within the last week or never
+                if (now - self.config["info_sent"]) >= (60 * 60 * 24 * 7):
+                    import deluge.common
+                    import urllib
+                    import platform
+                    #this is so gtk isnt required in core 
+                    try:
+                        import gtk
+                    except ImportError:
+                        pygtk = None
+                    else:
+                        pygtk = '%i.%i.%i' %(gtk.pygtk_version[0], gtk.pygtk_version[1], gtk.pygtk_version[2])
+    
+                    try:
+                        url = "http://deluge-torrent.org/stats_get.php?processor=" + \
+                            platform.machine() + "&python=" + platform.python_version() \
+                            + "&os=" + platform.system() + "&plugins=" + urllib.quote_plus(self.config["enabled_plugins"]) \
+                            + "&deluge=" + deluge.common.get_version()
+                        urllib.urlopen(url)
+                    except IOError:
+                        print "Network error while trying to send info"
+                    else:
+                        self.config["info_sent"] = now
+        Send_Info_Thread(self.config).start()
+
     def get_request(self):
         """Get the request and client address from the socket.
             We override this so that we can get the ip address of the client.
@@ -268,6 +304,10 @@ class Core(
         # Load plugins
         self.plugins = PluginManager(self)
                 
+        # send stats info
+        if self.config["send_info"]:
+            self.send_info()
+
         # Start the TorrentManager
         self.torrents = TorrentManager(self.session, self.alerts)
         

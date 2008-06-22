@@ -217,6 +217,7 @@ class Preferences(component.Component):
                 "chk_natpmp": ("active", self.core_config["natpmp"]),
                 "chk_utpex": ("active", self.core_config["utpex"]),
                 "chk_lsd": ("active", self.core_config["lsd"]),
+                "chk_send_info": ("active", self.core_config["send_info"]),
                 "combo_encin": ("active", self.core_config["enc_in_policy"]),
                 "combo_encout": ("active", self.core_config["enc_out_policy"]),
                 "combo_enclevel": ("active", self.core_config["enc_level"]),
@@ -331,6 +332,7 @@ class Preferences(component.Component):
                 "chk_natpmp",
                 "chk_utpex",
                 "chk_lsd",
+                "chk_send_info",
                 "combo_encin",
                 "combo_encout",
                 "combo_enclevel",
@@ -386,7 +388,7 @@ class Preferences(component.Component):
             self.gtkui_config["check_new_releases"])
             
         self.glade.get_widget("chk_send_info").set_active(
-            self.gtkui_config["send_info"])
+            self.core_config["send_info"])
         
         ## Plugins tab ##
         all_plugins = self.all_plugins
@@ -520,7 +522,7 @@ class Preferences(component.Component):
         new_gtkui_config["check_new_releases"] = \
             self.glade.get_widget("chk_new_releases").get_active()
             
-        new_gtkui_config["send_info"] = \
+        new_core_config["send_info"] = \
             self.glade.get_widget("chk_send_info").get_active()
 
         ## Daemon tab ##
