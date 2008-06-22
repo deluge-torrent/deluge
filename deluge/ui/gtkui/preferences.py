@@ -386,9 +386,6 @@ class Preferences(component.Component):
         ## Other tab ##
         self.glade.get_widget("chk_new_releases").set_active(
             self.gtkui_config["check_new_releases"])
-            
-        self.glade.get_widget("chk_send_info").set_active(
-            self.core_config["send_info"])
         
         ## Plugins tab ##
         all_plugins = self.all_plugins
