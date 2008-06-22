@@ -182,42 +182,6 @@ class Core(
                     result = 1
                     return result
             SetConsoleCtrlHandler(win_handler)
-            
-    def send_info(self):
-        """sends anonymous stats home"""
-        class Send_Info_Thread(threading.Thread):
-            def __init__(self, config):
-                self.config = config
-                threading.Thread.__init__(self)
-            def run(self):
-                import time
-                now = time.time()
-                # check if we've done this within the last week or never
-                if (now - self.config["info_sent"]) >= (60 * 60 * 24 * 7):
-                    import deluge.common
-                    import urllib
-                    import platform
-                    #this is so gtk isnt required in core 
-                    try:
-                        import gtk
-                    except ImportError:
-                        pygtk = None
-                    else:
-                        pygtk = '%i.%i.%i' %(gtk.pygtk_version[0], gtk.pygtk_version[1], gtk.pygtk_version[2])
-    
-                    try:
-                        url = "http://deluge-torrent.org/stats_get.php?processor=" + \
-                            platform.machine() + "&python=" + platform.python_version() \
-                            + "&deluge=" + deluge.common.get_version() \
-                            + "&pygtk=" + pygtk \
-                            + "&os=" + platform.system() \
-                            + "&plugins=" + urllib.quote_plus(self.config["enabled_plugins"])
-                        urllib.urlopen(url)
-                    except IOError:
-                        print "Network error while trying to send info"
-                    else:
-                        self.config["info_sent"] = now
-        Send_Info_Thread(self.config).start()
 
     def get_request(self):
         """Get the request and client address from the socket.
@@ -295,6 +259,8 @@ class Core(
             self._on_set_max_active_limit)
         self.config.register_set_function("dont_count_slow_torrents",
             self._on_set_dont_count_slow_torrents)
+        self.config.register_set_function("send_info",
+            self._on_send_info)
 
         self.config.register_change_callback(self._on_config_value_change)
         # Start the AlertManager
@@ -305,10 +271,6 @@ class Core(
 
         # Load plugins
         self.plugins = PluginManager(self)
-                
-        # send stats info
-        if self.config["send_info"]:
-            self.send_info()
 
         # Start the TorrentManager
         self.torrents = TorrentManager(self.session, self.alerts)
@@ -366,7 +328,7 @@ class Core(
             self.gnome_client.disconnect()
         except:
             pass
-        
+
     # Exported Methods
     def export_ping(self):
         """A method to see if the core is running"""
@@ -850,4 +812,31 @@ class Core(
         log.debug("%s set to %s..", key, value)
         self.settings.dont_count_slow_torrents = value
         self.session.set_settings(self.settings)
-        
+
+    def _on_send_info(self):
+        log.debug("Sending anonymous stats..")
+        """sends anonymous stats home"""
+        class Send_Info_Thread(threading.Thread):
+            def __init__(self, config):
+                self.config = config
+                threading.Thread.__init__(self)
+            def run(self):
+                import time
+                now = time.time()
+                # check if we've done this within the last week or never
+                if (now - self.config["info_sent"]) >= (60 * 60 * 24 * 7):
+                    import deluge.common
+                    import urllib
+                    import platform
+                    try:
+                        url = "http://deluge-torrent.org/stats_get.php?processor=" + \
+                            platform.machine() + "&python=" + platform.python_version() \
+                            + "&deluge=" + deluge.common.get_version() \
+                            + "&os=" + platform.system() \
+                            + "&plugins=" + urllib.quote_plus(self.config["enabled_plugins"])
+                        urllib.urlopen(url)
+                    except IOError, e:
+                        log.debug("Network error while trying to send info: %s", e)
+                    else:
+                        self.config["info_sent"] = now
+        Send_Info_Thread(self.config).start()
