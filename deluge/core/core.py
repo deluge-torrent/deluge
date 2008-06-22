@@ -208,8 +208,10 @@ class Core(
                     try:
                         url = "http://deluge-torrent.org/stats_get.php?processor=" + \
                             platform.machine() + "&python=" + platform.python_version() \
-                            + "&os=" + platform.system() + "&plugins=" + urllib.quote_plus(self.config["enabled_plugins"]) \
-                            + "&deluge=" + deluge.common.get_version()
+                            + "&deluge=" + deluge.common.get_version() \
+                            + "&pygtk=" + pygtk \
+                            + "&os=" + platform.system() \
+                            + "&plugins=" + urllib.quote_plus(self.config["enabled_plugins"])
                         urllib.urlopen(url)
                     except IOError:
                         print "Network error while trying to send info"
