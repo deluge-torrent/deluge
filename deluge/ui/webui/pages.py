@@ -296,10 +296,11 @@ class connect:
     def POST(self):
         vars = web.input(uri = None, other_uri = None)
         uri = ''
-        if vars.uri == 'other_uri':
-            if not vars.other:
+        print "URI=",uri
+        if vars.uri == 'other':
+            if not vars.other_uri:
                 return error_page(_("no uri"))
-            uri = vars.other
+            uri = vars.other_uri
         else:
             uri = vars.uri
         #TODO: more error-handling

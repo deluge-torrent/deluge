@@ -228,7 +228,7 @@ div.progress_bar{
 
 
 td.info_label {
-		width:100px;
+		/*width:80px;*/
 }
 
 #torrent_tab tr.head {

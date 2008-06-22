@@ -23,7 +23,7 @@ $def with (torrent_list, organize_filters)
 
 </td><td>
 
-</td><td align="right" width="320px">
+</td><td align="right" width="450px">
     $:part_stats()
 </td></tr></table>
 
@@ -34,8 +34,7 @@ $if organize_filters:
     $:render.part_organize(organize_filters)
 
 
-
-<table id="torrent_list_block" width="70%">
+<table id="torrent_list_block" width="80%">
 <tr><td>
     <div id="toolbar">
     $:render.part_toolbar()
@@ -50,13 +49,12 @@ $if organize_filters:
 </td></tr>
 </table>
 
-<div class="panel" id="info_panel_div" style="width:740px;">
+<div class="panel" id="info_panel_div" style="width:740px;margin-left:180px">
     <iframe
     style="border-style:hidden;width:740px;height:200px;"
     id="torrent_info">
     </iframe>
 </div>
-
 
 
 <br />

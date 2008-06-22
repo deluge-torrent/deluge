@@ -285,7 +285,10 @@ def set_config_defaults():
 def apply_config():
     #etc, mostly for apache:
     from render import render
-    sclient.set_core_uri(config.get('daemon'))
+    try:
+        sclient.set_core_uri(config.get('daemon'))
+    except:
+        print "error setting core uri:",config.get('daemon')
     render.set_global('base', config.get('base'))
     render.apply_cfg()
 

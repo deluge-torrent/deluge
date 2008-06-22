@@ -43,7 +43,6 @@ config_page = component.get("ConfigPageManager")
 
 class NetworkPorts(config_forms.CfgForm ):
     title = _("Ports")
-    info = _("Restart daemon after changing these values.")
     _port_from =  forms.IntegerField(label= _("From"),min_value = 0, max_value=65535)
     _port_to = forms.IntegerField(label = _("To"),min_value = 0, max_value=65535)
     random_port = forms.CheckBox(label = _("Random"))
