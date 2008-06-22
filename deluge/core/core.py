@@ -813,7 +813,7 @@ class Core(
         self.settings.dont_count_slow_torrents = value
         self.session.set_settings(self.settings)
 
-    def _on_send_info(self):
+    def _on_send_info(self, key, value):
         log.debug("Sending anonymous stats..")
         """sends anonymous stats home"""
         class Send_Info_Thread(threading.Thread):
@@ -839,4 +839,5 @@ class Core(
                         log.debug("Network error while trying to send info: %s", e)
                     else:
                         self.config["info_sent"] = now
-        Send_Info_Thread(self.config).start()
+        if value:
+            Send_Info_Thread(self.config).start()
