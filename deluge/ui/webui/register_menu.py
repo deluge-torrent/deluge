@@ -59,4 +59,4 @@ menu.register_toolbar_item("queue_bottom",_("Queue Down"), "go-bottom.png" ,TB.t
 menu.register_toolbar_item("details",_("Details"), "details.png" ,TB.torrent, "GET","/torrent/info/", True)
 menu.register_toolbar_item("move",_("Move"), "move.png" ,TB.torrent_list,"POST","/torrent/move/", True)
 menu.register_toolbar_item("reannounce",_("Reannounce"), "view-refresh.png" ,TB.torrent_list, "POST","/torrent/reannounce/", False)
-menu.register_toolbar_item("recheck",_("Recheck"), "view-refresh.png" ,TB.torrent_list, "POST","/torrent/recheck/", False)
+menu.register_toolbar_item("recheck",_("Recheck"), "edit-redo.png" ,TB.torrent_list, "POST","/torrent/recheck/", False)
