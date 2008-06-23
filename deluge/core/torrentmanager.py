@@ -65,7 +65,10 @@ class TorrentState:
             file_priorities=None,
             queue=None,
             auto_managed=None,
-            is_finished=False
+            is_finished=False,
+            stop_ratio=2.00,
+            stop_at_ratio=False,
+            remove_at_ratio=True
         ):
         self.torrent_id = torrent_id
         self.filename = filename
@@ -85,6 +88,9 @@ class TorrentState:
         self.prioritize_first_last = prioritize_first_last
         self.file_priorities = file_priorities
         self.auto_managed = auto_managed
+        self.stop_ratio = stop_ratio
+        self.stop_at_ratio = stop_at_ratio
+        self.remove_at_ratio = remove_at_ratio
 
 class TorrentManagerState:
     def __init__(self):
@@ -158,13 +164,14 @@ class TorrentManager(component.Component):
         self.alerts.handle_alerts(True)
                         
     def update(self):
-        if self.config["stop_seed_at_ratio"]:
-            for torrent in self.torrents:
-                if torrent.get_ratio() >= self.config["stop_seed_ratio"] and torrent.is_finished:
+        for torrent in self.torrents:
+            if self.config["stop_seed_at_ratio"] or torrent.stop_at_ratio:
+                if (torrent.get_ratio() >= self.config["stop_seed_ratio"] or\
+                         torrent.get_ratio() > torrent.stop_ratio) and torrent.is_finished:
                     torrent.pause()
-                    if self.config["remove_seed_at_ratio"]:
+                    if self.config["remove_seed_at_ratio"] or torrent.remove_at_ratio:
                         self.remove(torrent.torrent_id)
-                        
+
     def __getitem__(self, torrent_id):
         """Return the Torrent with torrent_id"""
         return self.torrents[torrent_id]
@@ -504,7 +511,10 @@ class TorrentManager(component.Component):
                 torrent.file_priorities,
                 torrent.get_queue_position(),
                 torrent.auto_managed,
-                torrent.is_finished
+                torrent.is_finished,
+                torrent.stop_ratio,
+                torrent.stop_at_ratio,
+                torrent.remove_at_ratio
             )
             state.torrents.append(torrent_state)
         

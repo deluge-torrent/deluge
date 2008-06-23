@@ -84,6 +84,16 @@ class MenuBar(component.Component):
             submenu.show_all()
             self.torrentmenu_glade.get_widget(menuitem).set_submenu(submenu)
         
+        submenu = gtk.Menu()
+        item = gtk.MenuItem(_("On"))
+        item.connect("activate", self.on_menuitem_set_automanaged_on)
+        submenu.append(item)
+        item = gtk.MenuItem(_("Off"))
+        item.connect("activate", self.on_menuitem_set_automanaged_off)
+        submenu.append(item)
+        submenu.show_all()
+        self.torrentmenu_glade.get_widget("menuitem_auto_managed").set_submenu(submenu)
+        
         self.torrentmenu = self.torrentmenu_glade.get_widget("torrent_menu")
         self.menu_torrent = self.window.main_glade.get_widget("menu_torrent")
         
@@ -422,3 +432,10 @@ class MenuBar(component.Component):
             for torrent in component.get("TorrentView").get_selected_torrents():
                 funcs[widget.name](torrent, value)        
 
+    def on_menuitem_set_automanaged_on(self, widget):
+        for torrent in component.get("TorrentView").get_selected_torrents():
+            client.set_torrent_auto_managed(torrent, True)
+
+    def on_menuitem_set_automanaged_off(self, widget):
+        for torrent in component.get("TorrentView").get_selected_torrents():
+            client.set_torrent_auto_managed(torrent, False)

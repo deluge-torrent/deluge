@@ -306,6 +306,13 @@
         </child>
       </widget>
     </child>
+    <child>
+      <widget class="GtkMenuItem" id="menuitem_auto_managed">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">_Auto Managed</property>
+        <property name="use_underline">True</property>
+      </widget>
+    </child>
   </widget>
   <widget class="GtkMenu" id="queue_torrent_menu">
     <property name="visible">True</property>

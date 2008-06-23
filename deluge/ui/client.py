@@ -164,7 +164,9 @@ class BaseClient(object):
             "block_ip_range", "remove_torrent", "pause_torrent", "move_storage",
             "resume_torrent", "force_reannounce", "force_recheck",
             "deregister_client", "register_client", "add_torrent_file",
-            "set_torrent_prioritize_first_last"]
+            "set_torrent_prioritize_first_last", "set_torrent_auto_managed",
+            "set_torrent_stop_ratio", "set_torrent_stop_at_ratio",
+            "set_torrent_remove_at_ratio"]
 
     def __init__(self):
         self.core = _core

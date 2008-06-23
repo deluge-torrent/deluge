@@ -75,7 +75,9 @@ class Torrent:
         self.total_uploaded = 0
         
         # Set default auto_managed value
-        self.set_auto_managed(options["auto_managed"])
+        self.auto_managed = options["auto_managed"]
+        if not handle.is_paused():
+            handle.auto_managed(self.auto_managed)
 
         # We need to keep track if the torrent is finished in the state to prevent
         # some weird things on state load.
@@ -90,6 +92,10 @@ class Torrent:
             # Set the filename
             self.filename = state.filename
             self.is_finished = state.is_finished
+            # Set the per-torrent queue options
+            self.set_stop_at_ratio(state.stop_at_ratio)
+            self.set_stop_ratio(state.stop_ratio)
+            self.set_remove_at_ratio(state.remove_at_ratio)
         else:    
             # Tracker list
             self.trackers = []
@@ -160,14 +166,22 @@ class Torrent:
     
     def set_auto_managed(self, auto_managed):
         self.auto_managed = auto_managed
-        if not self.handle.is_paused():
-            self.handle.auto_managed(auto_managed)
-        
+        self.handle.auto_managed(auto_managed)
+        self.update_state()
+    
+    def set_stop_ratio(self, stop_ratio):
+        self.stop_ratio = stop_ratio
+    
+    def set_stop_at_ratio(self, stop_at_ratio):
+        self.stop_at_ratio = stop_at_ratio
+    
+    def set_remove_at_ratio(self, remove_at_ratio):
+        self.remove_at_ratio = remove_at_ratio
+            
     def set_file_priorities(self, file_priorities):
         log.debug("setting %s's file priorities: %s", self.torrent_id, file_priorities)
         self.handle.prioritize_files(file_priorities)
 
-        # XXX: I don't think this is needed anymore since we have torrent_resumed alert
         if 0 in self.file_priorities:
             # We have previously marked a file 'Do Not Download'
             # Check to see if we have changed any 0's to >0 and change state accordingly
@@ -390,7 +404,10 @@ class Torrent:
             "active_time": self.status.active_time,
             "seeding_time": self.status.seeding_time,
             "seed_rank": self.status.seed_rank,
-            "is_auto_managed": self.auto_managed
+            "is_auto_managed": self.auto_managed,
+            "stop_ratio": self.stop_ratio,
+            "stop_at_ratio": self.stop_at_ratio,
+            "remove_at_ratio": self.remove_at_ratio
         }
         
         fns = {

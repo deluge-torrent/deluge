@@ -234,7 +234,7 @@ class TorrentDetails(component.Component):
         if len(component.get("TorrentView").get_selected_torrents()) == 0:
             # No torrents selected, so just clear
             self.clear()
-            
+        
         if self.notebook.get_property("visible"):
             if page_num == None:
                 page_num = self.notebook.get_current_page()
@@ -244,6 +244,7 @@ class TorrentDetails(component.Component):
             except IndexError:
                 return
             # Update the tab that is in view
+            log.debug("tab_name: %s", name)
             self.tabs[name].update()
                     
     def clear(self):

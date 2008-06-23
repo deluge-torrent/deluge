@@ -49,6 +49,10 @@ class OptionsTab(Tab):
         self.spin_max_upload_slots = glade.get_widget("spin_max_upload_slots")
         self.chk_private = glade.get_widget("chk_private")
         self.chk_prioritize_first_last = glade.get_widget("chk_prioritize_first_last")
+        self.chk_auto_managed = glade.get_widget("chk_auto_managed")
+        self.chk_stop_at_ratio = glade.get_widget("chk_stop_at_ratio")
+        self.chk_remove_at_ratio = glade.get_widget("chk_remove_at_ratio")
+        self.spin_stop_ratio = glade.get_widget("spin_stop_ratio")
         
         self.prev_torrent_id = None
         self.prev_status = None
@@ -78,19 +82,24 @@ class OptionsTab(Tab):
             "max_connections",
             "max_upload_slots",
             "private",
-            "prioritize_first_last"])
+            "prioritize_first_last",
+            "is_auto_managed",
+            "stop_at_ratio",
+            "stop_ratio",
+            "remove_at_ratio"])
         self.prev_torrent_id = torrent_id
 
     def clear(self):
-        pass
+        self.prev_torrent_id = None
+        self.prev_status = None
             
     def _on_get_torrent_status(self, status):
         # We only want to update values that have been applied in the core.  This
         # is so we don't overwrite the user changes that haven't been applied yet.
         if self.prev_status == None:
             self.prev_status = {}.fromkeys(status.keys(), None)
-            
-        if status != self.prev_status and status.keys() == self.prev_status.keys():
+        
+        if status != self.prev_status:
             if status["max_download_speed"] != self.prev_status["max_download_speed"]:
                 self.spin_max_download.set_value(status["max_download_speed"])
             if status["max_upload_speed"] != self.prev_status["max_upload_speed"]:
@@ -103,6 +112,15 @@ class OptionsTab(Tab):
                 self.chk_private.set_active(status["private"])
             if status["prioritize_first_last"] != self.prev_status["prioritize_first_last"]:
                 self.chk_prioritize_first_last.set_active(status["prioritize_first_last"])
+            if status["is_auto_managed"] != self.prev_status["is_auto_managed"]:
+                self.chk_auto_managed.set_active(status["is_auto_managed"])
+            if status["stop_at_ratio"] != self.prev_status["stop_at_ratio"]:
+                self.chk_stop_at_ratio.set_active(status["stop_at_ratio"])
+            if status["stop_ratio"] != self.prev_status["stop_ratio"]:
+                self.spin_stop_ratio.set_value(status["stop_ratio"])
+            if status["remove_at_ratio"] != self.prev_status["remove_at_ratio"]:
+                self.chk_remove_at_ratio.set_active(status["remove_at_ratio"])
+                
             self.prev_status = status
         
     def _on_button_apply_clicked(self, button):
@@ -116,6 +134,15 @@ class OptionsTab(Tab):
             client.set_torrent_max_upload_slots(self.prev_torrent_id, self.spin_max_upload_slots.get_value_as_int())
         if self.chk_prioritize_first_last.get_active() != self.prev_status["prioritize_first_last"]:
             client.set_torrent_prioritize_first_last(self.prev_torrent_id, self.chk_prioritize_first_last.get_active())
+        if self.chk_auto_managed.get_active() != self.prev_status["is_auto_managed"]:
+            client.set_torrent_auto_managed(self.prev_torrent_id, self.chk_auto_managed.get_active())
+        if self.chk_stop_at_ratio.get_active() != self.prev_status["stop_at_ratio"]:
+            client.set_torrent_stop_at_ratio(self.prev_torrent_id, self.chk_stop_at_ratio.get_active())
+        if self.spin_stop_ratio.get_value() != self.prev_status["stop_ratio"]:
+            client.set_torrent_stop_ratio(self.prev_torrent_id, self.spin_stop_ratio.get_value())
+        if self.chk_remove_at_ratio.get_active() != self.prev_status["remove_at_ratio"]:
+            client.set_torrent_remove_at_ratio(self.prev_torrent_id, self.chk_remove_at_ratio.get_active())
+        
             
     def _on_button_edit_trackers_clicked(self, button):
         from edittrackersdialog import EditTrackersDialog

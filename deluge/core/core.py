@@ -562,6 +562,22 @@ class Core(
     def export_set_torrent_prioritize_first_last(self, torrent_id, value):
         """Sets a higher priority to the first and last pieces"""
         return self.torrents[torrent_id].set_prioritize_first_last(value)
+    
+    def export_set_torrent_auto_managed(self, torrent_id, value):
+        """Sets the auto managed flag for queueing purposes"""
+        return self.torrents[torrent_id].set_auto_managed(value)
+        
+    def export_set_torrent_stop_at_ratio(self, torrent_id, value):
+        """Sets the torrent to stop at 'stop_ratio'"""
+        return self.torrents[torrent_id].set_stop_at_ratio(value)
+    
+    def export_set_torrent_stop_ratio(self, torrent_id, value):
+        """Sets the ratio when to stop a torrent if 'stop_at_ratio' is set"""
+        return self.torrents[torrent_id].set_stop_ratio(value)
+    
+    def export_set_torrent_remove_at_ratio(self, torrent_id, value):
+        """Sets the torrent to be removed at 'stop_ratio'"""
+        return self.torrents[torrent_id].set_remove_at_ratio(value)
         
     def export_block_ip_range(self, range):
         """Block an ip range"""
