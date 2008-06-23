@@ -132,6 +132,10 @@ class GtkUI:
         # Make sure gtkui.conf has at least the defaults set
         self.config = deluge.configmanager.ConfigManager("gtkui.conf", DEFAULT_PREFS)
 
+        # We need to check on exit if it was started in classic mode to ensure we
+        # shutdown the daemon.
+        self.started_in_classic = self.config["classic_mode"]
+        
         # Start the Dbus Interface before anything else.. Just in case we are
         # already running.
         self.queuedtorrents = QueuedTorrents()
@@ -184,6 +188,8 @@ class GtkUI:
         
         # Shutdown all components
         component.shutdown()
+        if self.started_in_classic:
+            client.shutdown()
 
     def _on_new_core(self, data):
         component.start()

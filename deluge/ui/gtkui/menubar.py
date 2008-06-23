@@ -36,6 +36,7 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import pkg_resources
 
+import deluge.error
 import deluge.component as component
 from deluge.ui.client import aclient as client
 import deluge.common as common
@@ -222,7 +223,10 @@ class MenuBar(component.Component):
     def on_menuitem_quit_activate(self, data=None):
         log.debug("on_menuitem_quit_activate")
         if self.config["classic_mode"]:
-            client.shutdown()
+            try:
+                client.shutdown()
+            except deluge.error.NoCoreError:
+                pass
         self.window.quit()
     
     ## Edit Menu ##
