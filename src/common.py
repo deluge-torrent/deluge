@@ -32,7 +32,7 @@ import os
 import xdg.BaseDirectory
 
 PROGRAM_NAME = "Deluge"
-PROGRAM_VERSION = "0.5.9.2"
+PROGRAM_VERSION = "0.5.9.3"
 
 CLIENT_CODE = "DE"
 CLIENT_VERSION = "".join(PROGRAM_VERSION.split('.'))+"0"*(4 - len(PROGRAM_VERSION.split('.')))
@@ -213,7 +213,7 @@ def exec_command(executable, *parameters):
 def send_info(plugins=None):
     import threading
     class Send_Info_Thread(threading.Thread):
-       def __init__(self):
+       def __init__(self, plugins):
            threading.Thread.__init__(self)
        def run(self):
            import urllib
@@ -223,7 +223,6 @@ def send_info(plugins=None):
            import common
 
            pygtk = '%i.%i.%i' %(gtk.pygtk_version[0],gtk.pygtk_version[1],gtk.pygtk_version[2])
-
            try:
                url = "http://deluge-torrent.org/stats_get.php?processor=" + \
                    platform.machine() + "&python=" + platform.python_version() \
@@ -237,7 +236,7 @@ def send_info(plugins=None):
                f = open(os.path.join(CONFIG_DIR, 'infosent'), 'w')
                f.write("")
                f.close
-    Send_Info_Thread().start()
+    Send_Info_Thread(plugins).start()
 
 # Encryption States
 class EncState:
