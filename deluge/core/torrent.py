@@ -82,7 +82,12 @@ class Torrent:
         # We need to keep track if the torrent is finished in the state to prevent
         # some weird things on state load.
         self.is_finished = False
-                
+        
+        # Queueing options
+        self.stop_at_ratio = False
+        self.stop_ratio = 2.00
+        self.remove_at_ratio = False
+               
         # Load values from state if we have it
         if state is not None:
             # This is for saving the total uploaded between sessions

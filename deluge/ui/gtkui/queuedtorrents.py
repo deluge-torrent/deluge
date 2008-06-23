@@ -81,7 +81,7 @@ class QueuedTorrents(component.Component):
         if len(self.queue) == 0:
             return
 
-        if self.config["autoadd_queued"]:
+        if self.config["autoadd_queued"] or self.config["classic_mode"]:
             self.on_button_add_clicked(None)
             return
         # Make sure status bar info is showing
