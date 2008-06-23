@@ -154,8 +154,8 @@ class TorrentManager(component.Component):
         self.save_state()
         for key in self.torrents.keys():
             self.torrents[key].handle.pause()
-            # Wait for all alerts
-            self.alerts.handle_alerts(True)
+        # Wait for all alerts
+        self.alerts.handle_alerts(True)
                         
     def update(self):
         if self.config["stop_seed_at_ratio"]:
