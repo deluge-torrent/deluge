@@ -382,6 +382,8 @@ class Preferences(component.Component):
             self.gtkui_config["start_in_tray"])
         self.glade.get_widget("chk_lock_tray").set_active(
             self.gtkui_config["lock_tray"])
+        self.glade.get_widget("chk_classic_mode").set_active(
+            self.gtkui_config["classic_mode"])
 
         ## Other tab ##
         self.glade.get_widget("chk_new_releases").set_active(
@@ -514,6 +516,8 @@ class Preferences(component.Component):
             .hexdigest()
         if passhex != "c07eb5a8c0dc7bb81c217b67f11c3b7a5e95ffd7":
             new_gtkui_config["tray_password"] = passhex
+        new_gtkui_config["classic_mode"] = \
+            self.glade.get_widget("chk_classic_mode").get_active()
         
         ## Other tab ##    
         new_gtkui_config["check_new_releases"] = \

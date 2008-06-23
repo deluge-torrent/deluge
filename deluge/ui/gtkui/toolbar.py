@@ -40,6 +40,7 @@ import deluge.component as component
 from deluge.log import LOG as log
 from deluge.common import TORRENT_STATE
 from deluge.ui.client import aclient as client
+from deluge.configmanager import ConfigManager
 
 class ToolBar(component.Component):
     def __init__(self):
@@ -47,6 +48,7 @@ class ToolBar(component.Component):
         log.debug("ToolBar Init..")
         self.window = component.get("MainWindow")
         self.toolbar = self.window.main_glade.get_widget("toolbar")
+        self.config = ConfigManager("gtkui.conf")
         ### Connect Signals ###
         self.window.main_glade.signal_autoconnect({
             "on_toolbutton_add_clicked": self.on_toolbutton_add_clicked,
@@ -73,6 +75,9 @@ class ToolBar(component.Component):
         tb_remove = self.window.main_glade.get_widget("toolbutton_remove")
         tb_remove.set_menu(
             component.get("MenuBar").torrentmenu_glade.get_widget("remove_torrent_menu"))
+
+        if self.config["classic_mode"]:
+            self.window.main_glade.get_widget("toolbutton_connectionmanager").hide()
 
     def start(self):
         for widget in self.change_sensitivity:

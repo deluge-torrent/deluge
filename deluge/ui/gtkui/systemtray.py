@@ -77,6 +77,7 @@ class SystemTray(component.Component):
         self.tray_glade = gtk.glade.XML(
             pkg_resources.resource_filename("deluge.ui.gtkui", 
                                             "glade/tray_menu.glade"))
+
         try:
             self.tray = gtk.status_icon_new_from_icon_name("deluge")
         except:
@@ -107,6 +108,12 @@ class SystemTray(component.Component):
             deluge.common.get_pixmap("downloading16.png"))
         self.tray_glade.get_widget("upload-limit-image").set_from_file(
             deluge.common.get_pixmap("seeding16.png"))
+
+        if self.config["classic_mode"]:
+            self.hide_widget_list.remove("menuitem_quitdaemon")
+            self.hide_widget_list.remove("separatormenuitem4")
+            self.tray_glade.get_widget("menuitem_quitdaemon").hide()
+            self.tray_glade.get_widget("separatormenuitem4").hide()
         
         if client.get_core_uri() == None:
         # Hide menu widgets because we're not connected to a host.
@@ -232,16 +239,14 @@ class SystemTray(component.Component):
     
     def on_tray_clicked(self, icon):
         """Called when the tray icon is left clicked."""
-        if self.window.visible():
-            if self.window.active():
-                self.window.hide()
-            else:
-                self.window.present()
+        if self.config["lock_tray"]:
+            if not self.unlock_tray():
+                return
+
+        if self.window.active():
+            self.window.hide()
         else:
-            if self.config["lock_tray"] == True:
-                self.unlock_tray("mainwinshow")
-            else:
-                self.window.show()
+            self.window.present()
     
     def on_tray_popup(self, status_icon, button, activate_time):
         """Called when the tray icon is right clicked."""
@@ -256,10 +261,10 @@ class SystemTray(component.Component):
     def on_menuitem_show_deluge_activate(self, menuitem):
         log.debug("on_menuitem_show_deluge_activate")
         if menuitem.get_active() and not self.window.visible():
-            if self.config["lock_tray"] == True:
-                self.unlock_tray("mainwinshow")
-            else:
-                self.window.show()
+            if self.config["lock_tray"]:
+                if not self.unlock_tray():
+                    return
+            self.window.present()
         elif not menuitem.get_active() and self.window.visible():
             self.window.hide()
         
@@ -278,25 +283,23 @@ class SystemTray(component.Component):
         
     def on_menuitem_quit_activate(self, menuitem):
         log.debug("on_menuitem_quit_activate")
-        if self.window.visible():
-            self.window.quit()
-        else:
-            if self.config["lock_tray"] == True:
-                self.unlock_tray("quitui")
-            else:
-                self.window.quit()
+        if self.config["lock_tray"]:
+            if not self.unlock_tray():
+                return
 
+        if self.config["classic_mode"]:
+            client.shutdown()
+
+        self.window.quit()
+        
     def on_menuitem_quitdaemon_activate(self, menuitem):
         log.debug("on_menuitem_quitdaemon_activate")
-        if self.window.visible():
-            self.window.quit()
-            client.shutdown()
-        else:
-            if self.config["lock_tray"] == True:
-                self.unlock_tray("quitdaemon")
-            else:
-                self.window.quit()
-                client.shutdown()
+        if self.config["lock_tray"]:
+            if not self.unlock_tray():
+                return
+
+        client.shutdown()
+        self.window.quit()
         
     def tray_setbwdown(self, widget, data=None):    
         self.setbwlimit(widget, _("Download"), "max_download_speed", 
@@ -328,6 +331,8 @@ class SystemTray(component.Component):
     def unlock_tray(self, comingnext, is_showing_dlg=[False]):
         import sha
         log.debug("Show tray lock dialog")
+        result = False
+        
         if is_showing_dlg[0]:
             return
         is_showing_dlg[0] = True
@@ -353,18 +358,9 @@ window, please enter your password"))
         if tray_lock.run() == gtk.RESPONSE_ACCEPT:
             if self.config["tray_password"] == sha.new(entered_pass.get_text())\
                 .hexdigest():
-                if comingnext == "mainwinshow":
-                    log.debug("Showing main window via tray")
-                    self.window.show()
-                elif comingnext == "quitdaemon":
-                    client.shutdown()
-                    self.window.hide()
-                    self.window.quit()
-                elif comingnext == "quitui":
-                    log.debug("Quiting UI via tray")
-                    self.window.hide()
-                    self.window.quit()
+                result = True
         tray_lock.destroy()
         is_showing_dlg[0] = False
-        return True
+        
+        return result
 

@@ -96,7 +96,8 @@ DEFAULT_PREFS = {
     "autoadd_queued": False,
     "autoadd_enable": False,
     "autoadd_location": "",
-    "choose_directory_dialog_path": deluge.common.get_default_download_dir()
+    "choose_directory_dialog_path": deluge.common.get_default_download_dir(),
+    "classic_mode": False
 }
 
 class GtkUI:
@@ -164,7 +165,7 @@ class GtkUI:
         
         # Show the connection manager
         self.connectionmanager = ConnectionManager()
-        if self.config["show_connection_manager_on_start"]:
+        if self.config["show_connection_manager_on_start"] and not self.config["classic_mode"]:
             self.connectionmanager.show()
                 
         # Start the gtk main loop

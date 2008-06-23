@@ -57,6 +57,7 @@ class MainWindow(component.Component):
         self.window = self.main_glade.get_widget("main_window")
         self.window.set_icon(deluge.common.get_logo(32))
         self.vpaned = self.main_glade.get_widget("vpaned")
+        
         # Load the window state
         self.load_window_state()
         
@@ -88,10 +89,18 @@ class MainWindow(component.Component):
     def hide(self):
         component.pause("TorrentView")
         component.pause("StatusBar")
+        # Store the x, y positions for when we restore the window
+        self.window_x_pos = self.window.get_position()[0]
+        self.window_y_pos = self.window.get_position()[1]
         self.window.hide()
-    
+            
     def present(self):
+        # Restore the proper x,y coords for the window prior to showing it
+        self.config["window_x_pos"] = self.window_x_pos
+        self.config["window_y_pos"] = self.window_y_pos
+       
         self.window.present()
+        self.load_window_state()
     
     def active(self):
         """Returns True if the window is active, False if not."""
@@ -122,7 +131,7 @@ class MainWindow(component.Component):
             self.config["window_height"] - self.config["window_pane_position"])
             
     def on_window_configure_event(self, widget, event):
-        if self.config["window_maximized"] == False:
+        if self.config["window_maximized"] == False and self.visible:
             self.config.set("window_x_pos", self.window.get_position()[0])
             self.config.set("window_y_pos", self.window.get_position()[1])
             self.config.set("window_width", event.width)
@@ -131,6 +140,7 @@ class MainWindow(component.Component):
     def on_window_state_event(self, widget, event):
         if event.changed_mask & gtk.gdk.WINDOW_STATE_MAXIMIZED:
             if event.new_window_state & gtk.gdk.WINDOW_STATE_MAXIMIZED:
+                log.debug("pos: %s", self.window.get_position())
                 self.config.set("window_maximized", True)
             else:
                 self.config.set("window_maximized", False)

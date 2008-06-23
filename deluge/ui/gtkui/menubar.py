@@ -39,6 +39,7 @@ import pkg_resources
 import deluge.component as component
 from deluge.ui.client import aclient as client
 import deluge.common as common
+from deluge.configmanager import ConfigManager
 
 from deluge.log import LOG as log
 
@@ -47,6 +48,8 @@ class MenuBar(component.Component):
         log.debug("MenuBar init..")
         component.Component.__init__(self, "MenuBar")
         self.window = component.get("MainWindow")
+        self.config = ConfigManager("gtkui.conf")
+        
         # Get the torrent menu from the glade file
         self.torrentmenu_glade = gtk.glade.XML(
                     pkg_resources.resource_filename("deluge.ui.gtkui", 
@@ -145,6 +148,12 @@ class MenuBar(component.Component):
         self.change_sensitivity = [
             "menuitem_addtorrent"
         ]
+        
+        if self.config["classic_mode"]:
+            # We need to remove the 'quit and shutdown daemon' menu item
+            self.window.main_glade.get_widget("menuitem_quitdaemon").hide()
+            self.window.main_glade.get_widget("separatormenuitem").hide()
+            self.window.main_glade.get_widget("menuitem_connectionmanager").hide()
     
     def start(self):
         for widget in self.change_sensitivity:
@@ -166,9 +175,10 @@ class MenuBar(component.Component):
             
         # Show the Torrent menu because we're connected to a host
         self.menu_torrent.show()
-
-        self.window.main_glade.get_widget("separatormenuitem").show()
-        self.window.main_glade.get_widget("menuitem_quitdaemon").show()
+        
+        if not self.config["classic_mode"]:
+            self.window.main_glade.get_widget("separatormenuitem").show()
+            self.window.main_glade.get_widget("menuitem_quitdaemon").show()
         
     def stop(self):
         for widget in self.change_sensitivity:
@@ -201,6 +211,8 @@ class MenuBar(component.Component):
         
     def on_menuitem_quit_activate(self, data=None):
         log.debug("on_menuitem_quit_activate")
+        if self.config["classic_mode"]:
+            client.shutdown()
         self.window.quit()
     
     ## Edit Menu ##

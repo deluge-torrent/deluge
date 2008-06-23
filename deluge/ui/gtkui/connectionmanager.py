@@ -117,6 +117,18 @@ class ConnectionManager(component.Component):
         self.hostlist.get_selection().connect("changed", 
                                     self.on_selection_changed)
         
+        # If classic mode is set, we just start up a localhost daemon and connect to it
+        if self.gtkui_config["classic_mode"]:
+            uri = "http://localhost:58846"
+            os.popen("deluged -p 58846")
+            time.sleep(0.1)
+            # We need to wait for the host to start before connecting
+            while not self.test_online_status(uri):
+                time.sleep(0.01)
+            client.set_core_uri(uri)
+            self.hide()
+            return
+        
         self._update()
         
         # Auto connect to a host if applicable
