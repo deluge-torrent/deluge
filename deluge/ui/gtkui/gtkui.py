@@ -189,7 +189,10 @@ class GtkUI:
         # Shutdown all components
         component.shutdown()
         if self.started_in_classic:
-            client.shutdown()
+            try:
+                client.shutdown()
+            except:
+                pass
 
     def _on_new_core(self, data):
         component.start()
