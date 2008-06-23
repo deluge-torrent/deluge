@@ -96,8 +96,11 @@ class MainWindow(component.Component):
             
     def present(self):
         # Restore the proper x,y coords for the window prior to showing it
-        self.config["window_x_pos"] = self.window_x_pos
-        self.config["window_y_pos"] = self.window_y_pos
+        try:
+            self.config["window_x_pos"] = self.window_x_pos
+            self.config["window_y_pos"] = self.window_y_pos
+        except:
+            pass
        
         self.window.present()
         self.load_window_state()
