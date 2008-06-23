@@ -6,20 +6,25 @@ $def with (torrent)
 $altrow(True)
 <tr class="head">
     <th width="100%">$_("File")</th>
-    <th width="130px">$_("Size")</th>
+    <th width="50px">$_("Size")</th>
     <th width="50px">$_("Progress")</th>
+    <th width="10px">$_("X")</th>
+    <th width="10px">$_("N")</th>
+    <th width="10px">$_("+")</th>
+    <th width="10px">$_("++")</th>
 </tr>
 $for i, file in enumerate(torrent.files):
     <tr class="$altrow()"  >
     <td title="$file['path']">
-    <input type="checkbox" name="file_priorities" id="file_priorities" value="$i"
-    $if (torrent.file_priorities[i]):
-        checked
-    >
     $(crop_left(file["path"], 60))
     </td>
         <td style="white-space:nowrap">$fsize(file["size"])</td>
         <td align="right">$int(torrent.file_progress[i] * 100)%</td>
+    $for prio in [0, 1, 2, 5]:
+        <td><input type="radio" id="prio_$i" name="prio_$i" value="$prio" style="margin:0px"
+        $if torrent.file_priorities[i] == prio:
+            checked
+        ></input></td>
     </tr>
 </table>
 <input type="submit" value="$_('Update')" name="submit_files">

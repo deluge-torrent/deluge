@@ -191,13 +191,12 @@ class torrent_files:
     @deco.check_session
     @deco.torrent
     def POST(self, torrent):
-        file_priorities = web.input(file_priorities=[]).file_priorities
-        #file_priorities contains something like ['0','2','3','4']
-        #transform to: [1,0,1,1,1]
-        proxy_prio = [0 for x in xrange(len(torrent.file_priorities))]
-        for pos in file_priorities:
-            proxy_prio[int(pos)] = 1
-        proxy.set_torrent_file_priorities(torrent.id, proxy_prio)
+        values = web.input()
+        file_priorities = []
+        for i in xrange(len(torrent.files)):
+            file_priorities.append(int(getattr(values,"prio_%s" % i )))
+
+        proxy.set_torrent_file_priorities(torrent.id, file_priorities)
         do_redirect()
 route("/torrent/files/(.*)", torrent_files)
 
