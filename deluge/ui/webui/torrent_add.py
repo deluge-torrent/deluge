@@ -66,10 +66,12 @@ class AddForm(forms.Form):
         widget=forms.TextInput(attrs={'size':60}))
     torrent = forms.CharField(label=_("Upload torrent"), required=False,
         widget=forms.FileInput(attrs={'size':60}))
-
     #hash = forms.CharField(label=_("Hash"), required=False,
     #    widget=forms.TextInput(attrs={'size':60}))
     #ret = forms.CheckBox(_('Add more'))
+
+    choose_files = forms.CheckBox(_('Choose Files'))
+
 
 class torrent_add:
 
@@ -95,6 +97,7 @@ class torrent_add:
         *posting of url
         *posting file-upload
         """
+        vars = web.input(url = None, torrent = {},choose_files = False)
 
         options_form = OptionsForm(utils.get_newforms_data(OptionsForm))
         if not options_form.is_valid():
@@ -103,7 +106,7 @@ class torrent_add:
         options = options_form.cleaned_data
 
 
-        vars = web.input(url = None, torrent = {})
+
         torrent_name = None
         torrent_data  = None
         if vars.torrent.filename:
@@ -114,17 +117,27 @@ class torrent_add:
             #error_page(_("Choose an url or a torrent, not both."))
             print self.add_page(error = _("Choose an url or a torrent, not both."))
             return
+
         if vars.url:
             proxy.add_torrent_url(vars.url, None,options)
             log.debug("add-url:options :%s" % options)
-            utils.do_redirect()
+            this.redirect(vars.choose_files)
         elif torrent_name:
             proxy.add_torrent_file_binary(vars.torrent.filename, torrent_data, options)
             log.debug("add-file:options :%s" % options)
-            utils.do_redirect()
+            self.redirect(vars.choose_files)
         else:
             print self.add_page(error = _("No data"))
             return
+
+    def redirect(self,choose_files):
+        if choose_files: #redirect to file chooser
+            torrent_id = proxy.get_session_state()[-1] #HACK! no return-value for torrent_add_*
+            utils.seeother("/torrent/files/%s" % torrent_id)
+
+        else: #default
+            self.do_redirect()
+
 
 def register():
     component.get("PageManager").register_page("/torrent/add(.*)",torrent_add)

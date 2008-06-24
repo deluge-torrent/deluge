@@ -60,7 +60,7 @@ class subclassed_render(object):
         self.cfg_template = config.get('template')
         template_path = os.path.join(self.webui_path, 'templates/%s/' % self.cfg_template)
         if not os.path.exists(template_path):
-            template_path = os.path.join(self.webui_path, 'templates/deluge/')
+            template_path = os.path.join(self.webui_path, 'templates/white/')
         self.meta = Storage(eval(open(os.path.join(template_path,'meta.cfg')).read()))
 
         #load renerders

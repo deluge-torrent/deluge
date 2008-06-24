@@ -1,6 +1,10 @@
-$def with (torrent)
+$def with (torrent, redirect=None)
 <form method="POST" action="$base/torrent/files/$torrent.id">
-<input type="hidden" name="redir" value="$self_url()">
+$if redirect:
+    <input type="hidden" name="redir" value="$base/home">
+$else:
+    <input type="hidden" name="redir" value="$self_url()">
+
 <table width="100%">
 
 $altrow(True)

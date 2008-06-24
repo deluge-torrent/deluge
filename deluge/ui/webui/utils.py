@@ -53,7 +53,7 @@ from webserver_common import  REVNO, VERSION, TORRENT_KEYS, CONFIG_DEFAULTS
 from deluge.ui.client import sclient, aclient
 
 webui_plugin_manager = component.get("WebPluginManager")
-config = ConfigManager("webui.conf")
+config = ConfigManager("webui06.conf")
 
 #async-proxy: map callback to a a dict-setter
 def dict_cb(key,d):
@@ -92,7 +92,6 @@ def do_redirect():
     ck = cookies()
     url_vars = {}
 
-    #redirect to a non-default page.
     if vars.redir:
         w_seeother(vars.redir) #redir variable contains base
         return

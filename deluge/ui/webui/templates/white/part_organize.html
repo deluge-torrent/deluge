@@ -5,6 +5,16 @@ $def with (filters)
 
 <div id="organize_block">
 <div id="organize_state">
+<div class="title">$_('Keyword')</div>
+<input type="text" name="keyword" id="keyword" value="$get('keyword')" style="width:100px;padding:0px"
+title="$_('Filter on a keyword')"
+/>
+$if get('keyword'):
+    <img src="$base/static/images/tango/edit-clear.png" alt="$_('Clear')"
+    onclick="el('keyword').value='';el('category_form').submit();"
+    >
+    <!--1st button widget is default , i dont want that here, using an image instead :(-->
+<br /><br />
 <div class="title">$_('State')</div>
 <ul>
 $for state, num in filters.state:
@@ -36,17 +46,6 @@ $for tracker, num in filters.tracker:
     <a href="$self_url(tracker=tracker)" title="$tracker  ($num)">$crop(tracker, 20) ($num)</a>
     </li>
 </ul>
-
-
-<div class="title">$_('Keyword')</div>
-<input type="text" name="keyword" id="keyword" value="$get('keyword')" style="width:100px;padding:0px"
-title="$_('Filter on a keyword')"
-/>
-$if get('keyword'):
-    <img src="$base/static/images/tango/edit-clear.png" alt="$_('Clear')"
-    onclick="el('keyword').value='';el('category_form').submit();"
-    >
-    <!--1st button widget is default , i dont want that here, using an image instead :(-->
 
 
 </div>

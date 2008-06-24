@@ -12,59 +12,13 @@ $if error:
     <table>
     $:add_form.as_table()
     </table>
-<!--OLD stuff :
-    <div class="form_row">
-	<span class="form_label">$_('Url')</span>
-	<input type="text" name="url" class="form_input" size=60
-        value="$get('url')" >
-    </div>
-    <div class="form_row">
-	<span class="form_label">$_('Upload torrent')</span>
-	<input type="file" name="torrent" class="form_input" size=50>
-    </div>
-
-    <div class="form_row">
-	<span class="form_label">$_('Hash')</span>
-	<input type="text" name="hash" class="form_input" size=60
-        value="$get('hash')" >
-    </div>
--->
-
-
-<!--
-    <div class="form_row">
-	<input type="checkbox" name="add_another" class="form_input"
-$if get_config('add_another'):
-    selected
->
-<span class="form_label">$_('Add Another (Stay in add page)')</span>
-
-    </div>
--->
 <a onclick="javascript:toggle_options()">$_('Options')</a>
 <!--todo: cookie setting for last-used options display or not-->
 
 <br>
 
 <div id="torrent_add_options" style="display:none">
-<!--
-it's possible to use blocks with options_form, but not now.
-    <table>
-    $:options_form.as_table(["download_location", "compact_allocation"])
 
-    </table>
-
-<h3>$_("BandWidth")</h3>
-    <table>
-$:options_form.as_table(["max_download_speed_per_torrent", "max_upload_speed_per_torrent", "max_connections_per_torrent", "max_upload_slots_per_torrent"])
-    </table>
-</td>
-
-    <h3>$_("General")</h3>
-    <table>
-    $:options_form.as_table(["prioritize_first_last_pieces", "add_paused", "default_private"])
-    </table>
--->
 <table>
 $:options_form.as_table()
 </table>

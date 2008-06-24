@@ -188,6 +188,11 @@ class torrent_delete:
 route("/torrent/delete/(.*)",torrent_delete)
 
 class torrent_files:
+    @deco.deluge_page
+    @deco.torrent
+    def GET(self,torrent):
+        return render.torrent_files(torrent, None)
+
     @deco.check_session
     @deco.torrent
     def POST(self, torrent):
