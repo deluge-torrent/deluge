@@ -2,16 +2,20 @@ $def with (torrent_list, organize_filters)
 
 <script language="javascript">
 /*for select_all shortcut/button*/
-var all_torrents = [
+torrent_table.torrents = [
 $for t in torrent_list:
     "$t.id",
 ]
 state.base_url = '$base';
+
+document.onkeydown = torrent_table.keydown;
+
 </script>
 
 
 
-<table class="torrent_list" id="torrent_table" border=0 cellspacing=0 cellpadding=2  id="torrent_list" >
+<table class="torrent_list" id="torrent_table" border=0 cellspacing=0 cellpadding=2  id="torrent_list">
+
 <thead class="fixedHeader">
 <tr>
         $:(sort_head('state', 'S'))

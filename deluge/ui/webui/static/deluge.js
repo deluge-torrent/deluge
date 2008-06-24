@@ -107,6 +107,7 @@ on_click_action = on_click_do_nothing;
 function toolbar_post(url, selected) {
 	if ((!selected) || (state.selected_rows.length > 0)) {
 		var ids = state.selected_rows.join(',');
+		var ids = state.selected_rows.join(',');
 		var form = $('toolbar_form');
 		form.action = url  +ids;
 		form.submit();
@@ -124,6 +125,38 @@ function toolbar_get(url , selected) {
 	}
 	return false;
 }
+
+
+/*arrow-navigation*/
+torrent_table = {}
+torrent_table.select_prev = function () {
+	//torrent_tab
+	var prev_id = state.selected_rows[0];
+	var i = torrent_table.torrents.indexOf(prev_id);
+	var id = torrent_table.torrents[i - 1];
+	deselect_all_rows();
+	select_row(id);
+	open_inner_details(id);
+}
+torrent_table.select_next = function () {
+	var prev_id = state.selected_rows[0];
+	var i = torrent_table.torrents.indexOf(prev_id);
+	var id = torrent_table.torrents[i + 1];
+	deselect_all_rows();
+	select_row(id);
+	open_inner_details(id);
+}
+torrent_table.keydown = function (oEvent) {
+    switch(oEvent.keyCode) {
+        case 38: //up arrow
+            torrent_table.select_prev();
+            break;
+        case 40: //down arrow
+            torrent_table.select_next();
+            break;
+    }
+};
+
 
 /*stuff copied from various places:*/
 /*http://www.w3schools.com/js/js_cookies.asp*/
@@ -150,3 +183,22 @@ if (document.cookie.length>0)
   }
 return ""
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
