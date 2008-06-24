@@ -244,7 +244,6 @@ class TorrentDetails(component.Component):
             except IndexError:
                 return
             # Update the tab that is in view
-            log.debug("tab_name: %s", name)
             self.tabs[name].update()
                     
     def clear(self):
