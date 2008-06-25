@@ -53,7 +53,7 @@ from deluge.ui.client import sclient as proxy
 from deluge.configmanager import ConfigManager
 
 page_manager = component.get("PageManager")
-config = ConfigManager("webui.conf")
+config = ConfigManager("webui06.conf")
 
 def route(url, klass):
     """

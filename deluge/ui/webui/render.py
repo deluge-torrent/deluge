@@ -39,7 +39,7 @@ from web import template, Storage
 import os
 
 from deluge.configmanager import ConfigManager
-config = ConfigManager("webui.conf")
+config = ConfigManager("webui06.conf")
 
 class subclassed_render(object):
     """

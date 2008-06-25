@@ -20,7 +20,7 @@ def get_wsgi_application(base_url, config_dir):
     from deluge.ui.webui import deluge_webserver
     from deluge.ui.webui import utils
 
-    config = ConfigManager("webui.conf")
+    config = ConfigManager("webui06.conf")
 
     utils.set_config_defaults()
 

@@ -44,7 +44,7 @@ import utils
 from deluge import component
 from deluge.configmanager import ConfigManager
 
-config = ConfigManager("webui.conf")
+config = ConfigManager("webui06.conf")
 config_page_manager = component.get("ConfigPageManager")
 
 class WebCfgForm(forms.Form):
