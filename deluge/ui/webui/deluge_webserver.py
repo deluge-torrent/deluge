@@ -59,7 +59,7 @@ import utils
 
 
 ## Init ##
-config = ConfigManager("webui.conf")
+config = ConfigManager("webui06.conf")
 random.seed()
 web.webapi.internalerror = deluge_debugerror
 
