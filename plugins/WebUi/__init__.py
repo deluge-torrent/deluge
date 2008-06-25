@@ -245,6 +245,13 @@ class ConfigDialog(gtk.Dialog):
         self.add_buttons(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL
             ,gtk.STOCK_OK, gtk.RESPONSE_OK)
 
+        #disable https if pyopenssl  is not installed
+        try:
+            import OpenSSL
+        except:
+            self.use_https.set_sensitive(False)
+
+
     def add_widget(self,label,w=None):
         hb = gtk.HBox()
         lbl = gtk.Label(label)
