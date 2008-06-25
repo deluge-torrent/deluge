@@ -177,23 +177,32 @@ class AddTorrentDialog(component.Component):
     def add_from_files(self, filenames):
         import deluge.libtorrent as lt
         import os.path
-
+        new_row = None
+        
         for filename in filenames:
             # Get the torrent data from the torrent file
             try:
                 log.debug("Attempting to open %s for add.", filename)
                 _file = open(filename, "rb")
-                filedump = lt.bdecode(_file.read())
+                filedump = _file.read()
+                if not filedump:
+                    log.warning("Torrent appears to be corrupt!")
+                    continue
+                filedump = lt.bdecode(filedump)
                 _file.close()
             except IOError, e:
                 log.warning("Unable to open %s: e", filename, e)
                 continue
-            
-            info = lt.torrent_info(filedump)
+
+            try:
+                info = lt.torrent_info(filedump)
+            except RuntimeError, e:
+                log.warning("Torrent appears to be corrupt!")
+                continue
 
             if str(info.info_hash()) in self.infos:
                 log.debug("Torrent already in list!")
-                return
+                continue
                 
             # Get list of files from torrent info
             files = []
@@ -211,7 +220,7 @@ class AddTorrentDialog(component.Component):
             self.infos[str(info.info_hash())] = info
 
         (model, row) = self.listview_torrents.get_selection().get_selected()
-        if row == None:
+        if not row and new_row:
             self.listview_torrents.get_selection().select_iter(new_row)
                
     def _on_torrent_changed(self, treeselection):

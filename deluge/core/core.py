@@ -355,10 +355,15 @@ class Core(
         # Turn the filedump into a torrent_info
         if not isinstance(filedump, str):
             filedump = filedump.data
+            
+        if len(filedump) == 0:
+            log.warning("Torrent file is corrupt!")
+            return
+            
         try:
             torrent_info = lt.torrent_info(lt.bdecode(filedump))
         except RuntimeError, e:
-            log.warn("Unable to decode torrent file: %s", e)
+            log.warning("Unable to decode torrent file: %s", e)
             return None
         
         torrent_id = self.torrents.add(filedump=filedump, options=options, filename=filename)
