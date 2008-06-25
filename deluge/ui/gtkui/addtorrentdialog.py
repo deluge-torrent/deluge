@@ -516,7 +516,11 @@ class AddTorrentDialog(component.Component):
 
     def _download_from_url(self, url):
         import urllib
-        filename, headers = urllib.urlretrieve(url)
+        import tempfile
+        import os.path
+        tmp_file = os.path.join(tempfile.gettempdir(), url.split("/")[-1])
+        filename, headers = urllib.urlretrieve(url, tmp_file)
+        log.debug("filename: %s", filename)
         self.add_from_files([filename])
     
     def _on_button_hash_clicked(self, widget):
