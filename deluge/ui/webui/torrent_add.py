@@ -136,7 +136,7 @@ class torrent_add:
             utils.seeother("/torrent/files/%s" % torrent_id)
 
         else: #default
-            self.do_redirect()
+            utils.do_redirect()
 
 
 def register():
