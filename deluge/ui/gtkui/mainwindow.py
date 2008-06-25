@@ -81,6 +81,7 @@ class MainWindow(component.Component):
         try:
             component.resume("TorrentView")
             component.resume("StatusBar")
+            component.resume("TorrentDetails")
         except:
             pass
 
@@ -89,6 +90,7 @@ class MainWindow(component.Component):
     def hide(self):
         component.pause("TorrentView")
         component.pause("StatusBar")
+        component.pause("TorrentDetails")
         # Store the x, y positions for when we restore the window
         self.window_x_pos = self.window.get_position()[0]
         self.window_y_pos = self.window.get_position()[1]
@@ -101,7 +103,13 @@ class MainWindow(component.Component):
             self.config["window_y_pos"] = self.window_y_pos
         except:
             pass
-       
+        try:
+            component.resume("TorrentView")
+            component.resume("StatusBar")
+            component.resume("TorrentDetails")
+        except:
+            pass
+                   
         self.window.present()
         self.load_window_state()
     
