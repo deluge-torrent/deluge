@@ -129,7 +129,7 @@ class PluginManager(pluginmanagerbase.PluginManagerBase,
         component.Component.__init__(self, "WebPluginManager")
         self.config = ConfigManager("webui06.conf")
         pluginmanagerbase.PluginManagerBase.__init__(
-            self, "webui.conf", "deluge.plugin.webui")
+            self, "webui06.conf", "deluge.plugin.webui")
 
     def start(self):
         """Start the plugin manager"""
