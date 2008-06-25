@@ -129,6 +129,16 @@ class GtkUI:
         signal.signal(signal.SIGINT, self.shutdown)
         signal.signal(signal.SIGTERM, self.shutdown)
 
+        if deluge.common.windows_check():
+            from win32api import SetConsoleCtrlHandler
+            from win32con import CTRL_CLOSE_EVENT
+            result = 0
+            def win_handler(self, ctrl_type):
+                if ctrl_type == CTRL_CLOSE_EVENT:
+                    self.shutdown()
+                    return 1
+            SetConsoleCtrlHandler(win_handler)
+            
         # Make sure gtkui.conf has at least the defaults set
         self.config = deluge.configmanager.ConfigManager("gtkui.conf", DEFAULT_PREFS)
 

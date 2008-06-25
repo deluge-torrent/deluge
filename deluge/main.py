@@ -53,10 +53,22 @@ def start_ui():
         help="The UI that you wish to launch", action="store", type="str")
     parser.add_option("-c", "--config", dest="config",
         help="Set the config location", action="store", type="str")
-                
+    parser.add_option("-l", "--logfile", dest="logfile",
+        help="Output to designated logfile instead of stdout", action="store", type="str")
+            
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
 
+    if deluge.common.windows_check():
+        if options.config:
+            logfile = os.path.join(options.config, "deluge.log")
+        else:
+            logfile = deluge.common.get_config_dir("deluge.log")
+            
+        sys.stdout = open(logfile, "wb")
+        sys.stderr = stdout
+        sys.stdin = None
+        
     from deluge.log import LOG as log
 
     version = deluge.common.get_version()
