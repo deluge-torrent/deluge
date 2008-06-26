@@ -114,6 +114,11 @@ class TorrentManager(component.Component):
         # Create the torrents dict { torrent_id: Torrent }
         self.torrents = {}
         
+        # This is a list of torrent_id when we shutdown the torrentmanager.
+        # We use this list to determine if all active torrents have been paused
+        # and that their resume data has been written.
+        self.shutdown_torrent_pause_list = []
+        
         # Register set functions
         self.config.register_set_function("max_connections_per_torrent",
             self.on_set_max_connections_per_torrent)
@@ -158,10 +163,15 @@ class TorrentManager(component.Component):
     def stop(self):
         # Save state on shutdown
         self.save_state()
+        
+        component.pause("AlertManager")
         for key in self.torrents.keys():
-            self.torrents[key].handle.pause()
-        # Wait for all alerts
-        self.alerts.handle_alerts(True)
+            if not self.torrents[key].handle.is_paused():
+                self.torrents[key].handle.pause()
+                self.shutdown_torrent_pause_list.append(key)
+        while self.shutdown_torrent_pause_list:                        
+            # Wait for all alerts
+            self.alerts.handle_alerts(True)
                         
     def update(self):
         for torrent in self.torrents:
@@ -612,6 +622,9 @@ class TorrentManager(component.Component):
             
         # Write the fastresume file
         self.torrents[torrent_id].write_fastresume()
+        
+        if torrent_id in self.shutdown_torrent_pause_list:
+            self.shutdown_torrent_pause_list.remove(torrent_id)
     
     def on_alert_torrent_checked(self, alert):
         log.debug("on_alert_torrent_checked")
