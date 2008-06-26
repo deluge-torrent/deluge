@@ -77,8 +77,6 @@ class json_rpc:
             method = json_data["method"]
             params = json_data["params"]
 
-            log.debug("PP==%s" % json_data["params"])
-
             if method.startswith('_'):
                 raise Exception('_ methods are illegal.')
 
@@ -113,7 +111,6 @@ class json_rpc:
 
         #Call:
         func = getattr(sclient, method)
-        log.debug("PARAMS=%s" % params)
         result = func(*params)
 
         return {

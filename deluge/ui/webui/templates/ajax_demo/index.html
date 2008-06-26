@@ -45,8 +45,7 @@ function get_torrents_status(torrent_ids) {
 };
 
 
-function list_torrents(torrent_ids) {
-    //This code will send a data object via a GET request and alert the retrieved data.
+function list_torrents() {
     service.get_session_state({params:[],
         onSuccess:function(torrent_ids){
             get_torrents_status(torrent_ids)
