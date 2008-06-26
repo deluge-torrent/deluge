@@ -1,34 +1,7 @@
 $def with (torrent_list, organize_filters)
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html>
-<head>
-    <title>Deluge:$_('Torrent list')</title>
-    <link rel="icon" href="$base/static/images/deluge_icon.gif" type="image/gif" />
-    <link rel="shortcut icon" href="$base/static/images/deluge_icon.gif" type="image/gif" />
-    <link rel="stylesheet" type="text/css" href="$base/template_style.css" />
-    <script language="javascript" src="$base/static/deluge.js"></script>
-</head>
-
-<body>
-<div id="page">
-
-<table width="100%"><tr>
-<td>
-    <div id="home_top">
-        <a class="tab_button_active" href='$base/home'>Home</a>
-    $for id, title, url in admin_pages:
-        <a class="tab_button" href='$base$url'>$title</a>
-
-<a href="http://dev.deluge-torrent.org/wiki/Faq">Faq</a>
-</td><td>
-
-</td><td align="right" width="450px">
-    $:part_stats()
-</td></tr></table>
-
-<hr>
-
+$:render.header(_("Deluge : Torrent List"), 'home')
 
 $if organize_filters:
     $:render.part_organize(organize_filters)
