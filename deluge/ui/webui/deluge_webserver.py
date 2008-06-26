@@ -67,16 +67,18 @@ web.webapi.internalerror = deluge_debugerror
 import pages
 import config_tabs_webui #auto registers in ConfigUiManager
 import config_tabs_deluge #auto registers in ConfigUiManager
-import register_menu
-#
+import register_menu #auto registers.
+#manual register:
 import torrent_add
-import torrent_options
-import torrent_move
-import config_forms
 torrent_add.register()
+import torrent_options
 torrent_options.register()
+import torrent_move
 torrent_move.register()
+import config_forms
 config_forms.register()
+import json_api
+json_api.register()
 #/self registering pages.
 
 

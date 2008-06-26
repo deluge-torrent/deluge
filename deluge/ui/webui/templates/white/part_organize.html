@@ -20,6 +20,9 @@ $if get('keyword'):
 $for state, num in filters.state:
     $if (num > 0) or (state == get('state')):
         <li
+        $if not get('state'):
+            $if state == "All":
+                class="selected"
         $if state == get('state'):
             class="selected"
         >
