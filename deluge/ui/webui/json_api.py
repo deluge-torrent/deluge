@@ -48,7 +48,10 @@ from deluge.log import LOG as log
 from deluge import component
 
 from page_decorators import check_session
-
+try:
+    import json #it's early enough to force people to install this
+except:
+    raise Exception("please install python-json")
 
 class json_rpc:
     """
@@ -64,11 +67,6 @@ class json_rpc:
     def POST(self):
         web.header("Content-Type", "application/x-json")
         id = 0
-        try:
-            import json #not listed in dependency's.
-        except:
-            log.error('{"error":"python-json is not installed"}')
-            return '{"error":"python-json is not installed"}'
         try:
             log.debug("json-data:")
             log.debug(webapi.data())
