@@ -17,7 +17,6 @@ http://code.google.com/p/json-xml-rpc/wiki/DocumentationForJavaScript
 var service = new rpc.ServiceProxy("$base/json/rpc", {/*options*/});
 
 function get_session_state( ) {
-    //This code will send a data object via a GET request and alert the retrieved data.
     service.get_session_state({params:[],
         onSuccess:function(result){
          alert("session_state: " + result);
