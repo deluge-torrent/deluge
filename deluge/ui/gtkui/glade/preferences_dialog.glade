@@ -229,6 +229,7 @@
                                                 <property name="label" translatable="yes">Move completed to:</property>
                                                 <property name="response_id">0</property>
                                                 <property name="draw_indicator">True</property>
+                                                <signal name="toggled" handler="on_toggle"/>
                                               </widget>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -304,6 +305,7 @@
                                             <property name="label" translatable="yes">Save copy of .torrent file:</property>
                                             <property name="response_id">0</property>
                                             <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_toggle"/>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -377,6 +379,7 @@
                                             <property name="label" translatable="yes">Enable Folder:</property>
                                             <property name="response_id">0</property>
                                             <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_toggle"/>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -2458,6 +2461,7 @@ Disabled</property>
                                                     <property name="label" translatable="yes">Stop seeding when share ratio reaches:</property>
                                                     <property name="response_id">0</property>
                                                     <property name="draw_indicator">True</property>
+                                                    <signal name="toggled" handler="on_toggle"/>
                                                   </widget>
                                                   <packing>
                                                     <property name="expand">False</property>
