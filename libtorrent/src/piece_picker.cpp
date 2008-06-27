@@ -1731,12 +1731,17 @@ namespace libtorrent
 		TORRENT_ASSERT(block.piece_index < (int)m_piece_map.size());
 		TORRENT_ASSERT(block.block_index < blocks_in_piece(block.piece_index));
 
+		// this might be the case if a piece fails, is restored, and then
+		// completed from a different peer (from which the piece was requested
+		// before it failed the hash check)
+
 		TORRENT_ASSERT(m_piece_map[block.piece_index].downloading);
 
 		std::vector<downloading_piece>::iterator i
 			= std::find_if(m_downloads.begin(), m_downloads.end(), has_index(block.piece_index));
 		TORRENT_ASSERT(i != m_downloads.end());
 		block_info& info = i->info[block.block_index];
+
 		info.peer = peer;
 		TORRENT_ASSERT(info.state == block_info::state_requested);
 		if (info.state == block_info::state_requested) --i->requested;
