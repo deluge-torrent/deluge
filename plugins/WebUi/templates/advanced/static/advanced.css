@@ -123,7 +123,7 @@ body.inner {
 		margin: 0;
 		padding:0;
 		text-align:left;
-		height:30px;
+		height:25px;
 		background-color:#ddd;
 		color:#000;
 		border-style:solid;
@@ -156,7 +156,7 @@ body.inner {
 		margin: 0;
 		padding:0;
 		text-align:right;
-		height:30px;
+		height:25px;
 		background-color:#ddd;
 		color:#000;
 		z-index:999;
