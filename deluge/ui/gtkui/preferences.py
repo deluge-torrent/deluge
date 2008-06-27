@@ -311,6 +311,11 @@ class Preferences(component.Component):
                     widget.set_value(value)
                 elif modifier == "text":
                     widget.set_text(value)
+
+            for key in core_widgets.keys():
+                widget = self.glade.get_widget(key)
+                # Update the toggle status if necessary
+                self.on_toggle(widget)
         else:
             core_widget_list = [
                 "download_path_button",
@@ -589,7 +594,10 @@ class Preferences(component.Component):
     
     def on_toggle(self, widget):
         """Handles widget sensitivity based on radio/check button values."""
-        value = widget.get_active()
+        try:
+            value = widget.get_active()
+        except:
+            return
 
         # Disable the focus dialog checkbox if the show dialog isn't active.        
         if widget == self.glade.get_widget("chk_show_dialog"):
