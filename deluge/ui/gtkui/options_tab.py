@@ -69,8 +69,10 @@ class OptionsTab(Tab):
         # Only use the first torrent in the list or return if None selected
         if len(torrent_id) != 0:
             torrent_id = torrent_id[0]
+            self._child_widget.set_sensitive(True)
         else:
             # No torrent is selected in the torrentview
+            self._child_widget.set_sensitive(False)
             return
         
         if torrent_id != self.prev_torrent_id:

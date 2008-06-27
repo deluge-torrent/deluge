@@ -599,39 +599,38 @@ class Preferences(component.Component):
         except:
             return
 
-        # Disable the focus dialog checkbox if the show dialog isn't active.        
-        if widget == self.glade.get_widget("chk_show_dialog"):
-            self.glade.get_widget("chk_focus_dialog").set_sensitive(value)
-            
-        # Disable the port spinners if random ports is selected.
-        if widget == self.glade.get_widget("chk_random_port"):
-            log.debug("chk_random_port set to: %s", value)
-            self.glade.get_widget("spin_port_min").set_sensitive(not value)
-            self.glade.get_widget("spin_port_max").set_sensitive(not value)
-        
-        # Disable all the tray options if tray is not used.
-        if widget == self.glade.get_widget("chk_use_tray"):
-            self.glade.get_widget("chk_min_on_close").set_sensitive(value)
-            self.glade.get_widget("chk_start_in_tray").set_sensitive(value)
-            self.glade.get_widget("chk_lock_tray").set_sensitive(value)
-            if value == True:
-                lock = self.glade.get_widget("chk_lock_tray").get_active()
-                self.glade.get_widget("txt_tray_password").set_sensitive(lock)
-                self.glade.get_widget("password_label").set_sensitive(lock)
-            else:
-                self.glade.get_widget("txt_tray_password").set_sensitive(value)
-                self.glade.get_widget("password_label").set_sensitive(value)
-            
-        if widget == self.glade.get_widget("chk_lock_tray"):
-            self.glade.get_widget("txt_tray_password").set_sensitive(value)
-            self.glade.get_widget("password_label").set_sensitive(value)
-                        
-        # Disable the file manager combo box if custom is selected.
-        if widget == self.glade.get_widget("radio_open_folder_custom"):
-            self.glade.get_widget("combo_file_manager").set_sensitive(not value)
-            self.glade.get_widget("txt_open_folder_location").set_sensitive(
-                                                                        value)
-            
+        dependents = {
+                "chk_show_dialog": {"chk_focus_dialog": True},
+                "chk_random_port": {"spin_port_min": False,
+                                    "spin_port_max": False},
+                "chk_use_tray": {"chk_min_on_close": True,
+                                 "chk_start_in_tray": True,
+                                 "chk_lock_tray": True},
+                "chk_lock_tray": {"txt_tray_password": True,
+                                  "password_label": True},
+                "radio_open_folder_custom": {"combo_file_manager": False,
+                                             "txt_open_folder_location": True},
+                "chk_move_completed" : {"move_completed_path_button" : True},
+                "chk_copy_torrent_file" : {"torrent_files_button" : True},
+                "chk_autoadd" : {"folder_autoadd" : True},
+                "chk_seed_ratio" : {"spin_share_ratio": True,
+                                    "chk_remove_ratio" : True}
+            }
+
+        def update_dependent_widgets(name, value):
+            dependency = dependents[name]
+            for dep in dependency.keys():
+                depwidget = self.glade.get_widget(dep)
+                sensitive = [not value, value][dependency[dep]]
+                depwidget.set_sensitive(sensitive)
+                if dep in dependents:
+                    update_dependent_widgets(dep, depwidget.get_active() and sensitive)
+
+        for key in dependents.keys():
+            if widget != self.glade.get_widget(key):
+                continue
+            update_dependent_widgets(key, value)
+
     def on_button_ok_clicked(self, data):
         log.debug("on_button_ok_clicked")
         self.set_config()

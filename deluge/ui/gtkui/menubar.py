@@ -201,6 +201,17 @@ class MenuBar(component.Component):
         self.window.main_glade.get_widget("separatormenuitem").hide()
         self.window.main_glade.get_widget("menuitem_quitdaemon").hide()
 
+    def update_menu(self):
+        selected = component.get('TorrentView').get_selected_torrents()
+        if not selected or len(selected) == 0:
+            # No torrent is selected. Disable the 'Torrents' menu
+            self.menu_torrent.set_sensitive(False)
+            return
+
+        self.menu_torrent.set_sensitive(True)
+        # XXX: Should also update Pause/Resume/Remove menuitems.
+        # Any better way than duplicating toolbar.py:update_buttons in here?
+
     def add_torrentmenu_separator(self):
         sep = gtk.SeparatorMenuItem()
         self.torrentmenu.append(sep)

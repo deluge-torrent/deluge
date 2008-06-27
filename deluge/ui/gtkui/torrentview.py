@@ -330,6 +330,7 @@ class TorrentView(listview.ListView, component.Component):
 
         # Update the toolbar buttons just in case some state has changed
         component.get("ToolBar").update_buttons()
+        component.get("MenuBar").update_menu()
         
     def _on_get_torrents_status(self, status):
         """Callback function for get_torrents_status().  'status' should be a
@@ -431,4 +432,5 @@ class TorrentView(listview.ListView, component.Component):
         log.debug("on_selection_changed")
         component.get("TorrentDetails").update()
         component.get("ToolBar").update_buttons()
-        
+        component.get("MenuBar").update_menu()
+
