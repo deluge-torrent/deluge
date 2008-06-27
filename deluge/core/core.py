@@ -352,6 +352,9 @@ class Core(
         """Adds a torrent file to the libtorrent session
             This requires the torrents filename and a dump of it's content
         """
+        gobject.idle_add(self._add_torrent_file, filename, filedump, options)
+                
+    def _add_torrent_file(self, filename, filedump, options):
         # Turn the filedump into a torrent_info
         if not isinstance(filedump, str):
             filedump = filedump.data
