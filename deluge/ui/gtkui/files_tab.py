@@ -176,7 +176,8 @@ class FilesTab(Tab):
             "on_menuitem_donotdownload_activate": self._on_menuitem_donotdownload_activate,
             "on_menuitem_normal_activate": self._on_menuitem_normal_activate,
             "on_menuitem_high_activate": self._on_menuitem_high_activate,
-            "on_menuitem_highest_activate": self._on_menuitem_highest_activate
+            "on_menuitem_highest_activate": self._on_menuitem_highest_activate,
+            "on_menuitem_expand_all_activate": self._on_menuitem_expand_all_activate
         })
         
         # Attempt to load state
@@ -421,3 +422,5 @@ class FilesTab(Tab):
             self.get_selected_files(), 
             deluge.common.FILE_PRIORITY["Highest Priority"])
 
+    def _on_menuitem_expand_all_activate(self, menuitem):
+        self.listview.expand_all()

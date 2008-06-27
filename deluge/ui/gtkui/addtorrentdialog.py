@@ -190,7 +190,7 @@ class AddTorrentDialog(component.Component):
                     continue
                 filedump = lt.bdecode(filedump)
                 _file.close()
-            except IOError, e:
+            except Exception, e:
                 log.warning("Unable to open %s: e", filename, e)
                 continue
 
