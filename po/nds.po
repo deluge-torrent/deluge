@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2007-11-14 15:59+0000\n"
-"Last-Translator: kluon <Unknown>\n"
+"PO-Revision-Date: 2008-06-23 08:44+0000\n"
+"Last-Translator: bmhm <Unknown>\n"
 "Language-Team: German, Low <nds@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-18 22:08+0000\n"
+"X-Launchpad-Export-Date: 2008-06-27 22:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -23,15 +23,15 @@ msgstr "Füge Torrent hinzu"
 
 #: glade/delugegtk.glade:30 plugins/WebUi/scripts/template_strings.py:3
 msgid "Add"
-msgstr "Hinzufügen"
+msgstr "Tofögen"
 
 #: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
 msgid "Remove Torrent"
-msgstr "Entferne Torrent"
+msgstr "Torrent wegmaken"
 
 #: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:43
 msgid "Remove"
-msgstr "Entfernen"
+msgstr "Wegdoon"
 
 #: glade/delugegtk.glade:56
 msgid "Clear Seeding Torrents"
@@ -47,7 +47,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:80 plugins/WebUi/scripts/template_strings.py:45
 msgid "Resume"
-msgstr ""
+msgstr "Wiedermaken"
 
 #: glade/delugegtk.glade:93
 msgid "Pause Torrent"
@@ -55,7 +55,7 @@ msgstr ""
 
 #: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
 msgid "Pause"
-msgstr ""
+msgstr "Paus"
 
 #: glade/delugegtk.glade:106
 msgid "Queue Torrent Up"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-06-02 10:23+0000\n"
-"Last-Translator: Mert Bozkurt <Unknown>\n"
+"PO-Revision-Date: 2008-06-27 01:18+0000\n"
+"Last-Translator: webdr <Unknown>\n"
 "Language-Team: Turkish <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-18 22:08+0000\n"
+"X-Launchpad-Export-Date: 2008-06-27 22:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -618,8 +618,9 @@ msgid "Number of hours"
 msgstr "Saatlerin sayısı"
 
 #: glade/preferences_dialog.glade:1142
+#, fuzzy
 msgid "Automatically clear torrents that reach the max seed time"
-msgstr ""
+msgstr "Maksimum gönderim süresine ulaşan dosyaları otomatik temizle."
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -1941,8 +1942,9 @@ msgid "peer speed: "
 msgstr "Eş Hızı: "
 
 #: plugins/SpeedLimiter/__init__.py:20
+#, fuzzy
 msgid "Set the desired speed limit per torrent."
-msgstr ""
+msgstr "Her dosya için yeğlenen hız sınırını belirle"
 
 #: plugins/SpeedLimiter/__init__.py:82
 msgid "Torrent _Download Speed"
@@ -2045,6 +2047,7 @@ msgstr "gtk-Tamam"
 #: plugins/WebSeed/__init__.py:22
 msgid "This plugin allows users to add web seeds to their torrents"
 msgstr ""
+"Bu eklenti kullanıcıların torrentlerine web kaynakları eklemelerini sağlar"
 
 #: plugins/WebSeed/__init__.py:51
 msgid "_Add Web Seed"
@@ -2059,16 +2062,19 @@ msgid "URL:"
 msgstr "Adres:"
 
 #: plugins/Scheduler/plugin.py:113
+#, fuzzy
 msgid "Download limit:"
-msgstr ""
+msgstr "indirme limiti"
 
 #: plugins/Scheduler/plugin.py:114
+#, fuzzy
 msgid "Upload limit:"
-msgstr ""
+msgstr "gönderme limiti"
 
 #: plugins/Scheduler/plugin.py:115
+#, fuzzy
 msgid "Active torrents:"
-msgstr ""
+msgstr "Aktif torrentler"
 
 #: plugins/Scheduler/plugin.py:116
 msgid "Upload Slots:"
@@ -2076,7 +2082,7 @@ msgstr ""
 
 #: plugins/Scheduler/plugin.py:117
 msgid "Max Connections:"
-msgstr ""
+msgstr "Maksimum Bağlantı"
 
 #: plugins/Scheduler/plugin.py:120
 msgid "Scheduler Settings"
@@ -2123,7 +2129,7 @@ msgstr "ÖnBellek Şablonları"
 
 #: plugins/WebUi/__init__.py:210
 msgid "https://"
-msgstr ""
+msgstr "https://"
 
 #: plugins/WebUi/__init__.py:227
 msgid "Text and image"

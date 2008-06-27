@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-06-11 06:32+0000\n"
-"Last-Translator: Cybolic <cybolic@gmail.com>\n"
+"PO-Revision-Date: 2008-06-23 16:12+0000\n"
+"Last-Translator: Mads Peter Rommedahl <Lhademmor@gmail.com>\n"
 "Language-Team: Danish <da@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-18 22:08+0000\n"
+"X-Launchpad-Export-Date: 2008-06-27 22:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -2359,7 +2359,7 @@ msgstr "900"
 
 #: plugins/FlexRSS/FlexRSS.glade:240
 msgid "Feeds"
-msgstr "Feeds"
+msgstr "Kilder"
 
 #: plugins/FlexRSS/FlexRSS.glade:384
 msgid "Type"
@@ -2367,7 +2367,7 @@ msgstr "Type"
 
 #: plugins/FlexRSS/FlexRSS.glade:397
 msgid "Feed"
-msgstr "Feed"
+msgstr "Kilde"
 
 #: plugins/FlexRSS/FlexRSS.glade:439
 msgid "<b>Information</b>"
@@ -2494,6 +2494,8 @@ msgid ""
 "Feeds will be retrieved and parsed in their own threads. The application "
 "will not be blocked, but it can be unreliable."
 msgstr ""
+"Kilder vil blive modtaget og parset i deres egne tråde. Programmet vil ikke "
+"blive blokeret, men det kan være ustabilt."
 
 #: plugins/FlexRSS/FlexRSS.glade:1332
 #, fuzzy
@@ -2502,7 +2504,7 @@ msgstr "Threaded (eksperimental)"
 
 #: plugins/FlexRSS/FlexRSS.glade:1346
 msgid "<b>Feed Retrieval</b>"
-msgstr "<b>enfind"
+msgstr "<b>Kildemodtagelse</b>"
 
 #: plugins/FlexRSS/FlexRSS.glade:1451
 msgid "Domain"

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-05-19 20:44+0000\n"
-"Last-Translator: leandrud <Unknown>\n"
+"PO-Revision-Date: 2008-06-26 20:56+0000\n"
+"Last-Translator: George Dumitrescu <Unknown>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-18 22:08+0000\n"
+"X-Launchpad-Export-Date: 2008-06-27 22:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -1197,7 +1197,7 @@ msgstr ""
 
 #: src/interface.py:764
 msgid "Delete the old torrent source?"
-msgstr ""
+msgstr "Doriti sa stergeti vechea sursa a torentului?"
 
 #: src/interface.py:953
 #, python-format

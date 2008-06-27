@@ -9,13 +9,13 @@ msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-05-18 10:54+0000\n"
-"Last-Translator: muczy <Unknown>\n"
+"PO-Revision-Date: 2008-06-26 13:37+0000\n"
+"Last-Translator: gergo86 <Unknown>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-18 22:08+0000\n"
+"X-Launchpad-Export-Date: 2008-06-27 22:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -593,9 +593,8 @@ msgid "Automatically clear torrents that reach the max share ratio"
 msgstr "Torrentek automatikus törlése ha elérik a kívánt megosztási arányt"
 
 #: glade/preferences_dialog.glade:1105
-#, fuzzy
 msgid "Stop seeding torrents when their seed time reaches:"
-msgstr "A torrentek seedelésének megszakítása, ha a seed time eléri:"
+msgstr "A torrentek seedelésének megszakítása, ha a seedelt idő eléri:"
 
 #: glade/preferences_dialog.glade:1120
 msgid "Number of hours"
@@ -604,7 +603,8 @@ msgstr "Órák száma"
 #: glade/preferences_dialog.glade:1142
 #, fuzzy
 msgid "Automatically clear torrents that reach the max seed time"
-msgstr "Automatikusan törölje a torrenteket ha a seed time eléri a maximumot"
+msgstr ""
+"Automatikusan törölje a torrenteket ha azok elérik a maximum seedelési időt"
 
 #: glade/preferences_dialog.glade:1158
 msgid "<b>Seeding</b>"
@@ -1154,7 +1154,7 @@ msgstr ""
 #: src/interface.py:764
 #, fuzzy
 msgid "Delete the old torrent source?"
-msgstr "Töröljem a régen letöltött torrent forrásokat?"
+msgstr "Törölöd a régen letöltött torrent fájlokat?"
 
 #: src/interface.py:953
 #, python-format
@@ -2509,7 +2509,6 @@ msgid "Help"
 msgstr "Segítség"
 
 #: plugins/Search/__init__.py:37
-#, fuzzy
 msgid "Search for torrents anonymously"
 msgstr "Torrentfájlok keresése névtelenül"
 

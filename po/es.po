@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-05-17 00:43+0000\n"
-"Last-Translator: crom <colaetxeam@gmail.com>\n"
+"PO-Revision-Date: 2008-06-26 15:17+0000\n"
+"Last-Translator: LoLo_SaG <Unknown>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-18 22:08+0000\n"
+"X-Launchpad-Export-Date: 2008-06-27 22:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
@@ -34,12 +34,13 @@ msgid "Remove"
 msgstr "Eliminar"
 
 #: glade/delugegtk.glade:56
+#, fuzzy
 msgid "Clear Seeding Torrents"
-msgstr "Despejar Torrents Compartidos"
+msgstr "Limpiar Torrents Compartidos"
 
 #: glade/delugegtk.glade:57
 msgid "Clear"
-msgstr "Despejar"
+msgstr "Limpiar"
 
 #: glade/delugegtk.glade:79
 msgid "Start or Resume Torrent"
