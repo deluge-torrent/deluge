@@ -53,6 +53,8 @@ status_keys = ["state",
 		"files",
 		"file_priorities",
 		"file_progress",
+		"peers",
+		"is_seed",
 		]
 
 class Command:
@@ -67,6 +69,22 @@ class Command:
 
 	def help(self):
 		pass
+
+	def match_torrents(self, array):
+		torrents = []
+		def _got_session_state(tors):
+			if not array or len(array) == 0:
+				for tor in tors:
+					torrents.append(tor)
+				return
+			for match in array:
+				for tor in tors:
+					if match == tor[0:len(match)]:
+						torrents.append(tor)
+						break
+		client.get_session_state(_got_session_state)
+		client.force_call()
+		return torrents
 
 class CommandAdd(Command):
 	"""Command to add a torrent."""
@@ -171,17 +189,10 @@ class CommandHelp(Command):
 
 class CommandInfo(Command):
 	def execute(self, cmd):
-		torrents = []
-		def _got_session_state(tors):
-			for tor in tors:
-				torrents.append(tor)
-		client.get_session_state(_got_session_state)
-		client.force_call()
+		brief = (len(cmd) < 2)
+		torrents = self.match_torrents(cmd[1:])
 		for tor in torrents:
-			if len(cmd) < 2:
-				self.show_info(tor, True)
-			elif cmd[1] == tor[0:len(cmd[1])]:
-				self.show_info(tor, False)
+			self.show_info(tor, brief)
 
 	def usage(self):
 		print "Usage: info [<torrent-id> [<torrent-id> ...]]"
@@ -196,13 +207,17 @@ class CommandInfo(Command):
 			print "*** ID:", torrent
 			print "*** Name:", state['name']
 			print "*** Path:", state['save_path']
-			print "*** Completed:", common.fsize(state['total_done']) + "/" + common.fsize(state['total_size'])
+			if not state['is_seed']:
+				print "*** Completed:", common.fsize(state['total_done']) + "/" + common.fsize(state['total_size'])
 			print "*** Status:", state['state']
-			if state['state'] in [3, 4, 5, 6]:
+
+			state['state_i'] = common.TORRENT_STATE.index(state['state'])
+			if state['state_i'] == 2: # Downloading
 				print "*** Download Speed:", common.fspeed(state['download_payload_rate'])
+			if state['state_i'] in [2, 3]: # Downloading, or Seeding
 				print "*** Upload Speed:", common.fspeed(state['upload_payload_rate'])
-				if state['state'] in [3, 4]:
-					print "*** ETA:", "%s" % common.ftime(state['eta'])
+			if state['state_i'] == 2: # Downloading
+				print "*** ETA:", "%s" % common.ftime(state['eta'])
 
 			if brief == False:
 				print "*** Seeders:", "%s (%s)" % (state['num_seeds'], state['total_seeds'])
@@ -211,7 +226,21 @@ class CommandInfo(Command):
 				print "*** Availability:", "%.1f" % state['distributed_copies']
 				print "*** Files:"
 				for i, file in enumerate(state['files']):
-					print "\t*", file['path'], "(%s)" % common.fsize(file['size']), "-", "%.1f%% completed" % (state['file_progress'][i] * 100)
+					status = ""
+					if not state['is_seed']:
+						if state['file_priorities'][i] == 0:
+							status = " - Do not download"
+						else:
+							status = " - %1.f%% completed" % (state['file_progress'][i] * 100)
+					print "\t* %s (%s)%s" % (file['path'], common.fsize(file['size']), status)
+
+				print "*** Peers:"
+				if len(state['peers']) == 0:
+					print "\t* None"
+				for peer in state['peers']:
+					print "\t* %-21s %-25s Up: %-12s Down: %-12s" % \
+						(peer['ip'], peer['client'] + ["", " (seed)"][not not peer['seed']],
+							common.fspeed(peer['up_speed']), common.fspeed(peer['down_speed']))
 			print ""
 		client.get_torrent_status(_got_torrent_status, torrent, status_keys)
 
@@ -221,7 +250,8 @@ class CommandPause(Command):
 			self.usage()
 			return
 		try:
-			client.pause_torrent(cmd[1:])
+			torrents = self.match_torrents(cmd[1:])
+			client.pause_torrent(torrents)
 		except Exception, msg:
 			print "Error:", str(msg), "\n"
 
@@ -238,7 +268,8 @@ class CommandResume(Command):
 			self.usage()
 			return
 		try:
-			client.resume_torrent(cmd[1:])
+			torrents = self.match_torrents(cmd[1:])
+			client.resume_torrent(torrents)
 		except Exception, msg:
 			print "Error:", str(msg), "\n"
 
@@ -255,7 +286,8 @@ class CommandRemove(Command):
 			self.usage()
 			return
 		try:
-			client.remove_torrent(cmd, False, False)
+			torrents = self.match_torrents(cmd[1:])
+			client.remove_torrent(torrents, False, False)
 		except Exception, msg:
 			print "*** Error:", str(msg), "\n"
 
