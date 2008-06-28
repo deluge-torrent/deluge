@@ -31,6 +31,51 @@ import logging
 
 import sys
 
+class Enumerate(object):
+	def __init__(self, names):
+		for number, name in enumerate(names.split()):
+			setattr(self, name, number)
+
+NORMAL = chr(27) + '[00;00m'
+NORMAL_B = chr(27) + '[01m'
+RED = chr(27) + '[00;31m'
+RED_B = chr(27) + '[01;31m'
+GREEN = chr(27) + '[00;32m'
+GREEN_B = chr(27) + '[01;32m'
+YELLOW = chr(27) + '[00;33m'
+YELLOW_B = chr(27) + '[01;33m'
+BLUE = chr(27) + '[00;34m'
+BLUE_B = chr(27) + '[01;34m'
+MAGENTA = chr(27) + '[00;35m'
+MAGENTA_B = chr(27) + '[01;35m'
+CYAN = chr(27) + '[01;36m'
+CYAN_B = chr(27) + '[01;36m'
+
+COLORS = Enumerate('RED GREEN YELLOW BLUE MAGENTA CYAN DEFAULT')
+ATTRS = Enumerate('BOLD NORMAL')
+
+def ATTR(color, attr, str):
+	ret = chr(27) + '['
+	if attr == ATTRS.BOLD:
+		ret = ret + "01"
+	else:
+		ret = ret + "02"
+
+	colormaps = {
+			COLORS.RED : "31",
+			COLORS.GREEN : "32",
+			COLORS.YELLOW : "33",
+			COLORS.BLUE : "34",
+			COLORS.MAGENTA : "35",
+			COLORS.CYAN : "36",
+			COLORS.DEFAULT : "39"
+		}
+
+	if color in colormaps:
+		ret = ret + ";" + colormaps[color]
+	ret = ret + "m"
+	return ret + str + chr(27) + "[0m"
+
 status_keys = ["state",
 		"save_path",
 		"tracker",
@@ -143,12 +188,22 @@ class CommandConfig(Command):
 		def _on_get_config(config):
 			for key in config:
 				if cmd and key not in cmd:	continue
-				print "%s: %s" % (key, config[key])
-			print ""
+				color = NORMAL
+				value = config[key]
+				if isinstance(value, bool):
+					color = YELLOW
+				elif isinstance(value, int) or isinstance(value, float):
+					color = GREEN
+				elif isinstance(value, str):
+					color = CYAN
+				elif isinstance(value, list):
+					color = MAGENTA
+					
+				print ("* " + BLUE_B + "%s:" + color + " %s" + NORMAL) % (key, value)
 		client.get_config(_on_get_config)
 
 	def usage(self):
-		print "Usage: config [key1 [key2 ...]]"
+		print "Usage: configs [key1 [key2 ...]]"
 		print ""
 
 	def help(self):
@@ -165,20 +220,22 @@ class CommandExit(Command):
 class CommandHelp(Command):
 	def execute(self, cmd):
 		if len(cmd) < 2:
-			print "Available commands:"
+			print NORMAL_B + "Available commands:" + NORMAL
 			for cmd in sorted(commands.keys()):
-				print "\t*", "%s:" % cmd,
+				print "\t*", "%s:" % (BLUE_B + cmd + NORMAL),
 				command = commands[cmd]
 				command.help()
 		else:
 			for c in cmd[1:]:
 				if c not in commands:
-					print "Unknown command:", c
+					print RED + "Unknown command:", c + NORMAL
 				else:
-					print "*", "%s:" % c,
+					print "*", "%s:" % (BLUE_B + c + NORMAL),
 					command = commands[c]
 					command.help()
+					print GREEN,
 					command.usage()
+					print NORMAL,
 
 	def usage(self):
 		print "Usage: help [cmd1 [cmd2 ...]]"
@@ -204,27 +261,28 @@ class CommandInfo(Command):
 
 	def show_info(self, torrent, brief):
 		def _got_torrent_status(state):
-			print "*** ID:", torrent
-			print "*** Name:", state['name']
-			print "*** Path:", state['save_path']
+			print ATTR(COLORS.BLUE, ATTRS.BOLD, "*** ID:"), torrent
+			print ATTR(COLORS.BLUE, ATTRS.BOLD, "*** Name:"), state['name']
+			print ATTR(COLORS.BLUE, ATTRS.BOLD, "*** Path:"), state['save_path']
+
 			if not state['is_seed']:
-				print "*** Completed:", common.fsize(state['total_done']) + "/" + common.fsize(state['total_size'])
-			print "*** Status:", state['state']
+				print ATTR(COLORS.GREEN, 0, "*** Completed:"), common.fsize(state['total_done']) + "/" + common.fsize(state['total_size'])
+			print ATTR(COLORS.GREEN, 0, "*** Status:"), state['state']
 
 			state['state_i'] = common.TORRENT_STATE.index(state['state'])
 			if state['state_i'] == 2: # Downloading
-				print "*** Download Speed:", common.fspeed(state['download_payload_rate'])
+				print ATTR(COLORS.GREEN, 0, "*** Download Speed:"), common.fspeed(state['download_payload_rate'])
 			if state['state_i'] in [2, 3]: # Downloading, or Seeding
-				print "*** Upload Speed:", common.fspeed(state['upload_payload_rate'])
+				print ATTR(COLORS.GREEN, 0, "*** Upload Speed:"), common.fspeed(state['upload_payload_rate'])
 			if state['state_i'] == 2: # Downloading
-				print "*** ETA:", "%s" % common.ftime(state['eta'])
+				print ATTR(COLORS.GREEN, 0, "*** ETA:"), "%s" % common.ftime(state['eta'])
 
 			if brief == False:
-				print "*** Seeders:", "%s (%s)" % (state['num_seeds'], state['total_seeds'])
-				print "*** Peers:", "%s (%s)" % (state['num_peers'], state['total_peers'])
-				print "*** Share Ratio:", "%.1f" % state['ratio']
-				print "*** Availability:", "%.1f" % state['distributed_copies']
-				print "*** Files:"
+				print ATTR(COLORS.DEFAULT, ATTRS.BOLD, "*** Seeders:"), "%s (%s)" % (state['num_seeds'], state['total_seeds'])
+				print ATTR(COLORS.DEFAULT, ATTRS.BOLD, "*** Peers:"), "%s (%s)" % (state['num_peers'], state['total_peers'])
+				print ATTR(COLORS.DEFAULT, ATTRS.BOLD, "*** Share Ratio:"), "%.1f" % state['ratio']
+				print ATTR(COLORS.DEFAULT, ATTRS.BOLD, "*** Availability:"), "%.1f" % state['distributed_copies']
+				print ATTR(COLORS.CYAN, ATTRS.BOLD, "*** Files:")
 				for i, file in enumerate(state['files']):
 					status = ""
 					if not state['is_seed']:
@@ -234,11 +292,11 @@ class CommandInfo(Command):
 							status = " - %1.f%% completed" % (state['file_progress'][i] * 100)
 					print "\t* %s (%s)%s" % (file['path'], common.fsize(file['size']), status)
 
-				print "*** Peers:"
+				print ATTR(COLORS.MAGENTA, ATTRS.BOLD, "*** Peers:")
 				if len(state['peers']) == 0:
 					print "\t* None"
 				for peer in state['peers']:
-					print "\t* %-21s %-25s Up: %-12s Down: %-12s" % \
+					print ("\t*" + BLUE_B + " %-21s" + GREEN_B + " %-25s " + CYAN + "Up: %-12s" + MAGENTA_B + " Down: %-12s" + NORMAL) % \
 						(peer['ip'], peer['client'] + ["", " (seed)"][not not peer['seed']],
 							common.fspeed(peer['up_speed']), common.fspeed(peer['down_speed']))
 			print ""
@@ -364,7 +422,7 @@ class NullUI:
 			cmd = inp[0]
 			found = False
 			if cmd not in commands:
-				print "Invalid command!"
+				print RED + "Invalid command!" + NORMAL
 				commands['help'].execute([])
 			else:
 				command = commands[cmd]
@@ -379,6 +437,7 @@ class NullUI:
 				#	print "*** Operation failed. You tried to perform an operation on a non-existent torrent."
 				#	print "    Use the 'info' command for the list of torrents."
 				#	print ""
+			print
 
 		print "Thanks."
 
