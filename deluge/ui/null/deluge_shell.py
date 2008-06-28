@@ -28,6 +28,7 @@ import deluge.common as common
 import deluge.error
 import readline
 import logging
+import gobject
 
 import sys
 
@@ -186,7 +187,9 @@ class CommandConfig(Command):
 	def execute(self, cmd):
 		del cmd[0]
 		def _on_get_config(config):
-			for key in config:
+			keys = config.keys()
+			keys.sort()
+			for key in keys:
 				if cmd and key not in cmd:	continue
 				color = NORMAL
 				value = config[key]
@@ -208,6 +211,58 @@ class CommandConfig(Command):
 
 	def help(self):
 		print "Show configuration values"
+
+class CommandConfigSet(Command):
+	def execute(self, cmd):
+		key = cmd[1]
+
+		# Returns (correct_type, type_value)
+		def convert_type(target, source):
+			if isinstance(source, list):
+				return False, None
+
+			if isinstance(source, bool):
+				# Because every non-empty string becomes 'True'
+				if target in ["True", "true", "1"]:
+					return True, True
+				elif target in ["False", "false", "0"]:
+					return True, False
+				return False, None
+
+			try:
+				val = type(source)(target)
+				return True, val
+			except:
+				pass
+			return False, None
+
+		def update_config_value(value, config_val):
+			if config_val == None:
+				print RED + "* Invalid configuration name '%s'" % key + NORMAL
+				return
+			success, value = convert_type(value, config_val)
+			if not success:
+				print RED + "* Configuration value provided has incorrect type." + NORMAL
+			else:
+				client.set_config({key: value})
+				client.force_call()
+				print GREEN + "* Configuration value successfully updated." + NORMAL
+			return False
+
+		def _got_config_value(config_val):
+			global c_val
+			c_val = config_val
+
+		value = " ".join(cmd[2:])
+		client.get_config_value(_got_config_value, key)
+		client.force_call()
+		update_config_value(value, c_val)
+
+	def help(self):
+		print "Change a configuration setting"
+
+	def usage(self):
+		print "Usage: config-set key value"
 
 class CommandExit(Command):
 	def execute(self, cmd):
@@ -388,6 +443,7 @@ class CommandConnect(Command):
 commands = {
 	'add' : CommandAdd(),
 	'configs' : CommandConfig(),
+	'config-set' : CommandConfigSet(),
 	'exit' : CommandExit(),
 	'help' : CommandHelp(),
 	'info' : CommandInfo(),
