@@ -316,7 +316,7 @@ class SystemTray(component.Component):
             value = -1
         
         if value == _("Other..."):
-            value = deluge.common.show_other_speed_dialog(
+            value = deluge.common.show_other_dialog(
                 string + " Speed (KiB/s):", default)
             if value == None:
                 return
