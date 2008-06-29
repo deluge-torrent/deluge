@@ -271,7 +271,7 @@ class SystemTray(component.Component):
     def on_menuitem_add_torrent_activate(self, menuitem):
         log.debug("on_menuitem_add_torrent_activate")
         from addtorrentdialog import AddTorrentDialog
-        client.add_torrent_file(AddTorrentDialog().run())
+        client.add_torrent_file(AddTorrentDialog().show())
         
     def on_menuitem_pause_all_activate(self, menuitem):
         log.debug("on_menuitem_pause_all_activate")
