@@ -88,20 +88,23 @@ class index:
     @deco.deluge_page
     @deco.auto_refreshed
     def GET(self, name):
-        vars = web.input(sort=None, order=None)
+        vars = web.input(sort=None, order=None, state=None , tracker=None, keyword=None)
+
+        #cookies are a delicious delecacy.
+        if not vars.sort: #no arguments, default to coockies.
+            vars.update(cookies())
+        else: #has arguments:set cookies from arguments.
+            for key in ["sort", "order", "state", "tracker", "keyword"]:
+                setcookie(key,getattr(vars,key))
 
         #organize-filters
         organize_filters = {}
         if 'Organize' in proxy.get_enabled_plugins():
             filter_dict = {}
-
             for filter_name in ["state","tracker","keyword"]:
-                value = getattr(web.input(**{filter_name:None}), filter_name)
+                value = getattr(vars, filter_name)
                 if value and value <> "All":
                     filter_dict[filter_name] = value
-                    setcookie(filter_name, getattr(vars, filter_name))
-                else:
-                    setcookie(filter_name, "")
 
             torrent_ids =  proxy.organize_get_session_state(filter_dict)
             organize_filters = Storage(proxy.organize_all_filter_items())
@@ -121,8 +124,6 @@ class index:
             if vars.order == 'up':
                 torrent_list = list(reversed(torrent_list))
 
-            setcookie("order", vars.order)
-            setcookie("sort", vars.sort)
         return render.index(torrent_list, organize_filters)
 route('/index',index)
 

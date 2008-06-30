@@ -138,6 +138,10 @@ def template_sort_head(id,name):
     active_down = False
     order = 'down'
 
+    if not vars.sort: #no arguments, default to coockies.
+        vars.update(cookies())
+
+
     if vars.sort == id:
         if vars.order == 'down':
             order = 'up'

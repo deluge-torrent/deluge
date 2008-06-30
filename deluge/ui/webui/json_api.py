@@ -80,6 +80,8 @@ class json_rpc:
 
             if method.startswith("system."):
                 result = self.exec_system_method(method, params,id)
+            elif method == ("list_torrents"):
+                result = self.list_torrents(method, params,id)
             else:
                 result = self.exec_client_method(method, params,id)
 
@@ -121,6 +123,77 @@ class json_rpc:
         if method == "system.listMethods":
             return self.exec_client_method("list_methods", params, id)
         raise Exception('Unknown method:%s', method)
+
+
+    def list_torrents(self,params,id):
+        """
+        == torrent_list ==
+        Composite call.
+        Goal : limit the number of ajax calls
+
+        filter is only effective if the organize plugin is enabled.
+        label is redirected to the tracker column, there will be a label feature in the future.
+        cache_id = future feature, not effective yet.
+
+        === input ===
+        {{{
+        {
+            keys: [<like get_torrent_status>],
+            filter: {
+                /*ommitted keys are ignored*/
+                "keyword":string
+                "label":string,
+                "state":string
+            } ,
+            cache_id: int
+        }
+        }}}
+
+        === output ===
+        {{{
+        {
+        torrents:
+            [ {"id":string,"name":string, ..}, ..]
+        states:
+            [('string',int), ..]
+        trackers:
+            [('string',int), ..]
+        stats:
+            [upload_rate, download_rate, nu_connections, num_dht_nodes]
+        }
+        cache_id:int
+        }
+        }}}
+        """
+        """filter = params["filter"]
+        keys = params["keys"]
+        cache_id = params["cache_id"]
+        organize_filters = {}
+
+        if 'Organize' in proxy.get_enabled_plugins():
+            filter_dict = {}
+
+            for filter_name in ["state","tracker","keyword"]:
+                value = get(filter,filter_name)
+                if value and value <> "All":
+                    filter_dict[filter_name] = value
+
+            torrent_ids =  proxy.organize_get_session_state(filter_dict)
+            organize_filters = Storage(proxy.organize_all_filter_items())
+        else:
+             torrent_ids =  proxy.get_session_state()
+            organize_filters = {"state":[["All",-1]],"tracker":[]}
+
+        result = {
+            "torrents":sclient.get_torrents_status(torrent_ids, keys),
+            "state":organize_filters["state"],
+            "tracker":organize_filters["tracker"],
+            "stats":[0, 1, 2, 3], #todo
+            "cache_id":cache_id
+        }
+        """
+
+
 
 def register():
     component.get("PageManager").register_page("/json/rpc",json_rpc)
