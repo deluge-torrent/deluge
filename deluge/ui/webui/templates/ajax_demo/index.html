@@ -62,6 +62,20 @@ function update_torrent(torrent) {
 };
 
 
+function get_stats() {
+    service.get_stats({params:[],
+        onSuccess:function(stats){
+            alert(stats.download_rate);
+        },
+        onException:function(errorObj){
+         alert("Error: " + errorObj);
+        }
+    });
+};
+
+
+
+
 
 
 
@@ -72,6 +86,7 @@ function update_torrent(torrent) {
 
 <button onclick="list_torrents()">List torrents</button>
 
+<button onclick="get_stats()">get_stats()</button>
 
 <div id="torrent_list">
 

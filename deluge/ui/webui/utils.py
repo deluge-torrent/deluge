@@ -87,12 +87,16 @@ def self_url(**kwargs):
     return config["base"]  + changequery(**kwargs)
 
 def do_redirect():
+    import render
     """go to /index unless the redir var is set."""
     vars = web.input(redir=None)
     if vars.redir:
         w_seeother(vars.redir) #redir variable contains base
         return
 
+    #test-alt-home
+    if hasattr(render,"home"):
+        return render.home()
     #default:
     seeother('/index')
 

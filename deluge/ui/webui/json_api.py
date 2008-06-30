@@ -43,9 +43,10 @@ design:
 from traceback import format_exc
 import web
 from web import webapi
-from deluge.ui.client import sclient
+from deluge.ui.client import sclient,aclient
 from deluge.log import LOG as log
 from deluge import component
+from utils import dict_cb
 
 from page_decorators import check_session
 try:
@@ -82,6 +83,8 @@ class json_rpc:
                 result = self.exec_system_method(method, params,id)
             elif method == ("list_torrents"):
                 result = self.list_torrents(method, params,id)
+            elif method == ("get_stats"):
+                result = self.exec_get_stats(method, params,id)
             else:
                 result = self.exec_client_method(method, params,id)
 
@@ -121,8 +124,36 @@ class json_rpc:
 
     def exec_system_method(self, method, params, id):
         if method == "system.listMethods":
-            return self.exec_client_method("list_methods", params, id)
+            methods = sclient.list_methods()
+            return {
+                "version":"1.1",
+                "result":methods + ["get_stats"],
+                "id":id
+            }
         raise Exception('Unknown method:%s', method)
+
+    def exec_get_stats(self, method, params, id):
+        stats = {}
+
+        aclient.get_download_rate(dict_cb('download_rate',stats))
+        aclient.get_upload_rate(dict_cb('upload_rate',stats))
+        aclient.get_config_value(dict_cb('max_download',stats)
+            ,"max_download_speed")
+        aclient.get_config_value(dict_cb('max_upload',stats)
+            ,"max_upload_speed")
+        aclient.get_num_connections(dict_cb("num_connections",stats))
+        aclient.get_config_value(dict_cb('max_num_connections',stats)
+            ,"max_connections_global")
+        aclient.get_dht_nodes(dict_cb('dht_nodes',stats))
+
+        aclient.force_call(block=True)
+
+        return {
+            "version":"1.1",
+            "result":stats,
+            "id":id
+        }
+
 
 
     def list_torrents(self,params,id):

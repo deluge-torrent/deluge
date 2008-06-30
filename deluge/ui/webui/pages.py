@@ -75,7 +75,7 @@ class login:
         if utils.check_pwd(vars.pwd):
             #start new session
             start_session()
-            do_redirect()
+            utils.seeother('/index')
         elif vars.redir:
             utils.seeother(url('/login', error=1, redir=vars.redir))
         else:
