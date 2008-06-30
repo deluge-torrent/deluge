@@ -87,36 +87,13 @@ def self_url(**kwargs):
     return config["base"]  + changequery(**kwargs)
 
 def do_redirect():
-    """for redirects after a POST"""
-    vars = web.input(redir = None)
-    ck = cookies()
-    url_vars = {}
-
+    """go to /index unless the redir var is set."""
+    vars = web.input(redir=None)
     if vars.redir:
         w_seeother(vars.redir) #redir variable contains base
         return
-
-    #for the filters:
-    if ("order" in ck and "sort" in ck):
-        url_vars.update({'sort':ck['sort'] ,'order':ck['order'] })
-
-    organize = False
-    try:
-        organize = ('Organize' in sclient.get_enabled_plugins())
-    except:
-        pass
-
-    if organize:
-        #todo:DRY
-        if ("state" in ck) and ck['state']:
-            url_vars['state'] = ck['state']
-        if ("tracker" in ck) and ck['tracker']:
-            url_vars['tracker'] = ck['tracker']
-        if ("keyword" in ck) and ck['keyword']:
-            url_vars['keyword'] = ck['keyword']
-
-    #redirect.
-    w_seeother(url("/index", **url_vars))
+    #default:
+    seeother('/index')
 
 def getcookie(key, default = None):
     "because i'm too lazy to type 3 lines for something this simple"
