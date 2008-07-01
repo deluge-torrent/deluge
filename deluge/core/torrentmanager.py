@@ -607,6 +607,7 @@ class TorrentManager(component.Component):
         torrent.is_finished = True
         torrent.update_state()
         torrent.write_fastresume()
+        component.get("SignalManager").emit("torrent_finished", torrent_id)
         
     def on_alert_torrent_paused(self, alert):
         log.debug("on_alert_torrent_paused")
