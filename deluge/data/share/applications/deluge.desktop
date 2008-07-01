@@ -1,7 +1,8 @@
 [Desktop Entry]
 Version=1.0
 Name=Deluge
-Comment=A Bittorrent Client
+GenericName=Bittorrent Client
+Comment=Transfer files using the Bittorrent protocol
 Exec=deluge
 Icon=deluge
 Terminal=false
