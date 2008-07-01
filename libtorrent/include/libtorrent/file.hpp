@@ -34,7 +34,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #define TORRENT_FILE_HPP_INCLUDED
 
 #include <memory>
-#include <stdexcept>
+#include <string>
+#include <vector>
 
 #ifdef _MSC_VER
 #pragma warning(push, 1)
@@ -53,11 +54,6 @@ POSSIBILITY OF SUCH DAMAGE.
 namespace libtorrent
 {
 	namespace fs = boost::filesystem;
-
-	struct TORRENT_EXPORT file_error: std::runtime_error
-	{
-		file_error(std::string const& msg): std::runtime_error(msg) {}
-	};
 
 	class TORRENT_EXPORT file: public boost::noncopyable
 	{

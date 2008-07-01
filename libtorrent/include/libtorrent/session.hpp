@@ -140,7 +140,7 @@ namespace libtorrent
 		sha1_hash info_hash;
 		char const* name;
 		fs::path save_path;
-		entry const* resume_data;
+		std::vector<char>* resume_data;
 		storage_mode_t storage_mode;
 		bool paused;
 		bool auto_managed;
@@ -211,6 +211,10 @@ namespace libtorrent
 			, void* userdata = 0) TORRENT_DEPRECATED;
 
 		session_proxy abort() { return session_proxy(m_impl); }
+
+		void pause();
+		void resume();
+		bool is_paused() const;
 
 		session_status status() const;
 		cache_status get_cache_status() const;

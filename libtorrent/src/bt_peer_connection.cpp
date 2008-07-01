@@ -192,6 +192,7 @@ namespace libtorrent
 		if (out_enc_policy == pe_settings::forced)
 		{
 			write_pe1_2_dhkey();
+			if (is_disconnecting()) return;
 
 			m_state = read_pe_dhkey;
 			reset_recv_buffer(dh_key_len);
@@ -214,6 +215,7 @@ namespace libtorrent
 				fast_reconnect(true);
 
 				write_pe1_2_dhkey();
+				if (is_disconnecting()) return;
 				m_state = read_pe_dhkey;
 				reset_recv_buffer(dh_key_len);
 				setup_receive();
@@ -372,7 +374,7 @@ namespace libtorrent
 
 		TORRENT_ASSERT(!m_encrypted);
 		TORRENT_ASSERT(!m_rc4_encrypted);
-		TORRENT_ASSERT(!m_DH_key_exchange.get());
+		TORRENT_ASSERT(!m_dh_key_exchange.get());
 		TORRENT_ASSERT(!m_sent_handshake);
 
 #ifdef TORRENT_VERBOSE_LOGGING
@@ -380,7 +382,12 @@ namespace libtorrent
 			(*m_logger) << " initiating encrypted handshake\n";
 #endif
 
-		m_DH_key_exchange.reset(new DH_key_exchange);
+		m_dh_key_exchange.reset(new (std::nothrow) dh_key_exchange);
+		if (!m_dh_key_exchange || !m_dh_key_exchange->good())
+		{
+			disconnect("out of memory");
+			return;
+		}
 
 		int pad_size = std::rand() % 512;
 
@@ -389,11 +396,15 @@ namespace libtorrent
 #endif
 
 		buffer::interval send_buf = allocate_send_buffer(dh_key_len + pad_size);
-		if (send_buf.begin == 0) return; // out of memory
+		if (send_buf.begin == 0)
+		{
+			disconnect("out of memory");
+			return;
+		}
 
-		std::copy(m_DH_key_exchange->get_local_key(),
-				   m_DH_key_exchange->get_local_key() + dh_key_len,
-				   send_buf.begin);
+		std::copy(m_dh_key_exchange->get_local_key(),
+			m_dh_key_exchange->get_local_key() + dh_key_len,
+			send_buf.begin);
 
 		std::generate(send_buf.begin + dh_key_len, send_buf.end, std::rand);
 		setup_send();
@@ -417,7 +428,7 @@ namespace libtorrent
 		
 		hasher h;
 		sha1_hash const& info_hash = t->torrent_file().info_hash();
-		char const* const secret = m_DH_key_exchange->get_secret();
+		char const* const secret = m_dh_key_exchange->get_secret();
 
 		int pad_size = rand() % 512;
 
@@ -452,7 +463,7 @@ namespace libtorrent
 
 		// Discard DH key exchange data, setup RC4 keys
 		init_pe_RC4_handler(secret, info_hash);
-		m_DH_key_exchange.reset(); // secret should be invalid at this point
+		m_dh_key_exchange.reset(); // secret should be invalid at this point
 	
 		// write the verification constant and crypto field
 		TORRENT_ASSERT(send_buf.left() == 8 + 4 + 2 + pad_size + 2);
@@ -1235,9 +1246,9 @@ namespace libtorrent
 
 		buffer::const_interval recv_buffer = receive_buffer();
 
-		entry root;
-		root = bdecode(recv_buffer.begin + 2, recv_buffer.end);
-		if (root.type() == entry::undefined_t)
+		lazy_entry root;
+		lazy_bdecode(recv_buffer.begin + 2, recv_buffer.end, root);
+		if (root.type() != lazy_entry::dict_t)
 		{
 #ifdef TORRENT_VERBOSE_LOGGING
 			(*m_logger) << "invalid extended handshake\n";
@@ -1246,14 +1257,12 @@ namespace libtorrent
 		}
 
 #ifdef TORRENT_VERBOSE_LOGGING
-		std::stringstream ext;
-		root.print(ext);
-		(*m_logger) << "<== EXTENDED HANDSHAKE: \n" << ext.str();
+		(*m_logger) << "<== EXTENDED HANDSHAKE: \n" << root;
 #endif
 
 #ifndef TORRENT_DISABLE_EXTENSIONS
-		for (extension_list_t::iterator i = m_extensions.begin()
-			, end(m_extensions.end()); i != end;)
+		for (extension_list_t::iterator i = m_extensions.begin();
+			!m_extensions.empty() && i != m_extensions.end();)
 		{
 			// a false return value means that the extension
 			// isn't supported by the other end. So, it is removed.
@@ -1265,56 +1274,39 @@ namespace libtorrent
 #endif
 
 		// there is supposed to be a remote listen port
-		if (entry* listen_port = root.find_key("p"))
+		int listen_port = root.dict_find_int_value("p");
+		if (listen_port > 0 && peer_info_struct() != 0)
 		{
-			if (listen_port->type() == entry::int_t
-				&& peer_info_struct() != 0)
-			{
-				t->get_policy().update_peer_port(int(listen_port->integer())
-					, peer_info_struct(), peer_info::incoming);
-			}
+			t->get_policy().update_peer_port(listen_port
+				, peer_info_struct(), peer_info::incoming);
 		}
 		// there should be a version too
 		// but where do we put that info?
 		
-		if (entry* client_info = root.find_key("v"))
-		{
-			if (client_info->type() == entry::string_t)
-				m_client_version = client_info->string();
-		}
+		std::string client_info = root.dict_find_string_value("v");
+		if (!client_info.empty()) m_client_version = client_info;
 
-		if (entry* reqq = root.find_key("reqq"))
-		{
-			if (reqq->type() == entry::int_t)
-				m_max_out_request_queue = int(reqq->integer());
-			if (m_max_out_request_queue < 1)
-				m_max_out_request_queue = 1;
-		}
+		int reqq = root.dict_find_int_value("reqq");
+		if (reqq > 0) m_max_out_request_queue = reqq;
 
-		if (entry* upload_only = root.find_key("upload_only"))
-		{
-			if (upload_only->type() == entry::int_t && upload_only->integer() != 0)
-				set_upload_only(true);
-		}
+		if (root.dict_find_int_value("upload_only"))
+			set_upload_only(true);
 
-		if (entry* myip = root.find_key("yourip"))
+		std::string myip = root.dict_find_string_value("yourip");
+		if (!myip.empty())
 		{
 			// TODO: don't trust this blindly
-			if (myip->type() == entry::string_t)
+			if (myip.size() == address_v4::bytes_type::static_size)
 			{
-				std::string const& my_ip = myip->string().c_str();
-				if (my_ip.size() == address_v4::bytes_type::static_size)
-				{
-					address_v4::bytes_type bytes;
-					std::copy(my_ip.begin(), my_ip.end(), bytes.begin());
-					m_ses.set_external_address(address_v4(bytes));
-				}
-				else if (my_ip.size() == address_v6::bytes_type::static_size)
-				{
-					address_v6::bytes_type bytes;
-					std::copy(my_ip.begin(), my_ip.end(), bytes.begin());
-					m_ses.set_external_address(address_v6(bytes));
-				}
+				address_v4::bytes_type bytes;
+				std::copy(myip.begin(), myip.end(), bytes.begin());
+				m_ses.set_external_address(address_v4(bytes));
+			}
+			else if (myip.size() == address_v6::bytes_type::static_size)
+			{
+				address_v6::bytes_type bytes;
+				std::copy(myip.begin(), myip.end(), bytes.begin());
+				m_ses.set_external_address(address_v6(bytes));
 			}
 		}
 
@@ -1752,13 +1744,17 @@ namespace libtorrent
 
 			if (!packet_finished()) return;
 			
-			// write our dh public key. m_DH_key_exchange is
+			// write our dh public key. m_dh_key_exchange is
 			// initialized in write_pe1_2_dhkey()
-			if (!is_local())
-				write_pe1_2_dhkey();
+			if (!is_local()) write_pe1_2_dhkey();
+			if (is_disconnecting()) return;
 			
 			// read dh key, generate shared secret
-			m_DH_key_exchange->compute_secret (recv_buffer.begin); // TODO handle errors
+			if (m_dh_key_exchange->compute_secret(recv_buffer.begin) == -1)
+			{
+				disconnect("out of memory");
+				return;
+			}
 
 #ifdef TORRENT_VERBOSE_LOGGING
 			(*m_logger) << " received DH key\n";
@@ -1822,7 +1818,7 @@ namespace libtorrent
 
 				// compute synchash (hash('req1',S))
 				h.update("req1", 4);
-				h.update(m_DH_key_exchange->get_secret(), dh_key_len);
+				h.update(m_dh_key_exchange->get_secret(), dh_key_len);
 
 				m_sync_hash.reset(new sha1_hash(h.final()));
 			}
@@ -1895,7 +1891,7 @@ namespace libtorrent
 				
 				h.reset();
 				h.update("req3", 4);
-				h.update(m_DH_key_exchange->get_secret(), dh_key_len);
+				h.update(m_dh_key_exchange->get_secret(), dh_key_len);
 
 				obfs_hash = h.final();
 				obfs_hash ^= skey_hash;
@@ -1912,7 +1908,7 @@ namespace libtorrent
 						TORRENT_ASSERT(t);
 					}
 
-					init_pe_RC4_handler(m_DH_key_exchange->get_secret(), info_hash);
+					init_pe_RC4_handler(m_dh_key_exchange->get_secret(), info_hash);
 #ifdef TORRENT_VERBOSE_LOGGING
 					(*m_logger) << " stream key found, torrent located.\n";
 #endif
@@ -2641,7 +2637,7 @@ namespace libtorrent
 	void bt_peer_connection::check_invariant() const
 	{
 #ifndef TORRENT_DISABLE_ENCRYPTION
-		TORRENT_ASSERT( (bool(m_state != read_pe_dhkey) || m_DH_key_exchange.get())
+		TORRENT_ASSERT( (bool(m_state != read_pe_dhkey) || m_dh_key_exchange.get())
 				|| !is_local());
 
 		TORRENT_ASSERT(!m_rc4_encrypted || m_RC4_handler.get());

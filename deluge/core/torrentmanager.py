@@ -213,16 +213,12 @@ class TorrentManager(component.Component):
                     self.config["state_location"], 
                     torrent_id + ".fastresume"),
                     "rb")
-            try:
-                fastresume = lt.bdecode(_file.read())
-            except RuntimeError, e:
-                log.warning("Unable to bdecode fastresume file: %s", e)
-                
+            fastresume = _file.read()
             _file.close()
         except IOError, e:
             log.debug("Unable to load .fastresume: %s", e)
-            
-        return fastresume
+
+        return str(fastresume)
                                     
     def add(self, torrent_info=None, state=None, options=None, save_state=True,
             filedump=None, filename=None):
@@ -291,7 +287,7 @@ class TorrentManager(component.Component):
                         options[key] = self.config[key]            
 
             add_torrent_params["ti"] = torrent_info
-            add_torrent_params["resume_data"] = None
+            add_torrent_params["resume_data"] = ""
             
         #log.info("Adding torrent: %s", filename)
         log.debug("options: %s", options)
