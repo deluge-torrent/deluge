@@ -103,7 +103,7 @@ def start_daemon():
     (options, args) = parser.parse_args()
 
     # If the donot daemonize is set, then we just skip the forking
-    if not options.donot:
+    if not options.donot and not deluge.common.windows_check():
         if os.fork() == 0:
             os.setsid()
             if os.fork() == 0:
