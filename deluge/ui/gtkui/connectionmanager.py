@@ -128,7 +128,9 @@ class ConnectionManager(component.Component):
             client.set_core_uri(uri)
             self.hide()
             return
-        
+
+        # This controls the timer, if it's set to false the update timer will stop.
+        self._do_update = True        
         self._update()
         
         # Auto connect to a host if applicable
@@ -181,6 +183,7 @@ class ConnectionManager(component.Component):
         
     def hide(self):
         self.connection_manager.hide()
+        self._do_update = False
         try:
             gobject.source_remove(self._update_timer)
         except AttributeError:
@@ -230,7 +233,7 @@ class ConnectionManager(component.Component):
             if self.liststore.iter_n_children(None) > 0:
                 # Then select the first row
                 self.hostlist.get_selection().select_iter(self.liststore.get_iter_first())
-        return True
+        return self._do_update
     
     def update_buttons(self):
         """Updates the buttons based on selection"""
