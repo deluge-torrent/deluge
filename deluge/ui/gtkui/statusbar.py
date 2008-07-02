@@ -101,6 +101,7 @@ class StatusBar(component.Component):
         component.Component.__init__(self, "StatusBar", interval=3000)
         self.window = component.get("MainWindow")
         self.statusbar = self.window.main_glade.get_widget("statusbar")
+        self.tooltips = gtk.Tooltips()
         self.config = ConfigManager("gtkui.conf")
         
         # Status variables that are updated via callback
@@ -138,28 +139,31 @@ class StatusBar(component.Component):
     def start(self):
         # Add in images and labels
         self.remove_item(self.not_connected_item)
-        self.connections_item = StatusBarItem(
+
+        self.connections_item = self.add_item(
             stock=gtk.STOCK_NETWORK,
-            callback=self._on_connection_item_clicked)
-        self.hbox.pack_start(
-            self.connections_item.get_eventbox(), expand=False, fill=False)
-        self.download_item = StatusBarItem(
+            callback=self._on_connection_item_clicked,
+            tooltip="Connections")
+
+        self.download_item = self.add_item(
             image=deluge.common.get_pixmap("downloading16.png"),
-            callback=self._on_download_item_clicked)
-        self.hbox.pack_start(
-            self.download_item.get_eventbox(), expand=False, fill=False)
-        self.upload_item = StatusBarItem(
+            callback=self._on_download_item_clicked,
+            tooltip="Download Speed")
+
+        self.upload_item = self.add_item(
             image=deluge.common.get_pixmap("seeding16.png"),
-            callback=self._on_upload_item_clicked)
-        self.hbox.pack_start(
-            self.upload_item.get_eventbox(), expand=False, fill=False)
+            callback=self._on_upload_item_clicked,
+            tooltip="Upload Speed")
+
         self.dht_item = StatusBarItem(
             image=deluge.common.get_pixmap("dht16.png"))
+        self.tooltips.set_tip(self.dht_item.get_eventbox(), "DHT Nodes")
+
         self.health_item = self.add_item(
                 stock=gtk.STOCK_DIALOG_ERROR,
                 text=_("No Incoming Connections!"),
                 callback=self._on_health_icon_clicked)
-          
+
         self.health = False
         
         # Get some config values
@@ -198,11 +202,13 @@ class StatusBar(component.Component):
         self.hbox.pack_start(
             self.not_connected_item.get_eventbox(), expand=False, fill=False)
     
-    def add_item(self, image=None, stock=None, text=None, callback=None):
+    def add_item(self, image=None, stock=None, text=None, callback=None, tooltip=None):
         """Adds an item to the status bar"""
         # The return tuple.. we return whatever widgets we add
         item = StatusBarItem(image, stock, text, callback)
         self.hbox.pack_start(item.get_eventbox(), expand=False, fill=False)
+        if tooltip:
+            self.tooltips.set_tip(item.get_eventbox(), tooltip)
         return item
     
     def remove_item(self, item):
