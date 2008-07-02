@@ -57,10 +57,7 @@ from statusbar import StatusBar
 from connectionmanager import ConnectionManager
 from signals import Signals
 from pluginmanager import PluginManager
-try:
-    from dbusinterface import DbusInterface
-except Exception, e:
-    log.error("Unable to load DBUS component.  This will limit functionality!")
+from ipcinterface import IPCInterface
     
 from queuedtorrents import QueuedTorrents
 from addtorrentdialog import AddTorrentDialog
@@ -98,7 +95,8 @@ DEFAULT_PREFS = {
     "autoadd_location": "",
     "choose_directory_dialog_path": deluge.common.get_default_download_dir(),
     "classic_mode": False,
-    "show_new_releases": True
+    "show_new_releases": True,
+    "signal_port": 40000
 }
 
 class GtkUI:
@@ -150,11 +148,9 @@ class GtkUI:
         # Start the Dbus Interface before anything else.. Just in case we are
         # already running.
         self.queuedtorrents = QueuedTorrents()
-        try:
-            self.dbusinterface = DbusInterface(args)
-        except Exception, e:
-            log.warning("Unable to start DBUS component.  This will limit functionality!")
-                
+
+        self.ipcinterface = IPCInterface(args)
+        
         # We make sure that the UI components start once we get a core URI
         client.connect_on_new_core(self._on_new_core)
         client.connect_on_no_core(self._on_no_core)
@@ -205,6 +201,7 @@ class GtkUI:
             except:
                 pass
 
+            
     def _on_new_core(self, data):
         component.start()
         

@@ -50,6 +50,7 @@ class Signals(component.Component):
             self.receiver.set_remote(True)
 
         self.receiver.run()
+        self.config["signal_port"] = self.receiver.get_port()
         self.receiver.connect_to_signal("torrent_added", 
             self.torrent_added_signal)
         self.receiver.connect_to_signal("torrent_removed", 
@@ -69,6 +70,8 @@ class Signals(component.Component):
             self.torrent_resume_at_stop_ratio)
         self.receiver.connect_to_signal("new_version_available",
             self.new_version_available)
+        self.receiver.connect_to_signal("args_from_external",
+            self.args_from_external)
             
     def stop(self):
         try:
@@ -135,4 +138,9 @@ class Signals(component.Component):
         if self.config["show_new_releases"]:
             from deluge.ui.gtkui.new_release_dialog import NewReleaseDialog
             NewReleaseDialog().show(value)
+    
+    def args_from_external(self, value):
+        log.debug("args_from_external: %s", value)
+        import ipcinterface
+        ipcinterface.process_args(value)
         

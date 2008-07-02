@@ -147,7 +147,7 @@ class MenuBar(component.Component):
                 self.on_menuitem_remove_both_activate,
 
             "on_menuitem_recheck_activate": self.on_menuitem_recheck_activate,
-            "on_menuitem_open_folder": self.on_menuitem_open_folder_activate,
+            "on_menuitem_open_folder_activate": self.on_menuitem_open_folder_activate,
             "on_menuitem_move_activate": self.on_menuitem_move_activate,
             "on_menuitem_queue_top_activate": self.on_menuitem_queue_top_activate,
             "on_menuitem_queue_up_activate": self.on_menuitem_queue_up_activate,

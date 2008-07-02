@@ -125,7 +125,11 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
             self._shutdown = False
         except Exception, e:
             log.debug("handle_thread: %s", e)
-            
+    
+    def get_port(self):
+        """Get the port that the SignalReceiver is listening on"""
+        return self.port
+                
     def emit_signal(self, signal, *data):
         """Exported method used by the core to emit a signal to the client"""
         self.emitted_signals.append((signal, data))

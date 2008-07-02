@@ -34,8 +34,6 @@
 import sys
 import os
 
-import gtk
-import gobject
 # Import DBUS
 import dbus, dbus.service
 
@@ -46,15 +44,12 @@ elif dbus.version >= (0,80,0):
     DBusGMainLoop(set_as_default=True)
 
 import deluge.component as component
-from deluge.ui.client import aclient as client
 import deluge.common
-from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
     
 class DbusInterface(dbus.service.Object, component.Component):
     def __init__(self, args, path="/org/deluge_torrent/Deluge"):
         component.Component.__init__(self, "DbusInterface")
-        self.config = ConfigManager("gtkui.conf")
         # Check to see if the daemon is already running and if not, start it
         bus = dbus.SessionBus()
         obj = bus.get_object("org.freedesktop.DBus", "/org/freedesktop/DBus")
@@ -92,34 +87,6 @@ class DbusInterface(dbus.service.Object, component.Component):
     @dbus.service.method("org.deluge_torrent.Deluge", in_signature="as")
     def process_args(self, args):
         """Process arguments sent to already running Deluge"""
-        # Pythonize the values from Dbus
-        dbus_args = args
-        args = []
-        for arg in dbus_args:
-            args.append(str(arg))
-        log.debug("Processing args from other process: %s", args)
-        if not client.connected():
-            # We're not connected so add these to the queue
-            log.debug("Not connected to host.. Adding to queue.")
-            component.get("QueuedTorrents").add_to_queue(args)
-            return
-            
-        for arg in args:
-            if deluge.common.is_url(arg):
-                log.debug("Attempting to add %s from external source..",
-                    arg)
-                if self.config["interactive_add"]:
-                    component.get("AddTorrentDialog").add_from_url(arg)
-                    component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
-                else:
-                    client.add_torrent_url(arg)
-            else:
-                # Just a file
-                log.debug("Attempting to add %s from external source..", 
-                    os.path.abspath(arg))
-                if self.config["interactive_add"]:
-                    component.get("AddTorrentDialog").add_from_files([os.path.abspath(arg)])
-                    component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
-                else:
-                    client.add_torrent_file([os.path.abspath(arg)])
+        from ipcinterface import process_args
+        process_args(args)
             
