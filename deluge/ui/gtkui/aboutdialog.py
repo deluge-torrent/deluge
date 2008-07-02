@@ -45,11 +45,10 @@ class AboutDialog:
         def url_hook(dialog, url):
             client.open_url_in_browser(url)
         gtk.about_dialog_set_url_hook(url_hook)
-        self.about = gtk.glade.XML(pkg_resources.resource_filename(\
-            "deluge.ui.gtkui", "glade/aboutdialog.glade")).get_widget(\
-            "aboutdialog")
+        self.about = gtk.AboutDialog()
         self.about.set_position(gtk.WIN_POS_CENTER)
         self.about.set_name("Deluge")
+        self.about.set_program_name("Deluge")
 
         # Get the version and revision numbers
         rev = deluge.common.get_revision()
@@ -57,8 +56,11 @@ class AboutDialog:
         if rev != "":
             version = version + "r" + rev
 
+        self.about.set_copyright("Copyright © 2007-2008 Andrew Resch")
+        self.about.set_comments("A peer-to-peer file sharing program utilizing the Bittorrent protocol.")
         self.about.set_version(version)
-        self.about.set_authors(["Andrew Resch", "Marcos Pinto"])
+        self.about.set_authors(["Andrew Resch", "Marcos Pinto", 
+            "Sadrul Habib Chowdhury", "Martijn Voncken"])
         self.about.set_artists(["Andrew Wedderburn", "Andrew Resch"])
         self.about.set_translator_credits(_("translator-credits"))
         self.about.set_license(_("Deluge is free software, you can redistribute \
