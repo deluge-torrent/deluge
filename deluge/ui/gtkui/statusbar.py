@@ -143,17 +143,17 @@ class StatusBar(component.Component):
         self.connections_item = self.add_item(
             stock=gtk.STOCK_NETWORK,
             callback=self._on_connection_item_clicked,
-            tooltip="Connections")
+            tooltip=_("Connections"))
 
         self.download_item = self.add_item(
             image=deluge.common.get_pixmap("downloading16.png"),
             callback=self._on_download_item_clicked,
-            tooltip="Download Speed")
+            tooltip=_("Download Speed"))
 
         self.upload_item = self.add_item(
             image=deluge.common.get_pixmap("seeding16.png"),
             callback=self._on_upload_item_clicked,
-            tooltip="Upload Speed")
+            tooltip=_("Upload Speed"))
 
         self.dht_item = StatusBarItem(
             image=deluge.common.get_pixmap("dht16.png"))
