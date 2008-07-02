@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.4 on Thu Jun 19 14:55:46 2008 -->
+<!--Generated with glade3 3.4.5 on Tue Jul  1 23:28:14 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="dialog_add_torrent">
     <property name="height_request">560</property>
@@ -142,7 +142,8 @@
                                           <widget class="GtkLabel" id="label3">
                                             <property name="visible">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="label" translatable="yes">From File</property>
+                                            <property name="label" translatable="yes">From _File</property>
+                                            <property name="use_underline">True</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -188,7 +189,8 @@
                                           <widget class="GtkLabel" id="label4">
                                             <property name="visible">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="label" translatable="yes">From URL</property>
+                                            <property name="label" translatable="yes">From _URL</property>
+                                            <property name="use_underline">True</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -234,7 +236,8 @@
                                           <widget class="GtkLabel" id="label5">
                                             <property name="visible">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="label" translatable="yes">From Hash</property>
+                                            <property name="label" translatable="yes">From _Hash</property>
+                                            <property name="use_underline">True</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -279,7 +282,8 @@
                                           <widget class="GtkLabel" id="label2">
                                             <property name="visible">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="label" translatable="yes">Remove</property>
+                                            <property name="label" translatable="yes">_Remove</property>
+                                            <property name="use_underline">True</property>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
@@ -365,7 +369,8 @@
                           <widget class="GtkLabel" id="label8">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">Files</property>
+                            <property name="label" translatable="yes">Fi_les</property>
+                            <property name="use_underline">True</property>
                           </widget>
                           <packing>
                             <property name="padding">5</property>
@@ -696,7 +701,8 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="label" translatable="yes">Add In Paused State</property>
+                                            <property name="label" translatable="yes">Add In _Paused State</property>
+                                            <property name="use_underline">True</property>
                                             <property name="response_id">0</property>
                                             <property name="draw_indicator">True</property>
                                           </widget>
@@ -768,7 +774,8 @@
                                                       <widget class="GtkLabel" id="label16">
                                                         <property name="visible">True</property>
                                                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                                        <property name="label" translatable="yes">Edit Trackers</property>
+                                                        <property name="label" translatable="yes">_Edit Trackers</property>
+                                                        <property name="use_underline">True</property>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -958,7 +965,8 @@
                           <widget class="GtkLabel" id="label20">
                             <property name="visible">True</property>
                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="label" translatable="yes">Options</property>
+                            <property name="label" translatable="yes">_Options</property>
+                            <property name="use_underline">True</property>
                           </widget>
                           <packing>
                             <property name="padding">5</property>
