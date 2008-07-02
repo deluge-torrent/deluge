@@ -107,6 +107,7 @@ DEFAULT_PREFS = {
     "auto_managed": True,
     "move_completed": False,
     "move_completed_path": os.path.join(deluge.common.get_default_download_dir(), "completed"),
+    "new_release_check": False,
 }
         
 class Core(
@@ -261,6 +262,10 @@ class Core(
             self._on_set_dont_count_slow_torrents)
         self.config.register_set_function("send_info",
             self._on_send_info)
+        self.new_release = None
+        self.new_release_timer = None
+        self.config.register_set_function("new_release_check",
+            self._on_new_release_check)
 
         self.config.register_change_callback(self._on_config_value_change)
         # Start the AlertManager
@@ -343,6 +348,8 @@ class Core(
         """Registers a client with the signal manager so that signals are
             sent to it."""
         self.signals.register_client(self.client_address, port)
+        if self.config["new_release_check"]:
+            self.check_new_release()
     
     def export_deregister_client(self):
         """De-registers a client with the signal manager."""
@@ -865,3 +872,36 @@ class Core(
                         self.config["info_sent"] = now
         if value:
             Send_Info_Thread(self.config).start()
+
+    def get_new_release(self):
+        log.debug("get_new_release")
+        import urllib
+        try:
+            self.new_release = urllib.urlopen(
+                "http://download.deluge-torrent.org/version").read().strip()
+        except Exception, e:
+            log.debug("Unable to get release info from website: %s", e)
+            return
+        self.check_new_release()
+            
+    def check_new_release(self):
+        self.new_release = "0.7.0.0"
+        if self.new_release:
+            log.debug("new_release: %s", self.new_release)
+            if self.new_release > deluge.common.get_version():
+                self.signals.emit("new_version_available", self.new_release)
+                return self.new_release
+        return False
+            
+    def _on_new_release_check(self, key, value):
+        if value:
+            log.debug("Checking for new release..")
+            threading.Thread(target=self.get_new_release).start()
+            if self.new_release_timer:
+                gobject.source_remove(self.new_release_timer)
+            # Set a timer to check for a new release every 3 days
+            self.new_release_timer = gobject.timeout_add(
+                72 * 60 * 60 * 1000, self._on_new_release_check, "new_release_check", True)
+        else:
+            if self.new_release_timer:
+                gobject.source.remove(self.new_release_timer)

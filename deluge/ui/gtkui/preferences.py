@@ -217,6 +217,7 @@ class Preferences(component.Component):
                 "chk_natpmp": ("active", self.core_config["natpmp"]),
                 "chk_utpex": ("active", self.core_config["utpex"]),
                 "chk_lsd": ("active", self.core_config["lsd"]),
+                "chk_new_releases": ("active", self.core_config["new_release_check"]),
                 "chk_send_info": ("active", self.core_config["send_info"]),
                 "combo_encin": ("active", self.core_config["enc_in_policy"]),
                 "combo_encout": ("active", self.core_config["enc_out_policy"]),
@@ -338,6 +339,7 @@ class Preferences(component.Component):
                 "chk_utpex",
                 "chk_lsd",
                 "chk_send_info",
+                "chk_new_releases",
                 "combo_encin",
                 "combo_encout",
                 "combo_enclevel",
@@ -389,11 +391,11 @@ class Preferences(component.Component):
             self.gtkui_config["lock_tray"])
         self.glade.get_widget("chk_classic_mode").set_active(
             self.gtkui_config["classic_mode"])
-
-        ## Other tab ##
-        self.glade.get_widget("chk_new_releases").set_active(
-            self.gtkui_config["check_new_releases"])
         
+        ## Other tab ##
+        self.glade.get_widget("chk_show_new_releases").set_active(
+            self.gtkui_config["show_new_releases"])
+            
         ## Plugins tab ##
         all_plugins = self.all_plugins
         enabled_plugins = self.enabled_plugins
@@ -525,9 +527,8 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_classic_mode").get_active()
         
         ## Other tab ##    
-        new_gtkui_config["check_new_releases"] = \
-            self.glade.get_widget("chk_new_releases").get_active()
-            
+        new_gtkui_config["show_new_releases"] = \
+            self.glade.get_widget("chk_show_new_releases").get_active()
         new_core_config["send_info"] = \
             self.glade.get_widget("chk_send_info").get_active()
 
@@ -536,7 +537,9 @@ class Preferences(component.Component):
             self.glade.get_widget("spin_daemon_port").get_value_as_int()
         new_core_config["allow_remote"] = \
             self.glade.get_widget("chk_allow_remote_connections").get_active()
-        
+        new_core_config["new_release_check"] = \
+            self.glade.get_widget("chk_new_releases").get_active()
+                    
         ## Queue tab ##
         new_core_config["queue_new_to_top"] = \
             self.glade.get_widget("chk_queue_new_top").get_active()

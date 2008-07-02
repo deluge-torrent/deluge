@@ -36,13 +36,15 @@ import gtk
 import deluge.component as component
 from deluge.ui.client import aclient as client
 from deluge.ui.signalreceiver import SignalReceiver
+from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
 class Signals(component.Component):
     def __init__(self):
         component.Component.__init__(self, "Signals")
         self.receiver = SignalReceiver()
-
+        self.config = ConfigManager("gtkui.conf")
+        
     def start(self):
         if not client.is_localhost():
             self.receiver.set_remote(True)
@@ -65,7 +67,9 @@ class Signals(component.Component):
             self.torrent_queue_changed)
         self.receiver.connect_to_signal("torrent_resume_at_stop_ratio",
             self.torrent_resume_at_stop_ratio)
-    
+        self.receiver.connect_to_signal("new_version_available",
+            self.new_version_available)
+            
     def stop(self):
         try:
             self.receiver.shutdown()
@@ -125,3 +129,10 @@ class Signals(component.Component):
         log.debug("torrent_resume_at_stop_ratio")
         component.get("StatusBar").display_warning(
             text=_("Torrent is past stop ratio."))
+            
+    def new_version_available(self, value):
+        log.debug("new_version_available: %s", value)
+        if self.config["show_new_releases"]:
+            from deluge.ui.gtkui.new_release_dialog import NewReleaseDialog
+            NewReleaseDialog().show(value)
+        
