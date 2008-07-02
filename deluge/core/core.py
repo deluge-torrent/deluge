@@ -885,7 +885,6 @@ class Core(
         self.check_new_release()
             
     def check_new_release(self):
-        self.new_release = "0.7.0.0"
         if self.new_release:
             log.debug("new_release: %s", self.new_release)
             if self.new_release > deluge.common.get_version():
