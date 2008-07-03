@@ -72,6 +72,8 @@ class Signals(component.Component):
             self.new_version_available)
         self.receiver.connect_to_signal("args_from_external",
             self.args_from_external)
+        self.receiver.connect_to_signal("torrent_state_changed",
+            self.torrent_state_changed)
             
     def stop(self):
         try:
@@ -143,4 +145,7 @@ class Signals(component.Component):
         log.debug("args_from_external: %s", value)
         import ipcinterface
         ipcinterface.process_args(value)
+    
+    def torrent_state_changed(self, value):
+        log.debug("torrent_state_changed: %s", value)
         

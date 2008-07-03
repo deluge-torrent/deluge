@@ -147,6 +147,8 @@ class TorrentManager(component.Component):
             self.on_alert_storage_moved)
         self.alerts.register_handler("torrent_resumed_alert", 
             self.on_alert_torrent_resumed)
+        self.alerts.register_handler("state_changed_alert",
+            self.on_alert_state_changed)
         
     def start(self):
         # Get the pluginmanager reference
@@ -701,3 +703,9 @@ class TorrentManager(component.Component):
         torrent = self.torrents[str(alert.handle.info_hash())]
         torrent.is_finished = torrent.handle.is_seed()
         torrent.update_state()
+  
+    def on_alert_state_changed(self, alert):
+        log.debug("on_alert_state_changed")
+        torrent_id = str(alert.handle.info_hash())
+        component.get("SignalManager").emit("torrent_state_changed", torrent_id)
+        
