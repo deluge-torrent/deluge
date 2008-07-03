@@ -118,9 +118,6 @@ class ConnectionManager(component.Component):
                                     self.on_selection_changed)
         
         # If classic mode is set, we just start up a localhost daemon and connect to it
-        # This controls the timer, if it's set to false the update timer will stop.
-        self._do_update = True
-
         if self.gtkui_config["classic_mode"]:
             uri = "http://localhost:58846"
             os.popen("deluged -p 58846")
@@ -132,7 +129,9 @@ class ConnectionManager(component.Component):
             self.hide()
             return
 
-        self._update()
+        # This controls the timer, if it's set to false the update timer will stop.
+        self._do_update = True
+        self._update_list()
         
         # Auto connect to a host if applicable
         if self.gtkui_config["autoconnect"] and \
@@ -177,9 +176,9 @@ class ConnectionManager(component.Component):
             not self.gtkui_config["show_connection_manager_on_start"])
         
         # Setup timer to update host status
-        self._update_timer = gobject.timeout_add(1000, self._update)
-        self._update()
-        self._update()
+        self._update_timer = gobject.timeout_add(1000, self._update_list)
+        self._update_list()
+        self._update_list()
         self.connection_manager.show_all()
         
     def hide(self):
@@ -192,7 +191,7 @@ class ConnectionManager(component.Component):
             # first.  OK to ignore.
             pass
 
-    def _update(self):
+    def _update_list(self):
         """Updates the host status"""
         def update_row(model=None, path=None, row=None, columns=None):
             uri = model.get_value(row, HOSTLIST_COL_URI)
@@ -378,7 +377,7 @@ class ConnectionManager(component.Component):
         # Save the host list to file
         self.save()
         # Update the status of the hosts
-        self._update()
+        self._update_list()
         
     def on_button_removehost_clicked(self, widget):
         log.debug("on_button_removehost_clicked")
@@ -388,7 +387,7 @@ class ConnectionManager(component.Component):
             self.liststore.remove(self.liststore.get_iter(path))
         
         # Update the hostlist
-        self._update()
+        self._update_list()
         
         # Save the host list
         self.save()
@@ -450,7 +449,7 @@ class ConnectionManager(component.Component):
             component.stop()
             # If we are connected to this host, then we will disconnect.
             client.set_core_uri(None)
-            self._update()
+            self._update_list()
             return
         
         # Test the host to see if it is online or not.  We don't use the status
@@ -464,11 +463,11 @@ class ConnectionManager(component.Component):
                 while not self.test_online_status(uri):
                     time.sleep(0.01)               
                 client.set_core_uri(uri)
-                self._update()
+                self._update_list()
                 self.hide()
                 
             # Update the list to show proper status
-            self._update()
+            self._update_list()
             
             return
 
