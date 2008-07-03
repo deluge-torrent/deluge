@@ -47,12 +47,7 @@ from deluge.ui.client import sclient,aclient
 from deluge.log import LOG as log
 from deluge import component
 from utils import dict_cb
-
-from page_decorators import check_session
-try:
-    import json #it's early enough to force people to install this
-except:
-    raise Exception("please install python-json")
+from lib import json
 
 class json_rpc:
     """

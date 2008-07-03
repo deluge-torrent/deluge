@@ -1,4 +1,4 @@
-#mvoncken 2008: added complete LGPL licesnse to this file to ease distribution
+#mvoncken 2008: added complete LGPL to this file to ease distribution
 import string
 import types
 
