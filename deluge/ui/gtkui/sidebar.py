@@ -106,15 +106,6 @@ class SideBar(component.Component):
         value = model.get_value(row, 0)
         if value == "All":
             component.get("TorrentView").set_filter(None, None)
-        if value == "Downloading":
-            component.get("TorrentView").set_filter("state", 
-                "Downloading")
-        if value == "Seeding":
-            component.get("TorrentView").set_filter("state", "Seeding")
-        if value == "Queued":
-            component.get("TorrentView").set_filter("state", "Queued")
-        if value == "Paused":
-            component.get("TorrentView").set_filter("state", "Paused")
-        if value == "Error":
-            component.get("TorrentView").set_filter("state", "Error")
+        else:
+            component.get("TorrentView").set_filter("state", value)
 

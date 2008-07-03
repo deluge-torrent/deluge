@@ -102,7 +102,6 @@ class FilesTab(Tab):
 
         self.listview = glade.get_widget("files_listview")
         # filename, size, progress string, progress value, priority, file index, icon id
-        self.liststore = gtk.ListStore(str, gobject.TYPE_UINT64, str, int, int, int)
         self.treestore = gtk.TreeStore(str, gobject.TYPE_UINT64, str, int, int, int, str)
         
         # Filename column        
