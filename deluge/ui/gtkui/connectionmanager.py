@@ -118,6 +118,9 @@ class ConnectionManager(component.Component):
                                     self.on_selection_changed)
         
         # If classic mode is set, we just start up a localhost daemon and connect to it
+        # This controls the timer, if it's set to false the update timer will stop.
+        self._do_update = True
+
         if self.gtkui_config["classic_mode"]:
             uri = "http://localhost:58846"
             os.popen("deluged -p 58846")
@@ -129,8 +132,6 @@ class ConnectionManager(component.Component):
             self.hide()
             return
 
-        # This controls the timer, if it's set to false the update timer will stop.
-        self._do_update = True        
         self._update()
         
         # Auto connect to a host if applicable
