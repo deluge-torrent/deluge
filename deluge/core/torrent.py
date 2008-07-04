@@ -185,7 +185,7 @@ class Torrent:
             
     def set_file_priorities(self, file_priorities):
         log.debug("setting %s's file priorities: %s", self.torrent_id, file_priorities)
-        if len(file_priorities) != self.torrent_info.num_files():
+        if len(file_priorities) != len(self.files):
             log.debug("file_priorities len != num_files")
             return
             
