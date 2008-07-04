@@ -101,7 +101,7 @@ def get_default_config_dir(filename=None):
     """
     if windows_check():
         if filename:
-            return os.path.join(os.environ.get("APPDATA"), "deluge"), filename)
+            return os.path.join(os.environ.get("APPDATA"), "deluge", filename)
         else:
             return os.path.join(os.environ.get("APPDATA"), "deluge")
     else:
