@@ -66,7 +66,7 @@ def start_ui():
             logfile = deluge.common.get_default_config_dir("deluge.log")
             
         sys.stdout = open(logfile, "wb")
-        sys.stderr = stdout
+        sys.stderr = sys.stdout
         sys.stdin = None
         
     from deluge.log import LOG as log
