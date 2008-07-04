@@ -99,10 +99,16 @@ def get_default_config_dir(filename=None):
     """ Returns the config path if no filename is specified
     Returns the config directory + filename as a path if filename is specified
     """
-    if filename != None:
-        return os.path.join(xdg.BaseDirectory.save_config_path("deluge"), filename)
+    if windows_check():
+        if filename:
+            return os.path.join(os.environ.get("APPDATA"), "deluge"), filename)
+        else:
+            return os.path.join(os.environ.get("APPDATA"), "deluge")
     else:
-        return xdg.BaseDirectory.save_config_path("deluge")
+        if filename:
+            return os.path.join(xdg.BaseDirectory.save_config_path("deluge"), filename)
+        else:
+            return xdg.BaseDirectory.save_config_path("deluge")
 
 def get_default_download_dir():
     """Returns the default download directory"""
