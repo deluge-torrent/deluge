@@ -177,7 +177,7 @@ class Core(
             from win32api import SetConsoleCtrlHandler
             from win32con import CTRL_CLOSE_EVENT
             result = 0
-            def win_handler(self, ctrl_type):
+            def win_handler(ctrl_type):
                 if ctrl_type == CTRL_CLOSE_EVENT:
                     self._shutdown()
                     result = 1
