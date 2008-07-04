@@ -63,7 +63,7 @@ def start_ui():
         if options.config:
             logfile = os.path.join(options.config, "deluge.log")
         else:
-            logfile = deluge.common.get_config_dir("deluge.log")
+            logfile = deluge.common.get_default_config_dir("deluge.log")
             
         sys.stdout = open(logfile, "wb")
         sys.stderr = stdout
