@@ -38,6 +38,7 @@ try:
 except:
     log.warning("It is suggested that you upgrade your PyGTK to 2.10 or greater.")
 import gtk, gtk.glade
+import gobject
 import gettext
 import locale
 import pkg_resources
@@ -103,13 +104,18 @@ class GtkUI:
     def __init__(self, args):
         # Initialize gdk threading
         gtk.gdk.threads_init()
-
+        gobject.threads_init()
+        
         # Initialize gettext
-        locale.setlocale(locale.LC_MESSAGES, '')
-        locale.bindtextdomain("deluge", 
+        if deluge.common.windows_check():
+            locale.set_localte(locale.LC_ALL, '')
+        else:
+            locale.setlocale(locale.LC_MESSAGES, '')
+            locale.bindtextdomain("deluge", 
                     pkg_resources.resource_filename(
                                             "deluge", "i18n"))
-        locale.textdomain("deluge")
+            locale.textdomain("deluge")
+
         gettext.bindtextdomain("deluge",
                     pkg_resources.resource_filename(
                                             "deluge", "i18n"))
@@ -132,7 +138,7 @@ class GtkUI:
             from win32api import SetConsoleCtrlHandler
             from win32con import CTRL_CLOSE_EVENT
             result = 0
-            def win_handler(self, ctrl_type):
+            def win_handler(ctrl_type):
                 if ctrl_type == CTRL_CLOSE_EVENT:
                     self.shutdown()
                     return 1
@@ -181,7 +187,9 @@ class GtkUI:
                 
         # Start the gtk main loop
         try:
+            gtk.gdk.threads_enter()
             gtk.main()
+            gtk.gdk.threads_leave()
         except KeyboardInterrupt:
             self.shutdown()
         else:           
