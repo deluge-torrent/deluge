@@ -2,7 +2,6 @@ After labels:
 *templates : remove advanced , rename deluge to classic , result = classic-templ -> no-javascript ; white-templ -> static enhanced with js ; ajax-templ -> json api
 *white temnplate: add deluge icon.
 *fix all comments from IRC-nonicknamename2.
-*white-template : green-iframe ->make blue
 
 0.6 RC:
 *Fix IE7 for advanced/white template.
@@ -27,4 +26,5 @@ Half-done:
 
 Done:
 *plugin-config + (re)enable webui plugins.
+*white-template : green-iframe ->make blue
 

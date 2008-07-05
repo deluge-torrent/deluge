@@ -205,14 +205,25 @@ div.progress_bar{
 	width:100%;
 	margin-top:20px;
 	border-style:solid;
-	/*border-width:2 2 0 0;*/
-	border-width:2 2 2 12;
-	border-color:#74DD82;
+	/*old-green:
+	border-width:2 2 0 0;
+	border-width:2 2 2 12;*/
+	/*new-blue:*/
+	border-width:2px 2px 2px 12px;
+	border-color:#C3D9FF;
+
+
 	-moz-border-radius:5px;
 	/*float: right;*/
 }
 #torrent_info_tabs {
+	/*old-green
 	background-color:#B5EDBC
+	*/
+	/*new-blue:*/
+	background-color:#E0ECFF;
+
+
 }
 
 #torrent_info tr.head{
