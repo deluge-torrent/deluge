@@ -62,16 +62,15 @@ class AboutDialog:
             "Sadrul Habib Chowdhury", "Martijn Voncken"])
         self.about.set_artists(["Andrew Wedderburn", "Andrew Resch"])
         self.about.set_translator_credits(_("translator-credits"))
-        self.about.set_license(_("Deluge is free software, you can redistribute \
-it and/or\nmodify it under the terms of the GNU General Public\n License as \
-published by the Free Software Foundation,\neither version 2 of the License, \
-or (at your option) any\nlater version.  Deluge is distributed in the hope \
-that it\nwill be useful, but WITHOUT ANY WARRANTY, without even \nthe implied \
-warranty of MERCHANTABILITY or FITNESS\nFOR A PARTICULAR PURPOSE.  See the GNU \
-General\nPublic License for more details.  You should have received\na copy of \
-the GNU General Public License along with\nDeluge, but if not, write to the \
-Free Software Foundation,\n Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110\
--\n1301 USA"))
+        self.about.set_wrap_license(True)
+        self.about.set_license(_("This program is free software; you can redistribute \
+it and/or modify it under the terms of the GNU General Public License as published by \
+the Free Software Foundation; either version 2 of the License, or (at your option) any \
+later version. This program is distributed in the hope that it will be useful, but \
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS \
+FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You \
+should have received a copy of the GNU General Public License along with this program; \
+if not, see <http://www.gnu.org/licenses>."))
         self.about.set_website("http://deluge-torrent.org")
         self.about.set_website_label("http://deluge-torrent.org")
         self.about.set_icon(deluge.common.get_logo(32))
