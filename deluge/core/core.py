@@ -149,11 +149,15 @@ class Core(
         self.register_introspection_functions()
                 
         # Initialize gettext
-        locale.setlocale(locale.LC_MESSAGES, '')
-        locale.bindtextdomain("deluge", 
+        if deluge.common.windows_check():
+            locale.set_localte(locale.LC_ALL, '')
+        else:
+            locale.setlocale(locale.LC_MESSAGES, '')
+            locale.bindtextdomain("deluge", 
                     pkg_resources.resource_filename(
                                             "deluge", "i18n"))
-        locale.textdomain("deluge")
+            locale.textdomain("deluge")
+
         gettext.bindtextdomain("deluge",
                     pkg_resources.resource_filename(
                                             "deluge", "i18n"))
