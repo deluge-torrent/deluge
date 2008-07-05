@@ -95,11 +95,8 @@ class index:
             vars.update(cookies())
         else: #has arguments:set cookies from arguments.
             for key in ["sort", "order", "filter_cat","filter_value"]:
-                value = getattr(vars, key)
-                if value:
-                    setcookie(key, value)
-                else:
-                   setcookie(key, "")
+                value = getattr(vars, key) or ""
+                setcookie(key, value)
 
         #organize-filters
         label_filters = {}
@@ -107,14 +104,7 @@ class index:
             filter_dict = {}
             if vars.filter_cat and vars.filter_value and vars.filter_value <> "All":
                 filter_dict = {vars.filter_cat:vars.filter_value}
-            """
-            TODO...
-            for filter_name in ["state","tracker","keyword"]:
-                value = getattr(vars, filter_name)
-                if value and value <> "All" and value <> "None":
-                    filter_dict[filter_name] = value
-            log.debug(filter_dict)
-            """
+
             torrent_ids =  proxy.label_get_filtered_ids(filter_dict)
             label_filters = proxy.label_filter_items()
 
