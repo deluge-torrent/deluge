@@ -94,12 +94,16 @@ _extra_compile_args = [
 if windows_check():
     _extra_compile_args += [ 
         "-DBOOST_WINDOWS",
+        "-DBOOST_WINDOWS_API",
+        "-DBOOST_STATIC_LINK",
         "-DWIN32_LEAN_AND_MEAN",
         "-D_WIN32_WINNT=0x0500",
         "-D__USE_W32_SOCKETS",
         "-D_WIN32",
         "-DWIN32",
         "-DUNICODE",
+        "/Zc:wchar_t",
+        "/GR",
         "-DBOOST_ALL_NO_LIB",
         "-DBOOST_THREAD_USE_LIB",
         "-DTORRENT_BUILDING_SHARED",
@@ -121,9 +125,6 @@ if not windows_check():
         for removal in removals:
             cv_opt = cv_opt.replace(removal, " ")
         sysconfig.get_config_vars()["OPT"] = " ".join(cv_opt.split())
-    
-_extra_link_args = [
-]
 
 _library_dirs = [
 ]
@@ -135,16 +136,18 @@ _include_dirs = [
 ]
 
 if windows_check():
-    _extra_link_args += ['-L./win32/lib']
-    _include_dirs += ['./win32/include/zlib', 'C:/Program Files/boost/boost_1_34_1']
-    _library_dirs += ['C:/Program Files/boost/boost_1_34_1/lib']
+    _include_dirs += ['./win32/include','./win32/include/openssl', './win32/include/zlib']
+    _library_dirs += ['./win32/lib']
     _libraries = [
-        'boost_filesystem-vc71-mt-1_34_1',
-        'boost_date_time-vc71-mt-1_34_1',
-        'boost_thread-vc71-mt-1_34_1',
+        'boost_filesystem-vc71-mt-1_35',
+        'boost_date_time-vc71-mt-1_35',
+        'boost_thread-vc71-mt-1_35',
+        'boost_system-vc71-mt-1_35',
+        'boost_python-vc71-mt-1_35',
+        'boost_iostreams-vc71-mt-1_35',
         'zlib',
-        'ssleay32MT',
-        'libeay32MT',
+        'ssleay32',
+        'libeay32',
         'advapi32',
         'wsock32',
         'gdi32',
@@ -186,7 +189,6 @@ libtorrent = Extension(
     library_dirs = _library_dirs,
     libraries = _libraries,
     extra_compile_args = _extra_compile_args,
-    extra_link_args = _extra_link_args,
     sources = _sources
 )
 
