@@ -48,11 +48,11 @@ class subclassed_render(object):
     """
     def __init__(self):
         self.apply_cfg()
+        self.plugin_renderers = []
 
     def apply_cfg(self):
         self.cache = config.get('cache_templates')
         self.renderers = []
-        self.plugin_renderers = []
         self.template_cache = {}
         self.webui_path = os.path.dirname(__file__)
 
@@ -70,7 +70,7 @@ class subclassed_render(object):
 
     @logcall
     def register_template_path(self, path):
-        self.plugin_renderers.append(template.render(path))
+        self.plugin_renderers.append(template.render(path , cache=False))
 
     @logcall
     def unregister_template_path(self, path):

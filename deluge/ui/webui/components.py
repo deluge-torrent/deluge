@@ -175,12 +175,28 @@ class ConfigPageManager(component.Component):
     def unregister(self, name):
         del self.blocks[name]
 
+class PluginApi(component.Component):
+    """
+    """
+    def __init__(self):
+        component.Component.__init__(self, "WebPluginApi")
+        import web
+        from render import render
+        import page_decorators as deco
+
+        self.render  = render
+        self.web = web
+        self.deco = deco
+        self.page_manager = component.get("PageManager")
+
 
 def register():
     __plugin_manager = PluginManager()
     __menu_manager = MenuManager()
     __page_manager = PageManager()
     __config_page_manager =  ConfigPageManager()
+    __plugin_api =  PluginApi()
+
 
 
 
