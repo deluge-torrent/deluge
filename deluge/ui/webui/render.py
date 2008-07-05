@@ -113,13 +113,6 @@ def error_page(error):
     web.header("Cache-Control", "no-cache, must-revalidate")
     print render.error(error)
 
-#template-defs:
-"""
-obsolete:
-def category_tabs(torrent_list):
-    filter_tabs, category_tabs = get_category_choosers(torrent_list)
-    return render.part_categories(filter_tabs, category_tabs)
-"""
 
 def template_crop_middle(text, maxlen):
     try:

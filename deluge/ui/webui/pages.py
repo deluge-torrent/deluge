@@ -94,8 +94,12 @@ class index:
         if not vars.sort: #no arguments, default to coockies.
             vars.update(cookies())
         else: #has arguments:set cookies from arguments.
-            for key in ["sort", "order", "state", "tracker", "keyword"]:
-                setcookie(key,getattr(vars,key))
+            for key in ["sort", "order", "filter_cat","filter_value"]:
+                value = getattr(vars, key)
+                if value:
+                    setcookie(key, value)
+                else:
+                   setcookie(key, "")
 
         #organize-filters
         label_filters = {}
