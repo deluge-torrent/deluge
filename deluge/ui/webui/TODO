@@ -1,3 +1,8 @@
+After labels:
+*templates : remove advanced , rename deluge to classic , result ->classic template:no-javascript ; white -> static enhanced with js ; ajax-template -> damoxc.
+*white temnplate: add deluge icon.
+*fix all comments from IRC-nonicknamename2.
+
 0.6 :
 *plugin-config + (re)enable webui plugins.
 *Fix IE7 for advanced/white template.

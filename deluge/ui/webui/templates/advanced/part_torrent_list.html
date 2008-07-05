@@ -1,4 +1,4 @@
-$def with (torrent_list, organize_filters)
+$def with (torrent_list, label_filters)
 
 <script language="javascript">
 /*for select_all shortcut/button*/
@@ -24,11 +24,12 @@ document.onkeydown = torrent_table.keydown;
         $:(sort_head('total_size', _('Size')))
         $:(sort_head('progress', _('Progress')))
 
-        $if organize_filters:
+        $if label_filters:
             <!--HACK:
-            abusing organize_filters to check if the Orgnize plugin is enabled
+            abusing label_filters to check if the Orgnize plugin is enabled
             -->
-            $:(sort_head('tracker_name', _('Tracker')))
+            $:(sort_head('label', _('Label')))
+            $:(sort_head('tracker_host', _('Tracker')))
 
         $:(sort_head('num_seeds', _('Seeders')))
         $:(sort_head('num_peers', _('Peers')))
@@ -68,8 +69,9 @@ $for torrent in torrent_list:
             </div>
         </div>
     </td>
-    $if organize_filters:
-        <td>$torrent.tracker_name</td>
+    $if label_filters:
+        <td>$torrent.label</td>
+        <td>$torrent.tracker_host</td>
     <td>
     $if torrent.total_seeds != -1:
         $torrent.num_seeds ($torrent.total_seeds)

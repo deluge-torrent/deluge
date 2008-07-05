@@ -183,12 +183,17 @@ class PluginApi(component.Component):
         import web
         from render import render
         import page_decorators as deco
+        import utils
+        import lib.newforms_plus as forms
 
         self.render  = render
         self.web = web
         self.deco = deco
+        self.forms = forms
         self.page_manager = component.get("PageManager")
-
+        self.config_page_manager = component.get("ConfigPageManager")
+        self.menu_manager = component.get("MenuManager")
+        self.utils = utils
 
 def register():
     __plugin_manager = PluginManager()

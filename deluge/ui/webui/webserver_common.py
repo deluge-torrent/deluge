@@ -54,7 +54,8 @@ TORRENT_KEYS = ['name', 'total_size', 'num_files', 'num_pieces', 'piece_length',
     'max_upload_slots', 'max_download_speed', 'prioritize_first_last',
     'private','max_upload_speed','queue','peers',
     #builtin plugins:
-    'tracker_name' #organize-plugin
+    'tracker_name', #organize-plugin
+    'tracker_host', 'label' #label-plugin
     ]
 
 CONFIG_DEFAULTS = {

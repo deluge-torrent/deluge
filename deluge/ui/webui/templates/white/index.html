@@ -1,10 +1,11 @@
-$def with (torrent_list, organize_filters)
+$def with (torrent_list, label_filters)
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 $:render.header(_("Deluge : Torrent List"), 'home')
 
-$if organize_filters:
-    $:render.part_organize(organize_filters)
+$if label_filters:
+    <!--the part_label_filters.html is served from the label plugin template directory -->
+    $:render.part_label_filters(label_filters)
 
 
 <table id="torrent_list_block" width="80%">
@@ -13,7 +14,7 @@ $if organize_filters:
     $:render.part_toolbar()
     </div>
 </td></tr><tr><td>
-    $:render.part_torrent_list(torrent_list, organize_filters)
+    $:render.part_torrent_list(torrent_list, label_filters)
 
 </td></tr><tr><td height=100%>
 
