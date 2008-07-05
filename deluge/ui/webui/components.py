@@ -50,6 +50,7 @@ import lib.newforms_plus as forms
 from deluge.ui.client import aclient
 from deluge import component, pluginmanagerbase
 from deluge.configmanager import ConfigManager
+from deluge.log import LOG as log
 
 class TOOLBAR_FLAGS:
     generic = 0
@@ -134,19 +135,30 @@ class PluginManager(pluginmanagerbase.PluginManagerBase,
     def start(self):
         """Start the plugin manager"""
         # Update the enabled_plugins from the core
+        log.debug("start pl-manager")
         aclient.get_enabled_plugins(self._on_get_enabled_plugins)
+        aclient.force_call(block=True)
 
     def stop(self):
         # Disable the plugins
         self.disable_plugins()
 
-
     def _on_get_enabled_plugins(self, enabled_plugins):
-        log.debug("Webui has these plugins enabled: %s", enabled_plugins)
-        self.config["enabled_plugins"] = enabled_plugins
+
+        log.debug("..Webui has these plugins enabled: %s", enabled_plugins)
+
+        log.debug("abababab")
+        log.debug(self.config)
+
+        self.config.config["enabled_plugins"] = enabled_plugins
 
         # Enable the plugins that are enabled in the config and core
-        self.enable_plugins()
+        log.debug(self.enable_plugins)
+        try:
+            self.enable_plugins()
+        except Exception, e:
+            log.debug(e)
+
 
 class ConfigPageManager(component.Component):
     def __init__(self):

@@ -101,7 +101,10 @@ class Form(FilteredForm):
     def validate(self, data):
         pass
 
-    def extra_html(self):
+    def pre_html(self):
+        return ''
+
+    def post_html(self):
         return ''
 
 

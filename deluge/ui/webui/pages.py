@@ -103,9 +103,9 @@ class index:
             filter_dict = {}
             for filter_name in ["state","tracker","keyword"]:
                 value = getattr(vars, filter_name)
-                if value and value <> "All":
+                if value and value <> "All" and value <> "None":
                     filter_dict[filter_name] = value
-
+            log.debug(filter_dict)
             torrent_ids =  proxy.organize_get_session_state(filter_dict)
             organize_filters = Storage(proxy.organize_all_filter_items())
 

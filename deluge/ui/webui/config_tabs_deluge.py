@@ -62,7 +62,7 @@ class NetworkPorts(config_forms.CfgForm ):
         if (data['_port_to'] < data['_port_from']):
             raise forms.ValidationError('"Port from" must be greater than "Port to"')
 
-    def extra_html(self):
+    def post_html(self):
         return """
         <ul>
             <li>Active port:%(active_port)s </li>

@@ -262,9 +262,10 @@ def apply_config():
     #etc, mostly for apache:
     from render import render
     try:
-        sclient.set_core_uri(config.get('daemon'))
-    except:
-        print "error setting core uri:",config.get('daemon')
+        #sclient.set_core_uri(config.get('daemon'))
+        daemon_connect(config.get('daemon'))
+    except Exception,e:
+        log.debug("error setting core uri:%s:%s:%s" % (config.get('daemon'),e,e.message))
     render.set_global('base', config.get('base'))
     render.apply_cfg()
 

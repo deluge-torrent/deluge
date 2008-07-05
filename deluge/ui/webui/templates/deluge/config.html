@@ -21,6 +21,7 @@ $for group in groups:
 <h2>$form.group / $form.title</h2>
 <div class="info">$form.info</div>
 <form method="POST">
+$:form.pre_html()
 <table id="config_table">
 $:form.as_table()
 <tr>
@@ -35,11 +36,7 @@ $if message:
 $if error:
     <div class="error">$error</div>
 
-<div>
-$:form.extra_html()
-</div>
-
-
+$:form.post_html()
 
 </form>
 
