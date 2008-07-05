@@ -92,7 +92,13 @@ class index:
 
         #cookies are a delicious delecacy.
         if not vars.sort: #no arguments, default to coockies.
-            vars.update(cookies())
+            newvars = cookies()
+            if vars.filter_cat: #i'm doing it wrong :( , but it works..
+                newvars['filter_cat'] = vars.filter_cat
+                newvars['filter_value'] = vars.filter_value
+            vars.update(newvars)
+
+
         else: #has arguments:set cookies from arguments.
             for key in ["sort", "order", "filter_cat","filter_value"]:
                 value = getattr(vars, key) or ""
