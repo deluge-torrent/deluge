@@ -161,7 +161,7 @@ class EditTrackersDialog:
         log.debug("on_button_add_ok_clicked")
         from re import search as re_search
         tracker = self.glade.get_widget("entry_tracker").get_text()
-        if not re_search("https?://", tracker):
+        if not re_search("[udp|http]s?://", tracker):
             # Bad url.. lets prepend http://
             tracker = "http://" + tracker
         
