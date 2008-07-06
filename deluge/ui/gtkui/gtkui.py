@@ -108,7 +108,7 @@ class GtkUI:
         
         # Initialize gettext
         if deluge.common.windows_check():
-            locale.set_localte(locale.LC_ALL, '')
+            locale.setlocale(locale.LC_ALL, '')
         else:
             locale.setlocale(locale.LC_MESSAGES, '')
             locale.bindtextdomain("deluge", 
