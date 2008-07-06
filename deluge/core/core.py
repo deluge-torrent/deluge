@@ -150,7 +150,7 @@ class Core(
                 
         # Initialize gettext
         if deluge.common.windows_check():
-            locale.set_localte(locale.LC_ALL, '')
+            locale.set_locale(locale.LC_ALL, '')
         else:
             locale.setlocale(locale.LC_MESSAGES, '')
             locale.bindtextdomain("deluge", 
