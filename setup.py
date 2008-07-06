@@ -239,12 +239,47 @@ cmdclass = {
 }
 
 # Build the plugin eggs
-for path in glob.glob('deluge/plugins/*'):
-    print path + "/setup.py"
-    os.system("cd " + path + "&& python setup.py bdist_egg -d ..")
+PLUGIN_PATH = "deluge/plugins/*"
+if windows_check():
+    PLUGIN_PATH = "deluge\\plugins\\"
+    
+for path in glob.glob(PLUGIN_PATH):
+    if os.path.exists(os.path.join(path, "setup.py")):
+        os.system("cd " + path + "&& python setup.py bdist_egg -d ..")
 
 # Main setup
-
+PREFIX = "/usr/"
+if windows_check():
+    PREFIX = ""
+_data_files = [(os.path.join(PREFIX, 'share/icons/scalable/apps'), [
+                         'deluge/data/icons/scalable/apps/deluge.svg']),
+                (os.path.join(PREFIX, 'share/icons/hicolor/128x128/apps'), [
+                        'deluge/data/icons/hicolor/128x128/apps/deluge.png']),
+                (os.path.join(PREFIX, 'share/icons/hicolor/16x16/apps'), [
+                        'deluge/data/icons/hicolor/16x16/apps/deluge.png']),
+                (os.path.join(PREFIX, 'share/icons/hicolor/192x192/apps'), [
+                        'deluge/data/icons/hicolor/192x192/apps/deluge.png']),
+                (os.path.join(PREFIX, 'share/icons/hicolor/22x22/apps'), [
+                        'deluge/data/icons/hicolor/22x22/apps/deluge.png']),
+                (os.path.join(PREFIX, 'share/icons/hicolor/24x24/apps'), [
+                        'deluge/data/icons/hicolor/24x24/apps/deluge.png']),
+                (os.path.join(PREFIX, 'share/icons/hicolor/256x256/apps'), [
+                        'deluge/data/icons/hicolor/256x256/apps/deluge.png']),
+                (os.path.join(PREFIX, 'share/icons/hicolor/32x32/apps'), [
+                        'deluge/data/icons/hicolor/32x32/apps/deluge.png']),
+                (os.path.join(PREFIX, 'share/icons/hicolor/36x36/apps'), [
+                        'deluge/data/icons/hicolor/36x36/apps/deluge.png']),
+                (os.path.join(PREFIX, 'share/icons/hicolor/48x48/apps'), [
+                        'deluge/data/icons/hicolor/48x48/apps/deluge.png']),
+                (os.path.join(PREFIX, 'share/icons/hicolor/64x64/apps'), [
+                        'deluge/data/icons/hicolor/64x64/apps/deluge.png']),
+                (os.path.join(PREFIX, 'share/icons/hicolor/72x72/apps'), [
+                        'deluge/data/icons/hicolor/72x72/apps/deluge.png']),
+                (os.path.join(PREFIX, 'share/icons/hicolor/96x96/apps'), [
+                        'deluge/data/icons/hicolor/96x96/apps/deluge.png']),
+                (os.path.join(PREFIX, 'share/applications'), [
+                        'deluge/data/share/applications/deluge.desktop']),
+                (os.path.join(PREFIX, 'share/pixmaps'), ['deluge/data/pixmaps/deluge.png'])]
 setup(
     name = "deluge",
     fullname = "Deluge Bittorent Client",
@@ -279,35 +314,7 @@ setup(
                                 "ui/webui/templates/advanced/static/*",
                                 "ui/webui/templates/white/*"
                                 ]},
-    data_files = [('/usr/share/icons/scalable/apps', [
-                         'deluge/data/icons/scalable/apps/deluge.svg']),
-                ('/usr/share/icons/hicolor/128x128/apps', [
-                        'deluge/data/icons/hicolor/128x128/apps/deluge.png']),
-                ('/usr/share/icons/hicolor/16x16/apps', [
-                        'deluge/data/icons/hicolor/16x16/apps/deluge.png']),
-                ('/usr/share/icons/hicolor/192x192/apps', [
-                        'deluge/data/icons/hicolor/192x192/apps/deluge.png']),
-                ('/usr/share/icons/hicolor/22x22/apps', [
-                        'deluge/data/icons/hicolor/22x22/apps/deluge.png']),
-                ('/usr/share/icons/hicolor/24x24/apps', [
-                        'deluge/data/icons/hicolor/24x24/apps/deluge.png']),
-                ('/usr/share/icons/hicolor/256x256/apps', [
-                        'deluge/data/icons/hicolor/256x256/apps/deluge.png']),
-                ('/usr/share/icons/hicolor/32x32/apps', [
-                        'deluge/data/icons/hicolor/32x32/apps/deluge.png']),
-                ('/usr/share/icons/hicolor/36x36/apps', [
-                        'deluge/data/icons/hicolor/36x36/apps/deluge.png']),
-                ('/usr/share/icons/hicolor/48x48/apps', [
-                        'deluge/data/icons/hicolor/48x48/apps/deluge.png']),
-                ('/usr/share/icons/hicolor/64x64/apps', [
-                        'deluge/data/icons/hicolor/64x64/apps/deluge.png']),
-                ('/usr/share/icons/hicolor/72x72/apps', [
-                        'deluge/data/icons/hicolor/72x72/apps/deluge.png']),
-                ('/usr/share/icons/hicolor/96x96/apps', [
-                        'deluge/data/icons/hicolor/96x96/apps/deluge.png']),
-                ('/usr/share/applications', [
-                        'deluge/data/share/applications/deluge.desktop']),
-                ('/usr/share/pixmaps' , ['deluge/data/pixmaps/deluge.png'])],
+    data_files = _data_files,
     ext_package = "deluge",
     ext_modules = [libtorrent],
     packages = find_packages(exclude=["plugins"]),
