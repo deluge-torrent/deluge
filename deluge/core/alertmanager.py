@@ -44,7 +44,14 @@ class AlertManager(component.Component):
         log.debug("AlertManager initialized..")
         component.Component.__init__(self, "AlertManager", interval=50)
         self.session = session
-        self.session.set_severity_level(lt.alert.severity_levels.info)
+        self.session.set_alert_mask(
+            lt.alert.category_t.error_notification |
+            lt.alert.category_t.port_mapping_notification |
+            lt.alert.category_t.storage_notification |
+            lt.alert.category_t.tracker_notification |
+            lt.alert.category_t.status_notification |
+            lt.alert.category_t.ip_block_notification)
+            
         # handlers is a dictionary of lists {"alert_type": [handler1,h2,..]}
         self.handlers = {}
 
@@ -87,7 +94,7 @@ class AlertManager(component.Component):
             # Do some magic to get the alert type as a string
             alert_type = str(type(alert)).split("'")[1].split(".")[2]
             # Display the alert message
-            log.debug("%s: %s", alert_type, alert.msg())
+            log.debug("%s: %s", alert_type, alert.message())
             # Call any handlers for this alert type
             if alert_type in self.handlers.keys():
                 for handler in self.handlers[alert_type]:
