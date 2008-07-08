@@ -95,10 +95,11 @@ class CoreProxy(gobject.GObject):
                                     callback(ret)
                         except:
                             pass
-                except (socket.error, xmlrpclib.ProtocolError, 
+                except (socket.error, xmlrpclib.ProtocolError,
                         deluge.xmlrpclib.Fault, Exception), e:
-                    log.warning("Could not contact daemon: %s", e)
-                    self.set_core_uri(None)
+                    log.warning("Multi-call Exception: %s:%s", e, getattr(e,"message",None))
+                    #self.set_core_uri(None) , disabled : there are many reasons for an exception ; not just an invalid core.
+                    #todo : publish an exception event, ui's like gtk could popup a dialog for this.
             finally:
                 self._callbacks = []
 
