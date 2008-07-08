@@ -20,4 +20,4 @@ After 0.6 release:
 * Webseed
 * Enable/disable webui from within gtkui
 * Notifications
-
+* create a clamav plugin to scan files
