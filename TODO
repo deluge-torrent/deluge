@@ -10,6 +10,7 @@ After 0.6 release:
 * Restart daemon function
 * Docstrings!
 * Add wizard
+* Advanced (pieces) progress bar
 * Add method for plugins to add labels
 * Add context menus for labels.. ie. setting options for all torrents in label
 * Implement caching in core
