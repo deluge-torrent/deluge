@@ -902,12 +902,9 @@ namespace libtorrent
 				m_suggested_pieces.erase(i);
 		}
 
-		if (m_request_queue.empty())
+		if (m_request_queue.empty() && m_download_queue.size() < 2)
 		{
-			if (m_download_queue.size() < 2)
-			{
-				request_a_block(*t, *this);
-			}
+			request_a_block(*t, *this);
 			send_block_requests();
 		}
 	}
@@ -1381,8 +1378,8 @@ namespace libtorrent
 
 			if (t->alerts().should_post<invalid_request_alert>())
 			{
-				t->alerts().post_alert(invalid_request_alert(r
-					, t->get_handle(), m_remote, m_peer_id));
+				t->alerts().post_alert(invalid_request_alert(
+					t->get_handle(), m_remote, m_peer_id, r));
 			}
 		}
 	}
@@ -1523,8 +1520,8 @@ namespace libtorrent
 		{
 			if (t->alerts().should_post<peer_error_alert>())
 			{
-				t->alerts().post_alert(peer_error_alert(t->get_handle(), m_remote
-						, m_peer_id, "got a block that was not in the request queue"));
+				t->alerts().post_alert(unwanted_block_alert(t->get_handle(), m_remote
+						, m_peer_id, block_finished.block_index, block_finished.piece_index));
 			}
 #if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_ERROR_LOGGING
 			(*m_logger) << " *** The block we just got was not in the "
@@ -1542,8 +1539,8 @@ namespace libtorrent
 
 #if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_ERROR_LOGGING
 			(*m_logger) << time_now_string()
-				<< " *** SKIPPED_PIECE [ piece: " << i->piece_index << " | "
-				"b: " << i->block_index << " ] ***\n";
+				<< " *** SKIPPED_PIECE [ piece: " << i->block.piece_index << " | "
+				"b: " << i->block.block_index << " ] ***\n";
 #endif
 
 			++i->skipped;
@@ -1554,7 +1551,7 @@ namespace libtorrent
 			{
 				if (m_ses.m_alerts.should_post<request_dropped_alert>())
 					m_ses.m_alerts.post_alert(request_dropped_alert(t->get_handle()
-						, i->block.block_index, i->block.piece_index));
+						, remote(), pid(), i->block.block_index, i->block.piece_index));
 				picker.abort_download(i->block);
 				i = m_download_queue.erase(i);
 			}
@@ -1664,7 +1661,7 @@ namespace libtorrent
 		if (t->alerts().should_post<block_finished_alert>())
 		{
 			t->alerts().post_alert(block_finished_alert(t->get_handle(), 
-				block_finished.block_index, block_finished.piece_index));
+				remote(), pid(), block_finished.block_index, block_finished.piece_index));
 		}
 
 		// did we just finish the piece?
@@ -1906,7 +1903,7 @@ namespace libtorrent
 
 	void peer_connection::add_request(piece_block const& block)
 	{
-		INVARIANT_CHECK;
+//		INVARIANT_CHECK;
 
 		boost::shared_ptr<torrent> t = m_torrent.lock();
 		TORRENT_ASSERT(t);
@@ -1948,7 +1945,7 @@ namespace libtorrent
 		if (t->alerts().should_post<block_downloading_alert>())
 		{
 			t->alerts().post_alert(block_downloading_alert(t->get_handle(), 
-				speedmsg, block.block_index, block.piece_index));
+				remote(), pid(), speedmsg, block.block_index, block.piece_index));
 		}
 
 		m_request_queue.push_back(block);
@@ -2401,6 +2398,7 @@ namespace libtorrent
 		p.load_balancing = total_free_upload();
 
 		p.download_queue_length = int(download_queue().size() + m_request_queue.size());
+		p.requests_in_buffer = int(m_requests_in_buffer.size());
 		p.target_dl_queue_length = int(desired_queue_size());
 		p.upload_queue_length = int(upload_queue().size());
 
@@ -2765,6 +2763,8 @@ namespace libtorrent
 
 	void peer_connection::snub_peer()
 	{
+		INVARIANT_CHECK;
+
 		boost::shared_ptr<torrent> t = m_torrent.lock();
 		TORRENT_ASSERT(t);
 
@@ -2810,7 +2810,7 @@ namespace libtorrent
 			if (m_ses.m_alerts.should_post<block_timeout_alert>())
 			{
 				m_ses.m_alerts.post_alert(block_timeout_alert(t->get_handle()
-					, r.block_index, r.piece_index));
+					, remote(), pid(), r.block_index, r.piece_index));
 			}
 			m_download_queue.pop_back();
 		}
@@ -2818,7 +2818,6 @@ namespace libtorrent
 			m_timeout_extend += m_ses.settings().request_timeout;
 
 		request_a_block(*t, *this);
-		send_block_requests();
 
 		// abort the block after the new one has
 		// been requested in order to prevent it from
@@ -2826,6 +2825,8 @@ namespace libtorrent
 		// same piece indefinitely.
 		if (r != piece_block(-1, -1))
 			picker.abort_download(r);
+
+		send_block_requests();
 	}
 
 	void peer_connection::fill_send_buffer()
@@ -2955,15 +2956,16 @@ namespace libtorrent
 			TORRENT_ASSERT(t);
 			if (m_bandwidth_limit[upload_channel].max_assignable() > 0)
 			{
-#ifdef TORRENT_VERBOSE_LOGGING
-				(*m_logger) << time_now_string() << " *** REQUEST_BANDWIDTH [ upload ]\n";
-#endif
-
+				int priority = is_interesting() * 2 + m_requests_in_buffer.size();
 				// peers that we are not interested in are non-prioritized
 				m_channel_state[upload_channel] = peer_info::bw_torrent;
 				t->request_bandwidth(upload_channel, self()
-					, m_send_buffer.size()
-					, is_interesting() * 2);
+					, m_send_buffer.size(), priority);
+#ifdef TORRENT_VERBOSE_LOGGING
+				(*m_logger) << time_now_string() << " *** REQUEST_BANDWIDTH [ upload prio: "
+					<< priority << "]\n";
+#endif
+
 			}
 			return;
 		}
@@ -3146,8 +3148,11 @@ namespace libtorrent
 		m_packet_size = packet_size;
 	}
 
-	void peer_connection::send_buffer(char const* buf, int size)
+	void peer_connection::send_buffer(char const* buf, int size, int flags)
 	{
+		if (flags == message_type_request)
+			m_requests_in_buffer.push_back(m_send_buffer.size() + size);
+
 		int free_space = m_send_buffer.space_in_last_buffer();
 		if (free_space > size) free_space = size;
 		if (free_space > 0)
@@ -3416,7 +3421,7 @@ namespace libtorrent
 		if (t->alerts().should_post<peer_connect_alert>())
 		{
 			t->alerts().post_alert(peer_connect_alert(
-				t->get_handle(), m_remote));
+				t->get_handle(), remote(), pid()));
 		}
 	}
 	
@@ -3491,6 +3496,14 @@ namespace libtorrent
 		TORRENT_ASSERT(m_channel_state[upload_channel] == peer_info::bw_network);
 
 		m_send_buffer.pop_front(bytes_transferred);
+
+		for (std::vector<int>::iterator i = m_requests_in_buffer.begin()
+			, end(m_requests_in_buffer.end()); i != end; ++i)
+			*i -= bytes_transferred;
+
+		while (!m_requests_in_buffer.empty()
+			&& m_requests_in_buffer.front() <= 0)
+			m_requests_in_buffer.erase(m_requests_in_buffer.begin());
 		
 		m_channel_state[upload_channel] = peer_info::bw_idle;
 
