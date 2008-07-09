@@ -169,6 +169,8 @@ class TorrentManager(component.Component):
         component.pause("AlertManager")
         for key in self.torrents.keys():
             if not self.torrents[key].handle.is_paused():
+                # We set auto_managed false to prevent lt from resuming the torrent
+                self.torrents[key].handle.auto_managed(False)
                 self.torrents[key].handle.pause()
                 self.shutdown_torrent_pause_list.append(key)
         while self.shutdown_torrent_pause_list:                        
