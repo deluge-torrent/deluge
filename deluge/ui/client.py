@@ -95,11 +95,12 @@ class CoreProxy(gobject.GObject):
                                     callback(ret)
                         except:
                             pass
-                except (socket.error, xmlrpclib.ProtocolError,
-                        deluge.xmlrpclib.Fault, Exception), e:
-                    log.warning("Multi-call Exception: %s:%s", e, getattr(e,"message",None))
+                except (socket.error, xmlrpclib.ProtocolError), e:
+                    self.set_core_uri(None)
+                except (deluge.xmlrpclib.Fault, Exception), e:
                     #self.set_core_uri(None) , disabled : there are many reasons for an exception ; not just an invalid core.
                     #todo : publish an exception event, ui's like gtk could popup a dialog for this.
+                    log.warning("Multi-call Exception: %s:%s", e, getattr(e,"message",None))
             finally:
                 self._callbacks = []
 
