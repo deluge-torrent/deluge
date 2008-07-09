@@ -120,7 +120,7 @@ class ConnectionManager(component.Component):
         # If classic mode is set, we just start up a localhost daemon and connect to it
         if self.gtkui_config["classic_mode"]:
             uri = "http://localhost:58846"
-            os.popen("deluged -p 58846")
+            os.spawnlp(os.P_NOWAIT, "deluged", "-p", "58846")
             time.sleep(0.1)
             # We need to wait for the host to start before connecting
             while not self.test_online_status(uri):
@@ -152,8 +152,7 @@ class ConnectionManager(component.Component):
                     port = uri[7:].split(":")[1]
                     # First add it to the list
                     self.add_host("localhost", port)
-                    
-                    os.popen("deluged -p %s" % port)
+                    os.spawnlp(os.P_NOWAIT, "deluged", "-p", port)
                     # We need to wait for the host to start before connecting
                     while not self.test_online_status(uri):
                         time.sleep(0.01)
@@ -425,7 +424,7 @@ class ConnectionManager(component.Component):
         port = str(port)
         log.info("Starting localhost:%s daemon..", port)
         # Spawn a local daemon
-        os.popen("deluged -p %s" % port)
+        os.spawnlp(os.P_NOWAIT, "deluged", "-p", port)
         
     def on_button_close_clicked(self, widget):
         log.debug("on_button_close_clicked")
