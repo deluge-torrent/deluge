@@ -76,7 +76,7 @@ DEFAULT_PREFS = {
     "start_in_tray": False,
     "lock_tray": False,
     "tray_password": "",
-    "check_new_releases": False,
+    "check_new_releases": True,
     "default_load_path": None,
     "window_maximized": False,
     "window_x_pos": 0,
