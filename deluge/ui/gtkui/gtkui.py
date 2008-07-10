@@ -68,6 +68,7 @@ import deluge.common
 
 DEFAULT_PREFS = {
     "config_location": deluge.configmanager.get_config_dir(),
+    "classic_mode": True,
     "interactive_add": True,
     "focus_add_dialog": True,
     "enable_system_tray": True,
@@ -98,11 +99,6 @@ DEFAULT_PREFS = {
     "show_new_releases": True,
     "signal_port": 40000
 }
-
-if deluge.common.windows_check():
-    DEFAULT_PREFS['classic_mode'] = True
-else:
-    DEFAULT_PREFS['classic_mode'] = False
 
 class GtkUI:
     def __init__(self, args):
