@@ -1481,6 +1481,16 @@ namespace libtorrent
 			"qs: " << m_desired_queue_size << " ]\n";
 #endif
 
+		if (p.length == 0)
+		{
+			if (t->alerts().should_post<peer_error_alert>())
+			{
+				t->alerts().post_alert(peer_error_alert(t->get_handle(), m_remote
+						, m_peer_id, "peer sent 0 length piece"));
+			}
+			return;
+		}
+
 		if (!verify_piece(p))
 		{
 #if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_ERROR_LOGGING
@@ -1518,7 +1528,7 @@ namespace libtorrent
 
 		if (b == m_download_queue.end())
 		{
-			if (t->alerts().should_post<peer_error_alert>())
+			if (t->alerts().should_post<unwanted_block_alert>())
 			{
 				t->alerts().post_alert(unwanted_block_alert(t->get_handle(), m_remote
 						, m_peer_id, block_finished.block_index, block_finished.piece_index));
@@ -2028,22 +2038,28 @@ namespace libtorrent
 		m_num_invalid_requests = 0;
 
 		// reject the requests we have in the queue
-		std::for_each(m_requests.begin(), m_requests.end()
-			, bind(&peer_connection::write_reject_request, this, _1));
+		// except the allowed fast pieces
+		for (std::deque<peer_request>::iterator i = m_requests.begin();
+			i != m_requests.end();)
+		{
+			if (m_accept_fast.count(i->piece))
+			{
+				++i;
+				continue;
+			}
+
+			peer_request const& r = *i;
+			write_reject_request(r);
 
 #ifdef TORRENT_VERBOSE_LOGGING
-		for (std::deque<peer_request>::iterator i = m_requests.begin()
-			, end(m_requests.end()); i != end; ++i)
-		{
-			peer_request const& r = *i;
 			(*m_logger) << time_now_string()
 				<< " ==> REJECT_PIECE [ "
 				"piece: " << r.piece << " | "
 				"s: " << r.start << " | "
 				"l: " << r.length << " ]\n";
-		}
 #endif
-		m_requests.clear();
+			i = m_requests.erase(i);
+		}
 	}
 
 	void peer_connection::send_unchoke()
@@ -2116,6 +2132,12 @@ namespace libtorrent
 			r.length = block_size;
 
 			m_request_queue.pop_front();
+			if (t->is_seed()) continue;
+			// this can happen if a block times out, is re-requested and
+			// then arrives "unexpectedly"
+			if (t->picker().is_finished(block) || t->picker().is_downloaded(block))
+				continue;
+
 			m_download_queue.push_back(block);
 /*
 #ifdef TORRENT_VERBOSE_LOGGING
@@ -2817,7 +2839,9 @@ namespace libtorrent
 		if (!m_download_queue.empty() || !m_request_queue.empty())
 			m_timeout_extend += m_ses.settings().request_timeout;
 
+		m_desired_queue_size = 2;
 		request_a_block(*t, *this);
+		m_desired_queue_size = 1;
 
 		// abort the block after the new one has
 		// been requested in order to prevent it from
