@@ -168,7 +168,11 @@ class QueuedTorrents(component.Component):
         # Add all the torrents in the liststore
         def add_torrent(model, path, iter, data):
             torrent_path = model.get_value(iter, 1)
-            client.add_torrent_file([torrent_path])
+            if self.config["interactive_add"]:
+                component.get("AddTorrentDialog").add_from_files([torrent_path])
+                component.get("AddTorrentDialog").show(self.config["focus_add_dialog"])
+            else:
+                client.add_torrent_file([torrent_path])
             
         self.liststore.foreach(add_torrent, None)
         del self.queue[:]
