@@ -106,8 +106,8 @@ DEFAULT_PREFS = {
     "seed_time_limit": 180,
     "auto_managed": True,
     "move_completed": False,
-    "move_completed_path": os.path.join(deluge.common.get_default_download_dir(), "completed"),
-    "new_release_check": False,
+    "move_completed_path": deluge.common.get_default_download_dir(),
+    "new_release_check": True,
 }
         
 class Core(
