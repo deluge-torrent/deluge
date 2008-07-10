@@ -99,24 +99,28 @@ class Signals(component.Component):
 
     def torrent_paused(self, torrent_id):
         log.debug("torrent_paused signal received..")
+        component.get("TorrentView").mark_dirty(torrent_id)
         component.get("TorrentView").update()
         component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
     
     def torrent_resumed(self, torrent_id):
         log.debug("torrent_resumed signal received..")
+        component.get("TorrentView").mark_dirty(torrent_id)
         component.get("TorrentView").update()
         component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
             
     def torrent_all_paused(self):
         log.debug("torrent_all_paused signal received..")
+        component.get("TorrentView").mark_dirty()
         component.get("TorrentView").update()
         component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
         
     def torrent_all_resumed(self):
         log.debug("torrent_all_resumed signal received..")
+        component.get("TorrentView").mark_dirty()
         component.get("TorrentView").update()
         component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
@@ -128,6 +132,7 @@ class Signals(component.Component):
     
     def torrent_queue_changed(self):
         log.debug("torrent_queue_changed signal received..")
+        component.get("TorrentView").mark_dirty()
         component.get("TorrentView").update()
     
     def torrent_resume_at_stop_ratio(self):

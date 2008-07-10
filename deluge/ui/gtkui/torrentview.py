@@ -120,6 +120,7 @@ class TorrentView(listview.ListView, component.Component):
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
         self.add_bool_column("filter", hidden=True)
+        self.add_bool_column("dirty", hidden=True)
         self.add_func_column("#", cell_data_queue, [int], status_field=["queue"])
         self.add_texticon_column(_("Name"), status_field=["state", "name"], 
                                             function=cell_data_statusicon)
@@ -252,8 +253,10 @@ class TorrentView(listview.ListView, component.Component):
         torrent_ids = []
         for row in self.liststore:
             # Only add this torrent_id if it's not filtered
-            if row[self.columns["filter"].column_indices[0]] == True:
+            if row[self.columns["filter"].column_indices[0]] == True or \
+                    row[self.columns["dirty"].column_indices[0]] == True :
                 torrent_ids.append(row[self.columns["torrent_id"].column_indices[0]])
+                row[self.columns["dirty"].column_indices[0]] = False
 
         if torrent_ids == []:
             return
@@ -266,22 +269,25 @@ class TorrentView(listview.ListView, component.Component):
     def update_filter(self):
         # Update the filter view
         for row in self.liststore:
-            filter_column = self.columns["filter"].column_indices[0]
-            # Create a function to create a new liststore with only the
-            # desired rows based on the filter.
-            field, condition = self.filter
-            if field == None and condition == None:
-                row[filter_column] = True
-                continue
+            self.update_filter_row(row)
 
-            value = row[self.get_state_field_column(field)]
+    def update_filter_row(self, row):
+        filter_column = self.columns["filter"].column_indices[0]
+        # Create a function to create a new liststore with only the
+        # desired rows based on the filter.
+        field, condition = self.filter
+        if field == None and condition == None:
+            row[filter_column] = True
+            return
 
-            # Condition is True, so lets show this row, if not we hide it
-            if value == condition:
-                row[filter_column] = True
-            else:
-                row[filter_column] = False
-            
+        value = row[self.get_state_field_column(field)]
+
+        # Condition is True, so lets show this row, if not we hide it
+        if value == condition:
+            row[filter_column] = True
+        else:
+            row[filter_column] = False
+        
     def update(self):
         # Send a status request
         self.send_status_request()
@@ -327,7 +333,7 @@ class TorrentView(listview.ListView, component.Component):
                                                 column_index.index(index)]]
                             except:
                                 pass
-
+                self.update_filter_row(row)
         # Update the toolbar buttons just in case some state has changed
         component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
@@ -364,6 +370,13 @@ class TorrentView(listview.ListView, component.Component):
                 self.update()
                 self.update_filter()
                 break
+
+    def mark_dirty(self, torrent_id = None):
+        for row in self.liststore:
+            if not torrent_id or row[0] == torrent_id:
+                log.debug("marking %s dirty", torrent_id)
+                row[self.columns["dirty"].column_indices[0]] = True
+                if torrent_id: break
             
     def get_selected_torrent(self):
         """Returns a torrent_id or None.  If multiple torrents are selected,
