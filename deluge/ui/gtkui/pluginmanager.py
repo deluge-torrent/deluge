@@ -46,7 +46,8 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
             self, "gtkui.conf", "deluge.plugin.gtkui")
 
         self.hooks = {
-            "on_apply_prefs": []
+            "on_apply_prefs": [],
+            "on_show_prefs": []
         }
 
     def register_hook(self, hook, function):
@@ -80,6 +81,14 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         self.enable_plugins()
 
     ## Hook functions
+    def run_on_show_prefs(self):
+        """This hook is run before the user is shown the preferences dialog.
+        It is designed so that plugins can update their preference page with
+        the config."""
+        log.debug("run_on_show_prefs")
+        for function in self.hooks["on_show_prefs"]:
+            function()
+            
     def run_on_apply_prefs(self):
         """This hook is run after the user clicks Apply or OK in the preferences
         dialog.

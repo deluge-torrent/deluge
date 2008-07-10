@@ -410,7 +410,8 @@ class Preferences(component.Component):
             row = self.plugin_liststore.append()
             self.plugin_liststore.set_value(row, 0, plugin)
             self.plugin_liststore.set_value(row, 1, enabled)
-            
+        
+        component.get("PluginManager").run_on_show_prefs()
         # Now show the dialog
         self.pref_dialog.show()
     
