@@ -124,6 +124,14 @@ def start_daemon():
         else:
             os._exit(0)
     
+    if deluge.common.windows_check() and not options.donot:
+        port = 58846
+        if options.port:
+            port = options.port
+        import subprocess
+        subprocess.Popen(["deluged", "-p %s" % port])
+        os._exit(0)
+        
     from deluge.core.daemon import Daemon
     Daemon(options, args)
 
