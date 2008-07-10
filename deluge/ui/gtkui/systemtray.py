@@ -143,6 +143,7 @@ class SystemTray(component.Component):
                 self.tray_glade.get_widget(widget).hide()
         except Exception, e:
             log.debug("Unable to hide system tray menu widgets: %s", e)
+        self.tray.set_visible(False)
     
     def send_status_request(self):
         client.get_download_rate(self._on_get_download_rate)
