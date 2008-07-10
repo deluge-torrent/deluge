@@ -53,6 +53,13 @@ class epoll_reactor
   : public asio::detail::service_base<epoll_reactor<Own_Thread> >
 {
 public:
+  // Per-descriptor data.
+  struct per_descriptor_data
+  {
+    bool allow_speculative_read;
+    bool allow_speculative_write;
+  };
+
   // Constructor.
   epoll_reactor(asio::io_service& io_service)
     : asio::detail::service_base<epoll_reactor<Own_Thread> >(io_service),
@@ -118,9 +125,13 @@ public:
 
   // Register a socket with the reactor. Returns 0 on success, system error
   // code on failure.
-  int register_descriptor(socket_type descriptor)
+  int register_descriptor(socket_type descriptor,
+      per_descriptor_data& descriptor_data)
   {
     // No need to lock according to epoll documentation.
+
+    descriptor_data.allow_speculative_read = true;
+    descriptor_data.allow_speculative_write = true;
 
     epoll_event ev = { 0, { 0 } };
     ev.events = 0;
@@ -134,16 +145,47 @@ public:
   // Start a new read operation. The handler object will be invoked when the
   // given descriptor is ready to be read, or an error has occurred.
   template <typename Handler>
-  void start_read_op(socket_type descriptor, Handler handler)
+  void start_read_op(socket_type descriptor,
+      per_descriptor_data& descriptor_data,
+      Handler handler, bool allow_speculative_read = true)
   {
+    if (allow_speculative_read && descriptor_data.allow_speculative_read)
+    {
+      asio::error_code ec;
+      std::size_t bytes_transferred = 0;
+      if (handler.perform(ec, bytes_transferred))
+      {
+        handler.complete(ec, bytes_transferred);
+        return;
+      }
+
+      // We only get one shot at a speculative read in this function.
+      allow_speculative_read = false;
+    }
+
     asio::detail::mutex::scoped_lock lock(mutex_);
 
     if (shutdown_)
       return;
 
-    if (!read_op_queue_.has_operation(descriptor))
-      if (handler(asio::error_code()))
+    if (!allow_speculative_read)
+      need_epoll_wait_ = true;
+    else if (!read_op_queue_.has_operation(descriptor))
+    {
+      // Speculative reads are ok as there are no queued read operations.
+      descriptor_data.allow_speculative_read = true;
+
+      asio::error_code ec;
+      std::size_t bytes_transferred = 0;
+      if (handler.perform(ec, bytes_transferred))
+      {
+        handler.complete(ec, bytes_transferred);
         return;
+      }
+    }
+
+    // Speculative reads are not ok as there will be queued read operations.
+    descriptor_data.allow_speculative_read = false;
 
     if (read_op_queue_.enqueue_operation(descriptor, handler))
     {
@@ -162,7 +204,7 @@ public:
       {
         asio::error_code ec(errno,
             asio::error::get_system_category());
-        read_op_queue_.dispatch_all_operations(descriptor, ec);
+        read_op_queue_.perform_all_operations(descriptor, ec);
       }
     }
   }
@@ -170,16 +212,47 @@ public:
   // Start a new write operation. The handler object will be invoked when the
   // given descriptor is ready to be written, or an error has occurred.
   template <typename Handler>
-  void start_write_op(socket_type descriptor, Handler handler)
+  void start_write_op(socket_type descriptor,
+      per_descriptor_data& descriptor_data,
+      Handler handler, bool allow_speculative_write = true)
   {
+    if (allow_speculative_write && descriptor_data.allow_speculative_write)
+    {
+      asio::error_code ec;
+      std::size_t bytes_transferred = 0;
+      if (handler.perform(ec, bytes_transferred))
+      {
+        handler.complete(ec, bytes_transferred);
+        return;
+      }
+
+      // We only get one shot at a speculative write in this function.
+      allow_speculative_write = false;
+    }
+
     asio::detail::mutex::scoped_lock lock(mutex_);
 
     if (shutdown_)
       return;
 
-    if (!write_op_queue_.has_operation(descriptor))
-      if (handler(asio::error_code()))
+    if (!allow_speculative_write)
+      need_epoll_wait_ = true;
+    else if (!write_op_queue_.has_operation(descriptor))
+    {
+      // Speculative writes are ok as there are no queued write operations.
+      descriptor_data.allow_speculative_write = true;
+
+      asio::error_code ec;
+      std::size_t bytes_transferred = 0;
+      if (handler.perform(ec, bytes_transferred))
+      {
+        handler.complete(ec, bytes_transferred);
         return;
+      }
+    }
+
+    // Speculative writes are not ok as there will be queued write operations.
+    descriptor_data.allow_speculative_write = false;
 
     if (write_op_queue_.enqueue_operation(descriptor, handler))
     {
@@ -198,7 +271,7 @@ public:
       {
         asio::error_code ec(errno,
             asio::error::get_system_category());
-        write_op_queue_.dispatch_all_operations(descriptor, ec);
+        write_op_queue_.perform_all_operations(descriptor, ec);
       }
     }
   }
@@ -206,7 +279,8 @@ public:
   // Start a new exception operation. The handler object will be invoked when
   // the given descriptor has exception information, or an error has occurred.
   template <typename Handler>
-  void start_except_op(socket_type descriptor, Handler handler)
+  void start_except_op(socket_type descriptor,
+      per_descriptor_data&, Handler handler)
   {
     asio::detail::mutex::scoped_lock lock(mutex_);
 
@@ -230,31 +304,34 @@ public:
       {
         asio::error_code ec(errno,
             asio::error::get_system_category());
-        except_op_queue_.dispatch_all_operations(descriptor, ec);
+        except_op_queue_.perform_all_operations(descriptor, ec);
       }
     }
   }
 
-  // Start new write and exception operations. The handler object will be
-  // invoked when the given descriptor is ready for writing or has exception
-  // information available, or an error has occurred.
+  // Start a new write operation. The handler object will be invoked when the
+  // given descriptor is ready for writing or an error has occurred. Speculative
+  // writes are not allowed.
   template <typename Handler>
-  void start_write_and_except_ops(socket_type descriptor, Handler handler)
+  void start_connect_op(socket_type descriptor,
+      per_descriptor_data& descriptor_data, Handler handler)
   {
     asio::detail::mutex::scoped_lock lock(mutex_);
 
     if (shutdown_)
       return;
 
-    bool need_mod = write_op_queue_.enqueue_operation(descriptor, handler);
-    need_mod = except_op_queue_.enqueue_operation(descriptor, handler)
-      && need_mod;
-    if (need_mod)
+    // Speculative writes are not ok as there will be queued write operations.
+    descriptor_data.allow_speculative_write = false;
+
+    if (write_op_queue_.enqueue_operation(descriptor, handler))
     {
       epoll_event ev = { 0, { 0 } };
-      ev.events = EPOLLOUT | EPOLLPRI | EPOLLERR | EPOLLHUP;
+      ev.events = EPOLLOUT | EPOLLERR | EPOLLHUP;
       if (read_op_queue_.has_operation(descriptor))
         ev.events |= EPOLLIN;
+      if (except_op_queue_.has_operation(descriptor))
+        ev.events |= EPOLLPRI;
       ev.data.fd = descriptor;
 
       int result = epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, descriptor, &ev);
@@ -264,8 +341,7 @@ public:
       {
         asio::error_code ec(errno,
             asio::error::get_system_category());
-        write_op_queue_.dispatch_all_operations(descriptor, ec);
-        except_op_queue_.dispatch_all_operations(descriptor, ec);
+        write_op_queue_.perform_all_operations(descriptor, ec);
       }
     }
   }
@@ -273,25 +349,15 @@ public:
   // Cancel all operations associated with the given descriptor. The
   // handlers associated with the descriptor will be invoked with the
   // operation_aborted error.
-  void cancel_ops(socket_type descriptor)
+  void cancel_ops(socket_type descriptor, per_descriptor_data&)
   {
     asio::detail::mutex::scoped_lock lock(mutex_);
     cancel_ops_unlocked(descriptor);
   }
 
-  // Enqueue cancellation of all operations associated with the given
-  // descriptor. The handlers associated with the descriptor will be invoked
-  // with the operation_aborted error. This function does not acquire the
-  // epoll_reactor's mutex, and so should only be used from within a reactor
-  // handler.
-  void enqueue_cancel_ops_unlocked(socket_type descriptor)
-  {
-    pending_cancellations_.push_back(descriptor);
-  }
-
   // Cancel any operations that are running against the descriptor and remove
   // its registration from the reactor.
-  void close_descriptor(socket_type descriptor)
+  void close_descriptor(socket_type descriptor, per_descriptor_data&)
   {
     asio::detail::mutex::scoped_lock lock(mutex_);
 
@@ -360,16 +426,16 @@ private:
 
     // Dispatch any operation cancellations that were made while the select
     // loop was not running.
-    read_op_queue_.dispatch_cancellations();
-    write_op_queue_.dispatch_cancellations();
-    except_op_queue_.dispatch_cancellations();
+    read_op_queue_.perform_cancellations();
+    write_op_queue_.perform_cancellations();
+    except_op_queue_.perform_cancellations();
     for (std::size_t i = 0; i < timer_queues_.size(); ++i)
       timer_queues_[i]->dispatch_cancellations();
 
     // Check if the thread is supposed to stop.
     if (stop_thread_)
     {
-      cleanup_operations_and_timers(lock);
+      complete_operations_and_timers(lock);
       return;
     }
 
@@ -378,7 +444,7 @@ private:
     if (!block && read_op_queue_.empty() && write_op_queue_.empty()
         && except_op_queue_.empty() && all_timer_queues_are_empty())
     {
-      cleanup_operations_and_timers(lock);
+      complete_operations_and_timers(lock);
       return;
     }
 
@@ -395,7 +461,7 @@ private:
     lock.lock();
     wait_in_progress_ = false;
 
-    // Block signals while dispatching operations.
+    // Block signals while performing operations.
     asio::detail::signal_blocker sb;
 
     // Dispatch the waiting events.
@@ -416,17 +482,17 @@ private:
         // Exception operations must be processed first to ensure that any
         // out-of-band data is read before normal data.
         if (events[i].events & (EPOLLPRI | EPOLLERR | EPOLLHUP))
-          more_except = except_op_queue_.dispatch_operation(descriptor, ec);
+          more_except = except_op_queue_.perform_operation(descriptor, ec);
         else
           more_except = except_op_queue_.has_operation(descriptor);
 
         if (events[i].events & (EPOLLIN | EPOLLERR | EPOLLHUP))
-          more_reads = read_op_queue_.dispatch_operation(descriptor, ec);
+          more_reads = read_op_queue_.perform_operation(descriptor, ec);
         else
           more_reads = read_op_queue_.has_operation(descriptor);
 
         if (events[i].events & (EPOLLOUT | EPOLLERR | EPOLLHUP))
-          more_writes = write_op_queue_.dispatch_operation(descriptor, ec);
+          more_writes = write_op_queue_.perform_operation(descriptor, ec);
         else
           more_writes = write_op_queue_.has_operation(descriptor);
 
@@ -460,16 +526,16 @@ private:
           {
             ec = asio::error_code(errno,
                 asio::error::get_system_category());
-            read_op_queue_.dispatch_all_operations(descriptor, ec);
-            write_op_queue_.dispatch_all_operations(descriptor, ec);
-            except_op_queue_.dispatch_all_operations(descriptor, ec);
+            read_op_queue_.perform_all_operations(descriptor, ec);
+            write_op_queue_.perform_all_operations(descriptor, ec);
+            except_op_queue_.perform_all_operations(descriptor, ec);
           }
         }
       }
     }
-    read_op_queue_.dispatch_cancellations();
-    write_op_queue_.dispatch_cancellations();
-    except_op_queue_.dispatch_cancellations();
+    read_op_queue_.perform_cancellations();
+    write_op_queue_.perform_cancellations();
+    except_op_queue_.perform_cancellations();
     for (std::size_t i = 0; i < timer_queues_.size(); ++i)
     {
       timer_queues_[i]->dispatch_timers();
@@ -485,7 +551,7 @@ private:
     need_epoll_wait_ = !read_op_queue_.empty()
       || !write_op_queue_.empty() || !except_op_queue_.empty();
 
-    cleanup_operations_and_timers(lock);
+    complete_operations_and_timers(lock);
   }
 
   // Run the select loop in the thread.
@@ -588,16 +654,16 @@ private:
   // destructors may make calls back into this reactor. We make a copy of the
   // vector of timer queues since the original may be modified while the lock
   // is not held.
-  void cleanup_operations_and_timers(
+  void complete_operations_and_timers(
       asio::detail::mutex::scoped_lock& lock)
   {
     timer_queues_for_cleanup_ = timer_queues_;
     lock.unlock();
-    read_op_queue_.cleanup_operations();
-    write_op_queue_.cleanup_operations();
-    except_op_queue_.cleanup_operations();
+    read_op_queue_.complete_operations();
+    write_op_queue_.complete_operations();
+    except_op_queue_.complete_operations();
     for (std::size_t i = 0; i < timer_queues_for_cleanup_.size(); ++i)
-      timer_queues_for_cleanup_[i]->cleanup_timers();
+      timer_queues_for_cleanup_[i]->complete_timers();
   }
 
   // Mutex to protect access to internal data.

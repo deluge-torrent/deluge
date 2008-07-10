@@ -20,6 +20,7 @@
 #include "asio/detail/push_options.hpp"
 #include <boost/aligned_storage.hpp>
 #include <boost/assert.hpp>
+#include <boost/detail/atomic_count.hpp>
 #include <boost/intrusive_ptr.hpp>
 #include "asio/detail/pop_options.hpp"
 
@@ -54,19 +55,13 @@ public:
 #endif
     void add_ref()
     {
-      asio::detail::mutex::scoped_lock lock(mutex_);
       ++ref_count_;
     }
 
     void release()
     {
-      asio::detail::mutex::scoped_lock lock(mutex_);
-      --ref_count_;
-      if (ref_count_ == 0)
-      {
-        lock.unlock();
+      if (--ref_count_ == 0)
         delete this;
-      }
     }
 
   private:
@@ -147,7 +142,7 @@ public:
     strand_impl* prev_;
 
     // The reference count on the strand implementation.
-    size_t ref_count_;
+    boost::detail::atomic_count ref_count_;
 
 #if !defined(__BORLANDC__)
     friend void intrusive_ptr_add_ref(strand_impl* p)
@@ -345,6 +340,16 @@ public:
       this_type* h(static_cast<this_type*>(base));
       typedef handler_alloc_traits<Handler, this_type> alloc_traits;
       handler_ptr<alloc_traits> ptr(h->handler_, h);
+
+      // A sub-object of the handler may be the true owner of the memory
+      // associated with the handler. Consequently, a local copy of the handler
+      // is required to ensure that any owning sub-object remains valid until
+      // after we have deallocated the memory here.
+      Handler handler(h->handler_);
+      (void)handler;
+
+      // Free the memory associated with the handler.
+      ptr.reset();
     }
 
   private:
