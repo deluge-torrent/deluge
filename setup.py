@@ -30,17 +30,17 @@
 
 import ez_setup
 ez_setup.use_setuptools()
+import glob
 
 from setuptools import setup, find_packages, Extension
 from distutils import cmd, sysconfig
 from distutils.command.build import build as _build
 from distutils.command.install import install as _install
 from distutils.command.install_data import install_data as _install_data
-import msgfmt
 
-import platform
-import glob
+import msgfmt
 import os
+import platform
 
 python_version = platform.python_version()[0:3]
 
@@ -85,29 +85,29 @@ if not os.environ.has_key("CPP"):
     
 # The libtorrent extension
 _extra_compile_args = [
-    "-DTORRENT_USE_OPENSSL=1",
-    "-O2",
     "-D_FILE_OFFSET_BITS=64",
     "-DNDEBUG",
+    "-DTORRENT_USE_OPENSSL=1",
+    "-O2",
     ]
 
 if windows_check():
     _extra_compile_args += [ 
+        "-D__USE_W32_SOCKETS",
+        "-D_WIN32_WINNT=0x0500",
+        "-D_WIN32",
+        "-DWIN32_LEAN_AND_MEAN",
+        "-DBOOST_ALL_NO_LIB",
+        "-DBOOST_STATIC_LINK",
+        "-DBOOST_THREAD_USE_LIB",
         "-DBOOST_WINDOWS",
         "-DBOOST_WINDOWS_API",
-        "-DBOOST_STATIC_LINK",
-        "-DWIN32_LEAN_AND_MEAN",
-        "-D_WIN32_WINNT=0x0500",
-        "-D__USE_W32_SOCKETS",
-        "-D_WIN32",
-        "-DWIN32",
-        "-DUNICODE",
-        "/Zc:wchar_t",
-        "/GR",
-        "-DBOOST_ALL_NO_LIB",
-        "-DBOOST_THREAD_USE_LIB",
         "-DTORRENT_BUILDING_SHARED",
         "-DTORRENT_LINKING_SHARED",
+        "-DWIN32",
+        "-DUNICODE",
+        "/GR",
+        "/Zc:wchar_t",
         ]
 else:
     _extra_compile_args += ["-Wno-missing-braces"]
@@ -139,28 +139,28 @@ if windows_check():
     _include_dirs += ['./win32/include','./win32/include/openssl', './win32/include/zlib']
     _library_dirs += ['./win32/lib']
     _libraries = [
+        'advapi32',
         'boost_filesystem-vc71-mt-1_35',
         'boost_date_time-vc71-mt-1_35',
-        'boost_thread-vc71-mt-1_35',
-        'boost_system-vc71-mt-1_35',
-        'boost_python-vc71-mt-1_35',
         'boost_iostreams-vc71-mt-1_35',
-        'zlib',
-        'ssleay32',
-        'libeay32',
-        'advapi32',
-        'wsock32',
+        'boost_python-vc71-mt-1_35',
+        'boost_system-vc71-mt-1_35',
+        'boost_thread-vc71-mt-1_35',
         'gdi32',
-        'ws2_32'
+        'libeay32',
+        'ssleay32',
+        'ws2_32',
+        'wsock32',
+        'zlib'
     ]
 else:
     _include_dirs += ['/usr/include/python' + python_version]
     _libraries = [
         'boost_filesystem',
         'boost_date_time',
-        'boost_thread',
-        'boost_python',
         'boost_iostreams',
+        'boost_python',
+        'boost_thread',
         'pthread',
         'ssl',
         'z'
@@ -185,10 +185,10 @@ else:
 
 libtorrent = Extension(
     'libtorrent',
-    include_dirs = _include_dirs,
-    library_dirs = _library_dirs,
-    libraries = _libraries,
     extra_compile_args = _extra_compile_args,
+    include_dirs = _include_dirs,
+    libraries = _libraries,
+    library_dirs = _library_dirs,
     sources = _sources
 )
 
@@ -281,15 +281,22 @@ _data_files = [(os.path.join(PREFIX, 'share/icons/scalable/apps'), [
                         'deluge/data/share/applications/deluge.desktop']),
                 (os.path.join(PREFIX, 'share/pixmaps'), ['deluge/data/pixmaps/deluge.png'])]
 setup(
-    name = "deluge",
-    fullname = "Deluge Bittorent Client",
-    version = "0.6.0.0",
     author = "Andrew Resch, Marcos Pinto",
     author_email = "andrewresch@gmail.com, markybob@dipconsultants.com",
+    cmdclass=cmdclass,
+    data_files = _data_files,
     description = "GTK+ bittorrent client",
-    url = "http://deluge-torrent.org",
-    license = "GPLv2",
+    entry_points = """
+        [console_scripts]
+            deluge = deluge.main:start_ui
+            deluged = deluge.main:start_daemon
+    """,
+    ext_package = "deluge",
+    ext_modules = [libtorrent],
+    fullname = "Deluge Bittorent Client",
     include_package_data = True,
+    license = "GPLv2",
+    name = "deluge",
     package_data = {"deluge": ["ui/gtkui/glade/*.glade", 
                                 "data/pixmaps/*.png",
                                 "data/pixmaps/*.svg",
@@ -314,16 +321,10 @@ setup(
                                 "ui/webui/templates/advanced/static/*",
                                 "ui/webui/templates/white/*"
                                 ]},
-    data_files = _data_files,
-    ext_package = "deluge",
-    ext_modules = [libtorrent],
     packages = find_packages(exclude=["plugins"]),
-    cmdclass=cmdclass,
-    entry_points = """
-        [console_scripts]
-            deluge = deluge.main:start_ui
-            deluged = deluge.main:start_daemon
-    """)
+    url = "http://deluge-torrent.org",
+    version = "0.6.0.0",
+)
     
 try:
     f = open("deluge/data/revision", "w")
