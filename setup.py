@@ -106,6 +106,7 @@ if windows_check():
         "-DTORRENT_LINKING_SHARED",
         "-DWIN32",
         "-DUNICODE",
+        "-D_UNICODE",
         "/GR",
         "/Zc:wchar_t",
         ]
