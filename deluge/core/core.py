@@ -202,7 +202,7 @@ class Core(
         # Create the client fingerprint
         version = []
         for value in deluge.common.get_version().split("."):
-            version.append(int(value))
+            version.append(int(value.split("-")[0]))
         fingerprint = lt.fingerprint("DE", *version)
         
         # Start the libtorrent session
