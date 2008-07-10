@@ -95,10 +95,14 @@ DEFAULT_PREFS = {
     "autoadd_enable": False,
     "autoadd_location": "",
     "choose_directory_dialog_path": deluge.common.get_default_download_dir(),
-    "classic_mode": False,
     "show_new_releases": True,
     "signal_port": 40000
 }
+
+if deluge.common.windows_check():
+    DEFAULT_PREFS['classic_mode'] = True
+else:
+    DEFAULT_PREFS['classic_mode'] = False
 
 class GtkUI:
     def __init__(self, args):
