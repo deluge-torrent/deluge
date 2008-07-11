@@ -385,7 +385,7 @@ class MenuBar(component.Component):
 
     def on_menuitem_faq_activate(self, data=None):
         log.debug("on_menuitem_faq_activate")
-        common.open_url_in_browser("http://deluge-torrent.org/faq.php")
+        common.open_url_in_browser("http://dev.deluge-torrent.org/wiki/Faq")
 
     def on_menuitem_community_activate(self, data=None):
         log.debug("on_menuitem_community_activate")

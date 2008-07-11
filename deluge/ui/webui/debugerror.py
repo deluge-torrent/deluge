@@ -165,7 +165,7 @@ $def with (exception_type, exception_value, frames, exception_message, version_i
     <!--ERROR-MARKER-->
     Oops, Deluge Broke :-( , You might have found a bug, or you did something really stupid ;-).
     <br />If the error persists :<br />
-    Read the <a href="http://deluge-torrent.org/faq">Faq</a>.<br />
+    Read the <a href="http://dev.deluge-torrent.org/wiki/Faq">Faq</a>.<br />
     Try downloading the latest version at
     <a href="http://deluge-torrent.org">deluge-torrent.org</a>
     <br />Visit the  <a href="http://forum.deluge-torrent.org">forum</a>
