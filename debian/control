@@ -2,12 +2,14 @@ Source: deluge-torrent
 Section: net
 Priority: optional
 Maintainer: Andrew Resch (andar) <andrewresch@gmail.com>
-Build-Depends: debhelper (>= 5.0.37.2), python-all-dev (>= 2.3.5-11), python-all, python-support (>= 0.5.3), libboost-dev (>= 1.33.1), libboost-thread-dev (>= 1.33.1), libboost-date-time-dev (>= 1.33.1), libboost-filesystem-dev (>= 1.33.1), libboost-serialization-dev (>= 1.33.1), libboost-program-options-dev (>= 1.33.1), libboost-regex-dev (>= 1.33.1), libboost-python-dev (>= 1.33.1), zlib1g-dev, libssl-dev, dpatch, python-setuptools
+Build-Depends: debhelper (>= 5.0.37.2), python-all-dev (>= 2.3.5-11), python-all, python-support (>= 0.5.3), libboost-dev (>= 1.33.1), libboost-thread-dev (>= 1.33.1), libboost-date-time-dev (>= 1.33.1), libboost-filesystem-dev (>= 1.33.1), libboost-python-dev (>= 1.33.1), libboost-iostreams-dev (>= 1.33.1), zlib1g-dev, libssl-dev, dpatch, python-setuptools
 Standards-Version: 3.7.2
 
 Package: deluge-torrent
 Architecture: any
 Depends: ${shlibs:Depends}, ${python:Depends}, python-gtk2, python-glade2, python-xdg, python-notify, notification-daemon, python-dbus, librsvg2-common, python-pyopenssl, python-setuptools
+Conflicts: deluge-torrent-common
+Replaces: deluge-torrent-common
 Description: A Bittorrent client written in Python/PyGTK
  Deluge is a Bittorrent client, created using Python and GTK+.
  .
