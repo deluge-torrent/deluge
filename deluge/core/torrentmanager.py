@@ -36,6 +36,7 @@
 import cPickle
 import os.path
 import os
+import time
 
 import gobject
 
@@ -174,6 +175,7 @@ class TorrentManager(component.Component):
                 self.torrents[key].handle.pause()
                 self.shutdown_torrent_pause_list.append(key)
         while self.shutdown_torrent_pause_list:                        
+            time.sleep(0.1)
             # Wait for all alerts
             self.alerts.handle_alerts(True)
                         
@@ -709,5 +711,6 @@ class TorrentManager(component.Component):
     def on_alert_state_changed(self, alert):
         log.debug("on_alert_state_changed")
         torrent_id = str(alert.handle.info_hash())
+        self.torrents[torrent_id].update_state()
         component.get("SignalManager").emit("torrent_state_changed", torrent_id)
         
