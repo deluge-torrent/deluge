@@ -84,6 +84,7 @@ namespace libtorrent
 		, m_requested(min_time())
 		, m_timeout_extend(0)
 		, m_remote_dl_update(time_now())
+		, m_connect(time_now())
 		, m_became_uninterested(time_now())
 		, m_became_uninteresting(time_now())
 		, m_free_upload(0)
@@ -187,6 +188,7 @@ namespace libtorrent
 		, m_requested(min_time())
 		, m_timeout_extend(0)
 		, m_remote_dl_update(time_now())
+		, m_connect(time_now())
 		, m_became_uninterested(time_now())
 		, m_became_uninteresting(time_now())
 		, m_free_upload(0)
@@ -1511,6 +1513,8 @@ namespace libtorrent
 			return;
 		}
 
+		ptime now = time_now();
+
 		piece_picker& picker = t->picker();
 		piece_manager& fs = t->filesystem();
 
@@ -1580,14 +1584,14 @@ namespace libtorrent
 			m_timeout_extend = 0;
 
 			if (!m_download_queue.empty())
-				m_requested = time_now();
+				m_requested = now;
 
 			request_a_block(*t, *this);
 			send_block_requests();
 			return;
 		}
 		
-		if (total_seconds(time_now() - m_requested)
+		if (total_seconds(now - m_requested)
 			< m_ses.settings().request_timeout
 			&& m_snubbed)
 		{
@@ -1605,9 +1609,17 @@ namespace libtorrent
 		TORRENT_ASSERT(m_channel_state[download_channel] == peer_info::bw_idle);
 		m_download_queue.erase(b);
 
-		m_timeout_extend = 0;
 		if (!m_download_queue.empty())
-			m_requested = time_now();
+		{
+			m_timeout_extend = (std::max)(m_timeout_extend
+				- m_ses.settings().request_timeout, 0);
+			m_requested += seconds(m_ses.settings().request_timeout);
+			if (m_requested > now) m_requested = now;
+		}
+		else
+		{
+			m_timeout_extend = 0;
+		}
 
 		// did we request this block from any other peers?
 		bool multi = picker.num_peers(block_finished) > 1;
