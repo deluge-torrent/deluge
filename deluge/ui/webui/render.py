@@ -30,7 +30,7 @@
 #  statement from all source files in the program, then also delete it here.
 
 #relative:
-from webserver_common import REVNO, VERSION
+
 from utils import *
 import utils
 #/relative
@@ -191,8 +191,8 @@ template.Template.globals.update({
     'fsize': common.fsize,
     'ftime':ftime,
     'render': render, #for easy resuse of templates
-    'rev': 'rev.%s'  % (REVNO, ),
-    'version': VERSION,
+    'version':common.get_version() ,
+    'rev': common.get_revision(),
     'getcookie':getcookie,
     'get': lambda (var): getattr(web.input(**{var:None}), var), # unreadable :-(
     #'env':'0.6',

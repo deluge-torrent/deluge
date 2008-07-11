@@ -13,9 +13,6 @@ http://www.xfree86.org/3.3.6/COPYRIGHT2.html#5
 __all__ = ["debugerror", "djangoerror"]
 
 import utils
-print utils
-print dir(utils)
-
 
 pretty_errors_str = {
 "org.freedesktop.DBus.Error.ServiceUnknown":
@@ -43,6 +40,7 @@ from web import  template
 import web #import lib.webpy022.webapi as web
 import webserver_common as ws
 from traceback import format_tb
+from deluge import common
 
 Template = template.Template
 
@@ -344,10 +342,8 @@ def djangoerror():
         from render import render
         return render.error(pretty_errors_cls[exception_type])
 
-    version_info = (
-    "WebUi : rev." + ws.REVNO
-    + "Python : " + str(sys.version)
-    )
+    version_info = "WebUi : %sr%s\nPython %s:"   % ( common.get_version() ,common.get_revision(),sys.version)
+
     try:
             import dbus
             version_info += '\ndbus:' + str(dbus.__version__)

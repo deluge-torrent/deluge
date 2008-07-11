@@ -34,15 +34,6 @@ webui constants
 """
 import os
 
-try:
-    REVNO = open(os.path.join(os.path.dirname(__file__),'revno')).read()
-except:
-    REVNO = '<unknown:bzr-branch?>'
-try:
-    VERSION = open(os.path.join(os.path.dirname(__file__),'version')).read()
-except:
-    VERSION = '<unknown:bzr-branch?>'
-
 
 TORRENT_KEYS = ['name', 'total_size', 'num_files', 'num_pieces', 'piece_length',
     'eta', 'ratio', 'file_progress', 'distributed_copies', 'total_done',

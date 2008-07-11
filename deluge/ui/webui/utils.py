@@ -49,7 +49,7 @@ from deluge import component
 from deluge.log import LOG as log
 from deluge.configmanager import ConfigManager
 
-from webserver_common import  REVNO, VERSION, TORRENT_KEYS, CONFIG_DEFAULTS
+from webserver_common import  TORRENT_KEYS, CONFIG_DEFAULTS
 from deluge.ui.client import sclient, aclient
 
 webui_plugin_manager = component.get("WebPluginManager")
