@@ -255,6 +255,12 @@ def set_config_defaults():
         if not key in config.config:
             config.config[key] = value
             changed = True
+
+    from render import render
+    if not config.get("template") in render.get_templates():
+        config.set("template", CONFIG_DEFAULTS["template"])
+        changed = True
+
     if changed:
         config.save()
 
