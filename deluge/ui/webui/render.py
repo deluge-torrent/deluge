@@ -87,7 +87,8 @@ class subclassed_render(object):
             if hasattr(renderer, attr):
                 self.template_cache[attr] = getattr(renderer, attr)
                 return getattr(renderer, attr)
-        raise AttributeError, 'no template named "%s" in base path "%s"'  % (attr, self.webui_path)
+        raise AttributeError, 'no template named "%s" in template-dirs:%s'  % (attr,
+            [r.loc for r in self.renderers + self.plugin_renderers] )
 
     def __getitem__(self, item):
         "for plugins/templates"
