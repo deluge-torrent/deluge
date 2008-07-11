@@ -884,7 +884,7 @@ class Core(
         import urllib
         try:
             self.new_release = urllib.urlopen(
-                "http://download.deluge-torrent.org/version").read().strip()
+                "http://download.deluge-torrent.org/version-1.0").read().strip()
         except Exception, e:
             log.debug("Unable to get release info from website: %s", e)
             return
