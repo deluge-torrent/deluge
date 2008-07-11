@@ -147,24 +147,32 @@ class LogTabManager(object):
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_TRACKER_ALERT']:
             torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
-            event_message = _("Tracker alert") + " {" + _("event message: ") + event['message'] + ", "\
-                + _("torrent: ") + torrent + ", "\
-                + _("status code: ") + str(event['status_code']) + ", " + _("Times in a row: ")\
-                + str(event['times_in_row']) + "}"
-            if self.log_files:
-                log = os.path.join(self.logdir, torrent.replace('.torrent', '.log'))
-                logfile = open(log, "a")
-                logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
+            try:
+                event_message = _("Tracker alert") + " {" + _("event message: ") + event['message'] + ", "\
+                    + _("torrent: ") + torrent + ", "\
+                    + _("status code: ") + str(event['status_code']) + ", " + _("Times in a row: ")\
+                    + str(event['times_in_row']) + "}"
+            except UnicodeDecodeError:
+                event_message = _("Unicode error")
+            else:
+                if self.log_files:
+                    log = os.path.join(self.logdir, torrent.replace('.torrent', '.log'))
+                    logfile = open(log, "a")
+                    logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_TRACKER_WARNING']:
             torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
-            event_message = _("Tracker warning") + " {" + _("event message: ") + event['message'] + ", "\
-                + _("torrent: ") + torrent + "}"
-            if self.log_files:
-                log = os.path.join(self.logdir, torrent.replace('.torrent', '.log'))
-                logfile = open(log, "a")
-                logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
-                logfile.close()
+            try:
+                event_message = _("Tracker warning") + " {" + _("event message: ") + event['message'] + ", "\
+                    + _("torrent: ") + torrent + "}"
+            except UnicodeDecodeError:
+                event_message = _("Unicode error")
+            else:
+                if self.log_files:
+                    log = os.path.join(self.logdir, torrent.replace('.torrent', '.log'))
+                    logfile = open(log, "a")
+                    logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
+                    logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_STORAGE_MOVED']:
             torrent = self.manager.unique_IDs[event['unique_ID']].filename.replace(os.path.join(common.CONFIG_DIR, 'torrentfiles/'), '')
             event_message = _("Storage moved") + " {" + _("event message: ") + event['message'] + ", "\
@@ -215,12 +223,16 @@ class LogTabManager(object):
                 logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
                 logfile.close()
         if event['event_type'] is self.manager.constants['EVENT_OTHER']:
-            event_message = _("Other") + " {" + _("event message: ") + event['message'] + "}"
-            if self.log_files:
-                log = os.path.join(self.logdir, 'other.log')
-                logfile = open(log, "a")
-                logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
-                logfile.close()
+            try:
+                event_message = _("Other") + " {" + _("event message: ") + event['message'] + "}"
+            except UnicodeDecodeError:
+                event_message = _("Unicode error")
+            else:
+                if self.log_files:
+                    log = os.path.join(self.logdir, 'other.log')
+                    logfile = open(log, "a")
+                    logfile.write(time.asctime(time.localtime()) + ", " +event_message + '\n')
+                    logfile.close()
         if not event_message is None:
             label = gtk.Label()
             self.labels.append(label)
