@@ -23,7 +23,13 @@ $if label_filters:
 </td></tr>
 </table>
 
-<div class="panel" id="info_panel_div" style="width:79%;margin-left:180px">
+<!--v1-->
+<div class="panel" id="info_panel_div" style="width:79%;
+$if label_filters:
+    margin-left:180px
+$else:
+    margin-left:0px
+">
     <iframe
     style="border-style:hidden;width:100%;height:200px;"
     id="torrent_info">

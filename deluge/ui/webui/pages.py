@@ -106,7 +106,7 @@ class index:
 
         #organize-filters
         label_filters = {}
-        if 'label' in proxy.get_enabled_plugins():
+        if 'label' in [pl.lower() for pl in proxy.get_enabled_plugins()]:
             filter_dict = {}
             if vars.filter_cat and vars.filter_value and vars.filter_value <> "All":
                 filter_dict = {vars.filter_cat:vars.filter_value}
