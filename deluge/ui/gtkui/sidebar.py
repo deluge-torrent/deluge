@@ -66,6 +66,9 @@ class SideBar(component.Component):
         self.liststore.append([_("Error"),
             gtk.gdk.pixbuf_new_from_file(
                 deluge.common.get_pixmap("alert16.png"))])
+        self.liststore.append([_("Checking"),
+            gtk.gdk.pixbuf_new_from_file(
+                deluge.common.get_pixmap("checking16.png"))])
         # Create the column
         column = gtk.TreeViewColumn(_("Labels"))
         column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)

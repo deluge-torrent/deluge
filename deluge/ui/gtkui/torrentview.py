@@ -57,11 +57,13 @@ icon_alert = gtk.gdk.pixbuf_new_from_file(
     deluge.common.get_pixmap("alert16.png"))
 icon_queued = gtk.gdk.pixbuf_new_from_file(
     deluge.common.get_pixmap("queued16.png"))
+icon_checking = gtk.gdk.pixbuf_new_from_file(
+    deluge.common.get_pixmap("checking16.png"))
     
 # Holds the info for which status icon to display based on state
 ICON_STATE = {
-    "Allocating": icon_inactive,
-    "Checking": icon_inactive,
+    "Allocating": icon_checking,
+    "Checking": icon_checking,
     "Downloading": icon_downloading,
     "Seeding": icon_seeding,
     "Paused": icon_inactive,
