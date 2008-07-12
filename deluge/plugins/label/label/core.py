@@ -40,6 +40,12 @@ from deluge.configmanager import ConfigManager
 
 from urlparse import urlparse
 
+import traceback
+import re
+
+RE_VALID = re.compile("[a-z0-9_-]*\Z")
+RE_VALID = re.compile("[a-z0-9_-]*\Z")
+
 KNOWN_STATES = ['Downloading','Seeding','Paused','Checking','Allocating','Queued','Error']
 STATE = "state"
 TRACKER = "tracker"
@@ -55,7 +61,11 @@ OPTIONS_KEYS = ["max_download_speed", "max_upload_speed",
     "max_connections", "max_upload_slots", "prioritize_first_last"]
 NO_LABEL = "No Label"
 
-import traceback
+
+def CheckInput(cond, message):
+    if not cond:
+        raise Exception(message)
+
 
 class Core(CorePluginBase):
     def enable(self):
@@ -251,8 +261,11 @@ class Core(CorePluginBase):
         """add a label
         see label_set_options for more options.
         """
-        assert label_id
-        assert not (label_id in self.labels)
+        label_id = label_id.lower()
+        CheckInput(RE_VALID.match(label_id) , _("Invalid label, valid characters:[a-z0-9_-]"))
+        CheckInput(label_id, _("Empty Label"))
+        CheckInput(not (label_id in self.labels) , _("Unknown Label"))
+
 
         #default to current global per-torrent settings.
         self.labels[label_id] = {
@@ -265,7 +278,7 @@ class Core(CorePluginBase):
 
     def export_remove(self, label_id):
         "remove a label"
-        assert label_id in self.labels
+        CheckInput(label_id in self.labels, _("Unknown Label"))
         del self.labels[label_id]
         self.clean_config()
         self.config.save()
@@ -283,7 +296,7 @@ class Core(CorePluginBase):
 
         apply : applies download-options to all torrents currently labelled by label_id
         """
-        assert label_id in self.labels
+        CheckInput(not (label_id in self.labels) , _("Unknown Label"))
         for key in options_dict.keys():
             if not key in OPTIONS_KEYS:
                 raise Exception("label: Invalid options_dict key:%s" % key)
@@ -314,10 +327,9 @@ class Core(CorePluginBase):
         """
         if label_id == NO_LABEL:
             label_id = None
-        log.debug(torrent_id)
-        log.debug(self.torrents.keys())
-        assert (not label_id) or (label_id in self.labels)
-        assert torrent_id in self.torrents
+
+        CheckInput((not label_id) or (label_id in self.labels)  , _("Unknown Label"))
+        CheckInput(torrent_id in self.torrents  , _("Unknown Torrent"))
 
         if not label_id:
             if torrent_id in self.torrent_labels:
