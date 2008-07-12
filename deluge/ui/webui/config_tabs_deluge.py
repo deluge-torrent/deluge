@@ -140,16 +140,20 @@ class Queue(config_forms.CfgForm):
     info = _("-1 = unlimited")
 
     queue_new_to_top = forms.CheckBox(_("Queue new torrents to top"))
-    queue_finished_to_bottom = forms.CheckBox(_("Queue completed torrents to bottom"))
+
 
     #total_downloading = forms.DelugeInt(_("Total active downloading"))
-    max_active_downloading = forms.DelugeInt(_("Total active torrents"))
+    max_active_limit = forms.DelugeInt(_("Total active torrents"))
+    max_active_downloading = forms.DelugeInt(_("Total active downloading"))
     max_active_seeding = forms.DelugeInt(_("Total active seeding"))
 
 
+    share_ratio_limit = forms.FloatField(min_value=-1)
+    seed_time_ratio_limit = forms.FloatField(min_value=-1)
+    seed_time_limit = forms.FloatField(min_value=-1)
+
     stop_seed_at_ratio = forms.CheckBox(_("Stop seeding when ratio reaches"))
     #stop_ratio = forms.FloatField(min_value=-1)
-
     remove_seed_at_ratio = forms.CheckBox(_("Remove torrent when ratio reached"))
     stop_seed_ratio = forms.FloatField(min_value=-1)
 
