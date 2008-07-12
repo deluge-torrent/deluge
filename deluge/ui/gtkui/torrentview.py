@@ -171,13 +171,8 @@ class TorrentView(listview.ListView, component.Component):
         # Set filter to None for now
         self.filter = (None, None)
         
-        # Set the liststore filter column
-        model_filter = self.liststore.filter_new()
-        model_filter.set_visible_column(
-            self.columns["filter"].column_indices[0])
-        self.model_filter = gtk.TreeModelSort(model_filter)
-        self.treeview.set_model(self.model_filter)
-        
+        self.create_model_filter()
+
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
         # torrent menu popup.
@@ -193,6 +188,18 @@ class TorrentView(listview.ListView, component.Component):
         # We need to get the core session state to know which torrents are in
         # the session so we can add them to our list.
         client.get_session_state(self._on_session_state)
+
+    def create_model_filter(self):
+        """create new filter-model
+        must be called after listview.create_new_liststore        
+        """
+        # Set the liststore filter column
+        model_filter = self.liststore.filter_new()
+        model_filter.set_visible_column(
+            self.columns["filter"].column_indices[0])
+        self.model_filter = gtk.TreeModelSort(model_filter)
+        self.treeview.set_model(self.model_filter)
+
 
     def _on_session_state(self, state):
         for torrent_id in state:
