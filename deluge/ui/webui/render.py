@@ -174,6 +174,11 @@ def ftime(val):
         return _("∞")
     return common.ftime(val)
 
+def template_get(key):
+    val = getattr(web.input(**{key:None}), key)
+    if not val:
+        return getcookie(key)
+
 template.Template.globals.update({
     'sort_head': template_sort_head,
     'part_stats':template_part_stats,
@@ -195,7 +200,7 @@ template.Template.globals.update({
     'version':common.get_version() ,
     'rev': common.get_revision(),
     'getcookie':getcookie,
-    'get': lambda (var): getattr(web.input(**{var:None}), var), # unreadable :-(
+    'get': template_get,
     #'env':'0.6',
     'forms':web.Storage(),
     'enumerate':enumerate,

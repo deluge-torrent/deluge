@@ -39,7 +39,7 @@ $for cat in ["state", "tracker", "label"]:
                     $if not get('filter_cat'):
                         class="selected"
         >
-        <a href="$self_url(filter_cat=cat, filter_value=value)">
+        <a href="$self_url(filter_cat=cat, filter_value=value, sort=get('sort'), order=get('order')) ">
         $if cat == "state":
             <img src="/pixmaps/$(value.lower())"></img>
         $value ($count)</a>
