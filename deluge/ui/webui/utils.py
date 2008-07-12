@@ -146,7 +146,7 @@ def enhance_torrent_status(torrent_id,status):
     status.id = torrent_id
 
     #action for torrent_pause
-    if status.paused: #no user-paused in 0.6 !!!
+    if status.state == "Paused":
         status.action = "start"
     else:
         status.action = "stop"
