@@ -6,6 +6,20 @@ There's so much crap out there,i can't find good examples.
 so i'd rather start from scratch,
 Probably broken in an unexpected way , but worksforme.
 */
+
+/*fix IE:*/
+if(!Array.indexOf){
+    Array.prototype.indexOf = function(obj){
+	for(var i=0; i<this.length; i++){
+	    if(this[i]==obj){
+		return i;
+	    }
+	}
+	return -1;
+    }
+}
+/*/fix IE*/
+
 state = {
 	'row_js_continue':true,
 	'selected_rows': new Array(),
