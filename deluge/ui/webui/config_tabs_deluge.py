@@ -123,7 +123,7 @@ class Download(config_forms.CfgForm):
     autoadd_location = forms.ServerFolder(_("Auto Add folder"), required=False)
     compact_allocation = forms.CheckBox(_('Use Compact Allocation'))
     prioritize_first_last_pieces = forms.CheckBox(_('Prioritize first and last pieces'))
-    default_private = forms.CheckBox(_('Set private flag by default'))
+    #default_private = forms.CheckBox(_('Set private flag by default'))
 
 config_page.register('deluge','download', Download)
 
