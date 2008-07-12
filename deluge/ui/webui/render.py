@@ -177,7 +177,8 @@ def ftime(val):
 def template_get(key):
     val = getattr(web.input(**{key:None}), key)
     if not val:
-        return getcookie(key)
+        val = getcookie(key)
+    return val
 
 template.Template.globals.update({
     'sort_head': template_sort_head,
