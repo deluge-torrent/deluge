@@ -364,7 +364,7 @@ class Core(CorePluginBase):
         """
         for key in ["hide_zero_hits", "gtk_alfa"]:
             if options.has_key(key):
-                self.config.set(key, key)
+                self.config.set(key, options[key])
         self.config.save()
 
 
