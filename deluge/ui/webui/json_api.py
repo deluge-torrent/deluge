@@ -43,11 +43,15 @@ design:
 from traceback import format_exc
 import web
 from web import webapi
+import page_decorators as deco
+from web import cookies, setcookie as w_setcookie
+import utils
 from deluge.ui.client import sclient,aclient
 from deluge.log import LOG as log
 from deluge import component
 from utils import dict_cb
 from lib import json
+
 
 class json_rpc:
     """
@@ -59,9 +63,18 @@ class json_rpc:
     def GET(self):
         print '{"error":"only POST is supported"}'
 
-    #security bug: does not check session!!
-    def POST(self):
-        web.header("Content-Type", "application/x-json")
+
+    def POST(self , name=None):
+        ck = cookies()
+        if not(ck.has_key("session_id") and ck["session_id"] in utils.SESSIONS):
+            print """{"error":{
+                    "number":1,
+                    "message":"not authenticated"
+                    "error":"not authenticated"
+                    }
+                }
+            """
+            return
         id = 0
         try:
             log.debug("json-data:")
