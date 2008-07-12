@@ -166,8 +166,23 @@ class Plugins(forms.Form):
     def initial_data(self):
         return {'enabled_plugins':sclient.get_enabled_plugins()}
 
-    def save(self, value):
-        raise forms.ValidationError("SAVE:TODO")
+    def save(self, data):
+        new_plugins = data.enabled_plugins
+        old_plugins = sclient.get_enabled_plugins()
+
+        enable = [p for p in new_plugins if p not in old_plugins]
+        disable = [p for p in old_plugins if p not in new_plugins]
+
+
+        plugin_manager = component.get("WebPluginManager")
+        for p in enable:
+            sclient.enable_plugin(p)
+            plugin_manager.enable_plugin(p)
+
+        for p in disable:
+            sclient.disable_plugin(p)
+            plugin_manager.disable_plugin(p)
+
 
 config_page.register('deluge','plugins', Plugins)
 
