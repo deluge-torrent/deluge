@@ -65,11 +65,12 @@ class json_rpc:
 
 
     def POST(self , name=None):
+        web.header("Content-Type", "application/x-json")
         ck = cookies()
         if not(ck.has_key("session_id") and ck["session_id"] in utils.SESSIONS):
             print """{"error":{
                     "number":1,
-                    "message":"not authenticated"
+                    "message":"not authenticated",
                     "error":"not authenticated"
                     }
                 }
