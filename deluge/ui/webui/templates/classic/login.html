@@ -9,15 +9,18 @@ $if error > 0:
 <form method="POST" id="loginform" action='$base/login'>
 <input type="hidden" name="redir" value="$get('redir')">
 <div id="loginpanel">
-    <div class="form_row">
+    <table><tr>
+    <td>
 	<span class="form_label" style="width:100px;">$_('Password')</span>
+    </td><td>
 	<input type="password" name="pwd" id="pwd" class="form_input">
-    </div>
-    <div class="form_row">
+    </td></tr>
+    <tr><td>
 	<span class="form_label" style="width:100px;"> &nbsp;</span>
+    </td><td>
 	<input type="submit" name="submit"
 	id="submit" value="Submit" class="form_input">
-    </div>
+    </td></tr>
 </div>
 </form>
 </div>
