@@ -12,6 +12,7 @@ $if connected:
     $_('Connected to')
     $connected
     </td><td>
+    <!--DISABLED
     &nbsp;
     <form method="POST" action="$base/daemon/control/stop">
     <input type="submit" name="stop"
@@ -23,15 +24,18 @@ $if connected:
         <input type="submit" name="restart"
         value="$_('Restart')">
         </form>
+    --->
     </td></tr></table>
 $else:
     <div class="error">$_("Not Connected to a daemon")
     </div>
+    <!--disabled
     <form method="POST" action="$base/daemon/control/start">
     <input type="hidden" name="uri" value="$connect_list[0]">
     <input type="submit" name="stop"
     value="$_('Start') $connect_list[0]">
     </form>
+    -->
 
 <form method="POST">
 $for i, uri in enumerate(connect_list):
