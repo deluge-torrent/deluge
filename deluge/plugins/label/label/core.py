@@ -312,13 +312,15 @@ class Core(CorePluginBase):
         assign a label to a torrent
         removes a label if the label_id parameter is empty.
         """
+        if label_id == NO_LABEL:
+            label_id = None
         log.debug(torrent_id)
         log.debug(self.torrents.keys())
         assert (not label_id) or (label_id in self.labels)
         assert torrent_id in self.torrents
 
         if not label_id:
-            if label_id in self.labels:
+            if torrent_id in self.torrent_labels:
                 del self.torrent_labels[torrent_id]
                 self.clean_config()
         else:

@@ -43,7 +43,14 @@ from deluge.ui.client import aclient
 from deluge.configmanager import ConfigManager
 config  = ConfigManager("label.conf")
 GTK_ALFA = config.get("gtk_alfa")
+NO_LABEL = "No Label"
 
+
+def cell_data_label(column, cell, model, row, data):
+    cell.set_property('text', str(model.get_value(row, data)))
+
+def cell_data_tracker_host(column, cell, model, row, data):
+    cell.set_property('text', str(model.get_value(row, data)))
 
 class GtkUI(ui.UI):
     def __init__(self, plugin_api, plugin_name):
@@ -68,6 +75,7 @@ class GtkUI(ui.UI):
     def unload_interface(self):
         self.plugin.remove_preferences_page("Label")
 
+
     def load_interface(self):
         if not GTK_ALFA:
             self.plugin.add_preferences_page("Label", gtk.Label(
@@ -76,15 +84,25 @@ class GtkUI(ui.UI):
 
         log.debug("add items to torrentview-popup menu.")
 
-
         torrentmenu = component.get("MenuBar").torrentmenu
-
 
         self.label_menu = LabelMenu()
         torrentmenu.append(self.label_menu)
         self.label_menu.show_all()
 
-        log.debug("add label column")
+        log.debug("add columns")
+
+        component.get("TorrentView").add_func_column(_("Label"),
+                                            cell_data_label,
+                                            [str],
+                                            status_field=["label"])
+
+        component.get("TorrentView").add_func_column(_("Tracker"),
+                                            cell_data_tracker_host,
+                                            [str],
+                                            status_field=["tracker_host"])
+
+        component.get("TorrentView").create_model_filter() #todo:improve.
         #TODO!
         log.debug("Beginning gtk pane initialization")
         self.config_frame = LabelConfigFrame()
@@ -123,6 +141,7 @@ class GtkUI(ui.UI):
         #gobject.idle_add(self.call_critical_setting)
         """
 
+
     # GTK Gui Callback functions
     def callback_load_prefs(self, dict):
         self.config_frame.load_settings()
@@ -148,15 +167,21 @@ class LabelList(gtk.TreeView):
 
 class LabelMenu(gtk.MenuItem):
     def __init__(self):
-        gtk.MenuItem.__init__(self, "Label (wip)")
+        gtk.MenuItem.__init__(self, "Label")
         self.show_all()
 
         #attach..
         torrentmenu = component.get("MenuBar").torrentmenu
         torrentmenu.connect("show", self.on_show, None)
 
+        aclient.connect_on_new_core(self._on_new_core)
+
+    def _on_new_core(self, data):
+        self.on_show()
+
     def get_torrent_ids(self):
         return component.get("TorrentView").get_selected_torrents()
+
 
     def on_show(self, widget=None, data=None):
         log.debug("label-on-show")
@@ -166,7 +191,7 @@ class LabelMenu(gtk.MenuItem):
     def cb_labels(self , labels):
         log.debug("cb_labels-start")
         self.sub_menu = gtk.Menu()
-        for label in labels:
+        for label in [NO_LABEL] + labels:
             item = gtk.MenuItem(label)
             item.connect("activate", self.on_select_label, label)
             self.sub_menu.append(item)
@@ -187,6 +212,11 @@ class LabelConfigFrame(gtk.Frame):
         self.build_label_options()
         self.build_ui()
         self.labels = []
+        aclient.connect_on_new_core(self._on_new_core)
+
+    def _on_new_core(self, data):
+        log.debug("NEW CORE")
+        self.load_settings()
 
     def load_settings(self ,widget=None ,data=None):
         aclient.label_get_labels(self.cb_update_labels)
