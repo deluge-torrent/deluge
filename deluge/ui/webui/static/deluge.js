@@ -69,7 +69,9 @@ function select_row(id){
 		row.className = 'torrent_table_selected';
 		state.selected_rows[state.selected_rows.length] = id;
 		setCookie('selected_rows',state.selected_rows);
+		return true;
 	}
+	return false;
 }
 
 function deselect_row(id){
@@ -96,9 +98,16 @@ function deselect_all_rows(){
 }
 
 function reselect_rows(){
+	var selected = false;
 	var selected_rows = getCookie('selected_rows').split(',');
  	for (i in getCookie('selected_rows')) {
-	    select_row(selected_rows[i]);
+		if (select_row(selected_rows[i])) {
+			selected = true;
+		}
+	}
+	if (!selected) {
+		/*select 1st*/
+		select_row(torrent_table.torrents[0]);
 	}
 }
 
