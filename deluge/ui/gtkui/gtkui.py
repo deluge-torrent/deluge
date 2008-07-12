@@ -147,6 +147,24 @@ class GtkUI:
         # Make sure gtkui.conf has at least the defaults set
         self.config = deluge.configmanager.ConfigManager("gtkui.conf", DEFAULT_PREFS)
 
+        # We need to check for the existence of 'deluged' in the system path
+        # before allowing to continue in classic mode.
+        if self.config["classic_mode"]:
+            try:
+                if deluge.common.windows_check():
+                    import win32api
+                    win32api.WinExec("deluged --version")
+                else:
+                    import subprocess
+                    retcode = subprocess.call("deluged" + " --version", shell=True)
+                    log.debug("retcode: %s", retcode)
+                    if retcode == 127:
+                        log.error("Unable to find deluged!")
+                        self.config["classic_mode"] = False
+            except Exception, e:
+                log.error("Unable to find deluged: %s", e)
+                self.config["classic_mode"] = False
+             
         # We need to check on exit if it was started in classic mode to ensure we
         # shutdown the daemon.
         self.started_in_classic = self.config["classic_mode"]
