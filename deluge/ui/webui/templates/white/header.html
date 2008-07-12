@@ -3,7 +3,7 @@ $def with (title, active_tab="NONE")
 
 <html>
 <head>
-    <title>Deluge:$_('Torrent list')</title>
+    <title>Deluge:$title</title>
     <link rel="icon" href="$base/static/images/deluge_icon.gif" type="image/gif" />
     <link rel="shortcut icon" href="$base/static/images/deluge_icon.gif" type="image/gif" />
     <link rel="stylesheet" type="text/css" href="$base/template_style.css" />
@@ -17,6 +17,9 @@ $def with (title, active_tab="NONE")
 <table width="100%"><tr>
 <td>
     <div id="home_top">
+    <img src="$base/static/images/deluge32.png" style="position:absolute"\>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;
     <a
     $if 'home' == active_tab:
          class="tab_button_active"
