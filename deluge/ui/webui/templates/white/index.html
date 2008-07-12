@@ -6,6 +6,8 @@ $:render.header(_("Deluge : Torrent List"), 'home')
 $if label_filters:
     <!--the part_label_filters.html is served from the label plugin template directory -->
     $:render.part_label_filters(label_filters)
+$else:
+    <br>
 
 
 <table id="torrent_list_block" width="80%">
