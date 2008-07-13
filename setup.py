@@ -282,11 +282,12 @@ _data_files = [(os.path.join(PREFIX, 'share/icons/scalable/apps'), [
                         'deluge/data/share/applications/deluge.desktop']),
                 (os.path.join(PREFIX, 'share/pixmaps'), ['deluge/data/pixmaps/deluge.png'])]
 setup(
-    author = "Andrew Resch, Marcos Pinto",
-    author_email = "andrewresch@gmail.com, markybob@dipconsultants.com",
+    author = "Andrew Resch, Marcos Pinto, Martijn Voncken, Sadrul Habib Chowdhury",
+    author_email = "andrewresch@gmail.com, markybob@dipconsultants.com,\
+        mvoncken@gmail.com, sadrul@users.sourceforge.net"
     cmdclass=cmdclass,
     data_files = _data_files,
-    description = "GTK+ bittorrent client",
+    description = "Bittorrent Client",
     entry_points = """
         [console_scripts]
             deluge = deluge.main:start_ui
