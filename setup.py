@@ -283,8 +283,8 @@ _data_files = [(os.path.join(PREFIX, 'share/icons/scalable/apps'), [
                 (os.path.join(PREFIX, 'share/pixmaps'), ['deluge/data/pixmaps/deluge.png'])]
 setup(
     author = "Andrew Resch, Marcos Pinto, Martijn Voncken, Sadrul Habib Chowdhury",
-    author_email = "andrewresch@gmail.com, markybob@dipconsultants.com,\
-        mvoncken@gmail.com, sadrul@users.sourceforge.net"
+    author_email = "andrewresch@gmail.com, markybob@dipconsultants.com, \
+        mvoncken@gmail.com, sadrul@users.sourceforge.net",
     cmdclass=cmdclass,
     data_files = _data_files,
     description = "Bittorrent Client",
