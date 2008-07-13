@@ -61,10 +61,12 @@ def start_ui():
 
     if deluge.common.windows_check():
         if options.config:
-            os.makedirs(options.config)
+            if not os.path.exists(options.config):
+                os.makedirs(options.config)
             logfile = os.path.join(options.config, "deluge.log")
         else:
-            os.makedirs(deluge.common.get_default_config_dir())
+            if not os.path.exists(deluge.common.get_default_config_dir()):
+                os.makedirs(deluge.common.get_default_config_dir())
             logfile = deluge.common.get_default_config_dir("deluge.log")
         
         sys.stdout = open(logfile, "wb")
