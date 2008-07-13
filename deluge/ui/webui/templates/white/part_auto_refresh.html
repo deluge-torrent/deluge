@@ -1,0 +1,16 @@
+<div class="panel"  id='refresh_panel'>
+[
+$_('Auto refresh:')
+$if getcookie('auto_refresh') == '1':
+    ($getcookie('auto_refresh_secs')) $_('seconds') &nbsp;
+    <a href="$base/refresh/set">$_('Set')</a>
+    <a href="$base/refresh/off">$_('Disable')</a><!--WRONG, setting things on a GET-->
+$else:
+    $_('Off') &nbsp;
+    <a href="$base/refresh/on">$_('Enable')</a><!--WRONG, setting things on a GET-->
+]
+
+
+<a href="$base/config/">$_('Admin')  </a>&nbsp;
+
+</div>

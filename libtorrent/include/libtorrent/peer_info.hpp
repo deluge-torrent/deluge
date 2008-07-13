@@ -33,12 +33,11 @@ POSSIBILITY OF SUCH DAMAGE.
 #ifndef TORRENT_PEER_INFO_HPP_INCLUDED
 #define TORRENT_PEER_INFO_HPP_INCLUDED
 
-#include <vector>
-
 #include "libtorrent/socket.hpp"
 #include "libtorrent/peer_id.hpp"
 #include "libtorrent/size_type.hpp"
 #include "libtorrent/config.hpp"
+#include "libtorrent/bitfield.hpp"
 
 namespace libtorrent
 {
@@ -57,7 +56,8 @@ namespace libtorrent
 			queued = 0x100,
 			on_parole = 0x200,
 			seed = 0x400,
-			optimistic_unchoke = 0x800
+			optimistic_unchoke = 0x800,
+			snubbed = 0x1000
 #ifndef TORRENT_DISABLE_ENCRYPTION
 			, rc4_encrypted = 0x100000,
 			plaintext_encrypted = 0x200000
@@ -78,6 +78,16 @@ namespace libtorrent
 
 		int source;
 
+		// bw_idle: the channel is not used
+		// bw_torrent: the channel is waiting for torrent quota
+		// bw_global: the channel is waiting for global quota
+		// bw_network: the channel is waiting for an async write
+		//   for read operation to complete
+		enum bw_state { bw_idle, bw_torrent, bw_global, bw_network };
+
+		char read_state;
+		char write_state;
+		
 		tcp::endpoint ip;
 		float up_speed;
 		float down_speed;
@@ -86,7 +96,7 @@ namespace libtorrent
 		size_type total_download;
 		size_type total_upload;
 		peer_id pid;
-		std::vector<bool> pieces;
+		bitfield pieces;
 		int upload_limit;
 		int download_limit;
 
@@ -96,10 +106,17 @@ namespace libtorrent
 		// time since last download or upload
 		time_duration last_active;
 
+		// the number of seconds until the current
+		// pending request times out
+		int request_timeout;
+
 		// the size of the send buffer for this peer, in bytes
 		int send_buffer_size;
 		// the number bytes that's actually used of the send buffer
 		int used_send_buffer;
+
+		int receive_buffer_size;
+		int used_receive_buffer;
 
 		// the number of failed hashes for this peer
 		int num_hashfails;
@@ -112,6 +129,12 @@ namespace libtorrent
 		char country[2];
 #endif
 
+#ifndef TORRENT_DISABLE_GEO_IP
+		// atonomous system this peer belongs to
+		std::string inet_as_name;
+		int inet_as;
+#endif
+
 		size_type load_balancing;
 
 		// this is the number of requests
@@ -119,6 +142,10 @@ namespace libtorrent
 		// that we haven't got a response
 		// for yet
 		int download_queue_length;
+
+		// the number of request messages
+		// waiting to be sent inside the send buffer
+		int requests_in_buffer;
 
 		// the number of requests that is
 		// tried to be maintained (this is
@@ -157,8 +184,31 @@ namespace libtorrent
 		// number of bytes this peer has in
 		// the disk write queue
 		int pending_disk_bytes;
+
+		// numbers used for bandwidth limiting
+		int send_quota;
+		int receive_quota;
+
+		// estimated rtt to peer, in milliseconds
+		int rtt;
+
+		// the highest transfer rates seen for this peer
+		int download_rate_peak;
+		int upload_rate_peak;
 	};
 
+	struct TORRENT_EXPORT peer_list_entry
+	{
+		enum flags_t
+		{
+			banned = 1,
+		};
+		
+		tcp::endpoint ip;
+		int flags;
+		boost::uint8_t failcount;
+		boost::uint8_t source;
+	};
 }
 
 #endif // TORRENT_PEER_INFO_HPP_INCLUDED

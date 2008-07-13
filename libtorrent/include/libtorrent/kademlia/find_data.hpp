@@ -39,7 +39,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <libtorrent/kademlia/node_id.hpp>
 #include <libtorrent/kademlia/routing_table.hpp>
 #include <libtorrent/kademlia/rpc_manager.hpp>
-#include <libtorrent/kademlia/packet_iterator.hpp>
 #include <libtorrent/kademlia/observer.hpp>
 #include <libtorrent/kademlia/msg.hpp>
 
@@ -48,8 +47,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 namespace libtorrent { namespace dht
 {
-
-using asio::ip::udp;
 
 typedef std::vector<char> packet_t;
 

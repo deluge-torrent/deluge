@@ -1,0 +1,54 @@
+$:render.header(_('About'), 'about')
+$:render.admin_toolbar('about')
+<div class="panel" style="text-align:left">
+<h2>Version</h2>
+<pre>$(version)r$rev</pre>
+
+<h2>Template</h2>
+Name: $get_config('template')<br />
+Authors: $render.meta.authors<br />
+Inherits: $render.meta.inherits<br />
+Comment: $render.meta.comment
+
+<h2>Links</h2>
+<ul>
+    <li><a href="http://deluge-torrent.org">Deluge</a></li>
+    <li><a href="http://forum.deluge-torrent.org/viewtopic.php?f=8&t=4075">
+        WebUi forum Thread</a>
+
+    </li>
+    <li><a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GPL v2
+    </a></li>
+</ul>
+
+<h2>Authors</h2>
+<ul>
+<h3>WebUi</h3>
+<ul>
+    <li>Martijn Voncken</li>
+</ul>
+
+<h3>Deluge</h3>
+<ul>
+    <li>Marcos Pinto</li>
+    <li>Andrew Resch</li>
+    <li>Zach Tibbitts</li>
+    <li>Alon Zakai</li>
+    <li>Alex Dedul</li>
+</ul>
+
+<h3>Windows Port</h3>
+<ul>
+    <li>Slurdge</li>
+</ul>
+
+<h3>Console UI</h3>
+<ul>
+    <li>sadrul</li>
+</ul>
+
+
+</div>
+*and all other authors/helpers/contributors I forgot to mention</li>
+
+$:render.footer()

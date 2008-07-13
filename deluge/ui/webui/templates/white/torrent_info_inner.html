@@ -1,0 +1,22 @@
+$def with (torrent, active_tab)
+<!--for iframe in javascript mode.-->
+<html>
+<head>
+    <title>Deluge:$torrent.name</title>
+    <link rel="stylesheet" type="text/css" href="$base/template_style.css" />
+</head>
+<body class="inner">
+
+<div id="torrent_info_tabs">
+$for id, title, tab in detail_tabs:
+    $:render.part_tab_button(id, title, active_tab)
+</div>
+
+<div id="torrent_tab">
+$for id, title, tab in detail_tabs:
+    $if active_tab == id:
+        $:render[tab](torrent)
+</div>
+
+</body>
+</html>

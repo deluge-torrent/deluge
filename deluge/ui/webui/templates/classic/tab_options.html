@@ -1,0 +1,21 @@
+$def with (torrent)
+<form method="post" action="$base/torrent/options/$torrent.id">
+<input type="hidden" name="redir" value="$self_url()">
+<table><tr><td valign="top">
+    <table>
+    $:(forms.torrent_options(torrent).as_table(["max_download_speed", "max_upload_speed", "max_connections", "max_upload_slots"]))
+    <tr><td></td><td><input type="submit" value="$_('Update')"></td></tr>
+
+
+    </table>
+</td><td valign="top">
+
+    <table>
+    $:(forms.torrent_options(torrent).as_table(["prioritize_first_last", "private"]))
+    </table>
+
+
+</tr></table>
+
+</form>
+

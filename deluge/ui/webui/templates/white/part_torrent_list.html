@@ -1,0 +1,103 @@
+$def with (torrent_list, label_filters)
+
+<script language="javascript">
+/*for select_all shortcut/button*/
+torrent_table.torrents = [
+$for t in torrent_list:
+    "$t.id",
+]
+state.base_url = '$base';
+
+document.onkeydown = torrent_table.keydown;
+
+</script>
+
+
+
+<table class="torrent_list" id="torrent_table" border=0 cellspacing=0 cellpadding=2  id="torrent_list">
+
+<thead class="fixedHeader">
+<tr>
+        $:(sort_head('state', 'S'))
+        $:(sort_head('queue', '#'))
+        $:(sort_head('name', _('Name')))
+        $:(sort_head('total_size', _('Size')))
+        $:(sort_head('progress', _('Progress')))
+
+        $if label_filters:
+            <!--HACK:
+            abusing label_filters to check if the Orgnize plugin is enabled
+            -->
+            $:(sort_head('label', _('Label')))
+            $:(sort_head('tracker_host', _('Tracker')))
+
+        $:(sort_head('num_seeds', _('Seeders')))
+        $:(sort_head('num_peers', _('Peers')))
+        $:(sort_head('download_payload_rate', _('Download')))
+        $:(sort_head('upload_payload_rate', _('Upload')))
+        $:(sort_head('eta', _('Eta')))
+        $:(sort_head('distributed_copies', _('Ava')))
+        $:(sort_head('ratio', _('Ratio')))
+    </tr>
+</thead>
+<tbody class="scrollContent">
+$altrow(True)
+$#4-space indentation is mandatory for for-loops in templetor!
+$for torrent in torrent_list:
+    <tr class="$altrow()" onclick="on_click_row(event, '$torrent.id')" id="torrent_$torrent.id">
+    <td>
+       <form action="$base/torrent/$torrent.action/$torrent.id" method="POST"
+            class="pause_resume">
+            <input type="image"
+            src="$base/pixmaps/$torrent.state.lower()"
+            name="pauseresume" value="submit" />
+        </form>
+       </td>
+    <td>
+    $if (torrent.queue == -1):
+        &#8734; <!--infinite symbol-->
+    $else:
+        $(torrent.queue + 1)
+    </td>
+    <td style="width:100px; overflow:hidden;white-space: nowrap">
+        $(crop(torrent.name, 30))</td>
+    <td>$fsize(torrent.total_size)</td>
+    <td class="progress_bar">
+        <div class="progress_bar_outer">
+            <div class="progress_bar" style="width:$(torrent.progress)%">
+            $_(torrent.state) $int(torrent.progress) %
+            </div>
+        </div>
+    </td>
+    $if label_filters:
+        <td>$torrent.label</td>
+        <td>$torrent.tracker_host</td>
+    <td>
+    $if torrent.total_seeds != -1:
+        $torrent.num_seeds ($torrent.total_seeds)
+    $else:
+        0
+    </td>
+    <td>
+    $if torrent.total_peers != -1:
+        $torrent.num_peers ($torrent.total_peers)</td>
+    $else:
+        0
+    <td>
+    $if (torrent.download_payload_rate):
+        $fspeed(torrent.download_payload_rate)
+    $else:
+        &nbsp;
+    </td>
+    <td>
+    $if (torrent.upload_payload_rate):
+        $fspeed(torrent.upload_payload_rate)
+    $else:
+       &nbsp;
+    </td>
+    <td>$ftime(torrent.eta)</td>
+    <td>$("%.2f" % torrent.distributed_copies)</td>
+    <td>$("%.2f" % torrent.ratio)</td>
+    </tr>
+</tbody>
+</table>

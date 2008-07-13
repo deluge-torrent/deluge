@@ -1,0 +1,96 @@
+$def with (torrent_list, organize_filters)
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+$:render.header(_("AJAX index"), 'home')
+
+<!--
+Using this lib because it was linked from http://json-rpc.org/wiki/implementations
+http://code.google.com/p/json-xml-rpc/wiki/DocumentationForJavaScript
+-->
+<script language="javascript" src="/template/static/js/rpc.js"></script>
+
+<div class="info">Just a demo template for damoxc
+(or anyone else who wants to make an ajax template)</div>
+
+<script language="javascript">
+
+var service = new rpc.ServiceProxy("$base/json/rpc", {/*options*/});
+
+function get_session_state( ) {
+    service.get_session_state({params:[],
+        onSuccess:function(result){
+         alert("session_state: " + result);
+        },
+        onException:function(errorObj){
+         alert("Error: " + errorObj);
+        }
+    });
+};
+
+function get_torrents_status(torrent_ids) {
+    //alert("start status:");
+    service.get_torrents_status({
+        params:[torrent_ids,["name","progress"]],
+        onSuccess:function(torrent_list){
+            for (var torrent_id in torrent_list){
+                    torrent = torrent_list[torrent_id]
+                    //alert(torrent);
+                    alert(torrent.name + " " + torrent.progress + "%");
+            }
+        },
+        onException:function(errorObj){
+         alert("Error: " + errorObj);
+        }
+    });
+};
+
+
+function list_torrents() {
+    service.get_session_state({params:[],
+        onSuccess:function(torrent_ids){
+            get_torrents_status(torrent_ids)
+        },
+        onException:function(errorObj){
+         alert("Error: " + errorObj);
+        }
+    });
+};
+
+function update_torrent(torrent) {
+    alert(torrent.name);
+};
+
+
+function get_stats() {
+    service.get_stats({params:[],
+        onSuccess:function(stats){
+            alert(stats.download_rate);
+        },
+        onException:function(errorObj){
+         alert("Error: " + errorObj);
+        }
+    });
+};
+
+
+
+
+
+
+
+</script>
+
+
+<button onclick="get_session_state()">get_session_state()</button>
+
+<button onclick="list_torrents()">List torrents</button>
+
+<button onclick="get_stats()">get_stats()</button>
+
+<div id="torrent_list">
+
+</div>
+
+$:render.footer()
+
+

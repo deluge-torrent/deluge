@@ -1,0 +1,27 @@
+$def with (error)
+$:render.header(_('Login'))
+<div class="panel">
+<h2>$_("Deluge Login")</h2>
+
+$if error > 0:
+    <div class="error">$_("Password is invalid,try again")</div>
+
+<form method="POST" id="loginform" action='$base/login'>
+<input type="hidden" name="redir" value="$get('redir')">
+<div id="loginpanel">
+    <table><tr>
+    <td>
+	<span class="form_label" style="width:100px;">$_('Password')</span>
+    </td><td>
+	<input type="password" name="pwd" id="pwd" class="form_input">
+    </td></tr>
+    <tr><td>
+	<span class="form_label" style="width:100px;"> &nbsp;</span>
+    </td><td>
+	<input type="submit" name="submit"
+	id="submit" value="Submit" class="form_input">
+    </td></tr>
+</div>
+</form>
+</div>
+$:render.footer()

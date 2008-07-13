@@ -1,1 +1,23 @@
+For 0.6 release:
+* Translations
+* Add progress bars for downloading and importing lists instead of hanging (blocklist)
 
+After 0.6 release:
+* Address issue where torrents will redownload if the storage is moved outside
+    of deluge.
+* Implement add by hash
+* Figure out easy way for user-made plugins to add i18n support.
+* Restart daemon function
+* Docstrings!
+* Add wizard
+* Advanced (pieces) progress bar
+* Add method for plugins to add labels
+* Add context menus for labels.. ie. setting options for all torrents in label
+* Implement caching in core
+* Use the batch torrent status info as a cache for other torrent status requests
+* Add number of torrents to labels
+* Proxy stuff
+* Webseed
+* Enable/disable webui from within gtkui
+* Notifications
+* create a clamav plugin to scan files

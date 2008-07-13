@@ -1,0 +1,26 @@
+$def with (method, func, title, image='')
+<div class="deluge_button">
+<form method="$method" action="$base$url" class="deluge_button">
+<input type="hidden" name="redir" value="$self_url()">
+$if (get_config('button_style') == 0):
+    <button type="submit" class="deluge_button" alt="$title">
+    $title
+    $if image:
+        <image src="$base/static/images/$image" class="button" alt="$title"/>
+    </button>
+
+$if (get_config('button_style') == 1):
+    $if image:
+        <input type="image" image src="$base/static/images/$image" class="img_button" alt="$title"/>
+    $else:
+        <button type="submit" class="deluge_button" alt="$title">
+        $title
+        </button>
+
+$if (get_config('button_style') == 2):
+    <button type="submit" class="deluge_button" alt="$title">
+    $title
+    </button>
+
+</form>
+</div>

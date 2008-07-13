@@ -33,18 +33,19 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "libtorrent/pch.hpp"
 
 #include "libtorrent/http_stream.hpp"
-#include "libtorrent/tracker_manager.hpp" // for base64encode
+#include "libtorrent/escape_string.hpp" // for base64encode
 
 namespace libtorrent
 {
 
-	void http_stream::name_lookup(asio::error_code const& e, tcp::resolver::iterator i
+	void http_stream::name_lookup(error_code const& e, tcp::resolver::iterator i
 		, boost::shared_ptr<handler_type> h)
 	{
 		if (e || i == tcp::resolver::iterator())
 		{
 			(*h)(e);
-			close();
+			error_code ec;
+			close(ec);
 			return;
 		}
 
@@ -52,12 +53,13 @@ namespace libtorrent
 			&http_stream::connected, this, _1, h));
 	}
 
-	void http_stream::connected(asio::error_code const& e, boost::shared_ptr<handler_type> h)
+	void http_stream::connected(error_code const& e, boost::shared_ptr<handler_type> h)
 	{
 		if (e)
 		{
 			(*h)(e);
-			close();
+			error_code ec;
+			close(ec);
 			return;
 		}
 
@@ -80,31 +82,33 @@ namespace libtorrent
 				m_user + ":" + m_password) + "\r\n", p);
 		}
 		write_string("\r\n", p);
-		asio::async_write(m_sock, asio::buffer(m_buffer)
+		async_write(m_sock, asio::buffer(m_buffer)
 			, boost::bind(&http_stream::handshake1, this, _1, h));
 	}
 
-	void http_stream::handshake1(asio::error_code const& e, boost::shared_ptr<handler_type> h)
+	void http_stream::handshake1(error_code const& e, boost::shared_ptr<handler_type> h)
 	{
 		if (e)
 		{
 			(*h)(e);
-			close();
+			error_code ec;
+			close(ec);
 			return;
 		}
 
 		// read one byte from the socket
 		m_buffer.resize(1);
-		asio::async_read(m_sock, asio::buffer(m_buffer)
+		async_read(m_sock, asio::buffer(m_buffer)
 			, boost::bind(&http_stream::handshake2, this, _1, h));
 	}
 
-	void http_stream::handshake2(asio::error_code const& e, boost::shared_ptr<handler_type> h)
+	void http_stream::handshake2(error_code const& e, boost::shared_ptr<handler_type> h)
 	{
 		if (e)
 		{
 			(*h)(e);
-			close();
+			error_code ec;
+			close(ec);
 			return;
 		}
 
@@ -134,7 +138,8 @@ namespace libtorrent
 			if (status == 0)
 			{
 				(*h)(asio::error::operation_not_supported);
-				close();
+				error_code ec;
+				close(ec);
 				return;
 			}
 
@@ -143,7 +148,8 @@ namespace libtorrent
 			if (code != 200)
 			{
 				(*h)(asio::error::operation_not_supported);
-				close();
+				error_code ec;
+				close(ec);
 				return;
 			}
 
@@ -154,7 +160,7 @@ namespace libtorrent
 
 		// read another byte from the socket
 		m_buffer.resize(read_pos + 1);
-		asio::async_read(m_sock, asio::buffer(&m_buffer[0] + read_pos, 1)
+		async_read(m_sock, asio::buffer(&m_buffer[0] + read_pos, 1)
 			, boost::bind(&http_stream::handshake2, this, _1, h));
 	}
 

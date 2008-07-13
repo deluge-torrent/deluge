@@ -1,0 +1,63 @@
+$def with (torrent_list, label_filters)
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+$:render.header(_("Deluge : Torrent List"), 'home')
+
+$if label_filters:
+    <!--the part_label_filters.html is served from the label plugin template directory -->
+    $:render.part_label_filters(label_filters)
+$else:
+    <br>
+
+
+<table id="torrent_list_block" width="80%">
+<tr><td>
+    <div id="toolbar">
+    $:render.part_toolbar()
+    </div>
+</td></tr><tr><td>
+    $:render.part_torrent_list(torrent_list, label_filters)
+
+</td></tr><tr><td height=100%>
+
+
+
+</td></tr>
+</table>
+
+<!--v1-->
+<div class="panel" id="info_panel_div" style="width:79%;
+$if label_filters:
+    margin-left:180px
+$else:
+    margin-left:0px
+">
+    <iframe
+    style="border-style:hidden;width:100%;height:200px;"
+    id="torrent_info">
+    </iframe>
+</div>
+
+
+<br />
+
+
+
+
+<script language='javascript'>
+    /*on_click_action = open_details;*/
+    on_click_action = on_click_row_js;
+    reselect_rows();
+    var id = state.selected_rows[0];
+    if (id) {
+        open_inner_details(id);
+    }
+</script>
+
+<form id='toolbar_form' method="POST" action="changed by javascript">
+
+</form>
+
+$:render.footer()
+
+

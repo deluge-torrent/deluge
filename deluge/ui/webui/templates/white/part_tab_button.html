@@ -1,0 +1,8 @@
+$def with (id, title, active)
+
+$if (active == id):
+    <a class="tab_button_active"
+$else:
+    <a class="tab_button"
+href="$(self_url(tab=id))">$title</a>
+

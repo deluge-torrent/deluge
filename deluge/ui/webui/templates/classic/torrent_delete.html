@@ -1,0 +1,31 @@
+$def with (torrent_ids, torrent_list)
+$:render.header(_("Remove torrent"))
+<div class="panel">
+<form method="POST" action='$base/torrent/delete/$torrent_ids'>
+<div id="del_torrent">
+
+<h2>$_("Remove torrent")</h2>
+<ul>
+$for torrent in torrent_list:
+    <li>$torrent.name</li>
+</ul>
+
+    <div class="form_row2">
+	<span class="form_label2">
+	<input type="checkbox" name="torrent_also" class="form_input" checked
+	value="1">$_('Delete .torrent file')</span>
+    </div>
+    <div class="form_row2">
+	<span class="form_label2">
+	<input type="checkbox" name="data_also" class="form_input"
+	value="1">$_('Delete downloaded files.')</span>
+    </div>
+    <div class="form_row2">
+	<span class="form_label2"></span>
+	<input type="submit" name="submit"
+	value="$_('Remove')" class="form_input">
+    </div>
+</div>
+</form>
+</div>
+$:render.footer()

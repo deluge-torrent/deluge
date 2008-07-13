@@ -1,0 +1,30 @@
+After labels:
+*templates : remove advanced , rename deluge to classic , result = classic-templ -> no-javascript ; white-templ -> static enhanced with js ; ajax-templ -> json api
+*white temnplate: add deluge icon.
+*fix all comments from IRC-nonicknamename2.
+
+0.6 RC:
+*Fix IE7 for advanced/white template.
+*white template : add auto-refresh (with a nice js-progress-bar)
+*gettext : update template_strings.py + add all .py files to gettext input files
+
+after 0.6 /before 1.0:
+*hide-option for details iframe.
+*white template:better css fluid layout or switch to tables.
+*rethink details iframe.
+*persistent sessions
+
+maybe/ideas/after 0.6.1:
+*checkboxes for multiple select?
+*switch to webpy 0.3
+*right-click menu on torrent-rows
+*multi row template like transmission etc.
+
+Half-done:
+*labels (organize-plugin)
+*add new major features in available gtk ui but not in webui.
+
+Done:
+*plugin-config + (re)enable webui plugins.
+*white-template : green-iframe ->make blue
+

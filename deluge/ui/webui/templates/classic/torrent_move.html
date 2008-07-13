@@ -1,0 +1,22 @@
+$def with (torrent_ids, torrent_list, form, error)
+$:render.header(_("Remove torrent"))
+<div class="panel">
+<form method="POST" action='$base/torrent/move/$torrent_ids'>
+<div id="del_torrent">
+<h2>$_("Move torrent")</h2>
+<ul>
+$for torrent in torrent_list:
+    <li>$torrent.name ($torrent.save_path)</li>
+</ul>
+<!--
+$if error:
+    <div class="error">$error</div>
+-->
+
+$:form.as_table()
+
+<input type="submit" name="submit" value="$_('Move')" class="form_input">
+
+</form>
+</div>
+$:render.footer()

@@ -1,0 +1,53 @@
+$def with (filter_items)
+
+<form method="GET" id="category_form">
+<input type="hidden" name="sort" value="$get('sort')">
+<input type="hidden" name="order" value="$get('order')">
+<input type="hidden" name="filter_cat" value="keyword">
+<div id="organize_block">
+<div id="organize_state">
+<div class="title">$_('Keyword')</div>
+<input type="text" name="filter_value" id="filter_value"
+$if get('filter_cat') == "keyword":
+    value="$get('filter_value')"
+style="width:100px;padding:0px" title="$_('Filter on a keyword')"/>
+
+$if get('filter_cat') == "keyword":
+    $if get('filter_value'):
+        <img src="$base/static/images/tango/edit-clear.png" alt="$_('Clear')"
+        onclick="el('keyword').value='';el('category_form').submit();"
+        >
+</form>
+<br /><br />
+
+<!--
+$filter_items
+-->
+$for cat in ["state", "tracker", "label"]:
+    <div class="title">$cat</div>
+    <ul>
+    $for value, count in filter_items[cat]:
+        <li
+        $if cat == get('filter_cat'):
+            $if value == get('filter_value'):
+                class="selected"
+        $# I hate this, special case for All
+        $# templetor sucks with multiple conditions in 1 if-statement, i need to find a better way,
+        $if cat == "state":
+            $if value == "All":
+                $if not get('filter_value'):
+                    $if not get('filter_cat'):
+                        class="selected"
+        >
+        <a href="$self_url(filter_cat=cat, filter_value=value, sort=get('sort'), order=get('order')) ">
+        $if cat == "state":
+            <img src="/pixmaps/$(value.lower())"></img>
+        $value ($count)</a>
+        </li>
+    </ul>
+</div>
+</div>
+
+
+
+

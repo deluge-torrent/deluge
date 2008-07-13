@@ -1,0 +1,14 @@
+$def with (torrent, error)
+$:render.header(torrent.name)
+<div class="panel">
+<div id="torrent_files">
+<h2>$_(torrent.name)</h2>
+<ul>
+$:render.tab_files(torrent, True)</ul>
+
+$if error:
+    <div class="error">$error</div>
+
+</form>
+</div>
+$:render.footer()

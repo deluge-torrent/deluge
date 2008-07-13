@@ -1,0 +1,58 @@
+$def with (connect_list, connected, restart)
+
+$:render.header(_("Connect to Daemon"), 'connect')
+
+$:render.admin_toolbar('connect')
+
+<div class="panel" align="left">
+<h2>$_("Connect")</h2>
+$if connected:
+    <table><tr>
+    <td>
+    $_('Connected to')
+    $connected
+    </td><td>
+    <!--DISABLED
+    &nbsp;
+    <form method="POST" action="$base/daemon/control/stop">
+    <input type="submit" name="stop"
+    value="$_('Stop')">
+    </form>
+    </td><td>
+    <form method="POST" action="$base/daemon/control/restart">
+    $if restart:
+        <input type="submit" name="restart"
+        value="$_('Restart')">
+        </form>
+    --->
+    </td></tr></table>
+$else:
+    <div class="error">$_("Not Connected to a daemon")
+    </div>
+    <!--disabled
+    <form method="POST" action="$base/daemon/control/start">
+    <input type="hidden" name="uri" value="$connect_list[0]">
+    <input type="submit" name="stop"
+    value="$_('Start') $connect_list[0]">
+    </form>
+    -->
+
+<form method="POST">
+$for i, uri in enumerate(connect_list):
+    <p><input type="radio" name="uri" value="$uri"
+    $if i == 0:
+        checked
+    >$uri</p>
+<p>
+    <input type="radio" name="uri" value="other">$_("Other"):
+    <input type="text" name="other_uri">
+</p>
+
+<input type="submit" name="submit" value="$_('Connect')">
+
+</li>
+</form>
+<br>
+
+</div>
+$:render.footer()

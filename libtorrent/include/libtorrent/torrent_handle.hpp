@@ -100,7 +100,6 @@ namespace libtorrent
 			, num_incomplete(-1)
 			, list_seeds(0)
 			, list_peers(0)
-			, pieces(0)
 			, num_pieces(0)
 			, total_done(0)
 			, total_wanted_done(0)
@@ -114,6 +113,13 @@ namespace libtorrent
 			, storage_mode(storage_mode_sparse)
 			, up_bandwidth_queue(0)
 			, down_bandwidth_queue(0)
+			, all_time_upload(0)
+			, all_time_download(0)
+			, active_time(0)
+			, seeding_time(0)
+			, seed_rank(0)
+			, last_scrape(0)
+			, has_incoming(false)
 		{}
 
 		enum state_t
@@ -131,6 +137,8 @@ namespace libtorrent
 		state_t state;
 		bool paused;
 		float progress;
+		std::string error;
+
 		boost::posix_time::time_duration next_announce;
 		boost::posix_time::time_duration announce_interval;
 
@@ -187,8 +195,12 @@ namespace libtorrent
 		// (including seeds), but are not necessarily
 		// connected to
 		int list_peers;
+
+		// the number of peers in our peerlist that
+		// we potentially could connect to
+		int connect_candidates;
 		
-		const std::vector<bool>* pieces;
+		bitfield pieces;
 		
 		// this is the number of pieces the client has
 		// downloaded. it is equal to:
@@ -236,6 +248,28 @@ namespace libtorrent
 
 		int up_bandwidth_queue;
 		int down_bandwidth_queue;
+
+		// number of bytes downloaded since torrent was started
+		// saved and restored from resume data
+		size_type all_time_upload;
+		size_type all_time_download;
+
+		// the number of seconds of being active
+		// and as being a seed, saved and restored
+		// from resume data
+		int active_time;
+		int seeding_time;
+
+		// higher value means more important to seed
+		int seed_rank;
+
+		// number of seconds since last scrape, or -1 if
+		// there hasn't been a scrape
+		int last_scrape;
+
+		// true if there are incoming connections to this
+		// torrent
+		bool has_incoming;
 	};
 
 	struct TORRENT_EXPORT block_info
@@ -278,8 +312,9 @@ namespace libtorrent
 		friend struct aux::session_impl;
 		friend class torrent;
 
-		torrent_handle(): m_ses(0), m_chk(0), m_info_hash(0) {}
+		torrent_handle() {}
 
+		void get_full_peer_list(std::vector<peer_list_entry>& v) const;
 		void get_peer_info(std::vector<peer_info>& v) const;
 		torrent_status status() const;
 		void get_download_queue(std::vector<partial_piece_info>& queue) const;
@@ -310,6 +345,17 @@ namespace libtorrent
 		bool is_paused() const;
 		void pause() const;
 		void resume() const;
+		void force_recheck() const;
+		void save_resume_data() const;
+
+		bool is_auto_managed() const;
+		void auto_managed(bool m) const;
+
+		int queue_position() const;
+		void queue_position_up() const;
+		void queue_position_down() const;
+		void queue_position_top() const;
+		void queue_position_bottom() const;
 
 #ifndef TORRENT_DISABLE_RESOLVE_COUNTRIES	
 		void resolve_countries(bool r);
@@ -321,6 +367,7 @@ namespace libtorrent
 
 		// ================ start deprecation ============
 
+		// deprecated in 0.13
 		// marks the piece with the given index as filtered
 		// it will not be downloaded
 		void filter_piece(int index, bool filter) const TORRENT_DEPRECATED;
@@ -349,7 +396,10 @@ namespace libtorrent
 		// to.
 		void use_interface(const char* net_interface) const;
 
-		entry write_resume_data() const;
+		// deprecated in 0.14
+		// use save_resume_data() instead. It is async. and
+		// will return the resume data in an alert
+		entry write_resume_data() const TORRENT_DEPRECATED;
 
 		// forces this torrent to reannounce
 		// (make a rerequest from the tracker)
@@ -378,7 +428,8 @@ namespace libtorrent
 		void set_download_limit(int limit) const;
 		int download_limit() const;
 
-		void set_sequenced_download_threshold(int threshold) const;
+		void set_sequential_download(bool sd) const;
+		bool is_sequential_download() const;
 
 		void set_peer_upload_limit(tcp::endpoint ip, int limit) const;
 		void set_peer_download_limit(tcp::endpoint ip, int limit) const;
@@ -403,39 +454,30 @@ namespace libtorrent
 
 		// post condition: save_path() == save_path if true is returned
 		void move_storage(fs::path const& save_path) const;
+		void rename_file(int index, fs::path const& new_name) const;
 
-		const sha1_hash& info_hash() const
-		{ return m_info_hash; }
+		sha1_hash info_hash() const;
 
 		bool operator==(const torrent_handle& h) const
-		{ return m_info_hash == h.m_info_hash; }
+		{ return m_torrent.lock() == h.m_torrent.lock(); }
 
 		bool operator!=(const torrent_handle& h) const
-		{ return m_info_hash != h.m_info_hash; }
+		{ return m_torrent.lock() != h.m_torrent.lock(); }
 
 		bool operator<(const torrent_handle& h) const
-		{ return m_info_hash < h.m_info_hash; }
+		{ return m_torrent.lock() < h.m_torrent.lock(); }
 
 	private:
 
-		torrent_handle(aux::session_impl* s,
-			aux::checker_impl* c,
-			const sha1_hash& h)
-			: m_ses(s)
-			, m_chk(c)
-			, m_info_hash(h)
-		{
-			TORRENT_ASSERT(m_ses != 0);
-			TORRENT_ASSERT(m_chk != 0);
-		}
+		torrent_handle(boost::weak_ptr<torrent> const& t)
+			: m_torrent(t)
+		{}
 
 #ifndef NDEBUG
 		void check_invariant() const;
 #endif
 
-		aux::session_impl* m_ses;
-		aux::checker_impl* m_chk;
-		sha1_hash m_info_hash;
+		boost::weak_ptr<torrent> m_torrent;
 
 	};
 

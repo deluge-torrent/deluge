@@ -1,0 +1,331 @@
+$def with (style)
+/*
+preprocessed style.
+avoid copy and pase of colours.
+*/
+
+
+/*global:*/
+body, th, td,tr , div,table , div{
+	font-family: Bitstream Vera Sans, verdana, arial, sans-serif;
+	font-size:12px;
+	padding:0px;
+	margin:0px;
+	border-style: hidden;
+	border-spacing:0px;
+}
+
+a {
+	color: #0000AA;
+	}
+a:visited { color: #0000AA;}
+
+th {
+	font-weight:normal;
+	text-align: left;
+	}
+
+form {
+	display:inline;
+}
+
+img{
+	border:0;
+}
+
+/*controls:*/
+div.error {
+	background-color:#FFFFFF;
+	color:#AA0000;
+	font-weight:bold;
+	-moz-border-radius:10px;
+	width:200px;
+	margin-bottom:20px;
+	padding:10px;
+
+}
+div.info {
+	background-color:#FFFFFF;
+    color: #0000AA;
+	font-weight:bold;
+}
+
+a.tab_button_active {
+	color: #0000AA;
+	text-decoration:none;
+	font-weight:bold;
+	color:#000;
+}
+
+div.deluge_button{
+	display:inline;
+}
+
+div.panel {
+	border-style:solid;
+	border-width:2px;
+	border-color:#C3D9FF;
+	background-color:#FAFAFA; /*offf-topic-hint:allo allo*/
+	-moz-border-radius:5px;
+	width:700px;
+	margin-left:20px;
+	margin-top:20px;
+
+}
+
+h2 {
+		background-color:#E0ECFF;
+		margin:0;
+}
+
+h3 {
+		background-color:#E0ECFF;
+		margin:0;
+}
+
+
+/*page from top to bottom:*/
+
+/*top part :*/
+#admin_toolbar {
+	text-align:right;
+	float;
+}
+
+#home_top {
+	text-align:left;
+	float;
+}
+
+/*toolbar*/
+#toolbar {
+	background-color:#E0ECFF;
+}
+
+
+#organize_block {
+	width:170px;
+	height:300px;
+	/*border-style:solid;
+	border-width:2px;
+	border-color:#B5EDBC;
+	-moz-border-radius:8px;*/
+	float: left;
+	margin-left: 10px;
+	margin-top:20px;
+}
+
+
+#organize_state div.title {
+	background-color:#E0ECFF;
+	margin-right:2px;
+	text-indent: 10px;
+}
+
+#organize_state ul {
+	list-style-type: none;
+	padding: 0;
+	margin-top:0px;
+}
+
+#organize_state li {
+	margin-top: 2px;
+	text-indent: 10px;
+	height:20px;
+
+}
+#organize_state li:hover {
+	/*background-color:#68a;*/
+}
+
+#organize_state li.selected {
+	background-color:#C3D9FF;
+	-moz-border-radius:5px 0px 0px 5px;
+}
+
+
+
+
+
+/*torrent table*/
+
+#torrent_list_block{
+	border-style:solid;
+	border-width:2px 2px 2px 12px;
+	border-color:#C3D9FF;
+	-moz-border-radius:5px;
+	height:280px;
+	/*float: right;*/
+}
+
+
+XX#torrent_table td {
+	border-bottom-style:solid;
+	border-bottom-width:1px;
+	border-bottom-color:#000000;
+}
+
+#torrent_table th {
+	background-color:#C3D9FF;
+}
+
+tr.altrow1 {
+		background-color:#FAFAFA; /*offf-topic-hint:allo allo*/
+}
+
+th {
+	padding-left:3px;
+}
+tr.altrow1 > td {
+	padding-left:3px;
+}
+tr.altrow0 > td {
+	padding-left:3px;
+}
+tr.torrent_table_selected > td {
+	padding-left:3px;
+}
+
+
+tr.torrent_table_selected {
+	background-color:#FFFFCC;
+}
+
+div.progress_bar{
+	background-color:#E0ECFF;
+	overflow:visible;
+	white-space: nowrap;
+	/*color:blue;*/
+	/*-moz-border-radius:5px;*/ /*ff only setting*/
+}
+
+/*info panel(inner):*/
+
+#info_panel_div {
+	width:100%;
+	margin-top:20px;
+	border-style:solid;
+	/*old-green:
+	border-width:2 2 0 0;
+	border-width:2 2 2 12;*/
+	/*new-blue:*/
+	border-width:2px 2px 2px 12px;
+	border-color:#C3D9FF;
+
+
+	-moz-border-radius:5px;
+	/*float: right;*/
+}
+#torrent_info_tabs {
+	/*old-green
+	background-color:#B5EDBC
+	*/
+	/*new-blue:*/
+	background-color:#E0ECFF;
+
+
+}
+
+#torrent_info tr.head{
+	background-color:#C3D9FF;
+}
+#torrent_info div.progress_bar{
+	background-color:#C3D9FF;
+}
+#torrent_info div.button_bar{
+	background-color:#C3D9FF;
+}
+
+
+
+td.info_label {
+		/*width:80px;*/
+}
+
+#torrent_tab tr.head {
+	background-color:#74DD82;
+}
+#torrent_tab tr.altrow0 {
+	background-color:#FFFFFF;
+}
+
+#torrent_tab a.tab_button {
+	margin-right:10px;
+}
+#torrent_tab a.tab_button_active {
+	margin-right:10px;
+}
+
+/*/torrent/info*/
+#torrent_info #torrent_tab tr.head {
+	background-color:#74DD82;
+}
+
+
+
+/*config:*/
+#config_chooser {
+	margin-left:20px;
+	float: left;
+	width:150px;
+	text-align:left;
+	height:none;
+	background-color:#FFFFFF;
+	border:none;
+}
+
+#config_chooser ul {
+	list-style-type: none;
+	padding: 0;
+	margin-top:0px;
+}
+#config_chooser h3 {
+	background-color:#E0ECFF;
+	margin-right:2px;
+	text-indent: 10px;
+	font-size:12px;
+	font-weight:normal;
+}
+
+
+#config_chooser li {
+	margin-top: 2px;
+	text-indent: 10px;
+	height:20px;
+}
+#config_chooser li.selected {
+	background-color:#C3D9FF;
+	-moz-border-radius:5 0 0 5;
+}
+
+#config_panel {
+		height:none;
+		float:left;
+		width:500px;
+		height:500px;
+		margin-left:0px;
+		border-width:2px 2px 2px 12px;
+}
+#config_panel th {
+		text-align:right;
+}
+
+/*config:*/
+
+/*newforms*/
+ul.errorlist {
+	display:inline;
+	float:right;
+	height:15px;
+	padding:5px;
+	margin:0px;
+	padding-left:10px;
+}
+
+ul.errorlist > li {
+		background-color:#FFFFFF;
+		color:#AA0000;
+		display:inline;
+		padding:0px;
+		margin:0px;
+}

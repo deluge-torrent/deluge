@@ -58,9 +58,10 @@ POSSIBILITY OF SUCH DAMAGE.
 namespace libtorrent
 {
 
-// int: external tcp port
-// int: external udp port
+// int: port-mapping index
+// int: external port
 // std::string: error message
+// an empty string as error means success
 typedef boost::function<void(int, int, std::string const&)> portmap_callback_t;
 
 class upnp : public intrusive_ptr_base<upnp>
@@ -68,64 +69,89 @@ class upnp : public intrusive_ptr_base<upnp>
 public:
 	upnp(io_service& ios, connection_queue& cc
 		, address const& listen_interface, std::string const& user_agent
-		, portmap_callback_t const& cb, bool ignore_nonrouters);
+		, portmap_callback_t const& cb, bool ignore_nonrouters, void* state = 0);
 	~upnp();
 
-	// maps the ports, if a port is set to 0
-	// it will not be mapped
-	void set_mappings(int tcp, int udp);
+	void* drain_state();
+
+	enum protocol_type { none = 0, udp = 1, tcp = 2 };
+	int add_mapping(protocol_type p, int external_port, int local_port);
+	void delete_mapping(int mapping_index);
 
 	void discover_device();
 	void close();
 
+	std::string router_model()
+	{
+		mutex_t::scoped_lock l(m_mutex);
+		return m_model;
+	}
+
 private:
 
+	void discover_device_impl();
 	static address_v4 upnp_multicast_address;
 	static udp::endpoint upnp_multicast_endpoint;
 
-	enum { num_mappings = 2 };
 	enum { default_lease_time = 3600 };
 	
-	void update_mapping(int i, int port);
-	void resend_request(asio::error_code const& e);
+	void resend_request(error_code const& e);
 	void on_reply(udp::endpoint const& from, char* buffer
 		, std::size_t bytes_transferred);
 
 	struct rootdevice;
+	void next(rootdevice& d, int i);
+	void update_map(rootdevice& d, int i);
+
 	
-	void on_upnp_xml(asio::error_code const& e
+	void on_upnp_xml(error_code const& e
 		, libtorrent::http_parser const& p, rootdevice& d
 		, http_connection& c);
-	void on_upnp_map_response(asio::error_code const& e
+	void on_upnp_map_response(error_code const& e
 		, libtorrent::http_parser const& p, rootdevice& d
 		, int mapping, http_connection& c);
-	void on_upnp_unmap_response(asio::error_code const& e
+	void on_upnp_unmap_response(error_code const& e
 		, libtorrent::http_parser const& p, rootdevice& d
 		, int mapping, http_connection& c);
-	void on_expire(asio::error_code const& e);
+	void on_expire(error_code const& e);
 
-	void map_port(rootdevice& d, int i);
-	void unmap_port(rootdevice& d, int i);
-	void disable();
+	void disable(char const* msg);
+	void return_error(int mapping, int code);
 
 	void delete_port_mapping(rootdevice& d, int i);
 	void create_port_mapping(http_connection& c, rootdevice& d, int i);
 	void post(upnp::rootdevice const& d, std::string const& soap
 		, std::string const& soap_action);
 
+	int num_mappings() const { return int(m_mappings.size()); }
+
+	struct global_mapping_t
+	{
+		global_mapping_t()
+			: protocol(none)
+			, external_port(0)
+			, local_port(0)
+		{}
+		int protocol;
+		int external_port;
+		int local_port;
+	};
+
 	struct mapping_t
 	{
+		enum action_t { action_none, action_add, action_delete };
 		mapping_t()
-			: need_update(false)
+			: action(action_none)
 			, local_port(0)
 			, external_port(0)
-			, protocol(1)
+			, protocol(none)
+			, failcount(0)
 		{}
 
 		// the time the port mapping will expire
 		ptime expires;
 		
-		bool need_update;
+		int action;
 
 		// the local port for this mapping. If this is set
 		// to 0, the mapping is not in use
@@ -136,8 +162,11 @@ private:
 		// should announce to others
 		int external_port;
 
-		// 1 = udp, 0 = tcp
+		// 2 = udp, 1 = tcp
 		int protocol;
+
+		// the number of times this mapping has failed
+		int failcount;
 	};
 
 	struct rootdevice
@@ -147,8 +176,6 @@ private:
 			, supports_specific_external(true)
 			, disabled(false)
 		{
-			mapping[0].protocol = 0;
-			mapping[1].protocol = 1;
 #ifndef NDEBUG
 			magic = 1337;
 #endif
@@ -161,7 +188,7 @@ private:
 			magic = 0;
 		}
 #endif
-		
+
 		// the interface url, through which the list of
 		// supported interfaces are fetched
 		std::string url;
@@ -171,7 +198,7 @@ private:
 		// either the WANIP namespace or the WANPPP namespace
 		char const* service_namespace;
 
-		mapping_t mapping[num_mappings];
+		std::vector<mapping_t> mapping;
 		
 		std::string hostname;
 		int port;
@@ -201,8 +228,13 @@ private:
 		{ return url < rhs.url; }
 	};
 	
-	int m_udp_local_port;
-	int m_tcp_local_port;
+	struct upnp_state_t
+	{
+		std::vector<global_mapping_t> mappings;
+		std::set<rootdevice> devices;
+	};
+
+	std::vector<global_mapping_t> m_mappings;
 
 	std::string const& m_user_agent;
 	
@@ -214,9 +246,7 @@ private:
 	// current retry count
 	int m_retry_count;
 
-	asio::io_service& m_io_service;
-
-	asio::strand m_strand;	
+	io_service& m_io_service;
 
 	// the udp socket used to send and receive
 	// multicast messages on the network
@@ -231,9 +261,14 @@ private:
 	
 	bool m_disabled;
 	bool m_closing;
-	bool m_ignore_outside_network;
+	bool m_ignore_non_routers;
 
 	connection_queue& m_cc;
+
+	typedef boost::mutex mutex_t;
+	mutex_t m_mutex;
+
+	std::string m_model;
 
 #ifdef TORRENT_UPNP_LOGGING
 	std::ofstream m_log;

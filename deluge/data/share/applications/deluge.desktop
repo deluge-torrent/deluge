@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=Deluge
+GenericName=Bittorrent Client
+Comment=Transfer files using the Bittorrent protocol
+Exec=deluge
+Icon=deluge
+Terminal=false
+Type=Application
+Categories=Network;
+StartupNotify=true
+MimeType=application/x-bittorrent;

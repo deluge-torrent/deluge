@@ -1,0 +1,29 @@
+$def with (torrent_ids, torrent_list, labels)
+$:render.header(_("Label torrent"))
+<div class="panel">
+<form method="POST" action='$base/torrent/label/$torrent_ids'>
+<div id="del_torrent">
+
+<h2>$_("Label torrent")</h2>
+<ul>
+$for torrent in torrent_list:
+    <li>$torrent.name ($torrent.label)</li>
+</ul>
+
+    <div class="form_row2">
+	<span class="form_label2">
+<select size=$(len(labels) + 1) style="width:150px" name="label" id="label">
+<option value="">No Label</option>
+$for label in labels:
+    <option value="$label">$label</option>
+</select>
+    </div>
+    <div class="form_row2">
+	<span class="form_label2"></span>
+	<input type="submit" name="submit"
+	value="$_('Label')" class="form_input">
+    </div>
+</div>
+</form>
+</div>
+$:render.footer()

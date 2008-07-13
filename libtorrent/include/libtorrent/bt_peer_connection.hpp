@@ -103,6 +103,8 @@ namespace libtorrent
 			, tcp::endpoint const& remote
 			, policy::peer* peerinfo);
 
+		void start();
+
 		~bt_peer_connection();
 		
 #ifndef TORRENT_DISABLE_ENCRYPTION
@@ -140,9 +142,9 @@ namespace libtorrent
 		// called from the main loop when this connection has any
 		// work to do.
 
-		void on_sent(asio::error_code const& error
+		void on_sent(error_code const& error
 			, std::size_t bytes_transferred);
-		void on_receive(asio::error_code const& error
+		void on_receive(error_code const& error
 			, std::size_t bytes_transferred);
 		
 		virtual void get_specific_peer_info(peer_info& p) const;
@@ -207,9 +209,9 @@ namespace libtorrent
 		void write_not_interested();
 		void write_request(peer_request const& r);
 		void write_cancel(peer_request const& r);
-		void write_bitfield(std::vector<bool> const& bitfield);
+		void write_bitfield();
 		void write_have(int index);
-		void write_piece(peer_request const& r, char* buffer);
+		void write_piece(peer_request const& r, disk_buffer_holder& buffer);
 		void write_handshake();
 #ifndef TORRENT_DISABLE_EXTENSIONS
 		void write_extensions();
@@ -268,10 +270,12 @@ namespace libtorrent
 		// initializes m_RC4_handler
 		void init_pe_RC4_handler(char const* secret, sha1_hash const& stream_key);
 
+public:
+
 		// these functions encrypt the send buffer if m_rc4_encrypted
 		// is true, otherwise it passes the call to the
 		// peer_connection functions of the same names
-		void send_buffer(char* buf, int size);
+		void send_buffer(char* buf, int size, int flags = 0);
 		buffer::interval allocate_send_buffer(int size);
 		template <class Destructor>
 		void append_send_buffer(char* buffer, int size, Destructor const& destructor)
@@ -283,6 +287,8 @@ namespace libtorrent
 			peer_connection::append_send_buffer(buffer, size, destructor);
 		}
 		void setup_send();
+
+private:
 
 		// Returns offset at which bytestream (src, src + src_size)
 		// matches bytestream(target, target + target_size).
@@ -358,6 +364,7 @@ namespace libtorrent
 		// the peer indicated that it supports the
 		// extension protocol
 		bool m_supports_extensions;
+		char m_reserved_bits[20];
 #endif
 		bool m_supports_dht_port;
 		bool m_supports_fast;
@@ -382,7 +389,7 @@ namespace libtorrent
 		// initialized during write_pe1_2_dhkey, and destroyed on
 		// creation of m_RC4_handler. Cannot reinitialize once
 		// initialized.
-		boost::scoped_ptr<DH_key_exchange> m_DH_key_exchange;
+		boost::scoped_ptr<dh_key_exchange> m_dh_key_exchange;
 		
 		// if RC4 is negotiated, this is used for
 		// encryption/decryption during the entire session. Destroyed
