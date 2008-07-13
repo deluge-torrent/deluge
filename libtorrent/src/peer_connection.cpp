@@ -632,7 +632,9 @@ namespace libtorrent
 
 		if (peer_info_struct())
 		{
-			peer_info_struct()->on_parole = true;
+			if (m_ses.settings().use_parole_mode)
+				peer_info_struct()->on_parole = true;
+
 			++peer_info_struct()->hashfails;
 			boost::int8_t& trust_points = peer_info_struct()->trust_points;
 
@@ -1509,7 +1511,7 @@ namespace libtorrent
 		// just ignore it
 		if (t->is_seed())
 		{
-			t->received_redundant_data(p.length);
+			t->add_redundant_bytes(p.length);
 			return;
 		}
 
@@ -1541,7 +1543,7 @@ namespace libtorrent
 			(*m_logger) << " *** The block we just got was not in the "
 				"request queue ***\n";
 #endif
-			t->received_redundant_data(p.length);
+			t->add_redundant_bytes(p.length);
 			request_a_block(*t, *this);
 			send_block_requests();
 			return;
@@ -1578,7 +1580,7 @@ namespace libtorrent
 		// if the block we got is already finished, then ignore it
 		if (picker.is_downloaded(block_finished))
 		{
-			t->received_redundant_data(p.length);
+			t->add_redundant_bytes(p.length);
 
 			m_download_queue.erase(b);
 			m_timeout_extend = 0;
@@ -2813,6 +2815,11 @@ namespace libtorrent
 		}
 		m_desired_queue_size = 1;
 
+		if (on_parole())
+		{
+			m_timeout_extend += m_ses.settings().request_timeout;
+			return;
+		}
 		if (!t->has_picker()) return;
 		piece_picker& picker = t->picker();
 
@@ -3579,9 +3586,6 @@ namespace libtorrent
 		boost::shared_ptr<torrent> t = m_torrent.lock();
 		if (m_disconnecting)
 		{
-			for (aux::session_impl::torrent_map::const_iterator i = m_ses.m_torrents.begin()
-				, end(m_ses.m_torrents.end()); i != end; ++i)
-				TORRENT_ASSERT(!i->second->has_peer((peer_connection*)this));
 			TORRENT_ASSERT(!t);
 		}
 		else if (!m_in_constructor)
@@ -3622,11 +3626,13 @@ namespace libtorrent
 
 		if (!t)
 		{
+#ifdef TORRENT_EXPENSIVE_INVARIANT_CHECKS
 			// since this connection doesn't have a torrent reference
 			// no torrent should have a reference to this connection either
 			for (aux::session_impl::torrent_map::const_iterator i = m_ses.m_torrents.begin()
 				, end(m_ses.m_torrents.end()); i != end; ++i)
 				TORRENT_ASSERT(!i->second->has_peer((peer_connection*)this));
+#endif
 			return;
 		}
 
@@ -3636,7 +3642,9 @@ namespace libtorrent
 			for (torrent::const_peer_iterator i = t->begin(); i != t->end(); ++i)
 			{
 				// make sure this peer is not a dangling pointer
+#ifdef TORRENT_EXPENSIVE_INVARIANT_CHECKS
 				TORRENT_ASSERT(m_ses.has_peer(*i));
+#endif
 				peer_connection const& p = *(*i);
 				for (std::deque<piece_block>::const_iterator i = p.request_queue().begin()
 					, end(p.request_queue().end()); i != end; ++i)
@@ -3652,16 +3660,18 @@ namespace libtorrent
 					TORRENT_ASSERT(t->picker().num_peers(i->first) == i->second);
 			}
 		}
+#ifdef TORRENT_EXPENSIVE_INVARIANT_CHECKS
 		if (m_peer_info)
 		{
 			policy::const_iterator i;
-			for (i = t->get_policy().begin_peer();
-				i != t->get_policy().end_peer(); ++i)
+			for (i = t->get_policy().begin_peer()
+				, end(t->get_policy().end_peer()); i != end; ++i)
 			{
 				if (&i->second == m_peer_info) break;
 			}
 			TORRENT_ASSERT(i != t->get_policy().end_peer());
 		}
+#endif
 		if (t->has_picker() && !t->is_aborted())
 		{
 			// make sure that pieces that have completed the download

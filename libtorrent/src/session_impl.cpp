@@ -185,6 +185,8 @@ namespace aux {
 		, m_asnum_db(0)
 		, m_country_db(0)
 #endif
+		, m_total_failed_bytes(0)
+		, m_total_redundant_bytes(0)
 	{
 		m_tcp_mapping[0] = -1;
 		m_tcp_mapping[1] = -1;
@@ -466,31 +468,9 @@ namespace aux {
 			i != m_torrents.end(); ++i)
 		{
 			torrent& t = *i->second;
-
-			if ((!t.is_paused() || t.should_request())
-				&& !t.trackers().empty())
-			{
-#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-				++counter;
-#endif
-				tracker_request req = t.generate_tracker_request();
-				TORRENT_ASSERT(req.event == tracker_request::stopped);
-				req.listen_port = 0;
-				if (!m_listen_sockets.empty())
-					req.listen_port = m_listen_sockets.front().external_port;
-				req.key = m_key;
-				std::string login = i->second->tracker_login();
-#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-				boost::shared_ptr<tracker_logger> tl(new tracker_logger(*this));
-				m_tracker_loggers.push_back(tl);
-				m_tracker_manager.queue_request(m_io_service, m_half_open, req, login
-					, m_listen_interface.address(), tl);
-#else
-				m_tracker_manager.queue_request(m_io_service, m_half_open, req, login
-					, m_listen_interface.address());
-#endif
-			}
+			t.abort();
 		}
+
 #if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
 		(*m_logger) << time_now_string() << " sent " << counter << " tracker stop requests\n";
 #endif
@@ -1035,7 +1015,7 @@ namespace aux {
 			// ignore connections that already have a torrent, since they
 			// are ticket through the torrents' second_ticket
 			if (!p->associated_torrent().expired()) continue;
-			if (m_last_tick - p->connected_time() > seconds(m_settings.peer_connect_timeout))
+			if (m_last_tick - p->connected_time() > seconds(m_settings.handshake_timeout))
 				p->disconnect("timeout: incoming connection");
 		}
 
@@ -1088,23 +1068,6 @@ namespace aux {
 			{
 				++num_downloads;
 				num_downloads_peers += t.num_peers();
-			}
-
-			if (t.should_request())
-			{
-				tracker_request req = t.generate_tracker_request();
-				req.listen_port = 0;
-				if (!m_listen_sockets.empty())
-					req.listen_port = m_listen_sockets.front().external_port;
-				req.key = m_key;
-				m_tracker_manager.queue_request(m_io_service, m_half_open, req
-					, t.tracker_login(), m_listen_interface.address(), i->second);
-
-				if (m_alerts.should_post<tracker_announce_alert>())
-				{
-					m_alerts.post_alert(
-						tracker_announce_alert(t.get_handle(), req.url));
-				}
 			}
 
 			t.second_tick(m_stat, tick_interval);
@@ -1838,32 +1801,6 @@ namespace aux {
 				t.delete_files();
 			t.abort();
 
-			if ((!t.is_paused() || t.should_request())
-				&& !t.trackers().empty())
-			{
-				tracker_request req = t.generate_tracker_request();
-				TORRENT_ASSERT(req.event == tracker_request::stopped);
-				req.listen_port = 0;
-				if (!m_listen_sockets.empty())
-					req.listen_port = m_listen_sockets.front().external_port;
-				req.key = m_key;
-
-#if defined(TORRENT_VERBOSE_LOGGING) || defined(TORRENT_LOGGING)
-				boost::shared_ptr<tracker_logger> tl(new tracker_logger(*this));
-				m_tracker_loggers.push_back(tl);
-				m_tracker_manager.queue_request(m_io_service, m_half_open, req
-					, t.tracker_login(), m_listen_interface.address(), tl);
-#else
-				m_tracker_manager.queue_request(m_io_service, m_half_open, req
-					, t.tracker_login(), m_listen_interface.address());
-#endif
-
-				if (m_alerts.should_post<tracker_announce_alert>())
-				{
-					m_alerts.post_alert(
-						tracker_announce_alert(t.get_handle(), req.url));
-				}
-			}
 #ifndef NDEBUG
 			sha1_hash i_hash = t.torrent_file().info_hash();
 #endif
@@ -2016,6 +1953,9 @@ namespace aux {
 		s.num_peers = (int)m_connections.size();
 		s.num_unchoked = m_num_unchoked;
 		s.allowed_upload_slots = m_allowed_upload_slots;
+
+		s.total_redundant_bytes = m_total_redundant_bytes;
+		s.total_failed_bytes = m_total_failed_bytes;
 
 		s.up_bandwidth_queue = m_upload_channel.queue_size();
 		s.down_bandwidth_queue = m_download_channel.queue_size();

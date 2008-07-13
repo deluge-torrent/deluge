@@ -85,7 +85,7 @@ namespace libtorrent
 			, std::string const& url_)
 			: torrent_alert(h)
 			, url(url_)
-		{ assert(!url.empty()); }
+		{}
 
 		const static int static_category = alert::tracker_notification;
 		virtual int category() const { return static_category; }
@@ -191,7 +191,7 @@ namespace libtorrent
 			, times_in_row(times)
 			, status_code(status)
 			, msg(msg_)
-		{}
+		{ TORRENT_ASSERT(!url.empty()); }
 
 		virtual std::auto_ptr<alert> clone() const
 		{ return std::auto_ptr<alert>(new tracker_error_alert(*this)); }
@@ -218,7 +218,7 @@ namespace libtorrent
 			, std::string const& msg_)
 			: tracker_alert(h, url)
 			, msg(msg_)
-		{}
+		{ TORRENT_ASSERT(!url.empty()); }
 
 		std::string msg;
 
@@ -242,7 +242,7 @@ namespace libtorrent
 			: tracker_alert(h, url)
 			, incomplete(incomplete_)
 			, complete(complete_)
-		{}
+		{ TORRENT_ASSERT(!url.empty()); }
 
 		int incomplete;
 		int complete;
@@ -265,7 +265,7 @@ namespace libtorrent
 			, std::string const& msg_)
 			: tracker_alert(h, url)
 			, msg(msg_)
-		{}
+		{ TORRENT_ASSERT(!url.empty()); }
 
 		std::string msg;
 
@@ -287,7 +287,7 @@ namespace libtorrent
 			, std::string const& url)
 			: tracker_alert(h, url)
 			, num_peers(np)
-		{}
+		{ TORRENT_ASSERT(!url.empty()); }
 
 		int num_peers;
 
@@ -324,16 +324,20 @@ namespace libtorrent
 	struct TORRENT_EXPORT tracker_announce_alert: tracker_alert
 	{
 		tracker_announce_alert(torrent_handle const& h
-			, std::string const& url)
+			, std::string const& url, int event_)
 			: tracker_alert(h, url)
-		{}
+			, event(event_)
+		{ TORRENT_ASSERT(!url.empty()); }
+
+		int event;
 	
 		virtual std::auto_ptr<alert> clone() const
 		{ return std::auto_ptr<alert>(new tracker_announce_alert(*this)); }
 		virtual char const* what() const { return "tracker announce sent"; }
 		virtual std::string message() const
 		{
-			return tracker_alert::message() + " sending announce";
+			const static char* event_str[] = {"none", "completed", "started", "stopped"};
+			return tracker_alert::message() + " sending announce (" + event_str[event] + ")";
 		}
 	};
 	
