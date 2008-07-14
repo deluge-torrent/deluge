@@ -6,12 +6,12 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2, or (at your option)
 # any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.    See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -66,7 +66,7 @@ try:
             if line.split(" ")[0] == "Revision:":
                 revision_string = line.split(" ")[1].strip()
                 break
-        
+
     f = open("deluge/data/revision", "w")
     f.write(revision_string)
     f.close()
@@ -79,10 +79,10 @@ if not os.environ.has_key("CC"):
 
 if not os.environ.has_key("CXX"):
     os.environ["CXX"] = "gcc"
-    
+
 if not os.environ.has_key("CPP"):
     os.environ["CPP"] = "g++"
-    
+
 # The libtorrent extension
 _extra_compile_args = [
     "-D_FILE_OFFSET_BITS=64",
@@ -92,7 +92,7 @@ _extra_compile_args = [
     ]
 
 if windows_check():
-    _extra_compile_args += [ 
+    _extra_compile_args += [
         "-D__USE_W32_SOCKETS",
         "-D_WIN32_WINNT=0x0500",
         "-D_WIN32",
@@ -112,7 +112,7 @@ if windows_check():
         ]
 else:
     _extra_compile_args += ["-Wno-missing-braces"]
-    
+
 removals = ["-Wstrict-prototypes"]
 
 if not windows_check():
@@ -166,7 +166,7 @@ else:
         'ssl',
         'z'
         ]
-    
+
 _sources = glob.glob("./libtorrent/src/*.cpp") + \
                         glob.glob("./libtorrent/src/*.c") + \
                         glob.glob("./libtorrent/src/kademlia/*.cpp") + \
@@ -243,7 +243,7 @@ cmdclass = {
 PLUGIN_PATH = "deluge/plugins/*"
 if windows_check():
     PLUGIN_PATH = "deluge\\plugins\\"
-    
+
 for path in glob.glob(PLUGIN_PATH):
     if os.path.exists(os.path.join(path, "setup.py")):
         os.system("cd " + path + "&& python setup.py bdist_egg -d ..")
@@ -299,7 +299,7 @@ setup(
     include_package_data = True,
     license = "GPLv2",
     name = "deluge",
-    package_data = {"deluge": ["ui/gtkui/glade/*.glade", 
+    package_data = {"deluge": ["ui/gtkui/glade/*.glade",
                                 "data/pixmaps/*.png",
                                 "data/pixmaps/*.svg",
                                 "data/pixmaps/flags/*.png",
@@ -317,17 +317,17 @@ setup(
                                 "ui/webui/static/images/*.gif",
                                 "ui/webui/static/images/tango/*.png",
                                 "ui/webui/templates/deluge/*",
-                                "ui/webui/templates/advanced/*.html",
-                                "ui/webui/templates/advanced/*.css",
-                                "ui/webui/templates/advanced/*.cfg",
-                                "ui/webui/templates/advanced/static/*",
+                                "ui/webui/templates/classic/*",
+                                "ui/webui/templates/ajax_demo/*.cfg",
+                                "ui/webui/templates/ajax_demo/*.html",
+                                "ui/webui/templates/ajax_demo/static/js/*",
                                 "ui/webui/templates/white/*"
                                 ]},
     packages = find_packages(exclude=["plugins"]),
     url = "http://deluge-torrent.org",
     version = "0.9.01",
 )
-    
+
 try:
     f = open("deluge/data/revision", "w")
     f.write("")
