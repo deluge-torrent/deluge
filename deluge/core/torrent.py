@@ -365,7 +365,16 @@ class Torrent:
     def get_queue_position(self):
         """Returns the torrents queue position"""
         return self.handle.queue_position()
+    
+    def get_file_progress(self):
+        """Returns the file progress as a list of floats.. 0.0 -> 1.0"""
+        file_progress = self.handle.file_progress()
+        ret = []
+        for i,f in enumerate(self.files):
+            ret.append(file_progress[i] / f["size"])
             
+        return ret
+               
     def get_status(self, keys):
         """Returns the status of the torrent based on the keys provided"""
         # Create the full dictionary
@@ -429,7 +438,7 @@ class Torrent:
             "piece_length": self.torrent_info.piece_length,
             "eta": self.get_eta,
             "ratio": self.get_ratio,
-            "file_progress": self.handle.file_progress,
+            "file_progress": self.get_file_progress,
             "queue": self.handle.queue_position,
             "is_seed": self.handle.is_seed,
             "peers": self.get_peers,
