@@ -63,13 +63,12 @@ $fspeed(torrent.download_payload_rate)</td></td></tr>
 
 
 
-
-<tr><td class="info_label">$_('Queue Position'):</td>
+<tr><td class="info_label">$_('Auto Managed'):</td>
 <td class="info_value">
-$if (torrent.queue == -1):
-    &#8734; <!--infinite symbol-->
+$if torrent.is_auto_managed:
+    $_('True')
 $else:
-    $(torrent.queue + 1)
+    $_('False')
 </td></tr>
 
 
@@ -79,20 +78,21 @@ $else:
 <table>
 
 <tr><td class="info_label">$_('Active time'):</td>
-    <td class="info_value">TODO</td>
+    <td class="info_value">$ftime(torrent.active_time)</td>
 </tr>
 <tr><td class="info_label">$_('Seeding time'):</td>
-    <td class="info_value">TODO</td>
+    <td class="info_value">$ftime(torrent.seeding_time)</td>
 </tr>
 <tr><td class="info_label">$_('Seed rank'):</td>
-    <td class="info_value">TODO</td>
+    <td class="info_value">$(torrent.seed_rank)</td>
 </tr>
-<tr><td class="info_label">$_('Allocation'):</td>
+
+<tr><td class="info_label">$_('Queue Position'):</td>
 <td class="info_value">
-$if torrent.compact:
-    $_('Compact')
+$if (torrent.queue == -1):
+    &#8734; <!--infinite symbol-->
 $else:
-    $_('Full')
+    $(torrent.queue + 1)
 </td></tr>
 
 </table></td>

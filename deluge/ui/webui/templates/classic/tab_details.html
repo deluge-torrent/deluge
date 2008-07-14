@@ -12,7 +12,7 @@ $def with (torrent)
     </tr>
 
     <tr>
-    <td class="info_label"><a href="/torrent/move/$torrent.id" target="_top">$('Save Path'):</td>
+    <td class="info_label"><a href="/torrent/move/$torrent.id" target="_top">$('Path'):</td>
         <td class="info_value" title="$torrent.save_path">$crop_left(torrent.save_path, 200)</td>
     </tr>
 
@@ -33,15 +33,12 @@ $def with (torrent)
     <tr><td class="info_label">$_('Tracker'):</td>
         <td class="info_value" title="$torrent.tracker">$(crop(torrent.tracker, 200))</td>
     </tr>
-
-
-
-
-
     <tr>
     <td class="info_label">$_('Private'):</td>
         <td class="info_value">$torrent.private</td>
     </tr>
+
+
     </table>
 </tr>
 </table>
