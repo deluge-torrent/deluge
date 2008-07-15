@@ -1,8 +1,15 @@
 Deluge 0.9.02 - "1.0.0_RC2" (xx July 2008)
+
+Core:
 * Fix displaying of file progress
 * Fix files to have proper read/write permissions
+
+WebUI:
+* Include missing 'classic' template
+* Update options tab to include queue settings
 
 Windows:
 * Fix displaying of tray icon
 * Fix scrolling of tray menu
 * Fix hiding of tray icon when shutting down
+* Fix tray icon tool tip length to show properly
