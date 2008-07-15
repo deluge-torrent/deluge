@@ -191,13 +191,11 @@ class SystemTray(component.Component):
             max_upload_speed = _("Unlimited")
         else:
             max_upload_speed = "%s KiB/s" % (max_upload_speed)
-            
-        msg = '%s\n%s: %s (%s)\n%s: %s (%s)' % (
-            _("Deluge Bittorrent Client"), _("Down Speed"),
-            self.download_rate, 
-            max_download_speed, _("Up Speed"), 
-            self.upload_rate, max_upload_speed)
-            
+        
+        msg = '%s\n%s: %s (%s)\n%s: %s (%s)' % (\
+            _("Deluge"), _("Down"), self.download_rate, \
+            max_download_speed, _("Up"), self.upload_rate, max_upload_speed)
+        
         # Set the tooltip
         self.tray.set_tooltip(msg)
         
