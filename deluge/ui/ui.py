@@ -36,7 +36,7 @@ import deluge.configmanager
 from deluge.log import LOG as log
 
 DEFAULT_PREFS = {
-    "selected_ui": "gtk"
+    "default_ui": "gtk"
 }
 
 class UI:
@@ -48,10 +48,11 @@ class UI:
         
         config = deluge.configmanager.ConfigManager("ui.conf", DEFAULT_PREFS)
         
-        if options.ui != None:
-            config["selected_ui"] = options.ui
-        
-        selected_ui = config["selected_ui"]
+        if not options.ui:
+            selected_ui = config["default_ui"]
+        else:
+            selected_ui = options.ui
+            
         config.save()
         del config
         
