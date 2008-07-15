@@ -336,7 +336,7 @@ class SystemTray(component.Component):
         self.build_tray_bwsetsubmenu()
             
     def unlock_tray(self, is_showing_dlg=[False]):
-        import sha
+        import hashlib
         log.debug("Show tray lock dialog")
         result = False
         
@@ -363,8 +363,8 @@ window, please enter your password"))
         tray_lock.vbox.pack_start(entered_pass)
         tray_lock.show_all()
         if tray_lock.run() == gtk.RESPONSE_ACCEPT:
-            if self.config["tray_password"] == sha.new(entered_pass.get_text())\
-                .hexdigest():
+            if self.config["tray_password"] == hashlib.sha1(\
+                entered_pass.get_text()).hexdigest():
                 result = True
         tray_lock.destroy()
         is_showing_dlg[0] = False
