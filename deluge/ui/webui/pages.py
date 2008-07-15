@@ -407,6 +407,8 @@ route("/template_style.css", template_style)
 class pixmaps:
     "use the deluge-images. located in data/pixmaps"
     def GET(self, name):
+        if name.startswith("flags") and not name.endswith('.png'):
+            name = name + ".png"
         if not name.endswith('.png'):
             if name == 'paused':
                 name = 'inactive'

@@ -53,6 +53,25 @@ from utils import dict_cb
 from lib import json
 
 
+def json_response(result, id):
+    print json.write({
+            "version":"1.1",
+            "result":result,
+            "id":id
+    })
+
+def json_error(message , id , msg_number=123):
+    log.error("JSON-error:%s" % message)
+    print json.write({
+        "version":"1.1",
+        "id":id,
+        "error":{
+            "number":msg_number,
+            "message":message,
+            "error":message
+            }
+    })
+
 class json_rpc:
     """
     == Full client api ==
@@ -60,6 +79,10 @@ class json_rpc:
     * rpc-api : http://en.wikipedia.org/wiki/JSON-RPC#Version_1.0
     * methods : http://dev.deluge-torrent.org/wiki/Development/UiClient#Remoteapi
     """
+    #extra exposed methods
+    json_exposed = ["update_ui","get_stats","system_listMethods"]
+
+
     def GET(self):
         print '{"error":"only POST is supported"}'
 
@@ -67,38 +90,30 @@ class json_rpc:
     def POST(self , name=None):
         web.header("Content-Type", "application/x-json")
         ck = cookies()
-        if not(ck.has_key("session_id") and ck["session_id"] in utils.SESSIONS):
-            print """{"error":{
-                    "number":1,
-                    "message":"not authenticated",
-                    "error":"not authenticated"
-                    }
-                }
-            """
-            return
         id = 0
+        if not(ck.has_key("session_id") and ck["session_id"] in utils.SESSIONS):
+            return json_error("not authenticated", id)
+
         try:
             log.debug("json-data:")
             log.debug(webapi.data())
             json_data = json.read(webapi.data())
             id = json_data["id"]
-            method = json_data["method"]
+            method = json_data["method"].replace(".", "_")
             params = json_data["params"]
 
             if method.startswith('_'):
                 raise Exception('_ methods are illegal.')
 
-            if method.startswith("system."):
-                result = self.exec_system_method(method, params,id)
-            elif method == ("list_torrents"):
-                result = self.list_torrents(method, params,id)
-            elif method == ("get_stats"):
-                result = self.exec_get_stats(method, params,id)
+            elif method in self.json_exposed:
+                func = getattr(self, method)
+                result = func(*params)
             else:
-                result = self.exec_client_method(method, params,id)
+                result = self.exec_client_method(method, params)
 
-            log.debug("JSON-result:%s(%s)[%s] = %s" % (method, params, id, result))
-            print json.write(result)
+            #log.debug("JSON-result:%s(%s)[%s] = %s" % (method, params, id, result))
+
+            return json_response(result, id)
 
         except Exception,e:
             #verbose because you don't want exeptions in the error-handler.
@@ -106,42 +121,24 @@ class json_rpc:
             if hasattr(e,"message"):
                 message = e.message
             log.debug(format_exc())
-            log.error("JSON-error:%s:%s %s" % (e, message, id))
-            print json.write({
-                "version":"1.1",
-                "id":id,
-                "error":{
-                    "number":123,
-                    "message":"%s:%s %s" % (e, message, id),
-                    "error":format_exc()
-                    }
-            })
+            return json_error("%s:%s" % (e, message), id)
 
-    def exec_client_method(self, method, params, id):
+    def exec_client_method(self, method, params):
         if not hasattr(sclient,method):
             raise Exception('Unknown method:%s', method)
 
         #Call:
         func = getattr(sclient, method)
-        result = func(*params)
+        return func(*params)
 
-        return {
-            "version":"1.1",
-            "result":result,
-            "id":id
-        }
+    #
+    #Extra exposed methods:
+    #
+    def system_listMethods(self):
+        "system.list_methods() see json/xmlrpc docs"
+        return sclient.list_methods() + self.json_exposed
 
-    def exec_system_method(self, method, params, id):
-        if method == "system.listMethods":
-            methods = sclient.list_methods()
-            return {
-                "version":"1.1",
-                "result":methods + ["get_stats"],
-                "id":id
-            }
-        raise Exception('Unknown method:%s', method)
-
-    def exec_get_stats(self, method, params, id):
+    def get_stats(self):
         stats = {}
 
         aclient.get_download_rate(dict_cb('download_rate',stats))
@@ -157,81 +154,45 @@ class json_rpc:
 
         aclient.force_call(block=True)
 
-        return {
-            "version":"1.1",
-            "result":stats,
-            "id":id
-        }
+        return stats
 
-
-
-    def list_torrents(self,params,id):
+    def update_ui(self, keys ,filter_dict , cache_id = None ):
         """
-        == torrent_list ==
         Composite call.
         Goal : limit the number of ajax calls
-
-        filter is only effective if the organize plugin is enabled.
-        label is redirected to the tracker column, there will be a label feature in the future.
+        filter is only effective if the label plugin is enabled.
         cache_id = future feature, not effective yet.
-
         === input ===
         {{{
-        {
-            keys: [<like get_torrent_status>],
-            filter: {
-                /*ommitted keys are ignored*/
-                "keyword":string
-                "label":string,
-                "state":string
-            } ,
-            cache_id: int
+            keys: see get_torrent_status
+            filter_dict: see label_get_filtered_ids
+            cache_id: # todo
         }
         }}}
-
         === output ===
         {{{
         {
-        torrents:
-            [ {"id":string,"name":string, ..}, ..]
-        states:
-            [('string',int), ..]
-        trackers:
-            [('string',int), ..]
-        stats:
-            [upload_rate, download_rate, nu_connections, num_dht_nodes]
-        }
-        cache_id:int
+            "torrents": see get_torrent_status
+            "filters": see label_get_filters
+            "stats": see get_stats
+            "cache_id":int # todo
         }
         }}}
         """
-        """filter = params["filter"]
-        keys = params["keys"]
-        cache_id = params["cache_id"]
-        organize_filters = {}
-
-        if 'Organize' in proxy.get_enabled_plugins():
+        if 'Label' in sclient.get_enabled_plugins():
             filter_dict = {}
-
-            for filter_name in ["state","tracker","keyword"]:
-                value = get(filter,filter_name)
-                if value and value <> "All":
-                    filter_dict[filter_name] = value
-
-            torrent_ids =  proxy.organize_get_session_state(filter_dict)
-            organize_filters = Storage(proxy.organize_all_filter_items())
+            torrent_ids =  sclient.label_get_filtered_ids(filter_dict)
+            filters = sclient.label_filter_items()
         else:
-             torrent_ids =  proxy.get_session_state()
+            torrent_ids =  proxy.get_session_state()
             organize_filters = {"state":[["All",-1]],"tracker":[]}
 
-        result = {
+        return {
             "torrents":sclient.get_torrents_status(torrent_ids, keys),
-            "state":organize_filters["state"],
-            "tracker":organize_filters["tracker"],
-            "stats":[0, 1, 2, 3], #todo
-            "cache_id":cache_id
+            "filters":filters,
+            "stats":self.get_stats(),
+            "cache_id":-1
         }
-        """
 
 
 

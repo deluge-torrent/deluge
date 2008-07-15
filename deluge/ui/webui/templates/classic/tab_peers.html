@@ -5,20 +5,21 @@ $def with (torrent)
 
 $altrow(True)
 <tr class="head">
-    <th>$_("Ip")</th>
-    <th>$_("Up Speed")</th>
+    <th>&nbsp; <!--country-flag--></th>
+    <th>$_("Address")</th>
     <th>$_("Down Speed")</th>
-    <th>$_("Country")</th>
+    <th>$_("Up Speed")</th>
     <th>$_("Client")</th>
-    <th>$_("Progress")</th>
+    <!--<th>$_("Progress")</th>-->
 </tr>
 $for peer in torrent.peers:
     <tr class="tab_$altrow()"  >
+    <td><img src="$base/pixmaps/flags/$(peer['country'].lower())" /></td>
     <td>$peer['ip']</td>
-    <td>$fspeed(peer['up_speed'])</td>
     <td>$fspeed(peer['down_speed'])</td>
-    <td>$peer['country']</td>
+    <td>$fspeed(peer['up_speed'])</td>
     <td>$peer['client']</td>
+    <!--not in gtk-ui anymore, broken?
     <td class="progress_bar">
     $if peer.get('progress'):
         <div class="progress_bar_outer">
@@ -31,6 +32,7 @@ $for peer in torrent.peers:
             ? %
         </div>
     </td>
+    -->
     </tr>
 </table>
 </form>

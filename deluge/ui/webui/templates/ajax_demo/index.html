@@ -64,7 +64,7 @@ function update_torrent(torrent) {
 function get_stats() {
     service.get_stats({params:[],
         onSuccess:function(stats){
-            alert(stats.download_rate);
+            alert(service.__toJSON(stats));
         },
         onException:function(errorObj){
          alert("Error: " + errorObj);
@@ -74,18 +74,31 @@ function get_stats() {
 
 
 
-
+function update_ui() {
+    service.update_ui({params:[ ["name","state","label","tracker_host"],{"state":"Seeding"} ],
+        onSuccess:function(data){
+            alert(service.__toJSON(data));
+        },
+        onException:function(errorObj){
+         alert("Error: " + errorObj);
+        }
+    });
+};
 
 
 
 </script>
 
 
+<h1>sclient:</h1>
 <button onclick="get_session_state()">get_session_state()</button>
 
-<button onclick="list_torrents()">List torrents</button>
-
+<button onclick="list_torrents()">List torrents using get_session_state() + get_torrents_status()</button> <br>
+<h1>json extra:</h1>
 <button onclick="get_stats()">get_stats()</button>
+
+<button onclick="update_ui()">update_ui()  filter on "Seeding"</button>
+
 
 <div id="torrent_list">
 
