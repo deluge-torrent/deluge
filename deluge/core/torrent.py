@@ -371,7 +371,10 @@ class Torrent:
         file_progress = self.handle.file_progress()
         ret = []
         for i,f in enumerate(self.files):
-            ret.append(float(file_progress[i]) / float(f["size"]))
+            try:
+                ret.append(float(file_progress[i]) / float(f["size"]))
+            except ZeroDivisionError:
+                ret.append(0.0)
 
         return ret
                
