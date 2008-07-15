@@ -244,13 +244,12 @@ class SystemTray(component.Component):
     
     def on_tray_clicked(self, icon):
         """Called when the tray icon is left clicked."""
-        if self.config["lock_tray"]:
-            if not self.unlock_tray():
-                return
-
         if self.window.active():
             self.window.hide()
         else:
+            if self.config["lock_tray"]:
+                if not self.unlock_tray():
+                    return
             self.window.present()
     
     def on_tray_popup(self, status_icon, button, activate_time):
@@ -336,7 +335,7 @@ class SystemTray(component.Component):
 
         self.build_tray_bwsetsubmenu()
             
-    def unlock_tray(self, comingnext, is_showing_dlg=[False]):
+    def unlock_tray(self, is_showing_dlg=[False]):
         import sha
         log.debug("Show tray lock dialog")
         result = False
