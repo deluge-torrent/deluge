@@ -371,8 +371,8 @@ class Torrent:
         file_progress = self.handle.file_progress()
         ret = []
         for i,f in enumerate(self.files):
-            ret.append(file_progress[i] / f["size"])
-            
+            ret.append(float(file_progress[i]) / float(f["size"]))
+
         return ret
                
     def get_status(self, keys):
