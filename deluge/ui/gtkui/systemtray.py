@@ -262,7 +262,10 @@ class SystemTray(component.Component):
         else:
             self.tray_glade.get_widget("menuitem_show_deluge").set_active(False)
              
-        self.tray_menu.popup(None, None, gtk.status_icon_position_menu, 
+        popup_function = gtk.status_icon_position_menu
+        if deluge.common.windows_check():
+            popup_function = None
+        self.tray_menu.popup(None, None, popup_function, 
             button, activate_time, status_icon)
 
     def on_menuitem_show_deluge_activate(self, menuitem):
