@@ -135,10 +135,11 @@ class json_rpc:
     #Extra exposed methods:
     #
     def system_listMethods(self):
-        "system.list_methods() see json/xmlrpc docs"
+        "system.listMethods() see json/xmlrpc docs"
         return sclient.list_methods() + self.json_exposed
 
     def get_stats(self):
+        "returns global stats dict"
         stats = {}
 
         aclient.get_download_rate(dict_cb('download_rate',stats))
@@ -160,12 +161,10 @@ class json_rpc:
         """
         Composite call.
         Goal : limit the number of ajax calls
-        filter is only effective if the label plugin is enabled.
-        cache_id = future feature, not effective yet.
         === input ===
         {{{
             keys: see get_torrent_status
-            filter_dict: see label_get_filtered_ids
+            filter_dict: see label_get_filtered_ids # only effective if the label plugin is enabled.
             cache_id: # todo
         }
         }}}
@@ -184,8 +183,8 @@ class json_rpc:
             torrent_ids =  sclient.label_get_filtered_ids(filter_dict)
             filters = sclient.label_filter_items()
         else:
-            torrent_ids =  proxy.get_session_state()
-            organize_filters = {"state":[["All",-1]],"tracker":[]}
+            torrent_ids =  sclient.get_session_state()
+            filters = {"state":[["All",-1]],"tracker":[],"label":[]}
 
         return {
             "torrents":sclient.get_torrents_status(torrent_ids, keys),
@@ -193,7 +192,6 @@ class json_rpc:
             "stats":self.get_stats(),
             "cache_id":-1
         }
-
 
 
 def register():
