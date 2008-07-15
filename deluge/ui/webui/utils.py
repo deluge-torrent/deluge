@@ -31,6 +31,7 @@
 #  statement from all source files in the program, then also delete it here.
 
 import os
+import subprocess
 import traceback
 import random
 from operator import attrgetter
@@ -211,7 +212,7 @@ def daemon_start_localhost(port):
     port = str(port)
     log.info("Starting localhost:%s daemon..", port)
     # Spawn a local daemon
-    os.popen("deluged -p %s" % port)
+    subprocess.Popen(["deluged", "-p %s" % port])
 
 def daemon_connect(uri):
     if config.get('daemon') <> uri:

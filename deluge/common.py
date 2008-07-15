@@ -34,6 +34,7 @@
 """Common functions for various parts of Deluge to use."""
 
 import os
+import subprocess
 
 import pkg_resources
 import xdg, xdg.BaseDirectory
@@ -146,7 +147,7 @@ def open_file(path):
     if windows_check():
         os.startfile("'%s'" % path)
     else:
-        os.popen("xdg-open '%s'" % path)
+        subprocess.Popen(["xdg-open", "%s" % path])
 
 def open_url_in_browser(url):
     """Opens link in the desktop's default browser"""

@@ -36,6 +36,7 @@ import pkg_resources
 import gobject
 import socket
 import os
+import subprocess
 import time
 import threading
 
@@ -127,7 +128,7 @@ class ConnectionManager(component.Component):
             if deluge.common.windows_check():
                 win32api.WinExec("deluged -p 58846")
             else:
-                os.popen("deluged -p 58846")                
+                subprocess.Popen(["deluged", "-p 58846"])
             time.sleep(0.1)
             # We need to wait for the host to start before connecting
             while not self.test_online_status(uri):
@@ -162,7 +163,7 @@ class ConnectionManager(component.Component):
                     if deluge.common.windows_check():
                         win32api.WinExec("deluged -p %s" % port)
                     else:
-                        os.popen("deluged -p %s" % port)
+                        subprocess.Popen(["deluged", "-p %s" % port])
                     # We need to wait for the host to start before connecting
                     while not self.test_online_status(uri):
                         time.sleep(0.01)
@@ -437,7 +438,7 @@ class ConnectionManager(component.Component):
         if deluge.common.windows_check():
             win32api.WinExec("deluged -p %s" % port)
         else:
-            os.popen("deluged -p %s" % port)
+            subprocess.Popen(["xdg-open", "-p %s" % port])
 
     def on_button_close_clicked(self, widget):
         log.debug("on_button_close_clicked")
