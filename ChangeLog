@@ -1,0 +1,8 @@
+Deluge 0.9.02 - "1.0.0_RC2" (xx July 2008)
+* Fix displaying of file progress
+* Fix files to have proper read/write permissions
+
+Windows:
+* Fix displaying of tray icon
+* Fix scrolling of tray menu
+* Fix hiding of tray icon when shutting down
