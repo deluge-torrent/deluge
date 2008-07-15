@@ -60,7 +60,7 @@ def json_response(result, id):
             "id":id
     })
 
-def json_error(message , id , msg_number=123):
+def json_error(message , id=-1, msg_number=123):
     log.error("JSON-error:%s" % message)
     print json.write({
         "version":"1.1",
@@ -81,10 +81,11 @@ class json_rpc:
     """
     #extra exposed methods
     json_exposed = ["update_ui","get_stats","system_listMethods"]
+    cache = {}
 
 
     def GET(self):
-        print '{"error":"only POST is supported"}'
+        return json_error("only POST is supported")
 
 
     def POST(self , name=None):
@@ -139,7 +140,20 @@ class json_rpc:
         return sclient.list_methods() + self.json_exposed
 
     def get_stats(self):
-        "returns global stats dict"
+        """
+        returns:
+        {{{
+        {
+        'download_rate':float(),
+        'upload_rate':float(),
+        'max_download':float(),
+        'max_upload':float(),
+        'num_connections':int(),
+        'max_num_connections':int(),
+        'dht_nodes',int()
+        }
+        }}}
+        """
         stats = {}
 
         aclient.get_download_rate(dict_cb('download_rate',stats))
@@ -161,14 +175,14 @@ class json_rpc:
         """
         Composite call.
         Goal : limit the number of ajax calls
-        === input ===
+
+        input:
         {{{
             keys: see get_torrent_status
             filter_dict: see label_get_filtered_ids # only effective if the label plugin is enabled.
             cache_id: # todo
-        }
         }}}
-        === output ===
+        returns:
         {{{
         {
             "torrents": see get_torrent_status
