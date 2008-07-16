@@ -135,7 +135,7 @@ class PluginManager(pluginmanagerbase.PluginManagerBase,
     def start(self):
         """Start the plugin manager"""
         # Update the enabled_plugins from the core
-        log.debug("start pl-manager")
+        log.debug("start webui plugin manager")
         aclient.get_enabled_plugins(self._on_get_enabled_plugins)
         aclient.force_call(block=True)
 
