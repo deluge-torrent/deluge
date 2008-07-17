@@ -46,7 +46,9 @@ from deluge.log import LOG as log
 
 class Tab:
     def __init__(self):
-        pass
+        self.is_visible = True
+        self.position = -1
+        self.weight = -1
         
     def get_name(self):
         return self._name
@@ -60,6 +62,7 @@ class Tab:
         
     def get_tab_label(self):
         parent = self._tab_label.get_parent()
+        log.debug("parent: %s", parent)
         if parent is not None:
             parent.remove(self._tab_label)
             
@@ -72,21 +75,14 @@ class TorrentDetails(component.Component):
         glade = self.window.main_glade
         
         self.notebook = glade.get_widget("torrent_info")
-
+        
         # This is the menu item we'll attach the tabs checklist menu to
         self.menu_tabs = glade.get_widget("menu_tabs")
         
         self.notebook.connect("switch-page", self._on_switch_page)
-
-        # Tab index is a list of tab names in the order which they presented
-        # to the user.
-        self.tab_index = []
         
         # Tabs holds references to the Tab objects by their name
         self.tabs = {}
-        
-        # tab_name: (tab_object, position)
-        self.hidden_tabs = {}
 
         # Add the default tabs
         from statistics_tab import StatisticsTab
@@ -103,12 +99,13 @@ class TorrentDetails(component.Component):
             "Options": OptionsTab
             }
         
+        # tab_name, visible
         default_order = [
-            "Statistics",
-            "Details",
-            "Files",
-            "Peers",
-            "Options"            
+            ("Statistics", True),
+            ("Details", True),
+            ("Files", True),
+            ("Peers", True),
+            ("Options", True)
         ]
         
         # Get the state from saved file
@@ -118,16 +115,15 @@ class TorrentDetails(component.Component):
         if state == None:
             # Set the default order
             state = default_order
-        
+
         # Add the tabs in the order from the state
-        for tab_name in state:
+        for tab_name, visible in state:
             self.add_tab(default_tabs[tab_name]())
-    
-        if len(state) < len(default_order):
-            # We have hidden tabs and need to add them to the hidden_tabs dict
-            for i, tab_name in enumerate(default_order):
-                if tab_name not in state:
-                    self.hidden_tabs[tab_name] = (default_tabs[tab_name](), i)
+            
+        # Hide any of the non-visible ones
+        for tab_name, visible in state:
+            if not visible:
+                self.hide_tab(tab_name)
          
         # Generate the checklist menu
         self.generate_menu()
@@ -139,7 +135,14 @@ class TorrentDetails(component.Component):
             tab_object.get_child_widget(),
             tab_object.get_tab_label(),
             position)
-        self.tab_index.insert(pos, tab_object.get_name())
+
+        tab_object.position = pos
+        tab_object.weight = pos
+        
+        # Regenerate positions if an insert occured
+        if position > -1:
+            self.regenerate_positions()
+        
         if generate_menu:
             self.generate_menu()
         
@@ -147,48 +150,115 @@ class TorrentDetails(component.Component):
             # If the notebook isn't visible, show it
             self.visible(True)
     
+    def regenerate_positions(self):
+        """This will sync up the positions in the tab, with the position stored
+        in the tab object"""
+        for tab in self.tabs:
+            page_num = self.notebook.page_num(self.tabs[tab]._child_widget)
+            if page_num > -1:
+                self.tabs[tab].position = page_num
+
     def remove_tab(self, tab_name):
         """Removes a tab by name."""
-        index = self.tab_index.index(tab_name)
-        self.notebook.remove_page(index)
+        self.notebook.remove_page(self.tabs[tab_name].position)
         del self.tabs[tab_name]
-        del self.tab_index[index]
+        self.regenerate_positions()
         self.generate_menu()
         
         # If there are no tabs visible, then do not show the notebook
         if len(self.tabs) == 0:
             self.visible(False)
+
+    def hide_all_tabs(self):
+        """Hides all tabs"""
+        log.debug("n_pages: %s", self.notebook.get_n_pages())
+        for n in xrange(self.notebook.get_n_pages() - 1, -1, -1):
+            self.notebook.remove_page(n)
+            
+        for tab in self.tabs:
+            self.tabs[tab].is_visible = False
+        log.debug("n_pages: %s", self.notebook.get_n_pages())
+        self.generate_menu()
+        
+    def show_all_tabs(self):
+        """Shows all tabs"""
+        for tab in self.tabs:
+            if not self.tabs[tab].is_visible:
+                self.notebook.insert_page(
+                    self.tabs[tab].get_child_widget(),
+                    self.tabs[tab].get_tab_label(),
+                    self.tabs[tab].position)
+                self.tabs[tab].is_visible = True
+        self.generate_menu()
+        
+    def hide_tab(self, tab_name):
+        """Hides tab by name"""
+        self.notebook.remove_page(self.tabs[tab_name].position)
+        self.tabs[tab_name].is_visible = False
+        self.regenerate_positions()
+        self.generate_menu()
+
+    def show_tab(self, tab_name):
+        log.debug("%s\n%s\n%s", self.tabs[tab_name].get_child_widget(),
+            self.tabs[tab_name].get_tab_label(),
+            self.tabs[tab_name].position)
+
+        # Determine insert position based on weight
+        # weights is a list of visible tab names in weight order
+        weights = []
+        
+        for tab in self.tabs:
+            if self.tabs[tab].is_visible:
+                weights.append((self.tabs[tab].weight, self.tabs[tab].get_name()))
+        
+        weights.sort()
+        log.debug("weights: %s", weights)
+        position = self.tabs[tab_name].position
+        log.debug("weight of tab: %s", self.tabs[tab_name].weight)
+        for i, w in enumerate(weights):
+            if w[0] >= self.tabs[tab_name].weight:
+                position = self.tabs[w[1]].position
+                break
+        
+        log.debug("position: %s", position)
+        self.notebook.insert_page(
+            self.tabs[tab_name].get_child_widget(),
+            self.tabs[tab_name].get_tab_label(),
+            position)
+        self.tabs[tab_name].is_visible = True
+        self.regenerate_positions()
+        self.generate_menu()
         
     def generate_menu(self):
         """Generates the checklist menu for all the tabs and attaches it"""
         menu = gtk.Menu()
         # Create 'All' menuitem and a separator
         menuitem = gtk.CheckMenuItem("All")
-        menuitem.connect("toggled", self._on_menuitem_toggled)
-        if len(self.hidden_tabs) > 0:
-            menuitem.set_active(False)
-        else:
-            menuitem.set_active(True)
+
+        all_tabs = True
+        for key in self.tabs:
+            if not self.tabs[key].is_visible:
+                all_tabs = False
+                break
+        menuitem.set_active(all_tabs)
+        menuitem.connect("toggled", self._on_menuitem_toggled)        
 
         menu.append(menuitem)
         
         menuitem = gtk.SeparatorMenuItem()
         menu.append(menuitem)
         
-        # Add all the tabs to the menu
-        for tab in self.tab_index:
-            menuitem = gtk.CheckMenuItem(tab)
-            menuitem.connect("toggled", self._on_menuitem_toggled)
-            menuitem.set_active(True)
-            menu.append(menuitem)
+        # Create a list in order of tabs to create menu
+        menuitem_list = []
+        for tab_name in self.tabs:
+            menuitem_list.append((self.tabs[tab_name].weight, tab_name))
+        menuitem_list.sort()
         
-        # Add all hidden_tabs to the menu too
-        for tab in self.hidden_tabs.keys():
-            menuitem = gtk.CheckMenuItem(tab)
+        for pos, name in menuitem_list:
+            menuitem = gtk.CheckMenuItem(name)
+            menuitem.set_active(self.tabs[name].is_visible)
             menuitem.connect("toggled", self._on_menuitem_toggled)
-            menuitem.set_active(False)
-            # Try to keep position in sync
-            menu.insert(menuitem, self.hidden_tabs[tab][1] + 2)
+            menu.append(menuitem)
         
         self.menu_tabs.set_submenu(menu)
         self.menu_tabs.show_all()
@@ -203,22 +273,15 @@ class TorrentDetails(component.Component):
     def set_tab_visible(self, tab_name, visible):
         """Sets the tab to visible"""
         log.debug("set_tab_visible name: %s visible: %s", tab_name, visible)
-        if visible:
-            # We need to show tab, make sure it's not already shown
-            if tab_name not in self.hidden_tabs.keys():
-                return
-            # Add the tab back to the notebook
-            self.add_tab(self.hidden_tabs[tab_name][0], self.hidden_tabs[tab_name][1], generate_menu=False)
-            del self.hidden_tabs[tab_name]
-        else:
-            # Check to see if tab is already hidden
-            if tab_name in self.hidden_tabs.keys():
-                return
-            # Remove the tab from the notebook and store it in hidden_tabs
-            self.hidden_tabs[tab_name] = (self.tabs[tab_name], self.tab_index.index(tab_name))
-            self.remove_tab(tab_name)
+        if visible and not self.tabs[tab_name].is_visible:
+            self.show_tab(tab_name)
+        elif not visible and self.tabs[tab_name].is_visible:
+            self.hide_tab(tab_name)
                          
     def stop(self):
+        self.clear()
+        
+    def shutdown(self):
         # Save the state of the tabs
         for tab in self.tabs:
             try:
@@ -226,7 +289,6 @@ class TorrentDetails(component.Component):
             except AttributeError:
                 pass
             
-        self.clear()
         # Save tabs state
         self.save_state()
 
@@ -240,17 +302,26 @@ class TorrentDetails(component.Component):
                 page_num = self.notebook.get_current_page()
             try:
                 # Get the tab name
-                name = self.tab_index[page_num]
+                name = None
+                for tab in self.tabs:
+                    if self.tabs[tab].position == page_num and self.tabs[tab].is_visible:
+                        name = tab
             except IndexError:
                 return
             # Update the tab that is in view
-            self.tabs[name].update()
+            if name:
+                self.tabs[name].update()
                     
     def clear(self):
         # Get the tab name
         try:
-            name = self.tab_index[self.notebook.get_current_page()]
-            self.tabs[name].clear()
+            page_num = self.notebook.get_current_page()
+            name = None
+            for tab in self.tabs:
+                if self.tabs[tab].position == page_num and self.tabs[tab].is_visible:
+                    name = tab
+            if name:
+                self.tabs[name].clear()
         except Exception, e:
             log.debug("Unable to clear torrentdetails: %s", e)
 
@@ -262,16 +333,10 @@ class TorrentDetails(component.Component):
         # Get the tab name
         name = widget.get_child().get_text()
         if name == "All":
-            if self.menu_tabs.get_submenu() is not None:
-                # Widget has been changed to active which means we need to 
-                # show all the tabs.
-                for tab in self.menu_tabs.get_submenu().get_children():
-                    if isinstance(tab, gtk.SeparatorMenuItem):
-                        continue
-                    if tab.get_child().get_text() == "All" or tab is gtk.SeparatorMenuItem:
-                        continue
-                    
-                    tab.set_active(widget.get_active())
+            if widget.get_active():
+                self.show_all_tabs()
+            else:
+                self.hide_all_tabs()
             return
                 
         self.set_tab_visible(name, widget.get_active())
@@ -279,8 +344,14 @@ class TorrentDetails(component.Component):
     def save_state(self):
         """We save the state, which is basically the tab_index list"""
         filename = "tabs.state"
-        state = self.tab_index
-        
+        state = []
+        for tab in self.tabs:
+            state.append((self.tabs[tab].weight, self.tabs[tab].get_name(),
+                self.tabs[tab].is_visible))
+        # Sort by weight
+        state.sort()
+        state = [(n, v) for w, n, v in state]
+                
         # Get the config location for saving the state file
         config_location = ConfigManager("gtkui.conf")["config_location"]
 

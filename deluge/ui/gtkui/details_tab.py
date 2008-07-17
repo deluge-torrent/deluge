@@ -42,6 +42,7 @@ from deluge.log import LOG as log
 
 class DetailsTab(Tab):
     def __init__(self):
+        Tab.__init__(self)
         # Get the labels we need to update.
         # widgetname, modifier function, status keys
         glade = component.get("MainWindow").main_glade

@@ -94,6 +94,7 @@ class ColumnState:
 
 class FilesTab(Tab):
     def __init__(self):
+        Tab.__init__(self)
         glade = component.get("MainWindow").get_glade()
 
         self._name = "Files"

@@ -37,6 +37,7 @@ from deluge.ui.gtkui.torrentdetails import Tab
 
 class OptionsTab(Tab):
     def __init__(self):
+        Tab.__init__(self)
         glade = component.get("MainWindow").get_glade()
         
         self._name = "Options"
