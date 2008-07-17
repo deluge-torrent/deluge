@@ -53,7 +53,8 @@ class IPCInterface(component.Component):
             self.mutex = win32event.CreateMutex(None, False, "deluge")
             if win32api.GetLastError() == winerror.ERROR_ALREADY_EXISTS:
                 # We already have a running session, send a XMLRPC to the existing session
-                uri = "http://localhost:" + str(self.config["signal_port"])
+                config = ConfigManager("gtkui.conf")
+                uri = "http://localhost:" + str(config["signal_port"])
                 rpc = xmlrpclib.ServerProxy(uri, allow_none=True)
                 rpc.emit_signal("args_from_external", args)
                 sys.exit(0)
