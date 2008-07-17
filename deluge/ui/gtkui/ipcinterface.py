@@ -57,6 +57,8 @@ class IPCInterface(component.Component):
                 rpc = xmlrpclib.ServerProxy(uri, allow_none=True)
                 rpc.emit_signal("args_from_external", args)
                 sys.exit(0)
+            else:
+                process_args(args)
         else:
             try:
                 import dbusinterface
