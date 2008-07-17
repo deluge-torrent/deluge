@@ -55,6 +55,7 @@ class IPCInterface(component.Component):
                 # We already have a running session, send a XMLRPC to the existing session
                 config = ConfigManager("gtkui.conf")
                 uri = "http://localhost:" + str(config["signal_port"])
+                import deluge.xmlrpclib as xmlrpclib
                 rpc = xmlrpclib.ServerProxy(uri, allow_none=True)
                 rpc.emit_signal("args_from_external", args)
                 sys.exit(0)
