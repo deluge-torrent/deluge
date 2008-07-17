@@ -180,13 +180,15 @@ class TorrentManager(component.Component):
             self.alerts.handle_alerts(True)
                         
     def update(self):
-        for torrent in self.torrents:
+        for torrent_id, torrent in self.torrents.items():
             if self.config["stop_seed_at_ratio"] or torrent.stop_at_ratio:
-                if (torrent.get_ratio() >= self.config["stop_seed_ratio"] or\
-                         torrent.get_ratio() > torrent.stop_ratio) and torrent.is_finished:
+                stop_ratio = self.config["stop_seed_ratio"]
+                if torrent.stop_at_ratio:
+                    stop_ratio = torrent.stop_ratio
+                if torrent.get_ratio() >= stop_ratio and torrent.is_finished:
                     torrent.pause()
                     if self.config["remove_seed_at_ratio"] or torrent.remove_at_ratio:
-                        self.remove(torrent.torrent_id)
+                        self.remove(torrent_id)
 
     def __getitem__(self, torrent_id):
         """Return the Torrent with torrent_id"""
