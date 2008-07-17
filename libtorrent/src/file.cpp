@@ -165,18 +165,15 @@ namespace libtorrent
 			std::wstring wpath(safe_convert(path.native_file_string()));
 			m_fd = ::_wopen(
 				wpath.c_str()
-				, map_open_mode(mode)
-				, S_IREAD | S_IWRITE);
+				, map_open_mode(mode));
 #elif defined _WIN32
 			m_fd = ::_open(
 				utf8_native(path.native_file_string()).c_str()
-				, map_open_mode(mode)
-				, S_IREAD | S_IWRITE);
+				, map_open_mode(mode));
 #else
 			m_fd = ::open(
 				utf8_native(path.native_file_string()).c_str()
-				, map_open_mode(mode)
-				, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+				, map_open_mode(mode));
 #endif
 			if (m_fd == -1)
 			{
