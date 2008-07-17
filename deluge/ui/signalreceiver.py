@@ -50,8 +50,6 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
     
     def __init__(self):
         log.debug("SignalReceiver init..")
-       # gobject.threads_init()
-    
         # Set to true so that the receiver thread will exit
         self._shutdown = False
 
@@ -59,7 +57,29 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
         self.emitted_signals = []
         
         self.remote = False
-
+        
+        # Setup the xmlrpc server
+        host = "localhost"
+        if self.remote == True:
+            host = ""
+            
+        server_ready = False
+        while not server_ready:
+            port = random.randint(40000, 65535)
+            try:
+                SimpleXMLRPCServer.SimpleXMLRPCServer.__init__(
+                    self, (host, port), logRequests=False, allow_none=True)
+            except socket.error, e:
+                log.debug("Trying again with another port: %s", e)
+            except:
+                log.error("Could not start SignalReceiver XMLRPC server: %s", e)
+                sys.exit(0)
+            else:
+                self.port = port
+                server_ready = True
+            
+        # Register the emit_signal function
+        self.register_function(self.emit_signal)
         
     def shutdown(self):
         """Shutdowns receiver thread"""
@@ -83,29 +103,6 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
             
     def run(self):
         """This gets called when we start the thread"""
-        host = "localhost"
-        if self.remote == True:
-            host = ""
-            
-        # Setup the xmlrpc server
-        server_ready = False
-        while not server_ready:
-            port = random.randint(40000, 65535)
-            try:
-                SimpleXMLRPCServer.SimpleXMLRPCServer.__init__(
-                    self, (host, port), logRequests=False, allow_none=True)
-            except socket.error, e:
-                log.debug("Trying again with another port: %s", e)
-            except:
-                log.error("Could not start SignalReceiver XMLRPC server: %s", e)
-                sys.exit(0)
-            else:
-                self.port = port
-                server_ready = True
-            
-        # Register the emit_signal function
-        self.register_function(self.emit_signal)
-        
         # Register the signal receiver with the core
         client.register_client(str(self.port))
         

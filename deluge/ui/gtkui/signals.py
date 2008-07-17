@@ -44,13 +44,14 @@ class Signals(component.Component):
         component.Component.__init__(self, "Signals")
         self.receiver = SignalReceiver()
         self.config = ConfigManager("gtkui.conf")
+        self.config["signal_port"] = self.receiver.get_port()
+        self.config.save()
         
     def start(self):
         if not client.is_localhost():
             self.receiver.set_remote(True)
 
         self.receiver.run()
-        self.config["signal_port"] = self.receiver.get_port()
         self.receiver.connect_to_signal("torrent_added", 
             self.torrent_added_signal)
         self.receiver.connect_to_signal("torrent_removed", 
