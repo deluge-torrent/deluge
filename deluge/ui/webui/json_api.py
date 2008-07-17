@@ -196,7 +196,6 @@ class json_rpc:
         }}}
         """
         if 'Label' in sclient.get_enabled_plugins():
-            filter_dict = {}
             torrent_ids =  sclient.label_get_filtered_ids(filter_dict)
             filters = sclient.label_filter_items()
         else:
