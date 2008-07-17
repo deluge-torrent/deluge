@@ -55,7 +55,7 @@ class IPCInterface(component.Component):
                 # We already have a running session, send a XMLRPC to the existing session
                 uri = "http://localhost:" + str(self.config["signal_port"])
                 rpc = xmlrpclib.ServerProxy(uri, allow_none=True)
-                rpc.args_from_external(args)
+                rpc.emit_signal("args_from_external", args)
                 sys.exit(0)
         else:
             try:
