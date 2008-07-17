@@ -80,8 +80,11 @@ class json_rpc:
     * methods : http://dev.deluge-torrent.org/wiki/Development/UiClient#Remoteapi
     """
     #extra exposed methods
-    json_exposed = ["update_ui","get_stats","system_listMethods"]
+    json_exposed = ["update_ui","get_stats","set_torrent_options","system_listMethods"]
     cache = {}
+    torrent_options = ["trackers","max_connections","max_upload_slots","max_upload_speed",
+    "max_download_speed","file_priorities","prioritize_first_last","auto_managed","stop_at_ratio",
+    "stop_ratio","remove_at_ratio"]
 
 
     def GET(self):
@@ -207,6 +210,29 @@ class json_rpc:
             "cache_id":-1
         }
 
+    def set_torrent_options(self, torrent_id, options_dict):
+        """
+        Composite call.
+        Goal: limit the number of ajax calls
+
+        input:
+        {{{
+            torrent_id: the id of the torrent who's options are to be changed
+            options_dict: a dictionary inwhich the options to be changed are contained
+        }}}
+        """
+
+        for option in options_dict:
+            if option in self.torrent_options:
+                value = options_dict[option]
+                if type(value) == str:
+                    try:
+                        value = float(value)
+                    except:
+                        pass
+                print
+                func = getattr(sclient, 'set_torrent_' + option)
+                func(torrent_id, value)
 
 def register():
     component.get("PageManager").register_page("/json/rpc",json_rpc)
