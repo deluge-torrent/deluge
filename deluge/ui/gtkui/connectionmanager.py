@@ -438,7 +438,7 @@ class ConnectionManager(component.Component):
         if deluge.common.windows_check():
             win32api.WinExec("deluged -p %s" % port)
         else:
-            subprocess.Popen(["xdg-open", "-p %s" % port])
+            subprocess.Popen(["deluged", "-p %s" % port])
 
     def on_button_close_clicked(self, widget):
         log.debug("on_button_close_clicked")
