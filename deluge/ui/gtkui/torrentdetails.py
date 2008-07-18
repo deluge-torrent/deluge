@@ -111,11 +111,12 @@ class TorrentDetails(component.Component):
         # Get the state from saved file
         state = self.load_state()
 
-        for item in state:
-            if not isinstance(item, tuple):
-                log.debug("Old tabs.state, using default..")
-                state = None
-                break
+        if state:
+            for item in state:
+                if not isinstance(item, tuple):
+                    log.debug("Old tabs.state, using default..")
+                    state = None
+                    break
                 
         # The state is a list of tab_names in the order they should appear
         if state == None:
