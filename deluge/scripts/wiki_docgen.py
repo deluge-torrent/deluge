@@ -25,8 +25,8 @@ if False: #aclient non-core
         except:
             continue
 
-        print "\n'''%s(%s): '''\n" %(method_name, ", ".join(params))
-        print "%s" % pydoc.getdoc(func)
+        print("\n'''%s(%s): '''\n" %(method_name, ", ".join(params)))
+        print("%s" % pydoc.getdoc(func))
 
 if True: #baseclient/core
     methods = sorted([m for m in dir(Core) if m.startswith("export")]
@@ -47,8 +47,8 @@ if True: #baseclient/core
                 and not method_name in ['add_torrent_file_binary']):
             params = ["[callback]"] + params
 
-        print "\n'''%s(%s): '''\n" %(method_name, ", ".join(params))
-        print "%s" % pydoc.getdoc(func)
+        print("\n'''%s(%s): '''\n" %(method_name, ", ".join(params)))
+        print("%s" % pydoc.getdoc(func))
 
 if False: #plugin-manager
     import WebUi
@@ -58,9 +58,5 @@ if False: #plugin-manager
         func = getattr(PluginManager, m)
         method_name = m
         params = inspect.getargspec(func)[0][1:]
-        print "\n'''%s(%s): '''\n" %(method_name, ", ".join(params))
-        print "%s" % pydoc.getdoc(func)
-
-
-
-
+        print("\n'''%s(%s): '''\n" %(method_name, ", ".join(params)))
+        print("%s" % pydoc.getdoc(func))

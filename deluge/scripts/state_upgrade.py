@@ -62,10 +62,10 @@ def load_05(state_05_file, new_torrent_dir,all_paused):
     state5 = PickleUpgrader(open(state_05_file)).load()
     for torrent in state5.torrents:
         #print [x for x in dir(torrent) if not x.startswith("_")]
-        print "file:%s, save_dir:%s, compact:%s, paused:%s " % (torrent.filename,torrent.save_dir,torrent.compact,torrent.user_paused)
+        print("file:%s, save_dir:%s, compact:%s, paused:%s " % (torrent.filename,torrent.save_dir,torrent.compact,torrent.user_paused))
 
         new_file = os.path.join(new_torrent_dir,os.path.basename(torrent.filename))
-        print "copy" ,torrent.filename , new_file
+        print("copy" , torrent.filename , new_file)
         shutil.copyfile(torrent.filename , new_file)
 
         sclient.add_torrent_file([torrent.filename],[{
