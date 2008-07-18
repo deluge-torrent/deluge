@@ -568,6 +568,9 @@ class Preferences(component.Component):
             self.glade.get_widget("spin_seed_time_ratio_limit").get_value()
         new_core_config["seed_time_limit"] = \
             self.glade.get_widget("spin_seed_time_limit").get_value()
+        
+        # Run plugin hook to apply preferences
+        component.get("PluginManager").run_on_apply_prefs()
             
         # GtkUI
         for key in new_gtkui_config.keys():
@@ -642,14 +645,12 @@ class Preferences(component.Component):
     def on_button_ok_clicked(self, data):
         log.debug("on_button_ok_clicked")
         self.set_config()
-        component.get("PluginManager").run_on_apply_prefs()
         self.hide()
         return True
 
     def on_button_apply_clicked(self, data):
         log.debug("on_button_apply_clicked")
         self.set_config()
-        component.get("PluginManager").run_on_apply_prefs()
 
     def on_button_cancel_clicked(self, data):
         log.debug("on_button_cancel_clicked")
