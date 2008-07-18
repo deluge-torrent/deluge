@@ -172,15 +172,17 @@ _sources = glob.glob("./libtorrent/src/*.cpp") + \
                         glob.glob("./libtorrent/src/kademlia/*.cpp") + \
                         glob.glob("./libtorrent/bindings/python/src/*.cpp")
 
-# Remove file_win.cpp if not on windows
+# Remove some files from the source that aren't needed
+_source_removals = ["mapped_storage.cpp"]
+
 if windows_check():
-    for source in _sources:
-        if "file.cpp" in source:
-            _sources.remove(source)
-            break
+    _source_removals.append("file.cpp")
 else:
-    for source in _sources:
-        if "file_win.cpp" in source:
+    _source_removals.append("file_win.cpp")
+
+for source in _sources:
+    for rem in _source_removals:
+        if rem in source:
             _sources.remove(source)
             break
 
