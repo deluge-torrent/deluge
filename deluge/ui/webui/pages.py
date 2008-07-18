@@ -428,3 +428,17 @@ class pixmaps:
         web.header("Cache-Control" , "public, must-revalidate, max-age=86400")
         print content
 route("/pixmaps/(.*)", pixmaps)
+
+class close:
+    "close open window"
+    @deco.deluge_page
+    def GET(self, name):
+        return """
+        <script language="javascript">
+        window.close();
+        </script>
+        """
+route("/close", close)
+
+
+
