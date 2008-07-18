@@ -417,7 +417,11 @@ class Preferences(component.Component):
     
     def set_config(self):
         """Sets all altered config values in the core"""
-        import hashlib
+        try:
+            from hashlib import sha1 as sha_hash
+        except ImportError:
+            from sha import new as sha_hash
+        
         # Get the values from the dialog
         new_core_config = {}
         new_gtkui_config = {}
@@ -520,7 +524,7 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_start_in_tray").get_active()
         new_gtkui_config["lock_tray"] = \
             self.glade.get_widget("chk_lock_tray").get_active()
-        passhex = hashlib.sha1(\
+        passhex = sha_hash(\
             self.glade.get_widget("txt_tray_password").get_text()).hexdigest()
         if passhex != "c07eb5a8c0dc7bb81c217b67f11c3b7a5e95ffd7":
             new_gtkui_config["tray_password"] = passhex
