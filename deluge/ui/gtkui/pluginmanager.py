@@ -73,12 +73,16 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase,
         # Disable the plugins
         self.disable_plugins()
     
+    def update(self):
+        # We call the plugins' update() method every second
+        for plugin in self.plugins.values():
+            if hasattr(plugin, "update"):
+                plugin.update()
+                
     def _on_get_enabled_plugins(self, enabled_plugins):
         log.debug("Core has these plugins enabled: %s", enabled_plugins)
-        self.config["enabled_plugins"] = enabled_plugins
-        
-        # Enable the plugins that are enabled in the config and core
-        self.enable_plugins()
+        for plugin in enabled_plugins:
+            self.enable_plugin(plugin)
 
     ## Hook functions
     def run_on_show_prefs(self):

@@ -49,3 +49,7 @@ class PluginBase:
         except Exception, e:
             log.warning("Unable to disable plugin: %s", e)
 
+    def update(self):
+        if hasattr(self.plugin, "update"):
+            self.plugin.update()
+            
