@@ -10,7 +10,7 @@ if not "label" in sclient.get_enabled_plugins():
 
 #test filter items.
 print "# label_filter_items()"
-for cat,filters in  sclient.label_filter_items():
+for cat,filters in  sclient.label_filter_items().iteritems():
     print "-- %s --" % cat
     for filter in filters:
         print "  * %s (%s)" % (filter[0],filter[1])
@@ -56,7 +56,7 @@ print len(sclient.label_get_filtered_ids({'label':'test'} ))
 
 #test filter items.
 print "# label_filter_items()"
-for cat,filters in  sclient.label_filter_items():
+for cat,filters in  sclient.label_filter_items().iteritems():
     if cat == "label":
         print "-- %s --" % cat
         for filter in filters:

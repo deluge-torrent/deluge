@@ -39,6 +39,7 @@ from deluge import component    # for systray
 import ui
 import gtk, gobject
 from deluge.ui.client import aclient
+import gtk_sidebar
 
 from deluge.configmanager import ConfigManager
 config  = ConfigManager("label.conf")
@@ -81,6 +82,14 @@ class GtkUI(ui.UI):
             self.plugin.add_preferences_page("Label", gtk.Label(
                 "Sorry, the Gtk UI for the Label-plugin is still in development."))
             return
+
+        log.debug("replace sidebar")
+
+        try :
+            labelsidebar = gtk_sidebar.LabelSideBar()
+            #sidebar.hpaned.remove(sidebar.scrolled)
+        except Exception, e:
+            log.debug(e)
 
         log.debug("add items to torrentview-popup menu.")
 
