@@ -863,15 +863,16 @@ class Core(
                 # check if we've done this within the last week or never
                 if (now - self.config["info_sent"]) >= (60 * 60 * 24 * 7):
                     import deluge.common
-                    import urllib
+                    from urllib import quote_plus
+                    from urllib2 import urlopen
                     import platform
                     try:
                         url = "http://deluge-torrent.org/stats_get.php?processor=" + \
                             platform.machine() + "&python=" + platform.python_version() \
                             + "&deluge=" + deluge.common.get_version() \
                             + "&os=" + platform.system() \
-                            + "&plugins=" + urllib.quote_plus(self.config["enabled_plugins"])
-                        urllib.urlopen(url)
+                            + "&plugins=" + quote_plus(self.config["enabled_plugins"])
+                        urlopen(url)
                     except IOError, e:
                         log.debug("Network error while trying to send info: %s", e)
                     else:
@@ -881,9 +882,9 @@ class Core(
 
     def get_new_release(self):
         log.debug("get_new_release")
-        import urllib
+        from urllib2 import urlopen
         try:
-            self.new_release = urllib.urlopen(
+            self.new_release = urlopen(
                 "http://download.deluge-torrent.org/version-1.0").read().strip()
         except Exception, e:
             log.debug("Unable to get release info from website: %s", e)
