@@ -107,7 +107,9 @@ class Preferences(component.Component):
     def add_page(self, name, widget):
         """Add a another page to the notebook"""
         # Create a header and scrolled window for the preferences tab
-        widget.unparent()
+        parent = widget.get_parent()
+        if parent:
+            parent.remove(widget)
         vbox = gtk.VBox()
         label = gtk.Label()
         label.set_use_markup(True)
@@ -660,7 +662,10 @@ class Preferences(component.Component):
     def on_selection_changed(self, treeselection):
         # Show the correct notebook page based on what row is selected.
         (model, row) = treeselection.get_selected()
-        self.notebook.set_current_page(model.get_value(row, 0))
+        try:
+            self.notebook.set_current_page(model.get_value(row, 0))
+        except TypeError:
+            pass
 
     def on_test_port_clicked(self, data):
         log.debug("on_test_port_clicked")
