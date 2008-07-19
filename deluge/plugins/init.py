@@ -42,6 +42,9 @@ class PluginBase:
             self.plugin.enable()
         except Exception, e:
             log.warning("Unable to enable plugin: %s", e)
+        else:
+            # If plugin was enabled, call it's update() right away
+            self.update()
         
     def disable(self):
         try:

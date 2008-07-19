@@ -48,10 +48,10 @@ class GtkUI(ui.UI):
         
         self.status_item = component.get("StatusBar").add_item(
             image=self.get_resource("blocklist16.png"),
-            text="0",
+            text="",
             callback=self._on_status_item_clicked,
             tooltip="Blocked IP Ranges")
-            
+        
         # Register some hooks
         self.plugin.register_hook("on_apply_prefs", self._on_apply_prefs)
         self.plugin.register_hook("on_show_prefs", self._on_show_prefs)
@@ -61,6 +61,10 @@ class GtkUI(ui.UI):
         
         # Remove the preferences page
         self.plugin.remove_preferences_page("Blocklist")
+        
+        # Remove status item
+        component.get("StatusBar").remove_item(self.status_item)
+        del self.status_item
         
         # Deregister the hooks
         self.plugin.deregister_hook("on_apply_prefs", self._on_apply_prefs)

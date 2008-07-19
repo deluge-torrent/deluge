@@ -76,7 +76,13 @@ class Core(CorePluginBase):
         self.config = deluge.configmanager.ConfigManager("blocklist.conf", DEFAULT_PREFS)
         if self.config["load_on_start"]:
             self.export_import(self.need_new_blocklist())
-                
+
+        # This function is called every 'check_after_days' days, to download
+        # and import a new list if needed.
+        self.update_timer = gobject.timeout_add(
+            self.config["check_after_days"] * 24 * 60 * 60 * 1000,
+            self.download_blocklist, True)
+        
     def disable(self):
         log.debug('Blocklist: Plugin disabled')
         self.config.save()
@@ -207,11 +213,12 @@ class Core(CorePluginBase):
         """Returns True if a new blocklist file should be downloaded"""
         try:
             # Check current block lists time stamp and decide if it needs to be replaced
-            list_stats = os.stat(self.local_blocklist)
+            list_stats = os.stat(deluge.configmanager.get_config_dir("blocklist.cache"))
             list_time = datetime.datetime.fromtimestamp(list_stats.st_mtime)
             list_size = list_stats.st_size
             current_time = datetime.datetime.today()
-        except:
+        except Exception, e:
+            log.debug("Unable to get file stats: %s", e)
             return True
 
         # If local blocklist file exists but nothing is in it
