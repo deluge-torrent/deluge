@@ -186,7 +186,8 @@ class TorrentManager(component.Component):
                 if torrent.stop_at_ratio:
                     stop_ratio = torrent.stop_ratio
                 if torrent.get_ratio() >= stop_ratio and torrent.is_finished:
-                    torrent.pause()
+                    if not torrent.handle.is_paused():
+                        torrent.pause()
                     if self.config["remove_seed_at_ratio"] or torrent.remove_at_ratio:
                         self.remove(torrent_id)
 
