@@ -84,9 +84,11 @@ class Core(CorePluginBase):
             self.download_blocklist, True)
         
     def disable(self):
-        log.debug('Blocklist: Plugin disabled')
+        log.debug("Reset IP Filter..")
+        component.get("Core").export_reset_ip_filter()
         self.config.save()
-        
+        log.debug('Blocklist: Plugin disabled')
+                
     def update(self):
         pass
 
