@@ -58,6 +58,9 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
         
         self.remote = False
         
+        self.start_server()
+        
+    def start_server(self, port=None):
         # Setup the xmlrpc server
         host = "localhost"
         if self.remote == True:
@@ -65,17 +68,20 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
             
         server_ready = False
         while not server_ready:
-            port = random.randint(40000, 65535)
+            if port:
+                _port = port
+            else:
+                _port = random.randint(40000, 65535)
             try:
                 SimpleXMLRPCServer.SimpleXMLRPCServer.__init__(
-                    self, (host, port), logRequests=False, allow_none=True)
+                    self, (host, _port), logRequests=False, allow_none=True)
             except socket.error, e:
                 log.debug("Trying again with another port: %s", e)
             except:
                 log.error("Could not start SignalReceiver XMLRPC server: %s", e)
                 sys.exit(0)
             else:
-                self.port = port
+                self.port = _port
                 server_ready = True
             
         # Register the emit_signal function
@@ -100,6 +106,7 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
     
     def set_remote(self, remote):
         self.remote = remote
+        self.start_server(self.port)
             
     def run(self):
         """This gets called when we start the thread"""
