@@ -126,8 +126,8 @@ class GtkUI(ui.UI):
     def _on_button_import_clicked(self, widget):
         client.blocklist_import(None)
     
-    def _on_status_item_clicked(self):
-        pass
+    def _on_status_item_clicked(self, widget, event):
+        component.get("Preferences").show("Blocklist")
             
     def load_preferences_page(self):
         """Initializes the preferences page and adds it to the preferences dialog"""
