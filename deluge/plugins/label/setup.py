@@ -47,8 +47,8 @@ setup(
     version="0.1",
     description=__doc__,
     author=__author__,
-    packages=["label"],
-    package_data = {"label": ["template/*"]},
+    packages=["label","label.gtkui","label.webui"],
+    package_data = {"label": ["template/*","data/*"]},
     entry_points="""
     [deluge.plugin.core]
     Label = label:CorePlugin

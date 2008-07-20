@@ -46,7 +46,7 @@ import re
 RE_VALID = re.compile("[a-z0-9_-]*\Z")
 RE_VALID = re.compile("[a-z0-9_-]*\Z")
 
-KNOWN_STATES = ['Downloading','Seeding','Paused','Checking','Allocating','Queued','Error']
+KNOWN_STATES = ['Downloading','Seeding','Paused','Checking','Queued','Error']
 STATE = "state"
 TRACKER = "tracker"
 KEYWORD = "keyword"
@@ -58,7 +58,7 @@ CONFIG_DEFAULTS = {
     "gtk_alfa":False
 }
 OPTIONS_KEYS = ["max_download_speed", "max_upload_speed",
-    "max_connections", "max_upload_slots", "prioritize_first_last"]
+    "max_connections", "max_upload_slots", "prioritize_first_last","apply_max","move_completed_to"]
 NO_LABEL = "No Label"
 
 
@@ -264,7 +264,7 @@ class Core(CorePluginBase):
         label_id = label_id.lower()
         CheckInput(RE_VALID.match(label_id) , _("Invalid label, valid characters:[a-z0-9_-]"))
         CheckInput(label_id, _("Empty Label"))
-        CheckInput(not (label_id in self.labels) , _("Unknown Label"))
+        CheckInput(not (label_id in self.labels) , _("Label already exists"))
 
 
         #default to current global per-torrent settings.
@@ -273,7 +273,9 @@ class Core(CorePluginBase):
             "max_upload_speed":self.core_cfg.config["max_upload_speed_per_torrent"],
             "max_connections":self.core_cfg.config["max_connections_per_torrent"],
             "max_upload_slots":self.core_cfg.config["max_upload_slots_per_torrent"],
-            "prioritize_first_last":self.core_cfg.config["prioritize_first_last_pieces"]
+            "prioritize_first_last":self.core_cfg.config["prioritize_first_last_pieces"],
+            "apply_max":True,
+            "move_completed_to":None
         }
 
     def export_remove(self, label_id):
@@ -291,12 +293,14 @@ class Core(CorePluginBase):
             "max_upload_speed":float(),
             "max_connections":int(),
             "max_upload_slots":int(),
-            "prioritize_first_last":bool(),
+            #"prioritize_first_last":bool(),
+            "apply_max":bool(),
+            "move_completed_to":string() or None
         }
 
         apply : applies download-options to all torrents currently labelled by label_id
         """
-        CheckInput(not (label_id in self.labels) , _("Unknown Label"))
+        CheckInput(label_id in self.labels , _("Unknown Label"))
         for key in options_dict.keys():
             if not key in OPTIONS_KEYS:
                 raise Exception("label: Invalid options_dict key:%s" % key)
@@ -339,12 +343,13 @@ class Core(CorePluginBase):
             self.torrent_labels[torrent_id] = label_id
             #set speeds, etc:
             options = self.labels[label_id]
-            torrent = self.torrents[torrent_id]
-            torrent.set_max_download_speed(options["max_download_speed"])
-            torrent.set_max_upload_speed(options["max_upload_speed"])
-            torrent.set_max_connections(options["max_connections"])
-            torrent.set_max_upload_slots(options["max_upload_slots"])
-            torrent.set_prioritize_first_last(options["prioritize_first_last"])
+            if ("apply_max" in options) and options["apply_max"]:
+                torrent = self.torrents[torrent_id]
+                torrent.set_max_download_speed(options["max_download_speed"])
+                torrent.set_max_upload_speed(options["max_upload_speed"])
+                torrent.set_max_connections(options["max_connections"])
+                torrent.set_max_upload_slots(options["max_upload_slots"])
+                torrent.set_prioritize_first_last(options["prioritize_first_last"])
 
         self.config.save()
 

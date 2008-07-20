@@ -80,10 +80,12 @@ class LabelUpdateCfgForm(forms.Form):
             sclient.label_set_options(label_id, dict(data), apply)
 
     #input fields :
+    apply_max = forms.CheckBox(_("Apply Maximum settings on add"))
     max_connections = forms.DelugeInt(_("Maximum Connections"))
     max_download_speed = forms.DelugeFloat(_("Maximum Download Speed (Kib/s)"))
     max_upload_speed = forms.DelugeFloat(_("Maximum Upload Speed (Kib/s)"))
     max_upload_slots = forms.DelugeInt(_("Maximum Upload Slots"))
+    move_completed_to = forms.ServerFolder(_("Move completed to"), required=False)
 
     apply =  forms.CheckBox(_("Apply"))
     delete =  forms.CheckBox(_("Delete"))

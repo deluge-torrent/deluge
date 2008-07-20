@@ -1,0 +1,130 @@
+#
+# blocklist/gtkui.py
+#
+# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
+#
+# Deluge is free software.
+#
+# You may redistribute it and/or modify it under the terms of the
+# GNU General Public License, as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option)
+# any later version.
+#
+# deluge is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with deluge.    If not, write to:
+# 	The Free Software Foundation, Inc.,
+# 	51 Franklin Street, Fifth Floor
+# 	Boston, MA    02110-1301, USA.
+#
+#    In addition, as a special exception, the copyright holders give
+#    permission to link the code of portions of this program with the OpenSSL
+#    library.
+#    You must obey the GNU General Public License in all respects for all of
+#    the code used other than OpenSSL. If you modify file(s) with this
+#    exception, you may extend this exception to your version of the file(s),
+#    but you are not obligated to do so. If you do not wish to do so, delete
+#    this exception statement from your version. If you delete this exception
+#    statement from all source files in the program, then also delete it here.
+
+import os
+import pkg_resources    # access plugin egg
+from deluge.log import LOG as log
+from deluge import component    # for systray
+import ui
+import gtk, gobject
+from deluge.ui.client import aclient
+
+import sidebar
+import label_config
+import submenu
+
+from deluge.configmanager import ConfigManager
+config  = ConfigManager("label.conf")
+NO_LABEL = "No Label"
+
+
+def cell_data_label(column, cell, model, row, data):
+    cell.set_property('text', str(model.get_value(row, data)))
+
+def cell_data_tracker_host(column, cell, model, row, data):
+    cell.set_property('text', str(model.get_value(row, data)))
+
+class GtkUI(ui.UI):
+    def __init__(self, plugin_api, plugin_name):
+        log.debug("Calling UI init")
+        # Call UI constructor
+        ui.UI.__init__(self, plugin_api, plugin_name)
+        log.debug("Label GtkUI plugin initalized..")
+        self.labelcfg = None
+        self.sidebar = None
+
+    def enable(self):
+        self.load_interface()
+
+    def disable(self):
+        self.labelcfg.unload()
+        try:
+            component.get("TorrentView").remove_column(_("Label"))
+            log.debug(1.1)
+            component.get("TorrentView").remove_column(_("Tracker"))
+            log.debug(1.2)
+        except Exception, e:
+            log.debug(e) #fix this!
+        log.debug(1.2)
+        self.sidebar.unload()
+        log.debug(2)
+
+
+    def get_pixmap(self, fname):
+        """Returns a pixmap file included with plugin"""
+        return pkg_resources.resource_filename("blocklist", os.path.join("data", fname))
+
+
+    def load_interface(self):
+        #sidebar
+        log.debug("replace sidebar")
+        try :
+            if not self.sidebar:
+                self.sidebar  = sidebar.LabelSideBar()
+            self.sidebar.load()
+        except Exception, e:
+            log.debug(e)
+
+        #menu:
+        log.debug("add items to torrentview-popup menu.")
+        torrentmenu = component.get("MenuBar").torrentmenu
+        self.label_menu = submenu.LabelMenu()
+        torrentmenu.append(self.label_menu)
+        self.label_menu.show_all()
+
+        #columns:
+        self.load_columns()
+
+        #config:
+        if not self.labelcfg:
+            self.labelcfg  = label_config.LabelConfig(self.plugin)
+        self.labelcfg.load()
+
+        log.debug('Finished loading Label plugin')
+
+    def load_columns(self):
+        log.debug("add columns")
+
+        component.get("TorrentView").add_func_column(_("Label"),
+                                            cell_data_label,
+                                            [str],
+                                            status_field=["label"])
+
+        component.get("TorrentView").add_func_column(_("Tracker"),
+                                            cell_data_tracker_host,
+                                            [str],
+                                            status_field=["tracker_host"])
+
+        component.get("TorrentView").create_model_filter() #todo:improve.
+
+

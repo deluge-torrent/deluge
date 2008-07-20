@@ -1,0 +1,13 @@
+*grey bars in sidebar are ugly
+*label sub-menu is broken on 1'st popup.
+*replacing/restoring the sidebar model is a hack
+*config should save a label on bottom ok-button, not a seperate save-button per label
+*filters : add "Traffic" , use label-core for filtering ; needs hooks in torrentview.
+*torrentview: bugs/hacks in adding and removing columns
+*webui is functional but not polished.
+*move_torrent_to is not implemeted
+*no client-side validation (could be solved by a ui.aclient exception-plugin)
+
+
+
+

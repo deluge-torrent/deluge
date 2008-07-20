@@ -38,8 +38,8 @@ from deluge.ui.client import sclient
 from deluge import component
 import ui
 
-import webui_config
-import webui_pages
+import config
+import pages
 
 class WebUI(ui.UI):
     def __init__(self, plugin_api, plugin_name):
@@ -49,12 +49,12 @@ class WebUI(ui.UI):
         log.debug("Label WebUI plugin initalized..")
 
     def enable(self):
-        webui_pages.register()
-        webui_config.register()
+        pages.register()
+        config.register()
 
     def disable(self):
-        webui_pages.unregister()
-        webui_config.unregister()
+        pages.unregister()
+        config.unregister()
 
 
 

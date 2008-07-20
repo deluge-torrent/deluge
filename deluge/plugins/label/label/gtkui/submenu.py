@@ -1,0 +1,98 @@
+#
+# blocklist/gtkui.py
+#
+# Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
+# Copyright (C) 2008 Mark Stahler ('kramed') <markstahler@gmail.com>
+#
+# Deluge is free software.
+#
+# You may redistribute it and/or modify it under the terms of the
+# GNU General Public License, as published by the Free Software
+# Foundation; either version 2 of the License, or (at your option)
+# any later version.
+#
+# deluge is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with deluge.    If not, write to:
+# 	The Free Software Foundation, Inc.,
+# 	51 Franklin Street, Fifth Floor
+# 	Boston, MA    02110-1301, USA.
+#
+#    In addition, as a special exception, the copyright holders give
+#    permission to link the code of portions of this program with the OpenSSL
+#    library.
+#    You must obey the GNU General Public License in all respects for all of
+#    the code used other than OpenSSL. If you modify file(s) with this
+#    exception, you may extend this exception to your version of the file(s),
+#    but you are not obligated to do so. If you do not wish to do so, delete
+#    this exception statement from your version. If you delete this exception
+#    statement from all source files in the program, then also delete it here.
+
+import os
+import pkg_resources    # access plugin egg
+from deluge.log import LOG as log
+from deluge import component    # for systray
+import ui
+import gtk, gobject
+from deluge.ui.client import aclient
+
+from deluge.configmanager import ConfigManager
+config  = ConfigManager("label.conf")
+GTK_ALFA = config.get("gtk_alfa")
+NO_LABEL = "No Label"
+
+def cb_none(args):
+    "hack for empty callbacks."
+    pass
+
+class LabelMenu(gtk.MenuItem):
+    def __init__(self):
+        gtk.MenuItem.__init__(self, "Label")
+        self.show_all()
+
+        #attach..
+        torrentmenu = component.get("MenuBar").torrentmenu
+        torrentmenu.connect("show", self.on_show, None)
+
+        aclient.connect_on_new_core(self._on_new_core)
+
+    def _on_new_core(self, data):
+        self.on_show()
+
+    def get_torrent_ids(self):
+        return component.get("TorrentView").get_selected_torrents()
+
+
+    def on_show(self, widget=None, data=None):
+        log.debug("label-on-show")
+        aclient.label_get_labels(self.cb_labels)
+        aclient.force_call(block=True)
+
+    def cb_labels(self , labels):
+        log.debug("cb_labels-start")
+        self.sub_menu = gtk.Menu()
+        for label in [NO_LABEL] + labels:
+            item = gtk.MenuItem(label)
+            item.connect("activate", self.on_select_label, label)
+            self.sub_menu.append(item)
+        self.set_submenu(self.sub_menu)
+        self.show_all()
+        log.debug("cb_labels-end")
+
+    def on_select_label(self, widget=None, label_id = None):
+        log.debug("select label:%s,%s" % (label_id ,self.get_torrent_ids()) )
+        for torrent_id in self.get_torrent_ids():
+            aclient.label_set_torrent(cb_none, torrent_id, label_id)
+        #aclient.force_call(block=True)
+
+
+
+
+
+
+
+

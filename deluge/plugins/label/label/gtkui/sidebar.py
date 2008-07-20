@@ -62,11 +62,23 @@ class LabelSideBar(component.Component):
         self.filters = {}
 
         # Create the liststore
-        #cat,value,count , pixmap.
-        self.liststore = gtk.ListStore(str, str, int, gtk.gdk.Pixbuf)
-        self.filters[("state", "All")] = self.liststore.append(["state","All",0,gtk.gdk.pixbuf_new_from_file(
-               deluge.common.get_pixmap("dht16.png"))])
+        #cat,value,count , pixmap , visible
+        self.treestore = gtk.TreeStore(str, str, int, gtk.gdk.Pixbuf, bool)
 
+        #add Cat nodes:
+        self.cat_nodes = {}
+        self.cat_nodes["state"] = self.treestore.append(None, ["cat", "State", 0, None, True])
+        self.cat_nodes["tracker"] = self.treestore.append(None, ["cat","Tracker", 0,None, True])
+        self.cat_nodes["label"] = self.treestore.append(None, ["cat", "Label", 0, None, True])
+
+        #default node:
+        self.filters[("state", "All")] = self.treestore.append(self.cat_nodes["state"],
+            ["state", "All", 0, gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("dht16.png")), True])
+
+
+        #remove all old columns:
+        for c in self.label_view.get_columns():
+            self.label_view.remove_column(c)
 
         # Create the column
         column = gtk.TreeViewColumn(_("Filters"))
@@ -75,44 +87,80 @@ class LabelSideBar(component.Component):
         column.pack_start(render, expand=False)
         column.add_attribute(render, 'pixbuf', 3)
         render = gtk.CellRendererText()
-        column.pack_start(render, expand=True)
+        column.pack_start(render, expand=False)
         column.set_cell_data_func(render, self.render_cell_data,None)
 
         self.label_view.append_column(column)
+        self.label_view.set_show_expanders(False)
 
-        self.label_view.set_model(self.liststore)
+        self.label_view.set_model(self.treestore)
 
         self.label_view.get_selection().connect("changed",
                                     self.on_selection_changed)
 
         # Select the 'All' label on init
         self.label_view.get_selection().select_iter(
-            self.liststore.get_iter_first())
+            self.treestore.get_iter_first())
 
+        self.create_model_filter()
         #init.....
         self._start()
+        self.label_view.expand_all()
+        self.hpaned.set_position(170)
 
+    def load(self):
+        self.label_view.set_model(self.model_filter)
+
+    def unload(self):
+        #hacks!
+        old_sidebar = component.get("SideBar")
+        del old_sidebar
+        new_sidebar = deluge.ui.gtkui.sidebar.SideBar()
+
+
+    def create_model_filter(self):
+        self.model_filter = self.treestore.filter_new()
+        self.model_filter.set_visible_column(4)
+        self.label_view.set_model(self.model_filter)
 
     def cb_update_filter_items(self, filter_items):
+        visible_filters = []
         for cat,filters in filter_items.iteritems():
             for value, count in filters:
                 self.update_row(cat, value , count)
+                visible_filters.append((cat, value))
 
-    def update_row(self, cat, value , count ):
+        for f in self.filters:
+            if not f in visible_filters:
+                self.treestore.set_value(self.filters[f], 4, False)
+
+        self.label_view.expand_all()
+
+    def update_row(self, cat, value , count):
         if (cat, value) in self.filters:
             row = self.filters[(cat, value)]
-            self.liststore.set_value(row, 2, count)
+            self.treestore.set_value(row, 2, count)
         else:
             pix = self.get_pixmap(cat, value)
-            row = self.liststore.append([cat, value, count , pix])
+            row = self.treestore.append(self.cat_nodes[cat],[cat, value, count , pix, True])
             self.filters[(cat, value)] = row
+        self.treestore.set_value(row, 4, True)
+
+
 
     def render_cell_data(self, column, cell, model, row, data):
         "cell renderer"
+        cat    = model.get_value(row, 0)
         value = model.get_value(row, 1)
         count = model.get_value(row, 2)
-        txt = "%s (%s)"  % (value, count)
+        if cat == "cat":
+            txt = value
+            col = gtk.gdk.color_parse('gray')
+        else:
+            txt = "%s (%s)"  % (value, count)
+            col = gtk.gdk.color_parse('white')
         cell.set_property('text', txt)
+        cell.set_property("cell-background-gdk",col)
 
     def get_pixmap(self, cat, value):
         if cat == "state":
@@ -144,7 +192,7 @@ class LabelSideBar(component.Component):
                 cat = "tracker_host"
 
             filter = (cat, value)
-            if value == "All":
+            if value == "All" or cat == "cat":
                 filter = (None, None)
             elif (cat == "label" and value == "No Label"):
                  filter = ("label","")
@@ -157,6 +205,9 @@ class LabelSideBar(component.Component):
             return None
 
     def update(self):
-        aclient.label_filter_items(self.cb_update_filter_items)
+        try:
+            aclient.label_filter_items(self.cb_update_filter_items)
+        except Exception, e:
+            log.debug(e)
 
 
