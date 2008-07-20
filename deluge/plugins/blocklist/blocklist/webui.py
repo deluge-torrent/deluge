@@ -75,7 +75,7 @@ class BlockListCfgForm(forms.Form):
 
     #input fields :
     listtype = forms.ChoiceField(FORMAT_LIST)
-    url = forms.URLField(label=_("Url"))
+    url = forms.CharField(label=_("Url"))
     check_after_days = forms.IntegerField(label=_("Check for every (days)"), min_value=-1, max_value=14)
     timeout =  forms.IntegerField(label=_("Timeout (seconds)"), min_value=15, max_value=360)
     try_times = forms.IntegerField(label=_("Times to attempt download"), min_value=1, max_value=5)
