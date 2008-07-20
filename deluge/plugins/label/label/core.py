@@ -71,7 +71,7 @@ class Core(CorePluginBase):
     def enable(self):
         log.info("*** Start Label plugin ***")
 
-        self.plugin.register_status_field("tracker_host", self._status_get_tracker)
+        #self.plugin.register_status_field("tracker_host", self._status_get_tracker)
         self.plugin.register_status_field("label", self._status_get_label)
 
         #__init__
@@ -274,7 +274,7 @@ class Core(CorePluginBase):
             "max_connections":self.core_cfg.config["max_connections_per_torrent"],
             "max_upload_slots":self.core_cfg.config["max_upload_slots_per_torrent"],
             "prioritize_first_last":self.core_cfg.config["prioritize_first_last_pieces"],
-            "apply_max":True,
+            "apply_max":False,
             "move_completed_to":None
         }
 
