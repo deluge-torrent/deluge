@@ -233,6 +233,12 @@ class Preferences(component.Component):
                     ("value", self.core_config["max_upload_speed"]),
                 "spin_max_upload_slots_global": \
                     ("value", self.core_config["max_upload_slots_global"]),
+                "spin_max_half_open_connections": \
+                    ("value", self.core_config["max_half_open_connections"]),
+                "spin_max_connections_per_second": \
+                    ("value", self.core_config["max_connections_per_second"]),
+                "chk_ignore_limits_on_local_network": \
+                    ("active", self.core_config["ignore_limits_on_local_network"]),
                 "spin_max_connections_per_torrent": \
                     ("value", self.core_config["max_connections_per_torrent"]),
                 "spin_max_upload_slots_per_torrent": \
@@ -350,6 +356,9 @@ class Preferences(component.Component):
                 "spin_max_download",
                 "spin_max_upload",
                 "spin_max_upload_slots_global",
+                "spin_max_half_open_connections",
+                "spin_max_connections_per_second",
+                "chk_ignore_limits_on_local_network",
                 "spin_max_connections_per_torrent",
                 "spin_max_upload_slots_per_torrent",
                 "spin_max_download_per_torrent",
@@ -504,6 +513,11 @@ class Preferences(component.Component):
         new_core_config["max_upload_slots_global"] = \
             self.glade.get_widget(
                 "spin_max_upload_slots_global").get_value_as_int()
+        new_core_config["max_half_open_connections"] = \
+            self.glade.get_widget("spin_max_half_open_connections").get_value_as_int()
+        new_core_config["max_connections_per_second"] = \
+            self.glade.get_widget(
+                "spin_max_connections_per_second").get_value_as_int()
         new_core_config["max_connections_per_torrent"] = \
             self.glade.get_widget(
                 "spin_max_connections_per_torrent").get_value_as_int()
@@ -516,6 +530,8 @@ class Preferences(component.Component):
         new_core_config["max_download_speed_per_torrent"] = \
             self.glade.get_widget(
                 "spin_max_download_per_torrent").get_value()
+        new_core_config["ignore_limits_on_local_network"] = \
+            self.glade.get_widget("chk_ignore_limits_on_local_network").get_active()
         
         ## Interface tab ##
         new_gtkui_config["enable_system_tray"] = \

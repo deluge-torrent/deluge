@@ -85,6 +85,9 @@ DEFAULT_PREFS = {
     "max_upload_speed": -1.0,
     "max_download_speed": -1.0,
     "max_upload_slots_global": -1,
+    "max_half_open_connections": -1,
+    "max_connections_per_second": -1,
+    "ignore_limits_on_local_network": True,
     "max_connections_per_torrent": -1,
     "max_upload_slots_per_torrent": -1,
     "max_upload_speed_per_torrent": -1,
@@ -252,6 +255,12 @@ class Core(
             self._on_set_max_download_speed)
         self.config.register_set_function("max_upload_slots_global",
             self._on_set_max_upload_slots_global)
+        self.config.register_set_function("max_half_open_connections",
+            self._on_set_max_half_open_connections)
+        self.config.register_set_function("max_connections_per_second",
+            self._on_set_max_connections_per_second)
+        self.config.register_set_function("ignore_limits_on_local_network",
+            self._on_ignore_limits_on_local_network)
         self.config.register_set_function("share_ratio_limit",
             self._on_set_share_ratio_limit)
         self.config.register_set_function("seed_time_ratio_limit",
@@ -811,6 +820,17 @@ class Core(
         log.debug("max_upload_slots_global set to %s..", value)
         self.session.set_max_uploads(value)
 
+    def _on_set_max_half_open_connections(self, key, value):
+        self.session.set_max_half_open_connections(value)
+        
+    def _on_set_max_connections_per_second(self, key, value):
+        self.settings.connection_speed = value
+        self.session.set_settings(self.settings)
+    
+    def _on_ignore_limits_on_local_network(self, key, value):
+        self.settings.ignore_limits_on_local_network = value
+        self.session.set_settings(self.settings)
+        
     def _on_set_share_ratio_limit(self, key, value):
         log.debug("%s set to %s..", key, value)
         self.settings.share_ratio_limit = value
