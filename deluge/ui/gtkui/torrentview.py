@@ -38,6 +38,7 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import gettext
 import gobject
+from urlparse import urlparse
 
 import deluge.common
 import deluge.component as component
@@ -98,6 +99,20 @@ def cell_data_queue(column, cell, model, row, data):
         cell.set_property("text", "")
     else:
         cell.set_property("text", value + 1)
+
+def cell_data_tracker(column, cell, model, row, data):
+    value = model.get_value(row, data)
+    if value:
+        url = urlparse(value)
+        if hasattr(url, "hostname"):
+            host = (url.hostname or 'unknown?')
+            parts = host.split(".")
+            if len(parts) > 2:
+                host = ".".join(parts[-2:])
+            cell.set_property("text", host)
+            return
+
+    cell.set_property("text", "")
         
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
@@ -165,6 +180,10 @@ class TorrentView(listview.ListView, component.Component):
                                             [float],
                                             status_field=["distributed_copies"])
         
+        self.add_func_column(_("Tracker"),
+                                            cell_data_tracker,
+                                            [str],
+                                            status_field=["tracker"])
         # Set default sort column to #
         self.liststore.set_sort_column_id(self.get_column_index("#"), gtk.SORT_ASCENDING)
 
