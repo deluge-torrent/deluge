@@ -75,10 +75,10 @@ class BlockListCfgForm(forms.Form):
     #input fields :
     listtype = forms.ChoiceField(FORMAT_LIST)
     url = forms.URLField(label=_("Url"))
-    check_after_days = forms.IntegerField(label=_("Check for a blocklist every (days)"), min_value=-1, max_value=14)
+    check_after_days = forms.IntegerField(label=_("Check for every (days)"), min_value=-1, max_value=14)
     timeout =  forms.IntegerField(label=_("Timeout (seconds)"), min_value=15, max_value=360)
-    try_times = forms.IntegerField(label=_("Times to attemptdownload of new list"), min_value=1, max_value=5)
-    load_on_start = forms.CheckBox(_('Import blocklist on daemon startup'))
+    try_times = forms.IntegerField(label=_("Times to attempt download"), min_value=1, max_value=5)
+    load_on_start = forms.CheckBox(_('Import on daemon startup'))
 
     btn_download_now = forms.CheckBox(_('Download Now'))
     btn_import_now = forms.CheckBox(_('Import Now'))
