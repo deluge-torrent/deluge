@@ -8,289 +8,289 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-04-21 18:40-0500\n"
-"PO-Revision-Date: 2008-06-26 13:37+0000\n"
-"Last-Translator: gergo86 <Unknown>\n"
+"POT-Creation-Date: 2008-06-27 16:58-0500\n"
+"PO-Revision-Date: 2008-07-15 17:49+0000\n"
+"Last-Translator: Hipi <Unknown>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-06-27 22:00+0000\n"
+"X-Launchpad-Export-Date: 2008-07-20 19:09+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: glade/delugegtk.glade:29 plugins/WebUi/scripts/template_strings.py:4
-msgid "Add Torrent"
-msgstr "Torrent hozzáadása"
+#: glade/delugegtk.glade:124
+msgid "<b>Path:</b>"
+msgstr "<b>Útvonal:</b>"
 
-#: glade/delugegtk.glade:30 plugins/WebUi/scripts/template_strings.py:3
-msgid "Add"
-msgstr "Hozzáadás"
+#: glade/delugegtk.glade:193
+msgid "<b>Name:</b>"
+msgstr "<b>Név:</b>"
 
-#: glade/delugegtk.glade:43 glade/dgtkpopups.glade:6
-msgid "Remove Torrent"
-msgstr "Torrent eltávolítása"
+#: glade/delugegtk.glade:212
+msgid "<b>Next Announce:</b>"
+msgstr "<b>Következő bejelentés:</b>"
 
-#: glade/delugegtk.glade:44 plugins/WebUi/scripts/template_strings.py:43
-msgid "Remove"
-msgstr "Eltávolítás"
+#: glade/delugegtk.glade:233
+msgid "<b>Tracker Status:</b>"
+msgstr "<b>Tracker állapota:</b>"
 
-#: glade/delugegtk.glade:56
-msgid "Clear Seeding Torrents"
-msgstr "Befejezett torrentek törlése"
+#: glade/delugegtk.glade:254
+msgid "<b>Tracker:</b>"
+msgstr "<b>Tracker:</b>"
 
-#: glade/delugegtk.glade:57
-msgid "Clear"
-msgstr "Tisztítás"
+#: glade/delugegtk.glade:275
+msgid "<b>Total Size:</b>"
+msgstr "<b>Teljes méret:</b>"
 
-#: glade/delugegtk.glade:79
-msgid "Start or Resume Torrent"
-msgstr "Torrent folytatása vagy megállítása"
+#: glade/delugegtk.glade:338
+msgid "<b># of files:</b>"
+msgstr "<b>Fájlok száma:</b>"
 
-#: glade/delugegtk.glade:80 plugins/WebUi/scripts/template_strings.py:45
-msgid "Resume"
-msgstr "Folytatás"
+#: glade/delugegtk.glade:357
+msgid "<b>Torrent Info</b>"
+msgstr "<b>Torrent információ</b>"
 
-#: glade/delugegtk.glade:93
-msgid "Pause Torrent"
-msgstr "Torrent megállítása"
+#: glade/delugegtk.glade:445
+msgid "<b>Availability:</b>"
+msgstr "<b>Elérhetőség:</b>"
 
-#: glade/delugegtk.glade:94 plugins/WebUi/scripts/template_strings.py:32
-msgid "Pause"
-msgstr "Megállítás"
+#: glade/delugegtk.glade:481
+msgid "<b>Pieces:</b>"
+msgstr "<b>Darabok:</b>"
 
-#: glade/delugegtk.glade:106
-msgid "Queue Torrent Up"
-msgstr "Feljebb a listán"
+#: glade/delugegtk.glade:498
+msgid "<b>ETA:</b>"
+msgstr "<b>Becsült hátralévő idő:</b>"
 
-#: glade/delugegtk.glade:107 plugins/WebUi/scripts/template_strings.py:59
-msgid "Up"
-msgstr "Feljebb"
+#: glade/delugegtk.glade:519
+msgid "<b>Peers:</b>"
+msgstr "<b>Partnerek:</b>"
 
-#: glade/delugegtk.glade:120
-msgid "Queue Torrent Down"
-msgstr "Lejjebb a listán"
+#: glade/delugegtk.glade:540 glade/delugegtk.glade:561
+msgid "<b>Speed:</b>"
+msgstr "<b>Sebesség:</b>"
 
-#: glade/delugegtk.glade:121 plugins/WebUi/scripts/template_strings.py:17
-msgid "Down"
-msgstr "Lejjebb"
+#: glade/delugegtk.glade:579
+msgid "<b>Share Ratio:</b>"
+msgstr "<b>Megosztási arány:</b>"
 
-#: glade/delugegtk.glade:142
-msgid "Change Deluge preferences"
-msgstr "Deluge beállításainak módosítása"
+#: glade/delugegtk.glade:597
+msgid "<b>Seeders:</b>"
+msgstr "<b>Források:</b>"
 
-#: glade/delugegtk.glade:143
-msgid "Preferences"
-msgstr "Beállítások"
+#: glade/delugegtk.glade:615
+msgid "<b>Uploaded:</b>"
+msgstr "<b>Feltöltve:</b>"
 
-#: glade/delugegtk.glade:156 glade/dgtkpopups.glade:210
-#: glade/preferences_dialog.glade:2844
-msgid "Plugins"
-msgstr "Bővítmények"
+#: glade/delugegtk.glade:633
+msgid "<b>Downloaded:</b>"
+msgstr "<b>Letöltve:</b>"
 
-#: glade/delugegtk.glade:186
+#: glade/delugegtk.glade:745
+msgid "<b>Statistics</b>"
+msgstr "<b>Statisztika</b>"
+
+#: glade/delugegtk.glade:770 plugins/WebUi/scripts/template_strings.py:15
+msgid "Details"
+msgstr "Részletek"
+
+#: glade/delugegtk.glade:809
 msgid "_File"
 msgstr "_Fájl"
 
-#: glade/delugegtk.glade:193 glade/tray_menu.glade:61
+#: glade/delugegtk.glade:816 glade/tray_menu.glade:61
 msgid "_Add Torrent"
 msgstr "Hozzáadás _fájlból"
 
-#: glade/delugegtk.glade:208
+#: glade/delugegtk.glade:831 glade/tray_menu.glade:77
 msgid "Add _URL"
 msgstr "Hozzáadás _URL-ből"
 
-#: glade/delugegtk.glade:216
+#: glade/delugegtk.glade:839
 msgid "_Clear Completed"
 msgstr "Befejezettek tör_lése"
 
-#: glade/delugegtk.glade:249
+#: glade/delugegtk.glade:872
 msgid "_Edit"
 msgstr "Sz_erkesztés"
 
-#: glade/delugegtk.glade:274
+#: glade/delugegtk.glade:897
 msgid "Plu_gins"
 msgstr "Bő_vítmények"
 
-#: glade/delugegtk.glade:302
+#: glade/delugegtk.glade:925
 msgid "_Torrent"
 msgstr "_Torrent"
 
-#: glade/delugegtk.glade:309
+#: glade/delugegtk.glade:932
 msgid "_View"
 msgstr "_Nézet"
 
-#: glade/delugegtk.glade:317
+#: glade/delugegtk.glade:940
 msgid "_Toolbar"
 msgstr "Eszköz_tár"
 
-#: glade/delugegtk.glade:326
+#: glade/delugegtk.glade:949
 msgid "_Details"
 msgstr "_Részletek"
 
-#: glade/delugegtk.glade:335
+#: glade/delugegtk.glade:958
 msgid "_Columns"
 msgstr "_Oszlopok"
 
-#: glade/delugegtk.glade:343 src/interface.py:630 src/files.py:80
+#: glade/delugegtk.glade:966 src/interface.py:635 src/files.py:80
 #: plugins/WebUi/scripts/template_strings.py:51
 msgid "Size"
 msgstr "Méret"
 
-#: glade/delugegtk.glade:352 src/interface.py:634
+#: glade/delugegtk.glade:975 src/interface.py:639
 #: plugins/FlexRSS/FlexRSS.glade:138
 msgid "Status"
 msgstr "Állapot"
 
-#: glade/delugegtk.glade:361 src/interface.py:636
+#: glade/delugegtk.glade:984 src/interface.py:641
 #: plugins/WebUi/scripts/template_strings.py:47
 msgid "Seeders"
 msgstr "Források"
 
-#: glade/delugegtk.glade:370 src/interface.py:639
+#: glade/delugegtk.glade:993 src/interface.py:644
 #: plugins/TorrentPeers/__init__.py:85
 #: plugins/WebUi/scripts/template_strings.py:34
 msgid "Peers"
 msgstr "Partnerek"
 
-#: glade/delugegtk.glade:379 src/interface.py:642 src/interface.py:1237
-#: src/interface.py:1268 plugins/TorrentPeers/tab_peers.py:89
+#: glade/delugegtk.glade:1002 src/interface.py:647 src/interface.py:1242
+#: src/interface.py:1273 plugins/TorrentPeers/tab_peers.py:89
 #: plugins/WebUi/scripts/template_strings.py:18
 msgid "Down Speed"
 msgstr "Letöltés sebessége"
 
-#: glade/delugegtk.glade:388 src/interface.py:645 src/interface.py:1238
-#: src/interface.py:1269 plugins/TorrentPeers/tab_peers.py:91
+#: glade/delugegtk.glade:1011 src/interface.py:650 src/interface.py:1243
+#: src/interface.py:1274 plugins/TorrentPeers/tab_peers.py:91
 #: plugins/WebUi/scripts/template_strings.py:60
 msgid "Up Speed"
 msgstr "Feltöltés sebessége"
 
-#: glade/delugegtk.glade:397
+#: glade/delugegtk.glade:1020
 msgid "Time Remaining"
 msgstr "Hátralévő idő"
 
-#: glade/delugegtk.glade:406 plugins/WebUi/scripts/template_strings.py:9
+#: glade/delugegtk.glade:1029 plugins/WebUi/scripts/template_strings.py:9
 msgid "Availability"
 msgstr "Elérhetőség"
 
-#: glade/delugegtk.glade:415 plugins/WebUi/scripts/template_strings.py:50
+#: glade/delugegtk.glade:1038 plugins/WebUi/scripts/template_strings.py:50
 msgid "Share Ratio"
 msgstr "Megosztási arány"
 
-#: glade/delugegtk.glade:432
+#: glade/delugegtk.glade:1055
 msgid "_Help"
 msgstr "_Segítség"
 
-#: glade/delugegtk.glade:440
+#: glade/delugegtk.glade:1063
 msgid "Donate to Deluge Development"
 msgstr "Támogatás a Deluge fejlesztőinek"
 
-#: glade/delugegtk.glade:441
+#: glade/delugegtk.glade:1064
 msgid "_Donate"
 msgstr "_Támogatás"
 
-#: glade/delugegtk.glade:458
+#: glade/delugegtk.glade:1081
 msgid "_Homepage"
 msgstr "_Kezdőlap"
 
-#: glade/delugegtk.glade:475
+#: glade/delugegtk.glade:1098
 msgid "_FAQ"
 msgstr "_GYIK"
 
-#: glade/delugegtk.glade:492
+#: glade/delugegtk.glade:1115
 msgid "_Community"
 msgstr "_Közösség"
 
-#: glade/delugegtk.glade:515
+#: glade/delugegtk.glade:1138
 msgid "Help translate this application"
 msgstr "Segítség a program lefordításában"
 
-#: glade/delugegtk.glade:516
+#: glade/delugegtk.glade:1139
 msgid "_Translate This Application..."
 msgstr "_Segítek a program fordításában"
 
-#: glade/delugegtk.glade:539
+#: glade/delugegtk.glade:1162
 msgid "Runs the first-time configuration wizard"
 msgstr "Elindítja a beállítás varázslót"
 
-#: glade/delugegtk.glade:540
+#: glade/delugegtk.glade:1163
 msgid "_Run Configuration Wizard"
 msgstr "Beállítás _varázsló futtatása"
 
-#: glade/delugegtk.glade:795
-msgid "<b>Downloaded:</b>"
-msgstr "<b>Letöltve:</b>"
+#: glade/delugegtk.glade:1210 plugins/WebUi/scripts/template_strings.py:4
+msgid "Add Torrent"
+msgstr "Torrent hozzáadása"
 
-#: glade/delugegtk.glade:809
-msgid "<b>Uploaded:</b>"
-msgstr "<b>Feltöltve:</b>"
+#: glade/delugegtk.glade:1211 plugins/WebUi/scripts/template_strings.py:3
+msgid "Add"
+msgstr "Hozzáadás"
 
-#: glade/delugegtk.glade:827
-msgid "<b>Seeders:</b>"
-msgstr "<b>Források:</b>"
+#: glade/delugegtk.glade:1224 glade/dgtkpopups.glade:6
+msgid "Remove Torrent"
+msgstr "Torrent eltávolítása"
 
-#: glade/delugegtk.glade:845
-msgid "<b>Share Ratio:</b>"
-msgstr "<b>Megosztási arány:</b>"
+#: glade/delugegtk.glade:1225 plugins/WebUi/scripts/template_strings.py:43
+msgid "Remove"
+msgstr "Eltávolítás"
 
-#: glade/delugegtk.glade:864 glade/delugegtk.glade:883
-msgid "<b>Speed:</b>"
-msgstr "<b>Sebesség:</b>"
+#: glade/delugegtk.glade:1237
+msgid "Clear Seeding Torrents"
+msgstr "Befejezett torrentek törlése"
 
-#: glade/delugegtk.glade:904
-msgid "<b>Peers:</b>"
-msgstr "<b>Partnerek:</b>"
+#: glade/delugegtk.glade:1238
+msgid "Clear"
+msgstr "Tisztítás"
 
-#: glade/delugegtk.glade:925
-msgid "<b>ETA:</b>"
-msgstr "<b>Becsült hátralévő idő:</b>"
+#: glade/delugegtk.glade:1260
+msgid "Start or Resume Torrent"
+msgstr "Torrent folytatása vagy megállítása"
 
-#: glade/delugegtk.glade:942
-msgid "<b>Pieces:</b>"
-msgstr "<b>Darabok:</b>"
+#: glade/delugegtk.glade:1261 plugins/WebUi/scripts/template_strings.py:45
+msgid "Resume"
+msgstr "Folytatás"
 
-#: glade/delugegtk.glade:980
-msgid "<b>Availability:</b>"
-msgstr "<b>Elérhetőség:</b>"
+#: glade/delugegtk.glade:1274
+msgid "Pause Torrent"
+msgstr "Torrent megállítása"
 
-#: glade/delugegtk.glade:1021
-msgid "<b>Statistics</b>"
-msgstr "<b>Statisztika</b>"
+#: glade/delugegtk.glade:1275 plugins/WebUi/scripts/template_strings.py:32
+msgid "Pause"
+msgstr "Megállítás"
 
-#: glade/delugegtk.glade:1063
-msgid "<b># of files:</b>"
-msgstr "<b>Fájlok száma:</b>"
+#: glade/delugegtk.glade:1287
+msgid "Queue Torrent Up"
+msgstr "Feljebb a listán"
 
-#: glade/delugegtk.glade:1126
-msgid "<b>Total Size:</b>"
-msgstr "<b>Teljes méret:</b>"
+#: glade/delugegtk.glade:1288 plugins/WebUi/scripts/template_strings.py:59
+msgid "Up"
+msgstr "Feljebb"
 
-#: glade/delugegtk.glade:1147
-msgid "<b>Tracker:</b>"
-msgstr "<b>Tracker:</b>"
+#: glade/delugegtk.glade:1301
+msgid "Queue Torrent Down"
+msgstr "Lejjebb a listán"
 
-#: glade/delugegtk.glade:1168
-msgid "<b>Tracker Status:</b>"
-msgstr "<b>Tracker állapota:</b>"
+#: glade/delugegtk.glade:1302 plugins/WebUi/scripts/template_strings.py:17
+msgid "Down"
+msgstr "Lejjebb"
 
-#: glade/delugegtk.glade:1189
-msgid "<b>Next Announce:</b>"
-msgstr "<b>Következő bejelentés:</b>"
+#: glade/delugegtk.glade:1323
+msgid "Change Deluge preferences"
+msgstr "Deluge beállításainak módosítása"
 
-#: glade/delugegtk.glade:1211
-msgid "<b>Name:</b>"
-msgstr "<b>Név:</b>"
+#: glade/delugegtk.glade:1324
+msgid "Preferences"
+msgstr "Beállítások"
 
-#: glade/delugegtk.glade:1277
-msgid "<b>Path:</b>"
-msgstr "<b>Útvonal:</b>"
-
-#: glade/delugegtk.glade:1312
-msgid "<b>Torrent Info</b>"
-msgstr "<b>Torrent információ</b>"
-
-#: glade/delugegtk.glade:1338 plugins/WebUi/scripts/template_strings.py:15
-msgid "Details"
-msgstr "Részletek"
+#: glade/delugegtk.glade:1337 glade/dgtkpopups.glade:210
+#: glade/preferences_dialog.glade:2881
+msgid "Plugins"
+msgstr "Bővítmények"
 
 #: glade/dgtkpopups.glade:42
 msgid ""
@@ -332,19 +332,19 @@ msgstr "Összes Kijelölése"
 msgid "Unselect All"
 msgstr "Összes kijelölés megszüntetése"
 
-#: glade/file_tab_menu.glade:68 src/core.py:103
+#: glade/file_tab_menu.glade:68 src/core.py:104
 msgid "Don't download"
 msgstr "Ne legyen letöltve"
 
-#: glade/file_tab_menu.glade:83 src/core.py:104
+#: glade/file_tab_menu.glade:83 src/core.py:105
 msgid "Normal"
 msgstr "Normál"
 
-#: glade/file_tab_menu.glade:98 src/core.py:105
+#: glade/file_tab_menu.glade:98 src/core.py:106
 msgid "High"
 msgstr "Magas"
 
-#: glade/file_tab_menu.glade:113 src/core.py:106
+#: glade/file_tab_menu.glade:113 src/core.py:107
 msgid "Highest"
 msgstr "Legmagasabb"
 
@@ -610,7 +610,7 @@ msgstr ""
 msgid "<b>Seeding</b>"
 msgstr "<b>Megosztás</b>"
 
-#: glade/preferences_dialog.glade:1187 src/core.py:94
+#: glade/preferences_dialog.glade:1187 src/core.py:95
 #: plugins/WebUi/webserver_common.py:201
 msgid "Seeding"
 msgstr "Megosztás"
@@ -783,56 +783,70 @@ msgstr "<b>Web Seed Proxy</b>"
 msgid "Proxies"
 msgstr "Proxyk"
 
-#: glade/preferences_dialog.glade:2423
+#: glade/preferences_dialog.glade:2419
+msgid ""
+"Have messages will be sent to peers that already have the piece. It adds a "
+"little overhead, but allows other clients to see our progress."
+msgstr ""
+
+#: glade/preferences_dialog.glade:2420
+msgid "Send Redundant Have"
+msgstr ""
+
+#: glade/preferences_dialog.glade:2430
+msgid "<b>Peers</b>"
+msgstr ""
+
+#: glade/preferences_dialog.glade:2459
 msgid "Enable system tray icon"
 msgstr "Ikon megjelenítése az értesítési területen"
 
-#: glade/preferences_dialog.glade:2440
+#: glade/preferences_dialog.glade:2476
 msgid "Minimize to tray on close"
 msgstr "Minimalizáskor menjen az értesítési területre"
 
-#: glade/preferences_dialog.glade:2460
+#: glade/preferences_dialog.glade:2496
 msgid "Start in tray"
 msgstr "Indítás a tálcán"
 
-#: glade/preferences_dialog.glade:2485
+#: glade/preferences_dialog.glade:2521
 msgid "Password protect system tray"
 msgstr "Tálca jelszavas védelme"
 
-#: glade/preferences_dialog.glade:2509
+#: glade/preferences_dialog.glade:2545
 msgid "Password:"
 msgstr "Jelszó:"
 
-#: glade/preferences_dialog.glade:2553
+#: glade/preferences_dialog.glade:2589
 msgid "<b>System Tray</b>"
 msgstr "<b>Tálca</b>"
 
-#: glade/preferences_dialog.glade:2582
+#: glade/preferences_dialog.glade:2619
 msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
 msgstr ""
 "A fejlettebb folyamatjelző csík használata (kissé nagyobb CPU/RAM "
 "felhasználás)"
 
-#: glade/preferences_dialog.glade:2593
+#: glade/preferences_dialog.glade:2630
 msgid "<b>Detailed Progress Bar</b>"
 msgstr "<b>Részletes folyamatjelző</b>"
 
-#: glade/preferences_dialog.glade:2627
+#: glade/preferences_dialog.glade:2664
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
 msgstr ""
 "A Deluge ellenőrzi a szervereket majd tájékoztat ha újabb verzió jelent meg."
 
-#: glade/preferences_dialog.glade:2628
+#: glade/preferences_dialog.glade:2665
 msgid "Be alerted about new releases"
 msgstr "Figyelmeztessen ha új verzió jelent meg"
 
-#: glade/preferences_dialog.glade:2645
+#: glade/preferences_dialog.glade:2682
 msgid "<b>Updates</b>"
 msgstr "<b>Frissítések</b>"
 
-#: glade/preferences_dialog.glade:2675
+#: glade/preferences_dialog.glade:2712
 msgid ""
 "Help us improve Deluge by sending us your Python and PyGTK\n"
 "versions, OS and processor types.  Absolutely no other\n"
@@ -842,11 +856,11 @@ msgstr ""
 " a Python -od és a PyGTK-d verzió számát, az oprendszered\n"
 " és a processzorod típusát. Egyéb információ nem lesz elküldve."
 
-#: glade/preferences_dialog.glade:2688
+#: glade/preferences_dialog.glade:2725
 msgid "<b>System Information</b>"
 msgstr "<b>Rendszer Információ</b>"
 
-#: glade/preferences_dialog.glade:2714
+#: glade/preferences_dialog.glade:2751
 #: plugins/EventLogging/event_logging_preferences.glade:52
 #: plugins/EventLogging/tab_log.py:218
 msgid "Other"
@@ -920,15 +934,15 @@ msgstr "Mindet _Elindít"
 msgid "_Pause All"
 msgstr "Mindet _Megállít"
 
-#: glade/tray_menu.glade:84
+#: glade/tray_menu.glade:92
 msgid "_Download Speed Limit"
 msgstr "_Letöltési sebességkorlátozás"
 
-#: glade/tray_menu.glade:100
+#: glade/tray_menu.glade:108
 msgid "_Upload Speed Limit"
 msgstr "_Feltöltési sebességkorlátozás"
 
-#: glade/tray_menu.glade:122
+#: glade/tray_menu.glade:130
 msgid "_Quit"
 msgstr "_Kilépés"
 
@@ -1067,7 +1081,7 @@ msgstr ""
 " a Python-od és a PyGTK-d verzió számát , az oprendszered \n"
 "és a processzorod típusát. Egyéb információ nem lesz elküldve."
 
-#: src/interface.py:235
+#: src/interface.py:239
 msgid ""
 "Unable to state browser.  Make sure you have python-gnome2-extras installed "
 "or try setting your LD_LIBRARY_PATH and MOZILLA_FIVE_HOME environment "
@@ -1077,43 +1091,43 @@ msgstr ""
 "fel van telepítve vagy próbálja meg beállítani az LD_LIBRARY_PATH és "
 "MOZILLA_FIVE_HOM környezeti változókat /usr/lib/firefox -hoz."
 
-#: src/interface.py:295 src/interface.py:301 src/interface.py:382
-#: src/interface.py:410 plugins/SpeedLimiter/__init__.py:84
+#: src/interface.py:300 src/interface.py:306 src/interface.py:387
+#: src/interface.py:415 plugins/SpeedLimiter/__init__.py:84
 #: plugins/SpeedLimiter/__init__.py:94 plugins/SpeedLimiter/__init__.py:138
 #: plugins/SpeedLimiter/__init__.py:170
 msgid "KiB/s"
 msgstr "KiB/s"
 
-#: src/interface.py:322 src/interface.py:383 src/interface.py:411
-#: src/interface.py:1219 src/interface.py:1226 src/interface.py:1231
-#: src/interface.py:1259 src/interface.py:1261
+#: src/interface.py:327 src/interface.py:388 src/interface.py:416
+#: src/interface.py:1224 src/interface.py:1231 src/interface.py:1236
+#: src/interface.py:1264 src/interface.py:1266
 #: plugins/SpeedLimiter/__init__.py:139 plugins/SpeedLimiter/__init__.py:171
 msgid "Unlimited"
 msgstr "Korlátlan"
 
-#: src/interface.py:325
+#: src/interface.py:330
 msgid "Activated"
 msgstr "Aktív"
 
-#: src/interface.py:374 src/interface.py:386 src/interface.py:414
+#: src/interface.py:379 src/interface.py:391 src/interface.py:419
 #: plugins/DesiredRatio/__init__.py:116 plugins/SpeedLimiter/__init__.py:142
 #: plugins/SpeedLimiter/__init__.py:174
 msgid "Other..."
 msgstr "Egyéb..."
 
-#: src/interface.py:391
+#: src/interface.py:396
 msgid "Download Speed (KiB/s):"
 msgstr "Letöltés sebessége (KiB/s):"
 
-#: src/interface.py:419
+#: src/interface.py:424
 msgid "Upload Speed (KiB/s):"
 msgstr "Feltöltés sebessége (KiB/s):"
 
-#: src/interface.py:448
+#: src/interface.py:453
 msgid "Deluge is locked"
 msgstr "Deluge zárolva van"
 
-#: src/interface.py:451
+#: src/interface.py:456
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
@@ -1121,182 +1135,182 @@ msgstr ""
 "A Deluge jelszóval van védve.\n"
 "Add meg a jelszavad a folytatáshoz"
 
-#: src/interface.py:598 src/common.py:74
+#: src/interface.py:603 src/common.py:74
 msgid "Infinity"
 msgstr "Végtelen"
 
-#: src/interface.py:610
+#: src/interface.py:615
 msgid "Unknown"
 msgstr "Ismeretlen"
 
-#: src/interface.py:627 plugins/WebUi/scripts/template_strings.py:27
+#: src/interface.py:632 plugins/WebUi/scripts/template_strings.py:27
 #: plugins/FlexRSS/FlexRSS.glade:179 plugins/FlexRSS/FlexRSS.glade:373
 #: plugins/FlexRSS/FlexRSS.glade:1475 plugins/Search/__init__.py:79
 msgid "Name"
 msgstr "Név"
 
-#: src/interface.py:648 plugins/WebUi/scripts/template_strings.py:21
+#: src/interface.py:653 plugins/WebUi/scripts/template_strings.py:21
 msgid "ETA"
 msgstr "Hátralévő idő"
 
-#: src/interface.py:651
+#: src/interface.py:656
 msgid "Avail."
 msgstr "Elérhetőség"
 
-#: src/interface.py:653 plugins/WebUi/scripts/template_strings.py:40
+#: src/interface.py:658 plugins/WebUi/scripts/template_strings.py:40
 msgid "Ratio"
 msgstr "Arány"
 
-#: src/interface.py:760
+#: src/interface.py:765
 msgid "Choose a directory to switch torrent source to"
 msgstr ""
 
-#: src/interface.py:764
+#: src/interface.py:769
 #, fuzzy
 msgid "Delete the old torrent source?"
 msgstr "Törölöd a régen letöltött torrent fájlokat?"
 
-#: src/interface.py:953
+#: src/interface.py:959
 #, python-format
 msgid "Paused %s"
 msgstr "Megállítva %s"
 
-#: src/interface.py:955
+#: src/interface.py:961
 #, python-format
 msgid "Queued %s"
 msgstr "%s sorbaállítva"
 
-#: src/interface.py:1069
+#: src/interface.py:1074
 msgid ""
 "There is a newer version of Deluge.  Would you like to be taken to our "
 "download site?"
 msgstr "Újabb verzió jelent meg. Szeretnél a letöltő oldalra ugrani?"
 
-#: src/interface.py:1237 plugins/WebUi/scripts/template_strings.py:11
+#: src/interface.py:1242 plugins/WebUi/scripts/template_strings.py:11
 msgid "Connections"
 msgstr "Kapcsolatok"
 
-#: src/interface.py:1255
+#: src/interface.py:1260
 msgid "DHT"
 msgstr "DHT"
 
-#: src/interface.py:1264 plugins/TorrentCreator/__init__.py:149
+#: src/interface.py:1269 plugins/TorrentCreator/__init__.py:149
 msgid "Deluge"
 msgstr "Deluge"
 
-#: src/interface.py:1264 plugins/WebUi/scripts/template_strings.py:19
+#: src/interface.py:1269 plugins/WebUi/scripts/template_strings.py:19
 msgid "Download"
 msgstr "Letöltés"
 
-#: src/interface.py:1265 plugins/WebUi/scripts/template_strings.py:61
+#: src/interface.py:1270 plugins/WebUi/scripts/template_strings.py:61
 msgid "Upload"
 msgstr "Feltöltés"
 
-#: src/interface.py:1268
+#: src/interface.py:1273
 msgid "Deluge Bittorrent Client"
 msgstr "Deluge Bittorrent-kliens"
 
-#: src/interface.py:1345
+#: src/interface.py:1350
 msgid "Choose a download directory"
 msgstr "Válassza ki a letöltés helyét"
 
-#: src/interface.py:1394
+#: src/interface.py:1399
 msgid ""
 "An error occured while trying to add the torrent. It's possible your "
 ".torrent file is corrupted."
 msgstr ""
 "Hiba történt a torrent hozzáadásakor. Lehet, hogy a .torrent fájl sérült."
 
-#: src/interface.py:1422
+#: src/interface.py:1427
 msgid "Unknown duplicate torrent error."
 msgstr "Ismeretlen dupla torrent hiba."
 
-#: src/interface.py:1427
+#: src/interface.py:1432
 msgid "There is not enough freedisk space to complete your download."
 msgstr "Nincs elegendő hely a lemezen a letöltéshez."
 
-#: src/interface.py:1428 src/core.py:642
+#: src/interface.py:1433 src/core.py:647
 msgid "Space Needed:"
 msgstr "Szükséges hely:"
 
-#: src/interface.py:1429 src/core.py:642
+#: src/interface.py:1434 src/core.py:647
 msgid "Available Space:"
 msgstr "Szabad hely:"
 
-#: src/interface.py:1462
+#: src/interface.py:1467
 msgid "Add torrent from URL"
 msgstr "Torrent hozzáadása URL-ből"
 
-#: src/interface.py:1466
+#: src/interface.py:1471
 msgid "Enter the URL of the .torrent to download"
 msgstr "A .torrent fájl helye"
 
-#: src/interface.py:1529
+#: src/interface.py:1534
 msgid "Warning - all downloaded files for this torrent will be deleted!"
 msgstr "Figyelem - a torrenthez tartozó összes fájl törölve lesz!"
 
-#: src/interface.py:1545
+#: src/interface.py:1550
 msgid "Are you sure that you want to remove all seeding torrents?"
 msgstr "Biztos, hogy eltávolítja az összes készforrás torrentet?"
 
-#: src/core.py:88 plugins/WebUi/webserver_common.py:195
+#: src/core.py:89 plugins/WebUi/webserver_common.py:195
 msgid "Queued"
 msgstr "Várakozik"
 
-#: src/core.py:89 plugins/WebUi/webserver_common.py:196
+#: src/core.py:90 plugins/WebUi/webserver_common.py:196
 msgid "Checking"
 msgstr "Ellenőrzés"
 
-#: src/core.py:90 plugins/WebUi/webserver_common.py:197
+#: src/core.py:91 plugins/WebUi/webserver_common.py:197
 msgid "Connecting"
 msgstr "Csatlakozás"
 
-#: src/core.py:91 plugins/WebUi/webserver_common.py:198
+#: src/core.py:92 plugins/WebUi/webserver_common.py:198
 msgid "Downloading Metadata"
 msgstr "Metaadat letöltése"
 
-#: src/core.py:92 plugins/BlocklistImport/ui.py:136
+#: src/core.py:93 plugins/BlocklistImport/ui.py:136
 #: plugins/WebUi/webserver_common.py:199
 msgid "Downloading"
 msgstr "Letöltés"
 
-#: src/core.py:93 plugins/WebUi/webserver_common.py:200
+#: src/core.py:94 plugins/WebUi/webserver_common.py:200
 msgid "Finished"
 msgstr "Befejezve"
 
-#: src/core.py:95 plugins/WebUi/webserver_common.py:202
+#: src/core.py:96 plugins/WebUi/webserver_common.py:202
 msgid "Allocating"
 msgstr "Helyfoglalás"
 
-#: src/core.py:138
+#: src/core.py:139
 msgid "bytes needed"
 msgstr "bájt van hátra"
 
-#: src/core.py:640
+#: src/core.py:645
 msgid "There is not enough free disk space to complete your download."
 msgstr "Nincs elegendő hely a lemezen a letöltéshez."
 
-#: src/core.py:761
+#: src/core.py:766
 msgid "Announce sent"
 msgstr "Bejelentés elküldve"
 
-#: src/core.py:765
+#: src/core.py:770
 msgid "Announce OK"
 msgstr "Bejelentés rendben"
 
-#: src/core.py:774
+#: src/core.py:779
 msgid "Alert"
 msgstr "Hiba"
 
-#: src/core.py:775
+#: src/core.py:780
 msgid "HTTP code"
 msgstr "HTTP kód"
 
-#: src/core.py:776
+#: src/core.py:781
 msgid "times in a row"
 msgstr "próbálkozások száma"
 
-#: src/core.py:788
+#: src/core.py:793
 msgid "Warning"
 msgstr "Figyelem"
 
@@ -1326,7 +1340,7 @@ msgstr "Bővítmény"
 msgid "Enabled"
 msgstr "Engedélyezve"
 
-#: src/dialogs.py:445
+#: src/dialogs.py:447
 #, fuzzy
 msgid ""
 "Deluge is free software, you can redistribute it and/or\n"
@@ -1357,15 +1371,15 @@ msgstr ""
 " Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-\n"
 "1301 USA"
 
-#: src/dialogs.py:486
+#: src/dialogs.py:488
 msgid "Choose a .torrent file"
 msgstr "Válassz .torrent fájlt"
 
-#: src/dialogs.py:491
+#: src/dialogs.py:493
 msgid "Torrent files"
 msgstr "Torrent fájlok"
 
-#: src/dialogs.py:495
+#: src/dialogs.py:497
 msgid "All files"
 msgstr "Minden fájl"
 
@@ -1389,11 +1403,11 @@ msgstr "TiB"
 msgid "PiB"
 msgstr "PiB"
 
-#: src/common.py:206
+#: src/common.py:207
 msgid "External command"
 msgstr "Külső parancs"
 
-#: src/common.py:207
+#: src/common.py:208
 msgid "not found"
 msgstr "nem található"
 
@@ -1970,9 +1984,12 @@ msgid ""
 "without having to remove and re-add the torrent.  This feature can be found "
 "by right-clicking on a torrent.\n"
 "Furthermore, it allows the user to automatically have finished torrents "
-"moved to a different folder.\n"
-"Note: Files can currently only be moved within the same partition"
+"moved to a different folder."
 msgstr ""
+"Segítségével átrakhatod a torrrentet egy másik mappába anélkül, hogy újra "
+"hozzáadnád azt. Ehhez a funkcióhoz kattints a jobb gombal a torrentre.\n"
+"Mitöbb, ezzel a bővítménnyel automatikusan átteheted az elkészült "
+"torrenteket egy másik mappába."
 
 #: plugins/MoveTorrent/__init__.py:75
 msgid "_Move Torrent"
@@ -1986,29 +2003,9 @@ msgstr ""
 msgid "Choose a directory to move files to"
 msgstr "Válaszd ki a mappát ahova át szeretnéd helyezni"
 
-#: plugins/MoveTorrent/__init__.py:133
-msgid ""
-"You cannot move torrent to a different partition. Please check your "
-"preferences. Also, you cannot move a torrent's files to the same directory "
-"that they are already stored or move a torrent's files before any of its "
-"files have actually been created."
-msgstr ""
-"Nem helyezheti át a torrent fájlt egy másik meghajtóra. Kérem ellenőrizze a "
-"beállításait. Bővebben: nem helyezti át a letöltött állományokat egy "
-"ugyanolyan mappába, ami már létre lett hozva vagy oda át lettek mozgatva a "
-"letöltött fájlok mielőtt bármilyen fájl létre nem lesz hozva."
-
 #: plugins/MoveTorrent/movetorrent.glade:25
 msgid "Move completed downloads to:"
 msgstr "Befejezett letöltések áthelyezése:"
-
-#: plugins/MoveTorrent/movetorrent.glade:59 plugins/WebSeed/webseed.glade:65
-msgid "gtk-cancel"
-msgstr "gtk-cancel"
-
-#: plugins/MoveTorrent/movetorrent.glade:71 plugins/WebSeed/webseed.glade:73
-msgid "gtk-ok"
-msgstr "gtk-ok"
 
 #: plugins/WebSeed/__init__.py:22
 msgid "This plugin allows users to add web seeds to their torrents"
@@ -2352,8 +2349,9 @@ msgid "Episode"
 msgstr "Epizód"
 
 #: plugins/FlexRSS/FlexRSS.glade:623 plugins/FlexRSS/FlexRSS.glade:740
+#, fuzzy
 msgid "Thru"
-msgstr ""
+msgstr "Keresztül"
 
 #: plugins/FlexRSS/FlexRSS.glade:766
 msgid "<b>History Restriction</b>"
