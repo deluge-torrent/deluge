@@ -34,6 +34,7 @@
 """Internal Torrent class"""
 
 import os
+from urlparse import urlparse
 
 import deluge.libtorrent as lt
 import deluge.common
@@ -377,7 +378,22 @@ class Torrent:
                 ret.append(0.0)
 
         return ret
-               
+    
+    def get_tracker_host(self):
+        """Returns just the hostname of the currently connected tracker"""
+        if not self.status:
+            self.status = self.handle.status()
+            
+        if self.status.current_tracker:
+            url = urlparse(self.status.current_tracker)
+            if hasattr(url, "hostname"):
+                host = (url.hostname or 'unknown?')
+                parts = host.split(".")
+                if len(parts) > 2:
+                    host = ".".join(parts[-2:])
+                return host
+        return ""    
+              
     def get_status(self, keys):
         """Returns the status of the torrent based on the keys provided"""
         # Create the full dictionary
@@ -445,6 +461,7 @@ class Torrent:
             "queue": self.handle.queue_position,
             "is_seed": self.handle.is_seed,
             "peers": self.get_peers,
+            "tracker_host": self.get_tracker_host
         }
 
         self.status = None
