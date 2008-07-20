@@ -186,10 +186,11 @@ class TorrentManager(component.Component):
                 if torrent.stop_at_ratio:
                     stop_ratio = torrent.stop_ratio
                 if torrent.get_ratio() >= stop_ratio and torrent.is_finished:
-                    if not torrent.handle.is_paused():
-                        torrent.pause()
                     if self.config["remove_seed_at_ratio"] or torrent.remove_at_ratio:
                         self.remove(torrent_id)
+                        break
+                    if not torrent.handle.is_paused():
+                        torrent.pause()
 
     def __getitem__(self, torrent_id):
         """Return the Torrent with torrent_id"""
@@ -434,6 +435,10 @@ class TorrentManager(component.Component):
         
         # Save the session state
         self.save_state()
+        
+        # Emit the signal to the clients
+        self.signals.emit("torrent_removed", torrent_id)
+        
         return True
     
     def pause_all(self):

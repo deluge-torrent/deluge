@@ -424,8 +424,6 @@ class Core(
             if self.torrents.remove(torrent_id, remove_torrent, remove_data):
                 # Run the plugin hooks for 'post_torrent_remove'
                 self.plugins.run_post_torrent_remove(torrent_id)
-                # Emit the torrent_removed signal
-                self.torrent_removed(torrent_id)
             
     def export_force_reannounce(self, torrent_ids):
         log.debug("Forcing reannouncment to: %s", torrent_ids)
