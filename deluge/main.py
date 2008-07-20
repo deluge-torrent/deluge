@@ -59,16 +59,18 @@ def start_ui():
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
 
-    if deluge.common.windows_check():
+    if options.config:
+        if not os.path.exists(options.config):
+            os.makedirs(options.config)
+    else:
+        if not os.path.exists(deluge.common.get_default_config_dir()):
+            os.makedirs(deluge.common.get_default_config_dir())
+    if options.logfile:
         if options.config:
-            if not os.path.exists(options.config):
-                os.makedirs(options.config)
-            logfile = os.path.join(options.config, "deluge.log")
+            logfile = os.path.join(options.config, options.logfile)
         else:
-            if not os.path.exists(deluge.common.get_default_config_dir()):
-                os.makedirs(deluge.common.get_default_config_dir())
-            logfile = deluge.common.get_default_config_dir("deluge.log")
-        
+            config_dir = deluge.common.get_default_config_dir()
+            logfile = os.path.join(config_dir, options.logfile)
         sys.stdout = open(logfile, "wb")
         sys.stderr = sys.stdout
         sys.stdin = None
