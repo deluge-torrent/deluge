@@ -67,10 +67,11 @@ class BlockListCfgForm(forms.Form):
         del cfg["btn_download_now"]
         del cfg["btn_import_now"]
         sclient.blocklist_set_config(cfg)
-        if data.btn_download_now:
+        if data.btn_import_now:
+            aclient.blocklist_import(None, data.btn_download_now)
+        elif data.btn_download_now:
             aclient.blocklist_download(None)
-        elif data.btn_import_now:
-            aclient.blocklist_import(None)
+
 
     #input fields :
     listtype = forms.ChoiceField(FORMAT_LIST)
