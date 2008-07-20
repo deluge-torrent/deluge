@@ -260,6 +260,13 @@ namespace libtorrent
 		return e->string_value();
 	}
 
+	lazy_entry const* lazy_entry::dict_find_string(char const* name) const
+	{
+		lazy_entry const* e = dict_find(name);
+		if (e == 0 || e->type() != lazy_entry::string_t) return 0;
+		return e;
+	}
+
 	size_type lazy_entry::dict_find_int_value(char const* name, size_type default_val) const
 	{
 		lazy_entry const* e = dict_find(name);
@@ -359,7 +366,7 @@ namespace libtorrent
 		switch (e.type())
 		{
 			case lazy_entry::none_t: return os << "none";
-			case lazy_entry::int_t: return os << e.int_value();
+			case lazy_entry::int_t: return os << std::dec << std::setw(0) << e.int_value();
 			case lazy_entry::string_t:
 			{
 				bool printable = true;
@@ -374,7 +381,8 @@ namespace libtorrent
 				os << "'";
 				if (printable) return os << e.string_value() << "'";
 				for (int i = 0; i < e.string_length(); ++i)
-					os << std::hex << int((unsigned char)(str[i]));
+					os << std::hex << std::setfill('0') << std::setw(2)
+					<< int((unsigned char)(str[i]));
 				return os << "'";
 			}
 			case lazy_entry::list_t:

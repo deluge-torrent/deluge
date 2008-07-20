@@ -30,9 +30,10 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
+#include <boost/version.hpp>
 #include "libtorrent/pch.hpp"
-
 #include "libtorrent/file_pool.hpp"
+#include "libtorrent/error_code.hpp"
 
 #include <iostream>
 
@@ -42,7 +43,7 @@ namespace libtorrent
 	using boost::multi_index::get;
 
 	boost::shared_ptr<file> file_pool::open_file(void* st, fs::path const& p
-		, file::open_mode m, std::string& error)
+		, file::open_mode m, error_code& ec)
 	{
 		TORRENT_ASSERT(st != 0);
 		TORRENT_ASSERT(p.is_complete());
@@ -60,8 +61,9 @@ namespace libtorrent
 			{
 				// this means that another instance of the storage
 				// is using the exact same file.
-				error = "torrent uses the same file as another torrent "
-					"(" + p.string() + ")";
+#if BOOST_VERSION >= 103500
+				ec = error_code(errors::file_collision, libtorrent_category);
+#endif
 				return boost::shared_ptr<file>();
 			}
 
@@ -73,12 +75,12 @@ namespace libtorrent
 				i->file_ptr.reset();
 				TORRENT_ASSERT(e.file_ptr.unique());
 				e.file_ptr->close();
-				if (!e.file_ptr->open(p, m))
+				if (!e.file_ptr->open(p, m, ec))
 				{
-					error = e.file_ptr->error();
 					m_files.erase(i);
 					return boost::shared_ptr<file>();
 				}
+				TORRENT_ASSERT(e.file_ptr->is_open());
 				e.mode = m;
 			}
 			pt.replace(i, e);
@@ -97,21 +99,19 @@ namespace libtorrent
 			lt.erase(i);
 		}
 		lru_file_entry e;
-		e.file_ptr.reset(new file);
+		e.file_ptr.reset(new (std::nothrow)file);
 		if (!e.file_ptr)
 		{
-			error = "no memory";
+			ec = error_code(ENOMEM, get_posix_category());
 			return e.file_ptr;
 		}
-		if (!e.file_ptr->open(p, m))
-		{
-			error = e.file_ptr->error();
+		if (!e.file_ptr->open(p, m, ec))
 			return boost::shared_ptr<file>();
-		}
 		e.mode = m;
 		e.key = st;
 		e.file_path = p;
 		pt.insert(e);
+		TORRENT_ASSERT(e.file_ptr->is_open());
 		return e.file_ptr;
 	}
 

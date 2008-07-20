@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2005, Arvid Norberg
+Copyright (c) 2008, Arvid Norberg
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -30,65 +30,52 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifndef TORRENT_CONFIG_HPP_INCLUDED
-#define TORRENT_CONFIG_HPP_INCLUDED
+#ifndef TORRENT_ERROR_CODE_HPP_INCLUDED
+#define TORRENT_ERROR_CODE_HPP_INCLUDED
 
-#include <boost/config.hpp>
 #include <boost/version.hpp>
 
-#if defined(__GNUC__) && __GNUC__ >= 4
-
-#define TORRENT_DEPRECATED __attribute__ ((deprecated))
-
-# if defined(TORRENT_BUILDING_SHARED) || defined(TORRENT_LINKING_SHARED)
-#  define TORRENT_EXPORT __attribute__ ((visibility("default")))
-# else
-#  define TORRENT_EXPORT
-# endif
-
-#elif defined(__GNUC__)
-
-# define TORRENT_EXPORT
-
-#elif defined(BOOST_MSVC)
-
-# if defined(TORRENT_BUILDING_SHARED)
-#  define TORRENT_EXPORT __declspec(dllexport)
-# elif defined(TORRENT_LINKING_SHARED)
-#  define TORRENT_EXPORT __declspec(dllimport)
-# else
-#  define TORRENT_EXPORT
-# endif
-
+#if BOOST_VERSION < 103500
+#include <asio/error_code.hpp>
 #else
-# define TORRENT_EXPORT
+#include <boost/system/error_code.hpp>
 #endif
 
-#ifndef TORRENT_DEPRECATED
-#define TORRENT_DEPRECATED
-#endif
+namespace libtorrent
+{
 
-// set up defines for target environments
-#if (defined __APPLE__ && __MACH__) || defined __FreeBSD__ || defined __NetBSD__ \
-	|| defined __OpenBSD__ || defined __bsdi__ || defined __DragonFly__ \
-	|| defined __FreeBSD_kernel__
-#define TORRENT_BSD
-#elif defined __linux__
-#define TORRENT_LINUX
-#elif defined WIN32
-#define TORRENT_WINDOWS
+	namespace errors
+	{
+		enum error_code_enum
+		{
+			no_error = 0,
+			file_collision
+		};
+	}
+
+#if BOOST_VERSION < 103500
+	typedef asio::error_code error_code;
+	inline asio::error::error_category get_posix_category() { return asio::error::system_category; }
+	inline asio::error::error_category get_system_category() { return asio::error::system_category; }
 #else
-#warning unkown OS, assuming BSD
-#define TORRENT_BSD
-#endif
 
-// should wpath or path be used?
-#if defined UNICODE && !defined BOOST_FILESYSTEM_NARROW_ONLY \
-	&& BOOST_VERSION >= 103400 && defined WIN32
-#define TORRENT_USE_WPATH 1
-#else
-#define TORRENT_USE_WPATH 0
-#endif
+	struct libtorrent_error_category : boost::system::error_category
+	{
+		virtual const char* name() const;
+		virtual std::string message(int ev) const;
+		virtual boost::system::error_condition default_error_condition(int ev) const
+		{ return boost::system::error_condition(ev, *this); }
+	};
 
-#endif // TORRENT_CONFIG_HPP_INCLUDED
+	extern libtorrent_error_category libtorrent_category;
+
+	using boost::system::error_code;
+	inline boost::system::error_category const& get_system_category()
+	{ return boost::system::get_system_category(); }
+	inline boost::system::error_category const& get_posix_category()
+	{ return boost::system::get_posix_category(); }
+#endif
+}
+
+#endif
 

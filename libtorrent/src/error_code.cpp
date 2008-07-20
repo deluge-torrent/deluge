@@ -1,6 +1,6 @@
 /*
 
-Copyright (c) 2005, Arvid Norberg
+Copyright (c) 2008, Arvid Norberg
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -30,65 +30,31 @@ POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#ifndef TORRENT_CONFIG_HPP_INCLUDED
-#define TORRENT_CONFIG_HPP_INCLUDED
-
-#include <boost/config.hpp>
 #include <boost/version.hpp>
 
-#if defined(__GNUC__) && __GNUC__ >= 4
+#if BOOST_VERSION >= 103500
 
-#define TORRENT_DEPRECATED __attribute__ ((deprecated))
+#include "libtorrent/error_code.hpp"
 
-# if defined(TORRENT_BUILDING_SHARED) || defined(TORRENT_LINKING_SHARED)
-#  define TORRENT_EXPORT __attribute__ ((visibility("default")))
-# else
-#  define TORRENT_EXPORT
-# endif
+namespace libtorrent
+{
+	const char* libtorrent_error_category::name() const
+	{
+		return "libtorrent error";
+	}
 
-#elif defined(__GNUC__)
+	std::string libtorrent_error_category::message(int ev) const
+	{
+		static char const* msgs[] =
+		{ "no error", "torrent file collides with file from another torrent" };
+		if (ev < 0 || ev >= sizeof(msgs)/sizeof(msgs[0]))
+			return "Unknown error";
+		return msgs[ev];
+	}
 
-# define TORRENT_EXPORT
+	libtorrent_error_category libtorrent_category;
 
-#elif defined(BOOST_MSVC)
+}
 
-# if defined(TORRENT_BUILDING_SHARED)
-#  define TORRENT_EXPORT __declspec(dllexport)
-# elif defined(TORRENT_LINKING_SHARED)
-#  define TORRENT_EXPORT __declspec(dllimport)
-# else
-#  define TORRENT_EXPORT
-# endif
-
-#else
-# define TORRENT_EXPORT
 #endif
-
-#ifndef TORRENT_DEPRECATED
-#define TORRENT_DEPRECATED
-#endif
-
-// set up defines for target environments
-#if (defined __APPLE__ && __MACH__) || defined __FreeBSD__ || defined __NetBSD__ \
-	|| defined __OpenBSD__ || defined __bsdi__ || defined __DragonFly__ \
-	|| defined __FreeBSD_kernel__
-#define TORRENT_BSD
-#elif defined __linux__
-#define TORRENT_LINUX
-#elif defined WIN32
-#define TORRENT_WINDOWS
-#else
-#warning unkown OS, assuming BSD
-#define TORRENT_BSD
-#endif
-
-// should wpath or path be used?
-#if defined UNICODE && !defined BOOST_FILESYSTEM_NARROW_ONLY \
-	&& BOOST_VERSION >= 103400 && defined WIN32
-#define TORRENT_USE_WPATH 1
-#else
-#define TORRENT_USE_WPATH 0
-#endif
-
-#endif // TORRENT_CONFIG_HPP_INCLUDED
 

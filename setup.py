@@ -175,11 +175,6 @@ _sources = glob.glob("./libtorrent/src/*.cpp") + \
 # Remove some files from the source that aren't needed
 _source_removals = ["mapped_storage.cpp"]
 
-if windows_check():
-    _source_removals.append("file.cpp")
-else:
-    _source_removals.append("file_win.cpp")
-
 for source in _sources:
     for rem in _source_removals:
         if rem in source:
@@ -327,7 +322,7 @@ setup(
                                 ]},
     packages = find_packages(exclude=["plugins"]),
     url = "http://deluge-torrent.org",
-    version = "0.9.02",
+    version = "0.9.03",
 )
 
 try:
