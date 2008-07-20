@@ -98,7 +98,8 @@ class LabelConfig(object):
         self.label_store.clear()
         for label in labels:
             self.label_store.append([label])
-        self.label_view.get_selection().select_iter(self.label_store.get_iter_first())
+        if labels:
+            self.label_view.get_selection().select_iter(self.label_store.get_iter_first())
 
     def cb_label_options(self, data):
         for key in ["max_download_speed", "max_upload_speed", "max_connections" ,"max_upload_slots"]:
