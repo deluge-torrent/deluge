@@ -309,6 +309,7 @@ void bind_session()
           , session_num_connections_doc
         )
         .def("set_settings", allow_threads(&session::set_settings), session_set_settings_doc)
+        .def("settings", allow_threads(&session::settings), return_value_policy<copy_const_reference>())
 #ifndef TORRENT_DISABLE_ENCRYPTION
         .def("set_pe_settings", allow_threads(&session::set_pe_settings), session_set_pe_settings_doc)
         .def("get_pe_settings", allow_threads(&session::get_pe_settings), return_value_policy<copy_const_reference>())
