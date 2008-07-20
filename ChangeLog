@@ -3,7 +3,8 @@ Deluge 0.9.03 - "1.0.0_RC3" (In-Development)
   * File progress fixes from libtorrent
   * Fix building on FreeBSD
   * Fix #350 stop seeds when stop ratio is reached
-
+  * Fix #358 properly emit torrent_removed signal when remove_at_ratio happens
+  
  UI:
   * Default to gtkui when running 'deluge' instead of defaulting to last used.
 
