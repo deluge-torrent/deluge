@@ -36,10 +36,12 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import gobject
 import pkg_resources
+from urlparse import urlparse
 
 from deluge.ui.client import aclient as client
 import deluge.component as component
 from deluge.configmanager import ConfigManager
+from deluge.ui.gtkui.ipcinterface import process_args
 
 import deluge.common
 
@@ -65,10 +67,14 @@ class MainWindow(component.Component):
         # UI when it is minimized.
         self.is_minimized = False
 
+        self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 
+            80)], gtk.gdk.ACTION_COPY)
+        
         # Connect events
         self.window.connect("window-state-event", self.on_window_state_event)
         self.window.connect("configure-event", self.on_window_configure_event)
         self.window.connect("delete-event", self.on_window_delete_event)
+        self.window.connect("drag-data-received", self.on_drag_data_received_event)
         self.vpaned.connect("notify::position", self.on_vpaned_position_event)
 
         if not(self.config["start_in_tray"] and \
@@ -183,3 +189,9 @@ class MainWindow(component.Component):
         self.config.set("window_pane_position", 
             self.config["window_height"] - self.vpaned.get_position())
 
+    def on_drag_data_received_event(self, widget, drag_context, x, y, selection_data, info, timestamp):
+        args = []        
+        for uri in selection_data.data.split():
+            args.append(urlparse(uri).path)
+        process_args(args)
+        drag_context.finish(True, True)
