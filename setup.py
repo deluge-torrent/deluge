@@ -294,7 +294,7 @@ setup(
     ext_modules = [libtorrent],
     fullname = "Deluge Bittorent Client",
     include_package_data = True,
-    license = "GPLv2",
+    license = "GPLv3",
     name = "deluge",
     package_data = {"deluge": ["ui/gtkui/glade/*.glade",
                                 "data/pixmaps/*.png",
