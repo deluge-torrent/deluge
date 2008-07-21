@@ -218,8 +218,9 @@ class Core(
         self.settings = lt.session_settings()
         self.settings.user_agent = "Deluge %s" % deluge.common.get_version()
         
-        # Set lazy bitfield
+        # Set session settings
         self.settings.lazy_bitfields = 1
+        self.settings.send_redundant_have = True
         self.session.set_settings(self.settings)
         
         # Load metadata extension
