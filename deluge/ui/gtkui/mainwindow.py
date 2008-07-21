@@ -37,6 +37,7 @@ import gtk, gtk.glade
 import gobject
 import pkg_resources
 from urlparse import urlparse
+import urllib
 
 from deluge.ui.client import aclient as client
 import deluge.component as component
@@ -190,8 +191,8 @@ class MainWindow(component.Component):
             self.config["window_height"] - self.vpaned.get_position())
 
     def on_drag_data_received_event(self, widget, drag_context, x, y, selection_data, info, timestamp):
-        args = []        
+        args = []
         for uri in selection_data.data.split():
-            args.append(urlparse(uri).path)
+            args.append(urllib.unquote(urlparse(uri).path))
         process_args(args)
         drag_context.finish(True, True)
