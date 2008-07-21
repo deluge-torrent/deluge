@@ -1,4 +1,6 @@
-Deluge 0.9.03 - "1.0.0_RC3" (In-Development)
+Deluge 0.9.04 - "1.0.0_RC4" (In Development)
+
+Deluge 0.9.03 - "1.0.0_RC3" (21 July 2008)
  Core:
   * File progress fixes from libtorrent
   * Fix building on FreeBSD
