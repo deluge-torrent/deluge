@@ -250,6 +250,18 @@ def check_pwd(pwd):
     m.update(pwd)
     return (m.digest() == config.get('pwd_md5'))
 
+def validate_config(cfg_dict):
+    """
+    call this before setting webui-config!
+    #security : if template contains "../.." or other vars the filesystem could get compromized.
+    """
+    if "template" in cfg_dict:
+        from render import render
+        #make shure it is a real template
+        if not cfg_dict["template"] in render.get_templates():
+            raise Exception("Invalid template")
+
+
 def set_config_defaults():
     changed = False
     for key, value in CONFIG_DEFAULTS.iteritems():

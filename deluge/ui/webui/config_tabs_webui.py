@@ -43,6 +43,7 @@ from render import render
 config_page = component.get("ConfigPageManager")
 plugins = component.get("WebPluginManager")
 
+
 class Template(config_forms.WebCfgForm):
     title = _("Template")
 
