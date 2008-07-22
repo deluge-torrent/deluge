@@ -390,15 +390,14 @@ class template_static(static_handler):
                 'templates/%s/static' % config.get('template'))
 route("/template/static/(.*)", template_static)
 
-class render_static:
-    "render anything in template_dir"
+class template_render:
+    "render anything in /render/ dir"
     @deco.deluge_page
     def GET(self, name):
         filename =  os.path.join(os.path.dirname(__file__),
-                'templates/%s/static/%s' % (config.get('template'), name))
-        log.debug("render-static:%s" % filename)
+                'templates/%s/render/%s' % (config.get('template'), name))
         return web.template.Template(open(filename).read(), filename=filename)()
-route("/template/render/(.*)", render_static)
+route("/template/render/(.*)", template_render)
 
 class template_style:
     def GET(self):
