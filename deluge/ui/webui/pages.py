@@ -390,12 +390,15 @@ class template_static(static_handler):
                 'templates/%s/static' % config.get('template'))
 route("/template/static/(.*)", template_static)
 
-class robots:
-    def GET(self):
-        "no robots/prevent searchengines from indexing"
-        web.header("Content-Type", "text/plain")
-        print "User-agent: *\nDisallow:/\n"
-route("/robots.txt", robots)
+class render_static:
+    "render anything in template_dir"
+    @deco.deluge_page
+    def GET(self, name):
+        filename =  os.path.join(os.path.dirname(__file__),
+                'templates/%s/static/%s' % (config.get('template'), name))
+        log.debug("render-static:%s" % filename)
+        return web.template.Template(open(filename).read(), filename=filename)()
+route("/template/render/(.*)", render_static)
 
 class template_style:
     def GET(self):
@@ -403,6 +406,13 @@ class template_style:
         style = Storage()
         print render.template_style(style)
 route("/template_style.css", template_style)
+
+class robots:
+    def GET(self):
+        "no robots/prevent searchengines from indexing"
+        web.header("Content-Type", "text/plain")
+        print "User-agent: *\nDisallow:/\n"
+route("/robots.txt", robots)
 
 class pixmaps:
     "use the deluge-images. located in data/pixmaps"
