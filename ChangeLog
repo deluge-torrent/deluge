@@ -1,5 +1,9 @@
 Deluge 0.9.04 - "1.0.0_RC4" (In Development)
-
+ GtkUI:
+  * Fix selecting torrents when right-clicking on them, behaviour is now similar
+     to Nautilus
+  * Fix new release check
+  
 Deluge 0.9.03 - "1.0.0_RC3" (21 July 2008)
  Core:
   * File progress fixes from libtorrent

@@ -443,8 +443,19 @@ class TorrentView(listview.ListView, component.Component):
         """This is a callback for showing the right-click context menu."""
         log.debug("on_button_press_event")
         # We only care about right-clicks
-        if self.get_selected_torrents() and event.button == 3:
-            # Show the Torrent menu from the MenuBar
+        if event.button == 3:
+            x, y = event.get_coords()
+            path = self.treeview.get_path_at_pos(int(x), int(y))
+            if not path:
+                return
+            row = self.model_filter.get_iter(path[0])
+
+            if self.get_selected_torrents():
+                if self.model_filter.get_value(row, 0) not in self.get_selected_torrents():
+                    self.treeview.get_selection().unselect_all()
+                    self.treeview.get_selection().select_iter(row)
+            else:
+                self.treeview.get_selection().select_iter(row)
             torrentmenu = component.get("MenuBar").torrentmenu
             torrentmenu.popup(None, None, None, event.button, event.time)
             return True
