@@ -52,7 +52,6 @@ from deluge import component
 from utils import dict_cb
 from lib import json
 
-
 def json_response(result, id):
     print json.write({
             "version":"1.1",
@@ -80,7 +79,8 @@ class json_rpc:
     * methods : http://dev.deluge-torrent.org/wiki/Development/UiClient#Remoteapi
     """
     #extra exposed methods
-    json_exposed = ["update_ui","get_stats","set_torrent_options","system_listMethods"]
+    json_exposed = ["update_ui","get_stats","set_torrent_options","system_listMethods",
+        "get_webui_config","set_webui_config"]
     cache = {}
     torrent_options = ["trackers","max_connections","max_upload_slots","max_upload_speed",
     "max_download_speed","file_priorities","prioritize_first_last","auto_managed","stop_at_ratio",
@@ -89,7 +89,6 @@ class json_rpc:
 
     def GET(self):
         return json_error("only POST is supported")
-
 
     def POST(self , name=None):
         web.header("Content-Type", "application/x-json")
@@ -232,6 +231,20 @@ class json_rpc:
                 print
                 func = getattr(sclient, 'set_torrent_' + option)
                 func(torrent_id, value)
+
+    def get_webui_config(self):
+        return dict([x for x in utils.config.get_config().iteritems() if not x[0].startswith("pwd")])
+
+    def set_webui_config(self, data):
+        utils.validate_config(data)
+        if "pwd" in data:
+            utils.update_pwd(pwd)
+            del data["pwd"]
+        for key, value in data.iteritems():
+            utils.config.set(key, value)
+        utils.config.save()
+        utils.apply_config()
+
 
 def register():
     component.get("PageManager").register_page("/json/rpc",json_rpc)

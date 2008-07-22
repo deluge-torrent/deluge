@@ -86,6 +86,29 @@ function update_ui() {
 };
 
 
+function get_webui_config() {
+    service.get_webui_config({params:[ ],
+        onSuccess:function(data){
+            alert(service.__toJSON(data));
+        },
+        onException:function(errorObj){
+         alert("Error: " + errorObj);
+        }
+    });
+};
+
+
+function set_webui_config(cfg_dict) {
+    service.set_webui_config({params:[cfg_dict],
+        onSuccess:function(data){
+            alert(service.__toJSON(data));
+        },
+        onException:function(errorObj){
+         alert("Error: " + errorObj);
+        }
+    });
+};
+
 
 </script>
 
@@ -103,6 +126,13 @@ function update_ui() {
 <button onclick="get_stats()">get_stats()</button>
 
 <button onclick="update_ui()">update_ui()  filter on "Seeding"</button>
+
+<br>
+<button onclick="set_webui_config({'button_style':1})">set_webui_config({'button_style':1})</button>
+<button onclick="set_webui_config({'button_style':2})">set_webui_config({'button_style':2})</button>
+<button onclick="get_webui_config()">get_webui_config()</button>
+
+
 
 <div id="torrent_list">
 
