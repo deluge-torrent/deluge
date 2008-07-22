@@ -38,6 +38,7 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import gettext
 import gobject
+from urlparse import urlparse
 
 import deluge.common
 import deluge.component as component
@@ -129,7 +130,7 @@ class TorrentView(listview.ListView, component.Component):
         self.add_func_column(_("Size"), 
                                             listview.cell_data_size, 
                                             [gobject.TYPE_UINT64],
-                                            status_field=["total_size"])
+                                            status_field=["total_wanted"])
         self.add_progress_column(_("Progress"), 
                                     status_field=["progress", "state"],
                                     col_types=[float, str],
@@ -164,6 +165,7 @@ class TorrentView(listview.ListView, component.Component):
                                             listview.cell_data_ratio,
                                             [float],
                                             status_field=["distributed_copies"])
+        self.add_text_column(_("Tracker"), status_field=["tracker_host"])
         
         # Set default sort column to #
         self.liststore.set_sort_column_id(self.get_column_index("#"), gtk.SORT_ASCENDING)
@@ -182,6 +184,8 @@ class TorrentView(listview.ListView, component.Component):
         # changes.
         self.treeview.get_selection().connect("changed", 
                                     self.on_selection_changed)
+
+        self.treeview.connect("drag-drop", self.on_drag_drop)
                                   
     def start(self):
         """Start the torrentview"""
@@ -467,3 +471,6 @@ class TorrentView(listview.ListView, component.Component):
         component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
 
+    def on_drag_drop(self, widget, drag_context, x, y, timestamp):
+        widget.stop_emission("drag-drop")
+        
