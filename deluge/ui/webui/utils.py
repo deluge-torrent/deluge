@@ -297,3 +297,17 @@ class WebUiError(Exception):
 class UnknownTorrentError(WebUiError):
     pass
 
+#mime-type guessing :
+def guess_mime_type(path):
+    import posixpath
+    from mimetypes import types_map as extensions_map
+    base, ext = posixpath.splitext(path)
+    if ext in extensions_map:
+        return extensions_map[ext]
+    ext = ext.lower()
+    if ext in extensions_map:
+        return extensions_map[ext]
+    else:
+        return 'application/octet-stream'
+
+

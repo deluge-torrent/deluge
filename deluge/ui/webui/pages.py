@@ -392,8 +392,9 @@ route("/template/static/(.*)", template_static)
 
 class template_render:
     "render anything in /render/ dir"
-    @deco.deluge_page
+
     def GET(self, name):
+        web.header("Content-type",utils.guess_mime_type(name))
         #security : assumes config.get('template') returns a safe subdir.
         basepath = os.path.normpath(os.path.join(os.path.dirname(__file__),
                 'templates/%s/render' % config.get('template')))
@@ -402,7 +403,7 @@ class template_render:
             #hack detected?
             raise Exception("File to render is not located in %s" % basepath)
 
-        return web.template.Template(open(filename).read(), filename=filename)()
+        print web.template.Template(open(filename).read(), filename=filename)()
 route("/template/render/(.*)", template_render)
 
 class template_style:
