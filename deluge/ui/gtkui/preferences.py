@@ -64,7 +64,7 @@ class Preferences(component.Component):
         # Add the default categories
         i = 0
         for category in ["Downloads", "Network", "Bandwidth", "Interface", 
-            "Other", "Daemon", "Queue", "Plugins"]:
+            "Other", "Daemon", "Queue", "Proxy", "Plugins"]:
             self.liststore.append([i, category])
             i += 1
 
@@ -262,7 +262,12 @@ class Preferences(component.Component):
                 "spin_seed_time_limit": ("value", self.core_config["seed_time_limit"]),
                 "chk_seed_ratio": ("active", self.core_config["stop_seed_at_ratio"]),
                 "spin_share_ratio": ("value", self.core_config["stop_seed_ratio"]),
-                "chk_remove_ratio": ("active", self.core_config["remove_seed_at_ratio"])
+                "chk_remove_ratio": ("active", self.core_config["remove_seed_at_ratio"]),
+                "spin_proxy_port": ("value", self.core_config["proxy_port"]),
+                "combo_proxy_type": ("active", self.core_config["proxy_type"]),
+                "txt_proxy_server": ("text", self.core_config["proxy_server"]),
+                "txt_proxy_username": ("text", self.core_config["proxy_username"]),
+                "txt_proxy_password": ("text", self.core_config["proxy_password"])
             }
             
             # Change a few widgets if we're connected to a remote host
@@ -375,7 +380,12 @@ class Preferences(component.Component):
                 "chk_remove_ratio",
                 "spin_share_ratio_limit",
                 "spin_seed_time_ratio_limit",
-                "spin_seed_time_limit"
+                "spin_seed_time_limit",
+                "spin_proxy_port",
+                "combo_proxy_type",
+                "txt_proxy_username",
+                "txt_proxy_password",
+                "txt_proxy_server",
             ]
             # We don't appear to be connected to a daemon
             for key in core_widget_list:
@@ -562,6 +572,18 @@ class Preferences(component.Component):
             self.glade.get_widget("chk_allow_remote_connections").get_active()
         new_core_config["new_release_check"] = \
             self.glade.get_widget("chk_new_releases").get_active()
+
+        ## Proxy tab ##
+        new_core_config["proxy_type"] = \
+            self.glade.get_widget("combo_proxy_type").get_active()
+        new_core_config["proxy_port"] = \
+            self.glade.get_widget("spin_proxy_port").get_value_as_int()
+        new_core_config["proxy_username"] = \
+            self.glade.get_widget("txt_proxy_username").get_text()
+        new_core_config["proxy_password"] = \
+            self.glade.get_widget("txt_proxy_password").get_text()
+        new_core_config["proxy_server"] = \
+            self.glade.get_widget("txt_proxy_server").get_text()
                     
         ## Queue tab ##
         new_core_config["queue_new_to_top"] = \

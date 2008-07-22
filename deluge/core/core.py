@@ -111,6 +111,11 @@ DEFAULT_PREFS = {
     "move_completed": False,
     "move_completed_path": deluge.common.get_default_download_dir(),
     "new_release_check": True,
+    "proxy_type" : 0,
+    "proxy_server" : "",
+    "proxy_username" : "",
+    "proxy_password" : "",
+    "proxy_port": 8080,
 }
         
 class Core(
@@ -278,6 +283,16 @@ class Core(
             self._on_set_dont_count_slow_torrents)
         self.config.register_set_function("send_info",
             self._on_send_info)
+        self.config.register_set_function("proxy_type",
+            self._on_set_proxy)
+        self.config.register_set_function("proxy_username",
+            self._on_set_proxy)
+        self.config.register_set_function("proxy_password",
+            self._on_set_proxy)
+        self.config.register_set_function("proxy_server",
+            self._on_set_proxy)
+        self.config.register_set_function("proxy_port",
+            self._on_set_proxy)
         self.new_release = None
         self.new_release_timer = None
         self.config.register_set_function("new_release_check",
@@ -930,3 +945,16 @@ class Core(
         else:
             if self.new_release_timer:
                 gobject.source.remove(self.new_release_timer)
+
+    def _on_set_proxy(self, key, value):
+        log.debug("Proxy value %s set to %s..", key, value)
+        proxy_settings = lt.proxy_settings()
+        proxy_settings.proxy_type = lt.proxy_type(self.config["proxy_type"])
+        proxy_settings.username = self.config["proxy_username"]
+        proxy_settings.password = self.config["proxy_password"]
+        proxy_settings.hostname = self.config["proxy_server"]
+        proxy_settings.port = int(self.config["proxy_port"])
+        self.session.set_peer_proxy(proxy_settings)
+        self.session.set_web_seed_proxy(proxy_settings)
+        self.session.set_tracker_proxy(proxy_settings)
+        self.session.set_dht_proxy(proxy_settings)
