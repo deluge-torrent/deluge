@@ -106,6 +106,8 @@ class MenuBar(component.Component):
             ## File Menu
             "on_menuitem_addtorrent_activate": \
                                         self.on_menuitem_addtorrent_activate,
+            "on_menuitem_createtorrent_activate": \
+                                        self.on_menuitem_createtorrent_activate,
             "on_menuitem_quitdaemon_activate": \
                                         self.on_menuitem_quitdaemon_activate,
             "on_menuitem_quit_activate": self.on_menuitem_quit_activate,
@@ -224,7 +226,12 @@ class MenuBar(component.Component):
     def on_menuitem_addtorrent_activate(self, data=None):
         log.debug("on_menuitem_addtorrent_activate")
         component.get("AddTorrentDialog").show()
-        
+
+    def on_menuitem_createtorrent_activate(self, data=None):
+        log.debug("on_menuitem_createtorrent_activate")
+        from createtorrentdialog import CreateTorrentDialog
+        CreateTorrentDialog().show()
+                
     def on_menuitem_quitdaemon_activate(self, data=None):
         log.debug("on_menuitem_quitdaemon_activate")
         # Tell the core to shutdown
