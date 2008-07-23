@@ -60,6 +60,7 @@ class LabelSideBar(component.Component):
         self.scrolled = glade.get_widget("scrolledwindow_sidebar")
         self.is_visible = True
         self.filters = {}
+        self.first_expand = True
 
         # Create the liststore
         #cat,value,count , pixmap , visible
@@ -92,7 +93,10 @@ class LabelSideBar(component.Component):
         column.set_cell_data_func(render, self.render_cell_data,None)
 
         self.label_view.append_column(column)
+        #style:
         self.label_view.set_show_expanders(True)
+        self.label_view.set_level_indentation(-35)
+        self.label_view.set_headers_visible(False)
 
         self.label_view.set_model(self.treestore)
 
@@ -114,6 +118,7 @@ class LabelSideBar(component.Component):
 
     def unload(self):
         #hacks!
+        self.label_view.set_headers_visible(True)
         old_sidebar = component.get("SideBar")
         del old_sidebar
         new_sidebar = deluge.ui.gtkui.sidebar.SideBar()
@@ -134,8 +139,9 @@ class LabelSideBar(component.Component):
         for f in self.filters:
             if not f in visible_filters:
                 self.treestore.set_value(self.filters[f], 4, False)
-
-        #self.label_view.expand_all()
+        if self.first_expand:
+            self.label_view.expand_all()
+            self.first_expand = False
 
     def update_row(self, cat, value , count):
         if (cat, value) in self.filters:
@@ -162,7 +168,7 @@ class LabelSideBar(component.Component):
 
         if cat == "cat":
             txt = value
-            col = gtk.gdk.color_parse('gray')
+            col = gtk.gdk.color_parse('#EEEEEE')
         else:
             txt = "%s (%s)"  % (value, count)
             col = gtk.gdk.color_parse('white')

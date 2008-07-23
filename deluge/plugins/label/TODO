@@ -1,4 +1,4 @@
-*grey bars in sidebar are ugly
+*grey bars are hard-coded , use theme to get bg-color.
 *label sub-menu is broken on 1'st popup.
 *replacing/restoring the sidebar model is a hack
 *config should save a label on bottom ok-button, not a seperate save-button per label
