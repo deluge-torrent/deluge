@@ -71,7 +71,6 @@ class Core(CorePluginBase):
     def enable(self):
         log.info("*** Start Label plugin ***")
 
-        #self.plugin.register_status_field("tracker_host", self._status_get_tracker)
         self.plugin.register_status_field("label", self._status_get_label)
 
         #__init__
@@ -111,31 +110,12 @@ class Core(CorePluginBase):
 
     def disable(self):
         # De-register the label field
-        self.plugin.deregister_status_field("tracker_host")
+        #self.plugin.deregister_status_field("tracker_host")
         self.plugin.deregister_status_field("label")
 
     def update(self):
         pass
 
-    ## Utils ##
-    def get_tracker(self, torrent):
-        """
-        returns 1st tracker hostname
-        save space: reduced to *.com without any subdomain dots before
-        TODO: CLEANUP
-        """
-        log.debug(torrent)
-        log.debug(torrent.trackers)
-        if not torrent.trackers:
-            return 'tracker-less'
-        url = urlparse(torrent.trackers[0]['url'])
-        if hasattr(url,'hostname'):
-            host = (url.hostname or 'unknown?')
-            parts = host.split(".")
-            if len(parts) > 2:
-                host = ".".join(parts[-2:])
-            return host
-        return 'No-tracker?'
 
     ## Filters ##
     def filter_state(self, torrents, value):
@@ -147,7 +127,7 @@ class Core(CorePluginBase):
 
     def filter_tracker(self, torrents, value):
         "in/out: a list of torrent objects."
-        return [t for t in torrents if self.get_tracker(t) == value]
+        return [t for t in torrents if t.get_tracker_host() == value]
 
     def filter_label(self, torrents, value):
         "in/out: a list of torrent objects."
@@ -191,7 +171,7 @@ class Core(CorePluginBase):
         #trackers:
         trackers = {}
         for t in self.torrents.values():
-            tracker = self.get_tracker(t)
+            tracker = t.get_tracker_host()
             if not tracker in trackers:
                 trackers[tracker] = 0
             trackers[tracker] +=1
@@ -372,10 +352,6 @@ class Core(CorePluginBase):
                 self.config.set(key, options[key])
         self.config.save()
 
-
-    ## Status fields ##
-    def _status_get_tracker(self, torrent_id):
-        return self.get_tracker(self.torrents[torrent_id])
 
     def _status_get_label(self, torrent_id):
         return self.torrent_labels.get(torrent_id) or ""

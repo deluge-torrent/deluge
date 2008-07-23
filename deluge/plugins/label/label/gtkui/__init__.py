@@ -51,9 +51,6 @@ NO_LABEL = "No Label"
 def cell_data_label(column, cell, model, row, data):
     cell.set_property('text', str(model.get_value(row, data)))
 
-def cell_data_tracker_host(column, cell, model, row, data):
-    cell.set_property('text', str(model.get_value(row, data)))
-
 class GtkUI(ui.UI):
     def __init__(self, plugin_api, plugin_name):
         log.debug("Calling UI init")
@@ -71,8 +68,6 @@ class GtkUI(ui.UI):
         try:
             component.get("TorrentView").remove_column(_("Label"))
             log.debug(1.1)
-            component.get("TorrentView").remove_column(_("Tracker"))
-            log.debug(1.2)
         except Exception, e:
             log.debug(e) #fix this!
         log.debug(1.2)
@@ -119,11 +114,6 @@ class GtkUI(ui.UI):
                                             cell_data_label,
                                             [str],
                                             status_field=["label"])
-
-        component.get("TorrentView").add_func_column(_("Tracker"),
-                                            cell_data_tracker_host,
-                                            [str],
-                                            status_field=["tracker_host"])
 
         component.get("TorrentView").create_model_filter() #todo:improve.
 

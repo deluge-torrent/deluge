@@ -380,12 +380,17 @@ class Torrent:
         return ret
     
     def get_tracker_host(self):
-        """Returns just the hostname of the currently connected tracker"""
+        """Returns just the hostname of the currently connected tracker
+        if no tracker is connected, it uses the 1st tracker."""
         if not self.status:
             self.status = self.handle.status()
+        
+        tracker = self.status.current_tracker
+        if not tracker and self.trackers:
+            tracker = self.trackers[0]["url"]
             
-        if self.status.current_tracker:
-            url = urlparse(self.status.current_tracker)
+        if tracker:
+            url = urlparse(tracker)
             if hasattr(url, "hostname"):
                 host = (url.hostname or 'unknown?')
                 parts = host.split(".")
