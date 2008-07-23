@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-07-20 14:08-0500\n"
-"PO-Revision-Date: 2008-07-22 02:28+0000\n"
+"PO-Revision-Date: 2008-07-22 14:28+0000\n"
 "Last-Translator: sanafrato <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-07-22 02:32+0000\n"
+"X-Launchpad-Export-Date: 2008-07-23 21:37+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:649
@@ -563,23 +563,24 @@ msgstr "最大半開接続数"
 
 #: deluge/ui/webui/config_tabs_deluge.py:108
 msgid "Maximum Connection Attempts per Second"
-msgstr ""
+msgstr "最大接続数（毎秒）"
 
 #: deluge/ui/webui/config_tabs_deluge.py:115
+#, fuzzy
 msgid "Per Torrent"
-msgstr ""
+msgstr "各トレント毎"
 
 #: deluge/ui/webui/config_tabs_deluge.py:126
 msgid "Store all downoads in"
-msgstr ""
+msgstr "保存先を固定"
 
 #: deluge/ui/webui/config_tabs_deluge.py:127
 msgid "Save .torrent files to"
-msgstr ""
+msgstr "トレントファイルを保存"
 
 #: deluge/ui/webui/config_tabs_deluge.py:128
 msgid "Auto Add folder"
-msgstr ""
+msgstr "自動的にフォルダを追加"
 
 #: deluge/ui/webui/config_tabs_deluge.py:129
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:469
@@ -588,11 +589,11 @@ msgstr "コンパクトアロケーションを使用"
 
 #: deluge/ui/webui/config_tabs_deluge.py:136
 msgid "Daemon"
-msgstr ""
+msgstr "Daemon"
 
 #: deluge/ui/webui/config_tabs_deluge.py:137
 msgid "Restart daemon and webui after changing these settings"
-msgstr ""
+msgstr "設定を変更後にDaemonとウェブUIを再スタート"
 
 #: deluge/ui/webui/config_tabs_deluge.py:138
 #: deluge/ui/webui/config_tabs_webui.py:63
@@ -602,44 +603,44 @@ msgstr "Port"
 #: deluge/ui/webui/config_tabs_deluge.py:139
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2145
 msgid "Allow Remote Connections"
-msgstr ""
+msgstr "リモート接続を許可"
 
 #: deluge/ui/webui/config_tabs_deluge.py:144
 msgid "Queue"
-msgstr ""
+msgstr "キュー"
 
 #: deluge/ui/webui/config_tabs_deluge.py:145
 msgid "-1 = unlimited"
-msgstr ""
+msgstr "-1 = 無制限"
 
 #: deluge/ui/webui/config_tabs_deluge.py:147
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2295
 msgid "Queue new torrents to top"
-msgstr ""
+msgstr "新しいトレントキューを最上部へ"
 
 #: deluge/ui/webui/config_tabs_deluge.py:151
 msgid "Total active torrents"
-msgstr ""
+msgstr "合計アクティブトレント数"
 
 #: deluge/ui/webui/config_tabs_deluge.py:152
 msgid "Total active downloading"
-msgstr ""
+msgstr "合計アクティブダウンロード"
 
 #: deluge/ui/webui/config_tabs_deluge.py:153
 msgid "Total active seeding"
-msgstr ""
+msgstr "合計アクティブシーディング"
 
 #: deluge/ui/webui/config_tabs_deluge.py:160
 msgid "Stop seeding when ratio reaches"
-msgstr ""
+msgstr "共有比に達したらシーディングを停止"
 
 #: deluge/ui/webui/config_tabs_deluge.py:162
 msgid "Remove torrent when ratio reached"
-msgstr ""
+msgstr "共有比に達したらトレントを削除"
 
 #: deluge/ui/webui/config_tabs_deluge.py:169
 msgid "Enabled Plugins"
-msgstr ""
+msgstr "プラグインを有効"
 
 #: deluge/ui/webui/config_tabs_webui.py:47
 #: deluge/ui/webui/config_tabs_webui.py:53
@@ -660,11 +661,11 @@ msgstr "テキストのみ"
 
 #: deluge/ui/webui/config_tabs_webui.py:54
 msgid "Button style"
-msgstr ""
+msgstr "ボタンスタイル"
 
 #: deluge/ui/webui/config_tabs_webui.py:55
 msgid "Cache templates"
-msgstr ""
+msgstr "キャッシュテンプレート"
 
 #: deluge/ui/webui/config_tabs_webui.py:62
 msgid "Server"
@@ -672,7 +673,7 @@ msgstr "Server"
 
 #: deluge/ui/webui/config_tabs_webui.py:73
 msgid "Current Password"
-msgstr ""
+msgstr "現在のパスワード"
 
 #: deluge/ui/webui/config_tabs_webui.py:74
 msgid "New Password"
@@ -680,19 +681,19 @@ msgstr "新しいパスワード"
 
 #: deluge/ui/webui/config_tabs_webui.py:75
 msgid "New Password (Confirm)"
-msgstr ""
+msgstr "新しいパスワード（確認）"
 
 #: deluge/ui/webui/config_tabs_webui.py:82
 msgid "Old password is invalid"
-msgstr ""
+msgstr "古いパスワードは無効"
 
 #: deluge/ui/webui/config_tabs_webui.py:85
 msgid "New Password is not equal to New Password(confirm)"
-msgstr ""
+msgstr "新しいパスワードが不一致です"
 
 #: deluge/ui/webui/torrent_move.py:45
 msgid "Move To"
-msgstr ""
+msgstr "移動先"
 
 #: deluge/ui/webui/torrent_move.py:72
 msgid "Error in Path."

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-07-20 14:08-0500\n"
-"PO-Revision-Date: 2008-07-21 04:06+0000\n"
-"Last-Translator: Julián Alarcón <alarconj@gmail.com>\n"
+"PO-Revision-Date: 2008-07-22 14:49+0000\n"
+"Last-Translator: Pablo Navarro Castillo <pnavarrc@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-07-22 02:32+0000\n"
+"X-Launchpad-Export-Date: 2008-07-23 21:37+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:649
@@ -88,8 +88,9 @@ msgid "Connections"
 msgstr "Conexiones"
 
 #: deluge/ui/webui/scripts/template_strings.py:13
+#, fuzzy
 msgid "DHT Nodes"
-msgstr ""
+msgstr "Nodos DHT"
 
 #: deluge/ui/webui/scripts/template_strings.py:14
 msgid "Debug:Data Dump"
@@ -173,7 +174,7 @@ msgstr "General"
 
 #: deluge/ui/webui/scripts/template_strings.py:31
 msgid "Hash"
-msgstr ""
+msgstr "Hash"
 
 #: deluge/ui/webui/scripts/template_strings.py:32
 msgid "Login"
@@ -400,12 +401,14 @@ msgid "Compact Allocation"
 msgstr ""
 
 #: deluge/ui/webui/torrent_add.py:48 deluge/ui/webui/torrent_options.py:16
+#, fuzzy
 msgid "Maximum Down Speed"
-msgstr ""
+msgstr "Máxima velocidad de descarga"
 
 #: deluge/ui/webui/torrent_add.py:50 deluge/ui/webui/torrent_options.py:18
+#, fuzzy
 msgid "Maximum Up Speed"
-msgstr ""
+msgstr "Máxima velocidad de subida"
 
 #: deluge/ui/webui/torrent_add.py:51 deluge/ui/webui/config_tabs_deluge.py:102
 #: deluge/ui/webui/config_tabs_deluge.py:117
@@ -424,8 +427,9 @@ msgid "Maximum Upload Slots"
 msgstr ""
 
 #: deluge/ui/webui/torrent_add.py:55 deluge/ui/webui/config_tabs_deluge.py:130
+#, fuzzy
 msgid "Prioritize first and last pieces"
-msgstr ""
+msgstr "Priorizar primera y última pieza"
 
 #: deluge/ui/webui/torrent_add.py:56
 msgid "Add In Paused State"
@@ -465,7 +469,7 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:48
 msgid "Random"
-msgstr ""
+msgstr "Aleatorio"
 
 #: deluge/ui/webui/config_tabs_deluge.py:76
 msgid "Extra's"
@@ -499,7 +503,7 @@ msgstr "Cifrado"
 
 #: deluge/ui/webui/config_tabs_deluge.py:88
 msgid "Forced"
-msgstr ""
+msgstr "Forzado"
 
 #: deluge/ui/webui/config_tabs_deluge.py:88 deluge/ui/gtkui/preferences.py:79
 msgid "Enabled"
@@ -516,7 +520,7 @@ msgstr ""
 #: deluge/ui/webui/config_tabs_deluge.py:89
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
 msgid "Full"
-msgstr ""
+msgstr "Lleno"
 
 #: deluge/ui/webui/config_tabs_deluge.py:89
 msgid "Either"
@@ -532,30 +536,33 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Level"
-msgstr ""
+msgstr "Nivel"
 
 #: deluge/ui/webui/config_tabs_deluge.py:100
 msgid "Global"
-msgstr ""
+msgstr "Global"
 
 #: deluge/ui/webui/config_tabs_deluge.py:101
 #: deluge/ui/webui/config_tabs_deluge.py:116
+#, fuzzy
 msgid "-1 = Unlimited"
-msgstr ""
+msgstr "-1 = Ilimitado"
 
 #: deluge/ui/webui/config_tabs_deluge.py:103
 #: deluge/ui/webui/config_tabs_deluge.py:118
 #: deluge/plugins/label/label/webui_config.py:84
 #: deluge/plugins/label/build/lib/label/webui_config.py:84
+#, fuzzy
 msgid "Maximum Download Speed (Kib/s)"
-msgstr ""
+msgstr "Máxima velocidad de descarga (Kib/s)"
 
 #: deluge/ui/webui/config_tabs_deluge.py:104
 #: deluge/ui/webui/config_tabs_deluge.py:119
 #: deluge/plugins/label/label/webui_config.py:85
 #: deluge/plugins/label/build/lib/label/webui_config.py:85
+#, fuzzy
 msgid "Maximum Upload Speed (Kib/s)"
-msgstr ""
+msgstr "Máxima velocidad de subida (Kib/s)"
 
 #: deluge/ui/webui/config_tabs_deluge.py:107
 msgid "Maximum Half-Open Connections"
@@ -570,12 +577,14 @@ msgid "Per Torrent"
 msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:126
+#, fuzzy
 msgid "Store all downoads in"
-msgstr ""
+msgstr "Almacenar todas las descargas en"
 
 #: deluge/ui/webui/config_tabs_deluge.py:127
+#, fuzzy
 msgid "Save .torrent files to"
-msgstr ""
+msgstr "Guardar archivos .torrent en"
 
 #: deluge/ui/webui/config_tabs_deluge.py:128
 msgid "Auto Add folder"
@@ -602,15 +611,16 @@ msgstr "Puerto"
 #: deluge/ui/webui/config_tabs_deluge.py:139
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2145
 msgid "Allow Remote Connections"
-msgstr ""
+msgstr "Permitir conexiones remotas"
 
 #: deluge/ui/webui/config_tabs_deluge.py:144
 msgid "Queue"
 msgstr "Cola"
 
 #: deluge/ui/webui/config_tabs_deluge.py:145
+#, fuzzy
 msgid "-1 = unlimited"
-msgstr ""
+msgstr "-1 = ilimitado"
 
 #: deluge/ui/webui/config_tabs_deluge.py:147
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2295
@@ -660,7 +670,7 @@ msgstr "Sólo texto"
 
 #: deluge/ui/webui/config_tabs_webui.py:54
 msgid "Button style"
-msgstr ""
+msgstr "Estilo de los botones"
 
 #: deluge/ui/webui/config_tabs_webui.py:55
 msgid "Cache templates"
@@ -679,8 +689,9 @@ msgid "New Password"
 msgstr "Nueva contraseña"
 
 #: deluge/ui/webui/config_tabs_webui.py:75
+#, fuzzy
 msgid "New Password (Confirm)"
-msgstr ""
+msgstr "Nueva contraseña (Confirmar)"
 
 #: deluge/ui/webui/config_tabs_webui.py:82
 msgid "Old password is invalid"
@@ -708,8 +719,9 @@ msgstr ""
 
 #: deluge/ui/webui/torrent_options.py:23
 #: deluge/ui/gtkui/glade/main_window.glade:1947
+#, fuzzy
 msgid "Prioritize First/Last"
-msgstr ""
+msgstr "Priorizar primero/último"
 
 #: deluge/ui/webui/torrent_options.py:26
 #: deluge/ui/gtkui/glade/main_window.glade:1817
@@ -744,28 +756,32 @@ msgstr "traducir algo"
 
 #: deluge/ui/webui/lib/newforms_portable/models.py:299
 #: deluge/ui/webui/lib/newforms_portable/fields.py:560
+#, fuzzy
 msgid ""
 "Select a valid choice. That choice is not one of the available choices."
 msgstr ""
+"Elija una opción válida. Esa opción no es una de las opciones disponibles."
 
 #: deluge/ui/webui/lib/newforms_portable/models.py:371
 #: deluge/ui/webui/lib/newforms_portable/fields.py:600
 #: deluge/ui/webui/lib/newforms_portable/fields.py:662
+#, fuzzy
 msgid "Enter a list of values."
-msgstr ""
+msgstr "Ingrese una lista de valores"
 
 #: deluge/ui/webui/lib/newforms_portable/models.py:372
-#, python-format
+#, fuzzy, python-format
 msgid "Select a valid choice. %s is not one of the available choices."
-msgstr ""
+msgstr "Elija una opción valida. %s no es una de las opciones válidas."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:46
 msgid "This field is required."
 msgstr "Este campo es requerido."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:47
+#, fuzzy
 msgid "Enter a valid value."
-msgstr ""
+msgstr "Ingrese un valor válido"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:124
 #, python-format
@@ -798,18 +814,19 @@ msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:181
 #: deluge/ui/webui/lib/newforms_portable/fields.py:210
+#, fuzzy
 msgid "Enter a number."
-msgstr ""
+msgstr "Ingrese un número"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:213
-#, python-format
+#, fuzzy, python-format
 msgid "Ensure that there are no more than %s digits in total."
-msgstr ""
+msgstr "Verifique que no hay más que %s dígitos en total."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:214
-#, python-format
+#, fuzzy, python-format
 msgid "Ensure that there are no more than %s decimal places."
-msgstr ""
+msgstr "Verifique que no hay más que %s lugares decimales."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:215
 #, python-format
@@ -820,7 +837,7 @@ msgstr ""
 #: deluge/ui/webui/lib/newforms_portable/fields.py:263
 #: deluge/ui/webui/lib/newforms_portable/fields.py:751
 msgid "Enter a valid date."
-msgstr ""
+msgstr "Ingrese una fecha válida."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:296
 #: deluge/ui/webui/lib/newforms_portable/fields.py:752
@@ -832,8 +849,9 @@ msgid "Enter a valid date/time."
 msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:403
+#, fuzzy
 msgid "Enter a valid e-mail address."
-msgstr ""
+msgstr "Ingrese una dirección de correo electrónico válida."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:433
 msgid "No file was submitted. Check the encoding type on the form."
@@ -1124,6 +1142,7 @@ msgstr ""
 "  Mauro de Carvalho https://launchpad.net/~mauro-dec\n"
 "  MrBlonde https://launchpad.net/~scajal\n"
 "  Pablo Ledesma https://launchpad.net/~venraiker\n"
+"  Pablo Navarro Castillo https://launchpad.net/~pnavarrc-gmail\n"
 "  Rodrigo Donado https://launchpad.net/~frezeeer\n"
 "  Santi https://launchpad.net/~santiycr\n"
 "  Santi Martínez Cantelli https://launchpad.net/~cantelli\n"

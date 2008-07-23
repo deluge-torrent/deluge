@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-07-20 14:08-0500\n"
-"PO-Revision-Date: 2008-07-21 19:32+0000\n"
+"PO-Revision-Date: 2008-07-23 12:39+0000\n"
 "Last-Translator: Gerd Radecke <gerdradecke@gmx.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-07-22 02:32+0000\n"
+"X-Launchpad-Export-Date: 2008-07-23 21:37+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:649
@@ -466,7 +466,7 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:48
 msgid "Random"
-msgstr ""
+msgstr "Zufällig"
 
 #: deluge/ui/webui/config_tabs_deluge.py:76
 msgid "Extra's"
@@ -760,15 +760,15 @@ msgstr ""
 #: deluge/ui/webui/lib/newforms_portable/models.py:372
 #, python-format
 msgid "Select a valid choice. %s is not one of the available choices."
-msgstr ""
+msgstr "Wähle eine gültige Option. %s gehört nicht zu den gültigen Optionen."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:46
 msgid "This field is required."
-msgstr ""
+msgstr "Dieses Feld wird benötigt."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:47
 msgid "Enter a valid value."
-msgstr ""
+msgstr "Gebe einen gültigen Wert ein"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:124
 #, python-format
@@ -783,60 +783,60 @@ msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:152
 msgid "Enter a whole number."
-msgstr ""
+msgstr "Gebe eine ganze Zahl ein."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:153
 #: deluge/ui/webui/lib/newforms_portable/fields.py:182
 #: deluge/ui/webui/lib/newforms_portable/fields.py:211
 #, python-format
 msgid "Ensure this value is less than or equal to %s."
-msgstr ""
+msgstr "Der Wert muss kleiner oder gleich %s sein."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:154
 #: deluge/ui/webui/lib/newforms_portable/fields.py:183
 #: deluge/ui/webui/lib/newforms_portable/fields.py:212
 #, python-format
 msgid "Ensure this value is greater than or equal to %s."
-msgstr ""
+msgstr "Der Wert muss größer oder gleich %s sein."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:181
 #: deluge/ui/webui/lib/newforms_portable/fields.py:210
 msgid "Enter a number."
-msgstr ""
+msgstr "Gebe eine Zahl ein."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:213
 #, python-format
 msgid "Ensure that there are no more than %s digits in total."
-msgstr ""
+msgstr "Der Wert darf nicht mehr als %s Stellen haben."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:214
 #, python-format
 msgid "Ensure that there are no more than %s decimal places."
-msgstr ""
+msgstr "Der Wert darf nicht mehr als %s Nachkommastellen haben."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:215
 #, python-format
 msgid ""
 "Ensure that there are no more than %s digits before the decimal point."
-msgstr ""
+msgstr "Der Wert darf nicht mehr als %s stellen vor dem Komma haben."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:263
 #: deluge/ui/webui/lib/newforms_portable/fields.py:751
 msgid "Enter a valid date."
-msgstr ""
+msgstr "Gebe ein gültiges Datum ein."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:296
 #: deluge/ui/webui/lib/newforms_portable/fields.py:752
 msgid "Enter a valid time."
-msgstr ""
+msgstr "Gebe eine gültige Zeit ein."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:335
 msgid "Enter a valid date/time."
-msgstr ""
+msgstr "Gebe ein/e gültige/s Zeit/Datum ein."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:403
 msgid "Enter a valid e-mail address."
-msgstr ""
+msgstr "Gebe eine gültige E-Mail-Adresse ein."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:433
 msgid "No file was submitted. Check the encoding type on the form."
@@ -871,11 +871,11 @@ msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:780
 msgid "Enter a valid IPv4 address."
-msgstr ""
+msgstr "Gebe eine gültige IPv4-Adresse ein."
 
 #: deluge/ui/webui/lib/newforms_plus.py:141
 msgid "This folder does not exist."
-msgstr ""
+msgstr "Dieser Ordner existiert nicht."
 
 #: deluge/ui/webui/lib/newforms_plus.py:193
 #: deluge/ui/webui/lib/newforms_plus.py:204 deluge/ui/gtkui/systemtray.py:187
@@ -886,19 +886,19 @@ msgstr "Unbegrenzt"
 
 #: deluge/ui/webui/render.py:174
 msgid "∞"
-msgstr ""
+msgstr "∞"
 
 #: deluge/ui/webui/register_menu.py:40
 msgid "Connect"
-msgstr ""
+msgstr "Verbinden"
 
 #: deluge/ui/webui/register_menu.py:44
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiken"
 
 #: deluge/ui/webui/register_menu.py:47
 msgid "Trackers"
-msgstr ""
+msgstr "Tracker"
 
 #: deluge/ui/webui/register_menu.py:49
 msgid "Files"
@@ -908,23 +908,23 @@ msgstr "Dateien"
 #: deluge/plugins/label/label/webui_config.py:89
 #: deluge/plugins/label/build/lib/label/webui_config.py:89
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: deluge/ui/webui/register_menu.py:53
 msgid "Stop"
-msgstr ""
+msgstr "Anhalten"
 
 #: deluge/ui/webui/register_menu.py:57
 msgid "Queue Top"
-msgstr ""
+msgstr "Anfang der Warteschlange"
 
 #: deluge/ui/webui/register_menu.py:58
 msgid "Queue Bottom"
-msgstr ""
+msgstr "Ende der Warteschlange"
 
 #: deluge/ui/webui/register_menu.py:60
 msgid "Move"
-msgstr ""
+msgstr "Verschieben"
 
 #: deluge/ui/webui/register_menu.py:62
 msgid "Recheck"
@@ -964,7 +964,7 @@ msgstr "Alle Dateien"
 
 #: deluge/ui/gtkui/peers_tab.py:91
 msgid "Address"
-msgstr ""
+msgstr "Adresse"
 
 #: deluge/ui/gtkui/peers_tab.py:107
 msgid "Client"
@@ -976,11 +976,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/menubar.py:81
 msgid "Other.."
-msgstr ""
+msgstr "Andere.."
 
 #: deluge/ui/gtkui/menubar.py:89
 msgid "On"
-msgstr ""
+msgstr "An"
 
 #: deluge/ui/gtkui/menubar.py:321
 msgid "Choose a directory to move files to"
@@ -988,15 +988,15 @@ msgstr "Wähle den Zielordner für das Verschieben"
 
 #: deluge/ui/gtkui/menubar.py:429
 msgid "Set Max Download Speed (KiB/s):"
-msgstr ""
+msgstr "Setze Max. Downloadgeschwindigkeit (KiB/s):"
 
 #: deluge/ui/gtkui/menubar.py:431
 msgid "Set Max Upload Speed (KiB/s):"
-msgstr ""
+msgstr "Setze Max. Uploadgeschwindigkeit (KiB/s):"
 
 #: deluge/ui/gtkui/menubar.py:433
 msgid "Set Max Connections:"
-msgstr ""
+msgstr "Setze Max. Verbindungen:"
 
 #: deluge/ui/gtkui/menubar.py:435
 msgid "Set Max Upload Slots:"
@@ -1094,10 +1094,12 @@ msgstr ""
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrents?</b></big>"
 msgstr ""
+"<big><b>Bist du sicher das du die ausgewählten Torrents entfernen "
+"willst?<b></big>"
 
 #: deluge/ui/gtkui/removetorrentdialog.py:66
 msgid "Remove Selected Torrents"
-msgstr ""
+msgstr "Entferne ausgewählte Torrents"
 
 #: deluge/ui/gtkui/aboutdialog.py:64
 msgid "translator-credits"
@@ -1165,7 +1167,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/statusbar.py:134
 msgid "Not Connected"
-msgstr ""
+msgstr "Nicht verbunden"
 
 #: deluge/ui/gtkui/statusbar.py:151
 msgid "Download Speed"
@@ -1189,7 +1191,7 @@ msgstr "Upload-Geschwindigkeit (KiB/s)"
 
 #: deluge/ui/gtkui/statusbar.py:417
 msgid "Connection Limit:"
-msgstr ""
+msgstr "Verbindungslimit:"
 
 #: deluge/ui/gtkui/edittrackersdialog.py:76
 msgid "Tier"
@@ -1202,7 +1204,7 @@ msgstr "Aktiviert"
 #: deluge/common.py:249
 #, python-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: deluge/plugins/label/label/gtk_sidebar.py:72
 #: deluge/plugins/label/build/lib/label/gtk_sidebar.py:72
@@ -1222,7 +1224,7 @@ msgstr "Übernehmen"
 #: deluge/plugins/label/label/webui_config.py:99
 #: deluge/plugins/label/build/lib/label/webui_config.py:99
 msgid "Add Label"
-msgstr ""
+msgstr "Label Hinzufügen"
 
 #: deluge/plugins/label/label/webui_config.py:108
 #: deluge/plugins/label/label/gtkui.py:104
@@ -1233,7 +1235,7 @@ msgstr ""
 #: deluge/plugins/label/build/lib/label/gtkui.py:272
 #: deluge/plugins/label/build/lib/label/webui_pages.py:62
 msgid "Label"
-msgstr ""
+msgstr "Label"
 
 #: deluge/plugins/label/label/webui_config.py:124
 #: deluge/plugins/label/build/lib/label/webui_config.py:124
@@ -1253,7 +1255,7 @@ msgstr ""
 #: deluge/plugins/label/label/core.py:266
 #: deluge/plugins/label/build/lib/label/core.py:266
 msgid "Empty Label"
-msgstr ""
+msgstr "Leeres Label"
 
 #: deluge/plugins/label/label/core.py:267
 #: deluge/plugins/label/label/core.py:281
@@ -1264,16 +1266,16 @@ msgstr ""
 #: deluge/plugins/label/build/lib/label/core.py:299
 #: deluge/plugins/label/build/lib/label/core.py:331
 msgid "Unknown Label"
-msgstr ""
+msgstr "Unbekanntes Label"
 
 #: deluge/plugins/label/label/core.py:332
 #: deluge/plugins/label/build/lib/label/core.py:332
 msgid "Unknown Torrent"
-msgstr ""
+msgstr "Unbekannter Torrent"
 
 #: deluge/plugins/label/build/lib/label/sidebar.py:73
 msgid "LABEL-plugin"
-msgstr ""
+msgstr "LABEL-Plugin"
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 #: deluge/plugins/blocklist/build/lib/blocklist/peerguardian.py:31
@@ -1308,15 +1310,15 @@ msgstr "PeerGuardian P2B (gzip)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:58
 msgid "BlockList"
-msgstr ""
+msgstr "Blockliste"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:79
 msgid "Check for every (days)"
-msgstr ""
+msgstr "Überprüfe alle (Tage)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:80
 msgid "Timeout (seconds)"
-msgstr ""
+msgstr "Timeout(Sekunden)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:81
 msgid "Times to attempt download"
@@ -1328,21 +1330,21 @@ msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/webui.py:84
 msgid "Download Now"
-msgstr ""
+msgstr "Jetzt herunterladen"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:85
 msgid "Import Now"
-msgstr ""
+msgstr "Jetzt importieren"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:92
 #, python-format
 msgid "Downloading %.2f%%"
-msgstr ""
+msgstr "Lade %.2f%% herunter"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:94
 #, python-format
 msgid "Importing %s"
-msgstr ""
+msgstr "Importiere %s"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:96
 #, python-format
@@ -1351,7 +1353,7 @@ msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/webui.py:98
 msgid "Inactive"
-msgstr ""
+msgstr "Inaktiv"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:105
 msgid "Refresh status"
@@ -1361,11 +1363,11 @@ msgstr ""
 #: deluge/ui/gtkui/glade/main_window.glade:399
 #: deluge/ui/gtkui/glade/main_window.glade:400
 msgid "Connection Manager"
-msgstr ""
+msgstr "Verbindungsmanager"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:42
 msgid "<big><b>Connection Manager</b></big>"
-msgstr ""
+msgstr "<big><b>Verbindungsmanager</b></big>"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:101
 #: deluge/ui/gtkui/glade/connection_manager.glade:405
@@ -1387,15 +1389,15 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:204
 msgid "Automatically connect to selected host on start-up"
-msgstr ""
+msgstr "Verbinde beim Start automatisch mit ausgewählten Host"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:215
 msgid "Automatically start localhost if needed"
-msgstr ""
+msgstr "Starte localhost automatisch wenn nötig"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:229
 msgid "Do not show this dialog on start-up"
-msgstr ""
+msgstr "Zeige dieses Fenster nicht beim Start"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:269
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:154
@@ -1405,19 +1407,19 @@ msgstr "Schließem"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:285
 msgid "gtk-connect"
-msgstr ""
+msgstr "gtk-verbinden"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:308
 msgid "Add Host"
-msgstr ""
+msgstr "Host hinzufügen"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:327
 msgid "Hostname:"
-msgstr ""
+msgstr "Hostname:"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:349
 msgid "Port:"
-msgstr ""
+msgstr "Port:"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:392
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2797
@@ -1437,11 +1439,11 @@ msgstr "Einstellungen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:74
 msgid "<b><i><big>Downloads</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Downloads</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:112
 msgid "Always show"
-msgstr ""
+msgstr "Immer zeigen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:129
 msgid "Bring the dialog to focus"
@@ -1453,7 +1455,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:184
 msgid "Default download location:"
-msgstr ""
+msgstr "Standard Download-Ordner:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:197
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:244
@@ -1464,7 +1466,7 @@ msgstr "Einen Ordner auswählen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:229
 msgid "Move completed to:"
-msgstr ""
+msgstr "Verschiebe fertige nach:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:270
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:433
@@ -1473,11 +1475,11 @@ msgstr "<b>Download-Ziel</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:305
 msgid "Save copy of .torrent file:"
-msgstr ""
+msgstr "Speichere Kopie der .torrent Datei:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:343
 msgid "<b>Torrent File Copy</b>"
-msgstr ""
+msgstr "<b>Torrent-Datei Kopie</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:379
 msgid "Enable Folder:"
@@ -1516,13 +1518,13 @@ msgstr "Erste und letzte Stücke von Dateien in Torrents bevorzugen"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:522
 msgid "Prioritize first and last pieces of torrent"
-msgstr ""
+msgstr "Bevorzuge Anfangs- und Endstücke eines Torrents"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:537
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:387
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:387
 msgid "<b>Options</b>"
-msgstr ""
+msgstr "<b>Optionen</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:562
 msgid "page 6"
@@ -1530,7 +1532,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:592
 msgid "<b><i><big>Network</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Netzwerk</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:629
 msgid "From:"
@@ -1550,7 +1552,7 @@ msgstr "Deluge wählt automatisch jedes Mal einen anderen Port."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:715
 msgid "Use Random Ports"
-msgstr ""
+msgstr "Benutze Zufallsports"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:733
 msgid "Active Port:"
@@ -1562,7 +1564,7 @@ msgstr "0000"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:775
 msgid "<b>Ports</b>"
-msgstr ""
+msgstr "<b>Ports</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:807
 msgid "Distributed hash table may improve the amount of active connections."
@@ -1619,6 +1621,9 @@ msgid ""
 "Enabled\n"
 "Disabled"
 msgstr ""
+"Erzwungen\n"
+"Aktiviert\n"
+"Deaktiviert"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:995
 msgid ""
@@ -1644,11 +1649,11 @@ msgstr "<b>Verschlüsselung</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1098
 msgid "page 7"
-msgstr ""
+msgstr "Seite 7"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1129
 msgid "<b><i><big>Bandwidth</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Bandbreite</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1172
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
@@ -1726,7 +1731,7 @@ msgstr "<b>Bandbreite pro Torrent</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1570
 msgid "page 8"
-msgstr ""
+msgstr "Seite 8"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1601
 msgid "<i><b><big>Interface</big></b></i>"
@@ -1758,11 +1763,11 @@ msgstr "<b>Benachrichtigungsfeld</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1795
 msgid "<b>Classic Mode</b>"
-msgstr ""
+msgstr "<b>Klassicher Modus</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1847
 msgid "<i><b><big>Other</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Anderer</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1889
 msgid ""
@@ -1788,7 +1793,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1964
 msgid "Yes, please send anonymous statistics"
-msgstr ""
+msgstr "Ja, sende anonymisierte Statistiken"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1983
 msgid "<b>System Information</b>"
@@ -1796,19 +1801,19 @@ msgstr "<b>System-Informationen</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2036
 msgid "<i><b><big>Daemon</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Daemon</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2078
 msgid "Daemon port:"
-msgstr ""
+msgstr "Daemon port:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2113
 msgid "<b>Port</b>"
-msgstr ""
+msgstr "<b>Port</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2156
 msgid "<b>Connections</b>"
-msgstr ""
+msgstr "<b>Verbindungen</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2188
 msgid "Periodically check the website for new releases"
@@ -1816,11 +1821,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2199
 msgid "<b>Other</b>"
-msgstr ""
+msgstr "<b>Andere</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2252
 msgid "<i><b><big>Queue</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Warteschlange</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2308
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:810
@@ -1828,7 +1833,7 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:91
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:91
 msgid "<b>General</b>"
-msgstr ""
+msgstr "<b>Allgemein</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2349
 msgid "Total active downloading:"
@@ -1852,7 +1857,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2543
 msgid "Seed Time (m):"
-msgstr ""
+msgstr "Seed Dauer (m):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2555
 msgid "Seed Time Ratio:"
@@ -1876,7 +1881,7 @@ msgstr "<b>Seede</b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2706
 msgid "<i><b><big>Plugins</big></b></i>"
-msgstr ""
+msgstr "<i><b><big>Plugins</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2809
 #: deluge/ui/gtkui/glade/main_window.glade:2033
@@ -1909,28 +1914,30 @@ msgstr ""
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:8
 #: deluge/ui/gtkui/glade/main_window.glade:2103
 msgid "Remove Torrent?"
-msgstr ""
+msgstr "Entferne Torrent?"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:44
 #: deluge/ui/gtkui/glade/main_window.glade:2139
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr ""
+"<big><b>Bist du sicher, dass du den markierten Torrent entfernen "
+"willst?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:95
 #: deluge/ui/gtkui/glade/main_window.glade:2190
 msgid "<i>The associated .torrent will be deleted!</i>"
-msgstr ""
+msgstr "<i>Die entsprechende .torrent Datei wird gelöscht!</i>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:134
 #: deluge/ui/gtkui/glade/main_window.glade:2229
 msgid "<i>The downloaded data will be deleted!</i>"
-msgstr ""
+msgstr "<i>Die heruntergeladenen Daten werden gelöscht!</i>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:179
 #: deluge/ui/gtkui/glade/main_window.glade:2273
 msgid "Remove Selected Torrent"
-msgstr ""
+msgstr "Entferne markierten Torrent"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:8
 msgid "Edit Trackers"
@@ -1938,7 +1945,7 @@ msgstr "Bearbeite Tracker"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:46
 msgid "<big><b>Edit Trackers</b></big>"
-msgstr ""
+msgstr "<big><b>Bearbeite Tracker</b></big>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:95
 #: deluge/ui/gtkui/glade/torrent_menu.glade:334
@@ -1953,23 +1960,23 @@ msgstr ""
 #: deluge/ui/gtkui/glade/edit_trackers.glade:207
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1044
 msgid "Add Tracker"
-msgstr ""
+msgstr "Tracker hinzufügen"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:243
 msgid "<b>Add Tracker</b>"
-msgstr ""
+msgstr "<b>Tracker hinzufügen</b>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:277
 msgid "Tracker:"
-msgstr ""
+msgstr "Tracker:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:9
 msgid "Add Torrents"
-msgstr ""
+msgstr "Torrents hinzufügen"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:44
 msgid "<big><b>Add Torrents</b></big>"
-msgstr ""
+msgstr "<big><b>Torrents hinzufügen</b></big>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
 msgid "From _File"
@@ -1985,7 +1992,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:285
 msgid "_Remove"
-msgstr ""
+msgstr "Entfe_rnen"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:318
 msgid "<b>Torrents</b>"
@@ -1997,12 +2004,12 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:487
 msgid "Compact"
-msgstr ""
+msgstr "Kompakt"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:596
 #: deluge/ui/gtkui/glade/main_window.glade:1657
 msgid "Max Upload Slots:"
-msgstr ""
+msgstr "Maximale Uploads:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:610
 #: deluge/ui/gtkui/glade/main_window.glade:1720
@@ -2011,16 +2018,16 @@ msgstr "Max. Verbindungen:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:624
 msgid "Max Up Speed:"
-msgstr ""
+msgstr "Max. Uploadgeschwindigkeit:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:638
 msgid "Max Down Speed:"
-msgstr ""
+msgstr "Max. Downloadgeschwindigkeit:"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
 #: deluge/ui/gtkui/glade/main_window.glade:1787
 msgid "<b>Bandwidth</b>"
-msgstr ""
+msgstr "<b>Bandbreite</b>"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:704
 msgid "Add In _Paused State"
@@ -2028,12 +2035,12 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:719
 msgid "Prioritize First/Last Pieces"
-msgstr ""
+msgstr "Bevorzuge Anfangs-/Endstücke"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:735
 #: deluge/ui/gtkui/glade/main_window.glade:1934
 msgid "Private"
-msgstr ""
+msgstr "Privat"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:777
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
@@ -2047,12 +2054,12 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:921
 msgid "Apply To All"
-msgstr ""
+msgstr "Für alle anwenden"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:968
 #: deluge/ui/gtkui/glade/main_window.glade:2083
 msgid "_Options"
-msgstr ""
+msgstr "_Optionen"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1080
 msgid "<b>From URL</b>"
@@ -2066,7 +2073,7 @@ msgstr "URL:"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
 msgid "_Open Folder"
-msgstr ""
+msgstr "_Ordner öffnen"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:48
 msgid "Resume selected torrents."
@@ -2078,7 +2085,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:71
 msgid "Opt_ions"
-msgstr ""
+msgstr "Opt_ionen"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:93
 msgid "_Queue"
@@ -2106,15 +2113,15 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:220
 msgid ".. And Delete Torrent File"
-msgstr ""
+msgstr "...und lösche .torrent Datei"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:229
 msgid ".. And Delete Downloaded Files"
-msgstr ""
+msgstr "...und lösche heruntergeladene Dateien"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:238
 msgid ".. And Delete All Files"
-msgstr ""
+msgstr "...und lösche alle Dateien"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:251
 #: deluge/ui/gtkui/glade/tray_menu.glade:87
@@ -2224,7 +2231,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:162
 msgid "T_abs"
-msgstr ""
+msgstr "T_abs"
 
 #: deluge/ui/gtkui/glade/main_window.glade:169
 msgid "_Columns"
@@ -2236,19 +2243,19 @@ msgstr "_Hilfe"
 
 #: deluge/ui/gtkui/glade/main_window.glade:188
 msgid "Homepage"
-msgstr ""
+msgstr "Homepage"
 
 #: deluge/ui/gtkui/glade/main_window.glade:205
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Häufig gestellte Fragen (engl. FAQ)"
 
 #: deluge/ui/gtkui/glade/main_window.glade:206
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 #: deluge/ui/gtkui/glade/main_window.glade:223
 msgid "Community"
-msgstr ""
+msgstr "Community"
 
 #: deluge/ui/gtkui/glade/main_window.glade:284
 msgid "Remove Torrent"
@@ -2280,15 +2287,15 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:550
 msgid "_Do Not Download"
-msgstr ""
+msgstr "Nicht herunterla_den"
 
 #: deluge/ui/gtkui/glade/main_window.glade:565
 msgid "_Normal Priority"
-msgstr ""
+msgstr "_Normale Priorität"
 
 #: deluge/ui/gtkui/glade/main_window.glade:580
 msgid "_High Priority"
-msgstr ""
+msgstr "_Hohe Priorität"
 
 #: deluge/ui/gtkui/glade/main_window.glade:595
 msgid "Hi_ghest Priority"
@@ -2357,11 +2364,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1177
 msgid "_Statistics"
-msgstr ""
+msgstr "_Statistiken"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1262
 msgid "<b>Status:</b>"
-msgstr ""
+msgstr "<b>Status:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1299
 msgid "<b>Path:</b>"
@@ -2381,7 +2388,7 @@ msgstr "<b>Tracker:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1402
 msgid "<b>Hash:</b>"
-msgstr ""
+msgstr "<b>Hash:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1434
 msgid "<b># of files:</b>"
@@ -2393,11 +2400,11 @@ msgstr "_Details"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1535
 msgid "_Files"
-msgstr ""
+msgstr "_Dateien"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1585
 msgid "_Peers"
-msgstr ""
+msgstr "_Peers"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1696
 msgid "Max Download Speed:"
@@ -2413,7 +2420,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1899
 msgid "<b>Queue</b>"
-msgstr ""
+msgstr "<b>Warteschlange</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2291
 msgid "New Release"
@@ -2421,15 +2428,15 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2322
 msgid "<b><big>New Release Available!</big></b>"
-msgstr ""
+msgstr "<b><big>Neue Version verfügbar!</big></b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2361
 msgid "<i>Current Version:</i>"
-msgstr ""
+msgstr "<i>Aktuelle Version:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2382
 msgid "<i>Available Version:</i>"
-msgstr ""
+msgstr "<i>Verfügbare Version:</i>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2418
 msgid "Do not show this dialog in the future"
@@ -2442,7 +2449,7 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:30
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:30
 msgid "Type:"
-msgstr ""
+msgstr "Typ:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:131
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:131
@@ -2462,29 +2469,29 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:212
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:212
 msgid "Days"
-msgstr ""
+msgstr "Tage"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:225
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:225
 msgid "Seconds"
-msgstr ""
+msgstr "Sekunden"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:246
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:246
 msgid "Import blocklist on startup"
-msgstr ""
+msgstr "Importiere Blockliste beim Start"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:264
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:264
 msgid "<b>Settings</b>"
-msgstr ""
+msgstr "<b>Einstellungen</b>"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:317
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:317
 msgid "Download List"
-msgstr ""
+msgstr "Downloadliste"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:356
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:356
 msgid "Import List"
-msgstr ""
+msgstr "Importiere Liste"
