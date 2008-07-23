@@ -3,8 +3,7 @@ Deluge 0.9.04 - "1.0.0_RC4" (In Development)
   * Fix building with gcc 4.3
 
  GtkUI:
-  * Fix selecting torrents when right-clicking on them, behaviour is now similar
-     to Nautilus
+  * Fix selecting torrents when right-clicking on them in torrentview and filestab
   * Fix new release check
   * Display 'total_wanted' instead of 'total_size' in Size column
   
