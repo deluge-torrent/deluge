@@ -47,7 +47,7 @@ class DetailsTab(Tab):
         # widgetname, modifier function, status keys
         glade = component.get("MainWindow").main_glade
         
-        self._name = _("Details")
+        self._name = "Details"
         self._child_widget = glade.get_widget("details_tab")
         self._tab_label = glade.get_widget("details_tab_label")
         

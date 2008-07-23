@@ -97,7 +97,7 @@ class FilesTab(Tab):
         Tab.__init__(self)
         glade = component.get("MainWindow").get_glade()
 
-        self._name = _("Files")
+        self._name = "Files"
         self._child_widget = glade.get_widget("files_tab")
         self._tab_label = glade.get_widget("files_tab_label")
 
