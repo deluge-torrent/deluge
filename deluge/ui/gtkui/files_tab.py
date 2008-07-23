@@ -377,10 +377,23 @@ class FilesTab(Tab):
         """This is a callback for showing the right-click context menu."""
         log.debug("on_button_press_event")
         # We only care about right-clicks
-        if self.get_selected_files() and event.button == 3:
+        if event.button == 3:
+            x, y = event.get_coords()
+            path = self.listview.get_path_at_pos(int(x), int(y))
+            if not path:
+                return
+            row = self.treestore.get_iter(path[0])
+
+            if self.get_selected_files():
+                if self.treestore.get_value(row, 5) not in self.get_selected_files():
+                    self.listview.get_selection().unselect_all()
+                    self.listview.get_selection().select_iter(row)
+            else:
+                self.listview.get_selection().select_iter(row)
+            
             self.file_menu.popup(None, None, None, event.button, event.time)
             return True
-            
+        
     def _on_menuitem_open_file_activate(self, menuitem):
         self._on_row_activated(None, None, None)
 
