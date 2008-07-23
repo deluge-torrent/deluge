@@ -168,9 +168,10 @@ class LabelConfig(object):
         aclient.force_call(block=True) #sync..
         if label:
             it = self.label_store.iter_nth_child(None,self.labels.index(label))
-        else:
+        elif self.labels:
             it = self.label_store.iter_nth_child(None,0)
-        self.label_view.get_selection().select_iter(it)
+        if self.labels:
+            self.label_view.get_selection().select_iter(it)
 
     def build_label_view(self):
         "gtk should have a simple listbox widget..."
@@ -189,10 +190,13 @@ class LabelConfig(object):
         self.label_view.get_selection().connect("changed", self.on_label_changed)
 
     def on_label_changed(self, selection):
-        (model, row) = self.label_view.get_selection().get_selected()
-        self.label = model.get_value(row, 0)
-        self.glade.get_widget("txt_label").set_markup("<b>%s</b>" % self.label)
-        aclient.label_get_options(self.cb_label_options, self.label)
+        try:
+            (model, row) = self.label_view.get_selection().get_selected()
+            self.label = model.get_value(row, 0)
+            self.glade.get_widget("txt_label").set_markup("<b>%s</b>" % self.label)
+            aclient.label_get_options(self.cb_label_options, self.label)
+        except:
+            log.debug("none selected")
 
 
 

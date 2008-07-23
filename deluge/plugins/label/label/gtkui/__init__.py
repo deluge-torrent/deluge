@@ -68,8 +68,10 @@ class GtkUI(ui.UI):
         try:
             component.get("TorrentView").remove_column(_("Label"))
             log.debug(1.1)
+            component.get("TorrentView").create_model_filter() #todo:improve.
         except Exception, e:
             log.debug(e) #fix this!
+
         log.debug(1.2)
         self.sidebar.unload()
         log.debug(2)

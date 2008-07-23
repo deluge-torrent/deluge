@@ -84,6 +84,7 @@ class LabelSideBar(component.Component):
         column = gtk.TreeViewColumn(_("Filters"))
         column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
         render = gtk.CellRendererPixbuf()
+        self.renderpix = render
         column.pack_start(render, expand=False)
         column.add_attribute(render, 'pixbuf', 3)
         render = gtk.CellRendererText()
@@ -91,7 +92,7 @@ class LabelSideBar(component.Component):
         column.set_cell_data_func(render, self.render_cell_data,None)
 
         self.label_view.append_column(column)
-        self.label_view.set_show_expanders(False)
+        self.label_view.set_show_expanders(True)
 
         self.label_view.set_model(self.treestore)
 
@@ -134,7 +135,7 @@ class LabelSideBar(component.Component):
             if not f in visible_filters:
                 self.treestore.set_value(self.filters[f], 4, False)
 
-        self.label_view.expand_all()
+        #self.label_view.expand_all()
 
     def update_row(self, cat, value , count):
         if (cat, value) in self.filters:
@@ -153,6 +154,12 @@ class LabelSideBar(component.Component):
         cat    = model.get_value(row, 0)
         value = model.get_value(row, 1)
         count = model.get_value(row, 2)
+
+        if cat == "state":
+            self.renderpix.set_property("visible", True)
+        else:
+            self.renderpix.set_property("visible", False)
+
         if cat == "cat":
             txt = value
             col = gtk.gdk.color_parse('gray')
@@ -161,6 +168,7 @@ class LabelSideBar(component.Component):
             col = gtk.gdk.color_parse('white')
         cell.set_property('text', txt)
         cell.set_property("cell-background-gdk",col)
+        self.renderpix.set_property("cell-background-gdk",col)
 
     def get_pixmap(self, cat, value):
         if cat == "state":
