@@ -64,7 +64,7 @@ class StatisticsTab(Tab):
         # widgetname, modifier function, status keys
         glade = component.get("MainWindow").main_glade
         
-        self._name = "Statistics"
+        self._name = _("Statistics")
         self._child_widget = glade.get_widget("statistics_tab")
         self._tab_label = glade.get_widget("statistics_tab_label")
         
