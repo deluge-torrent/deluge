@@ -40,7 +40,7 @@ class OptionsTab(Tab):
         Tab.__init__(self)
         glade = component.get("MainWindow").get_glade()
         
-        self._name = _("Options")
+        self._name = "Options"
         self._child_widget = glade.get_widget("options_tab")
         self._tab_label = glade.get_widget("options_tab_label")
         
