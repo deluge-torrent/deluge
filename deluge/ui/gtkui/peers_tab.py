@@ -59,7 +59,7 @@ class PeersTab(Tab):
         Tab.__init__(self)
         glade = component.get("MainWindow").get_glade()
 
-        self._name = "Peers"
+        self._name = _("Peers")
         self._child_widget = glade.get_widget("peers_tab")
         self._tab_label = glade.get_widget("peers_tab_label")
         
