@@ -950,10 +950,11 @@ class Core(
         log.debug("Proxy value %s set to %s..", key, value)
         proxy_settings = lt.proxy_settings()
         proxy_settings.proxy_type = lt.proxy_type(self.config["proxy_type"])
-        proxy_settings.username = self.config["proxy_username"]
-        proxy_settings.password = self.config["proxy_password"]
-        proxy_settings.hostname = self.config["proxy_server"]
-        proxy_settings.port = int(self.config["proxy_port"])
+        if self.config["proxy_type"] != 0:
+            proxy_settings.username = self.config["proxy_username"]
+            proxy_settings.password = self.config["proxy_password"]
+            proxy_settings.hostname = self.config["proxy_server"]
+            proxy_settings.port = int(self.config["proxy_port"])
         self.session.set_peer_proxy(proxy_settings)
         self.session.set_web_seed_proxy(proxy_settings)
         self.session.set_tracker_proxy(proxy_settings)
