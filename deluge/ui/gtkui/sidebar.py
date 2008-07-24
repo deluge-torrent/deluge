@@ -49,24 +49,25 @@ class SideBar(component.Component):
         self.is_visible = True
 
         # Create the liststore
-        self.liststore = gtk.ListStore(str, gtk.gdk.Pixbuf)
-        self.liststore.append([_("All"), None])
-        self.liststore.append([_("Downloading"), 
+        # state str, str that's visible, icon
+        self.liststore = gtk.ListStore(str, str, gtk.gdk.Pixbuf)
+        self.liststore.append(["All", _("All"), None])
+        self.liststore.append(["Downloading", _("Downloading"), 
             gtk.gdk.pixbuf_new_from_file(
                 deluge.common.get_pixmap("downloading16.png"))])
-        self.liststore.append([_("Seeding"),
+        self.liststore.append(["Seeding", _("Seeding"),
             gtk.gdk.pixbuf_new_from_file(
                 deluge.common.get_pixmap("seeding16.png"))])
-        self.liststore.append([_("Queued"),
+        self.liststore.append(["Queued", _("Queued"),
             gtk.gdk.pixbuf_new_from_file(
                 deluge.common.get_pixmap("queued16.png"))])
-        self.liststore.append([_("Paused"),
+        self.liststore.append(["Paused", _("Paused"),
             gtk.gdk.pixbuf_new_from_file(
                 deluge.common.get_pixmap("inactive16.png"))])
-        self.liststore.append([_("Error"),
+        self.liststore.append(["Error", _("Error"),
             gtk.gdk.pixbuf_new_from_file(
                 deluge.common.get_pixmap("alert16.png"))])
-        self.liststore.append([_("Checking"),
+        self.liststore.append(["Checking", _("Checking"),
             gtk.gdk.pixbuf_new_from_file(
                 deluge.common.get_pixmap("checking16.png"))])
         # Create the column
@@ -74,10 +75,10 @@ class SideBar(component.Component):
         column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
         render = gtk.CellRendererPixbuf()
         column.pack_start(render, expand=False)
-        column.add_attribute(render, 'pixbuf', 1)
+        column.add_attribute(render, 'pixbuf', 2)
         render = gtk.CellRendererText()
         column.pack_start(render, expand=True)
-        column.add_attribute(render, 'text', 0)        
+        column.add_attribute(render, 'text', 1)
         self.label_view.append_column(column)
         
         self.label_view.set_model(self.liststore)
