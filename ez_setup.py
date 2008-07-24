@@ -14,7 +14,7 @@ the appropriate options to ``use_setuptools()``.
 This file can also be run as a script to install or upgrade setuptools.
 """
 import sys
-DEFAULT_VERSION = "0.6c6"
+DEFAULT_VERSION = "0.6c8"
 DEFAULT_URL     = "http://cheeseshop.python.org/packages/%s/s/setuptools/" % sys.version[:3]
 
 md5_data = {
@@ -42,6 +42,7 @@ md5_data = {
     'setuptools-0.6c6-py2.3.egg': '35686b78116a668847237b69d549ec20',
     'setuptools-0.6c6-py2.4.egg': '3c56af57be3225019260a644430065ab',
     'setuptools-0.6c6-py2.5.egg': 'b2f8a7520709a5b34f80946de5f02f53',
+    'setuptools-0.6c8-py2.5.egg': '1721747ee329dc150590a58b3e1ac95b',
 }
 
 import sys, os
