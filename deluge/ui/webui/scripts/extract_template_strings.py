@@ -1,7 +1,6 @@
 import os
 import re
-template_dirs = ['~/prj/WebUi/templates/deluge',
-    '~/prj/WebUi/templates/advanced']
+template_dirs = ['~/prj/webui06/templates/classic','~/prj/webui06/templates/white']
 
 template_dirs  = [os.path.expanduser(template_dir ) for template_dir in template_dirs]
 
