@@ -46,11 +46,13 @@ from web import webapi
 import page_decorators as deco
 from web import cookies, setcookie as w_setcookie
 import utils
+from render import render
+from utils import dict_cb
+from lib import json
+
 from deluge.ui.client import sclient,aclient
 from deluge.log import LOG as log
 from deluge import component
-from utils import dict_cb
-from lib import json
 
 def json_response(result, id):
     print json.write({
@@ -80,12 +82,11 @@ class json_rpc:
     """
     #extra exposed methods
     json_exposed = ["update_ui","get_stats","set_torrent_options","system_listMethods",
-        "get_webui_config","set_webui_config"]
+        "get_webui_config","set_webui_config","get_webui_templates"]
     cache = {}
     torrent_options = ["trackers","max_connections","max_upload_slots","max_upload_speed",
     "max_download_speed","file_priorities","prioritize_first_last","auto_managed","stop_at_ratio",
     "stop_ratio","remove_at_ratio"]
-
 
     def GET(self):
         return json_error("only POST is supported")
@@ -244,6 +245,10 @@ class json_rpc:
             utils.config.set(key, value)
         utils.config.save()
         utils.apply_config()
+
+    def get_webui_templates(self):
+        return render.get_templates()
+
 
 
 def register():

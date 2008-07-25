@@ -109,6 +109,16 @@ function set_webui_config(cfg_dict) {
     });
 };
 
+function get_webui_templates() {
+    service.get_webui_templates({params:[ ],
+        onSuccess:function(data){
+            alert(service.__toJSON(data));
+        },
+        onException:function(errorObj){
+         alert("Error: " + errorObj);
+        }
+    });
+};
 
 </script>
 
@@ -131,6 +141,7 @@ function set_webui_config(cfg_dict) {
 <button onclick="set_webui_config({'button_style':1})">set_webui_config({'button_style':1})</button>
 <button onclick="set_webui_config({'button_style':2})">set_webui_config({'button_style':2})</button>
 <button onclick="get_webui_config()">get_webui_config()</button>
+<button onclick="get_webui_templates()">get_webui_templates()</button>
 
 
 
