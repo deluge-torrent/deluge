@@ -146,7 +146,7 @@ class MainWindow(component.Component):
         if self.config["window_maximized"] == True:
             self.window.maximize()
         self.vpaned.set_position(
-            self.config["window_heighfrom deluge.ui.gtkui.ipcinterface import process_argt"] - self.config["window_pane_position"])
+            self.config["window_height"] - self.config["window_pane_position"])
             
     def on_window_configure_event(self, widget, event):
         if self.config["window_maximized"] == False and self.visible:
