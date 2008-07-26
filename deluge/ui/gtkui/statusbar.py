@@ -135,6 +135,9 @@ class StatusBar(component.Component):
             callback=self._on_notconnected_item_clicked)
         # Show the not connected status bar
         self.show_not_connected()
+        
+        # Hide if necessary
+        self.visible(self.config["show_statusbar"])
 
     def start(self):
         # Add in images and labels
@@ -197,7 +200,9 @@ class StatusBar(component.Component):
             self.statusbar.show()
         else:
             self.statusbar.hide()
-            
+
+        self.config["show_statusbar"] = visible
+                    
     def show_not_connected(self):
         self.hbox.pack_start(
             self.not_connected_item.get_eventbox(), expand=False, fill=False)

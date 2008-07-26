@@ -101,6 +101,13 @@ class MenuBar(component.Component):
         # Attach the torrent_menu to the Torrent file menu
         self.menu_torrent.set_submenu(self.torrentmenu)
 
+        self.window.main_glade.get_widget("menuitem_toolbar").set_active(
+            self.config["show_toolbar"])
+        self.window.main_glade.get_widget("menuitem_labels").set_active(
+            self.config["show_sidebar"])
+        self.window.main_glade.get_widget("menuitem_statusbar").set_active(
+            self.config["show_statusbar"])
+            
         ### Connect Signals ###
         self.window.main_glade.signal_autoconnect({
             ## File Menu
