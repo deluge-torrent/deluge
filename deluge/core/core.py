@@ -728,11 +728,11 @@ class Core(
         self.config_value_changed(key, value)
         
     def _on_set_torrentfiles_location(self, key, value):
-        # First try to create the new directory
-        try:
-            os.makedirs(value)
-        except Exception, e:
-            log.debug("Unable to make directory: %s", e)
+        if self.config["copy_torrent_file"]:
+            try:
+                os.makedirs(value)
+            except Exception, e:
+                log.debug("Unable to make directory: %s", e)
     
     def _on_set_state_location(self, key, value):
         if not os.access(value, os.F_OK):
@@ -845,12 +845,21 @@ class Core(
     def _on_set_max_upload_speed(self, key, value):
         log.debug("max_upload_speed set to %s..", value)
         # We need to convert Kb/s to B/s
-        self.session.set_upload_rate_limit(int(value * 1024))
+        if value < 0:
+            v = -1
+        else:
+            v = int(value * 1024)
+
+        self.session.set_upload_rate_limit(v)
 
     def _on_set_max_download_speed(self, key, value):
         log.debug("max_download_speed set to %s..", value)
         # We need to convert Kb/s to B/s
-        self.session.set_download_rate_limit(int(value * 1024))
+        if value < 0:
+            v = -1
+        else:
+            v = int(value * 1024)
+        self.session.set_download_rate_limit(v)
         
     def _on_set_max_upload_slots_global(self, key, value):
         log.debug("max_upload_slots_global set to %s..", value)

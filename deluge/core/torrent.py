@@ -151,11 +151,20 @@ class Torrent:
         
     def set_max_upload_speed(self, m_up_speed):
         self.max_upload_speed = m_up_speed
-        self.handle.set_upload_limit(int(m_up_speed * 1024))
+        if m_up_speed < 0:
+            v = -1
+        else:
+            v = int(m_up_speed * 1024)
+            
+        self.handle.set_upload_limit(v)
     
     def set_max_download_speed(self, m_down_speed):
         self.max_download_speed = m_down_speed
-        self.handle.set_download_limit(int(m_down_speed * 1024))
+        if m_down_speed < 0:
+            v = -1
+        else:
+            v = int(m_down_speed * 1024)
+        self.handle.set_download_limit(v)
     
     def set_prioritize_first_last(self, prioritize):
         self.prioritize_first_last = prioritize
