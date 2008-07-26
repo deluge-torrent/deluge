@@ -78,6 +78,9 @@ class ToolBar(component.Component):
 
         if self.config["classic_mode"]:
             self.window.main_glade.get_widget("toolbutton_connectionmanager").hide()
+            
+        # Hide if necessary
+        self.visible(self.config["show_toolbar"])
 
     def start(self):
         for widget in self.change_sensitivity:
@@ -93,6 +96,8 @@ class ToolBar(component.Component):
             self.toolbar.show()
         else:
             self.toolbar.hide()
+            
+        self.config["show_toolbar"] = visible            
             
     def add_toolbutton(self, callback, label=None, image=None, stock=None,
                                                          tooltip=None):

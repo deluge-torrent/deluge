@@ -97,7 +97,10 @@ DEFAULT_PREFS = {
     "autoadd_location": "",
     "choose_directory_dialog_path": deluge.common.get_default_download_dir(),
     "show_new_releases": True,
-    "signal_port": 40000
+    "signal_port": 40000,
+    "show_sidebar": True,
+    "show_toolbar": True,
+    "show_statusbar": True
 }
 
 class GtkUI:

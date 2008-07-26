@@ -101,6 +101,14 @@ class MenuBar(component.Component):
         # Attach the torrent_menu to the Torrent file menu
         self.menu_torrent.set_submenu(self.torrentmenu)
 
+        # Make sure the view menuitems are showing the correct active state
+        self.window.main_glade.get_widget("menuitem_toolbar").set_active(
+            self.config["show_toolbar"])
+        self.window.main_glade.get_widget("menuitem_labels").set_active(
+            self.config["show_sidebar"])
+        self.window.main_glade.get_widget("menuitem_statusbar").set_active(
+            self.config["show_statusbar"])
+
         ### Connect Signals ###
         self.window.main_glade.signal_autoconnect({
             ## File Menu
@@ -167,7 +175,7 @@ class MenuBar(component.Component):
             self.window.main_glade.get_widget("menuitem_quitdaemon").hide()
             self.window.main_glade.get_widget("separatormenuitem").hide()
             self.window.main_glade.get_widget("menuitem_connectionmanager").hide()
-    
+        
     def start(self):
         for widget in self.change_sensitivity:
             self.window.main_glade.get_widget(widget).set_sensitive(True)

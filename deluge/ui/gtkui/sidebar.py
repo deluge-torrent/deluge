@@ -36,6 +36,7 @@ import gtk.glade
 
 import deluge.component as component
 import deluge.common
+from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
 class SideBar(component.Component):
@@ -47,6 +48,7 @@ class SideBar(component.Component):
         self.hpaned = glade.get_widget("hpaned")
         self.scrolled = glade.get_widget("scrolledwindow_sidebar")
         self.is_visible = True
+        self.config = ConfigManager("gtkui.conf")
 
         # Create the liststore
         # state str, str that's visible, icon
@@ -90,6 +92,9 @@ class SideBar(component.Component):
         self.label_view.get_selection().select_iter(
             self.liststore.get_iter_first())
         
+        # Hide if necessary
+        self.visible(self.config["show_sidebar"])
+        
     def visible(self, visible):
         if visible:
             self.scrolled.show()
@@ -98,6 +103,7 @@ class SideBar(component.Component):
             self.hpaned.set_position(-1)
         
         self.is_visible = visible
+        self.config["show_sidebar"] = visible        
 
     def on_selection_changed(self, selection):
         try:
