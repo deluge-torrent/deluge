@@ -1165,40 +1165,127 @@ Disabled</property>
                                             <property name="n_columns">2</property>
                                             <property name="column_spacing">15</property>
                                             <child>
-                                              <widget class="GtkSpinButton" id="spin_max_upload_slots_global">
+                                              <widget class="GtkSpinButton" id="spin_max_connections_per_second">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
-                                                <property name="tooltip" translatable="yes">The maximum upload slots for all torrents.  Set -1 for unlimited.</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 9000 1 10 10</property>
-                                                <property name="climb_rate">1</property>
-                                                <property name="snap_to_ticks">True</property>
+                                                <property name="adjustment">-1 -1 9999 1 10 10</property>
                                                 <property name="numeric">True</property>
                                               </widget>
                                               <packing>
                                                 <property name="left_attach">1</property>
                                                 <property name="right_attach">2</property>
+                                                <property name="top_attach">5</property>
+                                                <property name="bottom_attach">6</property>
+                                                <property name="x_options">GTK_FILL</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkSpinButton" id="spin_max_half_open_connections">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="xalign">1</property>
+                                                <property name="adjustment">-1 -1 9999 1 10 10</property>
+                                                <property name="numeric">True</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="left_attach">1</property>
+                                                <property name="right_attach">2</property>
+                                                <property name="top_attach">4</property>
+                                                <property name="bottom_attach">5</property>
+                                                <property name="x_options">GTK_FILL</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label58">
+                                                <property name="visible">True</property>
+                                                <property name="xalign">0</property>
+                                                <property name="label" translatable="yes">Maximum Connection Attempts per Second:</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="top_attach">5</property>
+                                                <property name="bottom_attach">6</property>
+                                                <property name="x_options">GTK_FILL</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label57">
+                                                <property name="visible">True</property>
+                                                <property name="xalign">0</property>
+                                                <property name="label" translatable="yes">Maximum Half-Open Connections:</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="top_attach">4</property>
+                                                <property name="bottom_attach">5</property>
+                                                <property name="x_options">GTK_FILL</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label17">
+                                                <property name="visible">True</property>
+                                                <property name="tooltip" translatable="yes">The maximum upload speed for all torrents.  Set -1 for unlimited.</property>
+                                                <property name="xalign">0</property>
+                                                <property name="label" translatable="yes">Maximum Upload Speed (KiB/s):</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="top_attach">3</property>
+                                                <property name="bottom_attach">4</property>
+                                                <property name="x_options">GTK_FILL</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label16">
+                                                <property name="visible">True</property>
+                                                <property name="tooltip" translatable="yes">The maximum number of connections allowed.  Set -1 for unlimited.</property>
+                                                <property name="xalign">0</property>
+                                                <property name="label" translatable="yes">Maximum Connections:</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="x_options">GTK_FILL</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label15">
+                                                <property name="visible">True</property>
+                                                <property name="tooltip" translatable="yes">The maximum upload speed for all torrents.  Set -1 for unlimited.</property>
+                                                <property name="xalign">0</property>
+                                                <property name="label" translatable="yes">Maximum Upload Slots:</property>
+                                              </widget>
+                                              <packing>
                                                 <property name="top_attach">1</property>
                                                 <property name="bottom_attach">2</property>
                                                 <property name="x_options">GTK_FILL</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkSpinButton" id="spin_max_upload">
+                                              <widget class="GtkSpinButton" id="spin_max_connections_global">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
-                                                <property name="tooltip" translatable="yes">The maximum upload speed for all torrents.  Set -1 for unlimited.</property>
+                                                <property name="tooltip" translatable="yes">The maximum number of connections allowed.  Set -1 for unlimited.</property>
+                                                <property name="max_length">4</property>
                                                 <property name="xalign">1</property>
                                                 <property name="adjustment">-1 -1 9000 1 10 10</property>
                                                 <property name="climb_rate">1</property>
-                                                <property name="digits">1</property>
+                                                <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
+                                                <property name="update_policy">GTK_UPDATE_IF_VALID</property>
                                               </widget>
                                               <packing>
                                                 <property name="left_attach">1</property>
                                                 <property name="right_attach">2</property>
-                                                <property name="top_attach">3</property>
-                                                <property name="bottom_attach">4</property>
+                                                <property name="x_options">GTK_FILL</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkLabel" id="label14">
+                                                <property name="visible">True</property>
+                                                <property name="tooltip" translatable="yes">The maximum download speed for all torrents.  Set -1 for unlimited.</property>
+                                                <property name="xalign">0</property>
+                                                <property name="label" translatable="yes">Maximum Download Speed (KiB/s):</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="top_attach">2</property>
+                                                <property name="bottom_attach">3</property>
                                                 <property name="x_options">GTK_FILL</property>
                                               </packing>
                                             </child>
@@ -1223,127 +1310,40 @@ Disabled</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label14">
-                                                <property name="visible">True</property>
-                                                <property name="tooltip" translatable="yes">The maximum download speed for all torrents.  Set -1 for unlimited.</property>
-                                                <property name="xalign">0</property>
-                                                <property name="label" translatable="yes">Maximum Download Speed (KiB/s):</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="top_attach">2</property>
-                                                <property name="bottom_attach">3</property>
-                                                <property name="x_options">GTK_FILL</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkSpinButton" id="spin_max_connections_global">
+                                              <widget class="GtkSpinButton" id="spin_max_upload">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
-                                                <property name="tooltip" translatable="yes">The maximum number of connections allowed.  Set -1 for unlimited.</property>
-                                                <property name="max_length">4</property>
+                                                <property name="tooltip" translatable="yes">The maximum upload speed for all torrents.  Set -1 for unlimited.</property>
                                                 <property name="xalign">1</property>
                                                 <property name="adjustment">-1 -1 9000 1 10 10</property>
                                                 <property name="climb_rate">1</property>
-                                                <property name="snap_to_ticks">True</property>
+                                                <property name="digits">1</property>
                                                 <property name="numeric">True</property>
-                                                <property name="update_policy">GTK_UPDATE_IF_VALID</property>
                                               </widget>
                                               <packing>
                                                 <property name="left_attach">1</property>
                                                 <property name="right_attach">2</property>
-                                                <property name="x_options">GTK_FILL</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkLabel" id="label15">
-                                                <property name="visible">True</property>
-                                                <property name="tooltip" translatable="yes">The maximum upload speed for all torrents.  Set -1 for unlimited.</property>
-                                                <property name="xalign">0</property>
-                                                <property name="label" translatable="yes">Maximum Upload Slots:</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="top_attach">1</property>
-                                                <property name="bottom_attach">2</property>
-                                                <property name="x_options">GTK_FILL</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkLabel" id="label16">
-                                                <property name="visible">True</property>
-                                                <property name="tooltip" translatable="yes">The maximum number of connections allowed.  Set -1 for unlimited.</property>
-                                                <property name="xalign">0</property>
-                                                <property name="label" translatable="yes">Maximum Connections:</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="x_options">GTK_FILL</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkLabel" id="label17">
-                                                <property name="visible">True</property>
-                                                <property name="tooltip" translatable="yes">The maximum upload speed for all torrents.  Set -1 for unlimited.</property>
-                                                <property name="xalign">0</property>
-                                                <property name="label" translatable="yes">Maximum Upload Speed (KiB/s):</property>
-                                              </widget>
-                                              <packing>
                                                 <property name="top_attach">3</property>
                                                 <property name="bottom_attach">4</property>
                                                 <property name="x_options">GTK_FILL</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <widget class="GtkLabel" id="label57">
-                                                <property name="visible">True</property>
-                                                <property name="xalign">0</property>
-                                                <property name="label" translatable="yes">Maximum Half-Open Connections:</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="top_attach">4</property>
-                                                <property name="bottom_attach">5</property>
-                                                <property name="x_options">GTK_FILL</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkLabel" id="label58">
-                                                <property name="visible">True</property>
-                                                <property name="xalign">0</property>
-                                                <property name="label" translatable="yes">Maximum Connection Attempts per Second:</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="top_attach">5</property>
-                                                <property name="bottom_attach">6</property>
-                                                <property name="x_options">GTK_FILL</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkSpinButton" id="spin_max_half_open_connections">
+                                              <widget class="GtkSpinButton" id="spin_max_upload_slots_global">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
+                                                <property name="tooltip" translatable="yes">The maximum upload slots for all torrents.  Set -1 for unlimited.</property>
                                                 <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 9999 1 10 10</property>
+                                                <property name="adjustment">-1 -1 9000 1 10 10</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="snap_to_ticks">True</property>
                                                 <property name="numeric">True</property>
                                               </widget>
                                               <packing>
                                                 <property name="left_attach">1</property>
                                                 <property name="right_attach">2</property>
-                                                <property name="top_attach">4</property>
-                                                <property name="bottom_attach">5</property>
-                                                <property name="x_options">GTK_FILL</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <widget class="GtkSpinButton" id="spin_max_connections_per_second">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="xalign">1</property>
-                                                <property name="adjustment">-1 -1 9999 1 10 10</property>
-                                                <property name="numeric">True</property>
-                                              </widget>
-                                              <packing>
-                                                <property name="left_attach">1</property>
-                                                <property name="right_attach">2</property>
-                                                <property name="top_attach">5</property>
-                                                <property name="bottom_attach">6</property>
+                                                <property name="top_attach">1</property>
+                                                <property name="bottom_attach">2</property>
                                                 <property name="x_options">GTK_FILL</property>
                                               </packing>
                                             </child>
@@ -1411,18 +1411,85 @@ Disabled</property>
                                         <property name="n_columns">2</property>
                                         <property name="column_spacing">15</property>
                                         <child>
-                                          <widget class="GtkSpinButton" id="spin_max_upload_per_torrent">
+                                          <widget class="GtkSpinButton" id="spin_max_upload_slots_per_torrent">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="tooltip" translatable="yes">The maximum number of connections per torrent.  Set -1 for unlimited.</property>
+                                            <property name="tooltip" translatable="yes">The maximum upload slots per torrent.  Set -1 for unlimited.</property>
                                             <property name="xalign">1</property>
                                             <property name="adjustment">-1 -1 9000 1 10 10</property>
-                                            <property name="digits">1</property>
+                                            <property name="climb_rate">1</property>
+                                            <property name="snap_to_ticks">True</property>
                                             <property name="numeric">True</property>
                                           </widget>
                                           <packing>
                                             <property name="left_attach">1</property>
                                             <property name="right_attach">2</property>
+                                            <property name="top_attach">1</property>
+                                            <property name="bottom_attach">2</property>
+                                            <property name="x_options">GTK_FILL</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkSpinButton" id="spin_max_connections_per_torrent">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="tooltip" translatable="yes">The maximum number of connections per torrent.  Set -1 for unlimited.</property>
+                                            <property name="xalign">1</property>
+                                            <property name="adjustment">-1 -1 9000 1 10 10</property>
+                                            <property name="snap_to_ticks">True</property>
+                                            <property name="numeric">True</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="right_attach">2</property>
+                                            <property name="x_options">GTK_FILL</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkLabel" id="label18">
+                                            <property name="visible">True</property>
+                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                            <property name="xalign">0</property>
+                                            <property name="label" translatable="yes">Maximum Connections:</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="x_options">GTK_FILL</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkLabel" id="label24">
+                                            <property name="visible">True</property>
+                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                            <property name="xalign">0</property>
+                                            <property name="label" translatable="yes">Maximum Upload Slots:</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="top_attach">1</property>
+                                            <property name="bottom_attach">2</property>
+                                            <property name="x_options">GTK_FILL</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkLabel" id="label31">
+                                            <property name="visible">True</property>
+                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                            <property name="xalign">0</property>
+                                            <property name="label" translatable="yes">Maximum Download Speed (KiB/s):</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="top_attach">2</property>
+                                            <property name="bottom_attach">3</property>
+                                            <property name="x_options">GTK_FILL</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkLabel" id="label32">
+                                            <property name="visible">True</property>
+                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                            <property name="xalign">0</property>
+                                            <property name="label" translatable="yes">Maximum Upload Speed (KiB/s):</property>
+                                          </widget>
+                                          <packing>
                                             <property name="top_attach">3</property>
                                             <property name="bottom_attach">4</property>
                                             <property name="x_options">GTK_FILL</property>
@@ -1447,87 +1514,20 @@ Disabled</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <widget class="GtkLabel" id="label32">
-                                            <property name="visible">True</property>
-                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">Maximum Upload Speed (KiB/s):</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="top_attach">3</property>
-                                            <property name="bottom_attach">4</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkLabel" id="label31">
-                                            <property name="visible">True</property>
-                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">Maximum Download Speed (KiB/s):</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="top_attach">2</property>
-                                            <property name="bottom_attach">3</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkLabel" id="label24">
-                                            <property name="visible">True</property>
-                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">Maximum Upload Slots:</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkLabel" id="label18">
-                                            <property name="visible">True</property>
-                                            <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">Maximum Connections:</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="x_options">GTK_FILL</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkSpinButton" id="spin_max_connections_per_torrent">
+                                          <widget class="GtkSpinButton" id="spin_max_upload_per_torrent">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip" translatable="yes">The maximum number of connections per torrent.  Set -1 for unlimited.</property>
                                             <property name="xalign">1</property>
                                             <property name="adjustment">-1 -1 9000 1 10 10</property>
-                                            <property name="snap_to_ticks">True</property>
+                                            <property name="digits">1</property>
                                             <property name="numeric">True</property>
                                           </widget>
                                           <packing>
                                             <property name="left_attach">1</property>
                                             <property name="right_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkSpinButton" id="spin_max_upload_slots_per_torrent">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="tooltip" translatable="yes">The maximum upload slots per torrent.  Set -1 for unlimited.</property>
-                                            <property name="xalign">1</property>
-                                            <property name="adjustment">-1 -1 9000 1 10 10</property>
-                                            <property name="climb_rate">1</property>
-                                            <property name="snap_to_ticks">True</property>
-                                            <property name="numeric">True</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                            <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
+                                            <property name="top_attach">3</property>
+                                            <property name="bottom_attach">4</property>
                                             <property name="x_options">GTK_FILL</property>
                                           </packing>
                                         </child>
@@ -2356,15 +2356,59 @@ Disabled</property>
                                                 <property name="n_columns">2</property>
                                                 <property name="column_spacing">10</property>
                                                 <child>
-                                                  <widget class="GtkLabel" id="label42">
+                                                  <widget class="GtkSpinButton" id="spin_active">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                                    <property name="xalign">1</property>
+                                                    <property name="adjustment">0 -1 9999 1 10 10</property>
+                                                    <property name="snap_to_ticks">True</property>
+                                                    <property name="numeric">True</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="left_attach">1</property>
+                                                    <property name="right_attach">2</property>
+                                                    <property name="x_options"></property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkSpinButton" id="spin_seeding">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                                    <property name="xalign">1</property>
+                                                    <property name="adjustment">0 -1 9999 1 10 10</property>
+                                                    <property name="snap_to_ticks">True</property>
+                                                    <property name="numeric">True</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="left_attach">1</property>
+                                                    <property name="right_attach">2</property>
+                                                    <property name="top_attach">2</property>
+                                                    <property name="bottom_attach">3</property>
+                                                    <property name="x_options"></property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label27">
+                                                    <property name="visible">True</property>
+                                                    <property name="xalign">0</property>
+                                                    <property name="label" translatable="yes">Total active seeding:</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="top_attach">2</property>
+                                                    <property name="bottom_attach">3</property>
+                                                    <property name="x_options">GTK_FILL</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label48">
                                                     <property name="visible">True</property>
                                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label" translatable="yes">Total active downloading:</property>
+                                                    <property name="label" translatable="yes">Total active:</property>
                                                   </widget>
                                                   <packing>
-                                                    <property name="top_attach">1</property>
-                                                    <property name="bottom_attach">2</property>
                                                     <property name="x_options">GTK_FILL</property>
                                                   </packing>
                                                 </child>
@@ -2387,60 +2431,16 @@ Disabled</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkLabel" id="label48">
+                                                  <widget class="GtkLabel" id="label42">
                                                     <property name="visible">True</property>
                                                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                                                     <property name="xalign">0</property>
-                                                    <property name="label" translatable="yes">Total active:</property>
+                                                    <property name="label" translatable="yes">Total active downloading:</property>
                                                   </widget>
                                                   <packing>
+                                                    <property name="top_attach">1</property>
+                                                    <property name="bottom_attach">2</property>
                                                     <property name="x_options">GTK_FILL</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label27">
-                                                    <property name="visible">True</property>
-                                                    <property name="xalign">0</property>
-                                                    <property name="label" translatable="yes">Total active seeding:</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="top_attach">2</property>
-                                                    <property name="bottom_attach">3</property>
-                                                    <property name="x_options">GTK_FILL</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkSpinButton" id="spin_seeding">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                                    <property name="xalign">1</property>
-                                                    <property name="adjustment">0 -1 9999 1 10 10</property>
-                                                    <property name="snap_to_ticks">True</property>
-                                                    <property name="numeric">True</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="left_attach">1</property>
-                                                    <property name="right_attach">2</property>
-                                                    <property name="top_attach">2</property>
-                                                    <property name="bottom_attach">3</property>
-                                                    <property name="x_options"></property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkSpinButton" id="spin_active">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                                    <property name="xalign">1</property>
-                                                    <property name="adjustment">0 -1 9999 1 10 10</property>
-                                                    <property name="snap_to_ticks">True</property>
-                                                    <property name="numeric">True</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="left_attach">1</property>
-                                                    <property name="right_attach">2</property>
-                                                    <property name="x_options"></property>
                                                   </packing>
                                                 </child>
                                               </widget>
@@ -2503,18 +2503,51 @@ Disabled</property>
                                                 <property name="n_columns">2</property>
                                                 <property name="column_spacing">10</property>
                                                 <child>
-                                                  <widget class="GtkSpinButton" id="spin_seed_time_limit">
+                                                  <widget class="GtkLabel" id="label53">
+                                                    <property name="visible">True</property>
+                                                    <property name="xalign">0</property>
+                                                    <property name="label" translatable="yes">Share Ratio Limit:</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="x_options">GTK_FILL</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label54">
+                                                    <property name="visible">True</property>
+                                                    <property name="xalign">0</property>
+                                                    <property name="label" translatable="yes">Seed Time Ratio:</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="top_attach">1</property>
+                                                    <property name="bottom_attach">2</property>
+                                                    <property name="x_options">GTK_FILL</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkLabel" id="label55">
+                                                    <property name="visible">True</property>
+                                                    <property name="xalign">0</property>
+                                                    <property name="label" translatable="yes">Seed Time (m):</property>
+                                                  </widget>
+                                                  <packing>
+                                                    <property name="top_attach">2</property>
+                                                    <property name="bottom_attach">3</property>
+                                                    <property name="x_options">GTK_FILL</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <widget class="GtkSpinButton" id="spin_share_ratio_limit">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="width_chars">6</property>
                                                     <property name="xalign">1</property>
-                                                    <property name="adjustment">6 -1 100 1 10 10</property>
+                                                    <property name="adjustment">1.5 -1 100 0.10000000000000001 10 10</property>
+                                                    <property name="digits">2</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="left_attach">1</property>
                                                     <property name="right_attach">2</property>
-                                                    <property name="top_attach">2</property>
-                                                    <property name="bottom_attach">3</property>
                                                     <property name="x_options"></property>
                                                   </packing>
                                                 </child>
@@ -2536,52 +2569,19 @@ Disabled</property>
                                                   </packing>
                                                 </child>
                                                 <child>
-                                                  <widget class="GtkSpinButton" id="spin_share_ratio_limit">
+                                                  <widget class="GtkSpinButton" id="spin_seed_time_limit">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">True</property>
                                                     <property name="width_chars">6</property>
                                                     <property name="xalign">1</property>
-                                                    <property name="adjustment">1.5 -1 100 0.10000000000000001 10 10</property>
-                                                    <property name="digits">2</property>
+                                                    <property name="adjustment">6 -1 100 1 10 10</property>
                                                   </widget>
                                                   <packing>
                                                     <property name="left_attach">1</property>
                                                     <property name="right_attach">2</property>
-                                                    <property name="x_options"></property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label55">
-                                                    <property name="visible">True</property>
-                                                    <property name="xalign">0</property>
-                                                    <property name="label" translatable="yes">Seed Time (m):</property>
-                                                  </widget>
-                                                  <packing>
                                                     <property name="top_attach">2</property>
                                                     <property name="bottom_attach">3</property>
-                                                    <property name="x_options">GTK_FILL</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label54">
-                                                    <property name="visible">True</property>
-                                                    <property name="xalign">0</property>
-                                                    <property name="label" translatable="yes">Seed Time Ratio:</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="top_attach">1</property>
-                                                    <property name="bottom_attach">2</property>
-                                                    <property name="x_options">GTK_FILL</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <widget class="GtkLabel" id="label53">
-                                                    <property name="visible">True</property>
-                                                    <property name="xalign">0</property>
-                                                    <property name="label" translatable="yes">Share Ratio Limit:</property>
-                                                  </widget>
-                                                  <packing>
-                                                    <property name="x_options">GTK_FILL</property>
+                                                    <property name="x_options"></property>
                                                   </packing>
                                                 </child>
                                               </widget>
@@ -2730,6 +2730,15 @@ Disabled</property>
                               </packing>
                             </child>
                             <child>
+                              <widget class="GtkHSeparator" id="hseparator6">
+                                <property name="visible">True</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
                               <widget class="GtkTable" id="table5">
                                 <property name="visible">True</property>
                                 <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -2791,21 +2800,6 @@ HTTP W/ Auth</property>
                                     <property name="right_attach">2</property>
                                     <property name="top_attach">2</property>
                                     <property name="bottom_attach">3</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkSpinButton" id="spin_proxy_port">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                    <property name="adjustment">0 0 65000 1 10 10</property>
-                                    <property name="numeric">True</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="top_attach">4</property>
-                                    <property name="bottom_attach">5</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -2889,6 +2883,21 @@ HTTP W/ Auth</property>
                                   </packing>
                                 </child>
                                 <child>
+                                  <widget class="GtkSpinButton" id="spin_proxy_port">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                    <property name="adjustment">0 0 65000 1 10 10</property>
+                                    <property name="numeric">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">4</property>
+                                    <property name="bottom_attach">5</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <widget class="GtkAlignment" id="alignment33">
                                     <property name="visible">True</property>
                                     <property name="left_padding">10</property>
@@ -2908,11 +2917,8 @@ HTTP W/ Auth</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
-                                <property name="position">1</property>
+                                <property name="position">2</property>
                               </packing>
-                            </child>
-                            <child>
-                              <placeholder/>
                             </child>
                           </widget>
                         </child>
@@ -2952,6 +2958,15 @@ HTTP W/ Auth</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkHSeparator" id="hseparator10">
+                                <property name="visible">True</property>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="position">1</property>
                               </packing>
                             </child>
                             <child>
@@ -3207,7 +3222,7 @@ HTTP W/ Auth</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
-                                <property name="position">1</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                           </widget>
