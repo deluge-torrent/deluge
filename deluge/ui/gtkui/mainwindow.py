@@ -82,12 +82,7 @@ class MainWindow(component.Component):
                self.config["enable_system_tray"]) and not \
                 self.window.get_property("visible"):
             log.debug("Showing window")
-            self.show()    def on_drag_data_received_event(self, widget, drag_context, x, y, selection_data, info, timestamp):
-        args = []
-        for uri in selection_data.data.split():
-            args.append(urllib.unquote(urlparse(uri).path))
-        process_args(args)
-        drag_context.finish(True, True)
+            self.show()
 
     def show(self):
         try:
