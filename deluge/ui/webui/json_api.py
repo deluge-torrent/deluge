@@ -229,7 +229,6 @@ class json_rpc:
                         value = float(value)
                     except:
                         pass
-                print
                 func = getattr(sclient, 'set_torrent_' + option)
                 func(torrent_id, value)
 
