@@ -36,10 +36,13 @@ pygtk.require('2.0')
 import gtk, gtk.glade
 import gobject
 import pkg_resources
+from urlparse import urlparse
+import urllib
 
 from deluge.ui.client import aclient as client
 import deluge.component as component
 from deluge.configmanager import ConfigManager
+from deluge.ui.gtkui.ipcinterface import process_arg
 
 import deluge.common
 
@@ -65,17 +68,26 @@ class MainWindow(component.Component):
         # UI when it is minimized.
         self.is_minimized = False
 
+        self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 
+            80)], gtk.gdk.ACTION_COPY)
+            
         # Connect events
         self.window.connect("window-state-event", self.on_window_state_event)
         self.window.connect("configure-event", self.on_window_configure_event)
         self.window.connect("delete-event", self.on_window_delete_event)
+        self.window.connect("drag-data-received", self.on_drag_data_received_event)
         self.vpaned.connect("notify::position", self.on_vpaned_position_event)
 
         if not(self.config["start_in_tray"] and \
                self.config["enable_system_tray"]) and not \
                 self.window.get_property("visible"):
             log.debug("Showing window")
-            self.show()
+            self.show()    def on_drag_data_received_event(self, widget, drag_context, x, y, selection_data, info, timestamp):
+        args = []
+        for uri in selection_data.data.split():
+            args.append(urllib.unquote(urlparse(uri).path))
+        process_args(args)
+        drag_context.finish(True, True)
 
     def show(self):
         try:
@@ -139,7 +151,7 @@ class MainWindow(component.Component):
         if self.config["window_maximized"] == True:
             self.window.maximize()
         self.vpaned.set_position(
-            self.config["window_height"] - self.config["window_pane_position"])
+            self.config["window_heighfrom deluge.ui.gtkui.ipcinterface import process_argt"] - self.config["window_pane_position"])
             
     def on_window_configure_event(self, widget, event):
         if self.config["window_maximized"] == False and self.visible:
@@ -183,3 +195,9 @@ class MainWindow(component.Component):
         self.config.set("window_pane_position", 
             self.config["window_height"] - self.vpaned.get_position())
 
+    def on_drag_data_received_event(self, widget, drag_context, x, y, selection_data, info, timestamp):
+        args = []
+        for uri in selection_data.data.split():
+            args.append(urllib.unquote(urlparse(uri).path))
+        process_args(args)
+        drag_context.finish(True, True)

@@ -182,6 +182,8 @@ class TorrentView(listview.ListView, component.Component):
         # changes.
         self.treeview.get_selection().connect("changed", 
                                     self.on_selection_changed)
+                                    
+        self.treeview.connect("drag-drop", self.on_drag_drop)
                                   
     def start(self):
         """Start the torrentview"""
@@ -466,3 +468,6 @@ class TorrentView(listview.ListView, component.Component):
         component.get("TorrentDetails").update()
         component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
+        
+    def on_drag_drop(self, widget, drag_context, x, y, timestamp):
+        widget.stop_emission("drag-drop")
