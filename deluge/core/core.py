@@ -342,6 +342,8 @@ class Core(
         """This is called by a thread from shutdown()"""
         log.info("Shutting down core..")
         self._should_shutdown = True
+        # Shutdown dht
+        self._on_set_dht(False, False)
         # Shutdown the socket
         try:
             self.socket.shutdown(socket.SHUT_RDWR)
@@ -765,12 +767,32 @@ class Core(
     
     def _on_set_dht(self, key, value):
         log.debug("dht value set to %s", value)
+        state_file = deluge.common.get_default_config_dir('dht.state')
         if value:
-            self.session.start_dht(None)
+            if os.path.exists(state_file):
+                try:
+                    dht_data = open(state_file, 'rb')
+                    state_contents = dht_data.readlines()
+                    dht_data.close()
+                except IOError:
+                    log.warning("failed to read dht state file")
+            else:
+                state_contents = None
+            try:
+                self.session.start_dht(state_contents)
+            except:
+                log.warning("restoring old dht state failed")
+                self.session.start_dht(None)
             self.session.add_dht_router("router.bittorrent.com", 6881)
             self.session.add_dht_router("router.utorrent.com", 6881)
             self.session.add_dht_router("router.bitcomet.com", 6881)
         else:
+            try:
+                dht_data = open(state_file, 'wb')
+                dht_data.writelines('%s' % (self.session.dht_state()))
+                dht_data.close()
+            except IOError:
+                log.warning("failed to save dht state to file")
             self.session.stop_dht()
     
     def _on_set_upnp(self, key, value):
