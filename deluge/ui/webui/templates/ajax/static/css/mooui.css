@@ -1,0 +1,156 @@
+/*
+ * Stylesheet: Widgets.PopupMenu.css
+ *
+ * Depends: []
+ */
+
+ul.mooui-menu {
+	position: absolute;
+	z-index: 1000;
+	padding: 0;
+}
+
+ul.mooui-menu li {
+	position: relative;
+	list-style: none;
+	margin: 1px;
+	padding-left: 2px;
+	padding-right: 10px;
+	line-height: 20px;
+	height: 20px;
+	background: no-repeat 2px;
+}
+
+ul.mooui-menu li.mooui-menu-icon {
+	padding-left: 20px;
+}
+
+ul.mooui-menu li.mooui-menu-sep {
+	height: 1px;
+}
+
+ul.mooui-menu li.mooui-menu-toggle input {
+	cursor: pointer;
+}
+
+ul.mooui-menu li.mooui-menu-toggle span span {
+	position: relative;
+	top: -3px;
+}
+
+ul.mooui-menu li > ul {
+	display: none;
+	position: relative;
+	top: -20px;
+	width: 400px;
+}
+
+ul.mooui-menu li:hover {
+	cursor: pointer;
+}
+
+ul.mooui-menu li:hover > ul {	
+	display: block;
+}
+
+ul.mooui-menu li.mooui-menu-sep:hover {
+	cursor: default;
+}
+
+/*
+ * Stylesheet: Widgets.ProgressBar.css
+ *
+ * Depends: []
+ */
+
+.mooui-progressbar span {
+	text-align: center;
+	float: left;
+}
+
+/*
+ * Stylesheet: Widgets.SplitPane.css
+ *
+ * Depends: []
+ */
+
+.mooui-pane {
+	position: absolute;
+}
+
+.mooui-splitter {
+	position: absolute;
+	background: Gray;
+}
+
+.mooui-splitter-vertical {
+	cursor: e-resize;
+}
+
+.mooui-splitter-horizontal {
+	cursor: n-resize;
+}
+
+/*
+ * Stylesheet: Widgets.SplitPane.css
+ *
+ * Depends: []
+ */
+
+.mooui-tabs ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.mooui-tabs li {
+	float: left;
+	padding: 4px;
+	cursor: pointer;
+	height: 14px;
+	-moz-border-radius: 5px 5px 0 0;
+}
+
+.mooui-tabs div {
+	clear: left;
+}
+
+.mooui-tabpage {
+	display: none;	
+}
+
+.mooui-tabpage-active {
+	display: block;
+}
+
+/*
+ * Stylesheet: Widgets.Window.css
+ *
+ * Depends: []
+ */
+
+.mooui-window {
+	position: fixed;
+	top: 0px;
+	left: 200px;
+	z-index: 100;
+}
+
+.mooui-window-title {
+	margin: 10px;
+	cursor: pointer;
+	float: left;
+}
+
+.mooui-window-close {
+	float: right;
+	width: 16px;
+	height: 16px;
+	margin: 5px;
+	cursor: pointer;
+}
+
+.mooui-window-content {
+	clear: both;
+	padding: 5px;
+}

@@ -1,0 +1,31 @@
+<form>
+	<fieldset>
+		<legend>$_('Template')</legend>
+		<label>$_('Template')</label>
+		<select name="template">
+			
+		</select><br/>
+		<label id="lbl_theme">$_('Theme')</label>
+		<select name="theme">
+			<option value="classic">Classic</option>
+			<option value="white">White</option>
+		</select><br/>
+		<label>$_('Button Style')</label>
+		<select name="button_style">
+			<option value="0">$_('Text and Image')</option>
+			<option value="1">$_('Image Only')</option>
+			<option value="2">$_('Text Only')</option>
+		</select><br/>
+		<label><input type="checkbox" name="cache_templates" /> $_('Cache Templates')</label><br/>
+	</fieldset>
+	<fieldset>
+		<legend>$_('Server')</legend>
+		<label>$_('Port')</label><input type="text" name="port" /><br/>
+	</fieldset>
+	<fieldset>
+		<legend>$_('Password')</legend>
+		<label>$_('Current Password')</label><input type="password" /><br/>
+		<label>$_('New Password')</label><input type="password" /><br/>
+		<label>$_('New Password (Confirm)')</label><input type="password" /><br/>
+	</fieldset>
+</form>

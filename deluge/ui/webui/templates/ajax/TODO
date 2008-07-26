@@ -1,0 +1,8 @@
+[features]
+ Improve torrent adding to include options, file upload
+ Implement the Options Menu
+ Implement the connection manager
+
+[bugs]
+ If a torrent is removed from the core it continues to try and get details
+ 	if it was the selected torrent.

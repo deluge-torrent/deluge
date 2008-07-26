@@ -1,0 +1,26 @@
+<form>
+	<fieldset>
+		<legend>$_('Bandwidth')</legend>
+		<label>$_('Max Download Speed')</label><input type="text" name="max_download_speed" size="3" /> KiB/s<br />
+		<label>$_('Max Upload Speed')</label><input type="text" name="max_upload_speed" size="3" /> KiB/s<br />
+		<label>$_('Max Connections')</label><input type="text" name="max_connections" size="3" /><br />
+		<label>$_('Max Upload Slots')</label><input type="text" name="max_upload_slots" size="3" /><br />
+	</fieldset>
+
+	<fieldset>
+		<legend>$_('Queue')</legend>
+		<label><input type="checkbox" name="is_auto_managed" />$_('Auto Managed')</label><br />
+		<label><input type="checkbox" name="stop_at_ratio" />$_('Stop seed at ratio')</label><input type="text" name="stop_ratio" size="3" value="2.00" /><br />
+		<label><input type="checkbox" name="remove_at_ratio" />$_('Remove at ratio')</label><br />
+	</fieldset>
+
+	<fieldset>
+		<legend>$_('General')</legend>
+		<label><input type="checkbox" name="private" />$_('Private')</label><br />
+		<label><input type="checkbox" name="prioritize_first_last" />$_('Prioritize First/Last')</label><br />
+		<input type="button" name="edit_trackers" value="$_('Edit Trackers')" class="deluge_button" /><br />
+		<input type="button" name="reset" value="$_('Reset')" class="deluge_button" />
+		<input type="button" name="apply" value="$_('Apply')" class="deluge_button" /><br/>
+	</fieldset>
+</form>
+<br style="clear: both;" />

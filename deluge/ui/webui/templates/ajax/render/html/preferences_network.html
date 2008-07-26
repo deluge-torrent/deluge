@@ -1,0 +1,40 @@
+<form>
+	<fieldset>
+		<legend>$_('Ports')</legend>
+		<label class="fluid">$_('From'):</label><input type="text" class="mooui-spinner" /><label class="fluid">$_('To'):</label><input type="text" class="mooui-spinner" /><br/>
+		<label><input type="checkbox" name="random_port" />$_('Use Random Ports')</label>
+	</fieldset>
+	<fieldset>
+		<legend>$_('DHT')</legend>
+		<label><input type="checkbox" name="dht" />$_('Enable Mainline DHT')</label>
+	</fieldset>
+	<fieldset>
+		<legend>$_('Network Extras')</legend>
+		<label><input type="checkbox" name="upnp" />$_('UPnP')</label>
+		<label><input type="checkbox" name="natpmp" />$_('NAT-PMP')</label>
+		<label><input type="checkbox" name="utpex" />$_('Peer Exchange')</label>
+		<label><input type="checkbox" name="lsd" />$_('LSD')</label>
+	</fieldset>
+	<fieldset>
+		<legend>$_('Encryption')</legend>
+		<label>$_('Inbound'):</label>
+		<select name="enc_in_policy">
+			<option value="0">$_('Forced')</option>
+			<option value="1">$_('Enabled')</option>
+			<option value="2">$_('Disabled')</option>
+		</select><br/>
+		<label>$_('Outbound'):</label>
+		<select name="enc_out_policy">
+			<option value="0">$_('Forced')</option>
+			<option value="1">$_('Enabled')</option>
+			<option value="2">$_('Disabled')</option>
+		</select><br/>
+		<label>$_('Level'):</label>
+		<select name="enc_level">
+			<option value="0">$_('Handshake')</option>
+			<option value="1">$_('Full Stream')</option>
+			<option value="2">$_('Either')</option>
+		</select><br/>
+		<label><input type="checkbox" name="enc_prefer_rc4" />$_('Encrypt entire stream')</label>
+	</fieldset>
+</form>

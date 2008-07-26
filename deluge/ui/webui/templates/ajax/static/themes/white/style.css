@@ -1,0 +1,341 @@
+/*
+
+-----------------------------------------------------------
+
+Theme Name: Ajax White
+Theme URI: http://deluge-torrent.org
+Description: Deluge Ajax Theme
+Version: 0.1
+-----------------------------------------------------------
+
+*/
+
+
+body {
+	background: #ffffff;
+	font-family: trebuchet ms;
+	font-size: 0.7em;
+}
+
+#toolbar #buttons li:hover {
+	background-color: #C3D9FF;
+}
+
+#toolbar {
+	border-bottom: 1px solid Black;
+	height: 40px;
+}
+
+#toolbar ul, #status ul {
+	margin: 0;
+	padding: 0;
+	display: inline;
+	list-style: none;
+}
+
+#toolbar ul li, #status ul li {
+	float: left;
+	display: block;
+	margin: 2px;
+	background-repeat: no-repeat;
+	background-position: 2px;
+}
+
+#toolbar #buttons {
+	float: left;
+	background: url('/static/images/deluge32.png') no-repeat 2px;
+	height: 40px;
+	padding-left: 140px;
+	width: 320px;
+}
+
+#toolbar #buttons li {
+	width: 36px;
+	height: 36px;
+	-moz-border-radius:5px;
+	-webkit-border-radius: 5px;
+	cursor: pointer;
+}
+
+#toolbar #buttons li:hover {
+	background-color: #E0ECFF;
+}
+
+.info { display: none; }
+
+.title {
+	position: absolute;
+	left: 40px;
+	top: 7px;
+	color: #8fa6c3;
+	padding: 0;
+	margin: 0;
+	line-height: 26px;
+	font-size: 26px;
+}
+
+.mooui-splitter {
+	background: none;
+}
+
+/*.mooui-splitter-vertical {
+	background: url(/template/static/images/split_vertical.png) repeat-y;
+}
+
+.mooui-splitter-horizontal {
+	background: url(/template/static/images/split_horizontal.png) repeat-x;
+}*/
+
+
+#toolbar #buttons #add {background-image:url(/template/static/icons/32/add.png)}
+#toolbar #buttons #remove {background-image:url(/template/static/icons/32/remove.png)}
+#toolbar #buttons #pause {background-image:url(/template/static/icons/32/pause.png)}
+#toolbar #buttons #resume {background-image:url(/template/static/icons/32/resume.png)}
+#toolbar #buttons #up {background-image:url(/template/static/icons/32/up.png)}
+#toolbar #buttons #down {background-image:url(/template/static/icons/32/down.png)}
+#toolbar #buttons #preferences {background-image:url(/template/static/icons/32/options.png)}
+#toolbar #buttons #connections {background-image:url(/template/static/icons/32/connections.png)}
+
+#status #info #connections {background-image:url(/static/images/tango/connections.png)}
+#status #info #downspeed {background-image:url(/pixmaps/downloading16.png)}
+#status #info #upspeed {background-image:url(/pixmaps/seeding16.png)}
+#status #info #dht {background-image:url(/pixmaps/dht16.png)}
+
+#labels .downloading { background-image: url('/pixmaps/downloading16.png'); }
+#labels .seeding { background-image: url('/pixmaps/seeding16.png'); }
+#labels .queued { background-image: url('/pixmaps/queued16.png'); }
+#labels .paused { background-image: url('/pixmaps/inactive16.png'); }
+#labels .error { background-image: url('/pixmaps/alert16.png'); }
+#labels .checking { background-image: url('/pixmaps/inactive16.png'); }
+
+
+#labels {
+	width: 160px;
+	margin: 5px;
+	overflow: auto;
+	background: #b5edbc;
+	-moz-border-radius: 5px;
+}
+
+#labels ul {
+	list-style: none;
+	margin: 5px;
+	padding: 0;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background: White;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+#labels li {
+	background-repeat: no-repeat;
+	background-position: 5px 2px;
+	padding-left: 21px;
+	line-height: 20px;
+}
+#labels li:hover { text-decoration: underline; cursor: pointer; }
+
+#labels .activestate {
+	font-weight: bold;
+}
+
+#labels .activestate:hover {
+	text-decoration: none;
+}
+
+
+.mooui-datagrid {
+	overflow: auto;
+	margin: 5px;
+	border: 4px solid #C3D9FF;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.mooui-datagrid table {
+	/*background: #304663;*/
+	border-spacing: 0px;
+}
+
+.mooui-datagrid table th {
+	font-weight: normal;
+	background: #C3D9FF;
+	margin-bottom: 2px;
+	cursor: pointer;
+}
+
+.mooui-datagrid table td {
+	padding: 2px;
+	border-bottom: 1px solid #1c2431;
+	cursor: pointer;
+}
+.mooui-datagrid table tr.selected td { background: #E0ECFF; }
+.mooui-datagrid table tr:hover td { background: #FFFFCC; }
+
+.mooui-progressbar div {
+	background: #C3D9FF;
+	-moz-border-radius:5px; /*ff only setting*/
+	-webkit-border-radius: 5px;
+}
+
+.mooui-progressbar span {
+	text-align: center;
+}
+
+#details {
+	padding: 5px;
+}
+
+#details .mooui-tabs li {
+	background: #E0ECFF;
+	padding: 7px;
+	font-size: 1.1em;
+}
+
+#details .mooui-tabs li:hover {
+	background: #C3D9FF;
+}
+
+#details li.mooui-tabs-active {
+	background: #C3D9FF;
+}
+
+#details .mooui-tabpage {
+	background: #C3D9FF;
+	padding: 5px;
+	-moz-border-radius:0 5px 5px 5px;
+	-webkit-border-radius: 0 5px 5px 5px;
+	overflow: auto;
+}
+
+#details dl {
+	float: left;
+	min-height: 100px;
+}
+
+#details dl dt {
+	float: left;
+	font-weight: bold;
+	height: 19px;
+}
+
+#details dl dd {
+	margin-left: 100px;
+	width: 140px;
+	height: 19px;
+}
+
+#details dd.downspeed, #details dd.upspeed, #details dd.eta, #details dd.pieces {
+	margin-left: 75px;
+}
+
+#details form br {
+	clear: left;
+}
+
+#details dd.torrent_name {
+	width: 500px;
+}
+
+#details dd.tracker {
+	width: 500px;
+}
+
+#status {
+	height: 40px;
+	background: #E0ECFF;
+	-moz-border-radius: 7px 7px 0px 0px;
+}
+
+.mooui-menu {
+	background: #E0ECFF;
+	border: 1px outset Gray;
+}
+
+ul.mooui-menu li.mooui-menu-sep {
+	background-color: Gray;
+}
+
+ul.mooui-menu li:hover {
+	background-color: #a0a0a0;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+ul.mooui-menu li.mooui-menu-sep:hover {
+	background-color: Gray;
+}
+
+.mooui-window {
+	background: #C3D9FF;
+	border: 1px solid #1c2431;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.mooui-window-close {
+	background-image: url(/template/static/images/window_close.png);
+}
+
+.mooui-window-title {
+	margin: 5px;
+}
+
+/* forms */
+form fieldset {
+	border: none;
+	float: left;
+}
+
+form legend {
+	font-weight: bold;
+}
+
+form label {
+	width: 150px;
+	float: left;
+}
+
+form input {
+	float: left;
+	margin-right: 5px;
+	border:1px solid #23344b;
+	background: #E0ECFF;
+	color: #000;
+}
+
+form textarea {
+	border:1px solid #23344b;
+	background: #E0ECFF;
+	width:480px;
+}
+
+form label.opt-disabled {
+	color: Gray;
+}
+
+form .deluge_button  {
+	background-color: #E0ECFF;
+	border:1px solid #68a;
+	cursor: pointer;
+	background: #E0ECFF;
+	color: #000;
+	vertical-align:middle;
+	-moz-border-radius:7px;
+	margin: 2px;
+	float: left;
+}
+
+form .deluge_button:hover {
+	background-color:#68a;
+}
+
+#addFromUrl label {
+	width: 100px;
+}
+
+#addFromUrl input[type=submit] {
+	margin: 5px;
+	margin-left: 100px;
+}

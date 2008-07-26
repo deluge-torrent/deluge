@@ -1,0 +1,139 @@
+/*
+
+-----------------------------------------------------------
+
+Theme Name: Ajax Base
+Theme URI: http://deluge-torrent.org
+Description: Deluge Ajax Theme
+Version: 0.1
+-----------------------------------------------------------
+
+*/
+
+html, body {
+	padding: 0px;
+	margin: 0px;
+	overflow: hidden;
+}
+
+#details {
+	padding: 5px;
+}
+
+#details .mooui-tabs li {
+	background: #37506f;
+	padding: 7px;
+	font-size: 1.1em;
+}
+
+#details .mooui-tabs li:hover {
+	background: #426187;
+}
+
+#details li.mooui-tabs-active {
+	background: #426187;
+}
+
+#details .mooui-tabpage {
+	background: #426187;
+	padding: 5px;
+	-moz-border-radius:0 5px 5px 5px;
+	-webkit-border-radius: 0 5px 5px 5px;
+	overflow: auto;
+}
+
+#details dl {
+	float: left;
+	min-height: 100px;
+}
+
+#details dl dt {
+	float: left;
+	font-weight: bold;
+	height: 19px;
+}
+
+#details dl dd {
+	margin-left: 100px;
+	width: 140px;
+	height: 19px;
+}
+
+#details dd.downspeed, #details dd.upspeed, #details dd.eta, #details dd.pieces {
+	margin-left: 75px;
+}
+
+#details form br {
+	clear: left;
+}
+
+#details dd.torrent_name, #details dd.tracker, #details dd.path {
+	width: 500px;
+}
+
+#status #info {
+	float: left;
+	margin: 10px;
+}
+
+#status #info li {
+	height: 20px;
+	line-height: 20px;
+	width: 30px;
+	padding-left: 21px;
+}
+
+#status #info #connections {
+	width: 15px;
+}
+
+#status #info #downspeed, #status #info #upspeed {
+	background-position: 4px 2px;
+	margin-right: 25px;
+}
+
+.categories {
+	height: 350px;
+}
+
+.pref_pages {
+	height: 350px;
+}
+
+.deluge-prefs-page {
+	display: none;
+}
+
+.deluge-prefs-page-active {
+	display: block;
+}
+
+.mooui-window-content #preferences .categories {
+	float: left;
+	width: 130px;
+	padding-left: 10px;
+}
+
+.mooui-window-content #preferences .pref_pages {
+	float: left;
+	width: 350px;
+}
+
+.mooui-window-content #preferences .categories ul {
+	list-style: none;
+	padding: 0;
+	padding-left: 10px;
+}
+
+.mooui-window-content #preferences .categories li {
+	cursor: pointer;
+}
+
+.buttons {
+	margin-top: 10px;
+	float: right;
+}
+
+.buttons button {
+	margin-right: 10px;
+}

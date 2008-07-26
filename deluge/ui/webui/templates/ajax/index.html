@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Deluge: AJAX UI (alpha)</title>
+		<link rel="icon" href="$base/static/images/deluge_icon.gif" type="image/gif" />
+		<link rel="shortcut icon" href="$base/static/images/deluge_icon.gif" type="image/gif" />
+		<link rel="stylesheet" type="text/css" href="$base/template/static/css/mooui.css" />
+		<link rel="stylesheet" type="text/css" href="$base/template_style.css" />
+		<script src="$base/template/static/js/mootools-1.2-core.js" type="text/javascript"></script>
+		<script src="$base/template/static/js/mootools-1.2-more.js" type="text/javascript"></script>
+		<script src="$base/template/static/js/Rpc.js" type="text/javascript"></script>
+		<script src="$base/template/static/js/mooui.js" type="text/javascript"></script>
+		<script src="$base/template/static/js/deluge.widgets.js" type="text/javascript"></script>
+		<script src="$base/template/static/js/deluge.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<div id="page">
+			<div id="toolbar">
+				<ul id="buttons">
+					<li id="add" title="Add Torrent" />
+					<li id="remove" title="Remove Torrent" />
+					<li id="pause" title="Pause Torrent" />
+					<li id="resume" title="Resume Torrent" />
+					<li id="up" title="Move Torrent Up" />
+					<li id="down" title="Move Torrent Down" />
+					<li id="preferences" title="Preferences" />
+					<li id="connections" title="Connection Manager" />
+				</ul>
+				<div class="title">Deluge</div>
+    			<div class="info">AJAX UI (alpha)</div>
+			</div>
+			<div id="main">
+				<div id="top">
+					<div id="labels"></div>
+					<div id="torrents"></div>
+				</div>
+				<div id="details">
+					<div class="mooui-tabs"></div>
+				</div>
+			</div>
+			<div id="status">
+				<ul id="info">
+					<li id="connections" />
+					<li id="downspeed" />
+					<li id="upspeed" />
+					<li id="dht" />
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>

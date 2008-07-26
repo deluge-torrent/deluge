@@ -1,0 +1,296 @@
+/*
+
+-----------------------------------------------------------
+
+Theme Name: Ajax Classic
+Theme URI: http://deluge-torrent.org
+Description: Deluge Ajax Theme
+Version: 0.1
+-----------------------------------------------------------
+
+*/
+
+body {
+	background: #304663 url(/static/images/simple_bg.jpg) repeat-x;
+	font-family: trebuchet ms;
+	font-size: 0.7em;
+	color: White;
+}
+
+#toolbar {
+	background: url(/static/images/simple_line.jpg) repeat-x 0px 69px;
+	height: 75px;
+}
+
+#toolbar ul, #status ul {
+	margin: 0;
+	padding: 0;
+	display: inline;
+	list-style: none;
+}
+
+#toolbar ul li, #status ul li {
+	float: left;
+	display: block;
+	margin: 2px;
+	background-repeat: no-repeat;
+	background-position: 2px;
+}
+
+#toolbar #buttons {
+	float: left;
+	background: url('/static/images/simple_logo.jpg') no-repeat;
+	height: 71px;
+	padding-left: 60px;
+	width: 320px;
+}
+
+#toolbar #buttons li {
+	width: 36px;
+	height: 36px;
+	-moz-border-radius:5px;
+	-webkit-border-radius: 5px;
+	cursor: pointer;
+	margin-top: 30px;
+}
+
+#toolbar #buttons li:hover {
+	background-color: #386594;
+}
+
+.info {
+	text-align: right;
+	padding: 0 50px 0 0;
+	color: #8fa6c3;
+	font-size: 16px;
+	letter-spacing: 4px;
+	font-weight: bold;
+}
+
+.title {
+	color: #dce4ee;
+	font-size: 32px;
+	padding: 10px 50px 0 0;
+	text-align: right;
+}
+
+.mooui-splitter {
+	background: none;
+}
+
+.mooui-splitter-vertical {
+	background: url(split_vertical.png) repeat-y;
+}
+
+.mooui-splitter-horizontal {
+	background: url(split_horizontal.png) repeat-x;
+}
+
+#toolbar #buttons #add {background-image:url(../../icons/32/add.png)}
+#toolbar #buttons #remove {background-image:url(../../icons/32/remove.png)}
+#toolbar #buttons #pause {background-image:url(../../icons/32/pause.png)}
+#toolbar #buttons #resume {background-image:url(../../icons/32/resume.png)}
+#toolbar #buttons #up {background-image:url(../../icons/32/up.png)}
+#toolbar #buttons #down {background-image:url(../../icons/32/down.png)}
+#toolbar #buttons #preferences {background-image:url(../../icons/32/options.png)}
+#toolbar #buttons #connections {background-image:url(../../icons/32/connections.png)}
+
+#status #info #connections {background-image:url(/static/images/tango/connections.png)}
+#status #info #downspeed {background-image:url(/pixmaps/downloading16.png)}
+#status #info #upspeed {background-image:url(/pixmaps/seeding16.png)}
+#status #info #dht {background-image:url(/pixmaps/dht16.png)}
+
+#labels .downloading { background-image: url('/pixmaps/downloading16.png'); }
+#labels .seeding { background-image: url('/pixmaps/seeding16.png'); }
+#labels .queued { background-image: url('/pixmaps/queued16.png'); }
+#labels .paused { background-image: url('/pixmaps/inactive16.png'); }
+#labels .error { background-image: url('/pixmaps/alert16.png'); }
+#labels .checking { background-image: url('/pixmaps/inactive16.png'); }
+
+#labels {
+	width: 140px;
+	margin: 5px;
+	overflow: auto;
+}
+
+#labels ul {
+	list-style: none;
+	margin: 10px;
+	padding: 0;
+}
+
+#labels li {
+	background-repeat: no-repeat;
+	background-position: 0px 2px;
+	padding-left: 16px;
+	line-height: 20px;
+}
+#labels li:hover { text-decoration: underline; cursor: pointer; }
+
+#labels .activestate {
+	font-weight: bold;
+}
+
+#labels .activestate:hover {
+	text-decoration: none;
+}
+
+.mooui-datagrid {
+	overflow: auto;
+	margin: 5px;
+	border: 1px solid #2a425c;
+}
+
+.mooui-datagrid table {
+	/*background: #304663;*/
+	border-spacing: 0px;
+}
+
+.mooui-datagrid table th {
+	font-weight: normal;
+	border: 1px outset #1c2431;
+	margin-bottom: 2px;
+	cursor: pointer;
+}
+
+.mooui-datagrid table td {
+	padding: 2px;
+	border-bottom: 1px solid #1c2431;
+	cursor: pointer;
+}
+.mooui-datagrid table tr.selected td { background: #900; }
+.mooui-datagrid table tr:hover td { background: #68a; }
+
+.mooui-progressbar div {
+	background: #4573a5;
+	-moz-border-radius:5px; /*ff only setting*/
+	-webkit-border-radius: 5px;
+}
+
+.mooui-progressbar span {
+	text-align: center;
+}
+
+#status {
+	height: 40px;
+	background: #1c2431 url(simple_line_flipped.png) repeat-x;
+}
+
+.mooui-menu {
+	background: #304663 url(menu_bg.jpg) repeat-x;
+	border: 1px outset #37506f;
+}
+
+ul.mooui-menu li.mooui-menu-sep {
+	background-color: #aaa;
+}
+
+ul.mooui-menu li:hover {
+	background-color: #426187;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+ul.mooui-menu li.mooui-menu-sep:hover {
+	background-color: #aaa;
+}
+
+.mooui-window {
+	background: #426187;
+	border: 1px solid #1c2431;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.mooui-window-close {
+	background-image: url(window_close.png);
+}
+
+.mooui-window-title {
+	margin: 5px;
+}
+
+/* forms */
+form fieldset {
+	border: none;
+	float: left;
+}
+
+form legend {
+	font-weight: bold;
+}
+
+form label {
+	width: 150px;
+	line-height: 20px;
+	float: left;
+}
+
+form input, form select {
+	float: left;
+	margin-right: 5px;
+	border:1px solid #23344b;
+	background: #99acc3;
+	color: #000;
+	line-height: 20px;
+}
+
+form textarea {
+	border:1px solid #23344b;
+	background: #99acc3;
+	width:480px;
+}
+
+form .disabled {
+	color: Gray;
+}
+
+form .deluge_button, button.deluge_button  {
+	background-color: #37506f;
+	border:1px solid #68a;
+	cursor: pointer;
+	background: #99acc3;
+	color: #000;
+	vertical-align:middle;
+	-moz-border-radius:7px;
+	margin: 2px;
+}
+
+form .deluge_button:hover, button.deluge_button:hover {
+	background-color:#68a;
+}
+
+form br {
+	clear: left;
+}
+
+#addFromUrl label {
+	width: 100px;
+}
+
+#addFromUrl #url {
+	width: 250px;
+}
+
+#addFromUrl .deluge_button {
+	margin: 5px;
+	margin-left: 100px;
+}
+
+.mooui-window-content #preferences .categories li:hover {
+	text-decoration: underline;
+}
+
+.deluge-prefs-active {
+	font-weight: bold;
+}
+
+.mooui-spinner {
+	width: 40px;
+	margin-right: 20px;
+}
+
+label.fluid {
+	width: auto;
+	margin-right: 30px;
+}
