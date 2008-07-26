@@ -267,7 +267,7 @@ class Preferences(component.Component):
                 "combo_proxy_type": ("active", self.core_config["proxy_type"]),
                 "txt_proxy_server": ("text", self.core_config["proxy_server"]),
                 "txt_proxy_username": ("text", self.core_config["proxy_username"]),
-                "txt_proxy_password": ("text", self.core_config["proxy_password"])
+                "txt_proxy_password": ("text", self.core_config["proxy_password"]),
             }
             
             # Change a few widgets if we're connected to a remote host
@@ -416,7 +416,33 @@ class Preferences(component.Component):
         ## Other tab ##
         self.glade.get_widget("chk_show_new_releases").set_active(
             self.gtkui_config["show_new_releases"])
-            
+
+        ## Notification tab ##
+        self.glade.get_widget("chk_ntf_tray_blink").set_active(
+            self.gtkui_config["ntf_tray_blink"])
+        self.glade.get_widget("chk_ntf_popup").set_active(
+            self.gtkui_config["ntf_popup"])
+        self.glade.get_widget("chk_ntf_email").set_active(
+            self.gtkui_config["ntf_email"])
+        self.glade.get_widget("chk_ntf_sound").set_active(
+            self.gtkui_config["ntf_sound"])
+        self.glade.get_widget("combo_ntf_sound_path").set_filename(
+            self.gtkui_config["ntf_sound_path"])
+        self.glade.get_widget("txt_ntf_email").set_text(
+            self.gtkui_config["ntf_email_add"])
+        self.glade.get_widget("txt_ntf_server").set_text(
+            self.gtkui_config["ntf_server"])
+        self.glade.get_widget("txt_ntf_username").set_text(
+            self.gtkui_config["ntf_username"])
+        self.glade.get_widget("txt_ntf_pass").set_text(
+            self.gtkui_config["ntf_pass"])
+        if not self.gtkui_config["ntf_security"]:
+            self.glade.get_widget("rad_ntf_none").set_active(True)
+        elif self.gtkui_config["ntf_security"] == 'SSL':
+            self.glade.get_widget("rad_ntf_none").set_active(True)
+        elif self.gtkui_config["ntf_security"] == 'TLS':
+            self.glade.get_widget("rad_ntf_tls").set_active(True)
+
         ## Plugins tab ##
         all_plugins = self.all_plugins
         enabled_plugins = self.enabled_plugins
@@ -558,6 +584,32 @@ class Preferences(component.Component):
             new_gtkui_config["tray_password"] = passhex
         new_gtkui_config["classic_mode"] = \
             self.glade.get_widget("chk_classic_mode").get_active()
+
+        ## Notification tab ##
+        new_gtkui_config["ntf_tray_blink"] = \
+            self.glade.get_widget("chk_ntf_tray_blink").get_active()
+        new_gtkui_config["ntf_popup"] = \
+            self.glade.get_widget("chk_ntf_popup").get_active()
+        new_gtkui_config["ntf_sound"] = \
+            self.glade.get_widget("chk_ntf_sound").get_active()
+        new_gtkui_config["ntf_email"] = \
+            self.glade.get_widget("chk_ntf_email").get_active()
+        new_gtkui_config["ntf_email_add"] = \
+            self.glade.get_widget("txt_ntf_email").get_text()
+        new_gtkui_config["ntf_username"] = \
+            self.glade.get_widget("txt_ntf_username").get_text()
+        new_gtkui_config["ntf_pass"] = \
+            self.glade.get_widget("txt_ntf_pass").get_text()
+        new_gtkui_config["ntf_server"] = \
+            self.glade.get_widget("txt_ntf_server").get_text()
+        new_gtkui_config["ntf_sound_path"] = \
+                self.glade.get_widget("combo_ntf_sound_path").get_filename()
+        if self.glade.get_widget("rad_ntf_none").get_active():
+            new_gtkui_config["ntf_security"] = None
+        elif self.glade.get_widget("rad_ntf_ssl").get_active():
+            new_gtkui_config["ntf_security"] = 'SSL'
+        elif self.glade.get_widget("rad_ntf_tls").get_active():
+            new_gtkui_config["ntf_security"] = 'TLS'
         
         ## Other tab ##    
         new_gtkui_config["show_new_releases"] = \
@@ -584,7 +636,7 @@ class Preferences(component.Component):
             self.glade.get_widget("txt_proxy_password").get_text()
         new_core_config["proxy_server"] = \
             self.glade.get_widget("txt_proxy_server").get_text()
-                    
+
         ## Queue tab ##
         new_core_config["queue_new_to_top"] = \
             self.glade.get_widget("chk_queue_new_top").get_active()
