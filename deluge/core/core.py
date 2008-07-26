@@ -711,11 +711,11 @@ class Core(
         self.config_value_changed(key, value)
         
     def _on_set_torrentfiles_location(self, key, value):
-        # First try to create the new directory
-        try:
-            os.makedirs(value)
-        except Exception, e:
-            log.debug("Unable to make directory: %s", e)
+        if self.config["copy_torrent_file"]:
+            try:
+                os.makedirs(value)
+            except Exception, e:
+                log.debug("Unable to make directory: %s", e)
     
     def _on_set_state_location(self, key, value):
         if not os.access(value, os.F_OK):
