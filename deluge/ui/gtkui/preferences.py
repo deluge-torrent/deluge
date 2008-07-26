@@ -64,7 +64,7 @@ class Preferences(component.Component):
         # Add the default categories
         i = 0
         for category in ["Downloads", "Network", "Bandwidth", "Interface", 
-            "Other", "Daemon", "Queue", "Proxy", "Plugins"]:
+            "Other", "Daemon", "Queue", "Proxy", "Notification", "Plugins"]:
             self.liststore.append([i, category])
             i += 1
 
