@@ -87,21 +87,20 @@ class Notification:
 
     def sound(self):
         """plays a sound when a torrent finishes"""
-        if not deluge.common.windows_check():
+        try:
+            import pygame
+        except:
+            log.warning("pygame is not installed")
+        else:
+            pygame.init()
             try:
-                import pygame
-            except:
-                log.warning("pygame is not installed")
+                alert_sound = pygame.mixer.music
+                alert_sound.load(self.config["ntf_sound_path"])
+                alert_sound.play()
+            except pygame.error, message:
+                log.warning("pygame failed to play because %s" % (message))
             else:
-                pygame.init()
-                try:
-                    alert_sound = pygame.mixer.music
-                    alert_sound.load(self.config["ntf_sound_path"])
-                    alert_sound.play()
-                except pygame.error, message:
-                    log.warning("pygame failed to play because %s" % (message))
-                else:
-                    log.info("sound notification played successfully")
+                log.info("sound notification played successfully")
 
     def email(self, status):
         """sends email notification of finished torrent"""
