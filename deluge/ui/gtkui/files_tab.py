@@ -239,7 +239,7 @@ class FilesTab(Tab):
                             self.listview.move_column_after(column, None)
                         else:
                             self.listview.move_column_after(column, self.listview.get_columns()[column_state.position - 1])
-                    
+
     def update(self):
         # Get the first selected torrent
         torrent_id = component.get("TorrentView").get_selected_torrents()
@@ -376,6 +376,8 @@ class FilesTab(Tab):
     def _on_button_press_event(self, widget, event):
         """This is a callback for showing the right-click context menu."""
         log.debug("on_button_press_event")
+        from deluge.ui.gtkui.notification import Notification
+        Notification().stop_blink()
         # We only care about right-clicks
         if event.button == 3:
             x, y = event.get_coords()

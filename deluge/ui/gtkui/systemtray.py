@@ -234,6 +234,17 @@ class SystemTray(component.Component):
             del self.tray_menu
         except Exception, e:
             log.debug("Unable to disable system tray: %s", e)
+
+    def on_set_tray_flashing_off(self):
+        """makes the tray icon stop blinking"""
+        if self.tray.get_blinking():
+            log.debug("stop blinking the tray icon..")
+            self.tray.set_blinking(False)
+    
+    def on_set_tray_flashing_on(self):
+        """makes the tray icon blink"""
+        log.debug("start blinking the tray icon..")
+        self.tray.set_blinking(True)
     
     def on_enable_system_tray_set(self, key, value):
         """Called whenever the 'enable_system_tray' config key is modified"""
@@ -244,6 +255,7 @@ class SystemTray(component.Component):
     
     def on_tray_clicked(self, icon):
         """Called when the tray icon is left clicked."""
+        self.on_set_tray_flashing_off()
         if self.window.active():
             self.window.hide()
         else:
@@ -254,6 +266,7 @@ class SystemTray(component.Component):
     
     def on_tray_popup(self, status_icon, button, activate_time):
         """Called when the tray icon is right clicked."""
+        self.on_set_tray_flashing_off()
         if self.window.visible():
             self.tray_glade.get_widget("menuitem_show_deluge").set_active(True)
         else:

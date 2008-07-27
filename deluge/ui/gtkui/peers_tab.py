@@ -62,6 +62,8 @@ class PeersTab(Tab):
         self._name = "Peers"
         self._child_widget = glade.get_widget("peers_tab")
         self._tab_label = glade.get_widget("peers_tab_label")
+
+        self._child_widget.connect("button-press-event", self.on_button_press_event)
         
         self.listview = glade.get_widget("peers_listview")
         # country pixbuf, ip, client, downspeed, upspeed, country code, int_ip, seed/peer icon
@@ -147,6 +149,10 @@ class PeersTab(Tab):
         self.load_state()
         
         self.torrent_id = None
+
+    def on_button_press_event(self, widget, event):
+        from deluge.ui.gtkui.notification import Notification
+        Notification().stop_blink()
 
     def save_state(self):
         filename = "peers_tab.state"

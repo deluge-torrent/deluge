@@ -75,6 +75,8 @@ class Signals(component.Component):
             self.args_from_external)
         self.receiver.connect_to_signal("torrent_state_changed",
             self.torrent_state_changed)
+        self.receiver.connect_to_signal("torrent_finished",
+            self.torrent_finished)
             
     def stop(self):
         try:
@@ -86,6 +88,12 @@ class Signals(component.Component):
         """Connects a callback to a signal"""
         self.receiver.connect_to_signal(signal, callback)
             
+    def torrent_finished(self, torrent_id):
+        log.debug("torrent_finished signal received..")
+        log.debug("torrent id: %s", torrent_id)
+        from deluge.ui.gtkui.notification import Notification
+        Notification().notify(torrent_id)
+    
     def torrent_added_signal(self, torrent_id):
         log.debug("torrent_added signal received..")
         log.debug("torrent id: %s", torrent_id)
@@ -146,7 +154,7 @@ class Signals(component.Component):
         if self.config["show_new_releases"]:
             from deluge.ui.gtkui.new_release_dialog import NewReleaseDialog
             NewReleaseDialog().show(value)
-    
+
     def args_from_external(self, value):
         log.debug("args_from_external: %s", value)
         import ipcinterface

@@ -43,6 +43,8 @@ class OptionsTab(Tab):
         self._name = "Options"
         self._child_widget = glade.get_widget("options_tab")
         self._tab_label = glade.get_widget("options_tab_label")
+
+        self._child_widget.connect("button-press-event", self.on_button_press_event)
         
         self.spin_max_download = glade.get_widget("spin_max_download")
         self.spin_max_upload = glade.get_widget("spin_max_upload")
@@ -63,6 +65,10 @@ class OptionsTab(Tab):
             "on_button_edit_trackers_clicked": self._on_button_edit_trackers_clicked
         })
         
+    def on_button_press_event(self, widget, event):
+        from deluge.ui.gtkui.notification import Notification
+        Notification().stop_blink()
+
     def update(self):
         # Get the first selected torrent
         torrent_id = component.get("TorrentView").get_selected_torrents()
