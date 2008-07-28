@@ -42,7 +42,7 @@ import urllib
 from deluge.ui.client import aclient as client
 import deluge.component as component
 from deluge.configmanager import ConfigManager
-from deluge.ui.gtkui.ipcinterface import process_arg
+from deluge.ui.gtkui.ipcinterface import process_args
 
 import deluge.common
 
