@@ -48,10 +48,9 @@ class Signals(component.Component):
         self.config.save()
         
     def start(self):
-        if not client.is_localhost():
-            self.receiver.set_remote(True)
-
+        self.receiver.set_remote(not client.is_localhost())
         self.receiver.run()
+
         self.receiver.connect_to_signal("torrent_added", 
             self.torrent_added_signal)
         self.receiver.connect_to_signal("torrent_removed", 
@@ -83,7 +82,7 @@ class Signals(component.Component):
             self.receiver.shutdown()
         except:
             pass
-    
+        
     def connect_to_signal(self, signal, callback):
         """Connects a callback to a signal"""
         self.receiver.connect_to_signal(signal, callback)

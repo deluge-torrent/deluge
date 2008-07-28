@@ -51,7 +51,6 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
     def __init__(self):
         log.debug("SignalReceiver init..")
         # Set to true so that the receiver thread will exit
-        self._shutdown = False
 
         self.signals = {}
         self.emitted_signals = []
@@ -89,6 +88,7 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
         
     def shutdown(self):
         """Shutdowns receiver thread"""
+        log.debug("Shutting down signalreceiver")
         self._shutdown = True
         # De-register with the daemon so it doesn't try to send us more signals
         try:
@@ -96,8 +96,6 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
             client.force_call()
         except Exception, e:
             log.debug("Unable to deregister client from server: %s", e)
-            
-        log.debug("Shutting down signalreceiver")
 
         self.socket.shutdown(socket.SHUT_RDWR)
         log.debug("Joining listening thread..")
@@ -111,6 +109,7 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
     def run(self):
         """This gets called when we start the thread"""
         # Register the signal receiver with the core
+        self._shutdown = False
         client.register_client(str(self.port))
         
         self.listening_thread = threading.Thread(target=self.handle_thread)
