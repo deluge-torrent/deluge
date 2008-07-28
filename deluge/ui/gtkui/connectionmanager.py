@@ -122,6 +122,8 @@ class ConnectionManager(component.Component):
         self.hostlist.get_selection().connect("changed", 
                                     self.on_selection_changed)
         
+        self.hostlist.connect("row-activated", self._on_row_activated)
+        
         # If classic mode is set, we just start up a localhost daemon and connect to it
         if self.gtkui_config["classic_mode"]:
             uri = "http://localhost:58846"
@@ -510,3 +512,7 @@ class ConnectionManager(component.Component):
     def on_selection_changed(self, treeselection):
         log.debug("on_selection_changed")
         self.update_buttons()
+
+    def _on_row_activated(self, tree, path, view_column): 
+        self.on_button_connect_clicked(self.glade.get_widget("button_connect"))
+        
