@@ -1,4 +1,6 @@
-Deluge 0.9.04 - "1.0.0_RC4" (In Development)
+Deluge 0.9.05 - "1.0.0_RC5" (In Development)
+
+Deluge 0.9.04 - "1.0.0_RC4" (29 July 2008)
  Core:
   * Fix building with gcc 4.3
   * Fix do not create torrentfiles folder unless 'copy_torrent_file' is True
