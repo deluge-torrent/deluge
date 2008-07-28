@@ -1,5 +1,5 @@
-deluge-torrent (0.9.02-1) unstable; urgency=low
+deluge-torrent (0.9.04-1) unstable; urgency=low
 
-  * RC2 release
+  * R42 release
 
- -- Andrew Resch (andar) <andrewresch@gmail.com>  Tue, 17 Jul 2008 16:31:14 -0800
+ -- Andrew Resch (andar) <andrewresch@gmail.com>  Mon, 28 Jul 2008 16:31:14 -0800
