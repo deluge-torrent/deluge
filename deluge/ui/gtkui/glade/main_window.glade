@@ -147,13 +147,12 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="GtkCheckMenuItem" id="menuitem_labels">
-                        <property name="visible">True</property>
+                      <widget class="GtkCheckMenuItem" id="menuitem_sidebar">
                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="label" translatable="yes">_Labels</property>
+                        <property name="label" translatable="yes">_Sidebar</property>
                         <property name="use_underline">True</property>
                         <property name="active">True</property>
-                        <signal name="toggled" handler="on_menuitem_labels_toggled"/>
+                        <signal name="toggled" handler="on_menuitem_sidebar_toggled"/>
                       </widget>
                     </child>
                     <child>
@@ -440,28 +439,13 @@
                     <property name="can_focus">True</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
                     <child>
-                      <widget class="GtkScrolledWindow" id="scrolledwindow_sidebar">
-                        <property name="width_request">110</property>
-                        <property name="visible">True</property>
+                      <widget class="GtkNotebook" id="sidebar_notebook">
                         <property name="can_focus">True</property>
-                        <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                        <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <property name="shadow_type">GTK_SHADOW_OUT</property>
-                        <child>
-                          <widget class="GtkTreeView" id="label_view">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="events">GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                            <property name="enable_search">False</property>
-                            <property name="fixed_height_mode">True</property>
-                            <property name="show_expanders">False</property>
-                          </widget>
-                        </child>
+                        <property name="scrollable">True</property>
                       </widget>
                       <packing>
                         <property name="resize">False</property>
-                        <property name="shrink">False</property>
+                        <property name="shrink">True</property>
                       </packing>
                     </child>
                     <child>

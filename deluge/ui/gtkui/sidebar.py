@@ -2,19 +2,20 @@
 # sidebar.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 2 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -36,86 +37,55 @@ import gtk.glade
 
 import deluge.component as component
 import deluge.common
-from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
 class SideBar(component.Component):
+    """
+    manages the sidebar-tabs.
+    purpose : plugins
+    """
     def __init__(self):
         component.Component.__init__(self, "SideBar")
         self.window = component.get("MainWindow")
         glade = self.window.main_glade
-        self.label_view = glade.get_widget("label_view")
+        self.notebook = glade.get_widget("sidebar_notebook")
         self.hpaned = glade.get_widget("hpaned")
-        self.scrolled = glade.get_widget("scrolledwindow_sidebar")
         self.is_visible = True
-        self.config = ConfigManager("gtkui.conf")
 
-        # Create the liststore
-        # state str, str that's visible, icon
-        self.liststore = gtk.ListStore(str, str, gtk.gdk.Pixbuf)
-        self.liststore.append(["All", _("All"), None])
-        self.liststore.append(["Downloading", _("Downloading"), 
-            gtk.gdk.pixbuf_new_from_file(
-                deluge.common.get_pixmap("downloading16.png"))])
-        self.liststore.append(["Seeding", _("Seeding"),
-            gtk.gdk.pixbuf_new_from_file(
-                deluge.common.get_pixmap("seeding16.png"))])
-        self.liststore.append(["Queued", _("Queued"),
-            gtk.gdk.pixbuf_new_from_file(
-                deluge.common.get_pixmap("queued16.png"))])
-        self.liststore.append(["Paused", _("Paused"),
-            gtk.gdk.pixbuf_new_from_file(
-                deluge.common.get_pixmap("inactive16.png"))])
-        self.liststore.append(["Error", _("Error"),
-            gtk.gdk.pixbuf_new_from_file(
-                deluge.common.get_pixmap("alert16.png"))])
-        self.liststore.append(["Checking", _("Checking"),
-            gtk.gdk.pixbuf_new_from_file(
-                deluge.common.get_pixmap("checking16.png"))])
-        # Create the column
-        column = gtk.TreeViewColumn(_("Labels"))
-        column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
-        render = gtk.CellRendererPixbuf()
-        column.pack_start(render, expand=False)
-        column.add_attribute(render, 'pixbuf', 2)
-        render = gtk.CellRendererText()
-        column.pack_start(render, expand=True)
-        column.add_attribute(render, 'text', 1)
-        self.label_view.append_column(column)
-        
-        self.label_view.set_model(self.liststore)
-        
-        self.label_view.get_selection().connect("changed", 
-                                    self.on_selection_changed)
-        
-        # Select the 'All' label on init
-        self.label_view.get_selection().select_iter(
-            self.liststore.get_iter_first())
-        
-        # Hide if necessary
-        self.visible(self.config["show_sidebar"])
-        
+        # Tabs holds references to the Tab widgets by their name
+        self.tabs = {}
+
     def visible(self, visible):
         if visible:
-            self.scrolled.show()
+            self.notebook.show()
         else:
-            self.scrolled.hide()
+            log.debug("5")
+            self.notebook.hide()
+            log.debug("6")
             self.hpaned.set_position(-1)
-        
+            log.debug("7")
+
         self.is_visible = visible
-        self.config["show_sidebar"] = visible        
 
-    def on_selection_changed(self, selection):
-        try:
-            (model, row) = self.label_view.get_selection().get_selected()
-        except Exception, e:
-            log.debug(e)
-            # paths is likely None .. so lets return None
-            return None
-        
-        value = model.get_value(row, 0)
-        if value == "All":
-            component.get("TorrentView").set_filter(None, None)
-        else:
-            component.get("TorrentView").set_filter("state", value)
+    def add_tab(self, widget, tab_name, label):
+        """Adds a tab object to the notebook."""
+        log.debug("add tab:%s" % tab_name )
+        self.tabs[tab_name] = widget
+        pos = self.notebook.insert_page(widget, gtk.Label(label), -1)
+        log.debug("1")
+        widget.show_all()
+        log.debug("2")
+        if not self.notebook.get_property("visible"):
+            # If the notebook isn't visible, show it
+            self.visible(True) #Shure?
+        log.debug("3")
+        self.notebook.select_page(pos)
 
+    def remove_tab(self, tab_name):
+        """Removes a tab by name."""
+        self.notebook.remove_page(self.notebook.page_num(self.tabs[tab_name]))
+        del self.tabs[tab_name]
+
+        # If there are no tabs visible, then do not show the notebook
+        if len(self.tabs) == 0:
+            self.visible(False)

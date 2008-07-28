@@ -55,12 +55,12 @@ class LabelSideBar(component.Component):
         component.Component.__init__(self, "LabelSideBar", interval=2000)
         self.window = component.get("MainWindow")
         glade = self.window.main_glade
-        self.label_view = glade.get_widget("label_view")
         self.hpaned = glade.get_widget("hpaned")
         self.scrolled = glade.get_widget("scrolledwindow_sidebar")
         self.is_visible = True
         self.filters = {}
         self.first_expand = True
+        self.label_view = gtk.TreeView()
 
         # Create the liststore
         #cat,value,count , pixmap , visible
@@ -75,11 +75,6 @@ class LabelSideBar(component.Component):
         #default node:
         self.filters[("state", "All")] = self.treestore.append(self.cat_nodes["state"],
             ["state", "All", 0, gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("dht16.png")), True])
-
-
-        #remove all old columns:
-        for c in self.label_view.get_columns():
-            self.label_view.remove_column(c)
 
         # Create the column
         column = gtk.TreeViewColumn(_("Filters"))
@@ -104,8 +99,8 @@ class LabelSideBar(component.Component):
                                     self.on_selection_changed)
 
         # Select the 'All' label on init
-        self.label_view.get_selection().select_iter(
-            self.treestore.get_iter_first())
+        #self.label_view.get_selection().select_iter(
+        #    self.treestore.get_iter_first())
 
         self.create_model_filter()
         #init.....
@@ -113,15 +108,16 @@ class LabelSideBar(component.Component):
         self.label_view.expand_all()
         self.hpaned.set_position(170)
 
+
     def load(self):
-        self.label_view.set_model(self.model_filter)
+        sidebar = component.get("SideBar")
+        sidebar.add_tab(self.label_view, "filters", _("Filters"))
 
     def unload(self):
-        #hacks!
-        self.label_view.set_headers_visible(True)
-        old_sidebar = component.get("SideBar")
-        del old_sidebar
-        new_sidebar = deluge.ui.gtkui.sidebar.SideBar()
+        log.debug("unload..")
+        sidebar = component.get("SideBar")
+        sidebar.remove_tab("filters")
+        log.debug("unload-end")
 
 
     def create_model_filter(self):
@@ -153,8 +149,6 @@ class LabelSideBar(component.Component):
             self.filters[(cat, value)] = row
         self.treestore.set_value(row, 4, True)
 
-
-
     def render_cell_data(self, column, cell, model, row, data):
         "cell renderer"
         cat    = model.get_value(row, 0)
@@ -169,9 +163,12 @@ class LabelSideBar(component.Component):
         if cat == "cat":
             txt = value
             col = gtk.gdk.color_parse('#EEEEEE')
+            cell.set_property("ypad",1)
         else:
             txt = "%s (%s)"  % (value, count)
             col = gtk.gdk.color_parse('white')
+            cell.set_property("ypad",1)
+
         cell.set_property('text', txt)
         cell.set_property("cell-background-gdk",col)
         self.renderpix.set_property("cell-background-gdk",col)
@@ -195,6 +192,9 @@ class LabelSideBar(component.Component):
     def on_selection_changed(self, selection):
         try:
             (model, row) = self.label_view.get_selection().get_selected()
+            if not row:
+                log.debug("nothing selected")
+                return
 
             cat    = model.get_value(row, 0)
             value = model.get_value(row, 1)
