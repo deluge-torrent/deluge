@@ -50,8 +50,6 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
     
     def __init__(self):
         log.debug("SignalReceiver init..")
-        # Set to true so that the receiver thread will exit
-        self._shutdown = False
 
         self.signals = {}
         self.emitted_signals = []
@@ -110,6 +108,9 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
             
     def run(self):
         """This gets called when we start the thread"""
+        # Set to true so that the receiver thread will exit
+        self._shutdown = False
+
         # Register the signal receiver with the core
         client.register_client(str(self.port))
         

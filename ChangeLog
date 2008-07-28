@@ -10,6 +10,7 @@ Deluge 0.9.04 - "1.0.0_RC4" (In Development)
   * Display 'total_wanted' instead of 'total_size' in Size column
   * Fix displaying of torrents when language is not English
   * Fix the view options to be persistent between sessions
+  * Fix signalreceiver when switching between daemons
   
 Deluge 0.9.03 - "1.0.0_RC3" (21 July 2008)
  Core:
