@@ -59,11 +59,8 @@ class SideBar(component.Component):
         if visible:
             self.notebook.show()
         else:
-            log.debug("5")
             self.notebook.hide()
-            log.debug("6")
             self.hpaned.set_position(-1)
-            log.debug("7")
 
         self.is_visible = visible
 
@@ -72,20 +69,29 @@ class SideBar(component.Component):
         log.debug("add tab:%s" % tab_name )
         self.tabs[tab_name] = widget
         pos = self.notebook.insert_page(widget, gtk.Label(label), -1)
-        log.debug("1")
         widget.show_all()
-        log.debug("2")
         if not self.notebook.get_property("visible"):
             # If the notebook isn't visible, show it
             self.visible(True) #Shure?
-        log.debug("3")
-        self.notebook.select_page(pos)
+
+        self.after_update()
 
     def remove_tab(self, tab_name):
         """Removes a tab by name."""
         self.notebook.remove_page(self.notebook.page_num(self.tabs[tab_name]))
         del self.tabs[tab_name]
 
+        self.after_update()
+
+    def after_update(self):
         # If there are no tabs visible, then do not show the notebook
         if len(self.tabs) == 0:
             self.visible(False)
+
+        # If there is 1 tab, hide the tab-headers
+        if len(self.tabs) == 1:
+            self.notebook.set_show_tabs(False)
+        else:
+            self.notebook.set_show_tabs(True)
+
+
