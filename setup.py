@@ -299,6 +299,7 @@ setup(
     package_data = {"deluge": ["ui/gtkui/glade/*.glade",
                                 "data/pixmaps/*.png",
                                 "data/pixmaps/*.svg",
+                                "data/pixmaps/*.ico",
                                 "data/pixmaps/flags/*.png",
                                 "data/revision",
                                 "plugins/*.egg",
