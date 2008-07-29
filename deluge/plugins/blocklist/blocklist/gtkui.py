@@ -36,6 +36,7 @@ import gtk
 from deluge.log import LOG as log
 from deluge.ui.client import aclient as client
 import deluge.component as component
+import deluge.common
 
 import ui
 from core import FORMATS
@@ -75,13 +76,42 @@ class GtkUI(ui.UI):
     def update(self):
         def _on_get_status(status):
             if status["state"] == "Downloading":
+                self.table_info.hide()
+                self.glade.get_widget("button_check_download").set_sensitive(False)
+                self.glade.get_widget("button_force_download").set_sensitive(False)
+                
                 self.status_item.set_text(
                     "Downloading %.2f%%" % (status["file_progress"] * 100))
+                self.progress_bar.set_text("Downloading %.2f%%" % (status["file_progress"] * 100))
+                self.progress_bar.set_fraction(status["file_progress"])
+                self.progress_bar.show()
+                
             elif status["state"] == "Importing":
+                self.table_info.hide()
+                self.glade.get_widget("button_check_download").set_sensitive(False)
+                self.glade.get_widget("button_force_download").set_sensitive(False)
+                
                 self.status_item.set_text(
                     "Importing " + str(status["num_blocked"]))
+                self.progress_bar.set_text("Importing %s" % (status["num_blocked"]))
+                self.progress_bar.pulse()
+                self.progress_bar.show()
+                
             elif status["state"] == "Idle":
+                self.progress_bar.hide()
+                self.glade.get_widget("button_check_download").set_sensitive(True)
+                self.glade.get_widget("button_force_download").set_sensitive(True)
+
+                self.table_info.show()
                 self.status_item.set_text(str(status["num_blocked"]))
+                self.glade.get_widget("label_filesize").set_text(
+                    deluge.common.fsize(status["file_size"]))
+                self.glade.get_widget("label_modified").set_text(
+                    str(status["file_date"]))
+                self.glade.get_widget("label_type").set_text(
+                    FORMATS[status["file_type"]][0])
+                self.glade.get_widget("label_url").set_text(
+                    status["file_url"])
 
         client.blocklist_get_status(_on_get_status)
         
@@ -97,13 +127,7 @@ class GtkUI(ui.UI):
             
             self.glade.get_widget("spin_check_days").set_value(
                 config["check_after_days"])
-            
-            self.glade.get_widget("spin_timeout").set_value(
-                config["timeout"])
-            
-            self.glade.get_widget("spin_attempts").set_value(
-                config["try_times"])
-            
+           
             self.glade.get_widget("chk_import_on_start").set_active(
                 config["load_on_start"])
             
@@ -115,16 +139,14 @@ class GtkUI(ui.UI):
             get_model()[self.glade.get_widget("combobox_types").get_active()][1]
         config["url"] = self.glade.get_widget("entry_url").get_text()
         config["check_after_days"] = self.glade.get_widget("spin_check_days").get_value_as_int()
-        config["timeout"] = self.glade.get_widget("spin_timeout").get_value_as_int()
-        config["try_times"] = self.glade.get_widget("spin_attempts").get_value_as_int()
         config["load_on_start"] = self.glade.get_widget("chk_import_on_start").get_active()
         client.blocklist_set_config(None, config)
     
-    def _on_button_download_clicked(self, widget):
-        client.blocklist_download(None)
+    def _on_button_check_download_clicked(self, widget):
+        client.blocklist_import(None, True, False)
         
-    def _on_button_import_clicked(self, widget):
-        client.blocklist_import(None)
+    def _on_button_force_download_clicked(self, widget):
+        client.blocklist_import(None, True, True)
     
     def _on_status_item_clicked(self, widget, event):
         component.get("Preferences").show("Blocklist")
@@ -133,10 +155,17 @@ class GtkUI(ui.UI):
         """Initializes the preferences page and adds it to the preferences dialog"""
         # Load the preferences page
         self.glade = gtk.glade.XML(self.get_resource("blocklist_pref.glade"))
-
+        
+        self.progress_bar = self.glade.get_widget("progressbar")
+        self.table_info = self.glade.get_widget("table_info")
+        
+        # Hide the progress bar initially
+        self.progress_bar.hide()
+        self.table_info.show()
+        
         self.glade.signal_autoconnect({
-            "on_button_download_clicked": self._on_button_download_clicked,
-            "on_button_import_clicked": self._on_button_import_clicked
+            "on_button_check_download_clicked": self._on_button_check_download_clicked,
+            "on_button_force_download_clicked": self._on_button_force_download_clicked
         })
         
         # Setup types combobox
