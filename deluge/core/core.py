@@ -174,13 +174,6 @@ class Core(
                     pkg_resources.resource_filename(
                                             "deluge", "i18n"))
         # Setup signals
-        try:
-            import gnome.ui
-            self.gnome_client = gnome.ui.Client()
-            self.gnome_client.connect("die", self._shutdown)
-        except:
-            pass
-
         signal.signal(signal.SIGINT, self._shutdown)
         signal.signal(signal.SIGTERM, self._shutdown)
         if not deluge.common.windows_check(): 
