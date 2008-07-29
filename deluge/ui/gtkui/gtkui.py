@@ -227,7 +227,7 @@ class GtkUI:
         else:           
             self.shutdown()
 
-    def shutdown(self, data=None):
+    def shutdown(self, *args, **kwargs):
         log.debug("gtkui shutting down..")
 
         # Make sure the config is saved.
@@ -240,7 +240,10 @@ class GtkUI:
                 client.shutdown()
             except:
                 pass
-
+        try:
+            gtk.main_quit()
+        except RuntimeError:
+            pass
             
     def _on_new_core(self, data):
         component.start()
