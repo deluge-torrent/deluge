@@ -52,7 +52,11 @@ DEFAULT_PREFS = {
     "check_after_days": 2,
     "listtype": "gzmule",
     "timeout": 180,
-    "try_times": 3
+    "try_times": 3,
+    "file_type": "",
+    "file_url": "",
+    "file_date": "",
+    "file_size": 0,
 }
 
 FORMATS =  {
@@ -93,14 +97,14 @@ class Core(CorePluginBase):
         pass
 
     ## Exported RPC methods ###
-    def export_download(self):
+    def export_download(self, _import=False):
         """Download the blocklist specified in the config as url"""
-        self.download_blocklist()
+        self.download_blocklist(_import)
         
-    def export_import(self, download=False):
+    def export_import(self, download=False, force=False):
         """Import the blocklist from the blocklist.cache, if load is True, then
         it will download the blocklist file if needed."""
-        threading.Thread(target=self.import_blocklist, kwargs={"download": download}).start()
+        threading.Thread(target=self.import_blocklist, kwargs={"download": download, "force": force}).start()
 
     def export_get_config(self):
         """Returns the config dictionary"""
@@ -123,6 +127,10 @@ class Core(CorePluginBase):
         
         status["num_blocked"] = self.num_blocked
         status["file_progress"] = self.file_progress
+        status["file_type"] = self.config["file_type"]
+        status["file_url"] = self.config["file_url"]
+        status["file_size"] = self.config["file_size"]
+        status["file_date"] = self.config["file_date"]
         
         return status
         
@@ -134,13 +142,13 @@ class Core(CorePluginBase):
         if load:
             self.export_import()
             
-    def import_blocklist(self, download=False):
+    def import_blocklist(self, download=False, force=False):
         """Imports the downloaded blocklist into the session"""
         if self.is_downloading:
             return
             
         if download:
-            if self.need_new_blocklist():
+            if force or self.need_new_blocklist():
                 self.download_blocklist(True)
                 return
         
@@ -191,7 +199,10 @@ class Core(CorePluginBase):
             return False
 
         def on_retrieve_data(count, block_size, total_blocks):
-            self.file_progress = float(count * block_size) / total_blocks
+            fp = float(count * block_size) / total_blocks
+            if fp > 1.0:
+                fp = 1.0
+            self.file_progress = fp
             
         import socket
         socket.setdefaulttimeout(self.config["timeout"])
@@ -208,6 +219,13 @@ class Core(CorePluginBase):
                 continue
             else:
                 log.debug("Blocklist successfully downloaded..")
+                # Set information about the file
+                self.config["file_type"] = self.config["listtype"]
+                self.config["file_url"] = self.config["url"]
+                list_stats = os.stat(deluge.configmanager.get_config_dir("blocklist.cache"))
+                self.config["file_date"] = datetime.datetime.fromtimestamp(list_stats.st_mtime).ctime()
+                self.config["file_size"] = list_size = list_stats.st_size
+                
                 gobject.idle_add(_call_callback, callback, load)
                 return
             
