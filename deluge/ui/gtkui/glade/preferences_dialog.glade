@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Tue Jul 29 23:05:23 2008 -->
+<!--Generated with glade3 3.4.5 on Wed Jul 30 02:53:03 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="pref_dialog">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -870,6 +870,7 @@
                                             <property name="label" translatable="yes">Use Random Ports</property>
                                             <property name="response_id">0</property>
                                             <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_toggle"/>
                                           </widget>
                                           <packing>
                                             <property name="expand">False</property>
