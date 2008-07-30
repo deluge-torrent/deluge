@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Tue Jul 29 22:44:03 2008 -->
+<!--Generated with glade3 3.4.5 on Tue Jul 29 23:05:23 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="pref_dialog">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -913,14 +913,33 @@
                                       <widget class="GtkVBox" id="vbox4">
                                         <property name="visible">True</property>
                                         <child>
-                                          <widget class="GtkCheckButton" id="chk_dht">
+                                          <widget class="GtkHBox" id="hbox4">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="tooltip" translatable="yes">Distributed hash table may improve the amount of active connections.</property>
-                                            <property name="label" translatable="yes">Enable Mainline DHT</property>
-                                            <property name="use_underline">True</property>
-                                            <property name="response_id">0</property>
-                                            <property name="draw_indicator">True</property>
+                                            <property name="spacing">5</property>
+                                            <child>
+                                              <widget class="GtkLabel" id="label80">
+                                                <property name="visible">True</property>
+                                                <property name="tooltip" translatable="yes">The TOS byte set in the IP header of every packet sent to peers (including web seeds).  Expects a Hex value.</property>
+                                                <property name="label" translatable="yes">Peer TOS Byte:</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <widget class="GtkEntry" id="entry_peer_tos">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="width_chars">4</property>
+                                                <property name="text" translatable="yes">0x00</property>
+                                              </widget>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
                                           </widget>
                                         </child>
                                       </widget>
@@ -930,7 +949,7 @@
                                 <child>
                                   <widget class="GtkLabel" id="label5">
                                     <property name="visible">True</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;DHT&lt;/b&gt;</property>
+                                    <property name="label" translatable="yes">&lt;b&gt;TOS&lt;/b&gt;</property>
                                     <property name="use_markup">True</property>
                                   </widget>
                                   <packing>
@@ -956,9 +975,14 @@
                                     <property name="bottom_padding">2</property>
                                     <property name="left_padding">12</property>
                                     <child>
-                                      <widget class="GtkHBox" id="hbox4">
+                                      <widget class="GtkTable" id="table8">
                                         <property name="visible">True</property>
-                                        <property name="spacing">10</property>
+                                        <property name="n_rows">2</property>
+                                        <property name="n_columns">3</property>
+                                        <property name="column_spacing">5</property>
+                                        <child>
+                                          <placeholder/>
+                                        </child>
                                         <child>
                                           <widget class="GtkCheckButton" id="chk_upnp">
                                             <property name="visible">True</property>
@@ -971,8 +995,7 @@
                                             <property name="draw_indicator">True</property>
                                           </widget>
                                           <packing>
-                                            <property name="expand">False</property>
-                                            <property name="padding">2</property>
+                                            <property name="x_options">GTK_FILL</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -987,9 +1010,9 @@
                                             <property name="draw_indicator">True</property>
                                           </widget>
                                           <packing>
-                                            <property name="expand">False</property>
-                                            <property name="padding">2</property>
-                                            <property name="position">1</property>
+                                            <property name="left_attach">1</property>
+                                            <property name="right_attach">2</property>
+                                            <property name="x_options">GTK_FILL</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1004,9 +1027,9 @@
                                             <property name="draw_indicator">True</property>
                                           </widget>
                                           <packing>
-                                            <property name="expand">False</property>
-                                            <property name="padding">2</property>
-                                            <property name="position">2</property>
+                                            <property name="left_attach">2</property>
+                                            <property name="right_attach">3</property>
+                                            <property name="x_options">GTK_FILL</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -1020,9 +1043,27 @@
                                             <property name="draw_indicator">True</property>
                                           </widget>
                                           <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">3</property>
+                                            <property name="top_attach">1</property>
+                                            <property name="bottom_attach">2</property>
+                                            <property name="x_options">GTK_FILL</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkCheckButton" id="chk_dht">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="tooltip" translatable="yes">Distributed hash table may improve the amount of active connections.</property>
+                                            <property name="label" translatable="yes">DHT</property>
+                                            <property name="use_underline">True</property>
+                                            <property name="response_id">0</property>
+                                            <property name="draw_indicator">True</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="right_attach">2</property>
+                                            <property name="top_attach">1</property>
+                                            <property name="bottom_attach">2</property>
+                                            <property name="x_options">GTK_FILL</property>
                                           </packing>
                                         </child>
                                       </widget>
@@ -1893,7 +1934,7 @@ Disabled</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                        <property name="tooltip" translatable="yes">Classic Mode will hide most of the daemon functionality and will make Deluge appear to be a single application.  Use this if you do not want to take advantage of running Deluge as a daemon.</property>
+                                        <property name="tooltip" translatable="yes">Classic Mode will hide most of the daemon functionality and will make Deluge appear to be a single application.  Use this if you do not want to take advantage of running Deluge as a daemon. You need to restart Deluge for this setting to take effect.</property>
                                         <property name="label" translatable="yes">Enable</property>
                                         <property name="response_id">0</property>
                                         <property name="draw_indicator">True</property>

@@ -117,7 +117,8 @@ DEFAULT_PREFS = {
     "proxy_password" : "",
     "proxy_port": 8080,
     "outgoing_ports": [0, 0],
-    "random_outgoing_ports": True
+    "random_outgoing_ports": True,
+    "peer_tos": "0x00",
 }
         
 class Core(
@@ -239,6 +240,8 @@ class Core(
             self._on_set_outgoing_ports)
         self.config.register_set_function("random_outgoing_ports",
             self._on_set_random_outgoing_ports)
+        self.config.register_set_function("peer_tos",
+            self._on_set_peer_tos)
         self.config.register_set_function("dht", self._on_set_dht)
         self.config.register_set_function("upnp", self._on_set_upnp)
         self.config.register_set_function("natpmp", self._on_set_natpmp)
@@ -773,6 +776,16 @@ class Core(
         if value:
             self.session.outgoing_ports(0, 0)
 
+    def _on_set_peer_tos(self, key, value):
+        log.debug("setting peer_tos to: %s", value)
+        try:
+            self.settings.peer_tos = str(int(value, 16))
+        except ValueError, e:
+            log.debug("Invalid tos byte: %s", e)
+            return
+        
+        self.session.set_settings(self.settings)
+        
     def _on_set_dht(self, key, value):
         log.debug("dht value set to %s", value)
         state_file = deluge.common.get_default_config_dir('dht.state')
