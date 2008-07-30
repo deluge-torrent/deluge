@@ -49,7 +49,107 @@ STATE_PIX = {
     "Error":"alert"
     }
 
+NO_LABEL = "No Label"
 
+#helpers:
+def get_resource(filename):
+    import pkg_resources
+    import os
+    return pkg_resources.resource_filename("label", os.path.join("data", filename))
+
+#menu
+class LabelMenu(gtk.Menu):
+    def __init__(self):
+        gtk.Menu.__init__(self)
+        self._add_item("add", _("_Add"), gtk.STOCK_ADD)
+        self._add_item("options", _("_Options") ,gtk.STOCK_PREFERENCES)
+        self._add_item("remove", _("Remove"), gtk.STOCK_REMOVE)
+        self.show_all()
+        self.label = None
+
+        #dialogs:
+        self.add_dialog = AddDialog()
+        self.options_dialog = OptionsDialog()
+
+    def _add_item(self, id, label , stock):
+        "add a menu item, some magic here because i hate glade."
+        method = getattr(self,"on_%s" %  id)
+        item = gtk.ImageMenuItem(stock)
+        item.connect("activate", method)
+        self.append(item)
+        setattr(self,"item_%s" %  id, item)
+
+    def on_add(self, event=None):
+        self.add_dialog.show(self.label)
+
+    def on_remove(self, event=None):
+        aclient.label_remove(None, self.label)
+
+    def on_options (self, event=None):
+        self.options_dialog.show(self.label)
+
+    def set_label(self,label):
+        "No Label:disable options/del"
+        self.label = label
+        sensitive = (label != NO_LABEL)
+        self.item_options.set_sensitive(sensitive)
+        self.item_remove.set_sensitive(sensitive)
+
+#dialogs:
+class AddDialog(object):
+    def __init__(self):
+        pass
+
+    def show(self, label):
+        self.glade = gtk.glade.XML(get_resource("label_options.glade"))
+        self.dialog = self.glade.get_widget("dlg_label_add")
+        self.glade.signal_autoconnect({
+            "on_add_ok":self.on_ok,
+            "on_add_cancel":self.on_cancel,
+        })
+        self.dialog.run()
+
+    def on_ok(self, event=None):
+        value = self.glade.get_widget("txt_add").get_text()
+        aclient.label_add(None, value)
+        self.dialog.destroy()
+
+    def on_cancel(self, event=None):
+        self.dialog.destroy()
+
+
+class OptionsDialog(object):
+    spin_ids = ["max_download_speed","max_upload_speed","max_upload_slots","max_connections"]
+
+    def __init__(self):
+        pass
+
+    def show(self, label):
+        self.label = label
+        self.glade = gtk.glade.XML(get_resource("label_options.glade"))
+        self.dialog = self.glade.get_widget("dlg_label_options")
+        self.glade.signal_autoconnect({
+            "on_options_ok":self.on_ok,
+            "on_options_cancel":self.on_cancel,
+        })
+        aclient.label_get_options(self.load_options, self.label)
+        self.dialog.run()
+
+    def load_options(self, options):
+        for id in self.spin_ids:
+            self.glade.get_widget(id).set_value(options[id])
+
+    def on_ok(self, event=None):
+        options = {}
+        for id in self.spin_ids:
+            options[id] = self.glade.get_widget(id).get_value()
+        aclient.label_set_options(None, self.label, options)
+        self.dialog.destroy()
+
+    def on_cancel(self, event=None):
+        self.dialog.destroy()
+
+#sidebar-treeview
 class LabelSideBar(component.Component):
     def __init__(self):
         component.Component.__init__(self, "LabelSideBar", interval=2000)
@@ -107,6 +207,10 @@ class LabelSideBar(component.Component):
         self._start()
         self.label_view.expand_all()
         self.hpaned.set_position(170)
+
+        self.label_view.connect("button-press-event", self.on_button_press_event)
+
+        self.label_menu = LabelMenu()
 
 
     def load(self):
@@ -208,7 +312,7 @@ class LabelSideBar(component.Component):
             filter = (cat, value)
             if value == "All" or cat == "cat":
                 filter = (None, None)
-            elif (cat == "label" and value == "No Label"):
+            elif (cat == "label" and value == NO_LABEL):
                  filter = ("label","")
 
             component.get("TorrentView").set_filter(*filter)
@@ -224,4 +328,27 @@ class LabelSideBar(component.Component):
         except Exception, e:
             log.debug(e)
 
+
+    ### Callbacks ###
+    def on_button_press_event(self, widget, event):
+        """This is a callback for showing the right-click context menu."""
+
+        # We only care about right-clicks
+        if event.button == 3:
+            x, y = event.get_coords()
+            path = self.label_view.get_path_at_pos(int(x), int(y))
+            if not path:
+                return
+            row = self.model_filter.get_iter(path[0])
+            cat    = self.model_filter.get_value(row, 0)
+            value = self.model_filter.get_value(row, 1)
+
+            log.debug("right-click->cat='%s',value='%s'", cat ,value)
+
+            if cat == "label":
+                self.show_label_menu(value, event)
+
+    def show_label_menu(self, label, event):
+        self.label_menu.set_label(label)
+        self.label_menu.popup(None, None, None, event.button, event.time)
 
