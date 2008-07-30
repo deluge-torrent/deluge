@@ -785,6 +785,9 @@ Deluge.Widgets.WebUIPreferences = new Class({
 			this.form.theme.disabled = true;
 		else
 			this.form.theme.disabled = false;
+			
+		var theme = this.form.theme.getElement('option[value="' + Cookie.read('theme') + '"]')
+		theme.selected = true
 		
 		this.form.template.addEvent('change', function(e) {
 			if (this.form.template.value != 'ajax') {
@@ -893,6 +896,12 @@ Deluge.Widgets.PreferencesWindow = new Class({
 	},
 	
 	applied: function(event) {
+		var config = {}
+		/*this.categories.each(function(category) {
+			alert(JSON.encode(category.changed));
+			config = $merge(config, category.changed)
+		});
+		alert(JSON.encode(config));*/
 		this.webui.apply();
 	},
 	
