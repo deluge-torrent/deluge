@@ -46,6 +46,11 @@ from deluge.ui.gtkui.listview import cell_data_speed as cell_data_speed
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.log import LOG as log
 
+def cell_data_progress(column, cell, model, row, data):
+    value = model.get_value(row, data)
+    cell.set_property("value", value * 100)
+    cell.set_property("text", "%.2f%%" % (value * 100))
+    
 class ColumnState:
     def __init__(self, name, position, width, sort, sort_order):
         self.name = name
@@ -66,8 +71,8 @@ class PeersTab(Tab):
         self._child_widget.connect("button-press-event", self.on_button_press_event)
         
         self.listview = glade.get_widget("peers_listview")
-        # country pixbuf, ip, client, downspeed, upspeed, country code, int_ip, seed/peer icon
-        self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str, gobject.TYPE_UINT, gtk.gdk.Pixbuf)
+        # country pixbuf, ip, client, downspeed, upspeed, country code, int_ip, seed/peer icon, progress
+        self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str, gobject.TYPE_UINT, gtk.gdk.Pixbuf, float)
         self.cached_flag_pixbufs = {}
         
         self.seed_pixbuf = gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("seeding16.png"))
@@ -118,6 +123,19 @@ class PeersTab(Tab):
         column.set_reorderable(True)
         self.listview.append_column(column)
 
+        # Progress column
+        column = gtk.TreeViewColumn(_("Progress"))
+        render = gtk.CellRendererProgress()
+        column.pack_start(render, True)
+        column.set_cell_data_func(render, cell_data_progress, 8)
+        column.set_sort_column_id(8)
+        column.set_clickable(True)
+        column.set_resizable(True)
+        column.set_expand(False)
+        column.set_min_width(10)
+        column.set_reorderable(True)
+        self.listview.append_column(column)
+        
         # Down Speed column
         column = gtk.TreeViewColumn(_("Down Speed"))
         render = gtk.CellRendererText()
@@ -258,7 +276,7 @@ class PeersTab(Tab):
                     # This iter is invalid, delete it and continue to next iteration
                     del self.peers[peer["ip"]]
                     continue
-                values = self.liststore.get(row, 3, 4, 5, 7)
+                values = self.liststore.get(row, 3, 4, 5, 7, 8)
                 if peer["down_speed"] != values[0]:
                     self.liststore.set_value(row, 3, peer["down_speed"])
                 if peer["up_speed"] != values[1]:
@@ -273,7 +291,9 @@ class PeersTab(Tab):
 
                 if icon != values[3]:
                     self.liststore.set_value(row, 7, icon)
-                    
+                
+                if peer["progress"] != values[4]:
+                    self.liststore.set_value(row, 8, peer["progress"])
             else:
                 # Peer is not in list so we need to add it
                 
@@ -294,7 +314,8 @@ class PeersTab(Tab):
                     peer["up_speed"],
                     peer["country"],
                     ip_int,
-                    icon])
+                    icon,
+                    peer["progress"]])
                 
                 self.peers[peer["ip"]] = row
                 

@@ -154,7 +154,7 @@ class Core(CorePluginBase):
         #specialized-state:
             #todo: traffic.
 
-        log.debug("hide-z:%s" % self.config["hide_zero_hits"])
+        #log.debug("hide-z:%s" % self.config["hide_zero_hits"])
         if self.config["hide_zero_hits"]:
             for state in set(KNOWN_STATES):
                 log.debug(states.keys())

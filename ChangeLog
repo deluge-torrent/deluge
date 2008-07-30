@@ -2,3 +2,6 @@ Deluge 1.1.0 - "" (In Development)
  Core:
   * Implement #79 ability to change outgoing port range
   * Implement #296 ability to change peer TOS byte
+  
+ GtkUI:
+  * Add peer progress to the peers tab

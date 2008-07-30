@@ -367,7 +367,8 @@ class Torrent:
                 "down_speed": peer.down_speed,
                 "country": country,
                 "client": client,
-                "seed": peer.flags & peer.seed
+                "seed": peer.flags & peer.seed,
+                "progress": peer.progress
             })
 
         return ret
