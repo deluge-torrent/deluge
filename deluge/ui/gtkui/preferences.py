@@ -147,7 +147,7 @@ class Preferences(component.Component):
                 self.page_num_to_remove = model.get_value(iter, 0)
                 self.iter_to_remove = iter
                 return
-                
+
         self.liststore.foreach(check_row, name)
         # Remove the page and row
         if self.page_num_to_remove != None:
@@ -214,6 +214,9 @@ class Preferences(component.Component):
                 "spin_port_max": ("value", self.core_config["listen_ports"][1]),
                 "active_port_label": ("text", str(self.active_port)),
                 "chk_random_port": ("active", self.core_config["random_port"]),
+                "spin_outgoing_port_min": ("value", self.core_config["outgoing_ports"][0]),
+                "spin_outgoing_port_max": ("value", self.core_config["outgoing_ports"][1]),
+                "chk_random_outgoing_ports": ("active", self.core_config["random_outgoing_ports"]),
                 "chk_dht": ("active", self.core_config["dht"]),
                 "chk_upnp": ("active", self.core_config["upnp"]),
                 "chk_natpmp": ("active", self.core_config["natpmp"]),
@@ -346,6 +349,9 @@ class Preferences(component.Component):
                 "spin_port_max",
                 "active_port_label",
                 "chk_random_port",
+                "spin_outgoing_port_min",
+                "spin_outgoing_port_max",
+                "chk_random_outgoing_ports",
                 "chk_dht",
                 "chk_upnp",
                 "chk_natpmp",
@@ -520,6 +526,15 @@ class Preferences(component.Component):
         new_core_config["listen_ports"] = listen_ports
         new_core_config["random_port"] = \
             self.glade.get_widget("chk_random_port").get_active()
+        outgoing_ports = []
+        outgoing_ports.append(
+            self.glade.get_widget("spin_outgoing_port_min").get_value_as_int())
+        outgoing_ports.append(
+            self.glade.get_widget("spin_outgoing_port_max").get_value_as_int())            
+        new_core_config["outgoing_ports"] = outgoing_ports
+        new_core_config["random_outgoing_ports"] = \
+            self.glade.get_widget("chk_random_outgoing_ports").get_active()
+            
         new_core_config["dht"] = self.glade.get_widget("chk_dht").get_active()
         new_core_config["upnp"] = self.glade.get_widget("chk_upnp").get_active()
         new_core_config["natpmp"] = \
@@ -705,6 +720,8 @@ class Preferences(component.Component):
                 "chk_show_dialog": {"chk_focus_dialog": True},
                 "chk_random_port": {"spin_port_min": False,
                                     "spin_port_max": False},
+                "chk_random_outgoing_ports": {"spin_port_outgoing_min": False,
+                                              "spin_port_outgoing_max": False},
                 "chk_use_tray": {"chk_min_on_close": True,
                                  "chk_start_in_tray": True,
                                  "chk_lock_tray": True},

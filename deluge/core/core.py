@@ -116,6 +116,8 @@ DEFAULT_PREFS = {
     "proxy_username" : "",
     "proxy_password" : "",
     "proxy_port": 8080,
+    "outgoing_ports": [0, 0],
+    "random_outgoing_ports": True
 }
         
 class Core(
@@ -233,6 +235,10 @@ class Core(
             self._on_set_listen_ports)
         self.config.register_set_function("random_port",
             self._on_set_random_port)
+        self.config.register_set_function("outgoing_ports",
+            self._on_set_outgoing_ports)
+        self.config.register_set_function("random_outgoing_ports",
+            self._on_set_random_outgoing_ports)
         self.config.register_set_function("dht", self._on_set_dht)
         self.config.register_set_function("upnp", self._on_set_upnp)
         self.config.register_set_function("natpmp", self._on_set_natpmp)
@@ -758,6 +764,15 @@ class Core(
             listen_ports[1])
         self.session.listen_on(listen_ports[0], listen_ports[1])
     
+    def _on_set_outgoing_ports(self, key, value):
+        if not self.config["random_outgoing_ports"]:
+            log.debug("outgoing port range set to %s-%s", value[0], value[1])
+            self.session.outgoing_ports(value[0], value[1])
+    
+    def _on_set_random_outgoing_ports(self, key, value):
+        if value:
+            self.session.outgoing_ports(0, 0)
+
     def _on_set_dht(self, key, value):
         log.debug("dht value set to %s", value)
         state_file = deluge.common.get_default_config_dir('dht.state')

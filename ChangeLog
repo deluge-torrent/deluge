@@ -1,41 +1,4 @@
 Deluge 1.1.0 - "" (In Development)
-
-Deluge 0.9.04 - "1.0.0_RC4" (In Development)
-
-Deluge 0.9.03 - "1.0.0_RC3" (21 July 2008)
  Core:
-  * File progress fixes from libtorrent
-  * Fix building on FreeBSD
-  * Fix #350 stop seeds when stop ratio is reached
-  * Fix #358 properly emit torrent_removed signal when remove_at_ratio happens
-  
- UI:
-  * Default to gtkui when running 'deluge' instead of defaulting to last used.
+  * Implement #79 ability to change outgoing port range
 
- GtkUI:
-  * Fix open folder
-  * Fix #349 tab ordering when hiding/showing
-
- Windows:
-  * Fix torrent file association and adding files from command line
-  
- Plugins:
-  * Blocklist plugin has been rewritten
-  
- Misc:
-  * Some changes for python 2.6 compatibility
-  
-Deluge 0.9.02 - "1.0.0_RC2" (15 July 2008)
- Core:
-  * Fix displaying of file progress
-  * Fix files to have proper read/write permissions
-
- WebUI:
-  * Include missing 'classic' template
-  * Update options tab to include queue settings
-
- Windows:
-  * Fix displaying of tray icon
-  * Fix scrolling of tray menu
-  * Fix hiding of tray icon when shutting down
-  * Fix tray icon tool tip length to show properly
