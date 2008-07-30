@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Tue Jul 29 22:01:28 2008 -->
+<!--Generated with glade3 3.4.5 on Tue Jul 29 22:44:03 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="pref_dialog">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -1893,6 +1893,7 @@ Disabled</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                                        <property name="tooltip" translatable="yes">Classic Mode will hide most of the daemon functionality and will make Deluge appear to be a single application.  Use this if you do not want to take advantage of running Deluge as a daemon.</property>
                                         <property name="label" translatable="yes">Enable</property>
                                         <property name="response_id">0</property>
                                         <property name="draw_indicator">True</property>
