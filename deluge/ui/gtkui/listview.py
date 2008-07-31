@@ -120,7 +120,7 @@ class ListView:
             # show up in any menu listing;  it cannot be shown ever.
             self.hidden = False
                 
-    def __init__(self, treeview_widget=None):
+    def __init__(self, treeview_widget=None, state_file=None):
         log.debug("ListView initialized..")
         
         if treeview_widget is not None:
@@ -128,10 +128,13 @@ class ListView:
             self.treeview = treeview_widget
         else:
             self.treeview = gtk.TreeView()
+        
+        if state_file:
+            self.load_state(state_file)
             
         self.liststore = None
-        
-        self.treeview.set_model(self.liststore)
+        self.model_filter = None
+
         self.treeview.set_rules_hint(True)
         self.treeview.set_reorderable(True)
         self.treeview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
@@ -149,6 +152,20 @@ class ListView:
         # A list of menus that self.menu will be a submenu of everytime it is
         # created.
         self.checklist_menus = []
+        
+        # Create the model filter and column
+        self.add_bool_column("filter", hidden=True)
+
+    def create_model_filter(self):
+        """create new filter-model
+        must be called after listview.create_new_liststore        
+        """
+        # Set the liststore filter column
+        model_filter = self.liststore.filter_new()
+        model_filter.set_visible_column(
+            self.columns["filter"].column_indices[0])
+        self.model_filter = gtk.TreeModelSort(model_filter)
+        self.treeview.set_model(self.model_filter)
     
     def save_state(self, filename):
         """Saves the listview state (column positions and visibility) to
@@ -286,7 +303,8 @@ class ListView:
             self.liststore.foreach(copy_row, (new_list, self.columns))
         
         self.liststore = new_list
-        self.treeview.set_model(self.liststore)
+        # Create the model
+        self.create_model_filter()
        
         return
     
@@ -316,7 +334,7 @@ class ListView:
 
         # Re-create the menu
         self.create_checklist_menu()
-    
+
         return
     
     def add_column(self, header, render, col_types, hidden, position, 
@@ -416,7 +434,7 @@ class ListView:
         self.columns[header].column = column
         # Re-create the menu item because of the new column
         self.create_checklist_menu()
-
+        
         return True
         
     def add_text_column(self, header, col_type=str, hidden=False, 

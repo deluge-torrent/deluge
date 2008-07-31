@@ -107,10 +107,9 @@ class TorrentView(listview.ListView, component.Component):
         self.window = component.get("MainWindow")
         # Call the ListView constructor
         listview.ListView.__init__(self, 
-                            self.window.main_glade.get_widget("torrent_view"))
+                            self.window.main_glade.get_widget("torrent_view"),
+                            "torrentview.state")
         log.debug("TorrentView Init..")
-        # Try to load the state file if available
-        self.load_state("torrentview.state")
         
         # This is where status updates are put
         self.status = {}
@@ -122,7 +121,6 @@ class TorrentView(listview.ListView, component.Component):
         
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
-        self.add_bool_column("filter", hidden=True)
         self.add_bool_column("dirty", hidden=True)
         self.add_func_column("#", cell_data_queue, [int], status_field=["queue"])
         self.add_texticon_column(_("Name"), status_field=["state", "name"], 
@@ -167,13 +165,8 @@ class TorrentView(listview.ListView, component.Component):
                                             status_field=["distributed_copies"])
         self.add_text_column(_("Tracker"), status_field=["tracker_host"])
         
-        # Set default sort column to #
-        self.liststore.set_sort_column_id(self.get_column_index("#"), gtk.SORT_ASCENDING)
-
         # Set filter to None for now
         self.filter = (None, None)
-        
-        self.create_model_filter()
 
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
@@ -193,23 +186,11 @@ class TorrentView(listview.ListView, component.Component):
         # the session so we can add them to our list.
         client.get_session_state(self._on_session_state)
 
-    def create_model_filter(self):
-        """create new filter-model
-        must be called after listview.create_new_liststore        
-        """
-        # Set the liststore filter column
-        model_filter = self.liststore.filter_new()
-        model_filter.set_visible_column(
-            self.columns["filter"].column_indices[0])
-        self.model_filter = gtk.TreeModelSort(model_filter)
-        self.treeview.set_model(self.model_filter)
-
-
     def _on_session_state(self, state):
         for torrent_id in state:
             self.add_row(torrent_id)
         
-        self.update_filter()    
+        self.update_filter()
         self.update()
         
     def stop(self):
@@ -377,7 +358,7 @@ class TorrentView(listview.ListView, component.Component):
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""
         for row in self.liststore:
-            if row[0] == torrent_id:
+            if row[self.columns["torrent_id"].column_indices[0]] == torrent_id:
                 self.liststore.remove(row.iter)
                 # Force an update of the torrentview
                 self.update()
@@ -386,7 +367,7 @@ class TorrentView(listview.ListView, component.Component):
 
     def mark_dirty(self, torrent_id = None):
         for row in self.liststore:
-            if not torrent_id or row[0] == torrent_id:
+            if not torrent_id or row[self.columns["torrent_id"].column_indices[0]] == torrent_id:
                 log.debug("marking %s dirty", torrent_id)
                 row[self.columns["dirty"].column_indices[0]] = True
                 if torrent_id: break
@@ -411,16 +392,16 @@ class TorrentView(listview.ListView, component.Component):
         try:
             for path in paths:
                 try:
-                    row = self.model_filter.get_iter(path)
+                    row = self.treeview.get_model().get_iter(path)
                 except Exception, e:
                     log.debug("Unable to get iter from path: %s", e)
                     continue
                     
-                child_row = self.model_filter.convert_iter_to_child_iter(None, row)
-                child_row = self.model_filter.get_model().convert_iter_to_child_iter(child_row)
+                child_row = self.treeview.get_model().convert_iter_to_child_iter(None, row)
+                child_row = self.treeview.get_model().get_model().convert_iter_to_child_iter(child_row)
                 if self.liststore.iter_is_valid(child_row):
                     try:
-                        value = self.liststore.get_value(child_row, 0)
+                        value = self.liststore.get_value(child_row, self.columns["torrent_id"].column_indices[0])
                     except Exception, e:
                         log.debug("Unable to get value from row: %s", e)
                     else:
@@ -458,7 +439,7 @@ class TorrentView(listview.ListView, component.Component):
             row = self.model_filter.get_iter(path[0])
 
             if self.get_selected_torrents():
-                if self.model_filter.get_value(row, 0) not in self.get_selected_torrents():
+                if self.model_filter.get_value(row, self.columns["torrent_id"].column_indices[0]) not in self.get_selected_torrents():
                     self.treeview.get_selection().unselect_all()
                     self.treeview.get_selection().select_iter(row)
             else:
