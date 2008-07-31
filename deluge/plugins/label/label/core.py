@@ -57,8 +57,22 @@ CONFIG_DEFAULTS = {
     "hide_zero_hits":False,
     "gtk_alfa":False
 }
-OPTIONS_KEYS = ["max_download_speed", "max_upload_speed",
-    "max_connections", "max_upload_slots", "prioritize_first_last","apply_max","move_completed_to"]
+
+OPTIONS_DEFAULTS = {
+    "max_download_speed":-1,
+    "max_upload_speed":-1,
+    "max_connections":-1,
+    "max_upload_slots":-1,
+    "prioritize_first_last":False,
+    "apply_max":False,
+    "move_completed_to":"",
+    "apply_queue":False,
+    "is_auto_managed":False,
+    "stop_at_ratio":False,
+    "stop_ratio":2.0,
+    "remove_at_ratio":False
+}
+
 NO_LABEL = "No Label"
 
 
@@ -84,6 +98,7 @@ class Core(CorePluginBase):
         self.labels = self.config.get("labels")
         self.torrent_labels = self.config.get("torrent_labels")
 
+        self.clean_initial_config()
         log.debug("Label plugin enabled..")
 
     def clean_config(self):
@@ -93,11 +108,23 @@ class Core(CorePluginBase):
                 log.debug("label: rm %s:%s" % (torrent_id,label_id))
                 del self.torrent_labels[torrent_id]
 
+    def clean_initial_config(self):
+        "add any new keys in OPTIONS_DEFAULTS"
+        log.debug("--here--")
+        log.debug(self.labels.keys())
+        for key in self.labels.keys():
+            options = dict(OPTIONS_DEFAULTS)
+            options.update(self.labels[key])
+            self.labels[key] = options
+
+
+
     def save_config(self):
         self.clean_config()
         self.config.save()
 
     def set_config_defaults(self):
+        #TODO : there is a deluge builtin for this, use it!
         changed = False
         for key, value in CONFIG_DEFAULTS.iteritems():
             if not key in self.config.config:
@@ -154,7 +181,6 @@ class Core(CorePluginBase):
         #specialized-state:
             #todo: traffic.
 
-        #log.debug("hide-z:%s" % self.config["hide_zero_hits"])
         if self.config["hide_zero_hits"]:
             for state in set(KNOWN_STATES):
                 log.debug(states.keys())
@@ -246,17 +272,8 @@ class Core(CorePluginBase):
         CheckInput(label_id, _("Empty Label"))
         CheckInput(not (label_id in self.labels) , _("Label already exists"))
 
-
-        #default to current global per-torrent settings.
-        self.labels[label_id] = {
-            "max_download_speed":self.core_cfg.config["max_download_speed_per_torrent"],
-            "max_upload_speed":self.core_cfg.config["max_upload_speed_per_torrent"],
-            "max_connections":self.core_cfg.config["max_connections_per_torrent"],
-            "max_upload_slots":self.core_cfg.config["max_upload_slots_per_torrent"],
-            "prioritize_first_last":self.core_cfg.config["prioritize_first_last_pieces"],
-            "apply_max":False,
-            "move_completed_to":None
-        }
+        self.labels[label_id] = OPTIONS_DEFAULTS
+        log.debug("this is the file!")
 
     def export_remove(self, label_id):
         "remove a label"
@@ -264,6 +281,17 @@ class Core(CorePluginBase):
         del self.labels[label_id]
         self.clean_config()
         self.config.save()
+
+    def _set_torrent_options(self, torrent_id, label_id):
+        options = self.labels[label_id]
+        torrent = self.torrents[torrent_id]
+
+        torrent.set_max_download_speed(options["max_download_speed"])
+        torrent.set_max_upload_speed(options["max_upload_speed"])
+        torrent.set_max_connections(options["max_connections"])
+        torrent.set_max_upload_slots(options["max_upload_slots"])
+        torrent.set_prioritize_first_last(options["prioritize_first_last"])
+
 
     def export_set_options(self, label_id, options_dict , apply = False):
         """update the label options
@@ -282,21 +310,14 @@ class Core(CorePluginBase):
         """
         CheckInput(label_id in self.labels , _("Unknown Label"))
         for key in options_dict.keys():
-            if not key in OPTIONS_KEYS:
+            if not key in OPTIONS_DEFAULTS:
                 raise Exception("label: Invalid options_dict key:%s" % key)
 
         self.labels[label_id].update(options_dict)
 
-        options = self.labels[label_id]
-        if apply:
-            for torrent_id,label in self.torrent_labels.iteritems():
-                if label_id == label:
-                    torrent = self.torrents[torrent_id]
-                    torrent.set_max_download_speed(options["max_download_speed"])
-                    torrent.set_max_upload_speed(options["max_upload_speed"])
-                    torrent.set_max_connections(options["max_connections"])
-                    torrent.set_max_upload_slots(options["max_upload_slots"])
-                    torrent.set_prioritize_first_last(options["prioritize_first_last"])
+        for torrent_id,label in self.torrent_labels.iteritems():
+            if label_id == label:
+                self._set_torrent_options(torrent_id , label_id)
 
         self.config.save()
 
@@ -321,18 +342,9 @@ class Core(CorePluginBase):
                 self.clean_config()
         else:
             self.torrent_labels[torrent_id] = label_id
-            #set speeds, etc:
-            options = self.labels[label_id]
-            if ("apply_max" in options) and options["apply_max"]:
-                torrent = self.torrents[torrent_id]
-                torrent.set_max_download_speed(options["max_download_speed"])
-                torrent.set_max_upload_speed(options["max_upload_speed"])
-                torrent.set_max_connections(options["max_connections"])
-                torrent.set_max_upload_slots(options["max_upload_slots"])
-                torrent.set_prioritize_first_last(options["prioritize_first_last"])
+            self._set_torrent_options(torrent_id, label_id)
 
         self.config.save()
-
 
     def export_get_global_options(self):
         "see : label_set_global_options"

@@ -86,7 +86,7 @@ class LabelMenu(gtk.Menu):
         aclient.label_remove(None, self.label)
 
     def on_options (self, event=None):
-        self.options_dialog.show(self.label)
+        self.options_dialog.show(self.label, (200,250))
 
     def set_label(self,label):
         "No Label:disable options/del"
@@ -100,7 +100,7 @@ class AddDialog(object):
     def __init__(self):
         pass
 
-    def show(self, label):
+    def show(self, label ):
         self.glade = gtk.glade.XML(get_resource("label_options.glade"))
         self.dialog = self.glade.get_widget("dlg_label_add")
         self.glade.signal_autoconnect({
@@ -119,12 +119,19 @@ class AddDialog(object):
 
 
 class OptionsDialog(object):
-    spin_ids = ["max_download_speed","max_upload_speed","max_upload_slots","max_connections"]
+    spin_ids = ["max_download_speed","max_upload_speed","max_upload_slots","max_connections","stop_ratio"]
+    chk_ids = ["apply_max","apply_queue","stop_at_ratio","apply_queue","remove_at_ratio","chk_move_completed_to"]
+    sensitive_groups = { #keys must be checkboxes , value-list is to be enabled on checked.
+        "apply_max": ["max_download_speed","max_upload_speed","max_upload_slots","max_connections"],
+        "apply_queue":["is_auto_managed","remove_at_ratio","stop_at_ratio","stop_ratio"],
+        #"stop_at_ratio":["stop_at_ratio","remove_at_ratio"], #nested from apply_queue, will probably cause bugs.
+        "chk_move_completed_to":["move_completed_to"]
+    }
 
     def __init__(self):
         pass
 
-    def show(self, label):
+    def show(self, label , position):
         self.label = label
         self.glade = gtk.glade.XML(get_resource("label_options.glade"))
         self.dialog = self.glade.get_widget("dlg_label_options")
@@ -132,19 +139,58 @@ class OptionsDialog(object):
             "on_options_ok":self.on_ok,
             "on_options_cancel":self.on_cancel,
         })
+
+        for chk_id in  self.sensitive_groups:
+            log.debug(chk_id)
+            chk = self.glade.get_widget(chk_id)
+            chk.connect("toggled",self.apply_sensitivity)
+
         aclient.label_get_options(self.load_options, self.label)
+        self.dialog.move(*position)
         self.dialog.run()
 
     def load_options(self, options):
+        log.debug(options.keys())
+        options["chk_move_completed_to"] = bool(options["move_completed_to"])
         for id in self.spin_ids:
             self.glade.get_widget(id).set_value(options[id])
+        for id in self.chk_ids:
+            self.glade.get_widget(id).set_active(bool(options[id]))
+
+        if options["move_completed_to"]:
+            self.glade.get_widget("move_completed_to").set_filename(options["move_completed_to"])
+
+        self.apply_sensitivity()
 
     def on_ok(self, event=None):
+        "save options.."
         options = {}
         for id in self.spin_ids:
             options[id] = self.glade.get_widget(id).get_value()
+        for id in self.chk_ids:
+            options[id] = self.glade.get_widget(id).get_active()
+
+        if options["chk_move_completed_to"]:
+            options["move_completed_to"] = self.glade.get_widget("move_completed_to").get_filename()
+        else:
+            options["move_completed_to"] = None
+        del options["chk_move_completed_to"] #not mapped.
+
+
         aclient.label_set_options(None, self.label, options)
         self.dialog.destroy()
+
+    def apply_sensitivity(self, event=None):
+        log.debug("apply-sensitivity")
+        for chk_id , sensitive_list in self.sensitive_groups.iteritems():
+            sens = self.glade.get_widget(chk_id).get_active()
+            for widget_id in sensitive_list:
+                log.debug(widget_id)
+                self.glade.get_widget(widget_id).set_sensitive(sens)
+
+
+
+
 
     def on_cancel(self, event=None):
         self.dialog.destroy()

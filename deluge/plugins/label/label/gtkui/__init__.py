@@ -76,7 +76,6 @@ class GtkUI(ui.UI):
         self.sidebar.unload()
         log.debug(2)
 
-
     def get_pixmap(self, fname):
         """Returns a pixmap file included with plugin"""
         return pkg_resources.resource_filename("blocklist", os.path.join("data", fname))
@@ -84,13 +83,9 @@ class GtkUI(ui.UI):
 
     def load_interface(self):
         #sidebar
-        log.debug("replace sidebar")
-        try :
-            if not self.sidebar:
-                self.sidebar  = sidebar.LabelSideBar()
-            self.sidebar.load()
-        except Exception, e:
-            log.debug(e)
+        if not self.sidebar:
+            self.sidebar  = sidebar.LabelSideBar()
+        self.sidebar.load()
 
         #menu:
         log.debug("add items to torrentview-popup menu.")
@@ -112,11 +107,6 @@ class GtkUI(ui.UI):
     def load_columns(self):
         log.debug("add columns")
 
-        component.get("TorrentView").add_func_column(_("Label"),
-                                            cell_data_label,
-                                            [str],
-                                            status_field=["label"])
-
-        component.get("TorrentView").create_model_filter() #todo:improve.
+        component.get("TorrentView").add_text_column(_("Label"), status_field=["label"])
 
 
