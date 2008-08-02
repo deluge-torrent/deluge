@@ -7,7 +7,7 @@ Standards-Version: 3.7.2
 
 Package: deluge-torrent
 Architecture: any
-Depends: ${shlibs:Depends}, ${python:Depends}, python-gtk2, python-glade2, python-xdg, python-notify, notification-daemon, python-dbus, librsvg2-common, python-pyopenssl, python-setuptools
+Depends: ${shlibs:Depends}, ${python:Depends}, python-gtk2, python-glade2, python-xdg, python-notify, notification-daemon, python-dbus, librsvg2-common, python-pyopenssl, python-setuptools, python-json
 Conflicts: deluge-torrent-common
 Replaces: deluge-torrent-common
 Description: A Bittorrent client written in Python/PyGTK
