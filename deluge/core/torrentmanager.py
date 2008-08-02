@@ -493,10 +493,11 @@ class TorrentManager(component.Component):
         for torrent_state in state.torrents:
             for t in ordered_state:
                 if torrent_state.queue < t.queue:
-                    ordered_state.insert(0, torrent_state)
+                    ordered_state.insert(ordered_state.index(t), torrent_state)
                     break
-            ordered_state.append(torrent_state)
-                   
+            if torrent_state not in ordered_state:
+                ordered_state.append(torrent_state)
+            
         for torrent_state in ordered_state:
             try:
                 self.add(state=torrent_state, save_state=False)
