@@ -162,7 +162,8 @@ class TorrentManager(component.Component):
 
         # Save the state every 5 minutes
         self.save_state_timer = gobject.timeout_add(300000, self.save_state)
-                    
+        self.save_resume_data_timer = gobject.timeout_add(290000, self.save_resume_data)
+
     def stop(self):
         # Save state on shutdown
         self.save_state()
@@ -551,6 +552,11 @@ class TorrentManager(component.Component):
             
         # We return True so that the timer thread will continue
         return True
+
+    def save_resume_data(self):
+        """Saves resume data for all the torrents"""
+        for torrent in self.torrents.values():
+            torrent.write_fastresume()
 
     def queue_top(self, torrent_id):
         """Queue torrent to top"""
