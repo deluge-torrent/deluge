@@ -6,6 +6,7 @@ Deluge 0.9.05 - "1.0.0_RC5" (In Development)
  
  GtkUI:
   * Handle shutting down more cleanly
+  * Add translators to credits
   
  Plugins:
   * Improve the Blocklist plugin preferences page.
