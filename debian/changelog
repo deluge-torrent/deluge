@@ -1,5 +1,5 @@
-deluge-torrent (0.9.04-1) gutsy; urgency=low
+deluge-torrent (0.9.05-1) unstable; urgency=low
 
-  * RC4 release
+  * RC5 release
 
- -- Andrew Resch (andar) <andrewresch@gmail.com>  Sun, 27 Jul 2008 16:31:14 -0800
+ -- Andrew Resch (andar) <andrewresch@gmail.com>  Sat, 2 Aug 2008 16:31:14 -0800
