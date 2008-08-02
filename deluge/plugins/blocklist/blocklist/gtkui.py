@@ -108,8 +108,12 @@ class GtkUI(ui.UI):
                     deluge.common.fsize(status["file_size"]))
                 self.glade.get_widget("label_modified").set_text(
                     str(status["file_date"]))
-                self.glade.get_widget("label_type").set_text(
-                    FORMATS[status["file_type"]][0])
+                try:
+                    self.glade.get_widget("label_type").set_text(
+                        FORMATS[status["file_type"]][0])
+                except KeyError:
+                    self.glade.get_widget("label_type").set_text("")
+                    
                 self.glade.get_widget("label_url").set_text(
                     status["file_url"])
 
