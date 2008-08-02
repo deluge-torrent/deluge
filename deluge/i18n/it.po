@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-07-20 14:08-0500\n"
-"PO-Revision-Date: 2008-07-02 04:00+0000\n"
-"Last-Translator: gdevitis <Unknown>\n"
+"PO-Revision-Date: 2008-08-01 12:51+0000\n"
+"Last-Translator: enubuntu <ironenry@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-07-25 21:48+0000\n"
+"X-Launchpad-Export-Date: 2008-08-02 05:33+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:649
@@ -22,8 +22,9 @@ msgid "Announce OK"
 msgstr "Annuncio OK"
 
 #: deluge/core/torrentmanager.py:670
+#, fuzzy
 msgid "Announce Sent"
-msgstr ""
+msgstr "Annuncio Inviato"
 
 #: deluge/core/torrentmanager.py:679
 msgid "Alert"
@@ -50,7 +51,7 @@ msgstr "Aggiungi"
 
 #: deluge/ui/webui/scripts/template_strings.py:4
 msgid "Add Another (Stay in add page)"
-msgstr ""
+msgstr "Aggiungi un altro"
 
 #: deluge/ui/webui/scripts/template_strings.py:5
 msgid "Add Torrent"
@@ -110,7 +111,7 @@ msgstr "Dettagli"
 
 #: deluge/ui/webui/scripts/template_strings.py:18
 msgid "Disable"
-msgstr "Disabilita"
+msgstr "Disattivare"
 
 #: deluge/ui/webui/scripts/template_strings.py:19
 #: deluge/ui/gtkui/systemtray.py:196
@@ -157,11 +158,11 @@ msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:28
 msgid "Filter on Tracker"
-msgstr ""
+msgstr "Filtro su tracker"
 
 #: deluge/ui/webui/scripts/template_strings.py:29
 msgid "Filter on state"
-msgstr ""
+msgstr "Filtro su stato"
 
 #: deluge/ui/webui/scripts/template_strings.py:30
 #: deluge/plugins/label/label/webui_config.py:115
@@ -211,7 +212,7 @@ msgstr "Parola d'ordine"
 
 #: deluge/ui/webui/scripts/template_strings.py:39
 msgid "Password is invalid,try again"
-msgstr "La password non è valida, provare ancora"
+msgstr "La password non è corretta, prova ancora"
 
 #: deluge/ui/webui/scripts/template_strings.py:40
 msgid "Pause"
@@ -263,7 +264,7 @@ msgstr "Riannuncia"
 
 #: deluge/ui/webui/scripts/template_strings.py:50
 msgid "Refresh"
-msgstr ""
+msgstr "Aggiorna"
 
 #: deluge/ui/webui/scripts/template_strings.py:51
 msgid "Refresh page every:"
@@ -287,7 +288,7 @@ msgstr "Riprendi tutti"
 
 #: deluge/ui/webui/scripts/template_strings.py:56
 msgid "Save"
-msgstr ""
+msgstr "Salva"
 
 #: deluge/ui/webui/scripts/template_strings.py:57
 #: deluge/ui/gtkui/torrentview.py:137
@@ -304,7 +305,7 @@ msgstr "Imposta il timeout"
 
 #: deluge/ui/webui/scripts/template_strings.py:60
 msgid "Settings"
-msgstr ""
+msgstr "Impostazioni"
 
 #: deluge/ui/webui/scripts/template_strings.py:61
 msgid "Share Ratio"
@@ -465,7 +466,7 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:48
 msgid "Random"
-msgstr ""
+msgstr "Casuale"
 
 #: deluge/ui/webui/config_tabs_deluge.py:76
 msgid "Extra's"
@@ -532,30 +533,33 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Level"
-msgstr ""
+msgstr "Livello"
 
 #: deluge/ui/webui/config_tabs_deluge.py:100
 msgid "Global"
-msgstr ""
+msgstr "Globale"
 
 #: deluge/ui/webui/config_tabs_deluge.py:101
 #: deluge/ui/webui/config_tabs_deluge.py:116
+#, fuzzy
 msgid "-1 = Unlimited"
-msgstr ""
+msgstr "-1 = Illimitato"
 
 #: deluge/ui/webui/config_tabs_deluge.py:103
 #: deluge/ui/webui/config_tabs_deluge.py:118
 #: deluge/plugins/label/label/webui_config.py:84
 #: deluge/plugins/label/build/lib/label/webui_config.py:84
+#, fuzzy
 msgid "Maximum Download Speed (Kib/s)"
-msgstr ""
+msgstr "Massima velocità di Download (Kib/s)"
 
 #: deluge/ui/webui/config_tabs_deluge.py:104
 #: deluge/ui/webui/config_tabs_deluge.py:119
 #: deluge/plugins/label/label/webui_config.py:85
 #: deluge/plugins/label/build/lib/label/webui_config.py:85
+#, fuzzy
 msgid "Maximum Upload Speed (Kib/s)"
-msgstr ""
+msgstr "Massima velocità di Upload (Kib/s)"
 
 #: deluge/ui/webui/config_tabs_deluge.py:107
 msgid "Maximum Half-Open Connections"
@@ -570,8 +574,9 @@ msgid "Per Torrent"
 msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:126
+#, fuzzy
 msgid "Store all downoads in"
-msgstr ""
+msgstr "Salva tutti i download in"
 
 #: deluge/ui/webui/config_tabs_deluge.py:127
 msgid "Save .torrent files to"
@@ -588,7 +593,7 @@ msgstr "Utilizzare allocazione compatta"
 
 #: deluge/ui/webui/config_tabs_deluge.py:136
 msgid "Daemon"
-msgstr ""
+msgstr "Demone"
 
 #: deluge/ui/webui/config_tabs_deluge.py:137
 msgid "Restart daemon and webui after changing these settings"
@@ -601,8 +606,9 @@ msgstr "Porta"
 
 #: deluge/ui/webui/config_tabs_deluge.py:139
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2145
+#, fuzzy
 msgid "Allow Remote Connections"
-msgstr ""
+msgstr "Permetti connessioni remote"
 
 #: deluge/ui/webui/config_tabs_deluge.py:144
 msgid "Queue"
@@ -610,7 +616,7 @@ msgstr "Accoda"
 
 #: deluge/ui/webui/config_tabs_deluge.py:145
 msgid "-1 = unlimited"
-msgstr ""
+msgstr "-1 = Illimitato"
 
 #: deluge/ui/webui/config_tabs_deluge.py:147
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2295
@@ -639,7 +645,7 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:169
 msgid "Enabled Plugins"
-msgstr ""
+msgstr "Abilita Plugins"
 
 #: deluge/ui/webui/config_tabs_webui.py:47
 #: deluge/ui/webui/config_tabs_webui.py:53
@@ -1127,6 +1133,7 @@ msgstr ""
 "  Nemo https://launchpad.net/~nemo-neminis\n"
 "  Nicola Piovesan https://launchpad.net/~piovesannicola\n"
 "  Paolo Naldini https://launchpad.net/~hattory\n"
+"  Pietrao https://launchpad.net/~isottipietro\n"
 "  Simone Tolotti https://launchpad.net/~simontol\n"
 "  Simone Vendemia https://launchpad.net/~simonevendemia\n"
 "  Stefano Maggiolo https://launchpad.net/~esse.t\n"
@@ -1135,6 +1142,7 @@ msgstr ""
 "  Trapanator https://launchpad.net/~trapanator\n"
 "  berto89 https://launchpad.net/~lorenzo-bertolotto\n"
 "  ekerazha https://launchpad.net/~ekerazha\n"
+"  enubuntu https://launchpad.net/~enubuntu\n"
 "  fragarray https://launchpad.net/~frag-array\n"
 "  gdevitis https://launchpad.net/~gdevitis123\n"
 "  jollyr0ger https://launchpad.net/~jollyr0ger\n"
@@ -2232,15 +2240,15 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:205
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Domande Frequenti"
 
 #: deluge/ui/gtkui/glade/main_window.glade:206
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 #: deluge/ui/gtkui/glade/main_window.glade:223
 msgid "Community"
-msgstr ""
+msgstr "Comunità"
 
 #: deluge/ui/gtkui/glade/main_window.glade:284
 msgid "Remove Torrent"
@@ -2353,7 +2361,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1262
 msgid "<b>Status:</b>"
-msgstr ""
+msgstr "<b>Stato:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1299
 msgid "<b>Path:</b>"
@@ -2389,15 +2397,15 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:1585
 msgid "_Peers"
-msgstr ""
+msgstr "_Nodi"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1696
 msgid "Max Download Speed:"
-msgstr ""
+msgstr "Massima velocità di Download:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1707
 msgid "Max Upload Speed:"
-msgstr ""
+msgstr "Massima velocità di Upload:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1837
 msgid "Stop seed at ratio:"
@@ -2408,12 +2416,14 @@ msgid "<b>Queue</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2291
+#, fuzzy
 msgid "New Release"
-msgstr ""
+msgstr "Nuova Versione"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2322
+#, fuzzy
 msgid "<b><big>New Release Available!</big></b>"
-msgstr ""
+msgstr "<b><big>Nuova Versione Disponibile!</big></b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2361
 msgid "<i>Current Version:</i>"
@@ -2425,7 +2435,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:2418
 msgid "Do not show this dialog in the future"
-msgstr ""
+msgstr "Non mostrare questa finestra in futuro"
 
 #: deluge/ui/gtkui/glade/main_window.glade:2458
 msgid "_Goto Website"
@@ -2454,12 +2464,12 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:212
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:212
 msgid "Days"
-msgstr ""
+msgstr "Giorni"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:225
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:225
 msgid "Seconds"
-msgstr ""
+msgstr "Secondi"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:246
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:246
@@ -2474,9 +2484,9 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:317
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:317
 msgid "Download List"
-msgstr ""
+msgstr "Lista Download"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:356
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:356
 msgid "Import List"
-msgstr ""
+msgstr "Importa Lista"
