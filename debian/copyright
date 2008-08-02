@@ -1,20 +1,19 @@
-This package was debianized by Adam Cécile (Le_Vert) <gandalf@le-vert.net> on
-Wed, 15 Nov 2006 22:03:13 +0100.
+This package was debianized by Marcos Pinto (markyobb) <markybob@gmail.com> on
+Fri, 31 Jul 2008 22:03:13 +0100.
 
 It was downloaded from http://www.deluge-torrent.org/
 
-Upstream Author: Zach Tibbitts <zach@collegegeek.org>
-                 Alon Zakai <kripkensteiner@gmail.com>
-		 Marcos Pinto
-
-Copyright: (C) 2006, Zach Tibbitts <zach@collegegeek.org>
-	   (C) 2006, Alon Zakai <kripkensteiner@gmail.com>
+Upstream Authors & Copyright: 
+    Andrew Resch
+    Marcos Pinto
+    Sadrul Habib Chowdhury
+    Martijn Voncken
 
 License:
 
    This package is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
+   the Free Software Foundation; either version 3 of the License, or
    (at your option) any later version.
 
    This package is distributed in the hope that it will be useful,
@@ -96,8 +95,8 @@ and distributed unders term of GNU General Public License.
       ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
       DEALINGS IN THE SOFTWARE.
 
-"po/*" are (C) 2006 Rosetta Contributors and Canonical Ltd 2006 and distributed
+"deluge/i18n/*" are (C) 2006 Rosetta Contributors and Canonical Ltd 2006 and distributed
 under the same license as the deluge software.
 
-The Debian packaging is (C) 2006-2007, Adam Cécile (Le_Vert)
-<gandalf@le-vert.net> and  is licensed under the GPL, see above.
+The Debian packaging is (C) 2006-2008, Marcos Pinto (markybob)
+<markybob@gmail.com> and  is licensed under GPL3, see above.
