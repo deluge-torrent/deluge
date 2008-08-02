@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-07-20 14:08-0500\n"
-"PO-Revision-Date: 2008-07-21 19:31+0000\n"
-"Last-Translator: Yaron <sh.yaron@gmail.com>\n"
+"PO-Revision-Date: 2008-07-26 11:21+0000\n"
+"Last-Translator: Mark Krapivner <mark125@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-07-25 21:49+0000\n"
+"X-Launchpad-Export-Date: 2008-08-02 05:33+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Language: Hebrew\n"
 
@@ -1511,7 +1511,7 @@ msgstr "ל-:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:689
 msgid "Test Active Port"
-msgstr "בדיקת הפתחה הפעילה"
+msgstr "בדוק פורט פעיל"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:714
 msgid "Deluge will automatically choose a different port to use every time."
