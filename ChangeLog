@@ -2,6 +2,7 @@ Deluge 0.9.05 - "1.0.0_RC5" (In Development)
  Core:
   * Fix deluged running with ssh X forwarding by removing the Gnome lib import
   * Save resume data periodically to help prevent data loss
+  * Fix queue order shuffling on restart
  
  GtkUI:
   * Handle shutting down more cleanly
