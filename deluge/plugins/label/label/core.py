@@ -65,7 +65,8 @@ OPTIONS_DEFAULTS = {
     "max_upload_slots":-1,
     "prioritize_first_last":False,
     "apply_max":False,
-    "move_completed_to":"",
+    "move_completed":False,
+    "move_completed_path":"",
     "apply_queue":False,
     "is_auto_managed":False,
     "stop_at_ratio":False,
@@ -183,7 +184,7 @@ class Core(CorePluginBase):
 
         if self.config["hide_zero_hits"]:
             for state in set(KNOWN_STATES):
-                log.debug(states.keys())
+                #log.debug(states.keys())
                 if states[state] == 0 :
                     #del states[state]
                     state_order.remove(state)
@@ -214,10 +215,13 @@ class Core(CorePluginBase):
             else:
                 no_label +=1
 
+        #show all labels,even if hide-zero-hits is true
+        """
         if self.config["hide_zero_hits"]:
             for label , count in list(labels.iteritems()):
                 if count == 0:
                     del labels[label]
+        """
 
         return [(NO_LABEL, no_label)] + [(label_id, labels[label_id]) for label_id in sorted(labels.keys())]
 
@@ -272,7 +276,7 @@ class Core(CorePluginBase):
         CheckInput(label_id, _("Empty Label"))
         CheckInput(not (label_id in self.labels) , _("Label already exists"))
 
-        self.labels[label_id] = OPTIONS_DEFAULTS
+        self.labels[label_id] = dict(OPTIONS_DEFAULTS)
         log.debug("this is the file!")
 
     def export_remove(self, label_id):
@@ -286,12 +290,22 @@ class Core(CorePluginBase):
         options = self.labels[label_id]
         torrent = self.torrents[torrent_id]
 
-        torrent.set_max_download_speed(options["max_download_speed"])
-        torrent.set_max_upload_speed(options["max_upload_speed"])
-        torrent.set_max_connections(options["max_connections"])
-        torrent.set_max_upload_slots(options["max_upload_slots"])
-        torrent.set_prioritize_first_last(options["prioritize_first_last"])
+        if options["apply_max"]:
+            torrent.set_max_download_speed(options["max_download_speed"])
+            torrent.set_max_upload_speed(options["max_upload_speed"])
+            torrent.set_max_connections(options["max_connections"])
+            torrent.set_max_upload_slots(options["max_upload_slots"])
+            torrent.set_prioritize_first_last(options["prioritize_first_last"])
 
+        if options["apply_queue"]:
+            torrent.set_auto_managed(options['is_auto_managed'])
+            torrent.set_stop_at_ratio(options['stop_at_ratio'])
+            torrent.set_stop_ratio(options['stop_ratio'])
+            torrent.set_remove_at_ratio(options['remove_at_ratio'])
+
+        if options["move_completed"]:
+            #todo...
+            pass
 
     def export_set_options(self, label_id, options_dict , apply = False):
         """update the label options

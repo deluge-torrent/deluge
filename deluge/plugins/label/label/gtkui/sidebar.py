@@ -120,12 +120,12 @@ class AddDialog(object):
 
 class OptionsDialog(object):
     spin_ids = ["max_download_speed","max_upload_speed","max_upload_slots","max_connections","stop_ratio"]
-    chk_ids = ["apply_max","apply_queue","stop_at_ratio","apply_queue","remove_at_ratio","chk_move_completed_to"]
+    chk_ids = ["apply_max","apply_queue","stop_at_ratio","apply_queue","remove_at_ratio","move_completed","is_auto_managed"]
     sensitive_groups = { #keys must be checkboxes , value-list is to be enabled on checked.
         "apply_max": ["max_download_speed","max_upload_speed","max_upload_slots","max_connections"],
         "apply_queue":["is_auto_managed","remove_at_ratio","stop_at_ratio","stop_ratio"],
         #"stop_at_ratio":["stop_at_ratio","remove_at_ratio"], #nested from apply_queue, will probably cause bugs.
-        "chk_move_completed_to":["move_completed_to"]
+        "move_completed":["move_completed_path"]
     }
 
     def __init__(self):
@@ -151,30 +151,24 @@ class OptionsDialog(object):
 
     def load_options(self, options):
         log.debug(options.keys())
-        options["chk_move_completed_to"] = bool(options["move_completed_to"])
+
         for id in self.spin_ids:
             self.glade.get_widget(id).set_value(options[id])
         for id in self.chk_ids:
             self.glade.get_widget(id).set_active(bool(options[id]))
-
-        if options["move_completed_to"]:
-            self.glade.get_widget("move_completed_to").set_filename(options["move_completed_to"])
+        self.glade.get_widget("move_completed_path").set_filename(options["move_completed_path"])
 
         self.apply_sensitivity()
 
     def on_ok(self, event=None):
         "save options.."
         options = {}
+
         for id in self.spin_ids:
             options[id] = self.glade.get_widget(id).get_value()
         for id in self.chk_ids:
             options[id] = self.glade.get_widget(id).get_active()
-
-        if options["chk_move_completed_to"]:
-            options["move_completed_to"] = self.glade.get_widget("move_completed_to").get_filename()
-        else:
-            options["move_completed_to"] = None
-        del options["chk_move_completed_to"] #not mapped.
+        options["move_completed_path"] = self.glade.get_widget("move_completed_path").get_filename()
 
 
         aclient.label_set_options(None, self.label, options)
@@ -185,7 +179,6 @@ class OptionsDialog(object):
         for chk_id , sensitive_list in self.sensitive_groups.iteritems():
             sens = self.glade.get_widget(chk_id).get_active()
             for widget_id in sensitive_list:
-                log.debug(widget_id)
                 self.glade.get_widget(widget_id).set_sensitive(sens)
 
 
