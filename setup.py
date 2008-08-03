@@ -316,9 +316,6 @@ setup(
                                 "ui/webui/static/images/tango/*.png",
                                 "ui/webui/templates/deluge/*",
                                 "ui/webui/templates/classic/*",
-                                "ui/webui/templates/ajax_demo/*.cfg",
-                                "ui/webui/templates/ajax_demo/*.html",
-                                "ui/webui/templates/ajax_demo/static/js/*",
                                 "ui/webui/templates/white/*"
                                 ]},
     packages = find_packages(exclude=["plugins"]),
