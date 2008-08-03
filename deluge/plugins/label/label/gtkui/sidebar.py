@@ -362,7 +362,7 @@ class LabelSideBar(component.Component):
             filter = (cat, value)
             if value == "All" or cat == "cat":
                 filter = (None, None)
-            elif (cat == "label" and value == NO_LABEL):
+            elif (cat == "cat" and value == NO_LABEL):
                  filter = ("label","")
 
             component.get("TorrentView").set_filter(*filter)
@@ -397,6 +397,8 @@ class LabelSideBar(component.Component):
 
             if cat == "label":
                 self.show_label_menu(value, event)
+            elif (cat == "cat" and value == "Label"):
+                self.show_label_menu(NO_LABEL, event)
 
     def show_label_menu(self, label, event):
         self.label_menu.set_label(label)
