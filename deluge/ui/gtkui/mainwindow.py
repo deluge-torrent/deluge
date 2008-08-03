@@ -193,6 +193,9 @@ class MainWindow(component.Component):
     def on_drag_data_received_event(self, widget, drag_context, x, y, selection_data, info, timestamp):
         args = []
         for uri in selection_data.data.split():
+            if deluge.common.windows_check():
+                uri = uri[7:]
+                uri = urllib.url2pathname(uri).strip("\r\n\x00")
             args.append(urllib.unquote(urlparse(uri).path))
         process_args(args)
         drag_context.finish(True, True)

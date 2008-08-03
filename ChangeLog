@@ -6,10 +6,12 @@ Deluge 0.9.05 - "1.0.0_RC5" (In Development)
  
  GtkUI:
   * Handle shutting down more cleanly
-  * Add translators to credits
   
  Plugins:
   * Improve the Blocklist plugin preferences page.
+  
+ Windows:
+  * Fix drag n' drop support
   
 Deluge 0.9.04 - "1.0.0_RC4" (29 July 2008)
  Core:
