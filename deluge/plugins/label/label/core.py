@@ -55,8 +55,14 @@ CONFIG_DEFAULTS = {
     "torrent_labels":{}, #torrent_id:label_id
     "labels":{}, #label_id:{name:value}
     "hide_zero_hits":False,
-    "gtk_alfa":False
+    "gtk_alfa":False,
+    "show_states":True,
+    "show_trackers":True,
+    "show_labels":True,
+    "show_search":True
 }
+
+CORE_OPTIONS = ["hide_zero_hits", "gtk_alfa", "show_states", "show_trackers", "show_labels", "show_search"]
 
 OPTIONS_DEFAULTS = {
     "max_download_speed":-1,
@@ -111,7 +117,6 @@ class Core(CorePluginBase):
 
     def clean_initial_config(self):
         "add any new keys in OPTIONS_DEFAULTS"
-        log.debug("--here--")
         log.debug(self.labels.keys())
         for key in self.labels.keys():
             options = dict(OPTIONS_DEFAULTS)
@@ -132,9 +137,7 @@ class Core(CorePluginBase):
                 self.config.config[key] = value
                 changed = True
         if changed:
-            pass
-            #self.config.save()
-        log.debug("label_config=%s" % self.config.config)
+            self.config.save()
 
     def disable(self):
         # De-register the label field
@@ -148,7 +151,6 @@ class Core(CorePluginBase):
     ## Filters ##
     def filter_state(self, torrents, value):
         "in/out: a list of torrent objects."
-        log.debug("filter-state:%s" % value)
         for t in torrents:
             log.debug("s=%s" % t.state)
         return [t for t in torrents if t.state == value]
@@ -173,6 +175,7 @@ class Core(CorePluginBase):
     def get_state_filter_items(self):
         states = dict([(state, 0) for state in KNOWN_STATES])
         state_order = list(KNOWN_STATES)
+
         #state-simple:
         for t in self.torrents.values():
             if not t.state in state_order:
@@ -237,9 +240,12 @@ class Core(CorePluginBase):
         """
         result = {}
 
-        result[STATE] = self.get_state_filter_items()
-        result[TRACKER] = self.get_tracker_filter_items()
-        result[LABEL] = self.get_label_filter_items()
+        if self.config.get("show_states"):
+            result[STATE] = self.get_state_filter_items()
+        if self.config.get("show_trackers"):
+            result[TRACKER] = self.get_tracker_filter_items()
+        if self.config.get("show_labels"):
+            result[LABEL] = self.get_label_filter_items()
 
         return result
 
@@ -277,7 +283,6 @@ class Core(CorePluginBase):
         CheckInput(not (label_id in self.labels) , _("Label already exists"))
 
         self.labels[label_id] = dict(OPTIONS_DEFAULTS)
-        log.debug("this is the file!")
 
     def export_remove(self, label_id):
         "remove a label"
@@ -362,10 +367,7 @@ class Core(CorePluginBase):
 
     def export_get_global_options(self):
         "see : label_set_global_options"
-        return {
-            "hide_zero_hits":self.config.get("hide_zero_hits"),
-            "gtk_alfa":self.config.get("gtk_alfa")
-        }
+        return dict ( (k,self.config.get(k) )  for k in CORE_OPTIONS)
 
     def export_set_global_options(self, options):
         """global_options:
@@ -373,7 +375,7 @@ class Core(CorePluginBase):
             "hide_zero":bool() #label_filter_items only returns items with more than 0 hits.
         }
         """
-        for key in ["hide_zero_hits", "gtk_alfa"]:
+        for key in CORE_OPTIONS:
             if options.has_key(key):
                 self.config.set(key, options[key])
         self.config.save()

@@ -275,9 +275,20 @@ class LabelSideBar(component.Component):
                 self.update_row(cat, value , count)
                 visible_filters.append((cat, value))
 
+        # hide root-categories not returned by core-part of the plugin.
+        for cat in self.cat_nodes:
+            if cat in filter_items:
+                self.treestore.set_value(self.cat_nodes[cat], 4, True)
+
+            else:
+                self.treestore.set_value(self.cat_nodes[cat], 4, False)
+
+        # hide items not returned by core-plugin.
         for f in self.filters:
             if not f in visible_filters:
                 self.treestore.set_value(self.filters[f], 4, False)
+
+        # kind of a hack.
         if self.first_expand:
             self.label_view.expand_all()
             self.first_expand = False

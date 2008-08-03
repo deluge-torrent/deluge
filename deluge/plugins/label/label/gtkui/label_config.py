@@ -42,6 +42,8 @@ from deluge.ui.client import aclient
 
 
 class LabelConfig(object):
+    chk_ids = ["hide_zero_hits","show_labels","show_trackers","show_states","show_search"]
+
     def __init__(self, plugin):
         self.plugin = plugin
         self.labels = []
@@ -61,7 +63,6 @@ class LabelConfig(object):
 
     def unload(self):
         self.plugin.remove_preferences_page("Label")
-        self.plugin.deregister_hook("on_apply_prefs", self.on_apply_prefs)
         self.plugin.deregister_hook("on_show_prefs", self.load_settings)
 
     def get_resource(self, filename):
@@ -70,10 +71,15 @@ class LabelConfig(object):
     def load_settings(self ,widget = None , data = None):
         aclient.label_get_global_options(self.cb_global_options)
 
-    def cb_global_options(self, data):
-        self.glade.get_widget("hide_zero_hits").set_active(data["hide_zero_hits"])
+    def cb_global_options(self, options):
+        log.debug("options=%s" % options)
+        for id in self.chk_ids:
+            self.glade.get_widget(id).set_active(bool(options[id]))
 
     def on_apply_prefs(self):
-        options = {"hide_zero_hits":self.glade.get_widget("hide_zero_hits").get_active()}
+        options = {}
+        for id in self.chk_ids:
+            options[id] = self.glade.get_widget(id).get_active()
+
         aclient.label_set_global_options(None, options)
 
