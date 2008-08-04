@@ -63,6 +63,7 @@ class LabelConfig(object):
 
     def unload(self):
         self.plugin.remove_preferences_page("Label")
+        self.plugin.deregister_hook("on_apply_prefs", self.on_apply_prefs)
         self.plugin.deregister_hook("on_show_prefs", self.load_settings)
 
     def get_resource(self, filename):
