@@ -42,22 +42,18 @@ import xdg, xdg.BaseDirectory
 LT_TORRENT_STATE = {
     "Queued": 0,
     "Checking": 1,
-    "Connecting": 2,
-    "Downloading Metadata": 3,
-    "Downloading": 4,
-    "Finished": 5,
-    "Seeding": 6,
-    "Allocating": 7,
-    "Paused": 8,
+    "Downloading Metadata": 2,
+    "Downloading": 3,
+    "Finished": 4,
+    "Seeding": 5,
+    "Allocating": 6,
     0: "Queued",
     1: "Checking",
-    2: "Connecting",
-    3: "Downloading Metadata",
-    4: "Downloading",
-    5: "Finished",
-    6: "Seeding",
-    7: "Allocating",
-    8: "Paused"
+    2: "Downloading Metadata",
+    3: "Downloading",
+    4: "Finished",
+    5: "Seeding",
+    6: "Allocating",
 }
 
 TORRENT_STATE = [

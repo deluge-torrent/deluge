@@ -962,9 +962,9 @@ namespace libtorrent
 			m_complete_sent = true;
 
 		m_failed_trackers = 0;
-		// announce intervals less than 5 minutes
-		// are insane.
-		if (interval < 60 * 5) interval = 60 * 5;
+
+		if (interval < m_ses.settings().min_announce_interval)
+			interval = m_ses.settings().min_announce_interval;
 
 		m_last_working_tracker
 			= prioritize_tracker(m_currently_trying_tracker);
@@ -1016,17 +1016,6 @@ namespace libtorrent
 			}
 			else
 			{
-				if (m_ses.m_ip_filter.access(a.address()) & ip_filter::blocked)
-				{
-#if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_LOGGING || defined TORRENT_ERROR_LOGGING
-					debug_log("blocked ip from tracker: " + i->ip);
-#endif
-					if (m_ses.m_alerts.should_post<peer_blocked_alert>())
-						m_ses.m_alerts.post_alert(peer_blocked_alert(a.address()));
-
-					continue;
-				}
-
 				m_policy.peer_from_tracker(a, i->pid, peer_info::tracker, 0);
 			}
 		}
@@ -3272,7 +3261,7 @@ namespace libtorrent
 		TORRENT_ASSERT(m_torrent_file->is_valid());
 		INVARIANT_CHECK;
 
-		set_state(torrent_status::connecting_to_tracker);
+		set_state(torrent_status::downloading);
 
 		if (!is_seed())
 		{
@@ -4368,11 +4357,7 @@ namespace libtorrent
 
 		if (!valid_metadata())
 		{
-			if (m_got_tracker_response == false && m_connections.empty())
-				st.state = torrent_status::connecting_to_tracker;
-			else
-				st.state = torrent_status::downloading_metadata;
-
+			st.state = torrent_status::downloading_metadata;
 			st.progress = m_progress;
 			st.block_size = 0;
 			return st;

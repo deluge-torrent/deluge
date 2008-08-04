@@ -251,8 +251,7 @@ class Torrent:
         if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:
             self.state = "Checking"
             return
-        elif ltstate == LTSTATE["Connecting"] or ltstate == LTSTATE["Downloading"] or\
-                    ltstate == LTSTATE["Downloading Metadata"]:
+        elif ltstate == LTSTATE["Downloading"] or ltstate == LTSTATE["Downloading Metadata"]:
             self.state = "Downloading"
         elif ltstate == LTSTATE["Finished"] or ltstate == LTSTATE["Seeding"]:
             self.state = "Seeding"
