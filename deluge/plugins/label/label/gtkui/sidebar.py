@@ -62,8 +62,11 @@ class LabelMenu(gtk.Menu):
     def __init__(self):
         gtk.Menu.__init__(self)
         self._add_item("add", _("_Add"), gtk.STOCK_ADD)
-        self._add_item("options", _("_Options") ,gtk.STOCK_PREFERENCES)
         self._add_item("remove", _("Remove"), gtk.STOCK_REMOVE)
+        self._add_item("options", _("_Options") ,gtk.STOCK_PREFERENCES)
+        #self._add_item("resume", _("_Resume") ,gtk.STOCK_MEDIA_PLAY)
+        #self._add_item("pause", _("_Pause") ,gtk.STOCK_MEDIA_PAUSE)
+
         self.show_all()
         self.label = None
 
@@ -87,6 +90,13 @@ class LabelMenu(gtk.Menu):
 
     def on_options (self, event=None):
         self.options_dialog.show(self.label, (200,250))
+
+    def on_resume(self, event=None):
+        pass
+
+    def on_pause (self, event=None):
+        pass
+
 
     def set_label(self,label):
         "No Label:disable options/del"
@@ -198,7 +208,6 @@ class LabelSideBar(component.Component):
         self.scrolled = glade.get_widget("scrolledwindow_sidebar")
         self.is_visible = True
         self.filters = {}
-        self.first_expand = True
         self.label_view = gtk.TreeView()
 
         # Create the liststore
@@ -227,9 +236,9 @@ class LabelSideBar(component.Component):
         column.set_cell_data_func(render, self.render_cell_data,None)
 
         self.label_view.append_column(column)
+
         #style:
-        self.label_view.set_show_expanders(True)
-        self.label_view.set_level_indentation(-35)
+        self.label_view.set_show_expanders(False)
         self.label_view.set_headers_visible(False)
 
         self.label_view.set_model(self.treestore)
@@ -237,18 +246,12 @@ class LabelSideBar(component.Component):
         self.label_view.get_selection().connect("changed",
                                     self.on_selection_changed)
 
-        # Select the 'All' label on init
-        #self.label_view.get_selection().select_iter(
-        #    self.treestore.get_iter_first())
-
         self.create_model_filter()
+
         #init.....
         self._start()
-        self.label_view.expand_all()
         self.hpaned.set_position(170)
-
         self.label_view.connect("button-press-event", self.on_button_press_event)
-
         self.label_menu = LabelMenu()
 
 
@@ -288,10 +291,8 @@ class LabelSideBar(component.Component):
             if not f in visible_filters:
                 self.treestore.set_value(self.filters[f], 4, False)
 
-        # kind of a hack.
-        if self.first_expand:
-            self.label_view.expand_all()
-            self.first_expand = False
+        # obsolete?
+        self.label_view.expand_all()
 
     def update_row(self, cat, value , count):
         if (cat, value) in self.filters:
@@ -314,14 +315,15 @@ class LabelSideBar(component.Component):
         else:
             self.renderpix.set_property("visible", False)
 
+        cell.set_property('editable', False)
         if cat == "cat":
             txt = value
             col = gtk.gdk.color_parse('#EEEEEE')
-            cell.set_property("ypad",1)
         else:
             txt = "%s (%s)"  % (value, count)
             col = gtk.gdk.color_parse('white')
-            cell.set_property("ypad",1)
+
+
 
         cell.set_property('text', txt)
         cell.set_property("cell-background-gdk",col)
@@ -362,7 +364,7 @@ class LabelSideBar(component.Component):
             filter = (cat, value)
             if value == "All" or cat == "cat":
                 filter = (None, None)
-            elif (cat == "cat" and value == NO_LABEL):
+            elif (cat == "label" and value == NO_LABEL):
                  filter = ("label","")
 
             component.get("TorrentView").set_filter(*filter)
@@ -397,8 +399,10 @@ class LabelSideBar(component.Component):
 
             if cat == "label":
                 self.show_label_menu(value, event)
-            elif (cat == "cat" and value == "Label"):
+            elif (cat == "cat" and value == "Label"): #add button on root node.
                 self.show_label_menu(NO_LABEL, event)
+
+
 
     def show_label_menu(self, label, event):
         self.label_menu.set_label(label)

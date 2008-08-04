@@ -58,11 +58,10 @@ CONFIG_DEFAULTS = {
     "gtk_alfa":False,
     "show_states":True,
     "show_trackers":True,
-    "show_labels":True,
-    "show_search":True
+    "show_labels":True
 }
 
-CORE_OPTIONS = ["hide_zero_hits", "gtk_alfa", "show_states", "show_trackers", "show_labels", "show_search"]
+CORE_OPTIONS = ["hide_zero_hits", "gtk_alfa", "show_states", "show_trackers", "show_labels"]
 
 OPTIONS_DEFAULTS = {
     "max_download_speed":-1,

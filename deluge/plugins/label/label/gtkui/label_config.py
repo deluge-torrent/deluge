@@ -42,7 +42,7 @@ from deluge.ui.client import aclient
 
 
 class LabelConfig(object):
-    chk_ids = ["hide_zero_hits","show_labels","show_trackers","show_states","show_search"]
+    chk_ids = ["hide_zero_hits","show_labels","show_trackers","show_states"]
 
     def __init__(self, plugin):
         self.plugin = plugin
