@@ -43,10 +43,27 @@ class SignalManager(component.Component):
     def __init__(self):
         component.Component.__init__(self, "SignalManager")
         self.clients = {}
+        self.handlers = {}
 
     def shutdown(self):
         self.clients = {}
+        self.handlers = {}
 
+    def register_handler(self, signal, handler):
+        """Registers a handler for signals"""
+        if signal not in self.handler.keys():
+            self.handler[signal] = []
+        
+        self.handler[signal].append(handler)
+        log.debug("Registered signal handler for %s", signal)
+
+    def deregister_handler(self, handler):
+        """De-registers the 'handler' function from all signal types."""
+        # Iterate through all handlers and remove 'handler' where found
+        for (key, value) in self.handlers:
+            if handler in value:
+                value.remove(handler)
+                            
     def deregister_client(self, address):
         """Deregisters a client"""
         log.debug("Deregistering %s as a signal reciever..", address)
@@ -62,6 +79,11 @@ class SignalManager(component.Component):
         self.clients[uri] = xmlrpclib.ServerProxy(uri)
 
     def emit(self, signal, *data):
+        # Run the handlers
+        if signal in self.handlers.keys():
+            for handler in self.handlers[signal]:
+                handler(*data)
+                
         for uri in self.clients:
             gobject.idle_add(self._emit, uri, signal, 1, *data)
 
