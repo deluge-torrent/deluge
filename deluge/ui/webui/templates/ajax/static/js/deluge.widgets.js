@@ -737,19 +737,33 @@ Deluge.Widgets.GenericPreferences = new Class({
 				});
 			} else if (input.type == 'text') {
 				input.value = config[input.name];
+				this.original[input.name] = input.value;
 			} else if (input.type == 'checkbox') {
 				input.checked = config[input.name];
+				this.original[input.name] = input.checked;
 			} else if (input.type == 'radio') {
 				var value = config[input.name].toString()
-				if (input.value == value) input.checked = true;
+				if (input.value == value) {
+					input.checked = true;
+					this.original[input.name] = input.value;
+				}
 			}
-			this.original[input.name] = input.value;
+			
 			input.addEvent('change', function(el) {
-				if (this.original[input.name] == input.value) {
-					if (this.changed[input.name])
-						delete this.changed[input.name];
+				if (input.type == 'checkbox') {
+					if (this.original[input.name] == input.checked) {
+						if (this.changed[input.name])
+							delete this.changed[input.name];
+					} else {
+						this.changed[input.name] = input.checked
+					}
 				} else {
-					this.changed[input.name] = input.value;
+					if (this.original[input.name] == input.value) {
+						if (this.changed[input.name])
+							delete this.changed[input.name];
+					} else {
+						this.changed[input.name] = input.value;
+					}
 				}
 			}.bindWithEvent(this))
 		}, this);
@@ -897,11 +911,14 @@ Deluge.Widgets.PreferencesWindow = new Class({
 	
 	applied: function(event) {
 		var config = {}
-		/*this.categories.each(function(category) {
-			alert(JSON.encode(category.changed));
+		this.categories.each(function(category) {
 			config = $merge(config, category.changed)
 		});
-		alert(JSON.encode(config));*/
+		Deluge.Client.set_config(config, {
+			onSuccess: function(e) {
+				this.hide();
+			}.bindWithEvent(this)
+		});
 		this.webui.apply();
 	},
 	
