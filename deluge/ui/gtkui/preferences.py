@@ -434,7 +434,8 @@ class Preferences(component.Component):
             self.gtkui_config["ntf_email"])
         self.glade.get_widget("chk_ntf_sound").set_active(
             self.gtkui_config["ntf_sound"])
-        self.glade.get_widget("combo_ntf_sound_path").set_filename(self.gtkui_config["ntf_sound_path"])
+        if self.gtkui_config["ntf_sound_path"]:
+            self.glade.get_widget("combo_ntf_sound_path").set_filename(self.gtkui_config["ntf_sound_path"])
         self.glade.get_widget("txt_ntf_email").set_text(
             self.gtkui_config["ntf_email_add"])
         self.glade.get_widget("txt_ntf_server").set_text(
