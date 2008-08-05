@@ -4,3 +4,10 @@ $for id, title, image, flag, method, url, important in toolbar_items:
         onclick='toolbar_$(method.lower()) ("$base$url",$flag)'
         title='$title'><img class='toolbar_btn'
         src='$base/static/images/tango/$image'></a>
+
+        <a class='toolbar_btn' href="#"
+        onclick='select_all_rows()'
+        title='$_("Select All")'><img class='toolbar_btn'
+        src='$base/static/images/tango/select-all.png'></a>
+
+

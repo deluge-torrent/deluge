@@ -97,6 +97,14 @@ function deselect_all_rows(){
 	}
 }
 
+function select_all_rows(){
+    torrents = torrent_table.torrents
+	for (i in torrents){
+		select_row(torrents[i]);
+	}
+}
+
+
 function reselect_rows(){
 	var selected = false;
 	var selected_rows = getCookie('selected_rows').split(',');
