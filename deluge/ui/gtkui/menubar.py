@@ -353,9 +353,10 @@ class MenuBar(component.Component):
         entry = glade.get_widget("entry_destination")
         entry.set_text(status["save_path"])
         def _on_response_event(widget, response_id):
-            log.debug("Moving torrents to %s", entry.get_text())
-            path = entry.get_text()
-            client.move_storage(component.get("TorrentView").get_selected_torrents(), path)
+            if response_id == gtk.RESPONSE_OK:
+                log.debug("Moving torrents to %s", entry.get_text())
+                path = entry.get_text()
+                client.move_storage(component.get("TorrentView").get_selected_torrents(), path)
             dialog.hide()
         dialog.connect("response", _on_response_event)
         dialog.show()

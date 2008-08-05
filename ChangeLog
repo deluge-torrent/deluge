@@ -1,3 +1,7 @@
+Deluge 0.9.06 - "1.0.0_RC6" (In Development)
+ GtkUI:
+  * Fix move storage dialog when connected to a remote daemon
+  
 Deluge 0.9.05 - "1.0.0_RC5" (04 August 2008)
  Core:
   * Fix deluged running with ssh X forwarding by removing the Gnome lib import
