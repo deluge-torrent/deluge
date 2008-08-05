@@ -328,10 +328,11 @@ class Core(CorePluginBase):
 
     def _has_auto_match(self, torrent ,label_options):
         "match for auto_add fields"
+        log.debug(111)
         for tracker_match in label_options["auto_add_trackers"]:
+            log.debug(torrent.trackers)
             for tracker in torrent.trackers:
-                log.debug(tracker_match in tracker["url"])
-                log.debug((tracker_match , tracker["url"]))
+                log.debug((tracker_match , tracker["url"],tracker_match in tracker["url"]))
                 if tracker_match in tracker["url"]:
                     return True
         return False
@@ -367,7 +368,7 @@ class Core(CorePluginBase):
         #auto add
         options = self.labels[label_id]
         if options["auto_add"]:
-            for torrent in self.torrents.values():
+            for torrent_id, torrent in self.torrents.iteritems():
                 if self._has_auto_match(torrent, options):
                     self.export_set_torrent(torrent_id , label_id)
 
@@ -394,7 +395,7 @@ class Core(CorePluginBase):
                 self.clean_config()
         else:
             self.torrent_labels[torrent_id] = label_id
-            self.set_torrent_options(torrent_id, label_id)
+            self._set_torrent_options(torrent_id, label_id)
 
         self.config.save()
 
