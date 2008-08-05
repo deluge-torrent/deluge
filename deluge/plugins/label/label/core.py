@@ -61,7 +61,7 @@ CONFIG_DEFAULTS = {
     "show_labels":True
 }
 
-CORE_OPTIONS = ["hide_zero_hits", "gtk_alfa", "show_states", "show_trackers", "show_labels"]
+CORE_OPTIONS = ["hide_zero_hits", "gtk_alfa", "show_states", "show_trackers", "show_labels","auto_add","auto_add_trackers"]
 
 OPTIONS_DEFAULTS = {
     "max_download_speed":-1,
@@ -76,7 +76,9 @@ OPTIONS_DEFAULTS = {
     "is_auto_managed":False,
     "stop_at_ratio":False,
     "stop_ratio":2.0,
-    "remove_at_ratio":False
+    "remove_at_ratio":False,
+    "auto_add":False,
+    "auto_add_trackers":[],
 }
 
 NO_LABEL = "No Label"
@@ -105,8 +107,30 @@ class Core(CorePluginBase):
         self.torrent_labels = self.config.get("torrent_labels")
 
         self.clean_initial_config()
+        #todo: register to torrent_added event.
         log.debug("Label plugin enabled..")
 
+    def disable(self):
+        self.plugin.deregister_status_field("label")
+        #todo: unregister to torrent_added event.
+
+    def update(self):
+        pass
+
+    ## Core Event handlers ##
+    def on_torrent_added(self, alert):
+        log.debug("on_torrent_added")
+        # Get the torrent_id
+        torrent_id = str(alert.handle.info_hash())
+        torrent = self.torrents[torrent_id]
+
+        for label_id,options in self.labels.iteritems():
+            if options[auto_add]:
+                if self._match_auto_add(torrent, options):
+                    self.export_set_torrent(torrent_id, label_id)
+                    return
+
+    ## Utils ##
     def clean_config(self):
         "remove invalid data from config-file"
         for torrent_id, label_id in list(self.torrent_labels.iteritems()):
@@ -122,8 +146,6 @@ class Core(CorePluginBase):
             options.update(self.labels[key])
             self.labels[key] = options
 
-
-
     def save_config(self):
         self.clean_config()
         self.config.save()
@@ -137,14 +159,6 @@ class Core(CorePluginBase):
                 changed = True
         if changed:
             self.config.save()
-
-    def disable(self):
-        # De-register the label field
-        #self.plugin.deregister_status_field("tracker_host")
-        self.plugin.deregister_status_field("label")
-
-    def update(self):
-        pass
 
 
     ## Filters ##
@@ -311,6 +325,18 @@ class Core(CorePluginBase):
             #todo...
             pass
 
+
+    def _has_auto_match(self, torrent ,label_options):
+        "match for auto_add fields"
+        for tracker_match in label_options["auto_add_trackers"]:
+            for tracker in torrent.trackers:
+                log.debug(tracker_match in tracker["url"])
+                log.debug((tracker_match , tracker["url"]))
+                if tracker_match in tracker["url"]:
+                    return True
+        return False
+
+
     def export_set_options(self, label_id, options_dict , apply = False):
         """update the label options
 
@@ -333,9 +359,17 @@ class Core(CorePluginBase):
 
         self.labels[label_id].update(options_dict)
 
+        #apply
         for torrent_id,label in self.torrent_labels.iteritems():
             if label_id == label:
                 self._set_torrent_options(torrent_id , label_id)
+
+        #auto add
+        options = self.labels[label_id]
+        if options["auto_add"]:
+            for torrent in self.torrents.values():
+                if self._has_auto_match(torrent, options):
+                    self.export_set_torrent(torrent_id , label_id)
 
         self.config.save()
 
@@ -360,7 +394,7 @@ class Core(CorePluginBase):
                 self.clean_config()
         else:
             self.torrent_labels[torrent_id] = label_id
-            self._set_torrent_options(torrent_id, label_id)
+            self.set_torrent_options(torrent_id, label_id)
 
         self.config.save()
 
@@ -378,7 +412,6 @@ class Core(CorePluginBase):
             if options.has_key(key):
                 self.config.set(key, options[key])
         self.config.save()
-
 
     def _status_get_label(self, torrent_id):
         return self.torrent_labels.get(torrent_id) or ""

@@ -129,13 +129,14 @@ class AddDialog(object):
 
 
 class OptionsDialog(object):
-    spin_ids = ["max_download_speed","max_upload_speed","max_upload_slots","max_connections","stop_ratio"]
-    chk_ids = ["apply_max","apply_queue","stop_at_ratio","apply_queue","remove_at_ratio","move_completed","is_auto_managed"]
+    spin_ids = ["max_download_speed", "max_upload_speed", "max_upload_slots", "max_connections", "stop_ratio"]
+    chk_ids = ["apply_max", "apply_queue", "stop_at_ratio", "apply_queue", "remove_at_ratio", "move_completed", "is_auto_managed", "auto_add"]
     sensitive_groups = { #keys must be checkboxes , value-list is to be enabled on checked.
-        "apply_max": ["max_download_speed","max_upload_speed","max_upload_slots","max_connections"],
-        "apply_queue":["is_auto_managed","remove_at_ratio","stop_at_ratio","stop_ratio"],
+        "apply_max": ["max_download_speed", "max_upload_speed", "max_upload_slots", "max_connections"],
+        "apply_queue":["is_auto_managed", "remove_at_ratio", "stop_at_ratio", "stop_ratio"],
         #"stop_at_ratio":["stop_at_ratio","remove_at_ratio"], #nested from apply_queue, will probably cause bugs.
-        "move_completed":["move_completed_path"]
+        "move_completed":["move_completed_path"],
+        "auto_add":["auto_add_trackers"]
     }
 
     def __init__(self):
@@ -166,7 +167,10 @@ class OptionsDialog(object):
             self.glade.get_widget(id).set_value(options[id])
         for id in self.chk_ids:
             self.glade.get_widget(id).set_active(bool(options[id]))
+
         self.glade.get_widget("move_completed_path").set_filename(options["move_completed_path"])
+
+        self.glade.get_widget("auto_add_trackers").get_buffer().set_text("\n".join(options["auto_add_trackers"]))
 
         self.apply_sensitivity()
 
@@ -178,9 +182,13 @@ class OptionsDialog(object):
             options[id] = self.glade.get_widget(id).get_value()
         for id in self.chk_ids:
             options[id] = self.glade.get_widget(id).get_active()
+
         options["move_completed_path"] = self.glade.get_widget("move_completed_path").get_filename()
+        buff = self.glade.get_widget("auto_add_trackers").get_buffer() #sometimes I hate gtk...
+        tracker_lst =  buff.get_text(buff.get_start_iter(), buff.get_end_iter()).strip().split("\n")
+        options["auto_add_trackers"] = [x for x in tracker_lst if x] #filter out empty lines.
 
-
+        log.debug(options)
         aclient.label_set_options(None, self.label, options)
         self.dialog.destroy()
 
