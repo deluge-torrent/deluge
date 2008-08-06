@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Wed Aug  6 19:54:34 2008 -->
+<!--Generated with glade3 3.4.5 on Wed Aug  6 20:15:03 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="pref_dialog">
     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
@@ -119,7 +119,6 @@
                                           <widget class="GtkAlignment" id="alignment19">
                                             <property name="visible">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="left_padding">10</property>
                                             <child>
                                               <widget class="GtkCheckButton" id="chk_focus_dialog">
                                                 <property name="visible">True</property>
@@ -232,7 +231,7 @@
                                           <widget class="GtkCheckButton" id="chk_copy_torrent_file">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="label" translatable="yes">Save copy of .torrent file:</property>
+                                            <property name="label" translatable="yes">Copy of .torrent files to:</property>
                                             <property name="response_id">0</property>
                                             <property name="draw_indicator">True</property>
                                             <signal name="toggled" handler="on_toggle"/>
@@ -248,7 +247,7 @@
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
-                                            <property name="label" translatable="yes">Auto add folder:</property>
+                                            <property name="label" translatable="yes">Auto add .torrents from:</property>
                                             <property name="response_id">0</property>
                                             <property name="draw_indicator">True</property>
                                             <signal name="toggled" handler="on_toggle"/>
@@ -370,7 +369,7 @@
                                 <child>
                                   <widget class="GtkLabel" id="label11">
                                     <property name="visible">True</property>
-                                    <property name="label" translatable="yes">&lt;b&gt;Locations&lt;/b&gt;</property>
+                                    <property name="label" translatable="yes">&lt;b&gt;Folders&lt;/b&gt;</property>
                                     <property name="use_markup">True</property>
                                   </widget>
                                   <packing>
