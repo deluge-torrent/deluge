@@ -108,27 +108,34 @@ class Core(CorePluginBase):
 
         self.clean_initial_config()
         #todo: register to torrent_added event.
+        self.plugin.register_hook("post_torrent_add", self.post_torrent_add)
+        self.plugin.register_hook("post_torrent_remove", self.post_torrent_remove)
         log.debug("Label plugin enabled..")
 
     def disable(self):
         self.plugin.deregister_status_field("label")
-        #todo: unregister to torrent_added event.
+        self.plugin.deregister_hook("post_torrent_add", self.post_torrent_add)
+        self.plugin.deregister_hook("post_torrent_remove", self.post_torrent_remove)
 
     def update(self):
         pass
 
-    ## Core Event handlers ##
-    def on_torrent_added(self, alert):
-        log.debug("on_torrent_added")
-        # Get the torrent_id
-        torrent_id = str(alert.handle.info_hash())
+    ## Plugin hooks ##
+    def post_torrent_add(self, torrent_id):
+        log.debug("post_torrent_add")
         torrent = self.torrents[torrent_id]
 
-        for label_id,options in self.labels.iteritems():
-            if options[auto_add]:
-                if self._match_auto_add(torrent, options):
+        for label_id, options in self.labels.iteritems():
+            if options["auto_add"]:
+                if self._has_auto_match(torrent, options):
                     self.export_set_torrent(torrent_id, label_id)
                     return
+
+    def post_torrent_remove(self, torrent_id):
+        log.debug("post_torrent_remove")
+        if torrent_id in self.torrent_labels:
+            del self.torrent_labels[torrent_id]
+
 
     ## Utils ##
     def clean_config(self):
@@ -325,18 +332,13 @@ class Core(CorePluginBase):
             #todo...
             pass
 
-
     def _has_auto_match(self, torrent ,label_options):
         "match for auto_add fields"
-        log.debug(111)
         for tracker_match in label_options["auto_add_trackers"]:
-            log.debug(torrent.trackers)
             for tracker in torrent.trackers:
-                log.debug((tracker_match , tracker["url"],tracker_match in tracker["url"]))
                 if tracker_match in tracker["url"]:
                     return True
         return False
-
 
     def export_set_options(self, label_id, options_dict , apply = False):
         """update the label options
