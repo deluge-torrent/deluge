@@ -224,9 +224,9 @@ class LabelSideBar(component.Component):
 
         #add Cat nodes:
         self.cat_nodes = {}
-        self.cat_nodes["state"] = self.treestore.append(None, ["cat", "State", 0, None, True])
-        self.cat_nodes["tracker"] = self.treestore.append(None, ["cat","Tracker", 0,None, True])
-        self.cat_nodes["label"] = self.treestore.append(None, ["cat", "Label", 0, None, True])
+        self.cat_nodes["state"] = self.treestore.append(None, ["cat", "State", 0, None, False])
+        self.cat_nodes["tracker"] = self.treestore.append(None, ["cat","Tracker", 0,None, False])
+        self.cat_nodes["label"] = self.treestore.append(None, ["cat", "Label", 0, None, False])
 
         #default node:
         self.filters[("state", "All")] = self.treestore.append(self.cat_nodes["state"],
