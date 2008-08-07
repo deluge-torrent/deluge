@@ -43,7 +43,7 @@ class AboutDialog:
     def __init__(self):
         # Get the glade file for the about dialog
         def url_hook(dialog, url):
-            client.open_url_in_browser(url)
+            deluge.common.open_url_in_browser(url)
         gtk.about_dialog_set_url_hook(url_hook)
         self.about = gtk.AboutDialog()
         self.about.set_position(gtk.WIN_POS_CENTER)
