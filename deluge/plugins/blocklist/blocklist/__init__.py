@@ -3,13 +3,13 @@
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
 # Copyright (C) 2008 Mark Stahler ('kramed') <markstahler@gmail.com>
-
+#
 #
 # Deluge is free software.
 #
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
-# Foundation; either version 2 of the License, or (at your option)
+# Foundation; either version 3 of the License, or (at your option)
 # any later version.
 #
 # deluge is distributed in the hope that it will be useful,
