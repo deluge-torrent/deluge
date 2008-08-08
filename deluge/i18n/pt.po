@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-07-20 14:08-0500\n"
-"PO-Revision-Date: 2008-06-11 08:03+0000\n"
-"Last-Translator: João Santos <twocool.pt@gmail.com>\n"
+"PO-Revision-Date: 2008-08-07 16:28+0000\n"
+"Last-Translator: Joel Calado <joelcalado@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-02 05:32+0000\n"
+"X-Launchpad-Export-Date: 2008-08-08 04:57+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:649
@@ -23,7 +23,7 @@ msgstr "Anúncio OK"
 
 #: deluge/core/torrentmanager.py:670
 msgid "Announce Sent"
-msgstr ""
+msgstr "Anúncio enviado"
 
 #: deluge/core/torrentmanager.py:679
 msgid "Alert"
@@ -50,7 +50,7 @@ msgstr "Adicionar"
 
 #: deluge/ui/webui/scripts/template_strings.py:4
 msgid "Add Another (Stay in add page)"
-msgstr ""
+msgstr "Adicionar outro (Permanecer na página de adicionar)"
 
 #: deluge/ui/webui/scripts/template_strings.py:5
 msgid "Add Torrent"
@@ -75,7 +75,7 @@ msgstr "Disponibilidade"
 
 #: deluge/ui/webui/scripts/template_strings.py:10
 msgid "BandWidth"
-msgstr ""
+msgstr "Largura de banda"
 
 #: deluge/ui/webui/scripts/template_strings.py:11
 #: deluge/ui/webui/register_menu.py:39
@@ -89,7 +89,7 @@ msgstr "Ligações"
 
 #: deluge/ui/webui/scripts/template_strings.py:13
 msgid "DHT Nodes"
-msgstr ""
+msgstr "Nós DHT"
 
 #: deluge/ui/webui/scripts/template_strings.py:14
 msgid "Debug:Data Dump"
@@ -153,15 +153,15 @@ msgstr "Tempo Estimado"
 
 #: deluge/ui/webui/scripts/template_strings.py:27
 msgid "File"
-msgstr ""
+msgstr "Ficheiro"
 
 #: deluge/ui/webui/scripts/template_strings.py:28
 msgid "Filter on Tracker"
-msgstr ""
+msgstr "Filtrar por Tracker"
 
 #: deluge/ui/webui/scripts/template_strings.py:29
 msgid "Filter on state"
-msgstr ""
+msgstr "Filtrar por estado"
 
 #: deluge/ui/webui/scripts/template_strings.py:30
 #: deluge/plugins/label/label/webui_config.py:115
@@ -173,7 +173,7 @@ msgstr "Geral"
 
 #: deluge/ui/webui/scripts/template_strings.py:31
 msgid "Hash"
-msgstr ""
+msgstr "Hash"
 
 #: deluge/ui/webui/scripts/template_strings.py:32
 msgid "Login"
@@ -263,7 +263,7 @@ msgstr "Re-anúnciar"
 
 #: deluge/ui/webui/scripts/template_strings.py:50
 msgid "Refresh"
-msgstr ""
+msgstr "Actualizar"
 
 #: deluge/ui/webui/scripts/template_strings.py:51
 msgid "Refresh page every:"
@@ -287,7 +287,7 @@ msgstr "Continuar todos"
 
 #: deluge/ui/webui/scripts/template_strings.py:56
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
 #: deluge/ui/webui/scripts/template_strings.py:57
 #: deluge/ui/gtkui/torrentview.py:137
@@ -304,7 +304,7 @@ msgstr "Definir tempo de esgotamento"
 
 #: deluge/ui/webui/scripts/template_strings.py:60
 msgid "Settings"
-msgstr ""
+msgstr "Configurações"
 
 #: deluge/ui/webui/scripts/template_strings.py:61
 msgid "Share Ratio"
@@ -389,23 +389,23 @@ msgstr "atualização deve ser > 0"
 
 #: deluge/ui/webui/pages.py:321
 msgid "no uri"
-msgstr ""
+msgstr "sem uri"
 
 #: deluge/ui/webui/torrent_add.py:43
 msgid "Download Location"
-msgstr ""
+msgstr "Localização das descargas"
 
 #: deluge/ui/webui/torrent_add.py:44
 msgid "Compact Allocation"
-msgstr ""
+msgstr "Alocação compacta"
 
 #: deluge/ui/webui/torrent_add.py:48 deluge/ui/webui/torrent_options.py:16
 msgid "Maximum Down Speed"
-msgstr ""
+msgstr "Velocidade máxima de download"
 
 #: deluge/ui/webui/torrent_add.py:50 deluge/ui/webui/torrent_options.py:18
 msgid "Maximum Up Speed"
-msgstr ""
+msgstr "Velocidade máxima de upload"
 
 #: deluge/ui/webui/torrent_add.py:51 deluge/ui/webui/config_tabs_deluge.py:102
 #: deluge/ui/webui/config_tabs_deluge.py:117
@@ -421,15 +421,15 @@ msgstr "Ligações máximas"
 #: deluge/plugins/label/label/webui_config.py:86
 #: deluge/plugins/label/build/lib/label/webui_config.py:86
 msgid "Maximum Upload Slots"
-msgstr ""
+msgstr "Quantidade máxima de envios simultâneos"
 
 #: deluge/ui/webui/torrent_add.py:55 deluge/ui/webui/config_tabs_deluge.py:130
 msgid "Prioritize first and last pieces"
-msgstr ""
+msgstr "Dar prioridade à primeira e última partes"
 
 #: deluge/ui/webui/torrent_add.py:56
 msgid "Add In Paused State"
-msgstr ""
+msgstr "Adicionar no estado Pausado"
 
 #: deluge/ui/webui/torrent_add.py:57
 msgid "Set Private Flag"
@@ -437,11 +437,11 @@ msgstr "Definir como Privado"
 
 #: deluge/ui/webui/torrent_add.py:73
 msgid "Choose Files"
-msgstr ""
+msgstr "Escolher ficheiros"
 
 #: deluge/ui/webui/torrent_add.py:104 deluge/ui/webui/torrent_options.py:41
 msgid "Error in torrent options."
-msgstr ""
+msgstr "Erro nas opções do torrent"
 
 #: deluge/ui/webui/torrent_add.py:118
 msgid "Choose an url or a torrent, not both."
@@ -449,11 +449,11 @@ msgstr "Escolha uma url ou um torrent, não ambos."
 
 #: deluge/ui/webui/torrent_add.py:130
 msgid "No data"
-msgstr ""
+msgstr "Sem dados"
 
 #: deluge/ui/webui/config_tabs_deluge.py:45
 msgid "Ports"
-msgstr ""
+msgstr "Portas"
 
 #: deluge/ui/webui/config_tabs_deluge.py:46
 msgid "From"
@@ -461,23 +461,23 @@ msgstr "De"
 
 #: deluge/ui/webui/config_tabs_deluge.py:47
 msgid "To"
-msgstr ""
+msgstr "Até"
 
 #: deluge/ui/webui/config_tabs_deluge.py:48
 msgid "Random"
-msgstr ""
+msgstr "Aleatório"
 
 #: deluge/ui/webui/config_tabs_deluge.py:76
 msgid "Extra's"
-msgstr ""
+msgstr "Extras"
 
 #: deluge/ui/webui/config_tabs_deluge.py:77
 msgid "Mainline DHT"
-msgstr ""
+msgstr "DHT geral"
 
 #: deluge/ui/webui/config_tabs_deluge.py:78
 msgid "UpNP"
-msgstr ""
+msgstr "UPnP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:79
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:871
@@ -486,20 +486,20 @@ msgstr "NAT-PMP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:80
 msgid "Peer-Exchange"
-msgstr ""
+msgstr "Troca de utilizadores"
 
 #: deluge/ui/webui/config_tabs_deluge.py:81
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:906
 msgid "LSD"
-msgstr ""
+msgstr "LSD"
 
 #: deluge/ui/webui/config_tabs_deluge.py:86
 msgid "Encryption"
-msgstr ""
+msgstr "Encriptação"
 
 #: deluge/ui/webui/config_tabs_deluge.py:88
 msgid "Forced"
-msgstr ""
+msgstr "Forçado"
 
 #: deluge/ui/webui/config_tabs_deluge.py:88 deluge/ui/gtkui/preferences.py:79
 msgid "Enabled"
@@ -511,75 +511,75 @@ msgstr "Desactivado"
 
 #: deluge/ui/webui/config_tabs_deluge.py:89
 msgid "Handshake"
-msgstr ""
+msgstr "Acordo"
 
 #: deluge/ui/webui/config_tabs_deluge.py:89
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
 msgid "Full"
-msgstr ""
+msgstr "Cheio"
 
 #: deluge/ui/webui/config_tabs_deluge.py:89
 msgid "Either"
-msgstr ""
+msgstr "Algum"
 
 #: deluge/ui/webui/config_tabs_deluge.py:91
 msgid "Inbound"
-msgstr ""
+msgstr "Entrada"
 
 #: deluge/ui/webui/config_tabs_deluge.py:92
 msgid "Outbound"
-msgstr ""
+msgstr "Saída"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Level"
-msgstr ""
+msgstr "Nível"
 
 #: deluge/ui/webui/config_tabs_deluge.py:100
 msgid "Global"
-msgstr ""
+msgstr "Global"
 
 #: deluge/ui/webui/config_tabs_deluge.py:101
 #: deluge/ui/webui/config_tabs_deluge.py:116
 msgid "-1 = Unlimited"
-msgstr ""
+msgstr "-1 = Ilimitado"
 
 #: deluge/ui/webui/config_tabs_deluge.py:103
 #: deluge/ui/webui/config_tabs_deluge.py:118
 #: deluge/plugins/label/label/webui_config.py:84
 #: deluge/plugins/label/build/lib/label/webui_config.py:84
 msgid "Maximum Download Speed (Kib/s)"
-msgstr ""
+msgstr "Velocidade máxima de Download (Kib/s)"
 
 #: deluge/ui/webui/config_tabs_deluge.py:104
 #: deluge/ui/webui/config_tabs_deluge.py:119
 #: deluge/plugins/label/label/webui_config.py:85
 #: deluge/plugins/label/build/lib/label/webui_config.py:85
 msgid "Maximum Upload Speed (Kib/s)"
-msgstr ""
+msgstr "Velocidade máxima de Upload (Kib/s)"
 
 #: deluge/ui/webui/config_tabs_deluge.py:107
 msgid "Maximum Half-Open Connections"
-msgstr ""
+msgstr "Máximo de ligações pendentes"
 
 #: deluge/ui/webui/config_tabs_deluge.py:108
 msgid "Maximum Connection Attempts per Second"
-msgstr ""
+msgstr "Máximo de tentativas de ligação por segundo"
 
 #: deluge/ui/webui/config_tabs_deluge.py:115
 msgid "Per Torrent"
-msgstr ""
+msgstr "Por Torrent"
 
 #: deluge/ui/webui/config_tabs_deluge.py:126
 msgid "Store all downoads in"
-msgstr ""
+msgstr "Guardar todas as descargas em"
 
 #: deluge/ui/webui/config_tabs_deluge.py:127
 msgid "Save .torrent files to"
-msgstr ""
+msgstr "Guardar ficheiros .torrent para"
 
 #: deluge/ui/webui/config_tabs_deluge.py:128
 msgid "Auto Add folder"
-msgstr ""
+msgstr "Auto adicionar pasta"
 
 #: deluge/ui/webui/config_tabs_deluge.py:129
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:469
@@ -588,11 +588,11 @@ msgstr "Alocamento Compacto"
 
 #: deluge/ui/webui/config_tabs_deluge.py:136
 msgid "Daemon"
-msgstr ""
+msgstr "Serviço"
 
 #: deluge/ui/webui/config_tabs_deluge.py:137
 msgid "Restart daemon and webui after changing these settings"
-msgstr ""
+msgstr "Reiniciar serviço e webui depois de alterar estas definições"
 
 #: deluge/ui/webui/config_tabs_deluge.py:138
 #: deluge/ui/webui/config_tabs_webui.py:63
@@ -602,15 +602,15 @@ msgstr "Porta"
 #: deluge/ui/webui/config_tabs_deluge.py:139
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2145
 msgid "Allow Remote Connections"
-msgstr ""
+msgstr "Permitir ligações remotas"
 
 #: deluge/ui/webui/config_tabs_deluge.py:144
 msgid "Queue"
-msgstr ""
+msgstr "Fila"
 
 #: deluge/ui/webui/config_tabs_deluge.py:145
 msgid "-1 = unlimited"
-msgstr ""
+msgstr "-1 = Ilimitado"
 
 #: deluge/ui/webui/config_tabs_deluge.py:147
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2295
@@ -639,7 +639,7 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:169
 msgid "Enabled Plugins"
-msgstr ""
+msgstr "Plugins activos"
 
 #: deluge/ui/webui/config_tabs_webui.py:47
 #: deluge/ui/webui/config_tabs_webui.py:53
@@ -660,7 +660,7 @@ msgstr "Apenas Texto"
 
 #: deluge/ui/webui/config_tabs_webui.py:54
 msgid "Button style"
-msgstr ""
+msgstr "Estilo do botão"
 
 #: deluge/ui/webui/config_tabs_webui.py:55
 msgid "Cache templates"
@@ -672,7 +672,7 @@ msgstr "Servidor"
 
 #: deluge/ui/webui/config_tabs_webui.py:73
 msgid "Current Password"
-msgstr ""
+msgstr "Password actual"
 
 #: deluge/ui/webui/config_tabs_webui.py:74
 msgid "New Password"
@@ -680,11 +680,11 @@ msgstr "Nova Palavra-passe"
 
 #: deluge/ui/webui/config_tabs_webui.py:75
 msgid "New Password (Confirm)"
-msgstr ""
+msgstr "Nova password (Confirmação)"
 
 #: deluge/ui/webui/config_tabs_webui.py:82
 msgid "Old password is invalid"
-msgstr ""
+msgstr "Password antiga inválida"
 
 #: deluge/ui/webui/config_tabs_webui.py:85
 msgid "New Password is not equal to New Password(confirm)"
@@ -692,19 +692,19 @@ msgstr ""
 
 #: deluge/ui/webui/torrent_move.py:45
 msgid "Move To"
-msgstr ""
+msgstr "Mover Para"
 
 #: deluge/ui/webui/torrent_move.py:72
 msgid "Error in Path."
-msgstr ""
+msgstr "Erro no caminho"
 
 #: deluge/ui/webui/config_forms.py:107
 msgid "These changes were saved"
-msgstr ""
+msgstr "Alterações guardadas"
 
 #: deluge/ui/webui/config_forms.py:113
 msgid "Correct the errors above and try again"
-msgstr ""
+msgstr "Corrija os erros acima e tente de novo"
 
 #: deluge/ui/webui/torrent_options.py:23
 #: deluge/ui/gtkui/glade/main_window.glade:1947
@@ -752,7 +752,7 @@ msgstr ""
 #: deluge/ui/webui/lib/newforms_portable/fields.py:600
 #: deluge/ui/webui/lib/newforms_portable/fields.py:662
 msgid "Enter a list of values."
-msgstr ""
+msgstr "Introduza uma lista de valores"
 
 #: deluge/ui/webui/lib/newforms_portable/models.py:372
 #, python-format
@@ -761,11 +761,11 @@ msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:46
 msgid "This field is required."
-msgstr ""
+msgstr "Este campo é obrigatório."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:47
 msgid "Enter a valid value."
-msgstr ""
+msgstr "Introduza um valor válido."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:124
 #, python-format
@@ -1102,6 +1102,7 @@ msgstr ""
 "Launchpad Contributions:\n"
 "  Fernando Pereira https://launchpad.net/~jordao\n"
 "  FreeAtMind https://launchpad.net/~pauloapfernandes\n"
+"  Joel Calado https://launchpad.net/~joelcalado\n"
 "  João Santos https://launchpad.net/~twocool-pt\n"
 "  Luis Gomes https://launchpad.net/~lgomes\n"
 "  Luis Reis https://launchpad.net/~luis-marafado\n"

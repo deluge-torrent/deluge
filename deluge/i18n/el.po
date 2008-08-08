@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-07-20 14:08-0500\n"
-"PO-Revision-Date: 2008-07-08 17:54+0000\n"
-"Last-Translator: Cruster <panoskoutsias@hotmail.com>\n"
+"PO-Revision-Date: 2008-08-05 11:50+0000\n"
+"Last-Translator: Galatsanos Panagiotis <Unknown>\n"
 "Language-Team: Greek, Modern (1453-) <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-02 05:33+0000\n"
+"X-Launchpad-Export-Date: 2008-08-08 04:57+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:649
@@ -23,7 +23,7 @@ msgstr "Ανακοίνωση ΟΚ"
 
 #: deluge/core/torrentmanager.py:670
 msgid "Announce Sent"
-msgstr ""
+msgstr "Ανακοίνωση Στάλθηκε"
 
 #: deluge/core/torrentmanager.py:679
 msgid "Alert"
@@ -76,7 +76,7 @@ msgstr "Διαθεσιμότητα"
 
 #: deluge/ui/webui/scripts/template_strings.py:10
 msgid "BandWidth"
-msgstr ""
+msgstr "Ρυθμός μεταφοράς δεδομένων"
 
 #: deluge/ui/webui/scripts/template_strings.py:11
 #: deluge/ui/webui/register_menu.py:39
@@ -154,7 +154,7 @@ msgstr "ΕΧΑ"
 
 #: deluge/ui/webui/scripts/template_strings.py:27
 msgid "File"
-msgstr ""
+msgstr "Αρχείο"
 
 #: deluge/ui/webui/scripts/template_strings.py:28
 msgid "Filter on Tracker"
@@ -267,7 +267,7 @@ msgstr "Ανακοίνωση εκ νέου"
 
 #: deluge/ui/webui/scripts/template_strings.py:50
 msgid "Refresh"
-msgstr ""
+msgstr "Ανανέωση"
 
 #: deluge/ui/webui/scripts/template_strings.py:51
 msgid "Refresh page every:"
@@ -291,7 +291,7 @@ msgstr "Επαναφορά όλων"
 
 #: deluge/ui/webui/scripts/template_strings.py:56
 msgid "Save"
-msgstr ""
+msgstr "Αποθήκευση"
 
 #: deluge/ui/webui/scripts/template_strings.py:57
 #: deluge/ui/gtkui/torrentview.py:137
@@ -397,7 +397,7 @@ msgstr ""
 
 #: deluge/ui/webui/torrent_add.py:43
 msgid "Download Location"
-msgstr ""
+msgstr "Προορισμός Αποθήκευσης"
 
 #: deluge/ui/webui/torrent_add.py:44
 msgid "Compact Allocation"
@@ -405,11 +405,11 @@ msgstr ""
 
 #: deluge/ui/webui/torrent_add.py:48 deluge/ui/webui/torrent_options.py:16
 msgid "Maximum Down Speed"
-msgstr ""
+msgstr "Μέγιστη Κάτω Ταχύτητα"
 
 #: deluge/ui/webui/torrent_add.py:50 deluge/ui/webui/torrent_options.py:18
 msgid "Maximum Up Speed"
-msgstr ""
+msgstr "Μέγιστη Πάνω Ταχύτητα"
 
 #: deluge/ui/webui/torrent_add.py:51 deluge/ui/webui/config_tabs_deluge.py:102
 #: deluge/ui/webui/config_tabs_deluge.py:117
@@ -473,7 +473,7 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:76
 msgid "Extra's"
-msgstr ""
+msgstr "Επιπλέον"
 
 #: deluge/ui/webui/config_tabs_deluge.py:77
 msgid "Mainline DHT"
@@ -1109,6 +1109,7 @@ msgstr ""
 "  Constantinos Koniaris https://launchpad.net/~kostkon\n"
 "  Cruster https://launchpad.net/~panoskoutsias\n"
 "  Dialecti Valsamou https://launchpad.net/~koki\n"
+"  Galatsanos Panagiotis https://launchpad.net/~oneinchman\n"
 "  Ion Ikon https://launchpad.net/~attbuntu\n"
 "  Michalis Makaronides https://launchpad.net/~makmichalis\n"
 "  Philippides Homer https://launchpad.net/~pherecrates\n"

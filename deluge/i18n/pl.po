@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: Michał Kaliszka <desmont@gmail.com>\n"
 "POT-Creation-Date: 2008-07-20 14:08-0500\n"
-"PO-Revision-Date: 2008-08-01 10:11+0000\n"
-"Last-Translator: allah <Unknown>\n"
+"PO-Revision-Date: 2008-08-06 19:09+0000\n"
+"Last-Translator: Marek Dębowski <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-02 05:32+0000\n"
+"X-Launchpad-Export-Date: 2008-08-08 04:57+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:649
@@ -27,7 +27,7 @@ msgstr ""
 
 #: deluge/core/torrentmanager.py:679
 msgid "Alert"
-msgstr "Uwaga"
+msgstr "Ostrzeżenie"
 
 #: deluge/core/torrentmanager.py:690
 msgid "Warning"
@@ -49,8 +49,9 @@ msgid "Add"
 msgstr "Dodaj"
 
 #: deluge/ui/webui/scripts/template_strings.py:4
+#, fuzzy
 msgid "Add Another (Stay in add page)"
-msgstr ""
+msgstr "Dodaj kolejne"
 
 #: deluge/ui/webui/scripts/template_strings.py:5
 msgid "Add Torrent"
@@ -135,8 +136,9 @@ msgstr "Pobrano"
 
 #: deluge/ui/webui/scripts/template_strings.py:23
 #: deluge/ui/gtkui/torrentview.py:155
+#, fuzzy
 msgid "ETA"
-msgstr "Pozostało"
+msgstr "ETA"
 
 #: deluge/ui/webui/scripts/template_strings.py:24
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1784
@@ -158,8 +160,9 @@ msgid "File"
 msgstr "Plik"
 
 #: deluge/ui/webui/scripts/template_strings.py:28
+#, fuzzy
 msgid "Filter on Tracker"
-msgstr ""
+msgstr "Filtr na Trackerze"
 
 #: deluge/ui/webui/scripts/template_strings.py:29
 msgid "Filter on state"
@@ -432,8 +435,9 @@ msgid "Maximum Upload Slots"
 msgstr ""
 
 #: deluge/ui/webui/torrent_add.py:55 deluge/ui/webui/config_tabs_deluge.py:130
+#, fuzzy
 msgid "Prioritize first and last pieces"
-msgstr ""
+msgstr "Zacznij od pierwszych i ostatnich części"
 
 #: deluge/ui/webui/torrent_add.py:56
 msgid "Add In Paused State"
@@ -544,12 +548,14 @@ msgid "Outbound"
 msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
+#, fuzzy
 msgid "Level"
-msgstr ""
+msgstr "Poziom"
 
 #: deluge/ui/webui/config_tabs_deluge.py:100
+#, fuzzy
 msgid "Global"
-msgstr ""
+msgstr "Globalny"
 
 #: deluge/ui/webui/config_tabs_deluge.py:101
 #: deluge/ui/webui/config_tabs_deluge.py:116
@@ -606,11 +612,12 @@ msgstr "Oszczędny przydział miejsca"
 #: deluge/ui/webui/config_tabs_deluge.py:136
 #, fuzzy
 msgid "Daemon"
-msgstr "Deamon"
+msgstr "Daemon"
 
 #: deluge/ui/webui/config_tabs_deluge.py:137
+#, fuzzy
 msgid "Restart daemon and webui after changing these settings"
-msgstr ""
+msgstr "Zrestartuj daemon oraz webui gdy zostaną zmienione te ustawienia"
 
 #: deluge/ui/webui/config_tabs_deluge.py:138
 #: deluge/ui/webui/config_tabs_webui.py:63
@@ -643,19 +650,22 @@ msgstr "Wszystkie aktywne torrenty"
 #: deluge/ui/webui/config_tabs_deluge.py:152
 #, fuzzy
 msgid "Total active downloading"
-msgstr "Wszystkie aktywne torrenty"
+msgstr "Całk. szybkość pobierania"
 
 #: deluge/ui/webui/config_tabs_deluge.py:153
+#, fuzzy
 msgid "Total active seeding"
-msgstr ""
+msgstr "Całk. szybkość wysyłania"
 
 #: deluge/ui/webui/config_tabs_deluge.py:160
+#, fuzzy
 msgid "Stop seeding when ratio reaches"
-msgstr ""
+msgstr "Przestań wysyłać gdy ratio osiągnie"
 
 #: deluge/ui/webui/config_tabs_deluge.py:162
+#, fuzzy
 msgid "Remove torrent when ratio reached"
-msgstr ""
+msgstr "Usuń torren gdy ratio osiągnie"
 
 #: deluge/ui/webui/config_tabs_deluge.py:169
 msgid "Enabled Plugins"
@@ -703,12 +713,14 @@ msgid "New Password (Confirm)"
 msgstr "Nowe hasło (Potwierdź)"
 
 #: deluge/ui/webui/config_tabs_webui.py:82
+#, fuzzy
 msgid "Old password is invalid"
-msgstr "Stare hasło jest nieprawidłowe"
+msgstr "Stare hasło jest niepoprawne"
 
 #: deluge/ui/webui/config_tabs_webui.py:85
+#, fuzzy
 msgid "New Password is not equal to New Password(confirm)"
-msgstr ""
+msgstr "Podane hasła nie pasują do siebie"
 
 #: deluge/ui/webui/torrent_move.py:45
 msgid "Move To"
@@ -737,13 +749,15 @@ msgid "Auto Managed"
 msgstr ""
 
 #: deluge/ui/webui/torrent_options.py:27
+#, fuzzy
 msgid "Stop seed at ratio"
-msgstr ""
+msgstr "Przestań wysyłać gdy ratio"
 
 #: deluge/ui/webui/torrent_options.py:29
 #: deluge/ui/gtkui/glade/main_window.glade:1875
+#, fuzzy
 msgid "Remove at ratio"
-msgstr ""
+msgstr "Usuń gdy ratio"
 
 #: deluge/ui/webui/lib/newforms_portable/widgets.py:231
 #: deluge/ui/gtkui/listview.py:84
@@ -1016,16 +1030,19 @@ msgid "Choose a directory to move files to"
 msgstr "Wybierz katalog, do którego przenieść pliki"
 
 #: deluge/ui/gtkui/menubar.py:429
+#, fuzzy
 msgid "Set Max Download Speed (KiB/s):"
-msgstr ""
+msgstr "Ustaw maks. prędkość pobierania (KiB/s):"
 
 #: deluge/ui/gtkui/menubar.py:431
+#, fuzzy
 msgid "Set Max Upload Speed (KiB/s):"
-msgstr ""
+msgstr "Ustaw maks. prędkość wysyłania"
 
 #: deluge/ui/gtkui/menubar.py:433
+#, fuzzy
 msgid "Set Max Connections:"
-msgstr ""
+msgstr "Ustaw max. ilość połączeń:"
 
 #: deluge/ui/gtkui/menubar.py:435
 msgid "Set Max Upload Slots:"
@@ -1121,9 +1138,11 @@ msgid " Torrent Queued"
 msgstr ""
 
 #: deluge/ui/gtkui/removetorrentdialog.py:65
+#, fuzzy
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrents?</b></big>"
 msgstr ""
+"<big><b>Czy jesteś pewien że chcesz usunąć  zaznaczone torrenty?</b></big>"
 
 #: deluge/ui/gtkui/removetorrentdialog.py:66
 #, fuzzy
@@ -1192,8 +1211,9 @@ msgid "Download Speed"
 msgstr "Prędkość pobierania"
 
 #: deluge/ui/gtkui/statusbar.py:156
+#, fuzzy
 msgid "Upload Speed"
-msgstr "Wysyłanie"
+msgstr "Prędkość wysyłania"
 
 #: deluge/ui/gtkui/statusbar.py:164
 #, fuzzy
@@ -1369,7 +1389,7 @@ msgstr "Importuj"
 #: deluge/plugins/blocklist/blocklist/webui.py:92
 #, fuzzy, python-format
 msgid "Downloading %.2f%%"
-msgstr "Śćiąganie %.2f%%"
+msgstr "Ściąganie %.2f%%"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:94
 #, fuzzy, python-format
@@ -1393,8 +1413,9 @@ msgstr ""
 #: deluge/ui/gtkui/glade/connection_manager.glade:10
 #: deluge/ui/gtkui/glade/main_window.glade:399
 #: deluge/ui/gtkui/glade/main_window.glade:400
+#, fuzzy
 msgid "Connection Manager"
-msgstr ""
+msgstr "Menadżer połączeń"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:42
 #, fuzzy
@@ -1476,8 +1497,9 @@ msgid "<b><i><big>Downloads</big></i></b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:112
+#, fuzzy
 msgid "Always show"
-msgstr ""
+msgstr "Zawsze na wierzchu"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:129
 msgid "Bring the dialog to focus"

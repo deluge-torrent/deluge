@@ -1,4 +1,4 @@
-#
+# -*- coding: utf-8 -*-
 # aboutdialog.py
 #
 # Copyright (C) 2007 Marcos Pinto ('markybob') <markybob@gmail.com>

@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-07-20 14:08-0500\n"
-"PO-Revision-Date: 2008-05-16 13:32+0000\n"
+"PO-Revision-Date: 2008-08-04 19:53+0000\n"
 "Last-Translator: boss01 <jt1@hot.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-02 05:32+0000\n"
+"X-Launchpad-Export-Date: 2008-08-08 04:57+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:649
@@ -23,7 +23,7 @@ msgstr "Teadaanne korras"
 
 #: deluge/core/torrentmanager.py:670
 msgid "Announce Sent"
-msgstr ""
+msgstr "Teadanne saadetud"
 
 #: deluge/core/torrentmanager.py:679
 msgid "Alert"
@@ -50,7 +50,7 @@ msgstr "Lisa"
 
 #: deluge/ui/webui/scripts/template_strings.py:4
 msgid "Add Another (Stay in add page)"
-msgstr ""
+msgstr "Lisa veel (Lehelt lahkumatta)"
 
 #: deluge/ui/webui/scripts/template_strings.py:5
 msgid "Add Torrent"
@@ -75,7 +75,7 @@ msgstr "Kättesaadavus"
 
 #: deluge/ui/webui/scripts/template_strings.py:10
 msgid "BandWidth"
-msgstr ""
+msgstr "BandWidth"
 
 #: deluge/ui/webui/scripts/template_strings.py:11
 #: deluge/ui/webui/register_menu.py:39
@@ -153,7 +153,7 @@ msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:27
 msgid "File"
-msgstr ""
+msgstr "Fail"
 
 #: deluge/ui/webui/scripts/template_strings.py:28
 msgid "Filter on Tracker"
@@ -169,7 +169,7 @@ msgstr ""
 #: deluge/plugins/label/build/lib/label/webui_config.py:115
 #: deluge/plugins/label/build/lib/label/gtkui.py:301
 msgid "General"
-msgstr ""
+msgstr "Üldine"
 
 #: deluge/ui/webui/scripts/template_strings.py:31
 msgid "Hash"
@@ -263,7 +263,7 @@ msgstr "Teadusta uuesti"
 
 #: deluge/ui/webui/scripts/template_strings.py:50
 msgid "Refresh"
-msgstr ""
+msgstr "Värskenda"
 
 #: deluge/ui/webui/scripts/template_strings.py:51
 msgid "Refresh page every:"
@@ -287,7 +287,7 @@ msgstr "Jätka kõiki"
 
 #: deluge/ui/webui/scripts/template_strings.py:56
 msgid "Save"
-msgstr ""
+msgstr "Salvesta"
 
 #: deluge/ui/webui/scripts/template_strings.py:57
 #: deluge/ui/gtkui/torrentview.py:137
@@ -304,7 +304,7 @@ msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:60
 msgid "Settings"
-msgstr ""
+msgstr "Seaded"
 
 #: deluge/ui/webui/scripts/template_strings.py:61
 msgid "Share Ratio"
@@ -401,11 +401,11 @@ msgstr ""
 
 #: deluge/ui/webui/torrent_add.py:48 deluge/ui/webui/torrent_options.py:16
 msgid "Maximum Down Speed"
-msgstr ""
+msgstr "Maksimum allalaadimis kiirus"
 
 #: deluge/ui/webui/torrent_add.py:50 deluge/ui/webui/torrent_options.py:18
 msgid "Maximum Up Speed"
-msgstr ""
+msgstr "Maksimum üleslaadimis kiirus"
 
 #: deluge/ui/webui/torrent_add.py:51 deluge/ui/webui/config_tabs_deluge.py:102
 #: deluge/ui/webui/config_tabs_deluge.py:117
@@ -413,15 +413,16 @@ msgstr ""
 #: deluge/plugins/label/label/webui_config.py:83
 #: deluge/plugins/label/build/lib/label/webui_config.py:83
 msgid "Maximum Connections"
-msgstr ""
+msgstr "Maksimum ühenduste arv"
 
 #: deluge/ui/webui/torrent_add.py:52 deluge/ui/webui/config_tabs_deluge.py:105
 #: deluge/ui/webui/config_tabs_deluge.py:120
 #: deluge/ui/webui/torrent_options.py:20
 #: deluge/plugins/label/label/webui_config.py:86
 #: deluge/plugins/label/build/lib/label/webui_config.py:86
+#, fuzzy
 msgid "Maximum Upload Slots"
-msgstr ""
+msgstr "Maksimum üles laadimis kohti"
 
 #: deluge/ui/webui/torrent_add.py:55 deluge/ui/webui/config_tabs_deluge.py:130
 msgid "Prioritize first and last pieces"
@@ -437,11 +438,11 @@ msgstr "Aseta privaatne lipp"
 
 #: deluge/ui/webui/torrent_add.py:73
 msgid "Choose Files"
-msgstr ""
+msgstr "Vali failid"
 
 #: deluge/ui/webui/torrent_add.py:104 deluge/ui/webui/torrent_options.py:41
 msgid "Error in torrent options."
-msgstr ""
+msgstr "Viga torrenti seadistuses."
 
 #: deluge/ui/webui/torrent_add.py:118
 msgid "Choose an url or a torrent, not both."
@@ -449,11 +450,11 @@ msgstr "Vali url või torrent, mitte mõlemat."
 
 #: deluge/ui/webui/torrent_add.py:130
 msgid "No data"
-msgstr ""
+msgstr "Andmeid pole"
 
 #: deluge/ui/webui/config_tabs_deluge.py:45
 msgid "Ports"
-msgstr ""
+msgstr "Pordid"
 
 #: deluge/ui/webui/config_tabs_deluge.py:46
 msgid "From"
@@ -461,15 +462,15 @@ msgstr "Kasutajalt"
 
 #: deluge/ui/webui/config_tabs_deluge.py:47
 msgid "To"
-msgstr ""
+msgstr "Saaja"
 
 #: deluge/ui/webui/config_tabs_deluge.py:48
 msgid "Random"
-msgstr ""
+msgstr "Segamini"
 
 #: deluge/ui/webui/config_tabs_deluge.py:76
 msgid "Extra's"
-msgstr ""
+msgstr "Ekstrad"
 
 #: deluge/ui/webui/config_tabs_deluge.py:77
 msgid "Mainline DHT"
@@ -486,7 +487,7 @@ msgstr "NAT-PMP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:80
 msgid "Peer-Exchange"
-msgstr ""
+msgstr "Kliendi-Vahetus"
 
 #: deluge/ui/webui/config_tabs_deluge.py:81
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:906
@@ -495,11 +496,11 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:86
 msgid "Encryption"
-msgstr ""
+msgstr "Krüptimine"
 
 #: deluge/ui/webui/config_tabs_deluge.py:88
 msgid "Forced"
-msgstr ""
+msgstr "Sunnitud"
 
 #: deluge/ui/webui/config_tabs_deluge.py:88 deluge/ui/gtkui/preferences.py:79
 msgid "Enabled"
@@ -511,59 +512,59 @@ msgstr "Väljas"
 
 #: deluge/ui/webui/config_tabs_deluge.py:89
 msgid "Handshake"
-msgstr ""
+msgstr "Käepigistus"
 
 #: deluge/ui/webui/config_tabs_deluge.py:89
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
 msgid "Full"
-msgstr ""
+msgstr "Täielik"
 
 #: deluge/ui/webui/config_tabs_deluge.py:89
 msgid "Either"
-msgstr ""
+msgstr "kumbki"
 
 #: deluge/ui/webui/config_tabs_deluge.py:91
 msgid "Inbound"
-msgstr ""
+msgstr "Sissetulev"
 
 #: deluge/ui/webui/config_tabs_deluge.py:92
 msgid "Outbound"
-msgstr ""
+msgstr "Väljuv"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 msgid "Level"
-msgstr ""
+msgstr "Tase"
 
 #: deluge/ui/webui/config_tabs_deluge.py:100
 msgid "Global"
-msgstr ""
+msgstr "Globaalne"
 
 #: deluge/ui/webui/config_tabs_deluge.py:101
 #: deluge/ui/webui/config_tabs_deluge.py:116
 msgid "-1 = Unlimited"
-msgstr ""
+msgstr "-1 = Piiramatu"
 
 #: deluge/ui/webui/config_tabs_deluge.py:103
 #: deluge/ui/webui/config_tabs_deluge.py:118
 #: deluge/plugins/label/label/webui_config.py:84
 #: deluge/plugins/label/build/lib/label/webui_config.py:84
 msgid "Maximum Download Speed (Kib/s)"
-msgstr ""
+msgstr "Maksimum allalaadimis kiirus (Kib/s)"
 
 #: deluge/ui/webui/config_tabs_deluge.py:104
 #: deluge/ui/webui/config_tabs_deluge.py:119
 #: deluge/plugins/label/label/webui_config.py:85
 #: deluge/plugins/label/build/lib/label/webui_config.py:85
 msgid "Maximum Upload Speed (Kib/s)"
-msgstr ""
+msgstr "Maksimum üleslaadimis kiirus (Kib/s)"
 
 #: deluge/ui/webui/config_tabs_deluge.py:107
 msgid "Maximum Half-Open Connections"
-msgstr ""
+msgstr "Maksimum pool-avatud ühendusi"
 
 #: deluge/ui/webui/config_tabs_deluge.py:108
 msgid "Maximum Connection Attempts per Second"
-msgstr ""
+msgstr "Maksimum ühenduse katseid sekundis"
 
 #: deluge/ui/webui/config_tabs_deluge.py:115
 msgid "Per Torrent"
@@ -588,11 +589,11 @@ msgstr "Kasuta kompaktset jaotust"
 
 #: deluge/ui/webui/config_tabs_deluge.py:136
 msgid "Daemon"
-msgstr ""
+msgstr "Deemon"
 
 #: deluge/ui/webui/config_tabs_deluge.py:137
 msgid "Restart daemon and webui after changing these settings"
-msgstr ""
+msgstr "Taaskäivita deemon ja webui peale nende seadete muutmist"
 
 #: deluge/ui/webui/config_tabs_deluge.py:138
 #: deluge/ui/webui/config_tabs_webui.py:63
@@ -606,11 +607,11 @@ msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:144
 msgid "Queue"
-msgstr ""
+msgstr "Järjekord"
 
 #: deluge/ui/webui/config_tabs_deluge.py:145
 msgid "-1 = unlimited"
-msgstr ""
+msgstr "-1 = piiramatu"
 
 #: deluge/ui/webui/config_tabs_deluge.py:147
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2295
@@ -660,7 +661,7 @@ msgstr "Ainult tekst"
 
 #: deluge/ui/webui/config_tabs_webui.py:54
 msgid "Button style"
-msgstr ""
+msgstr "Nuppude stiil"
 
 #: deluge/ui/webui/config_tabs_webui.py:55
 msgid "Cache templates"
@@ -672,7 +673,7 @@ msgstr "Server"
 
 #: deluge/ui/webui/config_tabs_webui.py:73
 msgid "Current Password"
-msgstr ""
+msgstr "Praegune parool"
 
 #: deluge/ui/webui/config_tabs_webui.py:74
 msgid "New Password"
@@ -680,15 +681,15 @@ msgstr "Uus parool"
 
 #: deluge/ui/webui/config_tabs_webui.py:75
 msgid "New Password (Confirm)"
-msgstr ""
+msgstr "Uus parool (uuesti)"
 
 #: deluge/ui/webui/config_tabs_webui.py:82
 msgid "Old password is invalid"
-msgstr ""
+msgstr "Vana parool on vale"
 
 #: deluge/ui/webui/config_tabs_webui.py:85
 msgid "New Password is not equal to New Password(confirm)"
-msgstr ""
+msgstr "Uus parool ei ole sama mis uus parool(uuesti)"
 
 #: deluge/ui/webui/torrent_move.py:45
 msgid "Move To"
@@ -696,15 +697,15 @@ msgstr ""
 
 #: deluge/ui/webui/torrent_move.py:72
 msgid "Error in Path."
-msgstr ""
+msgstr "Viga rajas."
 
 #: deluge/ui/webui/config_forms.py:107
 msgid "These changes were saved"
-msgstr ""
+msgstr "Need muudatused salvestati"
 
 #: deluge/ui/webui/config_forms.py:113
 msgid "Correct the errors above and try again"
-msgstr ""
+msgstr "Paranda üleval olevad vead ja proovi uuesti"
 
 #: deluge/ui/webui/torrent_options.py:23
 #: deluge/ui/gtkui/glade/main_window.glade:1947
@@ -746,7 +747,7 @@ msgstr "tõlgi midagi"
 #: deluge/ui/webui/lib/newforms_portable/fields.py:560
 msgid ""
 "Select a valid choice. That choice is not one of the available choices."
-msgstr ""
+msgstr "Vali õige valiku varjant. See valik ei ole üks valiku varjantidest."
 
 #: deluge/ui/webui/lib/newforms_portable/models.py:371
 #: deluge/ui/webui/lib/newforms_portable/fields.py:600
@@ -757,15 +758,15 @@ msgstr ""
 #: deluge/ui/webui/lib/newforms_portable/models.py:372
 #, python-format
 msgid "Select a valid choice. %s is not one of the available choices."
-msgstr ""
+msgstr "Vali õige valiku varjant. %s ei ole üks valiku varjantidest."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:46
 msgid "This field is required."
-msgstr ""
+msgstr "See väli on kohustuslik."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:47
 msgid "Enter a valid value."
-msgstr ""
+msgstr "Lisa õige väärtus"
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:124
 #, python-format
@@ -780,7 +781,7 @@ msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:152
 msgid "Enter a whole number."
-msgstr ""
+msgstr "Sisesta terve number."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:153
 #: deluge/ui/webui/lib/newforms_portable/fields.py:182
@@ -799,7 +800,7 @@ msgstr ""
 #: deluge/ui/webui/lib/newforms_portable/fields.py:181
 #: deluge/ui/webui/lib/newforms_portable/fields.py:210
 msgid "Enter a number."
-msgstr ""
+msgstr "Sisesta number."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:213
 #, python-format
@@ -833,7 +834,7 @@ msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:403
 msgid "Enter a valid e-mail address."
-msgstr ""
+msgstr "Lisa õige e-posti aadress."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:433
 msgid "No file was submitted. Check the encoding type on the form."
@@ -845,13 +846,15 @@ msgstr ""
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:435
 msgid "The submitted file is empty."
-msgstr ""
+msgstr "Lisatud fail on tühi."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:459
 msgid ""
 "Upload a valid image. The file you uploaded was either not an image or a "
 "corrupted image."
 msgstr ""
+"Lisa päris pilt. Fail mis sina üleslaadisid ei olnud pilt või oli vigane "
+"pilt."
 
 #: deluge/ui/webui/lib/newforms_portable/fields.py:497
 msgid "Enter a valid URL."
@@ -883,19 +886,19 @@ msgstr "Piiramatu"
 
 #: deluge/ui/webui/render.py:174
 msgid "∞"
-msgstr ""
+msgstr "∞"
 
 #: deluge/ui/webui/register_menu.py:40
 msgid "Connect"
-msgstr ""
+msgstr "Ühenda"
 
 #: deluge/ui/webui/register_menu.py:44
 msgid "Statistics"
-msgstr ""
+msgstr "Statistika"
 
 #: deluge/ui/webui/register_menu.py:47
 msgid "Trackers"
-msgstr ""
+msgstr "Tracker'id"
 
 #: deluge/ui/webui/register_menu.py:49
 msgid "Files"
@@ -905,11 +908,11 @@ msgstr "Failid"
 #: deluge/plugins/label/label/webui_config.py:89
 #: deluge/plugins/label/build/lib/label/webui_config.py:89
 msgid "Delete"
-msgstr ""
+msgstr "Kustuta"
 
 #: deluge/ui/webui/register_menu.py:53
 msgid "Stop"
-msgstr ""
+msgstr "Seiska"
 
 #: deluge/ui/webui/register_menu.py:57
 msgid "Queue Top"
@@ -921,11 +924,11 @@ msgstr ""
 
 #: deluge/ui/webui/register_menu.py:60
 msgid "Move"
-msgstr ""
+msgstr "Liiguta"
 
 #: deluge/ui/webui/register_menu.py:62
 msgid "Recheck"
-msgstr ""
+msgstr "Kontrolli uuesti"
 
 #: deluge/ui/gtkui/addtorrenturl.py:45
 msgid "Add torrent from URL"
@@ -941,7 +944,7 @@ msgstr "Plugin"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:86 deluge/ui/gtkui/queuedtorrents.py:71
 msgid "Torrent"
-msgstr ""
+msgstr "Torrent"
 
 #: deluge/ui/gtkui/addtorrentdialog.py:94 deluge/ui/gtkui/files_tab.py:109
 msgid "Filename"
@@ -961,7 +964,7 @@ msgstr "Kõik failid"
 
 #: deluge/ui/gtkui/peers_tab.py:91
 msgid "Address"
-msgstr ""
+msgstr "Aadress"
 
 #: deluge/ui/gtkui/peers_tab.py:107
 msgid "Client"
@@ -977,7 +980,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/menubar.py:89
 msgid "On"
-msgstr ""
+msgstr "Sees"
 
 #: deluge/ui/gtkui/menubar.py:321
 msgid "Choose a directory to move files to"
@@ -985,19 +988,19 @@ msgstr "Vali kaust, kuhu failid liigutada"
 
 #: deluge/ui/gtkui/menubar.py:429
 msgid "Set Max Download Speed (KiB/s):"
-msgstr ""
+msgstr "Määra maksimum allalaadimis kiirus (KiB/s):"
 
 #: deluge/ui/gtkui/menubar.py:431
 msgid "Set Max Upload Speed (KiB/s):"
-msgstr ""
+msgstr "Määra maksimum üleslaadimis kiirus (KiB/s):"
 
 #: deluge/ui/gtkui/menubar.py:433
 msgid "Set Max Connections:"
-msgstr ""
+msgstr "Määra maksimum ühenduste arv:"
 
 #: deluge/ui/gtkui/menubar.py:435
 msgid "Set Max Upload Slots:"
-msgstr ""
+msgstr "Määra maksimum üleslaadimis kohti:"
 
 #: deluge/ui/gtkui/sidebar.py:53
 #: deluge/plugins/label/build/lib/label/sidebar.py:53
@@ -1034,7 +1037,7 @@ msgstr "Kontrollib"
 #: deluge/plugins/label/build/lib/label/webui_config.py:46
 #: deluge/plugins/label/build/lib/label/gtkui.py:323
 msgid "Labels"
-msgstr ""
+msgstr "Sildid"
 
 #: deluge/ui/gtkui/systemtray.py:196
 msgid "Deluge"
@@ -1090,11 +1093,11 @@ msgstr ""
 #: deluge/ui/gtkui/removetorrentdialog.py:65
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrents?</b></big>"
-msgstr ""
+msgstr "<big><b>Oled kindel ,et tahad valitud torrentid eemaldada?</b></big>"
 
 #: deluge/ui/gtkui/removetorrentdialog.py:66
 msgid "Remove Selected Torrents"
-msgstr ""
+msgstr "Eemalda valitud torrentid"
 
 #: deluge/ui/gtkui/aboutdialog.py:64
 msgid "translator-credits"
@@ -1122,19 +1125,19 @@ msgstr ""
 
 #: deluge/ui/gtkui/statusbar.py:134
 msgid "Not Connected"
-msgstr ""
+msgstr "Pole ühendatud"
 
 #: deluge/ui/gtkui/statusbar.py:151
 msgid "Download Speed"
-msgstr ""
+msgstr "Allalaadimis kiirus"
 
 #: deluge/ui/gtkui/statusbar.py:156
 msgid "Upload Speed"
-msgstr ""
+msgstr "Üleslaadimis kiirus"
 
 #: deluge/ui/gtkui/statusbar.py:164
 msgid "No Incoming Connections!"
-msgstr ""
+msgstr "Sissetulevaid ühendusi pole!"
 
 #: deluge/ui/gtkui/statusbar.py:360
 msgid "Download Speed (KiB/s):"
@@ -1159,7 +1162,7 @@ msgstr "Aktiveeritud"
 #: deluge/common.py:249
 #, python-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: deluge/plugins/label/label/gtk_sidebar.py:72
 #: deluge/plugins/label/build/lib/label/gtk_sidebar.py:72
@@ -1169,7 +1172,7 @@ msgstr "Filtrid"
 #: deluge/plugins/label/label/webui_config.py:58
 #: deluge/plugins/label/build/lib/label/webui_config.py:58
 msgid "Select Label"
-msgstr ""
+msgstr "Vali silt"
 
 #: deluge/plugins/label/label/webui_config.py:88
 #: deluge/plugins/label/build/lib/label/webui_config.py:88
@@ -1179,7 +1182,7 @@ msgstr "Rakenda"
 #: deluge/plugins/label/label/webui_config.py:99
 #: deluge/plugins/label/build/lib/label/webui_config.py:99
 msgid "Add Label"
-msgstr ""
+msgstr "Lisa silt"
 
 #: deluge/plugins/label/label/webui_config.py:108
 #: deluge/plugins/label/label/gtkui.py:104
@@ -1190,7 +1193,7 @@ msgstr ""
 #: deluge/plugins/label/build/lib/label/gtkui.py:272
 #: deluge/plugins/label/build/lib/label/webui_pages.py:62
 msgid "Label"
-msgstr ""
+msgstr "Silt"
 
 #: deluge/plugins/label/label/webui_config.py:124
 #: deluge/plugins/label/build/lib/label/webui_config.py:124
@@ -1210,7 +1213,7 @@ msgstr ""
 #: deluge/plugins/label/label/core.py:266
 #: deluge/plugins/label/build/lib/label/core.py:266
 msgid "Empty Label"
-msgstr ""
+msgstr "Tühi silt"
 
 #: deluge/plugins/label/label/core.py:267
 #: deluge/plugins/label/label/core.py:281
@@ -1221,12 +1224,12 @@ msgstr ""
 #: deluge/plugins/label/build/lib/label/core.py:299
 #: deluge/plugins/label/build/lib/label/core.py:331
 msgid "Unknown Label"
-msgstr ""
+msgstr "Tundmatu silt"
 
 #: deluge/plugins/label/label/core.py:332
 #: deluge/plugins/label/build/lib/label/core.py:332
 msgid "Unknown Torrent"
-msgstr ""
+msgstr "Tundmatu torrent"
 
 #: deluge/plugins/label/build/lib/label/sidebar.py:73
 msgid "LABEL-plugin"
@@ -1273,7 +1276,7 @@ msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/webui.py:80
 msgid "Timeout (seconds)"
-msgstr ""
+msgstr "Aegumine (sekundites)"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:81
 msgid "Times to attempt download"
@@ -1308,7 +1311,7 @@ msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/webui.py:98
 msgid "Inactive"
-msgstr ""
+msgstr "Mitteaktiivne"
 
 #: deluge/plugins/blocklist/blocklist/webui.py:105
 msgid "Refresh status"
@@ -1352,7 +1355,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:229
 msgid "Do not show this dialog on start-up"
-msgstr ""
+msgstr "Ära näita käivitamisel seda dialoogi"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:269
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:154
@@ -1374,7 +1377,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:349
 msgid "Port:"
-msgstr ""
+msgstr "Port:"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:392
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2797
@@ -1394,11 +1397,11 @@ msgstr "Seadistused"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:74
 msgid "<b><i><big>Downloads</big></i></b>"
-msgstr ""
+msgstr "<b><i><big>Allalaadimised</big></i></b>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:112
 msgid "Always show"
-msgstr ""
+msgstr "Alati näita"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:129
 msgid "Bring the dialog to focus"
@@ -2398,7 +2401,7 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:30
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:30
 msgid "Type:"
-msgstr ""
+msgstr "Tüüp:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:131
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:131
@@ -2418,12 +2421,12 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:212
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:212
 msgid "Days"
-msgstr ""
+msgstr "Päevad"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:225
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:225
 msgid "Seconds"
-msgstr ""
+msgstr "Sekundid"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:246
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:246
@@ -2433,14 +2436,14 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:264
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:264
 msgid "<b>Settings</b>"
-msgstr ""
+msgstr "<b>Sätted</b>"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:317
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:317
 msgid "Download List"
-msgstr ""
+msgstr "Allalaadimis nimekiri"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:356
 #: deluge/plugins/blocklist/build/lib/blocklist/data/blocklist_pref.glade:356
 msgid "Import List"
-msgstr ""
+msgstr "Impordi nimekiri"
