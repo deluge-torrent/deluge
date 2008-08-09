@@ -1,9 +1,9 @@
 """
-creates an empty plugin and links it from ~/.config/deluge/plugins
+Creates an empty plugin and links it from ~/.config/deluge/plugins
+This plugin includes the framework for using the preferences dialog
 
-usage : python create_plugin.py --name <p> --path --add-dev-link
-
-creates an empty plugin.
+Example:
+python create_plugin.py --name MyPlugin2 --basepath . --author-name "Your Name" --author-email "yourname@example.com"
 
 """
 
@@ -89,7 +89,7 @@ import deluge
 from deluge.log import LOG as log
 from deluge.plugins.corepluginbase import CorePluginBase
 from deluge import component
-from deluge.plugins.coreclient import client
+#from deluge.plugins.coreclient import client #1.1 and later only
 #client: see http://dev.deluge-torrent.org/wiki/Development/UiClient#Remoteapi
 
 DEFAULT_PREFS = {
@@ -99,7 +99,7 @@ DEFAULT_PREFS = {
 class Core(CorePluginBase):
 
     def enable(self):
-        self.config = deluge.configmanager.ConfigManager("%(name)s.conf", DEFAULT_PREFS)
+        self.config = deluge.configmanager.ConfigManager("%(safe_name)s.conf", DEFAULT_PREFS)
 
     def disable(self):
         pass
@@ -187,6 +187,7 @@ class GtkUI(object):
         self.plugin.add_preferences_page("%(name)s", self.glade.get_widget("prefs_box"))
         self.plugin.register_hook("on_apply_prefs", self.on_apply_prefs)
         self.plugin.register_hook("on_show_prefs", self.on_show_prefs)
+        self.on_show_prefs()
 
     def disable(self):
         self.plugin.remove_preferences_page("%(name)s")
@@ -278,8 +279,7 @@ class WebUI(object):
         api.config_page_manager.unregister('%(safe_name)s')
 """
 
-GPL = """
-#
+GPL = """#
 # %(filename)s
 #
 # Copyright (C) 2008 %(author_name)s <%(author_email)s>

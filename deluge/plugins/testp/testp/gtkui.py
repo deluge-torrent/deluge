@@ -2,19 +2,19 @@
 # gtkui.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -34,18 +34,22 @@
 from deluge.log import LOG as log
 import ui
 
-class GtkUI(ui.UI):
+class GtkUI(object):
     def __init__(self, plugin_api, plugin_name):
         log.debug("Calling UI init")
-        # Call UI constructor
-        ui.UI.__init__(self, plugin_api, plugin_name)
-        log.debug("test plugin initialized..")
+        self.plugin = plugin_api
+
+    def enable(self):
+        pass
+
+    def disable(self):
+        pass
 
     def enable(self):
         self.plugin.register_hook("on_apply_prefs", self.apply_prefs)
-        
+
     def disable(self):
         self.plugin.deregister_hook("on_apply_prefs", self.apply_prefs)
-            
+
     def apply_prefs(self):
-        log.debug("applying prefs in test plugin!!")
+        log.debug("applying prefs")
