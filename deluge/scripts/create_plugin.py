@@ -39,7 +39,7 @@ def create_plugin():
 
     name = options.name.replace(" ", "_")
     safe_name = name.lower()
-    plugin_base = os.path.join(options.path, name)
+    plugin_base = os.path.realpath(os.path.join(options.path, name))
     src = os.path.join(plugin_base, safe_name)
 
     if os.path.exists(plugin_base):
@@ -316,8 +316,7 @@ GPL = """#
 #    this exception statement from your version. If you delete this exception
 """
 
-CREATE_DEV_LINK = """
-#!usr/bin/bash
+CREATE_DEV_LINK = """#!/bin/bash
 cd %(plugin_base)s
 mkdir temp
 export PYTHONPATH=./temp
