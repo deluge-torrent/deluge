@@ -88,7 +88,10 @@ class Torrent:
         self.stop_at_ratio = False
         self.stop_ratio = 2.00
         self.remove_at_ratio = False
-               
+
+        self.move_on_completed = False
+        self.move_on_completed_path = deluge.common.get_default_download_dir()
+        
         # Load values from state if we have it
         if state is not None:
             # This is for saving the total uploaded between sessions
@@ -240,6 +243,12 @@ class Torrent:
             # Force a reannounce if there is at least 1 tracker
             self.force_reannounce()
     
+    def set_move_on_completed(self, value):
+        self.move_on_completed = value
+    
+    def set_move_on_completed_path(self, value):
+        self.move_on_completed_path = value
+        
     def update_state(self):
         """Updates the state based on what libtorrent's state for the torrent is"""
         # Set the initial state based on the lt state
@@ -459,7 +468,9 @@ class Torrent:
             "is_auto_managed": self.auto_managed,
             "stop_ratio": self.stop_ratio,
             "stop_at_ratio": self.stop_at_ratio,
-            "remove_at_ratio": self.remove_at_ratio
+            "remove_at_ratio": self.remove_at_ratio,
+            "move_on_completed": self.move_on_completed,
+            "move_on_completed_path": self.move_on_completed_path
         }
         
         fns = {

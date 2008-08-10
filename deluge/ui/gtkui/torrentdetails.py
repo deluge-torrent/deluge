@@ -284,9 +284,22 @@ class TorrentDetails(component.Component):
             self.show_tab(tab_name)
         elif not visible and self.tabs[tab_name].is_visible:
             self.hide_tab(tab_name)
-                         
+    
+    def start(self):
+        for tab in self.tabs.values():
+            try:
+                tab.start()
+            except AttributeError:
+                pass
+                
     def stop(self):
         self.clear()
+        for tab in self.tabs.values():
+            try:
+                tab.stop()
+            except AttributeError:
+                pass
+
         
     def shutdown(self):
         # Save the state of the tabs

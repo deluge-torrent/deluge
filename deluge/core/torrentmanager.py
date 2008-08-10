@@ -621,9 +621,15 @@ class TorrentManager(component.Component):
         torrent = self.torrents[torrent_id]
         log.debug("%s is finished..", torrent_id)
         # Move completed download to completed folder if needed
-        if self.config["move_completed"] and not torrent.is_finished:
-            if torrent.save_path != self.config["move_completed_path"]:
-                torrent.move_storage(self.config["move_completed_path"])
+        if not torrent.is_finished:
+            move_path = None
+            if torrent.move_on_completed:
+                move_path = torrent.move_on_completed_path
+            elif self.config["move_completed"]:
+                move_path = self.config["move_completed_path"]
+            if move_path:
+                if torrent.save_path != move_path:
+                    torrent.move_storage(move_path)
 
         torrent.is_finished = True
         torrent.update_state()

@@ -56,14 +56,29 @@ class OptionsTab(Tab):
         self.chk_stop_at_ratio = glade.get_widget("chk_stop_at_ratio")
         self.chk_remove_at_ratio = glade.get_widget("chk_remove_at_ratio")
         self.spin_stop_ratio = glade.get_widget("spin_stop_ratio")
+        self.chk_move_completed = glade.get_widget("chk_move_completed")
+        self.filechooser_move_completed = glade.get_widget("filechooser_move_completed")
+        self.entry_move_completed = glade.get_widget("entry_move_completed")
         
         self.prev_torrent_id = None
         self.prev_status = None
         
         glade.signal_autoconnect({
             "on_button_apply_clicked": self._on_button_apply_clicked,
-            "on_button_edit_trackers_clicked": self._on_button_edit_trackers_clicked
+            "on_button_edit_trackers_clicked": self._on_button_edit_trackers_clicked,
+            "on_chk_move_completed_toggled": self._on_chk_move_completed_toggled
         })
+
+    def start(self):
+        if client.is_localhost():
+            self.filechooser_move_completed.show()
+            self.entry_move_completed.hide()
+        else:
+            self.filechooser_move_completed.hide()
+            self.entry_move_completed.show()
+        
+    def stop(self):
+        pass
         
     def on_button_press_event(self, widget, event):
         from deluge.ui.gtkui.notification import Notification
@@ -95,7 +110,9 @@ class OptionsTab(Tab):
             "is_auto_managed",
             "stop_at_ratio",
             "stop_ratio",
-            "remove_at_ratio"])
+            "remove_at_ratio",
+            "move_on_completed",
+            "move_on_completed_path"])
         self.prev_torrent_id = torrent_id
 
     def clear(self):
@@ -129,6 +146,13 @@ class OptionsTab(Tab):
                 self.spin_stop_ratio.set_value(status["stop_ratio"])
             if status["remove_at_ratio"] != self.prev_status["remove_at_ratio"]:
                 self.chk_remove_at_ratio.set_active(status["remove_at_ratio"])
+            if status["move_on_completed"] != self.prev_status["move_on_completed"]:
+                self.chk_move_completed.set_active(status["move_on_completed"])
+            if status["move_on_completed_path"] != self.prev_status["move_on_completed_path"]:
+                if client.is_localhost():
+                    self.filechooser_move_completed.set_current_folder(status["move_on_completed_path"])
+                else:
+                    self.entry_move_completed.set_text(status["move_on_completed_path"])
                 
             self.prev_status = status
         
@@ -151,6 +175,14 @@ class OptionsTab(Tab):
             client.set_torrent_stop_ratio(self.prev_torrent_id, self.spin_stop_ratio.get_value())
         if self.chk_remove_at_ratio.get_active() != self.prev_status["remove_at_ratio"]:
             client.set_torrent_remove_at_ratio(self.prev_torrent_id, self.chk_remove_at_ratio.get_active())
+        if self.chk_move_completed.get_active() != self.prev_status["move_on_completed"]:
+            client.set_torrent_move_on_completed(self.prev_torrent_id, self.chk_move_completed.get_active())
+            if self.chk_move_completed.get_active():
+                if client.is_localhost():
+                    path = self.filechooser_move_completed.get_current_folder()
+                else:
+                    path = self.entry_move_completed.get_text()
+                client.set_torrent_move_on_completed_path(self.prev_torrent_id, path)
         
             
     def _on_button_edit_trackers_clicked(self, button):
@@ -159,3 +191,12 @@ class OptionsTab(Tab):
             self.prev_torrent_id,
             component.get("MainWindow").window)
         dialog.run()
+    
+    def _on_chk_move_completed_toggled(self, widget):
+        value = self.chk_move_completed.get_active()
+        if client.is_localhost():
+            widget = self.filechooser_move_completed
+        else:
+            widget = self.entry_move_completed
+        
+        widget.set_sensitive(value)

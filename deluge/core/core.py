@@ -626,6 +626,14 @@ class Core(
     def export_set_torrent_remove_at_ratio(self, torrent_id, value):
         """Sets the torrent to be removed at 'stop_ratio'"""
         return self.torrents[torrent_id].set_remove_at_ratio(value)
+    
+    def export_set_torrent_move_on_completed(self, torrent_id, value):
+        """Sets the torrent to be moved when completed"""
+        return self.torrents[torrent_id].set_move_on_completed(value)
+
+    def export_set_torrent_move_on_completed_path(self, torrent_id, value):
+        """Sets the path for the torrent to be moved when completed"""
+        return self.torrents[torrent_id].set_move_on_completed_path(value)
         
     def export_block_ip_range(self, range):
         """Block an ip range"""
