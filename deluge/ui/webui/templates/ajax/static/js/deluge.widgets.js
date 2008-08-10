@@ -928,7 +928,7 @@ Deluge.Widgets.PreferencesWindow = new Class({
 		this.categories.each(function(category) {
 			config = $merge(config, category.getConfig());
 		});
-		if ($defined(config['end_listen_port']) || $definied(config['start_listen_port'])) {
+		if ($defined(config['end_listen_port']) || $defined(config['start_listen_port'])) {
 			var startport = $pick(config['start_listen_port'], this.config['listen_ports'][0]);
 			var endport = $pick(config['end_listen_port'], this.config['listen_ports'][1]);
 			delete config['end_listen_port'];
