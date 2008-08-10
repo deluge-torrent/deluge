@@ -1021,7 +1021,7 @@ Widgets.Window = new Class({
 			width: this.options.width,
 			height: this.options.height
 		});
-		this.element.setStyle('opacity', 0)
+		this.element.setStyle('opacity', 0);
 		this.title = new Element('h3').addClass('mooui-window-title');
 		this.element.grab(this.title);
 		this.title.set('text', this.options.title);
@@ -1033,8 +1033,8 @@ Widgets.Window = new Class({
 		this.close = new Element('div').addClass('mooui-window-close');
 		this.close.inject(this.element);
 		this.close.addEvent('click', function(e) {
-			this.hide()
-		}.bindWithEvent(this))
+			this.hide();
+		}.bindWithEvent(this));
 		
 		this.content = new Element('div').addClass('mooui-window-content');
 		this.content.inject(this.element);
@@ -1044,22 +1044,23 @@ Widgets.Window = new Class({
 				url: this.options.url,
 				update: this.content,
 				onSuccess: function(e) {
-					this.fireEvent('loaded')
+					this.fireEvent('loaded');
 				}.bindWithEvent(this)
-			}).get()
+			}).get();
 		}
 	},
 	
 	show: function() {
-		var size = document.body.getInnerSize()
-		var left = (size.x - this.options.width) / 2, top = (size.y - this.options.height) / 2
+        this.fireEvent('beforeShow');
+		var size = document.body.getInnerSize();
+		var left = (size.x - this.options.width) / 2, top = (size.y - this.options.height) / 2;
 		this.sets({
 			left: left,
 			top: top
-		})
-		document.body.grab(this.element)
-		this.element.setStyle('opacity', 1)
-		this.fireEvent('show')
+		});
+		document.body.grab(this.element);
+		this.element.setStyle('opacity', 1);
+		this.fireEvent('show');
 	},
 	
 	hide: function() {

@@ -840,7 +840,7 @@ Deluge.Widgets.PreferencesWindow = new Class({
 		this.categories = [];
 		this.currentPage = -1;
 		this.addEvent('loaded', this.loaded.bindWithEvent(this));
-		this.addEvent('show', this.shown.bindWithEvent(this));
+		this.addEvent('beforeShow', this.beforeShown.bindWithEvent(this));
 	},
 	
 	loaded: function(event) {
@@ -921,8 +921,8 @@ Deluge.Widgets.PreferencesWindow = new Class({
 		});
 		this.webui.apply();
 	},
-	
-	shown: function(event) {
+
+    beforeShown: function(event) {
 		// we want this to be blocking
 		var config = Deluge.Client.get_config({async: false});
 
