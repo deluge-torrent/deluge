@@ -724,8 +724,8 @@ Deluge.Widgets.GenericPreferences = new Class({
 	
 	update: function(config) {
 		this.fireEvent('beforeUpdate');
-		this.original = {};
-		this.changed = {};
+		this.original = config; 
+		this.changed = new Hash();
 		this.inputs = this.form.getElements('input, select');
 		this.inputs.each(function(input) {
 			if (!input.name) return;
@@ -733,19 +733,18 @@ Deluge.Widgets.GenericPreferences = new Class({
 			if (input.tagName.toLowerCase() == 'select') {
 				var value = config[input.name].toString();
 				input.getElements('option').each(function(option) {
-					if (option.value == value) option.selected = true;
+					if (option.value == value) {
+						option.selected = true;
+					}
 				});
 			} else if (input.type == 'text') {
 				input.value = config[input.name];
-				this.original[input.name] = input.value;
 			} else if (input.type == 'checkbox') {
 				input.checked = config[input.name];
-				this.original[input.name] = input.checked;
 			} else if (input.type == 'radio') {
 				var value = config[input.name].toString()
 				if (input.value == value) {
 					input.checked = true;
-					this.original[input.name] = input.value;
 				}
 			}
 			
@@ -768,6 +767,21 @@ Deluge.Widgets.GenericPreferences = new Class({
 			}.bindWithEvent(this))
 		}, this);
 		this.fireEvent('update');
+	},
+
+	getConfig: function() {
+		changed = {}
+		this.changed.each(function(value, key) {
+			var type = $type(this.original[key]);
+			if (type == 'number') {
+				changed[key] = value.toFloat();
+			} else if (type == 'string') {
+				changed[key] = value.toString();
+			} else if (type == 'boolean') {
+				changed[key] = value.toBoolean();
+			}
+		}, this);
+		return changed;
 	}
 });
 
@@ -910,10 +924,17 @@ Deluge.Widgets.PreferencesWindow = new Class({
 	},
 	
 	applied: function(event) {
-		var config = {}
+		var config = {};
 		this.categories.each(function(category) {
-			config = $merge(config, category.changed)
+			config = $merge(config, category.getConfig());
 		});
+		if ($defined(config['end_listen_port']) || $definied(config['start_listen_port'])) {
+			var startport = $pick(config['start_listen_port'], this.config['listen_ports'][0]);
+			var endport = $pick(config['end_listen_port'], this.config['listen_ports'][1]);
+			delete config['end_listen_port'];
+			delete config['start_listen_port'];
+			config['listen_ports'] = [startport, endport];
+		}
 		Deluge.Client.set_config(config, {
 			onSuccess: function(e) {
 				this.hide();
@@ -922,21 +943,21 @@ Deluge.Widgets.PreferencesWindow = new Class({
 		this.webui.apply();
 	},
 
-    beforeShown: function(event) {
+	beforeShown: function(event) {
 		// we want this to be blocking
-		var config = Deluge.Client.get_config({async: false});
+		this.config = Deluge.Client.get_config({async: false});
 
-        // Unfortunately we have to modify the listen ports preferences
-        // in order to not have to modify the generic preferences class.
-        config['start_listen_port'] = config['listen_ports'][0];
-        config['end_listen_port'] = config['listen_ports'][1];
+		// Unfortunately we have to modify the listen ports preferences
+		// in order to not have to modify the generic preferences class.
+		this.config['start_listen_port'] = this.config['listen_ports'][0];
+		this.config['end_listen_port'] = this.config['listen_ports'][1];
 
-        // Iterate through the pages and set the fields
+		// Iterate through the pages and set the fields
 		this.categories.each(function(category) {
-			if (category.update && category.core) category.update(config);
-		});
+			if (category.update && category.core) category.update(this.config);
+		}, this);
 		
-        // Update the config for the webui pages.
+		// Update the config for the webui pages.
 		var webconfig = Deluge.Client.get_webui_config({async: false});
 		this.webui.update(webconfig);
 	}
