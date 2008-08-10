@@ -774,11 +774,11 @@ Deluge.Widgets.GenericPreferences = new Class({
 		this.changed.each(function(value, key) {
 			var type = $type(this.original[key]);
 			if (type == 'number') {
-				changed[key] = value.toFloat();
+				changed[key] = Number(value);
 			} else if (type == 'string') {
-				changed[key] = value.toString();
+				changed[key] = String(value);
 			} else if (type == 'boolean') {
-				changed[key] = value.toBoolean();
+				changed[key] = Boolean(value);
 			}
 		}, this);
 		return changed;
