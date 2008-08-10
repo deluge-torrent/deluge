@@ -925,10 +925,18 @@ Deluge.Widgets.PreferencesWindow = new Class({
 	shown: function(event) {
 		// we want this to be blocking
 		var config = Deluge.Client.get_config({async: false});
+
+        // Unfortunately we have to modify the listen ports preferences
+        // in order to not have to modify the generic preferences class.
+        config['start_listen_port'] = config['listen_ports'][0];
+        config['end_listen_port'] = config['listen_ports'][1];
+
+        // Iterate through the pages and set the fields
 		this.categories.each(function(category) {
 			if (category.update && category.core) category.update(config);
 		});
 		
+        // Update the config for the webui pages.
 		var webconfig = Deluge.Client.get_webui_config({async: false});
 		this.webui.update(webconfig);
 	}
