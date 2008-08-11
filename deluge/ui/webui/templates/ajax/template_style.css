@@ -13,7 +13,19 @@ Version: 0.1
 html, body {
 	padding: 0px;
 	margin: 0px;
+	width: 100%:
+	height: 100%;
 	overflow: hidden;
+}
+
+#overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: #304663 url(/static/images/simple_bg.jpg) repeat-x;
+	width: 100%;
+	height: 100%;
+	z-index: 99999;
 }
 
 #details {

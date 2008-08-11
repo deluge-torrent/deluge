@@ -57,6 +57,7 @@ Deluge.UI = {
 		
 		window.addEvent('resize', this.bound.resized);
 		Deluge.UI.update();
+		$('overlay').destroy();
 	},
 	
 	initialize_grid: function() {
