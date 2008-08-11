@@ -158,7 +158,7 @@ Deluge.UI = {
 				this.vbox.refresh();
 				this.vbox.calculatePositions();
 				this.overlay.dispose();	
-			}.bind(this).delay(100);	
+			}.bind(this).delay(500);	
 		};
 	},
 	
