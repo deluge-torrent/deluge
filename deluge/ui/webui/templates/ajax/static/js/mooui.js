@@ -366,10 +366,11 @@ Widgets.Base = new Class({
 	},
 	
 	refresh: function() {
+		this.element.removeProperty('style');
 		this.width = (this.options.width) ? this.options.width : this.element.getStyle('width').toInt()
 		this.height = (this.options.height) ? this.options.height : this.element.getStyle('height').toInt()
 		this.getSizeModifiers();
-		if (this.calculatePositions) this.calculatePositions();
+		if (this.refreshChildren) this.refreshChildren();
 	},
 	
 	expand: function() {
@@ -959,8 +960,8 @@ Widgets.VBox = new Class({
 		box = $W(box)
 		box.boxinfo = (options) ? options : {fixed: false};
 		this.boxes.include(box);
-		this.element.grab(box)
-		box.element.setStyle('position', 'absolute')
+		this.element.grab(box);
+		box.element.setStyle('position', 'absolute');
 	},
 	
 	calculatePositions: function() {
@@ -990,6 +991,7 @@ Widgets.VBox = new Class({
 			boxinfo.width = size.x - box.element.modifiers.x
 			boxinfo.top = position.y
 			boxinfo.left = position.x
+
 			box.sets({
 				height: boxinfo.height,
 				width: boxinfo.width,
@@ -998,6 +1000,13 @@ Widgets.VBox = new Class({
 			})
 			position.y += box.height + box.element.modifiers.y
 		}, this)
+	},
+	
+	refreshChildren: function() {
+		this.boxes.each(function(box) {
+			box.refresh();
+			box.element.setStyle('position', 'absolute');
+		});
 	}
 })
 /*

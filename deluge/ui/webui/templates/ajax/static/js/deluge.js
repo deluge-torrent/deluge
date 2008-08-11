@@ -57,7 +57,7 @@ Deluge.UI = {
 		
 		window.addEvent('resize', this.bound.resized);
 		Deluge.UI.update();
-		$('overlay').destroy();
+		this.overlay = $('overlay').dispose();
 	},
 	
 	initialize_grid: function() {
@@ -146,11 +146,20 @@ Deluge.UI = {
 	},
 	
 	setTheme: function(name, fn) {
+		if (this.overlay) {
+			this.overlay.inject(document.body);
+		}
 		this.theme = name;
 		if (this.themecss) this.themecss.destroy();
 		this.themecss = new Asset.css('/template/static/themes/' + name + '/style.css');
 		Cookie.write('theme', name);
-		if (this.vbox) this.vbox.refresh();
+		if (this.overlay) {
+			var temp = function() {
+				this.vbox.refresh();
+				this.vbox.calculatePositions();
+				this.overlay.dispose();	
+			}.bind(this).delay(100);	
+		};
 	},
 	
 	run: function() {
