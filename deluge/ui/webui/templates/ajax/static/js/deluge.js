@@ -1120,11 +1120,19 @@ Deluge.UI = {
 		this.themecss = new Asset.css('/template/static/themes/' + name + '/style.css');
 		Cookie.write('theme', name);
 		if (this.overlay) {
-			var temp = function() {
+			var refresh = function() {
 				this.vbox.refresh();
 				this.vbox.calculatePositions();
-				this.overlay.dispose();	
-			}.bind(this).delay(500);	
+				this.overlay.dispose();
+			}.bind(this);
+			var check = function() {
+				if (document.styleSheets[2]) {
+					if (document.styleSheets[2].href == this.themecss.href) {
+						refresh();
+						$clear(check);
+					}
+				}
+			}.periodical(50, this);
 		};
 	},
 	
