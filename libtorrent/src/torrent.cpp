@@ -848,6 +848,8 @@ namespace libtorrent
 
 		restart_tracker_timer(time_now() + seconds(tracker_retry_delay_max));
 
+		if (m_abort) e = tracker_request::stopped;
+
 		if (e == tracker_request::none)
 		{
 			if (!m_start_sent) e = tracker_request::started;
@@ -3392,6 +3394,20 @@ namespace libtorrent
 	void torrent::check_invariant() const
 	{
 		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
+
+		if (!m_ses.m_queued_for_checking.empty())
+		{
+			// if there are torrents waiting to be checked
+			// assert that there's a torrent that is being
+			// processed right now
+			int found = 0;
+			for (aux::session_impl::torrent_map::iterator i = m_ses.m_torrents.begin()
+				, end(m_ses.m_torrents.end()); i != end; ++i)
+				if (i->second->m_state == torrent_status::checking_files) ++found;
+			// the case of 2 is in the special case where one switches over from
+			// checking to complete
+			TORRENT_ASSERT(found == 1 || found == 2);
+		}
 
 		TORRENT_ASSERT(m_resume_entry.type() == lazy_entry::dict_t
 			|| m_resume_entry.type() == lazy_entry::none_t);
