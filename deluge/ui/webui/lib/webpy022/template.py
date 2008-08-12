@@ -865,7 +865,7 @@ def test():
     t('$({1: 1}.keys()[0])')() == '1\n'
     t('$for x in [1, 2, 3]:\n\t$x')() == '    1\n    2\n    3\n'
     t('$def with (a)\n$:a')(1) == '1\n'
-    t('$def with (a)\n$a')(u'\u203d') == '\xe2\x80\xbd\n'
+    t('$def with (a)\n$a')(u'\u203d') == u'\xe2\x80\xbd\n'
     t(u'$def with (f)\n$:f("x")')(lambda x: x) == 'x\n'
 
     j = Template("$var foo: bar")()

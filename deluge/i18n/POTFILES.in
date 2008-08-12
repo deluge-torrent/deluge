@@ -1,5 +1,7 @@
 deluge/scripts/wiki_docgen.py
 deluge/scripts/state_upgrade.py
+deluge/scripts/deluge_remote.py
+deluge/scripts/create_plugin.py
 deluge/core/daemon.py
 deluge/core/signalmanager.py
 deluge/core/torrent.py
@@ -10,6 +12,8 @@ deluge/core/pluginmanager.py
 deluge/core/autoadd.py
 deluge/core/alertmanager.py
 deluge/main.py
+deluge/xmlrpclib.py
+deluge/SimpleXMLRPCServer.py
 deluge/component.py
 deluge/pluginmanagerbase.py
 deluge/error.py
@@ -34,6 +38,7 @@ deluge/ui/webui/webui.py
 deluge/ui/webui/page_decorators.py
 deluge/ui/webui/components.py
 deluge/ui/webui/deluge_webserver.py
+deluge/ui/webui/utils.py
 deluge/ui/webui/apache.py
 deluge/ui/webui/debugerror.py
 deluge/ui/webui/torrent_options.py
@@ -43,6 +48,7 @@ deluge/ui/webui/lib/newforms_portable/django/core/__init__.py
 deluge/ui/webui/lib/newforms_portable/django/utils/safestring.py
 deluge/ui/webui/lib/newforms_portable/django/utils/translation.py
 deluge/ui/webui/lib/newforms_portable/django/utils/functional.py
+deluge/ui/webui/lib/newforms_portable/django/utils/html.py
 deluge/ui/webui/lib/newforms_portable/django/utils/encoding.py
 deluge/ui/webui/lib/newforms_portable/django/utils/http.py
 deluge/ui/webui/lib/newforms_portable/django/utils/__init__.py
@@ -56,12 +62,14 @@ deluge/ui/webui/lib/newforms_portable/__init__.py
 deluge/ui/webui/lib/webpy022/request.py
 deluge/ui/webui/lib/webpy022/webapi.py
 deluge/ui/webui/lib/webpy022/wsgi.py
+deluge/ui/webui/lib/webpy022/utils.py
 deluge/ui/webui/lib/webpy022/debugerror.py
 deluge/ui/webui/lib/webpy022/cheetah.py
 deluge/ui/webui/lib/webpy022/net.py
 deluge/ui/webui/lib/webpy022/http.py
 deluge/ui/webui/lib/webpy022/__init__.py
 deluge/ui/webui/lib/webpy022/wsgiserver/__init__.py
+deluge/ui/webui/lib/webpy022/template.py
 deluge/ui/webui/lib/webpy022/httpserver.py
 deluge/ui/webui/lib/webpy022/form.py
 deluge/ui/webui/lib/webpy022/db.py
@@ -87,6 +95,7 @@ deluge/ui/gtkui/addtorrenturl.py
 deluge/ui/gtkui/preferences.py
 deluge/ui/gtkui/addtorrentdialog.py
 deluge/ui/gtkui/torrentdetails.py
+deluge/ui/gtkui/notification.py
 deluge/ui/gtkui/peers_tab.py
 deluge/ui/gtkui/mainwindow.py
 deluge/ui/gtkui/coreconfig.py
@@ -103,8 +112,10 @@ deluge/ui/gtkui/queuedtorrents.py
 deluge/ui/gtkui/__init__.py
 deluge/ui/gtkui/removetorrentdialog.py
 deluge/ui/gtkui/details_tab.py
+deluge/ui/gtkui/new_release_dialog.py
 deluge/ui/gtkui/pluginmanager.py
 deluge/ui/gtkui/dbusinterface.py
+deluge/ui/gtkui/createtorrentdialog.py
 deluge/ui/gtkui/listview.py
 deluge/ui/gtkui/aboutdialog.py
 deluge/ui/gtkui/statusbar.py
@@ -116,8 +127,6 @@ deluge/plugins/testp/testp/core.py
 deluge/plugins/testp/testp/__init__.py
 deluge/plugins/testp/setup.py
 deluge/plugins/init.py
-deluge/plugins/label/label/core.py
-deluge/plugins/label/label/__init__.py
 deluge/plugins/label/label/webui/ui.py
 deluge/plugins/label/label/webui/pages.py
 deluge/plugins/label/label/webui/config.py
@@ -133,6 +142,8 @@ deluge/plugins/label/label/gtkui/__init__.py
 deluge/plugins/label/setup.py
 deluge/plugins/__init__.py
 deluge/plugins/corepluginbase.py
+deluge/plugins/coreclient.py
+deluge/plugins/blocklist/setup.py
 deluge/plugins/blocklist/blocklist/ui.py
 deluge/plugins/blocklist/blocklist/peerguardian.py
 deluge/plugins/blocklist/blocklist/webui.py
@@ -140,15 +151,20 @@ deluge/plugins/blocklist/blocklist/gtkui.py
 deluge/plugins/blocklist/blocklist/core.py
 deluge/plugins/blocklist/blocklist/text.py
 deluge/plugins/blocklist/blocklist/__init__.py
+deluge/ui/gtkui/glade/create_torrent_dialog.glade
 deluge/ui/gtkui/glade/connection_manager.glade
 deluge/ui/gtkui/glade/preferences_dialog.glade
 deluge/ui/gtkui/glade/queuedtorrents.glade
 deluge/ui/gtkui/glade/dgtkpopups.glade
 deluge/ui/gtkui/glade/remove_torrent_dialog.glade
 deluge/ui/gtkui/glade/edit_trackers.glade
+deluge/ui/gtkui/glade/move_storage_dialog.glade
 deluge/ui/gtkui/glade/add_torrent_dialog.glade
 deluge/ui/gtkui/glade/torrent_menu.glade
 deluge/ui/gtkui/glade/tray_menu.glade
 deluge/ui/gtkui/glade/file_tab_menu.glade
 deluge/ui/gtkui/glade/main_window.glade
+deluge/plugins/label/label/data/label_pref.glade
+deluge/plugins/label/label/data/label_options.glade
 deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade
+
