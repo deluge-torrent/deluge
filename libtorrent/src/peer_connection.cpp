@@ -1212,14 +1212,16 @@ namespace libtorrent
 			// if this is a web seed. we don't have a peer_info struct
 			if (m_peer_info) m_peer_info->seed = true;
 			m_upload_only = true;
-			disconnect_if_redundant();
-			if (is_disconnecting()) return;
 
 			m_have_piece.set_all();
 			m_num_pieces = num_pieces;
 			t->peer_has_all();
 			if (!t->is_finished())
 				t->get_policy().peer_is_interesting(*this);
+
+			disconnect_if_redundant();
+			if (is_disconnecting()) return;
+
 			return;
 		}
 
@@ -1841,6 +1843,10 @@ namespace libtorrent
 		// (since it doesn't exist yet)
 		if (!t->ready_for_connections())
 		{
+			// assume seeds are interesting when we
+			// don't even have the metadata
+			t->get_policy().peer_is_interesting(*this);
+
 			disconnect_if_redundant();
 			// TODO: this might need something more
 			// so that once we have the metadata
@@ -3710,13 +3716,13 @@ namespace libtorrent
 #ifdef TORRENT_EXPENSIVE_INVARIANT_CHECKS
 		if (m_peer_info)
 		{
-			policy::const_iterator i;
-			for (i = t->get_policy().begin_peer()
-				, end(t->get_policy().end_peer()); i != end; ++i)
+			policy::const_iterator i = t->get_policy().begin_peer();
+			policy::const_iterator end = t->get_policy().end_peer();
+			for (; i != end; ++i)
 			{
 				if (&i->second == m_peer_info) break;
 			}
-			TORRENT_ASSERT(i != t->get_policy().end_peer());
+			TORRENT_ASSERT(i != end);
 		}
 #endif
 		if (t->has_picker() && !t->is_aborted())
