@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: Michał Kaliszka <desmont@gmail.com>\n"
 "POT-Creation-Date: 2008-07-20 14:08-0500\n"
-"PO-Revision-Date: 2008-08-06 19:09+0000\n"
-"Last-Translator: Marek Dębowski <Unknown>\n"
+"PO-Revision-Date: 2008-08-11 17:53+0000\n"
+"Last-Translator: Dominik Kozaczko <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-08 04:57+0000\n"
+"X-Launchpad-Export-Date: 2008-08-12 08:21+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:649
@@ -441,7 +441,7 @@ msgstr "Zacznij od pierwszych i ostatnich części"
 
 #: deluge/ui/webui/torrent_add.py:56
 msgid "Add In Paused State"
-msgstr ""
+msgstr "Dodaj jako wstrzymany"
 
 #: deluge/ui/webui/torrent_add.py:57
 msgid "Set Private Flag"
@@ -540,12 +540,14 @@ msgid "Either"
 msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:91
+#, fuzzy
 msgid "Inbound"
-msgstr ""
+msgstr "Przychodzące"
 
 #: deluge/ui/webui/config_tabs_deluge.py:92
+#, fuzzy
 msgid "Outbound"
-msgstr ""
+msgstr "Wychodzące"
 
 #: deluge/ui/webui/config_tabs_deluge.py:93
 #, fuzzy
@@ -560,7 +562,7 @@ msgstr "Globalny"
 #: deluge/ui/webui/config_tabs_deluge.py:101
 #: deluge/ui/webui/config_tabs_deluge.py:116
 msgid "-1 = Unlimited"
-msgstr ""
+msgstr "-1 = Bez limitu"
 
 #: deluge/ui/webui/config_tabs_deluge.py:103
 #: deluge/ui/webui/config_tabs_deluge.py:118
@@ -635,7 +637,7 @@ msgstr "Kolejka"
 
 #: deluge/ui/webui/config_tabs_deluge.py:145
 msgid "-1 = unlimited"
-msgstr ""
+msgstr "-1 = bez limitu"
 
 #: deluge/ui/webui/config_tabs_deluge.py:147
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2295
@@ -669,7 +671,7 @@ msgstr "Usuń torren gdy ratio osiągnie"
 
 #: deluge/ui/webui/config_tabs_deluge.py:169
 msgid "Enabled Plugins"
-msgstr ""
+msgstr "Aktywne wtyczki"
 
 #: deluge/ui/webui/config_tabs_webui.py:47
 #: deluge/ui/webui/config_tabs_webui.py:53

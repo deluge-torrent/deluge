@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-07-20 14:08-0500\n"
-"PO-Revision-Date: 2008-07-02 06:30+0000\n"
-"Last-Translator: Saulius Pranckevičius <Unknown>\n"
+"PO-Revision-Date: 2008-08-09 14:47+0000\n"
+"Last-Translator: BXCracer <Unknown>\n"
 "Language-Team: Lithuanian <lt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-08 04:56+0000\n"
+"X-Launchpad-Export-Date: 2008-08-12 08:21+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:649
 msgid "Announce OK"
-msgstr "Announce Sėkmingas"
+msgstr "Atnaujinimas Sėkmingas"
 
 #: deluge/core/torrentmanager.py:670
 msgid "Announce Sent"
@@ -71,11 +71,11 @@ msgstr "Ava"
 
 #: deluge/ui/webui/scripts/template_strings.py:9
 msgid "Availability"
-msgstr "Esamumas"
+msgstr "Prieinamumas"
 
 #: deluge/ui/webui/scripts/template_strings.py:10
 msgid "BandWidth"
-msgstr ""
+msgstr "Srautas"
 
 #: deluge/ui/webui/scripts/template_strings.py:11
 #: deluge/ui/webui/register_menu.py:39
@@ -89,7 +89,7 @@ msgstr "Prisijungimai"
 
 #: deluge/ui/webui/scripts/template_strings.py:13
 msgid "DHT Nodes"
-msgstr ""
+msgstr "DHT klientai"
 
 #: deluge/ui/webui/scripts/template_strings.py:14
 msgid "Debug:Data Dump"
@@ -1101,6 +1101,7 @@ msgstr ""
 msgid "translator-credits"
 msgstr ""
 "Launchpad Contributions:\n"
+"  BXCracer https://launchpad.net/~bxcracer\n"
 "  Jonas Slivka https://launchpad.net/~jonas-slivka\n"
 "  Mindaugas https://launchpad.net/~loginnn\n"
 "  Rytis https://launchpad.net/~ytis\n"
