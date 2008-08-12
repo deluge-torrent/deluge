@@ -114,7 +114,16 @@ class Config:
         """Set the 'key' with 'value'."""
 	    # Sets the "key" with "value" in the config dict
         if self.config[key] != value:
-            log.debug("Setting '%s' to %s of %s", key, value, type(value))
+	    oldtype, newtype = type(self.config[key]), type(value)
+	    if oldtype != newtype:
+		try:
+		    value = oldtype(value)
+		except ValueError:
+		    log.warning("Type '%s' invalid for '%s'", newtype, key)
+		    return
+
+            log.debug("Setting '%s' to %s of %s", key, value, oldtype)
+	    
             # Make a copy of the current config prior to changing it
             self.previous_config = self.config.copy()
             self.config[key] = value
