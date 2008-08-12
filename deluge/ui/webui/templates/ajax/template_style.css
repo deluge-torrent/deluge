@@ -28,6 +28,17 @@ html, body {
 	z-index: 99999;
 }
 
+#overlay .title {
+	position: absolute;
+	left: 40px;
+	top: 7px;
+	color: #8fa6c3;
+	padding: 0;
+	margin: 0;
+	line-height: 26px;
+	font-size: 26px;
+}
+
 #details {
 	padding: 5px;
 }

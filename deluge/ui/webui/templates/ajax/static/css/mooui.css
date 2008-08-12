@@ -109,6 +109,7 @@ ul.mooui-menu li.mooui-menu-sep:hover {
 	cursor: pointer;
 	height: 14px;
 	-moz-border-radius: 5px 5px 0 0;
+	-webkit-border-radius: 5px 5px 0 0;
 }
 
 .mooui-tabs div {

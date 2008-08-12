@@ -253,6 +253,7 @@ form .deluge_button, button.deluge_button  {
 	color: #000;
 	vertical-align:middle;
 	-moz-border-radius:7px;
+	-webkit-border-radius:7px;
 	margin: 2px;
 }
 
