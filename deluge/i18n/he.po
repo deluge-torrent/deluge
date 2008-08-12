@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-07-20 14:08-0500\n"
-"PO-Revision-Date: 2008-07-26 11:21+0000\n"
-"Last-Translator: Mark Krapivner <mark125@gmail.com>\n"
+"PO-Revision-Date: 2008-08-12 02:53+0000\n"
+"Last-Translator: ethan shalev <Unknown>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-08 04:57+0000\n"
+"X-Launchpad-Export-Date: 2008-08-12 08:21+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Language: Hebrew\n"
 
@@ -47,11 +47,12 @@ msgstr "אודות"
 #: deluge/ui/webui/register_menu.py:51 deluge/plugins/label/label/gtkui.py:348
 #: deluge/plugins/label/build/lib/label/gtkui.py:348
 msgid "Add"
-msgstr "הוספה"
+msgstr "הוסף"
 
 #: deluge/ui/webui/scripts/template_strings.py:4
+#, fuzzy
 msgid "Add Another (Stay in add page)"
-msgstr ""
+msgstr "הוסף עוד (והשאר בעמוד ההוספה)"
 
 #: deluge/ui/webui/scripts/template_strings.py:5
 msgid "Add Torrent"
@@ -90,7 +91,7 @@ msgstr "חיבורים"
 
 #: deluge/ui/webui/scripts/template_strings.py:13
 msgid "DHT Nodes"
-msgstr ""
+msgstr "צמתי DHT"
 
 #: deluge/ui/webui/scripts/template_strings.py:14
 msgid "Debug:Data Dump"
@@ -101,8 +102,9 @@ msgid "Delete .torrent file"
 msgstr "מחק קובץ .torrent"
 
 #: deluge/ui/webui/scripts/template_strings.py:16
+#, fuzzy
 msgid "Delete downloaded files."
-msgstr "למחוק קבצים שירדו."
+msgstr "מחק קבצים שהורדו"
 
 #: deluge/ui/webui/scripts/template_strings.py:17
 #: deluge/ui/webui/register_menu.py:45 deluge/ui/webui/register_menu.py:59
@@ -157,12 +159,13 @@ msgid "File"
 msgstr "קובץ"
 
 #: deluge/ui/webui/scripts/template_strings.py:28
+#, fuzzy
 msgid "Filter on Tracker"
-msgstr ""
+msgstr "סנן על פי עוקב"
 
 #: deluge/ui/webui/scripts/template_strings.py:29
 msgid "Filter on state"
-msgstr ""
+msgstr "סנן על פי מצב"
 
 #: deluge/ui/webui/scripts/template_strings.py:30
 #: deluge/plugins/label/label/webui_config.py:115
@@ -212,11 +215,11 @@ msgstr "סיסמה"
 
 #: deluge/ui/webui/scripts/template_strings.py:39
 msgid "Password is invalid,try again"
-msgstr "הסיסמה לא תקינה,נסו שוב"
+msgstr "סיסמה לא תקינה, נסו שוב"
 
 #: deluge/ui/webui/scripts/template_strings.py:40
 msgid "Pause"
-msgstr "השהייה"
+msgstr "השהה"
 
 #: deluge/ui/webui/scripts/template_strings.py:41
 msgid "Pause all"
@@ -260,7 +263,7 @@ msgstr "יחס"
 #: deluge/ui/webui/scripts/template_strings.py:49
 #: deluge/ui/webui/register_menu.py:61
 msgid "Reannounce"
-msgstr "להכריז מחדש"
+msgstr "הכרז מחדש"
 
 #: deluge/ui/webui/scripts/template_strings.py:50
 msgid "Refresh"
@@ -268,7 +271,7 @@ msgstr "רענן"
 
 #: deluge/ui/webui/scripts/template_strings.py:51
 msgid "Refresh page every:"
-msgstr "לרענן את העמוד כל:"
+msgstr "רענן את העמוד כל:"
 
 #: deluge/ui/webui/scripts/template_strings.py:52
 msgid "Remove"
@@ -293,7 +296,7 @@ msgstr "שמור"
 #: deluge/ui/webui/scripts/template_strings.py:57
 #: deluge/ui/gtkui/torrentview.py:137
 msgid "Seeders"
-msgstr "מפיצים"
+msgstr "זורעים"
 
 #: deluge/ui/webui/scripts/template_strings.py:58
 msgid "Set"
@@ -301,7 +304,7 @@ msgstr "קבע"
 
 #: deluge/ui/webui/scripts/template_strings.py:59
 msgid "Set Timeout"
-msgstr "קביעת פסק-זמן"
+msgstr "קבע פסק-זמן"
 
 #: deluge/ui/webui/scripts/template_strings.py:60
 msgid "Settings"
@@ -315,7 +318,7 @@ msgstr "יחס שיתוף"
 #: deluge/ui/gtkui/addtorrentdialog.py:105 deluge/ui/gtkui/torrentview.py:129
 #: deluge/ui/gtkui/files_tab.py:125
 msgid "Size"
-msgstr "נפח"
+msgstr "גודל"
 
 #: deluge/ui/webui/scripts/template_strings.py:63
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:9
@@ -337,18 +340,20 @@ msgstr "רשימת טורנטים"
 
 #: deluge/ui/webui/scripts/template_strings.py:67
 msgid "Total Size"
-msgstr "גודל כולל:"
+msgstr "גודל כולל"
 
 #: deluge/ui/webui/scripts/template_strings.py:68
 #: deluge/ui/gtkui/edittrackersdialog.py:78
 #: deluge/plugins/label/label/gtkui.py:109
 #: deluge/plugins/label/build/lib/label/gtkui.py:109
+#, fuzzy
 msgid "Tracker"
-msgstr "טראקר"
+msgstr "עוקב"
 
 #: deluge/ui/webui/scripts/template_strings.py:69
+#, fuzzy
 msgid "Tracker Status"
-msgstr "סטטוס טראקר"
+msgstr "סטטוס עוקב"
 
 #: deluge/ui/webui/scripts/template_strings.py:70
 #: deluge/ui/gtkui/systemtray.py:197
@@ -368,7 +373,7 @@ msgstr "העלאה"
 #: deluge/ui/webui/scripts/template_strings.py:73
 #: deluge/ui/webui/torrent_add.py:67
 msgid "Upload torrent"
-msgstr "העלאת טורנט"
+msgstr "העלה טורנט"
 
 #: deluge/ui/webui/scripts/template_strings.py:74
 msgid "Uploaded"
@@ -426,11 +431,12 @@ msgstr "מקסימום נקודות העלאה"
 
 #: deluge/ui/webui/torrent_add.py:55 deluge/ui/webui/config_tabs_deluge.py:130
 msgid "Prioritize first and last pieces"
-msgstr ""
+msgstr "תעדף חלק ראשון ואחרון"
 
 #: deluge/ui/webui/torrent_add.py:56
+#, fuzzy
 msgid "Add In Paused State"
-msgstr ""
+msgstr "הוסף אך אל תתחיל"
 
 #: deluge/ui/webui/torrent_add.py:57
 msgid "Set Private Flag"
@@ -1107,6 +1113,7 @@ msgstr ""
 "  Shlomil https://launchpad.net/~shlomister\n"
 "  Yaron https://launchpad.net/~sh-yaron\n"
 "  cow_2001 https://launchpad.net/~cow2001\n"
+"  ethan shalev https://launchpad.net/~shalev-ethan\n"
 "  hidro https://launchpad.net/~hidroo\n"
 "  kripkenstein https://launchpad.net/~kripkenstein\n"
 "  liorda https://launchpad.net/~liorda\n"
