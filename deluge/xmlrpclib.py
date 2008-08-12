@@ -158,7 +158,7 @@ try:
 except NameError:
     _bool_is_builtin = 0
 
-def _decode(data, encoding, is8bit=re.compile("[\x80-\xff]").search):
+def _decode(data, encoding, is8bit=re.compile(u"[\x80-\xff]").search):
     # decode non-ascii string (if possible)
     if unicode and encoding and is8bit(data):
         data = unicode(data, encoding)

@@ -13,7 +13,7 @@ LEADING_PUNCTUATION  = ['(', '<', '&lt;']
 TRAILING_PUNCTUATION = ['.', ',', ')', '>', '\n', '&gt;']
 
 # List of possible strings used for bullets in bulleted lists.
-DOTS = ['&middot;', '*', '\xe2\x80\xa2', '&#149;', '&bull;', '&#8226;']
+DOTS = ['&middot;', '*', u'\xe2\x80\xa2', '&#149;', '&bull;', '&#8226;']
 
 unencoded_ampersands_re = re.compile(r'&(?!(\w+|#\d+);)')
 word_split_re = re.compile(r'(\s+)')

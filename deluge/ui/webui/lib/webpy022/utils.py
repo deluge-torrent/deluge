@@ -188,16 +188,7 @@ def strips(text, remove):
     return rstrips(lstrips(text, remove), remove)
 
 def utf8(text):
-    """Encodes text in utf-8.
-        
-        >> utf8(u'\u1234') # doctest doesn't seem to like utf-8
-        '\xe1\x88\xb4'
-
-        >>> utf8('hello')
-        'hello'
-        >>> utf8(42)
-        '42'
-    """
+    """Encodes text in utf-8."""
     if isinstance(text, unicode):
         return text.encode('utf-8')
     elif isinstance(text, str):
