@@ -51,16 +51,18 @@ def cb_none(args):
 
 class LabelMenu(gtk.MenuItem):
     def __init__(self):
-        gtk.MenuItem.__init__(self, "Label")
-        self.show_all()
+        gtk.MenuItem.__init__(self, _("Label"))
+
+        self.sub_menu = gtk.Menu()
+        self.set_submenu(self.sub_menu)
 
         #attach..
         torrentmenu = component.get("MenuBar").torrentmenu
-        torrentmenu.connect("show", self.on_show, None)
-
+        self.sub_menu.connect("show", self.on_show, None)
         aclient.connect_on_new_core(self._on_new_core)
 
-    def _on_new_core(self, data):
+
+    def _on_new_core(self, data = None):
         self.on_show()
 
     def get_torrent_ids(self):
@@ -73,15 +75,13 @@ class LabelMenu(gtk.MenuItem):
         aclient.force_call(block=True)
 
     def cb_labels(self , labels):
-        log.debug("cb_labels-start")
-        self.sub_menu = gtk.Menu()
+        for child in self.sub_menu.get_children():
+            self.sub_menu.remove(child)
         for label in [NO_LABEL] + labels:
-            item = gtk.MenuItem(label)
+            item = gtk.MenuItem(label.replace("_","__"))
             item.connect("activate", self.on_select_label, label)
             self.sub_menu.append(item)
-        self.set_submenu(self.sub_menu)
         self.show_all()
-        log.debug("cb_labels-end")
 
     def on_select_label(self, widget=None, label_id = None):
         log.debug("select label:%s,%s" % (label_id ,self.get_torrent_ids()) )
