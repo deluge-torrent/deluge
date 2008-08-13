@@ -131,7 +131,7 @@ class CoreProxy(gobject.GObject):
                 pass
             self.emit("no_core")
 
-        self._uri = uri
+        self._uri = uri.replace("localhost", "127.0.0.1")
         # Get a new core
         self.get_rpc_core()
 
