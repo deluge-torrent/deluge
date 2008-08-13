@@ -64,19 +64,20 @@ CONFIG_DEFAULTS = {
 CORE_OPTIONS = ["hide_zero_hits", "gtk_alfa", "show_states", "show_trackers", "show_labels","auto_add","auto_add_trackers"]
 
 OPTIONS_DEFAULTS = {
+    "apply_max":False,
     "max_download_speed":-1,
     "max_upload_speed":-1,
     "max_connections":-1,
     "max_upload_slots":-1,
     "prioritize_first_last":False,
-    "apply_max":False,
-    "move_completed":False,
-    "move_completed_path":"",
     "apply_queue":False,
     "is_auto_managed":False,
     "stop_at_ratio":False,
     "stop_ratio":2.0,
     "remove_at_ratio":False,
+    "apply_move_completed":False,
+    "move_completed":False,
+    "move_completed_path":"",
     "auto_add":False,
     "auto_add_trackers":[],
 }
@@ -315,6 +316,9 @@ class Core(CorePluginBase):
         options = self.labels[label_id]
         torrent = self.torrents[torrent_id]
 
+        if not options["move_completed_path"]:
+            options["move_completed_path"] = "" #no None.
+
         if options["apply_max"]:
             torrent.set_max_download_speed(options["max_download_speed"])
             torrent.set_max_upload_speed(options["max_upload_speed"])
@@ -328,9 +332,9 @@ class Core(CorePluginBase):
             torrent.set_stop_ratio(options['stop_ratio'])
             torrent.set_remove_at_ratio(options['remove_at_ratio'])
 
-        if options["move_completed"]:
-            #todo...
-            pass
+        if options["apply_move_completed"]:
+            torrent.set_move_on_completed(options["move_completed"])
+            torrent.set_move_on_completed_path(options["move_completed_path"])
 
     def _has_auto_match(self, torrent ,label_options):
         "match for auto_add fields"

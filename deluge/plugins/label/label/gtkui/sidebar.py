@@ -130,14 +130,18 @@ class AddDialog(object):
 
 class OptionsDialog(object):
     spin_ids = ["max_download_speed", "max_upload_speed", "max_upload_slots", "max_connections", "stop_ratio"]
-    chk_ids = ["apply_max", "apply_queue", "stop_at_ratio", "apply_queue", "remove_at_ratio", "move_completed", "is_auto_managed", "auto_add"]
-    sensitive_groups = { #keys must be checkboxes , value-list is to be enabled on checked.
-        "apply_max": ["max_download_speed", "max_upload_speed", "max_upload_slots", "max_connections"],
-        "apply_queue":["is_auto_managed", "remove_at_ratio", "stop_at_ratio", "stop_ratio"],
-        #"stop_at_ratio":["stop_at_ratio","remove_at_ratio"], #nested from apply_queue, will probably cause bugs.
-        "move_completed":["move_completed_path"],
-        "auto_add":["auto_add_trackers"]
-    }
+    chk_ids = ["apply_max", "apply_queue", "stop_at_ratio", "apply_queue", "remove_at_ratio",
+        "apply_move_completed", "move_completed", "is_auto_managed", "auto_add"]
+
+    #list of tuples, because order matters when nesting.
+    sensitive_groups = [
+        ("apply_max", ["max_download_speed", "max_upload_speed", "max_upload_slots", "max_connections"]),
+        ("apply_queue", ["is_auto_managed", "stop_at_ratio"]),
+        ("stop_at_ratio", ["remove_at_ratio", "stop_ratio"]), #nested
+        ("apply_move_completed", ["move_completed"]),
+        ("move_completed", ["move_completed_path"]), #nested
+        ("auto_add", ["auto_add_trackers"])
+    ]
 
     def __init__(self):
         pass
@@ -151,7 +155,7 @@ class OptionsDialog(object):
             "on_options_cancel":self.on_cancel,
         })
 
-        for chk_id in  self.sensitive_groups:
+        for chk_id, group in  self.sensitive_groups:
             log.debug(chk_id)
             chk = self.glade.get_widget(chk_id)
             chk.connect("toggled",self.apply_sensitivity)
@@ -193,15 +197,13 @@ class OptionsDialog(object):
         self.dialog.destroy()
 
     def apply_sensitivity(self, event=None):
+        nested = []
         log.debug("apply-sensitivity")
-        for chk_id , sensitive_list in self.sensitive_groups.iteritems():
-            sens = self.glade.get_widget(chk_id).get_active()
+        for chk_id , sensitive_list in self.sensitive_groups:
+            chk = self.glade.get_widget(chk_id)
+            sens = chk.get_active() and chk.get_property("sensitive")
             for widget_id in sensitive_list:
                 self.glade.get_widget(widget_id).set_sensitive(sens)
-
-
-
-
 
     def on_cancel(self, event=None):
         self.dialog.destroy()
