@@ -197,8 +197,6 @@ class OptionsDialog(object):
         self.dialog.destroy()
 
     def apply_sensitivity(self, event=None):
-        nested = []
-        log.debug("apply-sensitivity")
         for chk_id , sensitive_list in self.sensitive_groups:
             chk = self.glade.get_widget(chk_id)
             sens = chk.get_active() and chk.get_property("sensitive")

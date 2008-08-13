@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Wed Aug 13 21:59:54 2008 -->
+<!--Generated with glade3 3.4.5 on Wed Aug 13 22:04:09 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="dlg_label_options">
     <property name="border_width">5</property>
@@ -440,7 +440,7 @@
                   <widget class="GtkCheckButton" id="apply_move_completed">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
-                    <property name="label" translatable="yes">Apply move location settings:</property>
+                    <property name="label" translatable="yes">Apply location settings:</property>
                     <property name="response_id">0</property>
                     <property name="draw_indicator">True</property>
                   </widget>
