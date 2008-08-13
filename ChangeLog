@@ -1,4 +1,7 @@
-Deluge 0.9.06 - "1.0.0_RC6" (In Development)
+Deluge 0.9.06 - "1.0.0_RC6" (13 August 2008)
+ Core:
+  * Fix CPU spikes
+
  GtkUI:
   * Fix move storage dialog when connected to a remote daemon
   
