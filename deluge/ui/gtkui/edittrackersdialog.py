@@ -50,6 +50,8 @@ class EditTrackersDialog:
         self.treeview = self.glade.get_widget("tracker_treeview")
         self.add_tracker_dialog = self.glade.get_widget("add_tracker_dialog")
         self.add_tracker_dialog.set_transient_for(self.dialog)
+        self.edit_tracker_entry = self.glade.get_widget("edit_tracker_entry")
+        self.edit_tracker_entry.set_transient_for(self.dialog)
         
         self.dialog.set_icon(deluge.common.get_logo(32))
         
@@ -60,6 +62,9 @@ class EditTrackersDialog:
         self.glade.signal_autoconnect({
             "on_button_up_clicked": self.on_button_up_clicked,
             "on_button_add_clicked": self.on_button_add_clicked,
+            "on_button_edit_clicked": self.on_button_edit_clicked,
+            "on_button_edit_cancel_clicked": self.on_button_edit_cancel_clicked,
+            "on_button_edit_ok_clicked": self.on_button_edit_ok_clicked,
             "on_button_remove_clicked": self.on_button_remove_clicked,
             "on_button_down_clicked": self.on_button_down_clicked,
             "on_button_ok_clicked": self.on_button_ok_clicked,
@@ -127,7 +132,28 @@ class EditTrackersDialog:
         selected = self.get_selected()
         if selected != None:
             self.liststore.remove(selected)
-        
+
+    def on_button_edit_clicked(self, widget):
+        """edits an existing tracker"""
+        log.debug("on_button_edit_clicked")
+        selected = self.get_selected()
+        if selected:
+            tracker = self.liststore.get_value(selected, 1)
+            self.glade.get_widget("entry_edit_tracker").set_text(tracker)
+            self.edit_tracker_entry.show()
+            self.glade.get_widget("edit_tracker_entry").grab_focus()
+
+    def on_button_edit_cancel_clicked(self, widget):
+        log.debug("on_button_edit_cancel_clicked")
+        self.edit_tracker_entry.hide()
+
+    def on_button_edit_ok_clicked(self, widget):
+        log.debug("on_button_edit_ok_clicked")
+        selected = self.get_selected()
+        tracker = self.glade.get_widget("entry_edit_tracker").get_text()
+        self.liststore.set_value(selected, 1, tracker)
+        self.edit_tracker_entry.hide()
+
     def on_button_down_clicked(self, widget):
         log.debug("on_button_down_clicked")
         selected = self.get_selected()
