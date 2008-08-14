@@ -61,16 +61,17 @@ def get_resource(filename):
 class LabelMenu(gtk.Menu):
     def __init__(self):
         gtk.Menu.__init__(self)
-        self.items = []
-        self._add_default_item("add", None, gtk.STOCK_ADD)
-        self._add_default_item("remove", None, gtk.STOCK_REMOVE)
-        self._add_default_item("options", _("_Options"), gtk.STOCK_PREFERENCES)
+        self.default_items = []
+        self.all_items = []
+        self._add_default_item("add", _("_Add Label"), gtk.STOCK_ADD)
+        self._add_default_item("remove", _("_Remove Label"), gtk.STOCK_REMOVE)
+        self._add_default_item("options", _("Label _Options"), gtk.STOCK_PREFERENCES)
 
 
         self.append(gtk.SeparatorMenuItem())
         self._add_all_item(None, _("_Select All"), gtk.STOCK_JUSTIFY_FILL)
         self._add_all_item("pause", None, gtk.STOCK_MEDIA_PAUSE)
-        self._add_all_item("resume", _("_Resume"), gtk.STOCK_MEDIA_PLAY)
+        self._add_all_item("resume", _("R_esume"), gtk.STOCK_MEDIA_PLAY)
 
         #self._add_all_item("move", _("Move _Storage"), gtk.STOCK_SAVE_AS)
         #self._add_all_item("recheck", _("_Force Re-check"), gtk.STOCK_REDO)
@@ -84,7 +85,7 @@ class LabelMenu(gtk.Menu):
     def _add_default_item(self, id, label ,stock):
         """attaches callback to self.on_<id>"""
         func  = getattr(self,"on_%s" %  id)
-        self._add_item(id, label , stock, func)
+        self.default_items.append(self._add_item(id, label , stock, func))
 
     def _add_all_item(self, id, label , stock):
         """1:selects all in torrentview
@@ -96,7 +97,7 @@ class LabelMenu(gtk.Menu):
                 func = getattr(component.get("MenuBar"), "on_menuitem_%s_activate" % id)
                 func(event)
 
-        self._add_item(id, label , stock, on_all_activate)
+        self.all_items.append(self._add_item(id, label , stock, on_all_activate))
 
     def _add_item(self, id, label ,stock, func):
         """I hate glade.
@@ -108,7 +109,7 @@ class LabelMenu(gtk.Menu):
         item.connect("activate", func)
         self.append(item)
         setattr(self,"item_%s" %  id, item)
-        self.items.append(item)
+        return item
 
     def on_add(self, event=None):
         self.add_dialog.show(self.label)
@@ -119,12 +120,25 @@ class LabelMenu(gtk.Menu):
     def on_options (self, event=None):
         self.options_dialog.show(self.label, (200,250))
 
-    def set_label(self,label):
+    def set_label(self, label, count):
         "No Label:disable options/del"
         self.label = label
-        sensitive = (label != NO_LABEL)
-        for item  in self.items:
+        #self.count = count
+
+        #None:only enable Add.
+
+        #default items
+        sensitive = (label not in (NO_LABEL, None))
+        for item  in self.default_items:
             item.set_sensitive(sensitive)
+
+        #"all" items:
+        sensitive = (count > 0)
+        for item  in self.all_items:
+            item.set_sensitive(sensitive)
+
+
+        #add is allways enabled.
         self.item_add.set_sensitive(True)
 
 
@@ -422,17 +436,18 @@ class LabelSideBar(component.Component):
             row = self.model_filter.get_iter(path[0])
             cat    = self.model_filter.get_value(row, 0)
             value = self.model_filter.get_value(row, 1)
+            count = self.model_filter.get_value(row, 2)
 
             #log.debug("right-click->cat='%s',value='%s'", cat ,value)
 
             if cat == "label":
-                self.show_label_menu(value, event)
+                self.show_label_menu(value, count, event)
             elif (cat == "cat" and value == "Label"): #add button on root node.
-                self.show_label_menu(NO_LABEL, event)
+                self.show_label_menu(None, 0, event)
 
 
 
-    def show_label_menu(self, label, event):
-        self.label_menu.set_label(label)
+    def show_label_menu(self, label, count, event):
+        self.label_menu.set_label(label, count)
         self.label_menu.popup(None, None, None, event.button, event.time)
 
