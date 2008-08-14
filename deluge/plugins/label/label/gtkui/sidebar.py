@@ -61,26 +61,54 @@ def get_resource(filename):
 class LabelMenu(gtk.Menu):
     def __init__(self):
         gtk.Menu.__init__(self)
-        self._add_item("add", _("_Add"), gtk.STOCK_ADD)
-        self._add_item("remove", _("Remove"), gtk.STOCK_REMOVE)
-        self._add_item("options", _("_Options") ,gtk.STOCK_PREFERENCES)
-        #self._add_item("resume", _("_Resume") ,gtk.STOCK_MEDIA_PLAY)
-        #self._add_item("pause", _("_Pause") ,gtk.STOCK_MEDIA_PAUSE)
+        self.items = []
+        self._add_default_item("add", None, gtk.STOCK_ADD)
+        self._add_default_item("remove", None, gtk.STOCK_REMOVE)
+        self._add_default_item("options", _("_Options"), gtk.STOCK_PREFERENCES)
+
+
+        self.append(gtk.SeparatorMenuItem())
+        self._add_all_item(None, _("_Select All"), gtk.STOCK_JUSTIFY_FILL)
+        self._add_all_item("pause", None, gtk.STOCK_MEDIA_PAUSE)
+        self._add_all_item("resume", _("_Resume"), gtk.STOCK_MEDIA_PLAY)
+
+        #self._add_all_item("move", _("Move _Storage"), gtk.STOCK_SAVE_AS)
+        #self._add_all_item("recheck", _("_Force Re-check"), gtk.STOCK_REDO)
 
         self.show_all()
         self.label = None
-
         #dialogs:
         self.add_dialog = AddDialog()
         self.options_dialog = OptionsDialog()
 
-    def _add_item(self, id, label , stock):
-        "add a menu item, some magic here because i hate glade."
-        method = getattr(self,"on_%s" %  id)
+    def _add_default_item(self, id, label ,stock):
+        """attaches callback to self.on_<id>"""
+        func  = getattr(self,"on_%s" %  id)
+        self._add_item(id, label , stock, func)
+
+    def _add_all_item(self, id, label , stock):
+        """1:selects all in torrentview
+        2:executes menubar.on_menuitem_<id>_activate
+        """
+        def on_all_activate(self, event = None):
+            component.get("TorrentView").treeview.get_selection().select_all()
+            if id: #for select-all method.
+                func = getattr(component.get("MenuBar"), "on_menuitem_%s_activate" % id)
+                func(event)
+
+        self._add_item(id, label , stock, on_all_activate)
+
+    def _add_item(self, id, label ,stock, func):
+        """I hate glade.
+        id is automatically-added as self.item_<id>
+        """
         item = gtk.ImageMenuItem(stock)
-        item.connect("activate", method)
+        if label:
+            item.get_children()[0].set_label(label)
+        item.connect("activate", func)
         self.append(item)
         setattr(self,"item_%s" %  id, item)
+        self.items.append(item)
 
     def on_add(self, event=None):
         self.add_dialog.show(self.label)
@@ -91,19 +119,14 @@ class LabelMenu(gtk.Menu):
     def on_options (self, event=None):
         self.options_dialog.show(self.label, (200,250))
 
-    def on_resume(self, event=None):
-        pass
-
-    def on_pause (self, event=None):
-        pass
-
-
     def set_label(self,label):
         "No Label:disable options/del"
         self.label = label
         sensitive = (label != NO_LABEL)
-        self.item_options.set_sensitive(sensitive)
-        self.item_remove.set_sensitive(sensitive)
+        for item  in self.items:
+            item.set_sensitive(sensitive)
+        self.item_add.set_sensitive(True)
+
 
 #dialogs:
 class AddDialog(object):
@@ -156,7 +179,6 @@ class OptionsDialog(object):
         })
 
         for chk_id, group in  self.sensitive_groups:
-            log.debug(chk_id)
             chk = self.glade.get_widget(chk_id)
             chk.connect("toggled",self.apply_sensitivity)
 
@@ -331,8 +353,6 @@ class LabelSideBar(component.Component):
             txt = "%s (%s)"  % (value, count)
             col = gtk.gdk.color_parse('white')
 
-
-
         cell.set_property('text', txt)
         cell.set_property("cell-background-gdk",col)
         self.renderpix.set_property("cell-background-gdk",col)
@@ -403,7 +423,7 @@ class LabelSideBar(component.Component):
             cat    = self.model_filter.get_value(row, 0)
             value = self.model_filter.get_value(row, 1)
 
-            log.debug("right-click->cat='%s',value='%s'", cat ,value)
+            #log.debug("right-click->cat='%s',value='%s'", cat ,value)
 
             if cat == "label":
                 self.show_label_menu(value, event)
