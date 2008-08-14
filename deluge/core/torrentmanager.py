@@ -441,30 +441,7 @@ class TorrentManager(component.Component):
         self.signals.emit("torrent_removed", torrent_id)
         
         return True
-    
-    def pause_all(self):
-        """Pauses all torrents.. Returns a list of torrents paused."""
-        torrent_was_paused = False
-        for key in self.torrents.keys():
-            try:
-                self.torrents[key].pause()
-                torrent_was_paused = True
-            except:
-                log.warning("Unable to pause torrent %s", key)
-        
-        return torrent_was_paused
-
-    def resume_all(self):
-        """Resumes all torrents.. Returns True if at least 1 torrent is resumed"""
-        torrent_was_resumed = False
-        for key in self.torrents.keys():
-            if self.torrents[key].resume():
-                torrent_was_resumed = True
-            else:
-                log.warning("Unable to resume torrent %s", key)
-
-        return torrent_was_resumed
-        
+       
     def load_state(self):
         """Load the state of the TorrentManager from the torrents.state file"""
         state = TorrentManagerState()

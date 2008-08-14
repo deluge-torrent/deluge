@@ -256,7 +256,7 @@ class Torrent:
         ltstate = int(self.handle.status().state)
         
         log.debug("set_state_based_on_ltstate: %s", ltstate)
-        
+        log.debug("session.is_paused: %s", component.get("Core").session.is_paused())
         if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:
             self.state = "Checking"
             return
@@ -272,9 +272,9 @@ class Torrent:
             self.state = "Error"
             self.set_status_message(self.handle.status().error)
             self.handle.auto_managed(False)
-        elif self.handle.is_paused() and self.handle.is_auto_managed():
+        elif self.handle.is_paused() and self.handle.is_auto_managed() and not component.get("Core").session.is_paused():
             self.state = "Queued"
-        elif self.handle.is_paused() and not self.handle.is_auto_managed():
+        elif component.get("Core").session.is_paused() or (self.handle.is_paused() and not self.handle.is_auto_managed()):
             self.state = "Paused"
     
     def set_state(self, state):

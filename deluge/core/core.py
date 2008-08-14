@@ -464,14 +464,12 @@ class Core(
     
     def export_pause_all_torrents(self):
         """Pause all torrents in the session"""
-        if not self.torrents.pause_all():
-            log.warning("Error pausing all torrents..")
+        self.session.pause()
             
     def export_resume_all_torrents(self):
         """Resume all torrents in the session"""
-        if self.torrents.resume_all():
-            # Emit the 'torrent_all_resumed' signal
-            self.torrent_all_resumed()
+        self.session.resume()
+        self.torrent_all_resumed()
         
     def export_resume_torrent(self, torrent_ids):
         log.debug("Resuming: %s", torrent_ids)
