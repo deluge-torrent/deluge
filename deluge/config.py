@@ -113,29 +113,32 @@ class Config:
     def set(self, key, value):
         """Set the 'key' with 'value'."""
 	    # Sets the "key" with "value" in the config dict
-        if self.config[key] != value:
-	    oldtype, newtype = type(self.config[key]), type(value)
-	    if oldtype != newtype:
-		try:
-		    value = oldtype(value)
-		except ValueError:
-		    log.warning("Type '%s' invalid for '%s'", newtype, key)
-		    return
+        if self.config[key] == value:
+            return
+            
+        oldtype, newtype = type(self.config[key]), type(value)
 
-            log.debug("Setting '%s' to %s of %s", key, value, oldtype)
-	    
-            # Make a copy of the current config prior to changing it
-            self.previous_config = self.config.copy()
-            self.config[key] = value
-            # Run the set_function for this key if any
+        if value is not None and oldtype != newtype:
             try:
-                gobject.idle_add(self.set_functions[key], key, value)
-            except KeyError:
-                pass
-            try:
-                gobject.idle_add(self._change_callback, key, value)
-            except:
-                pass
+                value = oldtype(value)
+            except ValueError:
+                log.warning("Type '%s' invalid for '%s'", newtype, key)
+                return
+            
+        log.debug("Setting '%s' to %s of %s", key, value, oldtype)
+    
+        # Make a copy of the current config prior to changing it
+        self.previous_config = self.config.copy()
+        self.config[key] = value
+        # Run the set_function for this key if any
+        try:
+            gobject.idle_add(self.set_functions[key], key, value)
+        except KeyError:
+            pass
+        try:
+            gobject.idle_add(self._change_callback, key, value)
+        except:
+            pass
 
     def get(self, key):
         """Get the value of 'key'.  If it is an invalid key then get() will
