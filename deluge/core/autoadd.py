@@ -74,7 +74,7 @@ class AutoAdd(component.Component):
                 filepath = os.path.join(self.config["autoadd_location"], filename)
                 try:
                     filedump = self.load_torrent(filepath)
-                except Exception, e:
+                except (RuntimeError, Exception), e:
                     # If the torrent is invalid, we keep track of it so that we
                     # can try again on the next pass.  This is because some
                     # torrents may not be fully saved during the pass.
