@@ -1,6 +1,8 @@
 Deluge 0.9.07 - "1.0.0_RC7" (In Development)
  Core:
   * Fix Vista slowness issue
+ GtkUI:
+  * Add 'edit' to edit trackers dialog
   
 Deluge 0.9.06 - "1.0.0_RC6" (13 August 2008)
  Core:
