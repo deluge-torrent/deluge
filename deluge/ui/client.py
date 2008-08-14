@@ -131,7 +131,7 @@ class CoreProxy(gobject.GObject):
                 pass
             self.emit("no_core")
 
-        self._uri = uri.replace("localhost", "127.0.0.1")
+        self._uri = uri
         # Get a new core
         self.get_rpc_core()
 
@@ -142,7 +142,7 @@ class CoreProxy(gobject.GObject):
     def get_rpc_core(self):
         if self.rpc_core is None and self._uri is not None:
             log.debug("Creating ServerProxy..")
-            self.rpc_core = xmlrpclib.ServerProxy(self._uri, allow_none=True)
+            self.rpc_core = xmlrpclib.ServerProxy(self._uri.replace("localhost", "127.0.0.1"), allow_none=True)
             self._multi = xmlrpclib.MultiCall(self.rpc_core)
             self._multi_timer = gobject.timeout_add(200, self.do_multicall)
             # Call any callbacks registered
