@@ -118,7 +118,7 @@ class Config:
             
         oldtype, newtype = type(self.config[key]), type(value)
 
-        if value is not None and oldtype != newtype:
+        if value is not None and oldtype != type(None) and oldtype != newtype:
             try:
                 value = oldtype(value)
             except ValueError:
