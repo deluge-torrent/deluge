@@ -17,6 +17,10 @@ print sorted(sclient.get_torrent_status(torrent_id,[]).keys())
 print sorted(sclient.get_status_keys())
 
 
+#default, no filter argument.
+print sclient.get_status(["name","state"])
+
+print "HI! , after this the errors start"
 #filters on default state fields
 print sclient.get_status(["name","state"], {"state":"Paused"})
 print sclient.get_status(["name","state"], {"tracker_host":"aelitis.com"})

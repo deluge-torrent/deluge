@@ -507,6 +507,17 @@ class Core(
             status.update(self.plugins.get_status(torrent_id, leftover_fields))
         return status
 
+
+    def export_get_status(self, keys, filter_dict = None):
+        """
+        returns all torrents , optionally filtered by filter_dict.
+        """
+        if filter_dict:
+            raise NotImplementedError("not yet")
+
+        torrent_ids = self.torrents.get_torrent_list()
+        return self.export_get_torrents_status(torrent_ids, keys)
+
     def export_get_torrents_status(self, torrent_ids, keys):
         status_dict = {}.fromkeys(torrent_ids)
 
