@@ -121,6 +121,16 @@ DEFAULT_PREFS = {
     "peer_tos": "0x00",
 }
 
+STATUS_KEYS = ['active_time', 'compact', 'distributed_copies', 'download_payload_rate', 'eta',
+    'file_priorities', 'file_progress', 'files', 'hash', 'is_auto_managed', 'is_seed', 'max_connections',
+    'max_download_speed', 'max_upload_slots', 'max_upload_speed', 'message', 'move_on_completed',
+    'move_on_completed_path', 'name', 'next_announce', 'num_files', 'num_peers', 'num_pieces',
+    'num_seeds', 'paused', 'peers', 'piece_length', 'prioritize_first_last', 'private', 'progress',
+    'queue', 'ratio', 'remove_at_ratio', 'save_path', 'seed_rank', 'seeding_time', 'state', 'stop_at_ratio',
+    'stop_ratio', 'total_done', 'total_payload_download', 'total_payload_upload', 'total_peers',
+    'total_seeds', 'total_size', 'total_uploaded', 'total_wanted', 'tracker', 'tracker_host',
+    'tracker_status', 'trackers', 'upload_payload_rate']
+
 class Core(
         ThreadingMixIn,
         SimpleXMLRPCServer.SimpleXMLRPCServer,
@@ -476,6 +486,12 @@ class Core(
         for torrent_id in torrent_ids:
             if self.torrents[torrent_id].resume():
                 self.torrent_resumed(torrent_id)
+
+    def export_get_status_keys(self):
+        """
+        returns all possible keys for the keys argument in get_torrent(s)_status.
+        """
+        return STATUS_KEYS + self.plugins.status_fields.keys()
 
     def export_get_torrent_status(self, torrent_id, keys):
         # Build the status dictionary

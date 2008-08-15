@@ -431,7 +431,7 @@ class Torrent:
         if distributed_copies < 0:
             distributed_copies = 0.0
 
-        #if you add a key here->add it to core.get_status_keys too.
+        #if you add a key here->add it to core.py STATUS_KEYS too.
         full_status = {
             "distributed_copies": distributed_copies,
             "total_done": self.status.total_done,
