@@ -44,7 +44,7 @@ class Notification:
 
     def notify(self, torrent_id):
         if self.config["ntf_tray_blink"]:
-            self.blink()
+            self.tray.blink(True)
         if self.config["ntf_popup"] or self.config["ntf_email"]:
             self.get_torrent_status(torrent_id)
 
@@ -61,14 +61,6 @@ class Notification:
             self.email(status)
         if self.config["ntf_sound"]:
             self.sound()
-        
-    def blink(self):
-        """blinks the tray icon"""
-        self.tray.on_set_tray_flashing_on()
-
-    def stop_blink(self):
-        """stops blinking the tray icon"""
-        self.tray.on_set_tray_flashing_off()
 
     def popup(self, status):
         """popups up notification of finished torrent"""

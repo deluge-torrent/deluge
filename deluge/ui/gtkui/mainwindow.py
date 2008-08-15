@@ -77,6 +77,7 @@ class MainWindow(component.Component):
         self.window.connect("delete-event", self.on_window_delete_event)
         self.window.connect("drag-data-received", self.on_drag_data_received_event)
         self.vpaned.connect("notify::position", self.on_vpaned_position_event)
+        self.window.connect("expose-event", self.on_expose_event)
 
         if not(self.config["start_in_tray"] and \
                self.config["enable_system_tray"]) and not \
@@ -116,7 +117,7 @@ class MainWindow(component.Component):
             component.resume("TorrentDetails")
         except:
             pass
-                   
+
         self.window.present()
         self.load_window_state()
     
@@ -199,3 +200,6 @@ class MainWindow(component.Component):
             args.append(urllib.unquote(urlparse(uri).path))
         process_args(args)
         drag_context.finish(True, True)
+
+    def on_expose_event(self, widget, event):
+        component.get("SystemTray").blink(False)

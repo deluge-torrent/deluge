@@ -376,8 +376,6 @@ class FilesTab(Tab):
     def _on_button_press_event(self, widget, event):
         """This is a callback for showing the right-click context menu."""
         log.debug("on_button_press_event")
-        from deluge.ui.gtkui.notification import Notification
-        Notification().stop_blink()
         # We only care about right-clicks
         if event.button == 3:
             x, y = event.get_coords()

@@ -51,8 +51,6 @@ class DetailsTab(Tab):
         self._child_widget = glade.get_widget("details_tab")
         self._tab_label = glade.get_widget("details_tab_label")
 
-        self._child_widget.connect("button-press-event", self.on_button_press_event)
-        
         self.label_widgets = [
             (glade.get_widget("summary_name"), None, ("name",)),
             (glade.get_widget("summary_total_size"), deluge.common.fsize, ("total_size",)),
@@ -63,10 +61,6 @@ class DetailsTab(Tab):
             (glade.get_widget("summary_hash"), str, ("hash",))
         ]
     
-    def on_button_press_event(self, widget, event):
-        from deluge.ui.gtkui.notification import Notification
-        Notification().stop_blink()
-
     def update(self):
         # Get the first selected torrent
         selected = component.get("TorrentView").get_selected_torrents()

@@ -68,8 +68,6 @@ class StatisticsTab(Tab):
         self._child_widget = glade.get_widget("statistics_tab")
         self._tab_label = glade.get_widget("statistics_tab_label")
 
-        self._child_widget.connect("button-press-event", self.on_button_press_event)
-        
         self.label_widgets = [
             (glade.get_widget("summary_pieces"), fpeer_size_second, ("num_pieces", "piece_length")),
             (glade.get_widget("summary_availability"), fratio, ("distributed_copies",)),
@@ -148,7 +146,3 @@ class StatisticsTab(Tab):
             widget[0].set_text("")
             
         component.get("MainWindow").main_glade.get_widget("progressbar").set_fraction(0.0)
-
-    def on_button_press_event(self, widget, event):
-        from deluge.ui.gtkui.notification import Notification
-        Notification().stop_blink()
