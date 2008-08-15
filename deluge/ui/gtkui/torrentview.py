@@ -188,7 +188,7 @@ class TorrentView(listview.ListView, component.Component):
 
     def _on_session_state(self, state):
         for torrent_id in state:
-            self.add_row(torrent_id)
+            self.add_row(torrent_id, update=False)
         
         self.update_filter()
         self.update()
@@ -343,7 +343,7 @@ class TorrentView(listview.ListView, component.Component):
         if self.status != {}:
             self.update_view()
         
-    def add_row(self, torrent_id):
+    def add_row(self, torrent_id, update=True):
         """Adds a new torrent row to the treeview"""
         # Insert a new row to the liststore
         row = self.liststore.append()
@@ -352,8 +352,9 @@ class TorrentView(listview.ListView, component.Component):
                     row,
                     self.columns["torrent_id"].column_indices[0], 
                     torrent_id)
-        self.update()
-        self.update_filter()
+        if update:
+            self.update()
+            self.update_filter()
         
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""
