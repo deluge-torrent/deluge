@@ -1,10 +1,14 @@
 Deluge 0.9.07 - "1.0.0_RC7" (In Development)
  Core:
-  * Fix Vista slowness issue
+  * Fix loading torrents from state when fastresume file is missing
+
  GtkUI:
   * Add 'edit' to edit trackers dialog
   * Improve performance of initial torrent list load
   * Fix hiding the bottom pane when disabling all the tabs
+ 
+ Windows:
+  * Fix Vista slowness issue
   
 Deluge 0.9.06 - "1.0.0_RC6" (13 August 2008)
  Core:

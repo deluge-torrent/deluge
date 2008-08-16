@@ -217,7 +217,7 @@ class TorrentManager(component.Component):
     
     def get_resume_data_from_file(self, torrent_id):
         """Returns an entry with the resume data or None"""
-        fastresume = None
+        fastresume = ""
         try:
             _file = open(
                 os.path.join(
