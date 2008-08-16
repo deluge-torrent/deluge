@@ -186,6 +186,7 @@ class TorrentDetails(component.Component):
             self.tabs[tab].is_visible = False
         log.debug("n_pages: %s", self.notebook.get_n_pages())
         self.generate_menu()
+        self.visible(False)
         
     def show_all_tabs(self):
         """Shows all tabs"""
@@ -197,6 +198,9 @@ class TorrentDetails(component.Component):
                     self.tabs[tab].position)
                 self.tabs[tab].is_visible = True
         self.generate_menu()
+        if not self.notebook.get_property("visible"):
+            # If the notebook isn't visible, show it
+            self.visible(True)
         
     def hide_tab(self, tab_name):
         """Hides tab by name"""
