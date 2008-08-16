@@ -203,7 +203,7 @@ class json_rpc:
             filters = {"state":[["All",-1]],"tracker":[],"label":[]}
 
         return {
-            "torrents":sclient.get_torrents_status(torrent_ids, keys),
+            "torrents":sclient.get_torrents_status({"id":torrent_ids}, keys),
             "filters":filters,
             "stats":self.get_stats(),
             "cache_id":-1

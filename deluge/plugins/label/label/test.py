@@ -33,7 +33,7 @@ print len(sclient.label_get_filtered_ids({'state':'Paused','tracker':'tracker.ae
 print "#test status-fields:"
 ids = sclient.get_session_state()
 
-torrents = sclient.get_torrents_status(ids,['name', 'tracker_host', 'label'])
+torrents = sclient.get_torrents_status({"id":ids},['name', 'tracker_host', 'label'])
 
 for id,torrent in torrents.iteritems():
     print id, torrent

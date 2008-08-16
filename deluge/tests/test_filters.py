@@ -2,6 +2,7 @@
 # moving and refactoring torrent-filtering from labels-plugin to core.
 #
 
+KEYS = ["name","state", "label"]
 #init:
 from deluge.ui.client import sclient
 sclient.set_core_uri()
@@ -17,31 +18,27 @@ print torrent_id
 print sorted(sclient.get_torrent_status(torrent_id,[]).keys())
 print sorted(sclient.get_status_keys())
 
-#default, no filter argument.
-print sclient.get_dev_torrents_status(None, ["name","state"])
-
-print "HI! , after this the errors start"
-
-#torrent_id filters and list-arguments:
-print sclient.get_dev_torrents_status({"id":torrent_id}, ["name","state"])
-print sclient.get_dev_torrents_status({"id":[torrent_id, torrent_id2]}, ["name","state"])
-
-#filters on default state fields
-print sclient.get_dev_torrents_status({"state":"Paused"}, ["name","state"])
-print sclient.get_dev_torrents_status({"state":["Paused","Downloading"]}, ["name","state"])
-print sclient.get_dev_torrents_status({"tracker_host":"aelitis.com"}, ["name","state"])
-
-
-#plugin status fields:
-print sclient.get_dev_torrents_status({"label":"test"}, ["name","state"])
-print sclient.get_dev_torrents_status({"label":["test","tpb"]}, ["name","state"])
-
-#special filters:
-print sclient.get_dev_torrents_status({"keyword":"az"}, ["name","state"])
+print "#default, no filter argument."
+print sclient.get_torrents_status(None, KEYS)
 
 
 
+print "#torrent_id filter:"
+print sclient.get_torrents_status({"id":[torrent_id, torrent_id2]}, KEYS)
+
+
+print "#filters on default status fields:"
+#print sclient.get_torrents_status({"state":"Paused"}, KEYS)
+print sclient.get_torrents_status({"state":["Paused","Downloading"]}, KEYS)
+print sclient.get_torrents_status({"tracker_host":["aelitis.com"]}, KEYS)
 
 
 
+print "#status fields from plugins:"
+#print sclient.get_torrents_status({"label":"test"}, KEYS)
+print sclient.get_torrents_status({"label":["test","tpb"]}, KEYS)
 
+
+print "#special filters (ERRORS START HERE!):"
+print sclient.get_torrents_status({"keyword":"az"}, KEYS)
+print sclient.get_torrents_status({"state":"Active"}, KEYS)

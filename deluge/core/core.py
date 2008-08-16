@@ -507,32 +507,45 @@ class Core(
             status.update(self.plugins.get_status(torrent_id, leftover_fields))
         return status
 
-    def export_get_dev_torrents_status(self, filter_dict, keys ):
+    def filter_torrent_ids(self, filter_dict):
+        """
+        internal :
+        returns a list of torrent_id's matching filter_dict.
+        """
+        if not filter_dict:
+            return self.torrents.get_torrent_list()
+
+        if "id"in filter_dict: #optimized filter for id:
+            torrent_ids = filter_dict["id"]
+            del filter_dict["id"]
+        else:
+            torrent_ids = self.torrents.get_torrent_list()
+
+        #todo:
+        #register/deregister special filters like "text search" and "active"
+        #
+
+        #leftover filter arguments:
+        #default filter on status fields.
+        if filter_dict:
+            for torrent_id in list(torrent_ids):
+                status = self.export_get_torrent_status(torrent_id, filter_dict.keys()) #status={id:{key:value}}
+                for field, value_list in filter_dict.iteritems():
+                    if (not status[field] in value_list) and torrent_id in torrent_ids:
+                        torrent_ids.remove(torrent_id)
+
+        return torrent_ids
+
+    def export_get_torrents_status(self, filter_dict, keys ):
         """
         returns all torrents , optionally filtered by filter_dict.
         """
-        if filter_dict:
-            raise NotImplementedError("not yet")
-
-        torrent_ids = self.torrents.get_torrent_list()
-        return self.export_get_torrents_status(torrent_ids, keys)
-
-    def export_get_torrents_status(self, torrent_ids, keys):
+        torrent_ids = self.filter_torrent_ids(filter_dict)
         status_dict = {}.fromkeys(torrent_ids)
 
         # Get the torrent status for each torrent_id
         for torrent_id in torrent_ids:
-            try:
-                status = self.torrents[torrent_id].get_status(keys)
-            except KeyError:
-                return None
-            # Get the leftover fields and ask the plugin manager to fill them
-            leftover_fields = list(set(keys) - set(status.keys()))
-            if len(leftover_fields) > 0:
-                status.update(
-                    self.plugins.get_status(torrent_id, leftover_fields))
-
-            status_dict[torrent_id] = status
+            status_dict[torrent_id] = self.export_get_torrent_status(torrent_id, keys)
         # Emit the torrent_status signal to the clients
         return status_dict
 

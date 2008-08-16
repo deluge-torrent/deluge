@@ -166,7 +166,7 @@ def get_enhanced_torrent_list(torrent_ids):
     """
     returns a list of storified-torrent-dicts.
     """
-    torrent_dict = sclient.get_torrents_status(torrent_ids, TORRENT_KEYS)
+    torrent_dict = sclient.get_torrents_status({"id":torrent_ids}, TORRENT_KEYS)
     return [enhance_torrent_status(id, status)
             for id, status in torrent_dict.iteritems()]
 

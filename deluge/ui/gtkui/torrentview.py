@@ -2,19 +2,19 @@
 # torrentview.py
 #
 # Copyright (C) 2007, 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -60,7 +60,7 @@ icon_queued = gtk.gdk.pixbuf_new_from_file(
     deluge.common.get_pixmap("queued16.png"))
 icon_checking = gtk.gdk.pixbuf_new_from_file(
     deluge.common.get_pixmap("checking16.png"))
-    
+
 # Holds the info for which status icon to display based on state
 ICON_STATE = {
     "Allocating": icon_checking,
@@ -71,7 +71,7 @@ ICON_STATE = {
     "Error": icon_alert,
     "Queued": icon_queued
 }
- 
+
 def cell_data_statusicon(column, cell, model, row, data):
     """Display text with an icon"""
     try:
@@ -80,7 +80,7 @@ def cell_data_statusicon(column, cell, model, row, data):
             cell.set_property("pixbuf", icon)
     except KeyError:
         pass
-        
+
 def cell_data_progress(column, cell, model, row, data):
     """Display progress bar with text"""
     (value, state_str) = model.get(row, *data)
@@ -89,7 +89,7 @@ def cell_data_progress(column, cell, model, row, data):
 
     textstr = "%s" % state_str
     if state_str != "Seeding" and value < 100:
-        textstr = textstr + " %.2f%%" % value        
+        textstr = textstr + " %.2f%%" % value
     if cell.get_property("text") != textstr:
         cell.set_property("text", textstr)
 
@@ -99,18 +99,18 @@ def cell_data_queue(column, cell, model, row, data):
         cell.set_property("text", "")
     else:
         cell.set_property("text", value + 1)
-        
+
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
         component.Component.__init__(self, "TorrentView", interval=2000)
         self.window = component.get("MainWindow")
         # Call the ListView constructor
-        listview.ListView.__init__(self, 
+        listview.ListView.__init__(self,
                             self.window.main_glade.get_widget("torrent_view"),
                             "torrentview.state")
         log.debug("TorrentView Init..")
-        
+
         # This is where status updates are put
         self.status = {}
 
@@ -118,30 +118,30 @@ class TorrentView(listview.ListView, component.Component):
         # accordingly.
         self.register_checklist_menu(
                             self.window.main_glade.get_widget("menu_columns"))
-        
+
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
         self.add_bool_column("dirty", hidden=True)
         self.add_func_column("#", cell_data_queue, [int], status_field=["queue"])
-        self.add_texticon_column(_("Name"), status_field=["state", "name"], 
+        self.add_texticon_column(_("Name"), status_field=["state", "name"],
                                             function=cell_data_statusicon)
-        self.add_func_column(_("Size"), 
-                                            listview.cell_data_size, 
+        self.add_func_column(_("Size"),
+                                            listview.cell_data_size,
                                             [gobject.TYPE_UINT64],
                                             status_field=["total_wanted"])
-        self.add_progress_column(_("Progress"), 
+        self.add_progress_column(_("Progress"),
                                     status_field=["progress", "state"],
                                     col_types=[float, str],
                                     function=cell_data_progress)
         self.add_func_column(_("Seeders"),
                                         listview.cell_data_peer,
                                         [int, int],
-                                        status_field=["num_seeds", 
+                                        status_field=["num_seeds",
                                                         "total_seeds"])
         self.add_func_column(_("Peers"),
                                         listview.cell_data_peer,
                                         [int, int],
-                                        status_field=["num_peers", 
+                                        status_field=["num_peers",
                                                         "total_peers"])
         self.add_func_column(_("Down Speed"),
                                         listview.cell_data_speed,
@@ -164,7 +164,7 @@ class TorrentView(listview.ListView, component.Component):
                                             [float],
                                             status_field=["distributed_copies"])
         self.add_text_column(_("Tracker"), status_field=["tracker_host"])
-        
+
         # Set filter to None for now
         self.filter = (None, None)
 
@@ -175,11 +175,11 @@ class TorrentView(listview.ListView, component.Component):
                                     self.on_button_press_event)
         # Connect to the 'changed' event of TreeViewSelection to get selection
         # changes.
-        self.treeview.get_selection().connect("changed", 
+        self.treeview.get_selection().connect("changed",
                                     self.on_selection_changed)
 
         self.treeview.connect("drag-drop", self.on_drag_drop)
-                                  
+
     def start(self):
         """Start the torrentview"""
         # We need to get the core session state to know which torrents are in
@@ -189,10 +189,10 @@ class TorrentView(listview.ListView, component.Component):
     def _on_session_state(self, state):
         for torrent_id in state:
             self.add_row(torrent_id, update=False)
-        
+
         self.update_filter()
         self.update()
-        
+
     def stop(self):
         """Stops the torrentview"""
         # We need to clear the liststore
@@ -201,27 +201,27 @@ class TorrentView(listview.ListView, component.Component):
     def shutdown(self):
         """Called when GtkUi is exiting"""
         self.save_state("torrentview.state")
-        
+
     def set_filter(self, field, condition):
         """Sets filters for the torrentview.."""
         if self.filter != (None, None):
             self.filter = (None, None)
             self.update_filter()
-        
+
         self.filter = (field, condition)
         self.update_filter()
         self.update()
-    
+
     def send_status_request(self, columns=None):
         # Store the 'status_fields' we need to send to core
         status_keys = []
         # Store the actual columns we will be updating
         self.columns_to_update = []
-        
+
         if columns is None:
             # We need to iterate through all columns
             columns = self.columns.keys()
-        
+
         # Iterate through supplied list of columns to update
         for column in columns:
             # Make sure column is visible and has 'status_field' set.
@@ -232,17 +232,17 @@ class TorrentView(listview.ListView, component.Component):
                 for field in self.columns[column].status_field:
                     status_keys.append(field)
                     self.columns_to_update.append(column)
-        
+
         # Remove duplicate keys
-        self.columns_to_update = list(set(self.columns_to_update))    
+        self.columns_to_update = list(set(self.columns_to_update))
 
         # If there is nothing in status_keys then we must not continue
         if status_keys is []:
             return
-            
+
         # Remove duplicates from status_key list
         status_keys = list(set(status_keys))
-    
+
         # Create list of torrent_ids in need of status updates
         torrent_ids = []
         for row in self.liststore:
@@ -258,8 +258,8 @@ class TorrentView(listview.ListView, component.Component):
         # Request the statuses for all these torrent_ids, this is async so we
         # will deal with the return in a signal callback.
         client.get_torrents_status(
-            self._on_get_torrents_status, torrent_ids, status_keys)
-    
+            self._on_get_torrents_status, {"id":torrent_ids}, status_keys)
+
     def update_filter(self):
         # Update the filter view
         for row in self.liststore:
@@ -281,11 +281,11 @@ class TorrentView(listview.ListView, component.Component):
             row[filter_column] = True
         else:
             row[filter_column] = False
-        
+
     def update(self):
         # Send a status request
         self.send_status_request()
-        
+
     def update_view(self, columns=None):
         """Update the view.  If columns is not None, it will attempt to only
         update those columns selected.
@@ -299,7 +299,7 @@ class TorrentView(listview.ListView, component.Component):
                 for column in self.columns_to_update:
                     column_index = self.get_column_index(column)
                     if type(column_index) is not list:
-                        # We only have a single list store column we need to 
+                        # We only have a single list store column we need to
                         # update
                         try:
                             # Only update if different
@@ -308,7 +308,7 @@ class TorrentView(listview.ListView, component.Component):
                                 row[column_index] = status[torrent_id][
                                         self.columns[column].status_field[0]]
                         except (TypeError, KeyError), e:
-                            log.warning("Unable to update column %s: %s", 
+                            log.warning("Unable to update column %s: %s",
                                 column, e)
                     else:
                         # We have more than 1 liststore column to update
@@ -320,7 +320,7 @@ class TorrentView(listview.ListView, component.Component):
                                     status[torrent_id][
                                         self.columns[column].status_field[
                                             column_index.index(index)]]:
-                                            
+
                                     row[index] = \
                                         status[torrent_id][
                                             self.columns[column].status_field[
@@ -331,7 +331,7 @@ class TorrentView(listview.ListView, component.Component):
         # Update the toolbar buttons just in case some state has changed
         component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
-        
+
     def _on_get_torrents_status(self, status):
         """Callback function for get_torrents_status().  'status' should be a
         dictionary of {torrent_id: {key, value}}."""
@@ -339,10 +339,10 @@ class TorrentView(listview.ListView, component.Component):
             self.status = status
         else:
             self.status = {}
-        
+
         if self.status != {}:
             self.update_view()
-        
+
     def add_row(self, torrent_id, update=True):
         """Adds a new torrent row to the treeview"""
         # Insert a new row to the liststore
@@ -350,12 +350,12 @@ class TorrentView(listview.ListView, component.Component):
         # Store the torrent id
         self.liststore.set_value(
                     row,
-                    self.columns["torrent_id"].column_indices[0], 
+                    self.columns["torrent_id"].column_indices[0],
                     torrent_id)
         if update:
             self.update()
             self.update_filter()
-        
+
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""
         for row in self.liststore:
@@ -372,7 +372,7 @@ class TorrentView(listview.ListView, component.Component):
                 log.debug("marking %s dirty", torrent_id)
                 row[self.columns["dirty"].column_indices[0]] = True
                 if torrent_id: break
-            
+
     def get_selected_torrent(self):
         """Returns a torrent_id or None.  If multiple torrents are selected,
         it will return the torrent_id of the first one."""
@@ -381,7 +381,7 @@ class TorrentView(listview.ListView, component.Component):
             return selected[0]
         else:
             return selected
-                
+
     def get_selected_torrents(self):
         """Returns a list of selected torrents or None"""
         torrent_ids = []
@@ -397,7 +397,7 @@ class TorrentView(listview.ListView, component.Component):
                 except Exception, e:
                     log.debug("Unable to get iter from path: %s", e)
                     continue
-                    
+
                 child_row = self.treeview.get_model().convert_iter_to_child_iter(None, row)
                 child_row = self.treeview.get_model().get_model().convert_iter_to_child_iter(child_row)
                 if self.liststore.iter_is_valid(child_row):
@@ -409,22 +409,22 @@ class TorrentView(listview.ListView, component.Component):
                         torrent_ids.append(value)
             if len(torrent_ids) == 0:
                 return []
-            
+
             return torrent_ids
         except ValueError, TypeError:
             return []
-    
+
     def get_torrent_status(self, torrent_id):
         """Returns data stored in self.status, it may not be complete"""
         try:
             return self.status[torrent_id]
         except:
             return {}
-    
+
     def get_visible_torrents(self):
         return self.status.keys()
-        
-    ### Callbacks ###                             
+
+    ### Callbacks ###
     def on_button_press_event(self, widget, event):
         """This is a callback for showing the right-click context menu."""
         log.debug("on_button_press_event")
@@ -445,7 +445,7 @@ class TorrentView(listview.ListView, component.Component):
             torrentmenu = component.get("MenuBar").torrentmenu
             torrentmenu.popup(None, None, None, event.button, event.time)
             return True
-    
+
     def on_selection_changed(self, treeselection):
         """This callback is know when the selection has changed."""
         log.debug("on_selection_changed")
@@ -455,4 +455,4 @@ class TorrentView(listview.ListView, component.Component):
 
     def on_drag_drop(self, widget, drag_context, x, y, timestamp):
         widget.stop_emission("drag-drop")
-        
+
