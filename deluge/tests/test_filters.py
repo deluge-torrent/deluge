@@ -37,7 +37,6 @@ print "test&tpb:",len(sclient.get_torrents_status({"label":["test","tpb"]}, KEYS
 print "test:",len(sclient.get_torrents_status({"label":["test"]}, KEYS))
 print "No Label:" , len(sclient.get_torrents_status({"label":[""]}, KEYS))
 
-
 print "#special filters (ERRORS START HERE!):"
 print sclient.get_torrents_status({"keyword":["az"]}, KEYS)
 print sclient.get_torrents_status({"state":["Active"]}, KEYS)

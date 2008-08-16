@@ -54,6 +54,7 @@ from deluge.core.torrentmanager import TorrentManager
 from deluge.core.pluginmanager import PluginManager
 from deluge.core.alertmanager import AlertManager
 from deluge.core.signalmanager import SignalManager
+from deluge.core.filtermanager import FilterManager
 from deluge.core.autoadd import AutoAdd
 from deluge.log import LOG as log
 
@@ -323,6 +324,9 @@ class Core(
         # Start the TorrentManager
         self.torrents = TorrentManager(self.session, self.alerts)
 
+        # Start the FilterManager
+        self.filtermanager = FilterManager(self)
+
         # Create the AutoAdd component
         self.autoadd = AutoAdd()
 
@@ -507,40 +511,11 @@ class Core(
             status.update(self.plugins.get_status(torrent_id, leftover_fields))
         return status
 
-    def filter_torrent_ids(self, filter_dict):
-        """
-        internal :
-        returns a list of torrent_id's matching filter_dict.
-        """
-        if not filter_dict:
-            return self.torrents.get_torrent_list()
-
-        if "id"in filter_dict: #optimized filter for id:
-            torrent_ids = filter_dict["id"]
-            del filter_dict["id"]
-        else:
-            torrent_ids = self.torrents.get_torrent_list()
-
-        #todo:
-        #register/deregister special filters like "text search" and "active"
-        #
-
-        #leftover filter arguments:
-        #default filter on status fields.
-        if filter_dict:
-            for torrent_id in list(torrent_ids):
-                status = self.export_get_torrent_status(torrent_id, filter_dict.keys()) #status={id:{key:value}}
-                for field, value_list in filter_dict.iteritems():
-                    if (not status[field] in value_list) and torrent_id in torrent_ids:
-                        torrent_ids.remove(torrent_id)
-
-        return torrent_ids
-
     def export_get_torrents_status(self, filter_dict, keys ):
         """
         returns all torrents , optionally filtered by filter_dict.
         """
-        torrent_ids = self.filter_torrent_ids(filter_dict)
+        torrent_ids = self.filtermanager.filter_torrent_ids(filter_dict)
         status_dict = {}.fromkeys(torrent_ids)
 
         # Get the torrent status for each torrent_id
