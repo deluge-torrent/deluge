@@ -166,7 +166,7 @@ class TorrentView(listview.ListView, component.Component):
         self.add_text_column(_("Tracker"), status_field=["tracker_host"])
 
         # Set filter to None for now
-        self.filter = (None, None)
+        self.filter = None
 
         ### Connect Signals ###
         # Connect to the 'button-press-event' to know when to bring up the
@@ -189,8 +189,6 @@ class TorrentView(listview.ListView, component.Component):
     def _on_session_state(self, state):
         for torrent_id in state:
             self.add_row(torrent_id, update=False)
-
-        self.update_filter()
         self.update()
 
     def stop(self):
@@ -202,17 +200,15 @@ class TorrentView(listview.ListView, component.Component):
         """Called when GtkUi is exiting"""
         self.save_state("torrentview.state")
 
-    def set_filter(self, field, condition):
-        """Sets filters for the torrentview.."""
-        if self.filter != (None, None):
-            self.filter = (None, None)
-            self.update_filter()
-
-        self.filter = (field, condition)
-        self.update_filter()
+    def set_filter(self, filter_dict):
+        """Sets filters for the torrentview..
+        see: core.get_torrents_status
+        """
+        self.filter = dict(filter_dict) #copied version of filter_dict.
         self.update()
 
     def send_status_request(self, columns=None):
+        log.debug("send_status_req:%s" % (self.filter,))
         # Store the 'status_fields' we need to send to core
         status_keys = []
         # Store the actual columns we will be updating
@@ -243,44 +239,10 @@ class TorrentView(listview.ListView, component.Component):
         # Remove duplicates from status_key list
         status_keys = list(set(status_keys))
 
-        # Create list of torrent_ids in need of status updates
-        torrent_ids = []
-        for row in self.liststore:
-            # Only add this torrent_id if it's not filtered
-            if row[self.columns["filter"].column_indices[0]] == True or \
-                    row[self.columns["dirty"].column_indices[0]] == True :
-                torrent_ids.append(row[self.columns["torrent_id"].column_indices[0]])
-                row[self.columns["dirty"].column_indices[0]] = False
-
-        if torrent_ids == []:
-            return
-
         # Request the statuses for all these torrent_ids, this is async so we
         # will deal with the return in a signal callback.
         client.get_torrents_status(
-            self._on_get_torrents_status, {"id":torrent_ids}, status_keys)
-
-    def update_filter(self):
-        # Update the filter view
-        for row in self.liststore:
-            self.update_filter_row(row)
-
-    def update_filter_row(self, row):
-        filter_column = self.columns["filter"].column_indices[0]
-        # Create a function to create a new liststore with only the
-        # desired rows based on the filter.
-        field, condition = self.filter
-        if field == None and condition == None:
-            row[filter_column] = True
-            return
-
-        value = row[self.get_state_field_column(field)]
-
-        # Condition is True, so lets show this row, if not we hide it
-        if value == condition:
-            row[filter_column] = True
-        else:
-            row[filter_column] = False
+            self._on_get_torrents_status, self.filter, status_keys)
 
     def update(self):
         # Send a status request
@@ -290,11 +252,18 @@ class TorrentView(listview.ListView, component.Component):
         """Update the view.  If columns is not None, it will attempt to only
         update those columns selected.
         """
+        filter_column = self.columns["filter"].column_indices[0]
+
         # Update the torrent view model with data we've received
         status = self.status
         for row in self.liststore:
             torrent_id = row[self.columns["torrent_id"].column_indices[0]]
-            if torrent_id in status.keys():
+
+            if not torrent_id in status.keys():
+                row[filter_column] = False
+            else:
+                row[filter_column] = True
+                log.debug("show:%s" % torrent_id)
                 # Set values for each column in the row
                 for column in self.columns_to_update:
                     column_index = self.get_column_index(column)
@@ -327,7 +296,6 @@ class TorrentView(listview.ListView, component.Component):
                                                 column_index.index(index)]]
                             except:
                                 pass
-                self.update_filter_row(row)
         # Update the toolbar buttons just in case some state has changed
         component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
@@ -335,13 +303,8 @@ class TorrentView(listview.ListView, component.Component):
     def _on_get_torrents_status(self, status):
         """Callback function for get_torrents_status().  'status' should be a
         dictionary of {torrent_id: {key, value}}."""
-        if status != None:
-            self.status = status
-        else:
-            self.status = {}
-
-        if self.status != {}:
-            self.update_view()
+        self.status = status
+        self.update_view()
 
     def add_row(self, torrent_id, update=True):
         """Adds a new torrent row to the treeview"""
@@ -354,7 +317,6 @@ class TorrentView(listview.ListView, component.Component):
                     torrent_id)
         if update:
             self.update()
-            self.update_filter()
 
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""
@@ -363,7 +325,6 @@ class TorrentView(listview.ListView, component.Component):
                 self.liststore.remove(row.iter)
                 # Force an update of the torrentview
                 self.update()
-                self.update_filter()
                 break
 
     def mark_dirty(self, torrent_id = None):

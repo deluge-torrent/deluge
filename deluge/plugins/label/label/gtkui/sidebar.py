@@ -403,13 +403,13 @@ class LabelSideBar(component.Component):
             if cat == "tracker":
                 cat = "tracker_host"
 
-            filter = (cat, value)
+            filter_dict = {cat: [value]}
             if value == "All" or cat == "cat":
-                filter = (None, None)
+                filter_dict = {}
             elif (cat == "label" and value == NO_LABEL):
-                 filter = ("label","")
+                 filter_dict["label"]  = [""]
 
-            component.get("TorrentView").set_filter(*filter)
+            component.get("TorrentView").set_filter(filter_dict)
 
         except Exception, e:
             log.debug(e)
