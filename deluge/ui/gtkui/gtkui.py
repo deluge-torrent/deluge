@@ -151,9 +151,11 @@ class GtkUI:
         if deluge.common.windows_check():
             from win32api import SetConsoleCtrlHandler
             from win32con import CTRL_CLOSE_EVENT
+            from win32con import CTRL_SHUTDOWN_EVENT
             result = 0
             def win_handler(ctrl_type):
-                if ctrl_type == CTRL_CLOSE_EVENT:
+                log.debug("ctrl_type: %s", ctrl_type)
+                if ctrl_type == CTRL_CLOSE_EVENT or ctrl_type == CTRL_SHUTDOWN_EVENT:
                     self.shutdown()
                     return 1
             SetConsoleCtrlHandler(win_handler)
