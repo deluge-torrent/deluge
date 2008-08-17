@@ -2,6 +2,7 @@ Deluge 0.9.07 - "1.0.0_RC7" (In Development)
  Core:
   * Fix loading torrents from state when fastresume file is missing
   * Fix UPnP
+  * Fix to prevent Deluge from segfaulting when trying to autoadd an incomplete torrent file
 
  GtkUI:
   * Add 'edit' to edit trackers dialog
