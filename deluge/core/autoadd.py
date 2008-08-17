@@ -42,7 +42,7 @@ MAX_NUM_ATTEMPTS = 10
 
 class AutoAdd(component.Component):
     def __init__(self):
-        component.Component.__init__(self, "AutoAdd", depend=["TorrentManager"], interval=3000)
+        component.Component.__init__(self, "AutoAdd", depend=["TorrentManager"], interval=5000)
         # Get the core config
         self.config = ConfigManager("core.conf")
         
@@ -100,6 +100,8 @@ class AutoAdd(component.Component):
             log.debug("Attempting to open %s for add.", filename)
             _file = open(filename, "rb")
             filedump = _file.read()
+            if not filedump:
+                raise RuntimeError, "Torrent is 0 bytes!"
             _file.close()
         except IOError, e:
             log.warning("Unable to open %s: %s", filename, e)
