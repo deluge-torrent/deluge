@@ -141,7 +141,7 @@ def get_logo(size):
 def open_file(path):
     """Opens a file or folder."""
     if windows_check():
-        os.startfile("'%s'" % path)
+        os.startfile("%s" % path)
     else:
         subprocess.Popen(["xdg-open", "%s" % path])
 
