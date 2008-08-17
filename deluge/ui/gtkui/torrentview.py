@@ -164,7 +164,7 @@ class TorrentView(listview.ListView, component.Component):
                                             [float],
                                             status_field=["distributed_copies"])
         self.add_text_column(_("Tracker"), status_field=["tracker_host"])
-
+        
         # Set filter to None for now
         self.filter = None
 

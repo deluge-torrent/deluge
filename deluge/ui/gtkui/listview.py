@@ -160,12 +160,17 @@ class ListView:
         """create new filter-model
         must be called after listview.create_new_liststore        
         """
-        # Set the liststore filter column
+        sort_column = None
+        if self.model_filter:
+            # Save the liststore filter column
+            sort_column = self.model_filter.get_sort_column_id()
         model_filter = self.liststore.filter_new()
         model_filter.set_visible_column(
             self.columns["filter"].column_indices[0])
         self.model_filter = gtk.TreeModelSort(model_filter)
         self.treeview.set_model(self.model_filter)
+        if sort_column and sort_column != (None, None):
+            self.model_filter.set_sort_column_id(*sort_column)
     
     def save_state(self, filename):
         """Saves the listview state (column positions and visibility) to
@@ -177,10 +182,14 @@ class ListView:
         treeview_columns = self.treeview.get_columns()
         counter = 0
         for column in treeview_columns:
+            sort = None
+            id, order = self.model_filter.get_sort_column_id()
+            if self.get_column_name(id) == column.get_title():
+                sort = id
             # Append a new column state to the state list
             state.append(ListViewColumnState(column.get_title(), counter, 
                 column.get_width(), column.get_visible(), 
-                column.get_sort_indicator(), int(column.get_sort_order())))
+                sort, int(column.get_sort_order())))
             # Increase the counter because this is how we determine position
             counter += 1
             
@@ -228,6 +237,12 @@ class ListView:
         else:
             return self.columns[name].column_indices[0]
 
+    def get_column_name(self, index):
+        """Get the header name for a liststore column index"""
+        for key, value in self.columns.items():
+            if index in value.column_indices:
+                return key
+                
     def get_state_field_column(self, field):
         """Returns the column number for the state field"""
         for column in self.columns.keys():
@@ -402,7 +417,7 @@ class ListView:
                     self.columns[header].column_indices[text])
         elif column_type == None:
             return
-       
+
         column.set_sort_column_id(self.columns[header].column_indices[sortid])
         column.set_clickable(True)
         column.set_resizable(True)
@@ -419,8 +434,9 @@ class ListView:
                     if column_state.width > 0:
                         column.set_sizing(gtk.TREE_VIEW_COLUMN_FIXED)
                         column.set_fixed_width(column_state.width)
-                    column.set_sort_indicator(column_state.sort)
-                    column.set_sort_order(column_state.sort_order)
+                    
+                    if column_state.sort is not None and column_state.sort > -1:
+                        self.model_filter.set_sort_column_id(column_state.sort, column_state.sort_order)
                     column.set_visible(column_state.visible)
                     position = column_state.position
 
