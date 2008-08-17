@@ -11,6 +11,7 @@ Deluge 0.9.07 - "1.0.0_RC7" (18 August 2008)
   * Fix not showing new torrents if you don't use the All label first
   * Fix size units to be more accurate
   * Fix torrentview sorting to be persistent
+  * Fix not displaying file list when state changes
 
  Null:
   * Fix #415 crash when using 'config-set' with no parameters
