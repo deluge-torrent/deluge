@@ -11,6 +11,7 @@ Deluge 0.9.07 - "1.0.0_RC7" (In Development)
  
  Windows:
   * Fix Vista slowness issue
+  * Fix properly shutting Deluge down when system shuts down
   
 Deluge 0.9.06 - "1.0.0_RC6" (13 August 2008)
  Core:
