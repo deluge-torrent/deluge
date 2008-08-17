@@ -37,6 +37,11 @@ print "test&tpb:",len(sclient.get_torrents_status({"label":["test","tpb"]}, KEYS
 print "test:",len(sclient.get_torrents_status({"label":["test"]}, KEYS))
 print "No Label:" , len(sclient.get_torrents_status({"label":[""]}, KEYS))
 
-print "#special filters (ERRORS START HERE!):"
+print "#registered filters, basic:"
 print sclient.get_torrents_status({"keyword":["az"]}, KEYS)
+
+print "#registered filters, overriude on 1 value(not yet)"
 print sclient.get_torrents_status({"state":["Active"]}, KEYS)
+
+print "#must have an error here:"
+print sclient.get_torrents_status({"invalid-filter":[]}, KEYS)

@@ -34,12 +34,21 @@
 import deluge.component as component
 from deluge.log import LOG as log
 
+
 #special purpose filters:
-def filter_keyword(torrent):
+def filter_keyword(torrent_ids, values):
+    keywords = [v.lower() for v in values] #cleanup.
+    all_torrents = component.get("TorrentManager").torrents
+    #filter:
+    for torrent_id in torrent_ids:
+        log.debug(all_torrents[torrent_id].filename.lower())
+        for keyword in keywords:
+            if keyword in all_torrents[torrent_id].filename.lower():
+                yield torrent_id
+
+def filter_state_active(self, torrent_ids, value):
     pass
 
-def filter_state_active(torrent):
-    pass
 
 class FilterManager(component.Component):
     """FilterManager
@@ -50,11 +59,13 @@ class FilterManager(component.Component):
         log.debug("FilterManager init..")
         self.core = core
         self.torrents = core.torrents
+        self.registered_filters = {}
+        self.register_filter("keyword", filter_keyword)
 
     def filter_torrent_ids(self, filter_dict):
         """
-        internal :
         returns a list of torrent_id's matching filter_dict.
+        core filter method
         """
         if not filter_dict:
             return self.torrents.get_torrent_list()
@@ -65,9 +76,17 @@ class FilterManager(component.Component):
         else:
             torrent_ids = self.torrents.get_torrent_list()
 
-        #todo:
-        #register/deregister special filters like "text search" and "active"
-        #
+        if not filter_dict: #return if there's  nothing more to filter
+            return torrent_ids
+
+        #Registered filters:
+        for field, values in filter_dict.items():
+            if field in self.registered_filters:
+                torrent_ids = set(self.registered_filters[field](torrent_ids, values)) # a set filters out doubles,
+                del filter_dict[field]
+
+        if not filter_dict: #return if there's  nothing more to filter
+            return torrent_ids
 
         #leftover filter arguments:
         #default filter on status fields.
@@ -75,10 +94,19 @@ class FilterManager(component.Component):
             status_func = self.core.export_get_torrent_status #premature optimalisation..
             for torrent_id in list(torrent_ids):
                 status = status_func(torrent_id, filter_dict.keys()) #status={id:{key:value}}
-                for field, value_list in filter_dict.iteritems():
-                    if (not status[field] in value_list) and torrent_id in torrent_ids:
+                for field, values in filter_dict.iteritems():
+                    if (not status[field] in values) and torrent_id in torrent_ids:
                         torrent_ids.remove(torrent_id)
 
         return torrent_ids
+
+    def register_filter(self, id, filter_func):
+        self.registered_filters[id] = filter_func
+
+    def deregister_filter(self, id):
+        del self.registered_filters[id]
+
+
+
 
 
