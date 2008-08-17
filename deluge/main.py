@@ -61,10 +61,19 @@ def start_ui():
 
     if options.config:
         if not os.path.exists(options.config):
-            os.makedirs(options.config)
+            # Try to create the config folder if it doesn't exist
+            try:
+                os.makedirs(options.config)
+            except Exception, e:
+                pass
     else:
         if not os.path.exists(deluge.common.get_default_config_dir()):
             os.makedirs(deluge.common.get_default_config_dir())
+    
+    # Always log to a file in Windows
+    if deluge.common.windows_check() and not options.logfile:
+        options.logfile = "deluge.log"
+                
     if options.logfile:
         if options.config:
             logfile = os.path.join(options.config, options.logfile)
@@ -108,6 +117,17 @@ def start_daemon():
     # Get the options and args from the OptionParser
     (options, args) = parser.parse_args()
 
+    if options.config:
+        if not os.path.exists(options.config):
+            # Try to create the config folder if it doesn't exist
+            try:
+                os.makedirs(options.config)
+            except Exception, e:
+                pass
+    else:
+        if not os.path.exists(deluge.common.get_default_config_dir()):
+            os.makedirs(deluge.common.get_default_config_dir())
+                    
     # If the donot daemonize is set, then we just skip the forking
     if not options.donot and not deluge.common.windows_check():
         if os.fork() == 0:
@@ -122,14 +142,29 @@ def start_daemon():
                         config_dir = deluge.common.get_default_config_dir()
                         logfile = os.path.join(config_dir, "deluged.log")
                         
-                sys.stdout = open(logfile, "w")
+                sys.stdout = open(logfile, "wb")
                 sys.stderr = sys.stdout
                 sys.stdin = None
             else:
                 os._exit(0)
         else:
             os._exit(0)
-    
+
+    # Windows check, we log to the config folder by default
+    if not options.donot and deluge.common.windows_check():
+        if options.logfile:
+            logfile = options.logfile
+        else:
+            if options.config:
+                logfile = os.path.join(options.config, "deluged.log")
+            else:
+                config_dir = deluge.common.get_default_config_dir()
+                logfile = os.path.join(config_dir, "deluged.log")
+                
+        sys.stdout = open(logfile, "wb")
+        sys.stderr = sys.stdout
+        sys.stdin = None
+        
     from deluge.core.daemon import Daemon
     Daemon(options, args)
 
