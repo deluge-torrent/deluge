@@ -206,6 +206,7 @@ class TorrentView(listview.ListView, component.Component):
     def _on_session_state(self, state):
         for torrent_id in state:
             self.add_row(torrent_id, update=False)
+            self.mark_dirty(torrent_id)
         
         self.update_filter()    
         self.update()
