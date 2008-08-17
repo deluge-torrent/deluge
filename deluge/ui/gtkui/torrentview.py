@@ -164,13 +164,10 @@ class TorrentView(listview.ListView, component.Component):
                                             listview.cell_data_ratio,
                                             [float],
                                             status_field=["distributed_copies"])
-        
-        # Set default sort column to #
-        self.liststore.set_sort_column_id(self.get_column_index("#"), gtk.SORT_ASCENDING)
 
         # Set filter to None for now
         self.filter = (None, None)
-        
+
         self.create_model_filter()
 
         ### Connect Signals ###
@@ -195,13 +192,18 @@ class TorrentView(listview.ListView, component.Component):
         """create new filter-model
         must be called after listview.create_new_liststore        
         """
+        sort_column = None
+        if self.treeview.get_model():
+            # Save the liststore filter column
+            sort_column = self.treeview.get_model().get_sort_column_id()
         # Set the liststore filter column
         model_filter = self.liststore.filter_new()
         model_filter.set_visible_column(
             self.columns["filter"].column_indices[0])
         self.model_filter = gtk.TreeModelSort(model_filter)
         self.treeview.set_model(self.model_filter)
-
+        if sort_column and sort_column != (None, None):
+            self.treeview.get_model().set_sort_column_id(*sort_column)
 
     def _on_session_state(self, state):
         for torrent_id in state:
