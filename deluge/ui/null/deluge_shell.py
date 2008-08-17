@@ -214,7 +214,11 @@ class CommandConfig(Command):
 
 class CommandConfigSet(Command):
     def execute(self, cmd):
-        key = cmd[1]
+        try:
+            key = cmd[1]
+        except IndexError:
+            self.usage()
+            return
 
         # Returns (correct_type, type_value)
         def convert_type(target, source):
