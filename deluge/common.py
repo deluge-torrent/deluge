@@ -262,13 +262,13 @@ def show_other_dialog(string, default=None):
 def fsize(fsize_b):
     """Returns formatted string describing filesize
        fsize_b should be in bytes
-       Returned value will be in either KB, MB, or GB
-    """    
+       Returned value will be in either KiB, MiB, or GiB
+    """
     fsize_kb = fsize_b / 1024.0
-    if fsize_kb < 1000:
+    if fsize_kb < 1024:
         return "%.1f KiB" % fsize_kb
     fsize_mb = fsize_kb / 1024.0
-    if fsize_mb < 1000:
+    if fsize_mb < 1024:
         return "%.1f MiB" % fsize_mb
     fsize_gb = fsize_mb / 1024.0
     return "%.1f GiB" % fsize_gb

@@ -9,6 +9,7 @@ Deluge 0.9.07 - "1.0.0_RC7" (In Development)
   * Improve performance of initial torrent list load
   * Fix hiding the bottom pane when disabling all the tabs
   * Fix not showing new torrents if you don't use the All label first
+  * Fix size units to be more accurate
  
  Windows:
   * Fix Vista slowness issue
