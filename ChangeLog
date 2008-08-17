@@ -1,4 +1,4 @@
-Deluge 0.9.07 - "1.0.0_RC7" (In Development)
+Deluge 0.9.07 - "1.0.0_RC7" (18 August 2008)
  Core:
   * Fix loading torrents from state when fastresume file is missing
   * Fix UPnP
