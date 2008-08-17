@@ -98,7 +98,8 @@ class Signals(component.Component):
         log.debug("torrent id: %s", torrent_id)
         # Add the torrent to the treeview
         component.get("TorrentView").add_row(torrent_id)
-
+        component.get("TorrentView").mark_dirty(torrent_id)
+        
     def torrent_removed_signal(self, torrent_id):
         log.debug("torrent_remove signal received..")
         log.debug("torrent id: %s", torrent_id)
