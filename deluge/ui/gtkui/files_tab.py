@@ -339,6 +339,7 @@ class FilesTab(Tab):
 
     def update_files(self):
         self.prepare_file_store(self.files_list[self.torrent_id])
+        self.listview.expand_row("0", False)
     
     def get_selected_files(self):
         """Returns a list of file indexes that are selected"""
