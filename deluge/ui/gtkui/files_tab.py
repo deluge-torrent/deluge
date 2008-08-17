@@ -249,7 +249,7 @@ class FilesTab(Tab):
             torrent_id = torrent_id[0]
         else:
             # No torrent is selected in the torrentview
-            self.treestore.clear()
+            self.clear()
             return
         
         if torrent_id != self.torrent_id:
@@ -275,6 +275,7 @@ class FilesTab(Tab):
 
     def clear(self):
         self.treestore.clear()
+        self.torrent_id = None
 
     def _on_row_activated(self, tree, path, view_column):
         if client.is_localhost:
