@@ -73,7 +73,8 @@ class GtkUI(ui.UI):
             log.debug(e) #fix this!
 
         log.debug(1.2)
-        self.sidebar.unload()
+        #disabled:
+        #self.sidebar.unload()
         log.debug(2)
 
     def get_pixmap(self, fname):
@@ -83,9 +84,10 @@ class GtkUI(ui.UI):
 
     def load_interface(self):
         #sidebar
-        if not self.sidebar:
-            self.sidebar  = sidebar.LabelSideBar()
-        self.sidebar.load()
+        #disabled
+        #if not self.sidebar:
+        #    self.sidebar  = sidebar.LabelSideBar()
+        #self.sidebar.load()
 
         #menu:
         log.debug("add items to torrentview-popup menu.")

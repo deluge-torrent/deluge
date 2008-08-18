@@ -2,19 +2,19 @@
 # gtkui.py
 #
 # Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -52,6 +52,7 @@ from toolbar import ToolBar
 from torrentview import TorrentView
 from torrentdetails import TorrentDetails
 from sidebar import SideBar
+from filtertreeview import FilterTreeView
 from preferences import Preferences
 from systemtray import SystemTray
 from statusbar import StatusBar
@@ -59,7 +60,7 @@ from connectionmanager import ConnectionManager
 from signals import Signals
 from pluginmanager import PluginManager
 from ipcinterface import IPCInterface
-    
+
 from queuedtorrents import QueuedTorrents
 from addtorrentdialog import AddTorrentDialog
 from coreconfig import CoreConfig
@@ -119,13 +120,13 @@ class GtkUI:
         # Initialize gdk threading
         gtk.gdk.threads_init()
         gobject.threads_init()
-        
+
         # Initialize gettext
         if deluge.common.windows_check():
             locale.setlocale(locale.LC_ALL, '')
         else:
             locale.setlocale(locale.LC_MESSAGES, '')
-            locale.bindtextdomain("deluge", 
+            locale.bindtextdomain("deluge",
                     pkg_resources.resource_filename(
                                             "deluge", "i18n"))
             locale.textdomain("deluge")
@@ -137,7 +138,7 @@ class GtkUI:
         gettext.install("deluge",
                     pkg_resources.resource_filename(
                                             "deluge", "i18n"))
-        
+
         # Setup signals
         try:
             import gnome.ui
@@ -159,7 +160,7 @@ class GtkUI:
                     self.shutdown()
                     return 1
             SetConsoleCtrlHandler(win_handler)
-            
+
         # Make sure gtkui.conf has at least the defaults set
         self.config = deluge.configmanager.ConfigManager("gtkui.conf", DEFAULT_PREFS)
 
@@ -180,21 +181,21 @@ class GtkUI:
             except Exception, e:
                 log.error("Unable to find deluged: %s", e)
                 self.config["classic_mode"] = False
-             
+
         # We need to check on exit if it was started in classic mode to ensure we
         # shutdown the daemon.
         self.started_in_classic = self.config["classic_mode"]
-        
+
         # Start the Dbus Interface before anything else.. Just in case we are
         # already running.
         self.queuedtorrents = QueuedTorrents()
 
         self.ipcinterface = IPCInterface(args)
-        
+
         # We make sure that the UI components start once we get a core URI
         client.connect_on_new_core(self._on_new_core)
         client.connect_on_no_core(self._on_no_core)
-        
+
         # Initialize various components of the gtkui
         self.mainwindow = MainWindow()
         self.menubar = MenuBar()
@@ -202,6 +203,7 @@ class GtkUI:
         self.torrentview = TorrentView()
         self.torrentdetails = TorrentDetails()
         self.sidebar = SideBar()
+        self.filtertreeview = FilterTreeView()
         self.preferences = Preferences()
         self.systemtray = SystemTray()
         self.statusbar = StatusBar()
@@ -210,15 +212,15 @@ class GtkUI:
         # Start the signal receiver
         self.signal_receiver = Signals()
         self.coreconfig = CoreConfig()
-        
+
         # Initalize the plugins
         self.plugins = PluginManager()
-        
+
         # Show the connection manager
         self.connectionmanager = ConnectionManager()
         if self.config["show_connection_manager_on_start"] and not self.config["classic_mode"]:
             self.connectionmanager.show()
-                
+
         # Start the gtk main loop
         try:
             gtk.gdk.threads_enter()
@@ -226,7 +228,7 @@ class GtkUI:
             gtk.gdk.threads_leave()
         except KeyboardInterrupt:
             self.shutdown()
-        else:           
+        else:
             self.shutdown()
 
     def shutdown(self, *args, **kwargs):
@@ -234,7 +236,7 @@ class GtkUI:
 
         # Make sure the config is saved.
         self.config.save()
-        
+
         # Shutdown all components
         component.shutdown()
         if self.started_in_classic:
@@ -246,9 +248,9 @@ class GtkUI:
             gtk.main_quit()
         except RuntimeError:
             pass
-            
+
     def _on_new_core(self, data):
         component.start()
-        
+
     def _on_no_core(self, data):
         component.stop()
