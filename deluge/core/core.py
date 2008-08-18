@@ -526,6 +526,13 @@ class Core(
         # Emit the torrent_status signal to the clients
         return status_dict
 
+    def export_get_filter_tree(self):
+        """
+        returns {field: [(value,count)] }
+        for use in sidebar(s)
+        """
+        return self.filtermanager.get_filter_tree()
+
     def export_get_session_state(self):
         """Returns a list of torrent_ids in the session."""
         # Get the torrent list from the TorrentManager

@@ -40,9 +40,8 @@ def filter_keyword(torrent_ids, values):
     keywords = [v.lower() for v in values] #cleanup.
     all_torrents = component.get("TorrentManager").torrents
     #filter:
-    for torrent_id in torrent_ids:
-        log.debug(all_torrents[torrent_id].filename.lower())
-        for keyword in keywords:
+    for keyword in keywords:
+        for torrent_id in torrent_ids:
             if keyword in all_torrents[torrent_id].filename.lower():
                 yield torrent_id
 
@@ -61,6 +60,7 @@ class FilterManager(component.Component):
         self.torrents = core.torrents
         self.registered_filters = {}
         self.register_filter("keyword", filter_keyword)
+        self.filter_tree_fields = ["state","tracker_host"]
 
     def filter_torrent_ids(self, filter_dict):
         """
@@ -82,7 +82,8 @@ class FilterManager(component.Component):
         #Registered filters:
         for field, values in filter_dict.items():
             if field in self.registered_filters:
-                torrent_ids = set(self.registered_filters[field](torrent_ids, values)) # a set filters out doubles,
+                # a set filters out the doubles.
+                torrent_ids = list(set(self.registered_filters[field](torrent_ids, values)))
                 del filter_dict[field]
 
         if not filter_dict: #return if there's  nothing more to filter
@@ -93,20 +94,37 @@ class FilterManager(component.Component):
         if filter_dict:
             status_func = self.core.export_get_torrent_status #premature optimalisation..
             for torrent_id in list(torrent_ids):
-                status = status_func(torrent_id, filter_dict.keys()) #status={id:{key:value}}
+                status = status_func(torrent_id, filter_dict.keys()) #status={key:value}
                 for field, values in filter_dict.iteritems():
                     if (not status[field] in values) and torrent_id in torrent_ids:
                         torrent_ids.remove(torrent_id)
 
         return torrent_ids
 
-    def register_filter(self, id, filter_func):
+    def register_filter(self, id, filter_func, filter_value = None):
         self.registered_filters[id] = filter_func
 
     def deregister_filter(self, id):
         del self.registered_filters[id]
 
+    def get_filter_tree(self):
+        """
+        returns {field: [(value,count)] }
+        for use in sidebar.
+        """
+        torrent_ids = self.torrents.get_torrent_list()
+        items = dict( (field,{}) for field in self.filter_tree_fields)
+        status_func = self.core.export_get_torrent_status #premature optimalisation..
 
+        items["state"]["All"] = len(torrent_ids)
 
+        for torrent_id in list(torrent_ids):
+            status = status_func(torrent_id, self.filter_tree_fields) #status={key:value}
+            for field in self.filter_tree_fields:
+                value = status[field]
+                items[field][value] = items[field].get(value, 0) + 1
 
+        for field in self.filter_tree_fields:
+            items[field] = sorted(items[field].iteritems())
 
+        return items

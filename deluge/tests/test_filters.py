@@ -43,5 +43,11 @@ print sclient.get_torrents_status({"keyword":["az"]}, KEYS)
 print "#registered filters, overriude on 1 value(not yet)"
 print sclient.get_torrents_status({"state":["Active"]}, KEYS)
 
+print "#tree:"
+for field, items in sclient.get_filter_tree().iteritems():
+    print "*",field
+    for value, count in items:
+        print "-",value,count
+
 print "#must have an error here:"
 print sclient.get_torrents_status({"invalid-filter":[]}, KEYS)
