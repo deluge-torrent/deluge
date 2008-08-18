@@ -37,7 +37,7 @@ adds a status field for tracker.
 from deluge.log import LOG as log
 from deluge.plugins.corepluginbase import CorePluginBase
 from deluge.configmanager import ConfigManager
-
+import deluge.component as component
 from urlparse import urlparse
 
 import traceback
@@ -111,6 +111,10 @@ class Core(CorePluginBase):
         #todo: register to torrent_added event.
         self.plugin.register_hook("post_torrent_add", self.post_torrent_add)
         self.plugin.register_hook("post_torrent_remove", self.post_torrent_remove)
+
+        #register tree:
+        component.get("FilterManager").register_tree_field("label")
+
         log.debug("Label plugin enabled..")
 
     def disable(self):
@@ -168,130 +172,8 @@ class Core(CorePluginBase):
         if changed:
             self.config.save()
 
-
-    ## Filters ##
-    def filter_state(self, torrents, value):
-        "in/out: a list of torrent objects."
-        for t in torrents:
-            log.debug("s=%s" % t.state)
-        return [t for t in torrents if t.state == value]
-
-    def filter_tracker(self, torrents, value):
-        "in/out: a list of torrent objects."
-        return [t for t in torrents if t.get_tracker_host() == value]
-
-    def filter_label(self, torrents, value):
-        "in/out: a list of torrent objects."
-        if value == NO_LABEL:
-            value = None
-            log.debug("NO_LABEL")
-        return [t for t in torrents if self.torrent_labels.get(t.torrent_id) == value]
-
-    def filter_keyword(self, torrents, value):
-        value = value.lower().strip()
-        "in/out: a list of torrent objects."
-        return [t for t in torrents if value in t.filename.lower()]
-
-    ## Items ##
-    def get_state_filter_items(self):
-        states = dict([(state, 0) for state in KNOWN_STATES])
-        state_order = list(KNOWN_STATES)
-
-        #state-simple:
-        for t in self.torrents.values():
-            if not t.state in state_order:
-                state_order.append(t.state)
-                states[t.state] = 0
-            states[t.state] +=1
-        #specialized-state:
-            #todo: traffic.
-
-        if self.config["hide_zero_hits"]:
-            for state in set(KNOWN_STATES):
-                #log.debug(states.keys())
-                if states[state] == 0 :
-                    #del states[state]
-                    state_order.remove(state)
-
-        #return the filters sorted by STATES + add unknown states.
-        return ([("All",len(self.torrents))] +
-            [(state, states[state]) for state in state_order]
-        )
-
-    def get_tracker_filter_items(self):
-        #trackers:
-        trackers = {}
-        for t in self.torrents.values():
-            tracker = t.get_tracker_host()
-            if not tracker in trackers:
-                trackers[tracker] = 0
-            trackers[tracker] +=1
-
-        return [(tracker , trackers[tracker]) for tracker in sorted(trackers.keys())]
-
-    def get_label_filter_items(self):
-        no_label = 0
-        labels = dict([(label_id, 0) for label_id in self.labels])
-        for torrent_id in self.torrents:
-            label_id = self.torrent_labels.get(torrent_id)
-            if label_id:
-                labels[label_id] +=1
-            else:
-                no_label +=1
-
-        #show all labels,even if hide-zero-hits is true
-        """
-        if self.config["hide_zero_hits"]:
-            for label , count in list(labels.iteritems()):
-                if count == 0:
-                    del labels[label]
-        """
-
-        return [(NO_LABEL, no_label)] + [(label_id, labels[label_id]) for label_id in sorted(labels.keys())]
-
-    ## Public  ##
-    def export_filter_items(self):
-        """
-        returns :
-        {
-            "CATEGORY" : [("filter_value",count), ...] , ...
-        }
-        --
-        category's : ["state","tracker","label"]
-        """
-        result = {}
-
-        if self.config.get("show_states"):
-            result[STATE] = self.get_state_filter_items()
-        if self.config.get("show_trackers"):
-            result[TRACKER] = self.get_tracker_filter_items()
-        if self.config.get("show_labels"):
-            result[LABEL] = self.get_label_filter_items()
-
-        return result
-
     def export_get_labels(self):
         return sorted(self.labels.keys())
-
-    def export_get_filtered_ids(self, filter_dict):
-        """
-        input : {"filter_cat":"filter_value",..}
-        returns : a list of torrent_id's
-        """
-        torrents = self.torrents.values()
-        if KEYWORD in filter_dict:
-            torrents = self.filter_keyword(torrents, filter_dict[KEYWORD])
-
-        if STATE in filter_dict and filter_dict[STATE] <> "":
-            torrents = self.filter_state(torrents, filter_dict[STATE])
-
-        if TRACKER in filter_dict:
-            torrents = self.filter_tracker(torrents, filter_dict[TRACKER])
-
-        if LABEL in filter_dict:
-            torrents = self.filter_label(torrents, filter_dict[LABEL])
-        return [t.torrent_id for t in torrents]
-
 
     #Labels:
     def export_add(self, label_id):
@@ -410,11 +292,7 @@ class Core(CorePluginBase):
         return dict ( (k,self.config.get(k) )  for k in CORE_OPTIONS)
 
     def export_set_global_options(self, options):
-        """global_options:
-        {
-            "hide_zero":bool() #label_filter_items only returns items with more than 0 hits.
-        }
-        """
+        """global_options:"""
         for key in CORE_OPTIONS:
             if options.has_key(key):
                 self.config.set(key, options[key])

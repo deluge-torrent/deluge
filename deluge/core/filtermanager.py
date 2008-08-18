@@ -48,7 +48,6 @@ def filter_keyword(torrent_ids, values):
 def filter_state_active(self, torrent_ids, value):
     pass
 
-
 class FilterManager(component.Component):
     """FilterManager
 
@@ -60,7 +59,10 @@ class FilterManager(component.Component):
         self.torrents = core.torrents
         self.registered_filters = {}
         self.register_filter("keyword", filter_keyword)
-        self.filter_tree_fields = ["state","tracker_host"]
+        self.tree_fields = {}
+
+        self.register_tree_field("state", self._init_state_tree)
+        self.register_tree_field("tracker_host")
 
     def filter_torrent_ids(self, filter_dict):
         """
@@ -101,30 +103,45 @@ class FilterManager(component.Component):
 
         return torrent_ids
 
-    def register_filter(self, id, filter_func, filter_value = None):
-        self.registered_filters[id] = filter_func
-
-    def deregister_filter(self, id):
-        del self.registered_filters[id]
-
     def get_filter_tree(self):
         """
         returns {field: [(value,count)] }
         for use in sidebar.
         """
         torrent_ids = self.torrents.get_torrent_list()
-        items = dict( (field,{}) for field in self.filter_tree_fields)
         status_func = self.core.export_get_torrent_status #premature optimalisation..
+        tree_keys = self.tree_fields.keys()
+        items = dict( (field, init_func()) for field, init_func in self.tree_fields.iteritems())
 
-        items["state"]["All"] = len(torrent_ids)
-
+        #count status fields.
         for torrent_id in list(torrent_ids):
-            status = status_func(torrent_id, self.filter_tree_fields) #status={key:value}
-            for field in self.filter_tree_fields:
+            status = status_func(torrent_id, tree_keys) #status={key:value}
+            for field in tree_keys:
                 value = status[field]
                 items[field][value] = items[field].get(value, 0) + 1
 
-        for field in self.filter_tree_fields:
+        for field in tree_keys:
             items[field] = sorted(items[field].iteritems())
 
         return items
+
+    def _init_state_tree(self):
+        return {"All":len(self.torrents.get_torrent_list()),
+            "Downloading":0,
+            "Seeding":0,
+            "Paused":0,
+            "Checking":0,
+            "Queued":0,
+            "Error":0}
+
+    def register_filter(self, id, filter_func, filter_value = None):
+        self.registered_filters[id] = filter_func
+
+    def deregister_filter(self, id):
+        del self.registered_filters[id]
+
+    def register_tree_field(self, field, init_func = lambda : {}):
+        self.tree_fields[field] = init_func
+
+    def deregister_tree_field(self, field):
+        del self.tree_fields[field]

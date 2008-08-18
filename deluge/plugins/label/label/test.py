@@ -8,35 +8,6 @@ print sclient.get_enabled_plugins()
 if not "label" in sclient.get_enabled_plugins():
     sclient.enable_plugin("label")
 
-#test filter items.
-print "# label_filter_items()"
-for cat,filters in  sclient.label_filter_items().iteritems():
-    print "-- %s --" % cat
-    for filter in filters:
-        print "  * %s (%s)" % (filter[0],filter[1])
-
-# test filtering
-print "#len(sclient.label_get_filtered_ids({'tracker':'tracker.aelitis.com'} ))"
-print len(sclient.label_get_filtered_ids({'tracker':'tracker.aelitis.com'} ))
-
-print "#len(sclient.label_get_filtered_ids({'state':'Paused'} ))"
-print len(sclient.label_get_filtered_ids({'state':'Paused'} ))
-
-
-print "#len(sclient.label_get_filtered_ids({'keyword':'az'} ))"
-print len(sclient.label_get_filtered_ids({'keyword':'az'} ))
-
-
-print "#len(sclient.label_get_filtered_ids({'state':'Paused','tracker':'tracker.aelitis.com'} ))"
-print len(sclient.label_get_filtered_ids({'state':'Paused','tracker':'tracker.aelitis.com'} ))
-
-print "#test status-fields:"
-ids = sclient.get_session_state()
-
-torrents = sclient.get_torrents_status({"id":ids},['name', 'tracker_host', 'label'])
-
-for id,torrent in torrents.iteritems():
-    print id, torrent
 
 #test labels.
 print "#init labels"
@@ -51,16 +22,7 @@ sclient.label_add("test")
 print "#set"
 sclient.label_set_torrent(id,"test")
 
-print "#len(sclient.label_get_filtered_ids({'label':'test'} ))"
-print len(sclient.label_get_filtered_ids({'label':'test'} ))
-
-#test filter items.
-print "# label_filter_items()"
-for cat,filters in  sclient.label_filter_items().iteritems():
-    if cat == "label":
-        print "-- %s --" % cat
-        for filter in filters:
-            print "  * %s (%s)" % (filter[0],filter[1])
+print scleint.get_torrents_status({"label":test},"name")
 
 
 print "#set options"
