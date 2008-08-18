@@ -298,7 +298,7 @@ class Torrent:
 
         left = status.total_wanted - status.total_done
 
-        if left == 0 or status.download_payload_rate == 0:
+        if left <= 0 or status.download_payload_rate == 0:
             return 0
 
         try:
