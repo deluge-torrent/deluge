@@ -164,7 +164,7 @@ class TorrentView(listview.ListView, component.Component):
                                             [float],
                                             status_field=["distributed_copies"])
         self.add_text_column(_("Tracker"), status_field=["tracker_host"])
-        
+
         # Set filter to None for now
         self.filter = None
 
@@ -209,7 +209,6 @@ class TorrentView(listview.ListView, component.Component):
         self.update()
 
     def send_status_request(self, columns=None):
-        log.debug("send_status_req:%s" % (self.filter,))
         # Store the 'status_fields' we need to send to core
         status_keys = []
         # Store the actual columns we will be updating
@@ -264,7 +263,6 @@ class TorrentView(listview.ListView, component.Component):
                 row[filter_column] = False
             else:
                 row[filter_column] = True
-                log.debug("show:%s" % torrent_id)
                 # Set values for each column in the row
                 for column in self.columns_to_update:
                     column_index = self.get_column_index(column)
