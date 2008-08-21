@@ -46,6 +46,7 @@ import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.core.torrent import Torrent
+import deluge.core.oldstateupgrader
 
 from deluge.log import LOG as log
 
@@ -53,23 +54,23 @@ class TorrentState:
     def __init__(self,
             torrent_id=None,
             filename=None,
-            total_uploaded=None, 
+            total_uploaded=0,
             trackers=None,
-            compact=None, 
-            paused=None, 
+            compact=False,
+            paused=False, 
             save_path=None,
-            max_connections=None,
-            max_upload_slots=None,
-            max_upload_speed=None,
-            max_download_speed=None,
-            prioritize_first_last=None,
+            max_connections=-1,
+            max_upload_slots=-1,
+            max_upload_speed=-1.0,
+            max_download_speed=-1.0,
+            prioritize_first_last=False,
             file_priorities=None,
             queue=None,
-            auto_managed=None,
+            auto_managed=True,
             is_finished=False,
             stop_ratio=2.00,
             stop_at_ratio=False,
-            remove_at_ratio=True
+            remove_at_ratio=False
         ):
         self.torrent_id = torrent_id
         self.filename = filename
@@ -156,7 +157,10 @@ class TorrentManager(component.Component):
         self.plugins = component.get("PluginManager")
         
         self.signals = component.get("SignalManager")
-                
+
+        # Run the old state upgrader before loading state
+        deluge.core.oldstateupgrader.OldStateUpgrader()
+
         # Try to load the state from file
         self.load_state()
 

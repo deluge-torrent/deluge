@@ -1,3 +1,7 @@
+Deluge 0.9.08 - "1.0.0_RC8" (In Development)
+ Core:
+  * Attempt to automatically upgrade a 0.5.x state file to new format
+  
 Deluge 0.9.07 - "1.0.0_RC7" (18 August 2008)
  Core:
   * Fix loading torrents from state when fastresume file is missing
