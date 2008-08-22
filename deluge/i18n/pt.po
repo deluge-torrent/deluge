@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-08-12 03:09-0500\n"
-"PO-Revision-Date: 2008-08-15 12:42+0000\n"
+"POT-Creation-Date: 2008-08-16 21:52-0500\n"
+"PO-Revision-Date: 2008-08-17 11:58+0000\n"
 "Last-Translator: Tony Manco <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-17 00:04+0000\n"
+"X-Launchpad-Export-Date: 2008-08-22 07:53+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:667
@@ -75,7 +75,7 @@ msgstr "Administrador"
 #: deluge/ui/webui/scripts/template_strings.py:10
 #: deluge/ui/webui/torrent_options.py:26
 #: deluge/ui/gtkui/glade/main_window.glade:1816
-#: deluge/plugins/label/label/data/label_options.glade:287
+#: deluge/plugins/label/label/data/label_options.glade:332
 msgid "Auto Managed"
 msgstr "Auto Gerir"
 
@@ -204,6 +204,7 @@ msgstr "Palavra-chave"
 #: deluge/ui/webui/scripts/template_strings.py:39
 #: deluge/plugins/label/label/webui/pages.py:62
 #: deluge/plugins/label/label/webui/config.py:110
+#: deluge/plugins/label/label/gtkui/submenu.py:54
 #: deluge/plugins/label/label/gtkui/__init__.py:69
 #: deluge/plugins/label/label/gtkui/__init__.py:110
 msgid "Label"
@@ -401,7 +402,7 @@ msgid "Total Size"
 msgstr "Tamanho Total"
 
 #: deluge/ui/webui/scripts/template_strings.py:82
-#: deluge/ui/gtkui/torrentview.py:166 deluge/ui/gtkui/edittrackersdialog.py:78
+#: deluge/ui/gtkui/torrentview.py:166 deluge/ui/gtkui/edittrackersdialog.py:83
 msgid "Tracker"
 msgstr "Tracker"
 
@@ -780,7 +781,7 @@ msgstr "Para de semear ao ratio de"
 
 #: deluge/ui/webui/torrent_options.py:29
 #: deluge/ui/gtkui/glade/main_window.glade:1874
-#: deluge/plugins/label/label/data/label_options.glade:315
+#: deluge/plugins/label/label/data/label_options.glade:302
 msgid "Remove at ratio"
 msgstr "Remover ratio"
 
@@ -957,7 +958,7 @@ msgstr "Detalhes"
 
 #: deluge/ui/webui/register_menu.py:47
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:501
-#: deluge/plugins/label/label/data/label_options.glade:520
+#: deluge/plugins/label/label/data/label_options.glade:525
 msgid "Trackers"
 msgstr "Trackers"
 
@@ -1041,24 +1042,32 @@ msgstr "Torrent completo"
 msgid "Including %i files"
 msgstr "Incluindo %i ficheiros"
 
-#: deluge/ui/gtkui/notification.py:111
+#: deluge/ui/gtkui/notification.py:110
+#, python-format
+msgid "Finished torrent %s"
+msgstr "Torrent completo %s"
+
+#: deluge/ui/gtkui/notification.py:112
 #, python-format
 msgid ""
-"This email is to inform you that Deluge has finished downloading %s ,        "
-"     which includes %i files.\n"
-"To stop receiving these alerts, simply turn off             email "
-"notification in Deluge's preferences.\n"
+"which includes %i files.\n"
+"To stop receiving these alerts, simply turn off email notification in "
+"Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge"
 msgstr ""
-"Este email é para informar que o Deluge acabou de descarregar %s, que inclui "
-"%i ficheiros.\n"
+"que inclui %i ficheiros.\n"
 "Para parar de receber estas alertas, simplesmente desligue a notificação por "
 "email nas preferências do Deluge.\n"
 "\n"
-"Obrigado,\n"
+"Obrigado.\n"
 "Deluge"
+
+#: deluge/ui/gtkui/notification.py:111
+#, python-format
+msgid "This email is to inform you that Deluge has finished downloading %s "
+msgstr "Este email é para informar que o Deluge já acabou de descarregar %s "
 
 #: deluge/ui/gtkui/menubar.py:77
 msgid "Set Unlimited"
@@ -1213,7 +1222,7 @@ msgstr "Velocidade de Envio (KiB/s):"
 msgid "Connection Limit:"
 msgstr "Limite de ligações:"
 
-#: deluge/ui/gtkui/edittrackersdialog.py:76
+#: deluge/ui/gtkui/edittrackersdialog.py:81
 #, fuzzy
 msgid "Tier"
 msgstr "Fileira"
@@ -1248,7 +1257,7 @@ msgid "Apply"
 msgstr "Aplicar"
 
 #: deluge/plugins/label/label/webui/config.py:101
-#: deluge/plugins/label/label/data/label_options.glade:573
+#: deluge/plugins/label/label/data/label_options.glade:578
 msgid "Add Label"
 msgstr "Adicionar Rótulo"
 
@@ -1256,25 +1265,25 @@ msgstr "Adicionar Rótulo"
 msgid "Hide filter items with 0 hits"
 msgstr "Esconder filtro com 0 amostras"
 
-#: deluge/plugins/label/label/core.py:301
+#: deluge/plugins/label/label/core.py:302
 msgid "Invalid label, valid characters:[a-z0-9_-]"
 msgstr "Rótulo inválido, caracteres válidos: [a-z0-9_-]"
 
-#: deluge/plugins/label/label/core.py:302
+#: deluge/plugins/label/label/core.py:303
 msgid "Empty Label"
 msgstr "Rótulo Vazio"
 
-#: deluge/plugins/label/label/core.py:303
+#: deluge/plugins/label/label/core.py:304
 msgid "Label already exists"
 msgstr "Etiqueta já existe"
 
-#: deluge/plugins/label/label/core.py:309
-#: deluge/plugins/label/label/core.py:358
-#: deluge/plugins/label/label/core.py:391
+#: deluge/plugins/label/label/core.py:310
+#: deluge/plugins/label/label/core.py:362
+#: deluge/plugins/label/label/core.py:395
 msgid "Unknown Label"
 msgstr "Rótulo Desconhecido"
 
-#: deluge/plugins/label/label/core.py:392
+#: deluge/plugins/label/label/core.py:396
 msgid "Unknown Torrent"
 msgstr "Torrent Desconhecido"
 
@@ -1414,7 +1423,7 @@ msgid "Info"
 msgstr "Informação"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:423
-#: deluge/ui/gtkui/glade/edit_trackers.glade:95
+#: deluge/ui/gtkui/glade/edit_trackers.glade:96
 #: deluge/ui/gtkui/glade/torrent_menu.glade:334
 msgid "gtk-go-up"
 msgstr "gtk-go-up"
@@ -1423,7 +1432,7 @@ msgstr "gtk-go-up"
 #: deluge/ui/gtkui/glade/connection_manager.glade:101
 #: deluge/ui/gtkui/glade/connection_manager.glade:405
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:171
-#: deluge/ui/gtkui/glade/edit_trackers.glade:107
+#: deluge/ui/gtkui/glade/edit_trackers.glade:108
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1022
 msgid "gtk-add"
 msgstr "gtk-add"
@@ -1431,12 +1440,12 @@ msgstr "gtk-add"
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:450
 #: deluge/ui/gtkui/glade/connection_manager.glade:113
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:94
-#: deluge/ui/gtkui/glade/edit_trackers.glade:122
+#: deluge/ui/gtkui/glade/edit_trackers.glade:137
 msgid "gtk-remove"
 msgstr "gtk-remove"
 
 #: deluge/ui/gtkui/glade/create_torrent_dialog.glade:465
-#: deluge/ui/gtkui/glade/edit_trackers.glade:137
+#: deluge/ui/gtkui/glade/edit_trackers.glade:152
 #: deluge/ui/gtkui/glade/torrent_menu.glade:344
 msgid "gtk-go-down"
 msgstr "gtk-go-down"
@@ -1457,14 +1466,15 @@ msgstr "Adicionar este torrent à sessão"
 #: deluge/ui/gtkui/glade/connection_manager.glade:392
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3558
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:167
-#: deluge/ui/gtkui/glade/edit_trackers.glade:174
-#: deluge/ui/gtkui/glade/edit_trackers.glade:320
+#: deluge/ui/gtkui/glade/edit_trackers.glade:189
+#: deluge/ui/gtkui/glade/edit_trackers.glade:336
+#: deluge/ui/gtkui/glade/edit_trackers.glade:485
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:121
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1010
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1157
 #: deluge/ui/gtkui/glade/main_window.glade:2316
-#: deluge/plugins/label/label/data/label_options.glade:542
-#: deluge/plugins/label/label/data/label_options.glade:618
+#: deluge/plugins/label/label/data/label_options.glade:547
+#: deluge/plugins/label/label/data/label_options.glade:623
 msgid "gtk-cancel"
 msgstr "gtk-cancel"
 
@@ -1559,7 +1569,7 @@ msgid "Copy of .torrent files to:"
 msgstr "Copiar ficheiros .torrent para:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:315
-#: deluge/plugins/label/label/data/label_options.glade:438
+#: deluge/plugins/label/label/data/label_options.glade:413
 msgid "Move completed to:"
 msgstr "Mover completos para:"
 
@@ -2106,12 +2116,13 @@ msgid "gtk-apply"
 msgstr "gtk-apply"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3585
-#: deluge/ui/gtkui/glade/edit_trackers.glade:186
-#: deluge/ui/gtkui/glade/edit_trackers.glade:334
+#: deluge/ui/gtkui/glade/edit_trackers.glade:201
+#: deluge/ui/gtkui/glade/edit_trackers.glade:350
+#: deluge/ui/gtkui/glade/edit_trackers.glade:499
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:134
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1170
-#: deluge/plugins/label/label/data/label_options.glade:553
-#: deluge/plugins/label/label/data/label_options.glade:629
+#: deluge/plugins/label/label/data/label_options.glade:558
+#: deluge/plugins/label/label/data/label_options.glade:634
 msgid "gtk-ok"
 msgstr "gtk-ok"
 
@@ -2158,26 +2169,39 @@ msgstr "<i>A informação descarregada será eliminada!</i>"
 msgid "Remove Selected Torrent"
 msgstr "Remover Torrent Seleccionado"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:8
+#: deluge/ui/gtkui/glade/edit_trackers.glade:9
 msgid "Edit Trackers"
 msgstr "Editar Trackers"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:46
+#: deluge/ui/gtkui/glade/edit_trackers.glade:47
 msgid "<big><b>Edit Trackers</b></big>"
 msgstr "<big><b>Editar Trackers</b></big>"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:207
+#: deluge/ui/gtkui/glade/edit_trackers.glade:122
+msgid "gtk-edit"
+msgstr "gtk-edit"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:223
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1044
 msgid "Add Tracker"
 msgstr "Adicionar Tracker"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:243
+#: deluge/ui/gtkui/glade/edit_trackers.glade:259
 msgid "<b>Add Tracker</b>"
 msgstr "<b>Adicionar Tracker</b>"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:277
+#: deluge/ui/gtkui/glade/edit_trackers.glade:293
+#: deluge/ui/gtkui/glade/edit_trackers.glade:442
 msgid "Tracker:"
 msgstr "Tracker:"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:372
+msgid "Edit Tracker"
+msgstr "Editar Tracker"
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:408
+msgid "<b>Edit Tracker</b>"
+msgstr "<b>Editar Tracker</b>"
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
 msgid "Move Storage"
@@ -2628,7 +2652,7 @@ msgid "Max Download Speed:"
 msgstr "Velocidade máxima de download:"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1836
-#: deluge/plugins/label/label/data/label_options.glade:300
+#: deluge/plugins/label/label/data/label_options.glade:317
 msgid "Stop seed at ratio:"
 msgstr "Para semente ao rácio de:"
 
@@ -2698,26 +2722,26 @@ msgstr "<b>Etiquetas</b>"
 msgid "Label Options"
 msgstr "Opções de Etiquetas"
 
-#: deluge/plugins/label/label/data/label_options.glade:84
-#: deluge/plugins/label/label/data/label_options.glade:147
+#: deluge/plugins/label/label/data/label_options.glade:87
+msgid "Connections:"
+msgstr "Ligações:"
+
+#: deluge/plugins/label/label/data/label_options.glade:115
+#: deluge/plugins/label/label/data/label_options.glade:180
 msgid "Kib/s"
 msgstr "Kib/s"
 
-#: deluge/plugins/label/label/data/label_options.glade:110
-msgid "Upload Slots:\t"
-msgstr "Envios:\t"
-
-#: deluge/plugins/label/label/data/label_options.glade:123
-msgid "Upload Speed:"
-msgstr "Velocidade de envio:"
-
-#: deluge/plugins/label/label/data/label_options.glade:136
+#: deluge/plugins/label/label/data/label_options.glade:130
 msgid "Download Speed:"
 msgstr "Velocidade de Recepção:"
 
-#: deluge/plugins/label/label/data/label_options.glade:178
-msgid "Connections:"
-msgstr "Ligações:"
+#: deluge/plugins/label/label/data/label_options.glade:142
+msgid "Upload Speed:"
+msgstr "Velocidade de envio:"
+
+#: deluge/plugins/label/label/data/label_options.glade:155
+msgid "Upload Slots:\t"
+msgstr "Envios:\t"
 
 #: deluge/plugins/label/label/data/label_options.glade:222
 msgid "Apply per torrent max settings:"
@@ -2731,15 +2755,15 @@ msgstr "Máximo"
 msgid "Apply Queue settings:"
 msgstr "Aplicar definições de fila:"
 
-#: deluge/plugins/label/label/data/label_options.glade:402
-msgid "warning : not effective yet"
-msgstr "aviso: não é ainda eficaz"
+#: deluge/plugins/label/label/data/label_options.glade:443
+msgid "Apply location settings:"
+msgstr "Aplicar definições de localização:"
 
-#: deluge/plugins/label/label/data/label_options.glade:454
+#: deluge/plugins/label/label/data/label_options.glade:459
 msgid "Location"
 msgstr "Localização"
 
-#: deluge/plugins/label/label/data/label_options.glade:478
+#: deluge/plugins/label/label/data/label_options.glade:483
 msgid ""
 "tracker1.org\n"
 "tracker2.com\n"
@@ -2749,15 +2773,15 @@ msgstr ""
 "tracker2.com\n"
 "isto ainda não faz nada..\n"
 
-#: deluge/plugins/label/label/data/label_options.glade:487
+#: deluge/plugins/label/label/data/label_options.glade:492
 msgid "<i>(1 line per tracker)</i>"
 msgstr "<i>(1 linha por tracker)</i>"
 
-#: deluge/plugins/label/label/data/label_options.glade:503
+#: deluge/plugins/label/label/data/label_options.glade:508
 msgid "Automatically apply label:"
 msgstr "Automaticamente aplicar etiqueta:"
 
-#: deluge/plugins/label/label/data/label_options.glade:588
+#: deluge/plugins/label/label/data/label_options.glade:593
 msgid "<b>Label name:</b>"
 msgstr "<b>Nome da etiqueta:</b>"
 

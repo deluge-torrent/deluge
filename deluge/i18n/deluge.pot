@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-16 21:53-0500\n"
+"POT-Creation-Date: 2008-08-22 02:53-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,19 +16,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: deluge/core/torrentmanager.py:667
+#: deluge/core/torrentmanager.py:644
 msgid "Announce OK"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:688
+#: deluge/core/torrentmanager.py:665
 msgid "Announce Sent"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:697
+#: deluge/core/torrentmanager.py:674
 msgid "Alert"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:708
+#: deluge/core/torrentmanager.py:685
 msgid "Warning"
 msgstr ""
 
@@ -63,7 +63,7 @@ msgid "Add torrent"
 msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:8
-#: deluge/ui/gtkui/peers_tab.py:98
+#: deluge/ui/gtkui/peers_tab.py:96
 msgid "Address"
 msgstr ""
 
@@ -95,7 +95,7 @@ msgid "Clear"
 msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:15
-#: deluge/ui/gtkui/peers_tab.py:114
+#: deluge/ui/gtkui/peers_tab.py:112
 msgid "Client"
 msgstr ""
 
@@ -147,12 +147,12 @@ msgid "Disable"
 msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:27
-#: deluge/ui/gtkui/peers_tab.py:140 deluge/ui/gtkui/torrentview.py:146
+#: deluge/ui/gtkui/peers_tab.py:138 deluge/ui/gtkui/torrentview.py:146
 msgid "Down Speed"
 msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:28
-#: deluge/ui/webui/config_tabs_deluge.py:125 deluge/ui/gtkui/systemtray.py:325
+#: deluge/ui/webui/config_tabs_deluge.py:125 deluge/ui/gtkui/systemtray.py:330
 msgid "Download"
 msgstr ""
 
@@ -205,7 +205,7 @@ msgstr ""
 #: deluge/plugins/label/label/webui/config.py:110
 #: deluge/plugins/label/label/gtkui/submenu.py:54
 #: deluge/plugins/label/label/gtkui/__init__.py:69
-#: deluge/plugins/label/label/gtkui/__init__.py:110
+#: deluge/plugins/label/label/gtkui/__init__.py:112
 msgid "Label"
 msgstr ""
 
@@ -293,7 +293,7 @@ msgid "Private"
 msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:58
-#: deluge/ui/gtkui/peers_tab.py:127 deluge/ui/gtkui/torrentview.py:132
+#: deluge/ui/gtkui/peers_tab.py:125 deluge/ui/gtkui/torrentview.py:132
 #: deluge/ui/gtkui/files_tab.py:138
 msgid "Progress"
 msgstr ""
@@ -318,7 +318,6 @@ msgid "Refresh page every:"
 msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:63
-#: deluge/plugins/label/label/gtkui/sidebar.py:65
 msgid "Remove"
 msgstr ""
 
@@ -414,7 +413,7 @@ msgid "True"
 msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:85
-#: deluge/ui/gtkui/peers_tab.py:153 deluge/ui/gtkui/torrentview.py:150
+#: deluge/ui/gtkui/peers_tab.py:151 deluge/ui/gtkui/torrentview.py:150
 msgid "Up Speed"
 msgstr ""
 
@@ -423,7 +422,7 @@ msgid "Update"
 msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:87
-#: deluge/ui/gtkui/systemtray.py:329
+#: deluge/ui/gtkui/systemtray.py:334
 msgid "Upload"
 msgstr ""
 
@@ -439,11 +438,11 @@ msgstr ""
 msgid "seconds"
 msgstr ""
 
-#: deluge/ui/webui/pages.py:270
+#: deluge/ui/webui/pages.py:271
 msgid "refresh must be > 0"
 msgstr ""
 
-#: deluge/ui/webui/pages.py:321
+#: deluge/ui/webui/pages.py:322
 msgid "no uri"
 msgstr ""
 
@@ -932,7 +931,7 @@ msgstr ""
 
 #: deluge/ui/webui/lib/newforms_plus.py:193
 #: deluge/ui/webui/lib/newforms_plus.py:204 deluge/ui/gtkui/systemtray.py:187
-#: deluge/ui/gtkui/systemtray.py:191 deluge/ui/gtkui/systemtray.py:335
+#: deluge/ui/gtkui/systemtray.py:191 deluge/ui/gtkui/systemtray.py:340
 #: deluge/common.py:174
 msgid "Unlimited"
 msgstr ""
@@ -1022,21 +1021,21 @@ msgstr ""
 msgid "All files"
 msgstr ""
 
-#: deluge/ui/gtkui/notification.py:82
+#: deluge/ui/gtkui/notification.py:74
 msgid "Torrent complete"
 msgstr ""
 
-#: deluge/ui/gtkui/notification.py:83
+#: deluge/ui/gtkui/notification.py:75
 #, python-format
 msgid "Including %i files"
 msgstr ""
 
-#: deluge/ui/gtkui/notification.py:110
+#: deluge/ui/gtkui/notification.py:102
 #, python-format
 msgid "Finished torrent %s"
 msgstr ""
 
-#: deluge/ui/gtkui/notification.py:112
+#: deluge/ui/gtkui/notification.py:104
 #, python-format
 msgid ""
 "which includes %i files.\n"
@@ -1047,7 +1046,7 @@ msgid ""
 "Deluge"
 msgstr ""
 
-#: deluge/ui/gtkui/notification.py:111
+#: deluge/ui/gtkui/notification.py:103
 #, python-format
 msgid "This email is to inform you that Deluge has finished downloading %s "
 msgstr ""
@@ -1097,7 +1096,7 @@ msgid "Up"
 msgstr ""
 
 #: deluge/ui/gtkui/systemtray.py:209 deluge/ui/gtkui/systemtray.py:215
-#: deluge/ui/gtkui/systemtray.py:334 deluge/ui/gtkui/statusbar.py:329
+#: deluge/ui/gtkui/systemtray.py:339 deluge/ui/gtkui/statusbar.py:329
 #: deluge/ui/gtkui/statusbar.py:339 deluge/ui/gtkui/statusbar.py:352
 #: deluge/ui/gtkui/statusbar.py:380
 #: deluge/ui/gtkui/glade/main_window.glade:1726
@@ -1105,17 +1104,17 @@ msgstr ""
 msgid "KiB/s"
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:338 deluge/ui/gtkui/statusbar.py:363
+#: deluge/ui/gtkui/systemtray.py:343 deluge/ui/gtkui/statusbar.py:363
 #: deluge/ui/gtkui/statusbar.py:392 deluge/ui/gtkui/statusbar.py:420
 #: deluge/common.py:230
 msgid "Other..."
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:369
+#: deluge/ui/gtkui/systemtray.py:374
 msgid "Deluge is locked"
 msgstr ""
 
-#: deluge/ui/gtkui/systemtray.py:372
+#: deluge/ui/gtkui/systemtray.py:377
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
@@ -1129,7 +1128,7 @@ msgstr ""
 msgid "Priority"
 msgstr ""
 
-#: deluge/ui/gtkui/signals.py:149
+#: deluge/ui/gtkui/signals.py:150
 msgid "Torrent is past stop ratio."
 msgstr ""
 
@@ -1233,40 +1232,50 @@ msgstr ""
 msgid "Hide filter items with 0 hits"
 msgstr ""
 
-#: deluge/plugins/label/label/core.py:302
+#: deluge/plugins/label/label/core.py:184
 msgid "Invalid label, valid characters:[a-z0-9_-]"
 msgstr ""
 
-#: deluge/plugins/label/label/core.py:303
+#: deluge/plugins/label/label/core.py:185
 msgid "Empty Label"
 msgstr ""
 
-#: deluge/plugins/label/label/core.py:304
+#: deluge/plugins/label/label/core.py:186
 msgid "Label already exists"
 msgstr ""
 
-#: deluge/plugins/label/label/core.py:310
-#: deluge/plugins/label/label/core.py:362
-#: deluge/plugins/label/label/core.py:395
+#: deluge/plugins/label/label/core.py:192
+#: deluge/plugins/label/label/core.py:244
+#: deluge/plugins/label/label/core.py:277
 msgid "Unknown Label"
 msgstr ""
 
-#: deluge/plugins/label/label/core.py:396
+#: deluge/plugins/label/label/core.py:278
 msgid "Unknown Torrent"
 msgstr ""
 
-#: deluge/plugins/label/label/gtkui/sidebar.py:64
-msgid "_Add"
-msgstr ""
-
 #: deluge/plugins/label/label/gtkui/sidebar.py:66
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:968
-#: deluge/ui/gtkui/glade/main_window.glade:2137
-msgid "_Options"
+msgid "_Add Label"
 msgstr ""
 
-#: deluge/plugins/label/label/gtkui/sidebar.py:236
-#: deluge/plugins/label/label/gtkui/sidebar.py:268
+#: deluge/plugins/label/label/gtkui/sidebar.py:67
+msgid "_Remove Label"
+msgstr ""
+
+#: deluge/plugins/label/label/gtkui/sidebar.py:68
+msgid "Label _Options"
+msgstr ""
+
+#: deluge/plugins/label/label/gtkui/sidebar.py:72
+msgid "_Select All"
+msgstr ""
+
+#: deluge/plugins/label/label/gtkui/sidebar.py:74
+msgid "R_esume"
+msgstr ""
+
+#: deluge/plugins/label/label/gtkui/sidebar.py:272
+#: deluge/plugins/label/label/gtkui/sidebar.py:304
 msgid "Filters"
 msgstr ""
 
@@ -2236,6 +2245,11 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:921
 msgid "Apply To All"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:968
+#: deluge/ui/gtkui/glade/main_window.glade:2137
+msgid "_Options"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1080
