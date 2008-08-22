@@ -119,6 +119,9 @@ class ListView:
             # If column is 'hidden' then it will not be visible and will not
             # show up in any menu listing;  it cannot be shown ever.
             self.hidden = False
+            # If this is set, it is used to sort the model
+            self.sort_func = None
+            self.sort_id = None
                 
     def __init__(self, treeview_widget=None, state_file=None):
         log.debug("ListView initialized..")
@@ -168,10 +171,20 @@ class ListView:
         model_filter.set_visible_column(
             self.columns["filter"].column_indices[0])
         self.model_filter = gtk.TreeModelSort(model_filter)
+        self.set_sort_functions()                
         self.treeview.set_model(self.model_filter)
         if sort_column and sort_column != (None, None):
             self.model_filter.set_sort_column_id(*sort_column)
-    
+
+    def set_sort_functions(self):
+        for column in self.columns.values():
+            if column.sort_func:
+                log.debug("sort_func: %s sort_id: %s", column.sort_func, column.sort_id)
+                self.model_filter.set_sort_func(
+                    column.sort_id,
+                    column.sort_func,
+                    column.sort_id)
+            
     def save_state(self, filename):
         """Saves the listview state (column positions and visibility) to
             filename."""
@@ -354,7 +367,7 @@ class ListView:
     
     def add_column(self, header, render, col_types, hidden, position, 
             status_field, sortid, text=0, value=0, pixbuf=0, function=None,
-            column_type=None):
+            column_type=None, sort_func=None):
         """Adds a column to the ListView"""
         # Add the column types to liststore_columns
         column_indices = []
@@ -376,6 +389,8 @@ class ListView:
         self.columns[header] = self.ListViewColumn(header, column_indices)
            
         self.columns[header].status_field = status_field
+        self.columns[header].sort_func = sort_func
+        self.columns[header].sort_id = column_indices[sortid]
         
         # Create a new list with the added column
         self.create_new_liststore()
@@ -457,12 +472,13 @@ class ListView:
                                             position=None,
                                             status_field=None,
                                             sortid=0,
-                                            column_type="text"):
+                                            column_type="text",
+                                            sort_func=None):
         """Add a text column to the listview.  Only the header name is required.
         """
         render = gtk.CellRendererText()
         self.add_column(header, render, col_type, hidden, position,
-                    status_field, sortid, column_type=column_type)
+                    status_field, sortid, column_type=column_type, sort_func=sort_func)
        
         return True
     
@@ -479,14 +495,14 @@ class ListView:
                         
     def add_func_column(self, header, function, col_types, sortid=0, 
                                 hidden=False, position=None, status_field=None,
-                                column_type="func"):
+                                column_type="func", sort_func=None):
         """Add a function column to the listview.  Need a header name, the
         function and the column types."""
         
         render = gtk.CellRendererText()
         self.add_column(header, render, col_types, hidden, position,
                             status_field, sortid, column_type=column_type, 
-                            function=function)
+                            function=function, sort_func=sort_func)
 
         return True
 

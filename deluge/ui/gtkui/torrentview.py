@@ -100,6 +100,20 @@ def cell_data_queue(column, cell, model, row, data):
     else:
         cell.set_property("text", value + 1)
 
+def queue_column_sort(model, iter1, iter2, data):
+    v1 = model[iter1][data]
+    v2 = model[iter2][data]
+    if v1 == v2:
+        return 0
+    if v2 < 0:
+        return -1
+    if v1 < 0:
+        return 1
+    if v1 > v2:
+        return 1
+    if v2 > v1:
+        return -1
+        
 class TorrentView(listview.ListView, component.Component):
     """TorrentView handles the listing of torrents."""
     def __init__(self):
@@ -122,7 +136,7 @@ class TorrentView(listview.ListView, component.Component):
         # Add the columns to the listview
         self.add_text_column("torrent_id", hidden=True)
         self.add_bool_column("dirty", hidden=True)
-        self.add_func_column("#", cell_data_queue, [int], status_field=["queue"])
+        self.add_func_column("#", cell_data_queue, [int], status_field=["queue"], sort_func=queue_column_sort)
         self.add_texticon_column(_("Name"), status_field=["state", "name"],
                                             function=cell_data_statusicon)
         self.add_func_column(_("Size"),
@@ -179,7 +193,7 @@ class TorrentView(listview.ListView, component.Component):
                                     self.on_selection_changed)
 
         self.treeview.connect("drag-drop", self.on_drag_drop)
-
+        
     def start(self):
         """Start the torrentview"""
         # We need to get the core session state to know which torrents are in
@@ -187,9 +201,13 @@ class TorrentView(listview.ListView, component.Component):
         client.get_session_state(self._on_session_state)
 
     def _on_session_state(self, state):
+        self.treeview.freeze_child_notify()
+        model = self.treeview.get_model()
         for torrent_id in state:
             self.add_row(torrent_id, update=False)
             self.mark_dirty(torrent_id)
+        self.treeview.set_model(model)
+        self.treeview.thaw_child_notify()
         self.update()
 
     def stop(self):
@@ -253,9 +271,10 @@ class TorrentView(listview.ListView, component.Component):
         update those columns selected.
         """
         filter_column = self.columns["filter"].column_indices[0]
-
         # Update the torrent view model with data we've received
         status = self.status
+        (sort_id, sort_type) = self.treeview.get_model().get_sort_column_id()
+        self.treeview.get_model().set_sort_column_id(-1, gtk.SORT_ASCENDING)
         for row in self.liststore:
             torrent_id = row[self.columns["torrent_id"].column_indices[0]]
 
@@ -271,10 +290,9 @@ class TorrentView(listview.ListView, component.Component):
                         # update
                         try:
                             # Only update if different
-                            if row[column_index] != \
-                                status[torrent_id][self.columns[column].status_field[0]]:
-                                row[column_index] = status[torrent_id][
-                                        self.columns[column].status_field[0]]
+                            row_value = status[torrent_id][self.columns[column].status_field[0]]
+                            if row[column_index] != row_value:
+                                row[column_index] = row_value
                         except (TypeError, KeyError), e:
                             log.warning("Unable to update column %s: %s",
                                 column, e)
@@ -284,17 +302,12 @@ class TorrentView(listview.ListView, component.Component):
                             # Only update the column if the status field exists
                             try:
                                 # Only update if different
-                                if row[index] != \
-                                    status[torrent_id][
-                                        self.columns[column].status_field[
-                                            column_index.index(index)]]:
-
-                                    row[index] = \
-                                        status[torrent_id][
-                                            self.columns[column].status_field[
-                                                column_index.index(index)]]
+                                row_value = status[torrent_id][self.columns[column].status_field[column_index.index(index)]]
+                                if row[index] != row_value:
+                                    row[index] = row_value
                             except:
                                 pass
+        self.treeview.get_model().set_sort_column_id(sort_id, sort_type)
         # Update the toolbar buttons just in case some state has changed
         component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
@@ -415,4 +428,3 @@ class TorrentView(listview.ListView, component.Component):
 
     def on_drag_drop(self, widget, drag_context, x, y, timestamp):
         widget.stop_emission("drag-drop")
-
