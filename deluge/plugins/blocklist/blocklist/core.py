@@ -245,7 +245,7 @@ class Core(CorePluginBase):
         if list_size == 0:
             return True
 
-        if current_time >= (list_time + datetime.timedelta(self.config["check_after_days"] * 24 * 60 * 60)):
+        if current_time >= (list_time + datetime.timedelta(days=self.config["check_after_days"])):
             return True
         
         return False                
