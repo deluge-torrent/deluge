@@ -1643,6 +1643,13 @@ namespace libtorrent
 		TORRENT_ASSERT(m_channel_state[download_channel] == peer_info::bw_idle);
 		m_download_queue.erase(b);
 
+		if (m_outstanding_writing_bytes >= m_ses.settings().max_outstanding_disk_bytes_per_connection
+			&& t->alerts().should_post<performance_alert>())
+		{
+			t->alerts().post_alert(performance_alert(t->get_handle()
+				, performance_alert::outstanding_disk_buffer_limit_reached));
+		}
+
 		if (!m_download_queue.empty())
 		{
 			m_timeout_extend = (std::max)(m_timeout_extend
@@ -2765,6 +2772,13 @@ namespace libtorrent
 				m_desired_queue_size = m_max_out_request_queue;
 			if (m_desired_queue_size < min_request_queue)
 				m_desired_queue_size = min_request_queue;
+
+			if (m_desired_queue_size == m_max_out_request_queue 
+				&& t->alerts().should_post<performance_alert>())
+			{
+				t->alerts().post_alert(performance_alert(t->get_handle()
+					, performance_alert::outstanding_request_limit_reached));
+			}
 		}
 
 		if (!m_download_queue.empty()
@@ -3632,6 +3646,9 @@ namespace libtorrent
 			TORRENT_ASSERT(m_ses.has_peer((peer_connection*)this));
 		}
 
+/*
+		// this assertion correct most of the time, but sometimes right when the
+		// limit is changed it might break
 		for (int i = 0; i < 2; ++i)
 		{
 			// this peer is in the bandwidth history iff max_assignable < limit
@@ -3639,6 +3656,7 @@ namespace libtorrent
 				== m_ses.m_bandwidth_manager[i]->is_in_history(this)
 				|| m_bandwidth_limit[i].throttle() == bandwidth_limit::inf);
 		}
+*/
 
 		if (m_channel_state[download_channel] == peer_info::bw_torrent
 			|| m_channel_state[download_channel] == peer_info::bw_global)
