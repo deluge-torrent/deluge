@@ -71,6 +71,8 @@ class AddTorrentDialog(component.Component):
         #download?, path, filesize, sequence number, inconsistent?
         self.files_treestore = gtk.TreeStore(bool, str, gobject.TYPE_UINT64,
                                         gobject.TYPE_INT64, bool, str)
+        self.files_treestore.set_sort_column_id(1, gtk.SORT_ASCENDING)
+
         # Holds the files info
         self.files = {}
         self.infos = {}
