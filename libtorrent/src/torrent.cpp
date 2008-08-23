@@ -206,6 +206,13 @@ namespace libtorrent
 		, m_complete_sent(false)
 	{
 		parse_resume_data(resume_data);
+
+#ifndef TORRENT_DISABLE_ENCRYPTION
+		hasher h;
+		h.update("req2", 4);
+		h.update((char*)&tf->info_hash()[0], 20);
+		m_obfuscated_hash = h.final();
+#endif
 	}
 
 	torrent::torrent(
@@ -280,6 +287,14 @@ namespace libtorrent
 		, m_complete_sent(false)
 	{
 		parse_resume_data(resume_data);
+
+#ifndef TORRENT_DISABLE_ENCRYPTION
+		hasher h;
+		h.update("req2", 4);
+		h.update((char*)&info_hash[0], 20);
+		m_obfuscated_hash = h.final();
+#endif
+
 #ifndef NDEBUG
 		m_files_checked = false;
 #endif
@@ -1471,7 +1486,7 @@ namespace libtorrent
 				// ban it.
 				if (m_ses.m_alerts.should_post<peer_ban_alert>())
 				{
-					peer_id pid;
+					peer_id pid(0);
 					if (p->connection) pid = p->connection->pid();
 					m_ses.m_alerts.post_alert(peer_ban_alert(
 						get_handle(), p->ip(), pid));
@@ -2261,6 +2276,7 @@ namespace libtorrent
 		if (!s) return;
 	
 		bool ret = instantiate_connection(m_ses.m_io_service, m_ses.web_seed_proxy(), *s);
+		(void)ret;
 		TORRENT_ASSERT(ret);
 
 		if (m_ses.web_seed_proxy().type == proxy_settings::http
@@ -2775,6 +2791,7 @@ namespace libtorrent
 		boost::shared_ptr<socket_type> s(new socket_type(m_ses.m_io_service));
 
 		bool ret = instantiate_connection(m_ses.m_io_service, m_ses.peer_proxy(), *s);
+		(void)ret;
 		TORRENT_ASSERT(ret);
 		std::pair<int, int> const& out_ports = m_ses.settings().outgoing_ports;
 		error_code ec;
@@ -3523,13 +3540,10 @@ namespace libtorrent
 
 	void torrent::set_sequential_download(bool sd)
 	{
+		m_sequential_download = sd;
 		if (has_picker())
 		{
 			picker().sequential_download(sd);
-		}
-		else
-		{
-			m_sequential_download = sd;
 		}
 	}
 
