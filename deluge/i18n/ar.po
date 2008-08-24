@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-08-16 21:52-0500\n"
-"PO-Revision-Date: 2008-04-27 18:57+0000\n"
+"PO-Revision-Date: 2008-08-24 00:02+0000\n"
 "Last-Translator: bob00work <Unknown>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-22 07:52+0000\n"
+"X-Launchpad-Export-Date: 2008-08-24 09:48+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:667
@@ -52,7 +52,7 @@ msgstr "عن"
 
 #: deluge/ui/webui/scripts/template_strings.py:5
 msgid "Active time"
-msgstr ""
+msgstr "الوقت النشط"
 
 #: deluge/ui/webui/scripts/template_strings.py:6
 msgid "Add Torrent"
@@ -66,18 +66,18 @@ msgstr "أضف تورنت"
 #: deluge/ui/webui/scripts/template_strings.py:8
 #: deluge/ui/gtkui/peers_tab.py:98
 msgid "Address"
-msgstr ""
+msgstr "عنوان"
 
 #: deluge/ui/webui/scripts/template_strings.py:9
 msgid "Admin"
-msgstr ""
+msgstr "المدير"
 
 #: deluge/ui/webui/scripts/template_strings.py:10
 #: deluge/ui/webui/torrent_options.py:26
 #: deluge/ui/gtkui/glade/main_window.glade:1816
 #: deluge/plugins/label/label/data/label_options.glade:332
 msgid "Auto Managed"
-msgstr ""
+msgstr "مدار تلقائيا"
 
 #: deluge/ui/webui/scripts/template_strings.py:11
 msgid "Auto refresh:"
@@ -137,11 +137,12 @@ msgstr "حذف الملفات المحذوفة"
 
 #: deluge/ui/webui/scripts/template_strings.py:24
 msgid "Deluge : Torrent List"
-msgstr ""
+msgstr "ديلوج: قائمة التورنت"
 
 #: deluge/ui/webui/scripts/template_strings.py:25
+#, fuzzy
 msgid "Deluge Login"
-msgstr ""
+msgstr "تسجيل دخول ديلوج"
 
 #: deluge/ui/webui/scripts/template_strings.py:26
 msgid "Disable"
@@ -182,7 +183,7 @@ msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:34
 msgid "False"
-msgstr ""
+msgstr "خاطئ"
 
 #: deluge/ui/webui/scripts/template_strings.py:35
 msgid "File"
