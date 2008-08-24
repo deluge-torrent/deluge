@@ -202,7 +202,25 @@ class FilterTreeView(component.Component):
         """This is a callback for showing the right-click context menu.
         NOT YET!
         """
+        x, y = event.get_coords()
+        path = self.label_view.get_path_at_pos(int(x), int(y))
+        if not path:
+            return
+        path = path[0]
+        cat = self.model_filter[path][0]
+        
+        if event.button == 1:
+            # Prevent selecting a category label
+            if cat == "cat":
+                return True
+        
+        elif event.button == 3:
+            if cat == "cat":
+                # XXX: Show the pop-up menu
+                # Do not select the row
+                return True
         """
+        
         # We only care about right-clicks
         if event.button == 3:
             x, y = event.get_coords()
