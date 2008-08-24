@@ -166,6 +166,9 @@ class Core(
         # Start the libtorrent session
         log.debug("Starting libtorrent session..")
         self.session = lt.session(fingerprint)
+        
+        # Load the session state if available
+        self.load_session_state()
 
         # Set the user agent
         self.settings = lt.session_settings()
@@ -232,6 +235,9 @@ class Core(
         # Save the DHT state if necessary
         if self.config["dht"]:
             self.save_dht_state()
+        
+        # Save the libtorrent session state
+        self.save_session_state()
             
         # Shutdown the socket
         try:
@@ -251,11 +257,23 @@ class Core(
         del deluge.configmanager
         del self.session
         self.loop.quit()
-        try:
-            self.gnome_client.disconnect()
-        except:
-            pass
 
+    def save_session_state(self):
+        """Saves the libtorrent session state"""
+        try:
+            open(deluge.common.get_default_config_dir("session.state"), "wb").write(
+                lt.bencode(self.session.state()))
+        except Exception, e:
+            log.warning("Failed to save lt state: %s", e)
+    
+    def load_session_state(self):
+        """Loads the libtorrent session state"""
+        try:
+            self.session.load_state(lt.bdecode(
+                open(deluge.common.get_default_config_dir("session.state"), "rb").read()))
+        except Exception, e:
+            log.warning("Failed to load lt state: %s", e)
+            
     def save_dht_state(self):
         """Saves the dht state to a file"""
         try:
