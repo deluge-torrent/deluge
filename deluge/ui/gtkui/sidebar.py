@@ -51,15 +51,21 @@ class SideBar(component.Component):
         self.notebook = glade.get_widget("sidebar_notebook")
         self.hpaned = glade.get_widget("hpaned")
         self.is_visible = True
-
+        self.hpaned_position = self.hpaned.get_position()
+        
         # Tabs holds references to the Tab widgets by their name
         self.tabs = {}
 
     def visible(self, visible):
         if visible:
+            if self.hpaned_position:
+                self.hpaned.set_position(self.hpaned_position)
             self.notebook.show()
+
         else:
             self.notebook.hide()
+            # Store the position for restoring upon show()
+            self.hpaned_position = self.hpaned.get_position()
             self.hpaned.set_position(-1)
 
         self.is_visible = visible
