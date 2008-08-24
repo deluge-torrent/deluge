@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-08-16 21:52-0500\n"
-"PO-Revision-Date: 2008-08-21 22:18+0000\n"
-"Last-Translator: Thor Marius K. Høgås <nitrolinken@gmail.com>\n"
+"PO-Revision-Date: 2008-08-22 16:45+0000\n"
+"Last-Translator: Playmolas <Unknown>\n"
 "Language-Team: Norwegian Bokmål <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-22 07:52+0000\n"
+"X-Launchpad-Export-Date: 2008-08-24 09:49+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:667
@@ -1903,11 +1903,12 @@ msgid "<i><b><big>Other</big></b></i>"
 msgstr "<i><b><big>Annet</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2013
-#, fuzzy
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
-msgstr "Deluge vil sjekke om det har kommet en ny utgave"
+msgstr ""
+"Deluge vil sjekke om det har kommet en ny utgivelse og i så fall gi deg "
+"beskjed."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2014
 msgid "Be alerted about new releases"
@@ -2382,9 +2383,8 @@ msgid "_Connection Limit"
 msgstr "_Tilkoblings-begrensning"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:297
-#, fuzzy
 msgid "Upload _Slot Limit"
-msgstr "_Opplastingsplass-begrensning"
+msgstr "Maks _opplastingsplasser"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:312
 msgid "_Auto Managed"
@@ -2581,7 +2581,6 @@ msgid "<b>Pieces:</b>"
 msgstr "<b>Biter:</b>"
 
 #: deluge/ui/gtkui/glade/main_window.glade:966
-#, fuzzy
 msgid "<b>ETA:</b>"
 msgstr "<b>Tid igjen:</b>"
 
