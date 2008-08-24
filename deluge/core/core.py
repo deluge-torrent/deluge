@@ -55,72 +55,9 @@ from deluge.core.pluginmanager import PluginManager
 from deluge.core.alertmanager import AlertManager
 from deluge.core.signalmanager import SignalManager
 from deluge.core.filtermanager import FilterManager
+from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.autoadd import AutoAdd
 from deluge.log import LOG as log
-
-DEFAULT_PREFS = {
-    "config_location": deluge.configmanager.get_config_dir(),
-    "send_info": False,
-    "info_sent": 0.0,
-    "daemon_port": 58846,
-    "allow_remote": False,
-    "compact_allocation": False,
-    "download_location": deluge.common.get_default_download_dir(),
-    "listen_ports": [6881, 6891],
-    "copy_torrent_file": False,
-    "torrentfiles_location": os.path.join(deluge.common.get_default_download_dir(), "torrentfiles"),
-    "plugins_location": os.path.join(deluge.configmanager.get_config_dir(), "plugins"),
-    "state_location": os.path.join(deluge.configmanager.get_config_dir(), "state"),
-    "prioritize_first_last_pieces": False,
-    "random_port": True,
-    "dht": True,
-    "upnp": True,
-    "natpmp": True,
-    "utpex": True,
-    "lsd": True,
-    "enc_in_policy": 1,
-    "enc_out_policy": 1,
-    "enc_level": 2,
-    "enc_prefer_rc4": True,
-    "max_connections_global": -1,
-    "max_upload_speed": -1.0,
-    "max_download_speed": -1.0,
-    "max_upload_slots_global": -1,
-    "max_half_open_connections": -1,
-    "max_connections_per_second": -1,
-    "ignore_limits_on_local_network": True,
-    "max_connections_per_torrent": -1,
-    "max_upload_slots_per_torrent": -1,
-    "max_upload_speed_per_torrent": -1,
-    "max_download_speed_per_torrent": -1,
-    "enabled_plugins": [],
-    "autoadd_location": deluge.common.get_default_download_dir(),
-    "autoadd_enable": False,
-    "add_paused": False,
-    "max_active_seeding": 5,
-    "max_active_downloading": 3,
-    "max_active_limit": 8,
-    "dont_count_slow_torrents": False,
-    "queue_new_to_top": False,
-    "stop_seed_at_ratio": False,
-    "remove_seed_at_ratio": False,
-    "stop_seed_ratio": 2.00,
-    "share_ratio_limit": 2.00,
-    "seed_time_ratio_limit": 7.00,
-    "seed_time_limit": 180,
-    "auto_managed": True,
-    "move_completed": False,
-    "move_completed_path": deluge.common.get_default_download_dir(),
-    "new_release_check": True,
-    "proxy_type" : 0,
-    "proxy_server" : "",
-    "proxy_username" : "",
-    "proxy_password" : "",
-    "proxy_port": 8080,
-    "outgoing_ports": [0, 0],
-    "random_outgoing_ports": True,
-    "peer_tos": "0x00",
-}
 
 STATUS_KEYS = ['active_time', 'compact', 'distributed_copies', 'download_payload_rate', 'eta',
     'file_priorities', 'file_progress', 'files', 'hash', 'is_auto_managed', 'is_seed', 'max_connections',
@@ -141,8 +78,10 @@ class Core(
         component.Component.__init__(self, "Core")
         self.client_address = None
 
+        self.prefmanager = PreferencesManager()
+        
         # Get config
-        self.config = deluge.configmanager.ConfigManager("core.conf", DEFAULT_PREFS)
+        self.config = deluge.configmanager.ConfigManager("core.conf")
 
         if port == None:
             port = self.config["daemon_port"]
@@ -240,80 +179,6 @@ class Core(
         # Load metadata extension
         self.session.add_extension(lt.create_metadata_plugin)
 
-        # Register set functions in the Config
-        self.config.register_set_function("torrentfiles_location",
-            self._on_set_torrentfiles_location)
-        self.config.register_set_function("state_location",
-            self._on_set_state_location)
-        self.config.register_set_function("listen_ports",
-            self._on_set_listen_ports)
-        self.config.register_set_function("random_port",
-            self._on_set_random_port)
-        self.config.register_set_function("outgoing_ports",
-            self._on_set_outgoing_ports)
-        self.config.register_set_function("random_outgoing_ports",
-            self._on_set_random_outgoing_ports)
-        self.config.register_set_function("peer_tos",
-            self._on_set_peer_tos)
-        self.config.register_set_function("dht", self._on_set_dht)
-        self.config.register_set_function("upnp", self._on_set_upnp)
-        self.config.register_set_function("natpmp", self._on_set_natpmp)
-        self.config.register_set_function("utpex", self._on_set_utpex)
-        self.config.register_set_function("lsd", self._on_set_lsd)
-        self.config.register_set_function("enc_in_policy",
-            self._on_set_encryption)
-        self.config.register_set_function("enc_out_policy",
-            self._on_set_encryption)
-        self.config.register_set_function("enc_level",
-            self._on_set_encryption)
-        self.config.register_set_function("enc_prefer_rc4",
-            self._on_set_encryption)
-        self.config.register_set_function("max_connections_global",
-            self._on_set_max_connections_global)
-        self.config.register_set_function("max_upload_speed",
-            self._on_set_max_upload_speed)
-        self.config.register_set_function("max_download_speed",
-            self._on_set_max_download_speed)
-        self.config.register_set_function("max_upload_slots_global",
-            self._on_set_max_upload_slots_global)
-        self.config.register_set_function("max_half_open_connections",
-            self._on_set_max_half_open_connections)
-        self.config.register_set_function("max_connections_per_second",
-            self._on_set_max_connections_per_second)
-        self.config.register_set_function("ignore_limits_on_local_network",
-            self._on_ignore_limits_on_local_network)
-        self.config.register_set_function("share_ratio_limit",
-            self._on_set_share_ratio_limit)
-        self.config.register_set_function("seed_time_ratio_limit",
-            self._on_set_seed_time_ratio_limit)
-        self.config.register_set_function("seed_time_limit",
-            self._on_set_seed_time_limit)
-        self.config.register_set_function("max_active_downloading",
-            self._on_set_max_active_downloading)
-        self.config.register_set_function("max_active_seeding",
-            self._on_set_max_active_seeding)
-        self.config.register_set_function("max_active_limit",
-            self._on_set_max_active_limit)
-        self.config.register_set_function("dont_count_slow_torrents",
-            self._on_set_dont_count_slow_torrents)
-        self.config.register_set_function("send_info",
-            self._on_send_info)
-        self.config.register_set_function("proxy_type",
-            self._on_set_proxy)
-        self.config.register_set_function("proxy_username",
-            self._on_set_proxy)
-        self.config.register_set_function("proxy_password",
-            self._on_set_proxy)
-        self.config.register_set_function("proxy_server",
-            self._on_set_proxy)
-        self.config.register_set_function("proxy_port",
-            self._on_set_proxy)
-        self.new_release = None
-        self.new_release_timer = None
-        self.config.register_set_function("new_release_check",
-            self._on_new_release_check)
-
-        self.config.register_change_callback(self._on_config_value_change)
         # Start the AlertManager
         self.alerts = AlertManager(self.session)
 
@@ -332,6 +197,9 @@ class Core(
         # Create the AutoAdd component
         self.autoadd = AutoAdd()
 
+        # New release check information
+        self.new_release = None
+        
         component.start()
 
         self._should_shutdown = False
@@ -360,8 +228,11 @@ class Core(
         """This is called by a thread from shutdown()"""
         log.info("Shutting down core..")
         self._should_shutdown = True
-        # Shutdown dht
-        self._on_set_dht(False, False)
+
+        # Save the DHT state if necessary
+        if self.config["dht"]:
+            self.save_dht_state()
+            
         # Shutdown the socket
         try:
             self.socket.shutdown(socket.SHUT_RDWR)
@@ -385,6 +256,34 @@ class Core(
         except:
             pass
 
+    def save_dht_state(self):
+        """Saves the dht state to a file"""
+        try:
+            dht_data = open(deluge.common.get_default_config_dir("dht.state"), "wb")
+            dht_data.write(lt.bencode(self.session.dht_state()))
+            dht_data.close()
+        except Exception, e:
+            log.warning("Failed to save dht state: %s", e)
+
+    def get_new_release(self):
+        log.debug("get_new_release")
+        from urllib2 import urlopen
+        try:
+            self.new_release = urlopen(
+                "http://download.deluge-torrent.org/version-1.0").read().strip()
+        except Exception, e:
+            log.debug("Unable to get release info from website: %s", e)
+            return
+        self.check_new_release()
+
+    def check_new_release(self):
+        if self.new_release:
+            log.debug("new_release: %s", self.new_release)
+            if self.new_release > deluge.common.get_version():
+                self.signals.emit("new_version_available", self.new_release)
+                return self.new_release
+        return False
+            
     # Exported Methods
     def export_ping(self):
         """A method to see if the core is running"""
@@ -485,7 +384,7 @@ class Core(
     def export_resume_all_torrents(self):
         """Resume all torrents in the session"""
         self.session.resume()
-        self.torrent_all_resumed()
+        self.signals.emit("torrent_all_resumed")
 
     def export_resume_torrent(self, torrent_ids):
         log.debug("Resuming: %s", torrent_ids)
@@ -680,7 +579,7 @@ class Core(
             try:
                 # If the queue method returns True, then we should emit a signal
                 if self.torrents.queue_top(torrent_id):
-                    self._torrent_queue_changed()
+                    self.signals.emit("torrent_queue_changed")
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
 
@@ -692,7 +591,7 @@ class Core(
             try:
                 # If the queue method returns True, then we should emit a signal
                 if self.torrents.queue_up(torrent_id):
-                    self._torrent_queue_changed()
+                    self.signals.emit("torrent_queue_changed")
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
 
@@ -704,7 +603,7 @@ class Core(
             try:
                 # If the queue method returns True, then we should emit a signal
                 if self.torrents.queue_down(torrent_id):
-                    self._torrent_queue_changed()
+                    self.signals.emit("torrent_queue_changed")
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
 
@@ -714,329 +613,6 @@ class Core(
             try:
                 # If the queue method returns True, then we should emit a signal
                 if self.torrents.queue_bottom(torrent_id):
-                    self._torrent_queue_changed()
+                    self.signals.emit("torrent_queue_changed")
             except KeyError:
                 log.warning("torrent_id: %s does not exist in the queue", torrent_id)
-
-    # Signals
-    def torrent_removed(self, torrent_id):
-        """Emitted when a torrent has been removed from the core"""
-        log.debug("torrent_remove signal emitted")
-        self.signals.emit("torrent_removed", torrent_id)
-
-    def torrent_paused(self, torrent_id):
-        """Emitted when a torrent is paused"""
-        log.debug("torrent_paused signal emitted")
-        self.signals.emit("torrent_paused", torrent_id)
-
-    def torrent_resumed(self, torrent_id):
-        """Emitted when a torrent is resumed"""
-        log.debug("torrent_resumed signal emitted")
-        self.signals.emit("torrent_resumed", torrent_id)
-
-    def torrent_all_paused(self):
-        """Emitted when all torrents have been paused"""
-        log.debug("torrent_all_paused signal emitted")
-        self.signals.emit("torrent_all_paused")
-
-    def torrent_all_resumed(self):
-        """Emitted when all torrents have been resumed"""
-        log.debug("torrent_all_resumed signal emitted")
-        self.signals.emit("torrent_all_resumed")
-
-    def config_value_changed(self, key, value):
-        """Emitted when a config value has changed"""
-        log.debug("config_value_changed signal emitted")
-        self.signals.emit("config_value_changed", key, value)
-
-    def _torrent_queue_changed(self):
-        """Emitted when a torrent queue position is changed"""
-        log.debug("torrent_queue_changed signal emitted")
-        self.signals.emit("torrent_queue_changed")
-
-    # Config set functions
-    def _on_config_value_change(self, key, value):
-        self.config_value_changed(key, value)
-
-    def _on_set_torrentfiles_location(self, key, value):
-        if self.config["copy_torrent_file"]:
-            try:
-                os.makedirs(value)
-            except Exception, e:
-                log.debug("Unable to make directory: %s", e)
-
-    def _on_set_state_location(self, key, value):
-        if not os.access(value, os.F_OK):
-            try:
-                os.makedirs(value)
-            except Exception, e:
-                log.debug("Unable to make directory: %s", e)
-
-    def _on_set_listen_ports(self, key, value):
-        # Only set the listen ports if random_port is not true
-        if self.config["random_port"] is not True:
-            log.debug("listen port range set to %s-%s", value[0], value[1])
-            self.session.listen_on(value[0], value[1])
-
-    def _on_set_random_port(self, key, value):
-        log.debug("random port value set to %s", value)
-        # We need to check if the value has been changed to true and false
-        # and then handle accordingly.
-        if value:
-            import random
-            listen_ports = []
-            randrange = lambda: random.randrange(49152, 65525)
-            listen_ports.append(randrange())
-            listen_ports.append(listen_ports[0]+10)
-        else:
-            listen_ports = self.config["listen_ports"]
-
-        # Set the listen ports
-        log.debug("listen port range set to %s-%s", listen_ports[0],
-            listen_ports[1])
-        self.session.listen_on(listen_ports[0], listen_ports[1])
-
-    def _on_set_outgoing_ports(self, key, value):
-        if not self.config["random_outgoing_ports"]:
-            log.debug("outgoing port range set to %s-%s", value[0], value[1])
-            self.session.outgoing_ports(value[0], value[1])
-
-    def _on_set_random_outgoing_ports(self, key, value):
-        if value:
-            self.session.outgoing_ports(0, 0)
-
-    def _on_set_peer_tos(self, key, value):
-        log.debug("setting peer_tos to: %s", value)
-        try:
-            self.settings.peer_tos = str(int(value, 16))
-        except ValueError, e:
-            log.debug("Invalid tos byte: %s", e)
-            return
-
-        self.session.set_settings(self.settings)
-
-    def _on_set_dht(self, key, value):
-        log.debug("dht value set to %s", value)
-        state_file = deluge.common.get_default_config_dir('dht.state')
-        if value:
-            if os.path.exists(state_file):
-                try:
-                    dht_data = open(state_file, 'rb')
-                    state_contents = dht_data.readlines()
-                    dht_data.close()
-                except IOError:
-                    log.warning("failed to read dht state file")
-            else:
-                state_contents = None
-            try:
-                self.session.start_dht(state_contents)
-            except:
-                log.warning("restoring old dht state failed")
-                self.session.start_dht(None)
-            self.session.add_dht_router("router.bittorrent.com", 6881)
-            self.session.add_dht_router("router.utorrent.com", 6881)
-            self.session.add_dht_router("router.bitcomet.com", 6881)
-        else:
-            try:
-                dht_data = open(state_file, 'wb')
-                dht_data.writelines('%s' % (self.session.dht_state()))
-                dht_data.close()
-            except IOError:
-                log.warning("failed to save dht state to file")
-            self.session.stop_dht()
-
-    def _on_set_upnp(self, key, value):
-        log.debug("upnp value set to %s", value)
-        if value:
-            self.session.start_upnp()
-        else:
-            self.session.stop_upnp()
-
-    def _on_set_natpmp(self, key, value):
-        log.debug("natpmp value set to %s", value)
-        if value:
-            self.session.start_natpmp()
-        else:
-            self.session.stop_natpmp()
-
-    def _on_set_lsd(self, key, value):
-        log.debug("lsd value set to %s", value)
-        if value:
-            self.session.start_lsd()
-        else:
-            self.session.stop_lsd()
-
-    def _on_set_utpex(self, key, value):
-        log.debug("utpex value set to %s", value)
-        if value:
-            self.session.add_extension(lt.create_ut_pex_plugin)
-
-    def _on_set_encryption(self, key, value):
-        log.debug("encryption value %s set to %s..", key, value)
-        pe_settings = lt.pe_settings()
-        pe_settings.out_enc_policy = \
-            lt.enc_policy(self.config["enc_out_policy"])
-        pe_settings.in_enc_policy = lt.enc_policy(self.config["enc_in_policy"])
-        pe_settings.allowed_enc_level = lt.enc_level(self.config["enc_level"])
-        pe_settings.prefer_rc4 = self.config["enc_prefer_rc4"]
-        self.session.set_pe_settings(pe_settings)
-        set = self.session.get_pe_settings()
-        log.debug("encryption settings:\n\t\t\tout_policy: %s\n\t\t\
-        in_policy: %s\n\t\t\tlevel: %s\n\t\t\tprefer_rc4: %s",
-            set.out_enc_policy,
-            set.in_enc_policy,
-            set.allowed_enc_level,
-            set.prefer_rc4)
-
-    def _on_set_max_connections_global(self, key, value):
-        log.debug("max_connections_global set to %s..", value)
-        self.session.set_max_connections(value)
-
-    def _on_set_max_upload_speed(self, key, value):
-        log.debug("max_upload_speed set to %s..", value)
-        # We need to convert Kb/s to B/s
-        if value < 0:
-            v = -1
-        else:
-            v = int(value * 1024)
-
-        self.session.set_upload_rate_limit(v)
-
-    def _on_set_max_download_speed(self, key, value):
-        log.debug("max_download_speed set to %s..", value)
-        # We need to convert Kb/s to B/s
-        if value < 0:
-            v = -1
-        else:
-            v = int(value * 1024)
-        self.session.set_download_rate_limit(v)
-
-    def _on_set_max_upload_slots_global(self, key, value):
-        log.debug("max_upload_slots_global set to %s..", value)
-        self.session.set_max_uploads(value)
-
-    def _on_set_max_half_open_connections(self, key, value):
-        self.session.set_max_half_open_connections(value)
-
-    def _on_set_max_connections_per_second(self, key, value):
-        self.settings.connection_speed = value
-        self.session.set_settings(self.settings)
-
-    def _on_ignore_limits_on_local_network(self, key, value):
-        self.settings.ignore_limits_on_local_network = value
-        self.session.set_settings(self.settings)
-
-    def _on_set_share_ratio_limit(self, key, value):
-        log.debug("%s set to %s..", key, value)
-        self.settings.share_ratio_limit = value
-        self.session.set_settings(self.settings)
-
-    def _on_set_seed_time_ratio_limit(self, key, value):
-        log.debug("%s set to %s..", key, value)
-        self.settings.seed_time_ratio_limit = value
-        self.session.set_settings(self.settings)
-
-    def _on_set_seed_time_limit(self, key, value):
-        log.debug("%s set to %s..", key, value)
-        # This value is stored in minutes in deluge, but libtorrent wants seconds
-        self.settings.seed_time_limit = int(value * 60)
-        self.session.set_settings(self.settings)
-
-    def _on_set_max_active_downloading(self, key, value):
-        log.debug("%s set to %s..", key, value)
-        log.debug("active_downloads: %s", self.settings.active_downloads)
-        self.settings.active_downloads = value
-        self.session.set_settings(self.settings)
-
-    def _on_set_max_active_seeding(self, key, value):
-        log.debug("%s set to %s..", key, value)
-        log.debug("active_seeds: %s", self.settings.active_seeds)
-        self.settings.active_seeds = value
-        self.session.set_settings(self.settings)
-
-    def _on_set_max_active_limit(self, key, value):
-        log.debug("%s set to %s..", key, value)
-        log.debug("active_limit: %s", self.settings.active_limit)
-        self.settings.active_limit = value
-        self.session.set_settings(self.settings)
-
-    def _on_set_dont_count_slow_torrents(self, key, value):
-        log.debug("%s set to %s..", key, value)
-        self.settings.dont_count_slow_torrents = value
-        self.session.set_settings(self.settings)
-
-    def _on_send_info(self, key, value):
-        log.debug("Sending anonymous stats..")
-        """sends anonymous stats home"""
-        class Send_Info_Thread(threading.Thread):
-            def __init__(self, config):
-                self.config = config
-                threading.Thread.__init__(self)
-            def run(self):
-                import time
-                now = time.time()
-                # check if we've done this within the last week or never
-                if (now - self.config["info_sent"]) >= (60 * 60 * 24 * 7):
-                    import deluge.common
-                    from urllib import quote_plus
-                    from urllib2 import urlopen
-                    import platform
-                    try:
-                        url = "http://deluge-torrent.org/stats_get.php?processor=" + \
-                            platform.machine() + "&python=" + platform.python_version() \
-                            + "&deluge=" + deluge.common.get_version() \
-                            + "&os=" + platform.system() \
-                            + "&plugins=" + quote_plus(self.config["enabled_plugins"])
-                        urlopen(url)
-                    except IOError, e:
-                        log.debug("Network error while trying to send info: %s", e)
-                    else:
-                        self.config["info_sent"] = now
-        if value:
-            Send_Info_Thread(self.config).start()
-
-    def get_new_release(self):
-        log.debug("get_new_release")
-        from urllib2 import urlopen
-        try:
-            self.new_release = urlopen(
-                "http://download.deluge-torrent.org/version-1.0").read().strip()
-        except Exception, e:
-            log.debug("Unable to get release info from website: %s", e)
-            return
-        self.check_new_release()
-
-    def check_new_release(self):
-        if self.new_release:
-            log.debug("new_release: %s", self.new_release)
-            if self.new_release > deluge.common.get_version():
-                self.signals.emit("new_version_available", self.new_release)
-                return self.new_release
-        return False
-
-    def _on_new_release_check(self, key, value):
-        if value:
-            log.debug("Checking for new release..")
-            threading.Thread(target=self.get_new_release).start()
-            if self.new_release_timer:
-                gobject.source_remove(self.new_release_timer)
-            # Set a timer to check for a new release every 3 days
-            self.new_release_timer = gobject.timeout_add(
-                72 * 60 * 60 * 1000, self._on_new_release_check, "new_release_check", True)
-        else:
-            if self.new_release_timer:
-                gobject.source.remove(self.new_release_timer)
-
-    def _on_set_proxy(self, key, value):
-        log.debug("Proxy value %s set to %s..", key, value)
-        proxy_settings = lt.proxy_settings()
-        proxy_settings.proxy_type = lt.proxy_type(self.config["proxy_type"])
-        if self.config["proxy_type"] != 0:
-            proxy_settings.username = self.config["proxy_username"]
-            proxy_settings.password = self.config["proxy_password"]
-            proxy_settings.hostname = self.config["proxy_server"]
-            proxy_settings.port = int(self.config["proxy_port"])
-        self.session.set_peer_proxy(proxy_settings)
-        self.session.set_web_seed_proxy(proxy_settings)
-        self.session.set_tracker_proxy(proxy_settings)
-        self.session.set_dht_proxy(proxy_settings)
