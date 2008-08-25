@@ -37,6 +37,7 @@ import gtk.glade
 
 import deluge.component as component
 import deluge.common
+from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
 
 class SideBar(component.Component):
@@ -51,17 +52,20 @@ class SideBar(component.Component):
         self.notebook = glade.get_widget("sidebar_notebook")
         self.hpaned = glade.get_widget("hpaned")
         self.is_visible = True
+        self.config = ConfigManager("gtkui.conf")
         self.hpaned_position = self.hpaned.get_position()
         
         # Tabs holds references to the Tab widgets by their name
         self.tabs = {}
+        
+        # Hide if necessary
+        self.visible(self.config["show_sidebar"])
 
     def visible(self, visible):
         if visible:
             if self.hpaned_position:
                 self.hpaned.set_position(self.hpaned_position)
             self.notebook.show()
-
         else:
             self.notebook.hide()
             # Store the position for restoring upon show()
@@ -69,6 +73,7 @@ class SideBar(component.Component):
             self.hpaned.set_position(-1)
 
         self.is_visible = visible
+        self.config["show_sidebar"] = visible
 
     def add_tab(self, widget, tab_name, label):
         """Adds a tab object to the notebook."""
@@ -76,9 +81,6 @@ class SideBar(component.Component):
         self.tabs[tab_name] = widget
         pos = self.notebook.insert_page(widget, gtk.Label(label), -1)
         widget.show_all()
-        if not self.notebook.get_property("visible"):
-            # If the notebook isn't visible, show it
-            self.visible(True) #Shure?
 
         self.after_update()
 
