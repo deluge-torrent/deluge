@@ -40,15 +40,6 @@ import deluge.common
 from deluge.log import LOG as log
 from deluge.ui.client import aclient
 
-STATE_PIX = {
-    "Downloading":"downloading",
-    "Seeding":"seeding",
-    "Paused":"inactive",
-    "Checking":"checking",
-    "Queued":"queued",
-    "Error":"alert"
-    }
-
 NO_LABEL = "No Label"
 
 #helpers:

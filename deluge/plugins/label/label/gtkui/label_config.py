@@ -40,18 +40,16 @@ from deluge.log import LOG as log
 from deluge.ui.client import aclient
 
 
-
 class LabelConfig(object):
-    chk_ids = ["hide_zero_hits","show_labels","show_trackers","show_states"]
+    """
+    there used to be some options here...
+    """
 
     def __init__(self, plugin):
         self.plugin = plugin
-        self.labels = []
 
     def load(self):
-        #self.glade = gtk.glade.XML(self.get_resource("label_pref.glade"))
         log.debug('Adding Label Preferences page')
-
         self.glade = gtk.glade.XML(self.get_resource("label_pref.glade"))
 
 
@@ -74,13 +72,13 @@ class LabelConfig(object):
 
     def cb_global_options(self, options):
         log.debug("options=%s" % options)
+        """
         for id in self.chk_ids:
             self.glade.get_widget(id).set_active(bool(options[id]))
+        """
 
     def on_apply_prefs(self):
         options = {}
-        for id in self.chk_ids:
-            options[id] = self.glade.get_widget(id).get_active()
-
+        #update options dict here.
         aclient.label_set_global_options(None, options)
 
