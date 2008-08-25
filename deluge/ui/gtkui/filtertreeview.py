@@ -34,6 +34,7 @@
 
 import gtk
 import gtk.glade
+import pkg_resources
 
 import deluge.component as component
 import deluge.common
@@ -63,6 +64,17 @@ class FilterTreeView(component.Component):
         self.label_view = gtk.TreeView()
         self.sidebar.add_tab(self.label_view, "filters", _("Filters"))
 
+        #menu
+        glade_menu = gtk.glade.XML(pkg_resources.resource_filename("deluge.ui.gtkui",
+            "glade/filtertree_menu.glade"))
+        self.menu = glade_menu.get_widget("filtertree_menu")
+        glade_menu.signal_autoconnect({
+            "select_all": self.on_select_all,
+            "pause_all": self.on_pause_all,
+            "resume_all": self.on_resume_all
+        })
+
+        self.default_menu_items = self.menu.get_children()
 
         # Create the liststore
         #cat,value,count , pixmap , visible
@@ -207,34 +219,49 @@ class FilterTreeView(component.Component):
             return
         path = path[0]
         cat = self.model_filter[path][0]
-        
+
         if event.button == 1:
             # Prevent selecting a category label
             if cat == "cat":
                 return True
-        
+
         elif event.button == 3:
-            if cat == "cat":
-                # XXX: Show the pop-up menu
-                # Do not select the row
-                return True
-        """
-        
-        # We only care about right-clicks
-        if event.button == 3:
+            #assign current cat, value to self:
             x, y = event.get_coords()
             path = self.label_view.get_path_at_pos(int(x), int(y))
             if not path:
                 return
             row = self.model_filter.get_iter(path[0])
-            cat    = self.model_filter.get_value(row, 0)
-            value = self.model_filter.get_value(row, 1)
-            count = self.model_filter.get_value(row, 2)
+            self.cat    = self.model_filter.get_value(row, 0)
+            self.value = self.model_filter.get_value(row, 1)
+            self.count = self.model_filter.get_value(row, 2)
 
-            #log.debug("right-click->cat='%s',value='%s'", cat ,value)
+            #Show the pop-up menu
+            self.set_menu_sensitivity()
+            self.menu.popup(None, None, None, event.button, event.time)
+            if cat == "cat":
+                # Do not select the row
+                return True
 
-            if cat == "label":
-                self.show_label_menu(value, count, event)
-            elif (cat == "cat" and value == "Label"): #add button on root node.
-                self.show_label_menu(None, 0, event)
-        """
+    def set_menu_sensitivity(self):
+        #select-all/pause/resume
+        sensitive = (self.cat != "cat")
+        for item in self.default_menu_items:
+            item.set_sensitive(sensitive)
+
+    def select_all(self):
+        "for use in popup menu"
+        component.get("TorrentView").treeview.get_selection().select_all()
+
+    def on_select_all(self, event):
+        self.select_all()
+
+    def on_pause_all(self, event):
+        self.select_all()
+        func = getattr(component.get("MenuBar"), "on_menuitem_%s_activate" % "pause")
+        func(event)
+
+    def on_resume_all(self, event):
+        self.select_all()
+        func = getattr(component.get("MenuBar"), "on_menuitem_%s_activate" % "resume")
+        func(event)
