@@ -204,7 +204,7 @@ class OptionsDialog(object):
         options["auto_add_trackers"] = [x for x in tracker_lst if x] #filter out empty lines.
 
         log.debug(options)
-        aclient.label_set_options(None, self.treeview.value, options)
+        aclient.label_set_options(None, self.label, options)
         self.dialog.destroy()
 
     def apply_sensitivity(self, event=None):
