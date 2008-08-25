@@ -22,7 +22,7 @@ sclient.label_add("test")
 print "#set"
 sclient.label_set_torrent(id,"test")
 
-print scleint.get_torrents_status({"label":test},"name")
+print sclient.get_torrents_status({"label":"test"},"name")
 
 
 print "#set options"

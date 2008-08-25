@@ -245,7 +245,7 @@ class FilterTreeView(component.Component):
 
     def set_menu_sensitivity(self):
         #select-all/pause/resume
-        sensitive = (self.cat != "cat")
+        sensitive = (self.cat != "cat" and self.count <> 0)
         for item in self.default_menu_items:
             item.set_sensitive(sensitive)
 

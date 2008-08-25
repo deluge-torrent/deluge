@@ -39,7 +39,7 @@ import ui
 import gtk, gobject
 from deluge.ui.client import aclient
 
-import sidebar
+import sidebar_menu
 import label_config
 import submenu
 
@@ -58,7 +58,7 @@ class GtkUI(ui.UI):
         ui.UI.__init__(self, plugin_api, plugin_name)
         log.debug("Label GtkUI plugin initalized..")
         self.labelcfg = None
-        self.sidebar = None
+        self.sidebar_menu = None
 
     def enable(self):
         self.load_interface()
@@ -74,19 +74,18 @@ class GtkUI(ui.UI):
 
         log.debug(1.2)
         #disabled:
-        #self.sidebar.unload()
+        #self.sidebar_menu.unload()
         log.debug(2)
 
     def get_pixmap(self, fname):
         """Returns a pixmap file included with plugin"""
         return pkg_resources.resource_filename("blocklist", os.path.join("data", fname))
 
-
     def load_interface(self):
         #sidebar
         #disabled
-        #if not self.sidebar:
-        #    self.sidebar  = sidebar.LabelSideBar()
+        if not self.sidebar_menu:
+            self.sidebar_menu  = sidebar_menu.LabelSidebarMenu()
         #self.sidebar.load()
 
         #menu:

@@ -91,6 +91,10 @@ def CheckInput(cond, message):
 
 
 class Core(CorePluginBase):
+    """
+    self.labels = {label_id:label_options_dict}
+    self.torrent_labels = {torrent_id:label_id}
+    """
     def enable(self):
         log.info("*** Start Label plugin ***")
 
@@ -113,7 +117,7 @@ class Core(CorePluginBase):
         self.plugin.register_hook("post_torrent_remove", self.post_torrent_remove)
 
         #register tree:
-        component.get("FilterManager").register_tree_field("label")
+        component.get("FilterManager").register_tree_field("label", self.init_filter_dict)
 
         log.debug("Label plugin enabled..")
 
@@ -125,7 +129,12 @@ class Core(CorePluginBase):
     def update(self):
         pass
 
+    def init_filter_dict(self):
+        return dict( [(label, 0) for label in self.labels.keys()])
+
     ## Plugin hooks ##
+
+
     def post_torrent_add(self, torrent_id):
         log.debug("post_torrent_add")
         torrent = self.torrents[torrent_id]
