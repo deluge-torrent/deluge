@@ -3,7 +3,7 @@ Deluge 0.9.08 - "1.0.0_RC8" (In Development)
   * Attempt to automatically upgrade a 0.5.x state file to new format
  
  Plugins:
-  * Fix bug in Blocklist that prevented downloading of new file every X days
+  * Fix bug in Blocklist that prevented downloading a new file every X days
   
  GtkUI:
   * Sort filenames alphabetically in add torrent dialog
