@@ -407,8 +407,7 @@ class Core(
     def export_resume_torrent(self, torrent_ids):
         log.debug("Resuming: %s", torrent_ids)
         for torrent_id in torrent_ids:
-            if self.torrents[torrent_id].resume():
-                self.torrent_resumed(torrent_id)
+            self.torrents[torrent_id].resume()
 
     def export_get_status_keys(self):
         """
