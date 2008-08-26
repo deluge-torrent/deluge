@@ -343,13 +343,24 @@ class FilesTab(Tab):
     
     def get_selected_files(self):
         """Returns a list of file indexes that are selected"""
+        def get_iter_children(itr, selected):
+            i = self.treestore.iter_children(itr)
+            while i:
+                selected.append(self.treestore[i][5])
+                if self.treestore.iter_has_child(i):
+                    get_selected_files(i, selected)
+                i = self.treestore.iter_next(i)
+                    
         selected = []
         paths = self.listview.get_selection().get_selected_rows()[1]
         for path in paths:
-            selected.append(self.treestore.get_value(self.treestore.get_iter(path), 5))
-
+            i = self.treestore.get_iter(path)
+            selected.append(self.treestore[i][5])
+            if self.treestore.iter_has_child(i):
+                get_iter_children(i, selected)
+                
         return selected
-            
+
     def _on_get_torrent_files(self, status):
         self.files_list[self.torrent_id] = status["files"]
         self.update_files()
@@ -405,7 +416,7 @@ class FilesTab(Tab):
         file_priorities = []
         def set_file_priority(model, path, iter, data):
             index = model.get_value(iter, 5)
-            if index in selected:
+            if index in selected and index != -1:
                 file_priorities.append((index, priority))
             elif index != -1:
                 file_priorities.append((index, model.get_value(iter, 4)))
