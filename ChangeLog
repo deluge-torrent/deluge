@@ -9,6 +9,7 @@ Deluge 0.9.08 - "1.0.0_RC8" (In Development)
  GtkUI:
   * Sort filenames alphabetically in add torrent dialog
   * Fix setting file priorities on folders
+  * Fix #453 allow showing of text in the toolbar buttons
   
 Deluge 0.9.07 - "1.0.0_RC7" (18 August 2008)
  Core:
