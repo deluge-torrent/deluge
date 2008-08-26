@@ -1,6 +1,7 @@
 Deluge 0.9.08 - "1.0.0_RC8" (In Development)
  Core:
   * Attempt to automatically upgrade a 0.5.x state file to new format
+  * Tracker errors now change the tracker status
  
  Plugins:
   * Fix bug in Blocklist that prevented downloading a new file every X days
