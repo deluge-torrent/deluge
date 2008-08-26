@@ -145,6 +145,8 @@ class TorrentManager(component.Component):
         self.alerts.register_handler("tracker_alert", self.on_alert_tracker)
         self.alerts.register_handler("tracker_warning_alert",
             self.on_alert_tracker_warning)
+        self.alerts.register_handler("tracker_error_alert",
+            self.on_alert_tracker_error)
         self.alerts.register_handler("storage_moved_alert",
             self.on_alert_storage_moved)
         self.alerts.register_handler("torrent_resumed_alert", 
@@ -690,6 +692,16 @@ class TorrentManager(component.Component):
         # Set the tracker status for the torrent
         try:
             self.torrents[torrent_id].set_tracker_status(tracker_status)
+        except KeyError:
+            log.debug("torrent_id doesn't exist.")
+
+    def on_alert_tracker_error(self, alert):
+        log.debug("on_alert_tracker_error")
+        torrent = self.torrents[str(alert.handle.info_hash())]
+        
+        tracker_status = "%s: %s" % (_("Error"), str(alert.message()))
+        try:
+            torrent.set_tracker_status(tracker_status)
         except KeyError:
             log.debug("torrent_id doesn't exist.")
             
