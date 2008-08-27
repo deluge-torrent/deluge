@@ -10,13 +10,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-08-16 21:52-0500\n"
-"PO-Revision-Date: 2008-08-20 00:45+0000\n"
-"Last-Translator: Christoffer Brodd-Reijer <Unknown>\n"
+"PO-Revision-Date: 2008-08-25 18:14+0000\n"
+"Last-Translator: Christian Widell <Christian_widell@hotmail.com>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-24 09:48+0000\n"
+"X-Launchpad-Export-Date: 2008-08-27 01:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:667
@@ -188,8 +188,9 @@ msgid "False"
 msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:35
+#, fuzzy
 msgid "File"
-msgstr ""
+msgstr "Fil"
 
 #: deluge/ui/webui/scripts/template_strings.py:36
 #, fuzzy
@@ -211,8 +212,9 @@ msgstr ""
 #: deluge/plugins/label/label/gtkui/submenu.py:54
 #: deluge/plugins/label/label/gtkui/__init__.py:69
 #: deluge/plugins/label/label/gtkui/__init__.py:110
+#, fuzzy
 msgid "Label"
-msgstr ""
+msgstr "Etikett"
 
 #: deluge/ui/webui/scripts/template_strings.py:40
 #, fuzzy
@@ -238,8 +240,9 @@ msgid "Move torrent"
 msgstr "Flytta torrent"
 
 #: deluge/ui/webui/scripts/template_strings.py:45
+#, fuzzy
 msgid "N"
-msgstr ""
+msgstr "N"
 
 #: deluge/ui/webui/scripts/template_strings.py:46
 #: deluge/ui/gtkui/torrentview.py:126
@@ -391,8 +394,9 @@ msgstr "Starta"
 
 #: deluge/ui/webui/scripts/template_strings.py:78
 #: deluge/ui/webui/register_menu.py:53
+#, fuzzy
 msgid "Stop"
-msgstr ""
+msgstr "Stopp"
 
 #: deluge/ui/webui/scripts/template_strings.py:79
 msgid "Submit"
@@ -416,8 +420,9 @@ msgid "Tracker Status"
 msgstr "Trackerstatus"
 
 #: deluge/ui/webui/scripts/template_strings.py:84
+#, fuzzy
 msgid "True"
-msgstr ""
+msgstr "Sant"
 
 #: deluge/ui/webui/scripts/template_strings.py:85
 #: deluge/ui/gtkui/peers_tab.py:153 deluge/ui/gtkui/torrentview.py:150
@@ -521,8 +526,9 @@ msgid "Choose an url or a torrent, not both."
 msgstr "Välj en url eller en torrent, inte båda."
 
 #: deluge/ui/webui/torrent_add.py:130
+#, fuzzy
 msgid "No data"
-msgstr ""
+msgstr "Ingen data"
 
 #: deluge/ui/webui/config_tabs_deluge.py:45
 msgid "Ports"
@@ -537,8 +543,9 @@ msgid "To"
 msgstr "Till"
 
 #: deluge/ui/webui/config_tabs_deluge.py:48
+#, fuzzy
 msgid "Random"
-msgstr ""
+msgstr "Slumpmässig"
 
 #: deluge/ui/webui/config_tabs_deluge.py:76
 msgid "Extra's"
@@ -2801,5 +2808,6 @@ msgid "File Size:"
 msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:448
+#, fuzzy
 msgid "<b>Info</b>"
-msgstr ""
+msgstr "<b>Info</b>"
