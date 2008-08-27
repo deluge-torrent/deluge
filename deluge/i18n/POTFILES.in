@@ -136,7 +136,7 @@ deluge/plugins/label/label/core.py
 deluge/plugins/label/label/__init__.py
 deluge/plugins/label/label/gtkui/ui.py
 deluge/plugins/label/label/gtkui/submenu.py
-deluge/plugins/label/label/gtkui/sidebar.py
+deluge/plugins/label/label/gtkui/sidebar_menu.py
 deluge/plugins/label/label/gtkui/label_config.py
 deluge/plugins/label/label/gtkui/__init__.py
 deluge/plugins/label/setup.py

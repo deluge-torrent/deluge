@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-08-16 21:52-0500\n"
-"PO-Revision-Date: 2008-08-24 08:39+0000\n"
-"Last-Translator: Devgru <devgru@nnz-home.ru>\n"
+"PO-Revision-Date: 2008-08-26 09:33+0000\n"
+"Last-Translator: salseeg <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-24 09:48+0000\n"
+"X-Launchpad-Export-Date: 2008-08-27 01:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: RUSSIAN FEDERATION\n"
 "X-Poedit-Language: Russian\n"
@@ -2166,7 +2166,7 @@ msgstr "<big><b>Добавление упорядоченных торренто
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:106
 msgid "gtk-clear"
-msgstr ""
+msgstr "очистить"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:127
 msgid "Automatically add torrents on connect"
@@ -2208,7 +2208,7 @@ msgstr "<big><b>Редактировать Трекер</b></big>"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:122
 msgid "gtk-edit"
-msgstr ""
+msgstr "правка"
 
 #: deluge/ui/gtkui/glade/edit_trackers.glade:223
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1044
@@ -2415,11 +2415,11 @@ msgstr "_Автоматическое управление"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:324
 msgid "gtk-goto-top"
-msgstr ""
+msgstr "вверх"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:354
 msgid "gtk-goto-bottom"
-msgstr ""
+msgstr "вниз"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:12
 msgid "_Show Deluge"
@@ -2546,7 +2546,7 @@ msgstr "Переместить торрент вниз"
 
 #: deluge/ui/gtkui/glade/main_window.glade:514
 msgid "gtk-open"
-msgstr ""
+msgstr "открыть"
 
 #: deluge/ui/gtkui/glade/main_window.glade:528
 msgid "_Expand All"
@@ -2772,7 +2772,7 @@ msgstr "Скорость раздачи:"
 
 #: deluge/plugins/label/label/data/label_options.glade:155
 msgid "Upload Slots:\t"
-msgstr ""
+msgstr "Слоты отдачи:\t"
 
 #: deluge/plugins/label/label/data/label_options.glade:222
 msgid "Apply per torrent max settings:"
@@ -2784,7 +2784,7 @@ msgstr "Максимум"
 
 #: deluge/plugins/label/label/data/label_options.glade:361
 msgid "Apply Queue settings:"
-msgstr ""
+msgstr "Применить настройки очереди:"
 
 #: deluge/plugins/label/label/data/label_options.glade:443
 msgid "Apply location settings:"
@@ -2850,5 +2850,6 @@ msgid "File Size:"
 msgstr "Размер файла:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:448
+#, fuzzy
 msgid "<b>Info</b>"
-msgstr ""
+msgstr "<b>Информация</b>"

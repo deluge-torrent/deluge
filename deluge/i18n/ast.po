@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2008-08-16 21:52-0500\n"
-"PO-Revision-Date: 2008-08-22 12:27+0000\n"
+"PO-Revision-Date: 2008-08-25 21:54+0000\n"
 "Last-Translator: Astur <malditoastur@gmail.com>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-24 09:49+0000\n"
+"X-Launchpad-Export-Date: 2008-08-27 01:13+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:667
@@ -366,7 +366,7 @@ msgstr "Preferencies"
 
 #: deluge/ui/webui/scripts/template_strings.py:74
 msgid "Share Ratio"
-msgstr "Rellación de datos compartios: baxada/xubida"
+msgstr "Rellación de datos compartios: baxada/xuba"
 
 #: deluge/ui/webui/scripts/template_strings.py:75
 #: deluge/ui/gtkui/addtorrentdialog.py:105 deluge/ui/gtkui/torrentview.py:128
@@ -426,7 +426,7 @@ msgstr "Autualizar"
 #: deluge/ui/webui/scripts/template_strings.py:87
 #: deluge/ui/gtkui/systemtray.py:329
 msgid "Upload"
-msgstr "Xubida"
+msgstr "Xuba"
 
 #: deluge/ui/webui/scripts/template_strings.py:88
 msgid "Uploaded"
@@ -462,7 +462,7 @@ msgstr "Másima velocidá de descarga"
 
 #: deluge/ui/webui/torrent_add.py:50 deluge/ui/webui/torrent_options.py:18
 msgid "Maximum Up Speed"
-msgstr "Másima velocidá de xubida"
+msgstr "Másima velocidá de xuba"
 
 #: deluge/ui/webui/torrent_add.py:51 deluge/ui/webui/config_tabs_deluge.py:102
 #: deluge/ui/webui/config_tabs_deluge.py:117
@@ -476,7 +476,7 @@ msgstr "Conexones másimes"
 #: deluge/ui/webui/torrent_options.py:20
 #: deluge/plugins/label/label/webui/config.py:87
 msgid "Maximum Upload Slots"
-msgstr "Puertos máximos de xubida"
+msgstr "Puertos máximos de xuba"
 
 #: deluge/ui/webui/torrent_add.py:55 deluge/ui/webui/config_tabs_deluge.py:130
 msgid "Prioritize first and last pieces"
@@ -618,7 +618,7 @@ msgstr "Másima velocidá de descarga (Kib/s)"
 #: deluge/ui/webui/config_tabs_deluge.py:119
 #: deluge/plugins/label/label/webui/config.py:86
 msgid "Maximum Upload Speed (Kib/s)"
-msgstr "Másima velocidá de xubida (Kib/s)"
+msgstr "Másima velocidá de xuba (Kib/s)"
 
 #: deluge/ui/webui/config_tabs_deluge.py:107
 msgid "Maximum Half-Open Connections"
@@ -1221,7 +1221,7 @@ msgstr "Velocidá de descarga (KB/s):"
 
 #: deluge/ui/gtkui/statusbar.py:394
 msgid "Upload Speed (KiB/s):"
-msgstr "Velocidá de xubida (KB/s):"
+msgstr "Velocidá de xuba (KB/s):"
 
 #: deluge/ui/gtkui/statusbar.py:422
 msgid "Connection Limit:"
@@ -1783,12 +1783,12 @@ msgstr "Másimes conexones half-open:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1435
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Velocidá máxima de xubida pa tolos torrents. Use -1 si deseya illimitada."
+"Velocidá máxima de xuba pa tolos torrents. Use -1 si deseya illimitada."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1347
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1609
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr "Velocidá másima de xubida (KB/s):"
+msgstr "Velocidá másima de xuba (KB/s):"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1358
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1383
@@ -1803,7 +1803,7 @@ msgstr "Conexones másimes:"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1371
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1583
 msgid "Maximum Upload Slots:"
-msgstr "Másimu númberu de puestos de xubida:"
+msgstr "Másimu númberu de puestos de xuba:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1401
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1416
@@ -1832,7 +1832,7 @@ msgstr "Usu global del anchu de banda"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1536
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
 msgstr ""
-"La cantidá másima de puestos de xubida por torrent. Use -1 si deseya "
+"La cantidá másima de puestos de xuba por torrent. Use -1 si deseya "
 "illimitaos."
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1555
@@ -2378,7 +2378,7 @@ msgstr "_Llímite de velocidá de descarga"
 #: deluge/ui/gtkui/glade/torrent_menu.glade:266
 #: deluge/ui/gtkui/glade/tray_menu.glade:103
 msgid "_Upload Speed Limit"
-msgstr "_Llímite de velocidá de xubida"
+msgstr "_Llímite de velocidá de xuba"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:281
 msgid "_Connection Limit"
@@ -2597,7 +2597,7 @@ msgstr "Prósimu Anunciu"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1048
 msgid "<b>Share Ratio:</b>"
-msgstr "Rellación de datos compartios: baxada/xubida"
+msgstr "Rellación de datos compartios: baxada/xuba"
 
 #: deluge/ui/gtkui/glade/main_window.glade:1067
 msgid "<b>Uploaded:</b>"
