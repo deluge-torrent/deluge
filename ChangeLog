@@ -1,4 +1,4 @@
-Deluge 0.9.08 - "1.0.0_RC8" (In Development)
+Deluge 0.9.08 - "1.0.0_RC8" (27 August 2008)
  Core:
   * Attempt to automatically upgrade a 0.5.x state file to new format
   * Tracker errors now change the tracker status
