@@ -55,6 +55,8 @@ class AddTorrentDialog(component.Component):
         
         self.dialog = self.glade.get_widget("dialog_add_torrent")
         
+        self.dialog.connect("delete-event", self._on_delete_event)
+        
         self.glade.signal_autoconnect({
             "on_button_file_clicked": self._on_button_file_clicked,
             "on_button_url_clicked": self._on_button_url_clicked,
@@ -298,13 +300,13 @@ class AddTorrentDialog(component.Component):
         self.glade.get_widget("radio_compact").set_active(
             options["compact_allocation"])
         self.glade.get_widget("spin_maxdown").set_value(
-            options["max_download_speed_per_torrent"])
+            options["max_download_speed"])
         self.glade.get_widget("spin_maxup").set_value(
-            options["max_upload_speed_per_torrent"])
+            options["max_upload_speed"])
         self.glade.get_widget("spin_maxconnections").set_value(
-            options["max_connections_per_torrent"])
+            options["max_connections"])
         self.glade.get_widget("spin_maxupslots").set_value(
-            options["max_upload_slots_per_torrent"])
+            options["max_upload_slots"])
         self.glade.get_widget("chk_paused").set_active(
             options["add_paused"])
         self.glade.get_widget("chk_prioritize").set_active(
@@ -329,13 +331,13 @@ class AddTorrentDialog(component.Component):
                 self.glade.get_widget("entry_download_path").get_text()
         options["compact_allocation"] = \
             self.glade.get_widget("radio_compact").get_active()
-        options["max_download_speed_per_torrent"] = \
+        options["max_download_speed"] = \
             self.glade.get_widget("spin_maxdown").get_value()
-        options["max_upload_speed_per_torrent"] = \
+        options["max_upload_speed"] = \
             self.glade.get_widget("spin_maxup").get_value()
-        options["max_connections_per_torrent"] = \
+        options["max_connections"] = \
             self.glade.get_widget("spin_maxconnections").get_value_as_int()
-        options["max_upload_slots_per_torrent"] = \
+        options["max_upload_slots"] = \
             self.glade.get_widget("spin_maxupslots").get_value_as_int()
         options["add_paused"] = \
             self.glade.get_widget("chk_paused").get_active()
@@ -614,3 +616,7 @@ class AddTorrentDialog(component.Component):
         
         del self.options[model.get_value(row, 0)]
         self.set_default_options()
+
+    def _on_delete_event(self, widget, event):
+        self.hide()
+        return True
