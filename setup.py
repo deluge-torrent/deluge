@@ -166,6 +166,15 @@ else:
         'ssl',
         'z'
         ]
+    
+    # Modify the libs if necessary for systems with only -mt boost libs    
+    if not os.path.exists(
+        os.path.join(sysconfig.PREFIX, "lib", "libboost-filesystem.so")):
+        # It's likely that this system doesn't have symlinks setup
+        # So add '-mt' to the libraries
+        for lib in _libraries:
+            if lib[:6] == "boost_":
+                _libraries[_libraries.index(lib)] = lib + "-mt"
 
 _sources = glob.glob("./libtorrent/src/*.cpp") + \
                         glob.glob("./libtorrent/src/*.c") + \
