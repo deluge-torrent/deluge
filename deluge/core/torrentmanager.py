@@ -46,6 +46,7 @@ import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.core.torrent import Torrent
+from deluge.core.torrent import OPTIONS
 import deluge.core.oldstateupgrader
 
 from deluge.log import LOG as log
@@ -188,12 +189,12 @@ class TorrentManager(component.Component):
                         
     def update(self):
         for torrent_id, torrent in self.torrents.items():
-            if self.config["stop_seed_at_ratio"] or torrent.stop_at_ratio:
+            if self.config["stop_seed_at_ratio"] or torrent.options["stop_at_ratio"]:
                 stop_ratio = self.config["stop_seed_ratio"]
-                if torrent.stop_at_ratio:
-                    stop_ratio = torrent.stop_ratio
+                if torrent.options["stop_at_ratio"]:
+                    stop_ratio = torrent.options["stop_ratio"]
                 if torrent.get_ratio() >= stop_ratio and torrent.is_finished:
-                    if self.config["remove_seed_at_ratio"] or torrent.remove_at_ratio:
+                    if self.config["remove_seed_at_ratio"] or torrent.options["remove_at_ratio"]:
                         self.remove(torrent_id)
                         break
                     if not torrent.handle.is_paused():
@@ -253,17 +254,17 @@ class TorrentManager(component.Component):
                 torrent_info = lt.torrent_info(lt.bdecode(filedump))
             except Exception, e:
                 log.error("Unable to decode torrent file!: %s", e)
-            
+
         if torrent_info is None:
             # We have no torrent_info so we need to add the torrent with information
             # from the state object.
 
             # Populate the options dict from state
-            options = {}
-            options["max_connections_per_torrent"] = state.max_connections
-            options["max_upload_slots_per_torrent"] = state.max_upload_slots
-            options["max_upload_speed_per_torrent"] = state.max_upload_speed
-            options["max_download_speed_per_torrent"] = state.max_download_speed
+            options = OPTIONS
+            options["max_connections"] = state.max_connections
+            options["max_upload_slots"] = state.max_upload_slots
+            options["max_upload_speed"] = state.max_upload_speed
+            options["max_download_speed"] = state.max_download_speed
             options["prioritize_first_last_pieces"] = state.prioritize_first_last
             options["file_priorities"] = state.file_priorities
             options["compact_allocation"] = state.compact
@@ -282,26 +283,12 @@ class TorrentManager(component.Component):
         else:
             # We have a torrent_info object so we're not loading from state.
             # Check if options is None and load defaults
-            options_keys = [
-                "compact_allocation",
-                "max_connections_per_torrent",
-                "max_upload_slots_per_torrent",
-                "max_upload_speed_per_torrent",
-                "max_download_speed_per_torrent",
-                "prioritize_first_last_pieces",
-                "download_location",
-                "add_paused",
-                "auto_managed"
-            ]
-
             if options == None:
-                options = {}
-                for key in options_keys:
-                    options[key] = self.config[key]
+                options = OPTIONS
             else:
-                for key in options_keys:
-                    if not options.has_key(key):
-                        options[key] = self.config[key]            
+                o = OPTIONS
+                o.update(options)
+                options = o
 
             add_torrent_params["ti"] = torrent_info
             add_torrent_params["resume_data"] = ""
@@ -505,21 +492,21 @@ class TorrentManager(component.Component):
                 torrent.filename,
                 torrent.get_status(["total_uploaded"])["total_uploaded"], 
                 torrent.trackers,
-                torrent.compact, 
+                torrent.options["compact_allocation"], 
                 paused, 
-                torrent.save_path,
-                torrent.max_connections,
-                torrent.max_upload_slots,
-                torrent.max_upload_speed,
-                torrent.max_download_speed,
-                torrent.prioritize_first_last,
-                torrent.file_priorities,
+                torrent.options["download_location"],
+                torrent.options["max_connections"],
+                torrent.options["max_upload_slots"],
+                torrent.options["max_upload_speed"],
+                torrent.options["max_download_speed"],
+                torrent.options["prioritize_first_last_pieces"],
+                torrent.options["file_priorities"],
                 torrent.get_queue_position(),
-                torrent.auto_managed,
+                torrent.options["auto_managed"],
                 torrent.is_finished,
-                torrent.stop_ratio,
-                torrent.stop_at_ratio,
-                torrent.remove_at_ratio
+                torrent.options["stop_ratio"],
+                torrent.options["stop_at_ratio"],
+                torrent.options["remove_at_ratio"]
             )
             state.torrents.append(torrent_state)
         
@@ -606,8 +593,8 @@ class TorrentManager(component.Component):
         # Move completed download to completed folder if needed
         if not torrent.is_finished:
             move_path = None
-            if torrent.move_on_completed:
-                move_path = torrent.move_on_completed_path
+            if torrent.options["move_completed"]:
+                move_path = torrent.options["move_completed_path"]
             elif self.config["move_completed"]:
                 move_path = self.config["move_completed_path"]
             if move_path:

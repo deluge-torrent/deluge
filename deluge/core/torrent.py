@@ -41,9 +41,28 @@ import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
+from deluge.core.preferencesmanager import DEFAULT_PREFS
 import deluge.xmlrpclib
 
 TORRENT_STATE = deluge.common.TORRENT_STATE
+
+OPTIONS = {
+    "max_download_speed": DEFAULT_PREFS["max_download_speed_per_torrent"],
+    "max_upload_speed": DEFAULT_PREFS["max_upload_speed_per_torrent"],
+    "max_connections": DEFAULT_PREFS["max_connections_per_torrent"],
+    "max_upload_slots": DEFAULT_PREFS["max_upload_slots_per_torrent"],
+    "prioritize_first_last_pieces": DEFAULT_PREFS["prioritize_first_last_pieces"],
+    "auto_managed": DEFAULT_PREFS["auto_managed"],
+    "stop_at_ratio": DEFAULT_PREFS["stop_seed_at_ratio"],
+    "stop_ratio": DEFAULT_PREFS["stop_seed_ratio"],
+    "remove_at_ratio": DEFAULT_PREFS["remove_seed_at_ratio"],
+    "move_completed": DEFAULT_PREFS["move_completed"],
+    "move_completed_path": DEFAULT_PREFS["move_completed_path"],
+    "file_priorities": [],
+    "compact_allocation": DEFAULT_PREFS["compact_allocation"],
+    "download_location": DEFAULT_PREFS["download_location"],
+    "add_paused": DEFAULT_PREFS["add_paused"]
+}
 
 class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.
@@ -69,31 +88,20 @@ class Torrent:
 
         # Files dictionary
         self.files = self.get_files()
-        # Set the default file priorities to normal
-        self.file_priorities = [1]* len(self.files)
-
+        
         # Default total_uploaded to 0, this may be changed by the state
         self.total_uploaded = 0
 
-        # Set default auto_managed value
-        self.auto_managed = options["auto_managed"]
-        if not handle.is_paused():
-            handle.auto_managed(self.auto_managed)
-
+        # Set the default options
+        self.options = OPTIONS
+        self.options.update(options)
+        
         # We need to keep track if the torrent is finished in the state to prevent
         # some weird things on state load.
         self.is_finished = False
 
-        # Queueing options
-        self.stop_at_ratio = False
-        self.stop_ratio = 2.00
-        self.remove_at_ratio = False
-
-        self.move_on_completed = False
-        self.move_on_completed_path = deluge.common.get_default_download_dir()
-
         # Load values from state if we have it
-        if state is not None:
+        if state:
             # This is for saving the total uploaded between sessions
             self.total_uploaded = state.total_uploaded
             # Set the trackers
@@ -102,9 +110,9 @@ class Torrent:
             self.filename = state.filename
             self.is_finished = state.is_finished
             # Set the per-torrent queue options
-            self.set_stop_at_ratio(state.stop_at_ratio)
-            self.set_stop_ratio(state.stop_ratio)
-            self.set_remove_at_ratio(state.remove_at_ratio)
+            self.options["stop_at_ratio"] = state.stop_at_ratio
+            self.options["stop_ratio"] = state.stop_ratio
+            self.options["remove_at_ratio"] = state.remove_at_ratio
         else:
             # Tracker list
             self.trackers = []
@@ -116,19 +124,9 @@ class Torrent:
                 self.trackers.append(tracker)
 
         # Various torrent options
-        self.set_max_connections(options["max_connections_per_torrent"])
-        self.set_max_upload_slots(options["max_upload_slots_per_torrent"])
-        self.set_max_upload_speed(options["max_upload_speed_per_torrent"])
-        self.set_max_download_speed(options["max_download_speed_per_torrent"])
-        self.set_prioritize_first_last(options["prioritize_first_last_pieces"])
         self.handle.resolve_countries(True)
-        if options.has_key("file_priorities"):
-            self.set_file_priorities(options["file_priorities"])
-
-        # Set the allocation mode
-        self.compact = options["compact_allocation"]
-        # Where the torrent is being saved to
-        self.save_path = options["download_location"]
+        self.set_options(self.options)
+        
         # Status message holds error info about the torrent
         self.statusmsg = "OK"
 
@@ -140,20 +138,38 @@ class Torrent:
 
         log.debug("Torrent object created.")
 
-    def set_tracker_status(self, status):
-        """Sets the tracker status"""
-        self.tracker_status = status
-
+    ## Options methods ##
+    def set_options(self, options):
+        OPTIONS_FUNCS = {
+            # Functions used for setting options
+            "max_download_speed": self.set_max_download_speed,
+            "max_upload_speed": self.set_max_upload_speed,
+            "max_connections": self.handle.set_max_connections,
+            "max_upload_slots": self.handle.set_max_uploads,
+            "prioritize_first_last_pieces": self.set_prioritize_first_last,
+            "auto_managed": self.set_auto_managed,
+            "file_priorities": self.set_file_priorities,
+            "download_location": self.set_save_path,
+        }
+        for (key, value) in options.items():
+            if OPTIONS_FUNCS.has_key(key):
+                OPTIONS_FUNCS[key](value)
+        
+        self.options.update(options)
+    
+    def get_options(self):
+        return self.options
+        
     def set_max_connections(self, max_connections):
-        self.max_connections = int(max_connections)
-        self.handle.set_max_connections(self.max_connections)
+        self.options["max_connections"] = int(max_connections)
+        self.handle.set_max_connections(max_connections)
 
     def set_max_upload_slots(self, max_slots):
-        self.max_upload_slots = int(max_slots)
-        self.handle.set_max_uploads(self.max_upload_slots)
+        self.options["max_upload_slots"] = int(max_slots)
+        self.handle.set_max_uploads(max_slots)
 
     def set_max_upload_speed(self, m_up_speed):
-        self.max_upload_speed = m_up_speed
+        self.options["max_upload_speed"] = m_up_speed
         if m_up_speed < 0:
             v = -1
         else:
@@ -162,7 +178,7 @@ class Torrent:
         self.handle.set_upload_limit(v)
 
     def set_max_download_speed(self, m_down_speed):
-        self.max_download_speed = m_down_speed
+        self.options["max_download_speed"] = m_down_speed
         if m_down_speed < 0:
             v = -1
         else:
@@ -170,8 +186,8 @@ class Torrent:
         self.handle.set_download_limit(v)
 
     def set_prioritize_first_last(self, prioritize):
-        self.prioritize_first_last = prioritize
-        if self.prioritize_first_last:
+        self.options["prioritize_first_last_pieces"] = prioritize
+        if prioritize:
             if self.handle.get_torrent_info().num_files() == 1:
                 # We only do this if one file is in the torrent
                 priorities = [1] * self.handle.get_torrent_info().num_pieces()
@@ -179,22 +195,19 @@ class Torrent:
                 priorities[-1] = 7
                 self.handle.prioritize_pieces(priorities)
 
-    def set_save_path(self, save_path):
-        self.save_path = save_path
-
     def set_auto_managed(self, auto_managed):
-        self.auto_managed = auto_managed
+        self.options["auto_managed"] = auto_managed
         self.handle.auto_managed(auto_managed)
         self.update_state()
 
     def set_stop_ratio(self, stop_ratio):
-        self.stop_ratio = stop_ratio
+        self.options["stop_ratio"] = stop_ratio
 
     def set_stop_at_ratio(self, stop_at_ratio):
-        self.stop_at_ratio = stop_at_ratio
+        self.options["stop_at_ratio"] = stop_at_ratio
 
     def set_remove_at_ratio(self, remove_at_ratio):
-        self.remove_at_ratio = remove_at_ratio
+        self.options["remove_at_ratio"] = remove_at_ratio
 
     def set_file_priorities(self, file_priorities):
         log.debug("setting %s's file priorities: %s", self.torrent_id, file_priorities)
@@ -204,21 +217,21 @@ class Torrent:
 
         self.handle.prioritize_files(file_priorities)
 
-        if 0 in self.file_priorities:
+        if 0 in self.options["file_priorities"]:
             # We have previously marked a file 'Do Not Download'
             # Check to see if we have changed any 0's to >0 and change state accordingly
-            for index, priority in enumerate(self.file_priorities):
+            for index, priority in enumerate(self.options["file_priorities"]):
                 if priority == 0 and file_priorities[index] > 0:
                     # We have a changed 'Do Not Download' to a download priority
                     self.is_finished = False
                     self.update_state()
                     break
 
-        self.file_priorities = file_priorities
+        self.options["file_priorities"] = file_priorities
 
         # Set the first/last priorities if needed
-        self.set_prioritize_first_last(self.prioritize_first_last)
-
+        self.set_prioritize_first_last(self.options["prioritize_first_last_pieces"])
+        
     def set_trackers(self, trackers):
         """Sets trackers"""
         if trackers == None:
@@ -243,11 +256,14 @@ class Torrent:
             # Force a reannounce if there is at least 1 tracker
             self.force_reannounce()
 
-    def set_move_on_completed(self, value):
-        self.move_on_completed = value
+    ### End Options methods ###
 
-    def set_move_on_completed_path(self, value):
-        self.move_on_completed_path = value
+    def set_save_path(self, save_path):
+        self.options["download_location"] = save_path
+            
+    def set_tracker_status(self, status):
+        """Sets the tracker status"""
+        self.tracker_status = status
 
     def update_state(self):
         """Updates the state based on what libtorrent's state for the torrent is"""
@@ -255,7 +271,7 @@ class Torrent:
         LTSTATE = deluge.common.LT_TORRENT_STATE
         ltstate = int(self.handle.status().state)
 
-        log.debug("set_state_based_on_ltstate: %s", ltstate)
+        log.debug("set_state_based_on_ltstate: %s", deluge.common.LT_TORRENT_STATE[ltstate])
         log.debug("session.is_paused: %s", component.get("Core").session.is_paused())
         if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:
             self.state = "Checking"
@@ -452,26 +468,26 @@ class Torrent:
             "tracker": self.status.current_tracker,
             "trackers": self.trackers,
             "tracker_status": self.tracker_status,
-            "save_path": self.save_path,
+            "save_path": self.options["download_location"],
             "files": self.files,
-            "file_priorities": self.file_priorities,
-            "compact": self.compact,
-            "max_connections": self.max_connections,
-            "max_upload_slots": self.max_upload_slots,
-            "max_upload_speed": self.max_upload_speed,
-            "max_download_speed": self.max_download_speed,
-            "prioritize_first_last": self.prioritize_first_last,
+            "file_priorities": self.options["file_priorities"],
+            "compact": self.options["compact_allocation"],
+            "max_connections": self.options["max_connections"],
+            "max_upload_slots": self.options["max_upload_slots"],
+            "max_upload_speed": self.options["max_upload_speed"],
+            "max_download_speed": self.options["max_download_speed"],
+            "prioritize_first_last": self.options["prioritize_first_last_pieces"],
             "message": self.statusmsg,
             "hash": self.torrent_id,
             "active_time": self.status.active_time,
             "seeding_time": self.status.seeding_time,
             "seed_rank": self.status.seed_rank,
-            "is_auto_managed": self.auto_managed,
-            "stop_ratio": self.stop_ratio,
-            "stop_at_ratio": self.stop_at_ratio,
-            "remove_at_ratio": self.remove_at_ratio,
-            "move_on_completed": self.move_on_completed,
-            "move_on_completed_path": self.move_on_completed_path
+            "is_auto_managed": self.options["auto_managed"],
+            "stop_ratio": self.options["stop_ratio"],
+            "stop_at_ratio": self.options["stop_at_ratio"],
+            "remove_at_ratio": self.options["remove_at_ratio"],
+            "move_on_completed": self.options["move_completed"],
+            "move_on_completed_path": self.options["move_completed_path"]
         }
 
         fns = {

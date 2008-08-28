@@ -520,6 +520,11 @@ class Core(
         for torrent_id in torrent_ids:
             self.torrents[torrent_id].force_recheck()
 
+    def export_set_torrent_options(self, torrent_ids, options):
+        """Sets the torrent options for torrent_ids"""
+        for torrent_id in torrent_ids:
+            self.torrents[torrent_id].set_options(options)
+            
     def export_set_torrent_trackers(self, torrent_id, trackers):
         """Sets a torrents tracker list.  trackers will be [{"url", "tier"}]"""
         return self.torrents[torrent_id].set_trackers(trackers)
