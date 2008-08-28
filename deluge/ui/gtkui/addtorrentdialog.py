@@ -54,7 +54,9 @@ class AddTorrentDialog(component.Component):
                 "deluge.ui.gtkui", "glade/add_torrent_dialog.glade"))
         
         self.dialog = self.glade.get_widget("dialog_add_torrent")
-        
+
+        self.dialog.connect("delete-event", self._on_delete_event)
+
         self.glade.signal_autoconnect({
             "on_button_file_clicked": self._on_button_file_clicked,
             "on_button_url_clicked": self._on_button_url_clicked,
@@ -614,3 +616,7 @@ class AddTorrentDialog(component.Component):
         
         del self.options[model.get_value(row, 0)]
         self.set_default_options()
+
+    def _on_delete_event(self, widget, event):
+        self.hide()
+        return True
