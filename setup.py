@@ -169,7 +169,7 @@ else:
 
     # Modify the libs if necessary for systems with only -mt boost libs    
     if not os.path.exists(
-        os.path.join(sysconfig.PREFIX, "lib", "libboost-filesystem.so")):
+        os.path.join(sysconfig.PREFIX, "lib", "libboost_filesystem.so")):
         # It's likely that this system doesn't have symlinks setup
         # So add '-mt' to the libraries
         for lib in _libraries:
