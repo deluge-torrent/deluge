@@ -4,10 +4,12 @@
 #
 
 from deluge.core.core import Core
-from deluge.ui.client import aclient
+from deluge.ui.client import aclient, sclient
 import pydoc
 import inspect
-
+import textwrap
+sclient.set_core_uri()
+print "\n\n"
 
 
 if False: #aclient non-core
@@ -28,7 +30,7 @@ if False: #aclient non-core
         print("\n'''%s(%s): '''\n" %(method_name, ", ".join(params)))
         print("%s" % pydoc.getdoc(func))
 
-if True: #baseclient/core
+if 0: #baseclient/core
     methods = sorted([m for m in dir(Core) if m.startswith("export")]
         + ['export_add_torrent_file_binary'] #HACK
 
@@ -48,7 +50,7 @@ if True: #baseclient/core
             params = ["[callback]"] + params
 
         print("\n'''%s(%s): '''\n" %(method_name, ", ".join(params)))
-        print("%s" % pydoc.getdoc(func))
+        print("{{{\n%s\n}}}" % pydoc.getdoc(func))
 
 if False: #plugin-manager
     import WebUi
@@ -60,3 +62,25 @@ if False: #plugin-manager
         params = inspect.getargspec(func)[0][1:]
         print("\n'''%s(%s): '''\n" %(method_name, ", ".join(params)))
         print("%s" % pydoc.getdoc(func))
+
+if 1: #possible config-values
+    print "=== config-values ==="
+    cfg = sclient.get_config()
+    for key in sorted(cfg.keys()):
+        print "%s:%s()" % (key, type(cfg[key]).__name__)
+
+if False: #keys
+    print """== Notes ==
+* The available keys for get_torrent_status(id, keys)
+    {{{
+#!python
+>>>sorted(sclient.get_status_keys())"""
+    print "\n".join(textwrap.wrap(str(sorted(sclient.get_status_keys())),100))
+    print """}}}"""
+
+
+
+
+print "\n\n"
+
+
