@@ -81,7 +81,7 @@ class json_rpc:
     * methods : http://dev.deluge-torrent.org/wiki/Development/UiClient#Remoteapi
     """
     #extra exposed methods
-    json_exposed = ["update_ui","get_stats","system_listMethods",
+    json_exposed = ["update_ui","system_listMethods",
         "get_webui_config","set_webui_config","get_webui_templates"]
     cache = {}
 
@@ -139,36 +139,6 @@ class json_rpc:
         "system.listMethods() see json/xmlrpc docs"
         return sclient.list_methods() + self.json_exposed
 
-    def get_stats(self):
-        """
-        todo: move to core.
-        returns:
-        {
-        'download_rate':float(),
-        'upload_rate':float(),
-        'max_download':float(),
-        'max_upload':float(),
-        'num_connections':int(),
-        'max_num_connections':int(),
-        'dht_nodes',int()
-        }
-        """
-        stats = {}
-
-        aclient.get_download_rate(dict_cb('download_rate',stats))
-        aclient.get_upload_rate(dict_cb('upload_rate',stats))
-        aclient.get_config_value(dict_cb('max_download',stats)
-            ,"max_download_speed")
-        aclient.get_config_value(dict_cb('max_upload',stats)
-            ,"max_upload_speed")
-        aclient.get_num_connections(dict_cb("num_connections",stats))
-        aclient.get_config_value(dict_cb('max_num_connections',stats)
-            ,"max_connections_global")
-        aclient.get_dht_nodes(dict_cb('dht_nodes',stats))
-
-        aclient.force_call(block=True)
-
-        return stats
 
     def update_ui(self, keys ,filter_dict , cache_id = None ):
         """
@@ -191,7 +161,7 @@ class json_rpc:
         return {
             "torrents":sclient.get_torrents_status(filter_dict , keys),
             "filters":filters,
-            "stats":self.get_stats(),
+            "stats":sclient.get_stats(),
             "cache_id":-1
         }
 

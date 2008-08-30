@@ -79,7 +79,7 @@ class Core(
         self.client_address = None
 
         self.prefmanager = PreferencesManager()
-        
+
         # Get config
         self.config = deluge.configmanager.ConfigManager("core.conf")
 
@@ -166,7 +166,7 @@ class Core(
         # Start the libtorrent session
         log.debug("Starting libtorrent session..")
         self.session = lt.session(fingerprint)
-        
+
         # Load the session state if available
         self.load_session_state()
 
@@ -202,7 +202,7 @@ class Core(
 
         # New release check information
         self.new_release = None
-        
+
         component.start()
 
         self._should_shutdown = False
@@ -235,10 +235,10 @@ class Core(
         # Save the DHT state if necessary
         if self.config["dht"]:
             self.save_dht_state()
-        
+
         # Save the libtorrent session state
         self.save_session_state()
-            
+
         # Shutdown the socket
         try:
             self.socket.shutdown(socket.SHUT_RDWR)
@@ -265,7 +265,7 @@ class Core(
                 lt.bencode(self.session.state()))
         except Exception, e:
             log.warning("Failed to save lt state: %s", e)
-    
+
     def load_session_state(self):
         """Loads the libtorrent session state"""
         try:
@@ -273,7 +273,7 @@ class Core(
                 open(deluge.common.get_default_config_dir("session.state"), "rb").read()))
         except Exception, e:
             log.warning("Failed to load lt state: %s", e)
-            
+
     def save_dht_state(self):
         """Saves the dht state to a file"""
         try:
@@ -301,7 +301,7 @@ class Core(
                 self.signals.emit("new_version_available", self.new_release)
                 return self.new_release
         return False
-            
+
     # Exported Methods
     def export_ping(self):
         """A method to see if the core is running"""
@@ -348,6 +348,32 @@ class Core(
 
         # Run the plugin hooks for 'post_torrent_add'
         self.plugins.run_post_torrent_add(torrent_id)
+
+
+    def export_get_stats(self):
+        """
+        returns: {
+        'download_rate':float(),
+        'upload_rate':float(),
+        'num_connections':int(),
+        'dht_nodes',int(),
+        'max_num_connections':int(),
+        'max_download':float(),
+        'max_upload':float()
+        }
+        """
+        return {
+            #dynamic stats:
+            "download_rate":self.session.status().payload_download_rate,
+            "upload_rate":self.session.status().payload_upload_rate,
+            "num_connections":self.session.num_connections(),
+            "dht_nodes":self.session.status().dht_nodes,
+            #max config values:
+            "max_download":self.config["max_download_speed"],
+            "max_upload":self.config["max_upload_speed"],
+            "max_num_connections":self.config["max_connections_global"],
+        }
+
 
     def export_add_torrent_url(self, url, save_path, options):
         log.info("Attempting to add url %s", url)
@@ -524,7 +550,7 @@ class Core(
         """Sets the torrent options for torrent_ids"""
         for torrent_id in torrent_ids:
             self.torrents[torrent_id].set_options(options)
-            
+
     def export_set_torrent_trackers(self, torrent_id, trackers):
         """Sets a torrents tracker list.  trackers will be [{"url", "tier"}]"""
         return self.torrents[torrent_id].set_trackers(trackers)
