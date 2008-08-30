@@ -628,12 +628,12 @@ class TorrentManager(component.Component):
         self.torrents[torrent_id].update_state()
         
     def on_alert_tracker_reply(self, alert):
-        log.debug("on_alert_tracker_reply")
+        log.debug("on_alert_tracker_reply: %s", alert.message())
         # Get the torrent_id
         torrent_id = str(alert.handle.info_hash())
         # Set the tracker status for the torrent
         try:
-            if alert.message != "Got peers from DHT":
+            if alert.message() != "Got peers from DHT":
                 self.torrents[torrent_id].set_tracker_status(_("Announce OK"))
         except KeyError:
             log.debug("torrent_id doesn't exist.")
