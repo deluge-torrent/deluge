@@ -566,9 +566,9 @@ class Torrent:
 
             if self.handle.is_finished():
                 # If the torrent has already reached it's 'stop_seed_ratio' then do not do anything
-                if self.config["stop_seed_at_ratio"] or self.stop_at_ratio:
-                    if self.stop_at_ratio:
-                        ratio = self.stop_ratio
+                if self.config["stop_seed_at_ratio"] or self.options["stop_at_ratio"]:
+                    if self.options["stop_at_ratio"]:
+                        ratio = self.options["stop_ratio"]
                     else:
                         ratio = self.config["stop_seed_ratio"]
 
