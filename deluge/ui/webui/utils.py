@@ -103,20 +103,7 @@ def getcookie(key, default = None):
     return ck.get(key, default)
 
 def get_stats():
-    stats = Storage()
-
-    aclient.get_download_rate(dict_cb('download_rate',stats))
-    aclient.get_upload_rate(dict_cb('upload_rate',stats))
-    aclient.get_config_value(dict_cb('max_download',stats)
-        ,"max_download_speed")
-    aclient.get_config_value(dict_cb('max_upload',stats)
-        ,"max_upload_speed")
-    aclient.get_num_connections(dict_cb("num_connections",stats))
-    aclient.get_config_value(dict_cb('max_num_connections',stats)
-        ,"max_connections_global")
-    aclient.get_dht_nodes(dict_cb('dht_nodes',stats))
-
-    aclient.force_call(block=True)
+    stats = Storage(sclient.get_stats())
 
     stats.download_rate = fspeed(stats.download_rate)
     stats.upload_rate = fspeed(stats.upload_rate)
