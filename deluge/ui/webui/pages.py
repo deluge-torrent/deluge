@@ -106,19 +106,15 @@ class index:
 
         #organize-filters
         label_filters = {}
-        #disable label plugin for now..
-        if False and 'label' in [pl.lower() for pl in proxy.get_enabled_plugins()]:
-            filter_dict = {}
-            if vars.filter_cat and vars.filter_value and vars.filter_value <> "All":
-                filter_dict = {vars.filter_cat:vars.filter_value}
 
-            torrent_ids =  proxy.label_get_filtered_ids(filter_dict)
-            label_filters = proxy.label_filter_items()
+        filter_dict = {}
+        if vars.filter_cat and vars.filter_value and vars.filter_value <> "All":
+            filter_dict = {vars.filter_cat:vars.filter_value}
 
-        else:
-            torrent_ids =  proxy.get_session_state()
+        torrents =  proxy.get_torrents_status(filter_dict, TORRENT_KEYS)
+        label_filters = proxy.get_filter_tree()
 
-        torrent_list = utils.get_enhanced_torrent_list(torrent_ids)
+        torrent_list = utils.get_enhanced_torrent_list(torrents)
 
         #sorting:
         if vars.sort:

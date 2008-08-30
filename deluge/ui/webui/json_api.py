@@ -81,12 +81,9 @@ class json_rpc:
     * methods : http://dev.deluge-torrent.org/wiki/Development/UiClient#Remoteapi
     """
     #extra exposed methods
-    json_exposed = ["update_ui","get_stats","set_torrent_options","system_listMethods",
+    json_exposed = ["update_ui","get_stats","system_listMethods",
         "get_webui_config","set_webui_config","get_webui_templates"]
     cache = {}
-    torrent_options = ["trackers","max_connections","max_upload_slots","max_upload_speed",
-    "max_download_speed","file_priorities","prioritize_first_last","auto_managed","stop_at_ratio",
-    "stop_ratio","remove_at_ratio"]
 
     def GET(self):
         return json_error("only POST is supported")
@@ -144,8 +141,8 @@ class json_rpc:
 
     def get_stats(self):
         """
+        todo: move to core.
         returns:
-        {{{
         {
         'download_rate':float(),
         'upload_rate':float(),
@@ -155,7 +152,6 @@ class json_rpc:
         'max_num_connections':int(),
         'dht_nodes',int()
         }
-        }}}
         """
         stats = {}
 
@@ -180,57 +176,24 @@ class json_rpc:
         Goal : limit the number of ajax calls
 
         input:
-        {{{
-            keys: see get_torrent_status
-            filter_dict: see label_get_filtered_ids # only effective if the label plugin is enabled.
+            keys: see get_torrents_status
+            filter_dict: see get_torrents_status
             cache_id: # todo
-        }}}
         returns:
-        {{{
         {
             "torrents": see get_torrent_status
-            "filters": see label_get_filters
+            "filters": see get_filter_tree
             "stats": see get_stats
             "cache_id":int # todo
         }
-        }}}
         """
-        if 'Label' in sclient.get_enabled_plugins():
-            torrent_ids =  sclient.label_get_filtered_ids(filter_dict)
-            filters = sclient.label_filter_items()
-        else:
-            torrent_ids =  sclient.get_session_state()
-            filters = {"state":[["All",-1]],"tracker":[],"label":[]}
-
+        filters = sclient.get_filter_tree()
         return {
-            "torrents":sclient.get_torrents_status({"id":torrent_ids}, keys),
+            "torrents":sclient.get_torrents_status(filter_dict , keys),
             "filters":filters,
             "stats":self.get_stats(),
             "cache_id":-1
         }
-
-    def set_torrent_options(self, torrent_id, options_dict):
-        """
-        Composite call.
-        Goal: limit the number of ajax calls
-
-        input:
-        {{{
-            torrent_id: the id of the torrent who's options are to be changed
-            options_dict: a dictionary inwhich the options to be changed are contained
-        }}}
-        """
-
-        for option in options_dict:
-            if option in self.torrent_options:
-                value = options_dict[option]
-                if type(value) == str:
-                    try:
-                        value = float(value)
-                    except:
-                        pass
-                func = getattr(sclient, 'set_torrent_' + option)
-                func(torrent_id, value)
 
     def get_webui_config(self):
         return dict([x for x in utils.config.get_config().iteritems() if not x[0].startswith("pwd")])

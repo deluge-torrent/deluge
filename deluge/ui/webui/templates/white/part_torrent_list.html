@@ -23,14 +23,11 @@ document.onkeydown = torrent_table.keydown;
         $:(sort_head('name', _('Name')))
         $:(sort_head('total_size', _('Size')))
         $:(sort_head('progress', _('Progress')))
-
-        $if label_filters:
-            <!--HACK:
-            abusing label_filters to check if the Orgnize plugin is enabled
-            -->
-            $:(sort_head('label', _('Label')))
-            $:(sort_head('tracker_host', _('Tracker')))
-
+        <!--
+        $#if label_filters:
+        $#:(sort_head('label', _('Label')))
+        -->
+        $:(sort_head('tracker_host', _('Tracker')))
         $:(sort_head('num_seeds', _('Seeders')))
         $:(sort_head('num_peers', _('Peers')))
         $:(sort_head('download_payload_rate', _('Download')))
@@ -69,9 +66,11 @@ $for torrent in torrent_list:
             </div>
         </div>
     </td>
-    $if label_filters:
-        <td>$torrent.label</td>
-        <td>$torrent.tracker_host</td>
+    <!--
+    $#if label_filters:
+        <td>$#torrent.label</td>
+    -->
+    <td>$torrent.tracker_host</td>
     <td>
     $if torrent.total_seeds != -1:
         $torrent.num_seeds ($torrent.total_seeds)

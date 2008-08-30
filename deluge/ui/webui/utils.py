@@ -133,7 +133,7 @@ def get_stats():
 
     return stats
 
-def enhance_torrent_status(torrent_id,status):
+def enhance_torrent_status(torrent_id, status):
     """
     in: raw torrent_status
     out: enhanced torrent_staus
@@ -162,13 +162,12 @@ def get_torrent_status(torrent_id):
     status = sclient.get_torrent_status(torrent_id,TORRENT_KEYS)
     return enhance_torrent_status(torrent_id, status)
 
-def get_enhanced_torrent_list(torrent_ids):
+def get_enhanced_torrent_list(torrents):
     """
     returns a list of storified-torrent-dicts.
     """
-    torrent_dict = sclient.get_torrents_status({"id":torrent_ids}, TORRENT_KEYS)
     return [enhance_torrent_status(id, status)
-            for id, status in torrent_dict.iteritems()]
+            for id, status in torrents.iteritems()]
 
 def get_newforms_data(form_class):
     """
