@@ -23,7 +23,7 @@ $if get('filter_cat') == "keyword":
 <!--
 $filter_items
 -->
-$for cat in ["state", "tracker_host", "label"]:
+$for cat in filter_items.keys():
     <div class="title">$cat</div>
     <ul>
     $for value, count in filter_items[cat]:
