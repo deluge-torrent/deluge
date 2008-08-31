@@ -355,20 +355,20 @@ class StatusBar(component.Component):
 
     def _on_set_download_speed(self, widget):
         log.debug("_on_set_download_speed")
-        value = widget.get_children()[0].get_text().split(" ")[0]
-        log.debug("value: %s", value)
-        if value == "Unlimited":
-            value = -1
 
-        if value == _("Other..."):
+        if widget.get_name() == _("Unlimited"):
+            value = -1
+        elif widget.get_name() == _("Other..."):
             value = deluge.common.show_other_dialog(
                 _("Download Speed (KiB/s):"), self.max_download_speed)
             if value == None:
                 return
-        
-        # Set the config in the core
-        value = float(value)
-        
+        else:
+            value = float(widget.get_children()[0].get_text().split(" ")[0])
+
+        log.debug("value: %s", value)
+            
+        # Set the config in the core        
         if value != self.max_download_speed:
             client.set_config({"max_download_speed": value})
 
@@ -383,23 +383,21 @@ class StatusBar(component.Component):
 
     def _on_set_upload_speed(self, widget):
         log.debug("_on_set_upload_speed")
-        value = widget.get_children()[0].get_text().split(" ")[0]
-        log.debug("value: %s", value)
-                        
-        if value == "Unlimited":
-            value = -1
 
-        if value == _("Other..."):
+        if widget.get_name() == _("Unlimited"):
+            value = -1
+        elif widget.get_name() == _("Other..."):
             value = deluge.common.show_other_dialog(
                 _("Upload Speed (KiB/s):"), self.max_upload_speed)
             if value == None:
                 return
-        
+        else:
+            value = float(widget.get_children()[0].get_text().split(" ")[0])
+
+        log.debug("value: %s", value)
+       
         # Set the config in the core
-        value = float(value)
-        
         if value != self.max_upload_speed:
-            client.set_config({"max_upload_speed": value})
 
     def _on_connection_item_clicked(self, widget, event):
         menu = deluge.common.build_menu_radio_list(
@@ -411,21 +409,20 @@ class StatusBar(component.Component):
    
     def _on_set_connection_limit(self, widget):
         log.debug("_on_set_connection_limit")
-        value = widget.get_children()[0].get_text().split(" ")[0]
-        log.debug("value: %s", value)
                         
-        if value == "Unlimited":
+        if widget.get_name() == _("Unlimited"):
             value = -1
-
-        if value == _("Other..."):
+        elif widget.get_name() == _("Other..."):
             value = deluge.common.show_other_dialog(
                 _("Connection Limit:"), self.max_connections)
             if value == None:
                 return
-        
-        # Set the config in the core
-        value = int(value)
-        
+        else:
+            value = int(widget.get_children()[0].get_text().split(" ")[0])
+
+        log.debug("value: %s", value)
+            
+        # Set the config in the core        
         if value != self.max_connections:
             client.set_config({"max_connections_global": value})
         
