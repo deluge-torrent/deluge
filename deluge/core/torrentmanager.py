@@ -327,6 +327,8 @@ class TorrentManager(component.Component):
             return
         
         log.debug("handle id: %s", str(handle.info_hash()))
+        # Set auto_managed to False because the torrent is paused
+        handle.auto_managed(False)
         # Create a Torrent object
         torrent = Torrent(handle, options, state, filename)
         # Add the torrent object to the dictionary
@@ -338,8 +340,7 @@ class TorrentManager(component.Component):
 
         # Resume the torrent if needed
         if not options["add_paused"]:
-            handle.resume()
-            handle.auto_managed(options["auto_managed"])
+            torrent.resume()
 
         # Write the .torrent file to the state directory
         if filedump:

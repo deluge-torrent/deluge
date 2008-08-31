@@ -197,8 +197,9 @@ class Torrent:
 
     def set_auto_managed(self, auto_managed):
         self.options["auto_managed"] = auto_managed
-        self.handle.auto_managed(auto_managed)
-        self.update_state()
+        if not (self.handle.is_paused() and not self.handle.is_auto_managed()):
+            self.handle.auto_managed(auto_managed)
+            self.update_state()
 
     def set_stop_ratio(self, stop_ratio):
         self.options["stop_ratio"] = stop_ratio
