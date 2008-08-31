@@ -6,5 +6,4 @@ Deluge 1.1.0 - "" (In Development)
   
  GtkUI:
   * Add peer progress to the peers tab
-  * Add 'edit' to edit trackers dialog
   * Sorting # column will place downloaders above seeds
