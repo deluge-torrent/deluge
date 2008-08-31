@@ -116,11 +116,6 @@ deluge/ui/gtkui/aboutdialog.py
 deluge/ui/gtkui/statusbar.py
 deluge/ui/gtkui/edittrackersdialog.py
 deluge/common.py
-deluge/plugins/testp/testp/ui.py
-deluge/plugins/testp/testp/gtkui.py
-deluge/plugins/testp/testp/core.py
-deluge/plugins/testp/testp/__init__.py
-deluge/plugins/testp/setup.py
 deluge/plugins/init.py
 deluge/plugins/label/label/ui.py
 deluge/plugins/label/label/gtk_sidebar.py
