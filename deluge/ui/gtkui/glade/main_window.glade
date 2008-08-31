@@ -512,7 +512,7 @@
     <child>
       <widget class="GtkImageMenuItem" id="menuitem_open_file">
         <property name="visible">True</property>
-        <property name="label" translatable="yes">gtk-open</property>
+        <property name="label">gtk-open</property>
         <property name="use_underline">True</property>
         <property name="use_stock">True</property>
         <signal name="activate" handler="on_menuitem_open_file_activate"/>
