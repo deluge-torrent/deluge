@@ -273,8 +273,7 @@ class TorrentView(listview.ListView, component.Component):
         filter_column = self.columns["filter"].column_indices[0]
         # Update the torrent view model with data we've received
         status = self.status
-        (sort_id, sort_type) = self.treeview.get_model().get_sort_column_id()
-        self.treeview.get_model().set_sort_column_id(-1, gtk.SORT_ASCENDING)
+
         for row in self.liststore:
             torrent_id = row[self.columns["torrent_id"].column_indices[0]]
 
@@ -307,7 +306,7 @@ class TorrentView(listview.ListView, component.Component):
                                     row[index] = row_value
                             except:
                                 pass
-        self.treeview.get_model().set_sort_column_id(sort_id, sort_type)
+
         # Update the toolbar buttons just in case some state has changed
         component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
