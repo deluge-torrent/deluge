@@ -93,7 +93,7 @@ class Torrent:
         self.total_uploaded = 0
 
         # Set the default options
-        self.options = OPTIONS
+        self.options = OPTIONS.copy()
         self.options.update(options)
         
         # We need to keep track if the torrent is finished in the state to prevent
