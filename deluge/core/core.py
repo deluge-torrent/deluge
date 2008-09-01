@@ -203,6 +203,7 @@ class Core(
         # New release check information
         self.new_release = None
 
+        component.start("PreferencesManager")
         component.start()
 
         self._should_shutdown = False
