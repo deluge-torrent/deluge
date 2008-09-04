@@ -133,13 +133,17 @@ html, body {
 
 .mooui-window-content #preferences .categories {
 	float: left;
-	width: 130px;
+	width: 100px;
 	padding-left: 10px;
+}
+
+.mooui-window-content #preferences .pref_pages h3 {
+	margin-bottom: 5px;
 }
 
 .mooui-window-content #preferences .pref_pages {
 	float: left;
-	width: 350px;
+	width: 380px;
 }
 
 .mooui-window-content #preferences .categories ul {

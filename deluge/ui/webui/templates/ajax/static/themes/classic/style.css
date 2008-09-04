@@ -282,6 +282,22 @@ form br {
 	text-decoration: underline;
 }
 
+#preferences #bandwidth_preferences label {
+	width: 200px;
+}
+
+#preferences #encryption label {
+	width: 70px;
+}
+
+#preferences #encryption label.fluid {
+	width: auto;
+}
+
+#preferences #encryption select {
+	width: 70px;
+}
+
 .deluge-prefs-active {
 	font-weight: bold;
 }
@@ -294,4 +310,8 @@ form br {
 label.fluid {
 	width: auto;
 	margin-right: 30px;
+}
+
+.deluge-prefs-page {
+	overflow: auto;
 }

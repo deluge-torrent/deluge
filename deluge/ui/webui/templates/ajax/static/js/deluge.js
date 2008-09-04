@@ -929,6 +929,7 @@ Deluge.Widgets.PreferencesWindow = new Class({
 		this.categories.each(function(category) {
 			config = $merge(config, category.getConfig());
 		});
+		
 		if ($defined(config['end_listen_port']) || $defined(config['start_listen_port'])) {
 			var startport = $pick(config['start_listen_port'], this.config['listen_ports'][0]);
 			var endport = $pick(config['end_listen_port'], this.config['listen_ports'][1]);
@@ -936,6 +937,15 @@ Deluge.Widgets.PreferencesWindow = new Class({
 			delete config['start_listen_port'];
 			config['listen_ports'] = [startport, endport];
 		}
+		
+		if ($defined(config['end_outgoing_port']) || $defined(config['start_outgoing_port'])) {
+			var startport = $pick(config['start_outgoing_port'], this.config['outgoing_ports'][0]);
+			var endport = $pick(config['end_outgoing_port'], this.config['outgoing_ports'][1]);
+			delete config['end_outgoing_port'];
+			delete config['start_outgoing_port'];
+			config['outgoing_ports'] = [startport, endport];
+		}
+		
 		Deluge.Client.set_config(config, {
 			onSuccess: function(e) {
 				this.hide();
@@ -952,6 +962,9 @@ Deluge.Widgets.PreferencesWindow = new Class({
 		// in order to not have to modify the generic preferences class.
 		this.config['start_listen_port'] = this.config['listen_ports'][0];
 		this.config['end_listen_port'] = this.config['listen_ports'][1];
+		
+		this.config['start_outgoing_port'] = this.config['outgoing_ports'][0];
+		this.config['end_outgoing_port'] = this.config['outgoing_ports'][1];
 
 		// Iterate through the pages and set the fields
 		this.categories.each(function(category) {
