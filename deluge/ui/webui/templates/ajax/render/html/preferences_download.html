@@ -1,24 +1,45 @@
 <form>
 	<fieldset>
-		<legend>$_('Download Location')</legend>
-		<label>$_('Default download location'):</label><input type="text" name="download_location" /><br/>
-		<label><input type="checkbox" name="move_completed" />$_('Move completed to'):</label><input type="text" name="move_completed_path" />
-	</fieldset>
-	<fieldset>
-		<legend>$_('Torrent File Copy')</legend>
-		<label><input type="checkbox" name="copy_torrent_file" />$_('Save .torrent file'):</label><input type="text" name="torrentfiles_location" />
-	</fieldset>
-	<fieldset>
-		<legend>$_('Auto Add Folder')</legend>
-		<label><input type="checkbox" name="autoadd_enable" />$_('Enable Folder'):</label><input type="text" name="autoadd_location" />
+		<legend>$_('Folders')</legend>
+		<label>
+			$_('Download to'):
+		</label>
+		<input type="text" name="download_location" /><br/>
+		
+		<label>
+			<input type="checkbox" name="move_completed" />
+			$_('Move completed to'):
+		</label>
+		<input type="text" name="move_completed_path" /><br />
+		
+		<label>
+			<input type="checkbox" name="copy_torrent_file" />
+			$_('Copy of .torrent files to'):
+		</label>
+		<input type="text" name="torrentfiles_location" /><br/>
+		
+		<label>
+			<input type="checkbox" name="autoadd_enable" />
+			$_('Auto add .torrents from'):
+		</label>
+		<input type="text" name="autoadd_location" /><br/>
 	</fieldset>
 	<fieldset>
 		<legend>$_('Allocation')</legend>
-		<label><input type="radio" name="compact_allocation" value="false" />$_('Use Full Allocation')</label>
-		<label><input type="radio" name="compact_allocation" value="true" />$_('Use Compact Allocation')</label>
+		<label>
+			<input type="radio" name="compact_allocation" value="false" />
+			$_('Use Full Allocation')
+		</label>
+		<label>
+			<input type="radio" name="compact_allocation" value="true" />
+			$_('Use Compact Allocation')
+		</label>
 	</fieldset>
 	<fieldset>
 		<legend>$_('Options')</legend>
-		<label class="fluid"><input type="checkbox" name="prioritize_first_last_pieces" />$_('Prioritize first and last pieces of torrent')</label>
+		<label class="fluid">
+			<input type="checkbox" name="prioritize_first_last_pieces" />
+			$_('Prioritize first and last pieces of torrent')
+		</label>
 	</fieldset>
 </form>
