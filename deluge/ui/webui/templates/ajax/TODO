@@ -1,8 +1,12 @@
 [features]
  Improve torrent adding to include options, file upload
  Implement the Options Menu
+  partially complete
  Implement the connection manager
 
 [bugs]
  If a torrent is removed from the core it continues to try and get details
- 	if it was the selected torrent.
+  if it was the selected torrent.
+ Filtering breaks after changing more than once
+ If there is only one torrent in the view and it is removed by the core,
+  it does not get removed by the view.
