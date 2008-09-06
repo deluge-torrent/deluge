@@ -605,6 +605,7 @@ class Torrent:
             self.torrent_id)
         log.debug("Saving fastresume file: %s", path)
         try:
+            self.delete_fastresume()
             fastresume = open(path, "wb")
             fastresume.write(resume_data)
             fastresume.close()

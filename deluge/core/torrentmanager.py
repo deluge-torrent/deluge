@@ -528,9 +528,7 @@ class TorrentManager(component.Component):
     def save_resume_data(self):
         """Saves resume data for all the torrents"""
         for torrent in self.torrents.values():
-            if not torrent.is_finished:
-                torrent.delete_fastresume()
-                torrent.write_fastresume()
+            torrent.write_fastresume()
 
     def queue_top(self, torrent_id):
         """Queue torrent to top"""
@@ -618,9 +616,7 @@ class TorrentManager(component.Component):
         component.get("SignalManager").emit("torrent_paused", torrent_id)
             
         # Write the fastresume file
-        if not self.torrents[torrent_id].is_finished:
-            self.torrents[torrent_id].delete_fastresume()
-            self.torrents[torrent_id].write_fastresume()
+        self.torrents[torrent_id].write_fastresume()
         
         if torrent_id in self.shutdown_torrent_pause_list:
             self.shutdown_torrent_pause_list.remove(torrent_id)
