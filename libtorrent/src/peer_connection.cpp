@@ -572,6 +572,50 @@ namespace libtorrent
 #endif
 	}
 
+	int peer_connection::picker_options() const
+	{
+		int ret = 0; 
+		boost::shared_ptr<torrent> t = m_torrent.lock();
+		TORRENT_ASSERT(t);
+		if (!t) return 0;
+
+		if (t->is_sequential_download())
+		{
+			ret |= piece_picker::sequential;
+		}
+		else if (t->num_have() < t->settings().initial_picker_threshold)
+		{
+			// if we have fewer pieces than a certain threshols
+			// don't pick rare pieces, just pick random ones,
+			// and prioritize finishing them
+			ret |= piece_picker::prioritize_partials;
+		}
+		else
+		{
+			ret |= piece_picker::rarest_first;
+		}
+
+		if (m_snubbed)
+		{
+			// snubbed peers should request
+			// the common pieces first, just to make
+			// it more likely for all snubbed peers to
+			// request blocks from the same piece
+			ret |= piece_picker::reverse;
+		}
+
+		if (t->settings().prioritize_partial_pieces)
+			ret |= piece_picker::prioritize_partials;
+
+		if (on_parole()) ret |= piece_picker::on_parole
+			| piece_picker::prioritize_partials;
+
+		// only one of rarest_first, common_first and sequential can be set.
+		TORRENT_ASSERT(bool(ret & piece_picker::rarest_first)
+			+ bool(ret & piece_picker::sequential) <= 1);
+		return ret;
+	}
+
 	void peer_connection::fast_reconnect(bool r)
 	{
 		if (!peer_info_struct() || peer_info_struct()->fast_reconnects > 1)
@@ -1129,6 +1173,8 @@ namespace libtorrent
 			<< " <== HAVE    [ piece: " << index << "]\n";
 #endif
 
+		if (is_disconnecting()) return;
+
 		if (!t->valid_metadata() && index > int(m_have_piece.size()))
 		{
 			if (index < 65536)
@@ -1343,6 +1389,7 @@ namespace libtorrent
 		// if we haven't received a bitfield, it was
 		// probably omitted, which is the same as 'have_none'
 		if (!m_bitfield_received) incoming_have_none();
+		if (is_disconnecting()) return;
 
 #ifndef TORRENT_DISABLE_EXTENSIONS
 		for (extension_list_t::iterator i = m_extensions.begin()
@@ -1549,6 +1596,7 @@ namespace libtorrent
 		// if we haven't received a bitfield, it was
 		// probably omitted, which is the same as 'have_none'
 		if (!m_bitfield_received) incoming_have_none();
+		if (is_disconnecting()) return;
 
 #ifndef TORRENT_DISABLE_EXTENSIONS
 		for (extension_list_t::iterator i = m_extensions.begin()
@@ -1572,7 +1620,7 @@ namespace libtorrent
 			"s: " << p.start << " | "
 			"l: " << p.length << " | "
 			"ds: " << statistics().download_rate() << " | "
-			"qs: " << m_desired_queue_size << " ]\n";
+			"qs: " << int(m_desired_queue_size) << " ]\n";
 #endif
 
 		if (p.length == 0)
@@ -1639,7 +1687,7 @@ namespace libtorrent
 			return;
 		}
 
-		int block_index = b - m_download_queue.begin();
+		int block_index = b - m_download_queue.begin() - 1;
 		for (int i = 0; i < block_index; ++i)
 		{
 			pending_block& qe = m_download_queue[i];
@@ -1660,6 +1708,7 @@ namespace libtorrent
 					m_ses.m_alerts.post_alert(request_dropped_alert(t->get_handle()
 						, remote(), pid(), qe.block.block_index, qe.block.piece_index));
 				picker.abort_download(qe.block);
+				TORRENT_ASSERT(m_download_queue.begin() + i != b);
 				m_download_queue.erase(m_download_queue.begin() + i);
 				--i;
 				--block_index;
@@ -1723,8 +1772,11 @@ namespace libtorrent
 		bool multi = picker.num_peers(block_finished) > 1;
 		picker.mark_as_writing(block_finished, peer_info_struct());
 
+		TORRENT_ASSERT(picker.num_peers(block_finished) == 0);
 		// if we requested this block from other peers, cancel it now
 		if (multi) t->cancel_block(block_finished);
+
+		TORRENT_ASSERT(picker.num_peers(block_finished) == 0);
 
 #if !defined NDEBUG && !defined TORRENT_DISABLE_INVARIANT_CHECKS
 		t->check_invariant();
@@ -1776,6 +1828,7 @@ namespace libtorrent
 
 		TORRENT_ASSERT(p.piece == j.piece);
 		TORRENT_ASSERT(p.start == j.offset);
+		TORRENT_ASSERT(picker.num_peers(block_finished) == 0);
 		picker.mark_as_finished(block_finished, peer_info_struct());
 		if (t->alerts().should_post<block_finished_alert>())
 		{
@@ -2332,7 +2385,7 @@ namespace libtorrent
 				"s: " << r.start << " | "
 				"l: " << r.length << " | "
 				"ds: " << statistics().download_rate() << " B/s | "
-				"qs: " << m_desired_queue_size << " "
+				"qs: " << int(m_desired_queue_size) << " "
 				"blk: " << (m_request_large_blocks?"large":"single") << " ]\n";
 #endif
 		}
@@ -3898,7 +3951,7 @@ namespace libtorrent
 			m_speed = medium;
 		else if (download_rate < torrent_download_rate / 15 && m_speed == fast)
 			m_speed = medium;
-		else if (download_rate < torrent_download_rate / 63 && m_speed == medium)
+		else
 			m_speed = slow;
 
 		return m_speed;

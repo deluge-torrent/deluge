@@ -151,7 +151,7 @@ namespace libtorrent
 		policy::peer* peer_info_struct() const
 		{ return m_peer_info; }
 
-		enum peer_speed_t { slow, medium, fast };
+		enum peer_speed_t { slow = 1, medium, fast };
 		peer_speed_t peer_speed();
 
 		void send_allowed_set();
@@ -187,6 +187,8 @@ namespace libtorrent
 		bool on_parole() const
 		{ return peer_info_struct() && peer_info_struct()->on_parole; }
 
+		int picker_options() const;
+
 		void prefer_whole_pieces(int num)
 		{ m_prefer_whole_pieces = num; }
 
@@ -213,7 +215,12 @@ namespace libtorrent
 
 		bool is_seed() const;
 
-		void set_upload_only(bool u) { m_upload_only = u; }
+		void set_upload_only(bool u)
+		{
+			m_upload_only = u;
+			disconnect_if_redundant();
+		}
+
 		bool upload_only() const { return m_upload_only; }
 
 		// will send a keep-alive message to the peer
