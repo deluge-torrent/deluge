@@ -201,15 +201,22 @@ class AddTorrentDialog(component.Component):
 
             # Get list of files from torrent info
             files = []
-            prefix = ""
-            if len(metadata["info"]["files"]) > 1:
-                prefix = metadata["info"]["name"]
-                
-            for f in metadata["info"]["files"]:
+            if metadata["info"].has_key("files"):
+                prefix = ""
+                if len(metadata["info"]["files"]) > 1:
+                    prefix = metadata["info"]["name"]
+                    
+                for f in metadata["info"]["files"]:
+                    files.append({
+                        'path': os.path.join(prefix, *f["path"]),
+                        'size': f["length"],
+                        'download': True
+                    })
+            else:
                 files.append({
-                    'path': os.path.join(prefix, *f["path"]),
-                    'size': f["length"],
-                    'download': True
+                    "path": metadata["info"]["name"],
+                    "size": metadata["info"]["length"],
+                    "download": True
                 })
 
             name = "%s (%s)" % (metadata["info"]["name"], os.path.split(filename)[-1])
