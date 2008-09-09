@@ -80,12 +80,20 @@ class Torrent:
         self.torrent_id = str(handle.info_hash())
 
         # We store the filename just in case we need to make a copy of the torrentfile
+        if not filename:
+            # If no filename was provided, then just use the infohash
+            filename = self.torrent_id
+            
         self.filename = filename
 
         # Holds status info so that we don't need to keep getting it from lt
         self.status = self.handle.status()
-        self.torrent_info = self.handle.get_torrent_info()
 
+        try:
+            self.torrent_info = self.handle.get_torrent_info()
+        except RuntimeError:
+            self.torrent_info = None
+            
         # Files dictionary
         self.files = self.get_files()
         
@@ -188,12 +196,13 @@ class Torrent:
     def set_prioritize_first_last(self, prioritize):
         self.options["prioritize_first_last_pieces"] = prioritize
         if prioritize:
-            if self.handle.get_torrent_info().num_files() == 1:
-                # We only do this if one file is in the torrent
-                priorities = [1] * self.handle.get_torrent_info().num_pieces()
-                priorities[0] = 7
-                priorities[-1] = 7
-                self.handle.prioritize_pieces(priorities)
+            if self.handle.has_metadata():
+                if self.handle.get_torrent_info().num_files() == 1:
+                    # We only do this if one file is in the torrent
+                    priorities = [1] * self.handle.get_torrent_info().num_pieces()
+                    priorities[0] = 7
+                    priorities[-1] = 7
+                    self.handle.prioritize_pieces(priorities)
 
     def set_auto_managed(self, auto_managed):
         self.options["auto_managed"] = auto_managed
@@ -348,11 +357,14 @@ class Torrent:
 
     def get_files(self):
         """Returns a list of files this torrent contains"""
-        if self.torrent_info == None:
+        if self.torrent_info == None and self.handle.has_metadata():
             torrent_info = self.handle.get_torrent_info()
         else:
             torrent_info = self.torrent_info
-
+        
+        if not torrent_info:
+            return []
+            
         ret = []
         files = torrent_info.files()
         for index, file in enumerate(files):
@@ -438,7 +450,8 @@ class Torrent:
         """Returns the status of the torrent based on the keys provided"""
         # Create the full dictionary
         self.status = self.handle.status()
-        self.torrent_info = self.handle.get_torrent_info()
+        if self.handle.has_metadata():
+            self.torrent_info = self.handle.get_torrent_info()
 
         # Adjust progress to be 0-100 value
         progress = self.status.progress * 100
@@ -490,14 +503,39 @@ class Torrent:
             "move_on_completed": self.options["move_completed"],
             "move_on_completed_path": self.options["move_completed_path"]
         }
-
+        
+        def ti_name():
+            if self.handle.has_metadata():
+                return self.torrent_info.name()
+            return self.torrent_id
+        def ti_priv():
+            if self.handle.has_metadata():
+                return self.torrent_info.priv()
+            return False
+        def ti_total_size():
+            if self.handle.has_metadata():
+                return self.torrent_info.total_size()
+            return 0
+        def ti_num_files():
+            if self.handle.has_metadata():
+                return self.torrent_info.num_files()
+            return 0
+        def ti_num_pieces():
+            if self.handle.has_metadata():
+                return self.torrent_info.num_pieces()
+            return 0
+        def ti_piece_length():
+            if self.handle.has_metadata():
+                return self.torrent_info.piece_length()
+            return 0
+            
         fns = {
-            "name": self.torrent_info.name,
-            "private": self.torrent_info.priv,
-            "total_size": self.torrent_info.total_size,
-            "num_files": self.torrent_info.num_files,
-            "num_pieces": self.torrent_info.num_pieces,
-            "piece_length": self.torrent_info.piece_length,
+            "name": ti_name,
+            "private": ti_priv,
+            "total_size": ti_total_size,
+            "num_files": ti_num_files,
+            "num_pieces": ti_num_pieces,
+            "piece_length": ti_piece_length,
             "eta": self.get_eta,
             "ratio": self.get_ratio,
             "file_progress": self.get_file_progress,
@@ -506,9 +544,6 @@ class Torrent:
             "peers": self.get_peers,
             "tracker_host": self.get_tracker_host
         }
-
-        self.status = None
-        self.torrent_info = None
 
         # Create the desired status dictionary and return it
         status_dict = {}
@@ -524,6 +559,9 @@ class Torrent:
                 elif key in fns:
                     status_dict[key] = fns[key]()
 
+        self.status = None
+        self.torrent_info = None
+        
         return status_dict
 
     def apply_options(self):

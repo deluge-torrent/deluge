@@ -376,7 +376,7 @@ class Core(
         }
 
 
-    def export_add_torrent_url(self, url, save_path, options):
+    def export_add_torrent_url(self, url, options):
         log.info("Attempting to add url %s", url)
 
         # Get the actual filename of the torrent from the url provided.
@@ -398,6 +398,14 @@ class Core(
         return self.export_add_torrent_file(
             filename, filedump, options)
 
+    def export_add_torrent_magnets(self, uris, options):
+        for uri in uris:
+            log.debug("Attempting to add by magnet uri: %s", uri)
+            torrent_id = self.torrents.add(magnet=uri, options=options[uris.index(uri)])
+
+            # Run the plugin hooks for 'post_torrent_add'
+            self.plugins.run_post_torrent_add(torrent_id)
+        
     def export_remove_torrent(self, torrent_ids, remove_torrent, remove_data):
         log.debug("Removing torrent %s from the core.", torrent_ids)
         for torrent_id in torrent_ids:

@@ -239,11 +239,11 @@ class TorrentManager(component.Component):
         return str(fastresume)
                                     
     def add(self, torrent_info=None, state=None, options=None, save_state=True,
-            filedump=None, filename=None):
+            filedump=None, filename=None, magnet=None):
         """Add a torrent to the manager and returns it's torrent_id"""
         
-        if torrent_info is None and state is None and filedump is None:
-            log.debug("You must specify a valid torrent_info or a torrent state object!")
+        if torrent_info is None and state is None and filedump is None and magnet is None:
+            log.debug("You must specify a valid torrent_info, torrent state or magnet.")
             return
 
         log.debug("torrentmanager.add")
@@ -255,12 +255,12 @@ class TorrentManager(component.Component):
             except Exception, e:
                 log.error("Unable to decode torrent file!: %s", e)
 
-        if torrent_info is None:
+        if torrent_info is None and state:
             # We have no torrent_info so we need to add the torrent with information
             # from the state object.
 
             # Populate the options dict from state
-            options = OPTIONS
+            options = OPTIONS.copy()
             options["max_connections"] = state.max_connections
             options["max_upload_slots"] = state.max_upload_slots
             options["max_upload_speed"] = state.max_upload_speed
@@ -284,9 +284,9 @@ class TorrentManager(component.Component):
             # We have a torrent_info object so we're not loading from state.
             # Check if options is None and load defaults
             if options == None:
-                options = OPTIONS
+                options = OPTIONS.copy()
             else:
-                o = OPTIONS
+                o = OPTIONS.copy()
                 o.update(options)
                 options = o
 
@@ -316,7 +316,10 @@ class TorrentManager(component.Component):
         
         handle = None
         try:
-            handle = self.session.add_torrent(add_torrent_params)
+            if magnet:
+                handle = lt.add_magnet_uri(self.session, magnet, add_torrent_params)
+            else:
+                handle = self.session.add_torrent(add_torrent_params)
         except RuntimeError, e:
             log.warning("Error adding torrent: %s", e)
             
