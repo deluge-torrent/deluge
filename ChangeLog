@@ -1,4 +1,8 @@
-Deluge 0.9.09 - "1.0.0_RC9" (In Development)
+Deluge 0.9.09 - "1.0.0_RC9" (10 September 2008)
+ Core:
+  * Bug fixes in libtorrent including a crash when the tracker doesn't
+    have 'announce' in it's url.
+  
  GtkUI:
   * Fix add torrent dialog closing preventing another dialog from being shown
   * Fix various issues when not using English
