@@ -154,6 +154,10 @@ class TorrentManager(component.Component):
             self.on_alert_torrent_resumed)
         self.alerts.register_handler("state_changed_alert",
             self.on_alert_state_changed)
+        self.alerts.register_handler("save_resume_data_alert",
+            self.on_alert_save_resume_data)
+        self.alerts.register_handler("save_resume_data_failed_alert",
+            self.on_alert_save_resume_data_failed)
         
     def start(self):
         # Get the pluginmanager reference
@@ -182,8 +186,16 @@ class TorrentManager(component.Component):
                 self.torrents[key].handle.auto_managed(False)
                 self.torrents[key].handle.pause()
                 self.shutdown_torrent_pause_list.append(key)
-        while self.shutdown_torrent_pause_list:                        
-            time.sleep(0.1)
+        # We have to wait for all torrents to pause and write their resume data
+        wait = True
+        while self.shutdown_torrent_pause_list and wait:
+            wait = False
+            for torrent in self.torrents.values():
+                if torrent.waiting_on_resume_data:
+                    wait = True
+                    break
+
+            time.sleep(0.01)
             # Wait for all alerts
             self.alerts.handle_alerts(True)
                         
@@ -531,8 +543,8 @@ class TorrentManager(component.Component):
     def save_resume_data(self):
         """Saves resume data for all the torrents"""
         for torrent in self.torrents.values():
-            torrent.write_fastresume()
-
+            torrent.save_resume_data()
+            
     def queue_top(self, torrent_id):
         """Queue torrent to top"""
         if self.torrents[torrent_id].get_queue_position() == 0:
@@ -607,7 +619,7 @@ class TorrentManager(component.Component):
 
         torrent.is_finished = True
         torrent.update_state()
-        torrent.write_fastresume()
+        torrent.save_resume_data()
         component.get("SignalManager").emit("torrent_finished", torrent_id)
         
     def on_alert_torrent_paused(self, alert):
@@ -619,7 +631,7 @@ class TorrentManager(component.Component):
         component.get("SignalManager").emit("torrent_paused", torrent_id)
             
         # Write the fastresume file
-        self.torrents[torrent_id].write_fastresume()
+        self.torrents[torrent_id].save_resume_data()
         
         if torrent_id in self.shutdown_torrent_pause_list:
             self.shutdown_torrent_pause_list.remove(torrent_id)
@@ -718,4 +730,14 @@ class TorrentManager(component.Component):
         torrent_id = str(alert.handle.info_hash())
         self.torrents[torrent_id].update_state()
         component.get("SignalManager").emit("torrent_state_changed", torrent_id)
+
+    def on_alert_save_resume_data(self, alert):
+        log.debug("on_alert_save_resume_data")
+        torrent = self.torrents[str(alert.handle.info_hash())]
+        torrent.write_resume_data(alert.resume_data)
+    
+    def on_alert_save_resume_data_failed(self, alert):
+        log.debug("on_alert_save_resume_data_failed: %s", alert.message())
+        torrent = self.torrents[str(alert.handle.info_hash())]
+        torrent.waiting_on_resume_data = False
         

@@ -79,6 +79,9 @@ class Torrent:
         # Set the torrent_id for this torrent
         self.torrent_id = str(handle.info_hash())
 
+        # Let's us know if we're waiting on a lt alert
+        self.waiting_on_resume_data = False
+        
         # We store the filename just in case we need to make a copy of the torrentfile
         if not filename:
             # If no filename was provided, then just use the infohash
@@ -635,20 +638,28 @@ class Torrent:
 
         return True
 
-    def write_fastresume(self):
+    def save_resume_data(self):
+        """Signals libtorrent to build resume data for this torrent, it gets
+        returned in a libtorrent alert"""
+        self.handle.save_resume_data()
+        self.waiting_on_resume_data = True
+        
+    def write_resume_data(self, resume_data):
         """Writes the .fastresume file for the torrent"""
-        resume_data = lt.bencode(self.handle.write_resume_data())
+        resume_data = lt.bencode(resume_data)
         path = "%s/%s.fastresume" % (
             self.config["state_location"],
             self.torrent_id)
-        log.debug("Saving fastresume file: %s", path)
         try:
             self.delete_fastresume()
+            log.debug("Saving fastresume file: %s", path)
             fastresume = open(path, "wb")
             fastresume.write(resume_data)
             fastresume.close()
         except IOError:
             log.warning("Error trying to save fastresume file")
+        
+        self.waiting_on_resume_data = False
 
     def delete_fastresume(self):
         """Deletes the .fastresume file"""
