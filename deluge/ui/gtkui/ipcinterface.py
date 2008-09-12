@@ -88,6 +88,7 @@ def process_args(args):
         return
     config = ConfigManager("gtkui.conf")        
     for arg in args:
+        log.debug("arg: %s", arg)
         if deluge.common.is_url(arg):
             log.debug("Attempting to add %s from external source..",
                 arg)
@@ -95,7 +96,14 @@ def process_args(args):
                 component.get("AddTorrentDialog").add_from_url(arg)
                 component.get("AddTorrentDialog").show(config["focus_add_dialog"])
             else:
-                client.add_torrent_url(arg)
+                client.add_torrent_url(arg, None)
+        elif deluge.common.is_magnet(arg):
+            log.debug("Attempting to add %s from external source..", arg)
+            if config["interactive_add"]:
+                component.get("AddTorrentDialog").add_from_magnets([arg])
+                component.get("AddTorrentDialog").show(config["focus_add_dialog"])
+            else:
+                client.add_torrent_magnets([arg], [])
         else:
             # Just a file
             log.debug("Attempting to add %s from external source..", 

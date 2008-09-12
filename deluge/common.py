@@ -319,6 +319,12 @@ def is_url(url):
     import re
     return bool(re.search('^(https?|ftp)://', url))
 
+def is_magnet(uri):
+    """Returns True if uri is a valid bittorrent magnet uri."""
+    if uri[:20] == "magnet:?xt=urn:btih:":
+        return True
+    return False
+    
 def fetch_url(url):
     """Downloads a torrent file from a given
     URL and checks the file's validity."""
@@ -351,3 +357,16 @@ def pythonize(var):
         if isinstance(var, klass):
             return klass(var)
     return var
+
+def create_magnet_uri(infohash, name=None, trackers=[]):
+    from base64 import b32encode
+    uri = "magnet:?xt=urn:btih:" + b32encode(infohash.decode("hex"))
+    if name:
+        uri = uri + "&dn=" + name
+    if trackers:
+        for t in trackers:
+            uri = uri + "&tr=" + t
+
+    return uri
+    
+

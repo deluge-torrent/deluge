@@ -61,7 +61,6 @@ class AddTorrentDialog(component.Component):
             "on_button_file_clicked": self._on_button_file_clicked,
             "on_button_url_clicked": self._on_button_url_clicked,
             "on_button_hash_clicked": self._on_button_hash_clicked,
-            "on_button_magnet_clicked": self._on_button_magnet_clicked,
             "on_button_remove_clicked": self._on_button_remove_clicked,
             "on_button_trackers_clicked": self._on_button_trackers_clicked,
             "on_button_cancel_clicked": self._on_button_cancel_clicked,
@@ -70,9 +69,6 @@ class AddTorrentDialog(component.Component):
             "on_button_revert_clicked": self._on_button_revert_clicked
         })
 
-        self.glade.get_widget("image_magnet").set_from_file(
-            deluge.common.get_pixmap("magnet.png"))
-			
         self.torrent_liststore = gtk.ListStore(str, str, str)
         #download?, path, filesize, sequence number, inconsistent?
         self.files_treestore = gtk.TreeStore(bool, str, gobject.TYPE_UINT64,
@@ -258,11 +254,14 @@ class AddTorrentDialog(component.Component):
 
     def _on_torrent_changed(self, treeselection):
         (model, row) = treeselection.get_selected()
-        self.files_treestore.clear()
 
         if row is None:
+            self.files_treestore.clear()
             return
 
+        # Save the previous torrents options
+        self.save_torrent_options()
+        
         # Update files list
         files_list = self.files[model.get_value(row, 0)]
 
@@ -271,32 +270,33 @@ class AddTorrentDialog(component.Component):
         if self.core_config == {}:
             self.update_core_config()
 
-        # Save the previous torrents options
-        self.save_torrent_options()
         # Update the options frame
         self.update_torrent_options(model.get_value(row, 0))
 
         self.previous_selected_torrent = row
 
     def prepare_file_store(self, files):
+        self.listview_files.set_model(None)
+        self.files_treestore.clear()
         split_files = { }
         i = 0
         for file in files:
-            self.prepare_file(file, file["path"], i, split_files)
+            self.prepare_file(file, file["path"], i, file["download"], split_files)
             i += 1
         self.add_files(None, split_files)
-
-    def prepare_file(self, file, file_name, file_num, files_storage):
-        log.debug("file_name: %s", file_name)
+        self.listview_files.set_model(self.files_treestore)
+        self.listview_files.expand_row("0", False)
+        
+    def prepare_file(self, file, file_name, file_num, download, files_storage):
         first_slash_index = file_name.find("/")
         if first_slash_index == -1:
-            files_storage[file_name] = (file_num, file)
+            files_storage[file_name] = (file_num, file, download)
         else:
             file_name_chunk = file_name[:first_slash_index+1]
             if file_name_chunk not in files_storage:
                 files_storage[file_name_chunk] = { }
             self.prepare_file(file, file_name[first_slash_index+1:],
-                              file_num, files_storage[file_name_chunk])
+                              file_num, download, files_storage[file_name_chunk])
 
     def add_files(self, parent_iter, split_files):
         ret = 0
@@ -308,8 +308,29 @@ class AddTorrentDialog(component.Component):
                 self.files_treestore.set(chunk_iter, 2, chunk_size)
                 ret += chunk_size
             else:
-                self.files_treestore.append(parent_iter, [True, key,
+                self.files_treestore.append(parent_iter, [value[2], key,
                                         value[1]["size"], value[0], False, gtk.STOCK_FILE])
+
+                # Iterate through the children and see what we should label the
+                # folder, download true, download false or inconsistent.
+                itr = self.files_treestore.iter_children(parent_iter)
+                download = []
+                download_value = False
+                inconsistent = False
+                while itr:
+                    download.append(self.files_treestore.get_value(itr, 0))
+                    itr = self.files_treestore.iter_next(itr)
+                    
+                if sum(download) == len(download):
+                    download_value = True
+                elif sum(download) == 0:
+                    download_value = False
+                else:
+                    inconsistent = True
+                    
+                self.files_treestore.set_value(parent_iter, 0, download_value)
+                self.files_treestore.set_value(parent_iter, 4, inconsistent)
+                
                 ret += value[1]["size"]
         return ret
 
@@ -379,9 +400,11 @@ class AddTorrentDialog(component.Component):
         # Save the file priorities
         files_priorities = self.build_priorities(
                             self.files_treestore.get_iter_first(), {})
-
-        for i, file_dict in enumerate(self.files[torrent_id]):
-            file_dict["download"] = files_priorities[i]
+        log.debug("fp: %s", len(files_priorities))
+        
+        if len(files_priorities) > 0:            
+            for i, file_dict in enumerate(self.files[torrent_id]):
+                file_dict["download"] = files_priorities[i]
 
     def build_priorities(self, iter, priorities):
         while iter is not None:
@@ -532,7 +555,7 @@ class AddTorrentDialog(component.Component):
             text = clip.wait_for_text()
         if text:
             text = text.strip()
-            if deluge.common.is_url(text):
+            if deluge.common.is_url(text) or deluge.common.is_magnet(text):
                 entry.set_text(text)
 
         dialog.show_all()
@@ -547,7 +570,10 @@ class AddTorrentDialog(component.Component):
         # add it to the list.
         log.debug("url: %s", url)
         if url != None:
-            self.add_from_url(url)
+            if deluge.common.is_url(url):
+                self.add_from_url(url)
+            elif deluge.common.is_magnet(url):
+                self.add_from_magnets([url])
 
         entry.set_text("")
         dialog.hide()
@@ -566,45 +592,34 @@ class AddTorrentDialog(component.Component):
 
     def _on_button_hash_clicked(self, widget):
         log.debug("_on_button_hash_clicked")
+        dialog = self.glade.get_widget("dialog_infohash")
+        entry = self.glade.get_widget("entry_hash")
+        textview = self.glade.get_widget("text_trackers")
 
-    def _on_button_magnet_clicked(self, widget):
-        log.debug("_on_button_magnet_clicked")
-        dialog = self.glade.get_widget("dialog_magnet")
-        entry = self.glade.get_widget("entry_magnet")
-        self.glade.get_widget("image_dialog_magnet").set_from_file(
-            deluge.common.get_pixmap("magnet.png"))
-            
         dialog.set_default_response(gtk.RESPONSE_OK)
         dialog.set_transient_for(self.dialog)
         entry.grab_focus()
-
-        if deluge.common.windows_check():
-            import win32clipboard as clip
-            import win32con
-            clip.OpenClipboard()
-            text = clip.GetClipboardData(win32con.CF_UNICODETEXT)
-            clip.CloseClipboard()
-        else:
-            clip = gtk.clipboard_get(selection='PRIMARY')
-            text = clip.wait_for_text()
-        if text:
-            text = text.strip()
-            if text[:20] == "magnet:?xt=urn:btih:":
-                entry.set_text(text)
-
         dialog.show_all()
         response = dialog.run()
-
-        if response == gtk.RESPONSE_OK:
-            uri = entry.get_text().decode("utf_8")
-        else:
-            uri = None
-
-        log.debug("magnet uri: %s", uri)
-        if uri:
-            self.add_from_magnets([uri])
+        if response == gtk.RESPONSE_OK and len(entry.get_text()) == 40:
+            trackers = []
+            b = textview.get_buffer()
+            lines = b.get_text(b.get_start_iter(), b.get_end_iter()).strip().split("\n")
+            log.debug("lines: %s", lines)
+            for l in lines:
+                if deluge.common.is_url(l):
+                    trackers.append(l)
+            # Convert the information to a magnet uri, this is just easier to
+            # handle this way.
+            log.debug("trackers: %s", trackers)
+            magnet = deluge.common.create_magnet_uri(
+                infohash=entry.get_text().decode("utf_8"),
+                trackers=trackers)
+            log.debug("magnet uri: %s", magnet)
+            self.add_from_magnets([magnet])
 
         entry.set_text("")
+        textview.get_buffer().set_text("")
         dialog.hide()
         
     def _on_button_remove_clicked(self, widget):
@@ -651,7 +666,7 @@ class AddTorrentDialog(component.Component):
             if options != None:
                 options["file_priorities"] = file_priorities
             
-            if filename[:20] == "magnet:?xt=urn:btih:":
+            if deluge.common.is_magnet(filename):
                 torrent_magnets.append(filename)
                 del options["file_priorities"]
                 torrent_magnet_options.append(options)

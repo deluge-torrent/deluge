@@ -419,6 +419,9 @@ class Torrent:
 
     def get_file_progress(self):
         """Returns the file progress as a list of floats.. 0.0 -> 1.0"""
+        if not self.handle.has_metadata():
+            return 0.0
+            
         file_progress = self.handle.file_progress()
         ret = []
         for i,f in enumerate(self.files):

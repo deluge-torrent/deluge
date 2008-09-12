@@ -401,7 +401,12 @@ class Core(
     def export_add_torrent_magnets(self, uris, options):
         for uri in uris:
             log.debug("Attempting to add by magnet uri: %s", uri)
-            torrent_id = self.torrents.add(magnet=uri, options=options[uris.index(uri)])
+            try:
+                option = options[uris.index(uri)]
+            except IndexError:
+                option = None
+
+            torrent_id = self.torrents.add(magnet=uri, options=option)
 
             # Run the plugin hooks for 'post_torrent_add'
             self.plugins.run_post_torrent_add(torrent_id)

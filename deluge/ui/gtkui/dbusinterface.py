@@ -61,8 +61,10 @@ class DbusInterface(dbus.service.Object, component.Component):
             # Convert the paths to absolutes
             new_args = []
             for arg in args:
-                if not deluge.common.is_url(arg):
+                if not deluge.common.is_url(arg) and not deluge.common.is_magnet(arg):
                     new_args.append(os.path.abspath(arg))
+                else:
+                    new_args.append(arg)
             args = new_args
             
             # Send the args to the running session
