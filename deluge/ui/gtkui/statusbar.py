@@ -398,6 +398,7 @@ class StatusBar(component.Component):
        
         # Set the config in the core
         if value != self.max_upload_speed:
+            client.set_config({"max_upload_speed": value})
 
     def _on_connection_item_clicked(self, widget, event):
         menu = deluge.common.build_menu_radio_list(
