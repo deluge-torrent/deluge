@@ -311,25 +311,26 @@ class AddTorrentDialog(component.Component):
                 self.files_treestore.append(parent_iter, [value[2], key,
                                         value[1]["size"], value[0], False, gtk.STOCK_FILE])
 
-                # Iterate through the children and see what we should label the
-                # folder, download true, download false or inconsistent.
-                itr = self.files_treestore.iter_children(parent_iter)
-                download = []
-                download_value = False
-                inconsistent = False
-                while itr:
-                    download.append(self.files_treestore.get_value(itr, 0))
-                    itr = self.files_treestore.iter_next(itr)
-                    
-                if sum(download) == len(download):
-                    download_value = True
-                elif sum(download) == 0:
+                if parent_iter and self.files_treestore.iter_has_child(parent_iter):
+                    # Iterate through the children and see what we should label the
+                    # folder, download true, download false or inconsistent.
+                    itr = self.files_treestore.iter_children(parent_iter)
+                    download = []
                     download_value = False
-                else:
-                    inconsistent = True
-                    
-                self.files_treestore.set_value(parent_iter, 0, download_value)
-                self.files_treestore.set_value(parent_iter, 4, inconsistent)
+                    inconsistent = False
+                    while itr:
+                        download.append(self.files_treestore.get_value(itr, 0))
+                        itr = self.files_treestore.iter_next(itr)
+                        
+                    if sum(download) == len(download):
+                        download_value = True
+                    elif sum(download) == 0:
+                        download_value = False
+                    else:
+                        inconsistent = True
+                        
+                    self.files_treestore.set_value(parent_iter, 0, download_value)
+                    self.files_treestore.set_value(parent_iter, 4, inconsistent)
                 
                 ret += value[1]["size"]
         return ret
@@ -400,7 +401,6 @@ class AddTorrentDialog(component.Component):
         # Save the file priorities
         files_priorities = self.build_priorities(
                             self.files_treestore.get_iter_first(), {})
-        log.debug("fp: %s", len(files_priorities))
         
         if len(files_priorities) > 0:            
             for i, file_dict in enumerate(self.files[torrent_id]):
