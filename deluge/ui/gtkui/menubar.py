@@ -337,7 +337,7 @@ class MenuBar(component.Component):
                 ) , component.get("MainWindow").window, \
                 gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, buttons=(gtk.STOCK_CANCEL, \
                 gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
-            chooser.set_local_only(False)
+            chooser.set_local_only(True)
             if not common.windows_check():
                 chooser.set_icon(common.get_logo(18))
                 chooser.set_property("skip-taskbar-hint", True)
