@@ -348,7 +348,7 @@ class FilesTab(Tab):
             while i:
                 selected.append(self.treestore[i][5])
                 if self.treestore.iter_has_child(i):
-                    get_selected_files(i, selected)
+                    get_iter_children(i, selected)
                 i = self.treestore.iter_next(i)
                     
         selected = []
