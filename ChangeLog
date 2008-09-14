@@ -4,6 +4,7 @@ Deluge 0.9.09 - "1.0.0_RC9" (10 September 2008)
     have 'announce' in it's url.
   * Fix fastresume issue causing loss of data by deleting the fastresume file
     before writing a new one
+  * Fix #475 the use of unicode paths when adding torrents
     
  GtkUI:
   * Fix add torrent dialog closing preventing another dialog from being shown

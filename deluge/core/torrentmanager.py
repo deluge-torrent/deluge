@@ -316,7 +316,7 @@ class TorrentManager(component.Component):
             storage_mode = lt.storage_mode_t(1)
         
         # Fill in the rest of the add_torrent_params dictionary
-        add_torrent_params["save_path"] = str(options["download_location"])
+        add_torrent_params["save_path"] = options["download_location"].encode("utf8")
 
         add_torrent_params["storage_mode"] = storage_mode
         add_torrent_params["paused"] = True
