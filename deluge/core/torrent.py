@@ -530,7 +530,7 @@ class Torrent:
     def move_storage(self, dest):
         """Move a torrent's storage location"""
         try:
-            self.handle.move_storage(dest)
+            self.handle.move_storage(dest.encode("utf8"))
         except:
             return False
 
