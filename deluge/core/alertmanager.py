@@ -94,7 +94,11 @@ class AlertManager(component.Component):
             # Do some magic to get the alert type as a string
             alert_type = str(type(alert)).split("'")[1].split(".")[2]
             # Display the alert message
-            log.debug("%s: %s", alert_type, alert.message())
+            try:
+                log.debug("%s: %s", alert_type, alert.message())
+            except RuntimeError:
+                log.debug("%s", alert_type)
+                
             # Call any handlers for this alert type
             if alert_type in self.handlers.keys():
                 for handler in self.handlers[alert_type]:
