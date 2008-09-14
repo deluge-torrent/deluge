@@ -701,8 +701,8 @@ class TorrentManager(component.Component):
     def on_alert_tracker_error(self, alert):
         log.debug("on_alert_tracker_error")
         torrent = self.torrents[str(alert.handle.info_hash())]
-        
-        tracker_status = "%s: %s" % (_("Error"), str(alert.message()))
+        error_msg = " ".join(alert.message().split()[3:]).split(":")[0]
+        tracker_status = "%s: %s" % (_("Error"), error_msg)
         try:
             torrent.set_tracker_status(tracker_status)
         except KeyError:
