@@ -518,6 +518,8 @@ class Core(
         config = deluge.common.pythonize(config)
         # Load all the values into the configuration
         for key in config.keys():
+            if isinstance(config[key], unicode) or isinstance(config[key], str):
+                config[key] = config[key].encode("utf8")
             self.config[key] = config[key]
 
     def export_get_listen_port(self):
