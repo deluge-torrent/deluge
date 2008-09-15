@@ -179,7 +179,6 @@ class TorrentManager(component.Component):
         # Save state on shutdown
         self.save_state()
         
-        component.pause("AlertManager")
         for key in self.torrents.keys():
             if not self.torrents[key].handle.is_paused():
                 # We set auto_managed false to prevent lt from resuming the torrent
@@ -188,7 +187,7 @@ class TorrentManager(component.Component):
                 self.shutdown_torrent_pause_list.append(key)
         # We have to wait for all torrents to pause and write their resume data
         wait = True
-        while self.shutdown_torrent_pause_list and wait:
+        while self.shutdown_torrent_pause_list or wait:
             wait = False
             for torrent in self.torrents.values():
                 if torrent.waiting_on_resume_data:
