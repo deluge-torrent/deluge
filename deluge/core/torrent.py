@@ -41,29 +41,69 @@ import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
-from deluge.core.preferencesmanager import DEFAULT_PREFS
+
 import deluge.xmlrpclib
 
 TORRENT_STATE = deluge.common.TORRENT_STATE
 
-OPTIONS = {
-    "max_download_speed": DEFAULT_PREFS["max_download_speed_per_torrent"],
-    "max_upload_speed": DEFAULT_PREFS["max_upload_speed_per_torrent"],
-    "max_connections": DEFAULT_PREFS["max_connections_per_torrent"],
-    "max_upload_slots": DEFAULT_PREFS["max_upload_slots_per_torrent"],
-    "prioritize_first_last_pieces": DEFAULT_PREFS["prioritize_first_last_pieces"],
-    "auto_managed": DEFAULT_PREFS["auto_managed"],
-    "stop_at_ratio": DEFAULT_PREFS["stop_seed_at_ratio"],
-    "stop_ratio": DEFAULT_PREFS["stop_seed_ratio"],
-    "remove_at_ratio": DEFAULT_PREFS["remove_seed_at_ratio"],
-    "move_completed": DEFAULT_PREFS["move_completed"],
-    "move_completed_path": DEFAULT_PREFS["move_completed_path"],
-    "file_priorities": [],
-    "compact_allocation": DEFAULT_PREFS["compact_allocation"],
-    "download_location": DEFAULT_PREFS["download_location"],
-    "add_paused": DEFAULT_PREFS["add_paused"]
-}
+class TorrentOptions(dict):
+    def __init__(self):
+        self.config = ConfigManager("core.conf")
+        self.default_keys = {
+            "max_download_speed": "max_download_speed_per_torrent",
+            "max_upload_speed": "max_upload_speed_per_torrent",
+            "max_connections": "max_connections_per_torrent",
+            "max_upload_slots": "max_upload_slots_per_torrent",
+            "prioritize_first_last_pieces": "prioritize_first_last_pieces",
+            "auto_managed": "auto_managed",
+            "stop_at_ratio": "stop_seed_at_ratio",
+            "stop_ratio": "stop_seed_ratio",
+            "remove_at_ratio": "remove_seed_at_ratio",
+            "move_completed": "move_completed",
+            "move_completed_path": "move_completed_path",
+            "file_priorities": [],
+            "compact_allocation": "compact_allocation",
+            "download_location": "download_location",
+            "add_paused": "add_paused"
+        }
+        
+    def items(self):
+        i = super(TorrentOptions, self).items()
+        for k in self.default_keys:
+            if k not in super(TorrentOptions, self).keys():
+                i.append((k, self.__getitem__(k)))
 
+        return i
+    
+    def keys(self):
+        k = super(TorrentOptions, self).keys()
+        for key in self.default_keys.keys():
+            if key not in k:
+                k.append(key)
+        return k
+    
+    def iteritems(self):
+        return self.items().itermitems()
+    
+    def has_key(self, key):
+        if super(TorrentOptions, self).has_key(key):
+            return True
+        elif self.default_keys.has_key(key):
+            return True
+        return False
+                            
+    def __setitem__(self, key, value):
+        super(TorrentOptions, self).__setitem__(key, value)
+    
+    def __getitem__(self, key):
+        if super(TorrentOptions, self).has_key(key):
+            return super(TorrentOptions, self).__getitem__(key)
+        else:
+            if self.default_keys[key]:
+                return self.config[self.default_keys[key]]
+            else:
+                return self.default_keys[key]
+        
 class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.
     """
@@ -104,7 +144,7 @@ class Torrent:
         self.total_uploaded = 0
 
         # Set the default options
-        self.options = OPTIONS.copy()
+        self.options = TorrentOptions()
         self.options.update(options)
         
         # We need to keep track if the torrent is finished in the state to prevent
@@ -170,7 +210,8 @@ class Torrent:
     
     def get_options(self):
         return self.options
-        
+
+    
     def set_max_connections(self, max_connections):
         self.options["max_connections"] = int(max_connections)
         self.handle.set_max_connections(max_connections)

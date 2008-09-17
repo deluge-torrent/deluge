@@ -46,7 +46,7 @@ import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.core.torrent import Torrent
-from deluge.core.torrent import OPTIONS
+from deluge.core.torrent import TorrentOptions
 import deluge.core.oldstateupgrader
 
 from deluge.log import LOG as log
@@ -271,7 +271,7 @@ class TorrentManager(component.Component):
             # from the state object.
 
             # Populate the options dict from state
-            options = OPTIONS.copy()
+            options = TorrentOptions()
             options["max_connections"] = state.max_connections
             options["max_upload_slots"] = state.max_upload_slots
             options["max_upload_speed"] = state.max_upload_speed
@@ -295,9 +295,9 @@ class TorrentManager(component.Component):
             # We have a torrent_info object so we're not loading from state.
             # Check if options is None and load defaults
             if options == None:
-                options = OPTIONS.copy()
+                options = TorrentOptions()
             else:
-                o = OPTIONS.copy()
+                o = TorrentOptions()
                 o.update(options)
                 options = o
 
