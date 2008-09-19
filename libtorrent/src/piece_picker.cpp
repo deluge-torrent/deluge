@@ -1517,6 +1517,7 @@ namespace libtorrent
 			, end(m_downloads.end()); i != end; ++i)
 		{
 			if (!pieces[i->index]) continue;
+			if (piece_priority(i->index) == 0) continue;
 
 			int num_blocks_in_piece = blocks_in_piece(i->index);
 
@@ -1540,6 +1541,7 @@ namespace libtorrent
 			, end(m_downloads.end()); i != end; ++i)
 		{
 			if (!pieces[i->index]) continue;
+			if (piece_priority(i->index) == 0) continue;
 				
 			int num_blocks_in_piece = blocks_in_piece(i->index);
 			for (int j = 0; j < num_blocks_in_piece; ++j)

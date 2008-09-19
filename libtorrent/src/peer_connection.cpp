@@ -337,6 +337,12 @@ namespace libtorrent
 		boost::shared_ptr<torrent> t = m_torrent.lock();
 		TORRENT_ASSERT(t);
 
+		// if m_have_piece is 0, it means the connections
+		// have not been initialized yet. The interested
+		// flag will be updated once they are.
+		if (m_have_piece.size() == 0) return;
+		if (!t->ready_for_connections()) return;
+
 		bool interested = false;
 		if (!t->is_finished())
 		{
@@ -361,7 +367,7 @@ namespace libtorrent
 		// may throw an asio error if socket has disconnected
 		catch (std::exception&) {}
 
-		TORRENT_ASSERT(is_interesting() == interested);
+		TORRENT_ASSERT(in_handshake() || is_interesting() == interested);
 	}
 
 #ifndef TORRENT_DISABLE_EXTENSIONS
