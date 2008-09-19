@@ -212,6 +212,10 @@ class Core(
         # Set the user agent
         self.settings = lt.session_settings()
         self.settings.user_agent = "Deluge %s" % deluge.common.get_version()
+
+        # Load the GeoIP DB for country look-ups
+        self.session.load_country_db(
+            pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat")))
         
         # Set session settings
         self.settings.lazy_bitfields = 1

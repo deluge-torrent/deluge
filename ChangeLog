@@ -1,3 +1,7 @@
+Deluge 0.9.10 - "1.0.0_RC10" (In Development)
+ Core:
+  * Include GeoIP database for country look-ups
+
 Deluge 0.9.09 - "1.0.0_RC9" (15 September 2008)
  Core:
   * Bug fixes in libtorrent including a crash when the tracker doesn't

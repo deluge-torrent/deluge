@@ -311,6 +311,7 @@ setup(
                                 "data/pixmaps/*.ico",
                                 "data/pixmaps/flags/*.png",
                                 "data/revision",
+                                "data/GeoIP.dat",
                                 "plugins/*.egg",
                                 "i18n/*.pot",
                                 "i18n/*/LC_MESSAGES/*.mo",
