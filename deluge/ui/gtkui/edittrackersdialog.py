@@ -1,7 +1,7 @@
 #
 # edittrackersdialog.py
 #
-# Copyright (C) 2007 Andrew Resch ('andar') <andrewresch@gmail.com>
+# Copyright (C) 2007, 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
 # 
 # Deluge is free software.
 # 
@@ -125,7 +125,7 @@ class EditTrackersDialog:
         log.debug("on_button_add_clicked")
         # Show the add tracker dialog
         self.add_tracker_dialog.show()
-        self.glade.get_widget("entry_tracker").grab_focus()
+        self.glade.get_widget("textview_trackers").grab_focus()
         
     def on_button_remove_clicked(self, widget):
         log.debug("on_button_remove_clicked")
@@ -185,38 +185,43 @@ class EditTrackersDialog:
         
     def on_button_add_ok_clicked(self, widget):
         log.debug("on_button_add_ok_clicked")
-        from re import search as re_search
-        tracker = self.glade.get_widget("entry_tracker").get_text()
-        if not re_search("[udp|http]s?://", tracker):
-            # Bad url.. lets prepend http://
-            tracker = "http://" + tracker
-        
-        # Figure out what tier number to use.. it's going to be the highest+1
-        # Also check for duplicates
-        self.highest_tier = 0
-        self.duplicate = False
-        def tier_count(model, path, iter, data):
-            tier = model.get_value(iter, 0)
-            if tier > self.highest_tier:
-                self.highest_tier = tier
-            tracker = model.get_value(iter, 1)
-            if data == tracker:
-                # We already have this tracker in the list
-                self.duplicate = True
 
-        # Check if there are any entries
-        if self.liststore.iter_n_children(None) > 0:
-            self.liststore.foreach(tier_count, tracker)
-        else:
-            self.highest_tier = -1
-            
-        # If not a duplicate, then add it to the list
-        if not self.duplicate:
-            # Add the tracker to the list
-            self.add_tracker(self.highest_tier + 1, tracker)
+        # Create a list of trackers from the textview widget
+        textview = self.glade.get_widget("textview_trackers")
+        trackers = []
+        b = textview.get_buffer()
+        lines = b.get_text(b.get_start_iter(), b.get_end_iter()).strip().split("\n")
+        for l in lines:
+            if deluge.common.is_url(l):
+                trackers.append(l)
+
+        for tracker in trackers:
+            # Figure out what tier number to use.. it's going to be the highest+1
+            # Also check for duplicates
+            highest_tier = 0
+            duplicate = False
+            def tier_count(model, path, iter, data):
+                tier = model.get_value(iter, 0)
+                if tier > data[1]:
+                    data[1] = tier
+                tracker = model.get_value(iter, 1)
+                if data[0] == tracker:
+                    # We already have this tracker in the list
+                    data[2] = True
+
+            # Check if there are any entries
+            if self.liststore.iter_n_children(None) > 0:
+                self.liststore.foreach(tier_count, [tracker, highest_tier, duplicate])
+            else:
+                highest_tier = -1
+                
+            # If not a duplicate, then add it to the list
+            if not duplicate:
+                # Add the tracker to the list
+                self.add_tracker(highest_tier + 1, tracker)
 
         # Clear the entry widget and hide the dialog
-        self.glade.get_widget("entry_tracker").set_text("")
+        textview.get_buffer().set_text("")
         self.add_tracker_dialog.hide()
         
     def on_button_add_cancel_clicked(self, widget):

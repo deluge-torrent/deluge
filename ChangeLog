@@ -9,3 +9,4 @@ Deluge 1.1.0 - "" (In Development)
   * Add peer progress to the peers tab
   * Sorting # column will place downloaders above seeds
   * Remove dependency on libtorrent for add torrent dialog
+  * Allow adding multiple trackers at once in the edit tracker dialog
