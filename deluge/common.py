@@ -368,5 +368,19 @@ def create_magnet_uri(infohash, name=None, trackers=[]):
             uri = uri + "&tr=" + t
 
     return uri
-    
 
+def get_path_size(path):
+    """Returns the size in bytes of 'path'.  If path does not exist, then -1 is
+    returned."""
+    if not os.path.exists(path):
+        return -1
+
+    if os.path.isfile(path):
+        return os.path.getsize(path)
+
+    dir_size = 0
+    for (p, dirs, files) in os.walk(path):
+        for file in files:
+            filename = os.path.join(p, file)
+            dir_size += os.path.getsize(filename)
+    return dir_size

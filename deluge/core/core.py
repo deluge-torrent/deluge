@@ -641,6 +641,11 @@ class Core(
         """Returns True if we have established incoming connections"""
         return self.session.status().has_incoming_connections
 
+    def export_get_path_size(self, path):
+        """Returns the size of the file or folder 'path' and -1 if the path is
+        unaccessible (non-existent or insufficient privs)"""
+        return deluge.common.get_path_size(path)
+        
     ## Queueing functions ##
     def export_queue_top(self, torrent_ids):
         log.debug("Attempting to queue %s to top", torrent_ids)
