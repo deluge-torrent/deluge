@@ -290,7 +290,14 @@ class Torrent:
         """Sets trackers"""
         if trackers == None:
             trackers = []
-
+            for value in self.handle.trackers():
+                tracker = {}
+                tracker["url"] = value.url
+                tracker["tier"] = value.tier
+                trackers.append(tracker)
+            self.trackers = trackers
+            return
+            
         log.debug("Setting trackers for %s: %s", self.torrent_id, trackers)
         tracker_list = []
 
