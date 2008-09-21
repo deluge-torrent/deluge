@@ -391,8 +391,8 @@ def free_space(path):
         import win32api
         drive = path.split(":")[0]
         free = win32api.GetDiskFreeSpaceEx(drive)[0]
-        return fsize(free)
+        return free
     else:
         disk_data = os.statvfs(path)
         block_size = disk_data.f_bsize
-        return fsize(disk_data.f_bavail * block_size)
+        return disk_data.f_bavail * block_size
