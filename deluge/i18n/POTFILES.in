@@ -89,7 +89,6 @@ deluge/ui/__init__.py
 deluge/ui/gtkui/connectionmanager.py
 deluge/ui/gtkui/ipcinterface.py
 deluge/ui/gtkui/options_tab.py
-deluge/ui/gtkui/addtorrenturl.py
 deluge/ui/gtkui/preferences.py
 deluge/ui/gtkui/addtorrentdialog.py
 deluge/ui/gtkui/torrentdetails.py
@@ -147,6 +146,5 @@ deluge/ui/gtkui/glade/move_storage_dialog.glade
 deluge/ui/gtkui/glade/add_torrent_dialog.glade
 deluge/ui/gtkui/glade/torrent_menu.glade
 deluge/ui/gtkui/glade/tray_menu.glade
-deluge/ui/gtkui/glade/file_tab_menu.glade
 deluge/ui/gtkui/glade/main_window.glade
 deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade

@@ -7,31 +7,36 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-08-16 21:52-0500\n"
+"POT-Creation-Date: 2008-08-26 20:14-0500\n"
 "PO-Revision-Date: 2008-08-12 10:57+0000\n"
 "Last-Translator: John Garland <Unknown>\n"
 "Language-Team: English (Australia) <en_AU@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-08-27 01:13+0000\n"
+"X-Launchpad-Export-Date: 2008-09-21 02:37+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: deluge/core/torrentmanager.py:667
+#: deluge/core/torrentmanager.py:650
 msgid "Announce OK"
 msgstr "Announce OK"
 
-#: deluge/core/torrentmanager.py:688
+#: deluge/core/torrentmanager.py:671
 msgid "Announce Sent"
 msgstr "Announce Sent"
 
-#: deluge/core/torrentmanager.py:697
+#: deluge/core/torrentmanager.py:680
 msgid "Alert"
 msgstr "Alert"
 
-#: deluge/core/torrentmanager.py:708
+#: deluge/core/torrentmanager.py:691
 msgid "Warning"
 msgstr "Warning"
+
+#: deluge/core/torrentmanager.py:702
+#: deluge/ui/webui/scripts/template_strings.py:32
+msgid "Error"
+msgstr "Error"
 
 #: deluge/ui/webui/scripts/template_strings.py:1
 msgid "# Of Files"
@@ -64,7 +69,7 @@ msgid "Add torrent"
 msgstr "Add torrent"
 
 #: deluge/ui/webui/scripts/template_strings.py:8
-#: deluge/ui/gtkui/peers_tab.py:98
+#: deluge/ui/gtkui/peers_tab.py:96
 msgid "Address"
 msgstr "Address"
 
@@ -74,7 +79,7 @@ msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:10
 #: deluge/ui/webui/torrent_options.py:26
-#: deluge/ui/gtkui/glade/main_window.glade:1816
+#: deluge/ui/gtkui/glade/main_window.glade:1817
 #: deluge/plugins/label/label/data/label_options.glade:332
 msgid "Auto Managed"
 msgstr "Auto Managed"
@@ -96,7 +101,7 @@ msgid "Clear"
 msgstr "Clear"
 
 #: deluge/ui/webui/scripts/template_strings.py:15
-#: deluge/ui/gtkui/peers_tab.py:114
+#: deluge/ui/gtkui/peers_tab.py:112
 msgid "Client"
 msgstr "Client"
 
@@ -148,12 +153,12 @@ msgid "Disable"
 msgstr "Disable"
 
 #: deluge/ui/webui/scripts/template_strings.py:27
-#: deluge/ui/gtkui/peers_tab.py:140 deluge/ui/gtkui/torrentview.py:146
+#: deluge/ui/gtkui/peers_tab.py:138 deluge/ui/gtkui/torrentview.py:160
 msgid "Down Speed"
 msgstr "Down Speed"
 
 #: deluge/ui/webui/scripts/template_strings.py:28
-#: deluge/ui/webui/config_tabs_deluge.py:125 deluge/ui/gtkui/systemtray.py:325
+#: deluge/ui/webui/config_tabs_deluge.py:125 deluge/ui/gtkui/systemtray.py:330
 msgid "Download"
 msgstr "Download"
 
@@ -162,7 +167,7 @@ msgid "Downloaded"
 msgstr "Downloaded"
 
 #: deluge/ui/webui/scripts/template_strings.py:30
-#: deluge/ui/gtkui/torrentview.py:154
+#: deluge/ui/gtkui/torrentview.py:168
 msgid "ETA"
 msgstr "ETA"
 
@@ -171,10 +176,6 @@ msgstr "ETA"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3382
 msgid "Enable"
 msgstr "Enable"
-
-#: deluge/ui/webui/scripts/template_strings.py:32
-msgid "Error"
-msgstr "Error"
 
 #: deluge/ui/webui/scripts/template_strings.py:33
 msgid "Eta"
@@ -206,7 +207,7 @@ msgstr ""
 #: deluge/plugins/label/label/webui/config.py:110
 #: deluge/plugins/label/label/gtkui/submenu.py:54
 #: deluge/plugins/label/label/gtkui/__init__.py:69
-#: deluge/plugins/label/label/gtkui/__init__.py:110
+#: deluge/plugins/label/label/gtkui/__init__.py:111
 msgid "Label"
 msgstr "Label"
 
@@ -237,7 +238,7 @@ msgid "N"
 msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:46
-#: deluge/ui/gtkui/torrentview.py:126
+#: deluge/ui/gtkui/torrentview.py:140
 msgid "Name"
 msgstr "Name"
 
@@ -279,7 +280,7 @@ msgid "Pause all"
 msgstr "Pause all"
 
 #: deluge/ui/webui/scripts/template_strings.py:55
-#: deluge/ui/webui/register_menu.py:48 deluge/ui/gtkui/torrentview.py:141
+#: deluge/ui/webui/register_menu.py:48 deluge/ui/gtkui/torrentview.py:155
 msgid "Peers"
 msgstr "Peers"
 
@@ -289,12 +290,12 @@ msgstr "Pieces"
 
 #: deluge/ui/webui/scripts/template_strings.py:57
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:735
-#: deluge/ui/gtkui/glade/main_window.glade:1984
+#: deluge/ui/gtkui/glade/main_window.glade:1985
 msgid "Private"
 msgstr "Private"
 
 #: deluge/ui/webui/scripts/template_strings.py:58
-#: deluge/ui/gtkui/peers_tab.py:127 deluge/ui/gtkui/torrentview.py:132
+#: deluge/ui/gtkui/peers_tab.py:125 deluge/ui/gtkui/torrentview.py:146
 #: deluge/ui/gtkui/files_tab.py:138
 msgid "Progress"
 msgstr "Progress"
@@ -310,7 +311,7 @@ msgid "Queue Position"
 msgstr "Queue Position"
 
 #: deluge/ui/webui/scripts/template_strings.py:61
-#: deluge/ui/gtkui/torrentview.py:158
+#: deluge/ui/gtkui/torrentview.py:172
 msgid "Ratio"
 msgstr "Ratio"
 
@@ -319,7 +320,6 @@ msgid "Refresh page every:"
 msgstr "Refresh page every:"
 
 #: deluge/ui/webui/scripts/template_strings.py:63
-#: deluge/plugins/label/label/gtkui/sidebar.py:65
 msgid "Remove"
 msgstr "Remove"
 
@@ -344,7 +344,7 @@ msgid "Seed rank"
 msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:69
-#: deluge/ui/gtkui/torrentview.py:136
+#: deluge/ui/gtkui/torrentview.py:150
 msgid "Seeders"
 msgstr "Seeders"
 
@@ -369,7 +369,7 @@ msgid "Share Ratio"
 msgstr "Share Ratio"
 
 #: deluge/ui/webui/scripts/template_strings.py:75
-#: deluge/ui/gtkui/addtorrentdialog.py:105 deluge/ui/gtkui/torrentview.py:128
+#: deluge/ui/gtkui/addtorrentdialog.py:107 deluge/ui/gtkui/torrentview.py:142
 #: deluge/ui/gtkui/files_tab.py:125
 msgid "Size"
 msgstr "Size"
@@ -402,7 +402,7 @@ msgid "Total Size"
 msgstr "Total Size"
 
 #: deluge/ui/webui/scripts/template_strings.py:82
-#: deluge/ui/gtkui/torrentview.py:166 deluge/ui/gtkui/edittrackersdialog.py:83
+#: deluge/ui/gtkui/torrentview.py:180 deluge/ui/gtkui/edittrackersdialog.py:83
 msgid "Tracker"
 msgstr "Tracker"
 
@@ -415,7 +415,7 @@ msgid "True"
 msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:85
-#: deluge/ui/gtkui/peers_tab.py:153 deluge/ui/gtkui/torrentview.py:150
+#: deluge/ui/gtkui/peers_tab.py:151 deluge/ui/gtkui/torrentview.py:164
 msgid "Up Speed"
 msgstr "Up Speed"
 
@@ -424,7 +424,7 @@ msgid "Update"
 msgstr ""
 
 #: deluge/ui/webui/scripts/template_strings.py:87
-#: deluge/ui/gtkui/systemtray.py:329
+#: deluge/ui/gtkui/systemtray.py:334
 msgid "Upload"
 msgstr "Upload"
 
@@ -440,11 +440,11 @@ msgstr ""
 msgid "seconds"
 msgstr "seconds"
 
-#: deluge/ui/webui/pages.py:270
+#: deluge/ui/webui/pages.py:271
 msgid "refresh must be > 0"
 msgstr "refresh must be > 0"
 
-#: deluge/ui/webui/pages.py:321
+#: deluge/ui/webui/pages.py:322
 msgid "no uri"
 msgstr "no uri"
 
@@ -771,7 +771,7 @@ msgid "∞"
 msgstr "∞"
 
 #: deluge/ui/webui/torrent_options.py:23
-#: deluge/ui/gtkui/glade/main_window.glade:1997
+#: deluge/ui/gtkui/glade/main_window.glade:1998
 msgid "Prioritize First/Last"
 msgstr "Prioritise First/Last"
 
@@ -780,7 +780,7 @@ msgid "Stop seed at ratio"
 msgstr "Stop seed at ratio"
 
 #: deluge/ui/webui/torrent_options.py:29
-#: deluge/ui/gtkui/glade/main_window.glade:1874
+#: deluge/ui/gtkui/glade/main_window.glade:1875
 #: deluge/plugins/label/label/data/label_options.glade:302
 msgid "Remove at ratio"
 msgstr "Remove at ratio"
@@ -943,7 +943,7 @@ msgstr "This folder does not exist."
 
 #: deluge/ui/webui/lib/newforms_plus.py:193
 #: deluge/ui/webui/lib/newforms_plus.py:204 deluge/ui/gtkui/systemtray.py:187
-#: deluge/ui/gtkui/systemtray.py:191 deluge/ui/gtkui/systemtray.py:335
+#: deluge/ui/gtkui/systemtray.py:191 deluge/ui/gtkui/systemtray.py:340
 #: deluge/common.py:174
 msgid "Unlimited"
 msgstr "Unlimited"
@@ -1013,41 +1013,41 @@ msgstr "Enter the URL of the .torrent to download"
 msgid "Plugin"
 msgstr "Plugin"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:86 deluge/ui/gtkui/queuedtorrents.py:71
+#: deluge/ui/gtkui/addtorrentdialog.py:88 deluge/ui/gtkui/queuedtorrents.py:71
 msgid "Torrent"
 msgstr "Torrent"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:94 deluge/ui/gtkui/files_tab.py:109
+#: deluge/ui/gtkui/addtorrentdialog.py:96 deluge/ui/gtkui/files_tab.py:109
 msgid "Filename"
 msgstr "Filename"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:445
+#: deluge/ui/gtkui/addtorrentdialog.py:447
 msgid "Choose a .torrent file"
 msgstr "Choose a .torrent file"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:457
+#: deluge/ui/gtkui/addtorrentdialog.py:459
 msgid "Torrent files"
 msgstr "Torrent files"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:461
+#: deluge/ui/gtkui/addtorrentdialog.py:463
 msgid "All files"
 msgstr "All files"
 
-#: deluge/ui/gtkui/notification.py:82
+#: deluge/ui/gtkui/notification.py:74
 msgid "Torrent complete"
 msgstr "Torrent complete"
 
-#: deluge/ui/gtkui/notification.py:83
+#: deluge/ui/gtkui/notification.py:75
 #, python-format
 msgid "Including %i files"
 msgstr ""
 
-#: deluge/ui/gtkui/notification.py:110
+#: deluge/ui/gtkui/notification.py:102
 #, python-format
 msgid "Finished torrent %s"
 msgstr ""
 
-#: deluge/ui/gtkui/notification.py:112
+#: deluge/ui/gtkui/notification.py:104
 #, python-format
 msgid ""
 "which includes %i files.\n"
@@ -1058,7 +1058,7 @@ msgid ""
 "Deluge"
 msgstr ""
 
-#: deluge/ui/gtkui/notification.py:111
+#: deluge/ui/gtkui/notification.py:103
 #, python-format
 msgid "This email is to inform you that Deluge has finished downloading %s "
 msgstr ""
@@ -1108,25 +1108,25 @@ msgid "Up"
 msgstr "Up"
 
 #: deluge/ui/gtkui/systemtray.py:209 deluge/ui/gtkui/systemtray.py:215
-#: deluge/ui/gtkui/systemtray.py:334 deluge/ui/gtkui/statusbar.py:329
+#: deluge/ui/gtkui/systemtray.py:339 deluge/ui/gtkui/statusbar.py:329
 #: deluge/ui/gtkui/statusbar.py:339 deluge/ui/gtkui/statusbar.py:352
 #: deluge/ui/gtkui/statusbar.py:380
-#: deluge/ui/gtkui/glade/main_window.glade:1726
-#: deluge/ui/gtkui/glade/main_window.glade:1738
+#: deluge/ui/gtkui/glade/main_window.glade:1727
+#: deluge/ui/gtkui/glade/main_window.glade:1739
 msgid "KiB/s"
 msgstr "KiB/s"
 
-#: deluge/ui/gtkui/systemtray.py:338 deluge/ui/gtkui/statusbar.py:363
+#: deluge/ui/gtkui/systemtray.py:343 deluge/ui/gtkui/statusbar.py:363
 #: deluge/ui/gtkui/statusbar.py:392 deluge/ui/gtkui/statusbar.py:420
 #: deluge/common.py:230
 msgid "Other..."
 msgstr "Other..."
 
-#: deluge/ui/gtkui/systemtray.py:369
+#: deluge/ui/gtkui/systemtray.py:374
 msgid "Deluge is locked"
 msgstr "Deluge is locked"
 
-#: deluge/ui/gtkui/systemtray.py:372
+#: deluge/ui/gtkui/systemtray.py:377
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
@@ -1134,7 +1134,7 @@ msgstr ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
 
-#: deluge/ui/gtkui/torrentview.py:162
+#: deluge/ui/gtkui/torrentview.py:176
 msgid "Avail"
 msgstr "Avail"
 
@@ -1142,7 +1142,7 @@ msgstr "Avail"
 msgid "Priority"
 msgstr "Priority"
 
-#: deluge/ui/gtkui/signals.py:149
+#: deluge/ui/gtkui/signals.py:150
 msgid "Torrent is past stop ratio."
 msgstr "Torrent is past stop ratio."
 
@@ -1247,42 +1247,39 @@ msgstr "Add Label"
 msgid "Hide filter items with 0 hits"
 msgstr "Hide filter items with 0 hits"
 
-#: deluge/plugins/label/label/core.py:302
+#: deluge/plugins/label/label/core.py:193
 msgid "Invalid label, valid characters:[a-z0-9_-]"
 msgstr "Invalid label, valid characters:[a-z0-9_-]"
 
-#: deluge/plugins/label/label/core.py:303
+#: deluge/plugins/label/label/core.py:194
 msgid "Empty Label"
 msgstr "Empty Label"
 
-#: deluge/plugins/label/label/core.py:304
+#: deluge/plugins/label/label/core.py:195
 msgid "Label already exists"
 msgstr ""
 
-#: deluge/plugins/label/label/core.py:310
-#: deluge/plugins/label/label/core.py:362
-#: deluge/plugins/label/label/core.py:395
+#: deluge/plugins/label/label/core.py:201
+#: deluge/plugins/label/label/core.py:253
+#: deluge/plugins/label/label/core.py:286
 msgid "Unknown Label"
 msgstr "Unknown Label"
 
-#: deluge/plugins/label/label/core.py:396
+#: deluge/plugins/label/label/core.py:287
 msgid "Unknown Torrent"
 msgstr "Unknown Torrent"
 
-#: deluge/plugins/label/label/gtkui/sidebar.py:64
-msgid "_Add"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:63
+msgid "Label _Options"
 msgstr ""
 
-#: deluge/plugins/label/label/gtkui/sidebar.py:66
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:968
-#: deluge/ui/gtkui/glade/main_window.glade:2137
-msgid "_Options"
-msgstr "_Options"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:64
+msgid "_Remove Label"
+msgstr ""
 
-#: deluge/plugins/label/label/gtkui/sidebar.py:236
-#: deluge/plugins/label/label/gtkui/sidebar.py:268
-msgid "Filters"
-msgstr "Filters"
+#: deluge/plugins/label/label/gtkui/sidebar_menu.py:65
+msgid "_Add Label"
+msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 msgid "Invalid leader"
@@ -1454,7 +1451,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:121
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1010
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1157
-#: deluge/ui/gtkui/glade/main_window.glade:2316
+#: deluge/ui/gtkui/glade/main_window.glade:2317
 #: deluge/plugins/label/label/data/label_options.glade:547
 #: deluge/plugins/label/label/data/label_options.glade:623
 msgid "gtk-cancel"
@@ -1492,7 +1489,7 @@ msgstr "Do not show this dialog on start-up"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:269
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:154
-#: deluge/ui/gtkui/glade/main_window.glade:2498
+#: deluge/ui/gtkui/glade/main_window.glade:2499
 msgid "gtk-close"
 msgstr "gtk-close"
 
@@ -1538,7 +1535,7 @@ msgstr "<b>Add Torrents Dialog</b>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:259
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:413
-#: deluge/ui/gtkui/glade/main_window.glade:1910
+#: deluge/ui/gtkui/glade/main_window.glade:1911
 msgid "Select A Folder"
 msgstr "Select A Folder"
 
@@ -1937,8 +1934,7 @@ msgstr "<i><b><big>Queue</big></b></i>"
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2442
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3179
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:810
-#: deluge/ui/gtkui/glade/main_window.glade:2058
-#: deluge/plugins/label/label/data/label_pref.glade:62
+#: deluge/ui/gtkui/glade/main_window.glade:2059
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:89
 msgid "<b>General</b>"
 msgstr "<b>General</b>"
@@ -2084,7 +2080,7 @@ msgid "<i><b><big>Plugins</big></b></i>"
 msgstr "<i><b><big>Plugins</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3570
-#: deluge/ui/gtkui/glade/main_window.glade:2087
+#: deluge/ui/gtkui/glade/main_window.glade:2088
 msgid "gtk-apply"
 msgstr "gtk-apply"
 
@@ -2116,29 +2112,29 @@ msgid "Automatically add torrents on connect"
 msgstr "Automatically add torrents on connect"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:8
-#: deluge/ui/gtkui/glade/main_window.glade:2157
+#: deluge/ui/gtkui/glade/main_window.glade:2158
 msgid "Remove Torrent?"
 msgstr "Remove Torrent?"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:44
-#: deluge/ui/gtkui/glade/main_window.glade:2193
+#: deluge/ui/gtkui/glade/main_window.glade:2194
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr ""
 "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:95
-#: deluge/ui/gtkui/glade/main_window.glade:2244
+#: deluge/ui/gtkui/glade/main_window.glade:2245
 msgid "<i>The associated .torrent will be deleted!</i>"
 msgstr "<i>The associated .torrent will be deleted!</i>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:134
-#: deluge/ui/gtkui/glade/main_window.glade:2283
+#: deluge/ui/gtkui/glade/main_window.glade:2284
 msgid "<i>The downloaded data will be deleted!</i>"
 msgstr "<i>The downloaded data will be deleted!</i>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:179
-#: deluge/ui/gtkui/glade/main_window.glade:2327
+#: deluge/ui/gtkui/glade/main_window.glade:2328
 msgid "Remove Selected Torrent"
 msgstr "Remove Selected Torrent"
 
@@ -2228,26 +2224,26 @@ msgstr "<b>Download Location</b>"
 msgid "Compact"
 msgstr "Compact"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:596
-#: deluge/ui/gtkui/glade/main_window.glade:1753
-msgid "Max Upload Slots:"
-msgstr "Max Upload Slots:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:610
-#: deluge/ui/gtkui/glade/main_window.glade:1690
-msgid "Max Connections:"
-msgstr "Max Connections:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:624
-msgid "Max Up Speed:"
-msgstr "Max Up Speed:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:638
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:559
 msgid "Max Down Speed:"
 msgstr "Max Down Speed:"
 
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:571
+msgid "Max Up Speed:"
+msgstr "Max Up Speed:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:585
+#: deluge/ui/gtkui/glade/main_window.glade:1691
+msgid "Max Connections:"
+msgstr "Max Connections:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:599
+#: deluge/ui/gtkui/glade/main_window.glade:1754
+msgid "Max Upload Slots:"
+msgstr "Max Upload Slots:"
+
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
-#: deluge/ui/gtkui/glade/main_window.glade:1786
+#: deluge/ui/gtkui/glade/main_window.glade:1787
 msgid "<b>Bandwidth</b>"
 msgstr "<b>Bandwidth</b>"
 
@@ -2261,7 +2257,7 @@ msgstr "Prioritise First/Last Pieces"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:777
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
-#: deluge/ui/gtkui/glade/main_window.glade:2033
+#: deluge/ui/gtkui/glade/main_window.glade:2034
 msgid "_Edit Trackers"
 msgstr "_Edit Trackers"
 
@@ -2272,6 +2268,11 @@ msgstr "Revert To Defaults"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:921
 msgid "Apply To All"
 msgstr "Apply To All"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:968
+#: deluge/ui/gtkui/glade/main_window.glade:2138
+msgid "_Options"
+msgstr "_Options"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1080
 msgid "<b>From URL</b>"
@@ -2431,39 +2432,39 @@ msgstr "_View"
 msgid "_Toolbar"
 msgstr "_Toolbar"
 
-#: deluge/ui/gtkui/glade/main_window.glade:152
+#: deluge/ui/gtkui/glade/main_window.glade:153
 msgid "_Sidebar"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:161
+#: deluge/ui/gtkui/glade/main_window.glade:162
 msgid "Status_bar"
 msgstr "Status_bar"
 
-#: deluge/ui/gtkui/glade/main_window.glade:175
+#: deluge/ui/gtkui/glade/main_window.glade:176
 msgid "T_abs"
 msgstr "T_abs"
 
-#: deluge/ui/gtkui/glade/main_window.glade:182
+#: deluge/ui/gtkui/glade/main_window.glade:183
 msgid "_Columns"
 msgstr "_Columns"
 
-#: deluge/ui/gtkui/glade/main_window.glade:193
+#: deluge/ui/gtkui/glade/main_window.glade:194
 msgid "_Help"
 msgstr "_Help"
 
-#: deluge/ui/gtkui/glade/main_window.glade:201
+#: deluge/ui/gtkui/glade/main_window.glade:202
 msgid "Homepage"
 msgstr "Homepage"
 
-#: deluge/ui/gtkui/glade/main_window.glade:218
+#: deluge/ui/gtkui/glade/main_window.glade:219
 msgid "Frequently Asked Questions"
 msgstr "Frequently Asked Questions"
 
-#: deluge/ui/gtkui/glade/main_window.glade:219
+#: deluge/ui/gtkui/glade/main_window.glade:220
 msgid "FAQ"
 msgstr "FAQ"
 
-#: deluge/ui/gtkui/glade/main_window.glade:236
+#: deluge/ui/gtkui/glade/main_window.glade:237
 msgid "Community"
 msgstr "Community"
 
@@ -2487,205 +2488,185 @@ msgstr "Queue Torrent Up"
 msgid "Queue Torrent Down"
 msgstr "Queue Torrent Down"
 
-#: deluge/ui/gtkui/glade/main_window.glade:514
+#: deluge/ui/gtkui/glade/main_window.glade:515
 msgid "gtk-open"
 msgstr "gtk-open"
 
-#: deluge/ui/gtkui/glade/main_window.glade:528
+#: deluge/ui/gtkui/glade/main_window.glade:529
 msgid "_Expand All"
 msgstr "_Expand All"
 
-#: deluge/ui/gtkui/glade/main_window.glade:548
+#: deluge/ui/gtkui/glade/main_window.glade:549
 msgid "_Do Not Download"
 msgstr "_Do Not Download"
 
-#: deluge/ui/gtkui/glade/main_window.glade:563
+#: deluge/ui/gtkui/glade/main_window.glade:564
 msgid "_Normal Priority"
 msgstr "_Normal Priority"
 
-#: deluge/ui/gtkui/glade/main_window.glade:578
+#: deluge/ui/gtkui/glade/main_window.glade:579
 msgid "_High Priority"
 msgstr "_High Priority"
 
-#: deluge/ui/gtkui/glade/main_window.glade:593
+#: deluge/ui/gtkui/glade/main_window.glade:594
 msgid "Hi_ghest Priority"
 msgstr "Hi_ghest Priority"
 
-#: deluge/ui/gtkui/glade/main_window.glade:682
+#: deluge/ui/gtkui/glade/main_window.glade:683
 msgid "<b>Auto Managed:</b>"
 msgstr "<b>Auto Managed:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:721
+#: deluge/ui/gtkui/glade/main_window.glade:722
 msgid "<b>Seed Rank:</b>"
 msgstr "<b>Seed Rank:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:736
+#: deluge/ui/gtkui/glade/main_window.glade:737
 msgid "<b>Seeding Time:</b>"
 msgstr "<b>Seeding Time:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:761
+#: deluge/ui/gtkui/glade/main_window.glade:762
 msgid "<b>Active Time:</b>"
 msgstr "<b>Active Time:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:815
+#: deluge/ui/gtkui/glade/main_window.glade:816
 msgid "<b>Tracker Status:</b>"
 msgstr "<b>Tracker Status:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:846
+#: deluge/ui/gtkui/glade/main_window.glade:847
 msgid "<b>Availability:</b>"
 msgstr "<b>Availability:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:900
+#: deluge/ui/gtkui/glade/main_window.glade:901
 msgid "<b>Peers:</b>"
 msgstr "<b>Peers:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:926
+#: deluge/ui/gtkui/glade/main_window.glade:927
 msgid "<b>Seeders:</b>"
 msgstr "<b>Seeders:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:944
+#: deluge/ui/gtkui/glade/main_window.glade:945
 msgid "<b>Pieces:</b>"
 msgstr "<b>Pieces:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:966
+#: deluge/ui/gtkui/glade/main_window.glade:967
 msgid "<b>ETA:</b>"
 msgstr "<b>ETA:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:988
-#: deluge/ui/gtkui/glade/main_window.glade:1010
+#: deluge/ui/gtkui/glade/main_window.glade:989
+#: deluge/ui/gtkui/glade/main_window.glade:1011
 msgid "<b>Speed:</b>"
 msgstr "<b>Speed:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1029
+#: deluge/ui/gtkui/glade/main_window.glade:1030
 msgid "<b>Next Announce:</b>"
 msgstr "<b>Next Announce:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1048
+#: deluge/ui/gtkui/glade/main_window.glade:1049
 msgid "<b>Share Ratio:</b>"
 msgstr "<b>Share Ratio:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1067
+#: deluge/ui/gtkui/glade/main_window.glade:1068
 msgid "<b>Uploaded:</b>"
 msgstr "<b>Uploaded:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1086
+#: deluge/ui/gtkui/glade/main_window.glade:1087
 msgid "<b>Downloaded:</b>"
 msgstr "<b>Downloaded:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1173
+#: deluge/ui/gtkui/glade/main_window.glade:1174
 msgid "_Statistics"
 msgstr "_Statistics"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1244
+#: deluge/ui/gtkui/glade/main_window.glade:1245
 msgid "<b># of files:</b>"
 msgstr "<b># of files:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1276
+#: deluge/ui/gtkui/glade/main_window.glade:1277
 msgid "<b>Hash:</b>"
 msgstr "<b>Hash:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1306
+#: deluge/ui/gtkui/glade/main_window.glade:1307
 msgid "<b>Tracker:</b>"
 msgstr "<b>Tracker:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1326
+#: deluge/ui/gtkui/glade/main_window.glade:1327
 msgid "<b>Total Size:</b>"
 msgstr "<b>Total Size:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1364
+#: deluge/ui/gtkui/glade/main_window.glade:1365
 msgid "<b>Name:</b>"
 msgstr "<b>Name:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1384
+#: deluge/ui/gtkui/glade/main_window.glade:1385
 msgid "<b>Path:</b>"
 msgstr "<b>Path:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1418
+#: deluge/ui/gtkui/glade/main_window.glade:1419
 msgid "<b>Status:</b>"
 msgstr "<b>Status:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1484
+#: deluge/ui/gtkui/glade/main_window.glade:1485
 msgid "_Details"
 msgstr "_Details"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1534
+#: deluge/ui/gtkui/glade/main_window.glade:1535
 msgid "_Files"
 msgstr "_Files"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1584
+#: deluge/ui/gtkui/glade/main_window.glade:1585
 msgid "_Peers"
 msgstr "_Peers"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1703
+#: deluge/ui/gtkui/glade/main_window.glade:1704
 msgid "Max Upload Speed:"
 msgstr "Max Upload Speed:"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1716
+#: deluge/ui/gtkui/glade/main_window.glade:1717
 msgid "Max Download Speed:"
 msgstr "Max Download Speed:"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1836
+#: deluge/ui/gtkui/glade/main_window.glade:1837
 #: deluge/plugins/label/label/data/label_options.glade:317
 msgid "Stop seed at ratio:"
 msgstr "Stop seed at ratio:"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1890
+#: deluge/ui/gtkui/glade/main_window.glade:1891
 msgid "Move completed:"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/main_window.glade:1947
+#: deluge/ui/gtkui/glade/main_window.glade:1948
 msgid "<b>Queue</b>"
 msgstr "<b>Queue</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2345
+#: deluge/ui/gtkui/glade/main_window.glade:2346
 msgid "New Release"
 msgstr "New Release"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2376
+#: deluge/ui/gtkui/glade/main_window.glade:2377
 msgid "<b><big>New Release Available!</big></b>"
 msgstr "<b><big>New Release Available!</big></b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2427
+#: deluge/ui/gtkui/glade/main_window.glade:2428
 msgid "<i>Available Version:</i>"
 msgstr "<i>Available Version:</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2450
+#: deluge/ui/gtkui/glade/main_window.glade:2451
 msgid "<i>Current Version:</i>"
 msgstr "<i>Current Version:</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2472
+#: deluge/ui/gtkui/glade/main_window.glade:2473
 msgid "Do not show this dialog in the future"
 msgstr "Do not show this dialog in the future"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2512
+#: deluge/ui/gtkui/glade/main_window.glade:2513
 msgid "_Goto Website"
 msgstr "_Goto Website"
 
-#: deluge/plugins/label/label/data/label_pref.glade:40
-msgid "Hide zero hits"
-msgstr ""
-
-#: deluge/plugins/label/label/data/label_pref.glade:108
-msgid "Show states"
-msgstr ""
-
-#: deluge/plugins/label/label/data/label_pref.glade:117
-msgid "Show trackers"
-msgstr ""
-
-#: deluge/plugins/label/label/data/label_pref.glade:129
-msgid "Show labels"
-msgstr ""
-
-#: deluge/plugins/label/label/data/label_pref.glade:156
-msgid "<b>Sidebar</b>"
-msgstr ""
-
-#: deluge/plugins/label/label/data/label_pref.glade:182
+#: deluge/plugins/label/label/data/label_pref.glade:22
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
 msgstr ""
 
-#: deluge/plugins/label/label/data/label_pref.glade:192
+#: deluge/plugins/label/label/data/label_pref.glade:32
 msgid "<b>Labels</b>"
 msgstr ""
 
