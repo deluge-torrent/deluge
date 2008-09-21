@@ -384,3 +384,23 @@ def get_path_size(path):
             filename = os.path.join(p, file)
             dir_size += os.path.getsize(filename)
     return dir_size
+
+def free_space()
+    """returns free space in each partition"""
+    """example: {PARTITION: [TOTAL, AVAIL]}"""
+    space = {}
+    if windows_check():
+        import win32api
+        drive = get_default_download_dir().split(":")[0]
+        free = win32api.GetDiskFreeSpaceEx(drive)[0]
+        total = win32api.GetDiskFreeSpaceEx(drive)[1]
+        space[drive] = [total, free]
+    else:
+        from subprocess import Popen, PIPE
+        import re
+        whitespace_spliter = re.compile("\s+")
+        output = Popen(["df", "-hP", "--exclude-type=iso9660", "--exclude-type=udf", \
+                    "--exclude-type=tmpfs", get_default_download_dir], stdout=PIPE).communicate()[0]
+        modified = whitespace_spliter.split(output.split("\n")[1])
+        space[modified[0]] = [modified[1], modified[3]]
+    return space
