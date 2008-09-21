@@ -1,6 +1,7 @@
-Deluge 0.9.10 - "1.0.0_RC10" (In Development)
+Deluge 1.0.0 - "Sharks are bulletproof" (21 September 2008)
  Core:
   * Include GeoIP database for country look-ups
+  * Fix upgrading from 0.5.x state where torrents would have no trackers
 
 Deluge 0.9.09 - "1.0.0_RC9" (15 September 2008)
  Core:
