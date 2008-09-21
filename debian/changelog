@@ -1,5 +1,5 @@
-deluge-torrent (0.9.09-1) unstable; urgency=low
+deluge-torrent (1.0.0-1) unstable; urgency=low
 
-  * RC9 release
+  * 1.0.0 - "Sharks are bulletproof"
 
- -- Andrew Resch (andar) <andrewresch@gmail.com>  Sun, 14 Sep 2008 16:31:14 -0800
+ -- Andrew Resch (andar) <andrewresch@gmail.com>  Sun, 21 Sep 2008 02:10:00 -0000

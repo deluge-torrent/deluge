@@ -905,7 +905,7 @@ class Core(
         from urllib2 import urlopen
         try:
             self.new_release = urlopen(
-                "http://download.deluge-torrent.org/version-1.0").read().strip()
+                "http://download.deluge-torrent.org/version").read().strip()
         except Exception, e:
             log.debug("Unable to get release info from website: %s", e)
             return

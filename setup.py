@@ -51,29 +51,6 @@ def windows_check():
     else:
         return False
 
-# Try to get SVN revision number to append to version
-revision_string = ""
-try:
-    stdout = os.popen("svn info")
-    for line in stdout:
-        if line.split(" ")[0] == "Revision:":
-            revision_string = line.split(" ")[1].strip()
-            break
-    # Try to get the SVN revision on Gentoo systems
-    if revision_string == "":
-        stdout = os.popen("svn info /usr/portage/distfiles/svn-src/deluge/deluge-0.6")
-        for line in stdout:
-            if line.split(" ")[0] == "Revision:":
-                revision_string = line.split(" ")[1].strip()
-                break
-
-    f = open("deluge/data/revision", "w")
-    f.write(revision_string)
-    f.close()
-except:
-    pass
-
-
 if not os.environ.has_key("CC"):
     os.environ["CC"] = "gcc"
 
@@ -333,12 +310,5 @@ setup(
                                 ]},
     packages = find_packages(exclude=["plugins"]),
     url = "http://deluge-torrent.org",
-    version = "0.9.09",
+    version = "1.0.0",
 )
-
-try:
-    f = open("deluge/data/revision", "w")
-    f.write("")
-    f.close()
-except:
-    pass
