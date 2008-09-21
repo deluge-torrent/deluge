@@ -645,7 +645,41 @@ class Core(
         """Returns the size of the file or folder 'path' and -1 if the path is
         unaccessible (non-existent or insufficient privs)"""
         return deluge.common.get_path_size(path)
-        
+    
+    def export_create_torrent(self, path, tracker, piece_length, comment, target, 
+                        url_list, private, created_by, httpseeds, add_to_session):
+
+        log.debug("creating torrent..")        
+        threading.Thread(target=_create_torrent_thread,
+            args=(
+                path,
+                tracker,
+                piece_length,
+                comment,
+                target,
+                url_list,
+                private,
+                created_by,
+                httpseeds,
+                add_to_session)).start()
+                
+    def _create_torrent_thread(self, path, tracker, piece_length, comment, target,
+                    url_list, private, created_by, httpseeds, add_to_session):
+        import deluge.metafile
+        deluge.metafile.make_meta_file(
+            path,
+            tracker,
+            piece_length,
+            comment=comment,
+            target=target,
+            url_list=url_list,
+            private=private,
+            created_by=created_by,
+            httpseeds=httpseeds)
+        log.debug("torrent created!")
+        if add_to_session:
+            self.export_add_torrent_file(os.path.split(target)[1], open(target, "rb").read(), None)
+
     ## Queueing functions ##
     def export_queue_top(self, torrent_ids):
         log.debug("Attempting to queue %s to top", torrent_ids)

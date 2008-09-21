@@ -72,11 +72,11 @@ def decode_from_filesystem(path):
 def dummy(v):
     pass
     
-def make_meta_file(path, url, piece_len_exp, progress=dummy,
+def make_meta_file(path, url, piece_length, progress=dummy,
                    title=None, comment=None, safe=None, content_type=None,
-                   target=None, url_list=None, name=None):
+                   target=None, url_list=None, name=None, private=False,
+                   created_by=None, httpseeds=None):
     data = {'announce': url.strip(), 'creation date': int(gmtime())}
-    piece_length = 2 ** piece_len_exp
     a, b = os.path.split(path)
     if not target:
         if b == '':
@@ -85,7 +85,7 @@ def make_meta_file(path, url, piece_len_exp, progress=dummy,
             f = os.path.join(a, b + '.torrent')
     else:
         f = target
-    info = makeinfo(path, piece_length, progress, name, content_type)
+    info = makeinfo(path, piece_length, progress, name, content_type, private)
 
     #check_info(info)
     h = file(f, 'wb')
@@ -99,6 +99,11 @@ def make_meta_file(path, url, piece_len_exp, progress=dummy,
         data['safe'] = safe
     if url_list:
         data['url-list'] = url_list
+    if created_by:
+        data['created by'] = created_by
+    if httpseeds:
+        data['httpseeds'] = httpseeds
+        
     h.write(bencode(data))
     h.close()
 
@@ -109,7 +114,7 @@ def calcsize(path):
     return total
 
 def makeinfo(path, piece_length, progress, name = None,
-             content_type = None):  # HEREDAVE. If path is directory,
+             content_type = None, private=False):  # HEREDAVE. If path is directory,
                                     # how do we assign content type?
     def to_utf8(name):
         if isinstance(name, unicode):
@@ -130,6 +135,7 @@ def makeinfo(path, piece_length, progress, name = None,
                               'characters.' % name)
         return u.encode('utf-8')
     path = os.path.abspath(path)
+    piece_count = 0
     if os.path.isdir(path):
         subs = subfiles(path)
         subs.sort()
@@ -141,7 +147,8 @@ def makeinfo(path, piece_length, progress, name = None,
         totalhashed = 0
         for p, f in subs:
             totalsize += os.path.getsize(f)
-
+        num_pieces = totalsize / piece_length
+        
         for p, f in subs:
             pos = 0
             size = os.path.getsize(f)
@@ -155,6 +162,7 @@ def makeinfo(path, piece_length, progress, name = None,
             while pos < size:
                 a = min(size - pos, piece_length - done)
                 sh.update(h.read(a))
+                piece_count += 1
                 done += a
                 pos += a
                 totalhashed += a
@@ -163,7 +171,7 @@ def makeinfo(path, piece_length, progress, name = None,
                     pieces.append(sh.digest())
                     done = 0
                     sh = sha()
-                progress(a)
+                progress(piece_count, num_pieces)
             h.close()
         if done > 0:
             pieces.append(sh.digest())
@@ -176,30 +184,33 @@ def makeinfo(path, piece_length, progress, name = None,
 
         return {'pieces': ''.join(pieces),
             'piece length': piece_length, 'files': fs,
-            'name': name}
+            'name': name,
+            'private': private}
     else:
         size = os.path.getsize(path)
+        num_pieces = size / piece_length
         pieces = []
         p = 0
         h = file(path, 'rb')
         while p < size:
             x = h.read(min(piece_length, size - p))
-            if flag.isSet():
-                return
             pieces.append(sha(x).digest())
+            piece_count += 1
             p += piece_length
             if p > size:
                 p = size
-            progress(min(piece_length, size - p))
+            progress(piece_count, num_pieces)
         h.close()
         if content_type is not None:
             return {'pieces': ''.join(pieces),
                 'piece length': piece_length, 'length': size,
                 'name': to_utf8(os.path.split(path)[1]),
-                'content_type' : content_type }
+                'content_type' : content_type,
+                'private': private }
         return {'pieces': ''.join(pieces),
             'piece length': piece_length, 'length': size,
-            'name': to_utf8(os.path.split(path)[1])}
+            'name': to_utf8(os.path.split(path)[1]),
+            'private': private}
 
 def subfiles(d):
     r = []
