@@ -128,7 +128,7 @@ Array.implement({
 Element.implement({
 	getInnerSize: function() {
 		this.getPadding()
-		if ((/^(?:body|html)$/i).test(this.tagName)) return this.getWindow().getSize();
+		if ((/^(?:body|html)$/i).test(this.tagName)) return window.getSize();
 		return {x: this.clientWidth - this.padding.x, y: this.clientHeight - this.padding.y};
 	},
 	
