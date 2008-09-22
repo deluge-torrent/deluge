@@ -68,4 +68,9 @@ class UI:
             log.info("Starting NullUI..")
             from deluge.ui.null.deluge_shell import NullUI
             ui = NullUI(args)
+        elif selected_ui == "null2":
+            log.info("Starting NullUI2..")
+            from deluge.ui.null2.main import NullUI
+            ui = NullUI(args)
+            ui.run()
 
