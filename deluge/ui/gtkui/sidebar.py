@@ -79,8 +79,11 @@ class SideBar(component.Component):
         """Adds a tab object to the notebook."""
         log.debug("add tab:%s" % tab_name )
         self.tabs[tab_name] = widget
-        pos = self.notebook.insert_page(widget, gtk.Label(label), -1)
-        widget.show_all()
+        scrolled = gtk.ScrolledWindow()
+        scrolled.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+        scrolled.add(widget)
+        pos = self.notebook.insert_page(scrolled, gtk.Label(label), -1)
+        scrolled.show_all()
 
         self.after_update()
 
