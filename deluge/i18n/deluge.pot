@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-20 21:59-0500\n"
+"POT-Creation-Date: 2008-09-22 16:45-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1264,7 +1264,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/connection_manager.glade:405
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:171
 #: deluge/ui/gtkui/glade/edit_trackers.glade:108
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1022
 msgid "gtk-add"
 msgstr ""
 
