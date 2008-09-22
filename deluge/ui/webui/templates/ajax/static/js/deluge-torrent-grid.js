@@ -34,15 +34,15 @@ Deluge.Widgets.TorrentGrid = new Class({
         'Checking': '/pixmaps/inactive16.png'
     },
     
-    get_selected_torrents: function() {
+    getSelectedTorrents: function() {
         var torrentIds = [];
-        this.get_selected().each(function(row) {
+        this.getSelected().each(function(row) {
             torrentIds.include(row.id);
         });
         return torrentIds;
     },
     
-    set_torrent_filter: function(state) {
+    setTorrentFilter: function(state) {
         state = state.replace(' ', '');
         this.filterer = function (r) {
             if (r.torrent.state == state) { return true } else { return false };
@@ -50,7 +50,7 @@ Deluge.Widgets.TorrentGrid = new Class({
         this.render();
     },
     
-    update_torrents: function(torrents) {
+    updateTorrents: function(torrents) {
         torrents.getKeys().each(function(torrentId) {
             var torrent = torrents[torrentId]
             var torrentIds = torrents.getKeys()

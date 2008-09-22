@@ -36,7 +36,6 @@ Deluge.Keys = {
         'max_upload_slots','is_auto_managed', 'stop_at_ratio', 'stop_ratio',
         'remove_at_ratio', 'private', 'prioritize_first_last'
     ]
-}
-Deluge.Keys.Statistics.extend(Deluge.Keys.Grid)
-
+};
+Deluge.Keys.Statistics.extend(Deluge.Keys.Grid);
 Deluge.Widgets = $empty;

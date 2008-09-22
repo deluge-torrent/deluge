@@ -23,7 +23,7 @@ Deluge.UI = {
             filePriorities: this.filePriorities.bindWithEvent(this),
             labelsChanged: this.labelsChanged.bindWithEvent(this)
         };
-        this.loadUi.delay(100, this);
+        this.loadUi.delay(250, this);
     },
     
     loadUi: function() {
@@ -31,27 +31,29 @@ Deluge.UI = {
         
         this.toolbar = new Deluge.Widgets.Toolbar();
         this.addWindow = new Deluge.Widgets.AddWindow();
-        this.prefsWindow = new Deluge.Widgets.PreferencesWindow();
+        if (Browser.Engine.name != 'trident') {
+            this.prefsWindow = new Deluge.Widgets.PreferencesWindow();
+        }
         
         this.statusbar = new Deluge.Widgets.StatusBar();
         this.labels = new Deluge.Widgets.Labels()
         this.details = new Deluge.Widgets.Details()
         
-        this.initialize_grid()
+        this.initializeGrid()
         
         this.split_horz = new Widgets.SplitPane('top', this.labels, this.grid, {
             pane1: {min: 150},
             pane2: {min: 100, expand: true}
         });
         var details = $W('details')
-        this.split_vert = new Widgets.SplitPane('main', this.split_horz, details, {
+        this.splitVert = new Widgets.SplitPane('main', this.split_horz, details, {
             direction: 'vertical',
             pane1: {min: 100, expand: true},
             pane2: {min: 200}
         });
         
         this.vbox.addBox(this.toolbar, {fixed: true});
-        this.vbox.addBox(this.split_vert);
+        this.vbox.addBox(this.splitVert);
         this.vbox.addBox(this.statusbar, {fixed: true});
         this.vbox.calculatePositions();
         this.details.expand()
@@ -68,7 +70,7 @@ Deluge.UI = {
         this.overlay = $('overlay').dispose();
     },
     
-    initialize_grid: function() {
+    initializeGrid: function() {
         this.grid = new Deluge.Widgets.TorrentGrid('torrents')
         
         var menu = new Widgets.PopupMenu()
@@ -146,7 +148,7 @@ Deluge.UI = {
         this.torrents.each(function(torrent, torrent_id) {
             torrent.id = torrent_id;
         })
-        this.grid.update_torrents(this.torrents);
+        this.grid.updateTorrents(this.torrents);
         this.statusbar.update(this.stats);
         
         if ($chk(this.grid.selectedRow))
@@ -180,15 +182,15 @@ Deluge.UI = {
     },
     
     toolbarClick: function(event) {
-        this.torrent_action(event.action);
+        this.torrentAction(event.action);
     },
     
     labelsChanged: function(event) {
         this.update()
     },
     
-    torrent_action: function(action, value) {
-        var torrentIds = this.grid.get_selected_torrents();
+    torrentAction: function(action, value) {
+        var torrentIds = this.grid.getSelectedTorrents();
         var client = Deluge.Client;
         switch (action) {
             case 'resume':

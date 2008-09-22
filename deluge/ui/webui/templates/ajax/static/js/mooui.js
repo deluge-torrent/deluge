@@ -118,6 +118,7 @@ Array.implement({
 		var total = 0
 		this.each(function(item) {
 			var value = item
+			if (!$defined(value)) return;
 			if ($defined(key)) { value = item[key] }
 			if ($type(value) == 'number') { total += value }
 		}, this)
@@ -128,7 +129,7 @@ Array.implement({
 Element.implement({
 	getInnerSize: function() {
 		this.getPadding()
-		if ((/^(?:body|html)$/i).test(this.tagName)) return window.getSize();
+		if ((/^(?:body|html)$/i).test(this.tagName)) return this.getWindow().getSize();
 		return {x: this.clientWidth - this.padding.x, y: this.clientHeight - this.padding.y};
 	},
 	
@@ -1268,7 +1269,7 @@ Widgets.DataGrid = new Class({
 		this.columns[0].order = -1
 		if ($chk(this.element)) { this.scanElement() } else { this.createElement }
 		this.element.setStyle('MozUserSelect', 'none')
-		this.resize_columns()
+		this.resizeColumns()
 		this.addEvent('resize', this.resized.bindWithEvent(this))
 	},
 	
@@ -1371,7 +1372,7 @@ Widgets.DataGrid = new Class({
 		return row
 	},
 	
-	get_selected: function() {
+	getSelected: function() {
 		selected = []
 		this.rows.each(function(row) {
 			if (row.selected) { selected.include(row) }
@@ -1413,13 +1414,14 @@ Widgets.DataGrid = new Class({
 		if (selected) { this.selected = $A(this.body.rows).indexOf(selected) }
 	},
 	
-	resize_columns: function() {
-		
-		var total_width = this.options.columns.sum('width')
-		this.table.setStyle('width', total_width)
+	resizeColumns: function() {		
+		var totalWidth = this.options.columns.sum('width')
+		this.table.setStyle('width', totalWidth)
 		var cols = this.header.getElements('th')
 		cols.each(function(col, index) {
-			col.setStyle('width', this.options.columns[index].width)
+		    if (this.options.columns[index]) {
+    			col.setStyle('width', this.options.columns[index].width)
+		    }
 		}, this)
 	},
 	
