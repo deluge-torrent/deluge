@@ -1,6 +1,6 @@
 #!/bin/sh
 for x in `find . -name '*.glade' |grep -v '.svn\|build'` ; do \
-    for y in gtk-apply gtk-bold gtk-cancel gtk-cdrom gtk-clear \
+    for y in gtk-add gtk-apply gtk-bold gtk-cancel gtk-cdrom gtk-clear \
         gtk-close gtk-color-picker gtk-convert gtk-copy gtk-cut \
         gtk-delete gtk-dialog-error gtk-dialog-info gtk-dialog-question \
         gtk-dialog-warning gtk-dnd gtk-dnd-multiple gtk-execute gtk-find \
