@@ -12,7 +12,7 @@ sclient.set_core_uri()
 print "\n\n"
 
 
-if False: #aclient non-core
+if 0: #aclient non-core
     methods = sorted([m for m  in dir(aclient) if not m.startswith('_')
         if not m in ['add_torrent_file', 'has_callback', 'get_method',
             'methodHelp','methodSignature','list_methods','add_torrent_file_binary']])
@@ -30,7 +30,7 @@ if False: #aclient non-core
         print("\n'''%s(%s): '''\n" %(method_name, ", ".join(params)))
         print("%s" % pydoc.getdoc(func))
 
-if 0: #baseclient/core
+if 1: #baseclient/core
     methods = sorted([m for m in dir(Core) if m.startswith("export")]
         + ['export_add_torrent_file_binary'] #HACK
 
@@ -52,7 +52,7 @@ if 0: #baseclient/core
         print("\n'''%s(%s): '''\n" %(method_name, ", ".join(params)))
         print("{{{\n%s\n}}}" % pydoc.getdoc(func))
 
-if False: #plugin-manager
+if 0: #plugin-manager
     import WebUi
     from WebUi.pluginmanager import PluginManager
 
@@ -63,13 +63,13 @@ if False: #plugin-manager
         print("\n'''%s(%s): '''\n" %(method_name, ", ".join(params)))
         print("%s" % pydoc.getdoc(func))
 
-if 1: #possible config-values
+if 0: #possible config-values
     print "=== config-values ==="
     cfg = sclient.get_config()
     for key in sorted(cfg.keys()):
         print "%s:%s()" % (key, type(cfg[key]).__name__)
 
-if False: #keys
+if 0: #keys
     print """== Notes ==
 * The available keys for get_torrent_status(id, keys)
     {{{

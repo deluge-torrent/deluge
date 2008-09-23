@@ -4,7 +4,9 @@ Deluge 1.1.0 - "" (In Development)
   * Implement #296 ability to change peer TOS byte
   * Add per-torrent move on completed settings
   * Implement #414 use async save_resume_data method
-  
+  * FilterManager with torrent filtering in get_torrents_status , for sidebar and plugins.
+
+
  GtkUI:
   * Add peer progress to the peers tab
   * Sorting # column will place downloaders above seeds
