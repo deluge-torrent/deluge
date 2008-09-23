@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #(c) Martijn Voncken, mvoncken@gmail.com
-#Same Licence as python 2.5
-#
+#Same Licence as web.py 0.22
 """
 render object for web.py
 renders from egg instead of directory.

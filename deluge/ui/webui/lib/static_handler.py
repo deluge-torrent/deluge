@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #(c) Martijn Voncken, mvoncken@gmail.com
-#Same Licence as python 2.5
+#Same Licence as web.py 0.22
 #
 """
 static fileserving for web.py
