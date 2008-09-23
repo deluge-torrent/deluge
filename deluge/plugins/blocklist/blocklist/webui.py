@@ -116,7 +116,7 @@ class WebUI(ui.UI):
         config_page_manager.register('plugins','blocklist',BlockListCfgForm)
 
     def disable(self):
-        config_page_manager.unregister('blocklist')
+        config_page_manager.deregister('blocklist')
 
 
 

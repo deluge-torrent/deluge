@@ -78,7 +78,7 @@ class MenuManager(component.Component):
     def register_toolbar_item(self, id, title, image, flag, method, url, important):
         self.toolbar_items.append((id, title, image, flag, method, url, important))
 
-    def unregister_toolbar_item(self, item_id):
+    def deregister_toolbar_item(self, item_id):
         for (i, toolbar) in enumerate(admin_pages):
             if toolbar[0] == item_id:
                 del self.toolbar_items[i]
@@ -87,7 +87,7 @@ class MenuManager(component.Component):
     def register_admin_page(self, id, title, url):
         self.admin_pages.append((id, title, url))
 
-    def unregister_admin_page(page_id):
+    def deregister_admin_page(page_id):
         for (i, (id, title, url)) in list(enumerate(admin_pages)):
             if id == page_id:
                 del self.admin_pages[i]
@@ -97,7 +97,7 @@ class MenuManager(component.Component):
     def register_detail_tab(self, id, title, page):
         self.detail_tabs.append((id, title, page))
 
-    def unregister_detail_tab(self, tab_id):
+    def deregister_detail_tab(self, tab_id):
         for (i, (id, title, tab)) in list(enumerate(detail_tabs)):
             if id == tab_id:
                 del self.detail_tabs[i]
@@ -122,7 +122,7 @@ class PageManager(component.Component):
         self.urls.append(klass.__name__)
         self.page_classes[klass.__name__] = klass
 
-    def unregister_page(self, url):
+    def deregister_page(self, url):
         raise NotImplemenetedError()
         #self.page_classes[klass.__name__] = None
 
@@ -174,7 +174,7 @@ class ConfigPageManager(component.Component):
         form.group = group
         self.blocks[name] = form
 
-    def unregister(self, name):
+    def deregister(self, name):
         del self.blocks[name]
 
 class PluginApi(component.Component):

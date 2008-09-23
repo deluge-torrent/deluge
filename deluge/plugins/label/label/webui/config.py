@@ -134,10 +134,10 @@ def register():
     api.config_page_manager.register('label','label_update',LabelUpdateCfgForm)
     api.config_page_manager.register('label','label_add',LabelAddCfgForm)
 
-def unregister():
-    api.config_page_manager.unregister('label_general')
-    api.config_page_manager.unregister('label_update')
-    api.config_page_manager.unregister('label_add')
+def deregister():
+    api.config_page_manager.deregister('label_general')
+    api.config_page_manager.deregister('label_update')
+    api.config_page_manager.deregister('label_add')
 
 
 

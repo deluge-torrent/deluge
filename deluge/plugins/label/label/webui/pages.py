@@ -62,10 +62,10 @@ def register():
     api.menu_manager.register_toolbar_item("label",_("Label"), "label.png" ,2,
         "GET","/torrent/label/", True)
 
-def unregister():
-    api.render.unregister_template_path(template_dir)
-    api.page_manager.unregister_page('/torrent/label/(.*)')
-    api.menu_manager.unregister_toolbar_item("label")
+def deregister():
+    api.render.deregister_template_path(template_dir)
+    api.page_manager.deregister_page('/torrent/label/(.*)')
+    api.menu_manager.deregister_toolbar_item("label")
 
 
 

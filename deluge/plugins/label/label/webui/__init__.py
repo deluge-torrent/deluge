@@ -53,8 +53,8 @@ class WebUI(ui.UI):
         config.register()
 
     def disable(self):
-        pages.unregister()
-        config.unregister()
+        pages.deregister()
+        config.deregister()
 
 
 

@@ -73,7 +73,7 @@ class subclassed_render(object):
         self.plugin_renderers.append(template.render(path , cache=False))
 
     @logcall
-    def unregister_template_path(self, path):
+    def deregister_template_path(self, path):
         for i, renderer in list(ennumerate(self.plugin_renderers)):
             if renderer.loc == path:
                 del self.plugin_renderers[i]
