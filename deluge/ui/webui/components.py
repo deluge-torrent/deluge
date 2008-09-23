@@ -48,6 +48,7 @@ manager = component.get("ClassName")
 from deluge import component
 import lib.newforms_plus as forms
 from lib.egg_handler import egg_handler
+from lib.egg_render import egg_render
 from deluge.ui.client import aclient
 from deluge import component, pluginmanagerbase
 from deluge.configmanager import ConfigManager
@@ -188,6 +189,7 @@ class PluginApi(component.Component):
         import lib.newforms_plus as forms
 
         self.egg_handler = egg_handler
+        self.egg_render = egg_render
         self.render  = render
         self.web = web
         self.deco = deco

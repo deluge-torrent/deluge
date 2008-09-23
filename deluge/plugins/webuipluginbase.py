@@ -38,35 +38,39 @@ import os
 api = component.get("WebPluginApi")
 
 
+"""
+def plugin_render_template(*args , **kwargs):
+    return "plugin-render"
+
+class plugin_render():
+    def __getattr__(self, attr):
+        return plugin_render_template
+"""
+
+
 class WebUIPluginBase:
     """
-    /data is automatically served on http as as /plugin-name/data
-    templates /template are added to api.render
+    convenience class, you don't have to use this, but it does make things easyer to setup.
+    * static files: /data is automatically served on http as as /safe-plugin-name/data
+    * templates: /template are added to api.render.plugin-name.
+    * pages: urls attribute registers pages : urls = [(url, class), ..]
     """
+    urls= []
     def __init__(self, plugin_api, plugin_name):
-        log.debug("%s plugin initalized.." % plugin_name)
+        log.debug("%s plugin : start initalize.." % plugin_name)
         self.plugin = plugin_api
         self.plugin_name = plugin_name
         clean_plugin_name = plugin_name.lower().replace(" ","_")
+
+        for url , klass in self.urls:
+                api.page_manager.register_page(url, klass)
 
         class egg_data_static(api.egg_handler): #serves files in /data from egg
             resource = clean_plugin_name
             base_path = "data"
 
-        template_dir = os.path.join(os.path.dirname(__file__),"template")
-        api.render.register_template_path(template_dir)
+        setattr(api.render, clean_plugin_name, api.egg_render(clean_plugin_name, "template"))
+
         api.page_manager.register_page("/%s/data/(.*)" % clean_plugin_name , egg_data_static)
 
-        log.debug("%s plugin : end base initalize." % plugin_name)
-
-
-
-
-
-
-
-
-
-
-
-
+        log.debug("%s plugin : end initalize.." % plugin_name)

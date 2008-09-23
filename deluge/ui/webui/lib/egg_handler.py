@@ -4,7 +4,7 @@
 #
 """
 static fileserving for web.py
-without the need for wsgi wrapper magic.
+serves 1 directory from a packed egg, using pkg_resourses
 """
 import web
 from web import url
@@ -20,11 +20,6 @@ from StringIO import StringIO
 mimetypes.init() # try to read system mime.types
 import pkg_resources
 
-"""
-def get_resource(self, filename):
-    return pkg_resources.resource_filename("blocklist", os.path.join("data", filename))
-
-"""
 class egg_handler:
     """
     serves files directly from an egg
@@ -60,7 +55,6 @@ if __name__ == '__main__':
         resource = "label"
         base_path = "data"
 
-        base_dir = os.path.expanduser('~')
     urls = ('/relative/(.*)','static_handler',
                 '/(.*)','usr_static')
 
