@@ -267,7 +267,7 @@ class WebUI(WebUIPluginBase):
         api.config_page_manager.register('plugins', '%(safe_name)s' ,ConfigForm)
 
     def disable(self):
-        api.config_page_manager.unregister('%(safe_name)s')
+        api.config_page_manager.deregister('%(safe_name)s')
 
 class ConfigForm(forms.Form):
     #meta:
