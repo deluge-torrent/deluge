@@ -38,16 +38,6 @@ import os
 api = component.get("WebPluginApi")
 
 
-"""
-def plugin_render_template(*args , **kwargs):
-    return "plugin-render"
-
-class plugin_render():
-    def __getattr__(self, attr):
-        return plugin_render_template
-"""
-
-
 class WebUIPluginBase:
     """
     convenience class, you don't have to use this, but it does make things easyer to setup.
@@ -69,6 +59,7 @@ class WebUIPluginBase:
             resource = clean_plugin_name
             base_path = "data"
 
+        #use as : api.render.plugin-name.template-name[excluding.html](parameters)
         setattr(api.render, clean_plugin_name, api.egg_render(clean_plugin_name, "template"))
 
         api.page_manager.register_page("/%s/data/(.*)" % clean_plugin_name , egg_data_static)

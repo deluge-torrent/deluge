@@ -2,7 +2,7 @@
 Creates an empty plugin and links it from ~/.config/deluge/plugins
 This plugin includes the framework for using the preferences dialog
 
-Example:
+example:
 python create_plugin.py --name MyPlugin2 --basepath . --author-name "Your Name" --author-email "yourname@example.com"
 
 """
@@ -41,6 +41,7 @@ def create_plugin():
     safe_name = name.lower()
     plugin_base = os.path.realpath(os.path.join(options.path, name))
     src = os.path.join(plugin_base, safe_name)
+    template_dir = os.path.join(src,"template")
 
     if os.path.exists(plugin_base):
         print "the directory %s already exists, delete it first" % plugin_base
@@ -66,7 +67,7 @@ def create_plugin():
     os.mkdir(plugin_base)
     os.mkdir(src)
     os.mkdir(os.path.join(src,"data"))
-    os.mkdir(os.path.join(src,"template"))
+    os.mkdir(template_dir)
 
     print "creating files.."
     write_file(plugin_base,"setup.py", SETUP)
@@ -75,6 +76,7 @@ def create_plugin():
     write_file(src,"webui.py", WEBUI)
     write_file(src,"core.py", CORE)
     write_file(os.path.join(src,"data"),"config.glade", GLADE)
+    write_file(template_dir,"default.html", DEFAULT_HTML)
 
     #add an input parameter for this?
     print "building dev-link.."
@@ -246,10 +248,26 @@ WEBUI = """
 import os
 from deluge.log import LOG as log
 from deluge.ui.client import sclient, aclient
+from deluge.plugins.webuipluginbase import WebUIPluginBase
 from deluge import component
 
 api = component.get("WebPluginApi")
 forms = api.forms
+
+class %(safe_name)s_page:
+    @api.deco.deluge_page
+    def GET(self, args):
+        return api.render.%(safe_name)s.default("parameter1", "parameter2") #push data to templates/default.html
+
+class WebUI(WebUIPluginBase):
+    #map url's to classes: [(url,class), ..]
+    urls = [('/%(safe_name)s/example', %(safe_name)s_page)]
+
+    def enable(self):
+        api.config_page_manager.register('plugins', '%(safe_name)s' ,ConfigForm)
+
+    def disable(self):
+        api.config_page_manager.unregister('%(safe_name)s')
 
 class ConfigForm(forms.Form):
     #meta:
@@ -265,18 +283,18 @@ class ConfigForm(forms.Form):
 
     #django newforms magic: define config fields:
     test = forms.CharField(label=_("Test config value"))
+"""
 
-
-class WebUI(object):
-    def __init__(self, plugin_api, plugin_name):
-        log.debug("%(name)s plugin initalized..")
-        self.plugin = plugin_api
-
-    def enable(self):
-        api.config_page_manager.register('plugins','%(safe_name)s',ConfigForm)
-
-    def disable(self):
-        api.config_page_manager.unregister('%(safe_name)s')
+DEFAULT_HTML = """$def with (value1, value2)
+$:render.header(_("Demo1"), '')
+<div class="panel">
+<h2>Demo:%(name)s</h2>
+<pre>
+$value1
+$value2
+</pre>'
+</div>
+$:render.footer()
 """
 
 GPL = """#
@@ -314,7 +332,6 @@ GPL = """#
 #    exception, you may extend this exception to your version of the file(s),
 #    but you are not obligated to do so. If you do not wish to do so, delete
 #    this exception statement from your version. If you delete this exception
-#    statement from all source files in the program, then also delete it here.
 """
 
 CREATE_DEV_LINK = """#!/bin/bash
