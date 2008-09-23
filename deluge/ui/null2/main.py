@@ -1,13 +1,13 @@
 #!/usr/bin/env python
+import logging
+logging.disable(logging.ERROR)
 import os, sys
 import optparse
 from deluge.ui.null2 import UI_PATH
 from deluge.ui.null2.colors import Template, make_style, templates, default_style as style
 from deluge.ui.client import aclient as client
 import shlex
-import logging
 
-logging.disable(logging.ERROR)
 
 class OptionParser(optparse.OptionParser):
     """subclass from optparse.OptionParser so exit() won't exit."""
@@ -49,7 +49,7 @@ class BaseCommand(object):
     def split(self, text):
         return shlex.split(text)
 
-    def _create_parser(self):
+    def create_parser(self):
         return OptionParser(prog = self.name,
                             usage = self.usage,
                             epilog = self.epilog,
@@ -72,35 +72,31 @@ def match_torrents(array=None):
     client.force_call()
     return torrents
 
+def load_commands(command_dir, exclude=[]):
+    def get_command(name):
+        return getattr(__import__('deluge.ui.null2.commands.%s' % name, {}, {}, ['Command']), 'Command')()
+
+    try:    
+        commands = []
+        for filename in os.listdir(command_dir):
+            if filename.split('.')[0] in exclude or filename.startswith('_') or not filename.endswith('.py'):
+                continue
+            cmd = get_command(filename[:-3])
+            aliases = [ filename[:-3] ]
+            aliases.extend(cmd.aliases)
+            for a in aliases:
+                commands.append((a, cmd))
+        return dict(commands)
+    except OSError, e:
+        return {}
+
 class NullUI(object):
     prompt = '>>> '
 
     def __init__(self, args=None):
         client.set_core_uri("http://localhost:58846")
-        self._commands = self._load_commands()
-        self._builtins = { 'help': self.help }
-        self._all_commands = dict(self._commands)
-        self._all_commands.update(self._builtins)
+        self._commands = load_commands(os.path.join(UI_PATH, 'commands'))
 
-    def _load_commands(self):
-        def get_command(name):
-            return getattr(__import__('deluge.ui.null2.commands.%s' % name, {}, {}, ['Command']), 'Command')()
-
-        command_dir = os.path.join(UI_PATH, 'commands')
-        try:    
-            commands = []
-            for filename in os.listdir(command_dir):
-                if filename.startswith('_') or not filename.endswith('.py'):
-                    continue
-                cmd = get_command(filename[:-3])
-                aliases = [ filename[:-3] ]
-                aliases.extend(cmd.aliases)
-                for a in aliases:
-                    commands.append((a, cmd))
-            return dict(commands)
-            #return dict([ (f[:-3], get_command(f[:-3])) for f in os.listdir(command_dir) if not f.startswith('_') and f.endswith('.py') ])
-        except OSError, e:
-            return {}
 
     def completedefault(self, *ignored):
         """Method called to complete an input line when no command-specific
@@ -155,58 +151,25 @@ class NullUI(object):
     def onecmd(self, line):
         if not line:
             return
-        #v_line = line.split()
         cmd, _, line = line.partition(' ')
-        if cmd in self._builtins:
-            args = shlex.split(line)
-            self._builtins[cmd](*args)
-        else:
+        try:
+            parser = self._commands[cmd].create_parser()
+        except KeyError:
+            print templates.ERROR('unknown command: %s' % cmd)
+            return
+        args = self._commands[cmd].split(line)
+        options, args = parser.parse_args(args)
+        if not getattr(options, '_exit', False):
             try:
-                parser = self._commands[cmd]._create_parser()
-            except KeyError:
-                print templates.ERROR('Error! unknown command: %s' % cmd)
-                return
-            args = self._commands[cmd].split(line)
-            options, args = parser.parse_args(args)
-            if not getattr(options, '_exit', False):
-                try:
-                    self._commands[cmd].handle(*args, **options.__dict__)
-                except StopIteration, e:
-                    raise
-                except Exception, e:
-                    print templates.ERROR(str(e))
+                self._commands[cmd].handle(*args, **options.__dict__)
+            except StopIteration, e:
+                raise
+            except Exception, e:
+                print templates.ERROR(str(e))
 
     def postcmd(self):
         client.force_call()
         
-    def _all_commands_keys_generator(self):
-        return [ (self._commands, key) for key in self._commands] +\
-                [ (self._builtins, key) for key in self._builtins]
-
-    def help(self, *args):
-        """displays this text"""
-        usage = 'usage: help [command]'
-        if args:
-            if len(args) > 1:
-                print usage
-                return
-            try:
-                cmd = self._all_commands[args[0]]
-            except KeyError:
-                print templates.ERROR('unknown command %r' % args[0])
-                return 
-            try:
-               parser = cmd.create_parser()
-               print parser.format_help()
-            except AttributeError, e:
-                print cmd.__doc__ or 'No help for this command'
-        else:
-            max_length = max( len(k) for k in self._all_commands)
-            for cmd in sorted(self._all_commands):
-                print templates.help(max_length, cmd, self._all_commands[cmd].__doc__ or '')
-        print 
-        print 'for help on a specific command, use "<command> --help"'
-
     def cmdloop(self):
         self.preloop()
         try:

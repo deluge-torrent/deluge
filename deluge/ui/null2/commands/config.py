@@ -45,7 +45,7 @@ def simple_eval(source):
 
 
 class Command(BaseCommand):
-    """Show configuration values"""
+    """Show and set configuration values"""
     
     option_list = BaseCommand.option_list + (
             make_option('-s', '--set', action='store_true', default=False, dest='set',
