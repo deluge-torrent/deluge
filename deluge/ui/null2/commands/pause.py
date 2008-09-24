@@ -6,8 +6,13 @@ from deluge.ui.null2.colors import templates, default_style as style
 
 class Command(BaseCommand):
     """Pause a torrent"""
-    usage = "Usage: pause <torrent-id> [<torrent-id> ...]"
+    usage = "Usage: pause [ all | <torrent-id> [<torrent-id> ...] ]"
     def handle(self, *args, **options):
+        if len(args) == 0:
+            print self.usage
+            return
+        if len(args) == 1 and args[0] == 'all':
+            args = tuple() # empty tuple means everything
         try:
             args = mapping.to_ids(args)
             torrents = match_torrents(args)

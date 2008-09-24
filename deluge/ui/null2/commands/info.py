@@ -74,13 +74,13 @@ class Command(BaseCommand):
                 print templates.info_transfers("Download Speed", common.fspeed(state['download_payload_rate']))
             if state['state'] in ('Downloading', 'Seeding'):
                 print templates.info_transfers("Upload Speed", common.fspeed(state['upload_payload_rate']))
+                print templates.info_transfers("Share Ratio", "%.1f" % state['ratio'])
             if state['state'] == ('Downloading'):
                 print templates.info_transfers("ETA", common.ftime(state['eta']))
 
             if verbose:
                 print templates.info_network("Seeders", "%s (%s)" % (state['num_seeds'], state['total_seeds']))
                 print templates.info_network("Peers", "%s (%s)" % (state['num_peers'], state['total_peers']))
-                print templates.info_network("Share Ratio", "%.1f" % state['ratio'])
                 print templates.info_network("Availability", "%.1f" % state['distributed_copies'])
                 print templates.info_files_header("Files")
                 for i, file in enumerate(state['files']):
