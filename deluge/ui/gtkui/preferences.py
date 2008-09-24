@@ -94,7 +94,9 @@ class Preferences(component.Component):
             "on_button_apply_clicked": self.on_button_apply_clicked,
             "on_button_cancel_clicked": self.on_button_cancel_clicked,
             "on_toggle": self.on_toggle,
-            "on_test_port_clicked": self.on_test_port_clicked
+            "on_test_port_clicked": self.on_test_port_clicked,
+            "on_button_plugin_install_clicked": self._on_button_plugin_install_clicked,
+            "on_button_rescan_plugins_clicked": self._on_button_rescan_plugins_clicked
         })
 
         # These get updated by requests done to the core        
@@ -800,4 +802,55 @@ class Preferences(component.Component):
         
     def on_plugin_selection_changed(self, treeselection):
         log.debug("on_plugin_selection_changed")
+
+    def _on_button_plugin_install_clicked(self, widget):
+        log.debug("_on_button_plugin_install_clicked")
+        chooser = gtk.FileChooserDialog(_("Select the Plugin"),
+            self.pref_dialog,
+            gtk.FILE_CHOOSER_ACTION_OPEN,
+            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN,
+                        gtk.RESPONSE_OK))
+
+        chooser.set_transient_for(self.pref_dialog)
+        chooser.set_select_multiple(False)
+        chooser.set_property("skip-taskbar-hint", True)
+
+        file_filter = gtk.FileFilter()
+        file_filter.set_name(_("Plugin Eggs"))
+        file_filter.add_pattern("*." + "egg")
+        chooser.add_filter(file_filter)
+
+        # Run the dialog
+        response = chooser.run()
+
+        if response == gtk.RESPONSE_OK:
+            filepath = chooser.get_filename()
+        else:
+            chooser.destroy()
+            return
+
+        import shutil
+        import os.path
+        filename = os.path.split(filepath)[1]
+        shutil.copyfile(
+            filepath, 
+            os.path.join(self.gtkui_config["config_location"], "plugins", filename))
+        
+        component.get("PluginManager").scan_for_plugins()
+        
+        if not client.is_localhost():
+            # We need to send this plugin to the daemon
+            client.upload_plugin(
+                filename,
+                xmlrpclib.Binary(open(filepath, "rb").read()))
+
+        client.rescan_plugins()
+        chooser.destroy()
+        # We need to re-show the preferences dialog to show the new plugins
+        self.show()
+        
+    def _on_button_rescan_plugins_clicked(self, widget):
+        component.get("PluginManager").scan_for_plugins()
+        client.rescan_plugins()
+        self.show()
         

@@ -169,7 +169,8 @@ class BaseClient(object):
             "set_torrent_prioritize_first_last", "set_torrent_auto_managed",
             "set_torrent_stop_ratio", "set_torrent_stop_at_ratio",
             "set_torrent_remove_at_ratio", "set_torrent_move_on_completed",
-            "set_torrent_move_on_completed_path", "add_torrent_magnets", "create_torrent"]
+            "set_torrent_move_on_completed_path", "add_torrent_magnets", 
+            "create_torrent", "upload_plugin", "rescan_plugins"]
 
     def __init__(self):
         self.core = _core

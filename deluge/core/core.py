@@ -680,6 +680,21 @@ class Core(
         if add_to_session:
             self.export_add_torrent_file(os.path.split(target)[1], open(target, "rb").read(), None)
 
+    def export_upload_plugin(self, filename, plugin_data):
+        """This method is used to upload new plugins to the daemon.  It is used
+        when connecting to the daemon remotely and installing a new plugin on
+        the client side. 'plugin_data' is a xmlrpc.Binary object of the file data,
+        ie, plugin_file.read()"""
+        
+        f = open(os.path.join(self.config["config_location"], "plugins", filename), "wb")
+        f.write(plugin_data.data)
+        f.close()
+        component.get("PluginManager").scan_for_plugins()
+    
+    def export_rescan_plugins(self):
+        """Rescans the plugin folders for new plugins"""
+        component.get("PluginManager").scan_for_plugins()
+            
     ## Queueing functions ##
     def export_queue_top(self, torrent_ids):
         log.debug("Attempting to queue %s to top", torrent_ids)

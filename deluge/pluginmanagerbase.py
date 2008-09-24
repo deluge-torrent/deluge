@@ -49,6 +49,10 @@ class PluginManagerBase:
 
         self.config = deluge.configmanager.ConfigManager(config_file)
 
+        # Create the plugins folder if it doesn't exist
+        if not os.path.exists(os.path.join(deluge.configmanager.get_config_dir(), "plugins")):
+            os.mkdir(os.path.join(deluge.configmanager.get_config_dir(), "plugins"))
+            
         # This is the entry we want to load..
         self.entry_name = entry_name
 
