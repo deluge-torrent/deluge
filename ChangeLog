@@ -2,6 +2,8 @@ Deluge 1.0.1 (In Development)
  Misc:
   * Fix #187 set a 5 second timer to save the config file after a config value
     has been changed.
+  * Fix #503 change the boost lib detection logic to first look for -mt and
+    if not available, fall back to regular boost lib (non-multithreaded)
  
 Deluge 1.0.0 - "Sharks Are Bulletproof" (21 September 2008)
  Core:
