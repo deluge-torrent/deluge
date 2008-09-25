@@ -68,15 +68,19 @@ def setcookie(key, val):
     return w_setcookie(key, val , expires=2592000)
 
 #really simple sessions, to bad i had to implement them myself.
-SESSIONS = []
 def start_session():
     session_id = str(random.random())
-    SESSIONS.append(session_id)
+    config.set("sessions", config.get("sessions") + [session_id])
+    if len(config.get("sessions")) > 30: #store a max of 20 sessions.
+        config.set("sessions",config["sessions"][:-20])
     setcookie("session_id", session_id)
+    config.save()
 
 def end_session():
     session_id = getcookie("session_id")
     setcookie("session_id","")
+    if session_id in config.get("sessions"):
+        config.set("sessions", config.get("sessions").append(session_id))
 #/sessions
 
 def seeother(url, *args, **kwargs):

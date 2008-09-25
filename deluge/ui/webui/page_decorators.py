@@ -48,7 +48,7 @@ def check_session(func):
         #check session:
         vars = web.input(redir_after_login = None)
         ck = cookies()
-        if ck.has_key("session_id") and ck["session_id"] in utils.SESSIONS:
+        if ck.has_key("session_id") and ck["session_id"] in utils.config.get("sessions"):
             return func(self, name) #check_session:ok
         elif vars.redir_after_login:
             utils.seeother(url("/login",redir=self_url()))

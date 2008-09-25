@@ -173,7 +173,7 @@ class Core(
         # Load the GeoIP DB for country look-ups
         self.session.load_country_db(
             pkg_resources.resource_filename("deluge", os.path.join("data", "GeoIP.dat")))
-            
+
         # Set the user agent
         self.settings = lt.session_settings()
         self.settings.user_agent = "Deluge %s" % deluge.common.get_version()
@@ -186,7 +186,7 @@ class Core(
         # Load metadata extension
         self.session.add_extension(lt.create_metadata_plugin)
         self.session.add_extension(lt.create_ut_metadata_plugin)
-        
+
         # Start the AlertManager
         self.alerts = AlertManager(self.session)
 
@@ -363,6 +363,7 @@ class Core(
         'upload_rate':float(),
         'num_connections':int(),
         'dht_nodes',int(),
+        'free_space':float()
         'max_num_connections':int(),
         'max_download':float(),
         'max_upload':float()
@@ -374,6 +375,7 @@ class Core(
             "upload_rate":self.session.status().payload_upload_rate,
             "num_connections":self.session.num_connections(),
             "dht_nodes":self.session.status().dht_nodes,
+            "free_space":deluge.common.free_space(self.config["download_location"]),
             #max config values:
             "max_download":self.config["max_download_speed"],
             "max_upload":self.config["max_upload_speed"],
@@ -415,7 +417,7 @@ class Core(
 
             # Run the plugin hooks for 'post_torrent_add'
             self.plugins.run_post_torrent_add(torrent_id)
-        
+
     def export_remove_torrent(self, torrent_ids, remove_torrent, remove_data):
         log.debug("Removing torrent %s from the core.", torrent_ids)
         for torrent_id in torrent_ids:
@@ -645,11 +647,11 @@ class Core(
         """Returns the size of the file or folder 'path' and -1 if the path is
         unaccessible (non-existent or insufficient privs)"""
         return deluge.common.get_path_size(path)
-    
-    def export_create_torrent(self, path, tracker, piece_length, comment, target, 
+
+    def export_create_torrent(self, path, tracker, piece_length, comment, target,
                         url_list, private, created_by, httpseeds, add_to_session):
 
-        log.debug("creating torrent..")        
+        log.debug("creating torrent..")
         threading.Thread(target=_create_torrent_thread,
             args=(
                 path,
@@ -662,7 +664,7 @@ class Core(
                 created_by,
                 httpseeds,
                 add_to_session)).start()
-                
+
     def _create_torrent_thread(self, path, tracker, piece_length, comment, target,
                     url_list, private, created_by, httpseeds, add_to_session):
         import deluge.metafile
@@ -685,16 +687,16 @@ class Core(
         when connecting to the daemon remotely and installing a new plugin on
         the client side. 'plugin_data' is a xmlrpc.Binary object of the file data,
         ie, plugin_file.read()"""
-        
+
         f = open(os.path.join(self.config["config_location"], "plugins", filename), "wb")
         f.write(plugin_data.data)
         f.close()
         component.get("PluginManager").scan_for_plugins()
-    
+
     def export_rescan_plugins(self):
         """Rescans the plugin folders for new plugins"""
         component.get("PluginManager").scan_for_plugins()
-            
+
     ## Queueing functions ##
     def export_queue_top(self, torrent_ids):
         log.debug("Attempting to queue %s to top", torrent_ids)
