@@ -65,6 +65,10 @@ class Config:
         # Save
         self.save()
         
+        # This will get set with a gobject.timeout_add whenever a config option
+        # is set.
+        self.save_timer = None
+        
     def __del__(self):
         self.save()
             
@@ -99,6 +103,7 @@ class Config:
             pkl_file.close()
             if filedump == self.config:
                 # The config has not changed so lets just return
+                self.save_timer = None
                 return
         except (EOFError, IOError):
             log.warning("IOError: Unable to open file: '%s'", filename)
@@ -110,6 +115,8 @@ class Config:
         except IOError:
             log.warning("IOError: Unable to save file '%s'", filename)
             
+        self.save_timer = None
+        
     def set(self, key, value):
         """Set the 'key' with 'value'."""
 	    # Sets the "key" with "value" in the config dict
@@ -127,6 +134,11 @@ class Config:
                 gobject.idle_add(self._change_callback, key, value)
             except:
                 pass
+
+        # We set the save_timer for 5 seconds if not already set
+        log.debug("save_timer: %s", self.save_timer)
+        if not self.save_timer:
+            self.save_timer = gobject.timeout_add(5000, self.save)
 
     def get(self, key):
         """Get the value of 'key'.  If it is an invalid key then get() will

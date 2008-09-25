@@ -1,4 +1,9 @@
-Deluge 1.0.0 - "Sharks are bulletproof" (21 September 2008)
+Deluge 1.0.1 (In Development)
+ Misc:
+  * Fix #187 set a 5 second timer to save the config file after a config value
+    has been changed.
+ 
+Deluge 1.0.0 - "Sharks Are Bulletproof" (21 September 2008)
  Core:
   * Include GeoIP database for country look-ups
   * Fix upgrading from 0.5.x state where torrents would have no trackers
