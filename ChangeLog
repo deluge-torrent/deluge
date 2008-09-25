@@ -13,3 +13,8 @@ Deluge 1.1.0 - "" (In Development)
   * Remove dependency on libtorrent for add torrent dialog
   * Allow adding multiple trackers at once in the edit tracker dialog
   * Implement #28 Create Torrent Dialog
+
+ WebUi
+  * All details tabs have the same features as gtk-ui.
+  * Persistent sessions
+  * Plugin improvements for easy use of templates and images eggs.
