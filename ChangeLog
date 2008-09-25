@@ -16,5 +16,5 @@ Deluge 1.1.0 - "" (In Development)
 
  WebUi
   * All details tabs have the same features as gtk-ui.
-  * Persistent sessions
-  * Plugin improvements for easy use of templates and images eggs.
+  * Persistent sessions #486
+  * Plugin improvements for easy use of templates and images in eggs. #497
