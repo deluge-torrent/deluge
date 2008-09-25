@@ -367,7 +367,8 @@ class Core(
         'upload_rate':float(),
         'num_connections':int(),
         'dht_nodes',int(),
-        'free_space':float()
+        'free_space':long(),
+        'has_incoming_connections':bool(),
         'max_num_connections':int(),
         'max_download':float(),
         'max_upload':float()
