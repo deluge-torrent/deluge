@@ -1693,6 +1693,9 @@ namespace libtorrent
 			send_block_requests();
 			return;
 		}
+#ifndef NDEBUG
+		pending_block pending_b = *b;
+#endif
 
 		int block_index = b - m_download_queue.begin() - 1;
 		for (int i = 0; i < block_index; ++i)
@@ -1721,6 +1724,9 @@ namespace libtorrent
 				--block_index;
 			}
 		}
+		TORRENT_ASSERT(int(m_download_queue.size()) > block_index + 1);
+		b = m_download_queue.begin() + (block_index + 1);
+		TORRENT_ASSERT(b->block == pending_b.block);
 		
 		// if the block we got is already finished, then ignore it
 		if (picker.is_downloaded(block_finished))
@@ -2666,6 +2672,8 @@ namespace libtorrent
 		p.used_receive_buffer = m_recv_pos;
 		p.write_state = m_channel_state[upload_channel];
 		p.read_state = m_channel_state[download_channel];
+		
+		p.progress = (float)p.pieces.count() / (float)p.pieces.size();
 	}
 
 	// allocates a disk buffer of size 'disk_buffer_size' and replaces the
@@ -3625,7 +3633,22 @@ namespace libtorrent
 			disconnect(ec.message().c_str());
 			return;
 		}
-		m_socket->bind(t->get_interface(), ec);
+
+		tcp::endpoint bind_interface = t->get_interface();
+	
+		std::pair<int, int> const& out_ports = m_ses.settings().outgoing_ports;
+		if (out_ports.first > 0 && out_ports.second >= out_ports.first)
+		{
+			m_socket->set_option(socket_acceptor::reuse_address(true), ec);
+			if (ec)
+			{
+				disconnect(ec.message().c_str());
+				return;
+			}
+			bind_interface.port(m_ses.next_port());
+		}
+
+		m_socket->bind(bind_interface, ec);
 		if (ec)
 		{
 			disconnect(ec.message().c_str());
@@ -3818,7 +3841,7 @@ namespace libtorrent
 		}
 
 		if (t->ready_for_connections() && m_initialized)
-			TORRENT_ASSERT(t->torrent_file().num_pieces() == m_have_piece.size());
+			TORRENT_ASSERT(t->torrent_file().num_pieces() == int(m_have_piece.size()));
 
 		if (m_ses.settings().close_redundant_connections)
 		{

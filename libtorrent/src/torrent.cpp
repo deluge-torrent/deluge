@@ -205,7 +205,7 @@ namespace libtorrent
 		, m_start_sent(false)
 		, m_complete_sent(false)
 	{
-		parse_resume_data(resume_data);
+		if (resume_data) m_resume_data.swap(*resume_data);
 
 #ifndef TORRENT_DISABLE_ENCRYPTION
 		hasher h;
@@ -286,7 +286,7 @@ namespace libtorrent
 		, m_start_sent(false)
 		, m_complete_sent(false)
 	{
-		parse_resume_data(resume_data);
+		if (resume_data) m_resume_data.swap(*resume_data);
 
 #ifndef TORRENT_DISABLE_ENCRYPTION
 		hasher h;
@@ -309,27 +309,25 @@ namespace libtorrent
 		}
 	}
 
-	void torrent::parse_resume_data(std::vector<char>* resume_data)
-	{
-		if (!resume_data) return;
-		m_resume_data.swap(*resume_data);
-		if (lazy_bdecode(&m_resume_data[0], &m_resume_data[0]
-			+ m_resume_data.size(), m_resume_entry) != 0)
-		{
-			std::vector<char>().swap(m_resume_data);
-			if (m_ses.m_alerts.should_post<fastresume_rejected_alert>())
-			{
-				m_ses.m_alerts.post_alert(fastresume_rejected_alert(get_handle(), "parse failed"));
-#if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_LOGGING || defined TORRENT_ERROR_LOGGING
-				(*m_ses.m_logger) << "fastresume data for "
-					<< torrent_file().name() << " rejected: parse failed\n";
-#endif
-			}
-		}
-	}
-
 	void torrent::start()
 	{
+		if (!m_resume_data.empty())
+		{
+			if (lazy_bdecode(&m_resume_data[0], &m_resume_data[0]
+				+ m_resume_data.size(), m_resume_entry) != 0)
+			{
+				std::vector<char>().swap(m_resume_data);
+				if (m_ses.m_alerts.should_post<fastresume_rejected_alert>())
+				{
+					m_ses.m_alerts.post_alert(fastresume_rejected_alert(get_handle(), "parse failed"));
+#if defined TORRENT_VERBOSE_LOGGING || defined TORRENT_LOGGING || defined TORRENT_ERROR_LOGGING
+					(*m_ses.m_logger) << "fastresume data for "
+						<< torrent_file().name() << " rejected: parse failed\n";
+#endif
+				}
+			}
+		}
+
 		// we need to start announcing since we don't have any
 		// metadata. To receive peers to ask for it.
 		if (m_torrent_file->is_valid()) init();
@@ -1998,6 +1996,8 @@ namespace libtorrent
 		if (m_currently_trying_tracker >= (int)m_trackers.size())
 			m_currently_trying_tracker = (int)m_trackers.size()-1;
 		m_last_working_tracker = -1;
+		if (!m_trackers.empty()) start_announcing();
+		else stop_announcing();
 	}
 
 	void torrent::choke_peer(peer_connection& c)
@@ -2306,11 +2306,6 @@ namespace libtorrent
 			s->get<http_stream>().set_no_connect(true);
 		}
 
-		std::pair<int, int> const& out_ports = m_settings.outgoing_ports;
-		error_code ec;
-		if (out_ports.first > 0 && out_ports.second >= out_ports.first)
-			s->bind(tcp::endpoint(address(), m_ses.next_port()), ec);
-		
 		boost::intrusive_ptr<peer_connection> c(new (std::nothrow) web_peer_connection(
 			m_ses, shared_from_this(), s, a, url, 0));
 		if (!c) return;
@@ -2520,8 +2515,50 @@ namespace libtorrent
 				m_picker->set_piece_priority(i, p[i]);
 		}
 
-		if (rd.dict_find_int_value("auto_managed")) auto_managed(true);
-		if (rd.dict_find_int_value("paused")) pause();
+		int auto_managed_ = rd.dict_find_int_value("auto_managed", -1);
+		if (auto_managed_ != -1) auto_managed(auto_managed_);
+
+		int sequential_ = rd.dict_find_int_value("sequential_download", -1);
+		if (sequential_ != -1) set_sequential_download(sequential_);
+
+		int paused_ = rd.dict_find_int_value("paused", -1);
+		if (paused_ == 1) pause();
+		else if (paused_ == 0) resume();
+
+		lazy_entry const* trackers = rd.dict_find_list("trackers");
+		if (trackers)
+		{
+			int tier = 0;
+			for (int i = 0; i < trackers->list_size(); ++i)
+			{
+				lazy_entry const* tier_list = trackers->list_at(i);
+				if (tier_list == 0 || tier_list->type() != lazy_entry::list_t)
+					continue;
+				for (int j = 0; j < tier_list->list_size(); ++j)
+				{
+					announce_entry e(tier_list->list_string_value_at(j));
+					if (std::find_if(m_trackers.begin(), m_trackers.end()
+						, boost::bind(&announce_entry::url, _1) == e.url) != m_trackers.end())
+						continue;
+					e.tier = tier;
+					m_trackers.push_back(e);
+				}
+				++tier;
+			}
+			std::sort(m_trackers.begin(), m_trackers.end(), boost::bind(&announce_entry::tier, _1)
+				< boost::bind(&announce_entry::tier, _2));
+		}
+
+		lazy_entry const* url_list = rd.dict_find_list("url-list");
+		if (url_list)
+		{
+			for (int i = 0; i < url_list->list_size(); ++i)
+			{
+				std::string url = url_list->list_string_value_at(i);
+				if (url.empty()) continue;
+				m_web_seeds.insert(url);
+			}
+		}
 	}
 	
 	void torrent::write_resume_data(entry& ret) const
@@ -2544,6 +2581,8 @@ namespace libtorrent
 
 		ret["num_seeds"] = seeds;
 		ret["num_downloaders"] = downloaders;
+
+		ret["sequential_download"] = m_sequential_download;
 		
 		const sha1_hash& info_hash = torrent_file().info_hash();
 		ret["info-hash"] = std::string((char*)info_hash.begin(), (char*)info_hash.end());
@@ -2592,6 +2631,39 @@ namespace libtorrent
 				piece_struct["bitmask"] = bitmask;
 				// push the struct onto the unfinished-piece list
 				up.push_back(piece_struct);
+			}
+		}
+
+		// save trackers
+		if (!m_trackers.empty())
+		{
+			entry::list_type& tr_list = ret["trackers"].list();
+			tr_list.push_back(entry::list_type());
+			int tier = 0;
+			for (std::vector<announce_entry>::const_iterator i = m_trackers.begin()
+				, end(m_trackers.end()); i != end; ++i)
+			{
+				if (i->tier == tier)
+				{
+					tr_list.back().list().push_back(i->url);
+				}
+				else
+				{
+					tr_list.push_back(entry::list_t);
+					tr_list.back().list().push_back(i->url);
+					tier = i->tier;
+				}
+			}
+		}
+
+		// save web seeds
+		if (!m_web_seeds.empty())
+		{
+			entry::list_type& url_list = ret["url-list"].list();
+			for (std::set<std::string>::const_iterator i = m_web_seeds.begin()
+				, end(m_web_seeds.end()); i != end; ++i)
+			{
+				url_list.push_back(*i);
 			}
 		}
 
@@ -2812,10 +2884,6 @@ namespace libtorrent
 		bool ret = instantiate_connection(m_ses.m_io_service, m_ses.peer_proxy(), *s);
 		(void)ret;
 		TORRENT_ASSERT(ret);
-		std::pair<int, int> const& out_ports = m_ses.settings().outgoing_ports;
-		error_code ec;
-		if (out_ports.first > 0 && out_ports.second >= out_ports.first)
-			s->bind(tcp::endpoint(address(), m_ses.next_port()), ec);
 
 		boost::intrusive_ptr<peer_connection> c(new bt_peer_connection(
 			m_ses, shared_from_this(), s, a, peerinfo));
@@ -2871,7 +2939,8 @@ namespace libtorrent
 			return false;
 		}
 #endif
-		return true;
+
+		return peerinfo->connection;
 	}
 
 	bool torrent::set_metadata(lazy_entry const& metadata, std::string& error)

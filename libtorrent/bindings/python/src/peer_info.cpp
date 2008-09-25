@@ -44,11 +44,6 @@ list get_pieces(peer_info const& pi)
     return ret;
 }
 
-float get_progress(peer_info const& pi)
-{
-    return (float)pi.pieces.count() / (float)pi.pieces.size();
-}
-    
 void bind_peer_info()
 {
     scope pi = class_<peer_info>("peer_info")
@@ -94,7 +89,7 @@ void bind_peer_info()
         .def_readonly("send_quota", &peer_info::send_quota)
         .def_readonly("receive_quota", &peer_info::receive_quota)
         .def_readonly("rtt", &peer_info::rtt)
-        .add_property("progress", get_progress)
+        .def_readonly("progress", &peer_info::progress)
         ;
 
     // flags
