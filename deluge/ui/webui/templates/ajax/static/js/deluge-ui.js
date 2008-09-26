@@ -76,7 +76,7 @@ Deluge.UI = {
         var menu = new Widgets.PopupMenu()
         menu.add(Deluge.Menus.Torrents);
         menu.addEvent('action', function(e) {
-            this.torrent_action(e.action, e.value)
+            this.torrentAction(e.action, e.value)
         }.bind(this))
 
         this.grid.addEvent('row_menu', function(e) {
@@ -88,10 +88,11 @@ Deluge.UI = {
         }.bindWithEvent(this))
         
         this.grid.addEvent('selectedchanged', function(e) {
-            if ($chk(this.grid.selectedRow))
+            if ($chk(this.grid.selectedRow)) {
                 this.details.update(this.grid.selectedRow.id);
-            else
+            } else {
                 this.details.update(null);
+            }
         }.bindWithEvent(this))
     },
     
@@ -151,12 +152,12 @@ Deluge.UI = {
         this.grid.updateTorrents(this.torrents);
         this.statusbar.update(this.stats);
         
-        if ($chk(this.grid.selectedRow))
+        if ($chk(this.grid.selectedRow)) {
             this.details.update(this.grid.selectedRow.id);
-        else
+        } else {
             this.details.update(null);
-        
-        this.labels.update(this.filters)
+        }
+        this.labels.update(this.filters);
     },
     
     filePriorities: function(event) {
@@ -268,8 +269,6 @@ Deluge.UI = {
         this.update();
     }
 };
-
-
 
 window.addEvent('domready', function(e) {
     Deluge.UI.initialize();
