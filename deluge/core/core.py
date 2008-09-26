@@ -55,7 +55,6 @@ from deluge.core.pluginmanager import PluginManager
 from deluge.core.alertmanager import AlertManager
 from deluge.core.signalmanager import SignalManager
 from deluge.core.filtermanager import FilterManager
-from deluge.core.statusbarmanager import StatusBarManager
 from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.autoadd import AutoAdd
 from deluge.log import LOG as log
@@ -202,9 +201,6 @@ class Core(
 
         # Start the FilterManager
         self.filtermanager = FilterManager(self)
-
-        # Start the StatusBarManager
-        self.statusbarmanager = StatusBarManager(self)
 
         # Create the AutoAdd component
         self.autoadd = AutoAdd()
@@ -502,12 +498,6 @@ class Core(
         for use in sidebar(s)
         """
         return self.filtermanager.get_filter_tree()
-
-    def export_get_statusbar(self,  include_defaults = True):
-        """
-        prototype. api may and will change.
-        """
-        return self.statusbarmanager.get_statusbar(include_defaults)
 
     def export_get_session_state(self):
         """Returns a list of torrent_ids in the session."""
