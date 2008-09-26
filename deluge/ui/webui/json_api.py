@@ -92,7 +92,7 @@ class json_rpc:
         web.header("Content-Type", "application/x-json")
         ck = cookies()
         id = 0
-        if not(ck.has_key("session_id") and ck["session_id"] in utils.SESSIONS):
+        if not(ck.has_key("session_id") and ck["session_id"] in utils.config.get("sessions")):
             return json_error("not authenticated", id)
 
         try:
