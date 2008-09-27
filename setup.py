@@ -325,6 +325,7 @@ setup(
                                 "ui/webui/templates/deluge/*",
                                 "ui/webui/templates/classic/*",
                                 "ui/webui/templates/white/*"
+                                "ui/webui/templates/ajax/*"
                                 ]},
     packages = find_packages(exclude=["plugins"]),
     url = "http://deluge-torrent.org",
