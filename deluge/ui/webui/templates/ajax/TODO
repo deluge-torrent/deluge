@@ -3,6 +3,8 @@
  Implement the Options Menu
   partially complete
  Implement the connection manager
+ Implement the torrent creator
+ Obey the "queue new torrents to top" option
 
 [bugs]
  If a torrent is removed from the core it continues to try and get details
