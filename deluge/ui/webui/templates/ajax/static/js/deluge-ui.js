@@ -135,17 +135,17 @@ Deluge.UI = {
     },
     
     update: function() {
-        filter = {}
-        if (this.labels.state != 'All') filter.state = this.labels.state
+        filter = {};
+        //if (this.labels.state != 'All') filter['state'] = this.labels.state;
         Deluge.Client.update_ui(Deluge.Keys.Grid, filter, {
             onSuccess: this.bound.updated
-        })
+        });
     },
     
     updated: function(data) {
         this.torrents = new Hash(data.torrents);
         this.stats = data.stats;
-        this.filters = data.filters
+        this.filters = data.filters;
         this.torrents.each(function(torrent, torrent_id) {
             torrent.id = torrent_id;
         })

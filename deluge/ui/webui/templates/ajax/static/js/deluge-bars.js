@@ -46,77 +46,126 @@ Deluge.Widgets.Labels = new Class({
     
     Extends: Widgets.Base,
     
-    regex: /([\w]+)\s\((\d)\)/,
-    
     initialize: function() {
-        this.parent($('labels'))
+        this.parent($('labels'));
         this.bound = {
-            resized: this.resized.bindWithEvent(this),
-            clickedState: this.clickedState.bindWithEvent(this)
-        }
-        
-        this.list = new Element('ul')
-        this.element.grab(this.list)
-        this.addStates()
-        this.state = 'All'
-        this.islabels = false;
-        this.addEvent('resize', this.resized)
+            labelClicked: this.labelClicked.bindWithEvent(this)
+        };
+        this.filters = {};
     },
     
-    addStates: function() {
-        this.list.grab(new Element('li').set('text', 'All').addClass('all').addClass('activestate'))
-        this.list.grab(new Element('li').set('text', 'Downloading').addClass('downloading'))
-        this.list.grab(new Element('li').set('text', 'Seeding').addClass('seeding'))
-        this.list.grab(new Element('li').set('text', 'Queued').addClass('queued'))
-        this.list.grab(new Element('li').set('text', 'Paused').addClass('paused'))
-        this.list.grab(new Element('li').set('text', 'Error').addClass('error'))
-        this.list.grab(new Element('li').set('text', 'Checking').addClass('checking'))
-        this.list.grab(new Element('hr'))
-    },
-    
-    addLabel: function(name) {
-        
-    },
-    
-    clickedState: function(e) {
-        if (this.islabels) {
-            var old = this.list.getElement('.' + this.state.toLowerCase())
-            old.removeClass('activestate')
-            this.state = e.target.get('text').match(/^(\w+)/)[1]
-            e.target.addClass('activestate')
-            this.fireEvent('stateChanged', this.state)
-        } else {
-            
-        }
+    labelClicked: function(e) {
+        this.currentFilter.removeClass('activestate');
+        this.filterType = e.filter;
+        this.filterName = e.name;
+        this.currentFilter = e.target;
+        e.target.addClass('activestate');
     },
     
     update: function(filters) {
-        if (filters.state.length == 1)
-            this.updateNoLabels(filters);
-        else
-            this.updateLabels(filters)
+        $each(filters, function(values, name) {
+            if ($defined(this.filters[name])) {
+                this.filters[name].update(values);
+            } else {
+                this.filters[name] = new Deluge.Widgets.LabelSection(name);
+                this.filters[name].addEvent('labelClicked', this.bound.labelClicked);
+                this.element.grab(this.filters[name]);
+                this.filters[name].update(values);
+                if (!this.filterType && !this.filterName) {
+                    var el = this.filters[name].list.getElements('li')[0];
+                    this.currentFilter = el;
+                    this.filterType = name;
+                    this.filterName = el.retrieve('filterName');
+                    this.currentFilter.addClass('activestate');
+                }
+            }
+        }, this);
+    }
+});
+
+/*
+    Class: Deluge.Widgets.LabelSection
+        Class to manage a section of filters within the labels block
+    
+    Arguments:
+        string (the name of the section)
+    
+    Returns:
+        A widget with the ability to manage the filters
+*/
+Deluge.Widgets.LabelSection = new Class({
+    
+    Extends: Widgets.Base,
+    
+    regex: /([\w]+)\s\((\d)\)/,
+    
+    initialize: function(name) {
+        this.parent(new Element('div'));
+        this.name = name;
+        this.bound = {
+            'clicked': this.clicked.bindWithEvent(this)
+        }
+        
+        name = name.replace('_', ' ');
+        parts = name.split(' ');
+        name = '';
+        parts.each(function(part) {
+            firstLetter = part.substring(0, 1);
+            firstLetter = firstLetter.toUpperCase();
+            part = firstLetter + part.substring(1);
+            name += part + ' ';
+        });
+        
+        this.header = new Element('h3').set('text', name);
+        this.list = new Element('ul');
+        
+        this.element.grab(this.header);
+        this.element.grab(this.list);
     },
     
-    updateNoLabels: function(filters) {
-        this.islabels = false;
-    },
-    
-    updateLabels: function(filters) {
-        this.islabels = true;
-        $each(filters.state, function(state) {
-            var el = this.list.getElement('.' + state[0].toLowerCase())
-            if (!el) return
+    /*
+        Property: update
+            Updates the filters list
+        
+        Arguments:
+            values - a list of name/count values for the filters
+        
+        Example:
+            labelSection.update([['All', '3'], ['Downloading', '2']]);
+    */
+    update: function(values) {
+        names = new Array();
+        $each(values, function(value) {
+            var name = value[0], count = value[1], lname = name.toLowerCase();
+            lname = lname.replace('.', '_');
+            names.include(lname);
+            var el = this.list.getElement('li.' + lname);
+            if (!el) {
+                el = new Element('li').addClass(lname);
+                el.store('filterName', name)
+                el.addEvent('click', this.bound.clicked);
+                this.list.grab(el);
+            }
+            el.set('text', name + ' (' + count +')');
+        }, this);
+        
+        // Clean out any labels that are no longer returned
+        this.list.getElements('li').each(function(el) {
+            var hasName = false;
+            names.each(function(name) {
+                if (hasName) return;
+                hasName = el.hasClass(name);
+            });
             
-            el.set('text', state[0] + ' (' + state[1] + ')')
-            el.removeEvent('click', this.bound.clickedState)
-            el.addEvent('click', this.bound.clickedState)
-        }, this)
+            if (!hasName) {
+                el.destroy();
+            }
+        });
     },
     
-    resized: function(event) {
-        var height = this.element.getInnerSize().y;
-        this.list.getSizeModifiers();
-        height -= this.list.modifiers.y;
-        this.list.setStyle('height', height)
+    clicked: function(e) {
+        e.filter = e.target.retrieve('filterName');
+        e.name = this.name
+        this.fireEvent('labelClicked', e);
     }
 });
