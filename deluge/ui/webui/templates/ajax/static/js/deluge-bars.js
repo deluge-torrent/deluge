@@ -42,6 +42,16 @@ Deluge.Widgets.StatusBar = new Class({
 });
 
 
+/*
+    Class: Deluge.Wdigets.Labels
+        Class to manage the filtering labels in the sidebar
+    
+    Example:
+        labels = new Deluge.Widgets.Labels();
+    
+    Returns:
+        An instance of the class wrapped about the labels div
+*/
 Deluge.Widgets.Labels = new Class({
     
     Extends: Widgets.Base,
@@ -54,14 +64,17 @@ Deluge.Widgets.Labels = new Class({
         this.filters = {};
     },
     
-    labelClicked: function(e) {
-        this.currentFilter.removeClass('activestate');
-        this.filterType = e.filter;
-        this.filterName = e.name;
-        this.currentFilter = e.target;
-        e.target.addClass('activestate');
-    },
-    
+    /*
+        Property: update
+            Takes thes filters part of the update_ui rpc call and
+            performs the required changes on the filtering
+        
+        Arguments:
+            filters - A dictionary of the available filters
+        
+        Example:
+            labels.update({'state': [['All', '3'], ['Downloading', '2']]);
+    */
     update: function(filters) {
         $each(filters, function(values, name) {
             if ($defined(this.filters[name])) {
@@ -80,6 +93,23 @@ Deluge.Widgets.Labels = new Class({
                 }
             }
         }, this);
+    },
+    
+    /*
+        Property: labelClicked
+        
+        Arguments:
+            e - The event args
+        
+        Example:
+            labelSection.addEvent('labelClicked', this.bound.labelClicked);
+    */
+    labelClicked: function(e) {
+        this.currentFilter.removeClass('activestate');
+        this.filterType = e.filter;
+        this.filterName = e.name;
+        this.currentFilter = e.target;
+        e.target.addClass('activestate');
     }
 });
 
@@ -163,6 +193,16 @@ Deluge.Widgets.LabelSection = new Class({
         });
     },
     
+    /*
+        Property: clicked
+            Event handler for when a list item is clicked
+        
+        Arguments:
+            e - The event args
+        
+        Example:
+            listItem.addEvent('click', this.clicked.bindWithEvent(this));
+    */    
     clicked: function(e) {
         e.filter = e.target.retrieve('filterName');
         e.name = this.name
