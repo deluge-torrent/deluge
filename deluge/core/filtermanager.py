@@ -45,8 +45,6 @@ def filter_keyword(torrent_ids, values):
             if keyword in all_torrents[torrent_id].filename.lower():
                 yield torrent_id
 
-def filter_state_active(self, torrent_ids, value):
-    pass
 
 class FilterManager(component.Component):
     """FilterManager
@@ -81,6 +79,16 @@ class FilterManager(component.Component):
         if not filter_dict: #return if there's  nothing more to filter
             return torrent_ids
 
+        #special purpose: state=Active.
+        if "state" in filter_dict and "Traffic" in filter_dict["state"]:
+            filter_dict["state"].remove("Traffic")
+            if not filter_dict["state"]:
+                del filter_dict["state"]
+            torrent_ids = self.filter_state_active(torrent_ids)
+
+        if not filter_dict: #return if there's  nothing more to filter
+            return torrent_ids
+
         #Registered filters:
         for field, values in filter_dict.items():
             if field in self.registered_filters:
@@ -88,18 +96,18 @@ class FilterManager(component.Component):
                 torrent_ids = list(set(self.registered_filters[field](torrent_ids, values)))
                 del filter_dict[field]
 
+
         if not filter_dict: #return if there's  nothing more to filter
             return torrent_ids
 
         #leftover filter arguments:
         #default filter on status fields.
-        if filter_dict:
-            status_func = self.core.export_get_torrent_status #premature optimalisation..
-            for torrent_id in list(torrent_ids):
-                status = status_func(torrent_id, filter_dict.keys()) #status={key:value}
-                for field, values in filter_dict.iteritems():
-                    if (not status[field] in values) and torrent_id in torrent_ids:
-                        torrent_ids.remove(torrent_id)
+        status_func = self.core.export_get_torrent_status #premature optimalisation..
+        for torrent_id in list(torrent_ids):
+            status = status_func(torrent_id, filter_dict.keys()) #status={key:value}
+            for field, values in filter_dict.iteritems():
+                if (not status[field] in values) and torrent_id in torrent_ids:
+                    torrent_ids.remove(torrent_id)
 
         return torrent_ids
 
@@ -132,7 +140,9 @@ class FilterManager(component.Component):
             "Paused":0,
             "Checking":0,
             "Queued":0,
-            "Error":0}
+            "Error":0,
+            "Traffic":len(self.filter_state_active(self.torrents.get_torrent_list()))
+            }
 
     def register_filter(self, id, filter_func, filter_value = None):
         self.registered_filters[id] = filter_func
@@ -145,3 +155,13 @@ class FilterManager(component.Component):
 
     def deregister_tree_field(self, field):
         del self.tree_fields[field]
+
+    def filter_state_active(self, torrent_ids):
+        get_status = self.core.export_get_torrent_status
+        for torrent_id in list(torrent_ids):
+            status = get_status(torrent_id, ["download_payload_rate","upload_payload_rate"])
+            if status["download_payload_rate"] or status["upload_payload_rate"]:
+                pass #ok
+            else:
+                torrent_ids.remove(torrent_id)
+        return torrent_ids
