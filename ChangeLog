@@ -4,6 +4,9 @@ Deluge 1.0.1 (In Development)
     has been changed.
   * Fix #503 change the boost lib detection logic to first look for -mt and
     if not available, fall back to regular boost lib (non-multithreaded)
+
+ WebUI:
+  * Add enable "Auto Add" checkbox
  
 Deluge 1.0.0 - "Sharks Are Bulletproof" (21 September 2008)
  Core:
