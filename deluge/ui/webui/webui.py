@@ -33,17 +33,6 @@
 
 class WebUI:
     def __init__(self, args):
-        import os
-        import sys
         import deluge_webserver
-        if os.fork() == 0:
-            os.setsid()
-            if os.fork() == 0:
-                sys.stderr = sys.stdout
-                sys.stdin = None
-            else:
-                os._exit(0)
-        else:
-            os._exit(0)
         deluge_webserver.run(debug = False)
 
