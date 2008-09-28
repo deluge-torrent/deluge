@@ -51,19 +51,16 @@ Deluge.Widgets.TorrentGrid = new Class({
     },
     
     updateTorrents: function(torrents) {
-        torrents.getKeys().each(function(torrentId) {
-            var torrent = torrents[torrentId]
-            var torrentIds = torrents.getKeys()
-            if (torrent.queue == -1) {var queue = ''}
-            else {var queue = torrent.queue + 1}
-            var icon = this.icons[torrent.state]
+        torrents.each(function(torrent, id) {
+            torrent.queue = (torrent.queue > -1) ? torrent.queue + 1 : ''
+            torrent.icon = this.icons[torrent.state]
             row = {
-                id: torrentId,
+                id: id,
                 data: {
-                    number: queue,
-                    name: {text: torrent.name, icon: icon},
+                    number: torrent.queue,
+                    name: {text: torrent.name, icon: torrent.icon},
                     size: torrent.total_size,
-                    progress: {percent: torrent.progress, text:torrent.state + ' ' + torrent.progress.toFixed(2) + '%'},
+                    progress: {percent: torrent.progress, text: torrent.state + ' ' + torrent.progress.toFixed(2) + '%'},
                     seeders: torrent.num_seeds + ' (' + torrent.total_seeds + ')',
                     peers: torrent.num_peers + ' (' + torrent.total_peers + ')',
                     down: torrent.download_payload_rate,
@@ -75,18 +72,16 @@ Deluge.Widgets.TorrentGrid = new Class({
                 torrent: torrent
             }
             if (this.has(row.id)) {
-                this.updateRow(row, true)
+                this.updateRow(row, true);
             } else {
-                this.addRow(row, true)
+                this.addRow(row, true);
             }
-            
-            this.rows.each(function(row) {
-                if (!torrentIds.contains(row.id)) {
-                    row.element.destroy()
-                    this.rows.erase(row.id)
-                }
-            }, this)
-        }, this)
-        this.render()
+        }, this);
+        this.rows.each(function(row) {
+            if (!torrents.has(row.id)) {
+                delete this.rows[this.rows.indexOf(row)]
+            };
+        }, this);
+        this.render();
     }
 });

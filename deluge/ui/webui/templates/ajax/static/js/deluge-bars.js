@@ -106,10 +106,11 @@ Deluge.Widgets.Labels = new Class({
     */
     labelClicked: function(e) {
         this.currentFilter.removeClass('activestate');
-        this.filterType = e.filter;
-        this.filterName = e.name;
+        this.filterType = e.name;
+        this.filterName = e.filter;
         this.currentFilter = e.target;
         e.target.addClass('activestate');
+        this.fireEvent('filterChanged');
     }
 });
 

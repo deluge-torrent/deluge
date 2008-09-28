@@ -21,7 +21,7 @@ Deluge.UI = {
             resized: this.resized.bindWithEvent(this),
             toolbarClick: this.toolbarClick.bindWithEvent(this),
             filePriorities: this.filePriorities.bindWithEvent(this),
-            labelsChanged: this.labelsChanged.bindWithEvent(this)
+            filterChanged: this.filterChanged.bindWithEvent(this)
         };
         this.loadUi.delay(250, this);
     },
@@ -42,7 +42,7 @@ Deluge.UI = {
         this.initializeGrid()
         
         this.split_horz = new Widgets.SplitPane('top', this.labels, this.grid, {
-            pane1: {min: 150},
+            pane1: {min: 180},
             pane2: {min: 100, expand: true}
         });
         var details = $W('details')
@@ -59,11 +59,11 @@ Deluge.UI = {
         this.details.expand()
         
         this.toolbar.addEvent('buttonClick', this.bound.toolbarClick);
-        this.details.addEvent('filesAction', this.bound.filePriorities)
-        this.labels.addEvent('stateChanged', this.bound.labelsChanged)
+        this.details.addEvent('filesAction', this.bound.filePriorities);
+        this.labels.addEvent('filterChanged', this.bound.filterChanged);
         details.addEvent('resize', function(e) {
-            this.details.expand()
-        }.bindWithEvent(this))
+            this.details.expand();
+        }.bindWithEvent(this));
         
         window.addEvent('resize', this.bound.resized);
         Deluge.UI.update();
@@ -136,7 +136,10 @@ Deluge.UI = {
     
     update: function() {
         filter = {};
-        //if (this.labels.state != 'All') filter['state'] = this.labels.state;
+        var type = this.labels.filterType, name = this.labels.filterName
+        if (type && !(type == 'state' && name == 'All')) {
+            filter[this.labels.filterType] = this.labels.filterName;
+        }
         Deluge.Client.update_ui(Deluge.Keys.Grid, filter, {
             onSuccess: this.bound.updated
         });
@@ -186,8 +189,8 @@ Deluge.UI = {
         this.torrentAction(event.action);
     },
     
-    labelsChanged: function(event) {
-        this.update()
+    filterChanged: function(event) {
+        this.update();
     },
     
     torrentAction: function(action, value) {
