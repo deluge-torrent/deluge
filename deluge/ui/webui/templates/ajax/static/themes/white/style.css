@@ -294,15 +294,17 @@ form legend {
 
 form label {
 	width: 150px;
+    line-height: 20px;
 	float: left;
 }
 
-form input {
+form input, form select {
 	float: left;
 	margin-right: 5px;
 	border:1px solid #23344b;
 	background: #E0ECFF;
 	color: #000;
+	line-height: 20px;
 }
 
 form textarea {
@@ -311,11 +313,11 @@ form textarea {
 	width:480px;
 }
 
-form label.opt-disabled {
+form .disabled {
 	color: Gray;
 }
 
-form .deluge_button  {
+form .deluge_button, button.deluge_button  {
 	background-color: #E0ECFF;
 	border:1px solid #68a;
 	cursor: pointer;
@@ -323,12 +325,16 @@ form .deluge_button  {
 	color: #000;
 	vertical-align:middle;
 	-moz-border-radius:7px;
+    -webkit-border-radius:7px;
 	margin: 2px;
-	float: left;
 }
 
-form .deluge_button:hover {
+form .deluge_button:hover, button.deluge_button:hover {
 	background-color:#68a;
+}
+
+form br {
+	clear: left;
 }
 
 #addFromUrl label {
@@ -338,4 +344,42 @@ form .deluge_button:hover {
 #addFromUrl input[type=submit] {
 	margin: 5px;
 	margin-left: 100px;
+}
+
+.mooui-window-content #preferences .categories li:hover {
+	text-decoration: underline;
+}
+
+#preferences #bandwidth_preferences label {
+	width: 200px;
+}
+
+#preferences #encryption label {
+	width: 70px;
+}
+
+#preferences #encryption label.fluid {
+	width: auto;
+}
+
+#preferences #encryption select {
+	width: 70px;
+}
+
+.deluge-prefs-active {
+	font-weight: bold;
+}
+
+.mooui-spinner {
+	width: 40px;
+	margin-right: 20px;
+}
+
+label.fluid {
+	width: auto;
+	margin-right: 30px;
+}
+
+.deluge-prefs-page {
+	overflow: auto;
 }
