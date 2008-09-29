@@ -79,7 +79,7 @@ Deluge.UI = {
             this.torrentAction(e.action, e.value)
         }.bind(this))
 
-        this.grid.addEvent('row_menu', function(e) {
+        this.grid.addEvent('rowMenu', function(e) {
             e.stop()
             var value = this.grid.selectedRow.torrent.is_auto_managed;
             menu.items[3].items[4].set(value)
@@ -87,7 +87,7 @@ Deluge.UI = {
             menu.show(e)
         }.bindWithEvent(this))
         
-        this.grid.addEvent('selectedchanged', function(e) {
+        this.grid.addEvent('selectedChanged', function(e) {
             if ($chk(this.grid.selectedRow)) {
                 this.details.update(this.grid.selectedRow.id);
             } else {

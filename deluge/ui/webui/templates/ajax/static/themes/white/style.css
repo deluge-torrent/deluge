@@ -74,18 +74,9 @@ body {
 	font-size: 26px;
 }
 
-.mooui-splitter {
+.moouiSplitter {
 	background: none;
 }
-
-/*.mooui-splitter-vertical {
-	background: url(/template/static/images/split_vertical.png) repeat-y;
-}
-
-.mooui-splitter-horizontal {
-	background: url(/template/static/images/split_horizontal.png) repeat-x;
-}*/
-
 
 #toolbar #buttons #add {background-image:url(/template/static/icons/32/add.png)}
 #toolbar #buttons #remove {background-image:url(/template/static/icons/32/remove.png)}
@@ -145,7 +136,7 @@ body {
 }
 
 
-.mooui-datagrid {
+.moouiDataGrid {
 	overflow: auto;
 	margin: 5px;
 	border: 4px solid #C3D9FF;
@@ -153,33 +144,33 @@ body {
 	-webkit-border-radius: 5px;
 }
 
-.mooui-datagrid table {
+.moouiDataGrid table {
 	/*background: #304663;*/
 	border-spacing: 0px;
 }
 
-.mooui-datagrid table th {
+.moouiDataGrid table th {
 	font-weight: normal;
 	background: #C3D9FF;
 	margin-bottom: 2px;
 	cursor: pointer;
 }
 
-.mooui-datagrid table td {
+.moouiDataGrid table td {
 	padding: 2px;
 	border-bottom: 1px solid #1c2431;
 	cursor: pointer;
 }
-.mooui-datagrid table tr.selected td { background: #E0ECFF; }
-.mooui-datagrid table tr:hover td { background: #FFFFCC; }
+.moouiDataGrid table tr.selected td { background: #E0ECFF; }
+.moouiDataGrid table tr:hover td { background: #FFFFCC; }
 
-.mooui-progressbar div {
+.moouiProgressBar div {
 	background: #C3D9FF;
 	-moz-border-radius:5px; /*ff only setting*/
 	-webkit-border-radius: 5px;
 }
 
-.mooui-progressbar span {
+.moouiProgressBar span {
 	text-align: center;
 }
 
@@ -187,21 +178,21 @@ body {
 	padding: 5px;
 }
 
-#details .mooui-tabs li {
+#details .moouiTabs li {
 	background: #E0ECFF;
 	padding: 7px;
 	font-size: 1.1em;
 }
 
-#details .mooui-tabs li:hover {
+#details .moouiTabs li:hover {
 	background: #C3D9FF;
 }
 
-#details li.mooui-tabs-active {
+#details li.moouiTabActive {
 	background: #C3D9FF;
 }
 
-#details .mooui-tabpage {
+#details .moouiTabPage {
 	background: #C3D9FF;
 	padding: 5px;
 	-moz-border-radius:0 5px 5px 5px;
@@ -248,37 +239,37 @@ body {
 	-moz-border-radius: 7px 7px 0px 0px;
 }
 
-.mooui-menu {
+.moouiMenu {
 	background: #E0ECFF;
 	border: 1px outset Gray;
 }
 
-ul.mooui-menu li.mooui-menu-sep {
+ul.moouiMenu li.moouiMenuSep {
 	background-color: Gray;
 }
 
-ul.mooui-menu li:hover {
+ul.moouiMenu li:hover {
 	background-color: #a0a0a0;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 }
 
-ul.mooui-menu li.mooui-menu-sep:hover {
+ul.moouiMenu li.moouiMenuSep:hover {
 	background-color: Gray;
 }
 
-.mooui-window {
+.moouiWindow {
 	background: #C3D9FF;
 	border: 1px solid #1c2431;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
 
-.mooui-window-close {
-	background-image: url(/template/static/images/window_close.png);
+.moouiWindowClose {
+	background-image: url(/template/static/themes/white/window_close.png);
 }
 
-.mooui-window-title {
+.moouiWindowTitle {
 	margin: 5px;
 }
 
@@ -346,7 +337,7 @@ form br {
 	margin-left: 100px;
 }
 
-.mooui-window-content #preferences .categories li:hover {
+.moouiWindowContent #preferences .categories li:hover {
 	text-decoration: underline;
 }
 
@@ -370,7 +361,7 @@ form br {
 	font-weight: bold;
 }
 
-.mooui-spinner {
+.moouiSpinner {
 	width: 40px;
 	margin-right: 20px;
 }

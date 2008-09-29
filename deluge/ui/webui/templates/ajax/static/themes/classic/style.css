@@ -74,15 +74,15 @@ body {
 	text-align: right;
 }
 
-.mooui-splitter {
+.moouiSplitter {
 	background: none;
 }
 
-.mooui-splitter-vertical {
+.moouiSplitterVertical {
 	background: url(split_vertical.png) repeat-y;
 }
 
-.mooui-splitter-horizontal {
+.moouiSplitterHorizontal {
 	background: url(split_horizontal.png) repeat-x;
 }
 
@@ -138,39 +138,39 @@ body {
 	text-decoration: none;
 }
 
-.mooui-datagrid {
+.moouiDataGrid {
 	overflow: auto;
 	margin: 5px;
 	border: 1px solid #2a425c;
 }
 
-.mooui-datagrid table {
+.moouiDataGrid table {
 	/*background: #304663;*/
 	border-spacing: 0px;
 }
 
-.mooui-datagrid table th {
+.moouiDataGrid table th {
 	font-weight: normal;
 	border: 1px outset #1c2431;
 	margin-bottom: 2px;
 	cursor: pointer;
 }
 
-.mooui-datagrid table td {
+.moouiDataGrid table td {
 	padding: 2px;
 	border-bottom: 1px solid #1c2431;
 	cursor: pointer;
 }
-.mooui-datagrid table tr.selected td { background: #900; }
-.mooui-datagrid table tr:hover td { background: #68a; }
+.moouiDataGrid table tr.selected td { background: #900; }
+.moouiDataGrid table tr:hover td { background: #68a; }
 
-.mooui-progressbar div {
+.moouiProgressBar div {
 	background: #4573a5;
 	-moz-border-radius:5px; /*ff only setting*/
 	-webkit-border-radius: 5px;
 }
 
-.mooui-progressbar span {
+.moouiProgressBar span {
 	text-align: center;
 }
 
@@ -179,37 +179,37 @@ body {
 	background: #1c2431 url(simple_line_flipped.png) repeat-x;
 }
 
-.mooui-menu {
+.moouiMenu {
 	background: #304663 url(menu_bg.jpg) repeat-x;
 	border: 1px outset #37506f;
 }
 
-ul.mooui-menu li.mooui-menu-sep {
+ul.moouiMenu li.moouiMenuSep {
 	background-color: #aaa;
 }
 
-ul.mooui-menu li:hover {
+ul.moouiMenu li:hover {
 	background-color: #426187;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
 }
 
-ul.mooui-menu li.mooui-menu-sep:hover {
+ul.moouiMenu li.moouiMenuSep:hover {
 	background-color: #aaa;
 }
 
-.mooui-window {
+.moouiWindow {
 	background: #426187;
 	border: 1px solid #1c2431;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
 
-.mooui-window-close {
+.moouiWindowClose {
 	background-image: url(window_close.png);
 }
 
-.mooui-window-title {
+.moouiWindowTitle {
 	margin: 5px;
 }
 
@@ -281,7 +281,7 @@ form br {
 	margin-left: 100px;
 }
 
-.mooui-window-content #preferences .categories li:hover {
+.moouiWindowContent #preferences .categories li:hover {
 	text-decoration: underline;
 }
 
@@ -305,7 +305,7 @@ form br {
 	font-weight: bold;
 }
 
-.mooui-spinner {
+.moouiSpinner {
 	width: 40px;
 	margin-right: 20px;
 }

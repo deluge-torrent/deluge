@@ -43,21 +43,21 @@ html, body {
 	padding: 5px;
 }
 
-#details .mooui-tabs li {
+#details .moouiTabs li {
 	background: #37506f;
 	padding: 7px;
 	font-size: 1.1em;
 }
 
-#details .mooui-tabs li:hover {
+#details .moouiTabs li:hover {
 	background: #426187;
 }
 
-#details li.mooui-tabs-active {
+#details li.moouiTabActive {
 	background: #426187;
 }
 
-#details .mooui-tabpage {
+#details .moouiTabPage {
 	background: #426187;
 	padding: 5px;
 	-moz-border-radius:0 5px 5px 5px;
@@ -123,28 +123,28 @@ html, body {
 	display: block;
 }
 
-.mooui-window-content #preferences .categories {
+.moouiWindowContent #preferences .categories {
 	float: left;
 	width: 100px;
 	padding-left: 10px;
 }
 
-.mooui-window-content #preferences .pref_pages h3 {
+.moouiWindowContent #preferences .pref_pages h3 {
 	margin-bottom: 5px;
 }
 
-.mooui-window-content #preferences .pref_pages {
+.moouiWindowContent #preferences .pref_pages {
 	float: left;
 	width: 380px;
 }
 
-.mooui-window-content #preferences .categories ul {
+.moouiWindowContent #preferences .categories ul {
 	list-style: none;
 	padding: 0;
 	padding-left: 10px;
 }
 
-.mooui-window-content #preferences .categories li {
+.moouiWindowContent #preferences .categories li {
 	cursor: pointer;
 }
 

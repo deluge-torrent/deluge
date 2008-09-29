@@ -128,17 +128,17 @@ Array.implement({
 
 Element.implement({
 	getInnerSize: function() {
-		this.getPadding()
+		this.getPadding();
 		if ((/^(?:body|html)$/i).test(this.tagName)) return this.getWindow().getSize();
 		return {x: this.clientWidth - this.padding.x, y: this.clientHeight - this.padding.y};
 	},
 	
 	getInnerHeight: function() {
-		return this.getInnerSize().y
+		return this.getInnerSize().y;
 	},
 	
 	getInnerWidth: function() {
-		return this.getInnerSize().x
+		return this.getInnerSize().x;
 	},
 	
 	getSizeModifiers: function() {
@@ -334,98 +334,127 @@ Sorters.Progress = new Class({
  */
 
 Widgets = {
-	version: 0.1,
-	authors: [
-		'Damien Churchill'
-	],
-	license: 'GPLv3'
-}
+    version: 0.1,
+    authors: [
+        'Damien Churchill'
+    ],
+    license: 'GPLv3'
+};
+
+elementMethods = [
+    'addClass',
+    'hasClass',
+    'removeClass',
+    'toggleClass',    
+    'getInnerSize',
+    'getTop',
+    'getLeft',
+    'getWidth',
+    'getHeight',
+    'getScrollTop',
+    'getScrollLeft',
+    'getScrollHeight',
+    'getScrollWidth',
+    'getSize',
+    'getScrollSize',
+    'getScroll',
+    'getScrolls',
+    'getOffsetParent',
+    'getOffsets',
+    'getPosition',
+    'getCoordinates',
+    'getInnerWidth',
+    'getInnerHeight',
+    'getStyle',
+    'getParent',
+    'getSizeModifiers'
+];
 
 Widgets.Base = new Class({
 
-	Implements: [Events,Options],
-	
-	options: {
-		width: 0,
-		height: 0,
-		expand: false
-	},
+    Implements: [Events,Options],
+    
+    options: {
+        expand: false
+    },
 
-	initialize: function(element, options) {
-		this.setOptions(options)
-		this.element = $(element)
-		this.ismoouiwidget = true
-		this.width = (this.options.width) ? this.options.width : this.element.getStyle('width').toInt()
-		this.height = (this.options.height) ? this.options.height : this.element.getStyle('height').toInt()
-		$A(['addClass', 'hasClass', 'removeClass', 'toggleClass', 'getInnerSize',
-		'getTop', 'getLeft', 'getWidth', 'getHeight', 'getScrollTop',
-		'getScrollLeft', 'getScrollHeight', 'getScrollWidth', 'getSize',
-		'getScrollSize', 'getScroll', 'getScrolls', 'getOffsetParent',
-		'getOffsets', 'getPosition', 'getCoordinates', 'getInnerWidth',
-		'getInnerHeight', 'getStyle', 'getParent', 'getSizeModifiers'
-		]).each(function(method) {
-			if (this.element[method])
-				this[method] = this.element[method].bind(this.element);
-		}, this)
-	},
-	
-	refresh: function() {
-		this.element.removeProperty('style');
-		this.width = (this.options.width) ? this.options.width : this.element.getStyle('width').toInt()
-		this.height = (this.options.height) ? this.options.height : this.element.getStyle('height').toInt()
-		this.getSizeModifiers();
-		if (this.refreshChildren) this.refreshChildren();
-	},
-	
-	expand: function() {
-		var parent = this.getParent()
-		var parentSize = this.getParent().getInnerSize();
-		this.element.getSizeModifiers();
-		parentSize.y -= this.element.modifiers.y;
-		parentSize.x -= this.element.modifiers.x;
-		this.sets({'width': parentSize.x, 'height': parentSize.y});
-	},
-	
-	set: function(property, value, nofire) {
-		if (property == 'height' || property == 'width') {
-			var eventArgs = {};
-			eventArgs[property] = value;
-			eventArgs['old_' + property] = this[property];
-			this[property] = value;
-			if (value > 0) this.element.setStyle(property, value);
-			if (!nofire) this.fireEvent('resize', eventArgs);
-		} else {
-			this[property] = value;
-			this.element.setStyle(property, value)
-		}
-	},
-	
-	sets: function(properties) {
-		properties = new Hash(properties);
-		var fireResize = false;
-		var eventArgs = {}
-		properties.each(function(value, key) {
-			if (key == 'height' || key == 'width') {
-				eventArgs['old_' + key] = this[key]
-				eventArgs[key] = value
-				fireResize = true;
-			}
-			this.set(key, value, true);
-		}, this);
-		if (fireResize) this.fireEvent('resize', eventArgs);
-	},
-	
-	toElement: function() {
-		return this.element
-	}
-})
+    initialize: function(element, options) {
+        this.setOptions(options);
+        this.element = $(element);
+        this.element.store('moouiWidget', this);
+        this.isMoouiWidget = true;
+        this.width = this.element.getStyle('width').toInt();
+        this.height = this.element.getStyle('height').toInt();
+        elementMethods.each(function(method) {
+            if (this.element[method]) {
+                this[method] = this.element[method].bind(this.element);
+            };
+        }, this);
+    },
+    
+    refresh: function() {
+        this.element.removeProperty('style');
+        this.width = this.element.getStyle('width').toInt()
+        this.height = this.element.getStyle('height').toInt()
+        this.getSizeModifiers();
+        if (this.refreshChildren) this.refreshChildren();
+    },
+    
+    expand: function() {
+        var parent = this.getParent();
+        var parentSize = this.getParent().getInnerSize();
+        this.element.getSizeModifiers();
+        parentSize.y -= this.element.modifiers.y;
+        parentSize.x -= this.element.modifiers.x;
+        this.sets({'width': parentSize.x, 'height': parentSize.y});
+    },
+    
+    set: function(property, value, noFire) {
+        if (property == 'height' || property == 'width') {
+            var eventArgs = {};
+            eventArgs[property] = value;
+            eventArgs[('old-' + property).camelCase()] = this[property];
+            this[property] = value;
+            if (value > 0) this.element.setStyle(property, value);
+            if (!noFire) this.fireEvent('resize', eventArgs);
+        } else {
+            this[property] = value;
+            this.element.setStyle(property, value);
+        }
+    },
+    
+    sets: function(properties) {
+        properties = new Hash(properties);
+        var fireResize = false;
+        var eventArgs = {};
+        properties.each(function(value, key) {
+            if (key == 'height' || key == 'width') {
+                eventArgs[('old-' + key).camelCase()] = this[key];
+                eventArgs[key] = value;
+                fireResize = true;
+            }
+            this.set(key, value, true);
+        }, this);
+        if (fireResize) this.fireEvent('resize', eventArgs);
+    },
+    
+    toElement: function() {
+        return this.element;
+    }
+});
 
 $W = function(wrap) {
-	if (!wrap.ismoouiwidget)
-		return new Widgets.Base($(wrap))
-	else
-		return wrap
-}
+    if (!wrap.isMoouiWidget) {
+        if (wrap.retrieve) {
+            wrap = wrap.retrieve('moouiWidget');
+            return (wrap) ? wrap : new Widgets.Base(wrap);
+        } else {
+            return new Widgets.Base(wrap);
+        };
+    } else {
+        return wrap;
+    };
+};
 /*
  * Script: Widgets.js
  *  The base class for all UI widgets
@@ -462,15 +491,15 @@ Widgets.PopupMenu = new Class({
 	},
 	_build: function(items) {
 		var menu = new Element('ul')
-		menu.addClass('mooui-menu')
+		menu.addClass('moouiMenu')
 		items.each(function(item) {
 			if (item.type == 'text') {
 				var el = new Element('li')
-				el.addClass('mooui-menu-text')
+				el.addClass('moouiMenuText')
 				new Element('span').set('text', item.text).inject(el)
 				if ($defined(item.icon)) {
 					el.setStyle('background-image', 'url('+item.icon+')')
-					el.addClass('mooui-menu-icon')
+					el.addClass('moouiMenuIcon')
 				}
 				el.inject(menu)
 				el.addEvent('click', function(e) {
@@ -479,14 +508,14 @@ Widgets.PopupMenu = new Class({
 				}.bind(this))
 			} else if (item.type == 'toggle') {
 				var el = new Element('li');
-				el.addClass('mooui-menu-toggle');
+				el.addClass('moouiMenuToggle');
 				var toggle = new Element('span').inject(el);
 				item.checkbox = new Element('input', {type: 'checkbox'}).inject(toggle);
 				new Element('span').set('text', item.text).inject(toggle)
 				if (item.value) item.checkbox.checked = item.value;
 				if ($defined(item.icon)) {
 					el.setStyle('background-image', 'url('+item.icon+')');
-					el.addClass('mooui-menu-icon');
+					el.addClass('moouiMenuIcon');
 				}
 				el.inject(menu);
 				var clicked = function(e) {
@@ -504,14 +533,14 @@ Widgets.PopupMenu = new Class({
 				el.addEvent('click', clicked)
 				
 			} else if (item.type == 'seperator') {
-				new Element('li').addClass('mooui-menu-sep').inject(menu)
+				new Element('li').addClass('moouiMenuSep').inject(menu)
 			} else if (item.type == 'submenu') {
 				var el = new Element('li')
 				el.addClass('mooui-menu-sub')
 				new Element('span').set('text', item.text).inject(el)
 				if ($defined(item.icon)) {
 					el.setStyle('background-image', 'url('+item.icon+')')
-					el.addClass('mooui-menu-icon')
+					el.addClass('moouiMenuIcon')
 				}
 				var sub = this._build(item.items).inject(el)
 				el.addEvent('mouseenter', function(e) {
@@ -542,7 +571,7 @@ Widgets.PopupMenu = new Class({
 		}
 	},
 	show: function(e) {
-		this.show_pos(e.client.x+10, e.client.y-10)
+		this.showPos(e.client.x+10, e.client.y-10)
 	},
 	
 	fixSize: function(el) {
@@ -568,7 +597,7 @@ Widgets.PopupMenu = new Class({
 		});
 	},
 	
-	show_pos: function(x, y) {
+	showPos: function(x, y) {
 		this.element.setStyles({
 			'left': x,
 			'top': y - 2
@@ -594,32 +623,35 @@ Widgets.ProgressBar = new Class({
 	Extends: Widgets.Base,
 	
 	initialize: function() {
-		this.parent(new Element('div'))
-		this.element.addClass('mooui-progressbar')
-		this.bar = new Element('div').inject(this.element)
-		this.textspan = new Element('span').inject(this.bar)
-		this.sets({width: 200, height: 20})
-		this.addEvent('resize', this.on_resize.bindWithEvent(this))
+		this.parent(new Element('div'));
+		this.bound = {
+		    onResize: this.onResize.bindWithEvent(this)
+		};
+		this.element.addClass('moouiProgressBar');
+		this.bar = new Element('div').inject(this.element);
+		this.textSpan = new Element('span').inject(this.bar);
+		this.sets({width: 200, height: 20});
+		this.addEvent('resize', this.bound.onResize);
 	},
 	
-	on_resize: function() {
-		this.textspan.setStyles({'width': this.width, 'height': this.height})
-		this.update(this.text, this.percent)
+	onResize: function() {
+		this.textSpan.setStyles({'width': this.width, 'height': this.height});
+		this.update(this.text, this.percent);
 	},
 	
 	update: function(text, percent) {
 		if (this.text != text) {
-			this.text = text
-			this.textspan.set('text', text)
-		}
+			this.text = text;
+			this.textSpan.set('text', text);
+		};
 		
 		if (this.percent != percent) {
-			this.percent = percent
+			this.percent = percent;
 			this.bar.setStyles({
 				'width': Math.floor(this.width / 100.0 * percent),
 				'height': this.height
-			})
-		}
+			});
+		};
 	}
 });
 /*
@@ -634,228 +666,204 @@ Widgets.ProgressBar = new Class({
 
 Widgets.SplitPane = new Class({
 
-	Extends: Widgets.Base,
-	
-	options: {
-		direction: 'horizontal',
-		name: null,
-		splitSize: 6,
-		pane1: {},
-		pane2: {}
-	},
-	
-	initialize: function(element, pane1, pane2, options) {
-		this.parent(element, options);
-		this.horizontal = (this.options.direction == 'horizontal') ? true : false;
-		this.pane1 = $W(pane1);
-		this.pane2 = $W(pane2);
-		
-		if (this.options.expand) this.expand();
-		
-		this.init_pane(this.pane1, this.options.pane1)
-		this.init_pane(this.pane2, this.options.pane2)
-		this.init_splitter()
-		this.calculatePositions()
-		this.setPosition(this.pane1);
-		this.setPosition(this.splitter);
-		this.setPosition(this.pane2);
-		this.init_drag()
-		this.addEvent('resize', this.onResize.bindWithEvent(this))
-	},
-	
-	init_splitter: function() {
-		this.splitter = new Element('div').addClass('mooui-splitter')
-		this.splitter.inject(this.pane1, 'after')
-		this.splitter.paneinfo = {}
-		if (this.horizontal) {
-			this.splitter.addClass('mooui-splitter-vertical')
-		} else {
-			this.splitter.addClass('mooui-splitter-horizontal')
-		}
-		this.splitter.grab(new Element('div'))
-		this.splitter.grab(new Element('div'))
-		this.splitter.grab(new Element('div'))
-	},
-	
-	init_drag: function() {
-		this.drag = new Drag(this.splitter)
-		this.drag.addEvent('drag', this.onDrag.bindWithEvent(this))
-		if (this.horizontal) {
-			this.drag.options.limit = {
-				x: [
-					this.pane1.paneinfo.left + this.pane1.paneinfo.min - this.pane1.element.modifiers.x,
-					this.pane1.paneinfo.left + this.getInnerWidth() - this.pane2.paneinfo.min - this.pane1.element.modifiers.x - this.pane2.element.modifiers.x
-				],
-				y: [this.pane1.paneinfo.top, this.pane1.paneinfo.top]
-			}
-		} else {
-			this.drag.options.limit = {
-				x: [this.pane1.paneinfo.left, this.pane1.paneinfo.left],
-				y: [
-					this.pane1.paneinfo.top + this.pane1.paneinfo.min,
-					this.pane1.top + this.getInnerHeight() - this.pane2.paneinfo.min
-				]
-			}
-		}
-	},
-	
-	init_pane: function(pane, options) {
-		pane.addClass('mooui-pane');
-		pane.paneinfo = {}
-		if (options) {
-			pane.paneinfo.min = (options.min) ? options.min : 0;
-			pane.paneinfo.expand = (options.expand) ? options.expand : false;
-		}
-	},
-	
-	calculatePositions: function(resized) {
-		if (resized) {
-			if (this.horizontal) {
-				this.calculateResize(resized, 'width', 'height', 'x', 'y');
-			} else {
-				this.calculateResize(resized, 'height', 'width', 'y', 'x');
-			}
-		} else {
-			if (this.horizontal) {
-				this.calculateInitial('width', 'height', 'x', 'y');
-			} else {
-				this.calculateInitial('height', 'width', 'y', 'x');
-			}
-		}
-	},
-	
-	calculateInitial: function(dm, ds, pm, ps) {
-		var size = this.getInnerSize(), position = this.pane1.getPosition(this);
-		this.pane1.getSizeModifiers(); this.pane2.getSizeModifiers();
-		this.splitter.getSizeModifiers();
-		
-		position.x -= this.pane1.element.margin.left;
-		position.y -= this.pane1.element.margin.top;
-		
-		// Calculate Size
-		if (this.pane1.paneinfo.expand) {
-			this.pane2.paneinfo[dm] = this.pane2.paneinfo.min - this.pane2.element.modifiers[pm];
-			this.pane1.paneinfo[dm] = size[pm] - this.pane2.paneinfo.min - this.options.splitSize;
-			this.pane1.paneinfo[dm] -= this.pane1.element.modifiers[pm];
-		} else {
-			this.pane1.paneinfo[dm] = this.pane1.paneinfo.min - this.pane1.element.modifiers[pm];
-			this.pane2.paneinfo[dm] = size[pm] - this.pane1.paneinfo.min - this.options.splitSize;
-			this.pane2.paneinfo[dm] -= this.pane2.element.modifiers[pm];
-		}
-		this.pane1.paneinfo[ds] = this.pane2.paneinfo[ds] = size[ps];
-		this.pane1.paneinfo[ds] -= this.pane1.element.modifiers[ps];
-		this.pane2.paneinfo[ds] -= this.pane2.element.modifiers[ps];
-		
-		this.splitter.paneinfo[ds] = size[ps];
-		this.splitter.paneinfo[dm] = this.options.splitSize;
-		
-		
-		// Calculate Position		
-		$A([this.pane1, this.splitter, this.pane2]).each(function(item) {
-			item.paneinfo.left = position.x;
-			item.paneinfo.top = position.y;
-			if (item.modifiers)
-				position[pm] += item.paneinfo[dm] + item.modifiers[pm];
-			else
-				position[pm] += item.paneinfo[dm] + item.element.modifiers[pm];
-		})
-	},
-	
-	calculateResize: function(resized, dm, ds, pm, ps) {
-		var size = this.getInnerSize(), position = this.pane1.getPosition(this);
-		this.pane1.getSizeModifiers(); this.pane2.getSizeModifiers();
-		this.splitter.getSizeModifiers();
-		
-		position.x -= this.pane1.element.margin.left;
-		position.y -= this.pane1.element.margin.top;
-		
-		if (resized[dm] && resized[dm] != resized['old_' + dm]) {
-			if (this.pane1.paneinfo.expand) {
-				this.pane1.paneinfo[dm] = size[pm] - this.pane2.paneinfo[dm] - this.options.splitSize;
-				this.pane1.paneinfo[dm] -= this.pane1.element.modifiers[pm] + this.pane2.element.modifiers[pm];
-			} else {
-				this.pane2.paneinfo[dm] = size[pm] - this.pane1.paneinfo[dm] - this.options.splitSize;
-				this.pane2.paneinfo[dm] -= this.pane2.element.modifiers[pm] + this.pane1.element.modifiers[pm];
-			}
-		}
-		
-		if (resized[ds] && resized[ds] != resized['old_' + ds]) {
-			this.pane1.paneinfo[ds] = this.pane2.paneinfo[ds] = size[ps];
-			this.splitter.paneinfo[ds] = size[ps];
-			this.splitter.paneinfo[ds] -= this.splitter.modifiers[ps];
-			this.pane1.paneinfo[ds] -= this.pane1.element.modifiers[ps];
-			this.pane2.paneinfo[ds] -= this.pane2.element.modifiers[ps];
-		}
-		
-		$A([this.pane1, this.splitter, this.pane2]).each(function(item) {
-			item.paneinfo.left = position.x;
-			item.paneinfo.top = position.y;
-			if (item.modifiers)
-				position[pm] += item.paneinfo[dm] + item.modifiers[pm];
-			else
-				position[pm] += item.paneinfo[dm] + item.element.modifiers[pm];
-		})
-		
-		if (this.horizontal) {
-			this.drag.options.limit = {
-				x: [
-					this.pane1.paneinfo.left + this.pane1.paneinfo.min,
-					this.pane1.paneinfo.left + this.getInnerWidth() - this.pane2.paneinfo.min
-				],
-				y: [this.pane1.paneinfo.top, this.pane1.paneinfo.top]
-			}
-		} else {
-			this.drag.options.limit = {
-				x: [this.pane1.paneinfo.left, this.pane1.paneinfo.left],
-				y: [
-					this.pane1.paneinfo.top + this.pane1.paneinfo.min,
-					this.pane1.top + this.getInnerHeight() - this.pane2.paneinfo.min
-				]
-			}
-		}
-	},
-	
-	setPosition: function(object) {		
-		if (object.hasClass('mooui-splitter')) {
-			var func = object.setStyles.bind(object);
-		} else {
-			var func = object.sets.bind(object);
-		}
-		
-		func({
-			width: object.paneinfo.width,
-			height: object.paneinfo.height,
-			left: object.paneinfo.left,
-			top: object.paneinfo.top
-		});
-	},
-	
-	onDrag: function(splitter) {
-		var position = splitter.getPosition(this)
-		if (this.horizontal) {
-			var diff = position.x - this.splitter.paneinfo.left
-			this.pane2.paneinfo.left += diff
-			this.pane1.paneinfo.width += diff
-			this.pane2.paneinfo.width -= diff
-			this.splitter.paneinfo.left += diff
-		} else {
-			var diff = position.y - this.splitter.paneinfo.top
-			this.pane2.paneinfo.top += diff
-			this.pane1.paneinfo.height += diff
-			this.pane2.paneinfo.height -= diff
-			this.splitter.paneinfo.top += diff
-		}
-		
-		this.setPosition(this.pane1)
-		this.setPosition(this.pane2)
-	},
-	
-	onResize: function(event) {
-		this.calculatePositions(event)
-		this.setPosition(this.pane1);
-		this.setPosition(this.splitter);
-		this.setPosition(this.pane2);
-	}
+    Extends: Widgets.Base,
+    
+    options: {
+        direction: 'horizontal',
+        name: null,
+        splitSize: 6,
+        pane1: {},
+        pane2: {}
+    },
+    
+    initialize: function(element, pane1, pane2, options) {
+        this.parent(element, options);
+        this.bound = {
+            onResize: this.onResize.bindWithEvent(this),
+            onMouseDown: this.onMouseDown.bindWithEvent(this),
+            onMouseMove: this.onMouseMove.bindWithEvent(this),
+            onMouseUp: this.onMouseUp.bindWithEvent(this)
+        };
+
+        this.horizontal = (this.options.direction == 'horizontal') ? true : false;
+        this.pane1 = $W(pane1);
+        this.pane2 = $W(pane2);
+        
+        if (this.options.expand) this.expand();
+        
+        this.initPane(this.pane1, this.options.pane1);
+        this.initPane(this.pane2, this.options.pane2);
+        this.initSplitter();
+        this.calculatePositions();
+        this.setPosition(this.pane1);
+        this.setPosition(this.splitter);
+        this.setPosition(this.pane2);
+        this.splitter.addEvent('mousedown', this.bound.onMouseDown);
+        this.addEvent('resize', this.onResize.bindWithEvent(this));
+    },
+    
+    initSplitter: function() {
+        this.splitter = new Element('div').addClass('moouiSplitter');
+        this.splitter.inject(this.pane1, 'after');
+        this.splitter.paneinfo = {};
+        if (this.horizontal) {
+            this.splitter.addClass('moouiSplitterVertical');
+        } else {
+            this.splitter.addClass('moouiSplitterHorizontal');
+        };
+        this.splitter.grab(new Element('div'));
+        this.splitter.grab(new Element('div'));
+        this.splitter.grab(new Element('div'));
+    },
+    
+    onMouseDown: function(e) {
+        window.addEvent('mouseup', this.bound.onMouseUp);
+        window.addEvent('mousemove', this.bound.onMouseMove);
+        this.mouseStart = {
+            x: e.client.x,
+            y: e.client.y
+        };
+        this.paneInfo = {
+            one: {
+                startWidth: this.pane1.paneinfo.width,
+                startHeight: this.pane1.paneinfo.height
+            },
+            two: {
+                startWidth: this.pane2.paneinfo.width,
+                startHeight: this.pane2.paneinfo.height
+            }
+        };
+    },
+    
+    onMouseMove: function(e) {
+        if (this.horizontal) {
+            diff = e.client.x - this.mouseStart.x;
+            p1width = this.paneInfo.one.startWidth + diff;
+            p2width = this.paneInfo.two.startWidth - diff;
+            if ((this.pane1.paneinfo.min - this.pane1.element.modifiers.y) > p1width) {
+                this.pane1.paneinfo.width = this.pane1.paneinfo.min;
+                this.pane2.paneinfo.width = this.paneInfo.two.startWidth + (this.paneInfo.one.startWidth - this.pane1.paneinfo.min);
+            } else if ((this.pane2.paneinfo.min - this.pane2.element.modifiers.y) > p2width) {
+                this.pane2.paneinfo.width = this.pane2.paneinfo.min;
+                this.pane1.paneinfo.width = this.paneInfo.one.startWidth + (this.paneInfo.two.startWidth - this.pane2.paneinfo.min);
+            } else {
+                this.pane1.paneinfo.width = p1width;
+                this.pane2.paneinfo.width = p2width;
+            };
+        } else {
+            diff = e.client.y - this.mouseStart.y;
+            p1height = this.paneInfo.one.startHeight + diff;
+            p2height = this.paneInfo.two.startHeight - diff;
+            if (this.pane1.paneinfo.min > p1height) {
+                this.pane1.paneinfo.height = this.pane1.paneinfo.min;
+                this.pane2.paneinfo.height = this.paneInfo.two.startHeight + (this.paneInfo.one.startHeight - this.pane1.paneinfo.min);
+            } else if (this.pane2.paneinfo.min > p2height) {
+                this.pane2.paneinfo.height = this.pane2.paneinfo.min;
+                this.pane1.paneinfo.height = this.paneInfo.one.startHeight + (this.paneInfo.two.startHeight - this.pane2.paneinfo.min);
+            } else {
+                this.pane1.paneinfo.height = p1height;
+                this.pane2.paneinfo.height = p2height;
+            };
+        };        
+        this.setPosition(this.pane1);
+        this.setPosition(this.pane2);
+    },
+    
+    onMouseUp: function(e) {
+        window.removeEvent('mouseup', this.bound.onMouseUp);
+        window.removeEvent('mousemove', this.bound.onMouseMove);
+    },
+    
+    initPane: function(pane, options) {
+        pane.addClass('moouiPane');
+        pane.paneinfo = {}
+        if (options) {
+            pane.paneinfo.min = (options.min) ? options.min : 0;
+            pane.paneinfo.expand = (options.expand) ? options.expand : false;
+        };
+    },
+    
+    calculatePositions: function(resized) {
+        if (resized) {
+            if (this.horizontal) {
+                this.calculateResize(resized, 'width', 'height', 'x', 'y');
+            } else {
+                this.calculateResize(resized, 'height', 'width', 'y', 'x');
+            }
+        } else {
+            if (this.horizontal) {
+                this.calculateInitial('width', 'height', 'x', 'y');
+            } else {
+                this.calculateInitial('height', 'width', 'y', 'x');
+            }
+        }
+    },
+    
+    calculateInitial: function(dm, ds, pm, ps) {
+        var size = this.getInnerSize();
+        this.pane1.getSizeModifiers(); this.pane2.getSizeModifiers();
+        this.splitter.getSizeModifiers();
+        
+        // Calculate Size
+        if (this.pane1.paneinfo.expand) {
+            this.pane2.paneinfo[dm] = this.pane2.paneinfo.min;
+            this.pane1.paneinfo[dm] = size[pm] - this.pane2.paneinfo.min - this.options.splitSize;
+            this.pane1.paneinfo[dm] -= this.pane1.element.modifiers[pm] + this.pane2.element.modifiers[pm];
+        } else {
+            this.pane1.paneinfo[dm] = this.pane1.paneinfo.min;
+            this.pane2.paneinfo[dm] = size[pm] - this.pane1.paneinfo.min - this.options.splitSize;
+            this.pane2.paneinfo[dm] -= this.pane2.element.modifiers[pm] + this.pane1.element.modifiers[pm];
+        }
+        this.pane1.paneinfo[ds] = this.pane2.paneinfo[ds] = size[ps];
+        this.pane1.paneinfo[ds] -= this.pane1.element.modifiers[ps];
+        this.pane2.paneinfo[ds] -= this.pane2.element.modifiers[ps];
+        
+        this.splitter.paneinfo[ds] = size[ps];
+        this.splitter.paneinfo[dm] = this.options.splitSize;
+    },
+    
+    calculateResize: function(resized, dm, ds, pm, ps) {
+        size = this.getInnerSize();        
+        this.pane1.getSizeModifiers(); this.pane2.getSizeModifiers();
+        this.splitter.getSizeModifiers();
+        
+        if (resized[dm] && resized[dm] != resized[('old-' + dm).camelCase()]) {
+            if (this.pane1.paneinfo.expand) {
+                this.pane1.paneinfo[dm] = size[pm] - this.pane2.paneinfo[dm] - this.options.splitSize;
+                this.pane1.paneinfo[dm] -= this.pane1.element.modifiers[pm] + this.pane2.element.modifiers[pm];
+            } else {
+                this.pane2.paneinfo[dm] = size[pm] - this.pane1.paneinfo[dm] - this.options.splitSize;
+                this.pane2.paneinfo[dm] -= this.pane2.element.modifiers[pm] + this.pane1.element.modifiers[pm];
+            }
+        };
+        
+        if (resized[ds] && resized[ds] != resized[('old-' + ds).camelCase()]) {
+            this.pane1.paneinfo[ds] = this.pane2.paneinfo[ds] = size[ps];
+            this.splitter.paneinfo[ds] = size[ps];
+            this.splitter.paneinfo[ds] -= this.splitter.modifiers[ps];
+            this.pane1.paneinfo[ds] -= this.pane1.element.modifiers[ps];
+            this.pane2.paneinfo[ds] -= this.pane2.element.modifiers[ps];
+        };
+    },
+    
+    setPosition: function(object) {        
+        if (object.hasClass('moouiSplitter')) {
+            sets = object.setStyles.bind(object);
+        } else {
+            sets = object.sets.bind(object);
+        };
+        sets({
+            width: object.paneinfo.width,
+            height: object.paneinfo.height
+        });
+    },
+    
+    onResize: function(event) {
+        this.calculatePositions(event)
+        this.setPosition(this.pane1);
+        this.setPosition(this.splitter);
+        this.setPosition(this.pane2);
+    }
 })
 /*
  * Script: Widgets.Tabs.js
@@ -871,13 +879,17 @@ Widgets.Tabs = new Class({
 	Extends: Widgets.Base,
 	
 	initialize: function(element) {
-		this.parent(element)
-		this.pages = []
-		this.currentPage = -1
-		this.tabs_list = new Element('ul').inject(this.element)
-		this.pages_div = new Element('div').inject(this.element)
+		this.parent(element);
+		this.bound = {
+		    onResize: this.onResize.bindWithEvent(this)
+		};
+		this.pages = [];
+		this.currentPage = -1;
+		this.tabsList = new Element('ul').inject(this.element);
+		this.element.addClass('moouiTabs');
+		this.pagesDiv = new Element('div').inject(this.element);
 		
-		if (this.options.expand) this.expand()
+		if (this.options.expand) this.expand();
 	},
 	
 	addPage: function(page) {
@@ -890,8 +902,8 @@ Widgets.Tabs = new Class({
 		}.bindWithEvent(this))
 		page.tab = tab
 
-		this.tabs_list.grab(tab)
-		this.pages_div.grab(page.element.addClass('mooui-tabpage'))
+		this.tabsList.grab(tab)
+		this.pagesDiv.grab(page.element.addClass('moouiTabPage'))
 		
 		var pageIndex = this.pages.indexOf(page)
 		if (this.currentPage < 0) {
@@ -901,15 +913,15 @@ Widgets.Tabs = new Class({
 	},
 	
 	select: function(id) {
-		this.pages[this.currentPage].removeClass('mooui-tabpage-active')
-		this.pages[this.currentPage].tab.removeClass('mooui-tabs-active')
-		this.pages[id].addClass('mooui-tabpage-active')
-		this.pages[id].tab.addClass('mooui-tabs-active')
+		this.pages[this.currentPage].removeClass('moouiTabPageActive')
+		this.pages[this.currentPage].tab.removeClass('moouiTabActive')
+		this.pages[id].addClass('moouiTabPageActive')
+		this.pages[id].tab.addClass('moouiTabActive')
 		this.currentPage = id
 		this.fireEvent('pageChanged')
 	},
 	
-	on_resize: function() {
+	onResize: function() {
 		this._pages.each(function(page) {
 			page.resize(this.width, this.height - 45)
 		}, this)
@@ -962,54 +974,43 @@ Widgets.VBox = new Class({
 	
 	addBox: function(box, options) {
 		box = $W(box)
-		box.boxinfo = (options) ? options : {fixed: false};
+		box.boxInfo = (options) ? options : {fixed: false};
 		this.boxes.include(box);
 		this.element.grab(box);
-		box.element.setStyle('position', 'absolute');
+		box.element.setStyle('position', 'relative');
 	},
 	
 	calculatePositions: function() {
 		if (this.options.expand) this.expand();
 		var size = this.getInnerSize();
-		var position = this.boxes[0].getPosition(this);
 		var height = size.y, resizable = 0;
 		this.boxes.each(function(box) {
 			box.getSizeModifiers()
-			if (!box.boxinfo.fixed) resizable++;
+			if (!box.boxInfo.fixed) resizable++;
 			else height -= box.height + box.element.modifiers.y
-		}, this)
-		
-		position.x -= this.boxes[0].element.margin.left
-		position.y -= this.boxes[0].element.margin.top
+		}, this);
 		
 		var boxHeight = height / resizable, remainder = height % resizable
 		this.boxes.each(function(box) {
-			var boxinfo = {}
-			if (!box.boxinfo.fixed) {
+			var boxInfo = {}
+			if (!box.boxInfo.fixed) {
 				var setHeight = boxHeight - box.element.modifiers.y
 				if (remainder > 0) { setHeight -= 1; remainder-- }
-				boxinfo.height = setHeight
+				boxInfo.height = setHeight;
 			} else {
-				boxinfo.height = box.height
+				boxInfo.height = box.height;
 			}
-			boxinfo.width = size.x - box.element.modifiers.x
-			boxinfo.top = position.y
-			boxinfo.left = position.x
-
+			boxInfo.width = size.x - box.element.modifiers.x
 			box.sets({
-				height: boxinfo.height,
-				width: boxinfo.width,
-				top: boxinfo.top,
-				left: boxinfo.left
-			})
-			position.y += box.height + box.element.modifiers.y
+				height: boxInfo.height,
+				width: boxInfo.width
+			});
 		}, this)
 	},
 	
 	refreshChildren: function() {
 		this.boxes.each(function(box) {
 			box.refresh();
-			box.element.setStyle('position', 'absolute');
 		});
 	}
 })
@@ -1029,13 +1030,13 @@ Widgets.Window = new Class({
 	initialize: function(options) {
 		var element = new Element('div');
 		this.parent(element, options);
-		this.addClass('mooui-window');
+		this.addClass('moouiWindow');
 		this.sets({
 			width: this.options.width,
 			height: this.options.height
 		});
 		this.element.setStyle('opacity', 0);
-		this.title = new Element('h3').addClass('mooui-window-title');
+		this.title = new Element('h3').addClass('moouiWindowTitle');
 		this.element.grab(this.title);
 		this.title.set('text', this.options.title);
 		
@@ -1043,13 +1044,13 @@ Widgets.Window = new Class({
 			handle: this.title
 		});
 		
-		this.close = new Element('div').addClass('mooui-window-close');
+		this.close = new Element('div').addClass('moouiWindowClose');
 		this.close.inject(this.element);
 		this.close.addEvent('click', function(e) {
 			this.hide();
 		}.bindWithEvent(this));
 		
-		this.content = new Element('div').addClass('mooui-window-content');
+		this.content = new Element('div').addClass('moouiWindowContent');
 		this.content.inject(this.element);
 		
 		if (this.options.url) {
@@ -1255,6 +1256,12 @@ Widgets.DataGrid = new Class({
 	initialize: function(element, options) {
 		if (!element) element = this.createElement
 		this.parent(element, options)
+		this.bound = {
+		    onResize: this.onResize.bindWithEvent(this),
+		    onRowMenu: this.onRowMenu.bindWithEvent(this),
+		    onRowClick: this.onRowClick.bindWithEvent(this)
+		}
+		
 		this.columns = []
 		this.options.columns.each(function(column_info) {
 			var column = new Widgets.DataGridColumn(column_info)
@@ -1271,9 +1278,9 @@ Widgets.DataGrid = new Class({
 		this.sorted_by = 0
 		this.columns[0].order = -1
 		if ($chk(this.element)) { this.scanElement() } else { this.createElement }
-		this.element.setStyle('MozUserSelect', 'none')
-		this.resizeColumns()
-		this.addEvent('resize', this.resized.bindWithEvent(this))
+		this.element.setStyle('MozUserSelect', 'none');
+		this.resizeColumns();
+		this.addEvent('resize', this.bound.onResize);
 	},
 	
 	createElement: function() {
@@ -1290,7 +1297,7 @@ Widgets.DataGrid = new Class({
 	},
 	
 	scanElement: function() {
-		this.element.addClass('mooui-datagrid')
+		this.element.addClass('moouiDataGrid')
 		this.table = this.element.getElement('table')
 		if (!this.table) this.table = new Element('table').inject(this.element)
 		this.header = this.table.getElement('thead')
@@ -1314,31 +1321,31 @@ Widgets.DataGrid = new Class({
 		row.store = row_info.store
 		this.rows.include(row)
 		row.update(row_info)
-		row.addEvent('menu', this.onrowmenu.bind(this));
-		row.addEvent('click', this.onrowclick.bind(this))
-		if (!noRender) this.render()
+		row.addEvent('menu', this.bound.onRowMenu);
+		row.addEvent('click', this.bound.onRowClick);
+		if (!noRender) this.render();
 	},
 	
-	onrowmenu: function(e) {
+	onRowMenu: function(e) {
 		if (!this.selectedRow) {
-			this.selectRow(e.row)
-		}
-		this.fireEvent('row_menu', e)
+			this.selectRow(e.row);
+		};
+		this.fireEvent('rowMenu', e);
 	},
 	
-	onrowclick: function(e) {
-		e.row.index = this.displayRows.indexOf(this.getById(e.row.id))
+	onRowClick: function(e) {
+		e.row.index = this.displayRows.indexOf(this.getById(e.row.id));
 		if (e.shift) {
-			this.deselectRows()
-			this.selectRows(e.row.index)
+			this.deselectRows();
+			this.selectRows(e.row.index);
 		} else if (e.control) {
 			if (e.row.selected) { this.deselectRow(e.row) }
-			else { this.selectRow(e.row) }
+			else { this.selectRow(e.row) };
 		} else {
-			this.deselectRows()
-			this.selectRow(e.row)
+			this.deselectRows();
+			this.selectRow(e.row);
 		}
-		this.fireEvent('row_click', e)
+		this.fireEvent('rowClick', e);
 	},
 	
 	deselectRow: function(row) {
@@ -1347,7 +1354,7 @@ Widgets.DataGrid = new Class({
 		row.element.removeClass('selected')
 		if (row == this.selectedRow) {
 			this.selectedRow = null
-			this.fireEvent('selectedchanged')
+			this.fireEvent('selectedChanged')
 		}
 	},
 	
@@ -1360,13 +1367,11 @@ Widgets.DataGrid = new Class({
 	},
 	
 	filter: function() {
-		if (!$chk(this.filterer)) {
-			this.filterer = $lambda(true)
-		}
-		this.displayRows.empty()
-		this.rows.each(function(r) { 
-			if (this.filterer(r)) {this.displayRows.include(r)}
-		}.bind(this))
+	    this.filterer = (this.filterer) ? this.filterer : $lambda(true);
+		this.displayRows.empty();
+		this.rows.each(function(row) { 
+			if (this.filterer(row)) {this.displayRows.include(row)}
+		}.bind(this));
 	},
 	
 	getById: function(id) {
@@ -1393,8 +1398,8 @@ Widgets.DataGrid = new Class({
 	},
 	
 	render: function() {
-		this.filter()
-		this.resort()
+		this.filter();
+		this.resort();
 		var rows = [], rowIds = []
 		this.rows.each(function(row) {
 			if (this.displayRows.contains(row)) {
@@ -1428,7 +1433,7 @@ Widgets.DataGrid = new Class({
 		}, this)
 	},
 	
-	resized: function() {
+	onResize: function() {
 		var width = this.width
 		var columnWidth = this.options.columns.sum('width')
 		if (columnWidth > width) this.table.setStyle('width', columnWidth)
@@ -1464,7 +1469,7 @@ Widgets.DataGrid = new Class({
 		row.selected = true
 		row.element.addClass('selected')
 		this.selectedRow = row
-		this.fireEvent('selectedchanged')
+		this.fireEvent('selectedChanged');
 	},
 	
 	sort: function(column, index) {
