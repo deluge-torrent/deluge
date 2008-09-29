@@ -68,7 +68,7 @@ DEFAULT_PREFS = {
     "max_connections_global": -1,
     "max_upload_speed": -1.0,
     "max_download_speed": -1.0,
-    "max_upload_slots_global": -1,
+    "max_upload_slots_global": 4,
     "max_half_open_connections": -1,
     "max_connections_per_second": -1,
     "ignore_limits_on_local_network": True,
