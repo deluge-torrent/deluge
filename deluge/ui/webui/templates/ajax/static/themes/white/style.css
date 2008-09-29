@@ -108,15 +108,23 @@ body {
 	-moz-border-radius: 5px;
 }
 
-#labels ul {
-	list-style: none;
-	margin: 5px;
-	padding: 0;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	background: White;
+#labels div {
+    background: White;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
+	margin: 5px;
+	padding-top: 5px;
+	padding-bottom: 20px;
+}
+
+#labels div h3 {
+    margin: 5px;
+}
+
+#labels div ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
 }
 
 #labels li {
