@@ -236,18 +236,12 @@ class SystemTray(component.Component):
             log.debug("Unable to disable system tray: %s", e)
 
     def blink(self, value):
-        self.tray.set_blinking(value)
-        
-    #def on_set_tray_flashing_off(self):
-    #    """makes the tray icon stop blinking"""
-    #    if self.tray.get_blinking():
-    #        log.debug("stop blinking the tray icon..")
-    #        self.tray.set_blinking(False)
-   # 
-    #def on_set_tray_flashing_on(self):
-    #    """makes the tray icon blink"""
-    #    log.debug("start blinking the tray icon..")
-    #    self.tray.set_blinking(True)
+        try:
+            self.tray.set_blinking(value)
+        except AttributeError:
+            # If self.tray is not defined then ignore. This happens when the
+            # tray icon is not being used.
+            pass
     
     def on_enable_system_tray_set(self, key, value):
         """Called whenever the 'enable_system_tray' config key is modified"""
