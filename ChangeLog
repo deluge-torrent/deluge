@@ -2,7 +2,8 @@ Deluge 1.0.1 (In Development)
  Core:
   * Change the default max global upload slots to 4 instead of -1 since libtorrent
     will automatically open more slots to meet the upload speed limit.
-    
+  * Fix display of tracker error messages
+
  Misc:
   * Fix #187 set a 5 second timer to save the config file after a config value
     has been changed.
