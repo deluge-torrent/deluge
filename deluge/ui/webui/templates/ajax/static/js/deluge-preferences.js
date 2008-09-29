@@ -9,7 +9,7 @@
 
 
 Deluge.Widgets.PreferencesCategory = new Class({
-    Extends: Widgets.TabPage,
+    Extends: Widgets.TabPage
 });
 
 Deluge.Widgets.PluginPreferencesCategory = new Class({
