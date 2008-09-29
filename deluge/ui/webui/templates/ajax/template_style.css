@@ -100,19 +100,11 @@ html, body {
 }
 
 #status #info li {
+    width: auto;
 	height: 20px;
-	line-height: 20px;
-	width: 30px;
+	line-height: 20px;	
 	padding-left: 21px;
-}
-
-#status #info #connections {
-	width: 15px;
-}
-
-#status #info #downspeed, #status #info #upspeed {
-	background-position: 4px 2px;
-	margin-right: 25px;
+	margin-right: 10px;
 }
 
 .categories {

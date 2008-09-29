@@ -31,6 +31,7 @@ Deluge.Widgets.StatusBar = new Class({
         this.element.getElements('li').each(function(el) {
             this[el.id] = el;
         }, this);
+        this.incoming_connections.setStyle('display', 'none');
     },
     
     update: function(stats) {
@@ -38,6 +39,12 @@ Deluge.Widgets.StatusBar = new Class({
         this.downspeed.set('text', stats.download_rate.toSpeed());
         this.upspeed.set('text', stats.upload_rate.toSpeed());
         this.dht.set('text', stats.dht_nodes);
+        this.free_space.set('text', stats.free_space.toBytes());
+        if (stats.has_incoming_connections) {
+            this.incoming_connections.setStyle('display', 'none');    
+        } else {
+            this.incoming_connections.setStyle('display', 'inline');
+        }
     }
 });
 

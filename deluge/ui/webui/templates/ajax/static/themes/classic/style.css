@@ -98,7 +98,9 @@ body {
 #status #info #connections {background-image:url(/static/images/tango/connections.png)}
 #status #info #downspeed {background-image:url(/pixmaps/downloading16.png)}
 #status #info #upspeed {background-image:url(/pixmaps/seeding16.png)}
+#status #info #incoming_connections { background-image: url('/pixmaps/alert16.png'); }
 #status #info #dht {background-image:url(/pixmaps/dht16.png)}
+#status #info #free_space {background-image:url(/static/images/tango/drive-harddisk.png)}
 
 #labels .all { background-image: url('/pixmaps/dht16.png'); }
 #labels .downloading { background-image: url('/pixmaps/downloading16.png'); }

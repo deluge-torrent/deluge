@@ -27,6 +27,7 @@ ul.mooui-menu li.mooui-menu-icon {
 
 ul.mooui-menu li.mooui-menu-sep {
 	height: 1px;
+	line-height: 1px;
 }
 
 ul.mooui-menu li.mooui-menu-toggle input {

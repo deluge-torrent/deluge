@@ -215,8 +215,11 @@ Number.implement({
 	
 		if (bytes < 1024) { return bytes.toFixed(1)  + 'KiB'; }
 		else { bytes = bytes / 1024; }
+		
+		if (bytes < 1024) { return bytes.toFixed(1)  + 'MiB'; }
+		else { bytes = bytes / 1024; }
 	
-		return bytes.toFixed(1) + 'MiB'
+		return bytes.toFixed(1) + 'GiB'
 	},
 	toSpeed: function() {
 		var bits = this
@@ -1357,11 +1360,13 @@ Widgets.DataGrid = new Class({
 	},
 	
 	filter: function() {
-	    this.filterer = (this.filterer) ? this.filterer : $lambda(true);
-		this.displayRows.empty();
-		this.rows.each(function(row) { 
-			if (this.filterer(row)) {this.displayRows.include(row)}
-		}.bind(this));
+		if (!$chk(this.filterer)) {
+			this.filterer = $lambda(true)
+		}
+		this.displayRows.empty()
+		this.rows.each(function(r) { 
+			if (this.filterer(r)) {this.displayRows.include(r)}
+		}.bind(this))
 	},
 	
 	getById: function(id) {
@@ -1388,8 +1393,8 @@ Widgets.DataGrid = new Class({
 	},
 	
 	render: function() {
-		this.filter();
-		this.resort();
+		this.filter()
+		this.resort()
 		var rows = [], rowIds = []
 		this.rows.each(function(row) {
 			if (this.displayRows.contains(row)) {
