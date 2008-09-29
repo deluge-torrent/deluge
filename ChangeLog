@@ -4,6 +4,9 @@ Deluge 1.0.1 (In Development)
     will automatically open more slots to meet the upload speed limit.
   * Fix display of tracker error messages
 
+ GtkUI:
+  * Improve performance of files tab by only updating when values change
+  
  Misc:
   * Fix #187 set a 5 second timer to save the config file after a config value
     has been changed.

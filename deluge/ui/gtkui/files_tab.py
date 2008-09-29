@@ -382,9 +382,15 @@ class FilesTab(Tab):
         self.get_files_from_tree(self.treestore, files_list, 0)
         files_list.sort()
         for index, row in files_list:
-            row[2] = "%.2f%%" % (status["file_progress"][index] * 100)
-            row[3] = status["file_progress"][index] * 100
-            row[4] = status["file_priorities"][index]
+            progress_string = "%.2f%%" % (status["file_progress"][index] * 100)
+            if row[2] != progress_string:
+                row[2] = progress_string
+            progress_value = status["file_progress"][index] * 100
+            if row[3] != progress_value:
+                row[3] = progress_value
+            file_priority = status["file_priorities"][index]
+            if row[4] != file_priority:
+                row[4] = file_priority
            
     def _on_button_press_event(self, widget, event):
         """This is a callback for showing the right-click context menu."""
