@@ -404,7 +404,7 @@ Deluge.Widgets.OptionsPage = new Class({
                 high: null,
                 low: -1
             }
-        });        
+        });    
         new Widgets.Spinner(this.form.max_upload_speed, {
             step: 10,
             precision: 1,
