@@ -196,6 +196,9 @@ class GtkUI:
         client.connect_on_new_core(self._on_new_core)
         client.connect_on_no_core(self._on_no_core)
 
+        # Start the signal receiver
+        self.signal_receiver = Signals()
+        
         # Initialize various components of the gtkui
         self.mainwindow = MainWindow()
         self.menubar = MenuBar()
@@ -209,8 +212,6 @@ class GtkUI:
         self.statusbar = StatusBar()
         self.addtorrentdialog = AddTorrentDialog()
 
-        # Start the signal receiver
-        self.signal_receiver = Signals()
         self.coreconfig = CoreConfig()
 
         # Initalize the plugins

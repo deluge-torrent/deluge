@@ -158,7 +158,11 @@ class TorrentManager(component.Component):
             self.on_alert_save_resume_data)
         self.alerts.register_handler("save_resume_data_failed_alert",
             self.on_alert_save_resume_data_failed)
-        
+        self.alerts.register_handler("file_renamed_alert",
+            self.on_alert_file_renamed)
+        self.alerts.register_handler("metadata_received_alert",
+            self.on_alert_metadata_received)
+                    
     def start(self):
         # Get the pluginmanager reference
         self.plugins = component.get("PluginManager")
@@ -738,4 +742,17 @@ class TorrentManager(component.Component):
         log.debug("on_alert_save_resume_data_failed: %s", alert.message())
         torrent = self.torrents[str(alert.handle.info_hash())]
         torrent.waiting_on_resume_data = False
+
+    def on_alert_file_renamed(self, alert):
+        log.debug("on_alert_file_renamed")
+        log.debug("index: %s name: %s", alert.index, alert.name)
+        torrent_id = str(alert.handle.info_hash())
+        torrent = self.torrents[torrent_id]
+        torrent.files[alert.index]["path"] = alert.name
+        component.get("SignalManager").emit("torrent_file_renamed", torrent_id, alert.index, alert.name)
+
+    def on_alert_metadata_received(self, alert):
+        log.debug("on_alert_metadata_received")
+        torrent = self.torrents[str(alert.handle.info_hash())]
+        torrent.write_torrentfile()
         

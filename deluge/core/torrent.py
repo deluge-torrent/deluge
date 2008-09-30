@@ -723,6 +723,22 @@ class Torrent:
         except Exception, e:
             log.warning("Unable to delete the fastresume file: %s", e)
 
+    def write_torrentfile(self):
+        """Writes the torrent file"""
+        path = "%s/%s.torrent" % (
+            self.config["state_location"],
+            self.torrent_id)
+        log.debug("Writing torrent file: %s", path)
+        try:
+            ti = self.handle.get_torrent_info()
+            md = lt.bdecode(ti.metadata())
+            log.debug("md: %s", md)
+            torrent_file = {}
+            torrent_file["info"] = md
+            open(path, "wb").write(lt.bencode(torrent_file))
+        except Exception, e:
+            log.warning("Unable to save torrent file: %s", e)
+        
     def delete_torrentfile(self):
         """Deletes the .torrent file in the state"""
         path = "%s/%s.torrent" % (
@@ -762,3 +778,10 @@ class Torrent:
             log.debug("Unable to force recheck: %s", e)
             return False
         return True
+
+    def rename_files(self, filenames):
+        """Renames files in the torrent. 'filenames' should be a list of 
+        (index, filename) pairs."""
+        for index, filename in filenames:
+            self.handle.rename_file(index, filename)
+

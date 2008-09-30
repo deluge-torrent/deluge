@@ -111,6 +111,8 @@ class FilesTab(Tab):
         column.pack_start(render, False)
         column.add_attribute(render, "stock-id", 6)
         render = gtk.CellRendererText()
+        render.set_property("editable", True)
+        render.connect("edited", self._on_filename_edited)
         column.pack_start(render, True)
         column.add_attribute(render, "text", 0)
         column.set_sort_column_id(0)
@@ -179,6 +181,9 @@ class FilesTab(Tab):
             "on_menuitem_highest_activate": self._on_menuitem_highest_activate,
             "on_menuitem_expand_all_activate": self._on_menuitem_expand_all_activate
         })
+
+        # Connect to the 'torrent_file_renamed' signal
+        component.get("Signals").connect_to_signal("torrent_file_renamed", self._on_torrent_file_renamed_signal)
         
         # Attempt to load state
         self.load_state()
@@ -338,6 +343,7 @@ class FilesTab(Tab):
     ###        
 
     def update_files(self):
+        self.treestore.clear()
         self.prepare_file_store(self.files_list[self.torrent_id])
         self.listview.expand_row("0", False)
     
@@ -382,9 +388,15 @@ class FilesTab(Tab):
         self.get_files_from_tree(self.treestore, files_list, 0)
         files_list.sort()
         for index, row in files_list:
-            row[2] = "%.2f%%" % (status["file_progress"][index] * 100)
-            row[3] = status["file_progress"][index] * 100
-            row[4] = status["file_priorities"][index]
+            progress_string = "%.2f%%" % (status["file_progress"][index] * 100)
+            if row[2] != progress_string:
+                row[2] = progress_string
+            progress_value = status["file_progress"][index] * 100
+            if row[3] != progress_value:
+                row[3] = progress_value
+            file_priority = status["file_priorities"][index]
+            if row[4] != file_priority:
+                row[4] = file_priority
            
     def _on_button_press_event(self, widget, event):
         """This is a callback for showing the right-click context menu."""
@@ -450,3 +462,15 @@ class FilesTab(Tab):
 
     def _on_menuitem_expand_all_activate(self, menuitem):
         self.listview.expand_all()
+    
+    def _on_filename_edited(self, renderer, path, new_text):
+        index = self.treestore[path][5]
+        client.rename_files(self.torrent_id, [(index, new_text)])
+
+    def _on_torrent_file_renamed_signal(self, torrent_id, index, name):
+        log.debug("index: %s name: %s", index, name)
+        self.files_list[torrent_id][index]["path"] = name
+        # We need to update the filename displayed if we're currently viewing
+        # this torrents files.        
+        if torrent_id == self.torrent_id:
+            self.update_files()

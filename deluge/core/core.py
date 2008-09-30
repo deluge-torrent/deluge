@@ -700,6 +700,11 @@ class Core(
         """Rescans the plugin folders for new plugins"""
         component.get("PluginManager").scan_for_plugins()
 
+    def export_rename_files(self, torrent_id, filenames):
+        """Renames files in 'torrent_id'. The 'filenames' parameter should be a
+        list of (index, filename) pairs."""
+        self.torrents[torrent_id].rename_files(filenames)
+        
     ## Queueing functions ##
     def export_queue_top(self, torrent_ids):
         log.debug("Attempting to queue %s to top", torrent_ids)
