@@ -193,12 +193,15 @@ class TorrentManager(component.Component):
                 self.shutdown_torrent_pause_list.append(key)
         # We have to wait for all torrents to pause and write their resume data
         wait = True
-        while self.shutdown_torrent_pause_list or wait:
-            wait = False
-            for torrent in self.torrents.values():
-                if torrent.waiting_on_resume_data:
-                    wait = True
-                    break
+        while wait:
+            if self.shutdown_torrent_pause_list:
+                wait = True
+            else:
+                wait = False
+                for torrent in self.torrents.values():
+                    if torrent.waiting_on_resume_data:
+                        wait = True
+                        break
 
             time.sleep(0.01)
             # Wait for all alerts
