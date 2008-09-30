@@ -3053,7 +3053,8 @@ namespace libtorrent
 	{
 		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
 
-		INVARIANT_CHECK;
+// doesn't work with the m_paused -> m_num_peers == 0 condition
+//		INVARIANT_CHECK;
 
 		while (!m_connections.empty())
 		{
@@ -3499,6 +3500,8 @@ namespace libtorrent
 	void torrent::check_invariant() const
 	{
 		session_impl::mutex_t::scoped_lock l(m_ses.m_mutex);
+
+		if (is_paused()) TORRENT_ASSERT(num_peers() == 0);
 
 		if (!m_ses.m_queued_for_checking.empty())
 		{
