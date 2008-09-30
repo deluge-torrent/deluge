@@ -107,7 +107,7 @@ class TorrentOptions(dict):
 class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.
     """
-    def __init__(self, handle, options, state=None, filename=None):
+    def __init__(self, handle, options, state=None, filename=None, magnet=None):
         log.debug("Creating torrent object %s", str(handle.info_hash()))
         # Get the core config
         self.config = ConfigManager("core.conf")
@@ -129,6 +129,9 @@ class Torrent:
             
         self.filename = filename
 
+        # Store the magnet uri used to add this torrent if available
+        self.magnet = magnet
+        
         # Holds status info so that we don't need to keep getting it from lt
         self.status = self.handle.status()
 

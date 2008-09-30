@@ -71,7 +71,8 @@ class TorrentState:
             is_finished=False,
             stop_ratio=2.00,
             stop_at_ratio=False,
-            remove_at_ratio=False
+            remove_at_ratio=False,
+            magnet=None
         ):
         self.torrent_id = torrent_id
         self.filename = filename
@@ -79,6 +80,7 @@ class TorrentState:
         self.trackers = trackers
         self.queue = queue
         self.is_finished = is_finished
+        self.magnet = magnet
 
         # Options
         self.compact = compact
@@ -287,13 +289,17 @@ class TorrentManager(component.Component):
             options["auto_managed"] = state.auto_managed
             options["add_paused"] = state.paused
             
-            add_torrent_params["ti"] =\
-                self.get_torrent_info_from_file(
-                    os.path.join(self.config["state_location"], state.torrent_id + ".torrent"))
-            if not add_torrent_params["ti"]:
-                log.error("Unable to add torrent!")
-                return
-                
+            if not state.magnet:
+                add_torrent_params["ti"] =\
+                    self.get_torrent_info_from_file(
+                        os.path.join(self.config["state_location"], state.torrent_id + ".torrent"))
+    
+                if not add_torrent_params["ti"]:
+                    log.error("Unable to add torrent!")
+                    return
+            else:
+                magnet = state.magnet
+                    
             add_torrent_params["resume_data"] = self.get_resume_data_from_file(state.torrent_id)
         else:
             # We have a torrent_info object so we're not loading from state.
@@ -348,7 +354,7 @@ class TorrentManager(component.Component):
         # Set auto_managed to False because the torrent is paused
         handle.auto_managed(False)
         # Create a Torrent object
-        torrent = Torrent(handle, options, state, filename)
+        torrent = Torrent(handle, options, state, filename, magnet)
         # Add the torrent object to the dictionary
         self.torrents[torrent.torrent_id] = torrent
         if self.config["queue_new_to_top"]:
@@ -525,7 +531,8 @@ class TorrentManager(component.Component):
                 torrent.is_finished,
                 torrent.options["stop_ratio"],
                 torrent.options["stop_at_ratio"],
-                torrent.options["remove_at_ratio"]
+                torrent.options["remove_at_ratio"],
+                torrent.magnet
             )
             state.torrents.append(torrent_state)
         
