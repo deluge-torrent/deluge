@@ -115,7 +115,7 @@ ul.moouiMenu li.moouiMenuSep:hover {
 	-webkit-border-radius: 5px 5px 0 0;
 }
 
-.moouiTabs div {
+.moouiTabs .moouiTabPages {
 	clear: left;
 }
 

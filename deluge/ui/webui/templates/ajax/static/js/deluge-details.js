@@ -397,6 +397,49 @@ Deluge.Widgets.OptionsPage = new Class({
             });
         }, this);
         
+        new Widgets.Spinner(this.form.max_download_speed, {
+            step: 10,
+            precision: 1,
+            limit: {
+                high: null,
+                low: -1
+            }
+        });        
+        new Widgets.Spinner(this.form.max_upload_speed, {
+            step: 10,
+            precision: 1,
+            limit: {
+                high: null,
+                low: -1
+            }
+        });        
+        new Widgets.Spinner(this.form.max_connections, {
+            step: 1,
+            precision: 0,
+            limit: {
+                high: null,
+                low: -1
+            }
+        });        
+        new Widgets.Spinner(this.form.max_upload_slots, {
+            step: 1,
+            precision: 0,
+            limit: {
+                high: null,
+                low: -1
+            }
+        });        
+        new Widgets.Spinner(this.form.stop_ratio, {
+            step: 1,
+            precision: 1,
+            limit: {
+                high: null,
+                low: -1
+            }
+        });
+        
+        
+        
         this.form.apply.addEvent('click', this.bound.apply);
         this.form.reset.addEvent('click', this.bound.reset);
     },
@@ -436,8 +479,14 @@ Deluge.Widgets.OptionsPage = new Class({
             if (type == 'boolean') {
                 this.form[key].checked = value;
             } else {
-                if (!this.form[key].focused)
-                    this.form[key].value = value;
+                if (!this.form[key].focused) {
+                    widget = $$W(this.form[key]);
+                    if (widget) {
+                        widget.setValue(value);
+                    } else {
+                        this.form[key].value = value;
+                    };
+                };
             };
             if (key == 'private' && value == 0) {
                 this.form[key].disabled = true

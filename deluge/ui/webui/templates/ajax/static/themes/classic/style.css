@@ -305,11 +305,6 @@ form br {
 	font-weight: bold;
 }
 
-.moouiSpinner {
-	width: 40px;
-	margin-right: 20px;
-}
-
 label.fluid {
 	width: auto;
 	margin-right: 30px;
@@ -317,4 +312,44 @@ label.fluid {
 
 .deluge-prefs-page {
 	overflow: auto;
+}
+
+.moouiSpinner {
+    float: left;
+	width: 66px;
+	overflow: hidden;
+}
+
+.moouiSpinner input {
+    float: left;
+    border: 1px solid Black;
+    width: 40px;
+    margin: 0;
+}
+
+.moouiSpinner div {
+    float: left;
+}
+
+.moouiSpinnerButtons {
+    width: 9px;
+    height: 10px;
+    font-size: 0px;
+}
+
+.moouiSpinnerUp {
+    cursor: pointer;
+    background: url(up.png) no-repeat;
+    width: 10px;
+    height: 5px;
+    margin: 2px;
+}
+
+.moouiSpinnerDown {
+    cursor: pointer;
+    background: url(down.png) no-repeat;
+    width: 10px;
+    height: 5px;
+    line-height: 5px;
+    margin: 2px;
 }
