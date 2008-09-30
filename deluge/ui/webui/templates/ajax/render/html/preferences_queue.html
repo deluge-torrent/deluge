@@ -5,17 +5,17 @@
 	</fieldset>
 	<fieldset>
 		<legend>$_('Active Torrents')</legend>
-		<label>$_('Total active'):</label><input type="text" name="max_active_limit" class="moouiSpinner" /><br/>
-		<label>$_('Total active downloading'):</label><input type="text" name="max_active_downloading" class="moouiSpinner" /><br/>
-		<label>$_('Total active seeding'):</label><input type="text" name="max_active_seeding" class="moouiSpinner" /><br/>
+		<label>$_('Total active'):</label><input type="text" name="max_active_limit" rel="spinner" /><br/>
+		<label>$_('Total active downloading'):</label><input type="text" name="max_active_downloading" rel="spinner" /><br/>
+		<label>$_('Total active seeding'):</label><input type="text" name="max_active_seeding" rel="spinner" /><br/>
 		<label class="fluid"><input type="checkbox" name="dont_count_slow_torrents" />$_('Do not count slow torrents')</label>
 	</fieldset>
 	<fieldset>
 		<legend>$_('Seeding')</legend>
-		<label>$_('Share Ratio Limit'):</label><input type="text" name="share_ratio_limit" class="moouiSpinner" /><br/>
-		<label>$_('Seed Time Ratio'):</label><input type="text" name="stop_seed_ratio" class="moouiSpinner" /><br/>
-		<label>$_('Seed Time') (m):</label><input type="text" name="seed_time_limit" class="moouiSpinner" /><br/>
-		<label class="fluid"><input type="checkbox" name="stop_seed_at_ratio" />$_('Stop seeding when share ratio reaches'):</label><input type="text" name="stop_seed_ratio" class="moouiSpinner" />
+		<label>$_('Share Ratio Limit'):</label><input type="text" name="share_ratio_limit" rel="spinner2" /><br/>
+		<label>$_('Seed Time Ratio'):</label><input type="text" name="stop_seed_ratio" rel="spinner2" /><br/>
+		<label>$_('Seed Time') (m):</label><input type="text" name="seed_time_limit" rel="spinner" /><br/>
+		<label class="fluid"><input type="checkbox" name="stop_seed_at_ratio" />$_('Stop seeding when share ratio reaches'):</label><input type="text" name="stop_seed_ratio" rel="spinner2" />
 		<label class="fluid"><input type="checkbox" name="remote_seed_at_ratio" />$_('Remove torrent when share ratio reached')</label>
 	</fieldset>
 </form>

@@ -24,6 +24,19 @@ Deluge.Widgets.GenericPreferences = new Class({
         this.core = true;
         this.addEvent('loaded', function(e) {
             this.form = this.element.getElement('form');
+            this.form.getElements('input[rel=spinner]').each(function(el) {
+                new Widgets.Spinner(el);
+            });
+            this.form.getElements('input[rel=spinner1]').each(function(el) {
+                new Widgets.Spinner(el, {
+                    precision: 1
+                });
+            });
+            this.form.getElements('input[rel=spinner2]').each(function(el) {
+                new Widgets.Spinner(el, {
+                    precision: 2
+                });
+            });
         }.bindWithEvent(this));
     },
     
@@ -35,7 +48,11 @@ Deluge.Widgets.GenericPreferences = new Class({
         this.inputs.each(function(input) {
             if (!input.name) return;
             if (!$defined(config[input.name])) return;
-            if (input.tagName.toLowerCase() == 'select') {
+            
+            widget = $$W(input);
+            if (widget) {
+                widget.setValue(config[input.name]);
+            } else if (input.tagName.toLowerCase() == 'select') {
                 var value = config[input.name].toString();
                 input.getElements('option').each(function(option) {
                     if (option.value == value) {
