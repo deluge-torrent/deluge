@@ -54,7 +54,6 @@ class network_png:
     @api.deco.check_session
     def GET(self, args):
         vars = api.web.input(width = 600, height = 150)
-        log.debug("1")
         api.web.header("Content-Type", "image/png")
         n = NetworkGraph()
         n.async_request()
@@ -66,8 +65,6 @@ class network_png:
 
     def write(self, str): #file like object for pango; write_to_png
         self.data += str
-
-
 
 class WebUI(WebUIPluginBase):
     #map url's to classes: [(url,class), ..]
