@@ -207,7 +207,7 @@ class Core(
         
         # Start the libtorrent session
         log.debug("Starting libtorrent session..")
-        self.session = lt.session(fingerprint)
+        self.session = lt.session(fingerprint, flags=0)
         
         # Set the user agent
         self.settings = lt.session_settings()
