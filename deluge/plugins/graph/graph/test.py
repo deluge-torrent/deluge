@@ -4,7 +4,7 @@ from graph import NetworkGraph
 
 
 def test_sync():
-    if 1:
+    if 0:
         upload = sclient.graph_get_upload()
         download = sclient.graph_get_download()
         print upload
@@ -53,8 +53,8 @@ def test_write():
 
 
 test_sync()
-test_async()
-test_write()
+#test_async()
+#test_write()
 
 
 
