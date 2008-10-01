@@ -146,7 +146,7 @@ Deluge.UI = {
     },
     
     updated: function(data) {
-        if (!data) return;
+        if ($defined(data)) return;
         this.torrents = new Hash(data.torrents);
         this.stats = data.stats;
         this.filters = data.filters;
