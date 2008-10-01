@@ -24,6 +24,9 @@ Deluge.UI = {
             filterChanged: this.filterChanged.bindWithEvent(this)
         };
         this.loadUi.delay(250, this);
+        window.addEvent('load', function(e) {
+            this.vbox.calculatePositions();
+        }.bindWithEvent(this));
     },
     
     loadUi: function() {
@@ -146,7 +149,7 @@ Deluge.UI = {
     },
     
     updated: function(data) {
-        if ($defined(data)) return;
+        if (!$defined(data)) return;
         this.torrents = new Hash(data.torrents);
         this.stats = data.stats;
         this.filters = data.filters;
