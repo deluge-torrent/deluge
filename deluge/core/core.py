@@ -165,7 +165,7 @@ class Core(
 
         # Start the libtorrent session
         log.debug("Starting libtorrent session..")
-        self.session = lt.session(fingerprint)
+        self.session = lt.session(fingerprint, flags=0)
 
         # Load the session state if available
         self.load_session_state()
