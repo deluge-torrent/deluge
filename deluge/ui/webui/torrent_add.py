@@ -119,7 +119,7 @@ class torrent_add:
             return
 
         if vars.url:
-            proxy.add_torrent_url(vars.url, None,options)
+            proxy.add_torrent_url(vars.url, options)
             log.debug("add-url:options :%s" % options)
             self.redirect(vars.choose_files)
         elif torrent_name:

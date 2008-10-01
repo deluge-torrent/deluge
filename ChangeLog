@@ -3,6 +3,8 @@ Deluge 1.0.1 (In Development)
   * Change the default max global upload slots to 4 instead of -1 since libtorrent
     will automatically open more slots to meet the upload speed limit.
   * Fix display of tracker error messages
+  * Fix add_torrent_url() to download the torrent file in a thread to prevent
+    the main thread from blocking and causing the daemon to freeze.
 
  GtkUI:
   * Improve performance of files tab by only updating when values change

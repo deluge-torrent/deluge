@@ -396,9 +396,12 @@ class Core(
         # Run the plugin hooks for 'post_torrent_add'
         self.plugins.run_post_torrent_add(torrent_id)
 
-    def export_add_torrent_url(self, url, save_path, options):
+    def export_add_torrent_url(self, url, options):
         log.info("Attempting to add url %s", url)
-        
+
+        threading.Thread(target=self.fetch_torrent_url_thread, args=(self.export_add_torrent_file, url, options)).start()
+
+    def fetch_torrent_url_thread(self, callback, url, options):
         # Get the actual filename of the torrent from the url provided.
         filename = url.split("/")[-1]
         
@@ -406,17 +409,16 @@ class Core(
         torrent_file = deluge.common.fetch_url(url)
         if torrent_file is None:
             return False
-        
+
         # Dump the torrents file contents to a string
         try:
             filedump = open(torrent_file, "rb").read()
         except IOError:
             log.warning("Unable to open %s for reading.", torrent_file)
             return False
-            
+
         # Add the torrent to session
-        return self.export_add_torrent_file(
-            filename, filedump, options)
+        return callback(filename, filedump, options)
         
     def export_remove_torrent(self, torrent_ids, remove_torrent, remove_data):
         log.debug("Removing torrent %s from the core.", torrent_ids)
