@@ -389,9 +389,12 @@ class Core(
     def export_add_torrent_url(self, url, options):
         log.info("Attempting to add url %s", url)
 
+        threading.Thread(target=self.fetch_torrent_url_thread, args=(self.export_add_torrent_file, url, options)).start()
+
+    def fetch_torrent_url_thread(self, callback, url, options):
         # Get the actual filename of the torrent from the url provided.
         filename = url.split("/")[-1]
-
+        
         # Get the .torrent file from the url
         torrent_file = deluge.common.fetch_url(url)
         if torrent_file is None:
@@ -405,8 +408,7 @@ class Core(
             return False
 
         # Add the torrent to session
-        return self.export_add_torrent_file(
-            filename, filedump, options)
+        return callback(filename, filedump, options)
 
     def export_add_torrent_magnets(self, uris, options):
         for uri in uris:
