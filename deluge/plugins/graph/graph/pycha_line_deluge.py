@@ -18,6 +18,13 @@
 from pycha.chart import Chart
 from pycha.color import hex2rgb, clamp
 
+
+def to_rgba(color):
+    if len(color) == 3:
+        color = list(color) + [1.0]
+    return color
+
+
 class LineChart(Chart):
 
     def __init__(self, surface=None, options={}):
@@ -86,8 +93,13 @@ class LineChart(Chart):
                     cx.fill()
                     cx.restore()
 
-                # fill the line
-                cx.set_source_rgb(*self.options.colorScheme[storeName])
+               # fill the line
+
+                fill_color = self.options.colorScheme.get(storeName  + "_fill",None)
+                if not fill_color:
+                    fill_color = list(self.options.colorScheme[storeName]) + [0.5]
+                cx.set_source_rgba(*fill_color)
+
                 preparePath(storeName)
                 cx.fill()
 
@@ -101,8 +113,13 @@ class LineChart(Chart):
             for key in self._getDatasetsKeys():
                 drawLine(key)
         else:
-            for key in self._getDatasetsKeys():
-                preparePath(key)
+            pass
+        self.options.shouldFill = False
+        for key in self._getDatasetsKeys():
+            preparePath(key)
+        self.options.shouldFill = True
+
+
 
         cx.restore()
 
@@ -111,3 +128,7 @@ class Point(object):
         self.x, self.y = x, y
         self.xval, self.yval = xval, yval
         self.name = name
+
+
+if __name__ == "__main__":
+    import test_pycha
