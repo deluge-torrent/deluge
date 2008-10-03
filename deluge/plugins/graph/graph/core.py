@@ -1,6 +1,7 @@
 #
 # core.py
 #
+# Copyright (C) 2008 Damien Churchill <damoxc@gmail.com>
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 # Copyright (C) Marcos Pinto 2007 <markybob@gmail.com>
 #
@@ -35,6 +36,7 @@ import deluge
 from deluge.log import LOG as log
 from deluge.plugins.corepluginbase import CorePluginBase
 from deluge import component
+from deluge import configmanager
 import gobject
 #from deluge.plugins.coreclient import client #1.1 and later only
 #client: see http://dev.deluge-torrent.org/wiki/Development/UiClient#Remoteapi
@@ -52,35 +54,44 @@ class Core(CorePluginBase):
 
     def enable(self):
         self.core = component.get("Core")
-        self.savedUpSpeeds   = []
-        self.savedDownSpeeds = []
-        self.savedConnections = []
-        self.config = deluge.configmanager.ConfigManager("graph.conf", DEFAULT_PREFS)
-        self.update_timer = gobject.timeout_add(self.config.get("update_interval"), self.update_stats)
+        self.saved_stats = {}
+        self.add_stats(
+            'upload_rate',
+            'download_rate',
+            'num_connections'
+        )
+        
+        self.config = configmanager.ConfigManager("graph.conf", DEFAULT_PREFS)
+        self.update_timer = gobject.timeout_add(
+            self.config.get("update_interval"), self.update_stats)
         self.length = self.config.get("length")
+    
+    def add_stats(self, *stats):
+        for stat in stats:
+            if stat not in self.saved_stats:
+                self.saved_stats[stat] = []
 
     def disable(self):
         gobject.source_remove(self.update_timer)
 
     def update_stats(self):
         try:
-            status = self.core.session.status()
-            self.savedUpSpeeds.insert(0, int(status.payload_upload_rate))
-            if len(self.savedUpSpeeds) > self.length:
-                self.savedUpSpeeds.pop()
-            self.savedDownSpeeds.insert(0, int(status.payload_download_rate))
-            if len(self.savedDownSpeeds) > self.length:
-                self.savedDownSpeeds.pop()
+            stats = self.core.export_get_stats()
+            for stat, stat_list in self.saved_stats.iteritems():
+                stat_list.insert(0, int(stats[stat]))
+                if len(stat_list) > self.length:
+                    stat_list.pop()
         except Exception,e:
             log.error(e.message)
-
         return True
-
-    def export_get_upload(self,length=None):
-        return self.savedUpSpeeds
-
-    def export_get_download(self,length=None):
-        return self.savedDownSpeeds
+    
+    def export_get_stats(self, keys):
+        stats_dict = {}
+        for stat in self.saved_stats:
+            if stat not in keys:
+                continue
+            stats_dict[stat] = self.saved_stats[stat]
+        return stats_dict
 
     def export_set_config(self, config):
         "sets the config dictionary"

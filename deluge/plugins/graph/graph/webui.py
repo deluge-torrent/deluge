@@ -35,11 +35,12 @@
 #    this exception statement from your version. If you delete this exception
 
 import os
+from deluge.common import fspeed
 from deluge.log import LOG as log
 from deluge.ui.client import sclient, aclient
 from deluge.plugins.webuipluginbase import WebUIPluginBase
 from deluge import component
-from graph import NetworkGraph
+import graph
 
 api = component.get("WebPluginApi")
 forms = api.forms
@@ -53,13 +54,16 @@ class graph_page:
 class network_png:
     @api.deco.check_session
     def GET(self, args):
+        self.data = ''
         vars = api.web.input(width = 600, height = 150)
         api.web.header("Content-Type", "image/png")
-        n = NetworkGraph()
-        n.async_request()
+        g = graph.Graph()
+        g.add_stat('download_rate', color=graph.green)
+        g.add_stat('upload_rate', color=graph.blue)
+        g.set_left_axis(formatter=fspeed, min=10240)
+        g.async_request()
         aclient.force_call(True)
-        self.data = ""
-        surface = n.draw(int(vars.width), int(vars.height))
+        surface = g.draw(int(vars.width), int(vars.height))
         surface.write_to_png(self)
         print self.data
 
@@ -78,8 +82,8 @@ class WebUI(WebUIPluginBase):
         api.menu_manager.register_admin_page("graph", _("Graph"), "/graph") #<--top menu
 
     def disable(self):
-        api.config_page_manager.deregister('graph')
-        api.menu_manager.deregister_admin_page("graph") #<--top menu
+        api.config_page_manager.deregister('graph2')
+        api.menu_manager.deregister_admin_page("graph2") #<--top menu
 
 
 class ConfigForm(forms.Form):
