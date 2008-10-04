@@ -70,6 +70,12 @@ class FilterManager(component.Component):
         if not filter_dict:
             return self.torrents.get_torrent_list()
 
+        #sanitize input: filter-value must be a list of strings
+        for key, value in filter_dict.items():
+            if isinstance(value, str):
+                filter_dict[key]  = [value]
+
+
         if "id"in filter_dict: #optimized filter for id:
             torrent_ids = filter_dict["id"]
             del filter_dict["id"]
