@@ -58,33 +58,58 @@ class Core(CorePluginBase):
         self.add_stats(
             'upload_rate',
             'download_rate',
-            'num_connections'
+            'num_connections',
+            'dht_nodes',
+            'dht_cache_nodes',
+            'dht_torrents',
         )
-        
+
+        self.base_total_upload = 0
+        self.base_total_download = 0
+
         self.config = configmanager.ConfigManager("graph.conf", DEFAULT_PREFS)
         self.update_timer = gobject.timeout_add(
             self.config.get("update_interval"), self.update_stats)
         self.length = self.config.get("length")
-    
+
+        self.plugin.register_hook("post_torrent_remove", self.post_torrent_remove)
+
+
+    def disable(self):
+        gobject.source_remove(self.update_timer)
+        self.plugin.deregister_hook("post_torrent_remove", self.post_torrent_remove)
+
+    # plugin hooks:
+    def post_torrent_remove(self, torrent_id):
+        log.debug("post_torrent_remove")
+        """torrent = self.core.torrents.torrents[torrent_id]
+        self.base_total_download += torrent.total_done
+        self.base_total_upload +=  torrent.total_uploaded + torrent.status.total_payload_upload
+        """
+    # /plugin hooks
+
     def add_stats(self, *stats):
         for stat in stats:
             if stat not in self.saved_stats:
                 self.saved_stats[stat] = []
 
-    def disable(self):
-        gobject.source_remove(self.update_timer)
-
     def update_stats(self):
         try:
             stats = self.core.export_get_stats()
+            status = self.core.session.status()
+            #log.debug(dir(status))
             for stat, stat_list in self.saved_stats.iteritems():
-                stat_list.insert(0, int(stats[stat]))
+                if stat in stats:
+                    stat_list.insert(0, int(stats[stat]))
+                else:
+                    stat_list.insert(0, int(getattr(status, stat)))
                 if len(stat_list) > self.length:
                     stat_list.pop()
         except Exception,e:
             log.error(e.message)
         return True
-    
+
+    # export:
     def export_get_stats(self, keys):
         stats_dict = {}
         for stat in self.saved_stats:
@@ -92,6 +117,17 @@ class Core(CorePluginBase):
                 continue
             stats_dict[stat] = self.saved_stats[stat]
         return stats_dict
+
+    def export_get_totals(self):
+        status = self.core.session.status()
+        #dht = status
+        #og.debug(status)
+        return {
+            "upload":self.base_total_upload + status.total_upload + status.total_payload_upload,
+            "download":self.base_total_download + status.total_download + status.total_payload_download,
+            "total_payload_upload":status.total_payload_upload,
+            "total_payload_download":status.total_payload_upload
+        }
 
     def export_set_config(self, config):
         "sets the config dictionary"

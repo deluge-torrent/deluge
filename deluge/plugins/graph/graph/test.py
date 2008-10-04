@@ -31,6 +31,21 @@ def test_async():
     surface = g.draw(600, 300)
     surface.write_to_png('output_async.png')
 
+def test_dht():
+    """'boring graph, but testing if it works'"""
+
+    g = graph.Graph()
+    g.add_stat('dht_nodes', color=graph.orange)
+    g.add_stat('dht_cache_nodes', color=graph.blue)
+    g.add_stat('dht_torrents', color=graph.green)
+    g.add_stat('num_connections', color=graph.darkred) #testing : non dht
+    g.set_left_axis(formatter=str, min=10)
+    g.async_request()
+    aclient.force_call(True)
+    surface = g.draw(600, 300)
+    surface.write_to_png('output_dht.png')
+
+
 def test_write():
     """
     writing to a file-like object; need this for webui.
@@ -40,7 +55,7 @@ def test_write():
             self.data = []
         def write(self, str):
             self.data.append(str)
-    
+
     g = graph.Graph()
     g.add_stat('download_rate', color=graph.green)
     g.add_stat('upload_rate', color=graph.blue)
@@ -48,7 +63,7 @@ def test_write():
     g.async_request()
     aclient.force_call(True)
     surface = g.draw(900, 150)
-    
+
     file_like = fake_file()
     surface.write_to_png(file_like)
     data = "".join(file_like.data)
@@ -59,4 +74,5 @@ def test_write():
 
 #test_sync()
 test_async()
-test_write()
+test_dht()
+#test_write()

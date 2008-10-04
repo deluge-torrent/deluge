@@ -54,6 +54,7 @@ class graph_page:
 class network_png:
     @api.deco.check_session
     def GET(self, args):
+        aclient.force_call(True) #bug, invalid data in async queue?
         self.data = ''
         vars = api.web.input(width = 600, height = 150)
         api.web.header("Content-Type", "image/png")
@@ -70,11 +71,35 @@ class network_png:
     def write(self, str): #file like object for pango; write_to_png
         self.data += str
 
+class connections_png:
+    @api.deco.check_session
+    def GET(self, args):
+        "testing, not a final graph"
+        aclient.force_call(True) #bug, invalid data in async queue?
+        self.data = ''
+        vars = api.web.input(width = 600, height = 150)
+        api.web.header("Content-Type", "image/png")
+        g = graph.Graph()
+        g.add_stat('dht_nodes', color=graph.orange)
+        g.add_stat('dht_cache_nodes', color=graph.blue)
+        g.add_stat('dht_torrents', color=graph.green)
+        g.add_stat('num_connections', color=graph.darkred) #testing : non dht
+        g.set_left_axis(formatter=str, min=10)
+        g.async_request()
+        aclient.force_call(True)
+        surface = g.draw(int(vars.width), int(vars.height))
+        surface.write_to_png(self)
+        print self.data
+
+    def write(self, str): #file like object for pango; write_to_png
+        self.data += str
+
 class WebUI(WebUIPluginBase):
     #map url's to classes: [(url,class), ..]
     urls = [
         ('/graph', graph_page),
-        ('/graph/network.png', network_png)
+        ('/graph/network.png', network_png),
+        ('/graph/connections.png', connections_png)
     ]
 
     def enable(self):
