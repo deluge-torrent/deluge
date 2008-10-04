@@ -66,13 +66,13 @@ class Command(BaseCommand):
             #self._mapping[state['name']] = torrent # update mapping
             print templates.info_general('Path', state['save_path'])
 
-            if not state['is_seed']:
+            if verbose or not state['is_seed']:
                 print templates.info_transfers("Completed", common.fsize(state['total_done']) + "/" + common.fsize(state['total_size']))
             print templates.info_transfers("Status", state['state'])
 
-            if state['state'] == 'Downloading':
+            if verbose or state['state'] == 'Downloading':
                 print templates.info_transfers("Download Speed", common.fspeed(state['download_payload_rate']))
-            if state['state'] in ('Downloading', 'Seeding'):
+            if verbose or state['state'] in ('Downloading', 'Seeding'):
                 print templates.info_transfers("Upload Speed", common.fspeed(state['upload_payload_rate']))
                 print templates.info_transfers("Share Ratio", "%.1f" % state['ratio'])
             if state['state'] == ('Downloading'):

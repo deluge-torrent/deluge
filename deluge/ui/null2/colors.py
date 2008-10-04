@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 import re, sys
 
-def color(string, fg=None, attrs=[], bg=None, keep_open=False):
+def color(string, fg=None, attrs=[], bg=None, keep_open=False, input=False):
     if isinstance(attrs, basestring):
         attrs = [attrs]
     attrs = map(str.lower, attrs)
     ansi_reset = "\x1b[0m"
+    if input:
+        ansi_reset = '\001'+ansi_reset+'\002'
     if len(attrs) == 1 and 'reset' in attrs:
         return ansi_reset
     colors = ['black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white']
@@ -16,7 +18,10 @@ def color(string, fg=None, attrs=[], bg=None, keep_open=False):
     color_vals = map(str, filter(lambda x: x is not None, [_fg, _bg]))
     color_vals.extend(_attrs)
     reset_cmd = ansi_reset if not keep_open else ''
-    return "\x1b["+";".join(color_vals)+"m"+string+reset_cmd
+    color_code = '\x1b['+';'.join(color_vals)+'m'
+    if input:
+        color_code = '\001'+color_code+'\002'
+    return color_code+string+reset_cmd
 
 def make_style(*args, **kwargs):
     return lambda text: color(text, *args, **kwargs)
@@ -53,11 +58,21 @@ class Template(str):
         else:
             return str(self) % args
 
+class InputTemplate(Template):
+    """This class is similar to Template, but the escapes are wrapped in \001
+       and \002 so that readline can properly know the length of each line and
+       can wrap lines accordingly.  Use this class for any colored text which
+       needs to be used in input prompts, such as in calls to raw_input()."""
+    input_codes = re.compile('(\x1b\[.*?m)')
+    def __new__(self, text):
+        regular_string = InputTemplate.regex.sub(lambda mo: InputTemplate.style[mo.group('style')](mo.group('arg')) , text)
+        return str.__new__(self, InputTemplate.input_codes.sub(r'\001\1\002', regular_string))
+
 class struct(object):
     pass
 
 templates = struct()
-templates.prompt = Template('{{bold_white(%s)}}')
+templates.prompt = InputTemplate('{{bold_white(%s)}}')
 templates.ERROR = Template('{{bold_red( * %s)}}')
 templates.SUCCESS = Template('{{bold_green( * %s)}}')
 templates.help = Template(' * {{bold_blue(%-*s)}} %s')
