@@ -47,14 +47,27 @@ DEFAULT_PREFS = {
     "length":150, # 2 seconds * 150 --> 5 minutes.
 }
 
-"""
-port of the old NetworkGraph Plugin.
-"""
+DEFAULT_TOTALS = {
+    "total_upload":0,
+    "total_download":0,
+    "total_payload_upload":0,
+    "total_payload_download":0,
+    "stats":{}
+}
+
 class Core(CorePluginBase):
+    totals = {} #class var to catch only updating this once per session in enable.
 
     def enable(self):
         self.core = component.get("Core")
-        self.saved_stats = {}
+        self.stats ={}
+
+        self.config = configmanager.ConfigManager("graph.conf", DEFAULT_PREFS)
+        self.saved_stats = configmanager.ConfigManager("graph.totals", DEFAULT_TOTALS)
+        if self.totals == {}:
+            self.totals.update(self.saved_stats.config)
+
+        self.stats = self.saved_stats.get("stats") or {}
         self.add_stats(
             'upload_rate',
             'download_rate',
@@ -64,34 +77,20 @@ class Core(CorePluginBase):
             'dht_torrents',
         )
 
-        self.base_total_upload = 0
-        self.base_total_download = 0
-
-        self.config = configmanager.ConfigManager("graph.conf", DEFAULT_PREFS)
         self.update_timer = gobject.timeout_add(
             self.config.get("update_interval"), self.update_stats)
+        self.save_timer = gobject.timeout_add(60 * 1000, self.save_stats)
         self.length = self.config.get("length")
 
-        self.plugin.register_hook("post_torrent_remove", self.post_torrent_remove)
-
-
     def disable(self):
+        self.save_stats()
         gobject.source_remove(self.update_timer)
-        self.plugin.deregister_hook("post_torrent_remove", self.post_torrent_remove)
-
-    # plugin hooks:
-    def post_torrent_remove(self, torrent_id):
-        log.debug("post_torrent_remove")
-        """torrent = self.core.torrents.torrents[torrent_id]
-        self.base_total_download += torrent.total_done
-        self.base_total_upload +=  torrent.total_uploaded + torrent.status.total_payload_upload
-        """
-    # /plugin hooks
+        gobject.source_remove(self.save_timer)
 
     def add_stats(self, *stats):
         for stat in stats:
-            if stat not in self.saved_stats:
-                self.saved_stats[stat] = []
+            if stat not in self.stats:
+                self.stats[stat] = []
 
     def update_stats(self):
         try:
@@ -101,7 +100,7 @@ class Core(CorePluginBase):
                 if not stat.startswith('_') and stat not in stats:
                     stats[stat] = getattr(status, stat, None)
 
-            for stat, stat_list in self.saved_stats.iteritems():
+            for stat, stat_list in self.stats.iteritems():
                 if stat in stats:
                     stat_list.insert(0, int(stats[stat]))
 
@@ -111,24 +110,39 @@ class Core(CorePluginBase):
             log.error(e.message)
         return True
 
+    def save_stats(self):
+        try:
+            self.saved_stats.set("stats", self.stats)
+            self.saved_stats.config.update(self.export_get_totals())
+            self.saved_stats.save()
+        except Exception,e:
+            log.error(e.message)
+        return True
+
+
     # export:
     def export_get_stats(self, keys):
         stats_dict = {}
-        for stat in self.saved_stats:
+        for stat in self.stats:
             if stat not in keys:
                 continue
-            stats_dict[stat] = self.saved_stats[stat]
+            stats_dict[stat] = self.stats[stat]
         return stats_dict
 
     def export_get_totals(self):
+        result = {}
+        session_totals = self.export_get_session_totals()
+        for key in session_totals:
+            result[key] = self.totals[key] + session_totals[key]
+        return result
+
+    def export_get_session_totals(self):
         status = self.core.session.status()
-        #dht = status
-        #og.debug(status)
         return {
-            "upload":self.base_total_upload + status.total_upload + status.total_payload_upload,
-            "download":self.base_total_download + status.total_download + status.total_payload_download,
+            "total_upload":status.total_upload,
+            "total_download":status.total_download,
             "total_payload_upload":status.total_payload_upload,
-            "total_payload_download":status.total_payload_upload
+            "total_payload_download":status.total_payload_download
         }
 
     def export_set_config(self, config):
