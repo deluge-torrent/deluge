@@ -97,12 +97,14 @@ class Core(CorePluginBase):
         try:
             stats = self.core.export_get_stats()
             status = self.core.session.status()
-            #log.debug(dir(status))
+            for stat in dir(status):
+                if not stat.startswith('_') and stat not in stats:
+                    stats[stat] = getattr(status, stat, None)
+
             for stat, stat_list in self.saved_stats.iteritems():
                 if stat in stats:
                     stat_list.insert(0, int(stats[stat]))
-                else:
-                    stat_list.insert(0, int(getattr(status, stat)))
+
                 if len(stat_list) > self.length:
                     stat_list.pop()
         except Exception,e:
