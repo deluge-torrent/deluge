@@ -80,7 +80,8 @@ def end_session():
     session_id = getcookie("session_id")
     setcookie("session_id","")
     if session_id in config.get("sessions"):
-        config.set("sessions", config.get("sessions").append(session_id))
+        config["sessions"].remove(session_id)
+        config.set("sessions", config["sessions"])
 #/sessions
 
 def seeother(url, *args, **kwargs):
