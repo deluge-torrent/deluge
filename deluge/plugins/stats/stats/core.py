@@ -62,8 +62,8 @@ class Core(CorePluginBase):
         self.core = component.get("Core")
         self.stats ={}
 
-        self.config = configmanager.ConfigManager("graph.conf", DEFAULT_PREFS)
-        self.saved_stats = configmanager.ConfigManager("graph.totals", DEFAULT_TOTALS)
+        self.config = configmanager.ConfigManager("stats.conf", DEFAULT_PREFS)
+        self.saved_stats = configmanager.ConfigManager("stats.totals", DEFAULT_TOTALS)
         if self.totals == {}:
             self.totals.update(self.saved_stats.config)
 

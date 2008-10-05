@@ -35,12 +35,9 @@
 """
 port of old plugin by markybob.
 """
-import cairo
-import math
-from deluge.log import LOG as log
-import deluge.common
 import time
-from datetime import datetime
+import cairo
+from deluge.log import LOG as log
 from deluge.ui.client import aclient
 
 black = (0, 0, 0)
@@ -94,8 +91,8 @@ class Graph:
             }
         
     def async_request(self):
-        aclient.graph_get_stats(self.set_stats, self.stat_info.keys())
-        aclient.graph_get_config(self.set_config)
+        aclient.stats_get_stats(self.set_stats, self.stat_info.keys())
+        aclient.stats_get_config(self.set_config)
 
     def set_stats(self, stats):
         self.stats = stats
@@ -103,6 +100,17 @@ class Graph:
     def set_config(self, config):
         self.length = config["length"]
         self.interval = config["update_interval"]
+        
+    def draw_to_context(self, context, width, height):
+        self.ctx = context
+        self.width, self.height = width, height
+        self.draw_rect(white, 0, 0, self.width, self.height)
+        self.draw_x_axis()
+        self.draw_left_axis()
+
+        if self.legend_selected:
+            self.draw_legend()
+        return self.ctx
     
     def draw(self, width, height):
         self.width = width
@@ -155,14 +163,15 @@ class Graph:
             max_value = self.left_axis['min']
         
         height = self.height - self.line_size - 22
-        high = float(max_value)
-        ratio = height / high
+        #max_value = float(round(max_value, len(str(max_value)) * -1))
+        max_value = float(max_value)
+        ratio = height / max_value
         
         for i in xrange(1, 6):
-            y = int(ratio * ((high / 5) * i)) - 0.5
+            y = int(ratio * ((max_value / 5) * i)) - 0.5
             if i < 5:
                 self.draw_dotted_line(gray, 60, y, self.width, y)
-            text = self.left_axis['formatter']((high / 5) * (5 - i))
+            text = self.left_axis['formatter']((max_value / 5) * (5 - i))
             self.draw_text(text, 0, y - 6)
         self.draw_dotted_line(gray, 60.5, 20, 60.5, self.height - 20)
         

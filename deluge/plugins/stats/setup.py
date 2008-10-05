@@ -39,18 +39,18 @@ from setuptools import setup
 __author__ = "Martijn Voncken <mvoncken@gmail.com>"
 
 setup(
-    name="Graph",
+    name="Stats",
     version="0.1",
     description=__doc__,
     author=__author__,
-    packages=["graph"],
-    package_data = {"graph": ["template/*","data/*"]},
+    packages=["stats"],
+    package_data = {"stats": ["template/*","data/*"]},
     entry_points="""
     [deluge.plugin.core]
-    Graph = graph:CorePlugin
+    Stats = stats:CorePlugin
     [deluge.plugin.webui]
-    Graph = graph:WebUIPlugin
+    Stats = stats:WebUIPlugin
     [deluge.plugin.gtkui]
-    Graph = graph:GtkUIPlugin
+    Stats = stats:GtkUIPlugin
     """
 )

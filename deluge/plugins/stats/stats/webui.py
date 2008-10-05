@@ -49,7 +49,7 @@ forms = api.forms
 class graph_page:
     @api.deco.deluge_page
     def GET(self, args):
-        return api.render.graph.graph()
+        return api.render.stats.graph()
 
 class network_png:
     @api.deco.check_session
@@ -103,12 +103,12 @@ class WebUI(WebUIPluginBase):
     ]
 
     def enable(self):
-        api.config_page_manager.register('plugins', 'graph' ,ConfigForm)
-        api.menu_manager.register_admin_page("graph", _("Graph"), "/graph") #<--top menu
+        api.config_page_manager.register('plugins', 'stats' ,ConfigForm)
+        api.menu_manager.register_admin_page("stats", _("Stats"), "/graph") #<--top menu
 
     def disable(self):
-        api.config_page_manager.deregister('graph2')
-        api.menu_manager.deregister_admin_page("graph2") #<--top menu
+        api.config_page_manager.deregister('stats')
+        api.menu_manager.deregister_admin_page("stats") #<--top menu
 
 
 class ConfigForm(forms.Form):
