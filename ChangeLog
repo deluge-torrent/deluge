@@ -5,6 +5,8 @@ Deluge 1.0.1 (In Development)
   * Fix display of tracker error messages
   * Fix add_torrent_url() to download the torrent file in a thread to prevent
     the main thread from blocking and causing the daemon to freeze.
+  * Set max connections per second default to 20 since this seems to fix the
+    slow speed issue that some people experience.
 
  GtkUI:
   * Improve performance of files tab by only updating when values change
