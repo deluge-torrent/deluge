@@ -826,7 +826,10 @@ class Core(
         self.session.set_max_half_open_connections(value)
         
     def _on_set_max_connections_per_second(self, key, value):
-        self.settings.connection_speed = value
+        #self.settings.connection_speed = value
+        # We are hard-coding this value to 20 due to issues with having it
+        # unlimited by default.
+        self.settings.connection_speed = 20
         self.session.set_settings(self.settings)
     
     def _on_ignore_limits_on_local_network(self, key, value):
