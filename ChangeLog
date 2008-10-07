@@ -7,6 +7,7 @@ Deluge 1.0.1 (In Development)
     the main thread from blocking and causing the daemon to freeze.
   * Removed the 'Maximum Connections Per Second' setting and replaced it with a
     default setting of 20.  This should alleviate speed issues some are experiencing.
+  * Changed max half-open connections default limit to 8 on XP/2000 and 4 on Vista
 
  GtkUI:
   * Improve performance of files tab by only updating when values change
