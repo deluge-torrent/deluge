@@ -86,6 +86,7 @@ body {
 	background: url(split_horizontal.png) repeat-x;
 }
 
+#toolbar #buttons #create {background-image:url(../../icons/32/new.png)}
 #toolbar #buttons #add {background-image:url(../../icons/32/add.png)}
 #toolbar #buttons #remove {background-image:url(../../icons/32/remove.png)}
 #toolbar #buttons #pause {background-image:url(../../icons/32/pause.png)}
