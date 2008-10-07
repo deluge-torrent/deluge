@@ -11,7 +11,7 @@ Deluge.Widgets.AddWindow = new Class({
     options: {
         width: 400,
         height: 200,
-        title: 'Add Torrents',
+        title: Deluge.Strings.get('Add Torrents'),
         url: '/template/render/html/window_add_torrent.html'
     },
     
@@ -28,5 +28,25 @@ Deluge.Widgets.AddWindow = new Class({
             Deluge.Client.add_torrent_url(this.formurl.url.value, {});
             this.hide();
         }.bindWithEvent(this))
+    }
+});
+
+Deluge.Widgets.CreateWindow = new Class({
+    Extends: Widgets.Window,
+    
+    options: {
+        width: 400,
+        height: 200,
+        title: Deluge.Strings.get('Create Torrent'),
+        url: '/templates/render/html/window_create_torrent.html'
+    },
+    
+    initialize: function() {
+        this.parent();
+        this.addEvent('loaded', this.loaded.bindWithEvent(this));
+    },
+    
+    loaded: function(event) {
+        
     }
 });

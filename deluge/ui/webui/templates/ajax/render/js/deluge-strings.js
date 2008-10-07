@@ -50,4 +50,6 @@ Deluge.Strings.add('Force Recheck', '$_('Force Recheck')');
 Deluge.Strings.add('Move Storage', '$_('Move Storage')');
 
 // Add Torrents Window //
+Deluge.Strings.add('Add Torrents', '$_('Add Torrents')');
+Deluge.Strings.add('Create Torrent', '$_('Create Torrent')');
 Deluge.Strings.add('Torrents Window', '$_('Torrents Window')');

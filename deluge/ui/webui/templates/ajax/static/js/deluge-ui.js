@@ -34,6 +34,7 @@ Deluge.UI = {
         
         this.toolbar = new Deluge.Widgets.Toolbar();
         this.addWindow = new Deluge.Widgets.AddWindow();
+        this.createWindow = new Deluge.Widgets.CreateWindow();
         if (Browser.Engine.name != 'trident') {
             this.prefsWindow = new Deluge.Widgets.PreferencesWindow();
         }
@@ -253,6 +254,9 @@ Deluge.UI = {
                 torrentIds.each(function(torrentId) {
                     client.set_torrent_auto_managed(torrentId, value);
                 });
+                break;
+            case 'create':
+                this.createWindow.show();
                 break;
             case 'add':
                 this.addWindow.show();
