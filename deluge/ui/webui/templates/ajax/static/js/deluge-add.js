@@ -38,7 +38,7 @@ Deluge.Widgets.CreateWindow = new Class({
         width: 400,
         height: 200,
         title: Deluge.Strings.get('Create Torrent'),
-        url: '/templates/render/html/window_create_torrent.html'
+        url: '/template/render/html/window_create_torrent.html'
     },
     
     initialize: function() {
