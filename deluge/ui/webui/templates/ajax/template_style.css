@@ -43,22 +43,31 @@ html, body {
 	padding: 5px;
 }
 
-#details .moouiTabs li {
+.moouiTabs {
+    
+}
+
+.moouiTabs li {
+    position: relative;
+    top: 1px;
 	background: #37506f;
+	border: 1px solid #364961;
+	border-bottom: none;
 	padding: 7px;
 	font-size: 1.1em;
 }
 
-#details .moouiTabs li:hover {
+.moouiTabs li:hover {
 	background: #426187;
 }
 
-#details li.moouiTabActive {
+li.moouiTabActive {
 	background: #426187;
 }
 
-#details .moouiTabPage {
+.moouiTabPage {
 	background: #426187;
+	border: 1px solid #364961;
 	padding: 5px;
 	-moz-border-radius:0 5px 5px 5px;
 	-webkit-border-radius: 0 5px 5px 5px;

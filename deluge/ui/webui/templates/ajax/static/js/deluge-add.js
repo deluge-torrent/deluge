@@ -31,12 +31,12 @@ Deluge.Widgets.AddWindow = new Class({
     }
 });
 
-Deluge.Widgets.CreateWindow = new Class({
+Deluge.Widgets.CreateTorrent = new Class({
     Extends: Widgets.Window,
     
     options: {
         width: 400,
-        height: 200,
+        height: 400,
         title: Deluge.Strings.get('Create Torrent'),
         url: '/template/render/html/window_create_torrent.html'
     },
@@ -47,6 +47,71 @@ Deluge.Widgets.CreateWindow = new Class({
     },
     
     loaded: function(event) {
-        
+        this.tabs = new Deluge.Widgets.CreateTorrent.Tabs(this.content.getElement('div'));
+        this.content.addClass('createTorrent');
+    }
+});
+
+Deluge.Widgets.CreateTorrent.Tabs = new Class({
+    Extends: Widgets.Tabs,
+    
+    initialize: function(element) {
+        this.parent(element);
+        this.info = new Deluge.Widgets.CreateTorrent.InfoTab();
+        this.trackers = new Deluge.Widgets.CreateTorrent.TrackersTab();
+        this.webseeds = new Deluge.Widgets.CreateTorrent.WebseedsTab();
+        this.options = new Deluge.Widgets.CreateTorrent.OptionsTab();
+        this.addPage(this.info);
+        this.addPage(this.trackers);
+        this.addPage(this.webseeds);
+        this.addPage(this.options);
+    }
+});
+
+Deluge.Widgets.CreateTorrent.InfoTab = new Class({
+    Extends: Widgets.TabPage,
+    
+    options: {
+        url: '/template/render/html/create_torrent_info.html'
+    },
+    
+    initialize: function() {
+        this.parent('Info');
+    }
+});
+
+Deluge.Widgets.CreateTorrent.TrackersTab = new Class({
+    Extends: Widgets.TabPage,
+    
+    options: {
+        url: '/template/render/html/create_torrent_trackers.html'
+    },
+    
+    initialize: function() {
+        this.parent('Trackers');
+    }
+});
+
+Deluge.Widgets.CreateTorrent.WebseedsTab = new Class({
+    Extends: Widgets.TabPage,
+    
+    options: {
+        url: '/template/render/html/create_torrent_webseeds.html'
+    },
+    
+    initialize: function() {
+        this.parent('Webseeds');
+    }
+});
+
+Deluge.Widgets.CreateTorrent.OptionsTab = new Class({
+    Extends: Widgets.TabPage,
+    
+    options: {
+        url: '/template/render/html/create_torrent_options.html'
+    },
+    
+    initialize: function() {
+        this.parent('Options');
     }
 });

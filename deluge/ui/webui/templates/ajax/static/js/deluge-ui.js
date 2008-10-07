@@ -25,7 +25,7 @@ Deluge.UI = {
         };
         this.loadUi.delay(250, this);
         window.addEvent('load', function(e) {
-            this.vbox.calculatePositions();
+            if (this.vbox) this.vbox.calculatePositions();
         }.bindWithEvent(this));
     },
     
@@ -34,7 +34,7 @@ Deluge.UI = {
         
         this.toolbar = new Deluge.Widgets.Toolbar();
         this.addWindow = new Deluge.Widgets.AddWindow();
-        this.createWindow = new Deluge.Widgets.CreateWindow();
+        this.createWindow = new Deluge.Widgets.CreateTorrent();
         if (Browser.Engine.name != 'trident') {
             this.prefsWindow = new Deluge.Widgets.PreferencesWindow();
         }

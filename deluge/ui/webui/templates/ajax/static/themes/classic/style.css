@@ -200,7 +200,7 @@ ul.moouiMenu li.moouiMenuSep:hover {
 }
 
 .moouiWindow {
-	background: #426187;
+	background: #405a79;
 	border: 1px solid #1c2431;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -249,7 +249,7 @@ form .disabled {
 	color: Gray;
 }
 
-form .deluge_button, button.deluge_button  {
+form .deluge_button, button.deluge_button, button.delugeButton  {
 	background-color: #37506f;
 	border:1px solid #68a;
 	cursor: pointer;
@@ -261,7 +261,7 @@ form .deluge_button, button.deluge_button  {
 	margin: 2px;
 }
 
-form .deluge_button:hover, button.deluge_button:hover {
+form .deluge_button:hover, button.deluge_button:hover, button.delugeButton:hover {
 	background-color:#68a;
 }
 
@@ -353,4 +353,58 @@ label.fluid {
     height: 5px;
     line-height: 5px;
     margin: 2px;
+}
+
+#createTorrentTabs .moouiTabPage {
+    height: 110px;
+}
+
+#createTorrentTabs textarea {
+    width: 360px;
+    height: 95px;
+    margin: 0;
+}
+
+#createTorrentFiles {
+    height: 110px;
+    width: 370px;
+    margin: 10px;
+    border:1px solid #23344b;
+    background: #99acc3;
+}
+
+#createTorrentTrackersTable {
+    margin: 5px;
+    float: left;
+    width: 280px;
+    height: 95px;
+    background: #99acc3;
+    border:1px solid #23344b;
+    color: Black;
+}
+
+#createTorrentTrackersTable thead tr {
+    background: #304663 url(/static/images/simple_bg_flipped.jpg) repeat-x;
+    color: White;
+}
+
+#createTorrentTabs .tier {
+    width: 70px;
+}
+
+#createTorrentTabs .tracker {
+    width: 230px;
+}
+
+#createTorrentTrackersButtons {
+    float: right;
+    width: 80px;
+}
+
+#createTorrentTrackersButtons button {
+    width: 70px;
+}
+
+#createButtons {
+    float: right;
 }
