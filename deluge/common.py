@@ -123,6 +123,13 @@ def windows_check():
     else:
         return False
 
+def vista_check():
+    import platform
+    if platform.release() == "Vista":
+        return True
+    else:
+        return False
+
 def get_pixmap(fname):
     """Returns a pixmap file included with deluge"""
     return pkg_resources.resource_filename("deluge", os.path.join("data", \
