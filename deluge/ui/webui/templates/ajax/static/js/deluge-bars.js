@@ -28,10 +28,28 @@ Deluge.Widgets.StatusBar = new Class({
     
     initialize: function() {
         this.parent($('status'));
+        this.bound = {
+            onConnectionsClick: this.onConnectionsClick.bindWithEvent(this),
+            onUploadClick: this.onUploadClick.bindWithEvent(this),
+            onDownloadClick: this.onDownloadClick.bindWithEvent(this)
+        };
+        
         this.element.getElements('li').each(function(el) {
             this[el.id] = el;
         }, this);
         this.incoming_connections.setStyle('display', 'none');
+        
+        this.connections.addEvent('contextmenu', this.bound.onConnectionsClick);
+        this.connectionsMenu = new Widgets.PopupMenu();
+        this.connectionsMenu.add(Deluge.Menus.Connections);
+        
+        this.downspeed.addEvent('contextmenu', this.bound.onDownloadClick);
+        this.downloadMenu = new Widgets.PopupMenu();
+        this.downloadMenu.add(Deluge.Menus.Download);
+        
+        this.upspeed.addEvent('contextmenu', this.bound.onUploadClick);
+        this.uploadMenu = new Widgets.PopupMenu();
+        this.uploadMenu.add(Deluge.Menus.Upload);
     },
     
     update: function(stats) {
@@ -45,6 +63,25 @@ Deluge.Widgets.StatusBar = new Class({
         } else {
             this.incoming_connections.setStyle('display', 'inline');
         }
+    },
+    
+    onConnectionsClick: function(e) {
+        e.stop();
+        this.connectionsMenu.show(e);
+    },
+    
+    onDownloadClick: function(e) {
+        e.stop();
+        this.downloadMenu.show(e);
+    },
+    
+    onUploadClick: function(e) {
+        e.stop();
+        this.uploadMenu.show(e);
+    },
+    
+    onMenuClick: function(e) {
+        
     }
 });
 

@@ -297,5 +297,122 @@ Deluge.Menus = {
             text: Deluge.Strings.get('Move Storage'),
             icon: '/static/images/tango/move.png'
         }
+    ],
+    
+    Connections: [
+        {
+            type: 'text',
+            action: 'max_connections',
+            value: 50,
+            text: '50'
+        },
+        {
+            type: 'text',
+            action: 'max_connections',
+            value: 100,
+            text: '100'
+        },
+        {
+            type: 'text',
+            action: 'max_connections',
+            value: 200,
+            text: '200'
+        },
+        {
+            type: 'text',
+            action: 'max_connections',
+            value: 300,
+            text: '300'
+        },
+        {
+            type: 'text',
+            action: 'max_connections',
+            value: 500,
+            text: '500'
+        },
+        {
+            type: 'text',
+            action: 'max_connections',
+            value: -1,
+            text: Deluge.Strings.get('Unlimited')
+        }
+    ],
+    
+    Download: [
+        {
+            type: 'text',
+            action: 'max_download_speed',
+            value: 5,
+            text: '5 KiB/s'
+        },
+        {
+            type: 'text',
+            action: 'max_download_speed',
+            value: 10,
+            text: '10 KiB/s'
+        },
+        {
+            type: 'text',
+            action: 'max_download_speed',
+            value: 30,
+            text: '30 KiB/s'
+        },
+        {
+            type: 'text',
+            action: 'max_download_speed',
+            value: 80,
+            text: '80 KiB/s'
+        },
+        {
+            type: 'text',
+            action: 'max_download_speed',
+            value: 300,
+            text: '300 KiB/s'
+        },
+        {
+            type: 'text',
+            action: 'max_download_speed',
+            value: -1,
+            text: Deluge.Strings.get('Unlimited')
+        }
+    ],
+    
+    Upload: [
+        {
+            type: 'text',
+            action: 'max_upload_speed',
+            value: 5,
+            text:'5 KiB/s'
+        },
+        {
+            type: 'text',
+            action: 'max_upload_speed',
+            value: 10,
+            text: '10 KiB/s'
+        },
+        {
+            type: 'text',
+            action: 'max_upload_speed',
+            value: 30,
+            text: '30 KiB/s'
+        },
+        {
+            type: 'text',
+            action: 'max_upload_speed',
+            value: 80,
+            text: '80 KiB/s'
+        },
+        {
+            type: 'text',
+            action: 'max_upload_speed',
+            value: 300,
+            text: '300 KiB/s'
+        },
+        {
+            type: 'text',
+            action: 'max_upload_speed',
+            value: -1,
+            text: Deluge.Strings.get('Unlimited')
+        }
     ]
-}
+};
