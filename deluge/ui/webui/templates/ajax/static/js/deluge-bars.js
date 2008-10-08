@@ -42,14 +42,17 @@ Deluge.Widgets.StatusBar = new Class({
         this.connections.addEvent('contextmenu', this.bound.onConnectionsClick);
         this.connectionsMenu = new Widgets.PopupMenu();
         this.connectionsMenu.add(Deluge.Menus.Connections);
+        this.connectionsMenu.addEvent('action', this.onMenuAction);
         
         this.downspeed.addEvent('contextmenu', this.bound.onDownloadClick);
         this.downloadMenu = new Widgets.PopupMenu();
         this.downloadMenu.add(Deluge.Menus.Download);
+        this.downloadMenu.addEvent('action', this.onMenuAction);
         
         this.upspeed.addEvent('contextmenu', this.bound.onUploadClick);
         this.uploadMenu = new Widgets.PopupMenu();
         this.uploadMenu.add(Deluge.Menus.Upload);
+        this.uploadMenu.addEvent('action', this.onMenuAction);
     },
     
     update: function(stats) {
@@ -80,8 +83,12 @@ Deluge.Widgets.StatusBar = new Class({
         this.uploadMenu.show(e);
     },
     
-    onMenuClick: function(e) {
-        
+    onMenuAction: function(e) {
+        if (e.action == 'max_connections') e.action = 'max_connections_global';
+        configDict = {}
+        configDict[e.action] = e.value;
+        Deluge.Client.set_config(configDict);
+        Deluge.UI.update();
     }
 });
 
