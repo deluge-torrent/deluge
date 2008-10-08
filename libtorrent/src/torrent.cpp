@@ -2816,7 +2816,8 @@ namespace libtorrent
 			pi.writing = (int)i->writing;
 			pi.requested = (int)i->requested;
 			int piece_size = int(torrent_file().piece_size(i->index));
-			for (int j = 0; j < pi.blocks_in_piece; ++j)
+			int num_blocks = (std::min)(pi.blocks_in_piece, int(partial_piece_info::max_blocks_per_piece));
+			for (int j = 0; j < num_blocks; ++j)
 			{
 				block_info& bi = pi.blocks[j];
 				bi.state = i->info[j].state;
@@ -3251,6 +3252,9 @@ namespace libtorrent
 	{
 		INVARIANT_CHECK;
 
+		TORRENT_ASSERT(is_finished());
+		TORRENT_ASSERT(m_state != torrent_status::finished && m_state != torrent_status::seeding);
+
 		if (alerts().should_post<torrent_finished_alert>())
 		{
 			alerts().post_alert(torrent_finished_alert(
@@ -3381,7 +3385,10 @@ namespace libtorrent
 		TORRENT_ASSERT(m_torrent_file->is_valid());
 		INVARIANT_CHECK;
 
-		set_state(torrent_status::downloading);
+		// we might be finished already, in which case we should
+		// not switch to downloading mode.
+		if (m_state != torrent_status::finished)
+			set_state(torrent_status::downloading);
 
 		if (m_ses.m_alerts.should_post<torrent_checked_alert>())
 		{
@@ -3396,12 +3403,12 @@ namespace libtorrent
 			if (m_ses.m_auto_manage_time_scaler > 1)
 				m_ses.m_auto_manage_time_scaler = 1;
 
-			if (is_finished()) finished();
+			if (is_finished() && m_state != torrent_status::finished) finished();
 		}
 		else
 		{
 			m_complete_sent = true;
-			finished();
+			if (m_state != torrent_status::finished) finished();
 		}
 
 #ifndef TORRENT_DISABLE_EXTENSIONS
@@ -4393,6 +4400,15 @@ namespace libtorrent
 	
 	void torrent::set_state(torrent_status::state_t s)
 	{
+#ifndef NDEBUG
+		if (s == torrent_status::seeding)
+			TORRENT_ASSERT(is_seed());
+		if (s == torrent_status::finished)
+			TORRENT_ASSERT(is_finished());
+		if (s == torrent_status::downloading && m_state == torrent_status::finished)
+			TORRENT_ASSERT(!is_finished());
+#endif
+
 		if (m_state == s) return;
 		m_state = s;
 		if (m_ses.m_alerts.should_post<state_changed_alert>())

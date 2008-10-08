@@ -2691,6 +2691,8 @@ namespace libtorrent
 		TORRENT_ASSERT(!m_disk_recv_buffer);
 		TORRENT_ASSERT(disk_buffer_size <= 16 * 1024);
 
+		if (disk_buffer_size == 0) return true;
+
 		if (disk_buffer_size > 16 * 1024)
 		{
 			disconnect("invalid piece size", 2);
@@ -3597,6 +3599,12 @@ namespace libtorrent
 
 	void peer_connection::connect(int ticket)
 	{
+#ifndef NDEBUG
+		// in case we disconnect here, we need to
+		// keep the connection alive until the
+		// exit invariant check is run
+		boost::intrusive_ptr<peer_connection> me(self());
+#endif
 		INVARIANT_CHECK;
 
 		error_code ec;
@@ -3855,7 +3863,7 @@ namespace libtorrent
 				TORRENT_ASSERT(m_disconnect_started);
 		}
 
-		if (!m_disconnect_started)
+		if (!m_disconnect_started && m_initialized)
 		{
 			// none of this matters if we're disconnecting anyway
 			if (t->is_finished())
