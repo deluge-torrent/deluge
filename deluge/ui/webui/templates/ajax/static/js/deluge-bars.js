@@ -35,9 +35,9 @@ Deluge.Widgets.StatusBar = new Class({
     },
     
     update: function(stats) {
-        this.connections.set('text', stats.num_connections);
-        this.downspeed.set('text', stats.download_rate.toSpeed());
-        this.upspeed.set('text', stats.upload_rate.toSpeed());
+        this.connections.set('text', stats.num_connections + ' (' + stats.max_num_connections + ')');
+        this.downspeed.set('text', stats.download_rate.toSpeed() + ' (' + stats.max_download + ' KiB/s)');
+        this.upspeed.set('text', stats.upload_rate.toSpeed() + ' (' + stats.max_upload + ' KiB/s)');
         this.dht.set('text', stats.dht_nodes);
         this.free_space.set('text', stats.free_space.toBytes());
         if (stats.has_incoming_connections) {
