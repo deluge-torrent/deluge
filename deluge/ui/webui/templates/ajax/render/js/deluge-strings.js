@@ -53,3 +53,6 @@ Deluge.Strings.add('Move Storage', '$_('Move Storage')');
 Deluge.Strings.add('Add Torrents', '$_('Add Torrents')');
 Deluge.Strings.add('Create Torrent', '$_('Create Torrent')');
 Deluge.Strings.add('Torrents Window', '$_('Torrents Window')');
+Deluge.Strings.add('From Url', '$_('From Url')');
+Deluge.Strings.add('Ok', '$_('Ok')');
+Deluge.Strings.add('Cancel', '$_('Cancel')');

@@ -200,7 +200,7 @@ ul.moouiMenu li.moouiMenuSep:hover {
 }
 
 .moouiWindow {
-	background: #304663;
+	background: #37506f;
 	border: 1px solid #1c2431;
 }
 
@@ -253,7 +253,7 @@ form .disabled {
 	color: Gray;
 }
 
-form .deluge_button, button.deluge_button, button.delugeButton  {
+form .deluge_button, button  {
 	background-color: #37506f;
 	border:1px solid #68a;
 	cursor: pointer;
@@ -265,7 +265,7 @@ form .deluge_button, button.deluge_button, button.delugeButton  {
 	margin: 2px;
 }
 
-form .deluge_button:hover, button.deluge_button:hover, button.delugeButton:hover {
+form .deluge_button:hover, button:hover {
 	background-color:#68a;
 }
 
@@ -359,6 +359,10 @@ label.fluid {
     margin: 2px;
 }
 
+#createTorrent h3 {
+    margin-bottom: 0px;
+}
+
 #createTorrentTabs .moouiTabPage {
     height: 110px;
 }
@@ -369,8 +373,13 @@ label.fluid {
     margin: 0;
 }
 
+#fileButton #folderButton {
+    margin: 0 auto 10px auto;
+    text-align: center;
+}
+
 #createTorrentFiles {
-    height: 110px;
+    height: 90px;
     width: 370px;
     margin: 10px;
     border:1px solid #23344b;

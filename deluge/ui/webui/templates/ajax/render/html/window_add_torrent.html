@@ -1,15 +1,15 @@
-<form id="addFromFile">
-	<fieldset>
-		<legend>$_('From File')</legend>
-		<label for="torrentFile">$_('Torrent File'):</label><input type="file" id="file" name="file" accept="application/x-bittorrent" /><br/>
-		<input type="submit" value="$_('Add')!" name="submit" class="deluge_button" />
-	</fieldset>
+<h3>Torrents</h3>
+<select />
+<div id="addButtons">
+    <button class="file">File</button>
+    <button class="url">Url</button>
+    <button class="infohash">Infohash</button>
+    <button class="remove">Remove</button>
+</div>
+<form>
+    <div id="tabs" class="moouiTabs"></div>
 </form>
-
-<form id="addFromUrl">
-	<fieldset>
-		<legend>$_('From Url')</legend>
-		<label for="torrentUrl">$_('Torrent Url'):</label><input type="text" id="url" name="url" /><br/>
-		<input type="submit" value="$_('Add')!" name="submit" class="deluge_button" />
-	</fieldset>
-</form>
+<div id="buttons">
+    <button id="cancel">Cancel</button>
+    <button id="save">Save</button>
+</div>
