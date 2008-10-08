@@ -200,10 +200,13 @@ ul.moouiMenu li.moouiMenuSep:hover {
 }
 
 .moouiWindow {
-	background: #405a79;
+	background: #304663;
 	border: 1px solid #1c2431;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
+}
+
+.moouiWindowTitlebar {
+	height: 30px;
+	background: #1c2431 url(/static/images/simple_line.jpg) repeat-x 0px 25px;
 }
 
 .moouiWindowClose {
@@ -212,6 +215,7 @@ ul.moouiMenu li.moouiMenuSep:hover {
 
 .moouiWindowTitle {
 	margin: 5px;
+	
 }
 
 /* forms */
