@@ -88,7 +88,7 @@ class RPCServer(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer, component
         for d in dir(obj):
             if d[0] == "_":
                 continue
-            if getattr(obj, d)._rpcserver_export:
+            if getattr(getattr(obj, d), '_rpcserver_export', False):
                 log.debug("Registering method: %s", name + "." + d)
                 self.register_function(getattr(obj, d), name + "." + d)
     
