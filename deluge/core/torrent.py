@@ -267,11 +267,18 @@ class Torrent:
         self.options["remove_at_ratio"] = remove_at_ratio
 
     def set_file_priorities(self, file_priorities):
-        log.debug("setting %s's file priorities: %s", self.torrent_id, file_priorities)
         if len(file_priorities) != len(self.files):
             log.debug("file_priorities len != num_files")
+            self.options["file_priorities"] = self.handle.file_priorities()
             return
 
+        if self.options["compact_allocation"]:
+            log.debug("setting file priority with compact allocation does not work!")
+            self.options["file_priorities"] = self.handle.file_priorities()
+            return
+
+        log.debug("setting %s's file priorities: %s", self.torrent_id, file_priorities)
+             
         self.handle.prioritize_files(file_priorities)
 
         if 0 in self.options["file_priorities"]:
