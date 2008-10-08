@@ -89,7 +89,7 @@ class Core(
         if self.config["allow_remote"]:
             hostname = ""
         else:
-            hostname = "localhost"
+            hostname = "127.0.0.1"
 
         # Setup the xmlrpc server
         try:
