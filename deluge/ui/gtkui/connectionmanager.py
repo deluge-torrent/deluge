@@ -333,7 +333,7 @@ class ConnectionManager(component.Component):
         online = True
         host = None
         try:
-            host = xmlrpclib.ServerProxy(uri)
+            host = xmlrpclib.ServerProxy(uri.replace("localhost", "127.0.0.1"))
             host.ping()
         except socket.error:
             online = False

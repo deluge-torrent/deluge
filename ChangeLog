@@ -10,6 +10,8 @@ Deluge 1.0.1 (In Development)
   * Changed max half-open connections default limit to 8 on XP/2000 and 4 on Vista
   * Prevent being able to set file priorities for compactly allocated torrents as
     it is not intended to work.
+  * Fix freezing on start-up issues on systems that do not have a properly
+    configured localhost entry.
 
  GtkUI:
   * Improve performance of files tab by only updating when values change
