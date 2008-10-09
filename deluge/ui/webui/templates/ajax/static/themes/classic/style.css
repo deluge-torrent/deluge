@@ -205,6 +205,7 @@ ul.moouiMenu li.moouiMenuSep:hover {
 }
 
 .moouiWindowTitlebar {
+    cursor: pointer;
 	height: 30px;
 	background: #1c2431 url(/static/images/simple_line.jpg) repeat-x 0px 25px;
 }
@@ -215,7 +216,6 @@ ul.moouiMenu li.moouiMenuSep:hover {
 
 .moouiWindowTitle {
 	margin: 5px;
-	
 }
 
 /* forms */

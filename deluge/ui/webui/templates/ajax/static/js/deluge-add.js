@@ -66,15 +66,16 @@ Deluge.Widgets.AddTorrent.Url = new Class({
     },
     
     onOkClick: function(e) {
+        e.stop();
         var url = this.urlInput.get('value');
         Deluge.Client.add_torrent_url(url, {});
-        e.stop();
+        this.hide();
     },
     
     onCancelClick: function(e) {
+        e.stop();
         this.urlInput.set('value', '');
         this.hide();
-        e.stop();
     }
 });
 
