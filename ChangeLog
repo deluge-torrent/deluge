@@ -12,6 +12,7 @@ Deluge 1.0.1 (In Development)
     it is not intended to work.
   * Fix freezing on start-up issues on systems that do not have a properly
     configured localhost entry.
+  * Change max connections default setting to 200
 
  GtkUI:
   * Improve performance of files tab by only updating when values change

@@ -81,7 +81,7 @@ DEFAULT_PREFS = {
     "enc_out_policy": 1,
     "enc_level": 2,
     "enc_prefer_rc4": True,
-    "max_connections_global": -1,
+    "max_connections_global": 200,
     "max_upload_speed": -1.0,
     "max_download_speed": -1.0,
     "max_upload_slots_global": 4,
