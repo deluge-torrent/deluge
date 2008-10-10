@@ -81,8 +81,8 @@ class json_rpc:
     * methods : http://dev.deluge-torrent.org/wiki/Development/UiClient#Remoteapi
     """
     #extra exposed methods
-    json_exposed = ["update_ui","system_listMethods",
-        "get_webui_config","set_webui_config","get_webui_templates"]
+    json_exposed = ["update_ui","system_listMethods", "download_torrent_from_url",
+        "get_webui_config","set_webui_config","get_webui_templates", "get_torrent_info"]
     cache = {}
 
     def GET(self):
@@ -181,7 +181,77 @@ class json_rpc:
     def get_webui_templates(self):
         return render.get_templates()
 
+    def download_torrent_from_url(self, url):
+        """        
+        input:
+            url: the url of the torrent to download
+        
+        returns:
+            filename: the temporary file name of the torrent file
+        """
+        import os
+        import urllib
+        import tempfile
+        tmp_file = os.path.join(tempfile.gettempdir(), url.split("/")[-1])
+        filename, headers = urllib.urlretrieve(url, tmp_file)
+        log.debug("filename: %s", filename)
+        return filename
+    
+    def get_torrent_info(self, filename):
+        """
+        Goal:
+            allow the webui to retrieve data about the torrent
+        
+        input:
+            url: the url of the torrent to download
+        
+        returns:
+        {
+            "name": the torrent name
+            "size": the total size of the torrent
+            "files": the files the torrent contains
+            "info_hash" the torrents info_hash
+        }
+        """
+        import os
+        import deluge.bencode
 
+        # Get the torrent data from the torrent file
+        try:
+            log.debug("Attempting to open %s for add.", filename)
+            metadata = deluge.bencode.bdecode(open(filename, "rb").read())
+        except Exception, e:
+            log.warning("Unable to open %s: %s", filename, e)
+
+        from sha import sha
+        info_hash = sha(deluge.bencode.bencode(metadata["info"])).hexdigest()
+
+        # Get list of files from torrent info
+        files = []
+        if metadata["info"].has_key("files"):
+            prefix = ""
+            if len(metadata["info"]["files"]) > 1:
+                prefix = metadata["info"]["name"]
+                
+            for f in metadata["info"]["files"]:
+                files.append({
+                    'path': os.path.join(prefix, *f["path"]),
+                    'size': f["length"],
+                    'download': True
+                })
+        else:
+            files.append({
+                "path": metadata["info"]["name"],
+                "size": metadata["info"]["length"],
+                "download": True
+            })
+        log.debug(metadata)
+        return {
+            "name": metadata["info"]["name"],
+            "size": metadata["info"]["length"],
+            "files": files,
+            "info_hash": info_hash
+        }
 
 def register():
     component.get("PageManager").register_page("/json/rpc",json_rpc)
