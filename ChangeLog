@@ -1,4 +1,4 @@
-Deluge 1.0.1 (In Development)
+Deluge 1.0.1 (10 October 2008)
  Core:
   * Change the default max global upload slots to 4 instead of -1 since libtorrent
     will automatically open more slots to meet the upload speed limit.
@@ -13,6 +13,8 @@ Deluge 1.0.1 (In Development)
   * Fix freezing on start-up issues on systems that do not have a properly
     configured localhost entry.
   * Change max connections default setting to 200
+  * Fix issue with invalid bencoding from some trackers
+  * Plenty of libtorrent updates that should improve core stability
 
  GtkUI:
   * Improve performance of files tab by only updating when values change
