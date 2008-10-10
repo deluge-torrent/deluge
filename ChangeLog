@@ -1,3 +1,7 @@
+Deluge 1.0.2 (10 October 2008)
+ Core:
+  * Fix issue where torrents will not be properly added to the session
+
 Deluge 1.0.1 (10 October 2008)
  Core:
   * Change the default max global upload slots to 4 instead of -1 since libtorrent
