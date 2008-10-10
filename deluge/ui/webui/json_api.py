@@ -251,7 +251,6 @@ class json_rpc:
         return {
             "filename": filename,
             "name": metadata["info"]["name"],
-            "size": metadata["info"]["length"],
             "files": files,
             "info_hash": info_hash
         }
