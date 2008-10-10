@@ -82,7 +82,8 @@ class json_rpc:
     """
     #extra exposed methods
     json_exposed = ["update_ui","system_listMethods", "download_torrent_from_url",
-        "get_webui_config","set_webui_config","get_webui_templates", "get_torrent_info"]
+        "get_webui_config","set_webui_config","get_webui_templates", "get_torrent_info",
+        "add_torrents"]
     cache = {}
 
     def GET(self):
@@ -207,6 +208,7 @@ class json_rpc:
         
         returns:
         {
+            "filename": the torrent file
             "name": the torrent name
             "size": the total size of the torrent
             "files": the files the torrent contains
@@ -245,13 +247,30 @@ class json_rpc:
                 "size": metadata["info"]["length"],
                 "download": True
             })
-        log.debug(metadata)
+
         return {
+            "filename": filename,
             "name": metadata["info"]["name"],
             "size": metadata["info"]["length"],
             "files": files,
             "info_hash": info_hash
         }
+
+    def add_torrents(self, torrents):
+        """
+        input:
+            torrents [{
+                path: the path of the torrent file,
+                options: the torrent options
+            }]
+        """
+        import os
+        
+        for torrent in torrents:
+            filename = os.path.basename(torrent['path'])
+            log.debug('Adding torrent %s' % filename)
+            fdump = open(torrent['path'], 'r').read()
+            aclient.add_torrent_file_binary(filename, fdump, torrent['options'])
 
 def register():
     component.get("PageManager").register_page("/json/rpc",json_rpc)
