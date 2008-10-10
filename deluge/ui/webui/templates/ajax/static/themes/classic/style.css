@@ -359,6 +359,39 @@ label.fluid {
     margin: 2px;
 }
 
+
+#addTorrent select {
+    width: 520px;
+    height: 95px;
+    margin: 10px;
+    background: #99acc3;
+    border:1px solid #23344b;
+    color: Black;
+}
+
+#addTorrent #addButtons {
+    width: 240px;
+    margin: 0 auto;
+}
+
+#addTorrent #tabs .moouiTabPage {
+    height: 200px;
+}
+
+#addTorrent .filesTable {
+    margin: 10px;
+    width: 510px;
+    height: 180px;
+    color: Black;
+    background: #99acc3;
+    border:1px solid #23344b;
+}
+
+#addTorrent #buttons {
+    margin-top: 10px;
+    float: right;
+}
+
 #createTorrent h3 {
     margin-bottom: 0px;
 }

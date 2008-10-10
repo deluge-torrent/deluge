@@ -9,24 +9,79 @@
 Deluge.Widgets.AddWindow = new Class({
     Extends: Widgets.Window,
     options: {
-        width: 400,
-        height: 200,
+        width: 550,
+        height: 500,
         title: Deluge.Strings.get('Add Torrents'),
         url: '/template/render/html/window_add_torrent.html'
     },
     
     initialize: function() {
         this.parent();
-        this.addEvent('loaded', this.loaded.bindWithEvent(this));
+        this.bound = {
+            onLoad: this.onLoad.bindWithEvent(this),
+            onSave: this.onSave.bindWithEvent(this),
+            onCancel: this.onCancel.bindWithEvent(this),
+            onTorrentAdded: this.onTorrentAdded.bindWithEvent(this),
+            onTorrentChanged: this.onTorrentChanged.bindWithEvent(this)
+        }
+        this.addEvent('loaded', this.bound.onLoad);
     },
     
-    loaded: function(e) {
-        this.urlWindow = new Deluge.Widgets.AddTorrent.Url();
+    onLoad: function(e) {
+        this.content.id = 'addTorrent';
+        this.torrents = this.content.getElement('select');
+        this.torrents.addEvent('change', this.bound.onTorrentChanged);
+        this.torrentInfo = new Hash();
         
+        this.tabs = new Widgets.Tabs(this.content.getElement('div.moouiTabs'));
+        this.filesTab = new Deluge.Widgets.AddTorrent.FilesTab();
+        this.tabs.addPage(this.filesTab);
+        this.tabs.addPage(new Widgets.TabPage('Options', {
+            url: '/template/render/html/add_torrent_options.html'
+        }));
+        
+        this.urlWindow = new Deluge.Widgets.AddTorrent.Url();
+        this.urlWindow.addEvent('torrentAdded', this.bound.onTorrentAdded);     
         this.urlButton = this.content.getElement('button.url');
         this.urlButton.addEvent('click', function(e) {
             this.urlWindow.show();
         }.bindWithEvent(this));
+        
+        this.content.getElement('button.save').addEvent('click', this.bound.onSave);
+        this.content.getElement('button.cancel').addEvent('click', this.bound.onCancel);
+    },
+    
+    onTorrentAdded: function(torrentInfo) {
+        var option = new Element('option');
+        option.set('value', torrentInfo['info_hash']);
+        var filename = torrentInfo['filename'].split('/');
+        filename = filename[filename.length - 1];
+        option.set('text', torrentInfo['name'] + ' (' + filename + ')');
+        this.torrents.grab(option);
+        this.torrentInfo[torrentInfo['info_hash']] = torrentInfo;
+    },
+    
+    onTorrentChanged: function(e) {
+        this.filesTab.setTorrent(this.torrentInfo[this.torrents.value]);
+    },
+    
+    onSave: function(e) {
+        torrents = new Array();
+        $each(this.torrentInfo, function(torrent) {
+            torrents.include({
+                path: torrent['filename'],
+                options: {}
+            });
+        }, this);
+        Deluge.Client.add_torrents(torrents);
+        this.onCancel()
+    },
+    
+    onCancel: function(e) {
+        this.hide();
+        this.torrents.empty();
+        this.torrentInfo.empty();
+        this.filesTab.table.empty();
     }
 });
 
@@ -45,7 +100,9 @@ Deluge.Widgets.AddTorrent.Url = new Class({
         this.parent();
         this.bound = {
             onOkClick: this.onOkClick.bindWithEvent(this),
-            onCancelClick: this.onCancelClick.bindWithEvent(this)
+            onCancelClick: this.onCancelClick.bindWithEvent(this),
+            onDownloadSuccess: this.onDownloadSuccess.bindWithEvent(this),
+            onGetInfoSuccess: this.onGetInfoSuccess.bindWithEvent(this)
         };
         
         this.form = new Element('form');
@@ -56,7 +113,7 @@ Deluge.Widgets.AddTorrent.Url = new Class({
         this.okButton.set('text', Deluge.Strings.get('Ok'));
         this.cancelButton = new Element('button');
         this.cancelButton.set('text', Deluge.Strings.get('Cancel'));
-        this.form.grab(new Element('label').set('text', 'Url'));
+        this.form.grab(new Element('label').set('text', 'Url').addClass('fluid'));
         this.form.grab(this.urlInput).grab(new Element('br'));
         this.form.grab(this.okButton).grab(this.cancelButton);
         this.content.grab(this.form);
@@ -68,7 +125,9 @@ Deluge.Widgets.AddTorrent.Url = new Class({
     onOkClick: function(e) {
         e.stop();
         var url = this.urlInput.get('value');
-        Deluge.Client.add_torrent_url(url, {});
+        Deluge.Client.download_torrent_from_url(url, {
+            onSuccess: this.bound.onDownloadSuccess
+        });
         this.hide();
     },
     
@@ -76,6 +135,44 @@ Deluge.Widgets.AddTorrent.Url = new Class({
         e.stop();
         this.urlInput.set('value', '');
         this.hide();
+    },
+    
+    onDownloadSuccess: function(filename) {
+        Deluge.Client.get_torrent_info(filename, {
+            onSuccess: this.bound.onGetInfoSuccess
+        });
+    },
+    
+    onGetInfoSuccess: function(info) {
+        this.fireEvent('torrentAdded', info);
+    }
+});
+
+Deluge.Widgets.AddTorrent.FilesTab = new Class({
+    Extends: Widgets.TabPage,
+    
+    options: {
+        url: '/template/render/html/add_torrent_files.html'
+    },
+    
+    initialize: function() {
+        this.parent('Files');
+        this.addEvent('loaded', this.onLoad.bindWithEvent(this));
+    },
+    
+    onLoad: function(e) {
+        this.table = this.element.getElement('table');
+    },
+    
+    setTorrent: function(torrent) {
+        this.table.empty();
+        $each(torrent['files'], function(file) {
+            row = new Element('tr');
+            new Element('td').inject(row);
+            new Element('td').set('text', file['path']).inject(row);
+            new Element('td').set('text', file['size'].toBytes()).inject(row);
+            this.table.grab(row);
+        }, this);
     }
 });
 
