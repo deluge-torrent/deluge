@@ -111,6 +111,9 @@ class Torrent:
                 tracker["tier"] = value.tier
                 self.trackers.append(tracker)
 
+        # Set the allocation mode
+        self.compact = options["compact_allocation"]
+        
         # Various torrent options
         self.set_max_connections(options["max_connections_per_torrent"])
         self.set_max_upload_slots(options["max_upload_slots_per_torrent"])
@@ -121,8 +124,6 @@ class Torrent:
         if options.has_key("file_priorities"):
             self.set_file_priorities(options["file_priorities"])
             
-        # Set the allocation mode
-        self.compact = options["compact_allocation"]
         # Where the torrent is being saved to
         self.save_path = options["download_location"]
         # Status message holds error info about the torrent
@@ -189,9 +190,9 @@ class Torrent:
             self.options["file_priorities"] = self.handle.file_priorities()
             return
 
-        if self.options["compact_allocation"]:
+        if self.compact:
             log.debug("setting file priority with compact allocation does not work!")
-            self.options["file_priorities"] = self.handle.file_priorities()
+            self.file_priorities = self.handle.file_priorities()
             return
 
         log.debug("setting %s's file priorities: %s", self.torrent_id, file_priorities)
