@@ -394,7 +394,7 @@ class Core(
     def fetch_torrent_url_thread(self, callback, url, options):
         # Get the actual filename of the torrent from the url provided.
         filename = url.split("/")[-1]
-        
+
         # Get the .torrent file from the url
         torrent_file = deluge.common.fetch_url(url)
         if torrent_file is None:
@@ -494,12 +494,12 @@ class Core(
         # Emit the torrent_status signal to the clients
         return status_dict
 
-    def export_get_filter_tree(self):
+    def export_get_filter_tree(self , hide_zero_hits=False, hide_cat=None):
         """
         returns {field: [(value,count)] }
         for use in sidebar(s)
         """
-        return self.filtermanager.get_filter_tree()
+        return self.filtermanager.get_filter_tree(hide_zero_hits, hide_cat)
 
     def export_get_session_state(self):
         """Returns a list of torrent_ids in the session."""
@@ -706,7 +706,7 @@ class Core(
         """Renames files in 'torrent_id'. The 'filenames' parameter should be a
         list of (index, filename) pairs."""
         self.torrents[torrent_id].rename_files(filenames)
-        
+
     ## Queueing functions ##
     def export_queue_top(self, torrent_ids):
         log.debug("Attempting to queue %s to top", torrent_ids)

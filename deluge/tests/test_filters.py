@@ -43,11 +43,34 @@ print sclient.get_torrents_status({"keyword":["az"]}, KEYS)
 print "#registered filters, overriude on 1 value(not yet)"
 print sclient.get_torrents_status({"state":["Active"]}, KEYS)
 
-print "#tree:"
+print "#tree: Default (Active must be listed after Seeding)"
 for field, items in sclient.get_filter_tree().iteritems():
     print "*",field
     for value, count in items:
         print "-",value,count
 
+print "#tree: Hide_zero"
+for field, items in sclient.get_filter_tree(True).iteritems():
+    print "*",field
+    for value, count in items:
+        print "-",value,count
+
+print "#tree: Hide tracker"
+for field, items in sclient.get_filter_tree(False, ["tracker_host"]).iteritems():
+    print "*",field
+    for value, count in items:
+        print "-",value,count
+
+print "#tree: Hide all"
+if  sclient.get_filter_tree(False, ["tracker_host","label","state"]):
+    raise Exception("result should be {}")
+print "hide-all :ok"
+
+
 print "#must have an error here:"
-print sclient.get_torrents_status({"invalid-filter":[]}, KEYS)
+try:
+    print sclient.get_torrents_status({"invalid-filter":[]}, KEYS)
+    print "WTF!"
+except Exception, e:
+    print "ok, an exception was raised:", e ,e.message
+

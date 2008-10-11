@@ -34,6 +34,7 @@
 import deluge.component as component
 from deluge.log import LOG as log
 
+STATE_SORT = ["All", "Downloading", "Seeding", "Active", "Paused", "Queued"]
 
 #special purpose filters:
 def filter_keyword(torrent_ids, values):
@@ -44,7 +45,6 @@ def filter_keyword(torrent_ids, values):
         for torrent_id in torrent_ids:
             if keyword in all_torrents[torrent_id].filename.lower():
                 yield torrent_id
-
 
 class FilterManager(component.Component):
     """FilterManager
@@ -117,15 +117,19 @@ class FilterManager(component.Component):
 
         return torrent_ids
 
-    def get_filter_tree(self):
+    def get_filter_tree(self, hide_zero_hits=False, hide_cat=None):
         """
         returns {field: [(value,count)] }
         for use in sidebar.
         """
         torrent_ids = self.torrents.get_torrent_list()
         status_func = self.core.export_get_torrent_status #premature optimalisation..
-        tree_keys = self.tree_fields.keys()
-        items = dict( (field, init_func()) for field, init_func in self.tree_fields.iteritems())
+        tree_keys = list(self.tree_fields.keys())
+        if hide_cat:
+            for cat in hide_cat:
+                tree_keys.remove(cat)
+
+        items = dict( (field, self.tree_fields[field]()) for field in tree_keys)
 
         #count status fields.
         for torrent_id in list(torrent_ids):
@@ -134,10 +138,18 @@ class FilterManager(component.Component):
                 value = status[field]
                 items[field][value] = items[field].get(value, 0) + 1
 
-        for field in tree_keys:
-            items[field] = sorted(items[field].iteritems())
+        if "state" in tree_keys and hide_zero_hits:
+            self._hide_state_items(items["state"])
 
-        return items
+        #return a dict of tuples:
+        sorted_items = {}
+        for field in tree_keys:
+            sorted_items[field] = sorted(items[field].iteritems())
+
+        if "state" in tree_keys:
+            sorted_items["state"].sort(self._sort_state_items)
+
+        return sorted_items
 
     def _init_state_tree(self):
         return {"All":len(self.torrents.get_torrent_list()),
@@ -171,3 +183,25 @@ class FilterManager(component.Component):
             else:
                 torrent_ids.remove(torrent_id)
         return torrent_ids
+
+    def _hide_state_items(self, state_items):
+        "for hide_zero hits"
+        for (value, count)  in state_items.items():
+            if value != "All" and count == 0:
+                del state_items[value]
+
+    def _sort_state_items(self, x, y):
+        ""
+        if x[0] in STATE_SORT:
+            ix = STATE_SORT.index(x[0])
+        else:
+            ix = 99
+        if y[0] in STATE_SORT:
+            iy = STATE_SORT.index(y[0])
+        else:
+            iy = 99
+
+        return ix - iy
+
+
+
