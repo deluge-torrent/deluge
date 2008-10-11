@@ -43,6 +43,7 @@ from deluge.ui.client import aclient
 from deluge.configmanager import ConfigManager
 
 STATE_PIX = {
+    "All":"deluge",
     "Downloading":"downloading",
     "Seeding":"seeding",
     "Paused":"inactive",
