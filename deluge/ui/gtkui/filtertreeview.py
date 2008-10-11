@@ -79,6 +79,9 @@ class FilterTreeView(component.Component):
         self.label_view = gtk.TreeView()
         self.sidebar.add_tab(self.label_view, "filters", _("Filters"))
 
+        #set filter to all when hidden:
+        self.sidebar.notebook.connect("hide", self._on_hide)
+
         #menu
         glade_menu = gtk.glade.XML(pkg_resources.resource_filename("deluge.ui.gtkui",
             "glade/filtertree_menu.glade"))
@@ -149,6 +152,7 @@ class FilterTreeView(component.Component):
             if not cat in self.cat_nodes:
                 self.cat_nodes[cat] = self.treestore.append(None, ["cat", cat, _t(cat), 0, None, False])
 
+
         #update rows
         visible_filters = []
         for cat,filters in filter_items.iteritems():
@@ -168,8 +172,10 @@ class FilterTreeView(component.Component):
             if not f in visible_filters:
                 self.treestore.set_value(self.filters[f], FILTER_COLUMN, False)
 
-        # obsolete?
         self.label_view.expand_all()
+        (model, row) = self.label_view.get_selection().get_selected()
+        if not row:
+            self.select_default_filter()
 
     def update_row(self, cat, value , count):
         if (cat, value) in self.filters:
@@ -183,6 +189,7 @@ class FilterTreeView(component.Component):
             row = self.treestore.append(self.cat_nodes[cat],[cat, value, label, count , pix, True])
             self.filters[(cat, value)] = row
         self.treestore.set_value(row, FILTER_COLUMN, True)
+        return row
 
     def render_cell_data(self, column, cell, model, row, data):
         "cell renderer"
@@ -303,3 +310,11 @@ class FilterTreeView(component.Component):
         self.select_all()
         func = getattr(component.get("MenuBar"), "on_menuitem_%s_activate" % "resume")
         func(event)
+
+    def _on_hide(self, *args):
+        self.select_default_filter()
+
+    def select_default_filter(self):
+        row = self.filters[("state", "All")]
+        path = self.treestore.get_path(row)
+        self.label_view.get_selection().select_path(path)
