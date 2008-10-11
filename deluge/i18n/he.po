@@ -7,35 +7,36 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-08-26 20:14-0500\n"
-"PO-Revision-Date: 2008-09-17 18:44+0000\n"
+"POT-Creation-Date: 2008-09-20 21:59-0500\n"
+"PO-Revision-Date: 2008-09-07 16:37+0000\n"
 "Last-Translator: Mark Krapivner <mark125@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-09-21 02:36+0000\n"
+"X-Launchpad-Export-Date: 2008-10-11 04:00+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Language: Hebrew\n"
 
-#: deluge/core/torrentmanager.py:650
+#: deluge/core/torrentmanager.py:667
 msgid "Announce OK"
 msgstr "קריאה תקינה"
 
-#: deluge/core/torrentmanager.py:671
+#: deluge/core/torrentmanager.py:688
 msgid "Announce Sent"
 msgstr "קריאה נשלחה"
 
-#: deluge/core/torrentmanager.py:680
+#: deluge/core/torrentmanager.py:697
 msgid "Alert"
 msgstr "התראה"
 
-#: deluge/core/torrentmanager.py:691
+#: deluge/core/torrentmanager.py:708
 msgid "Warning"
 msgstr "אזהרה"
 
-#: deluge/core/torrentmanager.py:702
-#: deluge/ui/webui/scripts/template_strings.py:32
+#: deluge/core/torrentmanager.py:719
+#: deluge/ui/webui/scripts/template_strings.py:25
+#: deluge/ui/gtkui/sidebar.py:69
 msgid "Error"
 msgstr "שגיאה"
 
@@ -44,408 +45,346 @@ msgid "# Of Files"
 msgstr "# מהקבצים"
 
 #: deluge/ui/webui/scripts/template_strings.py:2
-msgid "+"
-msgstr "+"
-
-#: deluge/ui/webui/scripts/template_strings.py:3
-msgid "++"
-msgstr "++"
-
-#: deluge/ui/webui/scripts/template_strings.py:4
 #: deluge/ui/webui/register_menu.py:41
 msgid "About"
 msgstr "אודות"
 
-#: deluge/ui/webui/scripts/template_strings.py:5
-msgid "Active time"
-msgstr "זמן פעילות"
+#: deluge/ui/webui/scripts/template_strings.py:3
+#: deluge/ui/webui/register_menu.py:51 deluge/plugins/label/label/gtkui.py:348
+msgid "Add"
+msgstr "הוסף"
 
-#: deluge/ui/webui/scripts/template_strings.py:6
+#: deluge/ui/webui/scripts/template_strings.py:4
+msgid "Add Another (Stay in add page)"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:5
 msgid "Add Torrent"
 msgstr "הוסף טורנט"
 
-#: deluge/ui/webui/scripts/template_strings.py:7
-#: deluge/ui/gtkui/glade/main_window.glade:281
+#: deluge/ui/webui/scripts/template_strings.py:6
+#: deluge/ui/gtkui/glade/main_window.glade:267
 msgid "Add torrent"
 msgstr "הוסף טורנט"
 
-#: deluge/ui/webui/scripts/template_strings.py:8
-#: deluge/ui/gtkui/peers_tab.py:96
-msgid "Address"
-msgstr "כתובת"
-
-#: deluge/ui/webui/scripts/template_strings.py:9
-msgid "Admin"
-msgstr "מנהל"
-
-#: deluge/ui/webui/scripts/template_strings.py:10
-#: deluge/ui/webui/torrent_options.py:26
-#: deluge/ui/gtkui/glade/main_window.glade:1817
-#: deluge/plugins/label/label/data/label_options.glade:332
-msgid "Auto Managed"
-msgstr "ניהול אוטומטי"
-
-#: deluge/ui/webui/scripts/template_strings.py:11
+#: deluge/ui/webui/scripts/template_strings.py:7
 msgid "Auto refresh:"
 msgstr "רענון אוטומטי:"
 
-#: deluge/ui/webui/scripts/template_strings.py:12
+#: deluge/ui/webui/scripts/template_strings.py:8
 msgid "Ava"
 msgstr "זמינות"
 
-#: deluge/ui/webui/scripts/template_strings.py:13
+#: deluge/ui/webui/scripts/template_strings.py:9
 msgid "Availability"
 msgstr "זמינות"
 
-#: deluge/ui/webui/scripts/template_strings.py:14
-msgid "Clear"
-msgstr "ניקוי"
+#: deluge/ui/webui/scripts/template_strings.py:10
+msgid "BandWidth"
+msgstr "רוחב פס"
 
-#: deluge/ui/webui/scripts/template_strings.py:15
-#: deluge/ui/gtkui/peers_tab.py:112
-msgid "Client"
-msgstr "תוכנה"
-
-#: deluge/ui/webui/scripts/template_strings.py:16
+#: deluge/ui/webui/scripts/template_strings.py:11
 #: deluge/ui/webui/register_menu.py:39
 msgid "Config"
 msgstr "הגדרות"
 
-#: deluge/ui/webui/scripts/template_strings.py:17
-#: deluge/ui/webui/register_menu.py:40
-msgid "Connect"
-msgstr "התחבר"
-
-#: deluge/ui/webui/scripts/template_strings.py:18
-msgid "Connect to Daemon"
-msgstr "מחובר לשרת"
-
-#: deluge/ui/webui/scripts/template_strings.py:19
-msgid "Connected to"
-msgstr "מחובר ל"
-
-#: deluge/ui/webui/scripts/template_strings.py:20
+#: deluge/ui/webui/scripts/template_strings.py:12
 #: deluge/ui/gtkui/statusbar.py:149
 msgid "Connections"
 msgstr "חיבורים"
 
-#: deluge/ui/webui/scripts/template_strings.py:21
+#: deluge/ui/webui/scripts/template_strings.py:13
 msgid "DHT Nodes"
 msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:22
+#: deluge/ui/webui/scripts/template_strings.py:14
+msgid "Debug:Data Dump"
+msgstr "Debug:Data Dump"
+
+#: deluge/ui/webui/scripts/template_strings.py:15
 msgid "Delete .torrent file"
 msgstr "מחק קובץ .torrent"
 
-#: deluge/ui/webui/scripts/template_strings.py:23
+#: deluge/ui/webui/scripts/template_strings.py:16
 msgid "Delete downloaded files."
 msgstr "מחק קבצים שהורדו."
 
-#: deluge/ui/webui/scripts/template_strings.py:24
-msgid "Deluge : Torrent List"
-msgstr "Deluge : רשימת טורנטים"
+#: deluge/ui/webui/scripts/template_strings.py:17
+#: deluge/ui/webui/register_menu.py:45 deluge/ui/webui/register_menu.py:59
+msgid "Details"
+msgstr "פרטים"
 
-#: deluge/ui/webui/scripts/template_strings.py:25
-msgid "Deluge Login"
-msgstr "כניסה אל Deluge"
-
-#: deluge/ui/webui/scripts/template_strings.py:26
+#: deluge/ui/webui/scripts/template_strings.py:18
 msgid "Disable"
 msgstr "כיבוי"
 
-#: deluge/ui/webui/scripts/template_strings.py:27
-#: deluge/ui/gtkui/peers_tab.py:138 deluge/ui/gtkui/torrentview.py:160
+#: deluge/ui/webui/scripts/template_strings.py:19
+#: deluge/ui/gtkui/systemtray.py:196
+msgid "Down"
+msgstr "למטה"
+
+#: deluge/ui/webui/scripts/template_strings.py:20
+#: deluge/ui/gtkui/peers_tab.py:120 deluge/ui/gtkui/torrentview.py:147
 msgid "Down Speed"
 msgstr "מהירות הורדה"
 
-#: deluge/ui/webui/scripts/template_strings.py:28
-#: deluge/ui/webui/config_tabs_deluge.py:125 deluge/ui/gtkui/systemtray.py:330
+#: deluge/ui/webui/scripts/template_strings.py:21
+#: deluge/ui/webui/config_tabs_deluge.py:125 deluge/ui/gtkui/systemtray.py:312
 msgid "Download"
 msgstr "הורדה"
 
-#: deluge/ui/webui/scripts/template_strings.py:29
+#: deluge/ui/webui/scripts/template_strings.py:22
 msgid "Downloaded"
 msgstr "ירד"
 
-#: deluge/ui/webui/scripts/template_strings.py:30
-#: deluge/ui/gtkui/torrentview.py:168
+#: deluge/ui/webui/scripts/template_strings.py:23
+#: deluge/ui/gtkui/torrentview.py:155
 msgid "ETA"
 msgstr "זמן משוער"
 
-#: deluge/ui/webui/scripts/template_strings.py:31
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1903
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3382
+#: deluge/ui/webui/scripts/template_strings.py:24
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1785
 msgid "Enable"
 msgstr "הפעל"
 
-#: deluge/ui/webui/scripts/template_strings.py:33
+#: deluge/ui/webui/scripts/template_strings.py:26
 msgid "Eta"
 msgstr "זמן הורדה משוער"
 
-#: deluge/ui/webui/scripts/template_strings.py:34
-msgid "False"
-msgstr "שקר"
-
-#: deluge/ui/webui/scripts/template_strings.py:35
+#: deluge/ui/webui/scripts/template_strings.py:27
 msgid "File"
 msgstr "קובץ"
 
-#: deluge/ui/webui/scripts/template_strings.py:36
-msgid "Filter on a keyword"
-msgstr "סינון לפי מילת חיפוש"
+#: deluge/ui/webui/scripts/template_strings.py:28
+msgid "Filter on Tracker"
+msgstr ""
 
-#: deluge/ui/webui/scripts/template_strings.py:37
-#: deluge/plugins/label/label/webui/config.py:117
+#: deluge/ui/webui/scripts/template_strings.py:29
+msgid "Filter on state"
+msgstr ""
+
+#: deluge/ui/webui/scripts/template_strings.py:30
+#: deluge/plugins/label/label/webui_config.py:115
+#: deluge/plugins/label/label/gtkui.py:301
 msgid "General"
 msgstr "כללי"
 
-#: deluge/ui/webui/scripts/template_strings.py:38
-msgid "Keyword"
-msgstr "מילת מפתח"
+#: deluge/ui/webui/scripts/template_strings.py:31
+msgid "Hash"
+msgstr "גיבוב"
 
-#: deluge/ui/webui/scripts/template_strings.py:39
-#: deluge/plugins/label/label/webui/pages.py:62
-#: deluge/plugins/label/label/webui/config.py:110
-#: deluge/plugins/label/label/gtkui/submenu.py:54
-#: deluge/plugins/label/label/gtkui/__init__.py:69
-#: deluge/plugins/label/label/gtkui/__init__.py:111
-msgid "Label"
-msgstr "תווית"
-
-#: deluge/ui/webui/scripts/template_strings.py:40
-msgid "Label torrent"
-msgstr "תווית טורנט"
-
-#: deluge/ui/webui/scripts/template_strings.py:41
+#: deluge/ui/webui/scripts/template_strings.py:32
 msgid "Login"
 msgstr "כניסה"
 
-#: deluge/ui/webui/scripts/template_strings.py:42
+#: deluge/ui/webui/scripts/template_strings.py:33
 #: deluge/ui/webui/register_menu.py:42
 msgid "Logout"
 msgstr "יציאה"
 
-#: deluge/ui/webui/scripts/template_strings.py:43
-#: deluge/ui/webui/register_menu.py:60
-msgid "Move"
-msgstr "העבר"
-
-#: deluge/ui/webui/scripts/template_strings.py:44
-msgid "Move torrent"
-msgstr "העברת טורנט"
-
-#: deluge/ui/webui/scripts/template_strings.py:45
-msgid "N"
-msgstr "ל"
-
-#: deluge/ui/webui/scripts/template_strings.py:46
-#: deluge/ui/gtkui/torrentview.py:140
+#: deluge/ui/webui/scripts/template_strings.py:34
+#: deluge/ui/gtkui/torrentview.py:127
 msgid "Name"
 msgstr "שם"
 
-#: deluge/ui/webui/scripts/template_strings.py:47
+#: deluge/ui/webui/scripts/template_strings.py:35
 msgid "Next Announce"
 msgstr "הכרזה הבאה"
 
-#: deluge/ui/webui/scripts/template_strings.py:48
-msgid "Not Connected to a daemon"
-msgstr "לא מחובר לתהליך השרת"
-
-#: deluge/ui/webui/scripts/template_strings.py:49
+#: deluge/ui/webui/scripts/template_strings.py:36
 #: deluge/ui/gtkui/menubar.py:92
 msgid "Off"
 msgstr "כבוי"
 
-#: deluge/ui/webui/scripts/template_strings.py:50
+#: deluge/ui/webui/scripts/template_strings.py:37
 #: deluge/ui/webui/register_menu.py:46
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:652
 #: deluge/ui/gtkui/glade/connection_manager.glade:246
 msgid "Options"
 msgstr "אפשרויות"
 
-#: deluge/ui/webui/scripts/template_strings.py:51
-msgid "Other"
-msgstr "אחר"
-
-#: deluge/ui/webui/scripts/template_strings.py:52
-#: deluge/ui/webui/config_tabs_webui.py:72
+#: deluge/ui/webui/scripts/template_strings.py:38
+#: deluge/ui/webui/config_tabs_webui.py:71
 msgid "Password"
 msgstr "סיסמה"
 
-#: deluge/ui/webui/scripts/template_strings.py:53
+#: deluge/ui/webui/scripts/template_strings.py:39
 msgid "Password is invalid,try again"
 msgstr "סיסמה לא תקינה, נסו שוב"
 
-#: deluge/ui/webui/scripts/template_strings.py:54
+#: deluge/ui/webui/scripts/template_strings.py:40
+msgid "Pause"
+msgstr "השהייה"
+
+#: deluge/ui/webui/scripts/template_strings.py:41
 msgid "Pause all"
 msgstr "השהה הכל"
 
-#: deluge/ui/webui/scripts/template_strings.py:55
-#: deluge/ui/webui/register_menu.py:48 deluge/ui/gtkui/torrentview.py:155
+#: deluge/ui/webui/scripts/template_strings.py:42
+#: deluge/ui/webui/register_menu.py:48 deluge/ui/gtkui/torrentview.py:142
 msgid "Peers"
 msgstr "משתפים"
 
-#: deluge/ui/webui/scripts/template_strings.py:56
+#: deluge/ui/webui/scripts/template_strings.py:43
 msgid "Pieces"
 msgstr "חלקים"
 
-#: deluge/ui/webui/scripts/template_strings.py:57
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:735
-#: deluge/ui/gtkui/glade/main_window.glade:1985
-msgid "Private"
-msgstr "פרטי"
-
-#: deluge/ui/webui/scripts/template_strings.py:58
-#: deluge/ui/gtkui/peers_tab.py:125 deluge/ui/gtkui/torrentview.py:146
-#: deluge/ui/gtkui/files_tab.py:138
+#: deluge/ui/webui/scripts/template_strings.py:44
+#: deluge/ui/gtkui/torrentview.py:133 deluge/ui/gtkui/files_tab.py:138
 msgid "Progress"
 msgstr "התקדמות"
 
-#: deluge/ui/webui/scripts/template_strings.py:59
-#: deluge/ui/webui/config_tabs_deluge.py:144
-#: deluge/plugins/label/label/data/label_options.glade:377
-msgid "Queue"
-msgstr "בתהליך"
+#: deluge/ui/webui/scripts/template_strings.py:45
+#: deluge/ui/webui/register_menu.py:56
+#: deluge/ui/gtkui/glade/main_window.glade:361
+msgid "Queue Down"
+msgstr "למטה בתור"
 
-#: deluge/ui/webui/scripts/template_strings.py:60
+#: deluge/ui/webui/scripts/template_strings.py:46
 msgid "Queue Position"
 msgstr "מיקום בתור"
 
-#: deluge/ui/webui/scripts/template_strings.py:61
-#: deluge/ui/gtkui/torrentview.py:172
+#: deluge/ui/webui/scripts/template_strings.py:47
+#: deluge/ui/webui/register_menu.py:55
+#: deluge/ui/gtkui/glade/main_window.glade:346
+msgid "Queue Up"
+msgstr "למעלה בתור"
+
+#: deluge/ui/webui/scripts/template_strings.py:48
+#: deluge/ui/gtkui/torrentview.py:159
 msgid "Ratio"
 msgstr "יחס"
 
-#: deluge/ui/webui/scripts/template_strings.py:62
+#: deluge/ui/webui/scripts/template_strings.py:49
+#: deluge/ui/webui/register_menu.py:61
+msgid "Reannounce"
+msgstr "הצע קריאה מחדש"
+
+#: deluge/ui/webui/scripts/template_strings.py:50
+msgid "Refresh"
+msgstr "רענון"
+
+#: deluge/ui/webui/scripts/template_strings.py:51
 msgid "Refresh page every:"
 msgstr "רענן את העמוד כל:"
 
-#: deluge/ui/webui/scripts/template_strings.py:63
+#: deluge/ui/webui/scripts/template_strings.py:52
 msgid "Remove"
 msgstr "הסר"
 
-#: deluge/ui/webui/scripts/template_strings.py:64
+#: deluge/ui/webui/scripts/template_strings.py:53
 msgid "Remove torrent"
 msgstr "הסר טורנט"
 
-#: deluge/ui/webui/scripts/template_strings.py:65
-msgid "Restart"
-msgstr "אתחול"
+#: deluge/ui/webui/scripts/template_strings.py:54
+msgid "Resume"
+msgstr "המשך"
 
-#: deluge/ui/webui/scripts/template_strings.py:66
+#: deluge/ui/webui/scripts/template_strings.py:55
 msgid "Resume all"
 msgstr "הפעל הכל"
 
-#: deluge/ui/webui/scripts/template_strings.py:67
+#: deluge/ui/webui/scripts/template_strings.py:56
 msgid "Save"
 msgstr "שמור"
 
-#: deluge/ui/webui/scripts/template_strings.py:68
-msgid "Seed rank"
-msgstr "דרגת שיתוף"
-
-#: deluge/ui/webui/scripts/template_strings.py:69
-#: deluge/ui/gtkui/torrentview.py:150
+#: deluge/ui/webui/scripts/template_strings.py:57
+#: deluge/ui/gtkui/torrentview.py:137
 msgid "Seeders"
 msgstr "משתפים"
 
-#: deluge/ui/webui/scripts/template_strings.py:70
-msgid "Seeding time"
-msgstr "זמן שיצוף"
-
-#: deluge/ui/webui/scripts/template_strings.py:71
+#: deluge/ui/webui/scripts/template_strings.py:58
 msgid "Set"
 msgstr "קבע"
 
-#: deluge/ui/webui/scripts/template_strings.py:72
+#: deluge/ui/webui/scripts/template_strings.py:59
 msgid "Set Timeout"
 msgstr "קבע פסק-זמן"
 
-#: deluge/ui/webui/scripts/template_strings.py:73
+#: deluge/ui/webui/scripts/template_strings.py:60
 msgid "Settings"
 msgstr "הגדרות"
 
-#: deluge/ui/webui/scripts/template_strings.py:74
+#: deluge/ui/webui/scripts/template_strings.py:61
 msgid "Share Ratio"
 msgstr "יחס שיתוף"
 
-#: deluge/ui/webui/scripts/template_strings.py:75
-#: deluge/ui/gtkui/addtorrentdialog.py:107 deluge/ui/gtkui/torrentview.py:142
+#: deluge/ui/webui/scripts/template_strings.py:62
+#: deluge/ui/gtkui/addtorrentdialog.py:109 deluge/ui/gtkui/torrentview.py:129
 #: deluge/ui/gtkui/files_tab.py:125
 msgid "Size"
 msgstr "גודל"
 
-#: deluge/ui/webui/scripts/template_strings.py:76
+#: deluge/ui/webui/scripts/template_strings.py:63
 #: deluge/ui/gtkui/glade/dgtkpopups.glade:9
 msgid "Speed"
 msgstr "מהירות"
 
-#: deluge/ui/webui/scripts/template_strings.py:77
+#: deluge/ui/webui/scripts/template_strings.py:64
 #: deluge/ui/webui/register_menu.py:54
 msgid "Start"
 msgstr "התחלה"
 
-#: deluge/ui/webui/scripts/template_strings.py:78
-#: deluge/ui/webui/register_menu.py:53
-msgid "Stop"
-msgstr "עצור"
-
-#: deluge/ui/webui/scripts/template_strings.py:79
+#: deluge/ui/webui/scripts/template_strings.py:65
 msgid "Submit"
 msgstr "טען"
 
-#: deluge/ui/webui/scripts/template_strings.py:80
+#: deluge/ui/webui/scripts/template_strings.py:66
 msgid "Torrent list"
 msgstr "רשימת טורנטים"
 
-#: deluge/ui/webui/scripts/template_strings.py:81
+#: deluge/ui/webui/scripts/template_strings.py:67
 msgid "Total Size"
 msgstr "גודל כללי"
 
-#: deluge/ui/webui/scripts/template_strings.py:82
-#: deluge/ui/gtkui/torrentview.py:180 deluge/ui/gtkui/edittrackersdialog.py:83
+#: deluge/ui/webui/scripts/template_strings.py:68
+#: deluge/ui/gtkui/edittrackersdialog.py:83
+#: deluge/plugins/label/label/gtkui.py:109
 msgid "Tracker"
 msgstr "טראקר"
 
-#: deluge/ui/webui/scripts/template_strings.py:83
+#: deluge/ui/webui/scripts/template_strings.py:69
 msgid "Tracker Status"
 msgstr "מצב הטראקר"
 
-#: deluge/ui/webui/scripts/template_strings.py:84
-msgid "True"
-msgstr "אמת"
+#: deluge/ui/webui/scripts/template_strings.py:70
+#: deluge/ui/gtkui/systemtray.py:197
+msgid "Up"
+msgstr "למעלה"
 
-#: deluge/ui/webui/scripts/template_strings.py:85
-#: deluge/ui/gtkui/peers_tab.py:151 deluge/ui/gtkui/torrentview.py:164
+#: deluge/ui/webui/scripts/template_strings.py:71
+#: deluge/ui/gtkui/peers_tab.py:133 deluge/ui/gtkui/torrentview.py:151
 msgid "Up Speed"
 msgstr "מהירות העלאה"
 
-#: deluge/ui/webui/scripts/template_strings.py:86
-msgid "Update"
-msgstr "עדכן"
-
-#: deluge/ui/webui/scripts/template_strings.py:87
-#: deluge/ui/gtkui/systemtray.py:334
+#: deluge/ui/webui/scripts/template_strings.py:72
+#: deluge/ui/gtkui/systemtray.py:316
 msgid "Upload"
 msgstr "העלאה"
 
-#: deluge/ui/webui/scripts/template_strings.py:88
+#: deluge/ui/webui/scripts/template_strings.py:73
+#: deluge/ui/webui/torrent_add.py:67
+msgid "Upload torrent"
+msgstr "העלה טורנט"
+
+#: deluge/ui/webui/scripts/template_strings.py:74
 msgid "Uploaded"
 msgstr "הועלה"
 
-#: deluge/ui/webui/scripts/template_strings.py:89
-msgid "X"
-msgstr "X"
+#: deluge/ui/webui/scripts/template_strings.py:75
+#: deluge/ui/webui/torrent_add.py:65
+#: deluge/plugins/blocklist/blocklist/webui.py:78
+msgid "Url"
+msgstr "כתובת"
 
-#: deluge/ui/webui/scripts/template_strings.py:90
+#: deluge/ui/webui/scripts/template_strings.py:76
 msgid "seconds"
 msgstr "שניות"
 
-#: deluge/ui/webui/pages.py:271
+#: deluge/ui/webui/pages.py:270
 msgid "refresh must be > 0"
 msgstr "הרענון חייב להיות > 0"
 
-#: deluge/ui/webui/pages.py:322
+#: deluge/ui/webui/pages.py:321
 msgid "no uri"
 msgstr "אין כתובת"
 
@@ -468,14 +407,14 @@ msgstr "מהירות העלאה מקסימלית"
 #: deluge/ui/webui/torrent_add.py:51 deluge/ui/webui/config_tabs_deluge.py:102
 #: deluge/ui/webui/config_tabs_deluge.py:117
 #: deluge/ui/webui/torrent_options.py:19
-#: deluge/plugins/label/label/webui/config.py:84
+#: deluge/plugins/label/label/webui_config.py:83
 msgid "Maximum Connections"
 msgstr "מס' חיבורים מקסימלי"
 
 #: deluge/ui/webui/torrent_add.py:52 deluge/ui/webui/config_tabs_deluge.py:105
 #: deluge/ui/webui/config_tabs_deluge.py:120
 #: deluge/ui/webui/torrent_options.py:20
-#: deluge/plugins/label/label/webui/config.py:87
+#: deluge/plugins/label/label/webui_config.py:86
 msgid "Maximum Upload Slots"
 msgstr "מקסימום נקודות העלאה"
 
@@ -488,18 +427,8 @@ msgid "Add In Paused State"
 msgstr "הוסף במצב מושהה"
 
 #: deluge/ui/webui/torrent_add.py:57
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:608
 msgid "Set Private Flag"
 msgstr "קביעת דגל פרטי"
-
-#: deluge/ui/webui/torrent_add.py:65
-#: deluge/plugins/blocklist/blocklist/webui.py:78
-msgid "Url"
-msgstr "כתובת"
-
-#: deluge/ui/webui/torrent_add.py:67
-msgid "Upload torrent"
-msgstr "העלה טורנט"
 
 #: deluge/ui/webui/torrent_add.py:73
 msgid "Choose Files"
@@ -535,7 +464,7 @@ msgstr "אקראי"
 
 #: deluge/ui/webui/config_tabs_deluge.py:76
 msgid "Extra's"
-msgstr ""
+msgstr "תוספות"
 
 #: deluge/ui/webui/config_tabs_deluge.py:77
 msgid "Mainline DHT"
@@ -546,7 +475,7 @@ msgid "UpNP"
 msgstr "UpNP"
 
 #: deluge/ui/webui/config_tabs_deluge.py:79
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:965
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:871
 msgid "NAT-PMP"
 msgstr "NAT-PMP"
 
@@ -555,7 +484,7 @@ msgid "Peer-Exchange"
 msgstr "חילופי מקורות"
 
 #: deluge/ui/webui/config_tabs_deluge.py:81
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1000
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:906
 msgid "LSD"
 msgstr "LSD"
 
@@ -586,7 +515,7 @@ msgstr "מלא"
 
 #: deluge/ui/webui/config_tabs_deluge.py:89
 msgid "Either"
-msgstr ""
+msgstr "כלשהו"
 
 #: deluge/ui/webui/config_tabs_deluge.py:91
 msgid "Inbound"
@@ -611,13 +540,13 @@ msgstr "-1 = ללא הגבלה"
 
 #: deluge/ui/webui/config_tabs_deluge.py:103
 #: deluge/ui/webui/config_tabs_deluge.py:118
-#: deluge/plugins/label/label/webui/config.py:85
+#: deluge/plugins/label/label/webui_config.py:84
 msgid "Maximum Download Speed (Kib/s)"
 msgstr "מהירות הורדה מקסימלית (Kib/s)"
 
 #: deluge/ui/webui/config_tabs_deluge.py:104
 #: deluge/ui/webui/config_tabs_deluge.py:119
-#: deluge/plugins/label/label/webui/config.py:86
+#: deluge/plugins/label/label/webui_config.py:85
 msgid "Maximum Upload Speed (Kib/s)"
 msgstr "מהירות העלאה מקסימלית (Kib/s)"
 
@@ -646,7 +575,7 @@ msgid "Auto Add folder"
 msgstr "הוספת תיקייה אוטומטית"
 
 #: deluge/ui/webui/config_tabs_deluge.py:129
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:425
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:469
 msgid "Use Compact Allocation"
 msgstr "שימוש בהקצאה חסכונית"
 
@@ -656,24 +585,28 @@ msgstr "שרת"
 
 #: deluge/ui/webui/config_tabs_deluge.py:137
 msgid "Restart daemon and webui after changing these settings"
-msgstr ""
+msgstr "אתחל את תהליך הרקע ואת ממשק הרשת לאחר עדכון נתונים אלו"
 
 #: deluge/ui/webui/config_tabs_deluge.py:138
-#: deluge/ui/webui/config_tabs_webui.py:64
+#: deluge/ui/webui/config_tabs_webui.py:63
 msgid "Port"
-msgstr "פורט"
+msgstr "מספר פורט"
 
 #: deluge/ui/webui/config_tabs_deluge.py:139
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2274
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2146
 msgid "Allow Remote Connections"
 msgstr "אפשר חיבורים מרוחקים"
+
+#: deluge/ui/webui/config_tabs_deluge.py:144
+msgid "Queue"
+msgstr "בתהליך"
 
 #: deluge/ui/webui/config_tabs_deluge.py:145
 msgid "-1 = unlimited"
 msgstr "-1 = ללא הגבלה"
 
 #: deluge/ui/webui/config_tabs_deluge.py:147
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2429
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2296
 msgid "Queue new torrents to top"
 msgstr "הוסף טורנטים חדשים לראש הרשימה"
 
@@ -701,52 +634,52 @@ msgstr "הסר את הטורנט לאחר שהיחס הרצוי הושג"
 msgid "Enabled Plugins"
 msgstr "תוספים פעילים"
 
-#: deluge/ui/webui/config_tabs_webui.py:48
-#: deluge/ui/webui/config_tabs_webui.py:54
+#: deluge/ui/webui/config_tabs_webui.py:47
+#: deluge/ui/webui/config_tabs_webui.py:53
 msgid "Template"
 msgstr "תבנית"
 
-#: deluge/ui/webui/config_tabs_webui.py:51
+#: deluge/ui/webui/config_tabs_webui.py:50
 msgid "Text and image"
 msgstr "טקסט ותמונה"
 
-#: deluge/ui/webui/config_tabs_webui.py:51
+#: deluge/ui/webui/config_tabs_webui.py:50
 msgid "Image Only"
 msgstr "רק תמונה"
 
-#: deluge/ui/webui/config_tabs_webui.py:52
+#: deluge/ui/webui/config_tabs_webui.py:51
 msgid "Text Only"
 msgstr "רק טקסט"
 
-#: deluge/ui/webui/config_tabs_webui.py:55
+#: deluge/ui/webui/config_tabs_webui.py:54
 msgid "Button style"
 msgstr "סגנון כפתור"
 
-#: deluge/ui/webui/config_tabs_webui.py:56
+#: deluge/ui/webui/config_tabs_webui.py:55
 msgid "Cache templates"
 msgstr "שמור תבניות במטמון"
 
-#: deluge/ui/webui/config_tabs_webui.py:63
+#: deluge/ui/webui/config_tabs_webui.py:62
 msgid "Server"
 msgstr "שרת"
 
-#: deluge/ui/webui/config_tabs_webui.py:74
+#: deluge/ui/webui/config_tabs_webui.py:73
 msgid "Current Password"
 msgstr "סיסמה נוכחית"
 
-#: deluge/ui/webui/config_tabs_webui.py:75
+#: deluge/ui/webui/config_tabs_webui.py:74
 msgid "New Password"
 msgstr "סיסמה חדשה"
 
-#: deluge/ui/webui/config_tabs_webui.py:76
+#: deluge/ui/webui/config_tabs_webui.py:75
 msgid "New Password (Confirm)"
 msgstr "סיסמה חדשה (אימות)"
 
-#: deluge/ui/webui/config_tabs_webui.py:83
+#: deluge/ui/webui/config_tabs_webui.py:82
 msgid "Old password is invalid"
 msgstr "הסיסמה הישנה לא תקינה"
 
-#: deluge/ui/webui/config_tabs_webui.py:86
+#: deluge/ui/webui/config_tabs_webui.py:85
 msgid "New Password is not equal to New Password(confirm)"
 msgstr "הסיסמה החדשה לא זהה לסיסמת האימות"
 
@@ -758,11 +691,11 @@ msgstr "העבר אל"
 msgid "Error in Path."
 msgstr "שגיאה בנתיב"
 
-#: deluge/ui/webui/config_forms.py:108
+#: deluge/ui/webui/config_forms.py:107
 msgid "These changes were saved"
 msgstr "השינויים האלו נשמרו"
 
-#: deluge/ui/webui/config_forms.py:114
+#: deluge/ui/webui/config_forms.py:113
 msgid "Correct the errors above and try again"
 msgstr "תקן את השגיאות מעל ונסה שוב"
 
@@ -772,17 +705,21 @@ msgid "∞"
 msgstr "∞"
 
 #: deluge/ui/webui/torrent_options.py:23
-#: deluge/ui/gtkui/glade/main_window.glade:1998
+#: deluge/ui/gtkui/glade/main_window.glade:1946
 msgid "Prioritize First/Last"
 msgstr "דירוג ראשון/אחרון"
+
+#: deluge/ui/webui/torrent_options.py:26
+#: deluge/ui/gtkui/glade/main_window.glade:1816
+msgid "Auto Managed"
+msgstr "ניהול אוטומטי"
 
 #: deluge/ui/webui/torrent_options.py:27
 msgid "Stop seed at ratio"
 msgstr "הפסק שתף כשיחס השיתוף מגיע ל"
 
 #: deluge/ui/webui/torrent_options.py:29
-#: deluge/ui/gtkui/glade/main_window.glade:1875
-#: deluge/plugins/label/label/data/label_options.glade:302
+#: deluge/ui/gtkui/glade/main_window.glade:1874
 msgid "Remove at ratio"
 msgstr "הסרה ביחס שיתוף"
 
@@ -937,22 +874,21 @@ msgstr "התיקייה לא קיימת."
 
 #: deluge/ui/webui/lib/newforms_plus.py:193
 #: deluge/ui/webui/lib/newforms_plus.py:204 deluge/ui/gtkui/systemtray.py:187
-#: deluge/ui/gtkui/systemtray.py:191 deluge/ui/gtkui/systemtray.py:340
-#: deluge/common.py:174
+#: deluge/ui/gtkui/systemtray.py:191 deluge/ui/gtkui/systemtray.py:322
+#: deluge/ui/gtkui/statusbar.py:359 deluge/ui/gtkui/statusbar.py:387
+#: deluge/ui/gtkui/statusbar.py:414 deluge/common.py:174
 msgid "Unlimited"
 msgstr "ללא הגבלה"
+
+#: deluge/ui/webui/register_menu.py:40
+msgid "Connect"
+msgstr "התחבר"
 
 #: deluge/ui/webui/register_menu.py:44
 msgid "Statistics"
 msgstr "סטטיסטיקות"
 
-#: deluge/ui/webui/register_menu.py:45 deluge/ui/webui/register_menu.py:59
-msgid "Details"
-msgstr "פרטים"
-
 #: deluge/ui/webui/register_menu.py:47
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:501
-#: deluge/plugins/label/label/data/label_options.glade:525
 msgid "Trackers"
 msgstr "טראקרים"
 
@@ -960,24 +896,14 @@ msgstr "טראקרים"
 msgid "Files"
 msgstr "קבצים"
 
-#: deluge/ui/webui/register_menu.py:51
-msgid "Add"
-msgstr "הוסף"
-
 #: deluge/ui/webui/register_menu.py:52
-#: deluge/plugins/label/label/webui/config.py:91
+#: deluge/plugins/label/label/webui_config.py:89
 msgid "Delete"
 msgstr "מחק"
 
-#: deluge/ui/webui/register_menu.py:55
-#: deluge/ui/gtkui/glade/main_window.glade:360
-msgid "Queue Up"
-msgstr "למעלה בתור"
-
-#: deluge/ui/webui/register_menu.py:56
-#: deluge/ui/gtkui/glade/main_window.glade:375
-msgid "Queue Down"
-msgstr "למטה בתור"
+#: deluge/ui/webui/register_menu.py:53
+msgid "Stop"
+msgstr "עצור"
 
 #: deluge/ui/webui/register_menu.py:57
 msgid "Queue Top"
@@ -987,81 +913,45 @@ msgstr "העבר למעלה"
 msgid "Queue Bottom"
 msgstr "נעבר למטה"
 
-#: deluge/ui/webui/register_menu.py:61
-msgid "Reannounce"
-msgstr "הצע קריאה מחדש"
+#: deluge/ui/webui/register_menu.py:60
+msgid "Move"
+msgstr "העבר"
 
 #: deluge/ui/webui/register_menu.py:62
 msgid "Recheck"
 msgstr "בדיקה מחדש"
 
-#: deluge/ui/gtkui/addtorrenturl.py:45
-msgid "Add torrent from URL"
-msgstr "הוסף טורנט מכתובת"
-
-#: deluge/ui/gtkui/addtorrenturl.py:50
-msgid "Enter the URL of the .torrent to download"
-msgstr "הכנס את הכתובת של הטורנט להורדה"
-
 #: deluge/ui/gtkui/preferences.py:81
 msgid "Plugin"
 msgstr "תוסף"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:88 deluge/ui/gtkui/queuedtorrents.py:71
+#: deluge/ui/gtkui/addtorrentdialog.py:90 deluge/ui/gtkui/queuedtorrents.py:71
 msgid "Torrent"
 msgstr "טורנט"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:96 deluge/ui/gtkui/files_tab.py:109
+#: deluge/ui/gtkui/addtorrentdialog.py:98 deluge/ui/gtkui/files_tab.py:109
 msgid "Filename"
 msgstr "שם קובץ"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:447
+#: deluge/ui/gtkui/addtorrentdialog.py:449
 msgid "Choose a .torrent file"
 msgstr "בחר קובץ טורנט"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:459
+#: deluge/ui/gtkui/addtorrentdialog.py:461
 msgid "Torrent files"
 msgstr "קבצי טורנט"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:463
+#: deluge/ui/gtkui/addtorrentdialog.py:465
 msgid "All files"
 msgstr "כל הקבצים"
 
-#: deluge/ui/gtkui/notification.py:74
-msgid "Torrent complete"
-msgstr "התטורנט הושלם"
+#: deluge/ui/gtkui/peers_tab.py:91
+msgid "Address"
+msgstr "כתובת"
 
-#: deluge/ui/gtkui/notification.py:75
-#, python-format
-msgid "Including %i files"
-msgstr "כולל %i קבצים"
-
-#: deluge/ui/gtkui/notification.py:102
-#, python-format
-msgid "Finished torrent %s"
-msgstr "טורנט שהסתיים %s"
-
-#: deluge/ui/gtkui/notification.py:104
-#, python-format
-msgid ""
-"which includes %i files.\n"
-"To stop receiving these alerts, simply turn off email notification in "
-"Deluge's preferences.\n"
-"\n"
-"Thank you,\n"
-"Deluge"
-msgstr ""
-"שכולל %i קבצים.\n"
-"כדי להפסיק לקבל הודעות בדואר אלקטרוני, פשוט כבה את אפשרות זו בהעדפות של "
-"Deluge.\n"
-"\n"
-"בברכה,\n"
-"Deluge"
-
-#: deluge/ui/gtkui/notification.py:103
-#, python-format
-msgid "This email is to inform you that Deluge has finished downloading %s "
-msgstr "הדואר הזה נועד להודיעה לך על כך ש-Deluge סיים את הורדת %s "
+#: deluge/ui/gtkui/peers_tab.py:107
+msgid "Client"
+msgstr "תוכנה"
 
 #: deluge/ui/gtkui/menubar.py:77
 msgid "Set Unlimited"
@@ -1075,58 +965,79 @@ msgstr "אחר..."
 msgid "On"
 msgstr "פועל"
 
-#: deluge/ui/gtkui/menubar.py:336
+#: deluge/ui/gtkui/menubar.py:328
 msgid "Choose a directory to move files to"
 msgstr "בחרו בתיקייה שיועברו עליה הקבצים"
 
-#: deluge/ui/gtkui/menubar.py:445
+#: deluge/ui/gtkui/menubar.py:437
 msgid "Set Max Download Speed (KiB/s):"
 msgstr "קבע מהירות הורדה מקסימלית (KiB/s):"
 
-#: deluge/ui/gtkui/menubar.py:447
+#: deluge/ui/gtkui/menubar.py:439
 msgid "Set Max Upload Speed (KiB/s):"
 msgstr "קבע מהירות העלאה מקסימלית (KiB/s):"
 
-#: deluge/ui/gtkui/menubar.py:449
+#: deluge/ui/gtkui/menubar.py:441
 msgid "Set Max Connections:"
 msgstr "קבע חיבורים מקסימליים:"
 
-#: deluge/ui/gtkui/menubar.py:451
+#: deluge/ui/gtkui/menubar.py:443
 msgid "Set Max Upload Slots:"
 msgstr "קבע מספר נקודות העלאה מקסימלי:"
+
+#: deluge/ui/gtkui/sidebar.py:56
+msgid "All"
+msgstr "הכל"
+
+#: deluge/ui/gtkui/sidebar.py:57
+msgid "Downloading"
+msgstr "מוריד"
+
+#: deluge/ui/gtkui/sidebar.py:60
+msgid "Seeding"
+msgstr "משתף"
+
+#: deluge/ui/gtkui/sidebar.py:63
+msgid "Queued"
+msgstr "ממתין"
+
+#: deluge/ui/gtkui/sidebar.py:66
+msgid "Paused"
+msgstr "מושהה"
+
+#: deluge/ui/gtkui/sidebar.py:72
+msgid "Checking"
+msgstr "בודק"
+
+#: deluge/ui/gtkui/sidebar.py:76 deluge/plugins/label/label/webui_config.py:46
+#: deluge/plugins/label/label/gtkui.py:323
+msgid "Labels"
+msgstr "תויות"
 
 #: deluge/ui/gtkui/systemtray.py:196
 msgid "Deluge"
 msgstr "Deluge"
 
-#: deluge/ui/gtkui/systemtray.py:196
-msgid "Down"
-msgstr "למטה"
-
-#: deluge/ui/gtkui/systemtray.py:197
-msgid "Up"
-msgstr "למעלה"
-
 #: deluge/ui/gtkui/systemtray.py:209 deluge/ui/gtkui/systemtray.py:215
-#: deluge/ui/gtkui/systemtray.py:339 deluge/ui/gtkui/statusbar.py:329
+#: deluge/ui/gtkui/systemtray.py:321 deluge/ui/gtkui/statusbar.py:329
 #: deluge/ui/gtkui/statusbar.py:339 deluge/ui/gtkui/statusbar.py:352
 #: deluge/ui/gtkui/statusbar.py:380
-#: deluge/ui/gtkui/glade/main_window.glade:1727
-#: deluge/ui/gtkui/glade/main_window.glade:1739
+#: deluge/ui/gtkui/glade/main_window.glade:1726
+#: deluge/ui/gtkui/glade/main_window.glade:1738
 msgid "KiB/s"
 msgstr "KiB/s"
 
-#: deluge/ui/gtkui/systemtray.py:343 deluge/ui/gtkui/statusbar.py:363
-#: deluge/ui/gtkui/statusbar.py:392 deluge/ui/gtkui/statusbar.py:420
-#: deluge/common.py:230
+#: deluge/ui/gtkui/systemtray.py:325 deluge/ui/gtkui/statusbar.py:361
+#: deluge/ui/gtkui/statusbar.py:389 deluge/ui/gtkui/statusbar.py:416
+#: deluge/common.py:231 deluge/common.py:232
 msgid "Other..."
 msgstr "אחר...‏"
 
-#: deluge/ui/gtkui/systemtray.py:374
+#: deluge/ui/gtkui/systemtray.py:356
 msgid "Deluge is locked"
 msgstr "התוכנה נעולה"
 
-#: deluge/ui/gtkui/systemtray.py:377
+#: deluge/ui/gtkui/systemtray.py:359
 msgid ""
 "Deluge is password protected.\n"
 "To show the Deluge window, please enter your password"
@@ -1134,7 +1045,7 @@ msgstr ""
 "התוכנה מוגנת בסיסמה.\n"
 "כדי לפתוח את חלון התוכנה עליכם להכניס סיסמה"
 
-#: deluge/ui/gtkui/torrentview.py:176
+#: deluge/ui/gtkui/torrentview.py:163
 msgid "Avail"
 msgstr "זמינות"
 
@@ -1142,9 +1053,9 @@ msgstr "זמינות"
 msgid "Priority"
 msgstr "עדיפות"
 
-#: deluge/ui/gtkui/signals.py:150
+#: deluge/ui/gtkui/signals.py:142
 msgid "Torrent is past stop ratio."
-msgstr ""
+msgstr "טורנט עבר את יחס העצירה"
 
 #: deluge/ui/gtkui/queuedtorrents.py:131
 msgid " Torrents Queued"
@@ -1201,93 +1112,80 @@ msgstr "קצב העלאה"
 msgid "No Incoming Connections!"
 msgstr "אין חיבורים נכנסים"
 
-#: deluge/ui/gtkui/statusbar.py:365
+#: deluge/ui/gtkui/statusbar.py:363
 msgid "Download Speed (KiB/s):"
 msgstr "מהירות הורדה (KiB/s):"
 
-#: deluge/ui/gtkui/statusbar.py:394
+#: deluge/ui/gtkui/statusbar.py:391
 msgid "Upload Speed (KiB/s):"
 msgstr "מהירות העלאה (KiB/s):"
 
-#: deluge/ui/gtkui/statusbar.py:422
+#: deluge/ui/gtkui/statusbar.py:418
 msgid "Connection Limit:"
 msgstr "גבול חיבור:"
 
 #: deluge/ui/gtkui/edittrackersdialog.py:81
 msgid "Tier"
-msgstr ""
+msgstr "שכבה"
 
 #: deluge/common.py:177
 msgid "Activated"
 msgstr "מופעל"
 
-#: deluge/common.py:245
+#: deluge/common.py:247
 #, python-format
 msgid "%s"
 msgstr "%s"
 
-#: deluge/plugins/label/label/webui/config.py:46
-msgid "Labels"
-msgstr "תויות"
+#: deluge/plugins/label/label/gtk_sidebar.py:72
+msgid "Filters"
+msgstr "מסננים"
 
-#: deluge/plugins/label/label/webui/config.py:58
+#: deluge/plugins/label/label/webui_config.py:58
 msgid "Select Label"
 msgstr "בחר תווית"
 
-#: deluge/plugins/label/label/webui/config.py:83
-msgid "Apply Maximum settings on add"
-msgstr "החל הגדרות מקסימליות בהוספה"
-
-#: deluge/plugins/label/label/webui/config.py:88
-msgid "Move completed to"
-msgstr "העבר טורנטים שהושלמו ל"
-
-#: deluge/plugins/label/label/webui/config.py:90
+#: deluge/plugins/label/label/webui_config.py:88
 msgid "Apply"
 msgstr "החל"
 
-#: deluge/plugins/label/label/webui/config.py:101
-#: deluge/plugins/label/label/data/label_options.glade:578
+#: deluge/plugins/label/label/webui_config.py:99
 msgid "Add Label"
 msgstr "הוסף תווית"
 
-#: deluge/plugins/label/label/webui/config.py:126
+#: deluge/plugins/label/label/webui_config.py:108
+#: deluge/plugins/label/label/gtkui.py:104
+#: deluge/plugins/label/label/gtkui.py:272
+#: deluge/plugins/label/label/webui_pages.py:62
+msgid "Label"
+msgstr "תווית"
+
+#: deluge/plugins/label/label/webui_config.py:124
 msgid "Hide filter items with 0 hits"
 msgstr "הסתר סינון פריטים עם 0 התאמות"
 
-#: deluge/plugins/label/label/core.py:193
+#: deluge/plugins/label/label/gtkui.py:319
+msgid "Hide Zero Hits"
+msgstr ""
+
+#: deluge/plugins/label/label/core.py:265
 msgid "Invalid label, valid characters:[a-z0-9_-]"
 msgstr "טקסט לא חוקי. תווים חוקיים: [-_a-z0-9]"
 
-#: deluge/plugins/label/label/core.py:194
+#: deluge/plugins/label/label/core.py:266
 msgid "Empty Label"
 msgstr "תווית ריקה"
 
-#: deluge/plugins/label/label/core.py:195
-msgid "Label already exists"
-msgstr "התווית בר קיימת"
-
-#: deluge/plugins/label/label/core.py:201
-#: deluge/plugins/label/label/core.py:253
-#: deluge/plugins/label/label/core.py:286
+#: deluge/plugins/label/label/core.py:267
+#: deluge/plugins/label/label/core.py:281
+#: deluge/plugins/label/label/core.py:299
+#: deluge/plugins/label/label/core.py:331
 msgid "Unknown Label"
 msgstr "תווית לא ידוע"
 
-#: deluge/plugins/label/label/core.py:287
+#: deluge/plugins/label/label/core.py:332
 msgid "Unknown Torrent"
 msgstr "טורנט לא ידוע"
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:63
-msgid "Label _Options"
-msgstr ""
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:64
-msgid "_Remove Label"
-msgstr ""
-
-#: deluge/plugins/label/label/gtkui/sidebar_menu.py:65
-msgid "_Add Label"
-msgstr ""
 
 #: deluge/plugins/blocklist/blocklist/peerguardian.py:31
 msgid "Invalid leader"
@@ -1368,54 +1266,16 @@ msgstr "לא פעיל"
 msgid "Refresh status"
 msgstr "רענן מצב"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:8
-msgid "Create Torrent"
-msgstr "יצירת טורנט"
+#: deluge/ui/gtkui/glade/connection_manager.glade:10
+#: deluge/ui/gtkui/glade/main_window.glade:398
+#: deluge/ui/gtkui/glade/main_window.glade:399
+msgid "Connection Manager"
+msgstr "מנהל החיבור"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:35
-msgid "<big><b>Create Torrent</b></big>"
-msgstr "<big><b>יצירת טורנט</b></big>"
+#: deluge/ui/gtkui/glade/connection_manager.glade:42
+msgid "<big><b>Connection Manager</b></big>"
+msgstr "<big><b>מנהל החיבור</b></big>"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:118
-#: deluge/ui/gtkui/glade/main_window.glade:20
-msgid "_File"
-msgstr "_קובץ"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:155
-msgid "Fol_der"
-msgstr "תי_קיה"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:195
-msgid "_Remote Path"
-msgstr "נתיב _מרוחק"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:225
-msgid "<b>Files</b>"
-msgstr "<b>קבצים</b>"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:259
-msgid "Save .torrent file as:"
-msgstr "שמירת קובץ ה-.torrent כ:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:300
-msgid "Author:"
-msgstr "יוצר:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:330
-msgid "Comments:"
-msgstr "הערות:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:370
-msgid "Info"
-msgstr "מידע"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:423
-#: deluge/ui/gtkui/glade/edit_trackers.glade:96
-#: deluge/ui/gtkui/glade/torrent_menu.glade:334
-msgid "gtk-go-up"
-msgstr "gtk-go-up"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:435
 #: deluge/ui/gtkui/glade/connection_manager.glade:101
 #: deluge/ui/gtkui/glade/connection_manager.glade:405
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:171
@@ -1423,61 +1283,6 @@ msgstr "gtk-go-up"
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1022
 msgid "gtk-add"
 msgstr "gtk-add"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:450
-#: deluge/ui/gtkui/glade/connection_manager.glade:113
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:94
-#: deluge/ui/gtkui/glade/edit_trackers.glade:137
-msgid "gtk-remove"
-msgstr "gtk-remove"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:465
-#: deluge/ui/gtkui/glade/edit_trackers.glade:152
-#: deluge/ui/gtkui/glade/torrent_menu.glade:344
-msgid "gtk-go-down"
-msgstr "gtk-go-down"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:551
-msgid "Webseeds"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:581
-msgid "Piece Size:"
-msgstr "גודל החלק:"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:622
-msgid "Add this torrent to the session"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:684
-#: deluge/ui/gtkui/glade/connection_manager.glade:392
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3558
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:167
-#: deluge/ui/gtkui/glade/edit_trackers.glade:189
-#: deluge/ui/gtkui/glade/edit_trackers.glade:336
-#: deluge/ui/gtkui/glade/edit_trackers.glade:485
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:121
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1010
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1157
-#: deluge/ui/gtkui/glade/main_window.glade:2317
-#: deluge/plugins/label/label/data/label_options.glade:547
-#: deluge/plugins/label/label/data/label_options.glade:623
-msgid "gtk-cancel"
-msgstr "gtk-cancel"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:709
-msgid "Create _Torrent"
-msgstr "יצירת _טורנט"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:10
-#: deluge/ui/gtkui/glade/main_window.glade:412
-#: deluge/ui/gtkui/glade/main_window.glade:413
-msgid "Connection Manager"
-msgstr "מנהל החיבור"
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:42
-msgid "<big><b>Connection Manager</b></big>"
-msgstr "<big><b>מנהל החיבור</b></big>"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:152
 msgid "_Start local daemon"
@@ -1495,12 +1300,6 @@ msgstr ""
 msgid "Do not show this dialog on start-up"
 msgstr "אל תראה את זה בהפעלה"
 
-#: deluge/ui/gtkui/glade/connection_manager.glade:269
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:154
-#: deluge/ui/gtkui/glade/main_window.glade:2499
-msgid "gtk-close"
-msgstr "gtk-close"
-
 #: deluge/ui/gtkui/glade/connection_manager.glade:285
 msgid "gtk-connect"
 msgstr "gtk-connect"
@@ -1514,12 +1313,11 @@ msgid "Hostname:"
 msgstr "שם מארח:"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:349
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2988
 msgid "Port:"
 msgstr "פתחה:"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:8
-#: deluge/ui/gtkui/glade/main_window.glade:397
+#: deluge/ui/gtkui/glade/main_window.glade:383
 msgid "Preferences"
 msgstr "העדפות"
 
@@ -1531,44 +1329,51 @@ msgstr "<b><i><big>הורדות</big></i></b>"
 msgid "Always show"
 msgstr "הצג תמיד"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:128
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:129
 msgid "Bring the dialog to focus"
 msgstr "התמקד בחלון התוכנה"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:145
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:146
 msgid "<b>Add Torrents Dialog</b>"
 msgstr "<b>אשף הוספת טורנטים</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:225
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:259
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:337
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:184
+msgid "Default download location:"
+msgstr "מיקום הורדה ברירת המחדל:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:197
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:244
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:320
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:413
-#: deluge/ui/gtkui/glade/main_window.glade:1911
 msgid "Select A Folder"
 msgstr "בחר תיקייה"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:285
-msgid "Auto add .torrents from:"
-msgstr "הוסף טורנטים אוטומטית מ:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:300
-msgid "Copy of .torrent files to:"
-msgstr "העתקת קבצי .torrent ל:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:315
-#: deluge/plugins/label/label/data/label_options.glade:413
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:229
 msgid "Move completed to:"
 msgstr "העבר הורדות שהושלמו ל:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:359
-msgid "Download to:"
-msgstr "הורדה אל:"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:270
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:433
+msgid "<b>Download Location</b>"
+msgstr "<b>מיקום ההורדה</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:372
-msgid "<b>Folders</b>"
-msgstr "<b>תיקיות</b>"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:305
+msgid "Save copy of .torrent file:"
+msgstr "שמירת העתק של קובץ הטורנט:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:408
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:343
+msgid "<b>Torrent File Copy</b>"
+msgstr "<b>העתקת קובץ טורנט</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:379
+msgid "Enable Folder:"
+msgstr "הפעל תיקייה:"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:416
+msgid "<b>Auto Add Folder</b>"
+msgstr "<b>הוספת תיקייה אוטומטית</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:452
 msgid ""
 "Full allocation preallocates all of the space that is needed for the torrent "
 "and prevents disk fragmentation"
@@ -1576,140 +1381,119 @@ msgstr ""
 "הקצאה מלאה מקצה מראש את כל הנפח הדרוש להורדת הטורנט ומונעת פיצול "
 "(fragmentaion) מיותר של הכונן."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:409
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:453
 msgid "Use Full Allocation"
 msgstr "השתמש בהקצאה מלאה"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:424
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:468
 msgid "Compact allocation only allocates space as needed"
 msgstr "הקצאה חסכונית מקצה אך ורק את המקום הנדרש"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:443
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:487
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:507
 msgid "<b>Allocation</b>"
 msgstr "<b>הקצאה</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:477
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:521
 msgid "Prioritize first and last pieces of files in torrent"
 msgstr "תעדף את החלקים הראשון והאחרון של הקבצים בטורנט"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:478
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:522
 msgid "Prioritize first and last pieces of torrent"
 msgstr "קבע סדרי עדיפויות לחלקים הראשונים והאחרונים של הטורנט"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:493
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:537
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:304
 msgid "<b>Options</b>"
 msgstr "<b>אפשרויות</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:518
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:562
 msgid "page 6"
 msgstr "עמוד 6"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:548
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:592
 msgid "<b><i><big>Network</big></i></b>"
 msgstr "<b><i><big>רשת</big></i></b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:589
-msgid "Deluge will automatically choose a different port to use every time."
-msgstr "Deluge תבחר אוטומטית פתחה שונה לשימוש בכל פעם."
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:590
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:763
-msgid "Use Random Ports"
-msgstr "שימוש בפורטים אקראיים"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:608
-msgid "Active Port:"
-msgstr "פתחה פעילה:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:620
-msgid "0000"
-msgstr "0000"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:647
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:780
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:629
 msgid "From:"
 msgstr "מ-:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:675
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:808
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:657
 msgid "To:"
 msgstr "ל-:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:707
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:689
 msgid "Test Active Port"
 msgstr "בדוק פורט פעיל"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:731
-msgid "<b>Incoming Ports</b>"
-msgstr "<b>פורטים נכנסים</b>"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:714
+msgid "Deluge will automatically choose a different port to use every time."
+msgstr "Deluge תבחר אוטומטית פתחה שונה לשימוש בכל פעם."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:846
-msgid "<b>Outgoing Ports</b>"
-msgstr "<b>פורטים יוצאים</b>"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:715
+msgid "Use Random Ports"
+msgstr "שימוש בפורטים אקראיים"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:881
-msgid ""
-"The TOS byte set in the IP header of every packet sent to peers (including "
-"web seeds).  Expects a Hex value."
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:733
+msgid "Active Port:"
+msgstr "פתחה פעילה:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:882
-msgid "Peer TOS Byte:"
-msgstr ""
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:745
+msgid "0000"
+msgstr "0000"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:894
-msgid "0x00"
-msgstr "0x00"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:775
+msgid "<b>Ports</b>"
+msgstr "<b>פורט</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:911
-msgid "<b>TOS</b>"
-msgstr "<b>TOS</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:949
-msgid "Universal Plug and Play"
-msgstr "Plug and Play אוניברסלי"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:950
-msgid "UPnP"
-msgstr "UPnP"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:964
-msgid "NAT Port Mapping Protocol"
-msgstr "פרוטוקול מיפוי פתחות NAT"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:981
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:982
-msgid "Peer Exchange"
-msgstr "חילופי מקורות"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:999
-msgid "Local Service Discovery finds local peers on your network."
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1014
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:807
 msgid "Distributed hash table may improve the amount of active connections."
 msgstr "טבלת גיבוב תפוצתית עלולה לשפר את כמות החיבורים הפעילים."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1015
-msgid "DHT"
-msgstr "DHT"
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:808
+msgid "Enable Mainline DHT"
+msgstr "הפעל DHT ראשי"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1035
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:821
+msgid "<b>DHT</b>"
+msgstr "<b>DHT</b>"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:854
+msgid "Universal Plug and Play"
+msgstr "Plug and Play אוניברסלי"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:855
+msgid "UPnP"
+msgstr "UPnP"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:870
+msgid "NAT Port Mapping Protocol"
+msgstr "פרוטוקול מיפוי פתחות NAT"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:887
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:888
+msgid "Peer Exchange"
+msgstr "חילופי מקורות"
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:905
+msgid "Local Service Discovery finds local peers on your network."
+msgstr ""
+
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:923
 msgid "<b>Network Extras</b>"
 msgstr "<b>הרחבות רשת</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1073
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:961
 msgid "Inbound:"
 msgstr "כלפי פנים:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1080
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:968
 msgid "Level:"
 msgstr "רמה:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1099
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1144
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:987
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1032
 msgid ""
 "Forced\n"
 "Enabled\n"
@@ -1719,7 +1503,7 @@ msgstr ""
 "מופעל\n"
 "כבוי"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1107
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:995
 msgid ""
 "Handshake\n"
 "Full Stream\n"
@@ -1729,131 +1513,129 @@ msgstr ""
 "שטף מלא\n"
 "שניהם"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1134
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1022
 msgid "Outbound:"
 msgstr "כלפי חוץ:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1159
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1047
 msgid "Encrypt entire stream"
 msgstr "הצפנת כל הזרם"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1182
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1070
 msgid "<b>Encryption</b>"
 msgstr "<b>הצפנה</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1216
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1098
 msgid "page 7"
 msgstr "עמוד 8"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1247
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1129
 msgid "<b><i><big>Bandwidth</big></i></b>"
 msgstr "<b><i><big>רוחב פס</big></i></b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1322
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1204
 msgid "Maximum Connection Attempts per Second:"
 msgstr "מספר ניסיונות התחברות מקסימלי לשנייה:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1334
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1216
 msgid "Maximum Half-Open Connections:"
 msgstr "מקסימום חיבורים חצי-פתוחים:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1345
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1369
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1435
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1227
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1251
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1317
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr "מהירות העלאה מקסימלית עבור כל הטורנטים. -1 עבור ללא הגבלה."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1347
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1609
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1229
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1491
 msgid "Maximum Upload Speed (KiB/s):"
 msgstr "מהירות העלאה מקסימלית (KiB/s):"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1358
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1383
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1240
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1265
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
 msgstr "מספר החיבורים המקסימלי המותר. -1 עבור מהירות בלתי מוגבלת."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1360
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1572
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1242
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1454
 msgid "Maximum Connections:"
 msgstr "מקסימום חיבורים:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1371
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1583
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1253
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1465
 msgid "Maximum Upload Slots:"
 msgstr "מקסימום נקודות העלאה:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1401
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1416
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1283
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1298
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr "מהירות הורדה מקסימלית עבור כל הטורנטים. -1 עבור ללא הגבלה."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1403
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1596
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1285
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1478
 msgid "Maximum Download Speed (KiB/s):"
 msgstr "מהירות הורדה מקסימלית (KiB/s):"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1454
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1336
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
 msgstr "מספר נקודות העלאה מקסימלי עבור כל הטורנטים. -1 עבור בלתי מוגבל"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1479
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1361
 msgid "Ignore limits on local network"
 msgstr "התעלם מהגבלות ברשת מקומית"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1497
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1379
 msgid "<b>Global Bandwidth Usage</b>"
 msgstr "<b>שימוש כללי בתעבורה</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1536
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1418
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
 msgstr "מקסימום נקודות העלאה לכל טורנט. -1 עבור בלתי מוגבל."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1555
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1621
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1639
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1437
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1503
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1521
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
 msgstr "מספר המקסימלי של חיבורים לכל טורנט. -1 עבור בלתי מוגבל."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1661
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1543
 msgid "<b>Per Torrent Bandwidth Usage</b>"
 msgstr "<b>שימוש בתעבורה לכל טורנט</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1688
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1570
 msgid "page 8"
 msgstr "עמוד 8"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1719
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1601
 msgid "<i><b><big>Interface</big></b></i>"
 msgstr "<i><b><big>מנשק</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1753
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1635
 msgid "Enable system tray icon"
 msgstr "הפעל סמל במגש מערכת"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1768
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1650
 msgid "Minimize to tray on close"
 msgstr "הקטן למגש המערכת בסגירה"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1787
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1669
 msgid "Start in tray"
 msgstr "התחל במגש המערכת"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1808
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1690
 msgid "Password protect system tray"
 msgstr "הגן בסיסמה על הסמל במגש המערכת"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1835
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2964
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3283
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1717
 msgid "Password:"
 msgstr "סיסמה:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1870
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1752
 msgid "<b>System Tray</b>"
 msgstr "<b>מגש מערכת</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1902
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1784
 msgid ""
 "Classic Mode will hide most of the daemon functionality and will make Deluge "
 "appear to be a single application.  Use this if you do not want to take "
@@ -1861,33 +1643,29 @@ msgid ""
 "setting to take effect."
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1914
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1796
 msgid "<b>Classic Mode</b>"
 msgstr "<b>מצב קלאסי</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1940
-msgid "page 10"
-msgstr "עמוד 10"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:1971
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1848
 msgid "<i><b><big>Other</big></b></i>"
 msgstr "<i><b><big>אחר</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2013
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1890
 msgid ""
 "Deluge will check our servers and will tell you if a newer version has been "
 "released"
 msgstr "Deluge יבדוק עכשיו את השרתים ויודיע לכם אם שוחררה גרסה חדשה"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2014
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1891
 msgid "Be alerted about new releases"
 msgstr "הודיעו לי כאשר יש גרסה חדשה"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2033
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1910
 msgid "<b>Updates</b>"
 msgstr "<b>עדכונים</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2069
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1946
 msgid ""
 "Help us improve Deluge by sending us your Python version, PyGTK version, OS "
 "and processor types.  Absolutely no other information is sent."
@@ -1895,210 +1673,96 @@ msgstr ""
 "עזרו לנו להשתפר על ידי שליחת גרסאות ה-Python וה-PyGTK שלכם, מערכת ההפעלה "
 "וסוג המעבד. כמובן ששום מידע נוסף לא נשלח."
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2088
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1965
 msgid "Yes, please send anonymous statistics"
 msgstr "כן, שלח בבקשה סטטיסטיקות אנונימיות"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2107
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:1984
 msgid "<b>System Information</b>"
 msgstr "<b>מידע מערכת</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2134
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2355
-msgid "page 11"
-msgstr "עמוד 11"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2165
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2037
 msgid "<i><b><big>Daemon</big></b></i>"
 msgstr "<i><b><big>שרת</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2207
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2079
 msgid "Daemon port:"
 msgstr "יציאת השרת:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2242
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2114
 msgid "<b>Port</b>"
 msgstr "<b>פורט</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2285
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2157
 msgid "<b>Connections</b>"
 msgstr "<b>חיבורים</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2317
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2189
 msgid "Periodically check the website for new releases"
 msgstr "בדיקה קופתית אחר גרסאות חדשות באתר הבית"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2328
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2200
 msgid "<b>Other</b>"
 msgstr "<b>אחר</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2386
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2253
 msgid "<i><b><big>Queue</big></b></i>"
 msgstr "<i><b><big>רשימת טורנטים</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2442
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3179
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2309
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:810
-#: deluge/ui/gtkui/glade/main_window.glade:2059
+#: deluge/ui/gtkui/glade/main_window.glade:2005
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:89
 msgid "<b>General</b>"
 msgstr "<b>כללי</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2516
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2383
 msgid "Total active seeding:"
 msgstr "סך הכל משתפים פעילים:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2529
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2396
 msgid "Total active:"
 msgstr "סך הכל פעילים:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2558
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2425
 msgid "Total active downloading:"
 msgstr "סך הכל הורדות פעילות:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2572
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2439
 msgid "Do not count slow torrents"
 msgstr "לא לספור טורנטים איטיים"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2588
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2455
 msgid "<b>Active Torrents</b>"
 msgstr "<b>טורנטים פעילים</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2629
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2496
 msgid "Share Ratio Limit:"
 msgstr "גבול יחס שיתוף:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2639
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2506
 msgid "Seed Time Ratio:"
 msgstr "זמן יחס שיתוף:"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2651
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2518
 msgid "Seed Time (m):"
 msgstr "זמן שיתוף (דקות):"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2719
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2586
 msgid "Stop seeding when share ratio reaches:"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2764
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2631
 msgid "Remove torrent when share ratio reached"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2782
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2649
 msgid "<b>Seeding</b>"
 msgstr "<b>משתף</b>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2814
-msgid "page 12"
-msgstr "עמוד 12"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2845
-msgid "<i><b><big>Proxy</big></b></i>"
-msgstr "<i><b><big>שרת פרוקסי</big></b></i>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2922
-msgid ""
-"None\n"
-"Socksv4\n"
-"Socksv5\n"
-"Socksv5 W/ Auth\n"
-"HTTP\n"
-"HTTP W/ Auth"
-msgstr ""
-"ללא\n"
-"Socksv4\n"
-"Socksv5\n"
-"Socksv5 W/ Auth\n"
-"HTTP\n"
-"HTTP W/ Auth"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2940
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:30
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:404
-msgid "Type:"
-msgstr "סוג:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2951
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3308
-msgid "Username:"
-msgstr "שם משתמש:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:2976
-msgid "Host:"
-msgstr "מארח:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3025
-#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:186
-msgid "<b>Settings</b>"
-msgstr "<b>הגדרות</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3075
-msgid "<b><i><big>Notification</big></i></b>"
-msgstr "<b><i><big>התרעות</big></i></b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3119
-msgid "Only OGG and WAV files are supported"
-msgstr "רק קבצי OGG ו-WAV נתמכים"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3120
-msgid "Sound:"
-msgstr "צליל:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3135
-msgid "Popup"
-msgstr "Popup"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3151
-msgid "Blinking tray icon"
-msgstr "הבהוב הסמל במגש המערכת"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3213
-msgid "Security:"
-msgstr "אבטחה:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3229
-msgid "None"
-msgstr "ללא"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3244
-msgid "SSL"
-msgstr "SSL"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3259
-msgid "TLS"
-msgstr "TLS"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3332
-msgid "Server:"
-msgstr "שרת:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3357
-msgid "Address:"
-msgstr "כתובת:"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3399
-msgid "<b>Email</b>"
-msgstr "<b>דואר אלקטרוני</b>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3458
+#: deluge/ui/gtkui/glade/preferences_dialog.glade:2707
 msgid "<i><b><big>Plugins</big></b></i>"
 msgstr "<i><b><big>תוספים</big></b></i>"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3570
-#: deluge/ui/gtkui/glade/main_window.glade:2088
-msgid "gtk-apply"
-msgstr "gtk-apply"
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3585
-#: deluge/ui/gtkui/glade/edit_trackers.glade:201
-#: deluge/ui/gtkui/glade/edit_trackers.glade:350
-#: deluge/ui/gtkui/glade/edit_trackers.glade:499
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:134
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1170
-#: deluge/plugins/label/label/data/label_options.glade:558
-#: deluge/plugins/label/label/data/label_options.glade:634
-msgid "gtk-ok"
-msgstr "gtk-ok"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
 msgid "Queued Torrents"
@@ -2108,37 +1772,33 @@ msgstr "טורנטים בתהליך"
 msgid "<big><b>Add Queued Torrents</b></big>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:106
-msgid "gtk-clear"
-msgstr "gtk-clear"
-
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:127
 msgid "Automatically add torrents on connect"
 msgstr "הוסף טורנטים אוטומטית בהתחברות"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:8
-#: deluge/ui/gtkui/glade/main_window.glade:2158
+#: deluge/ui/gtkui/glade/main_window.glade:2102
 msgid "Remove Torrent?"
 msgstr "להסיר את הטורנט?"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:44
-#: deluge/ui/gtkui/glade/main_window.glade:2194
+#: deluge/ui/gtkui/glade/main_window.glade:2138
 msgid ""
 "<big><b>Are you sure you want to remove the selected torrent?</b></big>"
 msgstr "<big><b>אתה בטוח שברצונך להסיר את הטורנט הנבחר?</b></big>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:95
-#: deluge/ui/gtkui/glade/main_window.glade:2245
+#: deluge/ui/gtkui/glade/main_window.glade:2189
 msgid "<i>The associated .torrent will be deleted!</i>"
 msgstr "<i>קובץ הטורנט הקשור ימחק!</i>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:134
-#: deluge/ui/gtkui/glade/main_window.glade:2284
+#: deluge/ui/gtkui/glade/main_window.glade:2228
 msgid "<i>The downloaded data will be deleted!</i>"
 msgstr "<i>נתוני ההורדה ימחקו!</i>"
 
 #: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:179
-#: deluge/ui/gtkui/glade/main_window.glade:2328
+#: deluge/ui/gtkui/glade/main_window.glade:2272
 msgid "Remove Selected Torrent"
 msgstr "הסרת הטורנט הנבחר"
 
@@ -2220,34 +1880,30 @@ msgstr "<b>טורנטים</b>"
 msgid "Fi_les"
 msgstr "קב_צים"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:433
-msgid "<b>Download Location</b>"
-msgstr "<b>מיקום ההורדה</b>"
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:487
 msgid "Compact"
 msgstr "מצומצמת"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:559
-msgid "Max Down Speed:"
-msgstr "מהירות הורדה מקסימלית:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:571
-msgid "Max Up Speed:"
-msgstr "מהירות העלאה מקסימלית:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:585
-#: deluge/ui/gtkui/glade/main_window.glade:1691
-msgid "Max Connections:"
-msgstr "מספר חיבורים מקסימלי:"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:599
-#: deluge/ui/gtkui/glade/main_window.glade:1754
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:596
+#: deluge/ui/gtkui/glade/main_window.glade:1753
 msgid "Max Upload Slots:"
 msgstr "מקסימום נקודות העלאה:"
 
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:610
+#: deluge/ui/gtkui/glade/main_window.glade:1690
+msgid "Max Connections:"
+msgstr "מספר חיבורים מקסימלי:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:624
+msgid "Max Up Speed:"
+msgstr "מהירות העלאה מקסימלית:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:638
+msgid "Max Down Speed:"
+msgstr "מהירות הורדה מקסימלית:"
+
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
-#: deluge/ui/gtkui/glade/main_window.glade:1787
+#: deluge/ui/gtkui/glade/main_window.glade:1786
 msgid "<b>Bandwidth</b>"
 msgstr "<b>רוחב פס</b>"
 
@@ -2259,9 +1915,14 @@ msgstr "הוסף _במצב מושהה"
 msgid "Prioritize First/Last Pieces"
 msgstr ""
 
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:735
+#: deluge/ui/gtkui/glade/main_window.glade:1933
+msgid "Private"
+msgstr "פרטי"
+
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:777
 #: deluge/ui/gtkui/glade/torrent_menu.glade:130
-#: deluge/ui/gtkui/glade/main_window.glade:2034
+#: deluge/ui/gtkui/glade/main_window.glade:1980
 msgid "_Edit Trackers"
 msgstr "_ערוך טראקרים"
 
@@ -2274,7 +1935,7 @@ msgid "Apply To All"
 msgstr "החל להכל"
 
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:968
-#: deluge/ui/gtkui/glade/main_window.glade:2138
+#: deluge/ui/gtkui/glade/main_window.glade:2082
 msgid "_Options"
 msgstr "_אפשרויות"
 
@@ -2362,14 +2023,6 @@ msgstr "גבול _נקודות העלאה"
 msgid "_Auto Managed"
 msgstr "מנוהל _אוטומטית"
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:324
-msgid "gtk-goto-top"
-msgstr "gtk-goto-top"
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:354
-msgid "gtk-goto-bottom"
-msgstr "gtk-goto-bottom"
-
 #: deluge/ui/gtkui/glade/tray_menu.glade:12
 msgid "_Show Deluge"
 msgstr "_הצג"
@@ -2388,7 +2041,7 @@ msgid "_Resume All"
 msgstr "_הפעל מחדש הכל"
 
 #: deluge/ui/gtkui/glade/tray_menu.glade:124
-#: deluge/ui/gtkui/glade/main_window.glade:61
+#: deluge/ui/gtkui/glade/main_window.glade:47
 msgid "Quit & Shutdown Daemon"
 msgstr "יצאה & כיבוי השרת"
 
@@ -2396,105 +2049,85 @@ msgstr "יצאה & כיבוי השרת"
 msgid "_Quit"
 msgstr "_סיים"
 
-#: deluge/ui/gtkui/glade/file_tab_menu.glade:12
-msgid "Select All"
-msgstr "בחר הכל"
+#: deluge/ui/gtkui/glade/main_window.glade:20
+msgid "_File"
+msgstr "_קובץ"
 
-#: deluge/ui/gtkui/glade/file_tab_menu.glade:33
-msgid "Unselect All"
-msgstr "בטל סימון"
-
-#: deluge/ui/gtkui/glade/file_tab_menu.glade:60
-msgid "Check Selected"
-msgstr "סימון הניבחר"
-
-#: deluge/ui/gtkui/glade/file_tab_menu.glade:81
-msgid "Uncheck Selected"
-msgstr "בטל סימון נבחר"
-
-#: deluge/ui/gtkui/glade/main_window.glade:43
-msgid "_Create Torrent"
-msgstr "י_צרת טורנט"
-
-#: deluge/ui/gtkui/glade/main_window.glade:93
+#: deluge/ui/gtkui/glade/main_window.glade:79
 msgid "_Edit"
 msgstr "_עריכה"
 
-#: deluge/ui/gtkui/glade/main_window.glade:111
+#: deluge/ui/gtkui/glade/main_window.glade:97
 msgid "_Connection Manager"
 msgstr "מנהל _החיבור"
 
-#: deluge/ui/gtkui/glade/main_window.glade:128
+#: deluge/ui/gtkui/glade/main_window.glade:114
 msgid "_Torrent"
 msgstr "_טורנט"
 
-#: deluge/ui/gtkui/glade/main_window.glade:135
+#: deluge/ui/gtkui/glade/main_window.glade:121
 msgid "_View"
 msgstr "_הצגה"
 
-#: deluge/ui/gtkui/glade/main_window.glade:143
+#: deluge/ui/gtkui/glade/main_window.glade:129
 msgid "_Toolbar"
 msgstr "_סרגל כלים"
 
-#: deluge/ui/gtkui/glade/main_window.glade:153
-msgid "_Sidebar"
-msgstr "סרגל _צד"
+#: deluge/ui/gtkui/glade/main_window.glade:139
+msgid "_Labels"
+msgstr "_תוויות"
 
-#: deluge/ui/gtkui/glade/main_window.glade:162
+#: deluge/ui/gtkui/glade/main_window.glade:148
 msgid "Status_bar"
 msgstr "_שורת מצב"
 
-#: deluge/ui/gtkui/glade/main_window.glade:176
+#: deluge/ui/gtkui/glade/main_window.glade:162
 msgid "T_abs"
 msgstr "ל_שוניות"
 
-#: deluge/ui/gtkui/glade/main_window.glade:183
+#: deluge/ui/gtkui/glade/main_window.glade:169
 msgid "_Columns"
 msgstr "_עמודות"
 
-#: deluge/ui/gtkui/glade/main_window.glade:194
+#: deluge/ui/gtkui/glade/main_window.glade:180
 msgid "_Help"
 msgstr "_עזרה"
 
-#: deluge/ui/gtkui/glade/main_window.glade:202
+#: deluge/ui/gtkui/glade/main_window.glade:188
 msgid "Homepage"
 msgstr "אתר הבית"
 
-#: deluge/ui/gtkui/glade/main_window.glade:219
+#: deluge/ui/gtkui/glade/main_window.glade:205
 msgid "Frequently Asked Questions"
 msgstr "שאלות נפוצות"
 
-#: deluge/ui/gtkui/glade/main_window.glade:220
+#: deluge/ui/gtkui/glade/main_window.glade:206
 msgid "FAQ"
 msgstr "שאלות נפוצות"
 
-#: deluge/ui/gtkui/glade/main_window.glade:237
+#: deluge/ui/gtkui/glade/main_window.glade:223
 msgid "Community"
 msgstr "קהילה"
 
-#: deluge/ui/gtkui/glade/main_window.glade:297
+#: deluge/ui/gtkui/glade/main_window.glade:283
 msgid "Remove Torrent"
 msgstr "הסר טורנט"
 
-#: deluge/ui/gtkui/glade/main_window.glade:319
+#: deluge/ui/gtkui/glade/main_window.glade:305
 msgid "Pause the selected torrents"
 msgstr "השהה את הטורנטים הנבחרים"
 
-#: deluge/ui/gtkui/glade/main_window.glade:335
+#: deluge/ui/gtkui/glade/main_window.glade:321
 msgid "Resume the selected torrents"
 msgstr "המשך את הטורנטים הנבחרים"
 
-#: deluge/ui/gtkui/glade/main_window.glade:359
+#: deluge/ui/gtkui/glade/main_window.glade:345
 msgid "Queue Torrent Up"
 msgstr "העלה עדיפות"
 
-#: deluge/ui/gtkui/glade/main_window.glade:374
+#: deluge/ui/gtkui/glade/main_window.glade:360
 msgid "Queue Torrent Down"
 msgstr "הורד עדיפות"
-
-#: deluge/ui/gtkui/glade/main_window.glade:515
-msgid "gtk-open"
-msgstr "gtk-open"
 
 #: deluge/ui/gtkui/glade/main_window.glade:529
 msgid "_Expand All"
@@ -2532,68 +2165,68 @@ msgstr "<b>זמן שיתוף:</b>"
 msgid "<b>Active Time:</b>"
 msgstr "<b>זמן פעילות:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:816
+#: deluge/ui/gtkui/glade/main_window.glade:818
 msgid "<b>Tracker Status:</b>"
 msgstr "<b>מצב טראקר:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:847
+#: deluge/ui/gtkui/glade/main_window.glade:849
 msgid "<b>Availability:</b>"
 msgstr "<b>זמינות:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:901
+#: deluge/ui/gtkui/glade/main_window.glade:903
 msgid "<b>Peers:</b>"
 msgstr "<b>מקורות:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:927
+#: deluge/ui/gtkui/glade/main_window.glade:929
 msgid "<b>Seeders:</b>"
 msgstr "<b>משתפים:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:945
+#: deluge/ui/gtkui/glade/main_window.glade:947
 msgid "<b>Pieces:</b>"
 msgstr "<b>חלקים:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:967
+#: deluge/ui/gtkui/glade/main_window.glade:969
 msgid "<b>ETA:</b>"
 msgstr "<b>זמן הורדה משוער:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:989
-#: deluge/ui/gtkui/glade/main_window.glade:1011
+#: deluge/ui/gtkui/glade/main_window.glade:991
+#: deluge/ui/gtkui/glade/main_window.glade:1013
 msgid "<b>Speed:</b>"
 msgstr "<b>מהירות:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1030
+#: deluge/ui/gtkui/glade/main_window.glade:1032
 msgid "<b>Next Announce:</b>"
 msgstr "<b>קריאה הבאה:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1049
+#: deluge/ui/gtkui/glade/main_window.glade:1051
 msgid "<b>Share Ratio:</b>"
 msgstr "<b>יחס שיתוף:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1068
+#: deluge/ui/gtkui/glade/main_window.glade:1070
 msgid "<b>Uploaded:</b>"
 msgstr "<b>הועלה:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1087
+#: deluge/ui/gtkui/glade/main_window.glade:1089
 msgid "<b>Downloaded:</b>"
 msgstr "<b>ירד:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1174
+#: deluge/ui/gtkui/glade/main_window.glade:1176
 msgid "_Statistics"
 msgstr "_סטטיסטיקה"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1245
+#: deluge/ui/gtkui/glade/main_window.glade:1247
 msgid "<b># of files:</b>"
 msgstr "<b># מהקבצים:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1277
+#: deluge/ui/gtkui/glade/main_window.glade:1279
 msgid "<b>Hash:</b>"
 msgstr "<b>גיבוב:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1307
+#: deluge/ui/gtkui/glade/main_window.glade:1308
 msgid "<b>Tracker:</b>"
 msgstr "<b>טראקר:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1327
+#: deluge/ui/gtkui/glade/main_window.glade:1328
 msgid "<b>Total Size:</b>"
 msgstr "<b>גודל כולל:</b>"
 
@@ -2609,137 +2242,62 @@ msgstr "<b>נתיב:</b>"
 msgid "<b>Status:</b>"
 msgstr "<b>מצב:</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1485
+#: deluge/ui/gtkui/glade/main_window.glade:1484
 msgid "_Details"
 msgstr "_פרטים"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1535
+#: deluge/ui/gtkui/glade/main_window.glade:1534
 msgid "_Files"
 msgstr "_קבצים"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1585
+#: deluge/ui/gtkui/glade/main_window.glade:1584
 msgid "_Peers"
 msgstr "_מקורות"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1704
+#: deluge/ui/gtkui/glade/main_window.glade:1703
 msgid "Max Upload Speed:"
 msgstr "מהירות העלאה מקסימלית:"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1717
+#: deluge/ui/gtkui/glade/main_window.glade:1716
 msgid "Max Download Speed:"
 msgstr "מהירות הורדה מקסימלית:"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1837
-#: deluge/plugins/label/label/data/label_options.glade:317
+#: deluge/ui/gtkui/glade/main_window.glade:1836
 msgid "Stop seed at ratio:"
 msgstr "הפסק לשתף כשיחס השיתוף מגיע ל:"
 
-#: deluge/ui/gtkui/glade/main_window.glade:1891
-msgid "Move completed:"
-msgstr "העברת טורנטים שהושלמו:"
-
-#: deluge/ui/gtkui/glade/main_window.glade:1948
+#: deluge/ui/gtkui/glade/main_window.glade:1898
 msgid "<b>Queue</b>"
 msgstr "<b>עדיפות</b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2346
+#: deluge/ui/gtkui/glade/main_window.glade:2290
 msgid "New Release"
 msgstr "גרסה חדשה"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2377
+#: deluge/ui/gtkui/glade/main_window.glade:2321
 msgid "<b><big>New Release Available!</big></b>"
 msgstr "<b><big>גרסה חדשה זמינה!</big></b>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2428
+#: deluge/ui/gtkui/glade/main_window.glade:2372
 msgid "<i>Available Version:</i>"
 msgstr "<i>גרסה זמינה:</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2451
+#: deluge/ui/gtkui/glade/main_window.glade:2395
 msgid "<i>Current Version:</i>"
 msgstr "<i>גרסה נוכחית:</i>"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2473
+#: deluge/ui/gtkui/glade/main_window.glade:2417
 msgid "Do not show this dialog in the future"
 msgstr "אל תציג את החלון שוב בעתיד"
 
-#: deluge/ui/gtkui/glade/main_window.glade:2513
+#: deluge/ui/gtkui/glade/main_window.glade:2457
 msgid "_Goto Website"
 msgstr "_עבור לאתר הבית"
 
-#: deluge/plugins/label/label/data/label_pref.glade:22
-msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
-msgstr "<i>השתמש בסרגל הצד כדי להוסיף,לערוך ולמחוק תוויות. </i>\n"
-
-#: deluge/plugins/label/label/data/label_pref.glade:32
-msgid "<b>Labels</b>"
-msgstr "<b>תוויות</b>"
-
-#: deluge/plugins/label/label/data/label_options.glade:7
-msgid "Label Options"
-msgstr "אפשרויות תווית"
-
-#: deluge/plugins/label/label/data/label_options.glade:87
-msgid "Connections:"
-msgstr "חיבורים:"
-
-#: deluge/plugins/label/label/data/label_options.glade:115
-#: deluge/plugins/label/label/data/label_options.glade:180
-msgid "Kib/s"
-msgstr "Kib/s"
-
-#: deluge/plugins/label/label/data/label_options.glade:130
-msgid "Download Speed:"
-msgstr "מהירות הורדה:"
-
-#: deluge/plugins/label/label/data/label_options.glade:142
-msgid "Upload Speed:"
-msgstr "מהירות העלאה:"
-
-#: deluge/plugins/label/label/data/label_options.glade:155
-msgid "Upload Slots:\t"
-msgstr "נקודות העלאה:\t"
-
-#: deluge/plugins/label/label/data/label_options.glade:222
-msgid "Apply per torrent max settings:"
-msgstr ""
-
-#: deluge/plugins/label/label/data/label_options.glade:235
-msgid "Maximum"
-msgstr "מקסימום"
-
-#: deluge/plugins/label/label/data/label_options.glade:361
-msgid "Apply Queue settings:"
-msgstr ""
-
-#: deluge/plugins/label/label/data/label_options.glade:443
-msgid "Apply location settings:"
-msgstr "החל הגדרות מיקום:"
-
-#: deluge/plugins/label/label/data/label_options.glade:459
-msgid "Location"
-msgstr "מיקום"
-
-#: deluge/plugins/label/label/data/label_options.glade:483
-msgid ""
-"tracker1.org\n"
-"tracker2.com\n"
-"this doesn't do anything yet..\n"
-msgstr ""
-"tracker1.org\n"
-"tracker2.com\n"
-"זה לא אומר לעשות כלום עדיין.\n"
-
-#: deluge/plugins/label/label/data/label_options.glade:492
-msgid "<i>(1 line per tracker)</i>"
-msgstr "<i>(שורה אחת לכל טקראקר)</i>"
-
-#: deluge/plugins/label/label/data/label_options.glade:508
-msgid "Automatically apply label:"
-msgstr "החל תווית אוטומטית:"
-
-#: deluge/plugins/label/label/data/label_options.glade:593
-msgid "<b>Label name:</b>"
-msgstr "<b>שם התוית:</b>"
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:30
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:404
+msgid "Type:"
+msgstr "סוג:"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:125
 msgid "Days"
@@ -2752,6 +2310,10 @@ msgstr "חפש רשימה חדשה כל:"
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:168
 msgid "Import blocklist on startup"
 msgstr "ייבא רשימת חסומים עם ההפעלה"
+
+#: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:186
+msgid "<b>Settings</b>"
+msgstr "<b>הגדרות</b>"
 
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:218
 msgid "Download the blocklist file if necessary and import the file."
