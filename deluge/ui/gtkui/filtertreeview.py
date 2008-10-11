@@ -40,6 +40,7 @@ import deluge.component as component
 import deluge.common
 from deluge.log import LOG as log
 from deluge.ui.client import aclient
+from deluge.configmanager import ConfigManager
 
 STATE_PIX = {
     "Downloading":"downloading",
@@ -74,7 +75,9 @@ class FilterTreeView(component.Component):
         self.hpaned = glade.get_widget("hpaned")
         self.scrolled = glade.get_widget("scrolledwindow_sidebar")
         self.sidebar = component.get("SideBar")
-        self.is_visible = True
+        self.config = ConfigManager("gtkui.conf")
+
+
         self.filters = {}
         self.label_view = gtk.TreeView()
         self.sidebar.add_tab(self.label_view, "filters", _("Filters"))
@@ -248,7 +251,13 @@ class FilterTreeView(component.Component):
 
     def update(self):
         try:
-            aclient.get_filter_tree(self.cb_update_filter_tree)
+            log.debug("--")
+            log.debug(self.config["sidebar_show_trackers"])
+            log.debug(self.config["sidebar_hide_zero"])
+            hide_cat = []
+            if not self.config["sidebar_show_trackers"]:
+                hide_cat = ["tracker_host"]
+            aclient.get_filter_tree(self.cb_update_filter_tree, self.config["sidebar_hide_zero"], hide_cat)
         except Exception, e:
             log.debug(e)
 

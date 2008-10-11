@@ -108,6 +108,11 @@ class MenuBar(component.Component):
             self.config["show_sidebar"])
         self.window.main_glade.get_widget("menuitem_statusbar").set_active(
             self.config["show_statusbar"])
+        self.window.main_glade.get_widget("sidebar_hide_zero").set_active(
+            self.config["sidebar_hide_zero"])
+        self.window.main_glade.get_widget("sidebar_show_trackers").set_active(
+            self.config["sidebar_show_trackers"])
+
 
         ### Connect Signals ###
         self.window.main_glade.signal_autoconnect({
@@ -136,7 +141,9 @@ class MenuBar(component.Component):
             "on_menuitem_faq_activate": self.on_menuitem_faq_activate,
             "on_menuitem_community_activate": \
                 self.on_menuitem_community_activate,
-            "on_menuitem_about_activate": self.on_menuitem_about_activate
+            "on_menuitem_about_activate": self.on_menuitem_about_activate,
+            "on_menuitem_sidebar_zero_toggled":self.on_menuitem_sidebar_zero_toggled,
+            "on_menuitem_sidebar_trackers_toggled":self.on_menuitem_sidebar_trackers_toggled
         })
 
         self.torrentmenu_glade.signal_autoconnect({
@@ -162,8 +169,7 @@ class MenuBar(component.Component):
             "on_menuitem_queue_top_activate": self.on_menuitem_queue_top_activate,
             "on_menuitem_queue_up_activate": self.on_menuitem_queue_up_activate,
             "on_menuitem_queue_down_activate": self.on_menuitem_queue_down_activate,
-            "on_menuitem_queue_bottom_activate": self.on_menuitem_queue_bottom_activate,
-
+            "on_menuitem_queue_bottom_activate": self.on_menuitem_queue_bottom_activate
         })
 
         self.change_sensitivity = [
@@ -475,3 +481,9 @@ class MenuBar(component.Component):
     def on_menuitem_set_automanaged_off(self, widget):
         for torrent in component.get("TorrentView").get_selected_torrents():
             client.set_torrent_auto_managed(torrent, False)
+
+    def on_menuitem_sidebar_zero_toggled(self, widget):
+        self.config["sidebar_hide_zero"] = widget.get_active()
+
+    def on_menuitem_sidebar_trackers_toggled(self, widget):
+        self.config["sidebar_show_trackers"] = widget.get_active()

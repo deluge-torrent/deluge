@@ -112,7 +112,9 @@ DEFAULT_PREFS = {
     "signal_port": 40000,
     "show_sidebar": True,
     "show_toolbar": True,
-    "show_statusbar": True
+    "show_statusbar": True,
+    "sidebar_hide_zero":False,
+    "sidebar_show_trackers":True
 }
 
 class GtkUI:
@@ -198,7 +200,7 @@ class GtkUI:
 
         # Start the signal receiver
         self.signal_receiver = Signals()
-        
+
         # Initialize various components of the gtkui
         self.mainwindow = MainWindow()
         self.menubar = MenuBar()
