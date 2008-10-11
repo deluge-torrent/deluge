@@ -125,8 +125,8 @@ if windows_check():
         'boost_system-vc71-mt-1_35',
         'boost_thread-vc71-mt-1_35',
         'gdi32',
-        'libeay32',
-        'ssleay32',
+        'libeay32MT',
+        'ssleay32MT',
         'ws2_32',
         'wsock32',
         'zlib'
