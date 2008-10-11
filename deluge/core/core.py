@@ -494,12 +494,12 @@ class Core(
         # Emit the torrent_status signal to the clients
         return status_dict
 
-    def export_get_filter_tree(self , hide_zero_hits=False, hide_cat=None):
+    def export_get_filter_tree(self , show_zero_hits=True, hide_cat=None):
         """
         returns {field: [(value,count)] }
         for use in sidebar(s)
         """
-        return self.filtermanager.get_filter_tree(hide_zero_hits, hide_cat)
+        return self.filtermanager.get_filter_tree(show_zero_hits, hide_cat)
 
     def export_get_session_state(self):
         """Returns a list of torrent_ids in the session."""

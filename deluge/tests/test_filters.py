@@ -49,8 +49,8 @@ for field, items in sclient.get_filter_tree().iteritems():
     for value, count in items:
         print "-",value,count
 
-print "#tree: Hide_zero"
-for field, items in sclient.get_filter_tree(True).iteritems():
+print "#tree: Hide_zero (show=False)"
+for field, items in sclient.get_filter_tree(False).iteritems():
     print "*",field
     for value, count in items:
         print "-",value,count

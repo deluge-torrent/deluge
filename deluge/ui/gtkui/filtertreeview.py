@@ -251,13 +251,10 @@ class FilterTreeView(component.Component):
 
     def update(self):
         try:
-            log.debug("--")
-            log.debug(self.config["sidebar_show_trackers"])
-            log.debug(self.config["sidebar_hide_zero"])
             hide_cat = []
             if not self.config["sidebar_show_trackers"]:
                 hide_cat = ["tracker_host"]
-            aclient.get_filter_tree(self.cb_update_filter_tree, self.config["sidebar_hide_zero"], hide_cat)
+            aclient.get_filter_tree(self.cb_update_filter_tree, self.config["sidebar_show_zero"], hide_cat)
         except Exception, e:
             log.debug(e)
 

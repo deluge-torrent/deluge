@@ -113,7 +113,7 @@ DEFAULT_PREFS = {
     "show_sidebar": True,
     "show_toolbar": True,
     "show_statusbar": True,
-    "sidebar_hide_zero":False,
+    "sidebar_show_zero":True,
     "sidebar_show_trackers":True
 }
 

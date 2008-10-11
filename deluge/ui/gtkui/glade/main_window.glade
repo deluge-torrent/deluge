@@ -195,9 +195,9 @@
                             <property name="visible">True</property>
                             <property name="no_show_all">True</property>
                             <child>
-                              <widget class="GtkCheckMenuItem" id="sidebar_hide_zero">
+                              <widget class="GtkCheckMenuItem" id="sidebar_show_zero">
                                 <property name="visible">True</property>
-                                <property name="label" translatable="yes">_Hide zero hits</property>
+                                <property name="label" translatable="yes">Show _zero hits</property>
                                 <property name="use_underline">True</property>
                                 <property name="active">True</property>
                                 <signal name="toggled" handler="on_menuitem_sidebar_zero_toggled"/>
@@ -206,7 +206,7 @@
                             <child>
                               <widget class="GtkCheckMenuItem" id="sidebar_show_trackers">
                                 <property name="visible">True</property>
-                                <property name="label" translatable="yes">Show Trackers</property>
+                                <property name="label" translatable="yes">Show _Trackers</property>
                                 <property name="use_underline">True</property>
                                 <property name="active">True</property>
                                 <signal name="toggled" handler="on_menuitem_sidebar_trackers_toggled"/>

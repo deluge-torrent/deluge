@@ -117,7 +117,7 @@ class FilterManager(component.Component):
 
         return torrent_ids
 
-    def get_filter_tree(self, hide_zero_hits=False, hide_cat=None):
+    def get_filter_tree(self, show_zero_hits=True, hide_cat=None):
         """
         returns {field: [(value,count)] }
         for use in sidebar.
@@ -138,7 +138,7 @@ class FilterManager(component.Component):
                 value = status[field]
                 items[field][value] = items[field].get(value, 0) + 1
 
-        if "state" in tree_keys and hide_zero_hits:
+        if "state" in tree_keys and not show_zero_hits:
             self._hide_state_items(items["state"])
 
         #return a dict of tuples:
@@ -177,7 +177,7 @@ class FilterManager(component.Component):
     def filter_state_active(self, torrent_ids):
         get_status = self.core.export_get_torrent_status
         for torrent_id in list(torrent_ids):
-            status = get_status(torrent_id, ["download_payload_rate","upload_payload_rate"])
+            status = get_status(torrent_id, ["download_payload_rate", "upload_payload_rate"])
             if status["download_payload_rate"] or status["upload_payload_rate"]:
                 pass #ok
             else:
@@ -185,7 +185,7 @@ class FilterManager(component.Component):
         return torrent_ids
 
     def _hide_state_items(self, state_items):
-        "for hide_zero hits"
+        "for hide(show)-zero hits"
         for (value, count)  in state_items.items():
             if value != "All" and count == 0:
                 del state_items[value]

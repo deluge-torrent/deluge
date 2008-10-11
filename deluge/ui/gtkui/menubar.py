@@ -108,8 +108,8 @@ class MenuBar(component.Component):
             self.config["show_sidebar"])
         self.window.main_glade.get_widget("menuitem_statusbar").set_active(
             self.config["show_statusbar"])
-        self.window.main_glade.get_widget("sidebar_hide_zero").set_active(
-            self.config["sidebar_hide_zero"])
+        self.window.main_glade.get_widget("sidebar_show_zero").set_active(
+            self.config["sidebar_show_zero"])
         self.window.main_glade.get_widget("sidebar_show_trackers").set_active(
             self.config["sidebar_show_trackers"])
 
@@ -483,7 +483,7 @@ class MenuBar(component.Component):
             client.set_torrent_auto_managed(torrent, False)
 
     def on_menuitem_sidebar_zero_toggled(self, widget):
-        self.config["sidebar_hide_zero"] = widget.get_active()
+        self.config["sidebar_show_zero"] = widget.get_active()
 
     def on_menuitem_sidebar_trackers_toggled(self, widget):
         self.config["sidebar_show_trackers"] = widget.get_active()
