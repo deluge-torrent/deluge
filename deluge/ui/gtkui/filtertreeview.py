@@ -123,6 +123,11 @@ class FilterTreeView(component.Component):
         self.hpaned.set_position(170)
         self.label_view.connect("button-press-event", self.on_button_press_event)
 
+        #colors using current theme.
+        style = self.window.window.get_style()
+        self.color_insensitive = style.base[gtk.STATE_INSENSITIVE]
+        self.color_sensitive = style.base[gtk.STATE_NORMAL]
+
         #initial order of state filter:
         self.cat_nodes["state"] = self.treestore.append(None, ["cat", "state", _("State"), 0, None, False])
         self.update_row("state", "All" , 0)
@@ -195,13 +200,13 @@ class FilterTreeView(component.Component):
         else:
             self.renderpix.set_property("visible", False)
 
-        cell.set_property('editable', False)
+        #cell.set_property('editable', False)
         if cat == "cat":
             txt = label
-            col = gtk.gdk.color_parse('#EEEEEE')
+            col = self.color_insensitive
         else:
             txt = "%s (%s)"  % (label, count)
-            col = gtk.gdk.color_parse('white')
+            col = self.color_sensitive
 
         cell.set_property('text', txt)
         cell.set_property("cell-background-gdk",col)

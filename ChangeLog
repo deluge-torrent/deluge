@@ -13,6 +13,7 @@ Deluge 1.1.0 - "" (In Development)
   * Remove dependency on libtorrent for add torrent dialog
   * Allow adding multiple trackers at once in the edit tracker dialog
   * Implement #28 Create Torrent Dialog
+  * Redesiged sidebar with filters for Active and Tracker (see FilterManager)
 
  WebUi
   * All details tabs have the same features as gtk-ui.
