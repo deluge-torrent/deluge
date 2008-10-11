@@ -86,8 +86,8 @@ class FilterManager(component.Component):
             return torrent_ids
 
         #special purpose: state=Active.
-        if "state" in filter_dict and "Traffic" in filter_dict["state"]:
-            filter_dict["state"].remove("Traffic")
+        if "state" in filter_dict and "Active" in filter_dict["state"]:
+            filter_dict["state"].remove("Active")
             if not filter_dict["state"]:
                 del filter_dict["state"]
             torrent_ids = self.filter_state_active(torrent_ids)
@@ -147,7 +147,7 @@ class FilterManager(component.Component):
             "Checking":0,
             "Queued":0,
             "Error":0,
-            "Traffic":len(self.filter_state_active(self.torrents.get_torrent_list()))
+            "Active":len(self.filter_state_active(self.torrents.get_torrent_list()))
             }
 
     def register_filter(self, id, filter_func, filter_value = None):

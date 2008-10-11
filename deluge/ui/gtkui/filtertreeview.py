@@ -50,6 +50,21 @@ STATE_PIX = {
     "Error":"alert"
     }
 
+
+TRANSLATE = {
+    "state":"State",
+    "tracker_host":"Tracker",
+    "label":"Label"
+}
+
+FILTER_COLUMN = 5
+
+def _t(text):
+    if text in TRANSLATE:
+        text = TRANSLATE[text]
+    return _(text)
+
+
 #sidebar-treeview
 class FilterTreeView(component.Component):
     def __init__(self):
@@ -77,8 +92,8 @@ class FilterTreeView(component.Component):
         self.default_menu_items = self.menu.get_children()
 
         # Create the liststore
-        #cat,value,count , pixmap , visible
-        self.treestore = gtk.TreeStore(str, str, int, gtk.gdk.Pixbuf, bool)
+        #cat, value, label, count, pixmap, visible
+        self.treestore = gtk.TreeStore(str, str,str, int, gtk.gdk.Pixbuf, bool)
 
         #add Cat nodes:
         self.cat_nodes = {}
@@ -89,7 +104,7 @@ class FilterTreeView(component.Component):
         render = gtk.CellRendererPixbuf()
         self.renderpix = render
         column.pack_start(render, expand=False)
-        column.add_attribute(render, 'pixbuf', 3)
+        column.add_attribute(render, 'pixbuf', 4)
         render = gtk.CellRendererText()
         column.pack_start(render, expand=False)
         column.set_cell_data_func(render, self.render_cell_data,None)
@@ -108,16 +123,26 @@ class FilterTreeView(component.Component):
         self.hpaned.set_position(170)
         self.label_view.connect("button-press-event", self.on_button_press_event)
 
+        #initial order of state filter:
+        self.cat_nodes["state"] = self.treestore.append(None, ["cat", "state", _("State"), 0, None, False])
+        self.update_row("state", "All" , 0)
+        self.update_row("state", "Downloading" , 0)
+        self.update_row("state", "Seeding" , 0)
+        self.update_row("state", "Active" , 0)
+        self.update_row("state", "Paused" , 0)
+        self.update_row("state", "Queued" , 0)
+
+
     def create_model_filter(self):
         self.model_filter = self.treestore.filter_new()
-        self.model_filter.set_visible_column(4)
+        self.model_filter.set_visible_column(FILTER_COLUMN)
         self.label_view.set_model(self.model_filter)
 
     def cb_update_filter_tree(self, filter_items):
         #create missing cat_nodes
         for cat in filter_items:
             if not cat in self.cat_nodes:
-                self.cat_nodes[cat] = self.treestore.append(None, ["cat", _(cat), 0, None, False])
+                self.cat_nodes[cat] = self.treestore.append(None, ["cat", cat, _t(cat), 0, None, False])
 
         #update rows
         visible_filters = []
@@ -129,14 +154,14 @@ class FilterTreeView(component.Component):
         # hide root-categories not returned by core-part of the plugin.
         for cat in self.cat_nodes:
             if cat in filter_items:
-                self.treestore.set_value(self.cat_nodes[cat], 4, True)
+                self.treestore.set_value(self.cat_nodes[cat], FILTER_COLUMN, True)
             else:
-                self.treestore.set_value(self.cat_nodes[cat], 4, False)
+                self.treestore.set_value(self.cat_nodes[cat], FILTER_COLUMN, False)
 
         # hide items not returned by core-plugin.
         for f in self.filters:
             if not f in visible_filters:
-                self.treestore.set_value(self.filters[f], 4, False)
+                self.treestore.set_value(self.filters[f], FILTER_COLUMN, False)
 
         # obsolete?
         self.label_view.expand_all()
@@ -144,18 +169,26 @@ class FilterTreeView(component.Component):
     def update_row(self, cat, value , count):
         if (cat, value) in self.filters:
             row = self.filters[(cat, value)]
-            self.treestore.set_value(row, 2, count)
+            self.treestore.set_value(row, 3, count)
         else:
             pix = self.get_pixmap(cat, value)
-            row = self.treestore.append(self.cat_nodes[cat],[cat, value, count , pix, True])
+            label = value
+            if cat == "state":
+                label = _(value)
+            row = self.treestore.append(self.cat_nodes[cat],[cat, value, label, count , pix, True])
             self.filters[(cat, value)] = row
-        self.treestore.set_value(row, 4, True)
+        self.treestore.set_value(row, FILTER_COLUMN, True)
 
     def render_cell_data(self, column, cell, model, row, data):
         "cell renderer"
         cat    = model.get_value(row, 0)
         value = model.get_value(row, 1)
-        count = model.get_value(row, 2)
+        label = model.get_value(row, 2)
+        count = model.get_value(row, 3)
+
+        if (label == "") and cat == "label":
+            label = _("no label")
+
 
         if cat == "state":
             self.renderpix.set_property("visible", True)
@@ -164,10 +197,10 @@ class FilterTreeView(component.Component):
 
         cell.set_property('editable', False)
         if cat == "cat":
-            txt = value
+            txt = label
             col = gtk.gdk.color_parse('#EEEEEE')
         else:
-            txt = "%s (%s)"  % (value, count)
+            txt = "%s (%s)"  % (label, count)
             col = gtk.gdk.color_parse('white')
 
         cell.set_property('text', txt)
@@ -234,7 +267,7 @@ class FilterTreeView(component.Component):
             row = self.model_filter.get_iter(path[0])
             self.cat    = self.model_filter.get_value(row, 0)
             self.value = self.model_filter.get_value(row, 1)
-            self.count = self.model_filter.get_value(row, 2)
+            self.count = self.model_filter.get_value(row, 3)
 
             #Show the pop-up menu
             self.set_menu_sensitivity()
