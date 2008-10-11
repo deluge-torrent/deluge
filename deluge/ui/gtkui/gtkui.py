@@ -114,7 +114,7 @@ DEFAULT_PREFS = {
     "show_toolbar": True,
     "show_statusbar": True,
     "sidebar_show_zero":True,
-    "sidebar_show_trackers":True
+    "sidebar_show_trackers":False
 }
 
 class GtkUI:
