@@ -48,7 +48,8 @@ STATE_PIX = {
     "Paused":"inactive",
     "Checking":"checking",
     "Queued":"queued",
-    "Error":"alert"
+    "Error":"alert",
+    "Active":"active"
     }
 
 
