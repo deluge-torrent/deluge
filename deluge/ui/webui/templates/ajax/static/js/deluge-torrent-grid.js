@@ -52,8 +52,8 @@ Deluge.Widgets.TorrentGrid = new Class({
     
     updateTorrents: function(torrents) {
         torrents.each(function(torrent, id) {
-            torrent.queue = (torrent.queue > -1) ? torrent.queue + 1 : ''
-            torrent.icon = this.icons[torrent.state]
+            torrent.queue = (torrent.queue > -1) ? torrent.queue + 1 : '';
+            torrent.icon = this.icons[torrent.state];
             row = {
                 id: id,
                 data: {
@@ -70,16 +70,16 @@ Deluge.Widgets.TorrentGrid = new Class({
                     avail: torrent.distributed_copies.toFixed(3)
                 },
                 torrent: torrent
-            }
+            };
             if (this.has(row.id)) {
                 this.updateRow(row, true);
             } else {
                 this.addRow(row, true);
-            }
+            };
         }, this);
         this.rows.each(function(row) {
             if (!torrents.has(row.id)) {
-                delete this.rows[this.rows.indexOf(row)]
+                delete this.rows[this.rows.indexOf(row)];
             };
         }, this);
         this.render();

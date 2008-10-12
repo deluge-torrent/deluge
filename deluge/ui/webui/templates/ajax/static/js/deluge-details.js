@@ -10,32 +10,32 @@ Deluge.Widgets.Details = new Class({
     Extends: Widgets.Tabs,
     
     initialize: function() {
-        this.parent($$('#details .mooui-tabs')[0])
+        this.parent($$('#details .mooui-tabs')[0]);
         
-        this.statistics = new Deluge.Widgets.StatisticsPage()
-        this.details = new Deluge.Widgets.DetailsPage()
-        this.files = new Deluge.Widgets.FilesPage()
-        this.peers = new Deluge.Widgets.PeersPage()
-        this.options = new Deluge.Widgets.OptionsPage()
+        this.statistics = new Deluge.Widgets.StatisticsPage();
+        this.details = new Deluge.Widgets.DetailsPage();
+        this.files = new Deluge.Widgets.FilesPage();
+        this.peers = new Deluge.Widgets.PeersPage();
+        this.options = new Deluge.Widgets.OptionsPage();
         
-        this.addPage(this.statistics)
-        this.addPage(this.details)
-        this.addPage(this.files)
-        this.addPage(this.peers)
-        this.addPage(this.options)
+        this.addPage(this.statistics);
+        this.addPage(this.details);
+        this.addPage(this.files);
+        this.addPage(this.peers);
+        this.addPage(this.options);
         this.addEvent('pageChanged', function(e) {
             this.update(this.torrentId);
         }.bindWithEvent(this));
-        this.addEvent('resize', this.resized.bindWithEvent(this))
+        this.addEvent('resize', this.resized.bindWithEvent(this));
         
         this.files.addEvent('menuAction', function(e) {
-            files = []
+            files = [];
             this.files.grid.get_selected().each(function(file) {
-                files.push(file.fileIndex)
-            })
-            e.files = files
-            this.fireEvent('filesAction', e)
-        }.bindWithEvent(this))
+                files.push(file.fileIndex);
+            });
+            e.files = files;
+            this.fireEvent('filesAction', e);
+        }.bindWithEvent(this));
     },
     
     keys: {
@@ -47,25 +47,25 @@ Deluge.Widgets.Details = new Class({
     },
     
     update: function(torrentId) {
-        this.torrentId = torrentId
-        if (!this.torrentId) return
+        this.torrentId = torrentId;
+        if (!this.torrentId) return;
         var keys = this.keys[this.currentPage], page = this.pages[this.currentPage];
         Deluge.Client.get_torrent_status(torrentId, keys, {
             onSuccess: function(torrent) {
-                torrent.id = torrentId
-                if (page.update) page.update(torrent)
+                torrent.id = torrentId;
+                if (page.update) page.update(torrent);
             }.bindWithEvent(this)
-        })
+        });
     },
     
     resized: function(event) {
         this.pages.each(function(page) {
-            page.getSizeModifiers()
+            page.getSizeModifiers();
             page.sets({
                 width: event.width - page.element.modifiers.x,
                 height: event.height - page.element.modifiers.y - 28
-            })
-        })
+            });
+        });
     }
 });
 
@@ -132,7 +132,7 @@ Deluge.Widgets.DetailsPage = new Class({
     },
     
     initialize: function() {
-        this.parent('Details')
+        this.parent('Details');
     },
     
     update: function(torrent) {
@@ -144,12 +144,12 @@ Deluge.Widgets.DetailsPage = new Class({
             files: torrent.num_files,
             status: torrent.tracker_status,
             tracker: torrent.tracker
-        }
+        };
         this.element.getElements('dd').each(function(item) {
             item.set('text', data[item.getProperty('class')])
-        }, this)
+        }, this);
     }
-})
+});
 
 Deluge.Widgets.FilesGrid = new Class({
     Extends: Widgets.DataGrid,
@@ -210,7 +210,7 @@ Deluge.Widgets.FilesGrid = new Class({
         this.render()
     },
     
-    update_files: function(torrent) {
+    updateFiles: function(torrent) {
         torrent.files.each(function(file) {
             var p = torrent.file_priorities[file.index]
             var priority = {text:this.priority_texts[p], icon:this.priority_icons[p]}
@@ -297,9 +297,9 @@ Deluge.Widgets.PeersPage = new Class({
     },
     
     initialize: function(el) {
-        this.parent('Peers')
-        this.addEvent('resize', this.resized.bindWithEvent(this))
-        this.addEvent('loaded', this.loaded.bindWithEvent(this))
+        this.parent('Peers');
+        this.addEvent('resize', this.resized.bindWithEvent(this));
+        this.addEvent('loaded', this.loaded.bindWithEvent(this));
     },
     
     loaded: function(event) {
@@ -310,40 +310,40 @@ Deluge.Widgets.PeersPage = new Class({
                 {name: 'client',text: 'Client',type:'text',width: 180},
                 {name: 'downspeed',text: 'Down Speed',type:'speed',width: 100},
                 {name: 'upspeed',text: 'Up Speed',type:'speed',width: 100},
-            ]})
-        this.torrentId = -1
+            ]});
+        this.torrentId = -1;
         if (this.been_resized) {
-            this.resized(this.been_resized)
-            delete this.been_resized
-        }
+            this.resized(this.been_resized);
+            delete this.been_resized;
+        };
     },
     
     resized: function(e) {
         if (!this.grid) {
             this.been_resized = e;
-            return
-        }
+            return;
+        };
         
-        this.element.getPadding()
+        this.element.getPadding();
         this.grid.sets({
             width: e.width - this.element.padding.x,
             height: e.height - this.element.padding.y
-        })
+        });
     },
     
     update: function(torrent) {
         if (this.torrentId != torrent.id) {
-            this.torrentId = torrent.id
-            this.grid.rows.empty()
-            this.grid.body.empty()
+            this.torrentId = torrent.id;
+            this.grid.rows.empty();
+            this.grid.body.empty();
         }
-        var peers = []
+        var peers = [];
         torrent.peers.each(function(peer) {
             if (peer.country.strip() != '') {
                 peer.country = '/pixmaps/flags/' + peer.country.toLowerCase() + '.png'
             } else {
                 peer.country = '/templates/static/images/spacer.gif'
-            }
+            };
             row = {
                 id: peer.ip,
                 data: {
@@ -355,20 +355,20 @@ Deluge.Widgets.PeersPage = new Class({
                     }
                 }
             if (this.grid.has(row.id)) {
-                this.grid.updateRow(row, true)
+                this.grid.updateRow(row, true);
             } else {
-                this.grid.addRow(row, true)
+                this.grid.addRow(row, true);
             }
-            peers.include(peer.ip)
-        }, this)
+            peers.include(peer.ip);
+        }, this);
         
         this.grid.rows.each(function(row) {
             if (!peers.contains(row.id)) {
-                row.element.destroy()
-                this.grid.rows.erase(row)
-            }
-        }, this)
-        this.grid.render()
+                row.element.destroy();
+                this.grid.rows.erase(row);
+            };
+        }, this);
+        this.grid.render();
     }
 });
 
@@ -383,23 +383,23 @@ Deluge.Widgets.OptionsPage = new Class({
         if (!this.element)
             this.parent('Options');
         this.addEvent('loaded', function(event) {
-            this.loaded(event)
-        }.bindWithEvent(this))
+            this.loaded(event);
+        }.bindWithEvent(this));
     },
     
     loaded: function(event) {
         this.bound = {
             apply: this.apply.bindWithEvent(this),
             reset: this.reset.bindWithEvent(this)
-        }
+        };
         this.form = this.element.getElement('form');
-        this.changed = new Hash()
+        this.changed = new Hash();
         this.form.getElements('input').each(function(el) {
             if (el.type == 'button') return;
-            el.focused = false
+            el.focused = false;
             el.addEvent('change', function(e) {
                 if (!this.changed[this.torrentId])
-                    this.changed[this.torrentId] = {}
+                    this.changed[this.torrentId] = {};
                 if (el.type == 'checkbox')
                     this.changed[this.torrentId][el.name] = el.checked;
                 else
@@ -454,42 +454,40 @@ Deluge.Widgets.OptionsPage = new Class({
             }
         });
         
-        
-        
         this.form.apply.addEvent('click', this.bound.apply);
         this.form.reset.addEvent('click', this.bound.reset);
     },
     
     apply: function(event) {
-        if (!this.torrentId) return
-        var changed = this.changed[this.torrentId]
+        if (!this.torrentId) return;
+        var changed = this.changed[this.torrentId];
         if ($defined(changed['is_auto_managed'])) {
-            changed['auto_managed'] = changed['is_auto_managed']
-            delete changed['is_auto_managed']
-        }
+            changed['auto_managed'] = changed['is_auto_managed'];
+            delete changed['is_auto_managed'];
+        };
         Deluge.Client.set_torrent_options(this.torrentId, changed, {
             onSuccess: function(event) {
-                delete this.changed[this.torrentId]
+                delete this.changed[this.torrentId];
             }.bindWithEvent(this)
-        })
+        });
     },
     
     reset: function(event) {
         if (this.torrentId) {
-            delete this.changed[this.torrentId]
+            delete this.changed[this.torrentId];
         }
         Deluge.Client.get_torrent_status(this.torrentId, Deluge.Keys.Options, {
             onSuccess: function(torrent) {
-                torrent.id = this.torrentId
-                this.update(torrent)
+                torrent.id = this.torrentId;
+                this.update(torrent);
             }.bindWithEvent(this)
-        })
+        });
     },
     
     update: function(torrent) {
         this.torrentId = torrent.id;
         $each(torrent, function(value, key) {
-            var changed = this.changed[this.torrentId]
+            var changed = this.changed[this.torrentId];
             if (changed && $defined(changed[key])) return;
             var type = $type(value);
             if (type == 'boolean') {
@@ -505,9 +503,9 @@ Deluge.Widgets.OptionsPage = new Class({
                 };
             };
             if (key == 'private' && value == 0) {
-                this.form[key].disabled = true
-                this.form[key].getParent().addClass('opt-disabled')
-            }
+                this.form[key].disabled = true;
+                this.form[key].getParent().addClass('opt-disabled');
+            };
         }, this);
     }
 });
