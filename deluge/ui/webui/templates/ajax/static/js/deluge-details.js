@@ -30,7 +30,7 @@ Deluge.Widgets.Details = new Class({
         
         this.files.addEvent('menuAction', function(e) {
             files = [];
-            this.files.grid.get_selected().each(function(file) {
+            this.files.grid.getSelected().each(function(file) {
                 files.push(file.fileIndex);
             });
             e.files = files;
@@ -285,7 +285,7 @@ Deluge.Widgets.FilesPage = new Class({
             this.grid.rows.empty()
             this.grid.body.empty()
         }
-        this.grid.update_files(torrent)
+        this.grid.updateFiles(torrent)
     }
 })
 
