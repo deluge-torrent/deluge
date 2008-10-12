@@ -359,14 +359,14 @@ label.fluid {
     margin: 2px;
 }
 
-#details .moouiProgressBar {
+#statistics .moouiProgressBar {
     margin-top: 10px;
     background: #1c2431;
     -moz-border-radius:5px; /*ff only setting*/
 	-webkit-border-radius: 5px;
 }
 
-#details .moouiProgressBar span {
+#statistics .moouiProgressBar span {
     line-height: 20px;
 }
 
