@@ -77,7 +77,21 @@ Deluge.Widgets.StatisticsPage = new Class({
     },
     
     initialize: function() {
-        this.parent('Statistics')
+        this.parent('Statistics');
+        this.addEvent('loaded', this.onLoad.bindWithEvent(this));
+    },
+    
+    onLoad: function(e) {
+        this.bar = new Widgets.ProgressBar();
+        this.bar.element.inject(this.element, 'top');
+        this.bar.set('width', this.getWidth() - 12);
+        this.bar.update('', 0);
+        this.addEvent('resize', this.onResize.bindWithEvent(this));
+    },
+    
+    onResize: function(e) {
+        if (!$defined(this.bar)) return;
+        this.bar.set('width', this.getWidth() - 12);
     },
     
     update: function(torrent) {
@@ -98,15 +112,17 @@ Deluge.Widgets.StatisticsPage = new Class({
             seeding_time: torrent.seeding_time.toTime(),
             seed_rank: torrent.seed_rank
         }
+        var text = torrent.state + ' ' + torrent.progress.toFixed(2) + '%';
+        this.bar.update(text, torrent.progress);
         
         if (torrent.is_auto_managed) {data.auto_managed = 'True'}
-        else {data.auto_managed = 'False'}
+        else {data.auto_managed = 'False'};
         
         this.element.getElements('dd').each(function(item) {
-            item.set('text', data[item.getProperty('class')])
-        }, this)
+            item.set('text', data[item.getProperty('class')]);
+        }, this);
     }
-})
+});
 
 Deluge.Widgets.DetailsPage = new Class({
     Extends: Widgets.TabPage,
