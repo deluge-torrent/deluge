@@ -40,15 +40,15 @@ html, body {
 }
 
 /* The toolbar button icons */
-#toolbar #buttons #create {background-image:url(../../icons/32/new.png)}
-#toolbar #buttons #add {background-image:url(../../icons/32/add.png)}
-#toolbar #buttons #remove {background-image:url(../../icons/32/remove.png)}
-#toolbar #buttons #pause {background-image:url(../../icons/32/pause.png)}
-#toolbar #buttons #resume {background-image:url(../../icons/32/resume.png)}
-#toolbar #buttons #up {background-image:url(../../icons/32/up.png)}
-#toolbar #buttons #down {background-image:url(../../icons/32/down.png)}
-#toolbar #buttons #preferences {background-image:url(../../icons/32/options.png)}
-#toolbar #buttons #connections {background-image:url(../../icons/32/connections.png)}
+#toolbar #buttons #create {background-image:url(template/static/icons/32/new.png)}
+#toolbar #buttons #add {background-image:url(template/static/icons/32/add.png)}
+#toolbar #buttons #remove {background-image:url(template/static/icons/32/remove.png)}
+#toolbar #buttons #pause {background-image:url(template/static/icons/32/pause.png)}
+#toolbar #buttons #resume {background-image:url(template/static/icons/32/resume.png)}
+#toolbar #buttons #up {background-image:url(template/static/icons/32/up.png)}
+#toolbar #buttons #down {background-image:url(template/static/icons/32/down.png)}
+#toolbar #buttons #preferences {background-image:url(template/static/icons/32/options.png)}
+#toolbar #buttons #connections {background-image:url(template/static/icons/32/connections.png)}
 
 /* The icons for the filter states */
 #labels .all { background-image: url('/pixmaps/dht16.png'); }
