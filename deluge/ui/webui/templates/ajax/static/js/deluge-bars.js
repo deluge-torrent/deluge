@@ -13,7 +13,6 @@ Deluge.Widgets.Toolbar = new Class({
     initialize: function() {
         this.parent($('toolbar'))
         this.buttons = this.element.getFirst()
-        this.info = this.element.getLast()
         this.buttons.getElements('li').each(function(el) {
             el.addEvent('click', function(e) {
                 e.action = el.id
