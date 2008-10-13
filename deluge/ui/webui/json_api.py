@@ -267,9 +267,8 @@ class json_rpc:
         
         for torrent in torrents:
             filename = os.path.basename(torrent['path'])
-            log.debug('Adding torrent %s' % filename)
             fdump = open(torrent['path'], 'r').read()
-            aclient.add_torrent_file_binary(filename, fdump, torrent['options'])
+            sclient.add_torrent_file_binary(filename, fdump, torrent['options'])
 
 def register():
     component.get("PageManager").register_page("/json/rpc",json_rpc)
