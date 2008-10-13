@@ -23,15 +23,24 @@ Deluge.Widgets.Toolbar = new Class({
     }
 });
 
+
+/*
+    Class: Deluge.Wdigets.StatusBar
+        Class to manage the bottom status bar
+    
+    Example:
+        status = new Deluge.Widgets.StatusBar();
+    
+    Returns:
+        An instance of the class wrapped about the status div
+*/
 Deluge.Widgets.StatusBar = new Class({
     Extends: Widgets.Base,
     
     initialize: function() {
         this.parent($('status'));
         this.bound = {
-            onConnectionsClick: this.onConnectionsClick.bindWithEvent(this),
-            onUploadClick: this.onUploadClick.bindWithEvent(this),
-            onDownloadClick: this.onDownloadClick.bindWithEvent(this)
+            onContextMenu: this.onContextMenu.bindWithEvent(this)
         };
         
         this.element.getElements('li').each(function(el) {
@@ -39,22 +48,36 @@ Deluge.Widgets.StatusBar = new Class({
         }, this);
         this.incoming_connections.setStyle('display', 'none');
         
-        this.connections.addEvent('contextmenu', this.bound.onConnectionsClick);
-        this.connectionsMenu = new Widgets.PopupMenu();
-        this.connectionsMenu.add(Deluge.Menus.Connections);
-        this.connectionsMenu.addEvent('action', this.onMenuAction);
+        this.connections.addEvent('contextmenu', this.bound.onContextMenu);
+        var menu = new Widgets.PopupMenu();
+        menu.add(Deluge.Menus.Connections);
+        menu.addEvent('action', this.onMenuAction);
+        this.connections.store('menu', menu);
         
-        this.downspeed.addEvent('contextmenu', this.bound.onDownloadClick);
-        this.downloadMenu = new Widgets.PopupMenu();
-        this.downloadMenu.add(Deluge.Menus.Download);
-        this.downloadMenu.addEvent('action', this.onMenuAction);
+        this.downspeed.addEvent('contextmenu', this.bound.onContextMenu);
+        menu = new Widgets.PopupMenu();
+        menu.add(Deluge.Menus.Download);
+        menu.addEvent('action', this.onMenuAction);
+        this.downspeed.store('menu', menu);
         
-        this.upspeed.addEvent('contextmenu', this.bound.onUploadClick);
-        this.uploadMenu = new Widgets.PopupMenu();
-        this.uploadMenu.add(Deluge.Menus.Upload);
-        this.uploadMenu.addEvent('action', this.onMenuAction);
+        this.upspeed.addEvent('contextmenu', this.bound.onContextMenu);
+        menu = new Widgets.PopupMenu();
+        menu.add(Deluge.Menus.Upload);
+        menu.addEvent('action', this.onMenuAction);
+        this.upspeed.store('menu', menu);
     },
     
+    /*
+        Property: update
+            Takes thes stats part of the update_ui rpc call and
+            performs the required changes on the statusbar.
+        
+        Arguments:
+            stats - A dictionary of the returned stats
+        
+        Example:
+            statusbar.update(data['stats']);
+    */
     update: function(stats) {
         this.connections.set('text', stats.num_connections + ' (' + stats.max_num_connections + ')');
         this.downspeed.set('text', stats.download_rate.toSpeed() + ' (' + stats.max_download + ' KiB/s)');
@@ -68,26 +91,42 @@ Deluge.Widgets.StatusBar = new Class({
         }
     },
     
-    onConnectionsClick: function(e) {
+    /*
+        Property: onContextMenu
+            Event handler for when certain parts of the statusbar have been
+            right clicked.
+        
+        Arguments:
+            e - The event args
+        
+        Example:
+            el.addEvent('contextmenu', this.onContextMenu.bindWithEvent(this));
+    */
+    onContextMenu: function(e) {
         e.stop();
-        this.connectionsMenu.show(e);
+        var menu = e.target.retrieve('menu');
+        if (menu) {
+            menu.show(e);
+        };
     },
     
-    onDownloadClick: function(e) {
-        e.stop();
-        this.downloadMenu.show(e);
-    },
-    
-    onUploadClick: function(e) {
-        e.stop();
-        this.uploadMenu.show(e);
-    },
-    
+    /*
+        Property: onMenuAction
+            Event handler for when an item in one of the menus is clicked.
+            Note that it does not need to be bound as it doesn't use `this`
+            anywhere within the method.
+        
+        Arguments:
+            e - The event args
+        
+        Example:
+            menu.addEvent('action', this.onMenuAction);
+    */
     onMenuAction: function(e) {
         if (e.action == 'max_connections') e.action = 'max_connections_global';
-        configDict = {}
-        configDict[e.action] = e.value;
-        Deluge.Client.set_config(configDict);
+        config = {}
+        config[e.action] = e.value;
+        Deluge.Client.set_config(config);
         Deluge.UI.update();
     }
 });
@@ -254,7 +293,7 @@ Deluge.Widgets.LabelSection = new Class({
         
         Example:
             listItem.addEvent('click', this.clicked.bindWithEvent(this));
-    */    
+    */
     clicked: function(e) {
         e.filter = e.target.retrieve('filterName');
         e.name = this.name
