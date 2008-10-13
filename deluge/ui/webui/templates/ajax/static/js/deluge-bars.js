@@ -104,9 +104,7 @@ Deluge.Widgets.StatusBar = new Class({
     onContextMenu: function(e) {
         e.stop();
         var menu = e.target.retrieve('menu');
-        if (menu) {
-            menu.show(e);
-        };
+        if (menu) menu.show(e);
     },
     
     /*
