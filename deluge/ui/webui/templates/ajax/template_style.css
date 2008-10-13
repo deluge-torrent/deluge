@@ -39,6 +39,35 @@ html, body {
 	font-size: 26px;
 }
 
+/* The toolbar button icons */
+#toolbar #buttons #create {background-image:url(../../icons/32/new.png)}
+#toolbar #buttons #add {background-image:url(../../icons/32/add.png)}
+#toolbar #buttons #remove {background-image:url(../../icons/32/remove.png)}
+#toolbar #buttons #pause {background-image:url(../../icons/32/pause.png)}
+#toolbar #buttons #resume {background-image:url(../../icons/32/resume.png)}
+#toolbar #buttons #up {background-image:url(../../icons/32/up.png)}
+#toolbar #buttons #down {background-image:url(../../icons/32/down.png)}
+#toolbar #buttons #preferences {background-image:url(../../icons/32/options.png)}
+#toolbar #buttons #connections {background-image:url(../../icons/32/connections.png)}
+
+/* The icons for the filter states */
+#labels .all { background-image: url('/pixmaps/dht16.png'); }
+#labels .active { background-image: url('/pixmaps/active16.png'); }
+#labels .downloading { background-image: url('/pixmaps/downloading16.png'); }
+#labels .seeding { background-image: url('/pixmaps/seeding16.png'); }
+#labels .queued { background-image: url('/pixmaps/queued16.png'); }
+#labels .paused { background-image: url('/pixmaps/inactive16.png'); }
+#labels .error { background-image: url('/pixmaps/alert16.png'); }
+#labels .checking { background-image: url('/pixmaps/checking16.png'); }
+
+/* The icons for the statusbar */
+#status #info #connections {background-image:url(/static/images/tango/connections.png)}
+#status #info #downspeed {background-image:url(/pixmaps/downloading16.png)}
+#status #info #upspeed {background-image:url(/pixmaps/seeding16.png)}
+#status #info #incoming_connections { background-image: url('/pixmaps/alert16.png'); }
+#status #info #dht {background-image:url(/pixmaps/dht16.png)}
+#status #info #free_space {background-image:url(/static/images/tango/drive-harddisk.png)}
+
 #details {
 	padding: 5px;
 }
