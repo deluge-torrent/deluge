@@ -104,16 +104,6 @@ body {
 	padding: 0;
 }
 
-#labels li:hover { text-decoration: underline; cursor: pointer; }
-
-#labels .activestate {
-	font-weight: bold;
-}
-
-#labels .activestate:hover {
-	text-decoration: none;
-}
-
 .moouiDataGrid {
 	overflow: auto;
 	margin: 5px;
