@@ -178,7 +178,7 @@ def template_get(key):
     val = getattr(web.input(**{key:None}), key)
     if not val:
         val = getcookie(key)
-    return val
+    return val or ""
 
 def id_to_label(text):
     "translated capitalize"

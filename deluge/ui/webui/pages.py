@@ -90,10 +90,9 @@ class index:
     def GET(self, name):
         vars = web.input(sort=None, order=None, filter_cat=None ,filter_value=None , tracker=None)
 
-        #cookies are a delicious delecacy.
         if not vars.sort: #no arguments, default to coockies.
             newvars = cookies()
-            if vars.filter_cat: #i'm doing it wrong :( , but it works..
+            if vars.filter_cat:
                 newvars['filter_cat'] = vars.filter_cat
                 newvars['filter_value'] = vars.filter_value
             vars.update(newvars)
@@ -105,7 +104,7 @@ class index:
 
         #Filters
         filter_dict = {}
-        if vars.filter_cat and vars.filter_value and vars.filter_value <> "All":
+        if vars.filter_cat and vars.filter_value <> "All":
             filter_dict = {vars.filter_cat:vars.filter_value}
 
         torrents =  proxy.get_torrents_status(filter_dict, TORRENT_KEYS)

@@ -44,7 +44,13 @@ $for cat in filter_items.keys():
             <img src="/pixmaps/$(value.lower())"></img>
         $if cat == "tracker_host":
             <img src="http://$value/favicon.ico" width="16" height="16"></img>
-        $value ($count)</a>
+        $if not value:
+            $if cat == "label":
+                $_("No Label") ($count)</a>
+            $else:
+                $_("None") ($count)</a>
+        $else:
+            $value ($count)</a>
         </li>
     </ul>
 </div>
