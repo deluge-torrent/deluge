@@ -19,7 +19,7 @@ Deluge.Widgets.AddWindow = new Class({
         this.parent();
         this.bound = {
             onLoad: this.onLoad.bindWithEvent(this),
-            onSave: this.onSave.bindWithEvent(this),
+            onAdd: this.onAdd.bindWithEvent(this),
             onCancel: this.onCancel.bindWithEvent(this),
             onTorrentAdded: this.onTorrentAdded.bindWithEvent(this),
             onTorrentChanged: this.onTorrentChanged.bindWithEvent(this)
@@ -47,7 +47,7 @@ Deluge.Widgets.AddWindow = new Class({
             this.urlWindow.show();
         }.bindWithEvent(this));
         
-        this.content.getElement('button.save').addEvent('click', this.bound.onSave);
+        this.content.getElement('button.add').addEvent('click', this.bound.onAdd);
         this.content.getElement('button.cancel').addEvent('click', this.bound.onCancel);
     },
     
@@ -65,7 +65,7 @@ Deluge.Widgets.AddWindow = new Class({
         this.filesTab.setTorrent(this.torrentInfo[this.torrents.value]);
     },
     
-    onSave: function(e) {
+    onAdd: function(e) {
         torrents = new Array();
         $each(this.torrentInfo, function(torrent) {
             torrents.include({
