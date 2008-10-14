@@ -476,7 +476,20 @@ class FilesTab(Tab):
     
     def _on_filename_edited(self, renderer, path, new_text):
         index = self.treestore[path][5]
-        client.rename_files(self.torrent_id, [(index, new_text)])
+        itr = self.treestore.get_iter(path)
+        # Recurse through the treestore to get the actual path of the file
+        def get_filepath(i, fp):
+            if self.treestore.iter_parent(i):
+                fp = get_filepath(self.treestore.iter_parent(i), fp)
+            else:
+                fp += self.treestore[i][0]
+                return fp
+            return fp
+                
+        filepath = get_filepath(itr, str()) + new_text
+        log.debug("filepath: %s", filepath)
+        
+        client.rename_files(self.torrent_id, [(index, filepath)])
         self._editing_index = None
 
     def _on_filename_editing_start(self, renderer, editable, path):
