@@ -93,6 +93,7 @@ class Sidebar(config_forms.WebCfgForm):
     title = _("Sidebar")
     sidebar_show_zero = forms.CheckBox(_("Show zero hits"))
     sidebar_show_trackers  = forms.CheckBox(_("Show trackers"))
+    show_keyword_search = forms.CheckBox(_("Show keyword search"))
 
 config_page.register('webui','template', Template)
 config_page.register('webui','server',Server)

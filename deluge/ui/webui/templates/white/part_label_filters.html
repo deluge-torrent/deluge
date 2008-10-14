@@ -6,19 +6,20 @@ $def with (filter_items)
 <input type="hidden" name="filter_cat" value="keyword">
 <div id="organize_block">
 <div id="organize_state">
-<div class="title">$_('Keyword')</div>
-<input type="text" name="filter_value" id="filter_value"
-$if get('filter_cat') == "keyword":
-    value="$get('filter_value')"
-style="width:100px;padding:0px" title="$_('Filter on a keyword')"/>
 
-$if get('filter_cat') == "keyword":
-    $if get('filter_value'):
-        <img src="$base/static/images/tango/edit-clear.png" alt="$_('Clear')"
-        onclick="el('keyword').value='';el('category_form').submit();"
-        >
-</form>
-<br /><br />
+$if get_config("show_keyword_search"):
+    <div class="title">$_('Keyword')</div>
+    <input type="text" name="filter_value" id="filter_value"
+    $if get('filter_cat') == "keyword":
+        value="$get('filter_value')"
+    style="width:100px;padding:0px" title="$_('Filter on a keyword')"/>
+    $if get('filter_cat') == "keyword":
+        $if get('filter_value'):
+            <img src="$base/static/images/tango/edit-clear.png" alt="$_('Clear')"
+            onclick="el('keyword').value='';el('category_form').submit();"
+            >
+    </form>
+    <br /><br />
 
 <!--
 $filter_items
