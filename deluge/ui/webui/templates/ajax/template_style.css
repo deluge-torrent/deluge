@@ -51,6 +51,12 @@ html, body {
 #toolbar #buttons #connections {background-image:url(template/static/icons/32/connections.png)}
 
 /* The icons for the filter states */
+#labels li {
+	background-repeat: no-repeat;
+	background-position: 4px;
+	padding-left: 24px;
+	line-height: 20px;
+}
 #labels .all { background-image: url('/pixmaps/dht16.png'); }
 #labels .active { background-image: url('/pixmaps/active16.png'); }
 #labels .downloading { background-image: url('/pixmaps/downloading16.png'); }
