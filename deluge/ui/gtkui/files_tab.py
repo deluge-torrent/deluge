@@ -476,25 +476,32 @@ class FilesTab(Tab):
     
     def _on_filename_edited(self, renderer, path, new_text):
         index = self.treestore[path][5]
-        itr = self.treestore.get_iter(path)
-        # Recurse through the treestore to get the actual path of the file
-        def get_filepath(i, fp):
-            if self.treestore.iter_parent(i):
-                fp = get_filepath(self.treestore.iter_parent(i), fp)
-            else:
-                fp += self.treestore[i][0]
+        if index > -1:
+            # We are renaming a file
+            itr = self.treestore.get_iter(path)
+            # Recurse through the treestore to get the actual path of the file
+            def get_filepath(i, fp):
+                if self.treestore.iter_parent(i):
+                    fp = get_filepath(self.treestore.iter_parent(i), fp)
+                else:
+                    fp += self.treestore[i][0]
+                    return fp
                 return fp
-            return fp
-        
-        # Only recurse if file is in a folder..
-        if self.treestore.iter_parent(itr):
-            filepath = get_filepath(itr, str()) + new_text
-        else:
-            filepath = new_text
+            
+            # Only recurse if file is in a folder..
+            if self.treestore.iter_parent(itr):
+                filepath = get_filepath(itr, str()) + new_text
+            else:
+                filepath = new_text
 
-        log.debug("filepath: %s", filepath)
-        
-        client.rename_files(self.torrent_id, [(index, filepath)])
+            log.debug("filepath: %s", filepath)
+            
+            client.rename_files(self.torrent_id, [(index, filepath)])
+        else:
+            # We are renaming a folder
+            # This requires us to change all the files under this folder
+            pass
+
         self._editing_index = None
 
     def _on_filename_editing_start(self, renderer, editable, path):
@@ -509,4 +516,9 @@ class FilesTab(Tab):
         # We need to update the filename displayed if we're currently viewing
         # this torrents files.        
         if torrent_id == self.torrent_id:
-            self.update_files()
+            def set_file_name(model, path, itr, user_data):
+                if model[itr][5] == index:
+                    model[itr][0] = os.path.split(name)[-1]
+                    return True
+            self.treestore.foreach(set_file_name, None)
+
