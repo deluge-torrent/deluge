@@ -1353,19 +1353,23 @@ namespace aux {
 				> bind(&torrent::seed_rank, _2, boost::ref(m_settings)));
 		}
 
+		int total_running = 0;
 		for (std::vector<torrent*>::iterator i = downloaders.begin()
 			, end(downloaders.end()); i != end; ++i)
 		{
 			torrent* t = *i;
-			if (!t->is_paused() && !is_active(t, settings()) && hard_limit > 0)
+			if (!t->is_paused() && !is_active(t, settings())
+				&& hard_limit > 0 && total_running < m_max_uploads)
 			{
 				--hard_limit;
+				++total_running;
 				continue;
 			}
 
 			if (num_downloaders > 0 && hard_limit > 0)
 			{
 				--hard_limit;
+				++total_running;
 				if (t->state() != torrent_status::queued_for_checking
 					&& t->state() != torrent_status::checking_files)
 				{
@@ -1383,9 +1387,11 @@ namespace aux {
 			, end(seeds.end()); i != end; ++i)
 		{
 			torrent* t = *i;
-			if (!t->is_paused() && !is_active(t, settings()) && hard_limit > 0)
+			if (!t->is_paused() && !is_active(t, settings())
+				&& hard_limit > 0 && total_running < m_max_uploads)
 			{
 				--hard_limit;
+				++total_running;
 				continue;
 			}
 
@@ -1393,6 +1399,7 @@ namespace aux {
 			{
 				--hard_limit;
 				--num_seeds;
+				++total_running;
 				if (t->is_paused()) t->resume();
 			}
 			else
@@ -1410,6 +1417,7 @@ namespace aux {
 			, end(m_connections.end()); i != end; ++i)
 		{
 			peer_connection* p = i->get();
+			TORRENT_ASSERT(p);
 			torrent* t = p->associated_torrent().lock().get();
 			if (!p->peer_info_struct()
 				|| t == 0
@@ -1455,7 +1463,8 @@ namespace aux {
 			// limit
 			if (m_stat.upload_rate() < upload_limit * 0.9f
 				&& m_allowed_upload_slots <= m_num_unchoked + 1
-				&& congested_torrents < uncongested_torrents)
+				&& congested_torrents < uncongested_torrents
+				&& m_upload_channel.queue_size() < 2)
 			{
 				++m_allowed_upload_slots;
 			}
@@ -1494,6 +1503,8 @@ namespace aux {
 				if (p->peer_info_struct()->optimistically_unchoked)
 				{
 					// force a new optimistic unchoke
+					// since this one just got promoted into the
+					// proper unchoke set
 					m_optimistic_unchoke_time_scaler = 0;
 					p->peer_info_struct()->optimistically_unchoked = false;
 				}
