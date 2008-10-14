@@ -116,6 +116,16 @@ class LabelSidebarMenu(object):
             for item in self.items:
                 item.hide()
 
+    def unload(self):
+        log.debug("disable01")
+        for item in list(self.items):
+            item.hide()
+            item.destroy()
+            log.debug("disable02")
+        self.items = []
+
+
+
 
 #dialogs:
 class AddDialog(object):

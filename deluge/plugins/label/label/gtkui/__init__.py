@@ -64,18 +64,23 @@ class GtkUI(ui.UI):
         self.load_interface()
 
     def disable(self):
-        self.labelcfg.unload()
         try:
+            torrentmenu = component.get("MenuBar").torrentmenu
+            torrentmenu.remove(self.label_menu) # ok
+
+            self.labelcfg.unload() # ok
+            self.sidebar_menu.unload()
+            del self.sidebar_menu
+
+
+
             component.get("TorrentView").remove_column(_("Label"))
             log.debug(1.1)
             component.get("TorrentView").create_model_filter() #todo:improve.
-        except Exception, e:
-            log.debug(e) #fix this!
 
-        log.debug(1.2)
-        #disabled:
-        #self.sidebar_menu.unload()
-        log.debug(2)
+        except Exception, e:
+            log.debug(e)
+
 
     def get_pixmap(self, fname):
         """Returns a pixmap file included with plugin"""

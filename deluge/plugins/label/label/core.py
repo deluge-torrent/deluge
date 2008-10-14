@@ -125,6 +125,7 @@ class Core(CorePluginBase):
         self.plugin.deregister_status_field("label")
         self.plugin.deregister_hook("post_torrent_add", self.post_torrent_add)
         self.plugin.deregister_hook("post_torrent_remove", self.post_torrent_remove)
+        component.get("FilterManager").deregister_tree_field("label")
 
     def update(self):
         pass

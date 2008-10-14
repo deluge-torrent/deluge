@@ -45,16 +45,13 @@ config  = ConfigManager("label.conf")
 GTK_ALFA = config.get("gtk_alfa")
 NO_LABEL = "No Label"
 
-def cb_none(args):
-    "hack for empty callbacks."
-    pass
-
 class LabelMenu(gtk.MenuItem):
     def __init__(self):
         gtk.MenuItem.__init__(self, _("Label"))
 
         self.sub_menu = gtk.Menu()
         self.set_submenu(self.sub_menu)
+        self.items = []
 
         #attach..
         torrentmenu = component.get("MenuBar").torrentmenu
@@ -86,11 +83,8 @@ class LabelMenu(gtk.MenuItem):
     def on_select_label(self, widget=None, label_id = None):
         log.debug("select label:%s,%s" % (label_id ,self.get_torrent_ids()) )
         for torrent_id in self.get_torrent_ids():
-            aclient.label_set_torrent(cb_none, torrent_id, label_id)
+            aclient.label_set_torrent(None, torrent_id, label_id)
         #aclient.force_call(block=True)
-
-
-
 
 
 

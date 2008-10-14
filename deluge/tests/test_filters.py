@@ -25,6 +25,10 @@ test_filter(None)
 if not (sclient.get_torrents_status({}, KEYS) == sclient.get_torrents_status(None, KEYS)):
     raise Exception("should be equal")
 
+print "#test keyword:"
+test_filter({"keyword":["keyword1","prison"]})
+
+
 print "#torrent_id filter:"
 test_filter({"id":[torrent_id, torrent_id2]})
 
