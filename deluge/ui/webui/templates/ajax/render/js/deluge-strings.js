@@ -56,3 +56,12 @@ Deluge.Strings.add('Torrents Window', '$_('Torrents Window')');
 Deluge.Strings.add('From Url', '$_('From Url')');
 Deluge.Strings.add('Ok', '$_('Ok')');
 Deluge.Strings.add('Cancel', '$_('Cancel')');
+
+
+// Details //
+Deluge.Strings.add('Statistics', '$_('Statistics')');
+Deluge.Strings.add('Details', '$_('Details')');
+Deluge.Strings.add('Files', '$_('Files')');
+Deluge.Strings.add('Peers', '$_('Peers')');
+Deluge.Strings.add('Options', '$_('Options')');
+
