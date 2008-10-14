@@ -48,6 +48,9 @@ Deluge.Widgets.Details = new Class({
     
     clear: function() {
         this.pages.each(function(page) {
+            page.element.getChildren().each(function(el) {
+                el.set('opacity', 0.5);
+            });
             if (page.clear) page.clear();
         });
     },
@@ -63,6 +66,9 @@ Deluge.Widgets.Details = new Class({
             onSuccess: function(torrent) {
                 torrent.id = torrentId;
                 if (page.update) page.update(torrent);
+                page.element.getChildren().each(function(el) {
+                    el.set('opacity', 1);
+                });
             }.bindWithEvent(this)
         });
     },
