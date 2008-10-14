@@ -180,6 +180,12 @@ def template_get(key):
         val = getcookie(key)
     return val
 
+def id_to_label(text):
+    "translated capitalize"
+    text = text.replace("_"," ")
+    text = text.capitalize()
+    return _(text)
+
 template.Template.globals.update({
     'sort_head': template_sort_head,
     'part_stats':template_part_stats,
@@ -205,7 +211,8 @@ template.Template.globals.update({
     #'env':'0.6',
     'forms':web.Storage(),
     'enumerate':enumerate,
-    'base':'' #updated when running within apache.
+    'base':'', #updated when running within apache.
+    'id_to_label':id_to_label
 })
 #/template-defs
 

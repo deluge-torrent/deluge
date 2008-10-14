@@ -6,7 +6,7 @@ $:render.admin_toolbar('config')
 <!--left block-->
 <div  class="panel" id="config_chooser">
 $for group in groups:
-    <h3>$group</h3>
+    <h3>$id_to_label(group)</h3>
     <ul>
     $for page in pages:
         $if pages[page].group == group:
@@ -18,7 +18,7 @@ $for group in groups:
 </div>
 <!--form block-->
 <div class="panel" id="config_panel">
-<h2>$form.group / $form.title</h2>
+<h2>$id_to_label(form.group) / $form.title</h2>
 <div class="info">$form.info</div>
 <form method="POST">
 $:form.pre_html()
