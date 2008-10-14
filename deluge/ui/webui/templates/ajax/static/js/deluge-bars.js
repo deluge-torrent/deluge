@@ -262,12 +262,12 @@ Deluge.Widgets.LabelSection = new Class({
                 el = new Element('li').addClass(lname);
                 el.store('filterName', name)
                 el.addEvent('click', this.bound.clicked);
+                if (this.name == 'tracker_host') {
+                    var icon = 'url(http://' + name + '/favicon.ico)';
+                    el.setStyle('background-image', icon);
+                };
                 this.list.grab(el);
             }
-            if (this.name == 'tracker_host') {
-                var icon = 'url(http://' + name + '/favicon.ico)';
-                el.setStyle('background-image', icon);
-            };
             el.set('text', name + ' (' + count +')');
         }, this);
         
