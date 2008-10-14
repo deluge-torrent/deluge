@@ -61,8 +61,8 @@ class GraphsTab(Tab):
     def bandwidth_expose(self, widget, event):
         self.graph_widget = self.bandwidth_graph
         self.graph = graph.Graph()
-        self.graph.add_stat('download_rate', color=graph.green)
-        self.graph.add_stat('upload_rate', color=graph.blue)
+        self.graph.add_stat('download_rate', label='Download Rate', color=graph.green)
+        self.graph.add_stat('upload_rate', label='Upload Rate', color=graph.blue)
         self.graph.set_left_axis(formatter=fspeed, min=10240)
         self.update_timer = gobject.timeout_add(2000, self.update_graph)
         self.update_graph()
