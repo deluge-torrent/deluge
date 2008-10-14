@@ -79,6 +79,9 @@ Deluge.Widgets.TorrentGrid = new Class({
         }, this);
         this.rows.each(function(row) {
             if (!torrents.has(row.id)) {
+                if (this.selectedRow && this.selectedRow.id == row.id) {
+                    this.deselectRow(row);
+                };
                 delete this.rows[this.rows.indexOf(row)];
             };
         }, this);

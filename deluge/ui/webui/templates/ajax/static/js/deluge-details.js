@@ -46,9 +46,18 @@ Deluge.Widgets.Details = new Class({
         4: Deluge.Keys.Options
     },
     
+    clear: function() {
+        this.pages.each(function(page) {
+            if (page.clear) page.clear();
+        });
+    },
+    
     update: function(torrentId) {
         this.torrentId = torrentId;
-        if (!this.torrentId) return;
+        if (!this.torrentId) {
+            this.clear();
+            return;
+        };
         var keys = this.keys[this.currentPage], page = this.pages[this.currentPage];
         Deluge.Client.get_torrent_status(torrentId, keys, {
             onSuccess: function(torrent) {
@@ -95,6 +104,13 @@ Deluge.Widgets.StatisticsPage = new Class({
         this.bar.set('width', this.getWidth() - 12);
     },
     
+    clear: function() {
+        this.bar.update('', 0);
+        this.element.getElements('dd').each(function(item) {
+            item.set('text', '');
+        }, this);
+    },
+    
     update: function(torrent) {
         var data = {
             downloaded: torrent.total_done.toBytes()+' ('+torrent.total_payload_download.toBytes()+')',
@@ -134,6 +150,12 @@ Deluge.Widgets.DetailsPage = new Class({
     
     initialize: function() {
         this.parent('Details');
+    },
+    
+    clear: function() {
+        this.element.getElements('dd').each(function(item) {
+            item.set('text', '');
+        }, this);
     },
     
     update: function(torrent) {
@@ -266,6 +288,10 @@ Deluge.Widgets.FilesPage = new Class({
         };
     },
     
+    clear: function() {
+        this.grid.clear();
+    },
+    
     resized: function(e) {
         if (!this.grid) {
             this.beenResized = e;
@@ -333,6 +359,11 @@ Deluge.Widgets.PeersPage = new Class({
             width: e.width - this.element.padding.x,
             height: e.height - this.element.padding.y
         });
+    },
+    
+    clear: function() {
+        this.grid.rows.empty();
+        this.grid.body.empty();
     },
     
     update: function(torrent) {
@@ -458,8 +489,8 @@ Deluge.Widgets.OptionsPage = new Class({
             }
         });
         
-        this.form.apply.addEvent('click', this.bound.apply);
-        this.form.reset.addEvent('click', this.bound.reset);
+        this.form.apply_options.addEvent('click', this.bound.apply);
+        this.form.reset_options.addEvent('click', this.bound.reset);
     },
     
     apply: function(event) {
@@ -474,6 +505,10 @@ Deluge.Widgets.OptionsPage = new Class({
                 delete this.changed[this.torrentId];
             }.bindWithEvent(this)
         });
+    },
+    
+    clear: function() {
+        //if (this.form && this.form.reset) this.form.reset();
     },
     
     reset: function(event) {
