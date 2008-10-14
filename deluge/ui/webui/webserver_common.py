@@ -61,5 +61,7 @@ CONFIG_DEFAULTS = {
     "daemon":"http://localhost:58846",
     "base":"",
     "disallow":{},
-    "sessions":[]
+    "sessions":[],
+    "sidebar_show_zero":False,
+    "sidebar_show_trackers":False
 }

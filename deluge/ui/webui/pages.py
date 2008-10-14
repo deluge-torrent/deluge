@@ -98,21 +98,24 @@ class index:
                 newvars['filter_value'] = vars.filter_value
             vars.update(newvars)
 
-
         else: #has arguments:set cookies from arguments.
             for key in ["sort", "order", "filter_cat","filter_value"]:
                 value = getattr(vars, key) or ""
                 setcookie(key, value)
 
-        #organize-filters
-        label_filters = {}
-
+        #Filters
         filter_dict = {}
         if vars.filter_cat and vars.filter_value and vars.filter_value <> "All":
             filter_dict = {vars.filter_cat:vars.filter_value}
 
         torrents =  proxy.get_torrents_status(filter_dict, TORRENT_KEYS)
-        label_filters = proxy.get_filter_tree()
+
+        #sidebar-config:
+        hide_cat = []
+        if not config["sidebar_show_trackers"]:
+            hide_cat = ["tracker_host"]
+
+        label_filters = proxy.get_filter_tree(config["sidebar_show_zero"], hide_cat)
 
         torrent_list = utils.get_enhanced_torrent_list(torrents)
 

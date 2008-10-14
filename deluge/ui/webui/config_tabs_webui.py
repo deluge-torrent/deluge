@@ -89,6 +89,12 @@ class Password(forms.Form):
         utils.end_session()
         #raise forms.ValidationError(_("Password changed,please login again"))
 
+class Sidebar(config_forms.WebCfgForm):
+    title = _("Sidebar")
+    sidebar_show_zero = forms.CheckBox(_("Show zero hits"))
+    sidebar_show_trackers  = forms.CheckBox(_("Show trackers"))
+
 config_page.register('webui','template', Template)
 config_page.register('webui','server',Server)
 config_page.register('webui','password',Password)
+config_page.register('webui','sidebar',Sidebar)
