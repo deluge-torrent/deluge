@@ -10,7 +10,6 @@ Version: 0.1
 
 */
 
-
 body {
 	background: #ffffff;
 	font-family: trebuchet ms;
@@ -105,12 +104,6 @@ body {
 	padding: 0;
 }
 
-#labels li {
-	background-repeat: no-repeat;
-	background-position: 5px 2px;
-	padding-left: 21px;
-	line-height: 20px;
-}
 #labels li:hover { text-decoration: underline; cursor: pointer; }
 
 #labels .activestate {
@@ -120,7 +113,6 @@ body {
 #labels .activestate:hover {
 	text-decoration: none;
 }
-
 
 .moouiDataGrid {
 	overflow: auto;
@@ -359,4 +351,100 @@ label.fluid {
 
 .deluge-prefs-page {
 	overflow: auto;
+}
+
+
+#addTorrent select {
+    width: 520px;
+    height: 95px;
+    margin: 10px;
+    background: #99acc3;
+    border:1px solid #23344b;
+    color: Black;
+}
+
+#addTorrent #addButtons {
+    width: 240px;
+    margin: 0 auto;
+}
+
+#addTorrent #tabs .moouiTabPage {
+    height: 200px;
+}
+
+#addTorrent .filesTable {
+    margin: 10px;
+    width: 510px;
+    height: 180px;
+    color: Black;
+    background: #99acc3;
+    border:1px solid #23344b;
+}
+
+#addTorrent #buttons {
+    margin-top: 10px;
+    float: right;
+}
+
+#createTorrent h3 {
+    margin-bottom: 0px;
+}
+
+#createTorrentTabs .moouiTabPage {
+    height: 110px;
+}
+
+#createTorrentTabs textarea {
+    width: 360px;
+    height: 95px;
+    margin: 0;
+}
+
+#fileButton #folderButton {
+    margin: 0 auto 10px auto;
+    text-align: center;
+}
+
+#createTorrentFiles {
+    height: 90px;
+    width: 370px;
+    margin: 10px;
+    border:1px solid #23344b;
+    background: #99acc3;
+}
+
+#createTorrentTrackersTable {
+    margin: 5px;
+    float: left;
+    width: 280px;
+    height: 95px;
+    background: #99acc3;
+    border:1px solid #23344b;
+    color: Black;
+}
+
+#createTorrentTrackersTable thead tr {
+    background: #304663 url(/static/images/simple_bg_flipped.jpg) repeat-x;
+    color: White;
+}
+
+#createTorrentTabs .tier {
+    width: 70px;
+}
+
+#createTorrentTabs .tracker {
+    width: 230px;
+}
+
+#createTorrentTrackersButtons {
+    float: right;
+    width: 80px;
+}
+
+#createTorrentTrackersButtons button {
+    width: 70px;
+}
+
+#createButtons {
+    float: right;
 }
