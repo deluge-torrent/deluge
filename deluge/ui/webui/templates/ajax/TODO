@@ -5,13 +5,13 @@
 
 [features]
  * Improve torrent adding to include options, file upload
- - Implement the Options Menu
+ - Implement the Options Window
  * Implement the connection manager
- * Implement the torrent creator
+ * Implement the torrent creator (ui is designed)
  * Obey the "queue new torrents to top" option
 
 [bugs]
- * If a torrent is removed from the core it continues to try and get details
+ + If a torrent is removed from the core it continues to try and get details
    if it was the selected torrent.
  + Filtering breaks after changing more than once
  + If there is only one torrent in the view and it is removed by the core,
