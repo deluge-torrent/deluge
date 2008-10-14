@@ -105,6 +105,10 @@ class FilesTab(Tab):
         # filename, size, progress string, progress value, priority, file index, icon id
         self.treestore = gtk.TreeStore(str, gobject.TYPE_UINT64, str, int, int, int, str)
         
+        # We need to store the row that's being edited to prevent updating it until
+        # it's been done editing
+        self._editing_index = None
+        
         # Filename column        
         column = gtk.TreeViewColumn(_("Filename"))
         render = gtk.CellRendererPixbuf()
@@ -113,6 +117,8 @@ class FilesTab(Tab):
         render = gtk.CellRendererText()
         render.set_property("editable", True)
         render.connect("edited", self._on_filename_edited)
+        render.connect("editing-started", self._on_filename_editing_start)
+        render.connect("editing-canceled", self._on_filename_editing_canceled)
         column.pack_start(render, True)
         column.add_attribute(render, "text", 0)
         column.set_sort_column_id(0)
@@ -388,6 +394,11 @@ class FilesTab(Tab):
         self.get_files_from_tree(self.treestore, files_list, 0)
         files_list.sort()
         for index, row in files_list:
+            # Do not update a row that is being edited
+            if self._editing_index is not None:
+                if self._editing_index == row[5]:
+                    continue
+
             progress_string = "%.2f%%" % (status["file_progress"][index] * 100)
             if row[2] != progress_string:
                 row[2] = progress_string
@@ -466,7 +477,14 @@ class FilesTab(Tab):
     def _on_filename_edited(self, renderer, path, new_text):
         index = self.treestore[path][5]
         client.rename_files(self.torrent_id, [(index, new_text)])
+        self._editing_index = None
 
+    def _on_filename_editing_start(self, renderer, editable, path):
+        self._editing_index = self.treestore[path][5]
+    
+    def _on_filename_editing_canceled(self, renderer):
+        self._editing_index = None
+            
     def _on_torrent_file_renamed_signal(self, torrent_id, index, name):
         log.debug("index: %s name: %s", index, name)
         self.files_list[torrent_id][index]["path"] = name
