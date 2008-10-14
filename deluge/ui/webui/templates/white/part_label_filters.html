@@ -42,6 +42,8 @@ $for cat in filter_items.keys():
         <a href="$self_url(filter_cat=cat, filter_value=value, sort=get('sort'), order=get('order')) ">
         $if cat == "state":
             <img src="/pixmaps/$(value.lower())"></img>
+        $if cat == "tracker_host":
+            <img src="http://$value/favicon.ico" width="16" height="16"></img>
         $value ($count)</a>
         </li>
     </ul>
