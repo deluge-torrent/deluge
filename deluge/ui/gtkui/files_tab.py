@@ -485,8 +485,13 @@ class FilesTab(Tab):
                 fp += self.treestore[i][0]
                 return fp
             return fp
-                
-        filepath = get_filepath(itr, str()) + new_text
+        
+        # Only recurse if file is in a folder..
+        if self.treestore.iter_parent(itr):
+            filepath = get_filepath(itr, str()) + new_text
+        else:
+            filepath = new_text
+
         log.debug("filepath: %s", filepath)
         
         client.rename_files(self.torrent_id, [(index, filepath)])
