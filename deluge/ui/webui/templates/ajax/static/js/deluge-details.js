@@ -508,7 +508,17 @@ Deluge.Widgets.OptionsPage = new Class({
     },
     
     clear: function() {
-        //if (this.form && this.form.reset) this.form.reset();
+        $$W(this.form.max_download_speed).setValue(0);
+        $$W(this.form.max_upload_speed).setValue(0);
+        $$W(this.form.max_connections).setValue(0);
+        $$W(this.form.max_upload_slots).setValue(0);
+        $$W(this.form.stop_ratio).setValue(2);
+        this.form.is_auto_managed.checked = false;
+        this.form.stop_at_ratio.checked = false;
+        this.form.remove_at_ratio.checked = false;
+        this.form.private.checked = false;
+        this.form.private.disabled = false;
+        this.form.prioritize_first_last.checked = false;
     },
     
     reset: function(event) {
