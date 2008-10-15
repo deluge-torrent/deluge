@@ -1,3 +1,9 @@
+Deluge 1.0.3 (In Development)
+ Core:
+  * Fix upnp - it should work on more routers now too
+  * Fix issue where Deluge would send improper stats to the tracker after a
+    pause/resume.
+
 Deluge 1.0.2 (10 October 2008)
  Core:
   * Fix issue where torrents will not be properly added to the session
