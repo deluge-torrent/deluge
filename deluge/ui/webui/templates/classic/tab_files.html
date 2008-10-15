@@ -12,10 +12,10 @@ $altrow(True)
     <th width="100%">$_("File")</th>
     <th width="50px">$_("Size")</th>
     <th width="50px">$_("Progress")</th>
-    <th width="10px">$_("X")</th>
-    <th width="10px">$_("N")</th>
-    <th width="10px">$_("+")</th>
-    <th width="10px">$_("++")</th>
+    <th width="16px"><img src="$base/static/images/tango/process-stop.png" title="$_('Do not download')"></th>
+    <th width="16px"><img src="$base/static/images/tango/gtk-yes.png" title="$_('Normal priority')"></th>
+    <th width="16px"><img src="$base/static/images/tango/queue-up.png" title="$_('High priority')"></th>
+    <th width="16px"><img src="$base/static/images/tango/go-top.png" title="$_('Highest priority')"></th>
 </tr>
 $for i, file in enumerate(torrent.files):
     <tr class="$altrow()"  >
