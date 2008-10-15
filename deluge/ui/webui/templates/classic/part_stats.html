@@ -1,32 +1,24 @@
 $def with (stats)
 
+<div id='stats_panel'>
 
-<div class="panel"  id='refresh_panel'>
 
-$_('Auto refresh:')
-$if getcookie('auto_refresh') == '1':
-    ($getcookie('auto_refresh_secs')) $_('seconds') &nbsp;
-    $:render.part_button('GET', '/refresh/set', _('Set'), 'tango/preferences-system.png')
-    $:render.part_button('POST', '/refresh/off', _('Disable'), 'tango/process-stop.png')
+<img src="$base/static/images/tango/connections.png" title="$_('Connections')">$stats.num_connections ($deluge_int(stats.max_num_connections))
+
+<img src="$base/pixmaps/downloading16.png" title="$_('Down Speed')">$stats.download_rate  ($deluge_int(stats.max_download))
+
+<img src="$base/pixmaps/seeding16.png" title="$_('Up Speed')">$stats.upload_rate  ($deluge_int(stats.max_upload))
+
+<img src="$base/pixmaps/dht16.png" title="$_('DHT Nodes')">$stats.dht_nodes
+
+<img src="$base/static/images/tango/drive-harddisk.png" title="$_('Disk Space')">$fsize(stats.free_space)
+
+$if stats.has_incoming_connections:
 $else:
-    $_('Off') &nbsp;
-    $:render.part_button('POST', '/refresh/on', _('Enable'), 'tango/view-refresh.png')
-$#end
+    <img src="$base/pixmaps/alert16.png" title="$_('No Incoming Connections')">
 
-$:render.part_button('POST', '/logout', _('Logout'), 'tango/system-log-out.png')
 
 </div>
 
-<div class="panel"  id='stats_panel'>
-
-    $_('Connections') : $stats.num_connections ($stats.max_num_connections)
-
-    $_('Down Speed') : $stats.download_rate  ($stats.max_download)
-
-    $_('Up Speed') : $stats.upload_rate  ($stats.max_upload)
-
-    $:render.part_button('GET', '/config/', _('Settings'), 'tango/preferences-system.png')
-
-</div>
 
 

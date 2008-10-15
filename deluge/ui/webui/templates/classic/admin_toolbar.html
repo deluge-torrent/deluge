@@ -1,10 +1,1 @@
 $def with (active_tab)
-<div id="admin_toolbar" class="panel" style="width:98%;text-align:left">
-$for id, title, url in admin_pages:
-    <a
-    $if id == active_tab:
-         class="tab_button_active"
-    $else:
-        class="tab_button"
-    href='$base$url'>$title</a>
-</div>

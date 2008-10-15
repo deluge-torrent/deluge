@@ -64,5 +64,6 @@ CONFIG_DEFAULTS = {
     "sessions":[],
     "sidebar_show_zero":False,
     "sidebar_show_trackers":False,
-    "show_keyword_search":False
+    "show_keyword_search":False,
+    "show_sidebar":True
 }

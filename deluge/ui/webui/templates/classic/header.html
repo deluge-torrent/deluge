@@ -8,12 +8,37 @@ $def with (title, active_tab="NONE")
     </head>
     <body>
         <div id="page">
+<!---
             <a href='$base/home'>
                 <div id="simple_logo">
-                    <div class="title">Deluge</div>
-                    <div class="info">$title</div>
+
                 </div>
             </a>
+-->
+   <img src="$base/static/images/deluge32.png" style="position:absolute;top:5px;"\>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;
+
+<div style="padding-left:50px">
+    <span class="title">Deluge</span>
+    <a
+    $if 'home' == active_tab:
+         class="tab_button_active"
+    $else:
+        class="tab_button"
+    href='$base/home'>Home</a>
+
+<!--ADMIN-TABS-->
+$for id, title, url in admin_pages:
+    <a
+    $if id == active_tab:
+         class="tab_button_active"
+    $else:
+        class="tab_button"
+    href='$base$url'>$title</a>
+<a href="http://dev.deluge-torrent.org/wiki/Faq">Faq</a>
+
+</div>
             <div id="main_content">
                 <div id="main">
                     <center>

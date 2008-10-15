@@ -91,6 +91,7 @@ class Password(forms.Form):
 
 class Sidebar(config_forms.WebCfgForm):
     title = _("Sidebar")
+    show_sidebar = forms.CheckBox(_("Show sidebar"))
     sidebar_show_zero = forms.CheckBox(_("Show zero hits"))
     sidebar_show_trackers  = forms.CheckBox(_("Show trackers"))
     show_keyword_search = forms.CheckBox(_("Show keyword search"))

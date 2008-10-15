@@ -114,7 +114,10 @@ class index:
         if not config["sidebar_show_trackers"]:
             hide_cat = ["tracker_host"]
 
-        label_filters = proxy.get_filter_tree(config["sidebar_show_zero"], hide_cat)
+        if config["show_sidebar"]:
+            label_filters = proxy.get_filter_tree(config["sidebar_show_zero"], hide_cat)
+        else:
+            label_filters = {}
 
         torrent_list = utils.get_enhanced_torrent_list(torrents)
 

@@ -1,0 +1,36 @@
+$def with (filter_items)
+
+<div class="panel" style="text-align:left;">
+$for cat in filter_items.keys():
+    $if cat != "state":
+        <br/>
+    <span class="title">$id_to_label(cat):</span>
+    $for value, count in filter_items[cat]:
+        <li style="display:inline"
+        $if cat == get('filter_cat'):
+            $if value == get('filter_value'):
+                class="selected"
+        $# I hate this, special case for All
+        $# templetor sucks with multiple conditions in 1 if-statement, i need to find a better way,
+        $if cat == "state":
+            $if value == "All":
+                $if not get('filter_value'):
+                    $if not get('filter_cat'):
+                        class="selected"
+        >
+        <a href="$self_url(filter_cat=cat, filter_value=value, sort=get('sort'), order=get('order')) ">
+        $if cat == "state":
+            <img src="/pixmaps/$(value.lower())"></img>
+        $if cat == "tracker_host":
+            <img src="http://$value/favicon.ico" width="16" height="16"></img>
+        $if not value:
+            $if cat == "label":
+                $_("No Label") ($count)</a>
+            $else:
+                $_("None") ($count)</a>
+        $else:
+            $value ($count)</a>
+        </li>
+</div>
+
+
