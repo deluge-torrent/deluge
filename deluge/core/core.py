@@ -183,6 +183,12 @@ class Core(
         self.settings.send_redundant_have = True
         self.session.set_settings(self.settings)
 
+        # Create an ip filter
+        self.ip_filter = lt.ip_filter()
+        # This keeps track of the timer to set the ip filter.. We do this a few
+        # seconds aftering adding a rule so that 'batch' adding of rules isn't slow.
+        self._set_ip_filter_timer = None
+       
         # Load metadata extension
         self.session.add_extension(lt.create_metadata_plugin)
         self.session.add_extension(lt.create_ut_metadata_plugin)
@@ -633,12 +639,13 @@ class Core(
 
     def export_block_ip_range(self, range):
         """Block an ip range"""
-        try:
-            self.ip_filter.add_rule(range[0], range[1], 1)
-        except AttributeError:
-            self.export_reset_ip_filter()
-            self.ip_filter.add_rule(range[0], range[1], 1)
-
+        self.ip_filter.add_rule(range[0], range[1], 1)
+        
+        # Start a 2 second timer (and remove the previous one if it exists)
+        if self._set_ip_filter_timer:
+            gobject.source_remove(self._set_ip_filter_timer)
+        self._set_ip_filter_timer = gobject.timeout_add(2000, self.session.set_ip_filter, self.ip_filter)
+        
     def export_reset_ip_filter(self):
         """Clears the ip filter"""
         self.ip_filter = lt.ip_filter()
@@ -706,6 +713,10 @@ class Core(
         """Renames files in 'torrent_id'. The 'filenames' parameter should be a
         list of (index, filename) pairs."""
         self.torrents[torrent_id].rename_files(filenames)
+    
+    def export_rename_folder(self, torrent_id, folder, new_folder):
+        """Renames the 'folder' to 'new_folder' in 'torrent_id'."""
+        self.torrents[torrent_id].rename_folder(folder, new_folder)
 
     ## Queueing functions ##
     def export_queue_top(self, torrent_ids):
