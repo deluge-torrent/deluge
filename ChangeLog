@@ -3,6 +3,8 @@ Deluge 1.0.3 (In Development)
   * Fix upnp - it should work on more routers now too
   * Fix issue where Deluge would send improper stats to the tracker after a
     pause/resume.
+  * Fix issue where fastresume files would be rejected when using FAT32.  This
+    would cause the torrent to be rechecked on every startup.
 
 Deluge 1.0.2 (10 October 2008)
  Core:
