@@ -758,8 +758,18 @@ class TorrentManager(component.Component):
         log.debug("index: %s name: %s", alert.index, alert.name)
         torrent_id = str(alert.handle.info_hash())
         torrent = self.torrents[torrent_id]
+        old_folder = os.path.split(torrent.files[alert.index]["path"])[0]
+        new_folder = os.path.split(alert.name)[0]
         torrent.files[alert.index]["path"] = alert.name
-        component.get("SignalManager").emit("torrent_file_renamed", torrent_id, alert.index, alert.name)
+        
+        if alert.index in torrent.waiting_on_folder_rename:
+            if torrent.waiting_on_folder_rename == [alert.index]:
+                # This is the last alert we were waiting for, time to send signal
+                component.get("SignalManager").emit("torrent_folder_renamed", torrent_id, old_folder, new_folder)
+            torrent.waiting_on_folder_rename.remove(alert.index)
+        else:
+            # This is just a regular file rename so send the signal
+            component.get("SignalManager").emit("torrent_file_renamed", torrent_id, alert.index, alert.name)
 
     def on_alert_metadata_received(self, alert):
         log.debug("on_alert_metadata_received")

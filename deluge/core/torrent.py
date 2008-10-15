@@ -122,6 +122,11 @@ class Torrent:
         # Let's us know if we're waiting on a lt alert
         self.waiting_on_resume_data = False
         
+        # Keep a list of file indexes we're waiting for file_rename alerts on
+        # This is so we can send one folder_renamed signal instead of multiple
+        # file_renamed signals.
+        self.waiting_on_folder_rename = []
+        
         # We store the filename just in case we need to make a copy of the torrentfile
         if not filename:
             # If no filename was provided, then just use the infohash
@@ -795,3 +800,12 @@ class Torrent:
         for index, filename in filenames:
             self.handle.rename_file(index, filename)
 
+    def rename_folder(self, folder, new_folder):
+        """Renames a folder within a torrent.  This basically does a file rename
+        on all of the folders children."""
+        for f in self.get_files():
+            if f["path"].startswith(folder):
+                # Keep a list of filerenames we're waiting on
+                self.waiting_on_folder_rename.append(f["index"])
+                self.handle.rename_file(f["index"], f["path"].replace(folder, new_folder, 1))
+                               
