@@ -5,6 +5,7 @@ Deluge 1.0.3 (In Development)
     pause/resume.
   * Fix issue where fastresume files would be rejected when using FAT32.  This
     would cause the torrent to be rechecked on every startup.
+  * Fix ip filtering
 
 Deluge 1.0.2 (10 October 2008)
  Core:
