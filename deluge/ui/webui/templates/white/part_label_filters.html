@@ -1,12 +1,13 @@
 $def with (filter_items)
 
-<form method="GET" id="category_form">
+
 <input type="hidden" name="sort" value="$get('sort')">
 <input type="hidden" name="order" value="$get('order')">
 <input type="hidden" name="filter_cat" value="keyword">
 <div id="organize_block">
 <div id="organize_state">
 <div class="title">$_('Keyword')</div>
+<form method="GET" id="category_form">
 <input type="text" name="filter_value" id="filter_value"
 $if get('filter_cat') == "keyword":
     value="$get('filter_value')"
