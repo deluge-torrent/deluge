@@ -7,382 +7,33 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-26 20:14-0500\n"
+"POT-Creation-Date: 2008-09-20 22:04-0500\n"
 "PO-Revision-Date: 2008-07-10 09:45+0000\n"
 "Last-Translator: Prescott_SK <prescott66@gmail.com>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-09-21 02:36+0000\n"
+"X-Launchpad-Export-Date: 2008-10-17 02:57+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#~ msgid "Manage Search Plugins"
-#~ msgstr "Spravovať vyhľadávacie moduly"
-
-#~ msgid "Bandwidth"
-#~ msgstr "Prenosové pásmo"
-
-#~ msgid "Ask where to save each download"
-#~ msgstr "Vždy sa spýtať, kam ukladať"
-
-#~ msgid "Queue torrents to bottom when they begin seeding"
-#~ msgstr "Zaradiť torrenty na koniec keď začne seedovanie"
-
-#~ msgid "Enable Mainline DHT"
-#~ msgstr "Povoliť mainline DHT"
-
-#~ msgid "<b>Torrent Info</b>"
-#~ msgstr "<b>Informácie o torrente</b>"
-
-#~ msgid "Store all downloads in:"
-#~ msgstr "Vždy ukladať do priečinku:"
-
-#~ msgid "Affects regular bittorrent peers"
-#~ msgstr "Ovplyvňuje bittorrent peerov"
-
-#~ msgid "Peer Proxy"
-#~ msgstr "Peer proxy"
-
-#~ msgid "Username"
-#~ msgstr "Meno používateľa"
-
-#~ msgid "_Top"
-#~ msgstr "_Hore"
-
-#~ msgid "_Bottom"
-#~ msgstr "_Dolu"
-
-#~ msgid "Plu_gins"
-#~ msgstr "_Moduly"
-
-#~ msgid "Enable selecting files for torrents before loading"
-#~ msgstr "Pred začatím sťahovania ponúknuť výber súborov na stiahnutie"
-
-#~ msgid "_Translate This Application..."
-#~ msgstr "_Preložiť túto aplikáciu..."
-
-#~ msgid "Automatically clear torrents that reach the max share ratio"
-#~ msgstr "Automaticky vyčistiť torrenty po dosiahnutí pomeru zdieľania"
-
-#~ msgid "Normal"
-#~ msgstr "Normálna"
-
-#~ msgid "Deluge Merge Tracker Lists"
-#~ msgstr "Spojenie zoznamov trackerov v Deluge"
-
-#~ msgid "KiB"
-#~ msgstr "KB"
-
-#~ msgid "MiB"
-#~ msgstr "MB"
-
-#~ msgid "GiB"
-#~ msgstr "GB"
-
-#~ msgid "A torrent creator plugin"
-#~ msgstr "Modul Tvorca torrentov"
-
-#~ msgid "Add new torrent to queue"
-#~ msgstr "Pridať nový torrent do fronty"
-
-#~ msgid ""
-#~ "Network Activity Graph plugin\n"
-#~ "\n"
-#~ "Written by Kripkenstein"
-#~ msgstr ""
-#~ "Modul Graf aktivity siete\n"
-#~ "\n"
-#~ "Napísal Kripkenstein"
-
-#~ msgid ""
-#~ "Network Health Monitor plugin\n"
-#~ "\n"
-#~ "Written by Kripkenstein"
-#~ msgstr ""
-#~ "Modul Sledovanie stavu siete\n"
-#~ "\n"
-#~ "Napísal Kripkenstein"
-
-#~ msgid "IPs"
-#~ msgstr "IP adresy"
-
-#~ msgid ""
-#~ "There is a newer version of Deluge.  Would you like to be taken to our "
-#~ "download site?"
-#~ msgstr ""
-#~ "Bola zistená novšia verzia programu Deluge. Chcete ísť na stránku, odkiaľ ju "
-#~ "môžete stiahnuť?"
-
-#~ msgid "Select events to log"
-#~ msgstr "Vyberte udalosti, ktoré sa majú zaznamenávať"
-
-#~ msgid "Torrent Upload Speed (KiB/s):"
-#~ msgstr "Rýchlosť sťahovania torrentu (KB/s):"
-
-#~ msgid "TiB"
-#~ msgstr "TB"
-
-#~ msgid "PiB"
-#~ msgstr "PB"
-
-#~ msgid "Your Upload Line Speed:"
-#~ msgstr "Rýchlosť odosielania vášho pripojenia:"
-
-#~ msgid "Maximum Active Torrents:"
-#~ msgstr "Maximálny počet aktívnych torrentov:"
-
-#~ msgid "Clear Seeding Torrents"
-#~ msgstr "Vyčistí seedujúce torrenty"
-
-#~ msgid "Start or Resume Torrent"
-#~ msgstr "Spustí alebo pokračuje v torrente"
-
-#~ msgid "Pause Torrent"
-#~ msgstr "Pozastaví torrent"
-
-#~ msgid ""
-#~ "32 KiB\n"
-#~ "64 KiB\n"
-#~ "128 KiB\n"
-#~ "256 KiB\n"
-#~ "512 KiB\n"
-#~ "1024 KiB\n"
-#~ "2048 KiB\n"
-#~ msgstr ""
-#~ "32 KB\n"
-#~ "64 KB\n"
-#~ "128 KB\n"
-#~ "256 KB\n"
-#~ "512 KB\n"
-#~ "1024 KB\n"
-#~ "2048 KB\n"
-
-#~ msgid "WebUi Config"
-#~ msgstr "WebUi Konfigurácia"
-
-#~ msgid "New Password(confirm)"
-#~ msgstr "Nové heslo (potvrdiť)"
-
-#~ msgid "Button Style"
-#~ msgstr "Štýl tlačidla"
-
-#~ msgid "Cache Templates"
-#~ msgstr "Šablóny cache"
-
-#~ msgid "Confirmed Password <> New Password\n"
-#~ msgstr "Potvrdené heslo <> nové heslo\n"
-
-#~ msgid "no data."
-#~ msgstr "žiadne údaje."
-
-#~ msgid "Debug:Data Dump"
-#~ msgstr "Ladiace dáta"
-
-#~ msgid "Store all torrent files in:"
-#~ msgstr "Uchovávať všetky torrent súbory v:"
-
-#~ msgid "Autoload all torrent files in:"
-#~ msgstr "Automaticky načítať všetky torrent súbory v:"
-
-#~ msgid "<b>Autoload</b>"
-#~ msgstr "<b>Autonačítanie</b>"
-
-#~ msgid "Wrong file type or corrupted blocklist file."
-#~ msgstr "Nesprávny typ súboru alebo poškodený súbor zoznamu blokovaných."
-
-#~ msgid "FlexRSS"
-#~ msgstr "FlexRSS"
-
-#~ msgid "Feed will be retrieved automatically, based on the update interval."
-#~ msgstr "Kanál bude získavaný pravidelne v stanovenom intervale."
-
-#~ msgid "Feed must be refreshed manually."
-#~ msgstr "Kanál musí byť obnovený manuálne."
-
-#~ msgid "Update Interval"
-#~ msgstr "Interval obnovovania"
-
-#~ msgid "900"
-#~ msgstr "900"
-
-#~ msgid "Type"
-#~ msgstr "Typ"
-
-#~ msgid "<b>Information</b>"
-#~ msgstr "<b>Informácie</b>"
-
-#~ msgid "<b>Patterns</b>"
-#~ msgstr "<b>Vzorky</b>"
-
-#~ msgid "Season"
-#~ msgstr "Sezóna"
-
-#~ msgid "Episode"
-#~ msgstr "Epizóda"
-
-#~ msgid "Thru"
-#~ msgstr "Cez"
-
-#~ msgid "<b>History Restriction</b>"
-#~ msgstr "<b>Obmedzenie histórie</b>"
-
-#~ msgid "Doesn't Match"
-#~ msgstr "Nezhoduje sa"
-
-#~ msgid "<b>Test</b>"
-#~ msgstr "<b>Test</b>"
-
-#~ msgid "Insert torrent at top of queue."
-#~ msgstr "Vložiť torrent na začiatok fronty."
-
-#~ msgid "Set state to paused."
-#~ msgstr "Zmeniť stav na pozastavený."
-
-#~ msgid "Delete filter when matched."
-#~ msgstr "Odstrániť filter ak sa zhoduje."
-
-#~ msgid "<b>Download</b>"
-#~ msgstr "<b>Stiahnuť</b>"
-
-#~ msgid "Replacement"
-#~ msgstr "Náhrada"
-
-#~ msgid "Pattern"
-#~ msgstr "Vzorka"
-
-#~ msgid "<b>Link Rewriting</b>"
-#~ msgstr "<b>Prijímanie odkazov</b>"
-
-#~ msgid ""
-#~ "Content will be saved to Deluge's default directory, or a prompt will appear "
-#~ "if none is set."
-#~ msgstr ""
-#~ "Obsah bude uložený do štandardného priečinku Deluge, ak nie je nastavený "
-#~ "zobrazí sa výzva."
-
-#~ msgid "Deluge default"
-#~ msgstr "Predvolené v programe Deluge"
-
-#~ msgid "Show a FlexRSS icon in Deluge's toolbar."
-#~ msgstr "Zobraziť ikonu FlexRSS na paneli programu Deluge."
-
-#~ msgid "Show button on toolbar."
-#~ msgstr "Zobraziť tlačidlo na paneli."
-
-#~ msgid ""
-#~ "Feeds will be retrieved and parsed in their own threads. The application "
-#~ "will not be blocked, but it can be unreliable."
-#~ msgstr ""
-#~ "Kanály budú prijímané a spracované vo svojich vláknach. Aplikácia sa "
-#~ "nezablokuje, ale môže byť nespoľahlivá."
-
-#~ msgid "Threaded (experimental)"
-#~ msgstr "Vo vláknach (experimentálne)"
-
-#~ msgid "<b>Feed Retrieval</b>"
-#~ msgstr "<b>Preberanie kanálu</b>"
-
-#~ msgid "Domain"
-#~ msgstr "Doména"
-
-#~ msgid "Path"
-#~ msgstr "Umiestnenie"
-
-#~ msgid "<b>Cookies</b>"
-#~ msgstr "<b>Cookies</b>"
-
-#~ msgid "Local Peer Discovery"
-#~ msgstr "Local Peer Discovery"
-
-#~ msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
-#~ msgstr "Používať pokročilý pás priebehu (využíva trochu viac CPU/RAM)"
-
-#~ msgid "<b>Detailed Progress Bar</b>"
-#~ msgstr "<b>Podrobný pás priebehu</b>"
-
-#~ msgid "Add Web Seed"
-#~ msgstr "Pridať web seed"
-
-#~ msgid "High download limit:"
-#~ msgstr "Rýchly limit sťahovania:"
-
-#~ msgid "High upload limit:"
-#~ msgstr "Rýchly limit odosielania:"
-
-#~ msgid "Low download limit:"
-#~ msgstr "Pomalý limit sťahovania:"
-
-#~ msgid "Low upload limit:"
-#~ msgstr "Pomalý limit odosielania:"
-
-#~ msgid "Green is the high limits, yellow is the low limits and red is stopped"
-#~ msgstr ""
-#~ "Zelené sú rýchle limity, žlté sú pomalé limity a červené je zastavené."
-
-#~ msgid "If a limit is set to -1, it is unlimitted."
-#~ msgstr "Limity nastavené na -1 sú neobmedzené."
-
-#~ msgid "Start torrents in paused state"
-#~ msgstr "Spustiť torrenty pozastavené"
-
-#~ msgid "_Tracker Options"
-#~ msgstr "Možnosti _trackeru"
-
-#~ msgid "_Scrape Tracker"
-#~ msgstr "Opustiť tracker"
-
-#~ msgid "_Homepage"
-#~ msgstr "_Stránka"
-
-#~ msgid "_FAQ"
-#~ msgstr "_Otázky"
-
-#~ msgid "_Community"
-#~ msgstr "_Komunita"
-
-#~ msgid "Go"
-#~ msgstr "Prejsť"
-
-#~ msgid "Bookmarks"
-#~ msgstr "Záložky"
-
-#~ msgid "<b>Internal Browser</b>"
-#~ msgstr "<b>Interný prehliadač</b>"
-
-#~ msgid "Show the search bar on the toolbar"
-#~ msgstr "Zobraziť vyhľadávanie na paneli nástrojov"
-
-#~ msgid "Browser"
-#~ msgstr "Prehliadač"
-
-#, python-format
-#~ msgid "Queued %s"
-#~ msgstr "Vo fronte %s"
-
-#~ msgid "<b>Web Seeds</b>"
-#~ msgstr "<b>Web seedy</b>"
-
-#~ msgid "https://"
-#~ msgstr "https://"
-
-#: deluge/core/torrentmanager.py:650
+#: deluge/core/torrentmanager.py:652
 msgid "Announce OK"
 msgstr "Ohlásenie OK"
 
-#: deluge/core/torrentmanager.py:671
+#: deluge/core/torrentmanager.py:673
 msgid "Announce Sent"
 msgstr ""
 
-#: deluge/core/torrentmanager.py:680
+#: deluge/core/torrentmanager.py:682
 msgid "Alert"
 msgstr "Výstraha"
 
-#: deluge/core/torrentmanager.py:691
+#: deluge/core/torrentmanager.py:693
 msgid "Warning"
 msgstr "Upozornenie"
 
-#: deluge/core/torrentmanager.py:702
+#: deluge/core/torrentmanager.py:704
 #: deluge/ui/webui/scripts/template_strings.py:32
 msgid "Error"
 msgstr "Chyba"
@@ -606,7 +257,7 @@ msgstr "Vypnúť"
 
 #: deluge/ui/webui/scripts/template_strings.py:50
 #: deluge/ui/webui/register_menu.py:46
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:652
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:618
 #: deluge/ui/gtkui/glade/connection_manager.glade:246
 msgid "Options"
 msgstr "Voľby"
@@ -638,7 +289,6 @@ msgid "Pieces"
 msgstr "Časti"
 
 #: deluge/ui/webui/scripts/template_strings.py:57
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:735
 #: deluge/ui/gtkui/glade/main_window.glade:1985
 msgid "Private"
 msgstr ""
@@ -718,8 +368,8 @@ msgid "Share Ratio"
 msgstr "Pomer zdieľania"
 
 #: deluge/ui/webui/scripts/template_strings.py:75
-#: deluge/ui/gtkui/addtorrentdialog.py:107 deluge/ui/gtkui/torrentview.py:142
-#: deluge/ui/gtkui/files_tab.py:125
+#: deluge/ui/gtkui/addtorrentdialog.py:109 deluge/ui/gtkui/torrentview.py:142
+#: deluge/ui/gtkui/files_tab.py:125 deluge/ui/gtkui/createtorrentdialog.py:83
 msgid "Size"
 msgstr "Veľkosť"
 
@@ -751,7 +401,9 @@ msgid "Total Size"
 msgstr "Celková veľkosť"
 
 #: deluge/ui/webui/scripts/template_strings.py:82
-#: deluge/ui/gtkui/torrentview.py:180 deluge/ui/gtkui/edittrackersdialog.py:83
+#: deluge/ui/gtkui/torrentview.py:180
+#: deluge/ui/gtkui/createtorrentdialog.py:98
+#: deluge/ui/gtkui/edittrackersdialog.py:83
 msgid "Tracker"
 msgstr "Tracker"
 
@@ -789,11 +441,11 @@ msgstr ""
 msgid "seconds"
 msgstr "sekúnd"
 
-#: deluge/ui/webui/pages.py:271
+#: deluge/ui/webui/pages.py:267
 msgid "refresh must be > 0"
 msgstr "obnovovanie musí byť > 0"
 
-#: deluge/ui/webui/pages.py:322
+#: deluge/ui/webui/pages.py:318
 msgid "no uri"
 msgstr ""
 
@@ -836,7 +488,7 @@ msgid "Add In Paused State"
 msgstr ""
 
 #: deluge/ui/webui/torrent_add.py:57
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:608
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:574
 msgid "Set Private Flag"
 msgstr "Nastaviť príznak „súkromný“"
 
@@ -928,7 +580,7 @@ msgid "Handshake"
 msgstr ""
 
 #: deluge/ui/webui/config_tabs_deluge.py:89
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:473
 msgid "Full"
 msgstr ""
 
@@ -1114,7 +766,7 @@ msgstr ""
 msgid "Correct the errors above and try again"
 msgstr ""
 
-#: deluge/ui/webui/utils.py:125 deluge/ui/webui/utils.py:130
+#: deluge/ui/webui/utils.py:112 deluge/ui/webui/utils.py:117
 #: deluge/ui/webui/render.py:174
 msgid "∞"
 msgstr ""
@@ -1286,7 +938,8 @@ msgstr ""
 #: deluge/ui/webui/lib/newforms_plus.py:193
 #: deluge/ui/webui/lib/newforms_plus.py:204 deluge/ui/gtkui/systemtray.py:187
 #: deluge/ui/gtkui/systemtray.py:191 deluge/ui/gtkui/systemtray.py:340
-#: deluge/common.py:174
+#: deluge/ui/gtkui/statusbar.py:359 deluge/ui/gtkui/statusbar.py:387
+#: deluge/ui/gtkui/statusbar.py:414 deluge/common.py:174
 msgid "Unlimited"
 msgstr "Neobmedzené"
 
@@ -1299,7 +952,7 @@ msgid "Details"
 msgstr "Podrobnosti"
 
 #: deluge/ui/webui/register_menu.py:47
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:501
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
 #: deluge/plugins/label/label/data/label_options.glade:525
 msgid "Trackers"
 msgstr ""
@@ -1343,35 +996,30 @@ msgstr "Znovuohlásiť"
 msgid "Recheck"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrenturl.py:45
-msgid "Add torrent from URL"
-msgstr "Pridať torrent z URL"
-
-#: deluge/ui/gtkui/addtorrenturl.py:50
-msgid "Enter the URL of the .torrent to download"
-msgstr "Zadajte URL adresu súboru .torrent, ktorý chcete stiahnuť"
-
 #: deluge/ui/gtkui/preferences.py:81
 msgid "Plugin"
 msgstr "Modul"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:88 deluge/ui/gtkui/queuedtorrents.py:71
+#: deluge/ui/gtkui/addtorrentdialog.py:90 deluge/ui/gtkui/queuedtorrents.py:71
 msgid "Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/addtorrentdialog.py:96 deluge/ui/gtkui/files_tab.py:109
+#: deluge/ui/gtkui/addtorrentdialog.py:98 deluge/ui/gtkui/files_tab.py:109
+#: deluge/ui/gtkui/createtorrentdialog.py:73
 msgid "Filename"
 msgstr "Názov súboru"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:447
+#: deluge/ui/gtkui/addtorrentdialog.py:500
 msgid "Choose a .torrent file"
 msgstr "Vyberte súbor s príponou .torrent"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:459
+#: deluge/ui/gtkui/addtorrentdialog.py:512
+#: deluge/ui/gtkui/createtorrentdialog.py:229
 msgid "Torrent files"
 msgstr "Torrent súbory"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:463
+#: deluge/ui/gtkui/addtorrentdialog.py:516
+#: deluge/ui/gtkui/createtorrentdialog.py:233
 msgid "All files"
 msgstr "Všetky súbory"
 
@@ -1384,25 +1032,16 @@ msgstr "Torrent dokončený"
 msgid "Including %i files"
 msgstr ""
 
-#: deluge/ui/gtkui/notification.py:102
-#, python-format
-msgid "Finished torrent %s"
-msgstr ""
-
-#: deluge/ui/gtkui/notification.py:104
+#: deluge/ui/gtkui/notification.py:103
 #, python-format
 msgid ""
-"which includes %i files.\n"
-"To stop receiving these alerts, simply turn off email notification in "
-"Deluge's preferences.\n"
+"This email is to inform you that Deluge has finished downloading %s ,        "
+"     which includes %i files.\n"
+"To stop receiving these alerts, simply turn off             email "
+"notification in Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge"
-msgstr ""
-
-#: deluge/ui/gtkui/notification.py:103
-#, python-format
-msgid "This email is to inform you that Deluge has finished downloading %s "
 msgstr ""
 
 #: deluge/ui/gtkui/menubar.py:77
@@ -1421,19 +1060,19 @@ msgstr ""
 msgid "Choose a directory to move files to"
 msgstr "Vyberte adresár, do ktorého sa majú presunúť súbory"
 
-#: deluge/ui/gtkui/menubar.py:445
+#: deluge/ui/gtkui/menubar.py:446
 msgid "Set Max Download Speed (KiB/s):"
 msgstr ""
 
-#: deluge/ui/gtkui/menubar.py:447
+#: deluge/ui/gtkui/menubar.py:448
 msgid "Set Max Upload Speed (KiB/s):"
 msgstr ""
 
-#: deluge/ui/gtkui/menubar.py:449
+#: deluge/ui/gtkui/menubar.py:450
 msgid "Set Max Connections:"
 msgstr ""
 
-#: deluge/ui/gtkui/menubar.py:451
+#: deluge/ui/gtkui/menubar.py:452
 msgid "Set Max Upload Slots:"
 msgstr ""
 
@@ -1458,9 +1097,9 @@ msgstr "Vyššie"
 msgid "KiB/s"
 msgstr "KB/s"
 
-#: deluge/ui/gtkui/systemtray.py:343 deluge/ui/gtkui/statusbar.py:363
-#: deluge/ui/gtkui/statusbar.py:392 deluge/ui/gtkui/statusbar.py:420
-#: deluge/common.py:230
+#: deluge/ui/gtkui/systemtray.py:343 deluge/ui/gtkui/statusbar.py:361
+#: deluge/ui/gtkui/statusbar.py:389 deluge/ui/gtkui/statusbar.py:416
+#: deluge/common.py:231 deluge/common.py:232
 msgid "Other..."
 msgstr "Iné..."
 
@@ -1505,6 +1144,28 @@ msgstr ""
 msgid "Remove Selected Torrents"
 msgstr ""
 
+#: deluge/ui/gtkui/createtorrentdialog.py:96
+#: deluge/ui/gtkui/edittrackersdialog.py:81
+msgid "Tier"
+msgstr ""
+
+#: deluge/ui/gtkui/createtorrentdialog.py:125
+msgid "Choose a file"
+msgstr ""
+
+#: deluge/ui/gtkui/createtorrentdialog.py:152
+msgid "Choose a folder"
+msgstr ""
+
+#: deluge/ui/gtkui/createtorrentdialog.py:217
+msgid "Save .torrent file"
+msgstr ""
+
+#: deluge/ui/gtkui/createtorrentdialog.py:333
+#, python-format
+msgid "%.2f%%"
+msgstr ""
+
 #: deluge/ui/gtkui/aboutdialog.py:66
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
@@ -1534,27 +1195,23 @@ msgstr "Rýchlosť odosielania"
 msgid "No Incoming Connections!"
 msgstr ""
 
-#: deluge/ui/gtkui/statusbar.py:365
+#: deluge/ui/gtkui/statusbar.py:363
 msgid "Download Speed (KiB/s):"
 msgstr "Rýchlosť sťahovania (KB/s):"
 
-#: deluge/ui/gtkui/statusbar.py:394
+#: deluge/ui/gtkui/statusbar.py:391
 msgid "Upload Speed (KiB/s):"
 msgstr "Rýchlosť odosielania (KB/s):"
 
-#: deluge/ui/gtkui/statusbar.py:422
+#: deluge/ui/gtkui/statusbar.py:418
 msgid "Connection Limit:"
-msgstr ""
-
-#: deluge/ui/gtkui/edittrackersdialog.py:81
-msgid "Tier"
 msgstr ""
 
 #: deluge/common.py:177
 msgid "Activated"
 msgstr "Aktvované"
 
-#: deluge/common.py:245
+#: deluge/common.py:247
 #, python-format
 msgid "%s"
 msgstr ""
@@ -1701,105 +1358,97 @@ msgstr ""
 msgid "Refresh status"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:8
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
 msgid "Create Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:35
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
 msgid "<big><b>Create Torrent</b></big>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:118
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
 #: deluge/ui/gtkui/glade/main_window.glade:20
 msgid "_File"
 msgstr "_Súbor"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:155
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
 msgid "Fol_der"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:195
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
 msgid "_Remote Path"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:225
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
 msgid "<b>Files</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:259
-msgid "Save .torrent file as:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:300
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
 msgid "Author:"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:330
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
 msgid "Comments:"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:370
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
 msgid "Info"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:423
-#: deluge/ui/gtkui/glade/edit_trackers.glade:96
-#: deluge/ui/gtkui/glade/torrent_menu.glade:334
-msgid "gtk-go-up"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:435
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:396
 #: deluge/ui/gtkui/glade/connection_manager.glade:101
 #: deluge/ui/gtkui/glade/connection_manager.glade:405
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:171
 #: deluge/ui/gtkui/glade/edit_trackers.glade:108
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1022
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:950
 msgid "gtk-add"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:450
-#: deluge/ui/gtkui/glade/connection_manager.glade:113
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:94
-#: deluge/ui/gtkui/glade/edit_trackers.glade:137
-msgid "gtk-remove"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:465
-#: deluge/ui/gtkui/glade/edit_trackers.glade:152
-#: deluge/ui/gtkui/glade/torrent_menu.glade:344
-msgid "gtk-go-down"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:551
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
 msgid "Webseeds"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:581
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
 msgid "Piece Size:"
 msgstr "Veľkosť časti:"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:622
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+msgid ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:588
 msgid "Add this torrent to the session"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:684
-#: deluge/ui/gtkui/glade/connection_manager.glade:392
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3558
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:167
-#: deluge/ui/gtkui/glade/edit_trackers.glade:189
-#: deluge/ui/gtkui/glade/edit_trackers.glade:336
-#: deluge/ui/gtkui/glade/edit_trackers.glade:485
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:121
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1010
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1157
-#: deluge/ui/gtkui/glade/main_window.glade:2317
-#: deluge/plugins/label/label/data/label_options.glade:547
-#: deluge/plugins/label/label/data/label_options.glade:623
-msgid "gtk-cancel"
-msgstr "gtk-cancel"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:686
+msgid "Enter Remote Path"
+msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:709
-msgid "Create _Torrent"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:722
+msgid "<b>Remote Path</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:756
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:938
+msgid "Path:"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:831
+msgid "Creating Torrent"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:868
+msgid "Save .torrent as"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:904
+msgid "<b>Save .torrent file</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:10
@@ -1827,12 +1476,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/connection_manager.glade:229
 msgid "Do not show this dialog on start-up"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:269
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:154
-#: deluge/ui/gtkui/glade/main_window.glade:2499
-msgid "gtk-close"
-msgstr "gtk-close"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:285
 msgid "gtk-connect"
@@ -1875,7 +1518,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:225
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:259
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:413
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:414
 #: deluge/ui/gtkui/glade/main_window.glade:1911
 msgid "Select A Folder"
 msgstr "Vybrať priečinok"
@@ -1918,7 +1561,7 @@ msgid "Compact allocation only allocates space as needed"
 msgstr "Kompaktná alokácia obsadí iba potrebný diskový priestor"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:443
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:507
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:508
 msgid "<b>Allocation</b>"
 msgstr "<b>Alokácia</b>"
 
@@ -2274,7 +1917,7 @@ msgstr ""
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2442
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3179
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:810
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:738
 #: deluge/ui/gtkui/glade/main_window.glade:2059
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:89
 msgid "<b>General</b>"
@@ -2420,32 +2063,12 @@ msgstr ""
 msgid "<i><b><big>Plugins</big></b></i>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3570
-#: deluge/ui/gtkui/glade/main_window.glade:2088
-msgid "gtk-apply"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3585
-#: deluge/ui/gtkui/glade/edit_trackers.glade:201
-#: deluge/ui/gtkui/glade/edit_trackers.glade:350
-#: deluge/ui/gtkui/glade/edit_trackers.glade:499
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:134
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1170
-#: deluge/plugins/label/label/data/label_options.glade:558
-#: deluge/plugins/label/label/data/label_options.glade:634
-msgid "gtk-ok"
-msgstr "gtk-ok"
-
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
 msgid "Queued Torrents"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:47
 msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:106
-msgid "gtk-clear"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:127
@@ -2490,26 +2113,29 @@ msgstr ""
 msgid "gtk-edit"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:223
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1044
+#: deluge/ui/gtkui/glade/edit_trackers.glade:224
 msgid "Add Tracker"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:259
-msgid "<b>Add Tracker</b>"
+#: deluge/ui/gtkui/glade/edit_trackers.glade:260
+msgid "<b>Add Trackers</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:293
-#: deluge/ui/gtkui/glade/edit_trackers.glade:442
-msgid "Tracker:"
+#: deluge/ui/gtkui/glade/edit_trackers.glade:296
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1224
+msgid "Trackers:"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:372
+#: deluge/ui/gtkui/glade/edit_trackers.glade:380
 msgid "Edit Tracker"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:408
+#: deluge/ui/gtkui/glade/edit_trackers.glade:416
 msgid "<b>Edit Tracker</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:450
+msgid "Tracker:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
@@ -2532,97 +2158,103 @@ msgstr ""
 msgid "<big><b>Add Torrents</b></big>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
-msgid "From _File"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
-msgid "From _URL"
+msgid "_URL"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:239
-msgid "From _Hash"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
+msgid "Info_hash"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:285
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:286
 msgid "_Remove"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:318
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:319
 msgid "<b>Torrents</b>"
 msgstr "<b>Torrenty</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:372
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
 msgid "Fi_les"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:433
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
 msgid "<b>Download Location</b>"
 msgstr "<b>Miesto kam sťahovať</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:487
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:488
 msgid "Compact"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:559
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:560
 msgid "Max Down Speed:"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:571
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:572
 msgid "Max Up Speed:"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:585
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:586
 #: deluge/ui/gtkui/glade/main_window.glade:1691
 msgid "Max Connections:"
 msgstr "Maximum pripojení"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:599
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:600
 #: deluge/ui/gtkui/glade/main_window.glade:1754
 msgid "Max Upload Slots:"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:669
 #: deluge/ui/gtkui/glade/main_window.glade:1787
 msgid "<b>Bandwidth</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:704
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
 msgid "Add In _Paused State"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:719
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:720
 msgid "Prioritize First/Last Pieces"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:777
-#: deluge/ui/gtkui/glade/torrent_menu.glade:130
-#: deluge/ui/gtkui/glade/main_window.glade:2034
-msgid "_Edit Trackers"
-msgstr "_Upraviť trackery"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:867
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:795
 msgid "Revert To Defaults"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:921
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:849
 msgid "Apply To All"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:968
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:896
 #: deluge/ui/gtkui/glade/main_window.glade:2138
 msgid "_Options"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1080
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:972
+msgid "Add URL"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1008
 msgid "<b>From URL</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1114
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1042
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:60
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:392
 msgid "URL:"
 msgstr "URL:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1119
+msgid "Add Infohash"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1155
+msgid "<b>From Infohash</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1189
+msgid "Infohash:"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
 msgid "_Open Folder"
@@ -2647,6 +2279,11 @@ msgstr "_Zaradiť do fronty"
 #: deluge/ui/gtkui/glade/torrent_menu.glade:113
 msgid "_Update Tracker"
 msgstr "_Aktualizovať tracker"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:130
+#: deluge/ui/gtkui/glade/main_window.glade:2034
+msgid "_Edit Trackers"
+msgstr "_Upraviť trackery"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:152
 msgid "_Remove Torrent"
@@ -2698,14 +2335,6 @@ msgstr ""
 msgid "_Auto Managed"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:324
-msgid "gtk-goto-top"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:354
-msgid "gtk-goto-bottom"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/tray_menu.glade:12
 msgid "_Show Deluge"
 msgstr "_Zobraziť program Deluge"
@@ -2731,22 +2360,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/tray_menu.glade:146
 msgid "_Quit"
 msgstr "_Ukončiť"
-
-#: deluge/ui/gtkui/glade/file_tab_menu.glade:12
-msgid "Select All"
-msgstr "Označiť všetky"
-
-#: deluge/ui/gtkui/glade/file_tab_menu.glade:33
-msgid "Unselect All"
-msgstr "Odznačiť všetky"
-
-#: deluge/ui/gtkui/glade/file_tab_menu.glade:60
-msgid "Check Selected"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/file_tab_menu.glade:81
-msgid "Uncheck Selected"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:43
 msgid "_Create Torrent"
@@ -2827,10 +2440,6 @@ msgstr "Vyššie vo fronte"
 #: deluge/ui/gtkui/glade/main_window.glade:374
 msgid "Queue Torrent Down"
 msgstr "Nižšie vo fronte"
-
-#: deluge/ui/gtkui/glade/main_window.glade:515
-msgid "gtk-open"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:529
 msgid "_Expand All"
@@ -3113,3 +2722,352 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:448
 msgid "<b>Info</b>"
 msgstr ""
+
+#~ msgid "Manage Search Plugins"
+#~ msgstr "Spravovať vyhľadávacie moduly"
+
+#~ msgid "Bandwidth"
+#~ msgstr "Prenosové pásmo"
+
+#~ msgid "Ask where to save each download"
+#~ msgstr "Vždy sa spýtať, kam ukladať"
+
+#~ msgid "Queue torrents to bottom when they begin seeding"
+#~ msgstr "Zaradiť torrenty na koniec keď začne seedovanie"
+
+#~ msgid "Enable Mainline DHT"
+#~ msgstr "Povoliť mainline DHT"
+
+#~ msgid "<b>Torrent Info</b>"
+#~ msgstr "<b>Informácie o torrente</b>"
+
+#~ msgid "Store all downloads in:"
+#~ msgstr "Vždy ukladať do priečinku:"
+
+#~ msgid "Affects regular bittorrent peers"
+#~ msgstr "Ovplyvňuje bittorrent peerov"
+
+#~ msgid "Peer Proxy"
+#~ msgstr "Peer proxy"
+
+#~ msgid "Username"
+#~ msgstr "Meno používateľa"
+
+#~ msgid "_Top"
+#~ msgstr "_Hore"
+
+#~ msgid "_Bottom"
+#~ msgstr "_Dolu"
+
+#~ msgid "Plu_gins"
+#~ msgstr "_Moduly"
+
+#~ msgid "Enable selecting files for torrents before loading"
+#~ msgstr "Pred začatím sťahovania ponúknuť výber súborov na stiahnutie"
+
+#~ msgid "_Translate This Application..."
+#~ msgstr "_Preložiť túto aplikáciu..."
+
+#~ msgid "Automatically clear torrents that reach the max share ratio"
+#~ msgstr "Automaticky vyčistiť torrenty po dosiahnutí pomeru zdieľania"
+
+#~ msgid "Normal"
+#~ msgstr "Normálna"
+
+#~ msgid "Deluge Merge Tracker Lists"
+#~ msgstr "Spojenie zoznamov trackerov v Deluge"
+
+#~ msgid "KiB"
+#~ msgstr "KB"
+
+#~ msgid "MiB"
+#~ msgstr "MB"
+
+#~ msgid "GiB"
+#~ msgstr "GB"
+
+#~ msgid "A torrent creator plugin"
+#~ msgstr "Modul Tvorca torrentov"
+
+#~ msgid "Add new torrent to queue"
+#~ msgstr "Pridať nový torrent do fronty"
+
+#~ msgid ""
+#~ "Network Activity Graph plugin\n"
+#~ "\n"
+#~ "Written by Kripkenstein"
+#~ msgstr ""
+#~ "Modul Graf aktivity siete\n"
+#~ "\n"
+#~ "Napísal Kripkenstein"
+
+#~ msgid ""
+#~ "Network Health Monitor plugin\n"
+#~ "\n"
+#~ "Written by Kripkenstein"
+#~ msgstr ""
+#~ "Modul Sledovanie stavu siete\n"
+#~ "\n"
+#~ "Napísal Kripkenstein"
+
+#~ msgid "IPs"
+#~ msgstr "IP adresy"
+
+#~ msgid ""
+#~ "There is a newer version of Deluge.  Would you like to be taken to our "
+#~ "download site?"
+#~ msgstr ""
+#~ "Bola zistená novšia verzia programu Deluge. Chcete ísť na stránku, odkiaľ ju "
+#~ "môžete stiahnuť?"
+
+#~ msgid "Select events to log"
+#~ msgstr "Vyberte udalosti, ktoré sa majú zaznamenávať"
+
+#~ msgid "Torrent Upload Speed (KiB/s):"
+#~ msgstr "Rýchlosť sťahovania torrentu (KB/s):"
+
+#~ msgid "TiB"
+#~ msgstr "TB"
+
+#~ msgid "PiB"
+#~ msgstr "PB"
+
+#~ msgid "Your Upload Line Speed:"
+#~ msgstr "Rýchlosť odosielania vášho pripojenia:"
+
+#~ msgid "Maximum Active Torrents:"
+#~ msgstr "Maximálny počet aktívnych torrentov:"
+
+#~ msgid "Clear Seeding Torrents"
+#~ msgstr "Vyčistí seedujúce torrenty"
+
+#~ msgid "Start or Resume Torrent"
+#~ msgstr "Spustí alebo pokračuje v torrente"
+
+#~ msgid "Pause Torrent"
+#~ msgstr "Pozastaví torrent"
+
+#~ msgid ""
+#~ "32 KiB\n"
+#~ "64 KiB\n"
+#~ "128 KiB\n"
+#~ "256 KiB\n"
+#~ "512 KiB\n"
+#~ "1024 KiB\n"
+#~ "2048 KiB\n"
+#~ msgstr ""
+#~ "32 KB\n"
+#~ "64 KB\n"
+#~ "128 KB\n"
+#~ "256 KB\n"
+#~ "512 KB\n"
+#~ "1024 KB\n"
+#~ "2048 KB\n"
+
+#~ msgid "WebUi Config"
+#~ msgstr "WebUi Konfigurácia"
+
+#~ msgid "New Password(confirm)"
+#~ msgstr "Nové heslo (potvrdiť)"
+
+#~ msgid "Button Style"
+#~ msgstr "Štýl tlačidla"
+
+#~ msgid "Cache Templates"
+#~ msgstr "Šablóny cache"
+
+#~ msgid "Confirmed Password <> New Password\n"
+#~ msgstr "Potvrdené heslo <> nové heslo\n"
+
+#~ msgid "no data."
+#~ msgstr "žiadne údaje."
+
+#~ msgid "Debug:Data Dump"
+#~ msgstr "Ladiace dáta"
+
+#~ msgid "Store all torrent files in:"
+#~ msgstr "Uchovávať všetky torrent súbory v:"
+
+#~ msgid "Autoload all torrent files in:"
+#~ msgstr "Automaticky načítať všetky torrent súbory v:"
+
+#~ msgid "<b>Autoload</b>"
+#~ msgstr "<b>Autonačítanie</b>"
+
+#~ msgid "Wrong file type or corrupted blocklist file."
+#~ msgstr "Nesprávny typ súboru alebo poškodený súbor zoznamu blokovaných."
+
+#~ msgid "FlexRSS"
+#~ msgstr "FlexRSS"
+
+#~ msgid "Feed will be retrieved automatically, based on the update interval."
+#~ msgstr "Kanál bude získavaný pravidelne v stanovenom intervale."
+
+#~ msgid "Feed must be refreshed manually."
+#~ msgstr "Kanál musí byť obnovený manuálne."
+
+#~ msgid "Update Interval"
+#~ msgstr "Interval obnovovania"
+
+#~ msgid "900"
+#~ msgstr "900"
+
+#~ msgid "Type"
+#~ msgstr "Typ"
+
+#~ msgid "<b>Information</b>"
+#~ msgstr "<b>Informácie</b>"
+
+#~ msgid "<b>Patterns</b>"
+#~ msgstr "<b>Vzorky</b>"
+
+#~ msgid "Season"
+#~ msgstr "Sezóna"
+
+#~ msgid "Episode"
+#~ msgstr "Epizóda"
+
+#~ msgid "Thru"
+#~ msgstr "Cez"
+
+#~ msgid "<b>History Restriction</b>"
+#~ msgstr "<b>Obmedzenie histórie</b>"
+
+#~ msgid "Doesn't Match"
+#~ msgstr "Nezhoduje sa"
+
+#~ msgid "<b>Test</b>"
+#~ msgstr "<b>Test</b>"
+
+#~ msgid "Insert torrent at top of queue."
+#~ msgstr "Vložiť torrent na začiatok fronty."
+
+#~ msgid "Set state to paused."
+#~ msgstr "Zmeniť stav na pozastavený."
+
+#~ msgid "Delete filter when matched."
+#~ msgstr "Odstrániť filter ak sa zhoduje."
+
+#~ msgid "<b>Download</b>"
+#~ msgstr "<b>Stiahnuť</b>"
+
+#~ msgid "Replacement"
+#~ msgstr "Náhrada"
+
+#~ msgid "Pattern"
+#~ msgstr "Vzorka"
+
+#~ msgid "<b>Link Rewriting</b>"
+#~ msgstr "<b>Prijímanie odkazov</b>"
+
+#~ msgid ""
+#~ "Content will be saved to Deluge's default directory, or a prompt will appear "
+#~ "if none is set."
+#~ msgstr ""
+#~ "Obsah bude uložený do štandardného priečinku Deluge, ak nie je nastavený "
+#~ "zobrazí sa výzva."
+
+#~ msgid "Deluge default"
+#~ msgstr "Predvolené v programe Deluge"
+
+#~ msgid "Show a FlexRSS icon in Deluge's toolbar."
+#~ msgstr "Zobraziť ikonu FlexRSS na paneli programu Deluge."
+
+#~ msgid "Show button on toolbar."
+#~ msgstr "Zobraziť tlačidlo na paneli."
+
+#~ msgid ""
+#~ "Feeds will be retrieved and parsed in their own threads. The application "
+#~ "will not be blocked, but it can be unreliable."
+#~ msgstr ""
+#~ "Kanály budú prijímané a spracované vo svojich vláknach. Aplikácia sa "
+#~ "nezablokuje, ale môže byť nespoľahlivá."
+
+#~ msgid "Threaded (experimental)"
+#~ msgstr "Vo vláknach (experimentálne)"
+
+#~ msgid "<b>Feed Retrieval</b>"
+#~ msgstr "<b>Preberanie kanálu</b>"
+
+#~ msgid "Domain"
+#~ msgstr "Doména"
+
+#~ msgid "Path"
+#~ msgstr "Umiestnenie"
+
+#~ msgid "<b>Cookies</b>"
+#~ msgstr "<b>Cookies</b>"
+
+#~ msgid "Local Peer Discovery"
+#~ msgstr "Local Peer Discovery"
+
+#~ msgid "Use the advanced progress bar (uses slightly more CPU/RAM)"
+#~ msgstr "Používať pokročilý pás priebehu (využíva trochu viac CPU/RAM)"
+
+#~ msgid "<b>Detailed Progress Bar</b>"
+#~ msgstr "<b>Podrobný pás priebehu</b>"
+
+#~ msgid "Add Web Seed"
+#~ msgstr "Pridať web seed"
+
+#~ msgid "High download limit:"
+#~ msgstr "Rýchly limit sťahovania:"
+
+#~ msgid "High upload limit:"
+#~ msgstr "Rýchly limit odosielania:"
+
+#~ msgid "Low download limit:"
+#~ msgstr "Pomalý limit sťahovania:"
+
+#~ msgid "Low upload limit:"
+#~ msgstr "Pomalý limit odosielania:"
+
+#~ msgid "Green is the high limits, yellow is the low limits and red is stopped"
+#~ msgstr ""
+#~ "Zelené sú rýchle limity, žlté sú pomalé limity a červené je zastavené."
+
+#~ msgid "If a limit is set to -1, it is unlimitted."
+#~ msgstr "Limity nastavené na -1 sú neobmedzené."
+
+#~ msgid "Start torrents in paused state"
+#~ msgstr "Spustiť torrenty pozastavené"
+
+#~ msgid "_Tracker Options"
+#~ msgstr "Možnosti _trackeru"
+
+#~ msgid "_Scrape Tracker"
+#~ msgstr "Opustiť tracker"
+
+#~ msgid "_Homepage"
+#~ msgstr "_Stránka"
+
+#~ msgid "_FAQ"
+#~ msgstr "_Otázky"
+
+#~ msgid "_Community"
+#~ msgstr "_Komunita"
+
+#~ msgid "Go"
+#~ msgstr "Prejsť"
+
+#~ msgid "Bookmarks"
+#~ msgstr "Záložky"
+
+#~ msgid "<b>Internal Browser</b>"
+#~ msgstr "<b>Interný prehliadač</b>"
+
+#~ msgid "Show the search bar on the toolbar"
+#~ msgstr "Zobraziť vyhľadávanie na paneli nástrojov"
+
+#~ msgid "Browser"
+#~ msgstr "Prehliadač"
+
+#, python-format
+#~ msgid "Queued %s"
+#~ msgstr "Vo fronte %s"
+
+#~ msgid "<b>Web Seeds</b>"
+#~ msgstr "<b>Web seedy</b>"
+
+#~ msgid "https://"
+#~ msgstr "https://"

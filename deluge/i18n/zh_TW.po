@@ -7,491 +7,36 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Deluge VERSION\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-08-26 20:14-0500\n"
+"POT-Creation-Date: 2008-09-20 22:04-0500\n"
 "PO-Revision-Date: 2008-07-31 08:58+0000\n"
 "Last-Translator: 蔡查理 <Unknown>\n"
 "Language-Team: Jose Sun <josesun@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-09-21 02:36+0000\n"
+"X-Launchpad-Export-Date: 2008-10-17 02:56+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Country: Taiwan\n"
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#~ msgid "D/L"
-#~ msgstr "下載"
-
-#~ msgid "U/L"
-#~ msgstr "上傳"
-
-#~ msgid "Share %"
-#~ msgstr "分享率"
-
-#~ msgid "path"
-#~ msgstr "路徑"
-
-#~ msgid "size"
-#~ msgstr "大小"
-
-#~ msgid "offset"
-#~ msgstr "前置量"
-
-#~ msgid "download?"
-#~ msgstr "確定要下載？"
-
-#~ msgid "IP"
-#~ msgstr "IP 位址"
-
-#~ msgid "Connections: "
-#~ msgstr "連接數： "
-
-#~ msgid "Select Torrent"
-#~ msgstr "請選擇種子"
-
-#~ msgid "infinity"
-#~ msgstr "無限"
-
-#~ msgid "1 second"
-#~ msgstr "1 秒鐘"
-
-#~ msgid "1 minute"
-#~ msgstr "1 分鐘"
-
-#~ msgid "minutes"
-#~ msgstr "分"
-
-#~ msgid "1 hour"
-#~ msgstr "1 小時"
-
-#~ msgid "hours"
-#~ msgstr "時"
-
-#~ msgid "1 day"
-#~ msgstr "1 日"
-
-#~ msgid "days"
-#~ msgstr "日"
-
-#~ msgid "1 week"
-#~ msgstr "1 週"
-
-#~ msgid "weeks"
-#~ msgstr "週"
-
-#~ msgid "Search string"
-#~ msgstr "搜尋字串"
-
-#~ msgid "Deluge Bittorrent Client"
-#~ msgstr "Deluge BT 用戶端"
-
-#~ msgid "Add a Torrent"
-#~ msgstr "新增種子"
-
-#~ msgid "Deluge Support _Forums"
-#~ msgstr "Deluge 支援論壇 (_F)"
-
-#~ msgid "Force Pause/Resume Torrent"
-#~ msgstr "強制 暫停/恢復 下載"
-
-#~ msgid "Open the online support forums in your web browser"
-#~ msgstr "在瀏覽器內開啟線上支援論壇"
-
-#~ msgid "Show/Hide the Details Pane"
-#~ msgstr "顯示/隱藏詳細訊息面板"
-
-#~ msgid "Update Tracker"
-#~ msgstr "更新伺服器"
-
-#~ msgid "<b>Bandwidth (KB/s):</b>"
-#~ msgstr "<b>頻寬 (KB/s)：</b>"
-
-#~ msgid "<b>Save Location:</b>"
-#~ msgstr "<b>儲存位置：</b>"
-
-#~ msgid "<b>Sharing:</b>"
-#~ msgstr "<b>分享：</b>"
-
-#~ msgid "Automatically stop seeding torrents when their share ratio reaches:"
-#~ msgstr "當分享率達到這數值時自動停止作種："
-
-#~ msgid "Deluge Preferences"
-#~ msgstr "Deluge 偏好設定"
-
-#~ msgid "Maximum Download Rate:"
-#~ msgstr "最大下載頻寬："
-
-#~ msgid "Maximum Upload Rate:"
-#~ msgstr "最大上傳頻寬："
-
-#~ msgid "Maximum number of Downloads:"
-#~ msgstr "最大同時下載數："
-
-#~ msgid "Maximum number of Uploads:"
-#~ msgstr "最大同時上傳數："
-
-#~ msgid "Save all downloads to:"
-#~ msgstr "儲存所有下載至："
-
-#~ msgid "Select a save location for each download"
-#~ msgstr "為每個下載選擇儲存位置"
-
-#~ msgid "Force Pause"
-#~ msgstr "強制暫停"
-
-#~ msgid "Update Trackers"
-#~ msgstr "更新伺服器"
-
-#~ msgid "Paused"
-#~ msgstr "已暫停"
-
-#~ msgid "Queued"
-#~ msgstr "已排入佇列"
-
-#~ msgid "Waiting to check"
-#~ msgstr "等待測試"
-
-#~ msgid "Downloading (T?)"
-#~ msgstr "正在連線 (T？)"
-
-#~ msgid "Downloading Meta"
-#~ msgstr "下載資訊"
-
-#~ msgid "Finished"
-#~ msgstr "已完成"
-
-#~ msgid "Allocating"
-#~ msgstr "正在分配空間"
-
-#~ msgid "N/A"
-#~ msgstr "N/A"
-
-#~ msgid "INF"
-#~ msgstr "INF"
-
-#~ msgid "Invalid request"
-#~ msgstr "無效的要求"
-
-#~ msgid "File error"
-#~ msgstr "檔案錯誤"
-
-#~ msgid "Hash failed"
-#~ msgstr "雜湊失敗"
-
-#~ msgid "Peer banned"
-#~ msgstr "已列入黑名單的端點"
-
-#~ msgid "Fastresume rejected"
-#~ msgstr "快速恢復遭駁回"
-
-#~ msgid "Event"
-#~ msgstr "事件"
-
-#~ msgid "translator-credits"
-#~ msgstr ""
-#~ "如對翻譯有任何意見，請送一封電子郵件給以下地址，會盡快回覆您：Cheng-Wei Chien <e.cwchien@gmail.com>\n"
-#~ "\n"
-#~ "Launchpad Contributions:\n"
-#~ "  Chien Cheng Wei https://launchpad.net/~cwchien\n"
-#~ "  Jacky Yeung https://launchpad.net/~xphk\n"
-#~ "  Jose Sun https://launchpad.net/~josesun\n"
-#~ "  Justzupi https://launchpad.net/~justzupi\n"
-#~ "  Neil Lin https://launchpad.net/~neillin\n"
-#~ "  Ronmi https://launchpad.net/~ronmi\n"
-#~ "  Yuren Ju https://launchpad.net/~yurenju\n"
-#~ "  josé https://launchpad.net/~jlgdot369\n"
-#~ "  kevintyk https://launchpad.net/~kevintyk\n"
-#~ "  蔡查理 https://launchpad.net/~charlie-tsai"
-
-#~ msgid "Translate This Application..."
-#~ msgstr "翻譯這個應用程式..."
-
-#, no-c-format
-#~ msgid ""
-#~ "Add a new search engine by entering a Name and a URL.  For Name, enter the "
-#~ "name of the search engine to be used.  For URL, enter the url of the seach "
-#~ "page.  The user's search query will be added to the end of the url, or "
-#~ "replace any instances of %%query%% in the URL.\n"
-#~ "For example, a Google search would be:\n"
-#~ "Name: Google\n"
-#~ "URL: http://www.google.com/search?hl=en"
-#~ msgstr ""
-#~ "輸入一組名稱和網址即可新增搜尋引擎。前者為搜尋引擎的名稱。後者則是搜尋頁面的網址。使用者的搜尋字串會被加到網址的末端，或是取代其中的 %%query%% "
-#~ "字樣。\n"
-#~ "例如：新增 Google 搜尋將會是：\n"
-#~ "名稱：Google\n"
-#~ "網址：http://www.google.com/search?hl=en"
-
-#~ msgid "Help"
-#~ msgstr "說明"
-
-#~ msgid "Are you sure you want to quit Deluge?"
-#~ msgstr "您確定要結束 Deluge？"
-
-#~ msgid "You have "
-#~ msgstr "您有 "
-
-#~ msgid " active torrent"
-#~ msgstr " 下載中的種子"
-
-#~ msgid "s"
-#~ msgstr "們"
-
-#~ msgid ". Pressing 'Yes' will close Deluge and stop all torrent activity."
-#~ msgstr "。點選 '確定' 將結束 Deluge 並停止所有下載。"
-
-#~ msgid "Loaded torrents from previous session"
-#~ msgstr "已從上個作業階段載入種子"
-
-#~ msgid "Warning - all downloaded files for this torrent will be deleted!"
-#~ msgstr "警告 - 此種子下載的所有檔案將被刪除！"
-
-#~ msgid "No torrent is selected"
-#~ msgstr "尚未選擇種子"
-
-#~ msgid "Enter the URL of the .torrent file to open:"
-#~ msgstr "請輸入要開啟的種子檔網址："
-
-#~ msgid "No plugin is selected"
-#~ msgstr "尚未選擇插件"
-
-#~ msgid "You must activate a plugin before configuring it"
-#~ msgstr "您必須先啟用該插件才能設定它"
-
-#~ msgid "no information is listed for this plugin"
-#~ msgstr "沒有此插件的資訊"
-
-#~ msgid "The torrent file does not contain valid information."
-#~ msgstr "種子檔資訊是無效的。"
-
-#~ msgid "A filesystem error occurred when trying to open the torrent file."
-#~ msgstr "試著開啟此種子檔時發生檔案系統錯誤。"
-
-#~ msgid "The selected torrent is already present in the system."
-#~ msgstr "所選的種子已在系統中。"
-
-#~ msgid "N-A"
-#~ msgstr "N-A"
-
-#~ msgid " is updating its tracker"
-#~ msgstr " 正在更新它的伺服器"
-
-#~ msgid "Mark 'Do Not Download'"
-#~ msgstr "標記為 '不下載'"
-
-#~ msgid "Mark 'Download'"
-#~ msgstr "標記為 '下載'"
-
-#~ msgid "<b>Downloaded this session:</b>"
-#~ msgstr "<b>這次作業階段共下載：</b>"
-
-#~ msgid "<b>Percentage Done:</b>"
-#~ msgstr "<b>完成率：</b>"
-
-#~ msgid "<b>Total Downloaded:</b>"
-#~ msgstr "<b>總共下載：</b>"
-
-#~ msgid "<b>Total Uploaded:</b>"
-#~ msgstr "<b>總共上傳：</b>"
-
-#~ msgid "<b>Tracker Response:</b>"
-#~ msgstr "<b>伺服器回應：</b>"
-
-#~ msgid "<b>Uploaded This Session:</b>"
-#~ msgstr "<b>這次作業階段共上傳：</b>"
-
-#~ msgid "<b>Use compact storage allocation:</b>"
-#~ msgstr "<b>使用壓縮儲存：</b>"
-
-#~ msgid "Add a Torrent from File..."
-#~ msgstr "從檔案新增種子 ..."
-
-#~ msgid "Add a Torrent from URL..."
-#~ msgstr "從網址新增種子 ..."
-
-#~ msgid "New Torrent..."
-#~ msgstr "新增種子 ..."
-
-#~ msgid "Queue Torrent to Bottom"
-#~ msgstr "將種子排入佇列末端"
-
-#~ msgid "Remove selected Torrent"
-#~ msgstr "移除所選的種子"
-
-#~ msgid "_Manage Plugins"
-#~ msgstr "管理插件 (_M)"
-
-#~ msgid "gtk-about"
-#~ msgstr "關於"
-
-#~ msgid "<b>Advanced Network Options:</b>"
-#~ msgstr "<b>進階網路選項：</b>"
-
-#~ msgid "<b>Storage:</b>"
-#~ msgstr "<b>大小：</b>"
-
-#~ msgid "<b>TCP Port:</b>"
-#~ msgstr "<b>TCP 埠：</b>"
-
-#~ msgid "Active port:"
-#~ msgstr "啟用的埠："
-
-#~ msgid "Bandwidth"
-#~ msgstr "頻寬"
-
-#~ msgid "Downloads"
-#~ msgstr "下載"
-
-#~ msgid "Maximum number of connections:"
-#~ msgstr "最大容許連接數："
-
-#~ msgid "Network"
-#~ msgstr "網路"
-
-#~ msgid "Test Port"
-#~ msgstr "測試連接埠"
-
-#~ msgid "Try from:"
-#~ msgstr "測試從："
-
-#~ msgid "Use compact storage allocation (save space)"
-#~ msgstr "使用壓縮儲存 (節省空間)"
-
-#~ msgid ""
-#~ "Warning - any change to these settings will only come into effect after a "
-#~ "restart!"
-#~ msgstr "警告 - 對這些設定做的任何改變將在重新啟動後生效！"
-
-#~ msgid ""
-#~ "<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
-#~ msgstr "<b>您確定要從 Deluge 中移除所選的種子(們)？</b>"
-
-#~ msgid "Resume"
-#~ msgstr "恢復"
-
-#, no-c-format
-#~ msgid ""
-#~ "CPU % must persist for following time (seconds) before either of the above:"
-#~ msgstr "上述事件啟動前，CPU 使用率必須持續顯示多少時間 (秒) ："
-
-#~ msgid "CPU Monitor Configuration"
-#~ msgstr "CPU 監控設定"
-
-#, no-c-format
-#~ msgid "Fatal CPU % (Deluge will be shut down):"
-#~ msgstr "危險的 CPU 使用率 (Deluge 即將關閉)："
-
-#, no-c-format
-#~ msgid "Warning CPU % (notification only):"
-#~ msgstr "警告的 CPU 使用率 (僅顯示通知)："
-
-#~ msgid ""
-#~ "Notifications of the following Severity Level and above will be displayed:"
-#~ msgstr "危急程度高於此級的通知將會顯示："
-
-#~ msgid "Popup Notifier Configuration"
-#~ msgstr "彈出式通知設定"
-
-#~ msgid "Popup Notification"
-#~ msgstr "彈出式通知"
-
-#~ msgid "SafeDeluge Configuration"
-#~ msgstr "安全模式 Deluge 設定"
-
-#~ msgid "Use custom blocklist URL:"
-#~ msgstr "使用自訂的黑名單網址："
-
-#~ msgid "Use default blocklist URL"
-#~ msgstr "使用預設的黑名單網址"
-
-#~ msgid "Download:"
-#~ msgstr "下載："
-
-#~ msgid "Upload:"
-#~ msgstr "上傳："
-
-#~ msgid "There is suspicious activity in"
-#~ msgstr "發現可疑的活動於"
-
-#~ msgid "The torrent may be poisoned by the RIAA/MPAA. Found"
-#~ msgstr "此種子檔可能被植入 RIAA/MPAA。發現"
-
-#~ msgid "at prevalence"
-#~ msgstr "於向外連線時"
-
-#~ msgid "Shutting down Deluge immediately."
-#~ msgstr "正在緊急關閉 Deluge。"
-
-#~ msgid "Shutting down Deluge immediately (CPU overload)."
-#~ msgstr "正在緊急關閉 Deluge (CPU 負載過高)。"
-
-#~ msgid "CPU usage warning: more than"
-#~ msgstr "CPU 使用率警告：超過"
-
-#~ msgid "CPU usage for"
-#~ msgstr "CPU 使用率於"
-
-#~ msgid "No incoming connections"
-#~ msgstr "沒有可下載的連線"
-
-#~ msgid ""
-#~ "No incoming connections: you may be behind a firewall or router. Perhaps you "
-#~ "need to forward the relevant ports."
-#~ msgstr "沒有可下載的連線：您的主機可能在防火牆或路由器後面。或許您必須延伸相關連接埠。"
-
-#~ msgid "Health: OK"
-#~ msgstr "健康度：良好"
-
-#~ msgid ""
-#~ "PopupNotifier: not all necessary dependencies are installed. To install "
-#~ "them, on Ubuntu run: apt-get python-notify notification-daemon"
-#~ msgstr ""
-#~ "彈出式通知：必須的相依套件未全部安裝。若要安裝，於 Ubuntu 上執行：sudo apt-get install python-notify "
-#~ "notification-daemon"
-
-#~ msgid ""
-#~ "PopupNotifier: Cannot initialize pynotify, no notifications will be shown."
-#~ msgstr "彈出式通知：無法初始化 pynotify，將不會顯示任何通知。"
-
-#~ msgid "Informative - can be easily ignored"
-#~ msgstr "通知訊息 - 忽略無妨"
-
-#~ msgid "Warning - may be of interest"
-#~ msgstr "警告訊息 - 需要注意"
-
-#~ msgid "Critical - should never be ignored"
-#~ msgstr "緊急訊息 - 不可忽略"
-
-#~ msgid "Fatal - normal operation will probably not continue"
-#~ msgstr "危險訊息 - 可能無法繼續正常運作"
-
-#~ msgid "Retrieving blocklist from server"
-#~ msgstr "從伺服器取得黑名單"
-
-#~ msgid "Applying SafeDeluge blocklist"
-#~ msgstr "套用安全模式 Deluge 的黑名單"
-
-#~ msgid "The torrent file does not contain all necessary valid information."
-#~ msgstr "種子檔資訊部份是無效的。"
-
-#: deluge/core/torrentmanager.py:650
+#: deluge/core/torrentmanager.py:652
 msgid "Announce OK"
 msgstr "通告完成"
 
-#: deluge/core/torrentmanager.py:671
+#: deluge/core/torrentmanager.py:673
 msgid "Announce Sent"
 msgstr "通告以送出"
 
-#: deluge/core/torrentmanager.py:680
+#: deluge/core/torrentmanager.py:682
 msgid "Alert"
 msgstr "警告"
 
-#: deluge/core/torrentmanager.py:691
+#: deluge/core/torrentmanager.py:693
 msgid "Warning"
 msgstr "警告"
 
-#: deluge/core/torrentmanager.py:702
+#: deluge/core/torrentmanager.py:704
 #: deluge/ui/webui/scripts/template_strings.py:32
 msgid "Error"
 msgstr "錯誤"
@@ -715,7 +260,7 @@ msgstr "關閉"
 
 #: deluge/ui/webui/scripts/template_strings.py:50
 #: deluge/ui/webui/register_menu.py:46
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:652
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:618
 #: deluge/ui/gtkui/glade/connection_manager.glade:246
 msgid "Options"
 msgstr "選項"
@@ -747,7 +292,6 @@ msgid "Pieces"
 msgstr "片段"
 
 #: deluge/ui/webui/scripts/template_strings.py:57
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:735
 #: deluge/ui/gtkui/glade/main_window.glade:1985
 msgid "Private"
 msgstr "隱私"
@@ -827,8 +371,8 @@ msgid "Share Ratio"
 msgstr "分享率"
 
 #: deluge/ui/webui/scripts/template_strings.py:75
-#: deluge/ui/gtkui/addtorrentdialog.py:107 deluge/ui/gtkui/torrentview.py:142
-#: deluge/ui/gtkui/files_tab.py:125
+#: deluge/ui/gtkui/addtorrentdialog.py:109 deluge/ui/gtkui/torrentview.py:142
+#: deluge/ui/gtkui/files_tab.py:125 deluge/ui/gtkui/createtorrentdialog.py:83
 msgid "Size"
 msgstr "大小"
 
@@ -860,7 +404,9 @@ msgid "Total Size"
 msgstr "總大小"
 
 #: deluge/ui/webui/scripts/template_strings.py:82
-#: deluge/ui/gtkui/torrentview.py:180 deluge/ui/gtkui/edittrackersdialog.py:83
+#: deluge/ui/gtkui/torrentview.py:180
+#: deluge/ui/gtkui/createtorrentdialog.py:98
+#: deluge/ui/gtkui/edittrackersdialog.py:83
 msgid "Tracker"
 msgstr "伺服器"
 
@@ -898,11 +444,11 @@ msgstr ""
 msgid "seconds"
 msgstr "秒"
 
-#: deluge/ui/webui/pages.py:271
+#: deluge/ui/webui/pages.py:267
 msgid "refresh must be > 0"
 msgstr "更新頻率要大於 0"
 
-#: deluge/ui/webui/pages.py:322
+#: deluge/ui/webui/pages.py:318
 msgid "no uri"
 msgstr ""
 
@@ -945,7 +491,7 @@ msgid "Add In Paused State"
 msgstr ""
 
 #: deluge/ui/webui/torrent_add.py:57
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:608
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:574
 msgid "Set Private Flag"
 msgstr "設定私人標籤"
 
@@ -1037,7 +583,7 @@ msgid "Handshake"
 msgstr "握手"
 
 #: deluge/ui/webui/config_tabs_deluge.py:89
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:472
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:473
 msgid "Full"
 msgstr ""
 
@@ -1223,7 +769,7 @@ msgstr "成功儲存變更"
 msgid "Correct the errors above and try again"
 msgstr ""
 
-#: deluge/ui/webui/utils.py:125 deluge/ui/webui/utils.py:130
+#: deluge/ui/webui/utils.py:112 deluge/ui/webui/utils.py:117
 #: deluge/ui/webui/render.py:174
 msgid "∞"
 msgstr "∞"
@@ -1395,7 +941,8 @@ msgstr "資料夾不存在"
 #: deluge/ui/webui/lib/newforms_plus.py:193
 #: deluge/ui/webui/lib/newforms_plus.py:204 deluge/ui/gtkui/systemtray.py:187
 #: deluge/ui/gtkui/systemtray.py:191 deluge/ui/gtkui/systemtray.py:340
-#: deluge/common.py:174
+#: deluge/ui/gtkui/statusbar.py:359 deluge/ui/gtkui/statusbar.py:387
+#: deluge/ui/gtkui/statusbar.py:414 deluge/common.py:174
 msgid "Unlimited"
 msgstr "未限制"
 
@@ -1408,7 +955,7 @@ msgid "Details"
 msgstr "詳細資訊"
 
 #: deluge/ui/webui/register_menu.py:47
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:501
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:462
 #: deluge/plugins/label/label/data/label_options.glade:525
 msgid "Trackers"
 msgstr ""
@@ -1452,35 +999,30 @@ msgstr "重新通告"
 msgid "Recheck"
 msgstr "重新檢察"
 
-#: deluge/ui/gtkui/addtorrenturl.py:45
-msgid "Add torrent from URL"
-msgstr "從網址新增種子"
-
-#: deluge/ui/gtkui/addtorrenturl.py:50
-msgid "Enter the URL of the .torrent to download"
-msgstr "請輸入種子檔案的網址"
-
 #: deluge/ui/gtkui/preferences.py:81
 msgid "Plugin"
 msgstr "外掛模組"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:88 deluge/ui/gtkui/queuedtorrents.py:71
+#: deluge/ui/gtkui/addtorrentdialog.py:90 deluge/ui/gtkui/queuedtorrents.py:71
 msgid "Torrent"
 msgstr "Torrent"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:96 deluge/ui/gtkui/files_tab.py:109
+#: deluge/ui/gtkui/addtorrentdialog.py:98 deluge/ui/gtkui/files_tab.py:109
+#: deluge/ui/gtkui/createtorrentdialog.py:73
 msgid "Filename"
 msgstr "檔案名稱"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:447
+#: deluge/ui/gtkui/addtorrentdialog.py:500
 msgid "Choose a .torrent file"
 msgstr "請選取一個種子檔案"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:459
+#: deluge/ui/gtkui/addtorrentdialog.py:512
+#: deluge/ui/gtkui/createtorrentdialog.py:229
 msgid "Torrent files"
 msgstr "種子檔案"
 
-#: deluge/ui/gtkui/addtorrentdialog.py:463
+#: deluge/ui/gtkui/addtorrentdialog.py:516
+#: deluge/ui/gtkui/createtorrentdialog.py:233
 msgid "All files"
 msgstr "所有檔案"
 
@@ -1493,25 +1035,16 @@ msgstr "種子下載完成"
 msgid "Including %i files"
 msgstr ""
 
-#: deluge/ui/gtkui/notification.py:102
-#, python-format
-msgid "Finished torrent %s"
-msgstr ""
-
-#: deluge/ui/gtkui/notification.py:104
+#: deluge/ui/gtkui/notification.py:103
 #, python-format
 msgid ""
-"which includes %i files.\n"
-"To stop receiving these alerts, simply turn off email notification in "
-"Deluge's preferences.\n"
+"This email is to inform you that Deluge has finished downloading %s ,        "
+"     which includes %i files.\n"
+"To stop receiving these alerts, simply turn off             email "
+"notification in Deluge's preferences.\n"
 "\n"
 "Thank you,\n"
 "Deluge"
-msgstr ""
-
-#: deluge/ui/gtkui/notification.py:103
-#, python-format
-msgid "This email is to inform you that Deluge has finished downloading %s "
 msgstr ""
 
 #: deluge/ui/gtkui/menubar.py:77
@@ -1530,19 +1063,19 @@ msgstr ""
 msgid "Choose a directory to move files to"
 msgstr "選擇要移動的目的資料夾"
 
-#: deluge/ui/gtkui/menubar.py:445
+#: deluge/ui/gtkui/menubar.py:446
 msgid "Set Max Download Speed (KiB/s):"
 msgstr "設定最高下載速度 (KiB/s):"
 
-#: deluge/ui/gtkui/menubar.py:447
+#: deluge/ui/gtkui/menubar.py:448
 msgid "Set Max Upload Speed (KiB/s):"
 msgstr "設定最高上傳速度 (KiB/s):"
 
-#: deluge/ui/gtkui/menubar.py:449
+#: deluge/ui/gtkui/menubar.py:450
 msgid "Set Max Connections:"
 msgstr "設定最大連接數量:"
 
-#: deluge/ui/gtkui/menubar.py:451
+#: deluge/ui/gtkui/menubar.py:452
 msgid "Set Max Upload Slots:"
 msgstr "設定最大上傳連接數量:"
 
@@ -1567,9 +1100,9 @@ msgstr "往上移"
 msgid "KiB/s"
 msgstr "KiB/秒"
 
-#: deluge/ui/gtkui/systemtray.py:343 deluge/ui/gtkui/statusbar.py:363
-#: deluge/ui/gtkui/statusbar.py:392 deluge/ui/gtkui/statusbar.py:420
-#: deluge/common.py:230
+#: deluge/ui/gtkui/systemtray.py:343 deluge/ui/gtkui/statusbar.py:361
+#: deluge/ui/gtkui/statusbar.py:389 deluge/ui/gtkui/statusbar.py:416
+#: deluge/common.py:231 deluge/common.py:232
 msgid "Other..."
 msgstr "其他..."
 
@@ -1614,6 +1147,28 @@ msgstr "<big><b>您確定要移除已選擇的Torrent?</b></big>"
 msgid "Remove Selected Torrents"
 msgstr "移除已選擇的Torrent"
 
+#: deluge/ui/gtkui/createtorrentdialog.py:96
+#: deluge/ui/gtkui/edittrackersdialog.py:81
+msgid "Tier"
+msgstr ""
+
+#: deluge/ui/gtkui/createtorrentdialog.py:125
+msgid "Choose a file"
+msgstr ""
+
+#: deluge/ui/gtkui/createtorrentdialog.py:152
+msgid "Choose a folder"
+msgstr ""
+
+#: deluge/ui/gtkui/createtorrentdialog.py:217
+msgid "Save .torrent file"
+msgstr ""
+
+#: deluge/ui/gtkui/createtorrentdialog.py:333
+#, python-format
+msgid "%.2f%%"
+msgstr ""
+
 #: deluge/ui/gtkui/aboutdialog.py:66
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
@@ -1643,27 +1198,23 @@ msgstr "上傳速度"
 msgid "No Incoming Connections!"
 msgstr "沒有連入的連接!"
 
-#: deluge/ui/gtkui/statusbar.py:365
+#: deluge/ui/gtkui/statusbar.py:363
 msgid "Download Speed (KiB/s):"
 msgstr "下載速度 (KiB/秒):"
 
-#: deluge/ui/gtkui/statusbar.py:394
+#: deluge/ui/gtkui/statusbar.py:391
 msgid "Upload Speed (KiB/s):"
 msgstr "上傳速度 (KiB/秒):"
 
-#: deluge/ui/gtkui/statusbar.py:422
+#: deluge/ui/gtkui/statusbar.py:418
 msgid "Connection Limit:"
 msgstr "連接限制:"
-
-#: deluge/ui/gtkui/edittrackersdialog.py:81
-msgid "Tier"
-msgstr ""
 
 #: deluge/common.py:177
 msgid "Activated"
 msgstr "正在下載"
 
-#: deluge/common.py:245
+#: deluge/common.py:247
 #, python-format
 msgid "%s"
 msgstr "%s"
@@ -1810,105 +1361,97 @@ msgstr "不活躍"
 msgid "Refresh status"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:8
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:7
 msgid "Create Torrent"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:35
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:34
 msgid "<big><b>Create Torrent</b></big>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:118
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:122
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
 #: deluge/ui/gtkui/glade/main_window.glade:20
 msgid "_File"
 msgstr "檔案(_F)"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:155
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:159
 msgid "Fol_der"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:195
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:199
 msgid "_Remote Path"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:225
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:229
 msgid "<b>Files</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:259
-msgid "Save .torrent file as:"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:300
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:263
 msgid "Author:"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:330
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:292
 msgid "Comments:"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:370
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:331
 msgid "Info"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:423
-#: deluge/ui/gtkui/glade/edit_trackers.glade:96
-#: deluge/ui/gtkui/glade/torrent_menu.glade:334
-msgid "gtk-go-up"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:435
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:396
 #: deluge/ui/gtkui/glade/connection_manager.glade:101
 #: deluge/ui/gtkui/glade/connection_manager.glade:405
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:171
 #: deluge/ui/gtkui/glade/edit_trackers.glade:108
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1022
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:950
 msgid "gtk-add"
 msgstr "新增"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:450
-#: deluge/ui/gtkui/glade/connection_manager.glade:113
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:94
-#: deluge/ui/gtkui/glade/edit_trackers.glade:137
-msgid "gtk-remove"
-msgstr "移除"
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:465
-#: deluge/ui/gtkui/glade/edit_trackers.glade:152
-#: deluge/ui/gtkui/glade/torrent_menu.glade:344
-msgid "gtk-go-down"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:551
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:512
 msgid "Webseeds"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:581
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:542
 msgid "Piece Size:"
 msgstr "片段大小:"
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:622
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:552
+msgid ""
+"32 KiB\n"
+"64 KiB\n"
+"128 KiB\n"
+"256 KiB\n"
+"512 KiB"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:588
 msgid "Add this torrent to the session"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:684
-#: deluge/ui/gtkui/glade/connection_manager.glade:392
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3558
-#: deluge/ui/gtkui/glade/remove_torrent_dialog.glade:167
-#: deluge/ui/gtkui/glade/edit_trackers.glade:189
-#: deluge/ui/gtkui/glade/edit_trackers.glade:336
-#: deluge/ui/gtkui/glade/edit_trackers.glade:485
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:121
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1010
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1157
-#: deluge/ui/gtkui/glade/main_window.glade:2317
-#: deluge/plugins/label/label/data/label_options.glade:547
-#: deluge/plugins/label/label/data/label_options.glade:623
-msgid "gtk-cancel"
-msgstr "gtk-cancel"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:686
+msgid "Enter Remote Path"
+msgstr ""
 
-#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:709
-msgid "Create _Torrent"
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:722
+msgid "<b>Remote Path</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:756
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:938
+msgid "Path:"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:831
+msgid "Creating Torrent"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:868
+msgid "Save .torrent as"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/create_torrent_dialog.glade:904
+msgid "<b>Save .torrent file</b>"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:10
@@ -1936,12 +1479,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/connection_manager.glade:229
 msgid "Do not show this dialog on start-up"
 msgstr ""
-
-#: deluge/ui/gtkui/glade/connection_manager.glade:269
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:154
-#: deluge/ui/gtkui/glade/main_window.glade:2499
-msgid "gtk-close"
-msgstr "關閉"
 
 #: deluge/ui/gtkui/glade/connection_manager.glade:285
 msgid "gtk-connect"
@@ -1984,7 +1521,7 @@ msgstr ""
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:225
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:259
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:337
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:413
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:414
 #: deluge/ui/gtkui/glade/main_window.glade:1911
 msgid "Select A Folder"
 msgstr "選擇一個資料夾"
@@ -2025,7 +1562,7 @@ msgid "Compact allocation only allocates space as needed"
 msgstr "依下載大小分配檔案空間"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:443
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:507
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:508
 msgid "<b>Allocation</b>"
 msgstr "<b>檔案分配</b>"
 
@@ -2376,7 +1913,7 @@ msgstr "<i><b><big> 隊列</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2442
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:3179
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:810
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:738
 #: deluge/ui/gtkui/glade/main_window.glade:2059
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:89
 msgid "<b>General</b>"
@@ -2522,32 +2059,12 @@ msgstr ""
 msgid "<i><b><big>Plugins</big></b></i>"
 msgstr "<i><b><big>外掛</big></b></i>"
 
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3570
-#: deluge/ui/gtkui/glade/main_window.glade:2088
-msgid "gtk-apply"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/preferences_dialog.glade:3585
-#: deluge/ui/gtkui/glade/edit_trackers.glade:201
-#: deluge/ui/gtkui/glade/edit_trackers.glade:350
-#: deluge/ui/gtkui/glade/edit_trackers.glade:499
-#: deluge/ui/gtkui/glade/move_storage_dialog.glade:134
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1170
-#: deluge/plugins/label/label/data/label_options.glade:558
-#: deluge/plugins/label/label/data/label_options.glade:634
-msgid "gtk-ok"
-msgstr "gtk-ok"
-
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:8
 msgid "Queued Torrents"
 msgstr "隊列中的Torrent"
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:47
 msgid "<big><b>Add Queued Torrents</b></big>"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/queuedtorrents.glade:106
-msgid "gtk-clear"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:127
@@ -2592,26 +2109,29 @@ msgstr "<big><b>編輯Trackers</b></big>"
 msgid "gtk-edit"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:223
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1044
+#: deluge/ui/gtkui/glade/edit_trackers.glade:224
 msgid "Add Tracker"
 msgstr "增加Tracker"
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:259
-msgid "<b>Add Tracker</b>"
-msgstr "<b>增加Tracker</b>"
-
-#: deluge/ui/gtkui/glade/edit_trackers.glade:293
-#: deluge/ui/gtkui/glade/edit_trackers.glade:442
-msgid "Tracker:"
+#: deluge/ui/gtkui/glade/edit_trackers.glade:260
+msgid "<b>Add Trackers</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:372
+#: deluge/ui/gtkui/glade/edit_trackers.glade:296
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1224
+msgid "Trackers:"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:380
 msgid "Edit Tracker"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/edit_trackers.glade:408
+#: deluge/ui/gtkui/glade/edit_trackers.glade:416
 msgid "<b>Edit Tracker</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/edit_trackers.glade:450
+msgid "Tracker:"
 msgstr ""
 
 #: deluge/ui/gtkui/glade/move_storage_dialog.glade:9
@@ -2634,97 +2154,103 @@ msgstr "增加Torrent檔"
 msgid "<big><b>Add Torrents</b></big>"
 msgstr "<big><b>增加Torrent檔</b></big>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:145
-msgid "From _File"
-msgstr "從檔案 (_F)"
-
 #: deluge/ui/gtkui/glade/add_torrent_dialog.glade:192
-msgid "From _URL"
-msgstr "從URL (_U)"
+msgid "_URL"
+msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:239
-msgid "From _Hash"
-msgstr "從特徵碼(_H)"
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:240
+msgid "Info_hash"
+msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:285
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:286
 msgid "_Remove"
 msgstr "移除(_R)"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:318
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:319
 msgid "<b>Torrents</b>"
 msgstr "<b>種子</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:372
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:373
 msgid "Fi_les"
 msgstr "檔案(_L)"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:433
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:434
 msgid "<b>Download Location</b>"
 msgstr "<b>下載位置</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:487
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:488
 msgid "Compact"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:559
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:560
 msgid "Max Down Speed:"
 msgstr "最高下載速度:"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:571
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:572
 msgid "Max Up Speed:"
 msgstr "最高上傳速度:"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:585
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:586
 #: deluge/ui/gtkui/glade/main_window.glade:1691
 msgid "Max Connections:"
 msgstr "最大連接數目:"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:599
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:600
 #: deluge/ui/gtkui/glade/main_window.glade:1754
 msgid "Max Upload Slots:"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:668
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:669
 #: deluge/ui/gtkui/glade/main_window.glade:1787
 msgid "<b>Bandwidth</b>"
 msgstr "<b>流量</b>"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:704
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:705
 msgid "Add In _Paused State"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:719
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:720
 msgid "Prioritize First/Last Pieces"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:777
-#: deluge/ui/gtkui/glade/torrent_menu.glade:130
-#: deluge/ui/gtkui/glade/main_window.glade:2034
-msgid "_Edit Trackers"
-msgstr "編輯伺服器網址(_E)"
-
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:867
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:795
 msgid "Revert To Defaults"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:921
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:849
 msgid "Apply To All"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:968
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:896
 #: deluge/ui/gtkui/glade/main_window.glade:2138
 msgid "_Options"
 msgstr "選項(_O)"
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1080
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:972
+msgid "Add URL"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1008
 msgid "<b>From URL</b>"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1114
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1042
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:60
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:392
 msgid "URL:"
 msgstr "網址:"
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1119
+msgid "Add Infohash"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1155
+msgid "<b>From Infohash</b>"
+msgstr ""
+
+#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1189
+msgid "Infohash:"
+msgstr ""
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:11
 msgid "_Open Folder"
@@ -2749,6 +2275,11 @@ msgstr "佇列(_Q)"
 #: deluge/ui/gtkui/glade/torrent_menu.glade:113
 msgid "_Update Tracker"
 msgstr "更新伺服器 (_U)"
+
+#: deluge/ui/gtkui/glade/torrent_menu.glade:130
+#: deluge/ui/gtkui/glade/main_window.glade:2034
+msgid "_Edit Trackers"
+msgstr "編輯伺服器網址(_E)"
 
 #: deluge/ui/gtkui/glade/torrent_menu.glade:152
 msgid "_Remove Torrent"
@@ -2800,14 +2331,6 @@ msgstr ""
 msgid "_Auto Managed"
 msgstr ""
 
-#: deluge/ui/gtkui/glade/torrent_menu.glade:324
-msgid "gtk-goto-top"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/torrent_menu.glade:354
-msgid "gtk-goto-bottom"
-msgstr ""
-
 #: deluge/ui/gtkui/glade/tray_menu.glade:12
 msgid "_Show Deluge"
 msgstr "顯示 Deluge 視窗(_S)"
@@ -2833,22 +2356,6 @@ msgstr ""
 #: deluge/ui/gtkui/glade/tray_menu.glade:146
 msgid "_Quit"
 msgstr "結束(_Q)"
-
-#: deluge/ui/gtkui/glade/file_tab_menu.glade:12
-msgid "Select All"
-msgstr "全選"
-
-#: deluge/ui/gtkui/glade/file_tab_menu.glade:33
-msgid "Unselect All"
-msgstr "取消全選"
-
-#: deluge/ui/gtkui/glade/file_tab_menu.glade:60
-msgid "Check Selected"
-msgstr ""
-
-#: deluge/ui/gtkui/glade/file_tab_menu.glade:81
-msgid "Uncheck Selected"
-msgstr ""
 
 #: deluge/ui/gtkui/glade/main_window.glade:43
 msgid "_Create Torrent"
@@ -2929,10 +2436,6 @@ msgstr "佇列中種子上移"
 #: deluge/ui/gtkui/glade/main_window.glade:374
 msgid "Queue Torrent Down"
 msgstr "佇列中種子下移"
-
-#: deluge/ui/gtkui/glade/main_window.glade:515
-msgid "gtk-open"
-msgstr "gtk-開啟"
 
 #: deluge/ui/gtkui/glade/main_window.glade:529
 msgid "_Expand All"
@@ -3215,3 +2718,461 @@ msgstr ""
 #: deluge/plugins/blocklist/blocklist/data/blocklist_pref.glade:448
 msgid "<b>Info</b>"
 msgstr ""
+
+#~ msgid "D/L"
+#~ msgstr "下載"
+
+#~ msgid "U/L"
+#~ msgstr "上傳"
+
+#~ msgid "Share %"
+#~ msgstr "分享率"
+
+#~ msgid "path"
+#~ msgstr "路徑"
+
+#~ msgid "size"
+#~ msgstr "大小"
+
+#~ msgid "offset"
+#~ msgstr "前置量"
+
+#~ msgid "download?"
+#~ msgstr "確定要下載？"
+
+#~ msgid "IP"
+#~ msgstr "IP 位址"
+
+#~ msgid "Connections: "
+#~ msgstr "連接數： "
+
+#~ msgid "Select Torrent"
+#~ msgstr "請選擇種子"
+
+#~ msgid "infinity"
+#~ msgstr "無限"
+
+#~ msgid "1 second"
+#~ msgstr "1 秒鐘"
+
+#~ msgid "1 minute"
+#~ msgstr "1 分鐘"
+
+#~ msgid "minutes"
+#~ msgstr "分"
+
+#~ msgid "1 hour"
+#~ msgstr "1 小時"
+
+#~ msgid "hours"
+#~ msgstr "時"
+
+#~ msgid "1 day"
+#~ msgstr "1 日"
+
+#~ msgid "days"
+#~ msgstr "日"
+
+#~ msgid "1 week"
+#~ msgstr "1 週"
+
+#~ msgid "weeks"
+#~ msgstr "週"
+
+#~ msgid "Search string"
+#~ msgstr "搜尋字串"
+
+#~ msgid "Deluge Bittorrent Client"
+#~ msgstr "Deluge BT 用戶端"
+
+#~ msgid "Add a Torrent"
+#~ msgstr "新增種子"
+
+#~ msgid "Deluge Support _Forums"
+#~ msgstr "Deluge 支援論壇 (_F)"
+
+#~ msgid "Force Pause/Resume Torrent"
+#~ msgstr "強制 暫停/恢復 下載"
+
+#~ msgid "Open the online support forums in your web browser"
+#~ msgstr "在瀏覽器內開啟線上支援論壇"
+
+#~ msgid "Show/Hide the Details Pane"
+#~ msgstr "顯示/隱藏詳細訊息面板"
+
+#~ msgid "Update Tracker"
+#~ msgstr "更新伺服器"
+
+#~ msgid "<b>Bandwidth (KB/s):</b>"
+#~ msgstr "<b>頻寬 (KB/s)：</b>"
+
+#~ msgid "<b>Save Location:</b>"
+#~ msgstr "<b>儲存位置：</b>"
+
+#~ msgid "<b>Sharing:</b>"
+#~ msgstr "<b>分享：</b>"
+
+#~ msgid "Automatically stop seeding torrents when their share ratio reaches:"
+#~ msgstr "當分享率達到這數值時自動停止作種："
+
+#~ msgid "Deluge Preferences"
+#~ msgstr "Deluge 偏好設定"
+
+#~ msgid "Maximum Download Rate:"
+#~ msgstr "最大下載頻寬："
+
+#~ msgid "Maximum Upload Rate:"
+#~ msgstr "最大上傳頻寬："
+
+#~ msgid "Maximum number of Downloads:"
+#~ msgstr "最大同時下載數："
+
+#~ msgid "Maximum number of Uploads:"
+#~ msgstr "最大同時上傳數："
+
+#~ msgid "Save all downloads to:"
+#~ msgstr "儲存所有下載至："
+
+#~ msgid "Select a save location for each download"
+#~ msgstr "為每個下載選擇儲存位置"
+
+#~ msgid "gtk-remove"
+#~ msgstr "移除"
+
+#~ msgid "Force Pause"
+#~ msgstr "強制暫停"
+
+#~ msgid "Update Trackers"
+#~ msgstr "更新伺服器"
+
+#~ msgid "Paused"
+#~ msgstr "已暫停"
+
+#~ msgid "Queued"
+#~ msgstr "已排入佇列"
+
+#~ msgid "Waiting to check"
+#~ msgstr "等待測試"
+
+#~ msgid "Downloading (T?)"
+#~ msgstr "正在連線 (T？)"
+
+#~ msgid "Downloading Meta"
+#~ msgstr "下載資訊"
+
+#~ msgid "Finished"
+#~ msgstr "已完成"
+
+#~ msgid "Allocating"
+#~ msgstr "正在分配空間"
+
+#~ msgid "N/A"
+#~ msgstr "N/A"
+
+#~ msgid "INF"
+#~ msgstr "INF"
+
+#~ msgid "Invalid request"
+#~ msgstr "無效的要求"
+
+#~ msgid "File error"
+#~ msgstr "檔案錯誤"
+
+#~ msgid "Hash failed"
+#~ msgstr "雜湊失敗"
+
+#~ msgid "Peer banned"
+#~ msgstr "已列入黑名單的端點"
+
+#~ msgid "Fastresume rejected"
+#~ msgstr "快速恢復遭駁回"
+
+#~ msgid "Event"
+#~ msgstr "事件"
+
+#~ msgid "translator-credits"
+#~ msgstr ""
+#~ "如對翻譯有任何意見，請送一封電子郵件給以下地址，會盡快回覆您：Cheng-Wei Chien <e.cwchien@gmail.com>\n"
+#~ "\n"
+#~ "Launchpad Contributions:\n"
+#~ "  Chien Cheng Wei https://launchpad.net/~cwchien\n"
+#~ "  Jacky Yeung https://launchpad.net/~xphk\n"
+#~ "  Jose Sun https://launchpad.net/~josesun\n"
+#~ "  Justzupi https://launchpad.net/~justzupi\n"
+#~ "  Neil Lin https://launchpad.net/~neillin\n"
+#~ "  Ronmi https://launchpad.net/~ronmi\n"
+#~ "  Yuren Ju https://launchpad.net/~yurenju\n"
+#~ "  josé https://launchpad.net/~jlgdot369\n"
+#~ "  kevintyk https://launchpad.net/~kevintyk\n"
+#~ "  蔡查理 https://launchpad.net/~charlie-tsai"
+
+#~ msgid "Translate This Application..."
+#~ msgstr "翻譯這個應用程式..."
+
+#, no-c-format
+#~ msgid ""
+#~ "Add a new search engine by entering a Name and a URL.  For Name, enter the "
+#~ "name of the search engine to be used.  For URL, enter the url of the seach "
+#~ "page.  The user's search query will be added to the end of the url, or "
+#~ "replace any instances of %%query%% in the URL.\n"
+#~ "For example, a Google search would be:\n"
+#~ "Name: Google\n"
+#~ "URL: http://www.google.com/search?hl=en"
+#~ msgstr ""
+#~ "輸入一組名稱和網址即可新增搜尋引擎。前者為搜尋引擎的名稱。後者則是搜尋頁面的網址。使用者的搜尋字串會被加到網址的末端，或是取代其中的 %%query%% "
+#~ "字樣。\n"
+#~ "例如：新增 Google 搜尋將會是：\n"
+#~ "名稱：Google\n"
+#~ "網址：http://www.google.com/search?hl=en"
+
+#~ msgid "Help"
+#~ msgstr "說明"
+
+#~ msgid "Are you sure you want to quit Deluge?"
+#~ msgstr "您確定要結束 Deluge？"
+
+#~ msgid "You have "
+#~ msgstr "您有 "
+
+#~ msgid " active torrent"
+#~ msgstr " 下載中的種子"
+
+#~ msgid "s"
+#~ msgstr "們"
+
+#~ msgid ". Pressing 'Yes' will close Deluge and stop all torrent activity."
+#~ msgstr "。點選 '確定' 將結束 Deluge 並停止所有下載。"
+
+#~ msgid "Loaded torrents from previous session"
+#~ msgstr "已從上個作業階段載入種子"
+
+#~ msgid "Warning - all downloaded files for this torrent will be deleted!"
+#~ msgstr "警告 - 此種子下載的所有檔案將被刪除！"
+
+#~ msgid "No torrent is selected"
+#~ msgstr "尚未選擇種子"
+
+#~ msgid "Enter the URL of the .torrent file to open:"
+#~ msgstr "請輸入要開啟的種子檔網址："
+
+#~ msgid "No plugin is selected"
+#~ msgstr "尚未選擇插件"
+
+#~ msgid "You must activate a plugin before configuring it"
+#~ msgstr "您必須先啟用該插件才能設定它"
+
+#~ msgid "no information is listed for this plugin"
+#~ msgstr "沒有此插件的資訊"
+
+#~ msgid "The torrent file does not contain valid information."
+#~ msgstr "種子檔資訊是無效的。"
+
+#~ msgid "A filesystem error occurred when trying to open the torrent file."
+#~ msgstr "試著開啟此種子檔時發生檔案系統錯誤。"
+
+#~ msgid "The selected torrent is already present in the system."
+#~ msgstr "所選的種子已在系統中。"
+
+#~ msgid "N-A"
+#~ msgstr "N-A"
+
+#~ msgid " is updating its tracker"
+#~ msgstr " 正在更新它的伺服器"
+
+#~ msgid "Mark 'Do Not Download'"
+#~ msgstr "標記為 '不下載'"
+
+#~ msgid "Mark 'Download'"
+#~ msgstr "標記為 '下載'"
+
+#~ msgid "<b>Downloaded this session:</b>"
+#~ msgstr "<b>這次作業階段共下載：</b>"
+
+#~ msgid "<b>Percentage Done:</b>"
+#~ msgstr "<b>完成率：</b>"
+
+#~ msgid "<b>Total Downloaded:</b>"
+#~ msgstr "<b>總共下載：</b>"
+
+#~ msgid "<b>Total Uploaded:</b>"
+#~ msgstr "<b>總共上傳：</b>"
+
+#~ msgid "<b>Tracker Response:</b>"
+#~ msgstr "<b>伺服器回應：</b>"
+
+#~ msgid "<b>Uploaded This Session:</b>"
+#~ msgstr "<b>這次作業階段共上傳：</b>"
+
+#~ msgid "<b>Use compact storage allocation:</b>"
+#~ msgstr "<b>使用壓縮儲存：</b>"
+
+#~ msgid "Add a Torrent from File..."
+#~ msgstr "從檔案新增種子 ..."
+
+#~ msgid "Add a Torrent from URL..."
+#~ msgstr "從網址新增種子 ..."
+
+#~ msgid "New Torrent..."
+#~ msgstr "新增種子 ..."
+
+#~ msgid "Queue Torrent to Bottom"
+#~ msgstr "將種子排入佇列末端"
+
+#~ msgid "Remove selected Torrent"
+#~ msgstr "移除所選的種子"
+
+#~ msgid "_Manage Plugins"
+#~ msgstr "管理插件 (_M)"
+
+#~ msgid "gtk-about"
+#~ msgstr "關於"
+
+#~ msgid "<b>Advanced Network Options:</b>"
+#~ msgstr "<b>進階網路選項：</b>"
+
+#~ msgid "<b>Storage:</b>"
+#~ msgstr "<b>大小：</b>"
+
+#~ msgid "<b>TCP Port:</b>"
+#~ msgstr "<b>TCP 埠：</b>"
+
+#~ msgid "Active port:"
+#~ msgstr "啟用的埠："
+
+#~ msgid "Bandwidth"
+#~ msgstr "頻寬"
+
+#~ msgid "Downloads"
+#~ msgstr "下載"
+
+#~ msgid "Maximum number of connections:"
+#~ msgstr "最大容許連接數："
+
+#~ msgid "Network"
+#~ msgstr "網路"
+
+#~ msgid "Test Port"
+#~ msgstr "測試連接埠"
+
+#~ msgid "Try from:"
+#~ msgstr "測試從："
+
+#~ msgid "Use compact storage allocation (save space)"
+#~ msgstr "使用壓縮儲存 (節省空間)"
+
+#~ msgid ""
+#~ "Warning - any change to these settings will only come into effect after a "
+#~ "restart!"
+#~ msgstr "警告 - 對這些設定做的任何改變將在重新啟動後生效！"
+
+#~ msgid ""
+#~ "<b>Are you sure you want to remove the selected torrent(s) from Deluge?</b>"
+#~ msgstr "<b>您確定要從 Deluge 中移除所選的種子(們)？</b>"
+
+#~ msgid "Resume"
+#~ msgstr "恢復"
+
+#, no-c-format
+#~ msgid ""
+#~ "CPU % must persist for following time (seconds) before either of the above:"
+#~ msgstr "上述事件啟動前，CPU 使用率必須持續顯示多少時間 (秒) ："
+
+#~ msgid "CPU Monitor Configuration"
+#~ msgstr "CPU 監控設定"
+
+#, no-c-format
+#~ msgid "Fatal CPU % (Deluge will be shut down):"
+#~ msgstr "危險的 CPU 使用率 (Deluge 即將關閉)："
+
+#, no-c-format
+#~ msgid "Warning CPU % (notification only):"
+#~ msgstr "警告的 CPU 使用率 (僅顯示通知)："
+
+#~ msgid ""
+#~ "Notifications of the following Severity Level and above will be displayed:"
+#~ msgstr "危急程度高於此級的通知將會顯示："
+
+#~ msgid "Popup Notifier Configuration"
+#~ msgstr "彈出式通知設定"
+
+#~ msgid "Popup Notification"
+#~ msgstr "彈出式通知"
+
+#~ msgid "SafeDeluge Configuration"
+#~ msgstr "安全模式 Deluge 設定"
+
+#~ msgid "Use custom blocklist URL:"
+#~ msgstr "使用自訂的黑名單網址："
+
+#~ msgid "Use default blocklist URL"
+#~ msgstr "使用預設的黑名單網址"
+
+#~ msgid "Download:"
+#~ msgstr "下載："
+
+#~ msgid "Upload:"
+#~ msgstr "上傳："
+
+#~ msgid "There is suspicious activity in"
+#~ msgstr "發現可疑的活動於"
+
+#~ msgid "The torrent may be poisoned by the RIAA/MPAA. Found"
+#~ msgstr "此種子檔可能被植入 RIAA/MPAA。發現"
+
+#~ msgid "at prevalence"
+#~ msgstr "於向外連線時"
+
+#~ msgid "Shutting down Deluge immediately."
+#~ msgstr "正在緊急關閉 Deluge。"
+
+#~ msgid "Shutting down Deluge immediately (CPU overload)."
+#~ msgstr "正在緊急關閉 Deluge (CPU 負載過高)。"
+
+#~ msgid "CPU usage warning: more than"
+#~ msgstr "CPU 使用率警告：超過"
+
+#~ msgid "CPU usage for"
+#~ msgstr "CPU 使用率於"
+
+#~ msgid "No incoming connections"
+#~ msgstr "沒有可下載的連線"
+
+#~ msgid ""
+#~ "No incoming connections: you may be behind a firewall or router. Perhaps you "
+#~ "need to forward the relevant ports."
+#~ msgstr "沒有可下載的連線：您的主機可能在防火牆或路由器後面。或許您必須延伸相關連接埠。"
+
+#~ msgid "Health: OK"
+#~ msgstr "健康度：良好"
+
+#~ msgid ""
+#~ "PopupNotifier: not all necessary dependencies are installed. To install "
+#~ "them, on Ubuntu run: apt-get python-notify notification-daemon"
+#~ msgstr ""
+#~ "彈出式通知：必須的相依套件未全部安裝。若要安裝，於 Ubuntu 上執行：sudo apt-get install python-notify "
+#~ "notification-daemon"
+
+#~ msgid ""
+#~ "PopupNotifier: Cannot initialize pynotify, no notifications will be shown."
+#~ msgstr "彈出式通知：無法初始化 pynotify，將不會顯示任何通知。"
+
+#~ msgid "Informative - can be easily ignored"
+#~ msgstr "通知訊息 - 忽略無妨"
+
+#~ msgid "Warning - may be of interest"
+#~ msgstr "警告訊息 - 需要注意"
+
+#~ msgid "Critical - should never be ignored"
+#~ msgstr "緊急訊息 - 不可忽略"
+
+#~ msgid "Fatal - normal operation will probably not continue"
+#~ msgstr "危險訊息 - 可能無法繼續正常運作"
+
+#~ msgid "Retrieving blocklist from server"
+#~ msgstr "從伺服器取得黑名單"
+
+#~ msgid "Applying SafeDeluge blocklist"
+#~ msgstr "套用安全模式 Deluge 的黑名單"
+
+#~ msgid "The torrent file does not contain all necessary valid information."
+#~ msgstr "種子檔資訊部份是無效的。"
