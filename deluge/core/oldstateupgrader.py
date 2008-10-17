@@ -37,7 +37,10 @@ import pickle
 import cPickle
 import shutil
 
-import deluge.libtorrent as lt
+try:
+    import libtorrent as lt
+except ImportError:
+    import deluge.libtorrent as lt
 from deluge.configmanager import ConfigManager
 import deluge.core.torrentmanager
 from deluge.log import LOG as log

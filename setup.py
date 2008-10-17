@@ -188,14 +188,19 @@ for source in _sources:
             _sources.remove(source)
             break
 
-libtorrent = Extension(
-    'libtorrent',
-    extra_compile_args = _extra_compile_args,
-    include_dirs = _include_dirs,
-    libraries = _libraries,
-    library_dirs = _library_dirs,
-    sources = _sources
-)
+_ext_modules = []
+if not os.path.exists(os.path.join(sysconfig.get_config_var("LIBDIR"), "libtorrent-rasterbar.so.1")):
+    # There isn't a system libtorrent library, so let's build the one included with deluge
+    libtorrent = Extension(
+        'libtorrent',
+        extra_compile_args = _extra_compile_args,
+        include_dirs = _include_dirs,
+        libraries = _libraries,
+        library_dirs = _library_dirs,
+        sources = _sources
+    )
+    
+    _ext_modules = [libtorrent]
 
 class build_trans(cmd.Command):
     description = 'Compile .po files into .mo files'
@@ -298,7 +303,7 @@ setup(
             deluged = deluge.main:start_daemon
     """,
     ext_package = "deluge",
-    ext_modules = [libtorrent],
+    ext_modules = _ext_modules,
     fullname = "Deluge Bittorent Client",
     include_package_data = True,
     license = "GPLv3",
