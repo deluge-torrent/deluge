@@ -444,7 +444,7 @@ class AddTorrentDialog(component.Component):
         files_list = []
 
         for file_dict in self.files[torrent_id]:
-            if file_dict["download"] == False:
+            if not file_dict["download"]:
                 files_list.append(0)
             else:
                 files_list.append(1)

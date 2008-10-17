@@ -144,13 +144,13 @@ class MainWindow(component.Component):
         h = self.config["window_height"]
         self.window.move(x, y)
         self.window.resize(w, h)
-        if self.config["window_maximized"] == True:
+        if self.config["window_maximized"]:
             self.window.maximize()
         self.vpaned.set_position(
             self.config["window_height"] - self.config["window_pane_position"])
             
     def on_window_configure_event(self, widget, event):
-        if self.config["window_maximized"] == False and self.visible:
+        if not self.config["window_maximized"] and self.visible:
             self.config.set("window_x_pos", self.window.get_position()[0])
             self.config.set("window_y_pos", self.window.get_position()[1])
             self.config.set("window_width", event.width)
