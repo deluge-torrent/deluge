@@ -61,7 +61,7 @@ class SignalReceiver(ThreadingMixIn, SimpleXMLRPCServer.SimpleXMLRPCServer):
     def start_server(self, port=None):
         # Setup the xmlrpc server
         host = "127.0.0.1"
-        if self.remote == True:
+        if self.remote:
             host = ""
             
         server_ready = False

@@ -113,7 +113,7 @@ class PGZip(TextBase):
     def next(self):
         try:
             ret = self.reader.next()
-            if ret == False:
+            if not ret:
                 # This bit is repeated below and could be moved into a
                 # new procedure.  However I'm not clear on how this
                 # would effect tail recursion, so it remains
