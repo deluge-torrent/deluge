@@ -806,9 +806,10 @@ class Torrent:
     def rename_folder(self, folder, new_folder):
         """Renames a folder within a torrent.  This basically does a file rename
         on all of the folders children."""
+        log.debug("attempting to rename folder: %s to %s", folder, new_folder)
         for f in self.get_files():
             if f["path"].startswith(folder):
                 # Keep a list of filerenames we're waiting on
                 self.waiting_on_folder_rename.append(f["index"])
                 self.handle.rename_file(f["index"], f["path"].replace(folder, new_folder, 1))
-                               
+
