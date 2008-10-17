@@ -105,7 +105,7 @@ class BandwithGlobal(config_forms.CfgForm):
     max_upload_slots_global = forms.DelugeInt(_("Maximum Upload Slots"))
 
     max_half_open_connections = forms.DelugeInt(_("Maximum Half-Open Connections"))
-    max_connections_per_second = forms.DelugeInt(_("Maximum Connection Attempts per Second"))
+    #max_connections_per_second = forms.DelugeInt(_("Maximum Connection Attempts per Second"))
     ignore_limits_on_local_network = forms.CheckBox("Ignore limits on local network")
 
 

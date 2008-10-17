@@ -9,6 +9,7 @@ Deluge 1.0.3 (In Development)
 
  WebUI:
   * Fix White template for Opera
+  * Remove max connections per second from config dialog.
  
  Misc:
   * Deluge will now use a system libtorrent library if available.
