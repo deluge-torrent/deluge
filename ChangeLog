@@ -8,7 +8,12 @@ Deluge 1.0.3 (In Development)
   * Fix ip filtering
 
  WebUI:
- * Fix White template for Opera
+  * Fix White template for Opera
+ 
+ Misc:
+  * Deluge will now use a system libtorrent library if available.
+  * The build system will no longer build libtorrent if a system library is
+    detected.
 
 Deluge 1.0.2 (10 October 2008)
  Core:

@@ -179,7 +179,10 @@ class AddTorrentDialog(component.Component):
                 break
                 
     def add_from_files(self, filenames):
-        import deluge.libtorrent as lt
+        try:
+            import libtorrent as lt
+        except ImportError:
+            import deluge.libtorrent as lt
         import os.path
         new_row = None
         

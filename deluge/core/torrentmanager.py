@@ -40,7 +40,10 @@ import time
 
 import gobject
 
-import deluge.libtorrent as lt
+try:
+    import libtorrent as lt
+except ImportError:
+    import deluge.libtorrent as lt
 
 import deluge.common
 import deluge.component as component

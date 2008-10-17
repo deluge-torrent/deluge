@@ -36,7 +36,10 @@
 import gobject
 
 import deluge.component as component
-import deluge.libtorrent as lt
+try:
+    import libtorrent as lt
+except ImportError:
+    import deluge.libtorrent as lt
 from deluge.log import LOG as log
 
 class AlertManager(component.Component):
