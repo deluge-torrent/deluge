@@ -179,6 +179,15 @@ class FilesTab(Tab):
         self.listview.connect("row-activated", self._on_row_activated)
         self.listview.connect("button-press-event", self._on_button_press_event)
 
+        self.listview.enable_model_drag_source(
+            gtk.gdk.BUTTON1_MASK,
+            [('text/plain', 0, 0)],
+            gtk.gdk.ACTION_DEFAULT | gtk.gdk.ACTION_MOVE)
+        self.listview.enable_model_drag_dest([('text/plain', 0, 0)], gtk.gdk.ACTION_DEFAULT)
+
+        self.listview.connect("drag_data_get", self._on_drag_data_get_data)
+        self.listview.connect("drag_data_received", self._on_drag_data_received_data)
+        
         glade.signal_autoconnect({
             "on_menuitem_open_file_activate": self._on_menuitem_open_file_activate,
             "on_menuitem_donotdownload_activate": self._on_menuitem_donotdownload_activate,
@@ -477,6 +486,12 @@ class FilesTab(Tab):
     
     def _on_filename_edited(self, renderer, path, new_text):
         index = self.treestore[path][5]
+
+        # Don't do anything if the text hasn't changed
+        if new_text == self.treestore[path][0]:
+            self._editing_index = None
+            return
+
         if index > -1:
             # We are renaming a file
             itr = self.treestore.get_iter(path)
@@ -526,8 +541,15 @@ class FilesTab(Tab):
         # We need to update the filename displayed if we're currently viewing
         # this torrents files.        
         if torrent_id == self.torrent_id:
-            if len(old_name.split("/")) != len(name.split("/")):
-                parent_path = [o for o in old_name.split("/")[:-1]]
+            old_name_len = len(old_name.split("/"))
+            name_len = len(name.split("/"))
+            if old_name_len != name_len:
+                # The parent path list changes depending on which way the file
+                # is moving in the tree
+                if old_name_len < name_len:
+                    parent_path = [o for o in old_name.split("/")[:-1]]
+                else:
+                    parent_path = [o for o in name.split("/")[:-1]]
                 # Find the iter to the parent folder we need to add a new folder
                 # to.
                 def find_parent(model, path, itr, user_data):
@@ -536,9 +558,20 @@ class FilesTab(Tab):
                             # This is the parent iter
                             to_create = name.split("/")[len(old_name.split("/")[:-1]):-1]
                             parent_iter = itr
+
                             for tc in to_create:
-                                parent_iter = self.treestore.append(parent_iter,
-                                            [tc, 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
+                                # We need to check if these folders need to be created
+                                child_iter = self.treestore.iter_children(parent_iter)
+                                create = True
+                                while child_iter:
+                                    if self.treestore[child_iter][0] == tc + "/":
+                                        create = False
+                                        parent_iter = child_iter
+                                        break
+                                    child_iter = self.treestore.iter_next(child_iter)
+                                if create:
+                                    parent_iter = self.treestore.append(parent_iter,
+                                                [tc + "/", 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
                             
                             # Find the iter for the file that needs to be moved
                             def get_file_iter(model, path, itr, user_data):
@@ -554,8 +587,10 @@ class FilesTab(Tab):
                             self.treestore.foreach(get_file_iter, None)
                             return True
                         else:
-                            parent_path.remove(model[itr][5])
-                            
+                            log.debug("parent_path: %s remove: %s", parent_path, model[itr][0])
+                            parent_path.remove(model[itr][0][:-1])
+
+
                 self.treestore.foreach(find_parent, None)
             else:
                 # This is just changing a filename without any folder changes
@@ -601,3 +636,37 @@ class FilesTab(Tab):
                             self.treestore[itr][0] = new_split[i] + "/"
                         break
                     itr = self.treestore.iter_next(itr)
+                    
+    def _on_drag_data_get_data(self, treeview, context, selection, target_id, etime):
+        indexes = self.get_selected_files()
+        selection.set_text(",".join([str(x) for x in indexes]))
+    
+    def _on_drag_data_received_data(self, treeview, context, x, y, selection, info, etime):
+        log.debug("selection.data: %s", selection.data)
+        drop_info = treeview.get_dest_row_at_pos(x, y)
+        model = treeview.get_model()
+        if drop_info:
+            itr = model.get_iter(drop_info[0])
+            parent_iter = model.iter_parent(itr)
+            parent_path = ""
+            if model[itr][5] == -1:
+                parent_path += model[itr][0]
+                
+            while parent_iter:
+                parent_path = model[parent_iter][0] + parent_path
+                parent_iter = model.iter_parent(parent_iter)
+            
+            #[(index, filepath), ...]
+            to_rename = []
+
+            selected = [int(x) for x in selection.data.split(",")]
+            def find_file(model, path, itr, user_data):
+                if model[itr][5] in selected:
+                    to_rename.append((model[itr][5], parent_path + model[itr][0]))
+                    if len(to_rename) == len(selected):
+                        return True
+            
+            model.foreach(find_file, None)
+            log.debug("to_rename: %s", to_rename)
+            client.rename_files(self.torrent_id, to_rename)    
+            
