@@ -190,6 +190,7 @@ class FilesTab(Tab):
 
         # Connect to the 'torrent_file_renamed' signal
         component.get("Signals").connect_to_signal("torrent_file_renamed", self._on_torrent_file_renamed_signal)
+        component.get("Signals").connect_to_signal("torrent_folder_renamed", self._on_torrent_folder_renamed_signal)
         
         # Attempt to load state
         self.load_state()
@@ -499,8 +500,15 @@ class FilesTab(Tab):
             client.rename_files(self.torrent_id, [(index, filepath)])
         else:
             # We are renaming a folder
-            # This requires us to change all the files under this folder
-            pass
+            folder = self.treestore[path][0]
+            
+            parent_path = ""
+            itr = self.treestore.iter_parent(self.treestore.get_iter(path))
+            while itr:
+                parent_path = self.treestore[itr][0] + parent_path
+                itr = self.treestore.iter_parent(itr)
+            
+            client.rename_folder(self.torrent_id, parent_path + folder, parent_path + new_text)
 
         self._editing_index = None
 
@@ -512,13 +520,84 @@ class FilesTab(Tab):
             
     def _on_torrent_file_renamed_signal(self, torrent_id, index, name):
         log.debug("index: %s name: %s", index, name)
+        old_name = self.files_list[torrent_id][index]["path"]
         self.files_list[torrent_id][index]["path"] = name
+
         # We need to update the filename displayed if we're currently viewing
         # this torrents files.        
         if torrent_id == self.torrent_id:
-            def set_file_name(model, path, itr, user_data):
-                if model[itr][5] == index:
-                    model[itr][0] = os.path.split(name)[-1]
-                    return True
-            self.treestore.foreach(set_file_name, None)
+            if len(old_name.split("/")) != len(name.split("/")):
+                parent_path = [o for o in old_name.split("/")[:-1]]
+                # Find the iter to the parent folder we need to add a new folder
+                # to.
+                def find_parent(model, path, itr, user_data):
+                    if model[itr][0] == parent_path[0] + "/":
+                        if len(parent_path) == 1:
+                            # This is the parent iter
+                            to_create = name.split("/")[len(old_name.split("/")[:-1]):-1]
+                            parent_iter = itr
+                            for tc in to_create:
+                                parent_iter = self.treestore.append(parent_iter,
+                                            [tc, 0, "", 0, 0, -1, gtk.STOCK_DIRECTORY])
+                            
+                            # Find the iter for the file that needs to be moved
+                            def get_file_iter(model, path, itr, user_data):
+                                if model[itr][5] == index:
+                                    model[itr][0] = name.split("/")[-1]
+                                    t = self.treestore.append(
+                                        parent_iter, 
+                                        self.treestore.get(itr, 
+                                        *xrange(self.treestore.get_n_columns())))
+                                    self.treestore.remove(itr)                      
+                                    return True
+                            
+                            self.treestore.foreach(get_file_iter, None)
+                            return True
+                        else:
+                            parent_path.remove(model[itr][5])
+                            
+                self.treestore.foreach(find_parent, None)
+            else:
+                # This is just changing a filename without any folder changes
+                def set_file_name(model, path, itr, user_data):
+                    if model[itr][5] == index:
+                        model[itr][0] = os.path.split(name)[-1]
+                        return True
+                self.treestore.foreach(set_file_name, None)
 
+    def _on_torrent_folder_renamed_signal(self, torrent_id, old_folder, new_folder):
+        log.debug("old_folder: %s new_folder: %s", old_folder, new_folder)
+        
+        if old_folder[-1] != "/":
+            old_folder += "/"
+        if new_folder[-1] != "/":
+            new_folder += "/"
+        
+        for fd in self.files_list[torrent_id]:
+            if fd["path"].startswith(old_folder):
+                fd["path"] = fd["path"].replace(old_folder, new_folder, 1)
+        
+        if torrent_id == self.torrent_id:
+            
+            old_split = old_folder.split("/")
+            try:
+                old_split.remove("")
+            except:
+                pass
+            
+            new_split = new_folder.split("/")
+            try:
+                new_split.remove("")
+            except:
+                pass
+            
+            itr = None
+            for i, old in enumerate(old_split):
+                itr = self.treestore.iter_children(itr)
+                while itr:
+                    if self.treestore[itr][0] == old + "/":
+                        if old != new_split[i]:
+                            # we need to change this one
+                            self.treestore[itr][0] = new_split[i] + "/"
+                        break
+                    itr = self.treestore.iter_next(itr)
