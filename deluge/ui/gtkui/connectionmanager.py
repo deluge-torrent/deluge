@@ -350,7 +350,7 @@ class ConnectionManager(component.Component):
     def on_button_addhost_clicked(self, widget):
         log.debug("on_button_addhost_clicked")
         dialog = self.glade.get_widget("addhost_dialog")
-        dialog.set_icon(deluge.common.get_logo(16))
+        dialog.set_icon(common.get_logo(16))
         hostname_entry = self.glade.get_widget("entry_hostname")
         port_spinbutton = self.glade.get_widget("spinbutton_port")
         response = dialog.run()
