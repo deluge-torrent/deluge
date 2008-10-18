@@ -432,8 +432,6 @@ class pixmaps:
                 name = 'inactive'
             if name == 'error':
                 name = 'alert'
-            if name == 'all':
-                name = 'deluge'
             name =  name + '16.png'
 
         if not os.path.exists(get_pixmap(name)):
