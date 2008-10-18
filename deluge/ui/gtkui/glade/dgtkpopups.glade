@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Fri Oct 17 20:13:27 2008 -->
+<!--Generated with glade3 3.4.5 on Fri Oct 17 22:54:20 2008 -->
 <glade-interface>
   <widget class="GtkDialog" id="speed_dialog">
     <property name="app_paintable">True</property>
@@ -117,7 +117,7 @@
             <child>
               <widget class="GtkLabel" id="label1">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">Enter Peer IP to Add</property>
+                <property name="label" translatable="yes">Enter Peer IP:Port to Add</property>
               </widget>
             </child>
             <child>
