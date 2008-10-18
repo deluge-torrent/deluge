@@ -7,9 +7,11 @@ Deluge 1.0.3 (18 October 2008)
     would cause the torrent to be rechecked on every startup.
   * Fix ip filtering
 
+ GtkUI:
+  * Re-add the "Max Connections Per Second" option with a default setting of 20
+
  WebUI:
   * Fix White template for Opera
-  * Remove max connections per second from config dialog.
  
  Misc:
   * Deluge will now use a system libtorrent library if available.
