@@ -16,6 +16,7 @@ Deluge 1.1.0 - "" (In Development)
   * Allow adding multiple trackers at once in the edit tracker dialog
   * Implement #28 Create Torrent Dialog
   * Redesiged sidebar with filters for Active and Tracker (see FilterManager)
+  * Implement #428 the ability to rename files and directories
 
  WebUi
   * All details tabs have the same features as in gtk-ui.
