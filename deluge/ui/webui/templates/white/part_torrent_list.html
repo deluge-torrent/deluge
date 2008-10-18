@@ -47,7 +47,9 @@ $for torrent in torrent_list:
             class="pause_resume">
             <input type="image"
             src="$base/pixmaps/$torrent.state.lower()"
-            name="pauseresume" value="submit" />
+            name="pauseresume" value="submit"
+            title="$id_to_label(torrent.action)"
+            />
         </form>
        </td>
     <td>

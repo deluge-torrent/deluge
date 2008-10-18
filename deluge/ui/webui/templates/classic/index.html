@@ -25,7 +25,9 @@ $for torrent in torrent_list:
         <form action="$base/torrent/$torrent.action/$torrent.id" method="POST" class="pause_resume">
             <input type="image"
             src="$base/pixmaps/$torrent.state.lower()"
-            name="pauseresume" value="submit" /></form></td>
+            name="pauseresume" value="submit"
+            title="$id_to_label(torrent.action)"
+            /></form></td>
     <td>$torrent.queue</td>
     <td style="width:100px; overflow:hidden;white-space: nowrap">
         <a href="$base/torrent/info/$torrent.id" >
