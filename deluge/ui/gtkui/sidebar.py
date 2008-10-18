@@ -51,9 +51,8 @@ class SideBar(component.Component):
         glade = self.window.main_glade
         self.notebook = glade.get_widget("sidebar_notebook")
         self.hpaned = glade.get_widget("hpaned")
-        self.is_visible = True
         self.config = ConfigManager("gtkui.conf")
-        self.hpaned_position = self.hpaned.get_position()
+        #self.hpaned_position = self.hpaned.get_position()
         
         # Tabs holds references to the Tab widgets by their name
         self.tabs = {}
@@ -61,18 +60,21 @@ class SideBar(component.Component):
         # Hide if necessary
         self.visible(self.config["show_sidebar"])
 
+    def shutdown(self):
+        log.debug("hpaned.position: %s", self.hpaned.get_position())
+        self.config["sidebar_position"] = self.hpaned.get_position()
+        
     def visible(self, visible):
         if visible:
-            if self.hpaned_position:
-                self.hpaned.set_position(self.hpaned_position)
+            if self.config["sidebar_position"]:
+                self.hpaned.set_position(self.config["sidebar_position"])
             self.notebook.show()
         else:
             self.notebook.hide()
             # Store the position for restoring upon show()
-            self.hpaned_position = self.hpaned.get_position()
+            self.config["sidebar_position"] = self.hpaned.get_position()
             self.hpaned.set_position(-1)
 
-        self.is_visible = visible
         self.config["show_sidebar"] = visible
 
     def add_tab(self, widget, tab_name, label):

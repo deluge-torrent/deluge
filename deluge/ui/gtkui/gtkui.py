@@ -113,8 +113,9 @@ DEFAULT_PREFS = {
     "show_sidebar": True,
     "show_toolbar": True,
     "show_statusbar": True,
-    "sidebar_show_zero":False,
-    "sidebar_show_trackers":False
+    "sidebar_show_zero": False,
+    "sidebar_show_trackers": False,
+    "sidebar_position": 170
 }
 
 class GtkUI:
@@ -247,6 +248,8 @@ class GtkUI:
                 client.shutdown()
             except:
                 pass
+        
+        self.config.save()
         try:
             gtk.main_quit()
         except RuntimeError:

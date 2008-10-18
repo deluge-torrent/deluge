@@ -128,7 +128,6 @@ class FilterTreeView(component.Component):
         self.create_model_filter()
 
         #init.....
-        self.hpaned.set_position(170)
         self.label_view.connect("button-press-event", self.on_button_press_event)
 
         #colors using current theme.
