@@ -6,9 +6,11 @@ Deluge 1.1.0 - "" (In Development)
   * Implement #414 use async save_resume_data method
   * FilterManager with torrent filtering in get_torrents_status , for sidebar and plugins.
   * Implement #368 add torrents by infohash/magnet uri (trackerless torrents)
+  * Remove remaining gtk functions in common
 
  GtkUI:
   * Add peer progress to the peers tab
+  * Add ability to manually add peers
   * Sorting # column will place downloaders above seeds
   * Remove dependency on libtorrent for add torrent dialog
   * Allow adding multiple trackers at once in the edit tracker dialog
