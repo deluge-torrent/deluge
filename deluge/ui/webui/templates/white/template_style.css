@@ -198,8 +198,13 @@ div.progress_bar{
 	background-color:#E0ECFF;
 	overflow:visible;
 	white-space: nowrap;
-	/*color:blue;*/
 	/*-moz-border-radius:5px;*/ /*ff only setting*/
+}
+
+div.progress_bar_detail {
+	text-align:center;
+	font-weight:bold;
+	-moz-border-radius:5px;
 }
 
 /*info panel(inner):*/
@@ -246,7 +251,7 @@ td.info_label {
 }
 
 #torrent_tab tr.head {
-	background-color:#74DD82;
+	background-color:#C3D9FF;
 }
 #torrent_tab tr.altrow0 {
 	background-color:#FFFFFF;
@@ -257,6 +262,9 @@ td.info_label {
 }
 #torrent_tab a.tab_button_active {
 	margin-right:10px;
+}
+#torrent_tab div.progress_bar{
+	background-color:#C3D9FF;
 }
 
 /*/torrent/info*/
