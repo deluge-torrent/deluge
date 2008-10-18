@@ -61,7 +61,7 @@ try:
             break
     # Try to get the SVN revision on Gentoo systems
     if revision_string == "":
-        stdout = os.popen("svn info /usr/portage/distfiles/svn-src/deluge/deluge-0.6")
+        stdout = os.popen("svn info /usr/portage/distfiles/svn-src/deluge/trunk")
         for line in stdout:
             if line.split(" ")[0] == "Revision:":
                 revision_string = line.split(" ")[1].strip()
