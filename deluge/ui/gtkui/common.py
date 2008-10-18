@@ -154,8 +154,14 @@ def add_peer_dialog():
     response = peer_dialog.run()
     if response:
         value = txt_ip.get_text()
-        ip = value.split(":")[0]
-        port = value.split(":")[1]
+        if ']' in value:
+            #ipv6
+            ip = value.split("]")[0][1:]
+            port = value.split("]")[1][1:]
+        else:
+            #ipv4
+            ip = value.split(":")[0]
+            port = value.split(":")[1]
         if deluge.common.is_ip(ip):
             id = component.get("TorrentView").get_selected_torrent()
             log.debug("adding peer %s to %s", value, id)
