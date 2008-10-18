@@ -45,6 +45,7 @@ from deluge.configmanager import ConfigManager
 from deluge.ui.gtkui.ipcinterface import process_args
 
 import deluge.common
+import deluge.ui.gtkui.common as common
 
 from deluge.log import LOG as log
 
@@ -58,7 +59,7 @@ class MainWindow(component.Component):
                                                     "glade/main_window.glade"))
 
         self.window = self.main_glade.get_widget("main_window")
-        self.window.set_icon(deluge.common.get_logo(32))
+        self.window.set_icon(common.get_logo(32))
         self.vpaned = self.main_glade.get_widget("vpaned")
         
         # Load the window state

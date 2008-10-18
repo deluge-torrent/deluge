@@ -36,6 +36,7 @@ import gobject
 
 import deluge.component as component
 import deluge.common
+import deluge.ui.gtkui.common as common
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import aclient as client
 from deluge.log import LOG as log
@@ -345,7 +346,7 @@ class StatusBar(component.Component):
         self.send_status_request()
         
     def _on_download_item_clicked(self, widget, event):
-        menu = deluge.common.build_menu_radio_list(
+        menu = common.build_menu_radio_list(
             self.config["tray_download_speed_list"], 
             self._on_set_download_speed,
             self.max_download_speed,
@@ -359,7 +360,7 @@ class StatusBar(component.Component):
         if widget.get_name() == _("Unlimited"):
             value = -1
         elif widget.get_name() == _("Other..."):
-            value = deluge.common.show_other_dialog(
+            value = common.show_other_dialog(
                 _("Download Speed (KiB/s):"), self.max_download_speed)
             if value == None:
                 return
@@ -373,7 +374,7 @@ class StatusBar(component.Component):
             client.set_config({"max_download_speed": value})
 
     def _on_upload_item_clicked(self, widget, event):
-        menu = deluge.common.build_menu_radio_list(
+        menu = common.build_menu_radio_list(
             self.config["tray_upload_speed_list"], 
             self._on_set_upload_speed,
             self.max_upload_speed,
@@ -387,7 +388,7 @@ class StatusBar(component.Component):
         if widget.get_name() == _("Unlimited"):
             value = -1
         elif widget.get_name() == _("Other..."):
-            value = deluge.common.show_other_dialog(
+            value = common.show_other_dialog(
                 _("Upload Speed (KiB/s):"), self.max_upload_speed)
             if value == None:
                 return
@@ -401,7 +402,7 @@ class StatusBar(component.Component):
             client.set_config({"max_upload_speed": value})
 
     def _on_connection_item_clicked(self, widget, event):
-        menu = deluge.common.build_menu_radio_list(
+        menu = common.build_menu_radio_list(
             self.config["connection_limit_list"], 
             self._on_set_connection_limit,
             self.max_connections, show_notset=True, show_other=True)
@@ -414,7 +415,7 @@ class StatusBar(component.Component):
         if widget.get_name() == _("Unlimited"):
             value = -1
         elif widget.get_name() == _("Other..."):
-            value = deluge.common.show_other_dialog(
+            value = common.show_other_dialog(
                 _("Connection Limit:"), self.max_connections)
             if value == None:
                 return

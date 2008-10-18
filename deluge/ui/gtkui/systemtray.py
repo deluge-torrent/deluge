@@ -39,6 +39,7 @@ from deluge.ui.client import aclient as client
 import deluge.common
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
+import deluge.ui.gtkui.common as common
 
 class SystemTray(component.Component):
     def __init__(self):
@@ -80,7 +81,7 @@ class SystemTray(component.Component):
 
         if deluge.common.windows_check():
             self.tray = gtk.status_icon_new_from_pixbuf(
-                deluge.common.get_logo(32))
+                common.get_logo(32))
         else:
             try:
                 self.tray = gtk.status_icon_new_from_icon_name("deluge")
@@ -203,13 +204,13 @@ class SystemTray(component.Component):
         
     def build_tray_bwsetsubmenu(self):
         # Create the Download speed list sub-menu
-        submenu_bwdownset = deluge.common.build_menu_radio_list(
+        submenu_bwdownset = common.build_menu_radio_list(
                 self.config["tray_download_speed_list"], self.tray_setbwdown,
                 self.max_download_speed,
                      _("KiB/s"), show_notset=True, show_other=True)
         
         # Create the Upload speed list sub-menu
-        submenu_bwupset = deluge.common.build_menu_radio_list(
+        submenu_bwupset = common.build_menu_radio_list(
                 self.config["tray_upload_speed_list"], self.tray_setbwup, 
                 self.max_upload_speed,
                 _("KiB/s"), show_notset=True, show_other=True)
@@ -335,7 +336,7 @@ class SystemTray(component.Component):
             value = -1
         
         if value == _("Other..."):
-            value = deluge.common.show_other_dialog(
+            value = common.show_other_dialog(
                 string + " Speed (KiB/s):", default)
             if value == None:
                 return

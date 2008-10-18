@@ -37,6 +37,7 @@ import gtk
 import pkg_resources
 
 import deluge.common
+import deluge.ui.gtkui.common as common
 from deluge.ui.client import aclient as client
 
 class AboutDialog:
@@ -73,7 +74,7 @@ should have received a copy of the GNU General Public License along with this pr
 if not, see <http://www.gnu.org/licenses>."))
         self.about.set_website("http://deluge-torrent.org")
         self.about.set_website_label("http://deluge-torrent.org")
-        self.about.set_icon(deluge.common.get_logo(32))
+        self.about.set_icon(common.get_logo(32))
         self.about.set_logo(gtk.gdk.pixbuf_new_from_file(
                                 deluge.common.get_pixmap("deluge-about.png")))
       

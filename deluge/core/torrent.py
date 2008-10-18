@@ -698,6 +698,14 @@ class Torrent:
 
             return True
 
+    def connect_peer(self, ip):
+        """adds manual peer"""
+        try:
+            self.handle.connect_peer(ip)
+        except:
+            return False
+        return True
+
     def move_storage(self, dest):
         """Move a torrent's storage location"""
         try:
@@ -812,4 +820,3 @@ class Torrent:
                 # Keep a list of filerenames we're waiting on
                 self.waiting_on_folder_rename.append(f["index"])
                 self.handle.rename_file(f["index"], f["path"].replace(folder, new_folder, 1))
-

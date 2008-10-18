@@ -42,6 +42,7 @@ from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
 import deluge.component as component
 import deluge.common
+import deluge.ui.gtkui.common as common
 from deluge.ui.gtkui.listview import cell_data_speed as cell_data_speed
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.log import LOG as log
@@ -67,8 +68,13 @@ class PeersTab(Tab):
         self._name = "Peers"
         self._child_widget = glade.get_widget("peers_tab")
         self._tab_label = glade.get_widget("peers_tab_label")
+        self.peer_menu = glade.get_widget("menu_peer_tab")
+        glade.signal_autoconnect({
+            "on_menuitem_add_peer_activate": self._on_menuitem_add_peer_activate,
+            })
 
         self.listview = glade.get_widget("peers_listview")
+        self.listview.connect("button-press-event", self._on_button_press_event)
         # country pixbuf, ip, client, downspeed, upspeed, country code, int_ip, seed/peer icon, progress
         self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, str, int, int, str, gobject.TYPE_UINT, gtk.gdk.Pixbuf, float)
         self.cached_flag_pixbufs = {}
@@ -320,3 +326,17 @@ class PeersTab(Tab):
 
     def clear(self):
         self.liststore.clear()
+
+    def _on_button_press_event(self, widget, event):
+        """This is a callback for showing the right-click context menu."""
+        log.debug("on_button_press_event")
+        # We only care about right-clicks
+        if self.torrent_id and event.button == 3:
+            self.peer_menu.popup(None, None, None, event.button, event.time)
+            return True
+
+    def _on_menuitem_add_peer_activate(self, menuitem):
+        """This is a callback for manually adding a peer"""
+        log.debug("on_menuitem_add_peer")
+        common.add_peer_dialog()
+        return True

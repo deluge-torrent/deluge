@@ -159,7 +159,7 @@ class BaseClient(object):
     """
     no_callback_list = ["add_torrent_url", "pause_all_torrents",
             "resume_all_torrents", "set_config", "enable_plugin",
-            "disable_plugin", "set_torrent_trackers",
+            "disable_plugin", "set_torrent_trackers", "connect_peer", 
             "set_torrent_max_connections", "set_torrent_max_upload_slots",
             "set_torrent_max_upload_speed", "set_torrent_max_download_speed",
             "set_torrent_private_flag", "set_torrent_file_priorities",

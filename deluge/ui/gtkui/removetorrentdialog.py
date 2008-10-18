@@ -38,6 +38,7 @@ import deluge.common
 from deluge.ui.client import aclient as client
 import deluge.component as component
 from deluge.log import LOG as log
+import deluge.ui.gtkui.common as common
 
 class RemoveTorrentDialog:
     def __init__(self, torrent_ids, remove_torrentfile=False, remove_data=False):
@@ -50,7 +51,7 @@ class RemoveTorrentDialog:
                 "glade/remove_torrent_dialog.glade"))
         
         self.dialog = self.glade.get_widget("remove_torrent_dialog")
-        self.dialog.set_icon(deluge.common.get_logo(32))
+        self.dialog.set_icon(common.get_logo(32))
         self.dialog.set_transient_for(component.get("MainWindow").window)
         
         self.glade.signal_autoconnect({

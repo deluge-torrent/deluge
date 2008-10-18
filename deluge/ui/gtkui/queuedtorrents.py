@@ -42,6 +42,7 @@ from deluge.ui.client import aclient as client
 import deluge.common
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
+import deluge.ui.gtkui.common as common
 
 class QueuedTorrents(component.Component):
     def __init__(self):
@@ -56,7 +57,7 @@ class QueuedTorrents(component.Component):
         self.glade.get_widget("chk_autoadd").set_active(
             self.config["autoadd_queued"])        
         self.dialog = self.glade.get_widget("queued_torrents_dialog")
-        self.dialog.set_icon(deluge.common.get_logo(32))
+        self.dialog.set_icon(common.get_logo(32))
         
         self.glade.signal_autoconnect({
             "on_button_remove_clicked": self.on_button_remove_clicked,

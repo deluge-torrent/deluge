@@ -39,7 +39,8 @@ import pkg_resources
 import deluge.error
 import deluge.component as component
 from deluge.ui.client import aclient as client
-import deluge.common as common
+import deluge.common
+import deluge.ui.gtkui.common as common
 from deluge.configmanager import ConfigManager
 
 from deluge.log import LOG as log
@@ -67,9 +68,9 @@ class MenuBar(component.Component):
         self.torrentmenu_glade.get_widget("menuitem_options").set_submenu(
             self.torrentmenu_glade.get_widget("options_torrent_menu"))
         self.torrentmenu_glade.get_widget("download-limit-image").set_from_file(
-            common.get_pixmap("downloading16.png"))
+            deluge.common.get_pixmap("downloading16.png"))
         self.torrentmenu_glade.get_widget("upload-limit-image").set_from_file(
-            common.get_pixmap("seeding16.png"))
+            deluge.common.get_pixmap("seeding16.png"))
 
         for menuitem in ("menuitem_down_speed", "menuitem_up_speed",
             "menuitem_max_connections", "menuitem_upload_slots"):
@@ -330,7 +331,7 @@ class MenuBar(component.Component):
     def on_menuitem_open_folder_activate(self, data=None):
         log.debug("on_menuitem_open_folder")
         def _on_torrent_status(status):
-            deluge.common.open_file(status["save_path"])
+            deluge.deluge.common.open_file(status["save_path"])
         for torrent_id in component.get("TorrentView").get_selected_torrents():
             client.get_torrent_status(_on_torrent_status, torrent_id, ["save_path"])
 
@@ -344,7 +345,7 @@ class MenuBar(component.Component):
                 gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER, buttons=(gtk.STOCK_CANCEL, \
                 gtk.RESPONSE_CANCEL, gtk.STOCK_OK, gtk.RESPONSE_OK))
             chooser.set_local_only(True)
-            if not common.windows_check():
+            if not deluge.common.windows_check():
                 chooser.set_icon(common.get_logo(18))
                 chooser.set_property("skip-taskbar-hint", True)
             chooser.set_current_folder(config["choose_directory_dialog_path"])
@@ -408,15 +409,15 @@ class MenuBar(component.Component):
     ## Help Menu ##
     def on_menuitem_homepage_activate(self, data=None):
         log.debug("on_menuitem_homepage_activate")
-        common.open_url_in_browser("http://deluge-torrent.org")
+        deluge.common.open_url_in_browser("http://deluge-torrent.org")
 
     def on_menuitem_faq_activate(self, data=None):
         log.debug("on_menuitem_faq_activate")
-        common.open_url_in_browser("http://dev.deluge-torrent.org/wiki/Faq")
+        deluge.common.open_url_in_browser("http://dev.deluge-torrent.org/wiki/Faq")
 
     def on_menuitem_community_activate(self, data=None):
         log.debug("on_menuitem_community_activate")
-        common.open_url_in_browser("http://forum.deluge-torrent.org/")
+        deluge.common.open_url_in_browser("http://forum.deluge-torrent.org/")
 
     def on_menuitem_about_activate(self, data=None):
         log.debug("on_menuitem_about_activate")

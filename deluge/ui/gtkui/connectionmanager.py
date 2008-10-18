@@ -43,6 +43,7 @@ import threading
 import deluge.component as component
 import deluge.xmlrpclib as xmlrpclib
 import deluge.common
+import deluge.ui.gtkui.common as common
 from deluge.ui.client import aclient as client
 from deluge.configmanager import ConfigManager
 from deluge.log import LOG as log
@@ -79,10 +80,9 @@ class ConnectionManager(component.Component):
         # Make the Connection Manager window a transient for the main window.
         self.connection_manager.set_transient_for(self.window.window)
         self.hostlist = self.glade.get_widget("hostlist")
-        self.connection_manager.set_icon(deluge.common.get_logo(32))
+        self.connection_manager.set_icon(common.get_logo(32))
         
-        self.glade.get_widget("image1").set_from_pixbuf(
-            deluge.common.get_logo(32))
+        self.glade.get_widget("image1").set_from_pixbuf(common.get_logo(32))
         
         self.liststore = gtk.ListStore(gtk.gdk.Pixbuf, str, int)
 

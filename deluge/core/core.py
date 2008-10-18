@@ -450,6 +450,11 @@ class Core(
             if not self.torrents[torrent_id].pause():
                 log.warning("Error pausing torrent %s", torrent_id)
 
+    def export_connect_peer(self, torrent_id, ip):
+        log.debug("adding peer %s to %s", ip, torrent_id)
+        if not self.torrents[torrent_id].connect_peer(ip):
+            log.warning("Error adding peer %s to %s", ip, torrent_id)
+
     def export_move_storage(self, torrent_ids, dest):
         log.debug("Moving storage %s to %s", torrent_ids, dest)
         for torrent_id in torrent_ids:

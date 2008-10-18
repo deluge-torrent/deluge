@@ -33,6 +33,7 @@
 
 import deluge.component as component
 import deluge.common
+import deluge.ui.gtkui.common as common
 from deluge.log import LOG as log
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import aclient as client
@@ -73,7 +74,7 @@ class Notification:
                 if pynotify.init("Deluge"):
                     self.note = pynotify.Notification(_("Torrent complete"), 
                         status["name"] + "\n" + _("Including %i files" % status["num_files"]))
-                    self.note.set_icon_from_pixbuf(deluge.common.get_logo(48))
+                    self.note.set_icon_from_pixbuf(common.get_logo(48))
                     if not self.note.show():
                         log.warning("pynotify failed to show notification")
 

@@ -35,6 +35,7 @@ import gtk, gtk.glade
 import pkg_resources
 
 import deluge.common
+import deluge.ui.gtkui.common as common
 from deluge.ui.client import aclient as client
 import deluge.component as component
 from deluge.log import LOG as log
@@ -53,7 +54,7 @@ class EditTrackersDialog:
         self.edit_tracker_entry = self.glade.get_widget("edit_tracker_entry")
         self.edit_tracker_entry.set_transient_for(self.dialog)
         
-        self.dialog.set_icon(deluge.common.get_logo(32))
+        self.dialog.set_icon(common.get_logo(32))
         
         if parent != None:
             self.dialog.set_transient_for(parent)
