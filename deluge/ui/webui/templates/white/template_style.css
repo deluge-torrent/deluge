@@ -13,6 +13,8 @@ body, th, td,tr , div,table , div{
 	margin:0px;
 	border-style: hidden;
 	border-spacing:0px;
+}
+body {
 	background-color:#FFFFFF;
 }
 
