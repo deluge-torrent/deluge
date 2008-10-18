@@ -698,11 +698,12 @@ class Torrent:
 
             return True
 
-    def connect_peer(self, ip):
+    def connect_peer(self, ip, port):
         """adds manual peer"""
         try:
-            self.handle.connect_peer(ip)
-        except:
+            self.handle.connect_peer((ip, int(port)), 0)
+        except Exception, e:
+            log.debug("Unable to connect to peer: %s", e)
             return False
         return True
 

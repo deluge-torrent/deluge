@@ -159,6 +159,6 @@ def add_peer_dialog():
         if deluge.common.is_ip(ip):
             id = component.get("TorrentView").get_selected_torrent()
             log.debug("adding peer %s to %s", value, id)
-            client.connect_peer(id, value)
+            client.connect_peer(id, ip, port)
     peer_dialog.destroy()
     return True
