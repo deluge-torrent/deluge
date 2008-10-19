@@ -195,6 +195,7 @@ class Core(
         # Load metadata extension
         self.session.add_extension(lt.create_metadata_plugin)
         self.session.add_extension(lt.create_ut_metadata_plugin)
+        self.session.add_extension(lt.create_smart_ban_plugin)
 
         # Start the AlertManager
         self.alerts = AlertManager(self.session)
