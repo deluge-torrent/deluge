@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-09-20 21:59-0500\n"
+"POT-Creation-Date: 2008-10-10 18:32-0500\n"
 "PO-Revision-Date: 2008-09-07 16:37+0000\n"
 "Last-Translator: Mark Krapivner <mark125@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-10-11 04:00+0000\n"
+"X-Launchpad-Export-Date: 2008-10-19 00:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 "X-Poedit-Language: Hebrew\n"
 
@@ -34,7 +34,7 @@ msgstr "התראה"
 msgid "Warning"
 msgstr "אזהרה"
 
-#: deluge/core/torrentmanager.py:719
+#: deluge/core/torrentmanager.py:718
 #: deluge/ui/webui/scripts/template_strings.py:25
 #: deluge/ui/gtkui/sidebar.py:69
 msgid "Error"
@@ -418,7 +418,7 @@ msgstr "מס' חיבורים מקסימלי"
 msgid "Maximum Upload Slots"
 msgstr "מקסימום נקודות העלאה"
 
-#: deluge/ui/webui/torrent_add.py:55 deluge/ui/webui/config_tabs_deluge.py:130
+#: deluge/ui/webui/torrent_add.py:55 deluge/ui/webui/config_tabs_deluge.py:131
 msgid "Prioritize first and last pieces"
 msgstr "תן עדיפות לחלק אחרון וראשון"
 
@@ -575,62 +575,66 @@ msgid "Auto Add folder"
 msgstr "הוספת תיקייה אוטומטית"
 
 #: deluge/ui/webui/config_tabs_deluge.py:129
+msgid "Auto Add enabled"
+msgstr ""
+
+#: deluge/ui/webui/config_tabs_deluge.py:130
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:469
 msgid "Use Compact Allocation"
 msgstr "שימוש בהקצאה חסכונית"
 
-#: deluge/ui/webui/config_tabs_deluge.py:136
+#: deluge/ui/webui/config_tabs_deluge.py:137
 msgid "Daemon"
 msgstr "שרת"
 
-#: deluge/ui/webui/config_tabs_deluge.py:137
+#: deluge/ui/webui/config_tabs_deluge.py:138
 msgid "Restart daemon and webui after changing these settings"
 msgstr "אתחל את תהליך הרקע ואת ממשק הרשת לאחר עדכון נתונים אלו"
 
-#: deluge/ui/webui/config_tabs_deluge.py:138
+#: deluge/ui/webui/config_tabs_deluge.py:139
 #: deluge/ui/webui/config_tabs_webui.py:63
 msgid "Port"
 msgstr "מספר פורט"
 
-#: deluge/ui/webui/config_tabs_deluge.py:139
+#: deluge/ui/webui/config_tabs_deluge.py:140
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2146
 msgid "Allow Remote Connections"
 msgstr "אפשר חיבורים מרוחקים"
 
-#: deluge/ui/webui/config_tabs_deluge.py:144
+#: deluge/ui/webui/config_tabs_deluge.py:145
 msgid "Queue"
 msgstr "בתהליך"
 
-#: deluge/ui/webui/config_tabs_deluge.py:145
+#: deluge/ui/webui/config_tabs_deluge.py:146
 msgid "-1 = unlimited"
 msgstr "-1 = ללא הגבלה"
 
-#: deluge/ui/webui/config_tabs_deluge.py:147
+#: deluge/ui/webui/config_tabs_deluge.py:148
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2296
 msgid "Queue new torrents to top"
 msgstr "הוסף טורנטים חדשים לראש הרשימה"
 
-#: deluge/ui/webui/config_tabs_deluge.py:151
+#: deluge/ui/webui/config_tabs_deluge.py:152
 msgid "Total active torrents"
 msgstr "סך הכל טורנטים פעילים"
 
-#: deluge/ui/webui/config_tabs_deluge.py:152
+#: deluge/ui/webui/config_tabs_deluge.py:153
 msgid "Total active downloading"
 msgstr "סך הכל הורדות פעילות"
 
-#: deluge/ui/webui/config_tabs_deluge.py:153
+#: deluge/ui/webui/config_tabs_deluge.py:154
 msgid "Total active seeding"
 msgstr "סך הכל שיתופים פעילים"
 
-#: deluge/ui/webui/config_tabs_deluge.py:160
+#: deluge/ui/webui/config_tabs_deluge.py:161
 msgid "Stop seeding when ratio reaches"
 msgstr "הפסק לשתף כאשר יחס השיתוף הוא"
 
-#: deluge/ui/webui/config_tabs_deluge.py:162
+#: deluge/ui/webui/config_tabs_deluge.py:163
 msgid "Remove torrent when ratio reached"
 msgstr "הסר את הטורנט לאחר שהיחס הרצוי הושג"
 
-#: deluge/ui/webui/config_tabs_deluge.py:169
+#: deluge/ui/webui/config_tabs_deluge.py:170
 msgid "Enabled Plugins"
 msgstr "תוספים פעילים"
 
@@ -1280,7 +1284,6 @@ msgstr "<big><b>מנהל החיבור</b></big>"
 #: deluge/ui/gtkui/glade/connection_manager.glade:405
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:171
 #: deluge/ui/gtkui/glade/edit_trackers.glade:108
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1022
 msgid "gtk-add"
 msgstr "gtk-add"
 

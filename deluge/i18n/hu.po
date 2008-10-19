@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-09-20 21:59-0500\n"
-"PO-Revision-Date: 2008-10-01 14:54+0000\n"
+"POT-Creation-Date: 2008-10-10 18:32-0500\n"
+"PO-Revision-Date: 2008-10-12 11:56+0000\n"
 "Last-Translator: G. U. <Unknown>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-10-11 04:04+0000\n"
+"X-Launchpad-Export-Date: 2008-10-19 00:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:667
@@ -33,7 +33,7 @@ msgstr "Hiba"
 msgid "Warning"
 msgstr "Figyelmeztetés"
 
-#: deluge/core/torrentmanager.py:719
+#: deluge/core/torrentmanager.py:718
 #: deluge/ui/webui/scripts/template_strings.py:25
 #: deluge/ui/gtkui/sidebar.py:69
 msgid "Error"
@@ -417,7 +417,7 @@ msgstr "Maximális kapcsolatok"
 msgid "Maximum Upload Slots"
 msgstr "Maximum feltöltési szálak"
 
-#: deluge/ui/webui/torrent_add.py:55 deluge/ui/webui/config_tabs_deluge.py:130
+#: deluge/ui/webui/torrent_add.py:55 deluge/ui/webui/config_tabs_deluge.py:131
 msgid "Prioritize first and last pieces"
 msgstr "Első és utolsó szelet nagyobb prioritással"
 
@@ -574,63 +574,67 @@ msgid "Auto Add folder"
 msgstr "Automata könyvtár Hozzáadás"
 
 #: deluge/ui/webui/config_tabs_deluge.py:129
+msgid "Auto Add enabled"
+msgstr "Auto hozzáadás engedélyezve"
+
+#: deluge/ui/webui/config_tabs_deluge.py:130
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:469
 msgid "Use Compact Allocation"
 msgstr "Terület lefoglalása menet közben"
 
-#: deluge/ui/webui/config_tabs_deluge.py:136
+#: deluge/ui/webui/config_tabs_deluge.py:137
 msgid "Daemon"
 msgstr "Kiszolgáló"
 
-#: deluge/ui/webui/config_tabs_deluge.py:137
+#: deluge/ui/webui/config_tabs_deluge.py:138
 msgid "Restart daemon and webui after changing these settings"
 msgstr ""
 "Indítsa újra a kiszolgálót és a webui-t a beállítások módosítása után"
 
-#: deluge/ui/webui/config_tabs_deluge.py:138
+#: deluge/ui/webui/config_tabs_deluge.py:139
 #: deluge/ui/webui/config_tabs_webui.py:63
 msgid "Port"
 msgstr "Port"
 
-#: deluge/ui/webui/config_tabs_deluge.py:139
+#: deluge/ui/webui/config_tabs_deluge.py:140
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2146
 msgid "Allow Remote Connections"
 msgstr "Távoli kapcsolatok engedélyezése"
 
-#: deluge/ui/webui/config_tabs_deluge.py:144
+#: deluge/ui/webui/config_tabs_deluge.py:145
 msgid "Queue"
 msgstr "Sor"
 
-#: deluge/ui/webui/config_tabs_deluge.py:145
+#: deluge/ui/webui/config_tabs_deluge.py:146
 msgid "-1 = unlimited"
 msgstr "-1 = végtelen"
 
-#: deluge/ui/webui/config_tabs_deluge.py:147
+#: deluge/ui/webui/config_tabs_deluge.py:148
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2296
 msgid "Queue new torrents to top"
 msgstr "Új torrentek felülre kerüljenek"
 
-#: deluge/ui/webui/config_tabs_deluge.py:151
+#: deluge/ui/webui/config_tabs_deluge.py:152
 msgid "Total active torrents"
 msgstr "Összes aktív torrent"
 
-#: deluge/ui/webui/config_tabs_deluge.py:152
+#: deluge/ui/webui/config_tabs_deluge.py:153
 msgid "Total active downloading"
 msgstr "Összes aktív letöltés"
 
-#: deluge/ui/webui/config_tabs_deluge.py:153
+#: deluge/ui/webui/config_tabs_deluge.py:154
 msgid "Total active seeding"
 msgstr "Összes aktív feltöltés"
 
-#: deluge/ui/webui/config_tabs_deluge.py:160
+#: deluge/ui/webui/config_tabs_deluge.py:161
 msgid "Stop seeding when ratio reaches"
 msgstr "Feltöltés befejezése ha az arány eléri"
 
-#: deluge/ui/webui/config_tabs_deluge.py:162
+#: deluge/ui/webui/config_tabs_deluge.py:163
 msgid "Remove torrent when ratio reached"
 msgstr "Torrent eltávolítása ha az arány eléri"
 
-#: deluge/ui/webui/config_tabs_deluge.py:169
+#: deluge/ui/webui/config_tabs_deluge.py:170
 msgid "Enabled Plugins"
 msgstr "Engedélyezett bővítmények"
 
@@ -1290,7 +1294,6 @@ msgstr "<big><b>Kapcsolat Beállításai</b></big>"
 #: deluge/ui/gtkui/glade/connection_manager.glade:405
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:171
 #: deluge/ui/gtkui/glade/edit_trackers.glade:108
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1022
 msgid "gtk-add"
 msgstr "gtk-add"
 
@@ -1623,11 +1626,11 @@ msgstr "<i><b><big>Felület</big></b></i>"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1635
 msgid "Enable system tray icon"
-msgstr "Ikon megjelenítése az értesítési területen"
+msgstr "Ikon megjelenítése a tálcán"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1650
 msgid "Minimize to tray on close"
-msgstr "Minimalizáskor menjen az értesítési területre"
+msgstr "Bezáráskor a tálcára"
 
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:1669
 msgid "Start in tray"
