@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2008-09-20 21:59-0500\n"
-"PO-Revision-Date: 2008-10-02 22:16+0000\n"
-"Last-Translator: Daniel Ferreira <danielfpferreira@gmail.com>\n"
+"POT-Creation-Date: 2008-10-10 18:32-0500\n"
+"PO-Revision-Date: 2008-10-12 09:56+0000\n"
+"Last-Translator: Tony Manco <Unknown>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2008-10-11 04:16+0000\n"
+"X-Launchpad-Export-Date: 2008-10-19 00:01+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
 #: deluge/core/torrentmanager.py:667
@@ -33,7 +33,7 @@ msgstr "Alerta"
 msgid "Warning"
 msgstr "Aviso"
 
-#: deluge/core/torrentmanager.py:719
+#: deluge/core/torrentmanager.py:718
 #: deluge/ui/webui/scripts/template_strings.py:25
 #: deluge/ui/gtkui/sidebar.py:69
 msgid "Error"
@@ -417,7 +417,7 @@ msgstr "Ligações máximas"
 msgid "Maximum Upload Slots"
 msgstr "Quantidade máxima de envios simultâneos"
 
-#: deluge/ui/webui/torrent_add.py:55 deluge/ui/webui/config_tabs_deluge.py:130
+#: deluge/ui/webui/torrent_add.py:55 deluge/ui/webui/config_tabs_deluge.py:131
 msgid "Prioritize first and last pieces"
 msgstr "Dar prioridade à primeira e última partes"
 
@@ -574,62 +574,66 @@ msgid "Auto Add folder"
 msgstr "Auto adicionar pasta"
 
 #: deluge/ui/webui/config_tabs_deluge.py:129
+msgid "Auto Add enabled"
+msgstr "Adicionamento automático activo"
+
+#: deluge/ui/webui/config_tabs_deluge.py:130
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:469
 msgid "Use Compact Allocation"
 msgstr "Alocamento Compacto"
 
-#: deluge/ui/webui/config_tabs_deluge.py:136
+#: deluge/ui/webui/config_tabs_deluge.py:137
 msgid "Daemon"
 msgstr "Serviço"
 
-#: deluge/ui/webui/config_tabs_deluge.py:137
+#: deluge/ui/webui/config_tabs_deluge.py:138
 msgid "Restart daemon and webui after changing these settings"
 msgstr "Reiniciar serviço e webui depois de alterar estas definições"
 
-#: deluge/ui/webui/config_tabs_deluge.py:138
+#: deluge/ui/webui/config_tabs_deluge.py:139
 #: deluge/ui/webui/config_tabs_webui.py:63
 msgid "Port"
 msgstr "Porta"
 
-#: deluge/ui/webui/config_tabs_deluge.py:139
+#: deluge/ui/webui/config_tabs_deluge.py:140
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2146
 msgid "Allow Remote Connections"
 msgstr "Permitir ligações remotas"
 
-#: deluge/ui/webui/config_tabs_deluge.py:144
+#: deluge/ui/webui/config_tabs_deluge.py:145
 msgid "Queue"
 msgstr "Fila"
 
-#: deluge/ui/webui/config_tabs_deluge.py:145
+#: deluge/ui/webui/config_tabs_deluge.py:146
 msgid "-1 = unlimited"
 msgstr "-1 = Ilimitado"
 
-#: deluge/ui/webui/config_tabs_deluge.py:147
+#: deluge/ui/webui/config_tabs_deluge.py:148
 #: deluge/ui/gtkui/glade/preferences_dialog.glade:2296
 msgid "Queue new torrents to top"
 msgstr "Fila de novos torrents no topo"
 
-#: deluge/ui/webui/config_tabs_deluge.py:151
+#: deluge/ui/webui/config_tabs_deluge.py:152
 msgid "Total active torrents"
 msgstr "Total de torrents activos"
 
-#: deluge/ui/webui/config_tabs_deluge.py:152
+#: deluge/ui/webui/config_tabs_deluge.py:153
 msgid "Total active downloading"
 msgstr "Total de activos a descarregar"
 
-#: deluge/ui/webui/config_tabs_deluge.py:153
+#: deluge/ui/webui/config_tabs_deluge.py:154
 msgid "Total active seeding"
 msgstr "Total de activos a semear"
 
-#: deluge/ui/webui/config_tabs_deluge.py:160
+#: deluge/ui/webui/config_tabs_deluge.py:161
 msgid "Stop seeding when ratio reaches"
 msgstr "Para de semear quando o rácio chegar a"
 
-#: deluge/ui/webui/config_tabs_deluge.py:162
+#: deluge/ui/webui/config_tabs_deluge.py:163
 msgid "Remove torrent when ratio reached"
 msgstr "Remover o torrent quanto o rácio chegar a"
 
-#: deluge/ui/webui/config_tabs_deluge.py:169
+#: deluge/ui/webui/config_tabs_deluge.py:170
 msgid "Enabled Plugins"
 msgstr "Plugins activos"
 
@@ -1288,7 +1292,6 @@ msgstr "<big><b>Gestor de Ligações</b></big>"
 #: deluge/ui/gtkui/glade/connection_manager.glade:405
 #: deluge/ui/gtkui/glade/queuedtorrents.glade:171
 #: deluge/ui/gtkui/glade/edit_trackers.glade:108
-#: deluge/ui/gtkui/glade/add_torrent_dialog.glade:1022
 msgid "gtk-add"
 msgstr "gtk-add"
 
