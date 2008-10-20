@@ -69,7 +69,7 @@ class TorrentOptions(dict):
             "download_location": "download_location",
             "add_paused": "add_paused"
         }
-        
+
     def items(self):
         i = super(TorrentOptions, self).items()
         for k in self.default_keys:
@@ -77,27 +77,27 @@ class TorrentOptions(dict):
                 i.append((k, self.__getitem__(k)))
 
         return i
-    
+
     def keys(self):
         k = super(TorrentOptions, self).keys()
         for key in self.default_keys.keys():
             if key not in k:
                 k.append(key)
         return k
-    
+
     def iteritems(self):
         return self.items().itermitems()
-    
+
     def has_key(self, key):
         if super(TorrentOptions, self).has_key(key):
             return True
         elif self.default_keys.has_key(key):
             return True
         return False
-                            
+
     def __setitem__(self, key, value):
         super(TorrentOptions, self).__setitem__(key, value)
-    
+
     def __getitem__(self, key):
         if super(TorrentOptions, self).has_key(key):
             return super(TorrentOptions, self).__getitem__(key)
@@ -106,7 +106,7 @@ class TorrentOptions(dict):
                 return self.config[self.default_keys[key]]
             else:
                 return self.default_keys[key]
-        
+
 class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.
     """
@@ -124,22 +124,22 @@ class Torrent:
 
         # Let's us know if we're waiting on a lt alert
         self.waiting_on_resume_data = False
-        
+
         # Keep a list of file indexes we're waiting for file_rename alerts on
         # This is so we can send one folder_renamed signal instead of multiple
         # file_renamed signals.
         self.waiting_on_folder_rename = []
-        
+
         # We store the filename just in case we need to make a copy of the torrentfile
         if not filename:
             # If no filename was provided, then just use the infohash
             filename = self.torrent_id
-            
+
         self.filename = filename
 
         # Store the magnet uri used to add this torrent if available
         self.magnet = magnet
-        
+
         # Holds status info so that we don't need to keep getting it from lt
         self.status = self.handle.status()
 
@@ -147,17 +147,17 @@ class Torrent:
             self.torrent_info = self.handle.get_torrent_info()
         except RuntimeError:
             self.torrent_info = None
-            
+
         # Files dictionary
         self.files = self.get_files()
-        
+
         # Default total_uploaded to 0, this may be changed by the state
         self.total_uploaded = 0
 
         # Set the default options
         self.options = TorrentOptions()
         self.options.update(options)
-        
+
         # We need to keep track if the torrent is finished in the state to prevent
         # some weird things on state load.
         self.is_finished = False
@@ -188,7 +188,7 @@ class Torrent:
         # Various torrent options
         self.handle.resolve_countries(True)
         self.set_options(self.options)
-        
+
         # Status message holds error info about the torrent
         self.statusmsg = "OK"
 
@@ -216,13 +216,13 @@ class Torrent:
         for (key, value) in options.items():
             if OPTIONS_FUNCS.has_key(key):
                 OPTIONS_FUNCS[key](value)
-        
+
         self.options.update(options)
-    
+
     def get_options(self):
         return self.options
 
-    
+
     def set_max_connections(self, max_connections):
         self.options["max_connections"] = int(max_connections)
         self.handle.set_max_connections(max_connections)
@@ -286,7 +286,7 @@ class Torrent:
             return
 
         log.debug("setting %s's file priorities: %s", self.torrent_id, file_priorities)
-             
+
         self.handle.prioritize_files(file_priorities)
 
         if 0 in self.options["file_priorities"]:
@@ -303,7 +303,7 @@ class Torrent:
 
         # Set the first/last priorities if needed
         self.set_prioritize_first_last(self.options["prioritize_first_last_pieces"])
-        
+
     def set_trackers(self, trackers):
         """Sets trackers"""
         if trackers == None:
@@ -315,7 +315,7 @@ class Torrent:
                 trackers.append(tracker)
             self.trackers = trackers
             return
-            
+
         log.debug("Setting trackers for %s: %s", self.torrent_id, trackers)
         tracker_list = []
 
@@ -339,7 +339,7 @@ class Torrent:
 
     def set_save_path(self, save_path):
         self.options["download_location"] = save_path
-            
+
     def set_tracker_status(self, status):
         """Sets the tracker status"""
         self.tracker_status = status
@@ -430,10 +430,10 @@ class Torrent:
             torrent_info = self.handle.get_torrent_info()
         else:
             torrent_info = self.torrent_info
-        
+
         if not torrent_info:
             return []
-            
+
         ret = []
         files = torrent_info.files()
         for index, file in enumerate(files):
@@ -487,7 +487,7 @@ class Torrent:
         """Returns the file progress as a list of floats.. 0.0 -> 1.0"""
         if not self.handle.has_metadata():
             return 0.0
-            
+
         file_progress = self.handle.file_progress()
         ret = []
         for i,f in enumerate(self.files):
@@ -511,7 +511,7 @@ class Torrent:
         if tracker:
             url = urlparse(tracker)
             if hasattr(url, "hostname"):
-                host = (url.hostname or 'unknown?')
+                host = (url.hostname or 'DHT')
                 parts = host.split(".")
                 if len(parts) > 2:
                     host = ".".join(parts[-2:])
@@ -575,7 +575,7 @@ class Torrent:
             "move_on_completed": self.options["move_completed"],
             "move_on_completed_path": self.options["move_completed_path"]
         }
-        
+
         def ti_name():
             if self.handle.has_metadata():
                 return self.torrent_info.name()
@@ -600,7 +600,7 @@ class Torrent:
             if self.handle.has_metadata():
                 return self.torrent_info.piece_length()
             return 0
-            
+
         fns = {
             "name": ti_name,
             "private": ti_priv,
@@ -633,7 +633,7 @@ class Torrent:
 
         self.status = None
         self.torrent_info = None
-        
+
         return status_dict
 
     def apply_options(self):
@@ -721,7 +721,7 @@ class Torrent:
         returned in a libtorrent alert"""
         self.handle.save_resume_data()
         self.waiting_on_resume_data = True
-        
+
     def write_resume_data(self, resume_data):
         """Writes the .fastresume file for the torrent"""
         resume_data = lt.bencode(resume_data)
@@ -736,7 +736,7 @@ class Torrent:
             fastresume.close()
         except IOError:
             log.warning("Error trying to save fastresume file")
-        
+
         self.waiting_on_resume_data = False
 
     def delete_fastresume(self):
@@ -765,7 +765,7 @@ class Torrent:
             open(path, "wb").write(lt.bencode(torrent_file))
         except Exception, e:
             log.warning("Unable to save torrent file: %s", e)
-        
+
     def delete_torrentfile(self):
         """Deletes the .torrent file in the state"""
         path = "%s/%s.torrent" % (
@@ -807,7 +807,7 @@ class Torrent:
         return True
 
     def rename_files(self, filenames):
-        """Renames files in the torrent. 'filenames' should be a list of 
+        """Renames files in the torrent. 'filenames' should be a list of
         (index, filename) pairs."""
         for index, filename in filenames:
             self.handle.rename_file(index, filename)

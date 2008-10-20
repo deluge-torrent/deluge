@@ -38,6 +38,7 @@ import pkg_resources
 
 import deluge.component as component
 import deluge.common
+from deluge.tracker_icons import TrackerIcons
 from deluge.log import LOG as log
 from deluge.ui.client import aclient
 from deluge.configmanager import ConfigManager
@@ -78,7 +79,7 @@ class FilterTreeView(component.Component):
         self.scrolled = glade.get_widget("scrolledwindow_sidebar")
         self.sidebar = component.get("SideBar")
         self.config = ConfigManager("gtkui.conf")
-
+        self.tracker_icons = TrackerIcons()
 
         self.filters = {}
         self.label_view = gtk.TreeView()
@@ -201,12 +202,13 @@ class FilterTreeView(component.Component):
         value = model.get_value(row, 1)
         label = model.get_value(row, 2)
         count = model.get_value(row, 3)
+        pix = model.get_value(row, 4)
 
         if (label == "") and cat == "label":
             label = _("no label")
 
 
-        if cat == "state":
+        if pix:
             self.renderpix.set_property("visible", True)
         else:
             self.renderpix.set_property("visible", False)
@@ -227,6 +229,15 @@ class FilterTreeView(component.Component):
         if cat == "state":
             pix = STATE_PIX.get(value, "dht")
             return gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("%s16.png" % pix))
+
+        elif cat == "tracker_host":
+            ico  =  self.tracker_icons.get(value)
+            if ico:
+                try: #assume we could get trashed images here..
+                    return gtk.gdk.pixbuf_new_from_file(ico)
+                except:
+                    log.debug(e.message)
+
         return None
 
     def on_selection_changed(self, selection):
