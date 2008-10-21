@@ -231,14 +231,19 @@ class FilterTreeView(component.Component):
             return gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("%s16.png" % pix))
 
         elif cat == "tracker_host":
-            ico  =  self.tracker_icons.get(value)
-            if ico:
-                try: #assume we could get trashed images here..
-                    return gtk.gdk.pixbuf_new_from_file(ico)
-                except:
-                    log.debug(e.message)
+            self.tracker_icons.get_async(value, lambda filename: self.set_row_image(cat, value, filename))
 
         return None
+
+    def set_row_image(self, cat, value, filename):
+        try: #assume we could get trashed images here..
+            pix = gtk.gdk.pixbuf_new_from_file(filename)
+            row = self.filters[(cat, value)]
+            self.treestore.set_value(row, 4, pix)
+        except Exception, e:
+            log.debug(e.message)
+        return False
+
 
     def on_selection_changed(self, selection):
         try:

@@ -31,6 +31,9 @@
 #    this exception statement from your version. If you delete this exception
 #    statement from all source files in the program, then also delete it here.
 
+
+import threading
+import gobject
 from urllib import urlopen
 from deluge.log import LOG as log
 from deluge.common import get_default_config_dir, get_pixmap
@@ -53,15 +56,14 @@ class TrackerIcons(object):
         #load image-names in cache-dir
         for icon in os.listdir(self.image_dir):
             if icon.endswith(".ico"):
-                self.add_icon(icon[:-4], os.path.join(self.image_dir, icon))
+                self.images[icon[:-4]] = os.path.join(self.image_dir, icon)
 
-
-    def _fetch_icon(self, tracker_host):
+    def _fetch_icon_thread(self, tracker_host, callback):
         """
         gets new icon from the internet.
         used by get().
-        calls add_icon()
-        returns True or False
+        calls callback on sucess
+        assumes dicts,urllib and logging are threadsafe.
         """
         try:
             host_name = RENAMES.get(tracker_host, tracker_host)
@@ -75,7 +77,6 @@ class TrackerIcons(object):
                 raise Exception("No data")
         except Exception, e:
             log.debug("%s %s %s" % (tracker_host, e, e.message))
-            self.add_icon(tracker_host, None)
             return False
 
         filename = os.path.join(get_default_config_dir("trackers"),"%s.ico" % tracker_host)
@@ -83,23 +84,21 @@ class TrackerIcons(object):
         f = open(filename,"wb")
         f.write(icon_data)
         f.close()
-        self.add_icon(tracker_host, filename)
-        return True
-
-    def add_icon(self, tracker_host, filename):
         self.images[tracker_host] = filename
+        if callback:
+            gobject.idle_add(callback, filename)
+
+    def get_async(self, tracker_host, callback):
+        threading.Thread(
+            target=self. _fetch_icon_thread,
+            args=(tracker_host, callback)).start()
 
     def  get(self, tracker_host):
         """
-        use this method to get the filename of an icon.
+        returns None if the icon is not fetched(yet) or not fond.
         """
         if not tracker_host in self.images:
-            self._fetch_icon(tracker_host)
-        else:
-            log.debug("cached tracker icon:%s" % tracker_host)
+            self.images[tracker_host] = None
+            self.get_async(tracker_host, None)
         return self.images[tracker_host]
-
-
-
-
 
