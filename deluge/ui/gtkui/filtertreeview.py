@@ -193,6 +193,10 @@ class FilterTreeView(component.Component):
                 label = _(value)
             row = self.treestore.append(self.cat_nodes[cat],[cat, value, label, count , pix, True])
             self.filters[(cat, value)] = row
+
+            if cat == "tracker_host":
+                self.tracker_icons.get_async(value, lambda filename: self.set_row_image(cat, value, filename))
+
         self.treestore.set_value(row, FILTER_COLUMN, True)
         return row
 
@@ -229,9 +233,6 @@ class FilterTreeView(component.Component):
         if cat == "state":
             pix = STATE_PIX.get(value, "dht")
             return gtk.gdk.pixbuf_new_from_file(deluge.common.get_pixmap("%s16.png" % pix))
-
-        elif cat == "tracker_host":
-            self.tracker_icons.get_async(value, lambda filename: self.set_row_image(cat, value, filename))
 
         return None
 

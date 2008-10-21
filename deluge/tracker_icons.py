@@ -89,16 +89,22 @@ class TrackerIcons(object):
             gobject.idle_add(callback, filename)
 
     def get_async(self, tracker_host, callback):
-        threading.Thread(
-            target=self. _fetch_icon_thread,
-            args=(tracker_host, callback)).start()
+        if tracker_host in self.images:
+            if callback:
+                callback(self.images[tracker_host])
+        else:
+            threading.Thread(target=self. _fetch_icon_thread,
+                args=(tracker_host, callback)).start()
 
     def  get(self, tracker_host):
         """
         returns None if the icon is not fetched(yet) or not fond.
         """
-        if not tracker_host in self.images:
+        if tracker_host in self.images:
+            return self.images[tracker_host]
+        else:
             self.images[tracker_host] = None
             self.get_async(tracker_host, None)
-        return self.images[tracker_host]
+            return None
+
 
