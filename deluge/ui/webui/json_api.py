@@ -48,14 +48,18 @@ from web import cookies, setcookie as w_setcookie
 import utils
 from render import render
 from utils import dict_cb
-from lib import json
+
+try:
+    from json import dumps, loads
+except ImportError:
+    from lib.json import write as dumps, read as loads
 
 from deluge.ui.client import sclient,aclient
 from deluge.log import LOG as log
 from deluge import component
 
 def json_response(result, id):
-    print json.write({
+    print dumps({
             "version":"1.1",
             "result":result,
             "id":id
@@ -63,7 +67,7 @@ def json_response(result, id):
 
 def json_error(message , id=-1, msg_number=123):
     log.error("JSON-error:%s" % message)
-    print json.write({
+    print dumps({
         "version":"1.1",
         "id":id,
         "error":{
@@ -99,7 +103,7 @@ class json_rpc:
         try:
             log.debug("json-data:")
             log.debug(webapi.data())
-            json_data = json.read(webapi.data())
+            json_data = loads(webapi.data())
             id = json_data["id"]
             method = json_data["method"].replace(".", "_")
             params = json_data["params"]
