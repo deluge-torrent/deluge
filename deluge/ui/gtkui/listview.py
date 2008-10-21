@@ -242,13 +242,9 @@ class ListView:
         
     def get_column_index(self, name):
         """Get the liststore column indices belonging to this column.
-        Will return a list if greater than 1 column.
+        Will return a list.
         """
-        # Only return as list if needed
-        if len(self.columns[name].column_indices) > 1:
-            return self.columns[name].column_indices
-        else:
-            return self.columns[name].column_indices[0]
+        return self.columns[name].column_indices
 
     def get_column_name(self, index):
         """Get the header name for a liststore column index"""

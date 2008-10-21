@@ -264,7 +264,7 @@ class TorrentView(listview.ListView, component.Component):
 
     def update(self):
         # Send a status request
-        self.send_status_request()
+        gobject.idle_add(self.send_status_request)
 
     def update_view(self, columns=None):
         """Update the view.  If columns is not None, it will attempt to only
@@ -284,29 +284,16 @@ class TorrentView(listview.ListView, component.Component):
                 # Set values for each column in the row
                 for column in self.columns_to_update:
                     column_index = self.get_column_index(column)
-                    if type(column_index) is not list:
-                        # We only have a single list store column we need to
-                        # update
+                    for index in column_index:
+                        # Only update the column if the status field exists
                         try:
                             # Only update if different
-                            row_value = status[torrent_id][self.columns[column].status_field[0]]
-                            if row[column_index] != row_value:
-                                row[column_index] = row_value
-                        except (TypeError, KeyError), e:
-                            log.warning("Unable to update column %s: %s",
-                                column, e)
-                    else:
-                        # We have more than 1 liststore column to update
-                        for index in column_index:
-                            # Only update the column if the status field exists
-                            try:
-                                # Only update if different
-                                row_value = status[torrent_id][self.columns[column].status_field[column_index.index(index)]]
-                                if row[index] != row_value:
-                                    row[index] = row_value
-                            except:
-                                pass
-
+                            row_value = status[torrent_id][self.columns[column].status_field[column_index.index(index)]]
+                            if row[index] != row_value:
+                                row[index] = row_value
+                        except Exception, e:
+                            log.debug("%s", e)
+            
         # Update the toolbar buttons just in case some state has changed
         component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
@@ -315,7 +302,7 @@ class TorrentView(listview.ListView, component.Component):
         """Callback function for get_torrents_status().  'status' should be a
         dictionary of {torrent_id: {key, value}}."""
         self.status = status
-        self.update_view()
+        gobject.idle_add(self.update_view)
 
     def add_row(self, torrent_id, update=True):
         """Adds a new torrent row to the treeview"""
@@ -341,7 +328,7 @@ class TorrentView(listview.ListView, component.Component):
     def mark_dirty(self, torrent_id = None):
         for row in self.liststore:
             if not torrent_id or row[self.columns["torrent_id"].column_indices[0]] == torrent_id:
-                log.debug("marking %s dirty", torrent_id)
+                #log.debug("marking %s dirty", torrent_id)
                 row[self.columns["dirty"].column_indices[0]] = True
                 if torrent_id: break
 
