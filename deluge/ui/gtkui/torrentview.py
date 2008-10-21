@@ -128,6 +128,9 @@ class TorrentView(listview.ListView, component.Component):
         # This is where status updates are put
         self.status = {}
 
+        # We keep a copy of the previous status to compare for changes
+        self.prev_status = {}
+        
         # Register the columns menu with the listview so it gets updated
         # accordingly.
         self.register_checklist_menu(
@@ -280,28 +283,36 @@ class TorrentView(listview.ListView, component.Component):
             if not torrent_id in status.keys():
                 row[filter_column] = False
             else:
+                if torrent_id in self.prev_status and status[torrent_id] == self.prev_status[torrent_id]:
+                    # The status dict is the same, so do not update
+                    continue
                 row[filter_column] = True
                 # Set values for each column in the row
                 for column in self.columns_to_update:
                     column_index = self.get_column_index(column)
-                    for index in column_index:
-                        # Only update the column if the status field exists
+                    for i, status_field in enumerate(self.columns[column].status_field):
                         try:
                             # Only update if different
-                            row_value = status[torrent_id][self.columns[column].status_field[column_index.index(index)]]
-                            if row[index] != row_value:
-                                row[index] = row_value
+                            row_value = status[torrent_id][status_field]
+                            if row[column_index[i]] != row_value:
+                                row[column_index[i]] = row_value
                         except Exception, e:
-                            log.debug("%s", e)
+                            log.debug("%s", e)                   
             
         # Update the toolbar buttons just in case some state has changed
         component.get("ToolBar").update_buttons()
         component.get("MenuBar").update_menu()
+        
+        self.prev_status = status
 
     def _on_get_torrents_status(self, status):
         """Callback function for get_torrents_status().  'status' should be a
         dictionary of {torrent_id: {key, value}}."""
         self.status = status
+        if self.status == self.prev_status and self.prev_status:
+            # We do not bother updating since the status hasn't changed
+            self.prev_status = self.status
+            return
         gobject.idle_add(self.update_view)
 
     def add_row(self, torrent_id, update=True):
