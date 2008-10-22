@@ -51,6 +51,7 @@ import os
 from deluge import component
 from deluge.ui.client import sclient as proxy
 from deluge.configmanager import ConfigManager
+from deluge.tracker_icons import TrackerIcons
 
 page_manager = component.get("PageManager")
 config = ConfigManager("webui06.conf")
@@ -446,6 +447,23 @@ class pixmaps:
         web.header("Cache-Control" , "public, must-revalidate, max-age=86400")
         print content
 route("/pixmaps/(.*)", pixmaps)
+
+
+class tracker_icon:
+    tracker_icons = TrackerIcons()
+    def GET(self, name):
+        filename = self.tracker_icons.get(name)
+        if filename:
+            log.debug("file-name=%s" %  name)
+            web.header("Cache-Control" , "public, must-revalidate, max-age=86400")
+            web.header("Content-Type", "image/x-icon")
+            data = open(filename, "rb").read()
+            print data
+        else:
+            log.debug("not found:%s" % name)
+            web.header("Content-Type", "image/x-icon")
+
+route("/tracker/icon/(.*)", tracker_icon)
 
 class close:
     "close open window"

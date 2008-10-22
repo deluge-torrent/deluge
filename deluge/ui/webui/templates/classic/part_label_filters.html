@@ -22,7 +22,7 @@ $for cat in filter_items.keys():
         $if cat == "state":
             <img src="/pixmaps/$(value.lower())"></img>
         $if cat == "tracker_host":
-            <img src="http://$value/favicon.ico" width="16" height="16"></img>
+            <img src="$base/tracker/icon/$value" width="16" height="16"></img>
         $if not value:
             $if cat == "label":
                 $_("No Label") ($count)</a>

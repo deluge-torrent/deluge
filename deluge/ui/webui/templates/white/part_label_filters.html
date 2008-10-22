@@ -43,9 +43,9 @@ $for cat in filter_items.keys():
         >
         <a href="$self_url(filter_cat=cat, filter_value=value, sort=get('sort'), order=get('order')) ">
         $if cat == "state":
-            <img src="/pixmaps/$(value.lower())"></img>
+            <img src="$base/pixmaps/$(value.lower())"></img>
         $if cat == "tracker_host":
-            <img src="http://$value/favicon.ico" width="16" height="16"></img>
+            <img src="$base/tracker/icon/$value" width="16" height="16"></img>
         $if not value:
             $if cat == "label":
                 $_("No Label") ($count)</a>

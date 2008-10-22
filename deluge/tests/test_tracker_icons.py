@@ -11,12 +11,13 @@ def del_old():
         os.remove(filename)
 
 def test_get():
-    del_old()
+    #del_old()
     trackericons  = TrackerIcons()
+    print trackericons.images
     print trackericons.get("unknown2")
     print trackericons.get("google.com")
     print trackericons.get("legaltorrents.com")
-    time.sleep(1.0)
+    time.sleep(5.0)
     print trackericons.get("legaltorrents.com")
 
 def callback1(value):

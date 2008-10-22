@@ -90,9 +90,9 @@ class TrackerIcons(object):
 
     def get_async(self, tracker_host, callback):
         if tracker_host in self.images:
-            if callback:
-                callback(self.images[tracker_host])
+            callback(self.images[tracker_host])
         else:
+            self.images[tracker_host] = None
             threading.Thread(target=self. _fetch_icon_thread,
                 args=(tracker_host, callback)).start()
 
@@ -103,7 +103,6 @@ class TrackerIcons(object):
         if tracker_host in self.images:
             return self.images[tracker_host]
         else:
-            self.images[tracker_host] = None
             self.get_async(tracker_host, None)
             return None
 
