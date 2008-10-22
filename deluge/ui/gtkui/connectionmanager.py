@@ -448,6 +448,7 @@ class ConnectionManager(component.Component):
 
     def on_button_connect_clicked(self, widget):
         log.debug("on_button_connect_clicked")
+        component.stop()
         paths = self.hostlist.get_selection().get_selected_rows()[1]
         row = self.liststore.get_iter(paths[0])
         status = self.liststore.get_value(row, HOSTLIST_COL_STATUS)
