@@ -54,6 +54,7 @@ try:
 except ImportError:
     from lib.json import write as dumps, read as loads
 
+from deluge.ui import common
 from deluge.ui.client import sclient,aclient
 from deluge.log import LOG as log
 from deluge import component
@@ -208,7 +209,7 @@ class json_rpc:
             allow the webui to retrieve data about the torrent
         
         input:
-            url: the url of the torrent to download
+            filename: the filename of the torrent to gather info about
         
         returns:
         {
@@ -219,45 +220,7 @@ class json_rpc:
             "info_hash" the torrents info_hash
         }
         """
-        import os
-        import deluge.bencode
-
-        # Get the torrent data from the torrent file
-        try:
-            log.debug("Attempting to open %s for add.", filename)
-            metadata = deluge.bencode.bdecode(open(filename, "rb").read())
-        except Exception, e:
-            log.warning("Unable to open %s: %s", filename, e)
-
-        from sha import sha
-        info_hash = sha(deluge.bencode.bencode(metadata["info"])).hexdigest()
-
-        # Get list of files from torrent info
-        files = []
-        if metadata["info"].has_key("files"):
-            prefix = ""
-            if len(metadata["info"]["files"]) > 1:
-                prefix = metadata["info"]["name"]
-                
-            for f in metadata["info"]["files"]:
-                files.append({
-                    'path': os.path.join(prefix, *f["path"]),
-                    'size': f["length"],
-                    'download': True
-                })
-        else:
-            files.append({
-                "path": metadata["info"]["name"],
-                "size": metadata["info"]["length"],
-                "download": True
-            })
-
-        return {
-            "filename": filename,
-            "name": metadata["info"]["name"],
-            "files": files,
-            "info_hash": info_hash
-        }
+        return common.get_torrent_info(filename)
 
     def add_torrents(self, torrents):
         """
