@@ -358,3 +358,9 @@ def pythonize(var):
         if isinstance(var, klass):
             return klass(var)
     return var
+
+def osx_check():
+    if platform.system() in ("Darwin"):
+        return True
+    else:
+        return False
