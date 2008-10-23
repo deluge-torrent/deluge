@@ -113,7 +113,7 @@ class Core(
         self.register_introspection_functions()
 
         # Initialize gettext
-        if deluge.common.windows_check():
+        if deluge.common.windows_check() or deluge.common.osx_check():
             locale.setlocale(locale.LC_ALL, '')
         else:
             locale.setlocale(locale.LC_MESSAGES, '')

@@ -31,6 +31,7 @@ import web
 import random
 import gettext
 import locale
+import deluge.common
 from deluge.configmanager import ConfigManager
 import pkg_resources
 from deluge.ui.client import sclient
@@ -38,11 +39,15 @@ import components
 from deluge.log import LOG as log
 
 # Initialize gettext
-locale.setlocale(locale.LC_MESSAGES, '')
-locale.bindtextdomain("deluge",
+if deluge.common.windows_check() or deluge.common.osx_check():
+    locale.setlocale(locale.LC_ALL, '')
+else:
+    locale.setlocale(locale.LC_MESSAGES, '')
+    locale.bindtextdomain("deluge",
             pkg_resources.resource_filename(
                                     "deluge", "i18n"))
-locale.textdomain("deluge")
+    locale.textdomain("deluge")
+
 gettext.bindtextdomain("deluge",
             pkg_resources.resource_filename(
                                     "deluge", "i18n"))
