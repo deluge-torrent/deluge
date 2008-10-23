@@ -314,3 +314,9 @@ def is_ip(ip):
             return True
     except socket.error:
         return False
+
+def osx_check():
+    if platform.system() in ("Darwin"):
+        return True
+    else:
+        return False
