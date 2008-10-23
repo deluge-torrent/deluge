@@ -12,7 +12,7 @@ def print_totals(totals):
 
 
 print "==totals=="
-print_totals(sclient.graph_get_totals())
+print_totals(sclient.stats_get_totals())
 
 print "==session totals=="
-print_totals(sclient.graph_get_session_totals())
+print_totals(sclient.stats_get_session_totals())
