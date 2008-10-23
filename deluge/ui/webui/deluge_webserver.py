@@ -97,12 +97,15 @@ def WsgiApplication(middleware = None):
 
     return wsgifunc(webpyfunc(pagemanager.urls, pagemanager.page_classes, False), *middleware)
 
-def create_webserver(debug = False):
+def create_webserver(debug = False, base_url =None):
     "starts builtin webserver"
     import web
 
     utils.set_config_defaults()
-    config.set('base','')
+    if base_url:
+        config.set('base', base_url)
+    else:
+        config.set('base','')
     config.set('disallow',{})
     utils.apply_config()
 
@@ -121,8 +124,8 @@ def create_webserver(debug = False):
     log.info("http://%s:%d/" % server_address)
     return server
 
-def run(debug = False):
-    server = create_webserver(debug)
+def run(debug = False, base_url = ""):
+    server = create_webserver(debug, base_url)
     try:
         server.start()
     except KeyboardInterrupt:

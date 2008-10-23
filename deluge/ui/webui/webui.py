@@ -34,5 +34,9 @@
 class WebUI:
     def __init__(self, args):
         import deluge_webserver
-        deluge_webserver.run(debug = False)
+        if args:
+            base_url = args[0]
+        else:
+            base_url = ""
+        deluge_webserver.run(debug = False, base_url = base_url)
 
