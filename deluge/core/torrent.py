@@ -410,8 +410,8 @@ class Torrent:
         else:
             status = self.status
 
-        up = self.total_uploaded + status.total_payload_upload
-        down = status.total_done
+        up = status.all_time_upload
+        down = status.all_time_download
 
         # Convert 'up' and 'down' to floats for proper calculation
         up = float(up)
@@ -538,11 +538,12 @@ class Torrent:
             "distributed_copies": distributed_copies,
             "total_done": self.status.total_done,
             "total_uploaded": self.status.all_time_upload,
+            "all_time_download": self.status.all_time_download,
             "state": self.state,
             "paused": self.status.paused,
             "progress": progress,
             "next_announce": self.status.next_announce.seconds,
-            "total_payload_download": self.status.all_time_download,
+            "total_payload_download": self.status.total_payload_download,
             "total_payload_upload": self.status.total_payload_upload,
             "download_payload_rate": self.status.download_payload_rate,
             "upload_payload_rate": self.status.upload_payload_rate,
