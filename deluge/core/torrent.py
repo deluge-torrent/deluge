@@ -2,19 +2,19 @@
 # torrent.py
 #
 # Copyright (C) 2007, 2008 Andrew Resch ('andar') <andrewresch@gmail.com>
-# 
+#
 # Deluge is free software.
-# 
+#
 # You may redistribute it and/or modify it under the terms of the
 # GNU General Public License, as published by the Free Software
 # Foundation; either version 3 of the License, or (at your option)
 # any later version.
-# 
+#
 # deluge is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with deluge.    If not, write to:
 # 	The Free Software Foundation, Inc.,
@@ -64,7 +64,7 @@ class Torrent:
 
         # We store the filename just in case we need to make a copy of the torrentfile
         self.filename = filename
-        
+
         # Holds status info so that we don't need to keep getting it from lt
         self.status = self.handle.status()
         self.torrent_info = self.handle.get_torrent_info()
@@ -73,10 +73,10 @@ class Torrent:
         self.files = self.get_files()
         # Set the default file priorities to normal
         self.file_priorities = [1]* len(self.files)
-        
+
         # Default total_uploaded to 0, this may be changed by the state
         self.total_uploaded = 0
-        
+
         # Set default auto_managed value
         self.auto_managed = options["auto_managed"]
         if not handle.is_paused():
@@ -85,12 +85,12 @@ class Torrent:
         # We need to keep track if the torrent is finished in the state to prevent
         # some weird things on state load.
         self.is_finished = False
-        
+
         # Queueing options
         self.stop_at_ratio = False
         self.stop_ratio = 2.00
         self.remove_at_ratio = False
-               
+
         # Load values from state if we have it
         if state is not None:
             # This is for saving the total uploaded between sessions
@@ -104,7 +104,7 @@ class Torrent:
             self.set_stop_at_ratio(state.stop_at_ratio)
             self.set_stop_ratio(state.stop_ratio)
             self.set_remove_at_ratio(state.remove_at_ratio)
-        else:    
+        else:
             # Tracker list
             self.trackers = []
             # Create a list of trackers
@@ -116,50 +116,50 @@ class Torrent:
 
         # Set the allocation mode
         self.compact = options["compact_allocation"]
-        
+
         # Various torrent options
         self.set_max_connections(options["max_connections_per_torrent"])
         self.set_max_upload_slots(options["max_upload_slots_per_torrent"])
         self.set_max_upload_speed(options["max_upload_speed_per_torrent"])
         self.set_max_download_speed(options["max_download_speed_per_torrent"])
         self.set_prioritize_first_last(options["prioritize_first_last_pieces"])
-        self.handle.resolve_countries(True)        
+        self.handle.resolve_countries(True)
         if options.has_key("file_priorities"):
             self.set_file_priorities(options["file_priorities"])
-            
+
         # Where the torrent is being saved to
         self.save_path = options["download_location"]
         # Status message holds error info about the torrent
         self.statusmsg = "OK"
-        
+
         # The torrents state
         self.update_state()
-        
+
         # The tracker status
         self.tracker_status = ""
-               
+
         log.debug("Torrent object created.")
-        
+
     def set_tracker_status(self, status):
         """Sets the tracker status"""
         self.tracker_status = status
-    
+
     def set_max_connections(self, max_connections):
         self.max_connections = int(max_connections)
         self.handle.set_max_connections(self.max_connections)
-    
+
     def set_max_upload_slots(self, max_slots):
         self.max_upload_slots = int(max_slots)
         self.handle.set_max_uploads(self.max_upload_slots)
-        
+
     def set_max_upload_speed(self, m_up_speed):
         self.max_upload_speed = m_up_speed
         self.handle.set_upload_limit(int(m_up_speed * 1024))
-    
+
     def set_max_download_speed(self, m_down_speed):
         self.max_download_speed = m_down_speed
         self.handle.set_download_limit(int(m_down_speed * 1024))
-    
+
     def set_prioritize_first_last(self, prioritize):
         self.prioritize_first_last = prioritize
         if self.prioritize_first_last:
@@ -169,24 +169,24 @@ class Torrent:
                 priorities[0] = 7
                 priorities[-1] = 7
                 self.handle.prioritize_pieces(priorities)
-            
+
     def set_save_path(self, save_path):
         self.save_path = save_path
-    
+
     def set_auto_managed(self, auto_managed):
         self.auto_managed = auto_managed
         self.handle.auto_managed(auto_managed)
         self.update_state()
-    
+
     def set_stop_ratio(self, stop_ratio):
         self.stop_ratio = stop_ratio
-    
+
     def set_stop_at_ratio(self, stop_at_ratio):
         self.stop_at_ratio = stop_at_ratio
-    
+
     def set_remove_at_ratio(self, remove_at_ratio):
         self.remove_at_ratio = remove_at_ratio
-            
+
     def set_file_priorities(self, file_priorities):
         if len(file_priorities) != len(self.files):
             log.debug("file_priorities len != num_files")
@@ -211,7 +211,7 @@ class Torrent:
                     self.is_finished = False
                     self.update_state()
                     break
-            
+
         self.file_priorities = file_priorities
 
         # Set the first/last priorities if needed
@@ -228,7 +228,7 @@ class Torrent:
                 trackers.append(tracker)
             self.trackers = trackers
             return
-            
+
         log.debug("Setting trackers for %s: %s", self.torrent_id, trackers)
         tracker_list = []
 
@@ -236,9 +236,9 @@ class Torrent:
             new_entry = lt.announce_entry(tracker["url"])
             new_entry.tier = tracker["tier"]
             tracker_list.append(new_entry)
-            
+
         self.handle.replace_trackers(tracker_list)
-        
+
         # Print out the trackers
         for t in self.handle.trackers():
             log.debug("tier: %s tracker: %s", t.tier, t.url)
@@ -247,15 +247,15 @@ class Torrent:
         if len(trackers) > 0:
             # Force a reannounce if there is at least 1 tracker
             self.force_reannounce()
-    
+
     def update_state(self):
         """Updates the state based on what libtorrent's state for the torrent is"""
         # Set the initial state based on the lt state
         LTSTATE = deluge.common.LT_TORRENT_STATE
         ltstate = int(self.handle.status().state)
-        
+
         log.debug("set_state_based_on_ltstate: %s", ltstate)
-        
+
         if ltstate == LTSTATE["Queued"] or ltstate == LTSTATE["Checking"]:
             self.state = "Checking"
             return
@@ -265,7 +265,7 @@ class Torrent:
             self.state = "Seeding"
         elif ltstate == LTSTATE["Allocating"]:
             self.state = "Allocating"
-        
+
         if self.handle.is_paused() and len(self.handle.status().error) > 0:
             # This is an error'd torrent
             self.state = "Error"
@@ -275,7 +275,7 @@ class Torrent:
             self.state = "Queued"
         elif self.handle.is_paused() and not self.handle.is_auto_managed():
             self.state = "Paused"
-    
+
     def set_state(self, state):
         """Accepts state strings, ie, "Paused", "Seeding", etc."""
         if state not in TORRENT_STATE:
@@ -294,17 +294,17 @@ class Torrent:
             status = self.handle.status()
         else:
             status = self.status
-        
+
         left = status.total_wanted - status.total_done
-        
+
         if left <= 0 or status.download_payload_rate == 0:
             return 0
-        
+
         try:
             eta = left / status.download_payload_rate
         except ZeroDivisionError:
             eta = 0
-            
+
         return eta
 
     def get_ratio(self):
@@ -313,14 +313,14 @@ class Torrent:
             status = self.handle.status()
         else:
             status = self.status
-            
-        up = self.total_uploaded + status.total_payload_upload
-        down = status.total_done
-        
+
+        up = status.all_time_upload
+        down = status.all_time_download
+
         # Convert 'up' and 'down' to floats for proper calculation
         up = float(up)
         down = float(down)
-        
+
         try:
             ratio = up / down
         except ZeroDivisionError:
@@ -334,7 +334,7 @@ class Torrent:
             torrent_info = self.handle.get_torrent_info()
         else:
             torrent_info = self.torrent_info
-            
+
         ret = []
         files = torrent_info.files()
         for index, file in enumerate(files):
@@ -345,12 +345,12 @@ class Torrent:
                 'offset': file.offset
             })
         return ret
-    
+
     def get_peers(self):
         """Returns a list of peers and various information about them"""
         ret = []
         peers = self.handle.get_peer_info()
-        
+
         for peer in peers:
             # We do not want to report peers that are half-connected
             if peer.flags & peer.connecting or peer.flags & peer.handshake:
@@ -359,7 +359,7 @@ class Torrent:
                 client = str(peer.client).decode("utf-8")
             except UnicodeDecodeError:
                 client = str(peer.client).decode("latin-1")
-            
+
             # Make country a proper string
             country = str()
             for c in peer.country:
@@ -367,7 +367,7 @@ class Torrent:
                     country += " "
                 else:
                     country += c
-            
+
             ret.append({
                 "ip": "%s:%s" % (peer.ip[0], peer.ip[1]),
                 "up_speed": peer.up_speed,
@@ -378,11 +378,11 @@ class Torrent:
             })
 
         return ret
-    
+
     def get_queue_position(self):
         """Returns the torrents queue position"""
         return self.handle.queue_position()
-    
+
     def get_file_progress(self):
         """Returns the file progress as a list of floats.. 0.0 -> 1.0"""
         file_progress = self.handle.file_progress()
@@ -394,21 +394,21 @@ class Torrent:
                 ret.append(0.0)
 
         return ret
-               
+
     def get_status(self, keys):
         """Returns the status of the torrent based on the keys provided"""
         # Create the full dictionary
         self.status = self.handle.status()
         self.torrent_info = self.handle.get_torrent_info()
-        
+
         # Adjust progress to be 0-100 value
         progress = self.status.progress * 100
-        
+
         # Adjust status.distributed_copies to return a non-negative value
         distributed_copies = self.status.distributed_copies
         if distributed_copies < 0:
             distributed_copies = 0.0
-            
+
         full_status = {
             "distributed_copies": distributed_copies,
             "total_done": self.status.total_done,
@@ -417,7 +417,7 @@ class Torrent:
             "paused": self.status.paused,
             "progress": progress,
             "next_announce": self.status.next_announce.seconds,
-            "total_payload_download": self.status.all_time_download,
+            "total_payload_download": self.status.total_payload_download,
             "total_payload_upload": self.status.total_payload_upload,
             "download_payload_rate": self.status.download_payload_rate,
             "upload_payload_rate": self.status.upload_payload_rate,
@@ -448,7 +448,7 @@ class Torrent:
             "stop_at_ratio": self.stop_at_ratio,
             "remove_at_ratio": self.remove_at_ratio
         }
-        
+
         fns = {
             "name": self.torrent_info.name,
             "private": self.torrent_info.priv,
@@ -466,10 +466,10 @@ class Torrent:
 
         self.status = None
         self.torrent_info = None
-        
+
         # Create the desired status dictionary and return it
         status_dict = {}
-        
+
         if len(keys) == 0:
             status_dict = full_status
             for key in fns:
@@ -482,7 +482,7 @@ class Torrent:
                     status_dict[key] = fns[key]()
 
         return status_dict
-        
+
     def apply_options(self):
         """Applies the per-torrent options that are set."""
         self.handle.set_max_connections(self.max_connections)
@@ -491,7 +491,7 @@ class Torrent:
         self.handle.set_download_limit(int(self.max_download_speed * 1024))
         self.handle.prioritize_files(self.file_priorities)
         self.handle.resolve_countries(True)
-        
+
     def pause(self):
         """Pause this torrent"""
         # Turn off auto-management so the torrent will not be unpaused by lt queueing
@@ -509,19 +509,19 @@ class Torrent:
             except Exception, e:
                 log.debug("Unable to pause torrent: %s", e)
                 return False
-        
+
         return True
-    
+
     def resume(self):
         """Resumes this torrent"""
-       
+
         if self.handle.is_paused() and self.handle.is_auto_managed():
             log.debug("Torrent is being auto-managed, cannot resume!")
             return
         else:
             # Reset the status message just in case of resuming an Error'd torrent
             self.set_status_message("OK")
-            
+
             if self.handle.is_finished():
                 # If the torrent has already reached it's 'stop_seed_ratio' then do not do anything
                 if self.config["stop_seed_at_ratio"] or self.stop_at_ratio:
@@ -529,7 +529,7 @@ class Torrent:
                         ratio = self.stop_ratio
                     else:
                         ratio = self.config["stop_seed_ratio"]
-                        
+
                     if self.get_ratio() >= ratio:
                         self.signals.emit("torrent_resume_at_stop_ratio")
                         return
@@ -537,14 +537,14 @@ class Torrent:
             if self.auto_managed:
                 # This torrent is to be auto-managed by lt queueing
                 self.handle.auto_managed(True)
-                
+
             try:
                 self.handle.resume()
             except:
                 pass
 
             return True
-            
+
     def move_storage(self, dest):
         """Move a torrent's storage location"""
         try:
@@ -567,7 +567,7 @@ class Torrent:
             fastresume.write(resume_data)
             fastresume.close()
         except IOError:
-            log.warning("Error trying to save fastresume file")        
+            log.warning("Error trying to save fastresume file")
 
     def delete_fastresume(self):
         """Deletes the .fastresume file"""
@@ -590,7 +590,7 @@ class Torrent:
             os.remove(path)
         except Exception, e:
             log.warning("Unable to delete the torrent file: %s", e)
-                    
+
     def force_reannounce(self):
         """Force a tracker reannounce"""
         try:
@@ -598,9 +598,9 @@ class Torrent:
         except Exception, e:
             log.debug("Unable to force reannounce: %s", e)
             return False
-        
+
         return True
-    
+
     def scrape_tracker(self):
         """Scrape the tracker"""
         try:
@@ -608,9 +608,9 @@ class Torrent:
         except Exception, e:
             log.debug("Unable to scrape tracker: %s", e)
             return False
-        
+
         return True
-        
+
     def force_recheck(self):
         """Forces a recheck of the torrents pieces"""
         try:
