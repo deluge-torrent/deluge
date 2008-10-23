@@ -1,3 +1,7 @@
+Deluge 1.0.4 (In Development)
+ Core:
+  * Fix #560 force an int value for global max connections
+
 Deluge 1.0.3 (18 October 2008)
  Core:
   * Fix upnp - it should work on more routers now too
@@ -12,7 +16,7 @@ Deluge 1.0.3 (18 October 2008)
 
  WebUI:
   * Fix White template for Opera
- 
+
  Misc:
   * Deluge will now use a system libtorrent library if available.
   * The build system will no longer build libtorrent if a system library is
@@ -42,7 +46,7 @@ Deluge 1.0.1 (10 October 2008)
 
  GtkUI:
   * Improve performance of files tab by only updating when values change
-  
+
  Misc:
   * Fix #187 set a 5 second timer to save the config file after a config value
     has been changed.
@@ -51,7 +55,7 @@ Deluge 1.0.1 (10 October 2008)
 
  WebUI:
   * Add enable "Auto Add" checkbox
- 
+
 Deluge 1.0.0 - "Sharks Are Bulletproof" (21 September 2008)
  Core:
   * Include GeoIP database for country look-ups
@@ -64,7 +68,7 @@ Deluge 0.9.09 - "1.0.0_RC9" (15 September 2008)
   * Fix fastresume issue causing loss of data by deleting the fastresume file
     before writing a new one
   * Fix #475 the use of unicode paths when adding torrents
-    
+
  GtkUI:
   * Fix add torrent dialog closing preventing another dialog from being shown
   * Fix various issues when not using English
@@ -74,15 +78,15 @@ Deluge 0.9.08 - "1.0.0_RC8" (27 August 2008)
  Core:
   * Attempt to automatically upgrade a 0.5.x state file to new format
   * Tracker errors now change the tracker status
- 
+
  Plugins:
   * Fix bug in Blocklist that prevented downloading a new file every X days
-  
+
  GtkUI:
   * Sort filenames alphabetically in add torrent dialog
   * Fix setting file priorities on folders
   * Fix #453 allow showing of text in the toolbar buttons
-  
+
 Deluge 0.9.07 - "1.0.0_RC7" (18 August 2008)
  Core:
   * Fix loading torrents from state when fastresume file is missing
@@ -102,35 +106,35 @@ Deluge 0.9.07 - "1.0.0_RC7" (18 August 2008)
 
  Null:
   * Fix #415 crash when using 'config-set' with no parameters
-  
+
  Windows:
   * Fix Vista slowness issue
   * Fix properly shutting Deluge down when system shuts down
   * Fix opening folders/files
-  
+
 Deluge 0.9.06 - "1.0.0_RC6" (13 August 2008)
  Core:
   * Fix CPU spikes
 
  GtkUI:
   * Fix move storage dialog when connected to a remote daemon
-  
+
 Deluge 0.9.05 - "1.0.0_RC5" (04 August 2008)
  Core:
   * Fix deluged running with ssh X forwarding by removing the Gnome lib import
   * Save resume data periodically to help prevent data loss
   * Fix queue order shuffling on restart
- 
+
  GtkUI:
   * Handle shutting down more cleanly
   * Add translators to credits
-  
+
  Plugins:
   * Improve the Blocklist plugin preferences page.
-  
+
  Windows:
   * Fix drag n' drop support
-  
+
 Deluge 0.9.04 - "1.0.0_RC4" (29 July 2008)
  Core:
   * Fix building with gcc 4.3
@@ -145,14 +149,14 @@ Deluge 0.9.04 - "1.0.0_RC4" (29 July 2008)
   * Fix displaying of torrents when language is not English
   * Fix the view options to be persistent between sessions
   * Fix signalreceiver when switching between daemons
-  
+
 Deluge 0.9.03 - "1.0.0_RC3" (21 July 2008)
  Core:
   * File progress fixes from libtorrent
   * Fix building on FreeBSD
   * Fix #350 stop seeds when stop ratio is reached
   * Fix #358 properly emit torrent_removed signal when remove_at_ratio happens
-  
+
  UI:
   * Default to gtkui when running 'deluge' instead of defaulting to last used.
 
@@ -162,13 +166,13 @@ Deluge 0.9.03 - "1.0.0_RC3" (21 July 2008)
 
  Windows:
   * Fix torrent file association and adding files from command line
-  
+
  Plugins:
   * Blocklist plugin has been rewritten
-  
+
  Misc:
   * Some changes for python 2.6 compatibility
-  
+
 Deluge 0.9.02 - "1.0.0_RC2" (15 July 2008)
  Core:
   * Fix displaying of file progress
