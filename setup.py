@@ -45,17 +45,10 @@ import platform
 python_version = platform.python_version()[0:3]
 
 def windows_check():
-    import platform
-    if platform.system() in ('Windows', 'Microsoft'):
-        return True
-    else:
-        return False
+    return platform.system() in ('Windows', 'Microsoft')
 
 def osx_check():
-    if platform.system() in ("Darwin"):
-        return True
-    else:
-        return False
+    return platform.system() == "Darwin"
 
 # Try to get SVN revision number to append to version
 revision_string = ""

@@ -35,6 +35,7 @@
 
 import os
 import subprocess
+import platform
 
 import pkg_resources
 import xdg, xdg.BaseDirectory
@@ -117,18 +118,13 @@ def get_default_download_dir():
 def windows_check():
     """Checks if the current platform is Windows.  Returns True if it is Windows
         and False if not."""
-    import platform
-    if platform.system() in ('Windows', 'Microsoft'):
-        return True
-    else:
-        return False
+    return platform.system() in ('Windows', 'Microsoft')
 
 def vista_check():
-    import platform
-    if platform.release() == "Vista":
-        return True
-    else:
-        return False
+    return platform.release() == "Vista"
+
+def osx_check():
+    return platform.system() == "Darwin"
 
 def get_pixmap(fname):
     """Returns a pixmap file included with deluge"""
@@ -313,10 +309,4 @@ def is_ip(ip):
         if socket.inet_pton(socket.AF_INET6, "%s" % (ip)):
             return True
     except socket.error:
-        return False
-
-def osx_check():
-    if platform.system() in ("Darwin"):
-        return True
-    else:
         return False
