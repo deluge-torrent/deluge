@@ -75,8 +75,9 @@ def redirect(url, status='301 Moved Permanently'):
 
     # if newloc is relative then make it absolute
     #mvoncken:Disabled because we don't want to redirect to localhost!
-    #if newloc.startswith('/'):
-    #    newloc = web.ctx.home + newloc
+    #mvoncken:back to http-spec, maybe better.
+    if newloc.startswith('/'):
+        newloc = web.ctx.home + newloc
 
     web.ctx.status = status
     web.ctx.output = ''
