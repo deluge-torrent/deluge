@@ -76,7 +76,9 @@ def make_meta_file(path, url, piece_length, progress=dummy,
                    title=None, comment=None, safe=None, content_type=None,
                    target=None, url_list=None, name=None, private=False,
                    created_by=None, httpseeds=None):
-    data = {'announce': url.strip(), 'creation date': int(gmtime())}
+    data = {'creation date': int(gmtime())}
+    if url:
+        data['announce'] = url.strip()
     a, b = os.path.split(path)
     if not target:
         if b == '':

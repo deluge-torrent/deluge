@@ -256,8 +256,9 @@ class CreateTorrentDialog:
         # Get a list of trackers
         trackers = [t[1] for t in self.trackers_liststore]
         if len(trackers) == 0:
-            self.dialog.destroy()
-            return
+            tracker = None
+        else:
+            tracker = trackers[0]
         # Get a list of webseeds
         webseeds = []
         b = self.glade.get_widget("textview_webseeds").get_buffer()
@@ -279,7 +280,7 @@ class CreateTorrentDialog:
         if is_remote:
             client.create_torrent(
                 path,
-                trackers[0],
+                tracker,
                 piece_length,
                 comment,
                 result,
@@ -298,7 +299,7 @@ class CreateTorrentDialog:
             threading.Thread(target=self.create_torrent,
                 args=(
                     path, 
-                    trackers[0],
+                    tracker,
                     piece_length,
                     self._on_create_torrent_progress,
                     comment,
