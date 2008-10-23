@@ -51,6 +51,12 @@ def windows_check():
     else:
         return False
 
+def osx_check():
+    if platform.system() in ("Darwin"):
+        return True
+    else:
+        return False
+
 if not os.environ.has_key("CC"):
     os.environ["CC"] = "gcc"
 
@@ -110,7 +116,7 @@ _library_dirs = [
 _include_dirs = [
     './libtorrent',
     './libtorrent/include',
-    './libtorrent/include/libtorrent',
+    './libtorrent/include/libtorrent'
 ]
 
 if windows_check():
@@ -133,6 +139,11 @@ if windows_check():
     ]
 else:
     _include_dirs += ['/usr/include/python' + python_version]
+    if osx_check():
+        _include_dirs += [
+            '/opt/local/include/boost-1_35',
+            '/opt/local/include/boost-1_36'
+        ]
     _libraries = [
         'boost_filesystem',
         'boost_date_time',
@@ -144,12 +155,24 @@ else:
         'z'
         ]
 
+
+    dynamic_lib_extension = ".so"
+    if osx_check():
+        dynamic_lib_extension = ".dylib"
+
+    _lib_extensions = ['-mt-1_36', '-mt-1_35', '-mt']
+    _library_dirs += [sysconfig.get_config_var("LIBDIR"), '/opt/local/lib']
+
     # Modify the libs if necessary for systems with only -mt boost libs    
     for lib in _libraries:
         if lib[:6] == "boost_":
-            # If there is a -mt version use that
-            if os.path.exists(os.path.join(sysconfig.get_config_var("LIBDIR"), "lib" + lib + "-mt.so")):
-                _libraries[_libraries.index(lib)] = lib + "-mt"
+            for lib_prefix in _library_dirs:
+                for lib_suffix in _lib_extensions:
+                    # If there is a -mt version use that
+                    if os.path.exists(os.path.join(lib_prefix, "lib" + lib + lib_suffix + dynamic_lib_extension)):
+                        _libraries[_libraries.index(lib)] = lib + lib_suffix
+                        lib = lib + lib_suffix
+                        break
 
 _sources = glob.glob("./libtorrent/src/*.cpp") + \
                         glob.glob("./libtorrent/src/*.c") + \
