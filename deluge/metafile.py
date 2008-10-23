@@ -147,7 +147,10 @@ def makeinfo(path, piece_length, progress, name = None,
         totalhashed = 0
         for p, f in subs:
             totalsize += os.path.getsize(f)
-        num_pieces = totalsize / piece_length
+        if totalsize >= piece_length:
+            num_pieces = totalsize / piece_length
+        else:
+            num_pieces = 1
         
         for p, f in subs:
             pos = 0
@@ -188,7 +191,11 @@ def makeinfo(path, piece_length, progress, name = None,
             'private': private}
     else:
         size = os.path.getsize(path)
-        num_pieces = size / piece_length
+        if size >= piece_length:
+            num_pieces = size / piece_length
+        else:
+            num_pieces = 1
+        
         pieces = []
         p = 0
         h = file(path, 'rb')
